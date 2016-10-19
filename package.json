@@ -1,0 +1,19 @@
+{
+  "name": "circlemapping",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Safiyya/circlemapping.git"
+  },
+  "author": "Safiyya Babio",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Safiyya/circlemapping/issues"
+  },
+  "homepage": "https://github.com/Safiyya/circlemapping#readme"
+}
