@@ -30,6 +30,7 @@
 </style>
 <svg width="960" height="960"></svg>
 <script src="https://d3js.org/d3.v4.min.js"></script>
+
 <script>
 
 var svg = d3.select("svg"),
@@ -47,7 +48,13 @@ var pack = d3.pack()
     .padding(2);
 
 d3.json("flare.json", function(error, root) {
-  if (error) throw error;
+  console.log(root);
+    
+   if(error)
+  {
+    return console.error(error);
+  }
+  
 
   root = d3.hierarchy(root)
       .sum(function(d) { return d.size; })
