@@ -15,12 +15,6 @@ import {
     Transition, Timer} from 'd3-ng2-service'; // <-- import the D3 Service, the type alias for the d3 variable and the Selection interface
 import * as d3r from 'd3-request';
 
-export class NodeData{
-    name:string; 
-    size:number;
-    children:Array<NodeData>;
-}
-
 @Component({
   selector: 'my-app',
   templateUrl: './app.component.html',
@@ -67,7 +61,7 @@ let d3 = this.d3;
     .range([d3.hsl(152,0.8,0.8), d3.hsl(228,0.3,0.4)])
     .interpolate(d3.interpolateHcl);
 
-    var pack = d3.pack<NodeData>()
+    var pack = d3.pack()
         .size([diameter - margin, diameter - margin])
         .padding(2);
     
@@ -82,7 +76,7 @@ let d3 = this.d3;
   
 
   root = d3.hierarchy(root)
-      .sum(function(d:NodeData) { return d.size; })
+      .sum(function(d:any) { return d.size; })
       .sort(function(a, b) { return b.value - a.value; });
 
   var focus = root,
@@ -102,7 +96,7 @@ let d3 = this.d3;
       .attr("class", "label")
       .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
       .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
-      .text(function(d) { return d.data.name; });
+      .text(function(d:any) { return d.name; });
 
   var node = g.selectAll("circle,text");
 
