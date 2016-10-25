@@ -1,6 +1,7 @@
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 var helpers = require('./helpers');
 
 module.exports = {
@@ -25,7 +26,7 @@ module.exports = {
         loader: 'html'
       },
       {
-        test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
+        test: /\.(json|png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
         loader: 'file?name=assets/[name].[hash].[ext]'
       },
       {
@@ -48,6 +49,11 @@ module.exports = {
 
     new HtmlWebpackPlugin({
       template: './index.html'
-    })
+    }),
+
+    new CopyWebpackPlugin([
+      { from: 'public', to: 'assets' }
+
+    ])
   ]
 };

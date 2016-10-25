@@ -7,7 +7,7 @@
     "npm": "3.10.9"
   },
   "scripts": {
-    "start": "webpack-dev-server --inline --progress --port 8080",
+    "start": "node server.js",
     "test": "karma start",
     "build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail"
   },
@@ -36,6 +36,7 @@
   "devDependencies": {
     "angular2-template-loader": "^0.4.0",
     "awesome-typescript-loader": "^2.2.4",
+    "copy-webpack-plugin": "^4.0.0",
     "css-loader": "^0.23.1",
     "extract-text-webpack-plugin": "^2.0.0-beta.2",
     "file-loader": "^0.8.5",

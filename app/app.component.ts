@@ -65,7 +65,7 @@ let d3 = this.d3;
         .size([diameter - margin, diameter - margin])
         .padding(2);
     
-    d3r.json("public/flare.json", function(error:Error, root:any) {
+    d3r.json("assets/flare.json", function(error:Error, root:any) {
         console.log("REQUEST");
         console.log(root);
         
@@ -96,7 +96,7 @@ let d3 = this.d3;
       .attr("class", "label")
       .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
       .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
-      .text(function(d:any) { return d.name; });
+      .text(function(d:any) { return d.data.name; });
 
   var node = g.selectAll("circle,text");
 
