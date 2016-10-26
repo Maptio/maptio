@@ -13,13 +13,32 @@
 
 .label {
   font: 15px "Helvetica Neue", Helvetica, Arial, sans-serif;
-  text-anchor: middle;
+  text-anchor: left;
   text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
   color:white;
 }
+
 
 .label,
 .node--root,
 .node--leaf {
   pointer-events: none;
+}
+
+div.tooltip {	
+    position: absolute;			
+    text-align: center;					
+    padding: 2px;				
+    font: 12px sans-serif;		
+    background: lightsteelblue;	
+    border: 0px;		
+    border-radius: 8px;			
+    pointer-events: none;			
+    width: 300px;
+    left: 982px;
+    top: 44px;
+}
+
+svg text {
+   font-family: FontAwesome;
 }

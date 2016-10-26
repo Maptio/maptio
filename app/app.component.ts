@@ -62,14 +62,14 @@ let d3 = this.d3;
     
     var color = d3.scaleLinear<HSLColor, HSLColor>()
     .domain([-1, 5])
-    .range([d3.hsl(152,0.8,0.8), d3.hsl(228,0.3,0.4)])
+    .range([d3.hsl(152,0.8,0.8), d3.hsl(228,0.4,0.4)])
     .interpolate(d3.interpolateHcl);
 
     var pack = d3.pack()
         .size([diameter - margin, diameter - margin])
         .padding(2);
     
-    d3r.json("assets/"+this.filepath, function(error:Error, root:any) {
+    d3r.json("assets/second.json", function(error:Error, root:any) {
         console.log("REQUEST");
         console.log(root);
         
@@ -87,13 +87,14 @@ let d3 = this.d3;
       nodes = pack(root).descendants(),
       view:any;
 
+
   var circle = g.selectAll("circle")
     .data(nodes)
     .enter().append("circle")
       .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
       .style("fill", function(d) { return d.children ? color(d.depth) : null; })
       .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
-
+        
   var text = g.selectAll("text")
     .data(nodes)
     .enter().append("text")
@@ -101,8 +102,39 @@ let d3 = this.d3;
       .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
       .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
       .text(function(d:any) { return d.data.name; });
+      
 
-  var node = g.selectAll("circle,text");
+  var descriptionIcon = g.selectAll("icon")
+    .data(nodes)
+    .enter().append('text')
+    .attr('font-family', 'FontAwesome')
+    .attr("x","-15px")
+    .attr('font-size', function(d:any) { return d.size+'em'} )
+    .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
+    .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
+    .on("mouseover", function(d:any) {		
+            tooltip.transition()		
+                .duration(200)		
+                .style("opacity", .9);		
+                tooltip.html(d.data.description)	
+                    .style("top", (d3.event.pageY + 15) + "px")
+                    .style("left", (d3.event.pageX  - 5) + "px")
+            })					
+        .on("mouseout", function(d) {		
+            tooltip.transition()		
+                .duration(500)		
+                .style("opacity", 0);	
+        })
+    .text(function(d) { return '\uf0c9' });
+
+
+// Define the div for the tooltip
+var tooltip = d3.select("body").append("div")	
+    .attr("class", "tooltip")				
+    .style("opacity", 0);
+
+
+  var node = g.selectAll("circle,text,icon");
 
   svg
       .style("background", color(-1))
