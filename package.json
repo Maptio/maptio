@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node server.js",
     "test": "karma start",
-    "build": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail"
+    "heroku-postbuild": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail"
   },
   "licenses": [
     {
