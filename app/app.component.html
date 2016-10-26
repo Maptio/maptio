@@ -1,3 +1,5 @@
+
+<input [(ngModel)]="filepath" placeholder="first.json or second.json" (change)="onRefreshGraph()" />
 <button (click)="onRefreshGraph()"> Refresh </button>
 <div #container class="container">
   <svg width="960" height="960"></svg>
