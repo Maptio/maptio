@@ -69,7 +69,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
         var pack = d3.pack()
             .size([diameter - margin, diameter - margin])
             .padding(2);
-        
+    
       dataService.getData().then(data => {
           console.log(data);
         var root = data;
