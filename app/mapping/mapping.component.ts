@@ -1,9 +1,6 @@
 import {
   Component,
-  OnChanges,
   AfterViewInit,
-  Input,
-  ElementRef,
   ViewChild,
   OnInit 
 } from '@angular/core';
@@ -29,7 +26,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
     private dataService:DataService;
 
 
-    private data:any;
+    //private data:any;
     private FRONT_COLOR : HSLColor;
     private BACK_COLOR:HSLColor;
 
@@ -71,7 +68,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
             .padding(2);
     
       dataService.getData().then(data => {
-          console.log(data);
+        //  console.log(data);
         var root = data;
 
         root = d3.hierarchy(root)
@@ -130,7 +127,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
             .text(function(d:any) { return d.data.description === undefined ? "" : "\uf0c9" });
 
 
-// Define the div for the tooltip
+        // Define the div for the tooltip
         var tooltip = d3.select("body").append("div")	
             .attr("class", "tooltip")				
             .style("opacity", 0);
