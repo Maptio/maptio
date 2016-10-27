@@ -1,0 +1,29 @@
+.container {
+  width:95%;
+  clear:both;
+  height: 800px;
+
+}
+
+.mapping {
+  float:left;
+  
+}
+
+.building {
+  width: 30%;
+    margin-left: 20px;
+    float: left;
+    /* position: absolute; */
+    text-align: center;
+    padding: 2px;
+    font: 12px sans-serif;
+    background: lightsteelblue;
+    border: 0px;
+    border-radius: 5px;
+    pointer-events: none;
+    /* width: 300px; */
+    /* left: 982px; */
+    height: 80%;
+    /* top: 44px; */
+}

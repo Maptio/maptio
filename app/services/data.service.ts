@@ -14,7 +14,6 @@ export class DataService {
     }
 
     getData():Promise<any>{
-        //return Promise.resolve(this.MOCK_DATA);
 
         return this.http.get(this.URL)
                   .toPromise()
@@ -41,14 +40,3 @@ export class DataService {
         return Promise.reject(errMsg);
     }
 }
-
-
-        // this.http.get('../../assets/second.json')
-        //     .map(res => res.json())
-        //     .subscribe(data => this.data = data,
-        //             err => console.log(err),
-        //             () => console.log(this.data))
-
-            
-        //              console.log(this.data);
-        //              console.log("END INIT")
