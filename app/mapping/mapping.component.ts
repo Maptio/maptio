@@ -14,22 +14,28 @@ import {
     ScaleLinear, HSLColor, 
     Transition, Timer} from 'd3-ng2-service'; // <-- import the D3 Service, the type alias for the d3 variable and the Selection interface
 import * as d3r from 'd3-request';
+import {DataService} from '../services/data.service'
 
 @Component({
   selector: 'mapping',
   templateUrl: './mapping.component.html',
-  styles:[require('./mapping.component.css').toString()]
+  styles:[require('./mapping.component.css').toString()],
+  
 })
 
 
 export class MappingComponent implements AfterViewInit, OnInit{
     private d3: D3;
-    
+    private dataService:DataService;
+
+
+    private data:any;
     private FRONT_COLOR : HSLColor;
     private BACK_COLOR:HSLColor;
 
-    constructor(d3Service:D3Service) { 
+    constructor(d3Service:D3Service, dataService:DataService) { 
         this.d3 = d3Service.getD3(); 
+        this.dataService = dataService;
     }
 
     ngAfterViewInit() :void {
@@ -51,7 +57,8 @@ export class MappingComponent implements AfterViewInit, OnInit{
 
     onRefreshGraph(): void{
         let d3 = this.d3; 
-
+        let dataService = this.dataService;
+        
         var svg = d3.select("svg"),
         margin = 20,
         diameter = +svg.attr("width"),
@@ -63,9 +70,9 @@ export class MappingComponent implements AfterViewInit, OnInit{
             .size([diameter - margin, diameter - margin])
             .padding(2);
         
-        d3r.json("assets/second.json", function(error:Error, root:any) {
-    
-        if (error) throw error;
+      dataService.getData().then(data => {
+          console.log(data);
+        var root = data;
 
         root = d3.hierarchy(root)
             .sum(function(d:any) { return d.size; })
@@ -74,6 +81,13 @@ export class MappingComponent implements AfterViewInit, OnInit{
         var focus = root,
             nodes = pack(root).descendants(),
             view:any;
+
+      
+       
+
+        
+
+        
 
 
         var circle = g.selectAll("circle")
@@ -117,43 +131,43 @@ export class MappingComponent implements AfterViewInit, OnInit{
 
 
 // Define the div for the tooltip
-var tooltip = d3.select("body").append("div")	
-    .attr("class", "tooltip")				
-    .style("opacity", 0);
+        var tooltip = d3.select("body").append("div")	
+            .attr("class", "tooltip")				
+            .style("opacity", 0);
 
 
-  var node = g.selectAll("circle,text,icon");
+        var node = g.selectAll("circle,text,icon");
 
-  svg
-      .style("background", color(-1))
-      .on("click", function() { zoom(root); });
+        svg
+            .style("background", color(-1))
+            .on("click", function() { zoom(root); });
 
-  zoomTo([root.x, root.y, root.r * 2 + margin]);
+        zoomTo([root.x, root.y, root.r * 2 + margin]);
 
-  function zoom(d:any) {
-    var focus0 = focus; focus = d;
+        function zoom(d:any) {
+            var focus0 = focus; focus = d;
 
-    var transition = d3.transition("move")
-        .duration(d3.event.altKey ? 7500 : 750)
-        .tween("zoom", function(d) {
-          var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
-          return function(t) { zoomTo(i(t)); };
-        });
+            var transition = d3.transition("move")
+                .duration(d3.event.altKey ? 7500 : 750)
+                .tween("zoom", function(d) {
+                var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
+                return function(t) { zoomTo(i(t)); };
+                });
 
-    transition.selectAll("text")
-      .filter(function(d:any) { return d.parent === focus || this.style.display === "inline"; })
-        .style("fill-opacity", function(d:any) { return d.parent === focus ? 1 : 0; })
-        .on("start", function(d:any) { if (d.parent === focus) this.style.display = "inline"; })
-        .on("end", function(d:any) { if (d.parent !== focus) this.style.display = "none"; });
-  }
+            transition.selectAll("text")
+            .filter(function(d:any) { return d.parent === focus || this.style.display === "inline"; })
+                .style("fill-opacity", function(d:any) { return d.parent === focus ? 1 : 0; })
+                .on("start", function(d:any) { if (d.parent === focus) this.style.display = "inline"; })
+                .on("end", function(d:any) { if (d.parent !== focus) this.style.display = "none"; });
+        }
 
-  function zoomTo(v:any) {
-    var k = diameter / v[2]; view = v;
-    node.attr("transform", function(d:any) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
-    circle.attr("r", function(d) { return d.r * k; });
-  }
+        function zoomTo(v:any) {
+            var k = diameter / v[2]; view = v;
+            node.attr("transform", function(d:any) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
+            circle.attr("r", function(d) { return d.r * k; });
+        }
+      });
     
-    });
     }
 
 }

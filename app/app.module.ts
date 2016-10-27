@@ -4,8 +4,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { MappingComponent } from './mapping/mapping.component';
+import {DataService} from './services/data.service';
 import { D3Service } from 'd3-ng2-service'; // <-- import statement
-
+import {HttpModule} from '@angular/http';
 
 @NgModule({
   declarations: [
@@ -15,9 +16,10 @@ import { D3Service } from 'd3-ng2-service'; // <-- import statement
   imports: [
     BrowserModule,
     CommonModule,
-    FormsModule
+    FormsModule,
+    HttpModule
   ],
-  providers: [D3Service], // <-- provider registration
+  providers: [D3Service, DataService], // <-- provider registration
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]
 })
