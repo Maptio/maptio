@@ -125,7 +125,7 @@ let d3 = this.d3;
                 .duration(500)		
                 .style("opacity", 0);	
         })
-    .text(function(d) { return '\uf0c9' });
+    .text(function(d:any) { return d.data.description === undefined ? "" : "\uf0c9" });
 
 
 // Define the div for the tooltip
