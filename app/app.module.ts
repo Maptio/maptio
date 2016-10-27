@@ -3,13 +3,14 @@ import { NgModule, ApplicationRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
-
+import { MappingComponent } from './mapping/mapping.component';
 import { D3Service } from 'd3-ng2-service'; // <-- import statement
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MappingComponent
   ],
   imports: [
     BrowserModule,
