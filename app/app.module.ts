@@ -8,27 +8,30 @@ import {HttpModule} from '@angular/http';
 import { AppComponent } from './app.component';
 import { MappingComponent } from './mapping/mapping.component';
 import {BuildingComponent} from './building/building.component';
+import {InitiativeData} from './building/initiative.component'
 
 //Services
 import {DataService} from './services/data.service';
 
 // External libraries
-import { D3Service } from 'd3-ng2-service'; // <-- import statement
-
+import { D3Service } from 'd3-ng2-service'; 
+import { TreeModule } from 'angular2-tree-component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MappingComponent,
-    BuildingComponent
+    BuildingComponent,
+    InitiativeData
   ],
   imports: [
     BrowserModule,
     CommonModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    TreeModule
   ],
-  providers: [D3Service, DataService], // <-- provider registration
+  providers: [D3Service, DataService, InitiativeData], 
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]
 })
