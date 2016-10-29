@@ -107,9 +107,9 @@ export class MappingComponent implements AfterViewInit, OnInit{
             .enter().append('text')
             .attr('font-family', 'FontAwesome')
             .attr("x","-15px")
-            .attr('font-size', function(d:any) { return '1em'} )
+            .attr('font-size', function(d:any) { return d.size + 'em'} )
             .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
-            .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
+            .style("display", function(d:any) { return d.parent === root && d.data.description != undefined && d.data.description != "" ? "inline" : "none"; })
             .on("mouseover", function(d:any) {		
                     tooltip.transition()		
                         .duration(200)		

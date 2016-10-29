@@ -10,6 +10,7 @@ export class CustomTreeNode{
     id:number;
     name:string;
     person:string;
+    isRoot:boolean=false;
     description:string= undefined;
     private _size:number = undefined ; //(this.children === undefined ? 0 : this.children.length);
     children:Array<CustomTreeNode>;
@@ -22,11 +23,11 @@ export class CustomTreeNode{
         this._size = size;
     }
 
-    constructor(name:string, description:string,children:Array<CustomTreeNode>){
-        this.name = name;
-        this.children = children;
-        this.description = description;
-    }
+    // constructor(name:string, description:string,children:Array<CustomTreeNode>){
+    //     this.name = name;
+    //     this.children = children;
+    //     this.description = description;
+    // }
 
 
 }
@@ -41,15 +42,15 @@ export class CustomTreeNode{
         <Tree [nodes]="nodes" (onUpdateData)="saveData($event)">
             <template #treeNodeTemplate let-node>
                 <button (click)="addChildNode(node.data)">Add</button>
-                
+                 <button (click)="removeChildNode(node.data)">Remove</button>
+                <button (click)="toggleNode(node)">Toggle</button>
                 <div (focus)="saveData($event)">
-                    <input *ngIf="node.data.name != 'ROOT'" [ngModel]="node.data.name" placeholder="Initiative name" (ngModelChange)="saveNodeName($event, node.data)">
-                    <input *ngIf="node.data.name != 'ROOT'" [ngModel]="node.data.description" placeholder="Description" (ngModelChange)="saveNodeDescription($event, node.data)">
-                    <input *ngIf="node.data.name != 'ROOT'" [ngModel]="node.data.size" placeholder="Team Size"  (ngModelChange)="saveNodeSize($event, node.data)">
+                    <input *ngIf="!node.isRoot" [ngModel]="node.data.name" placeholder="Initiative name" (ngModelChange)="saveNodeName($event, node.data)">
+                    <input *ngIf="!node.isRoot" [ngModel]="node.data.description" placeholder="Description" (ngModelChange)="saveNodeDescription($event, node.data)">
+                    <input *ngIf="!node.isRoot" [ngModel]="node.data.size" placeholder="Team Size"  (ngModelChange)="saveNodeSize($event, node.data)">
                 </div>
                 
-                <button (click)="removeChildNode(node.data)">Remove</button>
-                <button (click)="toggleNode(node)">Toggle</button>
+               
             </template>
         </Tree>
     `,
@@ -97,8 +98,10 @@ export class BuildingComponent implements OnInit {
     }
 
     addChildNode(node:CustomTreeNode){
-        let treeNode = this.tree.treeModel.getNodeById(node.id)
-        treeNode.data.children.push(new CustomTreeNode("","", []));
+        let treeNode = this.tree.treeModel.getNodeById(node.id);
+        let newNode = new CustomTreeNode();
+        newNode.children = []
+        treeNode.data.children.push(newNode);
         this.tree.treeModel.setExpandedNode(treeNode,true);
         this.updateTreeModel();
     }   
@@ -123,7 +126,9 @@ export class BuildingComponent implements OnInit {
 
     ngOnInit(): void {
     
-        this.root = new CustomTreeNode("ROOT", "" , []);
+        this.root = new CustomTreeNode();
+        this.root.children = [];
+        this.root.isRoot = true;
         //this.root.size = 1;
         this.nodes = [];
         this.nodes.push(this.root);
