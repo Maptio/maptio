@@ -10,9 +10,17 @@ export class CustomTreeNode{
     id:number;
     name:string;
     person:string;
-    description:string;
-    //size:number ; //(this.children === undefined ? 0 : this.children.length);
+    description:string= undefined;
+    private _size:number = undefined ; //(this.children === undefined ? 0 : this.children.length);
     children:Array<CustomTreeNode>;
+
+    get size():number {
+        return this._size;
+    }
+
+    set size(size:number){
+        this._size = size;
+    }
 
     constructor(name:string, description:string,children:Array<CustomTreeNode>){
         this.name = name;
@@ -34,10 +42,11 @@ export class CustomTreeNode{
             <template #treeNodeTemplate let-node>
                 <button (click)="addChildNode(node.data)">Add</button>
                 
-                
-                <input *ngIf="node.data.name != 'ROOT'" [(ngModel)]="node.data.name" placeholder="Initiative name">
-                <input *ngIf="node.data.name != 'ROOT'" [(ngModel)]="node.data.description" placeholder="Description">
-                
+                <div (focus)="saveData($event)">
+                    <input *ngIf="node.data.name != 'ROOT'" [ngModel]="node.data.name" placeholder="Initiative name" (ngModelChange)="saveNodeName($event, node.data)">
+                    <input *ngIf="node.data.name != 'ROOT'" [(ngModel)]="node.data.description" placeholder="Description">
+                    <input *ngIf="node.data.name != 'ROOT'" [(ngModel)]="node.data.size" placeholder="Team Size" >
+                </div>
                 
                 <button (click)="removeChildNode(node.data)">Remove</button>
                 <button (click)="toggleNode(node)">Toggle</button>
@@ -61,18 +70,25 @@ export class BuildingComponent implements OnInit {
         this.dataService = dataService;
     }
 
+
+    saveNodeName(newName:any, node:CustomTreeNode){
+        node.name = newName;
+        this.saveData(null);
+    }
+
     saveData(event:Event){
         console.log("SAVE DATA FROM TREE")
         this.dataService.setData(this.root);
     }
 
     updateTreeModel():void{
-        this.tree.treeModel.update()
+
+        this.tree.treeModel.update();
     }
 
     addChildNode(node:CustomTreeNode){
         let treeNode = this.tree.treeModel.getNodeById(node.id)
-        treeNode.data.children.push(new CustomTreeNode("Some name","", []));
+        treeNode.data.children.push(new CustomTreeNode("","", []));
         this.tree.treeModel.setExpandedNode(treeNode,true);
         this.updateTreeModel();
     }   
@@ -101,6 +117,7 @@ export class BuildingComponent implements OnInit {
         //this.root.size = 1;
         this.nodes = [];
         this.nodes.push(this.root);
+        this.saveData(null);
     }
 
 

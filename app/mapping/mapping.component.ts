@@ -33,15 +33,19 @@ export class MappingComponent implements AfterViewInit, OnInit{
     constructor(d3Service:D3Service, dataService:DataService) { 
         this.d3 = d3Service.getD3(); 
         this.dataService = dataService;
+        this.dataService.getData().subscribe(data => {
+          this.display(this.d3, data);
+      });
     }
 
     ngAfterViewInit() :void {
-        this.onRefreshGraph();
+        //this.onRefreshGraph();
     }
 
     ngOnInit() : void{
         this.FRONT_COLOR = this.d3.hsl(152,0.8,0.8);
         this.BACK_COLOR = this.d3.hsl(228,0.4,0.4);
+        this.onRefreshGraph();
     }
 
     getColorRange(start:HSLColor, end:HSLColor) {
@@ -50,11 +54,9 @@ export class MappingComponent implements AfterViewInit, OnInit{
         .range([start, end ])
         .interpolate(this.d3.interpolateHcl);
     }
-    
 
-    onRefreshGraph(): void{
-        let d3 = this.d3; 
-        let dataService = this.dataService;
+
+    display(d3:D3, data:any){
         
         var svg = d3.select("svg"),
         margin = 20,
@@ -66,10 +68,10 @@ export class MappingComponent implements AfterViewInit, OnInit{
         var pack = d3.pack()
             .size([diameter - margin, diameter - margin])
             .padding(2);
-    
-      dataService.getData().subscribe(data => {
+
+
           console.log("ACT ON DATA");
-          console.log(data);
+          console.log(JSON.stringify(data));
         var root = data;
 
         root = d3.hierarchy(root)
@@ -77,11 +79,12 @@ export class MappingComponent implements AfterViewInit, OnInit{
             .sort(function(a, b) { return b.value - a.value; });
 
 
-        console.log(root);
         var focus = root,
             nodes = pack(root).descendants(),
             view:any;
 
+        console.log("NODES");
+        console.log(nodes);
 
         var circle = g.selectAll("circle")
             .data(nodes)
@@ -123,7 +126,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
             .text(function(d:any) { return d.data.description === undefined ? "" : "\uf0c9" });
 
 
-        // Define the div for the tooltip
+        //Define the div for the tooltip
         var tooltip = d3.select("body").append("div")	
             .attr("class", "tooltip")				
             .style("opacity", 0);
@@ -159,7 +162,15 @@ export class MappingComponent implements AfterViewInit, OnInit{
             node.attr("transform", function(d:any) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
             circle.attr("r", function(d) { return d.r * k; });
         }
-      });
+
+
+
+    }
+    
+
+    onRefreshGraph(): void{
+
+      
     
     }
 
