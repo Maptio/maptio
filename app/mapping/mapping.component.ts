@@ -75,7 +75,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
         var root = data;
 
         root = d3.hierarchy(root)
-            .sum(function(d:any) { return 20; })
+            .sum(function(d:any) { return d.size; })
             .sort(function(a, b) { return b.value - a.value; });
 
 

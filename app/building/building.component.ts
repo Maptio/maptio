@@ -15,7 +15,7 @@ export class CustomTreeNode{
     children:Array<CustomTreeNode>;
 
     get size():number {
-        return this._size;
+        return this._size || 1;
     }
 
     set size(size:number){
@@ -44,8 +44,8 @@ export class CustomTreeNode{
                 
                 <div (focus)="saveData($event)">
                     <input *ngIf="node.data.name != 'ROOT'" [ngModel]="node.data.name" placeholder="Initiative name" (ngModelChange)="saveNodeName($event, node.data)">
-                    <input *ngIf="node.data.name != 'ROOT'" [(ngModel)]="node.data.description" placeholder="Description">
-                    <input *ngIf="node.data.name != 'ROOT'" [(ngModel)]="node.data.size" placeholder="Team Size" >
+                    <input *ngIf="node.data.name != 'ROOT'" [ngModel]="node.data.description" placeholder="Description" (ngModelChange)="saveNodeDescription($event, node.data)">
+                    <input *ngIf="node.data.name != 'ROOT'" [ngModel]="node.data.size" placeholder="Team Size"  (ngModelChange)="saveNodeSize($event, node.data)">
                 </div>
                 
                 <button (click)="removeChildNode(node.data)">Remove</button>
@@ -73,10 +73,20 @@ export class BuildingComponent implements OnInit {
 
     saveNodeName(newName:any, node:CustomTreeNode){
         node.name = newName;
-        this.saveData(null);
+        this.saveData();
     }
 
-    saveData(event:Event){
+    saveNodeDescription(newDesc:string, node:CustomTreeNode){
+        node.description = newDesc;
+        this.saveData();
+    }
+
+    saveNodeSize(newSize:number, node:CustomTreeNode){
+        node.size = newSize;
+        this.saveData();
+    }
+
+    saveData(){
         console.log("SAVE DATA FROM TREE")
         this.dataService.setData(this.root);
     }
@@ -117,7 +127,7 @@ export class BuildingComponent implements OnInit {
         //this.root.size = 1;
         this.nodes = [];
         this.nodes.push(this.root);
-        this.saveData(null);
+        this.saveData();
     }
 
 
