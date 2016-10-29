@@ -11,7 +11,7 @@
 }
 
 .building {
-  width: 30%;
+  width: 200px;
     margin-left: 20px;
     float: left;
     /* position: absolute; */
@@ -25,5 +25,6 @@
     /* width: 300px; */
     /* left: 982px; */
     height: 80%;
+    scroll-behavior: auto;
     /* top: 44px; */
 }

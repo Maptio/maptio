@@ -67,24 +67,20 @@ export class MappingComponent implements AfterViewInit, OnInit{
             .size([diameter - margin, diameter - margin])
             .padding(2);
     
-      dataService.getData().then(data => {
-        //  console.log(data);
+      dataService.getData().subscribe(data => {
+          console.log("ACT ON DATA");
+          console.log(data);
         var root = data;
 
         root = d3.hierarchy(root)
-            .sum(function(d:any) { return d.size; })
+            .sum(function(d:any) { return 20; })
             .sort(function(a, b) { return b.value - a.value; });
 
+
+        console.log(root);
         var focus = root,
             nodes = pack(root).descendants(),
             view:any;
-
-      
-       
-
-        
-
-        
 
 
         var circle = g.selectAll("circle")
@@ -108,7 +104,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
             .enter().append('text')
             .attr('font-family', 'FontAwesome')
             .attr("x","-15px")
-            .attr('font-size', function(d:any) { return d.size+'em'} )
+            .attr('font-size', function(d:any) { return '1em'} )
             .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
             .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
             .on("mouseover", function(d:any) {		

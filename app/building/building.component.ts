@@ -1,23 +1,25 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {InitiativeData} from './initiative.component'
 import {TreeComponent} from 'angular2-tree-component';
+import {DataService} from '../services/data.service';
+import 'rxjs/add/operator/map'
 
 export class CustomTreeNode{
     
     
     id:number;
     name:string;
-    //hasChildren:boolean;
-    //isExpanded:boolean;
-    //isHidden:boolean;
-    //data:InitiativeData;
-    //parent: CustomTreeNode;
+    person:string;
+    description:string;
+    //size:number ; //(this.children === undefined ? 0 : this.children.length);
     children:Array<CustomTreeNode>;
 
-    constructor(name:string, children:Array<CustomTreeNode>){
+    constructor(name:string, description:string,children:Array<CustomTreeNode>){
         this.name = name;
         this.children = children;
+        this.description = description;
     }
+
 
 }
 
@@ -26,12 +28,19 @@ export class CustomTreeNode{
     selector:'building',
     //templateUrl:'./building.component.html',
     template:
-    ` 
-        <button (click)="addChildNode(root)">Add first level</button>
-        <Tree [nodes]="nodes">
+    `
+
+        <Tree [nodes]="nodes" (onUpdateData)="saveData($event)">
             <template #treeNodeTemplate let-node>
-                <span>{{node.data.name}}</span>
-                <button (click)="addChildNode(node.data)">Add child</button>
+                <button (click)="addChildNode(node.data)">Add</button>
+                
+                
+                <input *ngIf="node.data.name != 'ROOT'" [(ngModel)]="node.data.name" placeholder="Initiative name">
+                <input *ngIf="node.data.name != 'ROOT'" [(ngModel)]="node.data.description" placeholder="Description">
+                
+                
+                <button (click)="removeChildNode(node.data)">Remove</button>
+                <button (click)="toggleNode(node)">Toggle</button>
             </template>
         </Tree>
     `,
@@ -46,62 +55,54 @@ export class BuildingComponent implements OnInit {
     @ViewChild(TreeComponent)
     private tree: TreeComponent;
 
-    constructor(){
-    
+    private dataService:DataService;
+
+    constructor(dataService:DataService){
+        this.dataService = dataService;
+    }
+
+    saveData(event:Event){
+        console.log("SAVE DATA FROM TREE")
+        this.dataService.setData(this.root);
     }
 
     updateTreeModel():void{
-        // this.tree.treeModel.nodes = this.nodes;
-        // console.log("CURRENT NODES");
-        // console.log(this.nodes);
         this.tree.treeModel.update()
     }
 
     addChildNode(node:CustomTreeNode){
-        console.log("SELECTED NODE");
-        console.log(node);
-        console.log("ALL NODES");
-        console.log(this.nodes);
-        
-        let foundNode = this.tree.treeModel.getNodeById(node.id).data;
-        console.log("FOUND");
-        console.log(foundNode);
-        
-
-        // let foundNode = this.nodes.find(n => n.name === node.name);
-        //     console.log("FOUND" + foundNode);
-        foundNode.children.push(new CustomTreeNode(
-            "Node " + (node.children.length+1).toString(),
-            []
-            ));
-        
+        let treeNode = this.tree.treeModel.getNodeById(node.id)
+        treeNode.data.children.push(new CustomTreeNode("Some name","", []));
+        this.tree.treeModel.setExpandedNode(treeNode,true);
         this.updateTreeModel();
     }   
 
 
+    removeChildNode(node:CustomTreeNode){
+        //remove all children
+        this.tree.treeModel.getNodeById(node.id).data.children =[];
+        //remove node itself (from parent's children)
+        let parent = this.tree.treeModel.getNodeById(node.id).parent;
+        let index = parent.data.children.indexOf(node);
+        parent.data.children.splice(index, 1);
+        this.updateTreeModel();
+    }
+
+    toggleNode(node:CustomTreeNode){
+         this.tree.treeModel
+            .getNodeById(node.id).toggleExpanded();
+    }
+
+
+
     ngOnInit(): void {
     
-        this.root = new CustomTreeNode("ROOT", []);
+        this.root = new CustomTreeNode("ROOT", "" , []);
+        //this.root.size = 1;
         this.nodes = [];
         this.nodes.push(this.root);
     }
 
-    // add(node:InitiativeData){
-    //     var post = node.children.length + 1;
-    //     var newName = node.name + '-' + post;
-    //     node.children.push({name:newName, expanded:true, children:[]});
-    // }
 
-    // delete(node: InitiativeData) :void{
-    //     node.children = [];
-    // }
-
-    // collapse(node:InitiativeData){
-    //     node.expanded = false;
-    // }
-
-    // expand(node:InitiativeData){
-    //     node.expanded = true;
-    // }
 
 }
