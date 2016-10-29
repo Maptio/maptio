@@ -38,21 +38,24 @@ export class CustomTreeNode{
     //templateUrl:'./building.component.html',
     template:
     `
+        <div>
+            <button (click)="initializeTree()">Start</button>
+        </div>
 
-        <Tree [nodes]="nodes" (onUpdateData)="saveData($event)">
-            <template #treeNodeTemplate let-node>
-                <button (click)="addChildNode(node.data)">Add</button>
-                 <button (click)="removeChildNode(node.data)">Remove</button>
-                <button (click)="toggleNode(node)">Toggle</button>
-                <div (focus)="saveData($event)">
-                    <input *ngIf="!node.isRoot" [ngModel]="node.data.name" placeholder="Initiative name" (ngModelChange)="saveNodeName($event, node.data)">
-                    <input *ngIf="!node.isRoot" [ngModel]="node.data.description" placeholder="Description" (ngModelChange)="saveNodeDescription($event, node.data)">
-                    <input *ngIf="!node.isRoot" [ngModel]="node.data.size" placeholder="Team Size"  (ngModelChange)="saveNodeSize($event, node.data)">
-                </div>
-                
-               
-            </template>
-        </Tree>
+        <div>
+            <Tree [nodes]="nodes" (onUpdateData)="saveData($event)">
+                <template #treeNodeTemplate let-node>
+                    <button (click)="addChildNode(node.data)">Add</button>
+                    <button *ngIf="!node.isRoot" (click)="removeChildNode(node.data)">Remove</button>
+                    <button *ngIf="!node.isRoot" (click)="toggleNode(node)">Toggle</button>
+                    <div (focus)="saveData($event)">
+                        <input *ngIf="!node.isRoot" [ngModel]="node.data.name" placeholder="Initiative name" (ngModelChange)="saveNodeName($event, node.data)">
+                        <input *ngIf="!node.isRoot" [ngModel]="node.data.description" placeholder="Description" (ngModelChange)="saveNodeDescription($event, node.data)">
+                        <input *ngIf="!node.isRoot" [ngModel]="node.data.size" placeholder="Team Size"  (ngModelChange)="saveNodeSize($event, node.data)">
+                    </div>
+                </template>
+            </Tree>
+        </div>
     `,
     styles:[require('./building.component.css').toString()]
 })
@@ -122,17 +125,20 @@ export class BuildingComponent implements OnInit {
             .getNodeById(node.id).toggleExpanded();
     }
 
-
-
-    ngOnInit(): void {
-    
-        this.root = new CustomTreeNode();
+    initializeTree(){
+         this.root = new CustomTreeNode();
         this.root.children = [];
         this.root.isRoot = true;
         //this.root.size = 1;
         this.nodes = [];
         this.nodes.push(this.root);
         this.saveData();
+    }
+
+
+    ngOnInit(): void {
+    
+       
     }
 
 
