@@ -69,9 +69,6 @@ export class MappingComponent implements AfterViewInit, OnInit{
             .size([diameter - margin, diameter - margin])
             .padding(2);
 
-
-          console.log("ACT ON DATA");
-          console.log(JSON.stringify(data));
         var root = data;
 
         root = d3.hierarchy(root)
@@ -82,9 +79,6 @@ export class MappingComponent implements AfterViewInit, OnInit{
         var focus = root,
             nodes = pack(root).descendants(),
             view:any;
-
-        console.log("NODES");
-        console.log(nodes);
 
         var circle = g.selectAll("circle")
             .data(nodes)

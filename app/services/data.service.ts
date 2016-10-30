@@ -39,14 +39,12 @@ export class DataService {
     }
    
    setData(data:any):void{
-        console.log("SET DATA");
         //data = JSON.parse(this.DATA);
         this._data$.next(data);
     }
    
 
     getData(){
-        console.log("GET DATA");
         return this._data$.asObservable();
     }
 

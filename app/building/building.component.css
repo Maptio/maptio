@@ -1,0 +1,37 @@
+.tree {
+  width: 500px;
+}
+
+.tree-node {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+
+.node-content-wrapper {
+  flex-grow: 1;
+  position: relative;
+}
+
+.tree-children {
+  flex-grow: 1;
+  width: 100%;
+}
+
+.pull-right {
+  position: absolute;
+  right: 10px;
+}
+
+.btnAddNode{
+
+
+}
+
+.btnRemoveNode{
+
+}
+
+.btnToggleNode{
+    
+}

@@ -39,15 +39,20 @@ export class CustomTreeNode{
     template:
     `
         <div>
-            <button (click)="initializeTree()">Start</button>
+           <a class="btn btn-lg btn-success" (click)="initializeTree()">Start mapping your project</a>
+            
         </div>
 
         <div>
             <Tree [nodes]="nodes" (onUpdateData)="saveData($event)">
                 <template #treeNodeTemplate let-node>
-                    <button (click)="addChildNode(node.data)">Add</button>
-                    <button *ngIf="!node.isRoot" (click)="removeChildNode(node.data)">Remove</button>
-                    <button *ngIf="!node.isRoot" (click)="toggleNode(node)">Toggle</button>
+                    <div class="btn-group">
+                        <a class="btn" (click)="addChildNode(node.data)"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                        <a class="btn" *ngIf="!node.isRoot" (click)="removeChildNode(node.data)"><i class="fa fa-minus" aria-hidden="true"></i></a>
+                        <a class="btn" *ngIf="!node.isRoot && !node.isExpanded" (click)="toggleNode(node)"><i class="fa fa-caret-square-o-down" aria-hidden="true"></i></a>
+                        <a class="btn" *ngIf="!node.isRoot && node.isExpanded" (click)="toggleNode(node)"><i class="fa fa-caret-square-o-right" aria-hidden="true"></i></a>
+                    </div>
+
                     <div (focus)="saveData($event)">
                         <input *ngIf="!node.isRoot" [ngModel]="node.data.name" placeholder="Initiative name" (ngModelChange)="saveNodeName($event, node.data)">
                         <input *ngIf="!node.isRoot" [ngModel]="node.data.description" placeholder="Description" (ngModelChange)="saveNodeDescription($event, node.data)">
@@ -91,7 +96,6 @@ export class BuildingComponent implements OnInit {
     }
 
     saveData(){
-        console.log("SAVE DATA FROM TREE")
         this.dataService.setData(this.root);
     }
 
