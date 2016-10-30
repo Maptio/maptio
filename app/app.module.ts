@@ -13,16 +13,22 @@ import {InitiativeData} from './building/initiative.component'
 //Services
 import {DataService} from './services/data.service';
 
+//Directives
+import {FocusDirective} from './directives/focus.directive';
+
 // External libraries
 import { D3Service } from 'd3-ng2-service'; 
 import { TreeModule } from 'angular2-tree-component';
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
     MappingComponent,
     BuildingComponent,
-    InitiativeData
+    InitiativeData,
+    FocusDirective
   ],
   imports: [
     BrowserModule,

@@ -1,16 +1,17 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild, Directive, Input, ElementRef, Inject} from '@angular/core';
 import {InitiativeData} from './initiative.component'
 import {TreeComponent} from 'angular2-tree-component';
 import {DataService} from '../services/data.service';
+import {FocusDirective} from '../directives/focus.directive'
 import 'rxjs/add/operator/map'
 
 export class CustomTreeNode{
-    
     
     id:number;
     name:string;
     person:string;
     isRoot:boolean=false;
+    hasFocus:boolean;
     description:string= undefined;
     private _size:number = undefined ; //(this.children === undefined ? 0 : this.children.length);
     children:Array<CustomTreeNode>;
@@ -22,14 +23,6 @@ export class CustomTreeNode{
     set size(size:number){
         this._size = size;
     }
-
-    // constructor(name:string, description:string,children:Array<CustomTreeNode>){
-    //     this.name = name;
-    //     this.children = children;
-    //     this.description = description;
-    // }
-
-
 }
 
 
@@ -47,14 +40,14 @@ export class CustomTreeNode{
             <Tree [nodes]="nodes" (onUpdateData)="saveData($event)">
                 <template #treeNodeTemplate let-node>
                     <div class="btn-group">
-                        <a class="btn" (click)="addChildNode(node.data)"><i class="fa fa-plus" aria-hidden="true"></i></a>
-                        <a class="btn" *ngIf="!node.isRoot" (click)="removeChildNode(node.data)"><i class="fa fa-minus" aria-hidden="true"></i></a>
-                        <a class="btn" *ngIf="!node.isRoot && !node.isExpanded" (click)="toggleNode(node)"><i class="fa fa-caret-square-o-down" aria-hidden="true"></i></a>
-                        <a class="btn" *ngIf="!node.isRoot && node.isExpanded" (click)="toggleNode(node)"><i class="fa fa-caret-square-o-right" aria-hidden="true"></i></a>
+                        <a class="btn addNode" (click)="addChildNode(node.data)"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                        <a class="btn removeNode" *ngIf="!node.isRoot" (click)="removeChildNode(node.data)"><i class="fa fa-minus" aria-hidden="true"></i></a>
+                        <a class="btn expandNode" *ngIf="!node.isRoot && !node.isExpanded" (click)="toggleNode(node)"><i class="fa fa-caret-square-o-down" aria-hidden="true"></i></a>
+                        <a class="btn hideNode" *ngIf="!node.isRoot && node.isExpanded" (click)="toggleNode(node)"><i class="fa fa-caret-square-o-right" aria-hidden="true"></i></a>
                     </div>
 
-                    <div (focus)="saveData($event)">
-                        <input *ngIf="!node.isRoot" [ngModel]="node.data.name" placeholder="Initiative name" (ngModelChange)="saveNodeName($event, node.data)">
+                    <div>
+                        <input *ngIf="!node.isRoot" [focus]="node.data.hasFocus" [ngModel]="node.data.name" placeholder="Initiative name" (ngModelChange)="saveNodeName($event, node.data)">
                         <input *ngIf="!node.isRoot" [ngModel]="node.data.description" placeholder="Description" (ngModelChange)="saveNodeDescription($event, node.data)">
                         <input *ngIf="!node.isRoot" [ngModel]="node.data.size" placeholder="Team Size"  (ngModelChange)="saveNodeSize($event, node.data)">
                     </div>
@@ -108,6 +101,8 @@ export class BuildingComponent implements OnInit {
         let treeNode = this.tree.treeModel.getNodeById(node.id);
         let newNode = new CustomTreeNode();
         newNode.children = []
+        newNode.hasFocus = true;
+        setTimeout(() => {newNode.hasFocus = false});
         treeNode.data.children.push(newNode);
         this.tree.treeModel.setExpandedNode(treeNode,true);
         this.updateTreeModel();
