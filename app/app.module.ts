@@ -8,7 +8,7 @@ import {HttpModule} from '@angular/http';
 import { AppComponent } from './app.component';
 import { MappingComponent } from './mapping/mapping.component';
 import {BuildingComponent} from './building/building.component';
-import {InitiativeData} from './building/initiative.component'
+//import {InitiativeNode} from './building/initiative.component'
 
 //Services
 import {DataService} from './services/data.service';
@@ -27,7 +27,7 @@ import { TreeModule } from 'angular2-tree-component';
     AppComponent,
     MappingComponent,
     BuildingComponent,
-    InitiativeData,
+  
     FocusDirective
   ],
   imports: [
@@ -37,7 +37,7 @@ import { TreeModule } from 'angular2-tree-component';
     HttpModule,
     TreeModule
   ],
-  providers: [D3Service, DataService, InitiativeData], 
+  providers: [D3Service, DataService], 
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]
 })

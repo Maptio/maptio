@@ -9,6 +9,7 @@ export class FocusDirective {
     focus:boolean;
     constructor(@Inject(ElementRef) private element: ElementRef) {}
     protected ngOnChanges() {
+        console.log("here");
         this.element.nativeElement.focus();
     }
     protected ngOnInit(){

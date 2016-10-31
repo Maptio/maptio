@@ -57,6 +57,26 @@ export class MappingComponent implements AfterViewInit, OnInit{
 
 
     display(d3:D3, data:any){
+
+        function polarToCartesian(centerX:number, centerY:number, radius:number, angleInDegrees:number) {
+    var angleInRadians = (angleInDegrees-90) * Math.PI / 180.0;
+    return {
+        x: centerX + (radius * Math.cos(angleInRadians)),
+        y: centerY + (radius * Math.sin(angleInRadians))
+    };
+}
+
+
+function describeArc(x:number, y:number, radius:number, startAngle:number, endAngle:number){
+    var start = polarToCartesian(x, y, radius, endAngle);
+    var end = polarToCartesian(x, y, radius, startAngle);
+    var arcSweep = endAngle - startAngle <= 180 ? "0" : "1";
+    var d = [
+        "M", start.x, start.y, 
+        "A", radius, radius, 0, 1, 1, end.x, end.y
+    ].join(" ");
+    return d;       
+}
         
         var svg = d3.select("svg"),
         margin = 20,
@@ -85,18 +105,49 @@ export class MappingComponent implements AfterViewInit, OnInit{
             .data(nodes)
             .enter()
             .append("circle")
-            
+            // .attr("cx", function(d) { return d.x; })
+            // .attr("cy", function(d) { return d.y; })
+            // .attr("r", function(d) { return d.r; })
             .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
             .style("fill", function(d) { return d.children ? color(d.depth) : null; })
             .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
         
-        var text = g.selectAll("text")
-            .data(nodes)
-            .enter().append("text")
-            .attr("class", "label")
+
+        var vis = svg.datum(data).selectAll("node")
+                .data(nodes)
+                .enter()
+                .append("g");
+
+       var arcs =vis
+            .append("path")
+            .attr("fill","none")
+            .attr("id", function(d,i){return "s"+i;})
+            .attr("d", function(d,i) {
+                return describeArc(d.x, d.y, d.r, 160, -160)
+            } );
+
+        var arcPaths = vis.append("g")
+            .style("fill","navy");
+
+        var labels = arcPaths.append("text")
+            //.style("opacity", function(d) {console.log(d); return d.depth === 0 ? 1 : 0;})
             .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
-            .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
-            .text(function(d:any) { return d.data.name; });
+            .attr("font-size",10)
+            .style("text-anchor","middle")
+            .append("textPath")
+            .attr("xlink:href",function(d,i){return "#s"+i;})
+            .attr("startOffset",function(d,i){return "50%";})
+            .text(function(d:any){return d.data.name})
+
+
+
+        // var text = g.selectAll("text")
+        //     .data(nodes)
+        //     .enter().append("text")
+        //     .attr("class", "label")
+        //     .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
+        //     .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
+        //     .text(function(d:any) { return d.data.name; });
       
 
         var descriptionIcon = g.selectAll("icon")

@@ -1,29 +1,11 @@
 import {Component, OnInit, ViewChild, Directive, Input, ElementRef, Inject} from '@angular/core';
-import {InitiativeData} from './initiative.component'
+import {InitiativeNode} from './initiative.component'
 import {TreeComponent} from 'angular2-tree-component';
 import {DataService} from '../services/data.service';
 import {FocusDirective} from '../directives/focus.directive'
 import 'rxjs/add/operator/map'
 
-export class CustomTreeNode{
-    
-    id:number;
-    name:string;
-    person:string;
-    isRoot:boolean=false;
-    hasFocus:boolean;
-    description:string= undefined;
-    private _size:number = undefined ; //(this.children === undefined ? 0 : this.children.length);
-    children:Array<CustomTreeNode>;
 
-    get size():number {
-        return this._size || 1;
-    }
-
-    set size(size:number){
-        this._size = size;
-    }
-}
 
 
 @Component({
@@ -33,7 +15,6 @@ export class CustomTreeNode{
     `
         <div>
            <a class="btn btn-lg btn-success" (click)="initializeTree()">Start mapping your project</a>
-            
         </div>
 
         <div>
@@ -60,8 +41,8 @@ export class CustomTreeNode{
 
 export class BuildingComponent implements OnInit {
 
-    private root:CustomTreeNode;
-    private nodes:Array<CustomTreeNode>;
+    private root:InitiativeNode;
+    private nodes:Array<InitiativeNode>;
 
     @ViewChild(TreeComponent)
     private tree: TreeComponent;
@@ -73,17 +54,17 @@ export class BuildingComponent implements OnInit {
     }
 
 
-    saveNodeName(newName:any, node:CustomTreeNode){
+    saveNodeName(newName:any, node:InitiativeNode){
         node.name = newName;
         this.saveData();
     }
 
-    saveNodeDescription(newDesc:string, node:CustomTreeNode){
+    saveNodeDescription(newDesc:string, node:InitiativeNode){
         node.description = newDesc;
         this.saveData();
     }
 
-    saveNodeSize(newSize:number, node:CustomTreeNode){
+    saveNodeSize(newSize:number, node:InitiativeNode){
         node.size = newSize;
         this.saveData();
     }
@@ -97,9 +78,9 @@ export class BuildingComponent implements OnInit {
         this.tree.treeModel.update();
     }
 
-    addChildNode(node:CustomTreeNode){
+    addChildNode(node:InitiativeNode){
         let treeNode = this.tree.treeModel.getNodeById(node.id);
-        let newNode = new CustomTreeNode();
+        let newNode = new InitiativeNode();
         newNode.children = []
         newNode.hasFocus = true;
         setTimeout(() => {newNode.hasFocus = false});
@@ -109,7 +90,7 @@ export class BuildingComponent implements OnInit {
     }   
 
 
-    removeChildNode(node:CustomTreeNode){
+    removeChildNode(node:InitiativeNode){
         //remove all children
         this.tree.treeModel.getNodeById(node.id).data.children =[];
         //remove node itself (from parent's children)
@@ -119,13 +100,13 @@ export class BuildingComponent implements OnInit {
         this.updateTreeModel();
     }
 
-    toggleNode(node:CustomTreeNode){
+    toggleNode(node:InitiativeNode){
          this.tree.treeModel
             .getNodeById(node.id).toggleExpanded();
     }
 
     initializeTree(){
-         this.root = new CustomTreeNode();
+         this.root = new InitiativeNode();
         this.root.children = [];
         this.root.isRoot = true;
         //this.root.size = 1;

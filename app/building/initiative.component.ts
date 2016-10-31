@@ -1,25 +1,19 @@
-import {Component, OnInit} from '@angular/core';
-
-@Component({
-    selector:'initiative',
-    template:`
-    <!--<button ng-click="collapse(node)" ng-show="(node.children.length > 0)&&(node.expanded)">Collapse</button>
-    <button ng-click="expand(node)" ng-show="(node.children.length > 0)&&(!node.expanded)">Expand</button>
-    {{node.name}}
-    <button ng-click="add(node)">Add node</button>
-    <button ng-click="delete(node)" ng-show="node.children.length > 0">Delete nodes</button>-->
-    Name : {{name}}
-    `
-})
-
-export class InitiativeData{
+export class InitiativeNode{
+    
     id:number;
     name:string;
-    hasChildren:boolean;
-    isExpanded:boolean;
-    isHidden:boolean;
-    //size:number;
-    //description:string;
-    // expanded:boolean;
-    children:Array<InitiativeData>;
+    person:string;
+    isRoot:boolean=false;
+    hasFocus:boolean=false;
+    description:string= undefined;
+    private _size:number = undefined ; //(this.children === undefined ? 0 : this.children.length);
+    children:Array<InitiativeNode>;
+
+    get size():number {
+        return this._size || 1;
+    }
+
+    set size(size:number){
+        this._size = size;
+    }
 }
