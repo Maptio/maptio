@@ -123,6 +123,7 @@ function describeArc(x:number, y:number, radius:number, startAngle:number, endAn
             .attr("fill","none")
             .attr("id", function(d,i){return "s"+i;})
             .attr("d", function(d,i) {
+                console.log(d);
                 return describeArc(d.x, d.y, d.r, 160, -160)
             } );
 
@@ -131,8 +132,8 @@ function describeArc(x:number, y:number, radius:number, startAngle:number, endAn
 
         var labels = arcPaths.append("text")
             //.style("opacity", function(d) {console.log(d); return d.depth === 0 ? 1 : 0;})
-            .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
-            .attr("font-size",10)
+            .style("fill-opacity", function(d) { /*return d.parent === root ? 1 : 0; */return 1;})
+            .attr("font-size",20)
             .style("text-anchor","middle")
             .append("textPath")
             .attr("xlink:href",function(d,i){return "#s"+i;})
@@ -150,37 +151,37 @@ function describeArc(x:number, y:number, radius:number, startAngle:number, endAn
         //     .text(function(d:any) { return d.data.name; });
       
 
-        var descriptionIcon = g.selectAll("icon")
-            .data(nodes)
-            .enter().append('text')
-            .attr('font-family', 'FontAwesome')
-            .attr("x","-15px")
-            .attr('font-size', function(d:any) { return d.size + 'em'} )
-            .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
-            .style("display", function(d:any) { return d.parent === root && d.data.description != undefined && d.data.description != "" ? "inline" : "none"; })
-            .on("mouseover", function(d:any) {		
-                    tooltip.transition()		
-                        .duration(200)		
-                        .style("opacity", .9);		
-                        tooltip.html(d.data.description)	
-                            .style("top", (d3.event.pageY + 15) + "px")
-                            .style("left", (d3.event.pageX  - 5) + "px")
-                    })					
-                .on("mouseout", function(d) {		
-                    tooltip.transition()		
-                        .duration(500)		
-                        .style("opacity", 0);	
-                })
-            .text(function(d:any) { return d.data.description === undefined ? "" : "\uf0c9" });
+        // var descriptionIcon = g.selectAll("icon")
+        //     .data(nodes)
+        //     .enter().append('text')
+        //     .attr('font-family', 'FontAwesome')
+        //     .attr("x","-15px")
+        //     .attr('font-size', function(d:any) { return d.size + 'em'} )
+        //     .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
+        //     .style("display", function(d:any) { return d.parent === root && d.data.description != undefined && d.data.description != "" ? "inline" : "none"; })
+        //     .on("mouseover", function(d:any) {		
+        //             tooltip.transition()		
+        //                 .duration(200)		
+        //                 .style("opacity", .9);		
+        //                 tooltip.html(d.data.description)	
+        //                     .style("top", (d3.event.pageY + 15) + "px")
+        //                     .style("left", (d3.event.pageX  - 5) + "px")
+        //             })					
+        //         .on("mouseout", function(d) {		
+        //             tooltip.transition()		
+        //                 .duration(500)		
+        //                 .style("opacity", 0);	
+        //         })
+        //     .text(function(d:any) { return d.data.description === undefined ? "" : "\uf0c9" });
 
 
         //Define the div for the tooltip
-        var tooltip = d3.select("body").append("div")	
-            .attr("class", "tooltip")				
-            .style("opacity", 0);
+        // var tooltip = d3.select("body").append("div")	
+        //     .attr("class", "tooltip")				
+        //     .style("opacity", 0);
 
 
-        var node = g.selectAll("circle,text,icon");
+        var node = g.selectAll("circle,text,g");
 
         svg
             .style("background", color(-1))
@@ -209,6 +210,13 @@ function describeArc(x:number, y:number, radius:number, startAngle:number, endAn
             var k = diameter / v[2]; view = v;
             node.attr("transform", function(d:any) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
             circle.attr("r", function(d) { return d.r * k; });
+            circle.text(function(d:any){return d.data.name;})
+            arcs.text(function(d:any){return d.data.name + " " +  (d.x - v[0]) * k + " " + (d.y - v[1]) * k });
+            //arcs.attr("transform", function(d:any) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
+            // arcs.attr("d", function(d,i) {
+            //     return describeArc(d.x, d.y, d.r, 160, -160)
+            // } )
+            //vis.attr("transform", function(d:any) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
         }
 
 
