@@ -33,7 +33,9 @@ export class MappingComponent implements AfterViewInit, OnInit{
     constructor(d3Service:D3Service, dataService:DataService) { 
         this.d3 = d3Service.getD3(); 
         this.dataService = dataService;
+        
         this.dataService.getData().subscribe(data => {
+          
           this.display(this.d3, data);
       });
     }
@@ -57,38 +59,20 @@ export class MappingComponent implements AfterViewInit, OnInit{
 
 
     display(d3:D3, data:any){
-
-        function polarToCartesian(centerX:number, centerY:number, radius:number, angleInDegrees:number) {
-        var angleInRadians = (angleInDegrees-90) * Math.PI / 180.0;
-        return {
-        x: centerX + (radius * Math.cos(angleInRadians)),
-        y: centerY + (radius * Math.sin(angleInRadians))
-        };
-        }
-
-
-        function describeArc(x:number, y:number, radius:number, startAngle:number, endAngle:number){
-            var start = polarToCartesian(x, y, radius, endAngle);
-            var end = polarToCartesian(x, y, radius, startAngle);
-            var arcSweep = endAngle - startAngle <= 180 ? "0" : "1";
-            var d = [
-                "M", start.x, start.y, 
-                "A", radius, radius, 0, 1, 1, end.x, end.y
-            ].join(" ");
-            return d;       
-        }
         
+        d3.select("svg").selectAll("*").remove();
         var svg = d3.select("svg"),
         margin = 50,
         diameter = +svg.attr("width"),
         g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
-    
+
         var color = this.getColorRange(this.FRONT_COLOR, this.BACK_COLOR);
 
         var pack = d3.pack()
             .size([diameter - margin, diameter - margin])
             .padding(2);
 
+        console.log(JSON.stringify(data));
         var root = data;
 
         root = d3.hierarchy(root)
@@ -102,6 +86,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
 
         var circle = g.selectAll("circle")
             .data(nodes)
+            .remove()
             .enter()
             .append("circle")
             .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
@@ -113,9 +98,6 @@ export class MappingComponent implements AfterViewInit, OnInit{
                     .data(nodes)
                     .enter()
                     .append("path")
-                    .attr("fill","none")
-                    .style("stroke","orange")
-                    .style("stroke-width","3")
                     .attr("id", function(d,i){return "s"+i;})
                     .text(function(d:any){return d.data.name});
 
@@ -129,7 +111,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
             .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
             .append("textPath")
             .attr("xlink:href",function(d,i){return "#s"+i;})
-            .attr("startOffset",function(d,i){return "5%";})
+            .attr("startOffset",function(d,i){return "7%";})
             .text(function(d:any) { return d.data.name; });
         var node = g.selectAll("path,circle,text");
 
@@ -170,7 +152,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
             circle.text(function(d:any){return d.data.name + " " + (d.x - v[0]) * k + " " + (d.y - v[1]) * k ;})
 
             path.attr("d", function(d, i){
-                    var size = d.r * k;
+                    var size = d.r * k + 2;
                     var centerX = 0 - size ; //d.x ;
                     var centerY = 0; //d.y ;
                     

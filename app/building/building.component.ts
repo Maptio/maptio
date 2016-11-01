@@ -70,6 +70,7 @@ export class BuildingComponent implements OnInit {
     }
 
     saveData(){
+    
         this.dataService.setData(this.root);
     }
 
@@ -109,6 +110,7 @@ export class BuildingComponent implements OnInit {
          this.root = new InitiativeNode();
         this.root.children = [];
         this.root.isRoot = true;
+        this.root.name = "ROOT";
         //this.root.size = 1;
         this.nodes = [];
         this.nodes.push(this.root);
