@@ -23,15 +23,21 @@
   right: 10px;
 }
 
-.btnAddNode{
-
-
+input.name{
+width:90%;
+float:left;
 }
 
-.btnRemoveNode{
-
+input.size{
+  width:10%;
+  float:left;
 }
 
-.btnToggleNode{
-    
+textarea.description{
+  width:100%;
+  rows:3;
+}
+
+div.initiative{
+  clear:both;
 }

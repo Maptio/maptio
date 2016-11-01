@@ -27,10 +27,10 @@ import 'rxjs/add/operator/map'
                         <a class="btn hideNode" *ngIf="!node.isRoot && node.isExpanded" (click)="toggleNode(node)"><i class="fa fa-caret-square-o-right" aria-hidden="true"></i></a>
                     </div>
 
-                    <div>
-                        <input *ngIf="!node.isRoot" [focus]="node.data.hasFocus" [ngModel]="node.data.name" placeholder="Initiative name" (ngModelChange)="saveNodeName($event, node.data)">
-                        <input *ngIf="!node.isRoot" [ngModel]="node.data.description" placeholder="Description" (ngModelChange)="saveNodeDescription($event, node.data)">
-                        <input *ngIf="!node.isRoot" [ngModel]="node.data.size" placeholder="Team Size"  (ngModelChange)="saveNodeSize($event, node.data)">
+                    <div class="initiative">
+                        <input class="name" *ngIf="!node.isRoot" [focus]="node.data.hasFocus" [ngModel]="node.data.name" placeholder="Initiative name" (ngModelChange)="saveNodeName($event, node.data)">
+                        <input class="size" *ngIf="!node.isRoot" [ngModel]="node.data.size" placeholder="Team Size"  (ngModelChange)="saveNodeSize($event, node.data)">
+                        <textarea class="description" rows="3" *ngIf="!node.isRoot" [ngModel]="node.data.description" placeholder="Description" (ngModelChange)="saveNodeDescription($event, node.data)"></textarea>
                     </div>
                 </template>
             </Tree>
@@ -119,7 +119,7 @@ export class BuildingComponent implements OnInit {
 
 
     ngOnInit(): void {
-    //this.initializeTree();
+    this.initializeTree();
        
     }
 

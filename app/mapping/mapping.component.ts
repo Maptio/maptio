@@ -72,7 +72,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
             .size([diameter - margin, diameter - margin])
             .padding(2);
 
-        console.log(JSON.stringify(data));
+        //console.log(JSON.stringify(data));
         var root = data;
 
         root = d3.hierarchy(root)
@@ -91,7 +91,9 @@ export class MappingComponent implements AfterViewInit, OnInit{
             .append("circle")
             .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
             .style("fill", function(d) { return d.children ? color(d.depth) : null; })
-            .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
+            .on("click", function(d) { if (focus !== d) console.log(d.data), zoom(d), d3.event.stopPropagation(); })
+            
+            ;
         
         var definitions = svg.append("defs")
         var path = definitions.selectAll("path")
@@ -100,6 +102,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
                     .append("path")
                     .attr("id", function(d,i){return "s"+i;})
                     .text(function(d:any){return d.data.name});
+
 
         var text = g.selectAll("text")
             .data(nodes)
@@ -111,8 +114,27 @@ export class MappingComponent implements AfterViewInit, OnInit{
             .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
             .append("textPath")
             .attr("xlink:href",function(d,i){return "#s"+i;})
-            .attr("startOffset",function(d,i){return "7%";})
+            .attr("startOffset",function(d,i){return "10%";})
             .text(function(d:any) { return d.data.name; });
+
+
+        var descriptionIcon = g.selectAll("icon")		
+             .data(nodes)		
+             .enter().append('text')		
+             .attr('font-family', 'FontAwesome')		
+             .attr("x","-15px")		
+             .attr('font-size', function(d:any) { return d.size + 'em'} )		
+             .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })		
+             .style("display", function(d:any) { return d.parent === root && d.data.description != undefined && d.data.description != "" ? "inline" : "none"; })		
+             	
+                .append("textPath")
+            .attr("xlink:href",function(d,i){return "#s"+i;})
+            .attr("startOffset",function(d,i){return "10%";})
+             .text(function(d:any) { return d.data.description === undefined ? "" : "\uf06e" });	
+         
+
+     
+
         var node = g.selectAll("path,circle,text");
 
         svg
@@ -140,9 +162,11 @@ export class MappingComponent implements AfterViewInit, OnInit{
 
         function zoomTo(v:any) {
             var watchedNode = "Engineering";
-            console.log(v);
+            //console.log(v);
             var k = diameter / v[2]; view = v;
-            console.log(k);
+            //console.log(k);
+
+            //tooltip.attr("r", function(d) {  return d.r * k * 0.9 ; })
             node.attr("transform", function(d:any) { 
                
                 return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"
@@ -151,8 +175,35 @@ export class MappingComponent implements AfterViewInit, OnInit{
             circle.attr("r", function(d) { return d.r * k; });
             circle.text(function(d:any){return d.data.name + " " + (d.x - v[0]) * k + " " + (d.y - v[1]) * k ;})
 
+
+            descriptionIcon
+            .on("mouseover", function(d:any, i:any) {	
+
+                    var group = g.append("g")
+                                 .attr("id", "t" + i)
+                                 .attr("transform",  "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")")
+
+
+                    group.append("circle")
+                        .style("class","tooltip")
+                        .style("opacity",0.8)
+                        .style("fill","white")
+                        .attr("stroke","black")
+                        
+                        .attr("r", d.r * k)	
+                        
+                        group.append("text")
+                        .text(d.data.description)
+                    				
+                     })							
+                 .on("mouseout", function(d, i) {	
+
+                     g.select("g#t"+i).remove();			
+			
+                 })	    
+           
             path.attr("d", function(d, i){
-                    var size = d.r * k + 2;
+                    var size = d.r * k + 2; // above the circle line
                     var centerX = 0 - size ; //d.x ;
                     var centerY = 0; //d.y ;
                     
