@@ -59,27 +59,27 @@ export class MappingComponent implements AfterViewInit, OnInit{
     display(d3:D3, data:any){
 
         function polarToCartesian(centerX:number, centerY:number, radius:number, angleInDegrees:number) {
-    var angleInRadians = (angleInDegrees-90) * Math.PI / 180.0;
-    return {
+        var angleInRadians = (angleInDegrees-90) * Math.PI / 180.0;
+        return {
         x: centerX + (radius * Math.cos(angleInRadians)),
         y: centerY + (radius * Math.sin(angleInRadians))
-    };
-}
+        };
+        }
 
 
-function describeArc(x:number, y:number, radius:number, startAngle:number, endAngle:number){
-    var start = polarToCartesian(x, y, radius, endAngle);
-    var end = polarToCartesian(x, y, radius, startAngle);
-    var arcSweep = endAngle - startAngle <= 180 ? "0" : "1";
-    var d = [
-        "M", start.x, start.y, 
-        "A", radius, radius, 0, 1, 1, end.x, end.y
-    ].join(" ");
-    return d;       
-}
+        function describeArc(x:number, y:number, radius:number, startAngle:number, endAngle:number){
+            var start = polarToCartesian(x, y, radius, endAngle);
+            var end = polarToCartesian(x, y, radius, startAngle);
+            var arcSweep = endAngle - startAngle <= 180 ? "0" : "1";
+            var d = [
+                "M", start.x, start.y, 
+                "A", radius, radius, 0, 1, 1, end.x, end.y
+            ].join(" ");
+            return d;       
+        }
         
         var svg = d3.select("svg"),
-        margin = 20,
+        margin = 50,
         diameter = +svg.attr("width"),
         g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
     
@@ -101,87 +101,37 @@ function describeArc(x:number, y:number, radius:number, startAngle:number, endAn
             view:any;
 
         var circle = g.selectAll("circle")
-        
             .data(nodes)
             .enter()
             .append("circle")
-            // .attr("cx", function(d) { return d.x; })
-            // .attr("cy", function(d) { return d.y; })
-            // .attr("r", function(d) { return d.r; })
             .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
             .style("fill", function(d) { return d.children ? color(d.depth) : null; })
             .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
         
+        var definitions = svg.append("defs")
+        var path = definitions.selectAll("path")
+                    .data(nodes)
+                    .enter()
+                    .append("path")
+                    .attr("fill","none")
+                    .style("stroke","orange")
+                    .style("stroke-width","3")
+                    .attr("id", function(d,i){return "s"+i;})
+                    .text(function(d:any){return d.data.name});
 
-        var vis = svg.datum(data).selectAll("node")
-                .data(nodes)
-                .enter()
-                .append("g");
-
-       var arcs =vis
-            .append("path")
-            .attr("fill","none")
-            .attr("id", function(d,i){return "s"+i;})
-            .attr("d", function(d,i) {
-                console.log(d);
-                return describeArc(d.x, d.y, d.r, 160, -160)
-            } );
-
-        var arcPaths = vis.append("g")
-            .style("fill","navy");
-
-        var labels = arcPaths.append("text")
-            //.style("opacity", function(d) {console.log(d); return d.depth === 0 ? 1 : 0;})
-            .style("fill-opacity", function(d) { /*return d.parent === root ? 1 : 0; */return 1;})
-            .attr("font-size",20)
-            .style("text-anchor","middle")
+        var text = g.selectAll("text")
+            .data(nodes)
+            .enter()
+            .append("text")
+            .attr("class", "label")
+            .style("text-anchor","left")
+            .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
+            .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
             .append("textPath")
             .attr("xlink:href",function(d,i){return "#s"+i;})
-            .attr("startOffset",function(d,i){return "50%";})
-            .text(function(d:any){return d.data.name})
-
-
-
-        // var text = g.selectAll("text")
-        //     .data(nodes)
-        //     .enter().append("text")
-        //     .attr("class", "label")
-        //     .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
-        //     .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
-        //     .text(function(d:any) { return d.data.name; });
-      
-
-        // var descriptionIcon = g.selectAll("icon")
-        //     .data(nodes)
-        //     .enter().append('text')
-        //     .attr('font-family', 'FontAwesome')
-        //     .attr("x","-15px")
-        //     .attr('font-size', function(d:any) { return d.size + 'em'} )
-        //     .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
-        //     .style("display", function(d:any) { return d.parent === root && d.data.description != undefined && d.data.description != "" ? "inline" : "none"; })
-        //     .on("mouseover", function(d:any) {		
-        //             tooltip.transition()		
-        //                 .duration(200)		
-        //                 .style("opacity", .9);		
-        //                 tooltip.html(d.data.description)	
-        //                     .style("top", (d3.event.pageY + 15) + "px")
-        //                     .style("left", (d3.event.pageX  - 5) + "px")
-        //             })					
-        //         .on("mouseout", function(d) {		
-        //             tooltip.transition()		
-        //                 .duration(500)		
-        //                 .style("opacity", 0);	
-        //         })
-        //     .text(function(d:any) { return d.data.description === undefined ? "" : "\uf0c9" });
-
-
-        //Define the div for the tooltip
-        // var tooltip = d3.select("body").append("div")	
-        //     .attr("class", "tooltip")				
-        //     .style("opacity", 0);
-
-
-        var node = g.selectAll("circle,text,g");
+            .attr("startOffset",function(d,i){return "5%";})
+            .text(function(d:any) { return d.data.name; });
+        var node = g.selectAll("path,circle,text");
 
         svg
             .style("background", color(-1))
@@ -201,22 +151,35 @@ function describeArc(x:number, y:number, radius:number, startAngle:number, endAn
 
             transition.selectAll("text")
             .filter(function(d:any) { return d.parent === focus || this.style.display === "inline"; })
-                .style("fill-opacity", function(d:any) { return d.parent === focus ? 1 : 0; })
+                .style("fill-opacity", function(d:any) { /*return d.parent === focus ? 1 : 0;*/ return 1; })
                 .on("start", function(d:any) { if (d.parent === focus) this.style.display = "inline"; })
                 .on("end", function(d:any) { if (d.parent !== focus) this.style.display = "none"; });
         }
 
         function zoomTo(v:any) {
+            var watchedNode = "Engineering";
+            console.log(v);
             var k = diameter / v[2]; view = v;
-            node.attr("transform", function(d:any) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
+            console.log(k);
+            node.attr("transform", function(d:any) { 
+               
+                return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"
+                
+            });
             circle.attr("r", function(d) { return d.r * k; });
-            circle.text(function(d:any){return d.data.name;})
-            arcs.text(function(d:any){return d.data.name + " " +  (d.x - v[0]) * k + " " + (d.y - v[1]) * k });
-            //arcs.attr("transform", function(d:any) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
-            // arcs.attr("d", function(d,i) {
-            //     return describeArc(d.x, d.y, d.r, 160, -160)
-            // } )
-            //vis.attr("transform", function(d:any) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
+            circle.text(function(d:any){return d.data.name + " " + (d.x - v[0]) * k + " " + (d.y - v[1]) * k ;})
+
+            path.attr("d", function(d, i){
+                    var size = d.r * k;
+                    var centerX = 0 - size ; //d.x ;
+                    var centerY = 0; //d.y ;
+                    
+                    var rx = -size;
+                    var ry = -size;
+                    return "m "+centerX+", "+centerY+" a "+rx+","+ry+" 1 1,1 "+size*2+",0 a -"+size+",-"+size+" 1 1,1 -"+size*2+",0" 
+                    })
+
+
         }
 
 

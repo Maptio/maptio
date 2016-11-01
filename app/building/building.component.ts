@@ -117,7 +117,7 @@ export class BuildingComponent implements OnInit {
 
 
     ngOnInit(): void {
-    this.initializeTree();
+    //this.initializeTree();
        
     }
 
