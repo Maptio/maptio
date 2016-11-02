@@ -25,18 +25,16 @@
   pointer-events: none;
 }
 
-div.tooltip {	
+.tooltip {	
+  font:  "Helvetica Neue", Helvetica, Arial, sans-serif;
+  
     position: absolute;			
     text-align: center;					
     padding: 2px;				
-    font: 12px sans-serif;		
-    background: lightsteelblue;	
+    font:  sans-serif;		
     border: 0px;		
     border-radius: 8px;			
-    pointer-events: none;			
-    width: 300px;
-    left: 982px;
-    top: 44px;
+    pointer-events: none;		
 }
 
 svg text {

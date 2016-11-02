@@ -9,7 +9,7 @@ import {
     D3Service, D3, Selection, 
     PackLayout, HierarchyNode , 
     ScaleLinear, HSLColor, 
-    Transition, Timer} from 'd3-ng2-service'; // <-- import the D3 Service, the type alias for the d3 variable and the Selection interface
+    Transition, Timer, BaseType} from 'd3-ng2-service'; // <-- import the D3 Service, the type alias for the d3 variable and the Selection interface
 import * as d3r from 'd3-request';
 import {DataService} from '../services/data.service'
 
@@ -160,11 +160,38 @@ export class MappingComponent implements AfterViewInit, OnInit{
                 .on("end", function(d:any) { if (d.parent !== focus) this.style.display = "none"; });
         }
 
+        function wrap(text:Selection<BaseType, {}, HTMLElement,any>,  width:number) {
+            text.each(function() {
+                var text = d3.select(this),
+                    words = text.text().split(/\s+/).reverse(),
+                    word:any,
+                    line:any[] = [],
+                    lineNumber = 0,
+                    lineHeight = 1.1, // ems
+                    y = text.attr("y"),
+                    x = text.attr("x"),
+                    dy = parseFloat(text.attr("dy")),
+                    tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em");
+                    while (word = words.pop()) {
+                        line.push(word);
+                        tspan.text(line.join(" "));
+                        var node: SVGTSpanElement = <SVGTSpanElement>tspan.node(); 
+                        var hasGreaterWidth = node.getComputedTextLength() > width; 
+                        if (hasGreaterWidth) {
+                        line.pop();
+                        tspan.text(line.join(" "));
+                        line = [word];
+                        tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+                }
+                }
+            });
+            }
+
         function zoomTo(v:any) {
             var watchedNode = "Engineering";
             //console.log(v);
             var k = diameter / v[2]; view = v;
-            //console.log(k);
+            console.log(k);
 
             //tooltip.attr("r", function(d) {  return d.r * k * 0.9 ; })
             node.attr("transform", function(d:any) { 
@@ -185,15 +212,22 @@ export class MappingComponent implements AfterViewInit, OnInit{
 
 
                     group.append("circle")
-                        .style("class","tooltip")
                         .style("opacity",0.8)
-                        .style("fill","white")
+                        .style("fill",  d.children ? color(d.depth) : null)
                         .attr("stroke","black")
-                        
                         .attr("r", d.r * k)	
-                        
-                        group.append("text")
+
+                        group
+                        .append("text")
+                        .style("class","tooltip")
+                        .style("font-size", k * 2* d.r * 15 /diameter)
+                        .attr("y", -d.r * k /2)
+                        .attr("dy", 0)
+                        .attr("x", 0)
+                        .attr("text-anchor", "middle")
+                        .attr("text-align","left")
                         .text(d.data.description)
+                        .call(wrap, d.r * 2 * k * 0.8);
                     				
                      })							
                  .on("mouseout", function(d, i) {	
@@ -203,7 +237,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
                  })	    
            
             path.attr("d", function(d, i){
-                    var size = d.r * k + 2; // above the circle line
+                    var size = d.r * k + 3; // above the circle line
                     var centerX = 0 - size ; //d.x ;
                     var centerY = 0; //d.y ;
                     
