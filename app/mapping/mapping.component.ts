@@ -8,10 +8,10 @@ import {
 import { 
     D3Service, D3, Selection, 
     PackLayout, HierarchyNode , 
-    ScaleLinear, HSLColor, 
     Transition, Timer, BaseType} from 'd3-ng2-service'; // <-- import the D3 Service, the type alias for the d3 variable and the Selection interface
 import * as d3r from 'd3-request';
 import {DataService} from '../services/data.service'
+import {ColorService} from '../services/color.service'
 
 @Component({
   selector: 'mapping',
@@ -24,16 +24,13 @@ import {DataService} from '../services/data.service'
 export class MappingComponent implements AfterViewInit, OnInit{
     private d3: D3;
     private dataService:DataService;
+    private colorService:ColorService;
 
 
-    //private data:any;
-    private FRONT_COLOR : HSLColor;
-    private BACK_COLOR:HSLColor;
-
-    constructor(d3Service:D3Service, dataService:DataService) { 
+    constructor(d3Service:D3Service, dataService:DataService, colorService:ColorService) { 
         this.d3 = d3Service.getD3(); 
         this.dataService = dataService;
-        
+        this.colorService = colorService;
         this.dataService.getData().subscribe(data => {
           
           this.display(this.d3, data);
@@ -45,17 +42,10 @@ export class MappingComponent implements AfterViewInit, OnInit{
     }
 
     ngOnInit() : void{
-        this.FRONT_COLOR = this.d3.hsl(152,0.8,0.8);
-        this.BACK_COLOR = this.d3.hsl(228,0.4,0.4);
         this.onRefreshGraph();
     }
 
-    getColorRange(start:HSLColor, end:HSLColor) {
-        return this.d3.scaleLinear<HSLColor, HSLColor>()
-        .domain([-1, 5])
-        .range([start, end ])
-        .interpolate(this.d3.interpolateHcl);
-    }
+
 
 
     display(d3:D3, data:any){
@@ -66,7 +56,9 @@ export class MappingComponent implements AfterViewInit, OnInit{
         diameter = +svg.attr("width"),
         g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
-        var color = this.getColorRange(this.FRONT_COLOR, this.BACK_COLOR);
+        var color = this.colorService.getColorRange(this.d3.hsl(0,0,0.8), this.d3.hsl(15,1,0.6));
+        console.log("COLORS");
+        console.log(color);
 
         var pack = d3.pack()
             .size([diameter - margin, diameter - margin])
@@ -212,12 +204,12 @@ export class MappingComponent implements AfterViewInit, OnInit{
 
 
                     group.append("circle")
-                        .style("opacity",0.8)
+                        .style("opacity",0.7)
                         .style("fill",  d.children ? color(d.depth) : null)
                         .attr("stroke","black")
                         .attr("r", d.r * k)	
 
-                        group
+                    group
                         .append("text")
                         .style("class","tooltip")
                         .style("font-size", k * 2* d.r * 15 /diameter)

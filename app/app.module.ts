@@ -12,7 +12,7 @@ import {BuildingComponent} from './building/building.component';
 
 //Services
 import {DataService} from './services/data.service';
-
+import {ColorService} from './services/color.service'
 //Directives
 import {FocusDirective} from './directives/focus.directive';
 
@@ -37,7 +37,7 @@ import { TreeModule } from 'angular2-tree-component';
     HttpModule,
     TreeModule
   ],
-  providers: [D3Service, DataService], 
+  providers: [D3Service, DataService, ColorService], 
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]
 })
