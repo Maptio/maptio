@@ -81,15 +81,17 @@ export class MappingComponent implements AfterViewInit, OnInit{
         var focus = root,
             nodes = pack(root).descendants(),
             view:any;
+        
+        console.log(nodes);
 
         var circle = g.selectAll("circle")
             .data(nodes)
             .remove()
             .enter()
             .append("circle")
-            .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
+            .attr("class", function(d) { return d.parent ? (d.children ? "node" : "node node--leaf") : "node node--root"; })
             .style("fill", function(d) { return d.children ? color(d.depth) : null; })
-            .on("click", function(d) { if (focus !== d) console.log(d.data), zoom(d), d3.event.stopPropagation(); })
+            .on("click", function(d) { console.log(d); if (focus !== d) zoom(d), d3.event.stopPropagation(); })
             
             ;
         
@@ -143,17 +145,21 @@ export class MappingComponent implements AfterViewInit, OnInit{
 
         function zoom(d:any) {
             var focus0 = focus; focus = d;
+            
+            console.log("VIEW" + view) 
+            console.log("FOCUS " + [focus.x, focus.y, focus.r * 2 + margin]);
 
             var transition = d3.transition("move")
                 .duration(d3.event.altKey ? 7500 : 750)
                 .tween("zoom", function(d) {
-                var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
-                return function(t) { zoomTo(i(t)); };
+                    var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
+                    console.log(i);
+                    return function(t) { zoomTo(i(t)); };
                 });
 
             transition.selectAll("text")
             .filter(function(d:any) { return d.parent === focus || this.style.display === "inline"; })
-                .style("fill-opacity", function(d:any) { /*return d.parent === focus ? 1 : 0;*/ return 1; })
+                .style("fill-opacity", function(d:any) { return d.parent === focus ? 1 : 0;  })
                 .on("start", function(d:any) { if (d.parent === focus) this.style.display = "inline"; })
                 .on("end", function(d:any) { if (d.parent !== focus) this.style.display = "none"; });
         }
@@ -186,10 +192,8 @@ export class MappingComponent implements AfterViewInit, OnInit{
             }
 
         function zoomTo(v:any) {
-            var watchedNode = "Engineering";
-            //console.log(v);
             var k = diameter / v[2]; view = v;
-            console.log(k);
+            //console.log(k);
 
             //tooltip.attr("r", function(d) {  return d.r * k * 0.9 ; })
             node.attr("transform", function(d:any) { 
