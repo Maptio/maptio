@@ -127,15 +127,35 @@ export class MappingComponent implements AfterViewInit, OnInit{
              .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })		
              .style("display", function(d:any) { return d.parent === root && d.data.description != undefined && d.data.description != "" ? "inline" : "none"; })		
              	
-                .append("textPath")
+            .append("textPath")
             .attr("xlink:href",function(d,i){return "#s"+i;})
             .attr("startOffset",function(d,i){return "10%";})
              .text(function(d:any) { return d.data.description === undefined ? "" : "\uf06e" });	
-         
 
-     
+        var description  = g.selectAll("description")
+            .data(nodes)
+            .enter()
+            .append("g")
+            .attr("id", function(d,i){return "d" + i})
+            .style("display","none")
+        var descriptionCircle = description
+            .append("circle")
+            .style("opacity",0.7)
+            .style("fill", function(d){ return  d.children ? color(d.depth) : null})
+            .attr("stroke","black")
+        var descriptionContent = description
+            .append("text")
+            .style("class","tooltip")
+            //.style("font-size", k * 2* d.r * 15 /diameter)
+            //.attr("y", function(d){return -d.r * k /2)
+            .attr("dy", 0)
+            .attr("x", 0)
+            .attr("text-anchor", "middle")
+            .attr("text-align","left")
+            .text(function(d:any){return d.data.description})
+            //.call(wrap, d.r * 2 * k * 0.8);
 
-        var node = g.selectAll("path,circle,text");
+        var node = g.selectAll("path,circle,text, description");
 
         svg
             .style("background", color(-1))
@@ -165,6 +185,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
         }
 
         function wrap(text:Selection<BaseType, {}, HTMLElement,any>,  width:number) {
+            console.log("WRAP " + width);
             text.each(function() {
                 var text = d3.select(this),
                     words = text.text().split(/\s+/).reverse(),
@@ -191,6 +212,39 @@ export class MappingComponent implements AfterViewInit, OnInit{
             });
             }
 
+        
+        
+        // function addDescriptionGroup(d:any, v:any,  i:number, k:number){
+        //     // var group = g.append("g")
+        //     //                      .attr("id", "t" + i)
+        //     //                      .attr("transform",  "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")")
+
+
+        //             // group.append("circle")
+        //             //     .style("opacity",0.7)
+        //             //     .style("fill",  d.children ? color(d.depth) : null)
+        //             //     .attr("stroke","black")
+        //             //     .attr("r", d.r * k)	
+
+        //             // group
+        //             //     .append("text")
+        //             //     .style("class","tooltip")
+        //             //     .style("font-size", k * 2* d.r * 15 /diameter)
+        //                 // .attr("y", -d.r * k /2)
+        //                 // .attr("dy", 0)
+        //                 // .attr("x", 0)
+        //                 // .attr("text-anchor", "middle")
+        //                 // .attr("text-align","left")
+        //                 // .text(d.data.description)
+        //                 // .call(wrap, d.r * 2 * k * 0.8);
+
+        //                 // return g;
+        // }
+        
+        
+        
+        
+        
         function zoomTo(v:any) {
             var k = diameter / v[2]; view = v;
             //console.log(k);
@@ -202,42 +256,23 @@ export class MappingComponent implements AfterViewInit, OnInit{
                 
             });
             circle.attr("r", function(d) { return d.r * k; });
-            circle.text(function(d:any){return d.data.name + " " + (d.x - v[0]) * k + " " + (d.y - v[1]) * k ;})
+            circle.text(function(d:any){return d.data.name + " " + (d.x - v[0]) * k + " " + (d.y - v[1]) * k ;});
 
+            descriptionCircle
+                .attr("r", function(d){return  d.r * k})
+            descriptionContent
+                //.style("font-size", function(d){return k * 2* d.r * 15 /diameter})
+                .attr("y",  function(d){return -d.r * k /2})
+                .call(wrap,  function(d:any):number{return (d.r * 2 * k * 0.8)})
 
             descriptionIcon
-            .on("mouseover", function(d:any, i:any) {	
+                .on("mouseover", function(d:any, i:any) {
+                    d3.select("g#d"+i).style("display","inline");
+                })							
+                .on("mouseout", function(d, i) {	
+                    d3.select("g#d"+i).style("display","none");
+                });	    
 
-                    var group = g.append("g")
-                                 .attr("id", "t" + i)
-                                 .attr("transform",  "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")")
-
-
-                    group.append("circle")
-                        .style("opacity",0.7)
-                        .style("fill",  d.children ? color(d.depth) : null)
-                        .attr("stroke","black")
-                        .attr("r", d.r * k)	
-
-                    group
-                        .append("text")
-                        .style("class","tooltip")
-                        .style("font-size", k * 2* d.r * 15 /diameter)
-                        .attr("y", -d.r * k /2)
-                        .attr("dy", 0)
-                        .attr("x", 0)
-                        .attr("text-anchor", "middle")
-                        .attr("text-align","left")
-                        .text(d.data.description)
-                        .call(wrap, d.r * 2 * k * 0.8);
-                    				
-                     })							
-                 .on("mouseout", function(d, i) {	
-
-                     g.select("g#t"+i).remove();			
-			
-                 })	    
-           
             path.attr("d", function(d, i){
                     var size = d.r * k + 3; // above the circle line
                     var centerX = 0 - size ; //d.x ;
