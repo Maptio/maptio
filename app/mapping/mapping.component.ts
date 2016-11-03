@@ -32,8 +32,8 @@ export class MappingComponent implements AfterViewInit, OnInit{
         this.dataService = dataService;
         this.colorService = colorService;
         this.dataService.getData().subscribe(data => {
-          
-          this.display(this.d3, data);
+
+            this.display(this.d3, data);
       });
     }
 
@@ -49,6 +49,12 @@ export class MappingComponent implements AfterViewInit, OnInit{
 
 
     display(d3:D3, data:any){
+
+        if(data.children.length == 0)
+        {
+            d3.select("svg").selectAll("*").remove();
+            return;
+        }
         
         d3.select("svg").selectAll("*").remove();
         var svg = d3.select("svg"),

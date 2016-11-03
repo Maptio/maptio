@@ -70,8 +70,8 @@ export class BuildingComponent implements OnInit {
     }
 
     saveData(){
-    
-        this.dataService.setData(this.root);
+        console.log(this.root);
+            this.dataService.setData(this.root);
     }
 
     updateTreeModel():void{
