@@ -10,23 +10,23 @@
   border:solid 2px #CCC;
   margin-right:10px;
   background-color: #CCC;
+  border-radius: 5px;
 }
 
 .building {
-    width: 200px;
+    padding:5px;
     margin-left: 20px;
     float: left;
     /* position: absolute; */
-    text-align: center;
     padding: 2px;
     font: 12px sans-serif;
-    background: lightsteelblue;
+    background-color: #EEE;
     border: 0px;
     border-radius: 5px;
-    pointer-events: none;
     /* width: 300px; */
     /* left: 982px; */
-    height: 80%;
     scroll-behavior: auto;
+    overflow: scroll;
+    height: 750px;
     /* top: 44px; */
 }
