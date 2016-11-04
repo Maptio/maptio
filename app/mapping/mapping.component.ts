@@ -63,8 +63,8 @@ export class MappingComponent implements AfterViewInit, OnInit{
         g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
         var color = this.colorService.getColorRange(this.d3.hsl(0,0,0.8), this.d3.hsl(15,1,0.6));
-        console.log("COLORS");
-        console.log(color);
+        // console.log("COLORS");
+        // console.log(color);
 
         var pack = d3.pack()
             .size([diameter - margin, diameter - margin])
@@ -82,7 +82,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
             nodes = pack(root).descendants(),
             view:any;
         
-        console.log(nodes);
+        //console.log(nodes);
 
         var circle = g.selectAll("circle")
             .data(nodes)
@@ -91,7 +91,19 @@ export class MappingComponent implements AfterViewInit, OnInit{
             .append("circle")
             .attr("class", function(d) { return d.parent ? (d.children ? "node" : "node node--leaf") : "node node--root"; })
             .style("fill", function(d) { return d.children ? color(d.depth) : null; })
-            .on("click", function(d) { console.log(d); if (focus !== d) zoom(d), d3.event.stopPropagation(); })
+            .on("click", function(d:any, i:number) { 
+                console.log("CLICK " + d.data.name ); 
+                // d3.select("g#description-content"+i).style("display", "inline"); //.call(wrap, d.r * 2 * 0.8);
+                // d3.select("g#description-group"+i).style("display",  "inline");
+                if (focus !== d) 
+                    zoom(d, i),  d3.event.stopPropagation();
+                 
+                      
+                })
+            .on("blur", function(d:any){
+                // console.log("BLUR " + d.data.name) 
+                // description.style("display","none")
+            })
             
             ;
         
@@ -122,7 +134,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
              .data(nodes)		
              .enter().append('text')		
              .attr('font-family', 'FontAwesome')		
-             .attr("x","-15px")		
+             .attr("x","-17px")		
              .attr('font-size', function(d:any) { return d.size + 'em'} )		
              .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })		
              .style("display", function(d:any) { return d.parent === root && d.data.description != undefined && d.data.description != "" ? "inline" : "none"; })		
@@ -136,44 +148,40 @@ export class MappingComponent implements AfterViewInit, OnInit{
             .data(nodes)
             .enter()
             .append("g")
-            .attr("id", function(d,i){return "d" + i})
+            .attr("id", function(d,i){return "description-group" + i})
             .style("display","none")
         var descriptionCircle = description
             .append("circle")
             .style("opacity",0.7)
-            .style("fill", function(d){ return  d.children ? color(d.depth) : null})
+            .style("fill", function(d){ return  d.children ? color(d.depth) : "white"})
             .attr("stroke","black")
         var descriptionContent = description
             .append("text")
             .style("class","tooltip")
-            //.style("font-size", k * 2* d.r * 15 /diameter)
-            //.attr("y", function(d){return -d.r * k /2)
+            .attr("id", function(d,i){return "decription-content" + i})
             .attr("dy", 0)
             .attr("x", 0)
             .attr("text-anchor", "middle")
             .attr("text-align","left")
+            .attr("stroke", "black")
             .text(function(d:any){return d.data.description})
-            //.call(wrap, d.r * 2 * k * 0.8);
 
         var node = g.selectAll("path,circle,text, description");
 
         svg
             .style("background", color(-1))
-            .on("click", function() { zoom(root); });
+            .on("click", function() { zoom(root, 0); });
 
         zoomTo([root.x, root.y, root.r * 2 + margin]);
 
-        function zoom(d:any) {
+        function zoom(d:any, i:number) {
             var focus0 = focus; focus = d;
-            
-            console.log("VIEW" + view) 
-            console.log("FOCUS " + [focus.x, focus.y, focus.r * 2 + margin]);
-
+    
             var transition = d3.transition("move")
                 .duration(d3.event.altKey ? 7500 : 750)
                 .tween("zoom", function(d) {
                     var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
-                    console.log(i);
+                    //console.log(i);
                     return function(t) { zoomTo(i(t)); };
                 });
 
@@ -182,10 +190,16 @@ export class MappingComponent implements AfterViewInit, OnInit{
                 .style("fill-opacity", function(d:any) { return d.parent === focus ? 1 : 0;  })
                 .on("start", function(d:any) { if (d.parent === focus) this.style.display = "inline"; })
                 .on("end", function(d:any) { if (d.parent !== focus) this.style.display = "none"; });
+
+
+            // // description.style("display",  "none")
+            //  d3.select("g#description-content"+i).style("display",  d.children ? "none" : "inline"); //.call(wrap, d.r * 2 * 0.8);
+            //  d3.select("g#description-group"+i).style("display",  d.children ? "none" : "inline");
+ 
         }
 
         function wrap(text:Selection<BaseType, {}, HTMLElement,any>,  width:number) {
-            console.log("WRAP " + width);
+            //console.log("WRAP " + width);
             text.each(function() {
                 var text = d3.select(this),
                     words = text.text().split(/\s+/).reverse(),
@@ -211,38 +225,6 @@ export class MappingComponent implements AfterViewInit, OnInit{
                 }
             });
             }
-
-        
-        
-        // function addDescriptionGroup(d:any, v:any,  i:number, k:number){
-        //     // var group = g.append("g")
-        //     //                      .attr("id", "t" + i)
-        //     //                      .attr("transform",  "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")")
-
-
-        //             // group.append("circle")
-        //             //     .style("opacity",0.7)
-        //             //     .style("fill",  d.children ? color(d.depth) : null)
-        //             //     .attr("stroke","black")
-        //             //     .attr("r", d.r * k)	
-
-        //             // group
-        //             //     .append("text")
-        //             //     .style("class","tooltip")
-        //             //     .style("font-size", k * 2* d.r * 15 /diameter)
-        //                 // .attr("y", -d.r * k /2)
-        //                 // .attr("dy", 0)
-        //                 // .attr("x", 0)
-        //                 // .attr("text-anchor", "middle")
-        //                 // .attr("text-align","left")
-        //                 // .text(d.data.description)
-        //                 // .call(wrap, d.r * 2 * k * 0.8);
-
-        //                 // return g;
-        // }
-        
-        
-        
         
         
         function zoomTo(v:any) {
@@ -251,26 +233,31 @@ export class MappingComponent implements AfterViewInit, OnInit{
 
             //tooltip.attr("r", function(d) {  return d.r * k * 0.9 ; })
             node.attr("transform", function(d:any) { 
-               
                 return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"
-                
             });
+
             circle.attr("r", function(d) { return d.r * k; });
             circle.text(function(d:any){return d.data.name + " " + (d.x - v[0]) * k + " " + (d.y - v[1]) * k ;});
 
+
+            descriptionContent
+                .style("font-size", function(d){return k * 2* d.r * 15 /diameter})
+                .attr("y", function(d){return  -d.r * k /2})
+           
             descriptionCircle
                 .attr("r", function(d){return  d.r * k})
-            descriptionContent
-                //.style("font-size", function(d){return k * 2* d.r * 15 /diameter})
-                .attr("y",  function(d){return -d.r * k /2})
-                .call(wrap,  function(d:any):number{return (d.r * 2 * k * 0.8)})
-
+           
             descriptionIcon
                 .on("mouseover", function(d:any, i:any) {
-                    d3.select("g#d"+i).style("display","inline");
+                     descriptionContent
+                        .style("font-size", function(d){return k * 2* d.r * 15 /diameter})
+                        .attr("y",  -d.r * k /2)
+                        .call(wrap, d.r * 2 * k * 0.8)
+
+                    d3.select("g#description-group"+i).style("display","inline");
                 })							
                 .on("mouseout", function(d, i) {	
-                    d3.select("g#d"+i).style("display","none");
+                    d3.select("g#description-group"+i).style("display","none");
                 });	    
 
             path.attr("d", function(d, i){
