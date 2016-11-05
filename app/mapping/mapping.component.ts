@@ -92,7 +92,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
             .attr("class", function(d) { return d.parent ? (d.children ? "node" : "node node--leaf") : "node node--root"; })
             .style("fill", function(d) { return d.children ? color(d.depth) : null; })
             .on("click", function(d:any, i:number) { 
-                console.log("CLICK " + d.data.name ); 
+                console.log("CLICK " + i + " "  + d.data.name ); 
                 // d3.select("g#description-content"+i).style("display", "inline"); //.call(wrap, d.r * 2 * 0.8);
                 // d3.select("g#description-group"+i).style("display",  "inline");
                 if (focus !== d) 
@@ -172,9 +172,9 @@ export class MappingComponent implements AfterViewInit, OnInit{
             .style("background", color(-1))
             .on("click", function() { zoom(root, 0); });
 
-        zoomTo([root.x, root.y, root.r * 2 + margin]);
+        zoomTo([root.x, root.y, root.r * 2 + margin], -1);
 
-        function zoom(d:any, i:number) {
+        function zoom(d:any, index:number) {
             var focus0 = focus; focus = d;
     
             var transition = d3.transition("move")
@@ -182,7 +182,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
                 .tween("zoom", function(d) {
                     var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
                     //console.log(i);
-                    return function(t) { zoomTo(i(t)); };
+                    return function(t) { zoomTo(i(t), index); };
                 });
 
             transition.selectAll("text")
@@ -198,11 +198,12 @@ export class MappingComponent implements AfterViewInit, OnInit{
  
         }
 
-        function wrap(text:Selection<BaseType, {}, HTMLElement,any>,  width:number) {
-            //console.log("WRAP " + width);
+        function wrap(text:Selection<BaseType, {}, HTMLElement,any>, actualText:string,  width:number) {
+            console.log("WRAP " + width);
+            console.log(text.text());
             text.each(function() {
                 var text = d3.select(this),
-                    words = text.text().split(/\s+/).reverse(),
+                    words = actualText.split(/\s+/).reverse(),
                     word:any,
                     line:any[] = [],
                     lineNumber = 0,
@@ -227,7 +228,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
             }
         
         
-        function zoomTo(v:any) {
+        function zoomTo(v:any, index:number) {
             var k = diameter / v[2]; view = v;
             //console.log(k);
 
@@ -240,9 +241,18 @@ export class MappingComponent implements AfterViewInit, OnInit{
             circle.text(function(d:any){return d.data.name + " " + (d.x - v[0]) * k + " " + (d.y - v[1]) * k ;});
 
 
+            description
+                .style("display", function(d, i){return i === index && d.parent && !d.children ? "inline" : "none"})
+           
             descriptionContent
                 .style("font-size", function(d){return k * 2* d.r * 15 /diameter})
                 .attr("y", function(d){return  -d.r * k /2})
+                .style("display", function(d, i){return i === index ? "inline" : "none"})
+                .each(function(d:any, i:number){
+                    if(i === index){
+                        wrap(d3.select(this), d.data.description, diameter * 0.65);
+                    }
+                })
            
             descriptionCircle
                 .attr("r", function(d){return  d.r * k})
@@ -250,9 +260,10 @@ export class MappingComponent implements AfterViewInit, OnInit{
             descriptionIcon
                 .on("mouseover", function(d:any, i:any) {
                      descriptionContent
-                        .style("font-size", function(d){return k * 2* d.r * 15 /diameter})
+                        .style("display", function(d, i){return !d.children ? "inline" : "none"})
+                        .style("font-size", function(d:any){return k * 2* d.r * 15 /diameter})
                         .attr("y",  -d.r * k /2)
-                        .call(wrap, d.r * 2 * k * 0.8)
+                        .call(wrap, d.data.description , d.r * 2 * k * 0.8)
 
                     d3.select("g#description-group"+i).style("display","inline");
                 })							
