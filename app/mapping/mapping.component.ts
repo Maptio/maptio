@@ -189,7 +189,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
             .filter(function(d:any) { return d.parent === focus || this.style.display === "inline"; })
                 .style("fill-opacity", function(d:any) { return d.parent === focus ? 1 : 0;  })
                 .on("start", function(d:any) { if (d.parent === focus) this.style.display = "inline"; })
-                .on("end", function(d:any) { if (d.parent !== focus) this.style.display = "none"; });
+                //.on("end", function(d:any) { if (d.parent !== focus) this.style.display = "none"; });
 
 
             // // description.style("display",  "none")
@@ -203,7 +203,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
             console.log(text.text());
             text.each(function() {
                 var text = d3.select(this),
-                    words = actualText.split(/\s+/).reverse(),
+                     words = actualText ? actualText.split(/\s+/).reverse() : [],
                     word:any,
                     line:any[] = [],
                     lineNumber = 0,
@@ -260,7 +260,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
             descriptionIcon
                 .on("mouseover", function(d:any, i:any) {
                      descriptionContent
-                        .style("display", function(d, i){return !d.children ? "inline" : "none"})
+                        .style("display", function(d, i){return "inline"})
                         .style("font-size", function(d:any){return k * 2* d.r * 15 /diameter})
                         .attr("y",  -d.r * k /2)
                         .call(wrap, d.data.description , d.r * 2 * k * 0.8)
