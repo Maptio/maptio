@@ -70,7 +70,7 @@ export class DataService {
     }
    
    setData(data:any):void{
-        data = JSON.parse(this.DATA);
+       // data = JSON.parse(this.DATA);
         this._data$.next(data);
     }
    
