@@ -13,9 +13,20 @@
   position: relative;
 }
 
+.nodeDiv
+{
+  background-color: #eee;
+  border-radius: 3px;
+}
+
 .tree-children {
   flex-grow: 1;
   width: 100%;
+}
+
+inpu, textarea{
+  font-size:15px;
+
 }
 
 .pull-right {
@@ -24,12 +35,12 @@
 }
 
 input.name{
-width:90%;
+width:85%;
 float:left;
 }
 
 input.size{
-  width:10%;
+  width:15%;
   float:left;
 }
 
