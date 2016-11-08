@@ -32,7 +32,6 @@ export class MappingComponent implements AfterViewInit, OnInit{
         this.dataService = dataService;
         this.colorService = colorService;
         this.dataService.getData().subscribe(data => {
-
             this.display(this.d3, data);
       });
     }
@@ -42,7 +41,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
     }
 
     ngOnInit() : void{
-        this.onRefreshGraph();
+        
     }
 
 
@@ -62,15 +61,13 @@ export class MappingComponent implements AfterViewInit, OnInit{
         diameter = +svg.attr("width"),
         g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
-        var color = this.colorService.getColorRange(this.d3.hsl(0,0,0.8), this.d3.hsl(15,1,0.6));
-        // console.log("COLORS");
-        // console.log(color);
+        var color = this.colorService.getColorRange(this.d3.hsl(0,0,0.93), this.d3.hsl(15,1,0.6));
+   
 
         var pack = d3.pack()
             .size([diameter - margin, diameter - margin])
             .padding(2);
 
-        //console.log(JSON.stringify(data));
         var root = data;
 
         root = d3.hierarchy(root)
@@ -81,8 +78,6 @@ export class MappingComponent implements AfterViewInit, OnInit{
         var focus = root,
             nodes = pack(root).descendants(),
             view:any;
-        
-        //console.log(nodes);
 
         var circle = g.selectAll("circle")
             .data(nodes)
@@ -92,19 +87,9 @@ export class MappingComponent implements AfterViewInit, OnInit{
             .attr("class", function(d) { return d.parent ? (d.children ? "node" : "node node--leaf") : "node node--root"; })
             .style("fill", function(d) { return d.children ? color(d.depth) : null; })
             .on("click", function(d:any, i:number) { 
-                console.log("CLICK " + i + " "  + d.data.name ); 
-                // d3.select("g#description-content"+i).style("display", "inline"); //.call(wrap, d.r * 2 * 0.8);
-                // d3.select("g#description-group"+i).style("display",  "inline");
                 if (focus !== d) 
                     zoom(d, i),  d3.event.stopPropagation();
-                 
-                      
                 })
-            .on("blur", function(d:any){
-                // console.log("BLUR " + d.data.name) 
-                // description.style("display","none")
-            })
-            
             ;
         
         var definitions = svg.append("defs")
@@ -181,7 +166,6 @@ export class MappingComponent implements AfterViewInit, OnInit{
                 .duration(d3.event.altKey ? 7500 : 750)
                 .tween("zoom", function(d) {
                     var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
-                    //console.log(i);
                     return function(t) { zoomTo(i(t), index); };
                 });
 
@@ -190,17 +174,11 @@ export class MappingComponent implements AfterViewInit, OnInit{
                 .style("fill-opacity", function(d:any) { return d.parent === focus ? 1 : 0;  })
                 .on("start", function(d:any) { if (d.parent === focus) this.style.display = "inline"; })
                 //.on("end", function(d:any) { if (d.parent !== focus) this.style.display = "none"; });
-
-
-            // // description.style("display",  "none")
-            //  d3.select("g#description-content"+i).style("display",  d.children ? "none" : "inline"); //.call(wrap, d.r * 2 * 0.8);
-            //  d3.select("g#description-group"+i).style("display",  d.children ? "none" : "inline");
  
         }
 
         function wrap(text:Selection<BaseType, {}, HTMLElement,any>, actualText:string,  width:number) {
-            console.log("WRAP " + width);
-            console.log(text.text());
+            
             text.each(function() {
                 var text = d3.select(this),
                      words = actualText ? actualText.split(/\s+/).reverse() : [],
@@ -230,9 +208,6 @@ export class MappingComponent implements AfterViewInit, OnInit{
         
         function zoomTo(v:any, index:number) {
             var k = diameter / v[2]; view = v;
-            //console.log(k);
-
-            //tooltip.attr("r", function(d) {  return d.r * k * 0.9 ; })
             node.attr("transform", function(d:any) { 
                 return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"
             });
@@ -287,12 +262,6 @@ export class MappingComponent implements AfterViewInit, OnInit{
 
 
     }
-    
 
-    onRefreshGraph(): void{
-
-      
-    
-    }
 
 }

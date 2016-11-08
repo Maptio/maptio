@@ -10,35 +10,7 @@ import 'rxjs/add/operator/map'
 
 @Component({
     selector:'building',
-    //templateUrl:'./building.component.html',
-    template:
-    `
-            
-
-            <div class="building">
-            <div>
-            <a class="btn btn-lg btn-success" (click)="initializeTree()">Start mapping your project</a>
-            </div>
-                <Tree [nodes]="nodes" (onUpdateData)="saveData($event)">
-                    <template #treeNodeTemplate let-node>
-                        <div class="btn-group">
-                            <a class="btn addNode" (click)="addChildNode(node.data)"><i class="fa fa-plus" aria-hidden="true"></i></a>
-                            <a class="btn removeNode" *ngIf="!node.isRoot" (click)="removeChildNode(node.data)"><i class="fa fa-minus" aria-hidden="true"></i></a>
-                            <a class="btn expandNode" *ngIf="!node.isRoot && !node.isExpanded" (click)="toggleNode(node)"><i class="fa fa-caret-square-o-down" aria-hidden="true"></i></a>
-                            <a class="btn hideNode" *ngIf="!node.isRoot && node.isExpanded" (click)="toggleNode(node)"><i class="fa fa-caret-square-o-right" aria-hidden="true"></i></a>
-                        </div>
-
-                        <div class="initiative">
-                            <input class="name" *ngIf="!node.isRoot" [focus]="node.data.hasFocus" [ngModel]="node.data.name" placeholder="Initiative name" (ngModelChange)="saveNodeName($event, node.data)">
-                            <input class="size" *ngIf="!node.isRoot" [ngModel]="node.data.size" placeholder="Team Size"  (ngModelChange)="saveNodeSize($event, node.data)">
-                            <textarea class="description" rows="3" *ngIf="!node.isRoot" [ngModel]="node.data.description" placeholder="Description" (ngModelChange)="saveNodeDescription($event, node.data)"></textarea>
-                        </div>
-                    </template>
-                </Tree>
-            </div>
-        
-        
-    `,
+   templateUrl:'building.component.html',
     styles:[require('./building.component.css').toString()]
 })
 
