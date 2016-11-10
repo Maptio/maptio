@@ -24,17 +24,6 @@ export class BuildingComponent implements OnInit {
 
     constructor(dataService:DataService){
         this.dataService = dataService;
-        // this.dataService
-        //     .getData()
-        //     .subscribe(
-        //         data => {
-        //             this.nodes.splice(0, this.nodes.length);
-        //             this.nodes.push(new InitiativeNode(data));
-        //             this.updateTreeModel();
-        //             },
-        //         err => {console.log(err)},
-        //         () => {}
-        //     );
     }
 
 
@@ -110,9 +99,6 @@ export class BuildingComponent implements OnInit {
        this.dataService.getRawData(url).then(data =>{
             this.nodes = [];
             this.nodes.push(new InitiativeNode(data));
-            console.log("LOADED");
-            console.log(data)
-            console.log(JSON.stringify(this.nodes))
             this.saveData();
        })
        

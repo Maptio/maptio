@@ -1,24 +1,26 @@
 <div class="building">
     <div>
-        <a class="btn btn-lg btn-success" *ngIf="root.children.length === 0 " (click)="initializeTree()">Start mapping your project</a>
-        <a class="btn btn-lg btn-success" *ngIf="root.children.length != 0" (click)="initializeTree()">Reset</a>
-        <a class="btn btn-lg btn-success"  (click)="loadData()">Vestd data</a>
-       
+        <a class="btn btn-primary" *ngIf="root.children.length === 0 " (click)="initializeTree()">Start mapping your project</a>
+        <a class="btn btn-primary" *ngIf="root.children.length != 0" (click)="initializeTree()">Reset</a>
+        <a class="btn btn-default"  (click)="loadData()">Vestd data</a>
     </div>
     <Tree [nodes]="nodes" (onUpdateData)="saveData($event)">
         <template #treeNodeTemplate let-node>
-            <div class="nodeDiv">
-                <div class="btn-group">
-                    <a class="btn addNode" (click)="addChildNode(node.data)"><i class="fa fa-plus" aria-hidden="true"></i></a>
-                    <a class="btn removeNode" *ngIf="!node.isRoot" (click)="removeChildNode(node.data)"><i class="fa fa-minus" aria-hidden="true"></i></a>
-                    <a class="btn expandNode" *ngIf="!node.isRoot && !node.isExpanded" (click)="toggleNode(node)"><i class="fa fa-caret-square-o-down" aria-hidden="true"></i></a>
-                    <a class="btn hideNode" *ngIf="!node.isRoot && node.isExpanded" (click)="toggleNode(node)"><i class="fa fa-caret-square-o-right" aria-hidden="true"></i></a>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <div class="btn-group">
+                        <a class="btn btn-info btn-xs addNode" (click)="addChildNode(node.data)"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                        <a class="btn btn-info btn-xs removeNode" *ngIf="!node.isRoot" (click)="removeChildNode(node.data)"><i class="fa fa-minus" aria-hidden="true"></i></a>
+                        <a class="btn btn-info btn-xs seeNode" (click)="seeNode(node.data)"><i class="fa fa-info" aria-hidden="true"></i></a>
+                        <a class="btn btn-info btn-xs expandNode" *ngIf="!node.isRoot && !node.isExpanded" (click)="toggleNode(node)"><i class="fa fa-caret-square-o-down" aria-hidden="true"></i></a>
+                        <a class="btn btn-info btn-xs hideNode" *ngIf="!node.isRoot && node.isExpanded" (click)="toggleNode(node)"><i class="fa fa-caret-square-o-right" aria-hidden="true"></i></a>
+                    </div>
                 </div>
-
-                <div class="initiative">
-                    <input class="name"  [focus]="node.data.hasFocus" [ngModel]="node.data.name" placeholder="Initiative name" (ngModelChange)="saveNodeName($event, node.data)">
-                    <input class="size" *ngIf="!node.isRoot" [ngModel]="node.data.size" placeholder="Team Size"  (ngModelChange)="saveNodeSize($event, node.data)">
-                    <textarea class="description" rows="3" *ngIf="!node.isRoot" [ngModel]="node.data.description" placeholder="Description" (ngModelChange)="saveNodeDescription($event, node.data)"></textarea>
+                <div class="panel-body">
+                    <input class="form-control input-sm name" type="text"  [focus]="node.data.hasFocus" [ngModel]="node.data.name" placeholder="Initiative name" (ngModelChange)="saveNodeName($event, node.data)">
+                    <input class="form-control input-sm size" type="text" *ngIf="!node.isRoot" [ngModel]="node.data.size" placeholder="Team Size"  (ngModelChange)="saveNodeSize($event, node.data)">
+                    <textarea class="form-control description" rows="3" *ngIf="!node.isRoot" [ngModel]="node.data.description" placeholder="Description" (ngModelChange)="saveNodeDescription($event, node.data)"></textarea>
+               
                 </div>
             </div>
         </template>

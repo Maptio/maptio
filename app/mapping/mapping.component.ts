@@ -128,7 +128,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
             .append("textPath")
             .attr("xlink:href",function(d,i){return "#s"+i;})
             .attr("startOffset",function(d,i){return "10%";})
-             .text(function(d:any) { return d.data.description === undefined ? "" : "\uf06e" });	
+             .text(function(d:any) { return d.data.description === undefined ? "" : "\uf129" });	
 
         var description  = g.selectAll("description")
             .data(nodes)
