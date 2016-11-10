@@ -1,0 +1,219 @@
+{
+ "name": "Vestd","description":"","size":"1",
+ "children": [
+  {
+    "name":"Bringing about the equity economy ", "description":"I", "size":"1",
+    "children":[
+        {
+            "name":"Creating and satisfying the market", "description":"N", "size":"1",
+            "children":[
+                {
+                    "name":"Supporting customers", "description":"N", "size":"1",
+                    "children":[
+                        {
+                            "name":"Linking/incorporating", "description":"S", "size":"1",
+                            "children":[
+                                {
+                                    "name":"Valuing platform companies", "description":"S", "size":"1"
+                                },
+                                {
+                                    "name":"Legals", "description":"S", "size":"1"
+                                }
+                            ]
+                        },
+                        {
+                            "name":"Customer service", "description":"N", "size":"1",
+                            "children":[
+                                {
+                                    "name":"Legals/commercial", "description":"S", "size":"1"
+                                },
+                                {
+                                    "name":"Product", "description":"N", "size":"1"
+                                }
+                            ]
+                        },
+                        {
+                            "name":"Helping platform founders succeed", "description":"N", "size":"1",
+                            "children":[
+                                {
+                                    "name":"Assisting founders with messaging", "description":"Du", "size":"1"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                 {
+                    "name":"Growing the vestd community", "description":"N", "size":"1",
+                    "children":[
+                        {
+                            "name":"Managing social media", "description":"E", "size":"1"
+                        },
+                        {
+                            "name":"Planning marketing campaigns", "description":"N", "size":"1"
+                        },
+                        {
+                            "name":"Managing the blog", "description":"E", "size":"1"
+                        },
+                        {
+                            "name":"Producing content", "description":"E", "size":"1"
+                        },
+                        {
+                            "name":"Building vestd community relationships", "description":"E", "size":"1"
+                        },
+                        {
+                            "name":"Reaching out to external communities", "description":"E", "size":"1"
+                        },
+                        {
+                            "name":"Retaining community members", "description":"E", "size":"1"
+                        }
+                    ]
+                },
+                 {
+                    "name":"Producing all copy on the vestd website", "description":"Du", "size":"1"
+                },
+                {
+                    "name":"Gathering and analysing market info", "description":"N", "size":"1"
+                },
+                {
+                    "name":"Developing partnerships (financial, academic, gov)", "description":"I", "size":"1"
+                },
+                {
+                    "name":"Getting PR coverage", "description":"I", "size":"1"
+                },
+                {
+                    "name":"Managing inbound opps", "description":"N", "size":"1"
+                },
+                {
+                    "name":"Event participation", "description":"E", "size":"1"
+                },
+                {
+                    "name":"Realising the Vestd product", "description":"N", "size":"1",
+                    "children":[
+                        {
+                            "name":"Creating the tech", "description":"N", "size":"1",
+                            "children":[
+                                {
+                                    "name":"Running dev ops", "description":"A", "size":"1"
+                                },
+                                {
+                                    "name":"Developing security elements", "description":"A", "size":"1"
+                                },
+                                {
+                                    "name":"Developing front-end", "description":"A", "size":"1"
+                                },
+                                {
+                                    "name":"Developing back-end", "description":"A & Da, to dicusss", "size":"1"
+                                },
+                                {
+                                    "name":"Developing the data storage", "description":"A", "size":"1"
+                                },
+                                {
+                                    "name":"Writing & maintaining test suite", "description":"Da", "size":"1"
+                                },
+                                {
+                                    "name":"Maintaining Wordpress", "description":"Da", "size":"1"
+                                },
+                                {
+                                    "name":"Developing and maintaining the CSS", "description":"T", "size":"1"
+                                }
+                            ]
+                        },
+                        {
+                            "name":"UX", "description":"N", "size":"1",
+                            "children":[
+                                {
+                                    "name":"Design", "description":"T", "size":"1"
+                                },
+                                {
+                                    "name":"UI", "description":"T", "size":"1"
+                                },
+                                {
+                                    "name":"Copy", "description":"Du", "size":"1"
+                                }
+                            ]
+                        },
+                        {
+                            "name":"Platform documentation and procedures", "description":"S", "size":"1"
+                        }
+                    ]
+                },
+                {
+                    "name":"User feedback and improvement", "description":"S", "size":"1"
+                }
+            ]
+        },
+        {
+            "name":"Making sure team is happy and enabled", "description":"N", "size":"1",
+            "children":[
+                {
+                    "name":"Wellbeing", "description":"N", "size":"1"
+                },
+                {
+                    "name":"Culture", "description":"N", "size":"1"
+                },
+                {
+                    "name":"Working environment", "description":"N", "size":"1"
+                },
+                {
+                    "name":"Ensuring we have the right tools", "description":"N", "size":"1"
+                }
+            ]
+        },
+        {
+            "name":"Running accounts and audit", "description":"S", "size":"1"
+        },
+        {
+            "name":"Formal company Policies & Procedures for Vestd", "description":"S", "size":"1"
+        },
+        {
+            "name":"Producing and managing KPIs", "description":"S", "size":"1"
+        },
+        {
+            "name":"Fundraising", "description":"I", "size":"1",
+            "children":[
+                {
+                    "name":"Producing reports and documenting", "description":"S", "size":"1"
+                }
+            ]
+        },
+        {
+            "name":"Internationalising", "description":"S", "size":"1",
+            "children":[
+                {
+                    "name":"Strategy", "description":"I", "size":"1"
+                },
+                {
+                    "name":"investigating Europe and US regulations", "description":"S", "size":"1"
+                }
+            ]
+        },
+        {
+            "name":"Ensuring FCA compliance", "description":"I", "size":"1",
+            "children":[
+                {
+                    "name":"Managing & Reporting", "description":"S", "size":"1"
+                }
+            ]
+        },
+        {
+            "name":"Creating Legal framework", "description":"I", "size":"1",
+            "children":[
+                {
+                    "name":"Structural docs", "description":"I", "size":"1"
+                },
+                {
+                    "name":"Legal documents for platform", "description":"S", "size":"1"
+                }
+            ]
+        },
+         {
+            "name":"Getting Government / Institutional support", "description":"I", "size":"1"
+        },
+         {
+            "name":"Business Security", "description":"A", "size":"1"
+        }
+    ]
+    }
+
+     ]   
+}

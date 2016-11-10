@@ -6,8 +6,6 @@ import {FocusDirective} from '../directives/focus.directive'
 import 'rxjs/add/operator/map'
 
 
-
-
 @Component({
     selector:'building',
    templateUrl:'building.component.html',
@@ -26,6 +24,17 @@ export class BuildingComponent implements OnInit {
 
     constructor(dataService:DataService){
         this.dataService = dataService;
+        // this.dataService
+        //     .getData()
+        //     .subscribe(
+        //         data => {
+        //             this.nodes.splice(0, this.nodes.length);
+        //             this.nodes.push(new InitiativeNode(data));
+        //             this.updateTreeModel();
+        //             },
+        //         err => {console.log(err)},
+        //         () => {}
+        //     );
     }
 
 
@@ -45,18 +54,20 @@ export class BuildingComponent implements OnInit {
     }
 
     saveData(){
-        console.log(this.root);
-            this.dataService.setData(this.root);
+        console.log("SAVE HERE");
+        console.log(JSON.stringify(this.nodes));
+        this.dataService.setData(this.nodes[0]);
     }
 
     updateTreeModel():void{
-
+        console.log("UPdate");
+        console.log(JSON.stringify(this.nodes));
         this.tree.treeModel.update();
     }
 
     addChildNode(node:InitiativeNode){
         let treeNode = this.tree.treeModel.getNodeById(node.id);
-        let newNode = new InitiativeNode();
+        let newNode = new InitiativeNode(null);
         newNode.children = []
         newNode.hasFocus = true;
         setTimeout(() => {newNode.hasFocus = false});
@@ -82,20 +93,35 @@ export class BuildingComponent implements OnInit {
     }
 
     initializeTree(){
-         this.root = new InitiativeNode();
+        this.root = new InitiativeNode(null);
         this.root.children = [];
         this.root.isRoot = true;
         this.root.name = "ROOT";
-        //this.root.size = 1;
         this.nodes = [];
         this.nodes.push(this.root);
         this.saveData();
     }
 
 
-    ngOnInit(): void {
-    this.initializeTree();
+
+    loadData(){
+       //this.dataService.loadData('../../../assets/datasets/vestd.json');
+       let url = '../../../assets/datasets/vestd.json';
+       this.dataService.getRawData(url).then(data =>{
+            this.nodes = [];
+            this.nodes.push(new InitiativeNode(data));
+            console.log("LOADED");
+            console.log(data)
+            console.log(JSON.stringify(this.nodes))
+            this.saveData();
+       })
        
+       
+    }
+
+
+    ngOnInit(): void {
+        this.initializeTree();
     }
 
 

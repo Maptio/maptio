@@ -32,6 +32,8 @@ export class MappingComponent implements AfterViewInit, OnInit{
         this.dataService = dataService;
         this.colorService = colorService;
         this.dataService.getData().subscribe(data => {
+            console.log("MAPPING");
+            console.log(data);
             this.display(this.d3, data);
       });
     }
@@ -44,13 +46,12 @@ export class MappingComponent implements AfterViewInit, OnInit{
         
     }
 
-
-
-
     display(d3:D3, data:any){
-
-        if(data.children.length == 0)
+        console.log("DISPLAY")
+        console.log(data);
+        if(!data.children || data.children.length == 0 )
         {
+            console.log("RETURN")
             d3.select("svg").selectAll("*").remove();
             return;
         }
@@ -120,7 +121,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
              .enter().append('text')		
              .attr('font-family', 'FontAwesome')		
              .attr("x","-17px")		
-             .attr('font-size', function(d:any) { return d.size + 'em'} )		
+             .attr('font-size', function(d:any) { return d.size ? + d.size + 'em' : "15px"} )		
              .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })		
              .style("display", function(d:any) { return d.parent === root && d.data.description != undefined && d.data.description != "" ? "inline" : "none"; })		
              	

@@ -2,6 +2,8 @@
     <div>
         <a class="btn btn-lg btn-success" *ngIf="root.children.length === 0 " (click)="initializeTree()">Start mapping your project</a>
         <a class="btn btn-lg btn-success" *ngIf="root.children.length != 0" (click)="initializeTree()">Reset</a>
+        <a class="btn btn-lg btn-success"  (click)="loadData()">Vestd data</a>
+       
     </div>
     <Tree [nodes]="nodes" (onUpdateData)="saveData($event)">
         <template #treeNodeTemplate let-node>
@@ -14,7 +16,7 @@
                 </div>
 
                 <div class="initiative">
-                    <input class="name" *ngIf="!node.isRoot" [focus]="node.data.hasFocus" [ngModel]="node.data.name" placeholder="Initiative name" (ngModelChange)="saveNodeName($event, node.data)">
+                    <input class="name"  [focus]="node.data.hasFocus" [ngModel]="node.data.name" placeholder="Initiative name" (ngModelChange)="saveNodeName($event, node.data)">
                     <input class="size" *ngIf="!node.isRoot" [ngModel]="node.data.size" placeholder="Team Size"  (ngModelChange)="saveNodeSize($event, node.data)">
                     <textarea class="description" rows="3" *ngIf="!node.isRoot" [ngModel]="node.data.description" placeholder="Description" (ngModelChange)="saveNodeDescription($event, node.data)"></textarea>
                 </div>
