@@ -43,14 +43,14 @@ export class BuildingComponent implements OnInit {
     }
 
     saveData(){
-        console.log("SAVE HERE");
-        console.log(JSON.stringify(this.nodes));
+        // console.log("SAVE HERE");
+        // console.log(JSON.stringify(this.nodes));
         this.dataService.setData(this.nodes[0]);
     }
 
     updateTreeModel():void{
-        console.log("UPdate");
-        console.log(JSON.stringify(this.nodes));
+        // console.log("UPdate");
+        // console.log(JSON.stringify(this.nodes));
         this.tree.treeModel.update();
     }
 
@@ -108,6 +108,7 @@ export class BuildingComponent implements OnInit {
 
     ngOnInit(): void {
         this.initializeTree();
+        this.loadData();
     }
 
 

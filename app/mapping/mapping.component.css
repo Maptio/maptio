@@ -11,13 +11,14 @@
   fill: white;
 }
 
+/*
 .label {
   font: 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-anchor: left;
   text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
   color:white;
 }
-
+*/
 
 .label,
 .node--root,
@@ -37,6 +38,26 @@
     pointer-events: none;		
 }
 
-svg text {
+/*svg text {
    font-family: FontAwesome;
+}*/
+
+
+svg text {
+  font-size:12px;
+    font-weight: normal;
+    font-family:  "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-anchor: left;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+  color:white;
+    transition: font-weight 100ms;
+}
+svg text.highlighted {
+    font-weight: bold;
+}
+
+svg .icon{
+  font-family: FontAwesome;
+  font-size:15px;
+    
 }

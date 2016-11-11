@@ -8,7 +8,7 @@ import {
 import { 
     D3Service, D3, Selection, 
     PackLayout, HierarchyNode , 
-    Transition, Timer, BaseType} from 'd3-ng2-service'; // <-- import the D3 Service, the type alias for the d3 variable and the Selection interface
+    Transition, Timer, BaseType, DragBehavior} from 'd3-ng2-service'; // <-- import the D3 Service, the type alias for the d3 variable and the Selection interface
 import * as d3r from 'd3-request';
 import {DataService} from '../services/data.service'
 import {ColorService} from '../services/color.service'
@@ -32,8 +32,6 @@ export class MappingComponent implements AfterViewInit, OnInit{
         this.dataService = dataService;
         this.colorService = colorService;
         this.dataService.getData().subscribe(data => {
-            console.log("MAPPING");
-            console.log(data);
             this.display(this.d3, data);
       });
     }
@@ -47,8 +45,6 @@ export class MappingComponent implements AfterViewInit, OnInit{
     }
 
     display(d3:D3, data:any){
-        console.log("DISPLAY")
-        console.log(data);
         if(!data.children || data.children.length == 0 )
         {
             console.log("RETURN")
@@ -73,62 +69,62 @@ export class MappingComponent implements AfterViewInit, OnInit{
 
         root = d3.hierarchy(root)
             .sum(function(d:any) { return d.size; })
-            .sort(function(a, b) { return b.value - a.value; });
+            .sort(function(a, b) { return b.value- a.value });
 
 
         var focus = root,
             nodes = pack(root).descendants(),
             view:any;
 
+
+
         var circle = g.selectAll("circle")
             .data(nodes)
             .remove()
             .enter()
             .append("circle")
-            .attr("class", function(d) { return d.parent ? (d.children ? "node" : "node node--leaf") : "node node--root"; })
-            .style("fill", function(d) { return d.children ? color(d.depth) : null; })
+            .attr("class", function(d:any) { return d.parent ? (d.children ? "node" : "node node--leaf") : "node node--root"; })
+            .style("fill", function(d:any) { return d.children ? color(d.depth) : null; })
             .on("click", function(d:any, i:number) { 
                 if (focus !== d) 
                     zoom(d, i),  d3.event.stopPropagation();
                 })
-            ;
+            ; 
         
         var definitions = svg.append("defs")
         var path = definitions.selectAll("path")
                     .data(nodes)
                     .enter()
                     .append("path")
-                    .attr("id", function(d,i){return "s"+i;})
-                    .text(function(d:any){return d.data.name});
-
+                    .attr("id", function(d,i){return "s"+i;});
 
         var text = g.selectAll("text")
             .data(nodes)
             .enter()
             .append("text")
-            .attr("class", "label")
-            .style("text-anchor","left")
+            .attr("id", function(d,i){return "t"+i;})
             .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
             .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
+          
+
             .append("textPath")
             .attr("xlink:href",function(d,i){return "#s"+i;})
             .attr("startOffset",function(d,i){return "10%";})
-            .text(function(d:any) { return d.data.name; });
+            .text(function(d:any) { return d.data.name; })
+            
 
 
         var descriptionIcon = g.selectAll("icon")		
-             .data(nodes)		
-             .enter().append('text')		
-             .attr('font-family', 'FontAwesome')		
-             .attr("x","-17px")		
-             .attr('font-size', function(d:any) { return d.size ? + d.size + 'em' : "15px"} )		
-             .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })		
-             .style("display", function(d:any) { return d.parent === root && d.data.description != undefined && d.data.description != "" ? "inline" : "none"; })		
-             	
+            .data(nodes)		
+            .enter().append('text')
+            .attr("class","icon")			
+            .attr("x","-10px")				
+            .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })		
+            .style("display", function(d:any) { return d.parent === root && d.data.description && d.data.description != "" ? "inline" : "none"; })		
             .append("textPath")
             .attr("xlink:href",function(d,i){return "#s"+i;})
             .attr("startOffset",function(d,i){return "10%";})
-             .text(function(d:any) { return d.data.description === undefined ? "" : "\uf129" });	
+            .text(function(d:any) { return d.data.description === undefined ? "" : "\uf129" });	
 
         var description  = g.selectAll("description")
             .data(nodes)
@@ -178,6 +174,9 @@ export class MappingComponent implements AfterViewInit, OnInit{
  
         }
 
+
+       
+
         function wrap(text:Selection<BaseType, {}, HTMLElement,any>, actualText:string,  width:number) {
             
             text.each(function() {
@@ -213,15 +212,50 @@ export class MappingComponent implements AfterViewInit, OnInit{
                 return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"
             });
 
-            circle.attr("r", function(d) { return d.r * k; });
+            circle.attr("r", function(d:any) { return d.r * k; });
             circle.text(function(d:any){return d.data.name + " " + (d.x - v[0]) * k + " " + (d.y - v[1]) * k ;});
+            circle
+                .on("mouseover", function (d, i){
+                    d3.selectAll("#t"+i).classed("highlighted", true); 
+                })
+                .on("mouseout", function(d, i){
+                    d3.selectAll("#t"+i).classed("highlighted", false); 
+
+                })
+
+
+            text
+                .filter(function(d:any) {
+                    d.tw = this.getComputedTextLength();
+                    let maxAngle = 1/2 ;
+                    let maxLengthArc = 2 * Math.PI * d.r * k * maxAngle;
+                    console.log(d.data.name + "[" + d.tw + "]" )
+                    return maxLengthArc < d.tw;
+                    //return (Math.PI*(k*d.r)/2) < d.tw;
+                })
+                .each(function(d:any) {
+                    d.tw = d3.select(this).node().getComputedTextLength();
+                    var proposedLabel = d.data.name;
+                    var proposedLabelArray = proposedLabel.split('');
+                    while ((d.tw > (Math.PI*(k*d.r)/2) && proposedLabelArray.length)) {
+                        // pull out 3 chars at a time to speed things up (one at a time is too slow)
+                        proposedLabelArray.pop();proposedLabelArray.pop(); proposedLabelArray.pop();
+                        if (proposedLabelArray.length===0) {
+                            proposedLabel = "";
+                        } else {
+                            proposedLabel = proposedLabelArray.join('') + "..."; // manually truncate with ellipsis
+                        }
+                        d3.select(this).text(proposedLabel);
+                        d.tw = d3.select(this).node().getComputedTextLength();
+                    }
+                });
 
 
             description
                 .style("display", function(d, i){return i === index && d.parent && !d.children ? "inline" : "none"})
            
             descriptionContent
-                .style("font-size", function(d){return k * 2* d.r * 15 /diameter})
+                //.style("font-size", function(d){return k * 2* d.r * 15 /diameter})
                 .attr("y", function(d){return  -d.r * k /2})
                 .style("display", function(d, i){return i === index ? "inline" : "none"})
                 .each(function(d:any, i:number){
@@ -237,7 +271,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
                 .on("mouseover", function(d:any, i:any) {
                      descriptionContent
                         .style("display", function(d, i){return "inline"})
-                        .style("font-size", function(d:any){return k * 2* d.r * 15 /diameter})
+                        //.style("font-size", function(d:any){return k * 2* d.r * 15 /diameter})
                         .attr("y",  -d.r * k /2)
                         .call(wrap, d.data.description , d.r * 2 * k * 0.8)
 
