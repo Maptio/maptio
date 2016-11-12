@@ -105,8 +105,6 @@ export class MappingComponent implements AfterViewInit, OnInit{
             .attr("id", function(d,i){return "t"+i;})
             .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
             .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
-          
-
             .append("textPath")
             .attr("xlink:href",function(d,i){return "#s"+i;})
             .attr("startOffset",function(d,i){return "10%";})
@@ -167,7 +165,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
                 });
 
             transition.selectAll("text")
-            .filter(function(d:any) { return d.parent === focus || this.style.display === "inline"; })
+                .filter(function(d:any) { return d.parent === focus || this.style.display === "inline"; })
                 .style("fill-opacity", function(d:any) { return d.parent === focus ? 1 : 0;  })
                 .on("start", function(d:any) { if (d.parent === focus) this.style.display = "inline"; })
                 //.on("end", function(d:any) { if (d.parent !== focus) this.style.display = "none"; });
@@ -213,7 +211,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
             });
 
             circle.attr("r", function(d:any) { return d.r * k; });
-            circle.text(function(d:any){return d.data.name + " " + (d.x - v[0]) * k + " " + (d.y - v[1]) * k ;});
+            //circle.text(function(d:any){return d.data.name + " " + (d.x - v[0]) * k + " " + (d.y - v[1]) * k ;});
             circle
                 .on("mouseover", function (d, i){
                     d3.selectAll("#t"+i).classed("highlighted", true); 
@@ -225,19 +223,28 @@ export class MappingComponent implements AfterViewInit, OnInit{
 
 
             text
-                .filter(function(d:any) {
-                    d.tw = this.getComputedTextLength();
-                    let maxAngle = 1/2 ;
-                    let maxLengthArc = 2 * Math.PI * d.r * k * maxAngle;
-                    console.log(d.data.name + "[" + d.tw + "]" )
-                    return maxLengthArc < d.tw;
-                    //return (Math.PI*(k*d.r)/2) < d.tw;
-                })
+                // .filter(function(d:any) {
+                //     let maxAngle = 2/5 ;
+                  
+                //      d.tw = this.getComputedTextLength();
+                //       var angle = d.tw /(2 * Math.PI * d.r *k);
+                //     return angle < maxAngle;
+                //     //return (Math.PI*(k*d.r)/2) < d.tw;
+                // })
                 .each(function(d:any) {
-                    d.tw = d3.select(this).node().getComputedTextLength();
+
+                    d.tw = d3.select(this).node().getComputedTextLength()
+                    let maxAngle = k* 2 * Math.PI /3;
+                  
+                   
                     var proposedLabel = d.data.name;
                     var proposedLabelArray = proposedLabel.split('');
-                    while ((d.tw > (Math.PI*(k*d.r)/2) && proposedLabelArray.length)) {
+                    var angle = d.tw /d.r /k ;//d.tw /(2 * Math.PI * d.r);
+                    console.log(d.data.name + "[" + d.tw + "]" + "ANGLE : " + angle + ", MAX" + maxAngle);
+
+                    var i = 0;
+                    while ((angle > maxAngle && proposedLabelArray.length)) {
+                        i++;
                         // pull out 3 chars at a time to speed things up (one at a time is too slow)
                         proposedLabelArray.pop();proposedLabelArray.pop(); proposedLabelArray.pop();
                         if (proposedLabelArray.length===0) {
@@ -247,6 +254,9 @@ export class MappingComponent implements AfterViewInit, OnInit{
                         }
                         d3.select(this).text(proposedLabel);
                         d.tw = d3.select(this).node().getComputedTextLength();
+                        angle = d.tw /d.r/k  ; //d.tw /(2 * Math.PI * d.r);
+                        console.log(i + ":"+d.data.name + "== " +proposedLabel+ + "[" + d.tw + "]" + "ANGLE : " + angle + ", MAX" + maxAngle);
+
                     }
                 });
 
