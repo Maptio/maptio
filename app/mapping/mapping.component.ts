@@ -105,6 +105,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
             .attr("id", function(d,i){return "t"+i;})
             .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
             .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
+            
             .append("textPath")
             .attr("xlink:href",function(d,i){return "#s"+i;})
             .attr("startOffset",function(d,i){return "10%";})
@@ -168,11 +169,44 @@ export class MappingComponent implements AfterViewInit, OnInit{
                 .filter(function(d:any) { return d.parent === focus || this.style.display === "inline"; })
                 .style("fill-opacity", function(d:any) { return d.parent === focus ? 1 : 0;  })
                 .on("start", function(d:any) { if (d.parent === focus) this.style.display = "inline"; })
-                //.on("end", function(d:any) { if (d.parent !== focus) this.style.display = "none"; });
+                .on("end", function(d:any) { 
+                    if (d.parent !== focus) this.style.display = "none"; 
+                    adjustLabels(diameter/d.r/2)
+                });
  
         }
 
 
+        function adjustLabels(k:number){
+             text
+                .each(function(d:any, i:number) {
+                    d.pathLength = (<SVGPathElement>d3.select('#s'+i).node()).getTotalLength();
+                    d.tw = d3.select(this).node().getComputedTextLength()
+                    d.radius = d.r *k;
+                    
+                    //console.log(d.data.name + "RADIUS " + d.radius + " CIRCUMFERENCE "  +d.pathLength );  
+                    var maxLength = 2/5 * d.pathLength ;//d.r*2 *k > diameter *2/3 ? d.pathLength  : d.pathLength * 2/5 ;
+                    var proposedLabel = d.data.name;
+                    var proposedLabelArray = proposedLabel.split('');
+                    
+                     var i = 0;
+                    
+                    while ((d.tw > maxLength && proposedLabelArray.length)) {
+                        i++;
+                        //console.log(i + ":"+d.data.name + "== " +proposedLabel+ "LENGTH : " + d.tw + ", MAX" + maxLength);
+
+                            proposedLabelArray.pop(); proposedLabelArray.pop(); proposedLabelArray.pop();
+                            if (proposedLabelArray.length===0) {
+                                proposedLabel = "";
+                            } else {
+                                proposedLabel = proposedLabelArray.join('') + "..."; // manually truncate with ellipsis
+                            }
+                            d3.select(this).text(proposedLabel);
+                            
+                        d.tw = d3.select(this).node().getComputedTextLength();
+                    }
+                });
+        }
        
 
         function wrap(text:Selection<BaseType, {}, HTMLElement,any>, actualText:string,  width:number) {
@@ -221,44 +255,15 @@ export class MappingComponent implements AfterViewInit, OnInit{
 
                 })
 
-
-            text
-                // .filter(function(d:any) {
-                //     let maxAngle = 2/5 ;
-                  
-                //      d.tw = this.getComputedTextLength();
-                //       var angle = d.tw /(2 * Math.PI * d.r *k);
-                //     return angle < maxAngle;
-                //     //return (Math.PI*(k*d.r)/2) < d.tw;
-                // })
-                .each(function(d:any) {
-
-                    d.tw = d3.select(this).node().getComputedTextLength()
-                    let maxAngle = k* 2 * Math.PI /3;
-                  
-                   
-                    var proposedLabel = d.data.name;
-                    var proposedLabelArray = proposedLabel.split('');
-                    var angle = d.tw /d.r /k ;//d.tw /(2 * Math.PI * d.r);
-                    console.log(d.data.name + "[" + d.tw + "]" + "ANGLE : " + angle + ", MAX" + maxAngle);
-
-                    var i = 0;
-                    while ((angle > maxAngle && proposedLabelArray.length)) {
-                        i++;
-                        // pull out 3 chars at a time to speed things up (one at a time is too slow)
-                        proposedLabelArray.pop();proposedLabelArray.pop(); proposedLabelArray.pop();
-                        if (proposedLabelArray.length===0) {
-                            proposedLabel = "";
-                        } else {
-                            proposedLabel = proposedLabelArray.join('') + "..."; // manually truncate with ellipsis
-                        }
-                        d3.select(this).text(proposedLabel);
-                        d.tw = d3.select(this).node().getComputedTextLength();
-                        angle = d.tw /d.r/k  ; //d.tw /(2 * Math.PI * d.r);
-                        console.log(i + ":"+d.data.name + "== " +proposedLabel+ + "[" + d.tw + "]" + "ANGLE : " + angle + ", MAX" + maxAngle);
-
-                    }
-                });
+            path.attr("d", function(d, i){
+                    var size = d.r * k + 3; // above the circle line
+                    var centerX = 0 - size ; //d.x ;
+                    var centerY = 0; //d.y ;
+                    
+                    var rx = -size;
+                    var ry = -size;
+                    return "m "+centerX+", "+centerY+" a "+rx+","+ry+" 1 1,1 "+size*2+",0 a -"+size+",-"+size+" 1 1,1 -"+size*2+",0" 
+                    })
 
 
             description
@@ -291,15 +296,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
                     d3.select("g#description-group"+i).style("display","none");
                 });	    
 
-            path.attr("d", function(d, i){
-                    var size = d.r * k + 3; // above the circle line
-                    var centerX = 0 - size ; //d.x ;
-                    var centerY = 0; //d.y ;
-                    
-                    var rx = -size;
-                    var ry = -size;
-                    return "m "+centerX+", "+centerY+" a "+rx+","+ry+" 1 1,1 "+size*2+",0 a -"+size+",-"+size+" 1 1,1 -"+size*2+",0" 
-                    })
+            
 
 
         }
