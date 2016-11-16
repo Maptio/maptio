@@ -171,8 +171,9 @@ export class MappingComponent implements AfterViewInit, OnInit{
                 .on("start", function(d:any) { if (d.parent === focus) this.style.display = "inline"; })
                 .on("end", function(d:any) { 
                     if (d.parent !== focus) this.style.display = "none"; 
-                    adjustLabels(diameter/d.r/2)
-                });
+                   
+                })
+                .call(function(d:any){ adjustLabels(diameter/d.r/2)});
  
         }
 
@@ -184,7 +185,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
                     d.tw = d3.select(this).node().getComputedTextLength()
                     d.radius = d.r *k;
                     
-                    //console.log(d.data.name + "RADIUS " + d.radius + " CIRCUMFERENCE "  +d.pathLength );  
+                    console.log(d.data.name + "RADIUS " + d.radius + " CIRCUMFERENCE "  +d.pathLength );  
                     var maxLength = 2/5 * d.pathLength ;//d.r*2 *k > diameter *2/3 ? d.pathLength  : d.pathLength * 2/5 ;
                     var proposedLabel = d.data.name;
                     var proposedLabelArray = proposedLabel.split('');
@@ -193,7 +194,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
                     
                     while ((d.tw > maxLength && proposedLabelArray.length)) {
                         i++;
-                        //console.log(i + ":"+d.data.name + "== " +proposedLabel+ "LENGTH : " + d.tw + ", MAX" + maxLength);
+                        console.log(i + ":"+d.data.name + "== " +proposedLabel+ "LENGTH : " + d.tw + ", MAX" + maxLength);
 
                             proposedLabelArray.pop(); proposedLabelArray.pop(); proposedLabelArray.pop();
                             if (proposedLabelArray.length===0) {
