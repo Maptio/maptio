@@ -87,8 +87,13 @@ export class MappingComponent implements AfterViewInit, OnInit{
             .style("fill", function(d:any) { return d.children ? color(d.depth) : null; })
             .on("click", function(d:any, i:number) { 
                 if (focus !== d) 
-                    zoom(d, i),  d3.event.stopPropagation();
-                })
+                {
+                    zoom(d, i),  d3.selectAll("text#t"+i).style("fill-opacity", 1).style("display", "inline"), d3.event.stopPropagation();
+                }
+                    
+                // console.log(d3.selectAll("text#t"+i));
+                // d3.selectAll("text#t"+i).style("fill-opacity", 1).style("display", "inline");
+            })
             ; 
         
         var definitions = svg.append("defs")
@@ -153,7 +158,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
             .style("background", color(-1))
             .on("click", function() { zoom(root, 0); });
 
-        zoomTo([root.x, root.y, root.r * 2 + margin], -1);
+        zoomTo([root.x, root.y, root.r * 2 + margin], 1);
 
         function zoom(d:any, index:number) {
             var focus0 = focus; focus = d;
@@ -167,34 +172,34 @@ export class MappingComponent implements AfterViewInit, OnInit{
 
             transition.selectAll("text")
                 .filter(function(d:any) { return d.parent === focus || this.style.display === "inline"; })
-                .style("fill-opacity", function(d:any) { return d.parent === focus ? 1 : 0;  })
+                .style("fill-opacity", function(d:any) { return d.parent === focus || (d === focus && !d.children) ? 1 : 0;  })
                 .on("start", function(d:any) { if (d.parent === focus) this.style.display = "inline"; })
                 .on("end", function(d:any) { 
-                    if (d.parent !== focus) this.style.display = "none"; 
-                   
+                    //if (d.parent !== focus) this.style.display = "none"; 
                 })
-                .call(function(d:any){ adjustLabels(diameter/d.r/2)});
+                .call(adjustLabels);
  
         }
 
 
-        function adjustLabels(k:number){
+        function adjustLabels(){
              text
                 .each(function(d:any, i:number) {
+                    var k = diameter /d.r /2;
                     d.pathLength = (<SVGPathElement>d3.select('#s'+i).node()).getTotalLength();
                     d.tw = d3.select(this).node().getComputedTextLength()
                     d.radius = d.r *k;
                     
-                    console.log(d.data.name + "RADIUS " + d.radius + " CIRCUMFERENCE "  +d.pathLength );  
+                    //console.log(d.data.name + "RADIUS " + d.radius + " CIRCUMFERENCE "  +d.pathLength );  
                     var maxLength = 2/5 * d.pathLength ;//d.r*2 *k > diameter *2/3 ? d.pathLength  : d.pathLength * 2/5 ;
                     var proposedLabel = d.data.name;
                     var proposedLabelArray = proposedLabel.split('');
                     
-                     var i = 0;
+                    var i = 0;
                     
                     while ((d.tw > maxLength && proposedLabelArray.length)) {
                         i++;
-                        console.log(i + ":"+d.data.name + "== " +proposedLabel+ "LENGTH : " + d.tw + ", MAX" + maxLength);
+                        //console.log(i + ":"+d.data.name + "== " +proposedLabel+ "LENGTH : " + d.tw + ", MAX" + maxLength);
 
                             proposedLabelArray.pop(); proposedLabelArray.pop(); proposedLabelArray.pop();
                             if (proposedLabelArray.length===0) {
