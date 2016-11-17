@@ -11,7 +11,7 @@
                     <div class="btn-group">
                         <a class="btn btn-info btn-xs addNode" (click)="addChildNode(node.data)"><i class="fa fa-plus" aria-hidden="true"></i></a>
                         <a class="btn btn-info btn-xs removeNode" *ngIf="!node.isRoot" (click)="removeChildNode(node.data)"><i class="fa fa-minus" aria-hidden="true"></i></a>
-                        <a class="btn btn-info btn-xs seeNode" (click)="seeNode(node.data)"><i class="fa fa-info" aria-hidden="true"></i></a>
+                        <a class="btn btn-info btn-xs seeNode" (click)="seeNode(node.data)"><i class="fa fa-sticky-note" aria-hidden="true"></i></a>
                         <a class="btn btn-info btn-xs expandNode" *ngIf="!node.isRoot && !node.isExpanded" (click)="toggleNode(node)"><i class="fa fa-caret-square-o-down" aria-hidden="true"></i></a>
                         <a class="btn btn-info btn-xs hideNode" *ngIf="!node.isRoot && node.isExpanded" (click)="toggleNode(node)"><i class="fa fa-caret-square-o-right" aria-hidden="true"></i></a>
                     </div>
@@ -19,7 +19,7 @@
                 <div class="panel-body">
                     <input class="form-control input-sm name" type="text"  [focus]="node.data.hasFocus" [ngModel]="node.data.name" placeholder="Initiative name" (ngModelChange)="saveNodeName($event, node.data)">
                     <input class="form-control input-sm size" type="text" *ngIf="!node.isRoot" [ngModel]="node.data.size" placeholder="Team Size"  (ngModelChange)="saveNodeSize($event, node.data)">
-                    <textarea class="form-control description" rows="3" *ngIf="!node.isRoot" [ngModel]="node.data.description" placeholder="Description" (ngModelChange)="saveNodeDescription($event, node.data)"></textarea>
+                    <!--<textarea class="form-control description" rows="3" *ngIf="!node.isRoot" [ngModel]="node.data.description" placeholder="Description" (ngModelChange)="saveNodeDescription($event, node.data)"></textarea>-->
                
                 </div>
             </div>

@@ -58,7 +58,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
         diameter = +svg.attr("width"),
         g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
-        var color = this.colorService.getColorRange(this.d3.hsl(0,0,0.93), this.d3.hsl(15,1,0.6));
+        var color = this.colorService.getColorRange(this.d3.hsl(0,0,0.93), this.d3.hsl(15,1,0.7));
    
 
         var pack = d3.pack()
@@ -90,9 +90,6 @@ export class MappingComponent implements AfterViewInit, OnInit{
                 {
                     zoom(d, i),  d3.selectAll("text#t"+i).style("fill-opacity", 1).style("display", "inline"), d3.event.stopPropagation();
                 }
-                    
-                // console.log(d3.selectAll("text#t"+i));
-                // d3.selectAll("text#t"+i).style("fill-opacity", 1).style("display", "inline");
             })
             ; 
         
@@ -122,13 +119,13 @@ export class MappingComponent implements AfterViewInit, OnInit{
             .data(nodes)		
             .enter().append('text')
             .attr("class","icon")			
-            .attr("x","-10px")				
+            .attr("x","-12px")				
             .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })		
             .style("display", function(d:any) { return d.parent === root && d.data.description && d.data.description != "" ? "inline" : "none"; })		
             .append("textPath")
             .attr("xlink:href",function(d,i){return "#s"+i;})
             .attr("startOffset",function(d,i){return "10%";})
-            .text(function(d:any) { return d.data.description === undefined ? "" : "\uf129" });	
+            .text(function(d:any) { return d.data.description === undefined ? "" : "\uf249" });	
 
         var description  = g.selectAll("description")
             .data(nodes)

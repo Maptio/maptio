@@ -85,16 +85,18 @@ export class BuildingComponent implements OnInit {
         this.root = new InitiativeNode(null);
         this.root.children = [];
         this.root.isRoot = true;
-        this.root.name = "ROOT";
+        this.root.name = "Company name";
         this.nodes = [];
         this.nodes.push(this.root);
         this.saveData();
     }
 
+    seeNode(node:InitiativeNode){
+        alert("Initiative information: \r\n Not implemented. Try again in a few days ?");
+    }
 
 
     loadData(){
-       //this.dataService.loadData('../../../assets/datasets/vestd.json');
        let url = '../../../assets/datasets/vestd.json';
        this.dataService.getRawData(url).then(data =>{
             this.nodes = [];
