@@ -160,6 +160,14 @@ export class MappingComponent implements AfterViewInit, OnInit{
 
         zoomTo([root.x, root.y, root.r * 2 + margin], 1);
 
+        function endAll(transition:any, callback:any) {
+            var n = 0;
+            transition.each(function() { ++n; })
+                .each('end', function() {
+                if (!--n) callback.apply(this, arguments);
+                });
+            }
+
         function zoom(d:any, index:number) {
             var focus0 = focus; focus = d;
     
@@ -170,33 +178,45 @@ export class MappingComponent implements AfterViewInit, OnInit{
                     return function(t) { zoomTo(i(t), index); };
                 });
 
+            var updateCounter = 0;
+
             transition.selectAll("text")
                 .filter(function(d:any) { return d.parent === focus || this.style.display === "inline"; })
                 .style("fill-opacity", function(d:any) { return d.parent === focus || (d === focus && !d.children) ? 1 : 0;  })
                 .on("start", function(d:any) { if (d.parent === focus) this.style.display = "inline"; })
+                .each(function(d:any){updateCounter++})
                 .on("end", function(d:any) { 
                     //if (d.parent !== focus) this.style.display = "none"; 
+                    updateCounter--;
+                        if (updateCounter == 0) {
+                            adjustLabels((diameter/d.r/2));
+                        }
                 })
-                .call(adjustLabels);
- 
+               
+                
+            
         }
 
 
-        function adjustLabels(){
+        function adjustLabels(k:number){
              text
+                .text(function(d:any){return d.data.name})
                 .each(function(d:any, i:number) {
-                    var k = diameter /d.r /2;
+                    
                     d.pathLength = (<SVGPathElement>d3.select('#s'+i).node()).getTotalLength();
                     d.tw = d3.select(this).node().getComputedTextLength()
+                    // console.log(d.data.name + " NODE " + d3.select(this).html());
                     d.radius = d.r *k;
-                    
-                    //console.log(d.data.name + "RADIUS " + d.radius + " CIRCUMFERENCE "  +d.pathLength );  
-                    var maxLength = 2/5 * d.pathLength ;//d.r*2 *k > diameter *2/3 ? d.pathLength  : d.pathLength * 2/5 ;
+                    // console.log(d.data.name + "------------------ADJUST LABELS ---------------------" + k);
+                    // console.log(d.data.name + " RADIUS " + d.radius + " CIRCUMFERENCE "  +d.pathLength );  
+                    var maxLength = 2/5 * d.pathLength ;
                     var proposedLabel = d.data.name;
                     var proposedLabelArray = proposedLabel.split('');
                     
                     var i = 0;
-                    
+                    //console.log(i + ":"+d.data.name + "== " +proposedLabel+ "LENGTH : " + d.tw + ", MAX" + maxLength);
+           
+                    // console.log(d.data.name + " GO IN LOOP : " + (d.tw > maxLength));
                     while ((d.tw > maxLength && proposedLabelArray.length)) {
                         i++;
                         //console.log(i + ":"+d.data.name + "== " +proposedLabel+ "LENGTH : " + d.tw + ", MAX" + maxLength);
@@ -211,6 +231,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
                             
                         d.tw = d3.select(this).node().getComputedTextLength();
                     }
+                    // }
                 });
         }
        
@@ -270,8 +291,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
                     var ry = -size;
                     return "m "+centerX+", "+centerY+" a "+rx+","+ry+" 1 1,1 "+size*2+",0 a -"+size+",-"+size+" 1 1,1 -"+size*2+",0" 
                     })
-
-
+           
             description
                 .style("display", function(d, i){return i === index && d.parent && !d.children ? "inline" : "none"})
            
