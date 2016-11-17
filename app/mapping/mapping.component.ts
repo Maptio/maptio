@@ -8,10 +8,12 @@ import {
 import { 
     D3Service, D3, Selection, 
     PackLayout, HierarchyNode , 
-    Transition, Timer, BaseType, DragBehavior} from 'd3-ng2-service'; // <-- import the D3 Service, the type alias for the d3 variable and the Selection interface
+    Transition, Timer, BaseType} from 'd3-ng2-service'; // <-- import the D3 Service, the type alias for the d3 variable and the Selection interface
 import * as d3r from 'd3-request';
+
 import {DataService} from '../services/data.service'
 import {ColorService} from '../services/color.service'
+import {UIService} from '../services/ui.service'
 
 @Component({
   selector: 'mapping',
@@ -25,14 +27,16 @@ export class MappingComponent implements AfterViewInit, OnInit{
     private d3: D3;
     private dataService:DataService;
     private colorService:ColorService;
+    private uiService:UIService;
 
 
-    constructor(d3Service:D3Service, dataService:DataService, colorService:ColorService) { 
+    constructor(d3Service:D3Service, dataService:DataService, colorService:ColorService, uiService:UIService) { 
         this.d3 = d3Service.getD3(); 
         this.dataService = dataService;
         this.colorService = colorService;
+        this.uiService = uiService;
         this.dataService.getData().subscribe(data => {
-            this.display(this.d3, data);
+            this.display(this.d3, this.uiService, data);
       });
     }
 
@@ -44,7 +48,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
         
     }
 
-    display(d3:D3, data:any){
+    display(d3:D3, uiService:UIService, data:any){
         if(!data.children || data.children.length == 0 )
         {
             console.log("RETURN")
@@ -71,12 +75,9 @@ export class MappingComponent implements AfterViewInit, OnInit{
             .sum(function(d:any) { return d.size; })
             .sort(function(a, b) { return b.value- a.value });
 
-
         var focus = root,
             nodes = pack(root).descendants(),
             view:any;
-
-
 
         var circle = g.selectAll("circle")
             .data(nodes)
@@ -85,13 +86,16 @@ export class MappingComponent implements AfterViewInit, OnInit{
             .append("circle")
             .attr("class", function(d:any) { return d.parent ? (d.children ? "node" : "node node--leaf") : "node node--root"; })
             .style("fill", function(d:any) { return d.children ? color(d.depth) : null; })
+            .attr("id", function(d:any){return d.data.id;})
             .on("click", function(d:any, i:number) { 
                 if (focus !== d) 
                 {
-                    zoom(d, i),  d3.selectAll("text#t"+i).style("fill-opacity", 1).style("display", "inline"), d3.event.stopPropagation();
+                    zoom(d, i),  
+                    d3.selectAll("text#t"+i).style("fill-opacity", 1).style("display", "inline"), 
+                    d3.event.stopPropagation();
                 }
-            })
-            ; 
+                d.data.hasFocus = true;
+            }); 
         
         var definitions = svg.append("defs")
         var path = definitions.selectAll("path")
@@ -107,12 +111,10 @@ export class MappingComponent implements AfterViewInit, OnInit{
             .attr("id", function(d,i){return "t"+i;})
             .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
             .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
-            
             .append("textPath")
             .attr("xlink:href",function(d,i){return "#s"+i;})
             .attr("startOffset",function(d,i){return "10%";})
             .text(function(d:any) { return d.data.name; })
-            
 
 
         var descriptionIcon = g.selectAll("icon")		
@@ -186,7 +188,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
                     //if (d.parent !== focus) this.style.display = "none"; 
                     updateCounter--;
                         if (updateCounter == 0) {
-                            adjustLabels((diameter/d.r/2));
+                            uiService.adjustLabels(text, (diameter/d.r/2));
                         }
                 })
                
@@ -194,73 +196,6 @@ export class MappingComponent implements AfterViewInit, OnInit{
             
         }
 
-
-        function adjustLabels(k:number){
-             text
-                .text(function(d:any){return d.data.name})
-                .each(function(d:any, i:number) {
-                    
-                    d.pathLength = (<SVGPathElement>d3.select('#s'+i).node()).getTotalLength();
-                    d.tw = d3.select(this).node().getComputedTextLength()
-                    // console.log(d.data.name + " NODE " + d3.select(this).html());
-                    d.radius = d.r *k;
-                    // console.log(d.data.name + "------------------ADJUST LABELS ---------------------" + k);
-                    // console.log(d.data.name + " RADIUS " + d.radius + " CIRCUMFERENCE "  +d.pathLength );  
-                    var maxLength = 2/5 * d.pathLength ;
-                    var proposedLabel = d.data.name;
-                    var proposedLabelArray = proposedLabel.split('');
-                    
-                    var i = 0;
-                    //console.log(i + ":"+d.data.name + "== " +proposedLabel+ "LENGTH : " + d.tw + ", MAX" + maxLength);
-           
-                    // console.log(d.data.name + " GO IN LOOP : " + (d.tw > maxLength));
-                    while ((d.tw > maxLength && proposedLabelArray.length)) {
-                        i++;
-                        //console.log(i + ":"+d.data.name + "== " +proposedLabel+ "LENGTH : " + d.tw + ", MAX" + maxLength);
-
-                            proposedLabelArray.pop(); proposedLabelArray.pop(); proposedLabelArray.pop();
-                            if (proposedLabelArray.length===0) {
-                                proposedLabel = "";
-                            } else {
-                                proposedLabel = proposedLabelArray.join('') + "..."; // manually truncate with ellipsis
-                            }
-                            d3.select(this).text(proposedLabel);
-                            
-                        d.tw = d3.select(this).node().getComputedTextLength();
-                    }
-                    // }
-                });
-        }
-       
-
-        function wrap(text:Selection<BaseType, {}, HTMLElement,any>, actualText:string,  width:number) {
-            
-            text.each(function() {
-                var text = d3.select(this),
-                     words = actualText ? actualText.split(/\s+/).reverse() : [],
-                    word:any,
-                    line:any[] = [],
-                    lineNumber = 0,
-                    lineHeight = 1.1, // ems
-                    y = text.attr("y"),
-                    x = text.attr("x"),
-                    dy = parseFloat(text.attr("dy")),
-                    tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em");
-                    while (word = words.pop()) {
-                        line.push(word);
-                        tspan.text(line.join(" "));
-                        var node: SVGTSpanElement = <SVGTSpanElement>tspan.node(); 
-                        var hasGreaterWidth = node.getComputedTextLength() > width; 
-                        if (hasGreaterWidth) {
-                        line.pop();
-                        tspan.text(line.join(" "));
-                        line = [word];
-                        tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
-                }
-                }
-            });
-            }
-        
         
         function zoomTo(v:any, index:number) {
             var k = diameter / v[2]; view = v;
@@ -298,7 +233,7 @@ export class MappingComponent implements AfterViewInit, OnInit{
                 .style("display", function(d, i){return i === index ? "inline" : "none"})
                 .each(function(d:any, i:number){
                     if(i === index){
-                        wrap(d3.select(this), d.data.description, diameter * 0.65);
+                        uiService.wrap(d3.select(this), d.data.description, diameter * 0.65);
                     }
                 })
            
@@ -307,12 +242,11 @@ export class MappingComponent implements AfterViewInit, OnInit{
            
             descriptionIcon
                 .on("mouseover", function(d:any, i:any) {
-                     descriptionContent
+                    descriptionContent
                         .style("display", function(d, i){return "inline"})
                         //.style("font-size", function(d:any){return k * 2* d.r * 15 /diameter})
                         .attr("y",  -d.r * k /2)
-                        .call(wrap, d.data.description , d.r * 2 * k * 0.8)
-
+                    uiService.wrap(d3.select("description-content"+i), d.data.description, d.r * 2 * k * 0.8);
                     d3.select("g#description-group"+i).style("display","inline");
                 })							
                 .on("mouseout", function(d, i) {	
