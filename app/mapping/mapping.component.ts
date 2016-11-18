@@ -24,7 +24,7 @@ import { UIService } from '../services/ui.service'
 })
 
 
-export class MappingComponent implements AfterViewInit, OnInit {
+export class MappingComponent {
     private d3: D3;
     private dataService: DataService;
     private colorService: ColorService;
@@ -37,19 +37,11 @@ export class MappingComponent implements AfterViewInit, OnInit {
         this.colorService = colorService;
         this.uiService = uiService;
         this.dataService.getData().subscribe(data => {
-            this.display(this.d3, this.uiService, data);
+            this.show(this.d3, this.uiService, data);
         });
     }
 
-    ngAfterViewInit(): void {
-        
-    }
-
-    ngOnInit(): void {
-
-    }
-
-    display(d3: D3, uiService: UIService, data: any) {
+    show(d3: D3, uiService: UIService, data: any) {
         if (!data.children || data.children.length == 0) {
             d3.select("svg").selectAll("*").remove();
             return;
@@ -91,7 +83,6 @@ export class MappingComponent implements AfterViewInit, OnInit {
                         d3.selectAll("text#t" + i).style("fill-opacity", 1).style("display", "inline"),
                         d3.event.stopPropagation();
                 }
-                d.data.hasFocus = true;
             });
 
         var definitions = svg.append("defs")
@@ -106,45 +97,43 @@ export class MappingComponent implements AfterViewInit, OnInit {
             .enter()
             .append("text")
             .attr("id", function (d, i) { return "t" + i; })
-            .style("fill-opacity", function (d) { return d.parent === root ? 1 : 0; })
+            //.style("fill-opacity", function (d) { return d.parent === root ? 1 : 0.5; })
             .style("display", function (d) { return d.parent === root ? "inline" : "none"; })
             .append("textPath")
             .attr("xlink:href", function (d, i) { return "#s" + i; })
             .attr("startOffset", function (d, i) { return "10%"; })
             .text(function (d: any) { return d.data.name; })
 
-        var descriptionIcon = g.selectAll("icon")
-            .data(nodes)
-            .enter().append('text')
-            .attr("class", "icon")
-            .attr("x", "-12px")
-            .style("fill-opacity", function (d) { return d.parent === root ? 1 : 0; })
-            .style("display", function (d: any) { return d.parent === root && d.data.description && d.data.description != "" ? "inline" : "none"; })
-            .append("textPath")
-            .attr("xlink:href", function (d, i) { return "#s" + i; })
-            .attr("startOffset", function (d, i) { return "10%"; })
-            .text(function (d: any) { return d.data.description === undefined ? "" : "\uf249" });
+        // var descriptionIcon = g.selectAll("icon")
+        //     .data(nodes)
+        //     .enter().append('text')
+        //     .attr("class", "icon")
+        //     .attr("x", "-12px")
+        //     .style("fill-opacity", function (d) { return d.parent === root ? 1 : 0; })
+        //     .style("display", function (d: any) { return d.parent === root && d.data.description && d.data.description != "" ? "inline" : "none"; })
+        //     .append("textPath")
+        //     .attr("xlink:href", function (d, i) { return "#s" + i; })
+        //     .attr("startOffset", function (d, i) { return "10%"; })
+        //     .text(function (d: any) { return d.data.description === undefined ? "" : "\uf249" });
 
         var description = g.selectAll("description")
             .data(nodes)
             .enter()
             .append("g")
+            .attr("class", "hidden")
             .attr("id", function (d, i) { return "description-group" + i })
-            .style("display", "none")
+            
         var descriptionCircle = description
             .append("circle")
-            .style("opacity", 0.7)
+            .attr("class", "description")
             .style("fill", function (d) { return d.children ? color(d.depth) : "white" })
-            .attr("stroke", "black")
         var descriptionContent = description
             .append("text")
-            .style("class", "tooltip")
-            .attr("id", function (d, i) { return "decription-content" + i })
+            .attr("class", "description")
+            .attr("id", function (d, i) { return "description-content" + i })
             .attr("dy", 0)
             .attr("x", 0)
-            .attr("text-anchor", "middle")
-            .attr("text-align", "left")
-            .attr("stroke", "black")
+            .attr("y",0)
             .text(function (d: any) { return d.data.description })
 
         var node = g.selectAll("path,circle,text, description");
@@ -170,7 +159,7 @@ export class MappingComponent implements AfterViewInit, OnInit {
 
             transition.selectAll("text")
                 .filter(function (d: any) { return d.parent === focus || this.style.display === "inline"; })
-                .style("fill-opacity", function (d: any) { return d.parent === focus || (d === focus && !d.children) ? 1 : 0; })
+                .style("fill-opacity", function (d: any) { return d.parent === focus || (d === focus && !d.children) ? 1 : (d === focus ? 0.4 : 0) ; })
                 .on("start", function (d: any) { if (d.parent === focus) this.style.display = "inline"; })
                 .each(function (d: any) { updateCounter++ })
                 .on("end", function (d: any) {
@@ -190,7 +179,6 @@ export class MappingComponent implements AfterViewInit, OnInit {
             });
 
             circle.attr("r", function (d: any) { return d.r * k; });
-            //circle.text(function(d:any){return d.data.name + " " + (d.x - v[0]) * k + " " + (d.y - v[1]) * k ;});
             circle
                 .on("mouseover", function (d, i) {
                     d3.selectAll("#t" + i).classed("highlighted", true);
@@ -201,16 +189,10 @@ export class MappingComponent implements AfterViewInit, OnInit {
 
             path.attr("d", function (d, i) {
                 var radius = d.r * k + 3;
-                return uiService.getCircularPath(radius, 0-radius, 0);
+                return uiService.getCircularPath(radius, -radius, 0);
              })
 
-            description
-                .style("display", function (d, i) { return i === index && d.parent && !d.children ? "inline" : "none" })
-
             descriptionContent
-                //.style("font-size", function(d){return k * 2* d.r * 15 /diameter})
-                .attr("y", function (d) { return -d.r * k / 2 })
-                .style("display", function (d, i) { return i === index ? "inline" : "none" })
                 .each(function (d: any, i: number) {
                     if (i === index) {
                         uiService.wrap(d3.select(this), d.data.description, diameter * 0.65);
@@ -220,17 +202,14 @@ export class MappingComponent implements AfterViewInit, OnInit {
             descriptionCircle
                 .attr("r", function (d) { return d.r * k })
 
-            descriptionIcon
+            text 
                 .on("mouseover", function (d: any, i: any) {
-                    descriptionContent
-                        .style("display", function (d, i) { return "inline" })
-                        //.style("font-size", function(d:any){return k * 2* d.r * 15 /diameter})
-                        .attr("y", -d.r * k / 2)
-                    uiService.wrap(d3.select("description-content" + i), d.data.description, d.r * 2 * k * 0.8);
-                    d3.select("g#description-group" + i).style("display", "inline");
+                    d3.selectAll("#t" + i).classed("highlighted", true);
+                    d3.select("g#description-group" + i).classed("hidden", false) ;
                 })
                 .on("mouseout", function (d, i) {
-                    d3.select("g#description-group" + i).style("display", "none");
+                    d3.selectAll("#t" + i).classed("highlighted", false);
+                    d3.select("g#description-group" + i).classed("hidden", true) ; 
                 });
         }
     }

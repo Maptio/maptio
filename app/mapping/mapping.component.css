@@ -26,16 +26,16 @@
   /*pointer-events: none;*/
 }
 
-.tooltip {	
-  font:  "Helvetica Neue", Helvetica, Arial, sans-serif;
-  
-    position: absolute;			
-    text-align: center;					
-    padding: 2px;				
-    font:  sans-serif;		
-    border: 0px;		
-    border-radius: 8px;			
-    pointer-events: none;		
+svg  text.description {	
+ 
+  text-anchor: middle;	
+  text-align: left;		
+  stroke:black;	
+}
+
+svg  circle.description {		
+  stroke:black;	
+  opacity:0.7;
 }
 
 /*svg text {
@@ -50,7 +50,7 @@ svg text {
     text-anchor: left;
   text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
   color:white;
-    transition: font-weight 100ms;
+    transition: font-weight 200ms;
 }
 svg text.highlighted {
     font-weight: bold;
@@ -59,5 +59,14 @@ svg text.highlighted {
 svg .icon{
   font-family: FontAwesome;
   font-size:12px;
-    
+}
+
+svg group{
+ visibility: visible;
+  opacity: 0.7;
+}
+svg group.hidden{
+    visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.5s linear;
 }
