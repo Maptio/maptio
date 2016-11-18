@@ -9,7 +9,7 @@ import {
     D3Service, D3, Selection,
     PackLayout, HierarchyNode,
     Transition, Timer, BaseType
-} from 'd3-ng2-service'; 
+} from 'd3-ng2-service';
 import * as d3r from 'd3-request';
 
 import { DataService } from '../services/data.service'
@@ -83,6 +83,12 @@ export class MappingComponent {
                         d3.selectAll("text#t" + i).style("fill-opacity", 1).style("display", "inline"),
                         d3.event.stopPropagation();
                 }
+            })
+            .on("mouseover", function (d, i) {
+                d3.selectAll("#t" + i).classed("highlighted", true);
+            })
+            .on("mouseout", function (d, i) {
+                d3.selectAll("#t" + i).classed("highlighted", false);
             });
 
         var definitions = svg.append("defs")
@@ -103,6 +109,14 @@ export class MappingComponent {
             .attr("xlink:href", function (d, i) { return "#s" + i; })
             .attr("startOffset", function (d, i) { return "10%"; })
             .text(function (d: any) { return d.data.name; })
+            .on("mouseover", function (d: any, i: any) {
+                d3.selectAll("#t" + i).classed("highlighted", true);
+                d3.select("g#description-group" + i).classed("hidden", false);
+            })
+            .on("mouseout", function (d, i) {
+                d3.selectAll("#t" + i).classed("highlighted", false);
+                d3.select("g#description-group" + i).classed("hidden", true);
+            })
 
         // var descriptionIcon = g.selectAll("icon")
         //     .data(nodes)
@@ -122,7 +136,7 @@ export class MappingComponent {
             .append("g")
             .attr("class", "hidden")
             .attr("id", function (d, i) { return "description-group" + i })
-            
+
         var descriptionCircle = description
             .append("circle")
             .attr("class", "description")
@@ -133,10 +147,10 @@ export class MappingComponent {
             .attr("id", function (d, i) { return "description-content" + i })
             .attr("dy", 0)
             .attr("x", 0)
-            .attr("y",0)
+            .attr("y", 0)
             .text(function (d: any) { return d.data.description })
 
-        var node = g.selectAll("path,circle,text, description");
+        var node = g.selectAll("path,circle,text");
 
         svg
             .style("background", color(-1))
@@ -159,7 +173,7 @@ export class MappingComponent {
 
             transition.selectAll("text")
                 .filter(function (d: any) { return d.parent === focus || this.style.display === "inline"; })
-                .style("fill-opacity", function (d: any) { return d.parent === focus || (d === focus && !d.children) ? 1 : (d === focus ? 0.4 : 0) ; })
+                .style("fill-opacity", function (d: any) { return d.parent === focus || (d === focus && !d.children) ? 1 : (d === focus ? 0.4 : 0); })
                 .on("start", function (d: any) { if (d.parent === focus) this.style.display = "inline"; })
                 .each(function (d: any) { updateCounter++ })
                 .on("end", function (d: any) {
@@ -179,37 +193,19 @@ export class MappingComponent {
             });
 
             circle.attr("r", function (d: any) { return d.r * k; });
-            circle
-                .on("mouseover", function (d, i) {
-                    d3.selectAll("#t" + i).classed("highlighted", true);
-                })
-                .on("mouseout", function (d, i) {
-                    d3.selectAll("#t" + i).classed("highlighted", false);
-                })
 
             path.attr("d", function (d, i) {
                 var radius = d.r * k + 3;
                 return uiService.getCircularPath(radius, -radius, 0);
-             })
+            })
+
+            descriptionCircle.attr("r", function (d) { return d.r * k });
 
             descriptionContent
                 .each(function (d: any, i: number) {
                     if (i === index) {
                         uiService.wrap(d3.select(this), d.data.description, diameter * 0.65);
                     }
-                })
-
-            descriptionCircle
-                .attr("r", function (d) { return d.r * k })
-
-            text 
-                .on("mouseover", function (d: any, i: any) {
-                    d3.selectAll("#t" + i).classed("highlighted", true);
-                    d3.select("g#description-group" + i).classed("hidden", false) ;
-                })
-                .on("mouseout", function (d, i) {
-                    d3.selectAll("#t" + i).classed("highlighted", false);
-                    d3.select("g#description-group" + i).classed("hidden", true) ; 
                 });
         }
     }
