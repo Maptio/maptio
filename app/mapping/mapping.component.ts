@@ -29,6 +29,7 @@ export class MappingComponent {
     private dataService: DataService;
     private colorService: ColorService;
     private uiService: UIService;
+    private title:string;
 
 
     constructor(d3Service: D3Service, dataService: DataService, colorService: ColorService, uiService: UIService) {
@@ -36,13 +37,15 @@ export class MappingComponent {
         this.dataService = dataService;
         this.colorService = colorService;
         this.uiService = uiService;
+        
         this.dataService.getData().subscribe(data => {
             this.show(this.d3, this.uiService, data);
         });
     }
 
     show(d3: D3, uiService: UIService, data: any) {
-        if (!data.children || data.children.length == 0) {
+       
+        if (!data) {
             d3.select("svg").selectAll("*").remove();
             return;
         }
@@ -65,6 +68,8 @@ export class MappingComponent {
             .sum(function (d: any) { return d.size; })
             .sort(function (a, b) { return b.value - a.value });
 
+        this.title = root.data.name;
+
         var focus = root,
             nodes = pack(root).descendants(),
             view: any;
@@ -75,7 +80,7 @@ export class MappingComponent {
             .enter()
             .append("circle")
             .attr("class", function (d: any) { return d.parent ? (d.children ? "node" : "node node--leaf") : "node node--root"; })
-            .style("fill", function (d: any) { return d.children ? color(d.depth) : null; })
+            .style("fill", function (d: any) { return d.children ? color(d.depth) : "white"; })
             .attr("id", function (d: any) { return d.data.id; })
             .on("click", function (d: any, i: number) {
                 if (focus !== d) {
