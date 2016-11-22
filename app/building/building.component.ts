@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild, ViewChildren, Directive, Input, ElementRef, Inject , QueryList, Query} from '@angular/core';
+import { Component, OnInit, ViewChild, ViewChildren, Directive, Input, ElementRef, Inject, QueryList, Query } from '@angular/core';
 //import { InitiativeComponent} from './initiative.component'
-import {InitiativeNode} from './initiative.data';
+import { InitiativeNode } from './initiative.data';
 import { TreeComponent } from 'angular2-tree-component';
 import { DataService } from '../services/data.service';
 import { FocusDirective } from '../directives/focus.directive'
@@ -14,11 +14,10 @@ import 'rxjs/add/operator/map'
     styles: [require('./building.component.css').toString()]
 })
 
-export class BuildingComponent implements OnInit {
+export class BuildingComponent {
 
-    //private root:InitiativeNode;
     private nodes: Array<InitiativeNode>;
-    private selectedNode:InitiativeNode;
+    private selectedNode: InitiativeNode;
 
     @ViewChild(TreeComponent)
     private tree: TreeComponent;
@@ -33,19 +32,8 @@ export class BuildingComponent implements OnInit {
         this.nodes = [];
     }
 
-
     saveNodeName(newName: any, node: InitiativeNode) {
         node.name = newName;
-        this.saveData();
-    }
-
-    saveNodeDescription(newDesc: string, node: InitiativeNode) {
-        node.description = newDesc;
-        this.saveData();
-    }
-
-    saveNodeSize(newSize: number, node: InitiativeNode) {
-        node.size = newSize;
         this.saveData();
     }
 
@@ -93,23 +81,15 @@ export class BuildingComponent implements OnInit {
         let url = '../../../assets/datasets/new.json';
         this.dataService.getRawData(url).then(data => {
             this.nodes = [];
-            let parsed : InitiativeNode = Object.assign( new InitiativeNode(), data )
+            let parsed: InitiativeNode = Object.assign(new InitiativeNode(), data)
             this.nodes.push(parsed);
             this.saveData();
         })
     }
 
-    seeNode(node: InitiativeNode) {
+    openNode(node: InitiativeNode) {
         this.selectedNode = node;
-        console.log(node.id);
-        console.log(this.modal);
         this.modal.open();
-        // this.modals.forEach(function(elem, index){
-        //     console.log(index)
-        //     if(index === node.id){
-        //         elem.open();
-        //     }
-        // })
     }
 
 
@@ -117,21 +97,12 @@ export class BuildingComponent implements OnInit {
         let url = '../../../assets/datasets/vestd.json';
         this.dataService.getRawData(url).then(data => {
             this.nodes = [];
-            //this.nodes.push(new InitiativeNode(data));
-            let parsed : InitiativeNode = Object.assign( new InitiativeNode(), data )
+            let parsed: InitiativeNode = Object.assign(new InitiativeNode(), data)
             this.nodes.push(parsed);
             this.saveData();
         })
 
 
     }
-
-
-    ngOnInit(): void {
-        // this.initializeTree();
-        // this.loadData();
-    }
-
-
 
 }

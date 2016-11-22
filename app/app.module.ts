@@ -8,8 +8,6 @@ import {HttpModule} from '@angular/http';
 import {DataService} from './services/data.service';
 import {ColorService} from './services/color.service'
 import {UIService} from './services/ui.service'
-//import {InitiativeNode} from './building/initiative.data';
-
 
 //Components
 import { AppComponent } from './app.component';
@@ -42,7 +40,7 @@ import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
     TreeModule,
     Ng2Bs3ModalModule
   ],
-  providers: [D3Service, DataService, ColorService, UIService/*, InitiativeNode*/], 
+  providers: [D3Service, DataService, ColorService, UIService], 
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]
 })

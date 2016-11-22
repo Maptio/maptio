@@ -1,42 +1,47 @@
 <div class="building">
 
-    <!--<div *ngFor="let node of nodes; trackBy: node?.id">
-        
-    </div>-->
+	<div>
+		<a class="btn btn-primary" *ngIf="nodes.length === 0 " (click)="initializeTree()">Start mapping your project</a>
+		<a class="btn btn-primary" *ngIf="nodes.length != 0" (click)="initializeTree()">Reset</a>
+		<a class="btn btn-default" (click)="loadData()">Vestd data</a>
+	</div>
+	<Tree [nodes]="nodes" (onUpdateData)="saveData($event)">
+		<template #treeNodeTemplate let-node>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<div class="btn-group">
+						<a class="btn btn-default addNode" data-toggle="tooltip" data-placement="bottom" title="Add sub initiative"  (click)="addChildNode(node.data)"><i class="fa fa-plus" aria-hidden="true"></i></a>
+						
+                        <a class="btn btn-default removeNode" data-toggle="tooltip" data-placement="bottom" title="Delete" *ngIf="!node.isRoot"
+							(click)="removeChildNode(node.data)"><i class="fa fa-minus" aria-hidden="true"></i></a>
+						
+                        <a class="btn btn-default  seeNode" data-toggle="tooltip" data-placement="bottom" title="Edit" (click)="openNode(node.data)"><i class="fa fa-sticky-note" aria-hidden="true"></i></a>
+						
+                        <a class="btn btn-default  expandNode" data-toggle="tooltip" data-placement="bottom" title="Expand" *ngIf="!node.isRoot && !node.isExpanded"
+							(click)="toggleNode(node)"><i class="fa fa-caret-square-o-down" aria-hidden="true"></i></a>
+						
+                        <a class="btn btn-default hideNode" data-toggle="tooltip" data-placement="bottom" title="Collapse" *ngIf="!node.isRoot && node.isExpanded"
+							(click)="toggleNode(node)"><i class="fa fa-caret-square-o-right" aria-hidden="true"></i></a>
+					</div>
+				</div>
+				<div class="panel-body">
+					<input class="form-control input-sm name" type="text" [focus]="node.data.hasFocus" [ngModel]="node.data.name" placeholder="Initiative name"
+						(ngModelChange)="saveNodeName($event, node.data)">
+				</div>
+			</div>
 
-    <div>
-        <a class="btn btn-primary" *ngIf="nodes.length === 0 " (click)="initializeTree()">Start mapping your project</a>
-        <a class="btn btn-primary" *ngIf="nodes.length != 0" (click)="initializeTree()">Reset</a>
-        <a class="btn btn-default"  (click)="loadData()">Vestd data</a>
-    </div>
-    <Tree [nodes]="nodes" (onUpdateData)="saveData($event)">
-        <template #treeNodeTemplate let-node>
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <div class="btn-group">
-                        <a class="btn btn-info btn-xs addNode" (click)="addChildNode(node.data)"><i class="fa fa-plus" aria-hidden="true"></i></a>
-                        <a class="btn btn-info btn-xs removeNode" *ngIf="!node.isRoot" (click)="removeChildNode(node.data)"><i class="fa fa-minus" aria-hidden="true"></i></a>
-                        <a class="btn btn-info btn-xs seeNode" (click)="seeNode(node.data)"><i class="fa fa-sticky-note" aria-hidden="true"></i></a>
-                        <a class="btn btn-info btn-xs expandNode" *ngIf="!node.isRoot && !node.isExpanded" (click)="toggleNode(node)"><i class="fa fa-caret-square-o-down" aria-hidden="true"></i></a>
-                        <a class="btn btn-info btn-xs hideNode" *ngIf="!node.isRoot && node.isExpanded" (click)="toggleNode(node)"><i class="fa fa-caret-square-o-right" aria-hidden="true"></i></a>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <input class="form-control input-sm name" type="text"  [focus]="node.data.hasFocus" [ngModel]="node.data.name" placeholder="Initiative name" (ngModelChange)="saveNodeName($event, node.data)">
-                    <input class="form-control input-sm size" type="text" *ngIf="!node.isRoot" [ngModel]="node.data.size" placeholder="Team Size"  (ngModelChange)="saveNodeSize($event, node.data)">
-                    <textarea class="form-control description" rows="3" *ngIf="!node.isRoot" [ngModel]="node.data.description" placeholder="Description" (ngModelChange)="saveNodeDescription($event, node.data)"></textarea>
-               
-                </div>
-               
-            </div>
-            
-        </template>
-    </Tree>
- <modal #initiativeModal [keyboard]="false" [backdrop]="'static'">
-    <initiative [initiative]="selectedNode"></initiative>
-</modal>  
+		</template>
+	</Tree>
+	<modal #initiativeModal [keyboard]="true" [backdrop]="'static'">
+		<modal-header [show-close]="false">
+			<h4 class="modal-title">Initiative details</h4>
+		</modal-header>
+		<modal-body>
+			<initiative [initiative]="selectedNode"></initiative>
+		</modal-body>
+		<modal-footer>
+			<button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
+			<button type="button" class="btn btn-primary" (click)="saveData(); modal.close()">Save</button>
+		</modal-footer>
+	</modal>
 </div>
-
-
-
-

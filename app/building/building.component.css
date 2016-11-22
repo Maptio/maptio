@@ -34,21 +34,6 @@ inpu, textarea{
   right: 10px;
 }
 
-input.name{
-width:85%;
-float:left;
-}
-
-input.size{
-  width:15%;
-  float:left;
-}
-
-textarea.description{
-  width:100%;
-  rows:3;
-}
-
 div.initiative{
   clear:both;
 }
