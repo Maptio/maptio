@@ -1,8 +1,10 @@
-import { Component, OnInit, ViewChild, Directive, Input, ElementRef, Inject } from '@angular/core';
-import { InitiativeNode } from './initiative.component'
+import { Component, OnInit, ViewChild, ViewChildren, Directive, Input, ElementRef, Inject , QueryList, Query} from '@angular/core';
+//import { InitiativeComponent} from './initiative.component'
+import {InitiativeNode} from './initiative.data';
 import { TreeComponent } from 'angular2-tree-component';
 import { DataService } from '../services/data.service';
 import { FocusDirective } from '../directives/focus.directive'
+import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import 'rxjs/add/operator/map'
 
 
@@ -19,6 +21,9 @@ export class BuildingComponent implements OnInit {
 
     @ViewChild(TreeComponent)
     private tree: TreeComponent;
+
+    @ViewChildren('initiativeModal')
+    modals: QueryList<ModalComponent>;
 
     private dataService: DataService;
 
@@ -57,7 +62,7 @@ export class BuildingComponent implements OnInit {
 
     addChildNode(node: InitiativeNode) {
         let treeNode = this.tree.treeModel.getNodeById(node.id);
-        let newNode = new InitiativeNode(null);
+        let newNode = new InitiativeNode();
         newNode.children = []
         newNode.hasFocus = true;
         setTimeout(() => { newNode.hasFocus = false });
@@ -87,13 +92,21 @@ export class BuildingComponent implements OnInit {
         let url = '../../../assets/datasets/new.json';
         this.dataService.getRawData(url).then(data => {
             this.nodes = [];
-            this.nodes.push(new InitiativeNode(data));
+            let parsed : InitiativeNode = Object.assign( new InitiativeNode(), data )
+            this.nodes.push(parsed);
             this.saveData();
         })
     }
 
     seeNode(node: InitiativeNode) {
-        alert("Initiative information: \r\n Not implemented. Try again in a few days ?");
+        console.log(node.id);
+        console.log(this.modals);
+        this.modals.forEach(function(elem, index){
+            console.log(index)
+            if(index === node.id){
+                elem.open();
+            }
+        })
     }
 
 
@@ -101,7 +114,9 @@ export class BuildingComponent implements OnInit {
         let url = '../../../assets/datasets/vestd.json';
         this.dataService.getRawData(url).then(data => {
             this.nodes = [];
-            this.nodes.push(new InitiativeNode(data));
+            //this.nodes.push(new InitiativeNode(data));
+            let parsed : InitiativeNode = Object.assign( new InitiativeNode(), data )
+            this.nodes.push(parsed);
             this.saveData();
         })
 

@@ -1,42 +1,32 @@
-export class InitiativeNode{
-    
-    private _id:number= undefined;
-    name:string;
-    //person:string;
-    isRoot:boolean=false;
-    hasFocus:boolean=false;
-    description:string= undefined;
-    private _size:number = undefined ; //(this.children === undefined ? 0 : this.children.length);
-    children:Array<InitiativeNode>;
+import { Component, Injectable, Inject} from '@angular/core';
+import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+import {InitiativeNode} from './initiative.data'
 
-    constructor(obj:any){
-        if(obj){
-        this.name = obj.name ? obj.name :  null;
-        this.isRoot = obj.isRoot;
-        this.hasFocus = obj.hasFocus;
-        this.description = obj.description;
-        this._size = obj.size;
-        this._id = obj.id;
-        this.children = obj.children;
-        }
-        
-    }
 
-    get size():number {
-        return this._size || 1;
-    }
 
-    set size(size:number){
-        this._size = size;
-    }
+@Component({
+    selector: 'initiative',
+    template:
+    `
+        <modal-header [show-close]="false">
+        <h4 class="modal-title">I'm a modal!</h4>
+        </modal-header>
+        <modal-body>
+        {{initiative.name}}
+        </modal-body>
+        <modal-footer [show-default-buttons]="true"></modal-footer> 
+    `,
+    providers:[InitiativeNode]
+})
 
-    get id():number {
-        this._id = this._id ? this._id : Math.floor(Math.random() * 1000) + 1 ;
-       // console.log(this.name + " : " +this._id);
-        return this._id;
-    }
+export class InitiativeComponent{
 
-    set id(id:number){
-        this._id = id;
+
+    constructor(public initiative:InitiativeNode){
+        console.log("INITIATIVE COMPOENNTE : " + this.initiative.name);
     }
 }
+
+
+
+

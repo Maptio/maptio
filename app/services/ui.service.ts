@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core'
+import { Injectable } from '@angular/core'
 import { D3Service, D3, ScaleLinear, HSLColor, RGBColor, Selection, BaseType, HierarchyCircularNode } from 'd3-ng2-service'
 
 @Injectable()

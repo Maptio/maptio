@@ -1,4 +1,11 @@
 <div class="building">
+
+    <div *ngFor="let node of nodes; trackBy: node?.id">
+        <modal #initiativeModal [keyboard]="false" [backdrop]="'static'">
+            <initiative></initiative>
+        </modal>
+    </div>
+
     <div>
         <a class="btn btn-primary" *ngIf="nodes.length === 0 " (click)="initializeTree()">Start mapping your project</a>
         <a class="btn btn-primary" *ngIf="nodes.length != 0" (click)="initializeTree()">Reset</a>
@@ -23,6 +30,12 @@
                
                 </div>
             </div>
+            
         </template>
     </Tree>
+  
 </div>
+
+
+
+

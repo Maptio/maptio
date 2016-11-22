@@ -3,11 +3,14 @@ import {
   AfterViewInit,
   OnInit 
 } from '@angular/core';
+//import {InitiativeNode} from './building/initiative.data'
+
 
 @Component({
   selector: 'my-app',
   templateUrl: './app.component.html',
-  styles:[require('./app.component.css').toString()]
+  styles:[require('./app.component.css').toString()],
+  //providers:[InitiativeNode]
 })
 
 
