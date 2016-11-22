@@ -32,6 +32,10 @@ export class BuildingComponent {
         this.nodes = [];
     }
 
+    isEmpty():boolean{
+        return !this.nodes || this.nodes.length === 0 ;
+    }
+
     saveNodeName(newName: any, node: InitiativeNode) {
         node.name = newName;
         this.saveData();
@@ -76,33 +80,20 @@ export class BuildingComponent {
             .getNodeById(node.id).toggleExpanded();
     }
 
-    initializeTree() {
-
-        let url = '../../../assets/datasets/new.json';
-        this.dataService.getRawData(url).then(data => {
-            this.nodes = [];
-            let parsed: InitiativeNode = Object.assign(new InitiativeNode(), data)
-            this.nodes.push(parsed);
-            this.saveData();
-        })
-    }
-
     openNode(node: InitiativeNode) {
         this.selectedNode = node;
         this.modal.open();
     }
 
 
-    loadData() {
-        let url = '../../../assets/datasets/vestd.json';
+    loadData(filename:string) {
+        let url = '../../../assets/datasets/' + filename;
         this.dataService.getRawData(url).then(data => {
             this.nodes = [];
             let parsed: InitiativeNode = Object.assign(new InitiativeNode(), data)
             this.nodes.push(parsed);
             this.saveData();
         })
-
-
     }
 
 }

@@ -1,7 +1,37 @@
-
-<!--<input [(ngModel)]="filepath" placeholder="first.json or second.json" (change)="onRefreshGraph()" />
-<button (click)="onRefreshGraph()"> Refresh </button>-->
 <div #container class="container">
-  <mapping>Loading...</mapping>
-  <building>Loading...</building>
+
+  <h1>Circle Mapping</h1>
+  
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+				<a class="navbar-brand" *ngIf="isProjectEmpty()" (click)="start('new.json')">New project</a>
+				<a class="navbar-brand" *ngIf="!isProjectEmpty()" (click)="start('new.json')">Reset</a>
+			</div>
+
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle btn dropdown-toggle-split" data-toggle="dropdown" role="button" aria-expanded="false">Datasets<span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a (click)="start('vestd.json')">Vestd</a></li>
+						</ul>
+					</li>
+				</ul>
+
+
+			</div>
+		</div>
+	</nav>
+
+
+
+	<mapping>Loading...</mapping>
+	<building #building>Loading...</building>
 </div>

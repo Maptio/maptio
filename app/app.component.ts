@@ -1,30 +1,35 @@
 import {
   Component,
   AfterViewInit,
-  OnInit 
+  OnInit,
+  ViewChild
 } from '@angular/core';
-//import {InitiativeNode} from './building/initiative.data'
+import { BuildingComponent } from './building/building.component'
 
 
 @Component({
   selector: 'my-app',
   templateUrl: './app.component.html',
-  styles:[require('./app.component.css').toString()],
-  //providers:[InitiativeNode]
+  styles: [require('./app.component.css').toString()]
 })
 
 
 
-export class AppComponent implements AfterViewInit  ,OnInit {
+export class AppComponent{
 
-  constructor() { 
-    }
+  @ViewChild('building')
+  private buildingComponent: BuildingComponent
 
-   ngAfterViewInit() :void {
-    }
+  constructor() {
+  }
 
-    ngOnInit() {
-    }
+  start(datasetFileName: string) {
+    this.buildingComponent.loadData(datasetFileName);
+  }
+
+  isProjectEmpty(): boolean {
+    return this.buildingComponent.isEmpty();
+  }
 
 }
 

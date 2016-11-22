@@ -1,10 +1,4 @@
 <div class="building">
-
-	<div>
-		<a class="btn btn-primary" *ngIf="nodes.length === 0 " (click)="initializeTree()">Start mapping your project</a>
-		<a class="btn btn-primary" *ngIf="nodes.length != 0" (click)="initializeTree()">Reset</a>
-		<a class="btn btn-default" (click)="loadData()">Vestd data</a>
-	</div>
 	<Tree [nodes]="nodes" (onUpdateData)="saveData($event)">
 		<template #treeNodeTemplate let-node>
 			<div class="panel panel-default">
@@ -17,10 +11,10 @@
 						
                         <a class="btn btn-default  seeNode" data-toggle="tooltip" data-placement="bottom" title="Edit" (click)="openNode(node.data)"><i class="fa fa-sticky-note" aria-hidden="true"></i></a>
 						
-                        <a class="btn btn-default  expandNode" data-toggle="tooltip" data-placement="bottom" title="Expand" *ngIf="!node.isRoot && !node.isExpanded"
+                        <a class="btn btn-default  expandNode" data-toggle="tooltip" data-placement="bottom" title="Expand" *ngIf="!node.isExpanded"
 							(click)="toggleNode(node)"><i class="fa fa-caret-square-o-down" aria-hidden="true"></i></a>
 						
-                        <a class="btn btn-default hideNode" data-toggle="tooltip" data-placement="bottom" title="Collapse" *ngIf="!node.isRoot && node.isExpanded"
+                        <a class="btn btn-default hideNode" data-toggle="tooltip" data-placement="bottom" title="Collapse" *ngIf="node.isExpanded"
 							(click)="toggleNode(node)"><i class="fa fa-caret-square-o-right" aria-hidden="true"></i></a>
 					</div>
 				</div>
