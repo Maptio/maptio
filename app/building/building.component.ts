@@ -18,12 +18,13 @@ export class BuildingComponent implements OnInit {
 
     //private root:InitiativeNode;
     private nodes: Array<InitiativeNode>;
+    private selectedNode:InitiativeNode;
 
     @ViewChild(TreeComponent)
     private tree: TreeComponent;
 
-    @ViewChildren('initiativeModal')
-    modals: QueryList<ModalComponent>;
+    @ViewChild('initiativeModal')
+    modal: ModalComponent;
 
     private dataService: DataService;
 
@@ -99,14 +100,16 @@ export class BuildingComponent implements OnInit {
     }
 
     seeNode(node: InitiativeNode) {
+        this.selectedNode = node;
         console.log(node.id);
-        console.log(this.modals);
-        this.modals.forEach(function(elem, index){
-            console.log(index)
-            if(index === node.id){
-                elem.open();
-            }
-        })
+        console.log(this.modal);
+        this.modal.open();
+        // this.modals.forEach(function(elem, index){
+        //     console.log(index)
+        //     if(index === node.id){
+        //         elem.open();
+        //     }
+        // })
     }
 
 

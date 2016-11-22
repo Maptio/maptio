@@ -1,10 +1,8 @@
 <div class="building">
 
-    <div *ngFor="let node of nodes; trackBy: node?.id">
-        <modal #initiativeModal [keyboard]="false" [backdrop]="'static'">
-            <initiative></initiative>
-        </modal>
-    </div>
+    <!--<div *ngFor="let node of nodes; trackBy: node?.id">
+        
+    </div>-->
 
     <div>
         <a class="btn btn-primary" *ngIf="nodes.length === 0 " (click)="initializeTree()">Start mapping your project</a>
@@ -29,11 +27,14 @@
                     <textarea class="form-control description" rows="3" *ngIf="!node.isRoot" [ngModel]="node.data.description" placeholder="Description" (ngModelChange)="saveNodeDescription($event, node.data)"></textarea>
                
                 </div>
+               
             </div>
             
         </template>
     </Tree>
-  
+ <modal #initiativeModal [keyboard]="false" [backdrop]="'static'">
+    <initiative [initiative]="selectedNode"></initiative>
+</modal>  
 </div>
 
 
