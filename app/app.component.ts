@@ -15,7 +15,7 @@ import { BuildingComponent } from './building/building.component'
 
 
 
-export class AppComponent{
+export class AppComponent implements OnInit {
 
   @ViewChild('building')
   private buildingComponent: BuildingComponent
@@ -29,6 +29,10 @@ export class AppComponent{
 
   isProjectEmpty(): boolean {
     return this.buildingComponent.isEmpty();
+  }
+
+  ngOnInit(){
+    this.start("new.json");
   }
 
 }

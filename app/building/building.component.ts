@@ -85,6 +85,16 @@ export class BuildingComponent {
         this.modal.open();
     }
 
+  
+
+    goToNode(node:InitiativeNode){
+        this.nodes.forEach(function(n:InitiativeNode){
+            n.isZoomedOn = false;
+            n.traverse(function(node){node.isZoomedOn = false});
+        })
+        node.isZoomedOn = true;
+        this.saveData();
+    }
 
     loadData(filename:string) {
         let url = '../../../assets/datasets/' + filename;

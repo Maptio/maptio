@@ -45,6 +45,8 @@ export class MappingComponent {
 
     show(d3: D3, uiService: UIService, data: any) {
        
+       console.log(JSON.stringify(data));
+
         if (!data) {
             d3.select("svg").selectAll("*").remove();
             return;
@@ -79,10 +81,12 @@ export class MappingComponent {
             .remove()
             .enter()
             .append("circle")
+            .attr("id", function (d, i) { return i; })
             .attr("class", function (d: any) { return d.parent ? (d.children ? "node" : "node node--leaf") : "node node--root"; })
             .style("fill", function (d: any) { return d.children ? color(d.depth) : "white"; })
             .attr("id", function (d: any) { return d.data.id; })
             .on("click", function (d: any, i: number) {
+                console.log("CLICKING");
                 if (focus !== d) {
                     zoom(d, i),
                         d3.selectAll("text#t" + i).style("fill-opacity", 1).style("display", "inline"),
@@ -160,15 +164,26 @@ export class MappingComponent {
         svg
             .style("background", color(-1))
             .on("click", function () { zoom(root, 0); });
-
-        zoomTo([root.x, root.y, root.r * 2 + margin], 1);
-
+        
+        // let zoomedNode = nodes.find(function(d:any){return d.data.isZoomedOn === true});
+        // console.log(zoomedNode);
+        // if(zoomedNode)
+        // {
+        //     d3.selectAll("text#t" + zoomedNode.data.id).style("fill-opacity", 1).style("display", "inline")
+        //     zoomTo([zoomedNode.x, zoomedNode.y, zoomedNode.r * 2 + margin], parseInt(zoomedNode.id));
+            
+        // }
+        // else{
+         zoomTo([root.x, root.y, root.r * 2 + margin], 1);
+        // }
+        
 
         function zoom(d: any, index: number) {
             var focus0 = focus; focus = d;
 
             var transition = d3.transition("move")
-                .duration(d3.event.altKey ? 7500 : 750)
+                //.duration(d3.event.altKey ? 7500 : 750)
+                .duration(750)
                 .tween("zoom", function (d) {
                     var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
                     return function (t) { zoomTo(i(t), index); };
