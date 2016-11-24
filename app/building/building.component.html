@@ -1,21 +1,25 @@
 <div class="building">
+
+	<div class="form-group" *ngIf="!isEmpty()">
+		<label class="control-label" for="inputSearch">Search</label>
+		<input type="text" class="form-control" id="inputSearch" placeholder="Search"  (change)="filterNodes($event.target.value)">
+	</div>
 	<Tree [nodes]="nodes" (onUpdateData)="saveData($event)">
 		<template #treeNodeTemplate let-node>
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<div class="btn-group">
-						<a class="btn btn-default"  ngbTooltip="Add sub initiative" placement="bottom" (click)="addChildNode(node.data)"><i class="fa fa-plus" aria-hidden="true"></i></a>
+						<a class="btn btn-default" ngbTooltip="Add sub initiative" placement="bottom" (click)="addChildNode(node.data)"><i class="fa fa-plus" aria-hidden="true"></i></a>
 
-						<a class="btn btn-default" ngbTooltip="Remove" placement="bottom"  *ngIf="!node.isRoot" (click)="removeChildNode(node.data)"><i class="fa fa-minus" aria-hidden="true"></i></a>
+						<a class="btn btn-default" ngbTooltip="Remove" placement="bottom" *ngIf="!node.isRoot" (click)="removeChildNode(node.data)"><i class="fa fa-minus" aria-hidden="true"></i></a>
 
-						<a class="btn btn-default" ngbTooltip="Edit"  placement="bottom" (click)="openNode(node.data)"><i class="fa fa-sticky-note" aria-hidden="true"></i></a>
+						<a class="btn btn-default" ngbTooltip="Edit" placement="bottom" (click)="openNode(node.data)"><i class="fa fa-sticky-note" aria-hidden="true"></i></a>
 
-						<a class="btn btn-default" ngbTooltip="Zoom in"  placement="bottom" (click)="goToNode(node.data)"><i class="fa fa-circle" aria-hidden="true"></i></a>
+						<a class="btn btn-default" ngbTooltip="Zoom in" placement="bottom" (click)="goToNode(node.data)"><i class="fa fa-circle" aria-hidden="true"></i></a>
 
-						<a class="btn btn-default" ngbTooltip="Expand"  placement="bottom" *ngIf="!node.isExpanded && node.children" (click)="toggleNode(node)"><i class="fa fa-caret-square-o-down" aria-hidden="true"></i></a>
+						<a class="btn btn-default" ngbTooltip="Expand" placement="bottom" *ngIf="!node.isExpanded && node.children" (click)="toggleNode(node)"><i class="fa fa-caret-square-o-down" aria-hidden="true"></i></a>
 
-						<a class="btn btn-default" ngbTooltip="Collapse"  placement="bottom"  *ngIf="node.isExpanded && node.children"
-							(click)="toggleNode(node)"><i class="fa fa-caret-square-o-right" aria-hidden="true"></i></a>
+						<a class="btn btn-default" ngbTooltip="Collapse" placement="bottom" *ngIf="node.isExpanded && node.children" (click)="toggleNode(node)"><i class="fa fa-caret-square-o-right" aria-hidden="true"></i></a>
 					</div>
 				</div>
 				<div class="panel-body">

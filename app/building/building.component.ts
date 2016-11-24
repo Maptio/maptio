@@ -5,7 +5,7 @@ import { TreeComponent } from 'angular2-tree-component';
 import { DataService } from '../services/data.service';
 import { FocusDirective } from '../directives/focus.directive'
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import 'rxjs/add/operator/map'
 
 
@@ -33,8 +33,8 @@ export class BuildingComponent {
         this.nodes = [];
     }
 
-    isEmpty():boolean{
-        return !this.nodes || this.nodes.length === 0 ;
+    isEmpty(): boolean {
+        return !this.nodes || this.nodes.length === 0;
     }
 
     saveNodeName(newName: any, node: InitiativeNode) {
@@ -86,18 +86,18 @@ export class BuildingComponent {
         this.modal.open();
     }
 
-    goToNode(node:InitiativeNode){
+    goToNode(node: InitiativeNode) {
         console.log(this.nodes);
-        
-        this.nodes.forEach(function(n:InitiativeNode){
+
+        this.nodes.forEach(function (n: InitiativeNode) {
             n.isZoomedOn = false;
-            InitiativeNode.traverse(n, function(node){node.isZoomedOn = false});
+            InitiativeNode.traverse(n, function (node) { node.isZoomedOn = false });
         })
         node.isZoomedOn = true;
         this.saveData();
     }
 
-    loadData(filename:string) {
+    loadData(filename: string) {
         let url = '../../../assets/datasets/' + filename;
         this.dataService.getRawData(url).then(data => {
             this.nodes = [];
@@ -105,6 +105,16 @@ export class BuildingComponent {
             this.nodes.push(parsed);
             this.saveData();
         })
+    }
+
+    filterNodes(searched: string) {
+        console.log(searched);
+        this.tree.treeModel.filterNodes((node:any) => {
+            // true if diplaued, false if hiden
+            return searched === "" ? true : (<InitiativeNode>node.data).name.includes(searched);
+        });
+
+
     }
 
 }
