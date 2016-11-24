@@ -18,6 +18,7 @@ import {BuildingComponent} from './building/building.component';
 
 //Directives
 import {FocusDirective} from './directives/focus.directive';
+import { AutoSelectDirective} from './directives/autoselect.directive'
 
 // External libraries
 import { D3Service } from 'd3-ng2-service'; 
@@ -32,7 +33,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     MappingComponent,
     BuildingComponent,
     InitiativeComponent,
-    FocusDirective
+    FocusDirective,
+    AutoSelectDirective
   ],
   imports: [
     BrowserModule,

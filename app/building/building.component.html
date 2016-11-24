@@ -23,7 +23,7 @@
 					</div>
 				</div>
 				<div class="panel-body">
-					<input class="form-control input-sm name" type="text" [focus]="node.data.hasFocus" [ngModel]="node.data.name" placeholder="Initiative name"
+					<input class="form-control input-sm name" type="text" [focus]="node.data.hasFocus" autoselect [ngModel]="node.data.name" placeholder="Initiative name"
 						(ngModelChange)="saveNodeName($event, node.data)">
 				</div>
 			</div>

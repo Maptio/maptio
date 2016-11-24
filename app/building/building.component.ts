@@ -4,6 +4,7 @@ import { InitiativeNode } from '../model/initiative.data';
 import { TreeComponent } from 'angular2-tree-component';
 import { DataService } from '../services/data.service';
 import { FocusDirective } from '../directives/focus.directive'
+import { AutoSelectDirective } from '../directives/autoselect.directive'
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import 'rxjs/add/operator/map'
@@ -104,13 +105,12 @@ export class BuildingComponent {
             let parsed: InitiativeNode = Object.assign(new InitiativeNode(), data)
             this.nodes.push(parsed);
             this.saveData();
-        })
+        });
     }
 
     filterNodes(searched: string) {
         console.log(searched);
-        this.tree.treeModel.filterNodes((node:any) => {
-            // true if diplaued, false if hiden
+        this.tree.treeModel.filterNodes((node: any) => {
             return searched === "" ? true : (<InitiativeNode>node.data).name.includes(searched);
         });
 

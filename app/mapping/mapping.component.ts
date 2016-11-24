@@ -45,7 +45,7 @@ export class MappingComponent {
 
     show(d3: D3, uiService: UIService, data: any) {
 
-        console.log(JSON.stringify(data));
+        //console.log(JSON.stringify(data));
 
         if (!data) {
             d3.select("svg").selectAll("*").remove();
