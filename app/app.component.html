@@ -19,8 +19,9 @@
 				<li>
 					<button class="btn btn-primary" (click)="start(empty)">New project</button>
 				</li>
+
 				<li class="dropdown">
-					<a href="#" class="dropdown-toggle btn" data-toggle="dropdown" role="button" aria-expanded="false">Datasets<span class="caret"></span></a>
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Examples <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
 						<li *ngFor="let dataset of datasets">
 							<a (click)="start(dataset)"> {{dataset.name}}</a>
