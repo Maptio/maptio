@@ -1,6 +1,6 @@
 import { Component, Injectable, Inject, AfterViewInit, OnInit, Input} from '@angular/core';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
-import {InitiativeNode} from './initiative.data'
+import {InitiativeNode} from '../model/initiative.data'
 
 
 

@@ -3,7 +3,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject'
 import 'rxjs/add/operator/map'
-import {DataSet} from './dataset.data'
+import {DataSet} from '../model/dataset.data'
 
 @Injectable()
 export class DataSetService {

@@ -5,7 +5,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { BuildingComponent } from './building/building.component'
-import { DataSet } from './services/dataset.data'
+import { DataSet } from './model/dataset.data'
 import { DataSetService } from './services/dataset.service'
 import 'rxjs/add/operator/map'
 

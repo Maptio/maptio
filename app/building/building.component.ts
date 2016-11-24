@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ViewChildren, Directive, Input, ElementRef, Inject, QueryList, Query } from '@angular/core';
 //import { InitiativeComponent} from './initiative.component'
-import { InitiativeNode } from './initiative.data';
+import { InitiativeNode } from '../model/initiative.data';
 import { TreeComponent } from 'angular2-tree-component';
 import { DataService } from '../services/data.service';
 import { FocusDirective } from '../directives/focus.directive'
