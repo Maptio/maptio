@@ -1,8 +1,8 @@
 .container {
-  width:95%;
-  clear:both;
-  height: 800px;
-
+padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 .mapping {

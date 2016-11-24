@@ -20,10 +20,13 @@ export class AppComponent implements OnInit {
   @ViewChild('building')
   private buildingComponent: BuildingComponent
 
+  private dataset:string;
+
   constructor() {
   }
 
   start(datasetFileName: string) {
+    this.dataset = datasetFileName === "new.json"  ? "" : datasetFileName.replace(".json","").toUpperCase();;
     this.buildingComponent.loadData(datasetFileName);
   }
 

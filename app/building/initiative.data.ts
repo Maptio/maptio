@@ -22,11 +22,14 @@ export class InitiativeNode{
         this._size = size;
     }
 
-    traverse(this : InitiativeNode,callback:((n:InitiativeNode) => void) ) {
-       this.children.forEach(function(child:InitiativeNode){
-           callback.apply(this,[child]);  
-           child.traverse(callback);
-       })
+   static traverse(node : InitiativeNode,callback:((n:InitiativeNode) => void) ) {
+       if(node.children)
+       {
+           node.children.forEach(function(child){
+                callback.apply(this,[child]);  
+                InitiativeNode.traverse(child, callback);
+            })
+       }
     }
 
 }

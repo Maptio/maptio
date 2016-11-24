@@ -7,7 +7,7 @@ import {
 
 import {
     D3Service, D3, Selection,
-    PackLayout, HierarchyNode,
+    PackLayout, HierarchyNode, HierarchyCircularNode,
     Transition, Timer, BaseType
 } from 'd3-ng2-service';
 import * as d3r from 'd3-request';
@@ -29,7 +29,7 @@ export class MappingComponent {
     private dataService: DataService;
     private colorService: ColorService;
     private uiService: UIService;
-    private title:string;
+    private title: string;
 
 
     constructor(d3Service: D3Service, dataService: DataService, colorService: ColorService, uiService: UIService) {
@@ -37,15 +37,15 @@ export class MappingComponent {
         this.dataService = dataService;
         this.colorService = colorService;
         this.uiService = uiService;
-        
+
         this.dataService.getData().subscribe(data => {
             this.show(this.d3, this.uiService, data);
         });
     }
 
     show(d3: D3, uiService: UIService, data: any) {
-       
-       console.log(JSON.stringify(data));
+
+        console.log(JSON.stringify(data));
 
         if (!data) {
             d3.select("svg").selectAll("*").remove();
@@ -58,7 +58,7 @@ export class MappingComponent {
             diameter = +svg.attr("width"),
             g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
-        var color = this.colorService.getColorRange(this.d3.hsl(0, 0, 0.93), this.d3.hsl(15, 1, 0.7));
+        var color = this.colorService.getColorRange(this.d3.hsl(0, 0, 0.93), this.d3.hsl(251, 0.38, 0.5));
 
         var pack = d3.pack()
             .size([diameter - margin, diameter - margin])
@@ -164,19 +164,13 @@ export class MappingComponent {
         svg
             .style("background", color(-1))
             .on("click", function () { zoom(root, 0); });
-        
-        // let zoomedNode = nodes.find(function(d:any){return d.data.isZoomedOn === true});
-        // console.log(zoomedNode);
-        // if(zoomedNode)
-        // {
-        //     d3.selectAll("text#t" + zoomedNode.data.id).style("fill-opacity", 1).style("display", "inline")
-        //     zoomTo([zoomedNode.x, zoomedNode.y, zoomedNode.r * 2 + margin], parseInt(zoomedNode.id));
-            
-        // }
-        // else{
-         zoomTo([root.x, root.y, root.r * 2 + margin], 1);
-        // }
-        
+
+        let zoomedNode: HierarchyCircularNode<any> = nodes.find(function (d: any) { return d.data.isZoomedOn === true });
+        if (!zoomedNode) {
+            zoomedNode = root;
+        }
+        zoomTo([zoomedNode.x, zoomedNode.y, zoomedNode.r * 2 + margin], parseInt(zoomedNode.id));
+        d3.selectAll("text#t" + parseInt(zoomedNode.id)).style("fill-opacity", 1).style("display", "inline");
 
         function zoom(d: any, index: number) {
             var focus0 = focus; focus = d;

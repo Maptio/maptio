@@ -1,37 +1,46 @@
-<div #container class="container">
-
-  <h1>Circle Mapping</h1>
-  
-	<nav class="navbar navbar-default">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+<nav class="navbar navbar-default navbar-fixed-top">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-				<a class="navbar-brand" *ngIf="isProjectEmpty()" (click)="start('new.json')">New project</a>
-				<a class="navbar-brand" *ngIf="!isProjectEmpty()" (click)="start('new.json')">Reset</a>
-			</div>
-
-			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-				<ul class="nav navbar-nav navbar-right">
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle btn dropdown-toggle-split" data-toggle="dropdown" role="button" aria-expanded="false">Datasets<span class="caret"></span></a>
-						<ul class="dropdown-menu" role="menu">
-							<li><a (click)="start('vestd.json')">Vestd</a></li>
-						</ul>
-					</li>
-				</ul>
-
-
-			</div>
+			<a class="navbar-brand" href="#">Circle Mapping</a>
 		</div>
-	</nav>
+
+		<ul class="nav navbar-nav navbar-left">
+			<li><a href="#">{{dataset}}</a></li>
+		</ul>
+
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<button class="btn btn-primary" (click)="start('new.json')">New project</button>
+				</li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle btn" data-toggle="dropdown" role="button" aria-expanded="false">Datasets<span class="caret"></span></a>
+					<ul class="dropdown-menu" role="menu">
+						<li><a (click)="start('vestd.json')">Vestd</a></li>
+						<li><a (click)="start('mbostock.json')">Mike Bostock</a></li>
+						<li><a (click)="start('dummy.json')">Dummy company</a></li>
+					</ul>
+				</li>
+			</ul>
 
 
+		</div>
+	</div>
+</nav>
 
-	<mapping>Loading...</mapping>
-	<building #building>Loading...</building>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-7">
+			<mapping>Loading...</mapping>
+		</div>
+		<div class="col-lg-5">
+			<building #building>Loading...</building>
+		</div>
+	</div>
 </div>

@@ -85,12 +85,12 @@ export class BuildingComponent {
         this.modal.open();
     }
 
-  
-
     goToNode(node:InitiativeNode){
+        console.log(this.nodes);
+        
         this.nodes.forEach(function(n:InitiativeNode){
             n.isZoomedOn = false;
-            n.traverse(function(node){node.isZoomedOn = false});
+            InitiativeNode.traverse(n, function(node){node.isZoomedOn = false});
         })
         node.isZoomedOn = true;
         this.saveData();
