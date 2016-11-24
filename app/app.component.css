@@ -7,9 +7,9 @@ padding-right: 15px;
 
 .mapping {
   float:left;
-  border:solid 2px #EEE;
+  border:solid 2px #fcfcfc;
   margin-right:10px;
-  background-color: #EEE;
+  background-color: #fcfcfc;
   border-radius: 5px;
 }
 
@@ -20,7 +20,7 @@ padding-right: 15px;
     /* position: absolute; */
     padding: 2px;
     font: 12px sans-serif;
-    background-color: #FFF;
+    background-color: #fcfcfc;
     border: 0px;
     border-radius: 5px;
     /* width: 300px; */

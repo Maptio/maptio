@@ -17,14 +17,14 @@
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav navbar-right">
 				<li>
-					<button class="btn btn-primary" (click)="start('new.json')">New project</button>
+					<button class="btn btn-primary" (click)="start(empty)">New project</button>
 				</li>
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle btn" data-toggle="dropdown" role="button" aria-expanded="false">Datasets<span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
-						<li><a (click)="start('vestd.json')">Vestd</a></li>
-						<li><a (click)="start('mbostock.json')">Mike Bostock</a></li>
-						<li><a (click)="start('dummy.json')">Dummy company</a></li>
+						<li *ngFor="let dataset of datasets">
+							<a (click)="start(dataset)"> {{dataset.name}}</a>
+						</li>
 					</ul>
 				</li>
 			</ul>

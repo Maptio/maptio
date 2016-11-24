@@ -13,10 +13,10 @@
 						
 						<a class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Go to" (click)="goToNode(node.data)"><i class="fa fa-circle" aria-hidden="true"></i></a>
 						
-                        <a class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Expand" *ngIf="!node.isExpanded"
+                        <a class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Expand" *ngIf="!node.isExpanded && node.children"
 							(click)="toggleNode(node)"><i class="fa fa-caret-square-o-down" aria-hidden="true"></i></a>
 						
-                        <a class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Collapse" *ngIf="node.isExpanded"
+                        <a class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Collapse" *ngIf="node.isExpanded && node.children"
 							(click)="toggleNode(node)"><i class="fa fa-caret-square-o-right" aria-hidden="true"></i></a>
 					</div>
 				</div>

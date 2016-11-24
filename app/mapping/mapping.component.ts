@@ -58,7 +58,7 @@ export class MappingComponent {
             diameter = +svg.attr("width"),
             g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
-        var color = this.colorService.getColorRange(this.d3.hsl(0, 0, 0.93), this.d3.hsl(251, 0.38, 0.5));
+        var color = this.colorService.getColorRange(this.d3.hsl(0, 0, 0.99), this.d3.hsl(251, 0.38, 0.5));
 
         var pack = d3.pack()
             .size([diameter - margin, diameter - margin])
@@ -86,7 +86,6 @@ export class MappingComponent {
             .style("fill", function (d: any) { return d.children ? color(d.depth) : "white"; })
             .attr("id", function (d: any) { return "circle" + d.data.id; })
             .on("click", function (d: any, i: number) {
-                console.log("CLICKING");
                 if (focus !== d) {
                     zoom(d, i),
                         d3.selectAll("#title" + d.data.id).style("fill-opacity", 1).style("display", "inline"),
@@ -158,6 +157,9 @@ export class MappingComponent {
             .attr("x", 0)
             .attr("y", 0)
             .text(function (d: any) { return d.data.description })
+            .each(function(d:any){
+                uiService.wrap(d3.select(this), d.data.description, d.r * 2);
+            })
 
         var node = g.selectAll("path,circle,text");
 
@@ -167,11 +169,10 @@ export class MappingComponent {
 
         let zoomedNode: HierarchyCircularNode<any> = nodes.find(function (d: any) { return d.data.isZoomedOn === true });
         if (!zoomedNode) {
-            console.log("CHOOSE ROOT")
             zoomedNode = root;
         }
         zoomTo([zoomedNode.x, zoomedNode.y, zoomedNode.r * 2 + margin], parseInt(zoomedNode.id));
-        console.log(d3.selectAll("#title" + parseInt(zoomedNode.data.id)).node());
+        if(zoomedNode !== root)
         d3.selectAll("#title" + parseInt(zoomedNode.data.id)).style("fill-opacity", 1).style("display", "inline");
 
         function zoom(d: any, index: number) {

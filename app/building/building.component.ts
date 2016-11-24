@@ -93,7 +93,6 @@ export class BuildingComponent {
             InitiativeNode.traverse(n, function(node){node.isZoomedOn = false});
         })
         node.isZoomedOn = true;
-        console.log("ZOOM IN " + node.name);
         this.saveData();
     }
 
