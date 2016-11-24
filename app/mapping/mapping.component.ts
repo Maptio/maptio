@@ -81,23 +81,23 @@ export class MappingComponent {
             .remove()
             .enter()
             .append("circle")
-            .attr("id", function (d, i) { return i; })
+            //.attr("id", function (d, i) { return i; })
             .attr("class", function (d: any) { return d.parent ? (d.children ? "node" : "node node--leaf") : "node node--root"; })
             .style("fill", function (d: any) { return d.children ? color(d.depth) : "white"; })
-            .attr("id", function (d: any) { return d.data.id; })
+            .attr("id", function (d: any) { return "circle" + d.data.id; })
             .on("click", function (d: any, i: number) {
                 console.log("CLICKING");
                 if (focus !== d) {
                     zoom(d, i),
-                        d3.selectAll("text#t" + i).style("fill-opacity", 1).style("display", "inline"),
+                        d3.selectAll("#title" + d.data.id).style("fill-opacity", 1).style("display", "inline"),
                         d3.event.stopPropagation();
                 }
             })
-            .on("mouseover", function (d, i) {
-                d3.selectAll("#t" + i).classed("highlighted", true);
+            .on("mouseover", function (d:any) {
+                d3.selectAll("#title" + d.data.id).classed("highlighted", true);
             })
-            .on("mouseout", function (d, i) {
-                d3.selectAll("#t" + i).classed("highlighted", false);
+            .on("mouseout", function (d:any) {
+                d3.selectAll("#title" + d.data.id).classed("highlighted", false);
             });
 
         var definitions = svg.append("defs")
@@ -105,25 +105,25 @@ export class MappingComponent {
             .data(nodes)
             .enter()
             .append("path")
-            .attr("id", function (d, i) { return "s" + i; });
+            .attr("id", function (d:any) { return "path" + d.data.id; });
 
         var text = g.selectAll("text")
             .data(nodes)
             .enter()
             .append("text")
-            .attr("id", function (d, i) { return "t" + i; })
+            .attr("id", function (d:any) { return "title" + d.data.id; })
             //.style("fill-opacity", function (d) { return d.parent === root ? 1 : 0.5; })
             .style("display", function (d) { return d.parent === root ? "inline" : "none"; })
             .append("textPath")
-            .attr("xlink:href", function (d, i) { return "#s" + i; })
+            .attr("xlink:href", function (d:any) { return "#path" + d.data.id; })
             .attr("startOffset", function (d, i) { return "10%"; })
             .text(function (d: any) { return d.data.name; })
             .on("mouseover", function (d: any, i: any) {
-                d3.selectAll("#t" + i).classed("highlighted", true);
+                d3.selectAll("#title" + d.data.id).classed("highlighted", true);
                 d3.select("g#description-group" + i).classed("hidden", false);
             })
-            .on("mouseout", function (d, i) {
-                d3.selectAll("#t" + i).classed("highlighted", false);
+            .on("mouseout", function (d:any, i:number) {
+                d3.selectAll("#title" + d.data.id).classed("highlighted", false);
                 d3.select("g#description-group" + i).classed("hidden", true);
             })
 
@@ -167,10 +167,12 @@ export class MappingComponent {
 
         let zoomedNode: HierarchyCircularNode<any> = nodes.find(function (d: any) { return d.data.isZoomedOn === true });
         if (!zoomedNode) {
+            console.log("CHOOSE ROOT")
             zoomedNode = root;
         }
         zoomTo([zoomedNode.x, zoomedNode.y, zoomedNode.r * 2 + margin], parseInt(zoomedNode.id));
-        d3.selectAll("text#t" + parseInt(zoomedNode.id)).style("fill-opacity", 1).style("display", "inline");
+        console.log(d3.selectAll("#title" + parseInt(zoomedNode.data.id)).node());
+        d3.selectAll("#title" + parseInt(zoomedNode.data.id)).style("fill-opacity", 1).style("display", "inline");
 
         function zoom(d: any, index: number) {
             var focus0 = focus; focus = d;

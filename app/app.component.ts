@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(){
-    this.start("new.json");
+    this.start("vestd.json");
   }
 
 }

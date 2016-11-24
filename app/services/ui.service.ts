@@ -57,7 +57,7 @@ export class UIService {
             .text(function (d: any) { return d.data.name })
             .each(function (d: any, i: number) {
 
-                d.pathLength = (<SVGPathElement>d3.select('#s' + i).node()).getTotalLength();
+                d.pathLength = (<SVGPathElement>d3.select('#path' + d.data.id).node()).getTotalLength();
                 d.tw = d3.select(this).node().getComputedTextLength()
                 // console.log(d.data.name + " NODE " + d3.select(this).html());
                 d.radius = d.r * k;
