@@ -5,6 +5,7 @@ import { TreeComponent } from 'angular2-tree-component';
 import { DataService } from '../services/data.service';
 import { FocusDirective } from '../directives/focus.directive'
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import 'rxjs/add/operator/map'
 
 

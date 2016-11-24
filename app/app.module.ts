@@ -23,6 +23,7 @@ import {FocusDirective} from './directives/focus.directive';
 import { D3Service } from 'd3-ng2-service'; 
 import { TreeModule } from 'angular2-tree-component';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
     FormsModule,
     HttpModule,
     TreeModule,
-    Ng2Bs3ModalModule
+    Ng2Bs3ModalModule,
+    NgbModule.forRoot()
   ],
   providers: [D3Service, DataService, ColorService, UIService, DataSetService], 
   entryComponents: [AppComponent],
