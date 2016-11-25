@@ -94,10 +94,8 @@ export class BuildingComponent {
     goToNode(node: InitiativeNode) {
         console.log(this.nodes);
 
-        this.nodes.forEach(function (n: InitiativeNode) {
-            n.isZoomedOn = false;
-            InitiativeNode.traverse(n, function (node) { node.isZoomedOn = false });
-        })
+        InitiativeNode.resetZoomedOn(this.nodes);
+       
         node.isZoomedOn = true;
         this.saveData();
     }
@@ -113,11 +111,29 @@ export class BuildingComponent {
     }
 
     filterNodes(searched: string) {
-        console.log(searched);
-        this.tree.treeModel.filterNodes((node: any) => {
-            return searched === "" ? true : (<InitiativeNode>node.data).name.includes(searched);
-        });
 
+       InitiativeNode.resetSearchedFor(this.nodes); 
+        this.tree.treeModel.filterNodes(
+            (node: any) => {
+                if(searched === "")
+                {
+                    return true;
+                }
+                else{
+                    if(
+                        (<InitiativeNode>node.data).name.toLowerCase().includes(searched.toLowerCase())
+                        || 
+                        (<InitiativeNode>node.data).description.toLowerCase().includes(searched.toLowerCase())
+                        )
+                    {
+                        (<InitiativeNode>node.data).isSearchedFor = true;
+                        return true;
+                    }
+                    return false;
+                }
+            }, 
+            true);
+            this.saveData();
 
     }
 

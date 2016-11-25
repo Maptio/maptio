@@ -8,6 +8,7 @@ export class InitiativeNode{
     isRoot:boolean=false;
     hasFocus:boolean=false;
     isZoomedOn:boolean= false;
+    isSearchedFor:boolean=false;
     description:string= undefined;
     private _size:number = undefined ; //(this.children === undefined ? 0 : this.children.length);
     children:Array<InitiativeNode>;
@@ -30,6 +31,20 @@ export class InitiativeNode{
                 InitiativeNode.traverse(child, callback);
             })
        }
+    }
+
+    static resetZoomedOn(nodes:Array<InitiativeNode>){
+         nodes.forEach(function (n: InitiativeNode) {
+            n.isZoomedOn = false;
+            InitiativeNode.traverse(n, function (node) { node.isZoomedOn = false });
+        });
+    }
+
+     static resetSearchedFor(nodes:Array<InitiativeNode>){
+        nodes.forEach(function (n: InitiativeNode) {
+            n.isSearchedFor = false;
+            InitiativeNode.traverse(n, function (node) { node.isSearchedFor = false });
+        });
     }
 
 }

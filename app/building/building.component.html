@@ -1,7 +1,7 @@
 <div class="building">
 
-	<div class="form-group" *ngIf="!isEmpty()">
-		<input type="text" class="form-control" placeholder="Search map by name" (keyup)="filterNodes($event.target.value)">
+	<div class="form-group">
+		<input type="text" class="form-control" placeholder="Search map by name or description" (change)="filterNodes($event.target.value)">
 	</div>
 	<Tree [nodes]="nodes" (onUpdateData)="saveData($event)">
 		<template #treeNodeTemplate let-node>

@@ -45,7 +45,7 @@ export class MappingComponent {
 
     show(d3: D3, uiService: UIService, data: any) {
 
-        //console.log(JSON.stringify(data));
+        console.log(JSON.stringify(data));
 
         if (!data) {
             d3.select("svg").selectAll("*").remove();
@@ -84,6 +84,8 @@ export class MappingComponent {
             //.attr("id", function (d, i) { return i; })
             .attr("class", function (d: any) { return d.parent ? (d.children ? "node" : "node node--leaf") : "node node--root"; })
             .style("fill", function (d: any) { return d.children ? color(d.depth) : "white"; })
+            .style("stroke", function(d:any){return d.data.isSearchedFor ? "#d9831f" : "none"})
+            .style("stroke-width", function(d:any){return d.data.isSearchedFor ? 3 : "none"})
             .attr("id", function (d: any) { return "circle" + d.data.id; })
             .on("click", function (d: any, i: number) {
                 if (focus !== d) {
