@@ -1,15 +1,14 @@
 <div class="building">
 
 	<div class="form-group" *ngIf="!isEmpty()">
-		<label class="control-label" for="inputSearch">Search</label>
-		<input type="text" class="form-control" id="inputSearch" placeholder="Search"  (change)="filterNodes($event.target.value)">
+		<input type="text" class="form-control" placeholder="Search initiatives by name" (keyup)="filterNodes($event.target.value)">
 	</div>
 	<Tree [nodes]="nodes" (onUpdateData)="saveData($event)">
 		<template #treeNodeTemplate let-node>
-			<div class="panel panel-default">
+			<div class="panel panel-default" *ngIf="!node.isRoot">
 				<div class="panel-heading">
 					<div class="btn-group">
-						<a class="btn btn-default" ngbTooltip="Add sub initiative" placement="bottom" (click)="addChildNode(node.data)"><i class="fa fa-plus" aria-hidden="true"></i></a>
+						<a class="btn btn-default" ngbTooltip="Add" placement="bottom" (click)="addChildNode(node.data)"><i class="fa fa-plus" aria-hidden="true"></i></a>
 
 						<a class="btn btn-default" ngbTooltip="Remove" placement="bottom" *ngIf="!node.isRoot" (click)="removeChildNode(node.data)"><i class="fa fa-minus" aria-hidden="true"></i></a>
 
@@ -17,16 +16,30 @@
 
 						<a class="btn btn-default" ngbTooltip="Zoom in" placement="bottom" (click)="goToNode(node.data)"><i class="fa fa-circle" aria-hidden="true"></i></a>
 
-						<a class="btn btn-default" [ngClass]="{'disabled': !node.children }" ngbTooltip="Expand" placement="bottom" *ngIf="!node.isExpanded" (click)="toggleNode(node)"><i class="fa fa-caret-square-o-down" aria-hidden="true"></i></a>
+						<a class="btn btn-default" [ngClass]="{'disabled': !node.children }" ngbTooltip="Expand" placement="bottom" *ngIf="!node.isExpanded"
+							(click)="toggleNode(node)"><i class="fa fa-caret-square-o-down" aria-hidden="true"></i></a>
 
-						<a class="btn btn-default" [ngClass]="{'disabled': !node.children }" ngbTooltip="Collapse" placement="bottom" *ngIf="node.isExpanded" (click)="toggleNode(node)"><i class="fa fa-caret-square-o-right" aria-hidden="true"></i></a>
+						<a class="btn btn-default" [ngClass]="{'disabled': !node.children }" ngbTooltip="Collapse" placement="bottom" *ngIf="node.isExpanded"
+							(click)="toggleNode(node)"><i class="fa fa-caret-square-o-right" aria-hidden="true"></i></a>
 					</div>
 				</div>
 				<div class="panel-body">
-					<input class="form-control input-sm name" type="text" [focus]="node.data.hasFocus" autoselect [ngModel]="node.data.name" placeholder="Initiative name"
-						(ngModelChange)="saveNodeName($event, node.data)">
+					<input class="form-control input-sm" type="text" [focus]="node.data.hasFocus" autoselect [ngModel]="node.data.name"
+						placeholder="Initiative name" (ngModelChange)="saveNodeName($event, node.data)">
 				</div>
 			</div>
+
+			<div class="form-group" *ngIf="node.isRoot">
+				<div class="input-group">
+					<input class="form-control" type="text" [focus]="node.data.hasFocus" autoselect [ngModel]="node.data.name"
+						placeholder="Project name" (ngModelChange)="saveNodeName($event, node.data)">
+					<span class="input-group-btn" >
+						<button class="btn btn-default" [ngClass]="{'disabled': !isRootValid() }" ngbTooltip="Add" placement="top" (click)="addChildNode(node.data)"><i class="fa fa-plus" aria-hidden="true"></i></button>
+
+						</span>
+				</div>
+			</div>
+
 
 		</template>
 	</Tree>

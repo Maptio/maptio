@@ -35,7 +35,11 @@ export class BuildingComponent {
     }
 
     isEmpty(): boolean {
-        return !this.nodes || this.nodes.length === 0;
+        return !this.nodes[0] || this.nodes[0].children.length === 0; // check if the root has any children
+    }
+
+    isRootValid():boolean{
+        return this.nodes[0].name.length > 0;
     }
 
     saveNodeName(newName: any, node: InitiativeNode) {

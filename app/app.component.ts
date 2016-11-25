@@ -21,12 +21,14 @@ export class AppComponent implements OnInit {
   private buildingComponent: BuildingComponent
   private empty: DataSet = DataSet.EMPTY;
   private datasets: DataSet[];
+  private selectedDataset: DataSet;
 
 
   constructor(public datasetService: DataSetService) {
   }
 
   start(dataset: DataSet) {
+    this.selectedDataset = dataset;
     this.buildingComponent.loadData(dataset.url);
   }
 
