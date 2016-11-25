@@ -10,10 +10,10 @@
 				<label class="control-label">Project</label>
 				<div class="input-group">
 					<span class="input-group-btn">
-				<a class="btn btn-link" [ngClass]="{'disabled': !node.children }" *ngIf="!node.isExpanded"
+				<a class="btn btn-link" [ngClass]="{'disabled': !node.children }" *ngIf="!node.isExpanded && node.children"
 							(click)="toggleNode(node)"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
 
-						<a class="btn btn-link" [ngClass]="{'disabled': !node.children }"  *ngIf="node.isExpanded"
+						<a class="btn btn-link" [ngClass]="{'disabled': !node.children }"  *ngIf="node.isExpanded && node.children"
 							(click)="toggleNode(node)"><i class="fa fa-minus-square" aria-hidden="true"></i></a>
 						</span>
 					<input class="form-control input-sm" type="text" [focus]="node.data.hasFocus" autoselect [ngModel]="node.data.name" placeholder="Project name"
@@ -30,10 +30,10 @@
 			<div class="form-group" *ngIf="!node.isRoot">
 				<div class="input-group">
 					<span class="input-group-btn">
-							<a class="btn btn-link" [ngClass]="{'disabled': !node.children }"  *ngIf="!node.isExpanded"
+							<a class="btn btn-link" [ngClass]="{'disabled': !node.children }"  *ngIf="!node.isExpanded && node.children"
 							(click)="toggleNode(node)"><i class="fa fa-plus-square" aria-hidden="true"></i></a>
 
-						<a class="btn btn-link" [ngClass]="{'disabled': !node.children }" *ngIf="node.isExpanded"
+						<a class="btn btn-link" [ngClass]="{'disabled': !node.children }" *ngIf="node.isExpanded && node.children"
 							(click)="toggleNode(node)"><i class="fa fa-minus-square" aria-hidden="true"></i></a>
 					 </span>
 
