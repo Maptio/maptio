@@ -29,7 +29,7 @@ export class MappingComponent {
     private dataService: DataService;
     private colorService: ColorService;
     private uiService: UIService;
-    private title: string;
+    private projectName: string;
 
 
     constructor(d3Service: D3Service, dataService: DataService, colorService: ColorService, uiService: UIService) {
@@ -70,7 +70,7 @@ export class MappingComponent {
             .sum(function (d: any) { return d.size; })
             .sort(function (a, b) { return b.value - a.value });
 
-        this.title = root.data.name;
+        this.projectName = root.data.name;
 
         var focus = root,
             nodes = pack(root).descendants(),
