@@ -14,20 +14,11 @@ padding-right: 15px;
 }
 
 .building {
-    padding:5px;
-    margin-left: 20px;
-    float: left;
-    /* position: absolute; */
-    padding: 2px;
+    float: left;;
     font: 12px sans-serif;
     background-color: #fcfcfc;
-    border: 0px;
-    border-radius: 5px;
-    /* width: 300px; */
-    /* left: 982px; */
     scroll-behavior: auto;
     overflow: scroll;
     height: 754px;
-    /* top: 44px; */
 }
 
