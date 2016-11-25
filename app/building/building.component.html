@@ -9,15 +9,18 @@
 			<div class="form-group" *ngIf="node.isRoot">
 				<label class="control-label">Project</label>
 				<div class="input-group">
-					<input class="form-control" type="text" [focus]="node.data.hasFocus" autoselect [ngModel]="node.data.name" placeholder="Project name"
-						(ngModelChange)="saveNodeName($event, node.data)">
 					<span class="input-group-btn">
-						<button class="btn btn-default" [ngClass]="{'disabled': !isRootValid() }" ngbTooltip="Add" placement="top" (click)="addChildNode(node.data)"><i class="fa fa-plus" aria-hidden="true"></i></button>
 				<a class="btn btn-default" [ngClass]="{'disabled': !node.children }" ngbTooltip="Expand" placement="bottom" *ngIf="!node.isExpanded"
 							(click)="toggleNode(node)"><i class="fa fa-caret-square-o-down" aria-hidden="true"></i></a>
 
 						<a class="btn btn-default" [ngClass]="{'disabled': !node.children }" ngbTooltip="Collapse" placement="bottom" *ngIf="node.isExpanded"
 							(click)="toggleNode(node)"><i class="fa fa-caret-square-o-right" aria-hidden="true"></i></a>
+						</span>
+					<input class="form-control" type="text" [focus]="node.data.hasFocus" autoselect [ngModel]="node.data.name" placeholder="Project name"
+						(ngModelChange)="saveNodeName($event, node.data)">
+					<span class="input-group-btn">
+						<button class="btn btn-default" [ngClass]="{'disabled': !isRootValid() }" ngbTooltip="Add" placement="top" (click)="addChildNode(node.data)"><i class="fa fa-plus" aria-hidden="true"></i></button>
+				
 						</span>
 				</div>
 			</div>
