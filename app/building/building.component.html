@@ -24,16 +24,16 @@
 					</div>
 				</div>
 				<div class="panel-body">
-					<input class="form-control input-sm" type="text" [focus]="node.data.hasFocus" autoselect [ngModel]="node.data.name"
-						placeholder="Initiative name" (ngModelChange)="saveNodeName($event, node.data)">
+					<input class="form-control input-sm" type="text" [focus]="node.data.hasFocus" autoselect [ngModel]="node.data.name" placeholder="Initiative name"
+						(ngModelChange)="saveNodeName($event, node.data)">
 				</div>
 			</div>
 
 			<div class="form-group" *ngIf="node.isRoot">
 				<div class="input-group">
-					<input class="form-control" type="text" [focus]="node.data.hasFocus" autoselect [ngModel]="node.data.name"
-						placeholder="Project name" (ngModelChange)="saveNodeName($event, node.data)">
-					<span class="input-group-btn" >
+					<input class="form-control" type="text" [focus]="node.data.hasFocus" autoselect [ngModel]="node.data.name" placeholder="Project name"
+						(ngModelChange)="saveNodeName($event, node.data)">
+					<span class="input-group-btn">
 						<button class="btn btn-default" [ngClass]="{'disabled': !isRootValid() }" ngbTooltip="Add" placement="top" (click)="addChildNode(node.data)"><i class="fa fa-plus" aria-hidden="true"></i></button>
 
 						</span>
