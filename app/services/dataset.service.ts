@@ -16,9 +16,9 @@ export class DataSetService {
     *   These will be reocrded under an account later.
     */
     private DATASETS: Array<DataSet> = [
-        new DataSet("VESTD", '../../../assets/datasets/vestd.json') ,
-        new DataSet("MIKE BOSTOCK",'../../../assets/datasets/mbostock.json') ,
-        new DataSet("DUMMY", '../../../assets/datasets/dummy.json') 
+        new DataSet("Vestd", '../../../assets/datasets/vestd.json') ,
+        new DataSet("Mike Bostock's",'../../../assets/datasets/mbostock.json') ,
+        new DataSet("Dummy", '../../../assets/datasets/dummy.json') 
     ];
 
     constructor(http:Http){

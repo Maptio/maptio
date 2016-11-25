@@ -38,3 +38,6 @@ div.initiative{
   clear:both;
 }
 
+span.toggle-children {
+  background-image: none;
+}
