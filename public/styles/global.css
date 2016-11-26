@@ -6,3 +6,10 @@ body{
 .toggle-children{
   background-image: none;
 }
+
+a.caret-before {
+    padding-right:1px !important;
+}
+a.caret-after {
+    padding-left:1px !important;
+}

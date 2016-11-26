@@ -7,6 +7,7 @@ import {
 import { BuildingComponent } from './building/building.component'
 import { DataSet } from './model/dataset.data'
 import { DataSetService } from './services/dataset.service'
+import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import 'rxjs/add/operator/map'
 
 @Component({
@@ -19,6 +20,11 @@ export class AppComponent implements OnInit {
 
   @ViewChild('building')
   private buildingComponent: BuildingComponent
+
+
+  @ViewChild('helpModal')
+  modal: ModalComponent;
+
   private empty: DataSet = DataSet.EMPTY;
   private datasets: DataSet[];
   private selectedDataset: DataSet;
@@ -40,6 +46,10 @@ export class AppComponent implements OnInit {
     this.datasetService.getData().then(o => {
       this.datasets = o;
     });
+  }
+
+  openHelp() {
+    this.modal.open();
   }
 }
 
