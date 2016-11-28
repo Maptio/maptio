@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild, ViewChildren, Directive, Input, ElementRef, Inject, QueryList, Query } from '@angular/core';
 //import { InitiativeComponent} from './initiative.component'
 import { InitiativeNode } from '../model/initiative.data';
+import {InitiativeComponent} from '../initiative/initiative.component';
 import { TreeComponent } from 'angular2-tree-component';
 import { DataService } from '../services/data.service';
 import { FocusDirective } from '../directives/focus.directive'
 import { AutoSelectDirective } from '../directives/autoselect.directive'
-import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import 'rxjs/add/operator/map'
 
@@ -24,8 +24,8 @@ export class BuildingComponent {
     @ViewChild(TreeComponent)
     private tree: TreeComponent;
 
-    @ViewChild('initiativeModal')
-    modal: ModalComponent;
+    @ViewChild('initiative')
+    private initiativeEditComponent: InitiativeComponent;
 
     private dataService: DataService;
 
@@ -88,7 +88,7 @@ export class BuildingComponent {
 
     openNode(node: InitiativeNode) {
         this.selectedNode = node;
-        this.modal.open();
+        this.initiativeEditComponent.open();
     }
 
     goToNode(node: InitiativeNode) {
@@ -100,8 +100,7 @@ export class BuildingComponent {
         this.saveData();
     }
 
-    loadData(filename: string) {
-        let url = '../../../assets/datasets/' + filename;
+    loadData(url: string) {
         this.dataService.getRawData(url).then(data => {
             this.nodes = [];
             let parsed: InitiativeNode = Object.assign(new InitiativeNode(), data)

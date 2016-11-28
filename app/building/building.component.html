@@ -54,21 +54,9 @@
 			</div>
 
 
-
-
-
 		</template>
 	</Tree>
-	<modal #initiativeModal [keyboard]="true" [backdrop]="'static'">
-		<modal-header [show-close]="false">
-			<h4 class="modal-title">Initiative details</h4>
-		</modal-header>
-		<modal-body>
-			<initiative [initiative]="selectedNode"></initiative>
-		</modal-body>
-		<modal-footer>
-			<button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
-			<button type="button" class="btn btn-primary" (click)="saveData(); modal.close()">Save</button>
-		</modal-footer>
-	</modal>
+	<!--Modal-->
+	<initiative #initiative [initiative]="selectedNode"></initiative>
+
 </div>

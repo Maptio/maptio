@@ -5,6 +5,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { BuildingComponent } from './building/building.component'
+import { HelpComponent } from './help/help.component';
 import { DataSet } from './model/dataset.data'
 import { DataSetService } from './services/dataset.service'
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
@@ -21,14 +22,12 @@ export class AppComponent implements OnInit {
   @ViewChild('building')
   private buildingComponent: BuildingComponent
 
-
-  @ViewChild('helpModal')
-  modal: ModalComponent;
+  @ViewChild('help')
+  private helpComponent: HelpComponent;
 
   private empty: DataSet = DataSet.EMPTY;
   private datasets: DataSet[];
   private selectedDataset: DataSet;
-
 
   constructor(public datasetService: DataSetService) {
   }
@@ -36,6 +35,10 @@ export class AppComponent implements OnInit {
   start(dataset: DataSet) {
     this.selectedDataset = dataset;
     this.buildingComponent.loadData(dataset.url);
+  }
+
+  import() {
+    alert("Feature coming soon");
   }
 
   isProjectEmpty(): boolean {
@@ -49,7 +52,7 @@ export class AppComponent implements OnInit {
   }
 
   openHelp() {
-    this.modal.open();
+    this.helpComponent.open();
   }
 }
 

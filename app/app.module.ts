@@ -13,8 +13,9 @@ import {UIService} from './services/ui.service'
 //Components
 import { AppComponent } from './app.component';
 import { MappingComponent } from './mapping/mapping.component';
-import {InitiativeComponent} from './building/initiative.component'
+import {InitiativeComponent} from './initiative/initiative.component'
 import {BuildingComponent} from './building/building.component';
+import {HelpComponent} from './help/help.component';
 
 //Directives
 import {FocusDirective} from './directives/focus.directive';
@@ -34,7 +35,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     BuildingComponent,
     InitiativeComponent,
     FocusDirective,
-    AutoSelectDirective
+    AutoSelectDirective,
+    HelpComponent
   ],
   imports: [
     BrowserModule,

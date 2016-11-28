@@ -1,4 +1,4 @@
-import { Component, Injectable, Inject, AfterViewInit, OnInit, Input} from '@angular/core';
+import { Component, Injectable, Inject, AfterViewInit, OnInit, Input, ViewChild} from '@angular/core';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import {InitiativeNode} from '../model/initiative.data'
 
@@ -11,6 +11,9 @@ import {InitiativeNode} from '../model/initiative.data'
 })
 
 export class InitiativeComponent {
+
+    @ViewChild('initiativeModal')
+    modal:ModalComponent;
 
     @Input() initiative: InitiativeNode;
 
@@ -27,6 +30,10 @@ export class InitiativeComponent {
 
     saveNodeSize(newSize: number) {
         this.initiative.size = newSize;
+    }
+
+    open(){
+        this.modal.open();
     }
 
 }
