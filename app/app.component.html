@@ -30,7 +30,7 @@
 							</li>
 							<li class="divider"></li>
 							<li class="dropdown-header">Import</li>
-							<li><a (click)="import()">CSV/JSON</a></li>
+							<li><a (click)="openImport()">CSV/JSON</a></li>
 						</ul>
 					</div>
 				</li>
@@ -43,7 +43,7 @@
 </nav>
 
 <div class="container-fluid">
-	<div class="row">
+	<div class="row-fluid">
 		<div class="col-lg-7">
 			<mapping>Loading...</mapping>
 		</div>
@@ -54,3 +54,4 @@
 </div>
 
 <help #help></help>
+<import #import></import>

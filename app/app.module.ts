@@ -16,10 +16,12 @@ import { MappingComponent } from './mapping/mapping.component';
 import {InitiativeComponent} from './initiative/initiative.component'
 import {BuildingComponent} from './building/building.component';
 import {HelpComponent} from './help/help.component';
+import {ImportComponent} from './import/import.component';
 
 //Directives
 import {FocusDirective} from './directives/focus.directive';
 import { AutoSelectDirective} from './directives/autoselect.directive'
+import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 
 // External libraries
 import { D3Service } from 'd3-ng2-service'; 
@@ -36,7 +38,9 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     InitiativeComponent,
     FocusDirective,
     AutoSelectDirective,
-    HelpComponent
+    FileSelectDirective,FileDropDirective,
+    HelpComponent,
+    ImportComponent
   ],
   imports: [
     BrowserModule,

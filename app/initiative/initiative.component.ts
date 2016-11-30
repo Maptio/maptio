@@ -15,21 +15,21 @@ export class InitiativeComponent {
     @ViewChild('initiativeModal')
     modal:ModalComponent;
 
-    @Input() initiative: InitiativeNode;
+    @Input() data: InitiativeNode;
 
     constructor(){
     }
 
     saveNodeName(newName: any) {
-        this.initiative.name = newName;
+        this.data.name = newName;
     }
 
     saveNodeDescription(newDesc: string) {
-        this.initiative.description = newDesc;
+        this.data.description = newDesc;
     }
 
     saveNodeSize(newSize: number) {
-        this.initiative.size = newSize;
+        this.data.size = newSize;
     }
 
     open(){

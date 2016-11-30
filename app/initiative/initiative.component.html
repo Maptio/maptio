@@ -6,11 +6,11 @@
 
 		<form class="form-horizontal">
 			<fieldset>
-				<legend>{{initiative?.name}}</legend>
+				<legend>{{data?.name}}</legend>
 				<div class="form-group">
 					<label for="inputName" class="col-lg-2 control-label">Name</label>
 					<div class="col-lg-10">
-						<input class="form-control input-sm" id="inputName" type="text" [ngModelOptions]="{standalone: true}" [ngModel]="initiative?.name"
+						<input class="form-control input-sm" id="inputName" type="text" [ngModelOptions]="{standalone: true}" [ngModel]="data?.name"
 							placeholder="Initiative name" (ngModelChange)="saveNodeName($event)">
 						<span class="help-block">A short but descriptive title for the initiative</span>
 					</div>
@@ -19,7 +19,7 @@
 				<div class="form-group">
 					<label for="inputSize" class="col-lg-2 control-label">Team size</label>
 					<div class="col-lg-10">
-						<input class="form-control input-sm" id="inputSize" type="text" [ngModelOptions]="{standalone: true}" [ngModel]="initiative?.size"
+						<input class="form-control input-sm" id="inputSize" type="text" [ngModelOptions]="{standalone: true}" [ngModel]="data?.size"
 							placeholder="Team size" (ngModelChange)="saveNodeSize($event)">
 						<span class="help-block">The team size changes the size of associated circle</span>
 					</div>
@@ -28,7 +28,7 @@
 				<div class="form-group">
 					<label for="inputDescription" class="col-lg-2 control-label">Description</label>
 					<div class="col-lg-10">
-						<textarea autofocus class="form-control" id="inputDescription" rows="3" [ngModelOptions]="{standalone: true}" [ngModel]="initiative?.description"
+						<textarea autofocus class="form-control" id="inputDescription" rows="3" [ngModelOptions]="{standalone: true}" [ngModel]="data?.description"
 							placeholder="Description" (ngModelChange)="saveNodeDescription($event)"></textarea>
 
 						<span class="help-block">Describe the initiative here : team members, budget, stakeholders, etc</span>

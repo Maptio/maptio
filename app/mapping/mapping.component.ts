@@ -128,17 +128,6 @@ export class MappingComponent {
                 d3.select("g#description-group" + i).classed("hidden", true);
             })
 
-        // var descriptionIcon = g.selectAll("icon")
-        //     .data(nodes)
-        //     .enter().append('text')
-        //     .attr("class", "icon")
-        //     .attr("x", "-12px")
-        //     .style("fill-opacity", function (d) { return d.parent === root ? 1 : 0; })
-        //     .style("display", function (d: any) { return d.parent === root && d.data.description && d.data.description != "" ? "inline" : "none"; })
-        //     .append("textPath")
-        //     .attr("xlink:href", function (d, i) { return "#s" + i; })
-        //     .attr("startOffset", function (d, i) { return "10%"; })
-        //     .text(function (d: any) { return d.data.description === undefined ? "" : "\uf249" });
 
         var description = g.selectAll("description")
             .data(nodes)

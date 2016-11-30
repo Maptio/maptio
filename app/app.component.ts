@@ -5,10 +5,10 @@ import {
   ViewChild
 } from '@angular/core';
 import { BuildingComponent } from './building/building.component'
+import {ImportComponent} from './import/import.component';
 import { HelpComponent } from './help/help.component';
 import { DataSet } from './model/dataset.data'
 import { DataSetService } from './services/dataset.service'
-import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import 'rxjs/add/operator/map'
 
 @Component({
@@ -25,6 +25,9 @@ export class AppComponent implements OnInit {
   @ViewChild('help')
   private helpComponent: HelpComponent;
 
+  @ViewChild('import')
+  private importComponent:ImportComponent;
+
   private empty: DataSet = DataSet.EMPTY;
   private datasets: DataSet[];
   private selectedDataset: DataSet;
@@ -37,8 +40,8 @@ export class AppComponent implements OnInit {
     this.buildingComponent.loadData(dataset.url);
   }
 
-  import() {
-    alert("Feature coming soon");
+  openImport() {
+    this.importComponent.open();
   }
 
   isProjectEmpty(): boolean {
