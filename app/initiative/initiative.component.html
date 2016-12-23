@@ -43,10 +43,10 @@
 				<div class="form-group">
 					<label for="inputDescription" class="col-lg-2 control-label">Description</label>
 					<div class="col-lg-10">
-						<textarea autofocus class="form-control" id="inputDescription" rows="3" [ngModelOptions]="{standalone: true}" [ngModel]="data?.description"
+						<textarea autofocus data-provide="markdown" class="form-control initiativeMarkdownDescription" id="inputDescription" rows="10" [ngModelOptions]="{standalone: true}" [ngModel]="data?.description"
 							placeholder="Description" (ngModelChange)="saveNodeDescription($event)"></textarea>
 
-						<span class="help-block">Describe the initiative here : team members, budget, stakeholders, etc</span>
+						<span class="help-block">Describe the initiative here : budget, stakeholders, etc</span>
 					</div>
 				</div>
 			</fieldset>
