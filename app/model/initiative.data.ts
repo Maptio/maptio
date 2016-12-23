@@ -3,25 +3,38 @@ import { Injectable, Inject } from '@angular/core'
 @Injectable()
 export class InitiativeNode {
 
+    /** Unique Id */
     id: number;
+
+    /** Short name for the initiative. */
     name: string;
+
+    /** Description of initiative */
+    description: string = undefined;
+
+    /** Children nodes */
+    children: Array<InitiativeNode>;
+
+    /** Starting date of initiative */
+    start:Date;
+
+
     isRoot: boolean = false;
     hasFocus: boolean = false;
     isZoomedOn: boolean = false;
     isSearchedFor: boolean = false;
-    description: string = undefined;
-    private _size: number = undefined; //(this.children === undefined ? 0 : this.children.length);
-    children: Array<InitiativeNode>;
-
+    private size: number = 1 //undefined; //(this.children === undefined ? 0 : this.children.length);
+    
+    
     constructor() { }
 
-    get size(): number {
-        return this._size || 1;
-    }
+    // get size(): number {
+    //     return this._size || 1;
+    // }
 
-    set size(size: number) {
-        this._size = size;
-    }
+    // set size(size: number) {
+    //     this._size = size;
+    // }
 
     static traverse(node: InitiativeNode, callback: ((n: InitiativeNode) => void)) {
         if (node.children) {

@@ -17,13 +17,28 @@
 				</div>
 
 				<div class="form-group">
+					<label for="inputStartDate" class="col-lg-2 control-label">Start Date</label>
+					<div class="col-lg-4">
+						<div class="input-group">
+							<input class="form-control" placeholder="yyyy-mm-dd" name="dp" [ngModel]="data?.start" (ngModelChange)="saveNodeStartDate($event)"
+								ngbDatepicker #d="ngbDatepicker">
+							<div class="input-group-addon" (click)="d.toggle()">
+								<i class="fa fa-calendar" aria-hidden="true"></i>
+								<!--<img src="img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />-->
+							</div>
+						</div>
+						<span class="help-block">When the initiative started</span>
+					</div>
+				</div>
+
+				<!--<div class="form-group">
 					<label for="inputSize" class="col-lg-2 control-label">Team size</label>
 					<div class="col-lg-10">
 						<input class="form-control input-sm" id="inputSize" type="text" [ngModelOptions]="{standalone: true}" [ngModel]="data?.size"
 							placeholder="Team size" (ngModelChange)="saveNodeSize($event)">
 						<span class="help-block">The team size changes the size of associated circle</span>
 					</div>
-				</div>
+				</div>-->
 
 				<div class="form-group">
 					<label for="inputDescription" class="col-lg-2 control-label">Description</label>
@@ -38,7 +53,7 @@
 		</form>
 	</modal-body>
 	<modal-footer>
-		<button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>
-		<button type="button" class="btn btn-primary" (click)="saveData(); modal.close()">Save</button>
+		<!--<button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>-->
+		<button type="button" class="btn btn-primary" (click)="modal.close()">Save &amp; Close</button>
 	</modal-footer>
 </modal>

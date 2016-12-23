@@ -28,9 +28,13 @@ export class InitiativeComponent {
         this.data.description = newDesc;
     }
 
-    saveNodeSize(newSize: number) {
-        this.data.size = newSize;
+    saveNodeStartDate(newDate: Date) {
+        this.data.start = newDate;
     }
+
+    // saveNodeSize(newSize: number) {
+    //     this.data.size = newSize;
+    // }
 
     open(){
         this.modal.open();

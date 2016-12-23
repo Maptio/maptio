@@ -25,8 +25,8 @@ export class AppComponent implements OnInit {
   @ViewChild('help')
   private helpComponent: HelpComponent;
 
-  @ViewChild('import')
-  private importComponent:ImportComponent;
+  // @ViewChild('import')
+  // private importComponent:ImportComponent;
 
   private empty: DataSet = DataSet.EMPTY;
   private datasets: DataSet[];
@@ -40,9 +40,9 @@ export class AppComponent implements OnInit {
     this.buildingComponent.loadData(dataset.url);
   }
 
-  openImport() {
-    this.importComponent.open();
-  }
+  // openImport() {
+  //   this.importComponent.open();
+  // }
 
   isProjectEmpty(): boolean {
     return this.buildingComponent.isEmpty();
