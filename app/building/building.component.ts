@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ViewChildren, Directive, Input, ElementRef, Inject, QueryList, Query } from '@angular/core';
 //import { InitiativeComponent} from './initiative.component'
 import { InitiativeNode } from '../model/initiative.data';
+import {Person} from '../model/person.data'
 import {InitiativeComponent} from '../initiative/initiative.component';
 import { TreeComponent } from 'angular2-tree-component';
 import { DataService } from '../services/data.service';
@@ -20,6 +21,7 @@ export class BuildingComponent {
 
     private nodes: Array<InitiativeNode>;
     private selectedNode: InitiativeNode;
+    private selectedTeam:Array<Person>;
 
     @ViewChild(TreeComponent)
     private tree: TreeComponent;
@@ -100,11 +102,12 @@ export class BuildingComponent {
         this.saveData();
     }
 
-    loadData(url: string) {
+    loadData(url: string, team:Array<Person>) {
         this.dataService.getRawData(url).then(data => {
             this.nodes = [];
             let parsed: InitiativeNode = Object.assign(new InitiativeNode(), data)
             this.nodes.push(parsed);
+            this.selectedTeam = team;
             this.saveData();
         });
     }

@@ -1,4 +1,5 @@
 import { Injectable, Inject } from '@angular/core'
+import {Person} from './person.data';
 
 @Injectable()
 export class InitiativeNode {
@@ -17,6 +18,9 @@ export class InitiativeNode {
 
     /** Starting date of initiative */
     start:Date;
+
+    /**Accountable  */
+    accountable:Person;
 
 
     isRoot: boolean = false;

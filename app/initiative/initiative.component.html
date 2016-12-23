@@ -6,9 +6,8 @@
 
 		<form class="form-horizontal">
 			<fieldset>
-				<legend>{{data?.name}}</legend>
 				<div class="form-group">
-					<label for="inputName" class="col-lg-2 control-label">Name</label>
+					<label for="inputName" class="col-lg-2 control-label">Short Name</label>
 					<div class="col-lg-10">
 						<input class="form-control input-sm" id="inputName" type="text" [ngModelOptions]="{standalone: true}" [ngModel]="data?.name"
 							placeholder="Initiative name" (ngModelChange)="saveNodeName($event)">
@@ -17,8 +16,18 @@
 				</div>
 
 				<div class="form-group">
+      <label for="select" class="col-lg-2 control-label">Accountable person</label>
+      <div class="col-lg-10">
+        <select class="form-control" id="inputAccountable" [ngModelOptions]="{standalone: true}" [ngModel]="data?.accountable"  (ngModelChange)="saveNodeAccountable($event)">
+<option *ngFor="let person of team">{{person.name}}</option>
+        </select>
+        
+      </div>
+    </div>
+
+				<div class="form-group">
 					<label for="inputStartDate" class="col-lg-2 control-label">Start Date</label>
-					<div class="col-lg-4">
+					<div class="col-lg-10">
 						<div class="input-group">
 							<input class="form-control" placeholder="yyyy-mm-dd" name="dp" [ngModel]="data?.start" (ngModelChange)="saveNodeStartDate($event)"
 								ngbDatepicker #d="ngbDatepicker">
@@ -43,7 +52,7 @@
 				<div class="form-group">
 					<label for="inputDescription" class="col-lg-2 control-label">Description</label>
 					<div class="col-lg-10">
-						<textarea autofocus data-provide="markdown" class="form-control initiativeMarkdownDescription" id="inputDescription" rows="10" [ngModelOptions]="{standalone: true}" [ngModel]="data?.description"
+						<textarea autofocus data-provide="markdown" data-iconlibrary="fa" class="form-control initiativeMarkdownDescription" id="inputDescription" rows="10" [ngModelOptions]="{standalone: true}" [ngModel]="data?.description"
 							placeholder="Description" (ngModelChange)="saveNodeDescription($event)"></textarea>
 
 						<span class="help-block">Describe the initiative here : budget, stakeholders, etc</span>

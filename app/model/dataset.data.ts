@@ -1,6 +1,10 @@
+import {Person} from './person.data'
+
 export class DataSet{
 
   content:any;
+
+  team:Array<Person> = [{name:"Safiyya"}, {name:"Gabriel"}];
 
   constructor(public name:string, public url:string){}
 
