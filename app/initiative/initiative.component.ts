@@ -25,6 +25,7 @@ export class InitiativeComponent {
     @Input() team: Team;
 
     isTeamMemberFound: boolean= true;
+    isTeamMemberAdded:boolean=false;
     currentTeamName:string;
 
 
@@ -54,6 +55,7 @@ export class InitiativeComponent {
             .distinctUntilChanged()
             .map(term => {
                 try{
+                    this.isTeamMemberAdded = false;
                     this.currentTeamName = term;
                     let results = term.length < 1 ? this.team.members : this.team.members.filter(v => new RegExp(term, 'gi').test(v.name)).splice(0, 10);
                     this.isTeamMemberFound = (results != undefined && results.length != 0) ? true : false;
@@ -67,7 +69,15 @@ export class InitiativeComponent {
     formatter = (result: Person) => result.name;
 
     addTeamMember(){
-        this.team.members.push({name:this.currentTeamName}); 
+        try{
+            this.team.members.push({name:this.currentTeamName}); 
+            this.isTeamMemberAdded = true;
+
+        }
+        catch(Exception){
+            this.isTeamMemberAdded = false;
+        }
+        
     }
 
     // saveNodeSize(newSize: number) {
