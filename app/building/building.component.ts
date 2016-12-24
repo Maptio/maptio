@@ -95,8 +95,6 @@ export class BuildingComponent {
     }
 
     goToNode(node: InitiativeNode) {
-        console.log(this.nodes);
-
         InitiativeNode.resetZoomedOn(this.nodes);
        
         node.isZoomedOn = true;
@@ -109,14 +107,14 @@ export class BuildingComponent {
             let parsedNodes: InitiativeNode = Object.assign(new InitiativeNode(), data)
             this.nodes.push(parsedNodes);
 
+            // another function/service
             let members = new Array<Person>();
             InitiativeNode.traverse(parsedNodes, function (node) { 
-
                 if(node.accountable && !members.find(function(person){ return person.name === node.accountable.name}))
                     members.push(node.accountable)
                 }
             );
-            console.log(members);
+            
             this.selectedTeam = {members:members};
             this.saveData();
         });
