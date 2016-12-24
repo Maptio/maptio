@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ViewChildren, Directive, Input, ElementRe
 //import { InitiativeComponent} from './initiative.component'
 import { InitiativeNode } from '../model/initiative.data';
 import {Team} from '../model/team.data'
+import {Person} from '../model/person.data'
 import {InitiativeComponent} from '../initiative/initiative.component';
 import { TreeComponent } from 'angular2-tree-component';
 import { DataService } from '../services/data.service';
@@ -102,12 +103,21 @@ export class BuildingComponent {
         this.saveData();
     }
 
-    loadData(url: string, team:Team) {
+    loadData(url: string) {
         this.dataService.getRawData(url).then(data => {
             this.nodes = [];
-            let parsed: InitiativeNode = Object.assign(new InitiativeNode(), data)
-            this.nodes.push(parsed);
-            this.selectedTeam = team;
+            let parsedNodes: InitiativeNode = Object.assign(new InitiativeNode(), data)
+            this.nodes.push(parsedNodes);
+
+            let members = new Array<Person>();
+            InitiativeNode.traverse(parsedNodes, function (node) { 
+
+                if(node.accountable && !members.find(function(person){ return person.name === node.accountable.name}))
+                    members.push(node.accountable)
+                }
+            );
+            console.log(members);
+            this.selectedTeam = {members:members};
             this.saveData();
         });
     }

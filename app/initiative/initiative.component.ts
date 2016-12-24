@@ -55,7 +55,7 @@ export class InitiativeComponent {
             .map(term => {
                 try{
                     this.currentTeamName = term;
-                    let results = term.length < 2 ? [] : this.team.members.filter(v => new RegExp(term, 'gi').test(v.name)).splice(0, 10);
+                    let results = term.length < 1 ? this.team.members : this.team.members.filter(v => new RegExp(term, 'gi').test(v.name)).splice(0, 10);
                     this.isTeamMemberFound = (results != undefined && results.length != 0) ? true : false;
                     return results;
                 }

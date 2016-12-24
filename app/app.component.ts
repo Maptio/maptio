@@ -37,7 +37,7 @@ export class AppComponent implements OnInit {
 
   start(dataset: DataSet) {
     this.selectedDataset = dataset;
-    this.buildingComponent.loadData(dataset.url, dataset.team);
+    this.buildingComponent.loadData(dataset.url);
   }
 
   // openImport() {
