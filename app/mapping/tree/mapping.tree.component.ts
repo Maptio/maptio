@@ -46,7 +46,7 @@ export class MappingTreeComponent implements OnInit , IMapping{
 
         var i = 0,
             duration = 750,
-            root:any;
+            root:any; 
 
         // declares a tree layout and assigns the size
         var treemap = d3.tree().size([height, width]);
