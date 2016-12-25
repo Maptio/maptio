@@ -5,7 +5,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { BuildingComponent } from './building/building.component'
-import { ImportComponent } from './import/import.component';
+//import { ImportComponent } from './import/import.component';
 import { HelpComponent } from './help/help.component';
 import { DataSet } from './model/dataset.data'
 import {Views} from './model/view.enum'
