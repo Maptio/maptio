@@ -1,13 +1,14 @@
 import {
     Component,
     AfterViewInit,
-    ViewChild,
+    ViewChild,ViewContainerRef,ComponentFactoryResolver,
     OnInit, OnChanges, SimpleChanges,
     Input
 } from '@angular/core';
 
 import { DataService } from '../services/data.service'
 import { Views } from '../model/view.enum'
+import {IMapping} from './mapping.interface'
 import { MappingCirclesComponent } from './circles/mapping.circles.component'
 import { MappingTreeComponent } from './tree/mapping.tree.component'
 
@@ -19,6 +20,7 @@ import 'rxjs/add/operator/map'
     selector: 'mapping',
     templateUrl: './mapping.component.html',
     styles: [require('./mapping.component.css').toString()],
+    entryComponents:[MappingCirclesComponent, MappingTreeComponent]
 
 })
 
@@ -37,7 +39,7 @@ export class MappingComponent implements OnChanges {
     private tree: MappingTreeComponent;
 
 
-    constructor(dataService: DataService) {
+    constructor(dataService: DataService, private viewContainer: ViewContainerRef,private componentFactoryResolver: ComponentFactoryResolver) {
         dataService.getData().subscribe(data => {
             this.data = data;
             this.show(this.viewMode);
@@ -55,16 +57,15 @@ export class MappingComponent implements OnChanges {
         console.log("SHOW " + mode);
         let data = this.data;
 
-        switch (mode) {
-            case Views.Circles:
-                this.circles.draw(data);
-                break;
-            case Views.Treeview:
-                this.tree.draw(data);
-                break;
-            default:
-                throw new Error("This view is not recognized")
+         this.viewContainer.clear();
 
-        }
+         let factory = 
+            (mode == Views.Circles)
+            ?  this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent)
+            : this.componentFactoryResolver.resolveComponentFactory(MappingTreeComponent)
+
+        let component = this.viewContainer.createComponent<IMapping>(factory);
+        component.instance.draw(data);
+       
     }
 }

@@ -1,0 +1,72 @@
+.node {
+  cursor: pointer;
+}
+
+.node:hover {
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+.node--leaf {
+  fill: white;
+}
+
+/*
+.label {
+  font: 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-anchor: left;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+  color:white;
+}
+*/
+
+.label,
+.node--root,
+.node--leaf {
+  /*pointer-events: none;*/
+}
+
+svg  text.description {	
+ 
+  text-anchor: middle;	
+  text-align: left;		
+  stroke:black;	
+}
+
+svg  circle.description {		
+  stroke:black;	
+  opacity:0.7;
+}
+
+/*svg text {
+   font-family: FontAwesome;
+}*/
+
+
+svg text {
+  font-size:12px;
+    font-weight: normal;
+    font-family:  "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-anchor: left;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+  color:white;
+    transition: font-weight 200ms;
+}
+svg text.highlighted {
+    font-weight: bold;
+}
+
+svg .icon{
+  font-family: FontAwesome;
+  font-size:12px;
+}
+
+svg group{
+ visibility: visible;
+  opacity: 0.7;
+}
+svg group.hidden{
+    visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.5s linear;
+}

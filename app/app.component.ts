@@ -48,7 +48,7 @@ export class AppComponent implements OnInit {
   // }
 
   isTreeviewSelected(): boolean {
-    return this.selectedView == Views.Treeview;
+    return this.selectedView == Views.Tree;
   }
   isCircleViewSelected(): boolean {
     return this.selectedView == Views.Circles;
@@ -57,9 +57,9 @@ export class AppComponent implements OnInit {
   switchView() {
     switch (this.selectedView) {
       case Views.Circles:
-        this.selectedView = Views.Treeview;
+        this.selectedView = Views.Tree;
         break;
-      case Views.Treeview:
+      case Views.Tree:
         this.selectedView = Views.Circles;
         break
       default:

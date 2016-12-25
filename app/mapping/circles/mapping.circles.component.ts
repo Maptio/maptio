@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {
     D3Service, D3, Selection,
     PackLayout, HierarchyNode, HierarchyCircularNode,
@@ -6,14 +6,16 @@ import {
 } from 'd3-ng2-service';
 import { ColorService } from '../../services/color.service'
 import { UIService } from '../../services/ui.service'
+import {IMapping} from '../mapping.interface'
 
 @Component({
     selector: 'circles',
-    templateUrl: 'mapping.circles.component.html'
+    templateUrl: 'mapping.circles.component.html',
+    styles: [require('./mapping.circles.component.css').toString()],
 })
 
 
-export class MappingCirclesComponent implements OnInit {
+export class MappingCirclesComponent implements OnInit, IMapping {
 
     private d3: D3;
 
@@ -21,7 +23,9 @@ export class MappingCirclesComponent implements OnInit {
         this.d3 = d3Service.getD3();
     }
 
-    ngOnInit() { }
+    ngOnInit() {
+        
+     }
 
     draw(data: any) {
 
