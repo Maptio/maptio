@@ -5,9 +5,10 @@ import {
   ViewChild
 } from '@angular/core';
 import { BuildingComponent } from './building/building.component'
-import {ImportComponent} from './import/import.component';
+import { ImportComponent } from './import/import.component';
 import { HelpComponent } from './help/help.component';
 import { DataSet } from './model/dataset.data'
+import {Views} from './model/view.enum'
 import { DataSetService } from './services/dataset.service'
 import 'rxjs/add/operator/map'
 
@@ -32,6 +33,8 @@ export class AppComponent implements OnInit {
   private datasets: DataSet[];
   private selectedDataset: DataSet;
 
+  private selectedView: Views = Views.Circles; //per default
+
   constructor(public datasetService: DataSetService) {
   }
 
@@ -43,6 +46,26 @@ export class AppComponent implements OnInit {
   // openImport() {
   //   this.importComponent.open();
   // }
+
+  isTreeviewSelected(): boolean {
+    return this.selectedView == Views.Treeview;
+  }
+  isCircleViewSelected(): boolean {
+    return this.selectedView == Views.Circles;
+  }
+
+  switchView() {
+    switch (this.selectedView) {
+      case Views.Circles:
+        this.selectedView = Views.Treeview;
+        break;
+      case Views.Treeview:
+        this.selectedView = Views.Circles;
+        break
+      default:
+        throw new Error("This view is not recognized");
+    }
+  }
 
   isProjectEmpty(): boolean {
     return this.buildingComponent.isEmpty();

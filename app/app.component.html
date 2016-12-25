@@ -15,6 +15,18 @@
 				<p class="navbar-text"> Working on <b>{{selectedDataset.name}}</b></p>
 			</li>
 		</ul>
+		<ul class="nav navbar-nav navbar-left" *ngIf="selectedDataset">
+			<li *ngIf="isTreeviewSelected()" (click)="switchView()">
+				<a  class="btn btn-primary" >
+					<i   class="fa fa-circle-o" aria-hidden="true"></i>
+				</a>
+			</li>
+			<li *ngIf="isCircleViewSelected()" (click)="switchView()"> 
+				<a  class="btn btn-primary" >
+					<i   class="fa fa-sitemap" aria-hidden="true"></i>
+				</a>
+			</li>
+		</ul>
 
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav navbar-right">
@@ -45,7 +57,7 @@
 <div class="container-fluid">
 	<div class="row-fluid">
 		<div class="col-lg-7">
-			<mapping>Loading...</mapping>
+			<mapping [viewMode]="selectedView">Loading...</mapping>
 		</div>
 		<div class="col-lg-5">
 			<building #building>Loading...</building>

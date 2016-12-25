@@ -13,6 +13,9 @@ import {UIService} from './services/ui.service'
 //Components
 import { AppComponent } from './app.component';
 import { MappingComponent } from './mapping/mapping.component';
+import { MappingCirclesComponent } from './mapping/circles/mapping.circles.component';
+import { MappingTreeComponent } from './mapping/tree/mapping.tree.component';
+
 import {InitiativeComponent} from './initiative/initiative.component'
 import {BuildingComponent} from './building/building.component';
 import {HelpComponent} from './help/help.component';
@@ -33,7 +36,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [
     AppComponent,
-    MappingComponent,
+    MappingComponent,MappingCirclesComponent, MappingTreeComponent,
     BuildingComponent,
     InitiativeComponent,
     FocusDirective,

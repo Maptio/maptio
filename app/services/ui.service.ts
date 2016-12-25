@@ -88,4 +88,8 @@ export class UIService {
                 // }
             });
     }
+
+    public clean() {
+        this.d3.select("svg").selectAll("*").remove();
+    }
 }
