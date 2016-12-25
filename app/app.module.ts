@@ -19,7 +19,7 @@ import { MappingTreeComponent } from './mapping/tree/mapping.tree.component';
 import {InitiativeComponent} from './initiative/initiative.component'
 import {BuildingComponent} from './building/building.component';
 import {HelpComponent} from './help/help.component';
-import {ImportComponent} from './import/import.component';
+//import {ImportComponent} from './import/import.component';
 
 //Directives
 import {FocusDirective} from './directives/focus.directive';
@@ -43,7 +43,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     AutoSelectDirective,
     FileSelectDirective,FileDropDirective,
     HelpComponent,
-    ImportComponent
+   // ImportComponent
   ],
   imports: [
     BrowserModule,
