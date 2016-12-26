@@ -24,6 +24,7 @@ import {HelpComponent} from './help/help.component';
 //Directives
 import {FocusDirective} from './directives/focus.directive';
 import { AutoSelectDirective} from './directives/autoselect.directive'
+import {AnchorDirective} from './directives/anchor.directive'
 //import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 
 // External libraries
@@ -41,6 +42,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     InitiativeComponent,
     FocusDirective,
     AutoSelectDirective,
+    AnchorDirective,
     //FileSelectDirective,FileDropDirective,
     HelpComponent,
    // ImportComponent

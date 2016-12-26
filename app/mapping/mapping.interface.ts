@@ -1,3 +1,3 @@
-export interface IMapping{
-    draw(data:any):void;
+export interface IDataVisualizer{
+    draw(data:any, width:number, height:number, margin:number):void;
 }

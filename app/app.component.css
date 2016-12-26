@@ -6,11 +6,13 @@ padding-right: 15px;
 }
 
 .mapping {
+    position:relative;
   float:left;
   border:solid 2px #fcfcfc;
   margin-right:10px;
   background-color: #fcfcfc;
   border-radius: 5px;
+  
 }
 
 .building {

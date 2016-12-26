@@ -6,15 +6,16 @@ import {
 } from 'd3-ng2-service';
 import { ColorService } from '../../services/color.service'
 import { UIService } from '../../services/ui.service'
-import {IMapping} from '../mapping.interface'
+import { IDataVisualizer } from '../mapping.interface'
 
 @Component({
     selector: 'tree',
     templateUrl: 'mapping.tree.component.html',
     styles: [require('./mapping.tree.component.css').toString()],
 })
-export class MappingTreeComponent implements OnInit , IMapping{
+export class MappingTreeComponent implements OnInit, IDataVisualizer {
     private d3: D3;
+    
 
     constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService) {
         this.d3 = d3Service.getD3();
@@ -22,11 +23,11 @@ export class MappingTreeComponent implements OnInit , IMapping{
 
 
     ngOnInit() {
-     }
+    }
 
-    draw(data: any) {
+    draw(data: any, width:number, height:number, marginal:number) {
         let d3 = this.d3;
-        
+
         this.uiService.clean();
 
         // Set the dimensions and margins of the diagram
@@ -46,7 +47,7 @@ export class MappingTreeComponent implements OnInit , IMapping{
 
         var i = 0,
             duration = 750,
-            root:any; 
+            root: any;
 
         // declares a tree layout and assigns the size
         var treemap = d3.tree().size([height, width]);
@@ -62,7 +63,7 @@ export class MappingTreeComponent implements OnInit , IMapping{
         update(root);
 
         // Collapse the node and all it's children
-        function collapse(d:any) {
+        function collapse(d: any) {
             if (d.children) {
                 d._children = d.children
                 d._children.forEach(collapse)
@@ -70,7 +71,7 @@ export class MappingTreeComponent implements OnInit , IMapping{
             }
         }
 
-        function update(source:any) {
+        function update(source: any) {
 
             // Assigns the x and y position for the nodes
             var treeData = treemap(root);
@@ -86,7 +87,7 @@ export class MappingTreeComponent implements OnInit , IMapping{
 
             // Update the nodes...
             var node = svg.selectAll('g.node')
-                .data(nodes, function (d:any) { return d.id || (d.id = ++i); });
+                .data(nodes, function (d: any) { return d.id || (d.id = ++i); });
 
             // Enter any new modes at the parent's previous position.
             var nodeEnter = node.enter().append('g')
@@ -113,7 +114,7 @@ export class MappingTreeComponent implements OnInit , IMapping{
                 .attr("text-anchor", function (d) {
                     return d.children || d.children ? "end" : "start";
                 })
-                .text(function (d:any) { return d.data.name; });
+                .text(function (d: any) { return d.data.name; });
 
             // UPDATE
             var nodeUpdate = nodeEnter.merge(node);
@@ -154,7 +155,7 @@ export class MappingTreeComponent implements OnInit , IMapping{
 
             // Update the links...
             var link = svg.selectAll('path.link')
-                .data(links, function (d:any) { return d.id; });
+                .data(links, function (d: any) { return d.id; });
 
             // Enter any new links at the parent's previous position.
             var linkEnter = link.enter().insert('path', "g")
@@ -182,13 +183,13 @@ export class MappingTreeComponent implements OnInit , IMapping{
                 .remove();
 
             // Store the old positions for transition.
-            nodes.forEach(function (d:any) {
+            nodes.forEach(function (d: any) {
                 d.x0 = d.x;
                 d.y0 = d.y;
             });
 
             // Creates a curved (diagonal) path from parent to the child nodes
-            function diagonal(s:any, d:any) {
+            function diagonal(s: any, d: any) {
 
                 var path = `M ${s.y} ${s.x}
             C ${(s.y + d.y) / 2} ${s.x},
@@ -199,7 +200,7 @@ export class MappingTreeComponent implements OnInit , IMapping{
             }
 
             // Toggle children on click.
-            function click(d:any) {
+            function click(d: any) {
                 if (d.children) {
                     d._children = d.children;
                     d.children = null;

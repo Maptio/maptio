@@ -6,7 +6,7 @@ import {
 } from 'd3-ng2-service';
 import { ColorService } from '../../services/color.service'
 import { UIService } from '../../services/ui.service'
-import {IMapping} from '../mapping.interface'
+import {IDataVisualizer} from '../mapping.interface'
 
 @Component({
     selector: 'circles',
@@ -15,7 +15,7 @@ import {IMapping} from '../mapping.interface'
 })
 
 
-export class MappingCirclesComponent implements OnInit, IMapping {
+export class MappingCirclesComponent implements OnInit, IDataVisualizer {
 
     private d3: D3;
 
@@ -27,7 +27,7 @@ export class MappingCirclesComponent implements OnInit, IMapping {
         
      }
 
-    draw(data: any) {
+    draw(data: any, width:number, height:number, margin:number) {
 
         let d3 = this.d3;
         let colorService = this.colorService;
@@ -41,8 +41,8 @@ export class MappingCirclesComponent implements OnInit, IMapping {
         uiService.clean();
 
         var svg = d3.select("svg"),
-            margin = 50,
-            diameter = +svg.attr("width"),
+            //margin = 50,
+            diameter = +width, //+svg.attr("width"),
             g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
 
