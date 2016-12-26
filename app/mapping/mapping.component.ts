@@ -48,28 +48,17 @@ export class MappingComponent implements OnChanges {
     constructor(dataService: DataService, private viewContainer: ViewContainerRef, private componentFactoryResolver: ComponentFactoryResolver) {
         dataService.getData().subscribe(data => {
             this.data = data;
-            this.show(this.viewMode, 840, 840, 50);
+            this.show(this.viewMode, 1000, 1000, 50);
         });
     }
 
     ngOnChanges(changes: any) {
         console.log("CHANGES" + this.isFullScreen)
-        if (this.isFullScreen) {
-            this.show(changes['viewMode'].currentValue, 1000, 1000, 50);
-        }
-        else {
-            this.show(changes['viewMode'].currentValue, 840, 840, 50);
-        }
+        this.show(changes['viewMode'].currentValue, 1000, 1000, 50);
     }
 
     toggleFullScreen(event: any) {
         this.isFullScreen = event.target.checked;
-        if (this.isFullScreen) {
-            this.show(this.viewMode, 1000, 1000, 50);
-        }
-        else {
-            this.show(this.viewMode, 840, 840, 50);
-        }
     }
 
     show(mode: Views, width: number, height: number, margin: number) {
@@ -80,8 +69,9 @@ export class MappingComponent implements OnChanges {
             (mode == Views.Circles)
                 ? this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent)
                 : this.componentFactoryResolver.resolveComponentFactory(MappingTreeComponent)
-    
-        let component = this.anchorComponent.createComponent<IDataVisualizer>(factory); 
+
+        let component = this.anchorComponent.createComponent<IDataVisualizer>(factory);
+
         component.instance.draw(data, width, height, margin);
 
     }

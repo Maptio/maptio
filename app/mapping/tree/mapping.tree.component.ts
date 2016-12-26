@@ -25,25 +25,27 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     ngOnInit() {
     }
 
-    draw(data: any, width:number, height:number, marginal:number) {
+    draw(data: any, width:number, height:number, margin:number) {
         let d3 = this.d3;
 
         this.uiService.clean();
 
+        console.log("WIDTH " + width + "HEIGHT "  + height + "MARGIN " +margin );
+
         // Set the dimensions and margins of the diagram
-        var margin = { top: 20, right: 90, bottom: 30, left: 90 },
-            width = 840 - margin.left - margin.right,
-            height = 500 - margin.top - margin.bottom;
+        // var margin = { top: 20, right: 90, bottom: 30, left: 90 },
+        //     width = 840 - margin.left - margin.right,
+        //     height = 500 - margin.top - margin.bottom;
 
         // append the svg object to the body of the page
         // appends a 'group' element to 'svg'
         // moves the 'group' element to the top left margin
         var svg = d3.select("svg")
-            .attr("width", width + margin.right + margin.left)
-            .attr("height", height + margin.top + margin.bottom)
+            .attr("width", width + margin + margin)
+            .attr("height", height + margin + margin)
             .append("g")
             .attr("transform", "translate("
-            + margin.left + "," + margin.top + ")");
+            + margin + "," + margin + ")");
 
         var i = 0,
             duration = 750,
