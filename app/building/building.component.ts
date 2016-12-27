@@ -131,9 +131,9 @@ export class BuildingComponent {
                 }
                 else{
                     if(
-                        (<InitiativeNode>node.data).name.toLowerCase().includes(searched.toLowerCase())
+                        (<InitiativeNode>node.data).name && (<InitiativeNode>node.data).name.toLowerCase().includes(searched.toLowerCase())
                         || 
-                        (<InitiativeNode>node.data).description.toLowerCase().includes(searched.toLowerCase())
+                        (<InitiativeNode>node.data).description && (<InitiativeNode>node.data).description.toLowerCase().includes(searched.toLowerCase())
                         )
                     {
                         (<InitiativeNode>node.data).isSearchedFor = true;

@@ -60,7 +60,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         root.y0 = 0;
 
         // Collapse after the second level
-        root.children.forEach(collapse);
+        //root.children.forEach(collapse);
 
         update(root);
 

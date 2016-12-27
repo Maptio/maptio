@@ -31,7 +31,7 @@ export class MappingComponent implements OnChanges {
 
     private data: any;
 
-    private isFullScreen: boolean = false;
+    @Input() isFullScreen: boolean;
 
     @Input() viewMode: Views;
 
@@ -48,21 +48,22 @@ export class MappingComponent implements OnChanges {
     constructor(dataService: DataService, private viewContainer: ViewContainerRef, private componentFactoryResolver: ComponentFactoryResolver) {
         dataService.getData().subscribe(data => {
             this.data = data;
-            this.show(this.viewMode, 1000, 1000, 50);
+            this.show(this.viewMode, this.isFullScreen);
         });
     }
 
     ngOnChanges(changes: any) {
         console.log("CHANGES" + this.isFullScreen)
-        this.show(changes['viewMode'].currentValue, 1000, 1000, 50);
+
+        if (changes['viewMode'] != undefined)
+            this.show(changes['viewMode'].currentValue, this.isFullScreen);
+        if (changes['isFullScreen'] != undefined)
+            this.show(this.viewMode, changes['isFullScreen'].currentValue);
+
     }
 
-    toggleFullScreen(event: any) {
-        this.isFullScreen = event.target.checked;
-    }
-
-    show(mode: Views, width: number, height: number, margin: number) {
-        console.log("SHOW " + mode);
+    show(mode: Views, isFullScreen: boolean) { //width: number, height: number, margin: number) {
+        console.log("SHOW " + mode + this.isFullScreen);
         let data = this.data;
 
         let factory =
@@ -72,6 +73,9 @@ export class MappingComponent implements OnChanges {
 
         let component = this.anchorComponent.createComponent<IDataVisualizer>(factory);
 
+        let width = isFullScreen ? 1000 : 830;
+        let height = isFullScreen ? 1000 : 830;
+        let margin = isFullScreen ? 50 : 10;
         component.instance.draw(data, width, height, margin);
 
     }

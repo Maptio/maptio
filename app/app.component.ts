@@ -11,6 +11,7 @@ import { DataSet } from './model/dataset.data'
 import {Views} from './model/view.enum'
 import { DataSetService } from './services/dataset.service'
 import 'rxjs/add/operator/map'
+import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'my-app',
@@ -34,7 +35,7 @@ export class AppComponent implements OnInit {
   private selectedDataset: DataSet;
 
   private selectedView: Views = Views.Circles; //per default
-  public isCollapsed = false;
+  public isBuildingPanelCollapsed:boolean=true;
   
   constructor(public datasetService: DataSetService) {
   }
@@ -82,6 +83,10 @@ export class AppComponent implements OnInit {
 
   openHelp() {
     this.helpComponent.open();
+  }
+
+  collapseBuildingPanel(e:any){
+    console.log("COLLAPES" + e.target.clicked);
   }
 }
 

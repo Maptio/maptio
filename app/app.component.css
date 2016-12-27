@@ -35,7 +35,7 @@ padding-right: 15px;
     margin-left: auto;
 }
 .panel-group {
-    width:100%;
+    width:99%;
     z-index: 100;
     -webkit-backface-visibility: hidden;
     -webkit-transform: translateX(-100%) rotate(-90deg);
@@ -61,7 +61,7 @@ padding-right: 15px;
 }
 .panel-body {
     height:600px;
-    width:928px;
+    width:100%;
 }
 .panel-group img {
     -webkit-backface-visibility: hidden;

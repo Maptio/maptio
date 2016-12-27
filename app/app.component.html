@@ -40,9 +40,6 @@
 							<li *ngFor="let dataset of datasets">
 								<a (click)="start(dataset)"> {{dataset.name}}</a>
 							</li>
-							<!--<li class="divider"></li>
-							<li class="dropdown-header">Import</li>
-							<li><a (click)="openImport()">CSV/JSON</a></li>-->
 						</ul>
 					</div>
 				</li>
@@ -54,45 +51,17 @@
 	</div>
 </nav>
 
-<!--<div class="container-fluid">
-	<div class="row-fluid">
-		<div class="col-lg-12">
-			<mapping [viewMode]="selectedView">Loading...</mapping>
-		</div>
-		<div class="col-lg-5">
-
-			<a class="btn btn-link  pull-left" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"><i class="fa fa-minus-square" aria-hidden="true"></i></a>
-
-
-			<div id="collapseExample" [ngbCollapse]="isCollapsed">
-				<div class="card">
-					<div class="card-block">
-						<div class="panel panel-primary">
-							<div class="panel-heading">
-								<h3 class="panel-title">Building</h3>
-							</div>
-							<div class="panel-body">
-								<building #building>Loading...</building>
-							</div>
-						</div>
-
-					</div>
-				</div>
-			</div>
-
-		</div>
-	</div>
-</div>-->
 <div class="container-fluid">
 	<div class="row-fluid">
-		<mapping class="col-lg-11 pull-right" [viewMode]="selectedView">Loading...</mapping>
+		<mapping class="col-lg-11 pull-right" [viewMode]="selectedView" [isFullScreen]="isBuildingPanelCollapsed">Loading...</mapping>
 		<div class="content col-lg-12">
 			<div class="panel-group" id="accordion">
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h4 class="panel-title ">
-							<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="pull-right">
-                          Build 
+							<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" (click)="isBuildingPanelCollapsed=!isBuildingPanelCollapsed" class="pull-right">
+								Build your initiative
+                           <i class="fa fa-minus-square " aria-hidden="true"></i>
                         </a>
 						</h4>
 
@@ -103,7 +72,7 @@
 								<building #building>Loading...</building>
 							</div>
 						</div>
-					</div>Ì
+					</div>
 				</div>
 			</div>
 		</div>
