@@ -54,7 +54,7 @@
 	</div>
 </nav>
 
-<div class="container-fluid">
+<!--<div class="container-fluid">
 	<div class="row-fluid">
 		<div class="col-lg-12">
 			<mapping [viewMode]="selectedView">Loading...</mapping>
@@ -80,6 +80,32 @@
 				</div>
 			</div>
 
+		</div>
+	</div>
+</div>-->
+<div class="container-fluid">
+	<div class="row-fluid">
+		<mapping class="col-lg-11 pull-right" [viewMode]="selectedView">Loading...</mapping>
+		<div class="content col-lg-12">
+			<div class="panel-group" id="accordion">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title ">
+							<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="pull-right">
+                          Build 
+                        </a>
+						</h4>
+
+					</div>
+					<div id="collapseOne" class="panel-collapse collapse">
+						<div class="panel-body  ">
+							<div class="textRotate pull-right">
+								<building #building>Loading...</building>
+							</div>
+						</div>
+					</div>Ì
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
