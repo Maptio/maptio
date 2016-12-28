@@ -31,8 +31,6 @@ export class MappingComponent implements OnChanges {
 
     private data: any;
 
-    @Input() isFullScreen: boolean;
-
     @Input() viewMode: Views;
 
     @ViewChild('circles')
@@ -48,24 +46,19 @@ export class MappingComponent implements OnChanges {
     constructor(dataService: DataService, private viewContainer: ViewContainerRef, private componentFactoryResolver: ComponentFactoryResolver) {
         dataService.getData().subscribe(data => {
             this.data = data;
-            this.show(this.viewMode, this.isFullScreen);
+            console.log("OBERVABLE DRAWS");
+            this.show(this.viewMode);
         });
     }
 
     ngOnChanges(changes: any) {
-        console.log("CHANGES" + this.isFullScreen)
-
         if (changes['viewMode'] != undefined)
-            this.show(changes['viewMode'].currentValue, this.isFullScreen);
-        if (changes['isFullScreen'] != undefined)
-            this.show(this.viewMode, changes['isFullScreen'].currentValue);
-
+            this.show(changes['viewMode'].currentValue);
     }
 
-    show(mode: Views, isFullScreen: boolean) { //width: number, height: number, margin: number) {
-        console.log("SHOW " + mode + this.isFullScreen);
+    show(mode: Views) { 
         let data = this.data;
-
+        console.log(data);
         let factory =
             (mode == Views.Circles)
                 ? this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent)
@@ -73,9 +66,10 @@ export class MappingComponent implements OnChanges {
 
         let component = this.anchorComponent.createComponent<IDataVisualizer>(factory);
 
-        let width = isFullScreen ? 1000 : 830;
-        let height = isFullScreen ? 1000 : 830;
-        let margin = isFullScreen ? 50 : 10;
+        let width = 1000;
+        let height =  1000;
+        let margin = 10;
+        console.log("DRAW");
         component.instance.draw(data, width, height, margin);
 
     }

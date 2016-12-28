@@ -34,6 +34,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
         let uiService = this.uiService;
 
         if (!data) {
+            console.log("CLEAN");
             uiService.clean();
             return;
         }

@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
 
   start(dataset: DataSet) {
     this.selectedDataset = dataset;
-    this.buildingComponent.loadData(dataset.url);
+    this.redraw()
   }
 
   // openImport() {
@@ -85,8 +85,14 @@ export class AppComponent implements OnInit {
     this.helpComponent.open();
   }
 
-  collapseBuildingPanel(e:any){
-    console.log("COLLAPES" + e.target.clicked);
+  toggleBuildingPanel(e:any){
+    this.isBuildingPanelCollapsed=!this.isBuildingPanelCollapsed;
+  }
+
+  //this should be the job of the observable ? (TAKES TOO MUCH TIME)
+  //http://stackoverflow.com/questions/38364591/how-to-combine-multiple-observables-together-in-angular-2
+  redraw(){
+    this.buildingComponent.loadData(this.selectedDataset.url);
   }
 }
 

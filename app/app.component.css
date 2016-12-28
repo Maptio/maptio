@@ -5,15 +5,6 @@ padding-right: 15px;
     margin-left: auto;
 }
 
-.mapping {
-    position:relative;
-  float:left;
-  border:solid 2px #fcfcfc;
-  margin-right:10px;
-  background-color: #fcfcfc;
-  border-radius: 5px;
-  
-}
 
 .building {
     font: 12px sans-serif;
@@ -61,7 +52,7 @@ padding-right: 15px;
 }
 .panel-body {
     height:600px;
-    width:100%;
+    width:99%;
 }
 .panel-group img {
     -webkit-backface-visibility: hidden;
