@@ -52,42 +52,32 @@
 </nav>
 
 <div class="container-fluid">
-	<div class="row-fluid">
-		<!--<mapping class="col-lg-11 pull-right" [viewMode]="selectedView" [isFullScreen]="isBuildingPanelCollapsed">Loading...</mapping>-->
-
-
-		<div class="col-lg-5">
-			<div class="panel-group" id="accordion">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h4 class="panel-title ">
-							<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" (click)="toggleBuildingPanel(); redraw();"
-								class="pull-right">
+	<div class="row-fluid col-lg-11">
+		<div class="panel-group" id="accordion">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title ">
+						<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" (click)="toggleBuildingPanel();" class="pull-right">
 								Build your initiative
                            <i class="fa fa-minus-square " aria-hidden="true"></i>
                         </a>
-						</h4>
+					</h4>
 
-					</div>
-					<div id="collapseOne" class="panel-collapse collapse">
-						<div class="panel-body  ">
-							<div class="textRotate pull-right">
-								<building #building>Loading...</building>
-							</div>
+				</div>
+				<div id="collapseOne" class="panel-collapse collapse">
+					<div class="panel-body  ">
+						<div class="textRotate pull-right">
+							<building #building>Loading...</building>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<div [ngSwitch]="isBuildingPanelCollapsed">
-			<div *ngSwitchCase="true" class="col-lg-11 pull-right"> 
+			<div class="panel panel-default">
 				<mapping [viewMode]="selectedView">Loading...</mapping>
 			</div>
-			<div *ngSwitchCase="false" class="col-lg-6 pull-right"> 
-				<mapping [viewMode]="selectedView">Loading...</mapping></div>
+			<!--</div>-->
 		</div>
-		
-</div>
+	</div>
 </div>
 
 <help #help></help>

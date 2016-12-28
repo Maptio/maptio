@@ -39,10 +39,10 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             return;
         }
 
-         console.log("WIDTH " + width + "HEIGHT "  + height + "MARGIN " +margin );
-
-
         uiService.clean();
+
+        console.log("CIRCLE WIDTH " + width + "HEIGHT " + height + "MARGIN " + margin);
+
 
         var svg = d3.select("svg"),
             //margin = 50,

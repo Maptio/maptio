@@ -15,7 +15,7 @@ import { IDataVisualizer } from '../mapping.interface'
 })
 export class MappingTreeComponent implements OnInit, IDataVisualizer {
     private d3: D3;
-    
+
 
     constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService) {
         this.d3 = d3Service.getD3();
@@ -25,27 +25,38 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     ngOnInit() {
     }
 
-    draw(data: any, width:number, height:number, margin:number) {
+    draw(data: any, width: number, height: number, margin: number) {
         let d3 = this.d3;
 
         this.uiService.clean();
 
-        console.log("WIDTH " + width + "HEIGHT "  + height + "MARGIN " +margin );
+        console.log("TREE WIDTH " + width + "HEIGHT " + height + "MARGIN " + margin);
 
-        // Set the dimensions and margins of the diagram
-        // var margin = { top: 20, right: 90, bottom: 30, left: 90 },
-        //     width = 840 - margin.left - margin.right,
-        //     height = 500 - margin.top - margin.bottom;
+        var marginDimensions = { top: margin, right: margin, bottom: margin, left: margin * 2 },
+            width = width - marginDimensions.left - marginDimensions.right,
+            height = height - marginDimensions.top - marginDimensions.bottom;
+console.log(" WIDTH " + width + "HEIGHT " + height );
 
         // append the svg object to the body of the page
         // appends a 'group' element to 'svg'
         // moves the 'group' element to the top left margin
         var svg = d3.select("svg")
-            .attr("width", width + margin + margin)
-            .attr("height", height + margin + margin)
+            // .attr("width", width + marginDimensions.right + marginDimensions.left)
+            // .attr("height", height*2 + marginDimensions.top + marginDimensions.bottom)
             .append("g")
             .attr("transform", "translate("
-            + margin + "," + margin + ")");
+            + marginDimensions.left + "," + marginDimensions.top + ")");
+
+
+        // append the svg object to the body of the page
+        // appends a 'group' element to 'svg'
+        // moves the 'group' element to the top left margin
+        // var svg = d3.select("svg")
+        //     .attr("width", width )
+        //     .attr("height", height)
+        //     .append("g")
+        //     .attr("transform", "translate("
+        //     + margin + "," + margin + ")");
 
         var i = 0,
             duration = 750,
@@ -56,7 +67,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
         // Assigns parent, children, height, depth
         root = d3.hierarchy(data, function (d) { return d.children; });
-        root.x0 = height / 2;
+        root.x0 = (height) / 2;
         root.y0 = 0;
 
         // Collapse after the second level

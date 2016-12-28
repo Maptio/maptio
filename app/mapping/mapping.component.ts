@@ -1,9 +1,10 @@
 import {
     Component,
     AfterViewInit,
-    ViewChild, ViewContainerRef, ComponentFactoryResolver,
+    ViewChild, ViewContainerRef, ComponentFactoryResolver,ElementRef,
     OnInit, OnChanges, SimpleChanges,
-    Input
+    Input,
+    ChangeDetectionStrategy,ChangeDetectorRef
 } from '@angular/core';
 
 import { DataService } from '../services/data.service'
@@ -21,13 +22,13 @@ import 'rxjs/add/operator/map'
     selector: 'mapping',
     templateUrl: './mapping.component.html',
     styles: [require('./mapping.component.css').toString()],
-    entryComponents: [MappingCirclesComponent, MappingTreeComponent]
+    entryComponents: [MappingCirclesComponent, MappingTreeComponent],
+    changeDetection: ChangeDetectionStrategy.OnPush
 
 })
 
 
-export class MappingComponent implements OnChanges {
-    private dataService: DataService;
+export class MappingComponent implements OnChanges, AfterViewInit, OnInit {
 
     private data: any;
 
@@ -41,14 +42,26 @@ export class MappingComponent implements OnChanges {
 
     @ViewChild(AnchorDirective) anchorComponent: AnchorDirective;
 
+    @ViewChild('drawing')
+    public element:ElementRef;
 
+    constructor(
+        private dataService: DataService, 
+        private viewContainer: ViewContainerRef, 
+        private componentFactoryResolver: ComponentFactoryResolver,
+        private cd: ChangeDetectorRef
+        ) {}
 
-    constructor(dataService: DataService, private viewContainer: ViewContainerRef, private componentFactoryResolver: ComponentFactoryResolver) {
-        dataService.getData().subscribe(data => {
+    ngOnInit(){
+        this.dataService.getData().subscribe(data => {
             this.data = data;
-            console.log("OBERVABLE DRAWS");
             this.show(this.viewMode);
+            
         });
+    }
+
+    ngAfterViewInit(){
+        console.log("SIZE " + this.element.nativeElement.parentNode.parentNode.offsetHeight);
     }
 
     ngOnChanges(changes: any) {
@@ -66,9 +79,9 @@ export class MappingComponent implements OnChanges {
 
         let component = this.anchorComponent.createComponent<IDataVisualizer>(factory);
 
-        let width = 1000;
-        let height =  1000;
-        let margin = 10;
+        let width = this.element.nativeElement.parentNode.parentNode.offsetHeight;
+        let height =  this.element.nativeElement.parentNode.parentNode.offsetHeight;
+        let margin = 25;
         console.log("DRAW");
         component.instance.draw(data, width, height, margin);
 

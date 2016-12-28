@@ -1,4 +1,4 @@
 export const enum Views {
-  Circles,
-  Tree
+  Circles = 0,
+  Tree = 1
 }

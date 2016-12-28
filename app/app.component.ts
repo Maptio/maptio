@@ -77,6 +77,7 @@ export class AppComponent implements OnInit {
     this.datasetService.getData().then(o => {
       this.datasets = o;
       this.start(this.datasets.find(function(d){return d.name == "Vestd"}));
+     
     });
     
   }
