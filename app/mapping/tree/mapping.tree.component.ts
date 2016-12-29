@@ -44,8 +44,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         // appends a 'group' element to 'svg'
         // moves the 'group' element to the top left margin
         var svg = d3.select("svg")
-             .attr("width", this.width + marginDimensions.right + marginDimensions.left)
-             .attr("height", this.height + marginDimensions.top + marginDimensions.bottom)
+             .attr("width", this.width )
+             .attr("height", this.height)
             .append("g")
             .attr("transform", "translate("
             + marginDimensions.left + "," + marginDimensions.top + ")");
@@ -66,7 +66,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             root: any;
 
         // declares a tree layout and assigns the size
-        var treemap = d3.tree().size([this.height, this.width]);
+        var treemap = d3.tree().size([this.height - marginDimensions.top - marginDimensions.bottom, this.width - marginDimensions.right - marginDimensions.left]);
 
         // Assigns parent, children, height, depth
         root = d3.hierarchy(data, function (d) { return d.children; });

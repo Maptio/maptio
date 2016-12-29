@@ -1,10 +1,10 @@
 import {
     Component,
     AfterViewInit,
-    ViewChild, ViewContainerRef, ComponentFactoryResolver,ElementRef,
+    ViewChild, ViewContainerRef, ComponentFactoryResolver, ElementRef,
     OnInit, OnChanges, SimpleChanges,
     Input,
-    ChangeDetectionStrategy,ChangeDetectorRef
+    ChangeDetectionStrategy, ChangeDetectorRef
 } from '@angular/core';
 
 import { DataService } from '../services/data.service'
@@ -28,11 +28,11 @@ import 'rxjs/add/operator/map'
 })
 
 
-export class MappingComponent implements OnChanges, AfterViewInit, OnInit {
+export class MappingComponent implements AfterViewInit, OnInit {
 
     private data: any;
 
-    @Input() viewMode: Views;
+    selectedView: Views = Views.Circles //per default;
 
     @ViewChild('circles')
     private circles: MappingCirclesComponent;
@@ -43,33 +43,56 @@ export class MappingComponent implements OnChanges, AfterViewInit, OnInit {
     @ViewChild(AnchorDirective) anchorComponent: AnchorDirective;
 
     @ViewChild('drawing')
-    public element:ElementRef;
+    public element: ElementRef;
 
     constructor(
-        private dataService: DataService, 
-        private viewContainer: ViewContainerRef, 
+        private dataService: DataService,
+        private viewContainer: ViewContainerRef,
         private componentFactoryResolver: ComponentFactoryResolver,
         private cd: ChangeDetectorRef
-        ) {}
+    ) { }
 
-    ngOnInit(){
+    ngOnInit() {
         this.dataService.getData().subscribe(data => {
             this.data = data;
-            this.show(this.viewMode);
-            
+            this.show(this.selectedView);
+
         });
     }
 
-    ngAfterViewInit(){
+    isTreeviewSelected(): boolean {
+        return this.selectedView == Views.Tree;
+    }
+    isCircleViewSelected(): boolean {
+        return this.selectedView == Views.Circles;
+    }
+
+
+    switchView() {
+        switch (this.selectedView) {
+            case Views.Circles:
+                this.selectedView = Views.Tree;
+                break;
+            case Views.Tree:
+                this.selectedView = Views.Circles;
+                break
+            default:
+                throw new Error("This view is not recognized");
+        }
+        this.show(this.selectedView);
+    }
+
+
+    ngAfterViewInit() {
         console.log("SIZE " + this.element.nativeElement.parentNode.parentNode.offsetHeight);
     }
 
-    ngOnChanges(changes: any) {
-        if (changes['viewMode'] != undefined)
-            this.show(changes['viewMode'].currentValue);
-    }
+    // ngOnChanges(changes: any) {
+    //     if (changes['viewMode'] != undefined)
+    //         this.show(changes['viewMode'].currentValue);
+    // }
 
-    show(mode: Views) { 
+    show(mode: Views) {
         let data = this.data;
         console.log(data);
         let factory =
@@ -78,9 +101,9 @@ export class MappingComponent implements OnChanges, AfterViewInit, OnInit {
                 : this.componentFactoryResolver.resolveComponentFactory(MappingTreeComponent)
 
         let component = this.anchorComponent.createComponent<IDataVisualizer>(factory);
-        
-        component.instance.width = this.element.nativeElement.parentNode.parentNode.offsetHeight;
-        component.instance.height = this.element.nativeElement.parentNode.parentNode.offsetHeight;
+
+        component.instance.width = 1522; //this.element.nativeElement.parentNode.parentNode.parentNode.offsetHeight;
+        component.instance.height = 1522; //this.element.nativeElement.parentNode.parentNode.parentNode.offsetHeight;
         component.instance.margin = 10;
         // let width = 
         // let height =  this.element.nativeElement.parentNode.parentNode.offsetHeight;

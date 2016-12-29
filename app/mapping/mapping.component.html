@@ -1,4 +1,12 @@
+<div class="control">
 
-    
-    <div #drawing anchor>
-    </div>
+<a class="btn btn-default" (click)="switchView()" *ngIf="isTreeviewSelected()">
+    <i class="fa fa-circle-o" aria-hidden="true"></i>
+</a>
+
+<a class="btn btn-default" (click)="switchView()" *ngIf="isCircleViewSelected()">
+    <i class="fa fa-sitemap" aria-hidden="true"></i>
+</a>
+</div>
+
+<div #drawing anchor></div>

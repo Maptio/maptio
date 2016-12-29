@@ -34,7 +34,6 @@ export class AppComponent implements OnInit {
   private datasets: DataSet[];
   private selectedDataset: DataSet;
 
-  private selectedView: Views = Views.Circles; //per default
   public isBuildingPanelCollapsed:boolean=true;
   
   constructor(public datasetService: DataSetService) {
@@ -49,26 +48,8 @@ export class AppComponent implements OnInit {
   //   this.importComponent.open();
   // }
 
-  isTreeviewSelected(): boolean {
-    return this.selectedView == Views.Tree;
-  }
-  isCircleViewSelected(): boolean {
-    return this.selectedView == Views.Circles;
-  }
-
-  switchView() {
-    switch (this.selectedView) {
-      case Views.Circles:
-        this.selectedView = Views.Tree;
-        break;
-      case Views.Tree:
-        this.selectedView = Views.Circles;
-        break
-      default:
-        throw new Error("This view is not recognized");
-    }
-  }
-
+ 
+  
   isProjectEmpty(): boolean {
     return this.buildingComponent.isEmpty();
   }
