@@ -8,6 +8,10 @@
   stroke-width: 1.5px;
 }
 
+.node circle .withChildren{
+  stroke-width: 3px;
+}
+
 .node text {
   font: 10px sans-serif;
 }

@@ -57,12 +57,16 @@
 			<div class="panel panel-default ">
 				<div class="panel-heading">
 					<h4 class="panel-title ">
-						<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" (click)="toggleBuildingPanel();" class="pull-right">
+						<a *ngIf="!isBuildingPanelCollapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" (click)="toggleBuildingPanel();" class="pull-right">
 								Build your initiative
-                           <i class="fa fa-minus-square " aria-hidden="true"></i>
+                           <i class="fa fa-minus-square "  aria-hidden="true"></i>
+                        </a>
+
+						<a *ngIf="isBuildingPanelCollapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" (click)="toggleBuildingPanel();" class="pull-right">
+								Build your initiative
+						   <i class="fa fa-plus-square "  aria-hidden="true"></i>
                         </a>
 					</h4>
-
 				</div>
 				<div id="collapseOne" class="panel-collapse collapse">
 					<div class="panel-body  ">
@@ -75,7 +79,6 @@
 			<div class="panel panel-default rotate">
 				<mapping [viewMode]="selectedView">Loading...</mapping>
 			</div>
-			<!--</div>-->
 		</div>
 	</div>
 </div>

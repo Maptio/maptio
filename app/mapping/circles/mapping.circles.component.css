@@ -51,6 +51,7 @@ svg text {
   text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
   color:white;
     transition: font-weight 200ms;
+    pointer-events: none;
 }
 svg text.highlighted {
     font-weight: bold;

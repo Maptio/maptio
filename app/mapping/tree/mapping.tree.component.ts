@@ -39,9 +39,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         console.log("TREE WIDTH " + this.width + "HEIGHT " + this.height + "MARGIN " + this.margin);
 
         var marginDimensions = { top: this.margin, right: this.margin, bottom: this.margin, left: this.margin*5 };
-            // width = width - marginDimensions.left - marginDimensions.right,
-            // height = height - marginDimensions.top - marginDimensions.bottom;
-// console.log(" WIDTH " + width + "HEIGHT " + height );
 
         // append the svg object to the body of the page
         // appends a 'group' element to 'svg'
