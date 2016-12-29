@@ -17,6 +17,12 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     private d3: D3;
 
 
+    public width:number;
+
+    public height:number;
+
+    public margin:number;
+
     constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService) {
         this.d3 = d3Service.getD3();
     }
@@ -25,24 +31,24 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     ngOnInit() {
     }
 
-    draw(data: any, width: number, height: number, margin: number) {
+    draw(data: any) {
         let d3 = this.d3;
 
         this.uiService.clean();
 
-        console.log("TREE WIDTH " + width + "HEIGHT " + height + "MARGIN " + margin);
+        console.log("TREE WIDTH " + this.width + "HEIGHT " + this.height + "MARGIN " + this.margin);
 
-        var marginDimensions = { top: margin, right: margin, bottom: margin, left: margin * 2 },
-            width = width - marginDimensions.left - marginDimensions.right,
-            height = height - marginDimensions.top - marginDimensions.bottom;
-console.log(" WIDTH " + width + "HEIGHT " + height );
+        var marginDimensions = { top: this.margin, right: this.margin, bottom: this.margin, left: this.margin*5 };
+            // width = width - marginDimensions.left - marginDimensions.right,
+            // height = height - marginDimensions.top - marginDimensions.bottom;
+// console.log(" WIDTH " + width + "HEIGHT " + height );
 
         // append the svg object to the body of the page
         // appends a 'group' element to 'svg'
         // moves the 'group' element to the top left margin
         var svg = d3.select("svg")
-            // .attr("width", width + marginDimensions.right + marginDimensions.left)
-            // .attr("height", height*2 + marginDimensions.top + marginDimensions.bottom)
+             .attr("width", this.width + marginDimensions.right + marginDimensions.left)
+             .attr("height", this.height + marginDimensions.top + marginDimensions.bottom)
             .append("g")
             .attr("transform", "translate("
             + marginDimensions.left + "," + marginDimensions.top + ")");
@@ -63,11 +69,11 @@ console.log(" WIDTH " + width + "HEIGHT " + height );
             root: any;
 
         // declares a tree layout and assigns the size
-        var treemap = d3.tree().size([height, width]);
+        var treemap = d3.tree().size([this.height, this.width]);
 
         // Assigns parent, children, height, depth
         root = d3.hierarchy(data, function (d) { return d.children; });
-        root.x0 = (height) / 2;
+        root.x0 = (this.height) / 2;
         root.y0 = 0;
 
         // Collapse after the second level

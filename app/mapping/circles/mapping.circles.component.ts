@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import {
     D3Service, D3, Selection,
     PackLayout, HierarchyNode, HierarchyCircularNode,
@@ -6,7 +6,7 @@ import {
 } from 'd3-ng2-service';
 import { ColorService } from '../../services/color.service'
 import { UIService } from '../../services/ui.service'
-import {IDataVisualizer} from '../mapping.interface'
+import { IDataVisualizer } from '../mapping.interface'
 
 @Component({
     selector: 'circles',
@@ -19,19 +19,31 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
 
     private d3: D3;
 
+    @ViewChild('drawing')
+    public element: ElementRef;
+
+    public width:number = 1522;
+
+    public height:number;
+
+    public margin:number;
+
     constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService) {
         this.d3 = d3Service.getD3();
     }
 
     ngOnInit() {
-        
-     }
 
-    draw(data: any, width:number, height:number, margin:number) {
+    }
 
+    draw(data: any) {
+       
         let d3 = this.d3;
         let colorService = this.colorService;
         let uiService = this.uiService;
+        let width = this.width;
+        let height = this.height;
+        let margin = this.margin;
 
         if (!data) {
             console.log("CLEAN");
@@ -41,14 +53,10 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
 
         uiService.clean();
 
-        console.log("CIRCLE WIDTH " + width + "HEIGHT " + height + "MARGIN " + margin);
-
-
         var svg = d3.select("svg"),
             //margin = 50,
-            diameter = +width, //+svg.attr("width"),
+            diameter = +width,
             g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
-
 
         var color = colorService.getColorRange(d3.hsl(0, 0, 0.99), d3.hsl(251, 0.38, 0.5));
 

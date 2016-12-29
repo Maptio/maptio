@@ -78,12 +78,15 @@ export class MappingComponent implements OnChanges, AfterViewInit, OnInit {
                 : this.componentFactoryResolver.resolveComponentFactory(MappingTreeComponent)
 
         let component = this.anchorComponent.createComponent<IDataVisualizer>(factory);
-
-        let width = this.element.nativeElement.parentNode.parentNode.offsetHeight;
-        let height =  this.element.nativeElement.parentNode.parentNode.offsetHeight;
-        let margin = 25;
+        
+        component.instance.width = this.element.nativeElement.parentNode.parentNode.offsetHeight;
+        component.instance.height = this.element.nativeElement.parentNode.parentNode.offsetHeight;
+        component.instance.margin = 10;
+        // let width = 
+        // let height =  this.element.nativeElement.parentNode.parentNode.offsetHeight;
+        // let margin = 25;
         console.log("DRAW");
-        component.instance.draw(data, width, height, margin);
+        component.instance.draw(data);
 
     }
 }

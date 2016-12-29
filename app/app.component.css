@@ -10,9 +10,9 @@ padding-right: 15px;
     font: 12px sans-serif;
     background-color: #fcfcfc;
     width: 2000px;
-    height: 2000px;
+    /*height: 2000px;*/
     max-width: 580px;
-    max-height: 900px;
+    /*max-height: 900px;*/
     overflow: auto;
     position: absolute;
     top: -323%;
