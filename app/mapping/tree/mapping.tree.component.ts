@@ -33,8 +33,10 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
     draw(data: any) {
         let d3 = this.d3;
+        let colorService  =this.colorService;
 
         this.uiService.clean();
+        var color = colorService.getDefaulColorRange();
 
         console.log("TREE WIDTH " + this.width + "HEIGHT " + this.height + "MARGIN " + this.margin);
 
@@ -76,7 +78,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         // Collapse after the second level
         //root.children.forEach(collapse);
 
-        update(root);
+        update(root, duration);
 
         // Collapse the node and all it's children
         function collapse(d: any) {
@@ -87,7 +89,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             }
         }
 
-        function update(source: any) {
+        function update(source: any, duration:number) {
 
             // Assigns the x and y position for the nodes
             var treeData = treemap(root);
@@ -118,7 +120,12 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 .attr('class', 'node')
                 .attr('r', 1e-6)
                 .style("fill", function (d) {
-                    return d.children ? "lightsteelblue" : "#fff";
+                    //return d.children ? "lightsteelblue" : "#fff";
+                  return d.children ? color(d.depth) : "white"; 
+                })
+                .style("stroke", function (d) {
+                    //return d.children ? "lightsteelblue" : "#fff";
+                  return d.children ? color(d.depth) : "#ccc"; 
                 });
 
             // Add labels for the nodes
@@ -146,7 +153,11 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             nodeUpdate.select('circle.node')
                 .attr('r', 10)
                 .style("fill", function (d) {
-                    return d.children ? "lightsteelblue" : "#fff";
+                    return d.children ? color(d.depth) : "white";  //return d.children ? "lightsteelblue" : "#fff";
+                })
+                .style("stroke", function (d) {
+                    //return d.children ? "lightsteelblue" : "#fff";
+                  return d.children ? color(d.depth) : "#ccc"; 
                 })
                 .attr('cursor', 'pointer');
 
@@ -224,7 +235,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                     d.children = d._children;
                     d._children = null;
                 }
-                update(d);
+                update(d, duration);
             }
         }
     }

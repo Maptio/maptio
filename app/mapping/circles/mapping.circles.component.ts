@@ -22,11 +22,11 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
     @ViewChild('drawing')
     public element: ElementRef;
 
-    public width:number = 1522;
+    public width: number = 1522;
 
-    public height:number;
+    public height: number;
 
-    public margin:number;
+    public margin: number;
 
     constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService) {
         this.d3 = d3Service.getD3();
@@ -37,7 +37,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
     }
 
     draw(data: any) {
-       
+
         let d3 = this.d3;
         let colorService = this.colorService;
         let uiService = this.uiService;
@@ -58,7 +58,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             diameter = +width,
             g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
-        var color = colorService.getColorRange(d3.hsl(0, 0, 0.99), d3.hsl(251, 0.38, 0.5));
+        var color = colorService.getDefaulColorRange();
 
         var pack = d3.pack()
             .size([diameter - margin, diameter - margin])
