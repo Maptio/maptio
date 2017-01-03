@@ -1,17 +1,17 @@
-import {Input, Directive, Inject, ElementRef} from '@angular/core'
+import { Input, Directive, Inject, ElementRef, OnInit, OnChanges } from '@angular/core'
 
 
 @Directive({
     selector: '[focus]'
 })
-export class FocusDirective {
+export class FocusDirective implements OnChanges, OnInit {
     @Input()
-    focus:boolean;
-    constructor(@Inject(ElementRef) private element: ElementRef) {}
-    protected ngOnChanges() {
+    focus: boolean;
+    constructor( @Inject(ElementRef) private element: ElementRef) { }
+    public ngOnChanges() {
         this.element.nativeElement.focus();
     }
-    protected ngOnInit(){
+    public ngOnInit() {
         this.element.nativeElement.blur();
     }
 }

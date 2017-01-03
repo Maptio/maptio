@@ -1,5 +1,5 @@
-import {Person} from './person.data'
+import { Person } from './person.data'
 
-export class Team{
-    constructor(public members:Array<Person>){}
+export class Team {
+    constructor(public members: Array<Person>) { }
 }

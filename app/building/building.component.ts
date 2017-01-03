@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild, ViewChildren, Directive, Input, ElementRef, Inject, QueryList, Query } from '@angular/core';
 //import { InitiativeComponent} from './initiative.component'
 import { InitiativeNode } from '../model/initiative.data';
-import {Team} from '../model/team.data'
-import {Person} from '../model/person.data'
-import {InitiativeComponent} from '../initiative/initiative.component';
+import { Team } from '../model/team.data'
+import { Person } from '../model/person.data'
+import { InitiativeComponent } from '../initiative/initiative.component';
 import { TreeComponent } from 'angular2-tree-component';
 import { DataService } from '../services/data.service';
 import { FocusDirective } from '../directives/focus.directive'
@@ -22,7 +22,7 @@ export class BuildingComponent {
 
     private nodes: Array<InitiativeNode>;
     private selectedNode: InitiativeNode;
-    private selectedTeam:Team;
+    private selectedTeam: Team;
 
     @ViewChild(TreeComponent)
     private tree: TreeComponent;
@@ -41,7 +41,7 @@ export class BuildingComponent {
         return !this.nodes[0] || this.nodes[0].children.length === 0; // check if the root has any children
     }
 
-    isRootValid():boolean{
+    isRootValid(): boolean {
         return this.nodes[0].name.length > 0;
     }
 
@@ -96,7 +96,7 @@ export class BuildingComponent {
 
     goToNode(node: InitiativeNode) {
         InitiativeNode.resetZoomedOn(this.nodes);
-       
+
         node.isZoomedOn = true;
         this.saveData();
     }
@@ -109,41 +109,39 @@ export class BuildingComponent {
 
             // another function/service
             let members = new Array<Person>();
-            InitiativeNode.traverse(parsedNodes, function (node) { 
-                if(node.accountable && !members.find(function(person){ return person.name === node.accountable.name}))
+            InitiativeNode.traverse(parsedNodes, function (node) {
+                if (node.accountable && !members.find(function (person) { return person.name === node.accountable.name }))
                     members.push(node.accountable)
-                }
+            }
             );
-            
-            this.selectedTeam = {members:members};
+
+            this.selectedTeam = { members: members };
             this.saveData();
         });
     }
 
     filterNodes(searched: string) {
 
-       InitiativeNode.resetSearchedFor(this.nodes); 
+        InitiativeNode.resetSearchedFor(this.nodes);
         this.tree.treeModel.filterNodes(
             (node: any) => {
-                if(searched === "")
-                {
+                if (searched === "") {
                     return true;
                 }
-                else{
-                    if(
+                else {
+                    if (
                         (<InitiativeNode>node.data).name && (<InitiativeNode>node.data).name.toLowerCase().includes(searched.toLowerCase())
-                        || 
+                        ||
                         (<InitiativeNode>node.data).description && (<InitiativeNode>node.data).description.toLowerCase().includes(searched.toLowerCase())
-                        )
-                    {
+                    ) {
                         (<InitiativeNode>node.data).isSearchedFor = true;
                         return true;
                     }
                     return false;
                 }
-            }, 
+            },
             true);
-            this.saveData();
+        this.saveData();
 
     }
 

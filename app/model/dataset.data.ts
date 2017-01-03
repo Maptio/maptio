@@ -1,11 +1,11 @@
-import {Team} from './team.data'
+import { Team } from './team.data'
 
-export class DataSet{
+export class DataSet {
 
-  content:any;
+  content: any;
 
-  constructor(public name:string, public url:string){}
+  constructor(public name: string, public url: string) { }
 
-  static EMPTY:DataSet = new DataSet("New project", '../../../assets/datasets/new.json');
-  
+  static EMPTY: DataSet = new DataSet("New project", '../../../assets/datasets/new.json');
+
 }

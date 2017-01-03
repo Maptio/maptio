@@ -24,9 +24,9 @@ export class InitiativeComponent {
     @Input() data: InitiativeNode;
     @Input() team: Team;
 
-    isTeamMemberFound: boolean= true;
-    isTeamMemberAdded:boolean=false;
-    currentTeamName:string;
+    isTeamMemberFound: boolean = true;
+    isTeamMemberAdded: boolean = false;
+    currentTeamName: string;
 
 
     constructor() {
@@ -54,30 +54,30 @@ export class InitiativeComponent {
             .debounceTime(200)
             .distinctUntilChanged()
             .map(term => {
-                try{
+                try {
                     this.isTeamMemberAdded = false;
                     this.currentTeamName = term;
                     let results = term.length < 1 ? this.team.members : this.team.members.filter(v => new RegExp(term, 'gi').test(v.name)).splice(0, 10);
                     this.isTeamMemberFound = (results != undefined && results.length != 0) ? true : false;
                     return results;
                 }
-                catch(Exception){
+                catch (Exception) {
                     this.isTeamMemberFound = false;
                 }
             });
 
     formatter = (result: Person) => result.name;
 
-    addTeamMember(){
-        try{
-            this.team.members.push({name:this.currentTeamName}); 
+    addTeamMember() {
+        try {
+            this.team.members.push({ name: this.currentTeamName });
             this.isTeamMemberAdded = true;
 
         }
-        catch(Exception){
+        catch (Exception) {
             this.isTeamMemberAdded = false;
         }
-        
+
     }
 
     // saveNodeSize(newSize: number) {

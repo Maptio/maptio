@@ -5,10 +5,9 @@ import {
   ViewChild
 } from '@angular/core';
 import { BuildingComponent } from './building/building.component'
-//import { ImportComponent } from './import/import.component';
 import { HelpComponent } from './help/help.component';
 import { DataSet } from './model/dataset.data'
-import {Views} from './model/view.enum'
+import { Views } from './model/view.enum'
 import { DataSetService } from './services/dataset.service'
 import 'rxjs/add/operator/map'
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
@@ -34,8 +33,8 @@ export class AppComponent implements OnInit {
   private datasets: DataSet[];
   private selectedDataset: DataSet;
 
-  public isBuildingPanelCollapsed:boolean=true;
-  
+  public isBuildingPanelCollapsed: boolean = true;
+
   constructor(public datasetService: DataSetService) {
   }
 
@@ -48,8 +47,8 @@ export class AppComponent implements OnInit {
   //   this.importComponent.open();
   // }
 
- 
-  
+
+
   isProjectEmpty(): boolean {
     return this.buildingComponent.isEmpty();
   }
@@ -57,23 +56,23 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.datasetService.getData().then(o => {
       this.datasets = o;
-      this.start(this.datasets.find(function(d){return d.name == "Vestd"}));
-     
+      this.start(this.datasets.find(function (d) { return d.name == "Vestd" }));
+
     });
-    
+
   }
 
   openHelp() {
     this.helpComponent.open();
   }
 
-  toggleBuildingPanel(e:any){
-    this.isBuildingPanelCollapsed=!this.isBuildingPanelCollapsed;
+  toggleBuildingPanel(e: any) {
+    this.isBuildingPanelCollapsed = !this.isBuildingPanelCollapsed;
   }
 
   //this should be the job of the observable ? (TAKES TOO MUCH TIME)
   //http://stackoverflow.com/questions/38364591/how-to-combine-multiple-observables-together-in-angular-2
-  redraw(){
+  redraw() {
     this.buildingComponent.loadData(this.selectedDataset.url);
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core'
-import {Person} from './person.data';
+import { Person } from './person.data';
 
 @Injectable()
 export class InitiativeNode {
@@ -17,10 +17,10 @@ export class InitiativeNode {
     children: Array<InitiativeNode>;
 
     /** Starting date of initiative */
-    start:Date;
+    start: Date;
 
     /**Accountable  */
-    accountable:Person;
+    accountable: Person;
 
 
     isRoot: boolean = false;
@@ -28,8 +28,8 @@ export class InitiativeNode {
     isZoomedOn: boolean = false;
     isSearchedFor: boolean = false;
     private size: number = 1 //undefined; //(this.children === undefined ? 0 : this.children.length);
-    
-    
+
+
     constructor() { }
 
     // get size(): number {

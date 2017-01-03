@@ -8,7 +8,8 @@
   },
   "scripts": {
     "start": "node server.js",
-    "test": "karma start",
+    "test": "karma start ./karma/karma.conf.js",
+    "test:headless": "karma start ./karma/karma.conf.js --browsers PhantomJS",
     "heroku-postbuild": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail",
     "start-dev": "webpack-dev-server --inline --progress --port 8080"
   },
@@ -49,7 +50,9 @@
     "html-webpack-plugin": "^2.22.0",
     "jasmine-core": "^2.4.1",
     "karma": "^1.2.0",
+    "karma-chrome-launcher": "^2.0.0",
     "karma-jasmine": "^1.0.2",
+    "karma-jasmine-html-reporter": "^0.2.2",
     "karma-phantomjs-launcher": "^1.0.2",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.8.0",
