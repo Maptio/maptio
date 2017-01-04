@@ -5,15 +5,17 @@ module.exports = function (config) {
     autoWatch: true,
     browsers: ['Chrome', 'PhantomJS'],
 
-    // frameworks to use
-    // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine'],
-    logLevel: config.LOG_INFO,
-
     files: [
       '../node_modules/es6-shim/es6-shim.min.js',
       'karma.entry.js'
     ],
+
+    // frameworks to use
+    // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
+    frameworks: ['jasmine'],
+    logLevel: config.LOG_DEBUG,
+
+    
 
     phantomJsLauncher: {
       exitOnResourceError: true
