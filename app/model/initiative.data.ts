@@ -27,19 +27,13 @@ export class InitiativeNode {
     hasFocus: boolean = false;
     isZoomedOn: boolean = false;
     isSearchedFor: boolean = false;
-    private size: number = 1 //undefined; //(this.children === undefined ? 0 : this.children.length);
+    private size: number = 1;
 
 
     constructor() { }
 
-    // get size(): number {
-    //     return this._size || 1;
-    // }
 
-    // set size(size: number) {
-    //     this._size = size;
-    // }
-
+    /* EXPORT TO TREE EXPLORATION SERVICE */
     static traverse(node: InitiativeNode, callback: ((n: InitiativeNode) => void)) {
         if (node.children) {
             node.children.forEach(function (child) {
