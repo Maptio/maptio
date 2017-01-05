@@ -1,5 +1,3 @@
-import { Team } from './team.data'
-
 export class DataSet {
 
   content: any;
