@@ -1,5 +1,12 @@
-export class Person{
+import { OnInit } from '@angular/core';
 
-    constructor(public name:string){}
+export class Person implements OnInit {
+
+    constructor(public name: string) { }
+
+    ngOnInit() {
+        if (this.name === undefined)
+            throw new Error("A person needs to have a name");
+    }
 }
 
