@@ -10,7 +10,10 @@ require('zone.js/dist/jasmine-patch');
 
 const browserTesting = require('@angular/platform-browser-dynamic/testing');
 const coreTesting = require('@angular/core/testing');
+const context = require.context('../app/', true, /\.spec\.ts$/);
 
+Error.stackTraceLimit = Infinity;
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 2000;
 
 coreTesting.TestBed.resetTestEnvironment();
 coreTesting.TestBed.initTestEnvironment(
@@ -18,9 +21,4 @@ coreTesting.TestBed.initTestEnvironment(
     browserTesting.platformBrowserDynamicTesting()
 );
 
-const context = require.context('../app', true, /\.spec$/);
-
 context.keys().forEach(context);
-
-Error.stackTraceLimit = Infinity;
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 2000;
