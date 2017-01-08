@@ -30,7 +30,7 @@ describe('Data Service Tests', () => {
             ]
         });
 
-         spyErrorService = spyOn(ErrorService.prototype, 'handleError').and.callFake(function () {
+        spyErrorService = spyOn(ErrorService.prototype, 'handleError').and.callFake(function () {
         });
 
     });
@@ -62,7 +62,7 @@ describe('Data Service Tests', () => {
             expect(data[2].name).toEqual('Second');
             expect(this.spyErrorService.toHaveBeenCalledTimes(0));
         });
-        
+
     }));
 
 
@@ -77,6 +77,15 @@ describe('Data Service Tests', () => {
             expect(this.spyErrorService).toHaveBeenCalledTimes(1);
         });
     }));
+
+    it("Gets data asynchronously", inject([DataService, MockBackend, ErrorService], (dataService: DataService, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+       expect(true).toBe(false);
+    }));
+
+    it("Sets data asynchronously", inject([DataService, MockBackend, ErrorService], (dataService: DataService, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+       expect(true).toBe(false);
+    }));
+
 });
 
 

@@ -21,20 +21,9 @@ export class DataService {
         this._data$.next(data);
     }
 
-
     getAsync():Observable<any> {
         return this._data$.asObservable();
     }
-
-    // loadData(url: string) {
-    //     return this.http.request(url)
-    //         .map(res => res.json())
-    //         .subscribe(
-    //         data => { this._data$.next(data) },
-    //         err => this.handleError(err),
-    //         () => console.log('load done: ' + url)
-    //         );
-    // }
 
     loadFromAsync(url: string): Promise<any> {
         return this.http.get(url)
@@ -42,6 +31,4 @@ export class DataService {
             .then(response => response.json())
             .catch(this.errorService.handleError);
     }
-
-    
 }
