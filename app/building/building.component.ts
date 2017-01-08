@@ -6,6 +6,7 @@ import { Person } from '../model/person.data'
 import { InitiativeComponent } from '../initiative/initiative.component';
 import { TreeComponent } from 'angular2-tree-component';
 import { DataService } from '../services/data.service';
+import { TreeExplorationService } from '../services/tree.exploration.service'
 import { FocusDirective } from '../directives/focus.directive'
 import { AutoSelectDirective } from '../directives/autoselect.directive'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -31,9 +32,11 @@ export class BuildingComponent {
     private initiativeEditComponent: InitiativeComponent;
 
     private dataService: DataService;
+    private treeExplorationService: TreeExplorationService;
 
-    constructor(dataService: DataService) {
+    constructor(dataService: DataService, treeExplorationService:TreeExplorationService) {
         this.dataService = dataService;
+        this.treeExplorationService = treeExplorationService;
         this.nodes = [];
     }
 
@@ -53,7 +56,7 @@ export class BuildingComponent {
     saveData() {
         // console.log("SAVE HERE");
         // console.log(JSON.stringify(this.nodes));
-        this.dataService.setData(this.nodes[0]);
+        this.dataService.setAsync(this.nodes[0]);
     }
 
     updateTreeModel(): void {
@@ -95,21 +98,23 @@ export class BuildingComponent {
     }
 
     goToNode(node: InitiativeNode) {
-        InitiativeNode.resetZoomedOn(this.nodes);
+
+        this.treeExplorationService.reset<InitiativeNode>(this.nodes, function(node){node.isZoomedOn = false});
+        //InitiativeNode.resetZoomedOn(this.nodes);
 
         node.isZoomedOn = true;
         this.saveData();
     }
 
     loadData(url: string) {
-        this.dataService.getRawData(url).then(data => {
+        this.dataService.loadFromAsync(url).then(data => {
             this.nodes = [];
             let parsedNodes: InitiativeNode = Object.assign(new InitiativeNode(), data)
             this.nodes.push(parsedNodes);
 
             // another function/service
             let members = new Array<Person>();
-            InitiativeNode.traverse(parsedNodes, function (node) {
+            this.treeExplorationService.traverse<InitiativeNode>(parsedNodes, function (node) {
                 if (node.accountable && !members.find(function (person) { return person.name === node.accountable.name }))
                     members.push(node.accountable)
             }
@@ -122,7 +127,9 @@ export class BuildingComponent {
 
     filterNodes(searched: string) {
 
-        InitiativeNode.resetSearchedFor(this.nodes);
+        this.treeExplorationService.reset<InitiativeNode>(this.nodes, function(node){node.isSearchedFor = false});
+        
+        //InitiativeNode.resetSearchedFor(this.nodes);
         this.tree.treeModel.filterNodes(
             (node: any) => {
                 if (searched === "") {

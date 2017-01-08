@@ -21,6 +21,6 @@ describe('Person Tests', () => {
             person = new Person(undefined);
             person.ngOnInit();
 
-        }).toThrow(new Error("A person needs to have a name"));
+        }).toThrow();
     });
 });

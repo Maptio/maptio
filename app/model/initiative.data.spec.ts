@@ -5,9 +5,5 @@ describe('Initiative Tests', () => {
  
     beforeEach(() => {
     });
-
-    it('Tree traverse features should be in an another service', () => {
-        expect(false).toBe(true);
-    });
-   
+    
 });

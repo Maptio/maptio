@@ -8,6 +8,11 @@ describe('Team Tests', () => {
     beforeEach(() => {
     });
 
+     it('When members is empty, it creates new correctly', () => {
+        team = new Team([]);
+        expect(team.members.length).toBe(0);
+    });
+
     it('Creates new correctly', () => {
         let person1 = new Person("member 1");
         let person2 = new Person("member 2");
