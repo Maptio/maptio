@@ -99,7 +99,7 @@ export class BuildingComponent {
 
     goToNode(node: InitiativeNode) {
 
-        this.treeExplorationService.reset<InitiativeNode>(this.nodes, function(node){node.isZoomedOn = false});
+        TreeExplorationService.reset<InitiativeNode>(this.nodes, function(node){node.isZoomedOn = false});
         //InitiativeNode.resetZoomedOn(this.nodes);
 
         node.isZoomedOn = true;
@@ -114,7 +114,7 @@ export class BuildingComponent {
 
             // another function/service
             let members = new Array<Person>();
-            this.treeExplorationService.traverse<InitiativeNode>(parsedNodes, function (node) {
+            TreeExplorationService.traverse<InitiativeNode>(parsedNodes, function (node) {
                 if (node.accountable && !members.find(function (person) { return person.name === node.accountable.name }))
                     members.push(node.accountable)
             }
@@ -127,7 +127,7 @@ export class BuildingComponent {
 
     filterNodes(searched: string) {
 
-        this.treeExplorationService.reset<InitiativeNode>(this.nodes, function(node){node.isSearchedFor = false});
+        TreeExplorationService.reset<InitiativeNode>(this.nodes, function(node){node.isSearchedFor = false});
         
         //InitiativeNode.resetSearchedFor(this.nodes);
         this.tree.treeModel.filterNodes(
