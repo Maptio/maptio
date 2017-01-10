@@ -21,3 +21,12 @@
   stroke: #ccc;
   stroke-width: 1.5px;
 }
+
+svg text.name{
+  font-style: italic;
+}
+
+svg text.accountable{
+  font-weight: bold;
+  font: 16px sans-serif;
+}

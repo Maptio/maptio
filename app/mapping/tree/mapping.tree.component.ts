@@ -118,7 +118,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             // Add Circle for the nodes
             nodeEnter.append('circle')
                 .attr('class', 'node')
-                .attr('r', 1e-6)
+                .attr('r', 1e-5)
                 .style("fill", function (d) {
                     //return d.children ? "lightsteelblue" : "#fff";
                   return d.children ? color(d.depth) : "white"; 
@@ -130,14 +130,25 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
             // Add labels for the nodes
             nodeEnter.append('text')
-                .attr("dy", ".35em")
-                .attr("x", function (d) {
-                    return d.children || d.children ? -13 : 13;
-                })
-                .attr("text-anchor", function (d) {
-                    return d.children || d.children ? "end" : "start";
-                })
-                .text(function (d: any) { return d.data.name; });
+                .attr('class', 'name')
+                .attr("dy", "1.65em")
+                .attr("x", "15")
+                // .attr("x", function (d) {
+                //     return d.children || d.children ? -13 : 13;
+                // })
+                // .attr("text-anchor", function (d) {
+                //     return d.children || d.children ? "end" : "start";
+                // })
+                .text(function (d: any) { return d.data.name ; });
+
+            nodeEnter.append('text')
+                .attr('class', 'accountable')
+                .attr("dy", "5")
+                .attr("x", "15")
+                // .attr("text-anchor", function (d) {
+                //     return d.children || d.children ? "end" : "start";
+                // })
+                .text(function (d: any) { return d.data.accountable ? d.data.accountable.name : ""; });
 
             // UPDATE
             var nodeUpdate = nodeEnter.merge(node);
