@@ -44,8 +44,7 @@ svg  circle.description {
 
 
 svg text {
-  font-size:12px;
-    font-weight: normal;
+  /*font-size:0.8em;*/
     font-family:  "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
     text-anchor: left;
   text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
@@ -53,8 +52,10 @@ svg text {
     transition: font-weight 200ms;
     pointer-events: none;
 }
+
+
 svg text.highlighted {
-    font-weight: bold;
+    font-weight: bolder;
 }
 
 svg .icon{

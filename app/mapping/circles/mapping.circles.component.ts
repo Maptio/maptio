@@ -107,16 +107,39 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             .attr("id", function (d: any) { return "path" + d.data.id; });
 
         var text = g.selectAll("text")
-            .data(nodes)
+            .data(nodes);
+
+        text
             .enter()
             .append("text")
+            .filter(function (d: any) { return d.children; })
             .attr("id", function (d: any) { return "title" + d.data.id; })
-            //.style("fill-opacity", function (d) { return d.parent === root ? 1 : 0.5; })
-            .style("display", function (d) { return d.parent === root ? "inline" : "none"; })
+            .style("display", function (d: any) { return d === root ? "none" : "inline"; })
+            .attr("font-size","1em")
             .append("textPath")
             .attr("xlink:href", function (d: any) { return "#path" + d.data.id; })
             .attr("startOffset", function (d, i) { return "10%"; })
             .text(function (d: any) { return d.data.name; })
+            ;
+
+        text
+            .enter()
+            .append("text")
+            .filter(function (d: any) { console.log(d.data.name + " " + d.children); return !d.children; })
+            .attr("font-size","0.8em")
+            .attr("id", function (d: any) { return "title" + d.data.id; })
+            .attr("dy", 0)
+            .attr("x", function (d: any) { return -d.r * .85 })
+            .attr("y", function (d: any) { return -d.r * .1 })
+            .text(function (d: any) { return d.data.name; })
+            .each(function (d: any) {
+                uiService.wrap(d3.select(this), d.data.name, d.r * 2 * 0.95);
+            })
+            ;
+
+        text
+            .enter()
+            .append("text")
             .on("mouseover", function (d: any, i: any) {
                 d3.selectAll("#title" + d.data.id).classed("highlighted", true);
                 d3.select("g#description-group" + i).classed("hidden", false);
@@ -125,7 +148,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
                 d3.selectAll("#title" + d.data.id).classed("highlighted", false);
                 d3.select("g#description-group" + i).classed("hidden", true);
             })
-
+            ;
 
         var description = g.selectAll("description")
             .data(nodes)
@@ -179,7 +202,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
 
             transition.selectAll("text")
                 .filter(function (d: any) { return d.parent === focus || this.style.display === "inline"; })
-                .style("fill-opacity", function (d: any) { return d.parent === focus || (d === focus && !d.children) ? 1 : (d === focus ? 0.4 : 0); })
+                //.style("fill-opacity", function (d: any) { return d.parent === focus || (d === focus && !d.children) ? 1 : (d === focus ? 0.4 : 0); })
                 .on("start", function (d: any) { if (d.parent === focus) this.style.display = "inline"; })
                 .each(function (d: any) { updateCounter++ })
                 .on("end", function (d: any) {
