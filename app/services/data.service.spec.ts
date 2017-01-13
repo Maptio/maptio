@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, async, inject } from '@angular/core/testing';
+import { ComponentFixture, TestBed, async, inject, fakeAsync } from '@angular/core/testing';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, HttpModule, Response, Headers, RequestOptions, BaseRequestOptions, ResponseOptions } from '@angular/http';
 import { DataService } from './data.service'
@@ -30,12 +30,13 @@ describe('data.service.ts', () => {
             ]
         });
 
-        spyErrorService = spyOn(ErrorService.prototype, 'handleError').and.callFake(function () {
-        });
+        spyOn(ErrorService.prototype, 'handleError').and.callFake(function () { });
 
     });
 
-    it('When URL exists, loads data asynchronously', inject([DataService, MockBackend, ErrorService], (dataService: DataService, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+
+    it('When URL exists, loads data asynchronously', fakeAsync(inject([DataService, MockBackend, ErrorService], (dataService: DataService, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+
         const URL = "http://example.com/data.json";
 
         const mockResponse = {
@@ -56,17 +57,16 @@ describe('data.service.ts', () => {
             }
         });
 
-        dataService.loadFromAsync(URL).then(data => {
-            expect(data.length).toBe(2);
-            expect(data[1].name).toEqual('First');
-            expect(data[2].name).toEqual('Second');
-            expect(this.spyErrorService.toHaveBeenCalledTimes(0));
+        dataService.loadFromAsync(URL).then(response => {
+            expect(response.data.length).toBe(2);
+            expect(response.data[0]).toEqual({ id: 1, name: 'First' });
+            expect(response.data[1]).toEqual({ id: 2, name: 'Second' });
+            expect(mockErrorService.handleError).not.toHaveBeenCalled();
         });
+    })));
 
-    }));
+    it('When URL does not exists, it handles error', fakeAsync(inject([DataService, MockBackend, ErrorService], (dataService: DataService, mockBackend: MockBackend, mockErrorService: ErrorService) => {
 
-
-    it('When URL does not exists, it handles error', inject([DataService, MockBackend, ErrorService], (dataService: DataService, mockBackend: MockBackend, mockErrorService: ErrorService) => {
         const URL = "http://example.com/idontexist.json";
 
         mockBackend.connections.subscribe((connection: MockConnection) => {
@@ -74,18 +74,9 @@ describe('data.service.ts', () => {
         });
 
         dataService.loadFromAsync(URL).then(data => {
-            expect(this.spyErrorService).toHaveBeenCalledTimes(1);
+            expect(mockErrorService.handleError).toHaveBeenCalled();
         });
-    }));
-
-    // it("Gets data asynchronously", inject([DataService, MockBackend, ErrorService], (dataService: DataService, mockBackend: MockBackend, mockErrorService: ErrorService) => {
-    //    expect(true).toBe(false);
-    // }));
-
-    // it("Sets data asynchronously", inject([DataService, MockBackend, ErrorService], (dataService: DataService, mockBackend: MockBackend, mockErrorService: ErrorService) => {
-    //    expect(true).toBe(false);
-    // }));
-
+    })));
 });
 
 
