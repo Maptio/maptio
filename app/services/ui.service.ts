@@ -12,14 +12,12 @@ export class UIService {
 
 
     getCircularPath(radius: number, centerX: number, centerY: number) {
-        //var size = d.r * k + 3; // above the circle line
-        //var centerX = 0 - size; //d.x ;
-        //var centerY = 0; //d.y ;
+        if (radius === undefined || centerX === undefined || centerY  === undefined)
+            throw new Error("Cannot defined circular path as a parameter is missing.");
 
         var rx = -radius;
         var ry = -radius;
         return "m " + centerX + ", " + centerY + " a " + rx + "," + ry + " 1 1,1 " + radius * 2 + ",0 a -" + radius + ",-" + radius + " 1 1,1 -" + radius * 2 + ",0"
-
     }
 
     wrap(text: Selection<BaseType, {}, HTMLElement, any>, actualText: string, width: number) {

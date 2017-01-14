@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject'
 import 'rxjs/add/operator/map'
 import { DataSet } from '../model/dataset.data'
-import {ErrorService} from './error.service';
+import { ErrorService } from './error.service';
 
 
 @Injectable()
@@ -23,7 +23,7 @@ export class DataSetService {
         // new DataSet("Dummy", '../../../assets/datasets/dummy.json')
     ];
 
-    constructor(http: Http, public errorService:ErrorService) {
+    constructor(http: Http, public errorService: ErrorService) {
         this._data$ = new Subject<DataSet[]>();
         this.http = http;
     }
@@ -36,5 +36,5 @@ export class DataSetService {
             .catch(this.errorService.handleError);
     }
 
-   
+
 }

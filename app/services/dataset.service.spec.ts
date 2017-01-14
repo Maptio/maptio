@@ -36,7 +36,6 @@ describe('dataset.service.ts', () => {
 
     it('Gets a list of datasets from static configuration', fakeAsync(inject([DataSetService, MockBackend, ErrorService], (dataSetService: DataSetService, mockBackend: MockBackend, mockErrorService: ErrorService) => {
 
-
         mockBackend.connections.subscribe((connection: MockConnection) => {
             connection.mockRespond(new Response(new ResponseOptions({
                 body: JSON.stringify("") // irrelevant here as our array is static
