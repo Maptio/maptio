@@ -41,30 +41,4 @@ export class InitiativeNode implements ITreeNode{
 
     constructor() { }
 
-
-    /* EXPORT TO TREE EXPLORATION SERVICE */
-    // static traverse(node: InitiativeNode, callback: ((n: InitiativeNode) => void)) {
-    //     if (node.children) {
-    //         node.children.forEach(function (child) {
-    //             callback.apply(this, [child]);
-    //             InitiativeNode.traverse(child, callback);
-    //         })
-    //     }
-    // }
-
-
-    // static resetZoomedOn(nodes: Array<InitiativeNode>) {
-    //     nodes.forEach(function (n: InitiativeNode) {
-    //         n.isZoomedOn = false;
-    //         InitiativeNode.traverse(n, function (node) { node.isZoomedOn = false });
-    //     });
-    // }
-
-    // static resetSearchedFor(nodes: Array<InitiativeNode>) {
-    //     nodes.forEach(function (n: InitiativeNode) {
-    //         n.isSearchedFor = false;
-    //         InitiativeNode.traverse(n, function (node) { node.isSearchedFor = false });
-    //     });
-    // }
-
 }
