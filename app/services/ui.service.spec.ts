@@ -57,12 +57,15 @@ describe("ui.service.ts", function () {
         // spyOn(D3Service.prototype, "getD3").and.stub();
 
         it("When svg element exists, it cleans", inject([UIService, D3Service], (fixture: UIService, d3Service: D3Service) => {
-       
+            expect(true).toBe(false);
+
 
         }));
 
         it("When svg element does not exist, it fails gracefully", inject([UIService, D3Service], (fixture: UIService, d3Service: D3Service) => {
-       
+            expect(true).toBe(false);
+
+
         }));
 
     });
