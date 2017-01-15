@@ -1,3 +1,5 @@
 language: node_js
 node_js:
   - "6"
+notifications:
+  slack: circlemapping:Y7RTefJI5CznwbeFqMeqvnno
