@@ -13,7 +13,7 @@
       "node_modules/@types"
     ],
     "types": [
-      "d3-request"
+      "d3-request","karma-fixture"
     ]
   }
   

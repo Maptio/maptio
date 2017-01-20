@@ -18,15 +18,15 @@ module.exports = config => {
       variableName: '__json__'
     },
         
-        frameworks: ['jasmine'],
+        frameworks: ['jasmine','fixture'],
         logLevel: config.LOG_ERROR,
         phantomJsLauncher: {
             exitOnResourceError: true
         },
         port: 9876,
         preprocessors: {
-            // 'test/fixtures/**/*.html': ['html2js'],
-            // 'test/fixtures/**/*.json': ['json_fixtures'],
+            'test/fixtures/**/*.html': ['html2js'],
+            'test/fixtures/**/*.json': ['json_fixtures'],
             './karma-test-shim.ts':['webpack', 'sourcemap'],
             'test/**/*.ts': ['webpack', 'sourcemap']
         },
@@ -37,9 +37,9 @@ module.exports = config => {
             noInfo: true
         },
         plugins: [
-    //   'karma-fixture',
-    //   'karma-html2js-preprocessor',
-    //   'karma-json-fixtures-preprocessor',
+      'karma-fixture',
+      'karma-html2js-preprocessor',
+      'karma-json-fixtures-preprocessor',
       'karma-webpack',
       'karma-jasmine',
       'karma-sourcemap-loader',
