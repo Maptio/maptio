@@ -201,9 +201,9 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             var updateCounter = 0;
 
             transition.selectAll("text")
-                .filter(function (d: any) { return d.parent === focus || this.style.display === "inline"; })
+                .filter(function (d: any) { return d.parent === focus || (<any>this).style.display === "inline"; })
                 //.style("fill-opacity", function (d: any) { return d.parent === focus || (d === focus && !d.children) ? 1 : (d === focus ? 0.4 : 0); })
-                .on("start", function (d: any) { if (d.parent === focus) this.style.display = "inline"; })
+                .on("start", function (d: any) { if (d.parent === focus) (<any>this).style.display = "inline"; })
                 .each(function (d: any) { updateCounter++ })
                 .on("end", function (d: any) {
                     //if (d.parent !== focus) this.style.display = "none"; 
