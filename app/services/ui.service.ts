@@ -56,7 +56,7 @@ export class UIService {
             .each(function (d: any, i: number) {
 
                 d.pathLength = (<SVGPathElement>d3.select('#path' + d.data.id).node()).getTotalLength();
-                d.tw = d3.select(this).node().getComputedTextLength()
+                d.tw = (<any>d3.select(this).node()).getComputedTextLength()
                 // console.log(d.data.name + " NODE " + d3.select(this).html());
                 d.radius = d.r * k;
                 // console.log(d.data.name + "------------------ADJUST LABELS ---------------------" + k);
@@ -81,7 +81,7 @@ export class UIService {
                     }
                     d3.select(this).text(proposedLabel);
 
-                    d.tw = d3.select(this).node().getComputedTextLength();
+                    d.tw = (<any>d3.select(this).node()).getComputedTextLength();
                 }
                 // }
             });
