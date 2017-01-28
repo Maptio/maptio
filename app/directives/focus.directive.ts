@@ -7,11 +7,25 @@ import { Input, Directive, Inject, ElementRef, OnInit, OnChanges } from '@angula
 export class FocusDirective implements OnChanges, OnInit {
     @Input()
     focus: boolean;
+
     constructor( @Inject(ElementRef) private element: ElementRef) { }
     public ngOnChanges() {
-        this.element.nativeElement.focus();
+       
+        this.applyFocus();
+        //this.element.nativeElement.focus();
     }
     public ngOnInit() {
-        this.element.nativeElement.blur();
+        this.applyFocus();
+        //this.element.nativeElement.blur();
     }
+
+    private applyFocus(){
+        if(this.focus == true){
+            this.element.nativeElement.focus();
+            this.element.nativeElement.style.cssText = " { color: red; }";
+        }else{
+            this.element.nativeElement.blur();
+        }
+    }
+    
 }

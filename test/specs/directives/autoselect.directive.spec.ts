@@ -49,7 +49,7 @@ describe('autoselect.directive.ts', () => {
        expect(nonAutoselectElements[0].properties['customProperty']).toBeUndefined();
     });
     
-    it('on click, should select the text in the autoselect element', () => {
+    it('on left click, should select the text in the autoselect element', () => {
         triggerHelper.click(autoselectElements[0], triggerHelper.ButtonClickEvents.left);
         let start = (<ElementRef>autoselectElements[0]).nativeElement.selectionStart;
         let end = (<ElementRef>autoselectElements[0]).nativeElement.selectionEnd;
@@ -57,7 +57,7 @@ describe('autoselect.directive.ts', () => {
         expect(end).toBe(4);
     });
 
-    it('on click, should not select the text in the neutral element', () => {
+    it('on left click, should not select the text in the neutral element', () => {
         triggerHelper.click(nonAutoselectElements[0], triggerHelper.ButtonClickEvents.left);
         let start = (<ElementRef>nonAutoselectElements[0]).nativeElement.selectionStart;
         let end = (<ElementRef>nonAutoselectElements[0]).nativeElement.selectionEnd;
