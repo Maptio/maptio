@@ -8,7 +8,7 @@ describe("ui.service.ts", function () {
     beforeAll(() => {
         TestBed.resetTestEnvironment();
         TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
-        fixture.setBase("test/fixtures/services/ui.service");
+//        fixture.setBase("test/fixtures/services/ui.service");
 
     });
 
