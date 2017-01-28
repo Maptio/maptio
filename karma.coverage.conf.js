@@ -6,12 +6,18 @@ module.exports = function (config) {
         files: [
             { pattern: "./base.spec.ts" },
             { pattern: "./app/model/*.ts" },
-            { pattern: "./app/services/data.service.ts" },
-            { pattern: "./app/services/dataset.service.ts" },
-            { pattern: "./app/services/error.service.ts" },
-            { pattern: "./app/services/tree.exploration.service.ts" }
+            { pattern: "./app/directives/*.ts" },
+            // { pattern: "./app/services/data.service.ts" },
+            // { pattern: "./app/services/dataset.service.ts" },
+            // { pattern: "./app/services/error.service.ts" },
+            //  { pattern: "./app/services/ui.service.ts" },
+            // { pattern: "./app/services/tree.exploration.service.ts" },
             //{ pattern: "./app/services/color.service.ts" },
-            //{ pattern: "./app/services/ui.service.ts" }
+            //{ pattern: "./app/services/ui.service.ts" },
+             { pattern: "./test/specs/shared/**/*.ts" },
+            { pattern: "./test/specs/model/*.ts" },
+             { pattern: "./test/specs/directives/*.ts" },
+            //{ pattern: "./test/specs/test.service.spec.ts" }
         ],
 
         proxies: {
@@ -26,6 +32,11 @@ module.exports = function (config) {
         },
 
         karmaTypescriptConfig: {
+            bundlerOptions: {
+                // ignore: ["d3-ng2-service"],
+                // validateSyntax: true
+            },
+
             reports: {
 
                 "html": {
