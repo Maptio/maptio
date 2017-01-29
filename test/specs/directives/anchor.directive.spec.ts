@@ -1,5 +1,6 @@
-import { Component , ViewChild, ComponentFactoryResolver} from '@angular/core'
+import { Component, ViewChild, ComponentFactoryResolver } from '@angular/core'
 import { AnchorDirective } from '../../../app/directives/anchor.directive'
+import { AnAnchorableComponent, IAnchorableComponent } from '../shared/component.helper'
 
 @Component({
     template: `
@@ -8,14 +9,13 @@ import { AnchorDirective } from '../../../app/directives/anchor.directive'
   `
 })
 class TestComponent {
-    constructor(public componentFactoryResolver:ComponentFactoryResolver){}
+    constructor(public componentFactoryResolver: ComponentFactoryResolver) { }
     @ViewChild(AnchorDirective) anchorComponent: AnchorDirective;
+    @ViewChild(AnAnchorableComponent) childComponent: AnAnchorableComponent;
 
- }
 
-interface IAnchorableElement{}
+}
 
-class FirstTypeOfAnchorableElement implements IAnchorableElement{}
 
 /********************************
  * 
@@ -23,7 +23,7 @@ class FirstTypeOfAnchorableElement implements IAnchorableElement{}
 
 import { TestBed, ComponentFixture } from '@angular/core/testing'
 import { By } from '@angular/platform-browser'
-import { DebugElement, ElementRef} from '@angular/core'
+import { DebugElement } from '@angular/core'
 
 describe('anchor.directive.ts', () => {
 
@@ -32,10 +32,15 @@ describe('anchor.directive.ts', () => {
     let otherElements: Array<DebugElement>;
 
     beforeEach(() => {
-        target = TestBed.configureTestingModule({
-            declarations: [AnchorDirective, TestComponent]
+        TestBed.configureTestingModule({
+            declarations: [AnchorDirective, AnAnchorableComponent, TestComponent],
         })
-            .createComponent(TestComponent);
+            .compileComponents();
+    });
+
+    beforeEach(() => {
+
+        target = TestBed.createComponent(TestComponent);
 
         target.detectChanges(); // initial binding
 
@@ -44,22 +49,23 @@ describe('anchor.directive.ts', () => {
 
     });
 
-    // it('should have one anchor elements', () => {
-    //     expect(elements.length).toBe(1);
-        
-    // });
+    it('should have one anchor elements', () => {
+        expect(elements.length).toBe(1);
 
-    // it('should have one other elements', () => {
-    //     expect(otherElements.length).toBe(1);
-    // });
+    });
+
+    it('should have one other elements', () => {
+        expect(otherElements.length).toBe(1);
+    });
 
 
     // it('should create children components', () => {
-    //     let factory = target.componentInstance.componentFactoryResolver.resolveComponentFactory(FirstTypeOfAnchorableElement);
-    //     let actual = target.componentInstance.anchorComponent.createComponent<IAnchorableElement>(factory);
+    //     let factory = target.componentInstance.componentFactoryResolver.resolveComponentFactory(AnAnchorableComponent);
+    //     console.log(factory)
+    //     let actual = target.componentInstance.anchorComponent.createComponent<IAnchorableComponent>(factory);
 
     //     expect(actual).toBeDefined();
-        
+
     // });
 
 

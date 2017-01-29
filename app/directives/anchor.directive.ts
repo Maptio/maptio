@@ -9,6 +9,7 @@ export class AnchorDirective {
     ) { }
 
     createComponent<T>(factory: ComponentFactory<T>): ComponentRef<T> {
+        console.log(factory);
         this.viewContainer.clear();
         return this.viewContainer.createComponent(factory);
     }
