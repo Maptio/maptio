@@ -38,12 +38,10 @@ module.exports = function (config) {
             },
 
             reports: {
-
                 "html": {
                     "directory": "test/coverage",
                     "filename": "coverage.html"
-                },
-                "text": ""
+                }
             }
         },
 
