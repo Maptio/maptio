@@ -2,11 +2,10 @@ import { Input, Directive, Inject, ElementRef, OnInit, OnChanges } from '@angula
 
 
 @Directive({
-    selector: '[focus]'
+    selector: '[focusif]'
 })
-export class FocusDirective implements OnChanges, OnInit {
-    @Input()
-    focus: boolean;
+export class FocusIfDirective implements OnChanges, OnInit {
+    @Input('focusif') focusif: string;
 
     constructor( @Inject(ElementRef) private element: ElementRef) { }
     public ngOnChanges() {
@@ -20,12 +19,16 @@ export class FocusDirective implements OnChanges, OnInit {
     }
 
     private applyFocus(){
-        if(this.focus == true){
+        if(this.isTrue(this.focusif)){
             this.element.nativeElement.focus();
-            this.element.nativeElement.style.cssText = " { color: red; }";
         }else{
             this.element.nativeElement.blur();
         }
+    }
+
+    // REFACTOR : to extract to a shared service
+    private isTrue(value:string){
+        return (value === "true" || value === "1");
     }
     
 }

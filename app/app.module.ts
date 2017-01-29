@@ -24,7 +24,7 @@ import { HelpComponent } from './help/help.component';
 //import {ImportComponent} from './import/import.component';
 
 //Directives
-import { FocusDirective } from './directives/focus.directive';
+import { FocusIfDirective } from './directives/focusif.directive';
 import { AutoSelectDirective } from './directives/autoselect.directive'
 import { AnchorDirective } from './directives/anchor.directive'
 //import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
@@ -42,7 +42,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MappingComponent, MappingCirclesComponent, MappingTreeComponent,
     BuildingComponent,
     InitiativeComponent,
-    FocusDirective,
+    FocusIfDirective,
     AutoSelectDirective,
     AnchorDirective,
     //FileSelectDirective,FileDropDirective,

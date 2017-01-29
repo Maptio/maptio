@@ -37,7 +37,7 @@
 							(click)="toggleNode(node)"><i class="fa fa-minus-square" aria-hidden="true"></i></a>
 					 </span>
 
-					<input class="form-control input-sm" type="text" [focus]="node.data.hasFocus" autoselect [ngModel]="node.data.name" placeholder="Initiative name"
+					<input class="form-control input-sm" type="text" [focusif]="node.data.hasFocus" autoselect [ngModel]="node.data.name" placeholder="Initiative name"
 						(ngModelChange)="saveNodeName($event, node.data)">
 
 					<span class="input-group-btn">
