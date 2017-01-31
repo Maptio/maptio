@@ -49,7 +49,7 @@ export class InitiativeComponent {
         let month = Number.parseInt(newDate.substr(5, 2));
         let day = Number.parseInt(newDate.substr(8, 2));
         let parsedDate = new Date(year, month, day);
-        
+
         // REFACTOR : SUPER DODGY ! this should not be here but in a custom validatpr. Or maybe use HTML 5 "pattern" to prevent binding
         if (!Number.isNaN(parsedDate.valueOf())) {
             this.data.start = new Date(year, month, day);
@@ -57,7 +57,7 @@ export class InitiativeComponent {
     }
 
     saveNodeAccountable(newAccountable: string) {
-       this.data.accountable = <Person>JSON.parse(newAccountable) ;
+        this.data.accountable = <Person>JSON.parse(newAccountable);
     }
 
 
