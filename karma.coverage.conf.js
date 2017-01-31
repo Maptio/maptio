@@ -9,6 +9,7 @@ module.exports = function (config) {
             { pattern: "./app/model/*.ts" },
             { pattern: "./app/directives/*.ts" },
              { pattern: "./app/initiative/*.*" },
+              { pattern: "./app/help/*.*" },
             
             // { pattern: "./app/services/data.service.ts" },
             // { pattern: "./app/services/dataset.service.ts" },
