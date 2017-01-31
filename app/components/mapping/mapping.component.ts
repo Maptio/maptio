@@ -7,12 +7,12 @@ import {
     ChangeDetectionStrategy, ChangeDetectorRef
 } from '@angular/core';
 
-import { DataService } from '../services/data.service'
-import { Views } from '../model/view.enum'
+import { DataService } from '../../services/data.service'
+import { Views } from '../../model/view.enum'
 import { IDataVisualizer } from './mapping.interface'
 import { MappingCirclesComponent } from './circles/mapping.circles.component'
 import { MappingTreeComponent } from './tree/mapping.tree.component'
-import { AnchorDirective } from '../directives/anchor.directive'
+import { AnchorDirective } from '../../directives/anchor.directive'
 
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject'

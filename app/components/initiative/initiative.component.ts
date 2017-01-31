@@ -1,8 +1,8 @@
 import { Component, Injectable, Inject, AfterViewInit, OnInit, Input, ViewChild } from '@angular/core';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
-import { InitiativeNode } from '../model/initiative.data'
-import { Team } from '../model/team.data'
-import { Person } from '../model/person.data'
+import { InitiativeNode } from '../../model/initiative.data'
+import { Team } from '../../model/team.data'
+import { Person } from '../../model/person.data'
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';

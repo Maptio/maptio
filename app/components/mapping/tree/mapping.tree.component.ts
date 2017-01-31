@@ -4,8 +4,8 @@ import {
     PackLayout, HierarchyNode, HierarchyCircularNode,
     Transition, Timer, BaseType
 } from 'd3-ng2-service';
-import { ColorService } from '../../services/color.service'
-import { UIService } from '../../services/ui.service'
+import { ColorService } from '../../../services/color.service'
+import { UIService } from '../../../services/ui.service'
 import { IDataVisualizer } from '../mapping.interface'
 
 @Component({

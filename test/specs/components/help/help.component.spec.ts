@@ -3,7 +3,7 @@ import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core'
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
-import { HelpComponent } from '../../../../app/help/help.component';
+import { HelpComponent } from '../../../../app/components/help/help.component';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 describe('help.component.ts', () => {

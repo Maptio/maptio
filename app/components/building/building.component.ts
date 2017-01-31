@@ -1,14 +1,14 @@
 import { Component, OnInit, ViewChild, ViewChildren, Directive, Input, ElementRef, Inject, QueryList, Query } from '@angular/core';
 //import { InitiativeComponent} from './initiative.component'
-import { InitiativeNode } from '../model/initiative.data';
-import { Team } from '../model/team.data'
-import { Person } from '../model/person.data'
+import { InitiativeNode } from '../../model/initiative.data';
+import { Team } from '../../model/team.data'
+import { Person } from '../../model/person.data'
 import { InitiativeComponent } from '../initiative/initiative.component';
 import { TreeComponent } from 'angular2-tree-component';
-import { DataService } from '../services/data.service';
-import { TreeExplorationService } from '../services/tree.exploration.service'
-import { FocusIfDirective } from '../directives/focusif.directive'
-import { AutoSelectDirective } from '../directives/autoselect.directive'
+import { DataService } from '../../services/data.service';
+import { TreeExplorationService } from '../../services/tree.exploration.service'
+import { FocusIfDirective } from '../../directives/focusif.directive'
+import { AutoSelectDirective } from '../../directives/autoselect.directive'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import 'rxjs/add/operator/map'
 

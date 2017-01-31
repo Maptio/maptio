@@ -4,8 +4,8 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import { BuildingComponent } from './building/building.component'
-import { HelpComponent } from './help/help.component';
+import { BuildingComponent } from './components/building/building.component'
+import { HelpComponent } from './components/help/help.component';
 import { DataSet } from './model/dataset.data'
 import { Views } from './model/view.enum'
 import { DataSetService } from './services/dataset.service'

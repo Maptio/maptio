@@ -3,7 +3,7 @@ import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core'
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
-import { InitiativeComponent } from '../../../../app/initiative/initiative.component';
+import { InitiativeComponent } from '../../../../app/components/initiative/initiative.component';
 import { InitiativeNode } from '../../../../app/model/initiative.data';
 import { Team } from '../../../../app/model/team.data';
 import { Person } from '../../../../app/model/person.data';

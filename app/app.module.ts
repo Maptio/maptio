@@ -14,13 +14,13 @@ import {TreeExplorationService} from './services/tree.exploration.service';
 
 //Components
 import { AppComponent } from './app.component';
-import { MappingComponent } from './mapping/mapping.component';
-import { MappingCirclesComponent } from './mapping/circles/mapping.circles.component';
-import { MappingTreeComponent } from './mapping/tree/mapping.tree.component';
+import { MappingComponent } from './components/mapping/mapping.component';
+import { MappingCirclesComponent } from './components/mapping/circles/mapping.circles.component';
+import { MappingTreeComponent } from './components/mapping/tree/mapping.tree.component';
 
-import { InitiativeComponent } from './initiative/initiative.component'
-import { BuildingComponent } from './building/building.component';
-import { HelpComponent } from './help/help.component';
+import { InitiativeComponent } from './components/initiative/initiative.component'
+import { BuildingComponent } from './components/building/building.component';
+import { HelpComponent } from './components/help/help.component';
 //import {ImportComponent} from './import/import.component';
 
 //Directives
