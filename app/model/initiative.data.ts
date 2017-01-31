@@ -36,7 +36,7 @@ export class InitiativeNode implements ITreeNode{
     isSearchedFor: boolean = false;
 
     /**Size of node -- DEPRECATED */
-    private size: number = 1;
+    // private size: number = 1;
 
 
     constructor() { }

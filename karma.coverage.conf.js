@@ -5,8 +5,11 @@ module.exports = function (config) {
 
         files: [
             { pattern: "./base.spec.ts" },
+            {pattern: "./public/jquery/jquery.js"},
             { pattern: "./app/model/*.ts" },
             { pattern: "./app/directives/*.ts" },
+             { pattern: "./app/initiative/*.*" },
+            
             // { pattern: "./app/services/data.service.ts" },
             // { pattern: "./app/services/dataset.service.ts" },
             // { pattern: "./app/services/error.service.ts" },
@@ -17,6 +20,7 @@ module.exports = function (config) {
              { pattern: "./test/specs/shared/**/*.ts" },
             { pattern: "./test/specs/model/*.ts" },
              { pattern: "./test/specs/directives/*.ts" },
+             { pattern: "./test/specs/components/**/*.ts" },
             //{ pattern: "./test/specs/test.service.spec.ts" }
         ],
 
@@ -35,6 +39,7 @@ module.exports = function (config) {
             bundlerOptions: {
                 // ignore: ["d3-ng2-service"],
                 // validateSyntax: true
+                
             },
 
             reports: {

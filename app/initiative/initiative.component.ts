@@ -12,7 +12,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 
 @Component({
     selector: 'initiative',
-    templateUrl: './initiative.component.html',
+    template: require('./initiative.component.html').toString(), //'./initiative.component.html',
     providers: [InitiativeNode]
 })
 
@@ -32,6 +32,10 @@ export class InitiativeComponent {
     constructor() {
     }
 
+    open() {
+        this.modal.open();
+    }
+
     saveNodeName(newName: any) {
         this.data.name = newName;
     }
@@ -40,11 +44,21 @@ export class InitiativeComponent {
         this.data.description = newDesc;
     }
 
-    saveNodeStartDate(newDate: Date) {
-        this.data.start = newDate;
+    saveNodeStartDate(newDate: string) {
+        let year = Number.parseInt(newDate.substr(0, 4));
+        let month = Number.parseInt(newDate.substr(5, 2));
+        let day = Number.parseInt(newDate.substr(8, 2));
+        let parsedDate = new Date(year, month, day);
+        
+        // REFACTOR : SUPER DODGY ! this should not be here but in a custom validatpr. Or maybe use HTML 5 "pattern" to prevent binding
+        if (!Number.isNaN(parsedDate.valueOf())) {
+            this.data.start = new Date(year, month, day);
+        }
     }
 
     saveNodeAccountable(newAccountable: Person) {
+        
+        console.log("here" + newAccountable)
         this.data.accountable = newAccountable;
     }
 
@@ -79,15 +93,6 @@ export class InitiativeComponent {
         }
 
     }
-
-    // saveNodeSize(newSize: number) {
-    //     this.data.size = newSize;
-    // }
-
-    open() {
-        this.modal.open();
-    }
-
 }
 
 
