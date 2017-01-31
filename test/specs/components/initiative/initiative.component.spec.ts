@@ -38,7 +38,6 @@ describe('initiative.component.ts', () => {
             id: 1, name: "ORIGINAL", description: "ORIGINAL", children: [], start: new Date(2010, 1, 1), accountable: new Person("ORIGINAL"),
             isRoot: false, hasFocus: false, isZoomedOn: false, isSearchedFor: false
         };
-        inputNode.name = "ORIGINAL";
         component.data = inputNode;
         inputTeam = new Team([]);
         component.team = inputTeam;
@@ -109,5 +108,18 @@ describe('initiative.component.ts', () => {
         expect(component.data.start.getSeconds()).toBe(0);
     });
 
+    it("saves the accountable person", ()=>{
+        let element = target.debugElement.query(By.css('#inputAccountable'));
+        (element.nativeElement as HTMLInputElement).value = JSON.stringify(new Person("John Doe"));
+        (element.nativeElement as HTMLInputElement).dispatchEvent(new Event('input'));
+        expect(component.data.accountable.name).toBe("John Doe");
+    });
+
+
+    // it("formats team member value to return name only", () => {
+    //     let person = new Person("John Doe");
+    //     let actual = target.componentInstance.formatter(person);
+    //     expect(actual).toBe("John Doe");
+    // });
 
 });

@@ -56,11 +56,11 @@ export class InitiativeComponent {
         }
     }
 
-    saveNodeAccountable(newAccountable: Person) {
-        
-        console.log("here" + newAccountable)
-        this.data.accountable = newAccountable;
+    saveNodeAccountable(newAccountable: string) {
+       this.data.accountable = <Person>JSON.parse(newAccountable) ;
     }
+
+
 
     searchTeamMember =
     (text$: Observable<string>) =>

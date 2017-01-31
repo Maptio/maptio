@@ -20,8 +20,8 @@
 					<div class="col-lg-10">
 
 						<div class="input-group">
-							<input type="text" editable="true" id= "inputAccountable" placeholder="Select or add an accountable team member" class="form-control" [ngModelOptions]="{standalone: true}"
-								[ngModel]="data?.accountable" (ngModelChange)="saveNodeAccountable($event)" [ngbTypeahead]="searchTeamMember" [resultFormatter]="formatter"
+							<input #person required type="text" editable="true" id= "inputAccountable" placeholder="Select or add an accountable team member" class="form-control" [ngModelOptions]="{standalone: true}"
+								[ngModel]="data?.accountable" (ngModelChange)="saveNodeAccountable(person.value)" [ngbTypeahead]="searchTeamMember" [resultFormatter]="formatter"
 								[inputFormatter]="formatter" />
 							<span class="input-group-btn">
 	  <button [ngClass]="{'disabled': isTeamMemberFound, 'btn-success': isTeamMemberAdded}"  class="btn btn-default" type="button" (click)="addTeamMember()">
