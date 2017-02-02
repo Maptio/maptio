@@ -34,10 +34,12 @@ describe('initiative.component.ts', () => {
         de = target.debugElement.query(By.css('modal'));
         el = de.nativeElement;
 
+        
         inputNode = {
             id: 1, name: "ORIGINAL", description: "ORIGINAL", children: [], start: new Date(2010, 1, 1), accountable: new Person("ORIGINAL"),
             isRoot: false, hasFocus: false, isZoomedOn: false, isSearchedFor: false
         };
+       
         component.data = inputNode;
         inputTeam = new Team([]);
         component.team = inputTeam;

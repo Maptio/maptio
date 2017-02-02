@@ -8,7 +8,8 @@ module.exports = function (config) {
             
             {pattern: "./public/jquery/jquery.js"},
 
-
+{ pattern: "./app/interfaces/*.ts" },
+            
             { pattern: "./app/model/*.ts" },
             { pattern: "./app/directives/*.ts" },
              { pattern: "./app/components/initiative/*.*" },
