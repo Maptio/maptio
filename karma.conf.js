@@ -1,52 +1,59 @@
-'use strict';
-
-module.exports = config => {
+module.exports = function (config) {
     config.set({
-        autoWatch: true,
-        browsers: ['Chrome', 'PhantomJS'],
-        files: [
-             //'./node_modules/es6-shim/es6-shim.min.js',
-            './karma-test-shim.ts',
-        //   
-            //'./karma.entry.js',
-      // serve assets and stylings
-       { pattern: 'test/fixtures/**/*.*', watched: true, included: true, served: true },
-    //   // webpack's entry point over tests
-       { pattern: 'test/specs/**/*.ts', watched: true, included: true, served: true }
-    ],
-    jsonFixturesPreprocessor: {
-      variableName: '__json__'
-    },
-        
-        frameworks: ['jasmine','fixture'],
-        logLevel: config.LOG_ERROR,
-        phantomJsLauncher: {
-            exitOnResourceError: true
-        },
-        port: 9876,
-        preprocessors: {
-            'test/fixtures/**/*.html': ['html2js'],
-            'test/fixtures/**/*.json': ['json_fixtures'],
-            './karma-test-shim.ts':['webpack', 'sourcemap'],
-            'test/**/*.ts': ['webpack', 'sourcemap']
-        },
-        reporters: ['dots'],
-        singleRun: false,
-         webpack: require('./config/webpack.test.js'),
-        webpackServer: {
-            noInfo: true
-        },
-        plugins: [
-      'karma-fixture',
-      'karma-html2js-preprocessor',
-      'karma-json-fixtures-preprocessor',
-      'karma-webpack',
-      'karma-jasmine',
-      'karma-sourcemap-loader',
-      'karma-phantomjs-launcher',
-      'karma-chrome-launcher'
-     
-    ]
 
+        frameworks: ["jasmine", "karma-typescript"],
+
+        files: [
+            { pattern: "./base.spec.ts" },
+
+            { pattern: "./public/jquery/jquery.js" },
+            
+            { pattern: "./app/interfaces/*.ts" },
+            { pattern: "./app/model/*.ts" },
+            { pattern: "./app/directives/*.ts" },
+            { pattern: "./app/components/initiative/*.*" },
+            { pattern: "./app/components/help/*.*" },
+            { pattern: "./app/services/data.service.ts" },
+            { pattern: "./app/services/dataset.service.ts" },
+            { pattern: "./app/services/error.service.ts" },
+            { pattern: "./app/services/tree.exploration.service.ts" },
+
+            
+            { pattern: "./test/specs/shared/**/*.ts" },
+            { pattern: "./test/specs/model/*.ts" },
+            { pattern: "./test/specs/directives/*.ts" },
+            { pattern: "./test/specs/components/**/*.ts" },
+            { pattern: "./test/specs/services/*.ts" }
+        ],
+
+        proxies: {
+            "/app/": "/base/app/"
+            //"/app/": "/base/src/app/" // use this without moduleId + templateUrl: "app/hello.html"
+        },
+
+
+
+        preprocessors: {
+            "**/*.ts": ["karma-typescript"]
+        },
+
+        karmaTypescriptConfig: {
+            bundlerOptions: {
+                // ignore: ["d3-ng2-service"],
+                // validateSyntax: true
+
+            },
+
+            reports: {
+                "html": {
+                    "directory": "test/coverage",
+                    "filename": "coverage.html"
+                }
+            }
+        },
+
+        reporters: ["progress", "karma-typescript"],
+
+        browsers: ["PhantomJS"]
     });
 };

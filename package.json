@@ -8,9 +8,8 @@
   },
   "scripts": {
     "start": "node server.js",
-    "test": "karma start ./karma.conf.js --single-run --browsers PhantomJS",
-    "test:headless": "karma start ./karma.conf.js --browsers PhantomJS",
-    "test:coverage": "karma start ./karma.coverage.conf.js --single-run --browsers PhantomJS",
+    "test": "karma start --single-run",
+     "test:headless": "karma start",
     "heroku-postbuild": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail",
     "start-dev": "webpack-dev-server --inline --progress --port 8080"
   },
