@@ -14,20 +14,17 @@ import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'my-app',
-  templateUrl: './app.component.html',
+  template: require('./app.component.html'),
   styles: [require('./app.component.css').toString()]
 })
 
 export class AppComponent implements OnInit {
 
   @ViewChild('building')
-  private buildingComponent: BuildingComponent
+  buildingComponent: BuildingComponent
 
   @ViewChild('help')
-  private helpComponent: HelpComponent;
-
-  // @ViewChild('import')
-  // private importComponent:ImportComponent;
+  helpComponent: HelpComponent;
 
   private empty: DataSet = DataSet.EMPTY;
   private datasets: DataSet[];
@@ -43,15 +40,9 @@ export class AppComponent implements OnInit {
     this.redraw()
   }
 
-  // openImport() {
-  //   this.importComponent.open();
+  // isProjectEmpty(): boolean {
+  //   return this.buildingComponent.isEmpty();
   // }
-
-
-
-  isProjectEmpty(): boolean {
-    return this.buildingComponent.isEmpty();
-  }
 
   ngOnInit() {
     this.datasetService.getData().then(o => {
@@ -67,6 +58,7 @@ export class AppComponent implements OnInit {
   }
 
   toggleBuildingPanel(e: any) {
+
     this.isBuildingPanelCollapsed = !this.isBuildingPanelCollapsed;
   }
 

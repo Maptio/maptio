@@ -7,18 +7,20 @@ module.exports = function (config) {
             { pattern: "./base.spec.ts" },
 
             { pattern: "./public/jquery/jquery.js" },
-            
+
+            { pattern: "./app/app.component.ts" },
             { pattern: "./app/interfaces/*.ts" },
             { pattern: "./app/model/*.ts" },
             { pattern: "./app/directives/*.ts" },
             { pattern: "./app/components/initiative/*.*" },
             { pattern: "./app/components/help/*.*" },
+             { pattern: "./app/components/building/*.*" },
             { pattern: "./app/services/data.service.ts" },
             { pattern: "./app/services/dataset.service.ts" },
             { pattern: "./app/services/error.service.ts" },
             { pattern: "./app/services/tree.exploration.service.ts" },
 
-            
+
             { pattern: "./test/specs/shared/**/*.ts" },
             { pattern: "./test/specs/model/*.ts" },
             { pattern: "./test/specs/directives/*.ts" },
