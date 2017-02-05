@@ -1,7 +1,7 @@
 module.exports = function (config) {
     config.set({
 
-        frameworks: ["jasmine", "karma-typescript"],
+        frameworks: ["jasmine", "fixture", "karma-typescript"],
 
         files: [
             { pattern: "./base.spec.ts" },
@@ -14,7 +14,7 @@ module.exports = function (config) {
             { pattern: "./app/directives/*.ts" },
             { pattern: "./app/components/initiative/*.*" },
             { pattern: "./app/components/help/*.*" },
-             { pattern: "./app/components/building/*.*" },
+            { pattern: "./app/components/building/*.*" },
             { pattern: "./app/services/data.service.ts" },
             { pattern: "./app/services/dataset.service.ts" },
             { pattern: "./app/services/error.service.ts" },
@@ -24,7 +24,7 @@ module.exports = function (config) {
             { pattern: "./test/specs/shared/**/*.ts" },
             { pattern: "./test/specs/model/*.ts" },
             { pattern: "./test/specs/directives/*.ts" },
-            { pattern: "./test/specs/components/**/*.ts" },
+            { pattern: "./test/specs/components/**/*.*" },
             { pattern: "./test/specs/services/*.ts" }
         ],
 
@@ -33,10 +33,14 @@ module.exports = function (config) {
             //"/app/": "/base/src/app/" // use this without moduleId + templateUrl: "app/hello.html"
         },
 
-
+        jsonFixturesPreprocessor: {
+            variableName: '__json__'
+        },
 
         preprocessors: {
-            "**/*.ts": ["karma-typescript"]
+            "**/*.ts": ["karma-typescript"],
+            '**/*.html': ['html2js'],
+            '**/*.json': ['json_fixtures']
         },
 
         karmaTypescriptConfig: {

@@ -1,0 +1,25 @@
+{
+    "name": "Root",
+    "accountable": "CEO",
+    "size": "1",
+    "children": [
+        {
+            "name": "Tech",
+            "accountable": {
+                "name": "CTO"
+            },
+            "size": "1"
+        },
+        {
+            "name": "Marketing",
+            "accountable": {
+                "name": "CMO"
+            },
+            "size": "1"
+        },
+        {
+            "name": "The rest",
+            "size": "1"
+        }
+    ]
+}

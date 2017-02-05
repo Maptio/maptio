@@ -4,7 +4,7 @@ import { InitiativeNode } from '../../model/initiative.data';
 import { Team } from '../../model/team.data'
 import { Person } from '../../model/person.data'
 import { InitiativeComponent } from '../initiative/initiative.component';
-import { TreeComponent } from 'angular2-tree-component';
+import { TreeComponent, TreeNode } from 'angular2-tree-component';
 import { DataService } from '../../services/data.service';
 import { TreeExplorationService } from '../../services/tree.exploration.service'
 import { FocusIfDirective } from '../../directives/focusif.directive'
@@ -21,39 +21,37 @@ import 'rxjs/add/operator/map'
 
 export class BuildingComponent {
 
-    private nodes: Array<InitiativeNode>;
-    private selectedNode: InitiativeNode;
-    private selectedTeam: Team;
+    nodes: Array<InitiativeNode>;
 
     @ViewChild(TreeComponent)
-    private tree: TreeComponent;
+    tree: TreeComponent;
 
     @ViewChild('initiative')
-    private initiativeEditComponent: InitiativeComponent;
+    initiativeEditComponent: InitiativeComponent;
 
     private dataService: DataService;
     private treeExplorationService: TreeExplorationService;
 
-    constructor(dataService: DataService, treeExplorationService:TreeExplorationService) {
+    constructor(dataService: DataService, treeExplorationService: TreeExplorationService) {
         this.dataService = dataService;
         this.treeExplorationService = treeExplorationService;
         this.nodes = [];
     }
 
-    isEmpty(): boolean {
-        return !this.nodes[0] || this.nodes[0].children.length === 0; // check if the root has any children
-    }
+    // isEmpty(): boolean {
+    //     return !this.nodes[0] || this.nodes[0].children.length === 0; // check if the root has any children
+    // }
 
     isRootValid(): boolean {
-        return this.nodes[0].name.length > 0;
+        return (this.nodes[0].name != undefined) && this.nodes[0].name.trim().length > 0;
     }
 
     saveNodeName(newName: any, node: InitiativeNode) {
         node.name = newName;
-        this.saveData();
+        this.mapData();
     }
 
-    saveData() {
+    mapData() {
         // console.log("SAVE HERE");
         // console.log(JSON.stringify(this.nodes));
         this.dataService.setAsync(this.nodes[0]);
@@ -71,6 +69,7 @@ export class BuildingComponent {
         newNode.children = []
         newNode.hasFocus = true;
         setTimeout(() => { newNode.hasFocus = false });
+        treeNode.data.children = treeNode.data.children || [];
         treeNode.data.children.push(newNode);
         this.tree.treeModel.setExpandedNode(treeNode, true);
         this.updateTreeModel();
@@ -93,17 +92,17 @@ export class BuildingComponent {
     }
 
     openNode(node: InitiativeNode) {
-        this.selectedNode = node;
+        this.initiativeEditComponent.data = node;
         this.initiativeEditComponent.open();
     }
 
-    goToNode(node: InitiativeNode) {
+    zoomInNode(node: InitiativeNode) {
 
-        TreeExplorationService.traverseAll<InitiativeNode>(this.nodes, function(node){node.isZoomedOn = false});
+        TreeExplorationService.traverseAll<InitiativeNode>(this.nodes, function (node) { node.isZoomedOn = false });
         //InitiativeNode.resetZoomedOn(this.nodes);
 
         node.isZoomedOn = true;
-        this.saveData();
+        this.mapData();
     }
 
     loadData(url: string) {
@@ -112,43 +111,29 @@ export class BuildingComponent {
             let parsedNodes: InitiativeNode = Object.assign(new InitiativeNode(), data)
             this.nodes.push(parsedNodes);
 
-            // another function/service
+            // REFACTOR : this should be another function/service
             let members = new Array<Person>();
             TreeExplorationService.traverseOne<InitiativeNode>(parsedNodes, function (node) {
                 if (node.accountable && !members.find(function (person) { return person.name === node.accountable.name }))
                     members.push(node.accountable)
             }
             );
+            this.initiativeEditComponent.team = { members: members };
 
-            this.selectedTeam = { members: members };
-            this.saveData();
+            this.mapData();
         });
     }
 
     filterNodes(searched: string) {
-
-        TreeExplorationService.traverseAll<InitiativeNode>(this.nodes, function(node){node.isSearchedFor = false});
-        
-        //InitiativeNode.resetSearchedFor(this.nodes);
+        TreeExplorationService.traverseAll<InitiativeNode>(this.nodes, function (node) { node.isSearchedFor = false });
         this.tree.treeModel.filterNodes(
-            (node: any) => {
-                if (searched === "") {
-                    return true;
-                }
-                else {
-                    if (
-                        (<InitiativeNode>node.data).name && (<InitiativeNode>node.data).name.toLowerCase().includes(searched.toLowerCase())
-                        ||
-                        (<InitiativeNode>node.data).description && (<InitiativeNode>node.data).description.toLowerCase().includes(searched.toLowerCase())
-                    ) {
-                        (<InitiativeNode>node.data).isSearchedFor = true;
-                        return true;
-                    }
-                    return false;
-                }
+            (node: TreeNode) => {
+                let initiative = (<InitiativeNode>node.data);
+                initiative.isSearchedFor = initiative.search(searched);
+                return initiative.isSearchedFor;
             },
             true);
-        this.saveData();
+        this.mapData();
 
     }
 

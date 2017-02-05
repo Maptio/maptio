@@ -1,9 +1,9 @@
 import { Injectable, Inject } from '@angular/core'
 import { Person } from './person.data';
-import {ITreeNode} from '../interfaces/treenode.interface'
+import { ITreeNode } from '../interfaces/treenode.interface'
 
 @Injectable()
-export class InitiativeNode implements ITreeNode{
+export class InitiativeNode implements ITreeNode {
 
     /** Unique Id */
     id: number;
@@ -40,5 +40,22 @@ export class InitiativeNode implements ITreeNode{
 
 
     constructor() { }
+
+    search(searched: string) {
+        if (searched === "") {
+            return true;
+        }
+        else {
+            if (
+                this.name && this.name.toLowerCase().includes(searched.toLowerCase())
+                ||
+                this.description && this.description.toLowerCase().includes(searched.toLowerCase())
+            ) {
+                //this.isSearchedFor = true;
+                return true;
+            }
+            return false;
+        }
+    }
 
 }

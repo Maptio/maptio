@@ -3,7 +3,7 @@
 	<div class="form-group">
 		<input type="text" class="form-control" placeholder="Search map by name or description" (change)="filterNodes($event.target.value)">
 	</div>
-	<Tree [nodes]="nodes" (onUpdateData)="saveData($event)">
+	<Tree [nodes]="nodes" (onUpdateData)="mapData($event)">
 		<template #treeNodeTemplate let-node>
 			<!--ROOT -->
 			<div class="form-group" *ngIf="node.isRoot">
@@ -47,7 +47,7 @@
 
 						<a class="btn btn-default" ngbTooltip="Edit" placement="bottom" (click)="openNode(node.data)"><i class="fa fa-sticky-note" aria-hidden="true"></i></a>
 
-						<a class="btn btn-default" ngbTooltip="Zoom in" placement="bottom" (click)="goToNode(node.data)"><i class="fa fa-circle" aria-hidden="true"></i></a>
+						<a class="btn btn-default" ngbTooltip="Zoom in" placement="bottom" (click)="zoomInNode(node.data)"><i class="fa fa-circle" aria-hidden="true"></i></a>
 
 						</span>
 				</div>
@@ -57,6 +57,6 @@
 		</template>
 	</Tree>
 	<!--Modal-->
-	<initiative #initiative [data]="selectedNode" [team]="selectedTeam"></initiative>
+	<initiative #initiative></initiative>
 
 </div>
