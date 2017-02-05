@@ -12,7 +12,7 @@
 
 		<ul class="nav navbar-nav navbar-left">
 			<li *ngIf="selectedDataset">
-				<p class="navbar-text"> Working on <b>{{selectedDataset.name}}</b></p>
+				<p class="navbar-text" id="datasetName"> Working on <b>{{selectedDataset.name}}</b></p>
 			</li>
 		</ul>
 
@@ -27,7 +27,7 @@
 						<ul class="dropdown-menu" id="loadDatasetDropdown">
 							<li class="dropdown-header">Examples</li>
 							<li *ngFor="let dataset of datasets">
-								<a (click)="start(dataset)"> {{dataset.name}}</a>
+								<a (click)="start(dataset)">{{dataset.name}}</a>
 							</li>
 						</ul>
 					</div>

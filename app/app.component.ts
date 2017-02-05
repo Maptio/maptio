@@ -40,15 +40,9 @@ export class AppComponent implements OnInit {
     this.redraw()
   }
 
-  // isProjectEmpty(): boolean {
-  //   return this.buildingComponent.isEmpty();
-  // }
-
   ngOnInit() {
     this.datasetService.getData().then(o => {
       this.datasets = o;
-      this.start(this.datasets.find(function (d) { return d.name == "Vestd" }));
-
     });
 
   }
@@ -57,14 +51,14 @@ export class AppComponent implements OnInit {
     this.helpComponent.open();
   }
 
-  toggleBuildingPanel(e: any) {
+  toggleBuildingPanel() {
 
     this.isBuildingPanelCollapsed = !this.isBuildingPanelCollapsed;
   }
 
   //this should be the job of the observable ? (TAKES TOO MUCH TIME)
   //http://stackoverflow.com/questions/38364591/how-to-combine-multiple-observables-together-in-angular-2
-  redraw() {
+  private redraw() {
     this.buildingComponent.loadData(this.selectedDataset.url);
   }
 }

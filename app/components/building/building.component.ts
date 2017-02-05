@@ -15,7 +15,7 @@ import 'rxjs/add/operator/map'
 
 @Component({
     selector: 'building',
-    templateUrl: 'building.component.html',
+    template: require('./building.component.html'),
     styles: [require('./building.component.css').toString()]
 })
 
