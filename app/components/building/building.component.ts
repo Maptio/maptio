@@ -21,6 +21,7 @@ import 'rxjs/add/operator/map'
 
 export class BuildingComponent {
 
+    searched:string;
     nodes: Array<InitiativeNode>;
 
     @ViewChild(TreeComponent)

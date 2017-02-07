@@ -1,12 +1,15 @@
 <div class="building">
 
 	<div class="form-group">
-		<input type="text" class="form-control" placeholder="Search map by name or description" (change)="filterNodes($event.target.value)">
+		<input id="searchTreeInput" type="text" class="form-control" placeholder="Search map by name or description" (input)="filterNodes($event.target.value)"
+		/>
 	</div>
 	<Tree [nodes]="nodes" (onUpdateData)="mapData($event)">
-		<template #treeNodeTemplate let-node>
-			<!--ROOT -->
-			<div class="form-group" *ngIf="node.isRoot">
+		<template #treeNodeTemplate let-node >
+			<div>Something</div>
+			<!--ROOT-->
+		
+			<!--<div class="form-group rootNode" *ngIf="node.isRoot">
 				<label class="control-label">Project</label>
 				<div class="input-group">
 					<span class="input-group-btn">
@@ -16,7 +19,7 @@
 						<a class="btn btn-link" [ngClass]="{'disabled': !node.children }"  *ngIf="node.isExpanded && node.children"
 							(click)="toggleNode(node)"><i class="fa fa-minus-square" aria-hidden="true"></i></a>
 						</span>
-					<input class="form-control input-sm" type="text" [focus]="node.data.hasFocus" autoselect [ngModel]="node.data.name" placeholder="Project name"
+					<input class="form-control input-sm" type="text" [focusif]="node.data.hasFocus" autoselect [ngModel]="node.data.name" placeholder="Project name"
 						(ngModelChange)="saveNodeName($event, node.data)">
 					<span class="input-group-btn">
 						<a class="btn btn-default" [ngClass]="{'disabled': !isRootValid() }" ngbTooltip="Add" placement="top" (click)="addChildNode(node.data)"><i class="fa fa-plus" aria-hidden="true"></i></a>
@@ -24,10 +27,10 @@
 
 						</span>
 				</div>
-			</div>
+			</div>-->
 
 			<!--NODES -->
-			<div class="form-group" *ngIf="!node.isRoot">
+			<!--<div class="form-group regularNode" *ngIf="!node.isRoot">
 				<div class="input-group">
 					<span class="input-group-btn">
 							<a class="btn btn-link" [ngClass]="{'disabled': !node.children }"  *ngIf="!node.isExpanded && node.children"
@@ -51,7 +54,7 @@
 
 						</span>
 				</div>
-			</div>
+			</div>-->
 
 
 		</template>

@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, async, inject } from '@angular/core/testing';
+import { ComponentFixture, TestBed, async, inject, fakeAsync } from '@angular/core/testing';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core'
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -50,7 +50,56 @@ describe('building.component.ts', () => {
 
     describe("View", () => {
 
+        describe("Tree configuration", () => {
+            it('should search tree on input', () => {
+                let spy = spyOn(component, "filterNodes");
+                let element = target.debugElement.query(By.css('#searchTreeInput')).nativeElement as HTMLInputElement;
+                element.value = "some search";
+                element.dispatchEvent(new Event('input'));
+                expect(spy).toHaveBeenCalledWith('some search')
+            });
+
+            it("should send data to mapping component on tree update", () => {
+                let spy = spyOn(component, "mapData");
+                component.tree.treeModel.update();
+                expect(spy).toHaveBeenCalled();
+            });
+
+            it("should bind tree nodes to component nodes", () => {
+                let root = new InitiativeNode(), node1 = new InitiativeNode(), node2 = new InitiativeNode(), node3 = new InitiativeNode();
+                root.children = [node1, node2, node3];
+                component.nodes = [root];
+                target.detectChanges();
+                expect(component.tree.treeModel.nodes).toBe(component.nodes);
+            });
+        });
+
+        describe("Tree display", () => {
+
+            // it("should display the correct amount of nodes div", async(() => {
+            //     let root = new InitiativeNode(), node1 = new InitiativeNode(), node2 = new InitiativeNode(), node3 = new InitiativeNode();
+
+            //     root.children = [node1, node2, node3];
+            //     component.nodes = [root];
+            //     component.tree.treeModel.nodes = [root];
+
+            //     target.detectChanges();
+            //     target.whenStable().then(() => {
+            //         let rootNodeElements = target.debugElement.queryAll(By.css('.rootNode'));
+            //         let regularNodeElements = target.debugElement.queryAll(By.css('.regularNode'));
+
+            //         //console.log(target.debugElement.query(By.css('.tree')).componentInstance);
+            //         expect(rootNodeElements.length).toBe(1);
+            //         expect(regularNodeElements.length).toBe(3);
+            //     });
+
+
+            // }));
+        });
+
+
     });
+
 
     describe("Controller", () => {
         describe("Loading data", () => {

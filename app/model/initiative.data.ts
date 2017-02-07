@@ -41,7 +41,7 @@ export class InitiativeNode implements ITreeNode {
 
     constructor() { }
 
-    search(searched: string) {
+    search(searched: string):boolean {
         if (searched === "") {
             return true;
         }

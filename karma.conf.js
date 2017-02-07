@@ -47,9 +47,7 @@ module.exports = function (config) {
             bundlerOptions: {
                 // ignore: ["d3-ng2-service"],
                 // validateSyntax: true
-
             },
-
             reports: {
                 "html": {
                     "directory": "test/coverage",
