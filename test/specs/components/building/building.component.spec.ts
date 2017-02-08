@@ -82,15 +82,17 @@ describe('building.component.ts', () => {
             //     root.children = [node1, node2, node3];
             //     component.nodes = [root];
             //     component.tree.treeModel.nodes = [root];
+            //     component.updateTreeModel();
 
             //     target.detectChanges();
             //     target.whenStable().then(() => {
             //         let rootNodeElements = target.debugElement.queryAll(By.css('.rootNode'));
             //         let regularNodeElements = target.debugElement.queryAll(By.css('.regularNode'));
-
-            //         //console.log(target.debugElement.query(By.css('.tree')).componentInstance);
+            //         console.log(target.debugElement.nativeElement);
+            //         //console.log(component.tree.treeModel);
+            //         //console.log(target.debugElement.query(By.css('Tree')).nativeElement);
             //         expect(rootNodeElements.length).toBe(1);
-            //         expect(regularNodeElements.length).toBe(3);
+            //         expect(regularNodeElements.length).toBe(3); 
             //     });
 
 
@@ -144,6 +146,7 @@ describe('building.component.ts', () => {
                     expect(spyMapData).toHaveBeenCalled();
                 });
             });
+
         });
 
         describe("Mapping data", () => {

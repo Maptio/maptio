@@ -5,8 +5,7 @@
 		/>
 	</div>
 	<Tree [nodes]="nodes" (onUpdateData)="mapData($event)">
-		<template #treeNodeTemplate let-node >
-			<div>Something</div>
+		<template #treeNodeTemplate let-node>
 			<!--ROOT-->
 		
 			<!--<div class="form-group rootNode" *ngIf="node.isRoot">

@@ -37,7 +37,7 @@ describe('initiative.component.ts', () => {
         
         inputNode = {
             id: 1, name: "ORIGINAL", description: "ORIGINAL", children: [], start: new Date(2010, 1, 1), accountable: new Person("ORIGINAL"),
-            isRoot: false, hasFocus: false, isZoomedOn: false, isSearchedFor: false
+            isRoot: false, hasFocus: false, isZoomedOn: false, isSearchedFor: false, search:undefined
         };
        
         component.data = inputNode;

@@ -10,7 +10,7 @@ import { TreeExplorationService } from '../../services/tree.exploration.service'
 import { FocusIfDirective } from '../../directives/focusif.directive'
 import { AutoSelectDirective } from '../../directives/autoselect.directive'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/map';
 
 
 @Component({
