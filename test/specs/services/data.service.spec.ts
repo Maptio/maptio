@@ -11,11 +11,6 @@ let spyErrorService: jasmine.Spy;
 
 describe('data.service.ts', () => {
 
-    beforeAll(() => {
-         TestBed.resetTestEnvironment();
-        TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
-    });
-
     beforeEach(() => {
 
         TestBed.configureTestingModule({
@@ -37,12 +32,12 @@ describe('data.service.ts', () => {
             ]
         });
 
-        spyOn(ErrorService.prototype, 'handleError').and.callFake(function () { });
+        spyOn(ErrorService.prototype, 'handleError');
 
     });
 
 
-    it('When URL exists, loads data asynchronously', fakeAsync(inject([DataService, MockBackend, ErrorService], (dataService: DataService, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+    it('When URL exists, loads data asynchronously', fakeAsync(inject([DataService, MockBackend, ErrorService], (target: DataService, mockBackend: MockBackend, mockErrorService: ErrorService) => {
 
         const URL = "http://example.com/data.json";
 
@@ -64,7 +59,7 @@ describe('data.service.ts', () => {
             }
         });
 
-        dataService.loadFromAsync(URL).then(response => {
+        target.loadFromAsync(URL).then(response => {
             expect(response.data.length).toBe(2);
             expect(response.data[0]).toEqual({ id: 1, name: 'First' });
             expect(response.data[1]).toEqual({ id: 2, name: 'Second' });
@@ -72,7 +67,7 @@ describe('data.service.ts', () => {
         });
     })));
 
-    it('When URL does not exists, it handles error', fakeAsync(inject([DataService, MockBackend, ErrorService], (dataService: DataService, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+    it('When URL does not exists, it handles error', fakeAsync(inject([DataService, MockBackend, ErrorService], (target: DataService, mockBackend: MockBackend, mockErrorService: ErrorService) => {
 
         const URL = "http://example.com/idontexist.json";
 
@@ -80,7 +75,7 @@ describe('data.service.ts', () => {
             connection.mockError(new Error("404"))
         });
 
-        dataService.loadFromAsync(URL).then(data => {
+        target.loadFromAsync(URL).then(data => {
             expect(mockErrorService.handleError).toHaveBeenCalled();
         });
     })));

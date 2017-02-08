@@ -10,12 +10,6 @@ let spyErrorService: jasmine.Spy;
 
 describe('dataset.service.ts', () => {
 
-    beforeAll(() => {
-        TestBed.resetTestEnvironment();
-        TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
-    });
-
-
     beforeEach(() => {
 
         TestBed.configureTestingModule({
@@ -37,11 +31,11 @@ describe('dataset.service.ts', () => {
             ]
         });
 
-        spyOn(ErrorService.prototype, 'handleError').and.callFake(function () { });
+        spyOn(ErrorService.prototype, 'handleError');
 
     });
 
-    it('Gets a list of datasets from static configuration', fakeAsync(inject([DataSetService, MockBackend, ErrorService], (dataSetService: DataSetService, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+    it('Gets a list of datasets from static configuration', fakeAsync(inject([DataSetService, MockBackend, ErrorService], (target: DataSetService, mockBackend: MockBackend, mockErrorService: ErrorService) => {
 
         mockBackend.connections.subscribe((connection: MockConnection) => {
             
@@ -50,7 +44,7 @@ describe('dataset.service.ts', () => {
             })));
         });
 
-        dataSetService.getData().then(datasets => {
+        target.getData().then(datasets => {
             expect(datasets.length).toBe(1);
             expect(datasets[0].name).toBe("Vestd");
             expect(mockErrorService.handleError).not.toHaveBeenCalled();
