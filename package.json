@@ -8,10 +8,10 @@
   },
   "scripts": {
     "start": "node server.js",
+    "start:local": "webpack-dev-server --inline --progress --port 8080",
     "test": "karma start --single-run",
-     "test:headless": "karma start",
-    "heroku-postbuild": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail",
-    "start-dev": "webpack-dev-server --inline --progress --port 8080"
+    "test:headless": "karma start",
+    "heroku-postbuild": "rimraf dist && webpack --config config/webpack.prod.js --progress --profile --bail"
   },
   "licenses": [
     {
