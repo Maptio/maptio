@@ -76,27 +76,17 @@ describe('building.component.ts', () => {
 
         describe("Tree display", () => {
 
-            // it("should display the correct amount of nodes div", async(() => {
-            //     let root = new InitiativeNode(), node1 = new InitiativeNode(), node2 = new InitiativeNode(), node3 = new InitiativeNode();
+            it("should display one node matching the correct data", () => {
+                let root = new InitiativeNode(), node1 = new InitiativeNode(), node2 = new InitiativeNode(), node3 = new InitiativeNode();
+                root.children = [node1, node2, node3];
+                component.nodes = [root];
 
-            //     root.children = [node1, node2, node3];
-            //     component.nodes = [root];
-            //     component.tree.treeModel.nodes = [root];
-            //     component.updateTreeModel();
-
-            //     target.detectChanges();
-            //     target.whenStable().then(() => {
-            //         let rootNodeElements = target.debugElement.queryAll(By.css('.rootNode'));
-            //         let regularNodeElements = target.debugElement.queryAll(By.css('.regularNode'));
-            //         console.log(target.debugElement.nativeElement);
-            //         //console.log(component.tree.treeModel);
-            //         //console.log(target.debugElement.query(By.css('Tree')).nativeElement);
-            //         expect(rootNodeElements.length).toBe(1);
-            //         expect(regularNodeElements.length).toBe(3); 
-            //     });
-
-
-            // }));
+                target.detectChanges();
+                let treeNode = target.debugElement.queryAll(By.css('Tree treenode'));
+                expect(treeNode.length).toBe(1); //one and only one root
+                let dataNode = <InitiativeNode>treeNode[0].context.$implicit.data;
+                expect(dataNode).toBe(root);
+            });
         });
 
 

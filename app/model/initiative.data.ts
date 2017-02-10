@@ -24,7 +24,7 @@ export class InitiativeNode implements ITreeNode {
     accountable: Person;
 
     /**True if this is the root of the tree */
-    isRoot: boolean = false;
+    //isRoot: boolean = false;
 
     /**True if this node is focused on */
     hasFocus: boolean = false;
