@@ -48,10 +48,16 @@ module.exports = function (config) {
                 // ignore: ["d3-ng2-service"],
                 // validateSyntax: true
             },
-            reports: {
+            reports: { 
                 "html": {
                     "directory": "test/coverage",
+                    "subdirectory":"html",
                     "filename": "coverage.html"
+                },
+                "lcovonly":{
+                    "directory": "test/coverage",
+                    "subdirectory":"lcov",
+                    "filename": "lcov.info"
                 }
             }
         },
