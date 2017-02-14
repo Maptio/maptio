@@ -11,6 +11,7 @@ import { FocusIfDirective } from '../../directives/focusif.directive'
 import { AutoSelectDirective } from '../../directives/autoselect.directive'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import 'rxjs/add/operator/map';
+import {InitiativeNodeComponent} from './initiative.node.component'
 
 
 @Component({
@@ -28,7 +29,10 @@ export class BuildingComponent {
     tree: TreeComponent;
 
     @ViewChild('initiative')
-    initiativeEditComponent: InitiativeComponent;
+    initiativeEditComponent:InitiativeComponent
+
+    @ViewChild(InitiativeNodeComponent)
+    node: InitiativeNodeComponent;
 
     private dataService: DataService;
     private treeExplorationService: TreeExplorationService;
@@ -47,10 +51,7 @@ export class BuildingComponent {
         return (this.nodes[0].name != undefined) && this.nodes[0].name.trim().length > 0;
     }
 
-    saveNodeName(newName: any, node: InitiativeNode) {
-        node.name = newName;
-        this.mapData();
-    }
+
 
     mapData() {
         // console.log("SAVE HERE");
@@ -64,47 +65,11 @@ export class BuildingComponent {
         this.tree.treeModel.update();
     }
 
-    addChildNode(node: InitiativeNode) {
-        let treeNode = this.tree.treeModel.getNodeById(node.id);
-        let newNode = new InitiativeNode();
-        newNode.children = []
-        newNode.hasFocus = true;
-        setTimeout(() => { newNode.hasFocus = false });
-        treeNode.data.children = treeNode.data.children || [];
-        treeNode.data.children.push(newNode);
-        this.tree.treeModel.setExpandedNode(treeNode, true);
-        this.updateTreeModel();
-    }
-
-
-    removeChildNode(node: InitiativeNode) {
-        //remove all children
-        this.tree.treeModel.getNodeById(node.id).data.children = [];
-        //remove node itself (from parent's children)
-        let parent = this.tree.treeModel.getNodeById(node.id).parent;
-        let index = parent.data.children.indexOf(node);
-        parent.data.children.splice(index, 1);
-        this.updateTreeModel();
-    }
-
-    toggleNode(node: InitiativeNode) {
-        this.tree.treeModel
-            .getNodeById(node.id).toggleExpanded();
-    }
-
-    openNode(node: InitiativeNode) {
+    editInitiative(node:InitiativeNode){
         this.initiativeEditComponent.data = node;
         this.initiativeEditComponent.open();
     }
-
-    zoomInNode(node: InitiativeNode) {
-
-        TreeExplorationService.traverseAll<InitiativeNode>(this.nodes, function (node) { node.isZoomedOn = false });
-        //InitiativeNode.resetZoomedOn(this.nodes);
-
-        node.isZoomedOn = true;
-        this.mapData();
-    }
+    
 
     loadData(url: string) {
         this.dataService.loadFromAsync(url).then(data => {

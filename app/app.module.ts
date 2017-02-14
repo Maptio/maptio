@@ -20,6 +20,8 @@ import { MappingTreeComponent } from './components/mapping/tree/mapping.tree.com
 
 import { InitiativeComponent } from './components/initiative/initiative.component'
 import { BuildingComponent } from './components/building/building.component';
+import {InitiativeNodeComponent} from './components/building/initiative.node.component';
+
 import { HelpComponent } from './components/help/help.component';
 //import {ImportComponent} from './import/import.component';
 
@@ -40,7 +42,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   declarations: [
     AppComponent,
     MappingComponent, MappingCirclesComponent, MappingTreeComponent,
-    BuildingComponent,
+    BuildingComponent,InitiativeNodeComponent,
     InitiativeComponent,
     FocusIfDirective,
     AutoSelectDirective,
