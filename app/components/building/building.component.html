@@ -5,7 +5,7 @@
 	</div>
 	<Tree [nodes]="nodes" (onUpdateData)="mapData($event)">
 		<template #treeNodeTemplate let-node>
-			<initiative-node [node]="node"  (updateData)="mapData($event)" (updateTree)="updateTreeModel($event)" (openSelected)="editInitiative($event)" ></initiative-node>
+			<initiative-node [node]="node"  (map)="mapData($event)" (update)="updateTreeModel($event)" (openSelected)="editInitiative($event)" ></initiative-node>
 		</template>
 	</Tree>
 </div>

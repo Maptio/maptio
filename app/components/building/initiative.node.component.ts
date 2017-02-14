@@ -13,9 +13,9 @@ export class InitiativeNodeComponent implements OnInit {
 
     @Input() node: TreeNode;
 
-    @Output() updateDataEvent = new EventEmitter<Array<InitiativeNode>>();
-    @Output() updateTreeEvent = new EventEmitter<TreeModel>();
-    @Output() openSelected = new EventEmitter<InitiativeNode>();
+    @Output('map') updateDataEvent = new EventEmitter<Array<InitiativeNode>>();
+    @Output('updateTree') updateTreeEvent = new EventEmitter<TreeModel>();
+    @Output('openSelected') openSelectedEvent = new EventEmitter<InitiativeNode>();
 
 
     @ViewChild('initiative')
@@ -78,7 +78,7 @@ export class InitiativeNodeComponent implements OnInit {
     openNode(node: InitiativeNode) {
         // this.initiativeEditComponent.data = node;
         // this.initiativeEditComponent.open();
-        this.openSelected.emit(node);
+        this.openSelectedEvent.emit(node);
     }
 
     zoomInNode(node: InitiativeNode) {

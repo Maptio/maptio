@@ -89,6 +89,58 @@ describe('building.component.ts', () => {
             });
         });
 
+        describe("updateData event", () => {
+
+            it('should call mapData', () => {
+                let root = new InitiativeNode(), node1 = new InitiativeNode(), node2 = new InitiativeNode(), node3 = new InitiativeNode();
+                root.children = [node1, node2, node3];
+                component.nodes = [root];
+                let spyMapData = spyOn(component, "mapData");
+
+                target.detectChanges();
+
+                let element = target.debugElement.query(By.css('Tree treenode')).nativeElement as HTMLElement;
+                element.dispatchEvent(new CustomEvent('map'));
+
+                expect(spyMapData).toHaveBeenCalled();
+
+            });
+        });
+
+        describe("updateTree event", () => {
+            xit('should call updateTreeModel', () => {
+                 let root = new InitiativeNode(), node1 = new InitiativeNode(), node2 = new InitiativeNode(), node3 = new InitiativeNode();
+                root.children = [node1, node2, node3];
+                component.nodes = [root];
+                target.detectChanges();
+                let spyMapData = spyOn(component, "updateTreeModel").and.callThrough();
+
+                target.detectChanges();
+
+                let element = target.debugElement.query(By.css('Tree treenode'));
+                element.triggerEventHandler('update', null);
+
+                expect(spyMapData).toHaveBeenCalled();
+            });
+        });
+
+        describe("openSelected event", () => {
+            xit('should call editInitiative', () => {
+                let root = new InitiativeNode(), node1 = new InitiativeNode(), node2 = new InitiativeNode(), node3 = new InitiativeNode();
+                root.children = [node1, node2, node3];
+                component.nodes = [root];
+                let spyEdit = spyOn(component, "editInitiative");
+
+                target.detectChanges();
+
+                let element = target.debugElement.query(By.css('Tree treenode')).nativeElement as HTMLElement;
+                element.dispatchEvent(new Event('openSelected'));
+
+                expect(spyEdit).toHaveBeenCalled();
+            });
+        });
+
+
     });
 
 

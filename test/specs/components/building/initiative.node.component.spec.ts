@@ -177,13 +177,30 @@ describe('initiative.node.component.ts', () => {
     describe("Controller", () => {
 
         describe("Tree manipulation", () => {
-            // describe("Update", () => {
-            //     it("should update tree component", () => {
-            //         let spy = spyOn(component.tree.treeModel, "update");
-            //         component.updateTreeModel();
-            //         expect(spy).toHaveBeenCalled();
-            //     });
-            // });
+
+            describe("hasChildren", () => {
+                it('should return true for root node', () => {
+                    component.node = new TreeNode(root, tree.getTreeNode(root, undefined), tree);
+                    expect(component.hasChildren()).toBe(true);
+                });
+
+                it('should return false for regular node', () => {
+                    component.node = new TreeNode(node1, tree.getTreeNode(root, undefined), tree);
+                    expect(component.hasChildren()).toBe(false);
+                });
+            });
+
+            describe("isExpanded", () => {
+                it('should return true after it is expanded', () => {
+                    component.node.setIsExpanded(true);
+                    expect(component.isExpanded()).toBe(true);
+                });
+
+                it('should return false after it is collapsed', () => {
+                    component.node.setIsExpanded(false);
+                    expect(component.isExpanded()).toBe(false);
+                });
+            });
 
             describe("Add a node", () => {
                 it("should add a child to given node", () => {
@@ -235,7 +252,7 @@ describe('initiative.node.component.ts', () => {
                 it("should open the selected node", () => {
                     let openInitiativeEvent = new InitiativeNode();
                     openInitiativeEvent.id = 1;
-                    let spy = spyOn(component.openSelected, "emit");
+                    let spy = spyOn(component.openSelectedEvent, "emit");
                     component.openNode(openInitiativeEvent);
                     expect(spy).toHaveBeenCalledWith(openInitiativeEvent);
                 });

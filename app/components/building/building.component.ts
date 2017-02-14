@@ -11,7 +11,7 @@ import { FocusIfDirective } from '../../directives/focusif.directive'
 import { AutoSelectDirective } from '../../directives/autoselect.directive'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import 'rxjs/add/operator/map';
-import {InitiativeNodeComponent} from './initiative.node.component'
+import { InitiativeNodeComponent } from './initiative.node.component'
 
 
 @Component({
@@ -22,14 +22,14 @@ import {InitiativeNodeComponent} from './initiative.node.component'
 
 export class BuildingComponent {
 
-    searched:string;
+    searched: string;
     nodes: Array<InitiativeNode>;
 
     @ViewChild(TreeComponent)
     tree: TreeComponent;
 
     @ViewChild('initiative')
-    initiativeEditComponent:InitiativeComponent
+    initiativeEditComponent: InitiativeComponent
 
     @ViewChild(InitiativeNodeComponent)
     node: InitiativeNodeComponent;
@@ -54,22 +54,23 @@ export class BuildingComponent {
 
 
     mapData() {
-        // console.log("SAVE HERE");
+        //console.log("SAVE HERE");
         // console.log(JSON.stringify(this.nodes));
         this.dataService.setAsync(this.nodes[0]);
     }
 
-    updateTreeModel(): void {
+
+    updateTreeModel() {
         // console.log("UPdate");
-        // console.log(JSON.stringify(this.nodes));
+        //  console.log(JSON.stringify(this.nodes));
         this.tree.treeModel.update();
     }
 
-    editInitiative(node:InitiativeNode){
+    editInitiative(node: InitiativeNode) {
         this.initiativeEditComponent.data = node;
         this.initiativeEditComponent.open();
     }
-    
+
 
     loadData(url: string) {
         this.dataService.loadFromAsync(url).then(data => {
