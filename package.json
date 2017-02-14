@@ -59,7 +59,7 @@
     "karma-json-fixtures-preprocessor": "0.0.6",
     "karma-phantomjs-launcher": "^1.0.2",
     "karma-sourcemap-loader": "^0.3.7",
-    "karma-typescript": "^2.1.6",
+    "karma-typescript": "^2.1.7",
     "karma-webpack": "^1.8.0",
     "null-loader": "^0.1.1",
     "phantomjs-prebuilt": "^2.1.7",

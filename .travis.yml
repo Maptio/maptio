@@ -3,3 +3,6 @@ node_js:
   - "6"
 notifications:
   slack: circlemapping:Y7RTefJI5CznwbeFqMeqvnno
+addons:
+    code_climate:
+        repo_token: f9818497b93023578465f55f62e8c439d3b290e936cb799fd029f37889a9b4d1
