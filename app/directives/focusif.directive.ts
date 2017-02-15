@@ -26,7 +26,7 @@ export class FocusIfDirective implements OnChanges, OnInit {
         }
     }
 
-    // REFACTOR : to extract to a shared service
+    // TODO : to extract to a shared service
     private isTrue(value:string){
         return (value === "true" || value === "1");
     }

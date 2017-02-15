@@ -50,7 +50,7 @@ export class InitiativeComponent {
         let day = Number.parseInt(newDate.substr(8, 2));
         let parsedDate = new Date(year, month, day);
 
-        // REFACTOR : SUPER DODGY ! this should not be here but in a custom validatpr. Or maybe use HTML 5 "pattern" to prevent binding
+        // HACK : this should not be here but in a custom validatpr. Or maybe use HTML 5 "pattern" to prevent binding
         if (!Number.isNaN(parsedDate.valueOf())) {
             this.data.start = new Date(year, month, day);
         }

@@ -78,7 +78,7 @@ export class BuildingComponent {
             let parsedNodes: InitiativeNode = Object.assign(new InitiativeNode(), data)
             this.nodes.push(parsedNodes);
 
-            // REFACTOR : this should be another function/service
+            // FIXME : this should be another function/service
             let members = new Array<Person>();
             TreeExplorationService.traverseOne<InitiativeNode>(parsedNodes, function (node) {
                 if (node.accountable && !members.find(function (person) { return person.name === node.accountable.name }))
