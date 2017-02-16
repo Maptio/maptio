@@ -7,7 +7,7 @@ import { BuildingComponent } from '../../../../app/components/building/building.
 import { InitiativeNodeComponent } from '../../../../app/components/building/initiative.node.component';
 import { InitiativeComponent } from '../../../../app/components/initiative/initiative.component';
 import { TreeComponent, TreeNode, TreeModel, ITreeOptions } from 'angular2-tree-component';
-import { InitiativeNode } from '../../../../app/model/initiative.data';
+import { Initiative } from '../../../../app/model/initiative.data';
 import { FocusIfDirective } from '../../../../app/directives/focusif.directive';
 
 describe('initiative.node.component.ts', () => {
@@ -15,7 +15,7 @@ describe('initiative.node.component.ts', () => {
     let component: InitiativeNodeComponent;
     let target: ComponentFixture<InitiativeNodeComponent>;
     // let nodes: Array<InitiativeNode>;
-    let root = new InitiativeNode(), node0 = new InitiativeNode(), node1 = new InitiativeNode(), node2 = new InitiativeNode(), node3 = new InitiativeNode();
+    let root = new Initiative(), node0 = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
     let tree: TreeModel;
 
     beforeEach(async(() => {
@@ -235,7 +235,7 @@ describe('initiative.node.component.ts', () => {
 
             describe("Toggle", () => {
                 it("should toggle the selected node", () => {
-                    let toggledNode = new InitiativeNode();
+                    let toggledNode = new Initiative();
                     toggledNode.id = 1;
                     let toggledTreeNode = new TreeNode(toggledNode, component.node, component.node.treeModel);
 
@@ -250,7 +250,7 @@ describe('initiative.node.component.ts', () => {
 
             describe("Open", () => {
                 it("should open the selected node", () => {
-                    let openInitiativeEvent = new InitiativeNode();
+                    let openInitiativeEvent = new Initiative();
                     openInitiativeEvent.id = 1;
                     let spy = spyOn(component.openSelectedEvent, "emit");
                     component.openNode(openInitiativeEvent);
@@ -274,7 +274,7 @@ describe('initiative.node.component.ts', () => {
 
             describe("Edit", () => {
                 it("should save name of selected node", () => {
-                    let node = new InitiativeNode();
+                    let node = new Initiative();
                     node.name = "old"
                     let spyUpdate = spyOn(component.updateDataEvent, "emit");
 

@@ -9,22 +9,22 @@ import { TreeComponent, TreeNode } from 'angular2-tree-component';
 import { FocusIfDirective } from '../../../../app/directives/focusif.directive'
 import { DataService } from '../../../../app/services/data.service'
 import { ErrorService } from '../../../../app/services/error.service';
-import { TreeExplorationService } from '../../../../app/services/tree.exploration.service'
+//import { TreeExplorationService } from '../../../../app/services/tree.exploration.service'
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, HttpModule, Response, Headers, RequestOptions, BaseRequestOptions, ResponseOptions } from '@angular/http';
-import { InitiativeNode } from '../../../../app/model/initiative.data';
+import { Initiative } from '../../../../app/model/initiative.data';
 import { Person } from '../../../../app/model/person.data';
 
 describe('building.component.ts', () => {
 
     let component: BuildingComponent;
     let target: ComponentFixture<BuildingComponent>;
-    let nodes: Array<InitiativeNode>;
+    let nodes: Array<Initiative>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [FormsModule],
-            providers: [DataService, ErrorService, TreeExplorationService,
+            providers: [DataService, ErrorService,
                 {
                     provide: Http,
                     useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
@@ -66,7 +66,7 @@ describe('building.component.ts', () => {
             });
 
             it("should bind tree nodes to component nodes", () => {
-                let root = new InitiativeNode(), node1 = new InitiativeNode(), node2 = new InitiativeNode(), node3 = new InitiativeNode();
+                let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
                 root.children = [node1, node2, node3];
                 component.nodes = [root];
                 target.detectChanges();
@@ -77,14 +77,14 @@ describe('building.component.ts', () => {
         describe("Tree display", () => {
 
             it("should display one node matching the correct data", () => {
-                let root = new InitiativeNode(), node1 = new InitiativeNode(), node2 = new InitiativeNode(), node3 = new InitiativeNode();
+                let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
                 root.children = [node1, node2, node3];
                 component.nodes = [root];
 
                 target.detectChanges();
                 let treeNode = target.debugElement.queryAll(By.css('Tree treenode'));
                 expect(treeNode.length).toBe(1); //one and only one root
-                let dataNode = <InitiativeNode>treeNode[0].context.$implicit.data;
+                let dataNode = <Initiative>treeNode[0].context.$implicit.data;
                 expect(dataNode).toBe(root);
             });
         });
@@ -92,7 +92,7 @@ describe('building.component.ts', () => {
         describe("updateData event", () => {
 
             it('should call mapData', () => {
-                let root = new InitiativeNode(), node1 = new InitiativeNode(), node2 = new InitiativeNode(), node3 = new InitiativeNode();
+                let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
                 root.children = [node1, node2, node3];
                 component.nodes = [root];
                 let spyMapData = spyOn(component, "mapData");
@@ -109,7 +109,7 @@ describe('building.component.ts', () => {
 
         describe("updateTree event", () => {
             xit('should call updateTreeModel', () => {
-                 let root = new InitiativeNode(), node1 = new InitiativeNode(), node2 = new InitiativeNode(), node3 = new InitiativeNode();
+                 let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
                 root.children = [node1, node2, node3];
                 component.nodes = [root];
                 target.detectChanges();
@@ -126,7 +126,7 @@ describe('building.component.ts', () => {
 
         describe("openSelected event", () => {
             xit('should call editInitiative', () => {
-                let root = new InitiativeNode(), node1 = new InitiativeNode(), node2 = new InitiativeNode(), node3 = new InitiativeNode();
+                let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
                 root.children = [node1, node2, node3];
                 component.nodes = [root];
                 let spyEdit = spyOn(component, "editInitiative");
@@ -175,6 +175,7 @@ describe('building.component.ts', () => {
             });
 
             it("should loads data and initializes mapping component", () => {
+                
                 let url = "http://getdata.com/data.json";
 
                 fixture.load("test/specs/components/building/fixtures/data.json");
@@ -192,7 +193,7 @@ describe('building.component.ts', () => {
 
         describe("Mapping data", () => {
             it("should sends data to dataservice", () => {
-                let node1 = new InitiativeNode(), node2 = new InitiativeNode();
+                let node1 = new Initiative(), node2 = new Initiative();
                 node1.name = 'first', node2.name = 'second';
 
                 component.nodes = [node1, node2];
@@ -206,7 +207,7 @@ describe('building.component.ts', () => {
         describe("Filtering ", () => {
 
             it("should highlights all nodes when the search term is empty", () => {
-                let root = new InitiativeNode(), node1 = new InitiativeNode(), node2 = new InitiativeNode(), node3 = new InitiativeNode();
+                let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
                 node1.name = 'first', node2.name = 'second'; node3.name = 'third';
                 root.children = [node1, node2, node3];
                 component.nodes = [root];
@@ -222,7 +223,7 @@ describe('building.component.ts', () => {
             });
 
             it("should highlight correct nodes when searching on name", () => {
-                let root = new InitiativeNode(), node1 = new InitiativeNode(), node2 = new InitiativeNode(), node3 = new InitiativeNode();
+                let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
                 node1.name = 'first', node2.name = 'second'; node3.name = 'second third';
                 root.children = [node1, node2, node3];
                 component.nodes = [root];
@@ -238,7 +239,7 @@ describe('building.component.ts', () => {
             });
 
             it("should hightlight correct nodes when searching on description", () => {
-                let root = new InitiativeNode(), node1 = new InitiativeNode(), node2 = new InitiativeNode(), node3 = new InitiativeNode();
+                let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
                 node1.name = 'first', node2.name = 'second'; node3.name = 'third';
                 node1.description = 'primero', node2.description = 'segundo'; node3.description = 'segundo tercero';
                 root.children = [node1, node2, node3];
@@ -266,20 +267,20 @@ describe('building.component.ts', () => {
 
             describe("Validate", () => {
                 it("should check that the root's name is valid", () => {
-                    let root = new InitiativeNode();
+                    let root = new Initiative();
                     component.nodes = [root];
                     expect(component.isRootValid()).toBe(false);
                 });
 
                 it("should check that the root's name is valid", () => {
-                    let root = new InitiativeNode();
+                    let root = new Initiative();
                     root.name = "anything"
                     component.nodes = [root];
                     expect(component.isRootValid()).toBe(true);
                 });
 
                 it("should check that the root's name is valid", () => {
-                    let root = new InitiativeNode();
+                    let root = new Initiative();
                     root.name = "     "
                     component.nodes = [root];
                     expect(component.isRootValid()).toBe(false);

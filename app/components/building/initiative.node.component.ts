@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, Output, ViewChild, EventEmitter } from '@angular/core';
 import { TreeNode, TreeModel } from 'angular2-tree-component';
-import { InitiativeNode } from '../../model/initiative.data';
+import { Initiative } from '../../model/initiative.data';
 import { InitiativeComponent } from '../initiative/initiative.component';
-import { TreeExplorationService } from '../../services/tree.exploration.service';
+//import { TreeExplorationService } from '../../services/tree.exploration.service';
 import { FocusIfDirective } from '../../directives/focusif.directive';
 
 @Component({
@@ -13,9 +13,9 @@ export class InitiativeNodeComponent implements OnInit {
 
     @Input() node: TreeNode;
 
-    @Output('map') updateDataEvent = new EventEmitter<Array<InitiativeNode>>();
+    @Output('map') updateDataEvent = new EventEmitter<Array<Initiative>>();
     @Output('updateTree') updateTreeEvent = new EventEmitter<TreeModel>();
-    @Output('openSelected') openSelectedEvent = new EventEmitter<InitiativeNode>();
+    @Output('openSelected') openSelectedEvent = new EventEmitter<Initiative>();
 
 
     @ViewChild('initiative')
@@ -26,32 +26,32 @@ export class InitiativeNodeComponent implements OnInit {
         // console.log(this.node);
     }
 
-    isRoot():boolean{
+    isRoot(): boolean {
         return this.node.isRoot;
     }
 
-    hasChildren():boolean{
-       return this.node.hasChildren;
+    hasChildren(): boolean {
+        return this.node.hasChildren;
     }
 
-    isExpanded():boolean{
+    isExpanded(): boolean {
         return this.node.isExpanded;
     }
 
-    toggleNode(initiative: InitiativeNode) {
+    toggleNode(initiative: Initiative) {
         //let tree = this.node.treeModel;
         this.node.treeModel.getNodeById(initiative.id).toggleExpanded();
     }
 
-    saveNodeName(newName: any, initiative: InitiativeNode) {
+    saveNodeName(newName: any, initiative: Initiative) {
         initiative.name = newName;
         //this.mapData();
         this.updateDataEvent.emit(this.node.treeModel.nodes);
     }
 
-    addChildNode(initiative: InitiativeNode) {
+    addChildNode(initiative: Initiative) {
         let treeNode = this.node.treeModel.getNodeById(initiative.id);
-        let newNode = new InitiativeNode();
+        let newNode = new Initiative();
         newNode.children = []
         newNode.hasFocus = true;
         setTimeout(() => { newNode.hasFocus = false });
@@ -63,7 +63,7 @@ export class InitiativeNodeComponent implements OnInit {
     }
 
 
-    removeChildNode(initiative: InitiativeNode) {
+    removeChildNode(initiative: Initiative) {
         //remove all children
         this.node.treeModel.getNodeById(initiative.id).data.children = [];
         //remove node itself (from parent's children)
@@ -75,16 +75,17 @@ export class InitiativeNodeComponent implements OnInit {
     }
 
 
-    openNode(node: InitiativeNode) {
+    openNode(node: Initiative) {
         // this.initiativeEditComponent.data = node;
         // this.initiativeEditComponent.open();
         this.openSelectedEvent.emit(node);
     }
 
-    zoomInNode(node: InitiativeNode) {
-
-        TreeExplorationService.traverseAll<InitiativeNode>((<InitiativeNode>this.node.data).children, function (node: InitiativeNode) { node.isZoomedOn = false });
-        //InitiativeNode.resetZoomedOn(this.nodes);
+    zoomInNode(node: Initiative) {
+        (<Initiative>this.node.data).children.forEach(function (i: Initiative) {
+            i.isZoomedOn = false;
+            i.traverse(function (node: Initiative) { node.isZoomedOn = false });
+        });
 
         node.isZoomedOn = true;
         //this.mapData();

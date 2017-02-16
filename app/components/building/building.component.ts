@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild, ViewChildren, Directive, Input, ElementRef, Inject, QueryList, Query } from '@angular/core';
 //import { InitiativeComponent} from './initiative.component'
-import { InitiativeNode } from '../../model/initiative.data';
+import { Initiative } from '../../model/initiative.data';
 import { Team } from '../../model/team.data'
 import { Person } from '../../model/person.data'
 import { InitiativeComponent } from '../initiative/initiative.component';
 import { TreeComponent, TreeNode } from 'angular2-tree-component';
 import { DataService } from '../../services/data.service';
-import { TreeExplorationService } from '../../services/tree.exploration.service'
+//import { TreeExplorationService } from '../../services/tree.exploration.service'
 import { FocusIfDirective } from '../../directives/focusif.directive'
 import { AutoSelectDirective } from '../../directives/autoselect.directive'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -23,7 +23,7 @@ import { InitiativeNodeComponent } from './initiative.node.component'
 export class BuildingComponent {
 
     searched: string;
-    nodes: Array<InitiativeNode>;
+    nodes: Array<Initiative>;
 
     @ViewChild(TreeComponent)
     tree: TreeComponent;
@@ -35,11 +35,11 @@ export class BuildingComponent {
     node: InitiativeNodeComponent;
 
     private dataService: DataService;
-    private treeExplorationService: TreeExplorationService;
+    //private treeExplorationService: TreeExplorationService;
 
-    constructor(dataService: DataService, treeExplorationService: TreeExplorationService) {
+    constructor(dataService: DataService) {
         this.dataService = dataService;
-        this.treeExplorationService = treeExplorationService;
+        // this.treeExplorationService = treeExplorationService;
         this.nodes = [];
     }
 
@@ -66,7 +66,7 @@ export class BuildingComponent {
         this.tree.treeModel.update();
     }
 
-    editInitiative(node: InitiativeNode) {
+    editInitiative(node: Initiative) {
         this.initiativeEditComponent.data = node;
         this.initiativeEditComponent.open();
     }
@@ -75,14 +75,17 @@ export class BuildingComponent {
     loadData(url: string) {
         this.dataService.loadFromAsync(url).then(data => {
             this.nodes = [];
-            let parsedNodes: InitiativeNode = Object.assign(new InitiativeNode(), data)
-            this.nodes.push(parsedNodes);
+            let rootNode: Initiative = Object.assign(new Initiative(), data);
+            this.nodes.push(rootNode);
 
             // FIXME : this should be another function/service
             let members = new Array<Person>();
-            TreeExplorationService.traverseOne<InitiativeNode>(parsedNodes, function (node) {
-                if (node.accountable && !members.find(function (person) { return person.name === node.accountable.name }))
+            rootNode.traverse(function (node: Initiative) {
+                if (node.accountable && !members.find(function (person) {
+                    return person.name === node.accountable.name
+                })) {
                     members.push(node.accountable)
+                }
             }
             );
             this.initiativeEditComponent.team = { members: members };
@@ -92,10 +95,14 @@ export class BuildingComponent {
     }
 
     filterNodes(searched: string) {
-        TreeExplorationService.traverseAll<InitiativeNode>(this.nodes, function (node) { node.isSearchedFor = false });
+        //TreeExplorationService.traverseAll<Initiative>(this.nodes, function (node) { node.isSearchedFor = false });
+        this.nodes.forEach(function (i: Initiative) {
+            i.traverse(function (node) { node.isSearchedFor = false });
+        });
+
         this.tree.treeModel.filterNodes(
             (node: TreeNode) => {
-                let initiative = (<InitiativeNode>node.data);
+                let initiative = (<Initiative>node.data);
                 initiative.isSearchedFor = initiative.search(searched);
                 return initiative.isSearchedFor;
             },

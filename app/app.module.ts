@@ -10,7 +10,7 @@ import { DataSetService } from './services/dataset.service';
 import { ColorService } from './services/color.service'
 import { UIService } from './services/ui.service'
 import { ErrorService } from './services/error.service';
-import {TreeExplorationService} from './services/tree.exploration.service';
+//import {TreeExplorationService} from './services/tree.exploration.service';
 
 //Components
 import { AppComponent } from './app.component';
@@ -60,7 +60,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     Ng2Bs3ModalModule,
     NgbModule.forRoot()
   ],
-  providers: [D3Service, DataService, ColorService, UIService, DataSetService,ErrorService, TreeExplorationService],
+  providers: [D3Service, DataService, ColorService, UIService, DataSetService,ErrorService],
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]
 })

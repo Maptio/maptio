@@ -1,9 +1,9 @@
 import { Injectable, Inject } from '@angular/core'
 import { Person } from './person.data';
-import { ITreeNode } from '../interfaces/treenode.interface'
+import { ITraversable } from '../interfaces/treenode.interface'
 
 @Injectable()
-export class InitiativeNode implements ITreeNode {
+export class Initiative implements ITraversable {
 
     /** Unique Id */
     id: number;
@@ -15,7 +15,7 @@ export class InitiativeNode implements ITreeNode {
     description: string = undefined;
 
     /** Children nodes */
-    children: Array<InitiativeNode>;
+    children: Array<Initiative>;
 
     /** Starting date of initiative */
     start: Date;
@@ -35,13 +35,22 @@ export class InitiativeNode implements ITreeNode {
     /**True if this node matches a search */
     isSearchedFor: boolean = false;
 
-    /**Size of node -- DEPRECATED */
-    // private size: number = 1;
+    constructor(){}
 
 
-    constructor() { }
+    traverse(this: Initiative, callback: ((n: Initiative) => void)): void {
+        if(this.children){
+            this.children.forEach(function(child:Initiative){
+                callback.apply(this, [child]);
+                if(child.traverse){ //HACK : when object is assigned in building.component.ts , the child nodes should have a traverse method
+                    (<Initiative>child).traverse(callback);
+                }
+                
+            });
+        }
+    }
 
-    search(searched: string):boolean {
+    search(searched: string): boolean {
         if (searched === "") {
             return true;
         }

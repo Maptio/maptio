@@ -8,7 +8,7 @@ import { HelpComponent } from '../../../../app/components/help/help.component'
 import { BuildingComponent } from '../../../../app/components/building/building.component'
 import { DataSetService } from '../../../../app/services/dataset.service';
 import { DataService } from '../../../../app/services/data.service';
-import { TreeExplorationService } from '../../../../app/services/tree.exploration.service';
+//import { TreeExplorationService } from '../../../../app/services/tree.exploration.service';
 import { DataSet } from '../../../../app/model/dataset.data';
 import { ErrorService } from '../../../../app/services/error.service';
 import { MockBackend, MockConnection } from '@angular/http/testing';
@@ -28,7 +28,7 @@ describe('app.component.ts', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
-                DataSetService, DataService, TreeExplorationService,
+                DataSetService, DataService, 
                 {
                     provide: Http,
                     useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
@@ -150,6 +150,7 @@ describe('app.component.ts', () => {
             target.whenStable().then(() => {
                 expect(spy).toHaveBeenCalledWith("http://server/example.json");
             })
+            
 
         }));
     });

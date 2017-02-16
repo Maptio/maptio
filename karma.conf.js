@@ -18,7 +18,6 @@ module.exports = function (config) {
             { pattern: "./app/services/data.service.ts" },
             { pattern: "./app/services/dataset.service.ts" },
             { pattern: "./app/services/error.service.ts" },
-            { pattern: "./app/services/tree.exploration.service.ts" },
 
 
             { pattern: "./test/specs/shared/**/*.ts" },

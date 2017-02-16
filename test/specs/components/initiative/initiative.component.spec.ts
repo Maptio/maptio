@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { InitiativeComponent } from '../../../../app/components/initiative/initiative.component';
-import { InitiativeNode } from '../../../../app/model/initiative.data';
+import { Initiative } from '../../../../app/model/initiative.data';
 import { Team } from '../../../../app/model/team.data';
 import { Person } from '../../../../app/model/person.data';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
@@ -16,7 +16,7 @@ describe('initiative.component.ts', () => {
     let target: ComponentFixture<InitiativeComponent>;
     let de: DebugElement;
     let el: HTMLElement;
-    let inputNode: InitiativeNode;
+    let inputNode: Initiative;
     let inputTeam: Team;
 
     beforeEach(async(() => {
@@ -37,7 +37,7 @@ describe('initiative.component.ts', () => {
         
         inputNode = {
             id: 1, name: "ORIGINAL", description: "ORIGINAL", children: [], start: new Date(2010, 1, 1), accountable: new Person("ORIGINAL"),
-             hasFocus: false, isZoomedOn: false, isSearchedFor: false, search:undefined
+             hasFocus: false, isZoomedOn: false, isSearchedFor: false, search:undefined, traverse:undefined
         };
        
         component.data = inputNode;
@@ -46,6 +46,8 @@ describe('initiative.component.ts', () => {
 
         target.detectChanges(); // trigger initial data binding
     });
+
+    
 
     it('should create modal with the right settings', () => {
         let modal = target.debugElement.query(By.css('modal'));
@@ -116,6 +118,8 @@ describe('initiative.component.ts', () => {
         (element.nativeElement as HTMLInputElement).dispatchEvent(new Event('input'));
         expect(component.data.accountable.name).toBe("John Doe");
     });
+
+
 
 
     // it("formats team member value to return name only", () => {
