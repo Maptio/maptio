@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core'
 import { Person } from './person.data';
-import { ITraversable } from '../interfaces/treenode.interface'
+import { ITraversable } from '../interfaces/traversable.interface'
 
 @Injectable()
 export class Initiative implements ITraversable {
