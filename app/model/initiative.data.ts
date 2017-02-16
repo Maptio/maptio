@@ -35,17 +35,17 @@ export class Initiative implements ITraversable {
     /**True if this node matches a search */
     isSearchedFor: boolean = false;
 
-    constructor(){}
+    constructor() { }
 
 
     traverse(this: Initiative, callback: ((n: Initiative) => void)): void {
-        if(this.children){
-            this.children.forEach(function(child:Initiative){
+        if (this.children) {
+            this.children.forEach(function (child: Initiative) {
                 callback.apply(this, [child]);
-                if(child.traverse){ //HACK : when object is assigned in building.component.ts , the child nodes should have a traverse method
+                if (child.traverse) { //HACK : when object is assigned in building.component.ts , the child nodes should have a traverse method
                     (<Initiative>child).traverse(callback);
                 }
-                
+
             });
         }
     }
