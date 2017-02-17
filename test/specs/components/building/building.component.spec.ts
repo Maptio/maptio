@@ -109,7 +109,7 @@ describe('building.component.ts', () => {
 
         describe("updateTree event", () => {
             xit('should call updateTreeModel', () => {
-                 let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
+                let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
                 root.children = [node1, node2, node3];
                 component.nodes = [root];
                 target.detectChanges();
@@ -175,7 +175,7 @@ describe('building.component.ts', () => {
             });
 
             it("should loads data and initializes mapping component", () => {
-                
+
                 let url = "http://getdata.com/data.json";
 
                 fixture.load("test/specs/components/building/fixtures/data.json");

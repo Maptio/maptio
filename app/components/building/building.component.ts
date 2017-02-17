@@ -1,21 +1,16 @@
-import { Component, OnInit, ViewChild, ViewChildren, Directive, Input, ElementRef, Inject, QueryList, Query } from '@angular/core';
-import { Initiative } from '../../model/initiative.data';
-import { Team } from '../../model/team.data'
-import { Person } from '../../model/person.data'
-import { InitiativeComponent } from '../initiative/initiative.component';
-import { TreeComponent, TreeNode } from 'angular2-tree-component';
-import { DataService } from '../../services/data.service';
-import { FocusIfDirective } from '../../directives/focusif.directive'
-import { AutoSelectDirective } from '../../directives/autoselect.directive'
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import 'rxjs/add/operator/map';
-import { InitiativeNodeComponent } from './initiative.node.component'
-
+import { Component, ViewChild } from "@angular/core";
+import { Initiative } from "../../model/initiative.data";
+import { Person } from "../../model/person.data"
+import { InitiativeComponent } from "../initiative/initiative.component";
+import { TreeComponent, TreeNode } from "angular2-tree-component";
+import { DataService } from "../../services/data.service";
+import "rxjs/add/operator/map";
+import { InitiativeNodeComponent } from "./initiative.node.component"
 
 @Component({
-    selector: 'building',
-    template: require('./building.component.html'),
-    styles: [require('./building.component.css').toString()]
+    selector: "building",
+    template: require("./building.component.html"),
+    styles: [require("./building.component.css").toString()]
 })
 
 export class BuildingComponent {
@@ -26,18 +21,16 @@ export class BuildingComponent {
     @ViewChild(TreeComponent)
     tree: TreeComponent;
 
-    @ViewChild('initiative')
+    @ViewChild("initiative")
     initiativeEditComponent: InitiativeComponent
 
     @ViewChild(InitiativeNodeComponent)
     node: InitiativeNodeComponent;
 
     private dataService: DataService;
-    //private treeExplorationService: TreeExplorationService;
 
     constructor(dataService: DataService) {
         this.dataService = dataService;
-        // this.treeExplorationService = treeExplorationService;
         this.nodes = [];
     }
 
@@ -52,15 +45,12 @@ export class BuildingComponent {
 
 
     mapData() {
-        //console.log("SAVE HERE");
-        // console.log(JSON.stringify(this.nodes));
+        //console.log(this.nodes[0])
         this.dataService.setAsync(this.nodes[0]);
     }
 
 
     updateTreeModel() {
-        // console.log("UPdate");
-        //  console.log(JSON.stringify(this.nodes));
         this.tree.treeModel.update();
     }
 
@@ -73,12 +63,11 @@ export class BuildingComponent {
     loadData(url: string) {
         this.dataService.loadFromAsync(url).then(data => {
             this.nodes = [];
-            let rootNode: Initiative = Object.assign(new Initiative(), data);
-            this.nodes.push(rootNode);
+            this.nodes.push(new Initiative().deserialize(data));
 
             // FIXME : this should be another function/service
             let members = new Array<Person>();
-            rootNode.traverse(function (node: Initiative) {
+            this.nodes[0].traverse(function (node: Initiative) {
                 if (node.accountable && !members.find(function (person) {
                     return person.name === node.accountable.name
                 })) {
@@ -93,7 +82,6 @@ export class BuildingComponent {
     }
 
     filterNodes(searched: string) {
-        //TreeExplorationService.traverseAll<Initiative>(this.nodes, function (node) { node.isSearchedFor = false });
         this.nodes.forEach(function (i: Initiative) {
             i.traverse(function (node) { node.isSearchedFor = false });
         });

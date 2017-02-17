@@ -34,12 +34,12 @@ describe('initiative.component.ts', () => {
         de = target.debugElement.query(By.css('modal'));
         el = de.nativeElement;
 
-        
+
         inputNode = {
-            id: 1, name: "ORIGINAL", description: "ORIGINAL", children: [], start: new Date(2010, 1, 1), accountable: new Person("ORIGINAL"),
-             hasFocus: false, isZoomedOn: false, isSearchedFor: false, search:undefined, traverse:undefined
+            id: 1, name: "ORIGINAL", description: "ORIGINAL", children: [], start: new Date(2010, 1, 1), accountable: <Person>{ name: "ORIGINAL" },
+            hasFocus: false, isZoomedOn: false, isSearchedFor: false, search: undefined, traverse: undefined, deserialize: undefined
         };
-       
+
         component.data = inputNode;
         inputTeam = new Team([]);
         component.team = inputTeam;
@@ -47,7 +47,7 @@ describe('initiative.component.ts', () => {
         target.detectChanges(); // trigger initial data binding
     });
 
-    
+
 
     it('should create modal with the right settings', () => {
         let modal = target.debugElement.query(By.css('modal'));
@@ -112,9 +112,9 @@ describe('initiative.component.ts', () => {
         expect(component.data.start.getSeconds()).toBe(0);
     });
 
-    it("saves the accountable person", ()=>{
+    it("saves the accountable person", () => {
         let element = target.debugElement.query(By.css('#inputAccountable'));
-        (element.nativeElement as HTMLInputElement).value = JSON.stringify(new Person("John Doe"));
+        (element.nativeElement as HTMLInputElement).value = JSON.stringify({ name: "John Doe" });
         (element.nativeElement as HTMLInputElement).dispatchEvent(new Event('input'));
         expect(component.data.accountable.name).toBe("John Doe");
     });

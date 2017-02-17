@@ -82,10 +82,14 @@ export class InitiativeNodeComponent implements OnInit {
     }
 
     zoomInNode(node: Initiative) {
-        (<Initiative>this.node.data).children.forEach(function (i: Initiative) {
+       // console.log("ZOOM IN");
+        //console.log(this.node.treeModel.nodes[0]);
+        (<Initiative>this.node.treeModel.nodes[0]).children.forEach(function (i: Initiative) {
+            //console.log(i.name);
             i.isZoomedOn = false;
             i.traverse(function (node: Initiative) { node.isZoomedOn = false });
         });
+        (<Initiative>this.node.treeModel.nodes[0]).isZoomedOn = false;
 
         node.isZoomedOn = true;
         //this.mapData();

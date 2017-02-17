@@ -261,6 +261,8 @@ describe('initiative.node.component.ts', () => {
             describe("Zoom in", () => {
                 it("should zoom on the selected node", () => {
                     node1.isZoomedOn = true;
+                    root.isZoomedOn = true;
+                    
                     let spyUpdate = spyOn(component.updateDataEvent, "emit");
 
                     component.zoomInNode(node2);

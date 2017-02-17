@@ -84,7 +84,9 @@ export class InitiativeComponent {
 
     addTeamMember() {
         try {
-            this.team.members.push(new Person(this.currentTeamName));
+            let newPerson = new Person();
+            newPerson.name = this.currentTeamName;
+            this.team.members.push(new Person());
             this.isTeamMemberAdded = true;
 
         }

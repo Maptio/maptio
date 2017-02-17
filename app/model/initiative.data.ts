@@ -1,9 +1,10 @@
 import { Injectable, Inject } from '@angular/core'
 import { Person } from './person.data';
 import { ITraversable } from '../interfaces/traversable.interface'
+import { Serializable } from '../interfaces/serializable.interface';
 
 @Injectable()
-export class Initiative implements ITraversable {
+export class Initiative implements ITraversable, Serializable<Initiative> {
 
     /** Unique Id */
     id: number;
@@ -38,14 +39,35 @@ export class Initiative implements ITraversable {
     constructor() { }
 
 
-    traverse(this: Initiative, callback: ((n: Initiative) => void)): void {
+    deserialize(input: any): Initiative {
+        this.id = input.id;
+        this.name = input.name;
+        this.description = input.description;
+        this.start = input.start;
+        if (input.accountable) {
+            this.accountable = new Person().deserialize(input.accountable);
+        }
+
+        let children = new Array<Initiative>();
+        if (input.children) {
+            input.children.forEach(function (inputChild: any) {
+                children.push(new Initiative().deserialize(inputChild));
+            });
+        }
+        else {
+            children = undefined;
+        }
+
+        this.children = children;
+        return this;
+    }
+
+
+    traverse(callback: ((n: Initiative) => void)): void {
         if (this.children) {
             this.children.forEach(function (child: Initiative) {
                 callback.apply(this, [child]);
-                if (child.traverse) { //HACK : when object is assigned in building.component.ts , the child nodes should have a traverse method
                     (<Initiative>child).traverse(callback);
-                }
-
             });
         }
     }
@@ -66,5 +88,7 @@ export class Initiative implements ITraversable {
             return false;
         }
     }
+
+
 
 }

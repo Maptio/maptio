@@ -84,7 +84,7 @@ export class MappingComponent implements AfterViewInit, OnInit {
 
 
     ngAfterViewInit() {
-        console.log("SIZE " + this.element.nativeElement.parentNode.parentNode.offsetHeight);
+        //console.log("SIZE " + this.element.nativeElement.parentNode.parentNode.offsetHeight);
     }
 
     // ngOnChanges(changes: any) {
@@ -94,7 +94,7 @@ export class MappingComponent implements AfterViewInit, OnInit {
 
     show(mode: Views) {
         let data = this.data;
-        console.log(data);
+        //console.log(data);
         let factory =
             (mode == Views.Circles)
                 ? this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent)
@@ -108,7 +108,7 @@ export class MappingComponent implements AfterViewInit, OnInit {
         // let width = 
         // let height =  this.element.nativeElement.parentNode.parentNode.offsetHeight;
         // let margin = 25;
-        console.log("DRAW");
+        //console.log("DRAW");
         component.instance.draw(data);
 
     }

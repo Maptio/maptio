@@ -1,0 +1,19 @@
+{
+    "name": "Root",
+    "accountable": "CEO",
+    "size": "1",
+    "description":"Something",
+    "children": [
+        {
+            "name": "Tech",
+            "accountable": {
+                "name": "CTO"
+            },
+            "size": "1"
+        },
+        {
+            "name": "The rest",
+            "size": "1"
+        }
+    ]
+}

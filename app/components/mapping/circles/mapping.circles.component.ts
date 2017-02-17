@@ -46,7 +46,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
         let margin = this.margin;
 
         if (!data) {
-            console.log("CLEAN");
+            //console.log("CLEAN");
             uiService.clean();
             return;
         }
@@ -67,7 +67,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
         var root = data;
 
         root = d3.hierarchy(root)
-            .sum(function (d: any) { return d.size; })
+            .sum(function (d: any) { return 1; }) // all nodes have the same initial size 
             .sort(function (a, b) { return b.value - a.value });
 
         var focus = root,
@@ -125,7 +125,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
         text
             .enter()
             .append("text")
-            .filter(function (d: any) { console.log(d.data.name + " " + d.children); return !d.children; })
+            .filter(function (d: any) { /*console.log(d.data.name + " " + d.children);*/ return !d.children; })
             .attr("font-size","0.8em")
             .attr("id", function (d: any) { return "title" + d.data.id; })
             .attr("dy", 0)
