@@ -1,10 +1,10 @@
-export interface IDataVisualizer{
+export interface IDataVisualizer {
 
-    width:number;
+    width: number;
 
-    height:number;
+    height: number;
 
-    margin:number;
+    margin: number;
 
-    draw(data:any):void;
+    draw(data: any): void;
 }

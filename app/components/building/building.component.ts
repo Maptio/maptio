@@ -42,10 +42,7 @@ export class BuildingComponent {
         return (this.nodes[0].name != undefined) && this.nodes[0].name.trim().length > 0;
     }
 
-
-
     mapData() {
-        //console.log(this.nodes[0])
         this.dataService.setAsync(this.nodes[0]);
     }
 

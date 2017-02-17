@@ -2,26 +2,23 @@ import {
     Component,
     AfterViewInit,
     ViewChild, ViewContainerRef, ComponentFactoryResolver, ElementRef,
-    OnInit, OnChanges, SimpleChanges,
-    Input,
+    OnInit,
     ChangeDetectionStrategy, ChangeDetectorRef
-} from '@angular/core';
+} from "@angular/core";
 
-import { DataService } from '../../services/data.service'
-import { Views } from '../../model/view.enum'
-import { IDataVisualizer } from './mapping.interface'
-import { MappingCirclesComponent } from './circles/mapping.circles.component'
-import { MappingTreeComponent } from './tree/mapping.tree.component'
-import { AnchorDirective } from '../../directives/anchor.directive'
+import { DataService } from "../../services/data.service"
+import { Views } from "../../model/view.enum"
+import { IDataVisualizer } from "./mapping.interface"
+import { MappingCirclesComponent } from "./circles/mapping.circles.component"
+import { MappingTreeComponent } from "./tree/mapping.tree.component"
+import { AnchorDirective } from "../../directives/anchor.directive"
 
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject'
-import 'rxjs/add/operator/map'
+import "rxjs/add/operator/map"
 
 @Component({
-    selector: 'mapping',
-    templateUrl: './mapping.component.html',
-    styles: [require('./mapping.component.css').toString()],
+    selector: "mapping",
+    templateUrl: "./mapping.component.html",
+    styles: [require("./mapping.component.css").toString()],
     entryComponents: [MappingCirclesComponent, MappingTreeComponent],
     changeDetection: ChangeDetectionStrategy.OnPush
 
@@ -32,17 +29,17 @@ export class MappingComponent implements AfterViewInit, OnInit {
 
     private data: any;
 
-    selectedView: Views = Views.Circles //per default;
+    selectedView: Views = Views.Circles // per default;
 
-    @ViewChild('circles')
-    private circles: MappingCirclesComponent;
+    // @ViewChild("circles")
+    // private circles: MappingCirclesComponent;
 
-    @ViewChild('tree')
-    private tree: MappingTreeComponent;
+    // @ViewChild("tree")
+    // private tree: MappingTreeComponent;
 
     @ViewChild(AnchorDirective) anchorComponent: AnchorDirective;
 
-    @ViewChild('drawing')
+    @ViewChild("drawing")
     public element: ElementRef;
 
     constructor(
@@ -61,10 +58,10 @@ export class MappingComponent implements AfterViewInit, OnInit {
     }
 
     isTreeviewSelected(): boolean {
-        return this.selectedView == Views.Tree;
+        return this.selectedView === Views.Tree;
     }
     isCircleViewSelected(): boolean {
-        return this.selectedView == Views.Circles;
+        return this.selectedView === Views.Circles;
     }
 
 
@@ -84,19 +81,12 @@ export class MappingComponent implements AfterViewInit, OnInit {
 
 
     ngAfterViewInit() {
-        //console.log("SIZE " + this.element.nativeElement.parentNode.parentNode.offsetHeight);
     }
-
-    // ngOnChanges(changes: any) {
-    //     if (changes['viewMode'] != undefined)
-    //         this.show(changes['viewMode'].currentValue);
-    // }
 
     show(mode: Views) {
         let data = this.data;
-        //console.log(data);
         let factory =
-            (mode == Views.Circles)
+            (mode === Views.Circles)
                 ? this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent)
                 : this.componentFactoryResolver.resolveComponentFactory(MappingTreeComponent)
 
@@ -105,11 +95,6 @@ export class MappingComponent implements AfterViewInit, OnInit {
         component.instance.width = 1522; //this.element.nativeElement.parentNode.parentNode.parentNode.offsetHeight;
         component.instance.height = 1522; //this.element.nativeElement.parentNode.parentNode.parentNode.offsetHeight;
         component.instance.margin = 10;
-        // let width = 
-        // let height =  this.element.nativeElement.parentNode.parentNode.offsetHeight;
-        // let margin = 25;
-        //console.log("DRAW");
         component.instance.draw(data);
-
     }
 }

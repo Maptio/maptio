@@ -1,7 +1,7 @@
-import { Injectable, Inject } from '@angular/core'
-import { Person } from './person.data';
-import { ITraversable } from '../interfaces/traversable.interface'
-import { Serializable } from '../interfaces/serializable.interface';
+import { Injectable } from "@angular/core"
+import { Person } from "./person.data";
+import { ITraversable } from "../interfaces/traversable.interface"
+import { Serializable } from "../interfaces/serializable.interface";
 
 @Injectable()
 export class Initiative implements ITraversable, Serializable<Initiative> {
@@ -67,7 +67,7 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
         if (this.children) {
             this.children.forEach(function (child: Initiative) {
                 callback.apply(this, [child]);
-                    (<Initiative>child).traverse(callback);
+                (<Initiative>child).traverse(callback);
             });
         }
     }
@@ -82,7 +82,6 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
                 ||
                 this.description && this.description.toLowerCase().includes(searched.toLowerCase())
             ) {
-                //this.isSearchedFor = true;
                 return true;
             }
             return false;

@@ -1,18 +1,18 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { Component, ViewChild } from "@angular/core";
+import { ModalComponent } from "ng2-bs3-modal/ng2-bs3-modal";
 
 @Component({
-    selector: 'help',
-    template: require('./help.component.html')
+    selector: "help",
+    template: require("./help.component.html")
 })
 export class HelpComponent {
 
-    @ViewChild('helpModal')
+    @ViewChild("helpModal")
     modal: ModalComponent;
 
     constructor() { }
 
-    open(){
+    open() {
         this.modal.open();
     }
 }

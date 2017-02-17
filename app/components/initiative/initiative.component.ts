@@ -1,24 +1,24 @@
-import { Component, Injectable, Inject, AfterViewInit, OnInit, Input, ViewChild } from '@angular/core';
-import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
-import { Initiative } from '../../model/initiative.data'
-import { Team } from '../../model/team.data'
-import { Person } from '../../model/person.data'
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
+import { Component, Input, ViewChild } from "@angular/core";
+import { ModalComponent } from "ng2-bs3-modal/ng2-bs3-modal";
+import { Initiative } from "../../model/initiative.data"
+import { Team } from "../../model/team.data"
+import { Person } from "../../model/person.data"
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/debounceTime";
+import "rxjs/add/operator/distinctUntilChanged";
 
 
 
 @Component({
-    selector: 'initiative',
-    template: require('./initiative.component.html').toString(), //'./initiative.component.html',
+    selector: "initiative",
+    template: require("./initiative.component.html"), 
     providers: [Initiative]
 })
 
 export class InitiativeComponent {
 
-    @ViewChild('initiativeModal')
+    @ViewChild("initiativeModal")
     modal: ModalComponent;
 
     @Input() data: Initiative;
@@ -71,7 +71,7 @@ export class InitiativeComponent {
                 try {
                     this.isTeamMemberAdded = false;
                     this.currentTeamName = term;
-                    let results = term.length < 1 ? this.team.members : this.team.members.filter(v => new RegExp(term, 'gi').test(v.name)).splice(0, 10);
+                    let results = term.length < 1 ? this.team.members : this.team.members.filter(v => new RegExp(term, "gi").test(v.name)).splice(0, 10);
                     this.isTeamMemberFound = (results != undefined && results.length != 0) ? true : false;
                     return results;
                 }
