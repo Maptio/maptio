@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Initiative } from '../../../app/model/initiative.data';
-import { plainToClass } from "class-transformer";
 
 describe('initiative.data.ts', () => {
 
