@@ -12,7 +12,7 @@ export class InitiativeNodeComponent implements OnInit {
     @Input() node: TreeNode;
 
     @Output("map") updateDataEvent = new EventEmitter<Array<Initiative>>();
-    @Output("updateTree") updateTreeEvent = new EventEmitter<TreeModel>();
+    @Output("update") updateTreeEvent = new EventEmitter<TreeModel>();
     @Output("openSelected") openSelectedEvent = new EventEmitter<Initiative>();
 
 

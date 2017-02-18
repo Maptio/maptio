@@ -12,7 +12,7 @@ import "rxjs/add/operator/distinctUntilChanged";
 
 @Component({
     selector: "initiative",
-    template: require("./initiative.component.html"), 
+    template: require("./initiative.component.html"),
     providers: [Initiative]
 })
 
