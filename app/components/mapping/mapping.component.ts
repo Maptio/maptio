@@ -6,8 +6,8 @@ import {
     ChangeDetectionStrategy, ChangeDetectorRef
 } from "@angular/core";
 
-import { DataService } from "../../services/data.service"
-import { Views } from "../../model/view.enum"
+import { DataService } from "../../shared/services/data.service"
+import { Views } from "../../shared/model/view.enum"
 import { IDataVisualizer } from "./mapping.interface"
 import { MappingCirclesComponent } from "./circles/mapping.circles.component"
 import { MappingTreeComponent } from "./tree/mapping.tree.component"
