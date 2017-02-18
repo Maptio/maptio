@@ -6,14 +6,14 @@ import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/t
 import { BuildingComponent } from '../../../../app/components/building/building.component';
 import { InitiativeComponent } from '../../../../app/components/initiative/initiative.component';
 import { TreeComponent, TreeNode } from 'angular2-tree-component';
-import { FocusIfDirective } from '../../../../app/directives/focusif.directive'
-import { DataService } from '../../../../app/services/data.service'
-import { ErrorService } from '../../../../app/services/error.service';
+import { FocusIfDirective } from '../../../../app/shared/directives/focusif.directive'
+import { DataService } from '../../../../app/shared/services/data.service'
+import { ErrorService } from '../../../../app/shared/services/error.service';
 //import { TreeExplorationService } from '../../../../app/services/tree.exploration.service'
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, HttpModule, Response, Headers, RequestOptions, BaseRequestOptions, ResponseOptions } from '@angular/http';
-import { Initiative } from '../../../../app/model/initiative.data';
-import { Person } from '../../../../app/model/person.data';
+import { Initiative } from '../../../../app/shared/model/initiative.data';
+import { Person } from '../../../../app/shared/model/person.data';
 
 describe('building.component.ts', () => {
 

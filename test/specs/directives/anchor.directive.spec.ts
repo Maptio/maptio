@@ -1,5 +1,5 @@
 import { Component, ViewChild, ComponentFactoryResolver } from '@angular/core'
-import { AnchorDirective } from '../../../app/directives/anchor.directive'
+import { AnchorDirective } from '../../../app/shared/directives/anchor.directive'
 import { AnAnchorableComponent, IAnchorableComponent } from '../shared/component.helper'
 
 @Component({

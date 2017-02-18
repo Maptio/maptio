@@ -15,7 +15,7 @@ class TestComponent { }
 import { TestBed, ComponentFixture } from '@angular/core/testing'
 import { By } from '@angular/platform-browser'
 import { DebugElement, ElementRef } from '@angular/core'
-import { FocusIfDirective } from '../../../app/directives/focusif.directive'
+import { FocusIfDirective } from '../../../app/shared/directives/focusif.directive'
 import * as triggerHelper from '../shared/events.helper';
 
 describe('focusif.directive.ts', () => {

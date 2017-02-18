@@ -5,8 +5,8 @@ import {
 } from "@angular/core";
 import { BuildingComponent } from "./components/building/building.component"
 import { HelpComponent } from "./components/help/help.component";
-import { DataSet } from "./model/dataset.data"
-import { DataSetService } from "./services/dataset.service"
+import { DataSet } from "./shared/model/dataset.data"
+import { DataSetService } from "./shared/services/dataset.service"
 import "rxjs/add/operator/map"
 
 @Component({

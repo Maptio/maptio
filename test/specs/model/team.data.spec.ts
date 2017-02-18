@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { Team } from "../../../app/model/team.data";
-import { Person } from "../../../app/model/person.data";
+import { Team } from "../../../app/shared/model/team.data";
+import { Person } from "../../../app/shared/model/person.data";
 
 describe("Team Tests", () => {
     let team: Team;

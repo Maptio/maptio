@@ -1,9 +1,9 @@
 import { Component, ViewChild } from "@angular/core";
-import { Initiative } from "../../model/initiative.data";
-import { Person } from "../../model/person.data"
+import { Initiative } from "../../shared/model/initiative.data";
+import { Person } from "../../shared/model/person.data"
 import { InitiativeComponent } from "../initiative/initiative.component";
 import { TreeComponent, TreeNode } from "angular2-tree-component";
-import { DataService } from "../../services/data.service";
+import { DataService } from "../../shared/services/data.service";
 import "rxjs/add/operator/map";
 import { InitiativeNodeComponent } from "./initiative.node.component"
 

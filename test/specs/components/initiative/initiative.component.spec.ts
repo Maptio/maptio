@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { InitiativeComponent } from '../../../../app/components/initiative/initiative.component';
-import { Initiative } from '../../../../app/model/initiative.data';
-import { Team } from '../../../../app/model/team.data';
-import { Person } from '../../../../app/model/person.data';
+import { Initiative } from '../../../../app/shared/model/initiative.data';
+import { Team } from '../../../../app/shared/model/team.data';
+import { Person } from '../../../../app/shared/model/person.data';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 

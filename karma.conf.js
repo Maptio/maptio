@@ -9,15 +9,16 @@ module.exports = function (config) {
             { pattern: "./public/jquery/jquery.js" },
 
             { pattern: "./app/app.component.ts" },
-            { pattern: "./app/interfaces/*.ts" },
-            { pattern: "./app/model/*.ts" },
-            { pattern: "./app/directives/*.ts" },
+            { pattern: "./app/shared/interfaces/*.ts" },
+            { pattern: "./app/shared/model/*.ts" },
+            { pattern: "./app/shared/directives/*.ts" },
             { pattern: "./app/components/initiative/*.*" },
             { pattern: "./app/components/help/*.*" },
             { pattern: "./app/components/building/*.*" },
-            { pattern: "./app/services/data.service.ts" },
-            { pattern: "./app/services/dataset.service.ts" },
-            { pattern: "./app/services/error.service.ts" },
+            //{ pattern: "./app/components/mapping/**/*.*" },
+            { pattern: "./app/shared/services/data.service.ts" },
+            { pattern: "./app/shared/services/dataset.service.ts" },
+            { pattern: "./app/shared/services/error.service.ts" },
 
 
             { pattern: "./test/specs/shared/**/*.ts" },
@@ -45,7 +46,7 @@ module.exports = function (config) {
         karmaTypescriptConfig: {
             bundlerOptions: {
                 // ignore: ["d3-ng2-service"],
-                // validateSyntax: true
+                 validateSyntax: false
             },
             reports: { 
                 "html": {

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DataSet } from '../../../app/model/dataset.data';
+import { DataSet } from '../../../app/shared/model/dataset.data';
 
 describe('Dataset Tests', () => {
     let dataset: DataSet;

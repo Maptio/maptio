@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed, async, inject, fakeAsync } from '@angular/core/testing';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, HttpModule, Response, Headers, RequestOptions, BaseRequestOptions, ResponseOptions } from '@angular/http';
-import { DataService } from '../../../app/services/data.service'
-import { ErrorService } from '../../../app/services/error.service';
+import { DataService } from '../../../app/shared/services/data.service'
+import { ErrorService } from '../../../app/shared/services/error.service';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 
 

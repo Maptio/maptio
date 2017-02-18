@@ -16,7 +16,7 @@ class TestComponent { }
 import { TestBed, ComponentFixture } from '@angular/core/testing'
 import { By } from '@angular/platform-browser'
 import { DebugElement, ElementRef } from '@angular/core'
-import { AutoSelectDirective } from '../../../app/directives/autoselect.directive'
+import { AutoSelectDirective } from '../../../app/shared/directives/autoselect.directive'
 import * as triggerHelper from '../shared/events.helper';
 
 describe('autoselect.directive.ts', () => {

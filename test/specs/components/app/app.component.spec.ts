@@ -1,21 +1,21 @@
 import { ComponentFixture, TestBed, async, fakeAsync, tick } from '@angular/core/testing';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core'
-import { FormsModule } from '@angular/forms';
+import { FormsModule } from "@angular/forms";
 import { By } from '@angular/platform-browser';
-import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
+import { BrowserDynamicTestingModule } from "@angular/platform-browser-dynamic/testing";
 import { AppComponent } from '../../../../app/app.component';
 import { HelpComponent } from '../../../../app/components/help/help.component'
 import { BuildingComponent } from '../../../../app/components/building/building.component'
-import { DataSetService } from '../../../../app/services/dataset.service';
-import { DataService } from '../../../../app/services/data.service';
+import { DataSetService } from "../../../../app/shared/services/dataset.service";
+import { DataService } from "../../../../app/shared/services/data.service";
 //import { TreeExplorationService } from '../../../../app/services/tree.exploration.service';
-import { DataSet } from '../../../../app/model/dataset.data';
-import { ErrorService } from '../../../../app/services/error.service';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
-import { Http, HttpModule, Response, Headers, RequestOptions, BaseRequestOptions, ResponseOptions } from '@angular/http';
+import { DataSet } from "../../../../app/shared/model/dataset.data";
+import { ErrorService } from "../../../../app/shared/services/error.service";
+import { MockBackend, MockConnection } from "@angular/http/testing";
+import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
+import { Http, HttpModule, Response, Headers, RequestOptions, BaseRequestOptions, ResponseOptions } from "@angular/http";
 
-describe('app.component.ts', () => {
+describe("app.component.ts", () => {
 
     let component: AppComponent;
     let target: ComponentFixture<AppComponent>;
@@ -51,17 +51,17 @@ describe('app.component.ts', () => {
         component = target.componentInstance;
 
         datasetService = target.debugElement.injector.get(DataSetService);
-        spyDataSetService = spyOn(datasetService, 'getData').and.returnValue(Promise.resolve(DATASETS));
+        spyDataSetService = spyOn(datasetService, "getData").and.returnValue(Promise.resolve(DATASETS));
 
         target.detectChanges(); // trigger initial data binding
     });
 
-    describe('View', () => {
+    describe("View", () => {
         it("should call start() when click on 'New Project' button ", () => {
-            let startElement = target.debugElement.query(By.css('#loadNewProjectButton'));
+            let startElement = target.debugElement.query(By.css("#loadNewProjectButton"));
             let spy = spyOn(AppComponent.prototype, "start");
 
-            startElement.triggerEventHandler('click', null);
+            startElement.triggerEventHandler("click", null);
             expect(spy).toHaveBeenCalledWith(DataSet.EMPTY);
         });
 
@@ -69,7 +69,7 @@ describe('app.component.ts', () => {
             target.detectChanges();
             target.whenStable().then(() => { // wait for async getQuote
                 target.detectChanges();        // update view with quote
-                let elements = target.debugElement.queryAll(By.css('ul#loadDatasetDropdown > li :not(.dropdown-header)'));
+                let elements = target.debugElement.queryAll(By.css("ul#loadDatasetDropdown > li :not(.dropdown-header)"));
                 expect(elements.length).toBe(3);
                 expect(elements[0].nativeElement.textContent).toBe("One");
                 expect(elements[1].nativeElement.textContent).toBe("Two");
@@ -79,28 +79,28 @@ describe('app.component.ts', () => {
 
         it("should call openHelp", () => {
             let spy = spyOn(AppComponent.prototype, "openHelp");
-            let helpClickElement = target.debugElement.query(By.css('#openHelpWindow'));
+            let helpClickElement = target.debugElement.query(By.css("#openHelpWindow"));
             (helpClickElement.nativeElement as HTMLAnchorElement).click();
             expect(spy).toHaveBeenCalled();
         });
 
         it("should call toggle building panel", () => {
-            let togglingElement = target.debugElement.query(By.css('h4.panel-title>a'));
+            let togglingElement = target.debugElement.query(By.css("h4.panel-title>a"));
             let spy = spyOn(AppComponent.prototype, "toggleBuildingPanel").and.callThrough();
 
-            let toggledElement = target.debugElement.query(By.css('h4.panel-title>a i'));
+            let toggledElement = target.debugElement.query(By.css("h4.panel-title>a i"));
             expect((toggledElement.nativeElement as HTMLElement).className).toContain("fa-plus-square");
 
-            togglingElement.triggerEventHandler('click', null);
+            togglingElement.triggerEventHandler("click", null);
             target.detectChanges();
 
-            toggledElement = target.debugElement.query(By.css('h4.panel-title>a i'));
+            toggledElement = target.debugElement.query(By.css("h4.panel-title>a i"));
             expect((toggledElement.nativeElement as HTMLElement).className).toContain("fa-minus-square");
 
-            togglingElement.triggerEventHandler('click', null);
+            togglingElement.triggerEventHandler("click", null);
             target.detectChanges();
 
-            toggledElement = target.debugElement.query(By.css('h4.panel-title>a i'));
+            toggledElement = target.debugElement.query(By.css("h4.panel-title>a i"));
             expect((toggledElement.nativeElement as HTMLElement).className).toContain("fa-plus-square");
 
             expect(spy).toHaveBeenCalledTimes(2);
@@ -112,7 +112,7 @@ describe('app.component.ts', () => {
             target.detectChanges();
             target.whenStable().then(() => {
 
-                let element = target.debugElement.query(By.css('#datasetName'));
+                let element = target.debugElement.query(By.css("#datasetName"));
                 expect(element).toBeDefined();
                 expect(element.nativeElement.textContent).toContain(dataset.name);
             })
@@ -122,7 +122,7 @@ describe('app.component.ts', () => {
 
     });
 
-    describe('Controller', () => {
+    describe("Controller", () => {
         it("should display page with the building panel closed at first", () => {
             expect(component.isBuildingPanelCollapsed).toBeTruthy();
         });

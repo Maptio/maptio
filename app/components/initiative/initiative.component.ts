@@ -1,8 +1,8 @@
 import { Component, Input, ViewChild } from "@angular/core";
 import { ModalComponent } from "ng2-bs3-modal/ng2-bs3-modal";
-import { Initiative } from "../../model/initiative.data"
-import { Team } from "../../model/team.data"
-import { Person } from "../../model/person.data"
+import { Initiative } from "../../shared/model/initiative.data"
+import { Team } from "../../shared/model/team.data"
+import { Person } from "../../shared/model/person.data"
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/debounceTime";

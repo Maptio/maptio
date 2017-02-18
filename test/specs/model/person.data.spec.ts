@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Person } from '../../../app/model/person.data';
+import { Person } from '../../../app/shared/model/person.data';
 
 describe('Person Tests', () => {
     let person: Person;

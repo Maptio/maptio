@@ -1,17 +1,17 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from "@angular/core";
 import {
     D3Service, D3, Selection,
     PackLayout, HierarchyNode, HierarchyCircularNode,
     Transition, Timer, BaseType
-} from 'd3-ng2-service';
-import { ColorService } from '../../../services/color.service'
-import { UIService } from '../../../services/ui.service'
-import { IDataVisualizer } from '../mapping.interface'
+} from "d3-ng2-service";
+import { ColorService } from "../../../shared/services/color.service"
+import { UIService } from "../../../shared/services/ui.service"
+import { IDataVisualizer } from "../mapping.interface"
 
 @Component({
-    selector: 'circles',
-    templateUrl: 'mapping.circles.component.html',
-    styles: [require('./mapping.circles.component.css').toString()],
+    selector: "circles",
+    templateUrl: "mapping.circles.component.html",
+    styles: [require("./mapping.circles.component.css").toString()],
 })
 
 
@@ -19,7 +19,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
 
     private d3: D3;
 
-    @ViewChild('drawing')
+    @ViewChild("drawing")
     public element: ElementRef;
 
     public width: number = 1522;

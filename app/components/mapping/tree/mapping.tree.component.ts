@@ -1,17 +1,17 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input } from "@angular/core";
 import {
     D3Service, D3, Selection,
     PackLayout, HierarchyNode, HierarchyCircularNode,
     Transition, Timer, BaseType
-} from 'd3-ng2-service';
-import { ColorService } from '../../../services/color.service'
-import { UIService } from '../../../services/ui.service'
-import { IDataVisualizer } from '../mapping.interface'
+} from "d3-ng2-service";
+import { ColorService } from "../../../shared/services/color.service"
+import { UIService } from "../../../shared/services/ui.service"
+import { IDataVisualizer } from "../mapping.interface"
 
 @Component({
-    selector: 'tree',
-    templateUrl: 'mapping.tree.component.html',
-    styles: [require('./mapping.tree.component.css').toString()],
+    selector: "tree",
+    templateUrl: "mapping.tree.component.html",
+    styles: [require("./mapping.tree.component.css").toString()],
 })
 export class MappingTreeComponent implements OnInit, IDataVisualizer {
     private d3: D3;
@@ -104,21 +104,21 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             // ****************** Nodes section ***************************
 
             // Update the nodes...
-            var node = svg.selectAll('g.node')
+            var node = svg.selectAll("g.node")
                 .data(nodes, function (d: any) { return d.id || (d.id = ++i); });
 
             // Enter any new modes at the parent's previous position.
-            var nodeEnter = node.enter().append('g')
-                .attr('class', 'node')
+            var nodeEnter = node.enter().append("g")
+                .attr("class", "node")
                 .attr("transform", function (d) {
                     return "translate(" + source.y0 + "," + source.x0 + ")";
                 })
-                .on('click', click);
+                .on("click", click);
 
             // Add Circle for the nodes
-            nodeEnter.append('circle')
-                .attr('class', 'node')
-                .attr('r', 1e-5)
+            nodeEnter.append("circle")
+                .attr("class", "node")
+                .attr("r", 1e-5)
                 .style("fill", function (d) {
                     //return d.children ? "lightsteelblue" : "#fff";
                   return d.children ? color(d.depth) : "white"; 
@@ -129,8 +129,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 });
 
             // Add labels for the nodes
-            nodeEnter.append('text')
-                .attr('class', 'name')
+            nodeEnter.append("text")
+                .attr("class", "name")
                 .attr("dy", "1.65em")
                 .attr("x", "15")
                 // .attr("x", function (d) {
@@ -141,8 +141,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 // })
                 .text(function (d: any) { return d.data.name ; });
 
-            nodeEnter.append('text')
-                .attr('class', 'accountable')
+            nodeEnter.append("text")
+                .attr("class", "accountable")
                 .attr("dy", "5")
                 .attr("x", "15")
                 // .attr("text-anchor", function (d) {
@@ -161,8 +161,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 });
 
             // Update the node attributes and style
-            nodeUpdate.select('circle.node')
-                .attr('r', 10)
+            nodeUpdate.select("circle.node")
+                .attr("r", 10)
                 .style("fill", function (d) {
                     return d.children ? color(d.depth) : "white";  //return d.children ? "lightsteelblue" : "#fff";
                 })
@@ -170,7 +170,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                     //return d.children ? "lightsteelblue" : "#fff";
                   return d.children ? color(d.depth) : "#ccc"; 
                 })
-                .attr('cursor', 'pointer');
+                .attr("cursor", "pointer");
 
 
             // Remove any exiting nodes
@@ -182,23 +182,23 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 .remove();
 
             // On exit reduce the node circles size to 0
-            nodeExit.select('circle')
-                .attr('r', 1e-6);
+            nodeExit.select("circle")
+                .attr("r", 1e-6);
 
             // On exit reduce the opacity of text labels
-            nodeExit.select('text')
-                .style('fill-opacity', 1e-6);
+            nodeExit.select("text")
+                .style("fill-opacity", 1e-6);
 
             // ****************** links section ***************************
 
             // Update the links...
-            var link = svg.selectAll('path.link')
+            var link = svg.selectAll("path.link")
                 .data(links, function (d: any) { return d.id; });
 
             // Enter any new links at the parent's previous position.
-            var linkEnter = link.enter().insert('path', "g")
+            var linkEnter = link.enter().insert("path", "g")
                 .attr("class", "link")
-                .attr('d', function (d) {
+                .attr("d", function (d) {
                     var o = { x: source.x0, y: source.y0 }
                     return diagonal(o, o)
                 });
@@ -209,12 +209,12 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             // Transition back to the parent element position
             linkUpdate.transition()
                 .duration(duration)
-                .attr('d', function (d) { return diagonal(d, d.parent) });
+                .attr("d", function (d) { return diagonal(d, d.parent) });
 
             // Remove any exiting links
             var linkExit = link.exit().transition()
                 .duration(duration)
-                .attr('d', function (d) {
+                .attr("d", function (d) {
                     var o = { x: source.x, y: source.y }
                     return diagonal(o, o)
                 })

@@ -7,8 +7,8 @@ import { BuildingComponent } from '../../../../app/components/building/building.
 import { InitiativeNodeComponent } from '../../../../app/components/building/initiative.node.component';
 import { InitiativeComponent } from '../../../../app/components/initiative/initiative.component';
 import { TreeComponent, TreeNode, TreeModel, ITreeOptions } from 'angular2-tree-component';
-import { Initiative } from '../../../../app/model/initiative.data';
-import { FocusIfDirective } from '../../../../app/directives/focusif.directive';
+import { Initiative } from '../../../../app/shared/model/initiative.data';
+import { FocusIfDirective } from '../../../../app/shared/directives/focusif.directive';
 
 describe('initiative.node.component.ts', () => {
 

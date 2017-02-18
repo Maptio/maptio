@@ -11,7 +11,7 @@ import { Views } from "../../model/view.enum"
 import { IDataVisualizer } from "./mapping.interface"
 import { MappingCirclesComponent } from "./circles/mapping.circles.component"
 import { MappingTreeComponent } from "./tree/mapping.tree.component"
-import { AnchorDirective } from "../../directives/anchor.directive"
+import { AnchorDirective } from "../../shared/directives/anchor.directive"
 
 import "rxjs/add/operator/map"
 

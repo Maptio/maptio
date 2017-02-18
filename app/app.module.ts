@@ -5,11 +5,11 @@ import { FormsModule } from "@angular/forms";
 import { HttpModule } from "@angular/http";
 
 // Services
-import { DataService } from "./services/data.service";
-import { DataSetService } from "./services/dataset.service";
-import { ColorService } from "./services/color.service"
-import { UIService } from "./services/ui.service"
-import { ErrorService } from "./services/error.service";
+import { DataService } from "./shared/services/data.service";
+import { DataSetService } from "./shared/services/dataset.service";
+import { ColorService } from "./shared/services/color.service"
+import { UIService } from "./shared/services/ui.service"
+import { ErrorService } from "./shared/services/error.service";
 
 // Components
 import { AppComponent } from "./app.component";
@@ -24,9 +24,9 @@ import { InitiativeNodeComponent } from "./components/building/initiative.node.c
 import { HelpComponent } from "./components/help/help.component";
 
 // Directives
-import { FocusIfDirective } from "./directives/focusif.directive";
-import { AutoSelectDirective } from "./directives/autoselect.directive"
-import { AnchorDirective } from "./directives/anchor.directive"
+import { FocusIfDirective } from "./shared/directives/focusif.directive";
+import { AutoSelectDirective } from "./shared/directives/autoselect.directive"
+import { AnchorDirective } from "./shared/directives/anchor.directive"
 
 // External libraries
 import { D3Service } from "d3-ng2-service";
