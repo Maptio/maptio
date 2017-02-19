@@ -1,14 +1,13 @@
-import { ComponentFixture, TestBed, async, fakeAsync, tick } from '@angular/core/testing';
-import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core'
+import { ComponentFixture, TestBed, async, fakeAsync, tick, inject } from "@angular/core/testing";
+import { DebugElement, NO_ERRORS_SCHEMA } from "@angular/core"
 import { FormsModule } from "@angular/forms";
-import { By } from '@angular/platform-browser';
+import { By } from "@angular/platform-browser";
 import { BrowserDynamicTestingModule } from "@angular/platform-browser-dynamic/testing";
-import { AppComponent } from '../../../../app/app.component';
-import { HelpComponent } from '../../../../app/components/help/help.component'
-import { BuildingComponent } from '../../../../app/components/building/building.component'
+import { AppComponent } from "../../../../app/app.component";
+import { HelpComponent } from "../../../../app/components/help/help.component"
+import { BuildingComponent } from "../../../../app/components/building/building.component"
 import { DataSetService } from "../../../../app/shared/services/dataset.service";
 import { DataService } from "../../../../app/shared/services/data.service";
-//import { TreeExplorationService } from '../../../../app/services/tree.exploration.service';
 import { DataSet } from "../../../../app/shared/model/dataset.data";
 import { ErrorService } from "../../../../app/shared/services/error.service";
 import { MockBackend, MockConnection } from "@angular/http/testing";
@@ -21,14 +20,13 @@ describe("app.component.ts", () => {
     let target: ComponentFixture<AppComponent>;
     let de: DebugElement;
     let el: HTMLElement;
-    let datasetService: DataSetService;
-    let spyDataSetService: jasmine.Spy;
     let DATASETS = [new DataSet("One", "one.json"), new DataSet("Two", "two.json"), new DataSet("Three", "three.json")];
+    let spyDataSetService: jasmine.Spy;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
-                DataSetService, DataService, 
+                DataSetService, DataService,
                 {
                     provide: Http,
                     useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
@@ -50,8 +48,9 @@ describe("app.component.ts", () => {
         target = TestBed.createComponent(AppComponent);
         component = target.componentInstance;
 
-        datasetService = target.debugElement.injector.get(DataSetService);
-        spyDataSetService = spyOn(datasetService, "getData").and.returnValue(Promise.resolve(DATASETS));
+        let mockDataSetService = target.debugElement.injector.get(DataSetService);
+        spyDataSetService = spyOn(mockDataSetService, "getData").and.returnValue(Promise.resolve(DATASETS));
+
 
         target.detectChanges(); // trigger initial data binding
     });
@@ -59,7 +58,7 @@ describe("app.component.ts", () => {
     describe("View", () => {
         it("should call start() when click on 'New Project' button ", () => {
             let startElement = target.debugElement.query(By.css("#loadNewProjectButton"));
-            let spy = spyOn(AppComponent.prototype, "start");
+            let spy = spyOn(component, "start");
 
             startElement.triggerEventHandler("click", null);
             expect(spy).toHaveBeenCalledWith(DataSet.EMPTY);
@@ -67,18 +66,19 @@ describe("app.component.ts", () => {
 
         it("should show a list of datasets (async)", async(() => {
             target.detectChanges();
-            target.whenStable().then(() => { // wait for async getQuote
-                target.detectChanges();        // update view with quote
+            target.whenStable().then(() => {
+                target.detectChanges();
                 let elements = target.debugElement.queryAll(By.css("ul#loadDatasetDropdown > li :not(.dropdown-header)"));
                 expect(elements.length).toBe(3);
                 expect(elements[0].nativeElement.textContent).toBe("One");
                 expect(elements[1].nativeElement.textContent).toBe("Two");
                 expect(elements[2].nativeElement.textContent).toBe("Three");
+                expect(spyDataSetService).toHaveBeenCalled();
             });
         }));
 
         it("should call openHelp", () => {
-            let spy = spyOn(AppComponent.prototype, "openHelp");
+            let spy = spyOn(component, "openHelp");
             let helpClickElement = target.debugElement.query(By.css("#openHelpWindow"));
             (helpClickElement.nativeElement as HTMLAnchorElement).click();
             expect(spy).toHaveBeenCalled();
@@ -86,7 +86,7 @@ describe("app.component.ts", () => {
 
         it("should call toggle building panel", () => {
             let togglingElement = target.debugElement.query(By.css("h4.panel-title>a"));
-            let spy = spyOn(AppComponent.prototype, "toggleBuildingPanel").and.callThrough();
+            let spy = spyOn(component, "toggleBuildingPanel").and.callThrough();
 
             let toggledElement = target.debugElement.query(By.css("h4.panel-title>a i"));
             expect((toggledElement.nativeElement as HTMLElement).className).toContain("fa-plus-square");
@@ -128,7 +128,7 @@ describe("app.component.ts", () => {
         });
 
         it("should open Help modal in openHelp", () => {
-            let spy = spyOn(HelpComponent.prototype, "open");
+            let spy = spyOn(component.helpComponent, "open");
             component.openHelp();
             expect(spy).toHaveBeenCalled();
         });
@@ -142,17 +142,15 @@ describe("app.component.ts", () => {
 
         });
 
-        it("should load data in building component", async(() => {
-            let spy = spyOn(BuildingComponent.prototype, "loadData");
+        it("should load data in building component", async () => {
+            let spy = spyOn(component.buildingComponent, "loadData");
             let dataset = new DataSet("Example", "http://server/example.json");
             component.start(dataset);
             target.detectChanges();
             target.whenStable().then(() => {
                 expect(spy).toHaveBeenCalledWith("http://server/example.json");
-            })
-            
-
-        }));
+            });
+        });
     });
 
 

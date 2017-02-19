@@ -146,24 +146,24 @@ describe('building.component.ts', () => {
 
     describe("Controller", () => {
         describe("Loading data", () => {
-            it("shoud loads data and initializes tree", () => {
+            it("shoud loads data and initializes tree",  inject([DataService], (mockDataService: DataService) => {
                 let url = "http://getdata.com/data.json";
 
                 fixture.load("test/specs/components/building/fixtures/data.json");
-                let spyDataService = spyOn(DataService.prototype, "loadFromAsync").and.returnValue(Promise.resolve(fixture.json[0]));
+                let spyDataService = spyOn(mockDataService, "loadFromAsync").and.returnValue(Promise.resolve(fixture.json[0]));
 
                 component.loadData(url);
                 target.whenStable().then(() => {
                     expect(spyDataService).toHaveBeenCalledWith(url);
                     expect(component.nodes.length).toBe(1);
                 });
-            });
+            }));
 
-            it("should loads data and initializes team", () => {
+            it("should loads data and initializes team", inject([DataService], (mockDataService: DataService) => {
                 let url = "http://getdata.com/data.json";
 
                 fixture.load("test/specs/components/building/fixtures/data.json");
-                let spyDataService = spyOn(DataService.prototype, "loadFromAsync").and.returnValue(Promise.resolve(fixture.json[0]));
+                let spyDataService = spyOn(mockDataService, "loadFromAsync").and.returnValue(Promise.resolve(fixture.json[0]));
 
                 component.loadData(url);
                 target.whenStable().then(() => {
@@ -172,14 +172,14 @@ describe('building.component.ts', () => {
                     expect(component.initiativeEditComponent.team.members.find(function (p) { return p.name == 'CTO' })).toBeDefined("Cant find CTO");
                     expect(component.initiativeEditComponent.team.members.find(function (p) { return p.name == 'CMO' })).toBeDefined("Cant find CMO");
                 });
-            });
+            }));
 
-            it("should loads data and initializes mapping component", () => {
+            it("should loads data and initializes mapping component", inject([DataService], (mockDataService: DataService) => {
 
                 let url = "http://getdata.com/data.json";
 
                 fixture.load("test/specs/components/building/fixtures/data.json");
-                let spyDataService = spyOn(DataService.prototype, "loadFromAsync").and.returnValue(Promise.resolve(fixture.json[0]));
+                let spyDataService = spyOn(mockDataService, "loadFromAsync").and.returnValue(Promise.resolve(fixture.json[0]));
                 let spyMapData = spyOn(component, "mapData");
 
                 component.loadData(url);
@@ -187,21 +187,21 @@ describe('building.component.ts', () => {
                     expect(spyDataService).toHaveBeenCalledWith(url);
                     expect(spyMapData).toHaveBeenCalled();
                 });
-            });
+            }));
 
         });
 
         describe("Mapping data", () => {
-            it("should sends data to dataservice", () => {
+            it("should sends data to dataservice", inject([DataService], (mockDataService: DataService) => {
                 let node1 = new Initiative(), node2 = new Initiative();
                 node1.name = 'first', node2.name = 'second';
 
                 component.nodes = [node1, node2];
-                let spy = spyOn(DataService.prototype, "setAsync");
+                let spy = spyOn(mockDataService, "setAsync");
                 component.mapData();
                 expect(spy).toHaveBeenCalledWith(jasmine.objectContaining({ name: 'first' }));
 
-            });
+            }));
         });
 
         describe("Filtering ", () => {

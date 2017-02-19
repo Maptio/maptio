@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
 
   public isBuildingPanelCollapsed: boolean = true;
 
-  constructor(public datasetService: DataSetService) {
+  constructor(private datasetService: DataSetService) {
   }
 
   start(dataset: DataSet) {
