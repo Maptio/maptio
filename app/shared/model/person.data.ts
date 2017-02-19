@@ -17,7 +17,18 @@ export class Person implements Serializable<Person> {
     }
 
     tryDeserialize(input: any): [boolean, Person] {
-        throw new Error("Not implemented");
+        try {
+            let person = this.deserialize(input);
+            if (person !== undefined) {
+                return [true, person];
+            }
+            else {
+                return [false, undefined]
+            }
+        }
+        catch (Exception) {
+            return [false, undefined]
+        }
     }
 }
 

@@ -57,10 +57,11 @@ export class InitiativeComponent {
     }
 
     saveAccountable(newAccountable: string) {
-        let tryParse = new Person().deserialize(JSON.parse(newAccountable));
-        if (tryParse !== undefined) {
-            this.data.accountable = tryParse;
+        let parse = new Person().tryDeserialize(JSON.parse(newAccountable));
+        if (parse[0]) {
+            this.data.accountable = parse[1];
         }
+        // it doesnt save anything new if given data is invalid
     }
 
 

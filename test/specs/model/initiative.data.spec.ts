@@ -26,34 +26,39 @@ describe('initiative.data.ts', () => {
     });
 
     describe("Serialization", () => {
-        it("should deserialize from JSON", () => {
-            fixture.load("test/specs/components/building/fixtures/serialize.json");
-            let jsonString = fixture.json[0];
-            let initiative = new Initiative().deserialize(jsonString);
 
-            expect(initiative).toBeDefined();
-            expect(initiative.name).toBe("Root");
-            expect(initiative.accountable).toBeUndefined();
-            expect(initiative.description).toBe("Something");
-            expect(initiative.children.length).toBe(2);
+        describe("deserialize", () => {
+            it("should return valid initiative when input is valid", () => {
+                fixture.load("test/specs/components/building/fixtures/serialize.json");
+                let jsonString = fixture.json[0];
+                let initiative = new Initiative().deserialize(jsonString);
 
-            expect(initiative.children[0]).toBeDefined();
-            expect(initiative.children[0].name).toBe("Tech");
-            expect(initiative.children[0].accountable.name).toBe("CTO");
-            expect(initiative.children[0].description).toBeUndefined();
-            expect(initiative.children[0].children).toBeUndefined();
+                expect(initiative).toBeDefined();
+                expect(initiative.name).toBe("Root");
+                expect(initiative.accountable).toBeUndefined();
+                expect(initiative.description).toBe("Something");
+                expect(initiative.children.length).toBe(2);
 
-            expect(initiative.children[1]).toBeDefined();
-            expect(initiative.children[1].name).toBe("The rest");
-            expect(initiative.children[1].accountable).toBeUndefined();
-            expect(initiative.children[1].description).toBeUndefined();
-            expect(initiative.children[1].children).toBeUndefined();
+                expect(initiative.children[0]).toBeDefined();
+                expect(initiative.children[0].name).toBe("Tech");
+                expect(initiative.children[0].accountable.name).toBe("CTO");
+                expect(initiative.children[0].description).toBeUndefined();
+                expect(initiative.children[0].children).toBeUndefined();
+
+                expect(initiative.children[1]).toBeDefined();
+                expect(initiative.children[1].name).toBe("The rest");
+                expect(initiative.children[1].accountable).toBeUndefined();
+                expect(initiative.children[1].description).toBeUndefined();
+                expect(initiative.children[1].children).toBeUndefined();
+            });
         });
 
-        it("should throw error when calling tryDeserialize", () => {
-            expect(function () {
-                new Initiative().tryDeserialize("");
-            }).toThrowError();
+        describe("tryDeserialize", () => {
+            it("should throw error when calling tryDeserialize", () => {
+                expect(function () {
+                    new Initiative().tryDeserialize("");
+                }).toThrowError();
+            });
         });
     });
 
