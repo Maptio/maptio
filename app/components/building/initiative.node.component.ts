@@ -7,7 +7,7 @@ import { InitiativeComponent } from "../initiative/initiative.component";
     selector: "initiative-node",
     template: require("./initiative.node.component.html")
 })
-export class InitiativeNodeComponent implements OnInit {
+export class InitiativeNodeComponent {
 
     @Input() node: TreeNode;
 
@@ -19,9 +19,6 @@ export class InitiativeNodeComponent implements OnInit {
     @ViewChild("initiative")
     initiativeEditComponent: InitiativeComponent;
 
-
-    ngOnInit() {
-    }
 
     isRoot(): boolean {
         return this.node.isRoot;

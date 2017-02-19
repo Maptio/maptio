@@ -33,7 +33,7 @@ describe('initiative.data.ts', () => {
 
             expect(initiative).toBeDefined();
             expect(initiative.name).toBe("Root");
-            expect(initiative.accountable.name).toBeUndefined();
+            expect(initiative.accountable).toBeUndefined();
             expect(initiative.description).toBe("Something");
             expect(initiative.children.length).toBe(2);
 
@@ -48,6 +48,12 @@ describe('initiative.data.ts', () => {
             expect(initiative.children[1].accountable).toBeUndefined();
             expect(initiative.children[1].description).toBeUndefined();
             expect(initiative.children[1].children).toBeUndefined();
+        });
+
+        it("should throw error when calling tryDeserialize", () => {
+            expect(function () {
+                new Initiative().tryDeserialize("");
+            }).toThrowError();
         });
     });
 

@@ -27,19 +27,12 @@ export class BuildingComponent {
     @ViewChild(InitiativeNodeComponent)
     node: InitiativeNodeComponent;
 
-    private dataService: DataService;
-
-    constructor(dataService: DataService) {
-        this.dataService = dataService;
+    constructor(private dataService: DataService) {
         this.nodes = [];
     }
 
-    // isEmpty(): boolean {
-    //     return !this.nodes[0] || this.nodes[0].children.length === 0; // check if the root has any children
-    // }
-
     isRootValid(): boolean {
-        return (this.nodes[0].name != undefined) && this.nodes[0].name.trim().length > 0;
+        return (this.nodes[0].name !== undefined) && this.nodes[0].name.trim().length > 0;
     }
 
     mapData() {

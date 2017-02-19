@@ -7,8 +7,17 @@ export class Person implements Serializable<Person> {
     constructor() { }
 
     deserialize(input: any): Person {
-        this.name = (input.name) ? input.name : undefined;
-        return this;
+        if (input.name) {
+            this.name = input.name;
+            return this;
+        }
+        else {
+            return undefined;
+        }
+    }
+
+    tryDeserialize(input: any): [boolean, Person] {
+        throw new Error("Not implemented");
     }
 }
 

@@ -36,15 +36,15 @@ export class InitiativeComponent {
         this.modal.open();
     }
 
-    saveNodeName(newName: any) {
+    saveName(newName: any) {
         this.data.name = newName;
     }
 
-    saveNodeDescription(newDesc: string) {
+    saveDescription(newDesc: string) {
         this.data.description = newDesc;
     }
 
-    saveNodeStartDate(newDate: string) {
+    saveStartDate(newDate: string) {
         let year = Number.parseInt(newDate.substr(0, 4));
         let month = Number.parseInt(newDate.substr(5, 2));
         let day = Number.parseInt(newDate.substr(8, 2));
@@ -56,10 +56,12 @@ export class InitiativeComponent {
         }
     }
 
-    saveNodeAccountable(newAccountable: string) {
-        this.data.accountable = <Person>JSON.parse(newAccountable);
+    saveAccountable(newAccountable: string) {
+        let tryParse = new Person().deserialize(JSON.parse(newAccountable));
+        if (tryParse !== undefined) {
+            this.data.accountable = tryParse;
+        }
     }
-
 
 
     searchTeamMember =

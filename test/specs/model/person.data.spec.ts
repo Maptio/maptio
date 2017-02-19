@@ -9,20 +9,27 @@ describe('Person Tests', () => {
     beforeEach(() => {
     });
 
-    xit('Creates new correctly', () => {
-        person = new Person();
-        person.name = NAME;
-        //person.ngOnInit();
-        expect(person.name).toBe(NAME);
+    describe("Serialization", () => {
+
+        it("should deserialize a valid input", () => {
+            let input = JSON.parse('{"name": "John Doe"}');
+            let deserialized = new Person().deserialize(input);
+            expect(deserialized).toBeDefined();
+            expect(deserialized.name).toBe("John Doe");
+        });
+
+        it("should return undefined when deserializing an invalid input", () => {
+            let input = JSON.parse('{"notaname": "John Doe"}');
+            let deserialized = new Person().deserialize(input);
+            expect(deserialized).toBeUndefined();
+        });
+
+        it("should throw error when calling tryDeserialize", () => {
+            expect(function () {
+                new Person().tryDeserialize("");
+            }).toThrowError();
+        });
     });
 
-    xit('When name is undefined, it throws', () => {
 
-        expect(function () {
-            person = new Person();
-            person.name = undefined;
-           // person.ngOnInit();
-
-        }).toThrow();
-    });
 });

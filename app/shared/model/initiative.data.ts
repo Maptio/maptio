@@ -62,6 +62,10 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
         return this;
     }
 
+    /** N */
+    tryDeserialize(input: any): [boolean, Initiative] {
+       throw new Error("Not implemented");
+    }
 
     traverse(callback: ((n: Initiative) => void)): void {
         if (this.children) {
