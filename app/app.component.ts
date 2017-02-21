@@ -8,6 +8,7 @@ import { HelpComponent } from "./components/help/help.component";
 import { DataSet } from "./shared/model/dataset.data"
 import { DataSetService } from "./shared/services/dataset.service"
 import "rxjs/add/operator/map"
+import {Auth} from "./shared/services/auth.service";
 
 @Component({
   selector: "my-app",
@@ -29,7 +30,7 @@ export class AppComponent implements OnInit {
 
   public isBuildingPanelCollapsed: boolean = true;
 
-  constructor(private datasetService: DataSetService) {
+  constructor(private auth: Auth, private datasetService: DataSetService) {
   }
 
   start(dataset: DataSet) {

@@ -10,6 +10,8 @@ import { DataSetService } from "./shared/services/dataset.service";
 import { ColorService } from "./shared/services/color.service"
 import { UIService } from "./shared/services/ui.service"
 import { ErrorService } from "./shared/services/error.service";
+import { Auth } from "./shared/services/auth.service";
+import { AUTH_PROVIDERS } from "angular2-jwt";
 
 // Components
 import { AppComponent } from "./app.component";
@@ -45,7 +47,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     AutoSelectDirective,
     AnchorDirective,
     HelpComponent
-    ],
+  ],
   imports: [
     BrowserModule,
     CommonModule,
@@ -55,10 +57,11 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     Ng2Bs3ModalModule,
     NgbModule.forRoot()
   ],
-  providers: [D3Service, DataService, ColorService, UIService, DataSetService, ErrorService],
+  providers: [D3Service, DataService, ColorService, UIService, DataSetService, ErrorService, AUTH_PROVIDERS, Auth],
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]
 })
+
 export class AppModule {
 
 }
