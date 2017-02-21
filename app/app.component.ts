@@ -13,6 +13,7 @@ import {Auth} from "./shared/services/auth.service";
 @Component({
   selector: "my-app",
   template: require("./app.component.html"),
+  providers : [Auth],
   styles: [require("./app.component.css").toString()]
 })
 
