@@ -8,12 +8,12 @@ import { HelpComponent } from "./components/help/help.component";
 import { DataSet } from "./shared/model/dataset.data"
 import { DataSetService } from "./shared/services/dataset.service"
 import "rxjs/add/operator/map"
-import {Auth} from "./shared/services/auth.service";
+import { Auth } from "./shared/services/auth.service";
 
 @Component({
   selector: "my-app",
   template: require("./app.component.html"),
-  providers : [Auth],
+  providers: [Auth],
   styles: [require("./app.component.css").toString()]
 })
 

@@ -33,12 +33,10 @@
 						</ul>
 					</div>
 				</li>
-				<li>
-
+				<li id="profileInformation">
 					<img *ngIf="auth.authenticated()" [src]="auth.userProfile?.picture" alt="" class="profile-img"><strong>{{auth.userProfile?.name}}</strong>
-
 				</li>
-				<li>
+				<li id="loginButton">
 					<a (click)="auth.login()" placement="bottom" *ngIf="!auth.authenticated()">Log In</a>
 					<a (click)="auth.logout()" placement="bottom" *ngIf="auth.authenticated()">Log Out</a>
 				</li>

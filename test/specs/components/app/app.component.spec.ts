@@ -10,6 +10,7 @@ import { DataSetService } from "../../../../app/shared/services/dataset.service"
 import { DataService } from "../../../../app/shared/services/data.service";
 import { DataSet } from "../../../../app/shared/model/dataset.data";
 import { ErrorService } from "../../../../app/shared/services/error.service";
+import { Auth } from "../../../../app/shared/services/auth.service";
 import { MockBackend, MockConnection } from "@angular/http/testing";
 import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
 import { Http, HttpModule, Response, Headers, RequestOptions, BaseRequestOptions, ResponseOptions } from "@angular/http";
@@ -26,7 +27,7 @@ describe("app.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
-                DataSetService, DataService,
+                DataSetService, DataService, Auth,
                 {
                     provide: Http,
                     useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
@@ -119,6 +120,72 @@ describe("app.component.ts", () => {
 
         }));
 
+        describe("Authentication", () => {
+            it("should display LogIn button when no user is authenticated", () => {
+                let auth = target.debugElement.injector.get(Auth);
+                let spyAuthService = spyOn(auth, "authenticated").and.returnValue(false);
+
+                target.detectChanges();
+
+                let imgElement = target.debugElement.queryAll(By.css('li#profileInformation img'));
+                expect(imgElement.length).toBe(0);
+                let profileNameElement = target.debugElement.queryAll(By.css('li#profileInformation strong'));
+                expect(profileNameElement.length).toBe(1);
+                expect(profileNameElement[0].nativeElement.textContent).toBe("");
+                let button = target.debugElement.queryAll(By.css("li#loginButton a"));
+                expect(button.length).toBe(1);
+                expect(button[0].nativeElement.textContent).toBe("Log In");
+                expect(spyAuthService).toHaveBeenCalled();
+            });
+
+            it("should display LogOut button and profile information when a user is authenticated", () => {
+                let auth = <Auth>target.debugElement.injector.get(Auth);
+                let spyAuthService = spyOn(auth, "authenticated").and.returnValue(true);
+                auth.userProfile = { name: "John Doe", picture: "http://seemyface.com/user.jpg" };
+
+                target.detectChanges();
+
+                let imgElement = target.debugElement.query(By.css('li#profileInformation img')).nativeElement as HTMLImageElement;
+                expect(imgElement.src).toBe("http://seemyface.com/user.jpg");
+
+                let profileNameElement = target.debugElement.query(By.css('li#profileInformation strong')).nativeElement as HTMLElement;
+                expect(profileNameElement.innerHTML).toBe("John Doe");
+
+                let button = target.debugElement.queryAll(By.css("li#loginButton a"));
+                expect(button.length).toBe(1);
+                expect(button[0].nativeElement.textContent).toBe("Log Out");
+                expect(spyAuthService).toHaveBeenCalled();
+            });
+
+            it("should call authenticate.login()  when LogIn button is clicked", () => {
+                let auth = <Auth>target.debugElement.injector.get(Auth);
+                let spyAuthService = spyOn(auth, "authenticated").and.returnValue(false);
+                let spyLogIn = spyOn(auth, "login");
+
+                target.detectChanges(); 
+                let button = target.debugElement.query(By.css("li#loginButton a")).nativeElement as HTMLAnchorElement;
+                button.dispatchEvent(new Event('click'));
+                target.detectChanges();
+
+                expect(spyLogIn).toHaveBeenCalled();
+                expect(spyAuthService).toHaveBeenCalled();
+            })
+
+            it("should call authenticate.logout()  when LogOut button is clicked", () => {
+                let auth = <Auth>target.debugElement.injector.get(Auth);
+                let spyAuthService = spyOn(auth, "authenticated").and.returnValue(true);
+                let spyLogOut = spyOn(auth, "logout");
+
+                target.detectChanges(); 
+                let button = target.debugElement.query(By.css("li#loginButton a")).nativeElement as HTMLAnchorElement;
+                console.log(button);
+                button.dispatchEvent(new Event('click'));
+                target.detectChanges(); 
+
+                expect(spyLogOut).toHaveBeenCalled();
+                expect(spyAuthService).toHaveBeenCalled();
+            })
+        });
 
     });
 

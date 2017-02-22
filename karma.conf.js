@@ -6,7 +6,8 @@ module.exports = function (config) {
         files: [
             { pattern: "./base.spec.ts" },
 
-            { pattern: "./public/jquery/jquery.js" },
+            { pattern: "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" },
+            {pattern: "https://cdn.auth0.com/js/lock/10.8/lock.min.js"},
 
             { pattern: "./app/app.component.ts" },
             { pattern: "./app/shared/interfaces/*.ts" },
@@ -19,7 +20,7 @@ module.exports = function (config) {
             { pattern: "./app/shared/services/data.service.ts" },
             { pattern: "./app/shared/services/dataset.service.ts" },
             { pattern: "./app/shared/services/error.service.ts" },
-
+            { pattern: "./app/shared/services/auth.service.ts" },
 
             { pattern: "./test/specs/shared/**/*.ts" },
             { pattern: "./test/specs/model/*.ts" },
