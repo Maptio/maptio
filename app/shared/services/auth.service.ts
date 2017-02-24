@@ -12,9 +12,9 @@ export class Auth {
   constructor() {
     this.userProfile = JSON.parse(localStorage.getItem("profile"));
 
-    this.lock.on("authenticated", (authResult:any) => {
+    this.lock.on("authenticated", (authResult: any) => {
       localStorage.setItem("id_token", authResult.idToken);
-       this.lock.getProfile(authResult.idToken, (error:any, profile:any) => {
+      this.lock.getProfile(authResult.idToken, (error: any, profile: any) => {
         if (error) {
           alert(error);
           return;
@@ -30,14 +30,18 @@ export class Auth {
     this.lock.show();
   }
 
-public authenticated() {
+  public authenticated() {
     return tokenNotExpired();
   }
 
- public logout() {
+  public logout() {
     localStorage.removeItem("id_token");
     localStorage.removeItem("profile");
     this.userProfile = undefined;
+  }
+
+  public getUser(): Object {
+    return this.userProfile;
   }
 
 }

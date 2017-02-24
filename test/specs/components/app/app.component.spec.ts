@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, async, fakeAsync, tick, inject } from "@angular/core/testing";
+import { ComponentFixture, TestBed, async, inject, fakeAsync, tick } from "@angular/core/testing";
 import { DebugElement, NO_ERRORS_SCHEMA } from "@angular/core"
 import { FormsModule } from "@angular/forms";
 import { By } from "@angular/platform-browser";
@@ -14,6 +14,7 @@ import { Auth } from "../../../../app/shared/services/auth.service";
 import { MockBackend, MockConnection } from "@angular/http/testing";
 import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
 import { Http, HttpModule, Response, Headers, RequestOptions, BaseRequestOptions, ResponseOptions } from "@angular/http";
+import { AuthenticatedUser } from "../../../../app/shared/model/user.model";
 
 describe("app.component.ts", () => {
 
@@ -23,6 +24,7 @@ describe("app.component.ts", () => {
     let el: HTMLElement;
     let DATASETS = [new DataSet("One", "one.json"), new DataSet("Two", "two.json"), new DataSet("Three", "three.json")];
     let spyDataSetService: jasmine.Spy;
+    let spyAuthService: jasmine.Spy;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -52,6 +54,8 @@ describe("app.component.ts", () => {
         let mockDataSetService = target.debugElement.injector.get(DataSetService);
         spyDataSetService = spyOn(mockDataSetService, "getData").and.returnValue(Promise.resolve(DATASETS));
 
+        let mockAuth = target.debugElement.injector.get(Auth);
+        spyAuthService = spyOn(mockAuth, "getUser").and.returnValue({ name: "ME", email: "me@domain.com" });
 
         target.detectChanges(); // trigger initial data binding
     });
@@ -65,18 +69,26 @@ describe("app.component.ts", () => {
             expect(spy).toHaveBeenCalledWith(DataSet.EMPTY);
         });
 
-        it("should show a list of datasets (async)", async(() => {
+        it("should show a list of datasets (async)", done => {
             target.detectChanges();
-            target.whenStable().then(() => {
-                target.detectChanges();
+
+            // get the spy promise and wait for it to resolve
+            spyDataSetService.calls.mostRecent().returnValue.then(() => {
+                target.detectChanges(); // update view with quote
                 let elements = target.debugElement.queryAll(By.css("ul#loadDatasetDropdown > li :not(.dropdown-header)"));
                 expect(elements.length).toBe(3);
                 expect(elements[0].nativeElement.textContent).toBe("One");
                 expect(elements[1].nativeElement.textContent).toBe("Two");
                 expect(elements[2].nativeElement.textContent).toBe("Three");
-                expect(spyDataSetService).toHaveBeenCalled();
+                done();
             });
-        }));
+            expect(spyDataSetService.calls.mostRecent().args.length).toBe(1);
+
+            expect(spyDataSetService).toHaveBeenCalledWith(jasmine.any(AuthenticatedUser));
+            expect(spyDataSetService).toHaveBeenCalledWith(jasmine.objectContaining({
+                 email: "me@domain.com"
+            }));
+        });
 
         it("should call openHelp", () => {
             let spy = spyOn(component, "openHelp");
@@ -162,7 +174,7 @@ describe("app.component.ts", () => {
                 let spyAuthService = spyOn(auth, "authenticated").and.returnValue(false);
                 let spyLogIn = spyOn(auth, "login");
 
-                target.detectChanges(); 
+                target.detectChanges();
                 let button = target.debugElement.query(By.css("li#loginButton a")).nativeElement as HTMLAnchorElement;
                 button.dispatchEvent(new Event('click'));
                 target.detectChanges();
@@ -176,11 +188,11 @@ describe("app.component.ts", () => {
                 let spyAuthService = spyOn(auth, "authenticated").and.returnValue(true);
                 let spyLogOut = spyOn(auth, "logout");
 
-                target.detectChanges(); 
+                target.detectChanges();
                 let button = target.debugElement.query(By.css("li#loginButton a")).nativeElement as HTMLAnchorElement;
-                console.log(button);
+                //console.log(button);
                 button.dispatchEvent(new Event('click'));
-                target.detectChanges(); 
+                target.detectChanges();
 
                 expect(spyLogOut).toHaveBeenCalled();
                 expect(spyAuthService).toHaveBeenCalled();
