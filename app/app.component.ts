@@ -40,7 +40,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    let user = new AuthenticatedUser("me@domain.com");
+    let user = new AuthenticatedUser((<any>this.auth.getUser()).name, (<any>this.auth.getUser()).email);
     this.datasetService.getData(user).then(o => {
       this.datasets = o;
     });

@@ -1,3 +1,3 @@
 export class AuthenticatedUser {
-    constructor(public email: string) { }
+    constructor(public name:string, public email?: string) { }
 }

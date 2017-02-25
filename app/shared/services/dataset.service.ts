@@ -4,7 +4,7 @@ import { Subject } from "rxjs/Subject"
 import "rxjs/add/operator/map"
 import { DataSet } from "../model/dataset.data"
 import { ErrorService } from "./error.service";
-import {AuthenticatedUser} from '../model/user.model';
+import { AuthenticatedUser } from '../model/user.model';
 
 @Injectable()
 export class DataSetService {
@@ -28,8 +28,8 @@ export class DataSetService {
     }
 
 
-    getData(user:AuthenticatedUser): Promise<DataSet[]> {
-
+    getData(user: AuthenticatedUser): Promise<DataSet[]> {
+        //this.DATASETS.push(new DataSet(user.name, "../../../assets/datasets/" + user.name + ".json"))
         return this.http.get("")
             .toPromise()
             .then(response => this.DATASETS)

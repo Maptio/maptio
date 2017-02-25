@@ -86,7 +86,7 @@ describe("app.component.ts", () => {
 
             expect(spyDataSetService).toHaveBeenCalledWith(jasmine.any(AuthenticatedUser));
             expect(spyDataSetService).toHaveBeenCalledWith(jasmine.objectContaining({
-                 email: "me@domain.com"
+                 email: "me@domain.com", name:"ME"
             }));
         });
 

@@ -43,11 +43,12 @@ describe("dataset.service.ts", () => {
                 body: JSON.stringify("") // irrelevant here as our array is static
             })));
         });
-        let user = new AuthenticatedUser("me@domain.com");
+        let user = new AuthenticatedUser("me", "me@domain.com");
 
         target.getData(user).then(datasets => {
             expect(datasets.length).toBe(1);
             expect(datasets[0].name).toBe("Vestd");
+            //expect(datasets[1].name).toBe("me@domain.com");
             expect(mockErrorService.handleError).not.toHaveBeenCalled();
 
         });
