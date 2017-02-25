@@ -89,7 +89,8 @@ padding-right: 15px;
 }
 
 .profile-img{
-    width: 38%;
+    max-width: 40px;
+    padding-left: 7px;
     border-radius: 30px;
 
 }
