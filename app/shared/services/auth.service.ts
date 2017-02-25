@@ -7,7 +7,7 @@ declare var Auth0Lock: any;
 export class Auth {
 
   lock = new Auth0Lock("CRvF82hID2lNIMK4ei2wDz20LH7S5BMy", "circlemapping.auth0.com", {});
-  userProfile: Object;
+  private userProfile: Object;
 
   constructor() {
     this.userProfile = JSON.parse(localStorage.getItem("profile"));

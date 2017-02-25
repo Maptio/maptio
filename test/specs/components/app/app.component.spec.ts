@@ -25,6 +25,7 @@ describe("app.component.ts", () => {
     let DATASETS = [new DataSet("One", "one.json"), new DataSet("Two", "two.json"), new DataSet("Three", "three.json")];
     let spyDataSetService: jasmine.Spy;
     let spyAuthService: jasmine.Spy;
+    let mockAuth: Auth;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -54,8 +55,8 @@ describe("app.component.ts", () => {
         let mockDataSetService = target.debugElement.injector.get(DataSetService);
         spyDataSetService = spyOn(mockDataSetService, "getData").and.returnValue(Promise.resolve(DATASETS));
 
-        let mockAuth = target.debugElement.injector.get(Auth);
-        spyAuthService = spyOn(mockAuth, "getUser").and.returnValue({ name: "ME", email: "me@domain.com" });
+        mockAuth = target.debugElement.injector.get(Auth);
+        spyAuthService = spyOn(mockAuth, "getUser").and.returnValue({ name: "John Doe", email: "johndoe@domain.com", picture: "http://seemyface.com/user.jpg" });
 
         target.detectChanges(); // trigger initial data binding
     });
@@ -86,7 +87,7 @@ describe("app.component.ts", () => {
 
             expect(spyDataSetService).toHaveBeenCalledWith(jasmine.any(AuthenticatedUser));
             expect(spyDataSetService).toHaveBeenCalledWith(jasmine.objectContaining({
-                 email: "me@domain.com", name:"ME"
+                email: "johndoe@domain.com", name: "John Doe"
             }));
         });
 
@@ -134,8 +135,8 @@ describe("app.component.ts", () => {
 
         describe("Authentication", () => {
             it("should display LogIn button when no user is authenticated", () => {
-                let auth = target.debugElement.injector.get(Auth);
-                let spyAuthService = spyOn(auth, "authenticated").and.returnValue(false);
+
+                let spyAuthService = spyOn(mockAuth, "authenticated").and.returnValue(false);
 
                 target.detectChanges();
 
@@ -143,7 +144,7 @@ describe("app.component.ts", () => {
                 expect(imgElement.length).toBe(0);
                 let profileNameElement = target.debugElement.queryAll(By.css('li#profileInformation strong'));
                 expect(profileNameElement.length).toBe(1);
-                expect(profileNameElement[0].nativeElement.textContent).toBe("");
+                expect(profileNameElement[0].nativeElement.textContent).toBe("John Doe");
                 let button = target.debugElement.queryAll(By.css("li#loginButton a"));
                 expect(button.length).toBe(1);
                 expect(button[0].nativeElement.textContent).toBe("Log In");
@@ -151,9 +152,8 @@ describe("app.component.ts", () => {
             });
 
             it("should display LogOut button and profile information when a user is authenticated", () => {
-                let auth = <Auth>target.debugElement.injector.get(Auth);
-                let spyAuthService = spyOn(auth, "authenticated").and.returnValue(true);
-                auth.userProfile = { name: "John Doe", picture: "http://seemyface.com/user.jpg" };
+                // let auth = <Auth>target.debugElement.injector.get(Auth);
+                let spyAuthService = spyOn(mockAuth, "authenticated").and.returnValue(true);
 
                 target.detectChanges();
 

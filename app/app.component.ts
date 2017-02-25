@@ -46,8 +46,6 @@ export class AppComponent implements OnInit {
         this.datasets = o;
       });
     }
-
-
   }
 
   openHelp() {
