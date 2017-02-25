@@ -87,3 +87,10 @@ padding-right: 15px;
     -ms-transform: rotate(90deg);
     transform: rotate(90deg);
 }
+
+.profile-img{
+    max-width: 40px;
+    padding-left: 7px;
+    border-radius: 30px;
+
+}

@@ -8,10 +8,12 @@ import { HelpComponent } from "./components/help/help.component";
 import { DataSet } from "./shared/model/dataset.data"
 import { DataSetService } from "./shared/services/dataset.service"
 import "rxjs/add/operator/map"
-
+import { Auth } from "./shared/services/auth.service";
+import { AuthenticatedUser } from './shared/model/user.model'
 @Component({
   selector: "my-app",
   template: require("./app.component.html"),
+  providers: [Auth],
   styles: [require("./app.component.css").toString()]
 })
 
@@ -29,7 +31,7 @@ export class AppComponent implements OnInit {
 
   public isBuildingPanelCollapsed: boolean = true;
 
-  constructor(private datasetService: DataSetService) {
+  constructor(private auth: Auth, private datasetService: DataSetService) {
   }
 
   start(dataset: DataSet) {
@@ -38,9 +40,13 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.datasetService.getData().then(o => {
-      this.datasets = o;
-    });
+    if (this.auth.getUser()) {// FIXME : make that promise
+      let user = new AuthenticatedUser((<any>this.auth.getUser()).name || "", (<any>this.auth.getUser()).email);
+      this.datasetService.getData(user).then(o => {
+        this.datasets = o;
+      });
+    }
+
 
   }
 
