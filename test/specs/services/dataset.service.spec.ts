@@ -43,7 +43,7 @@ describe("dataset.service.ts", () => {
                 body: JSON.stringify("") // irrelevant here as our array is static
             })));
         });
-        let user = new AuthenticatedUser("me", "me@domain.com");
+        let user = new AuthenticatedUser();
 
         target.getData(user).then(datasets => {
             expect(datasets.length).toBe(1);

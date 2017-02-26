@@ -31,6 +31,8 @@ export class AppComponent implements OnInit {
 
   public isBuildingPanelCollapsed: boolean = true;
 
+  public loggedUser: AuthenticatedUser;
+
   constructor(private auth: Auth, private datasetService: DataSetService) {
   }
 
@@ -40,12 +42,25 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.auth.getUser()) {// FIXME : make that promise
-      let user = new AuthenticatedUser((<any>this.auth.getUser()).name || "", (<any>this.auth.getUser()).email);
-      this.datasetService.getData(user).then(o => {
-        this.datasets = o;
-      });
-    }
+    this.auth.getUser().subscribe(
+      (profile: Object) => {
+        console.log("PROFILE " + profile);
+        let tryParse = new AuthenticatedUser().tryDeserialize(profile);
+        if (tryParse[0]) {
+          this.loggedUser = tryParse[1];
+          this.datasetService.getData(this.loggedUser).then(o => {
+            this.datasets = o;
+          });
+        }
+        else {
+          this.loggedUser = undefined;
+          this.datasets = [];
+        }
+      },
+      error => console.log("ERROR"),
+      () => console.log("FINISHED")
+    );
+
   }
 
   openHelp() {

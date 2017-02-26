@@ -1,16 +1,22 @@
 import { Injectable } from "@angular/core";
 import { tokenNotExpired } from "angular2-jwt";
 
+import { Observable } from "rxjs/Observable";
+import { Subject } from "rxjs/Subject"
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/toPromise";
+
 declare var Auth0Lock: any;
 
 @Injectable()
 export class Auth {
 
   lock = new Auth0Lock("CRvF82hID2lNIMK4ei2wDz20LH7S5BMy", "circlemapping.auth0.com", {});
-  private userProfile: Object;
+  private userProfile$: Subject<Object>;
 
   constructor() {
-    this.userProfile = JSON.parse(localStorage.getItem("profile"));
+    this.userProfile$ = new Subject();
+    this.userProfile$.next(JSON.parse(localStorage.getItem("profile")));
 
     this.lock.on("authenticated", (authResult: any) => {
       localStorage.setItem("id_token", authResult.idToken);
@@ -21,7 +27,7 @@ export class Auth {
         }
 
         localStorage.setItem("profile", JSON.stringify(profile));
-        this.userProfile = profile;
+        this.userProfile$.next(profile);
       });
     });
   }
@@ -37,11 +43,11 @@ export class Auth {
   public logout() {
     localStorage.removeItem("id_token");
     localStorage.removeItem("profile");
-    this.userProfile = undefined;
+    this.userProfile$.next(undefined);
   }
 
-  public getUser(): Object {
-    return this.userProfile;
+  public getUser(): Observable<Object> {
+    return this.userProfile$.asObservable();
   }
 
 }
