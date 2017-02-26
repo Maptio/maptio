@@ -15,6 +15,31 @@ import { MockBackend, MockConnection } from "@angular/http/testing";
 import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
 import { Http, HttpModule, Response, Headers, RequestOptions, BaseRequestOptions, ResponseOptions } from "@angular/http";
 import { AuthenticatedUser } from "../../../../app/shared/model/user.model";
+import { Observable } from "rxjs/Rx";
+
+import { Subject } from "rxjs/Subject"
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/toPromise";
+
+export class AuthStub {
+    fakeProfile: Object = { name: "John Doe", email: "johndoe@domain.com", picture: "http://seemyface.com/user.jpg" };
+
+    public getUser(): Observable<Object> {
+        return Observable.of(this.fakeProfile);
+    }
+
+    authenticated() {
+        return;
+    }
+
+    login() {
+        return;
+    }
+
+    logout() {
+        return;
+    }
+}
 
 describe("app.component.ts", () => {
 
@@ -29,34 +54,36 @@ describe("app.component.ts", () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            providers: [
-                DataSetService, DataService, Auth,
-                {
-                    provide: Http,
-                    useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
-                        return new Http(mockBackend, options);
-                    },
-                    deps: [MockBackend, BaseRequestOptions]
-                },
-                MockBackend,
-                BaseRequestOptions,
-                ErrorService],
             declarations: [AppComponent, HelpComponent, BuildingComponent],
             schemas: [NO_ERRORS_SCHEMA]
-        })
-            .compileComponents()
-
+        }).overrideComponent(AppComponent, {
+            set: {
+                providers: [
+                    DataSetService, DataService,
+                    { provide: Auth, useClass: AuthStub },
+                    {
+                        provide: Http,
+                        useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
+                            return new Http(mockBackend, options);
+                        },
+                        deps: [MockBackend, BaseRequestOptions]
+                    },
+                    MockBackend,
+                    BaseRequestOptions,
+                    ErrorService]
+            }
+        }).compileComponents();
     }));
 
     beforeEach(() => {
         target = TestBed.createComponent(AppComponent);
+
         component = target.componentInstance;
 
         let mockDataSetService = target.debugElement.injector.get(DataSetService);
         spyDataSetService = spyOn(mockDataSetService, "getData").and.returnValue(Promise.resolve(DATASETS));
 
         mockAuth = target.debugElement.injector.get(Auth);
-        spyAuthService = spyOn(mockAuth, "getUser").and.returnValue({ name: "John Doe", email: "johndoe@domain.com", picture: "http://seemyface.com/user.jpg" });
 
         target.detectChanges(); // trigger initial data binding
     });
@@ -70,26 +97,42 @@ describe("app.component.ts", () => {
             expect(spy).toHaveBeenCalledWith(DataSet.EMPTY);
         });
 
-        it("should show a list of datasets (async)", done => {
+        it("should show a list of datasets when user is valid", fakeAsync(() => {
+            spyAuthService = spyOn(mockAuth, "getUser").and.callThrough();
+
+            component.ngOnInit();
             target.detectChanges();
 
-            // get the spy promise and wait for it to resolve
-            spyDataSetService.calls.mostRecent().returnValue.then(() => {
-                target.detectChanges(); // update view with quote
-                let elements = target.debugElement.queryAll(By.css("ul#loadDatasetDropdown > li :not(.dropdown-header)"));
-                expect(elements.length).toBe(3);
-                expect(elements[0].nativeElement.textContent).toBe("One");
-                expect(elements[1].nativeElement.textContent).toBe("Two");
-                expect(elements[2].nativeElement.textContent).toBe("Three");
-                done();
-            });
-            expect(spyDataSetService.calls.mostRecent().args.length).toBe(1);
+            expect(spyAuthService.calls.any()).toEqual(true);
+            spyAuthService.calls.mostRecent().returnValue.toPromise().then(() => {
 
-            expect(spyDataSetService).toHaveBeenCalledWith(jasmine.any(AuthenticatedUser));
-            expect(spyDataSetService).toHaveBeenCalledWith(jasmine.objectContaining({
-                email: "johndoe@domain.com", name: "John Doe"
-            }));
-        });
+                expect(spyDataSetService).toHaveBeenCalled();
+                expect(spyDataSetService).toHaveBeenCalledWith(jasmine.any(AuthenticatedUser));
+                expect(spyDataSetService).toHaveBeenCalledWith(jasmine.objectContaining({
+                    email: "johndoe@domain.com", name: "John Doe"
+                }));
+                spyDataSetService.calls.mostRecent().returnValue.then(() => {
+                    target.detectChanges(); // update view with quote
+                    let elements = target.debugElement.queryAll(By.css("ul#loadDatasetDropdown > li :not(.dropdown-header)"));
+                    expect(elements.length).toBe(3);
+                    expect(elements[0].nativeElement.textContent).toBe("One");
+                    expect(elements[1].nativeElement.textContent).toBe("Two");
+                    expect(elements[2].nativeElement.textContent).toBe("Three");
+                });
+            })
+        }));
+
+        it("should not show datasets when user is not valid", fakeAsync(() => {
+            spyAuthService = spyOn(mockAuth, "getUser").and.returnValue(Observable.of<Object>({}));
+
+            component.ngOnInit();
+            target.detectChanges();
+
+            expect(spyAuthService.calls.any()).toEqual(true);
+            spyAuthService.calls.mostRecent().returnValue.toPromise().then(() => {
+                expect(spyDataSetService).not.toHaveBeenCalled();
+            })
+        }));
 
         it("should call openHelp", () => {
             let spy = spyOn(component, "openHelp");
@@ -125,7 +168,6 @@ describe("app.component.ts", () => {
             component.start(dataset);
             target.detectChanges();
             target.whenStable().then(() => {
-
                 let element = target.debugElement.query(By.css("#datasetName"));
                 expect(element).toBeDefined();
                 expect(element.nativeElement.textContent).toContain(dataset.name);
@@ -140,9 +182,9 @@ describe("app.component.ts", () => {
 
                 target.detectChanges();
 
-                let imgElement = target.debugElement.queryAll(By.css('li#profileInformation img'));
+                let imgElement = target.debugElement.queryAll(By.css("li#profileInformation img"));
                 expect(imgElement.length).toBe(0);
-                let profileNameElement = target.debugElement.queryAll(By.css('li#profileInformation strong'));
+                let profileNameElement = target.debugElement.queryAll(By.css("li#profileInformation strong"));
                 expect(profileNameElement.length).toBe(1);
                 expect(profileNameElement[0].nativeElement.textContent).toBe("John Doe");
                 let button = target.debugElement.queryAll(By.css("li#loginButton a"));
@@ -152,15 +194,14 @@ describe("app.component.ts", () => {
             });
 
             it("should display LogOut button and profile information when a user is authenticated", () => {
-                // let auth = <Auth>target.debugElement.injector.get(Auth);
                 let spyAuthService = spyOn(mockAuth, "authenticated").and.returnValue(true);
 
                 target.detectChanges();
 
-                let imgElement = target.debugElement.query(By.css('li#profileInformation img')).nativeElement as HTMLImageElement;
+                let imgElement = target.debugElement.query(By.css("li#profileInformation img")).nativeElement as HTMLImageElement;
                 expect(imgElement.src).toBe("http://seemyface.com/user.jpg");
 
-                let profileNameElement = target.debugElement.query(By.css('li#profileInformation strong')).nativeElement as HTMLElement;
+                let profileNameElement = target.debugElement.query(By.css("li#profileInformation strong")).nativeElement as HTMLElement;
                 expect(profileNameElement.innerHTML).toBe("John Doe");
 
                 let button = target.debugElement.queryAll(By.css("li#loginButton a"));
@@ -170,13 +211,12 @@ describe("app.component.ts", () => {
             });
 
             it("should call authenticate.login()  when LogIn button is clicked", () => {
-                let auth = <Auth>target.debugElement.injector.get(Auth);
-                let spyAuthService = spyOn(auth, "authenticated").and.returnValue(false);
-                let spyLogIn = spyOn(auth, "login");
+                let spyAuthService = spyOn(mockAuth, "authenticated").and.returnValue(false);
+                let spyLogIn = spyOn(mockAuth, "login");
 
                 target.detectChanges();
                 let button = target.debugElement.query(By.css("li#loginButton a")).nativeElement as HTMLAnchorElement;
-                button.dispatchEvent(new Event('click'));
+                button.dispatchEvent(new Event("click"));
                 target.detectChanges();
 
                 expect(spyLogIn).toHaveBeenCalled();
@@ -184,14 +224,12 @@ describe("app.component.ts", () => {
             })
 
             it("should call authenticate.logout()  when LogOut button is clicked", () => {
-                let auth = <Auth>target.debugElement.injector.get(Auth);
-                let spyAuthService = spyOn(auth, "authenticated").and.returnValue(true);
-                let spyLogOut = spyOn(auth, "logout");
+                let spyAuthService = spyOn(mockAuth, "authenticated").and.returnValue(true);
+                let spyLogOut = spyOn(mockAuth, "logout");
 
                 target.detectChanges();
                 let button = target.debugElement.query(By.css("li#loginButton a")).nativeElement as HTMLAnchorElement;
-                //console.log(button);
-                button.dispatchEvent(new Event('click'));
+                button.dispatchEvent(new Event("click"));
                 target.detectChanges();
 
                 expect(spyLogOut).toHaveBeenCalled();
@@ -221,14 +259,11 @@ describe("app.component.ts", () => {
 
         });
 
-        it("should load data in building component", async () => {
+        it("should load data in building component", () => {
             let spy = spyOn(component.buildingComponent, "loadData");
             let dataset = new DataSet("Example", "http://server/example.json");
             component.start(dataset);
-            target.detectChanges();
-            target.whenStable().then(() => {
-                expect(spy).toHaveBeenCalledWith("http://server/example.json");
-            });
+            expect(spy).toHaveBeenCalledWith("http://server/example.json");
         });
     });
 

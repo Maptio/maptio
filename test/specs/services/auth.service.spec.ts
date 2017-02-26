@@ -32,10 +32,9 @@ describe("auth.service.ts", () => {
         }));
 
         it("should set userProfile to undefined", inject([Auth], (auth: Auth) => {
-            // auth.userProfile() = new Object();
-            expect(auth.getUser()).toBeDefined();
+            let spy = spyOn(auth, "clear");
             auth.logout();
-            expect(auth.getUser()).toBeUndefined();
+            expect(spy).toHaveBeenCalled();
         }));
     });
-})
+});

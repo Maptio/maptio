@@ -17,7 +17,6 @@ export class Auth {
   constructor() {
     this.userProfile$ = new Subject();
     this.userProfile$.next(JSON.parse(localStorage.getItem("profile")));
-
     this.lock.on("authenticated", (authResult: any) => {
       localStorage.setItem("id_token", authResult.idToken);
       this.lock.getProfile(authResult.idToken, (error: any, profile: any) => {
@@ -43,6 +42,10 @@ export class Auth {
   public logout() {
     localStorage.removeItem("id_token");
     localStorage.removeItem("profile");
+    this.clear();
+  }
+
+  public clear() {
     this.userProfile$.next(undefined);
   }
 
