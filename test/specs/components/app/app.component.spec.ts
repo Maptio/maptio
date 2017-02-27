@@ -85,7 +85,7 @@ describe("app.component.ts", () => {
 
         mockAuth = target.debugElement.injector.get(Auth);
 
-        target.detectChanges(); // trigger initial data binding
+        //target.detectChanges(); // trigger initial data binding
     });
 
     describe("View", () => {
@@ -98,18 +98,25 @@ describe("app.component.ts", () => {
         });
 
         it("should show a list of datasets when user is valid", fakeAsync(() => {
+
+            let mockUser = jasmine.createSpyObj("mockUser", ["tryDeserialize"]);
+            mockUser.tryDeserialize.and.returnValue([true, new AuthenticatedUser({ name: "Parsed user" })]);
+            let spyCreateUser = spyOn(AuthenticatedUser, "create").and.returnValue(mockUser);
+
             spyAuthService = spyOn(mockAuth, "getUser").and.callThrough();
 
             component.ngOnInit();
-            target.detectChanges();
 
             expect(spyAuthService.calls.any()).toEqual(true);
             spyAuthService.calls.mostRecent().returnValue.toPromise().then(() => {
 
+                expect(spyCreateUser).toHaveBeenCalled();
+                expect(mockUser.tryDeserialize).toHaveBeenCalled();
+
                 expect(spyDataSetService).toHaveBeenCalled();
                 expect(spyDataSetService).toHaveBeenCalledWith(jasmine.any(AuthenticatedUser));
                 expect(spyDataSetService).toHaveBeenCalledWith(jasmine.objectContaining({
-                    email: "johndoe@domain.com", name: "John Doe"
+                    name: "Parsed user"
                 }));
                 spyDataSetService.calls.mostRecent().returnValue.then(() => {
                     target.detectChanges(); // update view with quote
@@ -122,14 +129,23 @@ describe("app.component.ts", () => {
             })
         }));
 
-        it("should not show datasets when user is not valid", fakeAsync(() => {
-            spyAuthService = spyOn(mockAuth, "getUser").and.returnValue(Observable.of<Object>({}));
+
+
+        it("should not show a list of datasets when user is invalid", fakeAsync(() => {
+            let mockUser = jasmine.createSpyObj("mockUser", ["tryDeserialize"]);
+            mockUser.tryDeserialize.and.returnValue([false, undefined]);
+            let spyCreateUser = spyOn(AuthenticatedUser, "create").and.returnValue(mockUser);
+
+            spyAuthService = spyOn(mockAuth, "getUser").and.callThrough();
 
             component.ngOnInit();
-            target.detectChanges();
 
             expect(spyAuthService.calls.any()).toEqual(true);
             spyAuthService.calls.mostRecent().returnValue.toPromise().then(() => {
+
+                expect(spyCreateUser).toHaveBeenCalled();
+                expect(mockUser.tryDeserialize).toHaveBeenCalled();
+
                 expect(spyDataSetService).not.toHaveBeenCalled();
             })
         }));
@@ -142,6 +158,7 @@ describe("app.component.ts", () => {
         });
 
         it("should call toggle building panel", () => {
+            target.detectChanges();
             let togglingElement = target.debugElement.query(By.css("h4.panel-title>a"));
             let spy = spyOn(component, "toggleBuildingPanel").and.callThrough();
 

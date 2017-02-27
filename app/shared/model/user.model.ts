@@ -6,7 +6,14 @@ export class AuthenticatedUser implements Serializable<AuthenticatedUser> {
     public email: string;
     public picture: string;
 
-    constructor() { }
+    public constructor(init?: Partial<AuthenticatedUser>) {
+        Object.assign(this, init);
+    }
+
+
+    static create(): AuthenticatedUser {
+        return new AuthenticatedUser();
+    }
 
     deserialize(input: any): AuthenticatedUser {
         let deserialized = new AuthenticatedUser();
