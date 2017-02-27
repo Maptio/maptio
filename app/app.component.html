@@ -12,7 +12,7 @@
 		</div>
 
 		<ul class="nav navbar-nav navbar-left">
-			<li *ngIf="selectedDataset">
+			<li *ngIf="selectedDataset && auth.authenticated()">
 				<p class="navbar-text" id="datasetName"> Working on <b>{{selectedDataset.name}}</b></p>
 			</li>
 		</ul>
@@ -48,7 +48,7 @@
 	</div>
 </nav>
 
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="auth.authenticated()">
 	<div class="row-fluid col-lg-12">
 		<div class="panel-group" id="accordion">
 			<div class="panel panel-default ">

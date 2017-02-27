@@ -55,9 +55,9 @@ export class AppComponent implements OnInit {
           this.loggedUser = undefined;
           this.datasets = [];
         }
+        
       }
     );
-
   }
 
   openHelp() {
