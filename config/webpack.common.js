@@ -8,7 +8,7 @@ module.exports = {
   entry: {
     'polyfills': './polyfills.ts',
     'vendor': './vendor.ts',
-    'app': './app/bootstrap.ts'
+    'app': './src/app/bootstrap.ts'
   },
 
   resolve: {
@@ -48,7 +48,7 @@ module.exports = {
     }),
 
     new HtmlWebpackPlugin({
-      template: './index.html'
+      template: './src/index.html'
     }),
 
     new CopyWebpackPlugin([
