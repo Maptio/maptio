@@ -34,7 +34,7 @@
 					</div>
 				</li>
 				<li id="profileInformation">
-					<img *ngIf="auth.authenticated()" [src]="loggedUser?.picture" alt="" class="profile-img"><strong>{{loggedUser?.name}}</strong>
+					<img *ngIf="auth.authenticated()" src="{{ loggedUser?.picture }}" alt="" class="profile-img"><strong>{{loggedUser?.name}}</strong>
 				</li>
 				<li id="loginButton">
 					<a (click)="auth.login()" placement="bottom" *ngIf="!auth.authenticated()">Log In</a>
