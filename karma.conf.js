@@ -11,29 +11,25 @@ module.exports = function (config) {
             { pattern: "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" },
             { pattern: "https://cdn.auth0.com/js/lock/10.8/lock.min.js" },
 
-            { pattern: "./app/app.component.ts" },
-            { pattern: "./app/shared/interfaces/*.ts" },
-            { pattern: "./app/shared/model/*.ts" },
-            { pattern: "./app/shared/directives/*.ts" },
-            { pattern: "./app/components/initiative/*.*" },
-            { pattern: "./app/components/help/*.*" },
-            { pattern: "./app/components/building/*.*" },
+            { pattern: "./src/app/app.component.ts" },
+            { pattern: "./src/app/shared/interfaces/*.ts" },
+            { pattern: "./src/app/shared/model/*.ts" },
+            { pattern: "./src/app/shared/directives/*.ts" },
+            { pattern: "./src/app/components/initiative/*.*" },
+            { pattern: "./src/app/components/help/*.*" },
+            { pattern: "./src/app/components/building/*.*" },
             //{ pattern: "./app/components/mapping/**/*.*" },
-            { pattern: "./app/shared/services/data.service.ts" },
-            { pattern: "./app/shared/services/dataset.service.ts" },
-            { pattern: "./app/shared/services/error.service.ts" },
-            { pattern: "./app/shared/services/auth.service.ts" },
+            { pattern: "./src/app/shared/services/data.service.ts" },
+            { pattern: "./src/app/shared/services/dataset.service.ts" },
+            { pattern: "./src/app/shared/services/error.service.ts" },
+            { pattern: "./src/app/shared/services/auth.service.ts" },
 
             
-             { pattern: "./test/specs/shared/*.ts" },
-            { pattern: "./test/specs/model/*.ts" },
-            { pattern: "./test/specs/directives/*.ts" },
-            { pattern: "./test/specs/components/**/*.*" },
-            { pattern: "./test/specs/services/*.ts" }
+             { pattern: "./src/test/specs/**/*.*" }
         ],
 
         proxies: {
-            "/app/": "/base/app/"
+            "/app/": "/base/src/app/"
             //"/app/": "/base/src/app/" // use this without moduleId + templateUrl: "app/hello.html"
         },
 
