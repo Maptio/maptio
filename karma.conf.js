@@ -70,7 +70,7 @@ module.exports = function (config) {
                 }
             },
             coverageOptions: {
-                instrumentation:false,
+                instrumentation:false, 
                 exclude:  /\.shared\.ts/i
             }
         },
