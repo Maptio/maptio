@@ -145,8 +145,19 @@ describe("building.component.ts", () => {
 
 
     describe("Controller", () => {
+
+        describe("Edit initiative", () => {
+            it("should open initiative modal", () => {
+                let node = new Initiative();
+                let spyOpen = spyOn(component.initiativeEditComponent, "open");
+                component.editInitiative(node);
+                expect(component.initiativeEditComponent.data).toBe(node);
+                expect(spyOpen).toHaveBeenCalled();
+            })
+        });
+
         describe("Loading data", () => {
-            it("shoud loads data and initializes tree",  inject([DataService], (mockDataService: DataService) => {
+            it("shoud loads data and initializes tree", inject([DataService], (mockDataService: DataService) => {
                 let url = "http://getdata.com/data.json";
 
                 fixture.load("test/specs/components/building/fixtures/data.json");
