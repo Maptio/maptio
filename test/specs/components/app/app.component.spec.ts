@@ -89,108 +89,150 @@ describe("app.component.ts", () => {
     });
 
     describe("View", () => {
-        it("should call start() when click on 'New Project' button ", () => {
-            let startElement = target.debugElement.query(By.css("#loadNewProjectButton"));
-            let spy = spyOn(component, "start");
 
-            startElement.triggerEventHandler("click", null);
-            expect(spy).toHaveBeenCalledWith(DataSet.EMPTY);
+        describe("New project button", () => {
+            it("should call start() when clicked", () => {
+                spyOn(mockAuth, "authenticated").and.returnValue(true);
+                target.detectChanges();
+                let startElement = target.debugElement.query(By.css("#loadNewProjectButton"));
+                let spy = spyOn(component, "start");
+
+                startElement.triggerEventHandler("click", null);
+                expect(spy).toHaveBeenCalledWith(DataSet.EMPTY);
+            });
+
+            it("should not display if user is not authenticated", () => {
+                spyOn(mockAuth, "authenticated").and.returnValue(false);
+                target.detectChanges();
+                let startElement = target.debugElement.queryAll(By.css("#loadNewProjectButton"));
+                expect(startElement.length).toBe(0);
+            });
         });
 
-        it("should show a list of datasets when user is valid", fakeAsync(() => {
+        describe("List of datasets", () => {
+            it("should show a list of datasets when user is valid", fakeAsync(() => {
 
-            let mockUser = jasmine.createSpyObj("mockUser", ["tryDeserialize"]);
-            mockUser.tryDeserialize.and.returnValue([true, new AuthenticatedUser({ name: "Parsed user" })]);
-            let spyCreateUser = spyOn(AuthenticatedUser, "create").and.returnValue(mockUser);
+                let mockUser = jasmine.createSpyObj("mockUser", ["tryDeserialize"]);
+                mockUser.tryDeserialize.and.returnValue([true, new AuthenticatedUser({ name: "Parsed user" })]);
+                let spyCreateUser = spyOn(AuthenticatedUser, "create").and.returnValue(mockUser);
 
-            spyAuthService = spyOn(mockAuth, "getUser").and.callThrough();
+                spyAuthService = spyOn(mockAuth, "getUser").and.callThrough();
+                spyOn(mockAuth, "authenticated").and.returnValue(true);
 
-            component.ngOnInit();
+                component.ngOnInit();
 
-            expect(spyAuthService.calls.any()).toEqual(true);
-            spyAuthService.calls.mostRecent().returnValue.toPromise().then(() => {
+                expect(spyAuthService.calls.any()).toEqual(true);
+                spyAuthService.calls.mostRecent().returnValue.toPromise().then(() => {
 
-                expect(spyCreateUser).toHaveBeenCalled();
-                expect(mockUser.tryDeserialize).toHaveBeenCalled();
+                    expect(spyCreateUser).toHaveBeenCalled();
+                    expect(mockUser.tryDeserialize).toHaveBeenCalled();
 
-                expect(spyDataSetService).toHaveBeenCalled();
-                expect(spyDataSetService).toHaveBeenCalledWith(jasmine.any(AuthenticatedUser));
-                expect(spyDataSetService).toHaveBeenCalledWith(jasmine.objectContaining({
-                    name: "Parsed user"
-                }));
-                spyDataSetService.calls.mostRecent().returnValue.then(() => {
-                    target.detectChanges(); // update view with quote
-                    let elements = target.debugElement.queryAll(By.css("ul#loadDatasetDropdown > li :not(.dropdown-header)"));
-                    expect(elements.length).toBe(3);
-                    expect(elements[0].nativeElement.textContent).toBe("One");
-                    expect(elements[1].nativeElement.textContent).toBe("Two");
-                    expect(elements[2].nativeElement.textContent).toBe("Three");
+                    expect(spyDataSetService).toHaveBeenCalled();
+                    expect(spyDataSetService).toHaveBeenCalledWith(jasmine.any(AuthenticatedUser));
+                    expect(spyDataSetService).toHaveBeenCalledWith(jasmine.objectContaining({
+                        name: "Parsed user"
+                    }));
+                    spyDataSetService.calls.mostRecent().returnValue.then(() => {
+                        target.detectChanges(); // update view with quote
+                        let elements = target.debugElement.queryAll(By.css("ul#loadDatasetDropdown > li :not(.dropdown-header)"));
+                        expect(elements.length).toBe(3);
+                        expect(elements[0].nativeElement.textContent).toBe("One");
+                        expect(elements[1].nativeElement.textContent).toBe("Two");
+                        expect(elements[2].nativeElement.textContent).toBe("Three");
+                    });
+                })
+            }));
+
+
+
+            it("should not show a list of datasets when user is invalid", fakeAsync(() => {
+                let mockUser = jasmine.createSpyObj("mockUser", ["tryDeserialize"]);
+                mockUser.tryDeserialize.and.returnValue([false, undefined]);
+                let spyCreateUser = spyOn(AuthenticatedUser, "create").and.returnValue(mockUser);
+
+                spyAuthService = spyOn(mockAuth, "getUser").and.callThrough();
+
+                component.ngOnInit();
+
+                expect(spyAuthService.calls.any()).toEqual(true);
+                spyAuthService.calls.mostRecent().returnValue.toPromise().then(() => {
+
+                    expect(spyCreateUser).toHaveBeenCalled();
+                    expect(mockUser.tryDeserialize).toHaveBeenCalled();
+
+                    expect(spyDataSetService).not.toHaveBeenCalled();
+                })
+            }));
+        });
+
+        describe("Help button", () => {
+            it("should call openHelp", () => {
+                let spy = spyOn(component, "openHelp");
+                let helpClickElement = target.debugElement.query(By.css("#openHelpWindow"));
+                (helpClickElement.nativeElement as HTMLAnchorElement).click();
+                expect(spy).toHaveBeenCalled();
+            });
+        });
+
+        describe("Work area panel", () => {
+            it("should show when user is authenticated", () => {
+                spyOn(mockAuth, "authenticated").and.returnValue(true);
+                target.detectChanges();
+                let panel = target.debugElement.queryAll(By.css("#workAreaPanel"));
+                expect(panel.length).toBe(1);
+            });
+
+            it("should hide when user is not authenticated", () => {
+                spyOn(mockAuth, "authenticated").and.returnValue(false);
+                target.detectChanges();
+                let panel = target.debugElement.queryAll(By.css("#workAreaPanel"));
+                expect(panel.length).toBe(0);
+            });
+        })
+
+        describe("Map your initiative panel", () => {
+
+            it("should call toggle building panel when user is authenticated", () => {
+                spyOn(mockAuth, "authenticated").and.returnValue(true);
+
+                target.detectChanges();
+                let togglingElement = target.debugElement.query(By.css("h4.panel-title>a"));
+                let spy = spyOn(component, "toggleBuildingPanel").and.callThrough();
+
+                let toggledElement = target.debugElement.query(By.css("h4.panel-title>a i"));
+                expect((toggledElement.nativeElement as HTMLElement).className).toContain("fa-plus-square");
+
+                togglingElement.triggerEventHandler("click", null);
+                target.detectChanges();
+
+                toggledElement = target.debugElement.query(By.css("h4.panel-title>a i"));
+                expect((toggledElement.nativeElement as HTMLElement).className).toContain("fa-minus-square");
+
+                togglingElement.triggerEventHandler("click", null);
+                target.detectChanges();
+
+                toggledElement = target.debugElement.query(By.css("h4.panel-title>a i"));
+                expect((toggledElement.nativeElement as HTMLElement).className).toContain("fa-plus-square");
+
+                expect(spy).toHaveBeenCalledTimes(2);
+            });
+        })
+
+        describe("Project name", () => {
+            it("should display dataset name in navigation bar after it is loaded", async(() => {
+                spyOn(mockAuth, "authenticated").and.returnValue(true);
+                target.detectChanges();
+                let dataset = new DataSet("Example", "http://server/example.json");
+                component.start(dataset);
+                target.whenStable().then(() => {
+                    target.detectChanges();
+                    let element = target.debugElement.query(By.css("#datasetName"));
+                    expect(element).toBeDefined();
+                    expect(element.nativeElement.textContent).toContain(dataset.name);
                 });
-            })
-        }));
 
-
-
-        it("should not show a list of datasets when user is invalid", fakeAsync(() => {
-            let mockUser = jasmine.createSpyObj("mockUser", ["tryDeserialize"]);
-            mockUser.tryDeserialize.and.returnValue([false, undefined]);
-            let spyCreateUser = spyOn(AuthenticatedUser, "create").and.returnValue(mockUser);
-
-            spyAuthService = spyOn(mockAuth, "getUser").and.callThrough();
-
-            component.ngOnInit();
-
-            expect(spyAuthService.calls.any()).toEqual(true);
-            spyAuthService.calls.mostRecent().returnValue.toPromise().then(() => {
-
-                expect(spyCreateUser).toHaveBeenCalled();
-                expect(mockUser.tryDeserialize).toHaveBeenCalled();
-
-                expect(spyDataSetService).not.toHaveBeenCalled();
-            })
-        }));
-
-        it("should call openHelp", () => {
-            let spy = spyOn(component, "openHelp");
-            let helpClickElement = target.debugElement.query(By.css("#openHelpWindow"));
-            (helpClickElement.nativeElement as HTMLAnchorElement).click();
-            expect(spy).toHaveBeenCalled();
+            }));
         });
-
-        it("should call toggle building panel", () => {
-            target.detectChanges();
-            let togglingElement = target.debugElement.query(By.css("h4.panel-title>a"));
-            let spy = spyOn(component, "toggleBuildingPanel").and.callThrough();
-
-            let toggledElement = target.debugElement.query(By.css("h4.panel-title>a i"));
-            expect((toggledElement.nativeElement as HTMLElement).className).toContain("fa-plus-square");
-
-            togglingElement.triggerEventHandler("click", null);
-            target.detectChanges();
-
-            toggledElement = target.debugElement.query(By.css("h4.panel-title>a i"));
-            expect((toggledElement.nativeElement as HTMLElement).className).toContain("fa-minus-square");
-
-            togglingElement.triggerEventHandler("click", null);
-            target.detectChanges();
-
-            toggledElement = target.debugElement.query(By.css("h4.panel-title>a i"));
-            expect((toggledElement.nativeElement as HTMLElement).className).toContain("fa-plus-square");
-
-            expect(spy).toHaveBeenCalledTimes(2);
-        });
-
-        it("should display dataset name in navigation bar after it is loaded", async(() => {
-            let dataset = new DataSet("Example", "http://server/example.json");
-            component.start(dataset);
-            target.detectChanges();
-            target.whenStable().then(() => {
-                let element = target.debugElement.query(By.css("#datasetName"));
-                expect(element).toBeDefined();
-                expect(element.nativeElement.textContent).toContain(dataset.name);
-            })
-
-        }));
 
         describe("Authentication", () => {
             it("should display LogIn button when no user is authenticated", () => {
@@ -277,6 +319,8 @@ describe("app.component.ts", () => {
         });
 
         it("should load data in building component", () => {
+            spyOn(mockAuth, "authenticated").and.returnValue(true);
+            target.detectChanges();
             let spy = spyOn(component.buildingComponent, "loadData");
             let dataset = new DataSet("Example", "http://server/example.json");
             component.start(dataset);
