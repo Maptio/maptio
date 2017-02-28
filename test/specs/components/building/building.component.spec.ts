@@ -1,21 +1,21 @@
-import { ComponentFixture, TestBed, async, inject, fakeAsync } from '@angular/core/testing';
-import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core'
-import { FormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
-import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
-import { BuildingComponent } from '../../../../app/components/building/building.component';
-import { InitiativeComponent } from '../../../../app/components/initiative/initiative.component';
-import { TreeComponent, TreeNode } from 'angular2-tree-component';
-import { FocusIfDirective } from '../../../../app/shared/directives/focusif.directive'
-import { DataService } from '../../../../app/shared/services/data.service'
-import { ErrorService } from '../../../../app/shared/services/error.service';
+import { ComponentFixture, TestBed, async, inject, fakeAsync } from "@angular/core/testing";
+import { DebugElement, NO_ERRORS_SCHEMA } from "@angular/core"
+import { FormsModule } from "@angular/forms";
+import { By } from "@angular/platform-browser";
+import { BrowserDynamicTestingModule } from "@angular/platform-browser-dynamic/testing";
+import { BuildingComponent } from "../../../../app/components/building/building.component";
+import { InitiativeComponent } from "../../../../app/components/initiative/initiative.component";
+import { TreeComponent, TreeNode } from "angular2-tree-component";
+import { FocusIfDirective } from "../../../../app/shared/directives/focusif.directive"
+import { DataService } from "../../../../app/shared/services/data.service"
+import { ErrorService } from "../../../../app/shared/services/error.service";
 //import { TreeExplorationService } from '../../../../app/services/tree.exploration.service'
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import { Http, HttpModule, Response, Headers, RequestOptions, BaseRequestOptions, ResponseOptions } from '@angular/http';
-import { Initiative } from '../../../../app/shared/model/initiative.data';
-import { Person } from '../../../../app/shared/model/person.data';
+import { MockBackend, MockConnection } from "@angular/http/testing";
+import { Http, HttpModule, Response, Headers, RequestOptions, BaseRequestOptions, ResponseOptions } from "@angular/http";
+import { Initiative } from "../../../../app/shared/model/initiative.data";
+import { Person } from "../../../../app/shared/model/person.data";
 
-describe('building.component.ts', () => {
+describe("building.component.ts", () => {
 
     let component: BuildingComponent;
     let target: ComponentFixture<BuildingComponent>;
@@ -51,12 +51,12 @@ describe('building.component.ts', () => {
     describe("View", () => {
 
         describe("Tree configuration", () => {
-            it('should search tree on input', () => {
+            it("should search tree on input", () => {
                 let spy = spyOn(component, "filterNodes");
-                let element = target.debugElement.query(By.css('#searchTreeInput')).nativeElement as HTMLInputElement;
+                let element = target.debugElement.query(By.css("#searchTreeInput")).nativeElement as HTMLInputElement;
                 element.value = "some search";
-                element.dispatchEvent(new Event('input'));
-                expect(spy).toHaveBeenCalledWith('some search')
+                element.dispatchEvent(new Event("input"));
+                expect(spy).toHaveBeenCalledWith("some search")
             });
 
             it("should send data to mapping component on tree update", () => {
@@ -82,7 +82,7 @@ describe('building.component.ts', () => {
                 component.nodes = [root];
 
                 target.detectChanges();
-                let treeNode = target.debugElement.queryAll(By.css('Tree treenode'));
+                let treeNode = target.debugElement.queryAll(By.css("Tree treenode"));
                 expect(treeNode.length).toBe(1); //one and only one root
                 let dataNode = <Initiative>treeNode[0].context.$implicit.data;
                 expect(dataNode).toBe(root);
@@ -91,7 +91,7 @@ describe('building.component.ts', () => {
 
         describe("updateData event", () => {
 
-            it('should call mapData', () => {
+            it("should call mapData", () => {
                 let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
                 root.children = [node1, node2, node3];
                 component.nodes = [root];
@@ -99,8 +99,8 @@ describe('building.component.ts', () => {
 
                 target.detectChanges();
 
-                let element = target.debugElement.query(By.css('Tree treenode')).nativeElement as HTMLElement;
-                element.dispatchEvent(new CustomEvent('map'));
+                let element = target.debugElement.query(By.css("Tree treenode")).nativeElement as HTMLElement;
+                element.dispatchEvent(new CustomEvent("map"));
 
                 expect(spyMapData).toHaveBeenCalled();
 
@@ -108,7 +108,7 @@ describe('building.component.ts', () => {
         });
 
         describe("updateTree event", () => {
-            xit('should call updateTreeModel', () => {
+            xit("should call updateTreeModel", () => {
                 let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
                 root.children = [node1, node2, node3];
                 component.nodes = [root];
@@ -117,15 +117,15 @@ describe('building.component.ts', () => {
 
                 target.detectChanges();
 
-                let element = target.debugElement.query(By.css('Tree treenode'));
-                element.triggerEventHandler('update', null);
+                let element = target.debugElement.query(By.css("Tree treenode"));
+                element.triggerEventHandler("update", null);
 
                 expect(spyMapData).toHaveBeenCalled();
             });
         });
 
         describe("openSelected event", () => {
-            xit('should call editInitiative', () => {
+            xit("should call editInitiative", () => {
                 let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
                 root.children = [node1, node2, node3];
                 component.nodes = [root];
@@ -133,8 +133,8 @@ describe('building.component.ts', () => {
 
                 target.detectChanges();
 
-                let element = target.debugElement.query(By.css('Tree treenode')).nativeElement as HTMLElement;
-                element.dispatchEvent(new Event('openSelected'));
+                let element = target.debugElement.query(By.css("Tree treenode")).nativeElement as HTMLElement;
+                element.dispatchEvent(new Event("openSelected"));
 
                 expect(spyEdit).toHaveBeenCalled();
             });
@@ -169,8 +169,8 @@ describe('building.component.ts', () => {
                 target.whenStable().then(() => {
                     expect(spyDataService).toHaveBeenCalledWith(url);
                     expect(component.initiativeEditComponent.team.members.length).toBe(2);
-                    expect(component.initiativeEditComponent.team.members.find(function (p) { return p.name == 'CTO' })).toBeDefined("Cant find CTO");
-                    expect(component.initiativeEditComponent.team.members.find(function (p) { return p.name == 'CMO' })).toBeDefined("Cant find CMO");
+                    expect(component.initiativeEditComponent.team.members.find(function (p) { return p.name == "CTO" })).toBeDefined("Cant find CTO");
+                    expect(component.initiativeEditComponent.team.members.find(function (p) { return p.name == "CMO" })).toBeDefined("Cant find CMO");
                 });
             }));
 
@@ -194,12 +194,12 @@ describe('building.component.ts', () => {
         describe("Mapping data", () => {
             it("should sends data to dataservice", inject([DataService], (mockDataService: DataService) => {
                 let node1 = new Initiative(), node2 = new Initiative();
-                node1.name = 'first', node2.name = 'second';
+                node1.name = "first", node2.name = "second";
 
                 component.nodes = [node1, node2];
                 let spy = spyOn(mockDataService, "setAsync");
                 component.mapData();
-                expect(spy).toHaveBeenCalledWith(jasmine.objectContaining({ name: 'first' }));
+                expect(spy).toHaveBeenCalledWith(jasmine.objectContaining({ name: "first" }));
 
             }));
         });
@@ -208,13 +208,13 @@ describe('building.component.ts', () => {
 
             it("should highlights all nodes when the search term is empty", () => {
                 let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
-                node1.name = 'first', node2.name = 'second'; node3.name = 'third';
+                node1.name = "first", node2.name = "second"; node3.name = "third";
                 root.children = [node1, node2, node3];
                 component.nodes = [root];
                 target.detectChanges();
                 let spy = spyOn(component, "mapData");
 
-                component.filterNodes('');
+                component.filterNodes("");
                 expect(root.isSearchedFor).toBe(true);
                 expect(node1.isSearchedFor).toBe(true);
                 expect(node2.isSearchedFor).toBe(true);
@@ -224,13 +224,13 @@ describe('building.component.ts', () => {
 
             it("should highlight correct nodes when searching on name", () => {
                 let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
-                node1.name = 'first', node2.name = 'second'; node3.name = 'second third';
+                node1.name = "first", node2.name = "second"; node3.name = "second third";
                 root.children = [node1, node2, node3];
                 component.nodes = [root];
                 target.detectChanges();
                 let spy = spyOn(component, "mapData");
 
-                component.filterNodes('second');
+                component.filterNodes("second");
                 expect(root.isSearchedFor).toBe(false);
                 expect(node1.isSearchedFor).toBe(false);
                 expect(node2.isSearchedFor).toBe(true);
@@ -240,14 +240,14 @@ describe('building.component.ts', () => {
 
             it("should hightlight correct nodes when searching on description", () => {
                 let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
-                node1.name = 'first', node2.name = 'second'; node3.name = 'third';
-                node1.description = 'primero', node2.description = 'segundo'; node3.description = 'segundo tercero';
+                node1.name = "first", node2.name = "second"; node3.name = "third";
+                node1.description = "primero", node2.description = "segundo"; node3.description = "segundo tercero";
                 root.children = [node1, node2, node3];
                 component.nodes = [root];
                 target.detectChanges();
                 let spy = spyOn(component, "mapData");
 
-                component.filterNodes('segundo');
+                component.filterNodes("segundo");
                 expect(root.isSearchedFor).toBe(false);
                 expect(node1.isSearchedFor).toBe(false);
                 expect(node2.isSearchedFor).toBe(true);

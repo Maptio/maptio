@@ -9,7 +9,7 @@ import { DataSet } from "./shared/model/dataset.data"
 import { DataSetService } from "./shared/services/dataset.service"
 import "rxjs/add/operator/map"
 import { Auth } from "./shared/services/auth.service";
-import { AuthenticatedUser } from './shared/model/user.model'
+import { AuthenticatedUser } from "./shared/model/user.data"
 @Component({
   selector: "my-app",
   template: require("./app.component.html"),

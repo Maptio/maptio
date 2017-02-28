@@ -14,7 +14,7 @@ import { Auth } from "../../../../app/shared/services/auth.service";
 import { MockBackend, MockConnection } from "@angular/http/testing";
 import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
 import { Http, HttpModule, Response, Headers, RequestOptions, BaseRequestOptions, ResponseOptions } from "@angular/http";
-import { AuthenticatedUser } from "../../../../app/shared/model/user.model";
+import { AuthenticatedUser } from "../../../../app/shared/model/user.data";
 import { Observable } from "rxjs/Rx";
 
 import { Subject } from "rxjs/Subject"

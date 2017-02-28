@@ -16,10 +16,11 @@ export class AuthenticatedUser implements Serializable<AuthenticatedUser> {
     }
 
     deserialize(input: any): AuthenticatedUser {
+        if (!input.name && !input.email && !input.picture) { return undefined; }
         let deserialized = new AuthenticatedUser();
-        deserialized.name = input.name || undefined;
-        deserialized.email = input.email || undefined;
-        deserialized.picture = input.picture || undefined;
+        deserialized.name = input.name;
+        deserialized.email = input.email;
+        deserialized.picture = input.picture;
         return deserialized;
     }
 

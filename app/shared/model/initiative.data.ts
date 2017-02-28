@@ -36,8 +36,7 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
     /**True if this node matches a search */
     isSearchedFor: boolean = false;
 
-    constructor() { }
-
+    public constructor(){}
 
     deserialize(input: any): Initiative {
         this.id = input.id;
@@ -64,7 +63,7 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
 
     /** N */
     tryDeserialize(input: any): [boolean, Initiative] {
-       throw new Error("Not implemented");
+        throw new Error("Not implemented");
     }
 
     traverse(callback: ((n: Initiative) => void)): void {
