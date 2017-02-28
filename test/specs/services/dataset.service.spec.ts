@@ -3,7 +3,7 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, HttpModule, Response, Headers, RequestOptions, BaseRequestOptions, ResponseOptions } from "@angular/http";
 import { DataSetService } from "../../../app/shared/services/dataset.service"
 import { ErrorService } from "../../../app/shared/services/error.service";
-import { AuthenticatedUser } from "../../../app/shared/model/user.model"
+import { AuthenticatedUser } from "../../../app/shared/model/user.data"
 
 let spyErrorService: jasmine.Spy;
 
@@ -43,7 +43,7 @@ describe("dataset.service.ts", () => {
                 body: JSON.stringify("") // irrelevant here as our array is static
             })));
         });
-        let user = new AuthenticatedUser("me", "me@domain.com");
+        let user = new AuthenticatedUser();
 
         target.getData(user).then(datasets => {
             expect(datasets.length).toBe(1);

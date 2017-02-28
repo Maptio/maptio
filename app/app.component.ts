@@ -9,7 +9,7 @@ import { DataSet } from "./shared/model/dataset.data"
 import { DataSetService } from "./shared/services/dataset.service"
 import "rxjs/add/operator/map"
 import { Auth } from "./shared/services/auth.service";
-import { AuthenticatedUser } from './shared/model/user.model'
+import { AuthenticatedUser } from "./shared/model/user.data"
 @Component({
   selector: "my-app",
   template: require("./app.component.html"),
@@ -31,6 +31,8 @@ export class AppComponent implements OnInit {
 
   public isBuildingPanelCollapsed: boolean = true;
 
+  public loggedUser: AuthenticatedUser;
+
   constructor(private auth: Auth, private datasetService: DataSetService) {
   }
 
@@ -40,14 +42,22 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.auth.getUser()) {// FIXME : make that promise
-      let user = new AuthenticatedUser((<any>this.auth.getUser()).name || "", (<any>this.auth.getUser()).email);
-      this.datasetService.getData(user).then(o => {
-        this.datasets = o;
-      });
-    }
-
-
+    this.auth.getUser().subscribe(
+      (profile: Object) => {
+        let tryParse = AuthenticatedUser.create().tryDeserialize(profile);
+        if (tryParse[0]) {
+          this.loggedUser = tryParse[1];
+          this.datasetService.getData(this.loggedUser).then(o => {
+            this.datasets = o;
+          });
+        }
+        else {
+          this.loggedUser = undefined;
+          this.datasets = [];
+        }
+        
+      }
+    );
   }
 
   openHelp() {

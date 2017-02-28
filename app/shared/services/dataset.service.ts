@@ -4,7 +4,7 @@ import { Subject } from "rxjs/Subject"
 import "rxjs/add/operator/map"
 import { DataSet } from "../model/dataset.data"
 import { ErrorService } from "./error.service";
-import { AuthenticatedUser } from '../model/user.model';
+import { AuthenticatedUser } from '../model/user.data';
 
 @Injectable()
 export class DataSetService {

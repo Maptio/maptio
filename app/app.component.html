@@ -12,7 +12,7 @@
 		</div>
 
 		<ul class="nav navbar-nav navbar-left">
-			<li *ngIf="selectedDataset">
+			<li *ngIf="selectedDataset && auth.authenticated()">
 				<p class="navbar-text" id="datasetName"> Working on <b>{{selectedDataset.name}}</b></p>
 			</li>
 		</ul>
@@ -21,7 +21,7 @@
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav navbar-right">
 
-				<li>
+				<li *ngIf="auth.authenticated()">
 					<div class="btn-group">
 						<a (click)="start(empty)" class="btn btn-primary" id="loadNewProjectButton">New project</a>
 						<a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
@@ -34,7 +34,7 @@
 					</div>
 				</li>
 				<li id="profileInformation">
-					<img *ngIf="auth.authenticated()" [src]="auth.userProfile?.picture" alt="" class="profile-img"><strong>{{auth.userProfile?.name}}</strong>
+					<img *ngIf="auth.authenticated()" [src]="loggedUser?.picture" alt="" class="profile-img"><strong>{{loggedUser?.name}}</strong>
 				</li>
 				<li id="loginButton">
 					<a (click)="auth.login()" placement="bottom" *ngIf="!auth.authenticated()">Log In</a>
@@ -48,7 +48,14 @@
 	</div>
 </nav>
 
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="!auth.authenticated()">
+	<div class="jumbotron">
+		<h1>Circle mapping</h1>
+		<p>A simple online tool to allow organisations and initiatives to be mapped, visualised and explored in concentric circles.</p>
+		<p><a class="btn btn-primary btn-lg" (click)="auth.login()">Map your initiative now</a></p>
+	</div>
+</div>
+<div class="container-fluid" *ngIf="auth.authenticated()" id="workAreaPanel">
 	<div class="row-fluid col-lg-12">
 		<div class="panel-group" id="accordion">
 			<div class="panel panel-default ">
@@ -56,15 +63,15 @@
 					<h4 class="panel-title ">
 						<a *ngIf="!isBuildingPanelCollapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" (click)="toggleBuildingPanel();"
 							class="pull-right">
-								Build your initiative
-                           <i class="fa fa-minus-square "  aria-hidden="true"></i>
-                        </a>
+							Map your initiative
+							<i class="fa fa-minus-square " aria-hidden="true"></i>
+							</a>
 
-						<a *ngIf="isBuildingPanelCollapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" (click)="toggleBuildingPanel();"
-							class="pull-right">
-								Build your initiative
-						   <i class="fa fa-plus-square "  aria-hidden="true"></i>
-                        </a>
+							<a *ngIf="isBuildingPanelCollapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" (click)="toggleBuildingPanel();"
+								class="pull-right">
+								Map your initiative
+								<i class="fa fa-plus-square " aria-hidden="true"></i>
+								</a>
 					</h4>
 				</div>
 				<div id="collapseOne" class="panel-collapse collapse">

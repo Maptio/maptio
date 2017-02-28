@@ -24,7 +24,8 @@ module.exports = function (config) {
             { pattern: "./app/shared/services/error.service.ts" },
             { pattern: "./app/shared/services/auth.service.ts" },
 
-            { pattern: "./test/specs/shared/**/*.ts" },
+            
+             { pattern: "./test/specs/shared/*.ts" },
             { pattern: "./test/specs/model/*.ts" },
             { pattern: "./test/specs/directives/*.ts" },
             { pattern: "./test/specs/components/**/*.*" },
@@ -49,8 +50,8 @@ module.exports = function (config) {
         browserConsoleLogOptions: {
             terminal: true,
             level: ""
-        }, 
-        
+        },
+
         karmaTypescriptConfig: {
             bundlerOptions: {
                 // ignore: ["d3-ng2-service"],
@@ -67,6 +68,10 @@ module.exports = function (config) {
                     "subdirectory": "lcov",
                     "filename": "lcov.info"
                 }
+            },
+            coverageOptions: {
+                instrumentation:false,
+                exclude:  /\.shared\.ts/i
             }
         },
 

@@ -4,7 +4,9 @@ export class Person implements Serializable<Person> {
 
     public name: string;
 
-    constructor() { }
+    public constructor(init?: Partial<Person>) {
+        Object.assign(this, init);
+    }
 
     deserialize(input: any): Person {
         if (input.name) {
@@ -26,7 +28,7 @@ export class Person implements Serializable<Person> {
                 return [false, undefined]
             }
         }
-        catch (Exception) {
+        catch (e) {
             return [false, undefined]
         }
     }
