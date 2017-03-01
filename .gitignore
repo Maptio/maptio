@@ -1,5 +1,5 @@
 node_modules/
 dist/
-test/coverage/
+coverage/html/
 tslint.json
 .vscode/
