@@ -2,7 +2,15 @@ export class DataSet {
 
   content: any;
 
-  constructor(public name: string, public url: string) { }
+  name: string;
 
-  static EMPTY: DataSet = new DataSet("New project", "../../../assets/datasets/new.json");
+  url: string;
+
+  id:string;
+
+  public constructor(init?: Partial<DataSet>) {
+    Object.assign(this, init);
+  }
+
+  static EMPTY: DataSet = new DataSet({ name: "New project", url: "../../../assets/datasets/new.json" });
 }

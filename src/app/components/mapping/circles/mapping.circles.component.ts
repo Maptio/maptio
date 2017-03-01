@@ -3,7 +3,7 @@ import {
     D3Service, D3, Selection,
     PackLayout, HierarchyNode, HierarchyCircularNode,
     Transition, Timer, BaseType
-} from "d3-ng2-service";
+} from "d3-ng2-service"; 
 import { ColorService } from "../../../shared/services/color.service"
 import { UIService } from "../../../shared/services/ui.service"
 import { IDataVisualizer } from "../mapping.interface"

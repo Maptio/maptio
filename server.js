@@ -50,11 +50,11 @@ var isProduction = process.env.NODE_ENV === 'production';
 var port = isProduction ? process.env.PORT : 3000;
 var publicPath = path.resolve(__dirname, 'public');
 
-var todos = require('./routes/todos');
+var datasets = require('./routes/datasets');
 
 
 app.use(express.static(publicPath));
-app.use('/api/v1/', todos);
+app.use('/api/v1/', datasets);
 
 // We only want to run the workflow when not in production
 if (!isProduction) {

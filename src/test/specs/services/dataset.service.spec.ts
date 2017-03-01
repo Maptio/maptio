@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, async, inject, fakeAsync } from '@angular/core/testing';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Http, HttpModule, Response, Headers, RequestOptions, BaseRequestOptions, ResponseOptions } from "@angular/http";
-import { DataSetService } from "../../../app/shared/services/dataset.service"
+import { DatasetFactory } from "../../../app/shared/services/dataset.factory"
 import { ErrorService } from "../../../app/shared/services/error.service";
 import { AuthenticatedUser } from "../../../app/shared/model/user.data"
 
@@ -16,7 +16,7 @@ describe("dataset.service.ts", () => {
             imports: [HttpModule],
             providers: [
 
-                DataSetService
+                DatasetFactory
                 ,
                 {
                     provide: Http,
@@ -35,7 +35,7 @@ describe("dataset.service.ts", () => {
 
     });
 
-    it("Gets a list of datasets from static configuration", fakeAsync(inject([DataSetService, MockBackend, ErrorService], (target: DataSetService, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+    it("Gets a list of datasets from static configuration", fakeAsync(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
 
         mockBackend.connections.subscribe((connection: MockConnection) => {
 
@@ -45,7 +45,7 @@ describe("dataset.service.ts", () => {
         });
         let user = new AuthenticatedUser();
 
-        target.getData(user).then(datasets => {
+        target.get(user).then(datasets => {
             expect(datasets.length).toBe(1);
             expect(datasets[0].name).toBe("Vestd");
             //expect(datasets[1].name).toBe("me@domain.com");

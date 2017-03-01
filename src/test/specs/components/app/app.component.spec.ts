@@ -6,7 +6,7 @@ import { BrowserDynamicTestingModule } from "@angular/platform-browser-dynamic/t
 import { AppComponent } from "../../../../app/app.component";
 import { HelpComponent } from "../../../../app/components/help/help.component"
 import { BuildingComponent } from "../../../../app/components/building/building.component"
-import { DataSetService } from "../../../../app/shared/services/dataset.service";
+import { DatasetFactory } from "../../../../app/shared/services/dataset.factory";
 import { DataService } from "../../../../app/shared/services/data.service";
 import { DataSet } from "../../../../app/shared/model/dataset.data";
 import { ErrorService } from "../../../../app/shared/services/error.service";
@@ -59,7 +59,7 @@ describe("app.component.ts", () => {
         }).overrideComponent(AppComponent, {
             set: {
                 providers: [
-                    DataSetService, DataService,
+                    DatasetFactory, DataService,
                     { provide: Auth, useClass: AuthStub },
                     {
                         provide: Http,
@@ -80,8 +80,8 @@ describe("app.component.ts", () => {
 
         component = target.componentInstance;
 
-        let mockDataSetService = target.debugElement.injector.get(DataSetService);
-        spyDataSetService = spyOn(mockDataSetService, "getData").and.returnValue(Promise.resolve(DATASETS));
+        let mockDataSetService = target.debugElement.injector.get(DatasetFactory);
+        spyDataSetService = spyOn(mockDataSetService, "get").and.returnValue(Promise.resolve(DATASETS));
 
         mockAuth = target.debugElement.injector.get(Auth);
 

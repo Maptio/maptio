@@ -6,7 +6,7 @@ import { HttpModule } from "@angular/http";
 
 // Services
 import { DataService } from "./shared/services/data.service";
-import { DataSetService } from "./shared/services/dataset.service";
+import { DatasetFactory } from "./shared/services/dataset.factory";
 import { ColorService } from "./shared/services/color.service"
 import { UIService } from "./shared/services/ui.service"
 import { ErrorService } from "./shared/services/error.service";
@@ -57,7 +57,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     Ng2Bs3ModalModule,
     NgbModule.forRoot()
   ],
-  providers: [D3Service, DataService, ColorService, UIService, DataSetService, ErrorService, AUTH_PROVIDERS, Auth],
+  providers: [D3Service, DataService, ColorService, UIService, DatasetFactory, ErrorService, AUTH_PROVIDERS, Auth],
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]
 })

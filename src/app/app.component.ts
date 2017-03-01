@@ -6,7 +6,7 @@ import {
 import { BuildingComponent } from "./components/building/building.component"
 import { HelpComponent } from "./components/help/help.component";
 import { DataSet } from "./shared/model/dataset.data"
-import { DataSetService } from "./shared/services/dataset.service"
+import { DatasetFactory } from "./shared/services/dataset.factory"
 import "rxjs/add/operator/map"
 import { Auth } from "./shared/services/auth.service";
 import { AuthenticatedUser } from "./shared/model/user.data"
@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
 
   public loggedUser: AuthenticatedUser;
 
-  constructor(private auth: Auth, private datasetService: DataSetService) {
+  constructor(private auth: Auth, private datasetService: DatasetFactory) {
   }
 
   start(dataset: DataSet) {
@@ -47,7 +47,7 @@ export class AppComponent implements OnInit {
         let tryParse = AuthenticatedUser.create().tryDeserialize(profile);
         if (tryParse[0]) {
           this.loggedUser = tryParse[1];
-          this.datasetService.getData(this.loggedUser).then(o => {
+          this.datasetService.get(this.loggedUser).then(o => {
             this.datasets = o;
           });
         }
