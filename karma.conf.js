@@ -4,33 +4,20 @@ module.exports = function (config) {
         frameworks: ["jasmine", "fixture", "karma-typescript"],
 
         files: [
-
-
             { pattern: "./base.spec.ts" },
-
+            // Libraries
             { pattern: "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" },
             { pattern: "https://cdn.auth0.com/js/lock/10.8/lock.min.js" },
-
+            // Application
             { pattern: "./src/app/app.component.ts" },
-            { pattern: "./src/app/shared/interfaces/*.ts" },
-            { pattern: "./src/app/shared/model/*.ts" },
-            { pattern: "./src/app/shared/directives/*.ts" },
-            { pattern: "./src/app/components/initiative/*.*" },
-            { pattern: "./src/app/components/help/*.*" },
-            { pattern: "./src/app/components/building/*.*" },
-            //{ pattern: "./app/components/mapping/**/*.*" },
-            { pattern: "./src/app/shared/services/data.service.ts" },
-            { pattern: "./src/app/shared/services/dataset.service.ts" },
-            { pattern: "./src/app/shared/services/error.service.ts" },
-            { pattern: "./src/app/shared/services/auth.service.ts" },
-
-            
-             { pattern: "./src/test/specs/**/*.*" }
+            { pattern: "./src/app/shared/**/*.ts" },
+            { pattern: "./src/app/components/**/*.*" },
+            // Specs
+            { pattern: "./src/test/specs/**/*.*" }
         ],
 
         proxies: {
             "/app/": "/base/src/app/"
-            //"/app/": "/base/src/app/" // use this without moduleId + templateUrl: "app/hello.html"
         },
 
         jsonFixturesPreprocessor: {
@@ -50,17 +37,21 @@ module.exports = function (config) {
 
         karmaTypescriptConfig: {
             bundlerOptions: {
-                // ignore: ["d3-ng2-service"],
-                validateSyntax: false
+                validateSyntax: false,
+                transforms: [
+                    require("karma-typescript-es6-transform")()
+                ]
             },
             reports: {
                 "html": {
                     "directory": "coverage",
-                    "filename": "html/index.html"
+                    "subdirectory": "html",
+                    "filename": "index.html"
                 },
                 "lcovonly": {
                     "directory": "coverage",
-                    "filename": "lcov/lcov.info"
+                    "subdirectory": "lcov",
+                    "filename": "lcov.info"
                 }
             }
         },
