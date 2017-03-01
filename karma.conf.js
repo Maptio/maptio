@@ -55,19 +55,13 @@ module.exports = function (config) {
             },
             reports: {
                 "html": {
-                    "directory": "test/coverage",
-                    "subdirectory": "html",
-                    "filename": "coverage.html"
+                    "directory": "coverage",
+                    "filename": "html/index.html"
                 },
                 "lcovonly": {
-                    "directory": "test/coverage",
-                    "subdirectory": "lcov",
-                    "filename": "lcov.info"
+                    "directory": "coverage",
+                    "filename": "lcov/lcov.info"
                 }
-            },
-            coverageOptions: {
-                instrumentation:false, 
-                exclude:  /\.shared\.ts/i
             }
         },
 
