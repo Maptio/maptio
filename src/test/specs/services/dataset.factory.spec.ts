@@ -8,7 +8,7 @@ import { AuthenticatedUser } from "../../../app/shared/model/user.data"
 let spyErrorService: jasmine.Spy;
 
 
-describe("dataset.service.ts", () => {
+describe("dataset.factory.ts", () => {
 
     beforeEach(() => {
 

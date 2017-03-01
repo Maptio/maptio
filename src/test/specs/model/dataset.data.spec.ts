@@ -11,7 +11,7 @@ describe('Dataset Tests', () => {
     });
 
     it('Creates new correctly', () => {
-        dataset = new DataSet(NAME, URL);
+        dataset = new DataSet({ name: NAME, url: URL });
 
         expect(dataset.name).toBe(NAME);
         expect(dataset.url).toBe(URL);

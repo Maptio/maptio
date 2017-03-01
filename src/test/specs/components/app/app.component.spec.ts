@@ -47,7 +47,7 @@ describe("app.component.ts", () => {
     let target: ComponentFixture<AppComponent>;
     let de: DebugElement;
     let el: HTMLElement;
-    let DATASETS = [new DataSet("One", "one.json"), new DataSet("Two", "two.json"), new DataSet("Three", "three.json")];
+    let DATASETS = [new DataSet({ name: "One", url: "one.json" }), new DataSet({ name: "Two", url: "two.json" }), new DataSet({ name: "Three", url: "three.json" })];
     let spyDataSetService: jasmine.Spy;
     let spyAuthService: jasmine.Spy;
     let mockAuth: Auth;
@@ -222,7 +222,7 @@ describe("app.component.ts", () => {
             it("should display dataset name in navigation bar after it is loaded", async(() => {
                 spyOn(mockAuth, "authenticated").and.returnValue(true);
                 target.detectChanges();
-                let dataset = new DataSet("Example", "http://server/example.json");
+                let dataset = new DataSet({ name: "Example", url: "http://server/example.json" });
                 component.start(dataset);
                 target.whenStable().then(() => {
                     target.detectChanges();
@@ -322,7 +322,7 @@ describe("app.component.ts", () => {
             spyOn(mockAuth, "authenticated").and.returnValue(true);
             target.detectChanges();
             let spy = spyOn(component.buildingComponent, "loadData");
-            let dataset = new DataSet("Example", "http://server/example.json");
+            let dataset = new DataSet({ name: "Example", url: "http://server/example.json" });
             component.start(dataset);
             expect(spy).toHaveBeenCalledWith("http://server/example.json");
         });

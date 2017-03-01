@@ -16,11 +16,11 @@ export class DatasetFactory {
     /*
     *   These will be reocrded under an account later.
     */
-    private DATASETS: Array<DataSet> = [
-        new DataSet("Vestd", "../../../build/assets/datasets/vestd.json")
-        // new DataSet("Mike Bostock's", '../../../assets/datasets/mbostock.json'),
-        // new DataSet("Dummy", '../../../assets/datasets/dummy.json')
-    ];
+    // private DATASETS: Array<DataSet> = [
+    //     new DataSet("Vestd", "../../../build/assets/datasets/vestd.json")
+    //     // new DataSet("Mike Bostock's", '../../../assets/datasets/mbostock.json'),
+    //     // new DataSet("Dummy", '../../../assets/datasets/dummy.json')
+    // ];
 
     constructor(http: Http, public errorService: ErrorService) {
         this._data$ = new Subject<DataSet[]>();
@@ -37,13 +37,11 @@ export class DatasetFactory {
         return this._http.get('/api/v1/datasets').toPromise()
             .then(response => {
                 let sets = new Array<DataSet>();
-                sets.push(new DataSet({ name: "Vest", url: "http://localhost:3000/api/v1/dataset/58b655a8f36d281facb72f56" }));
+                sets.push(new DataSet({ name: "Vestd", url: "http://localhost:3000/api/v1/dataset/58b655a8f36d281facb72f56" }));
                 return sets
             })
             .catch(this.errorService.handleError);
     }
-
-
 }
 
 
