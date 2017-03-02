@@ -13,12 +13,9 @@ import { DataSet } from "../../../../app/shared/model/dataset.data";
 import { ErrorService } from "../../../../app/shared/services/error.service";
 import { Auth } from "../../../../app/shared/services/auth.service";
 import { MockBackend, MockConnection } from "@angular/http/testing";
-import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
-import { Http, HttpModule, Response, Headers, RequestOptions, BaseRequestOptions, ResponseOptions } from "@angular/http";
+import { Http, Headers, BaseRequestOptions } from "@angular/http";
 import { User } from "../../../../app/shared/model/user.data";
 import { Observable } from "rxjs/Rx";
-
-import { Subject } from "rxjs/Subject"
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 
@@ -86,7 +83,7 @@ describe("app.component.ts", () => {
 
         mockAuth = target.debugElement.injector.get(Auth);
 
-        //target.detectChanges(); // trigger initial data binding
+        // target.detectChanges(); // trigger initial data binding
     });
 
     describe("View", () => {

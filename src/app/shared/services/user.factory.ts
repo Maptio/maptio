@@ -71,11 +71,13 @@ export class UserFactory {
     }
 
     /**
-     * Upsert a user 
+     * Upsert a user
+     * @param   user    User to update or insert
+     * @returns         True if upsert has succeded, false otherwise
      */
     upsert(user: User): Promise<boolean> {
         // FIXME : does this handle error well ? Write a test
-        return this.http.put("/api/v1/user/:" + user.user_id, user)
+        return this.http.put("/api/v1/user/:" + user.user_id , null)
             .map((responseData) => {
                 return responseData.json();
             })
