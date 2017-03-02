@@ -43,9 +43,9 @@ module.exports = function (config) {
                 ]
             },
             coverageOptions: {
-                exclude: [/(\/test\/.*|\.d)\.ts/i]
+                exclude: [/(\/src\/test\/.*|\.d|base.spec)\.ts/i]
             },
-            include: ['src/test/**/*.ts', 'src/app/**/*.ts', 'base.spec.ts'],
+            //include: ['src/test/**/*.ts', 'src/app/**/*.ts'],
             reports: {
                 "html": {
                     "directory": "coverage",
