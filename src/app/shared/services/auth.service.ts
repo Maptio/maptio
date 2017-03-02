@@ -1,3 +1,4 @@
+import { UserFactory } from './user.factory';
 import { Injectable } from "@angular/core";
 import { tokenNotExpired } from "angular2-jwt";
 
@@ -5,6 +6,7 @@ import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject"
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
+import { User } from "../model/user.data";
 
 declare var Auth0Lock: any;
 
@@ -14,7 +16,7 @@ export class Auth {
   lock = new Auth0Lock("CRvF82hID2lNIMK4ei2wDz20LH7S5BMy", "circlemapping.auth0.com", {});
   private userProfile$: Subject<Object>;
 
-  constructor() {
+  constructor(userFactory: UserFactory) {
     this.userProfile$ = new Subject();
     this.userProfile$.next(JSON.parse(localStorage.getItem("profile")));
     this.lock.on("authenticated", (authResult: any) => {
@@ -26,6 +28,9 @@ export class Auth {
         }
 
         localStorage.setItem("profile", JSON.stringify(profile));
+        let connectedUser = new User().deserialize(profile);
+        console.log("AUTH " + JSON.stringify(connectedUser));
+        userFactory.upsert(connectedUser);
         this.userProfile$.next(profile);
       });
     });

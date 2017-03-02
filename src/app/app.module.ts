@@ -1,3 +1,4 @@
+
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule, ApplicationRef } from "@angular/core";
 import { CommonModule } from "@angular/common";
@@ -12,6 +13,7 @@ import { UIService } from "./shared/services/ui.service"
 import { ErrorService } from "./shared/services/error.service";
 import { Auth } from "./shared/services/auth.service";
 import { AUTH_PROVIDERS } from "angular2-jwt";
+import { UserFactory } from './shared/services/user.factory';
 
 // Components
 import { AppComponent } from "./app.component";
@@ -57,7 +59,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     Ng2Bs3ModalModule,
     NgbModule.forRoot()
   ],
-  providers: [D3Service, DataService, ColorService, UIService, DatasetFactory, ErrorService, AUTH_PROVIDERS, Auth],
+  providers: [D3Service, DataService, ColorService, UIService, DatasetFactory, ErrorService, AUTH_PROVIDERS, Auth, UserFactory],
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]
 })

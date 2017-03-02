@@ -1,3 +1,4 @@
+import { UserFactory } from './../../../../app/shared/services/user.factory';
 import { ComponentFixture, TestBed, async, inject, fakeAsync, tick } from "@angular/core/testing";
 import { DebugElement, NO_ERRORS_SCHEMA } from "@angular/core"
 import { FormsModule } from "@angular/forms";
@@ -14,7 +15,7 @@ import { Auth } from "../../../../app/shared/services/auth.service";
 import { MockBackend, MockConnection } from "@angular/http/testing";
 import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
 import { Http, HttpModule, Response, Headers, RequestOptions, BaseRequestOptions, ResponseOptions } from "@angular/http";
-import { AuthenticatedUser } from "../../../../app/shared/model/user.data";
+import { User } from "../../../../app/shared/model/user.data";
 import { Observable } from "rxjs/Rx";
 
 import { Subject } from "rxjs/Subject"
@@ -59,7 +60,7 @@ describe("app.component.ts", () => {
         }).overrideComponent(AppComponent, {
             set: {
                 providers: [
-                    DatasetFactory, DataService,
+                    DatasetFactory, DataService,UserFactory,
                     { provide: Auth, useClass: AuthStub },
                     {
                         provide: Http,
@@ -113,8 +114,8 @@ describe("app.component.ts", () => {
             it("should show a list of datasets when user is valid", fakeAsync(() => {
 
                 let mockUser = jasmine.createSpyObj("mockUser", ["tryDeserialize"]);
-                mockUser.tryDeserialize.and.returnValue([true, new AuthenticatedUser({ name: "Parsed user" })]);
-                let spyCreateUser = spyOn(AuthenticatedUser, "create").and.returnValue(mockUser);
+                mockUser.tryDeserialize.and.returnValue([true, new User({ name: "Parsed user" })]);
+                let spyCreateUser = spyOn(User, "create").and.returnValue(mockUser);
 
                 spyAuthService = spyOn(mockAuth, "getUser").and.callThrough();
                 spyOn(mockAuth, "authenticated").and.returnValue(true);
@@ -128,7 +129,7 @@ describe("app.component.ts", () => {
                     expect(mockUser.tryDeserialize).toHaveBeenCalled();
 
                     expect(spyDataSetService).toHaveBeenCalled();
-                    expect(spyDataSetService).toHaveBeenCalledWith(jasmine.any(AuthenticatedUser));
+                    expect(spyDataSetService).toHaveBeenCalledWith(jasmine.any(User));
                     expect(spyDataSetService).toHaveBeenCalledWith(jasmine.objectContaining({
                         name: "Parsed user"
                     }));
@@ -148,7 +149,7 @@ describe("app.component.ts", () => {
             it("should not show a list of datasets when user is invalid", fakeAsync(() => {
                 let mockUser = jasmine.createSpyObj("mockUser", ["tryDeserialize"]);
                 mockUser.tryDeserialize.and.returnValue([false, undefined]);
-                let spyCreateUser = spyOn(AuthenticatedUser, "create").and.returnValue(mockUser);
+                let spyCreateUser = spyOn(User, "create").and.returnValue(mockUser);
 
                 spyAuthService = spyOn(mockAuth, "getUser").and.callThrough();
 

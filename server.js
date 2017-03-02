@@ -42,6 +42,7 @@ module.exports = app;
 var express = require('express');
 var path = require('path');
 var httpProxy = require('http-proxy');
+var bodyParser = require('body-parser');
 
 var proxy = httpProxy.createProxyServer();
 var app = express();
@@ -50,11 +51,16 @@ var isProduction = process.env.NODE_ENV === 'production';
 var port = isProduction ? process.env.PORT : 3000;
 var publicPath = path.resolve(__dirname, 'public');
 
+//Handles put requests
+app.use(bodyParser.json());
+
 var datasets = require('./routes/datasets');
+var users = require('./routes/users');
 
 
 app.use(express.static(publicPath));
 app.use('/api/v1/', datasets);
+app.use('/api/v1/', users);
 
 // We only want to run the workflow when not in production
 if (!isProduction) {
@@ -69,7 +75,7 @@ if (!isProduction) {
   // to webpack-dev-server
   app.all('/build/*', function (req, res) {
     proxy.web(req, res, {
-        target: 'http://localhost:8080'
+      target: 'http://localhost:8080'
     });
   });
 
@@ -78,7 +84,7 @@ if (!isProduction) {
 // It is important to catch any errors from the proxy or the
 // server will crash. An example of this is connecting to the
 // server when webpack is bundling
-proxy.on('error', function(e) {
+proxy.on('error', function (e) {
   console.log('Could not connect to proxy, please try again...');
 });
 

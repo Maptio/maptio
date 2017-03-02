@@ -1,30 +1,32 @@
 import { Serializable } from '../interfaces/serializable.interface';
 
-export class AuthenticatedUser implements Serializable<AuthenticatedUser> {
+export class User implements Serializable<User> {
 
+    public user_id: string;
     public name: string;
     public email: string;
     public picture: string;
 
-    public constructor(init?: Partial<AuthenticatedUser>) {
+    public constructor(init?: Partial<User>) {
         Object.assign(this, init);
     }
 
 
-    static create(): AuthenticatedUser {
-        return new AuthenticatedUser();
+    static create(): User {
+        return new User();
     }
 
-    deserialize(input: any): AuthenticatedUser {
-        if (!input.name && !input.email && !input.picture) { return undefined; }
-        let deserialized = new AuthenticatedUser();
+    deserialize(input: any): User {
+        //if (!input.name && !input.email && !input.picture) { return undefined; }
+        let deserialized = new User();
         deserialized.name = input.name;
         deserialized.email = input.email;
         deserialized.picture = input.picture;
+        deserialized.user_id = input.user_id; //specific to Auth0
         return deserialized;
     }
 
-    tryDeserialize(input: any): [boolean, AuthenticatedUser] {
+    tryDeserialize(input: any): [boolean, User] {
         try {
             let user = this.deserialize(input);
             if (user !== undefined) {

@@ -1,3 +1,4 @@
+
 import {
   Component,
   OnInit,
@@ -9,7 +10,7 @@ import { DataSet } from "./shared/model/dataset.data"
 import { DatasetFactory } from "./shared/services/dataset.factory"
 import "rxjs/add/operator/map"
 import { Auth } from "./shared/services/auth.service";
-import { AuthenticatedUser } from "./shared/model/user.data"
+import { User } from "./shared/model/user.data"
 @Component({
   selector: "my-app",
   template: require("./app.component.html"),
@@ -31,7 +32,7 @@ export class AppComponent implements OnInit {
 
   public isBuildingPanelCollapsed: boolean = true;
 
-  public loggedUser: AuthenticatedUser;
+  public loggedUser: User;
 
   constructor(private auth: Auth, private datasetService: DatasetFactory) {
   }
@@ -44,7 +45,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.auth.getUser().subscribe(
       (profile: Object) => {
-        let tryParse = AuthenticatedUser.create().tryDeserialize(profile);
+        let tryParse = User.create().tryDeserialize(profile);
         if (tryParse[0]) {
           this.loggedUser = tryParse[1];
           this.datasetService.get(this.loggedUser).then(o => {
@@ -55,7 +56,7 @@ export class AppComponent implements OnInit {
           this.loggedUser = undefined;
           this.datasets = [];
         }
-        
+
       }
     );
   }

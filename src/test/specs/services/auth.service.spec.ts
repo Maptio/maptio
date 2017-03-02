@@ -1,3 +1,7 @@
+import { ErrorService } from './../../../app/shared/services/error.service';
+import { MockBackend } from '@angular/http/testing';
+import { Http, BaseRequestOptions } from '@angular/http';
+import { UserFactory } from './../../../app/shared/services/user.factory';
 import { Auth } from "../../../app/shared/services/auth.service"
 import { TestBed, async, inject, fakeAsync } from "@angular/core/testing";
 import { tokenNotExpired } from "angular2-jwt";
@@ -7,7 +11,16 @@ describe("auth.service.ts", () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
-                Auth
+                Auth, UserFactory, {
+                    provide: Http,
+                    useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
+                        return new Http(mockBackend, options);
+                    },
+                    deps: [MockBackend, BaseRequestOptions]
+                },
+                MockBackend,
+                BaseRequestOptions,
+                ErrorService
             ]
         });
     });
