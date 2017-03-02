@@ -42,6 +42,10 @@ module.exports = function (config) {
                     require("karma-typescript-es6-transform")()
                 ]
             },
+            coverageOptions: {
+                exclude: [/(\/test\/.*|\.d)\.ts/i]
+            },
+            include: ['src/test/**/*.ts', 'src/app/**/*.ts', 'base.spec.ts'],
             reports: {
                 "html": {
                     "directory": "coverage",
