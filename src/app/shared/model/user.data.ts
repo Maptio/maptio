@@ -17,7 +17,9 @@ export class User implements Serializable<User> {
     }
 
     deserialize(input: any): User {
-        //if (!input.name && !input.email && !input.picture) { return undefined; }
+        if (!input.user_id) {
+            return undefined;
+        }
         let deserialized = new User();
         deserialized.name = input.name;
         deserialized.email = input.email;

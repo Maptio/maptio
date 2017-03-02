@@ -70,17 +70,17 @@ export class UserFactory {
             .catch(this.errorService.handleError);
     }
 
-
-    upsert(user: User): Promise<User> {
+    /**
+     * Upsert a user 
+     */
+    upsert(user: User): Promise<boolean> {
+        // FIXME : does this handle error well ? Write a test
         return this.http.put("/api/v1/user/:" + user.user_id, user)
             .map((responseData) => {
                 return responseData.json();
             })
-            .map((input: any) => {
-                return User.create().deserialize(input);
-            })
             .toPromise()
-            .then(r => r)
+            .then(r => { return true })
             .catch(this.errorService.handleError);
     }
 }

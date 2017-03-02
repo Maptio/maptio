@@ -28,9 +28,7 @@ export class Auth {
         }
 
         localStorage.setItem("profile", JSON.stringify(profile));
-        let connectedUser = new User().deserialize(profile);
-        console.log("AUTH " + JSON.stringify(connectedUser));
-        userFactory.upsert(connectedUser);
+        userFactory.upsert(User.create().deserialize(profile)); // adds the user in the database
         this.userProfile$.next(profile);
       });
     });

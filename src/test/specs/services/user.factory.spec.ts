@@ -135,13 +135,8 @@ describe("user.factory.ts", () => {
 
     describe("update", () => {
         it("should call correct REST API endpoint", fakeAsync(inject([UserFactory, MockBackend, ErrorService], (target: UserFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
-            let mockUser = jasmine.createSpyObj("User", ["deserialize"]);
-            let spyCreate = spyOn(User, "create").and.returnValue(mockUser);
-            let spyDeserialize = mockUser.deserialize.and.returnValue(new User({ name: "Deserialized" }));
-
-            const mockResponse = [
-                { id: 1, uniqueId: "uniqueId1", name: "First", email: "first@domain.com", picture: "http://seemyface/user.jpg" }
-            ];
+          
+            const mockResponse = true;
 
             mockBackend.connections.subscribe((connection: MockConnection) => {
                 if (connection.request.url === "/api/v1/user/:someId") {
@@ -155,11 +150,8 @@ describe("user.factory.ts", () => {
             });
 
             let user = new User({ name: "New name", user_id: "someId" });
-            target.upsert(user).then(user => {
-                expect(spyCreate).toHaveBeenCalled()
-                expect(spyDeserialize).toHaveBeenCalled();
-                expect(user).toBeDefined();
-                expect(user.name).toBe("Deserialized");
+            target.upsert(user).then(response => {
+                expect(response).toBe(true);
             });
         })));
     });

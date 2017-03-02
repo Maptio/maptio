@@ -23,7 +23,7 @@ import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 
 export class AuthStub {
-    fakeProfile: Object = { name: "John Doe", email: "johndoe@domain.com", picture: "http://seemyface.com/user.jpg" };
+    fakeProfile: Object = { name: "John Doe", email: "johndoe@domain.com", picture: "http://seemyface.com/user.jpg", user_id: "someId" };
 
     public getUser(): Observable<Object> {
         return Observable.of(this.fakeProfile);
@@ -60,7 +60,7 @@ describe("app.component.ts", () => {
         }).overrideComponent(AppComponent, {
             set: {
                 providers: [
-                    DatasetFactory, DataService,UserFactory,
+                    DatasetFactory, DataService, UserFactory,
                     { provide: Auth, useClass: AuthStub },
                     {
                         provide: Http,
