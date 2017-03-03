@@ -42,12 +42,9 @@ export class UserFactory {
      *  Returns undefined if no user is found
      */
     get(uniqueId: string): Promise<User> {
-        return this.http.get("/api/v1/user/:" + uniqueId)
-            .map((responseData) => {
-                return responseData.json();
-            })
-            .map((input: any) => {
-                return User.create().deserialize(input);
+        return this.http.get("/api/v1/user/" + uniqueId)
+            .map((response: Response) => {
+                return User.create().deserialize(response.json());
             })
             .toPromise()
             .then(r => r)
@@ -77,7 +74,7 @@ export class UserFactory {
      */
     upsert(user: User): Promise<boolean> {
         // FIXME : does this handle error well ? Write a test
-        return this.http.put("/api/v1/user/:" + user.user_id , null)
+        return this.http.put("/api/v1/user/" + user.user_id , user)
             .map((responseData) => {
                 return responseData.json();
             })

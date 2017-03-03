@@ -14,11 +14,10 @@ declare var Auth0Lock: any;
 export class Auth {
 
   lock = new Auth0Lock("CRvF82hID2lNIMK4ei2wDz20LH7S5BMy", "circlemapping.auth0.com", {});
-  private userProfile$: Subject<Object>;
+  private user$: Subject<User>;
 
-  constructor(userFactory: UserFactory) {
-    this.userProfile$ = new Subject();
-    this.userProfile$.next(JSON.parse(localStorage.getItem("profile")));
+  constructor(public userFactory: UserFactory) {
+    this.user$ = new Subject();
     this.lock.on("authenticated", (authResult: any) => {
       localStorage.setItem("id_token", authResult.idToken);
       this.lock.getProfile(authResult.idToken, (error: any, profile: any) => {
@@ -26,10 +25,11 @@ export class Auth {
           alert(error);
           return;
         }
-
         localStorage.setItem("profile", JSON.stringify(profile));
-        userFactory.upsert(User.create().deserialize(profile)); // adds the user in the database
-        this.userProfile$.next(profile);
+        userFactory.upsert(User.create().deserialize(profile));  // adds the user in the database
+        userFactory.get(profile.user_id).then((user) => {
+          this.user$.next(user)
+        });
       });
     });
   }
@@ -49,11 +49,11 @@ export class Auth {
   }
 
   public clear() {
-    this.userProfile$.next(undefined);
+    this.user$.next(undefined);
   }
 
-  public getUser(): Observable<Object> {
-    return this.userProfile$.asObservable();
+  public getUser(): Observable<User> {
+    return this.user$.asObservable();
   }
 
 }

@@ -29,11 +29,6 @@ export class DatasetFactory {
 
 
     get(user: User): Promise<DataSet[]> {
-        //this.DATASETS.push(new DataSet(user.name, "../../../assets/datasets/" + user.name + ".json"))
-        // return this.http.get("")
-        //     .toPromise()
-        //     .then(response => this.DATASETS)
-        //     .catch(this.errorService.handleError);
         return this._http.get('/api/v1/datasets').toPromise()
             .then(response => {
                 let sets = new Array<DataSet>();

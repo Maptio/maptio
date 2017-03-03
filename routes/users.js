@@ -15,15 +15,18 @@ router.get('/users', function (req, res, next) {
 });
 /* GET One user with the provided ID */
 router.get('/user/:id', function (req, res, next) {
-    db.users.findOne({
-        _id: mongojs.ObjectId(req.params.id)
-    }, function (err, users) {
-        if (err) {
-            res.send(err);
-        } else {
-            res.json(users);
-        }
-    });
+    db.users.findOne(
+        { user_id: req.params.id },
+        {},
+        function (err, users) {
+            console.log(err);
+            console.log(users);
+            if (err) {
+                res.send(err);
+            } else {
+                res.json(users);
+            }
+        });
 });
 /* POST/SAVE a user */
 router.post('/user', function (req, res, next) {
@@ -45,7 +48,9 @@ router.post('/user', function (req, res, next) {
 });
 /* PUT/UPDATE a user */
 router.put('/user/:id', function (req, res, next) {
-
+    console.log(req.url);
+    console.log(req.params);
+    console.log(req.body);
     var user = req.body;
     db.users.update(
         { user_id: user.user_id },

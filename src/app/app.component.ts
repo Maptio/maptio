@@ -44,20 +44,13 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.auth.getUser().subscribe(
-      (profile: Object) => {
-        let tryParse = User.create().tryDeserialize(profile);
-        if (tryParse[0]) {
-          this.loggedUser = tryParse[1];
-          this.datasetService.get(this.loggedUser).then(o => {
-            this.datasets = o;
-          });
-        }
-        else {
-          this.loggedUser = undefined;
-          this.datasets = [];
-        }
-
-      }
+      (user: User) => {
+        this.loggedUser = user;
+        this.datasetService.get(this.loggedUser).then(o => {
+          this.datasets = o;
+        });
+      },
+      (error: any) => { console.log(error) }
     );
   }
 

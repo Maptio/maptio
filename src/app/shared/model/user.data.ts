@@ -2,9 +2,24 @@ import { Serializable } from '../interfaces/serializable.interface';
 
 export class User implements Serializable<User> {
 
+    /**
+     * Unique Id (specific to Auth0 schema)
+     */
     public user_id: string;
+
+    /**
+     * User name
+     */
     public name: string;
+
+    /**
+     * User email
+     */
     public email: string;
+
+    /**
+     * User picture URL
+     */
     public picture: string;
 
     public constructor(init?: Partial<User>) {
