@@ -26,7 +26,7 @@ export class Auth {
           return;
         }
         localStorage.setItem("profile", JSON.stringify(profile));
-        userFactory.upsert(User.create().deserialize(profile));  // adds the user in the database
+        //userFactory.upsert(User.create().deserialize(profile));  // adds the user in the database
         userFactory.get(profile.user_id).then((user) => {
           this.user$.next(user)
         });

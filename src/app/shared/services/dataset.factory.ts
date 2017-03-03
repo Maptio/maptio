@@ -1,10 +1,12 @@
 import { Injectable } from "@angular/core";
-import { Http, RequestOptions } from "@angular/http";
+import { Http, RequestOptions, Response } from "@angular/http";
 import { Subject } from "rxjs/Subject"
 import "rxjs/add/operator/map"
 import { DataSet } from "../model/dataset.data"
 import { ErrorService } from "./error.service";
 import { User } from '../model/user.data';
+import 'rxjs/add/operator/toPromise';
+import { Observable } from "rxjs/Rx";
 
 @Injectable()
 export class DatasetFactory {
@@ -12,29 +14,52 @@ export class DatasetFactory {
     private _http: Http;
     private _data$: Subject<DataSet[]>;
 
-
-    /*
-    *   These will be reocrded under an account later.
-    */
-    // private DATASETS: Array<DataSet> = [
-    //     new DataSet("Vestd", "../../../build/assets/datasets/vestd.json")
-    //     // new DataSet("Mike Bostock's", '../../../assets/datasets/mbostock.json'),
-    //     // new DataSet("Dummy", '../../../assets/datasets/dummy.json')
-    // ];
-
     constructor(http: Http, public errorService: ErrorService) {
         this._data$ = new Subject<DataSet[]>();
         this._http = http;
     }
 
 
-    get(user: User): Promise<DataSet[]> {
-        return this._http.get('/api/v1/datasets').toPromise()
-            .then(response => {
-                let sets = new Array<DataSet>();
-                sets.push(new DataSet({ name: "Vestd", url: "http://localhost:3000/api/v1/dataset/58b655a8f36d281facb72f56" }));
-                return sets
+    getAll(): Promise<DataSet[]> {
+        throw new Error("Not implemented");
+    }
+
+    get(id: string): Promise<DataSet>;
+    get(user: User): Promise<DataSet[]>;
+    get(idOrUser: string | User): Promise<DataSet> | Promise<DataSet[]> {
+        return (idOrUser instanceof User)
+            ? this.getWithUser(<User>idOrUser)
+            : this.getWithId(<string>idOrUser)
+    }
+
+
+
+    private getWithUser(user: User): Promise<DataSet[]> {
+        return this._http.get("/api/v1/user/" + user.user_id + "/datasets")
+            .map((responseData) => {
+                return responseData.json();
             })
+            .map((user: any) => {
+                let result: Array<DataSet> = [];
+                if (user.datasets) {
+                    user.datasets.forEach((oid: any) => {
+                        result.push(new DataSet({ id: oid }));
+                    });
+                }
+                return result;
+            })
+            .toPromise()
+            .then(r => r)
+            .catch(this.errorService.handleError);
+    }
+
+    private getWithId(id: string): Promise<DataSet> {
+        return this._http.get("/api/v1/dataset/" + id)
+            .map((response: Response) => {
+                return DataSet.create().deserialize(response.json());
+            })
+            .toPromise()
+            .then(r => r)
             .catch(this.errorService.handleError);
     }
 }

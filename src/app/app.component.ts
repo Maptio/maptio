@@ -1,3 +1,5 @@
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
 
 import {
   Component,
@@ -27,11 +29,10 @@ export class AppComponent implements OnInit {
   helpComponent: HelpComponent;
 
   private empty: DataSet = DataSet.EMPTY;
-  private datasets: DataSet[];
+  private datasets$: Promise<DataSet[]>;
   private selectedDataset: DataSet;
 
   public isBuildingPanelCollapsed: boolean = true;
-
   public loggedUser: User;
 
   constructor(private auth: Auth, private datasetService: DatasetFactory) {
@@ -47,11 +48,22 @@ export class AppComponent implements OnInit {
       (user: User) => {
         this.loggedUser = user;
         this.datasetService.get(this.loggedUser).then(o => {
-          this.datasets = o;
+          this.datasets$ = Promise.resolve(o);
+          this.datasets$.then((datasets: DataSet[]) => {
+            datasets.forEach((dataset: DataSet) => { 
+              this.datasetService.get(dataset.id).then((d:DataSet)=>{
+                  console.log(d);
+              })
+              
+             });
+          });
         });
       },
       (error: any) => { console.log(error) }
     );
+
+
+
   }
 
   openHelp() {
@@ -66,7 +78,7 @@ export class AppComponent implements OnInit {
   // this should be the job of the observable ? (TAKES TOO MUCH TIME)
   // http://stackoverflow.com/questions/38364591/how-to-combine-multiple-observables-together-in-angular-2
   private redraw() {
-    this.buildingComponent.loadData(this.selectedDataset.url);
+    this.buildingComponent.loadData(this.selectedDataset.id);
   }
 }
 

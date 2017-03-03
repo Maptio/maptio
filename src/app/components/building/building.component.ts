@@ -50,8 +50,8 @@ export class BuildingComponent {
     }
 
 
-    loadData(url: string) {
-        this.dataService.loadFromAsync(url).then(data => {
+    loadData(id: string) {
+        this.dataService.loadFromAsync("/api/v1/dataset/"+id).then(data => {
             this.nodes = [];
             this.nodes.push(new Initiative().deserialize(data));
 

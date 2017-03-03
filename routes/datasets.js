@@ -13,8 +13,11 @@ router.get('/datasets', function (req, res, next) {
         }
     });
 });
+
+
 /* GET One dataset with the provided ID */
 router.get('/dataset/:id', function (req, res, next) {
+    console.log("CALLING "+ req.url);
     db.datasets.findOne({
         _id: mongojs.ObjectId(req.params.id)
     }, function (err, datasets) {
@@ -25,6 +28,7 @@ router.get('/dataset/:id', function (req, res, next) {
         }
     });
 });
+
 /* POST/SAVE a dataset */
 router.post('/dataset', function (req, res, next) {
     var dataset = req.body;

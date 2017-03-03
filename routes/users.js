@@ -28,6 +28,21 @@ router.get('/user/:id', function (req, res, next) {
             }
         });
 });
+
+router.get('/user/:id/datasets', function (req, res, next) {
+    console.log("GETTING DATASETS FOR USER " + req.param.id)
+    db.users.findOne(
+        { user_id: req.params.id },
+        { datasets: 1, _id:0},
+        function (err, datasets) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.json(datasets);
+            }
+        });
+});
+
 /* POST/SAVE a user */
 router.post('/user', function (req, res, next) {
     var user = req.body;

@@ -3,3 +3,4 @@ dist/
 coverage/html/
 tslint.json
 .vscode/
+TODO.md
