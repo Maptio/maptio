@@ -28,7 +28,7 @@
 						<ul class="dropdown-menu" id="loadDatasetDropdown">
 							<li class="dropdown-header">Examples {{(datasets$ | async)?.length}}</li>
 							<li *ngFor="let dataset of datasets$ | async">
-								<a (click)="start(dataset)">{{dataset.id}}</a>
+								<a (click)="start(dataset)">{{dataset.name}} {{dataset.id}}</a>
 							</li>
 						</ul>
 					</div>

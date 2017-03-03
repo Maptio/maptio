@@ -29,13 +29,13 @@ export class AppComponent implements OnInit {
   helpComponent: HelpComponent;
 
   private empty: DataSet = DataSet.EMPTY;
-  private datasets$: Promise<DataSet[]>;
+  private datasets$: Promise<Array<DataSet>>;
   private selectedDataset: DataSet;
 
   public isBuildingPanelCollapsed: boolean = true;
   public loggedUser: User;
 
-  constructor(private auth: Auth, private datasetService: DatasetFactory) {
+  constructor(private auth: Auth, private datasetFactory: DatasetFactory) {
   }
 
   start(dataset: DataSet) {
@@ -47,15 +47,15 @@ export class AppComponent implements OnInit {
     this.auth.getUser().subscribe(
       (user: User) => {
         this.loggedUser = user;
-        this.datasetService.get(this.loggedUser).then(o => {
+        this.datasetFactory.get(this.loggedUser).then(o => {
           this.datasets$ = Promise.resolve(o);
+
           this.datasets$.then((datasets: DataSet[]) => {
-            datasets.forEach((dataset: DataSet) => { 
-              this.datasetService.get(dataset.id).then((d:DataSet)=>{
-                  console.log(d);
-              })
-              
-             });
+            datasets.forEach(function (d: DataSet, i: number, set: DataSet[]) {
+              this.datasetFactory.get(d.id).then((resolved: DataSet) => {
+                set[i] = resolved;
+              });
+            }.bind(this));
           });
         });
       },

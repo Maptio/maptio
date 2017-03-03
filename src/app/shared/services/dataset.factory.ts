@@ -56,7 +56,9 @@ export class DatasetFactory {
     private getWithId(id: string): Promise<DataSet> {
         return this._http.get("/api/v1/dataset/" + id)
             .map((response: Response) => {
-                return DataSet.create().deserialize(response.json());
+                let d =  DataSet.create().deserialize(response.json());
+                d.id = id; //reassign id 
+                return d;
             })
             .toPromise()
             .then(r => r)
