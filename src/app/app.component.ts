@@ -51,9 +51,7 @@ export class AppComponent implements OnInit {
           this.datasets$ = Promise.resolve(o);
 
           this.datasets$.then((datasets: DataSet[]) => {
-            //console.log(datasets)
             datasets.forEach(function (d: DataSet, i: number, set: DataSet[]) {
-              //console.log(i);
               this.datasetFactory.get(d.id).then((resolved: DataSet) => {
                 set[i] = resolved;
               });
@@ -64,9 +62,6 @@ export class AppComponent implements OnInit {
       },
       (error: any) => { console.log(error) }
     );
-
-
-
   }
 
   openHelp() {

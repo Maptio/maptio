@@ -161,7 +161,7 @@ describe("building.component.ts", () => {
                 let url = "/api/v1/dataset/someId";
 
                 fixture.load("src/test/specs/components/building/fixtures/data.json");
-                let spyDataService = spyOn(mockDataService, "loadFromAsync").and.returnValue(Promise.resolve(fixture.json[0]));
+                let spyDataService = spyOn(mockDataService, "fetch").and.returnValue(Promise.resolve(fixture.json[0]));
 
                 component.loadData("someId");
                 target.whenStable().then(() => {
@@ -174,7 +174,7 @@ describe("building.component.ts", () => {
                 let url = "/api/v1/dataset/someId";
 
                 fixture.load("src/test/specs/components/building/fixtures/data.json");
-                let spyDataService = spyOn(mockDataService, "loadFromAsync").and.returnValue(Promise.resolve(fixture.json[0]));
+                let spyDataService = spyOn(mockDataService, "fetch").and.returnValue(Promise.resolve(fixture.json[0]));
 
                 component.loadData("someId");
                 target.whenStable().then(() => {
@@ -190,7 +190,7 @@ describe("building.component.ts", () => {
                 let url = "/api/v1/dataset/someId";
 
                 fixture.load("src/test/specs/components/building/fixtures/data.json");
-                let spyDataService = spyOn(mockDataService, "loadFromAsync").and.returnValue(Promise.resolve(fixture.json[0]));
+                let spyDataService = spyOn(mockDataService, "fetch").and.returnValue(Promise.resolve(fixture.json[0]));
                 let spyMapData = spyOn(component, "mapData");
 
                 component.loadData("someId");
@@ -208,7 +208,7 @@ describe("building.component.ts", () => {
                 node1.name = "first", node2.name = "second";
 
                 component.nodes = [node1, node2];
-                let spy = spyOn(mockDataService, "setAsync");
+                let spy = spyOn(mockDataService, "set");
                 component.mapData();
                 expect(spy).toHaveBeenCalledWith(jasmine.objectContaining({ name: "first" }));
 

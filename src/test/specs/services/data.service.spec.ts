@@ -59,7 +59,7 @@ describe('data.service.ts', () => {
             }
         });
 
-        target.loadFromAsync(URL).then(response => {
+        target.fetch(URL).then(response => {
             expect(response.data.length).toBe(2);
             expect(response.data[0]).toEqual({ id: 1, name: 'First' });
             expect(response.data[1]).toEqual({ id: 2, name: 'Second' });
@@ -75,7 +75,7 @@ describe('data.service.ts', () => {
             connection.mockError(new Error("404"))
         });
 
-        target.loadFromAsync(URL).then(data => {
+        target.fetch(URL).then(data => {
             expect(mockErrorService.handleError).toHaveBeenCalled();
         });
     })));

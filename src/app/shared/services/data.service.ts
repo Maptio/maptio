@@ -17,15 +17,15 @@ export class DataService {
         this.http = http;
     }
 
-    setAsync(data: any): void {
+    set(data: any): void {
         this._data$.next(data);
     }
 
-    getAsync(): Observable<any> {
+    get(): Observable<any> {
         return this._data$.asObservable();
     }
 
-    loadFromAsync(url: string): Promise<any> {
+    fetch(url: string): Promise<any> {
         return this.http.get(url)
             .toPromise()
             .then(response => response.json())

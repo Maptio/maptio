@@ -50,7 +50,7 @@ export class MappingComponent implements AfterViewInit, OnInit {
     ) { }
 
     ngOnInit() {
-        this.dataService.getAsync().subscribe(data => {
+        this.dataService.get().subscribe(data => {
             this.data = data;
             this.show(this.selectedView);
 

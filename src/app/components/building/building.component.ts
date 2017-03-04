@@ -36,7 +36,7 @@ export class BuildingComponent {
     }
 
     mapData() {
-        this.dataService.setAsync(this.nodes[0]);
+        this.dataService.set(this.nodes[0]);
     }
 
 
@@ -51,7 +51,7 @@ export class BuildingComponent {
 
 
     loadData(id: string) {
-        this.dataService.loadFromAsync("/api/v1/dataset/"+id).then(data => {
+        this.dataService.fetch("/api/v1/dataset/"+id).then(data => {
             this.nodes = [];
             this.nodes.push(new Initiative().deserialize(data));
 
