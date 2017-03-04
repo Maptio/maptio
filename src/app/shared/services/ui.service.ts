@@ -12,12 +12,16 @@ export class UIService {
 
 
     getCircularPath(radius: number, centerX: number, centerY: number) {
-        if (radius === undefined || centerX === undefined || centerY  === undefined)
+        if (radius === undefined || centerX === undefined || centerY === undefined)
             throw new Error("Cannot defined circular path as a parameter is missing.");
 
         var rx = -radius;
         var ry = -radius;
         return "m " + centerX + ", " + centerY + " a " + rx + "," + ry + " 1 1,1 " + radius * 2 + ",0 a -" + radius + ",-" + radius + " 1 1,1 -" + radius * 2 + ",0"
+    }
+
+    public clean() {
+        this.d3.select("svg").selectAll("*").remove();
     }
 
     wrap(text: Selection<BaseType, {}, HTMLElement, any>, actualText: string, width: number) {
@@ -87,7 +91,5 @@ export class UIService {
             });
     }
 
-    public clean() {
-        this.d3.select("svg").selectAll("*").remove();
-    }
+
 }

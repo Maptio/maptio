@@ -37,7 +37,6 @@ module.exports = function (config) {
 
         karmaTypescriptConfig: {
             bundlerOptions: {
-                validateSyntax: false,
                 transforms: [
                     require("karma-typescript-es6-transform")()
                 ]

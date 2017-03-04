@@ -10,7 +10,7 @@ import { IDataVisualizer } from "../mapping.interface"
 
 @Component({
     selector: "circles",
-    templateUrl: "mapping.circles.component.html",
+    template: require("./mapping.circles.component.html"),
     styles: [require("./mapping.circles.component.css").toString()],
 })
 

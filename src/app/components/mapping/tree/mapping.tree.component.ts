@@ -10,7 +10,7 @@ import { IDataVisualizer } from "../mapping.interface"
 
 @Component({
     selector: "tree",
-    templateUrl: "mapping.tree.component.html",
+    template: require("./mapping.tree.component.html"),
     styles: [require("./mapping.tree.component.css").toString()],
 })
 export class MappingTreeComponent implements OnInit, IDataVisualizer {

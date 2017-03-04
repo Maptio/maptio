@@ -17,7 +17,7 @@ import "rxjs/add/operator/map"
 
 @Component({
     selector: "mapping",
-    templateUrl: "./mapping.component.html",
+    template: require("./mapping.component.html"),
     styles: [require("./mapping.component.css").toString()],
     entryComponents: [MappingCirclesComponent, MappingTreeComponent],
     changeDetection: ChangeDetectionStrategy.OnPush
