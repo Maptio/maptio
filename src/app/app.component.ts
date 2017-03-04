@@ -16,7 +16,7 @@ import { User } from "./shared/model/user.data"
 @Component({
   selector: "my-app",
   template: require("./app.component.html"),
-  providers: [Auth],
+  providers: [Auth, DatasetFactory],
   styles: [require("./app.component.css").toString()]
 })
 
@@ -51,11 +51,14 @@ export class AppComponent implements OnInit {
           this.datasets$ = Promise.resolve(o);
 
           this.datasets$.then((datasets: DataSet[]) => {
+            //console.log(datasets)
             datasets.forEach(function (d: DataSet, i: number, set: DataSet[]) {
+              //console.log(i);
               this.datasetFactory.get(d.id).then((resolved: DataSet) => {
                 set[i] = resolved;
               });
             }.bind(this));
+
           });
         });
       },

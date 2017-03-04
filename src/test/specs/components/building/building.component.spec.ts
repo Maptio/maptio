@@ -158,12 +158,12 @@ describe("building.component.ts", () => {
 
         describe("Loading data", () => {
             it("shoud loads data and initializes tree", inject([DataService], (mockDataService: DataService) => {
-                let url = "http://getdata.com/data.json";
+                let url = "/api/v1/dataset/someId";
 
                 fixture.load("src/test/specs/components/building/fixtures/data.json");
                 let spyDataService = spyOn(mockDataService, "loadFromAsync").and.returnValue(Promise.resolve(fixture.json[0]));
 
-                component.loadData(url);
+                component.loadData("someId");
                 target.whenStable().then(() => {
                     expect(spyDataService).toHaveBeenCalledWith(url);
                     expect(component.nodes.length).toBe(1);
@@ -171,12 +171,12 @@ describe("building.component.ts", () => {
             }));
 
             it("should loads data and initializes team", inject([DataService], (mockDataService: DataService) => {
-                let url = "http://getdata.com/data.json";
+                let url = "/api/v1/dataset/someId";
 
                 fixture.load("src/test/specs/components/building/fixtures/data.json");
                 let spyDataService = spyOn(mockDataService, "loadFromAsync").and.returnValue(Promise.resolve(fixture.json[0]));
 
-                component.loadData(url);
+                component.loadData("someId");
                 target.whenStable().then(() => {
                     expect(spyDataService).toHaveBeenCalledWith(url);
                     expect(component.initiativeEditComponent.team.members.length).toBe(2);
@@ -187,13 +187,13 @@ describe("building.component.ts", () => {
 
             it("should loads data and initializes mapping component", inject([DataService], (mockDataService: DataService) => {
 
-                let url = "http://getdata.com/data.json";
+                let url = "/api/v1/dataset/someId";
 
                 fixture.load("src/test/specs/components/building/fixtures/data.json");
                 let spyDataService = spyOn(mockDataService, "loadFromAsync").and.returnValue(Promise.resolve(fixture.json[0]));
                 let spyMapData = spyOn(component, "mapData");
 
-                component.loadData(url);
+                component.loadData("someId");
                 target.whenStable().then(() => {
                     expect(spyDataService).toHaveBeenCalledWith(url);
                     expect(spyMapData).toHaveBeenCalled();

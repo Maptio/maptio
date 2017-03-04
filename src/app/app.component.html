@@ -26,9 +26,9 @@
 						<a (click)="start(empty)" class="btn btn-primary" id="loadNewProjectButton">New project</a>
 						<a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
 						<ul class="dropdown-menu" id="loadDatasetDropdown">
-							<li class="dropdown-header">Examples {{(datasets$ | async)?.length}}</li>
+							<li class="dropdown-header">Examples</li>
 							<li *ngFor="let dataset of datasets$ | async">
-								<a (click)="start(dataset)">{{dataset.name}} {{dataset.id}}</a>
+								<a (click)="start(dataset)">{{dataset.name}}</a>
 							</li>
 						</ul>
 					</div>
