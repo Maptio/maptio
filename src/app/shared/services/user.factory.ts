@@ -74,7 +74,7 @@ export class UserFactory {
      */
     upsert(user: User): Promise<boolean> {
         // FIXME : does this handle error well ? Write a test
-        return this.http.put("/api/v1/user/" + user.user_id , user)
+        return this.http.put("/api/v1/user/" + user.user_id, user)
             .map((responseData) => {
                 return responseData.json();
             })

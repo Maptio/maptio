@@ -33,7 +33,6 @@ export class DatasetFactory {
     }
 
 
-
     private getWithUser(user: User): Promise<DataSet[]> {
         return this._http.get("/api/v1/user/" + user.user_id + "/datasets")
             .map((responseData) => {
@@ -41,12 +40,10 @@ export class DatasetFactory {
             })
             .map((user: any) => {
                 let result: Array<DataSet> = [];
-                if (user.datasets) {
-                    user.datasets.forEach((oid: any) => {
-                        result.push(new DataSet({ id: oid }));
-                    });
-                }
-                return result;
+                user.datasets.forEach((oid: any) => {
+                    result.push(new DataSet({ id: oid }));
+                });
+                return result ;
             })
             .toPromise()
             .then(r => r)
@@ -56,7 +53,7 @@ export class DatasetFactory {
     private getWithId(id: string): Promise<DataSet> {
         return this._http.get("/api/v1/dataset/" + id)
             .map((response: Response) => {
-                let d =  DataSet.create().deserialize(response.json());
+                let d = DataSet.create().deserialize(response.json());
                 d.id = id; //reassign id 
                 return d;
             })
@@ -65,30 +62,3 @@ export class DatasetFactory {
             .catch(this.errorService.handleError);
     }
 }
-
-
-// import {$http} from 'xhr-factory';
-
-// export const TodoFactory = {
-
-//   getAll :function(){
-//   	return $http.get('/api/v1/todos');
-//   },
-
-//   get:function(id){
-//   	return $http.get('/api/v1/todo/'+id);
-//   },
-
-//   save: function(todo){
-//   	return $http.post('/api/v1/todo', todo);
-//   },
-
-//   update: function(todo){
-//   	return $http.put('/api/v1/todo/'+todo._id, todo);
-//   },
-
-//   delete: function(id){
-//   	return $http.delete('/api/v1/todo/'+id);
-//   }
-
-// };

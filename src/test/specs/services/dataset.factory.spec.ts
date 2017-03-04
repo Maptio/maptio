@@ -1,3 +1,4 @@
+import { DataSet } from './../../../app/shared/model/dataset.data';
 import { ComponentFixture, TestBed, async, inject, fakeAsync } from "@angular/core/testing";
 import { MockBackend, MockConnection } from "@angular/http/testing";
 import { Http, HttpModule, Response, Headers, RequestOptions, BaseRequestOptions, ResponseOptions } from "@angular/http";
@@ -65,6 +66,32 @@ describe("dataset.factory.ts", () => {
             });
         })));
 
+        it("should call error service when REST API response is invalid", fakeAsync(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+            const mockResponse = {
+                mama: [
+                    "1", "2", "3"  //list of datasets ObjectId matched to a given user
+                ]
+            };
+
+            mockBackend.connections.subscribe((connection: MockConnection) => {
+                if (connection.request.url === "/api/v1/user/uniqueId/datasets") {
+                    connection.mockRespond(new Response(new ResponseOptions({
+                        body: JSON.stringify(mockResponse) // irrelevant here as our array is static
+                    })));
+                }
+                else {
+                    throw new Error("URL " + connection.request.url + " is not configured");
+                }
+            });
+
+            let user = new User({ user_id: "uniqueId" });
+
+            target.get(user).then(datasets => {
+                expect(datasets).toBeUndefined();
+                expect(mockErrorService.handleError).toHaveBeenCalled();
+            });
+        })));
+
         it("should get a one dataset when called with <id>", fakeAsync(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
 
             const mockResponse = {
@@ -88,6 +115,33 @@ describe("dataset.factory.ts", () => {
                 expect(dataset).toBeDefined();
                 expect(dataset.id).toBe("uniqueId");
                 expect(mockErrorService.handleError).not.toHaveBeenCalled();
+
+            });
+        })));
+
+        it("should call error service when REST API response is invalid", fakeAsync(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+            const mockResponse = {
+                crazy: "value"
+            };
+
+            mockBackend.connections.subscribe((connection: MockConnection) => {
+                if (connection.request.url === "/api/v1/dataset/uniqueId") {
+                    connection.mockRespond(new Response(new ResponseOptions({
+                        body: JSON.stringify(mockResponse) // irrelevant here as our array is static
+                    })));
+                }
+                else {
+                    throw new Error("URL " + connection.request.url + " is not configured");
+                }
+            });
+
+            let mockDataset = jasmine.createSpyObj("DataSet", ["deserialize"]);
+            spyOn(DataSet, "create").and.returnValue(mockDataset);
+            mockDataset.deserialize.and.throwError();
+
+            target.get("uniqueId").then(dataset => {
+                expect(dataset).toBeUndefined();
+                expect(mockErrorService.handleError).toHaveBeenCalled();
 
             });
         })));
