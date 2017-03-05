@@ -13,29 +13,43 @@ declare var Auth0Lock: any;
 @Injectable()
 export class Auth {
 
-  lock = new Auth0Lock("CRvF82hID2lNIMK4ei2wDz20LH7S5BMy", "circlemapping.auth0.com", {});
+  // FIXME : credentials should come from configuration service
+  private _lock = new Auth0Lock("CRvF82hID2lNIMK4ei2wDz20LH7S5BMy", "circlemapping.auth0.com", {});
+
   private user$: Subject<User>;
 
   constructor(public userFactory: UserFactory) {
+
     this.user$ = new Subject();
-    this.lock.on("authenticated", (authResult: any) => {
+    this.getLock().on("authenticated", (authResult: any) => {
       localStorage.setItem("id_token", authResult.idToken);
-      this.lock.getProfile(authResult.idToken, (error: any, profile: any) => {
+
+      this.getLock().getProfile(authResult.idToken, (error: any, profile: any) => {
         if (error) {
           alert(error);
           return;
         }
-        localStorage.setItem("profile", JSON.stringify(profile));
-        //userFactory.upsert(User.create().deserialize(profile));  // adds the user in the database
-        userFactory.get(profile.user_id).then((user) => {
-          this.user$.next(user)
-        });
+
+        this.setUser(profile);
       });
     });
   }
 
+  public setUser(profile: any) {
+    localStorage.setItem("profile", JSON.stringify(profile));
+    this.userFactory.upsert(User.create().deserialize(profile));  // adds the user in the database
+    this.userFactory.get(profile.user_id).then((user) => {
+      this.user$.next(user)
+    });
+  }
+
+  public getLock() {
+    return this._lock;
+  }
+
+
   public login() {
-    this.lock.show();
+    this.getLock().show();
   }
 
   public authenticated() {
