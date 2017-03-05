@@ -49,7 +49,7 @@ var app = express();
 
 var isProduction = process.env.NODE_ENV === 'production';
 var port = isProduction ? process.env.PORT : 3000;
-var publicPath = path.resolve(__dirname, 'public');
+var publicPath = path.resolve(__dirname, 'public','build');
 
 //Handles put requests
 app.use(bodyParser.json());
@@ -73,9 +73,9 @@ if (!isProduction) {
 
   // Any requests to localhost:3000/build is proxied
   // to webpack-dev-server
-  app.all('/build/*', function (req, res) {
+  app.all('/*', function (req, res) {
     proxy.web(req, res, {
-      target: 'http://localhost:8080'
+      target: 'http://localhost:8080/build'
     });
   });
 
