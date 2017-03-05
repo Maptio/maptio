@@ -10,8 +10,6 @@ import { tokenNotExpired } from "angular2-jwt";
 
 describe("auth.service.ts", () => {
 
-
-
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [

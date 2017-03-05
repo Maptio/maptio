@@ -1,3 +1,4 @@
+import { AccountComponent } from './components/account/account.component';
 
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule, ApplicationRef } from "@angular/core";
@@ -27,6 +28,7 @@ import { InitiativeNodeComponent } from "./components/building/initiative.node.c
 
 import { HelpComponent } from "./components/help/help.component";
 
+
 // Directives
 import { FocusIfDirective } from "./shared/directives/focusif.directive";
 import { AutoSelectDirective } from "./shared/directives/autoselect.directive"
@@ -37,11 +39,17 @@ import { D3Service } from "d3-ng2-service";
 import { TreeModule } from "angular2-tree-component";
 import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { Routes, RouterModule } from "@angular/router";
+
+// Routes
+const appRoutes: Routes = [
+  { path: "account", component: AccountComponent }
+];
 
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent,AccountComponent,
     MappingComponent, MappingCirclesComponent, MappingTreeComponent,
     BuildingComponent, InitiativeNodeComponent,
     InitiativeComponent,
@@ -57,7 +65,8 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     HttpModule,
     TreeModule,
     Ng2Bs3ModalModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [D3Service, DataService, ColorService, UIService, DatasetFactory, ErrorService, AUTH_PROVIDERS, Auth, UserFactory],
   entryComponents: [AppComponent],
