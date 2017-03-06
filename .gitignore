@@ -1,6 +1,6 @@
 node_modules/
 dist/
-coverage/html/
+coverage/
 tslint.json
 .vscode/
 TODO.md
