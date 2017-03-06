@@ -26,10 +26,15 @@ export class DatasetFactory {
 
     get(id: string): Promise<DataSet>;
     get(user: User): Promise<DataSet[]>;
-    get(idOrUser: string | User): Promise<DataSet> | Promise<DataSet[]> {
-        return (idOrUser instanceof User)
-            ? this.getWithUser(<User>idOrUser)
-            : this.getWithId(<string>idOrUser)
+    get(idOrUser: string | User): Promise<DataSet> | Promise<DataSet[]> | Promise<void> {
+        if (idOrUser) {
+            return (idOrUser instanceof User)
+                ? this.getWithUser(<User>idOrUser)
+                : this.getWithId(<string>idOrUser)
+        }
+        else {
+            return Promise.reject("Parameter missing");
+        }
     }
 
 
@@ -40,10 +45,10 @@ export class DatasetFactory {
             })
             .map((user: any) => {
                 let result: Array<DataSet> = [];
-                user.datasets.forEach((oid: any) => {
+                (user.datasets || []).forEach((oid: any) => {
                     result.push(new DataSet({ id: oid }));
                 });
-                return result ;
+                return result || [];
             })
             .toPromise()
             .then(r => r)

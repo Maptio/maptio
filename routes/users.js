@@ -13,14 +13,13 @@ router.get('/users', function (req, res, next) {
         }
     });
 });
+
 /* GET One user with the provided ID */
 router.get('/user/:id', function (req, res, next) {
     db.users.findOne(
         { user_id: req.params.id },
         {},
         function (err, users) {
-            console.log(err);
-            console.log(users);
             if (err) {
                 res.send(err);
             } else {
@@ -30,10 +29,9 @@ router.get('/user/:id', function (req, res, next) {
 });
 
 router.get('/user/:id/datasets', function (req, res, next) {
-    console.log("GETTING DATASETS FOR USER " + req.param.id)
     db.users.findOne(
         { user_id: req.params.id },
-        { datasets: 1, _id:0},
+        { datasets: 1, _id: 0 },
         function (err, datasets) {
             if (err) {
                 res.send(err);
@@ -46,26 +44,18 @@ router.get('/user/:id/datasets', function (req, res, next) {
 /* POST/SAVE a user */
 router.post('/user', function (req, res, next) {
     var user = req.body;
-    if (!user.text || !(user.isCompleted + '')) {
-        res.status(400);
-        res.json({
-            "error": "Invalid Data"
-        });
-    } else {
-        db.users.save(user, function (err, result) {
-            if (err) {
-                res.send(err);
-            } else {
-                res.json(result);
-            }
-        })
-    }
+
+    db.users.save(user, function (err, result) {
+        if (err) {
+            res.send(err);
+        } else {
+            res.json(result);
+        }
+    })
+
 });
 /* PUT/UPDATE a user */
 router.put('/user/:id', function (req, res, next) {
-    console.log(req.url);
-    console.log(req.params);
-    console.log(req.body);
     var user = req.body;
     db.users.update(
         { user_id: user.user_id },

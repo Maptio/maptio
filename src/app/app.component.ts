@@ -51,14 +51,18 @@ export class AppComponent implements OnInit {
           this.datasets$ = Promise.resolve(o);
 
           this.datasets$.then((datasets: DataSet[]) => {
-            datasets.forEach(function (d: DataSet, i: number, set: DataSet[]) {
+            (datasets || []).forEach(function (d: DataSet, i: number, set: DataSet[]) {
               this.datasetFactory.get(d.id).then((resolved: DataSet) => {
                 set[i] = resolved;
-              });
+              }
+              );
             }.bind(this));
 
-          });
-        });
+          },
+            (reason: any) => { console.log("REASON IS " + reason) }
+          )
+        },
+          (reason: any) => { console.log("REASON IS " + reason) })
       },
       (error: any) => { console.log(error) }
     );

@@ -29,7 +29,6 @@ export class Auth {
           alert(error);
           return;
         }
-
         this.setUser(profile);
       });
     });
@@ -67,6 +66,16 @@ export class Auth {
   }
 
   public getUser(): Observable<User> {
+    let profileString = localStorage.getItem("profile");
+
+    if (profileString) {
+      this.userFactory.get(JSON.parse(profileString).user_id).then((user) => {
+        this.user$.next(user)
+      });
+    }
+    else {
+      this.clear();
+    }
     return this.user$.asObservable();
   }
 
