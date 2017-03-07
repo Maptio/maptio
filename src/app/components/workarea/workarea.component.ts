@@ -14,12 +14,11 @@ export class WorkAreaComponent implements OnInit {
 
     public isBuildingPanelCollapsed: boolean = true;
 
-
     constructor(private route: ActivatedRoute) { }
 
     ngOnInit() {
         this.route.params.subscribe((params: Params) => {
-            let id = params['id'];
+            let id = params["id"];
             this.buildingComponent.loadData(id)
         });
     }
