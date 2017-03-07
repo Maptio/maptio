@@ -1,4 +1,7 @@
-import { AccountComponent } from './components/account/account.component';
+import { AppComponent } from './app.component';
+
+//Routing
+import { PathLocationStrategy, Location, LocationStrategy } from "@angular/common";
 
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule, ApplicationRef } from "@angular/core";
@@ -14,7 +17,7 @@ import { UIService } from "./shared/services/ui.service"
 import { ErrorService } from "./shared/services/error.service";
 import { Auth } from "./shared/services/auth.service";
 import { AUTH_PROVIDERS } from "angular2-jwt";
-import { UserFactory } from './shared/services/user.factory';
+import { UserFactory } from "./shared/services/user.factory";
 
 // Components
 import { AppComponent } from "./app.component";
@@ -28,6 +31,11 @@ import { InitiativeNodeComponent } from "./components/building/initiative.node.c
 
 import { HelpComponent } from "./components/help/help.component";
 
+import { AccountComponent } from "./components/account/account.component";
+
+import { WorkAreaComponent } from './components/workarea/workarea.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { HeaderComponent } from './components/header/header.component';
 
 // Directives
 import { FocusIfDirective } from "./shared/directives/focusif.directive";
@@ -43,13 +51,17 @@ import { Routes, RouterModule } from "@angular/router";
 
 // Routes
 const appRoutes: Routes = [
-  { path: "account", component: AccountComponent }
+  {
+    path: '', redirectTo: '', pathMatch: 'full'},
+  { path: "account", component: AccountComponent },
+  { path: "work/:id", component: WorkAreaComponent }
+
 ];
 
 
 @NgModule({
   declarations: [
-    AppComponent,AccountComponent,
+    AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkAreaComponent,
     MappingComponent, MappingCirclesComponent, MappingTreeComponent,
     BuildingComponent, InitiativeNodeComponent,
     InitiativeComponent,
@@ -68,7 +80,9 @@ const appRoutes: Routes = [
     NgbModule.forRoot(),
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [D3Service, DataService, ColorService, UIService, DatasetFactory, ErrorService, AUTH_PROVIDERS, Auth, UserFactory],
+  providers: [
+    D3Service, DataService, ColorService, UIService, DatasetFactory, ErrorService, AUTH_PROVIDERS, Auth, UserFactory,
+    Location, { provide: LocationStrategy, useClass: PathLocationStrategy }],
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]
 })

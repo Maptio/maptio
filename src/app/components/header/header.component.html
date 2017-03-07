@@ -1,0 +1,51 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+            <a class="navbar-brand">Source Mapper</a>
+        </div>
+
+        <ul class="nav navbar-nav navbar-left">
+            <li *ngIf="selectedDataset && auth.authenticated()">
+                <p class="navbar-text" id="datasetName"> Working on <b>{{currentDataset.name}}</b></p>
+            </li>
+        </ul>
+
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+
+                <li *ngIf="auth.authenticated()">
+                    <div class="btn-group">
+                        <a (click)="openDataset(empty)" class="btn btn-primary" id="loadNewProjectButton">New project</a>
+                        <a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                        <ul class="dropdown-menu" id="loadDatasetDropdown">
+                            <li class="dropdown-header">Examples</li>
+                            <li *ngFor="let dataset of datasets$ | async">
+                                <a (click)="openDataset(dataset)">{{dataset.name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li id="profileInformation" *ngIf="auth.authenticated()">
+                    <a routerLink="/account">
+                        <img src="{{ user?.picture }}" class="profile-img" alt=""><strong>{{user?.name}}</strong>
+                    </a>
+                </li>
+                <li id="loginButton">
+                    <a (click)="auth.login()" placement="bottom" *ngIf="!auth.authenticated()">Log In</a>
+                    <a (click)="auth.logout()" placement="bottom" *ngIf="auth.authenticated()">Log Out</a>
+                </li>
+                <li>
+                    <a id="openHelpWindow" ngbTooltip="Help" placement="bottom" (click)="openHelp()"><i class="fa fa-question-circle-o fa-lg" aria-hidden="true"></i></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
