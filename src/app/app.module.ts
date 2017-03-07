@@ -1,7 +1,6 @@
-import { AppComponent } from './app.component';
-
 //Routing
 import { PathLocationStrategy, Location, LocationStrategy } from "@angular/common";
+import { Routes, RouterModule } from "@angular/router";
 
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule, ApplicationRef } from "@angular/core";
@@ -33,9 +32,9 @@ import { HelpComponent } from "./components/help/help.component";
 
 import { AccountComponent } from "./components/account/account.component";
 
-import { WorkAreaComponent } from './components/workarea/workarea.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { HeaderComponent } from './components/header/header.component';
+import { WorkAreaComponent } from "./components/workarea/workarea.component";
+import { FooterComponent } from "./components/footer/footer.component";
+import { HeaderComponent } from "./components/header/header.component";
 
 // Directives
 import { FocusIfDirective } from "./shared/directives/focusif.directive";
@@ -47,12 +46,11 @@ import { D3Service } from "d3-ng2-service";
 import { TreeModule } from "angular2-tree-component";
 import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { Routes, RouterModule } from "@angular/router";
 
 // Routes
 const appRoutes: Routes = [
   {
-    path: '', redirectTo: '', pathMatch: 'full'},
+    path: "", redirectTo: "", pathMatch: "full"},
   { path: "account", component: AccountComponent },
   { path: "work/:id", component: WorkAreaComponent }
 

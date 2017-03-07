@@ -1,31 +1,24 @@
-import { EventEmitter } from '@angular/core';
-import { Output } from '@angular/core';
-import { HelpComponent } from './../help/help.component';
-import { DatasetFactory } from './../../shared/services/dataset.factory';
-import { DataSet } from './../../shared/model/dataset.data';
-import { Input } from '@angular/core';
-import { User } from './../../shared/model/user.data';
-import { Auth } from './../../shared/services/auth.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Http } from '@angular/http';
+import { UserFactory } from './../../shared/services/user.factory';
+import { Component, OnInit, ViewChild, EventEmitter, Input, Output } from '@angular/core';
+import { DatasetFactory } from "./../../shared/services/dataset.factory";
+import { DataSet } from "./../../shared/model/dataset.data";
+import { User } from "./../../shared/model/user.data";
+import { Auth } from "./../../shared/services/auth.service";
 
 @Component({
-    selector: 'header',
-    template: require("./header.component.html"),
-    providers: [Auth],
+    selector: "header",
+    template: require("./header.component.html")
 })
-
-
 
 export class HeaderComponent implements OnInit {
     @Input("user") user: User;
 
-    @Input("currentDataset") currentDataset: DataSet;
-
     @Output("openHelp") openHelpEvent = new EventEmitter<void>();
-
     @Output("openDataset") openDatasetEvent = new EventEmitter<DataSet>();
 
     private datasets$: Promise<Array<DataSet>>;
+    private selectedDatasetName: string;
 
     constructor(private auth: Auth, private datasetFactory: DatasetFactory) { }
 
@@ -57,7 +50,8 @@ export class HeaderComponent implements OnInit {
         this.openHelpEvent.emit();
     }
 
-    openDataset(dataset:DataSet){
+    openDataset(dataset: DataSet) {
+        this.selectedDatasetName = dataset.name;
         this.openDatasetEvent.emit(dataset);
     }
 
