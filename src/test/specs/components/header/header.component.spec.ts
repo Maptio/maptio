@@ -183,15 +183,15 @@ describe("header.component.ts", () => {
 
                 target.detectChanges();
 
-                let imgElement = target.debugElement.query(By.css("li#profileInformation a img")).nativeElement as HTMLImageElement;
+                let imgElement = target.debugElement.query(By.css("li#profileInformation a div img")).nativeElement as HTMLImageElement;
                 expect(imgElement.src).toBe("http://seemyface.com/user.jpg");
 
-                let profileNameElement = target.debugElement.query(By.css("li#profileInformation a strong")).nativeElement as HTMLElement;
-                expect(profileNameElement.innerHTML).toBe("John Doe");
+                let profileNameElement = target.debugElement.query(By.css("li#profileInformation a")).nativeElement as HTMLElement;
+                expect(profileNameElement.textContent.trim()).toBe("John Doe");
 
-                let button = target.debugElement.queryAll(By.css("li#loginButton a"));
+                let button = target.debugElement.queryAll(By.css("li#logoutButton"));
                 expect(button.length).toBe(1);
-                expect(button[0].nativeElement.textContent).toBe("Log Out");
+                expect(button[0].nativeElement.textContent.trim()).toBe("Log Out");
                 expect(spyAuthService).toHaveBeenCalled();
             });
 
@@ -213,7 +213,7 @@ describe("header.component.ts", () => {
                 let spyLogOut = spyOn(mockAuth, "logout");
 
                 target.detectChanges();
-                let button = target.debugElement.query(By.css("li#loginButton a")).nativeElement as HTMLAnchorElement;
+                let button = target.debugElement.query(By.css("li#logoutButton a")).nativeElement as HTMLAnchorElement;
                 button.dispatchEvent(new Event("click"));
                 target.detectChanges();
 

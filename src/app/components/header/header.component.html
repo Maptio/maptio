@@ -21,10 +21,10 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li>
+                <li *ngIf="auth.authenticated()">
                     <a (click)="openDataset(empty)" class="btn btn-default" id="loadNewProjectButton">New project</a>
                 </li>
-                <li class="dropdown" *ngIf="auth.authenticated()">
+                <li class="dropdown" id="profileInformation" *ngIf="auth.authenticated()">
 
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         <div class="img-rounded profile-img"><img src="{{ user?.picture }}" class="profile-img" alt=""></div>
@@ -42,8 +42,8 @@
                             <a routerLink="/account">Settings</a>
                         </li>
                         <li role="separator" class="divider"></li>
-                        <li>
-                            <a (click)="auth.logout()">Log out</a>
+                        <li id="logoutButton">
+                            <a (click)="auth.logout()">Log Out</a>
                         </li>
                     </ul>
                 </li>

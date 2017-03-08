@@ -27,8 +27,6 @@ export class HeaderComponent implements OnInit {
         this.auth.getUser().subscribe(
             (user: User) => {
                 this.user = user;
-                console.log(this.user);
-                console.log(this.auth.authenticated());
                 this.datasetFactory.get(this.user).then(o => {
                     this.datasets$ = Promise.resolve(o);
                     this.datasets$.then((datasets: DataSet[]) => {
