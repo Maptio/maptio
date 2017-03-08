@@ -1,19 +1,16 @@
-import { Observable } from 'rxjs/Rx';
-import { Observable } from 'rxjs/Rx';
-import { User } from './../../../../app/shared/model/user.data';
-import { DatasetFactory } from './../../../../app/shared/services/dataset.factory';
-import { ErrorService } from './../../../../app/shared/services/error.service';
-import { MockBackend } from '@angular/http/testing';
-import { Http, BaseRequestOptions } from '@angular/http';
-import { UserFactory } from './../../../../app/shared/services/user.factory';
-import { Auth } from './../../../../app/shared/services/auth.service';
-import { AccountComponent } from './../../../../app/components/account/account.component';
-import { DataSet } from './../../../../app/shared/model/dataset.data';
+import { Observable } from "rxjs/Rx";
+import { User } from "./../../../../app/shared/model/user.data";
+import { DatasetFactory } from "./../../../../app/shared/services/dataset.factory";
+import { ErrorService } from "./../../../../app/shared/services/error.service";
+import { MockBackend } from "@angular/http/testing";
+import { Http, BaseRequestOptions } from "@angular/http";
+import { UserFactory } from "./../../../../app/shared/services/user.factory";
+import { Auth } from "./../../../../app/shared/services/auth.service";
+import { AccountComponent } from "./../../../../app/components/account/account.component";
+import { DataSet } from "./../../../../app/shared/model/dataset.data";
 import { Router } from "@angular/router";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core"
-import { AppComponent } from "../../../../app/app.component";
-import { HelpComponent } from "../../../../app/components/help/help.component"
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 
@@ -37,7 +34,7 @@ export class AuthStub {
     }
 }
 
-fdescribe("account.component.ts", () => {
+describe("account.component.ts", () => {
 
     let component: AccountComponent;
     let target: ComponentFixture<AccountComponent>;
@@ -51,6 +48,7 @@ fdescribe("account.component.ts", () => {
             set: {
                 providers: [
                     { provide: Auth, useClass: AuthStub },
+                    { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } },
                     UserFactory, ErrorService, DatasetFactory,
                     {
                         provide: Http,
@@ -73,7 +71,7 @@ fdescribe("account.component.ts", () => {
         target.detectChanges();
     });
 
-    fdescribe("Controller", () => {
+    describe("Controller", () => {
 
         describe("ngOnInit", () => {
             it("should retrieve user and matching datasets", async(() => {
@@ -98,36 +96,47 @@ fdescribe("account.component.ts", () => {
             }))
         });
 
-        fdescribe("delete", () => {
-            it("should call factory for deletion and display succesful message when it succeeds", () => {
+        describe("delete", () => {
+            it("should call factory for deletion and display succesful message when it succeeds", async(() => {
+                let error = target.debugElement.injector.get(ErrorService);
+                let spyError = spyOn(error, "handleError");
                 let factory = target.debugElement.injector.get(DatasetFactory);
                 let spy = spyOn(factory, "delete").and.returnValue(Promise.resolve<boolean>(true));
 
                 let dataset = new DataSet({ id: "unique_id", name: "Some data" });
                 component.delete(dataset)
-                expect(spy).toHaveBeenCalledWith(dataset, jasmine.objectContaining({user_id: "someId"}));
-            });
+                spy.calls.mostRecent().returnValue.then(() => {
+                    expect(spy).toHaveBeenCalledWith(dataset, jasmine.objectContaining({ user_id: "someId" }));
+                    expect(spyError).not.toHaveBeenCalled();
+                });
 
-            it("should call factory for deletion and calls errorservice when it fails", () => {
+            }));
 
+            it("should call factory for deletion and calls errorservice when it fails", async(() => {
                 let factory = target.debugElement.injector.get(DatasetFactory);
+                let error = target.debugElement.injector.get(ErrorService);
+                let spyError = spyOn(error, "handleError");
                 let spy = spyOn(factory, "delete").and.returnValue(Promise.resolve<boolean>(false));
 
                 let dataset = new DataSet({ id: "unique_id", name: "Some data" });
-                component.delete(dataset)
-                expect(spy).toHaveBeenCalledWith(dataset, jasmine.objectContaining({user_id: "someId"}));
-            });
+                component.delete(dataset);
+
+                spy.calls.mostRecent().returnValue.then(() => {
+                    expect(spy).toHaveBeenCalledWith(dataset, jasmine.objectContaining({ user_id: "someId" }));
+                    expect(spyError).toHaveBeenCalled();
+                });
+
+            }));
         });
 
         describe("open", () => {
-            it("should call factory for retrieval and load data into workspace", () => {
-                let factory = target.debugElement.injector.get(DatasetFactory);
-                let spy = spyOn(factory, "get")
+            it("should navigate to workspace with dataset ID", () => {
+                let router = target.debugElement.injector.get(Router);
 
                 let dataset = new DataSet({ id: "unique_id", name: "Some data" });
                 component.open(dataset)
-                expect(spy).toHaveBeenCalledWith(dataset.id);
-                // load data into workspace here
+                expect(router.navigate).toHaveBeenCalledWith(["workspace", "unique_id"]);
+
             });
         });
     });

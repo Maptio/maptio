@@ -1,3 +1,5 @@
+import { ErrorService } from './../../shared/services/error.service';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { DataSet } from './../../shared/model/dataset.data';
 import { DatasetFactory } from './../../shared/services/dataset.factory';
@@ -15,7 +17,7 @@ export class AccountComponent implements OnInit {
     private datasets$: Observable<Array<DataSet>>;
     private message: string;
 
-    constructor(private auth: Auth, private datasetFactory: DatasetFactory) {
+    constructor(private auth: Auth, private datasetFactory: DatasetFactory, private router: Router, private errorService: ErrorService) {
 
     }
 
@@ -23,7 +25,7 @@ export class AccountComponent implements OnInit {
         this.refresh();
     }
 
-    refresh() {
+    private refresh() {
         this.auth.getUser().subscribe(
             (user: User) => {
                 this.user = user;
@@ -50,13 +52,17 @@ export class AccountComponent implements OnInit {
 
 
     open(dataset: DataSet) {
-        console.log("OPEN " + dataset.id)
+        this.router.navigate(["workspace", dataset.id]);
     }
 
     delete(dataset: DataSet) {
         this.datasetFactory.delete(dataset, this.user).then((result: boolean) => {
-            this.message = "Dataset " + dataset.id + " " + dataset.name + " was succefully deleted";
-            console.log(this.message);
+            if (result) {
+                this.message = "Dataset " + dataset.name + " was successfully deleted";
+            }
+            else {
+                this.errorService.handleError(new Error("Dataset " + dataset.name + " cannot be deleted"));
+            }
             this.refresh();
         });
     }

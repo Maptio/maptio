@@ -50,7 +50,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 // Routes
 const appRoutes: Routes = [
   {
-    path: "", redirectTo: "/account", pathMatch: "full"},
+    path: "", redirectTo: "", pathMatch: "full"},
   { path: "account", component: AccountComponent },
   { path: "workspace/:id", component: WorkspaceComponent }
 

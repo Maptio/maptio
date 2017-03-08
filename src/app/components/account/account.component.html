@@ -1,11 +1,10 @@
-<div class="alert alert-dismissible alert-success">
+<div class="alert alert-dismissible alert-success" *ngIf="message">
     <button type="button" class="close" data-dismiss="alert">&times;</button> {{message}}
 </div>
 
 <table class="table table-striped table-hover ">
     <thead>
         <tr>
-            <th>ID</th>
             <th>Name</th>
             <th>
                 <th>
@@ -13,7 +12,6 @@
     </thead>
     <tbody>
         <tr *ngFor="let dataset of datasets$ | async">
-            <td>{{dataset.id}}</td>
             <td>{{dataset.name}}</td>
             <td>
                 <a (click)="delete(dataset)">Delete</a>
