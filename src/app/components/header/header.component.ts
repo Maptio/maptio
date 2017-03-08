@@ -8,7 +8,8 @@ import { Auth } from "./../../shared/services/auth.service";
 
 @Component({
     selector: "header",
-    template: require("./header.component.html")
+    template: require("./header.component.html"),
+    styles: [require("./header.component.css").toString()]
 })
 
 export class HeaderComponent implements OnInit {

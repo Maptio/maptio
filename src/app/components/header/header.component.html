@@ -18,29 +18,37 @@
         </ul>
 
 
+
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-
-                <li *ngIf="auth.authenticated()">
-                    <div class="btn-group">
-                        <a (click)="openDataset(empty)" class="btn btn-primary" id="loadNewProjectButton">New project</a>
-                        <a href="#" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                        <ul class="dropdown-menu" id="loadDatasetDropdown">
-                            <li class="dropdown-header">Examples</li>
-                            <li *ngFor="let dataset of datasets$ | async">
-                                <a (click)="openDataset(dataset)">{{dataset.name}}</a>
-                            </li>
-                        </ul>
-                    </div>
+                <li>
+                    <a (click)="openDataset(empty)" class="btn btn-default" id="loadNewProjectButton">New project</a>
                 </li>
-                <li id="profileInformation" *ngIf="auth.authenticated()">
-                    <a routerLink="/account">
-                        <img src="{{ user?.picture }}" class="profile-img" alt=""><strong>{{user?.name}}</strong>
+                <li class="dropdown" *ngIf="auth.authenticated()">
+
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <div class="img-rounded profile-img"><img src="{{ user?.picture }}" class="profile-img" alt=""></div>
+                        {{user?.name}} <span class="caret"></span>
                     </a>
+                    <ul class="dropdown-menu">
+
+                        <li class="dropdown-header">Maps</li>
+                        <li *ngFor="let dataset of datasets$ | async">
+                            <a (click)="openDataset(dataset)">{{dataset.name}}</a>
+                        </li>
+
+                        <li role="separator" class="divider"></li>
+                        <li>
+                            <a routerLink="/account">Settings</a>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                        <li>
+                            <a (click)="auth.logout()">Log out</a>
+                        </li>
+                    </ul>
                 </li>
                 <li id="loginButton">
                     <a (click)="auth.login()" placement="bottom" *ngIf="!auth.authenticated()">Log In</a>
-                    <a (click)="auth.logout()" placement="bottom" *ngIf="auth.authenticated()">Log Out</a>
                 </li>
                 <li>
                     <a id="openHelpWindow" ngbTooltip="Help" placement="bottom" (click)="openHelp()"><i class="fa fa-question-circle-o fa-lg" aria-hidden="true"></i></a>

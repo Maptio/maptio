@@ -1,0 +1,9 @@
+.profile-img {
+    margin-top: -5px;
+    margin-right: 16px;
+    float: left;
+    background: 50% 50% no-repeat;
+    background-size: auto 100%;
+    max-width: 44px;
+    /* height: 30px; */
+}
