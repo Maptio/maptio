@@ -1,33 +1,31 @@
-import { Params } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
-import { WorkAreaComponent } from './../../../../app/components/workarea/workarea.component';
-import { UserFactory } from './../../../../app/shared/services/user.factory';
+import { Params } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
+import { WorkspaceComponent } from "./../../../../app/components/workspace/workspace.component";
+import { UserFactory } from "./../../../../app/shared/services/user.factory";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core"
 import { By } from "@angular/platform-browser";
 import { BuildingComponent } from "../../../../app/components/building/building.component"
 import { DatasetFactory } from "../../../../app/shared/services/dataset.factory";
 import { DataService } from "../../../../app/shared/services/data.service";
-import { DataSet } from "../../../../app/shared/model/dataset.data";
 import { ErrorService } from "../../../../app/shared/services/error.service";
 import { Auth } from "../../../../app/shared/services/auth.service";
 import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
-import { User } from "../../../../app/shared/model/user.data";
 import { Observable } from "rxjs/Rx";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 
 describe("workarea.component.ts", () => {
 
-    let component: WorkAreaComponent;
-    let target: ComponentFixture<WorkAreaComponent>;
+    let component: WorkspaceComponent;
+    let target: ComponentFixture<WorkspaceComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [WorkAreaComponent, BuildingComponent],
+            declarations: [WorkspaceComponent, BuildingComponent],
             schemas: [NO_ERRORS_SCHEMA]
-        }).overrideComponent(WorkAreaComponent, {
+        }).overrideComponent(WorkspaceComponent, {
             set: {
                 providers: [DataService, DatasetFactory, Auth, UserFactory,
                     {
@@ -51,7 +49,7 @@ describe("workarea.component.ts", () => {
     }));
 
     beforeEach(() => {
-        target = TestBed.createComponent(WorkAreaComponent);
+        target = TestBed.createComponent(WorkspaceComponent);
         component = target.componentInstance;
     });
 

@@ -37,10 +37,10 @@ describe("app.component.ts", () => {
             expect(spy).toHaveBeenCalled();
         });
 
-        it("should display /work in openDataset", () => {
+        it("should display /workspace in openDataset", () => {
             let mockRouter = target.debugElement.injector.get(Router);
             component.openDataset(new DataSet({ name: "Example", id: "some_unique_id" }));
-            expect(mockRouter.navigate).toHaveBeenCalledWith(["work", "some_unique_id"]);
+            expect(mockRouter.navigate).toHaveBeenCalledWith(["workspace", "some_unique_id"]);
         });
     });
 

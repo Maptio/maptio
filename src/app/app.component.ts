@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
   }
 
   openDataset(dataset: DataSet) {
-    this.router.navigate(["work", dataset.id]);
+    this.router.navigate(["workspace", dataset.id]);
   }
 
   ngOnInit() {

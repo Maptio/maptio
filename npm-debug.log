@@ -2,25 +2,47 @@
 1 verbose cli [ '/usr/local/bin/node',
 1 verbose cli   '/usr/local/bin/npm',
 1 verbose cli   'run',
-1 verbose cli   'test:head' ]
+1 verbose cli   'test:headless' ]
 2 info using npm@3.10.9
 3 info using node@v4.6.1
-4 verbose stack Error: missing script: test:head
-4 verbose stack     at run (/usr/local/lib/node_modules/npm/lib/run-script.js:151:19)
-4 verbose stack     at /usr/local/lib/node_modules/npm/lib/run-script.js:61:5
-4 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:356:5
-4 verbose stack     at checkBinReferences_ (/usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:320:45)
-4 verbose stack     at final (/usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:354:3)
-4 verbose stack     at then (/usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:124:5)
-4 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:311:12
-4 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/graceful-fs/graceful-fs.js:78:16
-4 verbose stack     at FSReqWrap.readFileAfterClose [as oncomplete] (fs.js:380:3)
-5 verbose cwd /Users/safiyya/Documents/Source/circlemapping
-6 error Darwin 15.6.0
-7 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "run" "test:head"
-8 error node v4.6.1
-9 error npm  v3.10.9
-10 error missing script: test:head
-11 error If you need help, you may report this error at:
-11 error     <https://github.com/npm/npm/issues>
-12 verbose exit [ 1, true ]
+4 verbose run-script [ 'pretest:headless', 'test:headless', 'posttest:headless' ]
+5 info lifecycle circlemapping@1.0.0~pretest:headless: circlemapping@1.0.0
+6 silly lifecycle circlemapping@1.0.0~pretest:headless: no script for pretest:headless, continuing
+7 info lifecycle circlemapping@1.0.0~test:headless: circlemapping@1.0.0
+8 verbose lifecycle circlemapping@1.0.0~test:headless: unsafe-perm in lifecycle true
+9 verbose lifecycle circlemapping@1.0.0~test:headless: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/Users/safiyya/Documents/Source/circlemapping/node_modules/.bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+10 verbose lifecycle circlemapping@1.0.0~test:headless: CWD: /Users/safiyya/Documents/Source/circlemapping
+11 silly lifecycle circlemapping@1.0.0~test:headless: Args: [ '-c', 'karma start' ]
+12 silly lifecycle circlemapping@1.0.0~test:headless: Returned: code: 1  signal: null
+13 info lifecycle circlemapping@1.0.0~test:headless: Failed to exec test:headless script
+14 verbose stack Error: circlemapping@1.0.0 test:headless: `karma start`
+14 verbose stack Exit status 1
+14 verbose stack     at EventEmitter.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/lifecycle.js:255:16)
+14 verbose stack     at emitTwo (events.js:87:13)
+14 verbose stack     at EventEmitter.emit (events.js:172:7)
+14 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/spawn.js:40:14)
+14 verbose stack     at emitTwo (events.js:87:13)
+14 verbose stack     at ChildProcess.emit (events.js:172:7)
+14 verbose stack     at maybeClose (internal/child_process.js:829:16)
+14 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:211:5)
+15 verbose pkgid circlemapping@1.0.0
+16 verbose cwd /Users/safiyya/Documents/Source/circlemapping
+17 error Darwin 15.6.0
+18 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "run" "test:headless"
+19 error node v4.6.1
+20 error npm  v3.10.9
+21 error code ELIFECYCLE
+22 error circlemapping@1.0.0 test:headless: `karma start`
+22 error Exit status 1
+23 error Failed at the circlemapping@1.0.0 test:headless script 'karma start'.
+23 error Make sure you have the latest version of node.js and npm installed.
+23 error If you do, this is most likely a problem with the circlemapping package,
+23 error not with npm itself.
+23 error Tell the author that this fails on your system:
+23 error     karma start
+23 error You can get information on how to open an issue for this project with:
+23 error     npm bugs circlemapping
+23 error Or if that isn't available, you can get their info via:
+23 error     npm owner ls circlemapping
+23 error There is likely additional logging output above.
+24 verbose exit [ 1, true ]

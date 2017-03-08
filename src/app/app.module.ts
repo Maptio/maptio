@@ -32,7 +32,7 @@ import { HelpComponent } from "./components/help/help.component";
 
 import { AccountComponent } from "./components/account/account.component";
 
-import { WorkAreaComponent } from "./components/workarea/workarea.component";
+import { WorkspaceComponent } from "./components/workspace/workspace.component";
 import { FooterComponent } from "./components/footer/footer.component";
 import { HeaderComponent } from "./components/header/header.component";
 
@@ -52,14 +52,14 @@ const appRoutes: Routes = [
   {
     path: "", redirectTo: "", pathMatch: "full"},
   { path: "account", component: AccountComponent },
-  { path: "work/:id", component: WorkAreaComponent }
+  { path: "workspace/:id", component: WorkspaceComponent }
 
 ];
 
 
 @NgModule({
   declarations: [
-    AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkAreaComponent,
+    AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent,
     MappingComponent, MappingCirclesComponent, MappingTreeComponent,
     BuildingComponent, InitiativeNodeComponent,
     InitiativeComponent,

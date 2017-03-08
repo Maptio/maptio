@@ -4,10 +4,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from "@angular/router";
 
 @Component({
-    selector: 'workarea',
-    template: require("./workarea.component.html")
+    selector: 'workspace',
+    template: require("./workspace.component.html")
 })
-export class WorkAreaComponent implements OnInit {
+export class WorkspaceComponent implements OnInit {
 
     @ViewChild("building")
     buildingComponent: BuildingComponent
