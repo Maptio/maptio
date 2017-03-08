@@ -20,6 +20,17 @@ export class DatasetFactory {
     }
 
 
+    delete(dataset: DataSet, user: User): Promise<boolean> {
+        return this._http.delete("/api/v1/user/" + user.user_id + "/dataset/" + dataset.id)
+            .map((responseData) => {
+                return responseData.json();
+            })
+            .toPromise()
+            .then(r => { return true; })
+            .catch(this.errorService.handleError);
+    }
+
+
     getAll(): Promise<DataSet[]> {
         throw new Error("Not implemented");
     }

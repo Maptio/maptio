@@ -42,25 +42,40 @@ router.get('/user/:id/datasets', function (req, res, next) {
 });
 
 /* POST/SAVE a user */
-router.post('/user', function (req, res, next) {
-    var user = req.body;
+// router.post('/user', function (req, res, next) {
+//     var user = req.body;
 
-    db.users.save(user, function (err, result) {
-        if (err) {
-            res.send(err);
-        } else {
-            res.json(result);
-        }
-    })
+//     db.users.save(user, function (err, result) {
+//         if (err) {
+//             res.send(err);
+//         } else {
+//             res.json(result);
+//         }
+//     })
 
-});
+// });
 /* PUT/UPDATE a user */
-router.put('/user/:id', function (req, res, next) {
-    var user = req.body;
+// router.put('/user/:id', function (req, res, next) {
+//     var user = req.body;
+//     db.users.update(
+//         { user_id: user.user_id },
+//         req.body,
+//         { upsert: true },
+//         function (err, result) {
+//             if (err) {
+//                 res.send(err);
+//             } else {
+//                 res.json(result);
+//             }
+//         });
+
+// });
+/* DELETE a user */
+router.delete('/user/:uid/dataset/:did', function (req, res) {
     db.users.update(
-        { user_id: user.user_id },
-        req.body,
-        { upsert: true },
+        { user_id: req.params.uid },
+        { $pull: { datasets: { $in: [mongojs.ObjectId(req.params.did)] } } },
+        {},
         function (err, result) {
             if (err) {
                 res.send(err);
@@ -68,18 +83,5 @@ router.put('/user/:id', function (req, res, next) {
                 res.json(result);
             }
         });
-
-});
-/* DELETE a user */
-router.delete('/user/:id', function (req, res) {
-    db.users.remove({
-        _id: mongojs.ObjectId(req.params.id)
-    }, '', function (err, result) {
-        if (err) {
-            res.send(err);
-        } else {
-            res.json(result);
-        }
-    });
 });
 module.exports = router;
