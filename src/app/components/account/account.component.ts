@@ -1,3 +1,4 @@
+import { EmitterService } from './../../shared/services/emitter.service';
 import { ErrorService } from './../../shared/services/error.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
@@ -52,6 +53,7 @@ export class AccountComponent implements OnInit {
 
 
     open(dataset: DataSet) {
+        EmitterService.get("datasetName").emit(dataset.name);
         this.router.navigate(["workspace", dataset._id]);
     }
 

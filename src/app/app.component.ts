@@ -1,3 +1,4 @@
+import { EmitterService } from './shared/services/emitter.service';
 import { Router } from "@angular/router";
 import {
   Component,
@@ -22,10 +23,11 @@ export class AppComponent implements OnInit {
   }
 
   openDataset(dataset: DataSet) {
+    EmitterService.get("datasetName").emit(dataset.name);
     this.router.navigate(["workspace", dataset._id]);
   }
 
-  createDataset(){
+  createDataset() {
     this.router.navigate(["workspace/new"]);
   }
 

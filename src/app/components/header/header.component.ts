@@ -1,9 +1,8 @@
-import { ErrorService } from './../../shared/services/error.service';
-import { UserFactory } from './../../shared/services/user.factory';
-import { DataService } from './../../shared/services/data.service';
-import { EventEmitter } from '@angular/core';
-import { Http } from '@angular/http';
-import { Component, OnInit, ViewChild, Input, Output } from '@angular/core';
+import { OnChanges } from "@angular/core";
+import { EmitterService } from "./../../shared/services/emitter.service";
+import { ErrorService } from "./../../shared/services/error.service";
+import { EventEmitter } from "@angular/core";
+import { Component, OnInit, Input, Output } from "@angular/core";
 import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { DataSet } from "./../../shared/model/dataset.data";
 import { User } from "./../../shared/model/user.data";
@@ -15,7 +14,7 @@ import { Auth } from "./../../shared/services/auth.service";
     styles: [require("./header.component.css").toString()]
 })
 
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnChanges {
     @Input("user") user: User;
 
     @Output("openHelp") openHelpEvent = new EventEmitter<void>();
@@ -51,12 +50,16 @@ export class HeaderComponent implements OnInit {
         );
     }
 
+    ngOnChanges() {
+        EmitterService.get("datasetName").subscribe((value: string) => this.selectedDatasetName = value);
+    }
+
     openHelp() {
         this.openHelpEvent.emit();
     }
 
     openDataset(dataset: DataSet) {
-        this.selectedDatasetName = dataset.name;
+        this.ngOnChanges(); // trigger changes manually to make sure emitters are updated with new values
         this.openDatasetEvent.emit(dataset);
     }
 
