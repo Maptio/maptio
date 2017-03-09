@@ -1,6 +1,9 @@
-import { Http } from '@angular/http';
+import { ErrorService } from './../../shared/services/error.service';
 import { UserFactory } from './../../shared/services/user.factory';
-import { Component, OnInit, ViewChild, EventEmitter, Input, Output } from '@angular/core';
+import { DataService } from './../../shared/services/data.service';
+import { EventEmitter } from '@angular/core';
+import { Http } from '@angular/http';
+import { Component, OnInit, ViewChild, Input, Output } from '@angular/core';
 import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { DataSet } from "./../../shared/model/dataset.data";
 import { User } from "./../../shared/model/user.data";
@@ -17,11 +20,12 @@ export class HeaderComponent implements OnInit {
 
     @Output("openHelp") openHelpEvent = new EventEmitter<void>();
     @Output("openDataset") openDatasetEvent = new EventEmitter<DataSet>();
+    @Output("createDataset") createDatasetEvent = new EventEmitter<void>();
 
     private datasets$: Promise<Array<DataSet>>;
     private selectedDatasetName: string;
 
-    constructor(private auth: Auth, private datasetFactory: DatasetFactory) { }
+    constructor(private auth: Auth, private datasetFactory: DatasetFactory, private errorService: ErrorService) { }
 
     ngOnInit() {
         this.auth.getUser().subscribe(
@@ -31,19 +35,19 @@ export class HeaderComponent implements OnInit {
                     this.datasets$ = Promise.resolve(o);
                     this.datasets$.then((datasets: DataSet[]) => {
                         (datasets || []).forEach(function (d: DataSet, i: number, set: DataSet[]) {
-                            this.datasetFactory.get(d.id).then((resolved: DataSet) => {
+                            this.datasetFactory.get(d._id).then((resolved: DataSet) => {
                                 set[i] = resolved;
                             }
                             );
                         }.bind(this));
 
                     },
-                        (reason: any) => { console.log("REASON IS " + reason) }
+                        (reason: any) => { this.errorService.handleError }
                     )
                 },
-                    (reason: any) => { console.log("REASON IS " + reason) })
+                    (reason: any) => { this.errorService.handleError })
             },
-            (error: any) => { console.log(error) }
+            (error: any) => { this.errorService.handleError }
         );
     }
 
@@ -54,6 +58,15 @@ export class HeaderComponent implements OnInit {
     openDataset(dataset: DataSet) {
         this.selectedDatasetName = dataset.name;
         this.openDatasetEvent.emit(dataset);
+    }
+
+    createDataset() {
+        let newDataset = new DataSet({ name: "" });
+        this.datasetFactory.create(newDataset).then((created: DataSet) => {
+            this.datasetFactory.add(created, this.user).then((result: boolean) => {
+                this.openDataset(created);
+            }).catch(this.errorService.handleError);
+        }).catch(this.errorService.handleError)
     }
 
 }

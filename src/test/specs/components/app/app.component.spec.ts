@@ -39,7 +39,7 @@ describe("app.component.ts", () => {
 
         it("should display /workspace in openDataset", () => {
             let mockRouter = target.debugElement.injector.get(Router);
-            component.openDataset(new DataSet({ name: "Example", id: "some_unique_id" }));
+            component.openDataset(new DataSet({ name: "Example", _id: "some_unique_id" }));
             expect(mockRouter.navigate).toHaveBeenCalledWith(["workspace", "some_unique_id"]);
         });
     });

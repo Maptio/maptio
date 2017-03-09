@@ -1,7 +1,7 @@
 import { DataSet } from './../../../app/shared/model/dataset.data';
 import { ComponentFixture, TestBed, async, inject, fakeAsync } from "@angular/core/testing";
 import { MockBackend, MockConnection } from "@angular/http/testing";
-import { Http, HttpModule, Response, Headers, RequestOptions, BaseRequestOptions, ResponseOptions } from "@angular/http";
+import { Http, HttpModule, Response, Headers, RequestOptions, BaseRequestOptions, ResponseOptions, RequestMethod } from "@angular/http";
 import { DatasetFactory } from "../../../app/shared/services/dataset.factory"
 import { ErrorService } from "../../../app/shared/services/error.service";
 import { User } from "../../../app/shared/model/user.data"
@@ -38,10 +38,8 @@ describe("dataset.factory.ts", () => {
 
     describe("get", () => {
 
-        it("should return rejected promise if parameter is undefined", async(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
-            target.get(undefined).catch((reason) => {
-                expect(reason).toBe("Parameter missing")
-            })
+        it("should throw if parameter is undefined", async(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+            expect(function () { target.get(undefined) }).toThrowError();
         })));
 
 
@@ -54,9 +52,9 @@ describe("dataset.factory.ts", () => {
                 };
 
                 mockBackend.connections.subscribe((connection: MockConnection) => {
-                    if (connection.request.url === "/api/v1/user/uniqueId/datasets") {
+                    if (connection.request.method === RequestMethod.Get && connection.request.url === "/api/v1/user/uniqueId/datasets") {
                         connection.mockRespond(new Response(new ResponseOptions({
-                            body: JSON.stringify(mockResponse) // irrelevant here as our array is static
+                            body: JSON.stringify(mockResponse)
                         })));
                     }
                     else {
@@ -68,9 +66,9 @@ describe("dataset.factory.ts", () => {
 
                 target.get(user).then(datasets => {
                     expect(datasets.length).toBe(3);
-                    expect(datasets[0].id).toBe("1");
-                    expect(datasets[1].id).toBe("2");
-                    expect(datasets[2].id).toBe("3");
+                    expect(datasets[0]._id).toBe("1");
+                    expect(datasets[1]._id).toBe("2");
+                    expect(datasets[2]._id).toBe("3");
                     expect(mockErrorService.handleError).not.toHaveBeenCalled();
                 });
             })));
@@ -83,9 +81,9 @@ describe("dataset.factory.ts", () => {
                 };
 
                 mockBackend.connections.subscribe((connection: MockConnection) => {
-                    if (connection.request.url === "/api/v1/user/uniqueId/datasets") {
+                    if (connection.request.method === RequestMethod.Get && connection.request.url === "/api/v1/user/uniqueId/datasets") {
                         connection.mockRespond(new Response(new ResponseOptions({
-                            body: JSON.stringify(mockResponse) // irrelevant here as our array is static
+                            body: JSON.stringify(mockResponse)
                         })));
                     }
                     else {
@@ -113,9 +111,9 @@ describe("dataset.factory.ts", () => {
                 };
 
                 mockBackend.connections.subscribe((connection: MockConnection) => {
-                    if (connection.request.url === "/api/v1/dataset/uniqueId") {
+                    if (connection.request.method === RequestMethod.Get && connection.request.url === "/api/v1/dataset/uniqueId") {
                         connection.mockRespond(new Response(new ResponseOptions({
-                            body: JSON.stringify(mockResponse) // irrelevant here as our array is static
+                            body: JSON.stringify(mockResponse)
                         })));
                     }
                     else {
@@ -125,7 +123,7 @@ describe("dataset.factory.ts", () => {
 
                 target.get("uniqueId").then(dataset => {
                     expect(dataset).toBeDefined();
-                    expect(dataset.id).toBe("uniqueId");
+                    expect(dataset._id).toBe("uniqueId");
                     expect(mockErrorService.handleError).not.toHaveBeenCalled();
 
                 });
@@ -137,9 +135,9 @@ describe("dataset.factory.ts", () => {
                 };
 
                 mockBackend.connections.subscribe((connection: MockConnection) => {
-                    if (connection.request.url === "/api/v1/dataset/uniqueId") {
+                    if (connection.request.method === RequestMethod.Get && connection.request.url === "/api/v1/dataset/uniqueId") {
                         connection.mockRespond(new Response(new ResponseOptions({
-                            body: JSON.stringify(mockResponse) // irrelevant here as our array is static
+                            body: JSON.stringify(mockResponse)
                         })));
                     }
                     else {
@@ -159,6 +157,112 @@ describe("dataset.factory.ts", () => {
             })));
         });
     });
+
+
+    describe("create", () => {
+        it("should throw if parameter is undefined", async(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+            expect(function () { target.create(undefined) }).toThrowError();
+        })));
+
+        it("should call REST API with post", fakeAsync(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+
+            const mockResponse = {
+                _id: "some_unique_id",
+                name: "Project"
+            };
+
+            mockBackend.connections.subscribe((connection: MockConnection) => {
+                if (connection.request.method === RequestMethod.Post && connection.request.url === "/api/v1/dataset") {
+                    connection.mockRespond(new Response(new ResponseOptions({
+                        body: JSON.stringify(mockResponse)
+                    })));
+                }
+                else {
+                    throw new Error("URL " + connection.request.url + " is not configured");
+                }
+            });
+            let dataset = new DataSet({ name: "Project" });
+            target.create(dataset).then((dataset: DataSet) => {
+                expect(dataset).toBeDefined();
+                expect(dataset._id).toBe("some_unique_id");
+                expect(dataset.name).toBe("Project");
+                expect(mockErrorService.handleError).not.toHaveBeenCalled();
+            });
+        })));
+
+    })
+
+    describe("add", () => {
+        it("should throw if user is undefined", async(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+            expect(function () { target.add(new DataSet(), undefined) }).toThrowError();
+        })));
+
+        it("should throw if parameter is undefined", async(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+            expect(function () { target.add(undefined, new User()) }).toThrowError();
+        })));
+
+        it("should call REST API with put", fakeAsync(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+
+            const mockResponse = {
+                _id: "some_unique_id",
+                name: "Project"
+            };
+
+            mockBackend.connections.subscribe((connection: MockConnection) => {
+                if (connection.request.method === RequestMethod.Put && connection.request.url === "/api/v1/user/uid/dataset/did") {
+                    connection.mockRespond(new Response(new ResponseOptions({
+                        body: JSON.stringify(mockResponse)
+                    })));
+                }
+                else {
+                    throw new Error("URL " + connection.request.url + " is not configured");
+                }
+            });
+            let dataset = new DataSet({ _id: "did" });
+            let user = new User({ user_id: "uid" })
+            target.add(dataset, user).then((result: boolean) => {
+                expect(result).toBe(true);
+                expect(mockErrorService.handleError).not.toHaveBeenCalled();
+            });
+        })));
+
+    })
+
+    describe("delete", () => {
+        it("should throw if user is undefined", async(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+            expect(function () { target.delete(new DataSet(), undefined) }).toThrowError();
+        })));
+
+        it("should throw if parameter is undefined", async(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+            expect(function () { target.delete(undefined, new User()) }).toThrowError();
+        })));
+
+        it("should call REST API with delete", fakeAsync(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+
+            const mockResponse = {
+                _id: "some_unique_id",
+                name: "Project"
+            };
+
+            mockBackend.connections.subscribe((connection: MockConnection) => {
+                if (connection.request.method === RequestMethod.Delete && connection.request.url === "/api/v1/user/uid/dataset/did") {
+                    connection.mockRespond(new Response(new ResponseOptions({
+                        body: JSON.stringify(mockResponse)
+                    })));
+                }
+                else {
+                    throw new Error("URL " + connection.request.url + " is not configured");
+                }
+            });
+            let dataset = new DataSet({ _id: "did" });
+            let user = new User({ user_id: "uid" })
+            target.delete(dataset, user).then((result: boolean) => {
+                expect(result).toBe(true);
+                expect(mockErrorService.handleError).not.toHaveBeenCalled();
+            });
+        })));
+
+    })
 });
 
 

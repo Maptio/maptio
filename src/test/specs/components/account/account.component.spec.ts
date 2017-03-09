@@ -38,7 +38,7 @@ describe("account.component.ts", () => {
 
     let component: AccountComponent;
     let target: ComponentFixture<AccountComponent>;
-    let DATASETS = [new DataSet({ name: "One", id: "one" }), new DataSet({ name: "Two", id: "two" }), new DataSet({ name: "Three", id: "three" })];
+    let DATASETS = [new DataSet({ name: "One", _id: "one" }), new DataSet({ name: "Two", _id: "two" }), new DataSet({ name: "Three", _id: "three" })];
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -84,7 +84,7 @@ describe("account.component.ts", () => {
                         return Promise.resolve(DATASETS);
                     }
                     if (typeof parameters === "string") {
-                        return Promise.resolve(new DataSet({ id: parameters.toString(), name: "a dataset" }));
+                        return Promise.resolve(new DataSet({ _id: parameters.toString(), name: "a dataset" }));
                     }
                 });
                 component.ngOnInit();
@@ -103,7 +103,7 @@ describe("account.component.ts", () => {
                 let factory = target.debugElement.injector.get(DatasetFactory);
                 let spy = spyOn(factory, "delete").and.returnValue(Promise.resolve<boolean>(true));
 
-                let dataset = new DataSet({ id: "unique_id", name: "Some data" });
+                let dataset = new DataSet({ _id: "unique_id", name: "Some data" });
                 component.delete(dataset)
                 spy.calls.mostRecent().returnValue.then(() => {
                     expect(spy).toHaveBeenCalledWith(dataset, jasmine.objectContaining({ user_id: "someId" }));
@@ -118,7 +118,7 @@ describe("account.component.ts", () => {
                 let spyError = spyOn(error, "handleError");
                 let spy = spyOn(factory, "delete").and.returnValue(Promise.resolve<boolean>(false));
 
-                let dataset = new DataSet({ id: "unique_id", name: "Some data" });
+                let dataset = new DataSet({ _id: "unique_id", name: "Some data" });
                 component.delete(dataset);
 
                 spy.calls.mostRecent().returnValue.then(() => {
@@ -133,7 +133,7 @@ describe("account.component.ts", () => {
             it("should navigate to workspace with dataset ID", () => {
                 let router = target.debugElement.injector.get(Router);
 
-                let dataset = new DataSet({ id: "unique_id", name: "Some data" });
+                let dataset = new DataSet({ _id: "unique_id", name: "Some data" });
                 component.open(dataset)
                 expect(router.navigate).toHaveBeenCalledWith(["workspace", "unique_id"]);
 

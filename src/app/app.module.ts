@@ -52,7 +52,8 @@ const appRoutes: Routes = [
   {
     path: "", redirectTo: "", pathMatch: "full"},
   { path: "account", component: AccountComponent },
-  { path: "workspace/:id", component: WorkspaceComponent }
+  { path: "workspace/:id", component: WorkspaceComponent },
+   { path: "workspace/new", component: WorkspaceComponent }
 
 ];
 

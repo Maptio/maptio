@@ -37,7 +37,7 @@ describe("header.component.ts", () => {
 
     let component: HeaderComponent;
     let target: ComponentFixture<HeaderComponent>;
-    let DATASETS = [new DataSet({ name: "One", id: "one" }), new DataSet({ name: "Two", id: "two" }), new DataSet({ name: "Three", id: "three" })];
+    let DATASETS = [new DataSet({ name: "One", _id: "one" }), new DataSet({ name: "Two", _id: "two" }), new DataSet({ name: "Three", _id: "three" })];
     let spyDataSetService: jasmine.Spy;
     let spyAuthService: jasmine.Spy;
     let mockAuth: Auth;
@@ -75,7 +75,7 @@ describe("header.component.ts", () => {
                 return Promise.resolve(DATASETS);
             }
             if (typeof parameters === "string") {
-                return Promise.resolve(new DataSet({ id: parameters.toString(), name: "a dataset" }));
+                return Promise.resolve(new DataSet({ _id: parameters.toString(), name: "a dataset" }));
             }
         });
 
@@ -85,14 +85,14 @@ describe("header.component.ts", () => {
     describe("View", () => {
 
         describe("New project button", () => {
-            it("should call openDataset() when clicked", () => {
+            it("should call createDataset() when clicked", () => {
                 spyOn(mockAuth, "authenticated").and.returnValue(true);
                 target.detectChanges();
                 let startElement = target.debugElement.query(By.css("#loadNewProjectButton"));
-                let spy = spyOn(component, "openDataset");
+                let spy = spyOn(component, "createDataset");
 
                 startElement.triggerEventHandler("click", null);
-                expect(spy).toHaveBeenCalledWith(undefined);
+                expect(spy).toHaveBeenCalled();
             });
 
             it("should not display if user is not authenticated", () => {
@@ -236,10 +236,65 @@ describe("header.component.ts", () => {
         describe("openDataSet", () => {
             it("should emit openDatasetEvent", () => {
                 let spy = spyOn(component.openDatasetEvent, "emit");
-                let dataset = new DataSet({ name: "Example", id: "someId" });
+                let dataset = new DataSet({ name: "Example", _id: "someId" });
                 component.openDataset(dataset);
                 expect(spy).toHaveBeenCalledWith(dataset);
             });
+        });
+
+        describe("createDataset", () => {
+            it("should create a dataset with no name and then attach it to the authenticated user and open it", async(() => {
+                let mockFactory = target.debugElement.injector.get(DatasetFactory);
+                let spyCreate = spyOn(mockFactory, "create").and.returnValue(Promise.resolve(true));
+                let spyAdd = spyOn(mockFactory, "add").and.returnValue(Promise.resolve(true));
+                let spyOpen = spyOn(component, "openDataset");
+
+                component.createDataset();
+                spyCreate.calls.mostRecent().returnValue.then(() => {
+                    expect(spyAdd).toHaveBeenCalled();
+                    spyAdd.calls.mostRecent().returnValue.then(() => {
+                        expect(spyOpen).toHaveBeenCalled();
+                    });
+                });
+                expect(spyCreate).toHaveBeenCalled();
+            }));
+
+            it("should call errorService if creation doesnt work", async(() => {
+                let mockFactory = target.debugElement.injector.get(DatasetFactory);
+                let error = target.debugElement.injector.get(ErrorService);
+                let spyError = spyOn(error, "handleError");
+                let spyCreate = spyOn(mockFactory, "create").and.returnValue(Promise.reject("Didnt work"));
+                let spyAdd = spyOn(mockFactory, "add")
+                let spyOpen = spyOn(component, "openDataset");
+
+                component.createDataset();
+                spyCreate.calls.mostRecent().returnValue.then(() => {
+                    expect(spyAdd).not.toHaveBeenCalled();
+                }).catch(() => {
+                    expect(spyError).toHaveBeenCalled();
+                });
+                expect(spyCreate).toHaveBeenCalled();
+                expect(spyOpen).not.toHaveBeenCalled();
+            }));
+
+            it("should call errorService if adding dataset doesnt work", async(() => {
+                let mockFactory = target.debugElement.injector.get(DatasetFactory);
+                let error = target.debugElement.injector.get(ErrorService);
+                let spyError = spyOn(error, "handleError");
+                let spyCreate = spyOn(mockFactory, "create").and.returnValue(Promise.resolve(true));
+                let spyAdd = spyOn(mockFactory, "add").and.returnValue(Promise.reject("Didnt work"));
+                let spyOpen = spyOn(component, "openDataset");
+
+                component.createDataset();
+                spyCreate.calls.mostRecent().returnValue.then(() => {
+                    expect(spyAdd).toHaveBeenCalled();
+                    spyAdd.calls.mostRecent().returnValue.then(() => {
+
+                    }).catch(() => { expect(spyError).toHaveBeenCalled(); });
+                });
+                expect(spyCreate).toHaveBeenCalled();
+                expect(spyOpen).not.toHaveBeenCalled();
+            }));
         });
     });
 

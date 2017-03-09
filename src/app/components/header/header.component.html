@@ -22,7 +22,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li *ngIf="auth.authenticated()">
-                    <a (click)="openDataset(empty)" class="btn btn-default" id="loadNewProjectButton">New project</a>
+                    <a (click)="createDataset()" class="btn btn-default" id="loadNewProjectButton">New project</a>
                 </li>
                 <li class="dropdown" id="profileInformation" *ngIf="auth.authenticated()">
 

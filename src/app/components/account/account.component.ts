@@ -35,7 +35,7 @@ export class AccountComponent implements OnInit {
                     this.datasets$.toPromise().then((datasets: DataSet[]) => {
                         (datasets || []).forEach(function (d: DataSet, i: number, set: DataSet[]) {
 
-                            this.datasetFactory.get(d.id).then((resolved: DataSet) => {
+                            this.datasetFactory.get(d._id).then((resolved: DataSet) => {
                                 set[i] = resolved;
                             }
                             );
@@ -52,7 +52,7 @@ export class AccountComponent implements OnInit {
 
 
     open(dataset: DataSet) {
-        this.router.navigate(["workspace", dataset.id]);
+        this.router.navigate(["workspace", dataset._id]);
     }
 
     delete(dataset: DataSet) {

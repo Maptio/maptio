@@ -7,6 +7,8 @@ import { ActivatedRoute, Params } from "@angular/router";
     selector: 'workspace',
     template: require("./workspace.component.html")
 })
+
+
 export class WorkspaceComponent implements OnInit {
 
     @ViewChild("building")

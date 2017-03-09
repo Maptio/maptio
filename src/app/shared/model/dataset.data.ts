@@ -9,7 +9,7 @@ export class DataSet implements Serializable<DataSet> {
 
   url: string;
 
-  id: string;
+  _id: string;
 
   public constructor(init?: Partial<DataSet>) {
     Object.assign(this, init);
@@ -22,7 +22,7 @@ export class DataSet implements Serializable<DataSet> {
   deserialize(input: any): DataSet {
     let deserialized = new DataSet();
     deserialized.content = input.content;
-    deserialized.id = input.id;
+    deserialized._id = input._id;
     deserialized.name = input.name;
     deserialized.url = input.url;
     return deserialized;

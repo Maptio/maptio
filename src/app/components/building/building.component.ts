@@ -12,6 +12,7 @@ import { InitiativeNodeComponent } from "./initiative.node.component"
     template: require("./building.component.html"),
     styles: [require("./building.component.css").toString()]
 })
+// http://stackoverflow.com/questions/36133430/how-to-call-function-every-2-mins-in-angular2
 
 export class BuildingComponent {
 

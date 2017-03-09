@@ -30,7 +30,7 @@ router.get('/dataset/:id', function (req, res, next) {
 
 /* POST/SAVE a dataset */
 router.post('/dataset', function (req, res, next) {
-
+    var dataset = req.body;
     db.datasets.save(dataset, function (err, result) {
         if (err) {
             res.send(err);
@@ -38,35 +38,37 @@ router.post('/dataset', function (req, res, next) {
             res.json(result);
         }
     })
+});
 
-});
+
 /* PUT/UPDATE a dataset */
-router.put('/dataset/:id', function (req, res, next) {
-    var dataset = req.body;
-    var updObj = {};
-    if (dataset.isCompleted) {
-        updObj.isCompleted = dataset.isCompleted;
-    }
-    if (dataset.text) {
-        updObj.text = dataset.text;
-    }
-    if (!updObj) {
-        res.status(400);
-        res.json({
-            "error": "Invalid Data"
-        });
-    } else {
-        db.datasets.update({
-            _id: mongojs.ObjectId(req.params.id)
-        }, updObj, {}, function (err, result) {
-            if (err) {
-                res.send(err);
-            } else {
-                res.json(result);
-            }
-        });
-    }
-});
+// router.put('/dataset/:id', function (req, res, next) {
+//     var dataset = req.body;
+//     var updObj = {};
+//     if (dataset.isCompleted) {
+//         updObj.isCompleted = dataset.isCompleted;
+//     }
+//     if (dataset.text) {
+//         updObj.text = dataset.text;
+//     }
+//     if (!updObj) {
+//         res.status(400);
+//         res.json({
+//             "error": "Invalid Data"
+//         });
+//     } else {
+//         db.datasets.update({
+//             _id: mongojs.ObjectId(req.params.id)
+//         }, updObj, {}, function (err, result) {
+//             if (err) {
+//                 res.send(err);
+//             } else {
+//                 res.json(result);
+//             }
+//         });
+//     }
+// });
+
 /* DELETE a dataset */
 router.delete('/dataset/:id', function (req, res) {
     db.datasets.remove({
