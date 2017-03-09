@@ -1,4 +1,6 @@
-import { Component, ViewChild } from "@angular/core";
+import { EmitterService } from './../../shared/services/emitter.service';
+import { Observable } from 'rxjs/Rx';
+import { Component, ViewChild, Output, EventEmitter } from "@angular/core";
 import { Initiative } from "../../shared/model/initiative.data";
 import { Person } from "../../shared/model/person.data"
 import { InitiativeComponent } from "../initiative/initiative.component";
@@ -12,8 +14,6 @@ import { InitiativeNodeComponent } from "./initiative.node.component"
     template: require("./building.component.html"),
     styles: [require("./building.component.css").toString()]
 })
-// http://stackoverflow.com/questions/36133430/how-to-call-function-every-2-mins-in-angular2
-
 export class BuildingComponent {
 
     searched: string;
@@ -30,6 +30,10 @@ export class BuildingComponent {
 
     constructor(private dataService: DataService) {
         this.nodes = [];
+        Observable.interval(60 * 1000).subscribe(x => { // save every 60 sec
+            console.log(this.nodes[0]);
+            EmitterService.get("currentDataset").emit(this.nodes[0]);
+        });
     }
 
     isRootValid(): boolean {
@@ -52,7 +56,7 @@ export class BuildingComponent {
 
 
     loadData(id: string) {
-        this.dataService.fetch("/api/v1/dataset/"+id).then(data => {
+        this.dataService.fetch("/api/v1/dataset/" + id).then(data => {
             this.nodes = [];
             this.nodes.push(new Initiative().deserialize(data));
 

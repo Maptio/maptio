@@ -1,3 +1,6 @@
+import { EmitterService } from './../../shared/services/emitter.service';
+import { DatasetFactory } from './../../shared/services/dataset.factory';
+import { DataSet } from './../../shared/model/dataset.data';
 import { ViewChild } from '@angular/core';
 import { BuildingComponent } from './../building/building.component';
 import { Component, OnInit } from '@angular/core';
@@ -15,17 +18,25 @@ export class WorkspaceComponent implements OnInit {
     buildingComponent: BuildingComponent
 
     public isBuildingPanelCollapsed: boolean = true;
+    private datasetId:string;
 
-    constructor(private route: ActivatedRoute) { }
+    constructor(private route: ActivatedRoute, private datasetFactory: DatasetFactory) {
+       
+
+    }
 
     ngOnInit() {
         this.route.params.subscribe((params: Params) => {
-            let id = params["id"];
-            this.buildingComponent.loadData(id)
+            this.datasetId = params["id"];
+            this.buildingComponent.loadData(this.datasetId);
+            console.log(this.datasetId);
+            EmitterService.get("currentDataset").subscribe((value: any) => { this.datasetFactory.upsert(value, this.datasetId) });
         });
+         
     }
 
     toggleBuildingPanel() {
         this.isBuildingPanelCollapsed = !this.isBuildingPanelCollapsed;
     }
+
 }

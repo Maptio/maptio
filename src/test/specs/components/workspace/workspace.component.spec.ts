@@ -16,7 +16,7 @@ import { Observable } from "rxjs/Rx";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 
-describe("workarea.component.ts", () => {
+describe("workspace.component.ts", () => {
 
     let component: WorkspaceComponent;
     let target: ComponentFixture<WorkspaceComponent>;

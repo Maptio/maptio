@@ -19,6 +19,18 @@ export class DatasetFactory {
         this._http = http;
     }
 
+
+    upsert(dataset: DataSet, datasetId?: string): Promise<boolean> {
+        return this._http.put("/api/v1/dataset/" + (dataset._id || datasetId), dataset)
+            .map((responseData) => {
+                return responseData.json();
+            })
+            .toPromise()
+            .then(r => { return true; })
+            .catch(this.errorService.handleError);
+    }
+
+
     /**
      * 
      * @param dataset 

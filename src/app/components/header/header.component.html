@@ -7,8 +7,9 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
+            <a href="#" class="pull-left"><img src="/assets/images/logo.png" class="brand-logo"></a> 
+            <!--<a class="navbar-brand">Maptio</a>-->
 
-            <a class="navbar-brand">Source Mapper</a>
         </div>
 
         <ul class="nav navbar-nav navbar-left">
@@ -17,12 +18,18 @@
             </li>
         </ul>
 
-
-
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li *ngIf="auth.authenticated()">
-                    <a (click)="createDataset()" class="btn btn-default" id="loadNewProjectButton">New project</a>
+
+                    <form class="navbar-form" role="search">
+                        <div class="input-group">
+                            <input id="loadNewProjectInput" type="text" class="form-control" placeholder="Start a new project" (input)="validate($event.target.value)">
+                            <span class="input-group-btn">
+                                <button id="loadNewProjectButton" type="submit" class="btn btn-default" (click)="createDataset()" [ngClass]="{disabled: !isValid}">New project</button>
+                            </span>
+                        </div>
+                    </form>
                 </li>
                 <li class="dropdown" id="profileInformation" *ngIf="auth.authenticated()">
 

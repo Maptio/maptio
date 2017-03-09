@@ -1,3 +1,4 @@
+import { EmitterService } from './../../../../app/shared/services/emitter.service';
 import { UserFactory } from './../../../../app/shared/services/user.factory';
 import { HeaderComponent } from "./../../../../app/components/header/header.component";
 import { ComponentFixture, TestBed, async, fakeAsync } from "@angular/core/testing";
@@ -152,10 +153,13 @@ describe("header.component.ts", () => {
             it("should display dataset name in navigation bar after it is loaded", async(() => {
                 spyOn(mockAuth, "authenticated").and.returnValue(true);
                 target.detectChanges();
+
                 let dataset = new DataSet({ name: "Example", url: "http://server/example.json" });
                 component.openDataset(dataset);
+                EmitterService.get("datasetName").emit("Example");
                 target.whenStable().then(() => {
                     target.detectChanges();
+                    component.ngOnChanges();
                     let element = target.debugElement.query(By.css("p#datasetName"));
                     expect(element).toBeDefined();
                     expect(element.nativeElement.textContent).toContain(dataset.name);

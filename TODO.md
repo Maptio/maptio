@@ -1,3 +1,4 @@
-- get name of dataset before creation in popup modal
-- save current dataset every 30 seconds
 - add manual save button
+- add progress bar for async operations
+- acount.component.ts : how to not "refresh" list on changes
+- add notification of saving document

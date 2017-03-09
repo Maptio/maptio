@@ -23,6 +23,8 @@ export class HeaderComponent implements OnInit, OnChanges {
 
     private datasets$: Promise<Array<DataSet>>;
     private selectedDatasetName: string;
+    private isValid: boolean = false;
+    private newDatasetName: string;
 
     constructor(private auth: Auth, private datasetFactory: DatasetFactory, private errorService: ErrorService) { }
 
@@ -51,7 +53,7 @@ export class HeaderComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges() {
-        EmitterService.get("datasetName").subscribe((value: string) => this.selectedDatasetName = value);
+        EmitterService.get("datasetName").subscribe((value: string) => { this.selectedDatasetName = value; });
     }
 
     openHelp() {
@@ -64,12 +66,18 @@ export class HeaderComponent implements OnInit, OnChanges {
     }
 
     createDataset() {
-        let newDataset = new DataSet({ name: "New project", createdOn: new Date() });
+        let newDataset = new DataSet({ name: this.newDatasetName, createdOn: new Date() });
         this.datasetFactory.create(newDataset).then((created: DataSet) => {
             this.datasetFactory.add(created, this.user).then((result: boolean) => {
                 this.openDataset(created);
             }).catch(this.errorService.handleError);
-        }).catch(this.errorService.handleError)
+        }).catch(this.errorService.handleError);
+        this.ngOnInit();
+    }
+
+    validate(name: string) {
+        this.newDatasetName = name.trim();
+        this.isValid = this.newDatasetName !== "" && this.newDatasetName !== undefined;
     }
 
 }
