@@ -61,7 +61,7 @@ export class HeaderComponent implements OnInit {
     }
 
     createDataset() {
-        let newDataset = new DataSet({ name: "" });
+        let newDataset = new DataSet({ name: "New project", createdOn: new Date() });
         this.datasetFactory.create(newDataset).then((created: DataSet) => {
             this.datasetFactory.add(created, this.user).then((result: boolean) => {
                 this.openDataset(created);

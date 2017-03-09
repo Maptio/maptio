@@ -6,6 +6,7 @@
     <thead>
         <tr>
             <th>Name</th>
+            <th>Created on </th>
             <th>
                 <th>
         </tr>
@@ -13,6 +14,7 @@
     <tbody>
         <tr *ngFor="let dataset of datasets$ | async">
             <td>{{dataset.name}}</td>
+            <td>{{dataset.createdOn}}</td>
             <td>
                 <a (click)="delete(dataset)">Delete</a>
                 <a (click)="open(dataset)">Open</a>

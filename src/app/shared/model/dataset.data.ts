@@ -11,6 +11,8 @@ export class DataSet implements Serializable<DataSet> {
 
   _id: string;
 
+  createdOn: Date;
+
   public constructor(init?: Partial<DataSet>) {
     Object.assign(this, init);
   }
@@ -25,6 +27,7 @@ export class DataSet implements Serializable<DataSet> {
     deserialized._id = input._id;
     deserialized.name = input.name;
     deserialized.url = input.url;
+    deserialized.createdOn = input.createdOn;
     return deserialized;
   }
   tryDeserialize: (input: any) => [boolean, DataSet];
