@@ -1,5 +1,6 @@
+import { EmitterService } from './../../../../app/shared/services/emitter.service';
 import { ComponentFixture, TestBed, async, inject, fakeAsync } from "@angular/core/testing";
-import { DebugElement, NO_ERRORS_SCHEMA } from "@angular/core"
+import { DebugElement, NO_ERRORS_SCHEMA, EventEmitter } from "@angular/core"
 import { FormsModule } from "@angular/forms";
 import { By } from "@angular/platform-browser";
 import { BrowserDynamicTestingModule } from "@angular/platform-browser-dynamic/testing";
@@ -137,6 +138,19 @@ describe("building.component.ts", () => {
                 element.dispatchEvent(new Event("openSelected"));
 
                 expect(spyEdit).toHaveBeenCalled();
+            });
+        });
+
+        describe("Save button", () => {
+            it("should call saveChanges when clicked", () => {
+                let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
+                root.children = [node1, node2, node3];
+                component.nodes = [root];
+                let spy = spyOn(component, "saveChanges");
+                target.detectChanges();
+                let button = target.debugElement.query(By.css("a#saveButton")).nativeElement as HTMLButtonElement;
+                button.dispatchEvent(new Event("click"));
+                expect(spy).toHaveBeenCalled();
             });
         });
 
@@ -295,6 +309,22 @@ describe("building.component.ts", () => {
                     root.name = "     "
                     component.nodes = [root];
                     expect(component.isRootValid()).toBe(false);
+                });
+            });
+        });
+
+
+        describe("Save changes", () => {
+            describe("saveChanges", () => {
+                it("should emit data to save", () => {
+                    let emitter = new EventEmitter<any>();
+                    let spyGet = spyOn(EmitterService, "get").and.returnValue(emitter);
+                    let spyEmit = spyOn(emitter, "emit");
+                    let root = new Initiative();
+                    component.nodes = [root];
+                    component.saveChanges();
+                    expect(spyGet).toHaveBeenCalledWith("currentDataset");
+                    expect(spyEmit).toHaveBeenCalledWith(root);
                 });
             });
         });

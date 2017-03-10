@@ -27,10 +27,6 @@ export class AppComponent implements OnInit {
     this.router.navigate(["workspace", dataset._id]);
   }
 
-  createDataset() {
-    this.router.navigate(["workspace/new"]);
-  }
-
   ngOnInit() {
 
   }

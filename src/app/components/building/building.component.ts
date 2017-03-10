@@ -38,7 +38,6 @@ export class BuildingComponent {
     }
 
     saveChanges() {
-        console.log("building.component.ts" + JSON.stringify(this.nodes[0]));
         EmitterService.get("currentDataset").emit(this.nodes[0]);
     }
 

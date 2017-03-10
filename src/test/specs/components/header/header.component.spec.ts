@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { EmitterService } from './../../../../app/shared/services/emitter.service';
 import { UserFactory } from './../../../../app/shared/services/user.factory';
 import { HeaderComponent } from "./../../../../app/components/header/header.component";
@@ -58,6 +59,7 @@ describe("header.component.ts", () => {
                         },
                         deps: [MockBackend, BaseRequestOptions]
                     },
+                    { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } },
                     MockBackend,
                     BaseRequestOptions,
                     ErrorService]
@@ -159,7 +161,7 @@ describe("header.component.ts", () => {
                 EmitterService.get("datasetName").emit("Example");
                 target.whenStable().then(() => {
                     target.detectChanges();
-                    component.ngOnChanges();
+
                     let element = target.debugElement.query(By.css("p#datasetName"));
                     expect(element).toBeDefined();
                     expect(element.nativeElement.textContent).toContain(dataset.name);
@@ -238,11 +240,11 @@ describe("header.component.ts", () => {
         })
 
         describe("openDataSet", () => {
-            it("should emit openDatasetEvent", () => {
-                let spy = spyOn(component.openDatasetEvent, "emit");
+            it("should open workspace with dataset id", () => {
+                let router = target.debugElement.injector.get(Router)
                 let dataset = new DataSet({ name: "Example", _id: "someId" });
                 component.openDataset(dataset);
-                expect(spy).toHaveBeenCalledWith(dataset);
+                expect(router.navigate).toHaveBeenCalledWith(["workspace", "someId"]);
             });
         });
 

@@ -78,9 +78,9 @@ export class DatasetFactory {
     }
 
 
-    getAll(): Promise<DataSet[]> {
-        throw new Error("Not implemented");
-    }
+    // getAll(): Promise<DataSet[]> {
+    //     throw new Error("Not implemented");
+    // }
 
     /**
      *  Retrieves a dataset matching a given id

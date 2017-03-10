@@ -158,14 +158,13 @@ describe("dataset.factory.ts", () => {
         });
     });
 
-
     describe("create", () => {
         it("should throw if parameter is undefined", async(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
             expect(function () { target.create(undefined) }).toThrowError();
         })));
 
         it("should call REST API with post", fakeAsync(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
-
+             let dataset = new DataSet({ name: "Project" });
             const mockResponse = {
                 _id: "some_unique_id",
                 name: "Project"
@@ -173,6 +172,7 @@ describe("dataset.factory.ts", () => {
 
             mockBackend.connections.subscribe((connection: MockConnection) => {
                 if (connection.request.method === RequestMethod.Post && connection.request.url === "/api/v1/dataset") {
+                    expect(<DataSet>connection.request.json()).toBe(dataset);
                     connection.mockRespond(new Response(new ResponseOptions({
                         body: JSON.stringify(mockResponse)
                     })));
@@ -181,7 +181,7 @@ describe("dataset.factory.ts", () => {
                     throw new Error("URL " + connection.request.url + " is not configured");
                 }
             });
-            let dataset = new DataSet({ name: "Project" });
+           
             target.create(dataset).then((dataset: DataSet) => {
                 expect(dataset).toBeDefined();
                 expect(dataset._id).toBe("some_unique_id");
@@ -257,6 +257,63 @@ describe("dataset.factory.ts", () => {
             let dataset = new DataSet({ _id: "did" });
             let user = new User({ user_id: "uid" })
             target.delete(dataset, user).then((result: boolean) => {
+                expect(result).toBe(true);
+                expect(mockErrorService.handleError).not.toHaveBeenCalled();
+            });
+        })));
+
+    })
+
+    describe("upsert", () => {
+        it("should throw if dataset is undefined", async(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+            expect(function () { target.upsert(undefined, "unique_id") }).toThrowError();
+        })));
+
+        it("should call REST API with put when id is empty", fakeAsync(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+            let dataset = new DataSet({ _id: "did", name: "Example" });
+            const mockResponse = {
+                _id: "some_unique_id",
+                name: "Project"
+            };
+
+            mockBackend.connections.subscribe((connection: MockConnection) => {
+                if (connection.request.method === RequestMethod.Put && connection.request.url === "/api/v1/dataset/did") {
+                    expect(<DataSet>connection.request.json()).toBe(dataset);
+                    connection.mockRespond(new Response(new ResponseOptions({
+                        body: JSON.stringify(mockResponse)
+                    })));
+                }
+                else {
+                    throw new Error("URL " + connection.request.url + " is not configured");
+                }
+            });
+
+            target.upsert(dataset).then((result: boolean) => {
+                expect(result).toBe(true);
+                expect(mockErrorService.handleError).not.toHaveBeenCalled();
+            });
+        })));
+
+        it("should call REST API with put when id is not empty", fakeAsync(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+            let dataset = new DataSet({ name: "Example" });
+            const mockResponse = {
+                _id: "some_unique_id",
+                name: "Project"
+            };
+
+            mockBackend.connections.subscribe((connection: MockConnection) => {
+                if (connection.request.method === RequestMethod.Put && connection.request.url === "/api/v1/dataset/some_unique_id") {
+                    expect(connection.request.json()).toBe(dataset);
+                    connection.mockRespond(new Response(new ResponseOptions({
+                        body: JSON.stringify(mockResponse)
+                    })));
+                }
+                else {
+                    throw new Error("URL " + connection.request.url + " is not configured");
+                }
+            });
+
+            target.upsert(dataset, "some_unique_id").then((result: boolean) => {
                 expect(result).toBe(true);
                 expect(mockErrorService.handleError).not.toHaveBeenCalled();
             });

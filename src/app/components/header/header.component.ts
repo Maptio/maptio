@@ -18,7 +18,6 @@ export class HeaderComponent implements OnInit {
     @Input("user") user: User;
 
     @Output("openHelp") openHelpEvent = new EventEmitter<void>();
-    @Output("openDataset") openDatasetEvent = new EventEmitter<DataSet>();
     @Output("createDataset") createDatasetEvent = new EventEmitter<void>();
 
     private datasets$: Promise<Array<DataSet>>;
@@ -26,7 +25,7 @@ export class HeaderComponent implements OnInit {
     private isValid: boolean = false;
     private newDatasetName: string;
 
-    constructor(private auth: Auth, private datasetFactory: DatasetFactory, private errorService: ErrorService, private router:Router) { }
+    constructor(private auth: Auth, private datasetFactory: DatasetFactory, private errorService: ErrorService, private router: Router) { }
 
     ngOnInit() {
         this.auth.getUser().subscribe(
@@ -59,7 +58,6 @@ export class HeaderComponent implements OnInit {
     openDataset(dataset: DataSet) {
         EmitterService.get("datasetName").subscribe((value: string) => { this.selectedDatasetName = value; });
         this.router.navigate(["workspace", dataset._id]);
-        // this.openDatasetEvent.emit(dataset);
     }
 
     createDataset() {
@@ -72,6 +70,7 @@ export class HeaderComponent implements OnInit {
         this.ngOnInit();
     }
 
+    // TODO: create validation service
     validate(name: string) {
         this.newDatasetName = name.trim();
         this.isValid = this.newDatasetName !== "" && this.newDatasetName !== undefined;
