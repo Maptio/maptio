@@ -31,9 +31,13 @@ export class BuildingComponent {
     constructor(private dataService: DataService) {
         this.nodes = [];
         Observable.interval(60 * 1000).subscribe(x => { // save every 60 sec
-            console.log(this.nodes[0]);
-            EmitterService.get("currentDataset").emit(this.nodes[0]);
+           
+            this.saveChanges();
         });
+    }
+
+    saveChanges() {
+        EmitterService.get("currentDataset").emit(this.nodes[0]);
     }
 
     isRootValid(): boolean {
