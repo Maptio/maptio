@@ -30,13 +30,15 @@ export class BuildingComponent {
 
     constructor(private dataService: DataService) {
         this.nodes = [];
-        Observable.interval(60 * 1000).subscribe(x => { // save every 60 sec
-           
-            this.saveChanges();
-        });
+        // TODO : add automated save every x seconds
+        // Observable.interval(5 * 1000).subscribe(x => { // save every 60 sec
+
+        //     this.saveChanges();
+        // });
     }
 
     saveChanges() {
+        console.log("building.component.ts" + JSON.stringify(this.nodes[0]));
         EmitterService.get("currentDataset").emit(this.nodes[0]);
     }
 

@@ -1,4 +1,4 @@
-import { OnChanges } from "@angular/core";
+import { Router } from '@angular/router';
 import { EmitterService } from "./../../shared/services/emitter.service";
 import { ErrorService } from "./../../shared/services/error.service";
 import { EventEmitter } from "@angular/core";
@@ -14,7 +14,7 @@ import { Auth } from "./../../shared/services/auth.service";
     styles: [require("./header.component.css").toString()]
 })
 
-export class HeaderComponent implements OnInit, OnChanges {
+export class HeaderComponent implements OnInit {
     @Input("user") user: User;
 
     @Output("openHelp") openHelpEvent = new EventEmitter<void>();
@@ -26,7 +26,7 @@ export class HeaderComponent implements OnInit, OnChanges {
     private isValid: boolean = false;
     private newDatasetName: string;
 
-    constructor(private auth: Auth, private datasetFactory: DatasetFactory, private errorService: ErrorService) { }
+    constructor(private auth: Auth, private datasetFactory: DatasetFactory, private errorService: ErrorService, private router:Router) { }
 
     ngOnInit() {
         this.auth.getUser().subscribe(
@@ -52,17 +52,14 @@ export class HeaderComponent implements OnInit, OnChanges {
         );
     }
 
-    ngOnChanges() {
-        EmitterService.get("datasetName").subscribe((value: string) => { this.selectedDatasetName = value; });
-    }
-
     openHelp() {
         this.openHelpEvent.emit();
     }
 
     openDataset(dataset: DataSet) {
-        this.ngOnChanges(); // trigger changes manually to make sure emitters are updated with new values
-        this.openDatasetEvent.emit(dataset);
+        EmitterService.get("datasetName").subscribe((value: string) => { this.selectedDatasetName = value; });
+        this.router.navigate(["workspace", dataset._id]);
+        // this.openDatasetEvent.emit(dataset);
     }
 
     createDataset() {
