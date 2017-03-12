@@ -18,6 +18,11 @@ export class Auth {
 
   private user$: Subject<User>;
 
+  /**
+   * Store the URL so we can redirect after logging in
+   */
+  redirectUrl: string;
+
   constructor(public userFactory: UserFactory) {
 
     this.user$ = new Subject();
@@ -36,10 +41,16 @@ export class Auth {
 
   public setUser(profile: any) {
     localStorage.setItem("profile", JSON.stringify(profile));
-    this.userFactory.upsert(User.create().deserialize(profile));  // adds the user in the database
-    this.userFactory.get(profile.user_id).then((user) => {
-      this.user$.next(user)
-    });
+
+    this.userFactory.get(profile.user_id)
+      .then((user) => {
+        this.user$.next(user)
+      }).
+      catch((reason: any) => {
+        let user = User.create().deserialize(profile);
+        this.userFactory.upsert(user)//.then(() => { }).catch(() => { });  // adds the user in the database
+        this.user$.next(user);
+      });
   }
 
   public getLock() {

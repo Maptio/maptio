@@ -1,3 +1,5 @@
+import { LoginComponent } from './components/login/login.component';
+import { AuthGuard } from './shared/services/auth.guard';
 //Routing
 import { PathLocationStrategy, Location, LocationStrategy } from "@angular/common";
 import { Routes, RouterModule } from "@angular/router";
@@ -49,11 +51,11 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 // Routes
 const appRoutes: Routes = [
-  {
-    path: "", redirectTo: "", pathMatch: "full"},
-  { path: "account", component: AccountComponent },
-  { path: "workspace/:id", component: WorkspaceComponent },
-   { path: "workspace/new", component: WorkspaceComponent }
+  { path: "", redirectTo: "", pathMatch: "full" },
+  { path: "login", component: LoginComponent },
+  { path: "account", component: AccountComponent, canActivate: [AuthGuard] },
+  { path: "workspace/:id", component: WorkspaceComponent, canActivate: [AuthGuard] },
+  { path: "workspace/new", component: WorkspaceComponent, canActivate: [AuthGuard] }
 
 ];
 
@@ -61,7 +63,7 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent,
     MappingComponent, MappingCirclesComponent, MappingTreeComponent,
-    BuildingComponent, InitiativeNodeComponent,
+    BuildingComponent, InitiativeNodeComponent, LoginComponent,
     InitiativeComponent,
     FocusIfDirective,
     AutoSelectDirective,
@@ -79,6 +81,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes)
   ],
   providers: [
+    AuthGuard,
     D3Service, DataService, ColorService, UIService, DatasetFactory, ErrorService, AUTH_PROVIDERS, Auth, UserFactory,
     Location, { provide: LocationStrategy, useClass: PathLocationStrategy }],
   entryComponents: [AppComponent],
