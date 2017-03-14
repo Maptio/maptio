@@ -44,7 +44,6 @@ if (isDevelopment) {
   app.use(middleware);
   app.use(webpackHotMiddleware(compiler));
   app.get('*', function response(req, res) {
-    console.log("CALL " + req.url);
     res.write(middleware.fileSystem.readFileSync(path.join(__dirname, 'config/public/build/index.html')));
     res.end();
   });
