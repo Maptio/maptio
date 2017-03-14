@@ -10,7 +10,3 @@ So that people throughout the organisation can:
 - see how responsibilities throughout the organisation feed into the greater system
 - enjoy greater transparency
 - avoid the tyranny of heavy-weight processes, bureaucracy and excessive management.
-
-
-
-

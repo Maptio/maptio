@@ -1,0 +1,5 @@
+- add progress bar for async operations
+- acount.component.ts : how to not "refresh" list on changes
+- add notification of saving document
+- when switchin between circle and tree, the container changes size
+- auomated save

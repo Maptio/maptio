@@ -1,0 +1,31 @@
+<div class="row-fluid col-lg-12" id="workAreaPanel">
+    <div class="panel-group" id="accordion">
+        <div class="panel panel-default ">
+            <div class="panel-heading">
+                <h4 class="panel-title ">
+                    <a *ngIf="!isBuildingPanelCollapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" (click)="toggleBuildingPanel();"
+                        class="pull-right">
+                        Map your initiative
+                        <i class="fa fa-minus-square " aria-hidden="true"></i>
+                        </a>
+
+                        <a *ngIf="isBuildingPanelCollapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" (click)="toggleBuildingPanel();"
+                            class="pull-right">
+                            Map your initiative
+                            <i class="fa fa-plus-square " aria-hidden="true"></i>
+                            </a>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse">
+                <div class="panel-body  ">
+                    <div class="textRotate pull-right">
+                        <building #building>Loading...</building>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default rotate">
+            <mapping>Loading...</mapping>
+        </div>
+    </div>
+</div>

@@ -8,7 +8,7 @@ module.exports = {
   entry: {
     'polyfills': './polyfills.ts',
     'vendor': './vendor.ts',
-    'app': './app/bootstrap.ts'
+    'app': './src/app/bootstrap.ts'
   },
 
   resolve: {
@@ -30,15 +30,9 @@ module.exports = {
         loader: 'file?name=assets/[name].[hash].[ext]'
       },
       {
-        test: /\.css$/,
-        exclude: helpers.root('src', 'app'),
-       loader: ExtractTextPlugin.extract({ loader: 'css?sourceMap' })
-      },
-      {
-        test: /\.css$/,
-        include: helpers.root('src', 'app'),
-        loader: 'raw'
-      }
+                test: /\.css$/,
+                loader: 'style!css'
+            }
     ]
   },
 
@@ -48,7 +42,7 @@ module.exports = {
     }),
 
     new HtmlWebpackPlugin({
-      template: './index.html'
+      template: './src/index.html'
     }),
 
     new CopyWebpackPlugin([

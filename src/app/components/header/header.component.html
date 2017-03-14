@@ -1,0 +1,66 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+            <a href="#" class="pull-left"><img src="/assets/images/logo.png" class="brand-logo"></a> 
+            <!--<a class="navbar-brand">Maptio</a>-->
+
+        </div>
+
+        <ul class="nav navbar-nav navbar-left">
+            <li *ngIf="selectedDatasetName && auth.authenticated()">
+                <p class="navbar-text" id="datasetName"> Working on <b>{{selectedDatasetName}}</b></p>
+            </li>
+        </ul>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li *ngIf="auth.authenticated()">
+
+                    <form class="navbar-form" role="search">
+                        <div class="input-group">
+                            <input id="loadNewProjectInput" type="text" class="form-control" placeholder="Start a new project" (input)="validate($event.target.value)">
+                            <span class="input-group-btn">
+                                <button id="loadNewProjectButton" type="submit" class="btn btn-default" (click)="createDataset()" [ngClass]="{disabled: !isValid}">New project</button>
+                            </span>
+                        </div>
+                    </form>
+                </li>
+                <li class="dropdown" id="profileInformation" *ngIf="auth.authenticated()">
+
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <div class="img-rounded profile-img"><img src="{{ user?.picture }}" class="profile-img" alt=""></div>
+                        {{user?.name}} <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+
+                        <li class="dropdown-header">Maps</li>
+                        <li *ngFor="let dataset of datasets$ | async">
+                            <a (click)="openDataset(dataset)">{{dataset.name}}</a>
+                        </li>
+
+                        <li role="separator" class="divider"></li>
+                        <li>
+                            <a routerLink="/account">Settings</a>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                        <li id="logoutButton">
+                            <a (click)="auth.logout()">Log Out</a>
+                        </li>
+                    </ul>
+                </li>
+                <li id="loginButton">
+                    <a (click)="auth.login()" placement="bottom" *ngIf="!auth.authenticated()">Log In</a>
+                </li>
+                <li>
+                    <a id="openHelpWindow" ngbTooltip="Help" placement="bottom" (click)="openHelp()"><i class="fa fa-question-circle-o fa-lg" aria-hidden="true"></i></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
