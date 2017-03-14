@@ -1,7 +1,10 @@
+import { AccountComponent } from './../../components/account/account.component';
+import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { UserFactory } from './user.factory';
 import { Injectable } from "@angular/core";
 import { tokenNotExpired } from "angular2-jwt";
-
+import { UUID } from "angular2-uuid/index";
 import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject"
 import "rxjs/add/operator/map";
@@ -13,54 +16,112 @@ declare var Auth0Lock: any;
 @Injectable()
 export class Auth {
 
-  // FIXME : credentials should come from configuration service
-  private _lock = new Auth0Lock("CRvF82hID2lNIMK4ei2wDz20LH7S5BMy", "circlemapping.auth0.com", {});
+
+  private _lock: any;//= new Auth0Lock("CRvF82hID2lNIMK4ei2wDz20LH7S5BMy", "circlemapping.auth0.com", {
+
+  // });
 
   private user$: Subject<User>;
+
+
 
   /**
    * Store the URL so we can redirect after logging in
    */
-  redirectUrl: string;
+  //redirectUrl: string;
 
-  constructor(public userFactory: UserFactory) {
+  constructor(public userFactory: UserFactory, private router: Router) {
 
     this.user$ = new Subject();
     this.getLock().on("authenticated", (authResult: any) => {
       localStorage.setItem("id_token", authResult.idToken);
+
+      let pathname_object: any = JSON.parse(authResult.state);
+      let pathname: any = localStorage.getItem(pathname_object.pathname_key) || "";
+
+      //get rid of localStorage of url
+      localStorage.removeItem(pathname_object.pathname_key);
 
       this.getLock().getProfile(authResult.idToken, (error: any, profile: any) => {
         if (error) {
           alert(error);
           return;
         }
-        this.setUser(profile);
+        this.setUser(profile).then((isSucess: boolean) => {
+          if (isSucess) {
+            this.router.navigate([pathname], {})
+              .then(() => { console.log("Redirect succeedeed") })
+              .catch((reason: any) => { console.log("redirect failed  " + reason) });
+          }
+          else {
+            console.log("Somwthing has gone wrong.Try again")
+          }
+        });
+        this.getLock().hide();
       });
+      //navigate to original url
+
     });
   }
 
-  public setUser(profile: any) {
+  public setUser(profile: any): Promise<boolean> {
     localStorage.setItem("profile", JSON.stringify(profile));
 
-    this.userFactory.get(profile.user_id)
+    return this.userFactory.get(profile.user_id)
       .then((user) => {
-        this.user$.next(user)
+        this.user$.next(user);
+        return Promise.resolve<boolean>(true);
       }).
       catch((reason: any) => {
         let user = User.create().deserialize(profile);
-        this.userFactory.upsert(user)//.then(() => { }).catch(() => { });  // adds the user in the database
+        this.userFactory.upsert(user)
+          .then(() => { return Promise.resolve<boolean>(true); })
+          .catch(() => { return Promise.resolve<boolean>(false); });  // adds the user in the database
         this.user$.next(user);
+        return Promise.resolve<boolean>(true);
       });
+    //return Promise.resolve<boolean>(false);
+
   }
 
+  // FIXME : credentials should come from configuration service
   public getLock() {
+
+    let options = {
+      closable: true,
+      theme: {
+        logo: "assets/images/logo.png",
+        primaryColor: "#b81b1c"
+      },
+      languageDictionary: {
+        title: "Maptio"
+      },
+      auth: {
+        redirectUrl: location.origin,
+        responseType: 'token',
+      }
+    };
+
+    if (!this._lock)
+      this._lock = new Auth0Lock("CRvF82hID2lNIMK4ei2wDz20LH7S5BMy", "circlemapping.auth0.com", options);
+
+
     return this._lock;
   }
 
 
   public login() {
-    this.getLock().show();
-  }
+    let uuid = UUID.UUID();
+    localStorage.setItem(uuid, localStorage.getItem("redirectUrl"));
+    this.getLock().show({
+      auth: {
+        params: {
+          scope: 'openid name email',
+          state: JSON.stringify({ pathname_key: uuid })
+        }
+      }
+    });
+  };
 
   public authenticated() {
     return tokenNotExpired();

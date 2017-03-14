@@ -19,20 +19,22 @@ export class AccountComponent implements OnInit {
     private message: string;
 
     constructor(private auth: Auth, private datasetFactory: DatasetFactory, private router: Router, private errorService: ErrorService) {
-
+        console.log("ACCOUNT COMPONENT CONSTUCTOR")
     }
 
     ngOnInit() {
+         console.log("ACCOUNT COMPONENT ONInit")
         this.refresh();
     }
 
     private refresh() {
         this.auth.getUser().subscribe(
             (user: User) => {
+                console.log(user)
                 this.user = user;
                 this.datasetFactory.get(this.user).then(o => {
                     this.datasets$ = Observable.of(o);
-
+                    console.log(o);
                     this.datasets$.toPromise().then((datasets: DataSet[]) => {
                         (datasets || []).forEach(function (d: DataSet, i: number, set: DataSet[]) {
 
@@ -48,7 +50,8 @@ export class AccountComponent implements OnInit {
                 },
                     (error: any) => { console.log(error) }
                 );
-            });
+            },
+            (error: any) => { console.log(error) });
     }
 
 

@@ -54,8 +54,7 @@ const appRoutes: Routes = [
   { path: "", redirectTo: "", pathMatch: "full" },
   { path: "login", component: LoginComponent },
   { path: "account", component: AccountComponent, canActivate: [AuthGuard] },
-  { path: "workspace/:id", component: WorkspaceComponent, canActivate: [AuthGuard] },
-  { path: "workspace/new", component: WorkspaceComponent, canActivate: [AuthGuard] }
+  { path: "workspace/:id", component: WorkspaceComponent, canActivate: [AuthGuard] }
 
 ];
 
@@ -80,6 +79,7 @@ const appRoutes: Routes = [
     NgbModule.forRoot(),
     RouterModule.forRoot(appRoutes)
   ],
+  exports: [RouterModule],
   providers: [
     AuthGuard,
     D3Service, DataService, ColorService, UIService, DatasetFactory, ErrorService, AUTH_PROVIDERS, Auth, UserFactory,

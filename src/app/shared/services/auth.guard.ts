@@ -13,14 +13,15 @@ export class AuthGuard implements CanActivate {
     }
 
     checkLogin(url: string): boolean {
-        if (this.auth.authenticated()) { console.log("AUTHORIZED") ; return true; }
+        if (this.auth.authenticated()) { console.log("AUTHORIZED"); return true; }
 
         // Store the attempted URL for redirecting
-        this.auth.redirectUrl = url;
+        localStorage.setItem("redirectUrl", url); //this.auth.redirectUrl = url;
+        console.log("SHOULD REDIRECT TO " + url)
 
         // Navigate to the login page with extras
         this.router.navigate(["/login"]);
-        console.log("DENIED") ; 
+        console.log("DENIED");
         return false;
     }
 }
