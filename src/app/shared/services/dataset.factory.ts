@@ -97,7 +97,7 @@ export class DatasetFactory {
      * @param idOrUser Dataset unique ID or User
      */
     get(idOrUser: string | User): Promise<DataSet> | Promise<DataSet[]> | Promise<void> {
-        if (!idOrUser) throw new Error("Parameter missing");
+        if (!idOrUser) return Promise.reject("Parameter missing");
         return (idOrUser instanceof User)
             ? this.getWithUser(<User>idOrUser)
             : this.getWithId(<string>idOrUser)
