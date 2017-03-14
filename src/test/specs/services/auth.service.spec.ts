@@ -28,6 +28,8 @@ describe("auth.service.ts", () => {
                 ErrorService
             ]
         });
+
+        localStorage.clear();
     });
 
 
