@@ -23,7 +23,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     private subscription: any;
 
     constructor(private route: ActivatedRoute, private datasetFactory: DatasetFactory) {
-        console.log("WORKSACE CONSTRUCTOR")
         this.subscription = EmitterService.get("currentDataset").subscribe((value: any) => {
             this.datasetFactory.upsert(value, this.datasetId)
         });
@@ -34,7 +33,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-          console.log("WORKSACE ONInit")
         this.route.params.subscribe((params: Params) => {
             this.datasetId = params["id"];
             this.buildingComponent.loadData(this.datasetId);

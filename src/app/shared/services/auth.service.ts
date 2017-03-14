@@ -1,3 +1,4 @@
+import { ErrorService } from './error.service';
 import { AccountComponent } from './../../components/account/account.component';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
@@ -30,7 +31,7 @@ export class Auth {
    */
   //redirectUrl: string;
 
-  constructor(public userFactory: UserFactory, private router: Router) {
+  constructor(public userFactory: UserFactory, private router: Router, private errorService: ErrorService) {
 
     this.user$ = new Subject();
     this.getLock().on("authenticated", (authResult: any) => {
@@ -38,8 +39,6 @@ export class Auth {
 
       let pathname_object: any = JSON.parse(authResult.state);
       let pathname: any = localStorage.getItem(pathname_object.pathname_key) || "";
-
-      //get rid of localStorage of url
       localStorage.removeItem(pathname_object.pathname_key);
 
       this.getLock().getProfile(authResult.idToken, (error: any, profile: any) => {
@@ -50,16 +49,14 @@ export class Auth {
         this.setUser(profile).then((isSucess: boolean) => {
           if (isSucess) {
             this.router.navigate([pathname], {})
-              .then(() => { console.log("Redirect succeedeed") })
-              .catch((reason: any) => { console.log("redirect failed  " + reason) });
+              .catch((reason: any) => { errorService.handleError(reason) });
           }
           else {
-            console.log("Somwthing has gone wrong.Try again")
+            errorService.handleError("Something has gone wrong ! Try again ?");
           }
         });
         this.getLock().hide();
       });
-      //navigate to original url
 
     });
   }
@@ -80,8 +77,6 @@ export class Auth {
         this.user$.next(user);
         return Promise.resolve<boolean>(true);
       });
-    //return Promise.resolve<boolean>(false);
-
   }
 
   // FIXME : credentials should come from configuration service
@@ -98,7 +93,7 @@ export class Auth {
       },
       auth: {
         redirectUrl: location.origin,
-        responseType: 'token',
+        responseType: "token",
       }
     };
 
