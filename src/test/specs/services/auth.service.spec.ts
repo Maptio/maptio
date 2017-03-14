@@ -58,7 +58,7 @@ describe("auth.service.ts", () => {
             let spyGet = spyOn(auth.userFactory, "get").and.returnValue(Promise.reject<User>(undefined));
             let spyUpsert = spyOn(auth.userFactory, "upsert");
             auth.setUser(profile);
-
+ 
             spyGet.calls.mostRecent().returnValue
                 .then(() => { })
                 .catch((reason: any) => {
