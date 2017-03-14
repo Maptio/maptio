@@ -13,8 +13,6 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    // "start:production": "NODE_ENV=production PORT=8080 node server.js",
-    // "start:local": "NODE_ENV=development PORT=3000 node server.js",
     "test": "karma start --single-run",
     "test:headless": "karma start",
     "heroku-postbuild": "webpack --config config/webpack.prod.js --progress --profile --bail"
