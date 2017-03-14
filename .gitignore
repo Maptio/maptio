@@ -4,3 +4,4 @@ coverage/
 tslint.json
 .vscode/
 TODO.md
+npm-debug.log
