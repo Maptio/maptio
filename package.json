@@ -55,6 +55,7 @@
     "method-override": "^2.3.7",
     "mongojs": "^2.4.0",
     "morgan": "^1.8.1",
+    "newrelic": "^1.37.2",
     "ng2-bs3-modal": "^0.10.4",
     "path": "^0.12.7",
     "rxjs": "^5.0.1",
