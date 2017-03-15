@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core'
-import { D3Service, D3, ScaleLinear, HSLColor, RGBColor, Selection, BaseType, HierarchyCircularNode } from 'd3-ng2-service'
+import { Injectable } from "@angular/core"
+import { D3Service, D3, ScaleLinear, HSLColor, RGBColor, Selection, BaseType, HierarchyCircularNode } from "d3-ng2-service"
 
 @Injectable()
 export class UIService {
@@ -15,8 +15,8 @@ export class UIService {
         if (radius === undefined || centerX === undefined || centerY === undefined)
             throw new Error("Cannot defined circular path as a parameter is missing.");
 
-        var rx = -radius;
-        var ry = -radius;
+        let rx = -radius;
+        let ry = -radius;
         return "m " + centerX + ", " + centerY + " a " + rx + "," + ry + " 1 1,1 " + radius * 2 + ",0 a -" + radius + ",-" + radius + " 1 1,1 -" + radius * 2 + ",0"
     }
 
@@ -28,7 +28,7 @@ export class UIService {
         let d3 = this.d3;
         text
             .each(function () {
-                var text = d3.select(this),
+                let text = d3.select(this),
                     words = actualText ? actualText.split(/\s+/).reverse() : [],
                     word: any,
                     line: any[] = [],
@@ -41,8 +41,8 @@ export class UIService {
                 while (word = words.pop()) {
                     line.push(word);
                     tspan.text(line.join(" "));
-                    var node: SVGTSpanElement = <SVGTSpanElement>tspan.node();
-                    var hasGreaterWidth = node.getComputedTextLength() > width;
+                    let node: SVGTSpanElement = <SVGTSpanElement>tspan.node();
+                    let hasGreaterWidth = node.getComputedTextLength() > width;
                     if (hasGreaterWidth) {
                         line.pop();
                         tspan.text(line.join(" "));
@@ -65,9 +65,9 @@ export class UIService {
                 d.radius = d.r * k;
                 // console.log(d.data.name + "------------------ADJUST LABELS ---------------------" + k);
                 // console.log(d.data.name + " RADIUS " + d.radius + " CIRCUMFERENCE "  +d.pathLength );  
-                var maxLength = 2 / 5 * d.pathLength;
-                var proposedLabel = d.data.name;
-                var proposedLabelArray = proposedLabel.split('');
+                let maxLength = 2 / 5 * d.pathLength;
+                let proposedLabel = d.data.name;
+                let proposedLabelArray = proposedLabel.split('');
 
                 var i = 0;
                 //console.log(i + ":"+d.data.name + "== " +proposedLabel+ "LENGTH : " + d.tw + ", MAX" + maxLength);

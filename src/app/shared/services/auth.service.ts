@@ -16,7 +16,7 @@ declare var Auth0Lock: any;
 export class Auth {
 
 
-  private _lock: any;//= new Auth0Lock("CRvF82hID2lNIMK4ei2wDz20LH7S5BMy", "circlemapping.auth0.com", {
+  private _lock: any; // = new Auth0Lock("CRvF82hID2lNIMK4ei2wDz20LH7S5BMy", "circlemapping.auth0.com", {
 
   // });
 
@@ -27,7 +27,7 @@ export class Auth {
   /**
    * Store the URL so we can redirect after logging in
    */
-  //redirectUrl: string;
+  // redirectUrl: string;
 
   constructor(public userFactory: UserFactory, private router: Router, private errorService: ErrorService) {
 

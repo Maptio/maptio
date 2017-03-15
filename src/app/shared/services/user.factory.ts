@@ -1,11 +1,9 @@
-import { ErrorService } from './error.service';
-import { User } from './../model/user.data';
+import { ErrorService } from "./error.service";
+import { User } from "./../model/user.data";
 import { Injectable } from "@angular/core";
-import { Http, RequestOptions, Response } from "@angular/http";
-import { Subject } from "rxjs/Subject"
+import { Http, Response } from "@angular/http";
 import "rxjs/add/operator/map";
-import 'rxjs/add/operator/toPromise';
-import { Observable } from 'rxjs/Rx';
+import "rxjs/add/operator/toPromise";
 
 @Injectable()
 export class UserFactory {
@@ -15,8 +13,8 @@ export class UserFactory {
         this._http = http;
     }
 
-    /** Gets all users 
-     *  
+    /** Gets all users
+     *
      */
     getAll(): Promise<User[]> {
         return this.http.get("/api/v1/users")

@@ -92,8 +92,8 @@ export class MappingComponent implements AfterViewInit, OnInit {
 
         let component = this.anchorComponent.createComponent<IDataVisualizer>(factory);
 
-        component.instance.width = 1522; //this.element.nativeElement.parentNode.parentNode.parentNode.offsetHeight;
-        component.instance.height = 1522; //this.element.nativeElement.parentNode.parentNode.parentNode.offsetHeight;
+        component.instance.width = 1522; // this.element.nativeElement.parentNode.parentNode.parentNode.offsetHeight;
+        component.instance.height = 1522; // this.element.nativeElement.parentNode.parentNode.parentNode.offsetHeight;
         component.instance.margin = 10;
         component.instance.draw(data);
     }

@@ -1,5 +1,4 @@
-import { EmitterService } from './../../shared/services/emitter.service';
-import { Observable } from 'rxjs/Rx';
+import { EmitterService } from "./../../shared/services/emitter.service";
 import { Component, ViewChild, Output, EventEmitter } from "@angular/core";
 import { Initiative } from "../../shared/model/initiative.data";
 import { Person } from "../../shared/model/person.data"

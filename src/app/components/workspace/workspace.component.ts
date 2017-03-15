@@ -1,14 +1,13 @@
-import { OnChanges } from '@angular/core';
-import { EmitterService } from './../../shared/services/emitter.service';
-import { DatasetFactory } from './../../shared/services/dataset.factory';
-import { DataSet } from './../../shared/model/dataset.data';
-import { ViewChild } from '@angular/core';
-import { BuildingComponent } from './../building/building.component';
-import { Component, OnInit, SimpleChanges, DoCheck, OnDestroy } from '@angular/core';
+
+import { EmitterService } from "./../../shared/services/emitter.service";
+import { DatasetFactory } from "./../../shared/services/dataset.factory";
+import { ViewChild } from "@angular/core";
+import { BuildingComponent } from "./../building/building.component";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 
 @Component({
-    selector: 'workspace',
+    selector: "workspace",
     template: require("./workspace.component.html")
 })
 

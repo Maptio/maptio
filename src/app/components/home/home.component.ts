@@ -6,7 +6,7 @@ import { Component, OnInit } from "@angular/core";
     template: require("./home.component.html")
 })
 export class HomeComponent implements OnInit {
-    constructor(private auth:Auth) { }
+    constructor(private auth: Auth) { }
 
     ngOnInit() { }
 }

@@ -1,4 +1,4 @@
-import { HomeComponent } from './components/home/home.component';
+import { HomeComponent } from "./components/home/home.component";
 
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule, ApplicationRef } from "@angular/core";
@@ -11,7 +11,7 @@ import { PathLocationStrategy, Location, LocationStrategy } from "@angular/commo
 import { Routes, RouterModule } from "@angular/router";
 
 // Guards
-import { AuthGuard } from './shared/services/auth.guard';
+import { AuthGuard } from "./shared/services/auth.guard";
 
 // Services
 import { DataService } from "./shared/services/data.service";
@@ -24,7 +24,7 @@ import { AUTH_PROVIDERS } from "angular2-jwt";
 import { UserFactory } from "./shared/services/user.factory";
 
 // Components
-import { LoginComponent } from './components/login/login.component';
+import { LoginComponent } from "./components/login/login.component";
 
 import { AppComponent } from "./app.component";
 import { MappingComponent } from "./components/mapping/mapping.component";
@@ -56,7 +56,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 // Routes
 const appRoutes: Routes = [
-  { path: "", redirectTo: "", pathMatch: "full",  component: HomeComponent  },
+  { path: "", redirectTo: "", pathMatch: "full", component: HomeComponent },
 
   { path: "login", component: LoginComponent },
   { path: "account", component: AccountComponent, canActivate: [AuthGuard] },
@@ -68,7 +68,7 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent,
     MappingComponent, MappingCirclesComponent, MappingTreeComponent,
-    BuildingComponent, InitiativeNodeComponent, LoginComponent,HomeComponent,
+    BuildingComponent, InitiativeNodeComponent, LoginComponent, HomeComponent,
     InitiativeComponent,
     FocusIfDirective,
     AutoSelectDirective,
