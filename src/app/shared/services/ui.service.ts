@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core"
-import { D3Service, D3, ScaleLinear, HSLColor, RGBColor, Selection, BaseType, HierarchyCircularNode } from "d3-ng2-service"
+import { D3Service, D3, Selection, BaseType, HierarchyCircularNode } from "d3-ng2-service"
 
 @Injectable()
 export class UIService {
@@ -59,29 +59,29 @@ export class UIService {
             .text(function (d: any) { return d.data.name })
             .each(function (d: any, i: number) {
 
-                d.pathLength = (<SVGPathElement>d3.select('#path' + d.data.id).node()).getTotalLength();
+                d.pathLength = (<SVGPathElement>d3.select("#path" + d.data.id).node()).getTotalLength();
                 d.tw = (<any>d3.select(this).node()).getComputedTextLength()
                 // console.log(d.data.name + " NODE " + d3.select(this).html());
                 d.radius = d.r * k;
                 // console.log(d.data.name + "------------------ADJUST LABELS ---------------------" + k);
-                // console.log(d.data.name + " RADIUS " + d.radius + " CIRCUMFERENCE "  +d.pathLength );  
+                // console.log(d.data.name + " RADIUS " + d.radius + " CIRCUMFERENCE "  +d.pathLength );
                 let maxLength = 2 / 5 * d.pathLength;
                 let proposedLabel = d.data.name;
-                let proposedLabelArray = proposedLabel.split('');
+                let proposedLabelArray = proposedLabel.split("");
 
-                var i = 0;
-                //console.log(i + ":"+d.data.name + "== " +proposedLabel+ "LENGTH : " + d.tw + ", MAX" + maxLength);
+                // var j = 0;
+                // console.log(i + ":"+d.data.name + "== " +proposedLabel+ "LENGTH : " + d.tw + ", MAX" + maxLength);
 
                 // console.log(d.data.name + " GO IN LOOP : " + (d.tw > maxLength));
                 while ((d.tw > maxLength && proposedLabelArray.length)) {
-                    i++;
-                    //console.log(i + ":"+d.data.name + "== " +proposedLabel+ "LENGTH : " + d.tw + ", MAX" + maxLength);
+                    // j++;
+                    // console.log(i + ":"+d.data.name + "== " +proposedLabel+ "LENGTH : " + d.tw + ", MAX" + maxLength);
 
                     proposedLabelArray.pop(); proposedLabelArray.pop(); proposedLabelArray.pop();
                     if (proposedLabelArray.length === 0) {
                         proposedLabel = "";
                     } else {
-                        proposedLabel = proposedLabelArray.join('') + "..."; // manually truncate with ellipsis
+                        proposedLabel = proposedLabelArray.join("") + "..."; // manually truncate with ellipsis
                     }
                     d3.select(this).text(proposedLabel);
 

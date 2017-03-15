@@ -2,8 +2,6 @@
 import { User } from "../../../app/shared/model/user.data";
 
 describe("user.data.ts", () => {
-    let user: User;
-
 
     beforeEach(() => {
     });
