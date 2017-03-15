@@ -180,7 +180,7 @@ FN:78,(anonymous_12)
 FNF:8
 FNH:8
 FNDA:1,(anonymous_5)
-FNDA:103,Initiative
+FNDA:102,Initiative
 FNDA:15,(anonymous_7)
 FNDA:11,(anonymous_8)
 FNDA:1,(anonymous_9)
@@ -190,10 +190,10 @@ FNDA:12,(anonymous_12)
 DA:1,1
 DA:2,1
 DA:7,1
-DA:16,103
-DA:31,103
-DA:34,103
-DA:37,103
+DA:16,102
+DA:31,102
+DA:34,102
+DA:37,102
 DA:39,1
 DA:41,1
 DA:42,15

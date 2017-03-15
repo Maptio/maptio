@@ -1,12 +1,11 @@
-import { Router } from '@angular/router';
-import { User } from './../../../app/shared/model/user.data';
-import { ErrorService } from './../../../app/shared/services/error.service';
-import { MockBackend } from '@angular/http/testing';
-import { Http, BaseRequestOptions } from '@angular/http';
-import { UserFactory } from './../../../app/shared/services/user.factory';
+import { Router } from "@angular/router";
+import { User } from "./../../../app/shared/model/user.data";
+import { ErrorService } from "./../../../app/shared/services/error.service";
+import { MockBackend } from "@angular/http/testing";
+import { Http, BaseRequestOptions } from "@angular/http";
+import { UserFactory } from "./../../../app/shared/services/user.factory";
 import { Auth } from "../../../app/shared/services/auth.service"
-import { TestBed, async, inject, fakeAsync } from "@angular/core/testing";
-import { tokenNotExpired } from "angular2-jwt";
+import { TestBed, async, inject } from "@angular/core/testing";
 
 
 describe("auth.service.ts", () => {
@@ -38,7 +37,6 @@ describe("auth.service.ts", () => {
             expect(localStorage.getItem("profile")).toBe(null);
             let profile = { user_id: "some unique id" };
 
-            let spyUpsert = spyOn(auth.userFactory, "upsert");
             auth.setUser(profile);
 
             expect(localStorage.getItem("profile")).toBeDefined();
@@ -60,7 +58,7 @@ describe("auth.service.ts", () => {
             let spyGet = spyOn(auth.userFactory, "get").and.returnValue(Promise.reject<User>(undefined));
             let spyUpsert = spyOn(auth.userFactory, "upsert");
             auth.setUser(profile);
- 
+
             spyGet.calls.mostRecent().returnValue
                 .then(() => { })
                 .catch((reason: any) => {

@@ -1,8 +1,7 @@
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core'
-import { FormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
-import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
+import { ComponentFixture, TestBed, async } from "@angular/core/testing";
+import { DebugElement } from "@angular/core"
+import { FormsModule } from "@angular/forms";
+import { By } from "@angular/platform-browser";
 import { InitiativeComponent } from "../../../../app/components/initiative/initiative.component";
 import { Initiative } from "../../../../app/shared/model/initiative.data";
 import { Team } from "../../../../app/shared/model/team.data";
@@ -37,7 +36,7 @@ describe("initiative.component.ts", () => {
 
         inputNode = {
             id: 1, name: "ORIGINAL", description: "ORIGINAL", children: [], start: new Date(2010, 1, 1), accountable: <Person>{ name: "ORIGINAL" },
-            hasFocus: false, isZoomedOn: false, isSearchedFor: false, search: undefined, traverse: undefined, deserialize: undefined, tryDeserialize:undefined
+            hasFocus: false, isZoomedOn: false, isSearchedFor: false, search: undefined, traverse: undefined, deserialize: undefined, tryDeserialize: undefined
         };
 
         component.data = inputNode;

@@ -1,6 +1,6 @@
 import { Component, ViewChild, ComponentFactoryResolver } from "@angular/core"
 import { AnchorDirective } from "../../../app/shared/directives/anchor.directive"
-import { AnAnchorableComponent, IAnchorableComponent } from "../shared/component.helper.shared"
+import { AnAnchorableComponent } from "../shared/component.helper.shared"
 import { TestBed, ComponentFixture } from "@angular/core/testing"
 import { By } from "@angular/platform-browser"
 import { DebugElement } from "@angular/core"

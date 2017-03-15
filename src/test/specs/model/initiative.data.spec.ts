@@ -1,7 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Initiative } from '../../../app/shared/model/initiative.data';
 
-describe('initiative.data.ts', () => {
+import { Initiative } from "../../../app/shared/model/initiative.data";
+
+describe("initiative.data.ts", () => {
 
     let tree: Initiative;
     let node1: Initiative, node2: Initiative, node3: Initiative, node11: Initiative, node12: Initiative, node21: Initiative, node22: Initiative, node23: Initiative;
@@ -20,7 +20,7 @@ describe('initiative.data.ts', () => {
         node3.id = 3;
     });
 
-    it('Leaves description undefined at creation', () => {
+    it("Leaves description undefined at creation", () => {
         let target = new Initiative();
         expect(target.description).toBeUndefined();
     });

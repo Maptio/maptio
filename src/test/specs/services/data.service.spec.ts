@@ -44,7 +44,7 @@ describe("data.service.ts", () => {
         };
 
         mockBackend.connections.subscribe((connection: MockConnection) => {
-            if (connection.request.url == URL) {
+            if (connection.request.url === URL) {
                 connection.mockRespond(new Response(new ResponseOptions({
                     body: JSON.stringify(mockResponse)
                 })));
