@@ -1,0 +1,26 @@
+---
+engines:
+  rubocop:
+    enabled: true
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - "ruby"
+  fixme:
+    enabled: true
+    exclude_paths:
+      - config/engines.yml
+  markdownlint:
+    enabled: true
+    checks:
+      MD002: # "First header should be a h1 header"
+        enabled: false
+ratings:
+  paths:
+  - "**.rb"
+  - "**.md"
+exclude_paths:
+  - .bundle/
+  - spec/**/*
+  - benchmarks/**/*

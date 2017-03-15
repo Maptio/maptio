@@ -1,0 +1,30 @@
+#!/bin/sh
+#
+# Release a new version of this repository.
+#
+# Assumes bin/prep-release was run and the PR merged.
+#
+# Usage: bin/release
+#
+###
+set -e
+
+git checkout master
+git pull
+
+version=$(< VERSION)
+
+printf "RELEASE %s\n" "$version"
+rake release
+
+docker build --rm -t codeclimate/codeclimate .
+docker push codeclimate/codeclimate:latest
+docker tag codeclimate/codeclimate "codeclimate/codeclimate:$version"
+docker push "codeclimate/codeclimate:$version"
+
+(cd ../homebrew-formulae/ && bin/release "$version")
+
+echo "Be sure to update release notes:"
+echo ""
+echo "  https://github.com/codeclimate/codeclimate/releases/new?tag=v$version"
+echo ""
