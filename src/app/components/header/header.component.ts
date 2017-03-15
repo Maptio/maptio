@@ -25,6 +25,9 @@ export class HeaderComponent implements OnInit {
     private isValid: boolean = false;
     private newDatasetName: string;
 
+    // HACK : for demonstration purposes
+    private VESTD = new DataSet({ _id: "58c9d273734d1d2ca8564da2", name: "Vestd" })
+
     constructor(private auth: Auth, private datasetFactory: DatasetFactory, private errorService: ErrorService, private router: Router) { }
 
     ngOnInit() {
