@@ -199,7 +199,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             let linkEnter = link.enter().insert("path", "g")
                 .attr("class", "link")
                 .attr("d", function (d) {
-                    var o = { x: source.x0, y: source.y0 }
+                    let o = { x: source.x0, y: source.y0 }
                     return diagonal(o, o)
                 });
 
@@ -212,10 +212,10 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 .attr("d", function (d) { return diagonal(d, d.parent) });
 
             // Remove any exiting links
-            let linkExit = link.exit().transition()
+            link.exit().transition()
                 .duration(duration)
                 .attr("d", function (d) {
-                    var o = { x: source.x, y: source.y }
+                    let o = { x: source.x, y: source.y }
                     return diagonal(o, o)
                 })
                 .remove();

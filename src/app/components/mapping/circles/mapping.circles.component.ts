@@ -67,7 +67,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
         let root = data;
 
         root = d3.hierarchy(root)
-            .sum(function (d: any) { return 1; }) // all nodes have the same initial size 
+            .sum(function (d: any) { return 1; }) // all nodes have the same initial size
             .sort(function (a, b) { return b.value - a.value });
 
         let focus = root,
@@ -188,7 +188,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             d3.selectAll("#title" + parseInt(zoomedNode.data.id)).style("fill-opacity", 1).style("display", "inline");
 
         function zoom(d: any, index: number) {
-            let focus0 = focus; focus = d;
+            // let focus0 = focus; focus = d;
 
             let transition = d3.transition("move")
                 // .duration(d3.event.altKey ? 7500 : 750)
@@ -206,7 +206,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
                 .on("start", function (d: any) { if (d.parent === focus) (<any>this).style.display = "inline"; })
                 .each(function (d: any) { updateCounter++ })
                 .on("end", function (d: any) {
-                    // if (d.parent !== focus) this.style.display = "none"; 
+                    // if (d.parent !== focus) this.style.display = "none";
                     updateCounter--;
                     if (updateCounter === 0) {
                         uiService.adjustLabels(text, (diameter / d.r / 2));

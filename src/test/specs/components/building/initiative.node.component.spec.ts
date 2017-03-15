@@ -236,7 +236,7 @@ describe("initiative.node.component.ts", () => {
                     let toggledTreeNode = new TreeNode(toggledNode, component.node, component.node.treeModel);
 
                     let spyToggle = spyOn(toggledTreeNode, "toggleExpanded");
-                    let spyGetNode = spyOn(component.node.treeModel, "getNodeById").and.returnValue(toggledTreeNode);;
+                    let spyGetNode = spyOn(component.node.treeModel, "getNodeById").and.returnValue(toggledTreeNode);
 
                     component.toggleNode(toggledNode);
                     expect(spyGetNode).toHaveBeenCalledWith(1);
