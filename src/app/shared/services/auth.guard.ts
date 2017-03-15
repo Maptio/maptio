@@ -12,7 +12,7 @@ export class AuthGuard implements CanActivate {
             return true;
         }
 
-        localStorage.setItem("redirectUrl", url); 
+        localStorage.setItem("redirectUrl", url);
         this.router.navigate(["/login"]);
         return false;
     }

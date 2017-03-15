@@ -1,4 +1,3 @@
 - add notification of saving document
 - when switchin between circle and tree, the container changes size
 - auomated save
-- FIXME : redirect after authentication for "/" tries to redirect with null
