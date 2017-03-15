@@ -1,15 +1,10 @@
-import { ComponentFixture, TestBed, async, inject, fakeAsync } from '@angular/core/testing';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import { Http, HttpModule, Response, Headers, RequestOptions, BaseRequestOptions, ResponseOptions } from '@angular/http';
-import { DataService } from '../../../app/shared/services/data.service'
-import { ErrorService } from '../../../app/shared/services/error.service';
-import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
+import { TestBed, inject, fakeAsync } from "@angular/core/testing";
+import { MockBackend, MockConnection } from "@angular/http/testing";
+import { Http, HttpModule, Response, BaseRequestOptions, ResponseOptions } from "@angular/http";
+import { DataService } from "../../../app/shared/services/data.service"
+import { ErrorService } from "../../../app/shared/services/error.service";
 
-
-let spyErrorService: jasmine.Spy;
-
-
-describe('data.service.ts', () => {
+describe("data.service.ts", () => {
 
     beforeEach(() => {
 
@@ -32,19 +27,19 @@ describe('data.service.ts', () => {
             ]
         });
 
-        spyOn(ErrorService.prototype, 'handleError');
+        spyOn(ErrorService.prototype, "handleError");
 
     });
 
 
-    it('When URL exists, loads data asynchronously', fakeAsync(inject([DataService, MockBackend, ErrorService], (target: DataService, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+    it("When URL exists, loads data asynchronously", fakeAsync(inject([DataService, MockBackend, ErrorService], (target: DataService, mockBackend: MockBackend, mockErrorService: ErrorService) => {
 
         const URL = "http://example.com/data.json";
 
         const mockResponse = {
             data: [
-                { id: 1, name: 'First' },
-                { id: 2, name: 'Second' }
+                { id: 1, name: "First" },
+                { id: 2, name: "Second" }
             ]
         };
 
@@ -61,13 +56,13 @@ describe('data.service.ts', () => {
 
         target.fetch(URL).then(response => {
             expect(response.data.length).toBe(2);
-            expect(response.data[0]).toEqual({ id: 1, name: 'First' });
-            expect(response.data[1]).toEqual({ id: 2, name: 'Second' });
+            expect(response.data[0]).toEqual({ id: 1, name: "First" });
+            expect(response.data[1]).toEqual({ id: 2, name: "Second" });
             expect(mockErrorService.handleError).not.toHaveBeenCalled();
         });
     })));
 
-    it('When URL does not exists, it handles error', fakeAsync(inject([DataService, MockBackend, ErrorService], (target: DataService, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+    it("When URL does not exists, it handles error", fakeAsync(inject([DataService, MockBackend, ErrorService], (target: DataService, mockBackend: MockBackend, mockErrorService: ErrorService) => {
 
         const URL = "http://example.com/idontexist.json";
 

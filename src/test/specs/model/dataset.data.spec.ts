@@ -1,7 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DataSet } from '../../../app/shared/model/dataset.data';
+import { DataSet } from "../../../app/shared/model/dataset.data";
 
-describe('Dataset Tests', () => {
+describe("Dataset Tests", () => {
     let dataset: DataSet;
 
     let NAME: string = "name";
@@ -10,7 +9,7 @@ describe('Dataset Tests', () => {
     beforeEach(() => {
     });
 
-    it('Creates new correctly', () => {
+    it("Creates new correctly", () => {
         dataset = new DataSet({ name: NAME, url: URL });
 
         expect(dataset.name).toBe(NAME);
@@ -18,11 +17,11 @@ describe('Dataset Tests', () => {
         expect(dataset.content).toBe(undefined);
     });
 
-    it('Creates EMPTY correctly', () => {
+    it("Creates EMPTY correctly", () => {
         dataset = DataSet.EMPTY;
 
         expect(dataset.name).toBe("New project");
-        expect(dataset.url).toBe('../../../assets/datasets/new.json');
+        expect(dataset.url).toBe("../../../assets/datasets/new.json");
         expect(dataset.content).toBe(undefined);
     });
 });

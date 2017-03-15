@@ -1,10 +1,10 @@
-import { Router, RouterStateSnapshot } from '@angular/router';
-import { ErrorService } from './../../../app/shared/services/error.service';
-import { Http, BaseRequestOptions } from '@angular/http';
-import { UserFactory } from './../../../app/shared/services/user.factory';
-import { Auth } from './../../../app/shared/services/auth.service';
-import { AuthGuard } from './../../../app/shared/services/auth.guard';
-import { TestBed, inject } from '@angular/core/testing';
+import { Router, RouterStateSnapshot } from "@angular/router";
+import { ErrorService } from "./../../../app/shared/services/error.service";
+import { Http, BaseRequestOptions } from "@angular/http";
+import { UserFactory } from "./../../../app/shared/services/user.factory";
+import { Auth } from "./../../../app/shared/services/auth.service";
+import { AuthGuard } from "./../../../app/shared/services/auth.guard";
+import { TestBed, inject } from "@angular/core/testing";
 import { MockBackend } from "@angular/http/testing";
 
 export class AuthStub {
@@ -52,7 +52,7 @@ describe("auth.guard.ts", () => {
             let URL = "http://where.am.i.from.com";
             state.url = URL;
             let spyAuth = spyOn(mockAuth, "authenticated").and.returnValue(false);
-           
+
             expect(localStorage.getItem("redirectUrl")).toBe(null)
             let actual = target.canActivate(route, state);
             expect(actual).toBe(false);

@@ -1,8 +1,6 @@
-import { ErrorService } from './error.service';
-import { AccountComponent } from './../../components/account/account.component';
-import { ActivatedRoute } from '@angular/router';
-import { Router } from '@angular/router';
-import { UserFactory } from './user.factory';
+import { ErrorService } from "./error.service";
+import { Router } from "@angular/router";
+import { UserFactory } from "./user.factory";
 import { Injectable } from "@angular/core";
 import { tokenNotExpired } from "angular2-jwt";
 import { UUID } from "angular2-uuid/index";
@@ -111,7 +109,7 @@ export class Auth {
     this.getLock().show({
       auth: {
         params: {
-          scope: 'openid name email',
+          scope: "openid name email",
           state: JSON.stringify({ pathname_key: uuid })
         }
       }
