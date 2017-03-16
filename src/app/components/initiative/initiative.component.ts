@@ -57,7 +57,7 @@ export class InitiativeComponent {
     }
 
     saveAccountable(newAccountable: string) {
-        let parse = new Person().tryDeserialize(JSON.parse(newAccountable));
+        let parse = new Person().tryDeserialize({ name: newAccountable });
         if (parse[0]) {
             this.data.accountable = parse[1];
         }
