@@ -1,8 +1,6 @@
 import { Serializable } from "./../interfaces/serializable.interface";
 export class DataSet implements Serializable<DataSet> {
 
-
-
   content: any;
 
   name: string;

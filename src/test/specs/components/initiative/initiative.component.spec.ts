@@ -102,15 +102,8 @@ describe("initiative.component.ts", () => {
             it("should save accountable person when valid person is given", () => {
                 expect(component.data.accountable).toBeDefined();
                 expect(component.data.accountable.name).toBe("ORIGINAL");
-                component.saveAccountable(JSON.stringify({ name: "John Doe" }));
+                component.saveAccountable("John Doe");
                 expect(component.data.accountable.name).toBe("John Doe");
-            });
-
-             it("should not save accountable person when invalid person is given", () => {
-                expect(component.data.accountable).toBeDefined();
-                expect(component.data.accountable.name).toBe("ORIGINAL");
-                component.saveAccountable(JSON.stringify({ notanameattribute: "John Doe" }));
-                expect(component.data.accountable.name).toBe("ORIGINAL");
             });
         });
     });

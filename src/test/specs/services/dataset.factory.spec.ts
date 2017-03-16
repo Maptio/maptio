@@ -35,8 +35,9 @@ describe("dataset.factory.ts", () => {
 
     describe("get", () => {
 
-        it("should throw if parameter is undefined", async(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
-            expect(function () { target.get(undefined) }).toThrowError();
+        it("should return rejected promise", async(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+            target.get(undefined)
+                    .catch((reason: any) => { expect(reason).toBeDefined() })
         })));
 
 
@@ -161,7 +162,7 @@ describe("dataset.factory.ts", () => {
         })));
 
         it("should call REST API with post", fakeAsync(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
-             let dataset = new DataSet({ name: "Project" });
+            let dataset = new DataSet({ name: "Project" });
             const mockResponse = {
                 _id: "some_unique_id",
                 name: "Project"
