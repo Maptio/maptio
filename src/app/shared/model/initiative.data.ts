@@ -25,7 +25,7 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
     accountable: Person;
 
     /**True if this is the root of the tree */
-    //isRoot: boolean = false;
+    // isRoot: boolean = false;
 
     /**True if this node is focused on */
     hasFocus: boolean = false;
@@ -36,7 +36,7 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
     /**True if this node matches a search */
     isSearchedFor: boolean = false;
 
-    public constructor(){}
+    public constructor() { }
 
     deserialize(input: any): Initiative {
         this.id = input.id;

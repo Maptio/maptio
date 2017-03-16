@@ -1,14 +1,11 @@
-import { User } from './../../../app/shared/model/user.data';
-import { UserFactory } from './../../../app/shared/services/user.factory';
-import { ComponentFixture, TestBed, async, inject, fakeAsync } from "@angular/core/testing";
+import { User } from "./../../../app/shared/model/user.data";
+import { UserFactory } from "./../../../app/shared/services/user.factory";
+import { TestBed, async, inject, fakeAsync } from "@angular/core/testing";
 import { MockBackend, MockConnection } from "@angular/http/testing";
-import { Http, HttpModule, Response, Headers, RequestOptions, BaseRequestOptions, ResponseOptions } from "@angular/http";
+import { Http, HttpModule, Response, BaseRequestOptions, ResponseOptions } from "@angular/http";
 import { ErrorService } from "../../../app/shared/services/error.service";
 
 describe("user.factory.ts", () => {
-
-    let spyErrorService: jasmine.Spy;
-    let URL = "/api/v1/users";
 
     beforeEach(() => {
 
@@ -135,7 +132,7 @@ describe("user.factory.ts", () => {
 
     describe("update", () => {
         it("should call correct REST API endpoint", fakeAsync(inject([UserFactory, MockBackend, ErrorService], (target: UserFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
-          
+
             const mockResponse = true;
 
             mockBackend.connections.subscribe((connection: MockConnection) => {

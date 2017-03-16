@@ -7,7 +7,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-            <a href="#" class="pull-left"><img src="/assets/images/logo.png" class="brand-logo"></a> 
+            <a href="#" class="pull-left"><img src="/assets/images/logo.png" class="brand-logo"></a>
             <!--<a class="navbar-brand">Maptio</a>-->
 
         </div>
@@ -38,17 +38,27 @@
                         {{user?.name}} <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-
-                        <li class="dropdown-header">Maps</li>
+                        <!-- User maps -->
+                        <li class="dropdown-header">Your maps</li>
                         <li *ngFor="let dataset of datasets$ | async">
                             <a (click)="openDataset(dataset)">{{dataset.name}}</a>
                         </li>
-
                         <li role="separator" class="divider"></li>
+
+                        <!-- Examples -->
+                        <li class="dropdown-header">Examples</li>
                         <li>
-                            <a routerLink="/account">Settings</a>
+                            <a (click)="openDataset(VESTD)">Vestd</a>
                         </li>
                         <li role="separator" class="divider"></li>
+
+                        <!-- Account -->
+                        <li>
+                            <!--<a routerLink="/account">Profile</a>-->
+                            <a routerLink="/account">Activity</a>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                        <!-- Log out -->
                         <li id="logoutButton">
                             <a (click)="auth.logout()">Log Out</a>
                         </li>

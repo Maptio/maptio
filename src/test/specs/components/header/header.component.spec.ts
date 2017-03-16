@@ -1,6 +1,6 @@
-import { Router } from '@angular/router';
-import { EmitterService } from './../../../../app/shared/services/emitter.service';
-import { UserFactory } from './../../../../app/shared/services/user.factory';
+import { Router } from "@angular/router";
+import { EmitterService } from "./../../../../app/shared/services/emitter.service";
+import { UserFactory } from "./../../../../app/shared/services/user.factory";
 import { HeaderComponent } from "./../../../../app/components/header/header.component";
 import { ComponentFixture, TestBed, async, fakeAsync } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";

@@ -1,15 +1,15 @@
-import { EmitterService } from './../../shared/services/emitter.service';
-import { ErrorService } from './../../shared/services/error.service';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
-import { DataSet } from './../../shared/model/dataset.data';
-import { DatasetFactory } from './../../shared/services/dataset.factory';
-import { User } from './../../shared/model/user.data';
-import { Auth } from './../../shared/services/auth.service';
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { EmitterService } from "./../../shared/services/emitter.service";
+import { ErrorService } from "./../../shared/services/error.service";
+import { Router } from "@angular/router";
+import { Observable } from "rxjs/Rx";
+import { DataSet } from "./../../shared/model/dataset.data";
+import { DatasetFactory } from "./../../shared/services/dataset.factory";
+import { User } from "./../../shared/model/user.data";
+import { Auth } from "./../../shared/services/auth.service";
+import { Component, OnInit } from "@angular/core";
 
 @Component({
-    selector: 'account',
+    selector: "account",
     template: require("./account.component.html")
 })
 export class AccountComponent implements OnInit {
@@ -19,18 +19,18 @@ export class AccountComponent implements OnInit {
     private message: string;
 
     constructor(private auth: Auth, private datasetFactory: DatasetFactory, private router: Router, private errorService: ErrorService) {
-     
+
     }
 
     ngOnInit() {
-         
+
         this.refresh();
     }
 
     private refresh() {
         this.auth.getUser().subscribe(
             (user: User) => {
-               
+
                 this.user = user;
                 this.datasetFactory.get(this.user).then(o => {
                     this.datasets$ = Observable.of(o);

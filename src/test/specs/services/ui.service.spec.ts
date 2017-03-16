@@ -1,10 +1,6 @@
-import { D3Service } from 'd3-ng2-service';
-import { UIService } from './../../../app/shared/services/ui.service';
-import { ComponentFixture, TestBed, inject, } from '@angular/core/testing';
-
-import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
-
-
+import { D3Service } from "d3-ng2-service";
+import { UIService } from "./../../../app/shared/services/ui.service";
+import { TestBed, inject, } from "@angular/core/testing";
 
 describe("ui.service.ts", function () {
 
@@ -83,7 +79,7 @@ describe("ui.service.ts", function () {
 
             expect(d3Service.getD3).toHaveBeenCalled();
             expect(document.getElementsByTagName("svg").length).toBe(3);
-            for (var i = 0; i < 3; i++) {
+            for (let i = 0; i < 3; i++) {
                 expect(document.getElementsByTagName("svg").item(i).children).toBeUndefined();
             }
         }));

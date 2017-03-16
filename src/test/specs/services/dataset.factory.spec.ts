@@ -1,13 +1,10 @@
-import { DataSet } from './../../../app/shared/model/dataset.data';
-import { ComponentFixture, TestBed, async, inject, fakeAsync } from "@angular/core/testing";
+import { DataSet } from "./../../../app/shared/model/dataset.data";
+import { TestBed, async, inject, fakeAsync } from "@angular/core/testing";
 import { MockBackend, MockConnection } from "@angular/http/testing";
-import { Http, HttpModule, Response, Headers, RequestOptions, BaseRequestOptions, ResponseOptions, RequestMethod } from "@angular/http";
+import { Http, HttpModule, Response, BaseRequestOptions, ResponseOptions, RequestMethod } from "@angular/http";
 import { DatasetFactory } from "../../../app/shared/services/dataset.factory"
 import { ErrorService } from "../../../app/shared/services/error.service";
 import { User } from "../../../app/shared/model/user.data"
-
-let spyErrorService: jasmine.Spy;
-
 
 describe("dataset.factory.ts", () => {
 
@@ -38,8 +35,9 @@ describe("dataset.factory.ts", () => {
 
     describe("get", () => {
 
-        it("should throw if parameter is undefined", async(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
-            expect(function () { target.get(undefined) }).toThrowError();
+        it("should return rejected promise", async(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+            target.get(undefined)
+                    .catch((reason: any) => { expect(reason).toBeDefined() })
         })));
 
 
@@ -47,7 +45,7 @@ describe("dataset.factory.ts", () => {
             it("should get a list of datasets when called with User", fakeAsync(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
                 const mockResponse = {
                     datasets: [
-                        "1", "2", "3"  //list of datasets ObjectId matched to a given user
+                        "1", "2", "3"  // list of datasets ObjectId matched to a given user
                     ]
                 };
 
@@ -76,7 +74,7 @@ describe("dataset.factory.ts", () => {
             it("should return empty array when API response is invalid", fakeAsync(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
                 const mockResponse = {
                     notdatasets: [
-                        "1", "2", "3"  //list of datasets ObjectId matched to a given user
+                        "1", "2", "3"  // list of datasets ObjectId matched to a given user
                     ]
                 };
 
@@ -164,7 +162,7 @@ describe("dataset.factory.ts", () => {
         })));
 
         it("should call REST API with post", fakeAsync(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
-             let dataset = new DataSet({ name: "Project" });
+            let dataset = new DataSet({ name: "Project" });
             const mockResponse = {
                 _id: "some_unique_id",
                 name: "Project"
@@ -181,7 +179,7 @@ describe("dataset.factory.ts", () => {
                     throw new Error("URL " + connection.request.url + " is not configured");
                 }
             });
-           
+
             target.create(dataset).then((dataset: DataSet) => {
                 expect(dataset).toBeDefined();
                 expect(dataset._id).toBe("some_unique_id");

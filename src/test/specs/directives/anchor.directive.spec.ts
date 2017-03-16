@@ -1,6 +1,9 @@
-import { Component, ViewChild, ComponentFactoryResolver } from '@angular/core'
-import { AnchorDirective } from '../../../app/shared/directives/anchor.directive'
-import { AnAnchorableComponent, IAnchorableComponent } from '../shared/component.helper.shared'
+import { Component, ViewChild, ComponentFactoryResolver } from "@angular/core"
+import { AnchorDirective } from "../../../app/shared/directives/anchor.directive"
+import { AnAnchorableComponent } from "../shared/component.helper.shared"
+import { TestBed, ComponentFixture } from "@angular/core/testing"
+import { By } from "@angular/platform-browser"
+import { DebugElement } from "@angular/core"
 
 @Component({
     template: `
@@ -12,20 +15,9 @@ class TestComponent {
     constructor(public componentFactoryResolver: ComponentFactoryResolver) { }
     @ViewChild(AnchorDirective) anchorComponent: AnchorDirective;
     @ViewChild(AnAnchorableComponent) childComponent: AnAnchorableComponent;
-
-
 }
 
-
-/********************************
- * 
- */
-
-import { TestBed, ComponentFixture } from '@angular/core/testing'
-import { By } from '@angular/platform-browser'
-import { DebugElement } from '@angular/core'
-
-describe('anchor.directive.ts', () => {
+describe("anchor.directive.ts", () => {
 
     let target: ComponentFixture<TestComponent>;
     let elements: Array<DebugElement>;
@@ -45,16 +37,16 @@ describe('anchor.directive.ts', () => {
         target.detectChanges(); // initial binding
 
         elements = target.debugElement.queryAll(By.directive(AnchorDirective));
-        otherElements = target.debugElement.queryAll(By.css(':not([anchor])'));
+        otherElements = target.debugElement.queryAll(By.css(":not([anchor])"));
 
     });
 
-    it('should have one anchor elements', () => {
+    it("should have one anchor elements", () => {
         expect(elements.length).toBe(1);
 
     });
 
-    it('should have one other elements', () => {
+    it("should have one other elements", () => {
         expect(otherElements.length).toBe(1);
     });
 

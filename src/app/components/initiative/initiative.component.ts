@@ -57,7 +57,7 @@ export class InitiativeComponent {
     }
 
     saveAccountable(newAccountable: string) {
-        let parse = new Person().tryDeserialize(JSON.parse(newAccountable));
+        let parse = new Person().tryDeserialize({ name: newAccountable });
         if (parse[0]) {
             this.data.accountable = parse[1];
         }
@@ -75,7 +75,7 @@ export class InitiativeComponent {
                     this.isTeamMemberAdded = false;
                     this.currentTeamName = term;
                     let results = term.length < 1 ? this.team.members : this.team.members.filter(v => new RegExp(term, "gi").test(v.name)).splice(0, 10);
-                    this.isTeamMemberFound = (results != undefined && results.length != 0) ? true : false;
+                    this.isTeamMemberFound = (results !== undefined && results.length !== 0) ? true : false;
                     return results;
                 }
                 catch (Exception) {

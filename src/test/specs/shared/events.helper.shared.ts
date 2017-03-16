@@ -1,4 +1,4 @@
-import {DebugElement} from '@angular/core'
+import {DebugElement} from "@angular/core"
 
 /** Button events to pass to `DebugElement.triggerEventHandler` for RouterLink event handler */
 export const ButtonClickEvents = {
@@ -11,6 +11,6 @@ export function click(el: DebugElement | HTMLElement, eventObj: any = ButtonClic
   if (el instanceof HTMLElement) {
     el.click();
   } else {
-    el.triggerEventHandler('click', eventObj);
+    el.triggerEventHandler("click", eventObj);
   }
 }

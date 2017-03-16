@@ -1,9 +1,5 @@
-import { Component, OnInit, Input } from "@angular/core";
-import {
-    D3Service, D3, Selection,
-    PackLayout, HierarchyNode, HierarchyCircularNode,
-    Transition, Timer, BaseType
-} from "d3-ng2-service";
+import { Component, OnInit } from "@angular/core";
+import { D3Service, D3 } from "d3-ng2-service";
 import { ColorService } from "../../../shared/services/color.service"
 import { UIService } from "../../../shared/services/ui.service"
 import { IDataVisualizer } from "../mapping.interface"
@@ -17,11 +13,11 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     private d3: D3;
 
 
-    public width:number;
+    public width: number;
 
-    public height:number;
+    public height: number;
 
-    public margin:number;
+    public margin: number;
 
     constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService) {
         this.d3 = d3Service.getD3();
@@ -33,21 +29,21 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
     draw(data: any) {
         let d3 = this.d3;
-        let colorService  =this.colorService;
+        let colorService = this.colorService;
 
         this.uiService.clean();
-        var color = colorService.getDefaulColorRange();
+        let color = colorService.getDefaulColorRange();
 
         console.log("TREE WIDTH " + this.width + "HEIGHT " + this.height + "MARGIN " + this.margin);
 
-        var marginDimensions = { top: this.margin, right: this.margin, bottom: this.margin, left: this.margin*5 };
+        let marginDimensions = { top: this.margin, right: this.margin, bottom: this.margin, left: this.margin * 5 };
 
         // append the svg object to the body of the page
         // appends a 'group' element to 'svg'
         // moves the 'group' element to the top left margin
-        var svg = d3.select("svg")
-             .attr("width", this.width )
-             .attr("height", this.height)
+        let svg = d3.select("svg")
+            .attr("width", this.width)
+            .attr("height", this.height)
             .append("g")
             .attr("transform", "translate("
             + marginDimensions.left + "," + marginDimensions.top + ")");
@@ -63,12 +59,12 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         //     .attr("transform", "translate("
         //     + margin + "," + margin + ")");
 
-        var i = 0,
+        let i = 0,
             duration = 750,
             root: any;
 
         // declares a tree layout and assigns the size
-        var treemap = d3.tree().size([this.height - marginDimensions.top - marginDimensions.bottom, this.width - marginDimensions.right - marginDimensions.left]);
+        let treemap = d3.tree().size([this.height - marginDimensions.top - marginDimensions.bottom, this.width - marginDimensions.right - marginDimensions.left]);
 
         // Assigns parent, children, height, depth
         root = d3.hierarchy(data, function (d) { return d.children; });
@@ -76,7 +72,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         root.y0 = 0;
 
         // Collapse after the second level
-        //root.children.forEach(collapse);
+        // root.children.forEach(collapse);
 
         update(root, duration);
 
@@ -89,13 +85,13 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             }
         }
 
-        function update(source: any, duration:number) {
+        function update(source: any, duration: number) {
 
             // Assigns the x and y position for the nodes
-            var treeData = treemap(root);
+            let treeData = treemap(root);
 
             // Compute the new tree layout.
-            var nodes = treeData.descendants(),
+            let nodes = treeData.descendants(),
                 links = treeData.descendants().slice(1);
 
             // Normalize for fixed-depth.
@@ -104,11 +100,11 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             // ****************** Nodes section ***************************
 
             // Update the nodes...
-            var node = svg.selectAll("g.node")
+            let node = svg.selectAll("g.node")
                 .data(nodes, function (d: any) { return d.id || (d.id = ++i); });
 
             // Enter any new modes at the parent's previous position.
-            var nodeEnter = node.enter().append("g")
+            let nodeEnter = node.enter().append("g")
                 .attr("class", "node")
                 .attr("transform", function (d) {
                     return "translate(" + source.y0 + "," + source.x0 + ")";
@@ -120,12 +116,12 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 .attr("class", "node")
                 .attr("r", 1e-5)
                 .style("fill", function (d) {
-                    //return d.children ? "lightsteelblue" : "#fff";
-                  return d.children ? color(d.depth) : "white"; 
+                    // return d.children ? "lightsteelblue" : "#fff";
+                    return d.children ? color(d.depth) : "white";
                 })
                 .style("stroke", function (d) {
-                    //return d.children ? "lightsteelblue" : "#fff";
-                  return d.children ? color(d.depth) : "#ccc"; 
+                    // return d.children ? "lightsteelblue" : "#fff";
+                    return d.children ? color(d.depth) : "#ccc";
                 });
 
             // Add labels for the nodes
@@ -139,7 +135,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 // .attr("text-anchor", function (d) {
                 //     return d.children || d.children ? "end" : "start";
                 // })
-                .text(function (d: any) { return d.data.name ; });
+                .text(function (d: any) { return d.data.name; });
 
             nodeEnter.append("text")
                 .attr("class", "accountable")
@@ -151,7 +147,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 .text(function (d: any) { return d.data.accountable ? d.data.accountable.name : ""; });
 
             // UPDATE
-            var nodeUpdate = nodeEnter.merge(node);
+            let nodeUpdate = nodeEnter.merge(node);
 
             // Transition to the proper position for the node
             nodeUpdate.transition()
@@ -164,17 +160,17 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             nodeUpdate.select("circle.node")
                 .attr("r", 10)
                 .style("fill", function (d) {
-                    return d.children ? color(d.depth) : "white";  //return d.children ? "lightsteelblue" : "#fff";
+                    return d.children ? color(d.depth) : "white";  // return d.children ? "lightsteelblue" : "#fff";
                 })
                 .style("stroke", function (d) {
-                    //return d.children ? "lightsteelblue" : "#fff";
-                  return d.children ? color(d.depth) : "#ccc"; 
+                    // return d.children ? "lightsteelblue" : "#fff";
+                    return d.children ? color(d.depth) : "#ccc";
                 })
                 .attr("cursor", "pointer");
 
 
             // Remove any exiting nodes
-            var nodeExit = node.exit().transition()
+            let nodeExit = node.exit().transition()
                 .duration(duration)
                 .attr("transform", function (d) {
                     return "translate(" + source.y + "," + source.x + ")";
@@ -192,19 +188,19 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             // ****************** links section ***************************
 
             // Update the links...
-            var link = svg.selectAll("path.link")
+            let link = svg.selectAll("path.link")
                 .data(links, function (d: any) { return d.id; });
 
             // Enter any new links at the parent's previous position.
-            var linkEnter = link.enter().insert("path", "g")
+            let linkEnter = link.enter().insert("path", "g")
                 .attr("class", "link")
                 .attr("d", function (d) {
-                    var o = { x: source.x0, y: source.y0 }
+                    let o = { x: source.x0, y: source.y0 }
                     return diagonal(o, o)
                 });
 
             // UPDATE
-            var linkUpdate = linkEnter.merge(link);
+            let linkUpdate = linkEnter.merge(link);
 
             // Transition back to the parent element position
             linkUpdate.transition()
@@ -212,10 +208,10 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 .attr("d", function (d) { return diagonal(d, d.parent) });
 
             // Remove any exiting links
-            var linkExit = link.exit().transition()
+            link.exit().transition()
                 .duration(duration)
                 .attr("d", function (d) {
-                    var o = { x: source.x, y: source.y }
+                    let o = { x: source.x, y: source.y }
                     return diagonal(o, o)
                 })
                 .remove();
@@ -229,7 +225,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             // Creates a curved (diagonal) path from parent to the child nodes
             function diagonal(s: any, d: any) {
 
-                var path = `M ${s.y} ${s.x}
+                let path = `M ${s.y} ${s.x}
             C ${(s.y + d.y) / 2} ${s.x},
               ${(s.y + d.y) / 2} ${d.x},
               ${d.y} ${d.x}`

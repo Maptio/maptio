@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { Router } from "@angular/router";
 import { EmitterService } from "./../../shared/services/emitter.service";
 import { ErrorService } from "./../../shared/services/error.service";
 import { EventEmitter } from "@angular/core";
@@ -24,6 +24,9 @@ export class HeaderComponent implements OnInit {
     private selectedDatasetName: string;
     private isValid: boolean = false;
     private newDatasetName: string;
+
+    // HACK : for demonstration purposes
+    private VESTD = new DataSet({ _id: "58c9d273734d1d2ca8564da2", name: "Vestd" })
 
     constructor(private auth: Auth, private datasetFactory: DatasetFactory, private errorService: ErrorService, private router: Router) { }
 

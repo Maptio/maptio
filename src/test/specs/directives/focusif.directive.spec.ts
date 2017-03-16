@@ -1,4 +1,8 @@
-import { Component } from '@angular/core'
+import { Component } from "@angular/core"
+import { TestBed, ComponentFixture } from "@angular/core/testing"
+import { By } from "@angular/platform-browser"
+import { DebugElement, ElementRef } from "@angular/core"
+import { FocusIfDirective } from "../../../app/shared/directives/focusif.directive"
 
 @Component({
     template: `
@@ -8,15 +12,7 @@ import { Component } from '@angular/core'
 })
 class TestComponent { }
 
-/********************************
- * 
- */
 
-import { TestBed, ComponentFixture } from '@angular/core/testing'
-import { By } from '@angular/platform-browser'
-import { DebugElement, ElementRef } from '@angular/core'
-import { FocusIfDirective } from '../../../app/shared/directives/focusif.directive'
-import * as triggerHelper from "../shared/events.helper.shared";
 
 describe("focusif.directive.ts", () => {
 
@@ -47,7 +43,7 @@ describe("focusif.directive.ts", () => {
 
 
     it("should bind element value to focus when [focusif] is true", () => {
-        //focus on other element first
+        // focus on other element first
         (<ElementRef>otherElement).nativeElement.focus();
 
         // easier to work with nativeElement
@@ -58,13 +54,13 @@ describe("focusif.directive.ts", () => {
         input.value = "true";
         input.dispatchEvent(new Event("input"));
         target.detectChanges();
-        
+
         expect(document.activeElement.id).toBe("box");
     });
 
     it("should bind element value to blur when [focusif] is false", () => {
 
-        //focus on other element first
+        // focus on other element first
         (<ElementRef>otherElement).nativeElement.focus();
 
         // easier to work with nativeElement
@@ -75,13 +71,13 @@ describe("focusif.directive.ts", () => {
         input.value = "false";
         input.dispatchEvent(new Event("input"));
         target.detectChanges();
-        
+
         expect(document.activeElement.id).toBe("other");
     });
 
-     it("should bind element value to blur when [focusif] is not a boolean", () => {
+    it("should bind element value to blur when [focusif] is not a boolean", () => {
 
-        //focus on other element first
+        // focus on other element first
         (<ElementRef>otherElement).nativeElement.focus();
 
         // easier to work with nativeElement
@@ -92,7 +88,7 @@ describe("focusif.directive.ts", () => {
         input.value = "not a boolean";
         input.dispatchEvent(new Event("input"));
         target.detectChanges();
-        
+
         expect(document.activeElement.id).toBe("other");
     });
 

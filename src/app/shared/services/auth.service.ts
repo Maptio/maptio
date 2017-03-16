@@ -1,8 +1,6 @@
-import { ErrorService } from './error.service';
-import { AccountComponent } from './../../components/account/account.component';
-import { ActivatedRoute } from '@angular/router';
-import { Router } from '@angular/router';
-import { UserFactory } from './user.factory';
+import { ErrorService } from "./error.service";
+import { Router } from "@angular/router";
+import { UserFactory } from "./user.factory";
 import { Injectable } from "@angular/core";
 import { tokenNotExpired } from "angular2-jwt";
 import { UUID } from "angular2-uuid/index";
@@ -18,7 +16,7 @@ declare var Auth0Lock: any;
 export class Auth {
 
 
-  private _lock: any;//= new Auth0Lock("CRvF82hID2lNIMK4ei2wDz20LH7S5BMy", "circlemapping.auth0.com", {
+  private _lock: any; // = new Auth0Lock("CRvF82hID2lNIMK4ei2wDz20LH7S5BMy", "circlemapping.auth0.com", {
 
   // });
 
@@ -29,7 +27,7 @@ export class Auth {
   /**
    * Store the URL so we can redirect after logging in
    */
-  //redirectUrl: string;
+  // redirectUrl: string;
 
   constructor(public userFactory: UserFactory, private router: Router, private errorService: ErrorService) {
 
@@ -111,7 +109,7 @@ export class Auth {
     this.getLock().show({
       auth: {
         params: {
-          scope: 'openid name email',
+          scope: "openid name email",
           state: JSON.stringify({ pathname_key: uuid })
         }
       }
@@ -123,8 +121,7 @@ export class Auth {
   }
 
   public logout() {
-    localStorage.removeItem("id_token");
-    localStorage.removeItem("profile");
+    localStorage.clear();
     this.clear();
   }
 

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
 @Component({
-    selector: 'selector',
+    selector: "footer",
     template: require("./footer.component.html")
 })
 export class FooterComponent implements OnInit {

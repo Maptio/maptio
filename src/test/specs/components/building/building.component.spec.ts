@@ -1,26 +1,22 @@
-import { EmitterService } from './../../../../app/shared/services/emitter.service';
-import { ComponentFixture, TestBed, async, inject, fakeAsync } from "@angular/core/testing";
-import { DebugElement, NO_ERRORS_SCHEMA, EventEmitter } from "@angular/core"
+import { EmitterService } from "./../../../../app/shared/services/emitter.service";
+import { ComponentFixture, TestBed, async, inject } from "@angular/core/testing";
+import { NO_ERRORS_SCHEMA, EventEmitter } from "@angular/core"
 import { FormsModule } from "@angular/forms";
 import { By } from "@angular/platform-browser";
-import { BrowserDynamicTestingModule } from "@angular/platform-browser-dynamic/testing";
 import { BuildingComponent } from "../../../../app/components/building/building.component";
 import { InitiativeComponent } from "../../../../app/components/initiative/initiative.component";
-import { TreeComponent, TreeNode } from "angular2-tree-component";
+import { TreeComponent } from "angular2-tree-component";
 import { FocusIfDirective } from "../../../../app/shared/directives/focusif.directive"
 import { DataService } from "../../../../app/shared/services/data.service"
 import { ErrorService } from "../../../../app/shared/services/error.service";
-//import { TreeExplorationService } from '../../../../app/services/tree.exploration.service'
-import { MockBackend, MockConnection } from "@angular/http/testing";
-import { Http, HttpModule, Response, Headers, RequestOptions, BaseRequestOptions, ResponseOptions } from "@angular/http";
+import { MockBackend } from "@angular/http/testing";
+import { Http, BaseRequestOptions } from "@angular/http";
 import { Initiative } from "../../../../app/shared/model/initiative.data";
-import { Person } from "../../../../app/shared/model/person.data";
 
 describe("building.component.ts", () => {
 
     let component: BuildingComponent;
     let target: ComponentFixture<BuildingComponent>;
-    let nodes: Array<Initiative>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -84,7 +80,7 @@ describe("building.component.ts", () => {
 
                 target.detectChanges();
                 let treeNode = target.debugElement.queryAll(By.css("Tree treenode"));
-                expect(treeNode.length).toBe(1); //one and only one root
+                expect(treeNode.length).toBe(1); // one and only one root
                 let dataNode = <Initiative>treeNode[0].context.$implicit.data;
                 expect(dataNode).toBe(root);
             });
@@ -194,8 +190,8 @@ describe("building.component.ts", () => {
                 target.whenStable().then(() => {
                     expect(spyDataService).toHaveBeenCalledWith(url);
                     expect(component.initiativeEditComponent.team.members.length).toBe(2);
-                    expect(component.initiativeEditComponent.team.members.find(function (p) { return p.name == "CTO" })).toBeDefined("Cant find CTO");
-                    expect(component.initiativeEditComponent.team.members.find(function (p) { return p.name == "CMO" })).toBeDefined("Cant find CMO");
+                    expect(component.initiativeEditComponent.team.members.find(function (p) { return p.name === "CTO" })).toBeDefined("Cant find CTO");
+                    expect(component.initiativeEditComponent.team.members.find(function (p) { return p.name === "CMO" })).toBeDefined("Cant find CMO");
                 });
             }));
 

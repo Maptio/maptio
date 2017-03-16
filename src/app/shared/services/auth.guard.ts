@@ -1,6 +1,6 @@
-import { Auth } from './auth.service';
-import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { Auth } from "./auth.service";
+import { Injectable } from "@angular/core";
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from "@angular/router";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -12,7 +12,7 @@ export class AuthGuard implements CanActivate {
             return true;
         }
 
-        localStorage.setItem("redirectUrl", url); 
+        localStorage.setItem("redirectUrl", url);
         this.router.navigate(["/login"]);
         return false;
     }

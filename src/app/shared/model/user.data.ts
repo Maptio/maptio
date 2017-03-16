@@ -1,4 +1,4 @@
-import { Serializable } from '../interfaces/serializable.interface';
+import { Serializable } from "../interfaces/serializable.interface";
 
 export class User implements Serializable<User> {
 
@@ -39,7 +39,7 @@ export class User implements Serializable<User> {
         deserialized.name = input.name;
         deserialized.email = input.email;
         deserialized.picture = input.picture;
-        deserialized.user_id = input.user_id; //specific to Auth0
+        deserialized.user_id = input.user_id; // specific to Auth0
         return deserialized;
     }
 
