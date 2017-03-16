@@ -2,7 +2,8 @@ language: node_js
 node_js:
   - "6"
 notifications:
-  slack: circlemapping:Y7RTefJI5CznwbeFqMeqvnno
+  slack: 
+    rooms: circlemapping:Y7RTefJI5CznwbeFqMeqvnno
     on_pull_requests: false
 addons:
     code_climate:
