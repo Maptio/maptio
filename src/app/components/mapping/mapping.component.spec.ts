@@ -1,17 +1,17 @@
-import { UIService } from "./../../../../app/shared/services/ui.service";
-import { ColorService } from "./../../../../app/shared/services/color.service";
+import { UIService } from "./../..//shared/services/ui.service";
+import { ColorService } from "./../..//shared/services/color.service";
 import { D3Service } from "d3-ng2-service";
-import { AnchorDirective } from "./../../../../app/shared/directives/anchor.directive";
+import { AnchorDirective } from "./../..//shared/directives/anchor.directive";
 import { Observable } from "rxjs/Observable";
-import { ErrorService } from "./../../../../app/shared/services/error.service";
+import { ErrorService } from "./../..//shared/services/error.service";
 import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
-import { DataService } from "./../../../../app/shared/services/data.service";
-import { MappingTreeComponent } from "./../../../../app/components/mapping/tree/mapping.tree.component";
-import { MappingCirclesComponent } from "./../../../../app/components/mapping/circles/mapping.circles.component";
+import { DataService } from "./../..//shared/services/data.service";
+import { MappingTreeComponent } from "./tree/mapping.tree.component";
+import { MappingCirclesComponent } from "./circles/mapping.circles.component";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
-import { MappingComponent } from "./../../../../app/components/mapping/mapping.component";
-import { Views } from "../../../../app/shared/model/view.enum";
+import { MappingComponent } from "./mapping.component";
+import { Views } from "../../shared/model/view.enum";
 import { ComponentFactoryResolver, ComponentFactory, ComponentRef, Type } from "@angular/core";
 
 describe("mapping.component.ts", () => {
