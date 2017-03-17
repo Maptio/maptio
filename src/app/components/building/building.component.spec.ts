@@ -39,13 +39,22 @@ describe("building.component.ts", () => {
     }));
 
     beforeEach(() => {
-        fixture.setBase("src/app/components/building/fixtures");
+
 
         target = TestBed.createComponent(BuildingComponent);
         component = target.componentInstance;
 
         target.detectChanges(); // trigger initial data binding
     });
+
+
+    beforeAll(() => {
+        fixture.setBase("src/app/components/building/fixtures");
+    });
+
+    afterEach(() => {
+        fixture.cleanup();
+    })
 
     describe("View", () => {
 
