@@ -1,17 +1,17 @@
-import { EmitterService } from "./../../../../app/shared/services/emitter.service";
+import { EmitterService } from "./../../shared/services/emitter.service";
 import { ComponentFixture, TestBed, async, inject } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA, EventEmitter } from "@angular/core"
 import { FormsModule } from "@angular/forms";
 import { By } from "@angular/platform-browser";
-import { BuildingComponent } from "../../../../app/components/building/building.component";
-import { InitiativeComponent } from "../../../../app/components/initiative/initiative.component";
+import { BuildingComponent } from "./building.component";
 import { TreeComponent } from "angular2-tree-component";
-import { FocusIfDirective } from "../../../../app/shared/directives/focusif.directive"
-import { DataService } from "../../../../app/shared/services/data.service"
-import { ErrorService } from "../../../../app/shared/services/error.service";
+import { FocusIfDirective } from "../..//shared/directives/focusif.directive"
+import { DataService } from "../..//shared/services/data.service"
+import { ErrorService } from "../..//shared/services/error.service";
 import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
-import { Initiative } from "../../../../app/shared/model/initiative.data";
+import { Initiative } from "../..//shared/model/initiative.data";
+import { InitiativeComponent } from "../initiative/initiative.component";
 
 describe("building.component.ts", () => {
 
@@ -39,6 +39,8 @@ describe("building.component.ts", () => {
     }));
 
     beforeEach(() => {
+        fixture.setBase("src/app/components/building/fixtures");
+
         target = TestBed.createComponent(BuildingComponent);
         component = target.componentInstance;
 
@@ -170,7 +172,7 @@ describe("building.component.ts", () => {
             it("shoud loads data and initializes tree", inject([DataService], (mockDataService: DataService) => {
                 let url = "/api/v1/dataset/someId";
 
-                fixture.load("src/test/specs/components/building/fixtures/data.json");
+                fixture.load("data.json");
                 let spyDataService = spyOn(mockDataService, "fetch").and.returnValue(Promise.resolve(fixture.json[0]));
 
                 component.loadData("someId");
@@ -183,7 +185,7 @@ describe("building.component.ts", () => {
             it("should loads data and initializes team", inject([DataService], (mockDataService: DataService) => {
                 let url = "/api/v1/dataset/someId";
 
-                fixture.load("src/test/specs/components/building/fixtures/data.json");
+                fixture.load("data.json");
                 let spyDataService = spyOn(mockDataService, "fetch").and.returnValue(Promise.resolve(fixture.json[0]));
 
                 component.loadData("someId");
@@ -199,7 +201,7 @@ describe("building.component.ts", () => {
 
                 let url = "/api/v1/dataset/someId";
 
-                fixture.load("src/test/specs/components/building/fixtures/data.json");
+                fixture.load("data.json");
                 let spyDataService = spyOn(mockDataService, "fetch").and.returnValue(Promise.resolve(fixture.json[0]));
                 let spyMapData = spyOn(component, "mapData");
 

@@ -1,10 +1,10 @@
+import { TreeModel, TreeNode } from "angular2-tree-component";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { FormsModule } from "@angular/forms";
 import { By } from "@angular/platform-browser";
-import { InitiativeNodeComponent } from "../../../../app/components/building/initiative.node.component";
-import { TreeNode, TreeModel } from "angular2-tree-component";
-import { Initiative } from "../../../../app/shared/model/initiative.data";
-import { FocusIfDirective } from "../../../../app/shared/directives/focusif.directive";
+import { Initiative } from "../../shared/model/initiative.data";
+import { InitiativeNodeComponent } from "./initiative.node.component";
+import { FocusIfDirective } from "../../shared/directives/focusif.directive";
 
 describe("initiative.node.component.ts", () => {
 
