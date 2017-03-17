@@ -2,10 +2,10 @@ import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { DebugElement } from "@angular/core"
 import { FormsModule } from "@angular/forms";
 import { By } from "@angular/platform-browser";
-import { InitiativeComponent } from "../../../../app/components/initiative/initiative.component";
-import { Initiative } from "../../../../app/shared/model/initiative.data";
-import { Team } from "../../../../app/shared/model/team.data";
-import { Person } from "../../../../app/shared/model/person.data";
+import { InitiativeComponent } from "./initiative.component";
+import { Initiative } from "../../shared/model/initiative.data";
+import { Team } from "../../shared/model/team.data";
+import { Person } from "../../shared/model/person.data";
 import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
