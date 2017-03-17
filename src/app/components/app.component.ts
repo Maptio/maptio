@@ -1,12 +1,12 @@
-import { EmitterService } from "./shared/services/emitter.service";
+import { EmitterService } from "../shared/services/emitter.service";
 import { Router } from "@angular/router";
 import {
   Component,
   OnInit,
   ViewChild
 } from "@angular/core";
-import { HelpComponent } from "./components/help/help.component";
-import { DataSet } from "./shared/model/dataset.data"
+import { HelpComponent } from "../components/help/help.component";
+import { DataSet } from "../shared/model/dataset.data"
 import "rxjs/add/operator/map"
 @Component({
   selector: "my-app",
