@@ -42,7 +42,7 @@ module.exports = function (config) {
                 ]
             },
             coverageOptions: {
-                exclude: [/(\/src\/test\/.*|\.d|base.spec)\.ts/i]
+                exclude: [/(\/src\/test\/.*|\.d|base.spec|\.spec)\.ts/i]
             },
             reports: {
                 "html": {
