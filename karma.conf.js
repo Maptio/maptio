@@ -10,7 +10,7 @@ module.exports = function (config) {
             { pattern: "https://cdn.auth0.com/js/lock/10.8/lock.min.js" },
             // Application
             { pattern: "./src/app/app.component.ts" },
-            { pattern: "./src/app/shared/**/*.ts" },
+            { pattern: "./src/app/shared/**/*.*" },
             { pattern: "./src/app/components/**/*.*" },
             // Specs
             { pattern: "./src/test/specs/**/*.*" }
@@ -42,9 +42,8 @@ module.exports = function (config) {
                 ]
             },
             coverageOptions: {
-                exclude: [/(\/src\/test\/.*|\.d|base.spec)\.ts/i]
+                exclude: [/(\/src\/test\/.*|\.d|base.spec|\.spec)\.ts/i]
             },
-            //include: ['src/test/**/*.ts', 'src/app/**/*.ts'],
             reports: {
                 "html": {
                     "directory": "coverage",

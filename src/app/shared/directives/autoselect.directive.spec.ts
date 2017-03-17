@@ -2,8 +2,8 @@ import { Component } from "@angular/core"
 import { TestBed, ComponentFixture } from "@angular/core/testing"
 import { By } from "@angular/platform-browser"
 import { DebugElement, ElementRef } from "@angular/core"
-import { AutoSelectDirective } from "../../../app/shared/directives/autoselect.directive"
-import * as triggerHelper from "../shared/events.helper.shared";
+import { AutoSelectDirective } from "./autoselect.directive"
+import * as triggerHelper from "../../../test/specs/shared/events.helper.shared";
 
 @Component({
     template: `

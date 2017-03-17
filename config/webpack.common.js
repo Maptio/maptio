@@ -6,8 +6,8 @@ var helpers = require('./helpers');
 
 module.exports = {
   entry: {
-    'polyfills': './polyfills.ts',
-    'vendor': './vendor.ts',
+    'polyfills': './src/app/polyfills.ts',
+    'vendor': './src/app/vendor.ts',
     'app': './src/app/bootstrap.ts'
   },
 

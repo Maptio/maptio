@@ -16,13 +16,15 @@ describe("ui.service.ts", function () {
 
     });
 
-    afterAll(function () {
+    afterEach(function () {
         fixture.cleanup()
     });
 
     beforeAll(() => {
-        fixture.setBase("src/test/specs/services/fixtures");
+        fixture.setBase("src/app/shared/services/fixtures");
     });
+
+
 
 
     describe("getCircularPath", function () {

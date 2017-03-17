@@ -1,11 +1,18 @@
 
-import { Initiative } from "../../../app/shared/model/initiative.data";
+import { Initiative } from "./initiative.data";
 
 describe("initiative.data.ts", () => {
 
     let tree: Initiative;
     let node1: Initiative, node2: Initiative, node3: Initiative, node11: Initiative, node12: Initiative, node21: Initiative, node22: Initiative, node23: Initiative;
 
+    beforeAll(() => {
+        fixture.setBase("src/app/shared/model/fixtures");
+    })
+
+    afterEach(() => {
+        fixture.cleanup();
+    })
 
     beforeEach(() => {
 
@@ -18,6 +25,7 @@ describe("initiative.data.ts", () => {
         node1.id = 1, node1.children = [node11, node12];
         node2.id = 2, node2.children = [node21, node22, node23];
         node3.id = 3;
+
     });
 
     it("Leaves description undefined at creation", () => {
@@ -29,7 +37,8 @@ describe("initiative.data.ts", () => {
 
         describe("deserialize", () => {
             it("should return valid initiative when input is valid", () => {
-                fixture.load("src/test/specs/components/building/fixtures/serialize.json");
+
+                fixture.load("serialize.json");
                 let jsonString = fixture.json[0];
                 let initiative = new Initiative().deserialize(jsonString);
 

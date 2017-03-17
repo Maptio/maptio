@@ -1,15 +1,15 @@
 import { Params } from "@angular/router";
 import { ActivatedRoute } from "@angular/router";
-import { WorkspaceComponent } from "./../../../../app/components/workspace/workspace.component";
-import { UserFactory } from "./../../../../app/shared/services/user.factory";
+import { WorkspaceComponent } from "./workspace.component";
+import { UserFactory } from "./../../shared/services/user.factory";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core"
 import { By } from "@angular/platform-browser";
-import { BuildingComponent } from "../../../../app/components/building/building.component"
-import { DatasetFactory } from "../../../../app/shared/services/dataset.factory";
-import { DataService } from "../../../../app/shared/services/data.service";
-import { ErrorService } from "../../../../app/shared/services/error.service";
-import { Auth } from "../../../../app/shared/services/auth.service";
+import { BuildingComponent } from "../../components/building/building.component"
+import { DatasetFactory } from "../../shared/services/dataset.factory";
+import { DataService } from "../../shared/services/data.service";
+import { ErrorService } from "../../shared/services/error.service";
+import { Auth } from "../../shared/services/auth.service";
 import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { Observable } from "rxjs/Rx";

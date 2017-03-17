@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { DebugElement } from "@angular/core"
 import { FormsModule } from "@angular/forms";
 import { By } from "@angular/platform-browser";
-import { HelpComponent } from "../../../../app/components/help/help.component";
+import { HelpComponent } from "./help.component";
 import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
 
 describe("help.component.ts", () => {

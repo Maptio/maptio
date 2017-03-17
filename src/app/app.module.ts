@@ -26,7 +26,7 @@ import { UserFactory } from "./shared/services/user.factory";
 // Components
 import { LoginComponent } from "./components/login/login.component";
 
-import { AppComponent } from "./app.component";
+import { AppComponent } from "./components/app.component";
 import { MappingComponent } from "./components/mapping/mapping.component";
 import { MappingCirclesComponent } from "./components/mapping/circles/mapping.circles.component";
 import { MappingTreeComponent } from "./components/mapping/tree/mapping.tree.component";
