@@ -1,13 +1,13 @@
 import { Observable } from "rxjs/Rx";
-import { User } from "./../../../../app/shared/model/user.data";
-import { DatasetFactory } from "./../../../../app/shared/services/dataset.factory";
-import { ErrorService } from "./../../../../app/shared/services/error.service";
+import { User } from "./../../shared/model/user.data";
+import { DatasetFactory } from "./../../shared/services/dataset.factory";
+import { ErrorService } from "./../../shared/services/error.service";
 import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
-import { UserFactory } from "./../../../../app/shared/services/user.factory";
-import { Auth } from "./../../../../app/shared/services/auth.service";
-import { AccountComponent } from "./../../../../app/components/account/account.component";
-import { DataSet } from "./../../../../app/shared/model/dataset.data";
+import { UserFactory } from "./../../shared/services/user.factory";
+import { Auth } from "./../../shared/services/auth.service";
+import { AccountComponent } from "./account.component";
+import { DataSet } from "./../../shared/model/dataset.data";
 import { Router } from "@angular/router";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core"
