@@ -1,5 +1,5 @@
 
-import { User } from "../../../app/shared/model/user.data";
+import { User } from "./user.data";
 
 describe("user.data.ts", () => {
 

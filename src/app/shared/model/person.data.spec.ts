@@ -1,4 +1,4 @@
-import { Person } from "../../../app/shared/model/person.data";
+import { Person } from "./person.data";
 
 describe("Person Tests", () => {
 

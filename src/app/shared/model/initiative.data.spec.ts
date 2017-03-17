@@ -1,5 +1,5 @@
 
-import { Initiative } from "../../../app/shared/model/initiative.data";
+import { Initiative } from "./initiative.data";
 
 describe("initiative.data.ts", () => {
 

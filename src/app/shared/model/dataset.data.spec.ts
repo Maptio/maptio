@@ -1,4 +1,4 @@
-import { DataSet } from "../../../app/shared/model/dataset.data";
+import { DataSet } from "./dataset.data";
 
 describe("Dataset Tests", () => {
     let dataset: DataSet;

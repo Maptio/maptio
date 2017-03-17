@@ -1,6 +1,6 @@
 
-import { Team } from "../../../app/shared/model/team.data";
-import { Person } from "../../../app/shared/model/person.data";
+import { Team } from "./team.data";
+import { Person } from "./person.data";
 
 describe("Team Tests", () => {
     let team: Team;
