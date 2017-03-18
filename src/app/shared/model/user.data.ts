@@ -22,6 +22,8 @@ export class User implements Serializable<User> {
      */
     public picture: string;
 
+    public updated_at: Date;
+
     public constructor(init?: Partial<User>) {
         Object.assign(this, init);
     }
@@ -32,6 +34,7 @@ export class User implements Serializable<User> {
     }
 
     deserialize(input: any): User {
+        console.log(input)
         if (!input.user_id) {
             return undefined;
         }
@@ -40,6 +43,7 @@ export class User implements Serializable<User> {
         deserialized.email = input.email;
         deserialized.picture = input.picture;
         deserialized.user_id = input.user_id; // specific to Auth0
+        deserialized.updated_at = input.updated_at;
         return deserialized;
     }
 
