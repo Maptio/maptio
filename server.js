@@ -13,7 +13,7 @@ const app = express(),
   DIST_DIR = path.join(__dirname, "dist"),
   HTML_FILE = path.join(DIST_DIR, "index.html"),
   isDevelopment = process.env.NODE_ENV !== "production",
-  DEFAULT_PORT  = 3000,
+  DEFAULT_PORT = 3000,
   compiler = webpack(config);
 
 
@@ -26,6 +26,7 @@ app.use('/api/v1/', datasets);
 app.use('/api/v1/', users);
 
 app.set("port", process.env.PORT || DEFAULT_PORT);
+
 
 if (isDevelopment) {
   const middleware = webpackMiddleware(compiler, {
@@ -49,8 +50,26 @@ if (isDevelopment) {
   });
 } else {
 
+
+  app.get('*', function (req, res, next) {
+    if (req.headers['x-forwarded-proto'] != 'https')
+      res.redirect('https://mypreferreddomain.com' + req.url)
+    else
+      next() /* Continue to other routes if we're not redirecting */
+  })
+
   app.use(express.static(DIST_DIR));
-  app.get("*", (req, res) => res.sendFile(HTML_FILE));
+  app.get("*", function (req, res, next) {
+    if (req.headers['x-forwarded-proto'] != 'https') {
+      return res.redirect(['https://', req.get('Host'), req.url].join(''));
+    }
+
+    // else
+    //   next() /* Continue to other routes if we're not redirecting */
+
+    res.sendFile(HTML_FILE)
+  }
+  )
 }
 
 app.listen(app.get("port"), '0.0.0.0', function onStart(err) {
