@@ -45,7 +45,7 @@ describe("initiative.node.component.ts", () => {
             target.detectChanges();
             // console.log(target.debugElement.nativeElement);
             expect(target.debugElement.query(By.css("label")).nativeElement.innerHTML).toBe("Project");
-            expect(target.debugElement.queryAll(By.css("a.toggleExpandLink")).length).toBe(1);
+            expect(target.debugElement.queryAll(By.css("a.toggle.open-node")).length).toBe(1);
             expect(target.debugElement.queryAll(By.css("input.inputNodeName")).length).toBe(1);
             expect(target.debugElement.queryAll(By.css("a.btnAddNode")).length).toBe(1);
             expect(target.debugElement.queryAll(By.css("a.btnRemoveNode")).length).toBe(0);
@@ -59,7 +59,7 @@ describe("initiative.node.component.ts", () => {
             let spyIsRoot = spyOn(component, "isRoot").and.returnValue(false);
             target.detectChanges();
             // console.log(target.debugElement.nativeElement);
-            expect(target.debugElement.queryAll(By.css("a.toggleExpandLink")).length).toBe(1);
+            expect(target.debugElement.queryAll(By.css("a.toggle.open-node")).length).toBe(1);
             expect(target.debugElement.queryAll(By.css("input.inputNodeName")).length).toBe(1);
             expect(target.debugElement.queryAll(By.css("a.btnAddNode")).length).toBe(1);
             expect(target.debugElement.queryAll(By.css("a.btnRemoveNode")).length).toBe(1);
@@ -75,8 +75,8 @@ describe("initiative.node.component.ts", () => {
                 let spyIsExpanded = spyOn(component, "isExpanded").and.returnValue(true);
                 target.detectChanges();
 
-                expect(target.debugElement.queryAll(By.css("a.toggleHideLink")).length).toBe(1);
-                expect(target.debugElement.queryAll(By.css("a.toggleExpandLink")).length).toBe(0);
+                expect(target.debugElement.queryAll(By.css("a.toggle.close-node")).length).toBe(1);
+                expect(target.debugElement.queryAll(By.css("a.toggle.open-node")).length).toBe(0);
                 expect(spyHasChildren).toHaveBeenCalled();
                 expect(spyIsExpanded).toHaveBeenCalled();
             });
@@ -86,8 +86,8 @@ describe("initiative.node.component.ts", () => {
                 let spyIsExpanded = spyOn(component, "isExpanded").and.returnValue(false);
                 target.detectChanges();
 
-                expect(target.debugElement.queryAll(By.css("a.toggleHideLink")).length).toBe(0);
-                expect(target.debugElement.queryAll(By.css("a.toggleExpandLink")).length).toBe(1);
+                expect(target.debugElement.queryAll(By.css("a.toggle.close-node")).length).toBe(0);
+                expect(target.debugElement.queryAll(By.css("a.toggle.open-node")).length).toBe(1);
                 expect(spyHasChildren).toHaveBeenCalled();
                 expect(spyIsExpanded).toHaveBeenCalled();
             });

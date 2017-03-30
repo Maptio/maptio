@@ -63,10 +63,6 @@ if (isDevelopment) {
     if (req.headers['x-forwarded-proto'] != 'https') {
       return res.redirect(['https://', req.get('Host'), req.url].join(''));
     }
-
-    // else
-    //   next() /* Continue to other routes if we're not redirecting */
-
     res.sendFile(HTML_FILE)
   }
   )

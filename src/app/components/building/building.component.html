@@ -4,7 +4,7 @@
 		<input id="searchTreeInput" type="text" class="form-control" placeholder="Search map by name or description" (input)="filterNodes($event.target.value)"
 		/>
 	</div>
-	<Tree [nodes]="nodes" (onUpdateData)="mapData($event)">
+	<Tree [nodes]="nodes" (onUpdateData)="mapData($event)" [options]="options">
 		<template #treeNodeTemplate let-node>
 			<initiative-node [node]="node" (map)="mapData($event)" (update)="updateTreeModel($event)" (openSelected)="editInitiative($event)"></initiative-node>
 		</template>

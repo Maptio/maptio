@@ -1,3 +1,4 @@
 - add notification of saving document
 - when switchin between circle and tree, the container changes size
 - auomated save
+-track memeory leak ?
