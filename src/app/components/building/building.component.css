@@ -1,15 +1,4 @@
 
-.tree-node {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-}
-
-.node-content-wrapper {
-  flex-grow: 1;
-  position: relative;
-}
-
 .nodeDiv
 {
   background-color: #eee;
@@ -35,6 +24,3 @@ inpu, textarea{
   clear:both;
 }
 
-.toggle-children {
-  background-image: none;
-}
