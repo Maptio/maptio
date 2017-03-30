@@ -8,7 +8,8 @@ import { ActivatedRoute, Params } from "@angular/router";
 
 @Component({
     selector: "workspace",
-    template: require("./workspace.component.html")
+    template: require("./workspace.component.html"),
+    styles:[require("./workspace.component.css").toString()]
 })
 
 
