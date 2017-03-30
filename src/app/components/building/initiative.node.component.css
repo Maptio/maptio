@@ -49,7 +49,7 @@ treenode:last-child > .tree-node > .tree-children::after {
 .toggle{
 background-size: 15px;
     background-repeat: no-repeat;
-    padding: 0px 5px 15px 17px;
+    padding: 0 5px 15px 17px;
 }
 
 .open-node{
@@ -76,7 +76,7 @@ background-size: 15px;
 display: flex;
     align-items: center;
     margin: 3px;
-      padding: 0px !important;
+      padding: 0 !important;
 }
 
 
@@ -91,5 +91,5 @@ flex-wrap: wrap;
 
 
 .form-group {
-    margin-bottom: 0px !important ;
+    margin-bottom: 0 !important ;
 }
