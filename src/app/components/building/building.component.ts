@@ -17,6 +17,10 @@ export class BuildingComponent {
 
     searched: string;
     nodes: Array<Initiative>;
+    options = {
+        allowDrag: true,
+        allowDrop: true //(element:any, {parent:any, index:number}) => parent.isLeaf
+    }
 
     @ViewChild(TreeComponent)
     tree: TreeComponent;
