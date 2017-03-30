@@ -18,7 +18,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
     @ViewChild("drawing")
     public element: ElementRef;
 
-    public width: number = 1522;
+    public width: number;
 
     public height: number;
 

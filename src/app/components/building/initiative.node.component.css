@@ -29,7 +29,7 @@
 }
 
 .tree-children::after {
-  border-left: none;
+   border-left: 1px solid lightgrey;
   height: 100%;
   top: -15px;
   left: 13px;

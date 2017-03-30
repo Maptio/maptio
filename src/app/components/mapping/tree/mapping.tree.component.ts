@@ -41,13 +41,16 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         // append the svg object to the body of the page
         // appends a 'group' element to 'svg'
         // moves the 'group' element to the top left margin
-        let svg = d3.select("svg")
-            .attr("width", this.width)
-            .attr("height", this.height)
-            .append("g")
-            .attr("transform", "translate("
-            + marginDimensions.left + "," + marginDimensions.top + ")");
-
+        // let svg = d3.select("svg")
+        //     .attr("width", this.width)
+        //     .attr("height", this.height)
+        //     .append("g")
+        //     .attr("transform", "translate("
+        //     + marginDimensions.left + "," + marginDimensions.top + ")");
+        let svg = d3.select("svg"),
+            // margin = 50,
+            diameter = +this.width,
+            g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
         // append the svg object to the body of the page
         // appends a 'group' element to 'svg'
