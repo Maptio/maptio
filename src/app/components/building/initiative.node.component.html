@@ -2,9 +2,9 @@
 	<label class="control-label" *ngIf="isRoot()">Project</label>
 	<div class="input-group">
 		<span class="input-group-btn">
-						<a class="btn btn-link btn-lg toggleExpandLink" [ngClass]="{'disabled': !hasChildren() }" *ngIf="!isExpanded() && hasChildren()"
+						<a class="btn btn-link btn-lg toggle open-node" [ngClass]="{'disabled': !hasChildren() }" *ngIf="!isExpanded() && hasChildren()"
 							(click)="toggleNode(node)"></a>
-						<a class="btn btn-link btn-lg toggleHideLink" [ngClass]="{'disabled': !hasChildren() }" *ngIf="isExpanded() && hasChildren()"
+						<a class="btn btn-link btn-lg toggle close-node" [ngClass]="{'disabled': !hasChildren() }" *ngIf="isExpanded() && hasChildren()"
 							(click)="toggleNode(node)"></a>
 					</span>
 		<!--NAME-->
@@ -16,7 +16,7 @@
 		<!--REMOVE-->
 		<a class="btn btn-default btnRemoveNode" ngbTooltip="Remove" placement="bottom" *ngIf="!isRoot()" (click)="removeChildNode(node.data)"><i class="fa fa-minus" aria-hidden="true"></i></a>
 		<!--EDIT-->
-		<a class="btn btn-default btnEditNode" *ngIf="!isRoot()" ngbTooltip="Edit" placement="bottom" (click)="openNode(node.data)"><i class="fa fa-comment" aria-hidden="true"></i></a>
+		<a class="btn btn-default btnEditNode" *ngIf="!isRoot()" ngbTooltip="Edit" placement="bottom" (click)="openNode(node.data)"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 		<!--ZOOM IN-->
 		<a class="btn btn-default btnZoomNode" *ngIf="!isRoot()" ngbTooltip="Zoom in" placement="bottom" (click)="zoomInNode(node.data)"><i class="fa fa-search" aria-hidden="true"></i></a>
 
