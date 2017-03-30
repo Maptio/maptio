@@ -1,4 +1,4 @@
-<a href="https://codeclimate.com/github/Safiyya/circlemapping"><img src="https://codeclimate.com/github/Safiyya/circlemapping/badges/gpa.svg" /></a> <a href="https://codeclimate.com/github/Safiyya/circlemapping/coverage"><img src="https://codeclimate.com/github/Safiyya/circlemapping/badges/coverage.svg" /></a> <a href="https://codeclimate.com/github/Safiyya/circlemapping"><img src="https://codeclimate.com/github/Safiyya/circlemapping/badges/issue_count.svg" /></a>
+<a href="https://codeclimate.com/repos/58c5dfcf1c8f5f0272000b72/feed"><img src="https://codeclimate.com/repos/58c5dfcf1c8f5f0272000b72/badges/969532b3df5cd3cd2e9b/gpa.svg" /></a><a href="https://codeclimate.com/repos/58c5dfcf1c8f5f0272000b72/coverage"><img src="https://codeclimate.com/repos/58c5dfcf1c8f5f0272000b72/badges/969532b3df5cd3cd2e9b/coverage.svg" /></a><a href="https://codeclimate.com/repos/58c5dfcf1c8f5f0272000b72/feed"><img src="https://codeclimate.com/repos/58c5dfcf1c8f5f0272000b72/badges/969532b3df5cd3cd2e9b/issue_count.svg" /></a>
 
 # Circle mapping
 
