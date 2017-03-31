@@ -7,7 +7,7 @@ notifications:
     on_pull_requests: false
 addons:
     code_climate:
-        repo_token: be37442c211d9ae6c694261fc71a3818dcdc1e9aa2717ede4b72a7303f54f6ba
+        repo_token: 0d513f44c10e35dacbc815a38ded75a76f286f29a40f0b5597b4cd62a1bf8a10
 after_success:
   - npm install -g codeclimate-test-reporter
   - codeclimate-test-reporter < coverage/lcov/lcov.info
