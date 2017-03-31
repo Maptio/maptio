@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core";
 
 declare var Auth0Lock: any;
 
-// FIXME : credentials should come from configuration service
 @Injectable()
 export class AuthConfiguration {
 
