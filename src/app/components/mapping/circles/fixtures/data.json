@@ -1,9 +1,11 @@
 {
     "name": "My Company",
     "accountable": "CEO",
+    "id": "0",
     "children": [
         {
             "name": "Tech",
+            "id": "1",
             "accountable": {
                 "name": "CTO"
             },
@@ -11,6 +13,7 @@
         },
         {
             "name": "Marketing",
+            "id": "2",
             "accountable": {
                 "name": "CMO"
             },
