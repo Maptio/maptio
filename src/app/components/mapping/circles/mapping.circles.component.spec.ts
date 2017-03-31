@@ -42,6 +42,58 @@ describe("mapping.circles.component.ts", () => {
         fixture.cleanup();
     });
 
+    /*
+    <svg _ngcontent-a-4="" viewBox="0 0 1522 1522" width="100%" style="background-color: rgb(252, 252, 252); background-position: initial initial;
+ background-repeat: initial initial;">
+    <g transform="translate(500,500)">
+        <circle class="node node--root" id="circle0" style="fill: #cbe6e1; stroke:none;" transform="translate(0,0)" r="475"></circle>
+        <circle class="node node--leaf" id="circle1" style="fill: #ffffff; stroke: none;" transform="translate(-232.7970297029703,0)" r="223.39108910891088"></circle>
+        <circle class="node node--leaf" id="circle2" style="fill: #ffffff; stroke: none;" transform="translate(232.79702970297035,0)" r="223.39108910891088"></circle>
+
+        <text id="title0" font-size="1em" transform="translate(0,0)" style="display: none;">
+            <textpath href="#path0" startOffset="10%">My Company</textpath>
+        </text>
+        <text transform="translate(-232.7970297029703,0)"></text>
+        <text transform="translate(232.79702970297035,0)"></text>
+        <text transform="translate(0,0)"></text>
+        <text font-size="0.8em" id="title1" dy="0" x="-189.88242574257424" y="-22.33910891089109" transform="translate(-232.7970297029703,0)">
+            <tspan x="-189.88242574257424" y="-22.33910891089109" dy="0em">Tech</tspan>
+        </text>
+        <text font-size="0.8em" id="title2" dy="0" x="-189.88242574257424" y="-22.33910891089109" transform="translate(232.79702970297035,0)">
+            <tspan x="-189.88242574257424" y="-22.33910891089109" dy="0em">Marketing</tspan>
+        </text>
+        <text transform="translate(0,0)"></text><text transform="translate(-232.7970297029703,0)"></text>
+        <text transform="translate(232.79702970297035,0)"></text>
+
+        <g class="hidden" id="description-group0">
+            <circle class="description" transform="translate(0,0)" r="475" style="fill: #cbe6e1;"></circle>
+            <text class="description" id="description-content0" dy="0" x="0" y="0" transform="translate(0,0)">
+                <tspan x="0" y="0" dy="0em"></tspan>
+            </text>
+        </g>
+        <g class="hidden" id="description-group1">
+            <circle class="description" transform="translate(-232.7970297029703,0)" r="223.39108910891088" style="fill: #ffffff;"></circle>
+            <text class="description" id="description-content1" dy="0" x="0" y="0" transform="translate(-232.7970297029703,0)">
+                <tspan x="0" y="0" dy="0em"></tspan>
+            </text>
+        </g>
+
+        <g class="hidden" id="description-group2">
+            <circle class="description" transform="translate(232.79702970297035,0)" r="223.39108910891088" style="fill: #ffffff;"></circle>
+            <text class="description" id="description-content2" dy="0" x="0" y="0" transform="translate(232.79702970297035,0)">
+                <tspan x="0" y="0" dy="0em"></tspan>
+            </text>
+        </g>
+    </g>
+
+    <defs>
+        <path id="path0" d="m -478, 0 a -478,-478 1 1,1 956,0 a -478,-478 1 1,1 -956,0"></path>
+        <path id="path1" d="m -226.39108910891088, 0a -226.39108910891088,-226.39108910891088 1 1,1 452.78217821782175,0 a -226.39108910891088,-226.39108910891088 1 1,1 -452.78217821782175,0"></path>
+        <path id="path2" d="m -226.39108910891088, 0 a -226.39108910891088,-226.39108910891088 1 1,1 452.78217821782175,0 a -226.39108910891088,-226.39108910891088 1 1,1 -452.78217821782175,0"></path>
+    </defs>
+</svg>
+*/
+
     it("should draw SVG with correct size when data is valid", () => {
         let data = new Initiative().deserialize(fixture.load("data.json"));
         component.draw(data);
@@ -104,11 +156,11 @@ describe("mapping.circles.component.ts", () => {
         expect(defs.querySelectorAll("path#path2")).toBeDefined();
     });
 
-    it("should not draw empty svg when data is undefined", () => {
+    it("should draw empty svg when data is undefined", () => {
         let spy = spyOn(component.uiService, "clean");
         component.draw(undefined);
         let svgs = document.getElementsByTagName("svg");
-        expect(svgs.length).toBe(1); 
+        expect(svgs.length).toBe(1);
         expect(svgs.item(0).hasChildNodes()).toBe(false);
         expect(spy).toHaveBeenCalled();
     })
