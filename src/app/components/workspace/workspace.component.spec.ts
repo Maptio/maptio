@@ -9,7 +9,6 @@ import { BuildingComponent } from "../../components/building/building.component"
 import { DatasetFactory } from "../../shared/services/dataset.factory";
 import { DataService } from "../../shared/services/data.service";
 import { ErrorService } from "../../shared/services/error.service";
-import { Auth } from "../../shared/services/auth.service";
 import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { Observable } from "rxjs/Rx";
@@ -27,7 +26,7 @@ describe("workspace.component.ts", () => {
             schemas: [NO_ERRORS_SCHEMA]
         }).overrideComponent(WorkspaceComponent, {
             set: {
-                providers: [DataService, DatasetFactory, Auth, UserFactory,
+                providers: [DataService, DatasetFactory, UserFactory,
                     {
                         provide: Http,
                         useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
