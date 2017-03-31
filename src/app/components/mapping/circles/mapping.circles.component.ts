@@ -52,8 +52,8 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
         let svg = d3.select("svg"),
             // margin = 50,
             diameter = +width,
-            g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")"); 
-            //,transform = d3.zoomIdentity;
+            g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
+        //,transform = d3.zoomIdentity;
 
         // svg.call(d3.zoom()
         //     .scaleExtent([1 / 2, 8])
@@ -75,6 +75,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             .sum(function (d: any) { return 1; }) // all nodes have the same initial size
             .sort(function (a, b) { return b.value - a.value });
 
+        
         let focus = root,
             nodes = pack(root).descendants(),
             view: any;
