@@ -1,0 +1,20 @@
+{
+    "name": "My Company",
+    "accountable": "CEO",
+    "children": [
+        {
+            "name": "Tech",
+            "accountable": {
+                "name": "CTO"
+            },
+            "size": "1"
+        },
+        {
+            "name": "Marketing",
+            "accountable": {
+                "name": "CMO"
+            },
+            "size": "1"
+        }
+    ]
+}
