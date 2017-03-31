@@ -40,8 +40,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         this.uiService.clean();
         let color = colorService.getDefaulColorRange();
 
-        //console.log("TREE WIDTH " + this.width + "HEIGHT " + this.height + "MARGIN " + this.margin);
-
         let marginDimensions = { top: this.margin, right: this.margin, bottom: this.margin, left: this.margin * 5 };
 
         let svg = d3.select("svg"),
