@@ -1,10 +1,10 @@
 {
-  "name": "circlemapping",
+  "name": "maptio",
   "repository": {
-    "url": "https://github.com/Safiyya/circlemapping"
+    "url": "https://github.com/Safiyya/maptio"
   },
   "license": "UNLICENSED",
-  "description": "circlemapping.com",
+  "description": "maptio.com",
   "version": "1.0.0",
   "engines": {
     "node": "6.9.4",
@@ -34,7 +34,7 @@
     "@angular/platform-server": "2.4.6",
     "@angular/router": "3.4.6",
     "@ng-bootstrap/ng-bootstrap": "^1.0.0-alpha.13",
-    "@types/core-js": "^0.9.35",
+    "@types/core-js": "0.9.35",
     "@types/d3-request": "^1.0.1",
     "@types/d3-tip": "0.0.1",
     "@types/jasmine": "^2.5.36",
@@ -89,7 +89,7 @@
     "raw-loader": "^0.5.1",
     "rimraf": "^2.5.2",
     "style-loader": "^0.13.1",
-    "typescript": "latest",
+    "typescript": "~2.2.1",
     "webpack": "2.1.0-beta.19",
     "webpack-dev-middleware": "^1.10.1",
     "webpack-dev-server": "^1.14.1",

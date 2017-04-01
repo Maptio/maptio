@@ -22,11 +22,11 @@
   stroke-width: 1.5px;
 }
 
-svg text.name{
+.name{
   font-style: italic;
 }
 
-svg text.accountable{
+.accountable{
   font-weight: bold;
   font: 16px sans-serif;
 }

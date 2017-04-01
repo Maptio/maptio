@@ -1,6 +1,6 @@
-<a href="https://codeclimate.com/repos/58c5dfcf1c8f5f0272000b72/feed"><img src="https://codeclimate.com/repos/58c5dfcf1c8f5f0272000b72/badges/969532b3df5cd3cd2e9b/gpa.svg" /></a><a href="https://codeclimate.com/repos/58c5dfcf1c8f5f0272000b72/coverage"><img src="https://codeclimate.com/repos/58c5dfcf1c8f5f0272000b72/badges/969532b3df5cd3cd2e9b/coverage.svg" /></a><a href="https://codeclimate.com/repos/58c5dfcf1c8f5f0272000b72/feed"><img src="https://codeclimate.com/repos/58c5dfcf1c8f5f0272000b72/badges/969532b3df5cd3cd2e9b/issue_count.svg" /></a>
+<a href="https://codeclimate.com/repos/58c5dfcf1c8f5f0272000b72/feed"><img src="https://codeclimate.com/repos/58c5dfcf1c8f5f0272000b72/badges/969532b3df5cd3cd2e9b/gpa.svg" /></a> <a href="https://codeclimate.com/repos/58c5dfcf1c8f5f0272000b72/coverage"><img src="https://codeclimate.com/repos/58c5dfcf1c8f5f0272000b72/badges/969532b3df5cd3cd2e9b/coverage.svg" /></a> <a href="https://codeclimate.com/repos/58c5dfcf1c8f5f0272000b72/feed"><img src="https://codeclimate.com/repos/58c5dfcf1c8f5f0272000b72/badges/969532b3df5cd3cd2e9b/issue_count.svg" /></a> [![Build Status](https://travis-ci.com/Safiyya/maptio.svg?token=nc9XxWrdvz8syvD6uvUM&branch=master)](https://travis-ci.com/Safiyya/maptio)
 
-# Circle mapping
+# Maptio
 
 For founders of purpose-driven companies and initiatives who want to create a scalable, autonomous and focussed organisation structure and culture.
 Our simple online initiative mapping tool visualises who has taken responsibility for what and who is helping who to meet those responsibilities

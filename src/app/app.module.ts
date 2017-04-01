@@ -53,6 +53,7 @@ import { D3Service } from "d3-ng2-service";
 import { TreeModule } from "angular2-tree-component";
 import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { AuthConfiguration } from "./shared/services/auth.config";
 
 // Routes
 const appRoutes: Routes = [
@@ -87,7 +88,7 @@ const appRoutes: Routes = [
   ],
   exports: [RouterModule],
   providers: [
-    AuthGuard,
+    AuthGuard, AuthConfiguration,
     D3Service, DataService, ColorService, UIService, DatasetFactory, ErrorService, AUTH_PROVIDERS, Auth, UserFactory,
     Location, { provide: LocationStrategy, useClass: PathLocationStrategy }],
   entryComponents: [AppComponent],

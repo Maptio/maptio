@@ -9,7 +9,6 @@ module.exports = function (config) {
             { pattern: "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" },
             { pattern: "https://cdn.auth0.com/js/lock/10.8/lock.min.js" },
             // Application
-            { pattern: "./src/app/app.component.ts" },
             { pattern: "./src/app/shared/**/*.*" },
             { pattern: "./src/app/components/**/*.*" },
             // Specs
