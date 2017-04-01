@@ -50,7 +50,7 @@ svg text {
 }
 
 
-svg text.highlighted {
+.highlighted {
     font-weight: bolder;
 }
 
@@ -63,7 +63,7 @@ svg group{
  visibility: visible;
   opacity: 0.7;
 }
-svg group.hidden{
+.hidden{
     visibility: hidden;
   opacity: 0;
   transition: visibility 0s, opacity 0.5s linear;

@@ -50,17 +50,9 @@ if (isDevelopment) {
   });
 } else {
 
-
-  app.get('*', function (req, res, next) {
-    if (req.headers['x-forwarded-proto'] != 'https')
-      res.redirect('https://mypreferreddomain.com' + req.url)
-    else
-      next() /* Continue to other routes if we're not redirecting */
-  })
-
   app.use(express.static(DIST_DIR));
   app.get("*", function (req, res, next) {
-    if (req.headers['x-forwarded-proto'] != 'https') {
+    if (req.headers['x-forwarded-proto'] !== 'https') {
       return res.redirect(['https://', req.get('Host'), req.url].join(''));
     }
     res.sendFile(HTML_FILE)

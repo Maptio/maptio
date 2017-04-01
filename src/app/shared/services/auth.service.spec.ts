@@ -14,11 +14,15 @@ describe("auth.service.ts", () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
-                { provide: AuthConfiguration, useClass: class { getLock = jasmine.createSpy("getLock").and.callFake(()=>{
-                    let mock = jasmine.createSpyObj("lock", ["on"]);
-                    return mock;
-                })
-                ; } },
+                {
+                    provide: AuthConfiguration, useClass: class {
+                        getLock = jasmine.createSpy("getLock").and.callFake(() => {
+                            let mock = jasmine.createSpyObj("lock", ["on"]);
+                            return mock;
+                        })
+                        ;
+                    }
+                },
                 Auth, UserFactory,
                 { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } },
                 {

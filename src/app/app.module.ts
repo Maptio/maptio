@@ -88,7 +88,7 @@ const appRoutes: Routes = [
   ],
   exports: [RouterModule],
   providers: [
-    AuthGuard,AuthConfiguration,
+    AuthGuard, AuthConfiguration,
     D3Service, DataService, ColorService, UIService, DatasetFactory, ErrorService, AUTH_PROVIDERS, Auth, UserFactory,
     Location, { provide: LocationStrategy, useClass: PathLocationStrategy }],
   entryComponents: [AppComponent],
