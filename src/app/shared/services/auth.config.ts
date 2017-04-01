@@ -9,7 +9,6 @@ export class AuthConfiguration {
 
     constructor() { }
     public getLock(): any {
-        console.log("getting lock")
         let options = {
             closable: true,
             theme: {
