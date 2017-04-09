@@ -2,9 +2,12 @@
 .node-content-wrapper {
     display: inline-block;
   position: relative;
-  cursor:move;
+
 }
 
+.node-content-wrapper *:hover { 
+    cursor:move 
+    }
 .node-content-wrapper, .tree-children {
   position: relative;
 }
@@ -116,4 +119,12 @@ flex-wrap: wrap;
 
 .form-group {
     margin-bottom: 0 !important ;
+}
+
+.inputNodeName{
+    cursor:text !important;
+}
+
+.btnAddNode, .btnRemoveNode, .btnEditNode, .btnZoomNode{
+    cursor:pointer !important
 }

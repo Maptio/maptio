@@ -12,13 +12,13 @@
 		 (ngModelChange)="saveNodeName($event, node.data)">
 		<span class="input-group-btn">
 						<!--ADD-->
-		<a class="btn btn-default btnAddNode" ngbTooltip="Add" placement="bottom" (click)="addChildNode(node.data)"><i class="fa fa-plus" aria-hidden="true"></i></a>
+		<a class="btn btn-link  btnAddNode" ngbTooltip="Add" placement="bottom" (click)="addChildNode(node.data)"><i class="fa fa-plus" aria-hidden="true"></i></a>
 		<!--REMOVE-->
-		<a class="btn btn-default btnRemoveNode" ngbTooltip="Remove" placement="bottom" *ngIf="!isRoot()" (click)="removeChildNode(node.data)"><i class="fa fa-minus" aria-hidden="true"></i></a>
+		<a class="btn btn-link  btnRemoveNode" ngbTooltip="Remove" placement="bottom" *ngIf="!isRoot()" (click)="removeChildNode(node.data)"><i class="fa fa-minus" aria-hidden="true"></i></a>
 		<!--EDIT-->
-		<a class="btn btn-default btnEditNode" *ngIf="!isRoot()" ngbTooltip="Edit" placement="bottom" (click)="openNode(node.data)"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+		<a class="btn btn-link  btnEditNode" *ngIf="!isRoot()" ngbTooltip="Edit" placement="bottom" (click)="openNode(node.data)"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 		<!--ZOOM IN-->
-		<a class="btn btn-default btnZoomNode" *ngIf="!isRoot()" ngbTooltip="Zoom in" placement="bottom" (click)="zoomInNode(node.data)"><i class="fa fa-search" aria-hidden="true"></i></a>
+		<a class="btn btn-link  btnZoomNode" *ngIf="!isRoot()" ngbTooltip="Zoom in" placement="bottom" (click)="zoomInNode(node.data)"><i class="fa fa-search" aria-hidden="true"></i></a>
 
 		</span>
 
