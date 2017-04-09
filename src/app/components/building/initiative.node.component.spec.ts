@@ -201,7 +201,7 @@ describe("initiative.node.component.ts", () => {
                 });
             });
 
-            fdescribe("Add a node", () => {
+            describe("Add a node", () => {
                 it("should add a child to given node", () => {
                     let treeNode = new TreeNode(node2, component.node, tree);
                     let spyUpdate = spyOn(component.updateTreeEvent, "emit");

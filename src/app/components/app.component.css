@@ -17,7 +17,7 @@ font: 12px sans-serif;
     position: absolute;
     top: -323%;
     left: 13%;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .content {
