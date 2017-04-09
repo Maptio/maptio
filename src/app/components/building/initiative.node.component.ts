@@ -49,7 +49,7 @@ export class InitiativeNodeComponent {
         newNode.hasFocus = true;
         setTimeout(() => { newNode.hasFocus = false });
         treeNode.data.children = treeNode.data.children || [];
-        treeNode.data.children.push(newNode);
+        treeNode.data.children.unshift(newNode);
         this.node.treeModel.setExpandedNode(treeNode, true);
         this.updateTreeEvent.emit(this.node.treeModel);
     }

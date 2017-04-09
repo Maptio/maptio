@@ -76,7 +76,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         }
 
         function update(source: any, duration: number) {
-            console.log(source);
+
             // Assigns the x and y position for the nodes
             let treeData = treemap(root);
 
