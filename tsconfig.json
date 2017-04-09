@@ -13,12 +13,13 @@
       "node_modules/@types"
     ],
     "types": [
-     "jasmine", "node",   "d3-request","karma-fixture"
+      "jasmine",
+      "node",
+      "d3-request",
+      "karma-fixture"
     ]
-  }
-  ,
+  },
   "exclude": [
     "node_modules"
   ]
-  
 }
