@@ -2,6 +2,7 @@
 .node-content-wrapper {
     display: inline-block;
   position: relative;
+  cursor:move;
 }
 
 .node-content-wrapper, .tree-children {
