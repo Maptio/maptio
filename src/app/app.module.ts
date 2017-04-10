@@ -54,6 +54,7 @@ import { TreeModule } from "angular2-tree-component";
 import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { AuthConfiguration } from "./shared/services/auth.config";
+import { ResponsiveModule, } from "ng2-responsive";
 
 // Routes
 const appRoutes: Routes = [
@@ -84,7 +85,8 @@ const appRoutes: Routes = [
     TreeModule,
     Ng2Bs3ModalModule,
     NgbModule.forRoot(),
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    ResponsiveModule
   ],
   exports: [RouterModule],
   providers: [

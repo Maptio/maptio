@@ -139,7 +139,8 @@ describe("initiative.component.ts", () => {
             expect(spySaveDescription).toHaveBeenCalledWith("CHANGED");
         });
 
-        it("should call saveStartDate when date is changed", () => {
+        // Removed start date for now SB : 2017-04-06
+        xit("should call saveStartDate when date is changed", () => {
             let spySaveDate = spyOn(component, "saveStartDate");
             expect(component.data.start.getFullYear()).toBe(2010);
             expect(component.data.start.getMonth()).toBe(1);

@@ -162,7 +162,7 @@ describe("header.component.ts", () => {
                 target.whenStable().then(() => {
                     target.detectChanges();
 
-                    let element = target.debugElement.query(By.css("p#datasetName"));
+                    let element = target.debugElement.query(By.css("li#datasetName"));
                     expect(element).toBeDefined();
                     expect(element.nativeElement.textContent).toContain(dataset.name);
                 });

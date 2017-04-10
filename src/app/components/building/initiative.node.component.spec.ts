@@ -11,7 +11,7 @@ describe("initiative.node.component.ts", () => {
     let component: InitiativeNodeComponent;
     let target: ComponentFixture<InitiativeNodeComponent>;
     // let nodes: Array<InitiativeNode>;
-    let root = new Initiative(),  node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
+    let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
     let tree: TreeModel;
 
     beforeEach(async(() => {
@@ -31,6 +31,9 @@ describe("initiative.node.component.ts", () => {
         node1.name = "first", node2.name = "second"; node3.name = "third";
         root.name = "root";
         root.children = [node1, node2, node3];
+        node1.children = [];
+        node2.children = [];
+        node3.children = []
 
         tree = new TreeModel();
         tree.nodes = [root];
@@ -211,6 +214,30 @@ describe("initiative.node.component.ts", () => {
                     expect(node2.children[0].hasFocus).toBe(true);
                     expect(spyExpandNode).toHaveBeenCalledWith(treeNode, true);
                     expect(spyUpdate).toHaveBeenCalledWith(component.node.treeModel);
+                });
+
+                it("should add a child to given node in first position", () => {
+
+                    let treeNode = new TreeNode(node2, component.node, tree);
+                    let spyUpdate = spyOn(component.updateTreeEvent, "emit");
+                    let spyGetNodeById = spyOn(component.node.treeModel, "getNodeById").and.returnValue(treeNode);
+                    let spyExpandNode = spyOn(component.node.treeModel, "setExpandedNode");
+                    // add first child
+                    component.addChildNode(node2);
+                    node2.children[0].name = "First";
+
+                    // add second child
+                    component.addChildNode(node2);
+
+                    expect(spyGetNodeById).toHaveBeenCalled();
+                    expect(node2.children.length).toBe(2);
+                    expect(node2.children[0].hasFocus).toBe(true);
+                    expect(spyExpandNode).toHaveBeenCalledWith(treeNode, true);
+                    expect(spyUpdate).toHaveBeenCalledWith(component.node.treeModel);
+
+                    // checks order
+                    expect(node2.children[0].name).toBeUndefined();
+                    expect(node2.children[1].name).toBe("First");
                 });
             });
 

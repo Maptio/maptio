@@ -1,3 +1,4 @@
+import { Observable } from "rxjs/Rx";
 import { EmitterService } from "./../../shared/services/emitter.service";
 import { Component, ViewChild } from "@angular/core";
 import { Initiative } from "../../shared/model/initiative.data";
@@ -22,6 +23,8 @@ export class BuildingComponent {
         allowDrop: true // (element:any, {parent:any, index:number}) => parent.isLeaf
     }
 
+    SAVING_FREQUENCY: number = 60;
+
     @ViewChild(TreeComponent)
     tree: TreeComponent;
 
@@ -33,11 +36,23 @@ export class BuildingComponent {
 
     constructor(private dataService: DataService) {
         this.nodes = [];
-        // TODO : add automated save every x seconds
-        // Observable.interval(5 * 1000).subscribe(x => { // save every 60 sec
 
-        //     this.saveChanges();
-        // });
+        Observable.timer(1000, this.SAVING_FREQUENCY * 1000)
+            .switchMap(() => Observable
+                .interval(1000)
+                .map(i => {
+                    if (i % this.SAVING_FREQUENCY === 0) {
+                        this.saveChanges();
+                    }
+                    else {
+                        EmitterService.get("timeToSaveInSec").emit(this.SAVING_FREQUENCY - i);
+                    }
+                    return i;
+                }
+                ))
+            .subscribe(val => {
+
+            });
     }
 
     saveChanges() {
@@ -68,6 +83,7 @@ export class BuildingComponent {
             this.nodes = [];
             this.nodes.push(new Initiative().deserialize(data));
 
+            EmitterService.get("datasetName").emit(this.nodes[0].name);
             // FIXME : this should be another function/service
             let members = new Array<Person>();
             this.nodes[0].traverse(function (node: Initiative) {

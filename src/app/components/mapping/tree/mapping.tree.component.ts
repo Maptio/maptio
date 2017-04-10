@@ -30,8 +30,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     draw(data: any) {
         let d3 = this.d3;
         let colorService = this.colorService;
+        let uiService = this.uiService;
 
-         if (!data) {
+        if (!data) {
             // console.log("CLEAN");
             this.uiService.clean();
             return;
@@ -39,8 +40,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
         this.uiService.clean();
         let color = colorService.getDefaulColorRange();
- 
- 
+
+
         let marginDimensions = { top: this.margin, right: this.margin, bottom: this.margin, left: this.margin * 5 };
 
         let svg = d3.select("svg"),
@@ -116,7 +117,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             // Add labels for the nodes
             nodeEnter.append("text")
                 .attr("class", "name")
-                .attr("dy", "1.65em")
+                .attr("dy", "0.65em")
+                .attr("y", "1.65em")
                 .attr("x", "15")
                 // .attr("x", function (d) {
                 //     return d.children || d.children ? -13 : 13;
@@ -124,7 +126,11 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 // .attr("text-anchor", function (d) {
                 //     return d.children || d.children ? "end" : "start";
                 // })
-                .text(function (d: any) { return d.data.name; });
+                .text(function (d: any) { return d.data.name; })
+                .each(function (d: any) {
+                    // console.log(d.data.name + " " + d.y + " " + d.depth + " " + d.y/d.depth )
+                    uiService.wrap(d3.select(this), d.data.name, d.y / d.depth * 0.85);
+                });
 
             nodeEnter.append("text")
                 .attr("class", "accountable")
