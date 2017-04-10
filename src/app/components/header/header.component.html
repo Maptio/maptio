@@ -15,7 +15,7 @@
         <ul class="nav navbar-nav navbar-left">
             <ul class="breadcrumb">
                 <li><a routerLink="/account">Projects</a></li>
-                <li class="active">{{selectedDatasetName}}
+                <li id="datasetName" class="active">{{selectedDatasetName}}
                     <span *ngIf="(timeToSaveInSec | async) > 2 " class="text-info small">( Autosave in {{timeToSaveInSec | async}} )</span>
                     <span *ngIf="(timeToSaveInSec | async) <= 2" class="text-info small" id="saving"></span>
 
