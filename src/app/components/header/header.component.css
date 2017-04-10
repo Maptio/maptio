@@ -21,6 +21,7 @@
     /* Opera */
     animation: cssAnimation 0s ease-in 2s forwards;
     -webkit-animation-fill-mode: forwards;
+    -moz-animation-fill-mode:forwards;
     animation-fill-mode: forwards;
 }
 #saving::before {

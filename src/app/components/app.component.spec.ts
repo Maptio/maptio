@@ -1,6 +1,4 @@
-import { ShowItDevice } from 'ng2-responsive/devices';
-import { By } from '@angular/platform-browser';
-import { ResponsiveModule } from 'ng2-responsive';
+import { ResponsiveModule } from "ng2-responsive";
 import { DataSet } from "../shared/model/dataset.data";
 import { Router } from "@angular/router";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";

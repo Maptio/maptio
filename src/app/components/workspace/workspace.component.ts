@@ -25,7 +25,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     constructor(private route: ActivatedRoute, private datasetFactory: DatasetFactory) {
         this.subscription = EmitterService.get("currentDataset").subscribe((value: any) => {
             this.datasetFactory.upsert(value, this.datasetId);
-
         });
     }
 
