@@ -13,10 +13,26 @@
         </div>
 
         <ul class="nav navbar-nav navbar-left">
-            <li *ngIf="selectedDatasetName && auth.authenticated()">
-                <p class="navbar-text" id="datasetName"> Working on <b>{{selectedDatasetName}}</b></p>
+            <ul class="breadcrumb">
+                <li><a routerLink="/account">Projects</a></li>
+                <li class="active">{{selectedDatasetName}}
+                    <span *ngIf="(timeToSaveInSec | async) > 2 " class="text-info small">( Autosave in {{timeToSaveInSec | async}} )</span>
+                    <span *ngIf="(timeToSaveInSec | async) <= 2" class="text-info small" id="saving"></span>
+
+                </li>
+            </ul>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-center">
+
+            <li>
+            </li>
+            <li>
+
             </li>
         </ul>
+
+
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">

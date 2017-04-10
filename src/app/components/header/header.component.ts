@@ -24,11 +24,23 @@ export class HeaderComponent implements OnInit {
     private selectedDatasetName: string;
     private isValid: boolean = false;
     private newDatasetName: string;
+    private isSaving: Promise<boolean> = Promise.resolve(false);
+    private timeToSaveInSec: Promise<number>;
 
     // HACK : for demonstration purposes
     private VESTD = new DataSet({ _id: "58c9d273734d1d2ca8564da2", name: "Vestd" })
 
-    constructor(private auth: Auth, private datasetFactory: DatasetFactory, private errorService: ErrorService, private router: Router) { }
+    constructor(private auth: Auth, private datasetFactory: DatasetFactory, private errorService: ErrorService, private router: Router) {
+        EmitterService.get("currentDataset").subscribe((value: any) => {
+                this.isSaving = Promise.resolve<boolean>(true);
+            });
+        EmitterService.get("datasetName").subscribe((value: string) => {
+            this.selectedDatasetName = value;
+        });
+        EmitterService.get("timeToSaveInSec").subscribe((value: number) => {
+            this.timeToSaveInSec = Promise.resolve(value);
+        });
+    }
 
     ngOnInit() {
         this.auth.getUser().subscribe(
@@ -59,7 +71,7 @@ export class HeaderComponent implements OnInit {
     }
 
     openDataset(dataset: DataSet) {
-        EmitterService.get("datasetName").subscribe((value: string) => { this.selectedDatasetName = value; });
+        this.selectedDatasetName = dataset.name;
         this.router.navigate(["workspace", dataset._id]);
     }
 
