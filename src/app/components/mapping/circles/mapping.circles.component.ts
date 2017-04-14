@@ -52,16 +52,16 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
         let svg = d3.select("svg"),
             // margin = 50,
             diameter = +width,
-            g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
-        //,transform = d3.zoomIdentity;
+            g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")")
+            , transform = d3.zoomIdentity;
 
-        // svg.call(d3.zoom()
-        //     .scaleExtent([1 / 2, 8])
-        //     .on("zoom", zoomed));
+        svg.call(d3.zoom()
+            .scaleExtent([2/3 , 2])
+            .on("zoom", zoomed));
 
-        // function zoomed() {
-        //     g.attr("transform", d3.event.transform);
-        // }
+        function zoomed() {
+            g.attr("transform", d3.event.transform);
+        }
 
         let color = colorService.getDefaulColorRange();
 
