@@ -12,7 +12,7 @@
 
         </div>
 
-        <ul class="nav navbar-nav navbar-left">
+        <ul *ngIf="auth.authenticated()" class="nav navbar-nav navbar-left">
             <ul class="breadcrumb">
                 <li><a routerLink="/account">Projects</a></li>
                 <li id="datasetName" class="active">{{selectedDatasetName}}
