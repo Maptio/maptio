@@ -56,7 +56,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             , transform = d3.zoomIdentity;
 
         svg.call(d3.zoom()
-            .scaleExtent([2/3 , 2])
+            .scaleExtent([2 / 3, 2])
             .on("zoom", zoomed));
 
         function zoomed() {
@@ -105,8 +105,24 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             .append("path")
             .attr("id", function (d: any) { return "path" + d.data.id; });
 
+        // let information = d3.select("svg").append("div")
+        //     .attr("class", "node-info")
+        //     .style("opacity", 0);
+
         let text = g.selectAll("text")
-            .data(nodes)
+            .data(nodes);
+
+
+        text
+            .enter()
+            .append("text")
+            .on("mousedown", function (d: any, i: number) {
+                console.log("click " + d.data.name)
+                // information.html("<strong> Look, I'm bold !</strong> and now I'm  not bold <br> and this is another line! and this is my data:" + d.data.name)
+                //     .style("top", d3.event.pageY - 12 + "px")
+                //     .style("left", d3.event.pageX + 25 + "px")
+                //     .style("opacity", 1);
+            });
 
         text
             .enter()

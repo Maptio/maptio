@@ -17,12 +17,12 @@ svg{
 
 svg text {
   /*font-size:0.8em;*/
-    font-family:  "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family:  "Helvetica Neue", Helvetica, Arial, sans-serif;
     text-anchor: start;
   text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
-  color:white;
+  /*color:white;*/
     transition: font-weight 200ms;
-    pointer-events: auto;
+    /*pointer-events: auto;*/
 }
 
 svg text:hover{
