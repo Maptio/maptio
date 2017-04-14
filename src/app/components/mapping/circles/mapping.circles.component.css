@@ -11,34 +11,6 @@
   fill: white;
 }
 
-/*
-.label {
-  font: 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
-  text-anchor: left;
-  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
-  color:white;
-}
-*/
-
-
-
-svg  text.description {	
- 
-  text-anchor: middle;	
-  text-align: left;		
-  stroke:black;	
-}
-
-svg  circle.description {		
-  stroke:black;	
-  opacity:0.7;
-}
-
-/*svg text {
-   font-family: FontAwesome;
-}*/
-
-
 svg text {
   /*font-size:0.8em;*/
     font-family:  "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -46,13 +18,25 @@ svg text {
   text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
   color:white;
     transition: font-weight 200ms;
-    pointer-events: none;
+    pointer-events: auto;
+}
+
+svg text:hover{
+  font-weight: bolder;
+}
+
+svg circle:hover{
+
+    stroke:  black !important;
+    stroke-width: 1.5px !important;
+    stroke-opacity: 0.5;
+    /*fill-opacity: 0.7;*/
 }
 
 
-.highlighted {
-    font-weight: bolder;
-}
+/*.highlighted {
+
+}*/
 
 svg .icon{
   font-family: FontAwesome;
