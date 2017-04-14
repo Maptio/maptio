@@ -13,10 +13,10 @@ export class AuthConfiguration {
             closable: true,
             theme: {
                 logo: "assets/images/logo.png",
-                primaryColor: "#b81b1c"
+                primaryColor: "#D76159"
             },
             languageDictionary: {
-                title: "Maptio"
+                title: ""
             },
             auth: {
                 redirectUrl: location.origin,
