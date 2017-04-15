@@ -25,7 +25,7 @@ export class TooltipComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
-		console.log("OnInit :" + this.name);
+
 	}
 
 

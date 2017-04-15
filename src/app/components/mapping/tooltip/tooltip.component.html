@@ -1,2 +1,5 @@
-
-<h1>{{initiative.name}}</h1>
+<div class="well well-sm">
+    <b>{{initiative.name}}</b><br/>
+    <i *ngIf="initiative.accountable">Accountable : </i> {{initiative.accountable?.name}}<br/>
+    {{initiative.description}}
+</div>
