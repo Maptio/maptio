@@ -1,13 +1,21 @@
+import { Initiative } from "./../model/initiative.data";
 import { Injectable } from "@angular/core"
 import { D3Service, D3, Selection, BaseType, HierarchyCircularNode } from "d3-ng2-service"
+import { Observable } from "rxjs/Observable";
+import { Subject } from "rxjs/Subject"
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/toPromise";
 
 @Injectable()
 export class UIService {
 
     private d3: D3;
 
+    private tooltip$: Subject<Initiative>
+
     constructor(d3Service: D3Service) {
         this.d3 = d3Service.getD3();
+        this.tooltip$ = new Subject<Initiative>();
     }
 
 
@@ -89,6 +97,15 @@ export class UIService {
                 }
                 // }
             });
+    }
+
+
+    getTooltipData(): Observable<Initiative> {
+        return this.tooltip$.asObservable();
+    }
+
+    setTooltipData(value: Initiative): void {
+        this.tooltip$.next(value);
     }
 
 
