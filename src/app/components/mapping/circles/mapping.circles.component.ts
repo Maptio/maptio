@@ -60,15 +60,16 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
         let svg = d3.select("svg"),
             // margin = 50,
             diameter = +width,
-            g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")")
-            , transform = d3.zoomIdentity;
+            g = svg.append("g")
+                .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")")
+            , transform = d3.zoomIdentity
 
-        svg.call(d3.zoom()
-            .scaleExtent([2 / 3, 2])
-            .on("zoom", zoomed));
+        let zooming = d3.zoom().scaleExtent([2 / 3, 2]).on("zoom", zoomed);
+        svg.call(zooming.transform, d3.zoomIdentity.translate(diameter / 2, diameter / 2));
+        svg.call(zooming);
 
         function zoomed() {
-            g.attr("transform", d3.event.transform);
+            g.attr("transform", d3.event.transform)
         }
 
         let color = colorService.getDefaulColorRange();
@@ -114,9 +115,6 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             .append("path")
             .attr("id", function (d: any) { return "path" + d.data.id; });
 
-        let information = d3.select("svg").append("div")
-            .attr("class", "node-info")
-            .style("opacity", 0);
 
         let text = g.selectAll("text")
             .data(nodes);
