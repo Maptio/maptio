@@ -4,38 +4,38 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRe
 import { Subscription } from "rxjs/Rx";
 
 @Component({
-	selector: "tooltip",
-	template: require("./tooltip.component.html"),
-	styles: [require("./tooltip.component.css").toString()],
-	changeDetection: ChangeDetectionStrategy.OnPush
+    selector: "tooltip",
+    template: require("./tooltip.component.html"),
+    styles: [require("./tooltip.component.css").toString()],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class TooltipComponent implements OnInit, OnDestroy {
 
-	@Input("data")
-	public initiative: Initiative;
+    @Input("data")
+    public initiative: Initiative;
 
-	public subscription: Subscription;
+    public subscription: Subscription;
 
-	constructor(private uiService: UIService, private cd: ChangeDetectorRef) {
-		this.update();
-	}
+    constructor(private uiService: UIService, private cd: ChangeDetectorRef) {
+        this.update();
+    }
 
-	public update() {
-		this.subscription = this.uiService.getTooltipData().subscribe(
-			(initiative: Initiative) => {
-				this.initiative = initiative;
-				this.cd.markForCheck();
-			},
-			(error: any) => console.log(error));
-	}
+    public update() {
+        this.subscription = this.uiService.getTooltipData().subscribe(
+            (initiative: Initiative) => {
+                this.initiative = initiative;
+                this.cd.markForCheck();
+            },
+            (error: any) => console.log(error));
+    }
 
-	ngOnInit() {
+    ngOnInit() {
 
-	}
+    }
 
 
-	ngOnDestroy() {
-		this.subscription.unsubscribe();
-	}
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
+    }
 }

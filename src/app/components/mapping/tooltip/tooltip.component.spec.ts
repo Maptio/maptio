@@ -7,7 +7,7 @@ import { TestBed, ComponentFixture, async } from "@angular/core/testing";
 import { TooltipComponent } from "./tooltip.component";
 import { By } from "@angular/platform-browser";
 
-fdescribe("tooltip.component.ts", () => {
+describe("tooltip.component.ts", () => {
     let component: TooltipComponent;
     let target: ComponentFixture<TooltipComponent>;
 
