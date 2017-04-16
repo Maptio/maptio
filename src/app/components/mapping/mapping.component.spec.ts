@@ -1,3 +1,4 @@
+import { TooltipComponent } from "./tooltip/tooltip.component";
 import { UIService } from "./../..//shared/services/ui.service";
 import { ColorService } from "./../..//shared/services/color.service";
 import { D3Service } from "d3-ng2-service";
@@ -33,7 +34,7 @@ describe("mapping.component.ts", () => {
                 MockBackend,
                 BaseRequestOptions
             ],
-            declarations: [MappingComponent, MappingCirclesComponent, MappingTreeComponent, AnchorDirective]
+            declarations: [MappingComponent, MappingCirclesComponent, MappingTreeComponent, TooltipComponent, AnchorDirective]
         })
             .compileComponents()
 

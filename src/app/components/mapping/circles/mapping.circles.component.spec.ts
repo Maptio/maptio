@@ -1,3 +1,4 @@
+import { TooltipComponent } from "./../tooltip/tooltip.component";
 import { Initiative } from "./../../../shared/model/initiative.data";
 import { UIService } from "./../../../shared/services/ui.service";
 import { ColorService } from "./../../../shared/services/color.service";
@@ -16,7 +17,7 @@ describe("mapping.circles.component.ts", () => {
             providers: [
                 D3Service, ColorService, UIService
             ],
-            declarations: [MappingCirclesComponent]
+            declarations: [MappingCirclesComponent, TooltipComponent]
         })
             .compileComponents()
 

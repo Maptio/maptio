@@ -23,10 +23,12 @@ svg text {
   /*color:white;*/
     transition: font-weight 200ms;
     /*pointer-events: auto;*/
+    cursor: url(/assets/images/cursors/more.cur), auto;
 }
 
 svg text:hover{
   font-weight: bolder;
+  
 }
 
 svg circle:hover{
@@ -52,3 +54,7 @@ svg group{
   opacity: 0;
   transition: visibility 0s, opacity 0.5s linear;
 }
+
+ .initative-tooltip {
+      position: absolute;
+    }

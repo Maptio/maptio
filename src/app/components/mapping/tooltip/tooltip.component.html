@@ -1,0 +1,5 @@
+<div class="well well-sm transparent" *ngIf="initiative">
+    <span class="name"><b>{{initiative.name}}</b></span><br/>
+    <span class="accountable"><i *ngIf="initiative.accountable">Accountable : </i> {{initiative.accountable?.name}}<br/></span>
+    <span class="description">{{initiative.description}}</span>
+</div>
