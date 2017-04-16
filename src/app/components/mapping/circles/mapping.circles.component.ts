@@ -21,8 +21,8 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
 
     private d3: D3;
 
-    @ViewChild("tooltip")
-    public tooltip: TooltipComponent;
+    // @ViewChild("tooltip")
+    // public tooltip: TooltipComponent;
 
     public width: number;
     public height: number;
@@ -64,9 +64,15 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
                 .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")")
             , transform = d3.zoomIdentity
 
-        let zooming = d3.zoom().scaleExtent([2 / 3, 2]).on("zoom", zoomed);
-        svg.call(zooming.transform, d3.zoomIdentity.translate(diameter / 2, diameter / 2));
-        svg.call(zooming);
+        try {
+            // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
+            let zooming = d3.zoom().scaleExtent([2 / 3, 2]).on("zoom", zoomed);
+            svg.call(zooming.transform, d3.zoomIdentity.translate(diameter / 2, diameter / 2));
+            svg.call(zooming);
+        }
+        catch (error) {
+
+        }
 
         function zoomed() {
             g.attr("transform", d3.event.transform)

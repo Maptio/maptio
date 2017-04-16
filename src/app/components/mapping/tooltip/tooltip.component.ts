@@ -1,6 +1,7 @@
 import { UIService } from "./../../../shared/services/ui.service";
 import { Initiative } from "./../../../shared/model/initiative.data";
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from "@angular/core";
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, Input } from "@angular/core";
+import { Subscription } from "rxjs/Rx";
 
 @Component({
 	selector: "tooltip",
@@ -11,15 +12,20 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRe
 
 export class TooltipComponent implements OnInit, OnDestroy {
 
-	private initiative: Initiative;
+	@Input("data")
+	public initiative: Initiative;
 
-	private subscription: any;
+	public subscription: Subscription;
 
 	constructor(private uiService: UIService, private cd: ChangeDetectorRef) {
-		this.subscription = uiService.getTooltipData().subscribe(
+		this.update();
+	}
+
+	public update() {
+		this.subscription = this.uiService.getTooltipData().subscribe(
 			(initiative: Initiative) => {
 				this.initiative = initiative;
-				cd.markForCheck();
+				this.cd.markForCheck();
 			},
 			(error: any) => console.log(error));
 	}
