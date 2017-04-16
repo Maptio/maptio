@@ -1,6 +1,6 @@
-import { Person } from './../../../shared/model/person.data';
-import { Initiative } from './../../../shared/model/initiative.data';
-import { Observable } from 'rxjs/Rx';
+import { Person } from "./../../../shared/model/person.data";
+import { Initiative } from "./../../../shared/model/initiative.data";
+import { Observable } from "rxjs/Rx";
 import { D3Service } from "d3-ng2-service";
 import { UIService } from "./../../../shared/services/ui.service";
 import { TestBed, ComponentFixture, async } from "@angular/core/testing";
@@ -67,7 +67,7 @@ describe("tooltip.component.ts", () => {
     });
 
     it("should stop subscribing to updates when the component is destroyed", () => {
-        let spy = spyOn(component.subscription,"unsubscribe");
+        let spy = spyOn(component.subscription, "unsubscribe");
         component.ngOnDestroy();
         expect(spy).toHaveBeenCalledTimes(1);
     });

@@ -1,10 +1,4 @@
-import { EmitterService } from './../../../shared/services/emitter.service';
-import { Observable } from 'rxjs/Rx';
-import { Subject } from 'rxjs/Subject';
-import { Initiative } from './../../../shared/model/initiative.data';
-import { TooltipComponent } from './../tooltip/tooltip.component';
-
-import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { D3Service, D3, HierarchyCircularNode } from "d3-ng2-service";
 import { ColorService } from "../../../shared/services/color.service"
 import { UIService } from "../../../shared/services/ui.service"
