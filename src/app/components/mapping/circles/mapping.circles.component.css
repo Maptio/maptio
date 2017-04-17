@@ -26,6 +26,14 @@ svg text {
     cursor: url(/assets/images/cursors/more.cur), auto;
 }
 
+svg text.with-children{
+  font-size:1.2em
+}
+
+svg text.without-children{
+  font-size:1em;
+}
+
 svg text:hover{
   font-weight: bolder;
   

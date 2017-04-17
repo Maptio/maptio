@@ -117,8 +117,8 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
 
 
         let text = g.selectAll("text")
-            .data(nodes);
-
+            .data(nodes)
+            .attr("class", function (d: any) { return d.children ? "with-children" : "without-children" });
 
         text
             .enter()
@@ -126,12 +126,12 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             .filter(function (d: any) { return d.children; })
             .attr("id", function (d: any) { return "title" + d.data.id; })
             .on("click", function (d: any, i: number) {
-
                 showTooltip(d, d3.event.clientX, d3.event.clientY);
                 d.isTooltipVisible = !d.isTooltipVisible;
             })
             .style("display", function (d: any) { return d === root ? "none" : "inline"; })
-            .attr("font-size", "1em")
+
+            //.attr("font-size", "1em")
             .append("textPath")
             .attr("xlink:href", function (d: any) { return "#path" + d.data.id; })
             .attr("startOffset", function (d, i) { return "10%"; })
@@ -142,7 +142,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             .enter()
             .append("text")
             .filter(function (d: any) { /*console.log(d.data.name + " " + d.children);*/ return !d.children; })
-            .attr("font-size", "0.8em")
+            // .attr("font-size", "0.8em")
             .attr("id", function (d: any) { return "title" + d.data.id; })
             .on("click", function (d: any, i: number) {
                 showTooltip(d, d3.event.clientX, d3.event.clientY);
@@ -150,7 +150,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             })
             .attr("dy", 0)
             .attr("x", function (d: any) { return -d.r * .85 })
-            .attr("y", function (d: any) { return -d.r * .1 })
+            .attr("y", function (d: any) { return -d.r * .2 })
             .text(function (d: any) { return d.data.name; })
             .each(function (d: any) {
                 uiService.wrap(d3.select(this), d.data.name, d.r * 2 * 0.95);
