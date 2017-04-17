@@ -53,24 +53,53 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
 
         let svg = d3.select("svg"),
             // margin = 50,
-            diameter = +width,
-            g = svg.append("g")
-                .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")")
+            diameter = +width
+
+        let g = svg.append("g")
+            .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")")
             , transform = d3.zoomIdentity
+
+        let zooming = d3.zoom().scaleExtent([2 / 3, 2]).on("zoom", zoomed);
 
         try {
             // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
-            let zooming = d3.zoom().scaleExtent([2 / 3, 2]).on("zoom", zoomed);
             svg.call(zooming.transform, d3.zoomIdentity.translate(diameter / 2, diameter / 2));
             svg.call(zooming);
+
         }
         catch (error) {
 
         }
 
+
         function zoomed() {
             g.attr("transform", d3.event.transform)
         }
+
+        d3.selectAll(".zoom a").on("click",
+            function () {
+                let classes = d3.select(this).attr("class");
+                let zoomFactor: number;
+                if (classes.includes("in")) {
+                    zoomFactor = 1.1;
+                    zooming.scaleBy(svg, zoomFactor);
+                }
+
+                if (classes.includes("out")) {
+                    zoomFactor = 0.9;
+                    zooming.scaleBy(svg, zoomFactor);
+                }
+
+
+                console.log(diameter);
+                if (classes.includes("reset")) {
+                    svg.call(zooming.transform, d3.zoomIdentity.translate(diameter/2, diameter/2));
+                }
+                // 
+
+            });
+
+
 
         let color = colorService.getDefaulColorRange();
 
@@ -118,7 +147,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
 
         let text = g.selectAll("text")
             .data(nodes)
-           
+
         text
             .enter()
             .append("text")
@@ -142,7 +171,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             .enter()
             .append("text")
             .filter(function (d: any) { /*console.log(d.data.name + " " + d.children);*/ return !d.children; })
-             .attr("class", "without-children")
+            .attr("class", "without-children")
             .attr("id", function (d: any) { return "title" + d.data.id; })
             .on("click", function (d: any, i: number) {
                 showTooltip(d, d3.event.clientX, d3.event.clientY);
@@ -212,6 +241,8 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
                 return uiService.getCircularPath(radius, -radius, 0);
             })
         }
+
+
 
         function showTooltip(d: any, x: number, y: number) {
             uiService.setTooltipData(d.data);

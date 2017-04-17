@@ -77,3 +77,21 @@
 
 
 
+
+
+
+How to get to Eli :
+The rocket bus , #192
+Kipling station
+
+Subway to Ossington
+
+Ossington bu going north until St Clare
+
+4 Blocks west
+
+
+Address
+156 Glenholme Av
+Toronto
+

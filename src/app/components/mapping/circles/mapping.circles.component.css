@@ -66,3 +66,39 @@ svg group{
  .initative-tooltip {
       position: absolute;
     }
+
+
+.zoom{
+    position: absolute;
+    left: 50%;
+    opacity: 0.8;
+}
+
+.zoom > a{
+   color: gray;
+    border: 1px solid lightgray;
+    background-color: #FCFCFC;
+}
+
+.zoom > a:hover{
+  color:black;
+}
+
+.in{
+  margin-left:33px;
+}
+
+.in:before{
+  content:"\f067";
+  font-family: FontAwesome;
+}
+
+.out:before{
+  content:"\f068";
+  font-family: FontAwesome;
+}
+
+.reset:before{
+  content:"\f0b2";
+  font-family: FontAwesome;
+}
