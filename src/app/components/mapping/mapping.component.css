@@ -2,3 +2,17 @@
     position:absolute;
     margin:7px;
 }
+
+.switch{
+
+}
+
+.treeview:before{
+    content:"\f0c0";
+    font-family:FontAwesome;
+}
+
+.circleview:before{
+     content:"\f192";
+    font-family:FontAwesome;
+    }

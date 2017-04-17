@@ -84,9 +84,6 @@ svg group{
   color:black;
 }
 
-.in{
-  margin-left:33px;
-}
 
 .in:before{
   content:"\f067";
@@ -95,10 +92,5 @@ svg group{
 
 .out:before{
   content:"\f068";
-  font-family: FontAwesome;
-}
-
-.reset:before{
-  content:"\f0b2";
   font-family: FontAwesome;
 }
