@@ -118,13 +118,13 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
 
         let text = g.selectAll("text")
             .data(nodes)
-            .attr("class", function (d: any) { return d.children ? "with-children" : "without-children" });
-
+           
         text
             .enter()
             .append("text")
             .filter(function (d: any) { return d.children; })
             .attr("id", function (d: any) { return "title" + d.data.id; })
+            .attr("class", "with-children")
             .on("click", function (d: any, i: number) {
                 showTooltip(d, d3.event.clientX, d3.event.clientY);
                 d.isTooltipVisible = !d.isTooltipVisible;
@@ -142,7 +142,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             .enter()
             .append("text")
             .filter(function (d: any) { /*console.log(d.data.name + " " + d.children);*/ return !d.children; })
-            // .attr("font-size", "0.8em")
+             .attr("class", "without-children")
             .attr("id", function (d: any) { return "title" + d.data.id; })
             .on("click", function (d: any, i: number) {
                 showTooltip(d, d3.event.clientX, d3.event.clientY);
