@@ -2,7 +2,7 @@ import { Person } from "./../../../shared/model/person.data";
 import { Initiative } from "./../../../shared/model/initiative.data";
 import { Observable } from "rxjs/Rx";
 import { D3Service } from "d3-ng2-service";
-import { UIService } from "./../../../shared/services/ui.service";
+import { UIService } from "./../../../shared/services/ui/ui.service";
 import { TestBed, ComponentFixture, async } from "@angular/core/testing";
 import { TooltipComponent } from "./tooltip.component";
 import { By } from "@angular/platform-browser";

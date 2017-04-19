@@ -1,12 +1,12 @@
 import { Router } from "@angular/router";
 import { EmitterService } from "./../../shared/services/emitter.service";
-import { ErrorService } from "./../../shared/services/error.service";
+import { ErrorService } from "./../../shared/services/error/error.service";
 import { EventEmitter } from "@angular/core";
 import { Component, OnInit, Input, Output } from "@angular/core";
 import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { DataSet } from "./../../shared/model/dataset.data";
 import { User } from "./../../shared/model/user.data";
-import { Auth } from "./../../shared/services/auth.service";
+import { Auth } from "./../../shared/services/auth/auth.service";
 
 @Component({
     selector: "header",

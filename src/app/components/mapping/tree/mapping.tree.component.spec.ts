@@ -1,6 +1,6 @@
 import { Initiative } from "./../../../shared/model/initiative.data";
-import { UIService } from "./../../../shared/services/ui.service";
-import { ColorService } from "./../../../shared/services/color.service";
+import { UIService } from "./../../../shared/services/ui/ui.service";
+import { ColorService } from "./../../../shared/services/ui/color.service";
 import { D3Service, D3 } from "d3-ng2-service";
 import { TestBed, async, ComponentFixture } from "@angular/core/testing";
 import { MappingTreeComponent } from "./mapping.tree.component";

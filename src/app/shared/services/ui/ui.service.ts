@@ -1,4 +1,4 @@
-import { Initiative } from "./../model/initiative.data";
+import { Initiative } from "../../model/initiative.data";
 import { Injectable } from "@angular/core"
 import { D3Service, D3, Selection, BaseType, HierarchyCircularNode } from "d3-ng2-service"
 import { Observable } from "rxjs/Observable";

@@ -1,7 +1,7 @@
 import { Router, RouterStateSnapshot } from "@angular/router";
-import { ErrorService } from "./error.service";
+import { ErrorService } from "../error/error.service";
 import { Http, BaseRequestOptions } from "@angular/http";
-import { UserFactory } from "./user.factory";
+import { UserFactory } from "../user.factory";
 import { Auth } from "./auth.service";
 import { AuthGuard } from "./auth.guard";
 import { TestBed, inject } from "@angular/core/testing";

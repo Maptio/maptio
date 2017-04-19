@@ -1,10 +1,10 @@
 import { Router } from "@angular/router";
-import { User } from "./../../../app/shared/model/user.data";
-import { ErrorService } from "./../../../app/shared/services/error.service";
+import { User } from "../../model/user.data";
+import { ErrorService } from "../error/error.service";
 import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
-import { UserFactory } from "./../../../app/shared/services/user.factory";
-import { Auth } from "../../../app/shared/services/auth.service"
+import { UserFactory } from "../user.factory";
+import { Auth } from "./auth.service"
 import { TestBed, async, inject } from "@angular/core/testing";
 import { AuthConfiguration } from "./auth.config";
 

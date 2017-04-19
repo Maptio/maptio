@@ -1,11 +1,11 @@
 import { Observable } from "rxjs/Rx";
 import { User } from "./../../shared/model/user.data";
 import { DatasetFactory } from "./../../shared/services/dataset.factory";
-import { ErrorService } from "./../../shared/services/error.service";
+import { ErrorService } from "./../../shared/services/error/error.service";
 import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { UserFactory } from "./../../shared/services/user.factory";
-import { Auth } from "./../../shared/services/auth.service";
+import { Auth } from "./../../shared/services/auth/auth.service";
 import { AccountComponent } from "./account.component";
 import { DataSet } from "./../../shared/model/dataset.data";
 import { Router } from "@angular/router";

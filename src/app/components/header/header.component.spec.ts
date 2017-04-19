@@ -6,8 +6,8 @@ import { ComponentFixture, TestBed, async, fakeAsync } from "@angular/core/testi
 import { By } from "@angular/platform-browser";
 import { DatasetFactory } from "../../shared/services/dataset.factory";
 import { DataSet } from "../../shared/model/dataset.data";
-import { ErrorService } from "../../shared/services/error.service";
-import { Auth } from "../../shared/services/auth.service";
+import { ErrorService } from "../../shared/services/error/error.service";
+import { Auth } from "../../shared/services/auth/auth.service";
 import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { User } from "../../shared/model/user.data";

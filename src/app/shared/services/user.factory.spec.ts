@@ -3,7 +3,7 @@ import { UserFactory } from "./../../../app/shared/services/user.factory";
 import { TestBed, async, inject, fakeAsync } from "@angular/core/testing";
 import { MockBackend, MockConnection } from "@angular/http/testing";
 import { Http, HttpModule, Response, BaseRequestOptions, ResponseOptions } from "@angular/http";
-import { ErrorService } from "../../../app/shared/services/error.service";
+import { ErrorService } from "./error/error.service";
 
 describe("user.factory.ts", () => {
 

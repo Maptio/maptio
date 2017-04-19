@@ -1,4 +1,4 @@
-import { UIService } from "./../../../shared/services/ui.service";
+import { UIService } from "./../../../shared/services/ui/ui.service";
 import { Initiative } from "./../../../shared/model/initiative.data";
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, Input } from "@angular/core";
 import { Subscription } from "rxjs/Rx";
