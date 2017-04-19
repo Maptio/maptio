@@ -32,8 +32,8 @@ export class HeaderComponent implements OnInit {
 
     constructor(private auth: Auth, private datasetFactory: DatasetFactory, private errorService: ErrorService, private router: Router) {
         EmitterService.get("currentDataset").subscribe((value: any) => {
-                this.isSaving = Promise.resolve<boolean>(true);
-            });
+            this.isSaving = Promise.resolve<boolean>(true);
+        });
         EmitterService.get("datasetName").subscribe((value: string) => {
             this.selectedDatasetName = value;
         });
@@ -56,13 +56,11 @@ export class HeaderComponent implements OnInit {
                             );
                         }.bind(this));
 
-                    },
-                        (reason: any) => { this.errorService.handleError }
+                    }
                     )
-                },
-                    (reason: any) => { this.errorService.handleError })
+                }).catch((error: any) => { this.errorService.handleError(error) })
             },
-            (error: any) => { this.errorService.handleError }
+            (error: any) => { this.errorService.handleError(error) }
         );
     }
 

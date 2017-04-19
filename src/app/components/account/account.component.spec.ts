@@ -89,7 +89,6 @@ describe("account.component.ts", () => {
                 });
                 component.ngOnInit();
                 spyAuth.calls.mostRecent().returnValue.toPromise().then((user: User) => {
-                    // FIXME : check the i/o of this spy but how ?
                     expect(spyFactory).toHaveBeenCalled();
                 });
 

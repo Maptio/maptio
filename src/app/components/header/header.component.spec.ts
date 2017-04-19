@@ -42,7 +42,7 @@ describe("header.component.ts", () => {
     let DATASETS = [new DataSet({ name: "One", _id: "one" }), new DataSet({ name: "Two", _id: "two" }), new DataSet({ name: "Three", _id: "three" })];
     let spyDataSetService: jasmine.Spy;
     let spyAuthService: jasmine.Spy;
-    let mockAuth: Auth;
+    //let mockAuth: Auth;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -72,23 +72,17 @@ describe("header.component.ts", () => {
 
         component = target.componentInstance;
 
-        let mockDataSetService = target.debugElement.injector.get(DatasetFactory);
-        spyDataSetService = spyOn(mockDataSetService, "get").and.callFake(function (parameters: any) {
-            if (parameters instanceof User) {
-                return Promise.resolve(DATASETS);
-            }
-            if (typeof parameters === "string") {
-                return Promise.resolve(new DataSet({ _id: parameters.toString(), name: "a dataset" }));
-            }
-        });
 
-        mockAuth = target.debugElement.injector.get(Auth);
+
+
+
     });
 
     describe("View", () => {
 
         describe("New project button", () => {
             it("should call createDataset() when clicked", () => {
+                let mockAuth = target.debugElement.injector.get(Auth);
                 spyOn(mockAuth, "authenticated").and.returnValue(true);
                 target.detectChanges();
                 let startElement = target.debugElement.query(By.css("#loadNewProjectButton"));
@@ -99,6 +93,7 @@ describe("header.component.ts", () => {
             });
 
             it("should not display if user is not authenticated", () => {
+                let mockAuth = target.debugElement.injector.get(Auth);
                 spyOn(mockAuth, "authenticated").and.returnValue(false);
                 target.detectChanges();
                 let startElement = target.debugElement.queryAll(By.css("#loadNewProjectButton"));
@@ -108,6 +103,17 @@ describe("header.component.ts", () => {
 
         describe("List of datasets", () => {
             it("should show a list of datasets when user is valid", async(() => {
+                let mockAuth = target.debugElement.injector.get(Auth);
+
+                let mockDataSetService = target.debugElement.injector.get(DatasetFactory);
+                spyDataSetService = spyOn(mockDataSetService, "get").and.callFake(function (parameters: any) {
+                    if (parameters instanceof User) {
+                        return Promise.resolve(DATASETS);
+                    }
+                    if (typeof parameters === "string") {
+                        return Promise.resolve(new DataSet({ _id: parameters.toString(), name: "a dataset" }));
+                    }
+                });
                 // FIXME : should be part of a protractor tests suite
                 spyAuthService = spyOn(mockAuth, "getUser").and.callThrough();
                 spyOn(mockAuth, "authenticated").and.returnValue(true);
@@ -132,6 +138,7 @@ describe("header.component.ts", () => {
             }));
 
             xit("should not show a list of datasets when user is invalid", fakeAsync(() => {
+                let mockAuth = target.debugElement.injector.get(Auth);
                 spyAuthService = spyOn(mockAuth, "getUser").and.callThrough();
                 component.ngOnInit();
 
@@ -152,7 +159,9 @@ describe("header.component.ts", () => {
         });
 
         describe("Project name", () => {
+
             it("should display dataset name in navigation bar after it is loaded", async(() => {
+                let mockAuth = target.debugElement.injector.get(Auth);
                 spyOn(mockAuth, "authenticated").and.returnValue(true);
                 target.detectChanges();
 
@@ -172,6 +181,7 @@ describe("header.component.ts", () => {
 
         describe("Authentication", () => {
             it("should display LogIn button when no user is authenticated", () => {
+                let mockAuth = target.debugElement.injector.get(Auth);
                 let spyAuthService = spyOn(mockAuth, "authenticated").and.returnValue(false);
                 target.detectChanges();
 
@@ -185,6 +195,7 @@ describe("header.component.ts", () => {
             });
 
             it("should display LogOut button and profile information when a user is authenticated", () => {
+                let mockAuth = target.debugElement.injector.get(Auth);
                 let spyAuthService = spyOn(mockAuth, "authenticated").and.returnValue(true);
 
                 target.detectChanges();
@@ -202,6 +213,7 @@ describe("header.component.ts", () => {
             });
 
             it("should call authenticate.login()  when LogIn button is clicked", () => {
+                let mockAuth = target.debugElement.injector.get(Auth);
                 let spyAuthService = spyOn(mockAuth, "authenticated").and.returnValue(false);
                 let spyLogIn = spyOn(mockAuth, "login");
 
@@ -215,6 +227,7 @@ describe("header.component.ts", () => {
             })
 
             it("should call authenticate.logout()  when LogOut button is clicked", () => {
+                let mockAuth = target.debugElement.injector.get(Auth);
                 let spyAuthService = spyOn(mockAuth, "authenticated").and.returnValue(true);
                 let spyLogOut = spyOn(mockAuth, "logout");
 
@@ -231,6 +244,65 @@ describe("header.component.ts", () => {
     });
 
     describe("Controller", () => {
+
+        describe("ngOnInit", () => {
+            it("should retrieve user and matching datasets", async(() => {
+                let mockAuth: Auth = target.debugElement.injector.get(Auth);
+                let spyAuth = spyOn(mockAuth, "getUser").and.callThrough();
+                let mockDataSetService = target.debugElement.injector.get(DatasetFactory);
+                spyDataSetService = spyOn(mockDataSetService, "get").and.callFake(function (parameters: any) {
+                    if (parameters instanceof User) {
+                        return Promise.resolve(DATASETS);
+                    }
+                    if (typeof parameters === "string") {
+                        return Promise.resolve(new DataSet({ _id: parameters.toString(), name: "a dataset" }));
+                    }
+                });
+
+                component.ngOnInit();
+                spyAuth.calls.mostRecent().returnValue.toPromise().then((user: User) => {
+                    expect(spyDataSetService).toHaveBeenCalled();
+                });
+
+            }));
+
+            it("should call error service if authentication doesnt return user", async(() => {
+
+                let errorMsg = "Authentication failed";
+                let mockError: ErrorService = target.debugElement.injector.get(ErrorService);
+                let mockAuth = target.debugElement.injector.get(Auth);
+
+                let spyAuth = spyOn(mockAuth, "getUser").and.callFake(function () { return Observable.throw(errorMsg) })
+                let spyError = spyOn(mockError, "handleError");
+
+                component.ngOnInit();
+                expect(spyAuth).toHaveBeenCalledTimes(1);
+                expect(spyError).toHaveBeenCalledWith(errorMsg);
+            }))
+
+
+            it("should call error service if datasets retrieval doesnt work", async(() => {
+                let errorMsg = "Cant find datasets for this user";
+                let mockAuth: Auth = target.debugElement.injector.get(Auth);
+                let mockError: ErrorService = target.debugElement.injector.get(ErrorService);
+                let mockDatasetFactory: DatasetFactory = target.debugElement.injector.get(DatasetFactory);
+
+                let spyAuth = spyOn(mockAuth, "getUser").and.callThrough();
+                let spyDatasets = spyOn(mockDatasetFactory, "get").and.returnValue(Promise.reject<void>(errorMsg))
+                let spyError = spyOn(mockError, "handleError");
+
+                component.ngOnInit();
+                spyDatasets.calls.mostRecent().returnValue.then(() => { }).catch(() => {
+                    expect(spyError).toHaveBeenCalledWith(errorMsg);
+                })
+                expect(spyAuth).toHaveBeenCalledTimes(1);
+                expect(spyDatasets).toHaveBeenCalledTimes(1);
+            }));
+
+
+        });
+
+
         describe("openHelp", () => {
             it("should emit openHelp event ", () => {
                 let spy = spyOn(component.openHelpEvent, "emit");
