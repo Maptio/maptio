@@ -43,14 +43,11 @@ export class AccountComponent implements OnInit {
                             );
                         }.bind(this));
 
-                    }
-                        ,
-                        (reason: any) => { console.log("REASON IS " + reason) })
-                },
-                    (error: any) => { console.log(error) }
-                );
+                    })
+                }
+                ).catch((error: any) => { this.errorService.handleError(error) });
             },
-            (error: any) => { console.log(error) });
+            (error: any) => { this.errorService.handleError(error) });
     }
 
 
