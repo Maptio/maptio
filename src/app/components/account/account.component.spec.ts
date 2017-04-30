@@ -124,8 +124,6 @@ describe("account.component.ts", () => {
                 expect(spyAuth).toHaveBeenCalledTimes(1);
                 expect(spyDatasets).toHaveBeenCalledTimes(1);
             }));
-
-          
         });
 
         describe("delete", () => {

@@ -51,7 +51,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
 
         uiService.clean();
 
-        let svg = d3.select("svg"),
+        let svg:any = d3.select("svg"),
             // margin = 50,
             diameter = +width
 
@@ -93,10 +93,8 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
 
                 console.log(diameter);
                 if (classes.includes("reset")) {
-                    svg.call(zooming.transform, d3.zoomIdentity.translate(diameter/2, diameter/2));
+                    svg.call(zooming.transform, d3.zoomIdentity.translate(diameter / 2, diameter / 2));
                 }
-                // 
-
             });
 
 
@@ -160,10 +158,10 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             })
             .style("display", function (d: any) { return d === root ? "none" : "inline"; })
 
-            //.attr("font-size", "1em")
+            // .attr("font-size", "1em")
             .append("textPath")
             .attr("xlink:href", function (d: any) { return "#path" + d.data.id; })
-            .attr("startOffset", function (d, i) { return "10%"; })
+            .attr("startOffset", function (d:any, i:number) { return "10%"; })
             .text(function (d: any) { return d.data.name; })
             ;
 
@@ -236,7 +234,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
 
             circle.attr("r", function (d: any) { return d.r * k; });
 
-            path.attr("d", function (d, i) {
+            path.attr("d", function (d:any, i:number) {
                 let radius = d.r * k + 3;
                 return uiService.getCircularPath(radius, -radius, 0);
             })

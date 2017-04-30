@@ -42,7 +42,7 @@ describe("header.component.ts", () => {
     let DATASETS = [new DataSet({ name: "One", _id: "one" }), new DataSet({ name: "Two", _id: "two" }), new DataSet({ name: "Three", _id: "three" })];
     let spyDataSetService: jasmine.Spy;
     let spyAuthService: jasmine.Spy;
-    //let mockAuth: Auth;
+    // let mockAuth: Auth;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
