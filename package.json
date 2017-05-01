@@ -13,7 +13,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "karma start --single-run",
+    "test": "karma start --single-run --log-level debug",
     "test:headless": "karma start",
     "heroku-postbuild": "webpack --config config/webpack.prod.js --progress --profile --bail"
   },
