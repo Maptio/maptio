@@ -1,4 +1,4 @@
-
+import { MappingComponent } from './../mapping/mapping.component';
 import { EmitterService } from "./../../shared/services/emitter.service";
 import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { ViewChild } from "@angular/core";
