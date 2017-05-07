@@ -1,4 +1,4 @@
-import { MappingComponent } from './../mapping/mapping.component';
+
 import { EmitterService } from "./../../shared/services/emitter.service";
 import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { ViewChild } from "@angular/core";
@@ -9,7 +9,7 @@ import { ActivatedRoute, Params } from "@angular/router";
 @Component({
     selector: "workspace",
     template: require("./workspace.component.html"),
-    styles: [require("./workspace.component.css").toString()]
+    //styles: [require("./workspace.component.css").toString()]
 })
 
 
