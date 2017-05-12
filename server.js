@@ -52,7 +52,7 @@ if (isDevelopment) {
 
   app.use(express.static(DIST_DIR));
   app.get("*", function (req, res, next) {
-    if (!req.secure) {
+    if (req.protocol !== 'https') {
       return res.redirect(['https://', req.get('Host'), req.url].join(''));
     }
     res.sendFile(HTML_FILE)
