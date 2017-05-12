@@ -1,5 +1,6 @@
 require('newrelic');
 
+const sslRedirect = require('heroku-ssl-redirect');
 const bodyParser = require('body-parser');
 const path = require('path');
 const express = require('express');
@@ -18,6 +19,7 @@ const app = express(),
 
 
 app.use(bodyParser.json());
+app.use(sslRedirect);
 
 var datasets = require('./routes/datasets');
 var users = require('./routes/users');
@@ -52,9 +54,10 @@ if (isDevelopment) {
 
   app.use(express.static(DIST_DIR));
   app.get("*", function (req, res, next) {
-    if (req.protocol !== 'https') {
-      return res.redirect(['https://', req.get('Host'), req.url].join(''));
-    }
+    // console.log("PRODUCTION")
+    // if (req.protocol !== 'https') {
+    //   return res.redirect(['https://', req.get('Host'), req.url].join(''));
+    // }
     res.sendFile(HTML_FILE)
   }
   )
