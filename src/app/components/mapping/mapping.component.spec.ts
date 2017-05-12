@@ -110,14 +110,20 @@ describe("mapping.component.ts", () => {
             it("should instanciate MappingCirclesComponent when view is Circles", async(() => {
                 let DATA = { content: "DATA" };
                 let mockDataService = target.debugElement.injector.get(DataService);
+                let mockD3Service = target.debugElement.injector.get(D3Service);
+                let mockColorService = target.debugElement.injector.get(ColorService);
+                let mockUIService = target.debugElement.injector.get(UIService);
                 let spyDataService = spyOn(mockDataService, "get").and.returnValue(Observable.of(DATA));
 
                 let mockResolver = target.debugElement.injector.get(ComponentFactoryResolver);
                 let mockFactory = jasmine.createSpyObj<ComponentFactory<MappingCirclesComponent>>("factory", [""]);
                 let spyResolver = spyOn(mockResolver, "resolveComponentFactory").and.returnValue(mockFactory);
                 let mockComponent = jasmine.createSpyObj<ComponentRef<MappingCirclesComponent>>("component", [""]);
-                mockComponent.instance = new MappingCirclesComponent(new D3Service(), null, null);
-                let spyDraw = spyOn(mockComponent.instance, "draw");
+                let mockInstance = new MappingCirclesComponent(mockD3Service, mockColorService, mockUIService);
+
+                // mockComponent.instance = new MappingCirclesComponent(new D3Service(), null, null);
+                let spyGetInstance = spyOn(component, "getInstance").and.returnValue(mockInstance)
+                let spyDraw = spyOn(mockInstance, "draw");
                 let spyCreateComponent = spyOn(component.anchorComponent, "createComponent").and.returnValue(mockComponent);
 
                 component.ngOnInit();
@@ -128,20 +134,26 @@ describe("mapping.component.ts", () => {
                     expect(spyResolver.calls.mostRecent().args[0].toString()).toContain("MappingCirclesComponent");
                     expect(spyCreateComponent).toHaveBeenCalledWith(mockFactory);
                     expect(spyDraw).toHaveBeenCalledWith(DATA);
+                    expect(spyGetInstance).toHaveBeenCalled()
                 });
             }));
 
             it("should instanciate MappingTreeComponent when view is Circles", async(() => {
                 let DATA = { content: "DATA" };
                 let mockDataService = target.debugElement.injector.get(DataService);
+                let mockD3Service = target.debugElement.injector.get(D3Service);
+                let mockColorService = target.debugElement.injector.get(ColorService);
+                let mockUIService = target.debugElement.injector.get(UIService);
                 let spyDataService = spyOn(mockDataService, "get").and.returnValue(Observable.of(DATA));
 
                 let mockResolver = target.debugElement.injector.get(ComponentFactoryResolver);
                 let mockFactory = jasmine.createSpyObj<ComponentFactory<MappingTreeComponent>>("factory", [""]);
                 let spyResolver = spyOn(mockResolver, "resolveComponentFactory").and.returnValue(mockFactory);
                 let mockComponent = jasmine.createSpyObj<ComponentRef<MappingTreeComponent>>("component", [""]);
-                mockComponent.instance = new MappingTreeComponent(new D3Service(), null, null);
-                let spyDraw = spyOn(mockComponent.instance, "draw");
+                let mockInstance = new MappingTreeComponent(mockD3Service, mockColorService, mockUIService);
+                let spyGetInstance = spyOn(component, "getInstance").and.returnValue(mockInstance)
+
+                let spyDraw = spyOn(mockInstance, "draw");
                 let spyCreateComponent = spyOn(component.anchorComponent, "createComponent").and.returnValue(mockComponent);
 
                 component.ngOnInit();
@@ -152,6 +164,7 @@ describe("mapping.component.ts", () => {
                     expect(spyResolver.calls.mostRecent().args[0].toString()).toContain("MappingTreeComponent");
                     expect(spyCreateComponent).toHaveBeenCalledWith(mockFactory);
                     expect(spyDraw).toHaveBeenCalledWith(DATA);
+                    expect(spyGetInstance).toHaveBeenCalled();
                 });
             }));
         });

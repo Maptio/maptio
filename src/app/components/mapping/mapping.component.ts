@@ -3,7 +3,7 @@ import {
     AfterViewInit,
     ViewChild, ViewContainerRef, ComponentFactoryResolver, ElementRef,
     OnInit,
-    ChangeDetectionStrategy, ChangeDetectorRef
+    ChangeDetectionStrategy, ChangeDetectorRef, ComponentRef
 } from "@angular/core";
 
 import { DataService } from "../../shared/services/data.service"
@@ -83,6 +83,10 @@ export class MappingComponent implements AfterViewInit, OnInit {
     ngAfterViewInit() {
     }
 
+    getInstance(component:ComponentRef<IDataVisualizer>):IDataVisualizer{
+        return component.instance;
+    }
+
     show(mode: Views) {
         let data = this.data;
         let factory =
@@ -92,9 +96,10 @@ export class MappingComponent implements AfterViewInit, OnInit {
 
         let component = this.anchorComponent.createComponent<IDataVisualizer>(factory);
 
-        component.instance.width = 1522; // this.element.nativeElement.parentNode.parentNode.parentNode.offsetHeight;
-        component.instance.height = 1522; // this.element.nativeElement.parentNode.parentNode.parentNode.offsetHeight;
-        component.instance.margin = 10;
-        component.instance.draw(data);
+        let instance = this.getInstance(component);
+        instance.width = 1522; // this.element.nativeElement.parentNode.parentNode.parentNode.offsetHeight;
+        instance.height = 1522; // this.element.nativeElement.parentNode.parentNode.parentNode.offsetHeight;
+        instance.margin = 10;
+        instance.draw(data);
     }
 }
