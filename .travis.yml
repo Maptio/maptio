@@ -3,7 +3,7 @@ node_js:
   - "6"
 notifications:
   slack: 
-    rooms: circlemapping:Y7RTefJI5CznwbeFqMeqvnno
+    rooms: maptio:Y7RTefJI5CznwbeFqMeqvnno
     on_pull_requests: false
 addons:
     code_climate:
