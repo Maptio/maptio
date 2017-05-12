@@ -1,5 +1,5 @@
 import { D3Service } from "d3-ng2-service";
-import { UIService } from "./../../../app/shared/services/ui.service";
+import { UIService } from "./ui.service";
 import { TestBed, inject, } from "@angular/core/testing";
 
 describe("ui.service.ts", function () {

@@ -1,6 +1,6 @@
-import { ErrorService } from "./error.service";
+import { ErrorService } from "../error/error.service";
 import { Router } from "@angular/router";
-import { UserFactory } from "./user.factory";
+import { UserFactory } from "../user.factory";
 import { Injectable } from "@angular/core";
 import { tokenNotExpired } from "angular2-jwt";
 import { UUID } from "angular2-uuid/index";
@@ -8,7 +8,7 @@ import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject"
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
-import { User } from "../model/user.data";
+import { User } from "../../model/user.data";
 import { AuthConfiguration } from "./auth.config";
 
 @Injectable()

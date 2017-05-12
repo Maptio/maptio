@@ -1,11 +1,11 @@
 import { EmitterService } from "./../../shared/services/emitter.service";
-import { ErrorService } from "./../../shared/services/error.service";
+import { ErrorService } from "./../../shared/services/error/error.service";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs/Rx";
 import { DataSet } from "./../../shared/model/dataset.data";
 import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { User } from "./../../shared/model/user.data";
-import { Auth } from "./../../shared/services/auth.service";
+import { Auth } from "./../../shared/services/auth/auth.service";
 import { Component, OnInit } from "@angular/core";
 
 @Component({
@@ -43,14 +43,11 @@ export class AccountComponent implements OnInit {
                             );
                         }.bind(this));
 
-                    }
-                        ,
-                        (reason: any) => { console.log("REASON IS " + reason) })
-                },
-                    (error: any) => { console.log(error) }
-                );
+                    })
+                }
+                ).catch((error: any) => { this.errorService.handleError(error) });
             },
-            (error: any) => { console.log(error) });
+            (error: any) => { this.errorService.handleError(error) });
     }
 
 

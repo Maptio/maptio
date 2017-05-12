@@ -2,8 +2,8 @@ import { DataSet } from "./../../../app/shared/model/dataset.data";
 import { TestBed, async, inject, fakeAsync } from "@angular/core/testing";
 import { MockBackend, MockConnection } from "@angular/http/testing";
 import { Http, HttpModule, Response, BaseRequestOptions, ResponseOptions, RequestMethod } from "@angular/http";
-import { DatasetFactory } from "../../../app/shared/services/dataset.factory"
-import { ErrorService } from "../../../app/shared/services/error.service";
+import { DatasetFactory } from "./dataset.factory"
+import { ErrorService } from "./error/error.service";
 import { User } from "../../../app/shared/model/user.data"
 
 describe("dataset.factory.ts", () => {

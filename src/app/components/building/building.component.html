@@ -5,10 +5,10 @@
 		/>
 	</div>
 	<Tree [nodes]="nodes" (onUpdateData)="mapData($event)" [options]="options">
-		<template #loadingTemplate><div class="loading"></div></template>
-		<template #treeNodeTemplate let-node>
+		<ng-template #loadingTemplate><div class="loading"></div></ng-template>
+		<ng-template #treeNodeTemplate let-node>
 			<initiative-node [node]="node" (map)="mapData($event)" (update)="updateTreeModel($event)" (openSelected)="editInitiative($event)"></initiative-node>
-		</template>
+		</ng-template>
 	</Tree>
 </div>
 <initiative #initiative></initiative>

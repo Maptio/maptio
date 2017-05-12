@@ -4,7 +4,7 @@ import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject"
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
-import { ErrorService } from "./error.service"
+import { ErrorService } from "./error/error.service"
 
 @Injectable()
 export class DataService {

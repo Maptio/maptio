@@ -7,7 +7,7 @@ import { BuildingComponent } from "./building.component";
 import { TreeComponent } from "angular2-tree-component";
 import { FocusIfDirective } from "../..//shared/directives/focusif.directive"
 import { DataService } from "../..//shared/services/data.service"
-import { ErrorService } from "../..//shared/services/error.service";
+import { ErrorService } from "../../shared/services/error/error.service";
 import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { Initiative } from "../..//shared/model/initiative.data";
