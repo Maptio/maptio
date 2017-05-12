@@ -55,10 +55,10 @@ if (isDevelopment) {
   app.use(express.static(DIST_DIR));
   app.get("*", function (req, res, next) {
     // console.log("PRODUCTION")
-    if (req.protocol !== 'https') {
+    if (req.header('x-forwarded-proto') !== 'https') {
       return res.redirect(['https://', req.get('Host'), req.url].join(''));
     }
-    res.sendFile(HTML_FILE)
+    res.sendFile(HTML_FILE);
   }
   )
 }
