@@ -6,7 +6,6 @@ import { By } from "@angular/platform-browser";
 import { InitiativeComponent } from "./initiative.component";
 import { Initiative } from "../../shared/model/initiative.data";
 import { Team } from "../../shared/model/team.data";
-import { Person } from "../../shared/model/person.data";
 import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 

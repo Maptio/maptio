@@ -2,7 +2,6 @@ import { Observable } from "rxjs/Rx";
 import { EmitterService } from "./../../shared/services/emitter.service";
 import { Component, ViewChild } from "@angular/core";
 import { Initiative } from "../../shared/model/initiative.data";
-import { Person } from "../../shared/model/person.data"
 import { InitiativeComponent } from "../initiative/initiative.component";
 import { TreeComponent, TreeNode } from "angular2-tree-component";
 import { DataService } from "../../shared/services/data.service";

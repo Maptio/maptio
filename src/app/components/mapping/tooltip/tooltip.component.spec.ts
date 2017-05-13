@@ -1,5 +1,4 @@
 import { User } from './../../../shared/model/user.data';
-import { Person } from "./../../../shared/model/person.data";
 import { Initiative } from "./../../../shared/model/initiative.data";
 import { Observable } from "rxjs/Rx";
 import { D3Service } from "d3-ng2-service";

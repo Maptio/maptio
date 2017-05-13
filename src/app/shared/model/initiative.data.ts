@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core"
-import { Person } from "./person.data";
 import { ITraversable } from "../interfaces/traversable.interface"
 import { Serializable } from "../interfaces/serializable.interface";
 import { Team } from "./team.data";
