@@ -8,6 +8,7 @@ import { TreeComponent, TreeNode } from "angular2-tree-component";
 import { DataService } from "../../shared/services/data.service";
 import "rxjs/add/operator/map";
 import { InitiativeNodeComponent } from "./initiative.node.component"
+import { Team } from "../../shared/model/team.data";
 
 @Component({
     selector: "building",
@@ -56,6 +57,7 @@ export class BuildingComponent {
     }
 
     saveChanges() {
+        // console.log("building.component.ts", this.nodes[0])
         EmitterService.get("currentDataset").emit(this.nodes[0]);
     }
 
@@ -80,21 +82,23 @@ export class BuildingComponent {
 
     loadData(id: string) {
         this.dataService.fetch("/api/v1/dataset/" + id).then(data => {
+
             this.nodes = [];
             this.nodes.push(new Initiative().deserialize(data));
 
             EmitterService.get("datasetName").emit(this.nodes[0].name);
             // FIXME : this should be another function/service
-            let members = new Array<Person>();
-            this.nodes[0].traverse(function (node: Initiative) {
-                if (node.accountable && !members.find(function (person) {
-                    return person.name === node.accountable.name
-                })) {
-                    members.push(node.accountable)
-                }
-            }
-            );
-            this.initiativeEditComponent.team = { members: members };
+            // let members = new Array<Person>();
+            // this.nodes[0].traverse(function (node: Initiative) {
+            //     if (node.accountable && !members.find(function (person) {
+            //         return person.name === node.accountable.name
+            //     })) {
+            //         members.push(node.accountable)
+            //     }
+            // }
+            // );
+            this.initiativeEditComponent.team = this.nodes[0].team;
+            console.log(this.initiativeEditComponent.team)
 
             this.mapData();
         });

@@ -2,11 +2,12 @@ import { Component, Input, ViewChild } from "@angular/core";
 import { ModalComponent } from "ng2-bs3-modal/ng2-bs3-modal";
 import { Initiative } from "../../shared/model/initiative.data"
 import { Team } from "../../shared/model/team.data"
-import { Person } from "../../shared/model/person.data"
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/distinctUntilChanged";
+import { NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-bootstrap";
+import { User } from "../../shared/model/user.data";
 
 
 
@@ -56,12 +57,37 @@ export class InitiativeComponent {
         }
     }
 
-    saveAccountable(newAccountable: string) {
-        let parse = new Person().tryDeserialize({ name: newAccountable });
-        if (parse[0]) {
-            this.data.accountable = parse[1];
-        }
+    saveAccountable(newAccountable: NgbTypeaheadSelectItemEvent) {
+        // console.log(newAccountable.item)
+        // let parse = new Person().tryDeserialize({ name: newAccountable });
+        // if (parse[0]) {
+            console.log("here");
+        this.data.accountable = newAccountable.item
+        // }
         // it doesnt save anything new if given data is invalid
+    }
+
+    isHelper(user: User): boolean {
+        // console.log(user, this.data)
+        if ((this.data)) {
+            // console.log(user, this.data.name,this.data.helpers, this.data.helpers.findIndex(u => { return u.user_id === user.user_id }))
+            return this.data.helpers.findIndex(u => { return u.user_id === user.user_id }) !== -1
+        }
+
+        return false;
+    }
+
+    addHelper(newHelper: User, checked: boolean) {
+        // console.log(newHelper, checked);
+        if (checked) {
+            // this.data.helpers = (this.data.helpers) ? this.data.helpers : [];
+            this.data.helpers.push(newHelper);
+        }
+        else {
+            let index = this.data.helpers.findIndex(user => user.user_id === newHelper.user_id);
+            this.data.helpers.splice(index, 1);
+        }
+        // console.log(this.data)
     }
 
 
@@ -83,19 +109,19 @@ export class InitiativeComponent {
                 }
             });
 
-    formatter = (result: Person) => result.name;
+    formatter = (result: User) => result.name;
 
     addTeamMember() {
-        try {
-            let newPerson = new Person();
-            newPerson.name = this.currentTeamName;
-            this.team.members.push(new Person());
-            this.isTeamMemberAdded = true;
+        // try {
+        //     let newPerson = new Person();
+        //     newPerson.name = this.currentTeamName;
+        //     this.team.members.push(new Person());
+        //     this.isTeamMemberAdded = true;
 
-        }
-        catch (Exception) {
-            this.isTeamMemberAdded = false;
-        }
+        // }
+        // catch (Exception) {
+        //     this.isTeamMemberAdded = false;
+        // }
 
     }
 }

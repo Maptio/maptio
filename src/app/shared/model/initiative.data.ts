@@ -2,6 +2,8 @@ import { Injectable } from "@angular/core"
 import { Person } from "./person.data";
 import { ITraversable } from "../interfaces/traversable.interface"
 import { Serializable } from "../interfaces/serializable.interface";
+import { Team } from "./team.data";
+import { User } from "./user.data";
 
 @Injectable()
 export class Initiative implements ITraversable, Serializable<Initiative> {
@@ -22,7 +24,24 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
     start: Date;
 
     /**Accountable  */
-    accountable: Person;
+    accountable: User;
+
+    /**
+     * List of helpers
+     */
+    helpers: Array<User>;
+
+    /**
+     * Team
+     */
+    private _URL = "assets/images/logo.png"
+    private _MEMBERS = [
+        new User({ name: "Safiyya", picture: this._URL, user_id: "safiyya_id" }),
+        new User({ name: "Gabriel", picture: this._URL, user_id: "gabriel_id" }),
+        new User({ name: "Kamil", picture: this._URL, user_id: "kamil_id" }),
+        new User({ name: "Mouris", picture: this._URL, user_id: "mouris_id" }),
+        new User({ name: "Nassera", picture: this._URL, user_id: "nassera_id" })]
+    team: Team = new Team({ members: this._MEMBERS });
 
     /**True if this is the root of the tree */
     // isRoot: boolean = false;
@@ -44,7 +63,7 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
         this.description = input.description;
         this.start = input.start;
         if (input.accountable) {
-            this.accountable = new Person().deserialize(input.accountable);
+            this.accountable = new User().deserialize(input.accountable);
         }
 
         let children = new Array<Initiative>();
@@ -57,7 +76,17 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
             children = undefined;
         }
 
+        let helpers = new Array<User>()
+        if (input.helpers) {
+            input.helpers.forEach(function (inputHelper: any) {
+                helpers.push(new User().deserialize(inputHelper))
+            })
+        } else {
+            helpers = []
+        }
+
         this.children = children;
+        this.helpers = helpers;
         return this;
     }
 
