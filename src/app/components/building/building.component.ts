@@ -98,7 +98,7 @@ export class BuildingComponent {
             // }
             // );
             this.initiativeEditComponent.team = this.nodes[0].team;
-            console.log(this.initiativeEditComponent.team)
+            // console.log(this.initiativeEditComponent.team)
 
             this.mapData();
         });

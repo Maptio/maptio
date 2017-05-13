@@ -7,6 +7,7 @@
             "name": "Tech",
             "id": "1",
             "accountable": {
+                "user_id":"cto_id",
                 "name": "CTO"
             },
             "size": "1"
@@ -15,6 +16,7 @@
             "name": "Marketing",
             "id": "2",
             "accountable": {
+                "user_id":"cmo_id",
                 "name": "CMO"
             },
             "size": "1"

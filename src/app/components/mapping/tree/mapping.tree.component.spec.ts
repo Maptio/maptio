@@ -111,7 +111,7 @@ describe("mapping.tree.component.ts", () => {
         expect(nodes.length).toBe(3);
     });
 
-    it("should draw SVG with correct text labels  when data is valid", () => {
+    it("should draw SVG with correct text labels when data is valid", () => {
         let data = new Initiative().deserialize(fixture.load("data.json"));
 
         component.draw(data);

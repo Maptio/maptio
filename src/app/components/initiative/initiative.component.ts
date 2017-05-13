@@ -58,13 +58,7 @@ export class InitiativeComponent {
     }
 
     saveAccountable(newAccountable: NgbTypeaheadSelectItemEvent) {
-        // console.log(newAccountable.item)
-        // let parse = new Person().tryDeserialize({ name: newAccountable });
-        // if (parse[0]) {
-            console.log("here");
         this.data.accountable = newAccountable.item
-        // }
-        // it doesnt save anything new if given data is invalid
     }
 
     isHelper(user: User): boolean {

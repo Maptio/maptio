@@ -1,3 +1,4 @@
+import { User } from './../../../shared/model/user.data';
 import { Person } from "./../../../shared/model/person.data";
 import { Initiative } from "./../../../shared/model/initiative.data";
 import { Observable } from "rxjs/Rx";
@@ -51,7 +52,7 @@ describe("tooltip.component.ts", () => {
 
         let updated = new Initiative();
         updated.name = "UPDATED";
-        updated.accountable = new Person({ name: "John Doe" });
+        updated.accountable = new User({ name: "John Doe" });
         updated.description = "The one idea I clicked";
         let spyUiService = spyOn(uiService, "getTooltipData").and.returnValue(Observable.of(updated));
 
