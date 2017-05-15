@@ -42,7 +42,7 @@ export class BuildingComponent {
                 .interval(1000)
                 .map(i => {
                     if (i % this.SAVING_FREQUENCY === 0) {
-                        this.saveChanges();
+                        // this.saveChanges();
                     }
                     else {
                         EmitterService.get("timeToSaveInSec").emit(this.SAVING_FREQUENCY - i);
@@ -80,24 +80,18 @@ export class BuildingComponent {
 
 
     loadData(id: string) {
+        // FIXME : this should get data from DataSetFactory
         this.dataService.fetch("/api/v1/dataset/" + id).then(data => {
 
             this.nodes = [];
             this.nodes.push(new Initiative().deserialize(data));
 
             EmitterService.get("datasetName").emit(this.nodes[0].name);
-            // FIXME : this should be another function/service
-            // let members = new Array<Person>();
-            // this.nodes[0].traverse(function (node: Initiative) {
-            //     if (node.accountable && !members.find(function (person) {
-            //         return person.name === node.accountable.name
-            //     })) {
-            //         members.push(node.accountable)
-            //     }
-            // }
-            // );
-            this.initiativeEditComponent.team = this.nodes[0].team;
-            // console.log(this.initiativeEditComponent.team)
+
+            let defaultTeamId = this.nodes[0].team_id;
+            this.nodes[0].traverse(function (node: Initiative) {
+                node.team_id = node.team_id ? node.team_id : defaultTeamId;
+            });
 
             this.mapData();
         });

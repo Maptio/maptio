@@ -1,4 +1,9 @@
-import { User } from './../../shared/model/user.data';
+import { Team } from './../../shared/model/team.data';
+import { ErrorService } from './../../shared/services/error/error.service';
+import { MockBackend } from '@angular/http/testing';
+import { Http, BaseRequestOptions } from '@angular/http';
+import { TeamFactory } from "./../../shared/services/team.factory";
+import { User } from "./../../shared/model/user.data";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { DebugElement } from "@angular/core"
 import { FormsModule } from "@angular/forms";
@@ -21,7 +26,19 @@ describe("initiative.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [Ng2Bs3ModalModule, NgbModule.forRoot(), FormsModule],
-            declarations: [InitiativeComponent]
+            declarations: [InitiativeComponent],
+            providers: [TeamFactory,
+                {
+                    provide: Http,
+                    useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
+                        return new Http(mockBackend, options);
+                    },
+                    deps: [MockBackend, BaseRequestOptions]
+                },
+                MockBackend,
+                BaseRequestOptions,
+                ErrorService
+            ]
         })
             .compileComponents()
 
@@ -36,7 +53,7 @@ describe("initiative.component.ts", () => {
 
         inputNode = {
             id: 1, name: "ORIGINAL", description: "ORIGINAL", children: [], helpers: [], start: new Date(2010, 1, 1), accountable: <User>{ name: "ORIGINAL" },
-            hasFocus: false, isZoomedOn: false, isSearchedFor: false, search: undefined, traverse: undefined, deserialize: undefined, tryDeserialize: undefined,
+            hasFocus: false, isZoomedOn: false, team_id: "team_id", isSearchedFor: false, search: undefined, traverse: undefined, deserialize: undefined, tryDeserialize: undefined,
 
         };
 
@@ -48,9 +65,18 @@ describe("initiative.component.ts", () => {
     });
 
     describe("Controller", () => {
-        it("should open modal", () => {
+        it("should open modal and assign team", () => {
+            let mockTeam = new Team({ members: [new User({ name: "John Doe" })] });
+            let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
+            let spyGetTeam = spyOn(mockTeamFactory, "get").and.returnValue(Promise.resolve<Team>(mockTeam))
+
             spyOn(component.modal, "open");
             component.open();
+            expect(spyGetTeam).toHaveBeenCalled();
+            spyGetTeam.calls.mostRecent().returnValue.then((team: Team) => {
+                expect(component.team).toBe(mockTeam)
+            })
+
             expect(component.modal).toBeDefined();
             expect(component.modal.open).toHaveBeenCalled();
         });
@@ -107,6 +133,65 @@ describe("initiative.component.ts", () => {
                 expect(component.data.accountable.name).toBe("John Doe");
             });
         });
+
+        describe("addHelper", () => {
+            it("should add helper to the list when checked is true", () => {
+                let helpers = [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })];
+                component.data.helpers = helpers;
+                expect(component.data.helpers.length).toBe(3);
+                component.addHelper(new User({ user_id: "4" }), true)
+                expect(component.data.helpers.length).toBe(4);
+                expect(component.data.helpers.find(h => h.user_id === "4")).toBeDefined();
+            })
+
+            it("should remove helper from the list when checked is false", () => {
+                let helpers = [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })];
+                component.data.helpers = helpers;
+                expect(component.data.helpers.length).toBe(3);
+                component.addHelper(new User({ user_id: "3" }), false)
+                expect(component.data.helpers.length).toBe(2);
+                expect(component.data.helpers.find(h => h.user_id === "3")).toBeUndefined();
+            })
+        });
+
+        describe("isHelper", () => {
+
+            it("shoud return  false if user is not defined by its user_id", () => {
+                let helpers = [new User({ name: "1" }), new User({ name: "2" }), new User({ name: "3" })];
+                component.data.helpers = helpers;
+                let actual = component.isHelper(new User({ name: "4" }))
+                expect(actual).toBe(false);
+            });
+
+            it("shoud return   false if user is not in the list of helpers", () => {
+                let helpers = [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })];
+                component.data.helpers = helpers;
+                let actual = component.isHelper(new User({ user_id: "4" }))
+                expect(actual).toBe(false);
+            });
+
+            it("should return true if the user is in the list of helpers", () => {
+                let helpers = [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })];
+                component.data.helpers = helpers;
+                let actual = component.isHelper(new User({ user_id: "1" }))
+                expect(actual).toBe(true);
+            });
+
+            it("should return false if the list of helpers is empty", () => {
+                let helpers = undefined
+                component.data.helpers = helpers;
+                let actual = component.isHelper(new User({ user_id: "1" }))
+                expect(actual).toBe(false);
+            });
+
+            it("should return false if the initiative is not loaded", () => {
+                component.data = undefined
+                let actual = component.isHelper(new User({ user_id: "1" }))
+                expect(actual).toBe(false);
+            })
+
+        });
+
     });
 
     describe("View", () => {
@@ -140,18 +225,6 @@ describe("initiative.component.ts", () => {
             expect(spySaveDescription).toHaveBeenCalledWith("CHANGED");
         });
 
-        // Removed start date for now SB : 2017-04-06
-        xit("should call saveStartDate when date is changed", () => {
-            let spySaveDate = spyOn(component, "saveStartDate");
-            expect(component.data.start.getFullYear()).toBe(2010);
-            expect(component.data.start.getMonth()).toBe(1);
-            expect(component.data.start.getDate()).toBe(1);
-            let element = target.debugElement.query(By.css("#inputDate"));
-            (element.nativeElement as HTMLInputElement).value = "2017-01-01";
-            (element.nativeElement as HTMLInputElement).dispatchEvent(new Event("input"));
-            expect(spySaveDate).toHaveBeenCalledWith("2017-01-01");
-        });
-
         it("saves the accountable person", () => {
             let spySaveAccountable = spyOn(component, "saveAccountable");
             let element = target.debugElement.query(By.css("#inputAccountable"));
@@ -160,6 +233,48 @@ describe("initiative.component.ts", () => {
             // FIXME : Check the saveAccountable arguments but how ? 
             expect(spySaveAccountable).toHaveBeenCalled(); //With(jasmine.objectContaining({item : new User({ name: "John Doe" })}));
         });
+
+        describe("Helpers", () => {
+            it("should call addHelper when checking the helpers box", () => {
+                let spyAddHelper = spyOn(component, "addHelper");
+                let list = [new User({ user_id: "1", name: "One" }), new User({ user_id: "2", name: "Two" }), new User({ user_id: "3", name: "Three" })];
+                component.data.helpers = list.slice(0, 2);
+                component.team = new Team({ name: "Team", members: list });
+                target.detectChanges();
+
+                let helpersElements = target.debugElement.queryAll(By.css(".inputHelper"));
+                expect(helpersElements.length).toBe(3);
+                (helpersElements[1].nativeElement as HTMLInputElement).checked = true;
+                (helpersElements[1].nativeElement as HTMLInputElement).dispatchEvent(new Event("click"))
+                expect(spyAddHelper).toHaveBeenCalledWith(new User({ user_id: "2", name: "Two" }), true);
+
+            });
+
+            it("should call addHelper when unchecking the helpers box", () => {
+                let spyAddHelper = spyOn(component, "addHelper");
+                let list = [new User({ user_id: "1", name: "One" }), new User({ user_id: "2", name: "Two" }), new User({ user_id: "3", name: "Three" })];
+                component.data.helpers = list.slice(0, 2);
+                component.team = new Team({ name: "Team", members: list });
+                target.detectChanges();
+
+                let helpersElements = target.debugElement.queryAll(By.css(".inputHelper"));
+                expect(helpersElements.length).toBe(3);
+                (helpersElements[1].nativeElement as HTMLInputElement).checked = false;
+                (helpersElements[1].nativeElement as HTMLInputElement).dispatchEvent(new Event("click"))
+                expect(spyAddHelper).toHaveBeenCalledWith(new User({ user_id: "2", name: "Two" }), false);
+            });
+
+            it("should bind checked with isHelper", () => {
+                let spyIsHelper = spyOn(component, "isHelper");
+                let list = [new User({ user_id: "1", name: "One" }), new User({ user_id: "2", name: "Two" }), new User({ user_id: "3", name: "Three" })];
+                 component.data.helpers = list.slice(0,2);
+                   component.team = new Team({name: "Team",members: list});
+                target.detectChanges();
+                expect(spyIsHelper).toHaveBeenCalled()
+            })  
+        })
+
+
 
     });
 

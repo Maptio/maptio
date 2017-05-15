@@ -33,14 +33,18 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
     /**
      * Team
      */
-    private _URL = "assets/images/logo.png"
-    private _MEMBERS = [
-        new User({ name: "Safiyya", picture: this._URL, user_id: "safiyya_id" }),
-        new User({ name: "Gabriel", picture: this._URL, user_id: "gabriel_id" }),
-        new User({ name: "Kamil", picture: this._URL, user_id: "kamil_id" }),
-        new User({ name: "Mouris", picture: this._URL, user_id: "mouris_id" }),
-        new User({ name: "Nassera", picture: this._URL, user_id: "nassera_id" })]
-    team: Team = new Team({ members: this._MEMBERS });
+    // private _URL = "assets/images/logo.png"
+    // private _MEMBERS = [
+    //     new User({ name: "Safiyya", picture: this._URL, user_id: "safiyya_id" }),
+    //     new User({ name: "Gabriel", picture: this._URL, user_id: "gabriel_id" }),
+    //     new User({ name: "Kamil", picture: this._URL, user_id: "kamil_id" }),
+    //     new User({ name: "Mouris", picture: this._URL, user_id: "mouris_id" }),
+    //     new User({ name: "Nassera", picture: this._URL, user_id: "nassera_id" })]
+
+    team_id: string;
+
+    // @ignore
+    // team: Team; //= new Team({ members: this._MEMBERS });
 
     /**True if this is the root of the tree */
     // isRoot: boolean = false;
@@ -61,6 +65,7 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
         this.name = input.name;
         this.description = input.description;
         this.start = input.start;
+        this.team_id = input.team_id;
         if (input.accountable) {
             this.accountable = new User().deserialize(input.accountable);
         }

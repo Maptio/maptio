@@ -1,3 +1,4 @@
+import { TeamFactory } from './../../shared/services/team.factory';
 import { EmitterService } from "./../../shared/services/emitter.service";
 import { ComponentFixture, TestBed, async, inject } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA, EventEmitter } from "@angular/core"
@@ -21,7 +22,7 @@ describe("building.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [FormsModule],
-            providers: [DataService, ErrorService,
+            providers: [DataService, ErrorService, TeamFactory,
                 {
                     provide: Http,
                     useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
@@ -191,20 +192,22 @@ describe("building.component.ts", () => {
                 });
             }));
 
-            it("should loads data and initializes team", inject([DataService], (mockDataService: DataService) => {
+            it("should loads data and initializes team_id for each node", async(inject([DataService], (mockDataService: DataService) => {
                 let url = "/api/v1/dataset/someId";
 
                 fixture.load("data.json");
                 let spyDataService = spyOn(mockDataService, "fetch").and.returnValue(Promise.resolve(fixture.json[0]));
 
                 component.loadData("someId");
-                target.whenStable().then(() => {
-                    expect(spyDataService).toHaveBeenCalledWith(url);
-                    expect(component.initiativeEditComponent.team.members.length).toBe(2);
-                    expect(component.initiativeEditComponent.team.members.find(function (p) { return p.name === "CTO" })).toBeDefined("Cant find CTO");
-                    expect(component.initiativeEditComponent.team.members.find(function (p) { return p.name === "CMO" })).toBeDefined("Cant find CMO");
+                expect(spyDataService).toHaveBeenCalledWith(url);
+
+                spyDataService.calls.mostRecent().returnValue.then((data: any) => {
+                    expect(component.nodes[0].team_id).toBe("ID1");
+                    expect(component.nodes[0].children.find(n => n.name === "Tech").team_id).toBe("ID1");
+                    expect(component.nodes[0].children.find(n => n.name === "Marketing").team_id).toBe("ID2");
+                    expect(component.nodes[0].children.find(n => n.name === "The rest").team_id).toBe("ID1");
                 });
-            }));
+            })));
 
             it("should loads data and initializes mapping component", inject([DataService], (mockDataService: DataService) => {
 

@@ -45,11 +45,11 @@
 					<div class="col-lg-10">
 
 
-						<div *ngIf="data && team;then content else other_content"></div>
+						<div *ngIf="team;then content else other_content"></div>
 
 						<ng-template #content>
 							<div *ngFor="let user of team?.members" class="checkbox">
-								<label><input #helper type="checkbox" (click)="addHelper(user, helper.checked)" [checked]="isHelper(user)"><img src="{{user.picture}}" width="16">{{user.name}}</label>
+								<label><input #helper class="inputHelper" type="checkbox" (click)="addHelper(user, helper.checked)" [checked]="isHelper(user)"><img src="{{user.picture}}" width="16">{{user.name}}</label>
 							</div>
 						</ng-template>
 						<ng-template #other_content>No team available for selection</ng-template>
@@ -73,7 +73,6 @@
 		</form>
 	</modal-body>
 	<modal-footer>
-		<!--<button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>-->
 		<button type="button" class="btn btn-primary" (click)="modal.close()">Save &amp; Close</button>
 	</modal-footer>
 </modal>

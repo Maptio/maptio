@@ -1,3 +1,4 @@
+import { TeamFactory } from './../../shared/services/team.factory';
 import { Component, Input, ViewChild } from "@angular/core";
 import { ModalComponent } from "ng2-bs3-modal/ng2-bs3-modal";
 import { Initiative } from "../../shared/model/initiative.data"
@@ -19,22 +20,30 @@ import { User } from "../../shared/model/user.data";
 
 export class InitiativeComponent {
 
+
     @ViewChild("initiativeModal")
     modal: ModalComponent;
 
     @Input() data: Initiative;
-    @Input() team: Team;
+    // @Input() team: Team;
+
+    public team: Team;
 
     isTeamMemberFound: boolean = true;
     isTeamMemberAdded: boolean = false;
     currentTeamName: string;
 
 
-    constructor() {
+    constructor(private teamFactory: TeamFactory) {
+
     }
+
 
     open() {
         this.modal.open();
+        this.teamFactory.get(this.data.team_id).then((team: Team) => {
+            this.team = team;
+        }).catch(err => { })
     }
 
     saveName(newName: any) {
@@ -62,26 +71,20 @@ export class InitiativeComponent {
     }
 
     isHelper(user: User): boolean {
-        // console.log(user, this.data)
-        if ((this.data)) {
-            // console.log(user, this.data.name,this.data.helpers, this.data.helpers.findIndex(u => { return u.user_id === user.user_id }))
-            return this.data.helpers.findIndex(u => { return u.user_id === user.user_id }) !== -1
-        }
-
-        return false;
+        if (!this.data) return false;
+        if (!this.data.helpers) return false;
+        if (!user.user_id) return false;
+        return this.data.helpers.findIndex(u => { return u.user_id === user.user_id }) !== -1
     }
 
     addHelper(newHelper: User, checked: boolean) {
-        // console.log(newHelper, checked);
         if (checked) {
-            // this.data.helpers = (this.data.helpers) ? this.data.helpers : [];
             this.data.helpers.push(newHelper);
         }
         else {
             let index = this.data.helpers.findIndex(user => user.user_id === newHelper.user_id);
             this.data.helpers.splice(index, 1);
         }
-        // console.log(this.data)
     }
 
 
@@ -94,7 +97,7 @@ export class InitiativeComponent {
                 try {
                     this.isTeamMemberAdded = false;
                     this.currentTeamName = term;
-                    let results = term.length < 1 ? this.team.members : this.team.members.filter(v => new RegExp(term, "gi").test(v.name)).splice(0, 10);
+                    let results = term.length < 1 ? (<Team>this.team).members : (<Team>this.team).members.filter(v => new RegExp(term, "gi").test(v.name)).splice(0, 10);
                     this.isTeamMemberFound = (results !== undefined && results.length !== 0) ? true : false;
                     return results;
                 }
@@ -104,20 +107,6 @@ export class InitiativeComponent {
             });
 
     formatter = (result: User) => result.name;
-
-    addTeamMember() {
-        // try {
-        //     let newPerson = new Person();
-        //     newPerson.name = this.currentTeamName;
-        //     this.team.members.push(new Person());
-        //     this.isTeamMemberAdded = true;
-
-        // }
-        // catch (Exception) {
-        //     this.isTeamMemberAdded = false;
-        // }
-
-    }
 }
 
 

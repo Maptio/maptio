@@ -2,6 +2,7 @@
     "name": "Root",
     "accountable": "CEO",
     "size": "1",
+    "team_id":"ID1",
     "children": [
         {
             "name": "Tech",
@@ -12,6 +13,7 @@
         },
         {
             "name": "Marketing",
+            "team_id":"ID2",
             "accountable": {
                 "name": "CMO"
             },

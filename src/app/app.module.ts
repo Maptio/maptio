@@ -1,4 +1,4 @@
-import { HomeComponent } from "./components/home/home.component";
+
 
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
@@ -22,10 +22,11 @@ import { ErrorService } from "./shared/services/error/error.service";
 import { Auth } from "./shared/services/auth/auth.service";
 import { AUTH_PROVIDERS } from "angular2-jwt";
 import { UserFactory } from "./shared/services/user.factory";
+import { TeamFactory } from "./shared/services/team.factory";
 
 // Components
 import { LoginComponent } from "./components/login/login.component";
-
+import { HomeComponent } from "./components/home/home.component";
 import { AppComponent } from "./components/app.component";
 import { MappingComponent } from "./components/mapping/mapping.component";
 import { MappingCirclesComponent } from "./components/mapping/circles/mapping.circles.component";
@@ -92,7 +93,7 @@ const appRoutes: Routes = [
   exports: [RouterModule],
   providers: [
     AuthGuard, AuthConfiguration,
-    D3Service, DataService, ColorService, UIService, DatasetFactory, ErrorService, AUTH_PROVIDERS, Auth, UserFactory,
+    D3Service, DataService, ColorService, UIService, DatasetFactory, TeamFactory, ErrorService, AUTH_PROVIDERS, Auth, UserFactory,
     Location, { provide: LocationStrategy, useClass: PathLocationStrategy }],
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]
