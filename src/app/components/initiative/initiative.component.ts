@@ -1,5 +1,7 @@
+import { Params } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TeamFactory } from './../../shared/services/team.factory';
-import { Component, Input, ViewChild } from "@angular/core";
+import { Component, Input, ViewChild, OnInit } from "@angular/core";
 import { ModalComponent } from "ng2-bs3-modal/ng2-bs3-modal";
 import { Initiative } from "../../shared/model/initiative.data"
 import { Team } from "../../shared/model/team.data"
@@ -21,6 +23,7 @@ import { User } from "../../shared/model/user.data";
 export class InitiativeComponent {
 
 
+
     @ViewChild("initiativeModal")
     modal: ModalComponent;
 
@@ -34,16 +37,23 @@ export class InitiativeComponent {
     currentTeamName: string;
 
 
-    constructor(private teamFactory: TeamFactory) {
+                                  constructor(private teamFactory: TeamFactory) {
 
     }
 
+    // ngOnInit(): void {
+    //     this.route.params.subscribe((params: Params) => {
+    //         let datasetId = params["workspaceid"];
+    //         this.router.navigate(["workspace", datasetId]);
+    //     }
+    //     );
+    // }
 
     open() {
         this.modal.open();
         this.teamFactory.get(this.data.team_id).then((team: Team) => {
-            this.team = team;
-        }).catch(err => { })
+                                                           this.team = team;
+                                    }).catch(err => { })
     }
 
     saveName(newName: any) {
@@ -58,7 +68,7 @@ export class InitiativeComponent {
         let year = Number.parseInt(newDate.substr(0, 4));
         let month = Number.parseInt(newDate.substr(5, 2));
         let day = Number.parseInt(newDate.substr(8, 2));
-        let parsedDate = new Date(year, month, day);
+                                          let parsedDate = new Date(year, month, day);
 
         // HACK : this should not be here but in a custom validatpr. Or maybe use HTML 5 "pattern" to prevent binding
         if (!Number.isNaN(parsedDate.valueOf())) {

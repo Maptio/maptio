@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs/Rx';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TreeModel, TreeNode } from "angular2-tree-component";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { FormsModule } from "@angular/forms";
@@ -17,7 +19,15 @@ describe("initiative.node.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [FormsModule],
-            declarations: [InitiativeNodeComponent, FocusIfDirective]
+            declarations: [InitiativeNodeComponent, FocusIfDirective],
+            providers: [{ provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } },
+            {
+                provide: ActivatedRoute,
+                useValue: {
+                    params: Observable.of({ workspaceid: 123, slug: "slug" })
+                }
+            }
+            ]
         })
             .compileComponents()
 
@@ -275,9 +285,11 @@ describe("initiative.node.component.ts", () => {
                 it("should open the selected node", () => {
                     let openInitiativeEvent = new Initiative();
                     openInitiativeEvent.id = 1;
-                    let spy = spyOn(component.openSelectedEvent, "emit");
+                    openInitiativeEvent.name = "something";
+                    let mockRouter = target.debugElement.injector.get(Router);
+                    let mockRoute = target.debugElement.injector.get(ActivatedRoute)
                     component.openNode(openInitiativeEvent);
-                    expect(spy).toHaveBeenCalledWith(openInitiativeEvent);
+                    expect(mockRouter.navigate).toHaveBeenCalledWith(["../../open/", "something"], {relativeTo: mockRoute});
                 });
             });
 

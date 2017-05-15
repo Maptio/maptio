@@ -1,3 +1,4 @@
+import { Router, ActivatedRoute } from '@angular/router';
 import { Component, Input, Output, ViewChild, EventEmitter } from "@angular/core";
 import { TreeNode, TreeModel } from "angular2-tree-component";
 import { Initiative } from "../../shared/model/initiative.data";
@@ -14,11 +15,13 @@ export class InitiativeNodeComponent {
 
     @Output("map") updateDataEvent = new EventEmitter<Array<Initiative>>();
     @Output("update") updateTreeEvent = new EventEmitter<TreeModel>();
-    @Output("openSelected") openSelectedEvent = new EventEmitter<Initiative>();
+    // @Output("openSelected") openSelectedEvent = new EventEmitter<Initiative>();
 
 
     @ViewChild("initiative")
     initiativeEditComponent: InitiativeComponent;
+
+    constructor(private router:Router, private route:ActivatedRoute){}
 
 
     isRoot(): boolean {
@@ -65,7 +68,7 @@ export class InitiativeNodeComponent {
 
 
     openNode(node: Initiative) {
-        this.openSelectedEvent.emit(node);
+        this.router.navigate(["../../open/",node.getSlug()], {relativeTo:this.route})
     }
 
     zoomInNode(node: Initiative) {

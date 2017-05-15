@@ -40,7 +40,7 @@ describe("workspace.component.ts", () => {
                     {
                         provide: ActivatedRoute,
                         useValue: {
-                            params: Observable.of({ id: 123 })
+                            params: Observable.of({ workspaceid: 123, slug: "slug" })
                         }
                     }]
             }
@@ -100,7 +100,7 @@ describe("workspace.component.ts", () => {
                 let mockRoute: ActivatedRoute = target.debugElement.injector.get(ActivatedRoute);
                 component.ngOnInit();
                 mockRoute.params.toPromise().then((params: Params) => {
-                    expect(spy).toHaveBeenCalledWith(123);
+                    expect(spy).toHaveBeenCalledWith(123, "slug");
                 });
             }));
         });

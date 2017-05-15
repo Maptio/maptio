@@ -34,8 +34,9 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.route.params.subscribe((params: Params) => {
-            this.datasetId = params["id"];
-            this.buildingComponent.loadData(this.datasetId);
+            this.datasetId = params["workspaceid"];
+            let initiativeSlug = params["slug"];
+            this.buildingComponent.loadData(this.datasetId, initiativeSlug);
         });
     }
 

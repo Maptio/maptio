@@ -64,7 +64,8 @@ const appRoutes: Routes = [
 
   { path: "login", component: LoginComponent },
   { path: "account", component: AccountComponent, canActivate: [AuthGuard] },
-  { path: "workspace/:id", component: WorkspaceComponent, canActivate: [AuthGuard] }
+  { path: "workspace/:workspaceid", component: WorkspaceComponent, canActivate: [AuthGuard] },
+  { path: "workspace/:workspaceid/open/:slug", component: WorkspaceComponent, canActivate: [AuthGuard] }
 
 ];
 

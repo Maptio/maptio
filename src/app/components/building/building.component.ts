@@ -42,7 +42,7 @@ export class BuildingComponent {
                 .interval(1000)
                 .map(i => {
                     if (i % this.SAVING_FREQUENCY === 0) {
-                        // this.saveChanges();
+                        this.saveChanges();
                     }
                     else {
                         EmitterService.get("timeToSaveInSec").emit(this.SAVING_FREQUENCY - i);
@@ -78,8 +78,13 @@ export class BuildingComponent {
         this.initiativeEditComponent.open();
     }
 
-
-    loadData(id: string) {
+    /**
+     * Loads data into workspace
+     * @param id Dataset Id
+     * @param slugToOpen Slug of initiative to open 
+     */
+    loadData(id: string, slugToOpen?:string) {
+        // console.log(slugToOpen)
         // FIXME : this should get data from DataSetFactory
         this.dataService.fetch("/api/v1/dataset/" + id).then(data => {
 
@@ -89,11 +94,18 @@ export class BuildingComponent {
             EmitterService.get("datasetName").emit(this.nodes[0].name);
 
             let defaultTeamId = this.nodes[0].team_id;
+            let initiativeToOpen = undefined;
             this.nodes[0].traverse(function (node: Initiative) {
                 node.team_id = node.team_id ? node.team_id : defaultTeamId;
+                         if(node.getSlug() === slugToOpen){
+                    initiativeToOpen = node;
+                }
             });
 
             this.mapData();
+                          if(initiativeToOpen) {
+                this.editInitiative(initiativeToOpen)}
+
         });
     }
 

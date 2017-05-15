@@ -3,6 +3,7 @@ import { ITraversable } from "../interfaces/traversable.interface"
 import { Serializable } from "../interfaces/serializable.interface";
 import { Team } from "./team.data";
 import { User } from "./user.data";
+import * as slug from "slug";
 
 @Injectable()
 export class Initiative implements ITraversable, Serializable<Initiative> {
@@ -12,6 +13,11 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
 
     /** Short name for the initiative. */
     name: string;
+
+    /**
+     * URL friendly name
+      */
+    // slug: string = slug(this.name);
 
     /** Description of initiative */
     description: string = undefined;
@@ -66,6 +72,7 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
         this.description = input.description;
         this.start = input.start;
         this.team_id = input.team_id;
+        // this.slug = input.slug;
         if (input.accountable) {
             this.accountable = new User().deserialize(input.accountable);
         }
@@ -122,6 +129,10 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
             }
             return false;
         }
+    }
+
+    getSlug(){
+        return slug(this.name, {lower:true});
     }
 
 

@@ -7,7 +7,7 @@
 	<Tree [nodes]="nodes" (onUpdateData)="mapData($event)" [options]="options">
 		<ng-template #loadingTemplate><div class="loading"></div></ng-template>
 		<ng-template #treeNodeTemplate let-node>
-			<initiative-node [node]="node" (map)="mapData($event)" (update)="updateTreeModel($event)" (openSelected)="editInitiative($event)"></initiative-node>
+			<initiative-node [node]="node" (map)="mapData($event)" (update)="updateTreeModel($event)" ></initiative-node>
 		</ng-template>
 	</Tree>
 </div>

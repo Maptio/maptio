@@ -10,7 +10,6 @@ import { FormsModule } from "@angular/forms";
 import { By } from "@angular/platform-browser";
 import { InitiativeComponent } from "./initiative.component";
 import { Initiative } from "../../shared/model/initiative.data";
-import { Team } from "../../shared/model/team.data";
 import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
@@ -54,7 +53,7 @@ describe("initiative.component.ts", () => {
         inputNode = {
             id: 1, name: "ORIGINAL", description: "ORIGINAL", children: [], helpers: [], start: new Date(2010, 1, 1), accountable: <User>{ name: "ORIGINAL" },
             hasFocus: false, isZoomedOn: false, team_id: "team_id", isSearchedFor: false, search: undefined, traverse: undefined, deserialize: undefined, tryDeserialize: undefined,
-
+             getSlug:undefined
         };
 
         component.data = inputNode;
@@ -267,11 +266,11 @@ describe("initiative.component.ts", () => {
             it("should bind checked with isHelper", () => {
                 let spyIsHelper = spyOn(component, "isHelper");
                 let list = [new User({ user_id: "1", name: "One" }), new User({ user_id: "2", name: "Two" }), new User({ user_id: "3", name: "Three" })];
-                 component.data.helpers = list.slice(0,2);
-                   component.team = new Team({name: "Team",members: list});
+                component.data.helpers = list.slice(0, 2);
+                component.team = new Team({ name: "Team", members: list });
                 target.detectChanges();
                 expect(spyIsHelper).toHaveBeenCalled()
-            })  
+            })
         })
 
 
