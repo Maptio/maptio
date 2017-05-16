@@ -1,5 +1,5 @@
-import { Observable } from 'rxjs/Rx';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from "rxjs/Rx";
+import { ActivatedRoute, Router } from "@angular/router";
 import { TreeModel, TreeNode } from "angular2-tree-component";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { FormsModule } from "@angular/forms";

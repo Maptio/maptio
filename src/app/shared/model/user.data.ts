@@ -24,7 +24,7 @@ export class User implements Serializable<User> {
 
 
     /**
-     * List of teams 
+     * List of teams
      */
     public teams: any[];
 
@@ -57,7 +57,7 @@ export class User implements Serializable<User> {
                 deserialized.teams.push(t);
             });
         }
-         if (input.datasets) {
+        if (input.datasets) {
             deserialized.datasets = []
             input.datasets.forEach((d: any) => {
                 deserialized.datasets.push(d);

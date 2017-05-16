@@ -1,4 +1,4 @@
-import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
+
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
@@ -11,7 +11,7 @@ import { Routes, RouterModule } from "@angular/router";
 
 // Guards
 import { AuthGuard } from "./shared/services/auth/auth.guard";
-import {AccessGuard} from "./shared/services/auth/access.guard";
+import { AccessGuard } from "./shared/services/auth/access.guard";
 
 // Services
 import { DataService } from "./shared/services/data.service";
@@ -45,6 +45,8 @@ import { WorkspaceComponent } from "./components/workspace/workspace.component";
 import { FooterComponent } from "./components/footer/footer.component";
 import { HeaderComponent } from "./components/header/header.component";
 
+import { UnauthorizedComponent } from "./components/unauthorized/unauthorized.component";
+
 // Directives
 import { FocusIfDirective } from "./shared/directives/focusif.directive";
 import { AutoSelectDirective } from "./shared/directives/autoselect.directive"
@@ -64,10 +66,10 @@ const appRoutes: Routes = [
 
   { path: "login", component: LoginComponent },
   { path: "account", component: AccountComponent, canActivate: [AuthGuard] },
-  { path: "workspace/:workspaceid", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild:[AuthGuard, AccessGuard] },
-  { path: "workspace/:workspaceid/open/:slug", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard] , canActivateChild:[AuthGuard, AccessGuard] },
+  { path: "workspace/:workspaceid", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
+  { path: "workspace/:workspaceid/open/:slug", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
 
-  {path: "unauthorized", component:UnauthorizedComponent}
+  { path: "unauthorized", component: UnauthorizedComponent }
 
 ];
 
@@ -75,7 +77,7 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent,
     MappingComponent, MappingCirclesComponent, MappingTreeComponent, TooltipComponent,
-    BuildingComponent, InitiativeNodeComponent, LoginComponent, HomeComponent,UnauthorizedComponent, 
+    BuildingComponent, InitiativeNodeComponent, LoginComponent, HomeComponent, UnauthorizedComponent,
     InitiativeComponent,
     FocusIfDirective,
     AutoSelectDirective,

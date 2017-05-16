@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core"
 import { ITraversable } from "../interfaces/traversable.interface"
 import { Serializable } from "../interfaces/serializable.interface";
-import { Team } from "./team.data";
 import { User } from "./user.data";
 import * as slug from "slug";
 
@@ -131,8 +130,8 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
         }
     }
 
-    getSlug(){
-        return slug(this.name, {lower:true});
+    getSlug() {
+        return slug(this.name, { lower: true });
     }
 
 

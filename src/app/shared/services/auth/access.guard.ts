@@ -1,6 +1,5 @@
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Rx';
-import { Injectable, OnInit } from '@angular/core';
+import { Observable } from "rxjs/Rx";
+import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot } from "@angular/router";
 import { CanActivate, CanActivateChild, RouterStateSnapshot, Router } from "@angular/router";
 import { Auth } from "./auth.service";
@@ -16,10 +15,10 @@ export class AccessGuard implements CanActivate, CanActivateChild {
 
         let dataset = route.params["workspaceid"];
         return this.auth.getUser().map(u => {
-            if(u.datasets.includes(dataset)){
+            if (u.datasets.includes(dataset)) {
                 return true
             }
-            else{
+            else {
                 this.router.navigate(["/unauthorized"])
                 return false;
             }

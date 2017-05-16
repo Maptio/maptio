@@ -1,8 +1,8 @@
-import { User } from './user.data';
+import { User } from "./user.data";
 import { Serializable } from "../interfaces/serializable.interface";
 // import { Person } from "./person.data"
 
-export class Team implements Serializable<Team>{
+export class Team implements Serializable<Team> {
 
     /**
      * Unique Id

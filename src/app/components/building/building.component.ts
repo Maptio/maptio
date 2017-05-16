@@ -81,7 +81,7 @@ export class BuildingComponent {
     /**
      * Loads data into workspace
      * @param id Dataset Id
-     * @param slugToOpen Slug of initiative to open 
+     * @param slugToOpen Slug of initiative to open
      */
     loadData(id: string, slugToOpen?: string) {
         // console.log(slugToOpen)

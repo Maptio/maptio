@@ -1,4 +1,4 @@
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from "@angular/router";
 import { Component, Input, Output, ViewChild, EventEmitter } from "@angular/core";
 import { TreeNode, TreeModel } from "angular2-tree-component";
 import { Initiative } from "../../shared/model/initiative.data";
@@ -7,7 +7,7 @@ import { InitiativeComponent } from "../initiative/initiative.component";
 @Component({
     selector: "initiative-node",
     template: require("./initiative.node.component.html"),
-     styles: [require("./initiative.node.component.css").toString()]
+    styles: [require("./initiative.node.component.css").toString()]
 })
 export class InitiativeNodeComponent {
 
@@ -21,7 +21,7 @@ export class InitiativeNodeComponent {
     @ViewChild("initiative")
     initiativeEditComponent: InitiativeComponent;
 
-    constructor(private router:Router, private route:ActivatedRoute){}
+    constructor(private router: Router, private route: ActivatedRoute) { }
 
 
     isRoot(): boolean {
@@ -68,7 +68,7 @@ export class InitiativeNodeComponent {
 
 
     openNode(node: Initiative) {
-        this.router.navigate(["../../open/",node.getSlug()], {relativeTo:this.route})
+        this.router.navigate(["../../open/", node.getSlug()], { relativeTo: this.route })
     }
 
     zoomInNode(node: Initiative) {

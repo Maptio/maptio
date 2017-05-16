@@ -1,7 +1,6 @@
-import { Params } from '@angular/router';
-import { ActivatedRoute, Router } from '@angular/router';
-import { TeamFactory } from './../../shared/services/team.factory';
-import { Component, Input, ViewChild, OnInit } from "@angular/core";
+
+import { TeamFactory } from "./../../shared/services/team.factory";
+import { Component, Input, ViewChild } from "@angular/core";
 import { ModalComponent } from "ng2-bs3-modal/ng2-bs3-modal";
 import { Initiative } from "../../shared/model/initiative.data"
 import { Team } from "../../shared/model/team.data"

@@ -1,7 +1,7 @@
-import { Team } from './../../shared/model/team.data';
-import { ErrorService } from './../../shared/services/error/error.service';
-import { MockBackend } from '@angular/http/testing';
-import { Http, BaseRequestOptions } from '@angular/http';
+import { Team } from "./../../shared/model/team.data";
+import { ErrorService } from "./../../shared/services/error/error.service";
+import { MockBackend } from "@angular/http/testing";
+import { Http, BaseRequestOptions } from "@angular/http";
 import { TeamFactory } from "./../../shared/services/team.factory";
 import { User } from "./../../shared/model/user.data";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
@@ -53,7 +53,7 @@ describe("initiative.component.ts", () => {
         inputNode = {
             id: 1, name: "ORIGINAL", description: "ORIGINAL", children: [], helpers: [], start: new Date(2010, 1, 1), accountable: <User>{ name: "ORIGINAL" },
             hasFocus: false, isZoomedOn: false, team_id: "team_id", isSearchedFor: false, search: undefined, traverse: undefined, deserialize: undefined, tryDeserialize: undefined,
-             getSlug:undefined
+            getSlug: undefined
         };
 
         component.data = inputNode;

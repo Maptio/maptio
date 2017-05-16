@@ -1,6 +1,6 @@
-import { Team } from './../model/team.data';
-import { TeamFactory } from './team.factory';
-import { TestBed, async, inject, fakeAsync } from "@angular/core/testing";
+import { Team } from "./../model/team.data";
+import { TeamFactory } from "./team.factory";
+import { TestBed, inject, fakeAsync } from "@angular/core/testing";
 import { MockBackend, MockConnection } from "@angular/http/testing";
 import { Http, HttpModule, Response, BaseRequestOptions, ResponseOptions } from "@angular/http";
 import { ErrorService } from "./error/error.service";

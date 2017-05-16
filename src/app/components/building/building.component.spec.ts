@@ -1,4 +1,4 @@
-import { TeamFactory } from './../../shared/services/team.factory';
+import { TeamFactory } from "./../../shared/services/team.factory";
 import { EmitterService } from "./../../shared/services/emitter.service";
 import { ComponentFixture, TestBed, async, inject } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA, EventEmitter } from "@angular/core"
