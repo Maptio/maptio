@@ -204,7 +204,7 @@ describe("building.component.ts", () => {
                 spyDataService.calls.mostRecent().returnValue.then((data: any) => {
                     expect(component.nodes[0].team_id).toBe("ID1");
                     expect(component.nodes[0].children.find(n => n.name === "Tech").team_id).toBe("ID1");
-                    expect(component.nodes[0].children.find(n => n.name === "Marketing").team_id).toBe("ID2");
+                    expect(component.nodes[0].children.find(n => n.name === "Marketing").team_id).toBe("ID1");
                     expect(component.nodes[0].children.find(n => n.name === "The rest").team_id).toBe("ID1");
                 });
             })));

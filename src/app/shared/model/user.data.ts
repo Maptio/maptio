@@ -22,6 +22,17 @@ export class User implements Serializable<User> {
      */
     public picture: string;
 
+
+    /**
+     * List of teams 
+     */
+    public teams: any[];
+
+    /**
+     * List of datasets
+     */
+    public datasets: any[];
+
     public constructor(init?: Partial<User>) {
         Object.assign(this, init);
     }
@@ -40,6 +51,18 @@ export class User implements Serializable<User> {
         deserialized.email = input.email;
         deserialized.picture = input.picture;
         deserialized.user_id = input.user_id; // specific to Auth0
+        if (input.teams) {
+            deserialized.teams = []
+            input.teams.forEach((t: any) => {
+                deserialized.teams.push(t);
+            });
+        }
+         if (input.datasets) {
+            deserialized.datasets = []
+            input.datasets.forEach((d: any) => {
+                deserialized.datasets.push(d);
+            });
+        }
         return deserialized;
     }
 

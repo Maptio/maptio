@@ -1,5 +1,4 @@
-
-
+import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
@@ -12,6 +11,7 @@ import { Routes, RouterModule } from "@angular/router";
 
 // Guards
 import { AuthGuard } from "./shared/services/auth/auth.guard";
+import {AccessGuard} from "./shared/services/auth/access.guard";
 
 // Services
 import { DataService } from "./shared/services/data.service";
@@ -64,8 +64,10 @@ const appRoutes: Routes = [
 
   { path: "login", component: LoginComponent },
   { path: "account", component: AccountComponent, canActivate: [AuthGuard] },
-  { path: "workspace/:workspaceid", component: WorkspaceComponent, canActivate: [AuthGuard] },
-  { path: "workspace/:workspaceid/open/:slug", component: WorkspaceComponent, canActivate: [AuthGuard] }
+  { path: "workspace/:workspaceid", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild:[AuthGuard, AccessGuard] },
+  { path: "workspace/:workspaceid/open/:slug", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard] , canActivateChild:[AuthGuard, AccessGuard] },
+
+  {path: "unauthorized", component:UnauthorizedComponent}
 
 ];
 
@@ -73,7 +75,7 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent,
     MappingComponent, MappingCirclesComponent, MappingTreeComponent, TooltipComponent,
-    BuildingComponent, InitiativeNodeComponent, LoginComponent, HomeComponent,
+    BuildingComponent, InitiativeNodeComponent, LoginComponent, HomeComponent,UnauthorizedComponent, 
     InitiativeComponent,
     FocusIfDirective,
     AutoSelectDirective,
@@ -93,7 +95,7 @@ const appRoutes: Routes = [
   ],
   exports: [RouterModule],
   providers: [
-    AuthGuard, AuthConfiguration,
+    AuthGuard, AccessGuard, AuthConfiguration,
     D3Service, DataService, ColorService, UIService, DatasetFactory, TeamFactory, ErrorService, AUTH_PROVIDERS, Auth, UserFactory,
     Location, { provide: LocationStrategy, useClass: PathLocationStrategy }],
   entryComponents: [AppComponent],

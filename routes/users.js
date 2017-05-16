@@ -16,29 +16,61 @@ router.get('/users', function (req, res, next) {
 
 /* GET One user with the provided ID */
 router.get('/user/:id', function (req, res, next) {
-    db.users.findOne(
-        { user_id: req.params.id },
-        {},
+    db.users.aggregate([
+        { $match: { user_id: req.params.id } },
+        { $unwind: { path: "$teams", preserveNullAndEmptyArrays: true } },
+        { $lookup: { from: "datasets", localField: "teams", foreignField: "team_id", as: "datasets" } },
+        { $unwind: { path: "$datasets", preserveNullAndEmptyArrays: true } },
+        { $lookup: { from: "datasets", localField: "_id", foreignField: "team_id", as: "datasetObjects" } },
+        {
+            $group: {
+                _id: "$_id",
+                picture: { $min: "$picture" },
+                name: { $min: "$name" },
+                email: { $min: "$email" },
+                user_id: { $min: "$user_id" },
+                teams: { $addToSet: "$teams" },
+                datasets: { $addToSet: "$datasets._id" }
+            }
+        },
+        {
+            $limit:1
+        }
+
+    ],
         function (err, users) {
             if (err) {
                 res.send(err);
             } else {
-                res.json(users);
+                res.json(users[0]);
             }
-        });
+        }
+    );
 });
 
 router.get('/user/:id/datasets', function (req, res, next) {
-    db.users.findOne(
-        { user_id: req.params.id },
-        { datasets: 1, _id: 0 },
-        function (err, datasets) {
+    db.users.aggregate([
+        { $match: { user_id: req.params.id } },
+        { $unwind: { path: "$teams", preserveNullAndEmptyArrays: true } },
+        { $lookup: { from: "datasets", localField: "teams", foreignField: "team_id", as: "datasets" } },
+        { $unwind: { path: "$datasets", preserveNullAndEmptyArrays: true } },
+        { $lookup: { from: "datasets", localField: "_id", foreignField: "team_id", as: "datasetObjects" } },
+        {
+            $group: {
+                _id: "$_id",
+                datasets: { $addToSet: "$datasets._id" }
+            }
+        }
+
+    ],
+        function (err, users) {
             if (err) {
                 res.send(err);
             } else {
-                res.json(datasets);
+                res.json(users[0]);
             }
-        });
+        }
+    );
 });
 
 /* POST/SAVE a user */
