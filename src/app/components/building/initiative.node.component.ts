@@ -68,7 +68,12 @@ export class InitiativeNodeComponent {
 
 
     openNode(node: Initiative) {
-        this.router.navigate(["../../open/", node.getSlug()], { relativeTo: this.route })
+        if (this.route.snapshot.params["slug"]) {
+            this.router.navigate(["../../open/", node.getSlug()], { relativeTo: this.route })
+        }
+        else {
+            this.router.navigate(["open", node.getSlug()], { relativeTo: this.route })
+        }
     }
 
     zoomInNode(node: Initiative) {
