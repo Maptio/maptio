@@ -1,3 +1,5 @@
+import { TeamComponent } from './../team/team.component';
+import { TeamFactory } from './../../shared/services/team.factory';
 import { EmitterService } from "./../../shared/services/emitter.service";
 import { ErrorService } from "./../../shared/services/error/error.service";
 import { Router } from "@angular/router";
@@ -6,7 +8,8 @@ import { DataSet } from "./../../shared/model/dataset.data";
 import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { User } from "./../../shared/model/user.data";
 import { Auth } from "./../../shared/services/auth/auth.service";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { Team } from "../../shared/model/team.data";
 
 @Component({
     selector: "account",
@@ -15,10 +18,13 @@ import { Component, OnInit } from "@angular/core";
 export class AccountComponent implements OnInit {
 
     private user: User;
-    private datasets$: Observable<Array<DataSet>>;
+    private datasets$: Promise<Array<DataSet>>;
+    private teams$: Promise<Array<Team>>
     private message: string;
 
-    constructor(private auth: Auth, private datasetFactory: DatasetFactory, private router: Router, private errorService: ErrorService) {
+    @ViewChild(TeamComponent) teamComponent:TeamComponent;
+
+    constructor(private auth: Auth, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private router: Router, private errorService: ErrorService) {
 
     }
 
@@ -30,22 +36,24 @@ export class AccountComponent implements OnInit {
     private refresh() {
         this.auth.getUser().subscribe(
             (user: User) => {
-
                 this.user = user;
-                this.datasetFactory.get(this.user).then(o => {
-                    this.datasets$ = Observable.of(o);
-                    this.datasets$.toPromise().then((datasets: DataSet[]) => {
-                        (datasets || []).forEach(function (d: DataSet, i: number, set: DataSet[]) {
-
-                            this.datasetFactory.get(d._id).then((resolved: DataSet) => {
-                                set[i] = resolved;
-                            }
-                            );
-                        }.bind(this));
-
+                // datasets
+                let ds = new Array<DataSet>();
+                this.user.datasets.forEach(d => {
+                    this.datasetFactory.get(d).then((resolved: DataSet) => {
+                        ds.push(resolved)
                     })
-                }
-                ).catch((error: any) => { this.errorService.handleError(error) });
+                })
+                this.datasets$ = Promise.resolve(ds);
+
+                //teams
+                let ts = new Array<Team>();
+                this.user.teams.forEach(t => {
+                    this.teamFactory.get(t).then((resolved: Team) => {
+                        ts.push(resolved);
+                    });
+                })
+                this.teams$ = Promise.resolve(ts);
             },
             (error: any) => { this.errorService.handleError(error) });
     }

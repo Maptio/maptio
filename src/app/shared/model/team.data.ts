@@ -30,6 +30,7 @@ export class Team implements Serializable<Team> {
     deserialize(input: any): Team {
         let deserialized = new Team();
         deserialized.name = input.name;
+        deserialized.team_id = input._id;
 
         if (input.members) {
             deserialized.members = []

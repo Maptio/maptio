@@ -1,3 +1,4 @@
+import { TeamFactory } from './../../shared/services/team.factory';
 import { Router } from "@angular/router";
 import { EmitterService } from "./../../shared/services/emitter.service";
 import { ErrorService } from "./../../shared/services/error/error.service";
@@ -7,6 +8,7 @@ import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { DataSet } from "./../../shared/model/dataset.data";
 import { User } from "./../../shared/model/user.data";
 import { Auth } from "./../../shared/services/auth/auth.service";
+import { Team } from "../../shared/model/team.data";
 
 @Component({
     selector: "header",
@@ -21,6 +23,7 @@ export class HeaderComponent implements OnInit {
     @Output("createDataset") createDatasetEvent = new EventEmitter<void>();
 
     private datasets$: Promise<Array<DataSet>>;
+    private teams$:Promise<Array<Team>>;
     private selectedDatasetName: string;
     private isValid: boolean = false;
     private newDatasetName: string;
@@ -30,7 +33,7 @@ export class HeaderComponent implements OnInit {
     // HACK : for demonstration purposes
     private VESTD = new DataSet({ _id: "58c9d273734d1d2ca8564da2", name: "Vestd" })
 
-    constructor(private auth: Auth, private datasetFactory: DatasetFactory, private errorService: ErrorService, private router: Router) {
+    constructor(private auth: Auth, private datasetFactory: DatasetFactory, private teamFactory:TeamFactory, private errorService: ErrorService, private router: Router) {
         EmitterService.get("currentDataset").subscribe((value: any) => {
             this.isSaving = Promise.resolve<boolean>(true);
         });
@@ -43,26 +46,30 @@ export class HeaderComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.auth.getUser().subscribe(
+               this.auth.getUser().subscribe(
             (user: User) => {
-                this.user = user;
-                // TODO ; the datasets information in alaredy in the User, do not query again
-                this.datasetFactory.get(this.user).then(o => {
-                    this.datasets$ = Promise.resolve(o);
-                    this.datasets$.then((datasets: DataSet[]) => {
-                        (datasets || []).forEach(function (d: DataSet, i: number, set: DataSet[]) {
-                            this.datasetFactory.get(d._id).then((resolved: DataSet) => {
-                                set[i] = resolved;
-                            }
-                            );
-                        }.bind(this));
 
-                    }
-                    )
-                }).catch((error: any) => { this.errorService.handleError(error) })
+                this.user = user;
+                // datasets
+                let ds = new Array<DataSet>();
+                this.user.datasets.forEach(d => {
+                    this.datasetFactory.get(d).then((resolved: DataSet) => {
+                        ds.push(resolved)
+                    })
+                })
+                this.datasets$ = Promise.resolve(ds);
+
+                //teams
+                let ts = new Array<Team>();
+                this.user.teams.forEach(t => {
+                    this.teamFactory.get(t).then((resolved: Team) => {
+                        ts.push(resolved);
+                    })
+                })
+                this.teams$ = Promise.resolve(ts);
+
             },
-            (error: any) => { this.errorService.handleError(error) }
-        );
+            (error: any) => { this.errorService.handleError(error) });
     }
 
     openHelp() {

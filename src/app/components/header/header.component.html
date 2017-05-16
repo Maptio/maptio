@@ -36,7 +36,21 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
+
+                <li class="dropdown">
+
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        Teams<span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li *ngFor="let team of teams$ | async">
+                            <!--<a routerLink="/account/team/{{team.team_id}}">{{team.name}}</a>-->
+                        </li>
+                    </ul>
+                </li>
                 <li *ngIf="auth.authenticated()">
+
+
 
                     <form class="navbar-form" role="search">
                         <div class="input-group">
@@ -71,7 +85,11 @@
                         <!-- Account -->
                         <li>
                             <!--<a routerLink="/account">Profile</a>-->
-                            <a routerLink="/account">Activity</a>
+                            <a routerLink="/account/profile">Profile</a>
+                        </li>
+                        <li>
+                            <!--<a routerLink="/account">Profile</a>-->
+                            <a routerLink="/account/teams">Teams</a>
                         </li>
                         <li role="separator" class="divider"></li>
                         <!-- Log out -->

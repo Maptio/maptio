@@ -1,6 +1,8 @@
 <ul class="nav nav-tabs">
     <li class="active"><a href="#activity" data-toggle="tab" aria-expanded="true">Activity</a></li>
+
     <li class="disabled"><a>Profile</a></li>
+    <li ><a href="#teams" data-toggle="tab" aria-expanded="true">Teams</a></li>
 </ul>
 
 
@@ -19,5 +21,9 @@
                 <a (click)="open(dataset)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
             </li>
         </ul>
+
+    </div>
+    <div class="tab-pane" id="teams">
+        <team></team>
     </div>
 </div>
