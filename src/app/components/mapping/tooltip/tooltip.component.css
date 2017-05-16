@@ -1,3 +1,7 @@
 .transparent{
     opacity:0.9;
 }
+
+.tooltip{
+    margin-left:0px;
+}
