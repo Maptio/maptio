@@ -1,3 +1,4 @@
+import { TeamFactory } from './../../shared/services/team.factory';
 import { Router } from "@angular/router";
 import { EmitterService } from "./../../shared/services/emitter.service";
 import { UserFactory } from "./../../shared/services/user.factory";
@@ -14,9 +15,14 @@ import { User } from "../../shared/model/user.data";
 import { Observable } from "rxjs/Rx";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
+import { Team } from "../../shared/model/team.data";
 
 export class AuthStub {
-    fakeProfile: User = new User({ name: "John Doe", email: "johndoe@domain.com", picture: "http://seemyface.com/user.jpg", user_id: "someId" });
+    fakeProfile: User = new User({
+        name: "John Doe", email: "johndoe@domain.com",
+        picture: "http://seemyface.com/user.jpg", user_id: "someId",
+        datasets: ["dataset1", "dataset2"], teams: ["team1", "team2"]
+    });
 
     public getUser(): Observable<User> {
         return Observable.of(this.fakeProfile);
@@ -40,6 +46,7 @@ describe("header.component.ts", () => {
     let component: HeaderComponent;
     let target: ComponentFixture<HeaderComponent>;
     let DATASETS = [new DataSet({ name: "One", _id: "one" }), new DataSet({ name: "Two", _id: "two" }), new DataSet({ name: "Three", _id: "three" })];
+    let TEAMS = [new Team({ name: "Team one", team_id: "1" }), new Team({ name: "Team two", team_id: "2" })]
     let spyDataSetService: jasmine.Spy;
     let spyAuthService: jasmine.Spy;
     // let mockAuth: Auth;
@@ -50,7 +57,7 @@ describe("header.component.ts", () => {
         }).overrideComponent(HeaderComponent, {
             set: {
                 providers: [
-                    DatasetFactory, UserFactory,
+                    DatasetFactory, UserFactory, TeamFactory,
                     { provide: Auth, useClass: AuthStub },
                     {
                         provide: Http,
@@ -102,7 +109,7 @@ describe("header.component.ts", () => {
         });
 
         describe("List of datasets", () => {
-            it("should show a list of datasets when user is valid", async(() => {
+            it("should retrieve a list of datasets when user is valid", async(() => {
                 let mockAuth = target.debugElement.injector.get(Auth);
 
                 let mockDataSetService = target.debugElement.injector.get(DatasetFactory);
@@ -114,7 +121,7 @@ describe("header.component.ts", () => {
                         return Promise.resolve(new DataSet({ _id: parameters.toString(), name: "a dataset" }));
                     }
                 });
-                // FIXME : should be part of a protractor tests suite
+
                 spyAuthService = spyOn(mockAuth, "getUser").and.callThrough();
                 spyOn(mockAuth, "authenticated").and.returnValue(true);
 
@@ -122,17 +129,9 @@ describe("header.component.ts", () => {
                 target.whenStable().then(() => {
                     expect(spyAuthService.calls.any()).toEqual(true);
 
-                    expect(spyDataSetService).toHaveBeenCalledWith(jasmine.any(User));
-                    expect(spyDataSetService).toHaveBeenCalledWith(jasmine.objectContaining({ name: "John Doe" }));
-                    expect(spyDataSetService).toHaveBeenCalledTimes(4);
-
-                    // target.detectChanges();
-                    // console.log(target.debugElement.query(By.css("ul#loadDatasetDropdown")).nativeElement);
-                    // let elements = target.debugElement.queryAll(By.css("ul#loadDatasetDropdown > li :not(.dropdown-header)"));
-                    // expect(elements.length).toBe(3);
-                    // expect(elements[0].nativeElement.textContent).toBe("One");
-                    // expect(elements[1].nativeElement.textContent).toBe("Two");
-                    // expect(elements[2].nativeElement.textContent).toBe("Three");
+                    expect(spyDataSetService).toHaveBeenCalledWith("dataset1");
+                    expect(spyDataSetService).toHaveBeenCalledWith("dataset2")
+                    expect(spyDataSetService).toHaveBeenCalledTimes(2);
                 });
 
             }));
@@ -250,18 +249,26 @@ describe("header.component.ts", () => {
                 let mockAuth: Auth = target.debugElement.injector.get(Auth);
                 let spyAuth = spyOn(mockAuth, "getUser").and.callThrough();
                 let mockDataSetService = target.debugElement.injector.get(DatasetFactory);
-                spyDataSetService = spyOn(mockDataSetService, "get").and.callFake(function (parameters: any) {
-                    if (parameters instanceof User) {
-                        return Promise.resolve(DATASETS);
-                    }
-                    if (typeof parameters === "string") {
-                        return Promise.resolve(new DataSet({ _id: parameters.toString(), name: "a dataset" }));
-                    }
-                });
+                spyDataSetService = spyOn(mockDataSetService, "get").and.returnValue(Promise.resolve(new DataSet({  name: "a dataset" })));
 
                 component.ngOnInit();
                 spyAuth.calls.mostRecent().returnValue.toPromise().then((user: User) => {
-                    expect(spyDataSetService).toHaveBeenCalled();
+                    expect(spyDataSetService).toHaveBeenCalledWith("dataset1");
+                    expect(spyDataSetService).toHaveBeenCalledWith("dataset2"); 
+                });
+
+            }));
+
+             it("should retrieve user and matching teams", async(() => {
+                let mockAuth: Auth = target.debugElement.injector.get(Auth);
+                let spyAuth = spyOn(mockAuth, "getUser").and.callThrough();
+                let mockTeamService = target.debugElement.injector.get(TeamFactory);
+                let spyTeamService = spyOn(mockTeamService, "get").and.returnValue(Promise.resolve(new DataSet({ name: "a dataset" })));
+
+                component.ngOnInit();
+                spyAuth.calls.mostRecent().returnValue.toPromise().then((user: User) => {
+                    expect(spyTeamService).toHaveBeenCalledWith("team1");
+                     expect(spyTeamService).toHaveBeenCalledWith("team2");
                 });
 
             }));
@@ -281,23 +288,23 @@ describe("header.component.ts", () => {
             }))
 
 
-            it("should call error service if datasets retrieval doesnt work", async(() => {
-                let errorMsg = "Cant find datasets for this user";
-                let mockAuth: Auth = target.debugElement.injector.get(Auth);
-                let mockError: ErrorService = target.debugElement.injector.get(ErrorService);
-                let mockDatasetFactory: DatasetFactory = target.debugElement.injector.get(DatasetFactory);
+            // fit("should call error service if datasets retrieval doesnt work", async(() => {
+            //     let errorMsg = "Cant find datasets for this user";
+            //     let mockAuth: Auth = target.debugElement.injector.get(Auth);
+            //     let mockError: ErrorService = target.debugElement.injector.get(ErrorService);
+            //     let mockDatasetFactory: DatasetFactory = target.debugElement.injector.get(DatasetFactory);
 
-                let spyAuth = spyOn(mockAuth, "getUser").and.callThrough();
-                let spyDatasets = spyOn(mockDatasetFactory, "get").and.returnValue(Promise.reject<void>(errorMsg))
-                let spyError = spyOn(mockError, "handleError");
+            //     let spyAuth = spyOn(mockAuth, "getUser").and.callThrough();
+            //     let spyDatasets = spyOn(mockDatasetFactory, "get").and.returnValue(Promise.reject<void>(errorMsg))
+            //     let spyError = spyOn(mockError, "handleError");
 
-                component.ngOnInit();
-                spyDatasets.calls.mostRecent().returnValue.then(() => { }).catch(() => {
-                    expect(spyError).toHaveBeenCalledWith(errorMsg);
-                })
-                expect(spyAuth).toHaveBeenCalledTimes(1);
-                expect(spyDatasets).toHaveBeenCalledTimes(1);
-            }));
+            //     component.ngOnInit();
+            //     spyDatasets.calls.mostRecent().returnValue.then(() => { }).catch(() => {
+            //         expect(spyError).toHaveBeenCalledWith(errorMsg);
+            //     })
+            //     expect(spyAuth).toHaveBeenCalledTimes(1);
+            //     expect(spyDatasets).toHaveBeenCalledTimes(1);
+            // }));
 
 
         });
@@ -323,6 +330,8 @@ describe("header.component.ts", () => {
         describe("createDataset", () => {
             it("should create a dataset with no name and then attach it to the authenticated user and open it", async(() => {
                 let mockFactory = target.debugElement.injector.get(DatasetFactory);
+                let mockTeamFactory = target.debugElement.injector.get(TeamFactory)
+                let spyGetTeams = spyOn(mockTeamFactory, "get").and.returnValue(Promise.resolve(TEAMS));
                 let spyCreate = spyOn(mockFactory, "create").and.returnValue(Promise.resolve(true));
                 let spyAdd = spyOn(mockFactory, "add").and.returnValue(Promise.resolve(true));
                 let spyOpen = spyOn(component, "openDataset");

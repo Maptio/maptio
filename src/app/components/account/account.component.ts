@@ -45,15 +45,6 @@ export class AccountComponent implements OnInit {
                     })
                 })
                 this.datasets$ = Promise.resolve(ds);
-
-                //teams
-                let ts = new Array<Team>();
-                this.user.teams.forEach(t => {
-                    this.teamFactory.get(t).then((resolved: Team) => {
-                        ts.push(resolved);
-                    });
-                })
-                this.teams$ = Promise.resolve(ts);
             },
             (error: any) => { this.errorService.handleError(error) });
     }

@@ -1,3 +1,4 @@
+import { TeamComponent } from './components/team/team.component';
 
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
@@ -66,6 +67,8 @@ const appRoutes: Routes = [
 
   { path: "login", component: LoginComponent },
   { path: "account", component: AccountComponent, canActivate: [AuthGuard] },
+  { path: "account/team/:teamid", component: TeamComponent, canActivate: [AuthGuard, AccessGuard] },
+  { path: "account/profile", component: AccountComponent, canActivate: [AuthGuard] },
   { path: "workspace/:workspaceid", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
   { path: "workspace/:workspaceid/open/:slug", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
 
@@ -75,7 +78,7 @@ const appRoutes: Routes = [
 
 @NgModule({
   declarations: [
-    AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent,
+    AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent,TeamComponent,
     MappingComponent, MappingCirclesComponent, MappingTreeComponent, TooltipComponent,
     BuildingComponent, InitiativeNodeComponent, LoginComponent, HomeComponent, UnauthorizedComponent,
     InitiativeComponent,

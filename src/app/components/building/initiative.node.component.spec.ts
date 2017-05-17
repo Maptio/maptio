@@ -1,7 +1,7 @@
 import { Observable } from "rxjs/Rx";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, ActivatedRouteSnapshot, Params } from "@angular/router";
 import { TreeModel, TreeNode } from "angular2-tree-component";
-import { ComponentFixture, TestBed, async } from "@angular/core/testing";
+import { ComponentFixture, TestBed, async, inject } from "@angular/core/testing";
 import { FormsModule } from "@angular/forms";
 import { By } from "@angular/platform-browser";
 import { Initiative } from "../../shared/model/initiative.data";
@@ -21,6 +21,9 @@ describe("initiative.node.component.ts", () => {
             imports: [FormsModule],
             declarations: [InitiativeNodeComponent, FocusIfDirective],
             providers: [{ provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } },
+            {
+                provide: ActivatedRouteSnapshot
+            },
             {
                 provide: ActivatedRoute,
                 useValue: {
@@ -282,14 +285,30 @@ describe("initiative.node.component.ts", () => {
             });
 
             describe("Open", () => {
-                it("should open the selected node", () => {
+                it("should open the selected node when another node is already opened", () => {
+                    let openInitiativeEvent = new Initiative();
+                    openInitiativeEvent.id = 1;
+                    openInitiativeEvent.name = "something";
+                    let mockRouter = target.debugElement.injector.get(Router);
+                    let mockRoute = target.debugElement.injector.get(ActivatedRoute);
+                    let spyGetSlug = spyOn(component, "getSlug").and.returnValue({ slug: "alreadyOpenedNode" })
+
+                    component.openNode(openInitiativeEvent);
+                    expect(mockRouter.navigate).toHaveBeenCalledWith(["../../open/", "something"], { relativeTo: mockRoute });
+                    expect(spyGetSlug).toHaveBeenCalled();
+                });
+
+                it("should open the selected node when no other node is already opened", () => {
                     let openInitiativeEvent = new Initiative();
                     openInitiativeEvent.id = 1;
                     openInitiativeEvent.name = "something";
                     let mockRouter = target.debugElement.injector.get(Router);
                     let mockRoute = target.debugElement.injector.get(ActivatedRoute)
+                    let spyGetSlug = spyOn(component, "getSlug").and.returnValue(undefined)
+
                     component.openNode(openInitiativeEvent);
-                    expect(mockRouter.navigate).toHaveBeenCalledWith(["../../open/", "something"], {relativeTo: mockRoute});
+                    expect(mockRouter.navigate).toHaveBeenCalledWith(["open", "something"], { relativeTo: mockRoute });
+                    expect(spyGetSlug).toHaveBeenCalled();
                 });
             });
 

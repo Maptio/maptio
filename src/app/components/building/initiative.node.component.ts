@@ -1,4 +1,4 @@
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router, ActivatedRouteSnapshot, ActivatedRoute } from "@angular/router";
 import { Component, Input, Output, ViewChild, EventEmitter } from "@angular/core";
 import { TreeNode, TreeModel } from "angular2-tree-component";
 import { Initiative } from "../../shared/model/initiative.data";
@@ -21,7 +21,7 @@ export class InitiativeNodeComponent {
     @ViewChild("initiative")
     initiativeEditComponent: InitiativeComponent;
 
-    constructor(private router: Router, private route: ActivatedRoute) { }
+    constructor(private router: Router, private snapshotRoute: ActivatedRouteSnapshot, private route:ActivatedRoute) { }
 
 
     isRoot(): boolean {
@@ -66,9 +66,13 @@ export class InitiativeNodeComponent {
         this.updateTreeEvent.emit(this.node.treeModel);
     }
 
+    getSlug(){
+        return this.snapshotRoute.params["slug"];
+    }
+
 
     openNode(node: Initiative) {
-        if (this.route.snapshot.params["slug"]) {
+        if (this.getSlug()) {
             this.router.navigate(["../../open/", node.getSlug()], { relativeTo: this.route })
         }
         else {

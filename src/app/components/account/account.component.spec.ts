@@ -1,3 +1,4 @@
+import { TeamFactory } from './../../shared/services/team.factory';
 import { Observable } from "rxjs/Rx";
 import { User } from "./../../shared/model/user.data";
 import { DatasetFactory } from "./../../shared/services/dataset.factory";
@@ -15,7 +16,7 @@ import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 
 export class AuthStub {
-    fakeProfile: User = new User({ name: "John Doe", email: "johndoe@domain.com", picture: "http://seemyface.com/user.jpg", user_id: "someId" });
+    fakeProfile: User = new User({ name: "John Doe", email: "johndoe@domain.com", picture: "http://seemyface.com/user.jpg", user_id: "someId", datasets:["one","two"] });
 
     public getUser(): Observable<User> {
         return Observable.of(this.fakeProfile);
@@ -49,7 +50,7 @@ describe("account.component.ts", () => {
                 providers: [
                     { provide: Auth, useClass: AuthStub },
                     { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } },
-                    UserFactory, ErrorService, DatasetFactory,
+                    UserFactory, ErrorService, DatasetFactory,TeamFactory,
                     {
                         provide: Http,
                         useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
@@ -104,25 +105,6 @@ describe("account.component.ts", () => {
                 component.ngOnInit();
                 expect(spyAuth).toHaveBeenCalledTimes(1);
                 expect(spyError).toHaveBeenCalledWith(errorMsg);
-            }))
-
-
-            it("should call error service if datasets retrieval doesnt work", async(() => {
-                let errorMsg = "Cant find datasets for this user";
-                let mockAuth: Auth = target.debugElement.injector.get(Auth);
-                let mockError: ErrorService = target.debugElement.injector.get(ErrorService);
-                let mockDatasetFactory: DatasetFactory = target.debugElement.injector.get(DatasetFactory);
-
-                let spyAuth = spyOn(mockAuth, "getUser").and.callThrough();
-                let spyDatasets = spyOn(mockDatasetFactory, "get").and.returnValue(Promise.reject<void>(errorMsg))
-                let spyError = spyOn(mockError, "handleError");
-
-                component.ngOnInit();
-                spyDatasets.calls.mostRecent().returnValue.then(() => { }).catch(() => {
-                    expect(spyError).toHaveBeenCalledWith(errorMsg);
-                })
-                expect(spyAuth).toHaveBeenCalledTimes(1);
-                expect(spyDatasets).toHaveBeenCalledTimes(1);
             }));
         });
 

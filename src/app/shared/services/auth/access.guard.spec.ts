@@ -38,7 +38,7 @@ describe("access.guard.ts", () => {
     })
 
     describe("canActivate", () => {
-        it("should return true when user is authorized to access", inject([AccessGuard, Auth, Router], (target: AccessGuard, mockAuth: AuthStub, mockRouter: Router) => {
+        it("should return true when user is authorized to access a given workspace", inject([AccessGuard, Auth, Router], (target: AccessGuard, mockAuth: AuthStub, mockRouter: Router) => {
             let route = jasmine.createSpyObj<ActivatedRouteSnapshot>("route", ["params"]);
 
             route.params["workspaceid"] = "id1";
@@ -52,13 +52,42 @@ describe("access.guard.ts", () => {
             })
         }));
 
-        it("should return false when user is not authorized then redirect to /unauthorized", inject([AccessGuard, Auth, Router], (target: AccessGuard, mockAuth: AuthStub, mockRouter: Router) => {
+         it("should return true when user is authorized to access a given team", inject([AccessGuard, Auth, Router], (target: AccessGuard, mockAuth: AuthStub, mockRouter: Router) => {
+            let route = jasmine.createSpyObj<ActivatedRouteSnapshot>("route", ["params"]);
+
+            route.params["teamid"] = "team1";
+            let state = jasmine.createSpyObj<RouterStateSnapshot>("state", [""]);
+
+            let spyAuth = spyOn(mockAuth, "getUser").and.returnValue(Observable.of<User>(new User({ name: "John Doe", teams: ["team1", "team2"] })));
+
+            target.canActivate(route, state).toPromise().then((result) => {
+                expect(result).toBe(true);
+                expect(spyAuth).toHaveBeenCalled();
+            })
+        }));
+
+        it("should return false when user is not authorized to a workspace then redirect to /unauthorized", inject([AccessGuard, Auth, Router], (target: AccessGuard, mockAuth: AuthStub, mockRouter: Router) => {
             let route = jasmine.createSpyObj<ActivatedRouteSnapshot>("route", ["params"]);
 
             route.params["workspaceid"] = "id3";
             let state = jasmine.createSpyObj<RouterStateSnapshot>("state", [""]);
 
             let spyAuth = spyOn(mockAuth, "getUser").and.returnValue(Observable.of<User>(new User({ name: "John Doe", datasets: ["id1", "id2"] })));
+
+            target.canActivate(route, state).toPromise().then((result) => {
+                expect(result).toBe(false);
+                expect(spyAuth).toHaveBeenCalled();
+                expect(mockRouter.navigate).toHaveBeenCalledWith(["/unauthorized"])
+            });
+        }));
+
+         it("should return false when user is not authorized to a team then redirect to /unauthorized", inject([AccessGuard, Auth, Router], (target: AccessGuard, mockAuth: AuthStub, mockRouter: Router) => {
+            let route = jasmine.createSpyObj<ActivatedRouteSnapshot>("route", ["params"]);
+
+            route.params["teamid"] = "team3";
+            let state = jasmine.createSpyObj<RouterStateSnapshot>("state", [""]);
+
+            let spyAuth = spyOn(mockAuth, "getUser").and.returnValue(Observable.of<User>(new User({ name: "John Doe", teams: ["team1", "team2"] })));
 
             target.canActivate(route, state).toPromise().then((result) => {
                 expect(result).toBe(false);
