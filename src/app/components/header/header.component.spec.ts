@@ -16,6 +16,7 @@ import { Observable } from "rxjs/Rx";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import { Team } from "../../shared/model/team.data";
+import { RouterTestingModule } from "@angular/router/testing";
 
 export class AuthStub {
     fakeProfile: User = new User({
@@ -53,7 +54,8 @@ describe("header.component.ts", () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [HeaderComponent]
+            declarations: [HeaderComponent],
+            imports: [RouterTestingModule]
         }).overrideComponent(HeaderComponent, {
             set: {
                 providers: [
@@ -66,7 +68,7 @@ describe("header.component.ts", () => {
                         },
                         deps: [MockBackend, BaseRequestOptions]
                     },
-                    { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } },
+                    // { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } },
                     MockBackend,
                     BaseRequestOptions,
                     ErrorService]
@@ -161,7 +163,9 @@ describe("header.component.ts", () => {
 
             it("should display dataset name in navigation bar after it is loaded", async(() => {
                 let mockAuth = target.debugElement.injector.get(Auth);
+                let mockRouter = target.debugElement.injector.get(Router)
                 spyOn(mockAuth, "authenticated").and.returnValue(true);
+                spyOn(mockRouter, "navigate");
                 target.detectChanges();
 
                 let dataset = new DataSet({ name: "Example", url: "http://server/example.json" });
@@ -322,8 +326,10 @@ describe("header.component.ts", () => {
             it("should open workspace with dataset id", () => {
                 let router = target.debugElement.injector.get(Router)
                 let dataset = new DataSet({ name: "Example", _id: "someId" });
+                let mockRouter = target.debugElement.injector.get(Router);
+                let spyNavigate = spyOn(mockRouter, "navigate")
                 component.openDataset(dataset);
-                expect(router.navigate).toHaveBeenCalledWith(["workspace", "someId"]);
+                expect(spyNavigate).toHaveBeenCalledWith(["workspace", "someId"]);
             });
         });
 
