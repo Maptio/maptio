@@ -13,7 +13,8 @@ import { Team } from "../../shared/model/team.data";
 
 @Component({
     selector: "account",
-    template: require("./account.component.html")
+    template: require("./account.component.html"),
+    styles: [require("./account.component.css").toString()]
 })
 export class AccountComponent implements OnInit {
 
@@ -37,6 +38,15 @@ export class AccountComponent implements OnInit {
         this.auth.getUser().subscribe(
             (user: User) => {
                 this.user = user;
+
+                this.teams$ = Promise.all(
+                    this.user.teams.map(
+                        team_id => this.teamFactory.get(team_id).then((resolved: Team) => { return resolved })
+                    )
+                )
+                    .then(teams => { return teams });
+
+
                 // datasets
                 let ds = new Array<DataSet>();
                 this.user.datasets.forEach(d => {

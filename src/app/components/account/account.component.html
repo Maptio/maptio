@@ -1,19 +1,16 @@
-<ul class="nav nav-tabs">
-    <li class="active"><a href="#activity" data-toggle="tab" aria-expanded="true">Activity</a></li>
+<!--<ul class="nav nav-tabs">
+    <li class="active"><a href="#initiatives" data-toggle="tab" aria-expanded="true">Initiatives</a></li>
 
     <li class="disabled"><a>Profile</a></li>
-    <li ><a href="#teams" data-toggle="tab" aria-expanded="true">Teams</a></li>
 </ul>
 
 
 
 <div id="myTabContent" class="tab-content">
-    <div class="tab-pane fade active in" id="activity">
+    <div class="tab-pane fade active in" id="initiatives">
         <div class="alert alert-dismissible alert-success" *ngIf="message">
             <button type="button" class="close" data-dismiss="alert">&times;</button> {{message}}
         </div>
-
-        <h5>Projects</h5>
         <ul class="list-group col-lg-4">
             <li *ngFor="let dataset of datasets$ | async" class="list-group-item">
                 <a (click)="open(dataset)">{{dataset.name}}</a>
@@ -23,7 +20,41 @@
         </ul>
 
     </div>
-    <div class="tab-pane" id="teams">
-        <team></team>
+
+</div>-->
+
+<div class="col-lg-6">
+    <div class="panel panel-default panel-primary">
+        <div class="panel-heading">Profile</div>
+        <div class="panel-body">
+            <h3>{{user?.name}}</h3>
+            <img src="{{user?.picture}}" />
+             <h3>{{user?.email}}</h3>
+
+             Teams
+              <ul class="list-group">
+                <li *ngFor="let team of teams$ | async" class="list-group-item">
+                    <a >{{team.name}}</a>
+                </li>
+            </ul>
+        </div>
     </div>
+
+
+</div>
+<div class="col-lg-6">
+
+    <div class="panel panel-default panel-primary">
+        <div class="panel-heading">Initiatives</div>
+        <div class="panel-body">
+            <ul class="list-group">
+                <li *ngFor="let dataset of datasets$ | async" class="list-group-item">
+                    <a (click)="open(dataset)">{{dataset.name}}</a>
+                    <a class="pull-right" (click)="delete(dataset)"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                    <a (click)="open(dataset)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
 </div>

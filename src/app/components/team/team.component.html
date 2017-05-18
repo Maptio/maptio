@@ -1,5 +1,4 @@
-<h3>Team</h3>
-<h5>{{(team$ | async)?.name}}</h5>
+<h3>{{(team$ | async)?.name}}</h3>
 <ul class="list-group ">
     <li *ngFor="let member of (team$ | async)?.members" class="list-group-item">
 

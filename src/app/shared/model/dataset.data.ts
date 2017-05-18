@@ -9,6 +9,8 @@ export class DataSet implements Serializable<DataSet> {
 
   _id: string;
 
+  team_id:string;
+
   createdOn: Date;
 
   public constructor(init?: Partial<DataSet>) {
@@ -23,6 +25,7 @@ export class DataSet implements Serializable<DataSet> {
     let deserialized = new DataSet();
     deserialized.content = input.content;
     deserialized._id = input._id;
+    deserialized.team_id = input.team_id;
     deserialized.name = input.name;
     deserialized.url = input.url;
     deserialized.createdOn = input.createdOn;

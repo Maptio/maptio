@@ -9,15 +9,19 @@ import { User } from "../../shared/model/user.data";
     selector: "team",
     template: require("./team.component.html").toString()
 })
-export class TeamComponent implements OnInit {
- 
+export class TeamComponent implements OnInit, OnDestroy {
+    ngOnDestroy(): void {
+       this.subscription.unsubscribe();
+    }
 
+    subscription:Subscription;
     team$: Promise<Team>
 
     constructor(private route: ActivatedRoute, private teamFactory: TeamFactory) {
-        this.route.params.subscribe((params: Params) => {
+        this.subscription = this.route.params.subscribe((params: Params) => {
             let teamId = params["teamid"]
             this.teamFactory.get(teamId).then((team: Team) => {
+                console.log("team.compoennt.ts", teamId, team.name, team.members.length)
                 this.team$ = Promise.resolve(team);
             });
         },

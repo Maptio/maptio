@@ -23,17 +23,19 @@ export class HeaderComponent implements OnInit {
     @Output("createDataset") createDatasetEvent = new EventEmitter<void>();
 
     private datasets$: Promise<Array<DataSet>>;
-    private teams$:Promise<Array<Team>>;
+    private teams$: Promise<Array<Team>>;
     private selectedDatasetName: string;
     private isValid: boolean = false;
     private newDatasetName: string;
     private isSaving: Promise<boolean> = Promise.resolve(false);
     private timeToSaveInSec: Promise<number>;
 
+    private selectedTeam: Team;
+
     // HACK : for demonstration purposes
     private VESTD = new DataSet({ _id: "58c9d273734d1d2ca8564da2", name: "Vestd" })
 
-    constructor(private auth: Auth, private datasetFactory: DatasetFactory, private teamFactory:TeamFactory, private errorService: ErrorService, private router: Router) {
+    constructor(private auth: Auth, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private errorService: ErrorService, private router: Router) {
         EmitterService.get("currentDataset").subscribe((value: any) => {
             this.isSaving = Promise.resolve<boolean>(true);
         });
@@ -46,30 +48,34 @@ export class HeaderComponent implements OnInit {
     }
 
     ngOnInit() {
-               this.auth.getUser().subscribe(
+        this.auth.getUser().subscribe(
             (user: User) => {
 
                 this.user = user;
-                // datasets
-                let ds = new Array<DataSet>();
-                this.user.datasets.forEach(d => {
-                    this.datasetFactory.get(d).then((resolved: DataSet) => {
-                        ds.push(resolved)
-                    })
-                })
-                this.datasets$ = Promise.resolve(ds);
 
-                //teams
-                let ts = new Array<Team>();
-                this.user.teams.forEach(t => {
-                    this.teamFactory.get(t).then((resolved: Team) => {
-                        ts.push(resolved);
-                    })
-                })
-                this.teams$ = Promise.resolve(ts);
+                this.teams$ = Promise.all(
+                    this.user.teams.map(
+                        team_id => this.teamFactory.get(team_id).then((resolved: Team) => { return resolved })
+                    )
+                )
+                    .then(teams => { return teams });
 
+                this.teams$.then((teams: Team[]) => {
+                    this.selectedTeam = this.selectedTeam || teams[0];
+                })
             },
             (error: any) => { this.errorService.handleError(error) });
+    }
+
+    chooseTeam(team: Team) {
+        this.selectedTeam = team;
+        this.datasets$ = Promise.all(
+            this.user.datasets.map(
+                dataset_id => this.datasetFactory.get(dataset_id).then((resolved: DataSet) => { return resolved })
+            )
+        )
+        // only shows the datasets accessible by the selected team
+            .then(datasets => { return datasets.filter(d => d.team_id === this.selectedTeam.team_id) });
     }
 
     openHelp() {
