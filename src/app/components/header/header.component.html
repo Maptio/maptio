@@ -34,7 +34,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li *ngIf="auth.authenticated()">
-<!--
+
                     <form class="navbar-form" role="search">
                         <div class="input-group">
                             <input id="loadNewProjectInput" type="text" class="form-control" placeholder="Start a new project" (input)="validate($event.target.value)">
@@ -43,7 +43,7 @@
                             </span>
                         </div>
                     </form>
--->
+
                 </li>
                 <li class="dropdown" id="profileInformation" *ngIf="auth.authenticated()">
 
