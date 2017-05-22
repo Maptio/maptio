@@ -62,3 +62,10 @@
     transform: translatex(-50%);
   }
 }
+
+/* curious is this the bootstrap overwrite file */
+.navbar {
+    
+    min-height: 80px;
+    
+}

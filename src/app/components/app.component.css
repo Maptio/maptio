@@ -8,7 +8,7 @@ padding-right: 15px;
 
 .building {
 font: 12px sans-serif;
-    background-color: #fcfcfc;
+    /*background-color: #fcfcfc;*/
     width: 2000px;
     /* height: 2000px; */
     max-width: 630px;
@@ -96,3 +96,22 @@ font: 12px sans-serif;
 .profile-img{
     border-radius: 23px;
 }
+
+/*
+.panel {
+    width: 200px;
+}
+
+*/
+
+.panel-group  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding:0;
+}
+
+.panel-group .panel {
+    border-radius: 0;
+}
+

@@ -149,15 +149,6 @@ describe("header.component.ts", () => {
             }));
         });
 
-        describe("Help button", () => {
-            it("should call openHelp", () => {
-                let spy = spyOn(component, "openHelp");
-                let helpClickElement = target.debugElement.query(By.css("#openHelpWindow"));
-                (helpClickElement.nativeElement as HTMLAnchorElement).click();
-                expect(spy).toHaveBeenCalled();
-            });
-        });
-
         describe("Project name", () => {
 
             it("should display dataset name in navigation bar after it is loaded", async(() => {
