@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { D3Service, D3, HierarchyCircularNode } from "d3-ng2-service";
-import { ColorService } from "../../../shared/services/color.service"
-import { UIService } from "../../../shared/services/ui.service"
+import { ColorService } from "../../../shared/services/ui/color.service"
+import { UIService } from "../../../shared/services/ui/ui.service"
 import { IDataVisualizer } from "../mapping.interface"
 
 @Component({
@@ -51,26 +51,53 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
 
         uiService.clean();
 
-        let svg = d3.select("svg"),
+        let svg: any = d3.select("svg"),
             // margin = 50,
-            diameter = +width,
-            g = svg.append("g")
-                .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")")
+            diameter = +width
+
+        let g = svg.append("g")
+            .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")")
             , transform = d3.zoomIdentity
+
+        let zooming = d3.zoom().scaleExtent([2 / 3, 2]).on("zoom", zoomed);
 
         try {
             // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
-            let zooming = d3.zoom().scaleExtent([2 / 3, 2]).on("zoom", zoomed);
             svg.call(zooming.transform, d3.zoomIdentity.translate(diameter / 2, diameter / 2));
             svg.call(zooming);
+
         }
         catch (error) {
 
         }
 
+
         function zoomed() {
             g.attr("transform", d3.event.transform)
         }
+
+        d3.selectAll(".zoom a").on("click",
+            function () {
+                let classes = d3.select(this).attr("class");
+                let zoomFactor: number;
+                if (classes.includes("in")) {
+                    zoomFactor = 1.1;
+                    zooming.scaleBy(svg, zoomFactor);
+                }
+
+                if (classes.includes("out")) {
+                    zoomFactor = 0.9;
+                    zooming.scaleBy(svg, zoomFactor);
+                }
+
+
+                console.log(diameter);
+                if (classes.includes("reset")) {
+                    svg.call(zooming.transform, d3.zoomIdentity.translate(diameter / 2, diameter / 2));
+                }
+            });
+
+
 
         let color = colorService.getDefaulColorRange();
 
@@ -117,24 +144,24 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
 
 
         let text = g.selectAll("text")
-            .data(nodes);
-
+            .data(nodes)
 
         text
             .enter()
             .append("text")
             .filter(function (d: any) { return d.children; })
             .attr("id", function (d: any) { return "title" + d.data.id; })
+            .attr("class", "with-children")
             .on("click", function (d: any, i: number) {
-
                 showTooltip(d, d3.event.clientX, d3.event.clientY);
                 d.isTooltipVisible = !d.isTooltipVisible;
             })
             .style("display", function (d: any) { return d === root ? "none" : "inline"; })
-            .attr("font-size", "1em")
+
+            // .attr("font-size", "1em")
             .append("textPath")
             .attr("xlink:href", function (d: any) { return "#path" + d.data.id; })
-            .attr("startOffset", function (d, i) { return "10%"; })
+            .attr("startOffset", function (d: any, i: number) { return "10%"; })
             .text(function (d: any) { return d.data.name; })
             ;
 
@@ -142,7 +169,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             .enter()
             .append("text")
             .filter(function (d: any) { /*console.log(d.data.name + " " + d.children);*/ return !d.children; })
-            .attr("font-size", "0.8em")
+            .attr("class", "without-children")
             .attr("id", function (d: any) { return "title" + d.data.id; })
             .on("click", function (d: any, i: number) {
                 showTooltip(d, d3.event.clientX, d3.event.clientY);
@@ -150,7 +177,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             })
             .attr("dy", 0)
             .attr("x", function (d: any) { return -d.r * .85 })
-            .attr("y", function (d: any) { return -d.r * .1 })
+            .attr("y", function (d: any) { return -d.r * .2 })
             .text(function (d: any) { return d.data.name; })
             .each(function (d: any) {
                 uiService.wrap(d3.select(this), d.data.name, d.r * 2 * 0.95);
@@ -207,11 +234,13 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
 
             circle.attr("r", function (d: any) { return d.r * k; });
 
-            path.attr("d", function (d, i) {
+            path.attr("d", function (d: any, i: number) {
                 let radius = d.r * k + 3;
                 return uiService.getCircularPath(radius, -radius, 0);
             })
         }
+
+
 
         function showTooltip(d: any, x: number, y: number) {
             uiService.setTooltipData(d.data);

@@ -1,6 +1,6 @@
 import { HomeComponent } from "./home.component";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
-import { Auth } from "../../shared/services/auth.service";
+import { Auth } from "../../shared/services/auth/auth.service";
 
 describe("home.component.ts", () => {
     let component: HomeComponent;

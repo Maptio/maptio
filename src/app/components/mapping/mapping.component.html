@@ -1,11 +1,11 @@
 <div class="control">
 
-<a class="btn btn-default" (click)="switchView()" *ngIf="isTreeviewSelected()">
-    <i class="fa fa-circle-o" aria-hidden="true"></i>
+    <a class="btn btn-primary switch circleview" (click)="switchView()" *ngIf="isTreeviewSelected()">
+   Go to idea view
 </a>
 
-<a class="btn btn-default" (click)="switchView()" *ngIf="isCircleViewSelected()">
-    <i class="fa fa-sitemap" aria-hidden="true"></i>
+    <a class="btn btn-primary switch treeview " (click)="switchView()" *ngIf="isCircleViewSelected()">
+    Go to team view
 </a>
 </div>
 

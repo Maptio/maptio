@@ -1,11 +1,11 @@
 import { Observable } from "rxjs/Rx";
 import { User } from "./../../shared/model/user.data";
 import { DatasetFactory } from "./../../shared/services/dataset.factory";
-import { ErrorService } from "./../../shared/services/error.service";
+import { ErrorService } from "./../../shared/services/error/error.service";
 import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { UserFactory } from "./../../shared/services/user.factory";
-import { Auth } from "./../../shared/services/auth.service";
+import { Auth } from "./../../shared/services/auth/auth.service";
 import { AccountComponent } from "./account.component";
 import { DataSet } from "./../../shared/model/dataset.data";
 import { Router } from "@angular/router";
@@ -89,11 +89,41 @@ describe("account.component.ts", () => {
                 });
                 component.ngOnInit();
                 spyAuth.calls.mostRecent().returnValue.toPromise().then((user: User) => {
-                    // FIXME : check the i/o of this spy but how ?
                     expect(spyFactory).toHaveBeenCalled();
                 });
 
+            }));
+
+            it("should call error service if authentication doesnt return user", async(() => {
+                let errorMsg = "Authentication failed";
+                let mockAuth: Auth = target.debugElement.injector.get(Auth);
+                let mockError: ErrorService = target.debugElement.injector.get(ErrorService);
+                let spyAuth = spyOn(mockAuth, "getUser").and.callFake(function () { return Observable.throw(errorMsg) })
+                let spyError = spyOn(mockError, "handleError");
+
+                component.ngOnInit();
+                expect(spyAuth).toHaveBeenCalledTimes(1);
+                expect(spyError).toHaveBeenCalledWith(errorMsg);
             }))
+
+
+            it("should call error service if datasets retrieval doesnt work", async(() => {
+                let errorMsg = "Cant find datasets for this user";
+                let mockAuth: Auth = target.debugElement.injector.get(Auth);
+                let mockError: ErrorService = target.debugElement.injector.get(ErrorService);
+                let mockDatasetFactory: DatasetFactory = target.debugElement.injector.get(DatasetFactory);
+
+                let spyAuth = spyOn(mockAuth, "getUser").and.callThrough();
+                let spyDatasets = spyOn(mockDatasetFactory, "get").and.returnValue(Promise.reject<void>(errorMsg))
+                let spyError = spyOn(mockError, "handleError");
+
+                component.ngOnInit();
+                spyDatasets.calls.mostRecent().returnValue.then(() => { }).catch(() => {
+                    expect(spyError).toHaveBeenCalledWith(errorMsg);
+                })
+                expect(spyAuth).toHaveBeenCalledTimes(1);
+                expect(spyDatasets).toHaveBeenCalledTimes(1);
+            }));
         });
 
         describe("delete", () => {

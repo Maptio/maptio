@@ -16,14 +16,22 @@ svg{
 }
 
 svg text {
-  /*font-size:0.8em;*/
+  font-size:1em;
     font-family:  "Helvetica Neue", Helvetica, Arial, sans-serif;
     text-anchor: start;
-  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+  /*text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;*/
   /*color:white;*/
     transition: font-weight 200ms;
     /*pointer-events: auto;*/
     cursor: url(/assets/images/cursors/more.cur), auto;
+}
+
+svg text.with-children{
+  font-size:1.2em;
+}
+
+svg text.without-children{
+  font-size:1em;
 }
 
 svg text:hover{
@@ -58,3 +66,31 @@ svg group{
  .initative-tooltip {
       position: absolute;
     }
+
+
+.zoom{
+    position: absolute;
+    left: 50%;
+    opacity: 0.8;
+}
+
+.zoom > a{
+   color: gray;
+    border: 1px solid lightgray;
+    background-color: #FCFCFC;
+}
+
+.zoom > a:hover{
+  color:black;
+}
+
+
+.in:before{
+  content:"\f067";
+  font-family: FontAwesome;
+}
+
+.out:before{
+  content:"\f068";
+  font-family: FontAwesome;
+}

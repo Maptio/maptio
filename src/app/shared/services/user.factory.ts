@@ -1,4 +1,4 @@
-import { ErrorService } from "./error.service";
+import { ErrorService } from "./error/error.service";
 import { User } from "./../model/user.data";
 import { Injectable } from "@angular/core";
 import { Http, Response } from "@angular/http";

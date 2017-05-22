@@ -8,7 +8,7 @@ import { By } from "@angular/platform-browser";
 import { BuildingComponent } from "../../components/building/building.component"
 import { DatasetFactory } from "../../shared/services/dataset.factory";
 import { DataService } from "../../shared/services/data.service";
-import { ErrorService } from "../../shared/services/error.service";
+import { ErrorService } from "../../shared/services/error/error.service";
 import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { Observable } from "rxjs/Rx";

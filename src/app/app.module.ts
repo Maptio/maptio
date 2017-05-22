@@ -11,15 +11,15 @@ import { PathLocationStrategy, Location, LocationStrategy } from "@angular/commo
 import { Routes, RouterModule } from "@angular/router";
 
 // Guards
-import { AuthGuard } from "./shared/services/auth.guard";
+import { AuthGuard } from "./shared/services/auth/auth.guard";
 
 // Services
 import { DataService } from "./shared/services/data.service";
 import { DatasetFactory } from "./shared/services/dataset.factory";
-import { ColorService } from "./shared/services/color.service"
-import { UIService } from "./shared/services/ui.service"
-import { ErrorService } from "./shared/services/error.service";
-import { Auth } from "./shared/services/auth.service";
+import { ColorService } from "./shared/services/ui/color.service"
+import { UIService } from "./shared/services/ui/ui.service"
+import { ErrorService } from "./shared/services/error/error.service";
+import { Auth } from "./shared/services/auth/auth.service";
 import { AUTH_PROVIDERS } from "angular2-jwt";
 import { UserFactory } from "./shared/services/user.factory";
 
@@ -54,7 +54,7 @@ import { D3Service } from "d3-ng2-service";
 import { TreeModule } from "angular2-tree-component";
 import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { AuthConfiguration } from "./shared/services/auth.config";
+import { AuthConfiguration } from "./shared/services/auth/auth.config";
 import { ResponsiveModule, } from "ng2-responsive";
 
 // Routes
