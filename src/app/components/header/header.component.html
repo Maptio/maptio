@@ -14,10 +14,10 @@
 
         <ul *ngIf="auth.authenticated() && selectedDatasetName" class="nav navbar-nav navbar-left">
             <ul class="breadcrumb">
-                <li><a routerLink="/account">Projects</a></li>
+                <li><a routerLink="/account">Project</a></li>
                 <li id="datasetName" class="active">{{selectedDatasetName}}
-                    <span *ngIf="(timeToSaveInSec | async) > 2 " class="text-info small">( Autosave in {{timeToSaveInSec | async}} )</span>
-                    <span *ngIf="(timeToSaveInSec | async) <= 2" class="text-info small" id="saving"></span>
+                    <!-- <span *ngIf="(timeToSaveInSec | async) > 2 " class="text-info small">( Autosave in {{timeToSaveInSec | async}} )</span>
+                    <span *ngIf="(timeToSaveInSec | async) <= 2" class="text-info small" id="saving"></span> -->
 
                 </li>
             </ul>
@@ -25,11 +25,8 @@
 
         <ul class="nav navbar-nav navbar-center">
 
-            <li>
-            </li>
-            <li>
-
-            </li>
+            <li></li>
+            <li></li>
         </ul>
 
 
@@ -37,7 +34,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li *ngIf="auth.authenticated()">
-
+<!--
                     <form class="navbar-form" role="search">
                         <div class="input-group">
                             <input id="loadNewProjectInput" type="text" class="form-control" placeholder="Start a new project" (input)="validate($event.target.value)">
@@ -46,6 +43,7 @@
                             </span>
                         </div>
                     </form>
+-->
                 </li>
                 <li class="dropdown" id="profileInformation" *ngIf="auth.authenticated()">
 
@@ -83,9 +81,11 @@
                 <li id="loginButton">
                     <a (click)="auth.login()" placement="bottom" *ngIf="!auth.authenticated()">Log In</a>
                 </li>
+<!--
                 <li>
                     <a id="openHelpWindow" ngbTooltip="Help" placement="bottom" (click)="openHelp()"><i class="fa fa-question-circle-o fa-lg" aria-hidden="true"></i></a>
                 </li>
+-->
             </ul>
         </div>
     </div>

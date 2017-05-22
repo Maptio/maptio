@@ -24,3 +24,10 @@ inpu, textarea{
   clear:both;
 }
 
+.form-control {
+border: 1px solid #333;
+border-radius: 0;
+box-shadow: none;
+font-size: 16px;
+height: 40px;
+}
