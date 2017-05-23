@@ -1,7 +1,7 @@
-import { Observable } from "rxjs/Rx";
+import { Initiative } from './../../shared/model/initiative.data';
+import { Observable } from 'rxjs/Rx';
 import { EmitterService } from "./../../shared/services/emitter.service";
 import { Component, ViewChild } from "@angular/core";
-import { Initiative } from "../../shared/model/initiative.data";
 import { InitiativeComponent } from "../initiative/initiative.component";
 import { TreeComponent, TreeNode } from "angular2-tree-component";
 import { DataService } from "../../shared/services/data.service";
@@ -74,7 +74,9 @@ export class BuildingComponent {
     }
 
     editInitiative(node: Initiative) {
-        this.initiativeEditComponent.data = node;
+        let parent = node.getParent(this.nodes[0]);
+        this.initiativeEditComponent.initiative = node;
+        this.initiativeEditComponent.parent = parent;
         this.initiativeEditComponent.open();
     }
 
@@ -94,7 +96,7 @@ export class BuildingComponent {
             EmitterService.get("datasetName").emit(this.nodes[0].name);
 
             let defaultTeamId = this.nodes[0].team_id;
-            let initiativeToOpen = undefined;
+            let initiativeToOpen:Initiative = undefined;
             this.nodes[0].traverse(function (node: Initiative) {
                 node.team_id = defaultTeamId; // For now, the sub initiative are all owned by the same team
                 if (node.getSlug() === slugToOpen) {

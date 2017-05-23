@@ -14,9 +14,10 @@ import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core"
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
+import { Team } from "../../shared/model/team.data";
 
 export class AuthStub {
-    fakeProfile: User = new User({ name: "John Doe", email: "johndoe@domain.com", picture: "http://seemyface.com/user.jpg", user_id: "someId", datasets:["one","two"] });
+    fakeProfile: User = new User({ name: "John Doe", email: "johndoe@domain.com", picture: "http://seemyface.com/user.jpg", user_id: "someId", datasets: ["one", "two"], teams: ["team1", "team2"] });
 
     public getUser(): Observable<User> {
         return Observable.of(this.fakeProfile);
@@ -50,7 +51,7 @@ describe("account.component.ts", () => {
                 providers: [
                     { provide: Auth, useClass: AuthStub },
                     { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } },
-                    UserFactory, ErrorService, DatasetFactory,TeamFactory,
+                    UserFactory, ErrorService, DatasetFactory, TeamFactory,
                     {
                         provide: Http,
                         useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
@@ -90,7 +91,26 @@ describe("account.component.ts", () => {
                 });
                 component.ngOnInit();
                 spyAuth.calls.mostRecent().returnValue.toPromise().then((user: User) => {
-                    expect(spyFactory).toHaveBeenCalled();
+                    expect(spyFactory).toHaveBeenCalledTimes(2);
+                     component.datasets$.then(datasets => expect(datasets.length).toBe(2))
+                });
+
+            }));
+
+            it("should retrieve user and matching teams", async(() => {
+                let mockAuth: Auth = target.debugElement.injector.get(Auth);
+                let spyAuth = spyOn(mockAuth, "getUser").and.callThrough();
+
+                let mockTeamFactory: TeamFactory = target.debugElement.injector.get(TeamFactory);
+                let spyFactory = spyOn(mockTeamFactory, "get").and.callFake(function (teamId: any) {
+
+                    return Promise.resolve(new Team({ name: "a team", team_id: teamId }));
+
+                });
+                component.ngOnInit();
+                spyAuth.calls.mostRecent().returnValue.toPromise().then((user: User) => {
+                    expect(spyFactory).toHaveBeenCalledTimes(2);
+                    component.teams$.then(teams => expect(teams.length).toBe(2))
                 });
 
             }));

@@ -17,18 +17,19 @@ import { Team } from "../../shared/model/team.data";
 })
 
 export class HeaderComponent implements OnInit {
-    @Input("user") user: User;
+    public user: User;
 
     @Output("openHelp") openHelpEvent = new EventEmitter<void>();
     @Output("createDataset") createDatasetEvent = new EventEmitter<void>();
 
-    private datasets$: Promise<Array<DataSet>>;
+    public datasets$: Promise<Array<DataSet>>;
     private teams$: Promise<Array<Team>>;
     private selectedDatasetName: string;
     private isValid: boolean = false;
     private newDatasetName: string;
     private isSaving: Promise<boolean> = Promise.resolve(false);
     private timeToSaveInSec: Promise<number>;
+    public areMapsAvailable: Promise<boolean>
 
     private selectedTeam: Team;
 
@@ -55,13 +56,13 @@ export class HeaderComponent implements OnInit {
 
                 this.teams$ = Promise.all(
                     this.user.teams.map(
-                        team_id => this.teamFactory.get(team_id).then((resolved: Team) => { return resolved })
+                        team_id => this.teamFactory.get(team_id).then((team: Team) => { return team })
                     )
                 )
                     .then(teams => { return teams });
 
                 this.teams$.then((teams: Team[]) => {
-                    this.selectedTeam = this.selectedTeam || teams[0];
+                    this.selectedTeam = this.selectedTeam || teams[0]; // TODO : save last accessed team in cookies and retrieve
                 })
             },
             (error: any) => { this.errorService.handleError(error) });
@@ -70,13 +71,18 @@ export class HeaderComponent implements OnInit {
     chooseTeam(team: Team) {
         this.selectedTeam = team;
         this.datasets$ = Promise.all(
+            // get all datasets available to this user accross all teams
             this.user.datasets.map(
                 dataset_id => this.datasetFactory.get(dataset_id).then((resolved: DataSet) => { return resolved })
             )
         )
-        // only shows the datasets accessible by the selected team
-            .then(datasets => { return datasets.filter(d => d.team_id === this.selectedTeam.team_id) });
+            // only shows the datasets accessible by the selected team
+            .then(datasets => { return datasets.filter(d => d.team_id === this.selectedTeam.team_id) })
+
+        this.areMapsAvailable = this.datasets$.then((datasets: DataSet[]) => { return datasets.length > 0 }).catch(err => console.log(err));
     }
+
+
 
     openHelp() {
         this.openHelpEvent.emit();

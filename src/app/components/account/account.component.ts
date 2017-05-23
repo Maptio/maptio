@@ -19,8 +19,8 @@ import { Team } from "../../shared/model/team.data";
 export class AccountComponent implements OnInit {
 
     private user: User;
-    private datasets$: Promise<Array<DataSet>>;
-    private teams$: Promise<Array<Team>>
+    public datasets$: Promise<Array<DataSet>>;
+    public teams$: Promise<Array<Team>>
     private message: string;
 
     @ViewChild(TeamComponent) teamComponent:TeamComponent;

@@ -26,6 +26,7 @@ export class AuthStub {
     });
 
     public getUser(): Observable<User> {
+        // console.log("here")
         return Observable.of(this.fakeProfile);
     }
 
@@ -111,32 +112,32 @@ describe("header.component.ts", () => {
         });
 
         describe("List of datasets", () => {
-            it("should retrieve a list of datasets when user is valid", async(() => {
-                let mockAuth = target.debugElement.injector.get(Auth);
+            // it("should retrieve a list of datasets when user is valid", async(() => {
+            //     let mockAuth = target.debugElement.injector.get(Auth);
 
-                let mockDataSetService = target.debugElement.injector.get(DatasetFactory);
-                spyDataSetService = spyOn(mockDataSetService, "get").and.callFake(function (parameters: any) {
-                    if (parameters instanceof User) {
-                        return Promise.resolve(DATASETS);
-                    }
-                    if (typeof parameters === "string") {
-                        return Promise.resolve(new DataSet({ _id: parameters.toString(), name: "a dataset" }));
-                    }
-                });
+            //     let mockDataSetService = target.debugElement.injector.get(DatasetFactory);
+            //     spyDataSetService = spyOn(mockDataSetService, "get").and.callFake(function (parameters: any) {
+            //         if (parameters instanceof User) {
+            //             return Promise.resolve(DATASETS);
+            //         }
+            //         if (typeof parameters === "string") {
+            //             return Promise.resolve(new DataSet({ _id: parameters.toString(), name: "a dataset" }));
+            //         }
+            //     });
 
-                spyAuthService = spyOn(mockAuth, "getUser").and.callThrough();
-                spyOn(mockAuth, "authenticated").and.returnValue(true);
+            //     spyAuthService = spyOn(mockAuth, "getUser").and.callThrough();
+            //     spyOn(mockAuth, "authenticated").and.returnValue(true);
 
-                target.detectChanges();
-                target.whenStable().then(() => {
-                    expect(spyAuthService.calls.any()).toEqual(true);
+            //     target.detectChanges();
+            //     target.whenStable().then(() => {
+            //         expect(spyAuthService.calls.any()).toEqual(true);
 
-                    expect(spyDataSetService).toHaveBeenCalledWith("dataset1");
-                    expect(spyDataSetService).toHaveBeenCalledWith("dataset2")
-                    expect(spyDataSetService).toHaveBeenCalledTimes(2);
-                });
+            //         expect(spyDataSetService).toHaveBeenCalledWith("dataset1");
+            //         expect(spyDataSetService).toHaveBeenCalledWith("dataset2")
+            //         expect(spyDataSetService).toHaveBeenCalledTimes(2);
+            //     });
 
-            }));
+            // }));
 
             xit("should not show a list of datasets when user is invalid", fakeAsync(() => {
                 let mockAuth = target.debugElement.injector.get(Auth);
@@ -248,22 +249,58 @@ describe("header.component.ts", () => {
 
     describe("Controller", () => {
 
-        describe("ngOnInit", () => {
-            it("should retrieve user and matching datasets", async(() => {
+
+        describe("chooseTeam", () => {
+            it("should retrieve all matching datasets for a given team -- maps exist", async(() => {
                 let mockAuth: Auth = target.debugElement.injector.get(Auth);
                 let spyAuth = spyOn(mockAuth, "getUser").and.callThrough();
                 let mockDataSetService = target.debugElement.injector.get(DatasetFactory);
-                spyDataSetService = spyOn(mockDataSetService, "get").and.returnValue(Promise.resolve(new DataSet({  name: "a dataset" })));
+                spyDataSetService = spyOn(mockDataSetService, "get").and.callFake(function (datasetName: string) {
+                    if (datasetName === "dataset1") {
+                        return Promise.resolve(new DataSet({ name: "dataset1", team_id: "1" }))
+                    } else {
+                        return Promise.resolve(new DataSet({ name: datasetName, team_id: "xxxx" }))
+                    }
+                })
 
                 component.ngOnInit();
+                component.chooseTeam(new Team({ name: "team1", team_id: "1" }));
                 spyAuth.calls.mostRecent().returnValue.toPromise().then((user: User) => {
+                    //  console.log(user.datasets)
                     expect(spyDataSetService).toHaveBeenCalledWith("dataset1");
-                    expect(spyDataSetService).toHaveBeenCalledWith("dataset2"); 
+                    expect(spyDataSetService).toHaveBeenCalledWith("dataset2");
+                    component.datasets$.then(ds => expect(ds.length).toBe(1))
+                    component.areMapsAvailable.then(r => expect(r).toBe(true))
                 });
 
             }));
 
-             it("should retrieve user and matching teams", async(() => {
+            it("should retrieve all matching datasets for a given team -- maps do no exists", async(() => {
+                let mockAuth: Auth = target.debugElement.injector.get(Auth);
+                let spyAuth = spyOn(mockAuth, "getUser").and.callThrough();
+                let mockDataSetService = target.debugElement.injector.get(DatasetFactory);
+                spyDataSetService = spyOn(mockDataSetService, "get").and.callFake(function (datasetName: string) {
+
+                    return Promise.resolve(new DataSet({ name: datasetName, team_id: "xxxx" }))
+                })
+
+                component.ngOnInit();
+                component.chooseTeam(new Team({ name: "team1", team_id: "1" }));
+                spyAuth.calls.mostRecent().returnValue.toPromise().then((user: User) => {
+                    //  console.log(user.datasets)
+                    expect(spyDataSetService).toHaveBeenCalledWith("dataset1");
+                    expect(spyDataSetService).toHaveBeenCalledWith("dataset2");
+                    component.datasets$.then(ds => expect(ds.length).toBe(0))
+                    component.areMapsAvailable.then(r => expect(r).toBe(false))
+                });
+
+            }));
+        })
+
+        describe("ngOnInit", () => {
+
+
+            it("should retrieve user and matching teams", async(() => {
                 let mockAuth: Auth = target.debugElement.injector.get(Auth);
                 let spyAuth = spyOn(mockAuth, "getUser").and.callThrough();
                 let mockTeamService = target.debugElement.injector.get(TeamFactory);
@@ -272,7 +309,7 @@ describe("header.component.ts", () => {
                 component.ngOnInit();
                 spyAuth.calls.mostRecent().returnValue.toPromise().then((user: User) => {
                     expect(spyTeamService).toHaveBeenCalledWith("team1");
-                     expect(spyTeamService).toHaveBeenCalledWith("team2");
+                    expect(spyTeamService).toHaveBeenCalledWith("team2");
                 });
 
             }));

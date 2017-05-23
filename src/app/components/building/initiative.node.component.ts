@@ -21,7 +21,11 @@ export class InitiativeNodeComponent {
     @ViewChild("initiative")
     initiativeEditComponent: InitiativeComponent;
 
-    constructor(private router: Router, private snapshotRoute: ActivatedRouteSnapshot, private route:ActivatedRoute) { }
+    private snapshotRoute:ActivatedRouteSnapshot
+
+    constructor(private router: Router, private route:ActivatedRoute) {
+        this.snapshotRoute = route.snapshot;
+     }
 
 
     isRoot(): boolean {

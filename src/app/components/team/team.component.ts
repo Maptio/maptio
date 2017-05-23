@@ -21,7 +21,7 @@ export class TeamComponent implements OnInit, OnDestroy {
         this.subscription = this.route.params.subscribe((params: Params) => {
             let teamId = params["teamid"]
             this.teamFactory.get(teamId).then((team: Team) => {
-                console.log("team.compoennt.ts", teamId, team.name, team.members.length)
+                // console.log("team.compoennt.ts", teamId, team.name, team.members.length)
                 this.team$ = Promise.resolve(team);
             });
         },

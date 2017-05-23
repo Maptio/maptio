@@ -36,14 +36,28 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown" *ngIf="auth.authenticated()">
-                    
+                <li>
+
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <b>Teams</b> {{selectedTeam?.name}} <span class="caret"></span>
+                        <b>Team</b> {{selectedTeam?.name}} <span class="caret"></span>
                     </a>
+
                     <ul class="dropdown-menu">
                         <li *ngFor="let team of teams$ | async">
                             <a (click)="chooseTeam(team)">{{team.name}}</a>
+                        </li>
+                    </ul>
+
+                </li>
+                <li class="dropdown" *ngIf="auth.authenticated()">
+
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" *ngIf="areMapsAvailable | async">
+                        <b>Maps</b> {{selectedDataset?.name}} <span class="caret"></span>
+                    </a>
+                    <a *ngIf="!(areMapsAvailable |async)">No maps</a>
+                    <ul class="dropdown-menu">
+                        <li *ngFor="let dataset of datasets$ | async">
+                            <a (click)="openDataset(dataset)">{{dataset.name}}</a>
                         </li>
                     </ul>
                 </li>
@@ -65,12 +79,6 @@
                         {{user?.name}} <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <!-- User maps -->
-                        <li class="dropdown-header">Your maps</li>
-                        <li *ngFor="let dataset of datasets$ | async">
-                            <a (click)="openDataset(dataset)">{{dataset.name}}</a>
-                        </li>
-                        <li role="separator" class="divider"></li>
 
                         <!-- Examples -->
                         <li class="dropdown-header">Examples</li>

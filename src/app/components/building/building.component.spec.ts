@@ -1,3 +1,4 @@
+import { Initiative } from './../../shared/model/initiative.data';
 import { TeamFactory } from "./../../shared/services/team.factory";
 import { EmitterService } from "./../../shared/services/emitter.service";
 import { ComponentFixture, TestBed, async, inject } from "@angular/core/testing";
@@ -170,11 +171,14 @@ describe("building.component.ts", () => {
 
         describe("Edit initiative", () => {
             it("should open initiative modal", () => {
-                let node = new Initiative();
+                let node = new Initiative(), parent = new Initiative();
                 let spyOpen = spyOn(component.initiativeEditComponent, "open");
+                let spyGetParent = spyOn(node, "getParent").and.returnValue(parent)
                 component.editInitiative(node);
-                expect(component.initiativeEditComponent.data).toBe(node);
+                expect(component.initiativeEditComponent.initiative).toBe(node);
+                expect(component.initiativeEditComponent.parent).toBe(parent);
                 expect(spyOpen).toHaveBeenCalled();
+                expect(spyGetParent).toHaveBeenCalled();
             })
         });
 

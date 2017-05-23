@@ -114,6 +114,22 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
         }
     }
 
+    getParent(tree: Initiative): Initiative {
+        let parent: Initiative;
+        let id = this.id;
+        if (tree.children.findIndex(c => { return c.id === id }) >= 0) {
+            return tree;
+        }
+        tree.traverse(n => {
+            if (n.children.findIndex(c => c.id === id) >= 0) {
+                parent = n
+                return;
+            }
+
+        })
+        return parent;
+    }
+
     search(searched: string): boolean {
         if (searched === "") {
             return true;

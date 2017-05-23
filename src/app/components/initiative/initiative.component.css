@@ -1,0 +1,17 @@
+ol {
+    counter-reset: index;
+    counter-increment: index;
+    list-style: none;
+}
+
+ol li:nth-child(2n+0) {
+    counter-increment: index;
+}
+
+ol li:not(:nth-child(2n+0)):before {
+    /*content: counter(index)". ";*/
+}
+
+ol li:nth-child(2n+0):before {
+    content: "";
+}
