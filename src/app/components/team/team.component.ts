@@ -1,4 +1,7 @@
 import { Subscription } from 'rxjs/Rx';
+import { UserFactory } from './../../shared/services/user.factory';
+import { Observable } from 'rxjs/Rx';
+import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import { TeamFactory } from './../../shared/services/team.factory';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Component, OnInit, OnDestroy } from "@angular/core";
@@ -11,18 +14,23 @@ import { User } from "../../shared/model/user.data";
 })
 export class TeamComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
-       this.subscription.unsubscribe();
+        this.subscription.unsubscribe();
     }
 
-    subscription:Subscription;
     team$: Promise<Team>
+    private newMember: User;
+    private searching: boolean = false;
+    private searchFailed: boolean = false;
+    private teamId: string;
+    private subscription: Subscription;
+    private existingTeamMembers: User[];
 
-    constructor(private route: ActivatedRoute, private teamFactory: TeamFactory) {
+    constructor(private route: ActivatedRoute, private teamFactory: TeamFactory, private userFactory: UserFactory) {
         this.subscription = this.route.params.subscribe((params: Params) => {
-            let teamId = params["teamid"]
-            this.teamFactory.get(teamId).then((team: Team) => {
-                // console.log("team.compoennt.ts", teamId, team.name, team.members.length)
+            this.teamId = params["teamid"]
+            this.teamFactory.get(this.teamId).then((team: Team) => {
                 this.team$ = Promise.resolve(team);
+                this.existingTeamMembers = team.members;
             });
         },
             error => { console.log(error) });
@@ -30,8 +38,52 @@ export class TeamComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
 
-
-
     }
+
+    saveNewMember(event: NgbTypeaheadSelectItemEvent) {
+        this.newMember = event.item;
+    }
+
+    addMemberToTeam() {
+        this.newMember.teams.push(this.teamId);
+        this.userFactory.upsert(this.newMember).then((result: boolean) => {
+            if (result) {
+                this.teamFactory.get(this.teamId).then((team: Team) => {
+                    team.members.push(this.newMember);
+                    this.teamFactory.upsert(team).then((result) => {
+
+                        if (result) {
+                            console.log("User " + this.newMember.name + " was successfully added to team " + this.teamId);
+                            this.team$ = Promise.resolve(team);
+                        }
+                    })
+                });
+
+
+            }
+        })
+    }
+
+    searchUsers =
+    (text$: Observable<string>) =>
+        text$
+            .debounceTime(300)
+            .distinctUntilChanged()
+            .do(() => this.searching = true)
+            .switchMap(term =>
+                this.userFactory.getAll(term).then((users: User[]) => {
+                    this.searchFailed = false;
+                    return users.filter(u => !this.existingTeamMembers.find(m => u.user_id === m.user_id));
+                })
+
+                    .catch(() => {
+                        this.searchFailed = true;
+                        return Observable.of([]);
+                    })
+            )
+            .do(() => this.searching = false);
+
+
+    formatter = (result: User) => result.name;
 
 }

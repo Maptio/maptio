@@ -10,6 +10,7 @@ import { User } from "./../../shared/model/user.data";
 import { Auth } from "./../../shared/services/auth/auth.service";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { Team } from "../../shared/model/team.data";
+import { UserFactory } from "../../shared/services/user.factory";
 
 @Component({
     selector: "account",
@@ -22,10 +23,11 @@ export class AccountComponent implements OnInit {
     public datasets$: Promise<Array<DataSet>>;
     public teams$: Promise<Array<Team>>
     private message: string;
+    private newTeamName: string;
 
-    @ViewChild(TeamComponent) teamComponent:TeamComponent;
+    @ViewChild(TeamComponent) teamComponent: TeamComponent;
 
-    constructor(private auth: Auth, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private router: Router, private errorService: ErrorService) {
+    constructor(private auth: Auth, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private userFactory: UserFactory, private router: Router, private errorService: ErrorService) {
 
     }
 
@@ -65,7 +67,7 @@ export class AccountComponent implements OnInit {
         this.router.navigate(["workspace", dataset._id]);
     }
 
-    delete(dataset: DataSet) {
+    deleteDataset(dataset: DataSet) {
         this.datasetFactory.delete(dataset, this.user).then((result: boolean) => {
             if (result) {
                 this.message = "Dataset " + dataset.name + " was successfully deleted";
@@ -75,5 +77,19 @@ export class AccountComponent implements OnInit {
             }
             this.refresh();
         });
+    }
+
+    createNewTeam() {
+        this.teamFactory.create(new Team({ name: this.newTeamName, members: [this.user] })).then((team: Team) => {
+            this.message = "Team " + this.newTeamName + " was successfully created";
+            this.user.teams.push(team.team_id);
+            this.userFactory.upsert(this.user).then((result: boolean) => {
+                if (result) {
+                    this.message = "User " + this.user.name + " was successfully added to team " + this.newTeamName;
+                }
+            })
+            this.refresh();
+            this.newTeamName = "";
+        }).catch(err => { this.errorService.handleError(err) })
     }
 }

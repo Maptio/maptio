@@ -16,8 +16,8 @@ export class UserFactory {
     /** Gets all users
      *
      */
-    getAll(): Promise<User[]> {
-        return this.http.get("/api/v1/users")
+    getAll(pattern?: string): Promise<User[]> {
+        return this.http.get("/api/v1/users/" + pattern)
             .map((responseData) => {
                 return responseData.json();
             })

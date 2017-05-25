@@ -1,8 +1,20 @@
 <h3>{{(team$ | async)?.name}}</h3>
 <ul class="list-group ">
     <li *ngFor="let member of (team$ | async)?.members" class="list-group-item">
-
         <img width="20px" src="{{member.picture}}">{{member.name}}
+    </li>
+    <li class="input-group">
+        <ng-template #rt let-r="result" let-t="term">
+            <img src="{{r.picture}}" width="16"> {{ r.name}}
+        </ng-template>
 
+        <input  type="text" id="inputNewMember" [resultTemplate]="rt" placeholder="Name or email of new member" class="form-control"
+            [ngModelOptions]="{standalone: true}" [ngModel]="newMember" (selectItem)="saveNewMember($event)" [ngbTypeahead]="searchUsers"
+            [resultFormatter]="formatter" [inputFormatter]="formatter" />
+        <span *ngIf="searching">searching...</span>
+        <div class="form-control-feedback" *ngIf="searchFailed">Sorry, suggestions could not be loaded.</div>
+        <span class="input-group-btn">
+      <button class="btn btn-default" type="button" (click)="addMemberToTeam()">Add</button>
+    </span>
     </li>
 </ul>

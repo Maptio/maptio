@@ -136,7 +136,7 @@ describe("account.component.ts", () => {
                 let spy = spyOn(factory, "delete").and.returnValue(Promise.resolve<boolean>(true));
 
                 let dataset = new DataSet({ _id: "unique_id", name: "Some data" });
-                component.delete(dataset)
+                component.deleteDataset(dataset)
                 spy.calls.mostRecent().returnValue.then(() => {
                     expect(spy).toHaveBeenCalledWith(dataset, jasmine.objectContaining({ user_id: "someId" }));
                     expect(spyError).not.toHaveBeenCalled();
@@ -151,7 +151,7 @@ describe("account.component.ts", () => {
                 let spy = spyOn(factory, "delete").and.returnValue(Promise.resolve<boolean>(false));
 
                 let dataset = new DataSet({ _id: "unique_id", name: "Some data" });
-                component.delete(dataset);
+                component.deleteDataset(dataset);
 
                 spy.calls.mostRecent().returnValue.then(() => {
                     expect(spy).toHaveBeenCalledWith(dataset, jasmine.objectContaining({ user_id: "someId" }));

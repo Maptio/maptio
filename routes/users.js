@@ -4,8 +4,24 @@ var mongojs = require('mongojs');
 var db = mongojs('mongodb://admin:admin@ds143539.mlab.com:43539/heroku_f3v1d9w8', ['users']);
 
 /* GET All users */
+
 router.get('/users', function (req, res, next) {
     db.users.find(function (err, users) {
+        if (err) {
+            res.send(err);
+        } else {
+            res.json(users);
+        }
+    });
+});
+
+router.get('/users/:pattern', function (req, res, next) {
+    let pattern = req.params.pattern;
+
+    db.users.find(
+        { $or: [ { name: { $regex: pattern, $options: 'i' } }, { email: { $regex: pattern, $options: 'i' } } ] }
+        
+        , function (err, users) {
         if (err) {
             res.send(err);
         } else {
@@ -34,7 +50,7 @@ router.get('/user/:id', function (req, res, next) {
             }
         },
         {
-            $limit:1
+            $limit: 1
         }
 
     ],

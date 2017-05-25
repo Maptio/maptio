@@ -51,14 +51,14 @@ export class User implements Serializable<User> {
         deserialized.email = input.email;
         deserialized.picture = input.picture;
         deserialized.user_id = input.user_id; // specific to Auth0
+        deserialized.teams = [];
         if (input.teams) {
-            deserialized.teams = []
             input.teams.forEach((t: any) => {
                 deserialized.teams.push(t);
             });
         }
+        deserialized.datasets = []
         if (input.datasets) {
-            deserialized.datasets = []
             input.datasets.forEach((d: any) => {
                 deserialized.datasets.push(d);
             });

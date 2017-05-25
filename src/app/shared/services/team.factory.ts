@@ -50,34 +50,48 @@ export class TeamFactory {
     }
 
     /**
-     * Creates a new user
+     * Creates a new team
      */
-    // create(input: any): Promise<Team> {
-    //     return this.http.post("/api/v1/team", input)
-    //         .map((responseData) => {
-    //             return responseData.json();
-    //         })
-    //         .map((input: any) => {
-    //             return Team.create().deserialize(input);
-    //         })
-    //         .toPromise()
-    //         .then(r => r)
-    //         .catch(this.errorService.handleError);
-    // }
+    create(input: Team): Promise<Team> {
+        let transformed =
+            {
+                team_id: input.team_id,
+                name: input.name,
+                members: input.members.map(m => { return { name: m.name, picture: m.picture, user_id: m.user_id } })
+            };
 
-    // /**
-    //  * Upsert a user
-    //  * @param   user    User to update or insert
-    //  * @returns         True if upsert has succeded, false otherwise
-    //  */
-    // upsert(team: Team): Promise<boolean> {
-    //     // FIXME : does this handle error well ? Write a test
-    //     return this.http.put("/api/v1/team/" + team.team_id, team)
-    //         .map((responseData) => {
-    //             return responseData.json();
-    //         })
-    //         .toPromise()
-    //         .then(r => { return true })
-    //         .catch(this.errorService.handleError);
-    // }
+        return this.http.post("/api/v1/team", transformed)
+            .map((responseData) => {
+                return responseData.json();
+            })
+            .map((input: any) => {
+                return Team.create().deserialize(input);
+            })
+            .toPromise()
+            .then(r => r)
+            .catch(this.errorService.handleError);
+    }
+
+
+    /**
+     * Upsert a team
+     * @param   team    User to update or insert
+     * @returns         True if upsert has succeded, false otherwise
+     */
+    upsert(team: Team): Promise<boolean> {
+        // FIXME : does this handle error well ? Write a test
+         let transformed =
+            {
+                team_id: team.team_id,
+                name: team.name,
+                members: team.members.map(m => { return { name: m.name, picture: m.picture, user_id: m.user_id } })
+            };
+        return this.http.put("/api/v1/team/" + team.team_id, transformed)
+            .map((responseData) => {
+                return responseData.json();
+            })
+            .toPromise()
+            .then(r => { return true })
+            .catch(this.errorService.handleError);
+    }
 }

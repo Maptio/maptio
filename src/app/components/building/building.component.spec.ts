@@ -12,7 +12,6 @@ import { DataService } from "../..//shared/services/data.service"
 import { ErrorService } from "../../shared/services/error/error.service";
 import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
-import { Initiative } from "../..//shared/model/initiative.data";
 import { InitiativeComponent } from "../initiative/initiative.component";
 
 describe("building.component.ts", () => {
