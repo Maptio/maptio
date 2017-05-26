@@ -1,3 +1,4 @@
+import { DataService } from './../../shared/services/data.service';
 import { Initiative } from './../../shared/model/initiative.data';
 import { TeamFactory } from "./../../shared/services/team.factory";
 import { EmitterService } from "./../../shared/services/emitter.service";
@@ -8,7 +9,6 @@ import { By } from "@angular/platform-browser";
 import { BuildingComponent } from "./building.component";
 import { TreeComponent } from "angular2-tree-component";
 import { FocusIfDirective } from "../..//shared/directives/focusif.directive"
-import { DataService } from "../..//shared/services/data.service"
 import { ErrorService } from "../../shared/services/error/error.service";
 import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
@@ -19,24 +19,25 @@ describe("building.component.ts", () => {
     let component: BuildingComponent;
     let target: ComponentFixture<BuildingComponent>;
 
+
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [FormsModule],
-            providers: [DataService, ErrorService, TeamFactory,
-                {
-                    provide: Http,
-                    useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
-                        return new Http(mockBackend, options);
-                    },
-                    deps: [MockBackend, BaseRequestOptions]
-                },
-                MockBackend,
-                BaseRequestOptions],
             declarations: [BuildingComponent, TreeComponent, FocusIfDirective, InitiativeComponent],
             schemas: [NO_ERRORS_SCHEMA]
-        })
-            .compileComponents()
-
+        }).overrideComponent(BuildingComponent, {
+            set: {
+                providers: [DataService, ErrorService, TeamFactory,
+                    {
+                        provide: Http,
+                        useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
+                            return new Http(mockBackend, options);
+                        },
+                        deps: [MockBackend, BaseRequestOptions]
+                    },
+                    MockBackend,
+                    BaseRequestOptions]
+            }
+        }).compileComponents();
     }));
 
     beforeEach(() => {
@@ -182,20 +183,22 @@ describe("building.component.ts", () => {
         });
 
         describe("Loading data", () => {
-            it("shoud loads data and initializes tree", inject([DataService], (mockDataService: DataService) => {
+            it("shoud loads data and initializes tree", async(() => {
+                let mockDataService = target.debugElement.injector.get(DataService);
                 let url = "/api/v1/dataset/someId";
 
                 fixture.load("data.json");
                 let spyDataService = spyOn(mockDataService, "fetch").and.returnValue(Promise.resolve(fixture.json[0]));
 
                 component.loadData("someId");
-                target.whenStable().then(() => {
+                spyDataService.calls.mostRecent().returnValue.then(() => {
                     expect(spyDataService).toHaveBeenCalledWith(url);
                     expect(component.nodes.length).toBe(1);
                 });
             }));
 
-            it("should loads data and initializes team_id for each node", async(inject([DataService], (mockDataService: DataService) => {
+            it("should loads data and initializes team_id for each node", async(() => {
+                let mockDataService = target.debugElement.injector.get(DataService);
                 let url = "/api/v1/dataset/someId";
 
                 fixture.load("data.json");
@@ -210,9 +213,10 @@ describe("building.component.ts", () => {
                     expect(component.nodes[0].children.find(n => n.name === "Marketing").team_id).toBe("ID1");
                     expect(component.nodes[0].children.find(n => n.name === "The rest").team_id).toBe("ID1");
                 });
-            })));
+            }));
 
-            it("should loads data and initializes mapping component", inject([DataService], (mockDataService: DataService) => {
+            it("should loads data and initializes mapping component", async(() => {
+                let mockDataService = target.debugElement.injector.get(DataService);
 
                 let url = "/api/v1/dataset/someId";
 
@@ -221,16 +225,34 @@ describe("building.component.ts", () => {
                 let spyMapData = spyOn(component, "mapData");
 
                 component.loadData("someId");
-                target.whenStable().then(() => {
+                spyDataService.calls.mostRecent().returnValue.then(() => {
                     expect(spyDataService).toHaveBeenCalledWith(url);
                     expect(spyMapData).toHaveBeenCalled();
                 });
             }));
 
+            it("should load data and open a node with matching slug", async(() => {
+                let url = "/api/v1/dataset/someId";
+                let mockDataService = target.debugElement.injector.get(DataService);
+
+                fixture.load("data.json");
+                let spyDataService = spyOn(mockDataService, "fetch").and.returnValue(Promise.resolve(fixture.json[0]));
+                let spyMapData = spyOn(component, "mapData");
+                let spyEdit = spyOn(component, "editInitiative")
+                component.loadData("someId", "the-rest");
+                spyDataService.calls.mostRecent().returnValue.then(() => {
+                    expect(spyDataService).toHaveBeenCalledWith(url);
+                    expect(spyMapData).toHaveBeenCalled();
+                    expect(spyEdit).toHaveBeenCalledWith(jasmine.objectContaining({ name: "The rest" }));
+                });
+            }))
+
         });
 
         describe("Mapping data", () => {
-            it("should sends data to dataservice", inject([DataService], (mockDataService: DataService) => {
+            it("should sends data to dataservice", async(() => {
+                let mockDataService = target.debugElement.injector.get(DataService);
+
                 let node1 = new Initiative(), node2 = new Initiative();
                 node1.name = "first", node2.name = "second";
 

@@ -18,10 +18,10 @@ export class TeamComponent implements OnInit, OnDestroy {
     }
 
     team$: Promise<Team>
-    private newMember: User;
+    public newMember: User;
     private searching: boolean = false;
     private searchFailed: boolean = false;
-    private teamId: string;
+    public teamId: string;
     private subscription: Subscription;
     private existingTeamMembers: User[];
 
@@ -52,10 +52,10 @@ export class TeamComponent implements OnInit, OnDestroy {
                     team.members.push(this.newMember);
                     this.teamFactory.upsert(team).then((result) => {
 
-                        if (result) {
-                            console.log("User " + this.newMember.name + " was successfully added to team " + this.teamId);
-                            this.team$ = Promise.resolve(team);
-                        }
+                        // if (result) {
+                        //     console.log("User " + this.newMember.name + " was successfully added to team " + this.teamId);
+                        //     this.team$ = Promise.resolve(team);
+                        // }
                     })
                 });
 

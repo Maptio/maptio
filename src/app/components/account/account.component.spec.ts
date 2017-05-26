@@ -1,3 +1,4 @@
+import { Team } from './../../shared/model/team.data';
 import { TeamFactory } from './../../shared/services/team.factory';
 import { Observable } from "rxjs/Rx";
 import { User } from "./../../shared/model/user.data";
@@ -14,7 +15,6 @@ import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core"
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
-import { Team } from "../../shared/model/team.data";
 
 export class AuthStub {
     fakeProfile: User = new User({ name: "John Doe", email: "johndoe@domain.com", picture: "http://seemyface.com/user.jpg", user_id: "someId", datasets: ["one", "two"], teams: ["team1", "team2"] });
@@ -92,7 +92,7 @@ describe("account.component.ts", () => {
                 component.ngOnInit();
                 spyAuth.calls.mostRecent().returnValue.toPromise().then((user: User) => {
                     expect(spyFactory).toHaveBeenCalledTimes(2);
-                     component.datasets$.then(datasets => expect(datasets.length).toBe(2))
+                    component.datasets$.then(datasets => expect(datasets.length).toBe(2))
                 });
 
             }));
@@ -170,6 +170,82 @@ describe("account.component.ts", () => {
                 expect(router.navigate).toHaveBeenCalledWith(["workspace", "unique_id"]);
 
             });
+        });
+
+
+        describe("createNewTeam", () => {
+            it("should create a new team then link user with team", () => {
+                let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
+                let mockUserFactory = target.debugElement.injector.get(UserFactory);
+
+                let spyCreateTeam = spyOn(mockTeamFactory, "create").and.returnValue(Promise.resolve(new Team({ team_id: "new_id", name: "JUST CREATED" })))
+                let spyUserUpsert = spyOn(mockUserFactory, "upsert").and.returnValue(Promise.resolve(true));
+
+                component.createNewTeam("NEW TEAM");
+
+                spyCreateTeam.calls.mostRecent().returnValue.then(() => {
+                    expect(spyCreateTeam).toHaveBeenCalledWith(jasmine.objectContaining({
+                        name: "NEW TEAM",
+                        members: [jasmine.objectContaining({ name: "John Doe", user_id: "someId" })]
+                    }));
+
+                    expect(spyUserUpsert).toHaveBeenCalledWith(jasmine.objectContaining({
+                        name: "John Doe",
+                        user_id: "someId",
+                        teams: jasmine.arrayContaining(["team1", "team2", "new_id"])
+                    }));
+
+                })
+            });
+
+            it("should call error service when team factory fails", async(() => {
+                let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
+                let mockUserFactory = target.debugElement.injector.get(UserFactory);
+                let mockErrorService = target.debugElement.injector.get(ErrorService);
+
+                let spyCreateTeam = spyOn(mockTeamFactory, "create").and.returnValue(Promise.reject("Creation failed"))
+                let spyUserUpsert = spyOn(mockUserFactory, "upsert").and.returnValue(Promise.resolve(true));
+                let spyError = spyOn(mockErrorService, "handleError")
+
+                component.createNewTeam("NEW TEAM");
+
+                spyCreateTeam.calls.mostRecent().returnValue
+                    .then(() => {
+                        expect(spyUserUpsert).not.toHaveBeenCalled()
+                    })
+                    .catch((error: string) => {
+                        expect(spyError).toHaveBeenCalledWith("Creation failed");
+                    })
+            }));
+
+            it("should call error service when user factory fails", async(() => {
+                let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
+                let mockUserFactory = target.debugElement.injector.get(UserFactory);
+                let mockErrorService = target.debugElement.injector.get(ErrorService);
+
+                let spyCreateTeam = spyOn(mockTeamFactory, "create").and.returnValue(Promise.resolve(new Team({ team_id: "new_id", name: "JUST CREATED" })))
+                let spyUserUpsert = spyOn(mockUserFactory, "upsert").and.returnValue(Promise.reject(true));
+                let spyError = spyOn(mockErrorService, "handleError")
+
+                component.createNewTeam("NEW TEAM");
+
+                spyCreateTeam.calls.mostRecent().returnValue
+                    .then(() => {
+                        expect(spyUserUpsert).toHaveBeenCalled();
+
+                        spyUserUpsert.calls.mostRecent().returnValue
+                            .then(() => {
+
+                            }).catch((error: string) => {
+                                expect(spyError).toHaveBeenCalledWith(true);
+                            })
+                    })
+                    .catch((error: string) => {
+                        expect(spyError).not.toHaveBeenCalled();
+                    })
+            }));
+
+
         });
     });
 

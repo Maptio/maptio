@@ -12,9 +12,9 @@
                     <a routerLink="/account/team/{{team.team_id}}">{{team.name}}</a>
                 </li>
                 <li class="input-group">
-                    <input #teamInput type="text" class="form-control" placeholder="Type new team name" [(ngModel)]="newTeamName">
+                    <input #teamInput type="text" class="form-control" placeholder="Type new team name">
                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="button" (click)="createNewTeam()">Create</button>
+                        <button class="btn btn-default" type="button" (click)="createNewTeam(teamInput.value)">Create</button>
                     </span>
                 </li>
             </ul>

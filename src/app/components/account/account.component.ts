@@ -23,7 +23,6 @@ export class AccountComponent implements OnInit {
     public datasets$: Promise<Array<DataSet>>;
     public teams$: Promise<Array<Team>>
     private message: string;
-    private newTeamName: string;
 
     @ViewChild(TeamComponent) teamComponent: TeamComponent;
 
@@ -79,17 +78,13 @@ export class AccountComponent implements OnInit {
         });
     }
 
-    createNewTeam() {
-        this.teamFactory.create(new Team({ name: this.newTeamName, members: [this.user] })).then((team: Team) => {
-            this.message = "Team " + this.newTeamName + " was successfully created";
+    createNewTeam(teamName: string) {
+        this.teamFactory.create(new Team({ name: teamName, members: [this.user] })).then((team: Team) => {
             this.user.teams.push(team.team_id);
             this.userFactory.upsert(this.user).then((result: boolean) => {
-                if (result) {
-                    this.message = "User " + this.user.name + " was successfully added to team " + this.newTeamName;
-                }
-            })
+
+            }).catch(err => { this.errorService.handleError(err) })
             this.refresh();
-            this.newTeamName = "";
         }).catch(err => { this.errorService.handleError(err) })
     }
 }
