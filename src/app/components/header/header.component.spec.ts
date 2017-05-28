@@ -90,7 +90,7 @@ describe("header.component.ts", () => {
 
     describe("View", () => {
 
-       xdescribe("New project button", () => {
+        xdescribe("New project button", () => {
             it("should call createDataset() when clicked", () => {
                 let mockAuth = target.debugElement.injector.get(Auth);
                 spyOn(mockAuth, "authenticated").and.returnValue(true);
@@ -229,8 +229,10 @@ describe("header.component.ts", () => {
 
             it("should call authenticate.logout()  when LogOut button is clicked", () => {
                 let mockAuth = target.debugElement.injector.get(Auth);
+                let mockRouter = target.debugElement.injector.get(Router);
                 let spyAuthService = spyOn(mockAuth, "authenticated").and.returnValue(true);
                 let spyLogOut = spyOn(mockAuth, "logout");
+                let spyNavigate = spyOn(mockRouter, "navigate")
 
                 target.detectChanges();
                 let button = target.debugElement.query(By.css("li#logoutButton a")).nativeElement as HTMLAnchorElement;
@@ -238,6 +240,7 @@ describe("header.component.ts", () => {
                 target.detectChanges();
 
                 expect(spyLogOut).toHaveBeenCalled();
+                expect(spyNavigate).toHaveBeenCalledWith([""])
                 expect(spyAuthService).toHaveBeenCalled();
             })
         });

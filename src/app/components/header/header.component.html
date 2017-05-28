@@ -23,7 +23,7 @@
                     <ul class="dropdown-menu">
                         <li *ngFor="let dataset of datasets$ | async">
                             <a (click)="openDataset(dataset)">
-                                <div class="well well-sm map-option">
+                                <div class="well map-option">
                                     <b>{{dataset.name}} </b>
                                     <br/>
                                     <small *ngIf="dataset.team"><i class="fa fa-users" aria-hidden="true"></i> {{dataset.team.name}}</small>
@@ -40,7 +40,7 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li>
+                <li *ngIf="auth.authenticated()">
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-plus-square-o big" aria-hidden="true"></i>
                     </a>
@@ -72,7 +72,7 @@
                         <li role="separator" class="divider"></li>
                         <!-- Log out -->
                         <li id="logoutButton">
-                            <a (click)="auth.logout()">Log Out</a>
+                            <a (click)="logout()">Log Out</a>
                         </li>
                     </ul>
                 </li>

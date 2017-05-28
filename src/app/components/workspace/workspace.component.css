@@ -1,0 +1,22 @@
+.member{
+    float: left;
+    background: 50% 50% no-repeat;
+    background-size: auto 100%;
+    max-width: 22px;
+    border-radius: 18px;
+}
+
+.no-padding{
+    padding: 0;
+}
+
+.header{
+        padding: 5px;
+    padding-left: 16px;
+}
+
+.team-name{
+        padding: 0px 8px 1px 0px;
+    margin: -18px 0px 0px 0px;
+    font-size: smaller;
+}

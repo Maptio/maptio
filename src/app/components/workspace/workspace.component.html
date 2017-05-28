@@ -1,4 +1,17 @@
-<div class="row-fluid col-lg-12" id="workAreaPanel">
+<div class="row header">
+    <h4 class="pull-left">{{(dataset | async)?.name}}</h4>
+    <p class="pull-right team-name"> {{(team|async)?.name}}</p>
+    <div class="btn-group pull-right">
+        <a *ngFor="let user of members | async" class="btn btn-link btn-xs no-padding">
+            <img class="member " src="{{user?.picture}}" alt="{{user?.name}}" title="{{user?.name}}">
+        </a>
+        <a class="btn btn-link btn-xs" routerLink="/account/team/{{(team |async)?.team_id}}">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+        </a>
+    </div>
+</div>
+
+<div class="row col-lg-12" id="workAreaPanel">
     <div class="panel-group" id="accordion">
         <div class="panel panel-default ">
             <div class="panel-heading">

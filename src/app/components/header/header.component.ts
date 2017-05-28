@@ -132,4 +132,9 @@ export class HeaderComponent implements OnInit {
         this.isValid = this.newDatasetName !== "" && this.newDatasetName !== undefined;
     }
 
+    logout(){
+        this.auth.logout()
+        this.router.navigate([""]); // towards HomeComponent
+    }
+
 }
