@@ -86,3 +86,9 @@
 .map-option{
     width:200px;
 }
+/* curious is this the bootstrap overwrite file */
+.navbar {
+    
+    min-height: 80px;
+    
+}

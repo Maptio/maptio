@@ -11,77 +11,75 @@
             <div class="navbar-brand navbar-brand-centered"> <a href="#"><img src="/assets/images/logo.png" class="brand-logo"></a></div>
         </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="navbar-brand-centered">
-            <ul class="nav navbar-nav">
-                <li *ngIf="auth.authenticated()">
+                <ul class="nav navbar-nav">
+                    <li *ngIf="auth.authenticated()">
 
-                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <div>Maps <i class="fa fa-chevron-down" aria-hidden="true"></i></div>
-                    </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <div>Maps <i class="fa fa-chevron-down" aria-hidden="true"></i></div>
+                        </a>
 
-                    <ul class="dropdown-menu">
-                        <li *ngFor="let dataset of datasets$ | async">
-                            <a (click)="openDataset(dataset)">
-                                <div class="well map-option">
-                                    <b>{{dataset.name}} </b>
-                                    <br/>
-                                    <small *ngIf="dataset.team"><i class="fa fa-users" aria-hidden="true"></i> {{dataset.team.name}}</small>
-                                </div>
-                            </a>
-
-                        </li>
-
-                        <li>
-                            <a href="#"> Create map ...
+                        <ul class="dropdown-menu">
+                            <li *ngFor="let dataset of datasets$ | async">
+                                <a (click)="openDataset(dataset)">
+                                    <div class="well map-option">
+                                        <b>{{dataset.name}} </b>
+                                        <br/>
+                                        <small *ngIf="dataset.team"><i class="fa fa-users" aria-hidden="true"></i> {{dataset.team.name}}</small>
+                                    </div>
                                 </a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li *ngIf="auth.authenticated()">
-                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+
+                            </li>
+
+                            <li>
+                                <a href="#"> Create map ...
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li *ngIf="auth.authenticated()">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-plus-square-o big" aria-hidden="true"></i>
                     </a>
-                    <ul class="dropdown-menu">
-                        <li class="disabled"><a>Create</a> </li>
-                        <li role="separator" class="divider"></li>
-                        <li>
-                            <a routerLink="/account/profile">Create map...</a>
-                        </li>
-                        <li>
-                            <a routerLink="/account/profile">Create team...</a>
-                        </li>
-                    </ul>
+                        <ul class="dropdown-menu">
+                            <li class="disabled"><a>Create</a> </li>
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                <a routerLink="/account/profile">Create map...</a>
+                            </li>
+                            <li>
+                                <a routerLink="/account/profile">Create team...</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="profileInformation" *ngIf="auth.authenticated()">
 
-                </li>
-                <li class="dropdown" id="profileInformation" *ngIf="auth.authenticated()">
-
-                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <div class="profile-img"><img src="{{ user?.picture }}" class="profile-img" alt=""></div>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li class="disabled"><a>{{user?.name}} </a> </li>
-                        <li role="separator" class="divider"></li>
-                        <!-- Account -->
-                        <li>
-                            <!--<a routerLink="/account">Profile</a>-->
-                            <a routerLink="/account/profile">Profile</a>
-                        </li>
-                        <li role="separator" class="divider"></li>
-                        <!-- Log out -->
-                        <li id="logoutButton">
-                            <a (click)="logout()">Log Out</a>
-                        </li>
-                    </ul>
-                </li>
-                <li id="loginButton">
-                    <a (click)="auth.login()" placement="bottom" *ngIf="!auth.authenticated()">Log In</a>
-                </li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <div class="profile-img"><img src="{{ user?.picture }}" class="profile-img" alt=""></div>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="disabled"><a>{{user?.name}} </a> </li>
+                            <li role="separator" class="divider"></li>
+                            <!-- Account -->
+                            <li>
+                                <!--<a routerLink="/account">Profile</a>-->
+                                <a routerLink="/account/profile">Profile</a>
+                            </li>
+                            <li role="separator" class="divider"></li>
+                            <!-- Log out -->
+                            <li id="logoutButton">
+                                <a (click)="logout()">Log Out</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li id="loginButton">
+                        <a (click)="auth.login()" placement="bottom" *ngIf="!auth.authenticated()">Log In</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
     </div>
     <!-- /.container-fluid -->
 </nav>

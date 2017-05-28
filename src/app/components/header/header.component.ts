@@ -53,6 +53,9 @@ export class HeaderComponent implements OnInit {
             (user: User) => {
 
                 this.user = user;
+                if(!user){
+                    return 
+                }
 
                 let getDataSets = Promise.all(
                     // get all datasets available to this user accross all teams
@@ -133,7 +136,7 @@ export class HeaderComponent implements OnInit {
     }
 
     logout(){
-        this.auth.logout()
+        this.auth.logout();
         this.router.navigate([""]); // towards HomeComponent
     }
 

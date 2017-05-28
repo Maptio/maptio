@@ -162,6 +162,7 @@ describe("header.component.ts", () => {
 
         xdescribe("Project name", () => {
 
+
             it("should display dataset name in navigation bar after it is loaded", async(() => {
                 let mockAuth = target.debugElement.injector.get(Auth);
                 let mockRouter = target.debugElement.injector.get(Router)
