@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 import { EmitterService } from "./../../shared/services/emitter.service";
 import { ErrorService } from "./../../shared/services/error/error.service";
 import { EventEmitter } from "@angular/core";
-import { Component, OnInit, Input, Output } from "@angular/core";
+import { Component, OnInit, Output } from "@angular/core";
 import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { DataSet } from "./../../shared/model/dataset.data";
 import { User } from "./../../shared/model/user.data";
@@ -53,8 +53,8 @@ export class HeaderComponent implements OnInit {
             (user: User) => {
 
                 this.user = user;
-                if(!user){
-                    return 
+                if (!user) {
+                    return
                 }
 
                 let getDataSets = Promise.all(
@@ -135,7 +135,7 @@ export class HeaderComponent implements OnInit {
         this.isValid = this.newDatasetName !== "" && this.newDatasetName !== undefined;
     }
 
-    logout(){
+    logout() {
         this.auth.logout();
         this.router.navigate([""]); // towards HomeComponent
     }

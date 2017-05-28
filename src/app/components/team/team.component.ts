@@ -1,5 +1,5 @@
 import { UserFactory } from "./../../shared/services/user.factory";
-import { Observable,Subscription } from "rxjs/Rx";
+import { Observable, Subscription } from "rxjs/Rx";
 import { NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-bootstrap";
 import { TeamFactory } from "./../../shared/services/team.factory";
 import { ActivatedRoute, Params } from "@angular/router";

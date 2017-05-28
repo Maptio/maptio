@@ -340,6 +340,6 @@ describe("initiative.node.component.ts", () => {
                 });
             });
         });
-        
+
     });
 });
