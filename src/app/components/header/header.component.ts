@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit {
     @Output("openHelp") openHelpEvent = new EventEmitter<void>();
     @Output("createDataset") createDatasetEvent = new EventEmitter<void>();
 
-    public datasets$: Promise<Array<DataSet>>;
+    public datasets$: Promise<Array<any>>;
     private teams$: Promise<Array<Team>>;
     private selectedDatasetName: string;
     private isValid: boolean = false;
@@ -54,12 +54,35 @@ export class HeaderComponent implements OnInit {
 
                 this.user = user;
 
+                let getDataSets = Promise.all(
+                    // get all datasets available to this user accross all teams
+                    this.user.datasets.map(
+                        dataset_id => this.datasetFactory.get(dataset_id).then((resolved: DataSet) => { return resolved })
+                    )
+                )
+                    .then(datasets => datasets);
+
                 this.teams$ = Promise.all(
                     this.user.teams.map(
                         team_id => this.teamFactory.get(team_id).then((team: Team) => { return team })
                     )
                 )
                     .then(teams => { return teams });
+
+                this.datasets$ = Promise.all([getDataSets, this.teams$])
+                    .then((value) => {
+                        let datasets = value[0].concat(...[this.VESTD]);
+                        let teams = value[1];
+
+                        return datasets.map(d => {
+                            return {
+                                _id: d._id,
+                                name: d.name,
+                                team_id: d.team_id,
+                                team: teams.filter(t => t.team_id === d.team_id)[0]
+                            }
+                        })
+                    });
 
                 this.teams$.then((teams: Team[]) => {
                     this.selectedTeam = this.selectedTeam || teams[0]; // TODO : save last accessed team in cookies and retrieve
@@ -68,19 +91,19 @@ export class HeaderComponent implements OnInit {
             (error: any) => { this.errorService.handleError(error) });
     }
 
-    chooseTeam(team: Team) {
-        this.selectedTeam = team;
-        this.datasets$ = Promise.all(
-            // get all datasets available to this user accross all teams
-            this.user.datasets.map(
-                dataset_id => this.datasetFactory.get(dataset_id).then((resolved: DataSet) => { return resolved })
-            )
-        )
-            // only shows the datasets accessible by the selected team
-            .then(datasets => { return datasets.filter(d => d.team_id === this.selectedTeam.team_id) })
+    // chooseTeam(team: Team) {
+    //     this.selectedTeam = team;
+    //     this.datasets$ = Promise.all(
+    //         // get all datasets available to this user accross all teams
+    //         this.user.datasets.map(
+    //             dataset_id => this.datasetFactory.get(dataset_id).then((resolved: DataSet) => { return resolved })
+    //         )
+    //     )
+    //         // only shows the datasets accessible by the selected team
+    //         .then(datasets => { return datasets.filter(d => d.team_id === this.selectedTeam.team_id) })
 
-        this.areMapsAvailable = this.datasets$.then((datasets: DataSet[]) => { return datasets.length > 0 }).catch(err => console.log(err));
-    }
+    //     this.areMapsAvailable = this.datasets$.then((datasets: DataSet[]) => { return datasets.length > 0 }).catch(err => console.log(err));
+    // }
 
 
 

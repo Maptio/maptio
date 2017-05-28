@@ -1,0 +1,116 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+            <a href="#" class="pull-left"><img src="/assets/images/logo.png" class="brand-logo"></a>
+
+        </div>
+
+        <ul *ngIf="auth.authenticated() && selectedDatasetName" class="nav navbar-nav navbar-left">
+            <ul class="breadcrumb">
+
+                <li><a routerLink="/account">Projects</a></li>
+                <li id="datasetName" class="active">{{selectedDatasetName}}
+                    <span *ngIf="(timeToSaveInSec | async) > 2 " class="text-info small">( Autosave in {{timeToSaveInSec | async}} )</span>
+                    <span *ngIf="(timeToSaveInSec | async) <= 2" class="text-info small" id="saving"></span>
+
+                </li>
+            </ul>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-center">
+
+            <li>
+            </li>
+            <li>
+
+            </li>
+        </ul>
+
+
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li *ngIf="auth.authenticated()">
+
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <b>Team</b> {{selectedTeam?.name}} <span class="caret"></span>
+                    </a>
+
+                    <ul class="dropdown-menu">
+                        <li *ngFor="let team of teams$ | async">
+                            <a (click)="chooseTeam(team)">{{team.name}}</a>
+                        </li>
+                    </ul>
+
+                </li>
+                <li class="dropdown" *ngIf="auth.authenticated()">
+
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" *ngIf="areMapsAvailable | async">
+                        <b>Maps</b> {{selectedDataset?.name}} <span class="caret"></span>
+                    </a>
+                    <a *ngIf="!(areMapsAvailable |async)">No maps</a>
+                    <ul class="dropdown-menu">
+                        <li *ngFor="let dataset of datasets$ | async">
+                            <a (click)="openDataset(dataset)">{{dataset.name}}</a>
+                        </li>
+                    </ul>
+                </li>
+                <li *ngIf="auth.authenticated()">
+
+                    <form class="navbar-form" role="search">
+                        <div class="input-group">
+                            <input id="loadNewProjectInput" type="text" class="form-control" placeholder="Start a new project" (input)="validate($event.target.value)">
+                            <span class="input-group-btn">
+                                <button id="loadNewProjectButton" type="submit" class="btn btn-default" (click)="createDataset()" [ngClass]="{disabled: !isValid}">New project</button>
+                            </span>
+                        </div>
+                    </form>
+                </li>
+                <li class="dropdown" id="profileInformation" *ngIf="auth.authenticated()">
+
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <div class="img-rounded profile-img"><img src="{{ user?.picture }}" class="profile-img" alt=""></div>
+                        {{user?.name}} <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+
+                        <!-- Examples -->
+                        <li class="dropdown-header">Examples</li>
+                        <li>
+                            <a (click)="openDataset(VESTD)">Vestd</a>
+                        </li>
+                        <li role="separator" class="divider"></li>
+
+                        <!-- Account -->
+                        <li>
+                            <!--<a routerLink="/account">Profile</a>-->
+                            <a routerLink="/account/profile">Profile</a>
+                        </li>
+                        <li>
+                            <!--<a routerLink="/account">Profile</a>-->
+                            <a routerLink="/account/team/{{selectedTeam?.team_id}}">Teams</a>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                        <!-- Log out -->
+                        <li id="logoutButton">
+                            <a (click)="auth.logout()">Log Out</a>
+                        </li>
+                    </ul>
+                </li>
+                <li id="loginButton">
+                    <a (click)="auth.login()" placement="bottom" *ngIf="!auth.authenticated()">Log In</a>
+                </li>
+                <li>
+                    <a id="openHelpWindow" ngbTooltip="Help" placement="bottom" (click)="openHelp()"><i class="fa fa-question-circle-o fa-lg" aria-hidden="true"></i></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
