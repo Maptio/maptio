@@ -1,7 +1,7 @@
 import { Observable } from "rxjs/Rx";
-import { ActivatedRoute, Router, ActivatedRouteSnapshot, Params } from "@angular/router";
+import { ActivatedRoute, Router, ActivatedRouteSnapshot } from "@angular/router";
 import { TreeModel, TreeNode } from "angular2-tree-component";
-import { ComponentFixture, TestBed, async, inject } from "@angular/core/testing";
+import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { FormsModule } from "@angular/forms";
 import { By } from "@angular/platform-browser";
 import { Initiative } from "../../shared/model/initiative.data";

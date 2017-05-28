@@ -53,12 +53,11 @@ export class TeamFactory {
      * Creates a new team
      */
     create(input: Team): Promise<Team> {
-        let transformed =
-            {
-                team_id: input.team_id,
-                name: input.name,
-                members: input.members.map(m => { return { name: m.name, picture: m.picture, user_id: m.user_id } })
-            };
+        let transformed = {
+            team_id: input.team_id,
+            name: input.name,
+            members: input.members.map(m => { return { name: m.name, picture: m.picture, user_id: m.user_id } })
+        };
 
         return this.http.post("/api/v1/team", transformed)
             .map((responseData) => {
@@ -79,9 +78,7 @@ export class TeamFactory {
      * @returns         True if upsert has succeded, false otherwise
      */
     upsert(team: Team): Promise<boolean> {
-        // FIXME : does this handle error well ? Write a test
-         let transformed =
-            {
+        let transformed = {
                 team_id: team.team_id,
                 name: team.name,
                 members: team.members.map(m => { return { name: m.name, picture: m.picture, user_id: m.user_id } })

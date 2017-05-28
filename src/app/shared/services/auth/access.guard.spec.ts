@@ -1,4 +1,4 @@
-import { Observable } from "rxjs/Rx"; 
+import { Observable } from "rxjs/Rx";
 import { AccessGuard } from "./access.guard";
 import { Router, RouterStateSnapshot, ActivatedRouteSnapshot } from "@angular/router";
 import { ErrorService } from "../error/error.service";
@@ -52,7 +52,7 @@ describe("access.guard.ts", () => {
             })
         }));
 
-         it("should return true when user is authorized to access a given team", inject([AccessGuard, Auth, Router], (target: AccessGuard, mockAuth: AuthStub, mockRouter: Router) => {
+        it("should return true when user is authorized to access a given team", inject([AccessGuard, Auth, Router], (target: AccessGuard, mockAuth: AuthStub, mockRouter: Router) => {
             let route = jasmine.createSpyObj<ActivatedRouteSnapshot>("route", ["params"]);
 
             route.params["teamid"] = "team1";
@@ -81,7 +81,7 @@ describe("access.guard.ts", () => {
             });
         }));
 
-         it("should return false when user is not authorized to a team then redirect to /unauthorized", inject([AccessGuard, Auth, Router], (target: AccessGuard, mockAuth: AuthStub, mockRouter: Router) => {
+        it("should return false when user is not authorized to a team then redirect to /unauthorized", inject([AccessGuard, Auth, Router], (target: AccessGuard, mockAuth: AuthStub, mockRouter: Router) => {
             let route = jasmine.createSpyObj<ActivatedRouteSnapshot>("route", ["params"]);
 
             route.params["teamid"] = "team3";

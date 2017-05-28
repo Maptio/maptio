@@ -1,5 +1,5 @@
-import { Team } from './../../shared/model/team.data';
-import { TeamFactory } from './../../shared/services/team.factory';
+import { Team } from "./../../shared/model/team.data";
+import { TeamFactory } from "./../../shared/services/team.factory";
 import { Observable } from "rxjs/Rx";
 import { User } from "./../../shared/model/user.data";
 import { DatasetFactory } from "./../../shared/services/dataset.factory";

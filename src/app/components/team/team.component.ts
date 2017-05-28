@@ -1,9 +1,8 @@
-import { Subscription } from 'rxjs/Rx';
-import { UserFactory } from './../../shared/services/user.factory';
-import { Observable } from 'rxjs/Rx';
-import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
-import { TeamFactory } from './../../shared/services/team.factory';
-import { ActivatedRoute, Params } from '@angular/router';
+import { UserFactory } from "./../../shared/services/user.factory";
+import { Observable,Subscription } from "rxjs/Rx";
+import { NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-bootstrap";
+import { TeamFactory } from "./../../shared/services/team.factory";
+import { ActivatedRoute, Params } from "@angular/router";
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Team } from "../../shared/model/team.data";
 import { User } from "../../shared/model/user.data";

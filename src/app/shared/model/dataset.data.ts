@@ -9,7 +9,7 @@ export class DataSet implements Serializable<DataSet> {
 
   _id: string;
 
-  team_id:string;
+  team_id: string;
 
   createdOn: Date;
 

@@ -1,5 +1,5 @@
-import { DataSet } from './../../shared/model/dataset.data';
-import { TeamFactory } from './../../shared/services/team.factory';
+import { DataSet } from "./../../shared/model/dataset.data";
+import { TeamFactory } from "./../../shared/services/team.factory";
 import { Params } from "@angular/router";
 import { ActivatedRoute } from "@angular/router";
 import { WorkspaceComponent } from "./workspace.component";

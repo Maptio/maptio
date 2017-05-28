@@ -1,4 +1,4 @@
-import { TeamFactory } from './../../shared/services/team.factory';
+import { TeamFactory } from "./../../shared/services/team.factory";
 import { Router } from "@angular/router";
 import { EmitterService } from "./../../shared/services/emitter.service";
 import { UserFactory } from "./../../shared/services/user.factory";
@@ -47,7 +47,7 @@ describe("header.component.ts", () => {
 
     let component: HeaderComponent;
     let target: ComponentFixture<HeaderComponent>;
-    let DATASETS = [new DataSet({ name: "One", _id: "one" }), new DataSet({ name: "Two", _id: "two" }), new DataSet({ name: "Three", _id: "three" })];
+    // let DATASETS = [new DataSet({ name: "One", _id: "one" }), new DataSet({ name: "Two", _id: "two" }), new DataSet({ name: "Three", _id: "three" })];
     let TEAMS = [new Team({ name: "Team one", team_id: "1" }), new Team({ name: "Team two", team_id: "2" })]
     let spyDataSetService: jasmine.Spy;
     let spyAuthService: jasmine.Spy;

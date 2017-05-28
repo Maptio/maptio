@@ -21,11 +21,11 @@ export class InitiativeNodeComponent {
     @ViewChild("initiative")
     initiativeEditComponent: InitiativeComponent;
 
-    private snapshotRoute:ActivatedRouteSnapshot
+    private snapshotRoute: ActivatedRouteSnapshot
 
-    constructor(private router: Router, private route:ActivatedRoute) {
+    constructor(private router: Router, private route: ActivatedRoute) {
         this.snapshotRoute = route.snapshot;
-     }
+    }
 
 
     isRoot(): boolean {
@@ -70,7 +70,7 @@ export class InitiativeNodeComponent {
         this.updateTreeEvent.emit(this.node.treeModel);
     }
 
-    getSlug(){
+    getSlug() {
         return this.snapshotRoute.params["slug"];
     }
 

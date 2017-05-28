@@ -1,10 +1,10 @@
-import { UserFactory } from './../../shared/services/user.factory';
-import { Observable } from 'rxjs/Rx';
-import { MockBackend } from '@angular/http/testing';
-import { Http, BaseRequestOptions } from '@angular/http';
-import { TeamFactory } from './../../shared/services/team.factory';
-import { ActivatedRoute } from '@angular/router';
-import { TestBed, inject, async, ComponentFixture } from "@angular/core/testing";
+import { UserFactory } from "./../../shared/services/user.factory";
+import { Observable } from "rxjs/Rx";
+import { MockBackend } from "@angular/http/testing";
+import { Http, BaseRequestOptions } from "@angular/http";
+import { TeamFactory } from "./../../shared/services/team.factory";
+import { ActivatedRoute } from "@angular/router";
+import { TestBed, async, ComponentFixture } from "@angular/core/testing";
 
 import { TeamComponent } from "./team.component";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
@@ -73,7 +73,7 @@ describe("team.component.ts", () => {
                 spyGetTeam.calls.mostRecent().returnValue.then(() => {
                     expect(spyUpsertTeam).toHaveBeenCalledWith(jasmine.objectContaining({
                         team_id: "team_id",
-                        members: [jasmine.objectContaining({ user_id: 'user_id' })]
+                        members: [jasmine.objectContaining({ user_id: "user_id" })]
                     }));
 
                 })

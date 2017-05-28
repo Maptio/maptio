@@ -1,9 +1,8 @@
-import { TeamComponent } from './../team/team.component';
-import { TeamFactory } from './../../shared/services/team.factory';
+import { TeamComponent } from "./../team/team.component";
+import { TeamFactory } from "./../../shared/services/team.factory";
 import { EmitterService } from "./../../shared/services/emitter.service";
 import { ErrorService } from "./../../shared/services/error/error.service";
 import { Router } from "@angular/router";
-import { Observable } from "rxjs/Rx";
 import { DataSet } from "./../../shared/model/dataset.data";
 import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { User } from "./../../shared/model/user.data";

@@ -19,7 +19,7 @@ export class AccessGuard implements CanActivate, CanActivateChild {
             if (dataset && u.datasets.includes(dataset)) {
                 return true
             }
-            else if(team && u.teams.includes(team)){
+            else if (team && u.teams.includes(team)) {
                 return true;
             }
             else {

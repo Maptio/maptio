@@ -1,7 +1,6 @@
-import { Team } from './../../shared/model/team.data';
-import { UserFactory } from './../../shared/services/user.factory';
-import { TeamFactory } from './../../shared/services/team.factory';
-
+import { Team } from "./../../shared/model/team.data";
+import { UserFactory } from "./../../shared/services/user.factory";
+import { TeamFactory } from "./../../shared/services/team.factory";
 import { EmitterService } from "./../../shared/services/emitter.service";
 import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { ViewChild } from "@angular/core";
@@ -26,7 +25,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public isBuildingPanelCollapsed: boolean = true;
     private datasetId: string;
     private subscription: any;
-    
+
     public dataset: Promise<DataSet>;
     public members: Promise<Array<User>>;
     public team: Promise<Team>;

@@ -1,4 +1,4 @@
-import { TeamFactory } from './../../shared/services/team.factory';
+import { TeamFactory } from "./../../shared/services/team.factory";
 import { Router } from "@angular/router";
 import { EmitterService } from "./../../shared/services/emitter.service";
 import { ErrorService } from "./../../shared/services/error/error.service";

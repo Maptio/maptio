@@ -1,4 +1,3 @@
-import { TeamComponent } from './components/team/team.component';
 
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
@@ -47,6 +46,7 @@ import { FooterComponent } from "./components/footer/footer.component";
 import { HeaderComponent } from "./components/header/header.component";
 
 import { UnauthorizedComponent } from "./components/unauthorized/unauthorized.component";
+import { TeamComponent } from "./components/team/team.component";
 
 // Directives
 import { FocusIfDirective } from "./shared/directives/focusif.directive";
@@ -78,7 +78,7 @@ const appRoutes: Routes = [
 
 @NgModule({
   declarations: [
-    AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent,TeamComponent,
+    AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent, TeamComponent,
     MappingComponent, MappingCirclesComponent, MappingTreeComponent, TooltipComponent,
     BuildingComponent, InitiativeNodeComponent, LoginComponent, HomeComponent, UnauthorizedComponent,
     InitiativeComponent,
