@@ -16,7 +16,7 @@ import { User } from "../../shared/model/user.data";
 @Component({
     selector: "initiative",
     template: require("./initiative.component.html"),
-    styles: [require("./initiative.component.css").toString()],
+    // styles: [require("./initiative.component.css").toString()],
     providers: [Initiative]
 })
 
