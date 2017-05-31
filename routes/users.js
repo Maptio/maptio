@@ -19,41 +19,55 @@ router.get('/users/:pattern', function (req, res, next) {
     let pattern = req.params.pattern;
 
     db.users.find(
-        { $or: [ { name: { $regex: pattern, $options: 'i' } }, { email: { $regex: pattern, $options: 'i' } } ] }
-        
+        { $or: [{ name: { $regex: pattern, $options: 'i' } }, { email: { $regex: pattern, $options: 'i' } }] }
+
         , function (err, users) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.json(users);
+            }
+        });
+});
+
+/* GET One user with the provided ID */
+router.get('/user/:id', function (req, res, next) {
+    // db.users.aggregate([
+    //     { $match: { user_id: req.params.id } },
+    //     { $unwind: { path: "$teams", preserveNullAndEmptyArrays: true } },
+    //     { $lookup: { from: "datasets", localField: "teams", foreignField: "team_id", as: "datasetsFromTeams" } },
+    //     { $unwind: { path: "$datasetsFromTeams", preserveNullAndEmptyArrays: true } },
+    //     { $lookup: { from: "datasets", localField: "_id", foreignField: "team_id", as: "datasetObjects" } },
+
+    //     { $unwind: { path: "$datasets", preserveNullAndEmptyArrays: true } },
+    //     { $lookup: { from: "datasets", localField: "datasets", foreignField: "_id", as: "unlinkedDatasets" } },
+
+    //     {
+    //         $group: {
+    //             _id: "$_id",
+    //             picture: { $min: "$picture" },
+    //             name: { $min: "$name" },
+    //             email: { $min: "$email" },
+    //             user_id: { $min: "$user_id" },
+    //             teams: { $addToSet: "$teams" },
+    //             datasets: { $addToSet: "$datasetsFromTeams._id" },
+    //            unlinkedDatasets: { $addToSet: "$datasets" },
+    //         }
+    //     },
+    //     {
+    //         $limit: 1
+    //     }
+
+    // ]
+
+    db.users.findOne({ user_id: req.params.id },function (err, users) {
+        
         if (err) {
             res.send(err);
         } else {
             res.json(users);
         }
-    });
-});
-
-/* GET One user with the provided ID */
-router.get('/user/:id', function (req, res, next) {
-    db.users.aggregate([
-        { $match: { user_id: req.params.id } },
-        { $unwind: { path: "$teams", preserveNullAndEmptyArrays: true } },
-        { $lookup: { from: "datasets", localField: "teams", foreignField: "team_id", as: "datasets" } },
-        { $unwind: { path: "$datasets", preserveNullAndEmptyArrays: true } },
-        { $lookup: { from: "datasets", localField: "_id", foreignField: "team_id", as: "datasetObjects" } },
-        {
-            $group: {
-                _id: "$_id",
-                picture: { $min: "$picture" },
-                name: { $min: "$name" },
-                email: { $min: "$email" },
-                user_id: { $min: "$user_id" },
-                teams: { $addToSet: "$teams" },
-                datasets: { $addToSet: "$datasets._id" }
-            }
-        },
-        {
-            $limit: 1
-        }
-
-    ],
+    },
         function (err, users) {
             if (err) {
                 res.send(err);
@@ -124,7 +138,7 @@ router.put('/user/:id', function (req, res, next) {
 router.put('/user/:uid/dataset/:did', function (req, res, next) {
     db.users.update(
         { user_id: req.params.uid },
-        { $push: { datasets: mongojs.ObjectId(req.params.did) } },
+        { $push: { datasets: req.params.did } },
         {},
         function (err, result) {
             if (err) {
@@ -140,7 +154,7 @@ router.put('/user/:uid/dataset/:did', function (req, res, next) {
 router.delete('/user/:uid/dataset/:did', function (req, res) {
     db.users.update(
         { user_id: req.params.uid },
-        { $pull: { datasets: { $in: [mongojs.ObjectId(req.params.did)] } } },
+        { $pull: { datasets: { $in: [req.params.did] } } },
         {},
         function (err, result) {
             if (err) {

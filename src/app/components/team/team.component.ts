@@ -6,38 +6,59 @@ import { ActivatedRoute, Params } from "@angular/router";
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Team } from "../../shared/model/team.data";
 import { User } from "../../shared/model/user.data";
+import { Auth } from "../../shared/services/auth/auth.service";
 
 @Component({
     selector: "team",
-    template: require("./team.component.html").toString()
+    template: require("./team.component.html").toString(),
+    // styles: [require("./team.component.css").toString()]
 })
-export class TeamComponent implements OnInit, OnDestroy {
+export class TeamComponent implements  OnDestroy {
     ngOnDestroy(): void {
-        this.subscription.unsubscribe();
+        this.subscription1.unsubscribe();
+        this.subscription2.unsubscribe();
     }
 
-    team$: Promise<Team>
+    private team$: Promise<Team>
+    private teams$: Promise<Team[]>
     public newMember: User;
     private searching: boolean = false;
     private searchFailed: boolean = false;
     public teamId: string;
-    private subscription: Subscription;
+    private subscription1: Subscription;
+    private subscription2: Subscription;
     private existingTeamMembers: User[];
 
-    constructor(private route: ActivatedRoute, private teamFactory: TeamFactory, private userFactory: UserFactory) {
-        this.subscription = this.route.params.subscribe((params: Params) => {
+    constructor(private auth: Auth, private route: ActivatedRoute, private teamFactory: TeamFactory, private userFactory: UserFactory) {
+        this.getAllTeams();
+        this.subscription2 = this.route.params.subscribe((params: Params) => {
+            if (!params["teamid"]) return
             this.teamId = params["teamid"]
-            this.teamFactory.get(this.teamId).then((team: Team) => {
-                this.team$ = Promise.resolve(team);
-                this.existingTeamMembers = team.members;
-            });
+            this.getAllMembers();
         },
             error => { console.log(error) });
     }
 
-    ngOnInit() {
+    getAllMembers() {
+        this.team$ = this.teamFactory.get(this.teamId).then((team: Team) => {
 
+            this.existingTeamMembers = team.members;
+            return team;
+        });
     }
+
+    getAllTeams() {
+        this.subscription1 = this.auth.getUser().subscribe(
+            (user: User) => {
+                this.teams$ = Promise.all(
+                    user.teams.map(
+                        team_id => this.teamFactory.get(team_id).then((resolved: Team) => { return resolved })
+                    )
+                )
+                    .then(teams => { return teams });
+            })
+    }
+
 
     saveNewMember(event: NgbTypeaheadSelectItemEvent) {
         this.newMember = event.item;
@@ -50,16 +71,14 @@ export class TeamComponent implements OnInit, OnDestroy {
                 this.teamFactory.get(this.teamId).then((team: Team) => {
                     team.members.push(this.newMember);
                     this.teamFactory.upsert(team).then((result) => {
-
-                        // if (result) {
-                        //     console.log("User " + this.newMember.name + " was successfully added to team " + this.teamId);
-                        //     this.team$ = Promise.resolve(team);
-                        // }
+                        this.getAllTeams();
+                        this.getAllMembers();
+                        this.newMember = undefined;
                     })
                 });
 
-
             }
+
         })
     }
 

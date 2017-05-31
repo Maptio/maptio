@@ -1,12 +1,12 @@
 <div class="col-lg-6">
-    <div class="panel panel-default panel-primary">
+    <div class="panel panel-default">
         <div class="panel-heading">Profile</div>
         <div class="panel-body">
-            <h3>{{user?.name}}</h3>
+            <h4>{{user?.name}}</h4>
             <img src="{{user?.picture}}" />
-            <h3>{{user?.email}}</h3>
+            <h6>{{user?.email}}</h6>
 
-            Teams
+            <!--Teams
             <ul class="list-group">
                 <li *ngFor="let team of teams$ | async" class="list-group-item">
                     <a routerLink="/account/team/{{team.team_id}}">{{team.name}}</a>
@@ -17,7 +17,7 @@
                         <button class="btn btn-default" type="button" (click)="createNewTeam(teamInput.value)">Create</button>
                     </span>
                 </li>
-            </ul>
+            </ul>-->
         </div>
     </div>
 
@@ -25,7 +25,7 @@
 </div>
 <div class="col-lg-6">
 
-    <div class="panel panel-default panel-primary">
+    <div class="panel panel-default">
         <div class="panel-heading">Initiatives</div>
         <div class="panel-body">
             <ul class="list-group">

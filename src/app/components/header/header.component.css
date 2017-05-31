@@ -85,6 +85,14 @@
 
 .map-option{
     width:200px;
+     padding-left: 8px;
+    padding-right: 8px;
+}
+
+.create-option{
+    width: 350px;
+    padding-left: 8px;
+    padding-right: 8px;
 }
 /* curious is this the bootstrap overwrite file */
 .navbar {

@@ -11,6 +11,32 @@ import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { ErrorService } from "../../shared/services/error/error.service";
 import { User } from "../../shared/model/user.data";
 import { Team } from "../../shared/model/team.data";
+import { Auth } from "../../shared/services/auth/auth.service";
+
+export class AuthStub {
+    fakeProfile: User = new User({
+        name: "John Doe", email: "johndoe@domain.com",
+        picture: "http://seemyface.com/user.jpg", user_id: "someId",
+        datasets: ["dataset1", "dataset2"], teams: ["team1", "team2"]
+    });
+
+    public getUser(): Observable<User> {
+        // console.log("here")
+        return Observable.of(this.fakeProfile);
+    }
+
+    authenticated() {
+        return;
+    }
+
+    login() {
+        return;
+    }
+
+    logout() {
+        return;
+    }
+}
 
 describe("team.component.ts", () => {
     let component: TeamComponent;
@@ -30,6 +56,7 @@ describe("team.component.ts", () => {
                         },
                         deps: [MockBackend, BaseRequestOptions]
                     },
+                    { provide: Auth, useClass: AuthStub },
                     MockBackend,
                     BaseRequestOptions,
                     ErrorService,
@@ -46,10 +73,6 @@ describe("team.component.ts", () => {
     beforeEach(() => {
         target = TestBed.createComponent(TeamComponent);
         component = target.componentInstance;
-    });
-
-    it("should have an instance", () => {
-        expect(component).toBeDefined();
     });
 
 

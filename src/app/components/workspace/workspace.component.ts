@@ -9,6 +9,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { DataSet } from "../../shared/model/dataset.data";
 import { User } from "../../shared/model/user.data";
+import { Auth } from "../../shared/services/auth/auth.service";
 
 @Component({
     selector: "workspace",
@@ -29,8 +30,9 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public dataset: Promise<DataSet>;
     public members: Promise<Array<User>>;
     public team: Promise<Team>;
+    public teams: Promise<Team[]>;
 
-    constructor(private route: ActivatedRoute, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private userFactory: UserFactory) {
+    constructor(private auth: Auth, private route: ActivatedRoute, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private userFactory: UserFactory) {
         this.subscription = EmitterService.get("currentDataset").subscribe((value: any) => {
             this.datasetFactory.upsert(value, this.datasetId);
         });
@@ -49,15 +51,31 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
             this.dataset = this.datasetFactory.get(this.datasetId);
 
             this.team = this.dataset.then((dataset: DataSet) => {
-                return this.teamFactory.get(dataset.team_id)
+                if (dataset.team_id)
+                    return this.teamFactory.get(dataset.team_id)
             })
 
             this.members = this.team
-                .then((t: Team) => {
-                    return t.members;
+                .then((team: Team) => {
+                    if (team)
+                        return team.members;
                 });
         });
+
+        this.auth.getUser().subscribe((user: User) => {
+            this.teams = Promise.all(
+                user.teams.map(
+                    (team_id: string) => this.teamFactory.get(team_id).then((team: Team) => { return team })
+                )
+            )
+                .then(teams => { return teams });
+        })
+
     }
+
+    // addTeamToInitiative() {
+
+    // }
 
     toggleBuildingPanel() {
         this.isBuildingPanelCollapsed = !this.isBuildingPanelCollapsed;

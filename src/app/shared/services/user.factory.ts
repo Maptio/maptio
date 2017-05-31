@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Rx';
 import { ErrorService } from "./error/error.service";
 import { User } from "./../model/user.data";
 import { Injectable } from "@angular/core";

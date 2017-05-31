@@ -12,7 +12,6 @@ export class AccessGuard implements CanActivate, CanActivateChild {
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-
         let dataset = route.params["workspaceid"];
         let team = route.params["teamid"];
         return this.auth.getUser().map(u => {

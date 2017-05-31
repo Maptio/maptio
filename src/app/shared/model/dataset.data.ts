@@ -1,11 +1,11 @@
 import { Serializable } from "./../interfaces/serializable.interface";
 export class DataSet implements Serializable<DataSet> {
 
-  content: any;
+  // content: any;
 
   name: string;
 
-  url: string;
+  // url: string;
 
   _id: string;
 
@@ -22,16 +22,17 @@ export class DataSet implements Serializable<DataSet> {
   }
 
   deserialize(input: any): DataSet {
+    if (!input) return
     let deserialized = new DataSet();
-    deserialized.content = input.content;
+    // deserialized.content = input.content;
     deserialized._id = input._id;
     deserialized.team_id = input.team_id;
     deserialized.name = input.name;
-    deserialized.url = input.url;
+    // deserialized.url = input.url;
     deserialized.createdOn = input.createdOn;
     return deserialized;
   }
   tryDeserialize: (input: any) => [boolean, DataSet];
 
-  static EMPTY: DataSet = new DataSet({ name: "New project", url: "../../../assets/datasets/new.json" });
+  static EMPTY: DataSet = new DataSet({ name: "New project" });
 }
