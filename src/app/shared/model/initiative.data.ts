@@ -63,7 +63,14 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
     /**True if this node matches a search */
     isSearchedFor: boolean = false;
 
-    public constructor() { }
+    public constructor(init?: Partial<Initiative>) {
+        Object.assign(this, init);
+    }
+
+
+    static create() {
+        return new Initiative();
+    }
 
     deserialize(input: any): Initiative {
         this.id = input.id;
@@ -99,6 +106,8 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
         this.helpers = helpers;
         return this;
     }
+
+
 
     /** N */
     tryDeserialize(input: any): [boolean, Initiative] {

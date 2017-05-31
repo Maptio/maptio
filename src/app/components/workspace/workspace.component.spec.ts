@@ -1,3 +1,4 @@
+import { Initiative } from './../../shared/model/initiative.data';
 import { DataSet } from "./../../shared/model/dataset.data";
 import { TeamFactory } from "./../../shared/services/team.factory";
 import { Params } from "@angular/router";
@@ -18,6 +19,33 @@ import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import { Team } from "../../shared/model/team.data";
 import { User } from "../../shared/model/user.data";
+import { Auth } from "../../shared/services/auth/auth.service";
+
+
+export class AuthStub {
+    fakeProfile: User = new User({
+        name: "John Doe", email: "johndoe@domain.com",
+        picture: "http://seemyface.com/user.jpg", user_id: "someId",
+        datasets: ["dataset1", "dataset2"], teams: ["team1", "team2"]
+    });
+
+    public getUser(): Observable<User> {
+        // console.log("here")
+        return Observable.of(this.fakeProfile);
+    }
+
+    authenticated() {
+        return;
+    }
+
+    login() {
+        return;
+    }
+
+    logout() {
+        return;
+    }
+}
 
 describe("workspace.component.ts", () => {
 
@@ -32,6 +60,7 @@ describe("workspace.component.ts", () => {
             set: {
                 providers: [DataService, DatasetFactory, UserFactory, TeamFactory,
                     {
+
                         provide: Http,
                         useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
                             return new Http(mockBackend, options);
@@ -40,6 +69,7 @@ describe("workspace.component.ts", () => {
                     },
                     MockBackend,
                     BaseRequestOptions,
+                    { provide: Auth, useClass: AuthStub },
                     ErrorService,
                     {
                         provide: ActivatedRoute,
@@ -113,7 +143,7 @@ describe("workspace.component.ts", () => {
                 let spy = spyOn(component.buildingComponent, "loadData");
                 let mockRoute: ActivatedRoute = target.debugElement.injector.get(ActivatedRoute);
                 let mockDataSetFactory = target.debugElement.injector.get(DatasetFactory);
-                let spyGet = spyOn(mockDataSetFactory, "get").and.returnValue(Promise.resolve(new DataSet({ _id: "123" })));
+                let spyGet = spyOn(mockDataSetFactory, "get").and.returnValue(Promise.resolve(new DataSet({ _id: "123", initiative: new Initiative({ team_id: "team1"})})));
 
                 component.ngOnInit();
 
@@ -124,7 +154,7 @@ describe("workspace.component.ts", () => {
                         expect(spyGet).toHaveBeenCalledWith(123)
                     })
                     component.dataset.then((r) => {
-                        expect(r).toEqual(new DataSet({ _id: "123" }))
+                        expect(r).toEqual(new DataSet({ _id: "123", initiative: new Initiative({ team_id: "team1"})}))
                     })
                 });
 
@@ -135,7 +165,7 @@ describe("workspace.component.ts", () => {
                 let spy = spyOn(component.buildingComponent, "loadData");
                 let mockRoute: ActivatedRoute = target.debugElement.injector.get(ActivatedRoute);
                 let mockDataSetFactory = target.debugElement.injector.get(DatasetFactory);
-                let spyGetDataset = spyOn(mockDataSetFactory, "get").and.returnValue(Promise.resolve(new DataSet({ team_id: "team_id" })));
+                let spyGetDataset = spyOn(mockDataSetFactory, "get").and.returnValue(Promise.resolve(new DataSet({ _id: "123", initiative: new Initiative({ team_id: "team_id"})})));
 
                 let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
                 let spyGetTeam = spyOn(mockTeamFactory, "get").and.returnValue(Promise.resolve(new Team({ team_id: "team_id", name: "Winners" })))
@@ -162,7 +192,7 @@ describe("workspace.component.ts", () => {
                 let spy = spyOn(component.buildingComponent, "loadData");
                 let mockRoute: ActivatedRoute = target.debugElement.injector.get(ActivatedRoute);
                 let mockDataSetFactory = target.debugElement.injector.get(DatasetFactory);
-                let spyGetDataset = spyOn(mockDataSetFactory, "get").and.returnValue(Promise.resolve(new DataSet({ team_id: "team_id" })));
+                 let spyGetDataset = spyOn(mockDataSetFactory, "get").and.returnValue(Promise.resolve(new DataSet({ _id: "123", initiative: new Initiative({ team_id: "team_id"})})));
 
                 let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
                 let spyGetTeam = spyOn(mockTeamFactory, "get").and.returnValue(Promise.resolve(new Team({ members: [new User({ user_id: "1" })] })));

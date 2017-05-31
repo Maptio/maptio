@@ -60,18 +60,18 @@ export class AccountComponent implements OnInit {
     }
 
 
-    open(dataset: DataSet) {
-        EmitterService.get("datasetName").emit(dataset.name);
-        this.router.navigate(["workspace", dataset._id]);
-    }
+    // open(dataset: DataSet) {
+    //     EmitterService.get("datasetName").emit(dataset.initiative.name);
+    //     this.router.navigate(["workspace", dataset._id]);
+    // }
 
     deleteDataset(dataset: DataSet) {
         this.datasetFactory.delete(dataset, this.user).then((result: boolean) => {
             if (result) {
-                this.message = "Dataset " + dataset.name + " was successfully deleted";
+                this.message = "Dataset " + dataset.initiative.name + " was successfully deleted";
             }
             else {
-                this.errorService.handleError(new Error("Dataset " + dataset.name + " cannot be deleted"));
+                this.errorService.handleError(new Error("Dataset " + dataset.initiative.name + " cannot be deleted"));
             }
             this.refresh();
         });

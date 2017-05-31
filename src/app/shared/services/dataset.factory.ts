@@ -20,7 +20,7 @@ export class DatasetFactory {
     }
 
 
-    upsert(dataset: DataSet, datasetId?: string): Promise<boolean> {
+    upsert(dataset: any, datasetId?: string): Promise<boolean> {
         return this._http.put("/api/v1/dataset/" + (dataset._id || datasetId), dataset)
             .map((responseData) => {
                 return responseData.json();
@@ -50,9 +50,11 @@ export class DatasetFactory {
      * @param dataset Dataset to create
      */
     create(dataset: DataSet): Promise<DataSet> {
+        // console.log(dataset)
         if (!dataset) throw new Error("Parameter missing");
         return this._http.post("/api/v1/dataset", dataset)
             .map((response: Response) => {
+                // console.log("response", response.json());
                 return DataSet.create().deserialize(response.json());
             })
             .toPromise()

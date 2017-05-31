@@ -20,9 +20,9 @@
                     </a>
 
                     <ul class="dropdown-menu">
-                        <li *ngFor="let dataset of datasets$ | async">
+                        <li *ngFor="let dataset of datasets$ | async" routerLink="/workspace/{{dataset._id}}">
                             
-                                <div class="panel map-option" (click)="openDataset(dataset)">
+                                <div class="panel map-option" >
                                     <b>{{dataset.name}} </b>
                                     <br/>
                                     <small *ngIf="dataset.team"><i class="fa fa-users" aria-hidden="true"></i> {{dataset.team.name}}</small>

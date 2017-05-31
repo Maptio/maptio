@@ -1,3 +1,4 @@
+import { DataSet } from './../../shared/model/dataset.data';
 import { Team } from "./../../shared/model/team.data";
 import { UserFactory } from "./../../shared/services/user.factory";
 import { TeamFactory } from "./../../shared/services/team.factory";
@@ -7,7 +8,6 @@ import { ViewChild } from "@angular/core";
 import { BuildingComponent } from "./../building/building.component";
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
-import { DataSet } from "../../shared/model/dataset.data";
 import { User } from "../../shared/model/user.data";
 import { Auth } from "../../shared/services/auth/auth.service";
 
@@ -51,8 +51,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
             this.dataset = this.datasetFactory.get(this.datasetId);
 
             this.team = this.dataset.then((dataset: DataSet) => {
-                if (dataset.team_id)
-                    return this.teamFactory.get(dataset.team_id)
+                if (dataset.initiative.team_id)
+                    return this.teamFactory.get(dataset.initiative.team_id)
             })
 
             this.members = this.team
@@ -73,9 +73,19 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     }
 
-    // addTeamToInitiative() {
-
-    // }
+    addTeamToInitiative(team: Team) {
+        this.team = this.dataset.then((dataset: DataSet) => {
+            dataset.initiative.team_id = team.team_id;
+            EmitterService.get("currentDataset").emit(dataset.initiative);
+            this.buildingComponent.loadData(dataset._id);
+            return team;
+        });
+        this.members = this.team
+            .then((team: Team) => {
+                if (team)
+                    return team.members;
+            });
+    }
 
     toggleBuildingPanel() {
         this.isBuildingPanelCollapsed = !this.isBuildingPanelCollapsed;

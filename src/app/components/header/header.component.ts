@@ -1,3 +1,4 @@
+import { Initiative } from './../../shared/model/initiative.data';
 import { TeamFactory } from "./../../shared/services/team.factory";
 import { Router } from "@angular/router";
 import { EmitterService } from "./../../shared/services/emitter.service";
@@ -34,7 +35,7 @@ export class HeaderComponent implements OnInit {
     private selectedTeam: Team;
 
     // HACK : for demonstration purposes
-    private VESTD = new DataSet({ _id: "58c9d273734d1d2ca8564da2", name: "Vestd" })
+    private VESTD_ID:string = "58c9d273734d1d2ca8564da2" ;
 
     constructor(private auth: Auth, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private errorService: ErrorService, private router: Router) {
         EmitterService.get("currentDataset").subscribe((value: any) => {
@@ -59,7 +60,7 @@ export class HeaderComponent implements OnInit {
 
                 let getDataSets = Promise.all(
                     // get all datasets available to this user accross all teams
-                    this.user.datasets.map(
+                    this.user.datasets.concat(...[this.VESTD_ID]).map(
                         dataset_id => this.datasetFactory.get(dataset_id).then((resolved: DataSet) => { return resolved })
                     )
                 )
@@ -74,15 +75,15 @@ export class HeaderComponent implements OnInit {
 
                 this.datasets$ = Promise.all([getDataSets, this.teams$])
                     .then((value) => {
-                        let datasets = value[0].concat(...[this.VESTD]);
+                        let datasets = value[0];
                         let teams = value[1];
 
                         return datasets.map(d => {
                             return {
                                 _id: d._id,
-                                name: d.name,
-                                team_id: d.team_id,
-                                team: teams.filter(t => t.team_id === d.team_id)[0]
+                                name: d.initiative.name,
+                                team_id: d.initiative.team_id,
+                                team: teams.filter(t => t.team_id === d.initiative.team_id)[0]
                             }
                         })
                     });
@@ -110,20 +111,20 @@ export class HeaderComponent implements OnInit {
 
 
 
-    openHelp() {
-        this.openHelpEvent.emit();
-    }
+    // openHelp() {
+    //     this.openHelpEvent.emit();
+    // }
 
-    openDataset(dataset: DataSet) {
-        this.selectedDatasetName = dataset.name;
-        this.router.navigate(["workspace", dataset._id]);
-    }
+    // openDataset(dataset: DataSet) {
+    //     this.selectedDatasetName = dataset.initiative.name;
+    //     this.router.navigate(["workspace", dataset._id]);
+    // }
 
     createDataset() {
-        let newDataset = new DataSet({ name: this.newDatasetName, createdOn: new Date() });
+        let newDataset = new DataSet({ initiative: new Initiative({name:this.newDatasetName}),  createdOn: new Date() });
         this.datasetFactory.create(newDataset).then((created: DataSet) => {
             this.datasetFactory.add(created, this.user).then((result: boolean) => {
-                this.openDataset(created);
+                this.router.navigate(["workspace", created._id]);
             }).catch(this.errorService.handleError);
         }).catch(this.errorService.handleError);
         this.ngOnInit();

@@ -1,3 +1,4 @@
+import { DataSet } from './../../shared/model/dataset.data';
 import { TeamFactory } from "./../../shared/services/team.factory";
 import { Router } from "@angular/router";
 import { EmitterService } from "./../../shared/services/emitter.service";
@@ -6,7 +7,6 @@ import { HeaderComponent } from "./header.component";
 import { ComponentFixture, TestBed, async, fakeAsync } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
 import { DatasetFactory } from "../../shared/services/dataset.factory";
-import { DataSet } from "../../shared/model/dataset.data";
 import { ErrorService } from "../../shared/services/error/error.service";
 import { Auth } from "../../shared/services/auth/auth.service";
 import { MockBackend } from "@angular/http/testing";
@@ -151,38 +151,6 @@ describe("header.component.ts", () => {
             }));
         });
 
-        xdescribe("Help button", () => {
-            it("should call openHelp", () => {
-                let spy = spyOn(component, "openHelp");
-                let helpClickElement = target.debugElement.query(By.css("#openHelpWindow"));
-                (helpClickElement.nativeElement as HTMLAnchorElement).click();
-                expect(spy).toHaveBeenCalled();
-            });
-        });
-
-        xdescribe("Project name", () => {
-
-
-            it("should display dataset name in navigation bar after it is loaded", async(() => {
-                let mockAuth = target.debugElement.injector.get(Auth);
-                let mockRouter = target.debugElement.injector.get(Router)
-                spyOn(mockAuth, "authenticated").and.returnValue(true);
-                spyOn(mockRouter, "navigate");
-                target.detectChanges();
-
-                let dataset = new DataSet({ name: "Example", url: "http://server/example.json" });
-                component.openDataset(dataset);
-                EmitterService.get("datasetName").emit("Example");
-                target.whenStable().then(() => {
-                    target.detectChanges();
-
-                    let element = target.debugElement.query(By.css("li#datasetName"));
-                    expect(element).toBeDefined();
-                    expect(element.nativeElement.textContent).toContain(dataset.name);
-                });
-
-            }));
-        });
 
         describe("Authentication", () => {
             it("should display LogIn button when no user is authenticated", () => {
@@ -305,7 +273,7 @@ describe("header.component.ts", () => {
                 let mockAuth: Auth = target.debugElement.injector.get(Auth);
                 let spyAuth = spyOn(mockAuth, "getUser").and.callThrough();
                 let mockTeamService = target.debugElement.injector.get(TeamFactory);
-                let spyTeamService = spyOn(mockTeamService, "get").and.returnValue(Promise.resolve(new DataSet({ name: "a dataset" })));
+                let spyTeamService = spyOn(mockTeamService, "get").and.returnValue(Promise.resolve(new Team({ team_id: "something" })));
 
                 component.ngOnInit();
                 spyAuth.calls.mostRecent().returnValue.toPromise().then((user: User) => {
@@ -352,39 +320,21 @@ describe("header.component.ts", () => {
         });
 
 
-        describe("openHelp", () => {
-            it("should emit openHelp event ", () => {
-                let spy = spyOn(component.openHelpEvent, "emit");
-                component.openHelp();
-                expect(spy).toHaveBeenCalled();
-            });
-        })
-
-        describe("openDataSet", () => {
-            it("should open workspace with dataset id", () => {
-                let router = target.debugElement.injector.get(Router)
-                let dataset = new DataSet({ name: "Example", _id: "someId" });
-                let mockRouter = target.debugElement.injector.get(Router);
-                let spyNavigate = spyOn(mockRouter, "navigate")
-                component.openDataset(dataset);
-                expect(spyNavigate).toHaveBeenCalledWith(["workspace", "someId"]);
-            });
-        });
-
         describe("createDataset", () => {
             it("should create a dataset with no name and then attach it to the authenticated user and open it", async(() => {
                 let mockFactory = target.debugElement.injector.get(DatasetFactory);
-                let mockTeamFactory = target.debugElement.injector.get(TeamFactory)
+                let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
+                let mockRouter = target.debugElement.injector.get(Router);
                 let spyGetTeams = spyOn(mockTeamFactory, "get").and.returnValue(Promise.resolve(TEAMS));
-                let spyCreate = spyOn(mockFactory, "create").and.returnValue(Promise.resolve(true));
+                let spyCreate = spyOn(mockFactory, "create").and.returnValue(Promise.resolve(new DataSet({ _id: "created_id" })));
                 let spyAdd = spyOn(mockFactory, "add").and.returnValue(Promise.resolve(true));
-                let spyOpen = spyOn(component, "openDataset");
+                let spyOpen = spyOn(mockRouter, "navigate");
 
                 component.createDataset();
                 spyCreate.calls.mostRecent().returnValue.then(() => {
                     expect(spyAdd).toHaveBeenCalled();
                     spyAdd.calls.mostRecent().returnValue.then(() => {
-                        expect(spyOpen).toHaveBeenCalled();
+                        expect(spyOpen).toHaveBeenCalledWith(["workspace", "created_id"]);
                     });
                 });
                 expect(spyCreate).toHaveBeenCalled();
@@ -392,11 +342,13 @@ describe("header.component.ts", () => {
 
             it("should call errorService if creation doesnt work", async(() => {
                 let mockFactory = target.debugElement.injector.get(DatasetFactory);
+                let mockRouter = target.debugElement.injector.get(Router);
+
                 let error = target.debugElement.injector.get(ErrorService);
                 let spyError = spyOn(error, "handleError");
                 let spyCreate = spyOn(mockFactory, "create").and.returnValue(Promise.reject("Didnt work"));
                 let spyAdd = spyOn(mockFactory, "add")
-                let spyOpen = spyOn(component, "openDataset");
+                let spyOpen = spyOn(mockRouter, "navigate");
 
                 component.createDataset();
                 spyCreate.calls.mostRecent().returnValue.then(() => {
@@ -410,11 +362,13 @@ describe("header.component.ts", () => {
 
             it("should call errorService if adding dataset doesnt work", async(() => {
                 let mockFactory = target.debugElement.injector.get(DatasetFactory);
+                let mockRouter = target.debugElement.injector.get(Router);
+
                 let error = target.debugElement.injector.get(ErrorService);
                 let spyError = spyOn(error, "handleError");
                 let spyCreate = spyOn(mockFactory, "create").and.returnValue(Promise.resolve(true));
                 let spyAdd = spyOn(mockFactory, "add").and.returnValue(Promise.reject("Didnt work"));
-                let spyOpen = spyOn(component, "openDataset");
+                let spyOpen = spyOn(mockRouter, "navigate");
 
                 component.createDataset();
                 spyCreate.calls.mostRecent().returnValue.then(() => {
