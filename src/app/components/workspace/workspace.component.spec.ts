@@ -1,3 +1,5 @@
+import { EmitterService } from './../../shared/services/emitter.service';
+import { Team } from './../../shared/model/team.data';
 import { Initiative } from './../../shared/model/initiative.data';
 import { DataSet } from "./../../shared/model/dataset.data";
 import { TeamFactory } from "./../../shared/services/team.factory";
@@ -6,7 +8,7 @@ import { ActivatedRoute } from "@angular/router";
 import { WorkspaceComponent } from "./workspace.component";
 import { UserFactory } from "./../../shared/services/user.factory";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
-import { NO_ERRORS_SCHEMA } from "@angular/core"
+import { NO_ERRORS_SCHEMA, EventEmitter } from "@angular/core"
 import { By } from "@angular/platform-browser";
 import { BuildingComponent } from "../../components/building/building.component"
 import { DatasetFactory } from "../../shared/services/dataset.factory";
@@ -117,6 +119,75 @@ describe("workspace.component.ts", () => {
 
     describe("Controller", () => {
 
+        describe("adding team to initiative", () => {
+            it("should add team to current dataset", () => {
+
+                component.dataset = Promise.resolve(new DataSet({ _id: "some_dataset_id", initiative: new Initiative() }))
+
+                let team = new Team({ name: "Winners", members: [], team_id: "some_team_id" })
+
+                component.dataset.then((d) => {
+                    expect(d.initiative.team_id).toBeUndefined();
+                })
+                component.addTeamToInitiative(team)
+                component.dataset.then((d) => {
+                    expect(d.initiative.team_id).toBe("some_team_id")
+                })
+
+            })
+
+            it("should use EmitterService to save new dataset", () => {
+
+                let eventEmitter = new EventEmitter();
+
+                let spyGetEmitterService = spyOn(EmitterService, "get").and.returnValue(eventEmitter)
+                let spyEmit = spyOn(eventEmitter, "emit");
+
+                component.dataset = Promise.resolve(new DataSet({ _id: "some_dataset_id", initiative: new Initiative() }))
+
+                let team = new Team({ name: "Winners", members: [], team_id: "some_team_id" })
+
+                component.addTeamToInitiative(team)
+                component.dataset.then((d) => {
+                    expect(spyEmit).toHaveBeenCalledWith(d.initiative);
+
+                })
+
+            })
+
+            it("should load data in building component", () => {
+
+                let spyLoadData = spyOn(component.buildingComponent, "loadData")
+                component.dataset = Promise.resolve(new DataSet({ _id: "some_dataset_id", initiative: new Initiative() }))
+
+                let team = new Team({ name: "Winners", members: [], team_id: "some_team_id" })
+
+                component.addTeamToInitiative(team)
+                component.dataset.then((d) => {
+                    expect(spyLoadData).toHaveBeenCalledWith("some_dataset_id")
+                })
+
+            })
+
+            it("should refresh team and team members", () => {
+
+                component.dataset = Promise.resolve(new DataSet({ _id: "some_dataset_id", initiative: new Initiative() }))
+
+                let team = new Team({ name: "Winners", members: [new User({ user_id: "1" })], team_id: "some_team_id" })
+
+                component.addTeamToInitiative(team)
+
+                component.team.then((t) => {
+                    expect(t).toBe(team)
+                })
+                component.members.then((m) => {
+                    expect(m.length).toBe(1)
+                    expect(m[0].user_id).toBe("1")
+                })
+
+            })
+        })
+
         describe("toggleBuildingPanel", () => {
             it("should change value of isBuildingPanelCollapsed when calling toggleBuildingPanel", () => {
                 expect(target.componentInstance.isBuildingPanelCollapsed).toBeTruthy();
@@ -143,7 +214,7 @@ describe("workspace.component.ts", () => {
                 let spy = spyOn(component.buildingComponent, "loadData");
                 let mockRoute: ActivatedRoute = target.debugElement.injector.get(ActivatedRoute);
                 let mockDataSetFactory = target.debugElement.injector.get(DatasetFactory);
-                let spyGet = spyOn(mockDataSetFactory, "get").and.returnValue(Promise.resolve(new DataSet({ _id: "123", initiative: new Initiative({ team_id: "team1"})})));
+                let spyGet = spyOn(mockDataSetFactory, "get").and.returnValue(Promise.resolve(new DataSet({ _id: "123", initiative: new Initiative({ team_id: "team1" }) })));
 
                 component.ngOnInit();
 
@@ -154,7 +225,7 @@ describe("workspace.component.ts", () => {
                         expect(spyGet).toHaveBeenCalledWith(123)
                     })
                     component.dataset.then((r) => {
-                        expect(r).toEqual(new DataSet({ _id: "123", initiative: new Initiative({ team_id: "team1"})}))
+                        expect(r).toEqual(new DataSet({ _id: "123", initiative: new Initiative({ team_id: "team1" }) }))
                     })
                 });
 
@@ -165,7 +236,7 @@ describe("workspace.component.ts", () => {
                 let spy = spyOn(component.buildingComponent, "loadData");
                 let mockRoute: ActivatedRoute = target.debugElement.injector.get(ActivatedRoute);
                 let mockDataSetFactory = target.debugElement.injector.get(DatasetFactory);
-                let spyGetDataset = spyOn(mockDataSetFactory, "get").and.returnValue(Promise.resolve(new DataSet({ _id: "123", initiative: new Initiative({ team_id: "team_id"})})));
+                let spyGetDataset = spyOn(mockDataSetFactory, "get").and.returnValue(Promise.resolve(new DataSet({ _id: "123", initiative: new Initiative({ team_id: "team_id" }) })));
 
                 let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
                 let spyGetTeam = spyOn(mockTeamFactory, "get").and.returnValue(Promise.resolve(new Team({ team_id: "team_id", name: "Winners" })))
@@ -192,7 +263,7 @@ describe("workspace.component.ts", () => {
                 let spy = spyOn(component.buildingComponent, "loadData");
                 let mockRoute: ActivatedRoute = target.debugElement.injector.get(ActivatedRoute);
                 let mockDataSetFactory = target.debugElement.injector.get(DatasetFactory);
-                 let spyGetDataset = spyOn(mockDataSetFactory, "get").and.returnValue(Promise.resolve(new DataSet({ _id: "123", initiative: new Initiative({ team_id: "team_id"})})));
+                let spyGetDataset = spyOn(mockDataSetFactory, "get").and.returnValue(Promise.resolve(new DataSet({ _id: "123", initiative: new Initiative({ team_id: "team_id" }) })));
 
                 let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
                 let spyGetTeam = spyOn(mockTeamFactory, "get").and.returnValue(Promise.resolve(new Team({ members: [new User({ user_id: "1" })] })));
