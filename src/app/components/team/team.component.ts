@@ -13,7 +13,7 @@ import { Auth } from "../../shared/services/auth/auth.service";
     template: require("./team.component.html").toString(),
     // styles: [require("./team.component.css").toString()]
 })
-export class TeamComponent implements  OnDestroy {
+export class TeamComponent implements OnDestroy {
     ngOnDestroy(): void {
         this.subscription1.unsubscribe();
         this.subscription2.unsubscribe();
@@ -28,6 +28,7 @@ export class TeamComponent implements  OnDestroy {
     private subscription1: Subscription;
     private subscription2: Subscription;
     private existingTeamMembers: User[];
+    private user: User;
 
     constructor(private auth: Auth, private route: ActivatedRoute, private teamFactory: TeamFactory, private userFactory: UserFactory) {
         this.getAllTeams();
@@ -37,6 +38,10 @@ export class TeamComponent implements  OnDestroy {
             this.getAllMembers();
         },
             error => { console.log(error) });
+
+        this.auth.getUser().subscribe((user: User) => {
+            this.user = user;
+        })
     }
 
     getAllMembers() {
@@ -80,6 +85,19 @@ export class TeamComponent implements  OnDestroy {
             }
 
         })
+    }
+
+    createNewTeam(teamName: string) {
+        console.log(teamName)
+        this.teamFactory.create(new Team({ name: teamName, members: [this.user] })).then((team: Team) => {
+            this.user.teams.push(team.team_id);
+            console.log(this.user.teams)
+            this.userFactory.upsert(this.user).then((result: boolean) => {
+                this.getAllTeams();
+            })
+
+        })
+
     }
 
     searchUsers =

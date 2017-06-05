@@ -24,10 +24,12 @@
         </div>
     </div>
 
-    <div><h4>Teams</h4></div>
+    <div>
+        <h4>Teams</h4>
+    </div>
 
     <div class="row">
-        
+
         <div class="col-lg-3" *ngFor="let team of (teams$ | async)">
 
             <div class="panel panel-default">
@@ -42,6 +44,20 @@
             <img class="member " src="{{user?.picture}}" alt="{{user?.name}}" title="{{user?.name}}">
         </a>
                     </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Create a new team
+                </div>
+                <div class="panel-body input-group">
+                    <input #teamInput type="text" class="form-control input-sm" placeholder="Type new team name">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default btn-sm" type="button" (click)="createNewTeam(teamInput.value)">Create</button>
+                    </span>
                 </div>
 
             </div>
