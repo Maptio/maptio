@@ -1,5 +1,5 @@
 <div class="row header">
-    <h4 class="pull-left">{{(dataset | async)?.initiative.name}}</h4>
+    <!--<h4 class="pull-left">{{(dataset | async)?.initiative.name}}</h4>-->
     <p class="pull-right team-name"> {{(team|async)?.name}}</p>
     <div class="btn-group pull-right" *ngIf="team | async">
         <a *ngFor="let user of members | async" class="btn btn-link btn-xs no-padding">

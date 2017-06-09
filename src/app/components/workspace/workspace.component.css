@@ -11,8 +11,9 @@
 }
 
 .header{
-        padding: 22px;
-    padding-left: 16px;
+   padding: 0px;
+    /* padding-left: 16px; */
+    min-height: 39px;
 }
 
 .team-name{
