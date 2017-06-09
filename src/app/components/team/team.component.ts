@@ -88,10 +88,8 @@ export class TeamComponent implements OnDestroy {
     }
 
     createNewTeam(teamName: string) {
-        console.log(teamName)
         this.teamFactory.create(new Team({ name: teamName, members: [this.user] })).then((team: Team) => {
             this.user.teams.push(team.team_id);
-            console.log(this.user.teams)
             this.userFactory.upsert(this.user).then((result: boolean) => {
                 this.getAllTeams();
             })

@@ -25,7 +25,7 @@
     </div>
 
     <div>
-        <h4>Teams</h4>
+        <h1>My teams</h1>
     </div>
 
     <div class="row">
@@ -48,19 +48,19 @@
 
             </div>
         </div>
-        <div class="col-lg-3">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Create a new team
-                </div>
-                <div class="panel-body input-group">
-                    <input #teamInput type="text" class="form-control input-sm" placeholder="Type new team name">
-                    <span class="input-group-btn">
+
+    </div>
+
+ <div>
+        <h1>Create a new team</h1>
+    </div>
+    <div class="col-lg-3 input-group">
+          
+                <input #teamInput type="text" class="form-control input-sm" placeholder="Type new team name">
+                <span class="input-group-btn">
                         <button class="btn btn-default btn-sm" type="button" (click)="createNewTeam(teamInput.value)">Create</button>
                     </span>
-                </div>
+ 
 
-            </div>
-        </div>
     </div>
 </div>
