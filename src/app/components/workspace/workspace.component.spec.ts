@@ -1,5 +1,4 @@
 import { EmitterService } from './../../shared/services/emitter.service';
-import { Team } from './../../shared/model/team.data';
 import { Initiative } from './../../shared/model/initiative.data';
 import { DataSet } from "./../../shared/model/dataset.data";
 import { TeamFactory } from "./../../shared/services/team.factory";
