@@ -97,6 +97,14 @@
 /* curious is this the bootstrap overwrite file */
 .navbar {
     
-    min-height: 80px;
+    min-height: 52px;
     
+}
+
+.map-name{
+    line-height: 10px;
+}
+
+.dropdown:hover .dropdown-menu {
+display: block;
 }

@@ -12,8 +12,13 @@
         </div>
 
         <div class="collapse navbar-collapse" id="navbar-brand-centered">
-            <ul class="nav navbar-nav">
-                <li *ngIf="auth.authenticated()">
+            <ul class="nav navbar-nav navbar-left">
+                <div class="map-name h3">{{selectedDatasetName}}</div>
+            </ul>
+
+
+            <ul class="nav navbar-nav navbar-right">
+                   <li *ngIf="auth.authenticated()" class="dropdown">
 
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         <div>Maps <i class="fa fa-chevron-down" aria-hidden="true"></i></div>
@@ -21,12 +26,12 @@
 
                     <ul class="dropdown-menu">
                         <li *ngFor="let dataset of datasets$ | async" routerLink="/workspace/{{dataset._id}}">
-                            
-                                <div class="panel map-option" >
-                                    <b>{{dataset.name}} </b>
-                                    <br/>
-                                    <small *ngIf="dataset.team"><i class="fa fa-users" aria-hidden="true"></i> {{dataset.team.name}}</small>
-                                </div>
+
+                            <div class="panel map-option">
+                                <b>{{dataset.name}} </b>
+                                <br/>
+                                <small *ngIf="dataset.team"><i class="fa fa-users" aria-hidden="true"></i> {{dataset.team.name}}</small>
+                            </div>
 
                         </li>
 
@@ -36,23 +41,18 @@
                         </li>
                     </ul>
                 </li>
-            </ul>
-
-
-            <ul class="nav navbar-nav navbar-right">
-                <li *ngIf="auth.authenticated()">
-                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <!--<i class="fa fa-plus-square-o big" aria-hidden="true"></i>-->
-                        <div class="profile-img"><i class="fa fa-plus-square-o big" aria-hidden="true"></i></div>
+                <li *ngIf="auth.authenticated()" class="dropdown">
+                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <div>Create <i class="fa fa-chevron-down" aria-hidden="true"></i></div>
                     </a>
                     <ul class="dropdown-menu">
                         <li class="disabled"><a>Create</a> </li>
-                         <li role="separator" class="divider"></li>
+                        <li role="separator" class="divider"></li>
                         <li class="disabled">
-                           
+
                             <div class="create-option">
                                 <!--<a routerLink="/account/profile">Create map...</a>-->
-                                 Create a new map
+                                Create a new map
                                 <div class="form-group">
                                     <div class="input-group">
                                         <input type="text" class="form-control" placeholder="Initiative name" (input)="validate($event.target.value)">
@@ -76,14 +76,15 @@
                         </li>
                     </ul>
                 </li>
+             
                 <li class="dropdown" id="profileInformation" *ngIf="auth.authenticated()">
 
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         <div class="profile-img"><img src="{{ user?.picture }}" class="profile-img" alt=""></div>
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="disabled"><a>{{user?.name}} </a> </li>
-                        <li role="separator" class="divider"></li>
+                        <!--<li class="disabled"><a>{{user?.name}} </a> </li>
+                        <li role="separator" class="divider"></li>-->
                         <!-- Account -->
                         <li>
                             <!--<a routerLink="/account">Profile</a>-->
