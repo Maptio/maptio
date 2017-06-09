@@ -1,3 +1,4 @@
+import { Initiative } from './../../shared/model/initiative.data';
 import { DataSet } from './../../shared/model/dataset.data';
 import { TeamFactory } from "./../../shared/services/team.factory";
 import { Router } from "@angular/router";
@@ -330,14 +331,14 @@ describe("header.component.ts", () => {
                 let spyAdd = spyOn(mockFactory, "add").and.returnValue(Promise.resolve(true));
                 let spyOpen = spyOn(mockRouter, "navigate");
 
-                component.createDataset();
+                component.createDataset("new initiative");
                 spyCreate.calls.mostRecent().returnValue.then(() => {
-                    expect(spyAdd).toHaveBeenCalled();
+                    expect(spyAdd).toHaveBeenCalled()
                     spyAdd.calls.mostRecent().returnValue.then(() => {
                         expect(spyOpen).toHaveBeenCalledWith(["workspace", "created_id"]);
                     });
                 });
-                expect(spyCreate).toHaveBeenCalled();
+                expect(spyCreate).toHaveBeenCalledWith(jasmine.objectContaining({initiative : jasmine.objectContaining({name: "new initiative"})}))
             }));
 
             it("should call errorService if creation doesnt work", async(() => {
@@ -350,7 +351,7 @@ describe("header.component.ts", () => {
                 let spyAdd = spyOn(mockFactory, "add")
                 let spyOpen = spyOn(mockRouter, "navigate");
 
-                component.createDataset();
+                component.createDataset("new initiative");
                 spyCreate.calls.mostRecent().returnValue.then(() => {
                     expect(spyAdd).not.toHaveBeenCalled();
                 }).catch(() => {
@@ -370,7 +371,7 @@ describe("header.component.ts", () => {
                 let spyAdd = spyOn(mockFactory, "add").and.returnValue(Promise.reject("Didnt work"));
                 let spyOpen = spyOn(mockRouter, "navigate");
 
-                component.createDataset();
+                component.createDataset("new initiative");
                 spyCreate.calls.mostRecent().returnValue.then(() => {
                     expect(spyAdd).toHaveBeenCalled();
                     spyAdd.calls.mostRecent().returnValue.then(() => {

@@ -1,3 +1,4 @@
+import { UserFactory } from './../../shared/services/user.factory';
 import { Initiative } from './../../shared/model/initiative.data';
 import { TeamFactory } from "./../../shared/services/team.factory";
 import { Router } from "@angular/router";
@@ -35,9 +36,9 @@ export class HeaderComponent implements OnInit {
     private selectedTeam: Team;
 
     // HACK : for demonstration purposes
-    private VESTD_ID:string = "58c9d273734d1d2ca8564da2" ;
+    private VESTD_ID: string = "58c9d273734d1d2ca8564da2";
 
-    constructor(private auth: Auth, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private errorService: ErrorService, private router: Router) {
+    constructor(private auth: Auth, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private userFactory: UserFactory, private errorService: ErrorService, private router: Router) {
         EmitterService.get("currentDataset").subscribe((value: any) => {
             this.isSaving = Promise.resolve<boolean>(true);
         });
@@ -120,11 +121,24 @@ export class HeaderComponent implements OnInit {
     //     this.router.navigate(["workspace", dataset._id]);
     // }
 
-    createDataset() {
-        let newDataset = new DataSet({ initiative: new Initiative({name:this.newDatasetName}),  createdOn: new Date() });
+    createTeam(teamName: string) {
+        this.teamFactory.create(new Team({ name: teamName, members: [this.user] })).then((team: Team) => {
+            this.user.teams.push(team.team_id);
+            this.userFactory.upsert(this.user).then((result: boolean) => {
+                this.router.navigate(["account/team", team.team_id]);
+            })
+
+        })
+
+    }
+
+
+    createDataset(datasetName:string) {
+        let newDataset = new DataSet({ initiative: new Initiative({ name: datasetName }), createdOn: new Date() });
         this.datasetFactory.create(newDataset).then((created: DataSet) => {
             this.datasetFactory.add(created, this.user).then((result: boolean) => {
                 this.router.navigate(["workspace", created._id]);
+                this.selectedDatasetName = datasetName;
             }).catch(this.errorService.handleError);
         }).catch(this.errorService.handleError);
         this.ngOnInit();

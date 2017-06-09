@@ -18,47 +18,47 @@
 
 
             <ul class="nav navbar-nav navbar-right">
-                   <li *ngIf="auth.authenticated()" class="dropdown">
+                <li *ngIf="auth.authenticated()" class="dropdown">
 
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         <div>Maps <i class="fa fa-chevron-down" aria-hidden="true"></i></div>
                     </a>
 
                     <ul class="dropdown-menu">
-                        <li *ngFor="let dataset of datasets$ | async" routerLink="/workspace/{{dataset._id}}">
-
-                            <div class="panel map-option">
+                        <li *ngFor="let dataset of datasets$ | async">
+                            <a routerLink="/workspace/{{dataset._id}}"> {{dataset.name}}</a>
+                            <!--<div class="panel map-option">
                                 <b>{{dataset.name}} </b>
                                 <br/>
                                 <small *ngIf="dataset.team"><i class="fa fa-users" aria-hidden="true"></i> {{dataset.team.name}}</small>
-                            </div>
+                            </div>-->
 
                         </li>
 
-                        <li>
+                        <!--<li>
                             <a href="#"> Create map ...
                                 </a>
-                        </li>
+                        </li>-->
                     </ul>
                 </li>
                 <li *ngIf="auth.authenticated()" class="dropdown">
-                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         <div>Create <i class="fa fa-chevron-down" aria-hidden="true"></i></div>
                     </a>
                     <ul class="dropdown-menu">
-                        <li class="disabled"><a>Create</a> </li>
-                        <li role="separator" class="divider"></li>
+                        <!--<li class="disabled"><a>Create</a> </li>
+                        <li role="separator" class="divider"></li>-->
                         <li class="disabled">
 
                             <div class="create-option">
                                 <!--<a routerLink="/account/profile">Create map...</a>-->
-                                Create a new map
+                                <div class="h4">Map</div>
                                 <div class="form-group">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Initiative name" (input)="validate($event.target.value)">
+                                        <input #inputMap type="text" class="form-control" placeholder="Initiative name" (input)="validate($event.target.value)">
 
                                         <span class="input-group-btn">
-      <button class="btn btn-default" type="button" (click)="createDataset()" [ngClass]="{disabled: !isValid}">Create</button>
+      <button class="btn btn-default" type="button" (click)="createDataset(inputMap.value)" [ngClass]="{disabled: !isValid}">Create</button>
     </span>
                                     </div>
                                 </div>
@@ -67,16 +67,35 @@
 
 
                         </li>
-                        <li role="separator" class="divider"></li>
+                        <li class="disabled">
+
+                            <div class="create-option">
+                                <!--<a routerLink="/account/profile">Create map...</a>-->
+                                <div class="h4">Team</div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input #inputTeam type="text" class="form-control" placeholder="Team name" (input)="validate($event.target.value)">
+
+                                        <span class="input-group-btn">
+      <button class="btn btn-default" type="button" (click)="createTeam(inputTeam.value)" [ngClass]="{disabled: !isValid}">Create</button>
+    </span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </li>
+                        <!--<li role="separator" class="divider"></li>
                         <li>
                             <div class="well map-option">
                                 <a routerLink="/account/profile">Create team...</a>
                             </div>
 
-                        </li>
+                        </li>-->
                     </ul>
                 </li>
-             
+
                 <li class="dropdown" id="profileInformation" *ngIf="auth.authenticated()">
 
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
