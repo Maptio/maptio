@@ -65,7 +65,7 @@
     "phantomjs-prebuilt": "^2.1.14",
     "rxjs": "^5.0.1",
     "slug": "^0.9.1",
-    "typescript": "^2.3.2",
+    "typescript": "2.3.2",
     "zone.js": "0.7.7"
   },
   "devDependencies": {
@@ -97,7 +97,6 @@
     "raw-loader": "^0.5.1",
     "rimraf": "^2.5.2",
     "style-loader": "^0.13.1",
-    "typescript": "~2.2.2",
     "webpack": "2.1.0-beta.19",
     "webpack-dev-middleware": "^1.10.1",
     "webpack-dev-server": "^1.14.1",
