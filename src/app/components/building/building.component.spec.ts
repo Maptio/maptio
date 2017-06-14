@@ -1,3 +1,4 @@
+import { DatasetFactory } from './../../shared/services/dataset.factory';
 import { DataService } from "./../../shared/services/data.service";
 import { Initiative } from "./../../shared/model/initiative.data";
 import { TeamFactory } from "./../../shared/services/team.factory";
@@ -25,7 +26,7 @@ describe("building.component.ts", () => {
             schemas: [NO_ERRORS_SCHEMA]
         }).overrideComponent(BuildingComponent, {
             set: {
-                providers: [DataService, ErrorService, TeamFactory,
+                providers: [DataService, ErrorService, TeamFactory, DatasetFactory,
                     {
                         provide: Http,
                         useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
@@ -183,28 +184,26 @@ describe("building.component.ts", () => {
 
         describe("Loading data", () => {
             it("shoud loads data and initializes tree", async(() => {
-                let mockDataService = target.debugElement.injector.get(DataService);
-                let url = "/api/v1/dataset/someId";
+                let mockDataService = target.debugElement.injector.get(DatasetFactory);
 
                 fixture.load("data.json");
-                let spyDataService = spyOn(mockDataService, "fetch").and.returnValue(Promise.resolve(fixture.json[0]));
+                let spyDataService = spyOn(mockDataService, "get").and.returnValue(Promise.resolve(fixture.json[0]));
 
                 component.loadData("someId");
                 spyDataService.calls.mostRecent().returnValue.then(() => {
-                    expect(spyDataService).toHaveBeenCalledWith(url);
+                    expect(spyDataService).toHaveBeenCalledWith("someId");
                     expect(component.nodes.length).toBe(1);
                 });
             }));
 
             it("should loads data and initializes team_id for each node", async(() => {
-                let mockDataService = target.debugElement.injector.get(DataService);
-                let url = "/api/v1/dataset/someId";
+                let mockDataService = target.debugElement.injector.get(DatasetFactory);
 
                 fixture.load("data.json");
-                let spyDataService = spyOn(mockDataService, "fetch").and.returnValue(Promise.resolve(fixture.json[0]));
+                let spyDataService = spyOn(mockDataService, "get").and.returnValue(Promise.resolve(fixture.json[0]));
 
                 component.loadData("someId");
-                expect(spyDataService).toHaveBeenCalledWith(url);
+                expect(spyDataService).toHaveBeenCalledWith("someId");
 
                 spyDataService.calls.mostRecent().returnValue.then((data: any) => {
                     expect(component.nodes[0].team_id).toBe("ID1");
@@ -215,35 +214,34 @@ describe("building.component.ts", () => {
             }));
 
             it("should loads data and initializes mapping component", async(() => {
-                let mockDataService = target.debugElement.injector.get(DataService);
+                let mockDataService = target.debugElement.injector.get(DatasetFactory);
 
-                let url = "/api/v1/dataset/someId";
 
                 fixture.load("data.json");
-                let spyDataService = spyOn(mockDataService, "fetch").and.returnValue(Promise.resolve(fixture.json[0]));
+                let spyDataService = spyOn(mockDataService, "get").and.returnValue(Promise.resolve(fixture.json[0]));
                 let spyMapData = spyOn(component, "mapData");
 
                 component.loadData("someId");
                 spyDataService.calls.mostRecent().returnValue.then(() => {
-                    expect(spyDataService).toHaveBeenCalledWith(url);
+                    expect(spyDataService).toHaveBeenCalledWith("someId");
                     expect(spyMapData).toHaveBeenCalled();
                 });
             }));
 
             it("should load data and open a node with matching slug", async(() => {
-                let url = "/api/v1/dataset/someId";
-                let mockDataService = target.debugElement.injector.get(DataService);
+                let mockDataService = target.debugElement.injector.get(DatasetFactory);
 
                 fixture.load("data.json");
-                let spyDataService = spyOn(mockDataService, "fetch").and.returnValue(Promise.resolve(fixture.json[0]));
+                let spyDataService = spyOn(mockDataService, "get").and.returnValue(Promise.resolve(fixture.json[0]));
                 let spyMapData = spyOn(component, "mapData");
                 let spyEdit = spyOn(component, "editInitiative")
                 component.loadData("someId", "the-rest");
                 spyDataService.calls.mostRecent().returnValue.then(() => {
-                    expect(spyDataService).toHaveBeenCalledWith(url);
+                    expect(spyDataService).toHaveBeenCalledWith("someId");
                     expect(spyMapData).toHaveBeenCalled();
                     expect(spyEdit).toHaveBeenCalledWith(jasmine.objectContaining({ name: "The rest" }));
                 });
+
             }))
 
         });

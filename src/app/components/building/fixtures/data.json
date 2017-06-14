@@ -1,4 +1,5 @@
 {
+    "_id":"uniqueId",
     "name": "Root",
     "accountable": "CEO",
     "size": "1",
