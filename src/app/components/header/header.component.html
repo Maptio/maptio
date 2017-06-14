@@ -8,14 +8,20 @@
 		        <span class="icon-bar"></span>
 		        <span class="icon-bar"></span>
 		      </button>
-            <div class="navbar-brand navbar-brand-centered"> <a href="#"><img src="/assets/images/logo.png" class="brand-logo"></a></div>
+            <div > <a routerLink=""><img src="/assets/images/logo.png" class="brand-logo"></a></div>
         </div>
 
         <div class="collapse navbar-collapse" id="navbar-brand-centered">
             <ul class="nav navbar-nav navbar-left">
-                <div class="map-name h3">{{selectedDatasetName}}</div>
-            </ul>
+<!--
+                <div routerLinkActive="hidden">
+                    <a routerLink="/workspace">{{selectedDatasetName}}</a>
+                </div>-->
 
+                    <div class="map-name h3" routerLink="/workspace">{{selectedDatasetName}}</div>
+      
+
+            </ul>
 
             <ul class="nav navbar-nav navbar-right">
                 <li *ngIf="auth.authenticated()" class="dropdown">
@@ -26,19 +32,8 @@
 
                     <ul class="dropdown-menu">
                         <li *ngFor="let dataset of datasets$ | async">
-                            <a routerLink="/workspace/{{dataset._id}}"> {{dataset.name}}</a>
-                            <!--<div class="panel map-option">
-                                <b>{{dataset.name}} </b>
-                                <br/>
-                                <small *ngIf="dataset.team"><i class="fa fa-users" aria-hidden="true"></i> {{dataset.team.name}}</small>
-                            </div>-->
-
+                            <a routerLink="/workspace/{{dataset._id}}" class="h4"> {{dataset.name}}</a>
                         </li>
-
-                        <!--<li>
-                            <a href="#"> Create map ...
-                                </a>
-                        </li>-->
                     </ul>
                 </li>
                 <li *ngIf="auth.authenticated()" class="dropdown">
@@ -46,12 +41,9 @@
                         <div>Create <i class="fa fa-chevron-down" aria-hidden="true"></i></div>
                     </a>
                     <ul class="dropdown-menu">
-                        <!--<li class="disabled"><a>Create</a> </li>
-                        <li role="separator" class="divider"></li>-->
                         <li class="disabled">
 
                             <div class="create-option">
-                                <!--<a routerLink="/account/profile">Create map...</a>-->
                                 <div class="h4">Map</div>
                                 <div class="form-group">
                                     <div class="input-group">
@@ -70,7 +62,6 @@
                         <li class="disabled">
 
                             <div class="create-option">
-                                <!--<a routerLink="/account/profile">Create map...</a>-->
                                 <div class="h4">Team</div>
                                 <div class="form-group">
                                     <div class="input-group">
@@ -86,13 +77,6 @@
 
 
                         </li>
-                        <!--<li role="separator" class="divider"></li>
-                        <li>
-                            <div class="well map-option">
-                                <a routerLink="/account/profile">Create team...</a>
-                            </div>
-
-                        </li>-->
                     </ul>
                 </li>
 
@@ -102,15 +86,10 @@
                         <div class="profile-img"><img src="{{ user?.picture }}" class="profile-img" alt=""></div>
                     </a>
                     <ul class="dropdown-menu">
-                        <!--<li class="disabled"><a>{{user?.name}} </a> </li>
-                        <li role="separator" class="divider"></li>-->
-                        <!-- Account -->
                         <li>
-                            <!--<a routerLink="/account">Profile</a>-->
                             <a routerLink="/account/profile">Profile</a>
                         </li>
                         <li>
-                            <!--<a routerLink="/account">Profile</a>-->
                             <a routerLink="/account/teams">My teams</a>
                         </li>
                         <li role="separator" class="divider"></li>

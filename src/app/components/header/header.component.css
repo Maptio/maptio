@@ -101,8 +101,9 @@
     
 }
 
-.map-name{
-    line-height: 10px;
+.map-name {
+    line-height: 22px;
+    font-size: 1.3em;
 }
 
 .dropdown:hover .dropdown-menu {

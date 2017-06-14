@@ -156,7 +156,7 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
     }
 
     getSlug() {
-        return slug(this.name, { lower: true });
+        return slug(this.name || "", { lower: true });
     }
 
 

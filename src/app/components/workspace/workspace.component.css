@@ -10,16 +10,17 @@
     padding: 0;
 }
 
-.header{
-   padding: 0px;
+.header {
+    padding: 0px;
     /* padding-left: 16px; */
     min-height: 39px;
+    margin-left: 2px;
 }
-
 .team-name{
-        padding: 0 8px 1px 0;
-    margin: -18px 0 0 0;
-    font-size: smaller;
+    /* padding: 0 8px 1px 0; */
+    /* margin: -18px 0 0 0; */
+    font-size: initial;
+    margin-right: 13px;
 }
 
 

@@ -14,6 +14,7 @@ import { MappingTreeComponent } from "./tree/mapping.tree.component"
 import { AnchorDirective } from "../../shared/directives/anchor.directive"
 
 import "rxjs/add/operator/map"
+import { EmitterService } from "../../shared/services/emitter.service";
 
 @Component({
     selector: "mapping",
@@ -77,6 +78,10 @@ export class MappingComponent implements AfterViewInit, OnInit {
                 throw new Error("This view is not recognized");
         }
         this.show(this.selectedView);
+    }
+
+    save(){
+        EmitterService.get("currentDataset").emit(this.data);
     }
 
 

@@ -1,11 +1,20 @@
-<div class="control">
+<!--<div class=" row control pull-left">
+  <a class="btn btn-primary save" (click)="save()">
+   Save
+   </a>
+</div>-->
 
-    <a class="btn btn-primary switch circleview" (click)="switchView()" *ngIf="isTreeviewSelected()">
-   Go to idea view
+<div class="control ">
+    <a class="btn btn-primary save" (click)="save()">
+   Save
+   </a>
+
+    <a class="btn btn-primary switch circleview pull-right" (click)="switchView()" *ngIf="isTreeviewSelected()">
+   Idea view
 </a>
 
-    <a class="btn btn-primary switch treeview " (click)="switchView()" *ngIf="isCircleViewSelected()">
-    Go to team view
+    <a class="btn btn-primary switch treeview pull-right" (click)="switchView()" *ngIf="isCircleViewSelected()">
+    Team view
 </a>
 </div>
 

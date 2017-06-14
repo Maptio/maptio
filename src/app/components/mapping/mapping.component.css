@@ -1,6 +1,5 @@
 .control{
-    position:absolute;
-    margin:7px;
+    padding-top:3px;
 }
 
 
@@ -13,3 +12,13 @@
      content:"\f192";
     font-family:FontAwesome;
     }
+
+.save{
+    position: absolute;
+    right:1276px;
+}
+
+.save:before{
+      content:"\f0c7";
+    font-family:FontAwesome;
+}

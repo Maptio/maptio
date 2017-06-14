@@ -1,3 +1,5 @@
+import { DatasetFactory } from './../../shared/services/dataset.factory';
+import { DataSet } from './../../shared/model/dataset.data';
 import { Initiative } from "./../../shared/model/initiative.data";
 import { Observable } from "rxjs/Rx";
 import { EmitterService } from "./../../shared/services/emitter.service";
@@ -33,7 +35,7 @@ export class BuildingComponent {
     @ViewChild(InitiativeNodeComponent)
     node: InitiativeNodeComponent;
 
-    constructor(private dataService: DataService) {
+    constructor(private dataService: DataService, private datasetFactory:DatasetFactory) {
         this.nodes = [];
 
         Observable.timer(1000, this.SAVING_FREQUENCY * 1000)
@@ -86,11 +88,11 @@ export class BuildingComponent {
      */
     loadData(id: string, slugToOpen?: string) {
         // console.log(slugToOpen)
-        // FIXME : this should get data from DataSetFactory
-        this.dataService.fetch("/api/v1/dataset/" + id).then(data => {
+        // FIXME : this should return an initiative direcrtly
+        this.datasetFactory.get(id).then(data => {
 
             this.nodes = [];
-            this.nodes.push(new Initiative().deserialize(data));
+            this.nodes.push(new DataSet().deserialize(data).initiative);
 
             EmitterService.get("datasetName").emit(this.nodes[0].name);
 

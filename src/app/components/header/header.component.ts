@@ -28,7 +28,6 @@ export class HeaderComponent implements OnInit {
     private teams$: Promise<Array<Team>>;
     private selectedDatasetName: string;
     private isValid: boolean = false;
-    private newDatasetName: string;
     private isSaving: Promise<boolean> = Promise.resolve(false);
     private timeToSaveInSec: Promise<number>;
     public areMapsAvailable: Promise<boolean>
@@ -94,6 +93,7 @@ export class HeaderComponent implements OnInit {
                 })
             },
             (error: any) => { this.errorService.handleError(error) });
+            this.selectedDatasetName = "";
     }
 
     // chooseTeam(team: Team) {
@@ -146,8 +146,8 @@ export class HeaderComponent implements OnInit {
 
     // TODO: create validation service
     validate(name: string) {
-        this.newDatasetName = name.trim();
-        this.isValid = this.newDatasetName !== "" && this.newDatasetName !== undefined;
+        // this.newDatasetName = name.trim();
+        this.isValid = name !== "" && name !== undefined;
     }
 
     logout() {
