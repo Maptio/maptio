@@ -4,78 +4,62 @@
 	</modal-header>
 	<modal-body>
 
-		<form class="form-horizontal"> 
+		<form class="form-horizontal">
 			<fieldset>
 				<div class="form-group">
-					<label for="inputName" class="col-lg-2 control-label">Short Name</label>
+					<label for="inputName" class="col-lg-2 control-label">Initiative</label>
 					<div class="col-lg-10">
-						<input class="form-control input-sm" id="inputName" type="text" name="inputName" [ngModelOptions]="{standalone: true}" [ngModel]="data?.name"
-							placeholder="Initiative name" (ngModelChange)="saveName($event)" />
-						<span class="help-block">A short but descriptive title for the initiative</span>
+						<input class="form-control input-sm" id="inputName" type="text" name="inputName" [ngModelOptions]="{standalone: true}" [ngModel]="initiative?.name"
+						 placeholder="Initiative name" (ngModelChange)="saveName($event)" />
+
+						<span class="help-block">in order to help {{parent?.accountable?.name}}  with <a routerLink="../{{parent?.getSlug()}}">{{parent?.name}}</a></span>
 					</div>
 				</div>
 
 				<div class="form-group">
-					<label for="select" class="col-lg-2 control-label">Accountability</label>
+					<label for="select" class="col-lg-2 control-label">Authority</label>
 					<div class="col-lg-10">
 
-						<div class="input-group">
-							<input #person required type="text" editable="true" id="inputAccountable" placeholder="Select or add an accountable team member"
-								class="form-control" [ngModelOptions]="{standalone: true}" [ngModel]="data?.accountable" (ngModelChange)="saveAccountable(person.value)"
-								[ngbTypeahead]="searchTeamMember" [resultFormatter]="formatter" [inputFormatter]="formatter" />
-							<span class="input-group-btn">
-	  <button [ngClass]="{'disabled': isTeamMemberFound, 'btn-success': isTeamMemberAdded}"  class="btn btn-default" type="button" (click)="addTeamMember()">
-		  <i *ngIf="!isTeamMemberAdded" class="fa fa-user-plus" aria-hidden="true"></i>
-		  <i *ngIf="isTeamMemberAdded" class="fa fa-check" aria-hidden="true"></i>
-		  </button>
-    </span>
-						</div>
-						<span class="help-block">The accountable team member (see RACI)</span>
+						<ng-template #rt let-r="result" let-t="term">
+							<img src="{{r.picture}}" width="16"> {{ r.name}}
+						</ng-template>
+
+						<input #person required type="text" id="inputAccountable" [resultTemplate]="rt" placeholder="Select or add an accountable team member"
+						 class="form-control input-sm" [ngModelOptions]="{standalone: true}" [ngModel]="initiative?.accountable" (selectItem)="saveAccountable($event)"
+						 [ngbTypeahead]="searchTeamMember" [resultFormatter]="formatter" [inputFormatter]="formatter" />
+
 
 					</div>
 				</div>
-
-				<!--<div class="form-group">
-					<label for="inputDate" class="col-lg-2 control-label">Start Date</label>
-					<div class="col-lg-10">
-						<div class="input-group">-->
-							<!--<input type="text" class="form-control" id="inputDate" placeholder="yyyy-mm-dd" name="dp" [ngModel]="data?.start" (ngModelChange)="saveStartDate($event)"
-								[ngModelOptions]="{standalone: true}" />-->
-
-							<!-- CANNOT TEST THIS MODULE so revert to simple date input for now -->
-							<!--ngbDatepicker #d="ngbDatepicker"
-							<div class="input-group-addon" (click)="d.toggle()">
-								<i class="fa fa-calendar" aria-hidden="true"></i>
-								<img src="img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
-</div> -->
-						<!--</div>
-						<span class="help-block">When the initiative started</span>
-					</div>
-				</div>-->
-
-				<!--<div class="form-group">
-					<label for="inputSize" class="col-lg-2 control-label">Team size</label>
-					<div class="col-lg-10">
-						<input class="form-control input-sm" id="inputSize" type="text" [ngModelOptions]="{standalone: true}" [ngModel]="data?.size"
-							placeholder="Team size" (ngModelChange)="saveNodeSize($event)">
-						<span class="help-block">The team size changes the size of associated circle</span>
-					</div>
-				</div>-->
-
+				<br/>
 				<div class="form-group">
 					<label for="inputDescription" class="col-lg-2 control-label">Description</label>
 					<div class="col-lg-10">
 						<textarea autofocus data-provide="markdown" data-iconlibrary="fa" class="form-control initiativeMarkdownDescription" id="inputDescription"
-							rows="10" [ngModelOptions]="{standalone: true}" [ngModel]="data?.description" placeholder="Description" (ngModelChange)="saveDescription($event)"></textarea>
+						 rows="5" [ngModelOptions]="{standalone: true}" [ngModel]="initiative?.description" placeholder="Description" (ngModelChange)="saveDescription($event)"></textarea>
 
-						<span class="help-block">Describe the initiative here : budget, stakeholders, etc</span>
+
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="inputName" class="col-lg-2 control-label">Helpers</label>
+					<div class="col-lg-10">
+						<div *ngIf="team;then content else other_content"></div>
+
+						<ng-template #content>
+							<div *ngFor="let user of team?.members" class="checkbox">
+								<label><input #helper class="inputHelper" type="checkbox" (click)="addHelper(user, helper.checked)" [checked]="isHelper(user)"><img src="{{user.picture}}" width="16">{{user.name}}</label>
+							</div>
+						</ng-template>
+						<ng-template #other_content>No team available for selection</ng-template>
+
 					</div>
 				</div>
 			</fieldset>
 		</form>
 	</modal-body>
 	<modal-footer>
-		<!--<button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Cancel</button>-->
-		<button type="button" class="btn btn-primary" (click)="modal.close()">Save &amp; Close</button>
+		<button type="button" class="btn btn-primary" (click)="modal.close()">Close</button>
 	</modal-footer>
 </modal>

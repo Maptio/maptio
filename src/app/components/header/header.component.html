@@ -1,92 +1,110 @@
-<nav class="navbar navbar-default navbar-fixed-top">
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-            <a href="#" class="pull-left"><img src="/assets/images/logo.png" class="brand-logo"></a>
-            <!--<a class="navbar-brand">Maptio</a>-->
-
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-brand-centered">
+		        <span class="sr-only">Toggle navigation</span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		      </button>
+            <div > <a routerLink=""><img src="/assets/images/logo.png" class="brand-logo"></a></div>
         </div>
 
-        <ul *ngIf="auth.authenticated() && selectedDatasetName" class="nav navbar-nav navbar-left">
-            <ul class="breadcrumb">
-                <li><a routerLink="/account">Project</a></li>
-                <li id="datasetName" class="active">{{selectedDatasetName}}
-                    <!-- <span *ngIf="(timeToSaveInSec | async) > 2 " class="text-info small">( Autosave in {{timeToSaveInSec | async}} )</span>
-                    <span *ngIf="(timeToSaveInSec | async) <= 2" class="text-info small" id="saving"></span> -->
+        <div class="collapse navbar-collapse" id="navbar-brand-centered">
+            <ul class="nav navbar-nav navbar-left">
+<!--
+                <div routerLinkActive="hidden">
+                    <a routerLink="/workspace">{{selectedDatasetName}}</a>
+                </div>-->
 
-                </li>
+                    <div class="map-name h3" routerLink="/workspace">{{selectedDatasetName}}</div>
+      
+
             </ul>
-        </ul>
 
-        <ul class="nav navbar-nav navbar-center">
-
-            <li></li>
-            <li></li>
-        </ul>
-
-
-
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li *ngIf="auth.authenticated()">
+                <li *ngIf="auth.authenticated()" class="dropdown">
 
-                    <form class="navbar-form" role="search">
-                        <div class="input-group">
-                            <input id="loadNewProjectInput" type="text" class="form-control" placeholder="Start a new project" (input)="validate($event.target.value)">
-                            <span class="input-group-btn">
-                                <button id="loadNewProjectButton" type="submit" class="btn btn-default" (click)="createDataset()" [ngClass]="{disabled: !isValid}">New project</button>
-                            </span>
-                        </div>
-                    </form>
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <div>Maps <i class="fa fa-chevron-down" aria-hidden="true"></i></div>
+                    </a>
 
+                    <ul class="dropdown-menu">
+                        <li *ngFor="let dataset of datasets$ | async">
+                            <a routerLink="/workspace/{{dataset._id}}" class="h4"> {{dataset.name}}</a>
+                        </li>
+                    </ul>
                 </li>
+                <li *ngIf="auth.authenticated()" class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <div>Create <i class="fa fa-chevron-down" aria-hidden="true"></i></div>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="disabled">
+
+                            <div class="create-option">
+                                <div class="h4">Map</div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input #inputMap type="text" class="form-control" placeholder="Initiative name" (input)="validate($event.target.value)">
+
+                                        <span class="input-group-btn">
+      <button class="btn btn-default" type="button" (click)="createDataset(inputMap.value)" [ngClass]="{disabled: !isValid}">Create</button>
+    </span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </li>
+                        <li class="disabled">
+
+                            <div class="create-option">
+                                <div class="h4">Team</div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input #inputTeam type="text" class="form-control" placeholder="Team name" (input)="validate($event.target.value)">
+
+                                        <span class="input-group-btn">
+      <button class="btn btn-default" type="button" (click)="createTeam(inputTeam.value)" [ngClass]="{disabled: !isValid}">Create</button>
+    </span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </li>
+                    </ul>
+                </li>
+
                 <li class="dropdown" id="profileInformation" *ngIf="auth.authenticated()">
 
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <div class="img-rounded profile-img"><img src="{{ user?.picture }}" class="profile-img" alt=""></div>
-                        {{user?.name}} <span class="caret"></span>
+                        <div class="profile-img"><img src="{{ user?.picture }}" class="profile-img" alt=""></div>
                     </a>
                     <ul class="dropdown-menu">
-                        <!-- User maps -->
-                        <li class="dropdown-header">Your maps</li>
-                        <li *ngFor="let dataset of datasets$ | async">
-                            <a (click)="openDataset(dataset)">{{dataset.name}}</a>
-                        </li>
-                        <li role="separator" class="divider"></li>
-
-                        <!-- Examples -->
-                        <li class="dropdown-header">Examples</li>
                         <li>
-                            <a (click)="openDataset(VESTD)">Vestd</a>
+                            <a routerLink="/account/profile">Profile</a>
                         </li>
-                        <li role="separator" class="divider"></li>
-
-                        <!-- Account -->
                         <li>
-                            <!--<a routerLink="/account">Profile</a>-->
-                            <a routerLink="/account">Activity</a>
+                            <a routerLink="/account/teams">My teams</a>
                         </li>
                         <li role="separator" class="divider"></li>
                         <!-- Log out -->
                         <li id="logoutButton">
-                            <a (click)="auth.logout()">Log Out</a>
+                            <a (click)="logout()">Log Out</a>
                         </li>
                     </ul>
                 </li>
                 <li id="loginButton">
                     <a (click)="auth.login()" placement="bottom" *ngIf="!auth.authenticated()">Log In</a>
                 </li>
-<!--
-                <li>
-                    <a id="openHelpWindow" ngbTooltip="Help" placement="bottom" (click)="openHelp()"><i class="fa fa-question-circle-o fa-lg" aria-hidden="true"></i></a>
-                </li>
--->
             </ul>
         </div>
+        <!-- /.navbar-collapse -->
     </div>
+    <!-- /.container-fluid -->
 </nav>

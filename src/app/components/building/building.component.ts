@@ -1,8 +1,9 @@
+import { DatasetFactory } from './../../shared/services/dataset.factory';
+import { DataSet } from './../../shared/model/dataset.data';
+import { Initiative } from "./../../shared/model/initiative.data";
 import { Observable } from "rxjs/Rx";
 import { EmitterService } from "./../../shared/services/emitter.service";
 import { Component, ViewChild } from "@angular/core";
-import { Initiative } from "../../shared/model/initiative.data";
-import { Person } from "../../shared/model/person.data"
 import { InitiativeComponent } from "../initiative/initiative.component";
 import { TreeComponent, TreeNode } from "angular2-tree-component";
 import { DataService } from "../../shared/services/data.service";
@@ -34,7 +35,7 @@ export class BuildingComponent {
     @ViewChild(InitiativeNodeComponent)
     node: InitiativeNodeComponent;
 
-    constructor(private dataService: DataService) {
+    constructor(private dataService: DataService, private datasetFactory:DatasetFactory) {
         this.nodes = [];
 
         Observable.timer(1000, this.SAVING_FREQUENCY * 1000)
@@ -56,6 +57,7 @@ export class BuildingComponent {
     }
 
     saveChanges() {
+        // console.log("building.component.ts", this.nodes[0])
         EmitterService.get("currentDataset").emit(this.nodes[0]);
     }
 
@@ -73,30 +75,41 @@ export class BuildingComponent {
     }
 
     editInitiative(node: Initiative) {
-        this.initiativeEditComponent.data = node;
+        let parent = node.getParent(this.nodes[0]);
+        this.initiativeEditComponent.initiative = node;
+        this.initiativeEditComponent.parent = parent;
         this.initiativeEditComponent.open();
     }
 
+    /**
+     * Loads data into workspace
+     * @param id Dataset Id
+     * @param slugToOpen Slug of initiative to open
+     */
+    loadData(id: string, slugToOpen?: string) {
+        // console.log(slugToOpen)
+        // FIXME : this should return an initiative direcrtly
+        this.datasetFactory.get(id).then(data => {
 
-    loadData(id: string) {
-        this.dataService.fetch("/api/v1/dataset/" + id).then(data => {
             this.nodes = [];
-            this.nodes.push(new Initiative().deserialize(data));
+            this.nodes.push(new DataSet().deserialize(data).initiative);
 
             EmitterService.get("datasetName").emit(this.nodes[0].name);
-            // FIXME : this should be another function/service
-            let members = new Array<Person>();
+
+            let defaultTeamId = this.nodes[0].team_id;
+            let initiativeToOpen: Initiative = undefined;
             this.nodes[0].traverse(function (node: Initiative) {
-                if (node.accountable && !members.find(function (person) {
-                    return person.name === node.accountable.name
-                })) {
-                    members.push(node.accountable)
+                node.team_id = defaultTeamId; // For now, the sub initiative are all owned by the same team
+                if (node.getSlug() === slugToOpen) {
+                    initiativeToOpen = node;
                 }
-            }
-            );
-            this.initiativeEditComponent.team = { members: members };
+            });
 
             this.mapData();
+            if (initiativeToOpen) {
+                this.editInitiative(initiativeToOpen)
+            }
+
         });
     }
 

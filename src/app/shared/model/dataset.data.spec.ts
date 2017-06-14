@@ -4,24 +4,36 @@ describe("Dataset Tests", () => {
     let dataset: DataSet;
 
     let NAME: string = "name";
-    let URL: string = "http://getmydataset.com/name.json";
 
     beforeEach(() => {
     });
 
-    it("Creates new correctly", () => {
-        dataset = new DataSet({ name: NAME, url: URL });
 
-        expect(dataset.name).toBe(NAME);
-        expect(dataset.url).toBe(URL);
-        expect(dataset.content).toBe(undefined);
-    });
+    beforeAll(() => {
+        fixture.setBase("src/app/shared/model/fixtures");
+    })
 
-    it("Creates EMPTY correctly", () => {
-        dataset = DataSet.EMPTY;
+    afterEach(() => {
+        fixture.cleanup();
+    })
 
-        expect(dataset.name).toBe("New project");
-        expect(dataset.url).toBe("../../../assets/datasets/new.json");
-        expect(dataset.content).toBe(undefined);
+    describe("Serialization", () => {
+
+        describe("deserialize", () => {
+            it("should deserialize a valid input", () => {
+                 fixture.load("dataset.json");
+                let jsonString = fixture.json[0];
+                let deserialized = new DataSet().deserialize(jsonString);
+
+                expect(deserialized).toBeDefined();
+                expect(deserialized._id).toBe("uniqueId");
+                expect(deserialized.initiative).toBeDefined();
+                expect(deserialized.initiative.name).toBe("Root");
+                expect(deserialized.initiative.helpers.length).toBe(1);
+                expect(deserialized.initiative.children.length).toBe(2);
+            });
+        });
+
+        
     });
 });

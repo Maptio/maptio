@@ -1,3 +1,4 @@
+import { Router, ActivatedRouteSnapshot, ActivatedRoute } from "@angular/router";
 import { Component, Input, Output, ViewChild, EventEmitter } from "@angular/core";
 import { TreeNode, TreeModel } from "angular2-tree-component";
 import { Initiative } from "../../shared/model/initiative.data";
@@ -6,7 +7,7 @@ import { InitiativeComponent } from "../initiative/initiative.component";
 @Component({
     selector: "initiative-node",
     template: require("./initiative.node.component.html"),
-     styles: [require("./initiative.node.component.css").toString()]
+    styles: [require("./initiative.node.component.css").toString()]
 })
 export class InitiativeNodeComponent {
 
@@ -14,11 +15,17 @@ export class InitiativeNodeComponent {
 
     @Output("map") updateDataEvent = new EventEmitter<Array<Initiative>>();
     @Output("update") updateTreeEvent = new EventEmitter<TreeModel>();
-    @Output("openSelected") openSelectedEvent = new EventEmitter<Initiative>();
+    // @Output("openSelected") openSelectedEvent = new EventEmitter<Initiative>();
 
 
     @ViewChild("initiative")
     initiativeEditComponent: InitiativeComponent;
+
+    private snapshotRoute: ActivatedRouteSnapshot
+
+    constructor(private router: Router, private route: ActivatedRoute) {
+        this.snapshotRoute = route.snapshot;
+    }
 
 
     isRoot(): boolean {
@@ -63,9 +70,18 @@ export class InitiativeNodeComponent {
         this.updateTreeEvent.emit(this.node.treeModel);
     }
 
+    getSlug() {
+        return this.snapshotRoute.params["slug"];
+    }
+
 
     openNode(node: Initiative) {
-        this.openSelectedEvent.emit(node);
+        if (this.getSlug()) {
+            this.router.navigate(["../../open/", node.getSlug()], { relativeTo: this.route })
+        }
+        else {
+            this.router.navigate(["open", node.getSlug()], { relativeTo: this.route })
+        }
     }
 
     zoomInNode(node: Initiative) {

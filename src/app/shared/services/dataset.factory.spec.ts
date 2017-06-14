@@ -1,3 +1,4 @@
+import { Initiative } from './../model/initiative.data';
 import { DataSet } from "./../../../app/shared/model/dataset.data";
 import { TestBed, async, inject, fakeAsync } from "@angular/core/testing";
 import { MockBackend, MockConnection } from "@angular/http/testing";
@@ -37,7 +38,7 @@ describe("dataset.factory.ts", () => {
 
         it("should return rejected promise", async(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
             target.get(undefined)
-                    .catch((reason: any) => { expect(reason).toBeDefined() })
+                .catch((reason: any) => { expect(reason).toBeDefined() })
         })));
 
 
@@ -162,7 +163,7 @@ describe("dataset.factory.ts", () => {
         })));
 
         it("should call REST API with post", fakeAsync(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
-            let dataset = new DataSet({ name: "Project" });
+            let dataset = new DataSet({ _id: "some_unique_id", initiative: new Initiative({ name: "Project" }) });
             const mockResponse = {
                 _id: "some_unique_id",
                 name: "Project"
@@ -183,7 +184,7 @@ describe("dataset.factory.ts", () => {
             target.create(dataset).then((dataset: DataSet) => {
                 expect(dataset).toBeDefined();
                 expect(dataset._id).toBe("some_unique_id");
-                expect(dataset.name).toBe("Project");
+                expect(dataset.initiative.name).toBe("Project");
                 expect(mockErrorService.handleError).not.toHaveBeenCalled();
             });
         })));
@@ -268,14 +269,15 @@ describe("dataset.factory.ts", () => {
         })));
 
         it("should call REST API with put when id is empty", fakeAsync(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
-            let dataset = new DataSet({ _id: "did", name: "Example" });
+            let dataset = new DataSet({ _id: "some_unique_id", initiative: new Initiative({ name: "Project" }) });
+
             const mockResponse = {
                 _id: "some_unique_id",
                 name: "Project"
             };
 
             mockBackend.connections.subscribe((connection: MockConnection) => {
-                if (connection.request.method === RequestMethod.Put && connection.request.url === "/api/v1/dataset/did") {
+                if (connection.request.method === RequestMethod.Put && connection.request.url === "/api/v1/dataset/some_unique_id") {
                     expect(<DataSet>connection.request.json()).toBe(dataset);
                     connection.mockRespond(new Response(new ResponseOptions({
                         body: JSON.stringify(mockResponse)
@@ -293,7 +295,8 @@ describe("dataset.factory.ts", () => {
         })));
 
         it("should call REST API with put when id is not empty", fakeAsync(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
-            let dataset = new DataSet({ name: "Example" });
+            let dataset = new DataSet({_id: "some_unique_id", initiative: new Initiative({ name: "Project" })});
+            
             const mockResponse = {
                 _id: "some_unique_id",
                 name: "Project"

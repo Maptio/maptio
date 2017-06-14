@@ -1,28 +1,41 @@
-<ul class="nav nav-tabs">
-    <li class="active"><a href="#activity" data-toggle="tab" aria-expanded="true">Activity</a></li>
-    <li class="disabled"><a>Profile</a></li>
+<div class="col-lg-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">Profile</div>
+        <div class="panel-body">
+            <h4>{{user?.name}}</h4>
+            <img src="{{user?.picture}}" />
+            <h6>{{user?.email}}</h6>
 
-</ul>
-
-<div id="myTabContent" class="tab-content">
-    <div class="tab-pane fade active in" id="profile">
-
-    </div>
-</div>
-
-<div id="myTabContent" class="tab-content">
-    <div class="tab-pane fade active in" id="activity">
-        <div class="alert alert-dismissible alert-success" *ngIf="message">
-            <button type="button" class="close" data-dismiss="alert">&times;</button> {{message}}
+            <!--Teams
+            <ul class="list-group">
+                <li *ngFor="let team of teams$ | async" class="list-group-item">
+                    <a routerLink="/account/team/{{team.team_id}}">{{team.name}}</a>
+                </li>
+                <li class="input-group">
+                    <input #teamInput type="text" class="form-control" placeholder="Type new team name">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" (click)="createNewTeam(teamInput.value)">Create</button>
+                    </span>
+                </li>
+            </ul>-->
         </div>
-
-        <h5>Projects</h5>
-        <ul class="list-group col-lg-4">
-            <li *ngFor="let dataset of datasets$ | async" class="list-group-item">
-                <a (click)="open(dataset)">{{dataset.name}}</a>
-                <a class="pull-right" (click)="delete(dataset)"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                <a (click)="open(dataset)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-            </li>
-        </ul>
     </div>
+
+
+</div>
+<div class="col-lg-6">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Initiatives</div>
+        <div class="panel-body">
+            <ul class="list-group">
+                <li *ngFor="let dataset of datasets$ | async" class="list-group-item">
+                    <a routerLink="/workspace/{{dataset._id}}">{{dataset.initiative.name}}</a>
+                    <a class="pull-right" (click)="deleteDataset(dataset)"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                    <a routerLink="/workspace/{{dataset._id}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
 </div>

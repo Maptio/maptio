@@ -4,7 +4,8 @@
     float: left;
     background: 50% 50% no-repeat;
     background-size: auto 100%;
-    max-width: 44px;
+    max-width: 36px;
+    border-radius: 7px;
 }
 
 .brand-logo {
@@ -63,9 +64,48 @@
   }
 }
 
+   .navbar-brand-centered {
+        position: absolute;
+        left: 50%;
+        display: block;
+        width: 160px;
+        text-align: center;
+        background-color: transparent;
+        padding: 0;
+    }
+    .navbar>.container .navbar-brand-centered, 
+    .navbar>.container-fluid .navbar-brand-centered {
+        margin-left: -80px;
+    }
+
+
+.big{
+    font-size:1.5em;
+}
+
+.map-option{
+    width:200px;
+     padding-left: 8px;
+    padding-right: 8px;
+}
+
+.create-option{
+    width: 350px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
 /* curious is this the bootstrap overwrite file */
 .navbar {
     
-    min-height: 80px;
+    min-height: 52px;
     
+}
+
+.map-name {
+    line-height: 22px;
+    font-size: 1.3em;
+}
+
+.dropdown:hover .dropdown-menu {
+display: block;
 }

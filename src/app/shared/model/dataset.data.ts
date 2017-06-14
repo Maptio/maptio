@@ -1,15 +1,20 @@
+import { Initiative } from './initiative.data';
 import { Serializable } from "./../interfaces/serializable.interface";
+
 export class DataSet implements Serializable<DataSet> {
 
-  content: any;
 
-  name: string;
+  // name: string;
 
-  url: string;
+  // url: string;
 
   _id: string;
 
+  // team_id: string;
+
   createdOn: Date;
+
+  initiative: Initiative;
 
   public constructor(init?: Partial<DataSet>) {
     Object.assign(this, init);
@@ -20,15 +25,26 @@ export class DataSet implements Serializable<DataSet> {
   }
 
   deserialize(input: any): DataSet {
+    if (!input || !input._id ) return
     let deserialized = new DataSet();
-    deserialized.content = input.content;
     deserialized._id = input._id;
-    deserialized.name = input.name;
-    deserialized.url = input.url;
+    deserialized.initiative = Initiative.create().deserialize(input.initiative|| input)
     deserialized.createdOn = input.createdOn;
     return deserialized;
   }
-  tryDeserialize: (input: any) => [boolean, DataSet];
 
-  static EMPTY: DataSet = new DataSet({ name: "New project", url: "../../../assets/datasets/new.json" });
+  tryDeserialize(input: any): [boolean, DataSet] {
+    try {
+      let user = this.deserialize(input);
+      if (user !== undefined) {
+        return [true, user];
+      }
+      else {
+        return [false, undefined]
+      }
+    }
+    catch (Exception) {
+      return [false, undefined]
+    }
+  }
 }

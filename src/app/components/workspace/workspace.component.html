@@ -1,8 +1,30 @@
-<div class="row-fluid col-lg-12" id="workAreaPanel">
-    <div class="panel-group" id="accordion">
-        <div class="panel panel-default ">
-            <div class="panel-heading">
-                <h4 class="panel-title ">
+<div class="row header">
+    <!--<h4 class="pull-left">{{(dataset | async)?.initiative.name}}</h4>-->
+    <p class="pull-left team-name"> {{(team|async)?.name}}</p>
+    <div class="btn-group pull-left" *ngIf="team | async">
+       
+        <a *ngFor="let user of members | async" class="btn btn-link btn-xs no-padding">
+            <img class="member " src="{{user?.picture}}" alt="{{user?.name}}" title="{{user?.name}}">
+        </a>
+        <a class="btn btn-link btn-xs" routerLink="/account/team/{{(team |async)?.team_id}}">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+        </a>
+    </div>
+    <div class="dropdown" *ngIf="!(team | async)">
+
+        <a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Add a team<i class="fa fa-chevron-down" aria-hidden="true"></i></a>
+        <ul class="dropdown-menu" role="menu">
+            <li *ngFor="let team of teams | async"><a (click)="addTeamToInitiative(team)">{{team.name}}</a></li>
+        </ul>
+
+    </div>
+</div>
+
+<div class="row col-lg-12" id="workAreaPanel">
+    <div class="panel-group workspace" id="accordion">
+        <div class="panel panel-default workspace  ">
+            <div class="panel-heading workspace">
+                <h4 class="panel-title workspace">
                     <a *ngIf="!isBuildingPanelCollapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" (click)="toggleBuildingPanel();"
                         class="pull-right">
                         Map your initiative
@@ -17,14 +39,14 @@
                 </h4>
             </div>
             <div id="collapseOne" class="panel-collapse collapse">
-                <div class="panel-body  ">
+                <div class="panel-body workspace ">
                     <div class="textRotate pull-right">
                         <building #building>Loading...</building>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="panel panel-default rotate">
+        <div class="panel panel-default rotate workspace">
             <mapping>Loading...</mapping>
         </div>
     </div>

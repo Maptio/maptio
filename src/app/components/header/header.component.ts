@@ -1,12 +1,16 @@
+import { UserFactory } from './../../shared/services/user.factory';
+import { Initiative } from './../../shared/model/initiative.data';
+import { TeamFactory } from "./../../shared/services/team.factory";
 import { Router } from "@angular/router";
 import { EmitterService } from "./../../shared/services/emitter.service";
 import { ErrorService } from "./../../shared/services/error/error.service";
 import { EventEmitter } from "@angular/core";
-import { Component, OnInit, Input, Output } from "@angular/core";
+import { Component, OnInit, Output } from "@angular/core";
 import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { DataSet } from "./../../shared/model/dataset.data";
 import { User } from "./../../shared/model/user.data";
 import { Auth } from "./../../shared/services/auth/auth.service";
+import { Team } from "../../shared/model/team.data";
 
 @Component({
     selector: "header",
@@ -15,22 +19,25 @@ import { Auth } from "./../../shared/services/auth/auth.service";
 })
 
 export class HeaderComponent implements OnInit {
-    @Input("user") user: User;
+    public user: User;
 
     @Output("openHelp") openHelpEvent = new EventEmitter<void>();
     @Output("createDataset") createDatasetEvent = new EventEmitter<void>();
 
-    private datasets$: Promise<Array<DataSet>>;
+    public datasets$: Promise<Array<any>>;
+    private teams$: Promise<Array<Team>>;
     private selectedDatasetName: string;
     private isValid: boolean = false;
-    private newDatasetName: string;
     private isSaving: Promise<boolean> = Promise.resolve(false);
     private timeToSaveInSec: Promise<number>;
+    public areMapsAvailable: Promise<boolean>
+
+    private selectedTeam: Team;
 
     // HACK : for demonstration purposes
-    private VESTD = new DataSet({ _id: "58c9d273734d1d2ca8564da2", name: "Vestd" })
+    private VESTD_ID: string = "58c9d273734d1d2ca8564da2";
 
-    constructor(private auth: Auth, private datasetFactory: DatasetFactory, private errorService: ErrorService, private router: Router) {
+    constructor(private auth: Auth, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private userFactory: UserFactory, private errorService: ErrorService, private router: Router) {
         EmitterService.get("currentDataset").subscribe((value: any) => {
             this.isSaving = Promise.resolve<boolean>(true);
         });
@@ -45,39 +52,93 @@ export class HeaderComponent implements OnInit {
     ngOnInit() {
         this.auth.getUser().subscribe(
             (user: User) => {
+
                 this.user = user;
-                this.datasetFactory.get(this.user).then(o => {
-                    this.datasets$ = Promise.resolve(o);
-                    this.datasets$.then((datasets: DataSet[]) => {
-                        (datasets || []).forEach(function (d: DataSet, i: number, set: DataSet[]) {
-                            this.datasetFactory.get(d._id).then((resolved: DataSet) => {
-                                set[i] = resolved;
-                            }
-                            );
-                        }.bind(this));
+                if (!user) {
+                    return
+                }
 
-                    }
+                let getDataSets = Promise.all(
+                    // get all datasets available to this user accross all teams
+                    this.user.datasets.concat(...[this.VESTD_ID]).map(
+                        dataset_id => this.datasetFactory.get(dataset_id).then((resolved: DataSet) => { return resolved })
                     )
-                }).catch((error: any) => { this.errorService.handleError(error) })
+                )
+                    .then(datasets => datasets);
+
+                this.teams$ = Promise.all(
+                    this.user.teams.map(
+                        team_id => this.teamFactory.get(team_id).then((team: Team) => { return team })
+                    )
+                )
+                    .then(teams => { return teams });
+
+                this.datasets$ = Promise.all([getDataSets, this.teams$])
+                    .then((value) => {
+                        let datasets = value[0];
+                        let teams = value[1];
+
+                        return datasets.map(d => {
+                            return {
+                                _id: d._id,
+                                name: d.initiative.name,
+                                team_id: d.initiative.team_id,
+                                team: teams.filter(t => t.team_id === d.initiative.team_id)[0]
+                            }
+                        })
+                    });
+
+                this.teams$.then((teams: Team[]) => {
+                    this.selectedTeam = this.selectedTeam || teams[0]; // TODO : save last accessed team in cookies and retrieve
+                })
             },
-            (error: any) => { this.errorService.handleError(error) }
-        );
+            (error: any) => { this.errorService.handleError(error) });
+            this.selectedDatasetName = "";
     }
 
-    openHelp() {
-        this.openHelpEvent.emit();
+    // chooseTeam(team: Team) {
+    //     this.selectedTeam = team;
+    //     this.datasets$ = Promise.all(
+    //         // get all datasets available to this user accross all teams
+    //         this.user.datasets.map(
+    //             dataset_id => this.datasetFactory.get(dataset_id).then((resolved: DataSet) => { return resolved })
+    //         )
+    //     )
+    //         // only shows the datasets accessible by the selected team
+    //         .then(datasets => { return datasets.filter(d => d.team_id === this.selectedTeam.team_id) })
+
+    //     this.areMapsAvailable = this.datasets$.then((datasets: DataSet[]) => { return datasets.length > 0 }).catch(err => console.log(err));
+    // }
+
+
+
+    // openHelp() {
+    //     this.openHelpEvent.emit();
+    // }
+
+    // openDataset(dataset: DataSet) {
+    //     this.selectedDatasetName = dataset.initiative.name;
+    //     this.router.navigate(["workspace", dataset._id]);
+    // }
+
+    createTeam(teamName: string) {
+        this.teamFactory.create(new Team({ name: teamName, members: [this.user] })).then((team: Team) => {
+            this.user.teams.push(team.team_id);
+            this.userFactory.upsert(this.user).then((result: boolean) => {
+                this.router.navigate(["account/team", team.team_id]);
+            })
+
+        })
+
     }
 
-    openDataset(dataset: DataSet) {
-        this.selectedDatasetName = dataset.name;
-        this.router.navigate(["workspace", dataset._id]);
-    }
 
-    createDataset() {
-        let newDataset = new DataSet({ name: this.newDatasetName, createdOn: new Date() });
+    createDataset(datasetName:string) {
+        let newDataset = new DataSet({ initiative: new Initiative({ name: datasetName }), createdOn: new Date() });
         this.datasetFactory.create(newDataset).then((created: DataSet) => {
             this.datasetFactory.add(created, this.user).then((result: boolean) => {
-                this.openDataset(created);
+                this.router.navigate(["workspace", created._id]);
+                this.selectedDatasetName = datasetName;
             }).catch(this.errorService.handleError);
         }).catch(this.errorService.handleError);
         this.ngOnInit();
@@ -85,8 +146,13 @@ export class HeaderComponent implements OnInit {
 
     // TODO: create validation service
     validate(name: string) {
-        this.newDatasetName = name.trim();
-        this.isValid = this.newDatasetName !== "" && this.newDatasetName !== undefined;
+        // this.newDatasetName = name.trim();
+        this.isValid = name !== "" && name !== undefined;
+    }
+
+    logout() {
+        this.auth.logout();
+        this.router.navigate([""]); // towards HomeComponent
     }
 
 }

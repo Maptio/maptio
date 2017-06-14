@@ -1,3 +1,4 @@
+import { Initiative } from './../shared/model/initiative.data';
 import { ResponsiveModule } from "ng2-responsive";
 import { DataSet } from "../shared/model/dataset.data";
 import { Router } from "@angular/router";
@@ -47,7 +48,7 @@ describe("app.component.ts", () => {
 
         it("should display /workspace in openDataset", () => {
             let mockRouter = target.debugElement.injector.get(Router);
-            component.openDataset(new DataSet({ name: "Example", _id: "some_unique_id" }));
+            component.openDataset(new DataSet({  _id: "some_unique_id", initiative: new Initiative({name:"Some project"})}));
             expect(mockRouter.navigate).toHaveBeenCalledWith(["workspace", "some_unique_id"]);
         });
     });

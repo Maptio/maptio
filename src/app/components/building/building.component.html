@@ -1,5 +1,5 @@
 <div class="building">
-	<a id="saveButton" class="btn btn-link" (click)="saveChanges()" type="button"><i class="fa fa-floppy-o" aria-hidden="true"></i></a>
+	<!--<a id="saveButton" class="btn btn-link" (click)="saveChanges()" type="button"><i class="fa fa-floppy-o" aria-hidden="true"></i></a>-->
 	<div class="form-group">
 		<input id="searchTreeInput" type="text" class="form-control" placeholder="Search map by name or description" (input)="filterNodes($event.target.value)"
 		/>
@@ -7,7 +7,7 @@
 	<Tree [nodes]="nodes" (onUpdateData)="mapData($event)" [options]="options">
 		<ng-template #loadingTemplate><div class="loading"></div></ng-template>
 		<ng-template #treeNodeTemplate let-node>
-			<initiative-node [node]="node" (map)="mapData($event)" (update)="updateTreeModel($event)" (openSelected)="editInitiative($event)"></initiative-node>
+			<initiative-node [node]="node" (map)="mapData($event)" (update)="updateTreeModel($event)" ></initiative-node>
 		</ng-template>
 	</Tree>
 </div>

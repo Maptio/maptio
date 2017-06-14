@@ -23,9 +23,11 @@ app.use(bodyParser.json());
 
 var datasets = require('./routes/datasets');
 var users = require('./routes/users');
+var teams = require('./routes/teams');
 
 app.use('/api/v1/', datasets);
 app.use('/api/v1/', users);
+app.use('/api/v1/', teams);
 
 app.set("port", process.env.PORT || DEFAULT_PORT);
 

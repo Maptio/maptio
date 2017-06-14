@@ -47,6 +47,9 @@ describe("initiative.data.ts", () => {
                 expect(initiative.accountable).toBeUndefined();
                 expect(initiative.description).toBe("Something");
                 expect(initiative.children.length).toBe(2);
+                expect(initiative.helpers.length).toBe(1)
+                expect(initiative.helpers[0].user_id).toBe("helper_id");
+                expect(initiative.helpers[0].name).toBe("Helper")
 
                 expect(initiative.children[0]).toBeDefined();
                 expect(initiative.children[0].name).toBe("Tech");
@@ -101,4 +104,31 @@ describe("initiative.data.ts", () => {
             expect(doSomethingSpy).not.toHaveBeenCalled();
         });
     });
+
+
+    describe("getParent", () => {
+        it("should return the parent of node when node is not root", () => {
+            tree = new Initiative();
+            tree.children = [node1, node2, node3];
+            tree.id = 0;
+
+            expect(node1.getParent(tree)).toBe(tree);
+            expect(node2.getParent(tree)).toBe(tree);
+            expect(node3.getParent(tree)).toBe(tree);
+            expect(node11.getParent(tree)).toBe(node1);
+            expect(node12.getParent(tree)).toBe(node1);
+            expect(node21.getParent(tree)).toBe(node2);
+            expect(node22.getParent(tree)).toBe(node2);
+            expect(node23.getParent(tree)).toBe(node2);
+        })
+
+         it("should return undefined when node is root", () => {
+            tree = new Initiative();
+            tree.children = [node1, node2, node3];
+            tree.id = 0;
+
+            expect(tree.getParent(tree)).toBe(undefined);
+        })
+
+    })
 });

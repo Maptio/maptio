@@ -1,0 +1,8 @@
+.in:before {
+    content: "";
+    font-family: FontAwesome;
+}
+
+.panel-heading{
+    width:100%
+}

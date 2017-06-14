@@ -24,10 +24,25 @@ inpu, textarea{
   clear:both;
 }
 
-.form-control {
+.building {
+font: 12px sans-serif;
+    /*background-color: #fcfcfc;*/
+    width: 2000px;
+    /* height: 2000px; */
+    max-width: 630px;
+    max-height: 1332px;
+    /* overflow: auto; */
+    position: absolute;
+    top: -323%;
+    left: 13%;
+    overflow-y: auto;
+}
+
+
+/*.form-control {
 border: 1px solid #333;
 border-radius: 0;
 box-shadow: none;
 font-size: 16px;
 height: 40px;
-}
+}*/

@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
   }
 
   openDataset(dataset: DataSet) {
-    EmitterService.get("datasetName").emit(dataset.name);
+    // EmitterService.get("datasetName").emit(dataset.initiative.name);
     this.router.navigate(["workspace", dataset._id]);
   }
 

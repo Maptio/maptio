@@ -1,47 +1,60 @@
+
+import { TeamFactory } from "./../../shared/services/team.factory";
 import { Component, Input, ViewChild } from "@angular/core";
 import { ModalComponent } from "ng2-bs3-modal/ng2-bs3-modal";
 import { Initiative } from "../../shared/model/initiative.data"
 import { Team } from "../../shared/model/team.data"
-import { Person } from "../../shared/model/person.data"
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/distinctUntilChanged";
+import { NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-bootstrap";
+import { User } from "../../shared/model/user.data";
 
 
 
 @Component({
     selector: "initiative",
     template: require("./initiative.component.html"),
-    providers: [Initiative]
+    // styles: [require("./initiative.component.css").toString()],
+    // providers: [Initiative]
 })
 
 export class InitiativeComponent {
 
+
+
     @ViewChild("initiativeModal")
     modal: ModalComponent;
 
-    @Input() data: Initiative;
-    @Input() team: Team;
+    @Input() initiative: Initiative;
+    @Input() parent: Initiative;
+    // @Input() team: Team;
+
+    public team: Team;
 
     isTeamMemberFound: boolean = true;
     isTeamMemberAdded: boolean = false;
     currentTeamName: string;
 
 
-    constructor() {
+    constructor(private teamFactory: TeamFactory) {
+
     }
 
     open() {
         this.modal.open();
+        this.teamFactory.get(this.initiative.team_id).then((team: Team) => {
+            this.team = team;
+        }).catch(err => { })
     }
 
     saveName(newName: any) {
-        this.data.name = newName;
+        this.initiative.name = newName;
     }
 
     saveDescription(newDesc: string) {
-        this.data.description = newDesc;
+        this.initiative.description = newDesc;
     }
 
     saveStartDate(newDate: string) {
@@ -52,16 +65,30 @@ export class InitiativeComponent {
 
         // HACK : this should not be here but in a custom validatpr. Or maybe use HTML 5 "pattern" to prevent binding
         if (!Number.isNaN(parsedDate.valueOf())) {
-            this.data.start = new Date(year, month, day);
+            this.initiative.start = new Date(year, month, day);
         }
     }
 
-    saveAccountable(newAccountable: string) {
-        let parse = new Person().tryDeserialize({ name: newAccountable });
-        if (parse[0]) {
-            this.data.accountable = parse[1];
+    saveAccountable(newAccountable: NgbTypeaheadSelectItemEvent) {
+        this.initiative.accountable = newAccountable.item;
+        // console.log(this.initiative.accountable)
+    }
+
+    isHelper(user: User): boolean {
+        if (!this.initiative) return false;
+        if (!this.initiative.helpers) return false;
+        if (!user.user_id) return false;
+        return this.initiative.helpers.findIndex(u => { return u.user_id === user.user_id }) !== -1
+    }
+
+    addHelper(newHelper: User, checked: boolean) {
+        if (checked) {
+            this.initiative.helpers.push(newHelper);
         }
-        // it doesnt save anything new if given data is invalid
+        else {
+            let index = this.initiative.helpers.findIndex(user => user.user_id === newHelper.user_id);
+            this.initiative.helpers.splice(index, 1);
+        }
     }
 
 
@@ -74,7 +101,7 @@ export class InitiativeComponent {
                 try {
                     this.isTeamMemberAdded = false;
                     this.currentTeamName = term;
-                    let results = term.length < 1 ? this.team.members : this.team.members.filter(v => new RegExp(term, "gi").test(v.name)).splice(0, 10);
+                    let results = term.length < 1 ? (<Team>this.team).members : (<Team>this.team).members.filter(v => new RegExp(term, "gi").test(v.name)).splice(0, 10);
                     this.isTeamMemberFound = (results !== undefined && results.length !== 0) ? true : false;
                     return results;
                 }
@@ -83,21 +110,7 @@ export class InitiativeComponent {
                 }
             });
 
-    formatter = (result: Person) => result.name;
-
-    addTeamMember() {
-        try {
-            let newPerson = new Person();
-            newPerson.name = this.currentTeamName;
-            this.team.members.push(new Person());
-            this.isTeamMemberAdded = true;
-
-        }
-        catch (Exception) {
-            this.isTeamMemberAdded = false;
-        }
-
-    }
+    formatter = (result: User) => result.name;
 }
 
 
