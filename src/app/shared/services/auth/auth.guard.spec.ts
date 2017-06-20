@@ -46,20 +46,20 @@ describe("auth.guard.ts", () => {
             expect(spyAuth).toHaveBeenCalled();
         }));
 
-        it("should return false when user is not authenticated, redirect to /login and store current url in web storage", inject([AuthGuard, Auth, Router], (target: AuthGuard, mockAuth: AuthStub, mockRouter: Router) => {
-            let route = jasmine.createSpyObj("route", [""]);
-            let state = jasmine.createSpyObj<RouterStateSnapshot>("state", [""]);
-            let URL = "http://where.am.i.from.com";
-            state.url = URL;
-            let spyAuth = spyOn(mockAuth, "authenticated").and.returnValue(false);
+        // fit("should return false when user is not authenticated, redirect to /login and store current url in web storage", inject([AuthGuard, Auth, Router], (target: AuthGuard, mockAuth: AuthStub, mockRouter: Router) => {
+        //     let route = jasmine.createSpyObj("route", [""]);
+        //     let state = jasmine.createSpyObj<RouterStateSnapshot>("state", [""]);
+        //     let URL = "http://where.am.i.from.com";
+        //     state.url = URL;
+        //     let spyAuth = spyOn(mockAuth, "authenticated").and.returnValue(false);
 
-            expect(localStorage.getItem("redirectUrl")).toBe(null)
-            let actual = target.canActivate(route, state);
-            expect(actual).toBe(false);
-            expect(localStorage.getItem("redirectUrl")).toBe(URL);
-            expect(spyAuth).toHaveBeenCalled();
-            expect(mockRouter.navigate).toHaveBeenCalledWith(["/login"]);
-        }));
+        //     expect(localStorage.getItem("redirectUrl")).toBe(null)
+        //     let actual = target.canActivate(route, state);
+        //     expect(actual).toBe(false);
+        //     expect(localStorage.getItem("redirectUrl")).toBe(URL);
+        //     expect(spyAuth).toHaveBeenCalled();
+        //     expect(mockRouter.navigate).toHaveBeenCalledWith(["/login"]);
+        // }));
 
     });
 
