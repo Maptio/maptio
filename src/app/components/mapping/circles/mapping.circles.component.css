@@ -85,12 +85,12 @@ svg group{
 }
 
 
-.in:before{
+.plus:before{
   content:"\f067";
   font-family: FontAwesome;
 }
 
-.out:before{
+.minus:before{
   content:"\f068";
   font-family: FontAwesome;
 }
