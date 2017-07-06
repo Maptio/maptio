@@ -1,6 +1,6 @@
 
 import { TeamFactory } from "./../../shared/services/team.factory";
-import { Component, Input, ViewChild } from "@angular/core";
+import { Component, Input, ViewChild, OnChanges, SimpleChanges } from "@angular/core";
 import { ModalComponent } from "ng2-bs3-modal/ng2-bs3-modal";
 import { Initiative } from "../../shared/model/initiative.data"
 import { Team } from "../../shared/model/team.data"
@@ -20,12 +20,11 @@ import { User } from "../../shared/model/user.data";
     // providers: [Initiative]
 })
 
-export class InitiativeComponent {
+export class InitiativeComponent implements OnInit {
 
 
-
-    @ViewChild("initiativeModal")
-    modal: ModalComponent;
+    // @ViewChild("initiativeModal")
+    // modal: ModalComponent;
 
     @Input() initiative: Initiative;
     @Input() parent: Initiative;
@@ -42,8 +41,9 @@ export class InitiativeComponent {
 
     }
 
-    open() {
-        this.modal.open();
+    ngOnInit() {
+        if(!this.initiative) return;
+        // this.modal.open();
         this.teamFactory.get(this.initiative.team_id).then((team: Team) => {
             this.team = team;
         }).catch(err => { })
@@ -81,6 +81,15 @@ export class InitiativeComponent {
         return this.initiative.helpers.findIndex(u => { return u.user_id === user.user_id }) !== -1
     }
 
+    isAuthority(user: User): boolean {
+        if (!this.initiative) return false;
+        if (!this.initiative.helpers) return false;
+        if (!this.initiative.accountable) return false;
+        if (!user) return false;
+        if (!user.user_id) return false;
+        return this.initiative.accountable.user_id === user.user_id;
+    }
+    
     addHelper(newHelper: User, checked: boolean) {
         if (checked) {
             this.initiative.helpers.push(newHelper);

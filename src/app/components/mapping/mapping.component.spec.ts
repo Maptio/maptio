@@ -13,7 +13,7 @@ import { MappingCirclesComponent } from "./circles/mapping.circles.component";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { MappingComponent } from "./mapping.component";
 import { Views } from "../../shared/model/view.enum";
-import { ComponentFactoryResolver, ComponentFactory, ComponentRef, Type } from "@angular/core";
+import { ComponentFactoryResolver, ComponentFactory, ComponentRef, Type, NO_ERRORS_SCHEMA } from "@angular/core";
 
 describe("mapping.component.ts", () => {
 
@@ -34,6 +34,7 @@ describe("mapping.component.ts", () => {
                 MockBackend,
                 BaseRequestOptions
             ],
+            schemas:[NO_ERRORS_SCHEMA],
             declarations: [MappingComponent, MappingCirclesComponent, MappingTreeComponent, TooltipComponent, AnchorDirective]
         })
             .compileComponents()

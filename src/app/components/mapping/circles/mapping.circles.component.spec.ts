@@ -1,3 +1,4 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TooltipComponent } from "./../tooltip/tooltip.component";
 import { Initiative } from "./../../../shared/model/initiative.data";
 import { UIService } from "./../../../shared/services/ui/ui.service";
@@ -17,7 +18,8 @@ describe("mapping.circles.component.ts", () => {
             providers: [
                 D3Service, ColorService, UIService
             ],
-            declarations: [MappingCirclesComponent, TooltipComponent]
+            declarations: [MappingCirclesComponent, TooltipComponent],
+            schemas: [NO_ERRORS_SCHEMA]
         })
             .compileComponents()
 

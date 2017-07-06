@@ -1,65 +1,56 @@
-<modal #initiativeModal [keyboard]="true" [backdrop]="true">
-	<modal-header [show-close]="false">
-		<h4 class="modal-title">Initiative details</h4>
-	</modal-header>
-	<modal-body>
+<form class="form-horizontal">
+	<fieldset>
+		<div class="form-group">
+			<label for="inputName" class="col-lg-2 control-label">Initiative</label>
+			<div class="col-lg-10">
+				<input class="form-control input-sm" id="inputName" type="text" name="inputName" [ngModelOptions]="{standalone: true}" [ngModel]="initiative?.name"
+				 placeholder="Initiative name" (ngModelChange)="saveName($event)" />
 
-		<form class="form-horizontal">
-			<fieldset>
-				<div class="form-group">
-					<label for="inputName" class="col-lg-2 control-label">Initiative</label>
-					<div class="col-lg-10">
-						<input class="form-control input-sm" id="inputName" type="text" name="inputName" [ngModelOptions]="{standalone: true}" [ngModel]="initiative?.name"
-						 placeholder="Initiative name" (ngModelChange)="saveName($event)" />
+				<span class="help-block">in order to help <a>{{parent?.accountable?.name || "..."}}</a>  with <a routerLink="../{{parent?.getSlug()}}">{{parent?.name}}</a></span>
+			</div>
+		</div>
 
-						<span class="help-block">in order to help {{parent?.accountable?.name}}  with <a routerLink="../{{parent?.getSlug()}}">{{parent?.name}}</a></span>
+		<div class="form-group">
+			<label for="select" class="col-lg-2 control-label">Authority</label>
+			<div class="col-lg-10">
+
+				<ng-template #rt let-r="result" let-t="term">
+					<img src="{{r.picture}}" width="16"> {{ r.name}}
+				</ng-template>
+
+				<input #person required type="text" id="inputAccountable" [resultTemplate]="rt" placeholder="Select or add an accountable team member"
+				 class="form-control input-sm" [ngModelOptions]="{standalone: true}" [ngModel]="initiative?.accountable" (selectItem)="saveAccountable($event)"
+				 [ngbTypeahead]="searchTeamMember" [resultFormatter]="formatter" [inputFormatter]="formatter" />
+
+
+			</div>
+		</div>
+		<br/>
+		<div class="form-group">
+			<label for="inputDescription" class="col-lg-2 control-label">Description</label>
+			<div class="col-lg-10">
+				<textarea autofocus data-provide="markdown" data-iconlibrary="fa" class="form-control initiativeMarkdownDescription" id="inputDescription"
+				 rows="5" [ngModelOptions]="{standalone: true}" [ngModel]="initiative?.description" placeholder="Description" (ngModelChange)="saveDescription($event)"></textarea>
+
+
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="inputName" class="col-lg-2 control-label">Helpers</label>
+			<div class="col-lg-10">
+				<div *ngIf="team;then content else other_content"></div>
+
+				<ng-template #content>
+					<div *ngFor="let user of team?.members" class="checkbox">
+						<label><input #helper class="inputHelper" type="checkbox" (click)="addHelper(user, helper.checked)" [checked]="isHelper(user)" [disabled]="isAuthority(user)">
+						<!--<img src="{{user.picture}}" width="16">-->
+						{{user.name}} </label>
 					</div>
-				</div>
+				</ng-template>
+				<ng-template #other_content>No team available for selection</ng-template>
 
-				<div class="form-group">
-					<label for="select" class="col-lg-2 control-label">Authority</label>
-					<div class="col-lg-10">
-
-						<ng-template #rt let-r="result" let-t="term">
-							<img src="{{r.picture}}" width="16"> {{ r.name}}
-						</ng-template>
-
-						<input #person required type="text" id="inputAccountable" [resultTemplate]="rt" placeholder="Select or add an accountable team member"
-						 class="form-control input-sm" [ngModelOptions]="{standalone: true}" [ngModel]="initiative?.accountable" (selectItem)="saveAccountable($event)"
-						 [ngbTypeahead]="searchTeamMember" [resultFormatter]="formatter" [inputFormatter]="formatter" />
-
-
-					</div>
-				</div>
-				<br/>
-				<div class="form-group">
-					<label for="inputDescription" class="col-lg-2 control-label">Description</label>
-					<div class="col-lg-10">
-						<textarea autofocus data-provide="markdown" data-iconlibrary="fa" class="form-control initiativeMarkdownDescription" id="inputDescription"
-						 rows="5" [ngModelOptions]="{standalone: true}" [ngModel]="initiative?.description" placeholder="Description" (ngModelChange)="saveDescription($event)"></textarea>
-
-
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label for="inputName" class="col-lg-2 control-label">Helpers</label>
-					<div class="col-lg-10">
-						<div *ngIf="team;then content else other_content"></div>
-
-						<ng-template #content>
-							<div *ngFor="let user of team?.members" class="checkbox">
-								<label><input #helper class="inputHelper" type="checkbox" (click)="addHelper(user, helper.checked)" [checked]="isHelper(user)"><img src="{{user.picture}}" width="16">{{user.name}}</label>
-							</div>
-						</ng-template>
-						<ng-template #other_content>No team available for selection</ng-template>
-
-					</div>
-				</div>
-			</fieldset>
-		</form>
-	</modal-body>
-	<modal-footer>
-		<button type="button" class="btn btn-primary" (click)="modal.close()">Close</button>
-	</modal-footer>
-</modal>
+			</div>
+		</div>
+	</fieldset>
+</form>

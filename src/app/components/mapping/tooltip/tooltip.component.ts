@@ -1,7 +1,8 @@
 import { UIService } from "./../../../shared/services/ui/ui.service";
 import { Initiative } from "./../../../shared/model/initiative.data";
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, Input } from "@angular/core";
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, Input, ViewChild } from "@angular/core";
 import { Subscription } from "rxjs/Rx";
+import { InitiativeComponent } from "../../initiative/initiative.component";
 
 @Component({
     selector: "tooltip",
@@ -15,6 +16,9 @@ export class TooltipComponent implements OnInit, OnDestroy {
     @Input("data")
     public initiative: Initiative;
 
+    @ViewChild("initiative")
+    public initiativeEditComponent: InitiativeComponent
+
     public subscription: Subscription;
 
     constructor(private uiService: UIService, private cd: ChangeDetectorRef) {
@@ -24,7 +28,8 @@ export class TooltipComponent implements OnInit, OnDestroy {
     public update() {
         this.subscription = this.uiService.getTooltipData().subscribe(
             (initiative: Initiative) => {
-                this.initiative = initiative;
+                this.initiativeEditComponent.initiative = initiative;
+                this.initiativeEditComponent.ngOnInit();
                 this.cd.markForCheck();
             },
             (error: any) => console.log(error));
@@ -33,7 +38,6 @@ export class TooltipComponent implements OnInit, OnDestroy {
     ngOnInit() {
 
     }
-
 
     ngOnDestroy() {
         this.subscription.unsubscribe();

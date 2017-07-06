@@ -47,8 +47,8 @@ describe("initiative.component.ts", () => {
     beforeEach(() => {
         target = TestBed.createComponent(InitiativeComponent);
         component = target.componentInstance;
-        de = target.debugElement.query(By.css("modal"));
-        el = de.nativeElement;
+        // de = target.debugElement.query(By.css("modal"));
+        // el = de.nativeElement;
 
 
         inputNode = {
@@ -65,20 +65,27 @@ describe("initiative.component.ts", () => {
     });
 
     describe("Controller", () => {
-        it("should open modal and assign team", () => {
+        it("ngOnInit should assign team if initiative is defined", () => {
             let mockTeam = new Team({ members: [new User({ name: "John Doe" })] });
             let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
             let spyGetTeam = spyOn(mockTeamFactory, "get").and.returnValue(Promise.resolve<Team>(mockTeam))
 
-            spyOn(component.modal, "open");
-            component.open();
+            component.ngOnInit();
             expect(spyGetTeam).toHaveBeenCalled();
             spyGetTeam.calls.mostRecent().returnValue.then((team: Team) => {
                 expect(component.team).toBe(mockTeam)
             })
 
-            expect(component.modal).toBeDefined();
-            expect(component.modal.open).toHaveBeenCalled();
+        });
+
+        it("ngOnInit should do nothing if initiatiev is undefined", () => {
+            let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
+            let spyGetTeam = spyOn(mockTeamFactory, "get");
+
+            component.initiative = undefined;
+            component.ngOnInit();
+            expect(spyGetTeam).not.toHaveBeenCalled();
+
         });
 
         describe("saveName", () => {
@@ -195,17 +202,7 @@ describe("initiative.component.ts", () => {
     });
 
     describe("View", () => {
-        it("should create modal with the right settings", () => {
-            let modal = target.debugElement.query(By.css("modal"));
-            expect(modal.attributes["data-keyboard"]).toBe("true");
-            expect(modal.attributes["data-backdrop"]).toBe("true");
-        });
-
-        it("should open modal", () => {
-            spyOn(component.modal, "open");
-            component.open();
-            expect(document.querySelectorAll(".modal").length).toBe(1);
-        });
+        
 
         it("should call saveName when changed name is changed", () => {
             let spySaveName = spyOn(component, "saveName");

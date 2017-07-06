@@ -1,3 +1,4 @@
+import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { DatasetFactory } from './../../shared/services/dataset.factory';
 import { DataService } from "./../../shared/services/data.service";
 import { Initiative } from "./../../shared/model/initiative.data";
@@ -22,6 +23,7 @@ describe("building.component.ts", () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
+            imports: [Ng2Bs3ModalModule],
             declarations: [BuildingComponent, TreeComponent, FocusIfDirective, InitiativeComponent],
             schemas: [NO_ERRORS_SCHEMA]
         }).overrideComponent(BuildingComponent, {
@@ -172,13 +174,15 @@ describe("building.component.ts", () => {
         describe("Edit initiative", () => {
             it("should open initiative modal", () => {
                 let node = new Initiative(), parent = new Initiative();
-                let spyOpen = spyOn(component.initiativeEditComponent, "open");
+                let spyOpen = spyOn(component.initiativeEditComponent, "ngOnInit");
                 let spyGetParent = spyOn(node, "getParent").and.returnValue(parent)
+                let spyModal = spyOn(component.modal, "open")
                 component.editInitiative(node);
                 expect(component.initiativeEditComponent.initiative).toBe(node);
                 expect(component.initiativeEditComponent.parent).toBe(parent);
                 expect(spyOpen).toHaveBeenCalled();
                 expect(spyGetParent).toHaveBeenCalled();
+                expect(spyModal).toHaveBeenCalled();
             })
         });
 
