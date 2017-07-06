@@ -6,7 +6,6 @@
 }
 
 .node-content-wrapper *:hover { 
-    cursor:move 
     }
 .node-content-wrapper, .tree-children {
   position: relative;
@@ -127,4 +126,10 @@ flex-wrap: wrap;
 
 .btnAddNode, .btnRemoveNode, .btnEditNode, .btnZoomNode{
     cursor:pointer !important
+}
+
+.knurled{
+    border:none;
+    background-color: transparent;
+    cursor: move;
 }

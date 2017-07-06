@@ -8,6 +8,7 @@
 							(click)="toggleNode(node)"></a>
 					</span>
 		<!--NAME-->
+		<span class="input-group-addon knurled"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>
 		<input class="form-control input inputNodeName" type="text" [focusif]="node.data.hasFocus" autoselect [ngModel]="node.data.name"
 		 (ngModelChange)="saveNodeName($event, node.data)">
 		<span class="input-group-btn">
