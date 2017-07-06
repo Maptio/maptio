@@ -154,7 +154,7 @@ describe("initiative.node.component.ts", () => {
                 let spyRemove = spyOn(component, "removeChildNode");
                 let button = target.debugElement.query(By.css(".btnRemoveNode")).nativeElement as HTMLAnchorElement;
 
-                button.dispatchEvent(new Event("click"));
+                button.dispatchEvent(new Event("confirm"));
                 target.detectChanges();
 
                 expect(spyRemove).toHaveBeenCalledWith(component.node.data);

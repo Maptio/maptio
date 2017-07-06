@@ -12,10 +12,24 @@
 		<input class="form-control input inputNodeName" type="text" [focusif]="node.data.hasFocus" autoselect [ngModel]="node.data.name"
 		 (ngModelChange)="saveNodeName($event, node.data)">
 		<span class="input-group-btn">
+
+	
+		
+			
 						<!--ADD-->
 		<a class="btn btn-link  btnAddNode" ngbTooltip="Add" placement="bottom" (click)="addChildNode(node.data)"><i class="fa fa-plus" aria-hidden="true"></i></a>
 		<!--REMOVE-->
-		<a class="btn btn-link  btnRemoveNode" ngbTooltip="Remove" placement="bottom" *ngIf="!isRoot()" (click)="removeChildNode(node.data)"><i class="fa fa-minus" aria-hidden="true"></i></a>
+		<!--<a class="btn btn-link  btnRemoveNode" ngbTooltip="Remove" placement="bottom" *ngIf="!isRoot()" (click)="removeChildNode(node.data)"><i class="fa fa-trash" aria-hidden="true"></i></a>-->
+		<a class="btn btn-link btnRemoveNode" *ngIf="!isRoot()"
+      mwlConfirmationPopover
+	  title="Remove initiative and sub initiatives ?"
+      placement="top"
+	  focusButton="cancel"
+	  appendToBody="true"
+      (confirm)="removeChildNode(node.data)"
+      (cancel)="cancelClicked = true">
+      <i class="fa fa-trash" aria-hidden="true"></i>
+    </a>
 		<!--EDIT-->
 		<a class="btn btn-link  btnEditNode" *ngIf="!isRoot()" ngbTooltip="Edit" placement="bottom" (click)="openNode(node.data)"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 		<!--ZOOM IN-->
