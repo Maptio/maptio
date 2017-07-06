@@ -5,8 +5,10 @@
 
 }
 
-.node-content-wrapper *:hover { 
-    }
+/*.node-content-wrapper *:hover { 
+    }*/
+
+    
 .node-content-wrapper, .tree-children {
   position: relative;
 }

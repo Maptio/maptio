@@ -60,7 +60,7 @@ import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { AuthConfiguration } from "./shared/services/auth/auth.config";
 import { ResponsiveModule, } from "ng2-responsive";
-import {ConfirmationPopoverModule} from 'angular-confirmation-popover';
+import { ConfirmationPopoverModule } from "angular-confirmation-popover";
 
 // Routes
 const appRoutes: Routes = [
@@ -100,7 +100,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     ResponsiveModule,
     ConfirmationPopoverModule.forRoot({
-      confirmButtonType: 'danger' 
+      confirmButtonType: "danger"
     })
   ],
   exports: [RouterModule],
