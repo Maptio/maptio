@@ -149,7 +149,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
         text
             .enter()
             .append("text")
-            .filter(function (d: any) { return d.children; })
+            .filter(function (d: any) { return d.children && d !== root; })
             .attr("id", function (d: any) { return "title" + d.data.id; })
             .attr("class", "with-children")
             .on("click", function (d: any, i: number) {
@@ -168,7 +168,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
         text
             .enter()
             .append("text")
-            .filter(function (d: any) { /*console.log(d.data.name + " " + d.children);*/ return !d.children; })
+            .filter(function (d: any) { /*console.log(d.data.name + " " + d.children);*/ return !d.children && d !== root; })
             .attr("class", "without-children")
             .attr("id", function (d: any) { return "title" + d.data.id; })
             .on("click", function (d: any, i: number) {
