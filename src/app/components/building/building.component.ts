@@ -20,7 +20,7 @@ export class BuildingComponent {
 
     searched: string;
     nodes: Array<Initiative>;
-    openedNode:Initiative;
+    openedNode: Initiative;
     options = {
         allowDrag: true,
         allowDrop: true // (element:any, {parent:any, index:number}) => parent.isLeaf
@@ -86,7 +86,7 @@ export class BuildingComponent {
         this.initiativeEditComponent.parent = parent;
         this.initiativeEditComponent.ngOnInit();
         this.modal.open();
-        
+
         // this.initiativeEditComponent.open();
     }
 

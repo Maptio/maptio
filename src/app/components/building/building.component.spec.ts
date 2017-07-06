@@ -1,4 +1,4 @@
-import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
 import { DatasetFactory } from './../../shared/services/dataset.factory';
 import { DataService } from "./../../shared/services/data.service";
 import { Initiative } from "./../../shared/model/initiative.data";

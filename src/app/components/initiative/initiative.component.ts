@@ -1,6 +1,6 @@
 
 import { TeamFactory } from "./../../shared/services/team.factory";
-import { Component, Input, ViewChild, OnChanges, SimpleChanges } from "@angular/core";
+import { Component, Input, ViewChild, OnChanges, SimpleChanges, OnInit } from "@angular/core";
 import { ModalComponent } from "ng2-bs3-modal/ng2-bs3-modal";
 import { Initiative } from "../../shared/model/initiative.data"
 import { Team } from "../../shared/model/team.data"
@@ -42,7 +42,7 @@ export class InitiativeComponent implements OnInit {
     }
 
     ngOnInit() {
-        if(!this.initiative) return;
+        if (!this.initiative) return;
         // this.modal.open();
         this.teamFactory.get(this.initiative.team_id).then((team: Team) => {
             this.team = team;
@@ -89,7 +89,7 @@ export class InitiativeComponent implements OnInit {
         if (!user.user_id) return false;
         return this.initiative.accountable.user_id === user.user_id;
     }
-    
+
     addHelper(newHelper: User, checked: boolean) {
         if (checked) {
             this.initiative.helpers.push(newHelper);
