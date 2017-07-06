@@ -1,4 +1,4 @@
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { TooltipComponent } from "./../tooltip/tooltip.component";
 import { Initiative } from "./../../../shared/model/initiative.data";
 import { UIService } from "./../../../shared/services/ui/ui.service";
