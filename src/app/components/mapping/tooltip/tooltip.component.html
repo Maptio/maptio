@@ -1,10 +1,12 @@
-<div class="well well-sm transparent tooltip" *ngIf="initiative">
-    <span class="name"><b>{{initiative.name}}</b></span><br/>
+<div class="well well-lg transparent tooltip">
+    <!--<span class="name"><b>{{initiative.name}}</b></span><br/>
     <span class="accountable" *ngIf="initiative.accountable"><b>Accountable</b> : {{initiative.accountable?.name}}<br/></span>
     <b>Helpers</b>
     <ul>
         <li class="responsible" *ngFor="let helper of initiative.helpers">{{ helper.name}}</li>
     </ul>
 
-    <span class="description">{{initiative.description}}</span>
+    <span class="description">{{initiative.description}}</span>-->
+
+    <initiative #initiative></initiative>
 </div>

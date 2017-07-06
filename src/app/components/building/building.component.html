@@ -5,10 +5,23 @@
 		/>
 	</div>
 	<Tree [nodes]="nodes" (onUpdateData)="mapData($event)" [options]="options">
-		<ng-template #loadingTemplate><div class="loading"></div></ng-template>
+		<ng-template #loadingTemplate>
+			<div class="loading"></div>
+		</ng-template>
 		<ng-template #treeNodeTemplate let-node>
-			<initiative-node [node]="node" (map)="mapData($event)" (update)="updateTreeModel($event)" ></initiative-node>
+			<initiative-node [node]="node" (map)="mapData($event)" (update)="updateTreeModel($event)"></initiative-node>
 		</ng-template>
 	</Tree>
 </div>
-<initiative #initiative></initiative>
+
+<modal #initiativeModal [keyboard]="true" [backdrop]="true">
+	<modal-header [show-close]="false">
+		<h4 class="modal-title">{{openedNode?.name}}</h4>
+	</modal-header>
+	<modal-body>
+		<initiative #initiative></initiative>
+	</modal-body>
+	<modal-footer>
+		<button type="button" class="btn btn-primary" (click)="modal.close()">Save</button>
+	</modal-footer>
+</modal>

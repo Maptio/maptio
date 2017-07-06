@@ -1,3 +1,4 @@
+import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { DatasetFactory } from './../../shared/services/dataset.factory';
 import { DataSet } from './../../shared/model/dataset.data';
 import { Initiative } from "./../../shared/model/initiative.data";
@@ -19,6 +20,7 @@ export class BuildingComponent {
 
     searched: string;
     nodes: Array<Initiative>;
+    openedNode:Initiative;
     options = {
         allowDrag: true,
         allowDrop: true // (element:any, {parent:any, index:number}) => parent.isLeaf
@@ -32,10 +34,13 @@ export class BuildingComponent {
     @ViewChild("initiative")
     initiativeEditComponent: InitiativeComponent
 
+    @ViewChild("initiativeModal")
+    modal: ModalComponent;
+
     @ViewChild(InitiativeNodeComponent)
     node: InitiativeNodeComponent;
 
-    constructor(private dataService: DataService, private datasetFactory:DatasetFactory) {
+    constructor(private dataService: DataService, private datasetFactory: DatasetFactory) {
         this.nodes = [];
 
         Observable.timer(1000, this.SAVING_FREQUENCY * 1000)
@@ -75,10 +80,14 @@ export class BuildingComponent {
     }
 
     editInitiative(node: Initiative) {
+        this.openedNode = node;
         let parent = node.getParent(this.nodes[0]);
         this.initiativeEditComponent.initiative = node;
         this.initiativeEditComponent.parent = parent;
-        this.initiativeEditComponent.open();
+        this.initiativeEditComponent.ngOnInit();
+        this.modal.open();
+        
+        // this.initiativeEditComponent.open();
     }
 
     /**
