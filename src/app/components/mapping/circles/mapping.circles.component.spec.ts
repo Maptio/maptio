@@ -137,7 +137,7 @@ describe("mapping.circles.component.ts", () => {
         let svgs = document.getElementsByTagName("svg")
         expect(svgs.length).toBe(1);
         let g = svgs.item(0).querySelector("g");
-        expect(g.querySelector("text#title0").textContent).toBe("My Company");
+        expect(g.querySelector("text#title0")).toBe(null); // do not dusplay map name
         expect(g.querySelector("text#title1").textContent).toBe("Tech");
         expect(g.querySelector("text#title2").textContent).toBe("Marketing")
     });
