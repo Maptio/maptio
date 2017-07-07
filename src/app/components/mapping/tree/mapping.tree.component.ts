@@ -104,7 +104,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 .attr("width", "100%")
                 .attr("height", "100%")
                 .append("image")
-                .attr("width", CIRCLE_RADIUS *2 )
+                .attr("width", CIRCLE_RADIUS * 2)
                 .attr("height", CIRCLE_RADIUS * 2)
                 .attr("xlink:href", function (d: any) { return d.data.accountable ? d.data.accountable.picture : ""; })
 
@@ -126,7 +126,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 .attr("r", 1e-4)
                 .attr("fill", function (d: any) { return d.data.accountable ? "url(#image" + d.data.id + ")" : "#fff" })
                 .style("stroke", function (d) {
-                    return color(d.depth) 
+                    return color(d.depth)
                 })
                 ;
 
@@ -162,9 +162,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             // Update the node attributes and style
             nodeUpdate.select("circle.node")
                 .attr("r", 15)
-                 .attr("fill", function (d: any) { return d.data.accountable ? "url(#image" + d.data.id + ")" : "#fff" })
+                .attr("fill", function (d: any) { return d.data.accountable ? "url(#image" + d.data.id + ")" : "#fff" })
                 .style("stroke", function (d) {
-                    return color(d.depth) 
+                    return color(d.depth)
                 })
                 .attr("cursor", "pointer");
 
