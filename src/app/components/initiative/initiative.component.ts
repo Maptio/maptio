@@ -30,7 +30,7 @@ export class InitiativeComponent implements OnInit {
     @Input() parent: Initiative;
     // @Input() team: Team;
 
-    public team: Team;
+    public team: Team ;
 
     isTeamMemberFound: boolean = true;
     isTeamMemberAdded: boolean = false;
@@ -43,7 +43,6 @@ export class InitiativeComponent implements OnInit {
 
     ngOnInit() {
         if (!this.initiative) return;
-        // this.modal.open();
         this.teamFactory.get(this.initiative.team_id).then((team: Team) => {
             this.team = team;
         }).catch(err => { })

@@ -72,6 +72,10 @@ svg group{
     position: absolute;
     left: 50%;
     opacity: 0.8;
+        box-shadow: 1px 1px 6px #888888;
+
+
+
 }
 
 .zoom > a{
@@ -93,4 +97,14 @@ svg group{
 .minus:before{
   content:"\f068";
   font-family: FontAwesome;
+}
+
+.reset:before{
+  
+    content:"\f140";
+  font-family: FontAwesome;
+}
+
+.zoom a{
+  border:0px;
 }

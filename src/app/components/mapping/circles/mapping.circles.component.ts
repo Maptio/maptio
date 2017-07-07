@@ -80,12 +80,12 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             function () {
                 let classes = d3.select(this).attr("class");
                 let zoomFactor: number;
-                if (classes.includes("in")) {
+                if (classes.includes("plus")) {
                     zoomFactor = 1.1;
                     zooming.scaleBy(svg, zoomFactor);
                 }
 
-                if (classes.includes("out")) {
+                if (classes.includes("minus")) {
                     zoomFactor = 0.9;
                     zooming.scaleBy(svg, zoomFactor);
                 }
