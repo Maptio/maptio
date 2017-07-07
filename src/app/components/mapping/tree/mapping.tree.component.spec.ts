@@ -47,19 +47,30 @@ describe("mapping.tree.component.ts", () => {
     <svg _ngcontent-a-0="" viewBox="0 0 1522 1522" width="100%">
         <path class="link" d="M 0 500&#10;            C 0 500,&#10;       0 500,&#10;              0 500"></path>
         <path class="link" d="M 0 500&#10;            C 0 500,&#10;              0 500,&#10;0 500"></path>
+        <defs>
+            <pattern id="image0" width="100%" height="100%">
+                <image width="30" height="30" xmlns:xlink="" xlink:href=""></image>
+            </pattern>
+            <pattern id="image1" width="100%" height="100%">
+                <image width="30" height="30" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://cto.image.png"></image>
+            </pattern>
+            <pattern id="image3" width="100%" height="100%">
+                <image width="30" height="30" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://cmo.image.png"></image>
+            </pattern>
+        </defs>
         <g transform="translate(500,500)"></g>
         <g class="node" transform="translate(0,500)">
-            <circle class="node" r="10" cursor="pointer" style="fill: #cbe6e1; stroke: #cbe6e1;"></circle>
+            <circle class="node" r="10" cursor="pointer" fill="url(#image0)"></circle>
             <text class="name" dy="1.65em" x="15">My Company</text>
             <text class="accountable" dy="5" x="15"></text>
         </g>
         <g class="node" transform="translate(0,500)">
-            <circle class="node" r="10" cursor="pointer" style="fill: #ffffff; stroke: #cccccc;"></circle>
+            <circle class="node" r="10" cursor="pointer" fill="url(#image1)"></circle>
             <text class="name" dy="1.65em" x="15">Tech</text>
             <text class="accountable" dy="5" x="15">CTO</text>
         </g>
         <g class="node" transform="translate(0,500)">
-            <circle class="node" r="10" cursor="pointer" style="fill:#ffffff; stroke: #cccccc;"></circle>
+            <circle class="node" r="10" cursor="pointer" fill="url(#image2)"></circle>
             <text class="name" dy="1.65em" x="15">Marketing</text><text class="accountable" dy="5" x="15">CMO</text>
         </g>
     </svg>
@@ -126,6 +137,24 @@ describe("mapping.tree.component.ts", () => {
         expect(nodes.item(0).querySelector("text.accountable").textContent).toBe("");
         expect(nodes.item(1).querySelector("text.accountable").textContent).toBe("CTO");
         expect(nodes.item(2).querySelector("text.accountable").textContent).toBe("CMO");
+    });
+
+     it("should draw SVG with correct pictures labels when data is valid", () => {
+        let data = new Initiative().deserialize(fixture.load("data.json"));
+
+        component.draw(data);
+        let svgs = document.getElementsByTagName("svg")
+        expect(svgs.length).toBe(1);
+        let svg = svgs.item(0);
+        let nodes = svg.querySelectorAll("g.node");
+        expect(nodes.item(0).querySelector("circle").getAttribute("fill")).toBe("#fff");
+        expect(nodes.item(1).querySelector("circle").getAttribute("fill")).toBe("url(#image1)");
+        expect(nodes.item(2).querySelector("circle").getAttribute("fill")).toBe("url(#image2)");
+
+        let patterns = svg.querySelectorAll("defs pattern");
+        expect(patterns.item(0).querySelector("image").getAttribute("href")).toBe("");
+        expect(patterns.item(1).querySelector("image").getAttribute("href")).toBe("http://cto.image.png");
+        expect(patterns.item(2).querySelector("image").getAttribute("href")).toBe("http://cmo.image.png");
     });
 
 
