@@ -3,7 +3,7 @@
 }
 
 .node circle {
-  fill: #fff;
+  /*fill: #fff;*/
   stroke: steelblue;
   stroke-width: 1.5px;
 }
@@ -29,4 +29,9 @@
 .accountable{
   font-weight: bold;
   font: 16px sans-serif;
+}
+
+
+image.accountable{
+  border: 2px red solid
 }

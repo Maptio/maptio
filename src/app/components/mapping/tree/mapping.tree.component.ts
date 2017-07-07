@@ -19,6 +19,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
     public margin: number;
 
+
     constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService) {
         this.d3 = d3Service.getD3();
     }
@@ -31,6 +32,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         let d3 = this.d3;
         let colorService = this.colorService;
         let uiService = this.uiService;
+        let CIRCLE_RADIUS = 15;
 
         if (!data) {
             // console.log("CLEAN");
@@ -93,6 +95,22 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             let node = svg.selectAll("g.node")
                 .data(nodes, function (d: any) { return d.id || (d.id = ++i); });
 
+            let definitions = svg.append("defs")
+            definitions.selectAll("pattern")
+                .data(nodes)
+                .enter()
+                .append("pattern")
+                .attr("id", function (d: any) { return "image" + d.data.id; })
+                .attr("width", "100%")
+                .attr("height", "100%")
+                .append("image")
+                .attr("width", CIRCLE_RADIUS *2 )
+                .attr("height", CIRCLE_RADIUS * 2)
+                .attr("xlink:href", function (d: any) { return d.data.accountable ? d.data.accountable.picture : ""; })
+
+                ;
+
+
             // Enter any new modes at the parent's previous position.
             let nodeEnter = node.enter().append("g")
                 .attr("class", "node")
@@ -101,45 +119,35 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 })
                 .on("click", click);
 
+
             // Add Circle for the nodes
             nodeEnter.append("circle")
                 .attr("class", "node")
-                .attr("r", 1e-5)
-                .style("fill", function (d) {
-                    // return d.children ? "lightsteelblue" : "#fff";
-                    return d.children ? color(d.depth) : "white";
-                })
+                .attr("r", 1e-4)
+                .attr("fill", function (d: any) { return d.data.accountable ? "url(#image" + d.data.id + ")" : "#fff" })
                 .style("stroke", function (d) {
-                    // return d.children ? "lightsteelblue" : "#fff";
-                    return d.children ? color(d.depth) : "#ccc";
-                });
+                    return color(d.depth) 
+                })
+                ;
+
 
             // Add labels for the nodes
             nodeEnter.append("text")
                 .attr("class", "name")
                 .attr("dy", "0.65em")
                 .attr("y", "1.65em")
-                .attr("x", "15")
-                // .attr("x", function (d) {
-                //     return d.children || d.children ? -13 : 13;
-                // })
-                // .attr("text-anchor", function (d) {
-                //     return d.children || d.children ? "end" : "start";
-                // })
+                .attr("x", CIRCLE_RADIUS)
                 .text(function (d: any) { return d.data.name; })
                 .each(function (d: any) {
-                    // console.log(d.data.name + " " + d.y + " " + d.depth + " " + d.y/d.depth )
                     uiService.wrap(d3.select(this), d.data.name, d.y / d.depth * 0.85);
                 });
 
             nodeEnter.append("text")
                 .attr("class", "accountable")
                 .attr("dy", "5")
-                .attr("x", "15")
-                // .attr("text-anchor", function (d) {
-                //     return d.children || d.children ? "end" : "start";
-                // })
+                .attr("x", CIRCLE_RADIUS)
                 .text(function (d: any) { return d.data.accountable ? d.data.accountable.name : ""; });
+
 
             // UPDATE
             let nodeUpdate = nodeEnter.merge(node);
@@ -153,13 +161,10 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
             // Update the node attributes and style
             nodeUpdate.select("circle.node")
-                .attr("r", 10)
-                .style("fill", function (d) {
-                    return d.children ? color(d.depth) : "white";  // return d.children ? "lightsteelblue" : "#fff";
-                })
+                .attr("r", 15)
+                 .attr("fill", function (d: any) { return d.data.accountable ? "url(#image" + d.data.id + ")" : "#fff" })
                 .style("stroke", function (d) {
-                    // return d.children ? "lightsteelblue" : "#fff";
-                    return d.children ? color(d.depth) : "#ccc";
+                    return color(d.depth) 
                 })
                 .attr("cursor", "pointer");
 
