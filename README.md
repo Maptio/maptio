@@ -1,5 +1,8 @@
-<a href="https://codeclimate.com/repos/58c5dfcf1c8f5f0272000b72/feed"><img src="https://codeclimate.com/repos/58c5dfcf1c8f5f0272000b72/badges/969532b3df5cd3cd2e9b/gpa.svg" /></a> <a href="https://codeclimate.com/repos/58c5dfcf1c8f5f0272000b72/coverage"><img src="https://codeclimate.com/repos/58c5dfcf1c8f5f0272000b72/badges/969532b3df5cd3cd2e9b/coverage.svg" /></a> <a href="https://codeclimate.com/repos/58c5dfcf1c8f5f0272000b72/feed"><img src="https://codeclimate.com/repos/58c5dfcf1c8f5f0272000b72/badges/969532b3df5cd3cd2e9b/issue_count.svg" /></a> [![Build Status](https://travis-ci.com/Safiyya/maptio.svg?token=nc9XxWrdvz8syvD6uvUM&branch=master)](https://travis-ci.com/Safiyya/maptio)
+[![Code Climate](https://codeclimate.com/repos/58ddc02f974e760287000b1d/badges/be1b4f8e1652075411b3/gpa.svg)](https://codeclimate.com/repos/58ddc02f974e760287000b1d/feed)
 
+[![Test Coverage](https://codeclimate.com/repos/58ddc02f974e760287000b1d/badges/be1b4f8e1652075411b3/coverage.svg)](https://codeclimate.com/repos/58ddc02f974e760287000b1d/coverage)
+
+[![Issue Count](https://codeclimate.com/repos/58ddc02f974e760287000b1d/badges/be1b4f8e1652075411b3/issue_count.svg)](https://codeclimate.com/repos/58ddc02f974e760287000b1d/feed)
 # Maptio
 
 For founders of purpose-driven companies and initiatives who want to create a scalable, autonomous and focussed organisation structure and culture.
