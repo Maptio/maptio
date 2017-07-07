@@ -96,8 +96,6 @@ export class BuildingComponent {
      * @param slugToOpen Slug of initiative to open
      */
     loadData(id: string, slugToOpen?: string) {
-        // console.log(slugToOpen)
-        // FIXME : this should return an initiative direcrtly
         this.datasetFactory.get(id).then(data => {
 
             this.nodes = [];

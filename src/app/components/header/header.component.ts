@@ -89,7 +89,7 @@ export class HeaderComponent implements OnInit {
                     });
 
                 this.teams$.then((teams: Team[]) => {
-                    this.selectedTeam = this.selectedTeam || teams[0]; // TODO : save last accessed team in cookies and retrieve
+                    this.selectedTeam = this.selectedTeam || teams[0]; 
                 })
             },
             (error: any) => { this.errorService.handleError(error) });

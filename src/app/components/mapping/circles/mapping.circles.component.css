@@ -12,7 +12,7 @@
 }
 
 svg{
-  pointer-events: move;
+  pointer-events: auto;
 }
 
 svg text {
@@ -26,11 +26,11 @@ svg text {
     cursor: url(/assets/images/cursors/more.cur), auto;
 }
 
-svg text.with-children{
+svg .with-children{
   font-size:1.2em;
 }
 
-svg text.without-children{
+svg .without-children{
   font-size:1em;
 }
 
@@ -106,5 +106,5 @@ svg group{
 }
 
 .zoom a{
-  border:0px;
+  border:0;
 }
