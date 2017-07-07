@@ -16,6 +16,9 @@ engines:
     enabled: true
   tslint:
     enabled: true
+    checks:
+      quotemark:
+        enabled: false
     channel: beta
 ratings:
   paths:
