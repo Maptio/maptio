@@ -8,7 +8,8 @@
             "id": "1",
             "accountable": {
                 "user_id":"cto_id",
-                "name": "CTO"
+                "name": "CTO",
+                "picture":"http://cto.image.png"
             },
             "size": "1"
         },
@@ -17,7 +18,8 @@
             "id": "2",
             "accountable": {
                 "user_id":"cmo_id",
-                "name": "CMO"
+                "name": "CMO",
+                "picture":"http://cmo.image.png"
             },
             "size": "1"
         }
