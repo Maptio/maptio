@@ -42,7 +42,7 @@
 				<div *ngIf="team;then content else other_content"></div>
 
 				<ng-template #content>
-					<div *ngFor="let user of team?.members" class="checkbox">
+					<div *ngFor="let user of team.members" class="checkbox">
 						<label><input #helper class="inputHelper" type="checkbox" (click)="addHelper(user, helper.checked)" [checked]="isHelper(user)" [disabled]="isAuthority(user)">
 						<!--<img src="{{user.picture}}" width="16">-->
 						{{user.name}} </label>
