@@ -17,9 +17,9 @@ So that people throughout the organisation can:
 
 ## Installing / Getting started
 
-The latest version of the app is running at `http://maptio.herokuapp.com`.
+The latest version of the app is running at [http://maptio.herokuapp.com](http://maptio.herokuapp.com).
 
-To launch it on your local server, see the [Setting up dev](#setting-up-dev).
+To launch it on your local server, see the [Setting up dev](#setting-up-dev) section.
 
 ## Developing
 
@@ -32,7 +32,7 @@ To launch it on your local server, see the [Setting up dev](#setting-up-dev).
 - D3 4.0
 - Express 4.14.1
 
-Additionally ,
+Additionally , we use these services/packages : 
 - Angular Tree Component `angular2-tree-component@1.3.5`
 - Auth0
 - `ng2-bs3-modal`
@@ -40,8 +40,6 @@ Additionally ,
 ### Prerequisites
 
 You must have [Node.js (> 7.8.0)](https://nodejs.org/en/download/) installed.
-
-
 
 ### Setting up Dev
 
@@ -59,13 +57,17 @@ Go to  `http://localhost:3000` to see it in the browser.
 
 We use Travis CI,  Code Climate and Heroku for deploying to `http://maptio.herokuapp.com'.
 
-A simple `git push` on `master` will triggers the following events : 
+Any `git push` in the `master` branch will triggers the following events : 
 
 1. Build and run tests on Travis CI
 2. If pass, analyse on CodeClimate and report test coverage & quality metrics
 3. Deploy to Heroku at `http://maptio.herokuapp.com`
 
 Each step is logged on our private Slack `maptio.slack.com`.
+
+### Issue tracker
+
+We use [GitHub issue tracker](https://github.com/Safiyya/maptio/issues).
 
 ## Versioning
 
