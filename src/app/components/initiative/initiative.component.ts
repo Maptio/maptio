@@ -30,7 +30,7 @@ export class InitiativeComponent implements OnInit {
     @Input() parent: Initiative;
     // @Input() team: Team;
 
-    public team: Team ;
+    public team: Promise<Team>;
 
     isTeamMemberFound: boolean = true;
     isTeamMemberAdded: boolean = false;
@@ -43,9 +43,8 @@ export class InitiativeComponent implements OnInit {
 
     ngOnInit() {
         if (!this.initiative) return;
-        this.teamFactory.get(this.initiative.team_id).then((team: Team) => {
-            this.team = team;
-        }).catch(err => { })
+        if (!this.initiative.team_id) return;
+        this.team = this.teamFactory.get(this.initiative.team_id)
     }
 
     saveName(newName: any) {
@@ -100,23 +99,28 @@ export class InitiativeComponent implements OnInit {
     }
 
 
-    searchTeamMember =
-    (text$: Observable<string>) =>
-        text$
-            .debounceTime(200)
-            .distinctUntilChanged()
-            .map(term => {
-                try {
-                    this.isTeamMemberAdded = false;
-                    this.currentTeamName = term;
-                    let results = term.length < 1 ? (<Team>this.team).members : (<Team>this.team).members.filter(v => new RegExp(term, "gi").test(v.name)).splice(0, 10);
-                    this.isTeamMemberFound = (results !== undefined && results.length !== 0) ? true : false;
-                    return results;
-                }
-                catch (Exception) {
-                    this.isTeamMemberFound = false;
-                }
-            });
+    searchTeamMember(team: Team) {
+       
+        return (text$: Observable<string>) =>
+            text$
+                .debounceTime(200)
+                .distinctUntilChanged()
+                .map(term => {
+                    try {
+                        if(!team) return [];
+                        
+                        this.isTeamMemberAdded = false;
+                        this.currentTeamName = term;
+                        let results = term.length < 1 ? team.members : team.members.filter(v => new RegExp(term, "gi").test(v.name)).splice(0, 10);
+                        this.isTeamMemberFound = (results !== undefined && results.length !== 0) ? true : false;
+                        return results;
+                    }
+                    catch (Exception) {
+                        this.isTeamMemberFound = false;
+                    }
+                });
+    }
+
 
     formatter = (result: User) => result.name;
 }
