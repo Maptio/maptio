@@ -1,10 +1,3 @@
-
-# Maptio
-
-
-
-
-
 ![Logo of the project](./public/images/logo.png)
 
 [![Code Climate](https://codeclimate.com/repos/58ddc02f974e760287000b1d/badges/be1b4f8e1652075411b3/gpa.svg)](https://codeclimate.com/repos/58ddc02f974e760287000b1d/feed)
