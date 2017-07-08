@@ -27,8 +27,9 @@ export class TooltipComponent implements OnInit, OnDestroy {
 
     public update() {
         this.subscription = this.uiService.getTooltipData().subscribe(
-            (initiative: Initiative) => {
-                this.initiativeEditComponent.initiative = initiative;
+            (initiatives: [Initiative,Initiative]) => {
+                this.initiativeEditComponent.initiative = initiatives[0];
+                this.initiativeEditComponent.parent = initiatives[1]
                 this.initiativeEditComponent.ngOnInit();
                 this.cd.markForCheck();
             },

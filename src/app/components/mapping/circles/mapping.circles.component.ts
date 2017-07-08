@@ -153,7 +153,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             .attr("id", function (d: any) { return "title" + d.data.id; })
             .attr("class", "with-children")
             .on("click", function (d: any, i: number) {
-                showTooltip(d, d3.event.clientX, d3.event.clientY);
+                showTooltip(d, d.parent, d3.event);
                 d.isTooltipVisible = !d.isTooltipVisible;
             })
             .style("display", function (d: any) { return d === root ? "none" : "inline"; })
@@ -172,7 +172,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             .attr("class", "without-children")
             .attr("id", function (d: any) { return "title" + d.data.id; })
             .on("click", function (d: any, i: number) {
-                showTooltip(d, d3.event.clientX, d3.event.clientY);
+                showTooltip(d, d.parent, d3.event);
                 d.isTooltipVisible = !d.isTooltipVisible;
             })
             .attr("dy", 0)
@@ -242,12 +242,12 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
 
 
 
-        function showTooltip(d: any, x: number, y: number) {
-            uiService.setTooltipData(d.data);
+        function showTooltip(d: any,parent:any,  event:any) {
+            uiService.setTooltipData(d.data,parent.data);
             d3.select(".initative-tooltip")
                 .classed("hidden", d.isTooltipVisible)
-                .style("left", 50 + "px")
-                .style("top", 0 + "px")
+                .style("left", event.pageX - 20 + "px")
+                .style("top", event.pageY -100 + "px")
         }
     }
 }
