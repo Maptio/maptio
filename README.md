@@ -17,12 +17,9 @@ So that people throughout the organisation can:
 
 ## Installing / Getting started
 
-```shell
-npm install
-npm start
-```
-This installs all the dependencies and start the  Node.js server.
-Go to  `http://localhost:3000` to see it in the browser.
+The latest version of the app is running at `http://maptio.herokuapp.com`.
+
+To launch it on your local server, see the [Setting up dev](#setting-up-dev).
 
 ## Developing
 
@@ -41,7 +38,9 @@ Additionally ,
 - `ng2-bs3-modal`
 
 ### Prerequisites
-What is needed to set up the dev environment. For instance, global dependencies or any other tools. include download links.
+
+You must have [Node.js (> 7.8.0)](https://nodejs.org/en/download/) installed.
+
 
 
 ### Setting up Dev
@@ -50,7 +49,11 @@ What is needed to set up the dev environment. For instance, global dependencies 
 git clone https://github.com/Safiya/maptio.git
 cd maptio/
 npm install
+npm start
 ```
+This installs all the dependencies and start the  Node.js server.
+
+Go to  `http://localhost:3000` to see it in the browser.
 
 ### Deploying / Publishing
 
