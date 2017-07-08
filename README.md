@@ -71,7 +71,6 @@ We use [GitHub issue tracker](https://github.com/Safiyya/maptio/issues).
 
 ## Versioning
 
-
 ## Configuration
 
 ## Tests
