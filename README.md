@@ -69,6 +69,8 @@ Each step is logged on our private Slack `maptio.slack.com`.
 
 We use [GitHub issue tracker](https://github.com/Safiyya/maptio/issues).
 
+Ideally Pull requests and commits should reference the issue number ([See this guide](https://help.github.com/articles/closing-issues-via-commit-messages/))
+
 ## Versioning
 
 ## Configuration
