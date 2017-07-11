@@ -38,6 +38,7 @@
 }*/
 
 .panel-group.workspace {
+    margin-top:60px;
     width:99%;
     z-index: 100;
     -webkit-backface-visibility: hidden;
@@ -106,6 +107,7 @@
 .profile-img{
     border-radius: 23px;
 }
+
 
 /*
 .panel {

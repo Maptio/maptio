@@ -70,10 +70,10 @@ svg group{
 
 .zoom{
     position: absolute;
-    left: 50%;
+    right: 0%;
     opacity: 0.8;
         box-shadow: 1px 1px 6px #888888;
-
+        top:6%;
 
 
 }
@@ -82,6 +82,7 @@ svg group{
    color: gray;
     border: 1px solid lightgray;
     background-color: #FCFCFC;
+    clear:both;
 }
 
 .zoom > a:hover{

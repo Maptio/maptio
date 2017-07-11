@@ -27,7 +27,7 @@ export class BuildingComponent {
         allowDrop: true // (element:any, {parent:any, index:number}) => parent.isLeaf
     }
 
-    SAVING_FREQUENCY: number = 60;
+    SAVING_FREQUENCY: number = 1;
 
     @ViewChild(TreeComponent)
     tree: TreeComponent;

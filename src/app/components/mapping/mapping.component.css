@@ -1,6 +1,6 @@
-.control{
+/*.control{
     padding-top:3px;
-}
+}*/
 
 
 .treeview:before{
@@ -23,6 +23,39 @@
     font-family:FontAwesome;
 }
 
-.switch{
+/*.switch{
+    position: absolute;
     margin:5px;
+    top:10%;
+    color: gray;
+    border: 1px solid lightgray;
+    background-color: #FCFCFC;
+     box-shadow: 1px 1px 6px #888888;
+}*/
+
+.control{
+    position: absolute;
+    right: 0%;
+    opacity: 0.8;
+        box-shadow: 1px 1px 6px #888888;
+
+
+
+}
+
+.control > a{
+   color: gray;
+    border: 1px solid lightgray;
+    background-color: #FCFCFC;
+    clear:both;
+}
+
+.control > a:hover{
+  color:black;
+}
+
+
+.control a{
+  border:0;
+  font-size:11px;
 }
