@@ -242,12 +242,12 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
 
 
 
-        function showTooltip(d: any,parent:any,  event:any) {
-            uiService.setTooltipData(d.data,parent.data);
+        function showTooltip(d: any, parent: any, event: any) {
+            uiService.setTooltipData(d.data, parent.data);
             d3.select(".initative-tooltip")
                 .classed("hidden", d.isTooltipVisible)
                 .style("left", event.pageX - 20 + "px")
-                .style("top", event.pageY -100 + "px")
+                .style("top", event.pageY - 100 + "px")
         }
     }
 }

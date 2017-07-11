@@ -41,7 +41,7 @@ export class BuildingComponent {
     @ViewChild(InitiativeNodeComponent)
     node: InitiativeNodeComponent;
 
-    datasetId:string;
+    datasetId: string;
 
     constructor(private dataService: DataService, private datasetFactory: DatasetFactory) {
         this.nodes = [];
@@ -94,7 +94,7 @@ export class BuildingComponent {
      * @param slugToOpen Slug of initiative to open
      */
     loadData(id: string, slugToOpen?: string) {
-        
+
         this.datasetFactory.get(id).then(data => {
             this.datasetId = id;
             this.nodes = [];

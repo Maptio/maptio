@@ -21,7 +21,7 @@ describe("tooltip.component.ts", () => {
         TestBed.configureTestingModule({
             providers: [
                 UIService, D3Service, TeamFactory,
-                 {
+                {
                     provide: Http,
                     useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
                         return new Http(mockBackend, options);
@@ -41,13 +41,13 @@ describe("tooltip.component.ts", () => {
     beforeEach(() => {
         target = TestBed.createComponent(TooltipComponent);
         component = target.componentInstance;
-        target.detectChanges(); 
+        target.detectChanges();
     });
 
     it("should render the tooltip when initiative is updated", () => {
         let uiService: UIService = target.debugElement.injector.get(UIService);
 
-        let updated = new Initiative(); 
+        let updated = new Initiative();
         let parent = new Initiative();
         updated.name = "UPDATED";
         updated.accountable = new User({ name: "John Doe" });

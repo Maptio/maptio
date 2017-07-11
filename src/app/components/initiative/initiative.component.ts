@@ -41,10 +41,10 @@ export class InitiativeComponent implements OnChanges {
 
     constructor(private teamFactory: TeamFactory) {
     }
-    
+
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.node.currentValue)
-            this.team = this.teamFactory.get(changes.node.currentValue.team_id) //.then(t => t).catch();
+            this.team = this.teamFactory.get(changes.node.currentValue.team_id)
     }
 
     saveName(newName: any) {
