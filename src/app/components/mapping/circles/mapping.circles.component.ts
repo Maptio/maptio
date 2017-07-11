@@ -59,7 +59,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")")
             , transform = d3.zoomIdentity
 
-        let zooming = d3.zoom().scaleExtent([2 / 3, 2]).on("zoom", zoomed);
+        let zooming = d3.zoom().on("zoom", zoomed);
 
         try {
             // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
