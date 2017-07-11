@@ -5,7 +5,7 @@
 			<div class="col-lg-10">
 				<!--<input [disabled]="isReadOnly" class="form-control input-sm" id="inputName" type="text" name="inputName" [ngModelOptions]="{standalone: true}"
 				 [ngModel]="node?.name" placeholder="Initiative name" (ngModelChange)="saveName($event)" />-->
-				 <textarea style="resize: none;" [disabled]="isReadOnly" class="form-control input-sm" id="inputName" type="text" name="inputName" [ngModelOptions]="{standalone: true}"
+				 <textarea [disabled]="isReadOnly" class="form-control input-sm unresizable" id="inputName" type="text" name="inputName" [ngModelOptions]="{standalone: true}"
 				 [ngModel]="node?.name" placeholder="Initiative name" (ngModelChange)="saveName($event)" rows="2" cols=""></textarea>
 				<span class="help-block">in order to help <b>{{parent?.accountable?.name || "..."}}</b>  with <b>{{parent?.name}}</b></span>
 			</div>
