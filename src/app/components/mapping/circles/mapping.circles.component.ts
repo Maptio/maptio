@@ -1,4 +1,5 @@
-import { Component, OnInit } from "@angular/core";
+import { Observable } from 'rxjs/Observable';
+import { Component, OnInit, Input } from "@angular/core";
 import { D3Service, D3, HierarchyCircularNode } from "d3-ng2-service";
 import { ColorService } from "../../../shared/services/ui/color.service"
 import { UIService } from "../../../shared/services/ui/ui.service"
@@ -13,6 +14,7 @@ import { IDataVisualizer } from "../mapping.interface"
 
 export class MappingCirclesComponent implements OnInit, IDataVisualizer {
 
+
     private d3: D3;
 
     // @ViewChild("tooltip")
@@ -22,7 +24,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
     public height: number;
 
     public margin: number;
-
+    public zoom$: Observable<number>
 
     constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService) {
         this.d3 = d3Service.getD3();
@@ -33,16 +35,17 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
     }
 
 
+
     draw(data: any) {
 
         let d3 = this.d3;
         let colorService = this.colorService;
         let uiService = this.uiService;
         let width = this.width;
-
-        // let height = this.height;
-        let margin = this.margin;
-
+        let zoom$ = this.zoom$;
+        let marginSize = this.margin
+        // let margin = this.margin;
+        
         if (!data) {
             // console.log("CLEAN");
             uiService.clean();
@@ -52,7 +55,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
         uiService.clean();
 
         let svg: any = d3.select("svg"),
-            // margin = 50,
+             margin = marginSize,
             diameter = +width
 
         let g = svg.append("g")
@@ -65,7 +68,6 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
             svg.call(zooming.transform, d3.zoomIdentity.translate(diameter / 2, diameter / 2));
             svg.call(zooming);
-
         }
         catch (error) {
 
@@ -73,29 +75,44 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
 
 
         function zoomed() {
-            g.attr("transform", d3.event.transform)
+            g.attr("transform", d3.event.transform);
         }
 
-        d3.selectAll(".zoom a").on("click",
-            function () {
-                let classes = d3.select(this).attr("class");
-                let zoomFactor: number;
-                if (classes.includes("plus")) {
-                    zoomFactor = 1.1;
-                    zooming.scaleBy(svg, zoomFactor);
+
+        zoom$.subscribe((zf: number) => {
+            try {
+                // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
+                if (zf) {
+                    zooming.scaleBy(svg, zf);
                 }
-
-                if (classes.includes("minus")) {
-                    zoomFactor = 0.9;
-                    zooming.scaleBy(svg, zoomFactor);
-                }
-
-
-                console.log(diameter);
-                if (classes.includes("reset")) {
+                else {
                     svg.call(zooming.transform, d3.zoomIdentity.translate(diameter / 2, diameter / 2));
                 }
-            });
+            }
+            catch (error) {
+
+            }
+        })
+        // d3.selectAll(".zoom a").on("click",
+        //     function () {
+        //         let classes = d3.select(this).attr("class");
+        //         let zoomFactor: number;
+        //         if (classes.includes("plus")) {
+        //             zoomFactor = 1.1;
+        //             zooming.scaleBy(svg, zoomFactor);
+        //         }
+
+        //         if (classes.includes("minus")) {
+        //             zoomFactor = 0.9;
+        //             zooming.scaleBy(svg, zoomFactor);
+        //         }
+
+
+        //         console.log(diameter);
+        //         if (classes.includes("reset")) {
+        //             svg.call(zooming.transform, d3.zoomIdentity.translate(diameter / 2, diameter / 2));
+        //         }
+        //     });
 
 
 

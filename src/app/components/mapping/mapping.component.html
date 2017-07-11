@@ -1,21 +1,13 @@
-<!--<div class=" row control pull-left">
-  <a class="btn btn-primary save" (click)="save()">
-   Save
-   </a>
-</div>-->
-
-<div class="control ">
+<div class="control btn-group-vertical">
     <!--<a class="btn btn-primary save" (click)="save()">
    Save
    </a>-->
 
-    <a class="btn  circleview " (click)="switchView()" *ngIf="isTreeviewSelected()">
-  
-</a>
-
-    <a class="btn   treeview" (click)="switchView()" *ngIf="isCircleViewSelected()">
-    
-</a>
+    <a class="btn  circleview " (click)="switchView()" *ngIf="isTreeviewSelected()"></a>
+    <a class="btn   treeview" (click)="switchView()" *ngIf="isCircleViewSelected()"></a>
+    <a class="btn minus" (click)="zoomOut()"></a>
+    <a class="btn  plus" (click)="zoomIn()"></a>
+    <a class="btn  reset" (click)="resetZoom()"></a>
 </div>
 
 <div #drawing anchor></div>

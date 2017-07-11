@@ -15,6 +15,7 @@ import { AnchorDirective } from "../../shared/directives/anchor.directive"
 
 import "rxjs/add/operator/map"
 import { EmitterService } from "../../shared/services/emitter.service";
+import { Subject } from "rxjs/Rx";
 
 @Component({
     selector: "mapping",
@@ -29,8 +30,11 @@ import { EmitterService } from "../../shared/services/emitter.service";
 export class MappingComponent implements AfterViewInit, OnInit {
 
     private data: any;
+    private zoomFactor: number;
 
     selectedView: Views = Views.Circles // per default;
+
+    private zoom$: Subject<number>
 
     // @ViewChild("circles")
     // private circles: MappingCirclesComponent;
@@ -48,7 +52,10 @@ export class MappingComponent implements AfterViewInit, OnInit {
         private viewContainer: ViewContainerRef,
         private componentFactoryResolver: ComponentFactoryResolver,
         private cd: ChangeDetectorRef
-    ) { }
+    ) { 
+
+        this.zoom$ = new Subject<number>();
+    }
 
     ngOnInit() {
         this.dataService.get().subscribe(data => {
@@ -80,7 +87,7 @@ export class MappingComponent implements AfterViewInit, OnInit {
         this.show(this.selectedView);
     }
 
-    save(){
+    save() {
         EmitterService.get("currentDataset").emit(this.data);
     }
 
@@ -88,11 +95,11 @@ export class MappingComponent implements AfterViewInit, OnInit {
     ngAfterViewInit() {
     }
 
-    getInstance(component:ComponentRef<IDataVisualizer>):IDataVisualizer{
+    getInstance(component: ComponentRef<IDataVisualizer>): IDataVisualizer {
         return component.instance;
     }
 
-    show(mode: Views) {
+    show(mode: Views, zoom?: number) {
         let data = this.data;
         let factory =
             (mode === Views.Circles)
@@ -104,7 +111,21 @@ export class MappingComponent implements AfterViewInit, OnInit {
         let instance = this.getInstance(component);
         instance.width = 1522; // this.element.nativeElement.parentNode.parentNode.parentNode.offsetHeight;
         instance.height = 1522; // this.element.nativeElement.parentNode.parentNode.parentNode.offsetHeight;
-        instance.margin = 10;
+        instance.margin = 50;
+        instance.zoom$ = this.zoom$.asObservable();
         instance.draw(data);
+    }
+
+
+    zoomOut() {
+        this.zoom$.next(0.9);
+    }
+
+    zoomIn() {
+        this.zoom$.next(1.1);
+    }
+
+    resetZoom() {
+        this.zoom$.next(null);
     }
 }

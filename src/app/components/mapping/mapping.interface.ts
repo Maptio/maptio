@@ -1,3 +1,5 @@
+import { Observable } from "rxjs/Rx";
+
 export interface IDataVisualizer {
 
     width: number;
@@ -5,6 +7,8 @@ export interface IDataVisualizer {
     height: number;
 
     margin: number;
+
+     zoom$:Observable<number>;
 
     draw(data: any): void;
 }

@@ -1,40 +1,42 @@
-<div id="mySidenav" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <div class="panel">
-        <building #building>Loading...</building>
-    </div>
-
-</div>
-
-<!-- Use any element to open the sidenav -->
-<span onclick="openNav()">open</span>
-
 <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
 
-    <div class="col-lg-12">
-        <div id="main">
-        <div class="row header">
-            <!--<h4 class="pull-left">{{(dataset | async)?.initiative.name}}</h4>-->
-            <p class="pull-left team-name"> {{(team|async)?.name}}</p>
-            <div class="btn-group pull-left" *ngIf="team | async">
+<mapping>Loading...</mapping>
+<div class="row header">
+    <!--<h4 class="pull-left">{{(dataset | async)?.initiative.name}}</h4>-->
+    <p class="pull-left team-name"> {{(team|async)?.name}}</p>
+    <div class="btn-group pull-left" *ngIf="team | async">
 
-                <a *ngFor="let user of members | async" class="btn btn-link btn-xs no-padding">
+        <a *ngFor="let user of members | async" class="btn btn-link btn-xs no-padding">
             <img class="member " src="{{user?.picture}}" alt="{{user?.name}}" title="{{user?.name}}">
         </a>
-                <a class="btn btn-link btn-xs" routerLink="/account/team/{{(team |async)?.team_id}}">
+        <a class="btn btn-link btn-xs" routerLink="/account/team/{{(team |async)?.team_id}}">
             <i class="fa fa-plus" aria-hidden="true"></i>
         </a>
-            </div>
-            <div class="dropdown" *ngIf="!(team | async)">
+    </div>
+    <div class="dropdown" *ngIf="!(team | async)">
 
-                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Add a team to {{(dataset | async)?.initiative?.name}}<i class="fa fa-chevron-down" aria-hidden="true"></i></a>
-                <ul class="dropdown-menu" role="menu">
-                    <li *ngFor="let team of teams | async"><a (click)="addTeamToInitiative(team)">{{team.name}}</a></li>
-                </ul>
+        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Add a team to {{(dataset | async)?.initiative?.name}}<i class="fa fa-chevron-down" aria-hidden="true"></i></a>
+        <ul class="dropdown-menu" role="menu">
+            <li *ngFor="let team of teams | async"><a (click)="addTeamToInitiative(team)">{{team.name}}</a></li>
+        </ul>
 
-            </div>
+    </div>
+</div>
+<div class="row-fluid col-lg-12">
+
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <div class="panel">
+            <building #building>Loading...</building>
         </div>
-        <mapping>Loading...</mapping>
+
+    </div>
+
+    <!-- Use any element to open the sidenav -->
+    <span onclick="openNav()">open</span>
+    <div id="main">
+
+        
     </div>
 </div>
 

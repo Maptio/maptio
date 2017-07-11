@@ -68,44 +68,6 @@ svg group{
     }
 
 
-.zoom{
-    position: absolute;
-    right: 0%;
-    opacity: 0.8;
-        box-shadow: 1px 1px 6px #888888;
-        top:6%;
 
 
-}
 
-.zoom > a{
-   color: gray;
-    border: 1px solid lightgray;
-    background-color: #FCFCFC;
-    clear:both;
-}
-
-.zoom > a:hover{
-  color:black;
-}
-
-
-.plus:before{
-  content:"\f067";
-  font-family: FontAwesome;
-}
-
-.minus:before{
-  content:"\f068";
-  font-family: FontAwesome;
-}
-
-.reset:before{
-  
-    content:"\f140";
-  font-family: FontAwesome;
-}
-
-.zoom a{
-  border:0;
-}

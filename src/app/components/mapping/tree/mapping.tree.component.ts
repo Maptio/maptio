@@ -3,6 +3,7 @@ import { D3Service, D3 } from "d3-ng2-service";
 import { ColorService } from "../../../shared/services/ui/color.service"
 import { UIService } from "../../../shared/services/ui/ui.service"
 import { IDataVisualizer } from "../mapping.interface"
+import { Observable } from "rxjs/Rx";
 
 @Component({
     selector: "tree",
@@ -19,6 +20,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
     public margin: number;
 
+    public zoom$: Observable<number>
 
     constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService) {
         this.d3 = d3Service.getD3();
