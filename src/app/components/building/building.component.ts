@@ -21,6 +21,7 @@ export class BuildingComponent {
     searched: string;
     nodes: Array<Initiative>;
     openedNode: Initiative;
+    openedNodeParent: Initiative;
     options = {
         allowDrag: true,
         allowDrop: true // (element:any, {parent:any, index:number}) => parent.isLeaf
@@ -31,14 +32,16 @@ export class BuildingComponent {
     @ViewChild(TreeComponent)
     tree: TreeComponent;
 
-    @ViewChild("initiative")
-    initiativeEditComponent: InitiativeComponent
+    // @ViewChild("initiative")
+    // initiativeEditComponent: InitiativeComponent
 
     @ViewChild("initiativeModal")
     modal: ModalComponent;
 
     @ViewChild(InitiativeNodeComponent)
     node: InitiativeNodeComponent;
+
+    datasetId: string;
 
     constructor(private dataService: DataService, private datasetFactory: DatasetFactory) {
         this.nodes = [];
@@ -80,14 +83,9 @@ export class BuildingComponent {
     }
 
     editInitiative(node: Initiative) {
+        this.openedNodeParent = node.getParent(this.nodes[0]);
         this.openedNode = node;
-        let parent = node.getParent(this.nodes[0]);
-        this.initiativeEditComponent.initiative = node;
-        this.initiativeEditComponent.parent = parent;
-        this.initiativeEditComponent.ngOnInit();
         this.modal.open();
-
-        // this.initiativeEditComponent.open();
     }
 
     /**
@@ -96,8 +94,9 @@ export class BuildingComponent {
      * @param slugToOpen Slug of initiative to open
      */
     loadData(id: string, slugToOpen?: string) {
-        this.datasetFactory.get(id).then(data => {
 
+        this.datasetFactory.get(id).then(data => {
+            this.datasetId = id;
             this.nodes = [];
             this.nodes.push(new DataSet().deserialize(data).initiative);
 

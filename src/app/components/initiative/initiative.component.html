@@ -3,10 +3,10 @@
 		<div class="form-group">
 			<label for="inputName" class="col-lg-2 control-label">Initiative</label>
 			<div class="col-lg-10">
-				<input class="form-control input-sm" id="inputName" type="text" name="inputName" [ngModelOptions]="{standalone: true}" [ngModel]="initiative?.name"
-				 placeholder="Initiative name" (ngModelChange)="saveName($event)" />
+				<input [disabled]="isReadOnly" class="form-control input-sm" id="inputName" type="text" name="inputName" [ngModelOptions]="{standalone: true}"
+				 [ngModel]="node?.name" placeholder="Initiative name" (ngModelChange)="saveName($event)" />
 
-				<span class="help-block">in order to help <a>{{parent?.accountable?.name || "..."}}</a>  with <a routerLink="../{{parent?.getSlug()}}">{{parent?.name}}</a></span>
+				<span class="help-block">in order to help <b>{{parent?.accountable?.name || "..."}}</b>  with <b>{{parent?.name}}</b></span>
 			</div>
 		</div>
 
@@ -17,9 +17,9 @@
 				<ng-template #rt let-r="result" let-t="term">
 					<img src="{{r.picture}}" width="16"> {{ r.name}}
 				</ng-template>
-
-				<input #person required type="text" id="inputAccountable" [resultTemplate]="rt" placeholder="Select or add an accountable team member"
-				 class="form-control input-sm" [ngModelOptions]="{standalone: true}" [ngModel]="initiative?.accountable" (selectItem)="saveAccountable($event)"
+				<span *ngIf="searching">searching...</span>
+				<input [disabled]="isReadOnly" #person required type="text" id="inputAccountable" [resultTemplate]="rt" placeholder="Select or add an accountable team member here"
+				 class="form-control input-sm" [ngModelOptions]="{standalone: true}" [ngModel]="node?.accountable" (selectItem)="saveAccountable($event)"
 				 [ngbTypeahead]="searchTeamMember" [resultFormatter]="formatter" [inputFormatter]="formatter" />
 
 
@@ -29,26 +29,30 @@
 		<div class="form-group">
 			<label for="inputDescription" class="col-lg-2 control-label">Description</label>
 			<div class="col-lg-10">
-				<textarea autofocus data-provide="markdown" data-iconlibrary="fa" class="form-control initiativeMarkdownDescription" id="inputDescription"
-				 rows="5" [ngModelOptions]="{standalone: true}" [ngModel]="initiative?.description" placeholder="Description" (ngModelChange)="saveDescription($event)"></textarea>
+				<textarea [disabled]="isReadOnly" autofocus data-provide="markdown" data-iconlibrary="fa" class="form-control initiativeMarkdownDescription"
+				 id="inputDescription" rows="5" [ngModelOptions]="{standalone: true}" [ngModel]="node?.description" placeholder="Description"
+				 (ngModelChange)="saveDescription($event)"></textarea>
 
 
 			</div>
 		</div>
 
-		<div class="form-group">
+		<div class="form-group" id="members">
 			<label for="inputName" class="col-lg-2 control-label">Helpers</label>
 			<div class="col-lg-10">
-				<div *ngIf="team;then content else other_content"></div>
+				<!--<div *ngIf="(team | async);then content else other_content"></div>-->
 
-				<ng-template #content>
-					<div *ngFor="let user of team.members" class="checkbox">
-						<label><input #helper class="inputHelper" type="checkbox" (click)="addHelper(user, helper.checked)" [checked]="isHelper(user)" [disabled]="isAuthority(user)">
+				<!--<ng-template #content>-->
+				<div *ngIf="(team | async)">
+					<div *ngFor="let user of (team | async)?.members" class="checkbox">
+						<label><input  #helper class="inputHelper" type="checkbox" (click)="addHelper(user, helper.checked)" [checked]="isHelper(user)" [disabled]="isAuthority(user) || isReadOnly">
 						<!--<img src="{{user.picture}}" width="16">-->
 						{{user.name}} </label>
 					</div>
-				</ng-template>
-				<ng-template #other_content>No team available for selection</ng-template>
+				</div>
+
+				<!--</ng-template>-->
+				<div *ngIf="!(team | async)">No team available for selection</div>
 
 			</div>
 		</div>

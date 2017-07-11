@@ -1,16 +1,21 @@
-
+import { Observable } from 'rxjs/Rx';
 import { TeamFactory } from "./../../shared/services/team.factory";
 import { Component, Input, ViewChild, OnChanges, SimpleChanges, OnInit } from "@angular/core";
 import { ModalComponent } from "ng2-bs3-modal/ng2-bs3-modal";
 import { Initiative } from "../../shared/model/initiative.data"
 import { Team } from "../../shared/model/team.data"
-import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/distinctUntilChanged";
 import { NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-bootstrap";
 import { User } from "../../shared/model/user.data";
-
+import { _catch } from 'rxjs/operator/catch';
+import { _do } from 'rxjs/operator/do';
+import { switchMap } from 'rxjs/operator/switchMap';
+import { of } from 'rxjs/observable/of';
+import { map } from 'rxjs/operator/map';
+import { debounceTime } from 'rxjs/operator/debounceTime';
+import { distinctUntilChanged } from 'rxjs/operator/distinctUntilChanged';
 
 
 @Component({
@@ -20,40 +25,34 @@ import { User } from "../../shared/model/user.data";
     // providers: [Initiative]
 })
 
-export class InitiativeComponent implements OnInit {
+export class InitiativeComponent implements OnChanges {
 
-
-    // @ViewChild("initiativeModal")
-    // modal: ModalComponent;
-
-    @Input() initiative: Initiative;
+    @Input() node: Initiative;
     @Input() parent: Initiative;
-    // @Input() team: Team;
+    @Input() isReadOnly: boolean;
 
-    public team: Team ;
+    public team: Promise<Team>;
 
     isTeamMemberFound: boolean = true;
     isTeamMemberAdded: boolean = false;
     currentTeamName: string;
-
+    searching: boolean;
+    searchFailed: boolean;
 
     constructor(private teamFactory: TeamFactory) {
-
     }
 
-    ngOnInit() {
-        if (!this.initiative) return;
-        this.teamFactory.get(this.initiative.team_id).then((team: Team) => {
-            this.team = team;
-        }).catch(err => { })
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes.node.currentValue)
+            this.team = this.teamFactory.get(changes.node.currentValue.team_id)
     }
 
     saveName(newName: any) {
-        this.initiative.name = newName;
+        this.node.name = newName;
     }
 
     saveDescription(newDesc: string) {
-        this.initiative.description = newDesc;
+        this.node.description = newDesc;
     }
 
     saveStartDate(newDate: string) {
@@ -64,59 +63,68 @@ export class InitiativeComponent implements OnInit {
 
         // HACK : this should not be here but in a custom validatpr. Or maybe use HTML 5 "pattern" to prevent binding
         if (!Number.isNaN(parsedDate.valueOf())) {
-            this.initiative.start = new Date(year, month, day);
+            this.node.start = new Date(year, month, day);
         }
     }
 
     saveAccountable(newAccountable: NgbTypeaheadSelectItemEvent) {
-        this.initiative.accountable = newAccountable.item;
+        this.node.accountable = newAccountable.item;
         // console.log(this.initiative.accountable)
     }
 
     isHelper(user: User): boolean {
-        if (!this.initiative) return false;
-        if (!this.initiative.helpers) return false;
+        if (!this.node) return false;
+        if (!this.node.helpers) return false;
         if (!user.user_id) return false;
-        return this.initiative.helpers.findIndex(u => { return u.user_id === user.user_id }) !== -1
+        return this.node.helpers.findIndex(u => { return u.user_id === user.user_id }) !== -1
     }
 
     isAuthority(user: User): boolean {
-        if (!this.initiative) return false;
-        if (!this.initiative.helpers) return false;
-        if (!this.initiative.accountable) return false;
+        if (!this.node) return false;
+        if (!this.node.helpers) return false;
+        if (!this.node.accountable) return false;
         if (!user) return false;
         if (!user.user_id) return false;
-        return this.initiative.accountable.user_id === user.user_id;
+        return this.node.accountable.user_id === user.user_id;
     }
 
     addHelper(newHelper: User, checked: boolean) {
         if (checked) {
-            this.initiative.helpers.push(newHelper);
+            this.node.helpers.push(newHelper);
         }
         else {
-            let index = this.initiative.helpers.findIndex(user => user.user_id === newHelper.user_id);
-            this.initiative.helpers.splice(index, 1);
+            let index = this.node.helpers.findIndex(user => user.user_id === newHelper.user_id);
+            this.node.helpers.splice(index, 1);
         }
     }
 
+    filterMembers(term: string): Observable<User[]> {
+        return term.length < 1
+            ? Observable.from(this.team.then(t => t.members).catch())
+            : Observable.from(this.team.then(t => t.members.filter(v => new RegExp(term, "gi").test(v.name)).splice(0, 10)).catch())
 
-    searchTeamMember =
-    (text$: Observable<string>) =>
-        text$
-            .debounceTime(200)
-            .distinctUntilChanged()
-            .map(term => {
-                try {
-                    this.isTeamMemberAdded = false;
-                    this.currentTeamName = term;
-                    let results = term.length < 1 ? (<Team>this.team).members : (<Team>this.team).members.filter(v => new RegExp(term, "gi").test(v.name)).splice(0, 10);
-                    this.isTeamMemberFound = (results !== undefined && results.length !== 0) ? true : false;
-                    return results;
-                }
-                catch (Exception) {
-                    this.isTeamMemberFound = false;
-                }
-            });
+    }
+
+    searchTeamMember = (text$: Observable<string>) =>
+        _do.call(
+            switchMap.call(
+                _do.call(
+                    distinctUntilChanged.call(
+                        debounceTime.call(text$, 300)),
+                    () => this.searching = true),
+                (term: string) =>
+                    _catch.call(
+                        _do.call(
+                            this.filterMembers(term)
+                            , () => this.searchFailed = false),
+                        () => {
+                            this.searchFailed = true;
+                            return of.call([]);
+                        }
+                    )
+            ),
+            () => this.searching = false);
+
 
     formatter = (result: User) => result.name;
 }

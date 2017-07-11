@@ -290,24 +290,10 @@ describe("initiative.node.component.ts", () => {
                     openInitiativeEvent.id = 1;
                     openInitiativeEvent.name = "something";
                     let mockRouter = target.debugElement.injector.get(Router);
-                    let mockRoute = target.debugElement.injector.get(ActivatedRoute);
-                    let spyGetSlug = spyOn(component, "getSlug").and.returnValue({ slug: "alreadyOpenedNode" })
-
+                    let spyGetSlug = spyOn(openInitiativeEvent, "getSlug").and.returnValue("slug")
+                    component.datasetId = "DID"
                     component.openNode(openInitiativeEvent);
-                    expect(mockRouter.navigate).toHaveBeenCalledWith(["../../open/", "something"], { relativeTo: mockRoute });
-                    expect(spyGetSlug).toHaveBeenCalled();
-                });
-
-                it("should open the selected node when no other node is already opened", () => {
-                    let openInitiativeEvent = new Initiative();
-                    openInitiativeEvent.id = 1;
-                    openInitiativeEvent.name = "something";
-                    let mockRouter = target.debugElement.injector.get(Router);
-                    let mockRoute = target.debugElement.injector.get(ActivatedRoute)
-                    let spyGetSlug = spyOn(component, "getSlug").and.returnValue(undefined)
-
-                    component.openNode(openInitiativeEvent);
-                    expect(mockRouter.navigate).toHaveBeenCalledWith(["open", "something"], { relativeTo: mockRoute });
+                    expect(mockRouter.navigate).toHaveBeenCalledWith(["workspace", component.datasetId, "open", "slug"]);
                     expect(spyGetSlug).toHaveBeenCalled();
                 });
             });

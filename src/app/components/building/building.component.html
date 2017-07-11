@@ -9,7 +9,7 @@
 			<div class="loading"></div>
 		</ng-template>
 		<ng-template #treeNodeTemplate let-node>
-			<initiative-node [node]="node" (map)="mapData($event)" (update)="updateTreeModel($event)"></initiative-node>
+			<initiative-node [node]="node" [datasetId]="datasetId" (map)="mapData($event)" (update)="updateTreeModel($event)"></initiative-node>
 		</ng-template>
 	</Tree>
 </div>
@@ -19,7 +19,7 @@
 		<h4 class="modal-title">{{openedNode?.name}}</h4>
 	</modal-header>
 	<modal-body>
-		<initiative #initiative></initiative>
+		<initiative #initiative [node]="openedNode" [parent]="openedNodeParent"></initiative>
 	</modal-body>
 	<modal-footer>
 		<button type="button" class="btn btn-primary" (click)="modal.close()">Save</button>
