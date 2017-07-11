@@ -13,11 +13,11 @@ import { InitiativeComponent } from "../../initiative/initiative.component";
 
 export class TooltipComponent implements OnInit, OnDestroy {
 
-    @Input("data")
-    public initiative: Initiative;
+    public node: Initiative;
+    public parent: Initiative;
+    public isReadOnly: boolean;
 
-    @ViewChild("initiative")
-    public initiativeEditComponent: InitiativeComponent
+
 
     public subscription: Subscription;
 
@@ -27,10 +27,10 @@ export class TooltipComponent implements OnInit, OnDestroy {
 
     public update() {
         this.subscription = this.uiService.getTooltipData().subscribe(
-            (initiatives: [Initiative,Initiative]) => {
-                this.initiativeEditComponent.initiative = initiatives[0];
-                this.initiativeEditComponent.parent = initiatives[1]
-                this.initiativeEditComponent.ngOnInit();
+            (initiatives: [Initiative, Initiative]) => {
+                this.node = initiatives[0];
+                this.parent = initiatives[1]
+                this.isReadOnly = true;
                 this.cd.markForCheck();
             },
             (error: any) => console.log(error));

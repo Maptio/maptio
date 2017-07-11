@@ -12,6 +12,7 @@ import { InitiativeComponent } from "../initiative/initiative.component";
 export class InitiativeNodeComponent {
 
     @Input() node: TreeNode;
+    @Input() datasetId:string;
 
     @Output("map") updateDataEvent = new EventEmitter<Array<Initiative>>();
     @Output("update") updateTreeEvent = new EventEmitter<TreeModel>();
@@ -76,12 +77,7 @@ export class InitiativeNodeComponent {
 
 
     openNode(node: Initiative) {
-        if (this.getSlug()) {
-            this.router.navigate(["../../open/", node.getSlug()], { relativeTo: this.route })
-        }
-        else {
-            this.router.navigate(["open", node.getSlug()], { relativeTo: this.route })
-        }
+        this.router.navigate(["workspace",this.datasetId , "open",node.getSlug()])
     }
 
     zoomInNode(node: Initiative) {

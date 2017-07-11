@@ -41,46 +41,24 @@ describe("tooltip.component.ts", () => {
     beforeEach(() => {
         target = TestBed.createComponent(TooltipComponent);
         component = target.componentInstance;
-        target.detectChanges(); // trigger initial data binding
+        target.detectChanges(); 
     });
-
-    it("should update the initiative when initiative is updated", () => {
-        let uiService: UIService = target.debugElement.injector.get(UIService);
-
-        let updated = new Initiative();
-        updated.name = "UPDATED"
-        let spyUiService = spyOn(uiService, "getTooltipData").and.returnValue(Observable.of(updated));
-
-        expect(component.initiativeEditComponent.initiative).toBeUndefined();
-        component.update();
-        expect(spyUiService).toHaveBeenCalledTimes(1);
-        expect(component.initiativeEditComponent.initiative).toBe(updated);
-    });
-
-    // it("should render at first load", () => {
-    //     target.detectChanges();
-    //     let elements = target.debugElement.queryAll(By.css(".well"));
-    //     expect(elements.length).toBe(1);
-    // });
 
     it("should render the tooltip when initiative is updated", () => {
         let uiService: UIService = target.debugElement.injector.get(UIService);
 
-        let updated = new Initiative();
+        let updated = new Initiative(); 
+        let parent = new Initiative();
         updated.name = "UPDATED";
         updated.accountable = new User({ name: "John Doe" });
         updated.description = "The one idea I clicked";
-        let spyUiService = spyOn(uiService, "getTooltipData").and.returnValue(Observable.of(updated));
-        let spyInitiativeComponent = spyOn(component.initiativeEditComponent, "ngOnInit")
+        let spyUiService = spyOn(uiService, "getTooltipData").and.returnValue(Observable.of([updated, parent]));
         component.update();
         target.detectChanges();
+        expect(component.node).toBe(updated);
+        expect(component.parent).toBe(parent);
+        expect(component.isReadOnly).toBe(true)
         expect(spyUiService).toHaveBeenCalledTimes(1);
-        expect(spyInitiativeComponent).toHaveBeenCalledTimes(1)
-        // let elements = target.debugElement.queryAll(By.css(".well"));
-        // expect(elements.length).toBe(1);
-        // expect(elements[0].query(By.css(".name")).nativeElement.textContent).toContain(updated.name);
-        // expect(elements[0].query(By.css(".accountable")).nativeElement.textContent).toContain(updated.accountable.name);
-        // expect(elements[0].query(By.css(".description")).nativeElement.textContent).toContain(updated.description);
 
     });
 
