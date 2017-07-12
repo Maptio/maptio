@@ -45,7 +45,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
         let zoom$ = this.zoom$;
         let marginSize = this.margin
         // let margin = this.margin;
-        
+
         if (!data) {
             // console.log("CLEAN");
             uiService.clean();
@@ -55,7 +55,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
         uiService.clean();
 
         let svg: any = d3.select("svg"),
-             margin = marginSize,
+            margin = marginSize,
             diameter = +width
 
         let g = svg.append("g")

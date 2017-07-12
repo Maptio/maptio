@@ -89,11 +89,11 @@ export class HeaderComponent implements OnInit {
                     });
 
                 this.teams$.then((teams: Team[]) => {
-                    this.selectedTeam = this.selectedTeam || teams[0]; 
+                    this.selectedTeam = this.selectedTeam || teams[0];
                 })
             },
             (error: any) => { this.errorService.handleError(error) });
-            this.selectedDatasetName = "";
+        this.selectedDatasetName = "";
     }
 
     // chooseTeam(team: Team) {
@@ -133,7 +133,7 @@ export class HeaderComponent implements OnInit {
     }
 
 
-    createDataset(datasetName:string) {
+    createDataset(datasetName: string) {
         let newDataset = new DataSet({ initiative: new Initiative({ name: datasetName }), createdOn: new Date() });
         this.datasetFactory.create(newDataset).then((created: DataSet) => {
             this.datasetFactory.add(created, this.user).then((result: boolean) => {

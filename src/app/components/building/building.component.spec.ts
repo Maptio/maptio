@@ -6,7 +6,7 @@ import { TeamFactory } from "./../../shared/services/team.factory";
 import { EmitterService } from "./../../shared/services/emitter.service";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA, EventEmitter } from "@angular/core"
-import { By } from "@angular/platform-browser"; 
+import { By } from "@angular/platform-browser";
 import { BuildingComponent } from "./building.component";
 import { TreeComponent } from "angular2-tree-component";
 import { FocusIfDirective } from "../..//shared/directives/focusif.directive"

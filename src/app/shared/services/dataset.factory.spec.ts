@@ -295,8 +295,8 @@ describe("dataset.factory.ts", () => {
         })));
 
         it("should call REST API with put when id is not empty", fakeAsync(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
-            let dataset = new DataSet({_id: "some_unique_id", initiative: new Initiative({ name: "Project" })});
-            
+            let dataset = new DataSet({ _id: "some_unique_id", initiative: new Initiative({ name: "Project" }) });
+
             const mockResponse = {
                 _id: "some_unique_id",
                 name: "Project"

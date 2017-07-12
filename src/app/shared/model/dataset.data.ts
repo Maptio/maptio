@@ -25,10 +25,10 @@ export class DataSet implements Serializable<DataSet> {
   }
 
   deserialize(input: any): DataSet {
-    if (!input || !input._id ) return
+    if (!input || !input._id) return
     let deserialized = new DataSet();
     deserialized._id = input._id;
-    deserialized.initiative = Initiative.create().deserialize(input.initiative|| input)
+    deserialized.initiative = Initiative.create().deserialize(input.initiative || input)
     deserialized.createdOn = input.createdOn;
     return deserialized;
   }

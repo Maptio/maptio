@@ -21,7 +21,7 @@ describe("Dataset Tests", () => {
 
         describe("deserialize", () => {
             it("should deserialize a valid input", () => {
-                 fixture.load("dataset.json");
+                fixture.load("dataset.json");
                 let jsonString = fixture.json[0];
                 let deserialized = new DataSet().deserialize(jsonString);
 
@@ -34,6 +34,6 @@ describe("Dataset Tests", () => {
             });
         });
 
-        
+
     });
 });

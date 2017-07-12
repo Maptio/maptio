@@ -45,7 +45,7 @@ export class MappingComponent implements AfterViewInit, OnInit {
         private viewContainer: ViewContainerRef,
         private componentFactoryResolver: ComponentFactoryResolver,
         private cd: ChangeDetectorRef
-    ) { 
+    ) {
 
         this.zoom$ = new Subject<number>();
     }
