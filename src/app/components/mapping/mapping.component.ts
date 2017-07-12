@@ -30,17 +30,10 @@ import { Subject } from "rxjs/Rx";
 export class MappingComponent implements AfterViewInit, OnInit {
 
     private data: any;
-    private zoomFactor: number;
 
     selectedView: Views = Views.Circles // per default;
 
-    private zoom$: Subject<number>
-
-    // @ViewChild("circles")
-    // private circles: MappingCirclesComponent;
-
-    // @ViewChild("tree")
-    // private tree: MappingTreeComponent;
+    public zoom$: Subject<number>
 
     @ViewChild(AnchorDirective) anchorComponent: AnchorDirective;
 
@@ -87,9 +80,9 @@ export class MappingComponent implements AfterViewInit, OnInit {
         this.show(this.selectedView);
     }
 
-    save() {
-        EmitterService.get("currentDataset").emit(this.data);
-    }
+    // save() {
+    //     EmitterService.get("currentDataset").emit(this.data);
+    // }
 
 
     ngAfterViewInit() {

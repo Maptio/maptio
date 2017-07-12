@@ -93,23 +93,23 @@ describe("workspace.component.ts", () => {
             it("should call toggle building panel ", () => {
 
                 target.detectChanges();
-                let togglingElement = target.debugElement.query(By.css("h4.panel-title>a"));
+                let togglingElement = target.debugElement.query(By.css(".edit-map .btn"));
                 let spy = spyOn(component, "toggleBuildingPanel").and.callThrough();
 
-                let toggledElement = target.debugElement.query(By.css("h4.panel-title>a i"));
-                expect((toggledElement.nativeElement as HTMLElement).className).toContain("fa-plus-square");
+                let toggledElement = target.debugElement.query(By.css(".edit-map .btn i"));
+                expect((toggledElement.nativeElement as HTMLElement).className).toContain("fa-chevron-right");
 
                 togglingElement.triggerEventHandler("click", null);
                 target.detectChanges();
 
-                toggledElement = target.debugElement.query(By.css("h4.panel-title>a i"));
-                expect((toggledElement.nativeElement as HTMLElement).className).toContain("fa-minus-square");
+                toggledElement = target.debugElement.query(By.css(".edit-map .btn i"));
+                expect((toggledElement.nativeElement as HTMLElement).className).toContain("fa-times");
 
                 togglingElement.triggerEventHandler("click", null);
                 target.detectChanges();
 
-                toggledElement = target.debugElement.query(By.css("h4.panel-title>a i"));
-                expect((toggledElement.nativeElement as HTMLElement).className).toContain("fa-plus-square");
+                toggledElement = target.debugElement.query(By.css(".edit-map .btn i"));
+                expect((toggledElement.nativeElement as HTMLElement).className).toContain("fa-chevron-right");
 
                 expect(spy).toHaveBeenCalledTimes(2);
             });

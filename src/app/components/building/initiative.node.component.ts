@@ -71,11 +71,6 @@ export class InitiativeNodeComponent {
         this.updateTreeEvent.emit(this.node.treeModel);
     }
 
-    getSlug() {
-        return this.snapshotRoute.params["slug"];
-    }
-
-
     openNode(node: Initiative) {
         this.router.navigate(["workspace", this.datasetId, "open", node.getSlug()])
     }

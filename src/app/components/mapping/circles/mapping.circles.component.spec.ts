@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Rx';
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { TooltipComponent } from "./../tooltip/tooltip.component";
 import { Initiative } from "./../../../shared/model/initiative.data";
@@ -33,6 +34,7 @@ describe("mapping.circles.component.ts", () => {
         component.width = 1000;
         component.height = 1000;
         component.margin = 50;
+        component.zoom$ = Observable.of(1);
 
         target.detectChanges(); // trigger initial data binding
     });

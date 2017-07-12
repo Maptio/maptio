@@ -34,7 +34,7 @@ describe("mapping.component.ts", () => {
                 MockBackend,
                 BaseRequestOptions
             ],
-            schemas:[NO_ERRORS_SCHEMA],
+            schemas: [NO_ERRORS_SCHEMA],
             declarations: [MappingComponent, MappingCirclesComponent, MappingTreeComponent, TooltipComponent, AnchorDirective]
         })
             .compileComponents()
@@ -106,6 +106,29 @@ describe("mapping.component.ts", () => {
             })
         });
 
+        describe('zoomIn', () => {
+            it('should set the zoom factor to 1.1', async(() => {
+                let spy = spyOn(component.zoom$, "next");
+                component.zoomIn();
+                expect(spy).toHaveBeenCalledWith(1.1)
+            }));
+        });
+
+        describe('zoomOut', () => {
+            it('should set the zoom factor to 1.1', async(() => {
+                let spy = spyOn(component.zoom$, "next");
+                component.zoomOut();
+                expect(spy).toHaveBeenCalledWith(0.9)
+            }));
+        });
+
+        describe('resetZoom', () => {
+            it('should set the zoom factor to 1.1', async(() => {
+                let spy = spyOn(component.zoom$, "next");
+                component.resetZoom();
+                expect(spy).toHaveBeenCalledWith(null)
+            }));
+        });
 
         describe("show", () => {
             it("should instanciate MappingCirclesComponent when view is Circles", async(() => {
