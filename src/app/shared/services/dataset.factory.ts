@@ -20,8 +20,8 @@ export class DatasetFactory {
     }
 
 
-    upsert(dataset: any, datasetId?: string): Promise<boolean> {
-        return this._http.put("/api/v1/dataset/" + (dataset._id || datasetId), dataset)
+    upsert(dataset: DataSet, datasetId?: string): Promise<boolean> {
+        return this._http.put("/api/v1/dataset/" + (dataset._id || datasetId), dataset.initiative)
             .map((responseData) => {
                 return responseData.json();
             })
@@ -125,6 +125,7 @@ export class DatasetFactory {
     private getWithId(id: string): Promise<DataSet> {
         return this._http.get("/api/v1/dataset/" + id)
             .map((response: Response) => {
+                console.log("getWithId", response.json())
                 let d = DataSet.create().deserialize(response.json());
                 d._id = id; // reassign id
                 return d;

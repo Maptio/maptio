@@ -134,7 +134,7 @@ export class HeaderComponent implements OnInit {
 
 
     createDataset(datasetName: string) {
-        let newDataset = new DataSet({ initiative: new Initiative({ name: datasetName }), createdOn: new Date() });
+        let newDataset = new DataSet({ initiative: new Initiative({ name: datasetName }) });
         this.datasetFactory.create(newDataset).then((created: DataSet) => {
             this.datasetFactory.add(created, this.user).then((result: boolean) => {
                 this.router.navigate(["workspace", created._id]);

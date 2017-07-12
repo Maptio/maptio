@@ -66,7 +66,7 @@ export class BuildingComponent {
 
     saveChanges() {
         // console.log("building.component.ts", this.nodes[0])
-        EmitterService.get("currentDataset").emit(this.nodes[0]);
+        EmitterService.get("currentInitiative").emit(this.nodes[0]);
     }
 
     isRootValid(): boolean {
