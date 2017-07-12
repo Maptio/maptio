@@ -46,17 +46,27 @@
 	<script src="https://cdn.auth0.com/js/lock/10.8/lock.min.js"></script>
 	<script>
 		$(".initiativeMarkdownDescription").markdown({ autofocus: false, savable: false })
-/* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
-function openNav() {
-    document.getElementById("mySidenav").style.width = "600px";
-    document.getElementById("main").style.marginLeft = "600px";
-}
+		/* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
+		function openNav() {
+			document.getElementById("mySidenav").style.width = "622px";
+			document.getElementById("main").style.marginLeft = "622px";
+			document.getElementById("edit-panel").style.left = "622px";
+		}
 
-/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
-function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-    document.getElementById("main").style.marginLeft = "0";
-}
+		/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
+		function closeNav() {
+			document.getElementById("mySidenav").style.width = "0";
+			document.getElementById("main").style.marginLeft = "0";
+			document.getElementById("edit-map").style.left = "0";
+		}
+
+		function toggleNav() {
+			let width = $("#mySidenav").width();
+			console.log(width)
+			document.getElementById("mySidenav").style.width = (width ===0) ? "650px" : "0";
+			document.getElementById("main").style.marginLeft = (width ===0) ? "650px" : "0";
+			document.getElementById("edit-map-toggle").style.left = (width ===0) ? "650px" : "0";
+		}
 	</script>
 </body>
 

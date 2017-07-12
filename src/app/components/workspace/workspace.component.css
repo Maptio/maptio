@@ -11,10 +11,8 @@
 }
 
 .header {
-    padding: 0;
-    /* padding-left: 16px; */
-    min-height: 39px;
     margin-left: 2px;
+    MARGIN-TOP: 5px;
 }
 .team-name{
     /* padding: 0 8px 1px 0; */
@@ -108,6 +106,12 @@
     border-radius: 23px;
 }
 
+.mapping{
+     opacity: 0.8;
+    /*box-shadow: 1px 1px 6px #888888;*/
+    margin-top:1%;
+}
+
 
 /*
 .panel {
@@ -127,17 +131,18 @@
     border-radius: 0;
 }*/
 /* The side navigation menu */
-.sidenav {
-    height: 100%; /* 100% Full-height */
-    width: 0; /* 0 width - change this with JavaScript */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Stay on top */
-    top: 0;
+#mySidenav {
+    position: absolute;
+    height: 85%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 11%;
     left: 0;
-    background-color: #111; /* Black*/
-    overflow-x: hidden; /* Disable horizontal scroll */
-    padding-top: 60px; /* Place content 60px from the top */
-    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+    overflow-x: hidden;
+    padding-top: 5px;
+    transition: 0.5s;
+    padding-left:15px;
 }
 
 /* The navigation menu links */
@@ -167,6 +172,8 @@
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 #main {
     transition: margin-left .5s;
+    width:100%;
+    margin-top:1.5%
     /*padding: 20px;*/
 }
 
@@ -174,4 +181,43 @@
 @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
+}
+
+.edit-map{
+  position: absolute; 
+    /* right: 1%; */
+    opacity: 0.8;
+    box-shadow: 1px 1px 6px #888888;
+    /* top: 75px; */
+    float: left;
+    margin-right: 1%;
+    border-radius: 4px;
+    position: absolute;
+    top: 12%;
+    transition: 0.5s;
+    z-index: 3;
+    left: 0;
+}
+
+.edit-map > a{
+   color: gray;
+    border: 1px solid lightgray;
+    background-color: #FCFCFC;
+    clear:both;
+}
+
+.edit-map > a:hover{
+  color:black;
+}
+
+
+.edit-map a{
+  border:0;
+}
+
+
+.toggle-edit:before{
+  
+    content:"\f0da";
+  font-family: FontAwesome;
 }

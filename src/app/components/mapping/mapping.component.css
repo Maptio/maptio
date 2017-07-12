@@ -37,12 +37,14 @@
 
 .control{
 position: absolute;
-    right: 0%;
+    right: 1%;
     opacity: 0.8;
     box-shadow: 1px 1px 6px #888888;
-    top: 12%;
+    top: 75px;
     float: right;
     margin-right: 1%;
+
+    border-radius: 4px;
 
 }
 
@@ -69,7 +71,7 @@ position: absolute;
 
 .reset:before{
   
-    content:"\f140";
+    content:"\f066";
   font-family: FontAwesome;
 }
 

@@ -25,17 +25,17 @@ inpu, textarea{
 }
 
 .building {
-    /* font: 12px sans-serif; */
+    font: 12px sans-serif;
     /* background-color: #fcfcfc; */
-    /* width: 500px; */
+    width: 2000px;
     /* height: 2000px; */
-    /* max-width: 622px; */
-    /* max-height: 1332px; */
+    max-width: 622px;
+    max-height: 1332px;
     /* overflow: auto; */
-    /* position: absolute; */
-    /* top: -323%; */
-    /* left: 13%; */
-    /* overflow-y: auto; */
+    /*position: absolute;*/
+    top: -323%;
+    left: 13%;
+    overflow-y: auto;
 }
 
 

@@ -13,6 +13,7 @@
 
 svg{
   pointer-events: auto;
+  background: transparent!important
 }
 
 svg text {
