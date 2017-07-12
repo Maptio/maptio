@@ -34,12 +34,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public teams: Promise<Team[]>;
 
     constructor(private auth: Auth, private route: ActivatedRoute, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private userFactory: UserFactory) {
-        // this.subscription = EmitterService.get("currentDataset").subscribe((value: any) => {
-        //     this.datasetFactory.upsert(value, this.datasetId);
-        // });
         this.subscription = EmitterService.get("currentInitiative").subscribe((value: Initiative) => {
-            // let toUpsert = new DataSet({_id:this.datasetId, initiative:value})
-            console.log("workspace emitter upsert", value, this.datasetId)
             this.datasetFactory.upsert(new DataSet({ _id: this.datasetId, initiative: value }), this.datasetId);
         });
     }
@@ -87,6 +82,12 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
             })
             return team;
         });
+        this.updateTeamMembers();
+        
+    }
+
+
+    updateTeamMembers(){
         this.members = this.team
             .then((team: Team) => {
                 if (team)
