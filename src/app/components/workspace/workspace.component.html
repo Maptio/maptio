@@ -59,7 +59,11 @@
 <div id="mySidenav">
     <!--<a href="javascript:void(0)" class="closebtn pull-right" onclick="toggleNav()"><i class="fa fa-times" aria-hidden="true"></i></a>-->
   <div class="edit-map btn-group-vertical" id="edit-map-toggle">
-    <a class="btn toggle-edit" onclick="toggleNav()"></a>
+    <a class="btn" onclick="toggleNav()" (click)="toggleBuildingPanel()">
+        <i *ngIf="isBuildingPanelCollapsed" class="fa fa-chevron-right" aria-hidden="true"></i>
+<i *ngIf="!isBuildingPanelCollapsed" class="fa fa-times" aria-hidden="true"></i>
+
+    </a>
 </div>
         <div  id="edit-panel">
             <building #building>Loading...</building>

@@ -147,7 +147,7 @@
     overflow-x: hidden;
     padding-top: 5px;
     transition: 0.5s;
-    padding-left:20px;
+    padding-left:40px;
      box-shadow: 1px 1px 6px #888888;
 }
 
@@ -223,6 +223,6 @@ position: absolute;
 
 .toggle-edit:before{
   
-    content:"\f0da";
+    content:"\f07c";
   font-family: FontAwesome;
 }
