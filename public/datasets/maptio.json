@@ -1,0 +1,327 @@
+{
+    "_id": {
+        "$oid": "58c9d273734d1d2ca8564da2"
+    },
+    "hasFocus": false,
+    "isZoomedOn": false,
+    "isSearchedFor": false,
+    "id": 3838634738995,
+    "name": "Maptio internal initiative map",
+    "team_id": "594998ef94a981001151011c",
+    "children": [
+        {
+            "hasFocus": false,
+            "isZoomedOn": false,
+            "isSearchedFor": false,
+            "id": 1633574407551,
+            "name": "Creating a company to support purpose-driven leaders in realising their ideas",
+            "start": "2017-08-30T22:00:00.000Z",
+            "team_id": "594998ef94a981001151011c",
+            "accountable": {
+                "name": "Tom Nixon",
+                "picture": "https://lh4.googleusercontent.com/-sSlpF5crQks/AAAAAAAAAAI/AAAAAAAAAGU/gtDooXnrMTg/photo.jpg",
+                "user_id": "google-oauth2|118420420474426053997",
+                "teams": [],
+                "datasets": []
+            },
+            "children": [
+                {
+                    "description": "This is a test description\n\nNew paragraph\n\nmore test content more test content more test content more test content more test content more test content more test content more test content more test content more test content more test content more test content more test content more test content more test content more test content more test content more test content more test content more test content more test content more test content more test content more test content ",
+                    "hasFocus": false,
+                    "isZoomedOn": false,
+                    "isSearchedFor": false,
+                    "id": 7969679047967,
+                    "name": "Developing the brand",
+                    "team_id": "594998ef94a981001151011c",
+                    "children": [],
+                    "helpers": []
+                },
+                {
+                    "hasFocus": false,
+                    "isZoomedOn": false,
+                    "isSearchedFor": false,
+                    "id": 9197962164356,
+                    "name": "Developing the marketing website",
+                    "team_id": "594998ef94a981001151011c",
+                    "children": [],
+                    "helpers": []
+                },
+                {
+                    "hasFocus": false,
+                    "isZoomedOn": false,
+                    "isSearchedFor": false,
+                    "id": 6623155183178,
+                    "name": "Building the Maptio online community",
+                    "team_id": "594998ef94a981001151011c",
+                    "children": [],
+                    "helpers": []
+                },
+                {
+                    "description": "Company incorporation and companies house matters\nAccountancy and book keeping\nEquity distribution (using vestd.com)",
+                    "hasFocus": false,
+                    "isZoomedOn": false,
+                    "isSearchedFor": false,
+                    "id": 6087148834569,
+                    "name": "Managing finance and formal company structures",
+                    "team_id": "594998ef94a981001151011c",
+                    "accountable": {
+                        "name": "Tom Nixon",
+                        "picture": "https://lh4.googleusercontent.com/-sSlpF5crQks/AAAAAAAAAAI/AAAAAAAAAGU/gtDooXnrMTg/photo.jpg",
+                        "user_id": "google-oauth2|118420420474426053997",
+                        "teams": [],
+                        "datasets": []
+                    },
+                    "children": [],
+                    "helpers": []
+                },
+                {
+                    "hasFocus": false,
+                    "isZoomedOn": false,
+                    "isSearchedFor": false,
+                    "id": 1533904557442,
+                    "name": "Making sure the money is working",
+                    "team_id": "594998ef94a981001151011c",
+                    "children": [],
+                    "helpers": []
+                },
+                {
+                    "hasFocus": false,
+                    "isZoomedOn": false,
+                    "isSearchedFor": false,
+                    "id": 3480512571637,
+                    "name": "Designing and building the Maptio product",
+                    "team_id": "594998ef94a981001151011c",
+                    "accountable": {
+                        "name": "Safiyya",
+                        "picture": "https://pbs.twimg.com/profile_images/469853208429330433/gEHLFEz5_normal.jpeg",
+                        "user_id": "twitter|1375760552",
+                        "teams": [],
+                        "datasets": []
+                    },
+                    "children": [
+                        {
+                            "hasFocus": false,
+                            "isZoomedOn": false,
+                            "isSearchedFor": false,
+                            "id": 8309997706773,
+                            "name": "Ensuring we follow product best practice",
+                            "team_id": "594998ef94a981001151011c",
+                            "accountable": {
+                                "name": "karlparton@gmail.com",
+                                "picture": "https://s.gravatar.com/avatar/057e83694804a85127615d0277109f6d?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fka.png",
+                                "user_id": "auth0|58dbf3d4319f9f0ebc0029ce",
+                                "teams": [],
+                                "datasets": []
+                            },
+                            "children": [],
+                            "helpers": []
+                        },
+                        {
+                            "hasFocus": false,
+                            "isZoomedOn": false,
+                            "isSearchedFor": false,
+                            "id": 5466322612321,
+                            "name": "Translating user needs to product specifications",
+                            "team_id": "594998ef94a981001151011c",
+                            "accountable": {
+                                "name": "Tom Nixon",
+                                "picture": "https://lh4.googleusercontent.com/-sSlpF5crQks/AAAAAAAAAAI/AAAAAAAAAGU/gtDooXnrMTg/photo.jpg",
+                                "user_id": "google-oauth2|118420420474426053997",
+                                "teams": [],
+                                "datasets": []
+                            },
+                            "children": [
+                                {
+                                    "hasFocus": false,
+                                    "isZoomedOn": false,
+                                    "isSearchedFor": false,
+                                    "id": 3778119977597,
+                                    "name": "Designing and improving user experience",
+                                    "team_id": "594998ef94a981001151011c",
+                                    "children": [],
+                                    "helpers": []
+                                },
+                                {
+                                    "hasFocus": false,
+                                    "isZoomedOn": false,
+                                    "isSearchedFor": false,
+                                    "id": 7808405762670,
+                                    "name": "Carrying out user research",
+                                    "team_id": "594998ef94a981001151011c",
+                                    "children": [],
+                                    "helpers": []
+                                }
+                            ],
+                            "helpers": []
+                        },
+                        {
+                            "hasFocus": false,
+                            "isZoomedOn": false,
+                            "isSearchedFor": false,
+                            "id": 5338042217776,
+                            "name": "Finding product-market fit",
+                            "team_id": "594998ef94a981001151011c",
+                            "accountable": {
+                                "name": "Tom Nixon",
+                                "picture": "https://lh4.googleusercontent.com/-sSlpF5crQks/AAAAAAAAAAI/AAAAAAAAAGU/gtDooXnrMTg/photo.jpg",
+                                "user_id": "google-oauth2|118420420474426053997",
+                                "teams": [],
+                                "datasets": []
+                            },
+                            "children": [],
+                            "helpers": [
+                                {
+                                    "name": "Safiyya",
+                                    "picture": "https://pbs.twimg.com/profile_images/469853208429330433/gEHLFEz5_normal.jpeg",
+                                    "user_id": "twitter|1375760552",
+                                    "teams": [],
+                                    "datasets": []
+                                }
+                            ]
+                        },
+                        {
+                            "hasFocus": false,
+                            "isZoomedOn": false,
+                            "isSearchedFor": false,
+                            "id": 3913304475242,
+                            "name": "Finding and supporting early partners",
+                            "team_id": "594998ef94a981001151011c",
+                            "children": [],
+                            "helpers": []
+                        },
+                        {
+                            "description": "Karl - UX\nChandni - Brand design",
+                            "hasFocus": false,
+                            "isZoomedOn": false,
+                            "isSearchedFor": false,
+                            "id": 3144446072869,
+                            "name": "Developing the technology",
+                            "team_id": "594998ef94a981001151011c",
+                            "accountable": {
+                                "name": "Safiyya",
+                                "picture": "https://pbs.twimg.com/profile_images/469853208429330433/gEHLFEz5_normal.jpeg",
+                                "user_id": "twitter|1375760552",
+                                "teams": [],
+                                "datasets": []
+                            },
+                            "children": [
+                                {
+                                    "hasFocus": false,
+                                    "isZoomedOn": false,
+                                    "isSearchedFor": false,
+                                    "id": 7880117960775,
+                                    "name": "Building the front-end",
+                                    "team_id": "594998ef94a981001151011c",
+                                    "children": [],
+                                    "helpers": []
+                                },
+                                {
+                                    "hasFocus": false,
+                                    "isZoomedOn": false,
+                                    "isSearchedFor": false,
+                                    "id": 1487119068138,
+                                    "name": "Building the back-end",
+                                    "team_id": "594998ef94a981001151011c",
+                                    "children": [],
+                                    "helpers": []
+                                },
+                                {
+                                    "hasFocus": false,
+                                    "isZoomedOn": false,
+                                    "isSearchedFor": false,
+                                    "id": 1323435791244,
+                                    "name": "Ensuring code quality",
+                                    "team_id": "594998ef94a981001151011c",
+                                    "children": [
+                                        {
+                                            "hasFocus": false,
+                                            "isZoomedOn": false,
+                                            "isSearchedFor": false,
+                                            "id": 8772763977681,
+                                            "name": "Testing application",
+                                            "team_id": "594998ef94a981001151011c",
+                                            "children": [],
+                                            "helpers": []
+                                        },
+                                        {
+                                            "hasFocus": false,
+                                            "isZoomedOn": false,
+                                            "isSearchedFor": false,
+                                            "id": 4492075849195,
+                                            "name": "Building development to production pipeline",
+                                            "team_id": "594998ef94a981001151011c",
+                                            "children": [],
+                                            "helpers": []
+                                        },
+                                        {
+                                            "hasFocus": false,
+                                            "isZoomedOn": false,
+                                            "isSearchedFor": false,
+                                            "id": 1227917627217,
+                                            "name": "Ensuring speed/performance",
+                                            "team_id": "594998ef94a981001151011c",
+                                            "children": [],
+                                            "helpers": []
+                                        }
+                                    ],
+                                    "helpers": []
+                                },
+                                {
+                                    "hasFocus": false,
+                                    "isZoomedOn": false,
+                                    "isSearchedFor": false,
+                                    "id": 9583935229537,
+                                    "name": "Protecting tech Intellectual Property",
+                                    "team_id": "594998ef94a981001151011c",
+                                    "children": [],
+                                    "helpers": []
+                                }
+                            ],
+                            "helpers": [
+                                {
+                                    "name": "Tom Nixon",
+                                    "picture": "https://lh4.googleusercontent.com/-sSlpF5crQks/AAAAAAAAAAI/AAAAAAAAAGU/gtDooXnrMTg/photo.jpg",
+                                    "user_id": "google-oauth2|118420420474426053997",
+                                    "teams": [],
+                                    "datasets": []
+                                },
+                                {
+                                    "name": "karlparton@gmail.com",
+                                    "picture": "https://s.gravatar.com/avatar/057e83694804a85127615d0277109f6d?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fka.png",
+                                    "user_id": "auth0|58dbf3d4319f9f0ebc0029ce",
+                                    "teams": [],
+                                    "datasets": []
+                                },
+                                {
+                                    "name": "Chandni Patel",
+                                    "picture": "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg",
+                                    "user_id": "google-oauth2|114615106630586315011",
+                                    "teams": [],
+                                    "datasets": []
+                                }
+                            ]
+                        }
+                    ],
+                    "helpers": [
+                        {
+                            "name": "karlparton@gmail.com",
+                            "picture": "https://s.gravatar.com/avatar/057e83694804a85127615d0277109f6d?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fka.png",
+                            "user_id": "auth0|58dbf3d4319f9f0ebc0029ce",
+                            "teams": [],
+                            "datasets": []
+                        },
+                        {
+                            "name": "Chandni Patel",
+                            "picture": "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg",
+                            "user_id": "google-oauth2|114615106630586315011",
+                            "teams": [],
+                            "datasets": []
+                        }
+                    ]
+                }
+            ],
+            "helpers": []
+        }
+    ],
+    "helpers": []
+}
