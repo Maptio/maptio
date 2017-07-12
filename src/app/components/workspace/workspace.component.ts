@@ -1,3 +1,4 @@
+import { Initiative } from './../../shared/model/initiative.data';
 import { DataSet } from './../../shared/model/dataset.data';
 import { Team } from "./../../shared/model/team.data";
 import { UserFactory } from "./../../shared/services/user.factory";
@@ -33,8 +34,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public teams: Promise<Team[]>;
 
     constructor(private auth: Auth, private route: ActivatedRoute, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private userFactory: UserFactory) {
-        this.subscription = EmitterService.get("currentDataset").subscribe((value: any) => {
-            this.datasetFactory.upsert(value, this.datasetId);
+        this.subscription = EmitterService.get("currentInitiative").subscribe((value: Initiative) => {
+            this.datasetFactory.upsert(new DataSet({ _id: this.datasetId, initiative: value }), this.datasetId);
         });
     }
 
@@ -76,10 +77,17 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     addTeamToInitiative(team: Team) {
         this.team = this.dataset.then((dataset: DataSet) => {
             dataset.initiative.team_id = team.team_id;
-            EmitterService.get("currentDataset").emit(dataset.initiative);
-            this.buildingComponent.loadData(dataset._id);
+            this.datasetFactory.upsert(dataset, dataset._id).then(() => {
+                this.buildingComponent.loadData(dataset._id);
+            })
             return team;
         });
+        this.updateTeamMembers();
+
+    }
+
+
+    updateTeamMembers() {
         this.members = this.team
             .then((team: Team) => {
                 if (team)

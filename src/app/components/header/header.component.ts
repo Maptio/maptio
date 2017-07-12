@@ -34,8 +34,7 @@ export class HeaderComponent implements OnInit {
 
     private selectedTeam: Team;
 
-    // HACK : for demonstration purposes
-    private VESTD_ID: string = "58c9d273734d1d2ca8564da2";
+    // private VESTD_ID: string = "58c9d273734d1d2ca8564da2";
 
     constructor(private auth: Auth, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private userFactory: UserFactory, private errorService: ErrorService, private router: Router) {
         EmitterService.get("currentDataset").subscribe((value: any) => {
@@ -60,7 +59,7 @@ export class HeaderComponent implements OnInit {
 
                 let getDataSets = Promise.all(
                     // get all datasets available to this user accross all teams
-                    this.user.datasets.concat(...[this.VESTD_ID]).map(
+                    this.user.datasets.map(
                         dataset_id => this.datasetFactory.get(dataset_id).then((resolved: DataSet) => { return resolved })
                     )
                 )
@@ -134,7 +133,7 @@ export class HeaderComponent implements OnInit {
 
 
     createDataset(datasetName: string) {
-        let newDataset = new DataSet({ initiative: new Initiative({ name: datasetName }), createdOn: new Date() });
+        let newDataset = new DataSet({ initiative: new Initiative({ name: datasetName }) });
         this.datasetFactory.create(newDataset).then((created: DataSet) => {
             this.datasetFactory.add(created, this.user).then((result: boolean) => {
                 this.router.navigate(["workspace", created._id]);

@@ -20,8 +20,8 @@ export class DatasetFactory {
     }
 
 
-    upsert(dataset: any, datasetId?: string): Promise<boolean> {
-        return this._http.put("/api/v1/dataset/" + (dataset._id || datasetId), dataset)
+    upsert(dataset: DataSet, datasetId?: string): Promise<boolean> {
+        return this._http.put("/api/v1/dataset/" + (dataset._id || datasetId), dataset.initiative)
             .map((responseData) => {
                 return responseData.json();
             })

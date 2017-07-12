@@ -357,7 +357,7 @@ describe("building.component.ts", () => {
                     let root = new Initiative();
                     component.nodes = [root];
                     component.saveChanges();
-                    expect(spyGet).toHaveBeenCalledWith("currentDataset");
+                    expect(spyGet).toHaveBeenCalledWith("currentInitiative");
                     expect(spyEmit).toHaveBeenCalledWith(root);
                 });
             });

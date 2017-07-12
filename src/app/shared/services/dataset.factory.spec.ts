@@ -278,7 +278,7 @@ describe("dataset.factory.ts", () => {
 
             mockBackend.connections.subscribe((connection: MockConnection) => {
                 if (connection.request.method === RequestMethod.Put && connection.request.url === "/api/v1/dataset/some_unique_id") {
-                    expect(<DataSet>connection.request.json()).toBe(dataset);
+                    expect(<Initiative>connection.request.json()).toBe(dataset.initiative);
                     connection.mockRespond(new Response(new ResponseOptions({
                         body: JSON.stringify(mockResponse)
                     })));
@@ -304,7 +304,7 @@ describe("dataset.factory.ts", () => {
 
             mockBackend.connections.subscribe((connection: MockConnection) => {
                 if (connection.request.method === RequestMethod.Put && connection.request.url === "/api/v1/dataset/some_unique_id") {
-                    expect(connection.request.json()).toBe(dataset);
+                    expect(connection.request.json()).toBe(dataset.initiative);
                     connection.mockRespond(new Response(new ResponseOptions({
                         body: JSON.stringify(mockResponse)
                     })));

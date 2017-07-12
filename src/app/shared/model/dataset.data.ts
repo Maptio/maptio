@@ -12,7 +12,7 @@ export class DataSet implements Serializable<DataSet> {
 
   // team_id: string;
 
-  createdOn: Date;
+  // createdOn: Date;
 
   initiative: Initiative;
 
@@ -29,7 +29,7 @@ export class DataSet implements Serializable<DataSet> {
     let deserialized = new DataSet();
     deserialized._id = input._id;
     deserialized.initiative = Initiative.create().deserialize(input.initiative || input)
-    deserialized.createdOn = input.createdOn;
+    // deserialized.createdOn = input.createdOn;
     return deserialized;
   }
 

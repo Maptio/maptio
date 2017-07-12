@@ -117,10 +117,20 @@ describe("workspace.component.ts", () => {
     });
 
     describe("Controller", () => {
+        describe("update team members", () => {
+            it('should get the list of members when team is defined', () => {
+                component.team = Promise.resolve(new Team({ name: "Winners", members: [new User({ user_id: "1" })], team_id: "some_team_id" }));
+                component.updateTeamMembers();
+                component.members.then(m => {
+                    expect(m.length).toBe(1);
+                    expect(m[0].user_id).toBe("1")
+                })
+            });
+        })
 
         describe("adding team to initiative", () => {
-            it("should add team to current dataset", () => {
-
+            it("should add team to current dataset and update team members", () => {
+                let spy = spyOn(component, "updateTeamMembers")
                 component.dataset = Promise.resolve(new DataSet({ _id: "some_dataset_id", initiative: new Initiative() }))
 
                 let team = new Team({ name: "Winners", members: [], team_id: "some_team_id" })
@@ -132,29 +142,14 @@ describe("workspace.component.ts", () => {
                 component.dataset.then((d) => {
                     expect(d.initiative.team_id).toBe("some_team_id")
                 })
+                expect(spy).toHaveBeenCalled();
 
             })
 
-            it("should use EmitterService to save new dataset", () => {
-
-                let eventEmitter = new EventEmitter();
-
-                let spyGetEmitterService = spyOn(EmitterService, "get").and.returnValue(eventEmitter)
-                let spyEmit = spyOn(eventEmitter, "emit");
-
-                component.dataset = Promise.resolve(new DataSet({ _id: "some_dataset_id", initiative: new Initiative() }))
-
-                let team = new Team({ name: "Winners", members: [], team_id: "some_team_id" })
-
-                component.addTeamToInitiative(team)
-                component.dataset.then((d) => {
-                    expect(spyEmit).toHaveBeenCalledWith(d.initiative);
-
-                })
-
-            })
 
             it("should load data in building component", () => {
+                let mockFactory = target.debugElement.injector.get(DatasetFactory);
+                let spyUpsert = spyOn(mockFactory, "upsert").and.returnValue(Promise.resolve(true))
 
                 let spyLoadData = spyOn(component.buildingComponent, "loadData")
                 component.dataset = Promise.resolve(new DataSet({ _id: "some_dataset_id", initiative: new Initiative() }))
@@ -163,28 +158,15 @@ describe("workspace.component.ts", () => {
 
                 component.addTeamToInitiative(team)
                 component.dataset.then((d) => {
-                    expect(spyLoadData).toHaveBeenCalledWith("some_dataset_id")
+                    expect(true).toBeTruthy();
+                    expect(spyUpsert).toHaveBeenCalled();
+                    spyUpsert.calls.mostRecent().returnValue.then(() => {
+                        expect(spyLoadData).toHaveBeenCalledWith("some_dataset_id")
+                    })
                 })
 
             })
 
-            it("should refresh team and team members", () => {
-
-                component.dataset = Promise.resolve(new DataSet({ _id: "some_dataset_id", initiative: new Initiative() }))
-
-                let team = new Team({ name: "Winners", members: [new User({ user_id: "1" })], team_id: "some_team_id" })
-
-                component.addTeamToInitiative(team)
-
-                component.team.then((t) => {
-                    expect(t).toBe(team)
-                })
-                component.members.then((m) => {
-                    expect(m.length).toBe(1)
-                    expect(m[0].user_id).toBe("1")
-                })
-
-            })
         })
 
         describe("toggleBuildingPanel", () => {

@@ -11,13 +11,13 @@
 }
 
 .header {
-      margin-left: 2px;
+     margin-left: 60px; 
     MARGIN-TOP: 8px;
     background: transparent;
     background-color: transparent;
-    /* z-index: -1; */
+    /* z-index: 59; */
     /* opacity: 0.5; */
-    position: absolute;
+    /* position: absolute; */
 }
 .team-name{
     /* padding: 0 8px 1px 0; */
