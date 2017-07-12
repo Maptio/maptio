@@ -83,11 +83,11 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
             return team;
         });
         this.updateTeamMembers();
-        
+
     }
 
 
-    updateTeamMembers(){
+    updateTeamMembers() {
         this.members = this.team
             .then((team: Team) => {
                 if (team)
