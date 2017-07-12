@@ -11,8 +11,13 @@
 }
 
 .header {
-    margin-left: 2px;
-    MARGIN-TOP: 5px;
+      margin-left: 2px;
+    MARGIN-TOP: 8px;
+    background: transparent;
+    background-color: transparent;
+    /* z-index: -1; */
+    /* opacity: 0.5; */
+    position: absolute;
 }
 .team-name{
     /* padding: 0 8px 1px 0; */
@@ -109,7 +114,7 @@
 .mapping{
      opacity: 0.8;
     /*box-shadow: 1px 1px 6px #888888;*/
-    margin-top:1%;
+    /*margin-top:1%;*/
 }
 
 
@@ -142,7 +147,8 @@
     overflow-x: hidden;
     padding-top: 5px;
     transition: 0.5s;
-    padding-left:15px;
+    padding-left:20px;
+     box-shadow: 1px 1px 6px #888888;
 }
 
 /* The navigation menu links */
@@ -161,19 +167,18 @@
 }
 
 /* Position and style the close button (top right corner) */
-.sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
+.closebtn {
+position: absolute;
+    top: -5px;
+    right: 3px;
+    font-size: 20px;
+    /* margin-left: 50px; */
 }
 
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 #main {
     transition: margin-left .5s;
     width:100%;
-    margin-top:1.5%
     /*padding: 20px;*/
 }
 
@@ -184,16 +189,16 @@
 }
 
 .edit-map{
-  position: absolute; 
+    position: absolute;
     /* right: 1%; */
     opacity: 0.8;
-    box-shadow: 1px 1px 6px #888888;
+    /* box-shadow: 1px 1px 6px #888888; */
     /* top: 75px; */
     float: left;
     margin-right: 1%;
     border-radius: 4px;
     position: absolute;
-    top: 12%;
+    /* top: 12%; */
     transition: 0.5s;
     z-index: 3;
     left: 0;
