@@ -31,7 +31,10 @@
             <ul class="list-group">
                 <li *ngFor="let dataset of datasets$ | async" class="list-group-item">
                     <a routerLink="/workspace/{{dataset._id}}">{{dataset.initiative.name}}</a>
-                    <a class="pull-right" (click)="deleteDataset(dataset)"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                    <a class="pull-right" mwlConfirmationPopover title="This cannot be undone ! Are you sure you want to remove the map ?" placement="top"
+                        focusButton="cancel" appendToBody="true" (confirm)="deleteDataset(dataset)" (cancel)="cancelClicked = true">
+      <i class="fa fa-trash-o" aria-hidden="true"></i>
+    </a>
                     <a routerLink="/workspace/{{dataset._id}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                 </li>
             </ul>
