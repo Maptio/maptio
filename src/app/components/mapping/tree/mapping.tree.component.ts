@@ -58,7 +58,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             root: any;
 
         // declares a tree layout and assigns the size
-        let treemap = d3.tree().size([this.height - marginDimensions.top - marginDimensions.bottom, this.width - marginDimensions.right - marginDimensions.left]);
+        let treemap = d3.tree().size([this.height/2 - marginDimensions.top - marginDimensions.bottom, this.width - marginDimensions.right - marginDimensions.left]);
 
         // Assigns parent, children, height, depth
         root = d3.hierarchy(data, function (d) { return d.children; });
