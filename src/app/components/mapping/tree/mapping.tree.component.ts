@@ -35,6 +35,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         let colorService = this.colorService;
         let uiService = this.uiService;
         let CIRCLE_RADIUS = 15;
+        let viewerWidth = this.width;
+        let viewerHeight = this.height;
 
         if (!data) {
             // console.log("CLEAN");
@@ -45,30 +47,51 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         this.uiService.clean();
         let color = colorService.getDefaulColorRange();
 
+        var margins = { top: 0, right: this.margin, bottom: this.margin, left: this.margin }
 
-        let marginDimensions = { top: this.margin, right: this.margin, bottom: this.margin, left: this.margin * 5 };
+        // declares a tree layout and assigns the size
+        // CAREFUL : width and height are reversed in this function
+        let treemap = d3.tree().size([viewerWidth/2 , viewerHeight]);
 
-        let svg = d3.select("svg"),
-            // margin = 50,
-            diameter = +this.width,
-            g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
+        function zoomed() {
+            g.attr("transform", d3.event.transform);//The zoom and panning is affecting my G element which is a child of SVG
+        }
+
+        let zooming = d3.zoom().scaleExtent([1 / 2, 2]).on("zoom", zoomed);
+
+        let svg = d3.select("svg").attr("width", viewerWidth)
+            .attr("height", viewerHeight).attr("class", "overlay")
+
+        let g = svg.append("g")
+
+            .attr("transform",
+            "translate(" + margins.left + "," + margins.top + ")"), transform = d3.zoomIdentity
+
+        try {
+            // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
+            svg.call(zooming.transform, d3.zoomIdentity.translate(margins.left,0));
+            svg.call(zooming);
+        }
+        catch (error) {
+
+        }
 
         let i = 0,
             duration = 750,
             root: any;
 
-        // declares a tree layout and assigns the size
-        let treemap = d3.tree().size([this.height/2 - marginDimensions.top - marginDimensions.bottom, this.width - marginDimensions.right - marginDimensions.left]);
 
         // Assigns parent, children, height, depth
         root = d3.hierarchy(data, function (d) { return d.children; });
-        root.x0 = (this.height) / 2;
+        root.x0 = viewerHeight;
         root.y0 = 0;
 
         // Collapse after the second level
         // root.children.forEach(collapse);
 
         update(root, duration);
+
+
 
         // Collapse the node and all it's children
         function collapse(d: any) {
@@ -94,10 +117,10 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             // ****************** Nodes section ***************************
 
             // Update the nodes...
-            let node = svg.selectAll("g.node")
+            let node = g.selectAll("g.node")
                 .data(nodes, function (d: any) { return d.id || (d.id = ++i); });
 
-            let definitions = svg.append("defs")
+            let definitions = g.append("defs")
             definitions.selectAll("pattern")
                 .data(nodes)
                 .enter()
@@ -190,7 +213,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             // ****************** links section ***************************
 
             // Update the links...
-            let link = svg.selectAll("path.link")
+            let link = g.selectAll("path.link")
                 .data(links, function (d: any) { return d.id; });
 
             // Enter any new links at the parent's previous position.
@@ -245,6 +268,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                     d._children = null;
                 }
                 update(d, duration);
+                // centerNode(d)
             }
         }
     }
