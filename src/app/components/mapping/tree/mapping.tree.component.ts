@@ -167,7 +167,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             nodeEnter.append("circle")
                 .attr("class", "node")
                 .attr("r", 1e-4)
-                .attr("fill", function (d: any) { return d.data.accountable ? "url(#image" + d.data.id + ")" : "#fff" })
+                .attr("fill", function (d: any) { return d.data.accountable ? "url(#image" + d.data.id + ")" : (d.children ? color(d.depth) :"#fff") })
                 .style("stroke", function (d:any) {
                     return color(d.depth)
                 })
@@ -205,7 +205,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             // Update the node attributes and style
             nodeUpdate.select("circle.node")
                 .attr("r", 15)
-                .attr("fill", function (d: any) { return d.data.accountable ? "url(#image" + d.data.id + ")" : "#fff" })
+                .attr("fill", function (d: any) { return d.data.accountable ? "url(#image" + d.data.id + ")" : (d._children ? color(d.depth) :"#fff") })
                 .style("stroke", function (d:any) {
                     return color(d.depth)
                 })
