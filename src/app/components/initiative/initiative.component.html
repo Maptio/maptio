@@ -6,7 +6,7 @@
 				<!--<input [disabled]="isReadOnly" class="form-control input-sm" id="inputName" type="text" name="inputName" [ngModelOptions]="{standalone: true}"
 				 [ngModel]="node?.name" placeholder="Initiative name" (ngModelChange)="saveName($event)" />-->
 				 <textarea [disabled]="isReadOnly" class="form-control input-sm unresizable" id="inputName" type="text" name="inputName" [ngModelOptions]="{standalone: true}"
-				 [ngModel]="node?.name" placeholder="Initiative name" (ngModelChange)="saveName($event)" rows="2" cols=""></textarea>
+				 [ngModel]="node?.name" placeholder="Initiative name" (ngModelChange)="saveName($event)" rows="2" cols="" (blur)="onBlur()"></textarea>
 				<span class="help-block">in order to help <b>{{parent?.accountable?.name || "..."}}</b>  with <b>{{parent?.name}}</b></span>
 			</div>
 		</div>
@@ -21,7 +21,7 @@
 				<span *ngIf="searching">searching...</span>
 				<input [disabled]="isReadOnly" #person required type="text" id="inputAccountable" [resultTemplate]="rt" placeholder="Select or add an accountable team member here"
 				 class="form-control input-sm" [ngModelOptions]="{standalone: true}" [ngModel]="node?.accountable" (selectItem)="saveAccountable($event)"
-				 [ngbTypeahead]="searchTeamMember" [resultFormatter]="formatter" [inputFormatter]="formatter" />
+				 [ngbTypeahead]="searchTeamMember" [resultFormatter]="formatter" [inputFormatter]="formatter"  (blur)="onBlur()"/>
 
 
 			</div>
@@ -32,7 +32,7 @@
 			<div class="col-lg-10">
 				<textarea [disabled]="isReadOnly" autofocus data-provide="markdown" data-iconlibrary="fa" class="form-control initiativeMarkdownDescription"
 				 id="inputDescription" rows="5" [ngModelOptions]="{standalone: true}" [ngModel]="node?.description" placeholder="Description"
-				 (ngModelChange)="saveDescription($event)"></textarea>
+				 (ngModelChange)="saveDescription($event)" (blur)="onBlur()"></textarea>
 
 
 			</div>
@@ -46,7 +46,7 @@
 				<!--<ng-template #content>-->
 				<div *ngIf="(team | async)">
 					<div *ngFor="let user of (team | async)?.members" class="checkbox">
-						<label><input  #helper class="inputHelper" type="checkbox" (click)="addHelper(user, helper.checked)" [checked]="isHelper(user)" [disabled]="isAuthority(user) || isReadOnly">
+						<label><input  #helper class="inputHelper" type="checkbox" (click)="addHelper(user, helper.checked)" [checked]="isHelper(user)" [disabled]="isAuthority(user) || isReadOnly" (blur)="onBlur()">
 						<!--<img src="{{user.picture}}" width="16">-->
 						{{user.name}} </label>
 					</div>

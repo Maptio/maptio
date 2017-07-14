@@ -19,7 +19,7 @@
 		<h4 class="modal-title">{{openedNode?.name}}</h4>
 	</modal-header>
 	<modal-body>
-		<initiative #initiative [node]="openedNode" [parent]="openedNodeParent"></initiative>
+		<initiative #initiative [node]="openedNode" [parent]="openedNodeParent" (edited)="saveChanges()"></initiative>
 	</modal-body>
 	<modal-footer>
 		<button type="button" class="btn btn-primary" (click)="modal.close()">Save</button>
