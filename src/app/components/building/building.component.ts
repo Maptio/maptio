@@ -68,16 +68,16 @@ export class BuildingComponent {
         console.log("building.component.ts", this.nodes[0])
         EmitterService.get("currentInitiative").emit(this.nodes[0]);
         // this.tree.treeModel.update();
-        // this.dataService.set(this.nodes[0]);
+        this.dataService.set(this.nodes[0]);
     }
 
     isRootValid(): boolean {
         return (this.nodes[0].name !== undefined) && this.nodes[0].name.trim().length > 0;
     }
 
-    mapData() {
-        this.dataService.set(this.nodes[0]);
-    }
+    // mapData() {
+    //     this.dataService.set(this.nodes[0]);
+    // }
 
 
     updateTreeModel() {
@@ -113,7 +113,7 @@ export class BuildingComponent {
                 }
             });
 
-            this.mapData();
+            this.saveChanges();
             if (initiativeToOpen) {
                 this.editInitiative(initiativeToOpen)
             }
@@ -133,7 +133,7 @@ export class BuildingComponent {
                 return initiative.isSearchedFor;
             },
             true);
-        this.mapData();
+        this.saveChanges();
 
     }
 
