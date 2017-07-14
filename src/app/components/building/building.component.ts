@@ -65,9 +65,8 @@ export class BuildingComponent {
     }
 
     saveChanges() {
-        console.log("building.component.ts", this.nodes[0])
+        // console.log("building.component.ts", this.nodes[0])
         EmitterService.get("currentInitiative").emit(this.nodes[0]);
-        // this.tree.treeModel.update();
         this.dataService.set(this.nodes[0]);
     }
 
