@@ -48,21 +48,21 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         this.uiService.clean();
         let color = colorService.getDefaulColorRange();
 
-        var margins = { top: 0, right: this.margin, bottom: this.margin, left: this.margin }
+        let margins = { top: 0, right: this.margin, bottom: this.margin, left: this.margin }
 
         // declares a tree layout and assigns the size
         // CAREFUL : width and height are reversed in this function
         let treemap = d3.tree().size([viewerWidth / 2, viewerHeight]);
 
         function zoomed() {
-            g.attr("transform", d3.event.transform);//The zoom and panning is affecting my G element which is a child of SVG
+            g.attr("transform", d3.event.transform);
         }
 
-        
+
 
         let zooming = d3.zoom().on("zoom", zoomed);
 
-        let svg:any = d3.select("svg").attr("width", viewerWidth)
+        let svg: any = d3.select("svg").attr("width", viewerWidth)
             .attr("height", viewerHeight).attr("class", "overlay");
 
         let g = svg.append("g")
@@ -157,7 +157,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             // Enter any new modes at the parent's previous position.
             let nodeEnter = node.enter().append("g")
                 .attr("class", "node")
-                .attr("transform", function (d:any) {
+                .attr("transform", function (d: any) {
                     return "translate(" + source.y0 + "," + source.x0 + ")";
                 })
                 .on("click", click);
@@ -167,8 +167,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             nodeEnter.append("circle")
                 .attr("class", "node")
                 .attr("r", 1e-4)
-                .attr("fill", function (d: any) { return d.data.accountable ? "url(#image" + d.data.id + ")" : (d.children ? color(d.depth) :"#fff") })
-                .style("stroke", function (d:any) {
+                .attr("fill", function (d: any) { return d.data.accountable ? "url(#image" + d.data.id + ")" : (d.children ? color(d.depth) : "#fff") })
+                .style("stroke", function (d: any) {
                     return color(d.depth)
                 })
                 ;
@@ -198,15 +198,15 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             // Transition to the proper position for the node
             nodeUpdate.transition()
                 .duration(duration)
-                .attr("transform", function (d:any) {
+                .attr("transform", function (d: any) {
                     return "translate(" + d.y + "," + d.x + ")";
                 });
 
             // Update the node attributes and style
             nodeUpdate.select("circle.node")
                 .attr("r", 15)
-                .attr("fill", function (d: any) { return d.data.accountable ? "url(#image" + d.data.id + ")" : (d._children ? color(d.depth) :"#fff") })
-                .style("stroke", function (d:any) {
+                .attr("fill", function (d: any) { return d.data.accountable ? "url(#image" + d.data.id + ")" : (d._children ? color(d.depth) : "#fff") })
+                .style("stroke", function (d: any) {
                     return color(d.depth)
                 })
                 .attr("cursor", "pointer");
@@ -215,7 +215,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             // Remove any exiting nodes
             let nodeExit = node.exit().transition()
                 .duration(duration)
-                .attr("transform", function (d:any) {
+                .attr("transform", function (d: any) {
                     return "translate(" + source.y + "," + source.x + ")";
                 })
                 .remove();
@@ -237,7 +237,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             // Enter any new links at the parent's previous position.
             let linkEnter = link.enter().insert("path", "g")
                 .attr("class", "link")
-                .attr("d", function (d:any) {
+                .attr("d", function (d: any) {
                     let o = { x: source.x0, y: source.y0 }
                     return diagonal(o, o)
                 });
@@ -248,12 +248,12 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             // Transition back to the parent element position
             linkUpdate.transition()
                 .duration(duration)
-                .attr("d", function (d:any) { return diagonal(d, d.parent) });
+                .attr("d", function (d: any) { return diagonal(d, d.parent) });
 
             // Remove any exiting links
             link.exit().transition()
                 .duration(duration)
-                .attr("d", function (d:any) {
+                .attr("d", function (d: any) {
                     let o = { x: source.x, y: source.y }
                     return diagonal(o, o)
                 })

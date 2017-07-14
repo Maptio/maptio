@@ -14,8 +14,8 @@ export class InitiativeNodeComponent {
     @Input() node: TreeNode;
     @Input() datasetId: string;
 
-     @Output("edited") edited = new EventEmitter<boolean>();
-   
+    @Output("edited") edited = new EventEmitter<boolean>();
+
     // @Output("map") updateDataEvent = new EventEmitter<Array<Initiative>>();
     @Output("update") updateTreeEvent = new EventEmitter<TreeModel>();
     // @Output("openSelected") openSelectedEvent = new EventEmitter<Initiative>();

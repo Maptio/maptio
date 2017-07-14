@@ -49,7 +49,7 @@ export class InitiativeComponent implements OnChanges {
             this.team = this.teamFactory.get(changes.node.currentValue.team_id)
     }
 
-    onBlur(){
+    onBlur() {
         this.edited.emit(true);
     }
 
