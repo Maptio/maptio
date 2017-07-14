@@ -27,7 +27,7 @@ export class BuildingComponent {
         allowDrop: true // (element:any, {parent:any, index:number}) => parent.isLeaf
     }
 
-    SAVING_FREQUENCY: number = 1;
+    SAVING_FREQUENCY: number = 10;
 
     @ViewChild(TreeComponent)
     tree: TreeComponent;
@@ -46,36 +46,37 @@ export class BuildingComponent {
     constructor(private dataService: DataService, private datasetFactory: DatasetFactory) {
         this.nodes = [];
 
-        Observable.timer(1000, this.SAVING_FREQUENCY * 1000)
-            .switchMap(() => Observable
-                .interval(1000)
-                .map(i => {
-                    if (i % this.SAVING_FREQUENCY === 0) {
-                        this.saveChanges();
-                    }
-                    else {
-                        EmitterService.get("timeToSaveInSec").emit(this.SAVING_FREQUENCY - i);
-                    }
-                    return i;
-                }
-                ))
-            .subscribe(val => {
+        // Observable.timer(1000, this.SAVING_FREQUENCY * 1000)
+        //     .switchMap(() => Observable
+        //         .interval(1000)
+        //         .map(i => {
+        //             if (i % this.SAVING_FREQUENCY === 0) {
+        //                 this.saveChanges();
+        //             }
+        //             else {
+        //                 EmitterService.get("timeToSaveInSec").emit(this.SAVING_FREQUENCY - i);
+        //             }
+        //             return i;
+        //         }
+        //         ))
+        //     .subscribe(val => {
 
-            });
+        //     });
     }
 
     saveChanges() {
         // console.log("building.component.ts", this.nodes[0])
         EmitterService.get("currentInitiative").emit(this.nodes[0]);
+        this.dataService.set(this.nodes[0]);
     }
 
     isRootValid(): boolean {
         return (this.nodes[0].name !== undefined) && this.nodes[0].name.trim().length > 0;
     }
 
-    mapData() {
-        this.dataService.set(this.nodes[0]);
-    }
+    // mapData() {
+    //     this.dataService.set(this.nodes[0]);
+    // }
 
 
     updateTreeModel() {
@@ -111,7 +112,7 @@ export class BuildingComponent {
                 }
             });
 
-            this.mapData();
+            this.saveChanges();
             if (initiativeToOpen) {
                 this.editInitiative(initiativeToOpen)
             }
@@ -131,7 +132,7 @@ export class BuildingComponent {
                 return initiative.isSearchedFor;
             },
             true);
-        this.mapData();
+        this.saveChanges();
 
     }
 

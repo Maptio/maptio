@@ -4,12 +4,12 @@
 		<input id="searchTreeInput" type="text" class="form-control" placeholder="Search map by name or description" (input)="filterNodes($event.target.value)"
 		/>
 	</div>
-	<Tree [nodes]="nodes" (onUpdateData)="mapData($event)" [options]="options">
+	<Tree [nodes]="nodes" (onUpdateData)="saveChanges()" [options]="options">
 		<ng-template #loadingTemplate>
 			<div class="loading"></div>
 		</ng-template>
 		<ng-template #treeNodeTemplate let-node>
-			<initiative-node [node]="node" [datasetId]="datasetId" (map)="mapData($event)" (update)="updateTreeModel($event)"></initiative-node>
+			<initiative-node [node]="node" [datasetId]="datasetId" (edited)="saveChanges()" (update)="updateTreeModel($event)"></initiative-node>
 		</ng-template>
 	</Tree>
 </div>
@@ -19,7 +19,7 @@
 		<h4 class="modal-title">{{openedNode?.name}}</h4>
 	</modal-header>
 	<modal-body>
-		<initiative #initiative [node]="openedNode" [parent]="openedNodeParent"></initiative>
+		<initiative #initiative [node]="openedNode" [parent]="openedNodeParent" (edited)="saveChanges()"></initiative>
 	</modal-body>
 	<modal-footer>
 		<button type="button" class="btn btn-primary" (click)="modal.close()">Save</button>

@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs/Rx';
 import { TeamFactory } from "./../../shared/services/team.factory";
-import { Component, Input, ViewChild, OnChanges, SimpleChanges, OnInit } from "@angular/core";
+import { Component, Input, ViewChild, OnChanges, SimpleChanges, OnInit, EventEmitter, Output } from "@angular/core";
 import { ModalComponent } from "ng2-bs3-modal/ng2-bs3-modal";
 import { Initiative } from "../../shared/model/initiative.data"
 import { Team } from "../../shared/model/team.data"
@@ -27,6 +27,8 @@ import { distinctUntilChanged } from 'rxjs/operator/distinctUntilChanged';
 
 export class InitiativeComponent implements OnChanges {
 
+    @Output() edited: EventEmitter<boolean> = new EventEmitter<boolean>();
+
     @Input() node: Initiative;
     @Input() parent: Initiative;
     @Input() isReadOnly: boolean;
@@ -45,6 +47,10 @@ export class InitiativeComponent implements OnChanges {
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.node.currentValue)
             this.team = this.teamFactory.get(changes.node.currentValue.team_id)
+    }
+
+    onBlur() {
+        this.edited.emit(true);
     }
 
     saveName(newName: any) {
