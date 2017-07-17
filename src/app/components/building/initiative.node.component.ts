@@ -14,7 +14,9 @@ export class InitiativeNodeComponent {
     @Input() node: TreeNode;
     @Input() datasetId: string;
 
-    @Output("map") updateDataEvent = new EventEmitter<Array<Initiative>>();
+    @Output("edited") edited = new EventEmitter<boolean>();
+
+    // @Output("map") updateDataEvent = new EventEmitter<Array<Initiative>>();
     @Output("update") updateTreeEvent = new EventEmitter<TreeModel>();
     // @Output("openSelected") openSelectedEvent = new EventEmitter<Initiative>();
 
@@ -47,7 +49,8 @@ export class InitiativeNodeComponent {
 
     saveNodeName(newName: any, initiative: Initiative) {
         initiative.name = newName;
-        this.updateDataEvent.emit(this.node.treeModel.nodes);
+        // this.updateDataEvent.emit(this.node.treeModel.nodes);
+        this.edited.emit(true)
     }
 
     addChildNode(initiative: Initiative) {
@@ -60,6 +63,7 @@ export class InitiativeNodeComponent {
         treeNode.data.children.unshift(newNode);
         this.node.treeModel.setExpandedNode(treeNode, true);
         this.updateTreeEvent.emit(this.node.treeModel);
+        this.edited.emit(true)
     }
 
 
@@ -69,6 +73,7 @@ export class InitiativeNodeComponent {
         let index = parent.data.children.indexOf(initiative);
         parent.data.children.splice(index, 1);
         this.updateTreeEvent.emit(this.node.treeModel);
+        this.edited.emit(true)
     }
 
     openNode(node: Initiative) {
@@ -83,7 +88,8 @@ export class InitiativeNodeComponent {
         (<Initiative>this.node.treeModel.nodes[0]).isZoomedOn = false;
 
         node.isZoomedOn = true;
-        this.updateDataEvent.emit(this.node.treeModel.nodes);
+        // this.updateDataEvent.emit(this.node.treeModel.nodes);
+        this.edited.emit(true)
     }
 
 }

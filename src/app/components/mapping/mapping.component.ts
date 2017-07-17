@@ -80,9 +80,9 @@ export class MappingComponent implements AfterViewInit, OnInit {
         this.show(this.selectedView);
     }
 
-    // save() {
-    //     EmitterService.get("currentDataset").emit(this.data);
-    // }
+    save() {
+        EmitterService.get("currentInitiative").emit(this.data);
+    }
 
 
     ngAfterViewInit() {

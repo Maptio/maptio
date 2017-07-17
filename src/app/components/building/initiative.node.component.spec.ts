@@ -303,14 +303,14 @@ describe("initiative.node.component.ts", () => {
                     node1.isZoomedOn = true;
                     root.isZoomedOn = true;
 
-                    let spyUpdate = spyOn(component.updateDataEvent, "emit");
+                    let spyUpdate = spyOn(component.edited, "emit");
 
                     component.zoomInNode(node2);
 
                     expect(node2.isZoomedOn).toBe(true);
                     expect(root.isZoomedOn).toBe(false);
                     expect(node1.isZoomedOn).toBe(false);
-                    expect(spyUpdate).toHaveBeenCalledWith(component.node.treeModel.nodes);
+                    expect(spyUpdate).toHaveBeenCalledWith(true);
                 });
             });
 
@@ -318,11 +318,11 @@ describe("initiative.node.component.ts", () => {
                 it("should save name of selected node", () => {
                     let node = new Initiative();
                     node.name = "old"
-                    let spyUpdate = spyOn(component.updateDataEvent, "emit");
+                    let spyUpdate = spyOn(component.edited, "emit");
 
                     component.saveNodeName("new", node);
                     expect(node.name).toBe("new");
-                    expect(spyUpdate).toHaveBeenCalledWith(component.node.treeModel.nodes);
+                    expect(spyUpdate).toHaveBeenCalledWith(true);
                 });
             });
         });

@@ -72,7 +72,7 @@ describe("building.component.ts", () => {
             });
 
             it("should send data to mapping component on tree update", () => {
-                let spy = spyOn(component, "mapData");
+                let spy = spyOn(component, "saveChanges");
                 component.tree.treeModel.update();
                 expect(spy).toHaveBeenCalled();
             });
@@ -107,7 +107,7 @@ describe("building.component.ts", () => {
                 let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
                 root.children = [node1, node2, node3];
                 component.nodes = [root];
-                let spyMapData = spyOn(component, "mapData");
+                let spyMapData = spyOn(component, "saveChanges");
 
                 target.detectChanges();
 
@@ -221,7 +221,7 @@ describe("building.component.ts", () => {
 
                 fixture.load("data.json");
                 let spyDataService = spyOn(mockDataService, "get").and.returnValue(Promise.resolve(fixture.json[0]));
-                let spyMapData = spyOn(component, "mapData");
+                let spyMapData = spyOn(component, "saveChanges");
 
                 component.loadData("someId");
                 spyDataService.calls.mostRecent().returnValue.then(() => {
@@ -235,7 +235,7 @@ describe("building.component.ts", () => {
 
                 fixture.load("data.json");
                 let spyDataService = spyOn(mockDataService, "get").and.returnValue(Promise.resolve(fixture.json[0]));
-                let spyMapData = spyOn(component, "mapData");
+                let spyMapData = spyOn(component, "saveChanges");
                 let spyEdit = spyOn(component, "editInitiative")
                 component.loadData("someId", "the-rest");
                 spyDataService.calls.mostRecent().returnValue.then(() => {
@@ -248,21 +248,6 @@ describe("building.component.ts", () => {
 
         });
 
-        describe("Mapping data", () => {
-            it("should sends data to dataservice", async(() => {
-                let mockDataService = target.debugElement.injector.get(DataService);
-
-                let node1 = new Initiative(), node2 = new Initiative();
-                node1.name = "first", node2.name = "second";
-
-                component.nodes = [node1, node2];
-                let spy = spyOn(mockDataService, "set");
-                component.mapData();
-                expect(spy).toHaveBeenCalledWith(jasmine.objectContaining({ name: "first" }));
-
-            }));
-        });
-
         describe("Filtering ", () => {
 
             it("should highlights all nodes when the search term is empty", () => {
@@ -271,7 +256,7 @@ describe("building.component.ts", () => {
                 root.children = [node1, node2, node3];
                 component.nodes = [root];
                 target.detectChanges();
-                let spy = spyOn(component, "mapData");
+                let spy = spyOn(component, "saveChanges");
 
                 component.filterNodes("");
                 expect(root.isSearchedFor).toBe(true);
@@ -287,7 +272,7 @@ describe("building.component.ts", () => {
                 root.children = [node1, node2, node3];
                 component.nodes = [root];
                 target.detectChanges();
-                let spy = spyOn(component, "mapData");
+                let spy = spyOn(component, "saveChanges");
 
                 component.filterNodes("second");
                 expect(root.isSearchedFor).toBe(false);
@@ -304,7 +289,7 @@ describe("building.component.ts", () => {
                 root.children = [node1, node2, node3];
                 component.nodes = [root];
                 target.detectChanges();
-                let spy = spyOn(component, "mapData");
+                let spy = spyOn(component, "saveChanges");
 
                 component.filterNodes("segundo");
                 expect(root.isSearchedFor).toBe(false);
@@ -360,6 +345,19 @@ describe("building.component.ts", () => {
                     expect(spyGet).toHaveBeenCalledWith("currentInitiative");
                     expect(spyEmit).toHaveBeenCalledWith(root);
                 });
+
+                it("should sends data to dataservice", async(() => {
+                let mockDataService = target.debugElement.injector.get(DataService);
+
+                let node1 = new Initiative(), node2 = new Initiative();
+                node1.name = "first", node2.name = "second";
+
+                component.nodes = [node1, node2];
+                let spy = spyOn(mockDataService, "set");
+                component.saveChanges();
+                expect(spy).toHaveBeenCalledWith(jasmine.objectContaining({ name: "first" }));
+
+            }));
             });
         });
     });
