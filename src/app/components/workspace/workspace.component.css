@@ -91,19 +91,15 @@ position: absolute;
 }
 
 .edit-map{
-    position: absolute;
-    /* right: 1%; */
+      position: absolute;
     opacity: 0.8;
-    /* box-shadow: 1px 1px 6px #888888; */
-    /* top: 75px; */
-    float: left;
-    margin-right: 1%;
-    border-radius: 4px;
-    position: absolute;
-    /* top: 12%; */
-    transition: 0.5s;
-    z-index: 3;
-    left: 0;
+    top: -4%;
+    left:3px;
+     transition: 0.5s; 
+    -webkit-transform: rotate(90deg);
+    -webkit-transform-origin: bottom left;
+    transform: rotate(90deg);
+    transform-origin: bottom left;
 }
 
 .edit-map > a{
