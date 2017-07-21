@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input, ViewEncapsulation } from "@angular/core";
 import { D3Service, D3 } from "d3-ng2-service";
 import { ColorService } from "../../../shared/services/ui/color.service"
 import { UIService } from "../../../shared/services/ui/ui.service"
@@ -8,12 +8,11 @@ import { Observable } from "rxjs/Rx";
 @Component({
     selector: "tree",
     template: require("./mapping.tree.component.html"),
-    styles: [require("./mapping.tree.component.css").toString()],
+    styleUrls: ["./mapping.tree.component.css"],
+    encapsulation: ViewEncapsulation.None
 })
 export class MappingTreeComponent implements OnInit, IDataVisualizer {
     private d3: D3;
-
-
     public width: number;
 
     public height: number;

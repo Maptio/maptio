@@ -7,7 +7,7 @@ import { InitiativeComponent } from "../../initiative/initiative.component";
 @Component({
     selector: "tooltip",
     template: require("./tooltip.component.html"),
-    styles: [require("./tooltip.component.css").toString()],
+    styleUrls: ["./tooltip.component.css"],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
@@ -16,22 +16,29 @@ export class TooltipComponent implements OnInit, OnDestroy {
     public node: Initiative;
     public parent: Initiative;
     public isReadOnly: boolean;
-
-
+    public isHidden:boolean=true;
+    public left:number;
+    public top:number;
 
     public subscription: Subscription;
 
     constructor(private uiService: UIService, private cd: ChangeDetectorRef) {
         this.update();
+        
     }
 
     public update() {
         this.subscription = this.uiService.getTooltipData().subscribe(
-            (initiatives: [Initiative, Initiative]) => {
-                this.node = initiatives[0];
-                this.parent = initiatives[1]
+            (settings: [Initiative, Initiative, number, number]) => {
+                this.node = settings[0];
+                this.parent = settings[1]
                 this.isReadOnly = true;
+                
+                this.isHidden = false;
+                this.left = settings[2];
+                this.top = settings[3];
                 this.cd.markForCheck();
+                
             },
             (error: any) => console.log(error));
     }

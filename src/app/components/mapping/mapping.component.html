@@ -1,8 +1,4 @@
 <div class="control btn-group-vertical">
-    <!--<a class="btn btn-primary save" (click)="save()">
-   Save
-   </a>-->
-
     <a class="btn  circleview " (click)="switchView()" *ngIf="isTreeviewSelected()"></a>
     <a class="btn   treeview" (click)="switchView()" *ngIf="isCircleViewSelected()"></a>
     <a class="btn minus" (click)="zoomOut()"></a>
@@ -10,4 +6,8 @@
     <a class="btn  reset" (click)="resetZoom()"></a>
 </div>
 
-<div #drawing anchor></div>
+<!-- SVG goes here -->
+<ng-template #drawing anchor></ng-template>
+
+<!-- tooltip goes here -->
+<tooltip #tooltip></tooltip>

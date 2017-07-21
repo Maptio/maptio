@@ -48,9 +48,13 @@ describe("mapping.component.ts", () => {
         target.detectChanges(); // trigger initial data binding
     });
 
+    it('shoud workd', () => {
+        expect(true).toBe(true)
+    });
+
     describe("Controller", () => {
         it("should initialize as Circle view per default", () => {
-            expect(component.selectedView).toBe(Views.Circles)
+            expect(component.selectedView).toBe(0)
         });
 
         describe("isTreeviewSelected", () => {
@@ -102,7 +106,7 @@ describe("mapping.component.ts", () => {
                 let spyShow = spyOn(component, "show");
                 component.ngOnInit();
                 expect(spyDataService).toHaveBeenCalled();
-                expect(spyShow).toHaveBeenCalledWith(Views.Circles);
+                expect(spyShow).toHaveBeenCalledWith(0);
             })
         });
 

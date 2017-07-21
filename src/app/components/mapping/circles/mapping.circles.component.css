@@ -58,15 +58,7 @@ svg group{
  visibility: visible;
   opacity: 0.7;
 }
-.hidden{
-    visibility: hidden;
-  opacity: 0;
-  transition: visibility 0s, opacity 0.5s linear;
-}
 
- .initative-tooltip {
-      position: absolute;
-    }
 
 
 

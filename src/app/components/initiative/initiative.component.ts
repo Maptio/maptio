@@ -21,7 +21,7 @@ import { distinctUntilChanged } from 'rxjs/operator/distinctUntilChanged';
 @Component({
     selector: "initiative",
     template: require("./initiative.component.html"),
-    styles: [require("./initiative.component.css").toString()],
+    styleUrls: ["./initiative.component.css"],
     // providers: [Initiative]
 })
 

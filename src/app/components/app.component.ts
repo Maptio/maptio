@@ -11,7 +11,7 @@ import "rxjs/add/operator/map"
 @Component({
   selector: "my-app",
   template: require("./app.component.html"),
-  styles: [require("./app.component.css").toString()]
+  styleUrls: ["./app.component.css"]
 })
 
 export class AppComponent implements OnInit {

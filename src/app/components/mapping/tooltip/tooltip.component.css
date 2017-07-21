@@ -8,3 +8,23 @@
     width: 400px;
     padding: 10px;
 }
+
+.close-button{
+        margin: -4% 0 4px 85%;
+}
+
+.close-button:before{
+  content:"\f00d";
+  font-family: FontAwesome;
+}
+
+.hidden{
+    visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.5s linear;
+}
+
+ .initative-tooltip {
+      position: absolute;
+    }
+

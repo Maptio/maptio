@@ -20,18 +20,18 @@ import { Subject } from "rxjs/Rx";
 @Component({
     selector: "mapping",
     template: require("./mapping.component.html"),
-    styles: [require("./mapping.component.css").toString()],
+    styleUrls: ["./mapping.component.css"],
     entryComponents: [MappingCirclesComponent, MappingTreeComponent],
     changeDetection: ChangeDetectionStrategy.OnPush
 
 })
 
 
-export class MappingComponent implements AfterViewInit, OnInit {
+export class MappingComponent implements  OnInit {
 
     private data: any;
 
-    selectedView: Views = Views.Circles // per default;
+    selectedView:number = 0; // Views.Circles // per default;
 
     public zoom$: Subject<number>
 
@@ -59,20 +59,19 @@ export class MappingComponent implements AfterViewInit, OnInit {
     }
 
     isTreeviewSelected(): boolean {
-        return this.selectedView === Views.Tree;
+        return this.selectedView === 1 //Views.Tree;
     }
     isCircleViewSelected(): boolean {
-        return this.selectedView === Views.Circles;
+        return this.selectedView === 0 //Views.Circles;
     }
-
 
     switchView() {
         switch (this.selectedView) {
-            case Views.Circles:
-                this.selectedView = Views.Tree;
+            case 0 : // Views.Circles:
+                this.selectedView = 1;
                 break;
-            case Views.Tree:
-                this.selectedView = Views.Circles;
+            case 1 : //Views.Tree:
+                this.selectedView = 0;
                 break
             default:
                 throw new Error("This view is not recognized");
@@ -80,13 +79,13 @@ export class MappingComponent implements AfterViewInit, OnInit {
         this.show(this.selectedView);
     }
 
-    save() {
-        EmitterService.get("currentInitiative").emit(this.data);
-    }
+    // // save() {
+    // //     EmitterService.get("currentInitiative").emit(this.data);
+    // // }
 
 
-    ngAfterViewInit() {
-    }
+    // // ngAfterViewInit() {
+    // // }
 
     getInstance(component: ComponentRef<IDataVisualizer>): IDataVisualizer {
         return component.instance;
@@ -95,7 +94,7 @@ export class MappingComponent implements AfterViewInit, OnInit {
     show(mode: Views, zoom?: number) {
         let data = this.data;
         let factory =
-            (mode === Views.Circles)
+            (mode === 0)
                 ? this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent)
                 : this.componentFactoryResolver.resolveComponentFactory(MappingTreeComponent)
 
