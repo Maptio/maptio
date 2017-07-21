@@ -16,15 +16,15 @@ export class TooltipComponent implements OnInit, OnDestroy {
     public node: Initiative;
     public parent: Initiative;
     public isReadOnly: boolean;
-    public isHidden:boolean=true;
-    public left:number;
-    public top:number;
+    public isHidden: boolean = true;
+    public left: number;
+    public top: number;
 
     public subscription: Subscription;
 
     constructor(private uiService: UIService, private cd: ChangeDetectorRef) {
         this.update();
-        
+
     }
 
     public update() {
@@ -33,12 +33,12 @@ export class TooltipComponent implements OnInit, OnDestroy {
                 this.node = settings[0];
                 this.parent = settings[1]
                 this.isReadOnly = true;
-                
+
                 this.isHidden = false;
                 this.left = settings[2];
                 this.top = settings[3];
                 this.cd.markForCheck();
-                
+
             },
             (error: any) => console.log(error));
     }

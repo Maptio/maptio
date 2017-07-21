@@ -27,11 +27,11 @@ import { Subject } from "rxjs/Rx";
 })
 
 
-export class MappingComponent implements  OnInit {
+export class MappingComponent implements OnInit {
 
     private data: any;
 
-    selectedView:number = 0; // Views.Circles // per default;
+    selectedView: number = 0; // Views.Circles // per default;
 
     public zoom$: Subject<number>
 
@@ -59,18 +59,18 @@ export class MappingComponent implements  OnInit {
     }
 
     isTreeviewSelected(): boolean {
-        return this.selectedView === 1 //Views.Tree;
+        return this.selectedView === 1 // Views.Tree;
     }
     isCircleViewSelected(): boolean {
-        return this.selectedView === 0 //Views.Circles;
+        return this.selectedView === 0 // Views.Circles;
     }
 
     switchView() {
         switch (this.selectedView) {
-            case 0 : // Views.Circles:
+            case 0: // Views.Circles:
                 this.selectedView = 1;
                 break;
-            case 1 : //Views.Tree:
+            case 1: // Views.Tree:
                 this.selectedView = 0;
                 break
             default:
