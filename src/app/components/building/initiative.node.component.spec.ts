@@ -63,10 +63,10 @@ describe("initiative.node.component.ts", () => {
             expect(target.debugElement.query(By.css("label")).nativeElement.innerHTML).toBe("Project");
             expect(target.debugElement.queryAll(By.css("a.toggle.open-node")).length).toBe(1);
             expect(target.debugElement.queryAll(By.css("input.inputNodeName")).length).toBe(1);
-            expect(target.debugElement.queryAll(By.css("a.btnAddNode")).length).toBe(1);
-            expect(target.debugElement.queryAll(By.css("a.btnRemoveNode")).length).toBe(0);
-            expect(target.debugElement.queryAll(By.css("a.btnEditNode")).length).toBe(0);
-            expect(target.debugElement.queryAll(By.css("a.btnZoomNode")).length).toBe(0);
+            expect(target.debugElement.queryAll(By.css("a.add")).length).toBe(1);
+            expect(target.debugElement.queryAll(By.css("a.remove")).length).toBe(0);
+            expect(target.debugElement.queryAll(By.css("a.edit")).length).toBe(0);
+            expect(target.debugElement.queryAll(By.css("a.zoom")).length).toBe(0);
 
             expect(spyIsRoot).toHaveBeenCalled();
         });
@@ -77,10 +77,10 @@ describe("initiative.node.component.ts", () => {
             // console.log(target.debugElement.nativeElement);
             expect(target.debugElement.queryAll(By.css("a.toggle.open-node")).length).toBe(1);
             expect(target.debugElement.queryAll(By.css("input.inputNodeName")).length).toBe(1);
-            expect(target.debugElement.queryAll(By.css("a.btnAddNode")).length).toBe(1);
-            expect(target.debugElement.queryAll(By.css("a.btnRemoveNode")).length).toBe(1);
-            expect(target.debugElement.queryAll(By.css("a.btnEditNode")).length).toBe(1);
-            expect(target.debugElement.queryAll(By.css("a.btnZoomNode")).length).toBe(1);
+            expect(target.debugElement.queryAll(By.css("a.add")).length).toBe(1);
+            expect(target.debugElement.queryAll(By.css("a.remove")).length).toBe(1);
+            expect(target.debugElement.queryAll(By.css("a.edit")).length).toBe(1);
+            expect(target.debugElement.queryAll(By.css("a.zoom")).length).toBe(1);
 
             expect(spyIsRoot).toHaveBeenCalled();
         });
@@ -139,7 +139,7 @@ describe("initiative.node.component.ts", () => {
         describe("Add button", () => {
             it("should add node when clicked", () => {
                 let spyAdd = spyOn(component, "addChildNode");
-                let button = target.debugElement.query(By.css(".btnAddNode")).nativeElement as HTMLAnchorElement;
+                let button = target.debugElement.query(By.css(".add")).nativeElement as HTMLAnchorElement;
 
                 button.dispatchEvent(new Event("click"));
                 target.detectChanges();
@@ -152,7 +152,7 @@ describe("initiative.node.component.ts", () => {
         describe("Remove button", () => {
             it("should remove node when clicked", () => {
                 let spyRemove = spyOn(component, "removeChildNode");
-                let button = target.debugElement.query(By.css(".btnRemoveNode")).nativeElement as HTMLAnchorElement;
+                let button = target.debugElement.query(By.css(".remove")).nativeElement as HTMLAnchorElement;
 
                 button.dispatchEvent(new Event("confirm"));
                 target.detectChanges();
@@ -164,7 +164,7 @@ describe("initiative.node.component.ts", () => {
         describe("Open button", () => {
             it("should open node when clicked", () => {
                 let spyOpen = spyOn(component, "openNode");
-                let button = target.debugElement.query(By.css(".btnEditNode")).nativeElement as HTMLAnchorElement;
+                let button = target.debugElement.query(By.css(".edit")).nativeElement as HTMLAnchorElement;
 
                 button.dispatchEvent(new Event("click"));
                 target.detectChanges();
@@ -176,7 +176,7 @@ describe("initiative.node.component.ts", () => {
         describe("Zoom in button", () => {
             it("should zoom in node when clicked", () => {
                 let spyZoomIn = spyOn(component, "zoomInNode");
-                let button = target.debugElement.query(By.css(".btnZoomNode")).nativeElement as HTMLAnchorElement;
+                let button = target.debugElement.query(By.css(".zoom")).nativeElement as HTMLAnchorElement;
 
                 button.dispatchEvent(new Event("click"));
                 target.detectChanges();
