@@ -11,16 +11,11 @@
 		<span class="input-group-addon knurled"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>
 		<input class="form-control input inputNodeName" type="text" [focusif]="node.data.hasFocus" autoselect [ngModel]="node.data.name"
 		 (ngModelChange)="saveNodeName($event, node.data)">
-		<span class="input-group-btn">
-
-	
-		
-			
+		<span class="input-group-btn control">
 						<!--ADD-->
-		<a class="btn btn-link  btnAddNode" ngbTooltip="Add" placement="bottom" (click)="addChildNode(node.data)"><i class="fa fa-plus" aria-hidden="true"></i></a>
+		<a class="btn add" (click)="addChildNode(node.data)" [attr.data-placement]="PLACEMENT" [attr.data-toggle]="TOGGLE" [attr.title]="'Add sub initiative'"></a>
 		<!--REMOVE-->
-		<!--<a class="btn btn-link  btnRemoveNode" ngbTooltip="Remove" placement="bottom" *ngIf="!isRoot()" (click)="removeChildNode(node.data)"><i class="fa fa-trash" aria-hidden="true"></i></a>-->
-		<a class="btn btn-link btnRemoveNode" *ngIf="!isRoot()"
+		<a class="btn remove" *ngIf="!isRoot()" [attr.data-placement]="PLACEMENT" [attr.data-toggle]="TOGGLE" [attr.title]="'Delete initiative and its sub-initiatives'" 
       mwlConfirmationPopover
 	  title="Remove initiative and sub initiatives ?"
       placement="top"
@@ -28,12 +23,12 @@
 	  appendToBody="true"
       (confirm)="removeChildNode(node.data)"
       (cancel)="cancelClicked = true">
-      <i class="fa fa-trash" aria-hidden="true"></i>
+     
     </a>
 		<!--EDIT-->
-		<a class="btn btn-link  btnEditNode" *ngIf="!isRoot()" ngbTooltip="Edit" placement="bottom" (click)="openNode(node.data)"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+		<a class="btn edit" *ngIf="!isRoot()"  (click)="openNode(node.data)" [attr.data-placement]="PLACEMENT" [attr.data-toggle]="TOGGLE" [attr.title]="'Edit initiative'"></a>
 		<!--ZOOM IN-->
-		<a class="btn btn-link  btnZoomNode" *ngIf="!isRoot()" ngbTooltip="Zoom in" placement="bottom" (click)="zoomInNode(node.data)"><i class="fa fa-search" aria-hidden="true"></i></a>
+		<a class="btn zoom" *ngIf="!isRoot()" (click)="zoomInNode(node.data)" [attr.data-placement]="PLACEMENT" [attr.data-toggle]="TOGGLE" [attr.title]="'Zoom'"></a>
 
 		</span>
 

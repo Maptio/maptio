@@ -1,54 +1,5 @@
 
-.node-content-wrapper {
-    display: inline-block;
-  position: relative;
 
-}
-
-/*.node-content-wrapper *:hover { 
-    }*/
-
-    
-.node-content-wrapper, .tree-children {
-  position: relative;
-}
-
-.node-content-wrapper::before, .tree-children::after {
-  content: "";
-  position: absolute;
-}
-
-.node-content-wrapper::before {
-    border-bottom: 2px solid grey;
-    border-left: 2px solid grey;
-    height: 141%;
-    top: -145%;
-    width: 4%;
-    /* left: -41px; */
-    margin-left: -4%;
-    margin-top: 5%;
-}
-
-
-.tree-node-leaf > .node-wrapper > .node-content-wrapper::before {
-  width: 25px;
-}
-
-.tree-children::after {
-   /*border-left: 1px solid lightgrey;*/
-  height: 100%;
-  top: -15px;
-  left: 13px;
-}
-
-treenode:last-child > .tree-node > .tree-children::after {
-  border-left: none;
-}
-
-.toggle-children {
-  z-index: 1;
-  background-image: none !important;
-}
 
 
 .toggle{
@@ -134,4 +85,39 @@ flex-wrap: wrap;
     border:none;
     background-color: transparent;
     cursor: move;
+}
+
+.add:before{
+    content:"\f067";
+    font-family:FontAwesome;
+}
+.remove:before{
+    content:"\f068";
+    font-family:FontAwesome;
+}
+
+.edit:before{
+    content:"\f040";
+    font-family:FontAwesome;
+}
+
+.zoom:before{
+    content:"\f002";
+    font-family:FontAwesome;
+}
+
+.control{
+    opacity: 0.8;
+}
+
+.control > a{
+   color: gray;
+    border: 1px solid lightgray;
+    background-color: #FCFCFC;
+    clear:both;
+    height:100%;
+}
+
+.control > a:hover{
+  color:black;
 }

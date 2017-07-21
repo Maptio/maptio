@@ -1,17 +1,3 @@
-/*.control{
-    padding-top:3px;
-}*/
-
-
-.treeview:before{
-    content:"\f0c0";
-    font-family:FontAwesome;
-}
-
-.circleview:before{
-     content:"\f192";
-    font-family:FontAwesome;
-    }
 
 .save{
     position: absolute;
@@ -23,27 +9,14 @@
     font-family:FontAwesome;
 }
 
-/*.switch{
-    position: absolute;
-    margin:5px;
-    top:10%;
-    color: gray;
-    border: 1px solid lightgray;
-    background-color: #FCFCFC;
-     box-shadow: 1px 1px 6px #888888;
-}*/
-
-
-
 .control{
-position: absolute;
-    right: 1%;
+    position: absolute;
+    right: 4%;
     opacity: 0.8;
     box-shadow: 1px 1px 6px #888888;
-    top: 75px;
-    float: right;
+    top: 2%;
+    /* float: right; */
     margin-right: 1%;
-
     border-radius: 4px;
 
 }
@@ -53,6 +26,8 @@ position: absolute;
     border: 1px solid lightgray;
     background-color: #FCFCFC;
     clear:both;
+    width: 100%;
+    height:100%;
 }
 
 .control > a:hover{
@@ -74,6 +49,16 @@ position: absolute;
     content:"\f066";
   font-family: FontAwesome;
 }
+
+.treeview:before{
+    content:"\f0c0";
+    font-family:FontAwesome;
+}
+
+.circleview:before{
+     content:"\f192";
+    font-family:FontAwesome;
+    }
 
 .zoom a{
   border:0;

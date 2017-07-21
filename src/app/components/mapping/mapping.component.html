@@ -1,9 +1,9 @@
 <div class="control btn-group-vertical">
-    <a class="btn  circleview " (click)="switchView()" *ngIf="isTreeviewSelected()"></a>
-    <a class="btn   treeview" (click)="switchView()" *ngIf="isCircleViewSelected()"></a>
-    <a class="btn minus" (click)="zoomOut()"></a>
-    <a class="btn  plus" (click)="zoomIn()"></a>
-    <a class="btn  reset" (click)="resetZoom()"></a>
+    <a class="btn circleview " (click)="switchView()" *ngIf="isTreeviewSelected()" [attr.data-placement]="PLACEMENT" [attr.data-toggle]="TOGGLE" [attr.title]="TOOLTIP_INITIATIVES_VIEW" ></a>
+    <a class="btn treeview" (click)="switchView()" *ngIf="isCircleViewSelected()" [attr.data-placement]="PLACEMENT" [attr.data-toggle]="TOGGLE" [attr.title]="TOOLTIP_PEOPLE_VIEW"></a>
+    <a class="btn minus" (click)="zoomOut()" [attr.data-placement]="PLACEMENT" [attr.data-toggle]="TOGGLE" [attr.title]="TOOLTIP_ZOOM_OUT"></a>
+    <a class="btn plus" (click)="zoomIn()" [attr.data-placement]="PLACEMENT" [attr.data-toggle]="TOGGLE" [attr.title]="TOOLTIP_ZOOM_IN"></a>
+    <a class="btn reset" (click)="resetZoom()" [attr.data-placement]="PLACEMENT" [attr.data-toggle]="TOGGLE" [attr.title]="TOOLTIP_ZOOM_FIT"></a>
 </div>
 
 <!-- SVG goes here -->

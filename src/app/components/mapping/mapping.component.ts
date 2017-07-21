@@ -29,6 +29,14 @@ import { Subject } from "rxjs/Rx";
 
 export class MappingComponent implements OnInit {
 
+    PLACEMENT: string = "left"
+    TOGGLE: string = "tooltip"
+    TOOLTIP_PEOPLE_VIEW: string = "People view";
+    TOOLTIP_INITIATIVES_VIEW: string = "Initiatives view";
+    TOOLTIP_ZOOM_IN: string = "Zoom in";
+    TOOLTIP_ZOOM_OUT: string = "Zoom out";
+    TOOLTIP_ZOOM_FIT: string = "Zoom fit";
+
     private data: any;
 
     selectedView: number = 0; // Views.Circles // per default;

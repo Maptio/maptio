@@ -6,8 +6,65 @@ body{
 }
 
 .toggle-children{
-  background-image: none;
+  background-image: none !important;
 }
+
+.node-content-wrapper {
+    display: inline-block;
+  position: relative;
+
+}
+
+/*.node-content-wrapper *:hover { 
+    }*/
+
+    
+.node-content-wrapper, .tree-children {
+  position: relative;
+}
+
+.node-content-wrapper::before, .tree-children::after {
+  content: "";
+  position: absolute;
+}
+
+.node-content-wrapper::before {
+  border-bottom: 2px solid grey;
+    border-left: 2px solid grey;
+    height: 141%;
+    top: -145%;
+    width: 2%;
+    /* left: -41px; */
+    margin-left: -2%;
+    margin-top: 5%;
+}
+
+.node-content-wrapper:first-child::before {
+  border-bottom: 2px solid red;
+    border-left: 2px solid red;
+    height: 141%;
+    top: -145%;
+    width: 2%;
+    /* left: -41px; */
+    margin-left: -2%;
+    margin-top: 5%;
+}
+
+.tree-node-leaf > .node-wrapper > .node-content-wrapper::before {
+  width: 25px;
+}
+
+.tree-children::after {
+   /*border-left: 1px solid lightgrey;*/
+  height: 100%;
+  top: -15px;
+  left: 13px;
+}
+
+treenode:last-child > .tree-node > .tree-children::after {
+  border-left: none;
+}
+
 
 a.caret-before {
     padding-right:1px !important;
