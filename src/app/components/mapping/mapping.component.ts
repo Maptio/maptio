@@ -29,6 +29,11 @@ import { Subject } from "rxjs/Rx";
 
 export class MappingComponent implements OnInit {
 
+    PLACEMENT:string="left"
+    TOGGLE:string="tooltip"
+    TOOLTIP_PEOPLE_VIEW:string= "People";
+    TOOLTIP_INITIATIVES_VIEW:string = "Initiatives"
+
     private data: any;
 
     selectedView: number = 0; // Views.Circles // per default;
