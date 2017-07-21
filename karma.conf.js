@@ -37,7 +37,9 @@ module.exports = function (config) {
         karmaTypescriptConfig: {
             bundlerOptions: {
                 transforms: [
+                    require("karma-typescript-angular2-transform"),
                     require("karma-typescript-es6-transform")()
+                    
                 ]
             },
             coverageOptions: {

@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs/Observable';
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, ViewEncapsulation } from "@angular/core";
 import { D3Service, D3, HierarchyCircularNode } from "d3-ng2-service";
 import { ColorService } from "../../../shared/services/ui/color.service"
 import { UIService } from "../../../shared/services/ui/ui.service"
@@ -8,12 +8,11 @@ import { IDataVisualizer } from "../mapping.interface"
 @Component({
     selector: "circles",
     template: require("./mapping.circles.component.html"),
-    styles: [require("./mapping.circles.component.css").toString()],
+    styleUrls: ["./mapping.circles.component.css"],
+    encapsulation: ViewEncapsulation.None
 })
 
-
 export class MappingCirclesComponent implements OnInit, IDataVisualizer {
-
 
     private d3: D3;
 
@@ -33,8 +32,6 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
     ngOnInit() {
 
     }
-
-
 
     draw(data: any) {
 
@@ -93,28 +90,6 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
 
             }
         })
-        // d3.selectAll(".zoom a").on("click",
-        //     function () {
-        //         let classes = d3.select(this).attr("class");
-        //         let zoomFactor: number;
-        //         if (classes.includes("plus")) {
-        //             zoomFactor = 1.1;
-        //             zooming.scaleBy(svg, zoomFactor);
-        //         }
-
-        //         if (classes.includes("minus")) {
-        //             zoomFactor = 0.9;
-        //             zooming.scaleBy(svg, zoomFactor);
-        //         }
-
-
-        //         console.log(diameter);
-        //         if (classes.includes("reset")) {
-        //             svg.call(zooming.transform, d3.zoomIdentity.translate(diameter / 2, diameter / 2));
-        //         }
-        //     });
-
-
 
         let color = colorService.getDefaulColorRange();
 
@@ -257,14 +232,8 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             })
         }
 
-
-
         function showTooltip(d: any, parent: any, event: any) {
-            uiService.setTooltipData(d.data, parent.data);
-            d3.select(".initative-tooltip")
-                .classed("hidden", d.isTooltipVisible)
-                .style("left", event.pageX - 20 + "px")
-                .style("top", event.pageY - 100 + "px")
+            uiService.setTooltipData(d.data, parent.data, event.pageX - 20, event.pageY - 100);
         }
     }
 }

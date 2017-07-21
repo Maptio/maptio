@@ -14,7 +14,7 @@ import { UserFactory } from "../../shared/services/user.factory";
 @Component({
     selector: "account",
     template: require("./account.component.html"),
-    styles: [require("./account.component.css").toString()]
+    styleUrls: ["./account.component.css"]
 })
 export class AccountComponent implements OnInit {
 

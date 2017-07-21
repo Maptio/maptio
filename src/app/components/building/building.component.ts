@@ -14,7 +14,7 @@ import { InitiativeNodeComponent } from "./initiative.node.component"
 @Component({
     selector: "building",
     template: require("./building.component.html"),
-    styles: [require("./building.component.css").toString()]
+    styleUrls: ["./building.component.css"]
 })
 export class BuildingComponent {
 

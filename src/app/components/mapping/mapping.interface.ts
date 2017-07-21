@@ -8,7 +8,7 @@ export interface IDataVisualizer {
 
     margin: number;
 
-     zoom$:Observable<number>;
+    zoom$: Observable<number>;
 
     draw(data: any): void;
 }

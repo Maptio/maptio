@@ -15,7 +15,7 @@ import { Team } from "../../shared/model/team.data";
 @Component({
     selector: "header",
     template: require("./header.component.html"),
-    styles: [require("./header.component.css").toString()]
+    styleUrls: ["./header.component.css"]
 })
 
 export class HeaderComponent implements OnInit {

@@ -12,27 +12,33 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['', '.ts', '.js']
+    extensions: ['.ts', '.js']
   },
 
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.ts$/,
         loaders: ['awesome-typescript-loader', 'angular2-template-loader']
       },
       {
         test: /\.html$/,
-        loader: 'html'
+        loader: 'html-loader'
       },
       {
-        test: /\.(json|png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
+        test: /\.(json|png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico|cur)$/,
         loader: 'file?name=assets/[name].[hash].[ext]'
       },
       {
-                test: /\.css$/,
-                loader: 'style!css'
-            }
+        test: /\.css$/,
+        exclude: helpers.root('src', 'app'),
+        loaders: ExtractTextPlugin.extract({ fallbackLoader: 'style-loader', loader: 'css-loader?sourceMap' })
+      },
+      {
+        test: /\.css$/,
+        include: helpers.root('src', 'app'),
+        loaders: ['css-to-string-loader', 'css-loader']
+      }
     ]
   },
 
@@ -44,6 +50,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.html'
     }),
+
+    new ExtractTextPlugin('style.css'),
 
     new CopyWebpackPlugin([
       { from: 'public', to: 'assets' }
