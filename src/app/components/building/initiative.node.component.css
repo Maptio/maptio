@@ -135,3 +135,38 @@ flex-wrap: wrap;
     background-color: transparent;
     cursor: move;
 }
+
+.add:before{
+    content:"\f067";
+    font-family:FontAwesome;
+}
+.remove:before{
+    content:"\f068";
+    font-family:FontAwesome;
+}
+
+.edit:before{
+    content:"\f040";
+    font-family:FontAwesome;
+}
+
+.zoom:before{
+    content:"\f002";
+    font-family:FontAwesome;
+}
+
+.control{
+    opacity: 0.8;
+}
+
+.control > a{
+   color: gray;
+    border: 1px solid lightgray;
+    background-color: #FCFCFC;
+    clear:both;
+    height:100%;
+}
+
+.control > a:hover{
+  color:black;
+}

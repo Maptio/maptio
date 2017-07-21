@@ -11,6 +11,10 @@ import { InitiativeComponent } from "../initiative/initiative.component";
 })
 export class InitiativeNodeComponent {
 
+    PLACEMENT: string = "top";
+    TOGGLE: string = "tooltip";
+    TOOLTIP_ADD: string = "Add sub-initiative"
+
     @Input() node: TreeNode;
     @Input() datasetId: string;
 
