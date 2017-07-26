@@ -101,7 +101,7 @@ export class BuildingComponent {
             this.nodes = [];
             this.nodes.push(new DataSet().deserialize(data).initiative);
 
-            EmitterService.get("datasetName").emit(this.nodes[0].name);
+            // EmitterService.get("datasetName").emit(this.nodes[0].name);
 
             let defaultTeamId = this.nodes[0].team_id;
             let initiativeToOpen: Initiative = undefined;

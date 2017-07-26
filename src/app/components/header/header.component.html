@@ -8,18 +8,18 @@
 		        <span class="icon-bar"></span>
 		        <span class="icon-bar"></span>
 		      </button>
-            <div > <a routerLink=""><img src="/assets/images/logo.png" class="brand-logo"></a></div>
+            <div> <a routerLink=""><img src="/assets/images/logo.png" class="brand-logo"></a></div>
         </div>
 
         <div class="collapse navbar-collapse" id="navbar-brand-centered">
             <ul class="nav navbar-nav navbar-left">
-<!--
+                <!--
                 <div routerLinkActive="hidden">
                     <a routerLink="/workspace">{{selectedDatasetName}}</a>
                 </div>-->
+                <li><h4 class="map-name"> <a routerLink="/workspace/{{selectedDataset?._id}}">{{selectedDataset?.initiative?.name}}</a></h4>
+                </li>
 
-                    <div class="map-name h3" routerLink="/workspace">{{selectedDatasetName}}</div>
-      
 
             </ul>
 
@@ -32,7 +32,7 @@
 
                     <ul class="dropdown-menu">
                         <li *ngFor="let dataset of datasets$ | async">
-                            <a routerLink="/workspace/{{dataset._id}}" class="h4"> {{dataset.name}}</a>
+                            <a (click)="goTo(dataset)" class="h4"> {{dataset.name}}</a>
                         </li>
                     </ul>
                 </li>

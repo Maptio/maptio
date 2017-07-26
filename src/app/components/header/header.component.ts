@@ -1,5 +1,5 @@
-import { UserFactory } from './../../shared/services/user.factory';
-import { Initiative } from './../../shared/model/initiative.data';
+import { UserFactory } from "./../../shared/services/user.factory";
+import { Initiative } from "./../../shared/model/initiative.data";
 import { TeamFactory } from "./../../shared/services/team.factory";
 import { Router } from "@angular/router";
 import { EmitterService } from "./../../shared/services/emitter.service";
@@ -26,7 +26,7 @@ export class HeaderComponent implements OnInit {
 
     public datasets$: Promise<Array<any>>;
     private teams$: Promise<Array<Team>>;
-    private selectedDatasetName: string;
+    private selectedDataset: DataSet;
     private isValid: boolean = false;
     private isSaving: Promise<boolean> = Promise.resolve(false);
     private timeToSaveInSec: Promise<number>;
@@ -37,16 +37,18 @@ export class HeaderComponent implements OnInit {
     // private VESTD_ID: string = "58c9d273734d1d2ca8564da2";
 
     constructor(private auth: Auth, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private userFactory: UserFactory, private errorService: ErrorService, private router: Router) {
-        EmitterService.get("currentDataset").subscribe((value: any) => {
-            this.isSaving = Promise.resolve<boolean>(true);
+        // EmitterService.get("currentDataset").subscribe((value: any) => {
+        //     this.isSaving = Promise.resolve<boolean>(true);
+        // });
+        EmitterService.get("currentDataset").subscribe((value: DataSet) => {
+            this.selectedDataset = value;
         });
-        EmitterService.get("datasetName").subscribe((value: string) => {
-            this.selectedDatasetName = value;
-        });
-        EmitterService.get("timeToSaveInSec").subscribe((value: number) => {
-            this.timeToSaveInSec = Promise.resolve(value);
-        });
+        // EmitterService.get("timeToSaveInSec").subscribe((value: number) => {
+        //     this.timeToSaveInSec = Promise.resolve(value);
+        // });
     }
+
+   
 
     ngOnInit() {
         this.auth.getUser().subscribe(
@@ -80,6 +82,7 @@ export class HeaderComponent implements OnInit {
                         return datasets.map(d => {
                             return {
                                 _id: d._id,
+                                initiative: d.initiative,
                                 name: d.initiative.name,
                                 team_id: d.initiative.team_id,
                                 team: teams.filter(t => t.team_id === d.initiative.team_id)[0]
@@ -92,7 +95,7 @@ export class HeaderComponent implements OnInit {
                 })
             },
             (error: any) => { this.errorService.handleError(error) });
-        this.selectedDatasetName = "";
+        this.selectedDataset = undefined;
     }
 
     // chooseTeam(team: Team) {
@@ -120,6 +123,11 @@ export class HeaderComponent implements OnInit {
     //     this.router.navigate(["workspace", dataset._id]);
     // }
 
+    goTo(dataset: DataSet) {
+        this.selectedDataset = dataset;
+        this.router.navigate(["workspace", dataset._id]);
+    }
+
     createTeam(teamName: string) {
         this.teamFactory.create(new Team({ name: teamName, members: [this.user] })).then((team: Team) => {
             this.user.teams.push(team.team_id);
@@ -137,7 +145,7 @@ export class HeaderComponent implements OnInit {
         this.datasetFactory.create(newDataset).then((created: DataSet) => {
             this.datasetFactory.add(created, this.user).then((result: boolean) => {
                 this.router.navigate(["workspace", created._id]);
-                this.selectedDatasetName = datasetName;
+                this.selectedDataset = created;
             }).catch(this.errorService.handleError);
         }).catch(this.errorService.handleError);
         this.ngOnInit();

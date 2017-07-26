@@ -40,6 +40,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+        EmitterService.get("currentDataset").emit(undefined)
         this.subscription.unsubscribe();
     }
 
@@ -49,7 +50,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
             let initiativeSlug = params["slug"];
             this.buildingComponent.loadData(this.datasetId, initiativeSlug);
 
-            this.dataset = this.datasetFactory.get(this.datasetId);
+            this.dataset = this.datasetFactory.get(this.datasetId).then((d: DataSet) => {
+                EmitterService.get("currentDataset").emit(d)
+                return d;
+            });
 
             this.team = this.dataset.then((dataset: DataSet) => {
                 if (dataset.initiative.team_id)
