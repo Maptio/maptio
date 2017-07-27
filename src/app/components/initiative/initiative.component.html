@@ -1,53 +1,48 @@
-<form class="form-horizontal">
+<form>
 	<fieldset>
-		<div class="form-group">
-			<label for="inputName" class="col-lg-2 control-label">Initiative</label>
-			<div class="col-lg-10">
+		<div class="form-group row">
+			<label for="inputName" class="col-xl-2 form-control-label col-form-label">Initiative</label>
+			<div class="col-xl-10">
 				<!--<input [disabled]="isReadOnly" class="form-control input-sm" id="inputName" type="text" name="inputName" [ngModelOptions]="{standalone: true}"
 				 [ngModel]="node?.name" placeholder="Initiative name" (ngModelChange)="saveName($event)" />-->
-				 <textarea [disabled]="isReadOnly" class="form-control input-sm unresizable" id="inputName" type="text" name="inputName" [ngModelOptions]="{standalone: true}"
-				 [ngModel]="node?.name" placeholder="Initiative name" (ngModelChange)="saveName($event)" rows="2" cols="" (blur)="onBlur()"></textarea>
+				<textarea [disabled]="isReadOnly" class="form-control form-control-sm unresizable" id="inputName" type="text" name="inputName"
+				 [ngModelOptions]="{standalone: true}" [ngModel]="node?.name" placeholder="Initiative name" (ngModelChange)="saveName($event)"
+				 rows="2" cols="" (blur)="onBlur()"></textarea>
 				<span class="help-block">in order to help <b>{{parent?.accountable?.name || "..."}}</b>  with <b>{{parent?.name}}</b></span>
 			</div>
 		</div>
 
-		<div class="form-group">
-			<label for="select" class="col-lg-2 control-label">Authority</label>
-			<div class="col-lg-10">
-
+		<div class="form-group row">
+			<label for="inputAccountable" class="col-xl-2 form-control-label col-form-label">Authority</label>
+			<div class="col-xl-10">
 				<ng-template #rt let-r="result" let-t="term">
-					<img src="{{r.picture}}" width="16"> {{ r.name}}
-				</ng-template>
-				<span *ngIf="searching">searching...</span>
-				<input [disabled]="isReadOnly" #person required type="text" id="inputAccountable" [resultTemplate]="rt" placeholder="Select or add an accountable team member here"
-				 class="form-control input-sm" [ngModelOptions]="{standalone: true}" [ngModel]="node?.accountable" (selectItem)="saveAccountable($event)"
-				 [ngbTypeahead]="searchTeamMember" [resultFormatter]="formatter" [inputFormatter]="formatter"  (blur)="onBlur()"/>
-
-
-			</div>
-		</div>
-		<br/>
-		<div class="form-group">
-			<label for="inputDescription" class="col-lg-2 control-label">Description</label>
-			<div class="col-lg-10">
-				<textarea [disabled]="isReadOnly" autofocus data-provide="markdown" data-iconlibrary="fa" class="form-control initiativeMarkdownDescription"
-				 id="inputDescription" rows="5" [ngModelOptions]="{standalone: true}" [ngModel]="node?.description" placeholder="Description"
-				 (ngModelChange)="saveDescription($event)" (blur)="onBlur()"></textarea>
-
-
+					<img src="{{r.picture}}" width="16" />{{ r.name}}</ng-template> <span *ngIf="searching">searching...</span>
+				<input #person [disabled]="isReadOnly" required="required" [resultTemplate]="rt" type="text" id="inputAccountable" placeholder="Select or add an accountable team member here"
+				 class="form-control form-control-sm" [ngModelOptions]="{standalone: true}" [ngModel]="node?.accountable" (selectItem)="saveAccountable($event)"
+				 [ngbTypeahead]="searchTeamMember" [resultFormatter]="formatter" [inputFormatter]="formatter" (blur)="onBlur()" />
 			</div>
 		</div>
 
-		<div class="form-group" id="members">
-			<label for="inputName" class="col-lg-2 control-label">Helpers</label>
+
+		 <div class="form-group row">
+            <label for="inputDescription" class="col-xl-2 form-control-label col-form-label">Description</label>
+            <div class="col-xl-10">
+                <textarea [disabled]="isReadOnly" autofocus data-provide="markdown" data-iconlibrary="fa"
+                class="form-control initiativeMarkdownDescription" id="inputDescription" [ngModelOptions]="{standalone: true}" [ngModel]="node?.description"
+                rows="5" placeholder="Description"  (ngModelChange)="saveDescription($event)" (blur)="onBlur()"></textarea>
+            </div>
+        </div>
+
+		<div class="form-group row" id="members">
+			<label for="inputHelper" class="col-xl-2 form-control-label col-form-label">Helpers</label>
 			<div class="col-lg-10">
 				<!--<div *ngIf="(team | async);then content else other_content"></div>-->
 
 				<!--<ng-template #content>-->
 				<div *ngIf="(team | async)">
-					<div *ngFor="let user of (team | async)?.members" class="checkbox">
-						<label><input  #helper class="inputHelper" type="checkbox" (click)="addHelper(user, helper.checked)" [checked]="isHelper(user)" [disabled]="isAuthority(user) || isReadOnly" (blur)="onBlur()">
-						<!--<img src="{{user.picture}}" width="16">-->
+					<div *ngFor="let user of (team | async)?.members" class="checkbox"  >
+						<label><input  #helper class="inputHelper" type="checkbox" (click)="addHelper(user, helper.checked)" [checked]="isHelper(user)" [disabled]="isAuthority(user) || isReadOnly"  (blur)="onBlur()">
+						<img src="{{user.picture}}" width="16" class="rounded-circle">
 						{{user.name}} </label>
 					</div>
 				</div>
