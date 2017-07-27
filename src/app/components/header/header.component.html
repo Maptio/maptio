@@ -59,7 +59,7 @@
             <li class="nav-item dropdown" id="profileInformation" *ngIf="auth.authenticated()">
                 <a class="nav-link dropdown-toggle without-caret" href="http://example.com" id="profileDropdownLink" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
-                    <div class="profile-img"><img src="{{ user?.picture }}" class="rounded-circle profile-image" alt=""></div>
+                    <div><img src="{{ user?.picture }}" class="rounded-circle profile-image" alt=""></div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdownLink">
                     <a class="dropdown-item" routerLink="/account/profile">Profile</a>

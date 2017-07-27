@@ -12,7 +12,12 @@ body{
 .node-content-wrapper {
     display: inline-block;
   position: relative;
+  width:100%;
 
+}
+
+.tree{
+  width:100%;
 }
 
 /*.node-content-wrapper *:hover { 
