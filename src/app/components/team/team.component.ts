@@ -11,7 +11,7 @@ import { Auth } from "../../shared/services/auth/auth.service";
 @Component({
     selector: "team",
     template: require("./team.component.html").toString(),
-    // styles: [require("./team.component.css").toString()]
+     styleUrls: ["./team.component.css"]
 })
 export class TeamComponent implements OnDestroy {
     ngOnDestroy(): void {
