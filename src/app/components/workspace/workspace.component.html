@@ -3,9 +3,9 @@
     <div class="btn-group pull-left" *ngIf="team | async">
 
         <a *ngFor="let user of members | async" class="btn btn-link btn-xs no-padding">
-            <img class="member " src="{{user?.picture}}" alt="{{user?.name}}" title="{{user?.name}}">
+            <img class="member rounded-circle" src="{{user?.picture}}" alt="{{user?.name}}" title="{{user?.name}}">
         </a>
-        <a class="btn btn-link btn-xs" routerLink="/account/team/{{(team |async)?.team_id}}">
+        <a class="btn btn-link btn-xs no-padding"  routerLink="/account/team/{{(team |async)?.team_id}}">
             <i class="fa fa-plus" aria-hidden="true"></i>
         </a>
     </div>
