@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Rx';
+import { Observable } from "rxjs/Rx";
 import { TeamFactory } from "./../../shared/services/team.factory";
 import { Component, Input, ViewChild, OnChanges, SimpleChanges, OnInit, EventEmitter, Output } from "@angular/core";
 import { ModalComponent } from "ng2-bs3-modal/ng2-bs3-modal";
@@ -9,13 +9,13 @@ import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/distinctUntilChanged";
 import { NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-bootstrap";
 import { User } from "../../shared/model/user.data";
-import { _catch } from 'rxjs/operator/catch';
-import { _do } from 'rxjs/operator/do';
-import { switchMap } from 'rxjs/operator/switchMap';
-import { of } from 'rxjs/observable/of';
-import { map } from 'rxjs/operator/map';
-import { debounceTime } from 'rxjs/operator/debounceTime';
-import { distinctUntilChanged } from 'rxjs/operator/distinctUntilChanged';
+import { _catch } from "rxjs/operator/catch";
+import { _do } from "rxjs/operator/do";
+import { switchMap } from "rxjs/operator/switchMap";
+import { of } from "rxjs/observable/of";
+import { map } from "rxjs/operator/map";
+import { debounceTime } from "rxjs/operator/debounceTime";
+import { distinctUntilChanged } from "rxjs/operator/distinctUntilChanged";
 
 
 @Component({

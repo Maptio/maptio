@@ -1,5 +1,5 @@
-import { Initiative } from './../../shared/model/initiative.data';
-import { DataSet } from './../../shared/model/dataset.data';
+import { Initiative } from "./../../shared/model/initiative.data";
+import { DataSet } from "./../../shared/model/dataset.data";
 import { TeamFactory } from "./../../shared/services/team.factory";
 import { Router } from "@angular/router";
 import { EmitterService } from "./../../shared/services/emitter.service";
@@ -90,28 +90,6 @@ describe("header.component.ts", () => {
     });
 
     describe("View", () => {
-
-        xdescribe("New project button", () => {
-            it("should call createDataset() when clicked", () => {
-                let mockAuth = target.debugElement.injector.get(Auth);
-                spyOn(mockAuth, "authenticated").and.returnValue(true);
-                target.detectChanges();
-                let startElement = target.debugElement.query(By.css("#loadNewProjectButton"));
-                let spy = spyOn(component, "createDataset");
-
-                startElement.triggerEventHandler("click", null);
-                expect(spy).toHaveBeenCalled();
-            });
-
-            it("should not display if user is not authenticated", () => {
-                let mockAuth = target.debugElement.injector.get(Auth);
-                spyOn(mockAuth, "authenticated").and.returnValue(false);
-                target.detectChanges();
-                let startElement = target.debugElement.queryAll(By.css("#loadNewProjectButton"));
-                expect(startElement.length).toBe(0);
-            });
-        });
-
         describe("List of datasets", () => {
             // it("should retrieve a list of datasets when user is valid", async(() => {
             //     let mockAuth = target.debugElement.injector.get(Auth);
@@ -218,6 +196,17 @@ describe("header.component.ts", () => {
     });
 
     describe("Controller", () => {
+
+        describe("goTo", () => {
+            it("opens correct dataset", () => {
+                let mockRouter = target.debugElement.injector.get(Router);
+                let spyNavigate = spyOn(mockRouter, "navigate")
+                let dataset = new DataSet({ _id: "some_id" });
+                component.goTo(dataset);
+                expect(spyNavigate).toHaveBeenCalledWith(["workspace", "some_id"]);
+                expect(component.selectedDataset).toBe(dataset)
+            });
+        });
 
 
         // describe("chooseTeam", () => {
@@ -338,7 +327,7 @@ describe("header.component.ts", () => {
                         expect(spyOpen).toHaveBeenCalledWith(["workspace", "created_id"]);
                     });
                 });
-                expect(spyCreate).toHaveBeenCalledWith(jasmine.objectContaining({initiative : jasmine.objectContaining({name: "new initiative"})}))
+                expect(spyCreate).toHaveBeenCalledWith(jasmine.objectContaining({ initiative: jasmine.objectContaining({ name: "new initiative" }) }))
             }));
 
             it("should call errorService if creation doesnt work", async(() => {
