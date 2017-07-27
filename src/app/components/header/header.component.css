@@ -5,7 +5,7 @@
     background: 50% 50% no-repeat;
     background-size: auto 100%;
     max-width: 36px;
-    border-radius: 7px;
+    border-radius: 50%;
 }
 
 .brand-logo {
@@ -90,7 +90,7 @@
 }
 
 .create-option{
-    width: 350px;
+    width: 360px;
     padding-left: 8px;
     padding-right: 8px;
 }
@@ -107,4 +107,8 @@
 
 .dropdown:hover .dropdown-menu {
 display: block;
+}
+
+.without-caret.dropdown-toggle::after {
+    display:none
 }
