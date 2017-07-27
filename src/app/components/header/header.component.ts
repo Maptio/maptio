@@ -26,7 +26,7 @@ export class HeaderComponent implements OnInit {
 
     public datasets$: Promise<Array<any>>;
     private teams$: Promise<Array<Team>>;
-    private selectedDataset: DataSet;
+    public selectedDataset: DataSet;
     private isValid: boolean = false;
     private isSaving: Promise<boolean> = Promise.resolve(false);
     private timeToSaveInSec: Promise<number>;
@@ -37,18 +37,12 @@ export class HeaderComponent implements OnInit {
     // private VESTD_ID: string = "58c9d273734d1d2ca8564da2";
 
     constructor(private auth: Auth, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private userFactory: UserFactory, private errorService: ErrorService, private router: Router) {
-        // EmitterService.get("currentDataset").subscribe((value: any) => {
-        //     this.isSaving = Promise.resolve<boolean>(true);
-        // });
         EmitterService.get("currentDataset").subscribe((value: DataSet) => {
             this.selectedDataset = value;
         });
-        // EmitterService.get("timeToSaveInSec").subscribe((value: number) => {
-        //     this.timeToSaveInSec = Promise.resolve(value);
-        // });
     }
 
-   
+
 
     ngOnInit() {
         this.auth.getUser().subscribe(
@@ -97,31 +91,6 @@ export class HeaderComponent implements OnInit {
             (error: any) => { this.errorService.handleError(error) });
         this.selectedDataset = undefined;
     }
-
-    // chooseTeam(team: Team) {
-    //     this.selectedTeam = team;
-    //     this.datasets$ = Promise.all(
-    //         // get all datasets available to this user accross all teams
-    //         this.user.datasets.map(
-    //             dataset_id => this.datasetFactory.get(dataset_id).then((resolved: DataSet) => { return resolved })
-    //         )
-    //     )
-    //         // only shows the datasets accessible by the selected team
-    //         .then(datasets => { return datasets.filter(d => d.team_id === this.selectedTeam.team_id) })
-
-    //     this.areMapsAvailable = this.datasets$.then((datasets: DataSet[]) => { return datasets.length > 0 }).catch(err => console.log(err));
-    // }
-
-
-
-    // openHelp() {
-    //     this.openHelpEvent.emit();
-    // }
-
-    // openDataset(dataset: DataSet) {
-    //     this.selectedDatasetName = dataset.initiative.name;
-    //     this.router.navigate(["workspace", dataset._id]);
-    // }
 
     goTo(dataset: DataSet) {
         this.selectedDataset = dataset;
