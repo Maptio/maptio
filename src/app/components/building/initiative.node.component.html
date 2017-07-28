@@ -60,7 +60,9 @@
 			 </ng-template>
 		<a class="btn add " (click)="addChildNode(node.data)" placement="top" [ngbTooltip]="addButtonTooltip" container="body" ></a>
 
-		<a class="btn remove"   *ngIf="!isRoot()" placement="top" container="body" ngbTooltip="Remove initiative and sub initiatives" mwlConfirmationPopover title="Remove initiative and sub initiatives ?" placement="top" focusbutton="cancel" appendtobody="true"  (confirm)="removeChildNode(node.data)"
+		<a class="btn remove"   *ngIf="!isRoot()"
+		placement="top" container="body" 
+		mwlConfirmationPopover title="Remove initiative and sub initiatives ?" focusbutton="cancel" appendToBody="false"  (confirm)="removeChildNode(node.data)"
       (cancel)="cancelClicked = true">
     </a>
 
