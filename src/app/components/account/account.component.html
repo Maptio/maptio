@@ -1,44 +1,30 @@
-<div class="col-lg-6">
-    <div class="panel panel-default">
-        <div class="panel-heading">Profile</div>
-        <div class="panel-body">
-            <h4>{{user?.name}}</h4>
-            <img src="{{user?.picture}}" />
-            <h6>{{user?.email}}</h6>
-
-            <!--Teams
-            <ul class="list-group">
-                <li *ngFor="let team of teams$ | async" class="list-group-item">
-                    <a routerLink="/account/team/{{team.team_id}}">{{team.name}}</a>
-                </li>
-                <li class="input-group">
-                    <input #teamInput type="text" class="form-control" placeholder="Type new team name">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button" (click)="createNewTeam(teamInput.value)">Create</button>
-                    </span>
-                </li>
-            </ul>-->
+<div class="row">
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-block">
+                <h3 class="card-title">Profile</h3>
+                <h4>{{user?.name}}</h4>
+                <img class="rounded-circle" src="{{user?.picture}}" />
+                <h6>{{user?.email}}</h6>
+            </div>
         </div>
     </div>
-
-
-</div>
-<div class="col-lg-6">
-
-    <div class="panel panel-default">
-        <div class="panel-heading">Initiatives</div>
-        <div class="panel-body">
-            <ul class="list-group">
-                <li *ngFor="let dataset of datasets$ | async" class="list-group-item">
-                    <a routerLink="/map/{{dataset._id}}">{{dataset.initiative.name}}</a>
-                    <a class="pull-right" mwlConfirmationPopover title="This cannot be undone ! Are you sure you want to remove the map ?" placement="top"
-                        focusButton="cancel" appendToBody="true" (confirm)="deleteDataset(dataset)" (cancel)="cancelClicked = true">
+    <div class="col-sm-6">
+        <div class="card">
+            <div class="card-block">
+                <h3 class="card-title">Initiatives</h3>
+                <div class="list-group">
+                    <a *ngFor="let dataset of datasets$ | async" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{dataset.initiative.name}} <a routerLink="/map/{{dataset._id}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></h5>
+                            <a mwlConfirmationPopover title="This cannot be undone ! Are you sure you want to remove the map ?" placement="top" focusButton="cancel"
+                                appendToBody="true" (confirm)="deleteDataset(dataset)" (cancel)="cancelClicked = true">
       <i class="fa fa-trash-o" aria-hidden="true"></i>
     </a>
-                    <a routerLink="/map/{{dataset._id}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                </li>
-            </ul>
+                        </div>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
-
 </div>
