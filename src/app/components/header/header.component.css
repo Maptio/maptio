@@ -1,16 +1,20 @@
-.profile-img {
+.profile-image {
     margin-top: -5px;
     margin-right: 16px;
     float: left;
     background: 50% 50% no-repeat;
     background-size: auto 100%;
     max-width: 36px;
-    border-radius: 7px;
 }
 
 .brand-logo {
-    max-width:50px;
-    margin-right: 10px;
+       /* min-height: 100%; */
+    /* margin-right: 10px; */
+    background: url(/assets/images/logo.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 50px;
+    height: 31px;
 }
 
 #saving {
@@ -90,7 +94,7 @@
 }
 
 .create-option{
-    width: 350px;
+    width: 360px;
     padding-left: 8px;
     padding-right: 8px;
 }
@@ -107,4 +111,8 @@
 
 .dropdown:hover .dropdown-menu {
 display: block;
+}
+
+.without-caret.dropdown-toggle::after {
+    display:none
 }

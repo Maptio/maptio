@@ -1,5 +1,5 @@
-import { EmitterService } from './../../shared/services/emitter.service';
-import { Initiative } from './../../shared/model/initiative.data';
+import { EmitterService } from "./../../shared/services/emitter.service";
+import { Initiative } from "./../../shared/model/initiative.data";
 import { DataSet } from "./../../shared/model/dataset.data";
 import { TeamFactory } from "./../../shared/services/team.factory";
 import { Params } from "@angular/router";
@@ -118,7 +118,7 @@ describe("workspace.component.ts", () => {
 
     describe("Controller", () => {
         describe("update team members", () => {
-            it('should get the list of members when team is defined', () => {
+            it("should get the list of members when team is defined", () => {
                 component.team = Promise.resolve(new Team({ name: "Winners", members: [new User({ user_id: "1" })], team_id: "some_team_id" }));
                 component.updateTeamMembers();
                 component.members.then(m => {

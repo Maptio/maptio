@@ -1,11 +1,10 @@
-
-
-
-
 .toggle{
-background-size: 15px;
-    background-repeat: no-repeat;
-    padding: 0 5px 15px 17px;
+    border:none;
+    background-color: transparent;
+}
+
+.toggle:before{
+    color:#0275D8;
 }
 
 .open-node {
@@ -14,11 +13,6 @@ background-size: 15px;
 .open-node:before {
 content: "\F055";
     font-family: FontAwesome;
-    left: 2px;
-    position: absolute;
-    top: 0;
-    color: #0C60A2;
-    font-size: 1.05em;
  }
 
  .close-node {
@@ -28,10 +22,6 @@ content: "\F055";
 content: "\F056";
     font-family: FontAwesome;
     left: 2px;
-    position: absolute;
-    top: 0;
-    color: #0C60A2;
-    font-size: 1.05em;
  }
 
 

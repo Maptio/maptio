@@ -46,10 +46,10 @@ describe("app.component.ts", () => {
             expect(spy).toHaveBeenCalled();
         });
 
-        it("should display /workspace in openDataset", () => {
+        it("should display /map in openDataset", () => {
             let mockRouter = target.debugElement.injector.get(Router);
             component.openDataset(new DataSet({ _id: "some_unique_id", initiative: new Initiative({ name: "Some project" }) }));
-            expect(mockRouter.navigate).toHaveBeenCalledWith(["workspace", "some_unique_id"]);
+            expect(mockRouter.navigate).toHaveBeenCalledWith(["map", "some_unique_id"]);
         });
     });
 

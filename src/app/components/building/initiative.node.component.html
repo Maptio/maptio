@@ -1,4 +1,4 @@
-<div class="form-group">
+<!--<div class="form-group">
 	<label class="control-label" *ngIf="isRoot()">Project</label>
 	<div class="input-group">
 		<span class="input-group-btn">
@@ -7,14 +7,14 @@
 						<a class="btn btn-link btn-lg toggle close-node" [ngClass]="{'disabled': !hasChildren() }" *ngIf="isExpanded() && hasChildren()"
 							(click)="toggleNode(node)"></a>
 					</span>
-		<!--NAME-->
+	
 		<span *ngIf="!isRoot()" class="input-group-addon knurled"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>
 		<input class="form-control input inputNodeName" type="text" [focusif]="node.data.hasFocus" autoselect [ngModel]="node.data.name"
 		 (ngModelChange)="saveNodeName($event, node.data)">
 		<span class="input-group-btn control">
-						<!--ADD-->
+						
 		<a class="btn add" (click)="addChildNode(node.data)" [attr.data-placement]="PLACEMENT" [attr.data-toggle]="TOGGLE" [attr.title]="'Add sub initiative'"></a>
-		<!--REMOVE-->
+
 		<a class="btn remove" *ngIf="!isRoot()" [attr.data-placement]="PLACEMENT" [attr.data-toggle]="TOGGLE" [attr.title]="'Delete initiative and its sub-initiatives'" 
       mwlConfirmationPopover
 	  title="Remove initiative and sub initiatives ?"
@@ -25,14 +25,49 @@
       (cancel)="cancelClicked = true">
      
     </a>
-		<!--EDIT-->
 		<a class="btn edit" *ngIf="!isRoot()"  (click)="openNode(node.data)" [attr.data-placement]="PLACEMENT" [attr.data-toggle]="TOGGLE" [attr.title]="'Edit initiative'"></a>
-		<!--ZOOM IN-->
+
 		<a class="btn zoom" *ngIf="!isRoot()" (click)="zoomInNode(node.data)" [attr.data-placement]="PLACEMENT" [attr.data-toggle]="TOGGLE" [attr.title]="'Zoom'"></a>
 
 		</span>
 
 	</div>
 </div>
+-->
 
-<!--<div>{{node.data.name}}</div>-->
+<div class="form-group">
+	<label class="form-control-label" *ngIf="isRoot()">Project</label>
+	<div class="input-group">
+		<!--<span class="input-group-btn">-->
+			<span *ngIf="!isRoot()" class="input-group-addon knurled"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>
+		
+<span class="btn-group">
+	
+			<a class="btn btn-primary toggle open-node " [class.disabled]="!hasChildren()" *ngIf="!isExpanded() && hasChildren()"
+				(click)="toggleNode(node)"></a>
+
+			<a class="btn btn-primary toggle close-node " [class.disabled]="!hasChildren()" *ngIf="isExpanded() && hasChildren()"
+				(click)="toggleNode(node)"></a>
+
+		</span>
+		<input class="form-control input inputNodeName" type="text" [focusif]="node.data.hasFocus" autoselect [ngModel]="node.data.name"
+		 (ngModelChange)="saveNodeName($event, node.data)" />
+
+		<span class="btn-group control">
+			 <ng-template #addButtonTooltip>
+				 <p *ngIf="isRoot()"> Add overall vision </p>
+				 <p *ngIf="!isRoot()"> Add sub-initiative</p>
+			 </ng-template>
+		<a class="btn add " (click)="addChildNode(node.data)" placement="top" [ngbTooltip]="addButtonTooltip" container="body" ></a>
+
+		<a class="btn remove"   *ngIf="!isRoot()" placement="top" container="body" ngbTooltip="Remove initiative and sub initiatives" mwlConfirmationPopover title="Remove initiative and sub initiatives ?" placement="top" focusbutton="cancel" appendtobody="true"  (confirm)="removeChildNode(node.data)"
+      (cancel)="cancelClicked = true">
+    </a>
+
+		<a class="btn edit" *ngIf="!isRoot()"  (click)="openNode(node.data)" placement="top" container="body" ngbTooltip="Edit initiative"></a>
+
+		<a class="btn zoom" *ngIf="!isRoot()" (click)="zoomInNode(node.data)" placement="top" container="body" ngbTooltip="Zoom"></a>
+
+		</span>
+	</div>
+</div>

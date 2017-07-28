@@ -1,5 +1,5 @@
 body{
-    padding-top: 50px;
+    padding-top: 56px;
     font: 15px "Helvetica Neue", Helvetica, Arial, sans-serif;
 
     overflow: hidden;
@@ -12,7 +12,12 @@ body{
 .node-content-wrapper {
     display: inline-block;
   position: relative;
+  width:100%;
 
+}
+
+.tree{
+  width:100%;
 }
 
 /*.node-content-wrapper *:hover { 
@@ -29,26 +34,16 @@ body{
 }
 
 .node-content-wrapper::before {
-  border-bottom: 2px solid grey;
+border-bottom: 2px solid grey;
     border-left: 2px solid grey;
     height: 141%;
-    top: -145%;
+    top: -160%;
     width: 2%;
     /* left: -41px; */
-    margin-left: -2%;
+    margin-left: -3%;
     margin-top: 5%;
 }
 
-.node-content-wrapper:first-child::before {
-  border-bottom: 2px solid red;
-    border-left: 2px solid red;
-    height: 141%;
-    top: -145%;
-    width: 2%;
-    /* left: -41px; */
-    margin-left: -2%;
-    margin-top: 5%;
-}
 
 .tree-node-leaf > .node-wrapper > .node-content-wrapper::before {
   width: 25px;

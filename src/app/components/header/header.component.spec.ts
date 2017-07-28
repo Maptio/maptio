@@ -155,7 +155,7 @@ describe("header.component.ts", () => {
                 let imgElement = target.debugElement.query(By.css("li#profileInformation a div img")).nativeElement as HTMLImageElement;
                 expect(imgElement.src).toBe("http://seemyface.com/user.jpg");
 
-                let button = target.debugElement.queryAll(By.css("li#logoutButton"));
+                let button = target.debugElement.queryAll(By.css("a#logoutButton"));
                 expect(button.length).toBe(1);
                 expect(button[0].nativeElement.textContent.trim()).toBe("Log Out");
                 expect(spyAuthService).toHaveBeenCalled();
@@ -183,7 +183,7 @@ describe("header.component.ts", () => {
                 let spyNavigate = spyOn(mockRouter, "navigate")
 
                 target.detectChanges();
-                let button = target.debugElement.query(By.css("li#logoutButton a")).nativeElement as HTMLAnchorElement;
+                let button = target.debugElement.query(By.css("a#logoutButton")).nativeElement as HTMLAnchorElement;
                 button.dispatchEvent(new Event("click"));
                 target.detectChanges();
 
@@ -203,7 +203,7 @@ describe("header.component.ts", () => {
                 let spyNavigate = spyOn(mockRouter, "navigate")
                 let dataset = new DataSet({ _id: "some_id" });
                 component.goTo(dataset);
-                expect(spyNavigate).toHaveBeenCalledWith(["workspace", "some_id"]);
+                expect(spyNavigate).toHaveBeenCalledWith(["map", "some_id"]);
                 expect(component.selectedDataset).toBe(dataset)
             });
         });
@@ -324,7 +324,7 @@ describe("header.component.ts", () => {
                 spyCreate.calls.mostRecent().returnValue.then(() => {
                     expect(spyAdd).toHaveBeenCalled()
                     spyAdd.calls.mostRecent().returnValue.then(() => {
-                        expect(spyOpen).toHaveBeenCalledWith(["workspace", "created_id"]);
+                        expect(spyOpen).toHaveBeenCalledWith(["map", "created_id"]);
                     });
                 });
                 expect(spyCreate).toHaveBeenCalledWith(jasmine.objectContaining({ initiative: jasmine.objectContaining({ name: "new initiative" }) }))

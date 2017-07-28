@@ -25,7 +25,9 @@
 	<meta name="theme-color" content="#ffffff">
 	<link rel="stylesheet" href="assets/styles/global.css">
 	<!--Bootstrap Theme-->
-	<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/simplex/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+	 crossorigin="anonymous">
+	<!--<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/simplex/bootstrap.min.css" rel="stylesheet">-->
 	<!-- Styling -->
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
@@ -39,26 +41,19 @@
 	<my-app>
 		<div class="loading"></div>
 	</my-app>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+	 crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+	 crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+	 crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-markdown/2.10.0/js/bootstrap-markdown.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/markdown.js/0.5.0/markdown.min.js"></script>
 	<script src="https://cdn.auth0.com/js/lock/10.8/lock.min.js"></script>
 	<script>
 		$(".initiativeMarkdownDescription").markdown({ autofocus: false, savable: false })
-		/* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
-		// function openNav() {
-		// 	document.getElementById("mySidenav").style.width = "622px";
-		// 	document.getElementById("main").style.marginLeft = "622px";
-		// 	document.getElementById("edit-panel").style.left = "622px";
-		// }
-
-		// /* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
-		// function closeNav() {
-		// 	document.getElementById("mySidenav").style.width = "0";
-		// 	document.getElementById("main").style.marginLeft = "0";
-		// 	document.getElementById("edit-map").style.left = "0";
-		// }
 
 		function toggleNav(event) {
 			let width = $("#mySidenav").width();
@@ -70,10 +65,9 @@
 			console.log($("#edit-map-toggle span"))
 			$("#edit-map-toggle span")[0].textContent = (width === 0) ? "Close" : "Edit your initiative";
 		}
-
-		$(document).ready(function () {
-			$('[data-toggle="tooltip"]').tooltip({ 'delay': { show: 100, hide: 100 }, 'container':'body'});
-		});
+		$(function () {
+			$('[data-toggle="tooltip"]').tooltip({ 'delay': { show: 100, hide: 100 }, 'container': 'body' });
+		})
 	</script>
 </body>
 

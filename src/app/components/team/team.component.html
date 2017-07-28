@@ -1,66 +1,69 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-3">
-            <h2>{{(team$ | async)?.name}}</h2>
-            <ul class="list-group">
-                <li *ngFor="let member of (team$ | async)?.members" class="list-group-item">
-                    <img width="20px" src="{{member.picture}}">{{member.name}}
-                </li>
-                <li class="input-group" *ngIf="team$ |async">
-                    <ng-template #rt let-r="result" let-t="term">
-                        <img src="{{r.picture}}" width="16"> {{ r.name}}
-                    </ng-template>
+<div class="row">
+    <div class="col-sm-8" *ngIf="(team$ | async)">
+        <div class="">
+            <div class="">
+                <h3 class="">{{(team$ | async)?.name}}</h3>
 
-                    <input type="text" id="inputNewMember" [resultTemplate]="rt" placeholder="Name or email of new member" class="form-control"
-                        [ngModelOptions]="{standalone: true}" [ngModel]="newMember" (selectItem)="saveNewMember($event)" [ngbTypeahead]="searchUsers"
-                        [resultFormatter]="formatter" [inputFormatter]="formatter" />
-                    <span *ngIf="searching">searching...</span>
-                    <div class="form-control-feedback" *ngIf="searchFailed">Sorry, suggestions could not be loaded.</div>
-                    <span class="input-group-btn">
-      <button class="btn btn-default" type="button" (click)="addMemberToTeam()">Add</button>
+                <ul class="list-group">
+                    <li *ngFor="let member of (team$ | async)?.members" class="list-group-item">
+                        <img width="20px" src="{{member.picture}}" class="rounded-circle">{{member.name}}
+                    </li>
+                    <li class="input-group" *ngIf="team$ |async">
+                        <ng-template #rt let-r="result" let-t="term">
+                            <img src="{{r.picture}}" width="16"> {{ r.name}}
+                        </ng-template>
+
+                        <input type="text" id="inputNewMember" [resultTemplate]="rt" placeholder="Name or email of new member" class="form-control"
+                            [ngModelOptions]="{standalone: true}" [ngModel]="newMember" (selectItem)="saveNewMember($event)"
+                            [ngbTypeahead]="searchUsers" [resultFormatter]="formatter" [inputFormatter]="formatter" />
+                        <span *ngIf="searching">searching...</span>
+                        <div class="form-control-feedback" *ngIf="searchFailed">Sorry, suggestions could not be loaded.</div>
+                        <span class="input-group-btn">
+      <button class="btn btn-primary" type="button" (click)="addMemberToTeam()">Add</button>
     </span>
-                </li>
-            </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 
-    <div>
-        <h1>My teams</h1>
-    </div>
 
-    <div class="row">
+    <div class="col-sm-4">
+        <div class="card card-outline-primary">
+            <div class="card-block">
+                <h3 class="card-title">My teams</h3>
 
-        <div class="col-lg-3" *ngFor="let team of (teams$ | async)">
+                <div class="list-group">
 
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <a routerLink="/account/team/{{team.team_id}}">
-                        {{team.name}}
+                    <a class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="input-group">
+                            <input #teamInput type="text" class="form-control" placeholder="Type new team name">
+                            <span class="input-group-btn">
+                        <button class="btn btn-primary" type="button" (click)="createNewTeam(teamInput.value)">Create</button>
+                    </span>
+                        </div>
                     </a>
-                </div>
-                <div class="panel-body">
-                    <div class="btn-group ">
-                        <a *ngFor="let user of team.members" class="btn btn-link btn-xs no-padding">
+
+
+
+                    <a *ngFor="let team of (teams$ | async)" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1"><a routerLink="/account/team/{{team.team_id}}">
+                        {{team.name}}
+                    </a></h5>
+                            <small>{{team.members.length}} members</small>
+                        </div>
+                        <div class="d-flex">
+                            <a *ngFor="let user of team.members">
             <img class="member " src="{{user?.picture}}" alt="{{user?.name}}" title="{{user?.name}}">
         </a>
-                    </div>
+                        </div>
+
+                    </a>
                 </div>
 
             </div>
         </div>
-
     </div>
 
- <div>
-        <h1>Create a new team</h1>
-    </div>
-    <div class="col-lg-3 input-group">
-          
-                <input #teamInput type="text" class="form-control input-sm" placeholder="Type new team name">
-                <span class="input-group-btn">
-                        <button class="btn btn-default btn-sm" type="button" (click)="createNewTeam(teamInput.value)">Create</button>
-                    </span>
- 
-
-    </div>
 </div>

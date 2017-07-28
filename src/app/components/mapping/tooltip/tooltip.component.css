@@ -2,12 +2,12 @@
     opacity:0.9;
 }
 
-.tooltip{
+/*.tooltip{
       margin-left: 0;
     box-shadow: 1px 1px 6px #888888;
     width: 400px;
     padding: 10px;
-}
+}*/
 
 .close-button{
         margin: -4% 0 4px 85%;
@@ -26,5 +26,6 @@
 
  .initative-tooltip {
       position: absolute;
+      max-width: 33%;
     }
 

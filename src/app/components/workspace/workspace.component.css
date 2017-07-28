@@ -3,7 +3,6 @@
     background: 50% 50% no-repeat;
     background-size: auto 100%;
     max-width: 22px;
-    border-radius: 18px;
 }
 
 .no-padding{
@@ -45,17 +44,17 @@
 /* The side navigation menu */
 #mySidenav {
     position: absolute;
-    height: 85%;
+    height: 80%;
     width: 0;
     position: fixed;
     z-index: 1;
-    top: 11%;
+    top: 15%;
     left: 0;
     overflow-x: hidden;
     padding-top: 5px;
     transition: 0.5s;
-    padding-left:40px;
-     box-shadow: 1px 1px 6px #888888;
+    padding-left: 40px;
+    box-shadow: 1px 1px 6px #888888;
 }
 
 /* The navigation menu links */
