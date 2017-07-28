@@ -94,7 +94,7 @@ export class HeaderComponent implements OnInit {
 
     goTo(dataset: DataSet) {
         this.selectedDataset = dataset;
-        this.router.navigate(["workspace", dataset._id]);
+        this.router.navigate(["map", dataset._id]);
     }
 
     createTeam(teamName: string) {
@@ -113,7 +113,7 @@ export class HeaderComponent implements OnInit {
         let newDataset = new DataSet({ initiative: new Initiative({ name: datasetName }) });
         this.datasetFactory.create(newDataset).then((created: DataSet) => {
             this.datasetFactory.add(created, this.user).then((result: boolean) => {
-                this.router.navigate(["workspace", created._id]);
+                this.router.navigate(["map", created._id]);
                 this.selectedDataset = created;
             }).catch(this.errorService.handleError);
         }).catch(this.errorService.handleError);

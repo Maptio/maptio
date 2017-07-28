@@ -71,8 +71,8 @@ const appRoutes: Routes = [
   { path: "account/teams", component: TeamComponent, canActivate: [AuthGuard] },
   { path: "account/team/:teamid", component: TeamComponent, canActivate: [AuthGuard, AccessGuard] },
   { path: "account/profile", component: AccountComponent, canActivate: [AuthGuard] },
-  { path: "workspace/:workspaceid", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
-  { path: "workspace/:workspaceid/open/:slug", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
+  { path: "map/:workspaceid", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
+  { path: "map/:workspaceid/i/:slug", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
 
   { path: "unauthorized", component: UnauthorizedComponent }
 

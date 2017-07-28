@@ -1,4 +1,4 @@
-import { NgbModule, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbTooltipConfig } from "@ng-bootstrap/ng-bootstrap";
 import { Observable } from "rxjs/Rx";
 import { ActivatedRoute, Router, ActivatedRouteSnapshot } from "@angular/router";
 import { TreeModel, TreeNode } from "angular2-tree-component";
@@ -295,7 +295,7 @@ describe("initiative.node.component.ts", () => {
                     let spyGetSlug = spyOn(openInitiativeEvent, "getSlug").and.returnValue("slug")
                     component.datasetId = "DID"
                     component.openNode(openInitiativeEvent);
-                    expect(mockRouter.navigate).toHaveBeenCalledWith(["workspace", component.datasetId, "open", "slug"]);
+                    expect(mockRouter.navigate).toHaveBeenCalledWith(["map", component.datasetId, "i", "slug"]);
                     expect(spyGetSlug).toHaveBeenCalled();
                 });
             });

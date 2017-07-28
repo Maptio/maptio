@@ -203,7 +203,7 @@ describe("header.component.ts", () => {
                 let spyNavigate = spyOn(mockRouter, "navigate")
                 let dataset = new DataSet({ _id: "some_id" });
                 component.goTo(dataset);
-                expect(spyNavigate).toHaveBeenCalledWith(["workspace", "some_id"]);
+                expect(spyNavigate).toHaveBeenCalledWith(["map", "some_id"]);
                 expect(component.selectedDataset).toBe(dataset)
             });
         });
@@ -324,7 +324,7 @@ describe("header.component.ts", () => {
                 spyCreate.calls.mostRecent().returnValue.then(() => {
                     expect(spyAdd).toHaveBeenCalled()
                     spyAdd.calls.mostRecent().returnValue.then(() => {
-                        expect(spyOpen).toHaveBeenCalledWith(["workspace", "created_id"]);
+                        expect(spyOpen).toHaveBeenCalledWith(["map", "created_id"]);
                     });
                 });
                 expect(spyCreate).toHaveBeenCalledWith(jasmine.objectContaining({ initiative: jasmine.objectContaining({ name: "new initiative" }) }))
