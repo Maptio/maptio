@@ -41,12 +41,12 @@ content: "\F056";
     background-repeat: no-repeat;
 }
 
-.toggle-children-wrapper{
+/* .toggle-children-wrapper{
 display: flex;
     align-items: center;
     margin: 3px;
       padding: 0 !important;
-}
+} */
 
 
 .tree-node {
@@ -60,15 +60,11 @@ flex-wrap: wrap;
 
 
 .form-group {
-    margin-bottom: 0 !important ;
+    margin-bottom: 0 ;
 }
 
 .inputNodeName{
-    cursor:text !important;
-}
-
-.btnAddNode, .btnRemoveNode, .btnEditNode, .btnZoomNode{
-    cursor:pointer !important
+    cursor:text;
 }
 
 .knurled{

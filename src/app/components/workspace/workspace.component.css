@@ -43,7 +43,6 @@
 
 /* The side navigation menu */
 #mySidenav {
-    position: absolute;
     height: 80%;
     width: 0;
     position: fixed;
@@ -102,6 +101,12 @@ position: absolute;
      transition: 0.5s; 
     -webkit-transform: rotate(90deg);
     -webkit-transform-origin: bottom left;
+    -moz-transform: rotate(90deg);
+    -moz-transform-origin: bottom left;
+    -ms-transform: rotate(90deg);
+    -ms-transform-origin: bottom left;
+    -o-transform: rotate(90deg);
+    -o-transform-origin: bottom left;
     transform: rotate(90deg);
     transform-origin: bottom left;
 }
