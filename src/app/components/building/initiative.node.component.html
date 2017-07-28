@@ -37,20 +37,23 @@
 
 <div class="form-group">
 	<label class="form-control-label" *ngIf="isRoot()">Project</label>
-	<div class="input-group"> <span class="input-group-btn">
+	<div class="input-group">
+		<!--<span class="input-group-btn">-->
+			<span *ngIf="!isRoot()" class="input-group-addon knurled"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>
+		
+<span class="btn-group">
+	
+			<a class="btn btn-primary toggle open-node " [class.disabled]="!hasChildren()" *ngIf="!isExpanded() && hasChildren()"
+				(click)="toggleNode(node)"></a>
 
-						<a class="btn btn-link btn-lg toggle open-node" [class.disabled]="!hasChildren()" *ngIf="!isExpanded() && hasChildren()"
-							(click)="toggleNode(node)"></a>
+			<a class="btn btn-primary toggle close-node " [class.disabled]="!hasChildren()" *ngIf="isExpanded() && hasChildren()"
+				(click)="toggleNode(node)"></a>
 
-						<a class="btn btn-link btn-lg toggle close-node" [class.disabled]="!hasChildren()" *ngIf="isExpanded() && hasChildren()"
-							(click)="toggleNode(node)"></a>
-
-					</span>
-		<span *ngIf="!isRoot()" class="input-group-addon knurled"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>
+		</span>
 		<input class="form-control input inputNodeName" type="text" [focusif]="node.data.hasFocus" autoselect [ngModel]="node.data.name"
-		 (ngModelChange)="saveNodeName($event, node.data)" /> 
-		 
-		 <span class="btn-group control">
+		 (ngModelChange)="saveNodeName($event, node.data)" />
+
+		<span class="btn-group control">
 			 <ng-template #addButtonTooltip>
 				 <p *ngIf="isRoot()"> Add overall vision </p>
 				 <p *ngIf="!isRoot()"> Add sub-initiative</p>
