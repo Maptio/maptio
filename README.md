@@ -1,6 +1,7 @@
 ![Logo of the project](./public/images/logo.png)
 
 [![Build Status](https://travis-ci.com/Safiyya/maptio.svg?token=nc9XxWrdvz8syvD6uvUM&branch=master)](https://travis-ci.com/Safiyya/maptio)
+[![Dependency Status](https://www.versioneye.com/user/projects/597bb1556725bd0041ef2e86/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/597bb1556725bd0041ef2e86)
 [![Code Climate](https://codeclimate.com/repos/58ddc02f974e760287000b1d/badges/be1b4f8e1652075411b3/gpa.svg)](https://codeclimate.com/repos/58ddc02f974e760287000b1d/feed)
 [![Test Coverage](https://codeclimate.com/repos/58ddc02f974e760287000b1d/badges/be1b4f8e1652075411b3/coverage.svg)](https://codeclimate.com/repos/58ddc02f974e760287000b1d/coverage)
 [![Issue Count](https://codeclimate.com/repos/58ddc02f974e760287000b1d/badges/be1b4f8e1652075411b3/issue_count.svg)](https://codeclimate.com/repos/58ddc02f974e760287000b1d/feed)
