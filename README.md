@@ -8,6 +8,8 @@
 
 # Maptio
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/Safiyya/maptio.svg?token=6d5ba82f9b3837d85de378f681e76ac6e645c31ea76aa3b6a7c3e95131d3ffb2&ts=1501710019083)](https://greenkeeper.io/)
+
 For founders of purpose-driven companies and initiatives who want to create a scalable, autonomous and focussed organisation structure and culture.
 Our simple online initiative mapping tool visualises who has taken responsibility for what and who is helping who to meet those responsibilities
 So that people throughout the organisation can: 
