@@ -71,9 +71,10 @@
 
 .vertical {
   -webkit-appearance: slider-vertical;
+  -moz-appearance: slider-vertical;
   writing-mode: bt-lr;
   width:49px;
-      margin:  0px 0px 25px 0px;
+      margin:  0 0 25px 0;
 }
 
 .control.second > span{

@@ -1,4 +1,4 @@
-import { ActivatedRoute , Params} from "@angular/router";
+import { ActivatedRoute, Params } from "@angular/router";
 import { TooltipComponent } from "./tooltip/tooltip.component";
 import { UIService } from "./../..//shared/services/ui/ui.service";
 import { ColorService } from "./../..//shared/services/ui/color.service";
@@ -81,7 +81,7 @@ xdescribe("mapping.component.ts", () => {
         // });
 
 
-        describe("ngOnInit", () => { 
+        describe("ngOnInit", () => {
             it("should subscribe to data service and show data with default view", () => {
                 let mockRoute = target.debugElement.injector.get(ActivatedRoute);
                 let mockDataService = target.debugElement.injector.get(DataService);

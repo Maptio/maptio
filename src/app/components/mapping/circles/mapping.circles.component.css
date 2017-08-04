@@ -26,14 +26,14 @@ svg text {
     /*pointer-events: auto;*/
     cursor: url(/assets/images/cursors/more.cur), auto;
 }
+ 
+/* svg .with-children{
+   font-size:1.2em; 
+} */
 
-svg .with-children{
-  /* font-size:1.2em; */
-}
-
-svg .without-children{
-  /* font-size:1em; */
-}
+/* svg .without-children{
+   font-size:1em; 
+}  */
 
 svg text:hover{
   font-weight: bolder;
