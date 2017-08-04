@@ -17,7 +17,7 @@ svg{
 }
 
 svg text {
-  font-size:1em;
+  /* font-size:1em; */
     font-family:  "Helvetica Neue", Helvetica, Arial, sans-serif;
     text-anchor: start;
   /*text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;*/
@@ -28,11 +28,11 @@ svg text {
 }
 
 svg .with-children{
-  font-size:1.2em;
+  /* font-size:1.2em; */
 }
 
 svg .without-children{
-  font-size:1em;
+  /* font-size:1em; */
 }
 
 svg text:hover{

@@ -203,7 +203,7 @@ describe("header.component.ts", () => {
                 let spyNavigate = spyOn(mockRouter, "navigate")
                 let dataset = new DataSet({ _id: "some_id" });
                 component.goTo(dataset);
-                expect(spyNavigate).toHaveBeenCalledWith(["map", "some_id"]);
+                expect(spyNavigate).toHaveBeenCalledWith(["map", "some_id", "initiatives"]);
                 expect(component.selectedDataset).toBe(dataset)
             });
         });

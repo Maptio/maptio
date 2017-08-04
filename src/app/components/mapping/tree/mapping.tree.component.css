@@ -13,7 +13,7 @@
 }
 
 .node text {
-  font: 10px sans-serif;
+  font: sans-serif;
 }
 
 .link {
@@ -28,7 +28,7 @@
 
 .accountable{
   font-weight: bold;
-  font: 16px sans-serif;
+  font: sans-serif;
 }
 
 

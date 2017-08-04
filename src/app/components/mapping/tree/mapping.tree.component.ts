@@ -20,6 +20,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     public margin: number;
 
     public zoom$: Observable<number>
+    public fontSize$: Observable<number>
 
     constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService) {
         this.d3 = d3Service.getD3();
@@ -37,6 +38,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         let viewerWidth = this.width;
         let viewerHeight = this.height;
         let zoom$ = this.zoom$;
+        let fontSize$ = this.fontSize$;
 
         if (!data) {
             // console.log("CLEAN");
@@ -63,6 +65,10 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
         let svg: any = d3.select("svg").attr("width", viewerWidth)
             .attr("height", viewerHeight).attr("class", "overlay");
+
+          fontSize$.subscribe((fs: number) => {
+            svg.attr("font-size", fs + "px")
+        })
 
         let g = svg.append("g")
 

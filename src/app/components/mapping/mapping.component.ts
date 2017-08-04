@@ -1,9 +1,10 @@
+import { ActivatedRoute, Params } from "@angular/router";
 import {
     Component,
     AfterViewInit,
     ViewChild, ViewContainerRef, ComponentFactoryResolver, ElementRef,
     OnInit,
-    ChangeDetectionStrategy, ChangeDetectorRef, ComponentRef
+    ChangeDetectionStrategy, ChangeDetectorRef, ComponentRef, ComponentFactory
 } from "@angular/core";
 
 import { DataService } from "../../shared/services/data.service"
@@ -15,7 +16,7 @@ import { AnchorDirective } from "../../shared/directives/anchor.directive"
 
 import "rxjs/add/operator/map"
 import { EmitterService } from "../../shared/services/emitter.service";
-import { Subject } from "rxjs/Rx";
+import { Subject, BehaviorSubject, Subscription } from "rxjs/Rx";
 
 @Component({
     selector: "mapping",
@@ -39,80 +40,83 @@ export class MappingComponent implements OnInit {
 
     private data: any;
 
-    selectedView: number = 0; // Views.Circles // per default;
+    // selectedView: number = 0; // Views.Circles // per default;
 
     public zoom$: Subject<number>
+
+    public fontSize$: BehaviorSubject<number>
 
     @ViewChild(AnchorDirective) anchorComponent: AnchorDirective;
 
     @ViewChild("drawing")
     public element: ElementRef;
 
+    public componentFactory: ComponentFactory<IDataVisualizer>;
+    public layout: string;
+    // public isCircles: boolean;
+    // public isTree: boolean;
+    public subscription: Subscription;
+
     constructor(
         private dataService: DataService,
         private viewContainer: ViewContainerRef,
         private componentFactoryResolver: ComponentFactoryResolver,
-        private cd: ChangeDetectorRef
+        private cd: ChangeDetectorRef,
+        private route: ActivatedRoute
     ) {
 
         this.zoom$ = new Subject<number>();
+        this.fontSize$ = new BehaviorSubject<number>(12);
+
+        this.subscription = this.route.params.subscribe((params: Params) => {
+            this.layout = params["layout"]
+            this.cd.markForCheck();
+        })
     }
 
     ngOnInit() {
+        this.subscription = this.route.params.subscribe((params: Params) => {
+             console.log(params["layout"]);
+            this.layout = params["layout"]
+
+            switch (this.layout) {
+                case "initiatives": // Views.Circles:
+                    this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent)
+                    break;
+                case "people": // Views.Tree:
+                    this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(MappingTreeComponent)
+                    break
+                default:
+                    throw new Error("This view is not recognized");
+            }
+        })
+
         this.dataService.get().subscribe(data => {
             this.data = data;
-            this.show(this.selectedView);
+            this.show();
 
         });
     }
 
-    isTreeviewSelected(): boolean {
-        return this.selectedView === 1 // Views.Tree;
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
     }
-    isCircleViewSelected(): boolean {
-        return this.selectedView === 0 // Views.Circles;
-    }
-
-    switchView() {
-        switch (this.selectedView) {
-            case 0: // Views.Circles:
-                this.selectedView = 1;
-                break;
-            case 1: // Views.Tree:
-                this.selectedView = 0;
-                break
-            default:
-                throw new Error("This view is not recognized");
-        }
-        this.show(this.selectedView);
-    }
-
-    // // save() {
-    // //     EmitterService.get("currentInitiative").emit(this.data);
-    // // }
-
-
-    // // ngAfterViewInit() {
-    // // }
 
     getInstance(component: ComponentRef<IDataVisualizer>): IDataVisualizer {
         return component.instance;
     }
 
-    show(mode: Views, zoom?: number) {
+    show() {
         let data = this.data;
-        let factory =
-            (mode === 0)
-                ? this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent)
-                : this.componentFactoryResolver.resolveComponentFactory(MappingTreeComponent)
 
-        let component = this.anchorComponent.createComponent<IDataVisualizer>(factory);
+        let component = this.anchorComponent.createComponent<IDataVisualizer>(this.componentFactory);
 
         let instance = this.getInstance(component);
         instance.width = 1522; // this.element.nativeElement.parentNode.parentNode.parentNode.offsetHeight;
         instance.height = 1522; // this.element.nativeElement.parentNode.parentNode.parentNode.offsetHeight;
         instance.margin = 50;
         instance.zoom$ = this.zoom$.asObservable();
+        instance.fontSize$ = this.fontSize$.asObservable();
         instance.draw(data);
     }
 
@@ -127,5 +131,9 @@ export class MappingComponent implements OnInit {
 
     resetZoom() {
         this.zoom$.next(null);
+    }
+
+    changeFontSize(size: number) {
+        this.fontSize$.next(size);
     }
 }

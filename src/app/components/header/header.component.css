@@ -109,10 +109,3 @@
     padding-top:13px;
 }
 
-.dropdown:hover .dropdown-menu {
-display: block;
-}
-
-.without-caret.dropdown-toggle::after {
-    display:none
-}

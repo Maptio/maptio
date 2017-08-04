@@ -94,7 +94,7 @@ export class HeaderComponent implements OnInit {
 
     goTo(dataset: DataSet) {
         this.selectedDataset = dataset;
-        this.router.navigate(["map", dataset._id]);
+        this.router.navigate(["map", dataset._id, "initiatives"]);
     }
 
     createTeam(teamName: string) {

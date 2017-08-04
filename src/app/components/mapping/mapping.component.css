@@ -19,6 +19,14 @@
   border-radius: 4px;
 }
 
+.control.first{
+  background-color: red
+}
+
+.control.second{
+  margin-top:11%
+}
+
 .control > a {
   color: gray;
   border: 1px solid lightgray;
@@ -60,3 +68,18 @@
 .zoom a {
   border: 0;
 }
+
+.vertical {
+  -webkit-appearance: slider-vertical;
+  writing-mode: bt-lr;
+  width:49px;
+      margin:  0px 0px 25px 0px;
+}
+
+.control.second > span{
+  position: absolute;
+  top:85%;
+}
+
+
+

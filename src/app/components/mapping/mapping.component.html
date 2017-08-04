@@ -1,9 +1,16 @@
-<div class="control btn-group-vertical">
-    <a class="btn circleview " (click)="switchView()" *ngIf="isTreeviewSelected()" placement="left" container="body" ngbTooltip="Initiatives view" ></a>
-    <a class="btn treeview" (click)="switchView()" *ngIf="isCircleViewSelected()" placement="left" container="body" ngbTooltip="People view"></a>
+<div class="control btn-group-vertical first">
+    <a class="btn circleview " routerLink="../initiatives"  *ngIf="layout==='people'" placement="left" container="body" ngbTooltip="Initiatives view"></a>
+    <a class="btn treeview" routerLink="../people"  *ngIf="layout==='initiatives'" placement="left" container="body" ngbTooltip="People view"></a>
     <a class="btn minus" (click)="zoomOut()" placement="left" container="body" ngbTooltip="Zoom out"></a>
     <a class="btn plus" (click)="zoomIn()" placement="left" container="body" ngbTooltip="Zoom in"></a>
     <a class="btn reset" (click)="resetZoom()" placement="left" container="body" ngbTooltip="Zoom fit"></a>
+
+</div>
+
+<div class="control second">
+    <span class="badge badge-pill badge-default">{{fontInput.value}} px</span>
+    <input class="vertical" #fontInput name="fontInput" type="range" min="8" max="30" value="12" (change)="changeFontSize(fontInput.value)" orient="vertical"
+        placement="left" container="body" ngbTooltip="Text size">
 </div>
 
 <!-- SVG goes here -->
