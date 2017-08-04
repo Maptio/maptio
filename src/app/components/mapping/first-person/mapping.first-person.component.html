@@ -1,0 +1,28 @@
+<div class="container-fluid first-person">
+
+     <div class="col align-self-center">
+      <div class="row">
+        <div class="col-sm-4 offset-sm-2">
+            <div class="card">
+                <div class="card-block">
+                    <h3 class="card-title">{{(user |async)?.name}} is responsible for</h3>
+                    <ul>
+                        <li *ngFor="let i of authorities">{{i.name}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-block">
+                    <h3 class="card-title">{{(user |async)?.name}} helps with</h3>
+                   <ul>
+                        <li *ngFor="let i of helps">{{i.name}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    
+</div>

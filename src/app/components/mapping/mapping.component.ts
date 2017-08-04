@@ -1,3 +1,4 @@
+import { MappingFirstPersonComponent } from "./first-person/mapping.first-person.component";
 import { ActivatedRoute, Params } from "@angular/router";
 import {
     Component,
@@ -22,7 +23,7 @@ import { Subject, BehaviorSubject, Subscription } from "rxjs/Rx";
     selector: "mapping",
     template: require("./mapping.component.html"),
     styleUrls: ["./mapping.component.css"],
-    entryComponents: [MappingCirclesComponent, MappingTreeComponent],
+    entryComponents: [MappingCirclesComponent, MappingTreeComponent, MappingFirstPersonComponent],
     changeDetection: ChangeDetectionStrategy.OnPush
 
 })
@@ -76,7 +77,7 @@ export class MappingComponent implements OnInit {
 
     ngOnInit() {
         this.subscription = this.route.params.subscribe((params: Params) => {
-             console.log(params["layout"]);
+            console.log(params["layout"]);
             this.layout = params["layout"]
 
             switch (this.layout) {
@@ -85,6 +86,9 @@ export class MappingComponent implements OnInit {
                     break;
                 case "people": // Views.Tree:
                     this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(MappingTreeComponent)
+                    break;
+                case "me":
+                    this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(MappingFirstPersonComponent)
                     break
                 default:
                     throw new Error("This view is not recognized");
