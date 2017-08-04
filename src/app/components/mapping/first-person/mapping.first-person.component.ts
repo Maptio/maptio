@@ -27,14 +27,10 @@ export class MappingFirstPersonComponent implements OnInit, IDataVisualizer {
     helps: Array<Initiative> = [];
 
     constructor(public auth: Auth, public cd: ChangeDetectorRef) {
-        // this.auth.getUser().subscribe((user: User) => {
-        //     this.user = user;
-        //     cd.markForCheck();
-        // })
     }
 
     ngOnInit() {
-        console.log("ngOnInit")
+
     }
 
     draw(data: Initiative): void {

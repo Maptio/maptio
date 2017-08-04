@@ -20,11 +20,14 @@
 }
 
 .control.first{
-  background-color: red
 }
 
 .control.second{
-  margin-top:11%
+  margin-top:5%
+}
+
+.control.third{
+  margin-top:22%
 }
 
 .control > a {
@@ -65,16 +68,23 @@
   font-family: FontAwesome;
 }
 
+.options:before{
+  content: "\f1de";
+  font-family: FontAwesome;
+}
+
 .zoom a {
   border: 0;
 }
 
 .vertical {
-  -webkit-appearance: slider-vertical;
-  -moz-appearance: slider-vertical;
-  writing-mode: bt-lr;
-  width:49px;
-      margin:  0 0 25px 0;
+    /* -webkit-appearance: slider-vertical; */
+    -moz-appearance: slider-vertical;
+    writing-mode: bt-lr;
+    width: 49px;
+    /* margin: 0 0 25px 0; */
+    /* line-height: 20px; */
+    height: 43px;
 }
 
 .control.second > span{
