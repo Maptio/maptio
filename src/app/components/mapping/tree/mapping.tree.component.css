@@ -12,9 +12,9 @@
   stroke-width: 3px;
 }
 
-.node text {
-  font: 10px sans-serif;
-}
+/* .node text {
+  font: normal;
+} */
 
 .link {
   fill: none;
@@ -28,7 +28,6 @@
 
 .accountable{
   font-weight: bold;
-  font: 16px sans-serif;
 }
 
 

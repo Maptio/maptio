@@ -24,6 +24,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
 
     public margin: number;
     public zoom$: Observable<number>
+    public fontSize$: Observable<number>
 
     constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService) {
         this.d3 = d3Service.getD3();
@@ -40,6 +41,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
         let uiService = this.uiService;
         let width = this.width;
         let zoom$ = this.zoom$;
+        let fontSize$ = this.fontSize$;
         let marginSize = this.margin
         // let margin = this.margin;
 
@@ -90,6 +92,14 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
 
             }
         })
+
+        fontSize$.subscribe((fs: number) => {
+            svg.attr("font-size", fs + "px")
+        })
+
+        // fontSize$.subscribe((size: number) => {
+        //     console.log("font", size);
+        // })
 
         let color = colorService.getDefaulColorRange();
 
@@ -150,7 +160,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             })
             .style("display", function (d: any) { return d === root ? "none" : "inline"; })
 
-            // .attr("font-size", "1em")
+            // .attr("font-size", fontSize + "px")
             .append("textPath")
             .attr("xlink:href", function (d: any) { return "#path" + d.data.id; })
             .attr("startOffset", function (d: any, i: number) { return "10%"; })

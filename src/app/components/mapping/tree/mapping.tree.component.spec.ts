@@ -32,6 +32,7 @@ describe("mapping.tree.component.ts", () => {
         component.height = 1000;
         component.margin = 50;
         component.zoom$ = Observable.of(1)
+        component.fontSize$ = Observable.of(12);
 
         target.detectChanges(); // trigger initial data binding
     });

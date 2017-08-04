@@ -96,3 +96,12 @@ a.caret-after {
     height: 150px;
     /* border: solid 1px red; */
 }
+
+
+.without-caret.dropdown-toggle::after {
+    display:none
+}
+
+.dropdown:hover .dropdown-menu {
+display: block;
+}

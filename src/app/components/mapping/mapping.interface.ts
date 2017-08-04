@@ -10,5 +10,7 @@ export interface IDataVisualizer {
 
     zoom$: Observable<number>;
 
+    fontSize$: Observable<number>;
+
     draw(data: any): void;
 }
