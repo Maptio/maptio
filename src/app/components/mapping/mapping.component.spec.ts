@@ -1,3 +1,4 @@
+import { MappingFirstPersonComponent } from './first-person/mapping.first-person.component';
 import { ActivatedRoute, Params } from "@angular/router";
 import { TooltipComponent } from "./tooltip/tooltip.component";
 import { UIService } from "./../..//shared/services/ui/ui.service";
@@ -16,7 +17,7 @@ import { MappingComponent } from "./mapping.component";
 import { Views } from "../../shared/model/view.enum";
 import { ComponentFactoryResolver, ComponentFactory, ComponentRef, Type, NO_ERRORS_SCHEMA } from "@angular/core";
 
-xdescribe("mapping.component.ts", () => {
+describe("mapping.component.ts", () => {
 
     let component: MappingComponent;
     let target: ComponentFixture<MappingComponent>;
@@ -42,7 +43,7 @@ xdescribe("mapping.component.ts", () => {
                 }
             ],
             schemas: [NO_ERRORS_SCHEMA],
-            declarations: [MappingComponent, MappingCirclesComponent, MappingTreeComponent, TooltipComponent, AnchorDirective]
+            declarations: [MappingComponent, MappingCirclesComponent, MappingTreeComponent, MappingFirstPersonComponent, TooltipComponent, AnchorDirective]
         })
             .compileComponents()
 
@@ -57,29 +58,6 @@ xdescribe("mapping.component.ts", () => {
 
     describe("Controller", () => {
 
-        // describe("switchView", () => {
-        //     it("should change Circle to Tree", () => {
-        //         let spy = spyOn(component, "show");
-        //         component.selectedView = Views.Circles;
-        //         component.switchView();
-        //         expect(component.selectedView).toBe(Views.Tree);
-        //         expect(spy).toHaveBeenCalledWith(Views.Tree);
-        //     });
-
-        //     it("should change Tree to Circles", () => {
-        //         let spy = spyOn(component, "show");
-        //         component.selectedView = Views.Tree;
-        //         component.switchView();
-        //         expect(component.selectedView).toBe(Views.Circles);
-        //         expect(spy).toHaveBeenCalledWith(Views.Circles);
-        //     });
-
-        //     it("should throw when view selection is not valid", () => {
-        //         component.selectedView = 3;
-        //         expect(function () { component.switchView(); }).toThrowError();
-        //     });
-        // });
-
 
         describe("ngOnInit", () => {
             it("should subscribe to data service and show data with default view", () => {
@@ -93,6 +71,7 @@ xdescribe("mapping.component.ts", () => {
                 expect(spyDataService).toHaveBeenCalled();
                 expect(spyShow).toHaveBeenCalled();
             })
+
         });
 
         describe("zoomIn", () => {
@@ -120,66 +99,47 @@ xdescribe("mapping.component.ts", () => {
         });
 
         describe("show", () => {
-            it("should instanciate MappingCirclesComponent when layout is 'initiatives'", async(() => {
+            it("should instanciate MappingCirclesComponent when layout is 'initiatives'", () => {
                 let DATA = { content: "DATA" };
-                let mockDataService = target.debugElement.injector.get(DataService);
                 let mockD3Service = target.debugElement.injector.get(D3Service);
                 let mockColorService = target.debugElement.injector.get(ColorService);
                 let mockUIService = target.debugElement.injector.get(UIService);
-                let spyDataService = spyOn(mockDataService, "get").and.returnValue(Observable.of(DATA));
 
                 let mockResolver = target.debugElement.injector.get(ComponentFactoryResolver);
                 let mockFactory = jasmine.createSpyObj<ComponentFactory<MappingCirclesComponent>>("factory", [""]);
-                let spyResolver = spyOn(mockResolver, "resolveComponentFactory").and.returnValue(mockFactory);
                 let mockComponent = jasmine.createSpyObj<ComponentRef<MappingCirclesComponent>>("component", [""]);
                 let mockInstance = new MappingCirclesComponent(mockD3Service, mockColorService, mockUIService);
-
-                // mockComponent.instance = new MappingCirclesComponent(new D3Service(), null, null);
                 let spyGetInstance = spyOn(component, "getInstance").and.returnValue(mockInstance)
                 let spyDraw = spyOn(mockInstance, "draw");
                 let spyCreateComponent = spyOn(component.anchorComponent, "createComponent").and.returnValue(mockComponent);
 
-                component.ngOnInit();
+                component.componentFactory = mockFactory;
                 component.show();
-                spyDataService.calls.mostRecent().returnValue.toPromise().then(() => {
-                    expect(spyResolver).toHaveBeenCalled();
-                    expect(spyResolver.calls.mostRecent().args[0] instanceof Type).toBeTruthy();
-                    expect(spyResolver.calls.mostRecent().args[0].toString()).toContain("MappingCirclesComponent");
-                    expect(spyCreateComponent).toHaveBeenCalledWith(mockFactory);
-                    expect(spyDraw).toHaveBeenCalledWith(DATA);
-                    expect(spyGetInstance).toHaveBeenCalled()
-                });
-            }));
+                expect(spyCreateComponent).toHaveBeenCalledWith(mockFactory);
+                expect(spyDraw).toHaveBeenCalled();
+                expect(spyGetInstance).toHaveBeenCalled();
+            });
 
-            it("should instanciate MappingTreeComponent when layout is 'people'", async(() => {
+            it("should instanciate MappingTreeComponent when layout is 'people'", () => {
                 let DATA = { content: "DATA" };
-                let mockDataService = target.debugElement.injector.get(DataService);
                 let mockD3Service = target.debugElement.injector.get(D3Service);
                 let mockColorService = target.debugElement.injector.get(ColorService);
                 let mockUIService = target.debugElement.injector.get(UIService);
-                let spyDataService = spyOn(mockDataService, "get").and.returnValue(Observable.of(DATA));
 
                 let mockResolver = target.debugElement.injector.get(ComponentFactoryResolver);
                 let mockFactory = jasmine.createSpyObj<ComponentFactory<MappingTreeComponent>>("factory", [""]);
-                let spyResolver = spyOn(mockResolver, "resolveComponentFactory").and.returnValue(mockFactory);
                 let mockComponent = jasmine.createSpyObj<ComponentRef<MappingTreeComponent>>("component", [""]);
-                let mockInstance = new MappingTreeComponent(mockD3Service, mockColorService, mockUIService);
+                let mockInstance = new MappingCirclesComponent(mockD3Service, mockColorService, mockUIService);
                 let spyGetInstance = spyOn(component, "getInstance").and.returnValue(mockInstance)
-
                 let spyDraw = spyOn(mockInstance, "draw");
                 let spyCreateComponent = spyOn(component.anchorComponent, "createComponent").and.returnValue(mockComponent);
 
-                component.ngOnInit();
+                component.componentFactory = mockFactory;
                 component.show();
-                spyDataService.calls.mostRecent().returnValue.toPromise().then(() => {
-                    expect(spyResolver).toHaveBeenCalled();
-                    expect(spyResolver.calls.mostRecent().args[0] instanceof Type).toBeTruthy();
-                    expect(spyResolver.calls.mostRecent().args[0].toString()).toContain("MappingTreeComponent");
-                    expect(spyCreateComponent).toHaveBeenCalledWith(mockFactory);
-                    expect(spyDraw).toHaveBeenCalledWith(DATA);
-                    expect(spyGetInstance).toHaveBeenCalled();
-                });
-            }));
+                expect(spyCreateComponent).toHaveBeenCalledWith(mockFactory);
+                expect(spyDraw).toHaveBeenCalled();
+                expect(spyGetInstance).toHaveBeenCalled()
+            });
         });
     });
 });

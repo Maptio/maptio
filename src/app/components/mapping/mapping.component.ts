@@ -77,7 +77,7 @@ export class MappingComponent implements OnInit {
 
     ngOnInit() {
         this.subscription = this.route.params.subscribe((params: Params) => {
-            console.log(params["layout"]);
+            // console.log(params["layout"]);
             this.layout = params["layout"]
 
             switch (this.layout) {
@@ -111,8 +111,6 @@ export class MappingComponent implements OnInit {
     }
 
     show() {
-        let data = this.data;
-
         let component = this.anchorComponent.createComponent<IDataVisualizer>(this.componentFactory);
 
         let instance = this.getInstance(component);
@@ -121,7 +119,7 @@ export class MappingComponent implements OnInit {
         instance.margin = 50;
         instance.zoom$ = this.zoom$.asObservable();
         instance.fontSize$ = this.fontSize$.asObservable();
-        instance.draw(data);
+        instance.draw(this.data);
     }
 
 
