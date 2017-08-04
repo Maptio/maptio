@@ -1,0 +1,29 @@
+{
+    "name": "My Company",
+    "accountable": "CEO",
+    "id": "0",
+    "children": [
+        {
+            "name": "Tech",
+            "id": "1",
+            "accountable": {
+                "name": "John Doe",
+                "user_id": "someId"
+            },
+            "helpers": [
+                {
+                    "name": "John Doe",
+                    "user_id": "someId"
+                }
+            ]
+        },
+        {
+            "name": "Marketing",
+            "id": "2",
+            "accountable": {
+                "name": "John Doe",
+                "user_id": "someId"
+            }
+        }
+    ]
+}

@@ -38,7 +38,7 @@ export class MappingFirstPersonComponent implements OnInit, IDataVisualizer {
             this.user = Promise.resolve(user);
 
             this.user.then((user: User) => {
-                console.log(user)
+
                 data.traverse(function (i: Initiative) {
                     if (i.accountable && i.accountable.user_id === user.user_id) {
                         if (!this.authorities.includes(i)) this.authorities.push(i)

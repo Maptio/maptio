@@ -19,16 +19,10 @@
   border-radius: 4px;
 }
 
-.control.first{
-}
-
 .control.second{
   margin-top:5%
 }
 
-.control.third{
-  margin-top:22%
-}
 
 .control > a {
   color: gray;
@@ -79,7 +73,7 @@
 
 .vertical {
     /* -webkit-appearance: slider-vertical; */
-    -moz-appearance: slider-vertical;
+    /* -moz-appearance: slider-vertical; */
     writing-mode: bt-lr;
     width: 49px;
     /* margin: 0 0 25px 0; */
