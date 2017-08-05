@@ -17,12 +17,12 @@
   /* float: right; */
   margin-right: 1%;
   border-radius: 4px;
+  width: 45px
 }
 
-.control.second{
-  margin-top:5%
+.control.second {
+  margin-top: 3%
 }
-
 
 .control > a {
   color: gray;
@@ -58,12 +58,17 @@
 }
 
 .circleview:before {
-  content: "\f192";
+  content: "\f10c";
   font-family: FontAwesome;
 }
 
-.options:before{
-  content: "\f1de";
+.options:before {
+  content: "\f103";
+  font-family: FontAwesome;
+}
+
+.first-person-view:before {
+  content: "\f0ae";
   font-family: FontAwesome;
 }
 
@@ -72,19 +77,14 @@
 }
 
 .vertical {
-    /* -webkit-appearance: slider-vertical; */
-    /* -moz-appearance: slider-vertical; */
     writing-mode: bt-lr;
-    width: 49px;
-    /* margin: 0 0 25px 0; */
-    /* line-height: 20px; */
-    height: 43px;
+    width: 41px;
+    /* height: 22px; */
+    margin-left: 3px;
+    margin-right: 3px;
 }
 
-.control.second > span{
+.control.second > span {
   position: absolute;
-  top:85%;
+  top: 85%;
 }
-
-
-
