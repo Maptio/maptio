@@ -1,17 +1,33 @@
-<div class="control btn-group-vertical first">
-    <a class="btn circleview " routerLink="../initiatives"  *ngIf="layout==='people'" placement="left" container="body" ngbTooltip="Initiatives view"></a>
-    <a class="btn treeview" routerLink="../people"  *ngIf="layout==='initiatives'" placement="left" container="body" ngbTooltip="People view"></a>
+<div class="control">
+
+  <div class=" btn-group-vertical">
+    <a class="btn options" placement="left" container="body" ngbTooltip="Views" data-toggle="collapse" href="#collapseExample"
+      aria-expanded="false" aria-controls="collapseExample"></a>
+    <div class="collapse hide" id="collapseExample">
+      <div class=" btn-group-vertical ">
+        <a class="btn circleview" routerLink="../initiatives" placement="left" container="body" ngbTooltip="Initiatives map"></a>
+        <a class="btn treeview" routerLink="../people" placement="left" container="body" ngbTooltip="Team view"></a>
+        <a class="btn first-person-view" routerLink="../me" placement="left" container="body" ngbTooltip="My initiatives"></a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class=" btn-group-vertical">
     <a class="btn minus" (click)="zoomOut()" placement="left" container="body" ngbTooltip="Zoom out"></a>
     <a class="btn plus" (click)="zoomIn()" placement="left" container="body" ngbTooltip="Zoom in"></a>
     <a class="btn reset" (click)="resetZoom()" placement="left" container="body" ngbTooltip="Zoom fit"></a>
 
+    <div class="btn-group">
+      <input class="vertical" #fontInput name="fontInput" type="range" min="8" max="30" value="12" (change)="changeFontSize(fontInput.value)"
+        orient="vertical" placement="left" container="body" ngbTooltip="Text size">
+    </div>
+  </div>
+
+
 </div>
 
-<div class="control second">
-    <span class="badge badge-pill badge-default">{{fontInput.value}} px</span>
-    <input class="vertical" #fontInput name="fontInput" type="range" min="8" max="30" value="12" (change)="changeFontSize(fontInput.value)" orient="vertical"
-        placement="left" container="body" ngbTooltip="Text size">
-</div>
+
 
 <!-- SVG goes here -->
 <ng-template #drawing anchor></ng-template>

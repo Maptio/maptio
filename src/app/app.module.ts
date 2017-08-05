@@ -31,6 +31,7 @@ import { AppComponent } from "./components/app.component";
 import { MappingComponent } from "./components/mapping/mapping.component";
 import { MappingCirclesComponent } from "./components/mapping/circles/mapping.circles.component";
 import { MappingTreeComponent } from "./components/mapping/tree/mapping.tree.component";
+import { MappingFirstPersonComponent } from "./components/mapping/first-person/mapping.first-person.component";
 import { TooltipComponent } from "./components/mapping/tooltip/tooltip.component";
 
 import { InitiativeComponent } from "./components/initiative/initiative.component"
@@ -82,7 +83,7 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent, TeamComponent,
-    MappingComponent, MappingCirclesComponent, MappingTreeComponent, TooltipComponent,
+    MappingComponent, MappingCirclesComponent, MappingTreeComponent, MappingFirstPersonComponent, TooltipComponent,
     BuildingComponent, InitiativeNodeComponent, LoginComponent, HomeComponent, UnauthorizedComponent,
     InitiativeComponent,
     FocusIfDirective,
