@@ -46,7 +46,7 @@
     "angular-confirmation-popover": "^3.1.1",
     "angular2-jwt": "^0.1.28",
     "angular2-template-loader": "^0.4.0",
-    "angular2-tree-component": "^2.8.0",
+    "angular2-tree-component": "^2.8.1",
     "angular2-uuid": "^1.1.1",
     "auth0-lock": "^10.11.0",
     "awesome-typescript-loader": "^3.1.2",

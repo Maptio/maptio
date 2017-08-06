@@ -33,15 +33,15 @@ export class BuildingComponent {
         allowDrop: true, // (element:any, {parent:any, index:number}) => parent.isLeaf,
         actionMapping: {
             mouse: {
-                drop: (tree: TreeModel, node: TreeNode, $event: any, drop: { from: any, to: any }) => {
+                drop: (tree: TreeModel, node: TreeNode, $event: any, { from, to }: { from: any, to: any }) => {
                     // console.log(drop.from, drop.to)
-                    this.fromInitiative = drop.from.data;
-                    this.toInitiative = drop.to.parent.data;
+                    this.fromInitiative = from.data;
+                    this.toInitiative = to.parent.data;
 
                     this.modalService.open(this.dragConfirmationModal).result
                         .then(result => {
                             if (result) {
-                                TREE_ACTIONS.MOVE_NODE(tree, node, $event, { from: drop.from, to: drop.to })
+                                TREE_ACTIONS.MOVE_NODE(tree, node, $event, { from: from, to: to })
                             }
                         })
                         .catch(reason => { });
