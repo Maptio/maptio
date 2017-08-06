@@ -50,7 +50,7 @@ describe("initiative.node.component.ts", () => {
         node2.children = [];
         node3.children = []
 
-        tree = new TreeModel();
+        tree = new TreeModel(null);
         tree.nodes = [root];
         component.node = new TreeNode(root, tree.getTreeNode(root, undefined), tree);
 
