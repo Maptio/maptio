@@ -25,3 +25,29 @@
 		<button type="button" class="btn btn-primary" (click)="modal.close()">Save</button>
 	</modal-footer>
 </modal>
+
+<ng-template #dragConfirmation let-c="close" let-d="dismiss">
+	<div class="modal-header">
+		You are about to move ...
+		<button type="button" class="close" aria-label="Close" (click)="d(false)">
+      <span aria-hidden="true">&times;</span>
+    </button>
+	</div>
+
+	<div class="modal-body">
+		<p>
+			<span *ngIf="fromInitiative.accountable">{{fromInitiative.accountable?.name}}'s initiative <b>{{fromInitiative.name}}</b></span>
+			<span *ngIf="!fromInitiative.accountable">Initiative <b>{{fromInitiative.name}}</b></span>
+			<br/> to
+			<br/>
+			<span *ngIf="fromInitiative.accountable">{{toInitiative.accountable?.name}}'s initiative <b>{{toInitiative.name}}</b></span>
+			<span *ngIf="!fromInitiative.accountable">Initiative <b>{{toInitiative.name}}</b></span>
+
+		</p>
+	</div>
+	<div class="modal-footer">
+		<p>These changes cannot be undone. Are you sure ? </p>
+		<button type="button" class="btn btn-warning" (click)="c(true)">Yes</button>
+		<button type="button" class="btn btn-default" (click)="c(false)">No</button>
+	</div>
+</ng-template>
