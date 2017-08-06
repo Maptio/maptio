@@ -34,7 +34,7 @@ export class BuildingComponent {
         actionMapping: {
             mouse: {
                 drop: (tree: TreeModel, node: TreeNode, $event: any, drop: { from: any, to: any }) => {
-                    console.log(drop.from, drop.to)
+                    // console.log(drop.from, drop.to)
                     this.fromInitiative = drop.from.data;
                     this.toInitiative = drop.to.parent.data;
 

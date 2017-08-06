@@ -1,3 +1,4 @@
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { EmitterService } from "./../../shared/services/emitter.service";
 import { Initiative } from "./../../shared/model/initiative.data";
 import { DataSet } from "./../../shared/model/dataset.data";
@@ -55,6 +56,7 @@ describe("workspace.component.ts", () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
+            imports: [NgbModule.forRoot()],
             declarations: [WorkspaceComponent, BuildingComponent],
             schemas: [NO_ERRORS_SCHEMA]
         }).overrideComponent(WorkspaceComponent, {

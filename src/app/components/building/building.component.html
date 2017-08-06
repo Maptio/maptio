@@ -36,13 +36,12 @@
 
 	<div class="modal-body">
 		<p>
-			<span *ngIf="fromInitiative.accountable">{{fromInitiative.accountable?.name}}'s initiative <b>{{fromInitiative.name}}</b></span>
-			<span *ngIf="!fromInitiative.accountable">Initiative <b>{{fromInitiative.name}}</b></span>
+			<span *ngIf="fromInitiative.accountable"><b class="text-default">{{fromInitiative.accountable?.name}}</b>'s initiative <b class="text-info">{{fromInitiative.name}}</b></span>
+			<span *ngIf="!fromInitiative.accountable">Initiative <b class="text-info">{{fromInitiative.name}}</b></span> and its sub-initiatives
 			<br/> to
 			<br/>
-			<span *ngIf="fromInitiative.accountable">{{toInitiative.accountable?.name}}'s initiative <b>{{toInitiative.name}}</b></span>
-			<span *ngIf="!fromInitiative.accountable">Initiative <b>{{toInitiative.name}}</b></span>
-
+			<span *ngIf="toInitiative.accountable"><b class="text-default">{{toInitiative.accountable?.name}}</b>'s initiative <b class="text-info">{{toInitiative.name}}</b></span>
+			<span *ngIf="!toInitiative.accountable">Initiative <b class="text-info">{{toInitiative.name}}</b></span>
 		</p>
 	</div>
 	<div class="modal-footer">

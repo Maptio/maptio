@@ -1,5 +1,6 @@
+import { NgbModal, NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
-import { DatasetFactory } from './../../shared/services/dataset.factory';
+import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { DataService } from "./../../shared/services/data.service";
 import { Initiative } from "./../../shared/model/initiative.data";
 import { TeamFactory } from "./../../shared/services/team.factory";
@@ -8,7 +9,7 @@ import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA, EventEmitter } from "@angular/core"
 import { By } from "@angular/platform-browser";
 import { BuildingComponent } from "./building.component";
-import { TreeComponent } from "angular2-tree-component";
+import { TreeComponent, TreeDraggedElement } from "angular2-tree-component";
 import { FocusIfDirective } from "../..//shared/directives/focusif.directive"
 import { ErrorService } from "../../shared/services/error/error.service";
 import { MockBackend } from "@angular/http/testing";
@@ -23,12 +24,12 @@ describe("building.component.ts", () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [Ng2Bs3ModalModule],
+            imports: [Ng2Bs3ModalModule, NgbModule.forRoot()],
             declarations: [BuildingComponent, TreeComponent, FocusIfDirective, InitiativeComponent],
             schemas: [NO_ERRORS_SCHEMA]
         }).overrideComponent(BuildingComponent, {
             set: {
-                providers: [DataService, ErrorService, TeamFactory, DatasetFactory,
+                providers: [DataService, ErrorService, TeamFactory, DatasetFactory, TreeDraggedElement,
                     {
                         provide: Http,
                         useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
