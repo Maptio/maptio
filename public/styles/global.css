@@ -76,28 +76,25 @@ a.caret-after {
   top: 40%;
   left: 42%;
   background: url("/assets/images/logo.png") no-repeat;
-  width:150px;
+  width: 150px;
   height: 150px;
 }
 
 .loading:before {
-    content: '';
-    box-sizing: border-box;
-    position: absolute;
-    top: 5%;
-    left: -4%;
-    width: 192px;
-    height: 192px;
-    margin-top: -10px;
-    margin-left: -10px;
-    border-radius: 50%;
-    border: 16px dashed #fff;
-    border-top-color: #eee;
-    animation: spinner 4.6s linear infinite;
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  top: 5%;
+  left: -4%;
+  width: 192px;
+  height: 192px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border-radius: 50%;
+  border: 16px dashed #fff;
+  border-top-color: #eee;
+  animation: spinner 4.6s linear infinite;
 }
-
-
-
 
 .without-caret.dropdown-toggle::after {
   display: none
@@ -207,4 +204,16 @@ input[type=range]:focus::-ms-fill-lower {
 
 input[type=range]:focus::-ms-fill-upper {
   background: #50555C;
+}
+
+.borderless {
+  border: none!important;
+}
+
+.borderless-left {
+  border-left: none !important;
+}
+
+.borderless-right {
+  border-right: none !important;
 }

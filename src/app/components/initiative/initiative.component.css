@@ -1,3 +1,21 @@
-.unresizable{
+.unresizable {
     resize: none;
+}
+
+.help-popup::before {
+    content: "\f05a";
+    font-family: FontAwesome;
+    color:#ccc;
+}
+
+span.help-popup {
+    background: transparent;
+}
+
+.authority{
+    width: 20px;
+}
+
+.transparent{
+    background: transparent;
 }

@@ -1,16 +1,21 @@
 <form>
 	<fieldset>
-		<h4  class="mb-3">{{node?.name}}</h4>
+		<h4 class="mb-3">{{node?.name}}</h4>
 		<div class="card mb-3">
 			<div class="card-block">
 				<div class="row">
 					<label for="inputAccountable" class="col-xl-2 form-control-label col-form-label">Authority</label>
 					<div class="col-xl-10">
 						<ng-template #rt let-r="result" let-t="term">
-							<img src="{{r.picture}}" width="16" />{{ r.name}}</ng-template> <span *ngIf="searching">searching...</span>
-						<input #person [disabled]="isReadOnly" required="required" [resultTemplate]="rt" type="text" id="inputAccountable" placeholder="Select or add an accountable team member here"
-						 class="form-control" [ngModelOptions]="{standalone: true}" [ngModel]="node?.accountable" (selectItem)="saveAccountable($event)"
-						 [ngbTypeahead]="searchTeamMember" [resultFormatter]="formatter" [inputFormatter]="formatter" (blur)="onBlur()" />
+							<img src="{{r.picture}}" class="rounded-circle authority" />{{ r.name}}</ng-template> <span *ngIf="searching">searching...</span>
+						<div class="input-group">
+							<span class="input-group-addon transparent" *ngIf="node?.accountable?.picture"><img class="rounded-circle authority" src="{{node?.accountable?.picture}}" /></span>
+							<input #person [disabled]="isReadOnly" required="required" [resultTemplate]="rt" type="text" id="inputAccountable" placeholder="Select or add an accountable team member here"
+							 class="form-control borderless-right" [class.borderless-left]="node?.accountable?.picture" [ngModelOptions]="{standalone: true}"
+							 [ngModel]="node?.accountable" (selectItem)="saveAccountable($event)" [ngbTypeahead]="searchTeamMember" [resultFormatter]="formatter"
+							 [inputFormatter]="formatter" (blur)="onBlur()" />
+							<span class="input-group-addon help-popup" placement="top" container="body" ngbTooltip="The authority is the source of the initiative"></span>
+						</div>
 					</div>
 				</div>
 				<span class="help-block">helps <b>{{parent?.accountable?.name || "..."}}</b>  with <b>{{parent?.name}}</b></span>
@@ -34,11 +39,12 @@
 						<!--<div *ngIf="(team | async);then content else other_content"></div>-->
 
 						<!--<ng-template #content>-->
-						<div *ngIf="(team | async)">
-							<div *ngFor="let user of (team | async)?.members" class="checkbox">
+						<div *ngIf="(team | async)" class="d-flex flex-wrap">
+							<div *ngFor="let user of (team | async)?.members" class="checkbox col-sm-5 small p-1">
 								<label><input  #helper class="inputHelper" type="checkbox" (click)="addHelper(user, helper.checked)" [checked]="isHelper(user)" [disabled]="isAuthority(user) || isReadOnly"  (blur)="onBlur()">
-						<img src="{{user.picture}}" width="16" class="rounded-circle">
-						{{user.name}} </label>
+						<span><img src="{{user.picture}}" width="16" class="rounded-circle">
+						{{user.name}}
+							</span> </label>
 							</div>
 						</div>
 
