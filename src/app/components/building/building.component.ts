@@ -1,4 +1,4 @@
-import { ModalComponent } from "ng2-bs3-modal/ng2-bs3-modal";
+// import { ModalComponent } from "ng2-bs3-modal/ng2-bs3-modal";
 import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { DataSet } from "./../../shared/model/dataset.data";
 import { Initiative } from "./../../shared/model/initiative.data";
@@ -55,17 +55,17 @@ export class BuildingComponent {
     @ViewChild(TreeComponent)
     tree: TreeComponent;
 
-    // @ViewChild("initiative")
-    // initiativeEditComponent: InitiativeComponent
-
-    @ViewChild("initiativeModal")
-    modal: ModalComponent;
+    // @ViewChild("initiativeModal")
+    // modal: ModalComponent;
 
     @ViewChild(InitiativeNodeComponent)
     node: InitiativeNodeComponent;
 
     @ViewChild("dragConfirmation")
     dragConfirmationModal: NgbModal;
+
+    @ViewChild("initiativeDetails")
+    initiativeDetailsModal: NgbModal;
 
     datasetId: string;
 
@@ -90,7 +90,8 @@ export class BuildingComponent {
     editInitiative(node: Initiative) {
         this.openedNodeParent = node.getParent(this.nodes[0]);
         this.openedNode = node;
-        this.modal.open();
+        this.modalService.open(this.initiativeDetailsModal);
+        // this.modal.open();
     }
 
     /**

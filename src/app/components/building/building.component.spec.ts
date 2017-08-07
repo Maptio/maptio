@@ -176,7 +176,7 @@ describe("building.component.ts", () => {
             it("should open initiative modal", () => {
                 let node = new Initiative(), parent = new Initiative();
                 let spyGetParent = spyOn(node, "getParent").and.returnValue(parent)
-                let spyModalOpen = spyOn(component.modal, "open")
+                let spyModalOpen = spyOn(component.initiativeDetailsModal, "open")
                 component.editInitiative(node);
                 expect(component.openedNode).toBe(node);
                 expect(component.openedNodeParent).toBe(parent);
