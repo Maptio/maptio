@@ -1,6 +1,14 @@
 <form>
 	<fieldset>
-		<h4 class="mb-3">{{node?.name}}</h4>
+		<div class="mb-3">
+			<div class="row">
+				<div class="col-xl-12">
+					<input type="text" [disabled]="isReadOnly" class="form-control unresizable" id="inputName" type="text" name="inputName" [ngModelOptions]="{standalone: true}"
+					 [ngModel]="node?.name" placeholder="Initiative name" (ngModelChange)="saveName($event)" rows="2" cols="" (blur)="onBlur()"
+					/>
+				</div>
+			</div>
+		</div>
 		<div class="card mb-3">
 			<div class="card-block">
 				<div class="row">
@@ -20,10 +28,9 @@
 				</div>
 				<span class="help-block">helps <b>{{parent?.accountable?.name || "..."}}</b>  with <b>{{parent?.name}}</b></span>
 				<div class="row">
-					<!-- <label for="inputDescription" class="col-xl-2 form-control-label col-form-label">Description</label> -->
-					<div class="col-xl-12">
+					<div class="col-xl-12 mt-3">
 						<textarea [disabled]="isReadOnly" autofocus data-provide="markdown" data-iconlibrary="fa" class="form-control initiativeMarkdownDescription"
-						 id="inputDescription" [ngModelOptions]="{standalone: true}" [ngModel]="node?.description" rows="5" placeholder="Description"
+						 id="inputDescription" [ngModelOptions]="{standalone: true}" [ngModel]="node?.description" rows="5" placeholder='Describe "{{node?.name}}" in your own words"'
 						 (ngModelChange)="saveDescription($event)" (blur)="onBlur()"></textarea>
 					</div>
 				</div>
@@ -32,13 +39,13 @@
 
 		<div class="card mb-3">
 			<div class="card-block">
-				<h6 class="card-subtitle mb-2 text-muted">Who’s helping with this initiative?</h6>
+				<h6 class="card-subtitle mb-2 text-muted">Who’s helping with this initiative?
+						<span class="help-popup" placement="top" container="body" ngbTooltip="A source is rarely able to fully manifest their initiative alone. They usually need help.
+						
+						Helpers bring specific ideas and carry out actions to realise the vision"></span>
+				</h6>
 				<div class="form-group row" id="members">
-					<!-- <label for="inputHelper" class="col-xl-2 form-control-label col-form-label">Helpers</label> -->
 					<div class="col-lg-12">
-						<!--<div *ngIf="(team | async);then content else other_content"></div>-->
-
-						<!--<ng-template #content>-->
 						<div *ngIf="(team | async)" class="d-flex flex-wrap">
 							<div *ngFor="let user of (team | async)?.members" class="checkbox col-sm-5 small p-1">
 								<label><input  #helper class="inputHelper" type="checkbox" (click)="addHelper(user, helper.checked)" [checked]="isHelper(user)" [disabled]="isAuthority(user) || isReadOnly"  (blur)="onBlur()">
@@ -48,7 +55,6 @@
 							</div>
 						</div>
 
-						<!--</ng-template>-->
 						<div *ngIf="!(team | async)">No team available for selection</div>
 
 					</div>

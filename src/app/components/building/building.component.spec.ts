@@ -30,6 +30,7 @@ describe("building.component.ts", () => {
         }).overrideComponent(BuildingComponent, {
             set: {
                 providers: [DataService, ErrorService, TeamFactory, DatasetFactory, TreeDraggedElement,
+                    NgbModal,
                     {
                         provide: Http,
                         useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
@@ -174,9 +175,10 @@ describe("building.component.ts", () => {
 
         describe("Edit initiative", () => {
             it("should open initiative modal", () => {
+                let mockModalService = target.debugElement.injector.get(NgbModal);
                 let node = new Initiative(), parent = new Initiative();
                 let spyGetParent = spyOn(node, "getParent").and.returnValue(parent)
-                let spyModalOpen = spyOn(component.initiativeDetailsModal, "open")
+                let spyModalOpen = spyOn(mockModalService, "open")
                 component.editInitiative(node);
                 expect(component.openedNode).toBe(node);
                 expect(component.openedNodeParent).toBe(parent);
