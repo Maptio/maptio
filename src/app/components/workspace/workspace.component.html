@@ -1,7 +1,9 @@
 <div class="row header">
-    <p class="pull-left team-name"> {{(team|async)?.name}}</p>
-    <div class="btn-group pull-left" *ngIf="team | async">
 
+    <div class="btn-group pull-left" *ngIf="team | async">
+        <p class="pull-left team-name"> {{(team|async)?.name}}
+            <span class="remove text-danger" placement="top" container="body" ngbTooltip="Clear team" (click)="removeTeam()"></span>
+        </p>
         <a *ngFor="let user of members | async" class="btn btn-link btn-xs no-padding">
             <img class="member rounded-circle" src="{{user?.picture}}" alt="{{user?.name}}" title="{{user?.name}}"
             placement="top" container="body" ngbTooltip="{{user?.name}}">
@@ -15,7 +17,7 @@
                    Add a team to {{(dataset | async)?.initiative?.name}}
                 </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="teamDropdownLink">
-            <a class="dropdown-item" (click)="addTeamToInitiative(team)"  *ngFor="let team of teams | async">
+            <a class="dropdown-item" (click)="addTeamToInitiative(team)" *ngFor="let team of teams | async">
                            {{team.name}}
                         </a>
         </div>

@@ -2,10 +2,7 @@
     resize: none;
 }
 
-.remove::before{
-    content: "\f014";
-    font-family: FontAwesome;
-}
+
 
 .help-popup::before {
     content: "\f05a";
