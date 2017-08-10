@@ -51,10 +51,13 @@
 					<div class="col-lg-12">
 						<div *ngIf="(team | async)" class="d-flex flex-wrap">
 							<div *ngFor="let user of (team | async)?.members" class="checkbox col-sm-5 small p-1">
-								<label><input  #helper class="inputHelper" type="checkbox" (click)="addHelper(user, helper.checked)" [checked]="isHelper(user)" [disabled]="isAuthority(user) || isReadOnly"  (blur)="onBlur()">
-						<span><img src="{{user.picture}}" width="16" class="rounded-circle">
-						{{user.name}}
-							</span> </label>
+								<div *ngIf="!isAuthority(user)">
+									<label><input  #helper class="inputHelper" type="checkbox" (click)="addHelper(user, helper.checked)" [checked]="isHelper(user)" [disabled]="isAuthority(user) || isReadOnly"  (blur)="onBlur()">
+											<span><img src="{{user.picture}}" width="16" class="rounded-circle">
+											{{user.name}}
+												</span> </label>
+								</div>
+
 							</div>
 						</div>
 
