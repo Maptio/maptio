@@ -111,6 +111,10 @@ export class InitiativeComponent implements OnChanges {
 
     }
 
+    removeAuthority() {
+        this.node.accountable = undefined;
+    }
+
     searchTeamMember = (text$: Observable<string>) =>
         _do.call(
             switchMap.call(
