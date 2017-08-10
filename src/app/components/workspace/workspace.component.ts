@@ -90,6 +90,16 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     }
 
+    removeTeam() {
+        this.dataset.then((dataset: DataSet) => {
+            dataset.initiative.team_id = undefined;
+            this.datasetFactory.upsert(dataset, dataset._id).then(() => {
+                this.buildingComponent.loadData(dataset._id);
+            });
+        });
+        this.team = Promise.resolve(null)
+        this.updateTeamMembers();
+    }
 
     updateTeamMembers() {
         this.members = this.team

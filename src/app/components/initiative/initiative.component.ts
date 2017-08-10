@@ -34,6 +34,7 @@ export class InitiativeComponent implements OnChanges {
     @Input() isReadOnly: boolean;
 
     public team: Promise<Team>;
+    // public possibleHelpers: Promise<User[]>;
 
     isTeamMemberFound: boolean = true;
     isTeamMemberAdded: boolean = false;
@@ -45,8 +46,17 @@ export class InitiativeComponent implements OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes.node.currentValue)
+        if (changes.node.currentValue) {
             this.team = this.teamFactory.get(changes.node.currentValue.team_id)
+            // this.possibleHelpers = this.team.then((team: Team) => {
+            //     return team.members.map((user: User) => {
+            //         if (user.user_id !== this.node.accountable.user_id) {
+            //             return user;
+            //         }
+            //     )
+            // })
+        }
+
     }
 
     onBlur() {
@@ -85,6 +95,12 @@ export class InitiativeComponent implements OnChanges {
         return this.node.helpers.findIndex(u => { return u.user_id === user.user_id }) !== -1
     }
 
+    // getPossibleHelpers(): Promise<User[]> {
+    //     return this.team.then((team: Team) => {
+    //         return team.members;
+    //     })
+    // }
+
     isAuthority(user: User): boolean {
         if (!this.node) return false;
         if (!this.node.helpers) return false;
@@ -109,6 +125,10 @@ export class InitiativeComponent implements OnChanges {
             ? Observable.from(this.team.then(t => t.members).catch())
             : Observable.from(this.team.then(t => t.members.filter(v => new RegExp(term, "gi").test(v.name)).splice(0, 10)).catch())
 
+    }
+
+    removeAuthority() {
+        this.node.accountable = undefined;
     }
 
     searchTeamMember = (text$: Observable<string>) =>

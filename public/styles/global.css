@@ -104,6 +104,11 @@ a.caret-after {
   display: block;
 }
 
+.remove::before {
+  content: "\f014";
+  font-family: FontAwesome;
+}
+
 input[type=range] {
   height: 20px;
   -webkit-appearance: none;
