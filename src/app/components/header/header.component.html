@@ -4,8 +4,8 @@
     <span class="navbar-toggler-icon"></span>
   </button>
     <a class="navbar-brand " href="#">
-    <!-- <div alt="Maptio Home" class="d-inline-block align-top brand-logo" ></div> -->
-    <img src="/assets/images/logo.png" width="40"  height="30" alt="">
+        <!-- <div alt="Maptio Home" class="d-inline-block align-top brand-logo" ></div> -->
+        <img src="/assets/images/logo.png" width="40" height="30" alt="">
     </a>
 
     <span class="navbar-text col-lg-4">
@@ -52,10 +52,6 @@
                 </div>
             </li>
 
-
-
-
-
             <li class="nav-item dropdown" id="profileInformation" *ngIf="auth.authenticated()">
                 <a class="nav-link dropdown-toggle without-caret" href="http://example.com" id="profileDropdownLink" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
@@ -68,10 +64,13 @@
                     <a class="dropdown-item" (click)="logout()" id="logoutButton">Log Out</a>
                 </div>
             </li>
-            <li id="loginButton">
-                <a (click)="auth.login()" placement="bottom" *ngIf="!auth.authenticated()">Log In</a>
+            <li class="nav-link" id="loginButton" *ngIf="!auth.authenticated()">
+                <a (click)="auth.login()" placement="bottom">Log In</a>
+            </li>
+            <li class="nav-link">
+                <ng-template #tipHelp><i class="fa fa-envelope" aria-hidden="true"></i> support@maptio.com</ng-template>
+                <a class="help" placement="left" container="body" [ngbTooltip]="tipHelp"></a>
             </li>
         </ul>
     </div>
 </nav>
-
