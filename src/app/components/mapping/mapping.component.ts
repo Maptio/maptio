@@ -90,8 +90,9 @@ export class MappingComponent implements OnInit {
                 case "me":
                     this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(MappingFirstPersonComponent)
                     break
-                default:
-                    throw new Error("This view is not recognized");
+                default: // by default , the initiatives view is displayed
+                    this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent)
+                    break;
             }
         })
 
