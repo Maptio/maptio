@@ -13,6 +13,11 @@ export class User implements Serializable<User> {
     public name: string;
 
     /**
+     * User nickname
+     */
+    public nickname: string;
+
+    /**
      * User email
      */
     public email: string;
@@ -48,6 +53,7 @@ export class User implements Serializable<User> {
         }
         let deserialized = new User();
         deserialized.name = input.name;
+        deserialized.nickname = input.nickname;
         deserialized.email = input.email;
         deserialized.picture = input.picture;
         deserialized.user_id = input.user_id; // specific to Auth0

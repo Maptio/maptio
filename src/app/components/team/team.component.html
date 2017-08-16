@@ -6,11 +6,11 @@
 
                 <ul class="list-group">
                     <li *ngFor="let member of (team$ | async)?.members" class="list-group-item">
-                        <img width="20px" src="{{member.picture}}" class="rounded-circle">{{member.name}}
+                        <img width="20px" src="{{member.picture}}" class="rounded-circle"> {{member.nickname}}
                     </li>
                     <li class="input-group" *ngIf="team$ |async">
                         <ng-template #rt let-r="result" let-t="term">
-                            <img src="{{r.picture}}" width="16"> {{ r.name}}
+                            <img src="{{r.picture}}" width="16">  {{r.nickname}}
                         </ng-template>
 
                         <input type="text" id="inputNewMember" [resultTemplate]="rt" placeholder="Name or email of new member" class="form-control"
@@ -55,7 +55,7 @@
                         </div>
                         <div class="d-flex">
                             <a *ngFor="let user of team.members">
-            <img class="member " src="{{user?.picture}}" alt="{{user?.name}}" title="{{user?.name}}">
+            <img class="member " src="{{user?.picture}}" alt="{{user?.nickname}}" title="{{user?.nickname}}">
         </a>
                         </div>
 

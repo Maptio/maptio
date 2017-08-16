@@ -56,7 +56,7 @@ export class TeamFactory {
         let transformed = {
             team_id: input.team_id,
             name: input.name,
-            members: input.members.map(m => { return { name: m.name, picture: m.picture, user_id: m.user_id } })
+            members: input.members.map(m => { return { name: m.name, picture: m.picture, user_id: m.user_id, nickname: m.nickname } })
         };
 
         return this.http.post("/api/v1/team", transformed)
@@ -81,7 +81,7 @@ export class TeamFactory {
         let transformed = {
                 team_id: team.team_id,
                 name: team.name,
-                members: team.members.map(m => { return { name: m.name, picture: m.picture, user_id: m.user_id } })
+                members: team.members.map(m => { return { name: m.name, picture: m.picture, user_id: m.user_id, nickname: m.nickname } })
             };
         return this.http.put("/api/v1/team/" + team.team_id, transformed)
             .map((responseData) => {

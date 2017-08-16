@@ -118,6 +118,6 @@ export class TeamComponent implements OnDestroy {
             .do(() => this.searching = false);
 
 
-    formatter = (result: User) => result.name;
+    formatter = (result: User) => result.nickname;
 
 }

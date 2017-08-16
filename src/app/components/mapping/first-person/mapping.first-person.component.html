@@ -4,7 +4,7 @@
         <div class="col-sm-4 offset-sm-2">
             <div class="card borderless">
                 <div class="card-block">
-                    <h3 class="card-title"><img class="rounded-circle profile" src="{{(user |async)?.picture}}" alt="{{(user |async)?.name}}"> is
+                    <h3 class="card-title"><img class="rounded-circle profile" src="{{(user |async)?.picture}}" alt="{{(user |async)?.nickname}}"> is
                         responsible for</h3>
                     <div class="list-group">
                         <div *ngFor="let i of authorities" class=" list-group-item flex-column align-items-start ">
@@ -15,8 +15,8 @@
                             <span class="mb-1" *ngIf="(i.helpers?.length !== 0)">with the help of 
                                 <div class="btn-group">
                                     <a *ngFor="let h of i.helpers" class="btn btn-link btn-xs no-padding">
-                                        <img class="rounded-circle helper" src="{{h.picture}}" alt="{{h.name}}" title="{{h.name}}"
-                                        placement="top" container="body" ngbTooltip="{{h.name}}"
+                                        <img class="rounded-circle helper" src="{{h.picture}}" alt="{{h.nickname}}" title="{{h.nickname}}"
+                                        placement="top" container="body" ngbTooltip="{{h.nickname}}"
                                         >
                                     </a>
                                 </div>
@@ -34,7 +34,7 @@
         <div class="col-sm-4">
             <div class="card borderless">
                 <div class="card-block">
-                    <h3 class="card-title"><img class="rounded-circle profile" src="{{(user |async)?.picture}}" alt="{{(user |async)?.name}}"> helps
+                    <h3 class="card-title"><img class="rounded-circle profile" src="{{(user |async)?.picture}}" alt="{{(user |async)?.nickname}}"> helps
                         </h3>
                     <div class="list-group">
                         <div *ngFor="let i of helps" class=" list-group-item flex-column align-items-start ">
@@ -43,16 +43,16 @@
 
                             </div>
                             <span class="mb-1" *ngIf="(i.helpers?.length !== 0)">Authority  
-                                        <img class="rounded-circle authority" src="{{i.accountable?.picture}}" alt="{{i.accountable?.name}}" title="{{i.accountable?.name}}"
-                                        placement="top" container="body" ngbTooltip="{{i.accountable?.name}}"
+                                        <img class="rounded-circle authority" src="{{i.accountable?.picture}}" alt="{{i.accountable?.nickname}}" title="{{i.accountable?.name}}"
+                                        placement="top" container="body" ngbTooltip="{{i.accountable?.nickname}}"
                                         >
                                 </span>
 
                             <span class="mb-1" *ngIf="(i.helpers?.length !== 0)">Helpers 
                                 <div class="btn-group">
                                     <a *ngFor="let h of i.helpers" class="btn btn-link btn-xs no-padding">
-                                        <img class="rounded-circle helper" src="{{h.picture}}" alt="{{h.name}}" title="{{h.name}}"
-                                        placement="top" container="body" ngbTooltip="{{h.name}}"
+                                        <img class="rounded-circle helper" src="{{h.picture}}" alt="{{h.nickname}}" title="{{h.nickname}}"
+                                        placement="top" container="body" ngbTooltip="{{h.nickname}}"
                                         >
                                     </a>
                                 </div>

@@ -1,7 +1,8 @@
-import { BaseRequestOptions, Http } from '@angular/http';
-import { TeamFactory } from './../../../shared/services/team.factory';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { InitiativeComponent } from './../../initiative/initiative.component';
+import { UserFactory } from './../../../shared/services/user.factory';
+import { BaseRequestOptions, Http } from "@angular/http";
+import { TeamFactory } from "./../../../shared/services/team.factory";
+import { NO_ERRORS_SCHEMA } from "@angular/core";
+import { InitiativeComponent } from "./../../initiative/initiative.component";
 import { User } from "./../../../shared/model/user.data";
 import { Initiative } from "./../../../shared/model/initiative.data";
 import { Observable } from "rxjs/Rx";
@@ -20,7 +21,7 @@ describe("tooltip.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
-                UIService, D3Service, TeamFactory,
+                UIService, D3Service, TeamFactory, UserFactory,
                 {
                     provide: Http,
                     useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
