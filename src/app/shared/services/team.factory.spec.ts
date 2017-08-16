@@ -80,9 +80,10 @@ describe("team.factory.ts", () => {
                         team_id: "id",
                         name: "New",
                         members: [
-                            { user_id: "1", name: undefined, picture: undefined },
-                            { user_id: "2", name: "Two", picture: undefined },
-                            { user_id: "3", name: undefined, picture: "Three" }]
+                            { user_id: "1", name: undefined, picture: undefined, nickname: undefined },
+                            { user_id: "2", name: "Two", picture: undefined, nickname: undefined },
+                            { user_id: "3", name: undefined, picture: "Three", nickname: undefined },
+                            { user_id: "4", name: undefined, picture: undefined, nickname: "Four" }]
                     });
                     connection.mockRespond(new Response(new ResponseOptions({
                         body: JSON.stringify(mockResponse)
@@ -93,7 +94,7 @@ describe("team.factory.ts", () => {
                 }
             });
 
-            let members = [new User({ user_id: "1" }), new User({ user_id: "2", name: "Two" }), new User({ user_id: "3", picture: "Three" })]
+            let members = [new User({ user_id: "1" }), new User({ user_id: "2", name: "Two" }), new User({ user_id: "3", picture: "Three" }), new User({ user_id: "4", nickname: "Four" })]
             let team = new Team({ name: "New", team_id: "id", members: members })
             target.create(team).then(team => {
                 expect(spyDeserialize).toHaveBeenCalledWith(mockResponse)
@@ -102,7 +103,7 @@ describe("team.factory.ts", () => {
         })));
     });
 
-     describe("upsert", () => {
+    describe("upsert", () => {
         it("should call correct REST API endpoint", fakeAsync(inject([TeamFactory, MockBackend, ErrorService], (target: TeamFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
             let mockTeam = jasmine.createSpyObj("Team", ["deserialize"]);
             let spyCreate = spyOn(Team, "create").and.returnValue(mockTeam);
@@ -118,9 +119,10 @@ describe("team.factory.ts", () => {
                         team_id: "id",
                         name: "New",
                         members: [
-                            { user_id: "1", name: undefined, picture: undefined },
-                            { user_id: "2", name: "Two", picture: undefined },
-                            { user_id: "3", name: undefined, picture: "Three" }]
+                            { user_id: "1", name: undefined, picture: undefined, nickname: undefined },
+                            { user_id: "2", name: "Two", picture: undefined, nickname: undefined },
+                            { user_id: "3", name: undefined, picture: "Three", nickname: undefined },
+                            { user_id: "4", name: undefined, picture: undefined, nickname: "Four" }]
                     });
                     connection.mockRespond(new Response(new ResponseOptions({
                         body: JSON.stringify(mockResponse)
@@ -131,7 +133,7 @@ describe("team.factory.ts", () => {
                 }
             });
 
-            let members = [new User({ user_id: "1" }), new User({ user_id: "2", name: "Two" }), new User({ user_id: "3", picture: "Three" })]
+            let members = [new User({ user_id: "1" }), new User({ user_id: "2", name: "Two" }), new User({ user_id: "3", picture: "Three" }), new User({ user_id: "4", nickname: "Four" })]
             let team = new Team({ name: "New", team_id: "id", members: members })
             target.upsert(team).then(result => {
                 expect(result).toBe(true)

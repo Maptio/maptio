@@ -1,3 +1,4 @@
+import { UserFactory } from "./../../shared/services/user.factory";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Team } from "./../../shared/model/team.data";
 import { ErrorService } from "./../../shared/services/error/error.service";
@@ -27,7 +28,7 @@ describe("initiative.component.ts", () => {
         TestBed.configureTestingModule({
             imports: [Ng2Bs3ModalModule, NgbModule.forRoot(), FormsModule, RouterTestingModule],
             declarations: [InitiativeComponent],
-            providers: [TeamFactory,
+            providers: [TeamFactory, UserFactory,
                 {
                     provide: Http,
                     useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {

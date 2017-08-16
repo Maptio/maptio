@@ -219,10 +219,12 @@ describe("workspace.component.ts", () => {
                 let spy = spyOn(component.buildingComponent, "loadData");
                 let mockRoute: ActivatedRoute = target.debugElement.injector.get(ActivatedRoute);
                 let mockDataSetFactory = target.debugElement.injector.get(DatasetFactory);
+                let mockUserFactory = target.debugElement.injector.get(UserFactory);
                 let spyGetDataset = spyOn(mockDataSetFactory, "get").and.returnValue(Promise.resolve(new DataSet({ _id: "123", initiative: new Initiative({ team_id: "team_id" }) })));
 
                 let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
-                let spyGetTeam = spyOn(mockTeamFactory, "get").and.returnValue(Promise.resolve(new Team({ team_id: "team_id", name: "Winners" })))
+                let spyGetTeam = spyOn(mockTeamFactory, "get").and.returnValue(Promise.resolve(new Team({ team_id: "team_id", name: "Winners", members: [new User({ user_id: "1" })] })))
+                let spyGetUser = spyOn(mockUserFactory, "get");
 
                 component.ngOnInit();
 
@@ -234,7 +236,9 @@ describe("workspace.component.ts", () => {
 
                         expect(spyGetTeam).toHaveBeenCalledWith("team_id");
                         component.team.then((r) => {
-                            expect(r).toEqual(new Team({ team_id: "team_id", name: "Winners" }))
+                            expect(r).toEqual(new Team({ team_id: "team_id", name: "Winners", members: [new User({ user_id: "1" })] }))
+                            expect(spyGetUser).toHaveBeenCalledTimes(1);
+                            expect(spyGetUser).toHaveBeenCalledWith("1")
                         })
                     })
                 });
@@ -246,9 +250,11 @@ describe("workspace.component.ts", () => {
                 let spy = spyOn(component.buildingComponent, "loadData");
                 let mockRoute: ActivatedRoute = target.debugElement.injector.get(ActivatedRoute);
                 let mockDataSetFactory = target.debugElement.injector.get(DatasetFactory);
-                let spyGetDataset = spyOn(mockDataSetFactory, "get").and.returnValue(Promise.resolve(new DataSet({ _id: "123", initiative: new Initiative({ team_id: "team_id" }) })));
-
+                let mockUserFactory = target.debugElement.injector.get(UserFactory);
                 let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
+
+                let spyGetDataset = spyOn(mockDataSetFactory, "get").and.returnValue(Promise.resolve(new DataSet({ _id: "123", initiative: new Initiative({ team_id: "team_id" }) })));
+                let spyGetUser = spyOn(mockUserFactory, "get");
                 let spyGetTeam = spyOn(mockTeamFactory, "get").and.returnValue(Promise.resolve(new Team({ members: [new User({ user_id: "1" })] })));
 
                 component.ngOnInit();
@@ -261,8 +267,13 @@ describe("workspace.component.ts", () => {
 
                         expect(spyGetTeam).toHaveBeenCalledWith("team_id");
 
-                        component.members.then((r) => {
-                            expect(r).toEqual([new User({ user_id: "1" })])
+                        component.team.then((r) => {
+                            // expect(r).toEqual(new Team({ team_id: "team_id", name: "Winners", members: [new User({ user_id: "1" })] }))
+                            expect(spyGetUser).toHaveBeenCalledTimes(1);
+                            expect(spyGetUser).toHaveBeenCalledWith("1");
+                            component.members.then((members) => {
+                                expect(members.length).toBe(1)
+                            })
                         })
                     })
                 });
