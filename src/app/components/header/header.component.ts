@@ -39,10 +39,9 @@ export class HeaderComponent implements OnInit {
     constructor(private auth: Auth, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private userFactory: UserFactory, private errorService: ErrorService, private router: Router) {
         EmitterService.get("currentDataset").subscribe((value: DataSet) => {
             this.selectedDataset = value;
-        });
+        },
+        (error: any) => { this.errorService.handleError(error) });
     }
-
-
 
     ngOnInit() {
         this.auth.getUser().subscribe(
