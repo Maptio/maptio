@@ -53,8 +53,8 @@ export class Auth {
       .then((user) => {
         this.user$.next(user);
         return Promise.resolve<boolean>(true);
-      }).
-      catch((reason: any) => {
+      })
+      .catch((reason: any) => {
         let user = User.create().deserialize(profile);
         this.userFactory.upsert(user)
           .then(() => { return Promise.resolve<boolean>(true); })

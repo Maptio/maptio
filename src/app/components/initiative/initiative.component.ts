@@ -1,3 +1,4 @@
+import { UserFactory } from "./../../shared/services/user.factory";
 import { Observable } from "rxjs/Rx";
 import { TeamFactory } from "./../../shared/services/team.factory";
 import { Component, Input, ViewChild, OnChanges, SimpleChanges, OnInit, EventEmitter, Output } from "@angular/core";
@@ -34,6 +35,8 @@ export class InitiativeComponent implements OnChanges {
     @Input() isReadOnly: boolean;
 
     public team: Promise<Team>;
+    public members: Promise<User[]>;
+
     // public possibleHelpers: Promise<User[]>;
 
     isTeamMemberFound: boolean = true;
@@ -42,12 +45,15 @@ export class InitiativeComponent implements OnChanges {
     searching: boolean;
     searchFailed: boolean;
 
-    constructor(private teamFactory: TeamFactory) {
+    constructor(private teamFactory: TeamFactory, private userFactory: UserFactory) {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.node.currentValue) {
-            this.team = this.teamFactory.get(changes.node.currentValue.team_id)
+            this.team = this.teamFactory.get(changes.node.currentValue.team_id).then((team: Team) => {
+                this.members = Promise.all(team.members.map(u => this.userFactory.get(u.user_id)));
+                return team;
+            })
             // this.possibleHelpers = this.team.then((team: Team) => {
             //     return team.members.map((user: User) => {
             //         if (user.user_id !== this.node.accountable.user_id) {
@@ -84,7 +90,9 @@ export class InitiativeComponent implements OnChanges {
     }
 
     saveAccountable(newAccountable: NgbTypeaheadSelectItemEvent) {
+        // console.log("asving", newAccountable.item)
         this.node.accountable = newAccountable.item;
+        this.onBlur();
         // console.log(this.initiative.accountable)
     }
 
@@ -121,9 +129,12 @@ export class InitiativeComponent implements OnChanges {
     }
 
     filterMembers(term: string): Observable<User[]> {
+        // return term.length < 1
+        //     ? Observable.from(this.team.then(t => t.members).catch())
+        //     : Observable.from(this.team.then(t => t.members.filter(v => new RegExp(term, "gi").test(v.name)).splice(0, 10)).catch())
         return term.length < 1
-            ? Observable.from(this.team.then(t => t.members).catch())
-            : Observable.from(this.team.then(t => t.members.filter(v => new RegExp(term, "gi").test(v.name)).splice(0, 10)).catch())
+            ? Observable.from(this.members)
+            : Observable.from(this.members.then(members => members.filter(v => new RegExp(term, "gi").test(v.name) || new RegExp(term, "gi").test(v.email)).splice(0, 10)).catch())
 
     }
 
@@ -152,7 +163,7 @@ export class InitiativeComponent implements OnChanges {
             () => this.searching = false);
 
 
-    formatter = (result: User) => result.name;
+    formatter = (result: User) => { return result.nickname } ;
 }
 
 
