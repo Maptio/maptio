@@ -20,7 +20,7 @@
 						<!-- <span *ngIf="searching">searching...</span> -->
 						<div class="input-group">
 							<span class="input-group-addon transparent" *ngIf="node?.accountable?.picture"><img class="rounded-circle authority" src="{{node?.accountable?.picture}}" /></span>
-							<input #person [disabled]="isReadOnly" required="required" [resultTemplate]="rt" type="text" id="inputAccountable" placeholder="Select or add an accountable team member here"
+							<input #person [disabled]="isReadOnly" required="required" [resultTemplate]="rt" type="text" id="inputAccountable" placeholder="Enter team member"
 							 class="form-control borderless-right" [class.borderless-left]="node?.accountable?.picture" [ngModelOptions]="{standalone: true}"
 							 [ngModel]="node?.accountable" (selectItem)="saveAccountable($event)" [ngbTypeahead]="searchTeamMember" [resultFormatter]="formatter"
 							 [inputFormatter]="formatter" (blur)="onBlur()" />
