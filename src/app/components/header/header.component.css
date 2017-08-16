@@ -109,3 +109,7 @@
     padding-top:13px;
 }
 
+.help::before  {
+    content: "\f059";
+    font-family: FontAwesome;
+}
