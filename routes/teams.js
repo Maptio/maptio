@@ -48,6 +48,20 @@ router.get('/team/:id/users', function (req, res, next) {
         });
 });
 
+
+/* GET all datasets for a given team*/
+router.get('/team/:teamid/datasets', function (req, res, next) {
+    db.datasets.find(
+        { team_id: req.params.teamid },
+        function (err, datasets) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.json(datasets);
+            }
+        });
+});
+
 /**
  * Create a team
  */

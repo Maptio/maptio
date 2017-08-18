@@ -1,3 +1,4 @@
+import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { UserFactory } from "./../../shared/services/user.factory";
 import { Observable, Subscription } from "rxjs/Rx";
 import { NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-bootstrap";
@@ -7,6 +8,8 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Team } from "../../shared/model/team.data";
 import { User } from "../../shared/model/user.data";
 import { Auth } from "../../shared/services/auth/auth.service";
+import { UUID } from "angular2-uuid";
+import { DataSet } from "../../shared/model/dataset.data";
 
 @Component({
     selector: "team",
@@ -20,6 +23,7 @@ export class TeamComponent implements OnDestroy {
     }
 
     private team$: Promise<Team>
+    private members$: Promise<User[]>;
     private teams$: Promise<Team[]>
     public newMember: User;
     private searching: boolean = false;
@@ -31,11 +35,15 @@ export class TeamComponent implements OnDestroy {
     private user: User;
     public userSearched: string;
     public isUserSearchedEmail: boolean;
-    // public fullname: string;
+
+
+    public range: number = 5;
+    public start: number = 0;
+    public end: number = this.range;
 
     private EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-    constructor(private auth: Auth, private route: ActivatedRoute, private teamFactory: TeamFactory, private userFactory: UserFactory) {
+    constructor(private auth: Auth, private route: ActivatedRoute, private teamFactory: TeamFactory, private userFactory: UserFactory, private datasetFactory: DatasetFactory) {
         this.getAllTeams();
         this.subscription2 = this.route.params.subscribe((params: Params) => {
             if (!params["teamid"]) return
@@ -49,9 +57,24 @@ export class TeamComponent implements OnDestroy {
         })
     }
 
+    forward() {
+        this.start += this.range;
+        this.end += this.range;
+    }
+
+    backward() {
+        this.start -= this.range;
+        this.end -= this.range;
+    }
+
+
+
     getAllMembers() {
         this.team$ = this.teamFactory.get(this.teamId).then((team: Team) => {
 
+            this.members$ = Promise.all(team.members.map(user => this.userFactory.get(user.user_id)))
+
+            // this.members$ = Promise.all()
             this.existingTeamMembers = team.members;
             return team;
         });
@@ -109,13 +132,39 @@ export class TeamComponent implements OnDestroy {
     }
 
     createUser(name: string, email: string) {
-        console.log("lets create a user", name, email)
+
+        this.team$.then((team: Team) => {
+            this.datasetFactory.get(team).then((datasets: DataSet[]) => {
+                let virtualUser = new User();
+                virtualUser.name = name;
+                virtualUser.email = email;
+                virtualUser.nickname = name;
+                virtualUser.user_id = "virtual|" + UUID.UUID();
+                virtualUser.isVirtual = true;
+                virtualUser.teams = [this.teamId];
+                virtualUser.datasets = datasets.map(d => d._id);
+                console.log("build virtual user", virtualUser)
+                return virtualUser;
+            })
+                .then((virtualUser: User) => {
+                    console.log("create virtual user", virtualUser)
+                    this.userFactory.create(virtualUser).then(() => {
+                        this.teamFactory.get(this.teamId).then((team: Team) => {
+                            team.members.push(virtualUser);
+                            this.teamFactory.upsert(team).then((result) => {
+                                this.getAllTeams();
+                                this.getAllMembers();
+                                this.newMember = undefined;
+                            })
+                        });
+                    });
+                })
+        })
     }
 
     searchUsers =
     (text$: Observable<string>) =>
         text$
-            // .do((t) => { this.userSearched = t; })
             .debounceTime(300)
             .distinctUntilChanged()
             .do(() => this.searching = true)
@@ -142,9 +191,6 @@ export class TeamComponent implements OnDestroy {
                     })
             )
             .do(() => this.searching = false);
-
-
-
 
     formatter = (result: User) => result.nickname;
 

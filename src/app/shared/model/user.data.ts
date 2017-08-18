@@ -27,6 +27,8 @@ export class User implements Serializable<User> {
      */
     public picture: string;
 
+    /**True if this is a virtual user, false otherwise */
+    public isVirtual: boolean;
 
     /**
      * List of teams
@@ -57,6 +59,7 @@ export class User implements Serializable<User> {
         deserialized.email = input.email;
         deserialized.picture = input.picture;
         deserialized.user_id = input.user_id; // specific to Auth0
+        deserialized.isVirtual = input.isVirtual;
         deserialized.teams = [];
         if (input.teams) {
             input.teams.forEach((t: any) => {

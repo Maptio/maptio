@@ -4,11 +4,12 @@
             <div class="">
                 <h3 class="">{{(team$ | async)?.name}}</h3>
 
-                <ul class="list-inline">
-                    <li *ngFor="let member of (team$ | async)?.members" class="list-inline-item col-sm-3">
+                <ul class="list-inline mt-3">
+                    <li *ngFor="let member of (members$ | async)" class="list-inline-item col-sm-3">
                         <div class="card mb-1">
                             <div class="card-title ml-1">
-                                <img width="20px" src="{{member.picture}}" class="rounded-circle"> {{member.nickname}}
+                                <img width="20px" src="{{member.picture}}" class="rounded-circle" *ngIf="member.picture">
+                                <img width="20px" src="/assets/images/user.jpg" class="rounded-circle" *ngIf="!member.picture">                                {{member.nickname}}
                             </div>
                             <div class="card-title ml-1 small">
                                 <i *ngIf="member.email">{{member.email}}</i>
@@ -17,7 +18,8 @@
                         </div>
                     </li>
                 </ul>
-                <div class="input-group mt-3" *ngIf="team$ |async">
+
+                <div class="input-group mt-3 col-sm-7" *ngIf="team$ |async">
                     <ng-template #rt let-r="result" let-t="term">
                         <img src="{{r.picture}}" width="16"> {{r.nickname}}
                     </ng-template>
@@ -28,21 +30,19 @@
                     <span *ngIf="searching">searching...</span>
 
                     <span class="input-group-btn">
-      <button class="btn btn-primary" type="button" (click)="addMemberToTeam()">Add</button>
-    </span>
-
+                <button class="btn btn-primary" [class.disabled]="searchFailed" type="button" (click)="addMemberToTeam()">Add</button>
+                </span>
                 </div>
-                <div class="list-group-item" *ngIf="searchFailed">
+                <div class="card col-sm-6 mt-1 ml-3" *ngIf="searchFailed">
                     <span *ngIf="!isUserSearchedEmail">No results</span>
                     <div *ngIf="isUserSearchedEmail">
-                        
+
                         <div>
                             <p class="card-text"><b>{{userSearched}}</b> ? We don’t know that person. Add a name and click Create and we’ll add
-                                a virtual member. They'll automatically receive access to the map once they sign up and confirm
-                                their email address.</p>
+                                a virtual member. They'll automatically receive access to <b>{{(team$ | async)?.name}}</b>'s
+                                maps once they sign up and confirm their email address.</p>
                             <div class="from-group" [class.has-warning]="name.invalid && (name.dirty || name.touched)">
                                 <div class="input-group">
-
                                     <input type="text" id="name" name="name" class="form-control form-control-warning" required minlength="2" [(ngModel)]="fullname"
                                         #name="ngModel">
                                     <button class="btn btn-success" type="button" (click)="createUser(fullname, userSearched)">Create</button>
@@ -66,31 +66,35 @@
 
                 <div class="list-group">
 
-                    <a class="list-group-item list-group-item-action flex-column align-items-start">
+                    <a class="mb-3">
                         <div class="input-group">
-                            <input #teamInput type="text" class="form-control" placeholder="Type new team name">
+                            <input #teamInput type="text" class="form-control" placeholder="Your team name">
                             <span class="input-group-btn">
                         <button class="btn btn-primary" type="button" (click)="createNewTeam(teamInput.value)">Create</button>
                     </span>
                         </div>
                     </a>
 
-
-
-                    <a *ngFor="let team of (teams$ | async)" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <a *ngFor="let team of (teams$ | async)| slice:start:end" class="list-group-item list-group-item-action flex-column align-items-start">
                         <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1"><a routerLink="/account/team/{{team.team_id}}">
+                            <h6 class="mb-1"><a routerLink="/account/team/{{team.team_id}}">
                         {{team.name}}
-                    </a></h5>
+                    </a></h6>
                             <small>{{team.members.length}} members</small>
-                        </div>
-                        <div class="d-flex">
-                            <a *ngFor="let user of team.members">
-            <img class="member " src="{{user?.picture}}" alt="{{user?.nickname}}" title="{{user?.nickname}}">
-        </a>
                         </div>
 
                     </a>
+                    <nav aria-label="Navigation through teams" class="mt-2">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item" [class.disabled]="start === 0">
+                                <a class="page-link previous" tabindex="-1" (click)="backward()"></a>
+                            </li>
+
+                            <li class="page-item" [class.disabled]="end >= (teams$ | async)?.length">
+                                <a class="page-link next" (click)="forward()"></a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
 
             </div>
