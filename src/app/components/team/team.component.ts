@@ -11,7 +11,7 @@ import { Auth } from "../../shared/services/auth/auth.service";
 @Component({
     selector: "team",
     template: require("./team.component.html").toString(),
-     styleUrls: ["./team.component.css"]
+    styleUrls: ["./team.component.css"]
 })
 export class TeamComponent implements OnDestroy {
     ngOnDestroy(): void {
@@ -29,6 +29,11 @@ export class TeamComponent implements OnDestroy {
     private subscription2: Subscription;
     private existingTeamMembers: User[];
     private user: User;
+    public userSearched: string;
+    public isUserSearchedEmail: boolean;
+    // public fullname: string;
+
+    private EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     constructor(private auth: Auth, private route: ActivatedRoute, private teamFactory: TeamFactory, private userFactory: UserFactory) {
         this.getAllTeams();
@@ -98,24 +103,47 @@ export class TeamComponent implements OnDestroy {
 
     }
 
+    isEmail(text: string) {
+        console.log(text, this.EMAIL_REGEXP, this.EMAIL_REGEXP.test(text))
+        return this.EMAIL_REGEXP.test(text);
+    }
+
+    createUser(name: string, email: string) {
+        console.log("lets create a user", name, email)
+    }
+
     searchUsers =
     (text$: Observable<string>) =>
         text$
+            // .do((t) => { this.userSearched = t; })
             .debounceTime(300)
             .distinctUntilChanged()
             .do(() => this.searching = true)
             .switchMap(term =>
-                this.userFactory.getAll(term).then((users: User[]) => {
-                    this.searchFailed = false;
-                    return users.filter(u => !this.existingTeamMembers.find(m => u.user_id === m.user_id));
-                })
-
+                Observable.fromPromise(
+                    this.userFactory.getAll(term).then((users: User[]) => {
+                        return users.filter(u => !this.existingTeamMembers.find(m => u.user_id === m.user_id));
+                    }).then((users: User[]) => {
+                        if (users.length === 0) {
+                            throw new Error("No user email matching that pattern")
+                        }
+                        else
+                            return users;
+                    })
+                )
+                    .do(() => {
+                        this.searchFailed = false;
+                    })
                     .catch(() => {
+                        this.userSearched = term;
+                        this.isUserSearchedEmail = this.isEmail(this.userSearched);
                         this.searchFailed = true;
                         return Observable.of([]);
                     })
             )
             .do(() => this.searching = false);
+
+
 
 
     formatter = (result: User) => result.nickname;

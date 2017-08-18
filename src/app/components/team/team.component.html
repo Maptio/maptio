@@ -1,34 +1,65 @@
-<div class="row">
-    <div class="col-sm-8" *ngIf="(team$ | async)">
+<div class="row mt-3">
+    <div class="col-sm-9" *ngIf="(team$ | async)">
         <div class="">
             <div class="">
                 <h3 class="">{{(team$ | async)?.name}}</h3>
 
-                <ul class="list-group">
-                    <li *ngFor="let member of (team$ | async)?.members" class="list-group-item">
-                        <img width="20px" src="{{member.picture}}" class="rounded-circle"> {{member.nickname}}
-                    </li>
-                    <li class="input-group" *ngIf="team$ |async">
-                        <ng-template #rt let-r="result" let-t="term">
-                            <img src="{{r.picture}}" width="16">  {{r.nickname}}
-                        </ng-template>
-
-                        <input type="text" id="inputNewMember" [resultTemplate]="rt" placeholder="Name or email of new member" class="form-control"
-                            [ngModelOptions]="{standalone: true}" [ngModel]="newMember" (selectItem)="saveNewMember($event)"
-                            [ngbTypeahead]="searchUsers" [resultFormatter]="formatter" [inputFormatter]="formatter" />
-                        <span *ngIf="searching">searching...</span>
-                        <div class="form-control-feedback" *ngIf="searchFailed">Sorry, suggestions could not be loaded.</div>
-                        <span class="input-group-btn">
-      <button class="btn btn-primary" type="button" (click)="addMemberToTeam()">Add</button>
-    </span>
+                <ul class="list-inline">
+                    <li *ngFor="let member of (team$ | async)?.members" class="list-inline-item col-sm-3">
+                        <div class="card mb-1">
+                            <div class="card-title ml-1">
+                                <img width="20px" src="{{member.picture}}" class="rounded-circle"> {{member.nickname}}
+                            </div>
+                            <div class="card-title ml-1 small">
+                                <i *ngIf="member.email">{{member.email}}</i>
+                                <i class="text-warning" *ngIf="!member.email">No email</i>
+                            </div>
+                        </div>
                     </li>
                 </ul>
+                <div class="input-group mt-3" *ngIf="team$ |async">
+                    <ng-template #rt let-r="result" let-t="term">
+                        <img src="{{r.picture}}" width="16"> {{r.nickname}}
+                    </ng-template>
+
+                    <input #inputNewMember type="text" id="inputNewMember" [resultTemplate]="rt" placeholder="e.g. name@maptio.com" class="form-control"
+                        [ngModelOptions]="{standalone: true}" [ngModel]="newMember" (selectItem)="saveNewMember($event)" [ngbTypeahead]="searchUsers"
+                        [resultFormatter]="formatter" [inputFormatter]="formatter" email />
+                    <span *ngIf="searching">searching...</span>
+
+                    <span class="input-group-btn">
+      <button class="btn btn-primary" type="button" (click)="addMemberToTeam()">Add</button>
+    </span>
+
+                </div>
+                <div class="list-group-item" *ngIf="searchFailed">
+                    <span *ngIf="!isUserSearchedEmail">No results</span>
+                    <div *ngIf="isUserSearchedEmail">
+                        
+                        <div>
+                            <p class="card-text"><b>{{userSearched}}</b> ? We don’t know that person. Add a name and click Create and we’ll add
+                                a virtual member. They'll automatically receive access to the map once they sign up and confirm
+                                their email address.</p>
+                            <div class="from-group" [class.has-warning]="name.invalid && (name.dirty || name.touched)">
+                                <div class="input-group">
+
+                                    <input type="text" id="name" name="name" class="form-control form-control-warning" required minlength="2" [(ngModel)]="fullname"
+                                        #name="ngModel">
+                                    <button class="btn btn-success" type="button" (click)="createUser(fullname, userSearched)">Create</button>
+                                </div>
+                                <small class="form-control-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">Full name must be more than 2 characters.</small>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
 
-    <div class="col-sm-4">
+    <div class="col-sm-3">
         <div class="card card-outline-primary">
             <div class="card-block">
                 <h3 class="card-title">My teams</h3>
