@@ -119,6 +119,10 @@ a.caret-after {
   font-family: FontAwesome;
 }
 
+a.navigation{
+  color:black !important;
+}
+
 input[type=range] {
   height: 20px;
   -webkit-appearance: none;

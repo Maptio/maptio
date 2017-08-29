@@ -8,3 +8,5 @@ npm-debug.log
 newrelic_agent.log
 TODO.md
 tokeep
+public/*.js
+public/*.css

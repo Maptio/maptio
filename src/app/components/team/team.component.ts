@@ -67,8 +67,6 @@ export class TeamComponent implements OnDestroy {
         this.end -= this.range;
     }
 
-
-
     getAllMembers() {
         this.team$ = this.teamFactory.get(this.teamId).then((team: Team) => {
 
@@ -134,31 +132,34 @@ export class TeamComponent implements OnDestroy {
     createUser(name: string, email: string) {
 
         this.team$.then((team: Team) => {
-            this.datasetFactory.get(team).then((datasets: DataSet[]) => {
-                let virtualUser = new User();
-                virtualUser.name = name;
-                virtualUser.email = email;
-                virtualUser.nickname = name;
-                virtualUser.user_id = "virtual|" + UUID.UUID();
-                virtualUser.isVirtual = true;
-                virtualUser.teams = [this.teamId];
-                virtualUser.datasets = datasets.map(d => d._id);
-                console.log("build virtual user", virtualUser)
-                return virtualUser;
-            })
-                .then((virtualUser: User) => {
-                    console.log("create virtual user", virtualUser)
-                    this.userFactory.create(virtualUser).then(() => {
-                        this.teamFactory.get(this.teamId).then((team: Team) => {
-                            team.members.push(virtualUser);
-                            this.teamFactory.upsert(team).then((result) => {
-                                this.getAllTeams();
-                                this.getAllMembers();
-                                this.newMember = undefined;
-                            })
-                        });
-                    });
+            this.auth.createUser(email, name).then((user: User) => {
+                this.datasetFactory.get(team).then((datasets: DataSet[]) => {
+                    let virtualUser = new User();
+                    virtualUser.name = user.name;
+                    virtualUser.email = user.email;
+                    virtualUser.nickname = user.nickname;
+                    virtualUser.user_id = user.user_id;
+                    virtualUser.picture = user.picture;
+                    virtualUser.teams = [this.teamId];
+                    virtualUser.datasets = datasets.map(d => d._id);
+                    console.log("build virtual user", virtualUser)
+                    return virtualUser;
                 })
+                    .then((virtualUser: User) => {
+                        console.log("create virtual user", virtualUser)
+                        this.userFactory.create(virtualUser).then(() => {
+                            this.teamFactory.get(this.teamId).then((team: Team) => {
+                                team.members.push(virtualUser);
+                                this.teamFactory.upsert(team).then((result) => {
+                                    this.getAllTeams();
+                                    this.getAllMembers();
+                                    this.newMember = undefined;
+                                    this.searchFailed = false;
+                                })
+                            });
+                        });
+                    })
+            })
         })
     }
 
