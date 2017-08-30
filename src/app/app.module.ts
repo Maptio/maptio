@@ -41,13 +41,16 @@ import { InitiativeNodeComponent } from "./components/building/initiative.node.c
 import { HelpComponent } from "./components/help/help.component";
 
 import { AccountComponent } from "./components/account/account.component";
+import { TeamComponent } from "./components/team/team.component";
 
 import { WorkspaceComponent } from "./components/workspace/workspace.component";
 import { FooterComponent } from "./components/footer/footer.component";
 import { HeaderComponent } from "./components/header/header.component";
 
 import { UnauthorizedComponent } from "./components/unauthorized/unauthorized.component";
-import { TeamComponent } from "./components/team/team.component";
+import { VerifyEmailComponent } from "./components/unauthorized/verify-email.component";
+
+
 
 // Directives
 import { FocusIfDirective } from "./shared/directives/focusif.directive";
@@ -76,7 +79,8 @@ const appRoutes: Routes = [
   { path: "map/:workspaceid/:layout", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
   { path: "map/:workspaceid/i/:slug", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
 
-  { path: "unauthorized", component: UnauthorizedComponent }
+  { path: "unauthorized", component: UnauthorizedComponent },
+  { path: "verify-email", component: VerifyEmailComponent }
 
 ];
 
@@ -85,7 +89,7 @@ const appRoutes: Routes = [
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent, TeamComponent,
     MappingComponent, MappingCirclesComponent, MappingTreeComponent, MappingFirstPersonComponent, TooltipComponent,
     BuildingComponent, InitiativeNodeComponent, LoginComponent, HomeComponent, UnauthorizedComponent,
-    InitiativeComponent,
+    InitiativeComponent, VerifyEmailComponent,
     FocusIfDirective,
     AutoSelectDirective,
     AnchorDirective,

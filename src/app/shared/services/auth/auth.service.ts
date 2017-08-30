@@ -34,7 +34,6 @@ export class Auth {
                     return;
                 }
 
-
                 this.setUser(profile).then((isSucess: boolean) => {
                     if (isSucess) {
                         this.userFactory.get(profile.user_id)
@@ -58,10 +57,12 @@ export class Auth {
     }
 
     public setUser(profile: any): Promise<boolean> {
+      console.log("setUser", profile)
         localStorage.setItem("profile", JSON.stringify(profile));
 
         return this.userFactory.get(profile.user_id)
             .then((user) => {
+              console.log("getting user", user)
                 this.user$.next(user);
                 return Promise.resolve<boolean>(true);
             })
@@ -74,38 +75,6 @@ export class Auth {
                 this.user$.next(user);
                 return Promise.resolve<boolean>(true);
 
-                // return this.userFactory.getAll(profile.email).then((users: User[]) => {
-                //   if (users.length === 1) {
-                //     // if we can find their emails in the database (i.e. they were "virtual users")
-                //     // we switch their user info (name, picture, nickname, etc) and keep their datasets/teams intact
-
-                //     let invitedUser = new User({
-                //       user_id: profile.user_id, isVirtual: false,
-                //       email: profile.email, name: profile.name,
-                //       nickname: profile.nickname, picture: profile.picture
-                //     });
-
-                //     return this.userFactory.switchUserIds(users[0], invitedUser)
-                //       .then(() => { return Promise.resolve<boolean>(true); })
-                //       .catch(() => { return Promise.resolve<boolean>(false); });
-                //   }
-                //   if (users.length === 0) {
-                //     // if we cannot find their email, they are a brand new user
-                //     // create them with their profile
-                //     console.log("brand new user", profile)
-                //     let user = User.create().deserialize(profile);
-                //     return this.userFactory.upsert(user)
-                //       .then(() => { console.log("branc new user creation success"); return Promise.resolve<boolean>(true); })
-                //       .catch(() => { console.log("branc new user creation failure"); return Promise.resolve<boolean>(false); });
-                //   }
-                //   throw new Error("There are more than one users with email " + profile.email)
-                // });
-
-
-                // adds the user in the database
-
-                // this.user$.next(user);
-                // return Promise.resolve<boolean>(true);
             });
     }
 
@@ -124,13 +93,63 @@ export class Auth {
         });
     };
 
-    public authenticated() {
+    public authenticated(): boolean {
         return tokenNotExpired();
     }
 
-    public logout() {
+    public logout(): void {
         localStorage.clear();
         this.clear();
+    }
+
+    public isEmailVerified(userId: string): Promise<boolean> {
+        console.log("isEmailVerified")
+        return this.getApiToken().then((token: string) => {
+            let headers = new Headers();
+            headers.set("Authorization", "Bearer " + token);
+            return this.http.get("https://circlemapping.auth0.com/api/v2/users/" + userId, { headers: headers })
+                .map((responseData) => {
+                    return responseData.json().email_verified === "true";
+                })
+                .toPromise()
+                .then(r => r)
+                .catch(this.errorService.handleError);
+        });
+    }
+
+    public isFirstLogin(userId: string): Promise<boolean> {
+        console.log("isFIrstLogin")
+        return this.getApiToken().then((token: string) => {
+            let headers = new Headers();
+            headers.set("Authorization", "Bearer " + token);
+            return this.http.get("https://circlemapping.auth0.com/api/v2/users/" + userId, { headers: headers })
+                .map((responseData) => {
+                    return responseData.json().logins_count === 0;
+                })
+                .toPromise()
+                .then(r => r)
+                .catch(this.errorService.handleError);
+        });
+    }
+
+    public sendConfirmationEmail(userId: string): Promise<boolean> {
+        console.log("sendConfirmationEmail")
+        return this.getApiToken().then((token: string) => {
+            let headers = new Headers();
+            headers.set("Authorization", "Bearer " + token);
+            return this.http.post(
+                "https://circlemapping.auth0.com/api/v2/jobs/verification-email",
+                {
+                    "user_id": userId
+                },
+                { headers: headers })
+                .map((responseData) => {
+                    return true;
+                })
+                .toPromise()
+                .then(r => r)
+                .catch(() => { return false });
+        });
     }
 
     public clear() {
@@ -138,12 +157,12 @@ export class Auth {
     }
 
     public getUser(): Observable<User> {
-      
+
         let profileString = localStorage.getItem("profile");
         console.log("getUser", profileString)
         if (profileString) {
             this.userFactory.get(JSON.parse(profileString).user_id).then((user) => {
-              console.log(user)
+                console.log(user)
                 this.user$.next(user)
             });
         }
@@ -181,7 +200,7 @@ export class Auth {
 
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
-          console.log("https://circlemapping.auth0.com/api/v2/users", newUser, headers)
+            console.log("https://circlemapping.auth0.com/api/v2/users", newUser, headers)
             return this.http.post("https://circlemapping.auth0.com/api/v2/users", newUser, { headers: headers })
                 .map((responseData) => {
                     return responseData.json();
