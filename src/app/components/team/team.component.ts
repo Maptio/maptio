@@ -145,6 +145,12 @@ export class TeamComponent implements OnDestroy {
                     console.log("build virtual user", virtualUser)
                     return virtualUser;
                 })
+                    .then((user: User) => {
+                        console.log("sending invite to ", user.email, user.user_id, user.name)
+                        this.auth.sendInvite(user.email, user.user_id, user.name);
+                        return user;
+                    })
+
                     .then((virtualUser: User) => {
                         console.log("create virtual user", virtualUser)
                         this.userFactory.create(virtualUser).then(() => {

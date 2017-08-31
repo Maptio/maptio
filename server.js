@@ -28,11 +28,14 @@ var datasets = require('./routes/datasets');
 var users = require('./routes/users');
 var teams = require('./routes/teams');
 var mailing = require('./routes/mail');
+var encoding = require('./routes/encoding');
 
 app.use('/api/v1/', datasets);
 app.use('/api/v1/', users);
 app.use('/api/v1/', teams);
 app.use('/api/v1/', mailing);
+app.use('/api/v1/', encoding);
+
 
 app.set("port", process.env.PORT || DEFAULT_PORT);
 

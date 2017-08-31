@@ -67,6 +67,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { AuthConfiguration } from "./shared/services/auth/auth.config";
 import { ResponsiveModule, } from "ng2-responsive";
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";
+import { JwtEncoder } from "./shared/services/encoding/jwt.service";
 
 // Routes
 const appRoutes: Routes = [
@@ -114,7 +115,8 @@ const appRoutes: Routes = [
   exports: [RouterModule],
   providers: [
     AuthGuard, AccessGuard, AuthConfiguration,
-    D3Service, DataService, ColorService, UIService, DatasetFactory, TeamFactory, ErrorService, AUTH_PROVIDERS, Auth, UserFactory, MailingService, 
+    D3Service, DataService, ColorService, UIService, DatasetFactory, TeamFactory, 
+    ErrorService, AUTH_PROVIDERS, Auth, UserFactory, MailingService, JwtEncoder,
     Location, { provide: LocationStrategy, useClass: PathLocationStrategy }],
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]

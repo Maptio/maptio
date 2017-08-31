@@ -1,3 +1,5 @@
+import { MailingService } from './../mailing/mailing.service';
+import { JwtEncoder } from './../encoding/jwt.service';
 import { Http, Headers } from "@angular/http";
 import { ErrorService } from "../error/error.service";
 import { Router } from "@angular/router";
@@ -18,7 +20,9 @@ export class Auth {
     private user$: Subject<User>;
     private _http: Http;
 
-    constructor(private http: Http, public lock: AuthConfiguration, public userFactory: UserFactory, private router: Router, private errorService: ErrorService) {
+    constructor(private http: Http, public lock: AuthConfiguration,
+        public userFactory: UserFactory, private router: Router, private errorService: ErrorService,
+        public encodingService: JwtEncoder, public mailing: MailingService) {
         this._http = http;
         this.user$ = new Subject();
         this.lock.getLock().on("authenticated", (authResult: any) => {
@@ -57,12 +61,12 @@ export class Auth {
     }
 
     public setUser(profile: any): Promise<boolean> {
-      console.log("setUser", profile)
+        console.log("setUser", profile)
         localStorage.setItem("profile", JSON.stringify(profile));
 
         return this.userFactory.get(profile.user_id)
             .then((user) => {
-              console.log("getting user", user)
+                console.log("getting user", user)
                 this.user$.next(user);
                 return Promise.resolve<boolean>(true);
             })
@@ -186,6 +190,36 @@ export class Auth {
             }).toPromise();
     }
 
+
+    public sendInvite(email: string, userId: string, name: string): Promise<boolean> {
+
+        return Promise.all([
+            this.encodingService.encode({ user_id: userId, email: email }),
+            this.getApiToken()]
+        ).then(([userToken, apiToken]: [string, string]) => {
+            let headers = new Headers();
+            headers.set("Authorization", "Bearer " + apiToken);
+            return this.http.post(
+                "https://circlemapping.auth0.com/api/v2/tickets/email-verification",
+                {
+                    "result_url": "http://app.maptio.com/home/" + userToken,
+                    "user_id": userId
+                }, { headers: headers })
+                .map((responseData) => {
+                    return <string>responseData.json().ticket;
+                }).toPromise()
+        })
+            .then((ticket: string) => {
+                let body = `<h1>Hello ${name}, </h1>" +
+                "Great that you're using our application. " +
+                "Please click <a href='${ticket}'>ACTIVATE</a> to activate your account." +
+                "The Maptio team!`;
+
+                return this.mailing.sendEmail("support@maptio.com", ["safiyya.babio@gmail.com"], "You've been invited in Maptio", body)
+            })
+
+    }
+
     public createUser(email: string, name: string): Promise<User> {
         let newUser = {
             "connection": "Username-Password-Authentication",
@@ -200,7 +234,7 @@ export class Auth {
 
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
-            console.log("https://circlemapping.auth0.com/api/v2/users", newUser, headers)
+
             return this.http.post("https://circlemapping.auth0.com/api/v2/users", newUser, { headers: headers })
                 .map((responseData) => {
                     return responseData.json();

@@ -13,13 +13,6 @@ export class AuthGuard implements CanActivate, CanActivateChild {
         if (this.auth.authenticated()) {
             console.log("authenticated")
             this.auth.getUser().subscribe((user: User) => {
-                // this.auth.isFirstLogin(user.user_id).then((isFirstLogin: boolean) => {
-                //     console.log("isFirstLogin", isFirstLogin)
-                //     if (isFirstLogin) {
-                //         this.router.navigate(["/change-password"]);
-                //         return false;
-                //     }
-                // })
                 this.auth.isEmailVerified(user.user_id).then((isEmailVerified: boolean) => {
                     console.log("isEmailVerified", isEmailVerified)
                     if (!isEmailVerified) {

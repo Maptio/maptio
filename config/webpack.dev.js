@@ -7,7 +7,7 @@ var webpack = require('webpack');
 
 var buildPath = path.resolve(__dirname, 'public', 'build');
 
-const ENV = process.env.NODE_ENV = process.env.ENV = 'development';
+// const ENV = process.env.NODE_ENV = process.env.ENV = 'development';
 
 
 module.exports = webpackMerge(commonConfig, {
@@ -22,11 +22,11 @@ module.exports = webpackMerge(commonConfig, {
 
   plugins: [
 
-    new webpack.DefinePlugin({
-      'process.env': {
-        'ENV': JSON.stringify(ENV)
-      }
-    }),
+    // new webpack.DefinePlugin({
+    //   'process.env': {
+    //     'ENV': JSON.stringify(ENV)
+    //   }
+    // }),
 
     new ExtractTextPlugin('[name].css')
   ],
