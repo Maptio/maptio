@@ -27,10 +27,12 @@ app.use(sslRedirect());
 var datasets = require('./routes/datasets');
 var users = require('./routes/users');
 var teams = require('./routes/teams');
+var mailing = require('./routes/mail');
 
 app.use('/api/v1/', datasets);
 app.use('/api/v1/', users);
 app.use('/api/v1/', teams);
+app.use('/api/v1/', mailing);
 
 app.set("port", process.env.PORT || DEFAULT_PORT);
 

@@ -20,9 +20,9 @@ export class AuthGuard implements CanActivate, CanActivateChild {
                 //         return false;
                 //     }
                 // })
-                this.auth.isEmailVerified(user.user_id).then((isEmailVerfied: boolean) => {
-                    console.log("isEmailVerified", isEmailVerfied)
-                    if (!isEmailVerfied) {
+                this.auth.isEmailVerified(user.user_id).then((isEmailVerified: boolean) => {
+                    console.log("isEmailVerified", isEmailVerified)
+                    if (!isEmailVerified) {
                         this.router.navigate(["/verify-email"]);
                         return false;
                     }

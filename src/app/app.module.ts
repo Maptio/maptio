@@ -1,3 +1,4 @@
+import { ActivateAccountComponent } from "./components/activate/activate-account.component";
 
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
@@ -23,6 +24,7 @@ import { Auth } from "./shared/services/auth/auth.service";
 import { AUTH_PROVIDERS } from "angular2-jwt";
 import { UserFactory } from "./shared/services/user.factory";
 import { TeamFactory } from "./shared/services/team.factory";
+import {MailingService} from "./shared/services/mailing/mailing.service"
 
 // Components
 import { LoginComponent } from "./components/login/login.component";
@@ -80,8 +82,8 @@ const appRoutes: Routes = [
   { path: "map/:workspaceid/i/:slug", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
 
   { path: "unauthorized", component: UnauthorizedComponent },
-  { path: "verify-email", component: VerifyEmailComponent }
-
+  { path: "verify-email", component: VerifyEmailComponent },
+  { path: "activate", component: ActivateAccountComponent }
 ];
 
 @NgModule({
@@ -89,7 +91,7 @@ const appRoutes: Routes = [
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent, TeamComponent,
     MappingComponent, MappingCirclesComponent, MappingTreeComponent, MappingFirstPersonComponent, TooltipComponent,
     BuildingComponent, InitiativeNodeComponent, LoginComponent, HomeComponent, UnauthorizedComponent,
-    InitiativeComponent, VerifyEmailComponent,
+    InitiativeComponent, VerifyEmailComponent, ActivateAccountComponent,
     FocusIfDirective,
     AutoSelectDirective,
     AnchorDirective,
@@ -112,7 +114,7 @@ const appRoutes: Routes = [
   exports: [RouterModule],
   providers: [
     AuthGuard, AccessGuard, AuthConfiguration,
-    D3Service, DataService, ColorService, UIService, DatasetFactory, TeamFactory, ErrorService, AUTH_PROVIDERS, Auth, UserFactory,
+    D3Service, DataService, ColorService, UIService, DatasetFactory, TeamFactory, ErrorService, AUTH_PROVIDERS, Auth, UserFactory, MailingService, 
     Location, { provide: LocationStrategy, useClass: PathLocationStrategy }],
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]
