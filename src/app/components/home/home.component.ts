@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe((params: Params) => {
-            console.log(params["token"]);
+       
             let token = params["token"];
             if (token) {
                 this.encoding.decode(token)
