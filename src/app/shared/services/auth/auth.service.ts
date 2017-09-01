@@ -191,7 +191,7 @@ export class Auth {
     }
 
 
-    public sendInvite(email: string, userId: string, name: string): Promise<boolean> {
+    public sendInvite(email: string, userId: string, name: string, teamName: string): Promise<boolean> {
 
         return Promise.all([
             this.encodingService.encode({ user_id: userId, email: email }),
@@ -211,7 +211,7 @@ export class Auth {
                 }).toPromise()
         })
             .then((ticket: string) => {
-                return this.mailing.sendInvitation("support@maptio.com", ["safiyya.babio@gmail.com"], "You've been invited in Maptio", ticket)
+                return this.mailing.sendInvitation("support@maptio.com", ["safiyya.babio@gmail.com"], "You've been invited in Maptio", ticket, teamName)
             })
     }
 

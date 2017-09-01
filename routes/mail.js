@@ -58,9 +58,10 @@ router.post('/invite', function (req, res, next) {
     let to = req.body.to;
     let subject = req.body.subject;
     let url = req.body.url;
+    let team = req.body.team;
 
     let template = _.template(fs.readFileSync(path.join(__dirname, "..", "public/templates/email-invitation.html")))
-    let htmlBody = template({ url: url });
+    let htmlBody = template({ url: url, team: team });
 
     ses.sendEmail({
         Source: from,

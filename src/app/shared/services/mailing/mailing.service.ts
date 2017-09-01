@@ -33,13 +33,14 @@ export class MailingService {
             .catch(this.errorService.handleError);
     }
 
-    public sendInvitation(from: string, to: string[], subject: string, url:string): Promise<boolean> {
+    public sendInvitation(from: string, to: string[], subject: string, url: string, team: string): Promise<boolean> {
 
         let email = {
             from: from,
-            subject: subject,
+            subject: `You've been invited to join team "${team}" on Maptio`,
             url: url,
-            to: to
+            to: to,
+            team: team
         };
 
         return this.http.post("/api/v1/invite", email)
