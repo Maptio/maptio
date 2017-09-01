@@ -23,7 +23,7 @@ export class JwtEncoder {
     }
 
     public decode(token: string): Promise<any> {
-        return this.http.post("/api/v1/encode", token)
+        return this.http.get("/api/v1/decode/" + token)
         .map((responseData) => {
             return responseData.json();
         })

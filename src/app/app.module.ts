@@ -24,7 +24,7 @@ import { Auth } from "./shared/services/auth/auth.service";
 import { AUTH_PROVIDERS } from "angular2-jwt";
 import { UserFactory } from "./shared/services/user.factory";
 import { TeamFactory } from "./shared/services/team.factory";
-import {MailingService} from "./shared/services/mailing/mailing.service"
+import { MailingService } from "./shared/services/mailing/mailing.service"
 
 // Components
 import { LoginComponent } from "./components/login/login.component";
@@ -73,6 +73,9 @@ import { JwtEncoder } from "./shared/services/encoding/jwt.service";
 const appRoutes: Routes = [
   { path: "", redirectTo: "", pathMatch: "full", component: HomeComponent },
 
+  { path: "home", component: HomeComponent },
+  { path: "home/:token", component: HomeComponent },
+
   { path: "login", component: LoginComponent },
   { path: "account", component: AccountComponent, canActivate: [AuthGuard] },
   { path: "account/teams", component: TeamComponent, canActivate: [AuthGuard] },
@@ -115,7 +118,7 @@ const appRoutes: Routes = [
   exports: [RouterModule],
   providers: [
     AuthGuard, AccessGuard, AuthConfiguration,
-    D3Service, DataService, ColorService, UIService, DatasetFactory, TeamFactory, 
+    D3Service, DataService, ColorService, UIService, DatasetFactory, TeamFactory,
     ErrorService, AUTH_PROVIDERS, Auth, UserFactory, MailingService, JwtEncoder,
     Location, { provide: LocationStrategy, useClass: PathLocationStrategy }],
   entryComponents: [AppComponent],

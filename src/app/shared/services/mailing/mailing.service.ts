@@ -33,7 +33,7 @@ export class MailingService {
             .catch(this.errorService.handleError);
     }
 
-    public sendInvitation(from: string, to: string[], subject: string, url: string, team: string): Promise<boolean> {
+    public sendInvitation(from: string, to: string[],  url: string, team: string): Promise<boolean> {
 
         let email = {
             from: from,
