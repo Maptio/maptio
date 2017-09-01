@@ -202,7 +202,7 @@ export class Auth {
             return this.http.post(
                 "https://circlemapping.auth0.com/api/v2/tickets/email-verification",
                 {
-                    "result_url": "http://app.maptio.com/home/" + userToken,
+                    "result_url": "http://app.maptio.com/home?token=" + userToken,
                     "user_id": userId
                 },
                 { headers: headers })
@@ -211,8 +211,8 @@ export class Auth {
                 }).toPromise()
         })
             .then((ticket: string) => {
-                return this.mailing.sendInvitation("support@maptio.com", ["safiyya.babio@gmail.com"], "You've been invited in Maptio", ticket, teamName)
-            })
+                return this.mailing.sendInvitation("support@maptio.com", ["safiyya.babio@gmail.com"], ticket, teamName)
+            });
     }
 
     public createUser(email: string, name: string): Promise<User> {
@@ -222,7 +222,10 @@ export class Auth {
             "name": name,
             "password": UUID.UUID(),
             "email_verified": true,
-            "verify_email": false
+            "app_metadata":
+            {
+                "activation_pending": true
+            }
         }
 
         return this.getApiToken().then((token: string) => {
@@ -236,6 +239,78 @@ export class Auth {
                 })
                 .map((input: any) => {
                     return User.create().deserialize(input);
+                })
+                .toPromise()
+                .then(r => r)
+                .catch(this.errorService.handleError);
+        });
+    }
+
+    public isActivationPending(user_id: string): Promise<boolean> {
+        return this.getApiToken().then((token: string) => {
+
+            let headers = new Headers();
+            headers.set("Authorization", "Bearer " + token);
+
+            return this.http.get("https://circlemapping.auth0.com/api/v2/users/" + user_id, { headers: headers })
+                .map((responseData) => {
+                    return responseData.json().app_metadata.activation_pending;
+                })
+                .toPromise()
+                .then(r => r)
+                .catch(this.errorService.handleError);
+        });
+    }
+
+    public updatePassword(user_id: string, password: string): Promise<boolean> {
+        return this.getApiToken().then((token: string) => {
+
+            let headers = new Headers();
+            headers.set("Authorization", "Bearer " + token);
+
+            return this.http.patch("https://circlemapping.auth0.com/api/v2/users/" + user_id,
+                {
+                    "password": password,
+                    "connection": "Username-Password-Authentication"
+                }
+                ,
+                { headers: headers })
+                .map((responseData) => {
+                    return true;
+                })
+                .toPromise()
+                .then(r => r)
+                .catch(this.errorService.handleError);
+        });
+    }
+
+    public updateActivationPendingStatus(user_id: string, isActivationPending: boolean): Promise<boolean> {
+        return this.getApiToken().then((token: string) => {
+
+            let headers = new Headers();
+            headers.set("Authorization", "Bearer " + token);
+
+            return this.http.patch("https://circlemapping.auth0.com/api/v2/users/" + user_id,
+                { "app_metadata": { "activation_pending": isActivationPending } }
+                ,
+                { headers: headers })
+                .map((responseData) => {
+                    return true;
+                })
+                .toPromise()
+                .then(r => r)
+                .catch(this.errorService.handleError);
+        });
+    }
+
+    public storeProfile(user_id: string): Promise<void> {
+        return this.getApiToken().then((token: string) => {
+            let headers = new Headers();
+            headers.set("Authorization", "Bearer " + token);
+            return this.http.get("https://circlemapping.auth0.com/api/v2/users/" + user_id,
+                { headers: headers })
+                .map((responseData) => {
+                    localStorage.setItem("profile", JSON.stringify(responseData.json()));
                 })
                 .toPromise()
                 .then(r => r)

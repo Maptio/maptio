@@ -10,6 +10,7 @@ export class AuthConfiguration {
     constructor() { }
     public getLock(): any {
         let options = {
+            container: 'login-container',
             closable: true,
             theme: {
                 logo: "assets/images/logo.png",

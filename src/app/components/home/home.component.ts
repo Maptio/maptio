@@ -14,11 +14,11 @@ export class HomeComponent implements OnInit {
     public invitedEmail: string;
     public isActivationPending: Promise<boolean>;
 
-    constructor(private auth: Auth, private route: ActivatedRoute, public encoding: JwtEncoder, public userFactory: UserFactory) { }
+    constructor(private auth: Auth, private route: ActivatedRoute, public encoding: JwtEncoder) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe((params: Params) => {
-       
+
             let token = params["token"];
             if (token) {
                 this.encoding.decode(token)
@@ -30,9 +30,6 @@ export class HomeComponent implements OnInit {
                         this.isActivationPending = this.auth.isActivationPending(user_id);
                     })
             }
-
-
-
         })
     }
 }
