@@ -204,20 +204,15 @@ export class Auth {
                 {
                     "result_url": "http://app.maptio.com/home/" + userToken,
                     "user_id": userId
-                }, { headers: headers })
+                },
+                { headers: headers })
                 .map((responseData) => {
                     return <string>responseData.json().ticket;
                 }).toPromise()
         })
             .then((ticket: string) => {
-                let body = `<h1>Hello ${name}, </h1>" +
-                "Great that you're using our application. " +
-                "Please click <a href='${ticket}'>ACTIVATE</a> to activate your account." +
-                "The Maptio team!`;
-
-                return this.mailing.sendEmail("support@maptio.com", ["safiyya.babio@gmail.com"], "You've been invited in Maptio", body)
+                return this.mailing.sendInvitation("support@maptio.com", ["safiyya.babio@gmail.com"], "You've been invited in Maptio", ticket)
             })
-
     }
 
     public createUser(email: string, name: string): Promise<User> {
@@ -226,8 +221,8 @@ export class Auth {
             "email": email,
             "name": name,
             "password": UUID.UUID(),
-            "email_verified": false,
-            "verify_email": true
+            "email_verified": true,
+            "verify_email": false
         }
 
         return this.getApiToken().then((token: string) => {
