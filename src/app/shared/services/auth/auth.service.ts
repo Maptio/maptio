@@ -1,10 +1,11 @@
-import { MailingService } from './../mailing/mailing.service';
-import { JwtEncoder } from './../encoding/jwt.service';
+import { EmitterService } from './../emitter.service';
+import { MailingService } from "./../mailing/mailing.service";
+import { JwtEncoder } from "./../encoding/jwt.service";
 import { Http, Headers } from "@angular/http";
 import { ErrorService } from "../error/error.service";
 import { Router } from "@angular/router";
 import { UserFactory } from "../user.factory";
-import { Injectable } from "@angular/core";
+import { Injectable, EventEmitter } from "@angular/core";
 import { tokenNotExpired } from "angular2-jwt";
 import { UUID } from "angular2-uuid/index";
 import { Observable } from "rxjs/Observable";
@@ -13,6 +14,7 @@ import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import { User } from "../../model/user.data";
 import { AuthConfiguration } from "./auth.config";
+import { WebAuth } from "auth0-js"
 
 @Injectable()
 export class Auth {
@@ -84,18 +86,65 @@ export class Auth {
 
 
 
-    public login() {
-        let uuid = UUID.UUID();
-        localStorage.setItem(uuid, localStorage.getItem("redirectUrl"));
-        this.lock.getLock().show({
-            auth: {
-                params: {
-                    scope: "openid name email",
-                    state: JSON.stringify({ pathname_key: uuid })
+    // public login() {
+    //     let uuid = UUID.UUID();
+    //     localStorage.setItem(uuid, localStorage.getItem("redirectUrl"));
+    //     this.lock.getLock().show({
+    //         auth: {
+    //             params: {
+    //                 scope: "openid name email",
+    //                 state: JSON.stringify({ pathname_key: uuid })
+    //             }
+    //         }
+    //     });
+    // };
+
+    public login(email: string, password: string): Promise<boolean> {
+
+        try {
+            this.lock.getWebAuth().client.login({
+                realm: "Username-Password-Authentication",
+                username: email,
+                password: password,
+                scope: "profile openid email"
+            }, function (err: any, authResult: any) {
+                if (err) {
+                    console.log(err)
+                    EmitterService.get("loginErrorMessage").emit(err.description);
+                    return;
                 }
-            }
-        });
-    };
+                localStorage.setItem("id_token", authResult.idToken);
+                console.log(authResult)
+                if (authResult.accessToken) {
+                    this.lock.getWebAuth().client.userInfo(authResult.accessToken, function (err: Error, profile: any) {
+                        profile.user_id = profile.sub;
+                        profile.sub = undefined;
+                        this.setUser(profile).then((isSucess: boolean) => {
+                            if (isSucess) {
+                                this.userFactory.get(profile.user_id)
+                                    .then((user: User) => {
+                                        this.user$.next(user);
+                                        return user;
+                                    });
+
+                                window.location.href = "/home";
+                            }
+                            else {
+                                this.errorService.handleError("Something has gone wrong ! Try again ?");
+                            }
+                        })
+                    }.bind(this))
+                }
+            }.bind(this));
+
+        } catch (error) {
+            return Promise.reject(error)
+        }
+
+
+
+    }
+
 
     public authenticated(): boolean {
         return tokenNotExpired();

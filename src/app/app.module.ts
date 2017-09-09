@@ -1,3 +1,4 @@
+import { ChangePasswordComponent } from './components/unauthorized/change-password.component';
 import { ActivateAccountComponent } from "./components/activate/activate-account.component";
 
 import { BrowserModule } from "@angular/platform-browser";
@@ -86,8 +87,9 @@ const appRoutes: Routes = [
   { path: "map/:workspaceid/i/:slug", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
 
   { path: "unauthorized", component: UnauthorizedComponent },
-  { path: "verify-email", component: VerifyEmailComponent },
-  { path: "activate", component: ActivateAccountComponent }
+  // { path: "verify-email", component: VerifyEmailComponent },
+  // { path: "activate", component: ActivateAccountComponent },
+  { path: "forgot", component: ChangePasswordComponent }
 ];
 
 @NgModule({
@@ -95,7 +97,7 @@ const appRoutes: Routes = [
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent, TeamComponent,
     MappingComponent, MappingCirclesComponent, MappingTreeComponent, MappingFirstPersonComponent, TooltipComponent,
     BuildingComponent, InitiativeNodeComponent, LoginComponent, HomeComponent, UnauthorizedComponent,
-    InitiativeComponent, VerifyEmailComponent, ActivateAccountComponent,
+    InitiativeComponent, ChangePasswordComponent,
     FocusIfDirective,
     AutoSelectDirective,
     AnchorDirective,

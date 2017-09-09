@@ -1,3 +1,4 @@
+import { WebAuth } from "auth0-js";
 import { Injectable } from "@angular/core";
 
 declare var Auth0Lock: any;
@@ -6,11 +7,19 @@ declare var Auth0Lock: any;
 export class AuthConfiguration {
 
     private _lock: any;
+    private _webAuth: WebAuth;
 
     constructor() { }
+
+    public getWebAuth(): WebAuth {
+        return new WebAuth({
+            domain: "circlemapping.auth0.com",
+            clientID: "CRvF82hID2lNIMK4ei2wDz20LH7S5BMy"
+        });
+    }
+
     public getLock(): any {
         let options = {
-            container: 'login-container',
             closable: true,
             theme: {
                 logo: "assets/images/logo.png",

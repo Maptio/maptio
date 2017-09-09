@@ -1,8 +1,9 @@
 import { Params } from "@angular/router";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Auth } from "./../../shared/services/auth/auth.service";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild, Input } from "@angular/core";
 import { JwtEncoder } from "../../shared/services/encoding/jwt.service";
+import { EmitterService } from "../../shared/services/emitter.service";
 
 @Component({
     selector: "login",
@@ -14,14 +15,17 @@ export class LoginComponent implements OnInit {
     public email: string;
     public password: string;
     public isTermsAccepted: boolean = false;
-
     public isActivationPending: Promise<boolean>;
+    public isLoggingIn: boolean;
+    public isPasswordEmpty: boolean;
+    public loginErrorMessage: string;
+
 
     ngOnInit() {
         this.route.queryParams.subscribe((params: Params) => {
             let token = params["token"];
-
-            if (token) {
+            this.isLoggingIn = (token === undefined);
+            if (!this.isLoggingIn) {
                 this.encoding.decode(token)
                     .then((decoded: any) => {
                         console.log(decoded)
@@ -33,20 +37,35 @@ export class LoginComponent implements OnInit {
                         this.isActivationPending.then((isPending: boolean) => {
                             console.log("activation pending", isPending)
                             if (!isPending) {
-                                this.auth.login();
+                                window.location.href = "/login";
                             }
                         })
                         return user_id;
                     })
                     .catch(() => {
                         // anything goes wrong, we redirect to usual login page
-                        this.auth.login();
+                        window.location.href = "/login";
                     })
             }
-            else {
-                this.auth.login();
-            }
         })
+    }
+
+    passwordChange() {
+        // Browser bug similar to https://github.com/angular/angular.js/issues/15985
+        // so i have to check that password after  submit
+        this.isPasswordEmpty = (this.password === "")
+    }
+
+    login(): void {
+        if (this.email && this.password) {
+            console.log(this.email, this.password);
+
+            let user = this.auth.login(this.email, this.password)
+            EmitterService.get("loginErrorMessage").subscribe((loginErrorMessage: string) => {
+                this.loginErrorMessage = loginErrorMessage;
+            })
+        }
+
     }
 
 
@@ -77,8 +96,9 @@ export class LoginComponent implements OnInit {
                         return user_id;
                     })
                     .then((user_id: string) => {
-                        this.isActivationPending = Promise.resolve(false)
-                        this.router.navigateByUrl("/account/profile")
+                        this.isActivationPending = Promise.resolve(false);
+
+                        this.router.navigateByUrl("/account/teams")
                     })
                     .catch(() => {
 

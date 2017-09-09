@@ -65,7 +65,7 @@
                 </div>
             </li>
             <li class="nav-link" id="loginButton" *ngIf="!auth.authenticated()">
-                <a (click)="auth.login()" placement="bottom">Log In</a>
+                <a routerLink="/login" placement="bottom">Log In</a>
             </li>
             <li class="nav-link">
                 <a class="help" placement="left" container="body" ngbTooltip="Email us at support@maptio.com"></a>
