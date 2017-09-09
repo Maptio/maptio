@@ -31,7 +31,7 @@
         <button *ngIf="!isLoggingIn" (click)="activateAccount()" class="btn btn-success btn-lg" [class.disabled]="inputPassword.invalid || inputTC.errors?.required">Log in</button>
         <button *ngIf="isLoggingIn" (click)="login()" class="btn btn-success btn-lg" [class.disabled]="inputEmail.invalid || isPasswordEmpty">Log in</button>
         
-        <p class="mt-2">Forgot your password ? <a routerLink="/forgot">Reset it</a></p>
+        <p class="mt-2">Forgot your password? <a routerLink="/forgot">Reset it</a></p>
 
     </div>
 

@@ -119,15 +119,16 @@ export class Auth {
                     this.lock.getWebAuth().client.userInfo(authResult.accessToken, function (err: Error, profile: any) {
                         profile.user_id = profile.sub;
                         profile.sub = undefined;
-                        this.setUser(profile).then((isSucess: boolean) => {
-                            if (isSucess) {
+                        this.setUser(profile).then((isSuccess: boolean) => {
+                            if (isSuccess) {
                                 this.userFactory.get(profile.user_id)
                                     .then((user: User) => {
                                         this.user$.next(user);
                                         return user;
-                                    });
-
-                                window.location.href = "/home";
+                                    })
+                                    .then((user: User) => {
+                                        window.location.href = user.getHomePage();
+                                    })
                             }
                             else {
                                 this.errorService.handleError("Something has gone wrong ! Try again ?");

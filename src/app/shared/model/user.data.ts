@@ -27,8 +27,15 @@ export class User implements Serializable<User> {
      */
     public picture: string;
 
-    /**True if this is a virtual user, false otherwise */
-    public isVirtual: boolean;
+    /**
+     * True is email was verified , false otherwise
+     */
+    // public isEmailVerified: boolean;
+
+    // /**
+    //  * Number of times a user have logged in
+    //  */
+    // public loginsCount: number;
 
     /**
      * List of teams
@@ -44,7 +51,6 @@ export class User implements Serializable<User> {
         Object.assign(this, init);
     }
 
-
     static create(): User {
         return new User();
     }
@@ -59,7 +65,8 @@ export class User implements Serializable<User> {
         deserialized.email = input.email;
         deserialized.picture = input.picture;
         deserialized.user_id = input.user_id; // specific to Auth0
-        deserialized.isVirtual = input.isVirtual;
+        // deserialized.isEmailVerified = input.isEmailVerified || input.email_verified;
+        // deserialized.loginsCount = input.loginsCount || input.logins_count;
         deserialized.teams = [];
         if (input.teams) {
             input.teams.forEach((t: any) => {
@@ -87,6 +94,16 @@ export class User implements Serializable<User> {
         }
         catch (Exception) {
             return [false, undefined]
+        }
+    }
+
+    getHomePage() {
+        if (this.datasets.length === 1) {
+            let mapid = this.datasets[0];
+            return `/map/${mapid}/me`;
+        }
+        else {
+            return "/home"
         }
     }
 }
