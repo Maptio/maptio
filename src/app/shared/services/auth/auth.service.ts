@@ -367,4 +367,18 @@ export class Auth {
         });
     }
 
+
+    public changePassword(email: string): void {
+        this.lock.getWebAuth().changePassword({
+            connection: "Username-Password-Authentication",
+            email: email
+        }, function (err, resp) {
+            if (err) {
+                EmitterService.get("changePasswordFeedbackMessage").emit(err.error)
+            } else {
+                EmitterService.get("changePasswordFeedbackMessage").emit(resp)
+            }
+        });
+    }
+
 }
