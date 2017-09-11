@@ -37,7 +37,7 @@
                     <div *ngIf="isUserSearchedEmail">
 
                         <div>
-                            <p class="card-text"><b>{{userSearched}}</b> ? We don’t know that person. Add a name and click Invite and we’ll add
+                            <p class="card-text"><b>{{userSearched}}</b> ? We don’t know that person. Add a name and click Add and we’ll add
                                 a virtual team member. They'll automatically receive access to <b>{{(team$ | async)?.name}}</b>'s
                                 maps once they sign up and confirm their email address.</p>
                             <div class="from-group" [class.has-warning]="name.invalid && (name.dirty || name.touched)">

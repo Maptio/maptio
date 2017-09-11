@@ -147,7 +147,7 @@ export class TeamComponent implements OnDestroy {
                 })
                     .then((user: User) => {
                         console.log("sending invite to ", user.email, user.user_id, user.name)
-                        this.auth.sendInvite(user.email, user.user_id, user.name, team.name);
+                        this.auth.sendInvite(user.email, user.user_id, user.name, team.name, this.user.name);
                         return user;
                     })
 

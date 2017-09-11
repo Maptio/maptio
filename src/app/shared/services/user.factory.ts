@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Rx';
+import { Observable } from "rxjs/Rx";
 import { ErrorService } from "./error/error.service";
 import { User } from "./../model/user.data";
 import { Injectable } from "@angular/core";
@@ -41,6 +41,7 @@ export class UserFactory {
      *  Returns undefined if no user is found
      */
     get(uniqueId: string): Promise<User> {
+        console.log("GET", "/api/v1/user/" + uniqueId)
         return this.http.get("/api/v1/user/" + uniqueId)
             .map((response: Response) => {
                 return User.create().deserialize(response.json());
@@ -53,7 +54,7 @@ export class UserFactory {
     /**
      * Creates a new user
      */
-    create(input: any): Promise<User> {
+    create(input: User): Promise<User> {
         return this.http.post("/api/v1/user", input)
             .map((responseData) => {
                 return responseData.json();
