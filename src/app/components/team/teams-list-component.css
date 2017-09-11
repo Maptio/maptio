@@ -12,5 +12,6 @@
 
 .overflow{
     overflow-y: auto;
-    height: 600px
+    height: 600px;
+    padding-right:5px
 }
