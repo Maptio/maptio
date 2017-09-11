@@ -1,11 +1,8 @@
-import { ChangePasswordComponent } from './components/unauthorized/change-password.component';
-import { ActivateAccountComponent } from "./components/activate/activate-account.component";
-
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
-import { HttpModule } from "@angular/http";
+import { HttpModule, RequestOptions, XHRBackend, Http } from "@angular/http";
 
 // Routing
 import { PathLocationStrategy, Location, LocationStrategy } from "@angular/common";
@@ -52,6 +49,10 @@ import { HeaderComponent } from "./components/header/header.component";
 
 import { UnauthorizedComponent } from "./components/unauthorized/unauthorized.component";
 import { VerifyEmailComponent } from "./components/unauthorized/verify-email.component";
+import { LoaderComponent } from "./shared/services/http/loader.component";
+import { LoaderService } from "./shared/services/http/loader.service";
+import { ChangePasswordComponent } from "./components/unauthorized/change-password.component";
+import { ActivateAccountComponent } from "./components/activate/activate-account.component";
 
 
 
@@ -69,6 +70,8 @@ import { AuthConfiguration } from "./shared/services/auth/auth.config";
 import { ResponsiveModule, } from "ng2-responsive";
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";
 import { JwtEncoder } from "./shared/services/encoding/jwt.service";
+import { HttpService } from "./shared/services/http/http.service";
+import { HttpServiceFactory } from "./shared/services/http/htttp.service.factory";
 
 // Routes
 const appRoutes: Routes = [
@@ -97,7 +100,7 @@ const appRoutes: Routes = [
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent, TeamComponent,
     MappingComponent, MappingCirclesComponent, MappingTreeComponent, MappingFirstPersonComponent, TooltipComponent,
     BuildingComponent, InitiativeNodeComponent, LoginComponent, HomeComponent, UnauthorizedComponent,
-    InitiativeComponent, ChangePasswordComponent,
+    InitiativeComponent, ChangePasswordComponent, LoaderComponent,
     FocusIfDirective,
     AutoSelectDirective,
     AnchorDirective,
@@ -121,8 +124,15 @@ const appRoutes: Routes = [
   providers: [
     AuthGuard, AccessGuard, AuthConfiguration,
     D3Service, DataService, ColorService, UIService, DatasetFactory, TeamFactory,
-    ErrorService, AUTH_PROVIDERS, Auth, UserFactory, MailingService, JwtEncoder,
-    Location, { provide: LocationStrategy, useClass: PathLocationStrategy }],
+    ErrorService, AUTH_PROVIDERS, Auth, UserFactory, MailingService, JwtEncoder, LoaderService,
+    Location,
+    { provide: LocationStrategy, useClass: PathLocationStrategy },
+    {
+      provide: Http,
+      useFactory: HttpServiceFactory,
+      deps: [XHRBackend, RequestOptions, LoaderService]
+    }
+  ],
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]
 })

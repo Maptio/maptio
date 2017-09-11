@@ -65,36 +65,7 @@ a.caret-after {
   padding-left: 1px !important;
 }
 
-@keyframes spinner {
-  to {
-    transform: rotate(360deg);
-  }
-}
 
-.loading {
-  position: absolute;
-  top: 40%;
-  left: 42%;
-  background: url("/assets/images/logo.png") no-repeat;
-  width: 150px;
-  height: 150px;
-}
-
-.loading:before {
-  content: '';
-  box-sizing: border-box;
-  position: absolute;
-  top: 5%;
-  left: -4%;
-  width: 192px;
-  height: 192px;
-  margin-top: -10px;
-  margin-left: -10px;
-  border-radius: 50%;
-  border: 16px dashed #fff;
-  border-top-color: #eee;
-  animation: spinner 4.6s linear infinite;
-}
 
 .without-caret.dropdown-toggle::after {
   display: none
