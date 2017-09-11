@@ -72,6 +72,7 @@ import { ConfirmationPopoverModule } from "angular-confirmation-popover";
 import { JwtEncoder } from "./shared/services/encoding/jwt.service";
 import { HttpService } from "./shared/services/http/http.service";
 import { HttpServiceFactory } from "./shared/services/http/htttp.service.factory";
+import { TeamsListComponent } from "./components/team/teams-list.component";
 
 // Routes
 const appRoutes: Routes = [
@@ -82,7 +83,7 @@ const appRoutes: Routes = [
 
   { path: "login", component: LoginComponent },
   { path: "account", component: AccountComponent, canActivate: [AuthGuard] },
-  { path: "account/teams", component: TeamComponent, canActivate: [AuthGuard] },
+  { path: "account/teams", component: TeamsListComponent, canActivate: [AuthGuard] },
   { path: "account/team/:teamid", component: TeamComponent, canActivate: [AuthGuard, AccessGuard] },
   { path: "account/profile", component: AccountComponent, canActivate: [AuthGuard] },
   { path: "map/:workspaceid", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
@@ -100,7 +101,7 @@ const appRoutes: Routes = [
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent, TeamComponent,
     MappingComponent, MappingCirclesComponent, MappingTreeComponent, MappingFirstPersonComponent, TooltipComponent,
     BuildingComponent, InitiativeNodeComponent, LoginComponent, HomeComponent, UnauthorizedComponent,
-    InitiativeComponent, ChangePasswordComponent, LoaderComponent,
+    InitiativeComponent, ChangePasswordComponent, LoaderComponent,TeamsListComponent,
     FocusIfDirective,
     AutoSelectDirective,
     AnchorDirective,

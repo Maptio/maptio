@@ -8,7 +8,7 @@
                     <li *ngFor="let member of (members$ | async)" class="list-inline-item col-sm-3">
                         <div class="card mb-1">
                             <div class="card-title ml-1">
-                                <img width="20px" src="{{member.picture}}" class="rounded-circle" >                              {{member.nickname}}
+                                <img width="20px" src="{{member.picture}}" class="rounded-circle"> {{member.nickname}}
                             </div>
                             <div class="card-title ml-1 small">
                                 <i *ngIf="member.email">{{member.email}}</i>
@@ -37,8 +37,8 @@
                     <div *ngIf="isUserSearchedEmail">
 
                         <div>
-                            <p class="card-text"><b>{{userSearched}}</b> ? We don’t know that person. Add a name and click Add and we’ll add
-                                a virtual team member. They'll automatically receive access to <b>{{(team$ | async)?.name}}</b>'s
+                            <p class="card-text"><b>{{userSearched}}</b> ? We don’t know that person. Add a name and click Add and we’ll add a
+                                virtual team member. They'll automatically receive access to <b>{{(team$ | async)?.name}}</b>'s
                                 maps once they sign up and confirm their email address.</p>
                             <div class="from-group" [class.has-warning]="name.invalid && (name.dirty || name.touched)">
                                 <div class="input-group">
@@ -58,46 +58,6 @@
     </div>
 
 
-    <div class="col-sm-3">
-        <div class="card card-inverse card-info">
-            <div class="card-block">
-                <h3 class="card-title">My teams</h3>
-
-                <div class="list-group">
-
-                    <a class="mb-3">
-                        <div class="input-group">
-                            <input #teamInput type="text" class="form-control" placeholder="Your team name">
-                            <span class="input-group-btn">
-                        <button class="btn btn-primary" type="button" (click)="createNewTeam(teamInput.value)">Create</button>
-                    </span>
-                        </div>
-                    </a>
-
-                    <a *ngFor="let team of (teams$ | async)| slice:start:end" class="list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h6 class="mb-1"><a routerLink="/account/team/{{team.team_id}}">
-                        {{team.name}}
-                    </a></h6>
-                            <small>{{team.members.length}} members</small>
-                        </div>
-
-                    </a>
-                    <nav aria-label="Navigation through teams" class="mt-2">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item" [class.disabled]="start === 0">
-                                <a class="page-link previous navigation" tabindex="-1" (click)="backward()"></a>
-                            </li>
-
-                            <li class="page-item" [class.disabled]="end >= (teams$ | async)?.length">
-                                <a class="page-link next navigation" (click)="forward()"></a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-
-            </div>
-        </div>
-    </div>
+    <teams-list></teams-list>
 
 </div>

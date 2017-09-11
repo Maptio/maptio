@@ -44,7 +44,7 @@ export class TeamComponent implements OnDestroy {
     private EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     constructor(private auth: Auth, private route: ActivatedRoute, private teamFactory: TeamFactory, private userFactory: UserFactory, private datasetFactory: DatasetFactory) {
-        this.getAllTeams();
+        // this.getAllTeams();
         this.subscription2 = this.route.params.subscribe((params: Params) => {
             if (!params["teamid"]) return
             this.teamId = params["teamid"]
@@ -78,18 +78,6 @@ export class TeamComponent implements OnDestroy {
         });
     }
 
-    getAllTeams() {
-        this.subscription1 = this.auth.getUser().subscribe(
-            (user: User) => {
-                this.teams$ = Promise.all(
-                    user.teams.map(
-                        team_id => this.teamFactory.get(team_id).then((resolved: Team) => { return resolved })
-                    )
-                )
-                    .then(teams => { return teams });
-            })
-    }
-
 
     saveNewMember(event: NgbTypeaheadSelectItemEvent) {
         this.newMember = event.item;
@@ -102,7 +90,7 @@ export class TeamComponent implements OnDestroy {
                 this.teamFactory.get(this.teamId).then((team: Team) => {
                     team.members.push(this.newMember);
                     this.teamFactory.upsert(team).then((result) => {
-                        this.getAllTeams();
+                        // this.getAllTeams();
                         this.getAllMembers();
                         this.newMember = undefined;
                     })
@@ -113,16 +101,7 @@ export class TeamComponent implements OnDestroy {
         })
     }
 
-    createNewTeam(teamName: string) {
-        this.teamFactory.create(new Team({ name: teamName, members: [this.user] })).then((team: Team) => {
-            this.user.teams.push(team.team_id);
-            this.userFactory.upsert(this.user).then((result: boolean) => {
-                this.getAllTeams();
-            })
 
-        })
-
-    }
 
     isEmail(text: string) {
         console.log(text, this.EMAIL_REGEXP, this.EMAIL_REGEXP.test(text))
@@ -157,7 +136,7 @@ export class TeamComponent implements OnDestroy {
                             this.teamFactory.get(this.teamId).then((team: Team) => {
                                 team.members.push(virtualUser);
                                 this.teamFactory.upsert(team).then((result) => {
-                                    this.getAllTeams();
+                                    // this.getAllTeams();
                                     this.getAllMembers();
                                     this.newMember = undefined;
                                     this.searchFailed = false;

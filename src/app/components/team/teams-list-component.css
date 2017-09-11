@@ -1,0 +1,16 @@
+.member{
+    float: left;
+    background: 50% 50% no-repeat;
+    background-size: auto 100%;
+    max-width: 45px;
+    max-height: 45px;
+}
+
+.card-header{
+    background-color: transparent;
+}
+
+.overflow{
+    overflow-y: auto;
+    height: 600px
+}
