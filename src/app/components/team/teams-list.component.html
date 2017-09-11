@@ -1,7 +1,7 @@
 <div class="col-lg-8 mt-3 ">
-    <h3>My teams</h3>
+    <h1>My teams</h1>
 
-    <div class="col-lg-8 mb-3 row">
+    <div class="col-lg-8 mb-3 mt-3 row">
         <div class="input-group">
             <input #teamInput type="text" class="form-control" placeholder="e.g. The A-Team">
             <span class="input-group-btn">
@@ -12,14 +12,14 @@
 
     <div class="overflow">
 
-        <div class="card mb-2 " *ngFor="let team of (teams$ | async)">
+        <div class="card mb-3 " *ngFor="let team of (teams$ | async)">
             <div class="d-flex w-100 justify-content-between card-header">
-                <h5><a routerLink="/account/team/{{team.team_id}}"> {{team.name}}</a></h5>
+                <h5><a routerLink="/team/{{team.team_id}}"> {{team.name}}</a></h5>
                 <small>{{team.members.length}} members</small>
             </div>
             <div class="card-block">
                 <p class="mb-1 d-flex flex-wrap">
-                    <img class="rounded-circle member mr-1 mb-1" *ngFor="let member of team.members" src="{{member.picture}}" alt="{{member.name}}" title="{{member.name}}"
+                    <img class="rounded-circle member mr-1 mb-1" *ngFor="let member of team.members" src="{{member.picture}}" alt="{{member.name}}" 
                     placement="top" container="body" ngbTooltip="{{member.name}}">
                     <!-- <img class="rounded-circle member mr-1 mb-1" *ngFor="let member of team.members" src="{{member.picture}}" alt="">
                     <img class="rounded-circle member mr-1 mb-1" *ngFor="let member of team.members" src="{{member.picture}}" alt="">
@@ -34,6 +34,4 @@
             </div>
         </div>
     </div>
-
-
 </div>

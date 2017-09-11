@@ -2,10 +2,34 @@
     float: left;
     background: 50% 50% no-repeat;
     background-size: auto 100%;
-    max-width: 22px;
-    border-radius: 18px;
+    width: 70px;
+}
+
+.member-table{
+    float: left;
+    background: 50% 50% no-repeat;
+    background-size: auto 100%;
+    width: 30px;
 }
 
 .list-inline-item:not(:last-child) {
     margin-right: 0;
 }
+
+.card-img-left {
+    border-bottom-left-radius: calc(.25rem - 1px);
+    border-top-left-radius: calc(.25rem - 1px);
+    float: left;
+    padding-right: 1em;
+    margin-bottom: -1.25em;
+  }
+
+  .panel{
+    background-color: #808C8A;
+    border-color: #808C8A;
+    box-shadow: 2px 2px 5px #444;
+  }
+
+  .team-list-panel{
+    border-right: 2px solid #eee;
+  }

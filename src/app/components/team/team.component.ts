@@ -18,8 +18,7 @@ import { DataSet } from "../../shared/model/dataset.data";
 })
 export class TeamComponent implements OnDestroy {
     ngOnDestroy(): void {
-        this.subscription1.unsubscribe();
-        this.subscription2.unsubscribe();
+        this.subscription.unsubscribe();
     }
 
     private team$: Promise<Team>
@@ -29,23 +28,20 @@ export class TeamComponent implements OnDestroy {
     private searching: boolean = false;
     private searchFailed: boolean = false;
     public teamId: string;
-    private subscription1: Subscription;
-    private subscription2: Subscription;
-    private existingTeamMembers: User[];
+    private subscription: Subscription;
+    // private existingTeamMembers: User[];
     private user: User;
     public userSearched: string;
     public isUserSearchedEmail: boolean;
+    public isUserChosen: boolean = false;
+    public isAlreadyInTeam: boolean=false;
 
-
-    public range: number = 5;
-    public start: number = 0;
-    public end: number = this.range;
 
     private EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     constructor(private auth: Auth, private route: ActivatedRoute, private teamFactory: TeamFactory, private userFactory: UserFactory, private datasetFactory: DatasetFactory) {
-        // this.getAllTeams();
-        this.subscription2 = this.route.params.subscribe((params: Params) => {
+
+        this.subscription = this.route.params.subscribe((params: Params) => {
             if (!params["teamid"]) return
             this.teamId = params["teamid"]
             this.getAllMembers();
@@ -57,30 +53,22 @@ export class TeamComponent implements OnDestroy {
         })
     }
 
-    forward() {
-        this.start += this.range;
-        this.end += this.range;
-    }
-
-    backward() {
-        this.start -= this.range;
-        this.end -= this.range;
-    }
-
     getAllMembers() {
         this.team$ = this.teamFactory.get(this.teamId).then((team: Team) => {
 
             this.members$ = Promise.all(team.members.map(user => this.userFactory.get(user.user_id)))
 
             // this.members$ = Promise.all()
-            this.existingTeamMembers = team.members;
+            // this.existingTeamMembers = team.members;
             return team;
         });
     }
 
 
     saveNewMember(event: NgbTypeaheadSelectItemEvent) {
+
         this.newMember = event.item;
+        this.isUserChosen = true;
     }
 
     addMemberToTeam() {
@@ -108,8 +96,14 @@ export class TeamComponent implements OnDestroy {
         return this.EMAIL_REGEXP.test(text);
     }
 
-    createUser(name: string, email: string) {
+    inviteUser(user: User) {
+        this.team$.then((team: Team) => {
+            this.auth.sendInvite(user.email, user.user_id, user.name, team.name, this.user.name)
+        })
+    }
 
+    createUser(name: string, email: string, isInvited: boolean) {
+        console.log("create", name, email, isInvited);
         this.team$.then((team: Team) => {
             this.auth.createUser(email, name).then((user: User) => {
                 this.datasetFactory.get(team).then((datasets: DataSet[]) => {
@@ -125,11 +119,13 @@ export class TeamComponent implements OnDestroy {
                     return virtualUser;
                 })
                     .then((user: User) => {
-                        console.log("sending invite to ", user.email, user.user_id, user.name)
-                        this.auth.sendInvite(user.email, user.user_id, user.name, team.name, this.user.name);
+
+                        if (isInvited) {
+                            console.log("sending invite to ", user.email, user.user_id, user.name)
+                            this.inviteUser(user)
+                        }
                         return user;
                     })
-
                     .then((virtualUser: User) => {
                         console.log("create virtual user", virtualUser)
                         this.userFactory.create(virtualUser).then(() => {
@@ -151,20 +147,40 @@ export class TeamComponent implements OnDestroy {
     searchUsers =
     (text$: Observable<string>) =>
         text$
-            .debounceTime(300)
+            .debounceTime(500)
             .distinctUntilChanged()
-            .do(() => this.searching = true)
+            .filter(text => this.isEmail(text))
+            .do(() => { this.searching = true; this.isAlreadyInTeam = false; })
             .switchMap(term =>
                 Observable.fromPromise(
-                    this.userFactory.getAll(term).then((users: User[]) => {
-                        return users.filter(u => !this.existingTeamMembers.find(m => u.user_id === m.user_id));
-                    }).then((users: User[]) => {
-                        if (users.length === 0) {
-                            throw new Error("No user email matching that pattern")
-                        }
-                        else
-                            return users;
+                    this.members$.then((existingMembers: User[]) => {
+                        this.userFactory.getAll(term)
+                            .then((users: User[]) => {
+                                console.log(existingMembers)
+                                let alreadyInTeam = existingMembers.filter(m => m.email === term);
+                                let availableToChoose = users.filter(u => !existingMembers.find(m => u.user_id === m.user_id));
+
+                                return [alreadyInTeam, availableToChoose]
+                            })
+                            .then(([alreadyInTeam, availableToChoose]: [User[], User[]]) => {
+                                console.log(alreadyInTeam, availableToChoose)
+                                if (alreadyInTeam.length > 0) {
+                                    this.isAlreadyInTeam = true;
+                                    this.searchFailed = false;
+                                    return [];
+                                }
+                                else {
+                                    if (availableToChoose.length === 0) {
+                                        this.userSearched = term;
+                                        this.isUserSearchedEmail = this.isEmail(this.userSearched);
+                                        this.searchFailed = true;
+                                    }
+                                    return availableToChoose;
+                                }
+                            })
                     })
+                        .catch(err => { throw new Error(err) })
+
                 )
                     .do(() => {
                         this.searchFailed = false;
@@ -178,6 +194,6 @@ export class TeamComponent implements OnDestroy {
             )
             .do(() => this.searching = false);
 
-    formatter = (result: User) => result.nickname;
+    formatter = (result: User) => `${result.email} (${result.name})`;
 
 }
