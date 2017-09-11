@@ -83,16 +83,14 @@ const appRoutes: Routes = [
 
   { path: "login", component: LoginComponent },
   { path: "account", component: AccountComponent, canActivate: [AuthGuard] },
-  { path: "account/teams", component: TeamsListComponent, canActivate: [AuthGuard] },
-  { path: "account/team/:teamid", component: TeamComponent, canActivate: [AuthGuard, AccessGuard] },
-  { path: "account/profile", component: AccountComponent, canActivate: [AuthGuard] },
+  { path: "teams", component: TeamsListComponent, canActivate: [AuthGuard] },
+  { path: "team/:teamid", component: TeamComponent, canActivate: [AuthGuard, AccessGuard] },
+  { path: "profile", component: AccountComponent, canActivate: [AuthGuard] },
   { path: "map/:workspaceid", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
   { path: "map/:workspaceid/:layout", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
   { path: "map/:workspaceid/i/:slug", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
 
   { path: "unauthorized", component: UnauthorizedComponent },
-  // { path: "verify-email", component: VerifyEmailComponent },
-  // { path: "activate", component: ActivateAccountComponent },
   { path: "forgot", component: ChangePasswordComponent }
 ];
 

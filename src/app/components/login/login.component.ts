@@ -98,7 +98,7 @@ export class LoginComponent implements OnInit {
                     .then((user_id: string) => {
                         this.isActivationPending = Promise.resolve(false);
 
-                        this.router.navigateByUrl("/account/teams")
+                        this.router.navigateByUrl("/teams")
                     })
                     .catch(() => {
 

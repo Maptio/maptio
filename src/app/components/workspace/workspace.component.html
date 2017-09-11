@@ -10,7 +10,7 @@
             <img *ngIf="!user?.picture" class="member rounded-circle" src="/assets/images/user.jpg" alt="{{user?.nickname}}" title="{{user?.nickname}}"
             placement="top" container="body" ngbTooltip="{{user?.nickname}}">
         </a>
-        <a class="btn btn-link btn-xs no-padding" routerLink="/account/team/{{(team |async)?.team_id}}">
+        <a class="btn btn-link btn-xs no-padding" routerLink="/team/{{(team |async)?.team_id}}">
             <i class="fa fa-plus" aria-hidden="true"></i>
         </a>
     </div>
