@@ -13,6 +13,17 @@ export class User implements Serializable<User> {
     public name: string;
 
     /**
+     * User firstnmae
+     */
+    public firstname: string;
+
+
+    /**
+     * User last name
+     */
+    public lastname: string;
+
+    /**
      * User nickname
      */
     public nickname: string;
@@ -61,6 +72,8 @@ export class User implements Serializable<User> {
         }
         let deserialized = new User();
         deserialized.name = input.name;
+        deserialized.firstname = input.firstname || input.given_name;
+        deserialized.lastname = input.lastname || input.family_name;
         deserialized.nickname = input.nickname;
         deserialized.email = input.email;
         deserialized.picture = input.picture;
