@@ -71,9 +71,9 @@ a.caret-after {
   display: none
 }
 
-.dropdown:hover .dropdown-menu {
+/* .dropdown:hover .dropdown-menu {
   display: block;
-}
+} */
 
 .remove::before {
   content: "\f014";
