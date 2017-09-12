@@ -10,6 +10,7 @@ import { User } from "../../shared/model/user.data";
 import { Auth } from "../../shared/services/auth/auth.service";
 import { UUID } from "angular2-uuid";
 import { DataSet } from "../../shared/model/dataset.data";
+import * as _ from "lodash"
 
 @Component({
     selector: "team",
@@ -85,20 +86,28 @@ export class TeamComponent implements OnDestroy {
 
     addMemberToTeam() {
         this.newMember.teams.push(this.teamId);
-        this.userFactory.upsert(this.newMember).then((result: boolean) => {
-            if (result) {
-                this.teamFactory.get(this.teamId).then((team: Team) => {
-                    team.members.push(this.newMember);
-                    this.teamFactory.upsert(team).then((result) => {
-                        // this.getAllTeams();
-                        this.members$ = this.getAllMembers();
-                        this.newMember = undefined;
-                    })
-                });
 
-            }
-
-        })
+        this.userFactory.upsert(this.newMember)
+            .then((result: boolean) => {
+                return result;
+            })
+            .then((result: boolean) => {
+                if (result) {
+                    return this.team$.then((team: Team) => {
+                        team.members.push(this.newMember);
+                        return team
+                    });
+                }
+            })
+            .then((newTeam: Team) => {
+                return this.teamFactory.upsert(newTeam).then((result) => {
+                    this.newMember = undefined;
+                    return result
+                })
+            })
+            .then(() => {
+                this.members$ = this.getAllMembers();
+            })
     }
 
 
@@ -130,6 +139,15 @@ export class TeamComponent implements OnDestroy {
             console.log("invite", user.email, user.user_id, user.name, team.name, this.user.name)
             this.auth.sendInvite(user.email, user.user_id, user.name, team.name, this.user.name)
         })
+    }
+
+    deleteMember(user: User) {
+        console.log("deleting", user.email)
+        this.team$.then((team: Team) => {
+            _.remove(team.members, function (m) { return m.user_id === user.user_id })
+            this.teamFactory.upsert(team).then(() => { this.members$ = this.getAllMembers(); })
+        })
+
     }
 
     createUser(name: string, email: string, isInvited: boolean) {

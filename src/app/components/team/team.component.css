@@ -55,12 +55,12 @@ table.tableSection th, table.tableSection td {
     vertical-align: middle;
 }
 
- table.tableSection th:nth-child(0n+1), table.tableSection td:nth-child(0n+1) {
-    width: 10%;
+table.tableSection th:nth-child(0n+1), table.tableSection td:nth-child(0n+1) {
+    width: 5%;
 }
 
-table.tableSection th:nth-child(0n+2), table.tableSection td:nth-child(0n+2) {
-    width: 35%;
+ table.tableSection th:nth-child(0n+2), table.tableSection td:nth-child(0n+2) {
+    width: 5%;
 }
 
 table.tableSection th:nth-child(0n+3), table.tableSection td:nth-child(0n+3) {
@@ -68,24 +68,18 @@ table.tableSection th:nth-child(0n+3), table.tableSection td:nth-child(0n+3) {
 }
 
 table.tableSection th:nth-child(0n+4), table.tableSection td:nth-child(0n+4) {
-    width: 10%;
+    width: 35%;
 }
 
 table.tableSection th:nth-child(0n+5), table.tableSection td:nth-child(0n+5) {
     width: 10%;
 }
 
-
-
-/* table.tableSection th:first-child, table.tableSection td:first-child {
+table.tableSection th:nth-child(0n+6), table.tableSection td:nth-child(0n+6) {
     width: 10%;
 }
 
-table.tableSection th:nth-child(0n+4), table.tableSection td:nth-child(0n+4) {
-    width: 10%;
+h3.popover-title::after{
+    content: '\1F603';
+    color:orange; 
 }
-
-table.tableSection th:last-child, table.tableSection td:last-child {
-   text-align: right;
-   width: 10%;
-} */

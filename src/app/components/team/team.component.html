@@ -13,6 +13,7 @@
             <thead>
                 <tr>
                     <th></th>
+                    <th></th>
                     <th>Name</th>
                     <th>Email</th>
                     <th></th>
@@ -21,17 +22,26 @@
             </thead>
             <tbody>
                 <tr *ngFor="let member of (members$ | async)">
-                    <td><img class="rounded-circle member " src="{{member.picture}}" alt="{{member.name}}"></td>
+                    <td><i *ngIf="member.isActivationPending && !member.isInvitationSent" class="fa fa-trash-o text-danger" aria-hidden="true"
+                            mwlConfirmationPopover title="This cannot be undone ! Are you sure you want to delete {{member.name}} ? They haven't receive an email yet so they won't know ( ... and we won't tell ) "
+                            placement="right" focusButton="cancel" appendToBody="true" (confirm)="deleteMember(member)" (cancel)="cancelClicked = true">
+                        </i>
+                    </td>
+                    <td>
+                        <img class="rounded-circle member " src="{{member.picture}}" alt="{{member.name}}"></td>
                     <td>{{member.name}}</td>
                     <td>{{member.email}}</td>
                     <td>
-                        <div *ngIf="member.isActivationPending && member.isInvitationSent" class="text-warning" placement="top"
-                            container="body" ngbTooltip="{{member.name}} was sent an invitation.">Pending</div>
+                        <div *ngIf="member.isActivationPending && member.isInvitationSent" class="text-warning" placement="top" container="body"
+                            ngbTooltip="{{member.name}} was sent an invitation.">Pending</div>
                     </td>
                     <td>
-                        <button *ngIf="!member.isActivationPending" class="btn btn-default  mt-2" placement="top" container="body" ngbTooltip="{{member.name}} is a confirmed user." disabled>Active</button>
-                        <button *ngIf="member.isActivationPending && !member.isInvitationSent" class="btn btn-success  mt-2" (click)="inviteUser(member)">Invite </button>
-                        <button *ngIf="member.isActivationPending && member.isInvitationSent" class="btn btn-success  mt-2" (click)="inviteUser(member)">Resend </button>
+                        <button *ngIf="!member.isActivationPending" class="btn btn-default  mt-2" placement="top" container="body" ngbTooltip="{{member.name}} is a confirmed user."
+                            disabled>Active</button>
+                        <button *ngIf="member.isActivationPending && !member.isInvitationSent" class="btn btn-success  mt-2" (click)="inviteUser(member)"
+                            placement="left" container="body" ngbTooltip="Invite {{member.name}} to view and edit maps">Invite </button>
+                        <button *ngIf="member.isActivationPending && member.isInvitationSent" class="btn btn-success  mt-2" (click)="inviteUser(member)"
+                            placement="left" container="body" ngbTooltip="Resend an invitation to {{member.name}}">Resend </button>
                     </td>
                 </tr>
             </tbody>
