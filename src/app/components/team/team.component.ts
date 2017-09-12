@@ -150,10 +150,11 @@ export class TeamComponent implements OnDestroy {
 
     }
 
-    createUser(name: string, email: string, isInvited: boolean) {
-        console.log("create", name, email, isInvited);
+    createUser(firstname: string, lastname: string, email: string, isInvited: boolean) {
+        console.log("create", firstname, lastname, email, isInvited);
         this.team$.then((team: Team) => {
-            this.auth.createUser(email, name).then((user: User) => {
+
+            this.auth.createUser(email, firstname, lastname).then((user: User) => {
                 this.datasetFactory.get(team).then((datasets: DataSet[]) => {
                     let virtualUser = new User();
                     virtualUser.name = user.name;
@@ -176,17 +177,18 @@ export class TeamComponent implements OnDestroy {
                     })
                     .then((virtualUser: User) => {
                         console.log("create virtual user", virtualUser)
-                        this.userFactory.create(virtualUser).then(() => {
-                            this.teamFactory.get(this.teamId).then((team: Team) => {
-                                team.members.push(virtualUser);
-                                this.teamFactory.upsert(team).then((result) => {
-                                    // this.getAllTeams();
-                                    this.members$ = this.getAllMembers();
-                                    this.newMember = undefined;
-                                    this.searchFailed = false;
-                                })
-                            });
-                        });
+                        this.userFactory.create(virtualUser)
+                        return virtualUser;
+                    })
+                    .then((user: User) => {
+                        team.members.push(user);
+                        this.teamFactory.upsert(team).then((result) => {
+                            this.newMember = undefined;
+                            this.searchFailed = false;
+                        })
+                    })
+                    .then(() => {
+                        this.members$ = this.getAllMembers();
                     })
             })
         })

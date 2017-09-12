@@ -268,11 +268,13 @@ export class Auth {
             });
     }
 
-    public createUser(email: string, name: string): Promise<User> {
+    public createUser(email: string, firstname: string, lastname: string): Promise<User> {
         let newUser = {
             "connection": "Username-Password-Authentication",
             "email": email,
-            "name": name,
+            "given_name": firstname,
+            "family_name": lastname,
+            "name": `${firstname} ${lastname}`,
             "password": UUID.UUID(),
             "email_verified": true,
             "app_metadata":

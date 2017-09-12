@@ -2,10 +2,11 @@
 
 
     <div class="col-lg-7 mt-3 team-list-panel">
-        <h1 class="mb-3">
-            {{(team$ | async)?.name}}</h1>
+        <h3 class="mb-3">
+                {{(team$ | async)?.name}}
+            <small class="text-muted h6">{{(team$ | async)?.members.length}} members</small>
+        </h3>
 
-        <h3 class="mb-3">{{(team$ | async)?.members.length}} members</h3>
 
         <button class="btn btn-success mb-3 pull-right" (click)="inviteAll()">Invite/resend all</button>
 
@@ -87,8 +88,10 @@
 
                                     <div class="from-group mb-1" [class.has-warning]="name.invalid && (name.dirty || name.touched)">
                                         <div class="input-group">
-                                            <input type="text" id="name" name="name" class="form-control form-control-warning" required minlength="2" [(ngModel)]="fullname"
-                                                #name="ngModel" placeholder="Enter {{userSearched}}'s name">
+                                            <input type="text" id="firstname" name="firstname" class="form-control form-control-warning" required minlength="2" [(ngModel)]="firstname"
+                                                #name="ngModel" placeholder="First name">
+                                            <input type="text" id="lastname" name="lastname" class="form-control form-control-warning" required minlength="2" [(ngModel)]="lastname"
+                                                #name="ngModel" placeholder="Last name">
                                         </div>
                                         <small class="form-control-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">Name must be at least 2 characters long.</small>
 
@@ -101,7 +104,7 @@
                                             </label>
                                     </div>
 
-                                    <button class="btn btn-success" [class.disabled]="name.invalid" type="button" (click)="createUser(fullname, userSearched, isInvited.checked)">Add</button>
+                                    <button class="btn btn-success" [class.disabled]="name.invalid" type="button" (click)="createUser(firstname, lastname, userSearched, isInvited.checked)">Add</button>
 
                                 </div>
 

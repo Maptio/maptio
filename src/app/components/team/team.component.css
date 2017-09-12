@@ -43,7 +43,7 @@ table.tableSection thead, table.tableSection tbody {
 }
 table.tableSection tbody {
     overflow: auto;
-    height: 600px;
+    height: 66vh;
 }
 table.tableSection tr {
     width: 100%;
