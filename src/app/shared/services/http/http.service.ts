@@ -105,7 +105,7 @@ export class HttpService extends Http {
     }
 
     intercept(observable: Observable<Response>): Observable<Response> {
-        console.log("In the intercept routine..");
+        // console.log("In the intercept routine..");
         this.pendingRequests++;
         this.turnOnModal();
         return observable
@@ -114,16 +114,16 @@ export class HttpService extends Http {
                 return source;
             })
             .do((res: Response) => {
-                console.log("Response: " + res);
+                // console.log("Response: " + res);
             }, (err: any) => {
                 console.log("Caught error: " + err);
             })
             .finally(() => {
-                console.log("Finally.. delaying, though.")
-                let timer = Observable.timer(1000);
-                timer.subscribe(t => {
-                    this.turnOffModal();
-                });
+                // console.log("Finally.. delaying, though.")
+                // let timer = Observable.timer(1000);
+                // timer.subscribe(t => {
+                this.turnOffModal();
+                // });
             });
     }
 
@@ -146,7 +146,7 @@ export class HttpService extends Http {
             // }
             // this.showLoading = false;
         }
-        console.log("Turned off modal");
+        // console.log("Turned off modal");
     }
 }
 

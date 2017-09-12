@@ -34,7 +34,7 @@ export class TeamComponent implements OnDestroy {
     public userSearched: string;
     public isUserSearchedEmail: boolean;
     public isUserChosen: boolean = false;
-    public isAlreadyInTeam: boolean=false;
+    public isAlreadyInTeam: boolean = false;
 
 
     private EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -44,7 +44,8 @@ export class TeamComponent implements OnDestroy {
         this.subscription = this.route.params.subscribe((params: Params) => {
             if (!params["teamid"]) return
             this.teamId = params["teamid"]
-            this.getAllMembers();
+            this.team$ = this.teamFactory.get(this.teamId);
+            this.members$ = this.getAllMembers();
         },
             error => { console.log(error) });
 
@@ -54,13 +55,24 @@ export class TeamComponent implements OnDestroy {
     }
 
     getAllMembers() {
-        this.team$ = this.teamFactory.get(this.teamId).then((team: Team) => {
+        console.log("get all members")
+        return this.team$.then((team: Team) => {
+            return Promise.all(
+                team.members.map(user => this.userFactory.get(user.user_id)))
+                .then((members: User[]) => {
+                    members.forEach(m => {
+                        console.log("member updating", m.email, m.isInvitationSent)
+                        this.auth.isActivationPending(m.user_id).then(is => { m.isActivationPending = is });
+                        this.auth.isInvitationSent(m.user_id).then(is => m.isInvitationSent = is);
+                        console.log("member updated", m.email, m.isInvitationSent)
+                    })
+                    return members.sort((a: User, b: User) => {
+                        if (a.name < b.name) return -1;
+                        if (a.name > b.name) return 1;
+                        return 0;
 
-            this.members$ = Promise.all(team.members.map(user => this.userFactory.get(user.user_id)))
-
-            // this.members$ = Promise.all()
-            // this.existingTeamMembers = team.members;
-            return team;
+                    });
+                })
         });
     }
 
@@ -79,7 +91,7 @@ export class TeamComponent implements OnDestroy {
                     team.members.push(this.newMember);
                     this.teamFactory.upsert(team).then((result) => {
                         // this.getAllTeams();
-                        this.getAllMembers();
+                        this.members$ = this.getAllMembers();
                         this.newMember = undefined;
                     })
                 });
@@ -96,8 +108,26 @@ export class TeamComponent implements OnDestroy {
         return this.EMAIL_REGEXP.test(text);
     }
 
+
+    inviteAll() {
+        console.log("invite all")
+        this.members$ = this.members$
+            .then((users: User[]) => {
+                return users.map((user: User) => {
+                    if (user.isActivationPending) {
+                        console.log("invite", user.email)
+                        this.inviteUser(user);
+                        user.isInvitationSent = true; // optimistic update
+                    }
+                    return user;
+                })
+            });
+    }
+
     inviteUser(user: User) {
+
         this.team$.then((team: Team) => {
+            console.log("invite", user.email, user.user_id, user.name, team.name, this.user.name)
             this.auth.sendInvite(user.email, user.user_id, user.name, team.name, this.user.name)
         })
     }
@@ -133,7 +163,7 @@ export class TeamComponent implements OnDestroy {
                                 team.members.push(virtualUser);
                                 this.teamFactory.upsert(team).then((result) => {
                                     // this.getAllTeams();
-                                    this.getAllMembers();
+                                    this.members$ = this.getAllMembers();
                                     this.newMember = undefined;
                                     this.searchFailed = false;
                                 })
@@ -153,33 +183,37 @@ export class TeamComponent implements OnDestroy {
             .do(() => { this.searching = true; this.isAlreadyInTeam = false; })
             .switchMap(term =>
                 Observable.fromPromise(
-                    this.members$.then((existingMembers: User[]) => {
-                        this.userFactory.getAll(term)
-                            .then((users: User[]) => {
+
+                    this.userFactory.getAll(term)
+                        .then((users: User[]) => {
+                            return this.members$.then((existingMembers: User[]) => {
                                 console.log(existingMembers)
                                 let alreadyInTeam = existingMembers.filter(m => m.email === term);
                                 let availableToChoose = users.filter(u => !existingMembers.find(m => u.user_id === m.user_id));
 
                                 return [alreadyInTeam, availableToChoose]
                             })
-                            .then(([alreadyInTeam, availableToChoose]: [User[], User[]]) => {
-                                console.log(alreadyInTeam, availableToChoose)
-                                if (alreadyInTeam.length > 0) {
-                                    this.isAlreadyInTeam = true;
-                                    this.searchFailed = false;
-                                    return [];
+                        })
+                        .then(([alreadyInTeam, availableToChoose]: [User[], User[]]) => {
+                            console.log(alreadyInTeam, availableToChoose)
+                            if (alreadyInTeam.length > 0) {
+                                this.isAlreadyInTeam = true;
+                                this.searchFailed = false;
+                                return [];
+                            }
+                            else {
+                                if (availableToChoose.length === 0) {
+                                    this.userSearched = term;
+                                    this.isUserSearchedEmail = this.isEmail(this.userSearched);
+                                    this.searchFailed = true;
+                                    throw new Error()
                                 }
                                 else {
-                                    if (availableToChoose.length === 0) {
-                                        this.userSearched = term;
-                                        this.isUserSearchedEmail = this.isEmail(this.userSearched);
-                                        this.searchFailed = true;
-                                    }
                                     return availableToChoose;
                                 }
-                            })
-                    })
-                        .catch(err => { throw new Error(err) })
+                            }
+                        })
+                    // .catch(err => { throw new Error(err) })
 
                 )
                     .do(() => {

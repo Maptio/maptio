@@ -28,14 +28,14 @@ export class User implements Serializable<User> {
     public picture: string;
 
     /**
-     * True is email was verified , false otherwise
+     * True is activation is pending, false otherwise
      */
-    // public isEmailVerified: boolean;
+    public isActivationPending: boolean;
 
-    // /**
-    //  * Number of times a user have logged in
-    //  */
-    // public loginsCount: number;
+    /**
+     * True is a invitation has been sent to this user, false otherwise
+     */
+    public isInvitationSent: boolean;
 
     /**
      * List of teams

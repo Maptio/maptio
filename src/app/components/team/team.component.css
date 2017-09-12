@@ -1,15 +1,15 @@
-.member{
+/* .member {
     float: left;
     background: 50% 50% no-repeat;
     background-size: auto 100%;
     width: 70px;
-}
+} */
 
-.member-table{
+.member {
     float: left;
     background: 50% 50% no-repeat;
     background-size: auto 100%;
-    width: 30px;
+    width: 45px;
 }
 
 .list-inline-item:not(:last-child) {
@@ -22,14 +22,70 @@
     float: left;
     padding-right: 1em;
     margin-bottom: -1.25em;
-  }
+}
 
-  .panel{
+.panel {
     background-color: #808C8A;
     border-color: #808C8A;
-    box-shadow: 2px 2px 5px #444;
-  }
+}
 
-  .team-list-panel{
+.team-list-panel {
     border-right: 2px solid #eee;
-  }
+}
+
+table.tableSection {
+    display: table;
+    width: 100%;
+}
+table.tableSection thead, table.tableSection tbody {
+    float: left;
+    width: 100%;
+}
+table.tableSection tbody {
+    overflow: auto;
+    height: 600px;
+}
+table.tableSection tr {
+    width: 100%;
+    display: table;
+    text-align: left;
+}
+table.tableSection th, table.tableSection td {
+    /* width: 20%; */
+    vertical-align: middle;
+}
+
+ table.tableSection th:nth-child(0n+1), table.tableSection td:nth-child(0n+1) {
+    width: 10%;
+}
+
+table.tableSection th:nth-child(0n+2), table.tableSection td:nth-child(0n+2) {
+    width: 35%;
+}
+
+table.tableSection th:nth-child(0n+3), table.tableSection td:nth-child(0n+3) {
+    width: 35%;
+}
+
+table.tableSection th:nth-child(0n+4), table.tableSection td:nth-child(0n+4) {
+    width: 10%;
+}
+
+table.tableSection th:nth-child(0n+5), table.tableSection td:nth-child(0n+5) {
+    width: 10%;
+}
+
+
+
+/* table.tableSection th:first-child, table.tableSection td:first-child {
+    width: 10%;
+}
+
+table.tableSection th:nth-child(0n+4), table.tableSection td:nth-child(0n+4) {
+    width: 10%;
+}
+
+table.tableSection th:last-child, table.tableSection td:last-child {
+   text-align: right;
+   width: 10%;
+} */

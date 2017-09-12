@@ -241,7 +241,7 @@ export class Auth {
     }
 
 
-    public sendInvite(email: string, userId: string, name: string, teamName: string, invitedBy:string): Promise<boolean> {
+    public sendInvite(email: string, userId: string, name: string, teamName: string, invitedBy: string): Promise<boolean> {
 
         return Promise.all([
             this.encodingService.encode({ user_id: userId, email: email }),
@@ -262,6 +262,9 @@ export class Auth {
         })
             .then((ticket: string) => {
                 return this.mailing.sendInvitation("support@maptio.com", ["safiyya.babio@gmail.com"], ticket, teamName, invitedBy)
+            })
+            .then((success: boolean) => {
+                return this.updateInvitiationSentStatus(userId, true);
             });
     }
 
@@ -274,7 +277,8 @@ export class Auth {
             "email_verified": true,
             "app_metadata":
             {
-                "activation_pending": true
+                "activation_pending": true,
+                "invitation_sent": false
             }
         }
 
@@ -304,7 +308,31 @@ export class Auth {
 
             return this.http.get("https://circlemapping.auth0.com/api/v2/users/" + user_id, { headers: headers })
                 .map((responseData) => {
-                    return responseData.json().app_metadata.activation_pending;
+                    if (responseData.json().app_metadata) {
+                        return responseData.json().app_metadata.activation_pending;
+                    }
+                    return false;
+                })
+                .toPromise()
+                .then(r => r)
+                .catch(this.errorService.handleError);
+        });
+    }
+
+    public isInvitationSent(user_id: string): Promise<boolean> {
+        console.log("is invitation sent for", user_id)
+        return this.getApiToken().then((token: string) => {
+
+            let headers = new Headers();
+            headers.set("Authorization", "Bearer " + token);
+
+            return this.http.get("https://circlemapping.auth0.com/api/v2/users/" + user_id, { headers: headers })
+                .map((responseData) => {
+                    if (responseData.json().app_metadata) {
+                        console.log("invite sent", responseData.json().app_metadata.invitation_sent)
+                        return responseData.json().app_metadata.invitation_sent;
+                    }
+                    return false;
                 })
                 .toPromise()
                 .then(r => r)
@@ -342,6 +370,25 @@ export class Auth {
 
             return this.http.patch("https://circlemapping.auth0.com/api/v2/users/" + user_id,
                 { "app_metadata": { "activation_pending": isActivationPending } }
+                ,
+                { headers: headers })
+                .map((responseData) => {
+                    return true;
+                })
+                .toPromise()
+                .then(r => r)
+                .catch(this.errorService.handleError);
+        });
+    }
+
+    public updateInvitiationSentStatus(user_id: string, isInvitationSent: boolean): Promise<boolean> {
+        return this.getApiToken().then((token: string) => {
+
+            let headers = new Headers();
+            headers.set("Authorization", "Bearer " + token);
+
+            return this.http.patch("https://circlemapping.auth0.com/api/v2/users/" + user_id,
+                { "app_metadata": { "invitation_sent": isInvitationSent } }
                 ,
                 { headers: headers })
                 .map((responseData) => {

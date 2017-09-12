@@ -7,31 +7,32 @@
 
         <h3 class="mb-3">{{(team$ | async)?.members.length}} members</h3>
 
-        <button class="btn btn-success mb-3 pull-right">Invite all</button>
+        <button class="btn btn-success mb-3 pull-right" (click)="inviteAll()">Invite/resend all</button>
 
-        <table class="table table-hover">
+        <table class="table table-hover table-sm tableSection">
             <thead>
                 <tr>
                     <th></th>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>Invite</th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                <!-- <tr>
-                    <td></td>
-                    <td colspan="2">
-                        <div class="form-inline ==">
-                            <input type="email" class="form-control mb-2 mr-sm-2 mb-sm-0 col-12" id="inlineFormInput" placeholder="e.g. meursault@theoutsider.com ">
-                        </div>
-                    <td><button class="btn btn-primary btn-sm mt-2">Create</button></td>
-                </tr> -->
                 <tr *ngFor="let member of (members$ | async)">
-                    <td><img class="rounded-circle member-table " src="{{member.picture}}" alt="{{member.name}}"></td>
+                    <td><img class="rounded-circle member " src="{{member.picture}}" alt="{{member.name}}"></td>
                     <td>{{member.name}}</td>
                     <td>{{member.email}}</td>
-                    <td><button class="btn btn-success mt-2">Invite</button></td>
+                    <td>
+                        <div *ngIf="member.isActivationPending && member.isInvitationSent" class="text-warning" placement="top"
+                            container="body" ngbTooltip="{{member.name}} was sent an invitation.">Pending</div>
+                    </td>
+                    <td>
+                        <button *ngIf="!member.isActivationPending" class="btn btn-default  mt-2" placement="top" container="body" ngbTooltip="{{member.name}} is a confirmed user." disabled>Active</button>
+                        <button *ngIf="member.isActivationPending && !member.isInvitationSent" class="btn btn-success  mt-2" (click)="inviteUser(member)">Invite </button>
+                        <button *ngIf="member.isActivationPending && member.isInvitationSent" class="btn btn-success  mt-2" (click)="inviteUser(member)">Resend </button>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -41,7 +42,7 @@
     <div class="col-lg-5 mt-3 ">
         <div class="card mt-5 card-inverse panel">
             <div class="card-block">
-                <h5 class="card-title">Who else is in team <b>{{(team$ | async)?.name}}</b>? Search for your teammates</h5>
+                <h5 class="card-title">Add teammates to team <b>{{(team$ | async)?.name}}</b></h5>
                 <div class="card-text">
                     <!-- <div class="input-group mt-3 col-12" *ngIf="team$ |async"> -->
                     <ng-template #rt let-r="result" let-t="term">
@@ -53,20 +54,20 @@
                             class="form-control col-7" [ngModelOptions]="{standalone: true}" [ngModel]="newMember" (selectItem)="saveNewMember($event)"
                             [ngbTypeahead]="searchUsers" [resultFormatter]="formatter" [inputFormatter]="formatter" email />
                         <span *ngIf="searching">searching...</span>
-                        
+
                         <span class="input-group-btn" *ngIf="!searchFailed">
                                
                                 <button  class="btn btn-primary" [class.disabled]="!isUserChosen" type="button" (click)="addMemberToTeam()">
                                     Add
                                 </button>
                                 </span>
-                                <span *ngIf="isAlreadyInTeam" class="text-warning">Already added!</span>
+                        <span *ngIf="isAlreadyInTeam" class="text-warning">Already added!</span>
                     </div>
 
                     <!-- </div> -->
                     <div class="col-12 mt-1" *ngIf="searchFailed">
                         <span *ngIf="!isUserSearchedEmail">No results</span>
-                       
+
                         <div *ngIf="isUserSearchedEmail">
 
                             <div>
