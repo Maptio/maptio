@@ -10,7 +10,7 @@
         <div class="form-group" [class.has-danger]="inputEmail.invalid && (inputEmail.dirty || inputEmail.touched)">
             <label for="inputEmail">Email</label>
             <input type="email" id="inputEmail" name="inputEmail" class="form-control form-control-warning form-control-lg" required
-                [(ngModel)]="email" #inputEmail="ngModel" [class.disabled]="!isLoggingIn" placeholder="e.g. clark.kent@dailyplanet.com">
+                [(ngModel)]="email" #inputEmail="ngModel" [class.disabled]="!isLoggingIn" placeholder="e.g. bunk.moreland@baltimorepolice.org">
 
         </div>
         <div class="form-group" [class.has-danger]="inputPassword.invalid && (inputPassword.dirty || inputPassword.touched)">
@@ -18,7 +18,8 @@
             <input type="password" id="inputPassword" name="inputPassword" class="form-control form-control-warning form-control-lg"
                 required [(ngModel)]="password" #inputPassword="ngModel" placeholder="e.g. ••••••••" (input)="passwordChange()">
             <div class="form-control-feedback" *ngIf="(inputPassword.invalid && (inputPassword.dirty || inputPassword.touched)) || isPasswordEmpty">Required</div>
-
+            <small *ngIf="isLoggingIn" class="mt-2 text-muted">Forgot your password? <a routerLink="/forgot">Reset it</a></small>
+            
         </div>
         <div *ngIf="!isLoggingIn" class="form-check" [class.has-danger]="inputTC.errors?.required && (inputTC.dirty || inputTC.touched)">
             <label class="form-check-label">
@@ -31,8 +32,9 @@
         <button *ngIf="!isLoggingIn" (click)="activateAccount()" class="btn btn-success btn-lg" [class.disabled]="inputPassword.invalid || inputTC.errors?.required">Log in</button>
         <button *ngIf="isLoggingIn" (click)="login()" class="btn btn-success btn-lg" [class.disabled]="inputEmail.invalid || isPasswordEmpty">Log in</button>
         
-        <p class="mt-2">Forgot your password? <a routerLink="/forgot">Reset it</a></p>
-
+        
+        <p *ngIf="isLoggingIn" class="mt-2">Don't have an account? <a routerLink="/signup">Create a Maptio account</a></p>
+        
     </div>
 
     <a *ngIf="!isLoggingIn" routerLink="/login"><small>Not your account?</small></a>
