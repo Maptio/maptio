@@ -268,7 +268,11 @@ export class Auth {
             });
     }
 
-    public createUser(email: string, firstname: string, lastname: string): Promise<User> {
+    public generateUserToken(userId: string, email: string): Promise<string> {
+        return this.encodingService.encode({ user_id: userId, email: email })
+    }
+
+    public createUser(email: string, firstname: string, lastname: string, isSignUp?: boolean): Promise<User> {
         let newUser = {
             "connection": "Username-Password-Authentication",
             "email": email,
@@ -276,7 +280,8 @@ export class Auth {
             "family_name": lastname,
             "name": `${firstname} ${lastname}`,
             "password": UUID.UUID(),
-            "email_verified": true,
+            "email_verified": !isSignUp || true,
+            "verify_email": (isSignUp) ? isSignUp : false,
             "app_metadata":
             {
                 "activation_pending": true,

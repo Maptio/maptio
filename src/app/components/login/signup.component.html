@@ -2,8 +2,15 @@
 
     <h2 class="ml-3">Create a Maptio account</h2>
     <br>
-    <div class="alert alert-danger" role="alert" *ngIf="loginErrorMessage">
-        {{loginErrorMessage}}
+    <div class="alert alert-danger" role="alert" *ngIf="signUpMessageFail">
+        {{signUpMessageFail}}
+    </div>
+    <div class="alert alert-warning" role="alert" *ngIf="isRedirectToActivate">
+        Looks like you already have an account! <a href="/login?token={{userToken}}">Set it up</a>
+    </div>
+
+    <div class="alert alert-danger" role="alert" *ngIf="isEmailAlreadyExist">
+        This email already has an account. Do you want to <a routerLink="/login">log in</a>?
     </div>
     <div class="form-group col-lg-4">
         <div class="form-group" [class.has-danger]="inputFirstname.invalid && (inputFirstname.dirty || inputFirstname.touched)">
@@ -21,15 +28,8 @@
         <div class="form-group" [class.has-danger]="inputEmail.invalid && (inputEmail.dirty || inputEmail.touched)">
             <label for="inputEmail">Email</label>
             <input type="email" id="inputEmail" name="inputEmail" class="form-control form-control-warning form-control-lg" required
-                [(ngModel)]="email" #inputEmail="ngModel" [class.disabled]="!isLoggingIn" placeholder="e.g. lois.griffin@spoonerstreet.com">
-
-        </div>
-        <div class="form-group" [class.has-danger]="inputPassword.invalid && (inputPassword.dirty || inputPassword.touched)">
-            <label for="inputPassword">Password</label>
-            <input type="password" id="inputPassword" name="inputPassword" class="form-control form-control-warning form-control-lg"
-                required [(ngModel)]="password" #inputPassword="ngModel" placeholder="e.g. ••••••••" (input)="passwordChange()">
-            <div class="form-control-feedback" *ngIf="(inputPassword.invalid && (inputPassword.dirty || inputPassword.touched)) || isPasswordEmpty">Required</div>
-
+                email [(ngModel)]="email" #inputEmail="ngModel" [class.disabled]="!isLoggingIn" placeholder="e.g. lois.griffin@spoonerstreet.com">
+            <!-- <small class="form-feedback" *ngIf="inputEmail.invalid && (inputEmail.dirty || inputEmail.touched)">This is not a email</small> -->
         </div>
         <div class="form-check" [class.has-danger]="inputTC.errors?.required && (inputTC.dirty || inputTC.touched)">
             <label class="form-check-label">
@@ -39,7 +39,7 @@
                           
                         </label>
         </div>
-        <button (click)="createAccount()" class="btn btn-success btn-lg" [class.disabled]="inputFirstname.invalid || inputLastname.invalid || inputPassword.invalid || inputTC.errors?.required">Log in</button>
+        <button (click)="createAccount(firstname, lastname, email)" class="btn btn-success btn-lg" [class.disabled]="inputFirstname.invalid || inputLastname.invalid || inputEmail.invalid || inputTC.errors?.required">Log in</button>
 
     </div>
 
