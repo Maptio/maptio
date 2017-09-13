@@ -1,7 +1,8 @@
+import { SignupComponent } from './components/login/signup.component';
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpModule, RequestOptions, XHRBackend, Http } from "@angular/http";
 
 // Routing
@@ -82,7 +83,7 @@ const appRoutes: Routes = [
   { path: "home/:token", component: HomeComponent },
 
   { path: "login", component: LoginComponent },
-  { path: "account", component: AccountComponent, canActivate: [AuthGuard] },
+  { path: "signup", component: SignupComponent },
   { path: "teams", component: TeamsListComponent, canActivate: [AuthGuard] },
   { path: "team/:teamid", component: TeamComponent, canActivate: [AuthGuard, AccessGuard] },
   { path: "profile", component: AccountComponent, canActivate: [AuthGuard] },
@@ -99,7 +100,7 @@ const appRoutes: Routes = [
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent, TeamComponent,
     MappingComponent, MappingCirclesComponent, MappingTreeComponent, MappingFirstPersonComponent, TooltipComponent,
     BuildingComponent, InitiativeNodeComponent, LoginComponent, HomeComponent, UnauthorizedComponent,
-    InitiativeComponent, ChangePasswordComponent, LoaderComponent,TeamsListComponent,
+    InitiativeComponent, ChangePasswordComponent, LoaderComponent, TeamsListComponent, SignupComponent,
     FocusIfDirective,
     AutoSelectDirective,
     AnchorDirective,
@@ -107,8 +108,10 @@ const appRoutes: Routes = [
   ],
   imports: [
     BrowserModule,
-    CommonModule,
     FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+   
     HttpModule,
     TreeModule,
     Ng2Bs3ModalModule,
@@ -129,7 +132,7 @@ const appRoutes: Routes = [
     {
       provide: Http,
       useFactory: HttpServiceFactory,
-      deps: [XHRBackend, RequestOptions, LoaderService]
+      deps: [XHRBackend, RequestOptions, LoaderService, ErrorService]
     }
   ],
   entryComponents: [AppComponent],

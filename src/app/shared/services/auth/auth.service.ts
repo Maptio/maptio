@@ -347,7 +347,7 @@ export class Auth {
         });
     }
 
-    public updatePassword(user_id: string, password: string): Promise<boolean> {
+    public updateUserInformation(user_id: string, password: string, firstname: string, lastname: string): Promise<boolean> {
         return this.getApiToken().then((token: string) => {
 
             let headers = new Headers();
@@ -356,16 +356,16 @@ export class Auth {
             return this.http.patch("https://circlemapping.auth0.com/api/v2/users/" + user_id,
                 {
                     "password": password,
+                    "given_name": firstname,
+                    "family_name": lastname,
                     "connection": "Username-Password-Authentication"
                 }
                 ,
                 { headers: headers })
-                .map((responseData) => {
-                    return true;
-                })
                 .toPromise()
-                .then(r => r)
-                .catch(this.errorService.handleError);
+                .then((response) => {
+                    return true
+                })
         });
     }
 
@@ -379,12 +379,10 @@ export class Auth {
                 { "app_metadata": { "activation_pending": isActivationPending } }
                 ,
                 { headers: headers })
-                .map((responseData) => {
-                    return true;
-                })
                 .toPromise()
-                .then(r => r)
-                .catch(this.errorService.handleError);
+                .then((response) => {
+                    return true
+                })
         });
     }
 
@@ -433,6 +431,23 @@ export class Auth {
             } else {
                 EmitterService.get("changePasswordFeedbackMessage").emit(resp)
             }
+        });
+    }
+
+    public isUserExist(email: string): Promise<boolean> {
+        return this.getApiToken().then((token: string) => {
+
+            let headers = new Headers();
+            headers.set("Authorization", "Bearer " + token);
+
+            return this.http.get("https://circlemapping.auth0.com/api/v2/users?include_totals=true&q=" + encodeURIComponent(`email="${email}"`), { headers: headers })
+                .map((responseData) => {
+                    if (responseData.json().total) {
+                        return responseData.json().total === 1
+                    }
+                    return false;
+                })
+                .toPromise()
         });
     }
 
