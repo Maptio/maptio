@@ -61,7 +61,7 @@
                     </ng-template>
                     <div class="form-inline row col-12">
                         <label class="mr-1" for="inputNewMember">Search by email</label>
-                        <input #inputNewMember type="text" id="inputNewMember" [resultTemplate]="rt" placeholder="e.g. bosco.baracus@a-team.com"
+                        <input #inputNewMember type="text" id="inputNewMember" [resultTemplate]="rt" placeholder="e.g. hermes.conrad@planetexpress.com"
                             class="form-control col-7" [ngModelOptions]="{standalone: true}" [ngModel]="newMember" (selectItem)="saveNewMember($event)"
                             [ngbTypeahead]="searchUsers" [resultFormatter]="formatter" [inputFormatter]="formatter" email />
                         <span *ngIf="searching">searching...</span>
