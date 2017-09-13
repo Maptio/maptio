@@ -113,3 +113,14 @@
     content: "\f059";
     font-family: FontAwesome;
 }
+
+a.navbar-brand{
+    width: 47px;
+    height: 40px;
+}
+
+
+a.navbar-brand img{
+    width: 130%;
+    height: 130%;
+}

@@ -1,20 +1,27 @@
-<div class="card-deck m-3">
+<div class="card-deck mt-3">
     <div class="col-8">
-        <div class="row" *ngFor="let dataset of (datasets$ | async)">
+        <div class="row mb-3" *ngFor="let dataset of (datasets$ | async)">
             <div class="card mb-3 ">
-                <div class="card-header">
+                <div class="d-flex w-100 justify-content-between card-header">
                     <h5><a routerLink="/map/{{dataset._id}}"> {{dataset.initiative.name}}</a></h5>
-                    <small>{{dataset.team?.name}}</small>
+                    <small class="text-muted">Team <a routerLink="/team/{{dataset.team?.team_id}}">{{dataset.team?.name}}</a></small>
+                </div>
+                <div class="card-block">
+                    <small *ngIf="dataset.initiative.children" class="text-muted">Vision held by 
+                        <img class="visionnary rounded-circle" src="{{dataset.initiative.children[0]?.accountable?.picture}}" alt="{{dataset.initiative.children[0]?.accountable?.name}}"
+                        placement="top" container="body" ngbTooltip="{{dataset.initiative.children[0]?.accountable?.name}}">
+                    </small>
+
                 </div>
             </div>
         </div>
-
     </div>
+
     <div class="card col-4">
-        <div class="m-3">
-            <div class="row m-1 mb-3">
+        <div class="m-0">
+            <div class="row ml-1 mt-2">
                 <img class="profile rounded-circle" src="{{ user?.picture }}" alt="Picture of {{user?.name}}">
-                <h3 class="col-10">{{user?.name}}</h3>
+                <h4 class="col-10">{{user?.name}}</h4>
             </div>
             <div class="row">
                 <div class="col-12">

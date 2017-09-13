@@ -117,10 +117,7 @@ export class LoginComponent implements OnInit {
                     this.loginErrorMessage = "We don't know that email."
                 }
             })
-
-
         }
-
     }
 
 
