@@ -20,37 +20,37 @@ let ses = new aws.SES({
 });
 
 
-router.post('/send', function (req, res, next) {
+// router.post('/send', function (req, res, next) {
 
-    let from = req.body.from;
-    let to = req.body.to;
-    let subject = req.body.subject;
-    let htmlBody = req.body.body
+//     let from = req.body.from;
+//     let to = req.body.to;
+//     let subject = req.body.subject;
+//     let htmlBody = req.body.body
 
 
-    ses.sendEmail({
-        Source: from,
-        Destination: { ToAddresses: to },
-        Message: {
-            Body: {
-                Html: {
-                    Data: htmlBody
-                }
-            },
-            Subject: {
-                Data: subject
-            }
-        }
-    }
-        , function (err, data) {
-            if (err) {
-                res.send(err);
-            } else {
-                res.json(data);
-            }
-        });
+//     ses.sendEmail({
+//         Source: from,
+//         Destination: { ToAddresses: to },
+//         Message: {
+//             Body: {
+//                 Html: {
+//                     Data: htmlBody
+//                 }
+//             },
+//             Subject: {
+//                 Data: subject
+//             }
+//         }
+//     }
+//         , function (err, data) {
+//             if (err) {
+//                 res.send(err);
+//             } else {
+//                 res.json(data);
+//             }
+//         });
 
-});
+// });
 
 router.post('/invite', function (req, res, next) {
 

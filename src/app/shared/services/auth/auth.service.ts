@@ -1,4 +1,4 @@
-import { EmitterService } from './../emitter.service';
+import { EmitterService } from "./../emitter.service";
 import { MailingService } from "./../mailing/mailing.service";
 import { JwtEncoder } from "./../encoding/jwt.service";
 import { Http, Headers } from "@angular/http";

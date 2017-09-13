@@ -1,5 +1,5 @@
-import { MailingService } from './../mailing/mailing.service';
-import { JwtEncoder } from './../encoding/jwt.service';
+import { MailingService } from "./../mailing/mailing.service";
+import { JwtEncoder } from "./../encoding/jwt.service";
 import { Router } from "@angular/router";
 import { User } from "../../model/user.data";
 import { ErrorService } from "../error/error.service";
@@ -25,7 +25,7 @@ describe("auth.service.ts", () => {
                         ;
                     }
                 },
-                Auth, UserFactory,JwtEncoder,MailingService,
+                Auth, UserFactory, JwtEncoder, MailingService,
                 { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } },
                 {
                     provide: Http,

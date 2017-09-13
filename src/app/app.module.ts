@@ -1,4 +1,4 @@
-import { SignupComponent } from './components/login/signup.component';
+import { SignupComponent } from "./components/login/signup.component";
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
@@ -110,7 +110,6 @@ const appRoutes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
-   
     HttpModule,
     TreeModule,
     Ng2Bs3ModalModule,

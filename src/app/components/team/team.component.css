@@ -78,8 +78,3 @@ table.tableSection th:nth-child(0n+5), table.tableSection td:nth-child(0n+5) {
 table.tableSection th:nth-child(0n+6), table.tableSection td:nth-child(0n+6) {
     width: 10%;
 }
-
-h3.popover-title::after{
-    content: '\1F603';
-    color:orange; 
-}

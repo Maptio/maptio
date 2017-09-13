@@ -12,26 +12,26 @@ export class MailingService {
         this._http = http;
     }
 
-    public sendEmail(from: string, to: string[], subject: string, body: string): Promise<boolean> {
+    // public sendEmail(from: string, to: string[], subject: string, body: string): Promise<boolean> {
 
-        let email = {
-            from: from,
-            subject: subject,
-            body: body,
-            to: to
-        };
+    //     let email = {
+    //         from: from,
+    //         subject: subject,
+    //         body: body,
+    //         to: to
+    //     };
 
-        return this.http.post("/api/v1/send", email)
-            .map((responseData) => {
-                return responseData.json();
-            })
-            .map((input: any) => {
-                return input.MessageId !== undefined;
-            })
-            .toPromise()
-            .then(r => r)
-            .catch(this.errorService.handleError);
-    }
+    //     return this.http.post("/api/v1/send", email)
+    //         .map((responseData) => {
+    //             return responseData.json();
+    //         })
+    //         .map((input: any) => {
+    //             return input.MessageId !== undefined;
+    //         })
+    //         .toPromise()
+    //         .then(r => r)
+    //         .catch(this.errorService.handleError);
+    // }
 
     public sendInvitation(from: string, to: string[], url: string, team: string, invitedBy: string): Promise<boolean> {
 
