@@ -115,7 +115,7 @@ export class LoginComponent implements OnInit {
                         this.loginErrorMessage = "Wrong password";
                     })
                 }
-                else{
+                else {
                     this.loginErrorMessage = "We don't know that email."
                 }
             })

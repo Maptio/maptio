@@ -44,7 +44,7 @@ export class SignupComponent implements OnInit {
                     this.isRedirectToActivate = true;
                 }
                 else {
-                    // account is created and is already activated => this user should login 
+                    // account is created and is already activated => this user should login
                     this.isEmailAlreadyExist = true;
                 }
             }

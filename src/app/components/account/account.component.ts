@@ -1,4 +1,4 @@
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from "rxjs/Rx";
 import { TeamComponent } from "./../team/team.component";
 import { TeamFactory } from "./../../shared/services/team.factory";
 import { EmitterService } from "./../../shared/services/emitter.service";
@@ -23,11 +23,11 @@ export class AccountComponent implements OnInit {
     public datasets$: Promise<Array<DataSet>>;
     public teams$: Promise<Array<Team>>
     private message: string;
-    subscription:Subscription;
+    subscription: Subscription;
 
     @ViewChild(TeamComponent) teamComponent: TeamComponent;
 
-    ngOnDestroy(){
+    ngOnDestroy() {
         this.subscription.unsubscribe();
     }
 
