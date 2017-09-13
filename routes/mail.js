@@ -4,7 +4,7 @@ var aws = require("aws-sdk");
 var fs = require("fs");
 var path = require('path');
 var _ = require("lodash");
-
+const isDevelopment = process.env.NODE_ENV !== "production"
 
 let SECRET = "***REMOVED***";
 let KEY = "AKIAI233ZOM542XDBUMQ";
@@ -55,7 +55,7 @@ let ses = new aws.SES({
 router.post('/invite', function (req, res, next) {
 
     let from = req.body.from;
-    let to = req.body.to;
+    let to = isDevelopment? ["safiyya.sb@gmail.com"] : req.body.to;
     let subject = req.body.subject;
     let url = req.body.url;
     let team = req.body.team;

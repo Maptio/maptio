@@ -261,7 +261,7 @@ export class Auth {
                 }).toPromise()
         })
             .then((ticket: string) => {
-                return this.mailing.sendInvitation("support@maptio.com", ["safiyya.babio@gmail.com"], ticket, teamName, invitedBy)
+                return this.mailing.sendInvitation("support@maptio.com", [email], ticket, teamName, invitedBy)
             })
             .then((success: boolean) => {
                 return this.updateInvitiationSentStatus(userId, true);
