@@ -49,13 +49,13 @@ export class HttpService extends Http {
     }
 
     private turnOnModal() {
-        this.loader.show();
+        // this.loader.show();
     }
 
     private turnOffModal() {
         this.pendingRequests--;
         if (this.pendingRequests <= 0) {
-            this.loader.hide();
+            // this.loader.hide();
         }
     }
 }

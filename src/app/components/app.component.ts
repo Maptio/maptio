@@ -1,8 +1,9 @@
+import { LoaderService } from './../shared/services/http/loader.service';
 import { EmitterService } from "../shared/services/emitter.service";
-import { Router } from "@angular/router";
+import { Router, NavigationStart, NavigationEnd, NavigationCancel } from "@angular/router";
 import {
   Component,
-  OnInit,
+  OnInit, AfterViewInit,
   ViewChild
 } from "@angular/core";
 import { HelpComponent } from "../components/help/help.component";
@@ -14,12 +15,12 @@ import "rxjs/add/operator/map"
   styleUrls: ["./app.component.css"]
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
 
   @ViewChild("help")
   helpComponent: HelpComponent;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private loaderService: LoaderService) {
   }
 
   openDataset(dataset: DataSet) {
@@ -33,6 +34,21 @@ export class AppComponent implements OnInit {
 
   openHelp() {
     this.helpComponent.open();
+  }
+
+  ngAfterViewInit() {
+    this.router.events
+      .subscribe((event) => {
+        if (event instanceof NavigationStart) {
+          this.loaderService.show();
+        }
+        else if (
+          event instanceof NavigationEnd ||
+          event instanceof NavigationCancel
+        ) {
+          this.loaderService.hide();
+        }
+      });
   }
 }
 
