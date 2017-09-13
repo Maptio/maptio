@@ -80,7 +80,6 @@ const appRoutes: Routes = [
   { path: "", redirectTo: "", pathMatch: "full", component: HomeComponent },
 
   { path: "home", component: HomeComponent },
-  { path: "home/:token", component: HomeComponent },
 
   { path: "login", component: LoginComponent },
   { path: "signup", component: SignupComponent },

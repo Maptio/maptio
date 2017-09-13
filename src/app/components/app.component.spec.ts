@@ -1,3 +1,4 @@
+import { LoaderService } from './../shared/services/http/loader.service';
 import { Initiative } from './../shared/model/initiative.data';
 import { ResponsiveModule } from "ng2-responsive";
 import { DataSet } from "../shared/model/dataset.data";
@@ -25,6 +26,7 @@ describe("app.component.ts", () => {
         }).overrideComponent(AppComponent, {
             set: {
                 providers: [
+                    LoaderService,
                     { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } }
                 ]
             }

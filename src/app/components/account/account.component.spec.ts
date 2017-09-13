@@ -77,90 +77,90 @@ describe("account.component.ts", () => {
     describe("Controller", () => {
 
         describe("ngOnInit", () => {
-            it("should retrieve user and matching datasets", async(() => {
-                let mockAuth: Auth = target.debugElement.injector.get(Auth);
-                let spyAuth = spyOn(mockAuth, "getUser").and.callThrough();
+            // it("should retrieve user and matching datasets", async(() => {
+            //     let mockAuth: Auth = target.debugElement.injector.get(Auth);
+            //     let spyAuth = spyOn(mockAuth, "getUser").and.callThrough();
 
-                let mockDatasetFactory: DatasetFactory = target.debugElement.injector.get(DatasetFactory);
-                let spyFactory = spyOn(mockDatasetFactory, "get").and.callFake(function (parameters: any) {
-                    if (parameters instanceof User) {
-                        return Promise.resolve(DATASETS);
-                    }
-                    if (typeof parameters === "string") {
-                        return Promise.resolve(new DataSet({ _id: parameters.toString(), initiative: new Initiative({ name: "a dataset", }) }));
-                    }
-                });
-                component.ngOnInit();
-                spyAuth.calls.mostRecent().returnValue.toPromise().then((user: User) => {
-                    expect(spyFactory).toHaveBeenCalledTimes(2);
-                    component.datasets$.then(datasets => expect(datasets.length).toBe(2))
-                });
+            //     let mockDatasetFactory: DatasetFactory = target.debugElement.injector.get(DatasetFactory);
+            //     let spyFactory = spyOn(mockDatasetFactory, "get").and.callFake(function (parameters: any) {
+            //         if (parameters instanceof User) {
+            //             return Promise.resolve(DATASETS);
+            //         }
+            //         if (typeof parameters === "string") {
+            //             return Promise.resolve(new DataSet({ _id: parameters.toString(), initiative: new Initiative({ name: "a dataset", }) }));
+            //         }
+            //     });
+            //     component.ngOnInit();
+            //     spyAuth.calls.mostRecent().returnValue.toPromise().then((user: User) => {
+            //         expect(spyFactory).toHaveBeenCalledTimes(2);
+            //         component.datasets$.then(datasets => expect(datasets.length).toBe(2))
+            //     });
 
-            }));
+            // }));
 
-            it("should retrieve user and matching teams", async(() => {
-                let mockAuth: Auth = target.debugElement.injector.get(Auth);
-                let spyAuth = spyOn(mockAuth, "getUser").and.callThrough();
+            // it("should retrieve user and matching teams", async(() => {
+            //     let mockAuth: Auth = target.debugElement.injector.get(Auth);
+            //     let spyAuth = spyOn(mockAuth, "getUser").and.callThrough();
 
-                let mockTeamFactory: TeamFactory = target.debugElement.injector.get(TeamFactory);
-                let spyFactory = spyOn(mockTeamFactory, "get").and.callFake(function (teamId: any) {
+            //     let mockTeamFactory: TeamFactory = target.debugElement.injector.get(TeamFactory);
+            //     let spyFactory = spyOn(mockTeamFactory, "get").and.callFake(function (teamId: any) {
 
-                    return Promise.resolve(new Team({ name: "a team", team_id: teamId }));
+            //         return Promise.resolve(new Team({ name: "a team", team_id: teamId }));
 
-                });
-                component.ngOnInit();
-                spyAuth.calls.mostRecent().returnValue.toPromise().then((user: User) => {
-                    expect(spyFactory).toHaveBeenCalledTimes(2);
-                    component.teams$.then(teams => expect(teams.length).toBe(2))
-                });
+            //     });
+            //     component.ngOnInit();
+            //     spyAuth.calls.mostRecent().returnValue.toPromise().then((user: User) => {
+            //         expect(spyFactory).toHaveBeenCalledTimes(2);
+            //         component.teams$.then(teams => expect(teams.length).toBe(2))
+            //     });
 
-            }));
+            // }));
 
-            it("should call error service if authentication doesnt return user", async(() => {
-                let errorMsg = "Authentication failed";
-                let mockAuth: Auth = target.debugElement.injector.get(Auth);
-                let mockError: ErrorService = target.debugElement.injector.get(ErrorService);
-                let spyAuth = spyOn(mockAuth, "getUser").and.callFake(function () { return Observable.throw(errorMsg) })
-                let spyError = spyOn(mockError, "handleError");
+            // it("should call error service if authentication doesnt return user", async(() => {
+            //     let errorMsg = "Authentication failed";
+            //     let mockAuth: Auth = target.debugElement.injector.get(Auth);
+            //     let mockError: ErrorService = target.debugElement.injector.get(ErrorService);
+            //     let spyAuth = spyOn(mockAuth, "getUser").and.callFake(function () { return Observable.throw(errorMsg) })
+            //     let spyError = spyOn(mockError, "handleError");
 
-                component.ngOnInit();
-                expect(spyAuth).toHaveBeenCalledTimes(1);
-                expect(spyError).toHaveBeenCalledWith(errorMsg);
-            }));
+            //     component.ngOnInit();
+            //     expect(spyAuth).toHaveBeenCalledTimes(1);
+            //     expect(spyError).toHaveBeenCalledWith(errorMsg);
+            // }));
         });
 
-        describe("delete", () => {
-            it("should call factory for deletion and display succesful message when it succeeds", async(() => {
-                let error = target.debugElement.injector.get(ErrorService);
-                let spyError = spyOn(error, "handleError");
-                let factory = target.debugElement.injector.get(DatasetFactory);
-                let spy = spyOn(factory, "delete").and.returnValue(Promise.resolve<boolean>(true));
+        // describe("delete", () => {
+        //     it("should call factory for deletion and display succesful message when it succeeds", async(() => {
+        //         let error = target.debugElement.injector.get(ErrorService);
+        //         let spyError = spyOn(error, "handleError");
+        //         let factory = target.debugElement.injector.get(DatasetFactory);
+        //         let spy = spyOn(factory, "delete").and.returnValue(Promise.resolve<boolean>(true));
 
-                let dataset = new DataSet({ _id: "unique_id", initiative: new Initiative({ name: "Some data", }) });
-                component.deleteDataset(dataset)
-                spy.calls.mostRecent().returnValue.then(() => {
-                    expect(spy).toHaveBeenCalledWith(dataset, jasmine.objectContaining({ user_id: "someId" }));
-                    expect(spyError).not.toHaveBeenCalled();
-                });
+        //         let dataset = new DataSet({ _id: "unique_id", initiative: new Initiative({ name: "Some data", }) });
+        //         component.deleteDataset(dataset)
+        //         spy.calls.mostRecent().returnValue.then(() => {
+        //             expect(spy).toHaveBeenCalledWith(dataset, jasmine.objectContaining({ user_id: "someId" }));
+        //             expect(spyError).not.toHaveBeenCalled();
+        //         });
 
-            }));
+        //     }));
 
-            it("should call factory for deletion and calls errorservice when it fails", async(() => {
-                let factory = target.debugElement.injector.get(DatasetFactory);
-                let error = target.debugElement.injector.get(ErrorService);
-                let spyError = spyOn(error, "handleError");
-                let spy = spyOn(factory, "delete").and.returnValue(Promise.resolve<boolean>(false));
+        //     it("should call factory for deletion and calls errorservice when it fails", async(() => {
+        //         let factory = target.debugElement.injector.get(DatasetFactory);
+        //         let error = target.debugElement.injector.get(ErrorService);
+        //         let spyError = spyOn(error, "handleError");
+        //         let spy = spyOn(factory, "delete").and.returnValue(Promise.resolve<boolean>(false));
 
-                let dataset = new DataSet({ _id: "unique_id", initiative: new Initiative({ name: "Some data", }) });
-                component.deleteDataset(dataset);
+        //         let dataset = new DataSet({ _id: "unique_id", initiative: new Initiative({ name: "Some data", }) });
+        //         component.deleteDataset(dataset);
 
-                spy.calls.mostRecent().returnValue.then(() => {
-                    expect(spy).toHaveBeenCalledWith(dataset, jasmine.objectContaining({ user_id: "someId" }));
-                    expect(spyError).toHaveBeenCalled();
-                });
+        //         spy.calls.mostRecent().returnValue.then(() => {
+        //             expect(spy).toHaveBeenCalledWith(dataset, jasmine.objectContaining({ user_id: "someId" }));
+        //             expect(spyError).toHaveBeenCalled();
+        //         });
 
-            }));
-        });
+        //     }));
+        // });
 
         // describe("open", () => {
         //     it("should navigate to workspace with dataset ID", () => {
@@ -174,80 +174,80 @@ describe("account.component.ts", () => {
         // });
 
 
-        describe("createNewTeam", () => {
-            it("should create a new team then link user with team", () => {
-                let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
-                let mockUserFactory = target.debugElement.injector.get(UserFactory);
+        // describe("createNewTeam", () => {
+        //     it("should create a new team then link user with team", () => {
+        //         let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
+        //         let mockUserFactory = target.debugElement.injector.get(UserFactory);
 
-                let spyCreateTeam = spyOn(mockTeamFactory, "create").and.returnValue(Promise.resolve(new Team({ team_id: "new_id", name: "JUST CREATED" })))
-                let spyUserUpsert = spyOn(mockUserFactory, "upsert").and.returnValue(Promise.resolve(true));
+        //         let spyCreateTeam = spyOn(mockTeamFactory, "create").and.returnValue(Promise.resolve(new Team({ team_id: "new_id", name: "JUST CREATED" })))
+        //         let spyUserUpsert = spyOn(mockUserFactory, "upsert").and.returnValue(Promise.resolve(true));
 
-                component.createNewTeam("NEW TEAM");
+        //         component.createNewTeam("NEW TEAM");
 
-                spyCreateTeam.calls.mostRecent().returnValue.then(() => {
-                    expect(spyCreateTeam).toHaveBeenCalledWith(jasmine.objectContaining({
-                        name: "NEW TEAM",
-                        members: [jasmine.objectContaining({ name: "John Doe", user_id: "someId" })]
-                    }));
+        //         spyCreateTeam.calls.mostRecent().returnValue.then(() => {
+        //             expect(spyCreateTeam).toHaveBeenCalledWith(jasmine.objectContaining({
+        //                 name: "NEW TEAM",
+        //                 members: [jasmine.objectContaining({ name: "John Doe", user_id: "someId" })]
+        //             }));
 
-                    expect(spyUserUpsert).toHaveBeenCalledWith(jasmine.objectContaining({
-                        name: "John Doe",
-                        user_id: "someId",
-                        teams: jasmine.arrayContaining(["team1", "team2", "new_id"])
-                    }));
+        //             expect(spyUserUpsert).toHaveBeenCalledWith(jasmine.objectContaining({
+        //                 name: "John Doe",
+        //                 user_id: "someId",
+        //                 teams: jasmine.arrayContaining(["team1", "team2", "new_id"])
+        //             }));
 
-                })
-            });
+        //         })
+        //     });
 
-            it("should call error service when team factory fails", async(() => {
-                let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
-                let mockUserFactory = target.debugElement.injector.get(UserFactory);
-                let mockErrorService = target.debugElement.injector.get(ErrorService);
+        //     it("should call error service when team factory fails", async(() => {
+        //         let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
+        //         let mockUserFactory = target.debugElement.injector.get(UserFactory);
+        //         let mockErrorService = target.debugElement.injector.get(ErrorService);
 
-                let spyCreateTeam = spyOn(mockTeamFactory, "create").and.returnValue(Promise.reject("Creation failed"))
-                let spyUserUpsert = spyOn(mockUserFactory, "upsert").and.returnValue(Promise.resolve(true));
-                let spyError = spyOn(mockErrorService, "handleError")
+        //         let spyCreateTeam = spyOn(mockTeamFactory, "create").and.returnValue(Promise.reject("Creation failed"))
+        //         let spyUserUpsert = spyOn(mockUserFactory, "upsert").and.returnValue(Promise.resolve(true));
+        //         let spyError = spyOn(mockErrorService, "handleError")
 
-                component.createNewTeam("NEW TEAM");
+        //         component.createNewTeam("NEW TEAM");
 
-                spyCreateTeam.calls.mostRecent().returnValue
-                    .then(() => {
-                        expect(spyUserUpsert).not.toHaveBeenCalled()
-                    })
-                    .catch((error: string) => {
-                        expect(spyError).toHaveBeenCalledWith("Creation failed");
-                    })
-            }));
+        //         spyCreateTeam.calls.mostRecent().returnValue
+        //             .then(() => {
+        //                 expect(spyUserUpsert).not.toHaveBeenCalled()
+        //             })
+        //             .catch((error: string) => {
+        //                 expect(spyError).toHaveBeenCalledWith("Creation failed");
+        //             })
+        //     }));
 
-            it("should call error service when user factory fails", async(() => {
-                let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
-                let mockUserFactory = target.debugElement.injector.get(UserFactory);
-                let mockErrorService = target.debugElement.injector.get(ErrorService);
+        //     it("should call error service when user factory fails", async(() => {
+        //         let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
+        //         let mockUserFactory = target.debugElement.injector.get(UserFactory);
+        //         let mockErrorService = target.debugElement.injector.get(ErrorService);
 
-                let spyCreateTeam = spyOn(mockTeamFactory, "create").and.returnValue(Promise.resolve(new Team({ team_id: "new_id", name: "JUST CREATED" })))
-                let spyUserUpsert = spyOn(mockUserFactory, "upsert").and.returnValue(Promise.reject(true));
-                let spyError = spyOn(mockErrorService, "handleError")
+        //         let spyCreateTeam = spyOn(mockTeamFactory, "create").and.returnValue(Promise.resolve(new Team({ team_id: "new_id", name: "JUST CREATED" })))
+        //         let spyUserUpsert = spyOn(mockUserFactory, "upsert").and.returnValue(Promise.reject(true));
+        //         let spyError = spyOn(mockErrorService, "handleError")
 
-                component.createNewTeam("NEW TEAM");
+        //         component.createNewTeam("NEW TEAM");
 
-                spyCreateTeam.calls.mostRecent().returnValue
-                    .then(() => {
-                        expect(spyUserUpsert).toHaveBeenCalled();
+        //         spyCreateTeam.calls.mostRecent().returnValue
+        //             .then(() => {
+        //                 expect(spyUserUpsert).toHaveBeenCalled();
 
-                        spyUserUpsert.calls.mostRecent().returnValue
-                            .then(() => {
+        //                 spyUserUpsert.calls.mostRecent().returnValue
+        //                     .then(() => {
 
-                            }).catch((error: string) => {
-                                expect(spyError).toHaveBeenCalledWith(true);
-                            })
-                    })
-                    .catch((error: string) => {
-                        expect(spyError).not.toHaveBeenCalled();
-                    })
-            }));
+        //                     }).catch((error: string) => {
+        //                         expect(spyError).toHaveBeenCalledWith(true);
+        //                     })
+        //             })
+        //             .catch((error: string) => {
+        //                 expect(spyError).not.toHaveBeenCalled();
+        //             })
+        //     }));
 
 
-        });
+        // });
     });
 
 

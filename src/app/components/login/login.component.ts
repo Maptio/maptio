@@ -77,7 +77,8 @@ export class LoginComponent implements OnInit {
                         this.isActivationPending.then((isPending: boolean) => {
                             console.log("activation pending", isPending)
                             if (!isPending) {
-                                window.location.href = "/login";
+                                this.router.navigateByUrl("/login")
+                                // window.location.href = "/login";
                             }
                         })
                         return user_id;
@@ -85,7 +86,8 @@ export class LoginComponent implements OnInit {
                     .catch((err) => {
                         console.log(err)
                         // anything goes wrong, we redirect to usual login page
-                        window.location.href = "/login";
+                        // window.location.href = "/login";
+                        this.router.navigateByUrl("/login")
                     })
             }
 

@@ -8,7 +8,7 @@
         number. Also, you can not include any portion of your email address or name in the password.
     </div>
     <div *ngIf="isUserAlreadyActive" class="alert alert-danger" role="alert">
-        Your account is already active, <a href="/login">log in</a>
+        Your account is already active, <a routerLink="/login">log in</a>
     </div>
 
     <div *ngIf="activationStatusCannotBeUpdated" class="alert alert-danger" role="alert">
@@ -49,7 +49,7 @@
         <div class="form-check" [class.has-warning]="activateForm.controls['isTermsAccepted'].invalid  && (activateForm.controls['isTermsAccepted'].dirty || activateForm.controls['isTermsAccepted'].touched)">
             <label class="form-check-label">
                                           <input  type="checkbox" id="inputTC" formControlName="isTermsAccepted" class="form-check-input">
-                                          I accept Maptio's <a href="#">Terms and Conditions</a> 
+                                          I accept Maptio's <a routerLink="">Terms and Conditions</a> 
                                           
                                         </label>
         </div>
@@ -86,7 +86,7 @@
             <small class="form-control-feedback" *ngIf="loginForm.controls['password'].invalid  && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)">
                                             Required
                                 </small>
-            <small class="text-muted">Forgot your password? <a href="/forgot">Reset it</a></small>
+            <small class="text-muted">Forgot your password? <a routerLink="/forgot">Reset it</a></small>
         </div>
         <button type="submit" class="btn btn-success btn-lg" [class.disabled]="!loginForm.valid">Log in</button>
 
