@@ -66,13 +66,10 @@ export class LoginComponent implements OnInit {
 
     }
 
-    ngOnDestroy() {
-        this.subscription.unsubscribe();
-    }
 
 
     ngOnInit() {
-        this.subscription = this.route.queryParams.subscribe((params: Params) => {
+        this.route.queryParams.subscribe((params: Params) => {
             let token = params["token"];
             this.isLoggingIn = (token === undefined);
             if (!this.isLoggingIn) {

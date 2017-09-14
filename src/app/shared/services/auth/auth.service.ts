@@ -154,7 +154,7 @@ export class Auth {
     public logout(): void {
         localStorage.clear();
         this.clear();
-        this.router.navigateByUrl("/home");
+        this.router.navigate(["home"]);
     }
 
     public isEmailVerified(userId: string): Promise<boolean> {

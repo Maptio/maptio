@@ -1,3 +1,4 @@
+import { LoaderService } from './../../shared/services/http/loader.service';
 import { ErrorService } from "./../../shared/services/error/error.service";
 import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
@@ -28,7 +29,7 @@ describe("login.component.ts", () => {
         }).overrideComponent(LoginComponent, {
             set: {
                 providers: [
-                    JwtEncoder, FormBuilder,
+                    JwtEncoder, FormBuilder,LoaderService,
                     { provide: Auth, useClass: class { login = jasmine.createSpy("login"); } },
                     {
                         provide: ActivatedRoute,

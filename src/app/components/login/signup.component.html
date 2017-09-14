@@ -16,7 +16,7 @@
         We have sent a confirmation email to <b>{{signupForm.controls['email'].value}}</b>
     </div>
 
-    <form class="form-group col-lg-4" [formGroup]="signupForm" (submit)="createAccount()">
+    <form class="form-group col-lg-5" [formGroup]="signupForm" (submit)="createAccount()">
 
         <div class="form-group" [class.has-warning]="signupForm.controls['firstname'].invalid  && (signupForm.controls['firstname'].dirty || signupForm.controls['firstname'].touched)">
             <label for="inputFirstname">First name</label>
@@ -47,8 +47,8 @@
         <div class="form-check" [class.has-warning]="signupForm.controls['isTermsAccepted'].invalid  && (signupForm.controls['isTermsAccepted'].dirty || signupForm.controls['isTermsAccepted'].touched)">
             <label class="form-check-label">
                 <input  type="checkbox" id="inputTC" formControlName="isTermsAccepted" class="form-check-input">
-                I accept Maptio's 
-                <a routerLink="">Terms and Conditions</a> 
+                
+                I agree to Maptio's <a href="{{TOS_URL}}">Terms of Service</a>  and <a href="{{PRIVACY_URL}}">Privacy Policy</a>  
             </label>
         </div>
 

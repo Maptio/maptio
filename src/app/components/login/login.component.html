@@ -15,7 +15,7 @@
         We cannot activate your account. Please email us at support@maptio.com and we'll help you out.
     </div>
 
-    <form class="form-group col-lg-4" [formGroup]="activateForm" (submit)="activateAccount()">
+    <form class="form-group col-lg-5" [formGroup]="activateForm" (submit)="activateAccount()">
         <div class="form-group">
             <label for="inputEmail">Email</label>
             <input type="email" id="inputEmail" value="{{email}}" class="form-control form-control-warning form-control-lg" disabled>
@@ -69,7 +69,7 @@
     <div class="alert alert-danger" role="alert" *ngIf="loginErrorMessage">
         {{loginErrorMessage}}
     </div>
-    <form class="form-group col-lg-4" [formGroup]="loginForm" (submit)="login()">
+    <form class="form-group col-lg-5" [formGroup]="loginForm" (submit)="login()">
 
         <div class="form-group" [class.has-warning]="loginForm.controls['email'].invalid  && (loginForm.controls['email'].dirty || loginForm.controls['email'].touched)">
             <label for="inputEmail">Email</label>
