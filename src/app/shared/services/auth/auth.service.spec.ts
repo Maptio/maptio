@@ -110,13 +110,6 @@ describe("auth.service.ts", () => {
             expect(router.navigate).toHaveBeenCalled();
         }));
 
-        it("should set userProfile to undefined", inject([Auth, Router], (auth: Auth, router:Router) => {
-            let spy = spyOn(auth, "clear");
-            auth.logout();
-            expect(spy).toHaveBeenCalled();
-            expect(router.navigate).toHaveBeenCalled();
-        }));
-
         it("should redirect to /home",  inject([Auth, Router], (auth: Auth, router:Router) => {
             auth.logout();
             expect(router.navigate).toHaveBeenCalledWith(["home"]);

@@ -1,3 +1,6 @@
+import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { SignupComponent } from './../login/signup.component';
 import { Observable } from "rxjs/Rx";
 import { ActivatedRoute } from "@angular/router";
 import { MockBackend } from "@angular/http/testing";
@@ -21,7 +24,8 @@ describe("home.component.ts", () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [HomeComponent]
+            declarations: [HomeComponent, SignupComponent],
+            imports: [ReactiveFormsModule, FormsModule]
         }).overrideComponent(HomeComponent, {
             set: {
                 providers: [

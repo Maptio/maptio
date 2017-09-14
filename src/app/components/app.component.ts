@@ -24,14 +24,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   @ViewChild("help")
   helpComponent: HelpComponent;
 
-  constructor(private auth: Auth, private route: ActivatedRoute, private router: Router, private loaderService: LoaderService) {
-    // this.route.snapshot.url
-    //   console.log(this.router.url, this.router.url === "/home" ||  this.router.url === "/");
-    //   console.log(segments)
-    //   this.isHome = this.router.url === "/home" ||  this.router.url === "/"
-
-    // })
-  
+  constructor(private router: Router, private loaderService: LoaderService) {
   }
 
   openDataset(dataset: DataSet) {
@@ -61,7 +54,6 @@ export class AppComponent implements OnInit, AfterViewInit {
           this.loaderService.hide();
         }
       });
-    
   }
 }
 
