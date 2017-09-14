@@ -1,3 +1,4 @@
+import { LoaderService } from './../../shared/services/http/loader.service';
 import { Params } from "@angular/router";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Auth } from "./../../shared/services/auth/auth.service";
@@ -27,7 +28,7 @@ export class LoginComponent implements OnInit {
     public activateForm: FormGroup;
     public loginForm: FormGroup;
 
-    constructor(private auth: Auth, private route: ActivatedRoute, private router: Router, public encoding: JwtEncoder, public formBuilder: FormBuilder) {
+    constructor(private auth: Auth, private route: ActivatedRoute, private router: Router, public encoding: JwtEncoder, public formBuilder: FormBuilder, private loader: LoaderService) {
         this.activateForm = new FormGroup({
             "firstname": new FormControl(this.firstname, [
                 Validators.required,
@@ -104,21 +105,26 @@ export class LoginComponent implements OnInit {
 
     login(): void {
         if (this.loginForm.dirty && this.loginForm.valid) {
-
+            this.loader.show();
             let email = this.loginForm.controls["email"].value
             let password = this.loginForm.controls["password"].value
             console.log(email, password);
-            this.auth.isUserExist(email).then((isUserExist: boolean) => {
-                if (isUserExist) {
-                    let user = this.auth.login(email, password)
-                    EmitterService.get("loginErrorMessage").subscribe((loginErrorMessage: string) => {
-                        this.loginErrorMessage = "Wrong password";
-                    })
-                }
-                else {
-                    this.loginErrorMessage = "We don't know that email."
-                }
-            })
+            this.auth.isUserExist(email)
+                .then((isUserExist: boolean) => {
+                    if (isUserExist) {
+                        let user = this.auth.login(email, password)
+                        // HACK .login() should be promisified instead of using EmitterService
+                        EmitterService.get("loginErrorMessage").subscribe((loginErrorMessage: string) => {
+                            this.loginErrorMessage = "Wrong password";
+                        })
+                    }
+                    else {
+                        this.loginErrorMessage = "We don't know that email."
+                    }
+                }).
+                then(() => {
+                    this.loader.hide();
+                })
         }
     }
 

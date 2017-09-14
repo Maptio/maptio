@@ -154,6 +154,7 @@ export class Auth {
     public logout(): void {
         localStorage.clear();
         this.clear();
+        this.router.navigateByUrl("/home");
     }
 
     public isEmailVerified(userId: string): Promise<boolean> {
@@ -279,7 +280,7 @@ export class Auth {
             "given_name": firstname,
             "family_name": lastname,
             "name": `${firstname} ${lastname}`,
-            "password": UUID.UUID(),
+            "password": `${UUID.UUID()}-${UUID.UUID().toUpperCase()}`,
             "email_verified": !isSignUp || true,
             "verify_email": (isSignUp) ? isSignUp : false,
             "app_metadata":
