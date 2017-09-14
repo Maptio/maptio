@@ -121,13 +121,17 @@ export class LoginComponent implements OnInit {
                 .then((isUserExist: boolean) => {
                     if (isUserExist) {
                         let user = this.auth.login(email, password)
+                        
                         // HACK .login() should be promisified instead of using EmitterService
                         EmitterService.get("loginErrorMessage").subscribe((loginErrorMessage: string) => {
-                            this.loginErrorMessage = "Wrong password";
+                            this.loginErrorMessage =
+                                (loginErrorMessage === "Wrong email or password.") ? "Wrong password" : loginErrorMessage;
+                            this.loader.hide();
                         })
                     }
                     else {
                         this.loginErrorMessage = "We don't know that email."
+                        this.loader.hide();
                     }
                 }).
                 then(() => {
