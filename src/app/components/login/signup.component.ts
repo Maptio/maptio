@@ -84,7 +84,7 @@ export class SignupComponent implements OnInit {
                             return user;
                         })
                         .then((user: User) => {
-                            console.log("create user", user)
+                            // console.log("create user", user)
                             return this.userFactory.create(user)
                         })
                         .then((user: User) => {
@@ -100,7 +100,7 @@ export class SignupComponent implements OnInit {
 
     isEmailExist(email: string): Promise<boolean> {
         return this.userFactory.getAll(email).then((matches: User[]) => {
-            console.log(matches, matches.length)
+            // console.log(matches, matches.length)
             if (matches.length === 1) {
                 // this.isEmailAlreadyExist = true;
                 return true;
@@ -133,7 +133,7 @@ export class SignupComponent implements OnInit {
                     return Promise.resolve({ isActivationPending: false, userToken: null })
                 }
                 return this.auth.isActivationPending(userId).then((isActivationPending: boolean) => {
-                    console.log(isActivationPending)
+                    // console.log(isActivationPending)
                     if (isActivationPending) {
                         return this.auth.generateUserToken(userId, email, firstname, lastname).then(token => {
                             return { isActivationPending, userToken: token }

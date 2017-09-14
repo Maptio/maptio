@@ -74,7 +74,7 @@ export class LoginComponent implements OnInit {
             if (!this.isLoggingIn) {
                 this.encoding.decode(token)
                     .then((decoded: any) => {
-                        console.log(decoded)
+                        // console.log(decoded)
                         this.email = decoded.email
                         this.firstname = decoded.firstname
                         this.lastname = decoded.lastname
@@ -83,7 +83,7 @@ export class LoginComponent implements OnInit {
                     .then((user_id: string) => {
                         this.isActivationPending = this.auth.isActivationPending(user_id);
                         this.isActivationPending.then((isPending: boolean) => {
-                            console.log("activation pending", isPending)
+                            // console.log("activation pending", isPending)
                             if (!isPending) {
                                 this.router.navigateByUrl("/login")
                                 // window.location.href = "/login";
@@ -92,7 +92,7 @@ export class LoginComponent implements OnInit {
                         return user_id;
                     })
                     .catch((err) => {
-                        console.log(err)
+                        // console.log(err)
                         // anything goes wrong, we redirect to usual login page
                         // window.location.href = "/login";
                         this.router.navigateByUrl("/login")
@@ -117,7 +117,7 @@ export class LoginComponent implements OnInit {
             this.loader.show();
             let email = this.loginForm.controls["email"].value
             let password = this.loginForm.controls["password"].value
-            console.log(email, password);
+            
             this.auth.isUserExist(email)
                 .then((isUserExist: boolean) => {
                     if (isUserExist) {

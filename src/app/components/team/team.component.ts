@@ -74,7 +74,7 @@ export class TeamComponent implements OnDestroy {
     }
 
     getAllMembers() {
-        console.log("get all members")
+        
         return this.team$.then((team: Team) => {
             return Promise.all(
                 team.members.map(user => this.userFactory.get(user.user_id)))
@@ -131,18 +131,18 @@ export class TeamComponent implements OnDestroy {
 
 
     isEmail(text: string) {
-        console.log(text, this.EMAIL_REGEXP, this.EMAIL_REGEXP.test(text))
+        // console.log(text, this.EMAIL_REGEXP, this.EMAIL_REGEXP.test(text))
         return this.EMAIL_REGEXP.test(text);
     }
 
 
     inviteAll() {
-        console.log("invite all")
+        // console.log("invite all")
         this.members$ = this.members$
             .then((users: User[]) => {
                 return users.map((user: User) => {
                     if (user.isActivationPending) {
-                        console.log("invite", user.email)
+                        // console.log("invite", user.email)
                         this.inviteUser(user);
                         user.isInvitationSent = true; // optimistic update
                     }
@@ -154,13 +154,13 @@ export class TeamComponent implements OnDestroy {
     inviteUser(user: User) {
 
         this.team$.then((team: Team) => {
-            console.log("invite", user.email, user.user_id, user.name, team.name, this.user.name)
+            // console.log("invite", user.email, user.user_id, user.name, team.name, this.user.name)
             this.auth.sendInvite(user.email, user.user_id, user.firstname, user.lastname, user.name, team.name, this.user.name)
         })
     }
 
     deleteMember(user: User) {
-        console.log("deleting", user.email)
+        // console.log("deleting", user.email)
         this.team$.then((team: Team) => {
             _.remove(team.members, function (m) { return m.user_id === user.user_id })
             this.teamFactory.upsert(team).then(() => { this.members$ = this.getAllMembers(); })
@@ -192,19 +192,19 @@ export class TeamComponent implements OnDestroy {
                         virtualUser.picture = user.picture;
                         virtualUser.teams = [this.teamId];
                         virtualUser.datasets = datasets.map(d => d._id);
-                        console.log("build virtual user", virtualUser)
+                        // console.log("build virtual user", virtualUser)
                         return virtualUser;
                     })
                         .then((user: User) => {
 
                             if (isInvited) {
-                                console.log("sending invite to ", user.email, user.user_id, user.name)
+                                // console.log("sending invite to ", user.email, user.user_id, user.name)
                                 this.inviteUser(user)
                             }
                             return user;
                         })
                         .then((virtualUser: User) => {
-                            console.log("create virtual user", virtualUser)
+                            // console.log("create virtual user", virtualUser)
                             this.userFactory.create(virtualUser)
                             return virtualUser;
                         })
@@ -240,7 +240,7 @@ export class TeamComponent implements OnDestroy {
                         .then((users: User[]) => {
                             this.userSearched = term;
                             return this.members$.then((existingMembers: User[]) => {
-                                console.log(existingMembers)
+                                // console.log(existingMembers)
                                 let alreadyInTeam = existingMembers.filter(m => m.email === term);
                                 let availableToChoose = users.filter(u => !existingMembers.find(m => u.user_id === m.user_id));
 
@@ -248,7 +248,7 @@ export class TeamComponent implements OnDestroy {
                             })
                         })
                         .then(([alreadyInTeam, availableToChoose]: [User[], User[]]) => {
-                            console.log(alreadyInTeam, availableToChoose)
+                            // console.log(alreadyInTeam, availableToChoose)
                             if (alreadyInTeam.length > 0) {
                                 this.isAlreadyInTeam = true;
                                 this.searchFailed = false;

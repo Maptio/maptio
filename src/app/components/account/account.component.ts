@@ -39,7 +39,7 @@ export class AccountComponent implements OnInit {
                 .all(user.datasets.map(did => this.datasetFactory.get(did)))
                 .then((datasets: Array<DataSet>) => {
                     return datasets.map(d => {
-                        console.log(d.initiative.name, d.initiative)
+                        // console.log(d.initiative.name, d.initiative)
                         // console.log(d.initiative.name, "lloking for ", d.initiative.team_id)
                         this.teamFactory.get(d.initiative.team_id).then(team => { d.team = team })
                         return d;

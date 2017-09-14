@@ -147,7 +147,6 @@ export class HeaderComponent implements OnInit {
 
             let email = this.loginForm.controls["email"].value
             let password = this.loginForm.controls["password"].value
-            console.log(email, password);
 
             this.auth.isUserExist(email)
                 .then((isUserExist: boolean) => {

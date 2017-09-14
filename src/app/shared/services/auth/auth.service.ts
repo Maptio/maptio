@@ -63,12 +63,12 @@ export class Auth {
     }
 
     public setUser(profile: any): Promise<boolean> {
-        console.log("setUser", profile)
+        // console.log("setUser", profile)
         localStorage.setItem("profile", JSON.stringify(profile));
 
         return this.userFactory.get(profile.user_id)
             .then((user) => {
-                console.log("getting user", user)
+                // console.log("getting user", user)
                 this.user$.next(user);
                 return Promise.resolve<boolean>(true);
             })
@@ -109,12 +109,12 @@ export class Auth {
                 scope: "profile openid email"
             }, function (err: any, authResult: any) {
                 if (err) {
-                    console.log(err)
+                    // console.log(err)
                     EmitterService.get("loginErrorMessage").emit(err.description);
                     return;
                 }
                 localStorage.setItem("id_token", authResult.idToken);
-                console.log(authResult)
+                // console.log(authResult)
                 if (authResult.accessToken) {
                     this.lock.getWebAuth().client.userInfo(authResult.accessToken, function (err: Error, profile: any) {
                         profile.user_id = profile.sub;
@@ -158,7 +158,7 @@ export class Auth {
     }
 
     public isEmailVerified(userId: string): Promise<boolean> {
-        console.log("isEmailVerified")
+        // console.log("isEmailVerified")
         return this.getApiToken().then((token: string) => {
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
@@ -173,7 +173,7 @@ export class Auth {
     }
 
     public isFirstLogin(userId: string): Promise<boolean> {
-        console.log("isFIrstLogin")
+        // console.log("isFIrstLogin")
         return this.getApiToken().then((token: string) => {
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
@@ -188,7 +188,7 @@ export class Auth {
     }
 
     public sendConfirmationEmail(userId: string): Promise<boolean> {
-        console.log("sendConfirmationEmail")
+        // console.log("sendConfirmationEmail")
         return this.getApiToken().then((token: string) => {
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
@@ -214,10 +214,10 @@ export class Auth {
     public getUser(): Observable<User> {
 
         let profileString = localStorage.getItem("profile");
-        console.log("getUser", profileString)
+        // console.log("getUser", profileString)
         if (profileString) {
             this.userFactory.get(JSON.parse(profileString).user_id).then((user) => {
-                console.log(user)
+                // console.log(user)
                 this.user$.next(user)
             });
         }
@@ -270,7 +270,7 @@ export class Auth {
     }
 
     public generateUserToken(userId: string, email: string, firstname: string, lastname: string): Promise<string> {
-        console.log("generate user token", email, firstname, lastname)
+        // console.log("generate user token", email, firstname, lastname)
         return this.encodingService.encode({ user_id: userId, email: email, firstname: firstname, lastname: lastname })
     }
 
@@ -328,7 +328,7 @@ export class Auth {
     }
 
     public isInvitationSent(user_id: string): Promise<boolean> {
-        console.log("is invitation sent for", user_id)
+        // console.log("is invitation sent for", user_id)
         return this.getApiToken().then((token: string) => {
 
             let headers = new Headers();
@@ -337,7 +337,7 @@ export class Auth {
             return this.http.get("https://circlemapping.auth0.com/api/v2/users/" + user_id, { headers: headers })
                 .map((responseData) => {
                     if (responseData.json().app_metadata) {
-                        console.log("invite sent", responseData.json().app_metadata.invitation_sent)
+                        // console.log("invite sent", responseData.json().app_metadata.invitation_sent)
                         return responseData.json().app_metadata.invitation_sent;
                     }
                     return false;
