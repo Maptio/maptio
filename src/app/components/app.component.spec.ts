@@ -1,5 +1,5 @@
-import { LoaderService } from './../shared/services/http/loader.service';
-import { Initiative } from './../shared/model/initiative.data';
+import { LoaderService } from "./../shared/services/http/loader.service";
+import { Initiative } from "./../shared/model/initiative.data";
 import { ResponsiveModule } from "ng2-responsive";
 import { DataSet } from "../shared/model/dataset.data";
 import { Router } from "@angular/router";

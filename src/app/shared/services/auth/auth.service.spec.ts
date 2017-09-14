@@ -99,7 +99,7 @@ describe("auth.service.ts", () => {
     });
 
     describe("logout", () => {
-        it("should clean remove profile and toek from localStorage", inject([Auth, Router], (auth: Auth, router:Router) => {
+        it("should clean remove profile and toek from localStorage", inject([Auth, Router], (auth: Auth, router: Router) => {
             localStorage.setItem("profile", "some profile information");
             localStorage.setItem("id_token", "some token");
             expect(localStorage.getItem("profile")).toBeDefined();
@@ -110,7 +110,7 @@ describe("auth.service.ts", () => {
             expect(router.navigate).toHaveBeenCalled();
         }));
 
-        it("should redirect to /home",  inject([Auth, Router], (auth: Auth, router:Router) => {
+        it("should redirect to /home", inject([Auth, Router], (auth: Auth, router: Router) => {
             auth.logout();
             expect(router.navigate).toHaveBeenCalledWith(["home"]);
         }));
