@@ -153,7 +153,7 @@ export class Auth {
 
     public logout(): void {
         localStorage.clear();
-        this.clear();
+        // this.clear();
         this.router.navigate(["home"]);
     }
 
