@@ -137,7 +137,7 @@ export class TeamComponent implements OnDestroy {
 
         this.team$.then((team: Team) => {
             console.log("invite", user.email, user.user_id, user.name, team.name, this.user.name)
-            this.auth.sendInvite(user.email, user.user_id, user.name, team.name, this.user.name)
+            this.auth.sendInvite(user.email, user.user_id, user.firstname, user.lastname, user.name, team.name, this.user.name)
         })
     }
 
@@ -159,6 +159,8 @@ export class TeamComponent implements OnDestroy {
                     let virtualUser = new User();
                     virtualUser.name = user.name;
                     virtualUser.email = user.email;
+                    virtualUser.firstname = user.firstname;
+                    virtualUser.lastname = user.lastname;
                     virtualUser.nickname = user.nickname;
                     virtualUser.user_id = user.user_id;
                     virtualUser.picture = user.picture;

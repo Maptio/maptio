@@ -23,7 +23,7 @@
         </div>
         <div class="form-group" [class.has-warning]="activateForm.controls['firstname'].invalid  && (activateForm.controls['firstname'].dirty || activateForm.controls['firstname'].touched)">
             <label for="inputFirstname">First name</label>
-            <input type="text" id="inputFirstname" formControlName="firstname" class="form-control form-control-warning form-control-lg"
+            <input type="text" id="inputFirstname" [(ngModel)]="firstname" formControlName="firstname" class="form-control form-control-warning form-control-lg"
                 placeholder="e.g. Tina" required minlength="2">
             <small class="form-control-feedback" *ngIf="activateForm.controls['firstname'].invalid  && (activateForm.controls['firstname'].dirty || activateForm.controls['firstname'].touched)">
                                 First name must be at least 2 characters
@@ -32,7 +32,7 @@
 
         <div class="form-group" [class.has-warning]="activateForm.controls['lastname'].invalid  && (activateForm.controls['lastname'].dirty || activateForm.controls['lastname'].touched)">
             <label for="inputLastname">Last name</label>
-            <input type="text" id="inputLastname" class="form-control form-control-warning form-control-lg" formControlName="lastname"
+            <input type="text" id="inputLastname" [(ngModel)]="lastname" class="form-control form-control-warning form-control-lg" formControlName="lastname"
                 placeholder="e.g. Belcher">
             <small class="form-control-feedback" *ngIf="activateForm.controls['lastname'].invalid  && (activateForm.controls['lastname'].dirty || activateForm.controls['lastname'].touched)">
                                         Last name must be at least 2 characters

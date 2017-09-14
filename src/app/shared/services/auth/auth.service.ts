@@ -242,10 +242,10 @@ export class Auth {
     }
 
 
-    public sendInvite(email: string, userId: string, name: string, teamName: string, invitedBy: string): Promise<boolean> {
+    public sendInvite(email: string, userId: string, firstname: string, lastname: string, name: string, teamName: string, invitedBy: string): Promise<boolean> {
 
         return Promise.all([
-            this.encodingService.encode({ user_id: userId, email: email }),
+            this.encodingService.encode({ user_id: userId, email: email, firstname: firstname, lastname: lastname, name: name }),
             this.getApiToken()]
         ).then(([userToken, apiToken]: [string, string]) => {
             let headers = new Headers();
@@ -269,16 +269,15 @@ export class Auth {
             });
     }
 
-    public generateUserToken(userId: string, email: string): Promise<string> {
-        return this.encodingService.encode({ user_id: userId, email: email })
+    public generateUserToken(userId: string, email: string, firstname: string, lastname: string): Promise<string> {
+        console.log("generate user token", email, firstname, lastname)
+        return this.encodingService.encode({ user_id: userId, email: email, firstname: firstname, lastname: lastname })
     }
 
     public createUser(email: string, firstname: string, lastname: string, isSignUp?: boolean): Promise<User> {
         let newUser = {
             "connection": "Username-Password-Authentication",
             "email": email,
-            "given_name": firstname,
-            "family_name": lastname,
             "name": `${firstname} ${lastname}`,
             "password": `${UUID.UUID()}-${UUID.UUID().toUpperCase()}`,
             "email_verified": !isSignUp || true,
@@ -287,6 +286,11 @@ export class Auth {
             {
                 "activation_pending": true,
                 "invitation_sent": false
+            },
+            "user_metadata":
+            {
+                "given_name": firstname,
+                "family_name": lastname
             }
         }
 
@@ -357,8 +361,11 @@ export class Auth {
             return this.http.patch("https://circlemapping.auth0.com/api/v2/users/" + user_id,
                 {
                     "password": password,
-                    "given_name": firstname,
-                    "family_name": lastname,
+                    "user_metadata":
+                    {
+                        "given_name": firstname,
+                        "family_name": lastname
+                    },
                     "connection": "Username-Password-Authentication"
                 }
                 ,

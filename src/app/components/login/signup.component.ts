@@ -61,7 +61,7 @@ export class SignupComponent implements OnInit {
             let firstname = this.signupForm.controls["firstname"].value
             let lastname = this.signupForm.controls["lastname"].value
 
-            Promise.all([this.isEmailExist(email), this.isActivationPending(email)]).then(([isEmailExist, { isActivationPending, userToken }]) => {
+            Promise.all([this.isEmailExist(email), this.isActivationPending(email, firstname, lastname)]).then(([isEmailExist, { isActivationPending, userToken }]) => {
                 if (isEmailExist) {
                     if (isActivationPending) {
                         // account is created but still needs activation => redirect to activation page
@@ -109,7 +109,7 @@ export class SignupComponent implements OnInit {
         })
     }
 
-    isActivationPending(email: string) {
+    isActivationPending(email: string, firstname: string, lastname: string) {
         return this.userFactory.getAll(email)
             .then((matches: User[]) => {
                 if (!matches || matches.length === 0) {
@@ -131,7 +131,7 @@ export class SignupComponent implements OnInit {
                 return this.auth.isActivationPending(userId).then((isActivationPending: boolean) => {
                     console.log(isActivationPending)
                     if (isActivationPending) {
-                        return this.auth.generateUserToken(userId, email).then(token => {
+                        return this.auth.generateUserToken(userId, email, firstname, lastname).then(token => {
                             return { isActivationPending, userToken: token }
                         });
                     }

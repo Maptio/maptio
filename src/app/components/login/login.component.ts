@@ -1,4 +1,5 @@
-import { LoaderService } from './../../shared/services/http/loader.service';
+import { Subscription } from 'rxjs/Subscription';
+import { LoaderService } from "./../../shared/services/http/loader.service";
 import { Params } from "@angular/router";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Auth } from "./../../shared/services/auth/auth.service";
@@ -27,6 +28,8 @@ export class LoginComponent implements OnInit {
 
     public activateForm: FormGroup;
     public loginForm: FormGroup;
+
+    private subscription:Subscription;
 
     constructor(private auth: Auth, private route: ActivatedRoute, private router: Router, public encoding: JwtEncoder, public formBuilder: FormBuilder, private loader: LoaderService) {
         this.activateForm = new FormGroup({
@@ -59,9 +62,13 @@ export class LoginComponent implements OnInit {
 
     }
 
+    ngOnDestroy(){
+        this.subscription.unsubscribe();
+    }
+
 
     ngOnInit() {
-        this.route.queryParams.subscribe((params: Params) => {
+        this.subscription = this.route.queryParams.subscribe((params: Params) => {
             let token = params["token"];
             this.isLoggingIn = (token === undefined);
             if (!this.isLoggingIn) {
@@ -69,8 +76,8 @@ export class LoginComponent implements OnInit {
                     .then((decoded: any) => {
                         console.log(decoded)
                         this.email = decoded.email
-                        this.firstname = ""
-                        this.lastname = ""
+                        this.firstname = decoded.firstname
+                        this.lastname = decoded.lastname
                         return decoded.user_id;
                     })
                     .then((user_id: string) => {
@@ -104,6 +111,8 @@ export class LoginComponent implements OnInit {
     }
 
     login(): void {
+
+        this.loginErrorMessage = ""
         if (this.loginForm.dirty && this.loginForm.valid) {
             this.loader.show();
             let email = this.loginForm.controls["email"].value
@@ -130,7 +139,12 @@ export class LoginComponent implements OnInit {
 
 
     activateAccount(): void {
+        this.isUserAlreadyActive = false;
+        this.isPasswordTooWeak = false;
+        this.activationStatusCannotBeUpdated = false;
+        ;
         if (this.activateForm.dirty && this.activateForm.valid) {
+            this.loader.show();
             let email = this.email
             let firstname = this.activateForm.controls["firstname"].value
             let lastname = this.activateForm.controls["lastname"].value
@@ -154,6 +168,7 @@ export class LoginComponent implements OnInit {
                                 },
                                 (error: any) => {
                                     this.isUserAlreadyActive = true;
+                                    this.loader.hide();
                                     return Promise.reject("User has already activated account");
                                 });
                         })
@@ -166,6 +181,7 @@ export class LoginComponent implements OnInit {
                                 },
                                 (error: any) => {
                                     this.isPasswordTooWeak = true;
+                                    this.loader.hide();
                                     return Promise.reject("Password cannot be updated");
                                 })
                         })
@@ -175,11 +191,13 @@ export class LoginComponent implements OnInit {
                             },
                                 (error: any) => {
                                     this.activationStatusCannotBeUpdated = true;
+                                    this.loader.hide();
                                     return Promise.reject("Status cannot be updated");
                                 })
                         })
                         .then((user_id: string) => {
                             this.isActivationPending = Promise.resolve(false);
+                            this.loader.hide();
                         })
                         .catch((err) => {
                         })
