@@ -1,19 +1,22 @@
 <div class="mt-3" *ngIf="!isLoggingIn">
     <h2 class="ml-3">Almost there ! Set up a password to finish setting up your profile.</h2>
-    <div class="alert alert-danger" role="alert" *ngIf="loginErrorMessage">
-        {{loginErrorMessage}}
-    </div>
-    <div *ngIf="isPasswordTooWeak" class="alert alert-danger" role="alert">
-        Password must always be at least 8 characters in length and include at least 1 lowercase letter, 1 uppercase letter and 1
-        number. Also, you can not include any portion of your email address or name in the password.
-    </div>
-    <div *ngIf="isUserAlreadyActive" class="alert alert-danger" role="alert">
-        Your account is already active, <a routerLink="/login">log in</a>
+    <div class="ml-3">
+        <div class="alert alert-danger " role="alert" *ngIf="loginErrorMessage">
+            {{loginErrorMessage}}
+        </div>
+        <div *ngIf="isPasswordTooWeak" class="alert alert-danger" role="alert">
+            Password must always be at least 8 characters in length and include at least 1 lowercase letter, 1 uppercase letter and 1
+            number. Also, you can not include any portion of your email address or name in the password.
+        </div>
+        <div *ngIf="isUserAlreadyActive" class="alert alert-danger" role="alert">
+            Your account is already active, <a routerLink="/login">log in</a>
+        </div>
+
+        <div *ngIf="activationStatusCannotBeUpdated" class="alert alert-danger" role="alert">
+            We cannot activate your account. Please email us at support@maptio.com and we'll help you out.
+        </div>
     </div>
 
-    <div *ngIf="activationStatusCannotBeUpdated" class="alert alert-danger" role="alert">
-        We cannot activate your account. Please email us at support@maptio.com and we'll help you out.
-    </div>
 
     <form class="form-group col-lg-5" [formGroup]="activateForm" (submit)="activateAccount()">
         <div class="form-group">
@@ -66,9 +69,12 @@
 <div class="mt-3" *ngIf="isLoggingIn">
 
     <h2 class="ml-3">Log in to Maptio</h2>
-    <div class="alert alert-danger" role="alert" *ngIf="loginErrorMessage">
-        {{loginErrorMessage}}
+    <div class="ml-3">
+            <div class="alert alert-danger" role="alert" *ngIf="loginErrorMessage">
+                    {{loginErrorMessage}}
+                </div>
     </div>
+  
     <form class="form-group col-lg-5" [formGroup]="loginForm" (submit)="login()">
 
         <div class="form-group" [class.has-warning]="loginForm.controls['email'].invalid  && (loginForm.controls['email'].dirty || loginForm.controls['email'].touched)">
