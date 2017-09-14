@@ -18,9 +18,13 @@
                 <small>{{team.members.length}} members</small>
             </div>
             <div class="card-block">
-                <p class="mb-1 d-flex flex-wrap">
-                    <img class="rounded-circle member mr-1 mb-1" *ngFor="let member of team.members" src="{{member.picture}}" alt="{{member.name}}" 
-                    placement="top" container="body" ngbTooltip="{{member.name}}">
+                <div class="mb-1 d-flex flex-wrap">
+                    <div *ngFor="let member of team.members" [class.deleted]="member.isDeleted">
+                            <img class="rounded-circle member mr-1 mb-1" src="{{member.picture}}" alt="{{member.name}}" 
+                            placement="top" container="body" ngbTooltip="{{member.name}}">
+                    </div>
+                    
+                 
                     <!-- <img class="rounded-circle member mr-1 mb-1" *ngFor="let member of team.members" src="{{member.picture}}" alt="">
                     <img class="rounded-circle member mr-1 mb-1" *ngFor="let member of team.members" src="{{member.picture}}" alt="">
                     <img class="rounded-circle member mr-1 mb-1" *ngFor="let member of team.members" src="{{member.picture}}" alt="">
@@ -30,7 +34,7 @@
                     <img class="rounded-circle member mr-1 mb-1" *ngFor="let member of team.members" src="{{member.picture}}" alt="">
                     <img class="rounded-circle member mr-1 mb-1" *ngFor="let member of team.members" src="{{member.picture}}" alt="">
                     <img class="rounded-circle member mr-1 mb-1" *ngFor="let member of team.members" src="{{member.picture}}" alt=""> -->
-                </p>
+                    </div>
             </div>
         </div>
     </div>

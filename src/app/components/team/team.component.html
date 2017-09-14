@@ -1,6 +1,4 @@
 <div class="row">
-
-
     <div class="col-lg-7 mt-3 team-list-panel">
         <h3 class="mb-3">
             {{(team$ | async)?.name}}
@@ -37,7 +35,7 @@
                             ngbTooltip="{{member.name}} was sent an invitation.">Pending</div>
                     </td>
                     <td >
-                            <span *ngIf="member.isDeleted" class="text-danger">(Deleted)</span>
+                            <span *ngIf="member.isDeleted" class="text-muted">(Deleted)</span>
                         <button [class.deleted]="member.isDeleted" *ngIf="!member.isActivationPending" class="btn btn-default  mt-2" placement="top" container="body" ngbTooltip="{{member.name}} is a confirmed user."
                             disabled>Active</button>
                         <button [class.deleted]="member.isDeleted" *ngIf="member.isActivationPending && !member.isInvitationSent" class="btn btn-success  mt-2" (click)="inviteUser(member)"

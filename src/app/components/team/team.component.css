@@ -83,11 +83,3 @@ table.tableSection th:nth-child(0n+6), table.tableSection td:nth-child(0n+6) {
     width: 10%;
 }
 
-.deleted {
-    opacity: 0.3;
-    font-style: italic;
-}
-
-button.deleted {
-    display: none;
-}

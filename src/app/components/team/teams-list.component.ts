@@ -19,14 +19,14 @@ export class TeamsListComponent implements OnInit {
     public teams$: Promise<Array<Team>>;
 
     constructor(private auth: Auth, private teamFactory: TeamFactory, private userFactory: UserFactory) {
-
         this.auth.getUser().subscribe((user: User) => {
             this.user = user;
         })
+        this.getTeams();
     }
 
     ngOnInit() {
-        this.getTeams();
+        // this.getTeams();
     }
 
     ngOnDestroy(): void {
@@ -51,13 +51,27 @@ export class TeamsListComponent implements OnInit {
                     user.teams.map(
                         team_id => this.teamFactory.get(team_id)
                     )
-                ).then((teams: Array<Team>) => {
-                    return teams.sort((a, b) => {
-                        if (a.name < b.name) return -1;
-                        if (a.name > b.name) return 1;
-                        return 0;
+                )
+                    .then((teams: Array<Team>) => {
+                        teams.forEach(t => {
+
+                            Promise.all(
+                                t.members.map(
+                                    m => this.auth.getUserInfo(m.user_id)
+                                        .then(m => m)
+                                        .catch(() => { m.isDeleted = true; return m })))
+                            .then(members => t.members = members)
+
+                        })
+                        return teams;
                     })
-                })
+                    .then((teams: Array<Team>) => {
+                        return teams.sort((a, b) => {
+                            if (a.name < b.name) return -1;
+                            if (a.name > b.name) return 1;
+                            return 0;
+                        })
+                    })
             })
     }
 

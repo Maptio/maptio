@@ -422,7 +422,6 @@ export class Auth {
         });
     }
 
-
     public changePassword(email: string): void {
         this.lock.getWebAuth().changePassword({
             connection: "Username-Password-Authentication",
@@ -448,6 +447,23 @@ export class Auth {
                         return responseData.json().total === 1
                     }
                     return false;
+                })
+                .toPromise()
+        });
+    }
+
+    public getUserInfo(userId: string): Promise<User> {
+        return this.getApiToken().then((token: string) => {
+
+            let headers = new Headers();
+            headers.set("Authorization", "Bearer " + token);
+
+            return this.http.get("https://circlemapping.auth0.com/api/v2/users/" + userId, { headers: headers })
+                .map((responseData) => {
+                    return responseData.json();
+                })
+                .map((input: any) => {
+                    return User.create().deserialize(input);
                 })
                 .toPromise()
         });
