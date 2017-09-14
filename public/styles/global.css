@@ -1,8 +1,15 @@
-body {
+/* body {
   padding-top: 56px;
   font: 15px "Helvetica Neue", Helvetica, Arial, sans-serif;
   overflow: hidden;
+} */
+
+
+html, body {
+  height: 100%;
+  /* The html and body elements cannot have any padding or margin. */
 }
+
 
 .toggle-children {
   background-image: none !important;
@@ -235,5 +242,9 @@ div.deleted::before {
   /* background-color: rgba(23, 35, 34, 0.75); */
   /* border-radius: 5px 5px 5px 5px; */
   /* width: 100%; */
-  height: 10)%;
+  height: 10%;
+}
+
+.transparent{
+  background-color: transparent !important;
 }

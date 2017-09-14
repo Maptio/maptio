@@ -1,4 +1,4 @@
-import { UserFactory } from './../../shared/services/user.factory';
+import { UserFactory } from "./../../shared/services/user.factory";
 import { JwtEncoder } from "./../../shared/services/encoding/jwt.service";
 import { ActivatedRoute, Params } from "@angular/router";
 import { Auth } from "./../../shared/services/auth/auth.service";
@@ -7,7 +7,8 @@ import { User } from "../../shared/model/user.data";
 
 @Component({
     selector: "home",
-    template: require("./home.component.html")
+    template: require("./home.component.html"),
+    styleUrls: ["./home.component.css"]
 })
 export class HomeComponent implements OnInit {
 

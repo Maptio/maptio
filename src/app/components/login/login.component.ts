@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit {
     public isPasswordTooWeak: boolean;
     public isUserAlreadyActive: boolean;
     public activationStatusCannotBeUpdated: boolean;
+    public previousAttemptMessage: string;
 
     public activateForm: FormGroup;
     public loginForm: FormGroup;
@@ -61,14 +62,14 @@ export class LoginComponent implements OnInit {
                 Validators.required
             ])
         });
-
-
-
     }
 
     ngOnInit() {
         this.route.queryParams.subscribe((params: Params) => {
             let token = params["token"];
+            // HACK : wouldbe nicer to have booleans for login attempt cases, but that will do for now
+            this.previousAttemptMessage = params["login_message"];
+
             this.isLoggingIn = (token === undefined);
             if (!this.isLoggingIn) {
                 this.encoding.decode(token)
@@ -121,7 +122,6 @@ export class LoginComponent implements OnInit {
                 .then((isUserExist: boolean) => {
                     if (isUserExist) {
                         let user = this.auth.login(email, password)
-                        
                         // HACK .login() should be promisified instead of using EmitterService
                         EmitterService.get("loginErrorMessage").subscribe((loginErrorMessage: string) => {
                             this.loginErrorMessage =

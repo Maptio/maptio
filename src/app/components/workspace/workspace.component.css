@@ -33,8 +33,8 @@
 
 .mapping{
     /* opacity: 0.8; */
-    margin-left: 25px;
-    position: absolute;
+    /* margin-left: 25px;
+    position: absolute; */
     /* left: 0; */
     /* top: 0; */
     width: 100%;
@@ -54,6 +54,7 @@
     transition: 0.5s;
     padding-left: 40px;
     box-shadow: 1px 1px 6px #888888;
+    background-color: #f7f7f7;
 }
 
 /* The navigation menu links */

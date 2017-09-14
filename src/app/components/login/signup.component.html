@@ -16,7 +16,7 @@
         We have sent a confirmation email to <b>{{signupForm.controls['email'].value}}</b>
     </div>
 
-    <form class="form-group col-lg-5" [formGroup]="signupForm" (submit)="createAccount()">
+    <form class="form-group" [formGroup]="signupForm" (submit)="createAccount()">
 
         <div class="form-group" [class.has-warning]="signupForm.controls['firstname'].invalid  && (signupForm.controls['firstname'].dirty || signupForm.controls['firstname'].touched)">
             <label for="inputFirstname">First name</label>
@@ -56,7 +56,7 @@
 
     </form>
 
-    <div class="text-muted small ml-3">Already have an account? <a routerLink="/login">Log in</a></div>
-    
+    <!-- <div class="text-muted small ml-3">Already have an account? <a routerLink="/login">Log in</a></div> -->
+
 
 </div>

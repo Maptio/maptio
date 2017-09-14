@@ -1,14 +1,44 @@
-<loader></loader>
+<!-- <loader></loader>
 <header (openHelp)="openHelp($event)" (openDataset)="openDataset($event)">
 </header>
 <div class="container-fluid">
-	<div *showItDevice="['mobile','tablet']" class="alert alert-dismissible alert-info">
-		<button type="button" class="close" data-dismiss="alert">&times;</button>
-		<h4>Warning!</h4>
-		<p><b>Maptio</b> works best on desktop using <b>Chrome</b> or <b>Firefox</b></p>
-	</div>
-	<router-outlet></router-outlet>
+	
 </div>
 
 <footer></footer>
-<help #help></help>
+<help #help></help> -->
+
+
+<!-- Wrap all page content here -->
+<div id="wrap">
+		
+		<!-- Fixed navbar -->
+		<header (openHelp)="openHelp($event)" (openDataset)="openDataset($event)">
+			</header>
+		
+		<!-- Begin page content -->
+		<div class="center-container" >
+		  
+		  <div class="center-row" [class.background]="isHome">
+		  
+			<div class="container-fluid" >
+					<div *showItDevice="['mobile','tablet']" class="alert alert-dismissible alert-info">
+							<button type="button" class="close" data-dismiss="alert">&times;</button>
+							<h4>Warning!</h4>
+							<p><b>Maptio</b> works best on desktop using <b>Chrome</b> or <b>Firefox</b></p>
+						</div>
+						<router-outlet></router-outlet>
+			
+			</div>
+		  
+		  </div>
+		  
+		  
+		</div>
+		
+	  </div>
+	  
+	  <div id="footer">
+			<footer></footer>
+	  </div>
+	  

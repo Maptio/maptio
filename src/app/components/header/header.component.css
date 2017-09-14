@@ -121,6 +121,10 @@ a.navbar-brand{
 
 
 a.navbar-brand img{
-    width: 130%;
+    width: 128%;
     height: 130%;
+}
+
+.nav-link{
+    padding:0;
 }

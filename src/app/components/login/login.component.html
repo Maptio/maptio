@@ -70,11 +70,14 @@
 
     <h2 class="ml-3">Log in to Maptio</h2>
     <div class="ml-3">
-            <div class="alert alert-danger" role="alert" *ngIf="loginErrorMessage">
-                    {{loginErrorMessage}}
-                </div>
+        <div class="alert alert-danger" role="alert" *ngIf="loginErrorMessage">
+            {{loginErrorMessage}}
+        </div>
+        <div class="alert alert-danger" role="alert" *ngIf="previousAttemptMessage">
+            {{previousAttemptMessage}}
+        </div>
     </div>
-  
+
     <form class="form-group col-lg-5" [formGroup]="loginForm" (submit)="login()">
 
         <div class="form-group" [class.has-warning]="loginForm.controls['email'].invalid  && (loginForm.controls['email'].dirty || loginForm.controls['email'].touched)">

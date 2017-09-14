@@ -11,13 +11,13 @@
 .control {
   position: absolute;
   right: 4%;
-  opacity: 0.8;
+  /* opacity: 1; */
   box-shadow: 1px 1px 6px #888888;
   top: 20px;
-  /* float: right; */
   margin-right: 1%;
   border-radius: 4px;
-  width: 45px
+  width: 45px;
+  background-color: #f7f7f7;
 }
 
 .control.second {
