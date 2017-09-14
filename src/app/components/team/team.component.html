@@ -3,8 +3,8 @@
 
     <div class="col-lg-7 mt-3 team-list-panel">
         <h3 class="mb-3">
-                {{(team$ | async)?.name}}
-            <small class="text-muted h6">{{(team$ | async)?.members.length}} members</small>
+            {{(team$ | async)?.name}}
+            <small class="text-muted h6 pull-right">{{(team$ | async)?.members.length}} members</small>
         </h3>
 
 
@@ -22,7 +22,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let member of (members$ | async)">
+                <tr *ngFor="let member of (members$ | async)" [class.deleted]="member.isDeleted" >
                     <td><i *ngIf="member.isActivationPending && !member.isInvitationSent" class="fa fa-trash-o text-danger" aria-hidden="true"
                             mwlConfirmationPopover title="This cannot be undone ! Are you sure you want to delete {{member.name}} ? They haven't receive an email yet so they won't know ( ... and we won't tell ) "
                             placement="right" focusButton="cancel" appendToBody="true" (confirm)="deleteMember(member)" (cancel)="cancelClicked = true">
@@ -30,18 +30,19 @@
                     </td>
                     <td>
                         <img class="rounded-circle member " src="{{member.picture}}" alt="{{member.name}}"></td>
-                    <td>{{member.name}}</td>
+                    <td>{{member.name}} </td>
                     <td>{{member.email}}</td>
                     <td>
                         <div *ngIf="member.isActivationPending && member.isInvitationSent" class="text-warning" placement="top" container="body"
                             ngbTooltip="{{member.name}} was sent an invitation.">Pending</div>
                     </td>
-                    <td>
-                        <button *ngIf="!member.isActivationPending" class="btn btn-default  mt-2" placement="top" container="body" ngbTooltip="{{member.name}} is a confirmed user."
+                    <td >
+                            <span *ngIf="member.isDeleted" class="text-danger">(Deleted)</span>
+                        <button [class.deleted]="member.isDeleted" *ngIf="!member.isActivationPending" class="btn btn-default  mt-2" placement="top" container="body" ngbTooltip="{{member.name}} is a confirmed user."
                             disabled>Active</button>
-                        <button *ngIf="member.isActivationPending && !member.isInvitationSent" class="btn btn-success  mt-2" (click)="inviteUser(member)"
+                        <button [class.deleted]="member.isDeleted" *ngIf="member.isActivationPending && !member.isInvitationSent" class="btn btn-success  mt-2" (click)="inviteUser(member)"
                             placement="left" container="body" ngbTooltip="Invite {{member.name}} to view and edit maps">Invite </button>
-                        <button *ngIf="member.isActivationPending && member.isInvitationSent" class="btn btn-success  mt-2" (click)="inviteUser(member)"
+                        <button [class.deleted]="member.isDeleted" *ngIf="member.isActivationPending && member.isInvitationSent" class="btn btn-success  mt-2" (click)="inviteUser(member)"
                             placement="left" container="body" ngbTooltip="Resend an invitation to {{member.name}}">Resend </button>
                     </td>
                 </tr>
@@ -59,24 +60,24 @@
                     <ng-template #rt let-r="result" let-t="term">
                         <img src="{{r.picture}}" width="16"> {{r.email}}
                     </ng-template>
-                    <div class="form-inline row col-12">
-                        <label class="mr-1" for="inputNewMember">Search by email</label>
+                    {{inputNewMember.value}}
+                    <div class="input-group">
                         <input #inputNewMember type="text" id="inputNewMember" [resultTemplate]="rt" placeholder="e.g. hermes.conrad@planetexpress.com"
-                            class="form-control col-7" [ngModelOptions]="{standalone: true}" [ngModel]="newMember" (selectItem)="saveNewMember($event)"
+                            class="form-control col-12" [ngModelOptions]="{standalone: true}" [ngModel]="newMember" (selectItem)="saveNewMember($event)"
                             [ngbTypeahead]="searchUsers" [resultFormatter]="formatter" [inputFormatter]="formatter" email />
-                        <span *ngIf="searching">searching...</span>
 
-                        <span class="input-group-btn" *ngIf="!searchFailed">
-                               
+                        <span class="input-group-btn" *ngIf="!searchFailed || !inputNewMember.value">
                                 <button  class="btn btn-primary" [class.disabled]="!isUserChosen" type="button" (click)="addMemberToTeam()">
                                     Add
                                 </button>
                                 </span>
                         <span *ngIf="isAlreadyInTeam" class="text-warning">Already added!</span>
                     </div>
+                    <small class="form-text">Search for a person in Maptio by email address or enter an email address to invite someone new.</small>
+                    <span *ngIf="searching">searching...</span>
 
                     <!-- </div> -->
-                    <div class="col-12 mt-1" *ngIf="searchFailed">
+                    <div class="col-12 mt-1" *ngIf="searchFailed && inputNewMember.value">
                         <span *ngIf="!isUserSearchedEmail">No results</span>
 
                         <div *ngIf="isUserSearchedEmail">
@@ -86,26 +87,28 @@
                                     <br>
                                     <b>{{userSearched}}</b> ? We don’t know that person.
 
-                                    <div class="from-group mb-1" [class.has-warning]="name.invalid && (name.dirty || name.touched)">
+                                    <form class="from-group mb-1" [formGroup]="inviteForm" (submit)="createUser(userSearched)">
+
                                         <div class="input-group">
-                                            <input type="text" id="firstname" name="firstname" class="form-control form-control-warning" required minlength="2" [(ngModel)]="firstname"
-                                                #name="ngModel" placeholder="First name">
-                                            <input type="text" id="lastname" name="lastname" class="form-control form-control-warning" required minlength="2" [(ngModel)]="lastname"
-                                                #name="ngModel" placeholder="Last name">
+                                            <input type="text" id="inputFirstname" formControlName="firstname" class="form-control form-control-warning " placeholder="First name"
+                                                required minlength="2">
+                                            <input type="text" id="inputLastname" formControlName="lastname" class="form-control form-control-warning" placeholder="Last name"
+                                                required minlength="2">
                                         </div>
-                                        <small class="form-control-feedback" *ngIf="name.invalid && (name.dirty || name.touched)">Name must be at least 2 characters long.</small>
-
-                                    </div>
-
-                                    <div class="form-check mb-1">
-                                        <label class="form-check-label">
-                                              <input #isInvited class="form-check-input mr-1" type="checkbox">
-                                             Invite {{userSearched}} to view and/or edit <b>{{(team$ | async)?.name}}</b>'s maps (You can invite them at anytime in the future)
+                                        <small class="form-control-feedback text-warning" *ngIf="inviteForm.controls['lastname'].invalid  && (inviteForm.controls['lastname'].dirty || inviteForm.controls['lastname'].touched)">
+                                                Last name must be at least 2 characters in length
+                                            </small>
+                                        <small class="form-control-feedback text-warning" *ngIf="inviteForm.controls['firstname'].invalid  && (inviteForm.controls['firstname'].dirty || inviteForm.controls['firstname'].touched)">
+                                                First name must be at least 2 characters in length
+                                            </small>
+                                        <div class="form-check" [class.has-warning]="inviteForm.controls['isInvited'].invalid  && (inviteForm.controls['isInvited'].dirty || inviteForm.controls['isInvited'].touched)">
+                                            <label class="form-check-label">
+                                                <input  type="checkbox" id="inputTC" formControlName="isInvited" class="form-check-input">
+                                                    Invite {{userSearched}} to view and/or edit <b>{{(team$ | async)?.name}}</b>'s maps (You can invite them at anytime in the future)
                                             </label>
-                                    </div>
-
-                                    <button class="btn btn-success" [class.disabled]="name.invalid" type="button" (click)="createUser(firstname, lastname, userSearched, isInvited.checked)">Add</button>
-
+                                        </div>
+                                        <button type="submit" class="btn btn-success" [class.disabled]="!inviteForm.valid">Add</button>
+                                    </form>
                                 </div>
 
 
@@ -122,32 +125,6 @@
 
     </div>
 
-    <!-- <div class="col-lg-6 mt-3 ">
-        <h1 class="mb-3">
-            {{(team$ | async)?.name}}</h1>
 
-        <h3 class="mb-3">{{(team$ | async)?.members.length}} members</h3>
-
-        <button class="btn btn-success mb-3">Invite all</button>
-
-        <div class="card mb-3 col-lg-10" *ngFor="let member of (members$ | async)">
-            <div class="row mt-2 mb-2">
-                <div class="col-4"><img class="rounded-circle member m-2" src="{{member.picture}}" alt="{{member.name}}"></div>
-                <div class="col-7">
-                    <div class="row">
-                        <div class="col-4"> <b>Name</b> </div>
-                        <div class="col-8"> {{member.name}} <i class="text-warning" *ngIf="!member.name">No name</i></div>
-                        <div class="col-4"> <b>Email</b> </div>
-                        <div class="col-8"> {{member.email}} <i class="text-warning" *ngIf="!member.email">No email</i></div>
-                    </div>
-                    <div class="row col-12">
-                        <button class="btn btn-success btn-sm mt-2">Invite</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        
-    </div> -->
 
 </div>

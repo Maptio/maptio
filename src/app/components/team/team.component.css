@@ -37,19 +37,23 @@ table.tableSection {
     display: table;
     width: 100%;
 }
+
 table.tableSection thead, table.tableSection tbody {
     float: left;
     width: 100%;
 }
+
 table.tableSection tbody {
     overflow: auto;
     height: 66vh;
 }
+
 table.tableSection tr {
     width: 100%;
     display: table;
     text-align: left;
 }
+
 table.tableSection th, table.tableSection td {
     /* width: 20%; */
     vertical-align: middle;
@@ -59,7 +63,7 @@ table.tableSection th:nth-child(0n+1), table.tableSection td:nth-child(0n+1) {
     width: 5%;
 }
 
- table.tableSection th:nth-child(0n+2), table.tableSection td:nth-child(0n+2) {
+table.tableSection th:nth-child(0n+2), table.tableSection td:nth-child(0n+2) {
     width: 5%;
 }
 
@@ -77,4 +81,13 @@ table.tableSection th:nth-child(0n+5), table.tableSection td:nth-child(0n+5) {
 
 table.tableSection th:nth-child(0n+6), table.tableSection td:nth-child(0n+6) {
     width: 10%;
+}
+
+.deleted {
+    opacity: 0.3;
+    font-style: italic;
+}
+
+button.deleted {
+    display: none;
 }

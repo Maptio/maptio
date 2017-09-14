@@ -1,3 +1,6 @@
+import { Validators } from '@angular/forms';
+import { FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { UserFactory } from "./../../shared/services/user.factory";
 import { Observable, Subscription } from "rxjs/Rx";
@@ -37,6 +40,7 @@ export class TeamComponent implements OnDestroy {
     public isUserChosen: boolean = false;
     public isAlreadyInTeam: boolean = false;
 
+    public inviteForm: FormGroup;
 
     private EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -53,6 +57,20 @@ export class TeamComponent implements OnDestroy {
         this.auth.getUser().subscribe((user: User) => {
             this.user = user;
         })
+
+        this.inviteForm = new FormGroup({
+            "firstname": new FormControl("", [
+                Validators.required,
+                Validators.minLength(2)
+            ]),
+            "lastname": new FormControl("", [
+                Validators.required,
+                Validators.minLength(2)
+            ]),
+            "isInvited": new FormControl("", [
+            ])
+        });
+
     }
 
     getAllMembers() {
@@ -61,18 +79,19 @@ export class TeamComponent implements OnDestroy {
             return Promise.all(
                 team.members.map(user => this.userFactory.get(user.user_id)))
                 .then((members: User[]) => {
-                    members.forEach(m => {
-                        console.log("member updating", m.email, m.isInvitationSent)
-                        this.auth.isActivationPending(m.user_id).then(is => { m.isActivationPending = is });
-                        this.auth.isInvitationSent(m.user_id).then(is => m.isInvitationSent = is);
-                        console.log("member updated", m.email, m.isInvitationSent)
-                    })
-                    return members.sort((a: User, b: User) => {
-                        if (a.name < b.name) return -1;
-                        if (a.name > b.name) return 1;
-                        return 0;
-
-                    });
+                    return members
+                        .map(m => {
+                            this.auth.isActivationPending(m.user_id).then(is => { m.isActivationPending = is },
+                                (reason) => { m.isDeleted = true });
+                            this.auth.isInvitationSent(m.user_id).then(is => m.isInvitationSent = is,
+                                (reason) => { m.isDeleted = true });
+                            return m;
+                        })
+                        .sort((a: User, b: User) => {
+                            if (a.name < b.name) return -1;
+                            if (a.name > b.name) return 1;
+                            return 0;
+                        });
                 })
         });
     }
@@ -109,7 +128,6 @@ export class TeamComponent implements OnDestroy {
                 this.members$ = this.getAllMembers();
             })
     }
-
 
 
     isEmail(text: string) {
@@ -150,50 +168,62 @@ export class TeamComponent implements OnDestroy {
 
     }
 
-    createUser(firstname: string, lastname: string, email: string, isInvited: boolean) {
-        console.log("create", firstname, lastname, email, isInvited);
-        this.team$.then((team: Team) => {
+    createUser(email: string) {
+        if (this.inviteForm.dirty && this.inviteForm.valid) {
 
-            this.auth.createUser(email, firstname, lastname).then((user: User) => {
-                this.datasetFactory.get(team).then((datasets: DataSet[]) => {
-                    let virtualUser = new User();
-                    virtualUser.name = user.name;
-                    virtualUser.email = user.email;
-                    virtualUser.firstname = user.firstname;
-                    virtualUser.lastname = user.lastname;
-                    virtualUser.nickname = user.nickname;
-                    virtualUser.user_id = user.user_id;
-                    virtualUser.picture = user.picture;
-                    virtualUser.teams = [this.teamId];
-                    virtualUser.datasets = datasets.map(d => d._id);
-                    console.log("build virtual user", virtualUser)
-                    return virtualUser;
-                })
-                    .then((user: User) => {
+            let firstname = this.inviteForm.controls["firstname"].value
+            let lastname = this.inviteForm.controls["lastname"].value
+            let isInvited = this.inviteForm.controls["isInvited"].value
 
-                        if (isInvited) {
-                            console.log("sending invite to ", user.email, user.user_id, user.name)
-                            this.inviteUser(user)
-                        }
-                        return user;
-                    })
-                    .then((virtualUser: User) => {
-                        console.log("create virtual user", virtualUser)
-                        this.userFactory.create(virtualUser)
+            // console.log(email, firstname, lastname, isInvited)
+            // return;
+
+            this.team$.then((team: Team) => {
+
+                this.auth.createUser(email, firstname, lastname).then((user: User) => {
+                    this.datasetFactory.get(team).then((datasets: DataSet[]) => {
+                        let virtualUser = new User();
+                        virtualUser.name = user.name;
+                        virtualUser.email = user.email;
+                        virtualUser.firstname = user.firstname;
+                        virtualUser.lastname = user.lastname;
+                        virtualUser.nickname = user.nickname;
+                        virtualUser.user_id = user.user_id;
+                        virtualUser.picture = user.picture;
+                        virtualUser.teams = [this.teamId];
+                        virtualUser.datasets = datasets.map(d => d._id);
+                        console.log("build virtual user", virtualUser)
                         return virtualUser;
                     })
-                    .then((user: User) => {
-                        team.members.push(user);
-                        this.teamFactory.upsert(team).then((result) => {
-                            this.newMember = undefined;
-                            this.searchFailed = false;
+                        .then((user: User) => {
+
+                            if (isInvited) {
+                                console.log("sending invite to ", user.email, user.user_id, user.name)
+                                this.inviteUser(user)
+                            }
+                            return user;
                         })
-                    })
-                    .then(() => {
-                        this.members$ = this.getAllMembers();
-                    })
+                        .then((virtualUser: User) => {
+                            console.log("create virtual user", virtualUser)
+                            this.userFactory.create(virtualUser)
+                            return virtualUser;
+                        })
+                        .then((user: User) => {
+                            team.members.push(user);
+                            this.teamFactory.upsert(team).then((result) => {
+                                this.newMember = undefined;
+                                this.searchFailed = false;
+                            })
+                        })
+                        .then(() => {
+                            this.members$ = this.getAllMembers();
+                        })
+                })
             })
-        })
+        }
+
+
+
     }
 
     searchUsers =
@@ -208,6 +238,7 @@ export class TeamComponent implements OnDestroy {
 
                     this.userFactory.getAll(term)
                         .then((users: User[]) => {
+                            this.userSearched = term;
                             return this.members$.then((existingMembers: User[]) => {
                                 console.log(existingMembers)
                                 let alreadyInTeam = existingMembers.filter(m => m.email === term);
@@ -225,8 +256,9 @@ export class TeamComponent implements OnDestroy {
                             }
                             else {
                                 if (availableToChoose.length === 0) {
-                                    this.userSearched = term;
-                                    this.isUserSearchedEmail = this.isEmail(this.userSearched);
+                                    this.isUserSearchedEmail = this.isEmail(term);
+                                    // this.userSearched = Promise.resolve(term);
+
                                     this.searchFailed = true;
                                     throw new Error()
                                 }
@@ -242,8 +274,8 @@ export class TeamComponent implements OnDestroy {
                         this.searchFailed = false;
                     })
                     .catch(() => {
-                        this.userSearched = term;
-                        this.isUserSearchedEmail = this.isEmail(this.userSearched);
+                        this.isUserSearchedEmail = this.isEmail(term);
+                        // this.userSearched = Promise.resolve(term);
                         this.searchFailed = true;
                         return Observable.of([]);
                     })

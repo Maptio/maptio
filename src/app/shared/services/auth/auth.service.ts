@@ -307,8 +307,6 @@ export class Auth {
                     return User.create().deserialize(input);
                 })
                 .toPromise()
-                .then(r => r)
-                .catch(this.errorService.handleError);
         });
     }
 
@@ -326,8 +324,6 @@ export class Auth {
                     return false;
                 })
                 .toPromise()
-                .then(r => r)
-                .catch(this.errorService.handleError);
         });
     }
 
@@ -347,8 +343,6 @@ export class Auth {
                     return false;
                 })
                 .toPromise()
-                .then(r => r)
-                .catch(this.errorService.handleError);
         });
     }
 

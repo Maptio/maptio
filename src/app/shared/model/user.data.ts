@@ -49,6 +49,11 @@ export class User implements Serializable<User> {
     public isInvitationSent: boolean;
 
     /**
+     * True if the user has been deleted (from Auth0 for instance)
+     */
+    public isDeleted:boolean;
+
+    /**
      * List of teams
      */
     public teams: any[];
