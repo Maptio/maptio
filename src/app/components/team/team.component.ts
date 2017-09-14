@@ -74,7 +74,7 @@ export class TeamComponent implements OnDestroy {
     }
 
     getAllMembers() {
-        
+
         return this.team$.then((team: Team) => {
             return Promise.all(
                 team.members.map(user => this.userFactory.get(user.user_id)))

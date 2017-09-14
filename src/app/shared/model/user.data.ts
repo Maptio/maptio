@@ -51,7 +51,7 @@ export class User implements Serializable<User> {
     /**
      * True if the user has been deleted (from Auth0 for instance)
      */
-    public isDeleted:boolean;
+    public isDeleted: boolean;
 
     /**
      * List of teams
@@ -77,7 +77,7 @@ export class User implements Serializable<User> {
         }
         let deserialized = new User();
         deserialized.name = input.name;
-        deserialized.firstname = input.firstname || ( input.user_metadata ? input.user_metadata.given_name : input.given_name);
+        deserialized.firstname = input.firstname || (input.user_metadata ? input.user_metadata.given_name : input.given_name);
         deserialized.lastname = input.lastname || (input.user_metadata ? input.user_metadata.family_name : input.family_name);
         deserialized.nickname = input.nickname;
         deserialized.email = input.email;

@@ -152,7 +152,7 @@ export class HeaderComponent implements OnInit {
                 .then((isUserExist: boolean) => {
                     if (isUserExist) {
                         let user = this.auth.login(email, password);
-                        this.router.navigateByUrl("/login");
+                        // this.router.navigateByUrl("/login");
                         // HACK .login() should be promisified instead of using EmitterService
                         EmitterService.get("loginErrorMessage").subscribe((loginErrorMessage: string) => {
 

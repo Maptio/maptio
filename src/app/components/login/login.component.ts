@@ -117,7 +117,7 @@ export class LoginComponent implements OnInit {
             this.loader.show();
             let email = this.loginForm.controls["email"].value
             let password = this.loginForm.controls["password"].value
-            
+
             this.auth.isUserExist(email)
                 .then((isUserExist: boolean) => {
                     if (isUserExist) {
