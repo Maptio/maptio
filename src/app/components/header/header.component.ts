@@ -1,6 +1,6 @@
-import { Validators } from '@angular/forms';
-import { FormControl } from '@angular/forms';
-import { FormGroup } from '@angular/forms';
+import { Validators } from "@angular/forms";
+import { FormControl } from "@angular/forms";
+import { FormGroup } from "@angular/forms";
 import { UserFactory } from "./../../shared/services/user.factory";
 import { Initiative } from "./../../shared/model/initiative.data";
 import { TeamFactory } from "./../../shared/services/team.factory";

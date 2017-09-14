@@ -1,5 +1,5 @@
-import { LoaderService } from './../../shared/services/http/loader.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { LoaderService } from "./../../shared/services/http/loader.service";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { UserFactory } from "./../../shared/services/user.factory";
 import { Auth } from "./../../shared/services/auth/auth.service";
