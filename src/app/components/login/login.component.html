@@ -49,7 +49,7 @@
         <div class="form-check" [class.has-warning]="activateForm.controls['isTermsAccepted'].invalid  && (activateForm.controls['isTermsAccepted'].dirty || activateForm.controls['isTermsAccepted'].touched)">
             <label class="form-check-label">
                                           <input  type="checkbox" id="inputTC" formControlName="isTermsAccepted" class="form-check-input">
-                                          I accept Maptio's <a routerLink="">Terms and Conditions</a> 
+                                          I agree to Maptio's <a href="{{TOS_URL}}">Terms of Service</a>  and <a href="{{PRIVACY_URL}}">Privacy Policy</a>     . 
                                           
                                         </label>
         </div>

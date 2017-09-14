@@ -1,4 +1,4 @@
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from "rxjs/Subscription";
 import { LoaderService } from "./../../shared/services/http/loader.service";
 import { Params } from "@angular/router";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -12,6 +12,10 @@ import { FormGroup, FormBuilder, FormControl, Validators, NgForm } from "@angula
     template: require("./login.component.html")
 })
 export class LoginComponent implements OnInit {
+
+
+    public TOS_URL: string = "https://termsfeed.com/terms-conditions/f0e548940bde8842b1fb58637ae048c0"
+    public PRIVACY_URL: string = "https://termsfeed.com/privacy-policy/61f888ebea93b0029582b88a7be1e1e3"
 
     public email: string;
     public password: string;
@@ -29,7 +33,7 @@ export class LoginComponent implements OnInit {
     public activateForm: FormGroup;
     public loginForm: FormGroup;
 
-    private subscription:Subscription;
+    private subscription: Subscription;
 
     constructor(private auth: Auth, private route: ActivatedRoute, private router: Router, public encoding: JwtEncoder, public formBuilder: FormBuilder, private loader: LoaderService) {
         this.activateForm = new FormGroup({
@@ -62,7 +66,7 @@ export class LoginComponent implements OnInit {
 
     }
 
-    ngOnDestroy(){
+    ngOnDestroy() {
         this.subscription.unsubscribe();
     }
 
