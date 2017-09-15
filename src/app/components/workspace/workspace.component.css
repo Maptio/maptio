@@ -1,36 +1,36 @@
-.member{
+.member {
     float: left;
     background: 50% 50% no-repeat;
     background-size: auto 100%;
     max-width: 22px;
 }
 
-.no-padding{
+.no-padding {
     padding: 0;
 }
 
 .header {
     padding-left: 60px;
-    MARGIN-TOP: 5vh;
+    MARGIN-TOP: 2.5vh;
     background: transparent;
     background-color: transparent;
     z-index: 59;
     position: absolute;
     width: 30%;
 }
-.team-name{
+
+.team-name {
     /* padding: 0 8px 1px 0; */
     /* margin: -18px 0 0 0; */
     font-size: initial;
     margin-right: 13px;
 }
 
-
-.profile-img{
+.profile-img {
     border-radius: 23px;
 }
 
-.mapping{
+.mapping {
     /* opacity: 0.8; */
     /* margin-left: 25px;
     position: absolute; */
@@ -40,23 +40,58 @@
     height: 100%;
 }
 
-/* The side navigation menu */
-#mySidenav {
-    height: 80vh;
-    width: 0;
-    position: fixed;
-    z-index: 1;
-    top: 12vh;
-    left: 0;
-    overflow-x: hidden;
-    padding-top: 5px;
-    transition: 0.5s;
-    padding-left: 40px;
-    box-shadow: 1px 1px 6px #888888;
-    background-color: #f7f7f7;
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+
+#main {
+    transition: margin-left .5s;
+    width: 100%;
+    height: 100%;
+    /* padding-top: 2vh; */
 }
 
+#main.expand {
+    margin-left: 665px;
+    transition: 0.5s;
+}
+
+#edit-panel{
+    opacity:0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+#edit-panel.expand{
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+
+/* The side navigation menu */
+
+#mySidenav {
+    height: 90vh;
+    max-height: 90vh;
+    min-width: 3.5vw;
+    position: fixed;
+    left: 0;
+    overflow: hidden;
+    padding: 10px;
+    transition: 0.5s;
+    background-color: rgb(41, 128, 185);
+    
+    margin-top: 7vh;
+    width: 0;
+}
+
+#mySidenav.expand {
+    background-color: #f7f7f7;
+    width: 665px;
+    transition: 0.5s ease-in-out;
+}
+
+
 /* The navigation menu links */
+
 .sidenav a {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
@@ -66,71 +101,79 @@
     transition: 0.3s
 }
 
+
 /* When you mouse over the navigation links, change their color */
-.sidenav a:hover, .offcanvas a:focus{
+
+.sidenav a:hover, .offcanvas a:focus {
     color: #f1f1f1;
 }
 
+
 /* Position and style the close button (top right corner) */
+
 .closebtn {
-position: absolute;
+    position: absolute;
     top: -5px;
     right: 3px;
     font-size: 20px;
     /* margin-left: 50px; */
 }
 
-/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
-#main {
-    transition: margin-left .5s;
-    width: 100%;
-    height: 100%;
-    /* padding-top: 2vh; */
-}
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+
 @media screen and (max-height: 450px) {
-    .sidenav {padding-top: 15px;}
-    .sidenav a {font-size: 18px;}
+    .sidenav {
+        padding-top: 15px;
+    }
+    .sidenav a {
+        font-size: 18px;
+    }
 }
 
-.edit-map{
-      position: absolute;
-    opacity: 0.8;
-    top: -4%;
-    left:3px;
-     transition: 0.5s; 
-    -webkit-transform: rotate(90deg);
-    -webkit-transform-origin: bottom left;
+.edit-map {
+    /* position: absolute; */
+    top: -5vh;
+    left: -20vh;
+    transition: 0.3s;
+    -webkit-transform: rotate(-90deg);
+    -webkit-transform-origin: top left;
     -moz-transform: rotate(90deg);
     -moz-transform-origin: bottom left;
     -ms-transform: rotate(90deg);
     -ms-transform-origin: bottom left;
     -o-transform: rotate(90deg);
     -o-transform-origin: bottom left;
-    transform: rotate(90deg);
-    transform-origin: bottom left;
+    transform: rotate(-90deg);
+    transform-origin: top left;
 }
 
-.edit-map > a{
-   color: gray;
+.edit-map > a {
+    color: gray;
     border: 1px solid lightgray;
-    background-color: #FCFCFC;
-    clear:both;
+    background-color: transparent;
+    clear: both;
 }
 
-.edit-map > a:hover{
-  color:black;
+.edit-map > a:hover {
+    color: black;
 }
 
-
-.edit-map a{
-  border:0;
+.edit-map a {
+    border: 0;
 }
 
+/* .toggle-edit:before {
+    content: "\f07c";
+    font-family: FontAwesome;
+} */
 
-.toggle-edit:before{
-  
-    content:"\f07c";
-  font-family: FontAwesome;
+.toggle{
+    padding: 0;
+    margin-left: 4px;
+}
+
+.toggle.expand{
+    margin-left:97%;
+    transition:0.5s;    
 }

@@ -72,14 +72,16 @@
 		$(".initiativeMarkdownDescription").markdown({ autofocus: false, savable: false })
 
 		function toggleNav(event) {
-			let width = $("#mySidenav").width();
-			console.log(width, event)
-			document.getElementById("mySidenav").style.width = (width === 0) ? "665px" : "0";
-			document.getElementById("mySidenav").style.paddingLeft = (width === 0) ? "5px" : "40px";
-			document.getElementById("main").style.marginLeft = (width === 0) ? "665px" : "0";
-			document.getElementById("edit-map-toggle").style.left = (width === 0) ? "628px" : "0";
-			console.log($("#edit-map-toggle span"))
-			$("#edit-map-toggle span")[0].textContent = (width === 0) ? "Close" : "Edit your initiative";
+			console.log("toggling")
+			$("#mySidenav").toggleClass("expand")
+			// let width = Math.round($("#mySidenav").width());
+			// console.log(width, event)
+				// document.getElementById("mySidenav").style.width = (width === 0) ? "665px" : "0";
+			// document.getElementById("mySidenav").style.paddingLeft = (width === 0) ? "5px" : "40px";
+				// document.getElementById("main").style.marginLeft = (width === 0) ? "665px" : "0";
+			// document.getElementById("edit-map-toggle").style.left = (width === 0) ? "48.3vw" : "-14.5vw";
+			// console.log($("#edit-map-toggle span"))
+			// $("#edit-map-toggle span")[0].textContent = (width === 0) ? "" : "Edit your initiative";
 		}
 		$(function () {
 			$('[data-toggle="tooltip"]').tooltip({ 'delay': { show: 100, hide: 100 }, 'container': 'body' });

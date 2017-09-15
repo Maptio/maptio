@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit {
                     return datasets.map(d => {
                         // console.log(d.initiative.name, d.initiative)
                         // console.log(d.initiative.name, "lloking for ", d.initiative.team_id)
-                        this.teamFactory.get(d.initiative.team_id).then(team => { d.team = team })
+                        this.teamFactory.get(d.initiative.team_id).then(team => { d.team = team }, () => { d.team = undefined })
                         return d;
                     })
                 })

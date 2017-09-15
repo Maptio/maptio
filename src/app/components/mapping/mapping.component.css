@@ -11,7 +11,7 @@
 .control {
   position: absolute;
   right: 1vw;
-  box-shadow: 1px 1px 6px #888888;
+  /* box-shadow: 1px 1px 6px #888888; */
   top: 6vh;
   margin-right: 1%;
   border-radius: 4px;

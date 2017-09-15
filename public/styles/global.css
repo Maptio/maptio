@@ -10,6 +10,10 @@ html, body {
   /* The html and body elements cannot have any padding or margin. */
 }
 
+body{
+  overflow: hidden;
+}
+
 
 .toggle-children {
   background-image: none !important;
@@ -23,6 +27,8 @@ html, body {
 
 .tree {
   width: 100%;
+  max-height: 71vh;
+  overflow-y: auto;
 }
 
 
@@ -39,14 +45,13 @@ html, body {
 }
 
 .node-content-wrapper::before {
-  border-bottom: 2px solid grey;
-  border-left: 2px solid grey;
-  height: 141%;
-  top: -160%;
-  width: 2%;
-  /* left: -41px; */
-  margin-left: -3%;
-  margin-top: 5%;
+
+    /* border-bottom: 1px solid lightgrey;
+    border-left: 1px solid lightgrey;
+    height: 28px;
+    top: -17px;
+    width: 20px;
+    left: -28px; */
 }
 
 .tree-node-leaf > .node-wrapper > .node-content-wrapper::before {
@@ -116,14 +121,14 @@ input[type=range]::-webkit-slider-runnable-track {
   height: 12px;
   cursor: pointer;
   animate: 0.2s;
-  box-shadow: 0px 0px 0px #50555C;
+  /* box-shadow: 0px 0px 0px #50555C; */
   background: #50555C;
   border-radius: 14px;
   border: 0px solid #000000;
 }
 
 input[type=range]::-webkit-slider-thumb {
-  box-shadow: 0px 0px 0px #000000;
+  /* box-shadow: 0px 0px 0px #000000; */
   border: 0px solid #000000;
   height: 12px;
   width: 7px;
@@ -143,14 +148,14 @@ input[type=range]::-moz-range-track {
   height: 12px;
   cursor: pointer;
   animate: 0.2s;
-  box-shadow: 0px 0px 0px #50555C;
+  /* box-shadow: 0px 0px 0px #50555C; */
   background: #50555C;
   border-radius: 14px;
   border: 0px solid #000000;
 }
 
 input[type=range]::-moz-range-thumb {
-  box-shadow: 0px 0px 0px #000000;
+  /* box-shadow: 0px 0px 0px #000000; */
   border: 0px solid #000000;
   height: 12px;
   width: 6px;
@@ -173,19 +178,19 @@ input[type=range]::-ms-fill-lower {
   background: #50555C;
   border: 0px solid #000000;
   border-radius: 28px;
-  box-shadow: 0px 0px 0px #50555C;
+  /* box-shadow: 0px 0px 0px #50555C; */
 }
 
 input[type=range]::-ms-fill-upper {
   background: #50555C;
   border: 0px solid #000000;
   border-radius: 28px;
-  box-shadow: 0px 0px 0px #50555C;
+  /* box-shadow: 0px 0px 0px #50555C; */
 }
 
 input[type=range]::-ms-thumb {
   margin-top: 1px;
-  box-shadow: 0px 0px 0px #000000;
+  /* box-shadow: 0px 0px 0px #000000; */
   border: 0px solid #000000;
   height: 12px;
   width: 7px;

@@ -114,14 +114,14 @@
 }
 
 a.navbar-brand{
-    width: 47px;
-    height: 40px;
+    width: 150px;
+    /* height: 40px; */
 }
 
 
 a.navbar-brand img{
-    width: 128%;
-    height: 130%;
+    width: 100%;
+    /* height: 40px; */
 }
 
 .nav-link{
@@ -130,4 +130,8 @@ a.navbar-brand img{
 
 nav{
     height: 56px;
+}
+
+span.navbar-text > a {
+    color: #2980b9;
 }
