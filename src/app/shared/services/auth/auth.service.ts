@@ -159,7 +159,7 @@ export class Auth {
 
     public isEmailVerified(userId: string): Promise<boolean> {
         // console.log("isEmailVerified")
-        return this.getApiToken().then((token: string) => {
+        return this.lock.getApiToken().then((token: string) => {
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
             return this.http.get("https://circlemapping.auth0.com/api/v2/users/" + userId, { headers: headers })
@@ -174,7 +174,7 @@ export class Auth {
 
     public isFirstLogin(userId: string): Promise<boolean> {
         // console.log("isFIrstLogin")
-        return this.getApiToken().then((token: string) => {
+        return this.lock.getApiToken().then((token: string) => {
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
             return this.http.get("https://circlemapping.auth0.com/api/v2/users/" + userId, { headers: headers })
@@ -189,7 +189,7 @@ export class Auth {
 
     public sendConfirmationEmail(userId: string): Promise<boolean> {
         // console.log("sendConfirmationEmail")
-        return this.getApiToken().then((token: string) => {
+        return this.lock.getApiToken().then((token: string) => {
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
             return this.http.post(
@@ -228,25 +228,14 @@ export class Auth {
     }
 
 
-    getApiToken(): Promise<string> {
-        return this.http.post(
-            "https://circlemapping.auth0.com/oauth/token",
-            {
-                "client_id": "mjQumlN564UkegYxzZGLNhM0umeEsmdC",
-                "client_secret": "YHMsevargwqFXmBt7I0rAjjkhCz_yQ6gb8-g4YLwQRvKI_B2at22r0MUmyENEXZ_",
-                "audience": "https://circlemapping.auth0.com/api/v2/",
-                "grant_type": "client_credentials"
-            }).map((responseData) => {
-                return responseData.json().access_token;
-            }).toPromise();
-    }
+    
 
 
     public sendInvite(email: string, userId: string, firstname: string, lastname: string, name: string, teamName: string, invitedBy: string): Promise<boolean> {
 
         return Promise.all([
             this.encodingService.encode({ user_id: userId, email: email, firstname: firstname, lastname: lastname, name: name }),
-            this.getApiToken()]
+            this.lock.getApiToken()]
         ).then(([userToken, apiToken]: [string, string]) => {
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + apiToken);
@@ -294,7 +283,7 @@ export class Auth {
             }
         }
 
-        return this.getApiToken().then((token: string) => {
+        return this.lock.getApiToken().then((token: string) => {
 
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
@@ -311,7 +300,7 @@ export class Auth {
     }
 
     public isActivationPending(user_id: string): Promise<boolean> {
-        return this.getApiToken().then((token: string) => {
+        return this.lock.getApiToken().then((token: string) => {
 
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
@@ -329,7 +318,7 @@ export class Auth {
 
     public isInvitationSent(user_id: string): Promise<boolean> {
         // console.log("is invitation sent for", user_id)
-        return this.getApiToken().then((token: string) => {
+        return this.lock.getApiToken().then((token: string) => {
 
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
@@ -347,7 +336,7 @@ export class Auth {
     }
 
     public updateUserInformation(user_id: string, password: string, firstname: string, lastname: string): Promise<boolean> {
-        return this.getApiToken().then((token: string) => {
+        return this.lock.getApiToken().then((token: string) => {
 
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
@@ -372,7 +361,7 @@ export class Auth {
     }
 
     public updateActivationPendingStatus(user_id: string, isActivationPending: boolean): Promise<boolean> {
-        return this.getApiToken().then((token: string) => {
+        return this.lock.getApiToken().then((token: string) => {
 
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
@@ -389,7 +378,7 @@ export class Auth {
     }
 
     public updateInvitiationSentStatus(user_id: string, isInvitationSent: boolean): Promise<boolean> {
-        return this.getApiToken().then((token: string) => {
+        return this.lock.getApiToken().then((token: string) => {
 
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
@@ -408,7 +397,7 @@ export class Auth {
     }
 
     public storeProfile(user_id: string): Promise<void> {
-        return this.getApiToken().then((token: string) => {
+        return this.lock.getApiToken().then((token: string) => {
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
             return this.http.get("https://circlemapping.auth0.com/api/v2/users/" + user_id,
@@ -436,7 +425,7 @@ export class Auth {
     }
 
     public isUserExist(email: string): Promise<boolean> {
-        return this.getApiToken().then((token: string) => {
+        return this.lock.getApiToken().then((token: string) => {
 
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
@@ -453,7 +442,7 @@ export class Auth {
     }
 
     public getUserInfo(userId: string): Promise<User> {
-        return this.getApiToken().then((token: string) => {
+        return this.lock.getApiToken().then((token: string) => {
 
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);

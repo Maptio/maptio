@@ -229,21 +229,7 @@ div.deleted {
   display: inline-block;
 }
 
-/* div.deleted::before {
-  content: '\f05e';
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate( -50%, -50%);
-  /* padding: 3px 15px 3px 25px; */
-  color: #DB726A;
-  font-family: 'FontAwesome';
-  font-size: 58px;
-  /* background-color: rgba(23, 35, 34, 0.75); */
-  /* border-radius: 5px 5px 5px 5px; */
-  /* width: 100%; */
-  height: 10%;
-} */
+
 
 .transparent{
   background-color: transparent !important;
