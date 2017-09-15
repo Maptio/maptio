@@ -16,6 +16,8 @@ export class DataSet implements Serializable<DataSet> {
 
   initiative: Initiative;
 
+  team: any;
+
   public constructor(init?: Partial<DataSet>) {
     Object.assign(this, init);
   }
