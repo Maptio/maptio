@@ -1,37 +1,35 @@
-<div class="card-deck mt-3">
-    <div class="card col-4">
-        <div class="m-0">
-            <div class="row ml-1 mt-2">
-                <img class="profile rounded-circle" src="{{ user?.picture }}" alt="Picture of {{user?.name}}">
-                <h4 class="col-10">{{user?.name}}</h4>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="form-group row">
-                        <label for="firstname" class="col-form-label col-2">First Name</label>
-                        <div class="col-10">
-                            <input id="firstname" type="text" class="form-control" [ngModel]="user?.firstname" disabled>
-                        </div>
-
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="lastname" class="col-form-label col-2">Last Name</label>
-                        <div class="col-10">
-                            <input id="lastname" type="text" class="form-control" [ngModel]="user?.lastname" disabled>
-                        </div>
-
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="email" class="col-form-label col-2">Email</label>
-                        <div class="col-10">
-                            <input id="email" type="email" class="form-control" [ngModel]="user?.email" disabled>
-                        </div>
-
+<div class="col-8 m-3">
+    <div class="m-0">
+        <div class="row ml-1 mt-2">
+            <img class="profile rounded-circle" src="{{ user?.picture }}" alt="Picture of {{user?.name}}">
+            <h4 class="col-9">{{user?.name}}</h4>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group row">
+                    <label for="firstname" class="col-form-label col-3">First Name</label>
+                    <div class="col-9">
+                        <input id="firstname" type="text" class="form-control" [ngModel]="user?.firstname" disabled>
                     </div>
 
                 </div>
+
+                <div class="form-group row">
+                    <label for="lastname" class="col-form-label col-3">Last Name</label>
+                    <div class="col-9">
+                        <input id="lastname" type="text" class="form-control" [ngModel]="user?.lastname" disabled>
+                    </div>
+
+                </div>
+
+                <div class="form-group row">
+                    <label for="email" class="col-form-label col-3">Email</label>
+                    <div class="col-9">
+                        <input id="email" type="email" class="form-control" [ngModel]="user?.email" disabled>
+                    </div>
+
+                </div>
+
             </div>
         </div>
     </div>

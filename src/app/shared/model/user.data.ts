@@ -115,13 +115,13 @@ export class User implements Serializable<User> {
         }
     }
 
-    getHomePage() {
-        if (this.datasets.length === 1) {
-            let mapid = this.datasets[0];
-            return `/map/${mapid}/me`;
-        }
-        else {
-            return "/home"
-        }
-    }
+    // getHomePage() {
+    //     if (this.datasets.length === 1) {
+    //         let mapid = this.datasets[0];
+    //         return `/map/${mapid}/me`;
+    //     }
+    //     else {
+    //         return "/home"
+    //     }
+    // }
 }

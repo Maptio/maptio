@@ -127,7 +127,7 @@ export class Auth {
                                         return user;
                                     })
                                     .then((user: User) => {
-                                        window.location.href = user.getHomePage();
+                                        window.location.href = "/home"
                                     })
                             }
                             else {

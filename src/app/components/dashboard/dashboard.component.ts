@@ -35,8 +35,8 @@ export class DashboardComponent implements OnInit {
                 })
                 .then((datasets: Array<DataSet>) => {
                     return datasets.sort((a: DataSet, b: DataSet) => {
-                        if (a.initiative.name < b.initiative.name) return -1;
-                        if (a.initiative.name > b.initiative.name) return 1;
+                        if (a.initiative.team_id < b.initiative.team_id) return -1;
+                        if (a.initiative.team_id > b.initiative.team_id) return 1;
                         return 0;
                     })
                 })
