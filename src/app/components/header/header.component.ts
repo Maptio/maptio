@@ -1,3 +1,6 @@
+import { Validators } from "@angular/forms";
+import { FormControl } from "@angular/forms";
+import { FormGroup } from "@angular/forms";
 import { UserFactory } from "./../../shared/services/user.factory";
 import { Initiative } from "./../../shared/model/initiative.data";
 import { TeamFactory } from "./../../shared/services/team.factory";
@@ -34,13 +37,22 @@ export class HeaderComponent implements OnInit {
 
     private selectedTeam: Team;
 
-    // private VESTD_ID: string = "58c9d273734d1d2ca8564da2";
+    private loginForm: FormGroup;
 
     constructor(private auth: Auth, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private userFactory: UserFactory, private errorService: ErrorService, private router: Router) {
         EmitterService.get("currentDataset").subscribe((value: DataSet) => {
             this.selectedDataset = value;
         },
-        (error: any) => { this.errorService.handleError(error) });
+            (error: any) => { this.errorService.handleError(error) });
+
+        this.loginForm = new FormGroup({
+            "email": new FormControl("", [
+                Validators.required
+            ]),
+            "password": new FormControl("", [
+                Validators.required
+            ])
+        });
     }
 
     ngOnInit() {
@@ -127,7 +139,37 @@ export class HeaderComponent implements OnInit {
 
     logout() {
         this.auth.logout();
-        this.router.navigate([""]); // towards HomeComponent
+    }
+
+    login() {
+
+        if (this.loginForm.dirty && this.loginForm.valid) {
+
+            let email = this.loginForm.controls["email"].value
+            let password = this.loginForm.controls["password"].value
+
+            this.auth.isUserExist(email)
+                .then((isUserExist: boolean) => {
+                    if (isUserExist) {
+                        let user = this.auth.login(email, password);
+                        // this.router.navigateByUrl("/login");
+                        // HACK .login() should be promisified instead of using EmitterService
+                        EmitterService.get("loginErrorMessage").subscribe((loginErrorMessage: string) => {
+
+                            loginErrorMessage =
+                                (loginErrorMessage === "Wrong email or password.") ? "Wrong password" : loginErrorMessage;
+                            this.router.navigateByUrl(`/login?login_message=${encodeURIComponent(loginErrorMessage)}`);
+
+                        })
+                    }
+                    else {
+                        let message = "We don't know that email."
+                        this.router.navigateByUrl(`/login?login_message=${encodeURIComponent(message)}`);
+                        // EmitterService.get("loginErrorMessage").emit("We don't know that email.");
+
+                    }
+                })
+        }
     }
 
 }

@@ -1,4 +1,4 @@
-import { Initiative } from './initiative.data';
+import { Initiative } from "./initiative.data";
 import { Serializable } from "./../interfaces/serializable.interface";
 
 export class DataSet implements Serializable<DataSet> {

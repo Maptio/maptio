@@ -60,8 +60,8 @@ router.get('/user/:id', function (req, res, next) {
 
     // ]
 
-    db.users.findOne({ user_id: req.params.id },function (err, users) {
-        
+    db.users.findOne({ user_id: req.params.id }, function (err, users) {
+
         if (err) {
             res.send(err);
         } else {
@@ -104,18 +104,18 @@ router.get('/user/:id/datasets', function (req, res, next) {
 });
 
 /* POST/SAVE a user */
-// router.post('/user', function (req, res, next) {
-//     var user = req.body;
+router.post('/user', function (req, res, next) {
+    var user = req.body;
 
-//     db.users.save(user, function (err, result) {
-//         if (err) {
-//             res.send(err);
-//         } else {
-//             res.json(result);
-//         }
-//     })
+    db.users.save(user, function (err, result) {
+        if (err) {
+            res.send(err);
+        } else {
+            res.json(result);
+        }
+    })
 
-// });
+});
 
 /* PUT/UPDATE a user */
 router.put('/user/:id', function (req, res, next) {

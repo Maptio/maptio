@@ -30,19 +30,6 @@ describe("help.component.ts", () => {
         target.detectChanges(); // trigger initial data binding
     });
 
-    it("should create modal with the right settings", () => {
-        let modal = target.debugElement.query(By.css("modal"));
-        expect(modal.attributes["data-keyboard"]).toBe("true");
-        expect(modal.attributes["data-backdrop"]).toBe("true");
-    });
 
-    it("should open modal", () => {
-        spyOn(target.componentInstance.modal, "open");
-        target.componentInstance.open();
-        expect(target.componentInstance.modal).toBeDefined();
-        expect(target.componentInstance.modal.open).toHaveBeenCalled();
-        expect(document.querySelectorAll(".modal").length).toBe(1);
-
-    });
 
 });

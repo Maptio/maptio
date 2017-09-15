@@ -6,3 +6,17 @@
 .panel-heading{
     width:100%
 }
+
+.profile{
+    width: 10vw;
+    /* height: 45px; */
+}
+
+.visionnary{
+    width: 25px;
+    height: 25px;
+}
+
+.name{
+    line-height: 12vh;
+}

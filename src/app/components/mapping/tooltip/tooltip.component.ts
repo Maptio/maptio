@@ -35,8 +35,8 @@ export class TooltipComponent implements OnInit, OnDestroy {
                 this.isReadOnly = true;
 
                 this.isHidden = false;
-                this.left = settings[2];
-                this.top = settings[3];
+                // this.left = settings[2];
+                // this.top = settings[3];
                 this.cd.markForCheck();
 
             },

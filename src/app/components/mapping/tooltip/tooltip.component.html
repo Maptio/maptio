@@ -1,6 +1,8 @@
-<div class="initative-tooltip card transparent" [class.hidden]="isHidden" [style.left.px]="left" [style.top.px]="top">
-    <div class="card-block " >
-        <a class="btn btn-link close-button" (click)="isHidden = !isHidden">Close</a>
+<div class="initative-tooltip card" [class.hidden]="isHidden">
+    <div class="card-header col-12   close">
+            <a class="btn btn-link close-button pull-right" [class.hidden]="isHidden" (click)="isHidden = !isHidden"></a>
+    </div>
+    <div class="card-block" >
         <initiative #initiative [node]="node" [parent]="parent" [isReadOnly]="isReadOnly"></initiative>
     </div>
 </div>

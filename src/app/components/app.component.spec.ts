@@ -1,4 +1,5 @@
-import { Initiative } from './../shared/model/initiative.data';
+import { LoaderService } from "./../shared/services/http/loader.service";
+import { Initiative } from "./../shared/model/initiative.data";
 import { ResponsiveModule } from "ng2-responsive";
 import { DataSet } from "../shared/model/dataset.data";
 import { Router } from "@angular/router";
@@ -25,6 +26,7 @@ describe("app.component.ts", () => {
         }).overrideComponent(AppComponent, {
             set: {
                 providers: [
+                    LoaderService,
                     { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } }
                 ]
             }
@@ -39,12 +41,12 @@ describe("app.component.ts", () => {
 
 
     describe("Controller", () => {
-        it("should open Help modal in openHelp", () => {
+        // it("should open Help modal in openHelp", () => {
 
-            let spy = spyOn(component.helpComponent, "open");
-            component.openHelp();
-            expect(spy).toHaveBeenCalled();
-        });
+        //     let spy = spyOn(component.helpComponent, "open");
+        //     component.openHelp();
+        //     expect(spy).toHaveBeenCalled();
+        // });
 
         it("should display /map in openDataset", () => {
             let mockRouter = target.debugElement.injector.get(Router);

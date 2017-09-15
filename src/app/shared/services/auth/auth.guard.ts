@@ -1,3 +1,4 @@
+import { User } from "./../../model/user.data";
 import { Auth } from "./auth.service";
 import { Injectable } from "@angular/core";
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, CanActivateChild } from "@angular/router";
@@ -8,8 +9,19 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     constructor(private auth: Auth, private router: Router) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+
         let url: string = state.url;
         if (this.auth.authenticated()) {
+            // console.log("authenticated")
+            // this.auth.getUser().subscribe((user: User) => {
+            //     this.auth.isEmailVerified(user.user_id).then((isEmailVerified: boolean) => {
+            //         console.log("isEmailVerified", isEmailVerified)
+            //         if (!isEmailVerified) {
+            //             this.router.navigate(["/verify-email"]);
+            //             return false;
+            //         }
+            //     })
+            // })
             return true;
         }
 

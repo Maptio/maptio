@@ -1,6 +1,5 @@
 .profile-image {
     margin-top: -5px;
-    margin-right: 16px;
     float: left;
     background: 50% 50% no-repeat;
     background-size: auto 100%;
@@ -101,7 +100,7 @@
 /* curious is this the bootstrap overwrite file */
 .navbar {
     
-    min-height: 52px;
+    min-height: 7vh;
     
 }
 
@@ -112,4 +111,27 @@
 .help::before  {
     content: "\f059";
     font-family: FontAwesome;
+}
+
+a.navbar-brand{
+    width: 100px;
+    /* height: 40px; */
+}
+
+
+a.navbar-brand img{
+    width: 100%;
+    /* height: 40px; */
+}
+
+.nav-link{
+    padding:0;
+}
+
+nav{
+    height: 56px;
+}
+
+.navbar-text {
+    color: #2980b9;
 }

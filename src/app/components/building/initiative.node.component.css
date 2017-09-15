@@ -1,45 +1,49 @@
-.toggle{
-    border:none;
+.toggle {
+    border: none;
     background-color: transparent;
 }
 
-.toggle:before{
-    color:#0275D8;
+.toggle:before {
+    color: #0275D8;
 }
 
 .open-node {
-    position:relative;
-}    
-.open-node:before {
-content: "\F055";
-    font-family: FontAwesome;
- }
+    position: relative;
+}
 
- .close-node {
-    position:relative;
-}    
+.open-node:before {
+    content: "\F055";
+    font-family: FontAwesome;
+}
+
+.close-node {
+    position: relative;
+}
+
 .close-node:before {
-content: "\F056";
+    content: "\F056";
     font-family: FontAwesome;
     left: 2px;
- }
+}
+
+
 
 
 /*.close-node{
     background-image: url("/assets/images/minus.png");
 }*/
 
-
-.tree-node-expanded{
+.tree-node-expanded {
     background-image: none;
-
 }
-.tree-node-collapsed{
-    background-image: none ; 
+
+.tree-node-collapsed {
+    background-image: none;
     /*url("/assets/images/plus.png");*/
     background-size: 15px;
     background-repeat: no-repeat;
 }
+
 
 /* .toggle-children-wrapper{
 display: flex;
@@ -48,9 +52,8 @@ display: flex;
       padding: 0 !important;
 } */
 
-
 .tree-node {
-flex-wrap: wrap;
+    flex-wrap: wrap;
     flex-direction: row;
     display: flex;
     align-items: center;
@@ -58,52 +61,52 @@ flex-wrap: wrap;
     flex-shrink: 0;
 }
 
-
 .form-group {
-    margin-bottom: 0 ;
+    margin-bottom: 0;
 }
 
-.inputNodeName{
-    cursor:text;
+.inputNodeName {
+    cursor: text;
 }
 
-.knurled{
-    border:none;
+.knurled {
+    border: none;
     background-color: transparent;
     cursor: move;
 }
 
-.add:before{
-    content:"\f067";
-    font-family:FontAwesome;
-}
-.remove:before{
-    content:"\f068";
-    font-family:FontAwesome;
+.add:before {
+    content: "\f067";
+    font-family: FontAwesome;
 }
 
-.edit:before{
-    content:"\f040";
-    font-family:FontAwesome;
+.remove:before {
+    content: "\f068";
+    font-family: FontAwesome;
 }
 
-.zoom:before{
-    content:"\f002";
-    font-family:FontAwesome;
+.edit:before {
+    content: "\f040";
+    font-family: FontAwesome;
 }
 
-.control{
+.zoom:before {
+    content: "\f002";
+    font-family: FontAwesome;
+}
+
+.control {
     opacity: 0.8;
 }
 
-.control > a{
-   color: gray;
+.control > a {
+    color: gray;
     border: 1px solid lightgray;
     background-color: #FCFCFC;
-    clear:both;
-    height:100%;
+    clear: both;
+    height: 100%;
 }
 
-.control > a:hover{
-  color:black;
+.control > a:hover {
+    color: black;
 }

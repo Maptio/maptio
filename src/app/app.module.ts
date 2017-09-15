@@ -1,9 +1,10 @@
-
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { SignupComponent } from "./components/login/signup.component";
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FormsModule } from "@angular/forms";
-import { HttpModule } from "@angular/http";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { HttpModule, RequestOptions, XHRBackend, Http } from "@angular/http";
 
 // Routing
 import { PathLocationStrategy, Location, LocationStrategy } from "@angular/common";
@@ -23,6 +24,7 @@ import { Auth } from "./shared/services/auth/auth.service";
 import { AUTH_PROVIDERS } from "angular2-jwt";
 import { UserFactory } from "./shared/services/user.factory";
 import { TeamFactory } from "./shared/services/team.factory";
+import { MailingService } from "./shared/services/mailing/mailing.service"
 
 // Components
 import { LoginComponent } from "./components/login/login.component";
@@ -41,13 +43,20 @@ import { InitiativeNodeComponent } from "./components/building/initiative.node.c
 import { HelpComponent } from "./components/help/help.component";
 
 import { AccountComponent } from "./components/account/account.component";
+import { TeamComponent } from "./components/team/team.component";
 
 import { WorkspaceComponent } from "./components/workspace/workspace.component";
 import { FooterComponent } from "./components/footer/footer.component";
 import { HeaderComponent } from "./components/header/header.component";
 
 import { UnauthorizedComponent } from "./components/unauthorized/unauthorized.component";
-import { TeamComponent } from "./components/team/team.component";
+import { VerifyEmailComponent } from "./components/unauthorized/verify-email.component";
+import { LoaderComponent } from "./shared/services/http/loader.component";
+import { LoaderService } from "./shared/services/http/loader.service";
+import { ChangePasswordComponent } from "./components/unauthorized/change-password.component";
+import { ActivateAccountComponent } from "./components/activate/activate-account.component";
+
+
 
 // Directives
 import { FocusIfDirective } from "./shared/directives/focusif.directive";
@@ -62,22 +71,29 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { AuthConfiguration } from "./shared/services/auth/auth.config";
 import { ResponsiveModule, } from "ng2-responsive";
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";
+import { JwtEncoder } from "./shared/services/encoding/jwt.service";
+import { HttpService } from "./shared/services/http/http.service";
+import { HttpServiceFactory } from "./shared/services/http/htttp.service.factory";
+import { TeamsListComponent } from "./components/team/teams-list.component";
 
 // Routes
 const appRoutes: Routes = [
   { path: "", redirectTo: "", pathMatch: "full", component: HomeComponent },
 
+  { path: "home", component: HomeComponent },
+
   { path: "login", component: LoginComponent },
-  { path: "account", component: AccountComponent, canActivate: [AuthGuard] },
-  { path: "account/teams", component: TeamComponent, canActivate: [AuthGuard] },
-  { path: "account/team/:teamid", component: TeamComponent, canActivate: [AuthGuard, AccessGuard] },
-  { path: "account/profile", component: AccountComponent, canActivate: [AuthGuard] },
+  { path: "help", component: HelpComponent },
+  { path: "signup", component: SignupComponent },
+  { path: "teams", component: TeamsListComponent, canActivate: [AuthGuard] },
+  { path: "team/:teamid", component: TeamComponent, canActivate: [AuthGuard, AccessGuard] },
+  { path: "profile", component: AccountComponent, canActivate: [AuthGuard] },
   { path: "map/:workspaceid", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
   { path: "map/:workspaceid/:layout", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
   { path: "map/:workspaceid/i/:slug", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
 
-  { path: "unauthorized", component: UnauthorizedComponent }
-
+  { path: "unauthorized", component: UnauthorizedComponent },
+  { path: "forgot", component: ChangePasswordComponent }
 ];
 
 @NgModule({
@@ -85,16 +101,18 @@ const appRoutes: Routes = [
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent, TeamComponent,
     MappingComponent, MappingCirclesComponent, MappingTreeComponent, MappingFirstPersonComponent, TooltipComponent,
     BuildingComponent, InitiativeNodeComponent, LoginComponent, HomeComponent, UnauthorizedComponent,
-    InitiativeComponent,
+    InitiativeComponent, ChangePasswordComponent, LoaderComponent, TeamsListComponent, SignupComponent,
     FocusIfDirective,
     AutoSelectDirective,
     AnchorDirective,
-    HelpComponent
+    HelpComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
-    CommonModule,
     FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
     HttpModule,
     TreeModule,
     Ng2Bs3ModalModule,
@@ -108,8 +126,16 @@ const appRoutes: Routes = [
   exports: [RouterModule],
   providers: [
     AuthGuard, AccessGuard, AuthConfiguration,
-    D3Service, DataService, ColorService, UIService, DatasetFactory, TeamFactory, ErrorService, AUTH_PROVIDERS, Auth, UserFactory,
-    Location, { provide: LocationStrategy, useClass: PathLocationStrategy }],
+    D3Service, DataService, ColorService, UIService, DatasetFactory, TeamFactory,
+    ErrorService, AUTH_PROVIDERS, Auth, UserFactory, MailingService, JwtEncoder, LoaderService,
+    Location,
+    { provide: LocationStrategy, useClass: PathLocationStrategy },
+    {
+      provide: Http,
+      useFactory: HttpServiceFactory,
+      deps: [XHRBackend, RequestOptions, LoaderService, ErrorService]
+    }
+  ],
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]
 })

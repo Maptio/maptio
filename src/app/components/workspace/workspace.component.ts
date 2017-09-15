@@ -1,5 +1,5 @@
-import { Initiative } from './../../shared/model/initiative.data';
-import { DataSet } from './../../shared/model/dataset.data';
+import { Initiative } from "./../../shared/model/initiative.data";
+import { DataSet } from "./../../shared/model/dataset.data";
 import { Team } from "./../../shared/model/team.data";
 import { UserFactory } from "./../../shared/services/user.factory";
 import { TeamFactory } from "./../../shared/services/team.factory";
@@ -60,8 +60,9 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                     return this.teamFactory.get(dataset.initiative.team_id)
             });
 
-            this.team.then((team: Team) => {
-                this.members = Promise.all(team.members.map(u => this.userFactory.get(u.user_id)))
+            this.members = this.team.then((team: Team) => {
+                if (team)
+                    return Promise.all(team.members.map(u => this.userFactory.get(u.user_id)))
             })
         });
 

@@ -62,7 +62,7 @@ describe("initiative.node.component.ts", () => {
             let spyIsRoot = spyOn(component, "isRoot").and.returnValue(true);
             target.detectChanges();
             // console.log(target.debugElement.nativeElement);
-            expect(target.debugElement.query(By.css("label")).nativeElement.innerHTML).toBe("Project");
+            // expect(target.debugElement.query(By.css("label")).nativeElement.innerHTML).toBe("Project");
             expect(target.debugElement.queryAll(By.css("a.toggle.open-node")).length).toBe(1);
             expect(target.debugElement.queryAll(By.css("input.inputNodeName")).length).toBe(1);
             expect(target.debugElement.queryAll(By.css("a.add")).length).toBe(1);
@@ -163,17 +163,17 @@ describe("initiative.node.component.ts", () => {
             });
         });
 
-        describe("Open button", () => {
-            it("should open node when clicked", () => {
-                let spyOpen = spyOn(component, "openNode");
-                let button = target.debugElement.query(By.css(".edit")).nativeElement as HTMLAnchorElement;
+        // describe("Open button", () => {
+        //     it("should open node when clicked", () => {
+        //         let spyOpen = spyOn(component, "openNode");
+        //         let button = target.debugElement.query(By.css(".edit")).nativeElement as HTMLAnchorElement;
 
-                button.dispatchEvent(new Event("click"));
-                target.detectChanges();
+        //         button.dispatchEvent(new Event("click"));
+        //         target.detectChanges();
 
-                expect(spyOpen).toHaveBeenCalledWith(component.node.data);
-            });
-        });
+        //         expect(spyOpen).toHaveBeenCalledWith(component.node.data);
+        //     });
+        // });
 
         describe("Zoom in button", () => {
             it("should zoom in node when clicked", () => {
@@ -286,19 +286,19 @@ describe("initiative.node.component.ts", () => {
                 });
             });
 
-            describe("Open", () => {
-                it("should open the selected node when another node is already opened", () => {
-                    let openInitiativeEvent = new Initiative();
-                    openInitiativeEvent.id = 1;
-                    openInitiativeEvent.name = "something";
-                    let mockRouter = target.debugElement.injector.get(Router);
-                    let spyGetSlug = spyOn(openInitiativeEvent, "getSlug").and.returnValue("slug")
-                    component.datasetId = "DID"
-                    component.openNode(openInitiativeEvent);
-                    expect(mockRouter.navigate).toHaveBeenCalledWith(["map", component.datasetId, "i", "slug"]);
-                    expect(spyGetSlug).toHaveBeenCalled();
-                });
-            });
+            // describe("Open", () => {
+            //     it("should open the selected node when another node is already opened", () => {
+            //         let openInitiativeEvent = new Initiative();
+            //         openInitiativeEvent.id = 1;
+            //         openInitiativeEvent.name = "something";
+            //         let mockRouter = target.debugElement.injector.get(Router);
+            //         let spyGetSlug = spyOn(openInitiativeEvent, "getSlug").and.returnValue("slug")
+            //         component.datasetId = "DID"
+            //         component.openNode(openInitiativeEvent);
+            //         expect(mockRouter.navigate).toHaveBeenCalledWith(["map", component.datasetId, "i", "slug"]);
+            //         expect(spyGetSlug).toHaveBeenCalled();
+            //     });
+            // });
 
             describe("Zoom in", () => {
                 it("should zoom on the selected node", () => {

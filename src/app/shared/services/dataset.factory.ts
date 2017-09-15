@@ -7,6 +7,7 @@ import "rxjs/add/operator/map"
 import { ErrorService } from "./error/error.service";
 import { User } from "../model/user.data";
 import "rxjs/add/operator/toPromise";
+import { Team } from "../model/team.data";
 
 @Injectable()
 export class DatasetFactory {
@@ -97,11 +98,20 @@ export class DatasetFactory {
      * Retrieves one or many datasets
      * @param idOrUser Dataset unique ID or User
      */
-    get(idOrUser: string | User): Promise<DataSet> | Promise<DataSet[]> | Promise<void> {
-        if (!idOrUser) return Promise.reject("Parameter missing");
-        return (idOrUser instanceof User)
-            ? this.getWithUser(<User>idOrUser)
-            : this.getWithId(<string>idOrUser)
+    get(team: Team): Promise<DataSet[]>;
+    /**
+     * Retrieves one or many datasets
+     * @param idOrUser Dataset unique ID or User
+     */
+    get(idOrUserOrTeam: string | User | Team): Promise<DataSet> | Promise<DataSet[]> | Promise<void> {
+        if (!idOrUserOrTeam) return Promise.reject("Parameter missing");
+        if (idOrUserOrTeam instanceof User) {
+            return this.getWithUser(<User>idOrUserOrTeam)
+        }
+        if (idOrUserOrTeam instanceof Team) {
+            return this.getWithTeam(<Team>idOrUserOrTeam)
+        }
+        return this.getWithId(<string>idOrUserOrTeam)
     }
 
 
@@ -116,6 +126,20 @@ export class DatasetFactory {
                     result.push(new DataSet({ _id: oid }));
                 });
                 return result || [];
+            })
+            .toPromise()
+            .then(r => r)
+            .catch(this.errorService.handleError);
+    }
+
+    private getWithTeam(team: Team): Promise<DataSet[]> {
+        // console.log("/api/v1/team/" + team.team_id + "/datasets")
+        return this._http.get("/api/v1/team/" + team.team_id + "/datasets")
+            .map((responseData) => {
+                return responseData.json();
+            })
+            .map((datasets: any) => {
+                return datasets || [];
             })
             .toPromise()
             .then(r => r)

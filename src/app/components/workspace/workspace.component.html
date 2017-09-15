@@ -5,10 +5,12 @@
             <span class="remove text-danger" placement="top" container="body" ngbTooltip="Clear team" (click)="removeTeam()"></span>
         </p>
         <a *ngFor="let user of members | async" class="btn btn-link btn-xs no-padding">
-            <img class="member rounded-circle" src="{{user?.picture}}" alt="{{user?.nickname}}" title="{{user?.nickname}}"
+            <img *ngIf="user?.picture" class="member rounded-circle" src="{{user?.picture}}" alt="{{user?.nickname}}" title="{{user?.nickname}}"
+            placement="top" container="body" ngbTooltip="{{user?.nickname}}">
+            <img *ngIf="!user?.picture" class="member rounded-circle" src="/assets/images/user.jpg" alt="{{user?.nickname}}" title="{{user?.nickname}}"
             placement="top" container="body" ngbTooltip="{{user?.nickname}}">
         </a>
-        <a class="btn btn-link btn-xs no-padding" routerLink="/account/team/{{(team |async)?.team_id}}">
+        <a class="btn btn-link btn-xs no-padding" routerLink="/team/{{(team |async)?.team_id}}">
             <i class="fa fa-plus" aria-hidden="true"></i>
         </a>
     </div>
@@ -24,18 +26,24 @@
 
     </div>
 </div>
-<div id="mySidenav">
-    <div class="edit-map btn-group-vertical" id="edit-map-toggle">
-        <a class="btn" onclick="toggleNav()" (click)="toggleBuildingPanel()">
-            <i *ngIf="isBuildingPanelCollapsed" class="fa fa-chevron-right" aria-hidden="true"></i>
-<i *ngIf="!isBuildingPanelCollapsed" class="fa fa-times" aria-hidden="true"></i> <span>Edit your initiative</span>
+<!-- <div class="edit-map btn-group-vertical" id="edit-map-toggle" onclick="toggleNav()" (click)="toggleBuildingPanel()">
+        <a class="btn">
+                <span class="ml-1">Edit your initiative</span>
+            <i *ngIf="isBuildingPanelCollapsed" class="fa fa-pencil" aria-hidden="true"></i>
+<i *ngIf="!isBuildingPanelCollapsed" class="fa fa-times" aria-hidden="true"></i> 
         </a>
-    </div>
-    <div id="edit-panel">
+    </div> -->
+
+<div id="mySidenav" class="rounded-right" [class.expand]="!isBuildingPanelCollapsed">
+    <a class="btn toggle" (click)="toggleBuildingPanel()" [class.expand]="!isBuildingPanelCollapsed">
+            <i class="fa" [class.fa-pencil]="isBuildingPanelCollapsed" aria-hidden="true"></i>
+            <i class="fa" [class.fa-times]="!isBuildingPanelCollapsed" aria-hidden="true"></i>
+    </a>
+    <div id="edit-panel" class="mt-3 ml-1 mr-3" [class.expand]="!isBuildingPanelCollapsed">
         <building #building>Loading...</building>
     </div>
 </div>
-<div id="main">
+<div id="main" [class.expand]="!isBuildingPanelCollapsed">
 
     <div class="mapping">
         <mapping>Loading...</mapping>

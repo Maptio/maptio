@@ -1,44 +1,6 @@
-<!--<div class="form-group">
-	<label class="control-label" *ngIf="isRoot()">Project</label>
-	<div class="input-group">
-		<span class="input-group-btn">
-						<a class="btn btn-link btn-lg toggle open-node" [ngClass]="{'disabled': !hasChildren() }" *ngIf="!isExpanded() && hasChildren()"
-							(click)="toggleNode(node)"></a>
-						<a class="btn btn-link btn-lg toggle close-node" [ngClass]="{'disabled': !hasChildren() }" *ngIf="isExpanded() && hasChildren()"
-							(click)="toggleNode(node)"></a>
-					</span>
-	
-		<span *ngIf="!isRoot()" class="input-group-addon knurled"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>
-		<input class="form-control input inputNodeName" type="text" [focusif]="node.data.hasFocus" autoselect [ngModel]="node.data.name"
-		 (ngModelChange)="saveNodeName($event, node.data)">
-		<span class="input-group-btn control">
-						
-		<a class="btn add" (click)="addChildNode(node.data)" [attr.data-placement]="PLACEMENT" [attr.data-toggle]="TOGGLE" [attr.title]="'Add sub initiative'"></a>
-
-		<a class="btn remove" *ngIf="!isRoot()" [attr.data-placement]="PLACEMENT" [attr.data-toggle]="TOGGLE" [attr.title]="'Delete initiative and its sub-initiatives'" 
-      mwlConfirmationPopover
-	  title="Remove initiative and sub initiatives ?"
-      placement="top"
-	  focusButton="cancel"
-	  appendToBody="true"
-      (confirm)="removeChildNode(node.data)"
-      (cancel)="cancelClicked = true">
-     
-    </a>
-		<a class="btn edit" *ngIf="!isRoot()"  (click)="openNode(node.data)" [attr.data-placement]="PLACEMENT" [attr.data-toggle]="TOGGLE" [attr.title]="'Edit initiative'"></a>
-
-		<a class="btn zoom" *ngIf="!isRoot()" (click)="zoomInNode(node.data)" [attr.data-placement]="PLACEMENT" [attr.data-toggle]="TOGGLE" [attr.title]="'Zoom'"></a>
-
-		</span>
-
-	</div>
-</div>
--->
-
 <div class="form-group">
-	<label class="form-control-label" *ngIf="isRoot()">Project</label>
+	<!-- <label class="form-control-label" *ngIf="isRoot()">Project</label> -->
 	<div class="input-group">
-		<!--<span class="input-group-btn">-->
 			<span *ngIf="!isRoot()" class="input-group-addon knurled"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>
 		
 <span class="btn-group">
@@ -66,7 +28,7 @@
       (cancel)="cancelClicked = true">
     </a>
 
-		<a class="btn edit" *ngIf="!isRoot()"  (click)="openNode(node.data)" placement="top" container="body" ngbTooltip="Edit initiative"></a>
+		<a class="btn edit" *ngIf="!isRoot()" href="/map/{{datasetId}}/i/{{node.data.getSlug()}}" placement="top" container="body" ngbTooltip="Edit initiative"></a>
 
 		<a class="btn zoom" *ngIf="!isRoot()" (click)="zoomInNode(node.data)" placement="top" container="body" ngbTooltip="Zoom"></a>
 

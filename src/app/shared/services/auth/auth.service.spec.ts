@@ -1,3 +1,6 @@
+import { RouterTestingModule } from "@angular/router/testing";
+import { MailingService } from "./../mailing/mailing.service";
+import { JwtEncoder } from "./../encoding/jwt.service";
 import { Router } from "@angular/router";
 import { User } from "../../model/user.data";
 import { ErrorService } from "../error/error.service";
@@ -23,7 +26,7 @@ describe("auth.service.ts", () => {
                         ;
                     }
                 },
-                Auth, UserFactory,
+                Auth, UserFactory, JwtEncoder, MailingService,
                 { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } },
                 {
                     provide: Http,
@@ -35,7 +38,8 @@ describe("auth.service.ts", () => {
                 MockBackend,
                 BaseRequestOptions,
                 ErrorService
-            ]
+            ],
+            imports: [RouterTestingModule]
         });
 
         localStorage.clear();
@@ -95,7 +99,7 @@ describe("auth.service.ts", () => {
     });
 
     describe("logout", () => {
-        it("should clean remove profile and toek from localStorage", inject([Auth], (auth: Auth) => {
+        it("should clean remove profile and toek from localStorage", inject([Auth, Router], (auth: Auth, router: Router) => {
             localStorage.setItem("profile", "some profile information");
             localStorage.setItem("id_token", "some token");
             expect(localStorage.getItem("profile")).toBeDefined();
@@ -103,12 +107,12 @@ describe("auth.service.ts", () => {
             auth.logout();
             expect(localStorage.getItem("profile")).toBe(null)
             expect(localStorage.getItem("id_token")).toBe(null);
+            expect(router.navigate).toHaveBeenCalled();
         }));
 
-        it("should set userProfile to undefined", inject([Auth], (auth: Auth) => {
-            let spy = spyOn(auth, "clear");
+        it("should redirect to /home", inject([Auth, Router], (auth: Auth, router: Router) => {
             auth.logout();
-            expect(spy).toHaveBeenCalled();
+            expect(router.navigate).toHaveBeenCalledWith(["home"]);
         }));
     });
 });

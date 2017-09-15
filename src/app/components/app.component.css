@@ -1,7 +1,65 @@
-.container {
-padding-right: 15px;
-    padding-left: 15px;
-    margin-right: auto;
-    margin-left: auto;
+
+
+/* Wrapper for page content to push down footer */
+
+#wrap {
+    min-height: 100%;
+    height: 100%;
+    /* Negative indent footer by its height */
+    margin: 0 auto -40px 0;
+    /* Pad bottom by footer height */
+    padding: 0 0 40px 0;
 }
 
+
+/* Set the fixed height of the footer here */
+
+#footer {
+    height: 40px;
+    background-color: #f7f7f7;
+    position: fixed;
+    width: 100%;
+}
+
+#wrap > .center-container {
+    padding: 32px 0 0 0;
+    margin: 0;
+}
+
+#footer > .container {
+    padding-top: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.center-container {
+    height: 100%;
+    background-color: white;
+}
+
+.container-fluid{
+    padding:0;
+    background-color: white;
+}
+
+.center-row {
+    height: 100%;
+    background-color: #f7f7f7;
+    /* background-image: url('/assets/example/bg_cloud.jpg');
+    background-size: cover; */
+    /* color: #fff; */
+}
+
+.center-row .background{
+    background-image: url(/assets/images/home-background.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position-x: center;
+    background-blend-mode: luminosity;
+
+}
+
+.container-fluid .background{
+    background-color: white;
+
+}

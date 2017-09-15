@@ -13,6 +13,17 @@ export class User implements Serializable<User> {
     public name: string;
 
     /**
+     * User firstnmae
+     */
+    public firstname: string;
+
+
+    /**
+     * User last name
+     */
+    public lastname: string;
+
+    /**
      * User nickname
      */
     public nickname: string;
@@ -27,6 +38,20 @@ export class User implements Serializable<User> {
      */
     public picture: string;
 
+    /**
+     * True is activation is pending, false otherwise
+     */
+    public isActivationPending: boolean;
+
+    /**
+     * True is a invitation has been sent to this user, false otherwise
+     */
+    public isInvitationSent: boolean;
+
+    /**
+     * True if the user has been deleted (from Auth0 for instance)
+     */
+    public isDeleted: boolean;
 
     /**
      * List of teams
@@ -42,7 +67,6 @@ export class User implements Serializable<User> {
         Object.assign(this, init);
     }
 
-
     static create(): User {
         return new User();
     }
@@ -53,10 +77,14 @@ export class User implements Serializable<User> {
         }
         let deserialized = new User();
         deserialized.name = input.name;
+        deserialized.firstname = input.firstname || (input.user_metadata ? input.user_metadata.given_name : input.given_name);
+        deserialized.lastname = input.lastname || (input.user_metadata ? input.user_metadata.family_name : input.family_name);
         deserialized.nickname = input.nickname;
         deserialized.email = input.email;
         deserialized.picture = input.picture;
         deserialized.user_id = input.user_id; // specific to Auth0
+        // deserialized.isEmailVerified = input.isEmailVerified || input.email_verified;
+        // deserialized.loginsCount = input.loginsCount || input.logins_count;
         deserialized.teams = [];
         if (input.teams) {
             input.teams.forEach((t: any) => {
@@ -86,4 +114,14 @@ export class User implements Serializable<User> {
             return [false, undefined]
         }
     }
+
+    // getHomePage() {
+    //     if (this.datasets.length === 1) {
+    //         let mapid = this.datasets[0];
+    //         return `/map/${mapid}/me`;
+    //     }
+    //     else {
+    //         return "/home"
+    //     }
+    // }
 }

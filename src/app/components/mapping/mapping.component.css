@@ -10,14 +10,13 @@
 
 .control {
   position: absolute;
-  right: 4%;
-  opacity: 0.8;
-  box-shadow: 1px 1px 6px #888888;
-  top: 20px;
-  /* float: right; */
+  right: 1vw;
+  /* box-shadow: 1px 1px 6px #888888; */
+  top: 6vh;
   margin-right: 1%;
   border-radius: 4px;
-  width: 45px
+  width: 43px;
+  background-color: #f7f7f7;
 }
 
 .control.second {
@@ -52,24 +51,40 @@
   font-family: FontAwesome;
 }
 
-.treeview:before {
-  content: "\f0c0";
-  font-family: FontAwesome;
+.treeview {
+  background: url(/assets/images/treeview.svg) no-repeat;
+  background-size: 20px 20px;
+  background-position: center;
+  height: 50px;
+  padding: 0;
 }
 
-.circleview:before {
-  content: "\f10c";
-  font-family: FontAwesome;
+
+.circleview {
+  background: url(/assets/images/circles.svg) no-repeat;
+  background-size: 20px 20px;
+  background-position: center;
+  height: 50px;
+  padding: 0;
+}
+
+
+
+.options{
+  width: 44px;
 }
 
 .options:before {
-  content: "\f103";
+  content: "\f0d7";
   font-family: FontAwesome;
 }
 
 .first-person-view:before {
-  content: "\f0ae";
+  content: "\f03a";
   font-family: FontAwesome;
+  height: 50px;
+  padding: 0;
+  color:black
 }
 
 .zoom a {
@@ -77,11 +92,11 @@
 }
 
 .vertical {
-    writing-mode: bt-lr;
-    width: 39px;
-    /* height: 22px; */
-    margin-left: 3px;
-    margin-right: 3px;
+  writing-mode: bt-lr;
+  width: 39px;
+  /* height: 22px; */
+  margin-left: 3px;
+  margin-right: 3px;
 }
 
 .control.second > span {

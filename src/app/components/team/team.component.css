@@ -1,7 +1,85 @@
-.member{
+/* .member {
     float: left;
     background: 50% 50% no-repeat;
     background-size: auto 100%;
-    max-width: 22px;
-    border-radius: 18px;
+    width: 70px;
+} */
+
+.member {
+    float: left;
+    background: 50% 50% no-repeat;
+    background-size: auto 100%;
+    width: 45px;
 }
+
+.list-inline-item:not(:last-child) {
+    margin-right: 0;
+}
+
+.card-img-left {
+    border-bottom-left-radius: calc(.25rem - 1px);
+    border-top-left-radius: calc(.25rem - 1px);
+    float: left;
+    padding-right: 1em;
+    margin-bottom: -1.25em;
+}
+
+.panel {
+    background-color: #808C8A;
+    border-color: #808C8A;
+}
+
+.team-list-panel {
+    border-right: 2px solid #eee;
+}
+
+table.tableSection {
+    display: table;
+    width: 100%;
+}
+
+table.tableSection thead, table.tableSection tbody {
+    float: left;
+    width: 100%;
+}
+
+table.tableSection tbody {
+    overflow: auto;
+    height: 61vh;
+}
+
+table.tableSection tr {
+    width: 100%;
+    display: table;
+    text-align: left;
+}
+
+table.tableSection th, table.tableSection td {
+    /* width: 20%; */
+    vertical-align: middle;
+}
+
+table.tableSection th:nth-child(0n+1), table.tableSection td:nth-child(0n+1) {
+    width: 5%;
+}
+
+table.tableSection th:nth-child(0n+2), table.tableSection td:nth-child(0n+2) {
+    width: 5%;
+}
+
+table.tableSection th:nth-child(0n+3), table.tableSection td:nth-child(0n+3) {
+    width: 35%;
+}
+
+table.tableSection th:nth-child(0n+4), table.tableSection td:nth-child(0n+4) {
+    width: 35%;
+}
+
+table.tableSection th:nth-child(0n+5), table.tableSection td:nth-child(0n+5) {
+    width: 10%;
+}
+
+table.tableSection th:nth-child(0n+6), table.tableSection td:nth-child(0n+6) {
+    width: 10%;
+}
+

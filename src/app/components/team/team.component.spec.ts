@@ -38,7 +38,7 @@ export class AuthStub {
     }
 }
 
-describe("team.component.ts", () => {
+xdescribe("team.component.ts", () => {
     let component: TeamComponent;
     let target: ComponentFixture<TeamComponent>;
 

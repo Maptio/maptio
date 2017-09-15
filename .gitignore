@@ -7,4 +7,7 @@ TODO.md
 npm-debug.log
 newrelic_agent.log
 TODO.md
-tokeep
+tokeep.txt
+public/*.js
+public/*.css
+mongo*.json

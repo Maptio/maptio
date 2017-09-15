@@ -1,3 +1,4 @@
+import { Subscription } from "rxjs/Rx";
 import { TeamComponent } from "./../team/team.component";
 import { TeamFactory } from "./../../shared/services/team.factory";
 import { EmitterService } from "./../../shared/services/emitter.service";
@@ -20,70 +21,65 @@ export class AccountComponent implements OnInit {
 
     private user: User;
     public datasets$: Promise<Array<DataSet>>;
-    public teams$: Promise<Array<Team>>
-    private message: string;
+    subscription: Subscription;
 
     @ViewChild(TeamComponent) teamComponent: TeamComponent;
 
-    constructor(private auth: Auth, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private userFactory: UserFactory, private router: Router, private errorService: ErrorService) {
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
+    }
+
+    constructor(private auth: Auth, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private errorService: ErrorService) {
+        this.subscription = this.auth.getUser().subscribe((user: User) => {
+            this.user = user
+
+            // this.datasets$ = Promise
+            //     .all(user.datasets.map(did => this.datasetFactory.get(did)))
+            //     .then((datasets: Array<DataSet>) => {
+            //         return datasets.map(d => {
+            //             // console.log(d.initiative.name, d.initiative)
+            //             // console.log(d.initiative.name, "lloking for ", d.initiative.team_id)
+            //             this.teamFactory.get(d.initiative.team_id).then(team => { d.team = team })
+            //             return d;
+            //         })
+            //     })
+            //     .then((datasets: Array<DataSet>) => {
+            //         return datasets.sort((a: DataSet, b: DataSet) => {
+            //             if (a.initiative.name < b.initiative.name) return -1;
+            //             if (a.initiative.name > b.initiative.name) return 1;
+            //             return 0;
+            //         })
+            //     })
+        },
+            (error: any) => { this.errorService.handleError(error) });
+
 
     }
 
     ngOnInit() {
 
-        this.refresh();
-    }
-
-    private refresh() {
-        this.auth.getUser().subscribe(
-            (user: User) => {
-                this.user = user;
-
-                this.teams$ = Promise.all(
-                    this.user.teams.map(
-                        team_id => this.teamFactory.get(team_id).then((resolved: Team) => { return resolved })
-                    )
-                )
-                    .then(teams => { return teams });
-
-
-                // datasets
-                let ds = new Array<DataSet>();
-                this.user.datasets.forEach(d => {
-                    this.datasetFactory.get(d).then((resolved: DataSet) => {
-                        ds.push(resolved)
-                    })
-                })
-                this.datasets$ = Promise.resolve(ds);
-            },
-            (error: any) => { this.errorService.handleError(error) });
+        // this.refresh();
     }
 
 
-    // open(dataset: DataSet) {
-    //     EmitterService.get("datasetName").emit(dataset.initiative.name);
-    //     this.router.navigate(["workspace", dataset._id]);
+    // getTeam(team_id: string): Promise<Team> {
+    //     return this.teamFactory.get(team_id);
     // }
 
-    deleteDataset(dataset: DataSet) {
-        this.datasetFactory.delete(dataset, this.user).then((result: boolean) => {
-            if (result) {
-                this.message = "Dataset " + dataset.initiative.name + " was successfully deleted";
-            }
-            else {
-                this.errorService.handleError(new Error("Dataset " + dataset.initiative.name + " cannot be deleted"));
-            }
-            this.refresh();
-        });
-    }
+    // private refresh() {
 
-    createNewTeam(teamName: string) {
-        this.teamFactory.create(new Team({ name: teamName, members: [this.user] })).then((team: Team) => {
-            this.user.teams.push(team.team_id);
-            this.userFactory.upsert(this.user).then((result: boolean) => {
+    // }
 
-            }).catch(err => { this.errorService.handleError(err) })
-            this.refresh();
-        }).catch(err => { this.errorService.handleError(err) })
-    }
+    // deleteDataset(dataset: DataSet) {
+    //     this.datasetFactory.delete(dataset, this.user).then((result: boolean) => {
+    //         if (result) {
+    //             this.message = "Dataset " + dataset.initiative.name + " was successfully deleted";
+    //         }
+    //         else {
+    //             this.errorService.handleError(new Error("Dataset " + dataset.initiative.name + " cannot be deleted"));
+    //         }
+    //         this.refresh();
+    //     });
+    // }
+
 }

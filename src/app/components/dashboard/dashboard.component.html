@@ -1,0 +1,27 @@
+<h3 class="text-muted m-1"> My maps</h3>
+
+<div class="overflow">
+    <div class="card-deck mt-3">
+        <div class="col-12">
+            <div class="row mb-3" *ngFor="let dataset of (datasets$ | async)">
+                <div class="card mb-3 ">
+                    <div class="d-flex w-100 justify-content-between card-header">
+                        <h5><a routerLink="/map/{{dataset._id}}"> {{dataset.initiative.name}}</a></h5>
+                        <small class="text-muted">Team <a routerLink="/team/{{dataset.team?.team_id}}">{{dataset.team?.name}}</a></small>
+                    </div>
+                    <div class="card-block">
+                        <small *ngIf="dataset.initiative.children" class="text-muted">Vision held by 
+                                <img class="visionnary rounded-circle" src="{{dataset.initiative.children[0]?.accountable?.picture}}" alt="{{dataset.initiative.children[0]?.accountable?.name}}"
+                                placement="top" container="body" ngbTooltip="{{dataset.initiative.children[0]?.accountable?.name}}"><b> {{dataset.initiative.children[0]?.accountable?.name}}</b> 
+                            </small>
+
+                            <small *ngIf="!dataset.initiative.children" class="text-warning">
+                                No vision holder yet.
+                            </small>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

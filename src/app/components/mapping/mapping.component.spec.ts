@@ -1,4 +1,4 @@
-import { MappingFirstPersonComponent } from './first-person/mapping.first-person.component';
+import { MappingFirstPersonComponent } from "./first-person/mapping.first-person.component";
 import { ActivatedRoute, Params } from "@angular/router";
 import { TooltipComponent } from "./tooltip/tooltip.component";
 import { UIService } from "./../..//shared/services/ui/ui.service";
