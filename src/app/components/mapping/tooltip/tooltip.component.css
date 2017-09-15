@@ -34,7 +34,7 @@
 }
 
 .close{
-  padding: 13px 2px 0px 0px;
+  padding: 13px 2px 0 0;
   background-color: transparent;
   border: 0;
   position: absolute;

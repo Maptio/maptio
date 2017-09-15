@@ -132,6 +132,6 @@ nav{
     height: 56px;
 }
 
-span.navbar-text > a {
+.navbar-text {
     color: #2980b9;
 }
