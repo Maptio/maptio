@@ -36,23 +36,21 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   }
 
-  openHelp() {
-    this.helpComponent.open();
-  }
+
 
   ngAfterViewInit() {
     this.router.events
       .subscribe((event) => {
         if (event instanceof NavigationStart) {
-          
-          this.isHome = event.url.startsWith("/home") ||  event.url === "/"
+
+          this.isHome = event.url.startsWith("/home") || event.url === "/"
           this.loaderService.show();
         }
         else if (
           event instanceof NavigationEnd ||
           event instanceof NavigationCancel
         ) {
-          this.isHome = event.url.startsWith("/home") ||  event.url === "/"
+          this.isHome = event.url.startsWith("/home") || event.url === "/"
           this.loaderService.hide();
         }
       });

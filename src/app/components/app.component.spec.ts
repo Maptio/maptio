@@ -41,12 +41,12 @@ describe("app.component.ts", () => {
 
 
     describe("Controller", () => {
-        it("should open Help modal in openHelp", () => {
+        // it("should open Help modal in openHelp", () => {
 
-            let spy = spyOn(component.helpComponent, "open");
-            component.openHelp();
-            expect(spy).toHaveBeenCalled();
-        });
+        //     let spy = spyOn(component.helpComponent, "open");
+        //     component.openHelp();
+        //     expect(spy).toHaveBeenCalled();
+        // });
 
         it("should display /map in openDataset", () => {
             let mockRouter = target.debugElement.injector.get(Router);

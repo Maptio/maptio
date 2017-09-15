@@ -229,7 +229,7 @@ div.deleted {
   display: inline-block;
 }
 
-div.deleted::before {
+/* div.deleted::before {
   content: '\f05e';
   position: absolute;
   left: 50%;
@@ -243,7 +243,7 @@ div.deleted::before {
   /* border-radius: 5px 5px 5px 5px; */
   /* width: 100%; */
   height: 10%;
-}
+} */
 
 .transparent{
   background-color: transparent !important;
