@@ -14,7 +14,7 @@ export class ColorService implements OnInit {
     constructor(d3Service: D3Service) {
         this.d3 = d3Service.getD3();
         this.FRONT_COLOR = this.d3.hsl(0, 0, 0.99);
-        this.BACK_COLOR = this.d3.hsl(251, 0.38, 0.5);
+        this.BACK_COLOR = this.d3.hsl(204, 0.64, 0.44);
     }
 
     ngOnInit() {
