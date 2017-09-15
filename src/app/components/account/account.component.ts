@@ -21,8 +21,6 @@ export class AccountComponent implements OnInit {
 
     private user: User;
     public datasets$: Promise<Array<DataSet>>;
-    public teams$: Promise<Array<Team>>
-    private message: string;
     subscription: Subscription;
 
     @ViewChild(TeamComponent) teamComponent: TeamComponent;
@@ -31,27 +29,27 @@ export class AccountComponent implements OnInit {
         this.subscription.unsubscribe();
     }
 
-    constructor(private auth: Auth, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private userFactory: UserFactory, private router: Router, private errorService: ErrorService) {
+    constructor(private auth: Auth, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private errorService: ErrorService) {
         this.subscription = this.auth.getUser().subscribe((user: User) => {
             this.user = user
 
-            this.datasets$ = Promise
-                .all(user.datasets.map(did => this.datasetFactory.get(did)))
-                .then((datasets: Array<DataSet>) => {
-                    return datasets.map(d => {
-                        // console.log(d.initiative.name, d.initiative)
-                        // console.log(d.initiative.name, "lloking for ", d.initiative.team_id)
-                        this.teamFactory.get(d.initiative.team_id).then(team => { d.team = team })
-                        return d;
-                    })
-                })
-                .then((datasets: Array<DataSet>) => {
-                    return datasets.sort((a: DataSet, b: DataSet) => {
-                        if (a.initiative.name < b.initiative.name) return -1;
-                        if (a.initiative.name > b.initiative.name) return 1;
-                        return 0;
-                    })
-                })
+            // this.datasets$ = Promise
+            //     .all(user.datasets.map(did => this.datasetFactory.get(did)))
+            //     .then((datasets: Array<DataSet>) => {
+            //         return datasets.map(d => {
+            //             // console.log(d.initiative.name, d.initiative)
+            //             // console.log(d.initiative.name, "lloking for ", d.initiative.team_id)
+            //             this.teamFactory.get(d.initiative.team_id).then(team => { d.team = team })
+            //             return d;
+            //         })
+            //     })
+            //     .then((datasets: Array<DataSet>) => {
+            //         return datasets.sort((a: DataSet, b: DataSet) => {
+            //             if (a.initiative.name < b.initiative.name) return -1;
+            //             if (a.initiative.name > b.initiative.name) return 1;
+            //             return 0;
+            //         })
+            //     })
         },
             (error: any) => { this.errorService.handleError(error) });
 

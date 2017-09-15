@@ -1,3 +1,4 @@
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { SignupComponent } from "./components/login/signup.component";
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
@@ -103,7 +104,8 @@ const appRoutes: Routes = [
     FocusIfDirective,
     AutoSelectDirective,
     AnchorDirective,
-    HelpComponent
+    HelpComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

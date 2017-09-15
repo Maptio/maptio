@@ -1,0 +1,23 @@
+.in:before {
+    content: "";
+    font-family: FontAwesome;
+}
+
+.panel-heading{
+    width:100%
+}
+
+.profile{
+    width: 45px;
+    height: 45px;
+}
+
+.visionnary{
+    width: 25px;
+    height: 25px;
+}
+
+.overflow{
+    max-height: 600px;
+    overflow-y: auto;
+}
