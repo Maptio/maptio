@@ -1,6 +1,7 @@
-.transparent{
-    opacity:0.9;
+.transparent {
+  opacity: 0.9;
 }
+
 
 /*.tooltip{
       margin-left: 0;
@@ -9,23 +10,34 @@
     padding: 10px;
 }*/
 
-.close-button{
-        margin: -4% 0 4px 85%;
+.close-button {
+  margin: -4% 0 4px 85%;
 }
 
-.close-button:before{
-  content:"\f00d";
+.close-button:before {
+  content: "\f00d";
   font-family: FontAwesome;
 }
 
-.hidden{
-    visibility: hidden;
+.hidden {
+  visibility: hidden;
   opacity: 0;
-  transition: visibility 0s, opacity 0.5s linear;
+  /* transition: visibility 0s, opacity 0.5s linear; */
 }
 
- .initative-tooltip {
-      position: absolute;
-      max-width: 33%;
-    }
+.initative-tooltip {
+  position: absolute;
+  max-width: 40%;
+  top: 4vh;
+  left: 45%;
+  opacity: 0.9;
+}
 
+.close{
+  padding: 13px 2px 0px 0px;
+  background-color: transparent;
+  border: 0;
+  position: absolute;
+  /* margin: 0; */
+  /* text-align: right; */
+}
