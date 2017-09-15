@@ -49,7 +49,7 @@ export class InitiativeComponent implements OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes.node.currentValue) {
+        if (changes.node.currentValue && changes.node.currentValue.team_id) {
             this.team = this.teamFactory.get(changes.node.currentValue.team_id).then((team: Team) => {
                 this.members = Promise.all(team.members.map(u => this.userFactory.get(u.user_id)));
                 return team;

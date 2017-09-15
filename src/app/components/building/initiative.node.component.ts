@@ -26,7 +26,7 @@ export class InitiativeNodeComponent {
 
 
     @ViewChild("initiative")
-    initiativeEditComponent: InitiativeComponent;
+    editInitiative: InitiativeComponent;
 
     private snapshotRoute: ActivatedRouteSnapshot
 
@@ -82,7 +82,7 @@ export class InitiativeNodeComponent {
     }
 
     openNode(node: Initiative) {
-        this.router.navigate(["map", this.datasetId, "i", node.getSlug()])
+        // this.router.navigate(["map", this.datasetId, "i", node.getSlug()])
     }
 
     zoomInNode(node: Initiative) {
