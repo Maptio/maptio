@@ -7,12 +7,6 @@ import { ModalComponent } from "ng2-bs3-modal/ng2-bs3-modal";
 })
 export class HelpComponent {
 
-    @ViewChild("helpModal")
-    modal: ModalComponent;
-
     constructor() { }
 
-    open() {
-        this.modal.open();
-    }
 }

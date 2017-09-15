@@ -10,10 +10,9 @@
 
 .control {
   position: absolute;
-  right: 4%;
-  /* opacity: 1; */
+  right: 1vw;
   box-shadow: 1px 1px 6px #888888;
-  top: 20px;
+  top: 6vh;
   margin-right: 1%;
   border-radius: 4px;
   width: 43px;

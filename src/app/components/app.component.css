@@ -6,23 +6,23 @@
     min-height: 100%;
     height: 100%;
     /* Negative indent footer by its height */
-    margin: 0 auto -30px 0;
+    margin: 0 auto -40px 0;
     /* Pad bottom by footer height */
-    padding: 0 0 30px 0;
+    padding: 0 0 40px 0;
 }
 
 
 /* Set the fixed height of the footer here */
 
 #footer {
-    height: 30px;
+    height: 40px;
     background-color: #f7f7f7;
     position: fixed;
     width: 100%;
 }
 
 #wrap > .center-container {
-    padding: 50px 0 0 0;
+    padding: 32px 0 0 0;
     margin: 0;
 }
 
@@ -34,11 +34,12 @@
 
 .center-container {
     height: 100%;
-    background-color: #f7f7f7;
+    background-color: white;
 }
 
 .container-fluid{
     padding:0;
+    background-color: white;
 }
 
 .center-row {
@@ -49,11 +50,16 @@
     /* color: #fff; */
 }
 
-.background{
+.center-row .background{
     background-image: url(/assets/images/home-background.png);
     background-repeat: no-repeat;
     background-size: cover;
     background-position-x: center;
     background-blend-mode: luminosity;
+
+}
+
+.container-fluid .background{
+    background-color: white;
 
 }

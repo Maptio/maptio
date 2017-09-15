@@ -83,6 +83,7 @@ const appRoutes: Routes = [
   { path: "home", component: HomeComponent },
 
   { path: "login", component: LoginComponent },
+  { path: "help", component: HelpComponent },
   { path: "signup", component: SignupComponent },
   { path: "teams", component: TeamsListComponent, canActivate: [AuthGuard] },
   { path: "team/:teamid", component: TeamComponent, canActivate: [AuthGuard, AccessGuard] },

@@ -1,6 +1,5 @@
 .profile-image {
     margin-top: -5px;
-    margin-right: 16px;
     float: left;
     background: 50% 50% no-repeat;
     background-size: auto 100%;
@@ -101,7 +100,7 @@
 /* curious is this the bootstrap overwrite file */
 .navbar {
     
-    min-height: 52px;
+    min-height: 7vh;
     
 }
 
@@ -127,4 +126,8 @@ a.navbar-brand img{
 
 .nav-link{
     padding:0;
+}
+
+nav{
+    height: 56px;
 }
