@@ -59,10 +59,6 @@
   padding: 0;
 }
 
-.treeview:before {
-  /* content: "\f0c0"; */
-  /* font-family: FontAwesome; */
-}
 
 .circleview {
   background: url(/assets/images/circles.svg) no-repeat;
@@ -73,10 +69,6 @@
 }
 
 
-.circleview:before {
-  /* content: "\f10c";
-  font-family: FontAwesome; */
-}
 
 .options{
   width: 44px;

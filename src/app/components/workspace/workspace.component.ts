@@ -1,5 +1,5 @@
-import { Initiative } from './../../shared/model/initiative.data';
-import { DataSet } from './../../shared/model/dataset.data';
+import { Initiative } from "./../../shared/model/initiative.data";
+import { DataSet } from "./../../shared/model/dataset.data";
 import { Team } from "./../../shared/model/team.data";
 import { UserFactory } from "./../../shared/services/user.factory";
 import { TeamFactory } from "./../../shared/services/team.factory";

@@ -127,7 +127,7 @@ export class Auth {
                                         return user;
                                     })
                                     .then((user: User) => {
-                                        window.location.href = "/home"
+                                        this.router.navigateByUrl("/home")
                                     })
                             }
                             else {
@@ -228,7 +228,7 @@ export class Auth {
     }
 
 
-    
+
 
 
     public sendInvite(email: string, userId: string, firstname: string, lastname: string, name: string, teamName: string, invitedBy: string): Promise<boolean> {

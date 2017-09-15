@@ -1,6 +1,6 @@
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { RouterTestingModule } from '@angular/router/testing';
-import { DashboardComponent } from './../dashboard/dashboard.component';
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { RouterTestingModule } from "@angular/router/testing";
+import { DashboardComponent } from "./../dashboard/dashboard.component";
 import { ReactiveFormsModule } from "@angular/forms";
 import { FormsModule } from "@angular/forms";
 import { SignupComponent } from "./../login/signup.component";

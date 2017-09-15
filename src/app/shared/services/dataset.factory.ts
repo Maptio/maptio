@@ -133,7 +133,7 @@ export class DatasetFactory {
     }
 
     private getWithTeam(team: Team): Promise<DataSet[]> {
-        console.log("/api/v1/team/" + team.team_id + "/datasets")
+        // console.log("/api/v1/team/" + team.team_id + "/datasets")
         return this._http.get("/api/v1/team/" + team.team_id + "/datasets")
             .map((responseData) => {
                 return responseData.json();
