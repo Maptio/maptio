@@ -1,3 +1,6 @@
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RouterTestingModule } from '@angular/router/testing';
+import { DashboardComponent } from './../dashboard/dashboard.component';
 import { ReactiveFormsModule } from "@angular/forms";
 import { FormsModule } from "@angular/forms";
 import { SignupComponent } from "./../login/signup.component";
@@ -24,8 +27,8 @@ describe("home.component.ts", () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [HomeComponent, SignupComponent],
-            imports: [ReactiveFormsModule, FormsModule]
+            declarations: [HomeComponent, SignupComponent, DashboardComponent],
+            imports: [ReactiveFormsModule, FormsModule, RouterTestingModule, NgbModule.forRoot()]
         }).overrideComponent(HomeComponent, {
             set: {
                 providers: [

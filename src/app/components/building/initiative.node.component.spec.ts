@@ -62,7 +62,7 @@ describe("initiative.node.component.ts", () => {
             let spyIsRoot = spyOn(component, "isRoot").and.returnValue(true);
             target.detectChanges();
             // console.log(target.debugElement.nativeElement);
-            expect(target.debugElement.query(By.css("label")).nativeElement.innerHTML).toBe("Project");
+            // expect(target.debugElement.query(By.css("label")).nativeElement.innerHTML).toBe("Project");
             expect(target.debugElement.queryAll(By.css("a.toggle.open-node")).length).toBe(1);
             expect(target.debugElement.queryAll(By.css("input.inputNodeName")).length).toBe(1);
             expect(target.debugElement.queryAll(By.css("a.add")).length).toBe(1);
