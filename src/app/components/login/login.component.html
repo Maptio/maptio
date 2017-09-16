@@ -1,6 +1,7 @@
 <div class="mt-3" *ngIf="!isLoggingIn">
     <h2 class="ml-3">Almost there ! Set up a password to finish setting up your profile.</h2>
-    <div class="ml-3">
+    <h6 class="ml-3 text-warning">This is also the occasion to check your first and last name</h6>
+    <div class="ml-3 mt-3">
         <div class="alert alert-danger " role="alert" *ngIf="loginErrorMessage">
             {{loginErrorMessage}}
         </div>
