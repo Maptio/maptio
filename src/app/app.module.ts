@@ -1,5 +1,4 @@
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { SignupComponent } from "./components/login/signup.component";
+
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
@@ -50,7 +49,8 @@ import { FooterComponent } from "./components/footer/footer.component";
 import { HeaderComponent } from "./components/header/header.component";
 
 import { UnauthorizedComponent } from "./components/unauthorized/unauthorized.component";
-import { VerifyEmailComponent } from "./components/unauthorized/verify-email.component";
+import { DashboardComponent } from "./components/dashboard/dashboard.component";
+import { SignupComponent } from "./components/login/signup.component";
 import { LoaderComponent } from "./shared/services/http/loader.component";
 import { LoaderService } from "./shared/services/http/loader.service";
 import { ChangePasswordComponent } from "./components/unauthorized/change-password.component";

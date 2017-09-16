@@ -54,4 +54,25 @@ export class MailingService {
             .then(r => r)
             .catch(this.errorService.handleError);
     }
+
+    public sendConfirmation(from: string, to: string[], url: string): Promise<boolean> {
+
+        let email = {
+            from: from,
+            subject: `Maptio Account Confirmation`,
+            url: url,
+            to: to
+        };
+
+        return this.http.post("/api/v1/confirm", email)
+            .map((responseData) => {
+                return responseData.json();
+            })
+            .map((input: any) => {
+                return input.MessageId !== undefined;
+            })
+            .toPromise()
+            .then(r => r)
+            .catch(this.errorService.handleError);
+    }
 }
