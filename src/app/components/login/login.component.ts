@@ -202,6 +202,9 @@ export class LoginComponent implements OnInit {
                             this.isActivationPending = Promise.resolve(false);
                             this.loader.hide();
                         })
+                        .then(() => {
+                            this.auth.login(email, password)
+                        })
                         .catch((err) => {
                         })
 

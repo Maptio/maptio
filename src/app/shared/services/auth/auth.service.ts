@@ -187,25 +187,6 @@ export class Auth {
         });
     }
 
-    public sendConfirmationEmail(userId: string): Promise<boolean> {
-        // console.log("sendConfirmationEmail")
-        return this.lock.getApiToken().then((token: string) => {
-            let headers = new Headers();
-            headers.set("Authorization", "Bearer " + token);
-            return this.http.post(
-                "https://circlemapping.auth0.com/api/v2/jobs/verification-email",
-                {
-                    "user_id": userId
-                },
-                { headers: headers })
-                .map((responseData) => {
-                    return true;
-                })
-                .toPromise()
-                .then(r => r)
-                .catch(() => { return false });
-        });
-    }
 
     public clear() {
         this.user$.next(undefined);
@@ -258,6 +239,33 @@ export class Auth {
             });
     }
 
+    public sendConfirmation(email: string, userId: string, firstname: string, lastname: string, name: string): Promise<boolean> {
+
+        return Promise.all([
+            this.encodingService.encode({ user_id: userId, email: email, firstname: firstname, lastname: lastname, name: name }),
+            this.lock.getApiToken()]
+        ).then(([userToken, apiToken]: [string, string]) => {
+            let headers = new Headers();
+            headers.set("Authorization", "Bearer " + apiToken);
+            return this.http.post(
+                "https://circlemapping.auth0.com/api/v2/tickets/email-verification",
+                {
+                    "result_url": "http://app.maptio.com/login?token=" + userToken,
+                    "user_id": userId
+                },
+                { headers: headers })
+                .map((responseData) => {
+                    return <string>responseData.json().ticket;
+                }).toPromise()
+        })
+            .then((ticket: string) => {
+                return this.mailing.sendConfirmation("support@maptio.com", [email], ticket)
+            })
+            .then((success: boolean) => {
+                return this.updateActivationPendingStatus(userId, true)
+            });
+    }
+
     public generateUserToken(userId: string, email: string, firstname: string, lastname: string): Promise<string> {
         // console.log("generate user token", email, firstname, lastname)
         return this.encodingService.encode({ user_id: userId, email: email, firstname: firstname, lastname: lastname })
@@ -270,7 +278,7 @@ export class Auth {
             "name": `${firstname} ${lastname}`,
             "password": `${UUID.UUID()}-${UUID.UUID().toUpperCase()}`,
             "email_verified": !isSignUp || true,
-            "verify_email": (isSignUp) ? isSignUp : false,
+            "verify_email": false, // we are always sending our emails (not through Auth0)
             "app_metadata":
             {
                 "activation_pending": true,

@@ -82,13 +82,17 @@ export class SignupComponent implements OnInit {
                     this.auth.createUser(email, firstname, lastname, true)
                         .then((user: User) => {
                             return user;
-                        })
+                        }, (reason) => { return Promise.reject(reason) })
                         .then((user: User) => {
                             // console.log("create user", user)
                             return this.userFactory.create(user)
-                        })
+                        }, (reason) => { return Promise.reject(reason) })
                         .then((user: User) => {
-                            this.isConfirmationEmailSent = true;
+                            return this.auth.sendConfirmation(user.email, user.user_id, user.firstname, user.lastname, user.name)
+                                .then((success: boolean) => {
+                                    this.isConfirmationEmailSent = success
+                                },
+                                (reason) => { this.isConfirmationEmailSent = false; return Promise.reject(reason) })
                         })
                         .catch((error: Error) => {
                             this.signUpMessageFail = `We are having issues creating your account! Please email us at support@maptio.com and we'll help you out. `
@@ -106,7 +110,7 @@ export class SignupComponent implements OnInit {
                 return true;
             }
             if (matches.length > 1) {
-                this.signUpMessageFail = `Several users are registered with this email! Please email us at support@maptio.com and we'll help you out. `
+                this.signUpMessageFail = `Several users are registered with this email! Please email us at support@maptio.com and get some help. `
                 return true;
             }
             return false
