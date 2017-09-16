@@ -85,7 +85,7 @@ export class HeaderComponent implements OnInit {
                         let teams = value[1];
 
                         return datasets.map(d => {
-                            console.log(d)
+                          
                             if (d)
                                 return {
                                     _id: d._id,
