@@ -67,17 +67,17 @@ export class HeaderComponent implements OnInit {
                 let getDataSets = Promise.all(
                     // get all datasets available to this user accross all teams
                     this.user.datasets.map(
-                        dataset_id => this.datasetFactory.get(dataset_id).then((resolved: DataSet) => { return resolved })
+                        dataset_id => this.datasetFactory.get(dataset_id).then(d => d, () => { return Promise.reject("No dataset") }).catch(() => { return undefined})
                     )
                 )
-                    .then(datasets => datasets);
+                    // .then(datasets => datasets);
 
                 this.teams$ = Promise.all(
                     this.user.teams.map(
-                        team_id => this.teamFactory.get(team_id).then((team: Team) => { return team })
+                        team_id => this.teamFactory.get(team_id).then(t => t, () => { return Promise.reject("No team") }).catch(() => {return undefined})
                     )
                 )
-                    .then(teams => { return teams });
+                    // .then(teams => { return teams });
 
                 this.datasets$ = Promise.all([getDataSets, this.teams$])
                     .then((value) => {
@@ -85,13 +85,15 @@ export class HeaderComponent implements OnInit {
                         let teams = value[1];
 
                         return datasets.map(d => {
-                            return {
-                                _id: d._id,
-                                initiative: d.initiative,
-                                name: d.initiative.name,
-                                team_id: d.initiative.team_id,
-                                team: teams.filter(t => t.team_id === d.initiative.team_id)[0]
-                            }
+                            console.log(d)
+                            if (d)
+                                return {
+                                    _id: d._id,
+                                    initiative: d.initiative,
+                                    name: d.initiative.name,
+                                    team_id: d.initiative.team_id,
+                                    team: teams.filter(t => t.team_id === d.initiative.team_id)[0]
+                                }
                         })
                     });
 
@@ -105,7 +107,7 @@ export class HeaderComponent implements OnInit {
 
     goTo(dataset: DataSet) {
         this.selectedDataset = dataset;
-        this.router.navigate(["map", dataset._id, "initiatives"]);
+        if (dataset) this.router.navigate(["map", dataset._id, "initiatives"]);
     }
 
     createTeam(teamName: string) {

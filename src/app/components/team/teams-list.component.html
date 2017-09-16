@@ -14,12 +14,12 @@
 
         <div class="card mb-3 " *ngFor="let team of (teams$ | async)">
             <div class="d-flex w-100 justify-content-between card-header">
-                <h5><a routerLink="/team/{{team.team_id}}"> {{team.name}}</a></h5>
-                <small>{{team.members.length}} members</small>
+                <h5><a routerLink="/team/{{team?.team_id}}"> {{team?.name}}</a></h5>
+                <small>{{team?.members?.length}} members</small>
             </div>
             <div class="card-block">
                 <div class="mb-1 d-flex flex-wrap">
-                    <div *ngFor="let member of team.members" [class.deleted]="member.isDeleted">
+                    <div *ngFor="let member of team?.members" [class.deleted]="member.isDeleted">
                             <img class="rounded-circle member mr-1 mb-1" src="{{member.picture}}" alt="{{member.name}}" 
                             placement="top" container="body" ngbTooltip="{{member.name}}">
                     </div>

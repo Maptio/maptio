@@ -49,24 +49,24 @@ export class TeamsListComponent implements OnInit {
             (user: User) => {
                 this.teams$ = Promise.all(
                     user.teams.map(
-                        team_id => this.teamFactory.get(team_id)
+                        team_id => this.teamFactory.get(team_id).then(t => t, (reason) => { return Promise.reject(reason) }).catch(() => { return undefined })
                     )
                 )
                     .then((teams: Array<Team>) => {
                         teams.forEach(t => {
-
-                            Promise.all(
-                                t.members.map(
-                                    m => this.auth.getUserInfo(m.user_id)
-                                        .then(m => m)
-                                        .catch(() => { m.isDeleted = true; return m })))
-                            .then(members => t.members = members)
+                            if (t)
+                                Promise.all(
+                                    t.members.map(
+                                        m => this.auth.getUserInfo(m.user_id)
+                                            .then(m => m, (reason) => { return Promise.reject(reason) })
+                                            .catch(() => { m.isDeleted = true; return m })))
+                                    .then(members => t.members = members)
 
                         })
                         return teams;
                     })
                     .then((teams: Array<Team>) => {
-                        return teams.sort((a, b) => {
+                        return teams.filter(t => {return t !== undefined}).sort((a, b) => {
                             if (a.name < b.name) return -1;
                             if (a.name > b.name) return 1;
                             return 0;

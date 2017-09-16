@@ -45,8 +45,6 @@ export class TeamFactory {
                 return Team.create().deserialize(response.json());
             })
             .toPromise()
-            .then(r => r)
-            .catch(this.errorService.handleError);
     }
 
     /**
