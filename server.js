@@ -9,7 +9,7 @@ const webpackMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const config = require('./webpack.config.js');
 const sslRedirect = require('heroku-ssl-redirect');
-const apicache = require('apicache')
+// const apicache = require('apicache')
 const helmet = require('helmet')
 
 //const port = isDeveloping ? 3000 : process.env.PORT;
@@ -22,12 +22,23 @@ const app = express(),
   compiler = webpack(config);
 
 app.use(helmet())
-let cache = apicache.middleware
+// let cache = apicache.middleware
 // app.use(cache('1 minute'))
 
 app.use(bodyParser.json());
 // enable ssl redirect
 app.use(sslRedirect());
+
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: ["'self'"],
+    styleSrc: ["'self'", "'unsafe-inline'",'maxcdn.bootstrapcdn.com', 'cdnjs.cloudflare.com','api.mixpanel.com'],
+    scriptSrc: ["'self'", "'unsafe-inline'","'unsafe-eval'", 'maxcdn.bootstrapcdn.com', 'cdnjs.cloudflare.com', 'cdn.auth0.com','api.mixpanel.com', 'cdn.mxpnl.com','www.google-analytics.com'],
+    fontSrc: ['maxcdn.bootstrapcdn.com'],
+    connectSrc: ["'self'",'api.mixpanel.com','circlemapping.auth0.com','www.google-analytics.com'],
+    imgSrc: ['*']
+  }
+}))
 
 
 var datasets = require('./routes/datasets');
