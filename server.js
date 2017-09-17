@@ -10,6 +10,7 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const config = require('./webpack.config.js');
 const sslRedirect = require('heroku-ssl-redirect');
 const apicache = require('apicache')
+const helmet = require('helmet')
 
 //const port = isDeveloping ? 3000 : process.env.PORT;
 
@@ -20,12 +21,14 @@ const app = express(),
   DEFAULT_PORT = 3000,
   compiler = webpack(config);
 
+app.use(helmet())
 let cache = apicache.middleware
 // app.use(cache('1 minute'))
 
 app.use(bodyParser.json());
 // enable ssl redirect
 app.use(sslRedirect());
+
 
 var datasets = require('./routes/datasets');
 var users = require('./routes/users');
