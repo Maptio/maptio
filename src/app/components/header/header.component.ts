@@ -67,17 +67,17 @@ export class HeaderComponent implements OnInit {
                 let getDataSets = Promise.all(
                     // get all datasets available to this user accross all teams
                     this.user.datasets.map(
-                        dataset_id => this.datasetFactory.get(dataset_id).then(d => d, () => { return Promise.reject("No dataset") }).catch(() => { return undefined})
+                        dataset_id => this.datasetFactory.get(dataset_id).then(d => d, () => { return Promise.reject("No dataset") }).catch(() => { return undefined })
                     )
                 )
-                    // .then(datasets => datasets);
+                // .then(datasets => datasets);
 
                 this.teams$ = Promise.all(
                     this.user.teams.map(
-                        team_id => this.teamFactory.get(team_id).then(t => t, () => { return Promise.reject("No team") }).catch(() => {return undefined})
+                        team_id => this.teamFactory.get(team_id).then(t => t, () => { return Promise.reject("No team") }).catch(() => { return undefined })
                     )
                 )
-                    // .then(teams => { return teams });
+                // .then(teams => { return teams });
 
                 this.datasets$ = Promise.all([getDataSets, this.teams$])
                     .then((value) => {
@@ -85,14 +85,14 @@ export class HeaderComponent implements OnInit {
                         let teams = value[1];
 
                         return datasets.map(d => {
-                          
+
                             if (d)
                                 return {
                                     _id: d._id,
                                     initiative: d.initiative,
                                     name: d.initiative.name,
-                                    team_id: d.initiative.team_id,
-                                    team: teams.filter(t => t.team_id === d.initiative.team_id)[0]
+                                    team_id: (d.initiative && d.initiative.team_id) ? d.initiative.team_id : undefined,
+                                    team: (d.initiative && d.initiative.team_id) ? teams.filter(t => t.team_id === d.initiative.team_id)[0] : undefined
                                 }
                         })
                     });

@@ -67,7 +67,7 @@ export class MappingComponent implements OnInit {
     ) {
 
         this.zoom$ = new Subject<number>();
-        this.fontSize$ = new BehaviorSubject<number>(12);
+        this.fontSize$ = new BehaviorSubject<number>(14);
 
         this.subscription = this.route.params.subscribe((params: Params) => {
             this.layout = params["layout"]
