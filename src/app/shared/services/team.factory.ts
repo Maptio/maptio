@@ -40,11 +40,17 @@ export class TeamFactory {
      *  Returns undefined if no user is found
      */
     get(uniqueId: string): Promise<Team> {
-        return this.http.get("/api/v1/team/" + uniqueId)
-            .map((response: Response) => {
-                return Team.create().deserialize(response.json());
-            })
-            .toPromise()
+        if (uniqueId) {
+            return this.http.get("/api/v1/team/" + uniqueId)
+                .map((response: Response) => {
+                    return Team.create().deserialize(response.json());
+                })
+                .toPromise()
+        }
+        else {
+            return Promise.reject("No team_id provided")
+        }
+
     }
 
     /**
@@ -77,10 +83,10 @@ export class TeamFactory {
      */
     upsert(team: Team): Promise<boolean> {
         let transformed = {
-                team_id: team.team_id,
-                name: team.name,
-                members: team.members.map(m => { return { name: m.name, picture: m.picture, user_id: m.user_id, nickname: m.nickname } })
-            };
+            team_id: team.team_id,
+            name: team.name,
+            members: team.members.map(m => { return { name: m.name, picture: m.picture, user_id: m.user_id, nickname: m.nickname } })
+        };
         return this.http.put("/api/v1/team/" + team.team_id, transformed)
             .map((responseData) => {
                 return responseData.json();

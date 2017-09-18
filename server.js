@@ -21,7 +21,21 @@ const app = express(),
   DEFAULT_PORT = 3000,
   compiler = webpack(config);
 
-app.use(helmet())
+if (!isDevelopment) {
+  app.use(helmet())
+  app.use(helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'", 'maxcdn.bootstrapcdn.com', 'cdnjs.cloudflare.com', 'api.mixpanel.com'],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'maxcdn.bootstrapcdn.com', 'cdnjs.cloudflare.com', 'cdn.auth0.com', 'api.mixpanel.com', 'cdn.mxpnl.com', 'www.google-analytics.com'],
+      fontSrc: ['maxcdn.bootstrapcdn.com'],
+      connectSrc: ["'self'", 'api.mixpanel.com', 'circlemapping.auth0.com', 'www.google-analytics.com'],
+      imgSrc: ['*']
+    }
+  }))
+}
+
+
 // let cache = apicache.middleware
 // app.use(cache('1 minute'))
 
@@ -29,16 +43,6 @@ app.use(bodyParser.json());
 // enable ssl redirect
 app.use(sslRedirect());
 
-app.use(helmet.contentSecurityPolicy({
-  directives: {
-    defaultSrc: ["'self'"],
-    styleSrc: ["'self'", "'unsafe-inline'",'maxcdn.bootstrapcdn.com', 'cdnjs.cloudflare.com','api.mixpanel.com'],
-    scriptSrc: ["'self'", "'unsafe-inline'","'unsafe-eval'", 'maxcdn.bootstrapcdn.com', 'cdnjs.cloudflare.com', 'cdn.auth0.com','api.mixpanel.com', 'cdn.mxpnl.com','www.google-analytics.com'],
-    fontSrc: ['maxcdn.bootstrapcdn.com'],
-    connectSrc: ["'self'",'api.mixpanel.com','circlemapping.auth0.com','www.google-analytics.com'],
-    imgSrc: ['*']
-  }
-}))
 
 
 var datasets = require('./routes/datasets');
@@ -74,6 +78,7 @@ if (isDevelopment) {
   app.use(middleware);
   app.use(webpackHotMiddleware(compiler));
   app.get('*', function response(req, res) {
+    // console.log(path.join(__dirname, 'config/public/build/index.html'))
     res.write(middleware.fileSystem.readFileSync(path.join(__dirname, 'config/public/build/index.html')));
     res.end();
   });
