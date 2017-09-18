@@ -69,8 +69,9 @@
                                     Add
                                 </button>
                                 </span>
-                        <span *ngIf="isAlreadyInTeam" class="text-warning">Already added!</span>
                     </div>
+                    <small *ngIf="isAlreadyInTeam" class="form-control-feedback text-warning">Already added!</small>
+                    
                     <small class="form-text">Search for a person in Maptio by email address or enter an email address to invite someone new.</small>
                     <span *ngIf="searching">searching...</span>
 
@@ -84,6 +85,9 @@
                                 <div class="card-text">
                                     <br>
                                     <b>{{userSearched}}</b> ? We don’t know that person.
+                                    <div class="alert alert-danger " role="alert" *ngIf="errorMessage">
+                                        {{errorMessage}}
+                                    </div>
 
                                     <form class="from-group mb-1" [formGroup]="inviteForm" (submit)="createUser(userSearched)">
 

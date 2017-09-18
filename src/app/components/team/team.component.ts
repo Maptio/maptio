@@ -39,6 +39,7 @@ export class TeamComponent implements OnDestroy {
     public isUserSearchedEmail: boolean;
     public isUserChosen: boolean = false;
     public isAlreadyInTeam: boolean = false;
+    public errorMessage: string;
 
     public inviteForm: FormGroup;
 
@@ -144,7 +145,7 @@ export class TeamComponent implements OnDestroy {
                     if (user.isActivationPending) {
                         // console.log("invite", user.email)
                         this.inviteUser(user);
-                        user.isInvitationSent = true; // optimistic update
+                        // user.isInvitationSent = true; // optimistic update
                     }
                     return user;
                 })
@@ -156,6 +157,10 @@ export class TeamComponent implements OnDestroy {
         this.team$.then((team: Team) => {
             // console.log("invite", user.email, user.user_id, user.name, team.name, this.user.name)
             this.auth.sendInvite(user.email, user.user_id, user.firstname, user.lastname, user.name, team.name, this.user.name)
+                .then((isSent) => {
+                    user.isInvitationSent = isSent;
+                }
+                )
         })
     }
 
@@ -194,6 +199,8 @@ export class TeamComponent implements OnDestroy {
                         virtualUser.datasets = datasets.map(d => d._id);
                         // console.log("build virtual user", virtualUser)
                         return virtualUser;
+                    }, (reason) => {
+                        return Promise.reject(`Can't create ${email} : ${reason}`)
                     })
                         .then((user: User) => {
 
@@ -202,6 +209,8 @@ export class TeamComponent implements OnDestroy {
                                 this.inviteUser(user)
                             }
                             return user;
+                        }, (reason) => {
+                            return Promise.reject(`Can't invite ${email} : ${reason}`)
                         })
                         .then((virtualUser: User) => {
                             // console.log("create virtual user", virtualUser)
@@ -217,6 +226,9 @@ export class TeamComponent implements OnDestroy {
                         })
                         .then(() => {
                             this.members$ = this.getAllMembers();
+                        })
+                        .catch((reason) => {
+                            this.errorMessage = reason;
                         })
                 })
             })
