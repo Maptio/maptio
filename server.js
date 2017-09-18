@@ -9,7 +9,8 @@ const webpackMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const config = require('./webpack.config.js');
 const sslRedirect = require('heroku-ssl-redirect');
-// const apicache = require('apicache')
+const compression = require('compression')
+const apicache = require('apicache')
 const helmet = require('helmet')
 
 //const port = isDeveloping ? 3000 : process.env.PORT;
@@ -36,13 +37,13 @@ if (!isDevelopment) {
 }
 
 
-// let cache = apicache.middleware
+ let cache = apicache.middleware
 // app.use(cache('1 minute'))
 
 app.use(bodyParser.json());
 // enable ssl redirect
 app.use(sslRedirect());
-
+app.use(compression())
 
 
 var datasets = require('./routes/datasets');
