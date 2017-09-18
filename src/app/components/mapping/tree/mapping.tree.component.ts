@@ -194,7 +194,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 .attr("class", "accountable")
                 .attr("dy", "5")
                 .attr("x", CIRCLE_RADIUS)
-                .text(function (d: any) { return d.data.accountable ? d.data.accountable.nickname : ""; });
+                .text(function (d: any) { return d.data.accountable ? d.data.accountable.name : ""; });
 
 
             // UPDATE
