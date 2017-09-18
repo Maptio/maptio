@@ -4,19 +4,15 @@ var aws = require("aws-sdk");
 var fs = require("fs");
 var path = require('path');
 var _ = require("lodash");
+require('dotenv').config()
 const isDevelopment = process.env.NODE_ENV !== "production"
-
-let SECRET = "***REMOVED***";
-let KEY = "AKIAI233ZOM542XDBUMQ";
-let AMAZON = "https://email.eu-west-1.amazonaws.com"
-let REGION = "eu-west-1";
 
 let ses = new aws.SES({
     apiVersion: "2010-12-01",
-    accessKeyId: KEY,
-    secretAccessKey: SECRET,
-    region: REGION,
-    endpoint: AMAZON
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    region: process.env.AWS_DEFAULT_REGION,
+    endpoint: process.env.AWS_DEFAULT_ENDPOINT
 });
 
 
