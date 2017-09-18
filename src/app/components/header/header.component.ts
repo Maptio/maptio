@@ -67,14 +67,14 @@ export class HeaderComponent implements OnInit {
                 let getDataSets = Promise.all(
                     // get all datasets available to this user accross all teams
                     this.user.datasets.map(
-                        dataset_id => this.datasetFactory.get(dataset_id).then(d => d, () => { return Promise.reject("No dataset") }).catch(() => { return undefined })
+                        dataset_id => this.datasetFactory.get(dataset_id).then(d => d, () => { return Promise.reject("No dataset") }).catch(() => { return <DataSet>undefined })
                     )
                 )
                 // .then(datasets => datasets);
 
                 this.teams$ = Promise.all(
                     this.user.teams.map(
-                        team_id => this.teamFactory.get(team_id).then(t => t, () => { return Promise.reject("No team") }).catch(() => { return undefined })
+                        team_id => this.teamFactory.get(team_id).then(t => t, () => { return Promise.reject("No team") }).catch(() => { return <Team>undefined })
                     )
                 ).then((teams: Team[]) => {
                     return teams.filter(t => !t)
