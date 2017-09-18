@@ -163,7 +163,7 @@ export class InitiativeComponent implements OnChanges {
             () => this.searching = false);
 
 
-    formatter = (result: User) => { return result.nickname } ;
+    formatter = (result: User) => { return result.name } ;
 }
 
 
