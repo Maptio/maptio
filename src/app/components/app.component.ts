@@ -20,6 +20,7 @@ import { Auth } from "../shared/services/auth/auth.service";
 export class AppComponent implements OnInit, AfterViewInit {
 
   private isHome: boolean;
+  private isMap: boolean;
 
   @ViewChild("help")
   helpComponent: HelpComponent;
@@ -43,7 +44,8 @@ export class AppComponent implements OnInit, AfterViewInit {
       .subscribe((event) => {
         if (event instanceof NavigationStart) {
 
-          this.isHome = event.url.startsWith("/home") || event.url === "/"
+          this.isHome = event.url.startsWith("/home") || event.url === "/";
+          this.isMap = event.url.startsWith("/map")
           this.loaderService.show();
         }
         else if (

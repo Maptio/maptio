@@ -1,5 +1,3 @@
-
-
 /* Wrapper for page content to push down footer */
 
 #wrap {
@@ -37,9 +35,10 @@
     background-color: white;
 }
 
-.container-fluid{
-    padding:0;
+.container-fluid {
+    padding: 0;
     background-color: white;
+    overflow: auto;
 }
 
 .center-row {
@@ -50,16 +49,18 @@
     /* color: #fff; */
 }
 
-.center-row .background{
+.center-row .background {
     background-image: url(/assets/images/home-background.png);
     background-repeat: no-repeat;
     background-size: cover;
     background-position-x: center;
     background-blend-mode: luminosity;
-
 }
 
-.container-fluid .background{
+.container-fluid .background {
     background-color: white;
+}
 
+.container-fluid.overflow-hidden {
+    overflow: hidden;
 }
