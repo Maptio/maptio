@@ -11,3 +11,4 @@ tokeep.txt
 public/*.js
 public/*.css
 mongo*.json
+.env
