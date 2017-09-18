@@ -5,10 +5,10 @@
             <span class="remove text-danger" placement="top" container="body" ngbTooltip="Clear team" (click)="removeTeam()"></span>
         </p>
         <a *ngFor="let user of members | async" class="btn btn-link btn-xs no-padding">
-            <img *ngIf="user?.picture" class="member rounded-circle" src="{{user?.picture}}" alt="{{user?.nickname}}" title="{{user?.nickname}}"
-            placement="top" container="body" ngbTooltip="{{user?.nickname}}">
-            <img *ngIf="!user?.picture" class="member rounded-circle" src="/assets/images/user.jpg" alt="{{user?.nickname}}" title="{{user?.nickname}}"
-            placement="top" container="body" ngbTooltip="{{user?.nickname}}">
+            <img *ngIf="user?.picture" class="member rounded-circle" src="{{user?.picture}}" alt="{{user?.name}}" title="{{user?.name}}"
+            placement="top" container="body" ngbTooltip="{{user?.name}}">
+            <img *ngIf="!user?.picture" class="member rounded-circle" src="/assets/images/user.jpg" alt="{{user?.name}}" title="{{user?.name}}"
+            placement="top" container="body" ngbTooltip="{{user?.name}}">
         </a>
         <a class="btn btn-link btn-xs no-padding" routerLink="/team/{{(team |async)?.team_id}}">
             <i class="fa fa-plus" aria-hidden="true"></i>

@@ -76,7 +76,9 @@ export class HeaderComponent implements OnInit {
                     this.user.teams.map(
                         team_id => this.teamFactory.get(team_id).then(t => t, () => { return Promise.reject("No team") }).catch(() => { return undefined })
                     )
-                )
+                ).then((teams: Team[]) => {
+                    return teams.filter(t => !t)
+                })
                 // .then(teams => { return teams });
 
                 this.datasets$ = Promise.all([getDataSets, this.teams$])
@@ -92,7 +94,7 @@ export class HeaderComponent implements OnInit {
                                     initiative: d.initiative,
                                     name: d.initiative.name,
                                     team_id: (d.initiative && d.initiative.team_id) ? d.initiative.team_id : undefined,
-                                    team: (d.initiative && d.initiative.team_id) ? teams.filter(t => t.team_id === d.initiative.team_id)[0] : undefined
+                                    // team: (d.initiative && d.initiative.team_id) ? teams.filter(t => t.team_id === d.initiative.team_id)[0] : undefined
                                 }
                         })
                     });
