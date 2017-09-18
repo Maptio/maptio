@@ -69,10 +69,12 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.auth.getUser().subscribe((user: User) => {
             this.teams = Promise.all(
                 user.teams.map(
-                    (team_id: string) => this.teamFactory.get(team_id).then((team: Team) => { return team })
+                    (team_id: string) => this.teamFactory.get(team_id).then((team: Team) => { return team }, () => { return Promise.reject("No team") }).catch(() => { return undefined })
                 )
-            )
-                .then(teams => { return teams });
+            ).then((teams: Team[]) => {
+                return teams.filter(t => { console.log(t); return t !== undefined })
+            })
+
         })
 
     }
