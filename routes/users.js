@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var mongojs = require('mongojs');
-var db = mongojs('mongodb://admin:admin@ds143539.mlab.com:43539/heroku_f3v1d9w8', ['users']);
+require('dotenv').config()
+var db = mongojs(process.env.MONGODB_URI, ['users']);
 
 /* GET All users */
 

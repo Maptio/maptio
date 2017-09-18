@@ -1,8 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var jwt = require('jsonwebtoken');
+require('dotenv').config()
 
-let SECRET = Buffer.from(";XH8i7vd\(K%oiODR4.c1-!]gJ=w^~$Nq_~%Y9)jylE/'.{vi/O-[+JnMe*!ehL", "hex");
+let jwtSecret = process.env.JWT_SECRET;
+let SECRET = Buffer.from(jwtSecret, "hex");
 
 
 router.post('/encode', function (req, res, next) {

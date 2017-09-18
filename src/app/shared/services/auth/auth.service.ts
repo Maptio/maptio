@@ -27,39 +27,39 @@ export class Auth {
         public encodingService: JwtEncoder, public mailing: MailingService) {
         this._http = http;
         this.user$ = new Subject();
-        this.lock.getLock().on("authenticated", (authResult: any) => {
-            localStorage.setItem("id_token", authResult.idToken);
+        // this.lock.getLock().on("authenticated", (authResult: any) => {
+        //     localStorage.setItem("id_token", authResult.idToken);
 
-            let pathname_object: any = JSON.parse(authResult.state);
-            let pathname: any = localStorage.getItem(pathname_object.pathname_key) || "";
-            localStorage.removeItem(pathname_object.pathname_key);
+        //     let pathname_object: any = JSON.parse(authResult.state);
+        //     let pathname: any = localStorage.getItem(pathname_object.pathname_key) || "";
+        //     localStorage.removeItem(pathname_object.pathname_key);
 
-            this.lock.getLock().getProfile(authResult.idToken, (error: any, profile: any) => {
-                if (error) {
-                    alert(error);
-                    return;
-                }
+        //     this.lock.getLock().getProfile(authResult.idToken, (error: any, profile: any) => {
+        //         if (error) {
+        //             alert(error);
+        //             return;
+        //         }
 
-                this.setUser(profile).then((isSucess: boolean) => {
-                    if (isSucess) {
-                        this.userFactory.get(profile.user_id)
-                            .then((user: User) => {
-                                this.user$.next(user);
-                                return user;
-                            })
+        //         this.setUser(profile).then((isSucess: boolean) => {
+        //             if (isSucess) {
+        //                 this.userFactory.get(profile.user_id)
+        //                     .then((user: User) => {
+        //                         this.user$.next(user);
+        //                         return user;
+        //                     })
 
-                        this.router.navigate([pathname], {})
-                            .catch((reason: any) => { errorService.handleError(reason) });
-                    }
-                    else {
-                        errorService.handleError("Something has gone wrong ! Try again ?");
-                    }
-                })
+        //                 this.router.navigate([pathname], {})
+        //                     .catch((reason: any) => { errorService.handleError(reason) });
+        //             }
+        //             else {
+        //                 errorService.handleError("Something has gone wrong ! Try again ?");
+        //             }
+        //         })
 
-                this.lock.getLock().hide();
-            });
+        //         this.lock.getLock().hide();
+        //     });
 
-        });
+        // });
     }
 
     public setUser(profile: any): Promise<boolean> {

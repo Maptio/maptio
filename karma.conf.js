@@ -8,11 +8,14 @@ module.exports = function (config) {
             // Libraries
             { pattern: "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" },
             { pattern: "https://cdn.auth0.com/js/lock/10.8/lock.min.js" },
+            // Envrionments
+            { pattern: "./src/environment/*.*" },
             // Application
             { pattern: "./src/app/shared/**/*.*" },
             { pattern: "./src/app/components/**/*.*" },
             // Specs
             { pattern: "./src/test/specs/**/*.*" }
+            
         ],
 
         proxies: {
