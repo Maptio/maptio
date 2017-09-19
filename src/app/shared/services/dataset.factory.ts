@@ -28,7 +28,6 @@ export class DatasetFactory {
             })
             .toPromise()
             .then(r => { return true; })
-            .catch(this.errorService.handleError);
     }
 
 
@@ -43,7 +42,6 @@ export class DatasetFactory {
             })
             .toPromise()
             .then(r => { return true; })
-            .catch(this.errorService.handleError);
     }
 
     /**
@@ -59,8 +57,6 @@ export class DatasetFactory {
                 return DataSet.create().deserialize(response.json());
             })
             .toPromise()
-            .then(r => r)
-            .catch(this.errorService.handleError)
     }
 
 
@@ -76,7 +72,6 @@ export class DatasetFactory {
             })
             .toPromise()
             .then(r => { return true; })
-            .catch(this.errorService.handleError);
     }
 
 
@@ -128,8 +123,6 @@ export class DatasetFactory {
                 return result || [];
             })
             .toPromise()
-            .then(r => r)
-            .catch(this.errorService.handleError);
     }
 
     private getWithTeam(team: Team): Promise<DataSet[]> {
@@ -142,8 +135,6 @@ export class DatasetFactory {
                 return datasets || [];
             })
             .toPromise()
-            .then(r => r)
-            .catch(this.errorService.handleError);
     }
 
     private getWithId(id: string): Promise<DataSet> {
@@ -154,7 +145,5 @@ export class DatasetFactory {
                 return d;
             })
             .toPromise()
-            .then(r => r)
-            .catch(this.errorService.handleError);
     }
 }

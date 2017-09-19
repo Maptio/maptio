@@ -41,7 +41,7 @@ describe("access.guard.ts", () => {
         it("should return true when user is authorized to access a given workspace", inject([AccessGuard, Auth, Router], (target: AccessGuard, mockAuth: AuthStub, mockRouter: Router) => {
             let route = jasmine.createSpyObj<ActivatedRouteSnapshot>("route", ["params"]);
 
-            route.params["workspaceid"] = "id1";
+            route.params["mapid"] = "id1";
             let state = jasmine.createSpyObj<RouterStateSnapshot>("state", [""]);
 
             let spyAuth = spyOn(mockAuth, "getUser").and.returnValue(Observable.of<User>(new User({ name: "John Doe", datasets: ["id1", "id2"] })));
@@ -69,7 +69,7 @@ describe("access.guard.ts", () => {
         it("should return false when user is not authorized to a workspace then redirect to /unauthorized", inject([AccessGuard, Auth, Router], (target: AccessGuard, mockAuth: AuthStub, mockRouter: Router) => {
             let route = jasmine.createSpyObj<ActivatedRouteSnapshot>("route", ["params"]);
 
-            route.params["workspaceid"] = "id3";
+            route.params["mapid"] = "id3";
             let state = jasmine.createSpyObj<RouterStateSnapshot>("state", [""]);
 
             let spyAuth = spyOn(mockAuth, "getUser").and.returnValue(Observable.of<User>(new User({ name: "John Doe", datasets: ["id1", "id2"] })));

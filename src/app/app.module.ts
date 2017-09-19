@@ -32,8 +32,8 @@ import { AppComponent } from "./components/app.component";
 import { MappingComponent } from "./components/mapping/mapping.component";
 import { MappingCirclesComponent } from "./components/mapping/circles/mapping.circles.component";
 import { MappingTreeComponent } from "./components/mapping/tree/mapping.tree.component";
-import { MappingFirstPersonComponent } from "./components/mapping/first-person/mapping.first-person.component";
 import { TooltipComponent } from "./components/mapping/tooltip/tooltip.component";
+import { MemberSummaryComponent } from "./components/mapping/member-summary/member-summary.component";
 
 import { InitiativeComponent } from "./components/initiative/initiative.component"
 import { BuildingComponent } from "./components/building/building.component";
@@ -88,9 +88,11 @@ const appRoutes: Routes = [
   { path: "teams", component: TeamsListComponent, canActivate: [AuthGuard] },
   { path: "team/:teamid", component: TeamComponent, canActivate: [AuthGuard, AccessGuard] },
   { path: "profile", component: AccountComponent, canActivate: [AuthGuard] },
-  { path: "map/:workspaceid", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
-  { path: "map/:workspaceid/:layout", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
-  { path: "map/:workspaceid/i/:slug", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
+  { path: "map/:mapid", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
+
+  { path: "summary/map/:mapid/u/:userid", component: MemberSummaryComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
+  { path: "map/:mapid/:layout", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
+  { path: "map/:mapid/i/:slug", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
 
   { path: "unauthorized", component: UnauthorizedComponent },
   { path: "forgot", component: ChangePasswordComponent }
@@ -99,7 +101,7 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent, TeamComponent,
-    MappingComponent, MappingCirclesComponent, MappingTreeComponent, MappingFirstPersonComponent, TooltipComponent,
+    MappingComponent, MappingCirclesComponent, MappingTreeComponent, MemberSummaryComponent, TooltipComponent,
     BuildingComponent, InitiativeNodeComponent, LoginComponent, HomeComponent, UnauthorizedComponent,
     InitiativeComponent, ChangePasswordComponent, LoaderComponent, TeamsListComponent, SignupComponent,
     FocusIfDirective,

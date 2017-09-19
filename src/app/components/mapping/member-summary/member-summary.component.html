@@ -1,0 +1,72 @@
+<div class="m-3">
+    <h3 class="mt-4">
+        <img class="rounded-circle profile" src="{{(member$ |async)?.picture}}" alt="{{(member$ |async)?.name}}"> {{(member$|async)?.name}}
+        in <a routerLink="/map/{{datasetId}}">{{initiative?.name}}</a></h3>
+
+    <h5><span class="text-muted ml-5">Team </span><a routerLink="/team/{{(team$ | async)?.team_id}}">{{(team$ | async)?.name}}</a>        </h5>
+
+</div>
+
+<div class="row">
+    <div class="col-6">
+        <div class="card borderless">
+            <div class="card-block">
+                <h6 class="card-title">takes responsability for</h6>
+                <div class="list-group">
+                    <div *ngFor="let i of authorities" class=" list-group-item flex-column align-items-start ">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{i.name}}</h5>
+
+                        </div>
+                        <span class="mb-1" *ngIf="(i.helpers?.length !== 0)">with the help of 
+                                <div class="btn-group">
+                                    <a *ngFor="let h of i.helpers" class="btn btn-link btn-xs no-padding" routerLink="/map/{{datasetId}}/summary/{{h.user_id}}">
+                                        <img class="rounded-circle helper" src="{{h.picture}}" alt="{{h.name}}" title="{{h.name}}"
+                                        placement="top" container="body" ngbTooltip="{{h.name}}"
+                                        > 
+                                    </a>
+                                </div>
+                                </span>
+                        <span class="mb-1" *ngIf="(i.helpers?.length === 0)">No helpers</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="card borderless">
+            <div class="card-block">
+                <h6 class="card-title">helps</h6>
+                <div class="list-group">
+                    <div *ngFor="let i of helps" class=" list-group-item flex-column align-items-start ">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{i.name}}</h5>
+
+                        </div>
+                        <span class="mb-1" *ngIf="(i.helpers?.length !== 0)">Authority  
+                                        <a routerLink="/map/{{datasetId}}/summary/{{i.accountable?.user_id}}">
+                                            <img class="rounded-circle authority" src="{{i.accountable?.picture}}" alt="{{i.accountable?.name}}" title="{{i.accountable?.name}}"
+                                            placement="top" container="body" ngbTooltip="{{i.accountable?.name}}">
+                                        </a>
+                                </span>
+
+                        <span class="mb-1" *ngIf="(i.helpers?.length !== 0)">Helpers 
+                                <div class="btn-group">
+                                    <a *ngFor="let h of i.helpers" class="btn btn-link btn-xs no-padding" routerLink="/map/{{datasetId}}/summary/{{h.user_id}}">
+                                        <img class="rounded-circle helper" src="{{h.picture}}" alt="{{h.name}}" title="{{h.name}}"
+                                        placement="top" container="body" ngbTooltip="{{h.name}}"
+                                        >
+                                    </a>
+                                </div>
+                                </span>
+                        <span class="mb-1" *ngIf="(i.helpers?.length === 0)">No helpers</span>
+
+                        <!-- <ul>
+                                    <li *ngFor="let h of i.helpers">{{h.name}}</li>
+                                </ul> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

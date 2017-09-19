@@ -28,7 +28,7 @@ describe("initiative.node.component.ts", () => {
             {
                 provide: ActivatedRoute,
                 useValue: {
-                    params: Observable.of({ workspaceid: 123, slug: "slug" })
+                    params: Observable.of({ mapid: 123, slug: "slug" })
                 }
             },
             NgbTooltipConfig
