@@ -54,8 +54,6 @@ import { SignupComponent } from "./components/login/signup.component";
 import { LoaderComponent } from "./shared/services/http/loader.component";
 import { LoaderService } from "./shared/services/http/loader.service";
 import { ChangePasswordComponent } from "./components/unauthorized/change-password.component";
-import { ActivateAccountComponent } from "./components/activate/activate-account.component";
-
 
 
 // Directives

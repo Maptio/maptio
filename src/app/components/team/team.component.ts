@@ -21,9 +21,6 @@ import * as _ from "lodash"
     styleUrls: ["./team.component.css"]
 })
 export class TeamComponent implements OnDestroy {
-    ngOnDestroy(): void {
-        this.subscription.unsubscribe();
-    }
 
     private team$: Promise<Team>
     private members$: Promise<User[]>;
@@ -32,7 +29,8 @@ export class TeamComponent implements OnDestroy {
     private searching: boolean = false;
     private searchFailed: boolean = false;
     public teamId: string;
-    private subscription: Subscription;
+    private routeSubscription: Subscription;
+    private userSubscription: Subscription;
     // private existingTeamMembers: User[];
     private user: User;
     public userSearched: string;
@@ -47,7 +45,7 @@ export class TeamComponent implements OnDestroy {
 
     constructor(private auth: Auth, private route: ActivatedRoute, private teamFactory: TeamFactory, private userFactory: UserFactory, private datasetFactory: DatasetFactory) {
 
-        this.subscription = this.route.params.subscribe((params: Params) => {
+        this.routeSubscription = this.route.params.subscribe((params: Params) => {
             if (!params["teamid"]) return
             this.teamId = params["teamid"]
             this.team$ = this.teamFactory.get(this.teamId);
@@ -55,7 +53,7 @@ export class TeamComponent implements OnDestroy {
         },
             error => { console.log(error) });
 
-        this.auth.getUser().subscribe((user: User) => {
+        this.userSubscription = this.auth.getUser().subscribe((user: User) => {
             this.user = user;
         })
 
@@ -72,6 +70,15 @@ export class TeamComponent implements OnDestroy {
             ])
         });
 
+    }
+
+    ngOnDestroy() {
+        if (this.routeSubscription) {
+            this.routeSubscription.unsubscribe();
+        }
+        if (this.userSubscription) {
+            this.userSubscription.unsubscribe();
+        }
     }
 
     getAllMembers() {
@@ -295,5 +302,9 @@ export class TeamComponent implements OnDestroy {
             .do(() => this.searching = false);
 
     formatter = (result: User) => `${result.email} (${result.name})`;
+
+    trackByMemberId(index: number, member: User) {
+        return member.user_id;
+    }
 
 }
