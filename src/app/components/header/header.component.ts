@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs/Subscription';
 import { Validators } from "@angular/forms";
 import { FormControl } from "@angular/forms";
 import { FormGroup } from "@angular/forms";
@@ -39,8 +40,11 @@ export class HeaderComponent implements OnInit {
 
     private loginForm: FormGroup;
 
+    private emitterSubscription: Subscription;
+    private userSubscription: Subscription;
+
     constructor(private auth: Auth, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private userFactory: UserFactory, private errorService: ErrorService, private router: Router) {
-        EmitterService.get("currentDataset").subscribe((value: DataSet) => {
+        this.emitterSubscription = EmitterService.get("currentDataset").subscribe((value: DataSet) => {
             this.selectedDataset = value;
         },
             (error: any) => { this.errorService.handleError(error) });
@@ -55,8 +59,17 @@ export class HeaderComponent implements OnInit {
         });
     }
 
+    ngOnDestroy() {
+        if (this.emitterSubscription) {
+            this.emitterSubscription.unsubscribe();
+        }
+        if (this.userSubscription) {
+            this.userSubscription.unsubscribe();
+        }
+    }
+
     ngOnInit() {
-        this.auth.getUser().subscribe(
+        this.userSubscription = this.auth.getUser().subscribe(
             (user: User) => {
 
                 this.user = user;

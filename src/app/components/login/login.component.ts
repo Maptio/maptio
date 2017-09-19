@@ -34,7 +34,8 @@ export class LoginComponent implements OnInit {
     public activateForm: FormGroup;
     public loginForm: FormGroup;
 
-    private subscription: Subscription;
+    private routeSubscription: Subscription;
+    private routeSubscription2: Subscription;
 
     constructor(private auth: Auth, private route: ActivatedRoute, private router: Router, public encoding: JwtEncoder, public formBuilder: FormBuilder, private loader: LoaderService) {
         this.activateForm = new FormGroup({
@@ -64,8 +65,17 @@ export class LoginComponent implements OnInit {
         });
     }
 
+    ngOnDestroy() {
+        if (this.routeSubscription) {
+            this.routeSubscription.unsubscribe();
+        }
+        if (this.routeSubscription2) {
+            this.routeSubscription2.unsubscribe();
+        }
+    }
+
     ngOnInit() {
-        this.route.queryParams.subscribe((params: Params) => {
+        this.routeSubscription = this.route.queryParams.subscribe((params: Params) => {
             let token = params["token"];
             // HACK : wouldbe nicer to have booleans for login attempt cases, but that will do for now
             this.previousAttemptMessage = params["login_message"];
@@ -153,7 +163,7 @@ export class LoginComponent implements OnInit {
             let lastname = this.activateForm.controls["lastname"].value
             let password = this.activateForm.controls["password"].value
 
-            this.route.queryParams.subscribe((params: Params) => {
+            this.routeSubscription2 = this.route.queryParams.subscribe((params: Params) => {
                 let token = params["token"];
                 if (token) {
 

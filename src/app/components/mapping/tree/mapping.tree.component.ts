@@ -1,3 +1,4 @@
+import { Subscription } from "rxjs/Subscription";
 import { Component, OnInit, Input, ViewEncapsulation } from "@angular/core";
 import { D3Service, D3 } from "d3-ng2-service";
 import { ColorService } from "../../../shared/services/ui/color.service"
@@ -22,12 +23,20 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     public zoom$: Observable<number>
     public fontSize$: Observable<number>
 
+    private zoomSubscription: Subscription;
+
     constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService) {
         this.d3 = d3Service.getD3();
     }
 
 
     ngOnInit() {
+    }
+
+    ngOnDestroy() {
+        if (this.zoomSubscription) {
+            this.zoomSubscription.unsubscribe();
+        }
     }
 
     draw(data: any) {
@@ -66,7 +75,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         let svg: any = d3.select("svg").attr("width", viewerWidth)
             .attr("height", viewerHeight).attr("class", "overlay");
 
-          fontSize$.subscribe((fs: number) => {
+        fontSize$.subscribe((fs: number) => {
             svg.attr("font-size", fs + "px")
         })
 
@@ -84,7 +93,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
         }
 
-        zoom$.subscribe((zf: number) => {
+        this.zoomSubscription = zoom$.subscribe((zf: number) => {
             try {
                 // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
                 if (zf) {

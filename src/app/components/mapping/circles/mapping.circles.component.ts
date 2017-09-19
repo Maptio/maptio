@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs/Subscription';
 import { Observable } from "rxjs/Observable";
 import { Component, OnInit, Input, ViewEncapsulation } from "@angular/core";
 import { D3Service, D3, HierarchyCircularNode } from "d3-ng2-service";
@@ -24,7 +25,9 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
 
     public margin: number;
     public zoom$: Observable<number>
-    public fontSize$: Observable<number>
+    public fontSize$: Observable<number>;
+
+    private zoomSubscription: Subscription;
 
     constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService) {
         this.d3 = d3Service.getD3();
@@ -32,6 +35,12 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
 
     ngOnInit() {
 
+    }
+
+    ngOnDestroy() {
+        if (this.zoomSubscription) {
+            this.zoomSubscription.unsubscribe();
+        }
     }
 
     draw(data: any) {
@@ -78,7 +87,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
         }
 
 
-        zoom$.subscribe((zf: number) => {
+        this.zoomSubscription = zoom$.subscribe((zf: number) => {
             try {
                 // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
                 if (zf) {
