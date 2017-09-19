@@ -56,7 +56,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         }
 
         this.uiService.clean();
-        let color = colorService.getDefaulColorRange();
+        // let color = colorService.getDefaulColorRange();
 
         let margins = { top: 0, right: this.margin, bottom: this.margin, left: this.margin }
 
@@ -117,6 +117,12 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         root = d3.hierarchy(data, function (d) { return d.children; });
         root.x0 = viewerHeight;
         root.y0 = 0;
+
+        let depth = 0;
+        root.eachAfter(function (n: any) {
+            depth = (depth > n.depth) ? depth : n.depth;
+        })
+        let color = colorService.getDefaulColorRange(depth);
 
         // Collapse after the second level
         // root.children.forEach(collapse);

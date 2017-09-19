@@ -110,7 +110,6 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
         //     console.log("font", size);
         // })
 
-        let color = colorService.getDefaulColorRange();
 
         let pack = d3.pack()
             .size([diameter - margin, diameter - margin])
@@ -122,6 +121,11 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             .sum(function (d: any) { return 1; }) // all nodes have the same initial size
             .sort(function (a, b) { return b.value - a.value });
 
+        let depth = 0;
+        root.eachAfter(function (n: any) {
+            depth = (depth > n.depth) ? depth : n.depth;
+        })
+        let color = colorService.getDefaulColorRange(depth);
 
         let focus = root,
             nodes = pack(root).descendants(),
