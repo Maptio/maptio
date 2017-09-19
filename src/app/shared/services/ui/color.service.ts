@@ -7,7 +7,7 @@ export class ColorService implements OnInit {
 
     d3: D3;
 
-    FRONT_COLOR: HSLColor ;
+    FRONT_COLOR: HSLColor;
     BACK_COLOR: HSLColor;
 
 
@@ -22,16 +22,17 @@ export class ColorService implements OnInit {
 
     getColorRange(start: HSLColor, end: HSLColor): ScaleLinear<HSLColor, string> {
         return this.d3.scaleLinear<HSLColor, HSLColor>()
-            .domain([-1, 5])
+            .domain([-1, 10])
             .range([start, end])
-            .interpolate(this.d3.interpolateHcl);
+            .interpolate(this.d3.interpolateHsl);
     }
 
-    getDefaulColorRange(): ScaleLinear<HSLColor, string> {
+    getDefaulColorRange(depth: number): ScaleLinear<HSLColor, string> {
         return this.d3.scaleLinear<HSLColor, HSLColor>()
-            .domain([-1, 5])
+            .domain([-1, depth])
+            .interpolate(this.d3.interpolateHcl)
             .range([this.FRONT_COLOR, this.BACK_COLOR])
-            .interpolate(this.d3.interpolateHcl);
+
     }
 
 }

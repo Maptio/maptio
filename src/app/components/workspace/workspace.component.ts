@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs/Rx';
 import { Initiative } from "./../../shared/model/initiative.data";
 import { DataSet } from "./../../shared/model/dataset.data";
 import { Team } from "./../../shared/model/team.data";
@@ -26,7 +27,9 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     public isBuildingPanelCollapsed: boolean = true;
     private datasetId: string;
-    private subscription: any;
+    private emitterSubscription: Subscription;
+    private routeSubscription: Subscription;
+    private userSubscription: Subscription;
 
     public dataset: Promise<DataSet>;
     public members: Promise<Array<User>>;
@@ -34,18 +37,20 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public teams: Promise<Team[]>;
 
     constructor(private auth: Auth, private route: ActivatedRoute, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private userFactory: UserFactory) {
-        this.subscription = EmitterService.get("currentInitiative").subscribe((value: Initiative) => {
+        this.emitterSubscription = EmitterService.get("currentInitiative").subscribe((value: Initiative) => {
             this.datasetFactory.upsert(new DataSet({ _id: this.datasetId, initiative: value }), this.datasetId);
         });
     }
 
     ngOnDestroy(): void {
         EmitterService.get("currentDataset").emit(undefined)
-        this.subscription.unsubscribe();
+        if (this.emitterSubscription) this.emitterSubscription.unsubscribe();
+        if (this.routeSubscription) this.routeSubscription.unsubscribe();
+        if (this.userSubscription) this.userSubscription.unsubscribe();
     }
 
     ngOnInit() {
-        this.route.params.subscribe((params: Params) => {
+        this.routeSubscription = this.route.params.subscribe((params: Params) => {
             this.datasetId = params["workspaceid"];
             let initiativeSlug = params["slug"];
             this.buildingComponent.loadData(this.datasetId, initiativeSlug);
@@ -66,7 +71,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
             })
         });
 
-        this.auth.getUser().subscribe((user: User) => {
+        this.userSubscription = this.auth.getUser().subscribe((user: User) => {
             this.teams = Promise.all(
                 user.teams.map(
                     (team_id: string) => this.teamFactory.get(team_id).then((team: Team) => { return team }, () => { return Promise.reject("No team") }).catch(() => { return undefined })

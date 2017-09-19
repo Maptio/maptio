@@ -15,11 +15,12 @@ import { Team } from "../../shared/model/team.data";
 export class TeamsListComponent implements OnInit {
 
     public user: User;
-    private subscription: Subscription;
+    private routeSubscription: Subscription;
+    private userSubscription: Subscription;
     public teams$: Promise<Array<Team>>;
 
     constructor(private auth: Auth, private teamFactory: TeamFactory, private userFactory: UserFactory) {
-        this.auth.getUser().subscribe((user: User) => {
+        this.userSubscription = this.auth.getUser().subscribe((user: User) => {
             this.user = user;
         })
         this.getTeams();
@@ -30,7 +31,8 @@ export class TeamsListComponent implements OnInit {
     }
 
     ngOnDestroy(): void {
-        this.subscription.unsubscribe();
+        if (this.routeSubscription) this.routeSubscription.unsubscribe();
+        if (this.userSubscription) this.userSubscription.unsubscribe();
     }
 
 
@@ -45,7 +47,7 @@ export class TeamsListComponent implements OnInit {
 
 
     getTeams() {
-        this.subscription = this.auth.getUser().subscribe(
+        this.routeSubscription = this.auth.getUser().subscribe(
             (user: User) => {
                 this.teams$ = Promise.all(
                     user.teams.map(
@@ -66,13 +68,21 @@ export class TeamsListComponent implements OnInit {
                         return teams;
                     })
                     .then((teams: Array<Team>) => {
-                        return teams.filter(t => {return t !== undefined}).sort((a, b) => {
+                        return teams.filter(t => { return t !== undefined }).sort((a, b) => {
                             if (a.name < b.name) return -1;
                             if (a.name > b.name) return 1;
                             return 0;
                         })
                     })
             })
+    }
+
+    trackByMemberId(index: number, member: User) {
+        return member.user_id;
+    }
+
+    trackByTeamId(index: number, team: Team) {
+        return team.team_id;
     }
 
 }

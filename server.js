@@ -38,7 +38,7 @@ if (!isDevelopment) {
 
 
  let cache = apicache.middleware
-// app.use(cache('1 minute'))
+app.use(cache('10 seconds'))
 
 app.use(bodyParser.json());
 // enable ssl redirect

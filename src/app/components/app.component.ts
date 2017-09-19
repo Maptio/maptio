@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs/Subscription';
 import { Observable, Subject } from "rxjs/Rx";
 import { LoaderService } from "./../shared/services/http/loader.service";
 import { EmitterService } from "../shared/services/emitter.service";
@@ -22,6 +23,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   private isHome: boolean;
   private isMap: boolean;
 
+  private routerSubscription: Subscription;
+
   @ViewChild("help")
   helpComponent: HelpComponent;
 
@@ -37,10 +40,12 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   }
 
-
+  ngOnDestroy() {
+    if (this.routerSubscription) this.routerSubscription.unsubscribe()
+  }
 
   ngAfterViewInit() {
-    this.router.events
+    this.routerSubscription = this.router.events
       .subscribe((event) => {
         if (event instanceof NavigationStart) {
 

@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs/Subscription';
 import { UserFactory } from "./../../shared/services/user.factory";
 import { JwtEncoder } from "./../../shared/services/encoding/jwt.service";
 import { ActivatedRoute, Params } from "@angular/router";
@@ -15,10 +16,12 @@ export class HomeComponent implements OnInit {
     public invitedEmail: string;
     public isActivationPending: Promise<boolean>;
 
+    private routeSubscription: Subscription;
+
     constructor(private auth: Auth, private route: ActivatedRoute, public encoding: JwtEncoder) { }
 
     ngOnInit() {
-        this.route.queryParams.subscribe((params: Params) => {
+        this.routeSubscription = this.route.queryParams.subscribe((params: Params) => {
 
             let token = params["token"];
             if (token) {
@@ -32,5 +35,11 @@ export class HomeComponent implements OnInit {
                     })
             }
         })
+    }
+
+    ngOnDestroy() {
+        if (this.routeSubscription) {
+            this.routeSubscription.unsubscribe();
+        }
     }
 }

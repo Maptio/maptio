@@ -45,4 +45,10 @@ export class DashboardComponent implements OnInit {
     }
 
     ngOnInit() { }
+
+    ngOnDestroy() {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
+    }
 }

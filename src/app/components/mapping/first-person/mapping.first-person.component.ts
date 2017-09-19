@@ -2,7 +2,7 @@ import { User } from './../../../shared/model/user.data';
 import { Auth } from "./../../../shared/services/auth/auth.service";
 import { Initiative } from "./../../../shared/model/initiative.data";
 import { D3Service, D3 } from "d3-ng2-service";
-import { Observable } from "rxjs/Rx";
+import { Observable, Subscription } from "rxjs/Rx";
 import { IDataVisualizer } from "./../mapping.interface";
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from "@angular/core";
 import { ColorService } from "../../../shared/services/ui/color.service";
@@ -26,6 +26,8 @@ export class MappingFirstPersonComponent implements OnInit, IDataVisualizer {
     authorities: Array<Initiative> = [];
     helps: Array<Initiative> = [];
 
+    private userSubscription: Subscription;
+
     constructor(public auth: Auth, public cd: ChangeDetectorRef) {
     }
 
@@ -33,8 +35,14 @@ export class MappingFirstPersonComponent implements OnInit, IDataVisualizer {
 
     }
 
+    ngOnDestroy() {
+        if (this.userSubscription) {
+            this.userSubscription.unsubscribe()
+        }
+    }
+
     draw(data: Initiative): void {
-        this.auth.getUser().subscribe((user: User) => {
+        this.userSubscription = this.auth.getUser().subscribe((user: User) => {
             this.user = Promise.resolve(user);
 
             this.user.then((user: User) => {
