@@ -127,7 +127,8 @@ export class Auth {
                                         return user;
                                     })
                                     .then((user: User) => {
-                                        this.router.navigateByUrl("/home")
+                                        let redirectUrl = localStorage.getItem("redirectUrl");
+                                        this.router.navigateByUrl(redirectUrl ? redirectUrl : "/home");
                                     })
                             }
                             else {
@@ -144,6 +145,10 @@ export class Auth {
 
 
 
+    }
+
+    public apiAuthenticated() {
+        return tokenNotExpired("access_token");
     }
 
 
@@ -193,7 +198,6 @@ export class Auth {
     }
 
     public getUser(): Observable<User> {
-
         let profileString = localStorage.getItem("profile");
         // console.log("getUser", profileString)
         if (profileString) {

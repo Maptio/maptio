@@ -11,7 +11,8 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
 
         let url: string = state.url;
-        if (this.auth.authenticated()) {
+
+        if (this.auth.authenticated() && this.auth.apiAuthenticated()) {
             // console.log("authenticated")
             // this.auth.getUser().subscribe((user: User) => {
             //     this.auth.isEmailVerified(user.user_id).then((isEmailVerified: boolean) => {
@@ -24,6 +25,9 @@ export class AuthGuard implements CanActivate, CanActivateChild {
             // })
             return true;
         }
+
+        // if the session is over, lets clear all and start again
+        localStorage.clear();
 
         localStorage.setItem("redirectUrl", url);
         this.router.navigate(["/login"]);
