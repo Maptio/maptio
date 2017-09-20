@@ -350,17 +350,18 @@ describe("building.component.ts", () => {
                 });
 
                 it("should sends data to dataservice", async(() => {
-                let mockDataService = target.debugElement.injector.get(DataService);
+                    let mockDataService = target.debugElement.injector.get(DataService);
 
-                let node1 = new Initiative(), node2 = new Initiative();
-                node1.name = "first", node2.name = "second";
+                    let node1 = new Initiative(), node2 = new Initiative();
+                    node1.name = "first", node2.name = "second";
 
-                component.nodes = [node1, node2];
-                let spy = spyOn(mockDataService, "set");
-                component.saveChanges();
-                expect(spy).toHaveBeenCalledWith(jasmine.objectContaining({ name: "first" }));
+                    component.nodes = [node1, node2];
+                    component.datasetId = "some_id"
+                    let spy = spyOn(mockDataService, "set");
+                    component.saveChanges();
+                    expect(spy).toHaveBeenCalledWith({ initiative: jasmine.objectContaining({ name: "first" }), datasetId: "some_id" });
 
-            }));
+                }));
             });
         });
     });

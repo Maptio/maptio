@@ -1,3 +1,4 @@
+import { Initiative } from './../../shared/model/initiative.data';
 import { ActivatedRoute, Params } from "@angular/router";
 import { TooltipComponent } from "./tooltip/tooltip.component";
 import { UIService } from "./../..//shared/services/ui/ui.service";
@@ -99,7 +100,7 @@ describe("mapping.component.ts", () => {
 
         describe("show", () => {
             it("should instanciate MappingCirclesComponent when layout is 'initiatives'", () => {
-                let DATA = { content: "DATA" };
+                component.data = { initiative: new Initiative({}), datasetId: "some_id" }
                 let mockD3Service = target.debugElement.injector.get(D3Service);
                 let mockColorService = target.debugElement.injector.get(ColorService);
                 let mockUIService = target.debugElement.injector.get(UIService);
@@ -120,7 +121,7 @@ describe("mapping.component.ts", () => {
             });
 
             it("should instanciate MappingTreeComponent when layout is 'people'", () => {
-                let DATA = { content: "DATA" };
+                component.data = { initiative: new Initiative({}), datasetId: "some_id" }
                 let mockD3Service = target.debugElement.injector.get(D3Service);
                 let mockColorService = target.debugElement.injector.get(ColorService);
                 let mockUIService = target.debugElement.injector.get(UIService);

@@ -85,17 +85,17 @@ export class InitiativeNodeComponent {
         // this.router.navigate(["map", this.datasetId, "i", node.getSlug()])
     }
 
-    zoomInNode(node: Initiative) {
-        (<Initiative>this.node.treeModel.nodes[0]).children.forEach(function (i: Initiative) {
-            i.isZoomedOn = false;
-            i.traverse(function (node: Initiative) { node.isZoomedOn = false });
-        });
-        (<Initiative>this.node.treeModel.nodes[0]).isZoomedOn = false;
+    // zoomInNode(node: Initiative) {
+    //     (<Initiative>this.node.treeModel.nodes[0]).children.forEach(function (i: Initiative) {
+    //         i.isZoomedOn = false;
+    //         i.traverse(function (node: Initiative) { node.isZoomedOn = false });
+    //     });
+    //     (<Initiative>this.node.treeModel.nodes[0]).isZoomedOn = false;
 
-        node.isZoomedOn = true;
-        // this.updateDataEvent.emit(this.node.treeModel.nodes);
-        this.edited.emit(true)
-    }
+    //     node.isZoomedOn = true;
+    //     // this.updateDataEvent.emit(this.node.treeModel.nodes);
+    //     this.edited.emit(true)
+    // }
 
 }
 

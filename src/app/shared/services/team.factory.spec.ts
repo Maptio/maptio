@@ -79,6 +79,7 @@ describe("team.factory.ts", () => {
                     expect(connection.request.json()).toEqual({
                         team_id: "id",
                         name: "New",
+                        shortid: jasmine.anything(),
                         members: [
                             { user_id: "1", name: undefined, picture: undefined, nickname: undefined },
                             { user_id: "2", name: "Two", picture: undefined, nickname: undefined },

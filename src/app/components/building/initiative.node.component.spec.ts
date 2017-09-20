@@ -68,7 +68,7 @@ describe("initiative.node.component.ts", () => {
             expect(target.debugElement.queryAll(By.css("a.add")).length).toBe(1);
             expect(target.debugElement.queryAll(By.css("a.remove")).length).toBe(0);
             expect(target.debugElement.queryAll(By.css("a.edit")).length).toBe(0);
-            expect(target.debugElement.queryAll(By.css("a.zoom")).length).toBe(0);
+            // expect(target.debugElement.queryAll(By.css("a.zoom")).length).toBe(0);
 
             expect(spyIsRoot).toHaveBeenCalled();
         });
@@ -82,7 +82,7 @@ describe("initiative.node.component.ts", () => {
             expect(target.debugElement.queryAll(By.css("a.add")).length).toBe(1);
             expect(target.debugElement.queryAll(By.css("a.remove")).length).toBe(1);
             expect(target.debugElement.queryAll(By.css("a.edit")).length).toBe(1);
-            expect(target.debugElement.queryAll(By.css("a.zoom")).length).toBe(1);
+            // expect(target.debugElement.queryAll(By.css("a.zoom")).length).toBe(1);
 
             expect(spyIsRoot).toHaveBeenCalled();
         });
@@ -175,17 +175,17 @@ describe("initiative.node.component.ts", () => {
         //     });
         // });
 
-        describe("Zoom in button", () => {
-            it("should zoom in node when clicked", () => {
-                let spyZoomIn = spyOn(component, "zoomInNode");
-                let button = target.debugElement.query(By.css(".zoom")).nativeElement as HTMLAnchorElement;
+        // describe("Zoom in button", () => {
+        //     it("should zoom in node when clicked", () => {
+        //         let spyZoomIn = spyOn(component, "zoomInNode");
+        //         let button = target.debugElement.query(By.css(".zoom")).nativeElement as HTMLAnchorElement;
 
-                button.dispatchEvent(new Event("click"));
-                target.detectChanges();
+        //         button.dispatchEvent(new Event("click"));
+        //         target.detectChanges();
 
-                expect(spyZoomIn).toHaveBeenCalledWith(component.node.data);
-            });
-        });
+        //         expect(spyZoomIn).toHaveBeenCalledWith(component.node.data);
+        //     });
+        // });
     });
 
     describe("Controller", () => {
@@ -300,21 +300,21 @@ describe("initiative.node.component.ts", () => {
             //     });
             // });
 
-            describe("Zoom in", () => {
-                it("should zoom on the selected node", () => {
-                    node1.isZoomedOn = true;
-                    root.isZoomedOn = true;
+            // describe("Zoom in", () => {
+            //     it("should zoom on the selected node", () => {
+            //         node1.isZoomedOn = true;
+            //         root.isZoomedOn = true;
 
-                    let spyUpdate = spyOn(component.edited, "emit");
+            //         let spyUpdate = spyOn(component.edited, "emit");
 
-                    component.zoomInNode(node2);
+            //         component.zoomInNode(node2);
 
-                    expect(node2.isZoomedOn).toBe(true);
-                    expect(root.isZoomedOn).toBe(false);
-                    expect(node1.isZoomedOn).toBe(false);
-                    expect(spyUpdate).toHaveBeenCalledWith(true);
-                });
-            });
+            //         expect(node2.isZoomedOn).toBe(true);
+            //         expect(root.isZoomedOn).toBe(false);
+            //         expect(node1.isZoomedOn).toBe(false);
+            //         expect(spyUpdate).toHaveBeenCalledWith(true);
+            //     });
+            // });
 
             describe("Edit", () => {
                 it("should save name of selected node", () => {

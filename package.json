@@ -38,7 +38,6 @@
     "@angular/router": "^4.1.1",
     "@ng-bootstrap/ng-bootstrap": "^1.0.0-alpha.27",
     "@types/auth0-js": "^8.6.3",
-    "@types/aws-sdk": "^2.7.0",
     "@types/core-js": "^0.9.39",
     "@types/d3-request": "^1.0.1",
     "@types/d3-tip": "0.0.1",

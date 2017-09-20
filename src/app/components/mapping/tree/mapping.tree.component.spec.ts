@@ -1,4 +1,6 @@
-import { Observable } from 'rxjs/Rx';
+import { Router } from "@angular/router";
+import { RouterTestingModule } from "@angular/router/testing";
+import { Observable } from "rxjs/Rx";
 import { Initiative } from "./../../../shared/model/initiative.data";
 import { UIService } from "./../../../shared/services/ui/ui.service";
 import { ColorService } from "./../../../shared/services/ui/color.service";
@@ -15,9 +17,11 @@ describe("mapping.tree.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
-                D3Service, ColorService, UIService
+                D3Service, ColorService, UIService,
+                { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } }
             ],
-            declarations: [MappingTreeComponent]
+            declarations: [MappingTreeComponent],
+            imports: [RouterTestingModule]
         })
             .compileComponents()
 
@@ -142,7 +146,7 @@ describe("mapping.tree.component.ts", () => {
         expect(nodes.item(2).querySelector("text.accountable").textContent).toBe("CMO");
     });
 
-     it("should draw SVG with correct pictures labels when data is valid", () => {
+    it("should draw SVG with correct pictures labels when data is valid", () => {
         let data = new Initiative().deserialize(fixture.load("data.json"));
 
         component.draw(data);

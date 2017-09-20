@@ -40,7 +40,7 @@ export class MappingComponent implements OnInit {
     TOOLTIP_ZOOM_OUT: string = "Zoom out";
     TOOLTIP_ZOOM_FIT: string = "Zoom fit";
 
-    private data: { initiative: Initiative, datasetId: string };
+    public data: { initiative: Initiative, datasetId: string };
 
 
     // selectedView: number = 0; // Views.Circles // per default;
