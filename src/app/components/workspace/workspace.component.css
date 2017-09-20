@@ -79,7 +79,7 @@
     background-color: rgb(41, 128, 185);
     margin-top: 7vh;
     width: 0;
-    padding: 10px 0 0px 10px;
+    padding: 10px 0 0 10px;
 }
 
 #sideNavTree.showTree {
@@ -100,7 +100,7 @@
     background-color: #EA7317;
     margin-top: 7vh;
     width: 0;
-    padding: 10px 0 0px 10px;
+    padding: 10px 0 0 10px;
     margin-left: 3.5vw;
 }
 
