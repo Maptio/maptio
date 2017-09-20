@@ -33,6 +33,7 @@ export class InitiativeComponent implements OnChanges {
     @Input() node: Initiative;
     @Input() parent: Initiative;
     @Input() isReadOnly: boolean;
+    @Input() datasetId: string;
 
     public team: Promise<Team>;
     public members: Promise<User[]>;
@@ -163,7 +164,7 @@ export class InitiativeComponent implements OnChanges {
             () => this.searching = false);
 
 
-    formatter = (result: User) => { return result.name } ;
+    formatter = (result: User) => { return result.name };
 }
 
 

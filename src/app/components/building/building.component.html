@@ -35,7 +35,7 @@
 		<button type="button" class="close" aria-label="Close" (click)="d(false)">
       <span aria-hidden="trsue">&times;</span>
     </button>
-		<initiative #initiative [node]="openedNode" [parent]="openedNodeParent" (edited)="saveChanges()"></initiative>
+		<initiative #initiative [datasetId]="datasetId" [node]="openedNode" [parent]="openedNodeParent" (edited)="saveChanges()"></initiative>
 	</div>
 	<div class="modal-footer">
 		<button type="button" class="btn btn-success" (click)="c(true)">Save</button>
