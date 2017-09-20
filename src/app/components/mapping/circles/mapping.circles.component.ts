@@ -19,7 +19,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
 
     // @ViewChild("tooltip")
     // public tooltip: TooltipComponent;
-
+    public datasetId: string;
     public width: number;
     public height: number;
 

@@ -18,6 +18,7 @@ import { AnchorDirective } from "../../shared/directives/anchor.directive"
 import "rxjs/add/operator/map"
 import { EmitterService } from "../../shared/services/emitter.service";
 import { Subject, BehaviorSubject, Subscription } from "rxjs/Rx";
+import { Initiative } from "../../shared/model/initiative.data";
 
 @Component({
     selector: "mapping",
@@ -39,7 +40,8 @@ export class MappingComponent implements OnInit {
     TOOLTIP_ZOOM_OUT: string = "Zoom out";
     TOOLTIP_ZOOM_FIT: string = "Zoom fit";
 
-    private data: any;
+    private data: { initiative: Initiative, datasetId: string };
+
 
     // selectedView: number = 0; // Views.Circles // per default;
 
@@ -115,9 +117,10 @@ export class MappingComponent implements OnInit {
         instance.width = 1522; // this.element.nativeElement.parentNode.parentNode.parentNode.offsetHeight;
         instance.height = 1522; // this.element.nativeElement.parentNode.parentNode.parentNode.offsetHeight;
         instance.margin = 50;
+        instance.datasetId = this.data.datasetId;
         instance.zoom$ = this.zoom$.asObservable();
         instance.fontSize$ = this.fontSize$.asObservable();
-        instance.draw(this.data);
+        instance.draw(this.data.initiative);
     }
 
 

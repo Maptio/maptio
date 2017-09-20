@@ -30,6 +30,11 @@
   font-weight: bold;
 }
 
+.accountable:hover{
+  text-decoration: underline;
+}
+
+
 
 image.accountable{
   border: 2px red solid

@@ -2,6 +2,8 @@ import { Observable } from "rxjs/Rx";
 
 export interface IDataVisualizer {
 
+    datasetId:string;
+
     width: number;
 
     height: number;
