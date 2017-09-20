@@ -55,7 +55,8 @@
 								<div  *ngIf="!isAuthority(user)">
 									<label><input  #helper class="inputHelper" type="checkbox" (click)="addHelper(user, helper.checked)" [checked]="isHelper(user)" [disabled]="isAuthority(user) || isReadOnly"  (blur)="onBlur()">
 											<span><img src="{{user.picture}}" width="16" class="rounded-circle">
-											{{user.name}}
+										 <!-- <a routerLink="/summary/map/{{datasetId}}/u/{{user.user_id}}">{{user.name}}</a>	 -->
+										 {{user.name}}
 												</span> </label>
 									
 								</div>

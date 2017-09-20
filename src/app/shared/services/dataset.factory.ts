@@ -8,6 +8,7 @@ import { ErrorService } from "./error/error.service";
 import { User } from "../model/user.data";
 import "rxjs/add/operator/toPromise";
 import { Team } from "../model/team.data";
+import * as shortid from "shortid";
 
 @Injectable()
 export class DatasetFactory {
@@ -28,7 +29,6 @@ export class DatasetFactory {
             })
             .toPromise()
             .then(r => { return true; })
-            .catch(this.errorService.handleError);
     }
 
 
@@ -43,7 +43,6 @@ export class DatasetFactory {
             })
             .toPromise()
             .then(r => { return true; })
-            .catch(this.errorService.handleError);
     }
 
     /**
@@ -51,7 +50,7 @@ export class DatasetFactory {
      * @param dataset Dataset to create
      */
     create(dataset: DataSet): Promise<DataSet> {
-        // console.log(dataset)
+        dataset.shortid = shortid.generate();
         if (!dataset) throw new Error("Parameter missing");
         return this._http.post("/api/v1/dataset", dataset)
             .map((response: Response) => {
@@ -59,8 +58,6 @@ export class DatasetFactory {
                 return DataSet.create().deserialize(response.json());
             })
             .toPromise()
-            .then(r => r)
-            .catch(this.errorService.handleError)
     }
 
 
@@ -76,7 +73,6 @@ export class DatasetFactory {
             })
             .toPromise()
             .then(r => { return true; })
-            .catch(this.errorService.handleError);
     }
 
 
@@ -128,8 +124,6 @@ export class DatasetFactory {
                 return result || [];
             })
             .toPromise()
-            .then(r => r)
-            .catch(this.errorService.handleError);
     }
 
     private getWithTeam(team: Team): Promise<DataSet[]> {
@@ -142,8 +136,6 @@ export class DatasetFactory {
                 return datasets || [];
             })
             .toPromise()
-            .then(r => r)
-            .catch(this.errorService.handleError);
     }
 
     private getWithId(id: string): Promise<DataSet> {
@@ -154,7 +146,5 @@ export class DatasetFactory {
                 return d;
             })
             .toPromise()
-            .then(r => r)
-            .catch(this.errorService.handleError);
     }
 }

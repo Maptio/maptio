@@ -1,4 +1,4 @@
-import { MappingFirstPersonComponent } from "./first-person/mapping.first-person.component";
+import { Initiative } from './../../shared/model/initiative.data';
 import { ActivatedRoute, Params } from "@angular/router";
 import { TooltipComponent } from "./tooltip/tooltip.component";
 import { UIService } from "./../..//shared/services/ui/ui.service";
@@ -38,12 +38,12 @@ describe("mapping.component.ts", () => {
                 {
                     provide: ActivatedRoute,
                     useValue: {
-                        params: Observable.of({ workspaceid: 123, layout: "initiatives" })
+                        params: Observable.of({ mapid: 123, layout: "initiatives" })
                     }
                 }
             ],
             schemas: [NO_ERRORS_SCHEMA],
-            declarations: [MappingComponent, MappingCirclesComponent, MappingTreeComponent, MappingFirstPersonComponent, TooltipComponent, AnchorDirective]
+            declarations: [MappingComponent, MappingCirclesComponent, MappingTreeComponent, TooltipComponent, AnchorDirective]
         })
             .compileComponents()
 
@@ -65,7 +65,7 @@ describe("mapping.component.ts", () => {
                 let mockDataService = target.debugElement.injector.get(DataService);
                 let spyDataService = spyOn(mockDataService, "get").and.returnValue(Observable.of({ name: "some data" }));
                 let spyShow = spyOn(component, "show");
-                // mockRoute.params = Observable.of({ workspaceid: 123, layout: "initiatives" })
+                // mockRoute.params = Observable.of({ mapid: 123, layout: "initiatives" })
 
                 component.ngOnInit();
                 expect(spyDataService).toHaveBeenCalled();
@@ -100,7 +100,7 @@ describe("mapping.component.ts", () => {
 
         describe("show", () => {
             it("should instanciate MappingCirclesComponent when layout is 'initiatives'", () => {
-                let DATA = { content: "DATA" };
+                component.data = { initiative: new Initiative({}), datasetId: "some_id" }
                 let mockD3Service = target.debugElement.injector.get(D3Service);
                 let mockColorService = target.debugElement.injector.get(ColorService);
                 let mockUIService = target.debugElement.injector.get(UIService);
@@ -121,7 +121,7 @@ describe("mapping.component.ts", () => {
             });
 
             it("should instanciate MappingTreeComponent when layout is 'people'", () => {
-                let DATA = { content: "DATA" };
+                component.data = { initiative: new Initiative({}), datasetId: "some_id" }
                 let mockD3Service = target.debugElement.injector.get(D3Service);
                 let mockColorService = target.debugElement.injector.get(ColorService);
                 let mockUIService = target.debugElement.injector.get(UIService);

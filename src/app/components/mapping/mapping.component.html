@@ -5,9 +5,8 @@
       aria-expanded="false" aria-controls="collapseExample"></a>
     <div class="collapse hide" id="collapseExample">
       <div class=" btn-group-vertical ">
-        <a class="btn circleview" routerLink="../initiatives" placement="left" container="body" ngbTooltip="Initiatives map"></a>
-        <a class="btn treeview" routerLink="../people" placement="left" container="body" ngbTooltip="Team view"></a>
-        <a class="btn first-person-view" routerLink="../me" placement="left" container="body" ngbTooltip="My initiatives"></a>
+        <a class="btn circleview" routerLink="/map/{{data?.datasetId}}/initiatives" placement="left" container="body" ngbTooltip="Initiatives map"></a>
+        <a class="btn treeview" routerLink="/map/{{data?.datasetId}}/people" placement="left" container="body" ngbTooltip="Team view"></a>
       </div>
     </div>
 

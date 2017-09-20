@@ -13,22 +13,18 @@ export class JwtEncoder {
     }
 
     public encode(payload: any): Promise<string> {
-        return this.http.post("/api/v1/encode", payload)
+        return this.http.post("/api/v1/jwt/encode", payload)
             .map((responseData) => {
                 return responseData.json().token;
             })
             .toPromise()
-            .then(r => r)
-            .catch(this.errorService.handleError);
     }
 
     public decode(token: string): Promise<any> {
-        return this.http.get("/api/v1/decode/" + token)
-        .map((responseData) => {
-            return responseData.json();
-        })
-        .toPromise()
-        .then(r => r)
-        .catch(this.errorService.handleError);
+        return this.http.get("/api/v1/jwt/decode/" + token)
+            .map((responseData) => {
+                return responseData.json();
+            })
+            .toPromise()
     }
 }

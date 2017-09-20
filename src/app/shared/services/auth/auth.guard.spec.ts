@@ -9,6 +9,8 @@ import { MockBackend } from "@angular/http/testing";
 
 export class AuthStub {
     authenticated() { }
+
+    apiAuthenticated() { }
 }
 
 
@@ -36,11 +38,13 @@ describe("auth.guard.ts", () => {
     })
 
     describe("canActivate", () => {
-        it("should return true when user is authenticated", inject([AuthGuard, Auth, Router], (target: AuthGuard, mockAuth: AuthStub, mockRouter: Router) => {
+        it("should return true when user is authenticated and api is authenticated", inject([AuthGuard, Auth, Router], (target: AuthGuard, mockAuth: AuthStub, mockRouter: Router) => {
             let route = jasmine.createSpyObj("route", [""]);
             let state = jasmine.createSpyObj<RouterStateSnapshot>("state", [""]);
 
             let spyAuth = spyOn(mockAuth, "authenticated").and.returnValue(true);
+
+            let spyApi = spyOn(mockAuth, "apiAuthenticated").and.returnValue(true);
 
             expect(target.canActivate(route, state)).toBe(true);
             expect(spyAuth).toHaveBeenCalled();

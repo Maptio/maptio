@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Subscription } from "rxjs/Subscription";
 import { Component, OnInit, Input, ViewEncapsulation } from "@angular/core";
 import { D3Service, D3 } from "d3-ng2-service";
@@ -16,6 +17,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     private d3: D3;
     public width: number;
 
+    public datasetId: string;
+
     public height: number;
 
     public margin: number;
@@ -25,7 +28,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
     private zoomSubscription: Subscription;
 
-    constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService) {
+    constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService, public router: Router) {
         this.d3 = d3Service.getD3();
     }
 
@@ -48,6 +51,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         let viewerHeight = this.height;
         let zoom$ = this.zoom$;
         let fontSize$ = this.fontSize$;
+        let datasetId = this.datasetId;
+        let router = this.router;
 
         if (!data) {
             // console.log("CLEAN");
@@ -170,7 +175,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 .attr("width", CIRCLE_RADIUS * 2)
                 .attr("height", CIRCLE_RADIUS * 2)
                 .attr("xlink:href", function (d: any) { return d.data.accountable ? d.data.accountable.picture : ""; })
-
                 ;
 
 
@@ -208,8 +212,11 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             nodeEnter.append("text")
                 .attr("class", "accountable")
                 .attr("dy", "5")
-                .attr("x", CIRCLE_RADIUS)
-                .text(function (d: any) { return d.data.accountable ? d.data.accountable.name : ""; });
+                .attr("x", CIRCLE_RADIUS + 4)
+                .text(function (d: any) { return d.data.accountable ? d.data.accountable.name : ""; })
+                .on("click", function (d: any) {
+                    if (d.data.accountable) router.navigateByUrl(`/summary/map/${datasetId}/u/${d.data.accountable.user_id}`)
+                })
 
 
             // UPDATE
