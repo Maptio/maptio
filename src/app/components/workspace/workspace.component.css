@@ -50,8 +50,8 @@
     /* padding-top: 2vh; */
 }
 
-#main.expand {
-    margin-left: 665px;
+#main.showTree {
+    /* margin-left: 665px; */
     transition: 0.5s;
 }
 
@@ -60,7 +60,7 @@
     transition: opacity 0.5s ease-in-out;
 }
 
-#edit-panel.expand{
+#edit-panel.showTree{
     opacity: 1;
     transition: opacity 0.5s ease-in-out;
 }
@@ -75,19 +75,26 @@
     position: fixed;
     left: 0;
     overflow: hidden;
-    padding: 10px;
     transition: 0.5s;
     background-color: rgb(41, 128, 185);
-    
     margin-top: 7vh;
     width: 0;
+    padding: 10px 0 0px 10px;
 }
 
-#mySidenav.expand {
+#mySidenav.showTree {
     background-color: #f7f7f7;
-    width: 665px;
+    width: 45vw;
+    transition: 0.5s ease-in-out;
+    padding: 10px;
+}
+
+#mySidenav.showDetails {
+    background-color: #f7f7f7;
+    width: 92vw;
     transition: 0.5s ease-in-out;
 }
+
 
 
 /* The navigation menu links */
@@ -173,7 +180,11 @@
     margin-left: 4px;
 }
 
-.toggle.expand{
-    margin-left:97%;
-    transition:0.5s;    
+.toggle.showTree{
+    margin-left: 42vw;
+    transition: 0.5s;
+}
+
+.building{
+    padding:0;
 }

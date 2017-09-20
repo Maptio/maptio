@@ -1,3 +1,5 @@
+<button (click)="toggleDetailsPanel()"> Toggle details pabel</button>
+
 <div class="row header">
 
     <div class="btn-group pull-left" *ngIf="team | async">
@@ -26,23 +28,26 @@
 
     </div>
 </div>
-<!-- <div class="edit-map btn-group-vertical" id="edit-map-toggle" onclick="toggleNav()" (click)="toggleBuildingPanel()">
-        <a class="btn">
-                <span class="ml-1">Edit your initiative</span>
-            <i *ngIf="isBuildingPanelCollapsed" class="fa fa-pencil" aria-hidden="true"></i>
-<i *ngIf="!isBuildingPanelCollapsed" class="fa fa-times" aria-hidden="true"></i> 
-        </a>
-    </div> -->
 
-<div id="mySidenav" class="rounded-right" [class.expand]="!isBuildingPanelCollapsed">
-    <a class="btn toggle" (click)="toggleBuildingPanel()" [class.expand]="!isBuildingPanelCollapsed">
+<div id="mySidenav" class="rounded-right" [class.showTree]="!isBuildingPanelCollapsed" [class.showDetails]="!isDetailsPanelCollapsed">
+    <a class="btn toggle" (click)="toggleBuildingPanel()" [class.showTree]="!isBuildingPanelCollapsed">
             <i class="fa" [class.fa-pencil]="isBuildingPanelCollapsed" aria-hidden="true"></i>
             <i class="fa" [class.fa-times]="!isBuildingPanelCollapsed" aria-hidden="true"></i>
     </a>
-    <div id="edit-panel" class="mt-3 ml-1 mr-3" [class.expand]="!isBuildingPanelCollapsed">
-        <building #building>Loading...</building>
+
+    <div id="edit-panel" class="mt-3 ml-1 mr-3 row" [class.showTree]="!isBuildingPanelCollapsed" [class.showDetails]="!isDetailsPanelCollapsed">
+        <div class="col-6 building">
+            <building #building (save)="saveChanges($event)" (openDetails)="openDetails($event)">Loading...</building>
+        </div>
+        <div class="col-6 details" *ngIf="!isDetailsPanelCollapsed">
+            <initiative #initiative [datasetId]="datasetId" [node]="openedNode" [parent]="openedNodeParent" (edited)="saveDetailChanges()"></initiative>
+
+        </div>
     </div>
 </div>
+
+
+
 <div id="main" [class.expand]="!isBuildingPanelCollapsed">
 
     <div class="mapping">

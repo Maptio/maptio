@@ -127,6 +127,7 @@ export class InitiativeComponent implements OnChanges {
             let index = this.node.helpers.findIndex(user => user.user_id === newHelper.user_id);
             this.node.helpers.splice(index, 1);
         }
+        this.onBlur();
     }
 
     filterMembers(term: string): Observable<User[]> {

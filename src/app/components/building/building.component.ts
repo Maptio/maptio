@@ -1,10 +1,11 @@
+import { EventEmitter } from '@angular/core';
 // import { ModalComponent } from "ng2-bs3-modal/ng2-bs3-modal";
 import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { DataSet } from "./../../shared/model/dataset.data";
 import { Initiative } from "./../../shared/model/initiative.data";
 import { Observable } from "rxjs/Rx";
 import { EmitterService } from "./../../shared/services/emitter.service";
-import { Component, ViewChild } from "@angular/core";
+import { Component, ViewChild, Output } from "@angular/core";
 import { InitiativeComponent } from "../initiative/initiative.component";
 import { TreeComponent, TreeNode, IActionMapping, TreeModel, TREE_ACTIONS } from "angular2-tree-component";
 import { DataService } from "../../shared/services/data.service";
@@ -21,8 +22,8 @@ export class BuildingComponent {
 
     searched: string;
     nodes: Array<Initiative>;
-    openedNode: Initiative;
-    openedNodeParent: Initiative;
+    // openedNode: Initiative;
+    // openedNodeParent: Initiative;
 
     fromInitiative: Initiative;
     toInitiative: Initiative;
@@ -64,10 +65,13 @@ export class BuildingComponent {
     @ViewChild("dragConfirmation")
     dragConfirmationModal: NgbModal;
 
-    @ViewChild("initiativeDetails")
-    initiativeDetailsModal: NgbModal;
+    // @ViewChild("initiativeDetails")
+    // initiativeDetailsModal: NgbModal;
 
     datasetId: string;
+
+    @Output("save") save = new EventEmitter<Initiative>();
+    @Output("openDetails") openDetails = new EventEmitter<Initiative>();
 
     constructor(private dataService: DataService, private datasetFactory: DatasetFactory, private modalService: NgbModal) {
         this.nodes = [];
@@ -75,7 +79,8 @@ export class BuildingComponent {
 
     saveChanges() {
         // console.log("building.component.ts", this.nodes[0])
-        EmitterService.get("currentInitiative").emit(this.nodes[0]);
+        // EmitterService.get("currentInitiative").emit(this.nodes[0]);
+        this.save.emit(this.nodes[0]);
         this.dataService.set({ initiative: this.nodes[0], datasetId: this.datasetId });
     }
 
@@ -87,19 +92,23 @@ export class BuildingComponent {
         this.tree.treeModel.update();
     }
 
-    editInitiative(node: Initiative) {
-        this.openedNodeParent = node.getParent(this.nodes[0]);
-        this.openedNode = node;
-        this.modalService.open(this.initiativeDetailsModal);
-        // this.modal.open();
+    openNodeDetails(node: Initiative) {
+        this.openDetails.emit(node)
     }
+
+    // editInitiative(node: Initiative) {
+    //     this.openedNodeParent = node.getParent(this.nodes[0]);
+    //     this.openedNode = node;
+    //     this.modalService.open(this.initiativeDetailsModal);
+    //     // this.modal.open();
+    // }
 
     /**
      * Loads data into workspace
      * @param id Dataset Id
      * @param slugToOpen Slug of initiative to open
      */
-    loadData(id: string, slugToOpen?: string) {
+    loadData(id: string) {
 
         this.datasetFactory.get(id).then(data => {
             this.datasetId = id;
@@ -112,15 +121,15 @@ export class BuildingComponent {
             let initiativeToOpen: Initiative = undefined;
             this.nodes[0].traverse(function (node: Initiative) {
                 node.team_id = defaultTeamId; // For now, the sub initiative are all owned by the same team
-                if (node.getSlug() === slugToOpen) {
-                    initiativeToOpen = node;
-                }
+                // if (node.getSlug() === slugToOpen) {
+                //     initiativeToOpen = node;
+                // }
             });
 
             this.saveChanges();
-            if (initiativeToOpen) {
-                this.editInitiative(initiativeToOpen)
-            }
+            // if (initiativeToOpen) {
+            //     this.editInitiative(initiativeToOpen)
+            // }
 
         });
     }

@@ -24,6 +24,9 @@ export class InitiativeNodeComponent {
     @Output("update") updateTreeEvent = new EventEmitter<TreeModel>();
     // @Output("openSelected") openSelectedEvent = new EventEmitter<Initiative>();
 
+    @Output("open") open = new EventEmitter<Initiative>();
+
+
 
     @ViewChild("initiative")
     editInitiative: InitiativeComponent;
@@ -82,7 +85,7 @@ export class InitiativeNodeComponent {
     }
 
     openNode(node: Initiative) {
-        // this.router.navigate(["map", this.datasetId, "i", node.getSlug()])
+        this.open.emit(node);
     }
 
     // zoomInNode(node: Initiative) {
