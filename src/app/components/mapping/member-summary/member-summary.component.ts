@@ -35,7 +35,7 @@ export class MemberSummaryComponent implements OnInit {
 
     constructor(public auth: Auth, public route: ActivatedRoute, public datasetFactory: DatasetFactory, public userFactory: UserFactory, public teamFactory: TeamFactory) {
         this.routeSubscription = this.route.params.subscribe((params: Params) => {
-            console.log(params)
+            // console.log(params)
             this.datasetId = params["mapid"];
             this.memberId = params["userid"];
             this.member$ = this.userFactory.get(this.memberId);
