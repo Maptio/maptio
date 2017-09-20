@@ -4,6 +4,7 @@ import { Injectable } from "@angular/core";
 import { Http, Response } from "@angular/http";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
+import * as shortid from "shortid";
 
 @Injectable()
 export class TeamFactory {
@@ -58,6 +59,7 @@ export class TeamFactory {
      */
     create(input: Team): Promise<Team> {
         let transformed = {
+            shortid: shortid.generate(),
             team_id: input.team_id,
             name: input.name,
             members: input.members.map(m => { return { name: m.name, picture: m.picture, user_id: m.user_id, nickname: m.nickname } })
@@ -71,8 +73,6 @@ export class TeamFactory {
                 return Team.create().deserialize(input);
             })
             .toPromise()
-            .then(r => r)
-            .catch(this.errorService.handleError);
     }
 
 
@@ -93,6 +93,8 @@ export class TeamFactory {
             })
             .toPromise()
             .then(r => { return true })
-            .catch(this.errorService.handleError);
     }
+
+
+
 }

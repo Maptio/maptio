@@ -5,6 +5,7 @@ import { Injectable } from "@angular/core";
 import { Http, Response } from "@angular/http";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
+import * as shortid from "shortid";
 
 @Injectable()
 export class UserFactory {
@@ -55,6 +56,7 @@ export class UserFactory {
      * Creates a new user
      */
     create(input: User): Promise<User> {
+        input.shortid = shortid.generate();
         return this.http.post("/api/v1/user", input)
             .map((responseData) => {
                 return responseData.json();

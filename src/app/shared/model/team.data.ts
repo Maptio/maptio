@@ -10,6 +10,11 @@ export class Team implements Serializable<Team> {
     public team_id: string;
 
     /**
+     * Team short id (URL friendly)
+     */
+    public shortid: string;
+
+    /**
      * Name of team
      */
     public name: string;
@@ -35,6 +40,7 @@ export class Team implements Serializable<Team> {
         let deserialized = new Team();
         deserialized.name = input.name;
         deserialized.team_id = input._id;
+        deserialized.shortid = input.shortid;
 
         if (input.members) {
             deserialized.members = []

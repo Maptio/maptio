@@ -8,6 +8,11 @@ export class User implements Serializable<User> {
     public user_id: string;
 
     /**
+     * Team short id (URL friendly)
+     */
+    public shortid: string;
+
+    /**
      * User name
      */
     public name: string;
@@ -76,6 +81,7 @@ export class User implements Serializable<User> {
             return undefined;
         }
         let deserialized = new User();
+        deserialized.shortid = input.shortid;
         deserialized.name = input.name;
         deserialized.firstname = input.firstname || (input.user_metadata ? input.user_metadata.given_name : input.given_name);
         deserialized.lastname = input.lastname || (input.user_metadata ? input.user_metadata.family_name : input.family_name);

@@ -4,9 +4,10 @@ import { Serializable } from "./../interfaces/serializable.interface";
 export class DataSet implements Serializable<DataSet> {
 
 
-  // name: string;
-
-  // url: string;
+  /**
+     * Team short id (URL friendly)
+     */
+  public shortid: string;
 
   _id: string;
 
@@ -29,6 +30,7 @@ export class DataSet implements Serializable<DataSet> {
   deserialize(input: any): DataSet {
     if (!input || !input._id) return
     let deserialized = new DataSet();
+    deserialized.shortid = input.shortid;
     deserialized._id = input._id;
     deserialized.initiative = Initiative.create().deserialize(input.initiative || input)
     // deserialized.createdOn = input.createdOn;
