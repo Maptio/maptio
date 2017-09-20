@@ -58,6 +58,8 @@
   height: 40px;
   width:40px;
   padding: 0;
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
 }
 
 
