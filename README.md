@@ -63,7 +63,7 @@ Any `git push` in the `master` branch will triggers the following events :
 
 1. Build and run tests on Travis CI
 2. If pass, analyse on CodeClimate and report test coverage & quality metrics
-3. Deploy to Heroku at `http://maptio.herokuapp.com`
+3. Deploy to Heroku at `https://app.maptio.com`
 
 Each step is logged on our private Slack `maptio.slack.com`.
 
