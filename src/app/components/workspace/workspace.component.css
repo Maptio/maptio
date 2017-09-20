@@ -55,46 +55,64 @@
     transition: 0.5s;
 }
 
-#edit-panel{
-    opacity:0;
-    transition: opacity 0.5s ease-in-out;
+#edit-panel-tree {
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
 }
 
-#edit-panel.showTree{
+#edit-panel-tree.showTree {
     opacity: 1;
-    transition: opacity 0.5s ease-in-out;
+    transition: opacity 0.5s ease-in;
 }
 
 
 /* The side navigation menu */
 
-#mySidenav {
+#sideNavTree {
     height: 90vh;
     max-height: 90vh;
     min-width: 3.5vw;
     position: fixed;
     left: 0;
     overflow: hidden;
-    transition: 0.5s;
+    transition: 0.5s ease-in;
     background-color: rgb(41, 128, 185);
     margin-top: 7vh;
     width: 0;
     padding: 10px 0 0px 10px;
 }
 
-#mySidenav.showTree {
+#sideNavTree.showTree {
     background-color: #f7f7f7;
     width: 45vw;
-    transition: 0.5s ease-in-out;
+    transition: 0.5s ease-in;
     padding: 10px;
 }
 
-#mySidenav.showDetails {
-    background-color: #f7f7f7;
-    width: 92vw;
-    transition: 0.5s ease-in-out;
+#sideNavDetails {
+    height: 90vh;
+    max-height: 90vh;
+    /* min-width: 3.5vw; */
+    position: fixed;
+    left: 0;
+    overflow: hidden;
+    transition: 0.5s ease-in;
+    background-color: #EA7317;
+    margin-top: 7vh;
+    width: 0;
+    padding: 10px 0 0px 10px;
+    margin-left: 3.5vw;
 }
 
+#sideNavDetails.showDetails {
+    width: 45vw;
+    transition: 0.5s ease-in;
+    padding: 10px;
+}
+
+#sideNavDetails.showTree {
+    margin-left: 45vw;
+}
 
 
 /* The navigation menu links */
@@ -170,21 +188,27 @@
     border: 0;
 }
 
+
 /* .toggle-edit:before {
     content: "\f07c";
     font-family: FontAwesome;
 } */
 
-.toggle{
+.toggle {
     padding: 0;
     margin-left: 4px;
 }
 
-.toggle.showTree{
+.toggle.showTree {
     margin-left: 42vw;
     transition: 0.5s;
 }
 
-.building{
-    padding:0;
+.toggle.showDetails {
+    margin-left: 42vw;
+    transition: 0.5s;
+}
+
+.building {
+    padding: 0;
 }

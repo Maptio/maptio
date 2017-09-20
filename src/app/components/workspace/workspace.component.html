@@ -1,5 +1,3 @@
-<button (click)="toggleDetailsPanel()"> Toggle details pabel</button>
-
 <div class="row header">
 
     <div class="btn-group pull-left" *ngIf="team | async">
@@ -29,17 +27,26 @@
     </div>
 </div>
 
-<div id="mySidenav" class="rounded-right" [class.showTree]="!isBuildingPanelCollapsed" [class.showDetails]="!isDetailsPanelCollapsed">
+<div id="sideNavTree" class="" [class.showTree]="!isBuildingPanelCollapsed">
     <a class="btn toggle" (click)="toggleBuildingPanel()" [class.showTree]="!isBuildingPanelCollapsed">
             <i class="fa" [class.fa-pencil]="isBuildingPanelCollapsed" aria-hidden="true"></i>
             <i class="fa" [class.fa-times]="!isBuildingPanelCollapsed" aria-hidden="true"></i>
     </a>
 
-    <div id="edit-panel" class="mt-3 ml-1 mr-3 row" [class.showTree]="!isBuildingPanelCollapsed" [class.showDetails]="!isDetailsPanelCollapsed">
-        <div class="col-6 building">
+    <div id="edit-panel-tree" class="mt-3 ml-1 mr-3 row" [class.showTree]="!isBuildingPanelCollapsed">
+        <div class="building">
             <building #building (save)="saveChanges($event)" (openDetails)="openDetails($event)">Loading...</building>
         </div>
-        <div class="col-6 details" *ngIf="!isDetailsPanelCollapsed">
+    </div>
+</div>
+
+<div id="sideNavDetails" class="rounded-right" [class.showDetails]="!isDetailsPanelCollapsed" [class.showTree]="!isBuildingPanelCollapsed">
+    <a class="btn toggle" (click)="toggleDetailsPanel()" [class.showDetails]="!isDetailsPanelCollapsed">
+                <i class="fa" [class.fa-times]="!isDetailsPanelCollapsed" aria-hidden="true"></i>
+        </a>
+
+    <div id="edit-panel-details" class=" ml-1 showDetails" [class.showDetails]="!isDetailsPanelCollapsed">
+        <div class="details" *ngIf="!isDetailsPanelCollapsed">
             <initiative #initiative [datasetId]="datasetId" [node]="openedNode" [parent]="openedNodeParent" (edited)="saveDetailChanges()"></initiative>
 
         </div>

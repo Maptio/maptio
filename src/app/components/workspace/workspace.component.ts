@@ -25,7 +25,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     @ViewChild("building")
     buildingComponent: BuildingComponent
 
-    public isBuildingPanelCollapsed: boolean = false;
+    public isBuildingPanelCollapsed: boolean = true;
     public isDetailsPanelCollapsed: boolean = true;
     private datasetId: string;
     private emitterSubscription: Subscription;
@@ -140,6 +140,9 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     toggleBuildingPanel() {
         this.isBuildingPanelCollapsed = !this.isBuildingPanelCollapsed;
+        if (this.isBuildingPanelCollapsed) {
+            this.isDetailsPanelCollapsed = true
+        }
     }
 
     toggleDetailsPanel() {

@@ -41,14 +41,14 @@
 			</div>
 		</div>
 
-		<div class="card mb-3">
+		<div class="card mb-3 overflow">
 			<div class="card-block">
 				<h6 class="card-subtitle mb-2 text-muted">Who’s helping with this initiative?
 					<span class="help-popup" placement="top" container="body" ngbTooltip="A source is rarely able to fully manifest their initiative alone. They usually need help.
 						
 						Helpers bring specific ideas and carry out actions to realise the vision"></span>
 				</h6>
-				<div class="form-group row" id="members">
+				<div class="form-group row overflow" id="members">
 					<div class="col-lg-12">
 						<div *ngIf="(team | async)" class="d-flex flex-wrap">
 							<div *ngFor="let user of (members | async)" class="checkbox col-sm-6 small p-1">
