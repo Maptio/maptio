@@ -60,7 +60,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
             let initiativeSlug = params["slug"];
 
             this.dataset = this.datasetFactory.get(this.datasetId).then((d: DataSet) => {
-                console.log(d)
+                // console.log(d)
                 EmitterService.get("currentDataset").emit(d)
                 return d;
             });
@@ -101,9 +101,9 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         // console.log("building.component.ts", this.nodes[0])
         // EmitterService.get("currentInitiative").emit(this.nodes[0]);
         // this.dataService.set({ initiative: this.nodes[0], datasetId: this.datasetId });
-        console.log("saving changes", initiative, this.datasetId);
+        // console.log("saving changes", initiative, this.datasetId);
         this.datasetFactory.upsert(new DataSet({ _id: this.datasetId, initiative: initiative }), this.datasetId).then((hasSaved: boolean) => {
-            console.log(hasSaved)
+            // console.log(hasSaved)
         }, (reason) => { console.log(reason) });
     }
 
