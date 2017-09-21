@@ -1,3 +1,4 @@
+import {repeatValidator } from "./../../shared/directives/equal-validator.directive";
 import { LoaderService } from "./../../shared/services/http/loader.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
@@ -18,6 +19,7 @@ export class SignupComponent implements OnInit {
 
 
     public email: string;
+    public confirmedEmail: string;
     public firstname: string;
     public lastname: string;
     public isTermsAccepted: boolean;
@@ -42,6 +44,9 @@ export class SignupComponent implements OnInit {
             ]),
             "email": new FormControl(this.email, [
                 Validators.required
+            ]),
+            "confirmedEmail": new FormControl(this.confirmedEmail, [
+                Validators.required, repeatValidator("email")
             ]),
             "isTermsAccepted": new FormControl(this.isTermsAccepted, [
                 Validators.requiredTrue
