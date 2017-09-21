@@ -9,7 +9,7 @@
 			<div class="loading"></div>
 		</ng-template>
 		<ng-template #treeNodeTemplate let-node>
-			<initiative-node [node]="node" [datasetId]="datasetId" (edited)="saveChanges()" (update)="updateTreeModel($event)" (open)="openNodeDetails($event)"></initiative-node>
+			<initiative-node [node]="node" [datasetId]="datasetId" (edited)="saveChanges()" (update)="updateTreeModel($event)" (open)="openNodeDetails($event)" (add)="openNodeDetails($event)"></initiative-node>
 		</ng-template>
 	</Tree>
 </div>
