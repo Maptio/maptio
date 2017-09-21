@@ -97,7 +97,7 @@
     left: 0;
     overflow: hidden;
     transition: 0.5s ease-in;
-    background-color: #EA7317;
+    background-color: rgb(41, 128, 185);
     margin-top: 7vh;
     width: 0;
     padding: 10px 0 0 10px;

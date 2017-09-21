@@ -55,7 +55,7 @@ export class InitiativeComponent implements OnChanges {
                 this.members = Promise.all(
                     team.members.map(u => this.userFactory.get(u.user_id)
                         .then(u => u, (reason) => { Promise.reject(reason) })
-                        .catch(() => { })]
+                        .catch(() => { })
                     ))
                     .then((members: User[]) => {
                         return members.sort((a: User, b: User) => {
