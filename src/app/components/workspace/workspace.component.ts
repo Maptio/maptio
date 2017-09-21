@@ -26,6 +26,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     buildingComponent: BuildingComponent
 
     public isBuildingPanelCollapsed: boolean = true;
+    public isDetailsPanelCollapsed: boolean = true;
     private datasetId: string;
     private emitterSubscription: Subscription;
     private routeSubscription: Subscription;
@@ -36,29 +37,34 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public team: Promise<Team>;
     public teams: Promise<Team[]>;
 
+    public openedNode: Initiative;
+    public openedNodeParent: Initiative;
+
     constructor(private auth: Auth, private route: ActivatedRoute, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private userFactory: UserFactory) {
-        this.emitterSubscription = EmitterService.get("currentInitiative").subscribe((value: Initiative) => {
-            this.datasetFactory.upsert(new DataSet({ _id: this.datasetId, initiative: value }), this.datasetId);
-        });
+        // this.emitterSubscription = EmitterService.get("currentInitiative").subscribe((value: Initiative) => {
+        //     console.log(this.datasetId)
+        //     this.datasetFactory.upsert(new DataSet({ _id: this.datasetId, initiative: value }), this.datasetId);
+        // });
     }
 
     ngOnDestroy(): void {
         EmitterService.get("currentDataset").emit(undefined)
-        if (this.emitterSubscription) this.emitterSubscription.unsubscribe();
+        // if (this.emitterSubscription) this.emitterSubscription.unsubscribe();
         if (this.routeSubscription) this.routeSubscription.unsubscribe();
         if (this.userSubscription) this.userSubscription.unsubscribe();
     }
 
     ngOnInit() {
-        this.route.params.subscribe((params: Params) => {
+        this.routeSubscription = this.route.params.subscribe((params: Params) => {
             this.datasetId = params["mapid"];
             let initiativeSlug = params["slug"];
-            this.buildingComponent.loadData(this.datasetId, initiativeSlug);
 
             this.dataset = this.datasetFactory.get(this.datasetId).then((d: DataSet) => {
+                // console.log(d)
                 EmitterService.get("currentDataset").emit(d)
                 return d;
             });
+
 
             this.team = this.dataset.then((dataset: DataSet) => {
                 if (dataset.initiative.team_id)
@@ -68,7 +74,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
             this.members = this.team.then((team: Team) => {
                 if (team)
                     return Promise.all(team.members.map(u => this.userFactory.get(u.user_id)))
-            })
+            });
+
+            this.buildingComponent.loadData(this.datasetId);
+
         });
 
         this.userSubscription = this.auth.getUser().subscribe((user: User) => {
@@ -82,6 +91,20 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
         })
 
+    }
+
+    saveDetailChanges() {
+        this.buildingComponent.saveChanges();
+    }
+
+    saveChanges(initiative: Initiative) {
+        // console.log("building.component.ts", this.nodes[0])
+        // EmitterService.get("currentInitiative").emit(this.nodes[0]);
+        // this.dataService.set({ initiative: this.nodes[0], datasetId: this.datasetId });
+        // console.log("saving changes", initiative, this.datasetId);
+        this.datasetFactory.upsert(new DataSet({ _id: this.datasetId, initiative: initiative }), this.datasetId).then((hasSaved: boolean) => {
+            // console.log(hasSaved)
+        }, (reason) => { console.log(reason) });
     }
 
     addTeamToInitiative(team: Team) {
@@ -117,6 +140,22 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     toggleBuildingPanel() {
         this.isBuildingPanelCollapsed = !this.isBuildingPanelCollapsed;
+        // if (this.isBuildingPanelCollapsed) {
+        //     this.isDetailsPanelCollapsed = true
+        // }
+    }
+
+    toggleDetailsPanel() {
+        this.isDetailsPanelCollapsed = !this.isDetailsPanelCollapsed;
+    }
+
+
+    openDetails(node: Initiative) {
+        this.dataset.then((dataset: DataSet) => {
+            this.openedNodeParent = node.getParent(dataset.initiative);
+            this.openedNode = node;
+            this.isDetailsPanelCollapsed = false;
+        })
     }
 
 }

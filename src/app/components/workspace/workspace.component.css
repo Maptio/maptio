@@ -50,43 +50,68 @@
     /* padding-top: 2vh; */
 }
 
-#main.expand {
-    margin-left: 665px;
+#main.showTree {
+    /* margin-left: 665px; */
     transition: 0.5s;
 }
 
-#edit-panel{
-    opacity:0;
-    transition: opacity 0.5s ease-in-out;
+#edit-panel-tree {
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
 }
 
-#edit-panel.expand{
+#edit-panel-tree.showTree {
     opacity: 1;
-    transition: opacity 0.5s ease-in-out;
+    transition: opacity 0.5s ease-in;
 }
 
 
 /* The side navigation menu */
 
-#mySidenav {
+#sideNavTree {
     height: 90vh;
     max-height: 90vh;
     min-width: 3.5vw;
     position: fixed;
     left: 0;
     overflow: hidden;
-    padding: 10px;
-    transition: 0.5s;
+    transition: 0.5s ease-in;
     background-color: rgb(41, 128, 185);
-    
     margin-top: 7vh;
     width: 0;
+    padding: 10px 0 0 10px;
 }
 
-#mySidenav.expand {
+#sideNavTree.showTree {
     background-color: #f7f7f7;
-    width: 665px;
-    transition: 0.5s ease-in-out;
+    width: 45vw;
+    transition: 0.5s ease-in;
+    padding: 10px;
+}
+
+#sideNavDetails {
+    height: 90vh;
+    max-height: 90vh;
+    /* min-width: 3.5vw; */
+    position: fixed;
+    left: 0;
+    overflow: hidden;
+    transition: 0.5s ease-in;
+    background-color: #EF5E26   ;
+    margin-top: 7vh;
+    width: 0;
+    padding: 10px 0 0 10px;
+    margin-left: 3.5vw;
+}
+
+#sideNavDetails.showDetails {
+    width: 45vw;
+    transition: 0.5s ease-in;
+    padding: 10px;
+}
+
+#sideNavDetails.showTree {
+    margin-left: 45vw;
 }
 
 
@@ -163,17 +188,27 @@
     border: 0;
 }
 
+
 /* .toggle-edit:before {
     content: "\f07c";
     font-family: FontAwesome;
 } */
 
-.toggle{
+.toggle {
     padding: 0;
     margin-left: 4px;
 }
 
-.toggle.expand{
-    margin-left:97%;
-    transition:0.5s;    
+.toggle.showTree {
+    margin-left: 42vw;
+    transition: 0.5s;
+}
+
+.toggle.showDetails {
+    margin-left: 42vw;
+    transition: 0.5s;
+}
+
+.building {
+    padding: 0;
 }

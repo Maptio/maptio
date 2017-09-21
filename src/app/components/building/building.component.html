@@ -9,7 +9,7 @@
 			<div class="loading"></div>
 		</ng-template>
 		<ng-template #treeNodeTemplate let-node>
-			<initiative-node [node]="node" [datasetId]="datasetId" (edited)="saveChanges()" (update)="updateTreeModel($event)"></initiative-node>
+			<initiative-node [node]="node" [datasetId]="datasetId" (edited)="saveChanges()" (update)="updateTreeModel($event)" (open)="openNodeDetails($event)" (add)="openNodeDetails($event)"></initiative-node>
 		</ng-template>
 	</Tree>
 </div>
@@ -26,11 +26,7 @@
 	</modal-footer>
 </modal> -->
 
-<ng-template #initiativeDetails let-c="close" let-d="dismiss">
-	<!-- <div class="modal-header">
-		<h4 class="modal-title">{{openedNode?.name}}</h4>
-		
-	</div> -->
+<!-- <ng-template #initiativeDetails let-c="close" let-d="dismiss">
 	<div class="modal-body">
 		<button type="button" class="close" aria-label="Close" (click)="d(false)">
       <span aria-hidden="trsue">&times;</span>
@@ -41,7 +37,7 @@
 		<button type="button" class="btn btn-success" (click)="c(true)">Save</button>
 
 	</div>
-</ng-template>
+</ng-template> -->
 
 <ng-template #dragConfirmation let-c="close" let-d="dismiss">
 	<div class="modal-header">

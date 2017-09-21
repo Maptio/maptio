@@ -52,7 +52,18 @@ export class InitiativeComponent implements OnChanges {
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.node.currentValue && changes.node.currentValue.team_id) {
             this.team = this.teamFactory.get(changes.node.currentValue.team_id).then((team: Team) => {
-                this.members = Promise.all(team.members.map(u => this.userFactory.get(u.user_id)));
+                this.members = Promise.all(
+                    team.members.map(u => this.userFactory.get(u.user_id)
+                        .then(u => u, (reason) => { Promise.reject(reason) })
+                        .catch(() => { })
+                    ))
+                    .then((members: User[]) => {
+                        return members.sort((a: User, b: User) => {
+                            if (a.name < b.name) return 1;
+                            if (a.name > b.name) return -1
+                            return 0;
+                        })
+                    })
                 return team;
             })
             // this.possibleHelpers = this.team.then((team: Team) => {
@@ -127,6 +138,7 @@ export class InitiativeComponent implements OnChanges {
             let index = this.node.helpers.findIndex(user => user.user_id === newHelper.user_id);
             this.node.helpers.splice(index, 1);
         }
+        this.onBlur();
     }
 
     filterMembers(term: string): Observable<User[]> {

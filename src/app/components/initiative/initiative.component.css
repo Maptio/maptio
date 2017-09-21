@@ -21,3 +21,8 @@ span.help-popup {
 .transparent{
     background: transparent;
 }
+
+.overflow{
+    max-height: 36vh;
+    overflow-y: auto;
+}

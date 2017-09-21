@@ -81,7 +81,7 @@ display: flex;
 }
 
 .remove:before {
-    content: "\f068";
+    content: "\f1f8";
     font-family: FontAwesome;
 }
 
