@@ -140,9 +140,9 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     toggleBuildingPanel() {
         this.isBuildingPanelCollapsed = !this.isBuildingPanelCollapsed;
-        if (this.isBuildingPanelCollapsed) {
-            this.isDetailsPanelCollapsed = true
-        }
+        // if (this.isBuildingPanelCollapsed) {
+        //     this.isDetailsPanelCollapsed = true
+        // }
     }
 
     toggleDetailsPanel() {
