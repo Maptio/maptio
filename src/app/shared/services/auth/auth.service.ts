@@ -15,6 +15,7 @@ import "rxjs/add/operator/toPromise";
 import { User } from "../../model/user.data";
 import { AuthConfiguration } from "./auth.config";
 import { WebAuth } from "auth0-js"
+import * as shortid from "shortid";
 
 @Injectable()
 export class Auth {
@@ -27,39 +28,6 @@ export class Auth {
         public encodingService: JwtEncoder, public mailing: MailingService) {
         this._http = http;
         this.user$ = new Subject();
-        // this.lock.getLock().on("authenticated", (authResult: any) => {
-        //     localStorage.setItem("id_token", authResult.idToken);
-
-        //     let pathname_object: any = JSON.parse(authResult.state);
-        //     let pathname: any = localStorage.getItem(pathname_object.pathname_key) || "";
-        //     localStorage.removeItem(pathname_object.pathname_key);
-
-        //     this.lock.getLock().getProfile(authResult.idToken, (error: any, profile: any) => {
-        //         if (error) {
-        //             alert(error);
-        //             return;
-        //         }
-
-        //         this.setUser(profile).then((isSucess: boolean) => {
-        //             if (isSucess) {
-        //                 this.userFactory.get(profile.user_id)
-        //                     .then((user: User) => {
-        //                         this.user$.next(user);
-        //                         return user;
-        //                     })
-
-        //                 this.router.navigate([pathname], {})
-        //                     .catch((reason: any) => { errorService.handleError(reason) });
-        //             }
-        //             else {
-        //                 errorService.handleError("Something has gone wrong ! Try again ?");
-        //             }
-        //         })
-
-        //         this.lock.getLock().hide();
-        //     });
-
-        // });
     }
 
     public setUser(profile: any): Promise<boolean> {
@@ -99,6 +67,10 @@ export class Auth {
     //     });
     // };
 
+    public addMinutes(date: Date, minutes: number) {
+        return new Date(date.getTime() + minutes * 60000);
+    }
+
     public login(email: string, password: string): Promise<boolean> {
 
         try {
@@ -107,7 +79,7 @@ export class Auth {
                 username: email,
                 password: password,
                 scope: "profile openid email"
-            }, function (err: any, authResult: any) {
+            }, function(err: any, authResult: any) {
                 if (err) {
                     // console.log(err)
                     EmitterService.get("loginErrorMessage").emit(err.description);
@@ -116,25 +88,48 @@ export class Auth {
                 localStorage.setItem("id_token", authResult.idToken);
                 // console.log(authResult)
                 if (authResult.accessToken) {
-                    this.lock.getWebAuth().client.userInfo(authResult.accessToken, function (err: Error, profile: any) {
+                    this.lock.getWebAuth().client.userInfo(authResult.accessToken, function(err: Error, profile: any) {
                         profile.user_id = profile.sub;
                         profile.sub = undefined;
-                        this.setUser(profile).then((isSuccess: boolean) => {
-                            if (isSuccess) {
-                                this.userFactory.get(profile.user_id)
-                                    .then((user: User) => {
-                                        this.user$.next(user);
-                                        return user;
-                                    })
-                                    .then((user: User) => {
-                                        let redirectUrl = localStorage.getItem("redirectUrl");
-                                        this.router.navigateByUrl(redirectUrl ? redirectUrl : "/home");
-                                    })
-                            }
-                            else {
-                                this.errorService.handleError("Something has gone wrong ! Try again ?");
-                            }
-                        })
+
+                        // setting maptio_api_token before making calls
+                        let maptio_api_token = {
+                            // aud: "app.maptio.com",
+                            iat: Math.round(new Date().getTime() / 1000),  // when the token was issued (seconds since epoch)
+                            exp: Math.round(this.addMinutes(new Date(), 24 * 60).getTime() / 1000), // expires in 24 hours
+                            jti: shortid.generate(), // a unique id for this token (for revocation purposes)
+                            scopes: ["api"]  // what capabilities this token has
+                        };
+
+                        return this.encodingService.encode(maptio_api_token)
+                            .then((encoded: string) => {
+                                if (localStorage.getItem("maptio_api_token"))
+                                    localStorage.removeItem("maptio_api_token")
+                                localStorage.setItem("maptio_api_token", encoded)
+                                return encoded;
+                            }, (reason: any) => { return Promise.reject(reason) })
+                            .then((token: string) => {
+                                return this.setUser(profile)
+                            })
+                            .then((isSuccess: boolean) => {
+
+                                if (isSuccess) {
+                                    return this.userFactory.get(profile.user_id)
+                                        .then((user: User) => {
+
+                                            this.user$.next(user);
+                                            return user;
+                                        })
+                                        .then((user: User) => {
+
+                                            let redirectUrl = localStorage.getItem("redirectUrl");
+                                            this.router.navigateByUrl(redirectUrl ? redirectUrl : "/home");
+                                        })
+                                }
+                                else {
+                                    this.errorService.handleError("Something has gone wrong ! Try again ?");
+                                }
+                            })
                     }.bind(this))
                 }
             }.bind(this));
@@ -147,11 +142,23 @@ export class Auth {
 
     }
 
-    public apiAuthenticated() {
+    /**
+     * Checks if Auth0 Management API is still valid
+     */
+    public authenticationProviderAuthenticated() {
         return tokenNotExpired("access_token");
     }
 
+    /**
+     * Checks if Maptio API is still valid
+     */
+    public internalApiAuthenticated() {
+        return tokenNotExpired("maptio_api_token");
+    }
 
+    /**
+     * Checks is ID token is still valid
+     */
     public authenticated(): boolean {
         return tokenNotExpired();
     }
@@ -427,7 +434,7 @@ export class Auth {
         this.lock.getWebAuth().changePassword({
             connection: "Username-Password-Authentication",
             email: email
-        }, function (err, resp) {
+        }, function(err, resp) {
             if (err) {
                 EmitterService.get("changePasswordFeedbackMessage").emit(err.error)
             } else {

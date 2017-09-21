@@ -29,28 +29,6 @@ export class AuthConfiguration {
         });
     }
 
-    // public getLock(): any {
-    //     let options = {
-    //         closable: true,
-    //         theme: {
-    //             logo: "assets/images/logo.png",
-    //             primaryColor: "#D76159"
-    //         },
-    //         languageDictionary: {
-    //             title: ""
-    //         },
-    //         auth: {
-    //             redirectUrl: location.origin,
-    //             responseType: "token",
-    //         }
-    //     };
-
-    //     if (!this._lock)
-    //         this._lock = new Auth0Lock("CRvF82hID2lNIMK4ei2wDz20LH7S5BMy", "circlemapping.auth0.com", options);
-
-    //     return this._lock;
-    // }
-
     getApiToken(): Promise<string> {
 
         let access_token = localStorage.getItem("access_token");

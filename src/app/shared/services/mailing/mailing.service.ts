@@ -1,3 +1,4 @@
+import { AuthHttp } from "angular2-jwt";
 import { Http } from "@angular/http";
 import { Injectable } from "@angular/core";
 import { ErrorService } from "../error/error.service";
@@ -7,8 +8,8 @@ export class MailingService {
 
     public client: any; // nodemailer.Transporter;
 
-    private _http: Http;
-    constructor(private http: Http, public errorService: ErrorService) {
+    private _http: AuthHttp;
+    constructor(private http: AuthHttp, public errorService: ErrorService) {
         this._http = http;
     }
 

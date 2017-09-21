@@ -1,8 +1,9 @@
+import { AuthHttp } from "angular2-jwt";
 import { Observable } from "rxjs/Rx";
 import { ErrorService } from "./error/error.service";
 import { User } from "./../model/user.data";
 import { Injectable } from "@angular/core";
-import { Http, Response } from "@angular/http";
+import { Response } from "@angular/http";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import * as shortid from "shortid";
@@ -10,8 +11,8 @@ import * as shortid from "shortid";
 @Injectable()
 export class UserFactory {
 
-    private _http: Http;
-    constructor(private http: Http, public errorService: ErrorService) {
+    private _http: AuthHttp;
+    constructor(private http: AuthHttp, public errorService: ErrorService) {
         this._http = http;
     }
 

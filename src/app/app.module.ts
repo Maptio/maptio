@@ -20,7 +20,7 @@ import { ColorService } from "./shared/services/ui/color.service"
 import { UIService } from "./shared/services/ui/ui.service"
 import { ErrorService } from "./shared/services/error/error.service";
 import { Auth } from "./shared/services/auth/auth.service";
-import { AUTH_PROVIDERS } from "angular2-jwt";
+import { AUTH_PROVIDERS, AuthHttp } from "angular2-jwt";
 import { UserFactory } from "./shared/services/user.factory";
 import { TeamFactory } from "./shared/services/team.factory";
 import { MailingService } from "./shared/services/mailing/mailing.service"
@@ -73,6 +73,7 @@ import { JwtEncoder } from "./shared/services/encoding/jwt.service";
 import { HttpService } from "./shared/services/http/http.service";
 import { HttpServiceFactory } from "./shared/services/http/htttp.service.factory";
 import { TeamsListComponent } from "./components/team/teams-list.component";
+import { authHttpServiceFactory } from "./shared/services/auth/auth.module";
 
 // Routes
 const appRoutes: Routes = [
@@ -134,6 +135,11 @@ const appRoutes: Routes = [
       provide: Http,
       useFactory: HttpServiceFactory,
       deps: [XHRBackend, RequestOptions, LoaderService, ErrorService]
+    },
+    {
+      provide: AuthHttp,
+      useFactory: authHttpServiceFactory,
+      deps: [Http, RequestOptions]
     }
   ],
   entryComponents: [AppComponent],

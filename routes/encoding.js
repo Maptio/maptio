@@ -4,12 +4,11 @@ var jwt = require('jsonwebtoken');
 require('dotenv').config()
 
 let jwtSecret = process.env.JWT_SECRET;
-let SECRET = Buffer.from(jwtSecret, "hex");
 
 
 router.post('/encode', function (req, res, next) {
     try {
-        let token = jwt.sign(req.body, SECRET);
+        let token = jwt.sign(req.body, jwtSecret);
         res.json({ token: token });
     }
     catch (err) {
@@ -19,7 +18,7 @@ router.post('/encode', function (req, res, next) {
 
 router.get('/decode/:token', function (req, res, next) {
     try {
-        let object = jwt.verify(req.params.token, SECRET);
+        let object = jwt.verify(req.params.token, jwtSecret);
         res.json(object)
     }
     catch (err) {
