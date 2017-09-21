@@ -25,10 +25,10 @@ export class DataService {
         return this._data$.asObservable();
     }
 
-    fetch(url: string): Promise<any> {
-        return this.http.get(url)
-            .toPromise()
-            .then(response => response.json())
-            .catch(this.errorService.handleError);
-    }
+    // fetch(url: string): Promise<any> {
+    //     return this.http.get(url)
+    //         .toPromise()
+    //         .then(response => response.json())
+    //         .catch(this.errorService.handleError);
+    // }
 }
