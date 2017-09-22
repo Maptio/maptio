@@ -50,7 +50,7 @@ describe("building.component.ts", () => {
                     {
                         provide: AuthHttp,
                         useFactory: authHttpServiceFactoryTesting,
-                        deps: [Http, BaseRequestOptions, Auth]
+                        deps: [Http, BaseRequestOptions]
                     },
                     MockBackend,
                     BaseRequestOptions]

@@ -6,8 +6,8 @@ import { Auth } from "./auth.service";
 
 
 
-export function authHttpServiceFactory(http: Http, options: RequestOptions, injector: Injector) {
-  let auth = injector.get(Auth)
+export function authHttpServiceFactory(http: Http, options: RequestOptions, auth: Auth) {
+
   let config = new AuthConfig({
     tokenName: "maptio_api_token",
     tokenGetter: (() => { console.log("getinng the token"); return localStorage.getItem("maptio_api_token") }),

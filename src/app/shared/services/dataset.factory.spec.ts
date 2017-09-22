@@ -20,7 +20,7 @@ describe("dataset.factory.ts", () => {
                 {
                     provide: AuthHttp,
                     useFactory: authHttpServiceFactoryTesting,
-                    deps: [Http, BaseRequestOptions, Auth]
+                    deps: [Http, BaseRequestOptions]
                 },
                 { provide: Auth, useValue: undefined },
                 DatasetFactory

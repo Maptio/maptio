@@ -73,7 +73,7 @@ describe("workspace.component.ts", () => {
                     {
                         provide: AuthHttp,
                         useFactory: authHttpServiceFactoryTesting,
-                        deps: [Http, BaseRequestOptions, Auth]
+                        deps: [Http, BaseRequestOptions]
                     },
                     {
                         provide: Http,

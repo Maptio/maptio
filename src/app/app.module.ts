@@ -1,6 +1,6 @@
 
 import { BrowserModule } from "@angular/platform-browser";
-import { NgModule } from "@angular/core";
+import { NgModule, Injector } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpModule, RequestOptions, XHRBackend, Http } from "@angular/http";
@@ -139,7 +139,7 @@ const appRoutes: Routes = [
     {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,
-      deps: [Http, RequestOptions, Auth]
+      deps: [Http, RequestOptions]
     }
   ],
   entryComponents: [AppComponent],

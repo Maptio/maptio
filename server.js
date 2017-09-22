@@ -30,13 +30,11 @@ jwtOptions.algorithms = ["HS256"];
 jwtOptions.audience = process.env.JWT_AUDIENCE;
 
 var strategy = new JwtStrategy(jwtOptions, function (token_payload, next) {
-  console.log('payload received', token_payload);
 
   var token = token_payload;
   if (token.scopes.includes("api")) {
     return next(null, {});
   }
-  console.log("it doesnt", token.scopes)
   return next("Insufficient scopes")
 
 });
@@ -112,17 +110,7 @@ if (isDevelopment) {
   app.use(middleware);
   app.use(webpackHotMiddleware(compiler));
 
-  // app.route("/api/v1/", passport.authenticate('jwt', { session: false }) )
-  // app.get('/api/v1', passport.authenticate('jwt', { session: false }), function response(req, res) {
-  //   console.log("*", req.url)
-  //   // console.log(path.join(__dirname, 'config/public/build/index.html'))
-  //   res.write("here");
-  //   res.end();
-  // });
-
   app.get('*', function response(req, res) {
-    console.log("*", req.url)
-    console.log(path.join(__dirname, 'config/public/build/index.html'))
     res.write(middleware.fileSystem.readFileSync(path.join(__dirname, 'config/public/build/index.html')));
     res.end();
   });
@@ -132,7 +120,7 @@ if (isDevelopment) {
 
   app.use(express.static(DIST_DIR));
   app.get("*", passport.authenticate('jwt', { session: false }), function (req, res, next) {
-    // console.log("PRODUCTION")
+    
     if (req.header('x-forwarded-proto') !== 'https') {
       return res.redirect(['https://', req.get('Host'), req.url].join(''));
     }
