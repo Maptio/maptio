@@ -96,17 +96,17 @@ router.put('/team/:id', function (req, res, next) {
 });
 
 /* DELETE a team */
-router.delete('/team/:id', function (req, res) {
-    db.teams.remove({
-        _id: mongojs.ObjectId(req.params.id)
-    }, '', function (err, result) {
-        if (err) {
-            res.send(err);
-        } else {
-            res.json(result);
-        }
-    });
-});
+// router.delete('/team/:id', function (req, res) {
+//     db.teams.remove({
+//         _id: mongojs.ObjectId(req.params.id)
+//     }, '', function (err, result) {
+//         if (err) {
+//             res.send(err);
+//         } else {
+//             res.json(result);
+//         }
+//     });
+// });
 
 
 module.exports = router;

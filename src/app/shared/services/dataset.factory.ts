@@ -67,14 +67,14 @@ export class DatasetFactory {
      * @param dataset Dataset to delete
      * @param user User attached to dataset
      */
-    delete(dataset: DataSet, user: User): Promise<boolean> {
-        return this._http.delete("/api/v1/user/" + user.user_id + "/dataset/" + dataset._id)
-            .map((responseData) => {
-                return responseData.json();
-            })
-            .toPromise()
-            .then(r => { return true; })
-    }
+    // delete(dataset: DataSet, user: User): Promise<boolean> {
+    //     return this._http.delete("/api/v1/user/" + user.user_id + "/dataset/" + dataset._id)
+    //         .map((responseData) => {
+    //             return responseData.json();
+    //         })
+    //         .toPromise()
+    //         .then(r => { return true; })
+    // }
 
 
     // getAll(): Promise<DataSet[]> {

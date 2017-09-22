@@ -27,7 +27,7 @@ var jwtOptions = {}
 jwtOptions.secretOrKey = process.env.JWT_SECRET;
 jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 jwtOptions.algorithms = ["HS256"];
-jwtOptions.audience = process.env.JWT_AUDIENCE;
+// jwtOptions.audience = process.env.JWT_AUDIENCE;
 
 var strategy = new JwtStrategy(jwtOptions, function (token_payload, next) {
 

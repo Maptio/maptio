@@ -59,15 +59,15 @@ router.put('/dataset/:did', function (req, res, next) {
 });
 
 /* DELETE a dataset */
-router.delete('/dataset/:id', function (req, res) {
-    db.datasets.remove({
-        _id: mongojs.ObjectId(req.params.id)
-    }, '', function (err, result) {
-        if (err) {
-            res.send(err);
-        } else {
-            res.json(result);
-        }
-    });
-});
+// router.delete('/dataset/:id', function (req, res) {
+//     db.datasets.remove({
+//         _id: mongojs.ObjectId(req.params.id)
+//     }, '', function (err, result) {
+//         if (err) {
+//             res.send(err);
+//         } else {
+//             res.json(result);
+//         }
+//     });
+// });
 module.exports = router;

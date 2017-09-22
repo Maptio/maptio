@@ -150,12 +150,11 @@ router.put('/user/:uid/dataset/:did', function (req, res, next) {
         });
 });
 
-
-/* DELETE a user */
-router.delete('/user/:uid/dataset/:did', function (req, res) {
+/* PUT/UPDATE a user with a new datset*/
+router.put('/user/:uid/team/:tid', function (req, res, next) {
     db.users.update(
         { user_id: req.params.uid },
-        { $pull: { datasets: { $in: [req.params.did] } } },
+        { $push: { datasets: req.params.did } },
         {},
         function (err, result) {
             if (err) {
@@ -165,4 +164,20 @@ router.delete('/user/:uid/dataset/:did', function (req, res) {
             }
         });
 });
+
+
+/* DELETE a user */
+// router.delete('/user/:uid/dataset/:did', function (req, res) {
+//     db.users.update(
+//         { user_id: req.params.uid },
+//         { $pull: { datasets: { $in: [req.params.did] } } },
+//         {},
+//         function (err, result) {
+//             if (err) {
+//                 res.send(err);
+//             } else {
+//                 res.json(result);
+//             }
+//         });
+// });
 module.exports = router;
