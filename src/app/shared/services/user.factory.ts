@@ -34,8 +34,6 @@ export class UserFactory {
                 return result;
             })
             .toPromise()
-            .then(r => r)
-            .catch(this.errorService.handleError);
 
     }
 
@@ -49,8 +47,6 @@ export class UserFactory {
                 return User.create().deserialize(response.json());
             })
             .toPromise()
-            .then(r => r)
-            .catch(this.errorService.handleError);
     }
 
     /**
@@ -66,8 +62,6 @@ export class UserFactory {
                 return User.create().deserialize(input);
             })
             .toPromise()
-            .then(r => r)
-            .catch(this.errorService.handleError);
     }
 
     /**
@@ -82,7 +76,6 @@ export class UserFactory {
                 return responseData.json();
             })
             .toPromise()
-            .then(r => { return true })
-            .catch(this.errorService.handleError);
+            .then(r => { return true });
     }
 }
