@@ -19,7 +19,10 @@ export class UserFactory {
     /** Gets all users
      *
      */
-    getAll(pattern: string = ""): Promise<User[]> {
+    getAll(pattern: string): Promise<User[]> {
+        if (!pattern || pattern === ""){
+            return Promise.reject("You cannot make a search for all users !")
+        }
         return this.http.get("/api/v1/users/" + pattern)
             .map((responseData) => {
                 return responseData.json();
