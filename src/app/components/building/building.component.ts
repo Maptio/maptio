@@ -1,4 +1,4 @@
-import { EventEmitter } from '@angular/core';
+import { EventEmitter } from "@angular/core";
 // import { ModalComponent } from "ng2-bs3-modal/ng2-bs3-modal";
 import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { DataSet } from "./../../shared/model/dataset.data";

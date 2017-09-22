@@ -12,7 +12,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 
         let url: string = state.url;
 
-        if (this.auth.authenticated() && this.auth.apiAuthenticated()) {
+        if (this.auth.authenticated() && this.auth.authenticationProviderAuthenticated() && this.auth.internalApiAuthenticated()) {
             // console.log("authenticated")
             // this.auth.getUser().subscribe((user: User) => {
             //     this.auth.isEmailVerified(user.user_id).then((isEmailVerified: boolean) => {

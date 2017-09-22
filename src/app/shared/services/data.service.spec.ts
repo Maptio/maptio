@@ -31,49 +31,7 @@ describe("data.service.ts", () => {
 
     });
 
-
-    it("When URL exists, loads data asynchronously", fakeAsync(inject([DataService, MockBackend, ErrorService], (target: DataService, mockBackend: MockBackend, mockErrorService: ErrorService) => {
-
-        const URL = "http://example.com/data.json";
-
-        const mockResponse = {
-            data: [
-                { id: 1, name: "First" },
-                { id: 2, name: "Second" }
-            ]
-        };
-
-        mockBackend.connections.subscribe((connection: MockConnection) => {
-            if (connection.request.url === URL) {
-                connection.mockRespond(new Response(new ResponseOptions({
-                    body: JSON.stringify(mockResponse)
-                })));
-            }
-            else {
-                throw new Error(connection.request.url + " is not setup.");
-            }
-        });
-
-        target.fetch(URL).then(response => {
-            expect(response.data.length).toBe(2);
-            expect(response.data[0]).toEqual({ id: 1, name: "First" });
-            expect(response.data[1]).toEqual({ id: 2, name: "Second" });
-            expect(mockErrorService.handleError).not.toHaveBeenCalled();
-        });
-    })));
-
-    it("When URL does not exists, it handles error", fakeAsync(inject([DataService, MockBackend, ErrorService], (target: DataService, mockBackend: MockBackend, mockErrorService: ErrorService) => {
-
-        const URL = "http://example.com/idontexist.json";
-
-        mockBackend.connections.subscribe((connection: MockConnection) => {
-            connection.mockError(new Error("404"))
-        });
-
-        target.fetch(URL).then(data => {
-            expect(mockErrorService.handleError).toHaveBeenCalled();
-        });
-    })));
+    
 });
 
 

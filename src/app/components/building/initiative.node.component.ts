@@ -57,7 +57,7 @@ export class InitiativeNodeComponent {
     }
 
     saveNodeName(newName: any, initiative: Initiative) {
-        console.log(newName)
+        // console.log(newName)
         initiative.name = newName;
         // this.updateDataEvent.emit(this.node.treeModel.nodes);
         this.edited.emit(true)

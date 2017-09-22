@@ -1,8 +1,9 @@
+import { AuthHttp } from "angular2-jwt";
 import { Observable } from "rxjs/Rx";
 import { ErrorService } from "./error/error.service";
 import { User } from "./../model/user.data";
 import { Injectable } from "@angular/core";
-import { Http, Response } from "@angular/http";
+import { Response } from "@angular/http";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import * as shortid from "shortid";
@@ -10,15 +11,18 @@ import * as shortid from "shortid";
 @Injectable()
 export class UserFactory {
 
-    private _http: Http;
-    constructor(private http: Http, public errorService: ErrorService) {
+    private _http: AuthHttp;
+    constructor(private http: AuthHttp, public errorService: ErrorService) {
         this._http = http;
     }
 
     /** Gets all users
      *
      */
-    getAll(pattern: string = ""): Promise<User[]> {
+    getAll(pattern: string): Promise<User[]> {
+        if (!pattern || pattern === ""){
+            return Promise.reject("You cannot make a search for all users !")
+        }
         return this.http.get("/api/v1/users/" + pattern)
             .map((responseData) => {
                 return responseData.json();
@@ -33,8 +37,6 @@ export class UserFactory {
                 return result;
             })
             .toPromise()
-            .then(r => r)
-            .catch(this.errorService.handleError);
 
     }
 
@@ -48,8 +50,6 @@ export class UserFactory {
                 return User.create().deserialize(response.json());
             })
             .toPromise()
-            .then(r => r)
-            .catch(this.errorService.handleError);
     }
 
     /**
@@ -65,8 +65,6 @@ export class UserFactory {
                 return User.create().deserialize(input);
             })
             .toPromise()
-            .then(r => r)
-            .catch(this.errorService.handleError);
     }
 
     /**
@@ -81,7 +79,6 @@ export class UserFactory {
                 return responseData.json();
             })
             .toPromise()
-            .then(r => { return true })
-            .catch(this.errorService.handleError);
+            .then(r => { return true });
     }
 }

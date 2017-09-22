@@ -1,6 +1,7 @@
 require('newrelic');
 
 // const sslRedirect = require('heroku-ssl-redirect');
+require('dotenv').config()
 const bodyParser = require('body-parser');
 const path = require('path');
 const express = require('express');
@@ -12,8 +13,34 @@ const sslRedirect = require('heroku-ssl-redirect');
 const compression = require('compression')
 const apicache = require('apicache')
 const helmet = require('helmet')
+const jwt = require('jsonwebtoken');
+
+const passport = require("passport");
+const passportJWT = require("passport-jwt");
+
+const ExtractJwt = passportJWT.ExtractJwt;
+const JwtStrategy = passportJWT.Strategy;
 
 //const port = isDeveloping ? 3000 : process.env.PORT;
+
+var jwtOptions = {}
+jwtOptions.secretOrKey = process.env.JWT_SECRET;
+jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+jwtOptions.algorithms = ["HS256"];
+jwtOptions.audience = process.env.JWT_AUDIENCE;
+
+var strategy = new JwtStrategy(jwtOptions, function (token_payload, next) {
+
+  var token = token_payload;
+  if (token.scopes.includes("api")) {
+    return next(null, {});
+  }
+  return next("Insufficient scopes")
+
+});
+
+passport.use(strategy);
+
 
 const app = express(),
   DIST_DIR = path.join(__dirname, "dist"),
@@ -21,6 +48,8 @@ const app = express(),
   isDevelopment = process.env.NODE_ENV !== "production",
   DEFAULT_PORT = 3000,
   compiler = webpack(config);
+
+app.use(passport.initialize());
 
 if (!isDevelopment) {
   app.use(helmet())
@@ -37,7 +66,7 @@ if (!isDevelopment) {
 }
 
 
- let cache = apicache.middleware
+let cache = apicache.middleware
 // app.use(cache('10 seconds'))
 
 app.use(bodyParser.json());
@@ -52,17 +81,19 @@ var teams = require('./routes/teams');
 var mailing = require('./routes/mail');
 var encoding = require('./routes/encoding');
 
-app.use('/api/v1/', datasets);
-app.use('/api/v1/', users);
-app.use('/api/v1/', teams);
-app.use('/api/v1/', mailing);
 app.use('/api/v1/', encoding);
+app.use('/api/v1/', passport.authenticate('jwt', { session: false }), datasets);
+app.use('/api/v1/', passport.authenticate('jwt', { session: false }), users);
+app.use('/api/v1/', passport.authenticate('jwt', { session: false }), teams);
+app.use('/api/v1/', passport.authenticate('jwt', { session: false }), mailing);
+
 
 
 app.set("port", process.env.PORT || DEFAULT_PORT);
 
 
 if (isDevelopment) {
+
   const middleware = webpackMiddleware(compiler, {
     publicPath: config.output.publicPath,
     contentBase: 'src',
@@ -78,16 +109,18 @@ if (isDevelopment) {
 
   app.use(middleware);
   app.use(webpackHotMiddleware(compiler));
+
   app.get('*', function response(req, res) {
-    // console.log(path.join(__dirname, 'config/public/build/index.html'))
     res.write(middleware.fileSystem.readFileSync(path.join(__dirname, 'config/public/build/index.html')));
     res.end();
   });
+
+
 } else {
 
   app.use(express.static(DIST_DIR));
-  app.get("*", function (req, res, next) {
-    // console.log("PRODUCTION")
+  app.get("*", passport.authenticate('jwt', { session: false }), function (req, res, next) {
+    
     if (req.header('x-forwarded-proto') !== 'https') {
       return res.redirect(['https://', req.get('Host'), req.url].join(''));
     }

@@ -1,7 +1,8 @@
+import { AuthHttp } from "angular2-jwt";
 
 import { DataSet } from "./../model/dataset.data";
 import { Injectable } from "@angular/core";
-import { Http, Response } from "@angular/http";
+import {  Response } from "@angular/http";
 import { Subject } from "rxjs/Subject"
 import "rxjs/add/operator/map"
 import { ErrorService } from "./error/error.service";
@@ -13,10 +14,10 @@ import * as shortid from "shortid";
 @Injectable()
 export class DatasetFactory {
 
-    private _http: Http;
+    private _http: AuthHttp;
     private _data$: Subject<DataSet[]>;
 
-    constructor(http: Http, public errorService: ErrorService) {
+    constructor(http: AuthHttp, public errorService: ErrorService) {
         this._data$ = new Subject<DataSet[]>();
         this._http = http;
     }

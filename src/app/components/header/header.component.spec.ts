@@ -1,3 +1,4 @@
+import { AuthHttp } from 'angular2-jwt';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { Initiative } from "./../../shared/model/initiative.data";
 import { DataSet } from "./../../shared/model/dataset.data";
@@ -19,6 +20,7 @@ import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import { Team } from "../../shared/model/team.data";
 import { RouterTestingModule } from "@angular/router/testing";
+import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 
 export class AuthStub {
     fakeProfile: User = new User({
@@ -64,6 +66,11 @@ describe("header.component.ts", () => {
                 providers: [
                     DatasetFactory, UserFactory, TeamFactory,
                     { provide: Auth, useClass: AuthStub },
+                    {
+                        provide: AuthHttp,
+                        useFactory: authHttpServiceFactoryTesting,
+                        deps: [Http, BaseRequestOptions]
+                    },
                     {
                         provide: Http,
                         useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {

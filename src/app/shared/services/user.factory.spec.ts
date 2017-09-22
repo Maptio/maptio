@@ -1,9 +1,13 @@
+
 import { User } from "./../../../app/shared/model/user.data";
 import { UserFactory } from "./../../../app/shared/services/user.factory";
 import { TestBed, async, inject, fakeAsync } from "@angular/core/testing";
 import { MockBackend, MockConnection } from "@angular/http/testing";
 import { Http, HttpModule, Response, BaseRequestOptions, ResponseOptions } from "@angular/http";
 import { ErrorService } from "./error/error.service";
+import { AuthHttp } from "angular2-jwt/angular2-jwt";
+import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
+import { Auth } from "./auth/auth.service";
 
 describe("user.factory.ts", () => {
 
@@ -12,7 +16,12 @@ describe("user.factory.ts", () => {
         TestBed.configureTestingModule({
             imports: [HttpModule],
             providers: [
-
+                {
+                    provide: AuthHttp,
+                    useFactory: authHttpServiceFactoryTesting,
+                    deps: [Http, BaseRequestOptions]
+                },
+                { provide: Auth, useValue: undefined },
                 UserFactory
                 ,
                 {
@@ -34,7 +43,7 @@ describe("user.factory.ts", () => {
 
 
     describe("getAll", () => {
-        it("should call correct REST API endpoint when no parameters", async(inject([UserFactory, MockBackend, ErrorService], (target: UserFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+        it("should be rejected when no parameters", async(inject([UserFactory, MockBackend, ErrorService], (target: UserFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
 
             let mockUser = jasmine.createSpyObj("User", ["deserialize"]);
             let spyCreate = spyOn(User, "create").and.returnValue(mockUser);
@@ -58,13 +67,15 @@ describe("user.factory.ts", () => {
                 }
             });
 
-            target.getAll().then(users => {
-                expect(spyCreate).toHaveBeenCalled()
-                expect(spyDeserialize).toHaveBeenCalled();
-                expect(users.length).toBe(4);
-                users.forEach(function (element) {
-                    expect(element).toEqual(jasmine.any(User));
-                })
+            target.getAll("").then(users => {
+                // expect(spyCreate).toHaveBeenCalled()
+                // expect(spyDeserialize).toHaveBeenCalled();
+                // expect(users.length).toBe(4);
+                // users.forEach(function (element) {
+                //     expect(element).toEqual(jasmine.any(User));
+                // })
+            }).catch((reason) => {
+                expect(reason).toBe("You cannot make a search for all users !")
             });
         })));
 

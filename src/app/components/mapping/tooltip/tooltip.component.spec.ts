@@ -1,4 +1,6 @@
-import { UserFactory } from './../../../shared/services/user.factory';
+
+import { AuthHttp } from "angular2-jwt";
+import { UserFactory } from "./../../../shared/services/user.factory";
 import { BaseRequestOptions, Http } from "@angular/http";
 import { TeamFactory } from "./../../../shared/services/team.factory";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
@@ -13,6 +15,12 @@ import { TooltipComponent } from "./tooltip.component";
 import { By } from "@angular/platform-browser";
 import { MockBackend } from "@angular/http/testing";
 import { ErrorService } from "../../../shared/services/error/error.service";
+import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
+import { Auth } from "../../../shared/services/auth/auth.service";
+
+export class AuthStub {
+
+}
 
 describe("tooltip.component.ts", () => {
     let component: TooltipComponent;
@@ -23,6 +31,11 @@ describe("tooltip.component.ts", () => {
             providers: [
                 UIService, D3Service, TeamFactory, UserFactory,
                 {
+                    provide: AuthHttp,
+                    useFactory: authHttpServiceFactoryTesting,
+                    deps: [Http, BaseRequestOptions]
+                },
+                {
                     provide: Http,
                     useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
                         return new Http(mockBackend, options);
@@ -31,7 +44,9 @@ describe("tooltip.component.ts", () => {
                 },
                 MockBackend,
                 BaseRequestOptions,
-                ErrorService
+                ErrorService,
+                { provide: Auth, useClass: AuthStub },
+
             ],
             declarations: [TooltipComponent, InitiativeComponent],
             schemas: [NO_ERRORS_SCHEMA]

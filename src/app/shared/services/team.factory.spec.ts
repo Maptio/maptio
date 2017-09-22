@@ -1,3 +1,4 @@
+import { AuthHttp } from "angular2-jwt";
 import { Team } from "./../model/team.data";
 import { TeamFactory } from "./team.factory";
 import { TestBed, inject, fakeAsync } from "@angular/core/testing";
@@ -5,6 +6,8 @@ import { MockBackend, MockConnection } from "@angular/http/testing";
 import { Http, HttpModule, Response, BaseRequestOptions, ResponseOptions, RequestMethod } from "@angular/http";
 import { ErrorService } from "./error/error.service";
 import { User } from "../model/user.data";
+import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
+import { Auth } from "./auth/auth.service";
 
 describe("team.factory.ts", () => {
 
@@ -13,7 +16,12 @@ describe("team.factory.ts", () => {
         TestBed.configureTestingModule({
             imports: [HttpModule],
             providers: [
-
+                {
+                    provide: AuthHttp,
+                    useFactory: authHttpServiceFactoryTesting,
+                    deps: [Http, BaseRequestOptions]
+                },
+                { provide: Auth, useValue: undefined },
                 TeamFactory
                 ,
                 {

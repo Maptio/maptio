@@ -1,3 +1,4 @@
+import { AuthHttp } from "angular2-jwt";
 import { UserFactory } from "./../../shared/services/user.factory";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Team } from "./../../shared/model/team.data";
@@ -14,6 +15,8 @@ import { InitiativeComponent } from "./initiative.component";
 import { Initiative } from "../../shared/model/initiative.data";
 import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
+import { Auth } from "../../shared/services/auth/auth.service";
 
 describe("initiative.component.ts", () => {
 
@@ -38,7 +41,13 @@ describe("initiative.component.ts", () => {
                 },
                 MockBackend,
                 BaseRequestOptions,
-                ErrorService
+                ErrorService,
+                {
+                    provide: AuthHttp,
+                    useFactory: authHttpServiceFactoryTesting,
+                    deps: [Http, BaseRequestOptions]
+                },
+                { provide: Auth, useValue: undefined }
             ]
         })
             .compileComponents()

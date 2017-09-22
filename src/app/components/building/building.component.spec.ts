@@ -1,3 +1,5 @@
+
+import { AuthHttp } from "angular2-jwt";
 import { NgbModal, NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
 import { DatasetFactory } from "./../../shared/services/dataset.factory";
@@ -15,6 +17,12 @@ import { ErrorService } from "../../shared/services/error/error.service";
 import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { InitiativeComponent } from "../initiative/initiative.component";
+import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
+import { Auth } from "../../shared/services/auth/auth.service";
+
+export class AuthStub {
+
+}
 
 describe("building.component.ts", () => {
 
@@ -31,12 +39,18 @@ describe("building.component.ts", () => {
             set: {
                 providers: [DataService, ErrorService, TeamFactory, DatasetFactory, TreeDraggedElement,
                     NgbModal,
+                    { provide: Auth, useClass: AuthStub },
                     {
                         provide: Http,
                         useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
                             return new Http(mockBackend, options);
                         },
                         deps: [MockBackend, BaseRequestOptions]
+                    },
+                    {
+                        provide: AuthHttp,
+                        useFactory: authHttpServiceFactoryTesting,
+                        deps: [Http, BaseRequestOptions]
                     },
                     MockBackend,
                     BaseRequestOptions]
