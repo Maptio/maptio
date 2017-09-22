@@ -84,6 +84,13 @@ export class BuildingComponent {
         this.openDetails.emit(node)
     }
 
+    toggleAll() {
+        this.tree.treeModel.getNodeById(this.nodes[0].id).toggleExpanded();
+        this.nodes[0].traverse(function (i: Initiative) {
+            this.tree.treeModel.getNodeById(i.id).toggleExpanded();
+        }.bind(this));
+
+    }
 
     /**
      * Loads data into workspace
@@ -110,30 +117,24 @@ export class BuildingComponent {
 
     filterNodes(searched: string) {
 
-
-        this.nodes.forEach(function (i: Initiative) {
-            i.traverse(function (node) { node.isSearchedFor = false });
-        });
-        this.tree.treeModel.filterNodes(
-            (node: TreeNode) => {
-                console.log("search", searched)
-                if (!searched || searched === "") {
-                    console.log("show node")
-                    node.isHidden = false;
-                    return true;
-                }
-                else {
+        if (!searched || searched === "") {
+            this.tree.treeModel.clearFilter();
+        }
+        else {
+            this.nodes.forEach(function (i: Initiative) {
+                i.traverse(function (node) { node.isSearchedFor = false });
+            });
+            this.tree.treeModel.filterNodes(
+                (node: TreeNode) => {
                     let initiative = (<Initiative>node.data);
                     initiative.isSearchedFor = initiative.search(searched);
                     return initiative.isSearchedFor;
-                }
+                    // }
 
-            },
-            true);
-
-
+                },
+                true);
+        }
         this.saveChanges();
-
     }
 
 }
