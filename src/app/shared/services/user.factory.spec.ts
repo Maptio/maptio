@@ -43,7 +43,7 @@ describe("user.factory.ts", () => {
 
 
     describe("getAll", () => {
-        it("should call correct REST API endpoint when no parameters", async(inject([UserFactory, MockBackend, ErrorService], (target: UserFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+        it("should be rejected when no parameters", async(inject([UserFactory, MockBackend, ErrorService], (target: UserFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
 
             let mockUser = jasmine.createSpyObj("User", ["deserialize"]);
             let spyCreate = spyOn(User, "create").and.returnValue(mockUser);
@@ -67,13 +67,15 @@ describe("user.factory.ts", () => {
                 }
             });
 
-            target.getAll().then(users => {
-                expect(spyCreate).toHaveBeenCalled()
-                expect(spyDeserialize).toHaveBeenCalled();
-                expect(users.length).toBe(4);
-                users.forEach(function (element) {
-                    expect(element).toEqual(jasmine.any(User));
-                })
+            target.getAll("").then(users => {
+                // expect(spyCreate).toHaveBeenCalled()
+                // expect(spyDeserialize).toHaveBeenCalled();
+                // expect(users.length).toBe(4);
+                // users.forEach(function (element) {
+                //     expect(element).toEqual(jasmine.any(User));
+                // })
+            }).catch((reason) => {
+                expect(reason).toBe("You cannot make a search for all users !")
             });
         })));
 
