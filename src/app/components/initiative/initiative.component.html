@@ -55,13 +55,13 @@
 								<div  *ngIf="!isAuthority(user)">
 									<label><input  #helper class="inputHelper" type="checkbox" (click)="addHelper(user, helper.checked)" [checked]="isHelper(user)" [disabled]="isAuthority(user) || isReadOnly"  (blur)="onBlur()">
 											<span><img src="{{user.picture}}" width="16" class="rounded-circle">
-										 <a routerLink="/summary/map/{{datasetId}}/u/{{user.user_id}}">{{user.name}}</a>	
+										 <a routerLink="/summary/map/{{datasetId}}/u/{{user.shortid}}">{{user.name}}</a>	
 										 <!-- {{user.name}} -->
 												</span> </label>
 									
 								</div>
 								<div *ngIf="isAuthority(user)">
-										<a routerLink="/summary/map/{{datasetId}}/u/{{user.user_id}}"><b >{{user.name}} </b></a>
+										<a routerLink="/summary/map/{{datasetId}}/u/{{user.shortid}}"><b >{{user.name}} </b></a>
 									<span class="text-muted">(Authority)</span>
 								</div>
 							</div>

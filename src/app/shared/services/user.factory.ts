@@ -20,7 +20,7 @@ export class UserFactory {
      *
      */
     getAll(pattern: string): Promise<User[]> {
-        if (!pattern || pattern === ""){
+        if (!pattern || pattern === "") {
             return Promise.reject("You cannot make a search for all users !")
         }
         return this.http.get("/api/v1/users/" + pattern)
@@ -46,6 +46,15 @@ export class UserFactory {
     get(uniqueId: string): Promise<User> {
         // console.log("GET", "/api/v1/user/" + uniqueId)
         return this.http.get("/api/v1/user/" + uniqueId)
+            .map((response: Response) => {
+                return User.create().deserialize(response.json());
+            })
+            .toPromise()
+    }
+
+    getByShortId(shortid: string): Promise<User> {
+        // console.log("GET", "/api/v1/user/" + uniqueId)
+        return this.http.get("/api/v1/user/" + shortid)
             .map((response: Response) => {
                 return User.create().deserialize(response.json());
             })

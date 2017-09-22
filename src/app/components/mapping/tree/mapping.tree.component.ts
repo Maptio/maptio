@@ -1,4 +1,5 @@
-import { Router } from '@angular/router';
+import { UserFactory } from "./../../../shared/services/user.factory";
+import { Router } from "@angular/router";
 import { Subscription } from "rxjs/Subscription";
 import { Component, OnInit, Input, ViewEncapsulation } from "@angular/core";
 import { D3Service, D3 } from "d3-ng2-service";
@@ -28,7 +29,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
     private zoomSubscription: Subscription;
 
-    constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService, public router: Router) {
+    constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService, public router: Router, private userFactory: UserFactory) {
         this.d3 = d3Service.getD3();
     }
 
@@ -53,6 +54,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         let fontSize$ = this.fontSize$;
         let datasetId = this.datasetId;
         let router = this.router;
+        let userFactory = this.userFactory;
 
         if (!data) {
             // console.log("CLEAN");
@@ -215,7 +217,16 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 .attr("x", CIRCLE_RADIUS + 4)
                 .text(function (d: any) { return d.data.accountable ? d.data.accountable.name : ""; })
                 .on("click", function (d: any) {
-                    if (d.data.accountable) router.navigateByUrl(`/summary/map/${datasetId}/u/${d.data.accountable.user_id}`)
+                    if (d.data.accountable) {
+                        // HACK : until migration of database towards shortids
+                        if (!d.data.accountable.shortid) {
+                            userFactory.get(d.data.accountable.user_id)
+                                .then(u => d.data.accountable.shortid = u.shortid)
+                                .then(() => { router.navigateByUrl(`/summary/map/${datasetId}/u/${d.data.accountable.shortid}`) })
+                        }
+                        router.navigateByUrl(`/summary/map/${datasetId}/u/${d.data.accountable.shortid}`)
+                    }
+
                 })
 
 

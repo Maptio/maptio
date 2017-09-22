@@ -61,14 +61,17 @@ router.get('/user/:id', function (req, res, next) {
 
     // ]
 
-    db.users.findOne({ user_id: req.params.id }, function (err, users) {
+    db.users.findOne(
+        { $or: [{ user_id: req.params.id }, { shortid: req.params.id }] },
 
-        if (err) {
-            res.send(err);
-        } else {
-            res.json(users);
-        }
-    },
+        function (err, users) {
+
+            if (err) {
+                res.send(err);
+            } else {
+                res.json(users);
+            }
+        },
         function (err, users) {
             if (err) {
                 res.send(err);
@@ -180,4 +183,5 @@ router.put('/user/:uid/team/:tid', function (req, res, next) {
 //             }
 //         });
 // });
+
 module.exports = router;
