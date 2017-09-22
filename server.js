@@ -119,7 +119,7 @@ if (isDevelopment) {
 } else {
 
   app.use(express.static(DIST_DIR));
-  app.get("*", passport.authenticate('jwt', { session: false }), function (req, res, next) {
+  app.get("*", function (req, res, next) {
     
     if (req.header('x-forwarded-proto') !== 'https') {
       return res.redirect(['https://', req.get('Host'), req.url].join(''));
