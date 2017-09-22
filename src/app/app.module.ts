@@ -139,7 +139,7 @@ const appRoutes: Routes = [
     {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,
-      deps: [Http, RequestOptions]
+      deps: [Http, RequestOptions, Auth]
     }
   ],
   entryComponents: [AppComponent],

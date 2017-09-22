@@ -6,12 +6,8 @@ import { Auth } from "./auth.service";
 
 export class AuthHttpInterceptor extends AuthHttp {
 
-    constructor(http: Http, defaultOptions: RequestOptions, private authService: Auth) {
-        super(new AuthConfig({
-            tokenName: "maptio_api_token",
-            tokenGetter: (() => localStorage.getItem("maptio_api_token")),
-            globalHeaders: [{ "Content-Type": "application/json" }],
-        }), http, defaultOptions)
+    constructor(config: AuthConfig, http: Http, defaultOptions: RequestOptions, private authService: Auth) {
+        super(config, http, defaultOptions)
     }
 
     request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {

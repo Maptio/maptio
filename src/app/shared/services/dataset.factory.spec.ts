@@ -1,3 +1,4 @@
+import { AuthHttp } from 'angular2-jwt';
 import { Initiative } from './../model/initiative.data';
 import { DataSet } from "./../../../app/shared/model/dataset.data";
 import { TestBed, async, inject, fakeAsync } from "@angular/core/testing";
@@ -6,6 +7,8 @@ import { Http, HttpModule, Response, BaseRequestOptions, ResponseOptions, Reques
 import { DatasetFactory } from "./dataset.factory"
 import { ErrorService } from "./error/error.service";
 import { User } from "../../../app/shared/model/user.data"
+import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
+import { Auth } from "./auth/auth.service";
 
 describe("dataset.factory.ts", () => {
 
@@ -14,7 +17,12 @@ describe("dataset.factory.ts", () => {
         TestBed.configureTestingModule({
             imports: [HttpModule],
             providers: [
-
+                {
+                    provide: AuthHttp,
+                    useFactory: authHttpServiceFactoryTesting,
+                    deps: [Http, BaseRequestOptions, Auth]
+                },
+                { provide: Auth, useValue: undefined },
                 DatasetFactory
                 ,
                 {

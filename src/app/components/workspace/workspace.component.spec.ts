@@ -1,3 +1,7 @@
+import { AuthModule, authHttpServiceFactory } from "./../../shared/services/auth/auth.module";
+import { encodeTestToken } from "angular2-jwt/angular2-jwt-test-helpers";
+import { AuthConfig, tokenNotExpired } from "angular2-jwt";
+import { AuthHttp, JwtHelper } from "angular2-jwt";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { EmitterService } from "./../../shared/services/emitter.service";
 import { Initiative } from "./../../shared/model/initiative.data";
@@ -15,13 +19,15 @@ import { DatasetFactory } from "../../shared/services/dataset.factory";
 import { DataService } from "../../shared/services/data.service";
 import { ErrorService } from "../../shared/services/error/error.service";
 import { MockBackend } from "@angular/http/testing";
-import { Http, BaseRequestOptions } from "@angular/http";
+import { Http, BaseRequestOptions, RequestOptions } from "@angular/http";
 import { Observable } from "rxjs/Rx";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import { Team } from "../../shared/model/team.data";
 import { User } from "../../shared/model/user.data";
 import { Auth } from "../../shared/services/auth/auth.service";
+import { AuthHttpInterceptor } from "../../shared/services/auth/authHttpInterceptor";
+import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 
 
 export class AuthStub {
@@ -55,6 +61,8 @@ describe("workspace.component.ts", () => {
     let target: ComponentFixture<WorkspaceComponent>;
 
     beforeEach(async(() => {
+
+
         TestBed.configureTestingModule({
             imports: [NgbModule.forRoot()],
             declarations: [WorkspaceComponent, BuildingComponent],
@@ -63,7 +71,11 @@ describe("workspace.component.ts", () => {
             set: {
                 providers: [DataService, DatasetFactory, UserFactory, TeamFactory,
                     {
-
+                        provide: AuthHttp,
+                        useFactory: authHttpServiceFactoryTesting,
+                        deps: [Http, BaseRequestOptions, Auth]
+                    },
+                    {
                         provide: Http,
                         useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
                             return new Http(mockBackend, options);
@@ -87,6 +99,7 @@ describe("workspace.component.ts", () => {
     beforeEach(() => {
         target = TestBed.createComponent(WorkspaceComponent);
         component = target.componentInstance;
+
     });
 
     describe("View", () => {

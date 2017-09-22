@@ -8,9 +8,11 @@ import { TestBed, inject } from "@angular/core/testing";
 import { MockBackend } from "@angular/http/testing";
 
 export class AuthStub {
-    authenticated() { }
+    authenticationProviderAuthenticated() { }
 
-    apiAuthenticated() { }
+    internalApiAuthenticated() { }
+
+    authenticated() { }
 }
 
 
@@ -44,7 +46,8 @@ describe("auth.guard.ts", () => {
 
             let spyAuth = spyOn(mockAuth, "authenticated").and.returnValue(true);
 
-            let spyApi = spyOn(mockAuth, "apiAuthenticated").and.returnValue(true);
+            let spyApi = spyOn(mockAuth, "authenticationProviderAuthenticated").and.returnValue(true);
+            let spyMaptioApi = spyOn(mockAuth, "internalApiAuthenticated").and.returnValue(true);
 
             expect(target.canActivate(route, state)).toBe(true);
             expect(spyAuth).toHaveBeenCalled();

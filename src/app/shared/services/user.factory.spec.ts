@@ -1,9 +1,13 @@
+
 import { User } from "./../../../app/shared/model/user.data";
 import { UserFactory } from "./../../../app/shared/services/user.factory";
 import { TestBed, async, inject, fakeAsync } from "@angular/core/testing";
 import { MockBackend, MockConnection } from "@angular/http/testing";
 import { Http, HttpModule, Response, BaseRequestOptions, ResponseOptions } from "@angular/http";
 import { ErrorService } from "./error/error.service";
+import { AuthHttp } from "angular2-jwt/angular2-jwt";
+import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
+import { Auth } from "./auth/auth.service";
 
 describe("user.factory.ts", () => {
 
@@ -12,7 +16,12 @@ describe("user.factory.ts", () => {
         TestBed.configureTestingModule({
             imports: [HttpModule],
             providers: [
-
+                {
+                    provide: AuthHttp,
+                    useFactory: authHttpServiceFactoryTesting,
+                    deps: [Http, BaseRequestOptions, Auth]
+                },
+                { provide: Auth, useValue: undefined },
                 UserFactory
                 ,
                 {
