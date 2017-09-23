@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
                         return userInfo.user_id;
                     })
                     .then((user_id: string) => {
-                        this.isActivationPending = this.auth.isActivationPending(user_id);
+                        this.isActivationPending = this.auth.isActivationPendingByUserId(user_id);
                     })
             }
         })

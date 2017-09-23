@@ -29,8 +29,8 @@ jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 jwtOptions.algorithms = ["HS256"];
 // jwtOptions.audience = process.env.JWT_AUDIENCE;
 
-var strategy = new JwtStrategy(jwtOptions, function (token_payload, next) {
-
+var apiStrategy = new JwtStrategy(jwtOptions, function (token_payload, next) {
+  console.log(token_payload)
   var token = token_payload;
   if (token.scopes.includes("api")) {
     return next(null, {});
@@ -39,8 +39,18 @@ var strategy = new JwtStrategy(jwtOptions, function (token_payload, next) {
 
 });
 
-passport.use(strategy);
+var emailStrategy = new JwtStrategy(jwtOptions, function (token_payload, next) {
+  console.log(token_payload)
+  var token = token_payload;
+  if (token.scopes.includes("invite") || token.scopes.includes("confirm")) {
+    return next(null, {});
+  }
+  return next("Insufficient scopes")
 
+});
+
+passport.use(apiStrategy);
+passport.use(emailStrategy);
 
 const app = express(),
   DIST_DIR = path.join(__dirname, "dist"),
@@ -82,10 +92,11 @@ var mailing = require('./routes/mail');
 var encoding = require('./routes/encoding');
 
 app.use('/api/v1/', encoding);
+app.use('/api/v1/', passport.authenticate('jwt', { session: false }), mailing);
 app.use('/api/v1/', passport.authenticate('jwt', { session: false }), datasets);
 app.use('/api/v1/', passport.authenticate('jwt', { session: false }), users);
 app.use('/api/v1/', passport.authenticate('jwt', { session: false }), teams);
-app.use('/api/v1/', passport.authenticate('jwt', { session: false }), mailing);
+
 
 
 
@@ -120,7 +131,7 @@ if (isDevelopment) {
 
   app.use(express.static(DIST_DIR));
   app.get("*", function (req, res, next) {
-    
+
     if (req.header('x-forwarded-proto') !== 'https') {
       return res.redirect(['https://', req.get('Host'), req.url].join(''));
     }

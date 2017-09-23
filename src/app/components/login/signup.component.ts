@@ -1,4 +1,4 @@
-import {repeatValidator } from "./../../shared/directives/equal-validator.directive";
+import { repeatValidator } from "./../../shared/directives/equal-validator.directive";
 import { LoaderService } from "./../../shared/services/http/loader.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
@@ -32,7 +32,7 @@ export class SignupComponent implements OnInit {
 
     public signupForm: FormGroup;
 
-    constructor(private auth: Auth, private router: Router, private userFactory: UserFactory, private loader: LoaderService) {
+    constructor(private auth: Auth, private router: Router, private loader: LoaderService) {
         this.signupForm = new FormGroup({
             "firstname": new FormControl(this.firstname, [
                 Validators.required,
@@ -89,10 +89,7 @@ export class SignupComponent implements OnInit {
                             return user;
                         }, (reason) => { return Promise.reject(reason) })
                         .then((user: User) => {
-                            // console.log("create user", user)
-                            return this.userFactory.create(user)
-                        }, (reason) => { return Promise.reject(reason) })
-                        .then((user: User) => {
+                            console.log("I'm here")
                             return this.auth.sendConfirmation(user.email, user.user_id, user.firstname, user.lastname, user.name)
                                 .then((success: boolean) => {
                                     this.isConfirmationEmailSent = success
@@ -108,47 +105,29 @@ export class SignupComponent implements OnInit {
     }
 
     isEmailExist(email: string): Promise<boolean> {
-        return this.userFactory.getAll(email).then((matches: User[]) => {
-            // console.log(matches, matches.length)
-            if (matches.length === 1) {
-                // this.isEmailAlreadyExist = true;
-                return true;
-            }
-            if (matches.length > 1) {
-                this.signUpMessageFail = `Several users are registered with this email! Please email us at support@maptio.com and get some help. `
-                return true;
-            }
-            return false
-        })
+        return this.auth.isUserExist(email)
+            .then((isUserExist: boolean) => {
+                if (isUserExist) {
+                    return true
+                }
+                else {
+                    return false;
+                }
+            })
     }
 
-    isActivationPending(email: string, firstname: string, lastname: string) {
-        return this.userFactory.getAll(email)
-            .then((matches: User[]) => {
-                if (!matches || matches.length === 0) {
-                    return;
-                }
-                if (matches.length === 1) {
-                    return matches[0].user_id;
-                }
-                if (matches.length > 1) {
-                    this.signUpMessageFail = `Several users are registered with this email! Please email us at support@maptio.com and we'll help you out. `
-                    throw new Error(this.signUpMessageFail);
-                }
 
-            })
-            .then((userId: string) => {
-                if (!userId) {
+    isActivationPending(email: string, firstname: string, lastname: string) {
+        return this.auth.isActivationPendingByEmail(email)
+            .then(({ isActivationPending, user_id }) => {
+                if (!user_id) {
                     return Promise.resolve({ isActivationPending: false, userToken: null })
                 }
-                return this.auth.isActivationPending(userId).then((isActivationPending: boolean) => {
-                    // console.log(isActivationPending)
-                    if (isActivationPending) {
-                        return this.auth.generateUserToken(userId, email, firstname, lastname).then(token => {
-                            return { isActivationPending, userToken: token }
-                        });
-                    }
-                })
+                if (isActivationPending) {
+                    return this.auth.generateUserToken(user_id, email, firstname, lastname).then(token => {
+                        return { isActivationPending, userToken: token }
+                    });
+                }
             })
     }
 }

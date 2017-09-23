@@ -91,7 +91,7 @@ export class LoginComponent implements OnInit {
                         return decoded.user_id;
                     })
                     .then((user_id: string) => {
-                        this.isActivationPending = this.auth.isActivationPending(user_id);
+                        this.isActivationPending = this.auth.isActivationPendingByUserId(user_id);
                         this.isActivationPending.then((isPending: boolean) => {
                             // console.log("activation pending", isPending)
                             if (!isPending) {
@@ -172,7 +172,7 @@ export class LoginComponent implements OnInit {
                             return [decoded.user_id, decoded.email];
                         })
                         .then(([user_id, email]: [string, string]) => {
-                            return this.auth.isActivationPending(user_id)
+                            return this.auth.isActivationPendingByUserId(user_id)
                                 .then(
                                 (isActivationPending: boolean) => {
                                     if (!isActivationPending)

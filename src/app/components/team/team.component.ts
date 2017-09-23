@@ -89,7 +89,7 @@ export class TeamComponent implements OnDestroy {
                 .then((members: User[]) => {
                     return members
                         .map(m => {
-                            this.auth.isActivationPending(m.user_id).then(is => { m.isActivationPending = is },
+                            this.auth.isActivationPendingByUserId(m.user_id).then(is => { m.isActivationPending = is },
                                 (reason) => { m.isDeleted = true });
                             this.auth.isInvitationSent(m.user_id).then(is => m.isInvitationSent = is,
                                 (reason) => { m.isDeleted = true });

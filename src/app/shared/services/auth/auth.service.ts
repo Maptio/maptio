@@ -98,7 +98,7 @@ export class Auth {
                             iat: Math.round(new Date().getTime() / 1000),  // when the token was issued (seconds since epoch)
                             exp: Math.round(this.addMinutes(new Date(), 24 * 60).getTime() / 1000), // expires in 24 hours
                             jti: shortid.generate(), // a unique id for this token (for revocation purposes)
-                            scopes: ["api"]  // what capabilities this token has
+                            scopes: ["api", "invite"]  // what capabilities this token has
                         };
 
                         return this.encodingService.encode(maptio_api_token)
@@ -252,29 +252,45 @@ export class Auth {
 
     public sendConfirmation(email: string, userId: string, firstname: string, lastname: string, name: string): Promise<boolean> {
 
-        return Promise.all([
-            this.encodingService.encode({ user_id: userId, email: email, firstname: firstname, lastname: lastname, name: name }),
-            this.lock.getApiToken()]
-        ).then(([userToken, apiToken]: [string, string]) => {
-            let headers = new Headers();
-            headers.set("Authorization", "Bearer " + apiToken);
-            return this.http.post(
-                "https://circlemapping.auth0.com/api/v2/tickets/email-verification",
-                {
-                    "result_url": "http://app.maptio.com/login?token=" + userToken,
-                    "user_id": userId
-                },
-                { headers: headers })
-                .map((responseData) => {
-                    return <string>responseData.json().ticket;
-                }).toPromise()
-        })
-            .then((ticket: string) => {
-                return this.mailing.sendConfirmation("support@maptio.com", [email], ticket)
+        let maptio_api_token = {
+            iat: Math.round(new Date().getTime() / 1000),  // when the token was issued (seconds since epoch)
+            exp: Math.round(this.addMinutes(new Date(), 1).getTime() / 1000), // expires in 24 hours
+            jti: shortid.generate(), // a unique id for this token (for revocation purposes)
+            scopes: ["confirm"]  // what capabilities this token has
+        };
+
+        return this.encodingService.encode(maptio_api_token)
+            .then((encoded: string) => {
+                if (localStorage.getItem("maptio_api_token"))
+                    localStorage.removeItem("maptio_api_token")
+                localStorage.setItem("maptio_api_token", encoded)
+                return encoded;
+            }, (reason: any) => { return Promise.reject(reason) })
+            .then((encoded: string) => {
+                return Promise.all([
+                    this.encodingService.encode({ user_id: userId, email: email, firstname: firstname, lastname: lastname, name: name }),
+                    this.lock.getApiToken()]
+                ).then(([userToken, apiToken]: [string, string]) => {
+                    let headers = new Headers();
+                    headers.set("Authorization", "Bearer " + apiToken);
+                    return this.http.post(
+                        "https://circlemapping.auth0.com/api/v2/tickets/email-verification",
+                        {
+                            "result_url": "http://app.maptio.com/login?token=" + userToken,
+                            "user_id": userId
+                        },
+                        { headers: headers })
+                        .map((responseData) => {
+                            return <string>responseData.json().ticket;
+                        }).toPromise()
+                })
+                    .then((ticket: string) => {
+                        return this.mailing.sendConfirmation("support@maptio.com", [email], ticket)
+                    })
+                    .then((success: boolean) => {
+                        return this.updateActivationPendingStatus(userId, true)
+                    });
             })
-            .then((success: boolean) => {
-                return this.updateActivationPendingStatus(userId, true)
-            });
     }
 
     public generateUserToken(userId: string, email: string, firstname: string, lastname: string): Promise<string> {
@@ -318,7 +334,7 @@ export class Auth {
         });
     }
 
-    public isActivationPending(user_id: string): Promise<boolean> {
+    public isActivationPendingByUserId(user_id: string): Promise<boolean> {
         return this.lock.getApiToken().then((token: string) => {
 
             let headers = new Headers();
@@ -334,6 +350,30 @@ export class Auth {
                 .toPromise()
         });
     }
+
+    public isActivationPendingByEmail(email: string): Promise<{ isActivationPending: boolean, user_id: string }> {
+        return this.lock.getApiToken().then((token: string) => {
+
+            let headers = new Headers();
+            headers.set("Authorization", "Bearer " + token);
+
+            return this.http.get("https://circlemapping.auth0.com/api/v2/users?include_totals=true&q=" + encodeURIComponent(`email="${email}"`), { headers: headers })
+                .map((responseData) => {
+                    if (responseData.json().total === 0) {
+                        return { isActivationPending: false, user_id: undefined }
+                    }
+                    if (responseData.json().total === 1) {
+                        let user = responseData.json().users[0];
+                        return (user.app_metadata)
+                            ? { isActivationPending: user.app_metadata.activation_pending, user_id: user.user_id }
+                            : { isActivationPending: false, user_id: user.user_id }
+                    }
+                    return Promise.reject("There is more than one user with this email")
+                })
+                .toPromise()
+        });
+    }
+
 
     public isInvitationSent(user_id: string): Promise<boolean> {
         // console.log("is invitation sent for", user_id)
