@@ -18,9 +18,20 @@ export class ChangePasswordComponent implements OnInit {
     ngOnInit() { }
 
     resetPassword() {
-        this.auth.changePassword(this.email);
-        EmitterService.get("changePasswordFeedbackMessage").subscribe((message: string) => {
-            this.errorMessage = message;
-        })
+
+        this.auth.isActivationPendingByEmail(this.email)
+            .then(({ isActivationPending, user_id }) => {
+                if (isActivationPending) {
+                    this.errorMessage = "Looks like you're haven't confirmed your email yet! Check your email to setup your account."
+                }
+                else {
+                    this.auth.changePassword(this.email);
+                    EmitterService.get("changePasswordFeedbackMessage").subscribe((message: string) => {
+                        this.errorMessage = message;
+                    })
+                }
+            })
+
+
     }
 }
