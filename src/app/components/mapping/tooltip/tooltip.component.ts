@@ -24,6 +24,16 @@ export class TooltipComponent implements OnInit, OnDestroy {
     public subscription: Subscription;
 
     constructor(private uiService: UIService, private cd: ChangeDetectorRef) {
+
+        this.update()
+    }
+
+
+    ngOnInit() {
+
+    }
+
+    update() {
         this.subscription = this.uiService.getTooltipData().subscribe(
             (settings: [string, Initiative, Initiative, number, number]) => {
                 this.datasetId = settings[0];
@@ -38,12 +48,6 @@ export class TooltipComponent implements OnInit, OnDestroy {
 
             },
             (error: any) => console.log(error));
-
-    }
-
-
-    ngOnInit() {
-
     }
 
     ngOnDestroy() {
