@@ -68,12 +68,13 @@ describe("tooltip.component.ts", () => {
         updated.name = "UPDATED";
         updated.accountable = new User({ name: "John Doe" });
         updated.description = "The one idea I clicked";
-        let spyUiService = spyOn(uiService, "getTooltipData").and.returnValue(Observable.of([updated, parent]));
+        let spyUiService = spyOn(uiService, "getTooltipData").and.returnValue(Observable.of(["some_id", updated, parent]));
         component.update();
         target.detectChanges();
         expect(component.node).toBe(updated);
         expect(component.parent).toBe(parent);
-        expect(component.isReadOnly).toBe(true)
+        expect(component.isReadOnly).toBe(true);
+        expect(component.datasetId).toBe("some_id")
         expect(spyUiService).toHaveBeenCalledTimes(1);
 
     });

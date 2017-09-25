@@ -3,6 +3,6 @@
             <a class="btn btn-link close-button pull-right" [class.hidden]="isHidden" (click)="isHidden = !isHidden"></a>
     </div>
     <div class="card-block" >
-        <initiative #initiative [node]="node" [parent]="parent" [isReadOnly]="isReadOnly"></initiative>
+        <initiative #initiative [datasetId]="datasetId" [node]="node" [parent]="parent" [isReadOnly]="isReadOnly"></initiative>
     </div>
 </div>

@@ -89,7 +89,7 @@ export class TeamComponent implements OnDestroy {
                 .then((members: User[]) => {
                     return members
                         .map(m => {
-                            this.auth.isActivationPending(m.user_id).then(is => { m.isActivationPending = is },
+                            this.auth.isActivationPendingByUserId(m.user_id).then(is => { m.isActivationPending = is },
                                 (reason) => { m.isDeleted = true });
                             this.auth.isInvitationSent(m.user_id).then(is => m.isInvitationSent = is,
                                 (reason) => { m.isDeleted = true });
@@ -295,6 +295,7 @@ export class TeamComponent implements OnDestroy {
                     .catch(() => {
                         this.isUserSearchedEmail = this.isEmail(term);
                         // this.userSearched = Promise.resolve(term);
+                        this.userSearched = term;
                         this.searchFailed = true;
                         return Observable.of([]);
                     })

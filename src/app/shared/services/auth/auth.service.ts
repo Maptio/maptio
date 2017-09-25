@@ -16,6 +16,8 @@ import { User } from "../../model/user.data";
 import { AuthConfiguration } from "./auth.config";
 import { WebAuth } from "auth0-js"
 import * as shortid from "shortid";
+import * as promisify from "es6-promisify";
+import { DatasetFactory } from "../dataset.factory";
 
 @Injectable()
 export class Auth {
@@ -24,7 +26,7 @@ export class Auth {
     private _http: Http;
 
     constructor(private http: Http, public lock: AuthConfiguration,
-        public userFactory: UserFactory, private router: Router, private errorService: ErrorService,
+        public userFactory: UserFactory, public datasetFactory: DatasetFactory, private router: Router, private errorService: ErrorService,
         public encodingService: JwtEncoder, public mailing: MailingService) {
         this._http = http;
         this.user$ = new Subject();
@@ -52,23 +54,25 @@ export class Auth {
             });
     }
 
-
-
-    // public login() {
-    //     let uuid = UUID.UUID();
-    //     localStorage.setItem(uuid, localStorage.getItem("redirectUrl"));
-    //     this.lock.getLock().show({
-    //         auth: {
-    //             params: {
-    //                 scope: "openid name email",
-    //                 state: JSON.stringify({ pathname_key: uuid })
-    //             }
-    //         }
-    //     });
-    // };
-
     public addMinutes(date: Date, minutes: number) {
         return new Date(date.getTime() + minutes * 60000);
+    }
+
+
+    public loginMaptioApi(email: string, password: string) {
+        // let login = promisify(this.lock.getMaptioAuth().client.login, { multiArgs: true })
+
+        this.lock.getWebAuth().client.login({
+            realm: "Username-Password-Authentication",
+            username: email,
+            password: password,
+            scope: "openid profile api invite",
+            audience: "https://app.maptio.com/api/v1"
+        }, function (err: any, authResult: any) {
+            if (authResult.accessToken) {
+                EmitterService.get("maptio_api_token").emit(authResult.accessToken)
+            }
+        })
     }
 
     public login(email: string, password: string): Promise<boolean> {
@@ -79,39 +83,27 @@ export class Auth {
                 username: email,
                 password: password,
                 scope: "profile openid email"
-            }, function(err: any, authResult: any) {
+            }, function (err: any, authResult: any) {
                 if (err) {
                     // console.log(err)
                     EmitterService.get("loginErrorMessage").emit(err.description);
                     return;
                 }
                 localStorage.setItem("id_token", authResult.idToken);
-                // console.log(authResult)
+
                 if (authResult.accessToken) {
-                    this.lock.getWebAuth().client.userInfo(authResult.accessToken, function(err: Error, profile: any) {
+                    this.lock.getWebAuth().client.userInfo(authResult.accessToken, function (err: Error, profile: any) {
                         profile.user_id = profile.sub;
                         profile.sub = undefined;
 
-                        // setting maptio_api_token before making calls
-                        let maptio_api_token = {
-                            // aud: "app.maptio.com",
-                            iat: Math.round(new Date().getTime() / 1000),  // when the token was issued (seconds since epoch)
-                            exp: Math.round(this.addMinutes(new Date(), 24 * 60).getTime() / 1000), // expires in 24 hours
-                            jti: shortid.generate(), // a unique id for this token (for revocation purposes)
-                            scopes: ["api"]  // what capabilities this token has
-                        };
+                        this.loginMaptioApi(email, password);
 
-                        return this.encodingService.encode(maptio_api_token)
-                            .then((encoded: string) => {
-                                if (localStorage.getItem("maptio_api_token"))
-                                    localStorage.removeItem("maptio_api_token")
-                                localStorage.setItem("maptio_api_token", encoded)
-                                return encoded;
-                            }, (reason: any) => { return Promise.reject(reason) })
-                            .then((token: string) => {
-                                return this.setUser(profile)
-                            })
-                            .then((isSuccess: boolean) => {
+                        EmitterService.get("maptio_api_token").subscribe((token: string) => {
+                            if (localStorage.getItem("maptio_api_token"))
+                                localStorage.removeItem("maptio_api_token")
+                            localStorage.setItem("maptio_api_token", token)
+
+                            return this.setUser(profile).then((isSuccess: boolean) => {
 
                                 if (isSuccess) {
                                     return this.userFactory.get(profile.user_id)
@@ -130,6 +122,9 @@ export class Auth {
                                     this.errorService.handleError("Something has gone wrong ! Try again ?");
                                 }
                             })
+                        })
+
+
                     }.bind(this))
                 }
             }.bind(this));
@@ -171,7 +166,7 @@ export class Auth {
 
     public isEmailVerified(userId: string): Promise<boolean> {
         // console.log("isEmailVerified")
-        return this.lock.getApiToken().then((token: string) => {
+        return this.lock.getAuth0ManagementToken().then((token: string) => {
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
             return this.http.get("https://circlemapping.auth0.com/api/v2/users/" + userId, { headers: headers })
@@ -186,7 +181,7 @@ export class Auth {
 
     public isFirstLogin(userId: string): Promise<boolean> {
         // console.log("isFIrstLogin")
-        return this.lock.getApiToken().then((token: string) => {
+        return this.lock.getAuth0ManagementToken().then((token: string) => {
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
             return this.http.get("https://circlemapping.auth0.com/api/v2/users/" + userId, { headers: headers })
@@ -209,9 +204,16 @@ export class Auth {
         // console.log("getUser", profileString)
         if (profileString) {
             this.userFactory.get(JSON.parse(profileString).user_id).then((user) => {
-                // console.log(user)
-                this.user$.next(user)
-            });
+                return user;
+
+            })
+                .then((user: User) => {
+                    this.datasetFactory.get(user).then(ds => {
+                        // console.log(ds)
+                        user.datasets = ds || [];
+                        this.user$.next(user)
+                    })
+                });
         }
         else {
             this.clear();
@@ -227,7 +229,7 @@ export class Auth {
 
         return Promise.all([
             this.encodingService.encode({ user_id: userId, email: email, firstname: firstname, lastname: lastname, name: name }),
-            this.lock.getApiToken()]
+            this.lock.getAuth0ManagementToken()]
         ).then(([userToken, apiToken]: [string, string]) => {
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + apiToken);
@@ -251,10 +253,9 @@ export class Auth {
     }
 
     public sendConfirmation(email: string, userId: string, firstname: string, lastname: string, name: string): Promise<boolean> {
-
         return Promise.all([
             this.encodingService.encode({ user_id: userId, email: email, firstname: firstname, lastname: lastname, name: name }),
-            this.lock.getApiToken()]
+            this.lock.getAuth0ManagementToken()]
         ).then(([userToken, apiToken]: [string, string]) => {
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + apiToken);
@@ -270,11 +271,13 @@ export class Auth {
                 }).toPromise()
         })
             .then((ticket: string) => {
+                console.log("sending ticket")
                 return this.mailing.sendConfirmation("support@maptio.com", [email], ticket)
             })
             .then((success: boolean) => {
                 return this.updateActivationPendingStatus(userId, true)
             });
+        // })
     }
 
     public generateUserToken(userId: string, email: string, firstname: string, lastname: string): Promise<string> {
@@ -302,7 +305,7 @@ export class Auth {
             }
         }
 
-        return this.lock.getApiToken().then((token: string) => {
+        return this.lock.getAuth0ManagementToken().then((token: string) => {
 
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
@@ -318,8 +321,8 @@ export class Auth {
         });
     }
 
-    public isActivationPending(user_id: string): Promise<boolean> {
-        return this.lock.getApiToken().then((token: string) => {
+    public isActivationPendingByUserId(user_id: string): Promise<boolean> {
+        return this.lock.getAuth0ManagementToken().then((token: string) => {
 
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
@@ -335,9 +338,33 @@ export class Auth {
         });
     }
 
+    public isActivationPendingByEmail(email: string): Promise<{ isActivationPending: boolean, user_id: string }> {
+        return this.lock.getAuth0ManagementToken().then((token: string) => {
+
+            let headers = new Headers();
+            headers.set("Authorization", "Bearer " + token);
+
+            return this.http.get("https://circlemapping.auth0.com/api/v2/users?include_totals=true&q=" + encodeURIComponent(`email="${email}"`), { headers: headers })
+                .map((responseData) => {
+                    if (responseData.json().total === 0) {
+                        return { isActivationPending: false, user_id: undefined }
+                    }
+                    if (responseData.json().total === 1) {
+                        let user = responseData.json().users[0];
+                        return (user.app_metadata)
+                            ? { isActivationPending: user.app_metadata.activation_pending, user_id: user.user_id }
+                            : { isActivationPending: false, user_id: user.user_id }
+                    }
+                    return Promise.reject("There is more than one user with this email")
+                })
+                .toPromise()
+        });
+    }
+
+
     public isInvitationSent(user_id: string): Promise<boolean> {
         // console.log("is invitation sent for", user_id)
-        return this.lock.getApiToken().then((token: string) => {
+        return this.lock.getAuth0ManagementToken().then((token: string) => {
 
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
@@ -355,7 +382,7 @@ export class Auth {
     }
 
     public updateUserInformation(user_id: string, password: string, firstname: string, lastname: string): Promise<boolean> {
-        return this.lock.getApiToken().then((token: string) => {
+        return this.lock.getAuth0ManagementToken().then((token: string) => {
 
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
@@ -380,7 +407,7 @@ export class Auth {
     }
 
     public updateActivationPendingStatus(user_id: string, isActivationPending: boolean): Promise<boolean> {
-        return this.lock.getApiToken().then((token: string) => {
+        return this.lock.getAuth0ManagementToken().then((token: string) => {
 
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
@@ -397,7 +424,7 @@ export class Auth {
     }
 
     public updateInvitiationSentStatus(user_id: string, isInvitationSent: boolean): Promise<boolean> {
-        return this.lock.getApiToken().then((token: string) => {
+        return this.lock.getAuth0ManagementToken().then((token: string) => {
 
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
@@ -416,7 +443,7 @@ export class Auth {
     }
 
     public storeProfile(user_id: string): Promise<void> {
-        return this.lock.getApiToken().then((token: string) => {
+        return this.lock.getAuth0ManagementToken().then((token: string) => {
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
             return this.http.get("https://circlemapping.auth0.com/api/v2/users/" + user_id,
@@ -434,7 +461,7 @@ export class Auth {
         this.lock.getWebAuth().changePassword({
             connection: "Username-Password-Authentication",
             email: email
-        }, function(err, resp) {
+        }, function (err, resp) {
             if (err) {
                 EmitterService.get("changePasswordFeedbackMessage").emit(err.error)
             } else {
@@ -444,7 +471,7 @@ export class Auth {
     }
 
     public isUserExist(email: string): Promise<boolean> {
-        return this.lock.getApiToken().then((token: string) => {
+        return this.lock.getAuth0ManagementToken().then((token: string) => {
 
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
@@ -461,7 +488,7 @@ export class Auth {
     }
 
     public getUserInfo(userId: string): Promise<User> {
-        return this.lock.getApiToken().then((token: string) => {
+        return this.lock.getAuth0ManagementToken().then((token: string) => {
 
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);

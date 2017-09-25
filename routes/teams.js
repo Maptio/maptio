@@ -7,20 +7,20 @@ var db = mongojs(process.env.MONGODB_URI, ['teams']);
 /**
  * Get all teams
  */
-router.get('/teams', function (req, res, next) {
-    db.teams.find(function (err, teams) {
-        if (err) {
-            res.send(err);
-        } else {
-            res.json(teams);
-        }
-    });
-});
+// router.get('/all', function (req, res, next) {
+//     db.teams.find(function (err, teams) {
+//         if (err) {
+//             res.send(err);
+//         } else {
+//             res.json(teams);
+//         }
+//     });
+// });
 
 /**
  * Get a team with given id
  */
-router.get('/team/:id', function (req, res, next) {
+router.get('/:id', function (req, res, next) {
     db.teams.findOne(
         { _id: mongojs.ObjectId(req.params.id) },
         {},
@@ -36,7 +36,7 @@ router.get('/team/:id', function (req, res, next) {
 /**
  * Get all users in a given team
  */
-router.get('/team/:id/users', function (req, res, next) {
+router.get('/:id/users', function (req, res, next) {
     db.users.find({
         teams: { $in: [mongojs.ObjectId(req.params.id)] }
     },
@@ -51,7 +51,7 @@ router.get('/team/:id/users', function (req, res, next) {
 
 
 /* GET all datasets for a given team*/
-router.get('/team/:teamid/datasets', function (req, res, next) {
+router.get('/:teamid/datasets', function (req, res, next) {
     db.datasets.find(
         { team_id: req.params.teamid },
         function (err, datasets) {
@@ -66,7 +66,7 @@ router.get('/team/:teamid/datasets', function (req, res, next) {
 /**
  * Create a team
  */
-router.post('/team', function (req, res, next) {
+router.post('/', function (req, res, next) {
     var team = req.body;
     db.teams.save(team, function (err, result) {
         if (err) {
@@ -80,7 +80,7 @@ router.post('/team', function (req, res, next) {
 /**
  * Update a team
  */
-router.put('/team/:id', function (req, res, next) {
+router.put('/:id', function (req, res, next) {
     var team = req.body;
     db.teams.update(
         { _id: mongojs.ObjectId(req.params.id) },
@@ -96,17 +96,17 @@ router.put('/team/:id', function (req, res, next) {
 });
 
 /* DELETE a team */
-router.delete('/team/:id', function (req, res) {
-    db.teams.remove({
-        _id: mongojs.ObjectId(req.params.id)
-    }, '', function (err, result) {
-        if (err) {
-            res.send(err);
-        } else {
-            res.json(result);
-        }
-    });
-});
+// router.delete('/team/:id', function (req, res) {
+//     db.teams.remove({
+//         _id: mongojs.ObjectId(req.params.id)
+//     }, '', function (err, result) {
+//         if (err) {
+//             res.send(err);
+//         } else {
+//             res.json(result);
+//         }
+//     });
+// });
 
 
 module.exports = router;

@@ -1,30 +1,3 @@
-.toggle {
-    border: none;
-    background-color: transparent;
-}
-
-.toggle:before {
-    color: #0275D8;
-}
-
-.open-node {
-    position: relative;
-}
-
-.open-node:before {
-    content: "\F055";
-    font-family: FontAwesome;
-}
-
-.close-node {
-    position: relative;
-}
-
-.close-node:before {
-    content: "\F056";
-    font-family: FontAwesome;
-    left: 2px;
-}
 
 
 

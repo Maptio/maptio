@@ -2,7 +2,7 @@ import { AuthHttp } from "angular2-jwt";
 
 import { DataSet } from "./../model/dataset.data";
 import { Injectable } from "@angular/core";
-import {  Response } from "@angular/http";
+import { Response } from "@angular/http";
 import { Subject } from "rxjs/Subject"
 import "rxjs/add/operator/map"
 import { ErrorService } from "./error/error.service";
@@ -67,14 +67,14 @@ export class DatasetFactory {
      * @param dataset Dataset to delete
      * @param user User attached to dataset
      */
-    delete(dataset: DataSet, user: User): Promise<boolean> {
-        return this._http.delete("/api/v1/user/" + user.user_id + "/dataset/" + dataset._id)
-            .map((responseData) => {
-                return responseData.json();
-            })
-            .toPromise()
-            .then(r => { return true; })
-    }
+    // delete(dataset: DataSet, user: User): Promise<boolean> {
+    //     return this._http.delete("/api/v1/user/" + user.user_id + "/dataset/" + dataset._id)
+    //         .map((responseData) => {
+    //             return responseData.json();
+    //         })
+    //         .toPromise()
+    //         .then(r => { return true; })
+    // }
 
 
     // getAll(): Promise<DataSet[]> {
@@ -90,7 +90,7 @@ export class DatasetFactory {
      * Retrieves a collection of datasets for a given user
      * @param user User
      */
-    get(user: User): Promise<DataSet[]>;
+    get(user: User): Promise<string[]>;
     /**
      * Retrieves one or many datasets
      * @param idOrUser Dataset unique ID or User
@@ -100,7 +100,7 @@ export class DatasetFactory {
      * Retrieves one or many datasets
      * @param idOrUser Dataset unique ID or User
      */
-    get(idOrUserOrTeam: string | User | Team): Promise<DataSet> | Promise<DataSet[]> | Promise<void> {
+    get(idOrUserOrTeam: string | User | Team): Promise<DataSet> | Promise<DataSet[]> | Promise<string[]> | Promise<void> {
         if (!idOrUserOrTeam) return Promise.reject("Parameter missing");
         if (idOrUserOrTeam instanceof User) {
             return this.getWithUser(<User>idOrUserOrTeam)
@@ -112,17 +112,18 @@ export class DatasetFactory {
     }
 
 
-    private getWithUser(user: User): Promise<DataSet[]> {
+    private getWithUser(user: User): Promise<string[]> {
         return this._http.get("/api/v1/user/" + user.user_id + "/datasets")
             .map((responseData) => {
-                return responseData.json();
+                try {
+                    return responseData.json().datasets
+                }
+                catch (err) {
+                    return []
+                }
             })
-            .map((user: any) => {
-                let result: Array<DataSet> = [];
-                (user.datasets || []).forEach((oid: any) => {
-                    result.push(new DataSet({ _id: oid }));
-                });
-                return result || [];
+            .map((result: any) => {
+                return result ;
             })
             .toPromise()
     }

@@ -1,6 +1,5 @@
 require('newrelic');
 
-// const sslRedirect = require('heroku-ssl-redirect');
 require('dotenv').config()
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -13,34 +12,37 @@ const sslRedirect = require('heroku-ssl-redirect');
 const compression = require('compression')
 const apicache = require('apicache')
 const helmet = require('helmet')
-const jwt = require('jsonwebtoken');
+const fs = require('fs')
+const jwt = require('express-jwt');
+const jwks = require('jwks-rsa');
 
-const passport = require("passport");
-const passportJWT = require("passport-jwt");
+var jwtCheck = jwt({
+  secret: jwks.expressJwtSecret({
+    cache: true,
+    rateLimit: true,
+    jwksRequestsPerMinute: 5,
+    jwksUri: "https://circlemapping.auth0.com/.well-known/jwks.json"
+  }),
 
-const ExtractJwt = passportJWT.ExtractJwt;
-const JwtStrategy = passportJWT.Strategy;
-
-//const port = isDeveloping ? 3000 : process.env.PORT;
-
-var jwtOptions = {}
-jwtOptions.secretOrKey = process.env.JWT_SECRET;
-jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-jwtOptions.algorithms = ["HS256"];
-jwtOptions.audience = process.env.JWT_AUDIENCE;
-
-var strategy = new JwtStrategy(jwtOptions, function (token_payload, next) {
-
-  var token = token_payload;
-  if (token.scopes.includes("api")) {
-    return next(null, {});
-  }
-  return next("Insufficient scopes")
-
+  audience: 'https://app.maptio.com/api/v1',
+  issuer: "https://circlemapping.auth0.com/",
+  algorithms: ['RS256'],
+  requestProperty: 'token'
 });
 
-passport.use(strategy);
 
+function check_scopes(scopes) {
+  return function (req, res, next) {
+    var token = req.token;
+    var userScopes = token.scope.split(' ');
+    for (var i = 0; i < userScopes.length; i++) {
+      for (var j = 0; j < scopes.length; j++) {
+        if (scopes[j] === userScopes[i]) return next();
+      }
+    }
+    return res.status(401).send(`Insufficient scopes - I need ${scopes}, you got ${userScopes}`)
+  }
+}
 
 const app = express(),
   DIST_DIR = path.join(__dirname, "dist"),
@@ -48,8 +50,6 @@ const app = express(),
   isDevelopment = process.env.NODE_ENV !== "production",
   DEFAULT_PORT = 3000,
   compiler = webpack(config);
-
-app.use(passport.initialize());
 
 if (!isDevelopment) {
   app.use(helmet())
@@ -70,23 +70,24 @@ let cache = apicache.middleware
 // app.use(cache('10 seconds'))
 
 app.use(bodyParser.json());
-// enable ssl redirect
 app.use(sslRedirect());
 app.use(compression())
-
+// app.use(jwtCheck.unless({ path: ['/','/api/v1/mail/confirm', "/api/v1/jwt/encode", "/api/v1/jwt/decode"] }));
 
 var datasets = require('./routes/datasets');
 var users = require('./routes/users');
 var teams = require('./routes/teams');
-var mailing = require('./routes/mail');
+var inviting = require('./routes/invite-mail');
+var confirming = require('./routes/confirm-mail');
 var encoding = require('./routes/encoding');
 
-app.use('/api/v1/', encoding);
-app.use('/api/v1/', passport.authenticate('jwt', { session: false }), datasets);
-app.use('/api/v1/', passport.authenticate('jwt', { session: false }), users);
-app.use('/api/v1/', passport.authenticate('jwt', { session: false }), teams);
-app.use('/api/v1/', passport.authenticate('jwt', { session: false }), mailing);
+app.use('/api/v1/jwt/', encoding);
+app.use('/api/v1/mail/confirm', confirming);
 
+app.use('/api/v1/mail/invite', jwtCheck, check_scopes(["invite"]), inviting);
+app.use('/api/v1/dataset/', jwtCheck, check_scopes(["api"]), datasets);
+app.use('/api/v1/user', jwtCheck, check_scopes(["api"]), users);
+app.use('/api/v1/team', jwtCheck, check_scopes(["api"]), teams);
 
 
 app.set("port", process.env.PORT || DEFAULT_PORT);
@@ -120,7 +121,7 @@ if (isDevelopment) {
 
   app.use(express.static(DIST_DIR));
   app.get("*", function (req, res, next) {
-    
+
     if (req.header('x-forwarded-proto') !== 'https') {
       return res.redirect(['https://', req.get('Host'), req.url].join(''));
     }

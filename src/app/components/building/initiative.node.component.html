@@ -5,10 +5,10 @@
 		
 <span class="btn-group">
 	
-			<a class="btn btn-primary toggle open-node " [class.disabled]="!hasChildren()" *ngIf="!isExpanded() && hasChildren()"
+			<a class="btn toggle open-node " [class.disabled]="!hasChildren()" *ngIf="!isExpanded() && hasChildren()"
 				(click)="toggleNode(node)"></a>
 
-			<a class="btn btn-primary toggle close-node " [class.disabled]="!hasChildren()" *ngIf="isExpanded() && hasChildren()"
+			<a class="btn toggle close-node " [class.disabled]="!hasChildren()" *ngIf="isExpanded() && hasChildren()"
 				(click)="toggleNode(node)"></a>
 
 		</span>

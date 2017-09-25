@@ -6,7 +6,7 @@ var db = mongojs(process.env.MONGODB_URI, ['users']);
 
 /* GET All users */
 
-router.get('/users', function (req, res, next) {
+router.get('/all', function (req, res, next) {
     db.users.find(function (err, users) {
         if (err) {
             res.send(err);
@@ -16,7 +16,7 @@ router.get('/users', function (req, res, next) {
     });
 });
 
-router.get('/users/:pattern', function (req, res, next) {
+router.get('/user/all/:pattern', function (req, res, next) {
     let pattern = req.params.pattern;
 
     db.users.find(
@@ -32,7 +32,7 @@ router.get('/users/:pattern', function (req, res, next) {
 });
 
 /* GET One user with the provided ID */
-router.get('/user/:id', function (req, res, next) {
+router.get('/:id', function (req, res, next) {
     // db.users.aggregate([
     //     { $match: { user_id: req.params.id } },
     //     { $unwind: { path: "$teams", preserveNullAndEmptyArrays: true } },
@@ -61,14 +61,17 @@ router.get('/user/:id', function (req, res, next) {
 
     // ]
 
-    db.users.findOne({ user_id: req.params.id }, function (err, users) {
+    db.users.findOne(
+        { $or: [{ user_id: req.params.id }, { shortid: req.params.id }] },
 
-        if (err) {
-            res.send(err);
-        } else {
-            res.json(users);
-        }
-    },
+        function (err, users) {
+
+            if (err) {
+                res.send(err);
+            } else {
+                res.json(users);
+            }
+        },
         function (err, users) {
             if (err) {
                 res.send(err);
@@ -79,12 +82,12 @@ router.get('/user/:id', function (req, res, next) {
     );
 });
 
-router.get('/user/:id/datasets', function (req, res, next) {
+router.get('/:id/datasets', function (req, res, next) {
     db.users.aggregate([
         { $match: { user_id: req.params.id } },
-        { $unwind: { path: "$teams", preserveNullAndEmptyArrays: true } },
+        { $unwind: { path: "$teams", preserveNullAndEmptyArrays: false } },
         { $lookup: { from: "datasets", localField: "teams", foreignField: "team_id", as: "datasets" } },
-        { $unwind: { path: "$datasets", preserveNullAndEmptyArrays: true } },
+        { $unwind: { path: "$datasets", preserveNullAndEmptyArrays: false } },
         { $lookup: { from: "datasets", localField: "_id", foreignField: "team_id", as: "datasetObjects" } },
         {
             $group: {
@@ -105,7 +108,7 @@ router.get('/user/:id/datasets', function (req, res, next) {
 });
 
 /* POST/SAVE a user */
-router.post('/user', function (req, res, next) {
+router.post('/', function (req, res, next) {
     var user = req.body;
 
     db.users.save(user, function (err, result) {
@@ -119,7 +122,7 @@ router.post('/user', function (req, res, next) {
 });
 
 /* PUT/UPDATE a user */
-router.put('/user/:id', function (req, res, next) {
+router.put('/:id', function (req, res, next) {
     var user = req.body;
     db.users.update(
         { user_id: user.user_id },
@@ -136,7 +139,22 @@ router.put('/user/:id', function (req, res, next) {
 });
 
 /* PUT/UPDATE a user with a new datset*/
-router.put('/user/:uid/dataset/:did', function (req, res, next) {
+router.put('/:uid/dataset/:did', function (req, res, next) {
+    db.users.update(
+        { user_id: req.params.uid },
+        { $push: { datasets: req.params.did } },
+        {},
+        function (err, result) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.json(result);
+            }
+        });
+});
+
+/* PUT/UPDATE a user with a new datset*/
+router.put('/:uid/team/:tid', function (req, res, next) {
     db.users.update(
         { user_id: req.params.uid },
         { $push: { datasets: req.params.did } },
@@ -152,17 +170,18 @@ router.put('/user/:uid/dataset/:did', function (req, res, next) {
 
 
 /* DELETE a user */
-router.delete('/user/:uid/dataset/:did', function (req, res) {
-    db.users.update(
-        { user_id: req.params.uid },
-        { $pull: { datasets: { $in: [req.params.did] } } },
-        {},
-        function (err, result) {
-            if (err) {
-                res.send(err);
-            } else {
-                res.json(result);
-            }
-        });
-});
+// router.delete('/user/:uid/dataset/:did', function (req, res) {
+//     db.users.update(
+//         { user_id: req.params.uid },
+//         { $pull: { datasets: { $in: [req.params.did] } } },
+//         {},
+//         function (err, result) {
+//             if (err) {
+//                 res.send(err);
+//             } else {
+//                 res.json(result);
+//             }
+//         });
+// });
+
 module.exports = router;

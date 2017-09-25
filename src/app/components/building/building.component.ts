@@ -1,5 +1,4 @@
 import { EventEmitter } from "@angular/core";
-// import { ModalComponent } from "ng2-bs3-modal/ng2-bs3-modal";
 import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { DataSet } from "./../../shared/model/dataset.data";
 import { Initiative } from "./../../shared/model/initiative.data";
@@ -22,8 +21,6 @@ export class BuildingComponent {
 
     searched: string;
     nodes: Array<Initiative>;
-    // openedNode: Initiative;
-    // openedNodeParent: Initiative;
 
     fromInitiative: Initiative;
     toInitiative: Initiative;
@@ -31,11 +28,10 @@ export class BuildingComponent {
 
     options = {
         allowDrag: true,
-        allowDrop: true, // (element:any, {parent:any, index:number}) => parent.isLeaf,
+        allowDrop: true,
         actionMapping: {
             mouse: {
                 drop: (tree: TreeModel, node: TreeNode, $event: any, { from, to }: { from: any, to: any }) => {
-                    // console.log(drop.from, drop.to)
                     this.fromInitiative = from.data;
                     this.toInitiative = to.parent.data;
 
@@ -56,17 +52,11 @@ export class BuildingComponent {
     @ViewChild(TreeComponent)
     tree: TreeComponent;
 
-    // @ViewChild("initiativeModal")
-    // modal: ModalComponent;
-
     @ViewChild(InitiativeNodeComponent)
     node: InitiativeNodeComponent;
 
     @ViewChild("dragConfirmation")
     dragConfirmationModal: NgbModal;
-
-    // @ViewChild("initiativeDetails")
-    // initiativeDetailsModal: NgbModal;
 
     datasetId: string;
 
@@ -78,8 +68,6 @@ export class BuildingComponent {
     }
 
     saveChanges() {
-        // console.log("building.component.ts", this.nodes[0])
-        // EmitterService.get("currentInitiative").emit(this.nodes[0]);
         this.save.emit(this.nodes[0]);
         this.dataService.set({ initiative: this.nodes[0], datasetId: this.datasetId });
     }
@@ -96,12 +84,13 @@ export class BuildingComponent {
         this.openDetails.emit(node)
     }
 
-    // editInitiative(node: Initiative) {
-    //     this.openedNodeParent = node.getParent(this.nodes[0]);
-    //     this.openedNode = node;
-    //     this.modalService.open(this.initiativeDetailsModal);
-    //     // this.modal.open();
-    // }
+    toggleAll() {
+        this.tree.treeModel.getNodeById(this.nodes[0].id).toggleExpanded();
+        this.nodes[0].traverse(function (i: Initiative) {
+            this.tree.treeModel.getNodeById(i.id).toggleExpanded();
+        }.bind(this));
+
+    }
 
     /**
      * Loads data into workspace
@@ -115,39 +104,37 @@ export class BuildingComponent {
             this.nodes = [];
             this.nodes.push(new DataSet().deserialize(data).initiative);
 
-            // EmitterService.get("datasetName").emit(this.nodes[0].name);
-
             let defaultTeamId = this.nodes[0].team_id;
             let initiativeToOpen: Initiative = undefined;
             this.nodes[0].traverse(function (node: Initiative) {
                 node.team_id = defaultTeamId; // For now, the sub initiative are all owned by the same team
-                // if (node.getSlug() === slugToOpen) {
-                //     initiativeToOpen = node;
-                // }
             });
 
             this.saveChanges();
-            // if (initiativeToOpen) {
-            //     this.editInitiative(initiativeToOpen)
-            // }
 
         });
     }
 
     filterNodes(searched: string) {
-        this.nodes.forEach(function (i: Initiative) {
-            i.traverse(function (node) { node.isSearchedFor = false });
-        });
 
-        this.tree.treeModel.filterNodes(
-            (node: TreeNode) => {
-                let initiative = (<Initiative>node.data);
-                initiative.isSearchedFor = initiative.search(searched);
-                return initiative.isSearchedFor;
-            },
-            true);
+        if (!searched || searched === "") {
+            this.tree.treeModel.clearFilter();
+        }
+        else {
+            this.nodes.forEach(function (i: Initiative) {
+                i.traverse(function (node) { node.isSearchedFor = false });
+            });
+            this.tree.treeModel.filterNodes(
+                (node: TreeNode) => {
+                    let initiative = (<Initiative>node.data);
+                    initiative.isSearchedFor = initiative.search(searched);
+                    return initiative.isSearchedFor;
+                    // }
+
+                },
+                true);
+        }
         this.saveChanges();
-
     }
 
 }

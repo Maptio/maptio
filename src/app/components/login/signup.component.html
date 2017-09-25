@@ -6,7 +6,8 @@
         {{signUpMessageFail}}
     </div>
     <div class="alert alert-success" role="alert" *ngIf="isRedirectToActivate">
-        Looks like you already have an account! <a href="/login?token={{userToken}}">Set it up</a>
+        Looks like you already have an account! Check your email to set it up.
+        <!-- <a href="/login?token={{userToken}}">Set it up</a> -->
     </div>
 
     <div class="alert alert-success" role="alert" *ngIf="isEmailAlreadyExist">
@@ -64,8 +65,6 @@
         <button type="submit" class="btn btn-success btn-lg" [class.disabled]="!signupForm.valid">Sign up</button>
 
     </form>
-
-    <!-- <div class="text-muted small ml-3">Already have an account? <a routerLink="/login">Log in</a></div> -->
 
 
 </div>

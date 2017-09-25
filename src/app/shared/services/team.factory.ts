@@ -38,7 +38,7 @@ export class TeamFactory {
 
     // }
 
-    /** Gets a user using its uniquerId
+    /** Gets a team using its uniquerId
      *  Returns undefined if no user is found
      */
     get(uniqueId: string): Promise<Team> {

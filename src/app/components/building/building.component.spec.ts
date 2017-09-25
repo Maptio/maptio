@@ -267,7 +267,7 @@ describe("building.component.ts", () => {
 
         describe("Filtering ", () => {
 
-            it("should highlights all nodes when the search term is empty", () => {
+            it("should highlights no nodes when the search term is empty", () => {
                 let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
                 node1.name = "first", node2.name = "second"; node3.name = "third";
                 root.children = [node1, node2, node3];
@@ -276,10 +276,10 @@ describe("building.component.ts", () => {
                 let spy = spyOn(component, "saveChanges");
 
                 component.filterNodes("");
-                expect(root.isSearchedFor).toBe(true);
-                expect(node1.isSearchedFor).toBe(true);
-                expect(node2.isSearchedFor).toBe(true);
-                expect(node3.isSearchedFor).toBe(true);
+                expect(root.isSearchedFor).toBe(false);
+                expect(node1.isSearchedFor).toBe(false);
+                expect(node2.isSearchedFor).toBe(false);
+                expect(node3.isSearchedFor).toBe(false);
                 expect(spy).toHaveBeenCalled();
             });
 
