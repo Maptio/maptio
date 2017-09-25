@@ -13,6 +13,7 @@ import { InitiativeComponent } from "../../initiative/initiative.component";
 
 export class TooltipComponent implements OnInit, OnDestroy {
 
+    public datasetId: string;
     public node: Initiative;
     public parent: Initiative;
     public isReadOnly: boolean;
@@ -23,15 +24,11 @@ export class TooltipComponent implements OnInit, OnDestroy {
     public subscription: Subscription;
 
     constructor(private uiService: UIService, private cd: ChangeDetectorRef) {
-        this.update();
-
-    }
-
-    public update() {
         this.subscription = this.uiService.getTooltipData().subscribe(
-            (settings: [Initiative, Initiative, number, number]) => {
-                this.node = settings[0];
-                this.parent = settings[1]
+            (settings: [string, Initiative, Initiative, number, number]) => {
+                this.datasetId = settings[0];
+                this.node = settings[1];
+                this.parent = settings[2]
                 this.isReadOnly = true;
 
                 this.isHidden = false;
@@ -41,7 +38,9 @@ export class TooltipComponent implements OnInit, OnDestroy {
 
             },
             (error: any) => console.log(error));
+
     }
+
 
     ngOnInit() {
 

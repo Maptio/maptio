@@ -11,11 +11,11 @@ export class UIService {
 
     private d3: D3;
 
-    private tooltip$: Subject<[Initiative, Initiative, number, number]>
+    private tooltip$: Subject<[string, Initiative, Initiative, number, number]>
 
     constructor(d3Service: D3Service) {
         this.d3 = d3Service.getD3();
-        this.tooltip$ = new Subject<[Initiative, Initiative, number, number]>();
+        this.tooltip$ = new Subject<[string, Initiative, Initiative, number, number]>();
     }
 
 
@@ -100,12 +100,12 @@ export class UIService {
     }
 
 
-    getTooltipData(): Observable<[Initiative, Initiative, number, number]> {
+    getTooltipData(): Observable<[string, Initiative, Initiative, number, number]> {
         return this.tooltip$.asObservable();
     }
 
-    setTooltipData(node: Initiative, parent: Initiative, left: number, top: number): void {
-        this.tooltip$.next([node, parent, left, top]);
+    setTooltipData(datasetId:string, node: Initiative, parent: Initiative, left: number, top: number): void {
+        this.tooltip$.next([datasetId, node, parent, left, top]);
     }
 
 
