@@ -41,5 +41,5 @@
     border-radius: 50%;
     border: 3px solid #2980b9;
     border-top-color: #f7f7f7;
-    animation: spinner 1s linear
+    animation: spinner 1s linear infinite
   }
