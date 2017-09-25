@@ -12,3 +12,6 @@ public/*.js
 public/*.css
 mongo*.json
 .env
+id_rsa
+id_rsa.pub
+rsa.pub

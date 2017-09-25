@@ -15,7 +15,10 @@ export class AuthConfiguration {
 
     private AUTH0_MANAGEMENTAPI_KEY = environment.AUTH0_MANAGEMENTAPI_KEY;
     private AUTH0_MANAGEMENTAPI_SECRET = environment.AUTH0_MANAGEMENTAPI_SECRET;
+    // private MAPTIO_API_KEY = environment.MAPTIO_API_KEY;
+    // private MAPTIO_API_SECRET = environment.MAPTIO_API_SECRET;
     private AUTH0_APP_KEY = environment.AUTH0_APP_KEY;
+    // private MAPTIO_APP_KEY = environment.MAPTIO_APP_KEY;
     private AUTH0_DOMAIN = environment.AUTH0_DOMAIN;
 
     constructor(private http: Http) {
@@ -29,7 +32,14 @@ export class AuthConfiguration {
         });
     }
 
-    getApiToken(): Promise<string> {
+    // public getMaptioAuth(): WebAuth {
+    //     return new WebAuth({
+    //         domain: this.AUTH0_DOMAIN,
+    //         clientID: this.MAPTIO_APP_KEY
+    //     });
+    // }
+
+    getAuth0ManagementToken(): Promise<string> {
 
         let access_token = localStorage.getItem("access_token");
         if (access_token)
@@ -50,4 +60,23 @@ export class AuthConfiguration {
 
 
     }
+
+    // getMaptioApiToken(): Promise<string> {
+
+    //     // let maptio_api_token = localStorage.getItem("maptio_api_token");
+    //     // if (maptio_api_token)
+    //     //     return Promise.resolve(maptio_api_token);
+    //     // else
+    //         return this._http.post(
+    //             "https://circlemapping.auth0.com/oauth/token",
+    //             {
+    //                 "client_id": this.MAPTIO_API_KEY,
+    //                 "client_secret": this.MAPTIO_API_SECRET,
+    //                 "audience": "https://circlemapping.auth0.com/api/v2/",
+    //                 "grant_type": "client_credentials"
+    //             }).map((responseData) => {
+    //                 localStorage.setItem("maptio_api_token", responseData.json().access_token);
+    //                 return responseData.json().access_token;
+    //             }).toPromise();
+    // }
 }
