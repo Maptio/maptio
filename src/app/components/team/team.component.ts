@@ -295,6 +295,7 @@ export class TeamComponent implements OnDestroy {
                     .catch(() => {
                         this.isUserSearchedEmail = this.isEmail(term);
                         // this.userSearched = Promise.resolve(term);
+                        this.userSearched = term;
                         this.searchFailed = true;
                         return Observable.of([]);
                     })
