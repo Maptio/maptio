@@ -1,6 +1,5 @@
 require('newrelic');
 
-// const sslRedirect = require('heroku-ssl-redirect');
 require('dotenv').config()
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -13,10 +12,9 @@ const sslRedirect = require('heroku-ssl-redirect');
 const compression = require('compression')
 const apicache = require('apicache')
 const helmet = require('helmet')
-// const jwt = require('jsonwebtoken');
 const fs = require('fs')
-var jwt = require('express-jwt');
-var jwks = require('jwks-rsa');
+const jwt = require('express-jwt');
+const jwks = require('jwks-rsa');
 
 var jwtCheck = jwt({
   secret: jwks.expressJwtSecret({
@@ -25,10 +23,26 @@ var jwtCheck = jwt({
     jwksRequestsPerMinute: 5,
     jwksUri: "https://circlemapping.auth0.com/.well-known/jwks.json"
   }),
+
   audience: 'https://app.maptio.com/api/v1',
   issuer: "https://circlemapping.auth0.com/",
-  algorithms: ['RS256']
+  algorithms: ['RS256'],
+  requestProperty: 'token'
 });
+
+
+function check_scopes(scopes) {
+  return function (req, res, next) {
+    var token = req.token;
+    var userScopes = token.scope.split(' ');
+    for (var i = 0; i < userScopes.length; i++) {
+      for (var j = 0; j < scopes.length; j++) {
+        if (scopes[j] === userScopes[i]) return next();
+      }
+    }
+    return res.status(401).send(`Insufficient scopes - I need ${scopes}, you got ${userScopes}`)
+  }
+}
 
 const app = express(),
   DIST_DIR = path.join(__dirname, "dist"),
@@ -56,10 +70,9 @@ let cache = apicache.middleware
 // app.use(cache('10 seconds'))
 
 app.use(bodyParser.json());
-// enable ssl redirect
 app.use(sslRedirect());
 app.use(compression())
-
+app.use(jwtCheck.unless({ path: ['/api/v1/mail/confirm', "/api/v1/jwt/encode", "/api/v1/jwt/decode"] }));
 
 var datasets = require('./routes/datasets');
 var users = require('./routes/users');
@@ -68,15 +81,13 @@ var inviting = require('./routes/invite-mail');
 var confirming = require('./routes/confirm-mail');
 var encoding = require('./routes/encoding');
 
-app.use('/api/v1/', encoding);
-app.use('/api/v1/', confirming);
+app.use('/api/v1/jwt/', encoding);
+app.use('/api/v1/mail/confirm', confirming);
 
-app.use('/api/v1/', jwtCheck, inviting);
-app.use('/api/v1/', jwtCheck, datasets);
-app.use('/api/v1/', jwtCheck, users);
-app.use('/api/v1/', jwtCheck, teams);
-
-
+app.use('/api/v1/mail/invite', check_scopes(["invite"]), inviting);
+app.use('/api/v1/dataset/', check_scopes(["api"]), datasets);
+app.use('/api/v1/user', check_scopes(["api"]), users);
+app.use('/api/v1/team', check_scopes(["api"]), teams);
 
 
 app.set("port", process.env.PORT || DEFAULT_PORT);

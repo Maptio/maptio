@@ -16,7 +16,7 @@ let ses = new aws.SES({
 });
 
 
-router.post('/confirm', function (req, res, next) {
+router.post('/', function (req, res, next) {
 
     let from = req.body.from;
     let to = isDevelopment ? ["safiyya.babio@gmail.com"] : req.body.to;

@@ -46,7 +46,7 @@ export class MailingService {
             team: team
         };
 
-        return this.secureHttp.post("/api/v1/invite", email)
+        return this.secureHttp.post("/api/v1/mail/invite", email)
             .map((responseData) => {
                 return responseData.json();
             })
@@ -67,7 +67,7 @@ export class MailingService {
             to: to
         };
 
-        return this.unsecureHttp.post("/api/v1/confirm", email)
+        return this.unsecureHttp.post("/api/v1/mail/confirm", email)
             .map((responseData) => {
                 return responseData.json();
             })

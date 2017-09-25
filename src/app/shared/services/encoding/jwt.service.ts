@@ -14,7 +14,7 @@ export class JwtEncoder {
     }
 
     public encode(payload: any): Promise<string> {
-        return this.http.post("/api/v1/encode", payload)
+        return this.http.post("/api/v1/jwt/encode", payload)
             .map((responseData) => {
                 return responseData.json().token;
             })
@@ -22,7 +22,7 @@ export class JwtEncoder {
     }
 
     public decode(token: string): Promise<any> {
-        return this.http.get("/api/v1/decode/" + token)
+        return this.http.get("/api/v1/jwt/decode/" + token)
             .map((responseData) => {
                 return responseData.json();
             })

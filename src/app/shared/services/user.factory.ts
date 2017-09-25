@@ -23,7 +23,7 @@ export class UserFactory {
         if (!pattern || pattern === "") {
             return Promise.reject("You cannot make a search for all users !")
         }
-        return this.http.get("/api/v1/users/" + pattern)
+        return this.http.get("/api/v1/user/all/" + pattern)
             .map((responseData) => {
                 return responseData.json();
             })

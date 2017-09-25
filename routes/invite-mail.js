@@ -16,7 +16,7 @@ let ses = new aws.SES({
 });
 
 
-router.post('/invite', function (req, res, next) {
+router.post('/', function (req, res, next) {
 
     let from = req.body.from;
     let to = isDevelopment ? ["safiyya.babio@gmail.com"] : req.body.to;
@@ -50,5 +50,39 @@ router.post('/invite', function (req, res, next) {
         });
 
 });
+
+// router.post('/confirm', function (req, res, next) {
+    
+//         let from = req.body.from;
+//         let to = isDevelopment ? ["safiyya.babio@gmail.com"] : req.body.to;
+//         let subject = req.body.subject;
+//         let url = req.body.url;
+    
+//         let template = _.template(fs.readFileSync(path.join(__dirname, "..", "public/templates/email-confirmation.html")))
+//         let htmlBody = template({ url: url });
+    
+//         ses.sendEmail({
+//             Source: from,
+//             Destination: { ToAddresses: to },
+//             Message: {
+//                 Body: {
+//                     Html: {
+//                         Data: htmlBody
+//                     }
+//                 },
+//                 Subject: {
+//                     Data: subject
+//                 }
+//             }
+//         }
+//             , function (err, data) {
+//                 if (err) {
+//                     res.send(err);
+//                 } else {
+//                     res.json(data);
+//                 }
+//             });
+    
+//     });
 
 module.exports = router;
