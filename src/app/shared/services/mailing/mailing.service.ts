@@ -8,9 +8,11 @@ export class MailingService {
 
     public client: any; // nodemailer.Transporter;
 
-    private _http: AuthHttp;
-    constructor(private http: AuthHttp, public errorService: ErrorService) {
-        this._http = http;
+    private _secureHttp: AuthHttp;
+    private _unsecureHttp: Http;
+    constructor(private secureHttp: AuthHttp, public unsecureHttp:Http, public errorService: ErrorService) {
+        this._secureHttp = secureHttp;
+        this._unsecureHttp = unsecureHttp;
     }
 
     // public sendEmail(from: string, to: string[], subject: string, body: string): Promise<boolean> {
@@ -44,7 +46,7 @@ export class MailingService {
             team: team
         };
 
-        return this.http.post("/api/v1/invite", email)
+        return this.secureHttp.post("/api/v1/invite", email)
             .map((responseData) => {
                 return responseData.json();
             })
@@ -57,7 +59,7 @@ export class MailingService {
     }
 
     public sendConfirmation(from: string, to: string[], url: string): Promise<boolean> {
-
+        console.log("sen confirmation")
         let email = {
             from: from,
             subject: `Maptio Account Confirmation`,
@@ -65,7 +67,7 @@ export class MailingService {
             to: to
         };
 
-        return this.http.post("/api/v1/confirm", email)
+        return this.unsecureHttp.post("/api/v1/confirm", email)
             .map((responseData) => {
                 return responseData.json();
             })

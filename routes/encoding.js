@@ -9,7 +9,8 @@ require('dotenv').config()
 let jwtSecret = process.env.JWT_SECRET;
 let isDevelopment = process.env.NODE_ENV !== "production"
 if (isDevelopment) {
-    var CERT = fs.readFileSync(path.join(__dirname, "../id_rsa"))
+    var CERT = fs.readFileSync(path.join(__dirname, "../id_rsa"));
+    var PUBLIC_KEY = fs.readFileSync(path.join(__dirname, "../rsa.pub"));
 }
 else {
     // let PRIVATE_KEY = OpenSSL::PKey::RSA.new(ENV['SSH_PRIVATE_KEY'])
