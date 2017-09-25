@@ -15,16 +15,13 @@ if (isDevelopment) {
     PUBLIC_KEY = fs.readFileSync(path.join(__dirname, "../rsa.pub"));
 }
 else {
-    PRIVATE_KEY = Buffer.from(process.env.SSH_PRIVATE_KEY)
-    PUBLIC_KEY = Buffer.from(process.env.SSH_PUBLIC_KEY)
-
-
+    PRIVATE_KEY = Buffer.from(process.env.SSH_PRIVATE_KEY);
+    PUBLIC_KEY = Buffer.from(process.env.SSH_PUBLIC_KEY);
 }
 
 
 router.post('/encode', function (req, res, next) {
-    console.log("private", PRIVATE_KEY);
-    console.log("public", PUBLIC_KEY)
+    
     try {
         let token = jwt.sign(req.body, PRIVATE_KEY, {
             algorithm: 'RS256'
