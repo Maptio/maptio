@@ -13,8 +13,8 @@ if (isDevelopment) {
     var PUBLIC_KEY = fs.readFileSync(path.join(__dirname, "../rsa.pub"));
 }
 else {
-    let PRIVATE_KEY = JSON.parse(process.env.SSH_PRIVATE_KEY)
-    let PUBLIC_KEY = JSON.parse(process.env.SSH_PUBLIC_KEY)
+    let PRIVATE_KEY = process.env.SSH_PRIVATE_KEY
+    let PUBLIC_KEY = process.env.SSH_PUBLIC_KEY
 }
 
 
