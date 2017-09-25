@@ -77,20 +77,18 @@ describe("dataset.factory.ts", () => {
                     expect(datasets[1]).toBe("2");
                     expect(datasets[2]).toBe("3");
                     expect(mockErrorService.handleError).not.toHaveBeenCalled();
-                });
-            })));
+                }))
+            })))
 
             it("should return empty array when API response is invalid", fakeAsync(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
                 const mockResponse = {
-                    notdatasets: [
-                        "1", "2", "3"  // list of datasets ObjectId matched to a given user
-                    ]
+
                 };
 
                 mockBackend.connections.subscribe((connection: MockConnection) => {
                     if (connection.request.method === RequestMethod.Get && connection.request.url === "/api/v1/user/uniqueId/datasets") {
                         connection.mockRespond(new Response(new ResponseOptions({
-                            body: JSON.stringify(mockResponse)
+                            body: ""
                         })));
                     }
                     else {
