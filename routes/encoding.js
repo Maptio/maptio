@@ -15,6 +15,9 @@ if (isDevelopment) {
 else {
     let PRIVATE_KEY = Buffer.from(process.env.SSH_PRIVATE_KEY)
     let PUBLIC_KEY = Buffer.from(process.env.SSH_PUBLIC_KEY)
+
+    console.log("private", PRIVATE_KEY);
+    console.log("public", PUBLIC_KEY)
 }
 
 
