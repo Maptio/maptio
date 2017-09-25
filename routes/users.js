@@ -85,9 +85,9 @@ router.get('/user/:id', function (req, res, next) {
 router.get('/user/:id/datasets', function (req, res, next) {
     db.users.aggregate([
         { $match: { user_id: req.params.id } },
-        { $unwind: { path: "$teams", preserveNullAndEmptyArrays: true } },
+        { $unwind: { path: "$teams", preserveNullAndEmptyArrays: false } },
         { $lookup: { from: "datasets", localField: "teams", foreignField: "team_id", as: "datasets" } },
-        { $unwind: { path: "$datasets", preserveNullAndEmptyArrays: true } },
+        { $unwind: { path: "$datasets", preserveNullAndEmptyArrays: false } },
         { $lookup: { from: "datasets", localField: "_id", foreignField: "team_id", as: "datasetObjects" } },
         {
             $group: {

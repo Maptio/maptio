@@ -209,7 +209,8 @@ export class Auth {
             })
                 .then((user: User) => {
                     this.datasetFactory.get(user).then(ds => {
-                        user.datasets = ds.map(d => d._id);
+                        // console.log(ds)
+                        user.datasets = ds;
                         this.user$.next(user)
                     })
                 });
@@ -252,22 +253,6 @@ export class Auth {
     }
 
     public sendConfirmation(email: string, userId: string, firstname: string, lastname: string, name: string): Promise<boolean> {
-
-        // let maptio_api_token = {
-        //     iat: Math.round(new Date().getTime() / 1000),  // when the token was issued (seconds since epoch)
-        //     exp: Math.round(this.addMinutes(new Date(), 1).getTime() / 1000), // expires in 24 hours
-        //     jti: shortid.generate(), // a unique id for this token (for revocation purposes)
-        //     scopes: ["confirm"]  // what capabilities this token has
-        // };
-
-        // return this.encodingService.encode(maptio_api_token)
-        //     .then((encoded: string) => {
-        //         if (localStorage.getItem("maptio_api_token"))
-        //             localStorage.removeItem("maptio_api_token")
-        //         localStorage.setItem("maptio_api_token", encoded)
-        //         return encoded;
-        //     }, (reason: any) => { return Promise.reject(reason) })
-        //     .then((encoded: string) => {
         return Promise.all([
             this.encodingService.encode({ user_id: userId, email: email, firstname: firstname, lastname: lastname, name: name }),
             this.lock.getAuth0ManagementToken()]
@@ -286,6 +271,7 @@ export class Auth {
                 }).toPromise()
         })
             .then((ticket: string) => {
+                console.log("sending ticket")
                 return this.mailing.sendConfirmation("support@maptio.com", [email], ticket)
             })
             .then((success: boolean) => {

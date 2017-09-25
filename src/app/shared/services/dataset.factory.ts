@@ -2,7 +2,7 @@ import { AuthHttp } from "angular2-jwt";
 
 import { DataSet } from "./../model/dataset.data";
 import { Injectable } from "@angular/core";
-import {  Response } from "@angular/http";
+import { Response } from "@angular/http";
 import { Subject } from "rxjs/Subject"
 import "rxjs/add/operator/map"
 import { ErrorService } from "./error/error.service";
@@ -115,13 +115,14 @@ export class DatasetFactory {
     private getWithUser(user: User): Promise<DataSet[]> {
         return this._http.get("/api/v1/user/" + user.user_id + "/datasets")
             .map((responseData) => {
-                return responseData.json();
+                try {
+                    return responseData.json().datasets
+                }
+                catch (err) {
+                    return {}
+                }
             })
-            .map((user: any) => {
-                let result: Array<DataSet> = [];
-                (user.datasets || []).forEach((oid: any) => {
-                    result.push(new DataSet({ _id: oid }));
-                });
+            .map((result: any) => {
                 return result || [];
             })
             .toPromise()

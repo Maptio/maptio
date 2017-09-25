@@ -24,7 +24,7 @@ describe("mapping.tree.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
-                D3Service, ColorService, UIService,UserFactory,
+                D3Service, ColorService, UIService, UserFactory,
                 {
                     provide: AuthHttp,
                     useFactory: authHttpServiceFactoryTesting,
