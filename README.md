@@ -19,7 +19,7 @@ So that people throughout the organisation can:
 
 ## Installing / Getting started
 
-The latest version of the app is running at [http://maptio.herokuapp.com](http://maptio.herokuapp.com).
+The latest version of the app is running at [https://app.maptio.com](https://app.maptio.com).
 
 To launch it on your local server, see the [Setting up dev](#setting-up-dev) section.
 
@@ -37,7 +37,6 @@ To launch it on your local server, see the [Setting up dev](#setting-up-dev) sec
 Additionally , we use these services/packages : 
 - Angular Tree Component `angular2-tree-component@1.3.5`
 - Auth0
-- `ng2-bs3-modal`
 
 ### Prerequisites
 
@@ -57,7 +56,7 @@ Go to  `http://localhost:3000` to see it in the browser.
 
 ### Deploying / Publishing
 
-We use Travis CI,  Code Climate and Heroku for deploying to `http://maptio.herokuapp.com'.
+We use Travis CI,  Code Climate and Heroku for deploying to `https://app.maptio.com`.
 
 Any `git push` in the `master` branch will triggers the following events : 
 
@@ -105,7 +104,7 @@ In general, we use standards rules from out of the box TSLint.
 
 ## Database
 
-MongoDB hosted on MLab, ORM is MongoJS.
+MongoDB hosted on MongoDb Atlas, ORM is MongoJS.
 
 ## Licensing
 
