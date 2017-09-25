@@ -9,12 +9,12 @@ require('dotenv').config()
 // let jwtSecret = process.env.JWT_SECRET;
 let isDevelopment = process.env.NODE_ENV !== "production"
 if (isDevelopment) {
-    var PRIVATE_KEY = fs.readFileSync(path.join(__dirname, "../id_rsa"));
-    var PUBLIC_KEY = fs.readFileSync(path.join(__dirname, "../rsa.pub"));
+    let PRIVATE_KEY = fs.readFileSync(path.join(__dirname, "../id_rsa"));
+    let PUBLIC_KEY = fs.readFileSync(path.join(__dirname, "../rsa.pub"));
 }
 else {
-    let PRIVATE_KEY = process.env.SSH_PRIVATE_KEY
-    let PUBLIC_KEY = process.env.SSH_PUBLIC_KEY
+    let PRIVATE_KEY = Buffer.from(process.env.SSH_PRIVATE_KEY)
+    let PUBLIC_KEY = Buffer.from(process.env.SSH_PUBLIC_KEY)
 }
 
 
