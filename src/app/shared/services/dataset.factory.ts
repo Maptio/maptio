@@ -100,7 +100,7 @@ export class DatasetFactory {
      * Retrieves one or many datasets
      * @param idOrUser Dataset unique ID or User
      */
-    get(idOrUserOrTeam: string | User | Team): Promise<DataSet> | Promise<DataSet[]> | Promise<void> {
+    get(idOrUserOrTeam: string | User | Team): Promise<DataSet> | Promise<DataSet[]> | Promise<string[]> | Promise<void> {
         if (!idOrUserOrTeam) return Promise.reject("Parameter missing");
         if (idOrUserOrTeam instanceof User) {
             return this.getWithUser(<User>idOrUserOrTeam)
@@ -112,7 +112,7 @@ export class DatasetFactory {
     }
 
 
-    private getWithUser(user: User): Promise<DataSet[]> {
+    private getWithUser(user: User): Promise<string[]> {
         return this._http.get("/api/v1/user/" + user.user_id + "/datasets")
             .map((responseData) => {
                 try {

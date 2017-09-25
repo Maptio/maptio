@@ -73,9 +73,9 @@ describe("dataset.factory.ts", () => {
 
                 target.get(user).then(datasets => {
                     expect(datasets.length).toBe(3);
-                    expect(datasets[0]._id).toBe("1");
-                    expect(datasets[1]._id).toBe("2");
-                    expect(datasets[2]._id).toBe("3");
+                    expect(datasets[0]).toBe("1");
+                    expect(datasets[1]).toBe("2");
+                    expect(datasets[2]).toBe("3");
                     expect(mockErrorService.handleError).not.toHaveBeenCalled();
                 });
             })));

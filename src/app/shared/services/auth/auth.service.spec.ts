@@ -1,3 +1,4 @@
+import { DatasetFactory } from "./../dataset.factory";
 import { AuthHttp } from "angular2-jwt";
 import { LoaderService } from "./../http/loader.service";
 import { RouterTestingModule } from "@angular/router/testing";
@@ -29,7 +30,7 @@ describe("auth.service.ts", () => {
                         ;
                     }
                 },
-                Auth, UserFactory, JwtEncoder, MailingService, LoaderService,
+                Auth, UserFactory, DatasetFactory, JwtEncoder, MailingService, LoaderService,
                 { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } },
                 {
                     provide: Http,
