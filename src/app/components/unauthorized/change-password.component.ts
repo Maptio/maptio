@@ -13,6 +13,7 @@ export class ChangePasswordComponent implements OnInit {
 
     public email: string;
     public errorMessage: string;
+    public feedbackMessage:string;
     constructor(private auth: Auth) { }
 
     ngOnInit() { }
@@ -27,7 +28,7 @@ export class ChangePasswordComponent implements OnInit {
                 else {
                     this.auth.changePassword(this.email);
                     EmitterService.get("changePasswordFeedbackMessage").subscribe((message: string) => {
-                        this.errorMessage = message;
+                        this.feedbackMessage = message;
                     })
                 }
             })
