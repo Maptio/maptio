@@ -90,7 +90,7 @@ export class DatasetFactory {
      * Retrieves a collection of datasets for a given user
      * @param user User
      */
-    get(user: User): Promise<DataSet[]>;
+    get(user: User): Promise<string[]>;
     /**
      * Retrieves one or many datasets
      * @param idOrUser Dataset unique ID or User

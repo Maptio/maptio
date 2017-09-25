@@ -71,7 +71,7 @@ describe("dataset.factory.ts", () => {
 
                 let user = new User({ user_id: "uniqueId" });
 
-                target.get(user).then(datasets => {
+                target.get(user).then((datasets => {
                     expect(datasets.length).toBe(3);
                     expect(datasets[0]).toBe("1");
                     expect(datasets[1]).toBe("2");

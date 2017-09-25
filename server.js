@@ -72,7 +72,7 @@ let cache = apicache.middleware
 app.use(bodyParser.json());
 app.use(sslRedirect());
 app.use(compression())
-app.use(jwtCheck.unless({ path: ['/api/v1/mail/confirm', "/api/v1/jwt/encode", "/api/v1/jwt/decode"] }));
+// app.use(jwtCheck.unless({ path: ['/','/api/v1/mail/confirm', "/api/v1/jwt/encode", "/api/v1/jwt/decode"] }));
 
 var datasets = require('./routes/datasets');
 var users = require('./routes/users');
@@ -84,10 +84,10 @@ var encoding = require('./routes/encoding');
 app.use('/api/v1/jwt/', encoding);
 app.use('/api/v1/mail/confirm', confirming);
 
-app.use('/api/v1/mail/invite', check_scopes(["invite"]), inviting);
-app.use('/api/v1/dataset/', check_scopes(["api"]), datasets);
-app.use('/api/v1/user', check_scopes(["api"]), users);
-app.use('/api/v1/team', check_scopes(["api"]), teams);
+app.use('/api/v1/mail/invite', jwtCheck, check_scopes(["invite"]), inviting);
+app.use('/api/v1/dataset/', jwtCheck, check_scopes(["api"]), datasets);
+app.use('/api/v1/user', jwtCheck, check_scopes(["api"]), users);
+app.use('/api/v1/team', jwtCheck, check_scopes(["api"]), teams);
 
 
 app.set("port", process.env.PORT || DEFAULT_PORT);
