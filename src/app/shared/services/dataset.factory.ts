@@ -119,11 +119,11 @@ export class DatasetFactory {
                     return responseData.json().datasets
                 }
                 catch (err) {
-                    return {}
+                    return []
                 }
             })
             .map((result: any) => {
-                return result || [];
+                return result ;
             })
             .toPromise()
     }

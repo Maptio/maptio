@@ -210,7 +210,7 @@ export class Auth {
                 .then((user: User) => {
                     this.datasetFactory.get(user).then(ds => {
                         // console.log(ds)
-                        user.datasets = ds;
+                        user.datasets = ds || [];
                         this.user$.next(user)
                     })
                 });
