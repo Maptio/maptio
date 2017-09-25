@@ -6,7 +6,7 @@ var path = require('path');
 
 require('dotenv').config()
 
-let jwtSecret = process.env.JWT_SECRET;
+// let jwtSecret = process.env.JWT_SECRET;
 let isDevelopment = process.env.NODE_ENV !== "production"
 if (isDevelopment) {
     var PRIVATE_KEY = fs.readFileSync(path.join(__dirname, "../id_rsa"));
@@ -20,7 +20,7 @@ else {
 
 router.post('/encode', function (req, res, next) {
     try {
-        let token = jwt.sign(req.body, CERT, {
+        let token = jwt.sign(req.body, PRIVATE_KEY, {
             algorithm: 'RS256'
         });
         res.json({ token: token });
