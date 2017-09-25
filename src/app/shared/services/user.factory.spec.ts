@@ -57,7 +57,7 @@ describe("user.factory.ts", () => {
             ];
 
             mockBackend.connections.subscribe((connection: MockConnection) => {
-                if (connection.request.url === "/api/v1/users/") {
+                if (connection.request.url === "/api/v1/user/all") {
                     connection.mockRespond(new Response(new ResponseOptions({
                         body: JSON.stringify(mockResponse)
                     })));
@@ -93,7 +93,7 @@ describe("user.factory.ts", () => {
             ];
 
             mockBackend.connections.subscribe((connection: MockConnection) => {
-                if (connection.request.url === "/api/v1/users/searched") {
+                if (connection.request.url === "/api/v1/user/all/searched") {
                     connection.mockRespond(new Response(new ResponseOptions({
                         body: JSON.stringify(mockResponse)
                     })));
