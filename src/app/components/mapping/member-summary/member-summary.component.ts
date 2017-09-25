@@ -43,71 +43,77 @@ export class MemberSummaryComponent implements OnInit {
                 this.memberUserId = user.user_id;
                 return user;
             })
-            this.authorities = [];
-            this.helps = [];
-            if (this.datasetId && this.memberShortId) {
+                .then((user: User) => {
+                    this.authorities = [];
+                    this.helps = [];
+                    if (this.datasetId && this.memberShortId) {
 
-                this.datasetFactory.get(this.datasetId).then((dataset: DataSet) => {
-                    this.initiative = dataset.initiative;
-                    // console.log(initiative)
-                    this.initiative.traverse(function (i: Initiative) {
-                        if (i.accountable && i.accountable.user_id === this.memberUserId) {
-                            if (!this.authorities.includes(i)) this.authorities.push(i)
-                        }
-                        if (i.helpers && i.helpers.find(h => h.user_id === this.memberUserId)) {
-                            if (!this.helps.includes(i)) this.helps.push(i)
-                        }
-                    }.bind(this));
+                        this.datasetFactory.get(this.datasetId).then((dataset: DataSet) => {
+                            this.initiative = dataset.initiative;
+                            console.log(this.initiative, this.memberUserId)
+                            this.initiative.traverse(function (i: Initiative) {
+                                if (i.accountable && i.accountable.user_id === this.memberUserId) {
+                                    if (!this.authorities.includes(i)) this.authorities.push(i)
+                                }
+                                if (i.helpers && i.helpers.find(h => h.user_id === this.memberUserId)) {
+                                    if (!this.helps.includes(i)) this.helps.push(i)
+                                }
+                            }.bind(this));
 
-                    this.authorities.forEach((i: Initiative) => {
-                        Promise.all(
-                            i.helpers.map(
-                                m => Promise.all([this.auth.getUserInfo(m.user_id), this.userFactory.get(m.user_id)])
-                                    .then(m => m, (reason) => { return Promise.reject(reason) })
-                                    .then(([userInfo, userShortId]: [User, User]) => {
-                                        userInfo.shortid = userShortId.shortid;
-                                        return userInfo;
-                                    })
-                                    .catch(() => { m.isDeleted = true; return m })
-                            )
+                            this.authorities.forEach((i: Initiative) => {
+                                Promise.all(
+                                    i.helpers.map(
+                                        m => Promise.all([this.auth.getUserInfo(m.user_id), this.userFactory.get(m.user_id)])
+                                            .then(m => m, (reason) => { return Promise.reject(reason) })
+                                            .then(([userInfo, userShortId]: [User, User]) => {
+                                                userInfo.shortid = userShortId.shortid;
+                                                return userInfo;
+                                            })
+                                            .catch(() => { m.isDeleted = true; return m })
+                                    )
 
-                        )
-                            .then(members => i.helpers = members)
-                    })
-
-                    this.helps.forEach((i: Initiative) => {
-
-                        Promise.all(
-                            i.helpers.map(
-                                m => Promise.all([this.auth.getUserInfo(m.user_id), this.userFactory.get(m.user_id)])
-                                    .then(m => m, (reason) => { return Promise.reject(reason) })
-                                    .then(([userInfo, userShortId]: [User, User]) => {
-                                        userInfo.shortid = userShortId.shortid;
-                                        return userInfo;
-                                    })
-                                    .catch(() => { m.isDeleted = true; return m })
-                            )
-
-                        )
-                            .then(members => i.helpers = members)
-
-                        Promise.all([this.auth.getUserInfo(i.accountable.user_id), this.userFactory.get(i.accountable.user_id)])
-                            .then(m => m, (reason) => { return Promise.reject(reason) })
-                            .then(([userInfo, userShortId]: [User, User]) => {
-                                userInfo.shortid = userShortId.shortid;
-                                return userInfo;
+                                )
+                                    .then(members => i.helpers = members)
                             })
-                            .then(m => { i.accountable = m })
 
-                    })
-                    return dataset;
-                }, () => { })
-                    .then((d: DataSet) => {
-                        this.team$ = this.teamFactory.get(d.initiative.team_id)
-                    })
-            }
+                            this.helps.forEach((i: Initiative) => {
 
-        })
+                                Promise.all(
+                                    i.helpers.map(
+                                        m => Promise.all([this.auth.getUserInfo(m.user_id), this.userFactory.get(m.user_id)])
+                                            .then(m => m, (reason) => { return Promise.reject(reason) })
+                                            .then(([userInfo, userShortId]: [User, User]) => {
+                                                userInfo.shortid = userShortId.shortid;
+                                                return userInfo;
+                                            })
+                                            .catch(() => { m.isDeleted = true; return m })
+                                    )
+
+                                )
+                                    .then(members => i.helpers = members)
+
+                                Promise.all([this.auth.getUserInfo(i.accountable.user_id), this.userFactory.get(i.accountable.user_id)])
+                                    .then(m => m, (reason) => { return Promise.reject(reason) })
+                                    .then(([userInfo, userShortId]: [User, User]) => {
+                                        userInfo.shortid = userShortId.shortid;
+                                        return userInfo;
+                                    })
+                                    .then(m => { i.accountable = m })
+
+                            })
+                            return dataset;
+                        }, () => { })
+                            .then((d: DataSet) => {
+                                this.team$ = this.teamFactory.get(d.initiative.team_id)
+                            })
+                    }
+                    return user;
+                })
+        }
+
+
+        )
+
     }
 
 

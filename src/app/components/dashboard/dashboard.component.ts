@@ -24,11 +24,12 @@ export class DashboardComponent implements OnInit {
             // this.user = user
 
             this.datasets$ = Promise
-                .all(user.datasets.map(did => this.datasetFactory.get(did)))
+                .all(user.datasets.map(did => this.datasetFactory.get(did)
+                    .then(d => d, () => { return Promise.reject("No dataset") }).catch(() => { return <DataSet>undefined }
+
+                    )))
                 .then((datasets: Array<DataSet>) => {
-                    return datasets.map(d => {
-                        // console.log(d.initiative.name, d.initiative)
-                        // console.log(d.initiative.name, "lloking for ", d.initiative.team_id)
+                    return datasets.filter(d => { return d !== undefined }).map(d => {
                         this.teamFactory.get(d.initiative.team_id).then(team => { d.team = team }, () => { d.team = undefined })
                         return d;
                     })

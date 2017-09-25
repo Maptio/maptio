@@ -17,6 +17,7 @@ import { AuthConfiguration } from "./auth.config";
 import { WebAuth } from "auth0-js"
 import * as shortid from "shortid";
 import * as promisify from "es6-promisify";
+import { DatasetFactory } from "../dataset.factory";
 
 @Injectable()
 export class Auth {
@@ -25,7 +26,7 @@ export class Auth {
     private _http: Http;
 
     constructor(private http: Http, public lock: AuthConfiguration,
-        public userFactory: UserFactory, private router: Router, private errorService: ErrorService,
+        public userFactory: UserFactory, public datasetFactory: DatasetFactory, private router: Router, private errorService: ErrorService,
         public encodingService: JwtEncoder, public mailing: MailingService) {
         this._http = http;
         this.user$ = new Subject();
@@ -69,7 +70,6 @@ export class Auth {
             audience: "https://app.maptio.com/api/v1"
         }, function (err: any, authResult: any) {
             if (authResult.accessToken) {
-
                 EmitterService.get("maptio_api_token").emit(authResult.accessToken)
             }
         })
@@ -204,9 +204,15 @@ export class Auth {
         // console.log("getUser", profileString)
         if (profileString) {
             this.userFactory.get(JSON.parse(profileString).user_id).then((user) => {
-                // console.log(user)
-                this.user$.next(user)
-            });
+                return user;
+
+            })
+                .then((user: User) => {
+                    this.datasetFactory.get(user).then(ds => {
+                        user.datasets = ds.map(d => d._id);
+                        this.user$.next(user)
+                    })
+                });
         }
         else {
             this.clear();
