@@ -6,22 +6,25 @@ var path = require('path');
 
 require('dotenv').config()
 
+let PRIVATE_KEY, PUBLIC_KEY;
+
 // let jwtSecret = process.env.JWT_SECRET;
 let isDevelopment = process.env.NODE_ENV !== "production"
 if (isDevelopment) {
-    let PRIVATE_KEY = fs.readFileSync(path.join(__dirname, "../id_rsa"));
-    let PUBLIC_KEY = fs.readFileSync(path.join(__dirname, "../rsa.pub"));
+    PRIVATE_KEY = fs.readFileSync(path.join(__dirname, "../id_rsa"));
+    PUBLIC_KEY = fs.readFileSync(path.join(__dirname, "../rsa.pub"));
 }
 else {
-    let PRIVATE_KEY = Buffer.from(process.env.SSH_PRIVATE_KEY)
-    let PUBLIC_KEY = Buffer.from(process.env.SSH_PUBLIC_KEY)
+    PRIVATE_KEY = Buffer.from(process.env.SSH_PRIVATE_KEY)
+    PUBLIC_KEY = Buffer.from(process.env.SSH_PUBLIC_KEY)
 
-    console.log("private", PRIVATE_KEY);
-    console.log("public", PUBLIC_KEY)
+
 }
 
 
 router.post('/encode', function (req, res, next) {
+    console.log("private", PRIVATE_KEY);
+    console.log("public", PUBLIC_KEY)
     try {
         let token = jwt.sign(req.body, PRIVATE_KEY, {
             algorithm: 'RS256'
