@@ -84,13 +84,12 @@ export class BuildingComponent {
         this.openDetails.emit(node)
     }
 
-    toggleAll() {
-        this.tree.treeModel.getNodeById(this.nodes[0].id).toggleExpanded();
-        this.nodes[0].traverse(function (i: Initiative) {
-            this.tree.treeModel.getNodeById(i.id).toggleExpanded();
-        }.bind(this));
-
-    }
+    // toggleAll() {
+    //     this.tree.treeModel.getNodeById(this.nodes[0].id).toggleExpanded();
+    //     this.nodes[0].traverse(function (i: Initiative) {
+    //         this.tree.treeModel.getNodeById(i.id).toggleExpanded();
+    //     }.bind(this));
+    // }
 
     /**
      * Loads data into workspace

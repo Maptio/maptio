@@ -135,39 +135,6 @@ describe("building.component.ts", () => {
             });
         });
 
-        describe("updateTree event", () => {
-            xit("should call updateTreeModel", () => {
-                let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
-                root.children = [node1, node2, node3];
-                component.nodes = [root];
-                target.detectChanges();
-                let spyMapData = spyOn(component, "updateTreeModel").and.callThrough();
-
-                target.detectChanges();
-
-                let element = target.debugElement.query(By.css("Tree treenode"));
-                element.triggerEventHandler("update", null);
-
-                expect(spyMapData).toHaveBeenCalled();
-            });
-        });
-
-        // describe("openSelected event", () => {
-        //     xit("should call editInitiative", () => {
-        //         let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
-        //         root.children = [node1, node2, node3];
-        //         component.nodes = [root];
-        //         let spyEdit = spyOn(component, "editInitiative");
-
-        //         target.detectChanges();
-
-        //         let element = target.debugElement.query(By.css("Tree treenode")).nativeElement as HTMLElement;
-        //         element.dispatchEvent(new Event("openSelected"));
-
-        //         expect(spyEdit).toHaveBeenCalled();
-        //     });
-        // });
-
         describe("Save button", () => {
             xit("should call saveChanges when clicked", () => {
                 let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
@@ -186,20 +153,6 @@ describe("building.component.ts", () => {
 
 
     describe("Controller", () => {
-
-        // describe("Edit initiative", () => {
-        //     it("should open initiative modal", () => {
-        //         let mockModalService = target.debugElement.injector.get(NgbModal);
-        //         let node = new Initiative(), parent = new Initiative();
-        //         let spyGetParent = spyOn(node, "getParent").and.returnValue(parent)
-        //         let spyModalOpen = spyOn(mockModalService, "open")
-        //         component.editInitiative(node);
-        //         expect(component.openedNode).toBe(node);
-        //         expect(component.openedNodeParent).toBe(parent);
-        //         expect(spyGetParent).toHaveBeenCalled();
-        //         expect(spyModalOpen).toHaveBeenCalled();
-        //     })
-        // });
 
         describe("Loading data", () => {
             it("shoud loads data and initializes tree", async(() => {
@@ -247,21 +200,6 @@ describe("building.component.ts", () => {
                 });
             }));
 
-            // it("should load data and open a node with matching slug", async(() => {
-            //     let mockDataService = target.debugElement.injector.get(DatasetFactory);
-
-            //     fixture.load("data.json");
-            //     let spyDataService = spyOn(mockDataService, "get").and.returnValue(Promise.resolve(fixture.json[0]));
-            //     let spyMapData = spyOn(component, "saveChanges");
-            //     let spyEdit = spyOn(component, "editInitiative")
-            //     component.loadData("someId", "the-rest");
-            //     spyDataService.calls.mostRecent().returnValue.then(() => {
-            //         expect(spyDataService).toHaveBeenCalledWith("someId");
-            //         expect(spyMapData).toHaveBeenCalled();
-            //         expect(spyEdit).toHaveBeenCalledWith(jasmine.objectContaining({ name: "The rest" }));
-            //     });
-
-            // }))
 
         });
 
@@ -349,7 +287,6 @@ describe("building.component.ts", () => {
             });
         });
 
-
         describe("Save changes", () => {
             describe("saveChanges", () => {
                 it("should emit data to save", () => {
@@ -373,6 +310,15 @@ describe("building.component.ts", () => {
                     expect(spy).toHaveBeenCalledWith({ initiative: jasmine.objectContaining({ name: "first" }), datasetId: "some_id" });
 
                 }));
+            });
+        });
+
+        describe("Open Details", () => {
+            it("should emit selected node", () => {
+                let spy = spyOn(component.openDetails, "emit");
+                let newNode = new Initiative({ name: "newly updated" });
+                component.openNodeDetails(newNode)
+                expect(spy).toHaveBeenCalledWith(newNode)
             });
         });
     });
