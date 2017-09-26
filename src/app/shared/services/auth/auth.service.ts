@@ -236,7 +236,7 @@ export class Auth {
             return this.http.post(
                 "https://circlemapping.auth0.com/api/v2/tickets/email-verification",
                 {
-                    "result_url": "http://app.maptio.com/home?token=" + userToken,
+                    "result_url": "http://app.maptio.com/login?token=" + userToken,
                     "user_id": userId
                 },
                 { headers: headers })
