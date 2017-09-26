@@ -1,8 +1,9 @@
+import { Observable } from "rxjs/Rx";
 import { LoaderService } from "./../shared/services/http/loader.service";
 import { Initiative } from "./../shared/model/initiative.data";
 import { ResponsiveModule } from "ng2-responsive";
 import { DataSet } from "../shared/model/dataset.data";
-import { Router } from "@angular/router";
+import { Router, NavigationEnd } from "@angular/router";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core"
 import { AppComponent } from "./app.component";
@@ -18,7 +19,11 @@ describe("app.component.ts", () => {
     let component: AppComponent;
     let target: ComponentFixture<AppComponent>;
 
+
     beforeEach(async(() => {
+
+
+
         TestBed.configureTestingModule({
             declarations: [AppComponent, HelpComponent],
             imports: [RouterTestingModule, ResponsiveModule],
@@ -27,7 +32,16 @@ describe("app.component.ts", () => {
             set: {
                 providers: [
                     LoaderService,
-                    { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } }
+                    {
+                        provide: Router, useClass: class {
+                            navigate = jasmine.createSpy("navigate");
+                            public events = new Observable(observer => {
+                                observer.next(new NavigationEnd(0, "/login", "/login"));
+                                observer.complete();
+                            });
+
+                        }
+                    }
                 ]
             }
         }).compileComponents();
@@ -39,21 +53,51 @@ describe("app.component.ts", () => {
         component = target.componentInstance;
     });
 
+    it("should unsubscribe subscription when component is destroyed", () => {
+        let spy = spyOn(component.routerSubscription, "unsubscribe");
+        target.destroy();
+        expect(spy).toHaveBeenCalled();
+    })
 
-    describe("Controller", () => {
-        // it("should open Help modal in openHelp", () => {
+    describe("isUrlHome", () => {
+        it("should return true when url is /home", () => {
+            let url = "/home"
+            expect(component.isUrlHome(url)).toBeTruthy()
+        })
 
-        //     let spy = spyOn(component.helpComponent, "open");
-        //     component.openHelp();
-        //     expect(spy).toHaveBeenCalled();
-        // });
+        it("should return true when url starts with /home", () => {
+            let url = "/home?token=TOKEN"
+            expect(component.isUrlHome(url)).toBeTruthy()
+        })
 
-        it("should display /map in openDataset", () => {
-            let mockRouter = target.debugElement.injector.get(Router);
-            component.openDataset(new DataSet({ _id: "some_unique_id", initiative: new Initiative({ name: "Some project" }) }));
-            expect(mockRouter.navigate).toHaveBeenCalledWith(["map", "some_unique_id"]);
-        });
-    });
+        it("should return true when url is /", () => {
+            let url = "/"
+            expect(component.isUrlHome(url)).toBeTruthy()
+        })
+
+        it("should return false when url is not home URL", () => {
+            let url = "/nothome"
+            expect(component.isUrlHome(url)).toBeFalsy()
+        })
+    })
+
+    describe("isUrlMap", () => {
+        it("should return true when url is /map", () => {
+            let url = "/map"
+            expect(component.isUrlMap(url)).toBeTruthy()
+        })
+
+        it("should return true when url starts with /map", () => {
+            let url = "/map/MAPID"
+            expect(component.isUrlMap(url)).toBeTruthy()
+        })
+
+        it("should return false when url is not a map URL", () => {
+            let url = "/notmap"
+            expect(component.isUrlMap(url)).toBeFalsy()
+        })
+    })
+
 
 
 
