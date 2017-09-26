@@ -47,7 +47,7 @@ import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authht
 //     }
 // }
 
-fdescribe("header.component.ts", () => {
+describe("header.component.ts", () => {
 
     let component: HeaderComponent;
     let target: ComponentFixture<HeaderComponent>;
