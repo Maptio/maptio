@@ -17,6 +17,7 @@ import { MockBackend } from "@angular/http/testing";
 import { ErrorService } from "../../../shared/services/error/error.service";
 import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
 import { Auth } from "../../../shared/services/auth/auth.service";
+import { DatasetFactory } from "../../../shared/services/dataset.factory";
 
 export class AuthStub {
 
@@ -29,7 +30,7 @@ describe("tooltip.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
-                UIService, D3Service, TeamFactory, UserFactory,
+                UIService, D3Service, TeamFactory, UserFactory,DatasetFactory,
                 {
                     provide: AuthHttp,
                     useFactory: authHttpServiceFactoryTesting,

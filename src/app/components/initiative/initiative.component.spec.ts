@@ -17,6 +17,7 @@ import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 import { Auth } from "../../shared/services/auth/auth.service";
+import { DatasetFactory } from "../../shared/services/dataset.factory";
 
 describe("initiative.component.ts", () => {
 
@@ -31,7 +32,7 @@ describe("initiative.component.ts", () => {
         TestBed.configureTestingModule({
             imports: [Ng2Bs3ModalModule, NgbModule.forRoot(), FormsModule, RouterTestingModule],
             declarations: [InitiativeComponent],
-            providers: [TeamFactory, UserFactory,
+            providers: [TeamFactory, UserFactory,DatasetFactory,
                 {
                     provide: Http,
                     useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {

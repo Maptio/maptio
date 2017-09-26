@@ -55,13 +55,13 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         let datasetId = this.datasetId;
         let router = this.router;
         let userFactory = this.userFactory;
-        let slug = data.getSlug();
 
         if (!data) {
             // console.log("CLEAN");
             this.uiService.clean();
             return;
         }
+        let slug = data.getSlug();
 
         this.uiService.clean();
         // let color = colorService.getDefaulColorRange();

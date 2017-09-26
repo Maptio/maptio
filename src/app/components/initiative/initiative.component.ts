@@ -89,8 +89,8 @@ export class InitiativeComponent implements OnChanges {
         console.log(changes.datasetId.currentValue)
         this.dataset = this.datasetFactory.get(changes.datasetId.currentValue)
             .then(
-            d => { console.log(d); return d },
-            () => { console.log("nope"); return Promise.reject("no dataset") })
+            d => {  return d },
+            () => { return Promise.reject("no dataset") })
             .catch(() => { });
 
     }
