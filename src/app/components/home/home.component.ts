@@ -18,28 +18,28 @@ export class HomeComponent implements OnInit {
 
     private routeSubscription: Subscription;
 
-    constructor(private auth: Auth, private route: ActivatedRoute, public encoding: JwtEncoder) { }
+    constructor(private auth: Auth) { }
 
     ngOnInit() {
-        this.routeSubscription = this.route.queryParams.subscribe((params: Params) => {
+        // this.routeSubscription = this.route.queryParams.subscribe((params: Params) => {
 
-            let token = params["token"];
-            if (token) {
-                this.encoding.decode(token)
-                    .then((userInfo: any) => {
-                        this.invitedEmail = userInfo.email
-                        return userInfo.user_id;
-                    })
-                    .then((user_id: string) => {
-                        this.isActivationPending = this.auth.isActivationPendingByUserId(user_id);
-                    })
-            }
-        })
+        //     let token = params["token"];
+        //     if (token) {
+        //         this.encoding.decode(token)
+        //             .then((userInfo: any) => {
+        //                 this.invitedEmail = userInfo.email
+        //                 return userInfo.user_id;
+        //             })
+        //             .then((user_id: string) => {
+        //                 this.isActivationPending = this.auth.isActivationPendingByUserId(user_id);
+        //             })
+        //     }
+        // })
     }
 
     ngOnDestroy() {
-        if (this.routeSubscription) {
-            this.routeSubscription.unsubscribe();
-        }
+        // if (this.routeSubscription) {
+        //     this.routeSubscription.unsubscribe();
+        // }
     }
 }

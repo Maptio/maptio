@@ -22,31 +22,6 @@ import { Team } from "../../shared/model/team.data";
 import { RouterTestingModule } from "@angular/router/testing";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 
-// export class AuthStub {
-//     fakeProfile: User = new User({
-//         name: "John Doe", email: "johndoe@domain.com",
-//         picture: "http://seemyface.com/user.jpg", user_id: "someId",
-//         datasets: ["dataset1", "dataset2"], teams: ["team1", "team2"]
-//     });
-
-//     public getUser(): Observable<User> {
-//         // console.log("here")
-//         return Observable.of(this.fakeProfile);
-//     }
-
-//     authenticated() {
-//         return;
-//     }
-
-//     login() {
-//         return;
-//     }
-
-//     logout() {
-//         return;
-//     }
-// }
-
 describe("header.component.ts", () => {
 
     let component: HeaderComponent;

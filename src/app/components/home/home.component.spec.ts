@@ -20,7 +20,7 @@ export class AuthStub {
     }
 }
 
-describe("home.component.ts", () => {
+fdescribe("home.component.ts", () => {
     let component: HomeComponent;
     let target: ComponentFixture<HomeComponent>;
 
@@ -32,24 +32,24 @@ describe("home.component.ts", () => {
         }).overrideComponent(HomeComponent, {
             set: {
                 providers: [
-                    JwtEncoder,
+                    // JwtEncoder,
                     { provide: Auth, useClass: AuthStub },
-                    {
-                        provide: ActivatedRoute,
-                        useValue: {
-                            queryParams: Observable.of({ token: "TOKEN" })
-                        }
-                    },
-                    {
-                        provide: Http,
-                        useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
-                            return new Http(mockBackend, options);
-                        },
-                        deps: [MockBackend, BaseRequestOptions]
-                    },
-                    MockBackend,
-                    BaseRequestOptions,
-                    ErrorService
+                    // {
+                    //     provide: ActivatedRoute,
+                    //     useValue: {
+                    //         queryParams: Observable.of({ token: "TOKEN" })
+                    //     }
+                    // },
+                    // {
+                    //     provide: Http,
+                    //     useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
+                    //         return new Http(mockBackend, options);
+                    //     },
+                    //     deps: [MockBackend, BaseRequestOptions]
+                    // },
+                    // MockBackend,
+                    // BaseRequestOptions,
+                    // ErrorService
                 ]
             }
         }).compileComponents();

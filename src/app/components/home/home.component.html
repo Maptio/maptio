@@ -1,6 +1,6 @@
-<div class="alert alert-success" role="alert" *ngIf="invitedEmail">
+<!-- <div class="alert alert-success" role="alert" *ngIf="invitedEmail">
     <strong>{{invitedEmail}} ? </strong> <span *ngIf="(isActivationPending | async)">Activate your account <a routerLink="/login" queryParamsHandling="preserve">here</a></span>
-</div>
+</div> -->
 
 <div class="row  m-4">
     <div class="col-6">
@@ -9,7 +9,6 @@
             <h6>A simple online tool to allow organisations and initiatives to be mapped, visualised and explored in nested
                 circles.
             </h6>
-            <!-- <p *ngIf="!auth.authenticated()"><a class="btn btn-primary btn-lg" routerLink="/login">Map your initiative now</a></p> -->
         </div>
     </div>
     <div class="col-6 signup mt-3 rounded" *ngIf="!auth.authenticated()">
