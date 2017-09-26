@@ -89,7 +89,7 @@ export class SignupComponent implements OnInit {
                             return user;
                         }, (reason) => { return Promise.reject(reason) })
                         .then((user: User) => {
-                            console.log("I'm here")
+                            // console.log("I'm here")
                             return this.auth.sendConfirmation(user.email, user.user_id, user.firstname, user.lastname, user.name)
                                 .then((success: boolean) => {
                                     this.isConfirmationEmailSent = success

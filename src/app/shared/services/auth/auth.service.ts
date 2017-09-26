@@ -271,7 +271,7 @@ export class Auth {
                 }).toPromise()
         })
             .then((ticket: string) => {
-                console.log("sending ticket")
+                // console.log("sending ticket")
                 return this.mailing.sendConfirmation("support@maptio.com", [email], ticket)
             })
             .then((success: boolean) => {

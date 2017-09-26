@@ -50,7 +50,7 @@ export class MemberSummaryComponent implements OnInit {
 
                         this.datasetFactory.get(this.datasetId).then((dataset: DataSet) => {
                             this.initiative = dataset.initiative;
-                            console.log(this.initiative, this.memberUserId)
+                            // console.log(this.initiative, this.memberUserId)
                             this.initiative.traverse(function (i: Initiative) {
                                 if (i.accountable && i.accountable.user_id === this.memberUserId) {
                                     if (!this.authorities.includes(i)) this.authorities.push(i)
