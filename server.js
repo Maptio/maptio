@@ -67,7 +67,7 @@ if (!isDevelopment) {
 
 
 let cache = apicache.middleware
-// app.use(cache('10 seconds'))
+ app.use(cache('5 seconds'))
 
 app.use(bodyParser.json());
 app.use(sslRedirect());
