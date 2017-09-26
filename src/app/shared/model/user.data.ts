@@ -132,7 +132,7 @@ export class User implements Serializable<User> {
     //     }
     // }
 
-    getSlug(){
+    getSlug() {
         return slug(this.name || "", { lower: true })
     }
 }
