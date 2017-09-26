@@ -203,10 +203,18 @@ export class Auth {
         let profileString = localStorage.getItem("profile");
         // console.log("getUser", profileString)
         if (profileString) {
-            this.userFactory.get(JSON.parse(profileString).user_id).then((user) => {
+            // this.userFactory.get(JSON.parse(profileString).user_id).then((user) => {
+            this.getUserInfo(JSON.parse(profileString).user_id).then((user) => {
                 return user;
 
             })
+                .then((user: User) => {
+                    return this.userFactory.get(JSON.parse(profileString).user_id).then((u) => {
+                        user.teams = u.teams;
+                        user.shortid = u.shortid
+                        return user;
+                    })
+                })
                 .then((user: User) => {
                     this.datasetFactory.get(user).then(ds => {
                         // console.log(ds)

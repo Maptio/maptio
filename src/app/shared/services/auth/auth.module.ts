@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { NgModule, Injector } from "@angular/core";
 import { Http, RequestOptions } from "@angular/http";
 import { AuthHttp, AuthConfig } from "angular2-jwt";
@@ -6,14 +7,14 @@ import { Auth } from "./auth.service";
 
 
 
-export function authHttpServiceFactory(http: Http, options: RequestOptions, auth: Auth) {
+export function authHttpServiceFactory(http: Http, options: RequestOptions, auth: Auth, router: Router) {
 
   let config = new AuthConfig({
     tokenName: "maptio_api_token",
     tokenGetter: (() => { return localStorage.getItem("maptio_api_token") }),
     globalHeaders: [{ "Content-Type": "application/json" }],
   })
-  return new AuthHttpInterceptor(config, http, options, auth);
+  return new AuthHttpInterceptor(config, http, options, auth, router);
 }
 
 @NgModule({
@@ -21,7 +22,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, auth
     {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,
-      deps: [Http, RequestOptions, Auth]
+      deps: [Http, RequestOptions, Auth, Router]
     }
   ]
 })

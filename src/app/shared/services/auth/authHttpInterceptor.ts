@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { RequestOptions, Response, Request, RequestOptionsArgs, Headers, Http } from "@angular/http";
 import { Observable } from "rxjs";
 import { AuthHttp, AuthConfig } from "angular2-jwt";
@@ -6,7 +7,7 @@ import { Auth } from "./auth.service";
 
 export class AuthHttpInterceptor extends AuthHttp {
 
-    constructor(config: AuthConfig, http: Http, defaultOptions: RequestOptions, private authService: Auth) {
+    constructor(config: AuthConfig, http: Http, defaultOptions: RequestOptions, private authService: Auth, private router: Router) {
         super(config, http, defaultOptions)
     }
 
@@ -50,7 +51,7 @@ export class AuthHttpInterceptor extends AuthHttp {
         return observable.catch((err, source) => {
             if (this.isUnauthorized(err.status)) {
                 // logout the user or do what you want
-                this.authService.logout();
+                this.router.navigateByUrl("/unauthorized");
 
                 if (err instanceof Response) {
                     return Observable.throw(err.json().message || "backend server error");
