@@ -129,7 +129,7 @@ export class HeaderComponent implements OnInit {
         this.teamFactory.create(new Team({ name: teamName, members: [this.user] })).then((team: Team) => {
             this.user.teams.push(team.team_id);
             this.userFactory.upsert(this.user).then((result: boolean) => {
-                this.router.navigate(["/team", team.team_id]);
+                this.router.navigate(["/team", team.team_id, team.getSlug()]);
             })
 
         })

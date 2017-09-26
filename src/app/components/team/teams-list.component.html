@@ -14,7 +14,7 @@
 
         <div class="card mb-3 " *ngFor="let team of (teams$ | async);trackBy:trackByTeamId">
             <div class="d-flex w-100 justify-content-between card-header">
-                <h5><a routerLink="/team/{{team?.team_id}}"> {{team?.name}}</a></h5>
+                <h5><a routerLink="/team/{{team?.team_id}}/{{team?.getSlug()}}"> {{team?.name}}</a></h5>
                 <small>{{team?.members?.length}} members</small>
             </div>
             <div class="card-block">

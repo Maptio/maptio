@@ -1,6 +1,6 @@
 import { User } from "./user.data";
 import { Serializable } from "../interfaces/serializable.interface";
-// import { Person } from "./person.data"
+import * as slug from "slug";
 
 export class Team implements Serializable<Team> {
 
@@ -18,6 +18,7 @@ export class Team implements Serializable<Team> {
      * Name of team
      */
     public name: string;
+
 
     /**
      * List of team members
@@ -66,4 +67,9 @@ export class Team implements Serializable<Team> {
             return [false, undefined]
         }
     }
+
+    getSlug(): string {
+        return slug(this.name || "", { lower: true })
+    }
+
 }
