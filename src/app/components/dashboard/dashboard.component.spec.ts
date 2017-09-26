@@ -1,7 +1,7 @@
-import { Initiative } from './../../shared/model/initiative.data';
-import { MockBackend } from '@angular/http/testing';
-import { BaseRequestOptions, Http } from '@angular/http';
-import { AuthHttp } from 'angular2-jwt';
+import { Initiative } from "./../../shared/model/initiative.data";
+import { MockBackend } from "@angular/http/testing";
+import { BaseRequestOptions, Http } from "@angular/http";
+import { AuthHttp } from "angular2-jwt";
 import { TeamFactory } from "./../../shared/services/team.factory";
 import { DatasetFactory } from "./../../shared/services/dataset.factory";
 
@@ -16,7 +16,7 @@ import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authht
 import { DataSet } from "../../shared/model/dataset.data";
 import { Team } from "../../shared/model/team.data";
 
-fdescribe("dashboard.component.ts", () => {
+describe("dashboard.component.ts", () => {
 
     let component: DashboardComponent;
     let target: ComponentFixture<DashboardComponent>;

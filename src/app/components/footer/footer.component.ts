@@ -1,3 +1,4 @@
+import { environment } from "./../../../environment/environment";
 import { Component, OnInit } from "@angular/core";
 
 @Component({
@@ -5,14 +6,11 @@ import { Component, OnInit } from "@angular/core";
     template: require("./footer.component.html"),
     styleUrls: ["./footer.component.css"]
 })
-export class FooterComponent implements OnInit {
+export class FooterComponent {
 
-
-    public TOS_URL: string = "https://termsfeed.com/terms-conditions/f0e548940bde8842b1fb58637ae048c0"
-    public PRIVACY_URL: string = "https://termsfeed.com/privacy-policy/61f888ebea93b0029582b88a7be1e1e3"
-    public BLOG_URL: string = "https://medium.com/maptio";
+    public TOS_URL: string = environment.TOS_URL
+    public PRIVACY_URL: string = environment.PRIVACY_URL
+    public BLOG_URL: string = environment.BLOG_URL;
 
     constructor() { }
-
-    ngOnInit() { }
 }

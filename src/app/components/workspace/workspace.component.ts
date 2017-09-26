@@ -1,3 +1,4 @@
+// tslint:disable-next-line:quotemark
 import { Subscription } from 'rxjs/Rx';
 import { Initiative } from "./../../shared/model/initiative.data";
 import { DataSet } from "./../../shared/model/dataset.data";
