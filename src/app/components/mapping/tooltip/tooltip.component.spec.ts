@@ -30,7 +30,7 @@ describe("tooltip.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
-                UIService, D3Service, TeamFactory, UserFactory,DatasetFactory,
+                UIService, D3Service, TeamFactory, UserFactory, DatasetFactory,
                 {
                     provide: AuthHttp,
                     useFactory: authHttpServiceFactoryTesting,

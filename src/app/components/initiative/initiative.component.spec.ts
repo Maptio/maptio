@@ -32,7 +32,7 @@ describe("initiative.component.ts", () => {
         TestBed.configureTestingModule({
             imports: [Ng2Bs3ModalModule, NgbModule.forRoot(), FormsModule, RouterTestingModule],
             declarations: [InitiativeComponent],
-            providers: [TeamFactory, UserFactory,DatasetFactory,
+            providers: [TeamFactory, UserFactory, DatasetFactory,
                 {
                     provide: Http,
                     useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
