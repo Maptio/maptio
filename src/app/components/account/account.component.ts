@@ -31,7 +31,9 @@ export class AccountComponent implements OnInit {
 
     constructor(private auth: Auth, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private errorService: ErrorService) {
         this.subscription = this.auth.getUser().subscribe((user: User) => {
-            this.user = user
+            this.auth.getUserInfo(user.user_id).then(u => {
+                this.user = u
+            })
         },
             (error: any) => { this.errorService.handleError(error) });
     }

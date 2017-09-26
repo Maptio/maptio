@@ -16,7 +16,7 @@ router.get('/all', function (req, res, next) {
     });
 });
 
-router.get('/user/all/:pattern', function (req, res, next) {
+router.get('/all/:pattern', function (req, res, next) {
     let pattern = req.params.pattern;
 
     db.users.find(

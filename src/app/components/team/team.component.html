@@ -58,7 +58,7 @@
                     <ng-template #rt let-r="result" let-t="term">
                         <img src="{{r.picture}}" width="16"> {{r.email}}
                     </ng-template>
-                    {{inputNewMember.value}}
+                    
                     <div class="input-group">
                         <input #inputNewMember type="text" id="inputNewMember" [resultTemplate]="rt" placeholder="e.g. hermes.conrad@planetexpress.com"
                             class="form-control col-12" [ngModelOptions]="{standalone: true}" [ngModel]="newMember" (selectItem)="saveNewMember($event)"
