@@ -20,7 +20,7 @@
                         </div>
                         <span class="mb-1" *ngIf="(i.helpers?.length !== 0)">with the help of 
                                 <div class="btn-group">
-                                    <a *ngFor="let h of i.helpers" class="btn btn-link btn-xs no-padding" routerLink="/summary/map/{{datasetId}}/u/{{h.shortid}}">
+                                    <a *ngFor="let h of i.helpers" class="btn btn-link btn-xs no-padding" routerLink="/summary/map/{{datasetId}}/{{initiative?.getSlug()}}/u/{{h.shortid}}">
                                         <img class="rounded-circle helper" src="{{h.picture}}" alt="{{h.name}}" title="{{h.name}}"
                                         placement="top" container="body" ngbTooltip="{{h.name}}"
                                         > 
@@ -52,7 +52,7 @@
 
                         <span class="mb-1" *ngIf="(i.helpers?.length !== 0)">Helpers 
                                 <div class="btn-group">
-                                    <a *ngFor="let h of i.helpers" class="btn btn-link btn-xs no-padding" routerLink="/summary/map/{{datasetId}}/u/{{h.shortid}}">
+                                    <a *ngFor="let h of i.helpers" class="btn btn-link btn-xs no-padding" routerLink="/summary/map/{{datasetId}}/{{initiative?.getSlug()}}/u/{{h.shortid}}">
                                         <img class="rounded-circle helper" src="{{h.picture}}" alt="{{h.name}}" title="{{h.name}}"
                                         placement="top" container="body" ngbTooltip="{{h.name}}"
                                         >

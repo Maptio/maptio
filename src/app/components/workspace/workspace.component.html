@@ -4,7 +4,7 @@
         <p class="pull-left team-name"> {{(team|async)?.name}}
             <span class="remove text-danger" placement="top" container="body" ngbTooltip="Clear team" (click)="removeTeam()"></span>
         </p>
-        <a *ngFor="let user of members | async" class="btn btn-link btn-xs no-padding" routerLink="/summary/map/{{datasetId}}/u/{{user.shortid}}">
+        <a *ngFor="let user of members | async" class="btn btn-link btn-xs no-padding" routerLink="/summary/map/{{datasetId}}/{{(dataset | async)?.initiative?.getSlug()}}/u/{{user.shortid}}">
             <img *ngIf="user?.picture" class="member rounded-circle" src="{{user?.picture}}" alt="{{user?.name}}" title="{{user?.name}}"
             placement="top" container="body" ngbTooltip="{{user?.name}}">
             <img *ngIf="!user?.picture" class="member rounded-circle" src="/assets/images/user.jpg" alt="{{user?.name}}" title="{{user?.name}}"
