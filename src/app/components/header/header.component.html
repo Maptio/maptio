@@ -9,7 +9,7 @@
     </a>
 
     <span class="navbar-text col-6 h5">
-    <a routerLink="/map/{{selectedDataset?._id}}/initiatives">{{selectedDataset?.initiative?.name}}</a>
+    <a routerLink="/map/{{selectedDataset?._id}}/{{selectedDataset?.initiative?.getSlug()}}/initiatives">{{selectedDataset?.initiative?.name}}</a>
   </span>
 
     <div class="collapse navbar-collapse" id="navbarToggler">

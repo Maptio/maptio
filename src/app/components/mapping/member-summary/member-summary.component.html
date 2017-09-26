@@ -1,7 +1,7 @@
 <div class="m-3">
     <h3 class="mt-4">
         <img class="rounded-circle profile" src="{{(member$ |async)?.picture}}" alt="{{(member$ |async)?.name}}"> {{(member$|async)?.name}}
-        in <a routerLink="/map/{{datasetId}}">{{initiative?.name}}</a></h3>
+        in <a routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}">{{initiative?.name}}</a></h3>
 
     <h5><span class="text-muted ml-5">Team </span><a routerLink="/team/{{(team$ | async)?.team_id}}/{{(team$ | async)?.getSlug()}}">{{(team$ | async)?.name}}</a>        </h5>
 
