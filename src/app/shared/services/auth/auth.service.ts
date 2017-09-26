@@ -201,9 +201,8 @@ export class Auth {
 
     public getUser(): Observable<User> {
         let profileString = localStorage.getItem("profile");
-        // console.log("getUser", profileString)
+
         if (profileString) {
-            // this.userFactory.get(JSON.parse(profileString).user_id).then((user) => {
             this.getUserInfo(JSON.parse(profileString).user_id).then((user) => {
                 return user;
 
