@@ -86,10 +86,10 @@ const appRoutes: Routes = [
   { path: "signup", component: SignupComponent },
   { path: "teams", component: TeamsListComponent, canActivate: [AuthGuard] },
   { path: "team/:teamid/:slug", component: TeamComponent, canActivate: [AuthGuard, AccessGuard] },
-  { path: "profile", component: AccountComponent, canActivate: [AuthGuard] },
+  { path: ":shortid/:slug", component: AccountComponent, canActivate: [AuthGuard] },
   { path: "map/:mapid/:slug", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
 
-  { path: "summary/map/:mapid/:mapslug/u/:usershortid", component: MemberSummaryComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
+  { path: "summary/map/:mapid/:mapslug/u/:usershortid/:userslug", component: MemberSummaryComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
   { path: "map/:mapid/:slug/:layout", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
   // { path: "map/:mapid/i/:slug", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
 

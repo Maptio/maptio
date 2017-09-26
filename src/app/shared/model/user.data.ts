@@ -1,4 +1,5 @@
 import { Serializable } from "../interfaces/serializable.interface";
+import * as slug from "slug";
 
 export class User implements Serializable<User> {
 
@@ -130,4 +131,8 @@ export class User implements Serializable<User> {
     //         return "/home"
     //     }
     // }
+
+    getSlug(){
+        return slug(this.name || "", { lower: true })
+    }
 }
