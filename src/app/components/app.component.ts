@@ -18,7 +18,7 @@ import { Auth } from "../shared/services/auth/auth.service";
   styleUrls: ["./app.component.css"]
 })
 
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent implements  AfterViewInit {
 
   private isHome: boolean;
   private isMap: boolean;
@@ -34,10 +34,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   openDataset(dataset: DataSet) {
     // EmitterService.get("datasetName").emit(dataset.initiative.name);
     this.router.navigate(["map", dataset._id]);
-  }
-
-  ngOnInit() {
-
   }
 
   ngOnDestroy() {
