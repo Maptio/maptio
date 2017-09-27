@@ -1,6 +1,6 @@
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from "rxjs/Subscription";
 import { Observable, Subject } from "rxjs/Rx";
-import { LoaderService } from "./../shared/services/http/loader.service";
+import { LoaderService } from "./../shared/services/loading/loader.service";
 import { EmitterService } from "../shared/services/emitter.service";
 import { Router, NavigationStart, NavigationEnd, NavigationCancel, ActivatedRouteSnapshot, ActivatedRoute, UrlSegment } from "@angular/router";
 import {

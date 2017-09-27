@@ -1,5 +1,5 @@
 import { repeatValidator } from "./../../shared/directives/equal-validator.directive";
-import { LoaderService } from "./../../shared/services/http/loader.service";
+import { LoaderService } from "./../../shared/services/loading/loader.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { UserFactory } from "./../../shared/services/user.factory";

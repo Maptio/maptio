@@ -1,7 +1,7 @@
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
 import { ComponentFixture, async } from "@angular/core/testing";
-import { LoaderService } from "./../../shared/services/http/loader.service";
+import { LoaderService } from "./../../shared/services/loading/loader.service";
 import { Router } from "@angular/router";
 import { SignupComponent } from "./signup.component";
 import { Auth } from "../../shared/services/auth/auth.service";

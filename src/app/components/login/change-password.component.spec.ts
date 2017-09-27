@@ -2,7 +2,7 @@ import { ChangePasswordComponent } from "./change-password.component";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
 import { ComponentFixture, async } from "@angular/core/testing";
-import { LoaderService } from "./../../shared/services/http/loader.service";
+import { LoaderService } from "./../../shared/services/loading/loader.service";
 import { Router } from "@angular/router";
 import { Auth } from "../../shared/services/auth/auth.service";
 import { User } from "../../shared/model/user.data";

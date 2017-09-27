@@ -1,5 +1,5 @@
 import { Subscription } from "rxjs/Subscription";
-import { LoaderService } from "./../../shared/services/http/loader.service";
+import { LoaderService } from "./../../shared/services/loading/loader.service";
 import { Params } from "@angular/router";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Auth } from "./../../shared/services/auth/auth.service";

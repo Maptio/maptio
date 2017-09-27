@@ -52,8 +52,8 @@ import { UnauthorizedComponent } from "./components/unauthorized/unauthorized.co
 import { NotFoundComponent } from "./components/unauthorized/not-found.component";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { SignupComponent } from "./components/login/signup.component";
-import { LoaderComponent } from "./shared/services/http/loader.component";
-import { LoaderService } from "./shared/services/http/loader.service";
+import { LoaderComponent } from "./shared/services/loading/loader.component";
+import { LoaderService } from "./shared/services/loading/loader.service";
 
 
 // Directives
@@ -70,8 +70,8 @@ import { AuthConfiguration } from "./shared/services/auth/auth.config";
 import { ResponsiveModule, } from "ng2-responsive";
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";
 import { JwtEncoder } from "./shared/services/encoding/jwt.service";
-import { HttpService } from "./shared/services/http/http.service";
-import { HttpServiceFactory } from "./shared/services/http/htttp.service.factory";
+// import { HttpService } from "./shared/services/http/http.service";
+// import { HttpServiceFactory } from "./shared/services/http/htttp.service.factory";
 import { TeamsListComponent } from "./components/team/teams-list.component";
 import { authHttpServiceFactory } from "./shared/services/auth/auth.module";
 import { ChangePasswordComponent } from "./components/login/change-password.component";
@@ -136,11 +136,11 @@ const appRoutes: Routes = [
     ErrorService, AUTH_PROVIDERS, Auth, UserFactory, MailingService, JwtEncoder, LoaderService,
     Location,
     { provide: LocationStrategy, useClass: PathLocationStrategy },
-    {
-      provide: Http,
-      useFactory: HttpServiceFactory,
-      deps: [XHRBackend, RequestOptions, LoaderService, ErrorService]
-    },
+    // {
+    //   provide: Http,
+    //   useFactory: HttpServiceFactory,
+    //   deps: [XHRBackend, RequestOptions, LoaderService, ErrorService]
+    // },
     {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,
