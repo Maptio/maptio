@@ -15,11 +15,12 @@ import { Team } from "../../shared/model/team.data";
 export class TeamsListComponent implements OnInit {
 
     public user: User;
-    private routeSubscription: Subscription;
-    private userSubscription: Subscription;
+    public userSubscription2: Subscription;
+    public userSubscription: Subscription;
     public teams$: Promise<Array<Team>>;
+    public errorMessage: string;
 
-    constructor(private auth: Auth, private teamFactory: TeamFactory, private userFactory: UserFactory) {
+    constructor(public auth: Auth, private teamFactory: TeamFactory, private userFactory: UserFactory) {
         this.userSubscription = this.auth.getUser().subscribe((user: User) => {
             this.user = user;
         })
@@ -27,48 +28,63 @@ export class TeamsListComponent implements OnInit {
     }
 
     ngOnInit() {
-        // this.getTeams();
+
     }
 
     ngOnDestroy(): void {
-        if (this.routeSubscription) this.routeSubscription.unsubscribe();
+        if (this.userSubscription2) this.userSubscription2.unsubscribe();
         if (this.userSubscription) this.userSubscription.unsubscribe();
     }
 
 
     createNewTeam(teamName: string) {
-        this.teamFactory.create(new Team({ name: teamName, members: [this.user] })).then((team: Team) => {
-            this.user.teams.push(team.team_id);
-            this.userFactory.upsert(this.user).then((result: boolean) => {
-                this.getTeams();
+        this.teamFactory.create(new Team({ name: teamName, members: [this.user] }))
+            .then((team: Team) => {
+                this.user.teams.push(team.team_id);
+                this.userFactory.upsert(this.user)
+                    .then((result: boolean) => {
+                        if (result) {
+                            this.getTeams();
+                        }
+                        else {
+                            return Promise.reject(`Unable to add you to team ${teamName}!`)
+                        }
+                    })
+                    .catch((reason) => {
+                        this.errorMessage = reason;
+                    })
+            },
+            () => { return Promise.reject(`Unable to create team ${teamName}!`) })
+            .catch((reason) => {
+                this.errorMessage = reason;
             })
-        })
     }
 
 
     getTeams() {
-        this.routeSubscription = this.auth.getUser().subscribe(
+        this.userSubscription2 = this.auth.getUser().subscribe(
             (user: User) => {
+
                 this.teams$ = Promise.all(
                     user.teams.map(
-                        team_id => this.teamFactory.get(team_id).then(t => t, (reason) => { return Promise.reject(reason) }).catch(() => { return undefined })
+                        team_id => this.teamFactory.get(team_id).then(t => t, (reason) => { return Promise.reject(reason) }).catch(() => { return <Team>undefined })
                     )
                 )
                     .then((teams: Array<Team>) => {
                         teams.forEach(t => {
-                            if (t)
+                            if (t) {
                                 Promise.all(
                                     t.members.map(
                                         m => this.auth.getUserInfo(m.user_id)
                                             .then(m => m, (reason) => { return Promise.reject(reason) })
                                             .catch(() => { m.isDeleted = true; return m })))
                                     .then(members => t.members = members)
-
+                            }
                         })
-                        return teams;
+                        return teams.filter(t => { return t !== undefined });
                     })
                     .then((teams: Array<Team>) => {
-                        return teams.filter(t => { return t !== undefined }).sort((a, b) => {
+                        return teams.sort((a, b) => {
                             if (a.name < b.name) return -1;
                             if (a.name > b.name) return 1;
                             return 0;

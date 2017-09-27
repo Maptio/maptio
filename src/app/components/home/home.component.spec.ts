@@ -20,7 +20,7 @@ export class AuthStub {
     }
 }
 
-fdescribe("home.component.ts", () => {
+describe("home.component.ts", () => {
     let component: HomeComponent;
     let target: ComponentFixture<HomeComponent>;
 

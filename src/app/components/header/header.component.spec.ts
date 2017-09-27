@@ -258,10 +258,6 @@ describe("header.component.ts", () => {
                 expect(spyOpen).not.toHaveBeenCalled();
             }));
         });
-
-        describe("createTeam", () => {
-            
-        });
     });
 
 
