@@ -22,7 +22,7 @@ import { MockBackend } from "@angular/http/testing";
 import { ErrorService } from "../../../shared/services/error/error.service";
 
 
-fdescribe("member-summary.component.ts", () => {
+describe("member-summary.component.ts", () => {
 
     let component: MemberSummaryComponent;
     let target: ComponentFixture<MemberSummaryComponent>;
