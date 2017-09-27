@@ -13,7 +13,7 @@ import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authht
 import { MockBackend } from "@angular/http/testing";
 import { Team } from "../../shared/model/team.data";
 
-fdescribe("teams-list.component.ts", () => {
+describe("teams-list.component.ts", () => {
 
     let component: TeamsListComponent;
     let target: ComponentFixture<TeamsListComponent>;

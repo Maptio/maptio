@@ -18,7 +18,7 @@ import { Auth } from "../shared/services/auth/auth.service";
   styleUrls: ["./app.component.css"]
 })
 
-export class AppComponent implements AfterViewInit {
+export class AppComponent  {
 
   private isHome: boolean;
   private isMap: boolean;
