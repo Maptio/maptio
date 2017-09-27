@@ -70,50 +70,43 @@ export class SignupComponent implements OnInit {
             let firstname = this.signupForm.controls["firstname"].value
             let lastname = this.signupForm.controls["lastname"].value
 
-            Promise.all([this.isEmailExist(email), this.isActivationPending(email, firstname, lastname)]).then(([isEmailExist, { isActivationPending, userToken }]) => {
-                if (isEmailExist) {
-                    if (isActivationPending) {
-                        // account is created but still needs activation => redirect to activation page
-                        this.userToken = userToken;
-                        this.isRedirectToActivate = true;
+            Promise.all([this.isEmailExist(email), this.isActivationPending(email, firstname, lastname)])
+                .then(([isEmailExist, { isActivationPending, userToken }]) => {
+                    this.loader.show();
+                    if (isEmailExist) {
+                        if (isActivationPending) {
+                            // account is created but still needs activation => redirect to activation page
+                            this.userToken = userToken;
+                            this.isRedirectToActivate = true;
+                        }
+                        else {
+                            // account is created and is already activated => this user should login
+                            this.isEmailAlreadyExist = true;
+                        }
                     }
                     else {
-                        // account is created and is already activated => this user should login
-                        this.isEmailAlreadyExist = true;
+                        // no matching email => create user
+                        return this.auth.createUser(email, firstname, lastname, true)
+                            .then((user: User) => {
+                                return user;
+                            }, (reason) => { return Promise.reject("Account creation failed") })
+                            .then((user: User) => {
+                                return this.auth.sendConfirmation(user.email, user.user_id, user.firstname, user.lastname, user.name)
+                                    .then((success: boolean) => {
+                                        this.isConfirmationEmailSent = success
+                                    },
+                                    (reason) => { this.isConfirmationEmailSent = false; return Promise.reject("Confirmation email failed to send") })
+                            })
+                            .catch((reason: any) => {
+                                this.signUpMessageFail = `${reason}! Please email us at support@maptio.com and we'll help you out. `
+                            })
                     }
-                }
-                else {
-                    // no matching email => create user
-                    this.auth.createUser(email, firstname, lastname, true)
-                        .then((user: User) => {
-                            return user;
-                        }, (reason) => { return Promise.reject(reason) })
-                        .then((user: User) => {
-                            // console.log("I'm here")
-                            return this.auth.sendConfirmation(user.email, user.user_id, user.firstname, user.lastname, user.name)
-                                .then((success: boolean) => {
-                                    this.isConfirmationEmailSent = success
-                                },
-                                (reason) => { this.isConfirmationEmailSent = false; return Promise.reject(reason) })
-                        })
-                        .catch((error: Error) => {
-                            this.signUpMessageFail = `We are having issues creating your account! Please email us at support@maptio.com and we'll help you out. `
-                        })
-                }
-            }).then(() => { this.loader.hide(); })
+                }).then(() => { this.loader.hide(); })
         }
     }
 
     isEmailExist(email: string): Promise<boolean> {
         return this.auth.isUserExist(email)
-            .then((isUserExist: boolean) => {
-                if (isUserExist) {
-                    return true
-                }
-                else {
-                    return false;
-                }
-            })
     }
 
 
@@ -121,13 +114,13 @@ export class SignupComponent implements OnInit {
         return this.auth.isActivationPendingByEmail(email)
             .then(({ isActivationPending, user_id }) => {
                 if (!user_id) {
-                    return Promise.resolve({ isActivationPending: false, userToken: null })
+                    return Promise.resolve({ isActivationPending: false, userToken: undefined })
                 }
-                if (isActivationPending) {
-                    return this.auth.generateUserToken(user_id, email, firstname, lastname).then(token => {
-                        return { isActivationPending, userToken: token }
-                    });
-                }
+                // if (isActivationPending) {
+                return this.auth.generateUserToken(user_id, email, firstname, lastname).then(token => {
+                    return { isActivationPending, userToken: token }
+                });
+                // }
             })
     }
 }
