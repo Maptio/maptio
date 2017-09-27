@@ -54,7 +54,6 @@ import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { SignupComponent } from "./components/login/signup.component";
 import { LoaderComponent } from "./shared/services/http/loader.component";
 import { LoaderService } from "./shared/services/http/loader.service";
-import { ChangePasswordComponent } from "./components/unauthorized/change-password.component";
 
 
 // Directives
@@ -75,6 +74,7 @@ import { HttpService } from "./shared/services/http/http.service";
 import { HttpServiceFactory } from "./shared/services/http/htttp.service.factory";
 import { TeamsListComponent } from "./components/team/teams-list.component";
 import { authHttpServiceFactory } from "./shared/services/auth/auth.module";
+import { ChangePasswordComponent } from "./components/login/change-password.component";
 
 // Routes
 const appRoutes: Routes = [
