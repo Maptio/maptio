@@ -66,7 +66,7 @@ describe("change-password.component.ts", () => {
         component.resetPassword();
         expect(spyActivationPending).toHaveBeenCalledWith("someone@else.com")
         spyActivationPending.calls.mostRecent().returnValue
-            .then(({ isActivationPending: boolean, user_id: string }) => {
+            .then(({ isActivationPending, user_id }) => {
                 expect(component.errorMessage).not.toBeUndefined();
                 expect(spyChangePassword).not.toHaveBeenCalled();
             })
@@ -87,7 +87,7 @@ describe("change-password.component.ts", () => {
         component.resetPassword();
         expect(spyActivationPending).toHaveBeenCalledWith("someone@else.com")
         spyActivationPending.calls.mostRecent().returnValue
-            .then(({ isActivationPending: boolean, user_id: string }) => {
+            .then(({ isActivationPending, user_id }) => {
                 expect(spyChangePassword).toHaveBeenCalled();
             })
 
