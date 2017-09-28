@@ -1,3 +1,4 @@
+import { JwtHelper } from "angular2-jwt";
 import { environment } from "./../../../../environment/environment";
 import { Http } from "@angular/http";
 import { WebAuth } from "auth0-js";
@@ -7,22 +8,13 @@ declare var Auth0Lock: any;
 
 @Injectable()
 export class AuthConfiguration {
-    private _http: Http;
-
-    private _lock: any;
-    private _webAuth: WebAuth;
-    private _apiToken: string;
 
     private AUTH0_MANAGEMENTAPI_KEY = environment.AUTH0_MANAGEMENTAPI_KEY;
     private AUTH0_MANAGEMENTAPI_SECRET = environment.AUTH0_MANAGEMENTAPI_SECRET;
-    // private MAPTIO_API_KEY = environment.MAPTIO_API_KEY;
-    // private MAPTIO_API_SECRET = environment.MAPTIO_API_SECRET;
     private AUTH0_APP_KEY = environment.AUTH0_APP_KEY;
-    // private MAPTIO_APP_KEY = environment.MAPTIO_APP_KEY;
     private AUTH0_DOMAIN = environment.AUTH0_DOMAIN;
 
     constructor(private http: Http) {
-        this._http = http;
     }
 
     public getWebAuth(): WebAuth {
@@ -32,20 +24,13 @@ export class AuthConfiguration {
         });
     }
 
-    // public getMaptioAuth(): WebAuth {
-    //     return new WebAuth({
-    //         domain: this.AUTH0_DOMAIN,
-    //         clientID: this.MAPTIO_APP_KEY
-    //     });
-    // }
-
-    getAuth0ManagementToken(): Promise<string> {
+    getAccessToken(): Promise<string> {
 
         let access_token = localStorage.getItem("access_token");
         if (access_token)
             return Promise.resolve(access_token);
         else
-            return this._http.post(
+            return this.http.post(
                 "https://circlemapping.auth0.com/oauth/token",
                 {
                     "client_id": this.AUTH0_MANAGEMENTAPI_KEY,
@@ -56,27 +41,5 @@ export class AuthConfiguration {
                     localStorage.setItem("access_token", responseData.json().access_token);
                     return responseData.json().access_token;
                 }).toPromise();
-
-
-
     }
-
-    // getMaptioApiToken(): Promise<string> {
-
-    //     // let maptio_api_token = localStorage.getItem("maptio_api_token");
-    //     // if (maptio_api_token)
-    //     //     return Promise.resolve(maptio_api_token);
-    //     // else
-    //         return this._http.post(
-    //             "https://circlemapping.auth0.com/oauth/token",
-    //             {
-    //                 "client_id": this.MAPTIO_API_KEY,
-    //                 "client_secret": this.MAPTIO_API_SECRET,
-    //                 "audience": "https://circlemapping.auth0.com/api/v2/",
-    //                 "grant_type": "client_credentials"
-    //             }).map((responseData) => {
-    //                 localStorage.setItem("maptio_api_token", responseData.json().access_token);
-    //                 return responseData.json().access_token;
-    //             }).toPromise();
-    // }
 }

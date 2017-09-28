@@ -6,8 +6,8 @@
             <div class="row mb-3" *ngFor="let dataset of (datasets$ | async)">
                 <div class="card mb-3 ">
                     <div class="d-flex w-100 justify-content-between card-header">
-                        <h5><a routerLink="/map/{{dataset._id}}"> {{dataset.initiative.name}}</a></h5>
-                        <small class="text-muted">Team <a routerLink="/team/{{dataset.team?.team_id}}">{{dataset.team?.name}}</a></small>
+                        <h5><a routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}"> {{dataset.initiative.name}}</a></h5>
+                        <small class="text-muted">Team <a routerLink="/team/{{dataset.team?.team_id}}/{{dataset.team?.getSlug()}}">{{dataset.team?.name}}</a></small>
                     </div>
                     <div class="card-block">
                         <small *ngIf="dataset.initiative.children" class="text-muted">Vision held by 

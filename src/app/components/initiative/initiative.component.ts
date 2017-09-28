@@ -1,3 +1,4 @@
+import { DatasetFactory } from './../../shared/services/dataset.factory';
 import { UserFactory } from "./../../shared/services/user.factory";
 import { Observable } from "rxjs/Rx";
 import { TeamFactory } from "./../../shared/services/team.factory";
@@ -17,6 +18,7 @@ import { of } from "rxjs/observable/of";
 import { map } from "rxjs/operator/map";
 import { debounceTime } from "rxjs/operator/debounceTime";
 import { distinctUntilChanged } from "rxjs/operator/distinctUntilChanged";
+import { DataSet } from "../../shared/model/dataset.data";
 
 
 @Component({
@@ -37,6 +39,7 @@ export class InitiativeComponent implements OnChanges {
 
     public team: Promise<Team>;
     public members: Promise<User[]>;
+    public dataset: Promise<DataSet>
 
     // public possibleHelpers: Promise<User[]>;
 
@@ -46,7 +49,12 @@ export class InitiativeComponent implements OnChanges {
     searching: boolean;
     searchFailed: boolean;
 
-    constructor(private teamFactory: TeamFactory, private userFactory: UserFactory) {
+    constructor(private teamFactory: TeamFactory, private userFactory: UserFactory, private datasetFactory: DatasetFactory) {
+    }
+
+
+    ngOnInit() {
+
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -64,8 +72,12 @@ export class InitiativeComponent implements OnChanges {
                             return 0;
                         })
                     })
+
+
                 return team;
             })
+
+
             // this.possibleHelpers = this.team.then((team: Team) => {
             //     return team.members.map((user: User) => {
             //         if (user.user_id !== this.node.accountable.user_id) {
@@ -74,6 +86,12 @@ export class InitiativeComponent implements OnChanges {
             //     )
             // })
         }
+        // console.log(changes.datasetId.currentValue)
+        this.dataset = this.datasetFactory.get(changes.datasetId.currentValue)
+            .then(
+            d => {  return d },
+            () => { return Promise.reject("no dataset") })
+            .catch(() => { });
 
     }
 

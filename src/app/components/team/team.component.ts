@@ -14,6 +14,7 @@ import { Auth } from "../../shared/services/auth/auth.service";
 import { UUID } from "angular2-uuid";
 import { DataSet } from "../../shared/model/dataset.data";
 import * as _ from "lodash"
+import { UserService } from "../../shared/services/user/user.service";
 
 @Component({
     selector: "team",
@@ -43,7 +44,7 @@ export class TeamComponent implements OnDestroy {
 
     private EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-    constructor(private auth: Auth, private route: ActivatedRoute, private teamFactory: TeamFactory, private userFactory: UserFactory, private datasetFactory: DatasetFactory) {
+    constructor(private auth: Auth, private userService: UserService, private route: ActivatedRoute, private teamFactory: TeamFactory, private userFactory: UserFactory, private datasetFactory: DatasetFactory) {
 
         this.routeSubscription = this.route.params.subscribe((params: Params) => {
             if (!params["teamid"]) return
@@ -89,9 +90,9 @@ export class TeamComponent implements OnDestroy {
                 .then((members: User[]) => {
                     return members
                         .map(m => {
-                            this.auth.isActivationPendingByUserId(m.user_id).then(is => { m.isActivationPending = is },
+                            this.userService.isActivationPendingByUserId(m.user_id).then(is => { m.isActivationPending = is },
                                 (reason) => { m.isDeleted = true });
-                            this.auth.isInvitationSent(m.user_id).then(is => m.isInvitationSent = is,
+                            this.userService.isInvitationSent(m.user_id).then(is => m.isInvitationSent = is,
                                 (reason) => { m.isDeleted = true });
                             return m;
                         })
@@ -163,7 +164,7 @@ export class TeamComponent implements OnDestroy {
 
         this.team$.then((team: Team) => {
             // console.log("invite", user.email, user.user_id, user.name, team.name, this.user.name)
-            this.auth.sendInvite(user.email, user.user_id, user.firstname, user.lastname, user.name, team.name, this.user.name)
+            this.userService.sendInvite(user.email, user.user_id, user.firstname, user.lastname, user.name, team.name, this.user.name)
                 .then((isSent) => {
                     user.isInvitationSent = isSent;
                 }
@@ -192,7 +193,7 @@ export class TeamComponent implements OnDestroy {
 
             this.team$.then((team: Team) => {
 
-                this.auth.createUser(email, firstname, lastname).then((user: User) => {
+                this.userService.createUser(email, firstname, lastname).then((user: User) => {
                     this.datasetFactory.get(team).then((datasets: DataSet[]) => {
                         let virtualUser = new User();
                         virtualUser.name = user.name;

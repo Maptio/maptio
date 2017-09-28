@@ -1,16 +1,19 @@
 <div class="m-3">
     <h3 class="mt-4">
         <img class="rounded-circle profile" src="{{(member$ |async)?.picture}}" alt="{{(member$ |async)?.name}}"> {{(member$|async)?.name}}
-        in <a routerLink="/map/{{datasetId}}">{{initiative?.name}}</a></h3>
+        in <a routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}">{{initiative?.name}}</a></h3>
 
-    <h5><span class="text-muted ml-5">Team </span><a routerLink="/team/{{(team$ | async)?.team_id}}">{{(team$ | async)?.name}}</a>        </h5>
+    <h5><span class="text-muted ml-5">Team </span><a routerLink="/team/{{(team$ | async)?.team_id}}/{{(team$ | async)?.getSlug()}}">{{(team$ | async)?.name}}</a>        </h5>
 
 </div>
 
 <div class="row">
     <div class="col-6">
         <div class="card borderless">
-            <div class="card-block">
+            <div class="card-block" *ngIf="authorities.length===0">
+                <h6 class="card-title">No authorities yet.</h6>
+            </div>
+            <div class="card-block" *ngIf="authorities.length >0">
                 <h6 class="card-title">takes responsability for</h6>
                 <div class="list-group">
                     <div *ngFor="let i of authorities" class=" list-group-item flex-column align-items-start ">
@@ -20,7 +23,7 @@
                         </div>
                         <span class="mb-1" *ngIf="(i.helpers?.length !== 0)">with the help of 
                                 <div class="btn-group">
-                                    <a *ngFor="let h of i.helpers" class="btn btn-link btn-xs no-padding" routerLink="/summary/map/{{datasetId}}/u/{{h.shortid}}">
+                                    <a *ngFor="let h of i.helpers" class="btn btn-link btn-xs no-padding" routerLink="/summary/map/{{datasetId}}/{{initiative?.getSlug()}}/u/{{h.shortid}}/{{h.getSlug()}}">
                                         <img class="rounded-circle helper" src="{{h.picture}}" alt="{{h.name}}" title="{{h.name}}"
                                         placement="top" container="body" ngbTooltip="{{h.name}}"
                                         > 
@@ -35,7 +38,11 @@
     </div>
     <div class="col-6">
         <div class="card borderless">
-            <div class="card-block">
+            <div class="card-block" *ngIf="helps.length === 0">
+                No helping participation yet.
+            </div>
+
+            <div class="card-block" *ngIf="helps.length > 0">
                 <h6 class="card-title">helps</h6>
                 <div class="list-group">
                     <div *ngFor="let i of helps" class=" list-group-item flex-column align-items-start ">
@@ -44,7 +51,7 @@
 
                         </div>
                         <span class="mb-1" *ngIf="(i.helpers?.length !== 0)">Authority  
-                                        <a routerLink="/summary/map/{{datasetId}}/u/{{i.accountable?.shortid}}">
+                                        <a routerLink="/summary/map/{{datasetId}}/{{initiative?.getSlug()}}/u/{{i.accountable?.shortid}}/{{i.accountable?.getSlug()}}">
                                             <img class="rounded-circle authority" src="{{i.accountable?.picture}}" alt="{{i.accountable?.name}}" title="{{i.accountable?.name}}"
                                             placement="top" container="body" ngbTooltip="{{i.accountable?.name}}">
                                         </a>
@@ -52,7 +59,7 @@
 
                         <span class="mb-1" *ngIf="(i.helpers?.length !== 0)">Helpers 
                                 <div class="btn-group">
-                                    <a *ngFor="let h of i.helpers" class="btn btn-link btn-xs no-padding" routerLink="/summary/map/{{datasetId}}/u/{{h.shortid}}">
+                                    <a *ngFor="let h of i.helpers" class="btn btn-link btn-xs no-padding" routerLink="/summary/map/{{datasetId}}/{{initiative?.getSlug()}}/u/{{h.shortid}}/{{h.getSlug()}}">
                                         <img class="rounded-circle helper" src="{{h.picture}}" alt="{{h.name}}" title="{{h.name}}"
                                         placement="top" container="body" ngbTooltip="{{h.name}}"
                                         >

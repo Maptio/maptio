@@ -1,6 +1,6 @@
 import { DatasetFactory } from "./../dataset.factory";
 import { AuthHttp } from "angular2-jwt";
-import { LoaderService } from "./../http/loader.service";
+import { LoaderService } from "./../loading/loader.service";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MailingService } from "./../mailing/mailing.service";
 import { JwtEncoder } from "./../encoding/jwt.service";

@@ -8,33 +8,8 @@ export class MailingService {
 
     public client: any; // nodemailer.Transporter;
 
-    private _secureHttp: AuthHttp;
-    private _unsecureHttp: Http;
-    constructor(private secureHttp: AuthHttp, public unsecureHttp:Http, public errorService: ErrorService) {
-        this._secureHttp = secureHttp;
-        this._unsecureHttp = unsecureHttp;
+    constructor(private secureHttp: AuthHttp, private unsecureHttp: Http) {
     }
-
-    // public sendEmail(from: string, to: string[], subject: string, body: string): Promise<boolean> {
-
-    //     let email = {
-    //         from: from,
-    //         subject: subject,
-    //         body: body,
-    //         to: to
-    //     };
-
-    //     return this.http.post("/api/v1/send", email)
-    //         .map((responseData) => {
-    //             return responseData.json();
-    //         })
-    //         .map((input: any) => {
-    //             return input.MessageId !== undefined;
-    //         })
-    //         .toPromise()
-    //         .then(r => r)
-    //         .catch(this.errorService.handleError);
-    // }
 
     public sendInvitation(from: string, to: string[], url: string, team: string, invitedBy: string): Promise<boolean> {
 
@@ -54,12 +29,10 @@ export class MailingService {
                 return input.MessageId !== undefined;
             })
             .toPromise()
-            .then(r => r)
-            .catch(this.errorService.handleError);
     }
 
     public sendConfirmation(from: string, to: string[], url: string): Promise<boolean> {
-        console.log("sen confirmation")
+        // console.log("sen confirmation")
         let email = {
             from: from,
             subject: `Maptio Account Confirmation`,
@@ -75,7 +48,5 @@ export class MailingService {
                 return input.MessageId !== undefined;
             })
             .toPromise()
-            .then(r => r)
-            .catch(this.errorService.handleError);
     }
 }

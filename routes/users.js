@@ -16,7 +16,7 @@ router.get('/all', function (req, res, next) {
     });
 });
 
-router.get('/user/all/:pattern', function (req, res, next) {
+router.get('/all/:pattern', function (req, res, next) {
     let pattern = req.params.pattern;
 
     db.users.find(
@@ -70,13 +70,6 @@ router.get('/:id', function (req, res, next) {
                 res.send(err);
             } else {
                 res.json(users);
-            }
-        },
-        function (err, users) {
-            if (err) {
-                res.send(err);
-            } else {
-                res.json(users[0]);
             }
         }
     );

@@ -61,6 +61,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             this.uiService.clean();
             return;
         }
+        let slug = data.getSlug();
 
         this.uiService.clean();
         // let color = colorService.getDefaulColorRange();
@@ -222,9 +223,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                         if (!d.data.accountable.shortid) {
                             userFactory.get(d.data.accountable.user_id)
                                 .then(u => d.data.accountable.shortid = u.shortid)
-                                .then(() => { router.navigateByUrl(`/summary/map/${datasetId}/u/${d.data.accountable.shortid}`) })
+                                .then(() => { router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.data.accountable.shortid}/${d.data.accountable.getSlug()}`) })
                         }
-                        router.navigateByUrl(`/summary/map/${datasetId}/u/${d.data.accountable.shortid}`)
+                        router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.data.accountable.shortid}/${d.data.accountable.getSlug()}`)
                     }
 
                 })

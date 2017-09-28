@@ -67,7 +67,7 @@ if (!isDevelopment) {
 
 
 let cache = apicache.middleware
-// app.use(cache('10 seconds'))
+// app.use(cache('5 seconds'))
 
 app.use(bodyParser.json());
 app.use(sslRedirect());
@@ -91,7 +91,7 @@ app.use('/api/v1/team', jwtCheck, check_scopes(["api"]), teams);
 
 
 app.set("port", process.env.PORT || DEFAULT_PORT);
-
+app.get(cache('5 seconds'))
 
 if (isDevelopment) {
 

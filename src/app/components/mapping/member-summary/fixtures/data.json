@@ -2,18 +2,19 @@
     "name": "My Company",
     "accountable": "CEO",
     "id": "0",
+    "team_id":"team_123",
     "children": [
         {
             "name": "Tech",
             "id": "1",
             "accountable": {
                 "name": "John Doe",
-                "user_id": "someId"
+                "user_id": "some_user_id"
             },
             "helpers": [
                 {
                     "name": "John Doe",
-                    "user_id": "someId"
+                    "user_id": "some_user_id"
                 }
             ]
         },
@@ -22,7 +23,7 @@
             "id": "2",
             "accountable": {
                 "name": "John Doe",
-                "user_id": "someId"
+                "user_id": "some_user_id"
             }
         }
     ]

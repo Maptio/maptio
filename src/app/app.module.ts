@@ -10,8 +10,8 @@ import { PathLocationStrategy, Location, LocationStrategy } from "@angular/commo
 import { Routes, RouterModule } from "@angular/router";
 
 // Guards
-import { AuthGuard } from "./shared/services/auth/auth.guard";
-import { AccessGuard } from "./shared/services/auth/access.guard";
+import { AuthGuard } from "./shared/services/guards/auth.guard";
+import { AccessGuard } from "./shared/services/guards/access.guard";
 
 // Services
 import { DataService } from "./shared/services/data.service";
@@ -24,6 +24,8 @@ import { AUTH_PROVIDERS, AuthHttp } from "angular2-jwt";
 import { UserFactory } from "./shared/services/user.factory";
 import { TeamFactory } from "./shared/services/team.factory";
 import { MailingService } from "./shared/services/mailing/mailing.service"
+import { UserService } from "./shared/services/user/user.service";
+import { LoaderService } from "./shared/services/loading/loader.service";
 
 // Components
 import { LoginComponent } from "./components/login/login.component";
@@ -49,11 +51,10 @@ import { FooterComponent } from "./components/footer/footer.component";
 import { HeaderComponent } from "./components/header/header.component";
 
 import { UnauthorizedComponent } from "./components/unauthorized/unauthorized.component";
+import { NotFoundComponent } from "./components/unauthorized/not-found.component";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { SignupComponent } from "./components/login/signup.component";
-import { LoaderComponent } from "./shared/services/http/loader.component";
-import { LoaderService } from "./shared/services/http/loader.service";
-import { ChangePasswordComponent } from "./components/unauthorized/change-password.component";
+import { LoaderComponent } from "./shared/services/loading/loader.component";
 
 
 // Directives
@@ -70,10 +71,11 @@ import { AuthConfiguration } from "./shared/services/auth/auth.config";
 import { ResponsiveModule, } from "ng2-responsive";
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";
 import { JwtEncoder } from "./shared/services/encoding/jwt.service";
-import { HttpService } from "./shared/services/http/http.service";
-import { HttpServiceFactory } from "./shared/services/http/htttp.service.factory";
+// import { HttpService } from "./shared/services/http/http.service";
+// import { HttpServiceFactory } from "./shared/services/http/htttp.service.factory";
 import { TeamsListComponent } from "./components/team/teams-list.component";
 import { authHttpServiceFactory } from "./shared/services/auth/auth.module";
+import { ChangePasswordComponent } from "./components/login/change-password.component";
 
 // Routes
 const appRoutes: Routes = [
@@ -84,24 +86,28 @@ const appRoutes: Routes = [
   { path: "login", component: LoginComponent },
   { path: "help", component: HelpComponent },
   { path: "signup", component: SignupComponent },
-  { path: "teams", component: TeamsListComponent, canActivate: [AuthGuard] },
-  { path: "team/:teamid", component: TeamComponent, canActivate: [AuthGuard, AccessGuard] },
-  { path: "profile", component: AccountComponent, canActivate: [AuthGuard] },
-  { path: "map/:mapid", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
 
-  { path: "summary/map/:mapid/u/:usershortid", component: MemberSummaryComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
-  { path: "map/:mapid/:layout", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
-  { path: "map/:mapid/i/:slug", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
+  { path: "teams", component: TeamsListComponent, canActivate: [AuthGuard] },
+  { path: "team/:teamid/:slug", component: TeamComponent, canActivate: [AuthGuard, AccessGuard] },
+
+  { path: ":shortid/:slug", component: AccountComponent, canActivate: [AuthGuard] },
+
+  { path: "map/:mapid/:slug", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
+  { path: "map/:mapid/:slug/:layout", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
+
+  { path: "summary/map/:mapid/:mapslug/u/:usershortid/:userslug", component: MemberSummaryComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
 
   { path: "unauthorized", component: UnauthorizedComponent },
-  { path: "forgot", component: ChangePasswordComponent }
+  { path: "forgot", component: ChangePasswordComponent },
+  { path: "404", component: NotFoundComponent },
+  { path: "**", redirectTo: "/404" }
 ];
 
 @NgModule({
   declarations: [
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent, TeamComponent,
     MappingComponent, MappingCirclesComponent, MappingTreeComponent, MemberSummaryComponent, TooltipComponent,
-    BuildingComponent, InitiativeNodeComponent, LoginComponent, HomeComponent, UnauthorizedComponent,
+    BuildingComponent, InitiativeNodeComponent, LoginComponent, HomeComponent, UnauthorizedComponent, NotFoundComponent,
     InitiativeComponent, ChangePasswordComponent, LoaderComponent, TeamsListComponent, SignupComponent,
     FocusIfDirective,
     AutoSelectDirective,
@@ -128,14 +134,14 @@ const appRoutes: Routes = [
   providers: [
     AuthGuard, AccessGuard, AuthConfiguration,
     D3Service, DataService, ColorService, UIService, DatasetFactory, TeamFactory,
-    ErrorService, AUTH_PROVIDERS, Auth, UserFactory, MailingService, JwtEncoder, LoaderService,
+    ErrorService, AUTH_PROVIDERS, Auth, UserService, UserFactory, MailingService, JwtEncoder, LoaderService,
     Location,
     { provide: LocationStrategy, useClass: PathLocationStrategy },
-    {
-      provide: Http,
-      useFactory: HttpServiceFactory,
-      deps: [XHRBackend, RequestOptions, LoaderService, ErrorService]
-    },
+    // {
+    //   provide: Http,
+    //   useFactory: HttpServiceFactory,
+    //   deps: [XHRBackend, RequestOptions, LoaderService, ErrorService]
+    // },
     {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,

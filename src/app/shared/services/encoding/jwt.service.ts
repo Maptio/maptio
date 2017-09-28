@@ -9,7 +9,7 @@ import { ErrorService } from "../error/error.service";
 export class JwtEncoder {
 
     private _http: Http;
-    constructor(private http: Http, public errorService: ErrorService) {
+    constructor(private http: Http) {
         this._http = http;
     }
 

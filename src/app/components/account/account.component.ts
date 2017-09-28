@@ -17,25 +17,19 @@ import { UserFactory } from "../../shared/services/user.factory";
     template: require("./account.component.html"),
     styleUrls: ["./account.component.css"]
 })
-export class AccountComponent implements OnInit {
+export class AccountComponent {
 
-    private user: User;
-    public datasets$: Promise<Array<DataSet>>;
-    subscription: Subscription;
-
-    @ViewChild(TeamComponent) teamComponent: TeamComponent;
+    public user: User;
+    public subscription: Subscription;
 
     ngOnDestroy() {
         this.subscription.unsubscribe();
     }
 
-    constructor(private auth: Auth, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private errorService: ErrorService) {
+    constructor(public auth: Auth, public errorService: ErrorService) {
         this.subscription = this.auth.getUser().subscribe((user: User) => {
             this.user = user
         },
             (error: any) => { this.errorService.handleError(error) });
-    }
-
-    ngOnInit() {
     }
 }

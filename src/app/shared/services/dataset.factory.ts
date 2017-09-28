@@ -5,7 +5,6 @@ import { Injectable } from "@angular/core";
 import { Response } from "@angular/http";
 import { Subject } from "rxjs/Subject"
 import "rxjs/add/operator/map"
-import { ErrorService } from "./error/error.service";
 import { User } from "../model/user.data";
 import "rxjs/add/operator/toPromise";
 import { Team } from "../model/team.data";
@@ -17,7 +16,7 @@ export class DatasetFactory {
     private _http: AuthHttp;
     private _data$: Subject<DataSet[]>;
 
-    constructor(http: AuthHttp, public errorService: ErrorService) {
+    constructor(http: AuthHttp) {
         this._data$ = new Subject<DataSet[]>();
         this._http = http;
     }
@@ -101,6 +100,7 @@ export class DatasetFactory {
      * @param idOrUser Dataset unique ID or User
      */
     get(idOrUserOrTeam: string | User | Team): Promise<DataSet> | Promise<DataSet[]> | Promise<string[]> | Promise<void> {
+
         if (!idOrUserOrTeam) return Promise.reject("Parameter missing");
         if (idOrUserOrTeam instanceof User) {
             return this.getWithUser(<User>idOrUserOrTeam)

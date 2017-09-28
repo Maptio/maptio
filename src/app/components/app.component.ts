@@ -1,6 +1,6 @@
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from "rxjs/Subscription";
 import { Observable, Subject } from "rxjs/Rx";
-import { LoaderService } from "./../shared/services/http/loader.service";
+import { LoaderService } from "./../shared/services/loading/loader.service";
 import { EmitterService } from "../shared/services/emitter.service";
 import { Router, NavigationStart, NavigationEnd, NavigationCancel, ActivatedRouteSnapshot, ActivatedRoute, UrlSegment } from "@angular/router";
 import {
@@ -18,50 +18,46 @@ import { Auth } from "../shared/services/auth/auth.service";
   styleUrls: ["./app.component.css"]
 })
 
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent  {
 
   private isHome: boolean;
   private isMap: boolean;
 
-  private routerSubscription: Subscription;
+  public routerSubscription: Subscription;
 
   @ViewChild("help")
   helpComponent: HelpComponent;
 
   constructor(private router: Router, private loaderService: LoaderService) {
-  }
-
-  openDataset(dataset: DataSet) {
-    // EmitterService.get("datasetName").emit(dataset.initiative.name);
-    this.router.navigate(["map", dataset._id]);
-  }
-
-  ngOnInit() {
-
+    this.routerSubscription = this.router.events
+    .subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        this.isHome = this.isUrlHome(event.url)
+        this.isMap = this.isUrlMap(event.url)
+        this.loaderService.show();
+      }
+      else if (
+        event instanceof NavigationEnd ||
+        event instanceof NavigationCancel
+      ) {
+        this.isHome = this.isUrlHome(event.url)
+        this.loaderService.hide();
+      }
+    });
   }
 
   ngOnDestroy() {
     if (this.routerSubscription) this.routerSubscription.unsubscribe()
   }
 
-  ngAfterViewInit() {
-    this.routerSubscription = this.router.events
-      .subscribe((event) => {
-        if (event instanceof NavigationStart) {
-
-          this.isHome = event.url.startsWith("/home") || event.url === "/";
-          this.isMap = event.url.startsWith("/map")
-          this.loaderService.show();
-        }
-        else if (
-          event instanceof NavigationEnd ||
-          event instanceof NavigationCancel
-        ) {
-          this.isHome = event.url.startsWith("/home") || event.url === "/"
-          this.loaderService.hide();
-        }
-      });
+  isUrlHome(url: string): boolean {
+    return url.startsWith("/home") || url === "/";
   }
+
+  isUrlMap(url: string): boolean {
+    return url.startsWith("/map")
+  }
+
 }
 
 

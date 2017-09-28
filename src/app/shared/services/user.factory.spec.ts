@@ -37,13 +37,11 @@ describe("user.factory.ts", () => {
             ]
         });
 
-        spyOn(ErrorService.prototype, "handleError");
-
     });
 
 
     describe("getAll", () => {
-        it("should be rejected when no parameters", async(inject([UserFactory, MockBackend, ErrorService], (target: UserFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+        it("should be rejected when no parameters", async(inject([UserFactory, MockBackend], (target: UserFactory, mockBackend: MockBackend) => {
 
             let mockUser = jasmine.createSpyObj("User", ["deserialize"]);
             let spyCreate = spyOn(User, "create").and.returnValue(mockUser);
@@ -68,18 +66,12 @@ describe("user.factory.ts", () => {
             });
 
             target.getAll("").then(users => {
-                // expect(spyCreate).toHaveBeenCalled()
-                // expect(spyDeserialize).toHaveBeenCalled();
-                // expect(users.length).toBe(4);
-                // users.forEach(function (element) {
-                //     expect(element).toEqual(jasmine.any(User));
-                // })
             }).catch((reason) => {
                 expect(reason).toBe("You cannot make a search for all users !")
             });
         })));
 
-        it("should call correct REST API endpoint when pattern search parameter", async(inject([UserFactory, MockBackend, ErrorService], (target: UserFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+        it("should call correct REST API endpoint when pattern search parameter", async(inject([UserFactory, MockBackend], (target: UserFactory, mockBackend: MockBackend) => {
 
             let mockUser = jasmine.createSpyObj("User", ["deserialize"]);
             let spyCreate = spyOn(User, "create").and.returnValue(mockUser);
@@ -115,7 +107,7 @@ describe("user.factory.ts", () => {
     });
 
     describe("get", () => {
-        it("should call correct REST API endpoint", fakeAsync(inject([UserFactory, MockBackend, ErrorService], (target: UserFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+        it("should call correct REST API endpoint", fakeAsync(inject([UserFactory, MockBackend], (target: UserFactory, mockBackend: MockBackend) => {
             let mockUser = jasmine.createSpyObj("User", ["deserialize"]);
             let spyCreate = spyOn(User, "create").and.returnValue(mockUser);
             let spyDeserialize = mockUser.deserialize.and.returnValue(new User({ name: "Deserialized" }));
@@ -145,7 +137,7 @@ describe("user.factory.ts", () => {
     });
 
     describe("create", () => {
-        it("should call correct REST API endpoint", fakeAsync(inject([UserFactory, MockBackend, ErrorService], (target: UserFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+        it("should call correct REST API endpoint", fakeAsync(inject([UserFactory, MockBackend], (target: UserFactory, mockBackend: MockBackend) => {
             let mockUser = jasmine.createSpyObj("User", ["deserialize"]);
             let spyCreate = spyOn(User, "create").and.returnValue(mockUser);
             let spyDeserialize = mockUser.deserialize.and.returnValue(new User({ name: "Created" }));
@@ -176,7 +168,7 @@ describe("user.factory.ts", () => {
     });
 
     describe("update", () => {
-        it("should call correct REST API endpoint", fakeAsync(inject([UserFactory, MockBackend, ErrorService], (target: UserFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+        it("should call correct REST API endpoint", fakeAsync(inject([UserFactory, MockBackend], (target: UserFactory, mockBackend: MockBackend) => {
 
             const mockResponse = true;
 

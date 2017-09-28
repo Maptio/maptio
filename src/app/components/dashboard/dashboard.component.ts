@@ -13,16 +13,14 @@ import { DataSet } from "../../shared/model/dataset.data";
     styleUrls: ["./dashboard.component.css"]
 })
 
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {
 
     public datasets$: Promise<Array<DataSet>>;
     public subscription: Subscription;
 
-    constructor(private auth: Auth, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private errorService: ErrorService) {
+    constructor(public auth: Auth, public datasetFactory: DatasetFactory, public teamFactory: TeamFactory, public errorService: ErrorService) {
 
         this.subscription = this.auth.getUser().subscribe((user: User) => {
-            // this.user = user
-
             this.datasets$ = Promise
                 .all(user.datasets.map(did => this.datasetFactory.get(did)
                     .then(d => d, () => { return Promise.reject("No dataset") }).catch(() => { return <DataSet>undefined }
@@ -44,8 +42,6 @@ export class DashboardComponent implements OnInit {
         },
             (error: any) => { this.errorService.handleError(error) });
     }
-
-    ngOnInit() { }
 
     ngOnDestroy() {
         if (this.subscription) {

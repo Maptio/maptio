@@ -4,10 +4,10 @@ import { Router, RouterStateSnapshot, ActivatedRouteSnapshot } from "@angular/ro
 import { ErrorService } from "../error/error.service";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { UserFactory } from "../user.factory";
-import { Auth } from "./auth.service";
 import { TestBed, inject } from "@angular/core/testing";
 import { MockBackend } from "@angular/http/testing";
 import { User } from "../../model/user.data";
+import { Auth } from "../auth/auth.service";
 
 export class AuthStub {
     getUser() { }

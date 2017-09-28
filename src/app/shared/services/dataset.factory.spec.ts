@@ -1,3 +1,4 @@
+import { ErrorService } from "./error/error.service";
 import { AuthHttp } from "angular2-jwt";
 import { Initiative } from "./../model/initiative.data";
 import { DataSet } from "./../../../app/shared/model/dataset.data";
@@ -5,7 +6,6 @@ import { TestBed, async, inject, fakeAsync } from "@angular/core/testing";
 import { MockBackend, MockConnection } from "@angular/http/testing";
 import { Http, HttpModule, Response, BaseRequestOptions, ResponseOptions, RequestMethod } from "@angular/http";
 import { DatasetFactory } from "./dataset.factory"
-import { ErrorService } from "./error/error.service";
 import { User } from "../../../app/shared/model/user.data"
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 import { Auth } from "./auth/auth.service";
@@ -38,20 +38,19 @@ describe("dataset.factory.ts", () => {
             ]
         });
 
-        spyOn(ErrorService.prototype, "handleError");
 
     });
 
     describe("get", () => {
 
-        it("should return rejected promise", async(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+        it("should return rejected promise", async(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
             target.get(undefined)
                 .catch((reason: any) => { expect(reason).toBeDefined() })
         })));
 
 
         describe("(user)", () => {
-            it("should get a list of datasets when called with User", fakeAsync(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+            it("should get a list of datasets when called with User", fakeAsync(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
                 const mockResponse = {
                     datasets: [
                         "1", "2", "3"  // list of datasets ObjectId matched to a given user
@@ -76,11 +75,10 @@ describe("dataset.factory.ts", () => {
                     expect(datasets[0]).toBe("1");
                     expect(datasets[1]).toBe("2");
                     expect(datasets[2]).toBe("3");
-                    expect(mockErrorService.handleError).not.toHaveBeenCalled();
                 }))
             })))
 
-            it("should return empty array when API response is invalid", fakeAsync(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+            it("should return empty array when API response is invalid", fakeAsync(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
                 const mockResponse = {
 
                 };
@@ -100,14 +98,13 @@ describe("dataset.factory.ts", () => {
 
                 target.get(user).then(datasets => {
                     expect(datasets.length).toBe(0);
-                    expect(mockErrorService.handleError).not.toHaveBeenCalled();
                 });
             })));
 
         });
 
         describe("(id)", () => {
-            it("should get a one dataset when called with <id>", fakeAsync(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+            it("should get a one dataset when called with <id>", fakeAsync(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
 
                 const mockResponse = {
                     _id: "some unique Id",
@@ -129,12 +126,11 @@ describe("dataset.factory.ts", () => {
                 target.get("uniqueId").then(dataset => {
                     expect(dataset).toBeDefined();
                     expect(dataset._id).toBe("uniqueId");
-                    expect(mockErrorService.handleError).not.toHaveBeenCalled();
 
                 });
             })));
 
-            // it("should call error service when REST API response is invalid", fakeAsync(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+            // it("should call error service when REST API response is invalid", fakeAsync(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
             //     const mockResponse = {
             //         crazy: "value"
             //     };
@@ -156,7 +152,6 @@ describe("dataset.factory.ts", () => {
 
             //     target.get("uniqueId").then(dataset => {
             //         expect(dataset).toBeUndefined();
-            //         expect(mockErrorService.handleError).toHaveBeenCalled();
 
             //     });
             // })));
@@ -164,11 +159,11 @@ describe("dataset.factory.ts", () => {
     });
 
     describe("create", () => {
-        it("should throw if parameter is undefined", async(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+        it("should throw if parameter is undefined", async(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
             expect(function () { target.create(undefined) }).toThrowError();
         })));
 
-        it("should call REST API with post", fakeAsync(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+        it("should call REST API with post", fakeAsync(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
             let dataset = new DataSet({ _id: "some_unique_id", initiative: new Initiative({ name: "Project" }) });
             const mockResponse = {
                 _id: "some_unique_id",
@@ -191,22 +186,21 @@ describe("dataset.factory.ts", () => {
                 expect(dataset).toBeDefined();
                 expect(dataset._id).toBe("some_unique_id");
                 expect(dataset.initiative.name).toBe("Project");
-                expect(mockErrorService.handleError).not.toHaveBeenCalled();
             });
         })));
 
     })
 
     describe("add", () => {
-        it("should throw if user is undefined", async(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+        it("should throw if user is undefined", async(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
             expect(function () { target.add(new DataSet(), undefined) }).toThrowError();
         })));
 
-        it("should throw if parameter is undefined", async(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+        it("should throw if parameter is undefined", async(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
             expect(function () { target.add(undefined, new User()) }).toThrowError();
         })));
 
-        it("should call REST API with put", fakeAsync(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+        it("should call REST API with put", fakeAsync(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
 
             const mockResponse = {
                 _id: "some_unique_id",
@@ -227,22 +221,21 @@ describe("dataset.factory.ts", () => {
             let user = new User({ user_id: "uid" })
             target.add(dataset, user).then((result: boolean) => {
                 expect(result).toBe(true);
-                expect(mockErrorService.handleError).not.toHaveBeenCalled();
             });
         })));
 
     })
 
     // describe("delete", () => {
-    //     it("should throw if user is undefined", async(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+    //     it("should throw if user is undefined", async(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
     //         expect(function () { target.delete(new DataSet(), undefined) }).toThrowError();
     //     })));
 
-    //     it("should throw if parameter is undefined", async(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+    //     it("should throw if parameter is undefined", async(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
     //         expect(function () { target.delete(undefined, new User()) }).toThrowError();
     //     })));
 
-    //     it("should call REST API with delete", fakeAsync(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+    //     it("should call REST API with delete", fakeAsync(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
 
     //         const mockResponse = {
     //             _id: "some_unique_id",
@@ -263,18 +256,17 @@ describe("dataset.factory.ts", () => {
     //         let user = new User({ user_id: "uid" })
     //         target.delete(dataset, user).then((result: boolean) => {
     //             expect(result).toBe(true);
-    //             expect(mockErrorService.handleError).not.toHaveBeenCalled();
     //         });
     //     })));
 
     // })
 
     describe("upsert", () => {
-        it("should throw if dataset is undefined", async(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+        it("should throw if dataset is undefined", async(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
             expect(function () { target.upsert(undefined, "unique_id") }).toThrowError();
         })));
 
-        it("should call REST API with put when id is empty", fakeAsync(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+        it("should call REST API with put when id is empty", fakeAsync(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
             let dataset = new DataSet({ _id: "some_unique_id", initiative: new Initiative({ name: "Project" }) });
 
             const mockResponse = {
@@ -296,11 +288,10 @@ describe("dataset.factory.ts", () => {
 
             target.upsert(dataset).then((result: boolean) => {
                 expect(result).toBe(true);
-                expect(mockErrorService.handleError).not.toHaveBeenCalled();
             });
         })));
 
-        it("should call REST API with put when id is not empty", fakeAsync(inject([DatasetFactory, MockBackend, ErrorService], (target: DatasetFactory, mockBackend: MockBackend, mockErrorService: ErrorService) => {
+        it("should call REST API with put when id is not empty", fakeAsync(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
             let dataset = new DataSet({ _id: "some_unique_id", initiative: new Initiative({ name: "Project" }) });
 
             const mockResponse = {
@@ -322,7 +313,6 @@ describe("dataset.factory.ts", () => {
 
             target.upsert(dataset, "some_unique_id").then((result: boolean) => {
                 expect(result).toBe(true);
-                expect(mockErrorService.handleError).not.toHaveBeenCalled();
             });
         })));
 
