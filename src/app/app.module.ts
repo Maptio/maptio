@@ -24,6 +24,8 @@ import { AUTH_PROVIDERS, AuthHttp } from "angular2-jwt";
 import { UserFactory } from "./shared/services/user.factory";
 import { TeamFactory } from "./shared/services/team.factory";
 import { MailingService } from "./shared/services/mailing/mailing.service"
+import { UserService } from "./shared/services/user/user.service";
+import { LoaderService } from "./shared/services/loading/loader.service";
 
 // Components
 import { LoginComponent } from "./components/login/login.component";
@@ -53,7 +55,6 @@ import { NotFoundComponent } from "./components/unauthorized/not-found.component
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { SignupComponent } from "./components/login/signup.component";
 import { LoaderComponent } from "./shared/services/loading/loader.component";
-import { LoaderService } from "./shared/services/loading/loader.service";
 
 
 // Directives
@@ -133,7 +134,7 @@ const appRoutes: Routes = [
   providers: [
     AuthGuard, AccessGuard, AuthConfiguration,
     D3Service, DataService, ColorService, UIService, DatasetFactory, TeamFactory,
-    ErrorService, AUTH_PROVIDERS, Auth, UserFactory, MailingService, JwtEncoder, LoaderService,
+    ErrorService, AUTH_PROVIDERS, Auth, UserService, UserFactory, MailingService, JwtEncoder, LoaderService,
     Location,
     { provide: LocationStrategy, useClass: PathLocationStrategy },
     // {

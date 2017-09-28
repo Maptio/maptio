@@ -1,3 +1,4 @@
+import { LoaderService } from "./../loading/loader.service";
 import { Observable } from "rxjs/Rx";
 import { Router } from "@angular/router";
 import { Http, Headers } from "@angular/http";
@@ -17,7 +18,9 @@ export class Auth {
 
     private user$: Subject<User> = new Subject();
 
-    constructor(private http: Http, private configuration: AuthConfiguration, private datasetFactory: DatasetFactory, private userFactory: UserFactory, private router: Router,
+    constructor(
+        private http: Http, private configuration: AuthConfiguration, private datasetFactory: DatasetFactory,
+        private userFactory: UserFactory, private router: Router, private loader: LoaderService
     ) {
     }
 
@@ -27,7 +30,7 @@ export class Auth {
 
         return this.userFactory.get(profile.user_id)
             .then((user) => {
-                // console.log("getting user", user)
+                console.log("getting user", user)
                 this.user$.next(user);
                 return Promise.resolve<boolean>(true);
             })
@@ -64,7 +67,7 @@ export class Auth {
     }
 
     public login(email: string, password: string): Promise<boolean> {
-
+        this.loader.show();
         try {
             this.configuration.getWebAuth().client.login({
                 realm: "Username-Password-Authentication",
@@ -80,7 +83,7 @@ export class Auth {
                 localStorage.setItem("id_token", authResult.idToken);
 
                 if (authResult.accessToken) {
-                    this.lock.getWebAuth().client.userInfo(authResult.accessToken, function (err: Error, profile: any) {
+                    this.configuration.getWebAuth().client.userInfo(authResult.accessToken, function (err: Error, profile: any) {
                         profile.user_id = profile.sub;
                         profile.sub = undefined;
 
@@ -101,7 +104,7 @@ export class Auth {
                                             return user;
                                         })
                                         .then((user: User) => {
-
+                                            this.loader.hide()
                                             let redirectUrl = localStorage.getItem("redirectUrl");
                                             this.router.navigateByUrl(redirectUrl ? redirectUrl : "/home");
                                         })
@@ -119,6 +122,9 @@ export class Auth {
 
         } catch (error) {
             return Promise.reject(error)
+        }
+        finally {
+            this.loader.hide()
         }
 
 
@@ -144,6 +150,10 @@ export class Auth {
      */
     public authenticated(): boolean {
         return tokenNotExpired();
+    }
+
+    public allAuthenticated() {
+        return this.authenticated() && this.internalApiAuthenticated() && this.authenticationProviderAuthenticated()
     }
 
     public logout(): void {
@@ -191,21 +201,21 @@ export class Auth {
         let profileString = localStorage.getItem("profile");
 
         if (profileString) {
-            this.getUserInfo(JSON.parse(profileString).user_id).then((user) => {
-                return user;
 
-            })
-                .then((user: User) => {
-                    return this.userFactory.get(JSON.parse(profileString).user_id).then((u) => {
-                        user.teams = u.teams;
-                        user.shortid = u.shortid
-                        return user;
-                    })
+            Promise.all([
+                this.getUserInfo(JSON.parse(profileString).user_id),
+                this.userFactory.get(JSON.parse(profileString).user_id)])
+                .then(([auth0User, databaseUser]: [User, User]) => {
+                    let user = auth0User;
+                    user.teams = databaseUser.teams;
+                    user.shortid = databaseUser.shortid;
+                    return user
                 })
                 .then((user: User) => {
                     this.datasetFactory.get(user).then(ds => {
-                        // console.log(ds)
+                        console.log(ds)
                         user.datasets = ds || [];
+                        console.log("auth.service.ts getUser", user)
                         this.user$.next(user)
                     })
                 });

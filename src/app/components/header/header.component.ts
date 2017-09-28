@@ -1,3 +1,4 @@
+import { LoaderService } from "./../../shared/services/loading/loader.service";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs/Rx";
 import { EventEmitter } from "@angular/core";
@@ -44,7 +45,8 @@ export class HeaderComponent implements OnInit {
     public emitterSubscription: Subscription;
     public userSubscription: Subscription;
 
-    constructor(private auth: Auth, private userService: UserService, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private userFactory: UserFactory, public errorService: ErrorService, private router: Router) {
+    constructor(private auth: Auth, private userService: UserService, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory,
+        private userFactory: UserFactory, public errorService: ErrorService, private router: Router, private loader: LoaderService) {
         this.emitterSubscription = EmitterService.get("currentDataset").subscribe((value: DataSet) => {
             this.selectedDataset = value;
         });
@@ -136,14 +138,14 @@ export class HeaderComponent implements OnInit {
     login() {
 
         if (this.loginForm.dirty && this.loginForm.valid) {
-
+            this.loader.show();
             let email = this.loginForm.controls["email"].value
             let password = this.loginForm.controls["password"].value
 
             this.userService.isUserExist(email)
                 .then((isUserExist: boolean) => {
                     if (isUserExist) {
-                        let user = this.auth.login(email, password);
+                        this.auth.login(email, password);
                         EmitterService.get("loginErrorMessage").subscribe((loginErrorMessage: string) => {
                             loginErrorMessage =
                                 (loginErrorMessage === "Wrong email or password.") ? "Wrong password" : loginErrorMessage;
@@ -154,6 +156,7 @@ export class HeaderComponent implements OnInit {
                         let message = "We don't know that email."
                         this.router.navigateByUrl(`/login?login_message=${encodeURIComponent(message)}`);
                     }
+                    this.loader.show();
                 })
         }
     }
