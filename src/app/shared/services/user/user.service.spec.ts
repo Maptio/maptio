@@ -9,7 +9,7 @@ import { MockBackend, MockConnection } from "@angular/http/testing";
 import { Http, HttpModule, Response, BaseRequestOptions, ResponseOptions, RequestMethod } from "@angular/http";
 import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
 
-fdescribe("user.service.ts", () => {
+describe("user.service.ts", () => {
 
     beforeEach(() => {
 
