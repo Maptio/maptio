@@ -30,7 +30,7 @@ export class Auth {
 
         return this.userFactory.get(profile.user_id)
             .then((user) => {
-                console.log("getting user", user)
+                // console.log("getting user", user)
                 this.user$.next(user);
                 return Promise.resolve<boolean>(true);
             })
@@ -213,9 +213,9 @@ export class Auth {
                 })
                 .then((user: User) => {
                     this.datasetFactory.get(user).then(ds => {
-                        console.log(ds)
+                        // console.log(ds)
                         user.datasets = ds || [];
-                        console.log("auth.service.ts getUser", user)
+                        // console.log("auth.service.ts getUser", user)
                         this.user$.next(user)
                     })
                 });

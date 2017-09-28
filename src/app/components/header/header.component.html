@@ -15,7 +15,7 @@
     <div class="collapse navbar-collapse" id="navbarToggler">
         <ul class="navbar-nav ml-auto mt-2 mt-md-0">
 
-            <li class="nav-item dropdown" *ngIf="auth.authenticated()">
+            <li class="nav-item dropdown" *ngIf="auth.allAuthenticated()">
                 <a class="nav-link dropdown-toggle" [class.disabled]="(datasets$ | async)?.length === 0" id="mapsListDropdownLink" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                    Maps
@@ -28,7 +28,7 @@
             </li>
 
 
-            <li class="nav-item dropdown" *ngIf="auth.authenticated()">
+            <li class="nav-item dropdown" *ngIf="auth.allAuthenticated()">
                 <a class="nav-link dropdown-toggle" id="createListDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                    Create
                 </a>
@@ -53,7 +53,7 @@
                 </div>
             </li>
 
-            <li class="nav-item dropdown" id="profileInformation" *ngIf="auth.authenticated()">
+            <li class="nav-item dropdown" id="profileInformation" *ngIf="auth.allAuthenticated()">
                 <a class="nav-link dropdown-toggle without-caret" href="http://example.com" id="profileDropdownLink" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     <div><img src="{{ user?.picture }}" class="rounded-circle profile-image" alt=""></div>
@@ -65,7 +65,7 @@
                     <a class="dropdown-item" (click)="logout()" id="logoutButton">Log Out</a>
                 </div>
             </li>
-            <li class="nav-link" id="loginButton" *ngIf="!auth.authenticated()">
+            <li class="nav-link" id="loginButton" *ngIf="!auth.allAuthenticated()">
 
                 <form class="form-inline" [formGroup]="loginForm" (submit)="login()">
                     <div class="form-group mr-1" [class.has-warning]="loginForm.controls['email'].invalid  && (loginForm.controls['email'].dirty || loginForm.controls['email'].touched)">

@@ -10,7 +10,10 @@
 <div class="row">
     <div class="col-6">
         <div class="card borderless">
-            <div class="card-block">
+            <div class="card-block" *ngIf="authorities.length===0">
+                <h6 class="card-title">No authorities yet.</h6>
+            </div>
+            <div class="card-block" *ngIf="authorities.length >0">
                 <h6 class="card-title">takes responsability for</h6>
                 <div class="list-group">
                     <div *ngFor="let i of authorities" class=" list-group-item flex-column align-items-start ">
@@ -35,7 +38,11 @@
     </div>
     <div class="col-6">
         <div class="card borderless">
-            <div class="card-block">
+            <div class="card-block" *ngIf="helps.length === 0">
+                No helping participation yet.
+            </div>
+
+            <div class="card-block" *ngIf="helps.length > 0">
                 <h6 class="card-title">helps</h6>
                 <div class="list-group">
                     <div *ngFor="let i of helps" class=" list-group-item flex-column align-items-start ">
@@ -44,7 +51,7 @@
 
                         </div>
                         <span class="mb-1" *ngIf="(i.helpers?.length !== 0)">Authority  
-                                        <a routerLink="/summary/map/{{datasetId}}/u/{{i.accountable?.shortid}}/{{i.accountable?.getSlug()}}">
+                                        <a routerLink="/summary/map/{{datasetId}}/{{initiative?.getSlug()}}/u/{{i.accountable?.shortid}}/{{i.accountable?.getSlug()}}">
                                             <img class="rounded-circle authority" src="{{i.accountable?.picture}}" alt="{{i.accountable?.name}}" title="{{i.accountable?.name}}"
                                             placement="top" container="body" ngbTooltip="{{i.accountable?.name}}">
                                         </a>

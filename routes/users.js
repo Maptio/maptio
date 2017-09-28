@@ -71,13 +71,6 @@ router.get('/:id', function (req, res, next) {
             } else {
                 res.json(users);
             }
-        },
-        function (err, users) {
-            if (err) {
-                res.send(err);
-            } else {
-                res.json(users[0]);
-            }
         }
     );
 });
