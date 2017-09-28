@@ -5,6 +5,7 @@
 [![Code Climate](https://codeclimate.com/repos/58ddc02f974e760287000b1d/badges/be1b4f8e1652075411b3/gpa.svg)](https://codeclimate.com/repos/58ddc02f974e760287000b1d/feed)
 [![Test Coverage](https://codeclimate.com/repos/58ddc02f974e760287000b1d/badges/be1b4f8e1652075411b3/coverage.svg)](https://codeclimate.com/repos/58ddc02f974e760287000b1d/coverage)
 [![Issue Count](https://codeclimate.com/repos/58ddc02f974e760287000b1d/badges/be1b4f8e1652075411b3/issue_count.svg)](https://codeclimate.com/repos/58ddc02f974e760287000b1d/feed)
+[![Known Vulnerabilities](https://snyk.io/test/github/Safiyya/maptio/badge.svg)](https://snyk.io/test/github/Safiyya/maptio)
 
 # Maptio
 

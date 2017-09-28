@@ -25,6 +25,7 @@ import { Team } from "../../shared/model/team.data";
 import { RouterTestingModule } from "@angular/router/testing";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 import { JwtEncoder } from "../../shared/services/encoding/jwt.service";
+import { LoaderService } from "../../shared/services/loading/loader.service";
 
 describe("header.component.ts", () => {
 
@@ -50,6 +51,7 @@ describe("header.component.ts", () => {
                             authenticated() { return; }
                             login() { return; }
                             logout() { return; }
+                            allAuthenticated() { return; }
                         }
                     },
                     {
@@ -67,7 +69,7 @@ describe("header.component.ts", () => {
                     // { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } },
                     MockBackend,
                     BaseRequestOptions,
-                    ErrorService,
+                    ErrorService, LoaderService,
                     UserService, JwtEncoder, MailingService]
             }
         }).compileComponents();
@@ -144,7 +146,7 @@ describe("header.component.ts", () => {
         describe("Authentication", () => {
             it("should display LogIn button when no user is authenticated", () => {
                 let mockAuth = target.debugElement.injector.get(Auth);
-                let spyAuthService = spyOn(mockAuth, "authenticated").and.returnValue(false);
+                let spyAuthService = spyOn(mockAuth, "allAuthenticated").and.returnValue(false);
                 target.detectChanges();
 
                 let imgElement = target.debugElement.queryAll(By.css("li#profileInformation"));
@@ -157,7 +159,7 @@ describe("header.component.ts", () => {
 
             it("should display LogOut button and profile information when a user is authenticated", () => {
                 let mockAuth = target.debugElement.injector.get(Auth);
-                let spyAuthService = spyOn(mockAuth, "authenticated").and.returnValue(true);
+                let spyAuthService = spyOn(mockAuth, "allAuthenticated").and.returnValue(true);
 
                 target.detectChanges();
 
@@ -172,7 +174,7 @@ describe("header.component.ts", () => {
             it("should call authenticate.logout()  when LogOut button is clicked", () => {
                 let mockAuth = target.debugElement.injector.get(Auth);
                 let mockRouter = target.debugElement.injector.get(Router);
-                let spyAuthService = spyOn(mockAuth, "authenticated").and.returnValue(true);
+                let spyAuthService = spyOn(mockAuth, "allAuthenticated").and.returnValue(true);
                 let spyLogOut = spyOn(mockAuth, "logout");
 
                 target.detectChanges();
