@@ -1,6 +1,5 @@
 import { AuthHttp } from "angular2-jwt";
 import { Observable } from "rxjs/Rx";
-import { ErrorService } from "./error/error.service";
 import { User } from "./../model/user.data";
 import { Injectable } from "@angular/core";
 import { Response } from "@angular/http";
@@ -12,7 +11,7 @@ import * as shortid from "shortid";
 export class UserFactory {
 
     private _http: AuthHttp;
-    constructor(private http: AuthHttp, public errorService: ErrorService) {
+    constructor(private http: AuthHttp) {
         this._http = http;
     }
 

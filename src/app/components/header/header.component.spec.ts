@@ -1,4 +1,4 @@
-import { MailingService } from './../../shared/services/mailing/mailing.service';
+import { MailingService } from "./../../shared/services/mailing/mailing.service";
 import { AuthConfiguration } from "./../../shared/services/auth/auth.config";
 import { UserService } from "./../../shared/services/user/user.service";
 import { AuthHttp } from "angular2-jwt";
