@@ -1,3 +1,4 @@
+import { environment } from "./../../../../environment/environment";
 import { Http, Headers } from "@angular/http";
 import { Injectable } from "@angular/core";
 import { AuthConfiguration } from "../auth/auth.config";
@@ -22,7 +23,7 @@ export class UserService {
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + apiToken);
             return this.http.post(
-                "https://circlemapping.auth0.com/api/v2/tickets/email-verification",
+                environment.TICKETS_API_URL,
                 {
                     "result_url": "http://app.maptio.com/login?token=" + userToken,
                     "user_id": userId
@@ -33,7 +34,7 @@ export class UserService {
                 }).toPromise()
         })
             .then((ticket: string) => {
-                return this.mailing.sendInvitation("support@maptio.com", [email], ticket, teamName, invitedBy)
+                return this.mailing.sendInvitation(environment.SUPPORT_EMAIL, [email], ticket, teamName, invitedBy)
             })
             .then((success: boolean) => {
                 return this.updateInvitiationSentStatus(userId, true);
@@ -48,7 +49,7 @@ export class UserService {
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + apiToken);
             return this.http.post(
-                "https://circlemapping.auth0.com/api/v2/tickets/email-verification",
+                environment.TICKETS_API_URL,
                 {
                     "result_url": "http://app.maptio.com/login?token=" + userToken,
                     "user_id": userId
@@ -60,22 +61,20 @@ export class UserService {
         })
             .then((ticket: string) => {
                 // console.log("sending ticket")
-                return this.mailing.sendConfirmation("support@maptio.com", [email], ticket)
+                return this.mailing.sendConfirmation(environment.SUPPORT_EMAIL, [email], ticket)
             })
             .then((success: boolean) => {
                 return this.updateActivationPendingStatus(userId, true)
             });
-        // })
     }
 
     public generateUserToken(userId: string, email: string, firstname: string, lastname: string): Promise<string> {
-        // console.log("generate user token", email, firstname, lastname)
         return this.encodingService.encode({ user_id: userId, email: email, firstname: firstname, lastname: lastname })
     }
 
     public createUser(email: string, firstname: string, lastname: string, isSignUp?: boolean): Promise<User> {
         let newUser = {
-            "connection": "Username-Password-Authentication",
+            "connection": environment.CONNECTION_NAME,
             "email": email,
             "name": `${firstname} ${lastname}`,
             "password": `${UUID.UUID()}-${UUID.UUID().toUpperCase()}`,
@@ -98,7 +97,7 @@ export class UserService {
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
 
-            return this.http.post("https://circlemapping.auth0.com/api/v2/users", newUser, { headers: headers })
+            return this.http.post(environment.USERS_API_URL, newUser, { headers: headers })
                 .map((responseData) => {
                     return responseData.json();
                 })
@@ -115,7 +114,7 @@ export class UserService {
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
 
-            return this.http.get("https://circlemapping.auth0.com/api/v2/users/" + user_id, { headers: headers })
+            return this.http.get(`${environment.USERS_API_URL}/` + user_id, { headers: headers })
                 .map((responseData) => {
                     if (responseData.json().app_metadata) {
                         return responseData.json().app_metadata.activation_pending;
@@ -132,7 +131,7 @@ export class UserService {
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
 
-            return this.http.get("https://circlemapping.auth0.com/api/v2/users?include_totals=true&q=" + encodeURIComponent(`email="${email}"`), { headers: headers })
+            return this.http.get(`${environment.USERS_API_URL}?include_totals=true&q=` + encodeURIComponent(`email="${email}"`), { headers: headers })
                 .map((responseData) => {
                     if (responseData.json().total === 0) {
                         return { isActivationPending: false, user_id: undefined }
@@ -150,16 +149,14 @@ export class UserService {
     }
 
     public isInvitationSent(user_id: string): Promise<boolean> {
-        // console.log("is invitation sent for", user_id)
         return this.configuration.getAccessToken().then((token: string) => {
 
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
 
-            return this.http.get("https://circlemapping.auth0.com/api/v2/users/" + user_id, { headers: headers })
+            return this.http.get(`${environment.USERS_API_URL}/${user_id}`, { headers: headers })
                 .map((responseData) => {
                     if (responseData.json().app_metadata) {
-                        // console.log("invite sent", responseData.json().app_metadata.invitation_sent)
                         return responseData.json().app_metadata.invitation_sent;
                     }
                     return false;
@@ -174,7 +171,7 @@ export class UserService {
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
 
-            return this.http.patch("https://circlemapping.auth0.com/api/v2/users/" + user_id,
+            return this.http.patch(`${environment.USERS_API_URL}/${user_id}`,
                 {
                     "password": password,
                     "user_metadata":
@@ -182,7 +179,7 @@ export class UserService {
                         "given_name": firstname,
                         "family_name": lastname
                     },
-                    "connection": "Username-Password-Authentication"
+                    "connection": environment.CONNECTION_NAME
                 }
                 ,
                 { headers: headers })
@@ -199,7 +196,7 @@ export class UserService {
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
 
-            return this.http.patch("https://circlemapping.auth0.com/api/v2/users/" + user_id,
+            return this.http.patch(`${environment.USERS_API_URL}/${user_id}`,
                 { "app_metadata": { "activation_pending": isActivationPending } }
                 ,
                 { headers: headers })
@@ -216,7 +213,7 @@ export class UserService {
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
 
-            return this.http.patch("https://circlemapping.auth0.com/api/v2/users/" + user_id,
+            return this.http.patch(`${environment.USERS_API_URL}/${user_id}`,
                 { "app_metadata": { "invitation_sent": isInvitationSent } }
                 ,
                 { headers: headers })
@@ -244,7 +241,7 @@ export class UserService {
 
     public changePassword(email: string): void {
         this.configuration.getWebAuth().changePassword({
-            connection: "Username-Password-Authentication",
+            connection: environment.CONNECTION_NAME,
             email: email
         }, function (err, resp) {
             if (err) {
@@ -261,7 +258,7 @@ export class UserService {
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
 
-            return this.http.get("https://circlemapping.auth0.com/api/v2/users?include_totals=true&q=" + encodeURIComponent(`email="${email}"`), { headers: headers })
+            return this.http.get(`${environment.USERS_API_URL}?include_totals=true&q=` + encodeURIComponent(`email="${email}"`), { headers: headers })
                 .map((responseData) => {
                     if (responseData.json().total) {
                         return responseData.json().total === 1
