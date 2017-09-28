@@ -2,27 +2,30 @@
     resize: none;
 }
 
-
-
 .help-popup::before {
     content: "\f05a";
     font-family: FontAwesome;
-    color:#ccc;
+    color: #ccc;
 }
 
 span.help-popup {
     background: transparent;
 }
 
-.authority{
+.authority {
     width: 20px;
 }
 
-.transparent{
+.transparent {
     background: transparent;
 }
 
-.overflow{
+.overflow {
     max-height: 36vh;
     overflow-y: auto;
+}
+
+.background {
+    background-size: contain !important;
+    padding-left: 3vw;
 }
