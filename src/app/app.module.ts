@@ -10,8 +10,8 @@ import { PathLocationStrategy, Location, LocationStrategy } from "@angular/commo
 import { Routes, RouterModule } from "@angular/router";
 
 // Guards
-import { AuthGuard } from "./shared/services/auth/auth.guard";
-import { AccessGuard } from "./shared/services/auth/access.guard";
+import { AuthGuard } from "./shared/services/guards/auth.guard";
+import { AccessGuard } from "./shared/services/guards/access.guard";
 
 // Services
 import { DataService } from "./shared/services/data.service";

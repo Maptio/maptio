@@ -1,12 +1,13 @@
+import { UserService } from "./../../shared/services/user/user.service";
 import { Subscription } from "rxjs/Subscription";
 import { LoaderService } from "./../../shared/services/loading/loader.service";
 import { Params } from "@angular/router";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Auth } from "./../../shared/services/auth/auth.service";
 import { Component, OnInit, ViewChild, Input } from "@angular/core";
 import { JwtEncoder } from "../../shared/services/encoding/jwt.service";
 import { EmitterService } from "../../shared/services/emitter.service";
 import { FormGroup, FormBuilder, FormControl, Validators, NgForm } from "@angular/forms";
+import { Auth } from "../../shared/services/auth/auth.service";
 @Component({
     selector: "login",
     template: require("./login.component.html")
@@ -37,7 +38,7 @@ export class LoginComponent implements OnInit {
     private routeSubscription: Subscription;
     private routeSubscription2: Subscription;
 
-    constructor(private auth: Auth, private route: ActivatedRoute, private router: Router, public encoding: JwtEncoder, public formBuilder: FormBuilder, private loader: LoaderService) {
+    constructor(private auth: Auth, private userService: UserService, private route: ActivatedRoute, private router: Router, public encoding: JwtEncoder, public formBuilder: FormBuilder, private loader: LoaderService) {
         this.activateForm = new FormGroup({
             "firstname": new FormControl(this.firstname, [
                 Validators.required,
@@ -91,7 +92,7 @@ export class LoginComponent implements OnInit {
                         return decoded.user_id;
                     })
                     .then((user_id: string) => {
-                        this.isActivationPending = this.auth.isActivationPendingByUserId(user_id);
+                        this.isActivationPending = this.userService.isActivationPendingByUserId(user_id);
                         this.isActivationPending.then((isPending: boolean) => {
                             // console.log("activation pending", isPending)
                             if (!isPending) {
@@ -128,7 +129,7 @@ export class LoginComponent implements OnInit {
             let email = this.loginForm.controls["email"].value
             let password = this.loginForm.controls["password"].value
 
-            this.auth.isUserExist(email)
+            this.userService.isUserExist(email)
                 .then((isUserExist: boolean) => {
                     if (isUserExist) {
                         let user = this.auth.login(email, password)
@@ -172,7 +173,7 @@ export class LoginComponent implements OnInit {
                             return [decoded.user_id, decoded.email];
                         })
                         .then(([user_id, email]: [string, string]) => {
-                            return this.auth.isActivationPendingByUserId(user_id)
+                            return this.userService.isActivationPendingByUserId(user_id)
                                 .then(
                                 (isActivationPending: boolean) => {
                                     if (!isActivationPending)
@@ -186,7 +187,7 @@ export class LoginComponent implements OnInit {
                                 });
                         })
                         .then((user_id: string) => {
-                            return this.auth.updateUserInformation(user_id, password, firstname, lastname)
+                            return this.userService.updateUserInformation(user_id, password, firstname, lastname)
                                 .then(isUpdated => {
                                     if (isUpdated) {
                                         return Promise.resolve(user_id)
@@ -199,7 +200,7 @@ export class LoginComponent implements OnInit {
                                 })
                         })
                         .then((user_id: string) => {
-                            return this.auth.updateActivationPendingStatus(user_id, false).then((isUpdated) => {
+                            return this.userService.updateActivationPendingStatus(user_id, false).then((isUpdated) => {
                                 return user_id
                             },
                                 (error: any) => {

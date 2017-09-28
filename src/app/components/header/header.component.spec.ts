@@ -1,3 +1,6 @@
+import { MailingService } from './../../shared/services/mailing/mailing.service';
+import { AuthConfiguration } from "./../../shared/services/auth/auth.config";
+import { UserService } from "./../../shared/services/user/user.service";
 import { AuthHttp } from "angular2-jwt";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { Initiative } from "./../../shared/model/initiative.data";
@@ -21,6 +24,7 @@ import "rxjs/add/operator/toPromise";
 import { Team } from "../../shared/model/team.data";
 import { RouterTestingModule } from "@angular/router/testing";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
+import { JwtEncoder } from "../../shared/services/encoding/jwt.service";
 
 describe("header.component.ts", () => {
 
@@ -39,7 +43,7 @@ describe("header.component.ts", () => {
         }).overrideComponent(HeaderComponent, {
             set: {
                 providers: [
-                    DatasetFactory, UserFactory, TeamFactory,
+                    DatasetFactory, UserFactory, TeamFactory, AuthConfiguration,
                     {
                         provide: Auth, useClass: class {
                             getUser() { return user$.asObservable() }
@@ -63,7 +67,8 @@ describe("header.component.ts", () => {
                     // { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } },
                     MockBackend,
                     BaseRequestOptions,
-                    ErrorService]
+                    ErrorService,
+                    UserService, JwtEncoder, MailingService]
             }
         }).compileComponents();
     }));

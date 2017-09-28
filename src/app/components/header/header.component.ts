@@ -14,6 +14,7 @@ import { EmitterService } from "../../shared/services/emitter.service";
 import { UserFactory } from "../../shared/services/user.factory";
 import { ErrorService } from "../../shared/services/error/error.service";
 import { Initiative } from "../../shared/model/initiative.data";
+import { UserService } from "../../shared/services/user/user.service";
 
 
 @Component({
@@ -43,7 +44,7 @@ export class HeaderComponent implements OnInit {
     public emitterSubscription: Subscription;
     public userSubscription: Subscription;
 
-    constructor(private auth: Auth, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private userFactory: UserFactory, public errorService: ErrorService, private router: Router) {
+    constructor(private auth: Auth, private userService: UserService, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private userFactory: UserFactory, public errorService: ErrorService, private router: Router) {
         this.emitterSubscription = EmitterService.get("currentDataset").subscribe((value: DataSet) => {
             this.selectedDataset = value;
         });
@@ -139,7 +140,7 @@ export class HeaderComponent implements OnInit {
             let email = this.loginForm.controls["email"].value
             let password = this.loginForm.controls["password"].value
 
-            this.auth.isUserExist(email)
+            this.userService.isUserExist(email)
                 .then((isUserExist: boolean) => {
                     if (isUserExist) {
                         let user = this.auth.login(email, password);

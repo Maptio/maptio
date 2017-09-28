@@ -1,3 +1,7 @@
+import { AuthHttp } from "angular2-jwt";
+import { AuthConfiguration } from "./../../shared/services/auth/auth.config";
+import { MailingService } from "./../../shared/services/mailing/mailing.service";
+import { UserService } from "./../../shared/services/user/user.service";
 import { LoaderService } from "./../../shared/services/loading/loader.service";
 import { ErrorService } from "./../../shared/services/error/error.service";
 import { MockBackend } from "@angular/http/testing";
@@ -11,6 +15,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { LoginComponent } from "./login.component";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 import { Auth } from "../../shared/services/auth/auth.service";
+import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 
 export class AuthStub {
     login() {
@@ -37,6 +42,11 @@ describe("login.component.ts", () => {
                             queryParams: Observable.of({ token: "TOKEN" })
                         }
                     },
+                    {
+                        provide: AuthHttp,
+                        useFactory: authHttpServiceFactoryTesting,
+                        deps: [Http, BaseRequestOptions]
+                    },
                     { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } },
                     {
                         provide: Http,
@@ -47,7 +57,8 @@ describe("login.component.ts", () => {
                     },
                     MockBackend,
                     BaseRequestOptions,
-                    ErrorService
+                    ErrorService,
+                    UserService, JwtEncoder, MailingService, AuthConfiguration
                 ]
             }
         }).compileComponents();

@@ -8,7 +8,7 @@ export class MailingService {
 
     public client: any; // nodemailer.Transporter;
 
-    constructor(private secureHttp: AuthHttp, private unsecureHttp:Http) {
+    constructor(private secureHttp: AuthHttp, private unsecureHttp: Http) {
     }
 
     public sendInvitation(from: string, to: string[], url: string, team: string, invitedBy: string): Promise<boolean> {

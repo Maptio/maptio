@@ -2,10 +2,10 @@ import { Router, RouterStateSnapshot } from "@angular/router";
 import { ErrorService } from "../error/error.service";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { UserFactory } from "../user.factory";
-import { Auth } from "./auth.service";
 import { AuthGuard } from "./auth.guard";
 import { TestBed, inject } from "@angular/core/testing";
 import { MockBackend } from "@angular/http/testing";
+import { Auth } from "../auth/auth.service";
 
 export class AuthStub {
     authenticationProviderAuthenticated() { }

@@ -6,6 +6,7 @@ import { UserFactory } from "./../../shared/services/user.factory";
 import { Auth } from "./../../shared/services/auth/auth.service";
 import { Component, OnInit } from "@angular/core";
 import { User } from "../../shared/model/user.data";
+import { UserService } from "../../shared/services/user/user.service";
 
 @Component({
     selector: "signup",
@@ -32,7 +33,7 @@ export class SignupComponent implements OnInit {
 
     public signupForm: FormGroup;
 
-    constructor(private auth: Auth, private router: Router, private loader: LoaderService) {
+    constructor(private userService: UserService, private router: Router, private loader: LoaderService) {
         this.signupForm = new FormGroup({
             "firstname": new FormControl(this.firstname, [
                 Validators.required,
@@ -86,12 +87,12 @@ export class SignupComponent implements OnInit {
                     }
                     else {
                         // no matching email => create user
-                        return this.auth.createUser(email, firstname, lastname, true)
+                        return this.userService.createUser(email, firstname, lastname, true)
                             .then((user: User) => {
                                 return user;
                             }, (reason) => { return Promise.reject("Account creation failed") })
                             .then((user: User) => {
-                                return this.auth.sendConfirmation(user.email, user.user_id, user.firstname, user.lastname, user.name)
+                                return this.userService.sendConfirmation(user.email, user.user_id, user.firstname, user.lastname, user.name)
                                     .then((success: boolean) => {
                                         this.isConfirmationEmailSent = success
                                     },
@@ -106,18 +107,18 @@ export class SignupComponent implements OnInit {
     }
 
     isEmailExist(email: string): Promise<boolean> {
-        return this.auth.isUserExist(email)
+        return this.userService.isUserExist(email)
     }
 
 
     isActivationPending(email: string, firstname: string, lastname: string) {
-        return this.auth.isActivationPendingByEmail(email)
+        return this.userService.isActivationPendingByEmail(email)
             .then(({ isActivationPending, user_id }) => {
                 if (!user_id) {
                     return Promise.resolve({ isActivationPending: false, userToken: undefined })
                 }
                 // if (isActivationPending) {
-                return this.auth.generateUserToken(user_id, email, firstname, lastname).then(token => {
+                return this.userService.generateUserToken(user_id, email, firstname, lastname).then(token => {
                     return { isActivationPending, userToken: token }
                 });
                 // }
