@@ -10,7 +10,7 @@ import { Observable } from "rxjs/Rx";
 
 @Component({
     selector: "tree",
-    template: require("./mapping.tree.component.html"),
+    templateUrl: "./mapping.tree.component.html",
     styleUrls: ["./mapping.tree.component.css"],
     encapsulation: ViewEncapsulation.None
 })

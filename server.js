@@ -70,7 +70,7 @@ let cache = apicache.middleware
 // app.use(cache('5 seconds'))
 
 app.use(bodyParser.json());
-app.use(sslRedirect());
+// app.use(sslRedirect());
 app.use(compression())
 // app.use(jwtCheck.unless({ path: ['/','/api/v1/mail/confirm', "/api/v1/jwt/encode", "/api/v1/jwt/decode"] }));
 
@@ -122,9 +122,9 @@ if (isDevelopment) {
   app.use(express.static(DIST_DIR));
   app.get("*", function (req, res, next) {
 
-    if (req.header('x-forwarded-proto') !== 'https') {
-      return res.redirect(['https://', req.get('Host'), req.url].join(''));
-    }
+    // if (req.header('x-forwarded-proto') !== 'https') {
+    //   return res.redirect(['https://', req.get('Host'), req.url].join(''));
+    // }
     res.sendFile(HTML_FILE);
   }
   )

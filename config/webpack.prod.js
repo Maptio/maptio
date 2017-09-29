@@ -1,15 +1,26 @@
+/**
+ * webpack2 config file for ng2 AOT compile
+ * location : config/webpack.aot.js
+ */
 var webpack = require('webpack');
-var webpackMerge = require('webpack-merge');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var commonConfig = require('./webpack.common.js');
 var helpers = require('./helpers');
-var path = require('path');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
+const ngToolsWebpack = require('@ngtools/webpack');
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
-
-module.exports = webpackMerge(commonConfig, {
+console.log(helpers.root('src', 'app', 'app.module#AppModule'));
+module.exports = {
   devtool: 'source-map',
-
+  entry: {
+    'vendor': './src/app/vendor.ts',
+    'polyfills': './src/app/polyfills.ts',
+    'app': './src/app/bootstrap.ts'
+  },
+  resolve: {
+    extensions: ['*', '.ts', '.js']
+  },
   output: {
     path: helpers.root('dist'),
     publicPath: '/',
@@ -17,16 +28,77 @@ module.exports = webpackMerge(commonConfig, {
     chunkFilename: '[id].[hash].chunk.js'
   },
 
-  // htmlLoader: {
-  //   minimize: false // workaround for ng2
-  // },
+  module: {
+    rules: [
+      {
+        test: /\.ts$/,
+        loader: '@ngtools/webpack'
+      },
+      {
+        test: /\.html$/,
+        loader: 'html-loader'
+      },
+      {
+        test: /\.(json|png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico|cur)$/,
+        loader: 'file-loader?name=assets/[name].[hash].[ext]'
+      },
+      {
+        test: /\.css$/,
+        exclude: helpers.root('src', 'app'),
+        loaders: ExtractTextPlugin.extract({ fallback: 'style-loader', loader: 'css-loader?sourceMap' })
+      },
+      {
+        test: /\.css$/,
+        include: helpers.root('src', 'app'),
+        loaders: ['css-to-string-loader', 'css-loader']
+      },
+      {
+        test: /\.scss$/,
+        exclude: /node_modules/,
+        loaders: ['raw-loader', 'sass-loader']
+      },
+      {
+        test: /\.sass$/,
+        exclude: /node_modules/,
+        loaders: ['raw-loader', 'sass-loader']
+      }
+    ]
+  },
 
   plugins: [
-    //new webpack.NoErrorsPlugin(),
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.UglifyJsPlugin({ // https://github.com/angular/angular/issues/10618
-      mangle: {
-        keep_fnames: true
+    // If you want to use jquery in ng2 uncomment this
+    /*
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery"
+    }),*/
+    new ngToolsWebpack.AotPlugin({
+      tsConfigPath: helpers.root('tsconfig-aot.json'),
+      basePath: helpers.root(''),
+      entryModule: helpers.root('src', 'app', 'app.module#AppModule'),
+      mainPath: helpers.root('src', 'bootstrap.ts')
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: ['app', 'polyfills']
+    }),
+    new webpack.LoaderOptionsPlugin({
+      minimize: true,
+      options: {
+        htmlLoader: {
+          minimize: false
+        }
+      }
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/index.html'
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+          warnings: false,
+          drop_console: true
+      },
+      output: {
+          comments: false
       }
     }),
     new ExtractTextPlugin('[name].[hash].css'),
@@ -34,6 +106,10 @@ module.exports = webpackMerge(commonConfig, {
       'process.env': {
         'ENV': JSON.stringify(ENV)
       }
-    })
+    }),
+    new CopyWebpackPlugin([
+      { from: 'public', to: 'assets' }
+
+    ])
   ]
-});
+};

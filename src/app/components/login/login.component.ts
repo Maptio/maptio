@@ -10,7 +10,7 @@ import { FormGroup, FormBuilder, FormControl, Validators, NgForm } from "@angula
 import { Auth } from "../../shared/services/auth/auth.service";
 @Component({
     selector: "login",
-    template: require("./login.component.html")
+    templateUrl: "./login.component.html"
 })
 export class LoginComponent implements OnInit {
 

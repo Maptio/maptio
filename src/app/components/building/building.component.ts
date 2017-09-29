@@ -14,7 +14,7 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
     selector: "building",
-    template: require("./building.component.html"),
+    templateUrl: "./building.component.html",
     styleUrls: ["./building.component.css"]
 })
 export class BuildingComponent {

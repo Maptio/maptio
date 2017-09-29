@@ -22,7 +22,7 @@ import { Initiative } from "../../shared/model/initiative.data";
 
 @Component({
     selector: "mapping",
-    template: require("./mapping.component.html"),
+    templateUrl: "./mapping.component.html",
     styleUrls: ["./mapping.component.css"],
     entryComponents: [MappingCirclesComponent, MappingTreeComponent],
     changeDetection: ChangeDetectionStrategy.OnPush

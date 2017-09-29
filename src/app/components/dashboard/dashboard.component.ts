@@ -9,7 +9,7 @@ import { DataSet } from "../../shared/model/dataset.data";
 
 @Component({
     selector: "dashboard",
-    template: require("./dashboard.component.html"),
+    templateUrl: "./dashboard.component.html",
     styleUrls: ["./dashboard.component.css"]
 })
 

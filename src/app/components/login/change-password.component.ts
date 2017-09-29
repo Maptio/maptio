@@ -6,7 +6,7 @@ import { UserService } from "../../shared/services/user/user.service";
 
 @Component({
     selector: "change-password",
-    template: require("./change-password.component.html")
+    templateUrl: "./change-password.component.html"
 })
 
 export class ChangePasswordComponent implements OnInit {

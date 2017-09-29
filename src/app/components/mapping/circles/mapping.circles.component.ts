@@ -1,4 +1,4 @@
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from "rxjs/Subscription";
 import { Observable } from "rxjs/Observable";
 import { Component, OnInit, Input, ViewEncapsulation } from "@angular/core";
 import { D3Service, D3, HierarchyCircularNode } from "d3-ng2-service";
@@ -8,7 +8,7 @@ import { IDataVisualizer } from "../mapping.interface"
 
 @Component({
     selector: "circles",
-    template: require("./mapping.circles.component.html"),
+    templateUrl: "./mapping.circles.component.html",
     styleUrls: ["./mapping.circles.component.css"],
     encapsulation: ViewEncapsulation.None
 })

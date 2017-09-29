@@ -15,8 +15,10 @@ if (isDevelopment) {
     PUBLIC_KEY = fs.readFileSync(path.join(__dirname, "../rsa.pub"));
 }
 else {
-    PRIVATE_KEY = Buffer.from(process.env.SSH_PRIVATE_KEY);
-    PUBLIC_KEY = Buffer.from(process.env.SSH_PUBLIC_KEY);
+    // PRIVATE_KEY = Buffer.from(process.env.SSH_PRIVATE_KEY);
+    // PUBLIC_KEY = Buffer.from(process.env.SSH_PUBLIC_KEY);
+    PRIVATE_KEY = fs.readFileSync(path.join(__dirname, "../id_rsa"));
+    PUBLIC_KEY = fs.readFileSync(path.join(__dirname, "../rsa.pub"));
 }
 
 
