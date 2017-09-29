@@ -24,6 +24,37 @@ export class Auth {
     ) {
     }
 
+    public logout(): void {
+        localStorage.clear();
+        this.router.navigate(["home"]);
+    }
+
+    /**
+         * Checks if Auth0 Management API is still valid
+         */
+    public authenticationProviderAuthenticated() {
+        return tokenNotExpired("access_token");
+    }
+
+    /**
+     * Checks if Maptio API is still valid
+     */
+    public internalApiAuthenticated() {
+        return tokenNotExpired("maptio_api_token");
+    }
+
+    /**
+     * Checks is ID token is still valid
+     */
+    public authenticated(): boolean {
+        return tokenNotExpired("id_token");
+    }
+
+    public allAuthenticated() {
+        return this.authenticated() && this.internalApiAuthenticated() && this.authenticationProviderAuthenticated()
+    }
+
+
     public setUser(profile: any): Promise<boolean> {
 
         localStorage.setItem("profile", JSON.stringify(profile));
@@ -131,66 +162,8 @@ export class Auth {
 
     }
 
-    /**
-     * Checks if Auth0 Management API is still valid
-     */
-    public authenticationProviderAuthenticated() {
-        return tokenNotExpired("access_token");
-    }
 
-    /**
-     * Checks if Maptio API is still valid
-     */
-    public internalApiAuthenticated() {
-        return tokenNotExpired("maptio_api_token");
-    }
 
-    /**
-     * Checks is ID token is still valid
-     */
-    public authenticated(): boolean {
-        return tokenNotExpired();
-    }
-
-    public allAuthenticated() {
-        return this.authenticated() && this.internalApiAuthenticated() && this.authenticationProviderAuthenticated()
-    }
-
-    public logout(): void {
-        localStorage.clear();
-        // this.clear();
-        this.router.navigate(["home"]);
-    }
-
-    // public isEmailVerified(userId: string): Promise<boolean> {
-    //     // console.log("isEmailVerified")
-    //     return this.lock.getAuth0ManagementToken().then((token: string) => {
-    //         let headers = new Headers();
-    //         headers.set("Authorization", "Bearer " + token);
-    //         return this.http.get("https://circlemapping.auth0.com/api/v2/users/" + userId, { headers: headers })
-    //             .map((responseData) => {
-    //                 return responseData.json().email_verified === "true";
-    //             })
-    //             .toPromise()
-    //             .then(r => r)
-    //             .catch(this.errorService.handleError);
-    //     });
-    // }
-
-    // public isFirstLogin(userId: string): Promise<boolean> {
-    //     // console.log("isFIrstLogin")
-    //     return this.lock.getAuth0ManagementToken().then((token: string) => {
-    //         let headers = new Headers();
-    //         headers.set("Authorization", "Bearer " + token);
-    //         return this.http.get("https://circlemapping.auth0.com/api/v2/users/" + userId, { headers: headers })
-    //             .map((responseData) => {
-    //                 return responseData.json().logins_count === 0;
-    //             })
-    //             .toPromise()
-    //             .then(r => r)
-    //             .catch(this.errorService.handleError);
-    //     });
-    // }
 
 
     public clear() {
