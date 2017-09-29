@@ -9,6 +9,7 @@ export const environment = {
     USERS_API_URL: "https://circlemapping.auth0.com/api/v2/users",
     TICKETS_API_URL: "https://circlemapping.auth0.com/api/v2/tickets/email-verification",
     CONNECTION_NAME: "Username-Password-Authentication",
-    SUPPORT_EMAIL: "support@maptio.com"
-
+    SUPPORT_EMAIL: "support@maptio.com",
+    ACCESS_TOKEN_URL: "https://circlemapping.auth0.com/oauth/token",
+    ACCESS_TOKEN_AUDIENCE: "https://circlemapping.auth0.com/api/v2/"
 };
