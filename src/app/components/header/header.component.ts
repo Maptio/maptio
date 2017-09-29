@@ -53,7 +53,6 @@ export class HeaderComponent implements OnInit {
 
         this.userSubscription = this.auth.getUser().subscribe((user: User) => {
             this.user = user;
-
             this.datasets$ = Promise.all(
                 // get all datasets available to this user accross all teams
                 this.user.datasets.map(
@@ -138,6 +137,7 @@ export class HeaderComponent implements OnInit {
     login() {
 
         if (this.loginForm.dirty && this.loginForm.valid) {
+            localStorage.clear();
             this.loader.show();
             let email = this.loginForm.controls["email"].value
             let password = this.loginForm.controls["password"].value
