@@ -69,7 +69,6 @@ export class Auth {
     public login(email: string, password: string): Promise<boolean> {
         this.loader.show();
         try {
-            this.clear();
             this.configuration.getWebAuth().client.login({
                 realm: "Username-Password-Authentication",
                 username: email,
