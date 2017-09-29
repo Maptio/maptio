@@ -16,7 +16,7 @@ import { Auth } from "../../shared/services/auth/auth.service";
 
 @Component({
     selector: "workspace",
-    templateUrl: "./workspace.component.html",
+    templateUrl: "workspace.component.html",
     styleUrls: ["./workspace.component.css"]
 })
 
