@@ -16,7 +16,7 @@ import { UserFactory } from "../../shared/services/user.factory";
 import { ErrorService } from "../../shared/services/error/error.service";
 import { Initiative } from "../../shared/model/initiative.data";
 import { UserService } from "../../shared/services/user/user.service";
-
+import * as _ from "lodash";
 
 @Component({
     selector: "header",
@@ -27,8 +27,8 @@ import { UserService } from "../../shared/services/user/user.service";
 export class HeaderComponent implements OnInit {
     public user: User;
 
-    @Output("openHelp") openHelpEvent = new EventEmitter<void>();
-    @Output("createDataset") createDatasetEvent = new EventEmitter<void>();
+    // @Output("openHelp") openHelpEvent = new EventEmitter<void>();
+    // @Output("createDataset") createDatasetEvent = new EventEmitter<void>();
 
     public datasets$: Promise<Array<any>>;
     private teams$: Promise<Array<Team>>;
@@ -37,10 +37,11 @@ export class HeaderComponent implements OnInit {
     private isSaving: Promise<boolean> = Promise.resolve(false);
     private timeToSaveInSec: Promise<number>;
     public areMapsAvailable: Promise<boolean>
-
-    private selectedTeam: Team;
+    public isCreateMode: boolean = true;
+    private selectedTeamId: string;
 
     private loginForm: FormGroup;
+    private createMapForm: FormGroup;
 
     public emitterSubscription: Subscription;
     public userSubscription: Subscription;
@@ -72,6 +73,12 @@ export class HeaderComponent implements OnInit {
                             }
                     })
                 })
+
+            this.teams$ = Promise.all(
+                this.user.teams.map(tid => this.teamFactory.get(tid).then(t => t, () => { return Promise.reject("No team") }).catch(() => { return <Team>undefined }))
+            )
+                .then(teams => _.compact(teams))
+                .then(teams => _.sortBy(teams, t => t.name))
         },
             (error: any) => { this.errorService.handleError(error) });
 
@@ -84,6 +91,11 @@ export class HeaderComponent implements OnInit {
                 Validators.required
             ])
         });
+
+        this.createMapForm = new FormGroup({
+            "mapName": new FormControl("", [Validators.required, Validators.minLength(2)]),
+            "teamId": new FormControl(this.selectedTeamId, [Validators.required]),
+        })
     }
 
     ngOnDestroy() {
@@ -114,17 +126,36 @@ export class HeaderComponent implements OnInit {
 
     }
 
+    createDataset() {
+        if (this.createMapForm.dirty && this.createMapForm.valid) {
+            let mapName = this.createMapForm.controls["mapName"].value
+            let teamId = this.createMapForm.controls["teamId"].value
+            console.log(mapName, teamId)
 
-    createDataset(datasetName: string) {
-        let newDataset = new DataSet({ initiative: new Initiative({ name: datasetName }) });
-        this.datasetFactory.create(newDataset).then((created: DataSet) => {
-            this.datasetFactory.add(created, this.user).then((result: boolean) => {
-                this.router.navigate(["map", created._id]);
-                this.selectedDataset = created;
+            let newDataset = new DataSet({ initiative: new Initiative({ name: mapName, team_id: teamId }) });
+            this.datasetFactory.create(newDataset).then((created: DataSet) => {
+                // this.datasetFactory.add(created, this.user).then((result: boolean) => {
+                    this.user.datasets.push(created._id)
+                    this.auth.triggerRefresh(this.user)
+                    this.router.navigate(["map", created._id, created.initiative.getSlug()]);
+                    this.selectedDataset = created;
+                // }).catch(this.errorService.handleError);
             }).catch(this.errorService.handleError);
-        }).catch(this.errorService.handleError);
-        this.ngOnInit();
+            this.ngOnInit();
+        }
     }
+
+
+    // createDataset(datasetName: string) {
+    //     let newDataset = new DataSet({ initiative: new Initiative({ name: datasetName }) });
+    //     this.datasetFactory.create(newDataset).then((created: DataSet) => {
+    //         this.datasetFactory.add(created, this.user).then((result: boolean) => {
+    //             this.router.navigate(["map", created._id]);
+    //             this.selectedDataset = created;
+    //         }).catch(this.errorService.handleError);
+    //     }).catch(this.errorService.handleError);
+    //     this.ngOnInit();
+    // }
 
     // TODO: create validation service
     validate(name: string) {
@@ -160,6 +191,10 @@ export class HeaderComponent implements OnInit {
                     this.loader.show();
                 })
         }
+    }
+
+    toggleCreateMode() {
+        this.isCreateMode = !this.isCreateMode;
     }
 
 }

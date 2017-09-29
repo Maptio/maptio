@@ -170,15 +170,21 @@ export class Auth {
         this.user$.next(undefined);
     }
 
+    public triggerRefresh(user: User) {
+        this.user$.next(user);
+    }
+
     public getUser(): Observable<User> {
+        console.log("getUser")
         let profileString = localStorage.getItem("profile");
 
         if (profileString) {
-
+            console.log("getUser 1")
             Promise.all([
                 this.getUserInfo(JSON.parse(profileString).user_id),
                 this.userFactory.get(JSON.parse(profileString).user_id)])
                 .then(([auth0User, databaseUser]: [User, User]) => {
+                    console.log("getUser 2")
                     let user = auth0User;
                     user.teams = databaseUser.teams;
                     user.shortid = databaseUser.shortid;
@@ -186,6 +192,7 @@ export class Auth {
                 })
                 .then((user: User) => {
                     this.datasetFactory.get(user).then(ds => {
+                        console.log("getUser 3", ds)
                         // console.log(ds)
                         user.datasets = ds || [];
                         // console.log("auth.service.ts getUser", user)
