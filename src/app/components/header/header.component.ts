@@ -138,6 +138,7 @@ export class HeaderComponent implements OnInit {
     login() {
 
         if (this.loginForm.dirty && this.loginForm.valid) {
+            localStorage.clear();
             this.loader.show();
             let email = this.loginForm.controls["email"].value
             let password = this.loginForm.controls["password"].value
