@@ -59,17 +59,17 @@ export class HeaderComponent implements OnInit {
                 )
             )
                 .then(datasets => {
-                    return datasets.filter(d => d).map(d => {
-
-                        if (d)
-                            return {
-                                _id: d._id,
-                                initiative: d.initiative,
-                                name: d.initiative.name,
-                                team_id: (d.initiative && d.initiative.team_id) ? d.initiative.team_id : undefined,
-                            }
-                    })
+                    return datasets.filter(d => d !== undefined).map(d => {
+                        return {
+                            _id: d._id,
+                            initiative: d.initiative,
+                            name: d.initiative.name,
+                            team_id: (d.initiative && d.initiative.team_id) ? d.initiative.team_id : undefined,
+                        }
+                    }
+                    )
                 })
+                .then(datasets => _.sortBy(datasets, d => d.name))
 
             this.teams$ = Promise.all(
                 this.user.teams.map(tid => this.teamFactory.get(tid).then(t => t, () => { return Promise.reject("No team") }).catch(() => { return <Team>undefined }))
@@ -131,10 +131,10 @@ export class HeaderComponent implements OnInit {
 
             let newDataset = new DataSet({ initiative: new Initiative({ name: mapName, team_id: teamId }) });
             this.datasetFactory.create(newDataset).then((created: DataSet) => {
-                    this.user.datasets.push(created._id)
-                    this.auth.getUser();
-                    this.router.navigate(["map", created._id, created.initiative.getSlug()]);
-                    this.selectedDataset = created;
+                this.user.datasets.push(created._id)
+                this.auth.getUser();
+                this.router.navigate(["map", created._id, created.initiative.getSlug()]);
+                this.selectedDataset = created;
             }).catch(this.errorService.handleError);
             this.ngOnInit();
         }
