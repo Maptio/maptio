@@ -31,5 +31,5 @@ describe("footer.component.ts", () => {
         expect(component.PRIVACY_URL).toBe(environment.PRIVACY_URL);
         expect(component.BLOG_URL).toBe(environment.BLOG_URL);
     });
-    
+
 });

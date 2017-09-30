@@ -142,7 +142,7 @@ span.navbar-text a {
 .creation {
     position: absolute;
     top: 7vh;
-    right: 0vw;
+    right: 0;
     z-index: 1000;
     background-color: rgb(41, 128, 185);
 }
