@@ -33,7 +33,7 @@
 
             </li>
             <li class="nav-item dropdown" *ngIf="auth.allAuthenticated()">
-                <a class="nav-link dropdown-toggle without-caret" (click)="toggleCreateMode()" [class.coloured]="isCreateMode" >
+                <a class="nav-link dropdown-toggle without-caret" (click)="toggleCreateMode()" [class.coloured]="isCreateMode">
                        Create
                     </a>
             </li>
@@ -102,11 +102,14 @@
         <div class="card-text">
             <form [formGroup]="createMapForm" (submit)="createDataset()" class="form-inline">
                 <input type="text" id="inputMapName" formControlName="mapName" class="form-control col-6" placeholder="Enter map name" required>
-                <select formControlName="teamId" required class="form-control col-4 mr-1">
+                <select formControlName="teamId" required class="form-control col-4 mr-1" >
                     <option *ngFor="let team of teams$ | async" [value]="team.team_id">{{team?.name}}</option>
                 </select>
+                
                 <button type="submit" class="btn btn-success pull-right" [class.disabled]="!createMapForm.valid">Create</button>
             </form>
+            <small *ngIf="(teams$ | async)?.length === 0 " class="offset-md-6"> <a class="text-danger" routerLink="/teams">Don't have a team?</a></small>
+            
         </div>
     </div>
 </div>
