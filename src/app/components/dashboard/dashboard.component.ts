@@ -6,6 +6,7 @@ import { TeamFactory } from "../../shared/services/team.factory";
 import { ErrorService } from "../../shared/services/error/error.service";
 import { User } from "../../shared/model/user.data";
 import { DataSet } from "../../shared/model/dataset.data";
+import * as _ from "lodash";
 
 @Component({
     selector: "dashboard",
@@ -32,13 +33,7 @@ export class DashboardComponent {
                         return d;
                     })
                 })
-                .then((datasets: Array<DataSet>) => {
-                    return datasets.sort((a: DataSet, b: DataSet) => {
-                        if (a.initiative.team_id < b.initiative.team_id) return -1;
-                        if (a.initiative.team_id > b.initiative.team_id) return 1;
-                        return 0;
-                    })
-                })
+                .then(datasets => _.sortBy(datasets, d => d.initiative.name))
         },
             (error: any) => { this.errorService.handleError(error) });
     }
