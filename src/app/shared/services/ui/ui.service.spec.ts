@@ -2,7 +2,7 @@ import { D3Service } from "d3-ng2-service";
 import { UIService } from "./ui.service";
 import { TestBed, inject, } from "@angular/core/testing";
 
-describe("ui.service.ts", function () {
+fdescribe("ui.service.ts", function () {
 
 
     beforeEach(() => {
@@ -21,7 +21,7 @@ describe("ui.service.ts", function () {
     });
 
     beforeAll(() => {
-        fixture.setBase("src/app/shared/services/fixtures");
+        // fixture.setBase("src/app/shared/services/fixtures");
     });
 
 
@@ -64,7 +64,7 @@ describe("ui.service.ts", function () {
 
 
     describe("clean", function () {
-        it("When svg element exists, it cleans", inject([UIService, D3Service], (target: UIService, d3Service: D3Service) => {
+        fit("When svg element exists, it cleans", inject([UIService, D3Service], (target: UIService, d3Service: D3Service) => {
             fixture.load("withsvg.html");
             document.body.innerHTML = fixture.el.innerHTML;
             target.clean();

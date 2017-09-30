@@ -55,7 +55,7 @@ export class AuthStub {
     }
 }
 
-fdescribe("workspace.component.ts", () => {
+describe("workspace.component.ts", () => {
 
     let component: WorkspaceComponent;
     let target: ComponentFixture<WorkspaceComponent>;
@@ -133,7 +133,7 @@ fdescribe("workspace.component.ts", () => {
 
     describe("Controller", () => {
         describe("update team members", () => {
-            fit("should get the list of members when team is defined", () => {
+            it("should get the list of members when team is defined", () => {
                 component.team = Promise.resolve(new Team({ name: "Winners", members: [new User({ user_id: "1" })], team_id: "some_team_id" }));
                 component.updateTeamMembers();
                 component.members.then(m => {

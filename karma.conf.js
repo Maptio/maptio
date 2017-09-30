@@ -1,6 +1,8 @@
 module.exports = function (config) {
     config.set({
 
+        // basePath : "../maptio",
+
         frameworks: ["jasmine", "fixture", "karma-typescript"],
 
         files: [
@@ -15,8 +17,12 @@ module.exports = function (config) {
             { pattern: "src/app/components/**/*.*" },
             // Specs
             { pattern: "src/test/specs/**/*.*" }
-            
+
         ],
+
+        proxies: {
+            "/app/": "/base/src/app/"
+          },
 
         jsonFixturesPreprocessor: {
             variableName: '__json__'
@@ -24,8 +30,14 @@ module.exports = function (config) {
 
         preprocessors: {
             "**/*.ts": ["karma-typescript"],
-            '**/*.html': ['html2js'],
             '**/*.json': ['json_fixtures']
+        },
+
+        html2JsPreprocessor: {
+            processPath: function (filePath) {
+                console.log(filePath)
+                return filePath;
+            }
         },
 
         browserConsoleLogOptions: {
@@ -39,7 +51,7 @@ module.exports = function (config) {
                 transforms: [
                     require("karma-typescript-angular2-transform"),
                     require("karma-typescript-es6-transform")()
-                    
+
                 ]
             },
             coverageOptions: {
