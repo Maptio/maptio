@@ -112,16 +112,16 @@ export class HeaderComponent implements OnInit {
         if (dataset) this.router.navigate(["map", dataset._id, dataset.initiative.getSlug(), "initiatives"]);
     }
 
-    createTeam(teamName: string) {
-        this.teamFactory.create(new Team({ name: teamName, members: [this.user] })).then((team: Team) => {
-            this.user.teams.push(team.team_id);
-            this.userFactory.upsert(this.user).then((result: boolean) => {
-                this.router.navigate(["/team", team.team_id, team.getSlug()]);
-            })
+    // createTeam(teamName: string) {
+    //     this.teamFactory.create(new Team({ name: teamName, members: [this.user] })).then((team: Team) => {
+    //         this.user.teams.push(team.team_id);
+    //         this.userFactory.upsert(this.user).then((result: boolean) => {
+    //             this.router.navigate(["/team", team.team_id, team.getSlug()]);
+    //         })
 
-        })
+    //     })
 
-    }
+    // }
 
     createDataset() {
         if (this.createMapForm.dirty && this.createMapForm.valid) {
