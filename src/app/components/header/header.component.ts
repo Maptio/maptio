@@ -34,7 +34,7 @@ export class HeaderComponent implements OnInit {
     private isSaving: Promise<boolean> = Promise.resolve(false);
     private timeToSaveInSec: Promise<number>;
     public areMapsAvailable: Promise<boolean>
-    public isCreateMode: boolean = false;
+    public isCreateMode: boolean;
     private selectedTeamId: string;
 
     private loginForm: FormGroup;
@@ -133,6 +133,7 @@ export class HeaderComponent implements OnInit {
             this.datasetFactory.create(newDataset).then((created: DataSet) => {
                 this.user.datasets.push(created._id)
                 this.auth.getUser();
+                this.isCreateMode = false;
                 this.router.navigate(["map", created._id, created.initiative.getSlug()]);
                 this.selectedDataset = created;
             }).catch(this.errorService.handleError);
