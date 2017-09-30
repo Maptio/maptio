@@ -27,9 +27,6 @@ import * as _ from "lodash";
 export class HeaderComponent implements OnInit {
     public user: User;
 
-    // @Output("openHelp") openHelpEvent = new EventEmitter<void>();
-    // @Output("createDataset") createDatasetEvent = new EventEmitter<void>();
-
     public datasets$: Promise<Array<any>>;
     private teams$: Promise<Array<Team>>;
     public selectedDataset: DataSet;
@@ -37,7 +34,7 @@ export class HeaderComponent implements OnInit {
     private isSaving: Promise<boolean> = Promise.resolve(false);
     private timeToSaveInSec: Promise<number>;
     public areMapsAvailable: Promise<boolean>
-    public isCreateMode: boolean = true;
+    public isCreateMode: boolean = false;
     private selectedTeamId: string;
 
     private loginForm: FormGroup;
@@ -134,28 +131,14 @@ export class HeaderComponent implements OnInit {
 
             let newDataset = new DataSet({ initiative: new Initiative({ name: mapName, team_id: teamId }) });
             this.datasetFactory.create(newDataset).then((created: DataSet) => {
-                // this.datasetFactory.add(created, this.user).then((result: boolean) => {
                     this.user.datasets.push(created._id)
-                    this.auth.triggerRefresh(this.user)
+                    this.auth.getUser();
                     this.router.navigate(["map", created._id, created.initiative.getSlug()]);
                     this.selectedDataset = created;
-                // }).catch(this.errorService.handleError);
             }).catch(this.errorService.handleError);
             this.ngOnInit();
         }
     }
-
-
-    // createDataset(datasetName: string) {
-    //     let newDataset = new DataSet({ initiative: new Initiative({ name: datasetName }) });
-    //     this.datasetFactory.create(newDataset).then((created: DataSet) => {
-    //         this.datasetFactory.add(created, this.user).then((result: boolean) => {
-    //             this.router.navigate(["map", created._id]);
-    //             this.selectedDataset = created;
-    //         }).catch(this.errorService.handleError);
-    //     }).catch(this.errorService.handleError);
-    //     this.ngOnInit();
-    // }
 
     // TODO: create validation service
     validate(name: string) {

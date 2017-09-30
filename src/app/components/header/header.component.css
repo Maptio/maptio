@@ -144,5 +144,14 @@ span.navbar-text a {
     top: 11vh;
     right: 0vw;
     z-index: 1000;
-    background-color: #f7f7f7
+    background-color: rgb(41, 128, 185);
+}
+
+
+.coloured{
+    color: rgb(41, 128, 185) !important;
+}
+
+.nav-item.dropdown{
+    cursor: pointer;
 }

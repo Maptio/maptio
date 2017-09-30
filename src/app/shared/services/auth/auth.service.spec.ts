@@ -18,7 +18,7 @@ import { AuthConfiguration } from "./auth.config";
 import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
 
 
-fdescribe("auth.service.ts", () => {
+describe("auth.service.ts", () => {
 
     const expiredToken = encodeTestToken({
         "exp": 0

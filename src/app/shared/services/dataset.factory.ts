@@ -116,14 +116,14 @@ export class DatasetFactory {
         return this._http.get("/api/v1/user/" + user.user_id + "/datasets")
             .map((responseData) => {
                 try {
-                    return responseData.json().datasets
+                    return responseData.json().map((d: any) => d._id);
                 }
                 catch (err) {
                     return []
                 }
             })
             .map((result: any) => {
-                return result ;
+                return result;
             })
             .toPromise()
     }

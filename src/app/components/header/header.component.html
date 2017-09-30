@@ -32,18 +32,11 @@
                 </div>
 
             </li>
-            <li class="nav-item dropdown without-caret" *ngIf="auth.allAuthenticated()">
-                <a class="nav-link dropdown-toggle without-caret" (click)="toggleCreateMode()">
+            <li class="nav-item dropdown" *ngIf="auth.allAuthenticated()">
+                <a class="nav-link dropdown-toggle without-caret" (click)="toggleCreateMode()" [class.coloured]="isCreateMode" >
                        Create
                     </a>
-
             </li>
-
-            <!-- <li class="nav-item" *ngIf="auth.allAuthenticated()">
-                <a class="nav-link btn btn-outline-success" id="createNewMapBtn" aria-haspopup="true" aria-expanded="false">
-                       Create
-                    </a>
-            </li> -->
 
 
             <!-- <li class="nav-item dropdown" *ngIf="auth.allAuthenticated()">
@@ -104,15 +97,12 @@
     </div>
 </nav>
 
-<div class="card creation borderless col-4" *ngIf="isCreateMode">
+<div class="card creation borderless col-6 rounded-0" *ngIf="isCreateMode">
     <div class="card-block">
         <div class="card-text">
-            <form [formGroup]="createMapForm" (submit)="createDataset()">
-                <input type="text" id="inputMapName" formControlName="mapName" class="form-control mb-1" placeholder="Enter map name" required>
-
-
-                <select formControlName="teamId" required>
-                    <option disabled>Select a team</option>
+            <form [formGroup]="createMapForm" (submit)="createDataset()" class="form-inline">
+                <input type="text" id="inputMapName" formControlName="mapName" class="form-control col-6" placeholder="Enter map name" required>
+                <select formControlName="teamId" required class="form-control col-4 mr-1">
                     <option *ngFor="let team of teams$ | async" [value]="team.team_id">{{team?.name}}</option>
                 </select>
                 <button type="submit" class="btn btn-success pull-right" [class.disabled]="!createMapForm.valid">Create</button>
