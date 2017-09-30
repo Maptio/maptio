@@ -26,9 +26,20 @@
                         </a>
                 </div>
             </li>
+            <li>
+                <div class="collapse" id="collapseExample">
 
+                </div>
 
+            </li>
             <li class="nav-item dropdown" *ngIf="auth.allAuthenticated()">
+                <a class="nav-link dropdown-toggle without-caret" (click)="toggleCreateMode()" [class.coloured]="isCreateMode">
+                       Create
+                    </a>
+            </li>
+
+
+            <!-- <li class="nav-item dropdown" *ngIf="auth.allAuthenticated()">
                 <a class="nav-link dropdown-toggle" id="createListDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                    Create
                 </a>
@@ -51,10 +62,10 @@
                         </form>
                     </div>
                 </div>
-            </li>
+            </li> -->
 
             <li class="nav-item dropdown" id="profileInformation" *ngIf="auth.allAuthenticated()">
-                <a class="nav-link dropdown-toggle without-caret" href="http://example.com" id="profileDropdownLink" data-toggle="dropdown"
+                <a class="nav-link dropdown-toggle without-caret"  id="profileDropdownLink" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     <div><img src="{{ user?.picture }}" class="rounded-circle profile-image" alt=""></div>
                 </a>
@@ -74,8 +85,7 @@
                     </div>
                     <div class="form-group mr-1" [class.has-warning]="loginForm.controls['password'].invalid  && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)">
 
-                        <input type="password" class="form-control form-control-sm form-control-warning" formControlName="password" placeholder="e.g. ••••••••"
-                            >
+                        <input type="password" class="form-control form-control-sm form-control-warning" formControlName="password" placeholder="e.g. ••••••••">
                     </div>
 
 
@@ -83,9 +93,23 @@
                 </form>
                 <small class="text-muted col-7 pull-right"> <a routerLink="/forgot">Forgot your password?</a></small>
             </li>
-            <!-- <li class="nav-link">
-                <a class="help" placement="left" container="body" ngbTooltip="Email us at support@maptio.com"></a>
-            </li> -->
         </ul>
     </div>
 </nav>
+
+<div class="card creation borderless col-6 rounded-0" *ngIf="isCreateMode">
+    <div class="card-block">
+        <div class="card-text">
+            <form [formGroup]="createMapForm" (submit)="createDataset()" class="form-inline">
+                <input type="text" id="inputMapName" formControlName="mapName" class="form-control col-6" placeholder="Enter map name" required>
+                <select formControlName="teamId" required class="form-control col-4 mr-1" >
+                    <option *ngFor="let team of teams$ | async" [value]="team.team_id">{{team?.name}}</option>
+                </select>
+                
+                <button type="submit" class="btn btn-success pull-right" [class.disabled]="!createMapForm.valid">Create</button>
+            </form>
+            <small *ngIf="(teams$ | async)?.length === 0 " class="offset-md-6"> <a class="text-danger" routerLink="/teams">Don't have a team?</a></small>
+            
+        </div>
+    </div>
+</div>

@@ -33,33 +33,6 @@ router.get('/all/:pattern', function (req, res, next) {
 
 /* GET One user with the provided ID */
 router.get('/:id', function (req, res, next) {
-    // db.users.aggregate([
-    //     { $match: { user_id: req.params.id } },
-    //     { $unwind: { path: "$teams", preserveNullAndEmptyArrays: true } },
-    //     { $lookup: { from: "datasets", localField: "teams", foreignField: "team_id", as: "datasetsFromTeams" } },
-    //     { $unwind: { path: "$datasetsFromTeams", preserveNullAndEmptyArrays: true } },
-    //     { $lookup: { from: "datasets", localField: "_id", foreignField: "team_id", as: "datasetObjects" } },
-
-    //     { $unwind: { path: "$datasets", preserveNullAndEmptyArrays: true } },
-    //     { $lookup: { from: "datasets", localField: "datasets", foreignField: "_id", as: "unlinkedDatasets" } },
-
-    //     {
-    //         $group: {
-    //             _id: "$_id",
-    //             picture: { $min: "$picture" },
-    //             name: { $min: "$name" },
-    //             email: { $min: "$email" },
-    //             user_id: { $min: "$user_id" },
-    //             teams: { $addToSet: "$teams" },
-    //             datasets: { $addToSet: "$datasetsFromTeams._id" },
-    //            unlinkedDatasets: { $addToSet: "$datasets" },
-    //         }
-    //     },
-    //     {
-    //         $limit: 1
-    //     }
-
-    // ]
 
     db.users.findOne(
         { $or: [{ user_id: req.params.id }, { shortid: req.params.id }] },
@@ -76,25 +49,29 @@ router.get('/:id', function (req, res, next) {
 });
 
 router.get('/:id/datasets', function (req, res, next) {
-    db.users.aggregate([
-        { $match: { user_id: req.params.id } },
-        { $unwind: { path: "$teams", preserveNullAndEmptyArrays: false } },
-        { $lookup: { from: "datasets", localField: "teams", foreignField: "team_id", as: "datasets" } },
-        { $unwind: { path: "$datasets", preserveNullAndEmptyArrays: false } },
-        { $lookup: { from: "datasets", localField: "_id", foreignField: "team_id", as: "datasetObjects" } },
-        {
-            $group: {
-                _id: "$_id",
-                datasets: { $addToSet: "$datasets._id" }
-            }
-        }
-
-    ],
-        function (err, users) {
+    db.users.findOne(
+        { $or: [{ user_id: req.params.id }, { shortid: req.params.id }] },
+        function (err, user) {
             if (err) {
                 res.send(err);
             } else {
-                res.json(users[0]);
+                let teams = user.teams;
+                if (teams && teams.length > 0) {
+                    db.datasets.find(
+                        { $or: [{ "initiative.team_id": { $in: teams } }, { "team_id": { $in: teams } }] },
+                        { _id: 1 },
+                        function (err, datasets) {
+                            if (err) {
+                                res.send(err);
+                            } else {
+                                res.json(datasets);
+                            }
+                        }
+                    );
+                }
+                else {
+                    res.json([]);
+                }
             }
         }
     );

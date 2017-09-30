@@ -51,16 +51,12 @@ describe("dataset.factory.ts", () => {
 
         describe("(user)", () => {
             it("should get a list of datasets when called with User", fakeAsync(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
-                const mockResponse = {
-                    datasets: [
-                        "1", "2", "3"  // list of datasets ObjectId matched to a given user
-                    ]
-                };
+                const mockResponse = [{ _id: "1" }, { _id: "2" }, { _id: "3" } ];
 
                 mockBackend.connections.subscribe((connection: MockConnection) => {
                     if (connection.request.method === RequestMethod.Get && connection.request.url === "/api/v1/user/uniqueId/datasets") {
                         connection.mockRespond(new Response(new ResponseOptions({
-                            body: JSON.stringify(mockResponse)
+                            body: mockResponse
                         })));
                     }
                     else {
