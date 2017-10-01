@@ -56,10 +56,10 @@ if (!isDevelopment) {
   app.use(helmet.contentSecurityPolicy({
     directives: {
       defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'", 'maxcdn.bootstrapcdn.com', 'cdnjs.cloudflare.com', 'api.mixpanel.com', 'mixpanel.com'],
-      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'maxcdn.bootstrapcdn.com', 'cdnjs.cloudflare.com', 'cdn.auth0.com', 'api.mixpanel.com', 'cdn.mxpnl.com', 'www.google-analytics.com'],
+      styleSrc: ["'self'", "'unsafe-inline'", 'maxcdn.bootstrapcdn.com', 'cdnjs.cloudflare.com', 'api.mixpanel.com'],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'maxcdn.bootstrapcdn.com', 'cdnjs.cloudflare.com', 'cdn.auth0.com', 'api.mixpanel.com', 'cdn.mxpnl.com', 'www.google-analytics.com', 'mixpanel.com'],
       fontSrc: ['maxcdn.bootstrapcdn.com'],
-      connectSrc: ["'self'", 'api.mixpanel.com', 'circlemapping.auth0.com', 'www.google-analytics.com'],
+      connectSrc: ["'self'", 'api.mixpanel.com', 'circlemapping.auth0.com', 'www.google-analytics.com', 'mixpanel.com'],
       imgSrc: ['*']
     }
   }))
