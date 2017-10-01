@@ -14,14 +14,14 @@ import "rxjs/add/operator/map"
 import { Auth } from "../shared/services/auth/auth.service";
 @Component({
   selector: "my-app",
-  template: require("./app.component.html"),
+  templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"]
 })
 
 export class AppComponent  {
 
-  private isHome: boolean;
-  private isMap: boolean;
+  public isHome: boolean;
+  public isMap: boolean;
 
   public routerSubscription: Subscription;
 

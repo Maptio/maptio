@@ -6,7 +6,7 @@ import { InitiativeComponent } from "../../initiative/initiative.component";
 
 @Component({
     selector: "tooltip",
-    template: require("./tooltip.component.html"),
+    templateUrl: "./tooltip.component.html",
     styleUrls: ["./tooltip.component.css"],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

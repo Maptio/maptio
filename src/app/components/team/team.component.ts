@@ -18,17 +18,17 @@ import { UserService } from "../../shared/services/user/user.service";
 
 @Component({
     selector: "team",
-    template: require("./team.component.html").toString(),
+    templateUrl: "./team.component.html",
     styleUrls: ["./team.component.css"]
 })
 export class TeamComponent implements OnDestroy {
 
-    private team$: Promise<Team>
-    private members$: Promise<User[]>;
-    private teams$: Promise<Team[]>
+    public team$: Promise<Team>
+    public members$: Promise<User[]>;
+    public teams$: Promise<Team[]>
     public newMember: User;
-    private searching: boolean = false;
-    private searchFailed: boolean = false;
+    public searching: boolean = false;
+    public searchFailed: boolean = false;
     public teamId: string;
     private routeSubscription: Subscription;
     private userSubscription: Subscription;
@@ -44,7 +44,7 @@ export class TeamComponent implements OnDestroy {
 
     private EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-    constructor(private auth: Auth, private userService: UserService, private route: ActivatedRoute, private teamFactory: TeamFactory, private userFactory: UserFactory, private datasetFactory: DatasetFactory) {
+    constructor(public auth: Auth, private userService: UserService, private route: ActivatedRoute, private teamFactory: TeamFactory, private userFactory: UserFactory, private datasetFactory: DatasetFactory) {
 
         this.routeSubscription = this.route.params.subscribe((params: Params) => {
             if (!params["teamid"]) return

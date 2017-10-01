@@ -23,7 +23,7 @@ import { DataSet } from "../../shared/model/dataset.data";
 
 @Component({
     selector: "initiative",
-    template: require("./initiative.component.html"),
+    templateUrl: "./initiative.component.html",
     styleUrls: ["./initiative.component.css"],
     // providers: [Initiative]
 })

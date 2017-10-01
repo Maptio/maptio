@@ -17,7 +17,7 @@ import { Team } from "../../../shared/model/team.data";
 
 @Component({
     selector: "member-summary",
-    template: require("./member-summary.component.html"),
+    templateUrl: "./member-summary.component.html",
     styleUrls: ["./member-summary.component.css"]
 })
 

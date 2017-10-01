@@ -20,7 +20,7 @@ import { ColorService } from "./shared/services/ui/color.service"
 import { UIService } from "./shared/services/ui/ui.service"
 import { ErrorService } from "./shared/services/error/error.service";
 import { Auth } from "./shared/services/auth/auth.service";
-import { AUTH_PROVIDERS, AuthHttp } from "angular2-jwt";
+import { AuthHttp, provideAuth } from "angular2-jwt";
 import { UserFactory } from "./shared/services/user.factory";
 import { TeamFactory } from "./shared/services/team.factory";
 import { MailingService } from "./shared/services/mailing/mailing.service"
@@ -76,6 +76,7 @@ import { JwtEncoder } from "./shared/services/encoding/jwt.service";
 import { TeamsListComponent } from "./components/team/teams-list.component";
 import { authHttpServiceFactory } from "./shared/services/auth/auth.module";
 import { ChangePasswordComponent } from "./components/login/change-password.component";
+import { AnAnchorableComponent } from "../test/specs/shared/component.helper.shared";
 
 // Routes
 const appRoutes: Routes = [
@@ -113,7 +114,10 @@ const appRoutes: Routes = [
     AutoSelectDirective,
     AnchorDirective,
     HelpComponent,
-    DashboardComponent
+    DashboardComponent,
+
+    // for tests
+    AnAnchorableComponent
   ],
   imports: [
     BrowserModule,
@@ -134,7 +138,7 @@ const appRoutes: Routes = [
   providers: [
     AuthGuard, AccessGuard, AuthConfiguration,
     D3Service, DataService, ColorService, UIService, DatasetFactory, TeamFactory,
-    ErrorService, AUTH_PROVIDERS, Auth, UserService, UserFactory, MailingService, JwtEncoder, LoaderService,
+    ErrorService, Auth, UserService, UserFactory, MailingService, JwtEncoder, LoaderService,
     Location,
     { provide: LocationStrategy, useClass: PathLocationStrategy },
     // {

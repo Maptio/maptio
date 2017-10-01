@@ -10,7 +10,7 @@ import { UserService } from "../../shared/services/user/user.service";
 
 @Component({
     selector: "signup",
-    template: require("./signup.component.html")
+    templateUrl: "./signup.component.html"
 })
 
 export class SignupComponent implements OnInit {

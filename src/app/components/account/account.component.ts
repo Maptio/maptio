@@ -14,7 +14,7 @@ import { UserFactory } from "../../shared/services/user.factory";
 
 @Component({
     selector: "account",
-    template: require("./account.component.html"),
+    templateUrl: "./account.component.html",
     styleUrls: ["./account.component.css"]
 })
 export class AccountComponent {

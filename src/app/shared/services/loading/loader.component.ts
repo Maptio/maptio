@@ -4,7 +4,7 @@ import { LoaderService, LoaderState } from "./loader.service";
 
 @Component({
     selector: "loader",
-    template: require("./loader.component.html"),
+    templateUrl: "./loader.component.html",
     styleUrls: ["loader.component.css"]
 })
 export class LoaderComponent implements OnInit {

@@ -1,9 +1,11 @@
 import { D3Service } from "d3-ng2-service";
 import { UIService } from "./ui.service";
 import { TestBed, inject, } from "@angular/core/testing";
+import { Fixtures } from "./fixtures";
 
 describe("ui.service.ts", function () {
 
+    let fixture = new Fixtures();
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -11,17 +13,15 @@ describe("ui.service.ts", function () {
                 UIService, D3Service
             ]
         });
-
         spyOn(D3Service.prototype, "getD3").and.callThrough();
-
     });
 
     afterEach(function () {
-        fixture.cleanup()
+        // fixture.cleanup()
     });
 
     beforeAll(() => {
-        fixture.setBase("src/app/shared/services/fixtures");
+        // fixture.setBase("src/app/shared/services/fixtures");
     });
 
 
@@ -65,8 +65,8 @@ describe("ui.service.ts", function () {
 
     describe("clean", function () {
         it("When svg element exists, it cleans", inject([UIService, D3Service], (target: UIService, d3Service: D3Service) => {
-            fixture.load("withsvg.html");
-            document.body.innerHTML = fixture.el.innerHTML;
+            // fixture.load("withsvg.html");
+            document.body.innerHTML = fixture.WITH_SVG ;
             target.clean();
 
             expect(d3Service.getD3).toHaveBeenCalled();
@@ -75,8 +75,8 @@ describe("ui.service.ts", function () {
         }));
 
         it("When many svg element exists, it cleans then all", inject([UIService, D3Service], (target: UIService, d3Service: D3Service) => {
-            fixture.load("withmanysvg.html");
-            document.body.innerHTML = fixture.el.innerHTML;
+            // fixture.load("withmanysvg.html");
+            document.body.innerHTML =  fixture.WITH_MANY_SVG;
             target.clean();
 
             expect(d3Service.getD3).toHaveBeenCalled();
@@ -87,8 +87,8 @@ describe("ui.service.ts", function () {
         }));
 
         it("When svg element does not exist, it fails gracefully", inject([UIService, D3Service], (target: UIService, d3Service: D3Service) => {
-            fixture.load("withoutsvg.html"); // fixture.load("withoutsvg.html");
-            document.body.innerHTML = fixture.el.innerHTML;
+            // fixture.load("withoutsvg.html"); // fixture.load("withoutsvg.html");
+            document.body.innerHTML = fixture.WITHOUT_SVG ; // fixture.el.innerHTML;
             target.clean();
 
             expect(d3Service.getD3).toHaveBeenCalled();

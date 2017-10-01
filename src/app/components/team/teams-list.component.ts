@@ -8,7 +8,7 @@ import { Team } from "../../shared/model/team.data";
 
 @Component({
     selector: "teams-list",
-    template: require("./teams-list.component.html"),
+    templateUrl: "./teams-list.component.html",
     styleUrls: ["./teams-list-component.css"]
 })
 

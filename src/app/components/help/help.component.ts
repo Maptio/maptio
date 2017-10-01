@@ -3,7 +3,7 @@ import { ModalComponent } from "ng2-bs3-modal/ng2-bs3-modal";
 
 @Component({
     selector: "help",
-    template: require("./help.component.html")
+    templateUrl: "./help.component.html"
 })
 export class HelpComponent {
 

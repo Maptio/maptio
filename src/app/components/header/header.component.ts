@@ -20,7 +20,7 @@ import * as _ from "lodash";
 
 @Component({
     selector: "header",
-    template: require("./header.component.html"),
+    templateUrl: "./header.component.html",
     styleUrls: ["./header.component.css"]
 })
 
@@ -43,7 +43,7 @@ export class HeaderComponent implements OnInit {
     public emitterSubscription: Subscription;
     public userSubscription: Subscription;
 
-    constructor(private auth: Auth, private userService: UserService, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory,
+    constructor(public auth: Auth, private userService: UserService, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory,
         private userFactory: UserFactory, public errorService: ErrorService, private router: Router, private loader: LoaderService) {
         this.emitterSubscription = EmitterService.get("currentDataset").subscribe((value: DataSet) => {
             this.selectedDataset = value;
@@ -51,7 +51,6 @@ export class HeaderComponent implements OnInit {
 
         this.userSubscription = this.auth.getUser().subscribe((user: User) => {
             this.user = user;
-
             this.datasets$ = Promise.all(
                 // get all datasets available to this user accross all teams
                 this.user.datasets.map(

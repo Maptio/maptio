@@ -10,7 +10,7 @@ import * as _ from "lodash";
 
 @Component({
     selector: "dashboard",
-    template: require("./dashboard.component.html"),
+    templateUrl: "./dashboard.component.html",
     styleUrls: ["./dashboard.component.css"]
 })
 

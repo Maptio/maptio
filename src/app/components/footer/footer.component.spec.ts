@@ -10,8 +10,7 @@ describe("footer.component.ts", () => {
     beforeEach(async(() => {
 
         TestBed.configureTestingModule({
-            declarations: [FooterComponent],
-            schemas: [FooterComponent]
+            declarations: [FooterComponent]
         }).overrideComponent(FooterComponent, {
             set: {
                 providers: [

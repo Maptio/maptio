@@ -1,26 +1,28 @@
 module.exports = function (config) {
     config.set({
 
+        // basePath: '',
+
         frameworks: ["jasmine", "fixture", "karma-typescript"],
 
         files: [
-            { pattern: "./base.spec.ts" },
+            { pattern: "base.spec.ts" },
             // Libraries
             { pattern: "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" },
             { pattern: "https://cdn.auth0.com/js/lock/10.8/lock.min.js" },
             // Envrionments
-            { pattern: "./src/environment/*.*" },
+            { pattern: "src/environment/*.*" },
             // Application
-            { pattern: "./src/app/shared/**/*.*" },
-            { pattern: "./src/app/components/**/*.*" },
+            { pattern: "src/app/shared/**/*.*" },
+            { pattern: "src/app/components/**/*.*" },
             // Specs
-            { pattern: "./src/test/specs/**/*.*" }
-            
+            { pattern: "src/test/specs/**/*.*" }
+
         ],
 
-        proxies: {
-            "/app/": "/base/src/app/"
-        },
+        // proxies: {
+        //     "/base/src/app/": "/src/app/"
+        //   },
 
         jsonFixturesPreprocessor: {
             variableName: '__json__'
@@ -28,9 +30,16 @@ module.exports = function (config) {
 
         preprocessors: {
             "**/*.ts": ["karma-typescript"],
-            '**/*.html': ['html2js'],
-            '**/*.json': ['json_fixtures']
+            '**/*.json': ['json_fixtures'],
+            // '**/*.html': ['html2js']
         },
+
+        // html2JsPreprocessor: {
+        //     processPath: function (filePath) {
+        //         console.log(filePath)
+        //         return filePath;
+        //     }
+        // },
 
         browserConsoleLogOptions: {
             terminal: true,
@@ -39,10 +48,11 @@ module.exports = function (config) {
 
         karmaTypescriptConfig: {
             bundlerOptions: {
+                entrypoints: /\.spec\.ts$/,
                 transforms: [
                     require("karma-typescript-angular2-transform"),
                     require("karma-typescript-es6-transform")()
-                    
+
                 ]
             },
             coverageOptions: {
@@ -61,6 +71,8 @@ module.exports = function (config) {
                 }
             }
         },
+
+        // logLevel: config.LOG_DEBUG,
 
         reporters: ["progress", "karma-typescript"],
 

@@ -1,4 +1,4 @@
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from "rxjs/Subscription";
 import { UserFactory } from "./../../shared/services/user.factory";
 import { JwtEncoder } from "./../../shared/services/encoding/jwt.service";
 import { ActivatedRoute, Params } from "@angular/router";
@@ -8,7 +8,7 @@ import { User } from "../../shared/model/user.data";
 
 @Component({
     selector: "home",
-    template: require("./home.component.html"),
+    templateUrl: "./home.component.html",
     styleUrls: ["./home.component.css"]
 })
 export class HomeComponent implements OnInit {
@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
 
     private routeSubscription: Subscription;
 
-    constructor(private auth: Auth) { }
+    constructor(public auth: Auth) { }
 
     ngOnInit() {
         // this.routeSubscription = this.route.queryParams.subscribe((params: Params) => {

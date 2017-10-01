@@ -6,7 +6,7 @@ import { InitiativeComponent } from "../initiative/initiative.component";
 
 @Component({
     selector: "initiative-node",
-    template: require("./initiative.node.component.html"),
+    templateUrl: "./initiative.node.component.html",
     styleUrls: ["./initiative.node.component.css"]
 })
 export class InitiativeNodeComponent {
