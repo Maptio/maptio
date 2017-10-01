@@ -96,12 +96,8 @@ export class TeamComponent implements OnDestroy {
                                 (reason) => { m.isDeleted = true });
                             return m;
                         })
-                        .sort((a: User, b: User) => {
-                            if (a.name < b.name) return -1;
-                            if (a.name > b.name) return 1;
-                            return 0;
-                        });
                 })
+                .then(members => _.sortBy(members, m => m.name))
         });
     }
 

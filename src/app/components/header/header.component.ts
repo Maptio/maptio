@@ -68,6 +68,7 @@ export class HeaderComponent implements OnInit {
                     }
                     )
                 })
+                .then(datasets => _.compact(datasets))
                 .then(datasets => _.sortBy(datasets, d => d.name))
 
             this.teams$ = Promise.all(
