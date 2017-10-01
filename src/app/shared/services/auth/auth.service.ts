@@ -1,3 +1,4 @@
+import { environment } from "./../../../../environment/environment";
 import { LoaderService } from "./../loading/loader.service";
 import { Observable } from "rxjs/Rx";
 import { Router } from "@angular/router";
@@ -54,42 +55,15 @@ export class Auth {
         return this.authenticated() && this.internalApiAuthenticated() && this.authenticationProviderAuthenticated()
     }
 
-
-    public setUser(profile: any): Promise<boolean> {
-
-        localStorage.setItem("profile", JSON.stringify(profile));
-
-        return this.userFactory.get(profile.user_id)
-            .then((user) => {
-                // console.log("getting user", user)
-                this.user$.next(user);
-                return Promise.resolve<boolean>(true);
-            })
-            .catch((reason: any) => {
-
-                let user = User.create().deserialize(profile);
-                this.userFactory.upsert(user)
-                    .then(() => { return Promise.resolve<boolean>(true); })
-                    .catch(() => { return Promise.resolve<boolean>(false); });  // adds the user in the database
-                this.user$.next(user);
-                return Promise.resolve<boolean>(true);
-
-            });
-    }
-
-    public addMinutes(date: Date, minutes: number) {
-        return new Date(date.getTime() + minutes * 60000);
-    }
-
     public loginMaptioApi(email: string, password: string) {
-        // let login = promisify(this.lock.getMaptioAuth().client.login, { multiArgs: true })
+        if (!email || !password) return;
 
         this.configuration.getWebAuth().client.login({
-            realm: "Username-Password-Authentication",
+            realm: environment.CONNECTION_NAME,
             username: email,
             password: password,
             scope: "openid profile api invite",
-            audience: "https://app.maptio.com/api/v1"
+            audience: environment.MAPTIO_API_URL
         }, function (err: any, authResult: any) {
             if (authResult.accessToken) {
                 EmitterService.get("maptio_api_token").emit(authResult.accessToken)
@@ -97,11 +71,81 @@ export class Auth {
         })
     }
 
+    public getUserInfo(userId: string): Promise<User> {
+        return this.configuration.getAccessToken().then((token: string) => {
+
+            let headers = new Headers();
+            headers.set("Authorization", "Bearer " + token);
+
+            return this.http.get("https://circlemapping.auth0.com/api/v2/users/" + userId, { headers: headers })
+                .map((responseData) => {
+                    return responseData.json();
+                })
+                .map((input: any) => {
+                    return User.create().deserialize(input);
+                })
+                .toPromise()
+        });
+    }
+
+    public getUser(): Observable<User> {
+        let profileString = localStorage.getItem("profile");
+
+        if (profileString) {
+            Promise.all([
+                this.getUserInfo(JSON.parse(profileString).user_id),
+                this.userFactory.get(JSON.parse(profileString).user_id)])
+                .then(([auth0User, databaseUser]: [User, User]) => {
+                    let user = auth0User;
+                    user.teams = databaseUser.teams;
+                    user.shortid = databaseUser.shortid;
+                    return user
+                })
+                .then((user: User) => {
+                    this.datasetFactory.get(user).then(ds => {
+                        user.datasets = ds;
+                        this.user$.next(user)
+                    })
+                });
+        }
+        else {
+            this.user$.next(undefined);
+        }
+        return this.user$.asObservable();
+    }
+
+    // public setUser(profile: any): Promise<boolean> {
+
+    //     localStorage.setItem("profile", JSON.stringify(profile));
+
+    //     return this.userFactory.get(profile.user_id)
+    //         .then((user) => {
+    //             // console.log("getting user", user)
+    //             this.user$.next(user);
+    //             return Promise.resolve<boolean>(true);
+    //         })
+    //         .catch((reason: any) => {
+
+    //             let user = User.create().deserialize(profile);
+    //             this.userFactory.upsert(user)
+    //                 .then(() => { return Promise.resolve<boolean>(true); })
+    //                 .catch(() => { return Promise.resolve<boolean>(false); });  // adds the user in the database
+    //             this.user$.next(user);
+    //             return Promise.resolve<boolean>(true);
+
+    //         });
+    // }
+
+    public addMinutes(date: Date, minutes: number) {
+        return new Date(date.getTime() + minutes * 60000);
+    }
+
+
     public login(email: string, password: string): Promise<boolean> {
         this.loader.show();
         try {
             this.configuration.getWebAuth().client.login({
-                realm: "Username-Password-Authentication",
+                realm: environment.CONNECTION_NAME,
                 username: email,
                 password: password,
                 scope: "profile openid email"
@@ -165,57 +209,5 @@ export class Auth {
 
 
 
-
-    public clear() {
-        this.user$.next(undefined);
-    }
-
-    // public triggerRefresh(user: User) {
-    //     this.user$.
-    //     this.user$.next(user);
-    // }
-
-    public getUser(): Observable<User> {
-        let profileString = localStorage.getItem("profile");
-
-        if (profileString) {
-            Promise.all([
-                this.getUserInfo(JSON.parse(profileString).user_id),
-                this.userFactory.get(JSON.parse(profileString).user_id)])
-                .then(([auth0User, databaseUser]: [User, User]) => {
-                    let user = auth0User;
-                    user.teams = databaseUser.teams;
-                    user.shortid = databaseUser.shortid;
-                    return user
-                })
-                .then((user: User) => {
-                    this.datasetFactory.get(user).then(ds => {
-                        user.datasets = ds || [];
-                        this.user$.next(user)
-                    })
-                });
-        }
-        else {
-            this.clear();
-        }
-        return this.user$.asObservable();
-    }
-
-    public getUserInfo(userId: string): Promise<User> {
-        return this.configuration.getAccessToken().then((token: string) => {
-
-            let headers = new Headers();
-            headers.set("Authorization", "Bearer " + token);
-
-            return this.http.get("https://circlemapping.auth0.com/api/v2/users/" + userId, { headers: headers })
-                .map((responseData) => {
-                    return responseData.json();
-                })
-                .map((input: any) => {
-                    return User.create().deserialize(input);
-                })
-                .toPromise()
-        });
-    }
 
 }
