@@ -1,9 +1,9 @@
 <div class="control">
 
   <div class=" btn-group-vertical">
-    <a class="btn options" placement="left" container="body" ngbTooltip="Views" data-toggle="collapse" href="#collapseExample"
-      aria-expanded="false" aria-controls="collapseExample"></a>
-    <div class="collapse hide" id="collapseExample">
+    <a class="btn options" placement="left" container="body" ngbTooltip="Views" (click)="isCollapsed = !isCollapsed"
+    [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"></a>
+    <div class="collapse" id="collapseExample" [ngbCollapse]="isCollapsed">
       <div class=" btn-group-vertical ">
         <a class="btn circleview" routerLink="/map/{{data?.datasetId}}/{{data?.initiative?.getSlug()}}/initiatives" placement="left" container="body" ngbTooltip="Initiatives map"></a>
         <a class="btn treeview" routerLink="/map/{{data?.datasetId}}/{{data?.initiative?.getSlug()}}/people" placement="left" container="body" ngbTooltip="Team view"></a>

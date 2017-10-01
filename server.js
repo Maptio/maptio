@@ -58,7 +58,7 @@ if (!isDevelopment) {
       defaultSrc: ["'self'"],
       styleSrc: ["'self'", "'unsafe-inline'", 'maxcdn.bootstrapcdn.com', 'cdnjs.cloudflare.com', 'api.mixpanel.com'],
       scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'maxcdn.bootstrapcdn.com', 'cdnjs.cloudflare.com', 'cdn.auth0.com', 'api.mixpanel.com', 'cdn.mxpnl.com','cdn4.mxpnl.com', 'www.google-analytics.com', 'mixpanel.com'],
-      fontSrc: ['maxcdn.bootstrapcdn.com'],
+      fontSrc: ['maxcdn.bootstrapcdn.com', 'cdn.mixpnl.com'],
       connectSrc: ["'self'", 'api.mixpanel.com', 'circlemapping.auth0.com', 'www.google-analytics.com', 'mixpanel.com'],
       imgSrc: ['*']
     }

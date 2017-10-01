@@ -41,7 +41,7 @@ export class MappingComponent implements OnInit {
     TOOLTIP_ZOOM_FIT: string = "Zoom fit";
 
     public data: { initiative: Initiative, datasetId: string };
-
+    public isCollapsed: boolean = true;
 
     // selectedView: number = 0; // Views.Circles // per default;
 
