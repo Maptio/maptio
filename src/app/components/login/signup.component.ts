@@ -63,10 +63,9 @@ export class SignupComponent implements OnInit {
         this.isRedirectToActivate = false;
         this.isEmailAlreadyExist = false;
         this.signUpMessageFail = "";
-        this.loader.show();
 
         if (this.signupForm.dirty && this.signupForm.valid) {
-
+            this.loader.show();
             let email = this.signupForm.controls["email"].value
             let firstname = this.signupForm.controls["firstname"].value
             let lastname = this.signupForm.controls["lastname"].value
