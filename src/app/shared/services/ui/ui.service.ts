@@ -1,4 +1,4 @@
-import { Initiative } from './../../model/initiative.data';
+import { Initiative } from "./../../model/initiative.data";
 import { Injectable } from "@angular/core"
 import { D3Service, D3, Selection, BaseType, HierarchyCircularNode } from "d3-ng2-service"
 import { Observable } from "rxjs/Observable";
@@ -104,7 +104,7 @@ export class UIService {
         return this.tooltip$.asObservable();
     }
 
-    setTooltipData(datasetId:string, node: Initiative, parent: Initiative, left: number, top: number): void {
+    setTooltipData(datasetId: string, node: Initiative, parent: Initiative, left: number, top: number): void {
         this.tooltip$.next([datasetId, node, parent, left, top]);
     }
 
