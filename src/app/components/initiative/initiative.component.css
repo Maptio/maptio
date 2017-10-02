@@ -21,7 +21,7 @@ span.help-popup {
 }
 
 .overflow {
-    max-height: 36vh;
+    max-height: 25vh;
     overflow-y: auto;
 }
 
