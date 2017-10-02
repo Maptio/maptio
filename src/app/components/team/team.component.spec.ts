@@ -1,3 +1,8 @@
+import { DatasetFactory } from "./../../shared/services/dataset.factory";
+import { MailingService } from "./../../shared/services/mailing/mailing.service";
+import { JwtEncoder } from "./../../shared/services/encoding/jwt.service";
+import { AuthConfiguration } from "./../../shared/services/auth/auth.config";
+import { UserService } from "./../../shared/services/user/user.service";
 import { UserFactory } from "./../../shared/services/user.factory";
 import { Observable } from "rxjs/Rx";
 import { MockBackend } from "@angular/http/testing";
@@ -12,6 +17,8 @@ import { ErrorService } from "../../shared/services/error/error.service";
 import { User } from "../../shared/model/user.data";
 import { Team } from "../../shared/model/team.data";
 import { Auth } from "../../shared/services/auth/auth.service";
+import { AuthHttp } from "angular2-jwt/angular2-jwt";
+import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 
 export class AuthStub {
     fakeProfile: User = new User({
@@ -38,7 +45,7 @@ export class AuthStub {
     }
 }
 
-xdescribe("team.component.ts", () => {
+describe("team.component.ts", () => {
     let component: TeamComponent;
     let target: ComponentFixture<TeamComponent>;
 
@@ -48,7 +55,12 @@ xdescribe("team.component.ts", () => {
             schemas: [NO_ERRORS_SCHEMA]
         }).overrideComponent(TeamComponent, {
             set: {
-                providers: [TeamFactory, UserFactory,
+                providers: [TeamFactory, UserFactory, DatasetFactory, AuthConfiguration, JwtEncoder, MailingService,
+                    {
+                        provide: AuthHttp,
+                        useFactory: authHttpServiceFactoryTesting,
+                        deps: [Http, BaseRequestOptions]
+                    },
                     {
                         provide: Http,
                         useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
@@ -59,7 +71,7 @@ xdescribe("team.component.ts", () => {
                     { provide: Auth, useClass: AuthStub },
                     MockBackend,
                     BaseRequestOptions,
-                    ErrorService,
+                    ErrorService, UserService,
                     {
                         provide: ActivatedRoute,
                         useValue: {
@@ -75,34 +87,108 @@ xdescribe("team.component.ts", () => {
         component = target.componentInstance;
     });
 
+    it("should behave...", () => {
+        expect(true).toBe(true);
+    });
 
-    describe("addMemberToTeam", () => {
-        it("should update team then update user then refresh  ", async(() => {
-            let mockUserFactory = target.debugElement.injector.get(UserFactory);
-            let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
+    describe("getAllMembers", () => {
+        it("should retrieve members information ", async(() => {
+            component.team$ = Promise.resolve(new Team({ team_id: "ID", name: "My team", members: [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })] }))
 
-            let spyUpsert = spyOn(mockUserFactory, "upsert").and.returnValue(Promise.resolve(true));
-            let spyGetTeam = spyOn(mockTeamFactory, "get").and.returnValue(Promise.resolve(new Team({ team_id: "team_id", members: [] })));
-            let spyUpsertTeam = spyOn(mockTeamFactory, "upsert").and.returnValue(Promise.resolve(true));
+            let spyGetUser = spyOn(target.debugElement.injector.get(UserFactory), "get").and.callFake((id: string) => {
+                return Promise.resolve(new User({
+                    user_id: id, name: `User ${id}`
+                }))
+            })
+            let spyGetInvitationSent = spyOn(target.debugElement.injector.get(UserService), "isInvitationSent").and.returnValue(Promise.resolve(true))
+            let spyActivationPending = spyOn(target.debugElement.injector.get(UserService), "isActivationPendingByUserId").and.returnValue(Promise.resolve(true))
 
-            component.newMember = new User({ name: "John Doe", user_id: "user_id", teams: ["team1"] })
-            component.teamId = "team_id";
-            component.addMemberToTeam();
+            component.getAllMembers().then(members => {
+                expect(members.length).toBe(3);
+                expect(members.every(m => m.isInvitationSent === true)).toBe(true)
+                expect(members.every(m => m.isActivationPending === true)).toBe(true)
+                expect(members.every(m => m.isDeleted === false)).toBe(true)
+            })
 
-            spyUpsert.calls.mostRecent().returnValue.then(() => {
-                expect(component.newMember.teams).toEqual(["team1", "team_id"]);
-                expect(spyGetTeam).toHaveBeenCalledWith(component.teamId);
+        }));
 
-                spyGetTeam.calls.mostRecent().returnValue.then(() => {
-                    expect(spyUpsertTeam).toHaveBeenCalledWith(jasmine.objectContaining({
-                        team_id: "team_id",
-                        members: [jasmine.objectContaining({ user_id: "user_id" })]
-                    }));
+        it("should retrieve members information when user retrieval fails", async(() => {
+            component.team$ = Promise.resolve(new Team({ team_id: "ID", name: "My team", members: [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })] }))
 
+            let spyGetUser = spyOn(target.debugElement.injector.get(UserFactory), "get").and.callFake((id: string) => {
+                return (Number.parseInt(id) % 2)
+                    ? Promise.resolve(new User({ user_id: id, name: `User ${id}` }))
+                    : Promise.reject("Can't find user")
+            })
+            let spyGetInvitationSent = spyOn(target.debugElement.injector.get(UserService), "isInvitationSent").and.returnValue(Promise.resolve(true))
+            let spyActivationPending = spyOn(target.debugElement.injector.get(UserService), "isActivationPendingByUserId").and.returnValue(Promise.resolve(true))
+
+            component.getAllMembers().then(members => {
+                expect(members.length).toBe(2);
+                expect(members.every(m => m.isInvitationSent === true)).toBe(true)
+                expect(members.every(m => m.isActivationPending === true)).toBe(true)
+                expect(members.every(m => m.isDeleted === false)).toBe(true)
+            })
+
+        }));
+
+        it("should retrieve members information when invitation status fails ", async(() => {
+            component.team$ = Promise.resolve(new Team({ team_id: "ID", name: "My team", members: [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })] }))
+
+            let spyGetUser = spyOn(target.debugElement.injector.get(UserFactory), "get").and.callFake((id: string) => {
+                return Promise.resolve(new User({
+                    user_id: id, name: `User ${id}`
+                }))
+            })
+            let spyGetInvitationSent = spyOn(target.debugElement.injector.get(UserService), "isInvitationSent").and.returnValue(Promise.reject("Cant find user"))
+            let spyActivationPending = spyOn(target.debugElement.injector.get(UserService), "isActivationPendingByUserId").and.returnValue(Promise.resolve(true))
+
+            component.getAllMembers().then(members => {
+                expect(members.length).toBe(3);
+                expect(members.every(m => m.isInvitationSent === false)).toBe(true)
+                expect(members.every(m => m.isActivationPending === true)).toBe(true)
+                expect(members.every(m => m.isDeleted === true)).toBe(true)
+            })
+
+        }));
+
+        it("should retrieve members information when activation pending status fails ", async(() => {
+            component.team$ = Promise.resolve(new Team({ team_id: "ID", name: "My team", members: [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })] }))
+
+            let spyGetUser = spyOn(target.debugElement.injector.get(UserFactory), "get").and.callFake((id: string) => {
+                return Promise.resolve(new User({
+                    user_id: id, name: `User ${id}`
+                }))
+            })
+            let spyGetInvitationSent = spyOn(target.debugElement.injector.get(UserService), "isActivationPendingByUserId").and.returnValue(Promise.reject("Cant find user"))
+            let spyActivationPending = spyOn(target.debugElement.injector.get(UserService), "isInvitationSent").and.returnValue(Promise.resolve(true))
+
+            component.getAllMembers().then(members => {
+                expect(members.length).toBe(3);
+                expect(members.every(m => m.isInvitationSent === true)).toBe(true)
+                expect(members.every(m => m.isActivationPending === false)).toBe(true)
+                expect(members.every(m => m.isDeleted === true)).toBe(true)
+            })
+
+        }));
+    });
+
+    describe("inviteUser", () => {
+        it("should send invitation email and update status when it succeeds", () => {
+            component.team$ = Promise.resolve(new Team({ team_id: "ID", name: "My team", members: [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })] }))
+            component.user = new User({ name: "Founder" })
+            let spySendInvite = spyOn(target.debugElement.injector.get(UserService), "sendInvite").and.returnValue(Promise.resolve(true))
+
+            let user = new User({ user_id: "1", email: "jane@doe.com", firstname: "Jane", lastname: "Doe", name: "Jane Doe" });
+            component.inviteUser(user);
+
+            component.team$.then(t => {
+                expect(spySendInvite).toHaveBeenCalledWith("jane@doe.com", "1", "Jane", "Doe", "Jane Doe", "My team", "Founder");
+                spySendInvite.calls.mostRecent().returnValue.then(() => {
+                    expect(user.isInvitationSent).toBe(true)
                 })
 
             })
-
-        }))
-    })
+        });
+    });
 });

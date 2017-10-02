@@ -32,8 +32,7 @@ export class TeamComponent implements OnDestroy {
     public teamId: string;
     private routeSubscription: Subscription;
     private userSubscription: Subscription;
-    // private existingTeamMembers: User[];
-    private user: User;
+    public user: User;
     public userSearched: string;
     public isUserSearchedEmail: boolean;
     public isUserChosen: boolean = false;
@@ -86,7 +85,8 @@ export class TeamComponent implements OnDestroy {
 
         return this.team$.then((team: Team) => {
             return Promise.all(
-                team.members.map(user => this.userFactory.get(user.user_id)))
+                team.members.map(user => this.userFactory.get(user.user_id).then(u => u, () => { return Promise.reject("No User") }).catch(() => { return <User>undefined })))
+                .then(members => _.compact(members))
                 .then((members: User[]) => {
                     return members
                         .map(m => {
@@ -159,7 +159,6 @@ export class TeamComponent implements OnDestroy {
     inviteUser(user: User) {
 
         this.team$.then((team: Team) => {
-            // console.log("invite", user.email, user.user_id, user.name, team.name, this.user.name)
             this.userService.sendInvite(user.email, user.user_id, user.firstname, user.lastname, user.name, team.name, this.user.name)
                 .then((isSent) => {
                     user.isInvitationSent = isSent;

@@ -47,17 +47,17 @@ export class User implements Serializable<User> {
     /**
      * True is activation is pending, false otherwise
      */
-    public isActivationPending: boolean;
+    public isActivationPending: boolean = false;
 
     /**
      * True is a invitation has been sent to this user, false otherwise
      */
-    public isInvitationSent: boolean;
+    public isInvitationSent: boolean = false;
 
     /**
      * True if the user has been deleted (from Auth0 for instance)
      */
-    public isDeleted: boolean;
+    public isDeleted: boolean = false;
 
     /**
      * List of teams
