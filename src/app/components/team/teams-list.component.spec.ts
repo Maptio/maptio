@@ -143,7 +143,7 @@ describe("teams-list.component.ts", () => {
                 return Promise.resolve(new User({ user_id: user_id }))
             })
 
-            user$.next(new User({ user_id: "some_new_id_again", teams: ["1", "2", "3"] }));
+            user$.next(new User({ user_id: "some_new_id_again", teams: ["3", "2", "1"] }));
 
             component.teams$.then(ts => {
 
@@ -185,7 +185,7 @@ describe("teams-list.component.ts", () => {
                 }
             })
 
-            user$.next(new User({ user_id: "some_new_id", teams: ["1", "2", "3"] }));
+            user$.next(new User({ user_id: "some_new_id", teams: ["3", "1", "2"] }));
 
             component.teams$.then(ts => {
 

@@ -27,8 +27,9 @@ export class DashboardComponent {
                     .then(d => d, () => { return Promise.reject("No dataset") }).catch(() => { return <DataSet>undefined }
 
                     )))
+                .then(datasets => _.compact(datasets))
                 .then((datasets: Array<DataSet>) => {
-                    return datasets.filter(d => { return d !== undefined }).map(d => {
+                    return datasets.map(d => {
                         this.teamFactory.get(d.initiative.team_id).then(team => { d.team = team }, () => { d.team = undefined })
                         return d;
                     })

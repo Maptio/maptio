@@ -5,6 +5,7 @@ import { TeamFactory } from "../../shared/services/team.factory";
 import { Auth } from "../../shared/services/auth/auth.service";
 import { User } from "../../shared/model/user.data";
 import { Team } from "../../shared/model/team.data";
+import * as _ from "lodash"
 
 @Component({
     selector: "teams-list",
@@ -83,13 +84,7 @@ export class TeamsListComponent implements OnInit {
                         })
                         return teams.filter(t => { return t !== undefined });
                     })
-                    .then((teams: Array<Team>) => {
-                        return teams.sort((a, b) => {
-                            if (a.name < b.name) return -1;
-                            if (a.name > b.name) return 1;
-                            return 0;
-                        })
-                    })
+                    .then(teams => _.sortBy(teams, t => t.name))
             })
     }
 
