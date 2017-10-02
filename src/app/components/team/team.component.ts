@@ -247,7 +247,7 @@ export class TeamComponent implements OnDestroy {
             .debounceTime(500)
             .distinctUntilChanged()
             .filter(text => this.isEmail(text))
-            .do(() => { this.searching = true; this.isAlreadyInTeam = false; })
+            .do(() => { this.searching = true; this.isAlreadyInTeam = false; this.inviteForm.reset()})
             .switchMap(term =>
                 Observable.fromPromise(
 
