@@ -11,10 +11,13 @@
 		</div>
 		<div class="card mb-3">
 			<div class="card-block">
-				<div class="row">
-					<label for="inputAccountable" class="col-xl-2 form-control-label col-form-label">Authority	
+				<div class="row justify-content-between no-gutters">
+					<label for="inputAccountable" class="form-control-label col-form-label">Authority	
+							<span class="help-popup" placement="top" container="body" ngbTooltip="The authority is the source of the initiative"></span>
+							
 					</label>
-					<div class="col-xl-10">
+					
+					<div class="ml-2 col-10">
 						<ng-template #rt let-r="result" let-t="term">
 							<img src="{{r.picture}}" class="rounded-circle authority" /> {{r.name}}</ng-template>
 						<!-- <span *ngIf="searching">searching...</span> -->
@@ -26,8 +29,7 @@
 							class="form-control borderless-right background" [class.borderless-left]="node?.accountable?.picture" [ngModelOptions]="{standalone: true}"
 							 [ngModel]="node?.accountable" (selectItem)="saveAccountable($event)" [ngbTypeahead]="searchTeamMember" [resultFormatter]="formatter"
 							 [inputFormatter]="formatter" (blur)="onBlur()" />
-							<span class="input-group-addon help-popup" placement="top" container="body" ngbTooltip="The authority is the source of the initiative"></span>
-
+							
 							<span class="input-group-addon remove text-danger" (click)="removeAuthority()" placement="top" container="body" ngbTooltip="Clear"></span>
 						</div>
 					</div>

@@ -114,27 +114,27 @@ export class Auth {
         return this.user$.asObservable();
     }
 
-    // public setUser(profile: any): Promise<boolean> {
+    public setUser(profile: any): Promise<boolean> {
 
-    //     localStorage.setItem("profile", JSON.stringify(profile));
+        localStorage.setItem("profile", JSON.stringify(profile));
 
-    //     return this.userFactory.get(profile.user_id)
-    //         .then((user) => {
-    //             // console.log("getting user", user)
-    //             this.user$.next(user);
-    //             return Promise.resolve<boolean>(true);
-    //         })
-    //         .catch((reason: any) => {
+        return this.userFactory.get(profile.user_id)
+            .then((user) => {
+                // console.log("getting user", user)
+                this.user$.next(user);
+                return Promise.resolve<boolean>(true);
+            })
+            .catch((reason: any) => {
 
-    //             let user = User.create().deserialize(profile);
-    //             this.userFactory.upsert(user)
-    //                 .then(() => { return Promise.resolve<boolean>(true); })
-    //                 .catch(() => { return Promise.resolve<boolean>(false); });  // adds the user in the database
-    //             this.user$.next(user);
-    //             return Promise.resolve<boolean>(true);
+                let user = User.create().deserialize(profile);
+                this.userFactory.upsert(user)
+                    .then(() => { return Promise.resolve<boolean>(true); })
+                    .catch(() => { return Promise.resolve<boolean>(false); });  // adds the user in the database
+                this.user$.next(user);
+                return Promise.resolve<boolean>(true);
 
-    //         });
-    // }
+            });
+    }
 
     public addMinutes(date: Date, minutes: number) {
         return new Date(date.getTime() + minutes * 60000);
