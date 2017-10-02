@@ -16,7 +16,7 @@
     background-color: transparent;
     z-index: 59;
     position: absolute;
-    width: 30%;
+    /* width: 30%; */
 }
 
 .team-name {
