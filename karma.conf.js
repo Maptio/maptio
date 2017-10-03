@@ -31,7 +31,7 @@ module.exports = function (config) {
         preprocessors: {
             "**/*.ts": ["karma-typescript"],
             '**/*.json': ['json_fixtures'],
-            // '**/*.html': ['html2js']
+            'src/app/shared/**/*.html': ['html2js']
         },
 
         // html2JsPreprocessor: {
