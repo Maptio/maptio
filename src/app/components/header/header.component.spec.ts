@@ -45,7 +45,7 @@ describe("header.component.ts", () => {
         }).overrideComponent(HeaderComponent, {
             set: {
                 providers: [
-                    DatasetFactory, UserFactory, TeamFactory, AuthConfiguration,Angulartics2Mixpanel, Angulartics2,
+                    DatasetFactory, UserFactory, TeamFactory, AuthConfiguration, Angulartics2Mixpanel, Angulartics2,
                     {
                         provide: Auth, useClass: class {
                             getUser() { return user$.asObservable() }
@@ -89,7 +89,7 @@ describe("header.component.ts", () => {
             return Promise.resolve(new DataSet({ _id: id, initiative: new Initiative({ name: `Name ${id}`, team_id: `team_${id}` }) }))
         })
 
-        user$.next(new User({ user_id: "some_new_id", datasets: ["1", "2", "3"] , teams: [] }));
+        user$.next(new User({ user_id: "some_new_id", datasets: ["1", "2", "3"], teams: [] }));
 
         component.datasets$.then(ds => {
             expect(ds.length).toBe(3);
@@ -113,7 +113,7 @@ describe("header.component.ts", () => {
                 : Promise.reject("Something went wrong")
         })
 
-        user$.next(new User({ user_id: "some_new_id", datasets: ["1", "2", "3"] , teams: []}));
+        user$.next(new User({ user_id: "some_new_id", datasets: ["1", "2", "3"], teams: [] }));
 
         component.datasets$.then(ds => {
             expect(ds.length).toBe(2);
