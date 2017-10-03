@@ -13,6 +13,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { User } from "../../shared/model/user.data";
 import { Auth } from "../../shared/services/auth/auth.service";
+import * as _ from "lodash";
 
 @Component({
     selector: "workspace",
@@ -33,7 +34,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     private routeSubscription: Subscription;
     private userSubscription: Subscription;
 
-    public dataset: Promise<DataSet>;
+    public dataset$: Promise<DataSet>;
     public members: Promise<Array<User>>;
     public team: Promise<Team>;
     public teams: Promise<Team[]>;
@@ -60,21 +61,27 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
             this.datasetId = params["mapid"];
             let initiativeSlug = params["slug"];
 
-            this.dataset = this.datasetFactory.get(this.datasetId).then((d: DataSet) => {
+            this.dataset$ = this.datasetFactory.get(this.datasetId).then((d: DataSet) => {
                 // console.log(d)
                 EmitterService.get("currentDataset").emit(d)
                 return d;
             });
 
 
-            this.team = this.dataset.then((dataset: DataSet) => {
+            this.team = this.dataset$.then((dataset: DataSet) => {
                 if (dataset.initiative.team_id)
                     return this.teamFactory.get(dataset.initiative.team_id)
             });
 
             this.members = this.team.then((team: Team) => {
-                if (team)
-                    return Promise.all(team.members.map(u => this.userFactory.get(u.user_id)))
+                return Promise.all(
+                    team.members.map(u =>
+                        this.userFactory.get(u.user_id)
+                            .then(u => u, () => { return Promise.reject("No user") }).catch(() => { return <User>undefined })
+                    ))
+                    .then(members => _.compact(members))
+                    .then(members => _.sortBy(members, m => m.name))
+
             });
 
             this.buildingComponent.loadData(this.datasetId);
@@ -109,7 +116,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     addTeamToInitiative(team: Team) {
-        this.team = this.dataset.then((dataset: DataSet) => {
+        this.team = this.dataset$.then((dataset: DataSet) => {
             dataset.initiative.team_id = team.team_id;
             this.datasetFactory.upsert(dataset, dataset._id).then(() => {
                 this.buildingComponent.loadData(dataset._id);
@@ -121,7 +128,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     removeTeam() {
-        this.dataset.then((dataset: DataSet) => {
+        this.dataset$.then((dataset: DataSet) => {
             dataset.initiative.team_id = undefined;
             this.datasetFactory.upsert(dataset, dataset._id).then(() => {
                 this.buildingComponent.loadData(dataset._id);
@@ -152,7 +159,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
 
     openDetails(node: Initiative) {
-        this.dataset.then((dataset: DataSet) => {
+        this.dataset$.then((dataset: DataSet) => {
             this.openedNodeParent = node.getParent(dataset.initiative);
             this.openedNode = node;
             this.isDetailsPanelCollapsed = false;

@@ -146,15 +146,15 @@ describe("workspace.component.ts", () => {
         describe("adding team to initiative", () => {
             it("should add team to current dataset and update team members", () => {
                 let spy = spyOn(component, "updateTeamMembers")
-                component.dataset = Promise.resolve(new DataSet({ _id: "some_dataset_id", initiative: new Initiative() }))
+                component.dataset$ = Promise.resolve(new DataSet({ _id: "some_dataset_id", initiative: new Initiative() }))
 
                 let team = new Team({ name: "Winners", members: [], team_id: "some_team_id" })
 
-                component.dataset.then((d) => {
+                component.dataset$.then((d) => {
                     expect(d.initiative.team_id).toBeUndefined();
                 })
                 component.addTeamToInitiative(team)
-                component.dataset.then((d) => {
+                component.dataset$.then((d) => {
                     expect(d.initiative.team_id).toBe("some_team_id")
                 })
                 expect(spy).toHaveBeenCalled();
@@ -167,12 +167,12 @@ describe("workspace.component.ts", () => {
                 let spyUpsert = spyOn(mockFactory, "upsert").and.returnValue(Promise.resolve(true))
 
                 let spyLoadData = spyOn(component.buildingComponent, "loadData")
-                component.dataset = Promise.resolve(new DataSet({ _id: "some_dataset_id", initiative: new Initiative() }))
+                component.dataset$ = Promise.resolve(new DataSet({ _id: "some_dataset_id", initiative: new Initiative() }))
 
                 let team = new Team({ name: "Winners", members: [], team_id: "some_team_id" })
 
                 component.addTeamToInitiative(team)
-                component.dataset.then((d) => {
+                component.dataset$.then((d) => {
                     expect(true).toBeTruthy();
                     expect(spyUpsert).toHaveBeenCalled();
                     spyUpsert.calls.mostRecent().returnValue.then(() => {
@@ -213,7 +213,7 @@ describe("workspace.component.ts", () => {
                     spyGet.calls.mostRecent().returnValue.then(() => {
                         expect(spyGet).toHaveBeenCalledWith(123)
                     })
-                    component.dataset.then((r) => {
+                    component.dataset$.then((r) => {
                         expect(r).toEqual(new DataSet({ _id: "123", initiative: new Initiative({ team_id: "team1" }) }))
                     })
                 });
