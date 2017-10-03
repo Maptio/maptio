@@ -1,3 +1,4 @@
+import { Angulartics2Mixpanel } from "angulartics2";
 import { UserService } from "./../../shared/services/user/user.service";
 import { Subscription } from "rxjs/Subscription";
 import { LoaderService } from "./../../shared/services/loading/loader.service";
@@ -38,7 +39,8 @@ export class LoginComponent implements OnInit {
     private routeSubscription: Subscription;
     private routeSubscription2: Subscription;
 
-    constructor(private auth: Auth, private userService: UserService, private route: ActivatedRoute, private router: Router, public encoding: JwtEncoder, public formBuilder: FormBuilder, private loader: LoaderService) {
+    constructor(private auth: Auth, private userService: UserService, private route: ActivatedRoute, private router: Router,
+        public encoding: JwtEncoder, public formBuilder: FormBuilder, private loader: LoaderService, private analytics: Angulartics2Mixpanel) {
         this.activateForm = new FormGroup({
             "firstname": new FormControl(this.firstname, [
                 Validators.required,
@@ -214,6 +216,9 @@ export class LoginComponent implements OnInit {
                             this.isActivationPending = Promise.resolve(false);
                             this.loader.hide();
                         })
+                        .then(() => {
+                            this.analytics.eventTrack("Activate", { email: email, firstname: firstname, lastname: lastname });
+                        }, () => { })
                         .then(() => {
                             this.auth.login(email, password)
                         })

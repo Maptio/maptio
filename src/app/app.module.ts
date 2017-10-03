@@ -56,6 +56,8 @@ import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { SignupComponent } from "./components/login/signup.component";
 import { LoaderComponent } from "./shared/services/loading/loader.component";
 
+// Analytics
+import { Angulartics2Mixpanel, Angulartics2Module } from "angulartics2";
 
 // Directives
 import { FocusIfDirective } from "./shared/directives/focusif.directive";
@@ -132,7 +134,8 @@ const appRoutes: Routes = [
     ResponsiveModule,
     ConfirmationPopoverModule.forRoot({
       confirmButtonType: "danger"
-    })
+    }),
+    Angulartics2Module.forRoot([Angulartics2Mixpanel])
   ],
   exports: [RouterModule],
   providers: [

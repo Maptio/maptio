@@ -12,5 +12,6 @@ export const environment = {
     SUPPORT_EMAIL: "support@maptio.com",
     ACCESS_TOKEN_URL: "https://circlemapping.auth0.com/oauth/token",
     ACCESS_TOKEN_AUDIENCE: "https://circlemapping.auth0.com/api/v2/",
-    MAPTIO_API_URL : "https://app.maptio.com/api/v1"
+    MAPTIO_API_URL : "https://app.maptio.com/api/v1",
+    MIXPANEL_TOKEN: "de90e67220137ed9cab9510a84ba7ecf"
 };

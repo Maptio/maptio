@@ -1,3 +1,4 @@
+import { Angulartics2Mixpanel } from "angulartics2";
 
 import { ActivatedRoute, Params } from "@angular/router";
 import {
@@ -65,7 +66,8 @@ export class MappingComponent implements OnInit {
         private viewContainer: ViewContainerRef,
         private componentFactoryResolver: ComponentFactoryResolver,
         private cd: ChangeDetectorRef,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private analytics: Angulartics2Mixpanel
     ) {
 
         this.zoom$ = new Subject<number>();
@@ -98,7 +100,6 @@ export class MappingComponent implements OnInit {
         this.dataService.get().subscribe(data => {
             this.data = data;
             this.show();
-
         });
     }
 
@@ -138,5 +139,6 @@ export class MappingComponent implements OnInit {
 
     changeFontSize(size: number) {
         this.fontSize$.next(size);
+        this.analytics.eventTrack("Change font size", { size: size, map: this.data.initiative.name })
     }
 }

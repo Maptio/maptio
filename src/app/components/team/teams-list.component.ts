@@ -1,3 +1,4 @@
+import { Angulartics2Mixpanel } from "angulartics2";
 import { Subscription } from "rxjs/Rx";
 import { UserFactory } from "./../../shared/services/user.factory";
 import { Component, OnInit } from "@angular/core";
@@ -21,7 +22,7 @@ export class TeamsListComponent implements OnInit {
     public teams$: Promise<Array<Team>>;
     public errorMessage: string;
 
-    constructor(public auth: Auth, private teamFactory: TeamFactory, private userFactory: UserFactory) {
+    constructor(public auth: Auth, private teamFactory: TeamFactory, private userFactory: UserFactory, private analytics: Angulartics2Mixpanel) {
         this.userSubscription = this.auth.getUser().subscribe((user: User) => {
             this.user = user;
         })
@@ -46,6 +47,7 @@ export class TeamsListComponent implements OnInit {
                     .then((result: boolean) => {
                         if (result) {
                             this.getTeams();
+                            this.analytics.eventTrack("Create team", { email: this.user.email, name: teamName, teamId: team.team_id })
                         }
                         else {
                             return Promise.reject(`Unable to add you to team ${teamName}!`)

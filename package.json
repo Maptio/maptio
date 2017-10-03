@@ -54,6 +54,7 @@
     "angular2-template-loader": "^0.4.0",
     "angular2-tree-component": "^2.8.1",
     "angular2-uuid": "^1.1.1",
+    "angulartics2": "^2.4.0",
     "apicache": "^1.0.0",
     "auth0-js": "^8.9.3",
     "auth0-lock": "^10.11.0",
