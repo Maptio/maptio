@@ -1,3 +1,6 @@
+import { Observable } from "rxjs/Rx";
+import { RouterTestingModule } from "@angular/router/testing";
+import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { MailingService } from "./../../shared/services/mailing/mailing.service";
 import { AuthConfiguration } from "./../../shared/services/auth/auth.config";
 import { BaseRequestOptions } from "@angular/http";
@@ -8,7 +11,7 @@ import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
 import { ComponentFixture, async } from "@angular/core/testing";
 import { LoaderService } from "./../../shared/services/loading/loader.service";
-import { Router } from "@angular/router";
+import { Router, NavigationStart } from "@angular/router";
 import { SignupComponent } from "./signup.component";
 import { Auth } from "../../shared/services/auth/auth.service";
 import { User } from "../../shared/model/user.data";
@@ -25,19 +28,12 @@ describe("signup.component.ts", () => {
 
         TestBed.configureTestingModule({
             declarations: [SignupComponent],
-            schemas: [NO_ERRORS_SCHEMA]
+            schemas: [NO_ERRORS_SCHEMA],
+            imports: [RouterTestingModule]
         }).overrideComponent(SignupComponent, {
             set: {
                 providers: [
-                    // {
-                    //     provide: Auth, useClass: class {
-                    //         isActivationPendingByEmail(email: string) { return; }
-                    //         generateUserToken(user_id: string, email: string, firstname: string, lastname: string) { return; }
-                    //         isUserExist(email: string) { return; }
-                    //         createUser(email: string, firstname: string, lastname: string, isSignUp: boolean) { return; }
-                    //         sendConfirmation(email: string, userId: string, firstname: string, lastname: string, name: string) { return; }
-                    //     }
-                    // },
+                    Angulartics2Mixpanel, Angulartics2,
                     {
                         provide: AuthHttp,
                         useFactory: authHttpServiceFactoryTesting,
@@ -51,11 +47,15 @@ describe("signup.component.ts", () => {
                         },
                         deps: [MockBackend, BaseRequestOptions]
                     },
-                    // { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } },
+                    {
+                        provide: Router, useClass: class {
+                            navigate = jasmine.createSpy("navigate");
+                            events = Observable.of(new NavigationStart(0, "/next"))
+                        }
+                    },
                     MockBackend,
                     BaseRequestOptions,
                     UserService,
-                    { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } },
                     LoaderService
                 ]
             }

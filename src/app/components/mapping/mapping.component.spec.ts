@@ -1,4 +1,6 @@
-import { Initiative } from './../../shared/model/initiative.data';
+import { RouterTestingModule } from "@angular/router/testing";
+import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
+import { Initiative } from "./../../shared/model/initiative.data";
 import { ActivatedRoute, Params } from "@angular/router";
 import { TooltipComponent } from "./tooltip/tooltip.component";
 import { UIService } from "./../..//shared/services/ui/ui.service";
@@ -25,7 +27,7 @@ describe("mapping.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
-                DataService, ErrorService, D3Service, ColorService, UIService,
+                DataService, ErrorService, D3Service, ColorService, UIService, Angulartics2Mixpanel, Angulartics2,
                 {
                     provide: Http,
                     useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
@@ -43,7 +45,8 @@ describe("mapping.component.ts", () => {
                 }
             ],
             schemas: [NO_ERRORS_SCHEMA],
-            declarations: [MappingComponent, MappingCirclesComponent, MappingTreeComponent, TooltipComponent, AnchorDirective]
+            declarations: [MappingComponent, MappingCirclesComponent, MappingTreeComponent, TooltipComponent, AnchorDirective],
+            imports: [RouterTestingModule]
         })
             .compileComponents()
 

@@ -1,3 +1,4 @@
+import { Angulartics2Mixpanel } from "angulartics2";
 import { LoaderService } from "./../../shared/services/loading/loader.service";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs/Rx";
@@ -44,7 +45,7 @@ export class HeaderComponent implements OnInit {
     public userSubscription: Subscription;
 
     constructor(public auth: Auth, private userService: UserService, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory,
-        private userFactory: UserFactory, public errorService: ErrorService, private router: Router, private loader: LoaderService) {
+        private userFactory: UserFactory, public errorService: ErrorService, private router: Router, private loader: LoaderService, private analytics: Angulartics2Mixpanel) {
         this.emitterSubscription = EmitterService.get("currentDataset").subscribe((value: DataSet) => {
             this.selectedDataset = value;
         });
@@ -136,6 +137,7 @@ export class HeaderComponent implements OnInit {
                 this.isCreateMode = false;
                 this.router.navigate(["map", created._id, created.initiative.getSlug()]);
                 this.selectedDataset = created;
+                this.analytics.eventTrack("Create a map", { email: this.user.email, name: mapName , teamId: teamId })
             }).catch(this.errorService.handleError);
             this.ngOnInit();
         }

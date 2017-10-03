@@ -1,3 +1,4 @@
+import { Angulartics2Mixpanel, Angulartics2, Angulartics2Module } from "angulartics2";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { AuthHttp } from "angular2-jwt";
 import { TeamFactory } from "./../../shared/services/team.factory";
@@ -12,6 +13,7 @@ import { Auth } from "../../shared/services/auth/auth.service";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 import { MockBackend } from "@angular/http/testing";
 import { Team } from "../../shared/model/team.data";
+import { RouterTestingModule } from "@angular/router/testing";
 
 describe("teams-list.component.ts", () => {
 
@@ -23,7 +25,8 @@ describe("teams-list.component.ts", () => {
 
         TestBed.configureTestingModule({
             declarations: [TeamsListComponent],
-            schemas: [NO_ERRORS_SCHEMA]
+            schemas: [NO_ERRORS_SCHEMA],
+            imports: [RouterTestingModule, Angulartics2Module]
         }).overrideComponent(TeamsListComponent, {
             set: {
                 providers: [
@@ -48,7 +51,8 @@ describe("teams-list.component.ts", () => {
                     },
                     MockBackend,
                     BaseRequestOptions,
-                    ErrorService
+                    ErrorService,
+                    Angulartics2Mixpanel, Angulartics2
                 ]
             }
         }).compileComponents();

@@ -1,3 +1,4 @@
+import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { AuthHttp } from "angular2-jwt";
 import { AuthConfiguration } from "./../../shared/services/auth/auth.config";
 import { MailingService } from "./../../shared/services/mailing/mailing.service";
@@ -10,7 +11,7 @@ import { FormBuilder } from "@angular/forms";
 import { JwtEncoder } from "./../../shared/services/encoding/jwt.service";
 import { Observable } from "rxjs/Rx";
 import { RouterTestingModule } from "@angular/router/testing";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, NavigationStart } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { LoginComponent } from "./login.component";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
@@ -34,7 +35,7 @@ describe("login.component.ts", () => {
         }).overrideComponent(LoginComponent, {
             set: {
                 providers: [
-                    JwtEncoder, FormBuilder, LoaderService,
+                    JwtEncoder, FormBuilder, LoaderService, Angulartics2Mixpanel, Angulartics2,
                     { provide: Auth, useClass: class { login = jasmine.createSpy("login"); } },
                     {
                         provide: ActivatedRoute,
@@ -47,7 +48,12 @@ describe("login.component.ts", () => {
                         useFactory: authHttpServiceFactoryTesting,
                         deps: [Http, BaseRequestOptions]
                     },
-                    { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } },
+                    {
+                        provide: Router, useClass: class {
+                            navigate = jasmine.createSpy("navigate");
+                            events = Observable.of(new NavigationStart(0, "/next"))
+                        }
+                    },
                     {
                         provide: Http,
                         useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
@@ -72,8 +78,6 @@ describe("login.component.ts", () => {
     });
 
     it("should call login on initialization", () => {
-        // let auth = target.debugElement.injector.get(Auth);
-        // component.ngOnInit();
         expect(true).toBe(true)
     })
 });

@@ -1,3 +1,4 @@
+import { Angulartics2Mixpanel } from "angulartics2";
 import { environment } from "./../../../../environment/environment";
 import { LoaderService } from "./../loading/loader.service";
 import { Observable } from "rxjs/Rx";
@@ -21,11 +22,12 @@ export class Auth {
 
     constructor(
         private http: Http, private configuration: AuthConfiguration, private datasetFactory: DatasetFactory,
-        private userFactory: UserFactory, private router: Router, private loader: LoaderService
+        private userFactory: UserFactory, private router: Router, private loader: LoaderService, private analytics: Angulartics2Mixpanel
     ) {
     }
 
     public logout(): void {
+        this.analytics.eventTrack("Logout", {})
         localStorage.clear();
         this.router.navigate(["home"]);
     }
@@ -178,6 +180,11 @@ export class Auth {
                                             this.user$.next(user);
                                             return user;
                                         })
+                                        .then((user: User) => {
+                                            this.analytics.setSuperProperties({ user_id: user.user_id, email: user.email })
+                                            this.analytics.eventTrack("Login", { email: user.email, firstname: user.firstname, lastname: user.lastname });
+                                            return user;
+                                        }, () => { })
                                         .then((user: User) => {
                                             this.loader.hide()
                                             let redirectUrl = localStorage.getItem("redirectUrl");
