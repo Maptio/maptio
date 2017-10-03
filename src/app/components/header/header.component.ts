@@ -128,7 +128,6 @@ export class HeaderComponent implements OnInit {
         if (this.createMapForm.dirty && this.createMapForm.valid) {
             let mapName = this.createMapForm.controls["mapName"].value
             let teamId = this.createMapForm.controls["teamId"].value
-            console.log(mapName, teamId)
 
             let newDataset = new DataSet({ initiative: new Initiative({ name: mapName, team_id: teamId }) });
             this.datasetFactory.create(newDataset).then((created: DataSet) => {
