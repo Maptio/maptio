@@ -129,7 +129,7 @@ export class Auth {
             .catch((reason: any) => {
 
                 let user = User.create().deserialize(profile);
-                this.userFactory.upsert(user)
+                this.userFactory.create(user)
                     .then(() => { return Promise.resolve<boolean>(true); })
                     .catch(() => { return Promise.resolve<boolean>(false); });  // adds the user in the database
                 this.user$.next(user);
