@@ -69,18 +69,18 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
 
             this.team = this.dataset$.then((dataset: DataSet) => {
-                if (dataset.initiative.team_id)
-                    return this.teamFactory.get(dataset.initiative.team_id)
+                return this.teamFactory.get(dataset.initiative.team_id).then(t => t, () => { return Promise.reject("No team") }).catch(() => { })
             });
 
             this.members = this.team.then((team: Team) => {
-                return Promise.all(
-                    team.members.map(u =>
-                        this.userFactory.get(u.user_id)
-                            .then(u => u, () => { return Promise.reject("No user") }).catch(() => { return <User>undefined })
-                    ))
-                    .then(members => _.compact(members))
-                    .then(members => _.sortBy(members, m => m.name))
+                if (team)
+                    return Promise.all(
+                        team.members.map(u =>
+                            this.userFactory.get(u.user_id)
+                                .then(u => u, () => { return Promise.reject("No user") }).catch(() => { return <User>undefined })
+                        ))
+                        .then(members => _.compact(members))
+                        .then(members => _.sortBy(members, m => m.name))
 
             });
 

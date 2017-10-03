@@ -230,7 +230,7 @@ describe("workspace.component.ts", () => {
 
                 let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
                 let spyGetTeam = spyOn(mockTeamFactory, "get").and.returnValue(Promise.resolve(new Team({ team_id: "team_id", name: "Winners", members: [new User({ user_id: "1" })] })))
-                let spyGetUser = spyOn(mockUserFactory, "get");
+                let spyGetUser = spyOn(mockUserFactory, "get").and.returnValue(Promise.resolve(new User({ user_id: "id" })));
 
                 component.ngOnInit();
 
@@ -260,7 +260,7 @@ describe("workspace.component.ts", () => {
                 let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
 
                 let spyGetDataset = spyOn(mockDataSetFactory, "get").and.returnValue(Promise.resolve(new DataSet({ _id: "123", initiative: new Initiative({ team_id: "team_id" }) })));
-                let spyGetUser = spyOn(mockUserFactory, "get");
+                let spyGetUser = spyOn(mockUserFactory, "get").and.returnValue(Promise.resolve(new User({ user_id: "id" })));
                 let spyGetTeam = spyOn(mockTeamFactory, "get").and.returnValue(Promise.resolve(new Team({ members: [new User({ user_id: "1" })] })));
 
                 component.ngOnInit();
