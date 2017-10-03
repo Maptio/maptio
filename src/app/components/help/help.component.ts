@@ -8,12 +8,10 @@ import { ModalComponent } from "ng2-bs3-modal/ng2-bs3-modal";
 })
 export class HelpComponent implements OnInit {
 
-    constructor(private analytics: Angulartics2Mixpanel
-
+    constructor(
     ) { }
 
     ngOnInit() {
-        this.analytics.eventTrack("Open help", {})
     }
 
 }

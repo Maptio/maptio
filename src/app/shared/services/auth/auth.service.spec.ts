@@ -1,3 +1,5 @@
+import { Observable } from "rxjs/Rx";
+import { Angulartics2Module, Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { environment } from "./../../../../environment/environment";
 import { encodeTestToken } from "angular2-jwt/angular2-jwt-test-helpers";
 import { tokenNotExpired } from "angular2-jwt/angular2-jwt";
@@ -7,7 +9,7 @@ import { LoaderService } from "./../loading/loader.service";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MailingService } from "./../mailing/mailing.service";
 import { JwtEncoder } from "./../encoding/jwt.service";
-import { Router } from "@angular/router";
+import { Router, NavigationEnd, NavigationStart } from "@angular/router";
 import { User } from "../../model/user.data";
 import { ErrorService } from "../error/error.service";
 import { MockBackend, MockConnection } from "@angular/http/testing";
@@ -43,7 +45,12 @@ describe("auth.service.ts", () => {
                     }
                 },
                 Auth, UserFactory, DatasetFactory, JwtEncoder, MailingService, LoaderService,
-                { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } },
+                {
+                    provide: Router, useClass: class {
+                        navigate = jasmine.createSpy("navigate");
+                        events = Observable.of(new NavigationStart(0, "/next"))
+                    }
+                },
                 {
                     provide: Http,
                     useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
@@ -58,7 +65,8 @@ describe("auth.service.ts", () => {
                 },
                 MockBackend,
                 BaseRequestOptions,
-                ErrorService
+                ErrorService,
+                Angulartics2Mixpanel, Angulartics2
             ],
             imports: [RouterTestingModule]
         });

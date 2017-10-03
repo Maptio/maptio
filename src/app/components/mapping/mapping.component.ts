@@ -27,7 +27,6 @@ import { Initiative } from "../../shared/model/initiative.data";
     styleUrls: ["./mapping.component.css"],
     entryComponents: [MappingCirclesComponent, MappingTreeComponent],
     changeDetection: ChangeDetectionStrategy.OnPush
-
 })
 
 
@@ -57,8 +56,6 @@ export class MappingComponent implements OnInit {
 
     public componentFactory: ComponentFactory<IDataVisualizer>;
     public layout: string;
-    // public isCircles: boolean;
-    // public isTree: boolean;
     public subscription: Subscription;
 
     constructor(
