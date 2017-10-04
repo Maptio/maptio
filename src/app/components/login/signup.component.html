@@ -13,7 +13,8 @@
         This email already has an account. Do you want to <a routerLink="/login">log in</a>?
     </div>
     <div class="alert alert-success" role="alert" *ngIf="isConfirmationEmailSent">
-        We have sent a confirmation email to <b>{{signupForm.controls['email'].value}}</b>
+        We have sent a confirmation email to <b>{{signupForm.controls['email'].value}}</b>. Please follow the link in the
+        email to complete set-up. Not received? Email support@maptio.com
     </div>
 
     <form class="form-group" [formGroup]="signupForm" (submit)="createAccount()">
