@@ -158,7 +158,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 links = treeData.descendants().slice(1);
 
             // Normalize for fixed-depth.
-            nodes.forEach(function (d) { d.y = d.depth * 180 });
+            nodes.forEach(function (d) { d.y = d.depth * 180; d.x = d.x * 1.1 });
 
             // ****************** Nodes section ***************************
 
@@ -205,8 +205,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             nodeEnter.append("text")
                 .attr("class", "name")
                 .attr("dy", "0.65em")
-                .attr("y", "1.65em")
-                .attr("x", CIRCLE_RADIUS)
+                .attr("y", "1.00em")
+                .attr("x", CIRCLE_RADIUS + 5)
                 .text(function (d: any) { return d.data.name; })
                 .each(function (d: any) {
                     uiService.wrap(d3.select(this), d.data.name, d.y / d.depth * 0.85);
