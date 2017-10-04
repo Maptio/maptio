@@ -12,7 +12,7 @@ import { UserFactory } from "../user.factory";
 import { User } from "../../model/user.data";
 import { EmitterService } from "../emitter.service";
 import { tokenNotExpired } from "angular2-jwt/angular2-jwt";
-
+import * as _ from "lodash";
 
 
 @Injectable()
@@ -99,13 +99,13 @@ export class Auth {
                 this.userFactory.get(JSON.parse(profileString).user_id)])
                 .then(([auth0User, databaseUser]: [User, User]) => {
                     let user = auth0User;
-                    user.teams = databaseUser.teams;
+                    user.teams = _.uniq(databaseUser.teams); // HACK : where does the duplication comes from? 
                     user.shortid = databaseUser.shortid;
                     return user
                 })
                 .then((user: User) => {
                     this.datasetFactory.get(user).then(ds => {
-                        user.datasets = ds;
+                        user.datasets = _.uniq(ds);
                         this.user$.next(user)
                     })
                 });
