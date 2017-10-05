@@ -143,7 +143,7 @@ describe("workspace.component.ts", () => {
             });
         })
 
-        fdescribe("adding team to initiative", () => {
+        describe("adding team to initiative", () => {
             it("should add team to current dataset and update team members", async(() => {
                 let spyModal = spyOn(target.debugElement.injector.get(NgbModal), "open").and.returnValue({ result: Promise.resolve(true) })
                 let spy = spyOn(component, "updateTeamMembers")
