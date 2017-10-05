@@ -33,7 +33,7 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
     /**
      * List of helpers
      */
-    helpers: Array<User>;
+    helpers: Array<User> = [];
 
     /**
      * Team

@@ -257,7 +257,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
         }
 
         function showTooltip(d: any, parent: any, event: any, datasetId: string) {
-            uiService.setTooltipData(datasetId, d.data, parent.data, event.pageX - 20, event.pageY - 100);
+            uiService.setTooltipData(datasetId, d.data, parent.data);
         }
     }
 }

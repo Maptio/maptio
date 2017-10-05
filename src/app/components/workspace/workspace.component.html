@@ -2,7 +2,9 @@
 
     <div class="btn-group pull-left" *ngIf="team | async">
         <p class="pull-left team-name"> {{(team|async)?.name}}
-            <span class="remove text-danger" placement="top" container="body" ngbTooltip="Clear team" (click)="removeTeam()"></span>
+            <span class="remove text-danger" mwlConfirmationPopover title="This cannot be undone! Are you sure you want to detach this team from the map?"
+            focusButton="cancel" appendToBody="true" (confirm)="removeTeam()" (cancel)="cancelClicked = true"
+            placement="bottom" container="body" ngbTooltip="Clear team" ></span>
         </p>
         <a *ngFor="let user of members | async" class="btn btn-link btn-xs no-padding" routerLink="/summary/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/u/{{user.shortid}}/{{user.getSlug()}}">
             <img *ngIf="user?.picture" class="member rounded-circle" src="{{user?.picture}}" alt="{{user?.name}}" title="{{user?.name}}"
@@ -47,7 +49,7 @@
 
     <div id="edit-panel-details" class=" ml-1 showDetails" [class.showDetails]="!isDetailsPanelCollapsed">
         <div class="details" *ngIf="!isDetailsPanelCollapsed">
-            <initiative #initiative [datasetId]="datasetId" [node]="openedNode" [parent]="openedNodeParent" (edited)="saveDetailChanges()"></initiative>
+            <initiative *ngIf="!isDetailsPanelCollapsed" #initiative [datasetId]="datasetId" [node]="openedNode" [parent]="openedNodeParent"  (edited)="saveDetailChanges()"></initiative>
 
         </div>
     </div>

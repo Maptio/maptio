@@ -41,6 +41,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     public openedNode: Initiative;
     public openedNodeParent: Initiative;
+    public openedNodeTeamId: string;
 
     constructor(private auth: Auth, private route: ActivatedRoute, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private userFactory: UserFactory) {
         // this.emitterSubscription = EmitterService.get("currentInitiative").subscribe((value: Initiative) => {
@@ -159,11 +160,20 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
 
     openDetails(node: Initiative) {
-        this.dataset$.then((dataset: DataSet) => {
-            this.openedNodeParent = node.getParent(dataset.initiative);
-            this.openedNode = node;
-            this.isDetailsPanelCollapsed = false;
-        })
+        Promise.all([this.dataset$, this.team])
+            .then((result: [DataSet, Team]) => {
+                console.log("here")
+                let dataset = result[0]
+                let team = result[1];
+                this.openedNodeParent = node.getParent(dataset.initiative);
+                this.openedNode = node;
+                // this.openedNodeTeamId = node.team_id;
+                console.log(this.openedNode, this.openedNodeParent, this.openedNodeTeamId);
+
+            })
+            .then(() => {
+                this.isDetailsPanelCollapsed = false;
+            })
     }
 
 }

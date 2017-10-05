@@ -37,11 +37,9 @@ export class InitiativeComponent implements OnChanges {
     @Input() isReadOnly: boolean;
     @Input() datasetId: string;
 
-    public team: Promise<Team>;
-    public members: Promise<User[]>;
-    public dataset: Promise<DataSet>
-
-    // public possibleHelpers: Promise<User[]>;
+    public members$: Promise<User[]>;
+    public dataset$: Promise<DataSet>
+    public team$: Promise<Team>;
 
     isTeamMemberFound: boolean = true;
     isTeamMemberAdded: boolean = false;
@@ -52,42 +50,36 @@ export class InitiativeComponent implements OnChanges {
     constructor(private teamFactory: TeamFactory, private userFactory: UserFactory, private datasetFactory: DatasetFactory) {
     }
 
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes.node && changes.node.currentValue) {
+            if (changes.node.isFirstChange() || !(changes.node.previousValue) || changes.node.currentValue.team_id !== changes.node.previousValue.team_id) {
+
+                this.team$ = this.teamFactory.get(changes.node.currentValue.team_id).then(t => t, () => { return Promise.reject("No team available") }).catch(() => { })
+
+                this.members$ = this.team$
+                    .then((team: Team) => {
+                        return Promise.all(
+                            team.members.map(u => this.userFactory.get(u.user_id)
+                                .then(u => u, () => { return Promise.reject("No user") })
+                                .catch(() => { return <User>undefined })
+                            ))
+                            .then(members => _.compact(members))
+                            .then(members => _.sortBy(members, m => m.name))
+                    })
+                    .catch(() => { })
+            }
+
+        }
+
+        if (changes.datasetId && changes.datasetId.currentValue) {
+            this.dataset$ = this.datasetFactory.get(changes.datasetId.currentValue).then(d => d, () => { return Promise.reject("no dataset") })
+        }
+    }
 
     ngOnInit() {
 
     }
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.node.currentValue && changes.node.currentValue.team_id) {
-            this.team = this.teamFactory.get(changes.node.currentValue.team_id).then((team: Team) => {
-                this.members = Promise.all(
-                    team.members.map(u => this.userFactory.get(u.user_id)
-                        .then(u => u, () => { return Promise.reject("No user") })
-                        .catch(() => { return <User>undefined })
-                    ))
-                    .then(members => _.compact(members))
-                    .then(members => _.sortBy(members, m => m.name))
-
-                return team;
-            })
-
-
-            // this.possibleHelpers = this.team.then((team: Team) => {
-            //     return team.members.map((user: User) => {
-            //         if (user.user_id !== this.node.accountable.user_id) {
-            //             return user;
-            //         }
-            //     )
-            // })
-        }
-        // console.log(changes.datasetId.currentValue)
-        this.dataset = this.datasetFactory.get(changes.datasetId.currentValue)
-            .then(
-            d => { return d },
-            () => { return Promise.reject("no dataset") })
-            .catch(() => { });
-
-    }
 
     onBlur() {
         this.edited.emit(true);
@@ -158,8 +150,8 @@ export class InitiativeComponent implements OnChanges {
         //     ? Observable.from(this.team.then(t => t.members).catch())
         //     : Observable.from(this.team.then(t => t.members.filter(v => new RegExp(term, "gi").test(v.name)).splice(0, 10)).catch())
         return term.length < 1
-            ? Observable.from(this.members)
-            : Observable.from(this.members.then(members => members.filter(v => new RegExp(term, "gi").test(v.name) || new RegExp(term, "gi").test(v.email)).splice(0, 10)).catch())
+            ? Observable.from(this.members$)
+            : Observable.from(this.members$.then(members => members.filter(v => new RegExp(term, "gi").test(v.name) || new RegExp(term, "gi").test(v.email)).splice(0, 10)).catch())
 
     }
 

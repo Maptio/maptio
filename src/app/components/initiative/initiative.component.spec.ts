@@ -244,7 +244,7 @@ describe("initiative.component.ts", () => {
                 let spyAddHelper = spyOn(component, "addHelper");
                 let list = [new User({ user_id: "1", name: "One" }), new User({ user_id: "2", name: "Two" }), new User({ user_id: "3", name: "Three" })];
                 component.node.helpers = list.slice(0, 2);
-                component.team = Promise.resolve(new Team({ name: "Team", members: list }));
+                component.team$ = Promise.resolve(new Team({ name: "Team", members: list }));
                 target.detectChanges();
 
                 let helpersElements = target.debugElement.queryAll(By.css(".inputHelper"));
@@ -259,7 +259,7 @@ describe("initiative.component.ts", () => {
                 let spyAddHelper = spyOn(component, "addHelper");
                 let list = [new User({ user_id: "1", name: "One" }), new User({ user_id: "2", name: "Two" }), new User({ user_id: "3", name: "Three" })];
                 component.node.helpers = list.slice(0, 2);
-                component.team = Promise.resolve(new Team({ name: "Team", members: list }));
+                component.team$ = Promise.resolve(new Team({ name: "Team", members: list }));
                 target.detectChanges();
 
                 let helpersElements = target.debugElement.queryAll(By.css(".inputHelper"));
@@ -273,7 +273,7 @@ describe("initiative.component.ts", () => {
                 let spyIsHelper = spyOn(component, "isHelper");
                 let list = [new User({ user_id: "1", name: "One" }), new User({ user_id: "2", name: "Two" }), new User({ user_id: "3", name: "Three" })];
                 component.node.helpers = list.slice(0, 2);
-                component.team = Promise.resolve(new Team({ name: "Team", members: list }));
+                component.team$ = Promise.resolve(new Team({ name: "Team", members: list }));
                 target.detectChanges();
                 expect(spyIsHelper).toHaveBeenCalled()
             })
