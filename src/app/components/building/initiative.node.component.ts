@@ -67,6 +67,7 @@ export class InitiativeNodeComponent {
         let treeNode = this.node.treeModel.getNodeById(initiative.id);
         let newNode = new Initiative();
         newNode.children = []
+        newNode.team_id = initiative.team_id;
         newNode.hasFocus = true;
         setTimeout(() => { newNode.hasFocus = false });
         treeNode.data.children = treeNode.data.children || [];

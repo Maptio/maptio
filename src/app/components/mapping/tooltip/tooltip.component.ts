@@ -14,6 +14,7 @@ import { InitiativeComponent } from "../../initiative/initiative.component";
 export class TooltipComponent implements OnInit, OnDestroy {
 
     public datasetId: string;
+    public teamId: string;
     public node: Initiative;
     public parent: Initiative;
     public isReadOnly: boolean;
@@ -35,15 +36,12 @@ export class TooltipComponent implements OnInit, OnDestroy {
 
     update() {
         this.subscription = this.uiService.getTooltipData().subscribe(
-            (settings: [string, Initiative, Initiative, number, number]) => {
+            (settings: [string, Initiative, Initiative]) => {
                 this.datasetId = settings[0];
                 this.node = settings[1];
                 this.parent = settings[2]
                 this.isReadOnly = true;
-
                 this.isHidden = false;
-                // this.left = settings[2];
-                // this.top = settings[3];
                 this.cd.markForCheck();
 
             },

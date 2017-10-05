@@ -1,5 +1,5 @@
-// tslint:disable-next-line:quotemark
-import { Subscription } from 'rxjs/Rx';
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { Subscription } from "rxjs/Rx";
 import { Initiative } from "./../../shared/model/initiative.data";
 import { DataSet } from "./../../shared/model/dataset.data";
 import { Team } from "./../../shared/model/team.data";
@@ -41,8 +41,13 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     public openedNode: Initiative;
     public openedNodeParent: Initiative;
+    public openedNodeTeamId: string;
 
-    constructor(private auth: Auth, private route: ActivatedRoute, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private userFactory: UserFactory) {
+    @ViewChild("dragConfirmation")
+    dragConfirmationModal: NgbModal;
+
+    constructor(private auth: Auth, private route: ActivatedRoute, private datasetFactory: DatasetFactory,
+        private teamFactory: TeamFactory, private userFactory: UserFactory, private modalService: NgbModal) {
         // this.emitterSubscription = EmitterService.get("currentInitiative").subscribe((value: Initiative) => {
         //     console.log(this.datasetId)
         //     this.datasetFactory.upsert(new DataSet({ _id: this.datasetId, initiative: value }), this.datasetId);
@@ -106,39 +111,53 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     saveChanges(initiative: Initiative) {
-        // console.log("building.component.ts", this.nodes[0])
-        // EmitterService.get("currentInitiative").emit(this.nodes[0]);
-        // this.dataService.set({ initiative: this.nodes[0], datasetId: this.datasetId });
-        // console.log("saving changes", initiative, this.datasetId);
-        this.datasetFactory.upsert(new DataSet({ _id: this.datasetId, initiative: initiative }), this.datasetId).then((hasSaved: boolean) => {
-            // console.log(hasSaved)
-        }, (reason) => { console.log(reason) });
+        this.datasetFactory.upsert(new DataSet({ _id: this.datasetId, initiative: initiative }), this.datasetId)
+            .then((hasSaved: boolean) => {
+                // console.log(hasSaved)
+            }, (reason) => { console.log(reason) })
+            .then(() => {
+                this.dataset$ = this.datasetFactory.get(this.datasetId)
+            });
+
     }
 
     addTeamToInitiative(team: Team) {
-        this.team = this.dataset$.then((dataset: DataSet) => {
-            dataset.initiative.team_id = team.team_id;
-            this.datasetFactory.upsert(dataset, dataset._id).then(() => {
-                this.buildingComponent.loadData(dataset._id);
-            })
-            return team;
-        });
-        this.updateTeamMembers();
+        this.modalService.open(this.dragConfirmationModal).result.then((result: boolean) => {
+            if (result) {
+                this.isBuildingPanelCollapsed = true;
+                this.isDetailsPanelCollapsed = true;
+                this.team = this.dataset$.then((dataset: DataSet) => {
+                    dataset.initiative.team_id = team.team_id;
+                    this.datasetFactory.upsert(dataset, dataset._id).then(() => {
+                        this.buildingComponent.loadData(dataset._id);
+                    })
+                    return team;
+                });
+                this.updateTeamMembers();
+            }
+        })
+        .catch(reason => { });
+
+
 
     }
 
-    removeTeam() {
-        this.dataset$.then((dataset: DataSet) => {
-            dataset.initiative.team_id = undefined;
-            this.datasetFactory.upsert(dataset, dataset._id).then(() => {
-                this.buildingComponent.loadData(dataset._id);
-            });
-        });
-        this.team = Promise.resolve(null)
-        this.updateTeamMembers();
-    }
+    // removeTeam() {
+    //     this.isBuildingPanelCollapsed = true;
+    //     this.isDetailsPanelCollapsed = true;
+    //     this.dataset$.then((dataset: DataSet) => {
+    //         dataset.initiative.team_id = undefined;
+    //         this.datasetFactory.upsert(dataset, dataset._id).then(() => {
+    //             this.buildingComponent.loadData(dataset._id);
+    //         });
+    //     });
+    //     this.team = Promise.resolve(null)
+    //     this.updateTeamMembers();
+    // }
 
     updateTeamMembers() {
+        this.isBuildingPanelCollapsed = true;
+        this.isDetailsPanelCollapsed = true;
         this.members = this.team
             .then((team: Team) => {
                 if (team)
@@ -159,11 +178,20 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
 
     openDetails(node: Initiative) {
-        this.dataset$.then((dataset: DataSet) => {
-            this.openedNodeParent = node.getParent(dataset.initiative);
-            this.openedNode = node;
-            this.isDetailsPanelCollapsed = false;
-        })
+        Promise.all([this.dataset$, this.team])
+            .then((result: [DataSet, Team]) => {
+                console.log("here")
+                let dataset = result[0]
+                let team = result[1];
+                this.openedNodeParent = node.getParent(dataset.initiative);
+                this.openedNode = node;
+                // this.openedNodeTeamId = node.team_id;
+                console.log(this.openedNode, this.openedNodeParent, this.openedNodeTeamId);
+
+            })
+            .then(() => {
+                this.isDetailsPanelCollapsed = false;
+            })
     }
 
 }

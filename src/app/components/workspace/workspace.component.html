@@ -1,9 +1,23 @@
 <div class="row header">
 
     <div class="btn-group pull-left" *ngIf="team | async">
-        <p class="pull-left team-name"> {{(team|async)?.name}}
-            <span class="remove text-danger" placement="top" container="body" ngbTooltip="Clear team" (click)="removeTeam()"></span>
-        </p>
+        <!-- <p class="pull-left team-name"> {{(team|async)?.name}}
+            <span class="remove text-danger" mwlConfirmationPopover title="This cannot be undone! You will loose access to the map. Are you sure?"
+                focusButton="cancel" appendToBody="true" (confirm)="removeTeam()" (cancel)="cancelClicked = true" placement="bottom"
+                container="body" ngbTooltip="Clear team"></span>
+        </p> -->
+
+        <a class="dropdown-toggle mr-3" id="teamDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{(team|async)?.name}}
+         </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="teamDropdownLink">
+            <a class="dropdown-item" (click)="addTeamToInitiative(team)" *ngFor="let team of teams | async">
+                    {{team.name}}
+                 </a>
+        </div>
+
+
+
         <a *ngFor="let user of members | async" class="btn btn-link btn-xs no-padding" routerLink="/summary/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/u/{{user.shortid}}/{{user.getSlug()}}">
             <img *ngIf="user?.picture" class="member rounded-circle" src="{{user?.picture}}" alt="{{user?.name}}" title="{{user?.name}}"
             placement="top" container="body" ngbTooltip="{{user?.name}}">
@@ -14,7 +28,7 @@
             <i class="fa fa-plus" aria-hidden="true"></i>
         </a>
     </div>
-    <div class="dropdown" *ngIf="!(team | async)">
+    <!-- <div class="dropdown" *ngIf="!(team | async)">
         <a class="dropdown-toggle" id="teamDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                    Add a team to {{(dataset$ | async)?.initiative?.name}}
                 </a>
@@ -24,7 +38,7 @@
                         </a>
         </div>
 
-    </div>
+    </div> -->
 </div>
 
 <div id="sideNavTree" class="" [class.showTree]="!isBuildingPanelCollapsed">
@@ -47,7 +61,8 @@
 
     <div id="edit-panel-details" class=" ml-1 showDetails" [class.showDetails]="!isDetailsPanelCollapsed">
         <div class="details" *ngIf="!isDetailsPanelCollapsed">
-            <initiative #initiative [datasetId]="datasetId" [node]="openedNode" [parent]="openedNodeParent" (edited)="saveDetailChanges()"></initiative>
+            <initiative *ngIf="!isDetailsPanelCollapsed" #initiative [datasetId]="datasetId" [node]="openedNode" [parent]="openedNodeParent"
+                (edited)="saveDetailChanges()"></initiative>
 
         </div>
     </div>
@@ -61,3 +76,24 @@
         <mapping>Loading...</mapping>
     </div>
 </div>
+
+
+<ng-template #dragConfirmation let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        You are about to switch teams
+        <button type="button" class="close" aria-label="Close" (click)="d(false)">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <p>
+            Switching teams keeps your initiative structure intact but <b>resets authorities and helpers</b> .
+        </p>
+    </div>
+    <div class="modal-footer">
+        <p>These changes cannot be undone. Are you sure ? </p>
+        <button type="button" class="btn btn-warning" (click)="c(true)">Yes</button>
+        <button type="button" class="btn btn-default" (click)="c(false)">No</button>
+    </div>
+</ng-template>

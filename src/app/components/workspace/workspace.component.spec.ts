@@ -2,7 +2,7 @@ import { AuthModule, authHttpServiceFactory } from "./../../shared/services/auth
 import { encodeTestToken } from "angular2-jwt/angular2-jwt-test-helpers";
 import { AuthConfig, tokenNotExpired } from "angular2-jwt";
 import { AuthHttp, JwtHelper } from "angular2-jwt";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModule, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { EmitterService } from "./../../shared/services/emitter.service";
 import { Initiative } from "./../../shared/model/initiative.data";
 import { DataSet } from "./../../shared/model/dataset.data";
@@ -82,7 +82,7 @@ describe("workspace.component.ts", () => {
                         },
                         deps: [MockBackend, BaseRequestOptions]
                     },
-                    MockBackend,
+                    MockBackend, NgbModal,
                     BaseRequestOptions,
                     { provide: Auth, useClass: AuthStub },
                     ErrorService,
@@ -144,7 +144,8 @@ describe("workspace.component.ts", () => {
         })
 
         describe("adding team to initiative", () => {
-            it("should add team to current dataset and update team members", () => {
+            it("should add team to current dataset and update team members", async(() => {
+                let spyModal = spyOn(target.debugElement.injector.get(NgbModal), "open").and.returnValue({ result: Promise.resolve(true) })
                 let spy = spyOn(component, "updateTeamMembers")
                 component.dataset$ = Promise.resolve(new DataSet({ _id: "some_dataset_id", initiative: new Initiative() }))
 
@@ -154,15 +155,18 @@ describe("workspace.component.ts", () => {
                     expect(d.initiative.team_id).toBeUndefined();
                 })
                 component.addTeamToInitiative(team)
-                component.dataset$.then((d) => {
-                    expect(d.initiative.team_id).toBe("some_team_id")
+
+                spyModal.calls.mostRecent().returnValue.result.then(() => {
+                    component.dataset$.then((d) => {
+                        expect(d.initiative.team_id).toBe("some_team_id")
+                    })
+                    expect(spy).toHaveBeenCalled();
                 })
-                expect(spy).toHaveBeenCalled();
-
-            })
+            }))
 
 
-            it("should load data in building component", () => {
+            it("should load data in building component", async(() => {
+                let spyModal = spyOn(target.debugElement.injector.get(NgbModal), "open").and.returnValue({ result: Promise.resolve(true) })
                 let mockFactory = target.debugElement.injector.get(DatasetFactory);
                 let spyUpsert = spyOn(mockFactory, "upsert").and.returnValue(Promise.resolve(true))
 
@@ -172,15 +176,16 @@ describe("workspace.component.ts", () => {
                 let team = new Team({ name: "Winners", members: [], team_id: "some_team_id" })
 
                 component.addTeamToInitiative(team)
-                component.dataset$.then((d) => {
-                    expect(true).toBeTruthy();
-                    expect(spyUpsert).toHaveBeenCalled();
-                    spyUpsert.calls.mostRecent().returnValue.then(() => {
-                        expect(spyLoadData).toHaveBeenCalledWith("some_dataset_id")
+                spyModal.calls.mostRecent().returnValue.result.then(() => {
+                    component.dataset$.then((d) => {
+                        expect(true).toBeTruthy();
+                        expect(spyUpsert).toHaveBeenCalled();
+                        spyUpsert.calls.mostRecent().returnValue.then(() => {
+                            expect(spyLoadData).toHaveBeenCalledWith("some_dataset_id")
+                        })
                     })
                 })
-
-            })
+            }))
 
         })
 
