@@ -209,6 +209,10 @@
     transition: 0.5s;
 }
 
+.toggle:hover{
+    opacity:0.7
+}
+
 .building {
     padding: 0;
 }
