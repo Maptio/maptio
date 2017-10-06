@@ -80,7 +80,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         let color = d3.scaleOrdinal(d3.schemeCategory20);
 
         let simulation = d3.forceSimulation()
-            .force("link", d3.forceLink().distance(200).id(function (d: any) { return d.id; }))
+            .force("link", d3.forceLink().distance(300).id(function (d: any) { return d.id; }))
             .force("charge", d3.forceManyBody().distanceMin(200))
             .force("center", d3.forceCenter(width / 2, height / 2));
 
