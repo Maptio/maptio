@@ -1,3 +1,4 @@
+import { MappingNetworkComponent } from "./network/mapping.network.component";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { Initiative } from "./../../shared/model/initiative.data";
@@ -45,7 +46,7 @@ describe("mapping.component.ts", () => {
                 }
             ],
             schemas: [NO_ERRORS_SCHEMA],
-            declarations: [MappingComponent, MappingCirclesComponent, MappingTreeComponent, TooltipComponent, AnchorDirective],
+            declarations: [MappingComponent, MappingCirclesComponent, MappingTreeComponent, MappingNetworkComponent, TooltipComponent, AnchorDirective],
             imports: [RouterTestingModule]
         })
             .compileComponents()
