@@ -2,7 +2,7 @@ import { Initiative } from "./../../../shared/model/initiative.data";
 import { Subscription } from "rxjs/Subscription";
 import { Observable } from "rxjs/Observable";
 import { Component, OnInit, Input, ViewEncapsulation } from "@angular/core";
-import { D3Service, D3, Force } from "d3-ng2-service";
+import { D3Service, D3, Force, DragBehavior, ForceLink } from "d3-ng2-service";
 import { ColorService } from "../../../shared/services/ui/color.service"
 import { UIService } from "../../../shared/services/ui/ui.service"
 import { IDataVisualizer } from "../mapping.interface"
@@ -71,11 +71,11 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             height = this.height;
         let node: any;
         let link: any;
-        let bilinks: Array = [];
-        let brush: any;
-        let brushMode: any;
+        let bilinks: Array<any> = [];
+        // let brush: any;
+        // let brushMode: any;
         let zoomLayer: any
-        let brushLayer: any; // intercation canvas: Brush + zoom
+        // let brushLayer: any; // intercation canvas: Brush + zoom
 
         let color = d3.scaleOrdinal(d3.schemeCategory20);
 
@@ -90,37 +90,37 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         // .on("keyup", keyup)
 
         // brushable network: http://jsfiddle.net/pkerpedjiev/29majy5c/2/
-        brush = d3.brush()
-            .extent([[0, 0], [width, height]])
-            .on("start", function (d) {
-                node.each(function (d: any) { d.previouslyPicked = brushMode && d.picked; });
-            })
-            .on("brush", function () {
-                if (!d3.event.selection) return;
-                let extent = d3.event.selection,
-                    zoomProp = d3.zoomTransform(zoomLayer.node());
-                node.classed("picked", function (d: any) { return d.picked = d.previouslyPicked ^ ((extent[0][0] - zoomProp.x) / zoomProp.k <= d.x && d.x < (extent[1][0] - zoomProp.x) / zoomProp.k && (extent[0][1] - zoomProp.y) / zoomProp.k <= d.y && d.y < (extent[1][1] - zoomProp.y) / zoomProp.k); });
-            })
-            .on("end", function () {
-                if (!d3.event.selection) return;
-                d3.select(this).call(d3.event.target.move, null);
-            })
+        // brush = d3.brush()
+        //     .extent([[0, 0], [width, height]])
+        //     .on("start", function (d) {
+        //         node.each(function (d: any) { d.previouslyPicked = brushMode && d.picked; });
+        //     })
+        //     .on("brush", function () {
+        //         if (!d3.event.selection) return;
+        //         let extent = d3.event.selection,
+        //             zoomProp = d3.zoomTransform(zoomLayer.node());
+        //         node.classed("picked", function (d: any) { return d.picked = d.previouslyPicked ^ ((extent[0][0] - zoomProp.x) / zoomProp.k <= d.x && d.x < (extent[1][0] - zoomProp.x) / zoomProp.k && (extent[0][1] - zoomProp.y) / zoomProp.k <= d.y && d.y < (extent[1][1] - zoomProp.y) / zoomProp.k); });
+        //     })
+        //     .on("end", function () {
+        //         if (!d3.event.selection) return;
+        //         d3.select(this).call(d3.event.target.move, null);
+        //     })
 
         let zoom = d3.zoom()
             .scaleExtent([1 / 2, 4])
             .on("zoom", zoomed);
 
-        brushLayer = svg.append("g")
-            .attr("id", "brush-layer")
-            .attr("width", width)
-            .attr("height", height)
-            .style("fill", "none")
-            .datum(function () { return { picked: false, previouslyPicked: false }; })
-            .call(brush)
-            .on("click", function (d) {
-                node.classed("picked", false);
-                node.each(function (d: any) { d.picked = d.previouslyPicked = false; })
-            });
+        // brushLayer = svg.append("g")
+        //     .attr("id", "brush-layer")
+        //     .attr("width", width)
+        //     .attr("height", height)
+        //     .style("fill", "none")
+        //     .datum(function () { return { picked: false, previouslyPicked: false }; })
+        //     .call(brush)
+        //     .on("click", function (d) {
+        //         node.classed("picked", false);
+        //         node.each(function (d: any) { d.picked = d.previouslyPicked = false; })
+        //     });
 
 
         zoomLayer = svg.append("rect")
@@ -167,14 +167,17 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             nodeById = d3.map(nodes, function (d) { return d.id; }),
             links = graph.links
 
-        links.forEach(function (link) {
-            let s = link.source = nodeById.get(link.source),
-                t = link.target = nodeById.get(link.target),
+        links.forEach(function (link: { source: string, target: string, value: number }) {
+            let s = link.source = <any>nodeById.get(link.source),
+                t = link.target = <any>nodeById.get(link.target),
                 i = {}; // intermediate node
-            nodes.push(i);
-            links.push({ source: s, target: i }, { source: i, target: t });
+            // console.log(s, link.source, nodeById.get(link.source))
+            nodes.push(<any>i);
+            links.push(<any>{ source: s, target: i }, <any>{ source: i, target: t });
             bilinks.push([s, i, t]);
         });
+
+        console.log(links)
 
         link = g.append("g")
             .attr("class", "links")
@@ -190,7 +193,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .data(nodes.filter(function (d) { return d.id; }))
             .enter().append("g")
             .attr("class", "node")
-            .call(d3.drag()
+            .call(d3.drag<SVGElement, any>()
                 .on("start", dragstarted)
                 .on("drag", dragged)
                 .on("end", dragended));
@@ -209,7 +212,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .nodes(graph.nodes)
             .on("tick", ticked);
 
-        simulation.force("link").links(graph.links);
+        simulation.force<ForceLink<any, any>>("link").links(graph.links);
 
         function ticked() {
             link.attr("d", positionLink);

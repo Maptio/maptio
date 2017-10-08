@@ -91,7 +91,7 @@
         </div>
         <div class="form-group" [class.has-warning]="loginForm.controls['password'].invalid  && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)">
             <label for="inputPassword">Password</label>
-            <input type="password" class="form-control form-control-warning form-control-lg" formControlName="password" placeholder="e.g. ••••••••"
+            <input type="password" class="form-control form-control-warning form-control-lg" formControlName="password" placeholder="e.g. ••••••••" id="inputPassword"
                 (input)="passwordChange()">
             <small class="form-control-feedback" *ngIf="loginForm.controls['password'].invalid  && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)">
                                             Required
