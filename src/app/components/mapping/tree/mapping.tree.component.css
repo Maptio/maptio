@@ -22,9 +22,10 @@
   stroke-width: 1.5px;
 }
 
-/* .name{
-  
-} */
+.name:hover{
+  font-size:normal;
+  pointer-events: none;
+}
 
 .accountable{
   font-weight: bold;
