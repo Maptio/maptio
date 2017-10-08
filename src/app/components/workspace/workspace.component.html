@@ -18,7 +18,7 @@
 
 
 
-        <a *ngFor="let user of members | async" class="btn btn-link btn-xs no-padding" routerLink="/summary/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/u/{{user.shortid}}/{{user.getSlug()}}">
+        <a *ngFor="let user of members | async" class="btn btn-link btn-xs no-padding"  [class.deleted]="user.isDeleted" routerLink="/summary/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/u/{{user.shortid}}/{{user.getSlug()}}">
             <img *ngIf="user?.picture" class="member rounded-circle" src="{{user?.picture}}" alt="{{user?.name}}" title="{{user?.name}}"
             placement="top" container="body" ngbTooltip="{{user?.name}}">
             <img *ngIf="!user?.picture" class="member rounded-circle" src="/assets/images/user.jpg" alt="{{user?.name}}" title="{{user?.name}}"

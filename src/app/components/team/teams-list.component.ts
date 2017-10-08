@@ -7,6 +7,7 @@ import { Auth } from "../../shared/services/auth/auth.service";
 import { User } from "../../shared/model/user.data";
 import { Team } from "../../shared/model/team.data";
 import * as _ from "lodash"
+import { UserService } from "../../shared/services/user/user.service";
 
 @Component({
     selector: "teams-list",
@@ -22,7 +23,7 @@ export class TeamsListComponent implements OnInit {
     public teams$: Promise<Array<Team>>;
     public errorMessage: string;
 
-    constructor(public auth: Auth, private teamFactory: TeamFactory, private userFactory: UserFactory, private analytics: Angulartics2Mixpanel) {
+    constructor(public auth: Auth, private teamFactory: TeamFactory, private userFactory: UserFactory, private userService: UserService, private analytics: Angulartics2Mixpanel) {
         this.userSubscription = this.auth.getUser().subscribe((user: User) => {
             this.user = user;
         })
@@ -76,12 +77,11 @@ export class TeamsListComponent implements OnInit {
                     .then((teams: Array<Team>) => {
                         teams.forEach(t => {
                             if (t) {
-                                Promise.all(
-                                    t.members.map(
-                                        m => this.auth.getUserInfo(m.user_id)
-                                            .then(m => m, (reason) => { return Promise.reject(reason) })
-                                            .catch(() => { m.isDeleted = true; return m })))
-                                    .then(members => t.members = members)
+                                this.userService.getUsersInfo(t.members).then((actualMembers: User[]) => {
+                                    let allDeleted = _.differenceBy(t.members, actualMembers, m => m.user_id).map(m => { m.isDeleted = true; return m });
+                                    return actualMembers.concat(allDeleted);
+                                })
+                                    .then(members => t.members = _.sortBy(members, m => m.name))
                             }
                         })
                         return teams.filter(t => { return t !== undefined });

@@ -1,3 +1,4 @@
+import { User } from "./../../model/user.data";
 import { environment } from "./../../../../environment/environment";
 import { Http, Headers } from "@angular/http";
 import { Injectable } from "@angular/core";
@@ -5,7 +6,6 @@ import { AuthConfiguration } from "../auth/auth.config";
 import { JwtEncoder } from "../encoding/jwt.service";
 import { MailingService } from "../mailing/mailing.service";
 import { UUID } from "angular2-uuid/index";
-import { User } from "../../model/user.data";
 import { EmitterService } from "../emitter.service";
 
 @Injectable()
@@ -103,6 +103,33 @@ export class UserService {
                 })
                 .map((input: any) => {
                     return User.create().deserialize(input);
+                })
+                .toPromise()
+        });
+    }
+
+    public getUsersInfo(users: Array<User>): Promise<Array<User>> {
+        let query = users.map(u => `user_id="${u.user_id}"`).join(" OR ");
+
+
+        return this.configuration.getAccessToken().then((token: string) => {
+
+            let headers = new Headers();
+            headers.set("Authorization", "Bearer " + token);
+
+            return this.http.get(`${environment.USERS_API_URL}?q=` + encodeURIComponent(query), { headers: headers })
+                .map((responseData) => {
+                    return responseData.json();
+                })
+                .map((inputs: Array<any>) => {
+                    let result: Array<User> = [];
+                    if (inputs) {
+                        inputs.forEach((input) => {
+                            result.push(User.create().deserialize(input));
+                        });
+                    }
+                    // console.log(result)
+                    return result;
                 })
                 .toPromise()
         });
@@ -223,21 +250,6 @@ export class UserService {
                 .toPromise()
         });
     }
-
-    // public storeProfile(user_id: string): Promise<void> {
-    //     return this.lock.getAuth0ManagementToken().then((token: string) => {
-    //         let headers = new Headers();
-    //         headers.set("Authorization", "Bearer " + token);
-    //         return this.http.get("https://circlemapping.auth0.com/api/v2/users/" + user_id,
-    //             { headers: headers })
-    //             .map((responseData) => {
-    //                 localStorage.setItem("profile", JSON.stringify(responseData.json()));
-    //             })
-    //             .toPromise()
-    //             .then(r => r)
-    //             .catch(this.errorService.handleError);
-    //     });
-    // }
 
     public changePassword(email: string): void {
         this.configuration.getWebAuth().changePassword({
