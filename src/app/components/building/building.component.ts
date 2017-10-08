@@ -116,7 +116,7 @@ export class BuildingComponent {
     }
 
     filterNodes(searched: string) {
-        this.analytics.eventTrack("Search map", { search: searched })
+        this.analytics.eventTrack("Search map", { search: searched });
         if (!searched || searched === "") {
             this.tree.treeModel.clearFilter();
         }

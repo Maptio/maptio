@@ -1,3 +1,6 @@
+import { RouterTestingModule } from "@angular/router/testing";
+import { Observable } from "rxjs/Rx";
+import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 
 import { AuthHttp } from "angular2-jwt";
 import { NgbModal, NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -19,6 +22,7 @@ import { Http, BaseRequestOptions } from "@angular/http";
 import { InitiativeComponent } from "../initiative/initiative.component";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 import { Auth } from "../../shared/services/auth/auth.service";
+import { Router, NavigationStart } from "@angular/router";
 
 export class AuthStub {
 
@@ -32,13 +36,13 @@ describe("building.component.ts", () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [Ng2Bs3ModalModule, NgbModule.forRoot()],
+            imports: [Ng2Bs3ModalModule, NgbModule.forRoot(), RouterTestingModule],
             declarations: [BuildingComponent, TreeComponent, FocusIfDirective, InitiativeComponent],
             schemas: [NO_ERRORS_SCHEMA]
         }).overrideComponent(BuildingComponent, {
             set: {
-                providers: [DataService, ErrorService, TeamFactory, DatasetFactory, TreeDraggedElement,
-                    NgbModal,
+                providers: [DataService, ErrorService, TeamFactory, DatasetFactory, TreeDraggedElement, Angulartics2Mixpanel,
+                    Angulartics2, NgbModal,
                     { provide: Auth, useClass: AuthStub },
                     {
                         provide: Http,
@@ -51,6 +55,12 @@ describe("building.component.ts", () => {
                         provide: AuthHttp,
                         useFactory: authHttpServiceFactoryTesting,
                         deps: [Http, BaseRequestOptions]
+                    },
+                    {
+                        provide: Router, useClass: class {
+                            navigate = jasmine.createSpy("navigate");
+                            events = Observable.of(new NavigationStart(0, "/next"))
+                        }
                     },
                     MockBackend,
                     BaseRequestOptions]
