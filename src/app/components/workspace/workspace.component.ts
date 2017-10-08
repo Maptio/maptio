@@ -14,6 +14,7 @@ import { ActivatedRoute, Params } from "@angular/router";
 import { User } from "../../shared/model/user.data";
 import { Auth } from "../../shared/services/auth/auth.service";
 import * as _ from "lodash";
+import { UserService } from "../../shared/services/user/user.service";
 
 @Component({
     selector: "workspace",
@@ -47,7 +48,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     dragConfirmationModal: NgbModal;
 
     constructor(private auth: Auth, private route: ActivatedRoute, private datasetFactory: DatasetFactory,
-        private teamFactory: TeamFactory, private userFactory: UserFactory, private modalService: NgbModal) {
+        private teamFactory: TeamFactory, private userFactory: UserFactory, private userService: UserService, private modalService: NgbModal) {
         // this.emitterSubscription = EmitterService.get("currentInitiative").subscribe((value: Initiative) => {
         //     console.log(this.datasetId)
         //     this.datasetFactory.upsert(new DataSet({ _id: this.datasetId, initiative: value }), this.datasetId);
@@ -79,13 +80,19 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
             this.members = this.team.then((team: Team) => {
                 if (team)
-                    return Promise.all(
-                        team.members.map(u =>
-                            this.userFactory.get(u.user_id)
-                                .then(u => u, () => { return Promise.reject("No user") }).catch(() => { return <User>undefined })
-                        ))
-                        .then(members => _.compact(members))
-                        .then(members => _.sortBy(members, m => m.name))
+                    // return this.userService.getUsersInfo(team.members).then((actualMembers: User[]) => {
+                    //     let allDeleted = _.differenceBy(team.members, actualMembers, m => m.user_id).map(m => { m.isDeleted = true; return m });
+                    //     return actualMembers.concat(allDeleted);
+                    // })
+                    //     .then(members => _.sortBy(members, m => m.name))
+
+                return Promise.all(
+                    team.members.map(u =>
+                        this.userFactory.get(u.user_id)
+                            .then(u => u, () => { return Promise.reject("No user") }).catch(() => { return <User>undefined })
+                    ))
+                    .then(members => _.compact(members))
+                    .then(members => _.sortBy(members, m => m.name))
 
             });
 
@@ -136,7 +143,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.updateTeamMembers();
             }
         })
-        .catch(reason => { });
+            .catch(reason => { });
 
 
 
@@ -180,13 +187,13 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     openDetails(node: Initiative) {
         Promise.all([this.dataset$, this.team])
             .then((result: [DataSet, Team]) => {
-                console.log("here")
+                // console.log("here")
                 let dataset = result[0]
                 let team = result[1];
                 this.openedNodeParent = node.getParent(dataset.initiative);
                 this.openedNode = node;
                 // this.openedNodeTeamId = node.team_id;
-                console.log(this.openedNode, this.openedNodeParent, this.openedNodeTeamId);
+                // console.log(this.openedNode, this.openedNodeParent, this.openedNodeTeamId);
 
             })
             .then(() => {

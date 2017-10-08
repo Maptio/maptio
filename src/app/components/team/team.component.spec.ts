@@ -95,11 +95,10 @@ describe("team.component.ts", () => {
         it("should retrieve members information ", async(() => {
             component.team$ = Promise.resolve(new Team({ team_id: "ID", name: "My team", members: [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })] }))
 
-            let spyGetUser = spyOn(target.debugElement.injector.get(UserFactory), "get").and.callFake((id: string) => {
-                return Promise.resolve(new User({
-                    user_id: id, name: `User ${id}`
-                }))
+            let spyGetUser = spyOn(target.debugElement.injector.get(UserService), "getUsersInfo").and.returnValue((users: User[]) => {
+                return Promise.resolve(users)
             })
+
             let spyGetInvitationSent = spyOn(target.debugElement.injector.get(UserService), "isInvitationSent").and.returnValue(Promise.resolve(true))
             let spyActivationPending = spyOn(target.debugElement.injector.get(UserService), "isActivationPendingByUserId").and.returnValue(Promise.resolve(true))
 
@@ -120,8 +119,10 @@ describe("team.component.ts", () => {
                     ? Promise.resolve(new User({ user_id: id, name: `User ${id}` }))
                     : Promise.reject("Can't find user")
             })
-            let spyGetInvitationSent = spyOn(target.debugElement.injector.get(UserService), "isInvitationSent").and.returnValue(Promise.resolve(true))
-            let spyActivationPending = spyOn(target.debugElement.injector.get(UserService), "isActivationPendingByUserId").and.returnValue(Promise.resolve(true))
+
+
+            // let spyGetInvitationSent = spyOn(target.debugElement.injector.get(UserService), "isInvitationSent").and.returnValue(Promise.resolve(true))
+            // let spyActivationPending = spyOn(target.debugElement.injector.get(UserService), "isActivationPendingByUserId").and.returnValue(Promise.resolve(true))
 
             component.getAllMembers().then(members => {
                 expect(members.length).toBe(2);
@@ -135,13 +136,12 @@ describe("team.component.ts", () => {
         it("should retrieve members information when invitation status fails ", async(() => {
             component.team$ = Promise.resolve(new Team({ team_id: "ID", name: "My team", members: [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })] }))
 
-            let spyGetUser = spyOn(target.debugElement.injector.get(UserFactory), "get").and.callFake((id: string) => {
-                return Promise.resolve(new User({
-                    user_id: id, name: `User ${id}`
-                }))
+            let spyGetUser = spyOn(target.debugElement.injector.get(UserService), "getUsersInfo").and.returnValue((users: User[]) => {
+                return Promise.resolve(users.map(u => { u.isInvitationSent = false; return u }))
             })
-            let spyGetInvitationSent = spyOn(target.debugElement.injector.get(UserService), "isInvitationSent").and.returnValue(Promise.reject("Cant find user"))
-            let spyActivationPending = spyOn(target.debugElement.injector.get(UserService), "isActivationPendingByUserId").and.returnValue(Promise.resolve(true))
+
+            // let spyGetInvitationSent = spyOn(target.debugElement.injector.get(UserService), "isInvitationSent").and.returnValue(Promise.reject("Cant find user"))
+            // let spyActivationPending = spyOn(target.debugElement.injector.get(UserService), "isActivationPendingByUserId").and.returnValue(Promise.resolve(true))
 
             component.getAllMembers().then(members => {
                 expect(members.length).toBe(3);
@@ -155,13 +155,11 @@ describe("team.component.ts", () => {
         it("should retrieve members information when activation pending status fails ", async(() => {
             component.team$ = Promise.resolve(new Team({ team_id: "ID", name: "My team", members: [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })] }))
 
-            let spyGetUser = spyOn(target.debugElement.injector.get(UserFactory), "get").and.callFake((id: string) => {
-                return Promise.resolve(new User({
-                    user_id: id, name: `User ${id}`
-                }))
+            let spyGetUser = spyOn(target.debugElement.injector.get(UserService), "getUsersInfo").and.returnValue((users: User[]) => {
+                return Promise.resolve(users.map(u => { u.isActivationPending = false; return u }))
             })
-            let spyGetInvitationSent = spyOn(target.debugElement.injector.get(UserService), "isActivationPendingByUserId").and.returnValue(Promise.reject("Cant find user"))
-            let spyActivationPending = spyOn(target.debugElement.injector.get(UserService), "isInvitationSent").and.returnValue(Promise.resolve(true))
+            // let spyGetInvitationSent = spyOn(target.debugElement.injector.get(UserService), "isActivationPendingByUserId").and.returnValue(Promise.reject("Cant find user"))
+            // let spyActivationPending = spyOn(target.debugElement.injector.get(UserService), "isInvitationSent").and.returnValue(Promise.resolve(true))
 
             component.getAllMembers().then(members => {
                 expect(members.length).toBe(3);

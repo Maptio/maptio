@@ -63,7 +63,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         let d3 = this.d3;
         let CIRCLE_RADIUS: number = 15;
         let graph = this.prepare(data);
-        console.log(graph)
+        // console.log(graph)
 
 
         let svg = d3.select("svg"),
@@ -177,7 +177,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             bilinks.push([s, i, t]);
         });
 
-        console.log(links)
+        // console.log(links)
 
         link = g.append("g")
             .attr("class", "links")
