@@ -78,7 +78,7 @@ export class User implements Serializable<User> {
     }
 
     deserialize(input: any): User {
-        
+
         if (!input.user_id) {
             return undefined;
         }

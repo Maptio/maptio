@@ -23,7 +23,7 @@
 }
 
 .name:hover{
-  font-size:normal;
+  font-size:initial;
   pointer-events: none;
 }
 
