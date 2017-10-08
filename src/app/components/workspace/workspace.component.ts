@@ -80,19 +80,19 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
             this.members = this.team.then((team: Team) => {
                 if (team)
-                    return this.userService.getUsersInfo(team.members).then((actualMembers: User[]) => {
-                        let allDeleted = _.differenceBy(team.members, actualMembers, m => m.user_id).map(m => { m.isDeleted = true; return m });
-                        return actualMembers.concat(allDeleted);
-                    })
-                        .then(members => _.sortBy(members, m => m.name))
+                    // return this.userService.getUsersInfo(team.members).then((actualMembers: User[]) => {
+                    //     let allDeleted = _.differenceBy(team.members, actualMembers, m => m.user_id).map(m => { m.isDeleted = true; return m });
+                    //     return actualMembers.concat(allDeleted);
+                    // })
+                    //     .then(members => _.sortBy(members, m => m.name))
 
-                // return Promise.all(
-                //     team.members.map(u =>
-                //         this.userFactory.get(u.user_id)
-                //             .then(u => u, () => { return Promise.reject("No user") }).catch(() => { return <User>undefined })
-                //     ))
-                //     .then(members => _.compact(members))
-                //     .then(members => _.sortBy(members, m => m.name))
+                return Promise.all(
+                    team.members.map(u =>
+                        this.userFactory.get(u.user_id)
+                            .then(u => u, () => { return Promise.reject("No user") }).catch(() => { return <User>undefined })
+                    ))
+                    .then(members => _.compact(members))
+                    .then(members => _.sortBy(members, m => m.name))
 
             });
 
