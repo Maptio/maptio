@@ -79,6 +79,7 @@ import { TeamsListComponent } from "./components/team/teams-list.component";
 import { authHttpServiceFactory } from "./shared/services/auth/auth.module";
 import { ChangePasswordComponent } from "./components/login/change-password.component";
 import { AnAnchorableComponent } from "../test/specs/shared/component.helper.shared";
+import { MappingNetworkComponent } from "./components/mapping/network/mapping.network.component";
 
 // Routes
 const appRoutes: Routes = [
@@ -109,7 +110,7 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent, TeamComponent,
-    MappingComponent, MappingCirclesComponent, MappingTreeComponent, MemberSummaryComponent, TooltipComponent,
+    MappingComponent, MappingCirclesComponent, MappingTreeComponent, MemberSummaryComponent, MappingNetworkComponent, TooltipComponent,
     BuildingComponent, InitiativeNodeComponent, LoginComponent, HomeComponent, UnauthorizedComponent, NotFoundComponent,
     InitiativeComponent, ChangePasswordComponent, LoaderComponent, TeamsListComponent, SignupComponent,
     FocusIfDirective,

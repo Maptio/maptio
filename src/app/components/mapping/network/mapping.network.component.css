@@ -1,0 +1,28 @@
+#zoom-layer:active{
+    cursor: move;
+}
+
+.links line {
+  stroke: #999;
+  stroke-opacity: 0.6;
+}
+
+.nodes circle {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+.nodes text{
+    stroke:black;
+    font:10px;
+}
+
+.nodes circle.picked {
+    stroke: #202020;
+    stroke-width: 3px;
+    stroke-opacity: .6;
+}
+.link {
+    fill: none;
+    stroke: #bbb;
+  }

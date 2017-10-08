@@ -1,3 +1,4 @@
+import { MappingNetworkComponent } from "./network/mapping.network.component";
 import { Angulartics2Mixpanel } from "angulartics2";
 
 import { ActivatedRoute, Params } from "@angular/router";
@@ -25,7 +26,7 @@ import { Initiative } from "../../shared/model/initiative.data";
     selector: "mapping",
     templateUrl: "./mapping.component.html",
     styleUrls: ["./mapping.component.css"],
-    entryComponents: [MappingCirclesComponent, MappingTreeComponent],
+    entryComponents: [MappingCirclesComponent, MappingTreeComponent, MappingNetworkComponent],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
@@ -87,6 +88,9 @@ export class MappingComponent implements OnInit {
                     break;
                 case "people": // Views.Tree:
                     this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(MappingTreeComponent)
+                    break;
+                case "network": // Views.Tree:
+                    this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(MappingNetworkComponent)
                     break;
                 default: // by default , the initiatives view is displayed
                     this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent)
