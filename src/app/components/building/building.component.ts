@@ -1,3 +1,4 @@
+import { Angulartics2, Angulartics2Mixpanel } from "angulartics2";
 import { EventEmitter } from "@angular/core";
 import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { DataSet } from "./../../shared/model/dataset.data";
@@ -63,7 +64,7 @@ export class BuildingComponent {
     @Output("save") save = new EventEmitter<Initiative>();
     @Output("openDetails") openDetails = new EventEmitter<Initiative>();
 
-    constructor(private dataService: DataService, private datasetFactory: DatasetFactory, private modalService: NgbModal) {
+    constructor(private dataService: DataService, private datasetFactory: DatasetFactory, private modalService: NgbModal, private analytics: Angulartics2Mixpanel) {
         this.nodes = [];
     }
 
@@ -115,7 +116,7 @@ export class BuildingComponent {
     }
 
     filterNodes(searched: string) {
-
+        this.analytics.eventTrack("Search map", { search: searched })
         if (!searched || searched === "") {
             this.tree.treeModel.clearFilter();
         }
