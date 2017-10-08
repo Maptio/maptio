@@ -31,7 +31,7 @@ inpu, textarea{
   max-height: 71vh;
   top: -323%;
   left: 13%;
-  overflow-y: auto;
+  /* overflow-y: auto; */
 }
 
 
