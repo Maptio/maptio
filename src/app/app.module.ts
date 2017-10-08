@@ -54,7 +54,6 @@ import { UnauthorizedComponent } from "./components/unauthorized/unauthorized.co
 import { NotFoundComponent } from "./components/unauthorized/not-found.component";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { SignupComponent } from "./components/login/signup.component";
-import { LoaderComponent } from "./shared/services/loading/loader.component";
 
 // Analytics
 import { Angulartics2Mixpanel, Angulartics2Module } from "angulartics2";
@@ -80,6 +79,7 @@ import { authHttpServiceFactory } from "./shared/services/auth/auth.module";
 import { ChangePasswordComponent } from "./components/login/change-password.component";
 import { AnAnchorableComponent } from "../test/specs/shared/component.helper.shared";
 import { MappingNetworkComponent } from "./components/mapping/network/mapping.network.component";
+import { LoaderComponent } from "./components/loading/loader.component";
 
 // Routes
 const appRoutes: Routes = [

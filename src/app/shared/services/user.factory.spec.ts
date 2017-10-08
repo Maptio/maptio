@@ -106,6 +106,72 @@ describe("user.factory.ts", () => {
         })));
     });
 
+    describe("getUsers", () => {
+        it("should be rejected when no parameters", async(inject([UserFactory, MockBackend], (target: UserFactory, mockBackend: MockBackend) => {
+
+            let mockUser = jasmine.createSpyObj("User", ["deserialize"]);
+            let spyCreate = spyOn(User, "create").and.returnValue(mockUser);
+            let spyDeserialize = mockUser.deserialize.and.returnValue(new User({ name: "Deserialized" }));
+
+            const mockResponse = [
+                { id: 1, uniqueId: "uniqueId1", name: "First", email: "first@domain.com", picture: "http://seemyface/user.jpg" },
+                { id: 2, uniqueId: "uniqueId2", name: "Second", email: "second@domain.com" },
+                { id: 3, uniqueId: "uniqueId3", name: "Third" },
+                { id: 3, uniqueId: "uniqueId4" }
+            ];
+
+            mockBackend.connections.subscribe((connection: MockConnection) => {
+                if (connection.request.url === "/api/v1/user/in") {
+                    connection.mockRespond(new Response(new ResponseOptions({
+                        body: JSON.stringify(mockResponse)
+                    })));
+                }
+                else {
+                    throw new Error(connection.request.url + " is not setup.");
+                }
+            });
+
+            target.getUsers([]).then(users => {
+            }).catch((reason) => {
+                expect(reason).toBe("You cannot make a search for all users !")
+            });
+        })));
+
+        it("should call correct REST API endpoint when pattern search parameter", async(inject([UserFactory, MockBackend], (target: UserFactory, mockBackend: MockBackend) => {
+
+            let mockUser = jasmine.createSpyObj("User", ["deserialize"]);
+            let spyCreate = spyOn(User, "create").and.returnValue(mockUser);
+            let spyDeserialize = mockUser.deserialize.and.returnValue(new User({ name: "Deserialized" }));
+
+            const mockResponse = [
+                { id: 1, uniqueId: "uniqueId1", name: "First", email: "first@domain.com", picture: "http://seemyface/user.jpg" },
+                { id: 2, uniqueId: "uniqueId2", name: "Second", email: "second@domain.com" },
+                { id: 3, uniqueId: "uniqueId3", name: "Third" },
+                { id: 3, uniqueId: "uniqueId4" }
+            ];
+
+            mockBackend.connections.subscribe((connection: MockConnection) => {
+                if (connection.request.url === "/api/v1/user/in/1,2,3,4") {
+                    connection.mockRespond(new Response(new ResponseOptions({
+                        body: JSON.stringify(mockResponse)
+                    })));
+                }
+                else {
+                    throw new Error(connection.request.url + " is not setup.");
+                }
+            });
+
+            target.getUsers(["1", "2", "3", "4"]).then(users => {
+                expect(spyCreate).toHaveBeenCalled()
+                expect(spyDeserialize).toHaveBeenCalled();
+                expect(users.length).toBe(4);
+                users.forEach(function (element) {
+                    expect(element).toEqual(jasmine.any(User));
+                })
+            });
+        })));
+    });
+
     describe("get", () => {
         it("should call correct REST API endpoint", fakeAsync(inject([UserFactory, MockBackend], (target: UserFactory, mockBackend: MockBackend) => {
             let mockUser = jasmine.createSpyObj("User", ["deserialize"]);

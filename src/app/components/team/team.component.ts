@@ -84,10 +84,11 @@ export class TeamComponent implements OnDestroy {
     getAllMembers() {
 
         return this.team$.then((team: Team) => {
-            return Promise.all(
-                team.members.map(user => this.userFactory.get(user.user_id)
-                    .then(u => u, () => { return Promise.reject("No User") })
-                    .catch(() => { return <User>undefined })))
+            // return Promise.all(
+            //     team.members.map(user => this.userFactory.get(user.user_id)
+            //         .then(u => u, () => { return Promise.reject("No User") })
+            //         .catch(() => { return <User>undefined })))
+            return this.userFactory.getUsers(team.members.map(m => m.user_id))
                 .then(members => _.compact(members))
                 .then((members: User[]) => {
                     return this.userService.getUsersInfo(members)

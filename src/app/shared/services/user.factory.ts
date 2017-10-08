@@ -39,6 +39,26 @@ export class UserFactory {
 
     }
 
+    getUsers(usersId: string[]): Promise<User[]> {
+        if (!usersId || usersId.length === 0) {
+            return Promise.reject("You cannot make a search for all users !")
+        }
+        return this.http.get("/api/v1/user/in/" + usersId.join(","))
+            .map((responseData) => {
+                return responseData.json();
+            })
+            .map((inputs: Array<any>) => {
+                let result: Array<User> = [];
+                if (inputs) {
+                    inputs.forEach((input) => {
+                        result.push(User.create().deserialize(input));
+                    });
+                }
+                return result;
+            })
+            .toPromise()
+    }
+
     /** Gets a user using its uniquerId
      *  Returns undefined if no user is found
      */
