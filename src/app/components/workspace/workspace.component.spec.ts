@@ -1,3 +1,5 @@
+import { RouterTestingModule } from "@angular/router/testing";
+import { Angulartics2, Angulartics2Mixpanel } from "angulartics2";
 import { AuthModule, authHttpServiceFactory } from "./../../shared/services/auth/auth.module";
 import { encodeTestToken } from "angular2-jwt/angular2-jwt-test-helpers";
 import { AuthConfig, tokenNotExpired } from "angular2-jwt";
@@ -64,12 +66,12 @@ describe("workspace.component.ts", () => {
 
 
         TestBed.configureTestingModule({
-            imports: [NgbModule.forRoot()],
+            imports: [NgbModule.forRoot(), RouterTestingModule],
             declarations: [WorkspaceComponent, BuildingComponent],
             schemas: [NO_ERRORS_SCHEMA]
         }).overrideComponent(WorkspaceComponent, {
             set: {
-                providers: [DataService, DatasetFactory, UserFactory, TeamFactory,
+                providers: [DataService, DatasetFactory, UserFactory, TeamFactory, Angulartics2, Angulartics2Mixpanel,
                     {
                         provide: AuthHttp,
                         useFactory: authHttpServiceFactoryTesting,
