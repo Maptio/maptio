@@ -1,3 +1,5 @@
+import { MailingService } from "./../../shared/services/mailing/mailing.service";
+import { AuthConfiguration } from "./../../shared/services/auth/auth.config";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Angulartics2, Angulartics2Mixpanel } from "angulartics2";
 import { AuthModule, authHttpServiceFactory } from "./../../shared/services/auth/auth.module";
@@ -30,6 +32,8 @@ import { User } from "../../shared/model/user.data";
 import { Auth } from "../../shared/services/auth/auth.service";
 import { AuthHttpInterceptor } from "../../shared/services/auth/authHttpInterceptor";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
+import { UserService } from "../../shared/services/user/user.service";
+import { JwtEncoder } from "../../shared/services/encoding/jwt.service";
 
 
 export class AuthStub {
@@ -71,7 +75,7 @@ describe("workspace.component.ts", () => {
             schemas: [NO_ERRORS_SCHEMA]
         }).overrideComponent(WorkspaceComponent, {
             set: {
-                providers: [DataService, DatasetFactory, UserFactory, TeamFactory, Angulartics2, Angulartics2Mixpanel,
+                providers: [DataService, DatasetFactory, UserService, AuthConfiguration, JwtEncoder, MailingService, UserFactory, TeamFactory, Angulartics2, Angulartics2Mixpanel,
                     {
                         provide: AuthHttp,
                         useFactory: authHttpServiceFactoryTesting,
@@ -232,12 +236,12 @@ describe("workspace.component.ts", () => {
                 // let spy = spyOn(component.buildingComponent, "loadData");
                 let mockRoute: ActivatedRoute = target.debugElement.injector.get(ActivatedRoute);
                 let mockDataSetFactory = target.debugElement.injector.get(DatasetFactory);
-                let mockUserFactory = target.debugElement.injector.get(UserFactory);
+                let mockUserService = target.debugElement.injector.get(UserService);
                 let spyGetDataset = spyOn(mockDataSetFactory, "get").and.returnValue(Promise.resolve(new DataSet({ _id: "123", initiative: new Initiative({ team_id: "team_id" }) })));
 
                 let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
                 let spyGetTeam = spyOn(mockTeamFactory, "get").and.returnValue(Promise.resolve(new Team({ team_id: "team_id", name: "Winners", members: [new User({ user_id: "1" })] })))
-                let spyGetUser = spyOn(mockUserFactory, "get").and.returnValue(Promise.resolve(new User({ user_id: "id" })));
+                let spyGetUser = spyOn(mockUserService, "getUsersInfo").and.returnValue(Promise.resolve([new User({ user_id: "1" })]));
 
                 component.ngOnInit();
 
@@ -251,7 +255,7 @@ describe("workspace.component.ts", () => {
                         component.team.then((r) => {
                             expect(r).toEqual(new Team({ team_id: "team_id", name: "Winners", members: [new User({ user_id: "1" })] }))
                             expect(spyGetUser).toHaveBeenCalledTimes(1);
-                            expect(spyGetUser).toHaveBeenCalledWith("1")
+                            expect(spyGetUser).toHaveBeenCalledWith([jasmine.objectContaining({ user_id: "1" })])
                         })
                     })
                 });
@@ -263,11 +267,11 @@ describe("workspace.component.ts", () => {
                 // let spy = spyOn(component.buildingComponent, "loadData");
                 let mockRoute: ActivatedRoute = target.debugElement.injector.get(ActivatedRoute);
                 let mockDataSetFactory = target.debugElement.injector.get(DatasetFactory);
-                let mockUserFactory = target.debugElement.injector.get(UserFactory);
+                let mockUserService = target.debugElement.injector.get(UserService);
                 let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
 
                 let spyGetDataset = spyOn(mockDataSetFactory, "get").and.returnValue(Promise.resolve(new DataSet({ _id: "123", initiative: new Initiative({ team_id: "team_id" }) })));
-                let spyGetUser = spyOn(mockUserFactory, "get").and.returnValue(Promise.resolve(new User({ user_id: "id" })));
+                let spyGetUser = spyOn(mockUserService, "getUsersInfo").and.returnValue(Promise.resolve([new User({ user_id: "1" })]));
                 let spyGetTeam = spyOn(mockTeamFactory, "get").and.returnValue(Promise.resolve(new Team({ members: [new User({ user_id: "1" })] })));
 
                 component.ngOnInit();
@@ -283,7 +287,7 @@ describe("workspace.component.ts", () => {
                         component.team.then((r) => {
                             // expect(r).toEqual(new Team({ team_id: "team_id", name: "Winners", members: [new User({ user_id: "1" })] }))
                             expect(spyGetUser).toHaveBeenCalledTimes(1);
-                            expect(spyGetUser).toHaveBeenCalledWith("1");
+                            expect(spyGetUser).toHaveBeenCalledWith([jasmine.objectContaining({ isActivationPending: false, isInvitationSent: false, isDeleted: false, user_id: "1" })]);
                             component.members.then((members) => {
                                 expect(members.length).toBe(1)
                             })
