@@ -187,13 +187,13 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     openDetails(node: Initiative) {
         Promise.all([this.dataset$, this.team])
             .then((result: [DataSet, Team]) => {
-                console.log("here")
+                // console.log("here")
                 let dataset = result[0]
                 let team = result[1];
                 this.openedNodeParent = node.getParent(dataset.initiative);
                 this.openedNode = node;
                 // this.openedNodeTeamId = node.team_id;
-                console.log(this.openedNode, this.openedNodeParent, this.openedNodeTeamId);
+                // console.log(this.openedNode, this.openedNodeParent, this.openedNodeTeamId);
 
             })
             .then(() => {

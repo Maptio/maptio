@@ -84,7 +84,6 @@ export class TeamComponent implements OnDestroy {
     getAllMembers() {
 
         return this.team$.then((team: Team) => {
-            team.members.forEach(m => { console.log(m.user_id) })
             return Promise.all(
                 team.members.map(user => this.userFactory.get(user.user_id)
                     .then(u => u, () => { return Promise.reject("No User") })

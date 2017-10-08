@@ -128,7 +128,7 @@ export class UserService {
                             result.push(User.create().deserialize(input));
                         });
                     }
-                    console.log(result)
+                    // console.log(result)
                     return result;
                 })
                 .toPromise()
