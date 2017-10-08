@@ -84,17 +84,17 @@ export class TeamComponent implements OnDestroy {
     getAllMembers() {
 
         return this.team$.then((team: Team) => {
+            team.members.forEach(m => { console.log(m.user_id) })
             return Promise.all(
-                team.members.map(user => this.userFactory.get(user.user_id).then(u => u, () => { return Promise.reject("No User") }).catch(() => { return <User>undefined })))
+                team.members.map(user => this.userFactory.get(user.user_id)
+                    .then(u => u, () => { return Promise.reject("No User") })
+                    .catch(() => { return <User>undefined })))
                 .then(members => _.compact(members))
                 .then((members: User[]) => {
-                    return members
-                        .map(m => {
-                            this.userService.isActivationPendingByUserId(m.user_id).then(is => { m.isActivationPending = is },
-                                (reason) => { m.isDeleted = true });
-                            this.userService.isInvitationSent(m.user_id).then(is => m.isInvitationSent = is,
-                                (reason) => { m.isDeleted = true });
-                            return m;
+                    return this.userService.getUsersInfo(members)
+                        .then((membersPending: User[]) => {
+                            let allDeleted = _.differenceBy(members, membersPending, m => m.user_id).map(m => { m.isDeleted = true; return m });
+                            return membersPending.concat(allDeleted);
                         })
                 })
                 .then(members => _.sortBy(members, m => m.name))
@@ -247,7 +247,7 @@ export class TeamComponent implements OnDestroy {
             .debounceTime(500)
             .distinctUntilChanged()
             .filter(text => this.isEmail(text))
-            .do(() => { this.searching = true; this.isAlreadyInTeam = false; this.inviteForm.reset()})
+            .do(() => { this.searching = true; this.isAlreadyInTeam = false; this.inviteForm.reset() })
             .switchMap(term =>
                 Observable.fromPromise(
 
