@@ -58,11 +58,7 @@ export class InitiativeComponent implements OnChanges {
 
                 this.members$ = this.team$
                     .then((team: Team) => {
-                        return Promise.all(
-                            team.members.map(u => this.userFactory.get(u.user_id)
-                                .then(u => u, () => { return Promise.reject("No user") })
-                                .catch(() => { return <User>undefined })
-                            ))
+                        return this.userFactory.getUsers(team.members.map(m => m.user_id))
                             .then(members => _.compact(members))
                             .then(members => _.sortBy(members, m => m.name))
                     })

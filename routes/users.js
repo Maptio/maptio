@@ -6,15 +6,15 @@ var db = mongojs(process.env.MONGODB_URI, ['users']);
 
 /* GET All users */
 
-router.get('/all', function (req, res, next) {
-    db.users.find(function (err, users) {
-        if (err) {
-            res.send(err);
-        } else {
-            res.json(users);
-        }
-    });
-});
+// router.get('/all', function (req, res, next) {
+//     db.users.find(function (err, users) {
+//         if (err) {
+//             res.send(err);
+//         } else {
+//             res.json(users);
+//         }
+//     });
+// });
 
 router.get('/all/:pattern', function (req, res, next) {
     let pattern = req.params.pattern;
@@ -30,6 +30,19 @@ router.get('/all/:pattern', function (req, res, next) {
             }
         });
 });
+
+router.get('/in/:query', function (req, res, next) {
+    let users_id = req.params.query.split(',');
+    db.users.find(
+        { user_id: { $in: users_id } }
+        , function (err, users) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.json(users);
+            }
+        });
+})
 
 /* GET One user with the provided ID */
 router.get('/:id', function (req, res, next) {
