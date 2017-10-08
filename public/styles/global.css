@@ -28,7 +28,7 @@ body{
 
 .tree {
   width: 100%;
-  max-height: 71vh;
+  max-height: 65vh;
   overflow-y: auto;
 }
 
