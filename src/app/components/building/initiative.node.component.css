@@ -83,3 +83,7 @@ display: flex;
 .control > a:hover {
     color: black;
 }
+
+.form-group{
+    padding-left:5px;
+}

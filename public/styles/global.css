@@ -16,7 +16,24 @@ body{
 
 
 .toggle-children {
+  top: 11px !important;
   background-image: none !important;
+  transform: rotate(0deg) !important; 
+  width:6px!important;
+}
+
+.toggle-children:before {
+  color: #0275D8;
+  transform: rotate(0deg) !important; 
+  font-family: FontAwesome;
+  font-size:17px;
+}
+.toggle-children-wrapper-expanded .toggle-children:before {
+  content: "\F056";
+}
+
+.toggle-children-wrapper-collapsed .toggle-children:before {
+  content: "\F055";
 }
 
 .node-content-wrapper {
@@ -24,6 +41,7 @@ body{
   position: relative;
   width: 100%;
   padding: 2px 0px !important;
+  margin-left: 0.5vw;
 }
 
 .tree {
