@@ -39,6 +39,8 @@ export class TeamComponent implements OnDestroy {
     public isAlreadyInTeam: boolean = false;
     public errorMessage: string;
 
+    public isLoading: boolean;
+
     public inviteForm: FormGroup;
 
     private EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -82,7 +84,7 @@ export class TeamComponent implements OnDestroy {
     }
 
     getAllMembers() {
-
+        this.isLoading = true;
         return this.team$.then((team: Team) => {
             // return Promise.all(
             //     team.members.map(user => this.userFactory.get(user.user_id)
@@ -97,7 +99,7 @@ export class TeamComponent implements OnDestroy {
                             return membersPending.concat(allDeleted);
                         })
                 })
-                .then(members => _.sortBy(members, m => m.name))
+                .then(members => { this.isLoading = false; return _.sortBy(members, m => m.name) })
         });
     }
 

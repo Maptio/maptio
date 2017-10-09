@@ -34,9 +34,12 @@ export class MemberSummaryComponent implements OnInit {
     public initiative: Initiative;
     authorities: Array<Initiative> = [];
     helps: Array<Initiative> = [];
+    public isLoading: boolean;
 
     constructor(public auth: Auth, public route: ActivatedRoute, public datasetFactory: DatasetFactory, public userFactory: UserFactory, public teamFactory: TeamFactory) {
+
         this.route.params.subscribe((params: Params) => {
+            this.isLoading = true;
             this.memberShortId = params["usershortid"];
             this.datasetId = params["mapid"];
             this.member$ = this.userFactory.get(this.memberShortId).then((user: User) => {
@@ -48,6 +51,7 @@ export class MemberSummaryComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.isLoading = true;
         this.routeSubscription = this.route.params.subscribe((params: Params) => {
             this.authorities = [];
             this.helps = [];
@@ -112,6 +116,7 @@ export class MemberSummaryComponent implements OnInit {
                     return authoritiesAndHelps.dataset;
                 })
                 .then((d: DataSet) => {
+                    this.isLoading = false;
                     this.team$ = this.teamFactory.get(d.initiative.team_id)
                 })
         }
