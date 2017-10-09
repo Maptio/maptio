@@ -18,10 +18,12 @@ export class DashboardComponent {
 
     public datasets$: Promise<Array<DataSet>>;
     public subscription: Subscription;
+    public isLoading: boolean;
 
     constructor(public auth: Auth, public datasetFactory: DatasetFactory, public teamFactory: TeamFactory, public errorService: ErrorService) {
-
+        this.isLoading = true;
         this.subscription = this.auth.getUser().subscribe((user: User) => {
+
             this.datasets$ = Promise
                 .all(user.datasets.map(did => this.datasetFactory.get(did)
                     .then(d => d, () => { return Promise.reject("No dataset") }).catch(() => { return <DataSet>undefined }
@@ -34,9 +36,13 @@ export class DashboardComponent {
                         return d;
                     })
                 })
-                .then(datasets => _.sortBy(datasets, d => d.initiative.name))
+                .then(datasets => { this.isLoading = false; return _.sortBy(datasets, d => d.initiative.name) })
         },
             (error: any) => { this.errorService.handleError(error) });
+    }
+
+    ngAfterViewInit() {
+        console.log("here")
     }
 
     ngOnDestroy() {
