@@ -99,7 +99,7 @@ export class Auth {
                 this.userFactory.get(JSON.parse(profileString).user_id)])
                 .then(([auth0User, databaseUser]: [User, User]) => {
                     let user = auth0User;
-                    user.teams = _.uniq(databaseUser.teams); // HACK : where does the duplication comes from? 
+                    user.teams = _.uniq(databaseUser.teams); // HACK : where does the duplication comes from?
                     user.shortid = databaseUser.shortid;
                     return user
                 })
