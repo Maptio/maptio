@@ -1,6 +1,6 @@
 <div class="col-lg-8 mt-3 ">
     <h1>My teams</h1>
-
+    
     <div class="alert alert-danger" role="alert" *ngIf="errorMessage">
         {{errorMessage}}
     </div>
@@ -14,6 +14,7 @@
         </div>
     </div>
 
+    <div *ngIf="isLoading">Loading...</div>
     <div class="overflow">
 
         <div class="card mb-3 " *ngFor="let team of (teams$ | async);trackBy:trackByTeamId">

@@ -6,7 +6,7 @@
     <h5><span class="text-muted ml-5">Team </span><a routerLink="/team/{{(team$ | async)?.team_id}}/{{(team$ | async)?.getSlug()}}">{{(team$ | async)?.name}}</a>        </h5>
 
 </div>
-
+<div *ngIf="isLoading">Loading...</div>
 <div class="row">
     <div class="col-6">
         <div class="card borderless">

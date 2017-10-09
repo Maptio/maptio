@@ -22,8 +22,10 @@ export class TeamsListComponent implements OnInit {
     public userSubscription: Subscription;
     public teams$: Promise<Array<Team>>;
     public errorMessage: string;
+    public isLoading: boolean;
 
     constructor(public auth: Auth, private teamFactory: TeamFactory, private userFactory: UserFactory, private userService: UserService, private analytics: Angulartics2Mixpanel) {
+        this.isLoading = true;
         this.userSubscription = this.auth.getUser().subscribe((user: User) => {
             this.user = user;
         })
@@ -66,6 +68,7 @@ export class TeamsListComponent implements OnInit {
 
 
     getTeams() {
+        this.isLoading = true;
         this.userSubscription2 = this.auth.getUser().subscribe(
             (user: User) => {
 
@@ -86,7 +89,7 @@ export class TeamsListComponent implements OnInit {
                         })
                         return teams.filter(t => { return t !== undefined });
                     })
-                    .then(teams => _.sortBy(teams, t => t.name))
+                    .then(teams => { this.isLoading = false; return _.sortBy(teams, t => t.name) })
             })
     }
 
