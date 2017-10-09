@@ -196,17 +196,19 @@
 
 .toggle {
     padding: 0;
-    margin-left: 4px;
+    padding: 3vh;
+    margin: -3vh;
+
 }
 
 .toggle.showTree {
-    margin-left: 42vw;
+    margin-left: 40vw;
     transition: 0.5s;
 }
 
 .toggle.showDetails {
-    margin-left: 42vw;
     transition: 0.5s;
+    margin-left:40vw;
 }
 
 .toggle:hover{
