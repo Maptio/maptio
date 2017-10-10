@@ -73,7 +73,7 @@ export class HeaderComponent implements OnInit {
                 .then(datasets => _.sortBy(datasets, d => d.name))
 
             this.teams$ = Promise.all(
-                [].map(tid => this.teamFactory.get(tid).then(t => t, () => { return Promise.reject("No team") }).catch(() => { return <Team>undefined }))
+                this.user.teams.map(tid => this.teamFactory.get(tid).then(t => t, () => { return Promise.reject("No team") }).catch(() => { return <Team>undefined }))
             )
                 .then(teams => _.compact(teams))
                 .then(teams => _.sortBy(teams, t => t.name))

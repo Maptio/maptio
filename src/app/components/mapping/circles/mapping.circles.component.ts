@@ -1,3 +1,4 @@
+import { Router } from "@angular/router";
 import { Subscription } from "rxjs/Subscription";
 import { Observable } from "rxjs/Observable";
 import { Component, OnInit, Input, ViewEncapsulation } from "@angular/core";
@@ -5,6 +6,7 @@ import { D3Service, D3, HierarchyCircularNode } from "d3-ng2-service";
 import { ColorService } from "../../../shared/services/ui/color.service"
 import { UIService } from "../../../shared/services/ui/ui.service"
 import { IDataVisualizer } from "../mapping.interface"
+import { UserFactory } from "../../../shared/services/user.factory";
 
 @Component({
     selector: "circles",
@@ -29,7 +31,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
 
     private zoomSubscription: Subscription;
 
-    constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService) {
+    constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService, public router: Router, private userFactory: UserFactory) {
         this.d3 = d3Service.getD3();
     }
 
@@ -53,13 +55,17 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
         let fontSize$ = this.fontSize$;
         let marginSize = this.margin
         let datasetId = this.datasetId;
-        // let margin = this.margin;
+        let CIRCLE_RADIUS = 15;
+        let router = this.router;
+        let userFactory = this.userFactory;
+
 
         if (!data) {
-            // console.log("CLEAN");
             uiService.clean();
             return;
         }
+        let slug = data.getSlug();
+
 
         uiService.clean();
 
@@ -107,11 +113,6 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             svg.attr("font-size", fs + "px")
         })
 
-        // fontSize$.subscribe((size: number) => {
-        //     console.log("font", size);
-        // })
-
-
         let pack = d3.pack()
             .size([diameter - margin, diameter - margin])
             .padding(20);
@@ -137,19 +138,18 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             .remove()
             .enter()
             .append("circle")
-            // .attr("id", function (d, i) { return i; })
             .attr("class", function (d: any) { return d.parent ? (d.children ? "node" : "node node--leaf") : "node node--root"; })
             .style("fill", function (d: any) { return d.children ? color(d.depth) : "white"; })
             .style("stroke", function (d: any) { return d.data.isSearchedFor ? "#d9831f" : "none" })
             .style("stroke-width", function (d: any) { return d.data.isSearchedFor ? 3 : "none" })
             .attr("id", function (d: any) { return "circle" + d.data.id; })
-            .on("click", function (d: any, i: number) {
-                if (focus !== d) {
-                    zoom(d, i),
-                        d3.selectAll("#title" + d.data.id).style("fill-opacity", 1).style("display", "inline"),
-                        d3.event.stopPropagation();
-                }
-            });
+        // .on("click", function (d: any, i: number) {
+        //     if (focus !== d) {
+        //         zoom(d, i),
+        //             d3.selectAll("#title" + d.data.id).style("fill-opacity", 1).style("display", "inline"),
+        //             d3.event.stopPropagation();
+        //     }
+        // });
 
         let definitions = svg.append("defs")
         let path = definitions.selectAll("path")
@@ -158,50 +158,168 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             .append("path")
             .attr("id", function (d: any) { return "path" + d.data.id; });
 
-
-        let text = g.selectAll("text")
+        let patterns = definitions.selectAll("pattern")
             .data(nodes)
-
-        text
             .enter()
+            .filter(function (d: any) { return d.data.accountable })
+            .append("pattern")
+            .attr("id", function (d: any) { return "image" + d.data.id; })
+            .attr("width", "100%")
+            .attr("height", "100%")
+            .append("image")
+            .attr("width", CIRCLE_RADIUS * 2)
+            .attr("height", CIRCLE_RADIUS * 2)
+            .attr("xlink:href", function (d: any) { return d.data.accountable.picture; });
+
+        let textGroups = svg.select("g").selectAll("g").data(nodes);
+
+        // enter selection
+        let textGroupsEnter = textGroups.enter().append("g");
+
+        // some children, text should be around the circle
+        textGroupsEnter
             .append("text")
             .filter(function (d: any) { return d.children && d !== root; })
-            .attr("id", function (d: any) { return "title" + d.data.id; })
             .attr("class", "with-children")
-            .on("click", function (d: any, i: number) {
-                showTooltip(d, d.parent, d3.event, datasetId);
-                d.isTooltipVisible = !d.isTooltipVisible;
-            })
-            .style("display", function (d: any) { return d === root ? "none" : "inline"; })
-
-            // .attr("font-size", fontSize + "px")
+            .attr("id", function (d: any) { return "title" + d.data.id; })
             .append("textPath")
             .attr("xlink:href", function (d: any) { return "#path" + d.data.id; })
             .attr("startOffset", function (d: any, i: number) { return "10%"; })
-            .text(function (d: any) { return d.data.name; })
-            ;
-
-        text
-            .enter()
-            .append("text")
-            .filter(function (d: any) { /*console.log(d.data.name + " " + d.children);*/ return !d.children && d !== root; })
-            .attr("class", "without-children")
-            .attr("id", function (d: any) { return "title" + d.data.id; })
             .on("click", function (d: any, i: number) {
                 showTooltip(d, d.parent, d3.event, datasetId);
                 d.isTooltipVisible = !d.isTooltipVisible;
             })
+            .text(function (d: any) { return d.data.name; })
+
+        textGroupsEnter
+            .filter(function (d: any) { return d.children && d !== root; })
+            .append("circle")
+            .attr("class", "with-children accountable")
+            .attr("r", CIRCLE_RADIUS)
+            .attr("fill", function (d: any) { return "url(#image" + d.data.id + ")" })
+            .attr("xlink:href", function (d: any) { return "#path" + d.data.id; })
+            .on("click", function (d: any) {
+                if (d.data.accountable) {
+                    // HACK : until migration of database towards shortids
+                    if (!d.data.accountable.shortid) {
+                        userFactory.get(d.data.accountable.user_id)
+                            .then(u => d.data.accountable.shortid = u.shortid)
+                            .then(() => { router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.data.accountable.shortid}/${d.data.accountable.getSlug()}`) })
+                    }
+                    router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.data.accountable.shortid}/${d.data.accountable.getSlug()}`)
+                }
+
+            })
+
+        // no children, the text should be inside the circle
+        textGroupsEnter
+            .append("text")
+            .filter(function (d: any) { return !d.children && d !== root; })
+            .attr("class", "without-children")
+            .attr("id", function (d: any) { return "title" + d.data.id; })
             .attr("dy", 0)
             .attr("x", function (d: any) { return -d.r * .85 })
             .attr("y", function (d: any) { return -d.r * .2 })
             .text(function (d: any) { return d.data.name; })
+            .on("click", function (d: any, i: number) {
+                showTooltip(d, d.parent, d3.event, datasetId);
+                d.isTooltipVisible = !d.isTooltipVisible;
+            })
             .each(function (d: any) {
                 uiService.wrap(d3.select(this), d.data.name, d.r * 2 * 0.95);
             })
-            ;
+
+        textGroupsEnter
+            .filter(function (d: any) { return !d.children && d !== root; })
+            .append("circle")
+            .attr("class", "without-children accountable")
+            .attr("r", CIRCLE_RADIUS)
+            .attr("cx", function (d: any) { return 0 })
+            .attr("cy", function (d: any) { return -d.r * 0.70 })
+            .attr("fill", function (d: any) { return "url(#image" + d.data.id + ")" })
 
 
-        let node = g.selectAll("path,circle,text");
+
+
+        // textGroupsEnter
+        //     .append("svg:image")
+        //     .filter(function (d: any) { return d.children && d !== root; })
+        //     .attr("id", function (d: any) { return d.data.id })
+        //     .attr("xlink:href", function (d: any) { return d.data.accountable ? d.data.accountable.picture : ""; })
+        //     .attr("width", CIRCLE_RADIUS * 2)
+        //     .attr("height", CIRCLE_RADIUS * 2)
+
+        textGroups
+            .select("g").select("text.with-children")
+            .data(nodes)
+
+
+        // ...
+
+        // update selection -- this will also contain the newly appended elements
+        // textGroups.select("line").attr(...);
+        // ...
+
+        // exit selection
+        textGroups.exit().remove();
+
+        /*
+                let text = g.selectAll("text")
+                    .data(nodes)
+
+                text
+                    .enter()
+                    .append("text")
+                    .filter(function (d: any) { return d.children && d !== root; })
+                    .attr("id", function (d: any) { return "title" + d.data.id; })
+                    .attr("class", "with-children")
+                    .on("click", function (d: any, i: number) {
+                        showTooltip(d, d.parent, d3.event, datasetId);
+                        d.isTooltipVisible = !d.isTooltipVisible;
+                    })
+                    .style("display", function (d: any) { return d === root ? "none" : "inline"; })
+                    // .attr("font-size", fontSize + "px")
+                    .append("textPath")
+                    .attr("xlink:href", function (d: any) { return "#path" + d.data.id; })
+                    .attr("startOffset", function (d: any, i: number) { return "10%"; })
+                    .text(function (d: any) { return d.data.name; })
+                    ;
+
+                text
+                    .enter()
+                    .append("text")
+                    .filter(function (d: any) {  return !d.children && d !== root; })
+                    .attr("class", "without-children")
+                    .attr("id", function (d: any) { return "title" + d.data.id; })
+                    .on("click", function (d: any, i: number) {
+                        showTooltip(d, d.parent, d3.event, datasetId);
+                        d.isTooltipVisible = !d.isTooltipVisible;
+                    })
+                    .attr("dy", 0)
+                    .attr("x", function (d: any) { return -d.r * .85 })
+                    .attr("y", function (d: any) { return -d.r * .2 })
+                    .text(function (d: any) { return d.data.name; })
+                    .each(function (d: any) {
+                        uiService.wrap(d3.select(this), d.data.name, d.r * 2 * 0.95);
+                    })
+                    ;
+
+                    */
+
+        // let image = g.selectAll("images")
+        //     .data(nodes)
+        //     .enter().append("svg:image")
+        //     // .filter(function (d: any) { return d.children && d !== root; })
+        //     .attr("x", function (d: any) { return -d.r * .85 })
+        //     .attr("y", function (d: any) { return -d.r * .2 })
+        //     .attr("width", CIRCLE_RADIUS * 2)
+        //     .attr("height", CIRCLE_RADIUS * 2)
+        //     .attr("r", CIRCLE_RADIUS)
+        //     .attr("id", function (d: any) { return d.data.id })
+        //     .attr("xlink:href", function (d: any) { return d.data.accountable ? d.data.accountable.picture : ""; })
+
+
+        let node = g.selectAll("path,circle,text, image");
 
         svg
             .style("background", color(-1))
@@ -237,7 +355,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
                     // if (d.parent !== focus) this.style.display = "none";
                     updateCounter--;
                     if (updateCounter === 0) {
-                        uiService.adjustLabels(text, (diameter / d.r / 2));
+                        uiService.adjustLabels(textGroups, (diameter / d.r / 2));
                     }
                 })
         }
@@ -254,6 +372,10 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
                 let radius = d.r * k + 3;
                 return uiService.getCircularPath(radius, -radius, 0);
             })
+
+            d3.selectAll("circle.with-children")
+                .attr("cx", function (d: any) { return Math.cos(Math.PI - Math.PI * 36 / 180) * d.r - 20 })
+                .attr("cy", function (d: any) { return - Math.sin(Math.PI - Math.PI * 36 / 180) * d.r + 10 })
         }
 
         function showTooltip(d: any, parent: any, event: any, datasetId: string) {
