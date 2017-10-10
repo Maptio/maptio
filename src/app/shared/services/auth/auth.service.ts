@@ -14,7 +14,6 @@ import { EmitterService } from "../emitter.service";
 import { tokenNotExpired } from "angular2-jwt/angular2-jwt";
 import * as _ from "lodash";
 
-
 @Injectable()
 export class Auth {
 
@@ -27,9 +26,14 @@ export class Auth {
     }
 
     public logout(): void {
-        this.analytics.eventTrack("Logout", {})
+        this.analytics.eventTrack("Logout", {});
+        this.shutDownIntercom();
         localStorage.clear();
         this.router.navigate(["home"]);
+    }
+
+    public shutDownIntercom() {
+        (<any>window).Intercom("shutdown");
     }
 
     /**
@@ -183,6 +187,15 @@ export class Auth {
                                         .then((user: User) => {
                                             this.analytics.setSuperProperties({ user_id: user.user_id, email: user.email })
                                             this.analytics.eventTrack("Login", { email: user.email, firstname: user.firstname, lastname: user.lastname });
+
+                                            let isUserVIP = (user.email === "safiyya.babio@gmail.com" || user.email === "hello@tomnixon.co.uk");
+                                            (<any>window).Intercom("boot", {
+                                                app_id: environment.INTERCOM_APP_ID,
+                                                email: user.email,
+                                                user_id: user.user_id,
+                                                hide_default_launcher: !isUserVIP
+                                            });
+
                                             return user;
                                         }, () => { })
                                         .then((user: User) => {

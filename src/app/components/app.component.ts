@@ -18,7 +18,7 @@ import { Auth } from "../shared/services/auth/auth.service";
   styleUrls: ["./app.component.css"]
 })
 
-export class AppComponent  {
+export class AppComponent {
 
   public isHome: boolean;
   public isMap: boolean;
@@ -30,20 +30,21 @@ export class AppComponent  {
 
   constructor(private router: Router, private loaderService: LoaderService) {
     this.routerSubscription = this.router.events
-    .subscribe((event) => {
-      if (event instanceof NavigationStart) {
-        this.isHome = this.isUrlHome(event.url)
-        this.isMap = this.isUrlMap(event.url)
-        this.loaderService.show();
-      }
-      else if (
-        event instanceof NavigationEnd ||
-        event instanceof NavigationCancel
-      ) {
-        this.isHome = this.isUrlHome(event.url)
-        this.loaderService.hide();
-      }
-    });
+      .subscribe((event) => {
+        if (event instanceof NavigationStart) {
+          this.isHome = this.isUrlHome(event.url)
+          this.isMap = this.isUrlMap(event.url);
+          (<any>window).Intercom("update");
+          this.loaderService.show();
+        }
+        else if (
+          event instanceof NavigationEnd ||
+          event instanceof NavigationCancel
+        ) {
+          this.isHome = this.isUrlHome(event.url)
+          this.loaderService.hide();
+        }
+      });
   }
 
   ngOnDestroy() {

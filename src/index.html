@@ -50,6 +50,12 @@
 		mixpanel.init("de90e67220137ed9cab9510a84ba7ecf");
 	</script>
 	<!-- end Mixpanel -->
+
+	<script>
+	(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;
+s.src='https://widget.intercom.io/widget/rktylk1k';
+var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()
+	</script>
 </head>
 
 <body>
@@ -69,11 +75,17 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/markdown.js/0.5.0/markdown.min.js"></script>
 	<script src="https://cdn.auth0.com/js/lock/10.8/lock.min.js"></script>
 	<script>
-		$(".initiativeMarkdownDescription").markdown({ autofocus: false, savable: false })
+		 $(".initiativeMarkdownDescription").markdown({ autofocus: false, savable: false })
 
-		$(function () {
-			$('[data-toggle="tooltip"]').tooltip({ 'delay': { show: 100, hide: 100 }, 'container': 'body' });
-		})
+		 $(function () {
+			 $('[data-toggle="tooltip"]').tooltip({ 'delay': { show: 100, hide: 100 }, 'container': 'body' });
+		 })
+	</script>
+
+	<script>
+		window.Intercom("boot", {
+			app_id: "rktylk1k"
+		});
 	</script>
 	<!-- <script>
 			(function (i, s, o, g, r, a, m) {

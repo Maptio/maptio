@@ -1,8 +1,9 @@
+import { UserFactory } from "./../../shared/services/user.factory";
 import { MappingNetworkComponent } from "./network/mapping.network.component";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { Initiative } from "./../../shared/model/initiative.data";
-import { ActivatedRoute, Params } from "@angular/router";
+import { ActivatedRoute, Params, Router, NavigationStart } from "@angular/router";
 import { TooltipComponent } from "./tooltip/tooltip.component";
 import { UIService } from "./../..//shared/services/ui/ui.service";
 import { ColorService } from "./../..//shared/services/ui/color.service";
@@ -44,6 +45,7 @@ describe("mapping.component.ts", () => {
                         params: Observable.of({ mapid: 123, layout: "initiatives" })
                     }
                 }
+
             ],
             schemas: [NO_ERRORS_SCHEMA],
             declarations: [MappingComponent, MappingCirclesComponent, MappingTreeComponent, MappingNetworkComponent, TooltipComponent, AnchorDirective],
@@ -112,7 +114,7 @@ describe("mapping.component.ts", () => {
                 let mockResolver = target.debugElement.injector.get(ComponentFactoryResolver);
                 let mockFactory = jasmine.createSpyObj<ComponentFactory<MappingCirclesComponent>>("factory", [""]);
                 let mockComponent = jasmine.createSpyObj<ComponentRef<MappingCirclesComponent>>("component", [""]);
-                let mockInstance = new MappingCirclesComponent(mockD3Service, mockColorService, mockUIService);
+                let mockInstance = new MappingCirclesComponent(mockD3Service, mockColorService, mockUIService, jasmine.any(Router), jasmine.any(UserFactory));
                 let spyGetInstance = spyOn(component, "getInstance").and.returnValue(mockInstance)
                 let spyDraw = spyOn(mockInstance, "draw");
                 let spyCreateComponent = spyOn(component.anchorComponent, "createComponent").and.returnValue(mockComponent);
