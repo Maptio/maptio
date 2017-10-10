@@ -80,7 +80,7 @@ if (!isDevelopment) {
         'https://player.vimeo.com',
         'https://fast.wistia.net',
       ],
-      imgSrc: ['*']
+      imgSrc: ['data:','*']
     }
   }))
 }
