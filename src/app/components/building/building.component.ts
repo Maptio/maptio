@@ -110,7 +110,7 @@ export class BuildingComponent {
                 node.team_id = defaultTeamId; // For now, the sub initiative are all owned by the same team
             });
 
-            this.saveChanges();
+            // this.saveChanges();
 
         });
     }
