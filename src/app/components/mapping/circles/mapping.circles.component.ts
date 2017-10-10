@@ -250,85 +250,12 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
 
             })
 
-
-
-        // textGroupsEnter
-        //     .append("svg:image")
-        //     .filter(function (d: any) { return d.children && d !== root; })
-        //     .attr("id", function (d: any) { return d.data.id })
-        //     .attr("xlink:href", function (d: any) { return d.data.accountable ? d.data.accountable.picture : ""; })
-        //     .attr("width", CIRCLE_RADIUS * 2)
-        //     .attr("height", CIRCLE_RADIUS * 2)
-
         textGroups
             .select("g").select("text.with-children")
             .data(nodes)
 
-
-        // ...
-
-        // update selection -- this will also contain the newly appended elements
-        // textGroups.select("line").attr(...);
-        // ...
-
         // exit selection
         textGroups.exit().remove();
-
-        /*
-                let text = g.selectAll("text")
-                    .data(nodes)
-
-                text
-                    .enter()
-                    .append("text")
-                    .filter(function (d: any) { return d.children && d !== root; })
-                    .attr("id", function (d: any) { return "title" + d.data.id; })
-                    .attr("class", "with-children")
-                    .on("click", function (d: any, i: number) {
-                        showTooltip(d, d.parent, d3.event, datasetId);
-                        d.isTooltipVisible = !d.isTooltipVisible;
-                    })
-                    .style("display", function (d: any) { return d === root ? "none" : "inline"; })
-                    // .attr("font-size", fontSize + "px")
-                    .append("textPath")
-                    .attr("xlink:href", function (d: any) { return "#path" + d.data.id; })
-                    .attr("startOffset", function (d: any, i: number) { return "10%"; })
-                    .text(function (d: any) { return d.data.name; })
-                    ;
-
-                text
-                    .enter()
-                    .append("text")
-                    .filter(function (d: any) {  return !d.children && d !== root; })
-                    .attr("class", "without-children")
-                    .attr("id", function (d: any) { return "title" + d.data.id; })
-                    .on("click", function (d: any, i: number) {
-                        showTooltip(d, d.parent, d3.event, datasetId);
-                        d.isTooltipVisible = !d.isTooltipVisible;
-                    })
-                    .attr("dy", 0)
-                    .attr("x", function (d: any) { return -d.r * .85 })
-                    .attr("y", function (d: any) { return -d.r * .2 })
-                    .text(function (d: any) { return d.data.name; })
-                    .each(function (d: any) {
-                        uiService.wrap(d3.select(this), d.data.name, d.r * 2 * 0.95);
-                    })
-                    ;
-
-                    */
-
-        // let image = g.selectAll("images")
-        //     .data(nodes)
-        //     .enter().append("svg:image")
-        //     // .filter(function (d: any) { return d.children && d !== root; })
-        //     .attr("x", function (d: any) { return -d.r * .85 })
-        //     .attr("y", function (d: any) { return -d.r * .2 })
-        //     .attr("width", CIRCLE_RADIUS * 2)
-        //     .attr("height", CIRCLE_RADIUS * 2)
-        //     .attr("r", CIRCLE_RADIUS)
-        //     .attr("id", function (d: any) { return d.data.id })
-        //     .attr("xlink:href", function (d: any) { return d.data.accountable ? d.data.accountable.picture : ""; })
-
 
         let node = g.selectAll("path,circle,text, image");
 
