@@ -206,7 +206,7 @@ describe("building.component.ts", () => {
                 component.loadData("someId");
                 spyDataService.calls.mostRecent().returnValue.then(() => {
                     expect(spyDataService).toHaveBeenCalledWith("someId");
-                    expect(spyMapData).toHaveBeenCalled();
+                    expect(spyMapData).not.toHaveBeenCalled(); // otherise, it updates the tree twice
                 });
             }));
 

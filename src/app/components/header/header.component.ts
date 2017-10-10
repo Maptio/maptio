@@ -136,10 +136,15 @@ export class HeaderComponent implements OnInit {
                 this.isCreateMode = false;
                 this.router.navigate(["map", created._id, created.initiative.getSlug()]);
                 this.selectedDataset = created;
-                this.analytics.eventTrack("Create a map", { email: this.user.email, name: mapName , teamId: teamId })
+                this.analytics.eventTrack("Create a map", { email: this.user.email, name: mapName, teamId: teamId })
             }).catch(this.errorService.handleError);
             this.ngOnInit();
         }
+    }
+
+    createTeam() {
+        this.isCreateMode = false;
+        this.router.navigate(["/teams"]);
     }
 
     // TODO: create validation service

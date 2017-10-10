@@ -86,18 +86,19 @@ export class TeamComponent implements OnDestroy {
     getAllMembers() {
         this.isLoading = true;
         return this.team$.then((team: Team) => {
-            // return Promise.all(
-            //     team.members.map(user => this.userFactory.get(user.user_id)
-            //         .then(u => u, () => { return Promise.reject("No User") })
-            //         .catch(() => { return <User>undefined })))
             return this.userFactory.getUsers(team.members.map(m => m.user_id))
                 .then(members => _.compact(members))
                 .then((members: User[]) => {
-                    return this.userService.getUsersInfo(members)
-                        .then((membersPending: User[]) => {
-                            let allDeleted = _.differenceBy(members, membersPending, m => m.user_id).map(m => { m.isDeleted = true; return m });
-                            return membersPending.concat(allDeleted);
-                        })
+                    return this.userService.getUsersInfo(members).then(pending => {
+                        return { members: members, membersPending: pending }
+                    })
+                })
+                .then((result) => {
+                    let members = result.members;
+                    let membersPending = result.membersPending;
+                    console.log(members, membersPending);
+                    let allDeleted = _.differenceBy(members, membersPending, m => m.user_id).map(m => { m.isDeleted = true; return m });
+                    return membersPending.concat(allDeleted);
                 })
                 .then(members => { this.isLoading = false; return _.sortBy(members, m => m.name) })
         });

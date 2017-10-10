@@ -1,4 +1,9 @@
-import { Observable } from 'rxjs/Rx';
+import { MockBackend } from "@angular/http/testing";
+import { Http, BaseRequestOptions } from "@angular/http";
+import { AuthHttp } from "angular2-jwt";
+import { Router } from "@angular/router";
+import { UserFactory } from "./../../../shared/services/user.factory";
+import { Observable } from "rxjs/Rx";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { TooltipComponent } from "./../tooltip/tooltip.component";
 import { Initiative } from "./../../../shared/model/initiative.data";
@@ -7,6 +12,8 @@ import { ColorService } from "./../../../shared/services/ui/color.service";
 import { D3Service, D3 } from "d3-ng2-service";
 import { TestBed, async, ComponentFixture } from "@angular/core/testing";
 import { MappingCirclesComponent } from "./mapping.circles.component";
+import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
+import { ErrorService } from "../../../shared/services/error/error.service";
 
 describe("mapping.circles.component.ts", () => {
 
@@ -17,7 +24,23 @@ describe("mapping.circles.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
-                D3Service, ColorService, UIService
+                D3Service, ColorService, UIService, UserFactory,
+                {
+                    provide: AuthHttp,
+                    useFactory: authHttpServiceFactoryTesting,
+                    deps: [Http, BaseRequestOptions]
+                },
+                {
+                    provide: Http,
+                    useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
+                        return new Http(mockBackend, options);
+                    },
+                    deps: [MockBackend, BaseRequestOptions]
+                },
+                MockBackend,
+                BaseRequestOptions,
+                ErrorService,
+                { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } }
             ],
             declarations: [MappingCirclesComponent, TooltipComponent],
             schemas: [NO_ERRORS_SCHEMA]
