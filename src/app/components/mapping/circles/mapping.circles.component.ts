@@ -237,7 +237,18 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             .attr("cx", function (d: any) { return 0 })
             .attr("cy", function (d: any) { return -d.r * 0.70 })
             .attr("fill", function (d: any) { return "url(#image" + d.data.id + ")" })
+            .on("click", function (d: any) {
+                if (d.data.accountable) {
+                    // HACK : until migration of database towards shortids
+                    if (!d.data.accountable.shortid) {
+                        userFactory.get(d.data.accountable.user_id)
+                            .then(u => d.data.accountable.shortid = u.shortid)
+                            .then(() => { router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.data.accountable.shortid}/${d.data.accountable.getSlug()}`) })
+                    }
+                    router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.data.accountable.shortid}/${d.data.accountable.getSlug()}`)
+                }
 
+            })
 
 
 
