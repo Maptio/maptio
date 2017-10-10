@@ -1,16 +1,16 @@
 <nav class="navbar navbar-toggleable-md navbar-light bg-faded fixed-top">
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler"
         aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+        <span class="navbar-toggler-icon"></span>
+    </button>
     <a class="navbar-brand " href="#">
         <!-- <div alt="Maptio Home" class="d-inline-block align-top brand-logo" ></div> -->
         <img src="/assets/images/logo-full.png" alt="Maptio logo">
     </a>
 
     <span class="navbar-text col-6 h5">
-    <a routerLink="/map/{{selectedDataset?._id}}/{{selectedDataset?.initiative?.getSlug()}}/initiatives">{{selectedDataset?.initiative?.name}}</a>
-  </span>
+        <a routerLink="/map/{{selectedDataset?._id}}/{{selectedDataset?.initiative?.getSlug()}}/initiatives">{{selectedDataset?.initiative?.name}}</a>
+    </span>
 
     <div class="collapse navbar-collapse" id="navbarToggler">
         <ul class="navbar-nav ml-auto mt-2 mt-md-0">
@@ -18,12 +18,12 @@
             <li class="nav-item dropdown" *ngIf="auth.allAuthenticated()">
                 <a class="nav-link dropdown-toggle" [class.disabled]="(datasets$ | async)?.length === 0" id="mapsListDropdownLink" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
-                   Maps
+                    Maps
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="mapsListDropdownLink">
                     <a class="dropdown-item" (click)="goTo(dataset)" *ngFor="let dataset of datasets$ | async">
-                            {{dataset?.name}}
-                        </a>
+                        {{dataset?.name}}
+                    </a>
                 </div>
             </li>
             <li>
@@ -34,8 +34,8 @@
             </li>
             <li class="nav-item dropdown" *ngIf="auth.allAuthenticated()">
                 <a class="nav-link dropdown-toggle without-caret" (click)="toggleCreateMode()" [class.coloured]="isCreateMode">
-                       Create
-                    </a>
+                    Create
+                </a>
             </li>
 
 
@@ -65,9 +65,10 @@
             </li> -->
 
             <li class="nav-item dropdown" id="profileInformation" *ngIf="auth.allAuthenticated()">
-                <a class="nav-link dropdown-toggle without-caret"  id="profileDropdownLink" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    <div><img src="{{ user?.picture }}" class="rounded-circle profile-image" alt=""></div>
+                <a class="nav-link dropdown-toggle without-caret" id="profileDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div>
+                        <img src="{{ user?.picture }}" class="rounded-circle profile-image" alt="">
+                    </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdownLink">
                     <a class="dropdown-item" routerLink="{{user?.shortid}}/{{user?.getSlug()}}">Profile</a>
@@ -85,13 +86,16 @@
                     </div>
                     <div class="form-group mr-1" [class.has-warning]="loginForm.controls['password'].invalid  && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)">
 
-                        <input id="inputPassword" type="password" class="form-control form-control-sm form-control-warning" formControlName="password" placeholder="e.g. ••••••••" autocomplete="on">
+                        <input id="inputPassword" type="password" class="form-control form-control-sm form-control-warning" formControlName="password"
+                            placeholder="e.g. ••••••••" autocomplete="on">
                     </div>
 
 
                     <button type="submit" class="btn btn-success btn-sm" [class.disabled]="!loginForm.valid">Log in</button>
                 </form>
-                <small class="text-muted col-7 pull-right"> <a routerLink="/forgot">Forgot your password?</a></small>
+                <small class="text-muted col-7 pull-right">
+                    <a routerLink="/forgot">Forgot your password?</a>
+                </small>
             </li>
         </ul>
     </div>
@@ -102,14 +106,17 @@
         <div class="card-text">
             <form [formGroup]="createMapForm" (submit)="createDataset()" class="form-inline">
                 <input type="text" id="inputMapName" formControlName="mapName" class="form-control col-6" placeholder="Enter map name" required>
-                <select formControlName="teamId" required class="form-control col-4 mr-1" >
+                <select formControlName="teamId" required class="form-control col-4 mr-1">
                     <option *ngFor="let team of teams$ | async" [value]="team.team_id">{{team?.name}}</option>
                 </select>
-                
+
                 <button type="submit" class="btn btn-success pull-right" [class.disabled]="!createMapForm.valid">Create</button>
             </form>
-            <small *ngIf="(teams$ | async)?.length === 0 " class="offset-md-6"> <a class="text-danger" routerLink="/teams">Don't have a team?</a></small>
-            
+            <a *ngIf="(teams$ | async)?.length === 0 " class="text-danger" (click)="createTeam()">
+                <small class="offset-md-6">Don't have a team?</small>
+            </a>
+
+
         </div>
     </div>
 </div>
