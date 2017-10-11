@@ -28,7 +28,7 @@ export class BuildingComponent {
 
 
     options = {
-        allowDrag: (node) => node.data.isDraggable,
+        allowDrag: (node:TreeNode) => node.data.isDraggable,
         allowDrop: true,
         actionMapping: {
             mouse: {
