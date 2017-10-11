@@ -28,7 +28,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     @ViewChild("building")
     buildingComponent: BuildingComponent
 
-    public isBuildingPanelCollapsed: boolean = true;
+    public isBuildingPanelCollapsed: boolean = false;
     public isDetailsPanelCollapsed: boolean = true;
     private datasetId: string;
     private emitterSubscription: Subscription;

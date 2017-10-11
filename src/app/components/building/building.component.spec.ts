@@ -1,3 +1,4 @@
+
 import { RouterTestingModule } from "@angular/router/testing";
 import { Observable } from "rxjs/Rx";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
@@ -14,7 +15,7 @@ import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA, EventEmitter } from "@angular/core"
 import { By } from "@angular/platform-browser";
 import { BuildingComponent } from "./building.component";
-import { TreeComponent, TreeDraggedElement } from "angular2-tree-component";
+import { TreeComponent, TreeDraggedElement, TreeModule, TreeModel } from "angular-tree-component";
 import { FocusIfDirective } from "../..//shared/directives/focusif.directive"
 import { ErrorService } from "../../shared/services/error/error.service";
 import { MockBackend } from "@angular/http/testing";
@@ -28,16 +29,19 @@ export class AuthStub {
 
 }
 
+export class TreeComponentStub extends TreeComponent {
+
+}
+
 describe("building.component.ts", () => {
 
     let component: BuildingComponent;
     let target: ComponentFixture<BuildingComponent>;
 
-
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [Ng2Bs3ModalModule, NgbModule.forRoot(), RouterTestingModule],
-            declarations: [BuildingComponent, TreeComponent, FocusIfDirective, InitiativeComponent],
+            declarations: [BuildingComponent, FocusIfDirective, InitiativeComponent],
             schemas: [NO_ERRORS_SCHEMA]
         }).overrideComponent(BuildingComponent, {
             set: {
@@ -62,6 +66,7 @@ describe("building.component.ts", () => {
                             events = Observable.of(new NavigationStart(0, "/next"))
                         }
                     },
+
                     MockBackend,
                     BaseRequestOptions]
             }
@@ -69,11 +74,8 @@ describe("building.component.ts", () => {
     }));
 
     beforeEach(() => {
-
-
         target = TestBed.createComponent(BuildingComponent);
         component = target.componentInstance;
-
         target.detectChanges(); // trigger initial data binding
     });
 
@@ -86,250 +88,154 @@ describe("building.component.ts", () => {
         fixture.cleanup();
     })
 
-    describe("View", () => {
 
-        describe("Tree configuration", () => {
-            it("should search tree on input", () => {
-                let spy = spyOn(component, "filterNodes");
-                let element = target.debugElement.query(By.css("#searchTreeInput")).nativeElement as HTMLInputElement;
-                element.value = "some search";
-                element.dispatchEvent(new Event("input"));
-                expect(spy).toHaveBeenCalledWith("some search")
+    describe("Loading data", () => {
+        it("shoud loads data and initializes tree", async(() => {
+            let mockDataService = target.debugElement.injector.get(DatasetFactory);
+
+            fixture.load("data.json");
+            let spyDataService = spyOn(mockDataService, "get").and.returnValue(Promise.resolve(fixture.json[0]));
+
+            component.loadData("someId");
+            spyDataService.calls.mostRecent().returnValue.then(() => {
+                expect(spyDataService).toHaveBeenCalledWith("someId");
+                expect(component.nodes.length).toBe(1);
             });
+        }));
 
-            it("should send data to mapping component on tree update", () => {
-                let spy = spyOn(component, "saveChanges");
-                component.tree.treeModel.update();
-                expect(spy).toHaveBeenCalled();
+        it("should loads data and initializes team_id for each node", async(() => {
+            let mockDataService = target.debugElement.injector.get(DatasetFactory);
+
+            fixture.load("data.json");
+            let spyDataService = spyOn(mockDataService, "get").and.returnValue(Promise.resolve(fixture.json[0]));
+
+            component.loadData("someId");
+            expect(spyDataService).toHaveBeenCalledWith("someId");
+
+            spyDataService.calls.mostRecent().returnValue.then((data: any) => {
+                expect(component.nodes[0].team_id).toBe("ID1");
+                expect(component.nodes[0].children.find(n => n.name === "Tech").team_id).toBe("ID1");
+                expect(component.nodes[0].children.find(n => n.name === "Marketing").team_id).toBe("ID1");
+                expect(component.nodes[0].children.find(n => n.name === "The rest").team_id).toBe("ID1");
             });
+        }));
 
-            it("should bind tree nodes to component nodes", () => {
-                let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
-                root.children = [node1, node2, node3];
-                component.nodes = [root];
-                target.detectChanges();
-                expect(component.tree.treeModel.nodes).toBe(component.nodes);
+        it("should loads data and initializes mapping component", async(() => {
+            let mockDataService = target.debugElement.injector.get(DatasetFactory);
+
+
+            fixture.load("data.json");
+            let spyDataService = spyOn(mockDataService, "get").and.returnValue(Promise.resolve(fixture.json[0]));
+            let spyMapData = spyOn(component, "saveChanges");
+
+            component.loadData("someId");
+            spyDataService.calls.mostRecent().returnValue.then(() => {
+                expect(spyDataService).toHaveBeenCalledWith("someId");
+                expect(spyMapData).not.toHaveBeenCalled(); // otherise, it updates the tree twice
             });
-        });
-
-        describe("Tree display", () => {
-
-            it("should display one node matching the correct data", () => {
-                let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
-                root.children = [node1, node2, node3];
-                component.nodes = [root];
-
-                target.detectChanges();
-                let treeNode = target.debugElement.queryAll(By.css("Tree treenode"));
-                expect(treeNode.length).toBe(1); // one and only one root
-                let dataNode = <Initiative>treeNode[0].context.$implicit.data;
-                expect(dataNode).toBe(root);
-            });
-        });
-
-        describe("updateData event", () => {
-
-            it("should call mapData", () => {
-                let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
-                root.children = [node1, node2, node3];
-                component.nodes = [root];
-                let spyMapData = spyOn(component, "saveChanges");
-
-                target.detectChanges();
-
-                let element = target.debugElement.query(By.css("Tree treenode")).nativeElement as HTMLElement;
-                element.dispatchEvent(new CustomEvent("map"));
-
-                expect(spyMapData).toHaveBeenCalled();
-
-            });
-        });
-
-        describe("Save button", () => {
-            xit("should call saveChanges when clicked", () => {
-                let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
-                root.children = [node1, node2, node3];
-                component.nodes = [root];
-                let spy = spyOn(component, "saveChanges");
-                target.detectChanges();
-                let button = target.debugElement.query(By.css("a#saveButton")).nativeElement as HTMLButtonElement;
-                button.dispatchEvent(new Event("click"));
-                expect(spy).toHaveBeenCalled();
-            });
-        });
+        }));
 
 
     });
 
+    describe("Filtering ", () => {
 
-    describe("Controller", () => {
-
-        describe("Loading data", () => {
-            it("shoud loads data and initializes tree", async(() => {
-                let mockDataService = target.debugElement.injector.get(DatasetFactory);
-
-                fixture.load("data.json");
-                let spyDataService = spyOn(mockDataService, "get").and.returnValue(Promise.resolve(fixture.json[0]));
-
-                component.loadData("someId");
-                spyDataService.calls.mostRecent().returnValue.then(() => {
-                    expect(spyDataService).toHaveBeenCalledWith("someId");
-                    expect(component.nodes.length).toBe(1);
-                });
-            }));
-
-            it("should loads data and initializes team_id for each node", async(() => {
-                let mockDataService = target.debugElement.injector.get(DatasetFactory);
-
-                fixture.load("data.json");
-                let spyDataService = spyOn(mockDataService, "get").and.returnValue(Promise.resolve(fixture.json[0]));
-
-                component.loadData("someId");
-                expect(spyDataService).toHaveBeenCalledWith("someId");
-
-                spyDataService.calls.mostRecent().returnValue.then((data: any) => {
-                    expect(component.nodes[0].team_id).toBe("ID1");
-                    expect(component.nodes[0].children.find(n => n.name === "Tech").team_id).toBe("ID1");
-                    expect(component.nodes[0].children.find(n => n.name === "Marketing").team_id).toBe("ID1");
-                    expect(component.nodes[0].children.find(n => n.name === "The rest").team_id).toBe("ID1");
-                });
-            }));
-
-            it("should loads data and initializes mapping component", async(() => {
-                let mockDataService = target.debugElement.injector.get(DatasetFactory);
-
-
-                fixture.load("data.json");
-                let spyDataService = spyOn(mockDataService, "get").and.returnValue(Promise.resolve(fixture.json[0]));
-                let spyMapData = spyOn(component, "saveChanges");
-
-                component.loadData("someId");
-                spyDataService.calls.mostRecent().returnValue.then(() => {
-                    expect(spyDataService).toHaveBeenCalledWith("someId");
-                    expect(spyMapData).not.toHaveBeenCalled(); // otherise, it updates the tree twice
-                });
-            }));
-
-
+        it("should calls correct dependencies when search term is  empty", () => {
+            let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
+            node1.name = "first", node2.name = "second"; node3.name = "third";
+            root.children = [node1, node2, node3];
+            component.nodes = [root];
+            target.detectChanges();
+            let spy = spyOn(component, "saveChanges");
+            let treeModel = jasmine.createSpyObj<TreeModel>("treeModel", ["clearFilter"])
+            component.filterNodes(treeModel, "");
+            expect(root.isSearchedFor).toBe(false);
+            expect(node1.isSearchedFor).toBe(false);
+            expect(node2.isSearchedFor).toBe(false);
+            expect(node3.isSearchedFor).toBe(false);
+            expect(spy).toHaveBeenCalled();
         });
 
-        describe("Filtering ", () => {
+        it("should calls correct dependencies when search term is not empty", () => {
+            let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
+            node1.name = "first", node2.name = "second"; node3.name = "third";
+            node1.description = "primero", node2.description = "segundo"; node3.description = "segundo tercero";
+            root.children = [node1, node2, node3];
+            component.nodes = [root];
+            target.detectChanges();
+            let spy = spyOn(component, "saveChanges");
+            let treeModel = jasmine.createSpyObj<TreeModel>("treeModel", ["filterNodes"]);
 
-            it("should highlights no nodes when the search term is empty", () => {
-                let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
-                node1.name = "first", node2.name = "second"; node3.name = "third";
-                root.children = [node1, node2, node3];
+            component.filterNodes(treeModel, "segundo");
+            expect(treeModel.filterNodes).toHaveBeenCalled();
+            expect(spy).toHaveBeenCalled();
+        });
+    });
+
+    describe("Tree manipulation", () => {
+        describe("Update", () => {
+            it("should update tree component", () => {
+                let treeModel = jasmine.createSpyObj<TreeModel>("treeModel", ["update"])
+                component.updateTreeModel(treeModel);
+                expect(treeModel.update).toHaveBeenCalled();
+            });
+        });
+
+        describe("Validate", () => {
+            it("should check that the root's name is valid", () => {
+                let root = new Initiative();
                 component.nodes = [root];
-                target.detectChanges();
-                let spy = spyOn(component, "saveChanges");
-
-                component.filterNodes("");
-                expect(root.isSearchedFor).toBe(false);
-                expect(node1.isSearchedFor).toBe(false);
-                expect(node2.isSearchedFor).toBe(false);
-                expect(node3.isSearchedFor).toBe(false);
-                expect(spy).toHaveBeenCalled();
+                expect(component.isRootValid()).toBe(false);
             });
 
-            it("should highlight correct nodes when searching on name", () => {
-                let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
-                node1.name = "first", node2.name = "second"; node3.name = "second third";
-                root.children = [node1, node2, node3];
+            it("should check that the root's name is valid", () => {
+                let root = new Initiative();
+                root.name = "anything"
                 component.nodes = [root];
-                target.detectChanges();
-                let spy = spyOn(component, "saveChanges");
-
-                component.filterNodes("second");
-                expect(root.isSearchedFor).toBe(false);
-                expect(node1.isSearchedFor).toBe(false);
-                expect(node2.isSearchedFor).toBe(true);
-                expect(node3.isSearchedFor).toBe(true);
-                expect(spy).toHaveBeenCalled();
+                expect(component.isRootValid()).toBe(true);
             });
 
-            it("should hightlight correct nodes when searching on description", () => {
-                let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
-                node1.name = "first", node2.name = "second"; node3.name = "third";
-                node1.description = "primero", node2.description = "segundo"; node3.description = "segundo tercero";
-                root.children = [node1, node2, node3];
+            it("should check that the root's name is valid", () => {
+                let root = new Initiative();
+                root.name = "     "
                 component.nodes = [root];
-                target.detectChanges();
-                let spy = spyOn(component, "saveChanges");
-
-                component.filterNodes("segundo");
-                expect(root.isSearchedFor).toBe(false);
-                expect(node1.isSearchedFor).toBe(false);
-                expect(node2.isSearchedFor).toBe(true);
-                expect(node3.isSearchedFor).toBe(true);
-                expect(spy).toHaveBeenCalled();
+                expect(component.isRootValid()).toBe(false);
             });
         });
+    });
 
-        describe("Tree manipulation", () => {
-            describe("Update", () => {
-                it("should update tree component", () => {
-                    let spy = spyOn(component.tree.treeModel, "update");
-                    component.updateTreeModel();
-                    expect(spy).toHaveBeenCalled();
-                });
+    describe("Save changes", () => {
+        describe("saveChanges", () => {
+            it("should emit data to save", () => {
+                let spyEmit = spyOn(component.save, "emit")
+                let root = new Initiative();
+                component.nodes = [root];
+                component.saveChanges();
+                expect(spyEmit).toHaveBeenCalledWith(root);
             });
 
-            describe("Validate", () => {
-                it("should check that the root's name is valid", () => {
-                    let root = new Initiative();
-                    component.nodes = [root];
-                    expect(component.isRootValid()).toBe(false);
-                });
+            it("should sends data to dataservice", async(() => {
+                let mockDataService = target.debugElement.injector.get(DataService);
 
-                it("should check that the root's name is valid", () => {
-                    let root = new Initiative();
-                    root.name = "anything"
-                    component.nodes = [root];
-                    expect(component.isRootValid()).toBe(true);
-                });
+                let node1 = new Initiative(), node2 = new Initiative();
+                node1.name = "first", node2.name = "second";
 
-                it("should check that the root's name is valid", () => {
-                    let root = new Initiative();
-                    root.name = "     "
-                    component.nodes = [root];
-                    expect(component.isRootValid()).toBe(false);
-                });
-            });
+                component.nodes = [node1, node2];
+                component.datasetId = "some_id"
+                let spy = spyOn(mockDataService, "set");
+                component.saveChanges();
+                expect(spy).toHaveBeenCalledWith({ initiative: jasmine.objectContaining({ name: "first" }), datasetId: "some_id" });
+
+            }));
         });
+    });
 
-        describe("Save changes", () => {
-            describe("saveChanges", () => {
-                it("should emit data to save", () => {
-                    let spyEmit = spyOn(component.save, "emit")
-                    let root = new Initiative();
-                    component.nodes = [root];
-                    component.saveChanges();
-                    expect(spyEmit).toHaveBeenCalledWith(root);
-                });
-
-                it("should sends data to dataservice", async(() => {
-                    let mockDataService = target.debugElement.injector.get(DataService);
-
-                    let node1 = new Initiative(), node2 = new Initiative();
-                    node1.name = "first", node2.name = "second";
-
-                    component.nodes = [node1, node2];
-                    component.datasetId = "some_id"
-                    let spy = spyOn(mockDataService, "set");
-                    component.saveChanges();
-                    expect(spy).toHaveBeenCalledWith({ initiative: jasmine.objectContaining({ name: "first" }), datasetId: "some_id" });
-
-                }));
-            });
-        });
-
-        describe("Open Details", () => {
-            it("should emit selected node", () => {
-                let spy = spyOn(component.openDetails, "emit");
-                let newNode = new Initiative({ name: "newly updated" });
-                component.openNodeDetails(newNode)
-                expect(spy).toHaveBeenCalledWith(newNode)
-            });
+    describe("Open Details", () => {
+        it("should emit selected node", () => {
+            let spy = spyOn(component.openDetails, "emit");
+            let newNode = new Initiative({ name: "newly updated" });
+            component.openNodeDetails(newNode)
+            expect(spy).toHaveBeenCalledWith(newNode)
         });
     });
 
