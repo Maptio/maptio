@@ -7,7 +7,7 @@ import { Observable } from "rxjs/Rx";
 import { EmitterService } from "./../../shared/services/emitter.service";
 import { Component, ViewChild, Output } from "@angular/core";
 import { InitiativeComponent } from "../initiative/initiative.component";
-import { TreeComponent, TreeNode, IActionMapping, TreeModel, TREE_ACTIONS } from "angular2-tree-component";
+import { TreeComponent, TreeNode, IActionMapping, TreeModel, TREE_ACTIONS, TreeModule } from "angular-tree-component";
 import { DataService } from "../../shared/services/data.service";
 import "rxjs/add/operator/map";
 import { InitiativeNodeComponent } from "./initiative.node.component"
@@ -28,7 +28,7 @@ export class BuildingComponent {
 
 
     options = {
-        allowDrag: true,
+        allowDrag: (node) => node.data.isDraggable,
         allowDrop: true,
         actionMapping: {
             mouse: {

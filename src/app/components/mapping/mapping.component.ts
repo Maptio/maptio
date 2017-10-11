@@ -81,7 +81,6 @@ export class MappingComponent implements OnInit {
             Observable
                 .combineLatest(this.route.params.distinct(), this.dataService.get().distinctUntilChanged())
                 .subscribe((value) => {
-                    console.log(value)
                     let layout = value[0]["layout"];
                     this.data = value[1];
 

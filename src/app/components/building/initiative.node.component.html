@@ -13,8 +13,9 @@
 
 		</span> -->
 		<span *ngIf="!isRoot()" class="input-group-addon knurled"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>
+		{{node.data.isDraggable}}
 		<input class="form-control input inputNodeName" type="text" [focusif]="node.data.hasFocus" autoselect [ngModel]="node.data.name"
-		 (ngModelChange)="saveNodeName($event, node.data)" />
+		 (ngModelChange)="saveNodeName($event, node.data)" (focus)="node.data.isDraggable=false" (blur)="node.data.isDraggable=true" />
 
 		<span class="btn-group control">
 			 <ng-template #addButtonTooltip>

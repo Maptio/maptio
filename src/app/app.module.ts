@@ -65,7 +65,7 @@ import { AnchorDirective } from "./shared/directives/anchor.directive"
 
 // External libraries
 import { D3Service } from "d3-ng2-service";
-import { TreeModule } from "angular2-tree-component";
+import { TreeModule } from "angular-tree-component";
 import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { AuthConfiguration } from "./shared/services/auth/auth.config";

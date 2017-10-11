@@ -3,7 +3,16 @@
 		<input id="searchTreeInput" type="text" class="form-control" placeholder="Search map by name or description" (input)="filterNodes($event.target.value)"
 		/>
 	</div>
-	<Tree [nodes]="nodes" (onUpdateData)="saveChanges()" [options]="options">
+	<tree-root [nodes]="nodes" (updateData)="saveChanges()" [options]="options">
+		<ng-template #treeNodeTemplate let-node let-index="index">
+				<initiative-node [node]="node" [datasetId]="datasetId" (edited)="saveChanges()" (update)="updateTreeModel($event)" (open)="openNodeDetails($event)"
+				(add)="openNodeDetails($event)"></initiative-node>
+		</ng-template>
+
+	</tree-root>
+
+
+	<!-- <Tree [nodes]="nodes" (onUpdateData)="saveChanges()" [options]="options">
 		<ng-template #loadingTemplate>
 			<div class="loading"></div>
 		</ng-template>
@@ -11,25 +20,35 @@
 			<initiative-node [node]="node" [datasetId]="datasetId" (edited)="saveChanges()" (update)="updateTreeModel($event)" (open)="openNodeDetails($event)"
 			 (add)="openNodeDetails($event)"></initiative-node>
 		</ng-template>
-	</Tree>
+	</Tree> -->
 </div>
 
 <ng-template #dragConfirmation let-c="close" let-d="dismiss">
 	<div class="modal-header">
 		You are about to move ...
 		<button type="button" class="close" aria-label="Close" (click)="d(false)">
-      <span aria-hidden="true">&times;</span>
-    </button>
+			<span aria-hidden="true">&times;</span>
+		</button>
 	</div>
 
 	<div class="modal-body">
 		<p>
-			<span *ngIf="fromInitiative.accountable"><b class="text-default">{{fromInitiative.accountable?.name}}</b>'s initiative <b class="text-info">{{fromInitiative.name}}</b></span>
-			<span *ngIf="!fromInitiative.accountable">Initiative <b class="text-info">{{fromInitiative.name}}</b></span> and its sub-initiatives
+			<span *ngIf="fromInitiative.accountable">
+				<b class="text-default">{{fromInitiative.accountable?.name}}</b>'s initiative
+				<b class="text-info">{{fromInitiative.name}}</b>
+			</span>
+			<span *ngIf="!fromInitiative.accountable">Initiative
+				<b class="text-info">{{fromInitiative.name}}</b>
+			</span> and its sub-initiatives
 			<br/> to
 			<br/>
-			<span *ngIf="toInitiative.accountable"><b class="text-default">{{toInitiative.accountable?.name}}</b>'s initiative <b class="text-info">{{toInitiative.name}}</b></span>
-			<span *ngIf="!toInitiative.accountable">Initiative <b class="text-info">{{toInitiative.name}}</b></span>
+			<span *ngIf="toInitiative.accountable">
+				<b class="text-default">{{toInitiative.accountable?.name}}</b>'s initiative
+				<b class="text-info">{{toInitiative.name}}</b>
+			</span>
+			<span *ngIf="!toInitiative.accountable">Initiative
+				<b class="text-info">{{toInitiative.name}}</b>
+			</span>
 		</p>
 	</div>
 	<div class="modal-footer">
