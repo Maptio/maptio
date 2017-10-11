@@ -19,16 +19,9 @@ export class InitiativeNodeComponent {
     @Input() datasetId: string;
 
     @Output("edited") edited = new EventEmitter<boolean>();
-
-    // @Output("map") updateDataEvent = new EventEmitter<Array<Initiative>>();
     @Output("update") updateTreeEvent = new EventEmitter<TreeModel>();
-    // @Output("openSelected") openSelectedEvent = new EventEmitter<Initiative>();
-
     @Output("open") open = new EventEmitter<Initiative>();
-
     @Output("add") add = new EventEmitter<Initiative>();
-
-
 
     @ViewChild("initiative")
     editInitiative: InitiativeComponent;
@@ -57,9 +50,7 @@ export class InitiativeNodeComponent {
     }
 
     saveNodeName(newName: any, initiative: Initiative) {
-        // console.log(newName)
         initiative.name = newName;
-        // this.updateDataEvent.emit(this.node.treeModel.nodes);
         this.edited.emit(true)
     }
 
@@ -91,18 +82,6 @@ export class InitiativeNodeComponent {
     openNode(node: Initiative) {
         this.open.emit(node);
     }
-
-    // zoomInNode(node: Initiative) {
-    //     (<Initiative>this.node.treeModel.nodes[0]).children.forEach(function (i: Initiative) {
-    //         i.isZoomedOn = false;
-    //         i.traverse(function (node: Initiative) { node.isZoomedOn = false });
-    //     });
-    //     (<Initiative>this.node.treeModel.nodes[0]).isZoomedOn = false;
-
-    //     node.isZoomedOn = true;
-    //     // this.updateDataEvent.emit(this.node.treeModel.nodes);
-    //     this.edited.emit(true)
-    // }
 
 }
 
