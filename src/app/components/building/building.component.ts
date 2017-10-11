@@ -28,21 +28,29 @@ export class BuildingComponent {
 
 
     options = {
-        allowDrag: (node:TreeNode) => node.data.isDraggable,
+        allowDrag: (node: TreeNode) => node.data.isDraggable,
         allowDrop: true,
+        nodeHeight: 55,
         actionMapping: {
             mouse: {
-                drop: (tree: TreeModel, node: TreeNode, $event: any, { from, to }: { from: any, to: any }) => {
+                drop: (tree: TreeModel, node: TreeNode, $event: any, { from, to }: { from: TreeNode, to: TreeNode }) => {
                     this.fromInitiative = from.data;
                     this.toInitiative = to.parent.data;
 
-                    this.modalService.open(this.dragConfirmationModal).result
-                        .then(result => {
-                            if (result) {
-                                TREE_ACTIONS.MOVE_NODE(tree, node, $event, { from: from, to: to })
-                            }
-                        })
-                        .catch(reason => { });
+                    console.log(from.parent.id, to.parent.id)
+                    if (from.parent.id === to.parent.id) { // if simple reordering, we dont ask for confirmation
+                        TREE_ACTIONS.MOVE_NODE(tree, node, $event, { from: from, to: to })
+                    }
+                    else {
+                        this.modalService.open(this.dragConfirmationModal).result
+                            .then(result => {
+                                if (result) {
+                                    TREE_ACTIONS.MOVE_NODE(tree, node, $event, { from: from, to: to })
+                                }
+                            })
+                            .catch(reason => { });
+                    }
+
                 }
             }
         }
