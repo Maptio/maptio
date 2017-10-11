@@ -83,8 +83,10 @@ var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.a
 	</script>
 
 	<script>
-		window.Intercom("boot", {
-			app_id: "rktylk1k"
+		$(window).on('load', function () {
+			window.Intercom("boot", {
+				app_id: "rktylk1k"
+			});
 		});
 	</script>
 	<!-- <script>

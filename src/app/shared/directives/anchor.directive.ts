@@ -12,4 +12,5 @@ export class AnchorDirective {
         this.viewContainer.clear();
         return this.viewContainer.createComponent(factory);
     }
+    
 }

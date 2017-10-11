@@ -59,6 +59,20 @@ export class AppComponent {
     return url.startsWith("/map")
   }
 
+  // ngOnInit() {
+
+  // }
+
+  // ngAfterViewInit() {
+
+  // }
+
+  // ngAfterViewChecked() {
+  //   (<any>window).Intercom("boot", {
+  //     app_id: "rktylk1k"
+  //   });
+  // }
+
 }
 
 

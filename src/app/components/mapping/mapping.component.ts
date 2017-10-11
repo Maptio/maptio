@@ -19,7 +19,7 @@ import { AnchorDirective } from "../../shared/directives/anchor.directive"
 
 import "rxjs/add/operator/map"
 import { EmitterService } from "../../shared/services/emitter.service";
-import { Subject, BehaviorSubject, Subscription } from "rxjs/Rx";
+import { Subject, BehaviorSubject, Subscription, Observable } from "rxjs/Rx";
 import { Initiative } from "../../shared/model/initiative.data";
 
 @Component({
@@ -71,37 +71,41 @@ export class MappingComponent implements OnInit {
         this.zoom$ = new Subject<number>();
         this.fontSize$ = new BehaviorSubject<number>(14);
 
-        this.subscription = this.route.params.subscribe((params: Params) => {
-            this.layout = params["layout"]
-            this.cd.markForCheck();
-        })
+        console.log("here")
+
+        this.route.params.subscribe(p => { console.log(p["layout"]) })
+        this.dataService.get().subscribe(d => { console.log(d) });
+
+
+        this.subscription =
+            Observable
+                .combineLatest(this.route.params.distinct(), this.dataService.get().distinctUntilChanged())
+                .subscribe((value) => {
+                    console.log(value)
+                    let layout = value[0]["layout"];
+                    this.data = value[1];
+
+                    switch (layout) {
+                        case "initiatives": // Views.Circles:
+                            this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent)
+                            break;
+                        case "people": // Views.Tree:
+                            this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(MappingTreeComponent)
+                            break;
+                        case "network": // Views.Tree:
+                            this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(MappingNetworkComponent)
+                            break;
+                        default: // by default , the initiatives view is displayed
+                            this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent)
+                            break;
+                    }
+
+                    this.show();
+
+                })
     }
 
     ngOnInit() {
-        this.subscription = this.route.params.subscribe((params: Params) => {
-            // console.log(params["layout"]);
-            this.layout = params["layout"]
-
-            switch (this.layout) {
-                case "initiatives": // Views.Circles:
-                    this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent)
-                    break;
-                case "people": // Views.Tree:
-                    this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(MappingTreeComponent)
-                    break;
-                case "network": // Views.Tree:
-                    this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(MappingNetworkComponent)
-                    break;
-                default: // by default , the initiatives view is displayed
-                    this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent)
-                    break;
-            }
-        })
-
-        this.dataService.get().subscribe(data => {
-            this.data = data;
-            this.show();
-        });
     }
 
     ngOnDestroy() {
