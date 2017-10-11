@@ -44,8 +44,6 @@ export class MappingComponent implements OnInit {
     public data: { initiative: Initiative, datasetId: string };
     public isCollapsed: boolean = true;
 
-    // selectedView: number = 0; // Views.Circles // per default;
-
     public zoom$: Subject<number>
 
     public fontSize$: BehaviorSubject<number>
