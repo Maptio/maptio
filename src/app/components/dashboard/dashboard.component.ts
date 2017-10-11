@@ -41,10 +41,6 @@ export class DashboardComponent {
             (error: any) => { this.errorService.handleError(error) });
     }
 
-    ngAfterViewInit() {
-        console.log("here")
-    }
-
     ngOnDestroy() {
         if (this.subscription) {
             this.subscription.unsubscribe();

@@ -135,7 +135,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         // Collapse after the second level
         // root.children.forEach(collapse);
 
-        update(root, duration);
+        update(root, 0);
 
 
 
@@ -324,7 +324,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                     d.children = d._children;
                     d._children = null;
                 }
-                update(d, duration);
+                update(d, 750);
                 // centerNode(d)
             }
         }

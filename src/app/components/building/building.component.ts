@@ -7,7 +7,7 @@ import { Observable } from "rxjs/Rx";
 import { EmitterService } from "./../../shared/services/emitter.service";
 import { Component, ViewChild, Output } from "@angular/core";
 import { InitiativeComponent } from "../initiative/initiative.component";
-import { TreeComponent, TreeNode, IActionMapping, TreeModel, TREE_ACTIONS } from "angular2-tree-component";
+import {TreeNode, IActionMapping, TREE_ACTIONS} from "angular-tree-component";
 import { DataService } from "../../shared/services/data.service";
 import "rxjs/add/operator/map";
 import { InitiativeNodeComponent } from "./initiative.node.component"
@@ -28,21 +28,29 @@ export class BuildingComponent {
 
 
     options = {
-        allowDrag: true,
+        allowDrag: (node: TreeNode) => node.data.isDraggable,
         allowDrop: true,
+        nodeHeight: 55,
         actionMapping: {
             mouse: {
-                drop: (tree: TreeModel, node: TreeNode, $event: any, { from, to }: { from: any, to: any }) => {
+                drop: (tree: any, node: TreeNode, $event: any, { from, to }: { from: TreeNode, to: TreeNode }) => {
                     this.fromInitiative = from.data;
                     this.toInitiative = to.parent.data;
 
-                    this.modalService.open(this.dragConfirmationModal).result
-                        .then(result => {
-                            if (result) {
-                                TREE_ACTIONS.MOVE_NODE(tree, node, $event, { from: from, to: to })
-                            }
-                        })
-                        .catch(reason => { });
+                    console.log(from.parent.id, to.parent.id)
+                    if (from.parent.id === to.parent.id) { // if simple reordering, we dont ask for confirmation
+                        TREE_ACTIONS.MOVE_NODE(tree, node, $event, { from: from, to: to })
+                    }
+                    else {
+                        this.modalService.open(this.dragConfirmationModal).result
+                            .then(result => {
+                                if (result) {
+                                    TREE_ACTIONS.MOVE_NODE(tree, node, $event, { from: from, to: to })
+                                }
+                            })
+                            .catch(reason => { });
+                    }
+
                 }
             }
         }
@@ -50,8 +58,8 @@ export class BuildingComponent {
 
     SAVING_FREQUENCY: number = 10;
 
-    @ViewChild(TreeComponent)
-    tree: TreeComponent;
+    // @ViewChild(TreeComponent)
+    // tree: TreeComponent;
 
     @ViewChild(InitiativeNodeComponent)
     node: InitiativeNodeComponent;
@@ -77,8 +85,8 @@ export class BuildingComponent {
         return (this.nodes[0].name !== undefined) && this.nodes[0].name.trim().length > 0;
     }
 
-    updateTreeModel() {
-        this.tree.treeModel.update();
+    updateTreeModel(treeModel: any) {
+        treeModel.update();
     }
 
     openNodeDetails(node: Initiative) {
@@ -115,16 +123,16 @@ export class BuildingComponent {
         });
     }
 
-    filterNodes(searched: string) {
+    filterNodes(treeModel: any, searched: string) {
         this.analytics.eventTrack("Search map", { search: searched });
         if (!searched || searched === "") {
-            this.tree.treeModel.clearFilter();
+            treeModel.clearFilter();
         }
         else {
             this.nodes.forEach(function (i: Initiative) {
                 i.traverse(function (node) { node.isSearchedFor = false });
             });
-            this.tree.treeModel.filterNodes(
+            treeModel.filterNodes(
                 (node: TreeNode) => {
                     let initiative = (<Initiative>node.data);
                     initiative.isSearchedFor = initiative.search(searched);
@@ -138,3 +146,5 @@ export class BuildingComponent {
     }
 
 }
+
+

@@ -49,15 +49,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     constructor(private auth: Auth, private route: ActivatedRoute, private datasetFactory: DatasetFactory,
         private teamFactory: TeamFactory, private userFactory: UserFactory, private userService: UserService, private modalService: NgbModal) {
-        // this.emitterSubscription = EmitterService.get("currentInitiative").subscribe((value: Initiative) => {
-        //     console.log(this.datasetId)
-        //     this.datasetFactory.upsert(new DataSet({ _id: this.datasetId, initiative: value }), this.datasetId);
-        // });
     }
 
     ngOnDestroy(): void {
         EmitterService.get("currentDataset").emit(undefined)
-        // if (this.emitterSubscription) this.emitterSubscription.unsubscribe();
         if (this.routeSubscription) this.routeSubscription.unsubscribe();
         if (this.userSubscription) this.userSubscription.unsubscribe();
     }
@@ -68,7 +63,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
             let initiativeSlug = params["slug"];
 
             this.dataset$ = this.datasetFactory.get(this.datasetId).then((d: DataSet) => {
-                // console.log(d)
                 EmitterService.get("currentDataset").emit(d)
                 return d;
             });
@@ -80,19 +74,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
             this.members = this.team.then((team: Team) => {
                 if (team)
-                    // return this.userService.getUsersInfo(team.members).then((actualMembers: User[]) => {
-                    //     let allDeleted = _.differenceBy(team.members, actualMembers, m => m.user_id).map(m => { m.isDeleted = true; return m });
-                    //     return actualMembers.concat(allDeleted);
-                    // })
-                    //     .then(members => _.sortBy(members, m => m.name))
-                    // team.members.map(m => { console.log(m.user_id) })
-                // return Promise.all(
-                //     team.members.map(u =>
-                //         this.userFactory.get(u.user_id)
-                //             .then(u => u, () => { return Promise.reject("No user") }).catch(() => { return <User>undefined })
-                //     ))
-                //     .then(members => _.compact(members))
-                //     .then(members => _.sortBy(members, m => m.name))
                 return this.userFactory.getUsers(team.members.map(m => m.user_id))
                     .then(members => _.compact(members))
                     .then(members => _.sortBy(members, m => m.name))
@@ -122,7 +103,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     saveChanges(initiative: Initiative) {
         this.datasetFactory.upsert(new DataSet({ _id: this.datasetId, initiative: initiative }), this.datasetId)
             .then((hasSaved: boolean) => {
-                // console.log(hasSaved)
             }, (reason) => { console.log(reason) })
             .then(() => {
                 this.dataset$ = this.datasetFactory.get(this.datasetId)
@@ -151,19 +131,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     }
 
-    // removeTeam() {
-    //     this.isBuildingPanelCollapsed = true;
-    //     this.isDetailsPanelCollapsed = true;
-    //     this.dataset$.then((dataset: DataSet) => {
-    //         dataset.initiative.team_id = undefined;
-    //         this.datasetFactory.upsert(dataset, dataset._id).then(() => {
-    //             this.buildingComponent.loadData(dataset._id);
-    //         });
-    //     });
-    //     this.team = Promise.resolve(null)
-    //     this.updateTeamMembers();
-    // }
-
     updateTeamMembers() {
         this.isBuildingPanelCollapsed = true;
         this.isDetailsPanelCollapsed = true;
@@ -176,9 +143,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     toggleBuildingPanel() {
         this.isBuildingPanelCollapsed = !this.isBuildingPanelCollapsed;
-        // if (this.isBuildingPanelCollapsed) {
-        //     this.isDetailsPanelCollapsed = true
-        // }
     }
 
     toggleDetailsPanel() {
@@ -189,14 +153,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     openDetails(node: Initiative) {
         Promise.all([this.dataset$, this.team])
             .then((result: [DataSet, Team]) => {
-                // console.log("here")
                 let dataset = result[0]
                 let team = result[1];
                 this.openedNodeParent = node.getParent(dataset.initiative);
                 this.openedNode = node;
-                // this.openedNodeTeamId = node.team_id;
-                // console.log(this.openedNode, this.openedNodeParent, this.openedNodeTeamId);
-
             })
             .then(() => {
                 this.isDetailsPanelCollapsed = false;
