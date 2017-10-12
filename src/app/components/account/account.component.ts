@@ -43,7 +43,6 @@ export class AccountComponent {
     ngOnInit() {
         this.subscription = this.auth.getUser().subscribe((user: User) => {
             this.user = user;
-            console.log(user)
             this.firstname = user.firstname;
             this.lastname = user.lastname;
         },
@@ -68,6 +67,7 @@ export class AccountComponent {
 
         this.uploader = new FileUploader(uploaderOptions);
         this.uploader.onBuildItemForm = (fileItem: any, form: FormData): any => {
+            this.isRefreshingPicture = true
             // Add Cloudinary's unsigned upload preset to the upload form
             form.append("upload_preset", this.cloudinary.config().upload_preset);
             // Add built-in and custom tags for displaying the uploaded photo in the list

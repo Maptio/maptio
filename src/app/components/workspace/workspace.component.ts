@@ -1,3 +1,4 @@
+import { DataService } from "./../../shared/services/data.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs/Rx";
 import { Initiative } from "./../../shared/model/initiative.data";
@@ -9,7 +10,7 @@ import { EmitterService } from "./../../shared/services/emitter.service";
 import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { ViewChild } from "@angular/core";
 import { BuildingComponent } from "./../building/building.component";
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { User } from "../../shared/model/user.data";
 import { Auth } from "../../shared/services/auth/auth.service";
@@ -44,10 +45,12 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public openedNodeParent: Initiative;
     public openedNodeTeamId: string;
 
+    public mapped: Initiative;
+
     @ViewChild("dragConfirmation")
     dragConfirmationModal: NgbModal;
 
-    constructor(private auth: Auth, private route: ActivatedRoute, private datasetFactory: DatasetFactory,
+    constructor(private auth: Auth, private route: ActivatedRoute, private datasetFactory: DatasetFactory, private dataService: DataService,
         private teamFactory: TeamFactory, private userFactory: UserFactory, private userService: UserService, private modalService: NgbModal) {
     }
 
@@ -74,12 +77,12 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
             this.members = this.team.then((team: Team) => {
                 if (team)
-                return this.userFactory.getUsers(team.members.map(m => m.user_id))
-                    .then(members => _.compact(members))
-                    .then(members => _.sortBy(members, m => m.name))
+                    return this.userFactory.getUsers(team.members.map(m => m.user_id))
+                        .then(members => _.compact(members))
+                        .then(members => _.sortBy(members, m => m.name))
             });
 
-            this.buildingComponent.loadData(this.datasetId);
+            this.buildingComponent.loadData(this.datasetId); // .then(()=>{console.log("finished buioding data")});
 
         });
 
@@ -97,16 +100,21 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     saveDetailChanges() {
+        // console.log("saveDetailChanges")
         this.buildingComponent.saveChanges();
     }
 
     saveChanges(initiative: Initiative) {
+        // console.log("initiative", initiative);
+
         this.datasetFactory.upsert(new DataSet({ _id: this.datasetId, initiative: initiative }), this.datasetId)
             .then((hasSaved: boolean) => {
+                this.dataService.set({ initiative: initiative, datasetId: this.datasetId });
+                return hasSaved;
             }, (reason) => { console.log(reason) })
-            .then(() => {
-                this.dataset$ = this.datasetFactory.get(this.datasetId)
-            });
+            // .then(() => {
+            //     this.dataset$ = this.datasetFactory.get(this.datasetId)
+            // });
 
     }
 
