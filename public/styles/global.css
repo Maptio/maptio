@@ -44,7 +44,7 @@ body{
   margin-left: 0.5vw;
 }
 
-.tree {
+.angular-tree-component {
   width: 100%;
   max-height: 65vh;
   overflow-y: auto;
