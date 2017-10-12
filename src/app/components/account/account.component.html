@@ -2,17 +2,25 @@
 
     <h1 class="name offset-3">{{user?.name}}</h1>
     <div class="alert alert-success alert-dismissable" role="alert" *ngIf="feedbackMessage">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
         {{feedbackMessage}}
     </div>
     <div class="alert alert-danger alert-dismissable" role="alert" *ngIf="errorMessage">
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
         {{errorMessage}}
     </div>
     <div class="row">
-
-        <div class="col-3 profile" [style.background-image]="'url('+ user?.picture +')'">
+        <div class="col-3">
+            <div class="profile" [style.background-image]="'url('+ user?.picture +')'">
+                <div *ngIf="isRefreshingPicture">Refreshing...</div>
+            </div>
+            <input class="inputfile" type="file" id="fileupload" #fileInput ng2FileSelect [uploader]="uploader" (change)="fileInput.value=''"
+                multiple />
+            <label for="fileupload">
+                <i class="fa fa-upload" aria-hidden="true"></i>
+            </label>
         </div>
+
 
         <form class="form-group col-9" [formGroup]="accountForm" (submit)="save()">
             <div class="form-group" [class.has-warning]="accountForm.controls['firstname'].invalid  && (accountForm.controls['firstname'].dirty || accountForm.controls['firstname'].touched)">

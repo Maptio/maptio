@@ -3,22 +3,52 @@
     font-family: FontAwesome;
 }
 
-.panel-heading{
-    width:100%
+.panel-heading {
+    width: 100%
 }
 
-.profile{
-    /* width: 10vw; */
-    /* height: 45px; */
+.profile {
+    padding: 0;
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: cover;
+    height: 75%;
+    margin: 0;
+    border-radius: 10px;
 }
 
-.visionnary{
+.upload {
+    margin-top: 62vh;
+    margin-left: 17vw;
+}
+
+.visionnary {
     width: 25px;
     height: 25px;
 }
 
-.name{
+.name {
     line-height: 12vh;
+}
+
+.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.inputfile + label {
+    font-size: 1.25em;
+    font-weight: 700;
+    /* color: white; */
+    background-color: transparent;
+    display: inline-block;
+    cursor: pointer;
+    margin-left: 47%;
+}
+
+.inputfile:focus + label, .inputfile + label:hover {
+    background-color: transparent;
 }
