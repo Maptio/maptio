@@ -192,7 +192,7 @@ export class UserService {
         });
     }
 
-    public updateUserInformation(user_id: string, password: string, firstname: string, lastname: string): Promise<boolean> {
+    public updateUserCredentials(user_id: string, password: string, firstname: string, lastname: string): Promise<boolean> {
         return this.configuration.getAccessToken().then((token: string) => {
 
             let headers = new Headers();
@@ -205,6 +205,31 @@ export class UserService {
                     {
                         "given_name": firstname,
                         "family_name": lastname
+                    },
+                    "connection": environment.CONNECTION_NAME
+                }
+                ,
+                { headers: headers })
+                .toPromise()
+                .then((response) => {
+                    return true
+                })
+        });
+    }
+
+    public updateUserProfile(user_id: string, firstname: string, lastname: string, pictureUrl: string): Promise<boolean> {
+        return this.configuration.getAccessToken().then((token: string) => {
+
+            let headers = new Headers();
+            headers.set("Authorization", "Bearer " + token);
+
+            return this.http.patch(`${environment.USERS_API_URL}/${user_id}`,
+                {
+                    "user_metadata":
+                    {
+                        "given_name": firstname,
+                        "family_name": lastname,
+                        "picture": pictureUrl
                     },
                     "connection": environment.CONNECTION_NAME
                 }

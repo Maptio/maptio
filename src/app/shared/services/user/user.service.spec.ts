@@ -264,7 +264,7 @@ describe("user.service.ts", () => {
 
             let spyAccessToken = spyOn(configuration, "getAccessToken").and.returnValue(Promise.resolve("token"))
 
-            target.updateUserInformation("ID", "secret", "I", "D")
+            target.updateUserCredentials("ID", "secret", "I", "D")
                 .then((result) => {
                     expect(spyAccessToken).toHaveBeenCalled();
                     expect(result).toBe(true)

@@ -8,8 +8,10 @@
 }
 
 .profile{
-    width: 10vw;
+    /* width: 10vw; */
     /* height: 45px; */
+    background-repeat: no-repeat;
+    background-size: contain;
 }
 
 .visionnary{
