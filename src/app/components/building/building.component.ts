@@ -39,7 +39,7 @@ export class BuildingComponent {
                     this.fromInitiative = from.data;
                     this.toInitiative = to.parent.data;
 
-                    console.log(from.parent.id, to.parent.id)
+                    // console.log(from.parent.id, to.parent.id)
                     if (from.parent.id === to.parent.id) { // if simple reordering, we dont ask for confirmation
                         TREE_ACTIONS.MOVE_NODE(tree, node, $event, { from: from, to: to })
                     }
@@ -83,7 +83,7 @@ export class BuildingComponent {
 
 
     saveChanges() {
-        console.log("send to workspace", this.nodes[0])
+        // console.log("send to workspace", this.nodes[0])
         this.save.emit(this.nodes[0]);
 
         // this.dataService.set({ initiative: this.nodes[0], datasetId: this.datasetId });
@@ -117,7 +117,7 @@ export class BuildingComponent {
 
         return this.datasetFactory.get(id)
             .then(data => {
-                console.log(1)
+                // console.log(1)
                 this.datasetId = id;
                 this.nodes = [];
                 this.nodes.push(new DataSet().deserialize(data).initiative);
@@ -129,21 +129,21 @@ export class BuildingComponent {
 
             })
             .then(() => {
-                console.log(2)
+                // console.log(2)
                 let queue = this.nodes[0].traversePromise(function (node: Initiative) {
                     if (node.accountable) {
                         return this.userFactory.get(node.accountable.user_id).then((u: User) => {
-                            console.log(node.name, u.user_id, u.name, u.picture)
+                            // console.log(node.name, u.user_id, u.name, u.picture)
                             node.accountable.picture = u.picture;
                         })
                     }
                 }.bind(this))
-                return Promise.all(queue).then(() => { console.log("result", this.nodes[0]); })
+                return Promise.all(queue) // .then(() => { console.log("result", this.nodes[0]); })
                 // return intermediary;
             })
             .then(intermediary => {
-                console.log(3)
-                console.log("updated", this.nodes[0]);
+                // console.log(3)
+                // console.log("updated", this.nodes[0]);
                 this.saveChanges();
                 // this.nodes.push(intermediary);
             })
