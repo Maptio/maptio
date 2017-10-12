@@ -59,7 +59,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
         let router = this.router;
         let userFactory = this.userFactory;
 
-        
+
         if (!data) {
             uiService.clean();
             return;
@@ -158,8 +158,8 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             .append("path")
             .attr("id", function (d: any) { return "path" + d.data.id; });
 
-            // console.log(data)
-            // console.log(nodes)
+        // console.log(data)
+        // console.log(nodes)
         let patterns = definitions.selectAll("pattern")
             .data(nodes)
             .enter()
