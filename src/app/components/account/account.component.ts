@@ -8,6 +8,7 @@ import { Component } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Cloudinary } from "@cloudinary/angular-4.x";
 import { FileUploaderOptions, FileUploader, ParsedResponseHeaders } from "ng2-file-upload";
+import { UserFactory } from "../../shared/services/user.factory";
 
 @Component({
     selector: "account",
@@ -27,7 +28,7 @@ export class AccountComponent {
     private uploader: FileUploader;
     public isRefreshingPicture: boolean;
 
-    constructor(public auth: Auth, public errorService: ErrorService, private userService: UserService,
+    constructor(public auth: Auth, public errorService: ErrorService, private userService: UserService, private userFactory: UserFactory,
         private cloudinary: Cloudinary) {
         this.accountForm = new FormGroup({
             "firstname": new FormControl(this.firstname, [
@@ -65,8 +66,6 @@ export class AccountComponent {
             ]
         };
 
-
-
         this.uploader = new FileUploader(uploaderOptions);
         this.uploader.onBuildItemForm = (fileItem: any, form: FormData): any => {
             // Add Cloudinary's unsigned upload preset to the upload form
@@ -82,15 +81,28 @@ export class AccountComponent {
         };
 
         this.uploader.onCompleteItem = (item: any, response: string, status: number, headers: ParsedResponseHeaders) => {
-            this.userService.updateUserPictureUrl(this.user.user_id, JSON.parse(response).secure_url)
+            let pictureURL = JSON.parse(response).secure_url;
+            this.userService.updateUserPictureUrl(this.user.user_id, pictureURL)
                 .then((hasUpdated: boolean) => {
                     if (hasUpdated) {
                         this.auth.getUser();
+                        return
                     }
                     else
-                        return Promise.reject("Can't update your profile picture.")
+                        return Promise.reject("Cannot update your profile picture.")
                 }, (reason) => { this.errorMessage = reason })
+                .then(() => {
+                    this.user.picture = pictureURL;
+                    return this.userFactory.upsert(this.user).then(hasUpdated => {
+                        if (!hasUpdated)
+                            return Promise.reject("Cannot sync your profile picture")
+                    },
+                        () => { return Promise.reject("Cannot sync your profile picture") });
+                })
                 .then(() => { this.isRefreshingPicture = false })
+                .catch((reason) => {
+                    this.errorMessage = reason
+                })
         }
 
         this.uploader.onProgressItem = (fileItem: any, progress: any) => {
@@ -118,6 +130,18 @@ export class AccountComponent {
                     else
                         return Promise.reject("Can't update your user information.")
                 }, (reason) => { this.errorMessage = reason })
+                .then(() => {
+                    this.user.firstname = firstname;
+                    this.user.lastname = lastname;
+                    return this.userFactory.upsert(this.user).then(hasUpdated => {
+                        if (!hasUpdated)
+                            return Promise.reject("Cannot sync your user information")
+                    },
+                        () => { return Promise.reject("Cannot sync your user information") });
+                })
+                .catch((reason) => {
+                    this.errorMessage = reason
+                })
 
         }
     }
