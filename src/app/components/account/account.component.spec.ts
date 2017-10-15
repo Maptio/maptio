@@ -96,9 +96,8 @@ describe("account.component.ts", () => {
         }));
 
         it("should display correct confirmation messages  when update user profile succeed", async(() => {
-            component.ngOnInit();
 
-            user$.next(new User({ user_id: "some_new_id" }));
+            component.user = new User({ user_id: "some_new_id" });
 
             component.accountForm.setValue({
                 firstname: "something",
@@ -125,9 +124,7 @@ describe("account.component.ts", () => {
         }));
 
         it("should display correct error messages when update user profile fails", async(() => {
-            component.ngOnInit();
-
-            user$.next(new User({ user_id: "some_new_id" }));
+            component.user = new User({ user_id: "some_new_id" });
 
             component.accountForm.setValue({
                 firstname: "something",
@@ -156,9 +153,7 @@ describe("account.component.ts", () => {
         }));
 
         it("should display correct confirmation messages  when sync user profile fails ", async(() => {
-            component.ngOnInit();
-
-            user$.next(new User({ user_id: "some_new_id" }));
+            component.user = new User({ user_id: "some_new_id" });
 
             component.accountForm.setValue({
                 firstname: "something",
