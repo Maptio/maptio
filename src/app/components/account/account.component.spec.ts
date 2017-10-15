@@ -80,7 +80,7 @@ describe("account.component.ts", () => {
     })
 
 
-    fdescribe("save", () => {
+    describe("save", () => {
         it("should do nothing if form is unvalid", async(() => {
             component.accountForm.setValue({
                 firstname: "something",
