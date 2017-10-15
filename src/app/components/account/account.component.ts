@@ -129,7 +129,7 @@ export class AccountComponent {
                     }
                     else
                         return Promise.reject("Can't update your user information.")
-                }, (reason) => { this.errorMessage = reason })
+                }, (reason) => { return Promise.reject(reason)})
                 .then(() => {
                     this.user.firstname = firstname;
                     this.user.lastname = lastname;

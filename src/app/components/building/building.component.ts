@@ -117,7 +117,6 @@ export class BuildingComponent {
 
         return this.datasetFactory.get(id)
             .then(data => {
-                // console.log(1)
                 this.datasetId = id;
                 this.nodes = [];
                 this.nodes.push(new DataSet().deserialize(data).initiative);
@@ -129,23 +128,16 @@ export class BuildingComponent {
 
             })
             .then(() => {
-                // console.log(2)
                 let queue = this.nodes[0].traversePromise(function (node: Initiative) {
-                    if (node.accountable) {
-                        return this.userFactory.get(node.accountable.user_id).then((u: User) => {
-                            // console.log(node.name, u.user_id, u.name, u.picture)
-                            node.accountable.picture = u.picture;
-                        })
-                    }
-                }.bind(this))
-                return Promise.all(queue) // .then(() => { console.log("result", this.nodes[0]); })
-                // return intermediary;
+                    return this.userFactory.get(node.accountable ? node.accountable.user_id : undefined).then((u: User) => {
+                        node.accountable.picture = u.picture;
+                        return u.picture;
+                    }, () => { return Promise.reject("No user") }).catch(() => { })
+                }.bind(this));
+                return Promise.all(queue).then(t => t).catch(() => { })
             })
-            .then(intermediary => {
-                // console.log(3)
-                // console.log("updated", this.nodes[0]);
+            .then(() => {
                 this.saveChanges();
-                // this.nodes.push(intermediary);
             })
     }
 
@@ -168,7 +160,7 @@ export class BuildingComponent {
                 },
                 true);
         }
-        console.log("filterNodes")
+        // console.log("filterNodes")
         this.saveChanges();
     }
 
