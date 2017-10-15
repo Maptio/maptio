@@ -8,6 +8,7 @@ import { TestBed, inject, fakeAsync, async } from "@angular/core/testing";
 import { MockBackend, MockConnection } from "@angular/http/testing";
 import { Http, HttpModule, Response, BaseRequestOptions, ResponseOptions, RequestMethod } from "@angular/http";
 import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
+import { User } from "../../model/user.data";
 
 describe("user.service.ts", () => {
 
@@ -722,6 +723,151 @@ describe("user.service.ts", () => {
         })))
     })
 
+    describe("getUsersInfo", () => {
+        it("should not send request call when is empty array", fakeAsync(inject([UserService, Http, AuthConfiguration, MockBackend], (target: UserService, http: Http, configuration: AuthConfiguration, mockBackend: MockBackend) => {
+
+            mockBackend.connections.subscribe((connection: MockConnection) => {
+                if (connection.request.method === RequestMethod.Get
+                    && connection.request.url === `${environment.USERS_API_URL}?q=`
+                    && connection.request.headers.get("Authorization") === "Bearer token"
+                ) {
+                    connection.mockRespond(new Response(new ResponseOptions({
+                        body: []
+                    })));
+                }
+                else {
+                    throw new Error("URL " + connection.request.url + " is not configured");
+                }
+            });
+
+            let spyAccessToken = spyOn(configuration, "getAccessToken").and.returnValue(Promise.resolve("token"))
+
+            target.getUsersInfo([])
+                .then((result) => {
+                    // expect(result).toEqual([])
+                    expect(spyAccessToken).not.toHaveBeenCalled();
+                })
+                .catch((reason) => {
+                    expect(reason).toBe("You must specify some user ids.")
+                })
+
+        })));
+
+        it("should send request call when non empty array", fakeAsync(inject([UserService, Http, AuthConfiguration, MockBackend], (target: UserService, http: Http, configuration: AuthConfiguration, mockBackend: MockBackend) => {
+
+            mockBackend.connections.subscribe((connection: MockConnection) => {
+                if (connection.request.method === RequestMethod.Get
+                    && connection.request.url === `${environment.USERS_API_URL}?q=${encodeURIComponent("user_id=\"1\" OR user_id=\"2\" OR user_id=\"3\"")}`
+                    && connection.request.headers.get("Authorization") === "Bearer token"
+                ) {
+                    connection.mockRespond(new Response(new ResponseOptions({
+                        body: [{ user_id: "1" }, { user_id: "2" }, { user_id: "3" }]
+                    })));
+                }
+                else {
+                    throw new Error("URL " + connection.request.url + " is not configured");
+                }
+            });
+
+            let spyAccessToken = spyOn(configuration, "getAccessToken").and.returnValue(Promise.resolve("token"))
+
+            target.getUsersInfo([new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })])
+                .then((result) => {
+                    expect(result.length).toEqual(3);
+                    result.forEach((r, i) => { expect(r.user_id).toBe(`${i + 1}`) })
+                    expect(spyAccessToken).toHaveBeenCalled();
+                })
+
+        })));
+
+        it("should send request call when non empty array and retrieve only found users", fakeAsync(inject([UserService, Http, AuthConfiguration, MockBackend], (target: UserService, http: Http, configuration: AuthConfiguration, mockBackend: MockBackend) => {
+
+            mockBackend.connections.subscribe((connection: MockConnection) => {
+                if (connection.request.method === RequestMethod.Get
+                    && connection.request.url === `${environment.USERS_API_URL}?q=${encodeURIComponent("user_id=\"1\" OR user_id=\"2\" OR user_id=\"3\"")}`
+                    && connection.request.headers.get("Authorization") === "Bearer token"
+                ) {
+                    connection.mockRespond(new Response(new ResponseOptions({
+                        body: [{ user_id: "1" }, { user_id: "2" }]
+                    })));
+                }
+                else {
+                    throw new Error("URL " + connection.request.url + " is not configured");
+                }
+            });
+
+            let spyAccessToken = spyOn(configuration, "getAccessToken").and.returnValue(Promise.resolve("token"))
+
+            target.getUsersInfo([new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })])
+                .then((result) => {
+                    expect(result.length).toEqual(2);
+                    result.forEach((r, i) => { expect(r.user_id).toBe(`${i + 1}`) })
+                    expect(spyAccessToken).toHaveBeenCalled();
+                })
+
+        })));
+
+    });
+
+    describe("updateUserProfile", () => {
+        it("should call right dependencies ", fakeAsync(inject([UserService, Http, AuthConfiguration, MockBackend], (target: UserService, http: Http, configuration: AuthConfiguration, mockBackend: MockBackend) => {
+
+            mockBackend.connections.subscribe((connection: MockConnection) => {
+                if (connection.request.method === RequestMethod.Patch
+                    && connection.request.url === `${environment.USERS_API_URL}/ID`
+                    && connection.request.headers.get("Authorization") === "Bearer token"
+                    && connection.request.json().user_metadata.given_name === "John"
+                    && connection.request.json().user_metadata.family_name === "Doe"
+                    && connection.request.json().connection === environment.CONNECTION_NAME
+                ) {
+                    connection.mockRespond(new Response(new ResponseOptions({
+                        body: JSON.stringify({})
+                    })));
+                }
+                else {
+                    throw new Error("URL " + connection.request.url + " is not configured");
+                }
+            });
+
+            let spyAccessToken = spyOn(configuration, "getAccessToken").and.returnValue(Promise.resolve("token"))
+
+            target.updateUserProfile("ID", "John", "Doe")
+                .then((result) => {
+                    expect(spyAccessToken).toHaveBeenCalled();
+                    expect(result).toBe(true)
+                });
+        })))
+    });
+
+
+    describe("updateUserPictureUrl", () => {
+        it("should call right dependencies ", fakeAsync(inject([UserService, Http, AuthConfiguration, MockBackend], (target: UserService, http: Http, configuration: AuthConfiguration, mockBackend: MockBackend) => {
+
+            mockBackend.connections.subscribe((connection: MockConnection) => {
+                if (connection.request.method === RequestMethod.Patch
+                    && connection.request.url === `${environment.USERS_API_URL}/ID`
+                    && connection.request.headers.get("Authorization") === "Bearer token"
+                    && connection.request.json().user_metadata.picture === "picture_url"
+                    && connection.request.json().connection === environment.CONNECTION_NAME
+                ) {
+                    connection.mockRespond(new Response(new ResponseOptions({
+                        body: JSON.stringify({})
+                    })));
+                }
+                else {
+                    throw new Error("URL " + connection.request.url + " is not configured");
+                }
+            });
+
+            let spyAccessToken = spyOn(configuration, "getAccessToken").and.returnValue(Promise.resolve("token"))
+
+            target.updateUserPictureUrl("ID", "picture_url")
+                .then((result) => {
+                    expect(spyAccessToken).toHaveBeenCalled();
+                    expect(result).toBe(true)
+                });
+        })))
+    });
 
 });
 

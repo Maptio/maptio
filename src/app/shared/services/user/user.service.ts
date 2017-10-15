@@ -109,9 +109,10 @@ export class UserService {
     }
 
     public getUsersInfo(users: Array<User>): Promise<Array<User>> {
+        if (users.length === 0)
+            return Promise.reject("You must specify some user ids.")
+
         let query = users.map(u => `user_id="${u.user_id}"`).join(" OR ");
-
-
         return this.configuration.getAccessToken().then((token: string) => {
 
             let headers = new Headers();
@@ -128,7 +129,6 @@ export class UserService {
                             result.push(User.create().deserialize(input));
                         });
                     }
-                    // console.log(result)
                     return result;
                 })
                 .toPromise()
