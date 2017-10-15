@@ -25,7 +25,7 @@ export class AccountComponent {
 
     public firstname: string;
     public lastname: string;
-    private uploader: FileUploader;
+    public uploader: FileUploader;
     public isRefreshingPicture: boolean;
 
     constructor(public auth: Auth, public errorService: ErrorService, private userService: UserService, private userFactory: UserFactory,
