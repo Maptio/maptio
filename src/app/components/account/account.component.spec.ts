@@ -79,6 +79,74 @@ describe("account.component.ts", () => {
         expect(spy).toHaveBeenCalled();
     })
 
+    describe("updatePicture", () => {
+        it("should update profile picture", async(() => {
+            component.user = new User({ user_id: "some_new_id" });
+
+
+            let mockUserService = target.debugElement.injector.get(UserService);
+            let mockUserFactory = target.debugElement.injector.get(UserFactory);
+            let spyUpdateUserProfile = spyOn(mockUserService, "updateUserPictureUrl").and.returnValue(Promise.resolve(true))
+            let spyUpsert = spyOn(mockUserFactory, "upsert").and.returnValue(Promise.resolve(true))
+            let spyGetUser = spyOn(target.debugElement.injector.get(Auth), "getUser")
+
+            component.updatePicture("picture_url");
+
+            expect(spyUpdateUserProfile).toHaveBeenCalledWith("some_new_id", "picture_url");
+            spyUpdateUserProfile.calls.mostRecent().returnValue
+                .then(() => {
+                    expect(spyGetUser).toHaveBeenCalled();
+                })
+                .then(() => {
+                    expect(spyUpsert).toHaveBeenCalledWith(jasmine.objectContaining({ user_id: "some_new_id", picture: "picture_url" }))
+                })
+        }));
+
+        it("should display error messgae when update profile picture fails", async(() => {
+            component.user = new User({ user_id: "some_new_id" });
+
+
+            let mockUserService = target.debugElement.injector.get(UserService);
+            let mockUserFactory = target.debugElement.injector.get(UserFactory);
+            let spyUpdateUserProfile = spyOn(mockUserService, "updateUserPictureUrl").and.returnValue(Promise.resolve(false))
+            let spyUpsert = spyOn(mockUserFactory, "upsert")
+            let spyGetUser = spyOn(target.debugElement.injector.get(Auth), "getUser")
+
+            component.updatePicture("picture_url");
+
+            expect(spyUpdateUserProfile).toHaveBeenCalledWith("some_new_id", "picture_url");
+            spyUpdateUserProfile.calls.mostRecent().returnValue
+                .then(() => {
+                    expect(spyGetUser).not.toHaveBeenCalled();
+                })
+                .then(() => {
+                    expect(spyUpsert).not.toHaveBeenCalled();
+                })
+        }));
+
+        it("should display error messgae when update profile picture fails", async(() => {
+            component.user = new User({ user_id: "some_new_id" });
+
+
+            let mockUserService = target.debugElement.injector.get(UserService);
+            let mockUserFactory = target.debugElement.injector.get(UserFactory);
+            let spyUpdateUserProfile = spyOn(mockUserService, "updateUserPictureUrl").and.returnValue(Promise.resolve(true))
+            let spyUpsert = spyOn(mockUserFactory, "upsert").and.returnValue(Promise.resolve(false))
+            let spyGetUser = spyOn(target.debugElement.injector.get(Auth), "getUser")
+
+            component.updatePicture("picture_url");
+
+            expect(spyUpdateUserProfile).toHaveBeenCalledWith("some_new_id", "picture_url");
+            spyUpdateUserProfile.calls.mostRecent().returnValue
+                .then(() => {
+                    expect(spyGetUser).toHaveBeenCalled();
+                })
+                .then(() => {
+                    expect(spyUpsert).toHaveBeenCalledWith(jasmine.objectContaining({ user_id: "some_new_id", picture: "picture_url" }))
+                })
+        }));
+
+    })
 
     describe("save", () => {
         it("should do nothing if form is unvalid", async(() => {

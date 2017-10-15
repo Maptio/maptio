@@ -82,27 +82,7 @@ export class AccountComponent {
 
         this.uploader.onCompleteItem = (item: any, response: string, status: number, headers: ParsedResponseHeaders) => {
             let pictureURL = JSON.parse(response).secure_url;
-            this.userService.updateUserPictureUrl(this.user.user_id, pictureURL)
-                .then((hasUpdated: boolean) => {
-                    if (hasUpdated) {
-                        this.auth.getUser();
-                        return
-                    }
-                    else
-                        return Promise.reject("Cannot update your profile picture.")
-                }, (reason) => { this.errorMessage = reason })
-                .then(() => {
-                    this.user.picture = pictureURL;
-                    return this.userFactory.upsert(this.user).then(hasUpdated => {
-                        if (!hasUpdated)
-                            return Promise.reject("Cannot sync your profile picture")
-                    },
-                        () => { return Promise.reject("Cannot sync your profile picture") });
-                })
-                .then(() => { this.isRefreshingPicture = false })
-                .catch((reason) => {
-                    this.errorMessage = reason
-                })
+            this.updatePicture(pictureURL);
         }
 
         this.uploader.onProgressItem = (fileItem: any, progress: any) => {
@@ -129,7 +109,7 @@ export class AccountComponent {
                     }
                     else
                         return Promise.reject("Can't update your user information.")
-                }, (reason) => { return Promise.reject(reason)})
+                }, (reason) => { return Promise.reject(reason) })
                 .then(() => {
                     this.user.firstname = firstname;
                     this.user.lastname = lastname;
@@ -144,6 +124,30 @@ export class AccountComponent {
                 })
 
         }
+    }
+
+    updatePicture(pictureURL: string) {
+        this.userService.updateUserPictureUrl(this.user.user_id, pictureURL)
+            .then((hasUpdated: boolean) => {
+                if (hasUpdated) {
+                    this.auth.getUser();
+                    return
+                }
+                else
+                    return Promise.reject("Cannot update your profile picture.")
+            }, (reason) => { return Promise.reject("Cannot update your profile picture.") })
+            .then(() => {
+                this.user.picture = pictureURL;
+                return this.userFactory.upsert(this.user).then(hasUpdated => {
+                    if (!hasUpdated)
+                        return Promise.reject("Cannot sync your profile picture")
+                },
+                    () => { return Promise.reject("Cannot sync your profile picture") });
+            })
+            .then(() => { this.isRefreshingPicture = false })
+            .catch((reason) => {
+                this.errorMessage = reason
+            })
     }
 
 
