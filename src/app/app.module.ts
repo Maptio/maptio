@@ -65,9 +65,9 @@ import { AutoSelectDirective } from "./shared/directives/autoselect.directive"
 import { AnchorDirective } from "./shared/directives/anchor.directive"
 
 // External libraries
-import {FileUploadModule} from "ng2-file-upload";
+import { FileUploadModule } from "ng2-file-upload";
 import { CloudinaryModule } from "@cloudinary/angular-4.x";
-import * as  Cloudinary from "cloudinary-core";
+import { Cloudinary } from "cloudinary-core";
 import { D3Service } from "d3-ng2-service";
 import { TreeModule } from "angular-tree-component";
 import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
@@ -111,6 +111,10 @@ const appRoutes: Routes = [
   { path: "**", redirectTo: "/404" }
 ];
 
+export const cloudinaryLib = {
+  Cloudinary: Cloudinary
+};
+
 @NgModule({
   declarations: [
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent, TeamComponent,
@@ -142,7 +146,7 @@ const appRoutes: Routes = [
     }),
     Angulartics2Module.forRoot([Angulartics2Mixpanel]),
     FileUploadModule,
-    CloudinaryModule.forRoot(Cloudinary, { cloud_name: environment.CLOUDINARY_CLOUDNAME, upload_preset: environment.CLOUDINARY_UPLOAD_PRESET})
+    CloudinaryModule.forRoot(cloudinaryLib, { cloud_name: environment.CLOUDINARY_CLOUDNAME, upload_preset: environment.CLOUDINARY_UPLOAD_PRESET })
   ],
   exports: [RouterModule],
   providers: [
