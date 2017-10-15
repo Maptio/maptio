@@ -158,6 +158,8 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             .append("path")
             .attr("id", function (d: any) { return "path" + d.data.id; });
 
+        // console.log(data)
+        // console.log(nodes)
         let patterns = definitions.selectAll("pattern")
             .data(nodes)
             .enter()
@@ -169,7 +171,10 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             .append("image")
             .attr("width", CIRCLE_RADIUS * 2)
             .attr("height", CIRCLE_RADIUS * 2)
-            .attr("xlink:href", function (d: any) { return d.data.accountable.picture; });
+            .attr("xlink:href", function (d: any) {
+                // if(d.data.accountable) console.log(d.data.id, d.data.name, d.data.accountable.user_id, d.data.accountable.name, d.data.accountable.picture)
+                return d.data.accountable.picture;
+            });
 
         let textGroups = svg.select("g").selectAll("g").data(nodes);
 

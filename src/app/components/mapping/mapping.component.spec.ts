@@ -104,9 +104,31 @@ describe("mapping.component.ts", () => {
             }));
         });
 
+        describe("getComponentFactory", () => {
+            it("should return MappingCirclesComponent if layout is initiatives", () => {
+                let actual = component.getComponentFactory("initiatives");
+                expect(actual.componentType.name).toBe("MappingCirclesComponent")
+            });
+
+            it("should return MappingTreeComponent if layout is people", () => {
+                let actual = component.getComponentFactory("people");
+                expect(actual.componentType.name).toBe("MappingTreeComponent")
+            });
+
+            it("should return MappingNetworkComponent if layout is network", () => {
+                let actual = component.getComponentFactory("network");
+                expect(actual.componentType.name).toBe("MappingNetworkComponent")
+            });
+
+            it("should return MappingCirclesComponent if layout is empty", () => {
+                let actual = component.getComponentFactory("");
+                expect(actual.componentType.name).toBe("MappingCirclesComponent")
+            });
+        });
+
         describe("show", () => {
             it("should instanciate MappingCirclesComponent when layout is 'initiatives'", () => {
-                component.data = { initiative: new Initiative({}), datasetId: "some_id" }
+                // component.data = { initiative: new Initiative({}), datasetId: "some_id" }
                 let mockD3Service = target.debugElement.injector.get(D3Service);
                 let mockColorService = target.debugElement.injector.get(ColorService);
                 let mockUIService = target.debugElement.injector.get(UIService);
@@ -122,14 +144,14 @@ describe("mapping.component.ts", () => {
                 let spyCreateComponent = spyOn(component.anchorComponent, "createComponent").and.returnValue(mockComponent);
 
                 component.componentFactory = mockFactory;
-                component.show();
+                component.show({ initiative: new Initiative({}), datasetId: "some_id" });
                 expect(spyCreateComponent).toHaveBeenCalledWith(mockFactory);
                 expect(spyDraw).toHaveBeenCalled();
                 expect(spyGetInstance).toHaveBeenCalled();
             });
 
             it("should instanciate MappingTreeComponent when layout is 'people'", () => {
-                component.data = { initiative: new Initiative({}), datasetId: "some_id" }
+                // component.data = { initiative: new Initiative({}), datasetId: "some_id" }
                 let mockD3Service = target.debugElement.injector.get(D3Service);
                 let mockColorService = target.debugElement.injector.get(ColorService);
                 let mockUIService = target.debugElement.injector.get(UIService);
@@ -145,7 +167,7 @@ describe("mapping.component.ts", () => {
                 let spyCreateComponent = spyOn(component.anchorComponent, "createComponent").and.returnValue(mockComponent);
 
                 component.componentFactory = mockFactory;
-                component.show();
+                component.show({ initiative: new Initiative({}), datasetId: "some_id" });
                 expect(spyCreateComponent).toHaveBeenCalledWith(mockFactory);
                 expect(spyDraw).toHaveBeenCalled();
                 expect(spyGetInstance).toHaveBeenCalled()

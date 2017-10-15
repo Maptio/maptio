@@ -190,7 +190,7 @@ export class LoginComponent implements OnInit {
                                 });
                         })
                         .then((user_id: string) => {
-                            return this.userService.updateUserInformation(user_id, password, firstname, lastname)
+                            return this.userService.updateUserCredentials(user_id, password, firstname, lastname)
                                 .then(isUpdated => {
                                     if (isUpdated) {
                                         return Promise.resolve(user_id)

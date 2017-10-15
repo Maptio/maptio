@@ -126,6 +126,24 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
         }
     }
 
+    traversePromise(callback: ((n: Initiative) => Promise<void>)): Array<Promise<void>> {
+        let queue: Array<Promise<void>> = [];
+
+        let recursion = (node: Initiative) => {
+            // console.log(node.children)
+            // queue.push(callback.apply(this, [node]));
+            if (node.children) {
+                node.children.forEach(function (child: Initiative) {
+                    // console.log("name", child.name, "queue length", queue)
+                    queue.push(callback.apply(this, [child]));
+                    recursion(child)
+                });
+            }
+        }
+        recursion(this);
+        return queue;
+    }
+
     getParent(tree: Initiative): Initiative {
         let parent: Initiative;
         let id = this.id;

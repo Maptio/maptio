@@ -7,7 +7,7 @@ import {
     AfterViewInit,
     ViewChild, ViewContainerRef, ComponentFactoryResolver, ElementRef,
     OnInit,
-    ChangeDetectionStrategy, ChangeDetectorRef, ComponentRef, ComponentFactory
+    ChangeDetectionStrategy, ChangeDetectorRef, ComponentRef, ComponentFactory, Input
 } from "@angular/core";
 
 import { DataService } from "../../shared/services/data.service"
@@ -71,27 +71,14 @@ export class MappingComponent implements OnInit {
 
         this.subscription =
             Observable
-                .combineLatest(this.route.params.distinct(), this.dataService.get().distinctUntilChanged())
+                .combineLatest(this.route.params.distinct(), this.dataService.get())
                 .subscribe((value) => {
                     let layout = value[0]["layout"];
                     this.data = value[1];
 
-                    switch (layout) {
-                        case "initiatives": // Views.Circles:
-                            this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent)
-                            break;
-                        case "people": // Views.Tree:
-                            this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(MappingTreeComponent)
-                            break;
-                        case "network": // Views.Tree:
-                            this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(MappingNetworkComponent)
-                            break;
-                        default: // by default , the initiatives view is displayed
-                            this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent)
-                            break;
-                    }
+                    this.componentFactory = this.getComponentFactory(layout)
 
-                    this.show();
+                    this.show(value[1]);
 
                 })
     }
@@ -103,21 +90,34 @@ export class MappingComponent implements OnInit {
         this.subscription.unsubscribe();
     }
 
+    getComponentFactory(layout: string) {
+        switch (layout) {
+            case "initiatives":
+                return this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent);
+            case "people":
+                return this.componentFactoryResolver.resolveComponentFactory(MappingTreeComponent);
+            case "network":
+                return this.componentFactoryResolver.resolveComponentFactory(MappingNetworkComponent);
+            default:
+                return this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent);
+        }
+    }
+
     getInstance(component: ComponentRef<IDataVisualizer>): IDataVisualizer {
         return component.instance;
     }
 
-    show() {
+    show(data: any) {
         let component = this.anchorComponent.createComponent<IDataVisualizer>(this.componentFactory);
-
+        // console.log("mapping", data.initiative)
         let instance = this.getInstance(component);
         instance.width = 1522; // this.element.nativeElement.parentNode.parentNode.parentNode.offsetHeight;
         instance.height = 1522; // this.element.nativeElement.parentNode.parentNode.parentNode.offsetHeight;
         instance.margin = 50;
-        instance.datasetId = this.data.datasetId;
+        instance.datasetId = data.datasetId;
         instance.zoom$ = this.zoom$.asObservable();
         instance.fontSize$ = this.fontSize$.asObservable();
-        instance.draw(this.data.initiative);
+        instance.draw(data.initiative);
     }
 
 
