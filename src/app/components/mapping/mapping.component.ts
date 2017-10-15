@@ -76,20 +76,7 @@ export class MappingComponent implements OnInit {
                     let layout = value[0]["layout"];
                     this.data = value[1];
 
-                    switch (layout) {
-                        case "initiatives": // Views.Circles:
-                            this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent)
-                            break;
-                        case "people": // Views.Tree:
-                            this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(MappingTreeComponent)
-                            break;
-                        case "network": // Views.Network:
-                            this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(MappingNetworkComponent)
-                            break;
-                        default: // by default , the initiatives view is displayed
-                            this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent)
-                            break;
-                    }
+                    this.componentFactory = this.getComponentFactory(layout)
 
                     this.show(value[1]);
 
@@ -101,6 +88,19 @@ export class MappingComponent implements OnInit {
 
     ngOnDestroy() {
         this.subscription.unsubscribe();
+    }
+
+    getComponentFactory(layout: string) {
+        switch (layout) {
+            case "initiatives":
+                return this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent);
+            case "people":
+                return this.componentFactoryResolver.resolveComponentFactory(MappingTreeComponent);
+            case "network":
+                return this.componentFactoryResolver.resolveComponentFactory(MappingNetworkComponent);
+            default:
+                return this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent);
+        }
     }
 
     getInstance(component: ComponentRef<IDataVisualizer>): IDataVisualizer {

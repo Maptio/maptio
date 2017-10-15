@@ -104,6 +104,28 @@ describe("mapping.component.ts", () => {
             }));
         });
 
+        describe("getComponentFactory", () => {
+            it("should return MappingCirclesComponent if layout is initiatives", () => {
+                let actual = component.getComponentFactory("initiatives");
+                expect(actual.componentType.name).toBe("MappingCirclesComponent")
+            });
+
+            it("should return MappingTreeComponent if layout is people", () => {
+                let actual = component.getComponentFactory("people");
+                expect(actual.componentType.name).toBe("MappingTreeComponent")
+            });
+
+            it("should return MappingNetworkComponent if layout is network", () => {
+                let actual = component.getComponentFactory("network");
+                expect(actual.componentType.name).toBe("MappingNetworkComponent")
+            });
+
+            it("should return MappingCirclesComponent if layout is empty", () => {
+                let actual = component.getComponentFactory("");
+                expect(actual.componentType.name).toBe("MappingCirclesComponent")
+            });
+        });
+
         describe("show", () => {
             it("should instanciate MappingCirclesComponent when layout is 'initiatives'", () => {
                 // component.data = { initiative: new Initiative({}), datasetId: "some_id" }
