@@ -30,6 +30,13 @@ export class DashboardComponent {
 
                     )))
                 .then(datasets => _.compact(datasets))
+                .then(datasets => datasets.map(d => {
+                    let i = 0
+                    d.initiative.traverse((n) => { i++ })
+                    d.depth = i;
+                    return d;
+                })
+                )
                 .then((datasets: Array<DataSet>) => {
                     return datasets.map(d => {
                         this.teamFactory.get(d.initiative.team_id).then(team => { d.team = team }, () => { d.team = undefined })

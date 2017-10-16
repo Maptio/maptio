@@ -7,18 +7,25 @@
             <div class="row mb-3" *ngFor="let dataset of (datasets$ | async)">
                 <div class="card mb-3 ">
                     <div class="d-flex w-100 justify-content-between card-header">
-                        <h5><a routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}"> {{dataset.initiative.name}}</a></h5>
-                        <small class="text-muted">Team <a routerLink="/team/{{dataset.team?.team_id}}/{{dataset.team?.getSlug()}}">{{dataset.team?.name}}</a></small>
+                        <h5>
+                            <a routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}"> {{dataset.initiative.name}}</a>
+                        </h5>
+                        <small class="text-muted">Team
+                            <a routerLink="/team/{{dataset.team?.team_id}}/{{dataset.team?.getSlug()}}">{{dataset.team?.name}}</a>
+                        </small>
                     </div>
                     <div class="card-block">
-                        <small *ngIf="dataset.initiative.children" class="text-muted">Vision held by 
-                                <img class="visionnary rounded-circle" src="{{dataset.initiative.children[0]?.accountable?.picture}}" alt="{{dataset.initiative.children[0]?.accountable?.name}}"
-                                placement="top" container="body" ngbTooltip="{{dataset.initiative.children[0]?.accountable?.name}}"><b> {{dataset.initiative.children[0]?.accountable?.name}}</b> 
-                            </small>
+                        <small *ngIf="dataset.initiative.children" class="text-muted">Vision held by
+                            <img class="visionnary rounded-circle" src="{{dataset.initiative.children[0]?.accountable?.picture}}" alt="{{dataset.initiative.children[0]?.accountable?.name}}"
+                                placement="top" container="body" ngbTooltip="{{dataset.initiative.children[0]?.accountable?.name}}">
+                            <b> {{dataset.initiative.children[0]?.accountable?.name}}</b>
+                        </small>
 
-                            <small *ngIf="!dataset.initiative.children" class="text-warning">
-                                No vision holder yet.
-                            </small>
+                        <small *ngIf="!dataset.initiative.children" class="text-warning">
+                            No vision holder yet.
+                        </small>
+
+                        <small class="pull-right">{{dataset.depth}} sub-initiatives</small>
 
                     </div>
                 </div>

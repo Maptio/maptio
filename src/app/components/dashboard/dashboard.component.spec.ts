@@ -107,9 +107,11 @@ describe("dashboard.component.ts", () => {
             expect(ds[0]._id).toBe("1");
             expect(ds[0].initiative.name).toBe(`Name 1`);
             expect(ds[0].team.name).toBe(`Team team_1`);
+            expect(ds[0].depth).toBe(0);
             expect(ds[1]._id).toBe("3");
             expect(ds[1].initiative.name).toBe(`Name 3`);
             expect(ds[1].team.name).toBe(`Team team_3`);
+            expect(ds[1].depth).toBe(0);
         })
 
     }));
