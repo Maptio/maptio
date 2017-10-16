@@ -131,6 +131,7 @@ export class BuildingComponent {
                 let queue = this.nodes[0].traversePromise(function (node: Initiative) {
                     return this.userFactory.get(node.accountable ? node.accountable.user_id : undefined).then((u: User) => {
                         node.accountable.picture = u.picture;
+                        node.accountable.name = u.name
                         return u.picture;
                     }, () => { return Promise.reject("No user") }).catch(() => { })
                 }.bind(this));

@@ -97,7 +97,7 @@ describe("building.component.ts", () => {
 
             let spyDataService = spyOn(mockDataService, "get").and.returnValue(Promise.resolve(fixture.json[0]));
             spyOn(mockUserFactory, "get").and.callFake((user_id: string) => {
-                return Promise.resolve(new User({ picture: `URL${user_id}` }))
+                return Promise.resolve(new User({ picture: `URL${user_id}`, name: `Name${user_id}` }))
             })
             spyOn(component, "saveChanges")
             component.loadData("someId").then(() => {
@@ -113,6 +113,9 @@ describe("building.component.ts", () => {
                     .then(() => {
                         expect(component.nodes[0].children[0].accountable.picture).toBe("URL1");
                         expect(component.nodes[0].children[1].accountable.picture).toBe("URL2");
+                        expect(component.nodes[0].children[2].accountable).toBeUndefined()
+                        expect(component.nodes[0].children[0].accountable.name).toBe("Name1");
+                        expect(component.nodes[0].children[1].accountable.name).toBe("Name2");
                         expect(component.nodes[0].children[2].accountable).toBeUndefined()
                     })
                     .then((queue: any) => {
