@@ -7,7 +7,7 @@ import { User } from "./../../shared/model/user.data";
 import { Component } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Cloudinary } from "@cloudinary/angular-4.x";
-import { FileUploaderOptions, FileUploader, ParsedResponseHeaders } from "ng2-file-upload";
+import { FileUploaderOptions, FileUploader, ParsedResponseHeaders, FileLikeObject } from "ng2-file-upload";
 import { UserFactory } from "../../shared/services/user.factory";
 
 @Component({
@@ -54,6 +54,8 @@ export class AccountComponent {
             autoUpload: true,
             // Use xhrTransport in favor of iframeTransport
             isHTML5: true,
+
+            maxFileSize: 1024000 *2,
             // Calculate progress independently for each uploaded file
             removeAfterUpload: true,
             // XHR request headers
@@ -67,7 +69,8 @@ export class AccountComponent {
 
         this.uploader = new FileUploader(uploaderOptions);
         this.uploader.onBuildItemForm = (fileItem: any, form: FormData): any => {
-            this.isRefreshingPicture = true
+            this.isRefreshingPicture = true;
+            this.errorMessage = "";
             // Add Cloudinary's unsigned upload preset to the upload form
             form.append("upload_preset", this.cloudinary.config().upload_preset);
             // Add built-in and custom tags for displaying the uploaded photo in the list
@@ -79,6 +82,13 @@ export class AccountComponent {
             fileItem.withCredentials = false;
             return { fileItem, form };
         };
+
+        this.uploader.onWhenAddingFileFailed = (item: FileLikeObject, filter: any, options: any) => {
+
+            if (filter.name === "fileSize") {
+                this.errorMessage = "The image size must not exceed 2mb."
+            }
+        }
 
         this.uploader.onCompleteItem = (item: any, response: string, status: number, headers: ParsedResponseHeaders) => {
             let pictureURL = JSON.parse(response).secure_url;
