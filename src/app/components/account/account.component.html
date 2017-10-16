@@ -1,6 +1,4 @@
 <div class="m-3">
-
-    <h1 class="name offset-3">{{user?.name}}</h1>
     <div class="alert alert-success alert-dismissable" role="alert" *ngIf="feedbackMessage">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
         {{feedbackMessage}}
@@ -15,16 +13,26 @@
                 <div *ngIf="isRefreshingPicture">Refreshing...</div>
             </div>
             <input class="inputfile" type="file" id="fileupload" #fileInput ng2FileSelect [uploader]="uploader" (change)="fileInput.value=''"
-            accept="image/*"  />
-            <label for="fileupload" >
-                <i class="fa fa-upload" aria-hidden="true" ></i><small class="text-muted"> Maxixum size : 2MB</small> 
+                accept="image/*" />
+            <label for="fileupload">
+                <i class="fa fa-upload" aria-hidden="true"></i>
+                <small class="text-muted"> Maxixum size : 2MB</small>
             </label>
         </div>
 
 
         <form class="form-group col-9" [formGroup]="accountForm" (submit)="save()">
+            <div class="d-flex w-100 justify-content-between">
+                <h1 class="mb-3">{{user?.name}}</h1>
+                <h6 class="email">
+                    <span class="fa-stack fa-lg">
+                        <i class="fa fa-circle fa-stack-2x"></i>
+                        <i class="fa fa-envelope-o fa-stack-1x fa-inverse"></i>
+                    </span>
+                    {{user?.email}}</h6>
+            </div>
             <div class="form-group" [class.has-warning]="accountForm.controls['firstname'].invalid  && (accountForm.controls['firstname'].dirty || accountForm.controls['firstname'].touched)">
-                <label for="inputFirstname">Firstname</label>
+                <label for="inputFirstname">First name</label>
                 <input type="text" class="form-control form-control-warning form-control-lg" [(ngModel)]="firstname" formControlName="firstname"
                     placeholder="e.g. Harvey" required>
                 <small class="form-control-feedback" *ngIf="accountForm.controls['firstname'].invalid  && (accountForm.controls['firstname'].dirty || accountForm.controls['firstname'].touched)">
@@ -32,18 +40,14 @@
                 </small>
             </div>
             <div class="form-group" [class.has-warning]="accountForm.controls['lastname'].invalid  && (accountForm.controls['lastname'].dirty || accountForm.controls['lastname'].touched)">
-                <label for="inputLastname">Lastname</label>
+                <label for="inputLastname">Last name</label>
                 <input type="text" class="form-control form-control-warning form-control-lg" [(ngModel)]="lastname" formControlName="lastname"
                     placeholder="e.g. Dent" required>
                 <small class="form-control-feedback" *ngIf="accountForm.controls['lastname'].invalid  && (accountForm.controls['lastname'].dirty || accountForm.controls['lastname'].touched)">
                     In the army, that's how they would refer to you. Just tell us (please)
                 </small>
             </div>
-            <div class="form-group">
-                <label for="inputEmail">Email</label>
-                <input id="email" type="email" class="form-control form-control-lg" value="{{user?.email}}" placeholder="e.g. harvey.dent@gothamcity.gov"
-                    disabled>
-            </div>
+
             <button type="submit" class="btn btn-success btn-lg pull-right" [class.disabled]="!accountForm.valid">Save</button>
         </form>
 

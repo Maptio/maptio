@@ -98,8 +98,6 @@ export class AccountComponent {
         this.uploader.onProgressItem = (fileItem: any, progress: any) => {
             this.isRefreshingPicture = true
         }
-
-
     }
 
     ngOnDestroy() {
