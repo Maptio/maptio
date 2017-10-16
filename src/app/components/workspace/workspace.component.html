@@ -1,25 +1,26 @@
 <div class="row header">
     <div class="col-auto">
         <a class="dropdown-toggle mr-3" id="teamDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        {{(team|async)?.name}}
-     </a>
+            {{(team|async)?.name}}
+        </a>
         <div class="dropdown-menu" aria-labelledby="teamDropdownLink">
             <a class="dropdown-item" (click)="addTeamToInitiative(team)" *ngFor="let team of teams | async">
                 {{team.name}}
-             </a>
+            </a>
         </div>
     </div>
     <div class="col">
         <div class="btn-group pull-left d-flex flex-wrap" *ngIf="team | async">
             <a *ngFor="let user of members | async" class="btn btn-link btn-xs no-padding" [class.deleted]="user.isDeleted" routerLink="/summary/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/u/{{user.shortid}}/{{user.getSlug()}}">
-            <img *ngIf="user?.picture" class="member rounded-circle" src="{{user?.picture}}" alt="{{user?.name}}" title="{{user?.name}}"
-            placement="top" container="body" ngbTooltip="{{user?.name}}">
-            <img *ngIf="!user?.picture" class="member rounded-circle" src="/assets/images/user.jpg" alt="{{user?.name}}" title="{{user?.name}}"
-            placement="top" container="body" ngbTooltip="{{user?.name}}">
-        </a>
-            <a class="btn btn-link btn-xs no-padding" routerLink="/team/{{(team |async)?.team_id}}/{{(team|async)?.getSlug()}}">
-            <i class="fa fa-plus" aria-hidden="true"></i>
-        </a>
+                <img *ngIf="user?.picture" class="member rounded-circle" src="{{user?.picture}}" alt="{{user?.name}}" title="{{user?.name}}"
+                    placement="top" container="body" ngbTooltip="{{user?.name}}">
+                <img *ngIf="!user?.picture" class="member rounded-circle" src="/assets/images/user.jpg" alt="{{user?.name}}" title="{{user?.name}}"
+                    placement="top" container="body" ngbTooltip="{{user?.name}}">
+            </a>
+            <a class="btn btn-link btn-xs no-padding" routerLink="/team/{{(team |async)?.team_id}}/{{(team|async)?.getSlug()}}"
+                placement="top" container="body" ngbTooltip="Add team member">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+            </a>
         </div>
     </div>
 
@@ -27,8 +28,8 @@
 
 <div id="sideNavTree" class="" [class.showTree]="!isBuildingPanelCollapsed">
     <a class="btn toggle" (click)="toggleBuildingPanel()" [class.showTree]="!isBuildingPanelCollapsed">
-            <i class="fa all" [class.fa-pencil]="isBuildingPanelCollapsed" aria-hidden="true"></i>
-            <i class="fa" [class.fa-times]="!isBuildingPanelCollapsed" aria-hidden="true"></i>
+        <i class="fa all" [class.fa-pencil]="isBuildingPanelCollapsed" aria-hidden="true"></i>
+        <i class="fa" [class.fa-times]="!isBuildingPanelCollapsed" aria-hidden="true"></i>
     </a>
 
     <div id="edit-panel-tree" class="mt-3 ml-1 mr-3 row" [class.showTree]="!isBuildingPanelCollapsed">
@@ -40,8 +41,8 @@
 
 <div id="sideNavDetails" class="rounded-right" [class.showDetails]="!isDetailsPanelCollapsed" [class.showTree]="!isBuildingPanelCollapsed">
     <a class="btn toggle" (click)="toggleDetailsPanel()" [class.showDetails]="!isDetailsPanelCollapsed">
-                <i class="fa" [class.fa-times]="!isDetailsPanelCollapsed" aria-hidden="true"></i>
-        </a>
+        <i class="fa" [class.fa-times]="!isDetailsPanelCollapsed" aria-hidden="true"></i>
+    </a>
 
     <div id="edit-panel-details" class=" ml-1 showDetails" [class.showDetails]="!isDetailsPanelCollapsed">
         <div class="details" *ngIf="!isDetailsPanelCollapsed">
@@ -66,13 +67,14 @@
     <div class="modal-header">
         You are about to switch teams
         <button type="button" class="close" aria-label="Close" (click)="d(false)">
-          <span aria-hidden="true">&times;</span>
+            <span aria-hidden="true">&times;</span>
         </button>
     </div>
 
     <div class="modal-body">
         <p>
-            Switching teams keeps your initiative structure intact but <b>resets authorities and helpers</b> .
+            Switching teams keeps your initiative structure intact but
+            <b>resets authorities and helpers</b> .
         </p>
     </div>
     <div class="modal-footer">
