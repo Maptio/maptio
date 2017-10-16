@@ -208,7 +208,28 @@ describe("teams-list.component.ts", () => {
     });
 
     describe("createNewTeam", () => {
+        it("should do nothing if the form is not valid", async(() => {
+
+            component.createForm.setValue({
+                teamName: ""
+            })
+
+            let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
+
+            let spyCreate = spyOn(mockTeamFactory, "create")
+            component.createNewTeam();
+
+            expect(spyCreate).not.toHaveBeenCalled();
+
+        }));
+
+
         it("should create a new team and add current user to it", async(() => {
+
+            component.createForm.setValue({
+                teamName: "New"
+            })
+            component.createForm.markAsDirty();
 
             let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
             let mockUserFactory = target.debugElement.injector.get(UserFactory);
@@ -216,8 +237,8 @@ describe("teams-list.component.ts", () => {
             let spyCreate = spyOn(mockTeamFactory, "create").and.returnValue(Promise.resolve(new Team({ team_id: "3" })))
             let spyUpsert = spyOn(mockUserFactory, "upsert").and.returnValue(Promise.resolve(true))
 
-            user$.next(new User({ user_id: "123", teams: ["1", "2"] }));
-            component.createNewTeam("New");
+            component.user = new User({ user_id: "123", teams: ["1", "2"] });
+            component.createNewTeam();
 
             expect(spyCreate).toHaveBeenCalledWith(jasmine.objectContaining({ name: "New", members: [jasmine.objectContaining({ user_id: "123" })] }))
 
@@ -231,14 +252,19 @@ describe("teams-list.component.ts", () => {
 
         it("should display error message if creation fails", async(() => {
 
+            component.createForm.setValue({
+                teamName: "New"
+            })
+            component.createForm.markAsDirty();
+
             let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
             let mockUserFactory = target.debugElement.injector.get(UserFactory);
 
             let spyCreate = spyOn(mockTeamFactory, "create").and.returnValue(Promise.reject("Cant create this team"))
             let spyUpsert = spyOn(mockUserFactory, "upsert")
 
-            user$.next(new User({ user_id: "123", teams: ["1", "2"] }));
-            component.createNewTeam("New");
+            component.user = new User({ user_id: "123", teams: ["1", "2"] });
+            component.createNewTeam();
 
             expect(spyCreate).toHaveBeenCalledWith(jasmine.objectContaining({ name: "New", members: [jasmine.objectContaining({ user_id: "123" })] }))
 
@@ -254,14 +280,19 @@ describe("teams-list.component.ts", () => {
 
         it("should display error message if user update fails", async(() => {
 
+            component.createForm.setValue({
+                teamName: "New"
+            })
+            component.createForm.markAsDirty();
+
             let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
             let mockUserFactory = target.debugElement.injector.get(UserFactory);
 
             let spyCreate = spyOn(mockTeamFactory, "create").and.returnValue(Promise.resolve(new Team({ team_id: "3" })))
             let spyUpsert = spyOn(mockUserFactory, "upsert").and.returnValue(Promise.resolve(false))
 
-            user$.next(new User({ user_id: "123", teams: ["1", "2"] }));
-            component.createNewTeam("New");
+            component.user = new User({ user_id: "123", teams: ["1", "2"] });
+            component.createNewTeam();
 
             expect(spyCreate).toHaveBeenCalledWith(jasmine.objectContaining({ name: "New", members: [jasmine.objectContaining({ user_id: "123" })] }))
 

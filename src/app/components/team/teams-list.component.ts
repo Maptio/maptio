@@ -1,3 +1,4 @@
+import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { Subscription } from "rxjs/Rx";
 import { UserFactory } from "./../../shared/services/user.factory";
@@ -24,11 +25,22 @@ export class TeamsListComponent implements OnInit {
     public errorMessage: string;
     public isLoading: boolean;
 
+    public createForm: FormGroup;
+    public teamName: string;
+
     constructor(public auth: Auth, private teamFactory: TeamFactory, private userFactory: UserFactory, private userService: UserService, private analytics: Angulartics2Mixpanel) {
         this.isLoading = true;
         this.userSubscription = this.auth.getUser().subscribe((user: User) => {
             this.user = user;
         })
+
+        this.createForm = new FormGroup({
+            "teamName": new FormControl(this.teamName, [
+                Validators.required,
+                Validators.minLength(2)
+            ]),
+        });
+
         this.getTeams();
     }
 
@@ -42,28 +54,37 @@ export class TeamsListComponent implements OnInit {
     }
 
 
-    createNewTeam(teamName: string) {
-        this.teamFactory.create(new Team({ name: teamName, members: [this.user] }))
-            .then((team: Team) => {
-                this.user.teams.push(team.team_id);
-                this.userFactory.upsert(this.user)
-                    .then((result: boolean) => {
-                        if (result) {
-                            this.getTeams();
-                            this.analytics.eventTrack("Create team", { email: this.user.email, name: teamName, teamId: team.team_id })
-                        }
-                        else {
-                            return Promise.reject(`Unable to add you to team ${teamName}!`)
-                        }
-                    })
-                    .catch((reason) => {
-                        this.errorMessage = reason;
-                    })
-            },
-            () => { return Promise.reject(`Unable to create team ${teamName}!`) })
-            .catch((reason) => {
-                this.errorMessage = reason;
-            })
+    createNewTeam() {
+
+        if (this.createForm.dirty && this.createForm.valid) {
+            let teamName = this.createForm.controls["teamName"].value;
+
+            this.teamFactory.create(new Team({ name: teamName, members: [this.user] }))
+                .then((team: Team) => {
+                    this.user.teams.push(team.team_id);
+                    this.userFactory.upsert(this.user)
+                        .then((result: boolean) => {
+                            if (result) {
+                                this.getTeams();
+                                this.teamName = ""
+                                this.analytics.eventTrack("Create team", { email: this.user.email, name: teamName, teamId: team.team_id })
+                            }
+                            else {
+                                return Promise.reject(`Unable to add you to team ${teamName}!`)
+                            }
+                        })
+                        .catch((reason) => {
+                            this.errorMessage = reason;
+                        })
+                },
+                () => { return Promise.reject(`Unable to create team ${teamName}!`) })
+                .catch((reason) => {
+                    this.errorMessage = reason;
+                    this.teamName = ""
+                })
+
+        }
+
     }
 
 
