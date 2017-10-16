@@ -7,6 +7,11 @@
   stroke-width: 1.5px;
 }
 
+.node-root:hover{
+  stroke: white !important;
+  stroke-width: 0;
+}
+
 .node--leaf {
   fill: white;
 }
@@ -49,6 +54,10 @@ svg circle:hover {
   stroke-width: 1.5px !important;
   stroke-opacity: 0.5;
   /*fill-opacity: 0.7;*/
+}
+svg circle.node--root:hover {
+  stroke: white !important;
+  stroke-width: 0 !important;
 }
 
 svg .icon {
