@@ -51,4 +51,6 @@
 
 .inputfile:focus + label, .inputfile + label:hover {
     background-color: transparent;
+    color:#0275D8;
 }
+

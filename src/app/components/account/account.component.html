@@ -15,9 +15,9 @@
                 <div *ngIf="isRefreshingPicture">Refreshing...</div>
             </div>
             <input class="inputfile" type="file" id="fileupload" #fileInput ng2FileSelect [uploader]="uploader" (change)="fileInput.value=''"
-                multiple />
-            <label for="fileupload">
-                <i class="fa fa-upload" aria-hidden="true"></i>
+            accept="image/*"  />
+            <label for="fileupload" >
+                <i class="fa fa-upload" aria-hidden="true" ></i>
             </label>
         </div>
 
