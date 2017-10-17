@@ -38,7 +38,7 @@
 				<div class="row">
 					<div class="col-xl-12 mt-3">
 						<textarea [disabled]="isReadOnly" autofocus data-provide="markdown" data-iconlibrary="fa" class="form-control initiativeMarkdownDescription"
-						 id="inputDescription" [ngModelOptions]="{standalone: true}" [ngModel]="node?.description" rows="5" placeholder='Describe "{{node?.name}}" in your own words'
+						 id="inputDescription" [ngModelOptions]="{standalone: true}" [ngModel]="node?.description" rows="5" placeholder='Describe the initiative in your own words and/or add a URL to your main ressource'
 						 (ngModelChange)="saveDescription($event)" (blur)="onBlur()"></textarea>
 					</div>
 				</div>
