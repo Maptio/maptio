@@ -59,26 +59,27 @@ table.tableSection th, table.tableSection td {
     vertical-align: middle;
 }
 
+/*Delete*/
 table.tableSection th:nth-child(0n+1), table.tableSection td:nth-child(0n+1) {
     width: 5%;
 }
-
+/*Picture*/
 table.tableSection th:nth-child(0n+2), table.tableSection td:nth-child(0n+2) {
     width: 5%;
 }
-
+/*Name*/
 table.tableSection th:nth-child(0n+3), table.tableSection td:nth-child(0n+3) {
     width: 35%;
 }
-
+/*Email*/
 table.tableSection th:nth-child(0n+4), table.tableSection td:nth-child(0n+4) {
     width: 35%;
 }
-
+/*Pending*/
 table.tableSection th:nth-child(0n+5), table.tableSection td:nth-child(0n+5) {
     width: 10%;
 }
-
+/*Action*/
 table.tableSection th:nth-child(0n+6), table.tableSection td:nth-child(0n+6) {
     width: 10%;
 }
