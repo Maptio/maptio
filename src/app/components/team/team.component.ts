@@ -68,8 +68,8 @@ export class TeamComponent implements OnDestroy {
                 Validators.required,
                 Validators.minLength(2)
             ]),
-            "isInvited": new FormControl("", [
-            ])
+            // "isInvited": new FormControl("", [
+            // ])
         });
 
     }
@@ -86,10 +86,13 @@ export class TeamComponent implements OnDestroy {
     getAllMembers() {
         this.isLoading = true;
         return this.team$.then((team: Team) => {
+            // console.log(team.members)
             return this.userFactory.getUsers(team.members.map(m => m.user_id))
                 .then(members => _.compact(members))
                 .then((members: User[]) => {
+                    console.log("asking for ", members.map(u => { console.log(u.user_id) }))
                     return this.userService.getUsersInfo(members).then(pending => {
+                        console.log("got ", pending.map(u => { console.log(u.user_id) }))
                         return { members: members, membersPending: pending }
                     })
                 })
@@ -159,12 +162,13 @@ export class TeamComponent implements OnDestroy {
             });
     }
 
-    inviteUser(user: User) {
+    inviteUser(user: User): Promise<void> {
 
-        this.team$.then((team: Team) => {
-            this.userService.sendInvite(user.email, user.user_id, user.firstname, user.lastname, user.name, team.name, this.user.name)
+        return this.team$.then((team: Team) => {
+            return this.userService.sendInvite(user.email, user.user_id, user.firstname, user.lastname, user.name, team.name, this.user.name)
                 .then((isSent) => {
                     user.isInvitationSent = isSent;
+                    return;
                 }
                 )
         })
@@ -184,63 +188,62 @@ export class TeamComponent implements OnDestroy {
 
             let firstname = this.inviteForm.controls["firstname"].value
             let lastname = this.inviteForm.controls["lastname"].value
-            let isInvited = this.inviteForm.controls["isInvited"].value
+            // let isInvited = this.inviteForm.controls["isInvited"].value
 
             // console.log(email, firstname, lastname, isInvited)
             // return;
 
-            this.team$.then((team: Team) => {
+            this.members$ = this.team$.then((team: Team) => {
 
-                this.userService.createUser(email, firstname, lastname).then((user: User) => {
-                    this.datasetFactory.get(team).then((datasets: DataSet[]) => {
-                        let virtualUser = new User();
-                        virtualUser.name = user.name;
-                        virtualUser.email = user.email;
-                        virtualUser.firstname = user.firstname;
-                        virtualUser.lastname = user.lastname;
-                        virtualUser.nickname = user.nickname;
-                        virtualUser.user_id = user.user_id;
-                        virtualUser.picture = user.picture;
-                        virtualUser.teams = [this.teamId];
-                        virtualUser.datasets = datasets.map(d => d._id);
-                        // console.log("build virtual user", virtualUser)
-                        return virtualUser;
-                    }, (reason) => {
-                        return Promise.reject(`Can't create ${email} : ${reason}`)
-                    })
-                        .then((user: User) => {
-
-                            if (isInvited) {
-                                // console.log("sending invite to ", user.email, user.user_id, user.name)
-                                this.inviteUser(user)
-                            }
-                            return user;
-                        }, (reason) => {
-                            return Promise.reject(`Can't invite ${email} : ${reason}`)
-                        })
-                        .then((virtualUser: User) => {
-                            // console.log("create virtual user", virtualUser)
-                            this.userFactory.create(virtualUser)
+                return this.userService.createUser(email, firstname, lastname)
+                    .then((user: User) => {
+                        return this.datasetFactory.get(team).then((datasets: DataSet[]) => {
+                            let virtualUser = new User();
+                            virtualUser.name = user.name;
+                            virtualUser.email = user.email;
+                            virtualUser.firstname = user.firstname;
+                            virtualUser.lastname = user.lastname;
+                            virtualUser.nickname = user.nickname;
+                            virtualUser.user_id = user.user_id;
+                            virtualUser.picture = user.picture;
+                            virtualUser.teams = [this.teamId];
+                            virtualUser.datasets = datasets.map(d => d._id);
                             return virtualUser;
+                        }, (reason) => {
+                            return Promise.reject(`Can't create ${email} : ${reason}`);
                         })
-                        .then((user: User) => {
-                            team.members.push(user);
-                            this.teamFactory.upsert(team).then((result) => {
-                                this.newMember = undefined;
-                                this.searchFailed = false;
-                            })
+                    })
+                    // .then((user: User) => {
+                    //     if (isInvited) {
+                    //         // console.log("sending invite to ", user.email, user.user_id, user.name)
+                    //         return this.inviteUser(user).then(() => { return user })
+                    //     }
+                    //     else {
+                    //         return user;
+                    //     }
+                    // }, (reason) => {
+                    //     return Promise.reject(`Can't invite ${email} : ${reason}`)
+                    // })
+                    .then((virtualUser: User) => {
+                        // console.log("create virtual user", virtualUser)
+                        this.userFactory.create(virtualUser)
+                        return virtualUser;
+                    })
+                    .then((user: User) => {
+                        team.members.push(user);
+                        this.teamFactory.upsert(team).then((result) => {
+                            this.newMember = undefined;
+                            this.searchFailed = false;
                         })
-                        .then(() => {
-                            this.members$ = this.getAllMembers();
-                        })
-                        .catch((reason) => {
-                            this.errorMessage = reason;
-                        })
-                })
+                    })
+                    .then(() => {
+                        return this.getAllMembers();
+                    })
+                    .catch((reason) => {
+                        this.errorMessage = reason;
+                    })
             })
         }
-
-
 
     }
 
