@@ -139,7 +139,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             .enter()
             .append("circle")
             .attr("class", function (d: any) { return d.parent ? (d.children ? "node" : "node node--leaf") : "node node--root"; })
-            .style("fill", function (d: any) { return d.children ? (d === root ? "white" : color(d.depth)) : ( d.parent === root && !d.children ? color(d.depth):  "white"); })
+            .style("fill", function (d: any) { return d.children ? (d === root ? "white" : color(d.depth)) : (d.parent === root && !d.children ? color(d.depth) : "white"); })
             .style("stroke", function (d: any) { return d.data.isSearchedFor ? "#d9831f" : "none" })
             .style("stroke-width", function (d: any) { return d.data.isSearchedFor ? 3 : "none" })
             .attr("id", function (d: any) { return "circle" + d.data.id; })
