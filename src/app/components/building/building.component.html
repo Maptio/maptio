@@ -1,8 +1,8 @@
 <div class="building">
-	<div class="form-group">
+	<!-- <div class="form-group">
 		<input id="searchTreeInput" type="text" class="form-control" placeholder="Search map by name or description" (input)="filterNodes(tree.treeModel, $event.target.value)"
 		/>
-	</div>
+	</div> -->
 	<tree-root #tree [nodes]="nodes" (updateData)="saveChanges()" [options]="options">
 		<ng-template #treeNodeTemplate let-node let-index="index">
 				<initiative-node [node]="node" [datasetId]="datasetId" (edited)="saveChanges()" (update)="updateTreeModel(tree.treeModel)" (open)="openNodeDetails($event)"
