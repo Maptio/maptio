@@ -1,5 +1,6 @@
 .unresizable {
     resize: none;
+    background-color: white;
 }
 
 .help-popup::before {
@@ -28,4 +29,13 @@ span.help-popup {
 .background {
     background-size: contain !important;
     padding-left: 3vw;
+}
+
+.invisible{
+    opacity: 0;
+    height: 0
+}
+
+textarea{
+    background-color: white;
 }

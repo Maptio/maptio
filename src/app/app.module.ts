@@ -1,3 +1,4 @@
+
 import { environment } from "./../environment/environment";
 
 import { BrowserModule } from "@angular/platform-browser";
@@ -65,6 +66,7 @@ import { AutoSelectDirective } from "./shared/directives/autoselect.directive"
 import { AnchorDirective } from "./shared/directives/anchor.directive"
 
 // External libraries
+import { MarkdownModule } from "angular2-markdown";
 import { FileUploadModule } from "ng2-file-upload";
 import { CloudinaryModule } from "@cloudinary/angular-4.x";
 import { Cloudinary } from "cloudinary-core";
@@ -84,6 +86,7 @@ import { ChangePasswordComponent } from "./components/login/change-password.comp
 import { AnAnchorableComponent } from "../test/specs/shared/component.helper.shared";
 import { MappingNetworkComponent } from "./components/mapping/network/mapping.network.component";
 import { LoaderComponent } from "./components/loading/loader.component";
+import { FocusModule } from "angular2-focus";
 
 // Routes
 const appRoutes: Routes = [
@@ -144,6 +147,7 @@ export const cloudinaryLib = {
     ConfirmationPopoverModule.forRoot({
       confirmButtonType: "danger"
     }),
+    MarkdownModule.forRoot(),
     Angulartics2Module.forRoot([Angulartics2Mixpanel]),
     FileUploadModule,
     CloudinaryModule.forRoot(cloudinaryLib, { cloud_name: environment.CLOUDINARY_CLOUDNAME, upload_preset: environment.CLOUDINARY_UPLOAD_PRESET })

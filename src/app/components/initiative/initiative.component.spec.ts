@@ -1,3 +1,4 @@
+import { MarkdownModule } from "angular2-markdown";
 import { AuthHttp } from "angular2-jwt";
 import { UserFactory } from "./../../shared/services/user.factory";
 import { RouterTestingModule } from "@angular/router/testing";
@@ -30,7 +31,7 @@ describe("initiative.component.ts", () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [Ng2Bs3ModalModule, NgbModule.forRoot(), FormsModule, RouterTestingModule],
+            imports: [Ng2Bs3ModalModule, NgbModule.forRoot(), FormsModule, RouterTestingModule, MarkdownModule.forRoot()],
             declarations: [InitiativeComponent],
             providers: [TeamFactory, UserFactory, DatasetFactory,
                 {
@@ -226,7 +227,7 @@ describe("initiative.component.ts", () => {
             (element.nativeElement as HTMLTextAreaElement).value = "CHANGED";
             (element.nativeElement as HTMLElement).dispatchEvent(new Event("input"))
 
-            expect((element.nativeElement as HTMLElement).dataset["provide"]).toBe("markdown");
+            expect((element.nativeElement as HTMLElement).dataset["provide"]).toBe("markdown-editable");
             expect(spySaveDescription).toHaveBeenCalledWith("CHANGED");
         });
 
