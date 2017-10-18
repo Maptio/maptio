@@ -53,6 +53,7 @@
     "angular-confirmation-popover": "^3.1.1",
     "angular-tree-component": "^5.0.0",
     "angular2-jwt": "^0.1.28",
+    "angular2-markdown": "^1.6.0",
     "angular2-template-loader": "^0.4.0",
     "angular2-uuid": "^1.1.1",
     "angulartics2": "^2.4.0",

@@ -40,7 +40,7 @@
 				<div class="row">
 					<div class="col-xl-12 mt-3" [hidden]="isReadOnly">
 						<textarea inputDescription class="form-control initiativeMarkdownDescription" id="inputDescription" [ngModelOptions]="{standalone: true}"
-						 data-provide="markdown-editable" data-iconlibrary="fa" data-autofocus="true" [ngModel]="node?.description" rows="5" placeholder='Describe the initiative in your own words and/or add a URL to your main ressource'
+						 data-provide="markdown-editable" data-iconlibrary="fa" data-autofocus="true" [ngModel]="node?.description" rows="5" placeholder='Describe the initiative in your own words and/or add a URL to your main resource'
 						 (ngModelChange)="saveDescription($event)" (blur)="onBlur()"></textarea>
 					</div>
 					<div [hidden]="!isReadOnly" class="col-xl-12 mt-3">
