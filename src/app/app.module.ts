@@ -86,7 +86,6 @@ import { ChangePasswordComponent } from "./components/login/change-password.comp
 import { AnAnchorableComponent } from "../test/specs/shared/component.helper.shared";
 import { MappingNetworkComponent } from "./components/mapping/network/mapping.network.component";
 import { LoaderComponent } from "./components/loading/loader.component";
-import { FocusModule } from "angular2-focus";
 
 // Routes
 const appRoutes: Routes = [
