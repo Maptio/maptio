@@ -92,8 +92,6 @@
 	
 									<div *ngIf="!isAuthority(user)">
 										<label>
-											<!-- <input #helper class="inputHelper" type="checkbox" (click)="addHelper(user, helper.checked)" [checked]="isHelper(user)" [disabled]="isAuthority(user) || isReadOnly"
-											 (blur)="onBlur()"> -->
 											<span>
 												<img src="{{user.picture}}" width="16" class="rounded-circle">
 												<a routerLink="/summary/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/u/{{user.shortid}}/{{user.getSlug()}}">{{user.name}}</a>
@@ -103,9 +101,10 @@
 	
 									</div>
 								</div>
+								<small class="text-warning" *ngIf="node.helpers.length === 0 || !(node.helpers)">No helpers yet</small>
 							</div>
 	
-							<div *ngIf="!(team$ | async)">No team available for selection</div>
+							
 	
 						</div>
 				</div>
