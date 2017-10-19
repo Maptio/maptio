@@ -2,7 +2,7 @@ import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { UserFactory } from "./../../shared/services/user.factory";
 import { Observable } from "rxjs/Rx";
 import { TeamFactory } from "./../../shared/services/team.factory";
-import { Component, Input, ViewChild, OnChanges, SimpleChanges, OnInit, EventEmitter, Output } from "@angular/core";
+import { Component, Input, ViewChild, OnChanges, SimpleChanges, OnInit, EventEmitter, Output, ElementRef } from "@angular/core";
 import { ModalComponent } from "ng2-bs3-modal/ng2-bs3-modal";
 import { Initiative } from "../../shared/model/initiative.data"
 import { Team } from "../../shared/model/team.data"
@@ -24,8 +24,7 @@ import * as _ from "lodash";
 @Component({
     selector: "initiative",
     templateUrl: "./initiative.component.html",
-    styleUrls: ["./initiative.component.css"],
-    // providers: [Initiative]
+    styleUrls: ["./initiative.component.css"]
 })
 
 export class InitiativeComponent implements OnChanges {
@@ -46,6 +45,8 @@ export class InitiativeComponent implements OnChanges {
     currentTeamName: string;
     searching: boolean;
     searchFailed: boolean;
+
+    @ViewChild("inputDescription") public element: ElementRef;
 
     constructor(private teamFactory: TeamFactory, private userFactory: UserFactory, private datasetFactory: DatasetFactory) {
     }
@@ -77,7 +78,9 @@ export class InitiativeComponent implements OnChanges {
     }
 
 
+
     onBlur() {
+        this.saveDescription(this.element.nativeElement.value)
         this.edited.emit(true);
     }
 
