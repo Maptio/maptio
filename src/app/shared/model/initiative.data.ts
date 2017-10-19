@@ -3,6 +3,7 @@ import { ITraversable } from "../interfaces/traversable.interface"
 import { Serializable } from "../interfaces/serializable.interface";
 import { User } from "./user.data";
 import * as slug from "slug";
+import { Helper } from "./helper.data";
 
 @Injectable()
 export class Initiative implements ITraversable, Serializable<Initiative> {
@@ -33,7 +34,7 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
     /**
      * List of helpers
      */
-    helpers: Array<User> = [];
+    helpers: Array<Helper> = [];
 
     /**
      * Team
@@ -96,10 +97,12 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
             children = undefined;
         }
 
-        let helpers = new Array<User>()
+
+        // console.log(input.helpers)
+        let helpers = new Array<Helper>()
         if (input.helpers) {
             input.helpers.forEach(function (inputHelper: any) {
-                helpers.push(new User().deserialize(inputHelper))
+                helpers.push(new Helper().deserialize(inputHelper))
             })
         } else {
             helpers = []
