@@ -5,7 +5,7 @@ import { Role } from "./role.data";
 
 export class Helper extends User {
 
-    public roles: Array<Role>;
+    public roles: Array<Role> = [];
 
     public constructor(init?: Partial<Helper>) {
         super()
@@ -25,7 +25,7 @@ export class Helper extends User {
             });
         }
         else {
-            roles = undefined;
+            roles = [];
         }
 
         deserialized.roles = roles;

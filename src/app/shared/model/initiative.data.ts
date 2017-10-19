@@ -33,6 +33,7 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
 
     /**
      * List of helpers
+     * REFACTOR : this should be a Set<Helper>
      */
     helpers: Array<Helper> = [];
 
