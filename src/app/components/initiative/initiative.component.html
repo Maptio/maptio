@@ -67,7 +67,7 @@
 						Helpers bring specific ideas and carry out actions to realise the vision"></span> -->
 				</h6>
 				<div class="input-group mb-3" *ngIf="!isReadOnly">
-					<input #person [disabled]="isReadOnly" required="required" [resultTemplate]="rt" type="text" id="inputHelper" placeholder="Who's helping? Enter a team member"
+					<input #person [disabled]="isReadOnly" required="required" [resultTemplate]="rt" type="text" id="inputHelper" placeholder="Enter the name of an helper"
 					 class="form-control" (selectItem)="saveHelper($event)" [ngbTypeahead]="searchTeamMember" [resultFormatter]="formatter"
 					 [inputFormatter]="formatter" />
 				</div>
@@ -75,8 +75,10 @@
 				<div class="col-12">
 					<div *ngFor="let user of node?.helpers; let i=index">
 						<div class="row mb-2">
-							<span *ngIf="!isReadOnly" class="remove text-danger mr-1 " (click)="removeHelper(user)" placement="top" container="body"
-							 ngbTooltip="Remove helper">
+							<span *ngIf="!isReadOnly" class="remove text-danger mr-1 "
+							
+							 placement="top" container="body" mwlConfirmationPopover title="Remove helper?"
+							 focusbutton="cancel" appendToBody="false" (confirm)="removeHelper(user)" (cancel)="cancelClicked = true">
 
 							</span>
 							<span class="col">
@@ -84,7 +86,7 @@
 								<a routerLink="/summary/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/u/{{user.shortid}}/{{user.getSlug()}}">{{user.name}}</a>
 
 							</span>
-							<button *ngIf="!isReadOnly" class="btn btn-link pull-right" (click)="toggleRole(i)">Role <i class="fa" [class.fa-caret-up]="hideme[i]" [class.fa-caret-down]="!hideme[i]" aria-hidden="true"></i></button>
+							<button *ngIf="!isReadOnly" class="btn btn-link pull-right btn-sm" (click)="toggleRole(i)">Role <i class="fa" [class.fa-caret-up]="hideme[i]" [class.fa-caret-down]="!hideme[i]" aria-hidden="true"></i></button>
 						</div>
 						<textarea [hidden]="!hideme[i]" #inputRole class="form-control form-control-sm unresizable" id="inputRole" [ngModelOptions]="{standalone: true}"
 						 data-provide="markdown" data-iconlibrary="fa" data-autofocus="true" [ngModel]="user.roles[0]?.description || ''" rows="3"

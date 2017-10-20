@@ -28,14 +28,20 @@
                         <span class="mb-2 text-muted" *ngIf="(i.helpers?.length !== 0)">with the help of
 
                         </span>
-                        <div class="row ml-1 mb-1" *ngFor="let h of i.helpers">
+                        <div class="btn-group">
+                                <a *ngFor="let h of i.helpers" class="btn btn-link btn-xs no-padding" routerLink="/summary/map/{{datasetId}}/{{initiative?.getSlug()}}/u/{{h.shortid}}/{{h.getSlug()}}">
+                                    <img [hidden]="h.user_id === (member$ |async)?.user_id " class="rounded-circle helper" src="{{h.picture}}" alt="{{h.name}}"
+                                        title="{{h.name}}" placement="top" container="body" ngbTooltip="{{h.name}}">
+                                </a>
+                            </div>
+                        <!-- <div class="row ml-1 mb-1" *ngFor="let h of i.helpers">
                             <a class="" routerLink="/summary/map/{{datasetId}}/{{initiative?.getSlug()}}/u/{{h.shortid}}/{{h.getSlug()}}">
                                 <img class="rounded-circle helper" src="{{h.picture}}" alt="{{h.name}}" title="{{h.name}}" placement="top" container="body"
                                     ngbTooltip="{{h.name}}">
                             </a>
                             <markdown class="small col" *ngIf="h.roles[0]?.description" [data]="h.roles[0]?.description"></markdown>
 
-                        </div>
+                        </div> -->
                         <span class="mb-1" *ngIf="(i.helpers?.length === 0)">No helpers</span>
                     </div>
                 </div>
@@ -53,7 +59,7 @@
                 <div class="list-group">
                     <div *ngFor="let i of helps" class=" list-group-item flex-column align-items-start ">
                         <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-0">{{i.name}}</h5>
+                            <h5 class="mb-0 w-75">{{i.name}}</h5>
                             <span class="mb-0" *ngIf="(i.helpers?.length !== 0)">Authority
                                 <a routerLink="/summary/map/{{datasetId}}/{{initiative?.getSlug()}}/u/{{i.accountable?.shortid}}/{{i.accountable?.getSlug()}}">
                                     <img class="rounded-circle authority" src="{{i.accountable?.picture}}" alt="{{i.accountable?.name}}" title="{{i.accountable?.name}}"

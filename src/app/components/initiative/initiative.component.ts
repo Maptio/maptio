@@ -49,7 +49,8 @@ export class InitiativeComponent implements OnChanges {
     searchFailed: boolean;
     hideme: Array<boolean> = [];
 
-    @ViewChild("inputDescription") public element: ElementRef;
+    @ViewChild("inputDescription") public inputDescriptionElement: ElementRef;
+    @ViewChild("inputRole") public inputRoleElement: ElementRef;
 
     constructor(private teamFactory: TeamFactory, private userFactory: UserFactory, private datasetFactory: DatasetFactory) {
     }
@@ -81,7 +82,7 @@ export class InitiativeComponent implements OnChanges {
     }
 
     onBlur() {
-        this.saveDescription(this.element.nativeElement.value)
+        this.saveDescription(this.inputDescriptionElement.nativeElement.value)
         this.edited.emit(true);
     }
 
@@ -94,6 +95,7 @@ export class InitiativeComponent implements OnChanges {
     }
 
     saveRole(helper: Helper, description: string) {
+        // console.log(helper.name, description)
         if (helper.roles[0]) {
             helper.roles[0].description = description
         }
