@@ -1,5 +1,8 @@
 
 import { Initiative } from "./initiative.data";
+import { User } from "./user.data";
+import { Helper } from "./helper.data";
+import { Role } from "./role.data";
 
 describe("initiative.data.ts", () => {
 
@@ -122,7 +125,7 @@ describe("initiative.data.ts", () => {
             expect(node23.getParent(tree)).toBe(node2);
         })
 
-         it("should return undefined when node is root", () => {
+        it("should return undefined when node is root", () => {
             tree = new Initiative();
             tree.children = [node1, node2, node3];
             tree.id = 0;
@@ -131,4 +134,42 @@ describe("initiative.data.ts", () => {
         })
 
     })
+
+    describe("getRoles", () => {
+        it("should get roles when existging", () => {
+            let node = new Initiative();
+            node.helpers = [
+                new Helper({ user_id: "1", roles: [new Role({ description: "role 11" }), new Role({ description: "role 12" })] }),
+                new Helper({ user_id: "2", roles: [new Role({ description: "role 21" }), new Role({ description: "role 22" })] })
+            ]
+
+            let actual = node.getRoles("2");
+            expect(actual.length).toBe(2);
+            expect(actual[0].description).toBe("role 21")
+            expect(actual[1].description).toBe("role 22")
+        });
+
+        it("should return empty array when not existing", () => {
+            let node = new Initiative();
+            node.helpers = [
+                new Helper({ user_id: "1", roles: [new Role({ description: "role 11" }), new Role({ description: "role 12" })] }),
+                new Helper({ user_id: "2" })
+            ]
+
+            let actual = node.getRoles("2");
+            expect(actual).toEqual([])
+        });
+
+        it("should return empty array when helper does not exits", () => {
+            let node = new Initiative();
+            node.helpers = [
+                new Helper({ user_id: "1", roles: [new Role({ description: "role 11" }), new Role({ description: "role 12" })] }),
+                new Helper({ user_id: "2" })
+            ]
+
+            let actual = node.getRoles("3");
+            expect(actual).toEqual([])
+        });
+
+    });
 });

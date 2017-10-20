@@ -3,6 +3,8 @@ import { ITraversable } from "../interfaces/traversable.interface"
 import { Serializable } from "../interfaces/serializable.interface";
 import { User } from "./user.data";
 import * as slug from "slug";
+import { Helper } from "./helper.data";
+import { Role } from "./role.data";
 
 @Injectable()
 export class Initiative implements ITraversable, Serializable<Initiative> {
@@ -32,8 +34,9 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
 
     /**
      * List of helpers
+     * REFACTOR : this should be a Set<Helper>
      */
-    helpers: Array<User> = [];
+    helpers: Array<Helper> = [];
 
     /**
      * Team
@@ -66,6 +69,8 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
     /**True if this node can be dragged&dropped */
     isDraggable: boolean;
 
+    isExpanded: boolean = true;
+
     public constructor(init?: Partial<Initiative>) {
         Object.assign(this, init);
     }
@@ -96,10 +101,12 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
             children = undefined;
         }
 
-        let helpers = new Array<User>()
+
+        // console.log(input.helpers)
+        let helpers = new Array<Helper>()
         if (input.helpers) {
             input.helpers.forEach(function (inputHelper: any) {
-                helpers.push(new User().deserialize(inputHelper))
+                helpers.push(new Helper().deserialize(inputHelper))
             })
         } else {
             helpers = []
@@ -181,6 +188,8 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
         return slug(this.name || "", { lower: true });
     }
 
-
+    getRoles(userId: string): Role[] {
+        return this.helpers.filter(h => h.user_id === userId)[0] ? this.helpers.filter(h => h.user_id === userId)[0].roles : [];
+    }
 
 }

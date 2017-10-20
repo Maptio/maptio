@@ -287,3 +287,24 @@ div.deleted {
   font-family: FontAwesome;
   left: 2px;
 }
+
+.md-header > .btn-group {
+  margin-right: 1vw;
+}
+
+.md-header > .btn-group > .btn {
+  background-color: #f7f7f7;
+}
+
+.md-header > .btn-group > .btn-primary {
+  border: 0;
+  color: #2F81B7;
+}
+
+.md-control-fullscreen{
+  display:none;
+}
+
+button[data-handler=bootstrap-markdown-cmdImage] {
+  display: none;
+}

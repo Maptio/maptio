@@ -10,17 +10,6 @@
 		</ng-template>
 
 	</tree-root>
-
-
-	<!-- <Tree [nodes]="nodes" (onUpdateData)="saveChanges()" [options]="options">
-		<ng-template #loadingTemplate>
-			<div class="loading"></div>
-		</ng-template>
-		<ng-template #treeNodeTemplate let-node>
-			<initiative-node [node]="node" [datasetId]="datasetId" (edited)="saveChanges()" (update)="updateTreeModel($event)" (open)="openNodeDetails($event)"
-			 (add)="openNodeDetails($event)"></initiative-node>
-		</ng-template>
-	</Tree> -->
 </div>
 
 <ng-template #dragConfirmation let-c="close" let-d="dismiss">
