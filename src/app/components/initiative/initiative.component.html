@@ -70,7 +70,6 @@
 					<input #person [disabled]="isReadOnly" required="required" [resultTemplate]="rt" type="text" id="inputHelper" placeholder="Who's helping? Enter a team member"
 					 class="form-control" (selectItem)="saveHelper($event)" [ngbTypeahead]="searchTeamMember" [resultFormatter]="formatter"
 					 [inputFormatter]="formatter" />
-					<button class="btn btn-success input-group-addon" (click)="addHelper()">Add</button>
 				</div>
 
 				<div class="col-12">
@@ -80,12 +79,12 @@
 							 ngbTooltip="Remove helper">
 
 							</span>
-							<span class="col-10">
+							<span class="col">
 								<img src="{{user.picture}}" width="16" class="rounded-circle">
 								<a routerLink="/summary/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/u/{{user.shortid}}/{{user.getSlug()}}">{{user.name}}</a>
 
 							</span>
-							<button *ngIf="!isReadOnly" class="btn btn-link pull-right" (click)="toggleRole(i)">Edit</button>
+							<button *ngIf="!isReadOnly" class="btn btn-link pull-right" (click)="toggleRole(i)">Role <i class="fa" [class.fa-caret-up]="hideme[i]" [class.fa-caret-down]="!hideme[i]" aria-hidden="true"></i></button>
 						</div>
 						<textarea [hidden]="!hideme[i]" #inputRole class="form-control form-control-sm unresizable" id="inputRole" [ngModelOptions]="{standalone: true}"
 						 data-provide="markdown" data-iconlibrary="fa" data-autofocus="true" [ngModel]="user.roles[0]?.description || ''" rows="3"

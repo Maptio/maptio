@@ -21,9 +21,19 @@ span.help-popup {
     background: transparent;
 }
 
-.overflow {
-    max-height: 30vh;
-    overflow-y: auto;
+@media only screen and (max-height: 800px) {
+    .overflow {
+        max-height: 33vh;
+        overflow-y: auto;
+    }
+}
+
+
+@media only screen and (min-height: 800px) and (max-height: 900px)  {
+    .overflow {
+        max-height: 40vh;
+        overflow-y: auto;
+    }
 }
 
 .background {
@@ -31,12 +41,16 @@ span.help-popup {
     padding-left: 3vw;
 }
 
-.invisible{
+.invisible {
     opacity: 0;
     height: 0
 }
 
-textarea{
+textarea {
     background-color: white;
 }
 
+.btn-link:focus, .btn-link:active {
+    outline: none !important;
+    box-shadow: none!important;
+}
