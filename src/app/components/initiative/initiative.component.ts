@@ -94,7 +94,6 @@ export class InitiativeComponent implements OnChanges {
     }
 
     saveRole(helper: Helper, description: string) {
-        console.log(helper.name, description)
         if (helper.roles[0]) {
             helper.roles[0].description = description
         }
@@ -104,26 +103,11 @@ export class InitiativeComponent implements OnChanges {
     }
 
     toggleRole(i: number) {
-        console.log(this.hideme)
         this.hideme.forEach(el => {
             el = true
         });
         this.hideme[i] = !this.hideme[i];
-        console.log(this.hideme)
     }
-
-
-    // saveStartDate(newDate: string) {
-    //     let year = Number.parseInt(newDate.substr(0, 4));
-    //     let month = Number.parseInt(newDate.substr(5, 2));
-    //     let day = Number.parseInt(newDate.substr(8, 2));
-    //     let parsedDate = new Date(year, month, day);
-
-    //     // HACK : this should not be here but in a custom validatpr. Or maybe use HTML 5 "pattern" to prevent binding
-    //     if (!Number.isNaN(parsedDate.valueOf())) {
-    //         this.node.start = new Date(year, month, day);
-    //     }
-    // }
 
     saveAccountable(newAccountable: NgbTypeaheadSelectItemEvent) {
         this.node.accountable = newAccountable.item;
@@ -145,40 +129,6 @@ export class InitiativeComponent implements OnChanges {
         this.node.helpers.splice(index, 1);
         this.onBlur();
     }
-
-    // isHelper(user: User): boolean {
-    //     if (!this.node) return false;
-    //     if (!this.node.helpers) return false;
-    //     if (!user.user_id) return false;
-    //     return this.node.helpers.findIndex(u => { return u.user_id === user.user_id }) !== -1
-    // }
-
-    // getPossibleHelpers(): Promise<User[]> {
-    //     return this.team.then((team: Team) => {
-    //         return team.members;
-    //     })
-    // }
-
-    // isAuthority(user: User): boolean {
-    //     if (!this.node) return false;
-    //     if (!this.node.helpers) return false;
-    //     if (!this.node.accountable) return false;
-    //     if (!user) return false;
-    //     if (!user.user_id) return false;
-    //     return this.node.accountable.user_id === user.user_id;
-    // }
-
-    // addHelper(newHelper: Helper, checked: boolean) {
-    //     newHelper.roles = [new Role({ description: "helping here and there" })]
-    //     if (checked) {
-    //         this.node.helpers.push(newHelper);
-    //     }
-    //     else {
-    //         let index = this.node.helpers.findIndex(user => user.user_id === newHelper.user_id);
-    //         this.node.helpers.splice(index, 1);
-    //     }
-    //     this.onBlur();
-    // }
 
     filterMembers(term: string): Observable<User[]> {
         return term.length < 1

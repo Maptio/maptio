@@ -19,6 +19,8 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 import { Auth } from "../../shared/services/auth/auth.service";
 import { DatasetFactory } from "../../shared/services/dataset.factory";
+import { Helper } from "../../shared/model/helper.data";
+import { Role } from "../../shared/model/role.data";
 
 describe("initiative.component.ts", () => {
 
@@ -75,28 +77,53 @@ describe("initiative.component.ts", () => {
     });
 
     describe("Controller", () => {
-        // it("ngOnInit should assign team if initiative is defined", () => {
-        //     let mockTeam = new Team({ members: [new User({ name: "John Doe" })] });
-        //     let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
-        //     let spyGetTeam = spyOn(mockTeamFactory, "get").and.returnValue(Promise.resolve<Team>(mockTeam))
+        describe("saveRole", () => {
+            it("should save role", () => {
+                let helper = new Helper({ name: "John Doe" })
+                component.saveRole(helper, "some role");
+                expect(helper.roles[0].description).toBe("some role")
+            });
 
-        //     component.ngOnChanges();
-        //     expect(spyGetTeam).toHaveBeenCalled();
-        //     spyGetTeam.calls.mostRecent().returnValue.then((team: Team) => {
-        //         expect(component.team).toBe(mockTeam)
-        //     })
+            it("should update role", () => {
+                let helper = new Helper({ name: "John Doe", roles: [new Role({ description: "some role" })] })
+                component.saveRole(helper, "some role update");
+                expect(helper.roles[0].description).toBe("some role update")
+            });
+        });
 
-        // });
+        describe("saveHelper", () => {
+            it("should save new helper when not present", () => {
+                spyOn(component, "onBlur")
+                component.node.helpers = []
+                component.saveHelper({ item: new User({ name: "John Doe" }), preventDefault: null });
+                expect(component.node.helpers.length).toBe(1);
+                expect(component.node.helpers[0].name).toBe("John Doe");
+                expect(component.node.helpers[0].roles).toEqual([]);
+                expect(component.onBlur).toHaveBeenCalled();
+            });
 
-        // it("ngOnInit should do nothing if initiatiev is undefined", () => {
-        //     let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
-        //     let spyGetTeam = spyOn(mockTeamFactory, "get");
+            it("should not save new helper when present", () => {
+                spyOn(component, "onBlur")
+                component.node.helpers = [new Helper({ name: "John Doe" })]
+                component.saveHelper({ item: new User({ name: "John Doe" }), preventDefault: null });
+                expect(component.node.helpers.length).toBe(1);
+                expect(component.node.helpers[0].name).toBe("John Doe");
+                expect(component.node.helpers[0].roles).toEqual([]);
+                expect(component.onBlur).toHaveBeenCalled();
+            });
+        });
 
-        //     component.node = undefined;
-        //     component.ngOnInit();
-        //     expect(spyGetTeam).not.toHaveBeenCalled();
-
-        // });
+        describe("removeHelper", () => {
+            it("should remove helper from list", () => {
+                spyOn(component, "onBlur")
+                component.node.helpers = [new Helper({ name: "John Doe", user_id: "1" }), new Helper({ name: "Jane Doe", user_id: "2" })]
+                component.removeHelper(new Helper({ name: "John Doe", user_id: "1" }));
+                expect(component.node.helpers.length).toBe(1);
+                expect(component.node.helpers[0].name).toBe("Jane Doe");
+                expect(component.node.helpers[0].roles).toEqual([]);
+                expect(component.onBlur).toHaveBeenCalled();
+            });
+        });
 
         describe("saveName", () => {
             it("should save a new name", () => {
@@ -114,34 +141,6 @@ describe("initiative.component.ts", () => {
             });
         });
 
-        // describe("saveStartDate", () => {
-        //     it("should save a new date when given date is valid", () => {
-        //         expect(component.node.start.getFullYear()).toBe(2010);
-        //         expect(component.node.start.getMonth()).toBe(1);
-        //         expect(component.node.start.getDate()).toBe(1);
-        //         component.saveStartDate("2017-01-01");
-        //         expect(component.node.start.getFullYear()).toBe(2017);
-        //         expect(component.node.start.getMonth()).toBe(1);
-        //         expect(component.node.start.getDate()).toBe(1);
-        //         expect(component.node.start.getHours()).toBe(0);
-        //         expect(component.node.start.getMinutes()).toBe(0);
-        //         expect(component.node.start.getSeconds()).toBe(0);
-        //     });
-
-        //     it("should not save the date when given date is invalid", () => {
-        //         expect(component.node.start.getFullYear()).toBe(2010);
-        //         expect(component.node.start.getMonth()).toBe(1);
-        //         expect(component.node.start.getDate()).toBe(1);
-        //         component.saveStartDate("this is not a valid date");
-        //         expect(component.node.start.getFullYear()).toBe(2010);
-        //         expect(component.node.start.getMonth()).toBe(1);
-        //         expect(component.node.start.getDate()).toBe(1);
-        //         expect(component.node.start.getHours()).toBe(0);
-        //         expect(component.node.start.getMinutes()).toBe(0);
-        //         expect(component.node.start.getSeconds()).toBe(0);
-        //     });
-        // });
-
         describe("saveAccountable", () => {
             it("should save accountable person when valid person is given", () => {
                 expect(component.node.accountable).toBeDefined();
@@ -151,63 +150,13 @@ describe("initiative.component.ts", () => {
             });
         });
 
-        // describe("addHelper", () => {
-        //     it("should add helper to the list when checked is true", () => {
-        //         let helpers = [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })];
-        //         component.node.helpers = helpers;
-        //         expect(component.node.helpers.length).toBe(3);
-        //         component.addHelper(new User({ user_id: "4" }), true)
-        //         expect(component.node.helpers.length).toBe(4);
-        //         expect(component.node.helpers.find(h => h.user_id === "4")).toBeDefined();
-        //     })
-
-        //     it("should remove helper from the list when checked is false", () => {
-        //         let helpers = [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })];
-        //         component.node.helpers = helpers;
-        //         expect(component.node.helpers.length).toBe(3);
-        //         component.addHelper(new User({ user_id: "3" }), false)
-        //         expect(component.node.helpers.length).toBe(2);
-        //         expect(component.node.helpers.find(h => h.user_id === "3")).toBeUndefined();
-        //     })
-        // });
-
-        // describe("isHelper", () => {
-
-        //     it("shoud return  false if user is not defined by its user_id", () => {
-        //         let helpers = [new User({ name: "1" }), new User({ name: "2" }), new User({ name: "3" })];
-        //         component.node.helpers = helpers;
-        //         let actual = component.isHelper(new User({ name: "4" }))
-        //         expect(actual).toBe(false);
-        //     });
-
-        //     it("shoud return   false if user is not in the list of helpers", () => {
-        //         let helpers = [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })];
-        //         component.node.helpers = helpers;
-        //         let actual = component.isHelper(new User({ user_id: "4" }))
-        //         expect(actual).toBe(false);
-        //     });
-
-        //     it("should return true if the user is in the list of helpers", () => {
-        //         let helpers = [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })];
-        //         component.node.helpers = helpers;
-        //         let actual = component.isHelper(new User({ user_id: "1" }))
-        //         expect(actual).toBe(true);
-        //     });
-
-        //     it("should return false if the list of helpers is empty", () => {
-        //         let helpers = undefined
-        //         component.node.helpers = helpers;
-        //         let actual = component.isHelper(new User({ user_id: "1" }))
-        //         expect(actual).toBe(false);
-        //     });
-
-        //     it("should return false if the initiative is not loaded", () => {
-        //         component.node = undefined
-        //         let actual = component.isHelper(new User({ user_id: "1" }))
-        //         expect(actual).toBe(false);
-        //     })
-
-        // });
+        describe("removeAuthority", () => {
+            it("should save accountable person when valid person is given", () => {
+                component.node.accountable = new User({ name: "John" })
+                component.removeAuthority();
+                expect(component.node.accountable).toBeUndefined();
+            });
+        });
 
     });
 
