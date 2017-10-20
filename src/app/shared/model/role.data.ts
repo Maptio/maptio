@@ -10,7 +10,7 @@ export class Role implements Serializable<Role> {
     }
 
     deserialize(input: any): Role {
-        if (!input) return
+        if (!input.description) return
         let deserialized = new Role();
         deserialized.description = input.description;
         return deserialized;
