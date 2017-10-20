@@ -92,7 +92,7 @@ export class User implements Serializable<User> {
 
         deserialized.nickname = input.nickname;
         deserialized.email = input.email;
-        deserialized.picture = input.user_metadata ? input.user_metadata.picture : input.picture;
+        deserialized.picture = input.picture || (input.user_metadata ? input.user_metadata.picture : input.picture) ;
         deserialized.user_id = input.user_id; // specific to Auth0
         // deserialized.isEmailVerified = input.isEmailVerified || input.email_verified;
         // deserialized.loginsCount = input.loginsCount || input.logins_count;
