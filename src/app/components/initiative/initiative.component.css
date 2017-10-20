@@ -51,6 +51,5 @@ textarea {
 }
 
 .btn-link:focus, .btn-link:active {
-    outline: none !important;
     box-shadow: none!important;
 }

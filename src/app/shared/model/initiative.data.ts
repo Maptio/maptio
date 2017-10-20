@@ -4,6 +4,7 @@ import { Serializable } from "../interfaces/serializable.interface";
 import { User } from "./user.data";
 import * as slug from "slug";
 import { Helper } from "./helper.data";
+import { Role } from "./role.data";
 
 @Injectable()
 export class Initiative implements ITraversable, Serializable<Initiative> {
@@ -185,6 +186,8 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
         return slug(this.name || "", { lower: true });
     }
 
-
+    getRoles(userId: string): Role[] {
+        return this.helpers.filter(h => h.user_id === userId)[0] ? this.helpers.filter(h => h.user_id === userId)[0].roles : [];
+    }
 
 }
