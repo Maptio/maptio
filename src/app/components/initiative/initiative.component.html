@@ -68,8 +68,8 @@
 				</h6>
 				<div class="input-group mb-3" *ngIf="!isReadOnly">
 					<input #person [disabled]="isReadOnly" required="required" [resultTemplate]="rt" type="text" id="inputHelper" placeholder="Enter the name of an helper"
-					 class="form-control" (selectItem)="saveHelper($event)" [ngbTypeahead]="searchTeamMember" [resultFormatter]="formatter"
-					 [inputFormatter]="formatter" />
+					 class="form-control" (selectItem)="saveHelper($event, person)"  (focus)="person.value=''" [ngbTypeahead]="searchTeamMember" [resultFormatter]="formatter"
+					 [inputFormatter]="formatter" editable="false"/>
 				</div>
 
 				<div class="col-12">
@@ -81,7 +81,7 @@
 							 focusbutton="cancel" appendToBody="false" (confirm)="removeHelper(user)" (cancel)="cancelClicked = true">
 
 							</span>
-							<span class="col">
+							<span [class.col]="!isReadOnly" [class.small]="isReadOnly">
 								<img src="{{user.picture}}" width="16" class="rounded-circle">
 								<a routerLink="/summary/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/u/{{user.shortid}}/{{user.getSlug()}}">{{user.name}}</a>
 

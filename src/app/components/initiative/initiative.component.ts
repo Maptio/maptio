@@ -121,6 +121,7 @@ export class InitiativeComponent implements OnChanges {
             let helper = newHelper.item;
             helper.roles = [];
             this.node.helpers.unshift(helper);
+
         }
 
         this.onBlur();
