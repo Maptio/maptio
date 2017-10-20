@@ -35,6 +35,7 @@ export class MemberSummaryComponent implements OnInit {
     authorities: Array<Initiative> = [];
     helps: Array<Initiative> = [];
     public isLoading: boolean;
+    hideme: Array<boolean> = [];
 
     constructor(public auth: Auth, public route: ActivatedRoute, public datasetFactory: DatasetFactory, public userFactory: UserFactory, public teamFactory: TeamFactory) {
 
@@ -125,6 +126,12 @@ export class MemberSummaryComponent implements OnInit {
     }
 
 
+    toggleView(i: number) {
+        this.hideme.forEach(el => {
+            el = true
+        });
+        this.hideme[i] = !this.hideme[i];
+    }
 
 
     ngOnDestroy() {
