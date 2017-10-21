@@ -50,10 +50,10 @@ textarea {
     background-color: white;
 }
 
-.btn-link:focus, .btn-link:active {
-    box-shadow: none!important;
+.remove{
+    background-color: white;
 }
 
-.preview{
-    cursor: pointer;
+.btn-link:focus, .btn-link:active {
+    box-shadow: none!important;
 }

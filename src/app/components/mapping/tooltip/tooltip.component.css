@@ -27,10 +27,11 @@
 
 .initative-tooltip {
   position: absolute;
-  max-width: 40%;
+  max-width: 40vw;
   top: 4vh;
   left: 45%;
   opacity: 0.9;
+  width:35vw;
 }
 
 .close{

@@ -66,7 +66,7 @@ import { AutoSelectDirective } from "./shared/directives/autoselect.directive"
 import { AnchorDirective } from "./shared/directives/anchor.directive"
 
 // External libraries
-import { MarkdownModule } from "angular2-markdown";
+import { MarkdownModule, MarkdownService } from "angular2-markdown";
 import { FileUploadModule } from "ng2-file-upload";
 import { CloudinaryModule } from "@cloudinary/angular-4.x";
 import { Cloudinary } from "cloudinary-core";
@@ -167,6 +167,18 @@ export const cloudinaryLib = {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,
       deps: [Http, RequestOptions]
+    },
+    {
+      provide: MarkdownService,
+      useFactory: (http: Http) => {
+        let _markdown = new MarkdownService(http)
+        _markdown.setMarkedOptions({ breaks: true })
+        _markdown.renderer.link = (href: string, title: string, text: string) => {
+          return `<a href=${href} target="_blank" title=${title}>${text}</a>`;
+        }
+        return _markdown
+      },
+      deps: [Http]
     }
   ],
   entryComponents: [AppComponent],

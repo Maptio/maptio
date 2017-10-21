@@ -54,13 +54,15 @@ export class InitiativeComponent implements OnChanges {
 
     @ViewChild("inputDescription") public inputDescriptionElement: ElementRef;
     @ViewChild("inputRole") public inputRoleElement: ElementRef;
+    @ViewChild("inputAuthorityRole") public inputAuthorityRole: ElementRef;
 
     constructor(private teamFactory: TeamFactory, private userFactory: UserFactory,
-        private datasetFactory: DatasetFactory, private _markdown: MarkdownService) {
+        private datasetFactory: DatasetFactory) {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.node && changes.node.currentValue) {
+            this.descriptionHideMe = false;
             if (changes.node.isFirstChange() || !(changes.node.previousValue) || changes.node.currentValue.team_id !== changes.node.previousValue.team_id) {
 
                 this.team$ = this.teamFactory.get(changes.node.currentValue.team_id).then(t => t, () => { return Promise.reject("No team available") }).catch(() => { })
@@ -82,14 +84,7 @@ export class InitiativeComponent implements OnChanges {
     }
 
     ngOnInit() {
-        this._markdown.setMarkedOptions({ breaks: true })
-        this._markdown.renderer.link = (href: string, title: string, text: string) => {
-            return `<a href=${href} target="_blank" title=${title}>${text}</a>`;
-        }
-    }
-
-    onPreview() {
-        console.log("preview")
+    
     }
 
     onBlur() {
@@ -123,7 +118,10 @@ export class InitiativeComponent implements OnChanges {
     }
 
     saveAccountable(newAccountable: NgbTypeaheadSelectItemEvent) {
-        this.node.accountable = newAccountable.item;
+        let accountable = newAccountable.item;
+        accountable.roles = [];
+        if (this.inputAuthorityRole) accountable.roles[0] = new Role({ description: this.inputAuthorityRole.nativeElement.value });
+        this.node.accountable = accountable;
         this.onBlur();
     }
 
@@ -146,8 +144,10 @@ export class InitiativeComponent implements OnChanges {
 
     filterMembers(term: string): Observable<User[]> {
         return term.length < 1
-            ? Observable.from(this.members$)
-            : Observable.from(this.members$.then(members => members.filter(v => new RegExp(term, "gi").test(v.name) || new RegExp(term, "gi").test(v.email)).splice(0, 10)).catch())
+            ? Observable.from(this.members$.then(ms => this.node.accountable ? ms.filter(m => m.user_id !== this.node.accountable.user_id) : ms))
+            : Observable.from(this.members$.then(ms => this.node.accountable ? ms.filter(m => m.user_id !== this.node.accountable.user_id) : ms)
+                .then(members => members.filter(v => new RegExp(term, "gi").test(v.name) || new RegExp(term, "gi").test(v.email)).splice(0, 10))
+                .catch())
 
     }
 

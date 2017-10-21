@@ -38,7 +38,8 @@ export class MemberSummaryComponent implements OnInit {
     authoritiesHideme: Array<boolean> = [];
     helpingHideme: Array<boolean> = [];
     
-    constructor(public auth: Auth, public route: ActivatedRoute, public datasetFactory: DatasetFactory, public userFactory: UserFactory, public teamFactory: TeamFactory) {
+    constructor(public auth: Auth, public route: ActivatedRoute, public datasetFactory: DatasetFactory, 
+        public userFactory: UserFactory, public teamFactory: TeamFactory) {
 
         this.route.params.subscribe((params: Params) => {
             this.isLoading = true;
@@ -63,7 +64,7 @@ export class MemberSummaryComponent implements OnInit {
                     if (i.accountable && i.accountable.user_id === this.memberUserId) {
                         if (!this.authorities.includes(i)) this.authorities.push(i)
                     }
-                    if (i.helpers && i.helpers.find(h => h.user_id === this.memberUserId)) {
+                    if (i.helpers && i.helpers.find(h => h.user_id === this.memberUserId && i.accountable.user_id !== h.user_id)) {
                         if (!this.helps.includes(i)) this.helps.push(i)
                     }
                 }.bind(this));

@@ -1,3 +1,4 @@
+import { Helper } from "./../../../shared/model/helper.data";
 import { MarkdownModule } from "angular2-markdown";
 
 import { AuthHttp } from "angular2-jwt";
@@ -69,7 +70,7 @@ describe("tooltip.component.ts", () => {
         let updated = new Initiative();
         let parent = new Initiative();
         updated.name = "UPDATED";
-        updated.accountable = new User({ name: "John Doe" });
+        updated.accountable = new Helper({ name: "John Doe" });
         updated.description = "The one idea I clicked";
         let spyUiService = spyOn(uiService, "getTooltipData").and.returnValue(Observable.of(["some_id", updated, parent]));
         component.update();

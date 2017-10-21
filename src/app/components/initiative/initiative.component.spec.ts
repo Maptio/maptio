@@ -61,12 +61,10 @@ describe("initiative.component.ts", () => {
     beforeEach(() => {
         target = TestBed.createComponent(InitiativeComponent);
         component = target.componentInstance;
-        // de = target.debugElement.query(By.css("modal"));
-        // el = de.nativeElement;
-
 
         inputNode = {
-            id: 1, name: "ORIGINAL", description: "ORIGINAL", children: [], helpers: [], start: new Date(2010, 1, 1), accountable: <Helper>{ name: "ORIGINAL" },
+            id: 1, name: "ORIGINAL", description: "ORIGINAL", children: [], helpers: [], start: new Date(2010, 1, 1),
+            accountable: new Helper({ name: "ORIGINAL" }),
             hasFocus: false, isZoomedOn: false, team_id: "team_id", isSearchedFor: false, search: undefined, traverse: undefined, deserialize: undefined, tryDeserialize: undefined,
             getSlug: undefined, getParent: undefined, isDraggable: false, traversePromise: undefined, isExpanded: true, getRoles: undefined
         };
@@ -145,14 +143,15 @@ describe("initiative.component.ts", () => {
             it("should save accountable person when valid person is given", () => {
                 expect(component.node.accountable).toBeDefined();
                 expect(component.node.accountable.name).toBe("ORIGINAL");
-                component.saveAccountable({ item: new User({ name: "John Doe" }), preventDefault: null });
+                component.saveAccountable({ item: new Helper({ name: "John Doe" }), preventDefault: null });
                 expect(component.node.accountable.name).toBe("John Doe");
+                expect(component.node.accountable.roles[0].description).toBe("")
             });
         });
 
         describe("removeAuthority", () => {
             it("should save accountable person when valid person is given", () => {
-                component.node.accountable = new User({ name: "John" })
+                component.node.accountable = new Helper({ name: "John" })
                 component.removeAuthority();
                 expect(component.node.accountable).toBeUndefined();
             });
@@ -160,36 +159,6 @@ describe("initiative.component.ts", () => {
 
     });
 
-    describe("View", () => {
-
-        it("should call saveName when changed name is changed", () => {
-            let spySaveName = spyOn(component, "saveName");
-            let element = target.debugElement.query(By.css("#inputName"));
-            (element.nativeElement as HTMLInputElement).value = "CHANGED";
-            (element.nativeElement as HTMLInputElement).dispatchEvent(new Event("input"))
-            expect(spySaveName).toHaveBeenCalledWith("CHANGED");
-        });
-
-        it("should call saveDescription when description is changed", () => {
-            let spySaveDescription = spyOn(component, "saveDescription");
-            let element = target.debugElement.query(By.css("#inputDescription"));
-            (element.nativeElement as HTMLTextAreaElement).value = "CHANGED";
-            (element.nativeElement as HTMLElement).dispatchEvent(new Event("input"))
-
-            expect((element.nativeElement as HTMLElement).dataset["provide"]).toBe("markdown");
-            expect(spySaveDescription).toHaveBeenCalledWith("CHANGED");
-        });
-
-        it("saves the accountable person", () => {
-            let spySaveAccountable = spyOn(component, "saveAccountable");
-            let element = target.debugElement.query(By.css("#inputAccountable"));
-            (element.nativeElement as HTMLInputElement).value = JSON.stringify({ item: new User({ name: "John Doe" }) });
-            (element.nativeElement as HTMLInputElement).dispatchEvent(new CustomEvent("selectItem"));
-            // FIXME : Check the saveAccountable arguments but how ?
-            expect(spySaveAccountable).toHaveBeenCalled();
-        });
-
-    });
 
 
 

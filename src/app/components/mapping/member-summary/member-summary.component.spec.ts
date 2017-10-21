@@ -1,3 +1,4 @@
+import { MarkdownService, MarkdownModule } from "angular2-markdown";
 import { DataSet } from "./../../../shared/model/dataset.data";
 import { UserFactory } from "./../../../shared/services/user.factory";
 import { Http, BaseRequestOptions } from "@angular/http";
@@ -70,6 +71,7 @@ describe("member-summary.component.ts", () => {
                 ErrorService
             ],
             declarations: [MemberSummaryComponent],
+            imports: [MarkdownModule.forRoot()],
             schemas: [NO_ERRORS_SCHEMA]
         })
             .compileComponents()
@@ -114,8 +116,8 @@ describe("member-summary.component.ts", () => {
                 expect(spyGetDataset).toHaveBeenCalledWith("123");
 
                 spyGetDataset.calls.mostRecent().returnValue.then((d: DataSet) => {
-                    expect(component.authorities.length).toBe(2)
-                    expect(component.helps.length).toBe(1)
+                    expect(component.authorities.length).toBe(1) //  counts the initiatives where John Doe is helper
+                    expect(component.helps.length).toBe(1)// onyl counts the initiatives where John Doe is helper but not accountable
                 })
             })
 

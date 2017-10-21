@@ -23,12 +23,16 @@
                     <div *ngFor="let i of authorities; let ix=index" class=" list-group-item flex-column align-items-start ">
                         <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1">{{i.name}}</h5>
-
                         </div>
-                        <span class="mb-2 text-muted" *ngIf="(i.helpers?.length !== 0)">with the help of
+                        <div class="small row">
+                            <span *ngIf="i.getRoles(i.accountable?.user_id)[0]?.description" class="text-muted col">Role :
+                            </span>
+                            <span *ngIf="!i.getRoles(i.accountable?.user_id)[0]?.description"  class="text-muted text-warning col">No role specified yet</span>
+                            <markdown *ngIf="i.getRoles(i.accountable?.user_id)[0]?.description" [data]="i.getRoles(i.accountable?.user_id)[0]?.description"></markdown>
+                        </div>
 
-                        </span>
 
+                        <span class="mb-2 text-muted" *ngIf="(i.helpers?.length !== 0)">with the help of</span>
 
                         <div *ngIf="(i.helpers?.length !== 0)" class="row">
                             <div>
@@ -45,19 +49,18 @@
                                 </div>
                                 <div *ngIf="authoritiesHideme[ix]">
                                     <div class="row ml-1 mb-1" *ngFor="let h of i.helpers">
-                                        <a class="" routerLink="/summary/map/{{datasetId}}/{{initiative?.getSlug()}}/u/{{h.shortid}}/{{h.getSlug()}}">
+                                        <div [hidden]="h.user_id === (member$ |async)?.user_id ">
+     <a class="col" routerLink="/summary/map/{{datasetId}}/{{initiative?.getSlug()}}/u/{{h.shortid}}/{{h.getSlug()}}">
                                             <img class="rounded-circle helper" src="{{h.picture}}" alt="{{h.name}}" title="{{h.name}}" placement="top" container="body"
                                                 ngbTooltip="{{h.name}}">
                                         </a>
-                                        <markdown class="small col" *ngIf="h.roles[0]?.description" [data]="h.roles[0]?.description"></markdown>
-
-                                    </div>
+                                        <markdown class="small" *ngIf="h.roles[0]?.description" [data]="h.roles[0]?.description"></markdown>
+                                    
+                                        </div>
+                                   </div>
                                 </div>
                             </div>
                         </div>
-
-
-
                         <span class="mb-1 small text-warning" *ngIf="(i.helpers?.length === 0)">No helpers</span>
                     </div>
                 </div>
@@ -91,7 +94,7 @@
                         <span class="text-muted small mb-2" *ngIf="(i.helpers?.length !== 0) && (i.helpers?.length !== 1)">Other helpers</span>
                         <span class="text-warning small mb-2" *ngIf="(i.helpers?.length === 1)">No other helpers</span>
 
-                    
+
 
                         <div *ngIf="(i.helpers?.length !== 1)" class="row">
                             <div>
