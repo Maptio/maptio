@@ -30,7 +30,7 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
     start: Date;
 
     /**Accountable  */
-    accountable: User;
+    accountable: Helper;
 
     /**
      * List of helpers
@@ -88,7 +88,7 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
         this.team_id = input.team_id;
         // this.slug = input.slug;
         if (input.accountable) {
-            this.accountable = new User().deserialize(input.accountable);
+            this.accountable = new Helper().deserialize(input.accountable);
         }
 
         let children = new Array<Initiative>();

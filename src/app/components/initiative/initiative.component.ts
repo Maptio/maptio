@@ -22,6 +22,7 @@ import { distinctUntilChanged } from "rxjs/operator/distinctUntilChanged";
 import { DataSet } from "../../shared/model/dataset.data";
 import * as _ from "lodash";
 import { Helper } from "../../shared/model/helper.data";
+import { MarkdownService } from "angular2-markdown";
 
 @Component({
     selector: "initiative",
@@ -48,11 +49,14 @@ export class InitiativeComponent implements OnChanges {
     searching: boolean;
     searchFailed: boolean;
     hideme: Array<boolean> = [];
+    authorityHideMe: boolean;
+    descriptionHideMe: boolean;
 
     @ViewChild("inputDescription") public inputDescriptionElement: ElementRef;
     @ViewChild("inputRole") public inputRoleElement: ElementRef;
 
-    constructor(private teamFactory: TeamFactory, private userFactory: UserFactory, private datasetFactory: DatasetFactory) {
+    constructor(private teamFactory: TeamFactory, private userFactory: UserFactory,
+        private datasetFactory: DatasetFactory, private _markdown: MarkdownService) {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -78,7 +82,14 @@ export class InitiativeComponent implements OnChanges {
     }
 
     ngOnInit() {
+        this._markdown.setMarkedOptions({ breaks: true })
+        this._markdown.renderer.link = (href: string, title: string, text: string) => {
+            return `<a href=${href} target="_blank" title=${title}>${text}</a>`;
+        }
+    }
 
+    onPreview() {
+        console.log("preview")
     }
 
     onBlur() {

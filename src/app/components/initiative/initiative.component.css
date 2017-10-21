@@ -31,7 +31,7 @@ span.help-popup {
 
 @media only screen and (min-height: 800px) and (max-height: 900px)  {
     .overflow {
-        max-height: 40vh;
+        max-height: 36vh;
         overflow-y: auto;
     }
 }
@@ -52,4 +52,8 @@ textarea {
 
 .btn-link:focus, .btn-link:active {
     box-shadow: none!important;
+}
+
+.preview{
+    cursor: pointer;
 }

@@ -1,3 +1,4 @@
+import { MarkdownModule } from "angular2-markdown";
 
 import { AuthHttp } from "angular2-jwt";
 import { UserFactory } from "./../../../shared/services/user.factory";
@@ -50,6 +51,7 @@ describe("tooltip.component.ts", () => {
 
             ],
             declarations: [TooltipComponent, InitiativeComponent],
+            imports: [MarkdownModule.forRoot()],
             schemas: [NO_ERRORS_SCHEMA]
         })
             .compileComponents()
