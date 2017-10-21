@@ -67,7 +67,7 @@
 						Helpers bring specific ideas and carry out actions to realise the vision"></span> -->
 				</h6>
 				<div class="input-group mb-3" *ngIf="!isReadOnly">
-					<input #person [disabled]="isReadOnly" required="required" [resultTemplate]="rt" type="text" id="inputHelper" placeholder="Enter the name of an helper"
+					<input #person [disabled]="isReadOnly" required="required" [resultTemplate]="rt" type="text" id="inputHelper" placeholder="Enter the name of a helper"
 					 class="form-control" (selectItem)="saveHelper($event, person)"  (focus)="person.value=''" [ngbTypeahead]="searchTeamMember" [resultFormatter]="formatter"
 					 [inputFormatter]="formatter" editable="false"/>
 				</div>
@@ -88,12 +88,12 @@
 							</span>
 							<button *ngIf="!isReadOnly" class="btn btn-link pull-right btn-sm" (click)="toggleRole(i)">Role <i class="fa" [class.fa-caret-up]="hideme[i]" [class.fa-caret-down]="!hideme[i]" aria-hidden="true"></i></button>
 						</div>
-						<textarea [hidden]="!hideme[i]" #inputRole class="form-control form-control-sm unresizable" id="inputRole" [ngModelOptions]="{standalone: true}"
+						<textarea [hidden]="!hideme[i]" #inputRole class="form-control form-control-sm unresizable mb-3" id="inputRole" [ngModelOptions]="{standalone: true}"
 						 data-provide="markdown" data-iconlibrary="fa" data-autofocus="true" [ngModel]="user.roles[0]?.description || ''" rows="3"
 						 placeholder="How is {{user.name}} helping?" (ngModelChange)="saveRole(user,$event)" (blur)="onBlur();toggleRole(i)"
 						 (change)="saveRole(user,$event.target.value)"></textarea>
 
-						<markdown class="small" [hidden]="hideme[i]" *ngIf="user.roles[0]?.description" [data]="user.roles[0]?.description || ''"></markdown>
+						<markdown class="small mb-3" [hidden]="hideme[i]" *ngIf="user.roles[0]?.description" [data]="user.roles[0]?.description || ''"></markdown>
 					</div>
 					<small class="text-warning" *ngIf="node?.helpers.length === 0 || !(node?.helpers)">No helpers yet</small>
 

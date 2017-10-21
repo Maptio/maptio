@@ -68,7 +68,7 @@ describe("initiative.component.ts", () => {
         inputNode = {
             id: 1, name: "ORIGINAL", description: "ORIGINAL", children: [], helpers: [], start: new Date(2010, 1, 1), accountable: <User>{ name: "ORIGINAL" },
             hasFocus: false, isZoomedOn: false, team_id: "team_id", isSearchedFor: false, search: undefined, traverse: undefined, deserialize: undefined, tryDeserialize: undefined,
-            getSlug: undefined, getParent: undefined, isDraggable: false, traversePromise: undefined
+            getSlug: undefined, getParent: undefined, isDraggable: false, traversePromise: undefined, isExpanded: true, getRoles: undefined
         };
 
         component.node = inputNode;

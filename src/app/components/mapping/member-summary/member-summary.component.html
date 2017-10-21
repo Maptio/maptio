@@ -32,18 +32,18 @@
 
                         <div *ngIf="(i.helpers?.length !== 0)" class="row">
                             <div>
-                                <button class="btn btn-link pull-right btn-sm" (click)="toggleView(ix)">
-                                    <i class="fa" [class.fa-caret-right]="!hideme[ix]" [class.fa-caret-down]="hideme[ix]" aria-hidden="true"></i>
+                                <button class="btn btn-link pull-right btn-sm" (click)="toggleAuthorityView(ix)">
+                                    <i class="fa" [class.fa-caret-right]="!authoritiesHideme[ix]" [class.fa-caret-down]="authoritiesHideme[ix]" aria-hidden="true"></i>
                                 </button>
                             </div>
                             <div class="">
-                                <div class="btn-group" *ngIf="!hideme[ix]">
+                                <div class="btn-group" *ngIf="!authoritiesHideme[ix]">
                                     <a *ngFor="let h of i.helpers" class="btn btn-link btn-xs no-padding" routerLink="/summary/map/{{datasetId}}/{{initiative?.getSlug()}}/u/{{h.shortid}}/{{h.getSlug()}}">
                                         <img [hidden]="h.user_id === (member$ |async)?.user_id " class="rounded-circle helper" src="{{h.picture}}" alt="{{h.name}}"
                                             title="{{h.name}}" placement="top" container="body" ngbTooltip="{{h.name}}">
                                     </a>
                                 </div>
-                                <div *ngIf="hideme[ix]">
+                                <div *ngIf="authoritiesHideme[ix]">
                                     <div class="row ml-1 mb-1" *ngFor="let h of i.helpers">
                                         <a class="" routerLink="/summary/map/{{datasetId}}/{{initiative?.getSlug()}}/u/{{h.shortid}}/{{h.getSlug()}}">
                                             <img class="rounded-circle helper" src="{{h.picture}}" alt="{{h.name}}" title="{{h.name}}" placement="top" container="body"
@@ -73,7 +73,7 @@
             <div class="card-block" *ngIf="helps.length > 0">
                 <h6 class="card-title">Helping with</h6>
                 <div class="list-group">
-                    <div *ngFor="let i of helps" class=" list-group-item flex-column align-items-start ">
+                    <div *ngFor="let i of helps; let ix=index" class=" list-group-item flex-column align-items-start ">
                         <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-0 w-75">{{i.name}}</h5>
                             <span class="mb-0" *ngIf="(i.helpers?.length !== 0)">Authority
@@ -90,12 +90,37 @@
                         </div>
                         <span class="text-muted small mb-2" *ngIf="(i.helpers?.length !== 0) && (i.helpers?.length !== 1)">Other helpers</span>
                         <span class="text-warning small mb-2" *ngIf="(i.helpers?.length === 1)">No other helpers</span>
-                        <div class="btn-group">
-                            <a *ngFor="let h of i.helpers" class="btn btn-link btn-xs no-padding" routerLink="/summary/map/{{datasetId}}/{{initiative?.getSlug()}}/u/{{h.shortid}}/{{h.getSlug()}}">
-                                <img [hidden]="h.user_id === (member$ |async)?.user_id " class="rounded-circle helper" src="{{h.picture}}" alt="{{h.name}}"
-                                    title="{{h.name}}" placement="top" container="body" ngbTooltip="{{h.name}}">
-                            </a>
+
+                    
+
+                        <div *ngIf="(i.helpers?.length !== 1)" class="row">
+                            <div>
+                                <button class="btn btn-link pull-right btn-sm" (click)="toggleHelpingView(ix)">
+                                    <i class="fa" [class.fa-caret-right]="!helpingHideme[ix]" [class.fa-caret-down]="helpingHideme[ix]" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="">
+                                <div class="btn-group" *ngIf="!helpingHideme[ix]">
+                                    <a *ngFor="let h of i.helpers" class="btn btn-link btn-xs no-padding" routerLink="/summary/map/{{datasetId}}/{{initiative?.getSlug()}}/u/{{h.shortid}}/{{h.getSlug()}}">
+                                        <img [hidden]="h.user_id === (member$ |async)?.user_id " class="rounded-circle helper" src="{{h.picture}}" alt="{{h.name}}"
+                                            title="{{h.name}}" placement="top" container="body" ngbTooltip="{{h.name}}">
+                                    </a>
+                                </div>
+                                <div *ngIf="helpingHideme[ix]">
+                                    <div class="row ml-1 mb-1" *ngFor="let h of i.helpers">
+                                        <a [hidden]="h.user_id === (member$ |async)?.user_id " class="" routerLink="/summary/map/{{datasetId}}/{{initiative?.getSlug()}}/u/{{h.shortid}}/{{h.getSlug()}}">
+                                            <img class="rounded-circle helper" src="{{h.picture}}" alt="{{h.name}}" title="{{h.name}}" placement="top" container="body"
+                                                ngbTooltip="{{h.name}}">
+                                        </a>
+                                        <markdown [hidden]="h.user_id === (member$ |async)?.user_id " class="small col" *ngIf="h.roles[0]?.description" [data]="h.roles[0]?.description"></markdown>
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
+
+
                     </div>
                 </div>
             </div>

@@ -35,8 +35,9 @@ export class MemberSummaryComponent implements OnInit {
     authorities: Array<Initiative> = [];
     helps: Array<Initiative> = [];
     public isLoading: boolean;
-    hideme: Array<boolean> = [];
-
+    authoritiesHideme: Array<boolean> = [];
+    helpingHideme: Array<boolean> = [];
+    
     constructor(public auth: Auth, public route: ActivatedRoute, public datasetFactory: DatasetFactory, public userFactory: UserFactory, public teamFactory: TeamFactory) {
 
         this.route.params.subscribe((params: Params) => {
@@ -126,11 +127,18 @@ export class MemberSummaryComponent implements OnInit {
     }
 
 
-    toggleView(i: number) {
-        this.hideme.forEach(el => {
+    toggleAuthorityView(i: number) {
+        this.authoritiesHideme.forEach(el => {
             el = true
         });
-        this.hideme[i] = !this.hideme[i];
+        this.authoritiesHideme[i] = !this.authoritiesHideme[i];
+    }
+
+    toggleHelpingView(i: number) {
+        this.helpingHideme.forEach(el => {
+            el = true
+        });
+        this.helpingHideme[i] = !this.helpingHideme[i];
     }
 
 
