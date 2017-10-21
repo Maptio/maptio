@@ -117,6 +117,15 @@ export const cloudinaryLib = {
   Cloudinary: Cloudinary
 };
 
+export function markdownServiceFactory(http: Http) {
+  let _markdown = new MarkdownService(http)
+  _markdown.setMarkedOptions({ breaks: true })
+  _markdown.renderer.link = (href: string, title: string, text: string) => {
+    return `<a href=${href} target="_blank" title=${title}>${text}</a>`;
+  }
+  return _markdown
+}
+
 @NgModule({
   declarations: [
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent, TeamComponent,
@@ -170,14 +179,7 @@ export const cloudinaryLib = {
     },
     {
       provide: MarkdownService,
-      useFactory: (http: Http) => {
-        let _markdown = new MarkdownService(http)
-        _markdown.setMarkedOptions({ breaks: true })
-        _markdown.renderer.link = (href: string, title: string, text: string) => {
-          return `<a href=${href} target="_blank" title=${title}>${text}</a>`;
-        }
-        return _markdown
-      },
+      useFactory: markdownServiceFactory,
       deps: [Http]
     }
   ],
