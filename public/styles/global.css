@@ -4,30 +4,29 @@
   overflow: hidden;
 } */
 
-
 html, body {
   height: 100%;
   /* The html and body elements cannot have any padding or margin. */
 }
 
-body{
+body {
   overflow: hidden;
 }
-
 
 .toggle-children {
   top: 11px !important;
   background-image: none !important;
-  transform: rotate(0deg) !important; 
-  width:6px!important;
+  transform: rotate(0deg) !important;
+  width: 6px!important;
 }
 
 .toggle-children:before {
   color: #0275D8;
-  transform: rotate(0deg) !important; 
+  transform: rotate(0deg) !important;
   font-family: FontAwesome;
-  font-size:17px;
+  font-size: 17px;
 }
+
 .toggle-children-wrapper-expanded .toggle-children:before {
   content: "\F056";
 }
@@ -62,6 +61,7 @@ body{
   content: "";
   position: absolute;
 }
+
 
 /* .node-content-wrapper::before {
 
@@ -253,12 +253,9 @@ div.deleted {
   display: inline-block;
 }
 
-
-
-.transparent{
+.transparent {
   background-color: transparent !important;
 }
-
 
 .toggle {
   border: none;
@@ -301,10 +298,23 @@ div.deleted {
   color: #2F81B7;
 }
 
-.md-control-fullscreen{
-  display:none;
+.md-control-fullscreen {
+  display: none;
 }
 
 button[data-handler=bootstrap-markdown-cmdImage] {
   display: none;
+}
+
+.markdown-link {
+  white-space: pre-wrap;
+  /* css-3 */
+  white-space: -moz-pre-wrap;
+  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;
+  /* Opera 4-6 */
+  white-space: -o-pre-wrap;
+  /* Opera 7 */
+  word-wrap: break-word;
+  /* Internet Explorer 5.5+ */
 }

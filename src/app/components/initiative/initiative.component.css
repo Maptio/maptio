@@ -57,3 +57,8 @@ textarea {
 .btn-link:focus, .btn-link:active {
     box-shadow: none!important;
 }
+
+
+.edit-description{
+    text-align: right;
+}

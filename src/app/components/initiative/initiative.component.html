@@ -49,7 +49,7 @@
 				</div>
 				<div class="row">
 					<div class="col-xl-12 mt-3" [hidden]="isReadOnly">
-						<button *ngIf="descriptionHideMe" class="btn btn-link pull-right btn-sm" (click)="descriptionHideMe=!descriptionHideMe">
+						<button *ngIf="descriptionHideMe" class="edit-description btn btn-link btn-sm col" (click)="descriptionHideMe=!descriptionHideMe">
 							Edit
 						</button>
 						<textarea [hidden]="descriptionHideMe" #inputDescription class="form-control initiativeMarkdownDescription" id="inputDescription"
