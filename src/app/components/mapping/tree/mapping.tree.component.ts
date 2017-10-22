@@ -45,7 +45,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         }
     }
 
-    draw(data: any) {
+    draw(data: any, translateX: number, translateY: number, scale: number) {
         let d3 = this.d3;
         let colorService = this.colorService;
         let uiService = this.uiService;
@@ -109,6 +109,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
                 if (zf) {
                     zooming.scaleBy(svg, zf);
+                }
+                else if (scale) {
+                    zooming.scaleBy(svg, scale);
                 }
                 else {
                     svg.call(zooming.transform, d3.zoomIdentity.translate(margins.left, 0));

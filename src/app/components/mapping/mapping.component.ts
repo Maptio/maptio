@@ -2,7 +2,7 @@ import { Initiative } from "./../../shared/model/initiative.data";
 import { MappingNetworkComponent } from "./network/mapping.network.component";
 import { Angulartics2Mixpanel } from "angulartics2";
 
-import { ActivatedRoute, Params } from "@angular/router";
+import { ActivatedRoute, Params, UrlSegment } from "@angular/router";
 import {
     Component,
     AfterViewInit, EventEmitter,
@@ -44,7 +44,11 @@ export class MappingComponent implements OnInit {
     public data: { initiative: Initiative, datasetId: string };
     public isCollapsed: boolean = true;
 
-    public zoom$: Subject<number>
+    public zoom$: Subject<number>;
+    private VIEWPORT_WIDTH: number = 1522;
+    private VIEWPORT_HEIGHT: number = 1522;
+
+
 
     public fontSize$: BehaviorSubject<number>;
 
@@ -74,15 +78,21 @@ export class MappingComponent implements OnInit {
         this.subscription =
             Observable
                 .combineLatest(this.route.params.distinct(), this.dataService.get())
-                .subscribe((value) => {
-                    let layout = value[0]["layout"];
-                    this.data = value[1];
-
-                    this.componentFactory = this.getComponentFactory(layout)
-
-                    this.show(value[1]);
+                .withLatestFrom(this.route.fragment)
+                .subscribe((value: [[Params, any], string]) => {
+                    console.log("redrawing", value)
+                    let layout = value[0][0]["layout"];
+                    this.data = value[0][1];
+                    this.componentFactory = this.getComponentFactory(layout);
+                    let fragment = value[1] || `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`;
+                    let x = Number.parseFloat(fragment.split("&")[0].replace("x=", ""))
+                    let y = Number.parseFloat(fragment.split("&")[1].replace("y=", ""))
+                    let scale = Number.parseFloat(fragment.split("&")[2].replace("scale=", ""));
+                    console.log("redrawing", x, y, scale)
+                    this.show(value[0][1], x, y, scale);
 
                 })
+
     }
 
     ngOnInit() {
@@ -109,20 +119,20 @@ export class MappingComponent implements OnInit {
         return component.instance;
     }
 
-    show(data: any) {
+    show(data: any, x: number, y: number, scale: number) {
         let component = this.anchorComponent.createComponent<IDataVisualizer>(this.componentFactory);
 
         let instance = this.getInstance(component);
         instance.showDetailsOf$.asObservable().subscribe(node => {
             this.showDetails.emit(node)
         })
-        instance.width = 1522; // this.element.nativeElement.parentNode.parentNode.parentNode.offsetHeight;
-        instance.height = 1522; // this.element.nativeElement.parentNode.parentNode.parentNode.offsetHeight;
+        instance.width = this.VIEWPORT_WIDTH; // this.element.nativeElement.parentNode.parentNode.parentNode.offsetHeight;
+        instance.height = this.VIEWPORT_HEIGHT; // this.element.nativeElement.parentNode.parentNode.parentNode.offsetHeight;
         instance.margin = 50;
         instance.datasetId = data.datasetId;
         instance.zoom$ = this.zoom$.asObservable();
         instance.fontSize$ = this.fontSize$.asObservable();
-        instance.draw(data.initiative);
+        instance.draw(data.initiative, x, y, scale);
     }
 
 

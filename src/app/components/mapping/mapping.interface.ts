@@ -18,5 +18,5 @@ export interface IDataVisualizer {
 
     showDetailsOf$: Subject<Initiative>;
 
-    draw(data: any): void;
+    draw(data: any, translateX: number, translateY: number, scale: number): void;
 }
