@@ -90,16 +90,16 @@ export class TeamComponent implements OnDestroy {
             return this.userFactory.getUsers(team.members.map(m => m.user_id))
                 .then(members => _.compact(members))
                 .then((members: User[]) => {
-                    console.log("asking for ", members.map(u => { console.log(u.user_id) }))
+                    // console.log("asking for ", members.map(u => { console.log(u.user_id) }))
                     return this.userService.getUsersInfo(members).then(pending => {
-                        console.log("got ", pending.map(u => { console.log(u.user_id) }))
+                        // console.log("got ", pending.map(u => { console.log(u.user_id) }))
                         return { members: members, membersPending: pending }
                     })
                 })
                 .then((result) => {
                     let members = result.members;
                     let membersPending = result.membersPending;
-                    console.log(members, membersPending);
+                    // console.log(members, membersPending);
                     let allDeleted = _.differenceBy(members, membersPending, m => m.user_id).map(m => { m.isDeleted = true; return m });
                     return membersPending.concat(allDeleted);
                 })

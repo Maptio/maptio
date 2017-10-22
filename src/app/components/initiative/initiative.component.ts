@@ -62,7 +62,8 @@ export class InitiativeComponent implements OnChanges {
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.node && changes.node.currentValue) {
-            this.descriptionHideMe = false;
+            console.log(changes.node.currentValue.description)
+            this.descriptionHideMe = changes.node.currentValue.description ? (changes.node.currentValue.description.trim() !== "") : false;
             if (changes.node.isFirstChange() || !(changes.node.previousValue) || changes.node.currentValue.team_id !== changes.node.previousValue.team_id) {
 
                 this.team$ = this.teamFactory.get(changes.node.currentValue.team_id).then(t => t, () => { return Promise.reject("No team available") }).catch(() => { })
@@ -84,7 +85,7 @@ export class InitiativeComponent implements OnChanges {
     }
 
     ngOnInit() {
-    
+
     }
 
     onBlur() {
