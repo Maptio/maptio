@@ -84,12 +84,13 @@ export class MappingComponent implements OnInit {
                     let layout = value[0][0]["layout"];
                     this.data = value[0][1];
                     this.componentFactory = this.getComponentFactory(layout);
-                    let fragment = value[1] || `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`;
+                    let fragment = value[1] || this.getFragment(layout);
                     let x = Number.parseFloat(fragment.split("&")[0].replace("x=", ""))
                     let y = Number.parseFloat(fragment.split("&")[1].replace("y=", ""))
                     let scale = Number.parseFloat(fragment.split("&")[2].replace("scale=", ""));
                     // console.log("redrawing", x, y, scale)
                     this.show(value[0][1], x, y, scale);
+                    this.layout = layout;
 
                 })
 
@@ -100,6 +101,19 @@ export class MappingComponent implements OnInit {
 
     ngOnDestroy() {
         this.subscription.unsubscribe();
+    }
+
+    getFragment(layout: string) {
+        switch (layout) {
+            case "initiatives":
+                return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`
+            case "people":
+                return `x=100&y=0&scale=1`
+            case "network":
+                return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`
+            default:
+                return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`
+        }
     }
 
     getComponentFactory(layout: string) {
@@ -132,7 +146,9 @@ export class MappingComponent implements OnInit {
         instance.datasetId = data.datasetId;
         instance.zoom$ = this.zoom$.asObservable();
         instance.fontSize$ = this.fontSize$.asObservable();
+        console.log(x, y, scale)
         instance.draw(data.initiative, x, y, scale);
+
     }
 
 
@@ -145,7 +161,24 @@ export class MappingComponent implements OnInit {
     }
 
     resetZoom() {
-        this.zoom$.next(null);
+        console.log()
+        switch (this.layout) {
+            case "initiatives":
+                this.show(this.data, this.VIEWPORT_WIDTH / 2, this.VIEWPORT_HEIGHT / 2, 1);
+                break;
+            case "people":
+                this.show(this.data, 100, 0, 1);
+                break;
+            case "network":
+                this.show(this.data, 0, this.VIEWPORT_HEIGHT / 2, 1);
+                break;
+            default:
+                this.show(this.data, this.VIEWPORT_WIDTH / 2, this.VIEWPORT_HEIGHT / 2, 1);
+                break;
+        }
+        // location.hash = `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`;
+        // this.zoom$.next(1);
+        // this.show(this.data, usndefined, undefined, undefined, true)
     }
 
     changeFontSize(size: number) {
