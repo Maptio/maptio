@@ -29,6 +29,7 @@ export class MemberSummaryComponent implements OnInit {
     public team$: Promise<Team>
     public dataset$: Promise<DataSet>;
     public datasetId: string;
+    public datasetSlug: string;
     public memberShortId: string;
     public memberUserId: string;
     public initiative: Initiative;
@@ -37,14 +38,16 @@ export class MemberSummaryComponent implements OnInit {
     public isLoading: boolean;
     authoritiesHideme: Array<boolean> = [];
     helpingHideme: Array<boolean> = [];
-    
-    constructor(public auth: Auth, public route: ActivatedRoute, public datasetFactory: DatasetFactory, 
+
+    constructor(public auth: Auth, public route: ActivatedRoute, public datasetFactory: DatasetFactory,
         public userFactory: UserFactory, public teamFactory: TeamFactory) {
 
         this.route.params.subscribe((params: Params) => {
             this.isLoading = true;
             this.memberShortId = params["usershortid"];
             this.datasetId = params["mapid"];
+            this.datasetSlug = params["mapslug"];
+
             this.member$ = this.userFactory.get(this.memberShortId).then((user: User) => {
                 this.memberUserId = user.user_id;
                 return user;

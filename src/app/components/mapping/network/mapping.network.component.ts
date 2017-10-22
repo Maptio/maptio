@@ -1,3 +1,4 @@
+import { Subject } from "rxjs/Rx";
 import { Initiative } from "./../../../shared/model/initiative.data";
 import { Subscription } from "rxjs/Subscription";
 import { Observable } from "rxjs/Observable";
@@ -26,6 +27,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     public margin: number;
     public zoom$: Observable<number>
     public fontSize$: Observable<number>;
+
+    public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>()
 
     private zoomSubscription: Subscription;
 
@@ -58,7 +61,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     }
 
 
-    public draw(data: any) {
+    public draw(data: any, translateX: number, translateY: number, scale: number) {
 
         let d3 = this.d3;
         let CIRCLE_RADIUS: number = 15;

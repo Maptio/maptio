@@ -24,7 +24,7 @@
 
 .name:hover{
   font-size:initial;
-  pointer-events: none;
+  pointer-events: auto;
 }
 
 .accountable{

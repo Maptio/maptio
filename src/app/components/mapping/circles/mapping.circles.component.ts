@@ -1,7 +1,8 @@
+import { Observable, Subject } from "rxjs/Rx";
+import { Initiative } from "./../../../shared/model/initiative.data";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs/Subscription";
-import { Observable } from "rxjs/Observable";
-import { Component, OnInit, Input, ViewEncapsulation } from "@angular/core";
+import { Component, OnInit, Input, ViewEncapsulation, EventEmitter, Output } from "@angular/core";
 import { D3Service, D3, HierarchyCircularNode } from "d3-ng2-service";
 import { ColorService } from "../../../shared/services/ui/color.service"
 import { UIService } from "../../../shared/services/ui/ui.service"
@@ -29,6 +30,8 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
     public zoom$: Observable<number>
     public fontSize$: Observable<number>;
 
+    public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
+
     private zoomSubscription: Subscription;
 
     constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService, public router: Router, private userFactory: UserFactory) {
@@ -45,7 +48,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
         }
     }
 
-    draw(data: any) {
+    draw(data: any, translateX: number, translateY: number, scale: number) {
 
         let d3 = this.d3;
         let colorService = this.colorService;
@@ -58,7 +61,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
         let CIRCLE_RADIUS = 15;
         let router = this.router;
         let userFactory = this.userFactory;
-
+        let showDetailsOf$ = this.showDetailsOf$;
 
         if (!data) {
             uiService.clean();
@@ -74,14 +77,15 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             diameter = +width
 
         let g = svg.append("g")
-            .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")")
-            , transform = d3.zoomIdentity
+            .attr("transform", `translate(${translateX}, ${translateY}) scale(${scale})`)
+        // , transform = d3.zoomIdentity
 
         let zooming = d3.zoom().on("zoom", zoomed);
 
         try {
             // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
-            svg.call(zooming.transform, d3.zoomIdentity.translate(diameter / 2, diameter / 2));
+            // svg.call(zooming.transform, d3.zoomIdentity.translate(diameter / 2, diameter / 2));
+            svg.call(zooming.transform, d3.zoomIdentity.translate(translateX, translateY).scale(scale));
             svg.call(zooming);
         }
         catch (error) {
@@ -90,6 +94,9 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
 
 
         function zoomed() {
+            // console.log(d3.event.transform)
+            let transform = d3.event.transform;
+            location.hash = `x=${transform.x}&y=${transform.y}&scale=${transform.k}`
             g.attr("transform", d3.event.transform);
         }
 
@@ -101,7 +108,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
                     zooming.scaleBy(svg, zf);
                 }
                 else {
-                    svg.call(zooming.transform, d3.zoomIdentity.translate(diameter / 2, diameter / 2));
+                    svg.call(zooming.transform, d3.zoomIdentity.translate(translateX, translateY));
                 }
             }
             catch (error) {
@@ -322,7 +329,9 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
         }
 
         function showTooltip(d: any, parent: any, event: any, datasetId: string) {
-            uiService.setTooltipData(datasetId, d.data, parent.data);
+            // console.log("clicked on ", d.data)
+            showDetailsOf$.next(d.data);
+            // uiService.setTooltipData(datasetId, d.data, parent.data);
         }
     }
 }

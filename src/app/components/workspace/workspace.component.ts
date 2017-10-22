@@ -63,13 +63,15 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSubscription = this.route.params.subscribe((params: Params) => {
             this.datasetId = params["mapid"];
-            let initiativeSlug = params["slug"];
 
             this.dataset$ = this.datasetFactory.get(this.datasetId).then((d: DataSet) => {
                 EmitterService.get("currentDataset").emit(d)
                 return d;
             });
 
+            this.dataset$.then(d => {
+
+            })
 
             this.team = this.dataset$.then((dataset: DataSet) => {
                 return this.teamFactory.get(dataset.initiative.team_id).then(t => t, () => { return Promise.reject("No team") }).catch(() => { })
@@ -82,8 +84,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                         .then(members => _.sortBy(members, m => m.name))
             });
 
-            this.buildingComponent.loadData(this.datasetId); // .then(()=>{console.log("finished buioding data")});
-
+            this.buildingComponent.loadData(this.datasetId, params["nodeid"]) // .then(()=>{console.log("finished buioding data")});
         });
 
         this.userSubscription = this.auth.getUser().subscribe((user: User) => {
@@ -112,9 +113,9 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.dataService.set({ initiative: initiative, datasetId: this.datasetId });
                 return hasSaved;
             }, (reason) => { console.log(reason) })
-            // .then(() => {
-            //     this.dataset$ = this.datasetFactory.get(this.datasetId)
-            // });
+        // .then(() => {
+        //     this.dataset$ = this.datasetFactory.get(this.datasetId)
+        // });
 
     }
 
@@ -158,7 +159,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
 
-    openDetails(node: Initiative) {
+    openDetails(node: Initiative, willCloseBuildingPanel: boolean = false) {
+        console.log(node)
         Promise.all([this.dataset$, this.team])
             .then((result: [DataSet, Team]) => {
                 let dataset = result[0]
@@ -167,6 +169,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.openedNode = node;
             })
             .then(() => {
+                this.isBuildingPanelCollapsed = willCloseBuildingPanel;
                 this.isDetailsPanelCollapsed = false;
             })
     }

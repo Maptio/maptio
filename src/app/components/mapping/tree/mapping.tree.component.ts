@@ -6,7 +6,8 @@ import { D3Service, D3 } from "d3-ng2-service";
 import { ColorService } from "../../../shared/services/ui/color.service"
 import { UIService } from "../../../shared/services/ui/ui.service"
 import { IDataVisualizer } from "../mapping.interface"
-import { Observable } from "rxjs/Rx";
+import { Observable, Subject } from "rxjs/Rx";
+import { Initiative } from "../../../shared/model/initiative.data";
 
 @Component({
     selector: "tree",
@@ -28,6 +29,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     public fontSize$: Observable<number>
 
     private zoomSubscription: Subscription;
+    public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>()
 
     constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService, public router: Router, private userFactory: UserFactory) {
         this.d3 = d3Service.getD3();
@@ -43,18 +45,19 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         }
     }
 
-    draw(data: any) {
+    draw(data: any, translateX: number, translateY: number, scale: number) {
         let d3 = this.d3;
         let colorService = this.colorService;
         let uiService = this.uiService;
         let CIRCLE_RADIUS = 15;
-        let viewerWidth = this.width;
+        let viewerWidth = this.width ;
         let viewerHeight = this.height;
         let zoom$ = this.zoom$;
         let fontSize$ = this.fontSize$;
         let datasetId = this.datasetId;
         let router = this.router;
         let userFactory = this.userFactory;
+        let showDetailsOf$ = this.showDetailsOf$;
 
         if (!data) {
             // console.log("CLEAN");
@@ -73,10 +76,10 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         let treemap = d3.tree().size([viewerWidth / 2, viewerHeight]);
 
         function zoomed() {
+            let transform = d3.event.transform;
+            location.hash = `x=${transform.x}&y=${transform.y}&scale=${transform.k}`
             g.attr("transform", d3.event.transform);
         }
-
-
 
         let zooming = d3.zoom().on("zoom", zoomed);
 
@@ -88,13 +91,11 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         })
 
         let g = svg.append("g")
-
-            .attr("transform",
-            "translate(" + margins.left + "," + margins.top + ")"), transform = d3.zoomIdentity
+            .attr("transform", `translate(${translateX}, ${translateY}) scale(${scale})`);
 
         try {
             // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
-            svg.call(zooming.transform, d3.zoomIdentity.translate(margins.left, 0));
+            svg.call(zooming.transform, d3.zoomIdentity.translate(translateX, translateY).scale(scale));
             svg.call(zooming);
         }
         catch (error) {
@@ -108,7 +109,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                     zooming.scaleBy(svg, zf);
                 }
                 else {
-                    svg.call(zooming.transform, d3.zoomIdentity.translate(margins.left, 0));
+                    svg.call(zooming.transform, d3.zoomIdentity.translate(translateX, translateY));
                 }
             }
             catch (error) {
@@ -207,6 +208,11 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 .attr("dy", "0.65em")
                 .attr("y", "1.00em")
                 .attr("x", CIRCLE_RADIUS + 5)
+                .on("click", function (d: any, i: number) {
+                    // console.log("cliked", d.data);
+                    showDetailsOf$.next(d.data);
+                    d3.event.stopPropagation();
+                })
                 .text(function (d: any) { return d.data.name; })
                 .each(function (d: any) {
                     uiService.wrap(d3.select(this), d.data.name, d.y / d.depth * 0.85);
@@ -328,5 +334,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 // centerNode(d)
             }
         }
+
+
     }
 }

@@ -73,6 +73,7 @@ export class BuildingComponent {
 
     @Output("save") save = new EventEmitter<Initiative>();
     @Output("openDetails") openDetails = new EventEmitter<Initiative>();
+    @Output("openDetailsEditOnly") openDetailsEditOnly = new EventEmitter<Initiative>();
 
     constructor(private dataService: DataService, private datasetFactory: DatasetFactory,
         private modalService: NgbModal, private analytics: Angulartics2Mixpanel,
@@ -121,13 +122,12 @@ export class BuildingComponent {
      * @param id Dataset Id
      * @param slugToOpen Slug of initiative to open
      */
-    loadData(id: string): Promise<void> {
-        this.datasetId = id;
-        return this.datasetFactory.get(id)
+    loadData(datasetID: string, nodeIdToOpen: string = undefined): Promise<void> {
+        this.datasetId = datasetID;
+        return this.datasetFactory.get(datasetID)
             .then(data => {
                 this.nodes = [];
                 this.nodes.push(new DataSet().deserialize(data).initiative);
-
                 let defaultTeamId = this.nodes[0].team_id;
                 this.nodes[0].traverse(function (node: Initiative) {
                     node.team_id = defaultTeamId; // For now, the sub initiative are all owned by the same team
@@ -146,6 +146,21 @@ export class BuildingComponent {
             })
             .then(() => {
                 this.saveChanges();
+            })
+            .then(() => {
+                let targetNode: Initiative = undefined;
+                if (nodeIdToOpen) {
+
+                    this.nodes[0].traverse(n => {
+                        if (targetNode) return; // once we find it, we dont need to carry on
+                        if (n.id.toString() === nodeIdToOpen) {
+                            targetNode = n;
+                        }
+                    });
+                }
+                if (targetNode) {
+                    this.openDetailsEditOnly.emit(targetNode)
+                }
             })
     }
 
