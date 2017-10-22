@@ -83,7 +83,7 @@ export class BuildingComponent {
 
 
     saveChanges() {
-        console.log("send to workspace", this.nodes[0])
+        // console.log("send to workspace", this.nodes[0])
         this.save.emit(this.nodes[0]);
     }
 
@@ -122,7 +122,6 @@ export class BuildingComponent {
      * @param slugToOpen Slug of initiative to open
      */
     loadData(id: string): Promise<void> {
-        console.log("lodadata")
         this.datasetId = id;
         return this.datasetFactory.get(id)
             .then(data => {
