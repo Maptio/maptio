@@ -112,9 +112,9 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.dataService.set({ initiative: initiative, datasetId: this.datasetId });
                 return hasSaved;
             }, (reason) => { console.log(reason) })
-            // .then(() => {
-            //     this.dataset$ = this.datasetFactory.get(this.datasetId)
-            // });
+        // .then(() => {
+        //     this.dataset$ = this.datasetFactory.get(this.datasetId)
+        // });
 
     }
 
@@ -158,7 +158,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
 
-    openDetails(node: Initiative) {
+    openDetails(node: Initiative, willCloseBuildingPanel: boolean = false) {
         console.log(node)
         Promise.all([this.dataset$, this.team])
             .then((result: [DataSet, Team]) => {
@@ -168,6 +168,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.openedNode = node;
             })
             .then(() => {
+                this.isBuildingPanelCollapsed = willCloseBuildingPanel;
                 this.isDetailsPanelCollapsed = false;
             })
     }

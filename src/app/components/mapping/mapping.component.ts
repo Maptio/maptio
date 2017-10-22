@@ -80,7 +80,7 @@ export class MappingComponent implements OnInit {
                 .combineLatest(this.route.params.distinct(), this.dataService.get())
                 .withLatestFrom(this.route.fragment)
                 .subscribe((value: [[Params, any], string]) => {
-                    console.log("redrawing", value)
+                    // console.log("redrawing", value)
                     let layout = value[0][0]["layout"];
                     this.data = value[0][1];
                     this.componentFactory = this.getComponentFactory(layout);
@@ -88,7 +88,7 @@ export class MappingComponent implements OnInit {
                     let x = Number.parseFloat(fragment.split("&")[0].replace("x=", ""))
                     let y = Number.parseFloat(fragment.split("&")[1].replace("y=", ""))
                     let scale = Number.parseFloat(fragment.split("&")[2].replace("scale=", ""));
-                    console.log("redrawing", x, y, scale)
+                    // console.log("redrawing", x, y, scale)
                     this.show(value[0][1], x, y, scale);
 
                 })

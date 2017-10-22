@@ -92,7 +92,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
         let g = svg.append("g")
             .attr("transform", `translate(${translateX}, ${translateY}) scale(${scale})`);
-        // "translate(" + margins.left + "," + margins.top + ")"), transform = d3.zoomIdentity
 
         try {
             // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
