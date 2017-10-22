@@ -29,7 +29,7 @@
 			<div class="card-block">
 
 				<div class="row justify-content-between no-gutters">
-					<label for="inputAccountable" class="form-control-label col-form-label">Authority
+					<label for="inputAccountable" class="form-control-label col-form-label text-muted">Authority
 						<!-- <span class="help-popup" placement="top" container="body" ngbTooltip="The authority is the source of the initiative"></span> -->
 
 					</label>
@@ -57,9 +57,11 @@
 						 rows="5" placeholder='Describe the initiative in your own words and/or add a URL to your main resource' (ngModelChange)="saveDescription($event)"
 						 (blur)="onBlur(); descriptionHideMe= !(node?.description === '') && !descriptionHideMe " (change)="saveDescription($event.target.value)">
 						</textarea>
+						<small [hidden]="descriptionHideMe" class="help-popup text-default text-muted">
+							You can use	<a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank">markdown</a> to create links and add formatting
+						</small>
 						<div [hidden]="!descriptionHideMe">
 							<markdown class="small mb-3" *ngIf="node?.description || ''" [data]="node?.description || ''"></markdown>
-
 						</div>
 
 					</div>
@@ -84,7 +86,7 @@
 				<div class="col-12">
 					<div *ngIf="node?.accountable">
 						<div class="row mb-0">
-							<span [class.ml-3]="!isReadOnly" [class.col]="!isReadOnly" [class.small]="isReadOnly">
+							<span [class.ml-1]="!isReadOnly" [class.col]="!isReadOnly" [class.small]="isReadOnly">
 								<img src="{{node?.accountable?.picture}}" width="16" class="rounded-circle">
 								<a routerLink="/summary/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/u/{{node?.accountable?.shortid}}/{{node?.accountable?.getSlug()}}">{{node?.accountable.name}}</a>
 								<span class="text-muted small">(Authority)</span>
@@ -108,7 +110,7 @@
 							 focusbutton="cancel" appendToBody="false" (confirm)="removeHelper(user)" (cancel)="cancelClicked = true">
 
 							</span>
-							<span [class.col]="!isReadOnly" [class.small]="isReadOnly">
+							<span class="pl-1" [class.col]="!isReadOnly" [class.small]="isReadOnly">
 								<img src="{{user.picture}}" width="16" class="rounded-circle">
 								<a routerLink="/summary/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/u/{{user.shortid}}/{{user.getSlug()}}">{{user.name}}</a>
 
