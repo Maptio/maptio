@@ -57,6 +57,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         let datasetId = this.datasetId;
         let router = this.router;
         let userFactory = this.userFactory;
+        let showDetailsOf$ = this.showDetailsOf$;
 
         if (!data) {
             // console.log("CLEAN");
@@ -209,6 +210,11 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 .attr("dy", "0.65em")
                 .attr("y", "1.00em")
                 .attr("x", CIRCLE_RADIUS + 5)
+                .on("click", function (d: any, i: number) {
+                    console.log("cliked", d.data);
+                    showDetailsOf$.next(d.data);
+                    d3.event.stopPropagation();
+                })
                 .text(function (d: any) { return d.data.name; })
                 .each(function (d: any) {
                     uiService.wrap(d3.select(this), d.data.name, d.y / d.depth * 0.85);
@@ -330,5 +336,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 // centerNode(d)
             }
         }
+
+
     }
 }
