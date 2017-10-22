@@ -76,10 +76,10 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         let treemap = d3.tree().size([viewerWidth / 2, viewerHeight]);
 
         function zoomed() {
+            let transform = d3.event.transform;
+            location.hash = `x=${transform.x}&y=${transform.y}&scale=${transform.k}`
             g.attr("transform", d3.event.transform);
         }
-
-
 
         let zooming = d3.zoom().on("zoom", zoomed);
 
@@ -91,13 +91,12 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         })
 
         let g = svg.append("g")
-
-            .attr("transform",
-            "translate(" + margins.left + "," + margins.top + ")"), transform = d3.zoomIdentity
+            .attr("transform", `translate(${translateX}, ${translateY}) scale(${scale})`);
+        // "translate(" + margins.left + "," + margins.top + ")"), transform = d3.zoomIdentity
 
         try {
             // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
-            svg.call(zooming.transform, d3.zoomIdentity.translate(margins.left, 0));
+            svg.call(zooming.transform, d3.zoomIdentity.translate(translateX, translateY).scale(scale));
             svg.call(zooming);
         }
         catch (error) {
@@ -110,11 +109,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 if (zf) {
                     zooming.scaleBy(svg, zf);
                 }
-                else if (scale) {
-                    zooming.scaleBy(svg, scale);
-                }
                 else {
-                    svg.call(zooming.transform, d3.zoomIdentity.translate(margins.left, 0));
+                    svg.call(zooming.transform, d3.zoomIdentity.translate(translateX, translateY));
                 }
             }
             catch (error) {
