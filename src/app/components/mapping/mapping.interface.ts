@@ -1,4 +1,5 @@
-import { Observable } from "rxjs/Rx";
+import { Initiative } from "./../../shared/model/initiative.data";
+import { Observable } from "rxjs/Observable";
 
 export interface IDataVisualizer {
 
@@ -13,6 +14,8 @@ export interface IDataVisualizer {
     zoom$: Observable<number>;
 
     fontSize$: Observable<number>;
+
+    showDetailsOf$: Subject<Initiative>;
 
     draw(data: any): void;
 }

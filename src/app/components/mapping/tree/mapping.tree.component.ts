@@ -6,7 +6,8 @@ import { D3Service, D3 } from "d3-ng2-service";
 import { ColorService } from "../../../shared/services/ui/color.service"
 import { UIService } from "../../../shared/services/ui/ui.service"
 import { IDataVisualizer } from "../mapping.interface"
-import { Observable } from "rxjs/Rx";
+import { Observable, Subject } from "rxjs/Rx";
+import { Initiative } from "../../../shared/model/initiative.data";
 
 @Component({
     selector: "tree",
@@ -28,6 +29,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     public fontSize$: Observable<number>
 
     private zoomSubscription: Subscription;
+    public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>()
 
     constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService, public router: Router, private userFactory: UserFactory) {
         this.d3 = d3Service.getD3();

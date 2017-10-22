@@ -1,7 +1,8 @@
+import { Observable, Subject } from "rxjs/Rx";
+import { Initiative } from "./../../../shared/model/initiative.data";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs/Subscription";
-import { Observable } from "rxjs/Observable";
-import { Component, OnInit, Input, ViewEncapsulation } from "@angular/core";
+import { Component, OnInit, Input, ViewEncapsulation, EventEmitter, Output } from "@angular/core";
 import { D3Service, D3, HierarchyCircularNode } from "d3-ng2-service";
 import { ColorService } from "../../../shared/services/ui/color.service"
 import { UIService } from "../../../shared/services/ui/ui.service"
@@ -28,6 +29,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
     public margin: number;
     public zoom$: Observable<number>
     public fontSize$: Observable<number>;
+    public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>()
 
     private zoomSubscription: Subscription;
 
@@ -58,6 +60,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
         let CIRCLE_RADIUS = 15;
         let router = this.router;
         let userFactory = this.userFactory;
+        let showDetailsOf$ = this.showDetailsOf$;
 
 
         if (!data) {
@@ -322,7 +325,9 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
         }
 
         function showTooltip(d: any, parent: any, event: any, datasetId: string) {
-            uiService.setTooltipData(datasetId, d.data, parent.data);
+            console.log("clicked on ", d.data)
+            showDetailsOf$.next(d.data);
+            // uiService.setTooltipData(datasetId, d.data, parent.data);
         }
     }
 }

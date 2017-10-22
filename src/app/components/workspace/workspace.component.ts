@@ -159,6 +159,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
 
     openDetails(node: Initiative) {
+        console.log(node)
         Promise.all([this.dataset$, this.team])
             .then((result: [DataSet, Team]) => {
                 let dataset = result[0]
