@@ -62,7 +62,6 @@ export class InitiativeComponent implements OnChanges {
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.node && changes.node.currentValue) {
-            console.log(changes.node.currentValue.description)
             this.descriptionHideMe = changes.node.currentValue.description ? (changes.node.currentValue.description.trim() !== "") : false;
             if (changes.node.isFirstChange() || !(changes.node.previousValue) || changes.node.currentValue.team_id !== changes.node.previousValue.team_id) {
 
