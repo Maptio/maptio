@@ -19,7 +19,7 @@ export class DataSet implements Serializable<DataSet> {
 
   team: any;
 
-  depth:number;
+  depth: number;
 
   public constructor(init?: Partial<DataSet>) {
     Object.assign(this, init);

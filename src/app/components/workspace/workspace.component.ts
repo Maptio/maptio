@@ -84,28 +84,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                         .then(members => _.sortBy(members, m => m.name))
             });
 
-            this.buildingComponent.loadData(this.datasetId,params["nodeid"]) // .then(()=>{console.log("finished buioding data")});
-                // .then(() => {
-                //     console.log(params["nodeid"])
-                //     if (params["nodeid"]) {
-                //         let targetNode: Initiative = undefined;
-                //         return this.dataset$.then(d => {
-                //             console.log(d.initiative)
-                //             d.initiative.traverse(n => {
-                //                 if (targetNode) return; // once we find it, we dont need to carry on
-                //                 if (n.id.toString() === params["nodeid"]) {
-                //                     targetNode = n;
-                //                 }
-                //                 console.log(n.id, n.id.toString() === params["nodeid"], targetNode)
-                //             });
-                //             return targetNode;
-                //         });
-                //     }
-                //     else
-                //         return undefined
-                // })
-
-
+            this.buildingComponent.loadData(this.datasetId, params["nodeid"]) // .then(()=>{console.log("finished buioding data")});
         });
 
         this.userSubscription = this.auth.getUser().subscribe((user: User) => {
