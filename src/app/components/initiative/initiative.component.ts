@@ -88,6 +88,7 @@ export class InitiativeComponent implements OnChanges {
     }
 
     onBlur() {
+        // console.log("saving", this.node)
         this.saveDescription(this.inputDescriptionElement.nativeElement.value)
         this.edited.emit(true);
     }
@@ -130,9 +131,7 @@ export class InitiativeComponent implements OnChanges {
             let helper = newHelper.item;
             helper.roles = [];
             this.node.helpers.unshift(helper);
-
         }
-
         this.onBlur();
     }
 

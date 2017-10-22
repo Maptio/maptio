@@ -17,8 +17,8 @@
                 <img *ngIf="!user?.picture" class="member rounded-circle" src="/assets/images/user.jpg" alt="{{user?.name}}" title="{{user?.name}}"
                     placement="top" container="body" ngbTooltip="{{user?.name}}">
             </a>
-            <a class="btn btn-link btn-xs no-padding" routerLink="/team/{{(team |async)?.team_id}}/{{(team|async)?.getSlug()}}"
-                placement="top" container="body" ngbTooltip="Add team member">
+            <a class="btn btn-link btn-xs no-padding" routerLink="/team/{{(team |async)?.team_id}}/{{(team|async)?.getSlug()}}" placement="top"
+                container="body" ngbTooltip="Add team member">
                 <i class="fa fa-plus" aria-hidden="true"></i>
             </a>
         </div>
@@ -34,7 +34,7 @@
 
     <div id="edit-panel-tree" class="mt-3 ml-1 mr-3 row" [class.showTree]="!isBuildingPanelCollapsed">
         <div class="building">
-            <building #building (save)="saveChanges($event)" (openDetails)="openDetails($event)">Loading...</building>
+            <building #building (save)="saveChanges($event)" (openDetails)="openDetails($event)" (openDetailsEditOnly)="openDetails($event,true)">Loading...</building>
         </div>
     </div>
 </div>

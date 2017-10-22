@@ -4,7 +4,7 @@ import { User } from "./user.data";
 import { Helper } from "./helper.data";
 import { Role } from "./role.data";
 
-describe("initiative.data.ts", () => {
+fdescribe("initiative.data.ts", () => {
 
     let tree: Initiative;
     let node1: Initiative, node2: Initiative, node3: Initiative, node11: Initiative, node12: Initiative, node21: Initiative, node22: Initiative, node23: Initiative;
@@ -141,7 +141,8 @@ describe("initiative.data.ts", () => {
             node.helpers = [
                 new Helper({ user_id: "1", roles: [new Role({ description: "role 11" }), new Role({ description: "role 12" })] }),
                 new Helper({ user_id: "2", roles: [new Role({ description: "role 21" }), new Role({ description: "role 22" })] })
-            ]
+            ];
+            node.accountable = new Helper({ user_id: "3", roles: [new Role({ description: "role 31" }), new Role({ description: "role 32" })] })
 
             let actual = node.getRoles("2");
             expect(actual.length).toBe(2);
@@ -155,12 +156,25 @@ describe("initiative.data.ts", () => {
                 new Helper({ user_id: "1", roles: [new Role({ description: "role 11" }), new Role({ description: "role 12" })] }),
                 new Helper({ user_id: "2" })
             ]
+            node.accountable = new Helper({ user_id: "3", roles: [new Role({ description: "role 31" }), new Role({ description: "role 32" })] })
 
             let actual = node.getRoles("2");
             expect(actual).toEqual([])
         });
 
         it("should return empty array when helper does not exits", () => {
+            let node = new Initiative();
+            node.helpers = [
+                new Helper({ user_id: "1", roles: [new Role({ description: "role 11" }), new Role({ description: "role 12" })] }),
+                new Helper({ user_id: "2" })
+            ]
+            node.accountable = new Helper({ user_id: "3", roles: [new Role({ description: "role 31" }), new Role({ description: "role 32" })] })
+
+            let actual = node.getRoles("4");
+            expect(actual).toEqual([])
+        });
+
+        it("should return empty array when accountable does not exits", () => {
             let node = new Initiative();
             node.helpers = [
                 new Helper({ user_id: "1", roles: [new Role({ description: "role 11" }), new Role({ description: "role 12" })] }),

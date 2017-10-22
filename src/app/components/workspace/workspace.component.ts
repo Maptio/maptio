@@ -63,13 +63,15 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSubscription = this.route.params.subscribe((params: Params) => {
             this.datasetId = params["mapid"];
-            let initiativeSlug = params["slug"];
 
             this.dataset$ = this.datasetFactory.get(this.datasetId).then((d: DataSet) => {
                 EmitterService.get("currentDataset").emit(d)
                 return d;
             });
 
+            this.dataset$.then(d => {
+
+            })
 
             this.team = this.dataset$.then((dataset: DataSet) => {
                 return this.teamFactory.get(dataset.initiative.team_id).then(t => t, () => { return Promise.reject("No team") }).catch(() => { })
@@ -82,7 +84,27 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                         .then(members => _.sortBy(members, m => m.name))
             });
 
-            this.buildingComponent.loadData(this.datasetId); // .then(()=>{console.log("finished buioding data")});
+            this.buildingComponent.loadData(this.datasetId,params["nodeid"]) // .then(()=>{console.log("finished buioding data")});
+                // .then(() => {
+                //     console.log(params["nodeid"])
+                //     if (params["nodeid"]) {
+                //         let targetNode: Initiative = undefined;
+                //         return this.dataset$.then(d => {
+                //             console.log(d.initiative)
+                //             d.initiative.traverse(n => {
+                //                 if (targetNode) return; // once we find it, we dont need to carry on
+                //                 if (n.id.toString() === params["nodeid"]) {
+                //                     targetNode = n;
+                //                 }
+                //                 console.log(n.id, n.id.toString() === params["nodeid"], targetNode)
+                //             });
+                //             return targetNode;
+                //         });
+                //     }
+                //     else
+                //         return undefined
+                // })
+
 
         });
 
@@ -159,7 +181,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
 
     openDetails(node: Initiative, willCloseBuildingPanel: boolean = false) {
-        // console.log(node)
+        console.log(node)
         Promise.all([this.dataset$, this.team])
             .then((result: [DataSet, Team]) => {
                 let dataset = result[0]

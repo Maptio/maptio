@@ -5,6 +5,7 @@ import { User } from "./user.data";
 import * as slug from "slug";
 import { Helper } from "./helper.data";
 import { Role } from "./role.data";
+import * as _ from "lodash";
 
 @Injectable()
 export class Initiative implements ITraversable, Serializable<Initiative> {
@@ -69,7 +70,7 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
     /**True if this node can be dragged&dropped */
     isDraggable: boolean;
 
-    isExpanded: boolean ;
+    isExpanded: boolean;
 
     public constructor(init?: Partial<Initiative>) {
         Object.assign(this, init);
@@ -189,7 +190,9 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
     }
 
     getRoles(userId: string): Role[] {
-        return this.helpers.filter(h => h.user_id === userId)[0] ? this.helpers.filter(h => h.user_id === userId)[0].roles : [];
+        return _.compact([...this.helpers, this.accountable]).filter(h => h.user_id === userId)[0]
+            ? _.compact([...this.helpers, this.accountable]).filter(h => h.user_id === userId)[0].roles
+            : [];
     }
 
 }
