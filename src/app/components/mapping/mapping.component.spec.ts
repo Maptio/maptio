@@ -42,7 +42,8 @@ describe("mapping.component.ts", () => {
                 {
                     provide: ActivatedRoute,
                     useValue: {
-                        params: Observable.of({ mapid: 123, layout: "initiatives" })
+                        params: Observable.of({ mapid: 123, layout: "initiatives" }),
+                        fragment: `x=50&y=50&scale=1.2`
                     }
                 }
 
@@ -96,14 +97,6 @@ describe("mapping.component.ts", () => {
             }));
         });
 
-        describe("resetZoom", () => {
-            it("should set the zoom factor to 1.1", async(() => {
-                let spy = spyOn(component.zoom$, "next");
-                component.resetZoom();
-                expect(spy).toHaveBeenCalledWith(null)
-            }));
-        });
-
         describe("getComponentFactory", () => {
             it("should return MappingCirclesComponent if layout is initiatives", () => {
                 let actual = component.getComponentFactory("initiatives");
@@ -144,7 +137,7 @@ describe("mapping.component.ts", () => {
                 let spyCreateComponent = spyOn(component.anchorComponent, "createComponent").and.returnValue(mockComponent);
 
                 component.componentFactory = mockFactory;
-                component.show({ initiative: new Initiative({}), datasetId: "some_id" });
+                component.show({ initiative: new Initiative({}), datasetId: "some_id" }, 50, 50, 1.2);
                 expect(spyCreateComponent).toHaveBeenCalledWith(mockFactory);
                 expect(spyDraw).toHaveBeenCalled();
                 expect(spyGetInstance).toHaveBeenCalled();
@@ -167,7 +160,7 @@ describe("mapping.component.ts", () => {
                 let spyCreateComponent = spyOn(component.anchorComponent, "createComponent").and.returnValue(mockComponent);
 
                 component.componentFactory = mockFactory;
-                component.show({ initiative: new Initiative({}), datasetId: "some_id" });
+                component.show({ initiative: new Initiative({}), datasetId: "some_id" }, 50, 50, 1.2);
                 expect(spyCreateComponent).toHaveBeenCalledWith(mockFactory);
                 expect(spyDraw).toHaveBeenCalled();
                 expect(spyGetInstance).toHaveBeenCalled()

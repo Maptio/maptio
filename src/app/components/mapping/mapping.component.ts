@@ -146,7 +146,7 @@ export class MappingComponent implements OnInit {
         instance.datasetId = data.datasetId;
         instance.zoom$ = this.zoom$.asObservable();
         instance.fontSize$ = this.fontSize$.asObservable();
-        console.log(x, y, scale)
+        // console.log(x, y, scale)
         instance.draw(data.initiative, x, y, scale);
 
     }
@@ -161,7 +161,7 @@ export class MappingComponent implements OnInit {
     }
 
     resetZoom() {
-        console.log()
+        
         switch (this.layout) {
             case "initiatives":
                 this.show(this.data, this.VIEWPORT_WIDTH / 2, this.VIEWPORT_HEIGHT / 2, 1);
@@ -176,9 +176,6 @@ export class MappingComponent implements OnInit {
                 this.show(this.data, this.VIEWPORT_WIDTH / 2, this.VIEWPORT_HEIGHT / 2, 1);
                 break;
         }
-        // location.hash = `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`;
-        // this.zoom$.next(1);
-        // this.show(this.data, usndefined, undefined, undefined, true)
     }
 
     changeFontSize(size: number) {

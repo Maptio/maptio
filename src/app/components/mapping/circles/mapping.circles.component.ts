@@ -103,7 +103,6 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
 
         this.zoomSubscription = zoom$.subscribe((zf: number) => {
             try {
-                console.log(scale, zf)
                 // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
                 if (zf) {
                     zooming.scaleBy(svg, zf);
@@ -330,7 +329,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
         }
 
         function showTooltip(d: any, parent: any, event: any, datasetId: string) {
-            console.log("clicked on ", d.data)
+            // console.log("clicked on ", d.data)
             showDetailsOf$.next(d.data);
             // uiService.setTooltipData(datasetId, d.data, parent.data);
         }
