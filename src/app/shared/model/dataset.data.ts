@@ -34,7 +34,7 @@ export class DataSet implements Serializable<DataSet> {
     let deserialized = new DataSet();
     deserialized.shortid = input.shortid;
     deserialized._id = input._id;
-    deserialized.initiative = Initiative.create().deserialize(input.initiative || input)
+    deserialized.initiative = Initiative.create().deserialize(input.initiative || input);
     // deserialized.createdOn = input.createdOn;
     return deserialized;
   }

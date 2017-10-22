@@ -128,7 +128,6 @@ export class BuildingComponent {
             .then(data => {
                 this.nodes = [];
                 this.nodes.push(new DataSet().deserialize(data).initiative);
-
                 let defaultTeamId = this.nodes[0].team_id;
                 this.nodes[0].traverse(function (node: Initiative) {
                     node.team_id = defaultTeamId; // For now, the sub initiative are all owned by the same team
@@ -151,18 +150,15 @@ export class BuildingComponent {
             .then(() => {
                 let targetNode: Initiative = undefined;
                 if (nodeIdToOpen) {
-                    // console.log("trying to find", nodeIdToOpen)
 
                     this.nodes[0].traverse(n => {
                         if (targetNode) return; // once we find it, we dont need to carry on
                         if (n.id.toString() === nodeIdToOpen) {
                             targetNode = n;
                         }
-                        // console.log(n.id, n.id.toString() === nodeIdToOpen, targetNode)
                     });
                 }
                 if (targetNode) {
-                    // console.log("trying to open", targetNode)
                     this.openDetailsEditOnly.emit(targetNode)
                 }
             })

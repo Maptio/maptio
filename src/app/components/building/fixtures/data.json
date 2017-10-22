@@ -1,5 +1,5 @@
 {
-    "_id": "uniqueId",
+    "_id": "0",
     "name": "Root",
     "accountable": {
         "user_id": "0",
@@ -9,6 +9,7 @@
     "team_id": "ID1",
     "children": [
         {
+            "id": "1",
             "name": "Tech",
             "accountable": {
                 "user_id": "1",
@@ -17,6 +18,7 @@
             "size": "1"
         },
         {
+            "id": "2",
             "name": "Marketing",
             "team_id": "ID2",
             "accountable": {
@@ -26,6 +28,7 @@
             "size": "1"
         },
         {
+            "id": "3",
             "name": "The rest",
             "size": "1"
         }
