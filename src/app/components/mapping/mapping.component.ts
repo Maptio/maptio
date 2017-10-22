@@ -161,7 +161,7 @@ export class MappingComponent implements OnInit {
     }
 
     resetZoom() {
-        
+
         switch (this.layout) {
             case "initiatives":
                 this.show(this.data, this.VIEWPORT_WIDTH / 2, this.VIEWPORT_HEIGHT / 2, 1);
