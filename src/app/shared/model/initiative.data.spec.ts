@@ -4,7 +4,7 @@ import { User } from "./user.data";
 import { Helper } from "./helper.data";
 import { Role } from "./role.data";
 
-fdescribe("initiative.data.ts", () => {
+describe("initiative.data.ts", () => {
 
     let tree: Initiative;
     let node1: Initiative, node2: Initiative, node3: Initiative, node11: Initiative, node12: Initiative, node21: Initiative, node22: Initiative, node23: Initiative;
