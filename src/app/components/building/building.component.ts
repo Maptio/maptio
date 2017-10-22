@@ -9,7 +9,7 @@ import { Observable } from "rxjs/Rx";
 import { EmitterService } from "./../../shared/services/emitter.service";
 import { Component, ViewChild, Output } from "@angular/core";
 import { InitiativeComponent } from "../initiative/initiative.component";
-import { TreeNode, IActionMapping, TREE_ACTIONS } from "angular-tree-component";
+import { TreeNode, IActionMapping, TREE_ACTIONS, TreeModel } from "angular-tree-component";
 import { DataService } from "../../shared/services/data.service";
 import "rxjs/add/operator/map";
 import { InitiativeNodeComponent } from "./initiative.node.component"
@@ -83,10 +83,18 @@ export class BuildingComponent {
 
 
     saveChanges() {
-        // console.log("send to workspace", this.nodes[0])
+        console.log("send to workspace", this.nodes[0])
         this.save.emit(this.nodes[0]);
+    }
 
-        // this.dataService.set({ initiative: this.nodes[0], datasetId: this.datasetId });
+    toggleChanged(event: { eventName: string, node: TreeNode, isActive: boolean, treeModel: TreeModel }) {
+        localStorage.setItem(`${this.datasetId}_expandednodes`, JSON.stringify(event.treeModel.expandedNodeIds));
+    }
+
+    treeInitialize(event: { eventName: string, treeModel: TreeModel }) {
+        if (localStorage.getItem(`${this.datasetId}_expandednodes`)) {
+            event.treeModel.setState({ expandedNodeIds: JSON.parse(localStorage.getItem(`${this.datasetId}_expandednodes`)) })
+        }
     }
 
     isRootValid(): boolean {
@@ -114,10 +122,10 @@ export class BuildingComponent {
      * @param slugToOpen Slug of initiative to open
      */
     loadData(id: string): Promise<void> {
-
+        console.log("lodadata")
+        this.datasetId = id;
         return this.datasetFactory.get(id)
             .then(data => {
-                this.datasetId = id;
                 this.nodes = [];
                 this.nodes.push(new DataSet().deserialize(data).initiative);
 

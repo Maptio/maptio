@@ -69,7 +69,7 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
     /**True if this node can be dragged&dropped */
     isDraggable: boolean;
 
-    isExpanded: boolean = true;
+    isExpanded: boolean ;
 
     public constructor(init?: Partial<Initiative>) {
         Object.assign(this, init);
