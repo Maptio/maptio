@@ -38,8 +38,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     public dataset$: Promise<DataSet>;
     public members: Promise<Array<User>>;
-    public team: Promise<Team>;
-    public teams: Promise<Team[]>;
+    public team$: Promise<Team>;
+    public teams$: Promise<Team[]>;
 
     public openedNode: Initiative;
     public openedNodeParent: Initiative;
@@ -73,11 +73,11 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
             })
 
-            this.team = this.dataset$.then((dataset: DataSet) => {
+            this.team$ = this.dataset$.then((dataset: DataSet) => {
                 return this.teamFactory.get(dataset.initiative.team_id).then(t => t, () => { return Promise.reject("No team") }).catch(() => { })
             });
 
-            this.members = this.team.then((team: Team) => {
+            this.members = this.team$.then((team: Team) => {
                 if (team)
                     return this.userFactory.getUsers(team.members.map(m => m.user_id))
                         .then(members => _.compact(members))
@@ -88,7 +88,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         });
 
         this.userSubscription = this.auth.getUser().subscribe((user: User) => {
-            this.teams = Promise.all(
+            this.teams$ = Promise.all(
                 user.teams.map(
                     (team_id: string) => this.teamFactory.get(team_id).then((team: Team) => { return team }, () => { return Promise.reject("No team") }).catch(() => { return undefined })
                 )
@@ -124,7 +124,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
             if (result) {
                 this.isBuildingPanelCollapsed = true;
                 this.isDetailsPanelCollapsed = true;
-                this.team = this.dataset$.then((dataset: DataSet) => {
+                this.team$ = this.dataset$.then((dataset: DataSet) => {
                     dataset.initiative.team_id = team.team_id;
                     this.datasetFactory.upsert(dataset, dataset._id).then(() => {
                         this.buildingComponent.loadData(dataset._id);
@@ -143,7 +143,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     updateTeamMembers() {
         this.isBuildingPanelCollapsed = true;
         this.isDetailsPanelCollapsed = true;
-        this.members = this.team
+        this.members = this.team$
             .then((team: Team) => {
                 if (team)
                     return team.members;
@@ -160,8 +160,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
 
     openDetails(node: Initiative, willCloseBuildingPanel: boolean = false) {
-        console.log(node)
-        Promise.all([this.dataset$, this.team])
+        // console.log(node)
+        Promise.all([this.dataset$, this.team$])
             .then((result: [DataSet, Team]) => {
                 let dataset = result[0]
                 let team = result[1];

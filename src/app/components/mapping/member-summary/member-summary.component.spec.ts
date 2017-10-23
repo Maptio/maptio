@@ -9,7 +9,7 @@ import { AuthConfiguration } from "./../../../shared/services/auth/auth.config";
 import { Auth } from "./../../../shared/services/auth/auth.service";
 import { Observable, Subject } from "rxjs/Rx";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
-import { TooltipComponent } from "./../tooltip/tooltip.component";
+// import { TooltipComponent } from "./../tooltip/tooltip.component";
 import { Initiative } from "./../../../shared/model/initiative.data";
 import { UIService } from "./../../../shared/services/ui/ui.service";
 import { ColorService } from "./../../../shared/services/ui/color.service";

@@ -1,16 +1,17 @@
 <div class="control">
 
-  <div class=" btn-group-vertical">
-    <a class="btn options" placement="left" container="body" ngbTooltip="Views" (click)="isCollapsed = !isCollapsed"
-    [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"></a>
-    <div class="collapse" id="collapseExample" [ngbCollapse]="isCollapsed">
-      <div class=" btn-group-vertical ">
+  <div class=" btn-group-vertical mb-4">
+    <!-- <a class="btn options" placement="left" container="body" ngbTooltip="Views" (click)="isCollapsed = !isCollapsed"
+    [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"></a> -->
+    <!-- <div class="collapse" id="collapseExample" [ngbCollapse]="isCollapsed"> -->
+      <!-- <div class=" btn-group-vertical "> -->
         <a class="btn circleview" routerLink="/map/{{data?.datasetId}}/{{data?.initiative?.getSlug()}}/initiatives" placement="left" container="body" ngbTooltip="Initiatives map"></a>
         <a class="btn treeview" routerLink="/map/{{data?.datasetId}}/{{data?.initiative?.getSlug()}}/people" placement="left" container="body" ngbTooltip="Team view"></a>
-      </div>
-    </div>
+      <!-- </div> -->
+    <!-- </div> -->
 
   </div>
+  
 
   <div class=" btn-group-vertical">
     <a class="btn minus" (click)="zoomOut()" placement="left" container="body" ngbTooltip="Zoom out"></a>
@@ -32,4 +33,4 @@
 <ng-template #drawing anchor></ng-template>
 
 <!-- tooltip goes here -->
-<tooltip #tooltip></tooltip>
+<!-- <tooltip #tooltip></tooltip> -->

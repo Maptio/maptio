@@ -34,7 +34,7 @@ export class AppComponent {
         if (event instanceof NavigationStart) {
           this.isHome = this.isUrlHome(event.url)
           this.isMap = this.isUrlMap(event.url);
-          (<any>window).Intercom("update");
+          // (<any>window).Intercom("update");
           this.loaderService.show();
         }
         else if (

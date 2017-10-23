@@ -36,7 +36,7 @@ import { AppComponent } from "./components/app.component";
 import { MappingComponent } from "./components/mapping/mapping.component";
 import { MappingCirclesComponent } from "./components/mapping/circles/mapping.circles.component";
 import { MappingTreeComponent } from "./components/mapping/tree/mapping.tree.component";
-import { TooltipComponent } from "./components/mapping/tooltip/tooltip.component";
+// import { TooltipComponent } from "./components/mapping/tooltip/tooltip.component";
 import { MemberSummaryComponent } from "./components/mapping/member-summary/member-summary.component";
 
 import { InitiativeComponent } from "./components/initiative/initiative.component"
@@ -84,7 +84,7 @@ import { TeamsListComponent } from "./components/team/teams-list.component";
 import { authHttpServiceFactory } from "./shared/services/auth/auth.module";
 import { ChangePasswordComponent } from "./components/login/change-password.component";
 import { AnAnchorableComponent } from "../test/specs/shared/component.helper.shared";
-import { MappingNetworkComponent } from "./components/mapping/network/mapping.network.component";
+// import { MappingNetworkComponent } from "./components/mapping/network/mapping.network.component";
 import { LoaderComponent } from "./components/loading/loader.component";
 
 // Routes
@@ -130,7 +130,7 @@ export function markdownServiceFactory(http: Http) {
 @NgModule({
   declarations: [
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent, TeamComponent,
-    MappingComponent, MappingCirclesComponent, MappingTreeComponent, MemberSummaryComponent, MappingNetworkComponent, TooltipComponent,
+    MappingComponent, MappingCirclesComponent, MappingTreeComponent, MemberSummaryComponent,
     BuildingComponent, InitiativeNodeComponent, LoginComponent, HomeComponent, UnauthorizedComponent, NotFoundComponent,
     InitiativeComponent, ChangePasswordComponent, LoaderComponent, TeamsListComponent, SignupComponent,
     FocusIfDirective,

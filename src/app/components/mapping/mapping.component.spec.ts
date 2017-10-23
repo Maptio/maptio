@@ -1,10 +1,10 @@
 import { UserFactory } from "./../../shared/services/user.factory";
-import { MappingNetworkComponent } from "./network/mapping.network.component";
+// import { MappingNetworkComponent } from "./network/mapping.network.component";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { Initiative } from "./../../shared/model/initiative.data";
 import { ActivatedRoute, Params, Router, NavigationStart } from "@angular/router";
-import { TooltipComponent } from "./tooltip/tooltip.component";
+// import { TooltipComponent } from "./tooltip/tooltip.component";
 import { UIService } from "./../..//shared/services/ui/ui.service";
 import { ColorService } from "./../..//shared/services/ui/color.service";
 import { D3Service } from "d3-ng2-service";
@@ -49,7 +49,7 @@ describe("mapping.component.ts", () => {
 
             ],
             schemas: [NO_ERRORS_SCHEMA],
-            declarations: [MappingComponent, MappingCirclesComponent, MappingTreeComponent, MappingNetworkComponent, TooltipComponent, AnchorDirective],
+            declarations: [MappingComponent, MappingCirclesComponent, MappingTreeComponent, AnchorDirective],
             imports: [RouterTestingModule]
         })
             .compileComponents()
@@ -108,14 +108,54 @@ describe("mapping.component.ts", () => {
                 expect(actual.componentType.name).toBe("MappingTreeComponent")
             });
 
-            it("should return MappingNetworkComponent if layout is network", () => {
-                let actual = component.getComponentFactory("network");
-                expect(actual.componentType.name).toBe("MappingNetworkComponent")
-            });
+            // it("should return MappingNetworkComponent if layout is network", () => {
+            //     let actual = component.getComponentFactory("network");
+            //     expect(actual.componentType.name).toBe("MappingNetworkComponent")
+            // });
 
             it("should return MappingCirclesComponent if layout is empty", () => {
                 let actual = component.getComponentFactory("");
                 expect(actual.componentType.name).toBe("MappingCirclesComponent")
+            });
+        });
+
+        describe("getFragment", () => {
+            it("should return #x=761&y=761&scale=1 when layout is initiatives", () => {
+                let actual = component.getFragment("initiatives");
+                expect(actual).toBe("x=761&y=761&scale=1")
+            });
+
+            it("should return #x=100&y=0&scale=1 when layout is people", () => {
+                let actual = component.getFragment("people");
+                expect(actual).toBe("x=100&y=0&scale=1")
+            });
+
+            it("should return #x=761&y=761&scale=1 by default", () => {
+                let actual = component.getFragment("notlayout");
+                expect(actual).toBe("x=761&y=761&scale=1")
+            });
+        });
+
+        describe("resetZoom", () => {
+            it("should call show with correct parameters when layout is initiatives", () => {
+                spyOn(component, "show")
+                component.layout = "initiatives";
+                component.resetZoom();
+                expect(component.show).toHaveBeenCalledWith(component.data, 761, 761, 1);
+            });
+
+            it("should call show with correct parameters when layout is initiatives", () => {
+                spyOn(component, "show")
+                component.layout = "people";
+                component.resetZoom();
+                expect(component.show).toHaveBeenCalledWith(component.data, 100, 0, 1);
+            });
+
+            it("should call show with correct parameters when layout is deafulting", () => {
+                spyOn(component, "show")
+                component.layout = "notlayout";
+                component.resetZoom();
+                expect(component.show).toHaveBeenCalledWith(component.data, 761, 761, 1);
             });
         });
 
