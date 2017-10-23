@@ -79,13 +79,13 @@
                 <h6 class="card-title">Helping with</h6>
                 <div class="list-group">
                     <div *ngFor="let i of helps; let ix=index" class=" list-group-item flex-column align-items-start ">
-                        <div class="d-flex w-100 justify-content-between">
-                            <a routerLink="/map/{{datasetId}}/{{datasetSlug}}/i/{{i.id}}/{{i.getSlug()}}">
+                        <div class="d-flex w-100 row justify-content-between">
+                            <a class="w-75 col" routerLink="/map/{{datasetId}}/{{datasetSlug}}/i/{{i.id}}/{{i.getSlug()}}">
                                 <h5 class="mb-1">{{i.name}}</h5>
                             </a>
 
                             <!-- <h5 class="mb-0 w-75">{{i.name}}</h5> -->
-                            <span class="mb-0" *ngIf="(i.helpers?.length !== 0)">Authority
+                            <span class="mb-0" *ngIf="(i.helpers?.length !== 0)"><span class="text-muted">Authority</span>   
                                 <a routerLink="/summary/map/{{datasetId}}/{{initiative?.getSlug()}}/u/{{i.accountable?.shortid}}/{{i.accountable?.getSlug()}}">
                                     <img class="rounded-circle authority" src="{{i.accountable?.picture}}" alt="{{i.accountable?.name}}" title="{{i.accountable?.name}}"
                                         placement="top" container="body" ngbTooltip="{{i.accountable?.name}}">
