@@ -1,5 +1,5 @@
 import { Initiative } from "./../../shared/model/initiative.data";
-import { MappingNetworkComponent } from "./network/mapping.network.component";
+// import { MappingNetworkComponent } from "./network/mapping.network.component";
 import { Angulartics2Mixpanel } from "angulartics2";
 
 import { ActivatedRoute, Params, UrlSegment } from "@angular/router";
@@ -26,7 +26,7 @@ import { Subject, BehaviorSubject, Subscription, Observable } from "rxjs/Rx";
     selector: "mapping",
     templateUrl: "./mapping.component.html",
     styleUrls: ["./mapping.component.css"],
-    entryComponents: [MappingCirclesComponent, MappingTreeComponent, MappingNetworkComponent],
+    entryComponents: [MappingCirclesComponent, MappingTreeComponent],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
@@ -109,8 +109,6 @@ export class MappingComponent implements OnInit {
                 return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`
             case "people":
                 return `x=100&y=0&scale=1`
-            case "network":
-                return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`
             default:
                 return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`
         }
@@ -122,8 +120,8 @@ export class MappingComponent implements OnInit {
                 return this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent);
             case "people":
                 return this.componentFactoryResolver.resolveComponentFactory(MappingTreeComponent);
-            case "network":
-                return this.componentFactoryResolver.resolveComponentFactory(MappingNetworkComponent);
+            // case "network":
+            //     return this.componentFactoryResolver.resolveComponentFactory(MappingNetworkComponent);
             default:
                 return this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent);
         }
@@ -168,9 +166,6 @@ export class MappingComponent implements OnInit {
                 break;
             case "people":
                 this.show(this.data, 100, 0, 1);
-                break;
-            case "network":
-                this.show(this.data, 0, this.VIEWPORT_HEIGHT / 2, 1);
                 break;
             default:
                 this.show(this.data, this.VIEWPORT_WIDTH / 2, this.VIEWPORT_HEIGHT / 2, 1);

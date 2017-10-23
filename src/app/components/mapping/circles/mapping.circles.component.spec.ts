@@ -5,7 +5,7 @@ import { Router } from "@angular/router";
 import { UserFactory } from "./../../../shared/services/user.factory";
 import { Observable } from "rxjs/Rx";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
-import { TooltipComponent } from "./../tooltip/tooltip.component";
+// import { TooltipComponent } from "./../tooltip/tooltip.component";
 import { Initiative } from "./../../../shared/model/initiative.data";
 import { UIService } from "./../../../shared/services/ui/ui.service";
 import { ColorService } from "./../../../shared/services/ui/color.service";
@@ -42,7 +42,7 @@ describe("mapping.circles.component.ts", () => {
                 ErrorService,
                 { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } }
             ],
-            declarations: [MappingCirclesComponent, TooltipComponent],
+            declarations: [MappingCirclesComponent],
             schemas: [NO_ERRORS_SCHEMA]
         })
             .compileComponents()

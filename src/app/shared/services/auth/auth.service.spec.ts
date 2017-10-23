@@ -78,17 +78,17 @@ describe("auth.service.ts", () => {
     describe("logout", () => {
         it("should clean remove profile and toek from localStorage", inject([Auth, Router], (auth: Auth, router: Router) => {
             spyOn(localStorage, "clear");
-            spyOn(auth, "shutDownIntercom");
+            // spyOn(auth, "shutDownIntercom");
             auth.logout();
             expect(localStorage.clear).toHaveBeenCalled();
-            expect(auth.shutDownIntercom).toHaveBeenCalled();
+            // expect(auth.shutDownIntercom).toHaveBeenCalled();
         }));
 
         it("should redirect to /home", inject([Auth, Router], (auth: Auth, router: Router) => {
-            spyOn(auth, "shutDownIntercom");
+            // spyOn(auth, "shutDownIntercom");
             auth.logout();
             expect(router.navigate).toHaveBeenCalledWith(["home"]);
-            expect(auth.shutDownIntercom).toHaveBeenCalled();
+            // expect(auth.shutDownIntercom).toHaveBeenCalled();
         }));
     });
 

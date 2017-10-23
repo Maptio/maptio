@@ -27,14 +27,14 @@ export class Auth {
 
     public logout(): void {
         this.analytics.eventTrack("Logout", {});
-        this.shutDownIntercom();
+        // this.shutDownIntercom();
         localStorage.clear();
         this.router.navigate(["home"]);
     }
 
-    public shutDownIntercom() {
-        (<any>window).Intercom("shutdown");
-    }
+    // public shutDownIntercom() {
+    //     (<any>window).Intercom("shutdown");
+    // }
 
     /**
          * Checks if Auth0 Management API is still valid
@@ -189,12 +189,12 @@ export class Auth {
                                             this.analytics.eventTrack("Login", { email: user.email, firstname: user.firstname, lastname: user.lastname });
 
                                             let isUserVIP = (user.email === "safiyya.babio@gmail.com" || user.email === "hello@tomnixon.co.uk");
-                                            (<any>window).Intercom("boot", {
-                                                app_id: environment.INTERCOM_APP_ID,
-                                                email: user.email,
-                                                user_id: user.user_id,
-                                                hide_default_launcher: !isUserVIP
-                                            });
+                                            // (<any>window).Intercom("boot", {
+                                            //     app_id: environment.INTERCOM_APP_ID,
+                                            //     email: user.email,
+                                            //     user_id: user.user_id,
+                                            //     hide_default_launcher: !isUserVIP
+                                            // });
 
                                             return user;
                                         }, () => { })

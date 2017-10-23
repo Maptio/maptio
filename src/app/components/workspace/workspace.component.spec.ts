@@ -15,7 +15,7 @@ import { Params } from "@angular/router";
 import { ActivatedRoute } from "@angular/router";
 import { WorkspaceComponent } from "./workspace.component";
 import { UserFactory } from "./../../shared/services/user.factory";
-import { ComponentFixture, TestBed, async } from "@angular/core/testing";
+import { ComponentFixture, TestBed, async, fakeAsync } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA, EventEmitter } from "@angular/core"
 import { By } from "@angular/platform-browser";
 import { BuildingComponent } from "../../components/building/building.component"
@@ -138,9 +138,12 @@ describe("workspace.component.ts", () => {
     });
 
     describe("Controller", () => {
+
+
+
         describe("update team members", () => {
             it("should get the list of members when team is defined", () => {
-                component.team = Promise.resolve(new Team({ name: "Winners", members: [new User({ user_id: "1" })], team_id: "some_team_id" }));
+                component.team$ = Promise.resolve(new Team({ name: "Winners", members: [new User({ user_id: "1" })], team_id: "some_team_id" }));
                 component.updateTeamMembers();
                 component.members.then(m => {
                     expect(m.length).toBe(1);
@@ -206,6 +209,60 @@ describe("workspace.component.ts", () => {
             });
         });
 
+        describe("toggleDetailsPanel", () => {
+            it("should behave...", () => {
+                component.isDetailsPanelCollapsed = true;
+                component.toggleDetailsPanel();
+                expect(component.isDetailsPanelCollapsed).toBe(false);
+                component.toggleDetailsPanel();
+                expect(component.isDetailsPanelCollapsed).toBe(true);
+            });
+        });
+
+        describe("saveDetailsChange", () => {
+            it("should call saveChanges", () => {
+                spyOn(component.buildingComponent, "saveChanges");
+                component.saveDetailChanges();
+                expect(component.buildingComponent.saveChanges).toHaveBeenCalled();
+            });
+        });
+
+        describe("openDetails", () => {
+            it("should call correct dependencies and keep building panel opened", async(() => {
+                component.dataset$ = Promise.resolve(new DataSet({ initiative: new Initiative({ id: 1, name: "Name", children: [new Initiative({ id: 2, name: "opening" })] }) }));
+                component.team$ = Promise.resolve(new Team({ team_id: "1", name: "Team" }));
+
+                component.openDetails(new Initiative({ name: "opening", id: 2 }))
+
+                Promise.all([component.dataset$, component.team$]).then(() => {
+                    expect(component.openedNode.name).toBe("opening");
+                    expect(component.openedNodeParent.name).toBe("Name")
+                })
+                    .then(() => {
+                        expect(component.isDetailsPanelCollapsed).toBe(false);
+                        expect(component.isBuildingPanelCollapsed).toBe(false);
+                    })
+
+            }));
+
+            it("should call correct dependencies and keep building panel closed", async(() => {
+                component.dataset$ = Promise.resolve(new DataSet({ initiative: new Initiative({ id: 1, name: "Name", children: [new Initiative({ id: 2, name: "opening" })] }) }));
+                component.team$ = Promise.resolve(new Team({ team_id: "1", name: "Team" }));
+
+                component.openDetails(new Initiative({ name: "opening", id: 2 }), true)
+
+                Promise.all([component.dataset$, component.team$]).then(() => {
+                    expect(component.openedNode.name).toBe("opening");
+                    expect(component.openedNodeParent.name).toBe("Name")
+                })
+                    .then(() => {
+                        expect(component.isDetailsPanelCollapsed).toBe(false);
+                        expect(component.isBuildingPanelCollapsed).toBe(true);
+                    })
+
+            }));
+        });
+
         describe("ngOnInit", () => {
 
 
@@ -252,7 +309,7 @@ describe("workspace.component.ts", () => {
                         expect(spyGetDataset).toHaveBeenCalledWith(123);
 
                         expect(spyGetTeam).toHaveBeenCalledWith("team_id");
-                        component.team.then((r) => {
+                        component.team$.then((r) => {
                             expect(r).toEqual(new Team({ team_id: "team_id", name: "Winners", members: [new User({ user_id: "1" }), new User({ user_id: "2" })] }))
                             expect(spyGetUser).toHaveBeenCalledTimes(1);
                             expect(spyGetUser).toHaveBeenCalledWith(["1", "2"])
@@ -284,7 +341,7 @@ describe("workspace.component.ts", () => {
 
                         expect(spyGetTeam).toHaveBeenCalledWith("team_id");
 
-                        component.team.then((r) => {
+                        component.team$.then((r) => {
                             expect(spyGetUser).toHaveBeenCalledTimes(1);
                             expect(spyGetUser).toHaveBeenCalledWith(["1", "2"]);
                             component.members.then((members) => {
@@ -298,15 +355,5 @@ describe("workspace.component.ts", () => {
         });
 
     });
-
-
-
-
-
-
-
-
-
-
 
 });

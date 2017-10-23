@@ -36,7 +36,7 @@ export class InitiativeComponent implements OnChanges {
 
     @Input() node: Initiative;
     @Input() parent: Initiative;
-    @Input() isReadOnly: boolean;
+    // @Input() isReadOnly: boolean;
     @Input() datasetId: string;
 
     public members$: Promise<User[]>;
