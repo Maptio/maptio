@@ -43,7 +43,7 @@
 							 [ngbTypeahead]="searchTeamMember" [resultFormatter]="formatter" [inputFormatter]="formatter" (blur)="onBlur()" />
 
 							<span class="input-group-addon remove text-danger" mwlConfirmationPopover title="Remove this authority and associated role?"
-							 placement="top" container="body" focusbutton="cancel" appendToBody="false" (confirm)="removeAuthority(user)" (cancel)="cancelClicked = true"></span>
+							 placement="top" container="body" focusbutton="cancel" appendToBody="false" (confirm)="removeAuthority()" (cancel)="cancelClicked=true"></span>
 						</div>
 					</div>
 				</div>
@@ -79,7 +79,7 @@
 				</h6>
 				<div class="input-group mb-3">
 					<input #person  required="required" [resultTemplate]="rt" type="text" id="inputHelper" placeholder="Enter the name of a helper"
-					 class="form-control" (selectItem)="saveHelper($event, person)" (focus)="person.value=''" [ngbTypeahead]="searchTeamMember"
+					 class="form-control" (selectItem)="saveHelper($event)" (focus)="person.value=''" [ngbTypeahead]="searchTeamMember"
 					 [resultFormatter]="formatter" [inputFormatter]="formatter" editable="false" />
 				</div>
 

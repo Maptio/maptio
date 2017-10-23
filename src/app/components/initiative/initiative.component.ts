@@ -51,6 +51,7 @@ export class InitiativeComponent implements OnChanges {
     hideme: Array<boolean> = [];
     authorityHideMe: boolean;
     descriptionHideMe: boolean;
+    cancelClicked: boolean;
 
     @ViewChild("inputDescription") public inputDescriptionElement: ElementRef;
     @ViewChild("inputRole") public inputRoleElement: ElementRef;
