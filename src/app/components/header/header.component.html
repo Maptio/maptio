@@ -38,32 +38,6 @@
                 </a>
             </li>
 
-
-            <!-- <li class="nav-item dropdown" *ngIf="auth.allAuthenticated()">
-                <a class="nav-link dropdown-toggle" id="createListDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                   Create
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="createListDropdownLink">
-                    <div class="dropdown-item create-option disabled">
-                        <form class="form-inline">
-                            <label for="inputMap" class="col-2 col-form-label">Map</label>
-                            <input #inputMap type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" (input)="validate($event.target.value)" placeholder="New initiative name">
-
-                            <button type="submit" (click)="createDataset(inputMap.value)" class="btn btn-primary" [class.disabled]="!isValid">Create</button>
-                        </form>
-                    </div>
-                    <div class="dropdown-divider"></div>
-                    <div class="dropdown-item create-option disabled">
-                        <form class="form-inline">
-                            <label for="inputTeam" class="col-2 col-form-label">Team</label>
-                            <input #inputTeam type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" (input)="validate($event.target.value)" placeholder="New team name">
-
-                            <button type="submit" (click)="createTeam(inputTeam.value)" class="btn btn-primary" [class.disabled]="!isValid">Create</button>
-                        </form>
-                    </div>
-                </div>
-            </li> -->
-
             <li class="nav-item dropdown" id="profileInformation" *ngIf="auth.allAuthenticated()">
                 <a class="nav-link dropdown-toggle without-caret" id="profileDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div>

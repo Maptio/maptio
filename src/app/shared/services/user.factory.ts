@@ -63,7 +63,6 @@ export class UserFactory {
      *  Returns undefined if no user is found
      */
     get(uniqueId: string): Promise<User> {
-        // console.log("GET", "/api/v1/user/" + uniqueId)
         return this.http.get("/api/v1/user/" + uniqueId)
             .map((response: Response) => {
                 return User.create().deserialize(response.json());
@@ -72,7 +71,6 @@ export class UserFactory {
     }
 
     getByShortId(shortid: string): Promise<User> {
-        // console.log("GET", "/api/v1/user/" + uniqueId)
         return this.http.get("/api/v1/user/" + shortid)
             .map((response: Response) => {
                 return User.create().deserialize(response.json());
@@ -101,7 +99,6 @@ export class UserFactory {
      * @returns         True if upsert has succeded, false otherwise
      */
     upsert(user: User): Promise<boolean> {
-        // FIXME : does this handle error well ? Write a test
         return this.http.put("/api/v1/user/" + user.user_id, user)
             .map((responseData) => {
                 return responseData.json();

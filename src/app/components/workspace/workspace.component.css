@@ -195,13 +195,13 @@
 } */
 
 .toggle {
-    padding: 0;
+    /* padding: 0; */
     padding: 3vh;
     margin: -3vh;
 
 }
 .all{
-    padding: -4vh;
+    /* padding: -4vh; */
     margin: -3vh -3vh -77vh -3vh;
     padding: 3vh 3vh 77vh 3vh;
 }

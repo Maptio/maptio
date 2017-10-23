@@ -225,7 +225,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 .text(function (d: any) { return d.data.accountable ? d.data.accountable.name : ""; })
                 .on("click", function (d: any) {
                     if (d.data.accountable) {
-                        // HACK : until migration of database towards shortids
+                        // TODO : keep until migration of database towards shortids
                         if (!d.data.accountable.shortid) {
                             userFactory.get(d.data.accountable.user_id)
                                 .then(u => d.data.accountable.shortid = u.shortid)

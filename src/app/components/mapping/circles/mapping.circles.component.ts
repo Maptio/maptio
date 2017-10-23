@@ -212,7 +212,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             .attr("xlink:href", function (d: any) { return "#path" + d.data.id; })
             .on("click", function (d: any) {
                 if (d.data.accountable) {
-                    // HACK : until migration of database towards shortids
+                    // TODO : keep until migration of database towards shortids
                     if (!d.data.accountable.shortid) {
                         userFactory.get(d.data.accountable.user_id)
                             .then(u => d.data.accountable.shortid = u.shortid)
@@ -251,7 +251,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             .attr("fill", function (d: any) { return "url(#image" + d.data.id + ")" })
             .on("click", function (d: any) {
                 if (d.data.accountable) {
-                    // HACK : until migration of database towards shortids
+                    // TODO : keep until migration of database towards shortids
                     if (!d.data.accountable.shortid) {
                         userFactory.get(d.data.accountable.user_id)
                             .then(u => d.data.accountable.shortid = u.shortid)
