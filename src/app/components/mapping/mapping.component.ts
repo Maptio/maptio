@@ -48,7 +48,7 @@ export class MappingComponent implements OnInit {
     private VIEWPORT_WIDTH: number = 1522;
     private VIEWPORT_HEIGHT: number = 1522;
 
-
+    private isLoading: Subject<boolean>;
 
     public fontSize$: BehaviorSubject<number>;
 
@@ -71,32 +71,35 @@ export class MappingComponent implements OnInit {
         private route: ActivatedRoute,
         private analytics: Angulartics2Mixpanel
     ) {
-
         this.zoom$ = new Subject<number>();
         this.fontSize$ = new BehaviorSubject<number>(14);
+        this.isLoading = new BehaviorSubject<boolean>(true);
+    }
 
+    ngAfterViewInit() {
+    }
+
+    ngOnInit() {
+        this.isLoading.next(true);
         this.subscription =
             Observable
                 .combineLatest(this.route.params.distinct(), this.dataService.get())
                 .withLatestFrom(this.route.fragment)
                 .subscribe((value: [[Params, any], string]) => {
-                    // console.log("redrawing", value)
+                    this.isLoading.next(true);
                     let layout = value[0][0]["layout"];
                     this.data = value[0][1];
+
                     this.componentFactory = this.getComponentFactory(layout);
                     let fragment = value[1] || this.getFragment(layout);
                     let x = Number.parseFloat(fragment.split("&")[0].replace("x=", ""))
                     let y = Number.parseFloat(fragment.split("&")[1].replace("y=", ""))
                     let scale = Number.parseFloat(fragment.split("&")[2].replace("scale=", ""));
-                    // console.log("redrawing", x, y, scale)
+
                     this.show(value[0][1], x, y, scale);
                     this.layout = layout;
-
-                })
-
-    }
-
-    ngOnInit() {
+                    this.isLoading.next(false);
+                });
     }
 
     ngOnDestroy() {
@@ -138,13 +141,13 @@ export class MappingComponent implements OnInit {
         instance.showDetailsOf$.asObservable().subscribe(node => {
             this.showDetails.emit(node)
         })
-        instance.width = this.VIEWPORT_WIDTH; // this.element.nativeElement.parentNode.parentNode.parentNode.offsetHeight;
-        instance.height = this.VIEWPORT_HEIGHT; // this.element.nativeElement.parentNode.parentNode.parentNode.offsetHeight;
+        instance.width = this.VIEWPORT_WIDTH;
+        instance.height = this.VIEWPORT_HEIGHT;
         instance.margin = 50;
         instance.datasetId = data.datasetId;
         instance.zoom$ = this.zoom$.asObservable();
         instance.fontSize$ = this.fontSize$.asObservable();
-        // console.log(x, y, scale)
+
         instance.draw(data.initiative, x, y, scale);
 
     }
