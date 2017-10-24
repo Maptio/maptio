@@ -136,11 +136,13 @@ export class BuildingComponent {
             })
             .then(() => {
                 let queue = this.nodes[0].traversePromise(function (node: Initiative) {
-                    return this.userFactory.get(node.accountable ? node.accountable.user_id : undefined).then((u: User) => {
-                        node.accountable.picture = u.picture;
-                        node.accountable.name = u.name
-                        return u.picture;
-                    }, () => { return Promise.reject("No user") }).catch(() => { })
+                    if (node.accountable) {
+                        return this.userFactory.get(node.accountable.user_id).then((u: User) => {
+                            node.accountable.picture = u.picture;
+                            node.accountable.name = u.name
+                            // return u.picture;
+                        }, () => { return Promise.reject("No user") }).catch(() => { })
+                    }
                 }.bind(this));
                 return Promise.all(queue).then(t => t).catch(() => { })
             })
