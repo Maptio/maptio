@@ -153,6 +153,7 @@ export class InitiativeComponent implements OnChanges {
 
     removeAuthority() {
         this.node.accountable = undefined;
+        this.onBlur();
     }
 
     searchTeamMember = (text$: Observable<string>) =>
