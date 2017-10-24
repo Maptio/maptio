@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { Router } from "@angular/router";
 import { RequestOptions, Response, Request, RequestOptionsArgs, Headers, Http } from "@angular/http";
 import { Observable } from "rxjs";
 import { AuthHttp, AuthConfig } from "angular2-jwt";
@@ -7,8 +7,17 @@ import { Auth } from "./auth.service";
 
 export class AuthHttpInterceptor extends AuthHttp {
 
+    private _config: AuthConfig;
+
     constructor(config: AuthConfig, http: Http, defaultOptions: RequestOptions, private authService: Auth, private router: Router) {
-        super(config, http, defaultOptions)
+
+        super(config, http, defaultOptions);
+        this._config = config;
+    }
+
+    // Just for testing (:/)
+    getConfig() {
+        return this._config;
     }
 
     request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {

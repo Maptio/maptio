@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
     public TOS_URL: string = "https://termsfeed.com/terms-conditions/f0e548940bde8842b1fb58637ae048c0"
     public PRIVACY_URL: string = "https://termsfeed.com/privacy-policy/61f888ebea93b0029582b88a7be1e1e3"
 
+    public token: string;
     public email: string;
     public password: string;
     public firstname: string;
@@ -36,8 +37,7 @@ export class LoginComponent implements OnInit {
     public activateForm: FormGroup;
     public loginForm: FormGroup;
 
-    private routeSubscription: Subscription;
-    private routeSubscription2: Subscription;
+    public subscription: Subscription;
 
     constructor(private auth: Auth, private userService: UserService, private route: ActivatedRoute, private router: Router,
         public encoding: JwtEncoder, public formBuilder: FormBuilder, private loader: LoaderService, private analytics: Angulartics2Mixpanel) {
@@ -69,25 +69,20 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnDestroy() {
-        if (this.routeSubscription) {
-            this.routeSubscription.unsubscribe();
-        }
-        if (this.routeSubscription2) {
-            this.routeSubscription2.unsubscribe();
-        }
+        if (this.subscription)
+            this.subscription.unsubscribe();
     }
 
     ngOnInit() {
-        this.routeSubscription = this.route.queryParams.subscribe((params: Params) => {
-            let token = params["token"];
+        this.subscription = this.route.queryParams.subscribe((params: Params) => {
+            this.token = params["token"];
             // HACK : wouldbe nicer to have booleans for login attempt cases, but that will do for now
             this.previousAttemptMessage = params["login_message"];
 
-            this.isLoggingIn = (token === undefined);
+            this.isLoggingIn = (this.token === undefined);
             if (!this.isLoggingIn) {
-                this.encoding.decode(token)
+                this.encoding.decode(this.token)
                     .then((decoded: any) => {
-                        // console.log(decoded)
                         this.email = decoded.email
                         this.firstname = decoded.firstname
                         this.lastname = decoded.lastname
@@ -144,7 +139,7 @@ export class LoginComponent implements OnInit {
                         })
                     }
                     else {
-                        this.loginErrorMessage = "We don't know that email."
+                        this.loginErrorMessage = "We don't know that email"
                         this.loader.hide();
                     }
                 }).
@@ -159,81 +154,69 @@ export class LoginComponent implements OnInit {
         this.isUserAlreadyActive = false;
         this.isPasswordTooWeak = false;
         this.activationStatusCannotBeUpdated = false;
-        ;
+
         if (this.activateForm.dirty && this.activateForm.valid) {
             this.loader.show();
             let email = this.email
             let firstname = this.activateForm.controls["firstname"].value
             let lastname = this.activateForm.controls["lastname"].value
             let password = this.activateForm.controls["password"].value
-
-            this.routeSubscription2 = this.route.queryParams.subscribe((params: Params) => {
-                let token = params["token"];
-                if (token) {
-
-                    return this.encoding.decode(token)
-                        .then((decoded: any) => {
-                            return [decoded.user_id, decoded.email];
-                        })
-                        .then(([user_id, email]: [string, string]) => {
-                            return this.userService.isActivationPendingByUserId(user_id)
-                                .then(
-                                (isActivationPending: boolean) => {
-                                    if (!isActivationPending)
-                                        throw new Error(`User ${email} is already active`)
-                                    return user_id;
-                                },
-                                (error: any) => {
-                                    this.isUserAlreadyActive = true;
-                                    this.loader.hide();
-                                    return Promise.reject("User has already activated account");
-                                });
-                        })
-                        .then((user_id: string) => {
-                            return this.userService.updateUserCredentials(user_id, password, firstname, lastname)
-                                .then(isUpdated => {
-                                    if (isUpdated) {
-                                        return Promise.resolve(user_id)
-                                    }
-                                },
-                                (error: any) => {
-                                    this.isPasswordTooWeak = true;
-                                    this.loader.hide();
-                                    return Promise.reject("Password cannot be updated");
-                                })
-                        })
-                        .then((user_id: string) => {
-                            return this.userService.updateActivationPendingStatus(user_id, false).then((isUpdated) => {
-                                return user_id
+            if (this.token) {
+                this.encoding.decode(this.token)
+                    .then((decoded: any) => {
+                        return [decoded.user_id, decoded.email];
+                    })
+                    .then(([user_id, email]: [string, string]) => {
+                        return this.userService.isActivationPendingByUserId(user_id)
+                            .then(
+                            (isActivationPending: boolean) => {
+                                if (!isActivationPending)
+                                    throw new Error(`User ${email} is already active`)
+                                return user_id;
                             },
-                                (error: any) => {
-                                    this.activationStatusCannotBeUpdated = true;
-                                    this.loader.hide();
-                                    return Promise.reject("Status cannot be updated");
-                                })
-                        })
-                        .then((user_id: string) => {
-                            this.isActivationPending = Promise.resolve(false);
-                            this.loader.hide();
-                        })
-                        .then(() => {
-                            this.analytics.eventTrack("Activate", { email: email, firstname: firstname, lastname: lastname });
-                        }, () => { })
-                        .then(() => {
-                            this.auth.login(email, password)
-                        })
-                        .catch((err) => {
-                        })
-
-                }
-                else {
-                }
-
-            },
-                (err: Error) => {
-                    this.loginErrorMessage = "Something has gone wrong! Please email us at support@maptio.com and we'll help you out."
-                }
-            )
+                            (error: any) => {
+                                this.isUserAlreadyActive = true;
+                                this.loader.hide();
+                                return Promise.reject("User has already activated account");
+                            });
+                    })
+                    .then((user_id: string) => {
+                        return this.userService.updateUserCredentials(user_id, password, firstname, lastname)
+                            .then(isUpdated => {
+                                if (isUpdated) {
+                                    return Promise.resolve(user_id)
+                                }
+                            },
+                            (error: any) => {
+                                this.isPasswordTooWeak = true;
+                                this.loader.hide();
+                                return Promise.reject("Password cannot be updated");
+                            })
+                    })
+                    .then((user_id: string) => {
+                        return this.userService.updateActivationPendingStatus(user_id, false).then((isUpdated) => {
+                            return user_id
+                        },
+                            (error: any) => {
+                                this.activationStatusCannotBeUpdated = true;
+                                this.loader.hide();
+                                return Promise.reject("Status cannot be updated");
+                            })
+                    })
+                    .then((user_id: string) => {
+                        this.isActivationPending = Promise.resolve(false);
+                        this.loader.hide();
+                    })
+                    .then(() => {
+                        this.analytics.eventTrack("Activate", { email: email, firstname: firstname, lastname: lastname });
+                    }, () => { })
+                    .then(() => {
+                        this.auth.login(email, password)
+                    })
+            }
+            else {
+                this.loginErrorMessage = "Missing token. Check your email for an activation link!"
+            }
         }
 
     }

@@ -14,7 +14,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { ActivatedRoute, Router, NavigationStart } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { LoginComponent } from "./login.component";
-import { ComponentFixture, async, TestBed } from "@angular/core/testing";
+import { ComponentFixture, async, TestBed, fakeAsync } from "@angular/core/testing";
 import { Auth } from "../../shared/services/auth/auth.service";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 
@@ -79,5 +79,137 @@ describe("login.component.ts", () => {
 
     it("should call login on initialization", () => {
         expect(true).toBe(true)
-    })
+    });
+
+
+    describe("login", () => {
+        it("should do nothing is login form is invalid", () => {
+            component.loginForm.setValue({
+                "email": "",
+                "password": ""
+            })
+            spyOn(target.debugElement.injector.get(UserService), "isUserExist");
+            component.login();
+            expect(target.debugElement.injector.get(UserService).isUserExist).not.toHaveBeenCalled();
+        });
+
+        it("should login user when login form is valid and user exists", async(() => {
+            component.loginForm.setValue({
+                "email": "someone@company.com",
+                "password": "secret"
+            });
+            component.loginForm.markAsDirty();
+
+            let spyUserExist = spyOn(target.debugElement.injector.get(UserService), "isUserExist").and.returnValue(Promise.resolve(true));
+            let spyLoaderHide = spyOn(target.debugElement.injector.get(LoaderService), "hide")
+            let spyLoaderShow = spyOn(target.debugElement.injector.get(LoaderService), "show")
+
+            component.login();
+            expect(spyUserExist).toHaveBeenCalledWith("someone@company.com");
+            expect(spyLoaderShow).toHaveBeenCalled();
+            spyUserExist.calls.mostRecent().returnValue
+                .then((isUserExist: boolean) => {
+                    expect(isUserExist).toBe(true);
+                    expect(target.debugElement.injector.get(Auth).login).toHaveBeenCalledWith("someone@company.com", "secret")
+                })
+                .then(() => {
+                    expect(spyLoaderHide).toHaveBeenCalled()
+                })
+        }));
+
+        it("should not login user when login form is valid and user does not exists", async(() => {
+            component.loginForm.setValue({
+                "email": "someone@company.com",
+                "password": "secret"
+            });
+            component.loginForm.markAsDirty();
+
+            let spyUserExist = spyOn(target.debugElement.injector.get(UserService), "isUserExist").and.returnValue(Promise.resolve(false));
+            let spyLoaderHide = spyOn(target.debugElement.injector.get(LoaderService), "hide")
+            let spyLoaderShow = spyOn(target.debugElement.injector.get(LoaderService), "show")
+
+            component.login();
+            expect(spyUserExist).toHaveBeenCalledWith("someone@company.com");
+            expect(spyLoaderShow).toHaveBeenCalled();
+            spyUserExist.calls.mostRecent().returnValue
+                .then((isUserExist: boolean) => {
+                    expect(isUserExist).toBe(false);
+                    expect(target.debugElement.injector.get(Auth).login).not.toHaveBeenCalled();
+                    expect(component.loginErrorMessage).toBe("We don't know that email")
+                })
+                .then(() => {
+                    expect(spyLoaderHide).toHaveBeenCalled()
+                })
+        }));
+    });
+
+
+    describe(`activateAccount`, () => {
+        it(`should do nothing when activate form is invalid`, async(() => {
+            component.activateForm.setValue({
+                "firstname": "",
+                "lastname": "",
+                "password": "",
+                "isTermsAccepted": ""
+            })
+            spyOn(target.debugElement.injector.get(LoaderService), "show");
+            component.activateAccount();
+            expect(target.debugElement.injector.get(LoaderService).show).not.toHaveBeenCalled();
+        }));
+
+        it(`should display error message when activate form is valid but token is missing`, async(() => {
+            component.activateForm.setValue({
+                "firstname": "Huey",
+                "lastname": "Freeman",
+                "password": "BlackPanther123",
+                "isTermsAccepted": true
+            })
+            component.activateForm.markAsDirty();
+
+            spyOn(target.debugElement.injector.get(LoaderService), "show");
+            spyOn(target.debugElement.injector.get(JwtEncoder), "decode");
+            component.token = undefined;
+            component.activateAccount();
+            expect(target.debugElement.injector.get(LoaderService).show).toHaveBeenCalled();
+            expect(target.debugElement.injector.get(JwtEncoder).decode).not.toHaveBeenCalled();
+            expect(component.loginErrorMessage).toBe("Missing token. Check your email for an activation link!")
+        }));
+
+        it(`should activate account when activate form is valid and token is present`, async(() => {
+            component.activateForm.setValue({
+                "firstname": "Huey",
+                "lastname": "Freeman",
+                "password": "BlackPanther123",
+                "isTermsAccepted": true
+            })
+            component.activateForm.markAsDirty();
+
+            spyOn(target.debugElement.injector.get(LoaderService), "show");
+            spyOn(target.debugElement.injector.get(LoaderService), "hide");
+            let spyDecode = spyOn(target.debugElement.injector.get(JwtEncoder), "decode").and.returnValue(Promise.resolve({
+                user_id: "user_huey",
+                email: "huey@maptio.com"
+            }));
+            let spyIsActivationPending = spyOn(target.debugElement.injector.get(UserService), "isActivationPendingByUserId").and.returnValue(Promise.resolve(true));
+            let spyUpdateUserCredentials = spyOn(target.debugElement.injector.get(UserService), "updateUserCredentials").and.returnValue(Promise.resolve(true));
+            let spyUpdateActivationPending = spyOn(target.debugElement.injector.get(UserService), "updateActivationPendingStatus").and.returnValue(Promise.resolve(true));
+            let spyEventTrack = spyOn(target.debugElement.injector.get(Angulartics2Mixpanel), "eventTrack");
+
+
+            component.token = "SOME_TOKEN";
+            component.activateAccount();
+
+            expect(target.debugElement.injector.get(LoaderService).show).toHaveBeenCalled();
+            expect(spyDecode).toHaveBeenCalledWith("SOME_TOKEN");
+            spyDecode.calls.mostRecent().returnValue
+                .then((decoded: any) => {
+                    expect(decoded.user_id).toBe("user_huey");
+                    expect(decoded.email).toBe("huey@maptio.com");
+                })
+                .then(() => {
+                    expect(spyIsActivationPending).toHaveBeenCalled();
+                })
+        }));
+
+    });
 });
