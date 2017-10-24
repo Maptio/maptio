@@ -48,7 +48,7 @@ export class MappingComponent implements OnInit {
     private VIEWPORT_WIDTH: number = 1522;
     private VIEWPORT_HEIGHT: number = 1522;
 
-    private isLoading: Subject<boolean>;
+    public isLoading: Subject<boolean>;
 
     public fontSize$: BehaviorSubject<number>;
 
