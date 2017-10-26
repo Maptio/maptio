@@ -24,12 +24,18 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     public height: number;
 
     public margin: number;
+    public translateX: number;
+    public translateY: number;
+    public scale: number;
 
     public zoom$: Observable<number>
     public fontSize$: Observable<number>
+    public data$: Subject<{ initiative: Initiative, datasetId: string }>;
 
     private zoomSubscription: Subscription;
     public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>()
+    public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
+    public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
 
     constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService, public router: Router, private userFactory: UserFactory) {
         this.d3 = d3Service.getD3();
@@ -45,12 +51,13 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         }
     }
 
-    draw(data: any, translateX: number, translateY: number, scale: number) {
+    // draw(translateX: number, translateY: number, scale: number) {
+    draw() {
         let d3 = this.d3;
         let colorService = this.colorService;
         let uiService = this.uiService;
         let CIRCLE_RADIUS = 15;
-        let viewerWidth = this.width ;
+        let viewerWidth = this.width;
         let viewerHeight = this.height;
         let zoom$ = this.zoom$;
         let fontSize$ = this.fontSize$;

@@ -42,6 +42,10 @@ export class MappingComponent implements OnInit {
     TOOLTIP_ZOOM_FIT: string = "Zoom fit";
 
     public data: { initiative: Initiative, datasetId: string };
+    public x: number;
+    public y: number;
+    public scale: number;
+
     public isCollapsed: boolean = true;
 
     public zoom$: Subject<number>;
@@ -51,8 +55,11 @@ export class MappingComponent implements OnInit {
     public isLoading: Subject<boolean>;
 
     public fontSize$: BehaviorSubject<number>;
+    public data$: Subject<{ initiative: Initiative, datasetId: string }>;
 
     @Output("showDetails") showDetails = new EventEmitter<Initiative>();
+    @Output("addInitiative") addInitiative = new EventEmitter<Initiative>();
+    @Output("removeInitiative") removeInitiative = new EventEmitter<Initiative>();
 
     @ViewChild(AnchorDirective) anchorComponent: AnchorDirective;
 
@@ -74,6 +81,7 @@ export class MappingComponent implements OnInit {
         this.zoom$ = new Subject<number>();
         this.fontSize$ = new BehaviorSubject<number>(14);
         this.isLoading = new BehaviorSubject<boolean>(true);
+        this.data$ = new Subject<{ initiative: Initiative, datasetId: string }>();
     }
 
     ngAfterViewInit() {
@@ -81,6 +89,8 @@ export class MappingComponent implements OnInit {
 
     ngOnInit() {
         this.isLoading.next(true);
+
+
         this.subscription =
             Observable
                 .combineLatest(this.route.params.distinct(), this.dataService.get())
@@ -92,14 +102,29 @@ export class MappingComponent implements OnInit {
 
                     this.componentFactory = this.getComponentFactory(layout);
                     let fragment = value[1] || this.getFragment(layout);
-                    let x = Number.parseFloat(fragment.split("&")[0].replace("x=", ""))
-                    let y = Number.parseFloat(fragment.split("&")[1].replace("y=", ""))
-                    let scale = Number.parseFloat(fragment.split("&")[2].replace("scale=", ""));
+                    this.x = Number.parseFloat(fragment.split("&")[0].replace("x=", ""))
+                    this.y = Number.parseFloat(fragment.split("&")[1].replace("y=", ""))
+                    this.scale = Number.parseFloat(fragment.split("&")[2].replace("scale=", ""));
 
-                    this.show(value[0][1], x, y, scale);
                     this.layout = layout;
+                    this.data$.next(value[0][1])
                     this.isLoading.next(false);
                 });
+
+        this.data$.asObservable().subscribe(data => {
+            console.log("Create component")
+            let component = this.anchorComponent.createComponent<IDataVisualizer>(this.componentFactory);
+            let instance = this.getInstance(component);
+            this.setup(instance);
+            console.log("seding ", data)
+            instance.draw();
+            instance.data$.next(data);
+
+
+            // this.show(data, this.x, this.y, this.scale);
+        });
+
+
     }
 
     ngOnDestroy() {
@@ -134,22 +159,35 @@ export class MappingComponent implements OnInit {
         return component.instance;
     }
 
-    show(data: any, x: number, y: number, scale: number) {
-        let component = this.anchorComponent.createComponent<IDataVisualizer>(this.componentFactory);
+    setup(instance: IDataVisualizer) {
+        // let component = this.anchorComponent.createComponent<IDataVisualizer>(this.componentFactory);
 
-        let instance = this.getInstance(component);
+        // let instance = this.getInstance(component);
         instance.showDetailsOf$.asObservable().subscribe(node => {
             this.showDetails.emit(node)
         })
+        instance.addInitiative$.asObservable().subscribe(node => {
+            console.log("mapping.component.ts", "adding initiative under", node.name)
+            this.addInitiative.emit(node)
+        })
+        instance.removeInitiative$.asObservable().subscribe(node => {
+            console.log("mapping.component.ts", "remove initiative", node.name)
+            this.removeInitiative.emit(node)
+        })
         instance.width = this.VIEWPORT_WIDTH;
         instance.height = this.VIEWPORT_HEIGHT;
+
         instance.margin = 50;
-        instance.datasetId = data.datasetId;
+        // instance.datasetId = data.datasetId;
         instance.zoom$ = this.zoom$.asObservable();
         instance.fontSize$ = this.fontSize$.asObservable();
+        instance.translateX = this.x;
+        instance.translateY = this.y;
+        instance.scale = this.scale;
 
-        instance.draw(data.initiative, x, y, scale);
+        // instance.data$
 
+        // instance.draw(data.initiative, x, y, scale);
     }
 
 
@@ -161,20 +199,20 @@ export class MappingComponent implements OnInit {
         this.zoom$.next(1.1);
     }
 
-    resetZoom() {
+    // resetZoom() {
 
-        switch (this.layout) {
-            case "initiatives":
-                this.show(this.data, this.VIEWPORT_WIDTH / 2, this.VIEWPORT_HEIGHT / 2, 1);
-                break;
-            case "people":
-                this.show(this.data, 100, 0, 1);
-                break;
-            default:
-                this.show(this.data, this.VIEWPORT_WIDTH / 2, this.VIEWPORT_HEIGHT / 2, 1);
-                break;
-        }
-    }
+    //     switch (this.layout) {
+    //         case "initiatives":
+    //             this.show(this.data, this.VIEWPORT_WIDTH / 2, this.VIEWPORT_HEIGHT / 2, 1);
+    //             break;
+    //         case "people":
+    //             this.show(this.data, 100, 0, 1);
+    //             break;
+    //         default:
+    //             this.show(this.data, this.VIEWPORT_WIDTH / 2, this.VIEWPORT_HEIGHT / 2, 1);
+    //             break;
+    //     }
+    // }
 
     changeFontSize(size: number) {
         this.fontSize$.next(size);

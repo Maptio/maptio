@@ -16,7 +16,18 @@ export interface IDataVisualizer {
 
     fontSize$: Observable<number>;
 
+    data$: Subject<{ initiative: Initiative, datasetId: string }>;
+
+    translateX: number;
+    translateY: number;
+    scale: number;
+
     showDetailsOf$: Subject<Initiative>;
 
-    draw(data: any, translateX: number, translateY: number, scale: number): void;
+    addInitiative$: Subject<Initiative>;
+    removeInitiative$: Subject<Initiative>;
+
+
+    draw(): void
+    // draw(translateX: number, translateY: number, scale: number): void;
 }

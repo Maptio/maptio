@@ -7,9 +7,9 @@ import { DataSet } from "./../../shared/model/dataset.data";
 import { Initiative } from "./../../shared/model/initiative.data";
 import { Observable } from "rxjs/Rx";
 import { EmitterService } from "./../../shared/services/emitter.service";
-import { Component, ViewChild, Output } from "@angular/core";
+import { Component, ViewChild, Output, ElementRef } from "@angular/core";
 import { InitiativeComponent } from "../initiative/initiative.component";
-import { TreeNode, IActionMapping, TREE_ACTIONS, TreeModel } from "angular-tree-component";
+import { TreeNode, IActionMapping, TREE_ACTIONS, TreeModel, TreeComponent } from "angular-tree-component";
 import { DataService } from "../../shared/services/data.service";
 import "rxjs/add/operator/map";
 import { InitiativeNodeComponent } from "./initiative.node.component"
@@ -60,8 +60,8 @@ export class BuildingComponent {
 
     SAVING_FREQUENCY: number = 10;
 
-    // @ViewChild(TreeComponent)
-    // tree: TreeComponent;
+
+    @ViewChild("tree") public tree: TreeComponent;
 
     @ViewChild(InitiativeNodeComponent)
     node: InitiativeNodeComponent;
@@ -110,6 +110,58 @@ export class BuildingComponent {
         this.openDetails.emit(node)
     }
 
+    removeNode(node: Initiative) {
+
+        console.log("building.component.ts", "remove", node.name, node.id);
+        let hasFoundNode: boolean = false;
+
+        this.nodes[0].traverse(n => {
+            if (hasFoundNode) return;
+            let index = n.children.findIndex(c => c.id === node.id);
+            if (index > -1) {
+                hasFoundNode = true;
+                n.children.splice(index, 1);
+            }
+        });
+        this.saveChanges();
+        this.tree.treeModel.update();
+    }
+
+    addNodeTo(node: Initiative) {
+        console.log("building.component.ts", "add to", node.name, node.id);
+        let hasFoundNode: boolean = false;
+        if (this.nodes[0].id === node.id) {
+            hasFoundNode = true;
+            let newNode = new Initiative();
+            newNode.children = []
+            newNode.team_id = node.team_id;
+            newNode.hasFocus = true;
+            console.log("new node", Math.ceil(node.id * Math.random()));
+            this.nodes[0].children = this.nodes[0].children || [];
+            this.nodes[0].children.unshift(newNode);
+            this.openDetailsEditOnly.emit(newNode)
+        }
+        else {
+            this.nodes[0].traverse(n => {
+                if (hasFoundNode) return;
+                if (n.id === node.id) {
+                    hasFoundNode = true;
+                    let newNode = new Initiative();
+                    newNode.children = []
+                    newNode.team_id = node.team_id;
+                    newNode.hasFocus = true;
+                    console.log("new node", Math.ceil(node.id * Math.random()));
+                    n.children = n.children || [];
+                    n.children.unshift(newNode);
+                    this.openDetailsEditOnly.emit(newNode)
+                }
+            });
+        }
+
+        this.saveChanges();
+        this.tree.treeModel.update();
+    }
+
     // toggleAll() {
     //     this.tree.treeModel.getNodeById(this.nodes[0].id).toggleExpanded();
     //     this.nodes[0].traverse(function (i: Initiative) {
@@ -132,7 +184,6 @@ export class BuildingComponent {
                 this.nodes[0].traverse(function (node: Initiative) {
                     node.team_id = defaultTeamId; // For now, the sub initiative are all owned by the same team
                 });
-
             })
             .then(() => {
                 let queue = this.nodes[0].traversePromise(function (node: Initiative) {

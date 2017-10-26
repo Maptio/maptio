@@ -7,7 +7,7 @@
   stroke-width: 1.5px;
 }
 
-.node-root:hover{
+.node-root:hover {
   stroke: white !important;
   stroke-width: 0;
 }
@@ -55,6 +55,7 @@ svg circle:hover {
   stroke-opacity: 0.5;
   /*fill-opacity: 0.7;*/
 }
+
 svg circle.node--root:hover {
   stroke: white !important;
   stroke-width: 0 !important;
@@ -70,11 +71,23 @@ svg group {
   opacity: 0.7;
 }
 
-scg circle{
+scg circle {
   pointer-events: none;
 }
 
 svg circle.accountable {
   pointer-events: auto;
   cursor: pointer;
+}
+
+svg circle.add {
+  opacity: 1;
+}
+
+svg circle.add.show {
+  opacity: 1;
+}
+
+svg circle.removable {
+  fill: red !important
 }
