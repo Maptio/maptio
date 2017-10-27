@@ -27,6 +27,7 @@ export interface IDataVisualizer {
     addInitiative$: Subject<Initiative>;
     removeInitiative$: Subject<Initiative>;
 
+    init(initiative: Initiative, datasetId: string): void;
 
     draw(): void
     // draw(translateX: number, translateY: number, scale: number): void;

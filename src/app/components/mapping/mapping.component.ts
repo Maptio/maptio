@@ -69,6 +69,7 @@ export class MappingComponent implements OnInit {
     public componentFactory: ComponentFactory<IDataVisualizer>;
     public layout: string;
     public subscription: Subscription;
+    public instance: IDataVisualizer;
 
     constructor(
         private dataService: DataService,
@@ -90,40 +91,36 @@ export class MappingComponent implements OnInit {
     ngOnInit() {
         this.isLoading.next(true);
 
+        this.route.params
+            .map(params => { console.log(0); this.layout = params["layout"]; return this.layout })
+            .do(layout => {
+                console.log(1)
+                this.isLoading.next(true);
 
-        this.subscription =
-            Observable
-                .combineLatest(this.route.params.distinct(), this.dataService.get())
-                .withLatestFrom(this.route.fragment)
-                .subscribe((value: [[Params, any], string]) => {
-                    this.isLoading.next(true);
-                    let layout = value[0][0]["layout"];
-                    this.data = value[0][1];
+                this.componentFactory = this.getComponentFactory(layout);
+                let component = this.anchorComponent.createComponent<IDataVisualizer>(this.componentFactory);
+                this.instance = this.getInstance(component);
+            })
+            .withLatestFrom(this.route.fragment)
+            .do(([layout, fragment]: [string, string]) => {
+                this.isLoading.next(true);
+                console.log(2)
+                let f = fragment || this.getFragment(this.layout);
+                this.x = Number.parseFloat(f.split("&")[0].replace("x=", ""))
+                this.y = Number.parseFloat(f.split("&")[1].replace("y=", ""))
+                this.scale = Number.parseFloat(f.split("&")[2].replace("scale=", ""));
 
-                    this.componentFactory = this.getComponentFactory(layout);
-                    let fragment = value[1] || this.getFragment(layout);
-                    this.x = Number.parseFloat(fragment.split("&")[0].replace("x=", ""))
-                    this.y = Number.parseFloat(fragment.split("&")[1].replace("y=", ""))
-                    this.scale = Number.parseFloat(fragment.split("&")[2].replace("scale=", ""));
+                this.setup();
+                // this.instance.init(undefined, undefined);
 
-                    this.layout = layout;
-                    this.data$.next(value[0][1])
-                    this.isLoading.next(false);
-                });
-
-        this.data$.asObservable().subscribe(data => {
-            console.log("Create component")
-            let component = this.anchorComponent.createComponent<IDataVisualizer>(this.componentFactory);
-            let instance = this.getInstance(component);
-            this.setup(instance);
-            console.log("seding ", data)
-            instance.draw();
-            instance.data$.next(data);
-
-
-            // this.show(data, this.x, this.y, this.scale);
-        });
-
+            })
+            .combineLatest(this.dataService.get())
+            .map(data => data[1])
+            .subscribe((data) => {
+                console.log(3);
+                this.instance.init(data.initiative, data.datasetId);
+                this.instance.data$.next(data);
+            })
 
     }
 
@@ -159,31 +156,31 @@ export class MappingComponent implements OnInit {
         return component.instance;
     }
 
-    setup(instance: IDataVisualizer) {
+    setup() {
         // let component = this.anchorComponent.createComponent<IDataVisualizer>(this.componentFactory);
 
         // let instance = this.getInstance(component);
-        instance.showDetailsOf$.asObservable().subscribe(node => {
+        this.instance.showDetailsOf$.asObservable().subscribe(node => {
             this.showDetails.emit(node)
         })
-        instance.addInitiative$.asObservable().subscribe(node => {
+        this.instance.addInitiative$.asObservable().subscribe(node => {
             console.log("mapping.component.ts", "adding initiative under", node.name)
             this.addInitiative.emit(node)
         })
-        instance.removeInitiative$.asObservable().subscribe(node => {
+        this.instance.removeInitiative$.asObservable().subscribe(node => {
             console.log("mapping.component.ts", "remove initiative", node.name)
             this.removeInitiative.emit(node)
         })
-        instance.width = this.VIEWPORT_WIDTH;
-        instance.height = this.VIEWPORT_HEIGHT;
+        this.instance.width = this.VIEWPORT_WIDTH;
+        this.instance.height = this.VIEWPORT_HEIGHT;
 
-        instance.margin = 50;
+        this.instance.margin = 50;
         // instance.datasetId = data.datasetId;
-        instance.zoom$ = this.zoom$.asObservable();
-        instance.fontSize$ = this.fontSize$.asObservable();
-        instance.translateX = this.x;
-        instance.translateY = this.y;
-        instance.scale = this.scale;
+        this.instance.zoom$ = this.zoom$.asObservable();
+        this.instance.fontSize$ = this.fontSize$.asObservable();
+        this.instance.translateX = this.x;
+        this.instance.translateY = this.y;
+        this.instance.scale = this.scale;
 
         // instance.data$
 

@@ -41,6 +41,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         this.d3 = d3Service.getD3();
     }
 
+    init() { }
 
     ngOnInit() {
     }
