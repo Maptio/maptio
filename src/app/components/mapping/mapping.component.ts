@@ -92,9 +92,8 @@ export class MappingComponent implements OnInit {
         this.isLoading.next(true);
 
         this.route.params
-            .map(params => { console.log(0); this.layout = params["layout"]; return this.layout })
+            .map(params => { this.layout = params["layout"]; return this.layout })
             .do(layout => {
-                console.log(1)
                 this.isLoading.next(true);
 
                 this.componentFactory = this.getComponentFactory(layout);
@@ -104,7 +103,6 @@ export class MappingComponent implements OnInit {
             .withLatestFrom(this.route.fragment)
             .do(([layout, fragment]: [string, string]) => {
                 this.isLoading.next(true);
-                console.log(2)
                 let f = fragment || this.getFragment(this.layout);
                 this.x = Number.parseFloat(f.split("&")[0].replace("x=", ""))
                 this.y = Number.parseFloat(f.split("&")[1].replace("y=", ""))
@@ -117,8 +115,6 @@ export class MappingComponent implements OnInit {
             .combineLatest(this.dataService.get())
             .map(data => data[1])
             .subscribe((data) => {
-                console.log(3);
-                this.instance.init(data.initiative, data.datasetId);
                 this.instance.data$.next(data);
             })
 

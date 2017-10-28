@@ -16,7 +16,7 @@ import { UserFactory } from "../../../shared/services/user.factory";
     encapsulation: ViewEncapsulation.None
 })
 
-export class MappingCirclesComponent implements OnInit, IDataVisualizer {
+export class MappingCirclesComponent implements IDataVisualizer {
 
     private d3: D3;
 
@@ -44,6 +44,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
     private counter: number = 0;
     private svg: any;
     private g: any;
+    private definitions: any;
 
     CIRCLE_RADIUS: number = 15;
 
@@ -51,25 +52,32 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
         // console.log("setup", this.translateX, this.translateY, this.scale)
         this.d3 = d3Service.getD3();
         this.data$ = new Subject<{ initiative: Initiative, datasetId: string }>();
-        this.data$.asObservable().subscribe(complexData => {
-            console.log("received", complexData)
+        this.data$.asObservable().distinct().subscribe(complexData => {
             let data = <any>complexData.initiative;
             this.update(data)
         })
     }
 
-    init(data: any, datasetId: string) {
-        this.counter++;
+    ngOnInit() {
+        this.init();
+    }
 
-        console.log("init", this.translateX, this.translateY, this.scale);
-        console.log(this.counter);
-        if (this.counter > 1) return;
+    init() {
+
+        // this.counter++;
+        // console.log("counter", this.counter);
+
+        // if (this.counter > 1) {
+        //     return;
+        // }
         let d3 = this.d3;
 
         let svg: any = d3.select("svg"),
             margin = this.margin,
             diameter = +this.width,
-            g = svg.append("g").attr("transform", `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`);
+            g = svg.append("g").attr("transform", `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`),
+            definitions = svg.append("svg:defs");
+
         let zooming = d3.zoom().on("zoom", zoomed);
 
         try {
@@ -109,12 +117,8 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
         });
 
         this.svg = svg;
-        this.g = g
-    }
-
-    ngOnInit() {
-        console.log("ngOnInit");
-        // this.init();
+        this.g = g;
+        this.definitions = definitions;
     }
 
 
@@ -133,10 +137,11 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
     }
 
     update(data: any) {
-        console.log("update", data)
+        console.log("update")
         let d3 = this.d3;
         let svg = this.svg;
         let g = this.g;
+        let definitions = this.definitions;
         let diameter = this.width;
         let margin = this.margin;
         let colorService = this.colorService;
@@ -148,6 +153,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
         let showDetailsOf$ = this.showDetailsOf$;
         let addInitiative$ = this.addInitiative$;
         let removeInitiative$ = this.removeInitiative$;
+        let TRANSITION_DURATION = 1000;
 
         let slug = data.getSlug();
 
@@ -171,44 +177,64 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
             nodes = pack(root).descendants(),
             view: any;
 
-        let definitions = svg.append("svg:defs");
+
         definePatterns();
         let path = getPaths();
-        let t = d3.transition(null).duration(5000);
+        let t = d3.transition(null).duration(TRANSITION_DURATION);
 
-        let circleSelection = g.selectAll("circle").data(nodes)
-        // https://bl.ocks.org/matt-mcdaniel/31798f861e56eec2eded
-        let circle = circleSelection.enter()
-            .append("circle")
-            .attr("class", function (d: any) { return d.parent ? (d.children ? "node" : "node node--leaf") : "node node--root"; })
+        console.log(nodes)
+
+        let selection = g.selectAll(".nodes").data(nodes, function (d: any) { return d.data.id });
+
+        let exit = selection
+            .exit()
+            .style("fill-opacity", 1)
+            .transition(t)
+            .style("fill-opacity", 1e-6)
+            .remove();
+
+        let enter = selection.enter().append("g").attr("class", "nodes");
+
+        enter.append("circle")
+            .attr("r", function (d: any) { return d.r })
+            .attr("class", function (d: any) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
             .style("fill", function (d: any) { return d.children ? (d === root ? "white" : color(d.depth)) : (d.parent === root && !d.children ? color(d.depth) : "white"); })
             .style("stroke", function (d: any) { return d.data.isSearchedFor ? "#d9831f" : "none" })
             .style("stroke-width", function (d: any) { return d.data.isSearchedFor ? 3 : "none" })
-            .attr("id", function (d: any) { return "circle" + d.data.id; })
-            .attr("cx", function (d: any) { return d.x })
-            .attr("cy", function (d: any) { return d.y })
+            .attr("id", function (d: any) { return d.data.id; })
 
-        // .transition(t)
-        // .attr("cx", function (d: any) { return d.x })
-        // .attr("cy", function (d: any) { return d.y })
+        enter
+            .filter(function (d: any) { return d.children && d !== root; })
+            .append("text")
+            .attr("class", "with-children")
+            .attr("id", function (d: any) { return d.data.id; })
+            .append("textPath")
+            .attr("xlink:href", function (d: any) { return "#path" + d.data.id; })
+            .attr("startOffset", function (d: any, i: number) { return "10%"; })
+            .on("click", function (d: any, i: number) {
+                showDetails(d, d.parent, d3.event, datasetId);
+                d.isTooltipVisible = !d.isTooltipVisible;
+            })
+            .text(function (d: any) { return d.data.name; })
 
-        // circle.transition().duration(1000)
-        // .on("mouseover", function (d: any) {
-        //     d3.select(`circle.add[data-parent="${d.data.id}"]`).classed("show", true);
-        // })
-        // .on("mouseout", function (d: any) {
-        //     d3.select(`circle.add[data-parent="${d.data.id}"]`).classed("show", false);
-        // })
-        // .on("click", function (d: any, i: number) {
-        //     if (focus !== d) {
-        //         zoom(d, i),
-        //             d3.selectAll("#title" + d.data.id).style("fill-opacity", 1).style("display", "inline"),
-        //             d3.event.stopPropagation();
-        //     }
-        // });
+        enter
+            .filter(function (d: any) { return !d.children && d !== root; })
+            .append("text")
+            .attr("class", "without-children")
+            .attr("id", function (d: any) { return d.data.id; })
+            .attr("dy", 0)
+            .attr("x", function (d: any) { return -d.r * .85 })
+            .attr("y", function (d: any) { return -d.r * .2 })
+            .text(function (d: any) { return d.data.name; })
+            .on("click", function (d: any, i: number) {
+                showDetails(d, d.parent, d3.event, datasetId);
+                d.isTooltipVisible = !d.isTooltipVisible;
+            })
+            .each(function (d: any) {
+                uiService.wrap(d3.select(this), d.data.name, d.r * 2 * 0.95);
+            })
 
-        circleSelection
-            .enter().append("circle")
+        enter.append("circle")
             .attr("fill", "url(#add-icon)")
             .attr("r", CIRCLE_RADIUS * 0.5)
             .attr("id", function (d: any) { return "add" + d.data.name; })
@@ -224,176 +250,42 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
                 addInitiativeTo(d)
             });
 
-        circleSelection
-            .enter().append("circle")
+        enter.append("circle")
             .attr("fill", "url(#remove-icon)")
             .attr("r", CIRCLE_RADIUS * 0.5)
             .attr("id", function (d: any) { return "remove" + d.data.name; })
             .attr("cx", function (d: any) { return +10 })
             .attr("cy", function (d: any) { return d.children ? -d.r : 0 })
-            .on("mouseover", function (d: any) {
-                d3.select(this).classed("show", true);
-                // d3.select(`#circle${d.data.id}`).classed("removable", true);
-            })
-            .on("mouseout", function (d: any) {
-                d3.select(this).classed("show", false);
-                // d3.select(`#circle${d.data.id}`).classed("removable", false);
-            })
             .on("click", function (d: any) {
-                // d3.select("svg").transition().duration(500).style("opacity", 0.5);
-                // d3.select(`#circle${d.data.id}`).transition().duration(500).style("opacity", 0);
                 removeInitiative(d)
             });
 
-        let textGroups = svg.select("g").selectAll("g").data(nodes);
+        selection = enter.merge(selection);
 
-        // enter selection
-        let textGroupsEnter = textGroups.enter().append("g");
-
-        // some children, text should be around the circle
-        textGroupsEnter
-            .append("text")
-            .filter(function (d: any) { return d.children && d !== root; })
-            .attr("class", "with-children")
-            .attr("id", function (d: any) { return "title" + d.data.id; })
-            .append("textPath")
-            .attr("xlink:href", function (d: any) { return "#path" + d.data.id; })
-            .attr("startOffset", function (d: any, i: number) { return "10%"; })
-            .on("click", function (d: any, i: number) {
-                showDetails(d, d.parent, d3.event, datasetId);
-                d.isTooltipVisible = !d.isTooltipVisible;
-            })
-            .text(function (d: any) { return d.data.name; })
-
-        textGroupsEnter
-            .filter(function (d: any) { return d.children && d !== root; })
-            .append("circle")
-            .attr("class", "with-children accountable")
-            .attr("r", CIRCLE_RADIUS)
-            .attr("fill", function (d: any) { return "url(#image" + d.data.id + ")" })
-            .attr("xlink:href", function (d: any) { return "#path" + d.data.id; })
-            .on("click", function (d: any) {
-                if (d.data.accountable) {
-                    // TODO : keep until migration of database towards shortids
-                    if (!d.data.accountable.shortid) {
-                        userFactory.get(d.data.accountable.user_id)
-                            .then(u => d.data.accountable.shortid = u.shortid)
-                            .then(() => { router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.data.accountable.shortid}/${d.data.accountable.getSlug()}`) })
-                    }
-                    router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.data.accountable.shortid}/${d.data.accountable.getSlug()}`)
-                }
-
-            })
-
-        // no children, the text should be inside the circle
-        textGroupsEnter
-            .append("text")
-            .filter(function (d: any) { return !d.children && d !== root; })
-            .attr("class", "without-children")
-            .attr("id", function (d: any) { return "title" + d.data.id; })
-            .attr("dy", 0)
-            .attr("x", function (d: any) { return -d.r * .85 })
-            .attr("y", function (d: any) { return -d.r * .2 })
-            .text(function (d: any) { return d.data.name; })
-            .on("click", function (d: any, i: number) {
-                showDetails(d, d.parent, d3.event, datasetId);
-                d.isTooltipVisible = !d.isTooltipVisible;
-            })
-            .each(function (d: any) {
-                uiService.wrap(d3.select(this), d.data.name, d.r * 2 * 0.95);
-            })
-
-        textGroupsEnter
-            .filter(function (d: any) { return !d.children && d !== root; })
-            .append("circle")
-            .attr("class", "without-children accountable")
-            .attr("r", CIRCLE_RADIUS)
-            .attr("cx", function (d: any) { return 0 })
-            .attr("cy", function (d: any) { return -d.r * 0.70 })
-            .attr("fill", function (d: any) { return "url(#image" + d.data.id + ")" })
-            .on("click", function (d: any) {
-                if (d.data.accountable) {
-                    // TODO : keep until migration of database towards shortids
-                    if (!d.data.accountable.shortid) {
-                        userFactory.get(d.data.accountable.user_id)
-                            .then(u => d.data.accountable.shortid = u.shortid)
-                            .then(() => { router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.data.accountable.shortid}/${d.data.accountable.getSlug()}`) })
-                    }
-                    router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.data.accountable.shortid}/${d.data.accountable.getSlug()}`)
-                }
-
-            })
-
-        textGroups
-            .select("g").select("text.with-children")
-            .data(nodes)
-
-        // exit selection
-        textGroups.exit().remove();
-
-        let node = g.selectAll("path,circle,text,image")
-        console.log(node)
-        // svg
-        //     .style("background", color(-1))
-        //     .on("click", function () { zoom(root, 0); });
-
-        // let zoomedNode: HierarchyCircularNode<any> = nodes.find(function (d: any) { return d.data.isZoomedOn === true });
-        // if (!zoomedNode) {
-        //     zoomedNode = root;
-        // }
-        console.log("zooming to", root)
         zoomTo([root.x, root.y, root.r * 2 + margin], parseInt(root.id));
 
-
-        // if (zoomedNode !== root)
-        //     d3.selectAll("#title" + parseInt(zoomedNode.data.id)).style("fill-opacity", 1).style("display", "inline");
-
-        // function zoom(d: any, index: number) {
-        //     let focus0 = focus; focus = d;
-
-        //     let transition = d3.transition("move")
-        //         // .duration(d3.event.altKey ? 7500 : 750)
-        //         .duration(750)
-        //         .tween("zoom", function (d) {
-        //             let i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
-        //             return function (t) { zoomTo(i(t), index); };
-        //         });
-
-        //     let updateCounter = 0;
-
-        //     transition.selectAll("text")
-        //         .filter(function (d: any) { return d.parent === focus || (<any>this).style.display === "inline"; })
-        //         // .style("fill-opacity", function (d: any) { return d.parent === focus || (d === focus && !d.children) ? 1 : (d === focus ? 0.4 : 0); })
-        //         .on("start", function (d: any) { if (d.parent === focus) (<any>this).style.display = "inline"; })
-        //         .each(function (d: any) { updateCounter++ })
-        //         .on("end", function (d: any) {
-        //             // if (d.parent !== focus) this.style.display = "none";
-        //             updateCounter--;
-        //             if (updateCounter === 0) {
-        //                 uiService.adjustLabels(textGroups, (diameter / d.r / 2));
-        //             }
-        //         })
-        // }
-
-
         function zoomTo(v: any, index: number) {
-            console.log("zooming", v)
+
             let k = diameter / v[2]; view = v;
-            node
+
+            selection
+                .transition().duration(TRANSITION_DURATION)
                 .attr("transform", function (d: any) {
                     return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"
                 });
 
-            circle.attr("r", function (d: any) { return d.r * k; });
+            selection.select("circle")
+                .attr("r", function (d: any) { return d.r * k; })
+                ;
 
             path.attr("d", function (d: any, i: number) {
                 let radius = d.r * k + 3;
                 return uiService.getCircularPath(radius, -radius, 0);
             })
 
-            circle
-                .attr("cx", function (d: any) { return d.cx })
-                .attr("cy", function (d: any) { return d.cy })
+            // circle
+            //     .attr("cx", function (d: any) { return d.cx })
+            //     .attr("cy", function (d: any) { return d.cy })
 
 
             d3.selectAll("circle.with-children")
@@ -428,6 +320,7 @@ export class MappingCirclesComponent implements OnInit, IDataVisualizer {
 
             definitions.selectAll("pattern")
                 .data(nodes)
+                .exit().remove()
                 .enter()
                 .filter(function (d: any) { return d.data.accountable })
                 .append("pattern")

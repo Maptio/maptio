@@ -84,7 +84,7 @@ export class BuildingComponent {
 
 
     saveChanges() {
-        // console.log("send to workspace", this.nodes[0])
+        console.log("send to workspace", this.nodes[0])
         this.save.emit(this.nodes[0]);
     }
 
@@ -115,16 +115,23 @@ export class BuildingComponent {
         console.log("building.component.ts", "remove", node.name, node.id);
         let hasFoundNode: boolean = false;
 
-        this.nodes[0].traverse(n => {
-            if (hasFoundNode) return;
-            let index = n.children.findIndex(c => c.id === node.id);
-            if (index > -1) {
-                hasFoundNode = true;
-                n.children.splice(index, 1);
-            }
-        });
+        let index = this.nodes[0].children.findIndex(c => c.id === node.id);
+        if (index > -1) {
+            this.nodes[0].children.splice(index, 1);
+        }
+        else {
+            this.nodes[0].traverse(n => {
+                if (hasFoundNode) return;
+                let index = n.children.findIndex(c => c.id === node.id);
+                if (index > -1) {
+                    hasFoundNode = true;
+                    n.children.splice(index, 1);
+                }
+            });
+        }
+
         this.saveChanges();
-        this.tree.treeModel.update();
+        // this.tree.treeModel.update();
     }
 
     addNodeTo(node: Initiative) {
@@ -139,7 +146,7 @@ export class BuildingComponent {
             console.log("new node", Math.ceil(node.id * Math.random()));
             this.nodes[0].children = this.nodes[0].children || [];
             this.nodes[0].children.unshift(newNode);
-            this.openDetailsEditOnly.emit(newNode)
+            // this.openDetailsEditOnly.emit(newNode)
         }
         else {
             this.nodes[0].traverse(n => {
@@ -153,7 +160,7 @@ export class BuildingComponent {
                     console.log("new node", Math.ceil(node.id * Math.random()));
                     n.children = n.children || [];
                     n.children.unshift(newNode);
-                    this.openDetailsEditOnly.emit(newNode)
+                    // this.openDetailsEditOnly.emit(newNode)
                 }
             });
         }
