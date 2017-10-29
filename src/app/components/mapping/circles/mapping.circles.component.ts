@@ -202,10 +202,9 @@ export class MappingCirclesComponent implements IDataVisualizer {
             nodes = pack(root).descendants(),
             view: any;
 
-
-        definePatterns();
-        // let path = getPaths();
         let t = d3.transition(null).duration(TRANSITION_DURATION);
+
+
 
         let selection = g.selectAll(".nodes").data(nodes, function (d: any) { return d.data.id });
 
@@ -257,7 +256,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .transition(t)
             .style("fill", function (d: any) { return d.children ? (d === root ? "white" : color(d.depth)) : (d.parent === root && !d.children ? color(d.depth) : "white"); })
 
-        enter
+        enter.merge(selection)
             .filter(function (d: any) { return d.children && d !== root; })
             .append("text")
             .attr("class", "with-children")
@@ -271,7 +270,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             })
             .text(function (d: any) { return d.data.name; })
 
-        enter
+        enter.merge(selection)
             .filter(function (d: any) { return d.children && d !== root; })
             .append("circle")
             .attr("class", "with-children accountable")
@@ -298,7 +297,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .attr("cy", function (d: any) { return - Math.sin(Math.PI - Math.PI * 36 / 180) * (d.r + 3) + 10 })
 
 
-        enter
+        enter.merge(selection)
             .filter(function (d: any) { return !d.children && d !== root; })
             .append("text")
             .attr("class", "without-children")
@@ -315,7 +314,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 uiService.wrap(d3.select(this), d.data.name, d.r * 2 * 0.95);
             })
 
-        enter
+        enter.merge(selection)
             .filter(function (d: any) { return !d.children && d !== root; })
             .append("circle")
             .attr("class", "without-children accountable")
@@ -336,80 +335,6 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
             })
 
-        // let editing = enter.append("foreignObject")
-        //     .attr("width", 150)
-        //     .attr("height", 50)
-        //     .attr("x", function (d: any) { return -10 })
-        //     .attr("y", function (d: any) { return  0 })
-        //     .attr("class", "editing")
-        //     .attr("data-id", function (d: any) { return d.data.id })
-        //     .on("mouseover", function (d: any) {
-        //         d3.select(this).classed("show", true)
-        //     })
-        //     .on("mouseout", function (d: any) {
-        //         d3.select(this).classed("show", false)
-        //     })
-        /* <div class="btn-group" role="group" aria-label="Second group">
-                        <a type="button" class="btn btn-sm add"></a>
-                        <a type="button" class="btn btn-sm remove"></a>
-                        <a type="button" class="btn btn-sm edit"></a>
-                    </div>*/
-
-        // let btnGroup = editing.append("xhtml:div")
-        //     .attr("class", "btn-group")
-        // btnGroup.append("xhtml:a").attr("class", "btn edit")
-        //     .on("click", function (d: any) {
-        //         showDetails(d)
-        //         console.log("edifind", d.data.name)
-        //     })
-
-
-        /*
-    let editing = enter.append("g")
-        .attr("class", "editing")
-        .attr("data-id", function (d: any) { return d.data.id })
-        .on("mouseover", function (d: any) {
-            d3.select(this).classed("show", true)
-        })
-        .on("mouseout", function (d: any) {
-            d3.select(this).classed("show", false)
-        })
-
-    editing.append("circle")
-        .attr("r", function (d: any) { return d.r })
-        .attr("fill", "f7f7f7")
-        .attr("stroke", "black")
-        .attr("stroke-width", "3px")
-        .style("opacity", 0.5)
-
-    editing.append("circle")
-        .attr("class", "add")
-        .attr("fill", "url(#add-icon)")
-        .attr("r", CIRCLE_RADIUS * 0.5)
-        .attr("cx", function (d: any) { return -10 })
-        .attr("cy", function (d: any) { return d.children ? -d.r + CIRCLE_RADIUS : 0 })
-        .on("click", function (d: any) {
-            addInitiativeTo(d)
-        });
-    editing.select("circle.add")
-        .attr("cx", function (d: any) { return -10 })
-        .attr("cy", function (d: any) { return d.children ? -d.r + CIRCLE_RADIUS : 0 })
-
-    editing.append("circle")
-        .attr("class", "remove")
-        .attr("fill", "url(#remove-icon)")
-        .attr("r", CIRCLE_RADIUS * 0.5)
-        .attr("cx", function (d: any) { return +10 })
-        .attr("cy", function (d: any) { return d.children ? -d.r + CIRCLE_RADIUS : 0 })
-        .on("click", function (d: any) {
-            removeInitiative(d)
-        });
-    editing.select("circle.remove")
-        .attr("cx", function (d: any) { return +10 })
-        .attr("cy", function (d: any) { return d.children ? -d.r + CIRCLE_RADIUS : 0 })
-        */
-
-
         selection = enter.merge(selection);
 
         let paths = definitions.selectAll("path").data(nodes, function (d: any) { return d.data.id });
@@ -427,6 +352,21 @@ export class MappingCirclesComponent implements IDataVisualizer {
             })
 
         paths.exit().remove();
+
+        let patterns = definitions.selectAll("pattern").data(nodes, function (d: any) { return d.data.id });
+        let enterPatterns = patterns.enter().append("pattern")
+
+        enterPatterns.merge(patterns).filter(function (d: any) { return d.data.accountable })
+            .attr("id", function (d: any) { return "image" + d.data.id; })
+            .attr("width", "100%")
+            .attr("height", "100%")
+            .append("image")
+            .attr("width", CIRCLE_RADIUS * 2)
+            .attr("height", CIRCLE_RADIUS * 2)
+            .attr("xlink:href", function (d: any) {
+                return d.data.accountable.picture;
+            })
+        patterns.exit().remove();
 
         zoomTo([root.x, root.y, root.r * 2 + margin], parseInt(root.id));
 
@@ -472,10 +412,10 @@ export class MappingCirclesComponent implements IDataVisualizer {
         }
 
         function definePatterns() {
-
+            console.log("defined patterns")
             definitions.selectAll("pattern")
                 .data(nodes)
-                .enter()
+                .enter().merge(definitions)
                 .filter(function (d: any) { return d.data.accountable })
                 .append("pattern")
                 .attr("id", function (d: any) { return "image" + d.data.id; })
