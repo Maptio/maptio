@@ -91,7 +91,7 @@ export class MappingComponent implements OnInit {
     ngOnInit() {
         this.isLoading.next(true);
 
-        this.route.params
+        this.subscription = this.route.params
             .map(params => { this.layout = params["layout"]; return this.layout })
             .do(layout => {
                 this.isLoading.next(true);

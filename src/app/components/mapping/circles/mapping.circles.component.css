@@ -80,16 +80,35 @@ svg circle.accountable {
   cursor: pointer;
 }
 
-svg circle.add {
-  opacity: 1;
+svg circle.highlighted {
+  fill: red !important;
 }
 
-svg circle.add.show {
-  opacity: 1;
+svg foreignObject.editing {
+  visibility: hidden;
 }
 
-svg circle.removable {
-  fill: red !important
+svg foreignObject.editing.show {
+  visibility: visible;
 }
 
+.add:before {
+  content: "\f067";
+  font-family: FontAwesome;
+}
 
+.remove:before {
+  content: "\f1f8";
+  font-family: FontAwesome;
+}
+
+.edit:before {
+  content: "\f040";
+  font-family: FontAwesome;
+}
+
+div.tooltip {
+  position: absolute;
+  z-index: 10;
+  opacity: 0;
+}
