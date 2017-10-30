@@ -306,6 +306,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
             nodeUpdate.select("text.name")
                 .text(function (d: any) { return d.data.name; })
+                .each(function (d: any) {
+                    uiService.wrap(d3.select(this), d.data.name, d.y / d.depth * 0.85);
+                });
             nodeUpdate.select("text.accountable")
                 .text(function (d: any) { return d.data.accountable ? d.data.accountable.name : ""; })
 
