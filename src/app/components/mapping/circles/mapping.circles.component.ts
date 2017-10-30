@@ -30,7 +30,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
     public scale: number;
 
     public margin: number;
-    public zoom$: Observable<number>
+    public zoom$: Observable<number>;
+    public isReset$: Subject<boolean>
     public fontSize$: Observable<number>;
     public data$: Subject<{ initiative: Initiative, datasetId: string }>;
 
@@ -40,6 +41,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
     private zoomSubscription: Subscription;
     private dataSubscription: Subscription;
+    private resetSubscription: Subscription;
 
     private counter: number = 0;
     private svg: any;
@@ -99,6 +101,10 @@ export class MappingCirclesComponent implements IDataVisualizer {
             g.attr("transform", d3.event.transform);
         }
 
+        this.resetSubscription = this.isReset$.asObservable().filter(r => r).subscribe(isReset => {
+            svg.call(zooming.transform, d3.zoomIdentity.translate(761, 761));
+        })
+
         this.zoomSubscription = this.zoom$.subscribe((zf: number) => {
             try {
                 // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
@@ -130,6 +136,9 @@ export class MappingCirclesComponent implements IDataVisualizer {
         }
         if (this.dataSubscription) {
             this.dataSubscription.unsubscribe();
+        }
+        if (this.resetSubscription) {
+            this.resetSubscription.unsubscribe();
         }
     }
 

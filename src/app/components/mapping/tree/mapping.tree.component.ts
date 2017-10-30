@@ -30,6 +30,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
     public zoom$: Observable<number>
     public fontSize$: Observable<number>
+    public isReset$: Subject<boolean>
     public data$: Subject<{ initiative: Initiative, datasetId: string }>;
 
     private zoomSubscription: Subscription;

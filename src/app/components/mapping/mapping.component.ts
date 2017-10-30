@@ -53,6 +53,8 @@ export class MappingComponent implements OnInit {
     private VIEWPORT_HEIGHT: number = 1522;
 
     public isLoading: Subject<boolean>;
+    public datasetId: string;
+    public slug: string;
 
     public fontSize$: BehaviorSubject<number>;
     public data$: Subject<{ initiative: Initiative, datasetId: string }>;
@@ -114,6 +116,12 @@ export class MappingComponent implements OnInit {
             })
             .combineLatest(this.dataService.get())
             .map(data => data[1])
+            .do((data) => {
+                console.log(data.datasetId, data.initiative.getSlug());
+                this.datasetId = data.datasetId;
+                this.slug = data.initiative.getSlug();
+                this.isLoading.next(false);
+            })
             .subscribe((data) => {
                 this.instance.data$.next(data);
             })
@@ -171,16 +179,12 @@ export class MappingComponent implements OnInit {
         this.instance.height = this.VIEWPORT_HEIGHT;
 
         this.instance.margin = 50;
-        // instance.datasetId = data.datasetId;
         this.instance.zoom$ = this.zoom$.asObservable();
         this.instance.fontSize$ = this.fontSize$.asObservable();
         this.instance.translateX = this.x;
         this.instance.translateY = this.y;
         this.instance.scale = this.scale;
-
-        // instance.data$
-
-        // instance.draw(data.initiative, x, y, scale);
+        this.instance.isReset$ = new Subject<boolean>();
     }
 
 
@@ -192,20 +196,21 @@ export class MappingComponent implements OnInit {
         this.zoom$.next(1.1);
     }
 
-    // resetZoom() {
+    resetZoom() {
 
-    //     switch (this.layout) {
-    //         case "initiatives":
-    //             this.show(this.data, this.VIEWPORT_WIDTH / 2, this.VIEWPORT_HEIGHT / 2, 1);
-    //             break;
-    //         case "people":
-    //             this.show(this.data, 100, 0, 1);
-    //             break;
-    //         default:
-    //             this.show(this.data, this.VIEWPORT_WIDTH / 2, this.VIEWPORT_HEIGHT / 2, 1);
-    //             break;
-    //     }
-    // }
+        switch (this.layout) {
+            case "initiatives":
+                this.instance.isReset$.next(true);
+                // this.show(this.data, this.VIEWPORT_WIDTH / 2, this.VIEWPORT_HEIGHT / 2, 1);
+                break;
+            case "people":
+                // this.show(this.data, 100, 0, 1);
+                break;
+            default:
+                // this.show(this.data, this.VIEWPORT_WIDTH / 2, this.VIEWPORT_HEIGHT / 2, 1);
+                break;
+        }
+    }
 
     changeFontSize(size: number) {
         this.fontSize$.next(size);

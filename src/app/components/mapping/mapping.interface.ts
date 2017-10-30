@@ -18,6 +18,8 @@ export interface IDataVisualizer {
 
     data$: Subject<{ initiative: Initiative, datasetId: string }>;
 
+    isReset$:Subject<boolean>;
+
     translateX: number;
     translateY: number;
     scale: number;
