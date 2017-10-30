@@ -18,7 +18,7 @@ export interface IDataVisualizer {
 
     data$: Subject<{ initiative: Initiative, datasetId: string }>;
 
-    isReset$:Subject<boolean>;
+    isReset$: Subject<boolean>;
 
     translateX: number;
     translateY: number;
@@ -30,7 +30,4 @@ export interface IDataVisualizer {
     removeInitiative$: Subject<Initiative>;
 
     init(): void;
-
-    draw(): void
-    // draw(translateX: number, translateY: number, scale: number): void;
 }

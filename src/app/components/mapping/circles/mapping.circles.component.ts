@@ -67,13 +67,6 @@ export class MappingCirclesComponent implements IDataVisualizer {
     }
 
     init() {
-
-        // this.counter++;
-        // console.log("counter", this.counter);
-
-        // if (this.counter > 1) {
-        //     return;
-        // }
         let d3 = this.d3;
 
         let svg: any = d3.select("svg"),
@@ -140,10 +133,6 @@ export class MappingCirclesComponent implements IDataVisualizer {
         if (this.resetSubscription) {
             this.resetSubscription.unsubscribe();
         }
-    }
-
-    draw() {
-
     }
 
     selectedNode: Initiative;

@@ -197,23 +197,11 @@ export class MappingComponent implements OnInit {
     }
 
     resetZoom() {
-
-        switch (this.layout) {
-            case "initiatives":
-                this.instance.isReset$.next(true);
-                // this.show(this.data, this.VIEWPORT_WIDTH / 2, this.VIEWPORT_HEIGHT / 2, 1);
-                break;
-            case "people":
-                // this.show(this.data, 100, 0, 1);
-                break;
-            default:
-                // this.show(this.data, this.VIEWPORT_WIDTH / 2, this.VIEWPORT_HEIGHT / 2, 1);
-                break;
-        }
+        this.instance.isReset$.next(true);
     }
 
     changeFontSize(size: number) {
         this.fontSize$.next(size);
-        this.analytics.eventTrack("Change font size", { size: size, map: this.data.initiative.name })
+        // this.analytics.eventTrack("Change font size", { size: size, map: this.data.initiative.name })
     }
 }
