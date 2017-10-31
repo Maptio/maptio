@@ -10,34 +10,38 @@
 
         <table class="table table-hover table-sm tableSection">
             <thead>
-                <tr>
-                    <th></th>
-                    <th></th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th></th>
-                    <th></th>
+                <tr class="row">
+                    <th class="" scope="col"></th>
+                    <th class="col-1" scope="col"></th>
+                    <th class="col-3" scope="col">Name</th>
+                    <th class="col-4" scope="col">Email</th>
+                    <th class="col" scope="col"></th>
+                    <th class="" cope="col"></th>
                 </tr>
             </thead>
             <tbody>
                 <div *ngIf="isLoading">Loading...</div>
-                <tr *ngFor="let member of (members$ | async); trackBy: trackByMemberId" [class.deleted]="member.isDeleted">
-                    <td>
+                <tr class="row" *ngFor="let member of (members$ | async); trackBy: trackByMemberId" [class.deleted]="member.isDeleted">
+                    <td class=" delete">
                         <i *ngIf="member.isActivationPending && !member.isInvitationSent" class="fa fa-trash-o text-danger" aria-hidden="true"
                             mwlConfirmationPopover title="This cannot be undone ! Are you sure you want to delete {{member.name}} ? They haven't receive an email yet so they won't know ( ... and we won't tell ) "
                             placement="right" focusButton="cancel" appendToBody="true" (confirm)="deleteMember(member)" (cancel)="cancelClicked = true">
                         </i>
                     </td>
-                    <td>
+                    <td class="col-1">
                         <img class="rounded-circle member " src="{{member.picture}}" alt="{{member.name}}">
                     </td>
-                    <td>{{member.name}} </td>
-                    <td>{{member.email}}</td>
-                    <td>
-                        <small *ngIf="member.isActivationPending && member.isInvitationSent" class="text-warning" placement="top" container="body"
-                            ngbTooltip="{{member.name}} was sent an invitation.">Pending</small>
+                    <td class="col-3">{{member.name}} </td>
+                    <td class="col-4">{{member.email}} 
+                        <br/>
+                        <small [hidden]="!(member.isActivationPending && member.isInvitationSent)" class="text-warning pull-left" placement="top" container="body"
+                        ngbTooltip="{{member.name}} was sent an invitation.">Pending</small>
                     </td>
-                    <td>
+                    <td class="col">
+                        <!-- <small [hidden]="!(member.isActivationPending && member.isInvitationSent)" class="text-warning pull-right" placement="top" container="body"
+                            ngbTooltip="{{member.name}} was sent an invitation.">Pending</small> -->
+                    </td>
+                    <td class="">
                         <span *ngIf="member.isDeleted" class="text-muted">(Deleted)</span>
                         <button [class.deleted]="member.isDeleted" *ngIf="!member.isActivationPending" class="btn btn-default  mt-2" placement="top"
                             container="body" ngbTooltip="{{member.name}} is a confirmed user." disabled>Active</button>
