@@ -43,6 +43,7 @@ export class TeamComponent implements OnDestroy {
     public resentMessage: string;
 
     public inviteForm: FormGroup;
+    public createdUser: User;
 
     private EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -52,7 +53,7 @@ export class TeamComponent implements OnDestroy {
             if (!params["teamid"]) return
             this.teamId = params["teamid"]
             this.team$ = this.teamFactory.get(this.teamId);
-            this.members$ = this.getAllMembers();
+
         },
             error => { console.log(error) });
 
@@ -75,6 +76,10 @@ export class TeamComponent implements OnDestroy {
 
     }
 
+    ngOnInit() {
+        this.members$ = this.getAllMembers();
+    }
+
     ngOnDestroy() {
         if (this.routeSubscription) {
             this.routeSubscription.unsubscribe();
@@ -94,13 +99,19 @@ export class TeamComponent implements OnDestroy {
                     // console.log("asking for ", members.map(u => { console.log(u.user_id) }))
                     return this.userService.getUsersInfo(members).then(pending => {
                         // console.log("got ", pending.map(u => { console.log(u.user_id) }))
+                        if (this.createdUser) {
+                            this.createdUser.isActivationPending = true;
+                            this.createdUser.isInvitationSent = false;
+                            pending.push(this.createdUser)
+                        }
+
                         return { members: members, membersPending: pending }
                     })
                 })
                 .then((result) => {
                     let members = result.members;
-                    let membersPending = result.membersPending;
-                    // console.log(members, membersPending);
+                    let membersPending = _.uniqBy(result.membersPending, m => m.user_id);
+                    console.log(members, membersPending);
                     let allDeleted = _.differenceBy(members, membersPending, m => m.user_id).map(m => { m.isDeleted = true; return m });
                     return membersPending.concat(allDeleted);
                 })
@@ -195,12 +206,8 @@ export class TeamComponent implements OnDestroy {
 
             let firstname = this.inviteForm.controls["firstname"].value
             let lastname = this.inviteForm.controls["lastname"].value
-            // let isInvited = this.inviteForm.controls["isInvited"].value
 
-            // console.log(email, firstname, lastname, isInvited)
-            // return;
-
-            this.members$ = this.team$.then((team: Team) => {
+            this.team$.then((team: Team) => {
 
                 return this.userService.createUser(email, firstname, lastname)
                     .then((user: User) => {
@@ -215,24 +222,13 @@ export class TeamComponent implements OnDestroy {
                             virtualUser.picture = user.picture;
                             virtualUser.teams = [this.teamId];
                             virtualUser.datasets = datasets.map(d => d._id);
+                            this.createdUser = virtualUser;
                             return virtualUser;
                         }, (reason) => {
                             return Promise.reject(`Can't create ${email} : ${reason}`);
                         })
                     })
-                    // .then((user: User) => {
-                    //     if (isInvited) {
-                    //         // console.log("sending invite to ", user.email, user.user_id, user.name)
-                    //         return this.inviteUser(user).then(() => { return user })
-                    //     }
-                    //     else {
-                    //         return user;
-                    //     }
-                    // }, (reason) => {
-                    //     return Promise.reject(`Can't invite ${email} : ${reason}`)
-                    // })
                     .then((virtualUser: User) => {
-                        // console.log("create virtual user", virtualUser)
                         this.userFactory.create(virtualUser)
                         return virtualUser;
                     })
@@ -244,7 +240,7 @@ export class TeamComponent implements OnDestroy {
                         })
                     })
                     .then(() => {
-                        return this.getAllMembers();
+                        this.members$ = this.getAllMembers();
                     })
                     .catch((reason) => {
                         this.errorMessage = reason;
