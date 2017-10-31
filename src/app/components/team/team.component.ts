@@ -40,6 +40,7 @@ export class TeamComponent implements OnDestroy {
     public errorMessage: string;
 
     public isLoading: boolean;
+    public resentMessage: string;
 
     public inviteForm: FormGroup;
 
@@ -171,6 +172,12 @@ export class TeamComponent implements OnDestroy {
                     return;
                 }
                 )
+        })
+    }
+
+    resendUser(user: User): Promise<void> {
+        return this.inviteUser(user).then(() => {
+            this.resentMessage = `Invitation email successfully sent to ${user.email} again`
         })
     }
 
