@@ -50,7 +50,7 @@ table.tableSection tbody {
 
 table.tableSection tr {
     width: 100%;
-    display: table;
+    /* display: table; */
     text-align: left;
 }
 
@@ -59,28 +59,38 @@ table.tableSection th, table.tableSection td {
     vertical-align: middle;
 }
 
+td.delete{
+    font-size: 1em;
+    margin-left:1vw;
+    min-width: 2vw;
+}
+
 /*Delete*/
-table.tableSection th:nth-child(0n+1), table.tableSection td:nth-child(0n+1) {
-    width: 5%;
-}
+/* table.tableSection th:nth-child(0n+1), table.tableSection td:nth-child(0n+1) {
+    max-width: 5%;
+} */
 /*Picture*/
-table.tableSection th:nth-child(0n+2), table.tableSection td:nth-child(0n+2) {
+/* table.tableSection th:nth-child(0n+2), table.tableSection td:nth-child(0n+2) {
     width: 5%;
-}
+} */
 /*Name*/
-table.tableSection th:nth-child(0n+3), table.tableSection td:nth-child(0n+3) {
-    width: 35%;
-}
+/* table.tableSection th:nth-child(0n+3), table.tableSection td:nth-child(0n+3) {
+    width: 30%;
+    text-align: left;
+    float:left;
+} */
 /*Email*/
-table.tableSection th:nth-child(0n+4), table.tableSection td:nth-child(0n+4) {
-    width: 35%;
-}
+/* table.tableSection th:nth-child(0n+4), table.tableSection td:nth-child(0n+4) {
+    width: 40%;
+    text-align: left;
+    float:left;
+} */
 /*Pending*/
-table.tableSection th:nth-child(0n+5), table.tableSection td:nth-child(0n+5) {
+/* table.tableSection th:nth-child(0n+5), table.tableSection td:nth-child(0n+5) {
     width: 10%;
-}
+} */
 /*Action*/
-table.tableSection th:nth-child(0n+6), table.tableSection td:nth-child(0n+6) {
+/* table.tableSection th:nth-child(0n+6), table.tableSection td:nth-child(0n+6) {
     width: 10%;
-}
+} */
 
