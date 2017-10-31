@@ -188,7 +188,7 @@ export class TeamComponent implements OnDestroy {
 
     resendUser(user: User): Promise<void> {
         return this.inviteUser(user).then(() => {
-            this.resentMessage = `Invitation email successfully sent to ${user.email} again`
+            this.resentMessage = `Invitation email successfully sent to ${user.email}.`
         })
     }
 
