@@ -6,7 +6,7 @@ import { TeamFactory } from "../../shared/services/team.factory";
 import { ErrorService } from "../../shared/services/error/error.service";
 import { User } from "../../shared/model/user.data";
 import { DataSet } from "../../shared/model/dataset.data";
-import * as _ from "lodash";
+import {compact, sortBy} from "lodash";
 
 @Component({
     selector: "dashboard",
@@ -29,7 +29,7 @@ export class DashboardComponent {
                     .then(d => d, () => { return Promise.reject("No dataset") }).catch(() => { return <DataSet>undefined }
 
                     )))
-                .then(datasets => _.compact(datasets))
+                .then(datasets => compact(datasets))
                 .then(datasets => datasets.map(d => {
                     let i = 0
                     d.initiative.traverse((n) => { i++ })
@@ -43,7 +43,7 @@ export class DashboardComponent {
                         return d;
                     })
                 })
-                .then(datasets => { this.isLoading = false; return _.sortBy(datasets, d => d.initiative.name) })
+                .then(datasets => { this.isLoading = false; return sortBy(datasets, d => d.initiative.name) })
         },
             (error: any) => { this.errorService.handleError(error) });
     }

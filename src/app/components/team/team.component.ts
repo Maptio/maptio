@@ -13,7 +13,7 @@ import { User } from "../../shared/model/user.data";
 import { Auth } from "../../shared/services/auth/auth.service";
 import { UUID } from "angular2-uuid";
 import { DataSet } from "../../shared/model/dataset.data";
-import * as _ from "lodash"
+import {compact, sortBy, differenceBy, remove} from "lodash"
 import { UserService } from "../../shared/services/user/user.service";
 
 @Component({
@@ -88,7 +88,7 @@ export class TeamComponent implements OnDestroy {
         return this.team$.then((team: Team) => {
             // console.log(team.members)
             return this.userFactory.getUsers(team.members.map(m => m.user_id))
-                .then(members => _.compact(members))
+                .then(members => compact(members))
                 .then((members: User[]) => {
                     // console.log("asking for ", members.map(u => { console.log(u.user_id) }))
                     return this.userService.getUsersInfo(members).then(pending => {
@@ -100,10 +100,10 @@ export class TeamComponent implements OnDestroy {
                     let members = result.members;
                     let membersPending = result.membersPending;
                     // console.log(members, membersPending);
-                    let allDeleted = _.differenceBy(members, membersPending, m => m.user_id).map(m => { m.isDeleted = true; return m });
+                    let allDeleted = differenceBy(members, membersPending, m => m.user_id).map(m => { m.isDeleted = true; return m });
                     return membersPending.concat(allDeleted);
                 })
-                .then(members => { this.isLoading = false; return _.sortBy(members, m => m.name) })
+                .then(members => { this.isLoading = false; return sortBy(members, m => m.name) })
         });
     }
 
@@ -177,7 +177,7 @@ export class TeamComponent implements OnDestroy {
     deleteMember(user: User) {
         // console.log("deleting", user.email)
         this.team$.then((team: Team) => {
-            _.remove(team.members, function (m) { return m.user_id === user.user_id })
+            remove(team.members, function (m) { return m.user_id === user.user_id })
             this.teamFactory.upsert(team).then(() => { this.members$ = this.getAllMembers(); })
         })
 

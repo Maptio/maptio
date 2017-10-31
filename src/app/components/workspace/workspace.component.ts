@@ -14,7 +14,7 @@ import { Component, OnInit, OnDestroy, ChangeDetectorRef } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { User } from "../../shared/model/user.data";
 import { Auth } from "../../shared/services/auth/auth.service";
-import * as _ from "lodash";
+import { compact, sortBy } from "lodash";
 import { UserService } from "../../shared/services/user/user.service";
 
 @Component({
@@ -80,8 +80,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
             this.members = this.team$.then((team: Team) => {
                 if (team)
                     return this.userFactory.getUsers(team.members.map(m => m.user_id))
-                        .then(members => _.compact(members))
-                        .then(members => _.sortBy(members, m => m.name))
+                        .then(members => compact(members))
+                        .then(members => sortBy(members, m => m.name))
             });
 
             this.buildingComponent.loadData(this.datasetId, params["nodeid"]) // .then(()=>{console.log("finished buioding data")});

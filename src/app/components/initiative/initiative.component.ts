@@ -20,7 +20,7 @@ import { map } from "rxjs/operator/map";
 import { debounceTime } from "rxjs/operator/debounceTime";
 import { distinctUntilChanged } from "rxjs/operator/distinctUntilChanged";
 import { DataSet } from "../../shared/model/dataset.data";
-import * as _ from "lodash";
+import { compact, sortBy } from "lodash";
 import { Helper } from "../../shared/model/helper.data";
 import { MarkdownService } from "angular2-markdown";
 
@@ -71,8 +71,8 @@ export class InitiativeComponent implements OnChanges {
                 this.members$ = this.team$
                     .then((team: Team) => {
                         return this.userFactory.getUsers(team.members.map(m => m.user_id))
-                            .then(members => _.compact(members))
-                            .then(members => _.sortBy(members, m => m.name))
+                            .then(members => compact(members))
+                            .then(members => sortBy(members, m => m.name))
                     })
                     .catch(() => { })
             }

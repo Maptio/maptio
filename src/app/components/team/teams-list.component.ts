@@ -7,7 +7,7 @@ import { TeamFactory } from "../../shared/services/team.factory";
 import { Auth } from "../../shared/services/auth/auth.service";
 import { User } from "../../shared/model/user.data";
 import { Team } from "../../shared/model/team.data";
-import * as _ from "lodash"
+import {differenceBy, sortBy} from "lodash"
 import { UserService } from "../../shared/services/user/user.service";
 
 @Component({
@@ -102,15 +102,15 @@ export class TeamsListComponent implements OnInit {
                         teams.forEach(t => {
                             if (t) {
                                 this.userService.getUsersInfo(t.members).then((actualMembers: User[]) => {
-                                    let allDeleted = _.differenceBy(t.members, actualMembers, m => m.user_id).map(m => { m.isDeleted = true; return m });
+                                    let allDeleted = differenceBy(t.members, actualMembers, m => m.user_id).map(m => { m.isDeleted = true; return m });
                                     return actualMembers.concat(allDeleted);
                                 })
-                                    .then(members => t.members = _.sortBy(members, m => m.name))
+                                    .then(members => t.members = sortBy(members, m => m.name))
                             }
                         })
                         return teams.filter(t => { return t !== undefined });
                     })
-                    .then(teams => { this.isLoading = false; return _.sortBy(teams, t => t.name) })
+                    .then(teams => { this.isLoading = false; return sortBy(teams, t => t.name) })
             })
     }
 

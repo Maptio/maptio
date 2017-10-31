@@ -5,7 +5,7 @@ import { User } from "./user.data";
 import * as slug from "slug";
 import { Helper } from "./helper.data";
 import { Role } from "./role.data";
-import * as _ from "lodash";
+import { compact } from "lodash";
 
 @Injectable()
 export class Initiative implements ITraversable, Serializable<Initiative> {
@@ -190,8 +190,8 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
     }
 
     getRoles(userId: string): Role[] {
-        return _.compact([...this.helpers, this.accountable]).filter(h => h.user_id === userId)[0]
-            ? _.compact([...this.helpers, this.accountable]).filter(h => h.user_id === userId)[0].roles
+        return compact([...this.helpers, this.accountable]).filter(h => h.user_id === userId)[0]
+            ? compact([...this.helpers, this.accountable]).filter(h => h.user_id === userId)[0].roles
             : [];
     }
 
