@@ -166,7 +166,7 @@ export class BuildingComponent {
         }
 
         this.saveChanges();
-        this.tree.treeModel.update();
+        // this.tree.treeModel.update();
     }
 
     // toggleAll() {
