@@ -129,7 +129,7 @@ describe("mapping.tree.component.ts", () => {
         let svg = svgs.item(0);
 
         expect(svg.querySelector("g")).toBeDefined();
-        console.log(svg.querySelector("g"))
+        // console.log(svg.querySelector("g"))
         expect(svg.querySelector("g").transform.baseVal.getItem(0).type).toBe(SVGTransform.SVG_TRANSFORM_TRANSLATE);
         expect(svg.querySelector("g").transform.baseVal.getItem(0).matrix.e).toBe(100);
         expect(svg.querySelector("g").transform.baseVal.getItem(0).matrix.f).toBe(100);

@@ -3,7 +3,7 @@ import { Http, BaseRequestOptions } from "@angular/http";
 import { AuthHttp } from "angular2-jwt";
 import { Router } from "@angular/router";
 import { UserFactory } from "./../../../shared/services/user.factory";
-import { Observable } from "rxjs/Rx";
+import { Observable, Subject } from "rxjs/Rx";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 // import { TooltipComponent } from "./../tooltip/tooltip.component";
 import { Initiative } from "./../../../shared/model/initiative.data";
@@ -57,7 +57,11 @@ describe("mapping.circles.component.ts", () => {
         component.width = 1000;
         component.height = 1000;
         component.margin = 50;
+        component.translateX = 100
+        component.translateY = 100
+        component.scale = 1;
         component.zoom$ = Observable.of(1);
+        component.isReset$ = new Subject<boolean>();
         component.fontSize$ = Observable.of(12);
 
         target.detectChanges(); // trigger initial data binding
@@ -125,7 +129,8 @@ describe("mapping.circles.component.ts", () => {
 
     it("should draw SVG with correct size when data is valid", () => {
         let data = new Initiative().deserialize(fixture.load("data.json"));
-        component.draw(data, 100, 100, 1);
+        component.data$.next({ initiative: data, datasetId: "ID" })
+
         let svg = document.getElementsByTagName("svg")
         expect(svg.length).toBe(1);
         expect(svg.item(0).viewBox.baseVal.width).toBe(1522);
@@ -135,8 +140,8 @@ describe("mapping.circles.component.ts", () => {
 
     it("should draw SVG centered when data is valid", () => {
         let data = new Initiative().deserialize(fixture.load("data.json"));
+        component.data$.next({ initiative: data, datasetId: "ID" })
 
-        component.draw(data, 100, 100, 1);
         let svgs = document.getElementsByTagName("svg")
         expect(svgs.length).toBe(1);
         let svg = svgs.item(0);
@@ -149,8 +154,8 @@ describe("mapping.circles.component.ts", () => {
 
     it("should draw SVG with correct number of circles when data is valid", () => {
         let data = new Initiative().deserialize(fixture.load("data.json"));
+        component.data$.next({ initiative: data, datasetId: "ID" })
 
-        component.draw(data, 100, 100, 1);
         let svgs = document.getElementsByTagName("svg")
         expect(svgs.length).toBe(1);
         let g = svgs.item(0).querySelector("g");
@@ -160,20 +165,23 @@ describe("mapping.circles.component.ts", () => {
 
     it("should draw SVG with correct text labels  when data is valid", () => {
         let data = new Initiative().deserialize(fixture.load("data.json"));
+        component.data$.next({ initiative: data, datasetId: "ID" })
 
-        component.draw(data, 100, 100, 1);
         let svgs = document.getElementsByTagName("svg")
         expect(svgs.length).toBe(1);
         let g = svgs.item(0).querySelector("g");
-        expect(g.querySelector("text#title0")).toBe(null); // do not dusplay map name
-        expect(g.querySelector("text#title1").textContent).toBe("Tech");
-        expect(g.querySelector("text#title2").textContent).toBe("Marketing")
+
+        expect(g.querySelectorAll("text").length).toBe(2) // do not dusplay map name
+        expect(g.querySelectorAll("text")[0].textContent).toBe("Tech");
+        expect(g.querySelectorAll("text")[1].textContent).toBe("Marketing")
     });
 
     it("should calculate paths when data is valid", () => {
-        let data = new Initiative().deserialize(fixture.load("data.json"));
         let spy = spyOn(component.uiService, "getCircularPath");
-        component.draw(data, 100, 100, 1);
+        let data = new Initiative().deserialize(fixture.load("data.json"));
+        component.data$.next({ initiative: data, datasetId: "ID" })
+
+        // let spy = spyOn(component.uiService, "getCircularPath");
 
         expect(spy).toHaveBeenCalledTimes(3);
         let svg = document.getElementsByTagName("svg").item(0)
@@ -185,13 +193,6 @@ describe("mapping.circles.component.ts", () => {
         expect(defs.querySelectorAll("path#path2")).toBeDefined();
     });
 
-    it("should draw empty svg when data is undefined", () => {
-        let spy = spyOn(component.uiService, "clean");
-        component.draw(undefined, 100, 100, 1);
-        let svgs = document.getElementsByTagName("svg");
-        expect(svgs.length).toBe(1);
-        expect(svgs.item(0).hasChildNodes()).toBe(false);
-        expect(spy).toHaveBeenCalled();
-    })
+
 
 });

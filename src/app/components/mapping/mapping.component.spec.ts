@@ -20,6 +20,12 @@ import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { MappingComponent } from "./mapping.component";
 import { Views } from "../../shared/model/view.enum";
 import { ComponentFactoryResolver, ComponentFactory, ComponentRef, Type, NO_ERRORS_SCHEMA } from "@angular/core";
+import { AuthHttp, AuthConfig } from "angular2-jwt/angular2-jwt";
+import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
+import { UserService } from "../../shared/services/user/user.service";
+import { JwtEncoder } from "../../shared/services/encoding/jwt.service";
+import { IDataVisualizer } from "./mapping.interface";
+import { Subject } from "rxjs/Rx";
 
 describe("mapping.component.ts", () => {
 
@@ -30,6 +36,7 @@ describe("mapping.component.ts", () => {
         TestBed.configureTestingModule({
             providers: [
                 DataService, ErrorService, D3Service, ColorService, UIService, Angulartics2Mixpanel, Angulartics2,
+                UserFactory,
                 {
                     provide: Http,
                     useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
@@ -38,12 +45,18 @@ describe("mapping.component.ts", () => {
                     deps: [MockBackend, BaseRequestOptions]
                 },
                 MockBackend,
+                {
+                    provide: AuthHttp,
+                    useFactory: authHttpServiceFactoryTesting,
+                    deps: [Http, BaseRequestOptions]
+                }
+                ,
                 BaseRequestOptions,
                 {
                     provide: ActivatedRoute,
                     useValue: {
                         params: Observable.of({ mapid: 123, layout: "initiatives" }),
-                        fragment: `x=50&y=50&scale=1.2`
+                        fragment: Observable.of(`x=50&y=50&scale=1.2`)
                     }
                 }
 
@@ -64,22 +77,6 @@ describe("mapping.component.ts", () => {
     });
 
     describe("Controller", () => {
-
-
-        xdescribe("ngOnInit", () => {
-            it("should subscribe to data service and show data with default view", () => {
-                let mockRoute = target.debugElement.injector.get(ActivatedRoute);
-                let mockDataService = target.debugElement.injector.get(DataService);
-                let spyDataService = spyOn(mockDataService, "get").and.returnValue(Observable.of({ name: "some data" }));
-                let spyShow = spyOn(component, "show");
-                // mockRoute.params = Observable.of({ mapid: 123, layout: "initiatives" })
-
-                component.ngOnInit();
-                expect(spyDataService).toHaveBeenCalled();
-                expect(spyShow).toHaveBeenCalled();
-            })
-
-        });
 
         describe("zoomIn", () => {
             it("should set the zoom factor to 1.1", async(() => {
@@ -136,75 +133,7 @@ describe("mapping.component.ts", () => {
             });
         });
 
-        describe("resetZoom", () => {
-            it("should call show with correct parameters when layout is initiatives", () => {
-                spyOn(component, "show")
-                component.layout = "initiatives";
-                component.resetZoom();
-                expect(component.show).toHaveBeenCalledWith(component.data, 761, 761, 1);
-            });
+    
 
-            it("should call show with correct parameters when layout is initiatives", () => {
-                spyOn(component, "show")
-                component.layout = "people";
-                component.resetZoom();
-                expect(component.show).toHaveBeenCalledWith(component.data, 100, 0, 1);
-            });
-
-            it("should call show with correct parameters when layout is deafulting", () => {
-                spyOn(component, "show")
-                component.layout = "notlayout";
-                component.resetZoom();
-                expect(component.show).toHaveBeenCalledWith(component.data, 761, 761, 1);
-            });
-        });
-
-        describe("show", () => {
-            it("should instanciate MappingCirclesComponent when layout is 'initiatives'", () => {
-                // component.data = { initiative: new Initiative({}), datasetId: "some_id" }
-                let mockD3Service = target.debugElement.injector.get(D3Service);
-                let mockColorService = target.debugElement.injector.get(ColorService);
-                let mockUIService = target.debugElement.injector.get(UIService);
-                let mockRouter = jasmine.createSpyObj<Router>("router", [""]);
-                let mockUserFactory = jasmine.createSpyObj<UserFactory>("userFactory", [""])
-
-                let mockResolver = target.debugElement.injector.get(ComponentFactoryResolver);
-                let mockFactory = jasmine.createSpyObj<ComponentFactory<MappingCirclesComponent>>("factory", [""]);
-                let mockComponent = jasmine.createSpyObj<ComponentRef<MappingCirclesComponent>>("component", [""]);
-                let mockInstance = new MappingCirclesComponent(mockD3Service, mockColorService, mockUIService, mockRouter, mockUserFactory);
-                let spyGetInstance = spyOn(component, "getInstance").and.returnValue(mockInstance)
-                let spyDraw = spyOn(mockInstance, "draw");
-                let spyCreateComponent = spyOn(component.anchorComponent, "createComponent").and.returnValue(mockComponent);
-
-                component.componentFactory = mockFactory;
-                component.show({ initiative: new Initiative({}), datasetId: "some_id" }, 50, 50, 1.2);
-                expect(spyCreateComponent).toHaveBeenCalledWith(mockFactory);
-                expect(spyDraw).toHaveBeenCalled();
-                expect(spyGetInstance).toHaveBeenCalled();
-            });
-
-            it("should instanciate MappingTreeComponent when layout is 'people'", () => {
-                // component.data = { initiative: new Initiative({}), datasetId: "some_id" }
-                let mockD3Service = target.debugElement.injector.get(D3Service);
-                let mockColorService = target.debugElement.injector.get(ColorService);
-                let mockUIService = target.debugElement.injector.get(UIService);
-                let mockRouter = jasmine.createSpyObj<Router>("router", [""]);
-                let mockUserFactory = jasmine.createSpyObj<UserFactory>("userFactory", [""])
-
-                let mockResolver = target.debugElement.injector.get(ComponentFactoryResolver);
-                let mockFactory = jasmine.createSpyObj<ComponentFactory<MappingTreeComponent>>("factory", [""]);
-                let mockComponent = jasmine.createSpyObj<ComponentRef<MappingTreeComponent>>("component", [""]);
-                let mockInstance = new MappingCirclesComponent(mockD3Service, mockColorService, mockUIService, mockRouter, mockUserFactory);
-                let spyGetInstance = spyOn(component, "getInstance").and.returnValue(mockInstance)
-                let spyDraw = spyOn(mockInstance, "draw");
-                let spyCreateComponent = spyOn(component.anchorComponent, "createComponent").and.returnValue(mockComponent);
-
-                component.componentFactory = mockFactory;
-                component.show({ initiative: new Initiative({}), datasetId: "some_id" }, 50, 50, 1.2);
-                expect(spyCreateComponent).toHaveBeenCalledWith(mockFactory);
-                expect(spyDraw).toHaveBeenCalled();
-                expect(spyGetInstance).toHaveBeenCalled()
-            });
-        });
     });
 });

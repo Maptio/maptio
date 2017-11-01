@@ -458,24 +458,18 @@ export class MappingCirclesComponent implements IDataVisualizer {
         }
 
 
-        function addInitiativeTo(node: any) {
-            // console.log("adding initiative under", node.data.name)
-            addInitiative$.next(node.data);
-        }
+        // function addInitiativeTo(node: any) {
+        //     // console.log("adding initiative under", node.data.name)
+        //     addInitiative$.next(node.data);
+        // }
 
-        function removeInitiative(node: any) {
-            // console.log("remove initiative", node.data.name)
-            removeInitiative$.next(node.data);
-        }
+        // function removeInitiative(node: any) {
+        //     // console.log("remove initiative", node.data.name)
+        //     removeInitiative$.next(node.data);
+        // }
 
         function showDetails(d: any) {
             showDetailsOf$.next(d.data);
-        }
-
-        function getCircularPath(radius: number, centerX: number, centerY: number) {
-            let rx = -radius;
-            let ry = -radius;
-            return "m " + centerX + ", " + centerY + " a " + rx + "," + ry + " 1 1,1 " + radius * 2 + ",0 a -" + radius + ",-" + radius + " 1 1,1 -" + radius * 2 + ",0"
         }
 
         function definePatterns() {
