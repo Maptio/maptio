@@ -167,7 +167,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
         // Collapse after the second level
         // root.children.forEach(collapse);
-        console.log(g)
+        // console.log(g)
         update(root, 0);
 
 
@@ -196,7 +196,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             // ****************** Nodes section ***************************
 
             // Update the nodes...
-            console.log(g)
+            // console.log(g)
             let node = g.selectAll("g.node")
                 .data(nodes, function (d: any) { return d.id || (d.id = ++i); });
 

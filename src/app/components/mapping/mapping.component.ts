@@ -117,7 +117,7 @@ export class MappingComponent implements OnInit {
             .combineLatest(this.dataService.get())
             .map(data => data[1])
             .do((data) => {
-                console.log(data.datasetId, data.initiative.getSlug());
+                // console.log(data.datasetId, data.initiative.getSlug());
                 this.datasetId = data.datasetId;
                 this.slug = data.initiative.getSlug();
                 this.isLoading.next(false);
@@ -168,11 +168,11 @@ export class MappingComponent implements OnInit {
             this.showDetails.emit(node)
         })
         this.instance.addInitiative$.asObservable().subscribe(node => {
-            console.log("mapping.component.ts", "adding initiative under", node.name)
+            // console.log("mapping.component.ts", "adding initiative under", node.name)
             this.addInitiative.emit(node)
         })
         this.instance.removeInitiative$.asObservable().subscribe(node => {
-            console.log("mapping.component.ts", "remove initiative", node.name)
+            // console.log("mapping.component.ts", "remove initiative", node.name)
             this.removeInitiative.emit(node)
         })
         this.instance.width = this.VIEWPORT_WIDTH;

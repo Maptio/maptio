@@ -110,7 +110,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
         this.datasetFactory.upsert(new DataSet({ _id: this.datasetId, initiative: initiative }), this.datasetId)
             .then((hasSaved: boolean) => {
-                console.log("seding change to mapping")
+                // console.log("seding change to mapping")
                 this.dataService.set({ initiative: initiative, datasetId: this.datasetId });
                 return hasSaved;
             }, (reason) => { console.log(reason) });
@@ -176,12 +176,12 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     addInitiative(node: Initiative) {
-        console.log("workspace.compoentn", "adding to", node.name);
+        // console.log("workspace.compoentn", "adding to", node.name);
         this.buildingComponent.addNodeTo(node);
     }
 
     removeInitiative(node: Initiative) {
-        console.log("workspace.compoentn", "remove", node.name);
+        // console.log("workspace.compoentn", "remove", node.name);
         this.buildingComponent.removeNode(node);
     }
 

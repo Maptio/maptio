@@ -6,7 +6,7 @@ import { AuthHttp } from "angular2-jwt";
 import { UserFactory } from "./../../../shared/services/user.factory";
 import { Router } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
-import { Observable } from "rxjs/Rx";
+import { Observable, Subject } from "rxjs/Rx";
 import { Initiative } from "./../../../shared/model/initiative.data";
 import { UIService } from "./../../../shared/services/ui/ui.service";
 import { ColorService } from "./../../../shared/services/ui/color.service";
@@ -20,6 +20,7 @@ describe("mapping.tree.component.ts", () => {
     let component: MappingTreeComponent;
     let target: ComponentFixture<MappingTreeComponent>;
     let d3: D3;
+    let data$: Subject<{ initiative: Initiative, datasetId: string }> = new Subject<{ initiative: Initiative, datasetId: string }>();
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -57,7 +58,11 @@ describe("mapping.tree.component.ts", () => {
         component.width = 1000;
         component.height = 1000;
         component.margin = 50;
+        component.translateX = 100;
+        component.translateY = 100;
+        component.scale = 1;
         component.zoom$ = Observable.of(1)
+        component.isReset$ = new Subject<boolean>();
         component.fontSize$ = Observable.of(12);
 
         target.detectChanges(); // trigger initial data binding
@@ -107,7 +112,8 @@ describe("mapping.tree.component.ts", () => {
 
     it("should draw SVG with correct size when data is valid", () => {
         let data = new Initiative().deserialize(fixture.load("data.json"));
-        component.draw(data, 100, 100, 1);
+        component.data$.next({ initiative: data, datasetId: "ID" })
+        // component.draw(data, 100, 100, 1);Ì
         let svg = document.getElementsByTagName("svg")
         expect(svg.length).toBe(1);
         expect(svg.item(0).viewBox.baseVal.width).toBe(1522);
@@ -115,24 +121,24 @@ describe("mapping.tree.component.ts", () => {
         expect(svg.item(0).getAttribute("width")).toBe("1000");
     });
 
-    it("should draw SVG centered when data is valid", () => {
+    it("should draw SVG with correct transform when data is valid", () => {
         let data = new Initiative().deserialize(fixture.load("data.json"));
-
-        component.draw(data, 100, 100, 1);
+        component.data$.next({ initiative: data, datasetId: "ID" });
         let svgs = document.getElementsByTagName("svg")
         expect(svgs.length).toBe(1);
         let svg = svgs.item(0);
 
         expect(svg.querySelector("g")).toBeDefined();
+        console.log(svg.querySelector("g"))
         expect(svg.querySelector("g").transform.baseVal.getItem(0).type).toBe(SVGTransform.SVG_TRANSFORM_TRANSLATE);
         expect(svg.querySelector("g").transform.baseVal.getItem(0).matrix.e).toBe(100);
         expect(svg.querySelector("g").transform.baseVal.getItem(0).matrix.f).toBe(100);
     });
 
     it("should draw SVG with correct number of links when data is valid", () => {
-        let data = new Initiative().deserialize(fixture.load("data.json"));
 
-        component.draw(data, 100, 100, 1);
+        let data = new Initiative().deserialize(fixture.load("data.json"));
+        component.data$.next({ initiative: data, datasetId: "ID" })
         let svgs = document.getElementsByTagName("svg")
         expect(svgs.length).toBe(1);
         let svg = svgs.item(0);
@@ -141,9 +147,12 @@ describe("mapping.tree.component.ts", () => {
     });
 
     it("should draw SVG with correct number of nodes when data is valid", () => {
-        let data = new Initiative().deserialize(fixture.load("data.json"));
+        // let data = new Initiative().deserialize(fixture.load("data.json"));
 
-        component.draw(data, 100, 100, 1);
+        // component.draw(data, 100, 100, 1);
+
+        let data = new Initiative().deserialize(fixture.load("data.json"));
+        component.data$.next({ initiative: data, datasetId: "ID" })
         let svgs = document.getElementsByTagName("svg")
         expect(svgs.length).toBe(1);
         let svg = svgs.item(0);
@@ -152,9 +161,9 @@ describe("mapping.tree.component.ts", () => {
     });
 
     it("should draw SVG with correct text labels when data is valid", () => {
-        let data = new Initiative().deserialize(fixture.load("data.json"));
 
-        component.draw(data, 100, 100, 1);
+        let data = new Initiative().deserialize(fixture.load("data.json"));
+        component.data$.next({ initiative: data, datasetId: "ID" })
         let svgs = document.getElementsByTagName("svg")
         expect(svgs.length).toBe(1);
         let svg = svgs.item(0);
@@ -169,9 +178,9 @@ describe("mapping.tree.component.ts", () => {
     });
 
     it("should draw SVG with correct pictures labels when data is valid", () => {
-        let data = new Initiative().deserialize(fixture.load("data.json"));
 
-        component.draw(data, 100, 100, 1);
+        let data = new Initiative().deserialize(fixture.load("data.json"));
+        component.data$.next({ initiative: data, datasetId: "ID" })
         let svgs = document.getElementsByTagName("svg")
         expect(svgs.length).toBe(1);
         let svg = svgs.item(0);
@@ -180,20 +189,11 @@ describe("mapping.tree.component.ts", () => {
         expect(nodes.item(1).querySelector("circle").getAttribute("fill")).toBe("url(#image1)");
         expect(nodes.item(2).querySelector("circle").getAttribute("fill")).toBe("url(#image2)");
 
-        let patterns = svg.querySelectorAll("defs pattern");
-        expect(patterns.item(0).querySelector("image").getAttribute("href")).toBe("");
+        let patterns = svg.querySelectorAll("g defs pattern");
+        expect(patterns.item(0).querySelector("image")).toBe(null)
         expect(patterns.item(1).querySelector("image").getAttribute("href")).toBe("http://cto.image.png");
         expect(patterns.item(2).querySelector("image").getAttribute("href")).toBe("http://cmo.image.png");
     });
 
-
-    it("should draw empty svg when data is undefined", () => {
-        let spy = spyOn(component.uiService, "clean");
-        component.draw(undefined, 100, 100, 1);
-        let svgs = document.getElementsByTagName("svg");
-        expect(svgs.length).toBe(1);
-        expect(svgs.item(0).hasChildNodes()).toBe(false);
-        expect(spy).toHaveBeenCalled();
-    })
 
 });

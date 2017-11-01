@@ -138,28 +138,28 @@ export class MappingCirclesComponent implements IDataVisualizer {
     selectedNode: Initiative;
 
     selectInitiative(node: Initiative) {
-        console.log("clicked on ", node)
+        // console.log("clicked on ", node)
         this.selectedNode = node;
         this.cd.markForCheck();
     }
 
     edit(node: Initiative) {
-        console.log("editing ", node)
+        // console.log("editing ", node)
         this.showDetailsOf$.next(node);
     }
 
     add(node: Initiative) {
-        console.log("adding ", node)
+        // console.log("adding ", node)
         this.addInitiative$.next(node);
     }
 
     remove(node: Initiative) {
-        console.log("removing ", node)
+        // console.log("removing ", node)
         this.removeInitiative$.next(node);
     }
 
     update(data: any) {
-        console.log("update")
+        // console.log("update")
         let d3 = this.d3;
         let svg = this.svg;
         let g = this.g;
@@ -452,19 +452,19 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 ;
 
             d3.selectAll("circle.with-children")
-                .attr("cx", function (d: any) { console.log("update cx"); return Math.cos(Math.PI - Math.PI * 36 / 180) * (d.r + 3) - 20 })
+                .attr("cx", function (d: any) { return Math.cos(Math.PI - Math.PI * 36 / 180) * (d.r + 3) - 20 })
                 .attr("cy", function (d: any) { return - Math.sin(Math.PI - Math.PI * 36 / 180) * (d.r + 3) + 10 })
 
         }
 
 
         function addInitiativeTo(node: any) {
-            console.log("adding initiative under", node.data.name)
+            // console.log("adding initiative under", node.data.name)
             addInitiative$.next(node.data);
         }
 
         function removeInitiative(node: any) {
-            console.log("remove initiative", node.data.name)
+            // console.log("remove initiative", node.data.name)
             removeInitiative$.next(node.data);
         }
 
@@ -479,7 +479,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
         }
 
         function definePatterns() {
-            console.log("defined patterns")
+            // console.log("defined patterns")
             definitions.selectAll("pattern")
                 .data(nodes)
                 .enter().merge(definitions)

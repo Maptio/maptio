@@ -84,7 +84,7 @@ export class BuildingComponent {
 
 
     saveChanges() {
-        console.log("send to workspace", this.nodes[0])
+        // console.log("send to workspace", this.nodes[0])
         this.save.emit(this.nodes[0]);
     }
 
@@ -112,7 +112,7 @@ export class BuildingComponent {
 
     removeNode(node: Initiative) {
 
-        console.log("building.component.ts", "remove", node.name, node.id);
+        // console.log("building.component.ts", "remove", node.name, node.id);
         let hasFoundNode: boolean = false;
 
         let index = this.nodes[0].children.findIndex(c => c.id === node.id);
@@ -135,7 +135,7 @@ export class BuildingComponent {
     }
 
     addNodeTo(node: Initiative) {
-        console.log("building.component.ts", "add to", node.name, node.id);
+        // console.log("building.component.ts", "add to", node.name, node.id);
         let hasFoundNode: boolean = false;
         if (this.nodes[0].id === node.id) {
             hasFoundNode = true;
@@ -143,7 +143,7 @@ export class BuildingComponent {
             newNode.children = []
             newNode.team_id = node.team_id;
             newNode.hasFocus = true;
-            console.log("new node", Math.ceil(node.id * Math.random()));
+            // console.log("new node", Math.ceil(node.id * Math.random()));
             this.nodes[0].children = this.nodes[0].children || [];
             this.nodes[0].children.unshift(newNode);
             // this.openDetailsEditOnly.emit(newNode)
@@ -157,7 +157,7 @@ export class BuildingComponent {
                     newNode.children = []
                     newNode.team_id = node.team_id;
                     newNode.hasFocus = true;
-                    console.log("new node", Math.ceil(node.id * Math.random()));
+                    // console.log("new node", Math.ceil(node.id * Math.random()));
                     n.children = n.children || [];
                     n.children.unshift(newNode);
                     // this.openDetailsEditOnly.emit(newNode)
