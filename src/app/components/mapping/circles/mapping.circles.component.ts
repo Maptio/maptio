@@ -244,9 +244,6 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .on("mouseleave", function (d: any) {
                 d3.select(`div.tooltip`).style("opacity", "0");
                 d3.select(this).style("fill", function (d: any) { return d.children ? (d === root ? "white" : color(d.depth)) : (d.parent === root && !d.children ? color(d.depth) : "white"); })
-
-                // d3.select(this).classed("highlighted", false);
-                // d3.selectAll(`foreignObject.editing[data-id="${d.data.id}"]`).classed("show", false)
             });
 
         enter.select("circle.node")

@@ -80,18 +80,6 @@ svg circle.accountable {
   cursor: pointer;
 }
 
-svg circle.highlighted {
-  fill: red !important;
-}
-
-svg foreignObject.editing {
-  visibility: hidden;
-}
-
-svg foreignObject.editing.show {
-  visibility: visible;
-}
-
 .add:before {
   content: "\f067";
   font-family: FontAwesome;
@@ -107,7 +95,7 @@ svg foreignObject.editing.show {
   font-family: FontAwesome;
 }
 
-div.tooltip {
+.tooltip {
   position: absolute;
   z-index: 10;
   opacity: 0;
