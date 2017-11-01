@@ -265,39 +265,27 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .style("fill", function (d: any) { return d.children ? (d === root ? "white" : color(d.depth)) : (d.parent === root && !d.children ? color(d.depth) : "white"); })
 
 
-
-        console.log("with-children",
-            enter.filter(".with-children").select("text"),
-            selection.filter(".with-children").select("text"))
-
-        enter.filter(".with-children")
+        let textAround = enter
+            .select(function (d: any) { return d.children && d !== root ? this : null; })
+        console.log(textAround)
+        textAround
             .append("text")
-            .attr("id", function (d: any) { return d.data.id + "enter"; })
+            .attr("id", function (d: any) { return d.data.id; })
             .append("textPath")
             .attr("xlink:href", function (d: any) { return `#path${d.data.id}`; })
             .attr("startOffset", function (d: any, i: number) { return "10%"; })
             .on("click", function (d: any, i: number) {
                 showDetails(d);
-                d.isTooltipVisible = !d.isTooltipVisible;
             })
             .text(function (d: any) { return d.data.name; })
-
-        selection
-            .filter(".with-children")
+            .merge(selection.select(function (d: any) { return d.children && d !== root ? this : null; }))
             .select("text")
-            .attr("id", function (d: any) { return d.data.id + "selection"; })
-            .append("textPath")
-            .attr("xlink:href", function (d: any) { return `#path${d.data.id}`; })
-            .attr("startOffset", function (d: any, i: number) { return "10%"; })
-            .on("click", function (d: any, i: number) {
-                showDetails(d);
-                d.isTooltipVisible = !d.isTooltipVisible;
-            })
-            .text(function (d: any) { return d.data.name; })
-        // .exit().remove()
+            .select("textPath")
+            .text(function (d: any) { return d.data.name; });
 
-
-        enter.filter(".without-children")
+        let textInside = enter.select(function (d: any) { return !d.children && d !== root ? this : null; })
+        console.log(textInside)
+        textInside
             .append("text")
             .attr("id", function (d: any) { return d.data.id; })
             .attr("dy", 0)
@@ -311,31 +299,26 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .each(function (d: any) {
                 uiService.wrap(d3.select(this), d.data.name, d.r * 2 * 0.95);
             })
-
-
-        selection
-            .filter(".without-children")
+            .merge(selection.select(function (d: any) { return !d.children && d !== root ? this : null; }))
             .select("text")
-            .attr("id", function (d: any) { return d.data.id; })
-            .attr("dy", 0)
-            .attr("x", function (d: any) { return -d.r * .85 })
-            .attr("y", function (d: any) { return -d.r * .2 })
-            .text(function (d: any) { return d.data.name; })
-            .on("click", function (d: any, i: number) {
-                showDetails(d);
-                d.isTooltipVisible = !d.isTooltipVisible;
-            })
             .each(function (d: any) {
                 uiService.wrap(d3.select(this), d.data.name, d.r * 2 * 0.95);
             })
-        // .exit().remove()
 
-        enter.filter(".with-children")
+        enter
             .append("circle")
             .attr("class", "accountable")
             .attr("r", CIRCLE_RADIUS)
-            .attr("cx", function (d: any) { return Math.cos(Math.PI - Math.PI * 36 / 180) * (d.r + 3) - 20 })
-            .attr("cy", function (d: any) { return - Math.sin(Math.PI - Math.PI * 36 / 180) * (d.r + 3) + 10 })
+            .attr("cx", function (d: any) {
+                return d.children
+                    ? Math.cos(Math.PI - Math.PI * 36 / 180) * (d.r + 3) - 20
+                    : 0
+            })
+            .attr("cy", function (d: any) {
+                return d.children
+                    ? - Math.sin(Math.PI - Math.PI * 36 / 180) * (d.r + 3) + 10
+                    : -d.r * 0.70
+            })
             .attr("fill", function (d: any) { return "url(#image" + d.data.id + ")" })
             .attr("xlink:href", function (d: any) { return "#path" + d.data.id; })
             .on("click", function (d: any) {
@@ -349,78 +332,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
                     router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.data.accountable.shortid}/${d.data.accountable.getSlug()}`)
                 }
 
-            })
-
-
-        selection.filter(".with-children")
-            .select("circle.accountable")
-            // .attr("class", "accountable")
-            .attr("r", CIRCLE_RADIUS)
-            .attr("cx", function (d: any) { return Math.cos(Math.PI - Math.PI * 36 / 180) * (d.r + 3) - 20 })
-            .attr("cy", function (d: any) { return - Math.sin(Math.PI - Math.PI * 36 / 180) * (d.r + 3) + 10 })
-            .attr("fill", function (d: any) { return "url(#image" + d.data.id + ")" })
-            .attr("xlink:href", function (d: any) { return "#path" + d.data.id; })
-            .on("click", function (d: any) {
-                if (d.data.accountable) {
-                    // TODO : keep until migration of database towards shortids
-                    if (!d.data.accountable.shortid) {
-                        userFactory.get(d.data.accountable.user_id)
-                            .then(u => d.data.accountable.shortid = u.shortid)
-                            .then(() => { router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.data.accountable.shortid}/${d.data.accountable.getSlug()}`) })
-                    }
-                    router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.data.accountable.shortid}/${d.data.accountable.getSlug()}`)
-                }
-
-            })
-
-
-
-        selection.select("circle.accountable")
-            .attr("cx", function (d: any) { return Math.cos(Math.PI - Math.PI * 36 / 180) * (d.r + 3) - 20 })
-            .attr("cy", function (d: any) { return - Math.sin(Math.PI - Math.PI * 36 / 180) * (d.r + 3) + 10 })
-
-
-
-
-        enter.filter(".without-children")
-            .append("circle")
-            .attr("class", "accountable")
-            .attr("r", CIRCLE_RADIUS)
-            .attr("cx", function (d: any) { return 0 })
-            .attr("cy", function (d: any) { return -d.r * 0.70 })
-            .attr("fill", function (d: any) { return "url(#image" + d.data.id + ")" })
-            .on("click", function (d: any) {
-                if (d.data.accountable) {
-                    // TODO : keep until migration of database towards shortids
-                    if (!d.data.accountable.shortid) {
-                        userFactory.get(d.data.accountable.user_id)
-                            .then(u => d.data.accountable.shortid = u.shortid)
-                            .then(() => { router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.data.accountable.shortid}/${d.data.accountable.getSlug()}`) })
-                    }
-                    router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.data.accountable.shortid}/${d.data.accountable.getSlug()}`)
-                }
-
-            })
-
-        selection.filter(".without-children")
-            .select("circle.accountable")
-            // .attr("class", "accountable")
-            .attr("r", CIRCLE_RADIUS)
-            .attr("cx", function (d: any) { return 0 })
-            .attr("cy", function (d: any) { return -d.r * 0.70 })
-            .attr("fill", function (d: any) { return "url(#image" + d.data.id + ")" })
-            .on("click", function (d: any) {
-                if (d.data.accountable) {
-                    // TODO : keep until migration of database towards shortids
-                    if (!d.data.accountable.shortid) {
-                        userFactory.get(d.data.accountable.user_id)
-                            .then(u => d.data.accountable.shortid = u.shortid)
-                            .then(() => { router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.data.accountable.shortid}/${d.data.accountable.getSlug()}`) })
-                    }
-                    router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.data.accountable.shortid}/${d.data.accountable.getSlug()}`)
-                }
-
-            })
+            }).merge(selection)
 
         selection = enter.merge(selection);
 
@@ -471,22 +383,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 .attr("r", function (d: any) { return d.r * k; })
                 ;
 
-            d3.selectAll("circle.with-children")
-                .attr("cx", function (d: any) { return Math.cos(Math.PI - Math.PI * 36 / 180) * (d.r + 3) - 20 })
-                .attr("cy", function (d: any) { return - Math.sin(Math.PI - Math.PI * 36 / 180) * (d.r + 3) + 10 })
-
         }
-
-
-        // function addInitiativeTo(node: any) {
-        //     // console.log("adding initiative under", node.data.name)
-        //     addInitiative$.next(node.data);
-        // }
-
-        // function removeInitiative(node: any) {
-        //     // console.log("remove initiative", node.data.name)
-        //     removeInitiative$.next(node.data);
-        // }
 
         function showDetails(d: any) {
             showDetailsOf$.next(d.data);
