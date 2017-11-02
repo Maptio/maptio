@@ -212,11 +212,15 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .classed("without-children", function (d: any) { return !d.children && d !== root; })
 
         selection
-            .filter(function (d: any) { return d.children && d !== root })
-            .attr("class", "nodes with-children");
-        selection
-            .filter(function (d: any) { return !d.children && d !== root })
-            .attr("class", "nodes without-children");
+            .classed("with-children", function (d: any) { return d.children && d !== root; })
+            .classed("without-children", function (d: any) { return !d.children && d !== root; })
+
+        // selection
+        //     .filter(function (d: any) { return d.children && d !== root })
+        //     .attr("class", "nodes with-children");
+        // selection
+        //     .filter(function (d: any) { return !d.children && d !== root })
+        //     .attr("class", "nodes without-children");
 
         let exit = selection
             .exit()
@@ -264,30 +268,85 @@ export class MappingCirclesComponent implements IDataVisualizer {
         selection.select("circle.node")
             .style("fill", function (d: any) { return d.children ? (d === root ? "white" : color(d.depth)) : (d.parent === root && !d.children ? color(d.depth) : "white"); })
 
+        // let text = enter.select(function (d: any) { return d !== root ? this : null; })
 
-        let textAround = enter
-            .select(function (d: any) { return d.children && d !== root ? this : null; })
-        console.log(textAround)
-        textAround
-            .append("text")
-            .attr("id", function (d: any) { return d.data.id; })
+        // let text = selection.selectAll(".nodes")
+        //     .append("text")
+        //     .classed("with-children", function (d: any) { return d.children && d !== root; })
+        //     .classed("without-children", function (d: any) { return !d.children && d !== root; })
+        //     .merge(selection)
+        //     .classed("with-children", function (d: any) { return d.children && d !== root; })
+        //     .classed("without-children", function (d: any) { return !d.children && d !== root; })
+
+        // text = text
+        //     .append("text")
+        //     .attr("id", function (d: any) { return d.data.id; })
+        //     .classed("without-children", function (d: any) { return !d.children && d !== root; })
+        //     .classed("with-children", function (d: any) { return d.children && d !== root; })
+        //     .merge(selection.select(function (d: any) { return d !== root ? this : null; }))
+        //     .classed("without-children", function (d: any) { return !d.children && d !== root; })
+        //     .classed("with-children", function (d: any) { return d.children && d !== root; })
+
+        // text.exit().remove();
+        enter.append("text")
+            .classed("with-children", function (d: any) { return d.children && d !== root; })
+            .classed("without-children", function (d: any) { return !d.children && d !== root; })
+        selection.select("text")
+            .classed("with-children", function (d: any) { return d.children && d !== root; })
+            .classed("without-children", function (d: any) { return !d.children && d !== root; })
+
+        d3.selectAll("text.without-children").data(nodes.filter(function (d: any) { return !d.children && d !== root; }))
+            .attr("dy", 0)
+            .attr("x", function (d: any) { return -d.r * .85 })
+            .attr("y", function (d: any) { return -d.r * .2 })
+            .text(function (d: any) { return d.data.name; })
+            .on("click", function (d: any, i: number) {
+                showDetails(d);
+                d.isTooltipVisible = !d.isTooltipVisible;
+            })
+            .each(function (d: any) {
+                uiService.wrap(d3.select(this), d.data.name, d.r * 2 * 0.95);
+            });
+
+        d3.selectAll("text.without-children")
+            .attr("dy", 0)
+            .attr("x", function (d: any) { return -d.r * .85 })
+            .attr("y", function (d: any) { return -d.r * .2 })
+            .text(function (d: any) { return d.data.name; })
+            .on("click", function (d: any, i: number) {
+                showDetails(d);
+                d.isTooltipVisible = !d.isTooltipVisible;
+            })
+            .each(function (d: any) {
+                uiService.wrap(d3.select(this), d.data.name, d.r * 2 * 0.95);
+            });
+
+        d3.selectAll("text.with-children").data(nodes.filter(function (d: any) { return d.children && d !== root; }))
             .append("textPath")
             .attr("xlink:href", function (d: any) { return `#path${d.data.id}`; })
             .attr("startOffset", function (d: any, i: number) { return "10%"; })
             .on("click", function (d: any, i: number) {
                 showDetails(d);
             })
-            .text(function (d: any) { return d.data.name; })
-            .merge(selection.select(function (d: any) { return d.children && d !== root ? this : null; }))
-            .select("text")
-            .select("textPath")
             .text(function (d: any) { return d.data.name; });
 
-        let textInside = enter.select(function (d: any) { return !d.children && d !== root ? this : null; })
-        console.log(textInside)
+        d3.selectAll("text.with-children")
+            .select("textPath")
+            // .attr("xlink:href", function (d: any) { return `#path${d.data.id}`; })
+            // .attr("startOffset", function (d: any, i: number) { return "10%"; })
+            // .on("click", function (d: any, i: number) {
+            //     showDetails(d);
+            // })
+            .text(function (d: any) { return d.data.name; })
+
+        d3.selectAll("text.with-children").select("tspan").remove();
+        /*
+        let textInside = enter
+            .select(function (d: any) { return !d.children && d !== root ? this : null; })
         textInside
             .append("text")
-            .attr("id", function (d: any) { return d.data.id; })
+
+            .attr("id", function (d: any) { return d.data.id; });
             .attr("dy", 0)
             .attr("x", function (d: any) { return -d.r * .85 })
             .attr("y", function (d: any) { return -d.r * .2 })
@@ -300,10 +359,34 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 uiService.wrap(d3.select(this), d.data.name, d.r * 2 * 0.95);
             })
             .merge(selection.select(function (d: any) { return !d.children && d !== root ? this : null; }))
+            .filter(function (d: any) { return !d.children && d !== root; })
             .select("text")
             .each(function (d: any) {
                 uiService.wrap(d3.select(this), d.data.name, d.r * 2 * 0.95);
             })
+        textInside.exit().remove();
+
+        let textAround = enter
+            .select(function (d: any) { return d.children && d !== root ? this : null; })
+        textAround
+            .append("text")
+            .attr("id", function (d: any) { return d.data.id; })
+            .append("textPath")
+            .attr("xlink:href", function (d: any) { return `#path${d.data.id}`; })
+            .attr("startOffset", function (d: any, i: number) { return "10%"; })
+            .on("click", function (d: any, i: number) {
+                showDetails(d);
+            })
+            .text(function (d: any) { return d.data.name; })
+            .merge(selection.select(function (d: any) { return d.children && d !== root ? this : null; }))
+            .filter(function (d: any) { return d.children && d !== root; })
+            .select("text")
+            .select("textPath")
+            .text(function (d: any) { return d.data.name; });
+        textAround.exit().remove();
+
+*/
+
 
         enter
             .append("circle")
@@ -332,7 +415,21 @@ export class MappingCirclesComponent implements IDataVisualizer {
                     router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.data.accountable.shortid}/${d.data.accountable.getSlug()}`)
                 }
 
-            }).merge(selection)
+            })
+            .merge(selection);
+
+        selection.select("circle.accountable")
+            .attr("cx", function (d: any) {
+                return d.children
+                    ? Math.cos(Math.PI - Math.PI * 36 / 180) * (d.r + 3) - 20
+                    : 0
+            })
+            .attr("cy", function (d: any) {
+                return d.children
+                    ? - Math.sin(Math.PI - Math.PI * 36 / 180) * (d.r + 3) + 10
+                    : -d.r * 0.70
+            })
+        selection.select("circle.accountable").exit().remove();
 
         selection = enter.merge(selection);
 
