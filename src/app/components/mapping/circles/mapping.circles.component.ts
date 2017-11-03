@@ -295,6 +295,9 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .classed("with-children", function (d: any) { return d.children && d !== root; })
             .classed("without-children", function (d: any) { return !d.children && d !== root; })
 
+        d3.selectAll("text.with-children").select("tspan").remove();
+        d3.selectAll("text.without-children").select("textPath").remove();
+
         d3.selectAll("text.without-children").data(nodes.filter(function (d: any) { return !d.children && d !== root; }))
             .attr("dy", 0)
             .attr("x", function (d: any) { return -d.r * .85 })
@@ -322,7 +325,11 @@ export class MappingCirclesComponent implements IDataVisualizer {
             });
 
         d3.selectAll("text.with-children").data(nodes.filter(function (d: any) { return d.children && d !== root; }))
+            .attr("x", 0)
+            .attr("y", 0)
             .append("textPath")
+        d3.selectAll("text.with-children")
+            .select("textPath")
             .attr("xlink:href", function (d: any) { return `#path${d.data.id}`; })
             .attr("startOffset", function (d: any, i: number) { return "10%"; })
             .on("click", function (d: any, i: number) {
@@ -330,16 +337,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             })
             .text(function (d: any) { return d.data.name; });
 
-        d3.selectAll("text.with-children")
-            .select("textPath")
-            // .attr("xlink:href", function (d: any) { return `#path${d.data.id}`; })
-            // .attr("startOffset", function (d: any, i: number) { return "10%"; })
-            // .on("click", function (d: any, i: number) {
-            //     showDetails(d);
-            // })
-            .text(function (d: any) { return d.data.name; })
 
-        d3.selectAll("text.with-children").select("tspan").remove();
         /*
         let textInside = enter
             .select(function (d: any) { return !d.children && d !== root ? this : null; })
