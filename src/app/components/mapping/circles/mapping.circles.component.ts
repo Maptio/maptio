@@ -67,6 +67,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
     }
 
     init() {
+        this.uiService.clean();
         let d3 = this.d3;
 
         let svg: any = d3.select("svg"),
@@ -159,6 +160,9 @@ export class MappingCirclesComponent implements IDataVisualizer {
     }
 
     update(data: any) {
+        if (!this.g) {
+            this.init();
+        }
         // console.log("update")
         let d3 = this.d3;
         let svg = this.svg;
