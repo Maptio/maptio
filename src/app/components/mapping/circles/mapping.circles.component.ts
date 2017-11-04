@@ -203,27 +203,19 @@ export class MappingCirclesComponent implements IDataVisualizer {
         let t = d3.transition(null).duration(TRANSITION_DURATION);
 
 
-console.log(nodes)
-        let selection = g.selectAll(".nodes").data(nodes, function (d: any) { console.log(d.data.name, d.data.id) ; return d.data.id });
+        console.log(nodes)
+        let selection = g.selectAll(".nodes").data(nodes, function (d: any) { return d.data.id })
+            .classed("with-children", function (d: any) { return d.children && d !== root; })
+            .classed("without-children", function (d: any) { return !d.children && d !== root; })
 
-        let enter = selection.enter().append("g")
+        let enter = selection.enter().append("g").attr("class", "nodes")
             .attr("class", "nodes")
             .attr("id", function (d: any) { return d.data.id; })
             .classed("with-children", function (d: any) { return d.children && d !== root; })
             .classed("without-children", function (d: any) { return !d.children && d !== root; })
 
-        selection.select("g")
-            .classed("with-children", function (d: any) { return d.children && d !== root; })
-            .classed("without-children", function (d: any) { return !d.children && d !== root; })
-            .attr("id", function (d: any) { return d.data.id; })
-
         let exit = selection
             .exit()
-            // .style("fill-opacity", 1)
-            // .style("stroke-opacity", 1)
-            // .transition(t)
-            // .style("fill-opacity", 1e-6)
-            // .style("stroke-opacity", 1e-6)
             .remove();
 
 
@@ -271,8 +263,8 @@ console.log(nodes)
             .classed("without-children", function (d: any) { return !d.children && d !== root; })
 
         let joinWithoutChildren = g.selectAll("g.without-children").data(nodes.filter(function (d: any) { return !d.children && d !== root; }))
-            console.log(joinWithoutChildren)
-        joinWithoutChildren.exit().selectAll("textPath").remove();
+        console.log(joinWithoutChildren)
+        // joinWithoutChildren.exit().selectAll("textPath").remove();
 
         joinWithoutChildren.enter()
             .append("text")
@@ -292,7 +284,7 @@ console.log(nodes)
 
         let joinWithChildren = g.selectAll("g.with-children").data(nodes.filter(function (d: any) { return d.children && d !== root; }))
 
-        joinWithChildren.exit().selectAll("tspan").remove();
+        // joinWithChildren.exit().selectAll("tspan").remove();
         joinWithChildren.enter()
             .append("text")
         joinWithChildren
@@ -300,15 +292,19 @@ console.log(nodes)
             .attr("x", 0)
             .attr("y", 0)
             .html(function (d: any) {
-                return `<textPath xlink:href="#path${d.data.id}" startOffset="10%">${d.data.name}</textPath>`
+                return `<textPath xlink:href="#path${d.data.id}" startOffset="10%">${d.data.name || ""}</textPath>`
             })
             .on("click", function (d: any, i: number) {
                 showDetails(d);
             })
 
 
-        enter
-            .append("circle")
+        // let joinCircleAccountable = g.selectAll("g.nodes").data(nodes);
+        // joinCircleAccountable.enter().append("circle").attr("class", "accountable")
+
+        // joinCircleAccountable.select("circle.accountable")
+        //     // .attr("class", "accountable")
+        enter.append("circle")
             .attr("class", "accountable")
             .attr("r", CIRCLE_RADIUS)
             .attr("cx", function (d: any) {
@@ -335,7 +331,7 @@ console.log(nodes)
                 }
 
             })
-            .merge(selection);
+        // .merge(selection);
 
         selection.select("circle.accountable")
             .attr("cx", function (d: any) {
@@ -348,7 +344,9 @@ console.log(nodes)
                     ? - Math.sin(Math.PI - Math.PI * 36 / 180) * (d.r + 3) + 10
                     : -d.r * 0.70
             })
-        selection.select("circle.accountable").exit().remove();
+            .attr("fill", function (d: any) { return "url(#image" + d.data.id + ")" })
+            .attr("xlink:href", function (d: any) { return "#path" + d.data.id; })
+        // selection.select("circle.accountable").exit().remove();
 
         selection = enter.merge(selection);
 
