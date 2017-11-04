@@ -38,6 +38,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
     public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
     public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
     public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
+    public moveInitiative$: Subject<{ node: Initiative, from: Initiative, to: Initiative }> = new Subject<{ node: Initiative, from: Initiative, to: Initiative }>();
 
     private zoomSubscription: Subscription;
     private dataSubscription: Subscription;
@@ -47,7 +48,13 @@ export class MappingCirclesComponent implements IDataVisualizer {
     private svg: any;
     private g: any;
     private definitions: any;
+    private isWaitingForDestinationNode: boolean = false;
+    private selectedNode: Initiative;
+    private selectedNodeParent: Initiative;
 
+
+    private cutNode: Initiative;
+    private cutNodeParent: Initiative;
     CIRCLE_RADIUS: number = 15;
 
     constructor(public d3Service: D3Service, public colorService: ColorService,
@@ -136,11 +143,10 @@ export class MappingCirclesComponent implements IDataVisualizer {
         }
     }
 
-    selectedNode: Initiative;
 
-    selectInitiative(node: Initiative) {
-        // console.log("clicked on ", node)
+    selectInitiative(node: Initiative, parent: Initiative) {
         this.selectedNode = node;
+        this.selectedNodeParent = parent;
         this.cd.markForCheck();
     }
 
@@ -157,6 +163,20 @@ export class MappingCirclesComponent implements IDataVisualizer {
     remove(node: Initiative) {
         console.log("removing ", node.name, node.id)
         this.removeInitiative$.next(node);
+    }
+
+    cut(node: Initiative) {
+        let d3 = this.d3;
+        console.log("cutting", node.name);
+        this.isWaitingForDestinationNode = true;
+        this.cutNode = this.selectedNode;
+        this.cutNodeParent = this.selectedNodeParent;
+    }
+
+    paste(toNode: Initiative) {
+        console.log("paste into", toNode.name);
+        this.moveInitiative$.next({ node: this.cutNode, from: this.cutNodeParent, to: toNode });
+        this.isWaitingForDestinationNode = false;
     }
 
     update(data: any) {
@@ -230,7 +250,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .style("stroke-width", function (d: any) { return d.data.isSearchedFor ? 3 : "none" })
             .attr("id", function (d: any) { return d.data.id; })
             .on("click", function (d: any) {
-                selectInitiative(d.data);
+                selectInitiative(d.data, d.parent.data);
                 let circleClicked = d3.select(this);
                 d3.select(`div.tooltip`)
                     .style("opacity", "1")

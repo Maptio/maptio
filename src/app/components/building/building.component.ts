@@ -14,6 +14,7 @@ import { DataService } from "../../shared/services/data.service";
 import "rxjs/add/operator/map";
 import { InitiativeNodeComponent } from "./initiative.node.component"
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { ITreeNode } from "angular-tree-component/dist/defs/api";
 
 @Component({
     selector: "building",
@@ -30,12 +31,14 @@ export class BuildingComponent {
 
 
     options = {
-    allowDrag: (node: TreeNode) => node.data.isDraggable,
+        allowDrag: (node: TreeNode) => node.data.isDraggable,
         allowDrop: true,
         nodeHeight: 55,
         actionMapping: {
             mouse: {
                 drop: (tree: any, node: TreeNode, $event: any, { from, to }: { from: TreeNode, to: TreeNode }) => {
+                    console.log(tree, node, $event, from, to)
+
                     this.fromInitiative = from.data;
                     this.toInitiative = to.parent.data;
 
@@ -84,7 +87,7 @@ export class BuildingComponent {
 
 
     saveChanges() {
-        // console.log("send to workspace", this.nodes[0])
+        console.log("send to workspace", this.nodes[0])
         this.save.emit(this.nodes[0]);
     }
 
@@ -109,6 +112,21 @@ export class BuildingComponent {
     openNodeDetails(node: Initiative) {
         this.openDetails.emit(node)
     }
+
+    moveNode(node: Initiative, from: Initiative, to: Initiative) {
+        console.log("moving", node.name, "from", from.name, "to", to.name);
+        let foundTreeNode = this.tree.treeModel.getNodeById(node.id)
+        let foundFromNode = this.tree.treeModel.getNodeById(from.id)
+        let foundToNode = this.tree.treeModel.getNodeById(to.id);
+        console.log("moving", foundTreeNode, "from", foundFromNode, "to", foundToNode);
+
+        // TREE_ACTIONS.MOVE_NODE(this.tree.treeModel, foundTreeNode, {}, { from: foundFromNode, to: foundToNode })
+        // this.saveChanges();
+        // this.tree.treeModel.moveNode(foundTreeNode, { parent: foundTreeNode });
+        // this.tree.treeModel.update();
+        TREE_ACTIONS.MOVE_NODE(this.tree.treeModel, foundToNode, {}, { from: foundTreeNode, to: {parent : foundToNode} })
+    }
+
 
     removeNode(node: Initiative) {
 

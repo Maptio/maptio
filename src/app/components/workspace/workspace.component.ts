@@ -185,4 +185,9 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.buildingComponent.removeNode(node);
     }
 
+    moveInitiative({ node, from, to }: { node: Initiative, from: Initiative, to: Initiative }) {
+        console.log("workspace.compoentn", "move", node.name, from.name, to.name);
+        this.buildingComponent.moveNode(node, from, to);
+    }
+
 }

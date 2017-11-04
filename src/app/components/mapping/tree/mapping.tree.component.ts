@@ -44,6 +44,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>()
     public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
     public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
+    public moveInitiative$: Subject<{ node: Initiative, from: Initiative, to: Initiative }> = new Subject<{ node: Initiative, from: Initiative, to: Initiative }>();
 
     constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService, public router: Router, private userFactory: UserFactory) {
         this.d3 = d3Service.getD3();

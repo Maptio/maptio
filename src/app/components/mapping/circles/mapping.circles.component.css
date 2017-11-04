@@ -80,6 +80,16 @@ svg circle.accountable {
   cursor: pointer;
 }
 
+
+svg circle.node.cut-mode{
+  width: 150px;
+  height: 150px;
+  background-color: red;
+  border-radius: 50%;
+  border: 5px dotted #fff;
+  box-shadow: 0 0 0 4px red;
+}
+
 .add:before {
   content: "\f067";
   font-family: FontAwesome;
@@ -94,6 +104,17 @@ svg circle.accountable {
   content: "\f040";
   font-family: FontAwesome;
 }
+
+.cut:before {
+  content: "\f0c4";
+  font-family: FontAwesome;
+}
+
+.paste:before {
+  content: "\f0ea";
+  font-family: FontAwesome;
+}
+
 
 .tooltip {
   position: absolute;

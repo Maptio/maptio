@@ -9,10 +9,16 @@
 <div class="tooltip">
     <div>
         <div class="btn-group" role="group">
-            <button type="button" class="btn btn-sm add btn-secondary" (click)="add(selectedNode)"></button>
-            <button type="button" class="btn btn-sm edit btn-secondary" (click)="edit(selectedNode)"></button>
-            <button type="button" class="btn btn-sm remove btn-secondary"  placement="top" container="body" mwlConfirmationPopover title="Remove initiative {{selectedNode?.name}} and sub initiatives ?"
-            focusbutton="cancel" appendToBody="false" (confirm)="remove(selectedNode)" (cancel)="cancelClicked = true"></button>
+            <button *ngIf="!isWaitingForDestinationNode" type="button" class="btn btn-sm add btn-secondary" (click)="add(selectedNode)"></button>
+            <button *ngIf="!isWaitingForDestinationNode" type="button" class="btn btn-sm edit btn-secondary" (click)="edit(selectedNode)"></button>
+            <button *ngIf="!isWaitingForDestinationNode" type="button" class="btn btn-sm remove btn-secondary" placement="top" container="body"
+                mwlConfirmationPopover title="Remove initiative {{selectedNode?.name}} and sub initiatives ?" focusbutton="cancel"
+                appendToBody="false" (confirm)="remove(selectedNode)" (cancel)="cancelClicked = true"></button>
+            <button *ngIf="!isWaitingForDestinationNode" type="button" class="btn btn-sm cut btn-secondary" (click)="cut(selectedNode)"></button>
+
+            <button *ngIf="isWaitingForDestinationNode" type="button" class="btn btn-sm paste btn-secondary" (click)="paste(selectedNode)"></button>
+
+
         </div>
     </div>
 

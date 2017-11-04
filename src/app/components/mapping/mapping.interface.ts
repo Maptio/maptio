@@ -28,6 +28,7 @@ export interface IDataVisualizer {
 
     addInitiative$: Subject<Initiative>;
     removeInitiative$: Subject<Initiative>;
+    moveInitiative$: Subject<{ node: Initiative, from: Initiative, to: Initiative }>;
 
     init(): void;
 }

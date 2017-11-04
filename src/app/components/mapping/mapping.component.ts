@@ -62,6 +62,7 @@ export class MappingComponent implements OnInit {
     @Output("showDetails") showDetails = new EventEmitter<Initiative>();
     @Output("addInitiative") addInitiative = new EventEmitter<Initiative>();
     @Output("removeInitiative") removeInitiative = new EventEmitter<Initiative>();
+    @Output("moveInitiative") moveInitiative = new EventEmitter<{ node: Initiative, from: Initiative, to: Initiative }>();
 
     @ViewChild(AnchorDirective) anchorComponent: AnchorDirective;
 
@@ -149,8 +150,6 @@ export class MappingComponent implements OnInit {
                 return this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent);
             case "people":
                 return this.componentFactoryResolver.resolveComponentFactory(MappingTreeComponent);
-            // case "network":
-            //     return this.componentFactoryResolver.resolveComponentFactory(MappingNetworkComponent);
             default:
                 return this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent);
         }
@@ -161,9 +160,6 @@ export class MappingComponent implements OnInit {
     }
 
     setup() {
-        // let component = this.anchorComponent.createComponent<IDataVisualizer>(this.componentFactory);
-
-        // let instance = this.getInstance(component);
         this.instance.showDetailsOf$.asObservable().subscribe(node => {
             this.showDetails.emit(node)
         })
@@ -174,6 +170,10 @@ export class MappingComponent implements OnInit {
         this.instance.removeInitiative$.asObservable().subscribe(node => {
             // console.log("mapping.component.ts", "remove initiative", node.name)
             this.removeInitiative.emit(node)
+        })
+        this.instance.moveInitiative$.asObservable().subscribe(({ node: node, from: from, to: to }) => {
+            console.log("mapping.component.ts", "move initiative", node.name, to.name)
+            this.moveInitiative.emit({ node: node, from: from, to: to })
         })
         this.instance.width = this.VIEWPORT_WIDTH;
         this.instance.height = this.VIEWPORT_HEIGHT;
