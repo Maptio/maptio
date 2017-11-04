@@ -99,4 +99,5 @@ svg circle.accountable {
   position: absolute;
   z-index: 10;
   opacity: 0;
+  background-color: #E44519;
 }

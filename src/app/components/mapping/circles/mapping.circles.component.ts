@@ -220,7 +220,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
 
         enter.append("circle")
-            .attr("r", function (d: any) { return d.r })
+            .attr("r", function (d: any) { return d.children ? d.r : d.r * 10 })
             .attr("class", function (d: any) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
             .style("stroke", function (d: any) { return d.data.isSearchedFor ? "#d9831f" : "none" })
             .style("stroke-width", function (d: any) { return d.data.isSearchedFor ? 3 : "none" })
@@ -230,7 +230,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 let circleClicked = d3.select(this);
                 d3.select(`div.tooltip`)
                     .style("opacity", "1")
-                    .style("top", (d3.event.pageY) + "px").style("left", (d3.event.pageX) + "px")
+                    .style("top", (d3.event.pageY - 15) + "px").style("left", (d3.event.pageX) + "px")
                     .on("mouseenter", function () {
                         circleClicked.style("fill", "#E44519")
                         d3.select(this).style("opacity", "1")

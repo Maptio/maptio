@@ -30,7 +30,7 @@ export class BuildingComponent {
 
 
     options = {
-        allowDrag: (node: TreeNode) => node.data.isDraggable,
+    allowDrag: (node: TreeNode) => node.data.isDraggable,
         allowDrop: true,
         nodeHeight: 55,
         actionMapping: {
