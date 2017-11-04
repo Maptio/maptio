@@ -149,12 +149,12 @@ export class MappingCirclesComponent implements IDataVisualizer {
     }
 
     add(node: Initiative) {
-        // console.log("adding ", node)
+        console.log("adding to", node.name)
         this.addInitiative$.next(node);
     }
 
     remove(node: Initiative) {
-        // console.log("removing ", node)
+        console.log("removing ", node.name, node.id)
         this.removeInitiative$.next(node);
     }
 
@@ -203,25 +203,27 @@ export class MappingCirclesComponent implements IDataVisualizer {
         let t = d3.transition(null).duration(TRANSITION_DURATION);
 
 
-
-        let selection = g.selectAll(".nodes").data(nodes, function (d: any) { return d.data.id });
+console.log(nodes)
+        let selection = g.selectAll(".nodes").data(nodes, function (d: any) { console.log(d.data.name, d.data.id) ; return d.data.id });
 
         let enter = selection.enter().append("g")
             .attr("class", "nodes")
+            .attr("id", function (d: any) { return d.data.id; })
             .classed("with-children", function (d: any) { return d.children && d !== root; })
             .classed("without-children", function (d: any) { return !d.children && d !== root; })
 
-        selection
+        selection.select("g")
             .classed("with-children", function (d: any) { return d.children && d !== root; })
             .classed("without-children", function (d: any) { return !d.children && d !== root; })
+            .attr("id", function (d: any) { return d.data.id; })
 
         let exit = selection
             .exit()
-            .style("fill-opacity", 1)
-            .style("stroke-opacity", 1)
-            .transition(t)
-            .style("fill-opacity", 1e-6)
-            .style("stroke-opacity", 1e-6)
+            // .style("fill-opacity", 1)
+            // .style("stroke-opacity", 1)
+            // .transition(t)
+            // .style("fill-opacity", 1e-6)
+            // .style("stroke-opacity", 1e-6)
             .remove();
 
 
@@ -269,21 +271,11 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .classed("without-children", function (d: any) { return !d.children && d !== root; })
 
         let joinWithoutChildren = g.selectAll("g.without-children").data(nodes.filter(function (d: any) { return !d.children && d !== root; }))
-
+            console.log(joinWithoutChildren)
         joinWithoutChildren.exit().selectAll("textPath").remove();
 
         joinWithoutChildren.enter()
             .append("text")
-            .attr("dy", 0)
-            .attr("x", function (d: any) { return -d.r * .85 })
-            .attr("y", function (d: any) { return -d.r * .2 })
-            .text(function (d: any) { return d.data.name; })
-            .on("click", function (d: any, i: number) {
-                showDetails(d);
-            })
-            .each(function (d: any) {
-                uiService.wrap(d3.select(this), d.data.name, d.r * 2 * 0.95);
-            });
 
         joinWithoutChildren
             .select("text")
@@ -309,6 +301,9 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .attr("y", 0)
             .html(function (d: any) {
                 return `<textPath xlink:href="#path${d.data.id}" startOffset="10%">${d.data.name}</textPath>`
+            })
+            .on("click", function (d: any, i: number) {
+                showDetails(d);
             })
 
 
@@ -397,6 +392,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             selection
                 .transition().duration(TRANSITION_DURATION)
                 .attr("transform", function (d: any) {
+                    // console.log(d.data.id, d.data.name, d.x, d.y,"translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")")
                     return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"
                 });
 

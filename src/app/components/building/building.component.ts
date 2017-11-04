@@ -131,7 +131,7 @@ export class BuildingComponent {
         }
 
         this.saveChanges();
-        // this.tree.treeModel.update();
+        this.tree.treeModel.update();
     }
 
     addNodeTo(node: Initiative) {
@@ -143,6 +143,7 @@ export class BuildingComponent {
             newNode.children = []
             newNode.team_id = node.team_id;
             newNode.hasFocus = true;
+            newNode.id = Math.floor(Math.random() * 10000000000000);
             // console.log("new node", Math.ceil(node.id * Math.random()));
             this.nodes[0].children = this.nodes[0].children || [];
             this.nodes[0].children.unshift(newNode);
@@ -157,6 +158,7 @@ export class BuildingComponent {
                     newNode.children = []
                     newNode.team_id = node.team_id;
                     newNode.hasFocus = true;
+                    newNode.id = Math.floor(Math.random() * 10000000000000);
                     // console.log("new node", Math.ceil(node.id * Math.random()));
                     n.children = n.children || [];
                     n.children.unshift(newNode);
