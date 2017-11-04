@@ -7,11 +7,6 @@
   stroke-width: 1.5px;
 }
 
-.node-root:hover {
-  stroke: white !important;
-  stroke-width: 0;
-}
-
 .node--leaf {
   fill: white;
 }
@@ -56,10 +51,18 @@ svg circle:hover {
   /*fill-opacity: 0.7;*/
 }
 
-svg circle.node--root:hover {
-  stroke: white !important;
-  stroke-width: 0 !important;
+svg circle.node--root, svg circle.node--root:hover {
+  stroke-opacity: 0.5 !important;
+  stroke-dasharray: 10, 3 !important;
+  stroke: black !important;
+  stroke-width: 3 !important;
+  fill: #f7f7f7!important;
 }
+
+/* svg circle.node--root.inactive {
+  stroke: none!important;
+  fill: white !important
+} */
 
 svg .icon {
   font-family: FontAwesome;
@@ -80,11 +83,11 @@ svg circle.accountable {
   cursor: pointer;
 }
 
-svg circle.highlighted,svg circle.highlighted :hover {
-  fill: #000 !important;
+svg circle.highlighted, svg circle.highlighted:hover {
+  fill: #E44519 !important;
   fill-opacity: 0.5;
-  stroke: black !important;
-  stroke-width: 3!important;
+  stroke:#E44519 !important;
+  stroke-width: 5!important;
 }
 
 svg circle.cut {
@@ -136,4 +139,12 @@ svg circle.cut {
   opacity: 1;
   top: 14vh;
   right: 22vh;
+}
+
+.instructions {
+  position: absolute;
+  z-index: 10;
+  opacity: 1;
+  top: 34vh;
+  right: 24vw;
 }

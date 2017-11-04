@@ -56,7 +56,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     }
 
     init() {
-        console.log("tree init")
+        // console.log("tree init")
         this.uiService.clean();
         let d3 = this.d3;
         let viewerWidth = this.width;
@@ -134,7 +134,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
     // draw(translateX: number, translateY: number, scale: number) {
     update(data: any) {
-        console.log(this.g)
+        // console.log(this.g)
         if (!this.g) {
             this.init();
         }

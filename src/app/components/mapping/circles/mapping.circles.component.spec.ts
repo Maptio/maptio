@@ -171,9 +171,10 @@ describe("mapping.circles.component.ts", () => {
         expect(svgs.length).toBe(1);
         let g = svgs.item(0).querySelector("g");
 
-        expect(g.querySelectorAll("text").length).toBe(2) // do not dusplay map name
-        expect(g.querySelectorAll("text")[0].textContent).toBe("Tech");
-        expect(g.querySelectorAll("text")[1].textContent).toBe("Marketing")
+        expect(g.querySelectorAll("text").length).toBe(3) // do not dusplay map name
+        expect(g.querySelectorAll("text")[0].textContent).toBe("");
+        expect(g.querySelectorAll("text")[1].textContent).toBe("Tech")
+        expect(g.querySelectorAll("text")[2].textContent).toBe("Marketing")
     });
 
     it("should calculate paths when data is valid", () => {

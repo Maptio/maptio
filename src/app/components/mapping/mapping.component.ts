@@ -172,7 +172,7 @@ export class MappingComponent implements OnInit {
             this.removeInitiative.emit(node)
         })
         this.instance.moveInitiative$.asObservable().subscribe(({ node: node, from: from, to: to }) => {
-            console.log("mapping.component.ts", "move initiative", node.name, to.name)
+            // console.log("mapping.component.ts", "move initiative", node.name, to.name)
             this.moveInitiative.emit({ node: node, from: from, to: to })
         })
         this.instance.width = this.VIEWPORT_WIDTH;

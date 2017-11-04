@@ -37,7 +37,7 @@ export class BuildingComponent {
         actionMapping: {
             mouse: {
                 drop: (tree: any, node: TreeNode, $event: any, { from, to }: { from: TreeNode, to: TreeNode }) => {
-                    console.log(tree, node, $event, from, to)
+                    // console.log(tree, node, $event, from, to)
 
                     this.fromInitiative = from.data;
                     this.toInitiative = to.parent.data;
@@ -87,7 +87,7 @@ export class BuildingComponent {
 
 
     saveChanges() {
-        console.log("send to workspace", this.nodes[0])
+        // console.log("send to workspace", this.nodes[0])
         this.save.emit(this.nodes[0]);
     }
 
@@ -114,17 +114,17 @@ export class BuildingComponent {
     }
 
     moveNode(node: Initiative, from: Initiative, to: Initiative) {
-        console.log("moving", node.name, "from", from.name, "to", to.name);
+        // console.log("moving", node.name, "from", from.name, "to", to.name);
         let foundTreeNode = this.tree.treeModel.getNodeById(node.id)
         let foundFromNode = this.tree.treeModel.getNodeById(from.id)
         let foundToNode = this.tree.treeModel.getNodeById(to.id);
-        console.log("moving", foundTreeNode, "from", foundFromNode, "to", foundToNode);
+        // console.log("moving", foundTreeNode, "from", foundFromNode, "to", foundToNode);
 
         // TREE_ACTIONS.MOVE_NODE(this.tree.treeModel, foundTreeNode, {}, { from: foundFromNode, to: foundToNode })
         // this.saveChanges();
         // this.tree.treeModel.moveNode(foundTreeNode, { parent: foundTreeNode });
         // this.tree.treeModel.update();
-        TREE_ACTIONS.MOVE_NODE(this.tree.treeModel, foundToNode, {}, { from: foundTreeNode, to: {parent : foundToNode} })
+        TREE_ACTIONS.MOVE_NODE(this.tree.treeModel, foundToNode, {}, { from: foundTreeNode, to: { parent: foundToNode } })
     }
 
 
@@ -165,7 +165,7 @@ export class BuildingComponent {
             // console.log("new node", Math.ceil(node.id * Math.random()));
             this.nodes[0].children = this.nodes[0].children || [];
             this.nodes[0].children.unshift(newNode);
-            // this.openDetailsEditOnly.emit(newNode)
+            this.openDetailsEditOnly.emit(newNode)
         }
         else {
             this.nodes[0].traverse(n => {
@@ -180,7 +180,7 @@ export class BuildingComponent {
                     // console.log("new node", Math.ceil(node.id * Math.random()));
                     n.children = n.children || [];
                     n.children.unshift(newNode);
-                    // this.openDetailsEditOnly.emit(newNode)
+                    this.openDetailsEditOnly.emit(newNode)
                 }
             });
         }
