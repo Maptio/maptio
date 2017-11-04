@@ -215,13 +215,6 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .classed("with-children", function (d: any) { return d.children && d !== root; })
             .classed("without-children", function (d: any) { return !d.children && d !== root; })
 
-        // selection
-        //     .filter(function (d: any) { return d.children && d !== root })
-        //     .attr("class", "nodes with-children");
-        // selection
-        //     .filter(function (d: any) { return !d.children && d !== root })
-        //     .attr("class", "nodes without-children");
-
         let exit = selection
             .exit()
             .style("fill-opacity", 1)
@@ -268,26 +261,6 @@ export class MappingCirclesComponent implements IDataVisualizer {
         selection.select("circle.node")
             .style("fill", function (d: any) { return d.children ? (d === root ? "white" : color(d.depth)) : (d.parent === root && !d.children ? color(d.depth) : "white"); })
 
-        // let text = enter.select(function (d: any) { return d !== root ? this : null; })
-
-        // let text = selection.selectAll(".nodes")
-        //     .append("text")
-        //     .classed("with-children", function (d: any) { return d.children && d !== root; })
-        //     .classed("without-children", function (d: any) { return !d.children && d !== root; })
-        //     .merge(selection)
-        //     .classed("with-children", function (d: any) { return d.children && d !== root; })
-        //     .classed("without-children", function (d: any) { return !d.children && d !== root; })
-
-        // text = text
-        //     .append("text")
-        //     .attr("id", function (d: any) { return d.data.id; })
-        //     .classed("without-children", function (d: any) { return !d.children && d !== root; })
-        //     .classed("with-children", function (d: any) { return d.children && d !== root; })
-        //     .merge(selection.select(function (d: any) { return d !== root ? this : null; }))
-        //     .classed("without-children", function (d: any) { return !d.children && d !== root; })
-        //     .classed("with-children", function (d: any) { return d.children && d !== root; })
-
-        // text.exit().remove();
         enter.append("text")
             .classed("with-children", function (d: any) { return d.children && d !== root; })
             .classed("without-children", function (d: any) { return !d.children && d !== root; })
@@ -295,95 +268,48 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .classed("with-children", function (d: any) { return d.children && d !== root; })
             .classed("without-children", function (d: any) { return !d.children && d !== root; })
 
-        d3.selectAll("text.with-children").select("tspan").remove();
-        d3.selectAll("text.without-children").select("textPath").remove();
+        let joinWithoutChildren = g.selectAll("g.without-children").data(nodes.filter(function (d: any) { return !d.children && d !== root; }))
 
-        d3.selectAll("text.without-children").data(nodes.filter(function (d: any) { return !d.children && d !== root; }))
+        joinWithoutChildren.exit().selectAll("textPath").remove();
+
+        joinWithoutChildren.enter()
+            .append("text")
             .attr("dy", 0)
             .attr("x", function (d: any) { return -d.r * .85 })
             .attr("y", function (d: any) { return -d.r * .2 })
             .text(function (d: any) { return d.data.name; })
             .on("click", function (d: any, i: number) {
                 showDetails(d);
-                d.isTooltipVisible = !d.isTooltipVisible;
             })
             .each(function (d: any) {
                 uiService.wrap(d3.select(this), d.data.name, d.r * 2 * 0.95);
             });
 
-        d3.selectAll("text.without-children")
+        joinWithoutChildren
+            .select("text")
             .attr("dy", 0)
             .attr("x", function (d: any) { return -d.r * .85 })
             .attr("y", function (d: any) { return -d.r * .2 })
             .text(function (d: any) { return d.data.name; })
             .on("click", function (d: any, i: number) {
                 showDetails(d);
-                d.isTooltipVisible = !d.isTooltipVisible;
             })
             .each(function (d: any) {
                 uiService.wrap(d3.select(this), d.data.name, d.r * 2 * 0.95);
             });
 
-        d3.selectAll("text.with-children").data(nodes.filter(function (d: any) { return d.children && d !== root; }))
+        let joinWithChildren = g.selectAll("g.with-children").data(nodes.filter(function (d: any) { return d.children && d !== root; }))
+
+        joinWithChildren.exit().selectAll("tspan").remove();
+        joinWithChildren.enter()
+            .append("text")
+        joinWithChildren
+            .select("text")
             .attr("x", 0)
             .attr("y", 0)
-            .append("textPath")
-        d3.selectAll("text.with-children")
-            .select("textPath")
-            .attr("xlink:href", function (d: any) { return `#path${d.data.id}`; })
-            .attr("startOffset", function (d: any, i: number) { return "10%"; })
-            .on("click", function (d: any, i: number) {
-                showDetails(d);
+            .html(function (d: any) {
+                return `<textPath xlink:href="#path${d.data.id}" startOffset="10%">${d.data.name}</textPath>`
             })
-            .text(function (d: any) { return d.data.name; });
-
-
-        /*
-        let textInside = enter
-            .select(function (d: any) { return !d.children && d !== root ? this : null; })
-        textInside
-            .append("text")
-
-            .attr("id", function (d: any) { return d.data.id; });
-            .attr("dy", 0)
-            .attr("x", function (d: any) { return -d.r * .85 })
-            .attr("y", function (d: any) { return -d.r * .2 })
-            .text(function (d: any) { return d.data.name; })
-            .on("click", function (d: any, i: number) {
-                showDetails(d);
-                d.isTooltipVisible = !d.isTooltipVisible;
-            })
-            .each(function (d: any) {
-                uiService.wrap(d3.select(this), d.data.name, d.r * 2 * 0.95);
-            })
-            .merge(selection.select(function (d: any) { return !d.children && d !== root ? this : null; }))
-            .filter(function (d: any) { return !d.children && d !== root; })
-            .select("text")
-            .each(function (d: any) {
-                uiService.wrap(d3.select(this), d.data.name, d.r * 2 * 0.95);
-            })
-        textInside.exit().remove();
-
-        let textAround = enter
-            .select(function (d: any) { return d.children && d !== root ? this : null; })
-        textAround
-            .append("text")
-            .attr("id", function (d: any) { return d.data.id; })
-            .append("textPath")
-            .attr("xlink:href", function (d: any) { return `#path${d.data.id}`; })
-            .attr("startOffset", function (d: any, i: number) { return "10%"; })
-            .on("click", function (d: any, i: number) {
-                showDetails(d);
-            })
-            .text(function (d: any) { return d.data.name; })
-            .merge(selection.select(function (d: any) { return d.children && d !== root ? this : null; }))
-            .filter(function (d: any) { return d.children && d !== root; })
-            .select("text")
-            .select("textPath")
-            .text(function (d: any) { return d.data.name; });
-        textAround.exit().remove();
-
-*/
 
 
         enter
