@@ -168,14 +168,27 @@ export class MappingCirclesComponent implements IDataVisualizer {
     cut(node: Initiative) {
         let d3 = this.d3;
         console.log("cutting", node.name);
+        d3.select(`circle[id="${node.id}"]`).classed("highlighted", false).classed("cut", true);
         this.isWaitingForDestinationNode = true;
         this.cutNode = this.selectedNode;
         this.cutNodeParent = this.selectedNodeParent;
     }
 
     paste(toNode: Initiative) {
+        let d3 = this.d3;
         console.log("paste into", toNode.name);
         this.moveInitiative$.next({ node: this.cutNode, from: this.cutNodeParent, to: toNode });
+        d3.select(`circle[id="${this.cutNode.id}"]`).classed("cut", false).classed("highlighted", false);
+        d3.selectAll(`circle.node`).classed("highlighted", false);
+        d3.select(`div.tooltip`).style("visibility", "hidden");
+        this.isWaitingForDestinationNode = false;
+    }
+
+    undo() {
+        let d3 = this.d3;
+        d3.select(`circle[id="${this.cutNode.id}"]`).classed("cut", false).classed("highlighted", false);
+        d3.selectAll(`circle.node`).classed("highlighted", false);
+        d3.select(`div.tooltip`).style("visibility", "hidden");
         this.isWaitingForDestinationNode = false;
     }
 
@@ -253,27 +266,28 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 selectInitiative(d.data, d.parent.data);
                 let circleClicked = d3.select(this);
                 d3.select(`div.tooltip`)
+                    .style("visibility", "visible")
                     .style("opacity", "1")
                     .style("top", (d3.event.pageY - 15) + "px").style("left", (d3.event.pageX) + "px")
                     .on("mouseenter", function () {
-                        circleClicked.style("fill", "#E44519")
-                        d3.select(this).style("opacity", "1")
+                        circleClicked.classed("highlighted", true)
+                        d3.select(this).style("visibility", "visible").style("opacity", "1")
                     })
                     .on("mouseleave", function () {
-                        circleClicked.style("fill", "#E44519")
-                        d3.select(this).style("opacity", "0")
+                        circleClicked.classed("highlighted", true)
+                        d3.select(this).style("visibility", "visible").style("opacity", "0")
                     })
-                d3.select(this).style("fill", "#E44519")
+                d3.select(this).classed("highlighted", true)
                 // d3.select(`foreignObject.editing[data-id="${d.data.id}"]`).classed("show", true)
             })
             // .on("mousemove", function () { d3.select(`div.tooltip`).style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
             .on("mouseleave", function (d: any) {
-                d3.select(`div.tooltip`).style("opacity", "0");
-                d3.select(this).style("fill", function (d: any) { return d.children ? (d === root ? "white" : color(d.depth)) : (d.parent === root && !d.children ? color(d.depth) : "white"); })
+                d3.select(`div.tooltip`).style("visibility", "hidden");
+                d3.select(this).classed("highlighted", false).style("fill", function (d: any) { return d.children ? (d === root ? "white" : color(d.depth)) : (d.parent === root && !d.children ? color(d.depth) : "white"); })
             });
 
         enter.select("circle.node")
-            .style("fill", "#E44519")
+            .style("fill", "white")
             .transition(t)
             .style("fill", function (d: any) { return d.children ? (d === root ? "white" : color(d.depth)) : (d.parent === root && !d.children ? color(d.depth) : "white"); })
         selection.select("circle.node")

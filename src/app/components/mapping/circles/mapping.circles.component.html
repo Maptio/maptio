@@ -9,14 +9,24 @@
 <div class="tooltip">
     <div>
         <div class="btn-group" role="group">
-            <button *ngIf="!isWaitingForDestinationNode" type="button" class="btn btn-sm add btn-secondary" (click)="add(selectedNode)"></button>
-            <button *ngIf="!isWaitingForDestinationNode" type="button" class="btn btn-sm edit btn-secondary" (click)="edit(selectedNode)"></button>
-            <button *ngIf="!isWaitingForDestinationNode" type="button" class="btn btn-sm remove btn-secondary" placement="top" container="body"
+            <button *ngIf="!isWaitingForDestinationNode" type="button" class="btn btn-sm add btn-secondary" (click)="add(selectedNode)"
+                placement="top" ngbTooltip="New initiative" container="body"></button>
+
+            <button *ngIf="!isWaitingForDestinationNode" type="button" class="btn btn-sm edit btn-secondary" (click)="edit(selectedNode)"
+                placement="top" ngbTooltip="Edit" container="body"></button>
+
+            <button *ngIf="!isWaitingForDestinationNode" type="button" class="btn btn-sm remove btn-secondary" 
+                placement="top" container="body" ngbTooltip="Remove"
                 mwlConfirmationPopover title="Remove initiative {{selectedNode?.name}} and sub initiatives ?" focusbutton="cancel"
                 appendToBody="false" (confirm)="remove(selectedNode)" (cancel)="cancelClicked = true"></button>
-            <button *ngIf="!isWaitingForDestinationNode" type="button" class="btn btn-sm cut btn-secondary" (click)="cut(selectedNode)"></button>
 
-            <button *ngIf="isWaitingForDestinationNode" type="button" class="btn btn-sm paste btn-secondary" (click)="paste(selectedNode)"></button>
+            <button *ngIf="!isWaitingForDestinationNode" type="button" class="btn btn-sm cut btn-secondary" (click)="cut(selectedNode)"
+                placement="top" ngbTooltip="Cut" container="body"></button>
+
+            <button *ngIf="isWaitingForDestinationNode" type="button" class="btn btn-sm paste btn-secondary" (click)="paste(selectedNode)"
+                placement="top" ngbTooltip="Paste" container="body"></button>
+            <button *ngIf="isWaitingForDestinationNode" type="button" class="btn btn-sm undo btn-secondary" (click)="undo()" placement="top"
+                ngbTooltip="Cancel" container="body"></button>
 
 
         </div>

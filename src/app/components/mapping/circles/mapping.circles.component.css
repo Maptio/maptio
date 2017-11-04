@@ -80,14 +80,18 @@ svg circle.accountable {
   cursor: pointer;
 }
 
+svg circle.highlighted,svg circle.highlighted :hover {
+  fill: #000 !important;
+  fill-opacity: 0.5;
+  stroke: black !important;
+  stroke-width: 3!important;
+}
 
-svg circle.node.cut-mode{
-  width: 150px;
-  height: 150px;
-  background-color: red;
-  border-radius: 50%;
-  border: 5px dotted #fff;
-  box-shadow: 0 0 0 4px red;
+svg circle.cut {
+  fill-opacity: 0.5;
+  stroke-dasharray: 10, 3;
+  stroke: black !important;
+  stroke-width: 3;
 }
 
 .add:before {
@@ -115,10 +119,13 @@ svg circle.node.cut-mode{
   font-family: FontAwesome;
 }
 
+.undo:before {
+  content: "\f0e2";
+  font-family: FontAwesome;
+}
 
 .tooltip {
   position: absolute;
   z-index: 10;
   opacity: 0;
-  background-color: #E44519;
 }
