@@ -408,13 +408,14 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
         paths.exit().remove();
 
-        let patterns = definitions.selectAll("pattern").data(nodes, function (d: any) { return d.data.id });
-        let enterPatterns = patterns.enter().append("pattern")
+        let patterns = definitions.selectAll("pattern").data(nodes.filter(function (d: any) { return d.data.accountable }), function (d: any) { return d.data.id });
+        let enterPatterns = patterns.enter().filter(function (d: any) { return d.data.accountable }).append("pattern");
 
-        enterPatterns.merge(patterns).filter(function (d: any) { return d.data.accountable })
+        enterPatterns.merge(patterns)
             .attr("id", function (d: any) { return "image" + d.data.id; })
             .attr("width", "100%")
             .attr("height", "100%")
+            .filter(function (d: any) { return d.data.accountable })
             .append("image")
             .attr("width", CIRCLE_RADIUS * 2)
             .attr("height", CIRCLE_RADIUS * 2)

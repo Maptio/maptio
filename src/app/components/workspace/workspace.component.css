@@ -71,7 +71,7 @@
 #sideNavTree {
     height: 90vh;
     max-height: 90vh;
-    min-width: 3.5vw;
+    /* min-width: 3.5vw; */
     position: fixed;
     left: 0;
     overflow: hidden;
@@ -79,7 +79,7 @@
     background-color: rgb(41, 128, 185);
     margin-top: 7vh;
     width: 0;
-    padding: 10px 0 0 10px;
+    /* padding: 10px 0 0 10px; */
 }
 
 #sideNavTree.showTree {
@@ -101,7 +101,7 @@
     margin-top: 7vh;
     width: 0;
     padding: 10px 0 0 10px;
-    margin-left: 3.5vw;
+    /* margin-left: 3.5vw; */
 }
 
 #sideNavDetails.showDetails {
@@ -218,7 +218,7 @@
 
 .toggle.showDetails {
     transition: 0.5s;
-    margin-left:40vw;
+    margin-left:41vw;
 }
 
 .toggle:hover{
