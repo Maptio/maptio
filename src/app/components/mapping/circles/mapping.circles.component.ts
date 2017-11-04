@@ -263,6 +263,10 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .style("stroke-width", function (d: any) { return d.data.isSearchedFor ? 3 : "none" })
             .attr("id", function (d: any) { return d.data.id; })
             .on("click", function (d: any) {
+                showDetails(d);
+            })
+            .on("contextmenu", function (d: any) {
+                d3.event.preventDefault();
                 selectInitiative(d.data, d.parent.data);
                 let circleClicked = d3.select(this);
                 d3.select(`div.tooltip`)
