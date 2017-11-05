@@ -41,7 +41,7 @@ svg text {
 
 svg text:hover {
   opacity: 1;
-  font-size: larger;
+  /* font-size: larger; */
 }
 
 svg circle:hover {
@@ -147,4 +147,13 @@ svg circle.cut {
   opacity: 1;
   top: 34vh;
   right: 24vw;
+}
+
+.tooltip-initiative{
+  position: absolute;
+  z-index: 10;
+}
+
+.toggle{
+  margin: -1vh -3vh -5vh 20vw;
 }

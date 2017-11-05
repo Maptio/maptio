@@ -49,14 +49,17 @@ export class MappingCirclesComponent implements IDataVisualizer {
     private g: any;
     private definitions: any;
     public isWaitingForDestinationNode: boolean = false;
+    public isTooltipDescriptionVisible: boolean = false;
     public isFirstEditing: boolean = false;
 
     private selectedNode: Initiative;
     public selectedNodeParent: Initiative;
+    public hoveredNode: Initiative;
 
     private cutNode: Initiative;
     private cutNodeParent: Initiative;
     CIRCLE_RADIUS: number = 15;
+    MAX_TEXT_LENGTH = 35;
 
     constructor(public d3Service: D3Service, public colorService: ColorService,
         public uiService: UIService, public router: Router,
@@ -153,6 +156,15 @@ export class MappingCirclesComponent implements IDataVisualizer {
         this.cd.markForCheck();
     }
 
+    hoverInitiative(node: Initiative) {
+        this.hoveredNode = node;
+        this.cd.markForCheck();
+    }
+
+    toggleDescriptionTooltip() {
+        this.isTooltipDescriptionVisible = !this.isTooltipDescriptionVisible;
+    }
+
     edit(node: Initiative) {
         // console.log("editing ", node)
         if (!this.selectedNodeParent) { return }
@@ -222,7 +234,10 @@ export class MappingCirclesComponent implements IDataVisualizer {
         let removeInitiative$ = this.removeInitiative$;
         let TRANSITION_DURATION = 750;
         let selectInitiative = this.selectInitiative.bind(this);
+        let hoverInitiative = this.hoverInitiative.bind(this);
+        let toggleDescriptionTooltip = this.toggleDescriptionTooltip.bind(this)
         let isFirstEditing = this.isFirstEditing;
+        let MAX_TEXT_LENGTH = this.MAX_TEXT_LENGTH;
 
         let slug = data.getSlug();
 
@@ -280,6 +295,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .on("click", function (d: any) {
                 if (d.parent)
                     showDetails(d);
+                d3.select("div.tooltip-initiative").style("visibility", "hidden");
             })
             .on("contextmenu", function (d: any) {
                 // console.log("contextmenu")
@@ -333,6 +349,9 @@ export class MappingCirclesComponent implements IDataVisualizer {
         // console.log(joinWithoutChildren)
         // joinWithoutChildren.exit().selectAll("textPath").remove();
 
+        let tooltip = d3.select("div.tooltip-initiative");
+
+
         joinWithoutChildren.enter()
             .append("text")
 
@@ -345,8 +364,39 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .on("click", function (d: any, i: number) {
                 showDetails(d);
             })
+            .on("mouseover", function (d: any) {
+                toggleDescriptionTooltip()
+                hoverInitiative(d.data)
+                d3.select("div.tooltip-initiative")
+                    .style("top", (d3.event.pageY - 20) + "px")
+                    .style("left", (d3.event.pageX) + "px")
+                    .on("mouseenter", function () {
+                        d3.select(this).style("visibility", "visible")
+                    })
+                    .on("mouseleave", function () {
+                        d3.select(this).style("visibility", "visible")
+                    })
+            })
+            .on("mousemove", function (d: any) {
+                hoverInitiative(d.data)
+                d3.select("div.tooltip-initiative")
+                    .style("top", (d3.event.pageY - 20) + "px")
+                    .style("left", (d3.event.pageX) + "px")
+                    .on("mouseenter", function () {
+                        d3.select(this).style("visibility", "visible")
+                    })
+                    .on("mouseleave", function () {
+                        d3.select(this).style("visibility", "visible")
+                    })
+            })
+            .on("mouseout", function (d: any) {
+                toggleDescriptionTooltip()
+                // d3.select("div.tooltip-initiative").style("visibility", "hidden");
+            })
             .each(function (d: any) {
-                uiService.wrap(d3.select(this), d.data.name, d.r * 2 * 0.95);
+                console.log(d.data.name, d.data.name.length);
+                let realText = d.data.name.length > MAX_TEXT_LENGTH ? `${d.data.name.substr(0, MAX_TEXT_LENGTH)}...` : d.data.name
+                uiService.wrap(d3.select(this), realText, d.r * 2 * 0.95);
             });
 
         let joinWithChildren = g.selectAll("g.with-children").data(nodes.filter(function (d: any) { return d.children && d !== root; }))
