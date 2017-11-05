@@ -500,12 +500,24 @@ export class MappingCirclesComponent implements IDataVisualizer {
         let patterns = definitions.selectAll("pattern").data(nodes.filter(function (d: any) { return d.data.accountable }), function (d: any) { return d.data.id });
         let enterPatterns = patterns.enter().filter(function (d: any) { return d.data.accountable }).append("pattern");
 
-        enterPatterns.merge(patterns)
+        enterPatterns
             .attr("id", function (d: any) { return "image" + d.data.id; })
             .attr("width", "100%")
             .attr("height", "100%")
             .filter(function (d: any) { return d.data.accountable })
             .append("image")
+            .attr("width", CIRCLE_RADIUS * 2)
+            .attr("height", CIRCLE_RADIUS * 2)
+            .attr("xlink:href", function (d: any) {
+                return d.data.accountable.picture;
+            })
+
+        patterns
+            .attr("id", function (d: any) { return "image" + d.data.id; })
+            .attr("width", "100%")
+            .attr("height", "100%")
+            .filter(function (d: any) { return d.data.accountable })
+            .select("image")
             .attr("width", CIRCLE_RADIUS * 2)
             .attr("height", CIRCLE_RADIUS * 2)
             .attr("xlink:href", function (d: any) {
