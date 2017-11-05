@@ -83,7 +83,7 @@ export class MappingComponent implements OnInit {
         private analytics: Angulartics2Mixpanel
     ) {
         this.zoom$ = new Subject<number>();
-        this.fontSize$ = new BehaviorSubject<number>(14);
+        this.fontSize$ = new BehaviorSubject<number>(17);
         this.isLoading = new BehaviorSubject<boolean>(true);
         this.data$ = new Subject<{ initiative: Initiative, datasetId: string }>();
     }

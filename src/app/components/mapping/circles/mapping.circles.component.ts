@@ -127,7 +127,17 @@ export class MappingCirclesComponent implements IDataVisualizer {
         })
 
         this.fontSize$.subscribe((fs: number) => {
+            let uiService = this.uiService;
+            let MAX_TEXT_LENGTH = this.MAX_TEXT_LENGTH;
             svg.attr("font-size", fs + "px");
+            svg.selectAll("text").attr("font-size", fs + "px");
+
+            d3.selectAll("text.without-children")
+                .each(function (d: any) {
+                    // console.log(d.data.name, d.data.name.length);
+                    let realText = d.data.name ? (d.data.name.length > MAX_TEXT_LENGTH ? `${d.data.name.substr(0, MAX_TEXT_LENGTH)}...` : d.data.name) : "";
+                    uiService.wrap(d3.select(this), realText, d.r * 2 * 0.95);
+                });
         });
 
         this.svg = svg;
