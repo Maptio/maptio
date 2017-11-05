@@ -150,7 +150,6 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
 
     selectInitiative(node: Initiative, parent: Initiative) {
-        console.log("selected", node, parent)
         this.selectedNode = node;
         this.selectedNodeParent = parent;
         this.cd.markForCheck();
@@ -319,7 +318,6 @@ export class MappingCirclesComponent implements IDataVisualizer {
             })
             // .on("mousemove", function () { d3.select(`div.tooltip`).style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
             .on("mouseleave", function (d: any) {
-                console.log("leaving", d.data.name)
                 toggleDescriptionTooltip();
                 d3.select(`div.tooltip`).style("visibility", "hidden");
                 d3.select(this)
@@ -441,7 +439,6 @@ export class MappingCirclesComponent implements IDataVisualizer {
                             .then(u => d.data.accountable.shortid = u.shortid)
                             .then(() => { router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.data.accountable.shortid}/${d.data.accountable.getSlug()}`) })
                     }
-                    console.log(`/summary/map/${datasetId}/${slug}/u/${d.data.accountable.shortid}/${d.data.accountable.getSlug()}`)
                     router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.data.accountable.shortid}/${d.data.accountable.getSlug()}`)
                 }
 

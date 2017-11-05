@@ -124,7 +124,6 @@ export class MappingComponent implements OnInit {
                 this.isLoading.next(false);
             })
             .subscribe((data) => {
-                console.log(data)
                 this.instance.data$.next(data);
             })
 
