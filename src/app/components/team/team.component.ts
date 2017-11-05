@@ -13,7 +13,7 @@ import { User } from "../../shared/model/user.data";
 import { Auth } from "../../shared/services/auth/auth.service";
 import { UUID } from "angular2-uuid";
 import { DataSet } from "../../shared/model/dataset.data";
-import {compact, sortBy, differenceBy, remove} from "lodash"
+import { compact, sortBy, differenceBy, remove, uniqBy } from "lodash"
 import { UserService } from "../../shared/services/user/user.service";
 
 @Component({
@@ -111,9 +111,9 @@ export class TeamComponent implements OnDestroy {
                 .then((result) => {
                     let members = result.members;
 
-                    let membersPending = _.uniqBy(result.membersPending, m => m.user_id);
+                    let membersPending = uniqBy(result.membersPending, m => m.user_id);
                     console.log(members, membersPending);
-                    let allDeleted = _.differenceBy(members, membersPending, m => m.user_id).map(m => { m.isDeleted = true; return m });
+                    let allDeleted = differenceBy(members, membersPending, m => m.user_id).map(m => { m.isDeleted = true; return m });
 
                     return membersPending.concat(allDeleted);
                 })
