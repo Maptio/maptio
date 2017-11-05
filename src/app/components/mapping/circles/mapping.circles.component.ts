@@ -147,7 +147,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
 
     selectInitiative(node: Initiative, parent: Initiative) {
-        // console.log("selected", node, parent)
+        console.log("selected", node, parent)
         this.selectedNode = node;
         this.selectedNodeParent = parent;
         this.cd.markForCheck();
@@ -284,7 +284,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .on("contextmenu", function (d: any) {
                 // console.log("contextmenu")
                 d3.event.preventDefault();
-                selectInitiative(d.data, d.parent ? d.parent.data : null);
+                selectInitiative(d.data, d.parent ? d.parent.data : undefined);
                 let circleClicked = d3.select(this);
                 d3.select(`div.tooltip`)
                     .style("visibility", "visible")

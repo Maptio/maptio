@@ -16,6 +16,7 @@
 </div>
 
 <div class="tooltip">
+    {{!(selectedNodeParent)}}
     <div>
         <div class="btn-group" role="group">
             <button *ngIf="!isWaitingForDestinationNode" type="button" class="btn  add btn-secondary" (click)="add(selectedNode)" placement="top"
@@ -24,8 +25,8 @@
             <button *ngIf="!isWaitingForDestinationNode" [class.disabled]="!selectedNodeParent" type="button" class="btn  edit btn-secondary" (click)="edit(selectedNode)" placement="top"
                 ngbTooltip="Edit" container="body"></button>
 
-            <button *ngIf="!isWaitingForDestinationNode" [class.disabled]="!selectedNodeParent" type="button" class="btn  remove btn-secondary" placement="top" container="body"
-                ngbTooltip="Remove" mwlConfirmationPopover isDisabled="!selectedNodeParent" title="Remove initiative {{selectedNode?.name}} and sub initiatives ?"
+            <button *ngIf="!isWaitingForDestinationNode && selectedNodeParent"  type="button" class="btn  remove btn-secondary" placement="top" container="body"
+                ngbTooltip="Remove" mwlConfirmationPopover title="Remove initiative {{selectedNode?.name}} and sub initiatives ?"
                 focusbutton="cancel" appendToBody="false" (confirm)="remove(selectedNode)" (cancel)="cancelClicked = true"></button>
 
             <button *ngIf="!isWaitingForDestinationNode"  [class.disabled]="!selectedNodeParent" type="button" class="btn  cut btn-secondary" (click)="cut(selectedNode)" placement="top"
