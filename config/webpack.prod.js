@@ -7,7 +7,6 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var helpers = require('./helpers');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
-var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const ngToolsWebpack = require('@ngtools/webpack');
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
@@ -111,7 +110,6 @@ module.exports = {
     new CopyWebpackPlugin([
       { from: 'public', to: 'assets' }
 
-    ]),
-    new BundleAnalyzerPlugin()
+    ])
   ]
 };
