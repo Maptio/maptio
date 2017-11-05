@@ -152,51 +152,51 @@ describe("workspace.component.ts", () => {
             });
         })
 
-        describe("adding team to initiative", () => {
-            it("should add team to current dataset and update team members", async(() => {
-                let spyModal = spyOn(target.debugElement.injector.get(NgbModal), "open").and.returnValue({ result: Promise.resolve(true) })
-                let spy = spyOn(component, "updateTeamMembers")
-                component.dataset$ = Promise.resolve(new DataSet({ _id: "some_dataset_id", initiative: new Initiative() }))
+        // describe("adding team to initiative", () => {
+        //     it("should add team to current dataset and update team members", async(() => {
+        //         let spyModal = spyOn(target.debugElement.injector.get(NgbModal), "open").and.returnValue({ result: Promise.resolve(true) })
+        //         let spy = spyOn(component, "updateTeamMembers")
+        //         component.dataset$ = Promise.resolve(new DataSet({ _id: "some_dataset_id", initiative: new Initiative() }))
 
-                let team = new Team({ name: "Winners", members: [], team_id: "some_team_id" })
+        //         let team = new Team({ name: "Winners", members: [], team_id: "some_team_id" })
 
-                component.dataset$.then((d) => {
-                    expect(d.initiative.team_id).toBeUndefined();
-                })
-                component.addTeamToInitiative(team)
+        //         component.dataset$.then((d) => {
+        //             expect(d.initiative.team_id).toBeUndefined();
+        //         })
+        //         component.addTeamToInitiative(team)
 
-                spyModal.calls.mostRecent().returnValue.result.then(() => {
-                    component.dataset$.then((d) => {
-                        expect(d.initiative.team_id).toBe("some_team_id")
-                    })
-                    expect(spy).toHaveBeenCalled();
-                })
-            }))
+        //         spyModal.calls.mostRecent().returnValue.result.then(() => {
+        //             component.dataset$.then((d) => {
+        //                 expect(d.initiative.team_id).toBe("some_team_id")
+        //             })
+        //             expect(spy).toHaveBeenCalled();
+        //         })
+        //     }))
 
 
-            it("should load data in building component", async(() => {
-                let spyModal = spyOn(target.debugElement.injector.get(NgbModal), "open").and.returnValue({ result: Promise.resolve(true) })
-                let mockFactory = target.debugElement.injector.get(DatasetFactory);
-                let spyUpsert = spyOn(mockFactory, "upsert").and.returnValue(Promise.resolve(true))
+        //     it("should load data in building component", async(() => {
+        //         let spyModal = spyOn(target.debugElement.injector.get(NgbModal), "open").and.returnValue({ result: Promise.resolve(true) })
+        //         let mockFactory = target.debugElement.injector.get(DatasetFactory);
+        //         let spyUpsert = spyOn(mockFactory, "upsert").and.returnValue(Promise.resolve(true))
 
-                let spyLoadData = spyOn(component.buildingComponent, "loadData")
-                component.dataset$ = Promise.resolve(new DataSet({ _id: "some_dataset_id", initiative: new Initiative() }))
+        //         let spyLoadData = spyOn(component.buildingComponent, "loadData")
+        //         component.dataset$ = Promise.resolve(new DataSet({ _id: "some_dataset_id", initiative: new Initiative() }))
 
-                let team = new Team({ name: "Winners", members: [], team_id: "some_team_id" })
+        //         let team = new Team({ name: "Winners", members: [], team_id: "some_team_id" })
 
-                component.addTeamToInitiative(team)
-                spyModal.calls.mostRecent().returnValue.result.then(() => {
-                    component.dataset$.then((d) => {
-                        expect(true).toBeTruthy();
-                        expect(spyUpsert).toHaveBeenCalled();
-                        spyUpsert.calls.mostRecent().returnValue.then(() => {
-                            expect(spyLoadData).toHaveBeenCalledWith("some_dataset_id")
-                        })
-                    })
-                })
-            }))
+        //         component.addTeamToInitiative(team)
+        //         spyModal.calls.mostRecent().returnValue.result.then(() => {
+        //             component.dataset$.then((d) => {
+        //                 expect(true).toBeTruthy();
+        //                 expect(spyUpsert).toHaveBeenCalled();
+        //                 spyUpsert.calls.mostRecent().returnValue.then(() => {
+        //                     expect(spyLoadData).toHaveBeenCalledWith("some_dataset_id")
+        //                 })
+        //             })
+        //         })
+        //     }))
 
-        })
+        // })
 
         describe("toggleBuildingPanel", () => {
             it("should change value of isBuildingPanelCollapsed when calling toggleBuildingPanel", () => {

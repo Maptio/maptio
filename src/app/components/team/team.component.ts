@@ -112,7 +112,7 @@ export class TeamComponent implements OnDestroy {
                     let members = result.members;
 
                     let membersPending = uniqBy(result.membersPending, m => m.user_id);
-                    console.log(members, membersPending);
+                    // console.log(members, membersPending);
                     let allDeleted = differenceBy(members, membersPending, m => m.user_id).map(m => { m.isDeleted = true; return m });
 
                     return membersPending.concat(allDeleted);

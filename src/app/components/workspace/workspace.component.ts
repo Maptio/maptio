@@ -120,26 +120,26 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     }
 
-    addTeamToInitiative(team: Team) {
-        this.modalService.open(this.dragConfirmationModal).result.then((result: boolean) => {
-            if (result) {
-                this.isBuildingPanelCollapsed = true;
-                this.isDetailsPanelCollapsed = true;
-                this.team$ = this.dataset$.then((dataset: DataSet) => {
-                    dataset.initiative.team_id = team.team_id;
-                    this.datasetFactory.upsert(dataset, dataset._id).then(() => {
-                        this.buildingComponent.loadData(dataset._id);
-                    })
-                    return team;
-                });
-                this.updateTeamMembers();
-            }
-        })
-            .catch(reason => { });
+    // addTeamToInitiative(team: Team) {
+    //     this.modalService.open(this.dragConfirmationModal).result.then((result: boolean) => {
+    //         if (result) {
+    //             this.isBuildingPanelCollapsed = true;
+    //             this.isDetailsPanelCollapsed = true;
+    //             this.team$ = this.dataset$.then((dataset: DataSet) => {
+    //                 dataset.initiative.team_id = team.team_id;
+    //                 this.datasetFactory.upsert(dataset, dataset._id).then(() => {
+    //                     this.buildingComponent.loadData(dataset._id);
+    //                 })
+    //                 return team;
+    //             });
+    //             this.updateTeamMembers();
+    //         }
+    //     })
+    //         .catch(reason => { });
 
 
 
-    }
+    // }
 
     updateTeamMembers() {
         this.isBuildingPanelCollapsed = true;
