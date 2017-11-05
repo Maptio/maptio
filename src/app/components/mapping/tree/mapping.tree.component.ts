@@ -51,6 +51,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         this.data$ = new Subject<{ initiative: Initiative, datasetId: string }>();
         this.dataSubscription = this.data$.asObservable().distinct().subscribe(complexData => {
             let data = <any>complexData.initiative;
+            this.datasetId = complexData.datasetId;
             this.update(data)
         })
     }

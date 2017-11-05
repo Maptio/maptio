@@ -66,6 +66,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
         this.data$ = new Subject<{ initiative: Initiative, datasetId: string }>();
         this.dataSubscription = this.data$.asObservable().distinct().subscribe(complexData => {
             let data = <any>complexData.initiative;
+            this.datasetId = complexData.datasetId;
             this.update(data)
         })
     }
@@ -393,6 +394,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
                             .then(u => d.data.accountable.shortid = u.shortid)
                             .then(() => { router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.data.accountable.shortid}/${d.data.accountable.getSlug()}`) })
                     }
+                    console.log(`/summary/map/${datasetId}/${slug}/u/${d.data.accountable.shortid}/${d.data.accountable.getSlug()}`)
                     router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.data.accountable.shortid}/${d.data.accountable.getSlug()}`)
                 }
 
