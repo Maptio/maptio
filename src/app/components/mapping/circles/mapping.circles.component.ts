@@ -164,6 +164,10 @@ export class MappingCirclesComponent implements IDataVisualizer {
         this.isTooltipDescriptionVisible = !this.isTooltipDescriptionVisible;
     }
 
+    setTooltipDescriptionVisible(isVisible: boolean) {
+        this.isTooltipDescriptionVisible = isVisible;
+    }
+
     edit(node: Initiative) {
         // console.log("editing ", node)
         if (!this.selectedNodeParent) { return }
@@ -235,6 +239,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
         let selectInitiative = this.selectInitiative.bind(this);
         let hoverInitiative = this.hoverInitiative.bind(this);
         let toggleDescriptionTooltip = this.toggleDescriptionTooltip.bind(this)
+        let setTooltipDescriptionVisible = this.setTooltipDescriptionVisible.bind(this)
         let isFirstEditing = this.isFirstEditing;
         let MAX_TEXT_LENGTH = this.MAX_TEXT_LENGTH;
 
@@ -292,9 +297,11 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .style("stroke-width", function (d: any) { return d.data.isSearchedFor ? 3 : "none" })
             .attr("id", function (d: any) { return d.data.id; })
             .on("click", function (d: any) {
-                if (d.parent)
+                if (d.parent) {
                     showDetails(d);
-                toggleDescriptionTooltip()
+                    setTooltipDescriptionVisible(false);
+                }
+
             })
             .on("contextmenu", function (d: any) {
                 // console.log("contextmenu")
@@ -363,6 +370,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .text(function (d: any) { return d.data.name; })
             .on("click", function (d: any, i: number) {
                 showDetails(d);
+                setTooltipDescriptionVisible(false);
             })
             .each(function (d: any) {
                 // console.log(d.data.name, d.data.name.length);
@@ -384,11 +392,12 @@ export class MappingCirclesComponent implements IDataVisualizer {
             })
             .on("click", function (d: any, i: number) {
                 showDetails(d);
+                setTooltipDescriptionVisible(false);
             })
 
         g.selectAll("text")
             .on("mouseover", function (d: any) {
-                toggleDescriptionTooltip()
+                setTooltipDescriptionVisible(true)
                 hoverInitiative(d.data)
                 d3.select("div.tooltip-initiative")
                     .style("top", (d3.event.pageY - 20) + "px")

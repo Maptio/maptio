@@ -15,7 +15,7 @@
     Right click on the circle and create your first initiative
 </div>
 
-<div class="tooltip-initiative col-3" [hidden]="isTooltipDescriptionVisible">
+<div class="tooltip-initiative col-3" [hidden]="!isTooltipDescriptionVisible">
     <div class="card card-inverse background">
         <a class="btn toggle" (click)="toggleDescriptionTooltip()">
             <i class="fa fa-times" aria-hidden="true"></i>
