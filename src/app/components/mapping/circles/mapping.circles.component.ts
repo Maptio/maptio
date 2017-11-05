@@ -48,11 +48,11 @@ export class MappingCirclesComponent implements IDataVisualizer {
     private svg: any;
     private g: any;
     private definitions: any;
-    private isWaitingForDestinationNode: boolean = false;
-    private isFirstEditing: boolean = false;
+    public isWaitingForDestinationNode: boolean = false;
+    public isFirstEditing: boolean = false;
 
     private selectedNode: Initiative;
-    private selectedNodeParent: Initiative;
+    public selectedNodeParent: Initiative;
 
     private cutNode: Initiative;
     private cutNodeParent: Initiative;

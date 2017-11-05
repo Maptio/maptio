@@ -126,6 +126,7 @@
     "karma-typescript": "3.0.7",
     "karma-typescript-angular2-transform": "^1.0.2",
     "karma-typescript-es6-transform": "^1.0.2",
-    "karma-webpack": "^2.0.1"
+    "karma-webpack": "^2.0.1",
+    "webpack-bundle-analyzer": "^2.9.0"
   }
 }
