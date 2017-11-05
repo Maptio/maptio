@@ -59,7 +59,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
     private cutNode: Initiative;
     private cutNodeParent: Initiative;
     CIRCLE_RADIUS: number = 15;
-    MAX_TEXT_LENGTH = 35;
+    MAX_TEXT_LENGTH = 30;
 
     constructor(public d3Service: D3Service, public colorService: ColorService,
         public uiService: UIService, public router: Router,
