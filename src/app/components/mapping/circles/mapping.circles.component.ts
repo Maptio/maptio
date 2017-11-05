@@ -367,8 +367,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 showDetails(d);
             })
             .each(function (d: any) {
-                console.log(d.data.name, d.data.name.length);
-                let realText = d.data.name.length > MAX_TEXT_LENGTH ? `${d.data.name.substr(0, MAX_TEXT_LENGTH)}...` : d.data.name
+                // console.log(d.data.name, d.data.name.length);
+                let realText = d.data.name ? (d.data.name.length > MAX_TEXT_LENGTH ? `${d.data.name.substr(0, MAX_TEXT_LENGTH)}...` : d.data.name) : "";
                 uiService.wrap(d3.select(this), realText, d.r * 2 * 0.95);
             });
 
