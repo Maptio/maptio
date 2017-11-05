@@ -295,7 +295,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .on("click", function (d: any) {
                 if (d.parent)
                     showDetails(d);
-                d3.select("div.tooltip-initiative").style("visibility", "hidden");
+                toggleDescriptionTooltip()
             })
             .on("contextmenu", function (d: any) {
                 // console.log("contextmenu")
@@ -319,6 +319,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             })
             // .on("mousemove", function () { d3.select(`div.tooltip`).style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
             .on("mouseleave", function (d: any) {
+                toggleDescriptionTooltip();
                 d3.select(`div.tooltip`).style("visibility", "hidden");
                 d3.select(this)
                     .classed("highlighted", false)
@@ -364,6 +365,29 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .on("click", function (d: any, i: number) {
                 showDetails(d);
             })
+            .each(function (d: any) {
+                console.log(d.data.name, d.data.name.length);
+                let realText = d.data.name.length > MAX_TEXT_LENGTH ? `${d.data.name.substr(0, MAX_TEXT_LENGTH)}...` : d.data.name
+                uiService.wrap(d3.select(this), realText, d.r * 2 * 0.95);
+            });
+
+        let joinWithChildren = g.selectAll("g.with-children").data(nodes.filter(function (d: any) { return d.children && d !== root; }))
+
+        // joinWithChildren.exit().selectAll("tspan").remove();
+        joinWithChildren.enter()
+            .append("text")
+        joinWithChildren
+            .select("text")
+            .attr("x", 0)
+            .attr("y", 0)
+            .html(function (d: any) {
+                return `<textPath xlink:href="#path${d.data.id}" startOffset="10%">${d.data.name || ""}</textPath>`
+            })
+            .on("click", function (d: any, i: number) {
+                showDetails(d);
+            })
+
+        g.selectAll("text")
             .on("mouseover", function (d: any) {
                 toggleDescriptionTooltip()
                 hoverInitiative(d.data)
@@ -393,29 +417,6 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 toggleDescriptionTooltip()
                 // d3.select("div.tooltip-initiative").style("visibility", "hidden");
             })
-            .each(function (d: any) {
-                console.log(d.data.name, d.data.name.length);
-                let realText = d.data.name.length > MAX_TEXT_LENGTH ? `${d.data.name.substr(0, MAX_TEXT_LENGTH)}...` : d.data.name
-                uiService.wrap(d3.select(this), realText, d.r * 2 * 0.95);
-            });
-
-        let joinWithChildren = g.selectAll("g.with-children").data(nodes.filter(function (d: any) { return d.children && d !== root; }))
-
-        // joinWithChildren.exit().selectAll("tspan").remove();
-        joinWithChildren.enter()
-            .append("text")
-        joinWithChildren
-            .select("text")
-            .attr("x", 0)
-            .attr("y", 0)
-            .html(function (d: any) {
-                return `<textPath xlink:href="#path${d.data.id}" startOffset="10%">${d.data.name || ""}</textPath>`
-            })
-            .on("click", function (d: any, i: number) {
-                showDetails(d);
-            })
-
-
         // let joinCircleAccountable = g.selectAll("g.nodes").data(nodes);
         // joinCircleAccountable.enter().append("circle").attr("class", "accountable")
 
