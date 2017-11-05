@@ -156,4 +156,14 @@ svg circle.cut {
 
 .toggle{
   margin: -1vh -3vh -5vh 20vw;
+  color:black!important;
+}
+
+.background
+{
+  background-color: #f7f7f7;
+}
+
+.text-color{
+  color: #266DAC !important;
 }

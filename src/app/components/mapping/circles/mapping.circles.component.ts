@@ -319,6 +319,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             })
             // .on("mousemove", function () { d3.select(`div.tooltip`).style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
             .on("mouseleave", function (d: any) {
+                console.log("leaving", d.data.name)
                 toggleDescriptionTooltip();
                 d3.select(`div.tooltip`).style("visibility", "hidden");
                 d3.select(this)
@@ -398,7 +399,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
                         d3.select(this).style("visibility", "visible")
                     })
                     .on("mouseleave", function () {
-                        d3.select(this).style("visibility", "visible")
+                        toggleDescriptionTooltip();
                     })
             })
             .on("mousemove", function (d: any) {
@@ -415,13 +416,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
             })
             .on("mouseout", function (d: any) {
                 toggleDescriptionTooltip()
-                // d3.select("div.tooltip-initiative").style("visibility", "hidden");
             })
-        // let joinCircleAccountable = g.selectAll("g.nodes").data(nodes);
-        // joinCircleAccountable.enter().append("circle").attr("class", "accountable")
 
-        // joinCircleAccountable.select("circle.accountable")
-        //     // .attr("class", "accountable")
         enter.append("circle")
             .attr("class", "accountable")
             .attr("r", CIRCLE_RADIUS)
