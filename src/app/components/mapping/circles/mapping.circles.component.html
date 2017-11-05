@@ -24,7 +24,7 @@
             <button *ngIf="!isWaitingForDestinationNode" [class.disabled]="!selectedNodeParent" type="button" class="btn  edit btn-secondary" (click)="edit(selectedNode)" placement="top"
                 ngbTooltip="Edit" container="body"></button>
 
-            <button *ngIf="!isWaitingForDestinationNode && selectedNodeParent"  type="button" class="btn  remove btn-secondary" placement="top" container="body"
+            <button *ngIf="!isWaitingForDestinationNode && (selectedNodeParent !== undefined)"  type="button" class="btn  remove btn-secondary" placement="top" container="body"
                 ngbTooltip="Remove" mwlConfirmationPopover title="Remove initiative {{selectedNode?.name}} and sub initiatives ?"
                 focusbutton="cancel" appendToBody="false" (confirm)="remove(selectedNode)" (cancel)="cancelClicked = true"></button>
 
