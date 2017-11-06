@@ -267,7 +267,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
         let setDragTargetNode = this.setDragTargetNode.bind(this);
         let draggedNode = this.draggedNode;
         let move = this.move.bind(this);
-
+        let startX: number, startY: number;
 
         let slug = data.getSlug();
 
@@ -307,11 +307,13 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .attr("pointer-events", "auto")
             .classed("with-children", function (d: any) { return d.children && d !== root; })
             .classed("without-children", function (d: any) { return !d.children && d !== root; })
+            .attr("parent-id", function (d: any) { return d.parent ? d.parent.data.id : "" })
 
         let enter = selection.enter().append("g").attr("class", "nodes")
             .attr("class", "nodes")
             .attr("pointer-events", "auto")
             .attr("id", function (d: any) { return d.data.id; })
+            .attr("parent-id", function (d: any) { return d.parent ? d.parent.data.id : "" })
             .classed("with-children", function (d: any) { return d.children && d !== root; })
             .classed("without-children", function (d: any) { return !d.children && d !== root; })
 
@@ -332,12 +334,22 @@ export class MappingCirclesComponent implements IDataVisualizer {
             d3.event.sourceEvent.stopPropagation();
             d3.event.sourceEvent.preventDefault();
             d3.select(this).attr("pointer-events", "none");
+            startX = d3.event.x;
+            startY = d3.event.y;
         }
 
         function dragged(d: any) {
+            console.log(d3.event)
+
             d3.select(this)
                 .attr("transform", function (d: any) {
                     return "translate(" + (d3.event.x - diameter / 2) + "," + (d3.event.y - diameter / 2) + ")";
+                });
+            // let childrenIds = d.data.children.map(c => c.id);
+            // console.log(childrenIds);
+            d3.selectAll(`g.nodes[parent-id="${d.data.id}"]`)
+                .attr("transform", function (d: any) {
+                    return "translate(" + (d.x - diameter / 2 - (startX - d3.event.x)) + "," + (d.y - diameter / 2 - (startY - d3.event.y)) + ")";
                 });
         }
 
@@ -436,6 +448,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .attr("y", function (d: any) { return -d.r * .2 })
             .text(function (d: any) { return d.data.name; })
             .on("click", function (d: any, i: number) {
+                if (d3.event.defaultPrevented) return; // dragged
                 showDetails(d);
                 setTooltipDescriptionVisible(false);
             })
@@ -458,6 +471,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 return `<textPath xlink:href="#path${d.data.id}" startOffset="10%">${d.data.name || ""}</textPath>`
             })
             .on("click", function (d: any, i: number) {
+                if (d3.event.defaultPrevented) return; // dragged
                 showDetails(d);
                 setTooltipDescriptionVisible(false);
             })
