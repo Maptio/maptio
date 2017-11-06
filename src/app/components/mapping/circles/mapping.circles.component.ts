@@ -307,13 +307,13 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .attr("pointer-events", "auto")
             .classed("with-children", function (d: any) { return d.children && d !== root; })
             .classed("without-children", function (d: any) { return !d.children && d !== root; })
-            .attr("ancestors-id", function (d: any) { return d.parent ? d.ancestors().map((a: any) => a.data.id).join(",") : "" })
+            .attr("ancestors-id", function (d: any) { return d.parent ? d.ancestors().map((a: any) => { if (a.data.id !== d.data.id) return a.data.id; }).join(",") : "" })
 
         let enter = selection.enter().append("g").attr("class", "nodes")
             .attr("class", "nodes")
             .attr("pointer-events", "auto")
             .attr("id", function (d: any) { return d.data.id; })
-            .attr("ancestors-id", function (d: any) { return d.parent ? d.ancestors().map((a: any) => a.data.id).join(",") : "" })
+            .attr("ancestors-id", function (d: any) { return d.parent ? d.ancestors().map((a: any) => { if (a.data.id !== d.data.id) return a.data.id; }).join(",") : "" })
             .classed("with-children", function (d: any) { return d.children && d !== root; })
             .classed("without-children", function (d: any) { return !d.children && d !== root; })
 
@@ -507,14 +507,14 @@ export class MappingCirclesComponent implements IDataVisualizer {
                         d3.select(this).style("visibility", "visible")
                     })
             })
-            // .on("mouseout", function (d: any) {
-            //     // setTooltipDescriptionVisible(false);
-            //     d3.select("div.tooltip-initiative").style("visibility", "hidden");
-            // })
-            // .on("mouseleave", function (d: any) {
-            //     // setTooltipDescriptionVisible(false);
-            //     d3.select("div.tooltip-initiative").style("visibility", "hidden");
-            // })
+        // .on("mouseout", function (d: any) {
+        //     // setTooltipDescriptionVisible(false);
+        //     d3.select("div.tooltip-initiative").style("visibility", "hidden");
+        // })
+        // .on("mouseleave", function (d: any) {
+        //     // setTooltipDescriptionVisible(false);
+        //     d3.select("div.tooltip-initiative").style("visibility", "hidden");
+        // })
 
 
         enter.append("circle")
