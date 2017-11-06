@@ -34,6 +34,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
     public isReset$: Subject<boolean>
     public fontSize$: Observable<number>;
     public data$: Subject<{ initiative: Initiative, datasetId: string }>;
+    public rootNode: Initiative;
 
     public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
     public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
@@ -73,6 +74,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
         this.dataSubscription = this.data$.asObservable().distinct().subscribe(complexData => {
             let data = <any>complexData.initiative;
             this.datasetId = complexData.datasetId;
+            this.rootNode = complexData.initiative;
             this.update(data)
         })
     }
@@ -186,6 +188,10 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
     add(node: Initiative) {
         this.addInitiative$.next(node);
+    }
+
+    addFirstNode() {
+        this.addInitiative$.next(this.rootNode);
     }
 
     remove(node: Initiative) {
@@ -352,7 +358,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .on("mouseover", function (d: any) {
                 d3.event.stopPropagation();
                 setDragTargetNode(d.data);
-                d3.select(this).classed("highlighted", true);
+                if (d.parent) d3.select(this).classed("highlighted", true);
             })
             .on("contextmenu", function (d: any) {
                 d3.select("div.tooltip-initiative").style("visibility", "hidden");

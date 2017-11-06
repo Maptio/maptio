@@ -42,11 +42,11 @@ svg circle:hover {
 }
 
 svg circle.node--root, svg circle.node--root:hover {
-  stroke-opacity: 0.5 !important;
+  /* stroke-opacity: 0.5 !important; */
   stroke-dasharray: 10, 3 !important;
-  stroke: black !important;
+  stroke: #f7f7f7 !important;
   stroke-width: 3 !important;
-  fill: #f7f7f7!important;
+  /* fill: #f7f7f7!important; */
 }
 
 svg circle.node.dragged{
