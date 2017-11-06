@@ -6,13 +6,13 @@
 
 <svg width="100%" viewBox="0 0 1522 1522"></svg>
 
-<div class="undo-box">
+<!-- <div class="undo-box">
     <button *ngIf="isWaitingForDestinationNode" type="button" class="btn undo btn-secondary text-muted" (click)="undo()" placement="top"
         ngbTooltip="Cancel" container="body">Undo cut </button>
-</div>
+</div> -->
 
 <div *ngIf="isFirstEditing" class="instructions h2 text-muted">
-        <button type="button" class="btn  add btn-secondary" (click)="addFirstNode()" placement="top"
+        <button type="button" class="btn add btn-success" (click)="addFirstNode()" placement="top"
         ngbTooltip="New initiative" container="body"></button> or right click anywhere to create your first initiative    
 </div>
 

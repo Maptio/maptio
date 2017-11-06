@@ -159,7 +159,6 @@ describe("mapping.circles.component.ts", () => {
         let svgs = document.getElementsByTagName("svg")
         expect(svgs.length).toBe(1);
         let g = svgs.item(0).querySelector("g");
-        console.log(g)
         expect(g.querySelectorAll("circle.node.node--root").length).toBe(1);
         expect(g.querySelectorAll("circle.node").length).toBe(3);
     });
