@@ -307,13 +307,13 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .attr("pointer-events", "auto")
             .classed("with-children", function (d: any) { return d.children && d !== root; })
             .classed("without-children", function (d: any) { return !d.children && d !== root; })
-            .attr("parent-id", function (d: any) { return d.parent ? d.parent.data.id : "" })
-
+            .attr("ancestors-id", function (d: any) { return d.parent ? d.ancestors().map((a: any) => a.data.id).join(",") : "" })
+            
         let enter = selection.enter().append("g").attr("class", "nodes")
             .attr("class", "nodes")
             .attr("pointer-events", "auto")
             .attr("id", function (d: any) { return d.data.id; })
-            .attr("parent-id", function (d: any) { return d.parent ? d.parent.data.id : "" })
+            .attr("ancestors-id", function (d: any) { return d.parent ? d.ancestors().map((a: any) => a.data.id).join(",") : "" })
             .classed("with-children", function (d: any) { return d.children && d !== root; })
             .classed("without-children", function (d: any) { return !d.children && d !== root; })
 
@@ -339,7 +339,6 @@ export class MappingCirclesComponent implements IDataVisualizer {
         }
 
         function dragged(d: any) {
-            console.log(d3.event)
 
             d3.select(this)
                 .attr("transform", function (d: any) {
@@ -347,7 +346,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 });
             // let childrenIds = d.data.children.map(c => c.id);
             // console.log(childrenIds);
-            d3.selectAll(`g.nodes[parent-id="${d.data.id}"]`)
+            d3.selectAll(`g.nodes[ancestors-id*="${d.data.id}"]`)
                 .attr("transform", function (d: any) {
                     return "translate(" + (d.x - diameter / 2 - (startX - d3.event.x)) + "," + (d.y - diameter / 2 - (startY - d3.event.y)) + ")";
                 });

@@ -114,23 +114,15 @@ export class BuildingComponent {
     }
 
     moveNode(node: Initiative, from: Initiative, to: Initiative) {
-        // console.log("moving", node.name, "from", from.name, "to", to.name);
         let foundTreeNode = this.tree.treeModel.getNodeById(node.id)
-        // let foundFromNode = this.tree.treeModel.getNodeById(from.id)
         let foundToNode = this.tree.treeModel.getNodeById(to.id);
-        // console.log("moving", foundTreeNode, "from", foundFromNode, "to", foundToNode);
-
-        // TREE_ACTIONS.MOVE_NODE(this.tree.treeModel, foundTreeNode, {}, { from: foundFromNode, to: foundToNode })
-        // this.saveChanges();
-        // this.tree.treeModel.moveNode(foundTreeNode, { parent: foundTreeNode });
-        // this.tree.treeModel.update();
         TREE_ACTIONS.MOVE_NODE(this.tree.treeModel, foundToNode, {}, { from: foundTreeNode, to: { parent: foundToNode } })
     }
 
 
     removeNode(node: Initiative) {
 
-        // console.log("building.component.ts", "remove", node.name, node.id);
+        console.log("building.component.ts", "remove", node.name, node.id);
         let hasFoundNode: boolean = false;
 
         let index = this.nodes[0].children.findIndex(c => c.id === node.id);
