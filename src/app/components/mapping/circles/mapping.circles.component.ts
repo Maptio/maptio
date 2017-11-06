@@ -366,6 +366,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .style("stroke", function (d: any) { return d.data.isSearchedFor ? "#d9831f" : "none" })
             .style("stroke-width", function (d: any) { return d.data.isSearchedFor ? 3 : "none" })
             .attr("id", function (d: any) { return d.data.id; })
+            .style("cursor", "move")
             .on("click", function (d: any) {
                 if (d3.event.defaultPrevented) return; // dragged
                 if (d.parent) {
@@ -419,6 +420,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .style("fill", function (d: any) { return d.children ? (d === root ? "white" : color(d.depth)) : (d.parent === root && !d.children ? color(d.depth) : "white"); })
 
         selection.select("circle.node")
+        .style("cursor", "move")
             .style("fill", function (d: any) { return d.children ? (d === root ? "white" : color(d.depth)) : (d.parent === root && !d.children ? color(d.depth) : "white"); })
             .classed("invisible", function (d: any) { return !d.parent && !(nodes.length === 1) })
 
