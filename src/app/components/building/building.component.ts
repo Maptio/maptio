@@ -145,7 +145,8 @@ export class BuildingComponent {
     }
 
     addNodeTo(node: Initiative) {
-        // console.log("building.component.ts", "add to", node.name, node.id);
+        console.log("building.component.ts", "add to", node, node.name, node.id);
+
         let hasFoundNode: boolean = false;
         if (this.nodes[0].id === node.id) {
             hasFoundNode = true;

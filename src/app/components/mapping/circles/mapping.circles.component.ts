@@ -164,6 +164,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
 
     selectInitiative(node: Initiative, parent: Initiative) {
+        console.log(node.name, parent)
         this.selectedNode = node;
         this.selectedNodeParent = parent;
         this.cd.markForCheck();
@@ -174,13 +175,13 @@ export class MappingCirclesComponent implements IDataVisualizer {
         this.cd.markForCheck();
     }
 
-    toggleDescriptionTooltip() {
-        this.isTooltipDescriptionVisible = !this.isTooltipDescriptionVisible;
-    }
+    // toggleDescriptionTooltip() {
+    //     this.isTooltipDescriptionVisible = !this.isTooltipDescriptionVisible;
+    // }
 
-    setTooltipDescriptionVisible(isVisible: boolean) {
-        this.isTooltipDescriptionVisible = isVisible;
-    }
+    // setTooltipDescriptionVisible(isVisible: boolean) {
+    //     this.isTooltipDescriptionVisible = isVisible;
+    // }
 
     setDragTargetNode(node: Initiative) {
         this.dragTargetNode = node;
@@ -204,38 +205,38 @@ export class MappingCirclesComponent implements IDataVisualizer {
         this.removeInitiative$.next(node);
     }
 
-    cut(node: Initiative) {
-        if (!this.selectedNodeParent) { return }
-        let d3 = this.d3;
-        // console.log("cutting", node.name);
-        d3.select(`circle[id="${node.id}"]`).classed("highlighted", false).classed("cut", true);
-        this.isWaitingForDestinationNode = true;
-        this.cutNode = this.selectedNode;
-        this.cutNodeParent = this.selectedNodeParent;
-    }
+    // cut(node: Initiative) {
+    //     if (!this.selectedNodeParent) { return }
+    //     let d3 = this.d3;
+    //     // console.log("cutting", node.name);
+    //     d3.select(`circle[id="${node.id}"]`).classed("highlighted", false).classed("cut", true);
+    //     this.isWaitingForDestinationNode = true;
+    //     this.cutNode = this.selectedNode;
+    //     this.cutNodeParent = this.selectedNodeParent;
+    // }
 
     move(node: Initiative) {
         this.moveInitiative$.next({ node: node, from: null, to: this.dragTargetNode });
     }
 
-    paste(toNode: Initiative) {
-        if (!this.selectedNodeParent) { return }
-        let d3 = this.d3;
-        // console.log("paste into", toNode.name);
-        this.moveInitiative$.next({ node: this.cutNode, from: this.cutNodeParent, to: toNode });
-        d3.select(`circle[id="${this.cutNode.id}"]`).classed("cut", false).classed("highlighted", false);
-        d3.selectAll(`circle.node`).classed("highlighted", false);
-        d3.select(`div.tooltip`).style("visibility", "hidden");
-        this.isWaitingForDestinationNode = false;
-    }
+    // paste(toNode: Initiative) {
+    //     if (!this.selectedNodeParent) { return }
+    //     let d3 = this.d3;
+    //     // console.log("paste into", toNode.name);
+    //     this.moveInitiative$.next({ node: this.cutNode, from: this.cutNodeParent, to: toNode });
+    //     d3.select(`circle[id="${this.cutNode.id}"]`).classed("cut", false).classed("highlighted", false);
+    //     d3.selectAll(`circle.node`).classed("highlighted", false);
+    //     d3.select(`div.tooltip`).style("visibility", "hidden");
+    //     this.isWaitingForDestinationNode = false;
+    // }
 
-    undo() {
-        let d3 = this.d3;
-        d3.select(`circle[id="${this.cutNode.id}"]`).classed("cut", false).classed("highlighted", false);
-        d3.selectAll(`circle.node`).classed("highlighted", false);
-        d3.select(`div.tooltip`).style("visibility", "hidden");
-        this.isWaitingForDestinationNode = false;
-    }
+    // undo() {
+    //     let d3 = this.d3;
+    //     d3.select(`circle[id="${this.cutNode.id}"]`).classed("cut", false).classed("highlighted", false);
+    //     d3.selectAll(`circle.node`).classed("highlighted", false);
+    //     d3.select(`div.tooltip`).style("visibility", "hidden");
+    //     this.isWaitingForDestinationNode = false;
+    // }
 
     update(data: any) {
         if (!this.g) {
@@ -260,8 +261,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
         let TRANSITION_DURATION = 750;
         let selectInitiative = this.selectInitiative.bind(this);
         let hoverInitiative = this.hoverInitiative.bind(this);
-        let toggleDescriptionTooltip = this.toggleDescriptionTooltip.bind(this)
-        let setTooltipDescriptionVisible = this.setTooltipDescriptionVisible.bind(this)
+        // let toggleDescriptionTooltip = this.toggleDescriptionTooltip.bind(this)
+        // let setTooltipDescriptionVisible = this.setTooltipDescriptionVisible.bind(this)
         let isFirstEditing = this.isFirstEditing;
         let MAX_TEXT_LENGTH = this.MAX_TEXT_LENGTH;
         let setDragTargetNode = this.setDragTargetNode.bind(this);
@@ -301,6 +302,17 @@ export class MappingCirclesComponent implements IDataVisualizer {
         if (nodes.length === 1) {
             this.isFirstEditing = true;
         }
+
+        svg.on("contextmenu", function () {
+            console.log("context");
+            d3.event.preventDefault();
+            d3.select("div.tooltip-initiative").style("visibility", "hidden");
+            d3.select(`div.tooltip`)
+                .style("visibility", "visible")
+                .style("opacity", "1")
+                .style("top", (d3.event.pageY - 15) + "px").style("left", (d3.event.pageX) + "px");
+            selectInitiative(root.data, undefined);
+        })
 
         // console.log(nodes)
         let selection = g.selectAll(".nodes").data(nodes, function (d: any) { return d.data.id })
@@ -371,7 +383,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 if (d3.event.defaultPrevented) return; // dragged
                 if (d.parent) {
                     showDetails(d);
-                    setTooltipDescriptionVisible(false);
+                    d3.select("div.tooltip-initiative").style("visibility", "hidden")
                 }
             })
             .on("mouseover", function (d: any) {
@@ -382,7 +394,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 }
             })
             .on("contextmenu", function (d: any) {
-                // console.log("contextmenu")
+                console.log(d3.select("div.tooltip-initiative"))
+                d3.select("div.tooltip-initiative").style("visibility", "hidden");
                 d3.event.preventDefault();
                 selectInitiative(d.data, d.parent ? d.parent.data : undefined);
                 let circleClicked = d3.select(this);
@@ -398,7 +411,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
                         circleClicked.classed("highlighted", true)
                         d3.select(this).style("visibility", "visible").style("opacity", "0")
                     })
-                d3.select(this).classed("highlighted", true)
+                d3.select(this).classed("highlighted", true);
+                d3.event.stopPropagation();
                 // d3.select(`foreignObject.editing[data-id="${d.data.id}"]`).classed("show", true)
             })
             // .on("mousemove", function () { d3.select(`div.tooltip`).style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
@@ -492,7 +506,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
                         d3.select(this).style("visibility", "visible")
                     })
                     .on("mouseleave", function () {
-                        setTooltipDescriptionVisible(false)
+                        d3.select("div.tooltip-initiative").style("visibility", "hidden")
                     })
             })
             .on("mousemove", function (d: any) {
