@@ -12,7 +12,7 @@
 }
 
 svg {
-  pointer-events: auto;
+  /* pointer-events: auto; */
   background: transparent!important
 }
 
@@ -74,12 +74,9 @@ svg group {
   opacity: 0.7;
 }
 
-scg circle {
-  pointer-events: none;
-}
 
 svg circle.accountable {
-  pointer-events: auto;
+  /* pointer-events: auto; */
   cursor: pointer;
 }
 

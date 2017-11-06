@@ -58,6 +58,10 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
     private cutNode: Initiative;
     private cutNodeParent: Initiative;
+
+    private draggedNode: Initiative;
+    private dragTargetNode: Initiative;
+
     CIRCLE_RADIUS: number = 15;
     MAX_TEXT_LENGTH = 30;
 
@@ -178,6 +182,10 @@ export class MappingCirclesComponent implements IDataVisualizer {
         this.isTooltipDescriptionVisible = isVisible;
     }
 
+    setDragTargetNode(node: Initiative) {
+        this.dragTargetNode = node;
+    }
+
     edit(node: Initiative) {
         // console.log("editing ", node)
         if (!this.selectedNodeParent) { return }
@@ -204,6 +212,10 @@ export class MappingCirclesComponent implements IDataVisualizer {
         this.isWaitingForDestinationNode = true;
         this.cutNode = this.selectedNode;
         this.cutNodeParent = this.selectedNodeParent;
+    }
+
+    move(node: Initiative) {
+        this.moveInitiative$.next({ node: node, from: null, to: this.dragTargetNode });
     }
 
     paste(toNode: Initiative) {
@@ -252,6 +264,10 @@ export class MappingCirclesComponent implements IDataVisualizer {
         let setTooltipDescriptionVisible = this.setTooltipDescriptionVisible.bind(this)
         let isFirstEditing = this.isFirstEditing;
         let MAX_TEXT_LENGTH = this.MAX_TEXT_LENGTH;
+        let setDragTargetNode = this.setDragTargetNode.bind(this);
+        let draggedNode = this.draggedNode;
+        let move = this.move.bind(this);
+
 
         let slug = data.getSlug();
 
@@ -263,7 +279,11 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
         root = d3.hierarchy(data)
             .sum(function (d: any) { return 1; }) // all nodes have the same initial size
-            .sort(function (a, b) { return b.value - a.value });
+            .sort(function (a, b) {
+                if (a.data.name < b.data.name) return -1;
+                if (a.data.name > b.data.name) return 1;
+                return 0;
+            });
 
         let depth = 0;
         root.eachAfter(function (n: any) {
@@ -284,11 +304,13 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
         // console.log(nodes)
         let selection = g.selectAll(".nodes").data(nodes, function (d: any) { return d.data.id })
+            .attr("pointer-events", "auto")
             .classed("with-children", function (d: any) { return d.children && d !== root; })
             .classed("without-children", function (d: any) { return !d.children && d !== root; })
 
         let enter = selection.enter().append("g").attr("class", "nodes")
             .attr("class", "nodes")
+            .attr("pointer-events", "auto")
             .attr("id", function (d: any) { return d.data.id; })
             .classed("with-children", function (d: any) { return d.children && d !== root; })
             .classed("without-children", function (d: any) { return !d.children && d !== root; })
@@ -297,6 +319,33 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .exit()
             .remove();
 
+        g.selectAll(".nodes")
+            .call(d3.drag()
+                .on("start", dragstarted)
+                .on("drag", dragged)
+                .on("end", dragended))
+
+        function dragstarted(d: any) {
+            draggedNode = d.data;
+            console.log("drag start", draggedNode.name);
+
+            d3.event.sourceEvent.stopPropagation();
+            d3.event.sourceEvent.preventDefault();
+            d3.select(this).attr("pointer-events", "none");
+        }
+
+        function dragged(d: any) {
+            d3.select(this)
+                .attr("transform", function (d: any) {
+                    return "translate(" + (d3.event.x - diameter / 2) + "," + (d3.event.y - diameter / 2) + ")";
+                });
+        }
+
+        function dragended(d: any) {
+            console.log("dropped", draggedNode);
+            move(draggedNode);
+            draggedNode = null;
+        }
 
         enter.append("circle")
             .attr("r", function (d: any) { return d.children ? d.r : d.r * 10 })
@@ -307,11 +356,18 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .style("stroke-width", function (d: any) { return d.data.isSearchedFor ? 3 : "none" })
             .attr("id", function (d: any) { return d.data.id; })
             .on("click", function (d: any) {
+                if (d3.event.defaultPrevented) return; // dragged
                 if (d.parent) {
                     showDetails(d);
                     setTooltipDescriptionVisible(false);
                 }
-
+            })
+            .on("mouseover", function (d: any) {
+                if (d !== draggedNode) {
+                    // dragTargetNode = d.data;
+                    setDragTargetNode(d.data)
+                    d3.select(this).classed("highlighted", true);
+                }
             })
             .on("contextmenu", function (d: any) {
                 // console.log("contextmenu")
@@ -343,7 +399,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
                         // console.log(d.children, d.parent === root && !d.children, color(d.depth))
                         return d.children ? (d === root ? "white" : color(d.depth)) : ((d.parent === root && !d.children) || nodes.length === 2 ? color(d.depth) : "white");
                     })
-            });
+            })
+
 
         enter.select("circle.node")
             .style("fill", "white")

@@ -116,7 +116,7 @@ export class BuildingComponent {
     moveNode(node: Initiative, from: Initiative, to: Initiative) {
         // console.log("moving", node.name, "from", from.name, "to", to.name);
         let foundTreeNode = this.tree.treeModel.getNodeById(node.id)
-        let foundFromNode = this.tree.treeModel.getNodeById(from.id)
+        // let foundFromNode = this.tree.treeModel.getNodeById(from.id)
         let foundToNode = this.tree.treeModel.getNodeById(to.id);
         // console.log("moving", foundTreeNode, "from", foundFromNode, "to", foundToNode);
 
