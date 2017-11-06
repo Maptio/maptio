@@ -29,16 +29,6 @@ svg text {
   /* cursor: url(/assets/images/cursors/more.cur), auto; */
 }
 
-
-/* svg .with-children{
-   font-size:1.2em; 
-} */
-
-
-/* svg .without-children{
-   font-size:1em; 
-}  */
-
 svg text:hover {
   opacity: 1;
   /* font-size: larger; */
@@ -57,6 +47,13 @@ svg circle.node--root, svg circle.node--root:hover {
   stroke: black !important;
   stroke-width: 3 !important;
   fill: #f7f7f7!important;
+}
+
+svg circle.node.dragged{
+  stroke-opacity: 0.5 !important;
+  stroke-dasharray: 10, 3 !important;
+  stroke: black !important;
+  stroke-width: 3 !important;
 }
 
 /* svg circle.node--root.inactive {
