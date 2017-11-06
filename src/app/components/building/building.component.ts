@@ -116,6 +116,7 @@ export class BuildingComponent {
     moveNode(node: Initiative, from: Initiative, to: Initiative) {
         let foundTreeNode = this.tree.treeModel.getNodeById(node.id)
         let foundToNode = this.tree.treeModel.getNodeById(to.id);
+        console.log(foundTreeNode, foundToNode)
         TREE_ACTIONS.MOVE_NODE(this.tree.treeModel, foundToNode, {}, { from: foundTreeNode, to: { parent: foundToNode } })
     }
 
@@ -179,7 +180,7 @@ export class BuildingComponent {
         }
 
         this.saveChanges();
-        // this.tree.treeModel.update();
+        this.tree.treeModel.update();
     }
 
     // toggleAll() {
