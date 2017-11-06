@@ -164,7 +164,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
 
     selectInitiative(node: Initiative, parent: Initiative) {
-        console.log(node.name, parent)
+        // console.log(node.name, parent)
         this.selectedNode = node;
         this.selectedNodeParent = parent;
         this.cd.markForCheck();
@@ -296,6 +296,13 @@ export class MappingCirclesComponent implements IDataVisualizer {
             nodes = pack(root).descendants(),
             view: any;
 
+        // console.log(nodes.forEach((n: any) => {
+        //     console.log(n.data.id, n.data.name, n.data.children, n.children, n.parent, n.parent === root)
+        // }))
+
+        // console.log("dropped", draggedNode);
+
+
         let t = d3.transition(null).duration(TRANSITION_DURATION);
 
         this.isFirstEditing = false;
@@ -341,7 +348,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
         function dragstarted(d: any) {
             draggedNode = d.data;
-            console.log("drag start", draggedNode.name);
+            // console.log("drag start", draggedNode.name);
 
             d3.event.sourceEvent.stopPropagation();
             d3.event.sourceEvent.preventDefault();
@@ -365,15 +372,15 @@ export class MappingCirclesComponent implements IDataVisualizer {
         }
 
         function dragended(d: any) {
-            console.log("dropped", draggedNode);
+            // console.log("dropped", draggedNode);
             move(draggedNode);
             draggedNode = null;
         }
 
         enter.append("circle")
             .attr("r", function (d: any) { return d.children ? d.r : d.r * 10 })
-            .attr("class", function (d: any) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
-            .style("fill", function (d: any) { return d.children ? (d === root ? "white" : color(d.depth)) : (d.parent === root && !d.children ? color(d.depth) : "white"); })
+            .attr("class", function (d: any) { return d.parent ? (d.children || d.parent === root) ? "node" : "node node--leaf" : "node node--root"; })
+            .style("fill", function (d: any) { return d.children ? (d === root ? "white" : color(d.depth)) : (d.parent.data.id === root.data.id ? color(d.depth) : "white"); })
             .classed("invisible", function (d: any) { return !d.parent && !(nodes.length === 1) })
             .style("stroke", function (d: any) { return d.data.isSearchedFor ? "#d9831f" : "none" })
             .style("stroke-width", function (d: any) { return d.data.isSearchedFor ? 3 : "none" })
@@ -394,7 +401,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 }
             })
             .on("contextmenu", function (d: any) {
-                console.log(d3.select("div.tooltip-initiative"))
+                // console.log(d3.select("div.tooltip-initiative"))
                 d3.select("div.tooltip-initiative").style("visibility", "hidden");
                 d3.event.preventDefault();
                 selectInitiative(d.data, d.parent ? d.parent.data : undefined);
@@ -423,7 +430,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
                     .classed("highlighted", false)
                     .style("fill", function (d: any) {
                         // console.log(d.children, d.parent === root && !d.children, color(d.depth))
-                        return d.children ? (d === root ? "white" : color(d.depth)) : ((d.parent === root && !d.children) || nodes.length === 2 ? color(d.depth) : "white");
+                        return d.children ? (d === root ? "white" : color(d.depth)) : (d.parent.data.id === root.data.id ? color(d.depth) : "white");
                     })
             })
 
@@ -431,11 +438,12 @@ export class MappingCirclesComponent implements IDataVisualizer {
         enter.select("circle.node")
             .style("fill", "white")
             .transition(t)
-            .style("fill", function (d: any) { return d.children ? (d === root ? "white" : color(d.depth)) : (d.parent === root && !d.children ? color(d.depth) : "white"); })
+            .style("fill", function (d: any) { return d.children ? (d === root ? "white" : color(d.depth)) : (d.parent.data.id === root.data.id ? color(d.depth) : "white"); })
 
         selection.select("circle.node")
+            .attr("class", function (d: any) { return d.parent ? (d.children || d.parent === root) ? "node" : "node node--leaf" : "node node--root"; })
             .style("cursor", "move")
-            .style("fill", function (d: any) { return d.children ? (d === root ? "white" : color(d.depth)) : (d.parent === root && !d.children ? color(d.depth) : "white"); })
+            .style("fill", function (d: any) { return d.children ? (d === root ? "white" : color(d.depth)) : (d.parent.data.id === root.data.id ? color(d.depth) : "white"); })
             .classed("invisible", function (d: any) { return !d.parent && !(nodes.length === 1) })
 
 
