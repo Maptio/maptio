@@ -175,14 +175,6 @@ export class MappingCirclesComponent implements IDataVisualizer {
         this.cd.markForCheck();
     }
 
-    // toggleDescriptionTooltip() {
-    //     this.isTooltipDescriptionVisible = !this.isTooltipDescriptionVisible;
-    // }
-
-    // setTooltipDescriptionVisible(isVisible: boolean) {
-    //     this.isTooltipDescriptionVisible = isVisible;
-    // }
-
     setDragTargetNode(node: Initiative) {
         this.dragTargetNode = node;
     }
@@ -209,41 +201,12 @@ export class MappingCirclesComponent implements IDataVisualizer {
         this.removeInitiative$.next(node);
     }
 
-    // cut(node: Initiative) {
-    //     if (!this.selectedNodeParent) { return }
-    //     let d3 = this.d3;
-    //     // console.log("cutting", node.name);
-    //     d3.select(`circle[id="${node.id}"]`).classed("highlighted", false).classed("cut", true);
-    //     this.isWaitingForDestinationNode = true;
-    //     this.cutNode = this.selectedNode;
-    //     this.cutNodeParent = this.selectedNodeParent;
-    // }
-
     move() {
         console.log(this.draggedNode, this.dragTargetNode)
         this.moveInitiative$.next({ node: this.draggedNode, from: null, to: this.dragTargetNode });
         this.draggedNode = null;
         this.dragTargetNode = null;
     }
-
-    // paste(toNode: Initiative) {
-    //     if (!this.selectedNodeParent) { return }
-    //     let d3 = this.d3;
-    //     // console.log("paste into", toNode.name);
-    //     this.moveInitiative$.next({ node: this.cutNode, from: this.cutNodeParent, to: toNode });
-    //     d3.select(`circle[id="${this.cutNode.id}"]`).classed("cut", false).classed("highlighted", false);
-    //     d3.selectAll(`circle.node`).classed("highlighted", false);
-    //     d3.select(`div.tooltip`).style("visibility", "hidden");
-    //     this.isWaitingForDestinationNode = false;
-    // }
-
-    // undo() {
-    //     let d3 = this.d3;
-    //     d3.select(`circle[id="${this.cutNode.id}"]`).classed("cut", false).classed("highlighted", false);
-    //     d3.selectAll(`circle.node`).classed("highlighted", false);
-    //     d3.select(`div.tooltip`).style("visibility", "hidden");
-    //     this.isWaitingForDestinationNode = false;
-    // }
 
     update(data: any) {
         if (!this.g) {
@@ -300,7 +263,6 @@ export class MappingCirclesComponent implements IDataVisualizer {
         let focus = root,
             nodes = pack(root).descendants(),
             view: any;
-        console.log(nodes)
 
 
         let t = d3.transition(null).duration(TRANSITION_DURATION);
@@ -309,7 +271,6 @@ export class MappingCirclesComponent implements IDataVisualizer {
         if (nodes.length === 1) {
             this.isFirstEditing = true;
         }
-        console.log(0)
         svg.on("contextmenu", function () {
             console.log("context");
             d3.event.preventDefault();
@@ -320,6 +281,9 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 .style("top", (d3.event.pageY - 15) + "px").style("left", (d3.event.pageX) + "px");
             selectInitiative(root.data, undefined);
         })
+            .on("mouseover", function (d: any) {
+                setDragTargetNode(root.data);
+            })
         console.log(0)
         // console.log(nodes)
         let selection = g.selectAll(".nodes").data(nodes, function (d: any) { return d.data.id })
@@ -396,9 +360,10 @@ export class MappingCirclesComponent implements IDataVisualizer {
             })
             .on("mouseover", function (d: any) {
                 // if (d !== draggedNode) {
-                    // dragTargetNode = d.data;
-                    setDragTargetNode(d.data)
-                    d3.select(this).classed("highlighted", true);
+                // dragTargetNode = d.data;
+                d3.event.stopPropagation();
+                setDragTargetNode(d.data);
+                d3.select(this).classed("highlighted", true);
                 // }
             })
             .on("contextmenu", function (d: any) {

@@ -159,8 +159,9 @@ describe("mapping.circles.component.ts", () => {
         let svgs = document.getElementsByTagName("svg")
         expect(svgs.length).toBe(1);
         let g = svgs.item(0).querySelector("g");
+        console.log(g)
         expect(g.querySelectorAll("circle.node.node--root").length).toBe(1);
-        expect(g.querySelectorAll("circle.node.node--leaf").length).toBe(2);
+        expect(g.querySelectorAll("circle.node").length).toBe(3);
     });
 
     it("should draw SVG with correct text labels  when data is valid", () => {
@@ -173,8 +174,8 @@ describe("mapping.circles.component.ts", () => {
 
         expect(g.querySelectorAll("text").length).toBe(3) // do not dusplay map name
         expect(g.querySelectorAll("text")[0].textContent).toBe("");
-        expect(g.querySelectorAll("text")[1].textContent).toBe("Marketing")
-        expect(g.querySelectorAll("text")[2].textContent).toBe("Tech")
+        expect(g.querySelectorAll("text")[1].textContent).toBe("Tech")
+        expect(g.querySelectorAll("text")[2].textContent).toBe("Marketing")
     });
 
     it("should calculate paths when data is valid", () => {
