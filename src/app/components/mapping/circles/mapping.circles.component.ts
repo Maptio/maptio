@@ -308,7 +308,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .classed("with-children", function (d: any) { return d.children && d !== root; })
             .classed("without-children", function (d: any) { return !d.children && d !== root; })
             .attr("ancestors-id", function (d: any) { return d.parent ? d.ancestors().map((a: any) => a.data.id).join(",") : "" })
-            
+
         let enter = selection.enter().append("g").attr("class", "nodes")
             .attr("class", "nodes")
             .attr("pointer-events", "auto")
@@ -475,38 +475,40 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 setTooltipDescriptionVisible(false);
             })
 
-        g.selectAll("text")
-            .on("mouseover", function (d: any) {
-                setTooltipDescriptionVisible(true)
-                hoverInitiative(d.data)
-                d3.select("div.tooltip-initiative")
-                    .style("top", (d3.event.pageY - 20) + "px")
-                    .style("left", (d3.event.pageX) + "px")
-                    .on("mouseenter", function () {
-                        d3.select(this).style("visibility", "visible")
+        /*
+                g.selectAll("text")
+                    .on("mouseover", function (d: any) {
+                        setTooltipDescriptionVisible(true)
+                        hoverInitiative(d.data)
+                        d3.select("div.tooltip-initiative")
+                            .style("top", (d3.event.pageY - 20) + "px")
+                            .style("left", (d3.event.pageX) + "px")
+                            .on("mouseenter", function () {
+                                d3.select(this).style("visibility", "visible")
+                            })
+                            .on("mouseleave", function () {
+                                toggleDescriptionTooltip();
+                            })
                     })
-                    .on("mouseleave", function () {
-                        toggleDescriptionTooltip();
+                    .on("mousemove", function (d: any) {
+                        hoverInitiative(d.data)
+                        d3.select("div.tooltip-initiative")
+                            .style("top", (d3.event.pageY - 20) + "px")
+                            .style("left", (d3.event.pageX) + "px")
+                            .on("mouseenter", function () {
+                                d3.select(this).style("visibility", "visible")
+                            })
+                            .on("mouseleave", function () {
+                                d3.select(this).style("visibility", "visible")
+                            })
                     })
-            })
-            .on("mousemove", function (d: any) {
-                hoverInitiative(d.data)
-                d3.select("div.tooltip-initiative")
-                    .style("top", (d3.event.pageY - 20) + "px")
-                    .style("left", (d3.event.pageX) + "px")
-                    .on("mouseenter", function () {
-                        d3.select(this).style("visibility", "visible")
+                    .on("mouseout", function (d: any) {
+                        toggleDescriptionTooltip()
                     })
-                    .on("mouseleave", function () {
-                        d3.select(this).style("visibility", "visible")
-                    })
-            })
-            .on("mouseout", function (d: any) {
-                toggleDescriptionTooltip()
-            })
-
+        */
         enter.append("circle")
             .attr("class", "accountable")
+            .attr("pointer-events", "auto")
             .attr("r", CIRCLE_RADIUS)
             .attr("cx", function (d: any) {
                 return d.children
@@ -535,6 +537,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
         // .merge(selection);
 
         selection.select("circle.accountable")
+            .attr("pointer-events", "auto")
             .attr("cx", function (d: any) {
                 return d.children
                     ? Math.cos(Math.PI - Math.PI * 36 / 180) * (d.r + 3) - 20
