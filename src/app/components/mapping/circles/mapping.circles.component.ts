@@ -403,7 +403,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             })
             // .on("mousemove", function () { d3.select(`div.tooltip`).style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px"); })
             .on("mouseleave", function (d: any) {
-                toggleDescriptionTooltip();
+                d3.select("div.tooltip-initiative").style("visibility", "hidden");
                 d3.select(`div.tooltip`).style("visibility", "hidden");
                 d3.select(this)
                     .classed("highlighted", false)
@@ -420,7 +420,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .style("fill", function (d: any) { return d.children ? (d === root ? "white" : color(d.depth)) : (d.parent === root && !d.children ? color(d.depth) : "white"); })
 
         selection.select("circle.node")
-        .style("cursor", "move")
+            .style("cursor", "move")
             .style("fill", function (d: any) { return d.children ? (d === root ? "white" : color(d.depth)) : (d.parent === root && !d.children ? color(d.depth) : "white"); })
             .classed("invisible", function (d: any) { return !d.parent && !(nodes.length === 1) })
 
@@ -452,7 +452,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .on("click", function (d: any, i: number) {
                 if (d3.event.defaultPrevented) return; // dragged
                 showDetails(d);
-                setTooltipDescriptionVisible(false);
+                d3.select("div.tooltip-initiative").style("visibility", "hidden");
             })
             .each(function (d: any) {
                 // console.log(d.data.name, d.data.name.length);
@@ -476,41 +476,46 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .on("click", function (d: any, i: number) {
                 if (d3.event.defaultPrevented) return; // dragged
                 showDetails(d);
-                setTooltipDescriptionVisible(false);
+                d3.select("div.tooltip-initiative").style("visibility", "hidden");
             })
 
 
-        /*
-    g.selectAll("text")
-        .on("mouseover", function (d: any) {
-            setTooltipDescriptionVisible(true)
-            hoverInitiative(d.data)
-            d3.select("div.tooltip-initiative")
-                .style("top", (d3.event.pageY - 20) + "px")
-                .style("left", (d3.event.pageX) + "px")
-                .on("mouseenter", function () {
-                    d3.select(this).style("visibility", "visible")
-                })
-                .on("mouseleave", function () {
-                    toggleDescriptionTooltip();
-                })
-        })
-        .on("mousemove", function (d: any) {
-            hoverInitiative(d.data)
-            d3.select("div.tooltip-initiative")
-                .style("top", (d3.event.pageY - 20) + "px")
-                .style("left", (d3.event.pageX) + "px")
-                .on("mouseenter", function () {
-                    d3.select(this).style("visibility", "visible")
-                })
-                .on("mouseleave", function () {
-                    d3.select(this).style("visibility", "visible")
-                })
-        })
-        .on("mouseout", function (d: any) {
-            toggleDescriptionTooltip()
-        })
-        */
+
+        g.selectAll("text")
+            .on("mouseover", function (d: any) {
+                // setTooltipDescriptionVisible(true)
+                hoverInitiative(d.data)
+                d3.select("div.tooltip-initiative").style("visibility", "visible")
+                    .style("top", (d3.event.pageY - 20) + "px")
+                    .style("left", (d3.event.pageX) + "px")
+                    .on("mouseenter", function () {
+                        d3.select(this).style("visibility", "visible")
+                    })
+                    .on("mouseleave", function () {
+                        setTooltipDescriptionVisible(false)
+                    })
+            })
+            .on("mousemove", function (d: any) {
+                hoverInitiative(d.data)
+                d3.select("div.tooltip-initiative").style("visibility", "visible")
+                    .style("top", (d3.event.pageY - 20) + "px")
+                    .style("left", (d3.event.pageX) + "px")
+                    .on("mouseenter", function () {
+                        d3.select(this).style("visibility", "visible")
+                    })
+                    .on("mouseleave", function () {
+                        d3.select(this).style("visibility", "visible")
+                    })
+            })
+            // .on("mouseout", function (d: any) {
+            //     // setTooltipDescriptionVisible(false);
+            //     d3.select("div.tooltip-initiative").style("visibility", "hidden");
+            // })
+            // .on("mouseleave", function (d: any) {
+            //     // setTooltipDescriptionVisible(false);
+            //     d3.select("div.tooltip-initiative").style("visibility", "hidden");
+            // })
+
 
         enter.append("circle")
             .attr("class", "accountable")

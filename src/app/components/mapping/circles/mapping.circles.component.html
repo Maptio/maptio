@@ -15,11 +15,11 @@
     Right click on the circle and create your first initiative
 </div>
 
-<div class="tooltip-initiative col-3" [hidden]="!isTooltipDescriptionVisible">
+<div class="tooltip-initiative col-3">
     <div class="card card-inverse background">
-        <a class="btn toggle" (click)="toggleDescriptionTooltip()">
+        <!-- <a class="btn toggle" (click)="toggleDescriptionTooltip()">
             <i class="fa fa-times" aria-hidden="true"></i>
-        </a>
+        </a> -->
         <div class="card-block">
             <h6 class="card-title text-color"> {{hoveredNode?.name}}</h6>
             <markdown class="small text-muted" [data]="hoveredNode?.description || ''"></markdown>
