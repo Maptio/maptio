@@ -442,6 +442,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
         joinWithoutChildren
             .select("text")
+            .attr("pointer-events", "auto")
             .attr("dy", 0)
             .attr("x", function (d: any) { return -d.r * .85 })
             .attr("y", function (d: any) { return -d.r * .2 })
@@ -464,6 +465,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .append("text")
         joinWithChildren
             .select("text")
+            .attr("pointer-events", "auto")
             .attr("x", 0)
             .attr("y", 0)
             .html(function (d: any) {
@@ -475,37 +477,39 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 setTooltipDescriptionVisible(false);
             })
 
+
         /*
-                g.selectAll("text")
-                    .on("mouseover", function (d: any) {
-                        setTooltipDescriptionVisible(true)
-                        hoverInitiative(d.data)
-                        d3.select("div.tooltip-initiative")
-                            .style("top", (d3.event.pageY - 20) + "px")
-                            .style("left", (d3.event.pageX) + "px")
-                            .on("mouseenter", function () {
-                                d3.select(this).style("visibility", "visible")
-                            })
-                            .on("mouseleave", function () {
-                                toggleDescriptionTooltip();
-                            })
-                    })
-                    .on("mousemove", function (d: any) {
-                        hoverInitiative(d.data)
-                        d3.select("div.tooltip-initiative")
-                            .style("top", (d3.event.pageY - 20) + "px")
-                            .style("left", (d3.event.pageX) + "px")
-                            .on("mouseenter", function () {
-                                d3.select(this).style("visibility", "visible")
-                            })
-                            .on("mouseleave", function () {
-                                d3.select(this).style("visibility", "visible")
-                            })
-                    })
-                    .on("mouseout", function (d: any) {
-                        toggleDescriptionTooltip()
-                    })
+    g.selectAll("text")
+        .on("mouseover", function (d: any) {
+            setTooltipDescriptionVisible(true)
+            hoverInitiative(d.data)
+            d3.select("div.tooltip-initiative")
+                .style("top", (d3.event.pageY - 20) + "px")
+                .style("left", (d3.event.pageX) + "px")
+                .on("mouseenter", function () {
+                    d3.select(this).style("visibility", "visible")
+                })
+                .on("mouseleave", function () {
+                    toggleDescriptionTooltip();
+                })
+        })
+        .on("mousemove", function (d: any) {
+            hoverInitiative(d.data)
+            d3.select("div.tooltip-initiative")
+                .style("top", (d3.event.pageY - 20) + "px")
+                .style("left", (d3.event.pageX) + "px")
+                .on("mouseenter", function () {
+                    d3.select(this).style("visibility", "visible")
+                })
+                .on("mouseleave", function () {
+                    d3.select(this).style("visibility", "visible")
+                })
+        })
+        .on("mouseout", function (d: any) {
+            toggleDescriptionTooltip()
+        })
         */
+
         enter.append("circle")
             .attr("class", "accountable")
             .attr("pointer-events", "auto")
