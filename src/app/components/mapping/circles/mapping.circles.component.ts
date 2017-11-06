@@ -62,6 +62,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
     private draggedNode: Initiative;
     private dragTargetNode: Initiative;
+    private isDragging: boolean = false;
 
     CIRCLE_RADIUS: number = 15;
     MAX_TEXT_LENGTH = 30;
@@ -174,11 +175,21 @@ export class MappingCirclesComponent implements IDataVisualizer {
     }
 
     setDragTargetNode(node: Initiative) {
+        console.log("set dragged target node", node.name)
         this.dragTargetNode = node;
     }
 
     setDraggedNode(node: Initiative) {
+        console.log("set dragged node", node.name)
         this.draggedNode = node;
+    }
+
+    setIsDragging(isDragging: boolean) {
+        this.isDragging = isDragging;
+    }
+
+    getIsDragging(): boolean {
+        return this.isDragging;
     }
 
     edit(node: Initiative) {
@@ -200,6 +211,13 @@ export class MappingCirclesComponent implements IDataVisualizer {
     }
 
     move() {
+        // console.log(this.draggedNode, this.dragTargetNode)
+        if (!this.draggedNode || !this.dragTargetNode) {
+            console.log("won't drag")
+            return;
+        }
+
+        console.log(this.draggedNode.name, this.dragTargetNode.name)
         this.moveInitiative$.next({ node: this.draggedNode, from: null, to: this.dragTargetNode });
         this.draggedNode = null;
         this.dragTargetNode = null;
@@ -228,15 +246,14 @@ export class MappingCirclesComponent implements IDataVisualizer {
         let TRANSITION_DURATION = 750;
         let selectInitiative = this.selectInitiative.bind(this);
         let hoverInitiative = this.hoverInitiative.bind(this);
-        // let toggleDescriptionTooltip = this.toggleDescriptionTooltip.bind(this)
-        // let setTooltipDescriptionVisible = this.setTooltipDescriptionVisible.bind(this)
         let isFirstEditing = this.isFirstEditing;
         let MAX_TEXT_LENGTH = this.MAX_TEXT_LENGTH;
         let setDragTargetNode = this.setDragTargetNode.bind(this);
         let setDraggedNode = this.setDraggedNode.bind(this);
+        let setIsDragging = this.setIsDragging.bind(this);
+        let getIsDragging = this.getIsDragging.bind(this);
         let move = this.move.bind(this);
         let startX: number, startY: number;
-
         let slug = data.getSlug();
 
         let pack = d3.pack()
@@ -277,7 +294,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             selectInitiative(root.data, undefined);
         })
             .on("mouseover", function (d: any) {
-                setDragTargetNode(root.data);
+                if (getIsDragging()) setDragTargetNode(root.data);
             })
 
 
@@ -308,6 +325,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 .on("end", dragended))
 
         function dragstarted(d: any) {
+            setIsDragging(true)
+            console.log("drag start", getIsDragging())
             setDraggedNode(d.data)
 
             d3.event.sourceEvent.stopPropagation();
@@ -316,10 +335,11 @@ export class MappingCirclesComponent implements IDataVisualizer {
             d3.select(this).select("circle.node").classed("dragged", true)
             startX = d3.event.x;
             startY = d3.event.y;
+
         }
 
         function dragged(d: any) {
-
+            console.log("dragging")
             d3.select(this)
                 .attr("transform", function (d: any) {
                     return "translate(" + (d3.event.x - diameter / 2) + "," + (d3.event.y - diameter / 2) + ")";
@@ -333,8 +353,10 @@ export class MappingCirclesComponent implements IDataVisualizer {
         }
 
         function dragended(d: any) {
+            console.log("drag end")
             d3.select(this).select("circle.node").classed("dragged", false)
-            move();
+            if (getIsDragging()) move();
+            setIsDragging(false)
         }
 
 
@@ -356,8 +378,9 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 }
             })
             .on("mouseover", function (d: any) {
+                console.log("mouseover", d.data.name, "dragging", getIsDragging())
                 d3.event.stopPropagation();
-                setDragTargetNode(d.data);
+                if (getIsDragging()) setDragTargetNode(d.data);
                 if (d.parent) d3.select(this).classed("highlighted", true);
             })
             .on("contextmenu", function (d: any) {
