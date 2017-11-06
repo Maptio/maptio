@@ -173,8 +173,8 @@ describe("mapping.circles.component.ts", () => {
 
         expect(g.querySelectorAll("text").length).toBe(3) // do not dusplay map name
         expect(g.querySelectorAll("text")[0].textContent).toBe("");
-        expect(g.querySelectorAll("text")[1].textContent).toBe("Tech")
-        expect(g.querySelectorAll("text")[2].textContent).toBe("Marketing")
+        expect(g.querySelectorAll("text")[1].textContent).toBe("Marketing")
+        expect(g.querySelectorAll("text")[2].textContent).toBe("Tech")
     });
 
     it("should calculate paths when data is valid", () => {
