@@ -3,7 +3,7 @@ import { Initiative } from "./../../../shared/model/initiative.data";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs/Subscription";
 import { Component, OnInit, Input, ViewEncapsulation, EventEmitter, Output, ChangeDetectorRef } from "@angular/core";
-import { D3Service, D3, HierarchyCircularNode } from "d3-ng2-service";
+import { D3Service, D3, HierarchyCircularNode, ScaleLinear, HSLColor } from "d3-ng2-service";
 import { ColorService } from "../../../shared/services/ui/color.service"
 import { UIService } from "../../../shared/services/ui/ui.service"
 import { IDataVisualizer } from "../mapping.interface"
@@ -63,6 +63,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
     private draggedNode: Initiative;
     private dragTargetNode: Initiative;
     private isDragging: boolean = false;
+
+    private color: ScaleLinear<HSLColor, string>;
 
     CIRCLE_RADIUS: number = 15;
     MAX_TEXT_LENGTH = 30;
@@ -192,6 +194,14 @@ export class MappingCirclesComponent implements IDataVisualizer {
         return this.isDragging;
     }
 
+    setColor(color: ScaleLinear<HSLColor, string>) {
+        this.color = color;
+    }
+
+    getColor() {
+        return this.color;
+    }
+
     edit(node: Initiative) {
         if (!this.selectedNodeParent) { return }
         this.showDetailsOf$.next(node);
@@ -252,6 +262,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
         let setDraggedNode = this.setDraggedNode.bind(this);
         let setIsDragging = this.setIsDragging.bind(this);
         let getIsDragging = this.getIsDragging.bind(this);
+        let getColor = this.getColor.bind(this);
+        let setColor = this.setColor.bind(this);
         let move = this.move.bind(this);
         let startX: number, startY: number;
         let slug = data.getSlug();
@@ -272,11 +284,17 @@ export class MappingCirclesComponent implements IDataVisualizer {
         root.eachAfter(function (n: any) {
             depth = (depth > n.depth) ? depth : n.depth;
         })
-        let color = colorService.getDefaulColorRange(depth);
+
+        setColor(colorService.getDefaulColorRange(depth));
 
         let focus = root,
             nodes = pack(root).descendants(),
             view: any;
+        console.log(nodes.map((n: any) => { console.log(n.data.id, n) }));
+        for (let index = -1; index <= depth; index++) {
+            console.log("setup color", index, getColor()(index))
+
+        }
 
         let t = d3.transition(null).duration(TRANSITION_DURATION);
 
@@ -314,6 +332,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .classed("without-children", function (d: any) { return !d.children && d !== root; })
 
 
+        selection.order();
         let exit = selection
             .exit()
             .remove();
@@ -323,6 +342,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 .on("start", dragstarted)
                 .on("drag", dragged)
                 .on("end", dragended))
+
 
         function dragstarted(d: any) {
             setIsDragging(true)
@@ -366,7 +386,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
         enter.append("circle")
             .attr("r", function (d: any) { return d.children ? d.r : d.r * 10 })
             .attr("class", function (d: any) { return d.parent ? (d.children || d.parent.data.id === root.data.id) ? "node" : "node node--leaf" : "node node--root"; })
-            .style("fill", function (d: any) { return d.children ? (d === root ? "white" : color(d.depth)) : (d.parent && d.parent.data.id === root.data.id ? color(d.depth) : "white"); })
+            .style("fill", function (d: any) { return d.children ? (d === root ? "white" : getColor()(d.depth)) : (d.parent && d.parent.data.id === root.data.id ? getColor()(d.depth) : "white"); })
             .classed("invisible", function (d: any) { return !d.parent && !(nodes.length === 1) })
             .style("stroke", function (d: any) { return d.data.isSearchedFor ? "#d9831f" : "none" })
             .style("stroke-width", function (d: any) { return d.data.isSearchedFor ? 3 : "none" })
@@ -405,12 +425,17 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 d3.event.stopPropagation();
             })
             .on("mouseleave", function (d: any) {
+                for (let index = -1; index <= depth; index++) {
+                    console.log("mouseleave color", index, getColor()(index))
+
+                }
                 d3.select("div.tooltip-initiative").style("visibility", "hidden");
                 d3.select(`div.tooltip`).style("visibility", "hidden");
                 d3.select(this)
                     .classed("highlighted", false)
                     .style("fill", function (d: any) {
-                        return d.children ? (d === root ? "white" : color(d.depth)) : (d.parent && d.parent.data.id === root.data.id ? color(d.depth) : "white");
+                        console.log("mouseleave", d.data.id, d.depth, getColor()(d.depth));
+                        return d.children ? (d === root ? "white" : getColor()(d.depth)) : (d.parent && d.parent.data.id === root.data.id ? getColor()(d.depth) : "white");
                     })
             })
 
@@ -418,12 +443,12 @@ export class MappingCirclesComponent implements IDataVisualizer {
         enter.selectAll("circle.node")
             .style("fill", "white")
             .transition(t)
-            .style("fill", function (d: any) { return d.children ? (d === root ? "white" : color(d.depth)) : (d.parent && d.parent.data.id === root.data.id ? color(d.depth) : "white"); })
+            .style("fill", function (d: any) { return d.children ? (d === root ? "white" : getColor()(d.depth)) : (d.parent && d.parent.data.id === root.data.id ? getColor()(d.depth) : "white"); })
 
         selection.selectAll("circle.node")
             .attr("class", function (d: any) { return d.parent ? (d.children || d.parent.data.id === root.data.id) ? "node" : "node node--leaf" : "node node--root"; })
             .style("cursor", "move")
-            .style("fill", function (d: any) { return d.children ? (d === root ? "white" : color(d.depth)) : (d.parent && d.parent.data.id === root.data.id ? color(d.depth) : "white"); })
+            .style("fill", function (d: any) { return d.children ? (d === root ? "white" : getColor()(d.depth)) : (d.parent && d.parent.data.id === root.data.id ? getColor()(d.depth) : "white"); })
             .classed("invisible", function (d: any) { return !d.parent && !(nodes.length === 1) })
 
 
@@ -434,9 +459,32 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .classed("with-children", function (d: any) { return d.children && d !== root; })
             .classed("without-children", function (d: any) { return !d.children && d !== root; })
 
-        let joinWithoutChildren = g.selectAll("g.without-children").data(nodes.filter(function (d: any) { return !d.children && d !== root; }))
-
         let tooltip = d3.select("div.tooltip-initiative");
+
+
+
+        let joinWithChildren = g.selectAll("g.with-children").data(nodes.filter(function (d: any) { return d.children && d !== root; }))
+
+        // joinWithChildren.exit().selectAll("tspan").remove();
+        joinWithChildren.enter()
+            .append("text")
+        joinWithChildren
+            .select("text")
+            .attr("pointer-events", "auto")
+            .attr("x", 0)
+            .attr("y", 0)
+            .html(function (d: any) {
+                return `<textPath xlink:href="#path${d.data.id}" startOffset="10%">${d.data.name || ""}</textPath>`
+            })
+            .on("click", function (d: any, i: number) {
+                if (d3.event.defaultPrevented) return; // dragged
+                showDetails(d);
+                d3.select("div.tooltip-initiative").style("visibility", "hidden");
+            })
+
+
+
+        let joinWithoutChildren = g.selectAll("g.without-children").data(nodes.filter(function (d: any) { return !d.children && d !== root; }))
 
 
         joinWithoutChildren.enter()
@@ -459,24 +507,6 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 uiService.wrap(d3.select(this), realText, d.r * 2 * 0.95);
             });
 
-        let joinWithChildren = g.selectAll("g.with-children").data(nodes.filter(function (d: any) { return d.children && d !== root; }))
-
-        // joinWithChildren.exit().selectAll("tspan").remove();
-        joinWithChildren.enter()
-            .append("text")
-        joinWithChildren
-            .select("text")
-            .attr("pointer-events", "auto")
-            .attr("x", 0)
-            .attr("y", 0)
-            .html(function (d: any) {
-                return `<textPath xlink:href="#path${d.data.id}" startOffset="10%">${d.data.name || ""}</textPath>`
-            })
-            .on("click", function (d: any, i: number) {
-                if (d3.event.defaultPrevented) return; // dragged
-                showDetails(d);
-                d3.select("div.tooltip-initiative").style("visibility", "hidden");
-            })
 
 
 
