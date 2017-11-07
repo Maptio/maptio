@@ -1,20 +1,16 @@
+<div class="control first">
+  <div class=" btn-group-vertical mb-1">
+    <a class="btn circleview" [class.disabled]="(isLoading | async)" routerLink="/map/{{datasetId}}/{{slug}}/initiatives" placement="left"
+      container="body" ngbTooltip="Initiatives map"></a>
+    <a class="btn treeview" [class.disabled]="(isLoading | async)" routerLink="/map/{{datasetId}}/{{slug}}/people" placement="left"
+      container="body" ngbTooltip="Team view"></a>
 
-
-<div class="control">
-  <div class=" btn-group-vertical mb-4">
-    
-    <!-- <a class="btn options" placement="left" container="body" ngbTooltip="Views" (click)="isCollapsed = !isCollapsed"
-    [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"></a> -->
-    <!-- <div class="collapse" id="collapseExample" [ngbCollapse]="isCollapsed"> -->
-      <!-- <div class=" btn-group-vertical "> -->
-        <a class="btn circleview"  [class.disabled]="(isLoading | async)" routerLink="/map/{{datasetId}}/{{slug}}/initiatives" placement="left" container="body" ngbTooltip="Initiatives map"></a>
-        <a class="btn treeview"  [class.disabled]="(isLoading | async)" routerLink="/map/{{datasetId}}/{{slug}}/people" placement="left" container="body" ngbTooltip="Team view"></a>
-      <!-- </div> -->
-    <!-- </div> -->
 
   </div>
-  
+</div>
 
+
+<div class="control second">
   <div class=" btn-group-vertical">
     <a class="btn minus" (click)="zoomOut()" placement="left" container="body" ngbTooltip="Zoom out"></a>
     <a class="btn plus" (click)="zoomIn()" placement="left" container="body" ngbTooltip="Zoom in"></a>
@@ -25,8 +21,6 @@
         orient="vertical" placement="left" container="body" ngbTooltip="Text size">
     </div>
   </div>
-
-
 </div>
 
 <!-- SVG goes here -->

@@ -19,8 +19,12 @@
   background-color: #f7f7f7;
 }
 
+.control.first{
+  top:7vh;
+}
+
 .control.second {
-  margin-top: 3%
+  top:21vh;
 }
 
 .control > a {
