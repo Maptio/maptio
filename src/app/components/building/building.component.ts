@@ -116,15 +116,13 @@ export class BuildingComponent {
     moveNode(node: Initiative, from: Initiative, to: Initiative) {
         let foundTreeNode = this.tree.treeModel.getNodeById(node.id)
         let foundToNode = this.tree.treeModel.getNodeById(to.id);
-        console.log(foundTreeNode, foundToNode)
         TREE_ACTIONS.MOVE_NODE(this.tree.treeModel, foundToNode, {}, { from: foundTreeNode, to: { parent: foundToNode } })
     }
 
 
     removeNode(node: Initiative) {
 
-        console.log("building.component.ts", "remove", node.name, node.id);
-        let hasFoundNode: boolean = false;
+       let hasFoundNode: boolean = false;
 
         let index = this.nodes[0].children.findIndex(c => c.id === node.id);
         if (index > -1) {
@@ -146,8 +144,7 @@ export class BuildingComponent {
     }
 
     addNodeTo(node: Initiative) {
-        console.log("building.component.ts", "add to", node, node.name, node.id);
-
+      
         let hasFoundNode: boolean = false;
         if (this.nodes[0].id === node.id) {
             hasFoundNode = true;

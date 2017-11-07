@@ -177,12 +177,12 @@ export class MappingCirclesComponent implements IDataVisualizer {
     }
 
     setDragTargetNode(node: Initiative) {
-        console.log("set dragged target node", node.name)
+        // console.log("set dragged target node", node.name)
         this.dragTargetNode = node;
     }
 
     setDraggedNode(node: Initiative) {
-        console.log("set dragged node", node.name)
+        // console.log("set dragged node", node.name)
         this.draggedNode = node;
     }
 
@@ -223,11 +223,11 @@ export class MappingCirclesComponent implements IDataVisualizer {
     move() {
         // console.log(this.draggedNode, this.dragTargetNode)
         if (!this.draggedNode || !this.dragTargetNode) {
-            console.log("won't drag")
+            // console.log("won't drag")
             return;
         }
 
-        console.log(this.draggedNode.name, this.dragTargetNode.name)
+        // console.log(this.draggedNode.name, this.dragTargetNode.name)
         this.moveInitiative$.next({ node: this.draggedNode, from: null, to: this.dragTargetNode });
         this.draggedNode = null;
         this.dragTargetNode = null;
@@ -290,11 +290,11 @@ export class MappingCirclesComponent implements IDataVisualizer {
         let focus = root,
             nodes = pack(root).descendants(),
             view: any;
-        console.log(nodes.map((n: any) => { console.log(n.data.id, n) }));
-        for (let index = -1; index <= depth; index++) {
-            console.log("setup color", index, getColor()(index))
+        // console.log(nodes.map((n: any) => { console.log(n.data.id, n) }));
+        // for (let index = -1; index <= depth; index++) {
+        //     console.log("setup color", index, getColor()(index))
 
-        }
+        // }
 
         let t = d3.transition(null).duration(TRANSITION_DURATION);
 
@@ -346,10 +346,10 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
         function dragstarted(d: any) {
             setIsDragging(true)
-            console.log("drag start", getIsDragging())
+            // console.log("drag start", getIsDragging())
             setDraggedNode(d.data)
 
-            this.parentNode.appendChild(this);
+            if (!d.children) this.parentNode.appendChild(this);
 
             d3.event.sourceEvent.stopPropagation();
             d3.event.sourceEvent.preventDefault();
@@ -361,7 +361,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
         }
 
         function dragged(d: any) {
-            console.log("dragging")
+            // console.log("dragging")
             d3.select(this)
                 .attr("transform", function (d: any) {
                     return "translate(" + (d3.event.x - diameter / 2) + "," + (d3.event.y - diameter / 2) + ")";
@@ -375,7 +375,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
         }
 
         function dragended(d: any) {
-            console.log("drag end")
+            // console.log("drag end")
             d3.select(this).select("circle.node").classed("dragged", false)
             if (getIsDragging()) move();
             setIsDragging(false)
@@ -425,16 +425,16 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 d3.event.stopPropagation();
             })
             .on("mouseleave", function (d: any) {
-                for (let index = -1; index <= depth; index++) {
-                    console.log("mouseleave color", index, getColor()(index))
+                // for (let index = -1; index <= depth; index++) {
+                //     console.log("mouseleave color", index, getColor()(index))
 
-                }
+                // }
                 d3.select("div.tooltip-initiative").style("visibility", "hidden");
                 d3.select(`div.tooltip`).style("visibility", "hidden");
                 d3.select(this)
                     .classed("highlighted", false)
                     .style("fill", function (d: any) {
-                        console.log("mouseleave", d.data.id, d.depth, getColor()(d.depth));
+                        // console.log("mouseleave", d.data.id, d.depth, getColor()(d.depth));
                         return d.children ? (d === root ? "white" : getColor()(d.depth)) : (d.parent && d.parent.data.id === root.data.id ? getColor()(d.depth) : "white");
                     })
             })
