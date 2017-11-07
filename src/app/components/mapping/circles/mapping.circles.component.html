@@ -1,8 +1,14 @@
 <svg width="100%" viewBox="0 0 1522 1522"></svg>
 
-<div *ngIf="isFirstEditing" class="instructions h2 text-muted">
-        <button type="button" class="btn add btn-success" (click)="addFirstNode()" placement="top"
-        ngbTooltip="New initiative" container="body"></button> or right click anywhere to create your first initiative    
+<div *ngIf="isFirstEditing" class="instructions h2">
+    <button type="button" class="btn add btn-success" (click)="addFirstNode()" placement="top" ngbTooltip="New initiative" container="body"></button> or bring up your context menu to create your first initiative
+
+    <h6 class="offset-4">
+        <small class="text-muted">On <i class="fa fa-apple" aria-hidden="true"></i> , Ctrl+click or 2 fingers click</small>
+        <br>    
+        <small class="text-muted">On <i class="fa fa-windows" aria-hidden="true"></i> , right click</small>
+    </h6>
+
 </div>
 
 <div class="tooltip-initiative col-3">
@@ -21,11 +27,11 @@
             <button *ngIf="!isWaitingForDestinationNode" type="button" class="btn  add btn-secondary" (click)="add(selectedNode)" placement="top"
                 ngbTooltip="New initiative" container="body"></button>
 
-            <button *ngIf="!isWaitingForDestinationNode && !isFirstEditing"  type="button" class="btn  edit btn-secondary"
-                (click)="edit(selectedNode)" placement="top" ngbTooltip="Edit" container="body"></button>
+            <button *ngIf="!isWaitingForDestinationNode && !isFirstEditing" type="button" class="btn  edit btn-secondary" (click)="edit(selectedNode)"
+                placement="top" ngbTooltip="Edit" container="body"></button>
 
-            <button *ngIf="!isWaitingForDestinationNode && !isFirstEditing" type="button" class="btn  remove btn-secondary"
-                placement="top" container="body" ngbTooltip="Remove" mwlConfirmationPopover title="Remove initiative {{selectedNode?.name}} and sub initiatives ?"
+            <button *ngIf="!isWaitingForDestinationNode && !isFirstEditing" type="button" class="btn  remove btn-secondary" placement="top"
+                container="body" ngbTooltip="Remove" mwlConfirmationPopover title="Remove initiative {{selectedNode?.name}} and sub initiatives ?"
                 focusbutton="cancel" appendToBody="false" (confirm)="remove(selectedNode)" (cancel)="cancelClicked = true"></button>
 
 
