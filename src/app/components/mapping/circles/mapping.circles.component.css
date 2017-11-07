@@ -78,9 +78,9 @@ svg circle.accountable {
 }
 
 svg circle.highlighted, svg circle.highlighted:hover {
-  fill: #E44519 !important;
+  fill: #ff5a00 !important;
   fill-opacity: 0.5;
-  stroke:#E44519 !important;
+  stroke:#ff5a00 !important;
   stroke-width: 5!important;
 }
 
