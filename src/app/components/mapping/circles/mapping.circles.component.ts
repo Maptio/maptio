@@ -243,7 +243,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
         let showDetailsOf$ = this.showDetailsOf$;
         let addInitiative$ = this.addInitiative$;
         let removeInitiative$ = this.removeInitiative$;
-        let TRANSITION_DURATION = 750;
+        let TRANSITION_DURATION = 2250;
         let selectInitiative = this.selectInitiative.bind(this);
         let hoverInitiative = this.hoverInitiative.bind(this);
         let isFirstEditing = this.isFirstEditing;
@@ -265,7 +265,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
         root = d3.hierarchy(data)
             .sum(function (d: any) { return 1; }) // all nodes have the same initial size
             .sort(function (a, b) {
-                return b.value - a.value;
+                return b.data.name - a.data.name;
             });
 
         let depth = 0;
@@ -378,7 +378,6 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 }
             })
             .on("mouseover", function (d: any) {
-                console.log("mouseover", d.data.name, "dragging", getIsDragging())
                 d3.event.stopPropagation();
                 if (getIsDragging()) setDragTargetNode(d.data);
                 if (d.parent) d3.select(this).classed("highlighted", true);
