@@ -329,6 +329,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
             console.log("drag start", getIsDragging())
             setDraggedNode(d.data)
 
+            this.parentNode.appendChild(this);
+
             d3.event.sourceEvent.stopPropagation();
             d3.event.sourceEvent.preventDefault();
             d3.select(this).attr("pointer-events", "none");
