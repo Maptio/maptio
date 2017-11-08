@@ -4,8 +4,6 @@
       container="body" ngbTooltip="Initiatives map"></a>
     <a class="btn treeview" [class.disabled]="(isLoading | async)" routerLink="/map/{{datasetId}}/{{slug}}/people" placement="left"
       container="body" ngbTooltip="Team view"></a>
-
-
   </div>
 </div>
 
@@ -16,7 +14,7 @@
     <a class="btn plus" (click)="zoomIn()" placement="left" container="body" ngbTooltip="Zoom in"></a>
     <a class="btn reset" (click)="resetZoom()" placement="left" container="body" ngbTooltip="Zoom fit"></a>
     <a #lockInput class="btn" 
-    [class.locked]="isLocked" [class.text-info]="isLocked"
+    [class.locked]="isLocked" [class.text-default]="isLocked"
     [class.unlocked]="!isLocked" [class.text-warning]="!isLocked"
     (click)="lock(lockInput.value)" placement="left" container="body" ngbTooltip="Lock mode"></a>
 
