@@ -18,8 +18,19 @@
         <div class="card-block">
             <div class="d-flex w-100 justify-content-between">
                 <h6 class="card-title text-color"> {{hoveredNode?.name}}</h6>
-                <button *ngIf="!isFirstEditing" type="button" class="btn btn-sm  edit btn-secondary" (click)="editQuick(hoveredNode)" placement="top"
-                    ngbTooltip="Edit" container="body"></button>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-sm add btn-secondary" (click)="add(hoveredNode)" placement="top" ngbTooltip="New initiative"
+                        container="body"></button>
+
+                    <button *ngIf="!isFirstEditing" type="button" class="btn btn-sm edit btn-secondary" (click)="editQuick(hoveredNode)" placement="top"
+                        ngbTooltip="Edit" container="body"></button>
+
+                    <button *ngIf="!isFirstEditing" type="button" class="btn btn-sm remove btn-secondary" placement="top" container="body" ngbTooltip="Remove"
+                        mwlConfirmationPopover title="Remove initiative {{hoveredNode?.name}} and sub initiatives ?" focusbutton="cancel"
+                        appendToBody="false" (confirm)="remove(hoveredNode)" (cancel)="cancelClicked = true"></button>
+
+
+                </div>
             </div>
 
             <markdown class="small text-muted" [data]="hoveredNode?.description || ''"></markdown>
@@ -30,15 +41,15 @@
 <div class="tooltip">
     <div>
         <div class="btn-group" role="group">
-            <button *ngIf="!isWaitingForDestinationNode" type="button" class="btn  add btn-secondary" (click)="add(selectedNode)" placement="top"
-                ngbTooltip="New initiative" container="body"></button>
+            <button type="button" class="btn  add btn-secondary" (click)="add(selectedNode)" placement="top" ngbTooltip="New initiative"
+                container="body"></button>
 
-            <button *ngIf="!isWaitingForDestinationNode && !isFirstEditing" type="button" class="btn  edit btn-secondary" (click)="edit(selectedNode)"
-                placement="top" ngbTooltip="Edit" container="body"></button>
+            <button *ngIf="!isFirstEditing" type="button" class="btn  edit btn-secondary" (click)="edit(selectedNode)" placement="top"
+                ngbTooltip="Edit" container="body"></button>
 
-            <button *ngIf="!isWaitingForDestinationNode && !isFirstEditing" type="button" class="btn  remove btn-secondary" placement="top"
-                container="body" ngbTooltip="Remove" mwlConfirmationPopover title="Remove initiative {{selectedNode?.name}} and sub initiatives ?"
-                focusbutton="cancel" appendToBody="false" (confirm)="remove(selectedNode)" (cancel)="cancelClicked = true"></button>
+            <button *ngIf="!isFirstEditing" type="button" class="btn  remove btn-secondary" placement="top" container="body" ngbTooltip="Remove"
+                mwlConfirmationPopover title="Remove initiative {{selectedNode?.name}} and sub initiatives ?" focusbutton="cancel"
+                appendToBody="false" (confirm)="remove(selectedNode)" (cancel)="cancelClicked = true"></button>
 
 
         </div>
