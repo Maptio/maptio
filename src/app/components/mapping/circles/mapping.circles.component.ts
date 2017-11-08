@@ -349,7 +349,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             // console.log("drag start", getIsDragging())
             setDraggedNode(d.data)
 
-            if (!d.children) this.parentNode.appendChild(this);
+            // if (!d.children) this.parentNode.appendChild(this);
 
             d3.event.sourceEvent.stopPropagation();
             d3.event.sourceEvent.preventDefault();
