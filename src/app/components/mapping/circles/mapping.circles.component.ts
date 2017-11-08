@@ -287,7 +287,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
         root = d3.hierarchy(data)
             .sum(function (d: any) { return 1; }) // all nodes have the same initial size
             .sort(function (a, b) {
-                return b.data.name - a.data.name;
+                return b.value - a.value;
             });
 
         let depth = 0;
