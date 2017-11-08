@@ -530,7 +530,9 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 hoverInitiative(d.data)
                 d3.select("div.tooltip-initiative").style("visibility", "visible")
                     .style("top", (d3.event.pageY - 20) + "px")
-                    .style("left", (d3.event.pageX) + "px")
+                    .style("left", () => { return d3.event.pageX > diameter * 0.90 ? "auto" : (d3.event.pageX) + "px" })
+                    .style("right", () => { return d3.event.pageX > diameter * 0.90 ? "0" : "" })
+
                     .on("mouseenter", function () {
                         d3.select(this).style("visibility", "visible")
                     })
@@ -542,7 +544,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 hoverInitiative(d.data)
                 d3.select("div.tooltip-initiative").style("visibility", "visible")
                     .style("top", (d3.event.pageY - 20) + "px")
-                    .style("left", (d3.event.pageX) + "px")
+                    .style("left", () => { return d3.event.pageX > diameter * 0.70 ? "auto" : (d3.event.pageX) + "px" })
+                    .style("right", () => { return d3.event.pageX > diameter * 0.70 ? "0" : "" })
                     .on("mouseenter", function () {
                         d3.select(this).style("visibility", "visible")
                     })
@@ -550,14 +553,6 @@ export class MappingCirclesComponent implements IDataVisualizer {
                         d3.select(this).style("visibility", "visible")
                     })
             })
-        // .on("mouseout", function (d: any) {
-        //     // setTooltipDescriptionVisible(false);
-        //     d3.select("div.tooltip-initiative").style("visibility", "hidden");
-        // })
-        // .on("mouseleave", function (d: any) {
-        //     // setTooltipDescriptionVisible(false);
-        //     d3.select("div.tooltip-initiative").style("visibility", "hidden");
-        // })
 
 
         enter.append("circle")
