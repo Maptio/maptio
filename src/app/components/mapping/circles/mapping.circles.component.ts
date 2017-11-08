@@ -54,7 +54,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
     public isTooltipDescriptionVisible: boolean = false;
     public isFirstEditing: boolean = false;
 
-    private selectedNode: Initiative;
+    public selectedNode: Initiative;
     public selectedNodeParent: Initiative;
     public hoveredNode: Initiative;
 
