@@ -4,9 +4,11 @@
     <button type="button" class="btn add btn-success" (click)="addFirstNode()" placement="top" ngbTooltip="New initiative" container="body"></button> or bring up the context menu to create your first initiative
 
     <h6 class="offset-4">
-        <small class="text-muted pull-right">On <i class="fa fa-apple" aria-hidden="true"></i> , use Ctrl+click or tap with two fingers</small>
-        <br>    
-        <small class="text-muted pull-right">On <i class="fa fa-windows" aria-hidden="true"></i> , use right-click</small>
+        <small class="text-muted pull-right">On
+            <i class="fa fa-apple" aria-hidden="true"></i> , use Ctrl+click or tap with two fingers</small>
+        <br>
+        <small class="text-muted pull-right">On
+            <i class="fa fa-windows" aria-hidden="true"></i> , use right-click</small>
     </h6>
 
 </div>
@@ -14,10 +16,14 @@
 <div class="tooltip-initiative col-3">
     <div class="card card-inverse background">
         <div class="card-block">
-            <h6 class="card-title text-color"> {{hoveredNode?.name}}</h6>
+            <div class="d-flex w-100 justify-content-between">
+                <h6 class="card-title text-color"> {{hoveredNode?.name}}</h6>
+                <button *ngIf="!isFirstEditing" type="button" class="btn btn-sm  edit btn-secondary" (click)="editQuick(hoveredNode)" placement="top"
+                    ngbTooltip="Edit" container="body"></button>
+            </div>
+
             <markdown class="small text-muted" [data]="hoveredNode?.description || ''"></markdown>
         </div>
-
     </div>
 </div>
 

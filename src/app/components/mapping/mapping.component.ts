@@ -57,12 +57,14 @@ export class MappingComponent implements OnInit {
     public slug: string;
 
     public fontSize$: BehaviorSubject<number>;
+    public closeEditingPanel$: BehaviorSubject<boolean>;
     public data$: Subject<{ initiative: Initiative, datasetId: string }>;
 
     @Output("showDetails") showDetails = new EventEmitter<Initiative>();
     @Output("addInitiative") addInitiative = new EventEmitter<Initiative>();
     @Output("removeInitiative") removeInitiative = new EventEmitter<Initiative>();
     @Output("moveInitiative") moveInitiative = new EventEmitter<{ node: Initiative, from: Initiative, to: Initiative }>();
+    @Output("closeEditingPanel") closeEditingPanel = new EventEmitter<boolean>();
 
     @ViewChild(AnchorDirective) anchorComponent: AnchorDirective;
 
@@ -84,6 +86,7 @@ export class MappingComponent implements OnInit {
     ) {
         this.zoom$ = new Subject<number>();
         this.fontSize$ = new BehaviorSubject<number>(16);
+        this.closeEditingPanel$ = new BehaviorSubject<boolean>(false);
         this.isLoading = new BehaviorSubject<boolean>(true);
         this.data$ = new Subject<{ initiative: Initiative, datasetId: string }>();
     }
@@ -175,6 +178,10 @@ export class MappingComponent implements OnInit {
             // console.log("mapping.component.ts", "move initiative", node.name, to.name)
             this.moveInitiative.emit({ node: node, from: from, to: to })
         })
+        this.instance.closeEditingPanel$.asObservable().subscribe((close: boolean) => {
+            this.closeEditingPanel.emit(true);
+        })
+
         this.instance.width = this.VIEWPORT_WIDTH;
         this.instance.height = this.VIEWPORT_HEIGHT;
 

@@ -190,4 +190,13 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.buildingComponent.moveNode(node, from, to);
     }
 
+    closeEditingPanel(close: boolean) {
+        console.log(this.isDetailsPanelCollapsed);
+        this.isDetailsPanelCollapsed = !this.isDetailsPanelCollapsed;
+        // if (!this.isDetailsPanelCollapsed ) {
+        //     this.isBuildingPanelCollapsed = true;
+        //     this.isDetailsPanelCollapsed = true;
+        // }
+    }
+
 }
