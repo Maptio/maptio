@@ -55,7 +55,9 @@ module.exports = {
     new ExtractTextPlugin('style.css'),
 
     new CopyWebpackPlugin([
-      { from: 'public', to: 'assets' }
+      { from: 'public/images', to: 'assets/images' },
+      { from: 'public/styles', to: 'assets/styles' },
+      { from: 'public/templates', to: 'assets/templates' }
 
     ]),
     new BundleAnalyzerPlugin()

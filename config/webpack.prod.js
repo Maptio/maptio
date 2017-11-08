@@ -108,8 +108,9 @@ module.exports = {
       }
     }),
     new CopyWebpackPlugin([
-      { from: 'public', to: 'assets' }
-
+      { from: 'public/images', to: 'assets/images' },
+      { from: 'public/styles', to: 'assets/styles' },
+      { from: 'public/templates', to: 'assets/templates' }
     ])
   ]
 };
