@@ -27,7 +27,7 @@
 
                     <button *ngIf="!isFirstEditing" type="button" class="btn btn-sm remove btn-secondary" placement="top" container="body" ngbTooltip="Remove"
                         mwlConfirmationPopover title="Remove initiative {{hoveredNode?.name}} and sub initiatives ?" focusbutton="cancel"
-                        appendToBody="false" (confirm)="remove(hoveredNode)" (cancel)="cancelClicked = true"></button>
+                        appendToBody="false" (confirm)="removeQuick(hoveredNode)" (cancel)="cancelClicked = true"></button>
 
 
                 </div>

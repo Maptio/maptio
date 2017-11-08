@@ -40,7 +40,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
     public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
     public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
     public moveInitiative$: Subject<{ node: Initiative, from: Initiative, to: Initiative }> = new Subject<{ node: Initiative, from: Initiative, to: Initiative }>();
-    public closeEditingPanel$: Subject<boolean> = new Subject<boolean>() ;
+    public closeEditingPanel$: Subject<boolean> = new Subject<boolean>();
 
     private zoomSubscription: Subscription;
     private dataSubscription: Subscription;
@@ -208,12 +208,12 @@ export class MappingCirclesComponent implements IDataVisualizer {
     }
 
     edit(node: Initiative) {
-      
+
         if (!this.selectedNodeParent) { return }
         this.showDetailsOf$.next(node);
     }
 
-    editQuick(node:Initiative){
+    editQuick(node: Initiative) {
         this.showDetailsOf$.next(node);
     }
 
@@ -227,6 +227,10 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
     remove(node: Initiative) {
         if (!this.selectedNodeParent) { return }
+        this.removeInitiative$.next(node);
+    }
+
+    removeQuick(node: Initiative) {
         this.removeInitiative$.next(node);
     }
 
