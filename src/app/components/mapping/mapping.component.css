@@ -55,6 +55,17 @@ content: "\f066";
   font-family: FontAwesome;
 }
 
+.locked:before {
+  content: "\f023";
+  font-family: FontAwesome;
+}
+
+.unlocked:before {
+  content: "\f13e";
+  font-family: FontAwesome;
+}
+
+
 .treeview {
   background: url(/assets/images/treeview.webp) no-repeat;
   background-size: 20px 20px;

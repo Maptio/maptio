@@ -33,6 +33,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
     public zoom$: Observable<number>;
     public isReset$: Subject<boolean>
     public fontSize$: Observable<number>;
+    public isLocked$: Observable<boolean>;
     public data$: Subject<{ initiative: Initiative, datasetId: string }>;
     public rootNode: Initiative;
 
@@ -45,6 +46,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
     private zoomSubscription: Subscription;
     private dataSubscription: Subscription;
     private resetSubscription: Subscription;
+    private fontSubscription: Subscription;
+    private lockedSubscription: Subscription;
 
     private counter: number = 0;
     private svg: any;
@@ -53,6 +56,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
     public isWaitingForDestinationNode: boolean = false;
     public isTooltipDescriptionVisible: boolean = false;
     public isFirstEditing: boolean = false;
+    public isLocked: boolean;
 
     public selectedNode: Initiative;
     public selectedNodeParent: Initiative;
@@ -134,7 +138,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             }
         })
 
-        this.fontSize$.subscribe((fs: number) => {
+        this.fontSubscription =  this.fontSize$.subscribe((fs: number) => {
             let uiService = this.uiService;
             let MAX_TEXT_LENGTH = this.MAX_TEXT_LENGTH;
             svg.attr("font-size", fs + "px");
@@ -147,9 +151,14 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 });
         });
 
-        // svg.on("click", () => {
-        //     this.closeEditingPanel$.next(true);
-        // })
+
+        this.lockedSubscription = this.isLocked$.subscribe((locked: boolean) => {
+
+            d3.selectAll("circle.node").style("cursor", () => { return locked ? "default" : "move" })
+
+            this.setIsLocked(locked);
+
+        })
 
         this.svg = svg;
         this.g = g;
@@ -166,6 +175,12 @@ export class MappingCirclesComponent implements IDataVisualizer {
         }
         if (this.resetSubscription) {
             this.resetSubscription.unsubscribe();
+        }
+        if (this.fontSubscription) {
+            this.fontSubscription.unsubscribe();
+        }
+        if (this.lockedSubscription) {
+            this.lockedSubscription.unsubscribe();
         }
     }
 
@@ -205,6 +220,14 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
     getColor() {
         return this.color;
+    }
+
+    setIsLocked(isLocked: boolean) {
+        this.isLocked = isLocked;
+    }
+
+    getIsLocked(): boolean {
+        return this.isLocked;
     }
 
     edit(node: Initiative) {
@@ -281,6 +304,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
         let move = this.move.bind(this);
         let startX: number, startY: number;
         let slug = data.getSlug();
+        let getIsLocked = this.getIsLocked.bind(this);
 
         let pack = d3.pack()
             .size([diameter - margin, diameter - margin])
@@ -351,11 +375,23 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .exit()
             .remove();
 
+
+
+
+
         g.selectAll(".nodes")
-            .call(d3.drag()
+            .call(
+
+            d3.drag()
+                .filter(() => { return !getIsLocked(); })
                 .on("start", dragstarted)
                 .on("drag", dragged)
-                .on("end", dragended))
+                .on("end", dragended)
+
+
+            )
+
+
 
 
         function dragstarted(d: any) {
@@ -405,7 +441,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .style("stroke", function (d: any) { return d.data.isSearchedFor ? "#d9831f" : "none" })
             .style("stroke-width", function (d: any) { return d.data.isSearchedFor ? 3 : "none" })
             .attr("id", function (d: any) { return d.data.id; })
-            .style("cursor", "move")
+            .style("cursor", () => { return getIsLocked() ? "default" : "move" })
             .on("click", function (d: any) {
                 if (d3.event.defaultPrevented) return; // dragged
                 if (d.parent) {
@@ -416,7 +452,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .on("mouseover", function (d: any) {
                 d3.event.stopPropagation();
                 if (getIsDragging()) setDragTargetNode(d.data);
-                if (d.parent) d3.select(this).classed("highlighted", true);
+                if (d.parent) d3.select(this).classed("highlighted", !getIsLocked() && true);
             })
             .on("contextmenu", function (d: any) {
                 d3.select("div.tooltip-initiative").style("visibility", "hidden");
@@ -458,10 +494,11 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .style("fill", "white")
             .transition(t)
             .style("fill", function (d: any) { return d.children ? (d === root ? "white" : getColor()(d.depth)) : (d.parent && d.parent.data.id === root.data.id ? getColor()(d.depth) : "white"); })
+            .style("cursor", () => { return getIsLocked() ? "default" : "move" });
 
         selection.selectAll("circle.node")
             .attr("class", function (d: any) { return d.parent ? (d.children || d.parent.data.id === root.data.id) ? "node" : "node node--leaf" : "node node--root"; })
-            .style("cursor", "move")
+            .style("cursor", () => { return getIsLocked() ? "default" : "move" })
             .style("fill", function (d: any) { return d.children ? (d === root ? "white" : getColor()(d.depth)) : (d.parent && d.parent.data.id === root.data.id ? getColor()(d.depth) : "white"); })
             .classed("invisible", function (d: any) { return !d.parent && !(nodes.length === 1) })
 

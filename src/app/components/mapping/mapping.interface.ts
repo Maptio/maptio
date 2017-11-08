@@ -16,6 +16,8 @@ export interface IDataVisualizer {
 
     fontSize$: Observable<number>;
 
+    isLocked$: Observable<boolean>;
+
     data$: Subject<{ initiative: Initiative, datasetId: string }>;
 
     isReset$: Subject<boolean>;

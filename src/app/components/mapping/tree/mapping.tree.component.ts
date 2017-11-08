@@ -30,6 +30,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
     public zoom$: Observable<number>
     public fontSize$: Observable<number>
+    public isLocked$: Observable<boolean>;
     public isReset$: Subject<boolean>
     public data$: Subject<{ initiative: Initiative, datasetId: string }>;
 
@@ -46,7 +47,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
     public moveInitiative$: Subject<{ node: Initiative, from: Initiative, to: Initiative }> = new Subject<{ node: Initiative, from: Initiative, to: Initiative }>();
     public closeEditingPanel$: Subject<boolean>;
-    
+
     constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService, public router: Router, private userFactory: UserFactory) {
         this.d3 = d3Service.getD3();
         this.data$ = new Subject<{ initiative: Initiative, datasetId: string }>();

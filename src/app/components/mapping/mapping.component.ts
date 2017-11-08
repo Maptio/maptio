@@ -45,6 +45,7 @@ export class MappingComponent implements OnInit {
     public x: number;
     public y: number;
     public scale: number;
+    public isLocked: boolean = true;
 
     public isCollapsed: boolean = true;
 
@@ -57,6 +58,7 @@ export class MappingComponent implements OnInit {
     public slug: string;
 
     public fontSize$: BehaviorSubject<number>;
+    public isLocked$: BehaviorSubject<boolean>;
     public closeEditingPanel$: BehaviorSubject<boolean>;
     public data$: Subject<{ initiative: Initiative, datasetId: string }>;
 
@@ -86,6 +88,7 @@ export class MappingComponent implements OnInit {
     ) {
         this.zoom$ = new Subject<number>();
         this.fontSize$ = new BehaviorSubject<number>(16);
+        this.isLocked$ = new BehaviorSubject<boolean>(true);
         this.closeEditingPanel$ = new BehaviorSubject<boolean>(false);
         this.isLoading = new BehaviorSubject<boolean>(true);
         this.data$ = new Subject<{ initiative: Initiative, datasetId: string }>();
@@ -188,6 +191,7 @@ export class MappingComponent implements OnInit {
         this.instance.margin = 50;
         this.instance.zoom$ = this.zoom$.asObservable();
         this.instance.fontSize$ = this.fontSize$.asObservable();
+        this.instance.isLocked$ = this.isLocked$.asObservable();
         this.instance.translateX = this.x;
         this.instance.translateY = this.y;
         this.instance.scale = this.scale;
@@ -205,6 +209,12 @@ export class MappingComponent implements OnInit {
 
     resetZoom() {
         this.instance.isReset$.next(true);
+    }
+
+
+    lock(locking: boolean) {
+        this.isLocked = !this.isLocked;
+        this.isLocked$.next(this.isLocked);
     }
 
     changeFontSize(size: number) {
