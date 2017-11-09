@@ -44,13 +44,18 @@ export class BuildingComponent {
 
                     // console.log(from.parent.id, to.parent.id)
                     if (from.parent.id === to.parent.id) { // if simple reordering, we dont ask for confirmation
+                        this.analytics.eventTrack("Move", { mode: "list", confirmed: true });
                         TREE_ACTIONS.MOVE_NODE(tree, node, $event, { from: from, to: to })
                     }
                     else {
                         this.modalService.open(this.dragConfirmationModal).result
                             .then(result => {
                                 if (result) {
+                                    this.analytics.eventTrack("Move", { mode: "list", confirmed: true });
                                     TREE_ACTIONS.MOVE_NODE(tree, node, $event, { from: from, to: to })
+                                }
+                                else {
+                                    this.analytics.eventTrack("Move", { mode: "list", confirm: false });
                                 }
                             })
                             .catch(reason => { });
@@ -122,7 +127,7 @@ export class BuildingComponent {
 
     removeNode(node: Initiative) {
 
-       let hasFoundNode: boolean = false;
+        let hasFoundNode: boolean = false;
 
         let index = this.nodes[0].children.findIndex(c => c.id === node.id);
         if (index > -1) {
@@ -144,7 +149,7 @@ export class BuildingComponent {
     }
 
     addNodeTo(node: Initiative) {
-      
+
         let hasFoundNode: boolean = false;
         if (this.nodes[0].id === node.id) {
             hasFoundNode = true;
