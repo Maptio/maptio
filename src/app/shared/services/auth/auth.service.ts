@@ -17,6 +17,15 @@ import { uniq } from "lodash";
 @Injectable()
 export class Auth {
 
+    private MAPTIO_INTERNAL_EMAILS =
+    [
+        "safiyya.babio@gmail.com",
+        "hello@tomnixon.co.uk",
+        "karlparton@gmail.com",
+        "lisa@reimaginaire.com",
+        "hellochandnipatel@gmail.com"
+    ]
+
     private user$: Subject<User> = new Subject();
 
     constructor(
@@ -185,10 +194,15 @@ export class Auth {
                                             return user;
                                         })
                                         .then((user: User) => {
-                                            this.analytics.setSuperProperties({ user_id: user.user_id, email: user.email })
+                                            let isMaptioTeam = this.MAPTIO_INTERNAL_EMAILS.includes(user.email);
+                                            console.log("is mapito team", isMaptioTeam)
+                                            this.analytics.setSuperProperties({
+                                                user_id: user.user_id, email: user.email, isInternal: isMaptioTeam
+
+                                            })
                                             this.analytics.eventTrack("Login", { email: user.email, firstname: user.firstname, lastname: user.lastname });
 
-                                            let isUserVIP = (user.email === "safiyya.babio@gmail.com" || user.email === "hello@tomnixon.co.uk");
+                                            // let isUserVIP = (user.email === "safiyya.babio@gmail.com" || user.email === "hello@tomnixon.co.uk");
                                             // (<any>window).Intercom("boot", {
                                             //     app_id: environment.INTERCOM_APP_ID,
                                             //     email: user.email,
