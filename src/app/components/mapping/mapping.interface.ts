@@ -1,6 +1,7 @@
 import { Subject } from "rxjs/Rx";
 import { Initiative } from "./../../shared/model/initiative.data";
 import { Observable } from "rxjs/Observable";
+import { Angulartics2Mixpanel } from "angulartics2/dist";
 
 export interface IDataVisualizer {
 
@@ -32,5 +33,8 @@ export interface IDataVisualizer {
     removeInitiative$: Subject<Initiative>;
     moveInitiative$: Subject<{ node: Initiative, from: Initiative, to: Initiative }>;
     closeEditingPanel$: Subject<boolean>;
+
+    analytics: Angulartics2Mixpanel;
+
     init(): void;
 }

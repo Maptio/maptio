@@ -1,7 +1,7 @@
 import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { AuthHttp } from "angular2-jwt";
-import { Router } from "@angular/router";
+import { Router, NavigationStart } from "@angular/router";
 import { UserFactory } from "./../../../shared/services/user.factory";
 import { Observable, Subject } from "rxjs/Rx";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
@@ -14,6 +14,8 @@ import { TestBed, async, ComponentFixture } from "@angular/core/testing";
 import { MappingCirclesComponent } from "./mapping.circles.component";
 import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
 import { ErrorService } from "../../../shared/services/error/error.service";
+import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2/dist";
+import { RouterTestingModule } from "@angular/router/testing";
 
 describe("mapping.circles.component.ts", () => {
 
@@ -24,7 +26,7 @@ describe("mapping.circles.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
-                D3Service, ColorService, UIService, UserFactory,
+                D3Service, ColorService, UIService, UserFactory, Angulartics2Mixpanel, Angulartics2,
                 {
                     provide: AuthHttp,
                     useFactory: authHttpServiceFactoryTesting,
@@ -40,10 +42,13 @@ describe("mapping.circles.component.ts", () => {
                 MockBackend,
                 BaseRequestOptions,
                 ErrorService,
-                { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } }
+                { provide: Router, useClass: class { 
+                    navigate = jasmine.createSpy("navigate");
+                    events = Observable.of(new NavigationStart(0, "/next")) } }
             ],
             declarations: [MappingCirclesComponent],
-            schemas: [NO_ERRORS_SCHEMA]
+            schemas: [NO_ERRORS_SCHEMA],
+            imports: [RouterTestingModule]
         })
             .compileComponents()
 

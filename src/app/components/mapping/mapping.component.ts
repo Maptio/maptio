@@ -1,6 +1,6 @@
 import { Initiative } from "./../../shared/model/initiative.data";
 // import { MappingNetworkComponent } from "./network/mapping.network.component";
-import { Angulartics2Mixpanel } from "angulartics2";
+import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 
 import { ActivatedRoute, Params, UrlSegment } from "@angular/router";
 import {
@@ -118,13 +118,10 @@ export class MappingComponent implements OnInit {
                 this.scale = Number.parseFloat(f.split("&")[2].replace("scale=", ""));
 
                 this.setup();
-                // this.instance.init(undefined, undefined);
-
             })
             .combineLatest(this.dataService.get())
             .map(data => data[1])
             .do((data) => {
-                // console.log(data.datasetId, data.initiative.getSlug());
                 this.datasetId = data.datasetId;
                 this.slug = data.initiative.getSlug();
                 this.isLoading.next(false);
@@ -136,7 +133,8 @@ export class MappingComponent implements OnInit {
     }
 
     ngOnDestroy() {
-        this.subscription.unsubscribe();
+        if (this.subscription)
+            this.subscription.unsubscribe();
     }
 
     getFragment(layout: string) {
@@ -195,6 +193,7 @@ export class MappingComponent implements OnInit {
         this.instance.translateX = this.x;
         this.instance.translateY = this.y;
         this.instance.scale = this.scale;
+        this.instance.analytics = this.analytics;
         this.instance.isReset$ = new Subject<boolean>();
     }
 
@@ -223,6 +222,6 @@ export class MappingComponent implements OnInit {
 
     changeFontSize(size: number) {
         this.fontSize$.next(size);
-        // this.analytics.eventTrack("Change font size", { size: size, map: this.data.initiative.name })
+        this.analytics.eventTrack("Change font size", { size: size})
     }
 }

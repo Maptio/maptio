@@ -4,7 +4,7 @@ import { Http } from "@angular/http";
 import { BaseRequestOptions } from "@angular/http";
 import { AuthHttp } from "angular2-jwt";
 import { UserFactory } from "./../../../shared/services/user.factory";
-import { Router } from "@angular/router";
+import { Router, NavigationStart } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Observable, Subject } from "rxjs/Rx";
 import { Initiative } from "./../../../shared/model/initiative.data";
@@ -14,6 +14,7 @@ import { D3Service, D3 } from "d3-ng2-service";
 import { TestBed, async, ComponentFixture } from "@angular/core/testing";
 import { MappingTreeComponent } from "./mapping.tree.component";
 import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
+import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2/dist";
 
 describe("mapping.tree.component.ts", () => {
 
@@ -25,7 +26,7 @@ describe("mapping.tree.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
-                D3Service, ColorService, UIService, UserFactory,
+                D3Service, ColorService, UIService, UserFactory, Angulartics2Mixpanel, Angulartics2,
                 {
                     provide: AuthHttp,
                     useFactory: authHttpServiceFactoryTesting,
@@ -41,7 +42,12 @@ describe("mapping.tree.component.ts", () => {
                 MockBackend,
                 BaseRequestOptions,
                 ErrorService,
-                { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } }
+                {
+                    provide: Router, useClass: class {
+                        navigate = jasmine.createSpy("navigate");
+                        events = Observable.of(new NavigationStart(0, "/next"))
+                    }
+                }
             ],
             declarations: [MappingTreeComponent],
             imports: [RouterTestingModule]

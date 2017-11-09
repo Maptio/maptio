@@ -8,6 +8,7 @@ import { UIService } from "../../../shared/services/ui/ui.service"
 import { IDataVisualizer } from "../mapping.interface"
 import { Observable, Subject } from "rxjs/Rx";
 import { Initiative } from "../../../shared/model/initiative.data";
+import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 
 @Component({
     selector: "tree",
@@ -37,6 +38,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     private zoomSubscription: Subscription;
     private dataSubscription: Subscription;
     private resetSubscription: Subscription;
+
+    public analytics: Angulartics2Mixpanel;
 
     private svg: any;
     private g: any;

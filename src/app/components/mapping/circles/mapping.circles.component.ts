@@ -8,7 +8,7 @@ import { ColorService } from "../../../shared/services/ui/color.service"
 import { UIService } from "../../../shared/services/ui/ui.service"
 import { IDataVisualizer } from "../mapping.interface"
 import { UserFactory } from "../../../shared/services/user.factory";
-import { Angulartics2Mixpanel } from "angulartics2/dist";
+import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2/dist";
 
 @Component({
     selector: "circles",
@@ -50,6 +50,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
     private fontSubscription: Subscription;
     private lockedSubscription: Subscription;
 
+    public analytics: Angulartics2Mixpanel;
+
     private counter: number = 0;
     private svg: any;
     private g: any;
@@ -82,8 +84,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
     constructor(public d3Service: D3Service, public colorService: ColorService,
         public uiService: UIService, public router: Router,
-        private userFactory: UserFactory, private cd: ChangeDetectorRef,
-        private analytics: Angulartics2Mixpanel) {
+        private userFactory: UserFactory, private cd: ChangeDetectorRef
+    ) {
         this.d3 = d3Service.getD3();
         this.T = this.d3.transition(null).duration(this.TRANSITION_DURATION);
         this.data$ = new Subject<{ initiative: Initiative, datasetId: string }>();

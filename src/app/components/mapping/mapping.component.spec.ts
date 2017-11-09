@@ -1,10 +1,8 @@
 import { UserFactory } from "./../../shared/services/user.factory";
-// import { MappingNetworkComponent } from "./network/mapping.network.component";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { Initiative } from "./../../shared/model/initiative.data";
 import { ActivatedRoute, Params, Router, NavigationStart } from "@angular/router";
-// import { TooltipComponent } from "./tooltip/tooltip.component";
 import { UIService } from "./../..//shared/services/ui/ui.service";
 import { ColorService } from "./../..//shared/services/ui/color.service";
 import { D3Service } from "d3-ng2-service";
@@ -104,11 +102,6 @@ describe("mapping.component.ts", () => {
                 let actual = component.getComponentFactory("people");
                 expect(actual.componentType.name).toBe("MappingTreeComponent")
             });
-
-            // it("should return MappingNetworkComponent if layout is network", () => {
-            //     let actual = component.getComponentFactory("network");
-            //     expect(actual.componentType.name).toBe("MappingNetworkComponent")
-            // });
 
             it("should return MappingCirclesComponent if layout is empty", () => {
                 let actual = component.getComponentFactory("");
