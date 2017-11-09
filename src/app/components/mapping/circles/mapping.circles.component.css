@@ -145,7 +145,7 @@ svg circle.cut {
 
 .tooltip-initiative{
   position: absolute;
-  z-index: 10;
+  z-index: 5;
 }
 
 

@@ -71,7 +71,7 @@
 #sideNavTree {
     height: 90vh;
     max-height: 90vh;
-    /* min-width: 3.5vw; */
+    min-width: 3.5vw;
     position: fixed;
     left: 0;
     overflow: hidden;
@@ -79,7 +79,7 @@
     background-color: rgb(41, 128, 185);
     margin-top: 7vh;
     width: 0;
-    /* padding: 10px 0 0 10px; */
+    padding: 10px 0 0 10px;
 }
 
 #sideNavTree.showTree {
@@ -101,14 +101,14 @@
     margin-top: 7vh;
     width: 0;
     padding: 10px 0 0 10px;
-    /* margin-left: 3.5vw; */
+    margin-left: 3.5vw;
 }
 
 #sideNavDetails.showDetails {
     width: 45vw;
     transition: 0.5s ease-in;
     padding: 10px;
-    z-index: 99;
+    z-index: 10;
 }
 
 #sideNavDetails.showTree {

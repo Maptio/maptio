@@ -17,6 +17,7 @@
     background-color: #f7f7f7;
     position: fixed;
     width: 100%;
+    z-index: 99;
 }
 
 #wrap > .center-container {
