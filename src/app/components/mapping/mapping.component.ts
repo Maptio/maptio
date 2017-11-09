@@ -201,20 +201,24 @@ export class MappingComponent implements OnInit {
 
     zoomOut() {
         this.zoom$.next(0.9);
+        this.analytics.eventTrack("Zoom out", { mode: "button" });
     }
 
     zoomIn() {
         this.zoom$.next(1.1);
+        this.analytics.eventTrack("Zoom in", { mode: "button" });
     }
 
     resetZoom() {
         this.instance.isReset$.next(true);
+        this.analytics.eventTrack("Reset zoom", { mode: "button" });
     }
 
 
     lock(locking: boolean) {
         this.isLocked = !this.isLocked;
         this.isLocked$.next(this.isLocked);
+        this.analytics.eventTrack("Lock map", { locked: locking });
     }
 
     changeFontSize(size: number) {

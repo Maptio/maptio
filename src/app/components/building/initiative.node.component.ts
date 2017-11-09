@@ -56,7 +56,6 @@ export class InitiativeNodeComponent {
     }
 
     addChildNode(initiative: Initiative) {
-        this.analytics.eventTrack("Add node", { mode: "list" });
         let treeNode = this.node.treeModel.getNodeById(initiative.id);
         let newNode = new Initiative();
         newNode.children = []
@@ -69,22 +68,23 @@ export class InitiativeNodeComponent {
         this.updateTreeEvent.emit(this.node.treeModel);
         this.edited.emit(true);
         this.add.emit(newNode);
+        this.analytics.eventTrack("Add node", { mode: "list" });
     }
 
 
     removeChildNode(initiative: Initiative) {
-        this.analytics.eventTrack("Remove node", { mode: "list" });
         this.node.treeModel.getNodeById(initiative.id).data.children = [];
         let parent = this.node.treeModel.getNodeById(initiative.id).parent;
         let index = parent.data.children.indexOf(initiative);
         parent.data.children.splice(index, 1);
         this.updateTreeEvent.emit(this.node.treeModel);
         this.edited.emit(true)
+        this.analytics.eventTrack("Remove node", { mode: "list" });
     }
 
     openNode(node: Initiative) {
-        this.analytics.eventTrack("Edit node", { mode: "list" });
         this.open.emit(node);
+        this.analytics.eventTrack("Edit node", { mode: "list" });
     }
 
 }

@@ -8,6 +8,7 @@ import { ColorService } from "../../../shared/services/ui/color.service"
 import { UIService } from "../../../shared/services/ui/ui.service"
 import { IDataVisualizer } from "../mapping.interface"
 import { UserFactory } from "../../../shared/services/user.factory";
+import { Angulartics2Mixpanel } from "angulartics2/dist";
 
 @Component({
     selector: "circles",
@@ -81,7 +82,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
     constructor(public d3Service: D3Service, public colorService: ColorService,
         public uiService: UIService, public router: Router,
-        private userFactory: UserFactory, private cd: ChangeDetectorRef) {
+        private userFactory: UserFactory, private cd: ChangeDetectorRef,
+        private analytics: Angulartics2Mixpanel) {
         this.d3 = d3Service.getD3();
         this.T = this.d3.transition(null).duration(this.TRANSITION_DURATION);
         this.data$ = new Subject<{ initiative: Initiative, datasetId: string }>();
@@ -249,43 +251,50 @@ export class MappingCirclesComponent implements IDataVisualizer {
     }
 
     edit(node: Initiative) {
-
         if (!this.selectedNodeParent) { return }
         this.showDetailsOf$.next(node);
+        this.analytics.eventTrack("Edit node", { mode: "map" });
     }
 
     editQuick(node: Initiative) {
         this.showDetailsOf$.next(node);
+        this.analytics.eventTrack("Edit node", { mode: "tooltip" });
     }
 
     add(node: Initiative) {
         this.addInitiative$.next(node);
+        this.analytics.eventTrack("Add node", { mode: "map" });
+    }
+
+    addQuick(node: Initiative) {
+        this.addInitiative$.next(node);
+        this.analytics.eventTrack("Add node", { mode: "tooltip" });
     }
 
     addFirstNode() {
         this.addInitiative$.next(this.rootNode);
+        this.analytics.eventTrack("Add node", { mode: "instruction" });
     }
 
     remove(node: Initiative) {
         if (!this.selectedNodeParent) { return }
         this.removeInitiative$.next(node);
+        this.analytics.eventTrack("Remove node", { mode: "map" });
     }
 
     removeQuick(node: Initiative) {
         this.removeInitiative$.next(node);
+        this.analytics.eventTrack("Remove node", { mode: "tooltip" });
     }
 
     move() {
-        // console.log(this.draggedNode, this.dragTargetNode)
         if (!this.draggedNode || !this.dragTargetNode) {
-            // console.log("won't drag")
             return;
         }
-
-        // console.log(this.draggedNode.name, this.dragTargetNode.name)
         this.moveInitiative$.next({ node: this.draggedNode, from: null, to: this.dragTargetNode });
         this.draggedNode = null;
         this.dragTargetNode = null;
+        this.analytics.eventTrack("Move node", { mode: "map" });
     }
 
     update(data: any) {

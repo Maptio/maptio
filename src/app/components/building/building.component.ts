@@ -44,18 +44,18 @@ export class BuildingComponent {
 
                     // console.log(from.parent.id, to.parent.id)
                     if (from.parent.id === to.parent.id) { // if simple reordering, we dont ask for confirmation
-                        this.analytics.eventTrack("Move", { mode: "list", confirmed: true });
+                        this.analytics.eventTrack("Move node", { mode: "list", confirmed: true });
                         TREE_ACTIONS.MOVE_NODE(tree, node, $event, { from: from, to: to })
                     }
                     else {
                         this.modalService.open(this.dragConfirmationModal).result
                             .then(result => {
                                 if (result) {
-                                    this.analytics.eventTrack("Move", { mode: "list", confirmed: true });
+                                    this.analytics.eventTrack("Move node", { mode: "list", confirmed: true });
                                     TREE_ACTIONS.MOVE_NODE(tree, node, $event, { from: from, to: to })
                                 }
                                 else {
-                                    this.analytics.eventTrack("Move", { mode: "list", confirm: false });
+                                    this.analytics.eventTrack("Move node", { mode: "list", confirm: false });
                                 }
                             })
                             .catch(reason => { });
