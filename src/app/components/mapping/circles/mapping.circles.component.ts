@@ -75,7 +75,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
     private color: ScaleLinear<HSLColor, string>;
 
     CIRCLE_RADIUS: number = 15;
-    MAX_TEXT_LENGTH = 30;
+    MAX_TEXT_LENGTH = 35;
     TRANSITION_DURATION = 2250;
     TRANSITION_OPACITY = 750;
     RATIO_FOR_VISIBILITY = 0.08;

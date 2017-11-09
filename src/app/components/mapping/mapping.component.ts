@@ -217,11 +217,11 @@ export class MappingComponent implements OnInit {
     lock(locking: boolean) {
         this.isLocked = !this.isLocked;
         this.isLocked$.next(this.isLocked);
-        this.analytics.eventTrack("Lock map", { locked: locking });
+        this.analytics.eventTrack(locking ? "Lock map" : "Unlock map", {});
     }
 
     changeFontSize(size: number) {
         this.fontSize$.next(size);
-        this.analytics.eventTrack("Change font size", { size: size})
+        this.analytics.eventTrack("Change font size", { size: size })
     }
 }
