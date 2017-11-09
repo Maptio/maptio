@@ -42,9 +42,12 @@ describe("mapping.circles.component.ts", () => {
                 MockBackend,
                 BaseRequestOptions,
                 ErrorService,
-                { provide: Router, useClass: class { 
-                    navigate = jasmine.createSpy("navigate");
-                    events = Observable.of(new NavigationStart(0, "/next")) } }
+                {
+                    provide: Router, useClass: class {
+                        navigate = jasmine.createSpy("navigate");
+                        events = Observable.of(new NavigationStart(0, "/next"))
+                    }
+                }
             ],
             declarations: [MappingCirclesComponent],
             schemas: [NO_ERRORS_SCHEMA],
@@ -69,6 +72,7 @@ describe("mapping.circles.component.ts", () => {
         component.isReset$ = new Subject<boolean>();
         component.fontSize$ = Observable.of(12);
         component.isLocked$ = Observable.of(true);
+        component.analytics = jasmine.createSpyObj("analytics", ["eventTrack"]);
 
         target.detectChanges(); // trigger initial data binding
     });
@@ -200,6 +204,75 @@ describe("mapping.circles.component.ts", () => {
         expect(defs.querySelectorAll("path#path2")).toBeDefined();
     });
 
+    describe("Editing", () => {
+        it("with right-click should call correct dependencies when parent is defined", () => {
+            let node = new Initiative();
+            component.selectedNodeParent = new Initiative();
+            spyOn(component.showDetailsOf$, "next");
+            component.edit(node);
+            expect(component.showDetailsOf$.next).toHaveBeenCalledWith(node)
+        });
 
+        it("with right-click should call correct dependencies when parent is undefined", () => {
+            let node = new Initiative();
+            spyOn(component.showDetailsOf$, "next");
+            component.edit(node);
+            expect(component.showDetailsOf$.next).not.toHaveBeenCalled();
+        });
+
+        it("with tooltip should call correct dependencies", () => {
+            let node = new Initiative();
+            spyOn(component.showDetailsOf$, "next");
+            component.editQuick(node);
+            expect(component.showDetailsOf$.next).toHaveBeenCalledWith(node)
+        });
+    });
+
+    describe("Adding", () => {
+        it("with right-click should call correct dependencies when parent is defined", () => {
+            let node = new Initiative();
+            component.selectedNodeParent = new Initiative();
+            spyOn(component.addInitiative$, "next");
+            component.add(node);
+            expect(component.addInitiative$.next).toHaveBeenCalledWith(node)
+        });
+
+        it("with tooltip should call correct dependencies", () => {
+            let node = new Initiative();
+            spyOn(component.addInitiative$, "next");
+            component.addQuick(node);
+            expect(component.addInitiative$.next).toHaveBeenCalledWith(node)
+        });
+
+        it("first node", () => {
+            spyOn(component.addInitiative$, "next");
+            component.addFirstNode();
+            expect(component.addInitiative$.next).toHaveBeenCalledWith(component.rootNode)
+        });
+    });
+
+    describe("Removing", () => {
+        it("with right-click should call correct dependencies when parent is defined", () => {
+            let node = new Initiative();
+            component.selectedNodeParent = new Initiative();
+            spyOn(component.removeInitiative$, "next");
+            component.remove(node);
+            expect(component.removeInitiative$.next).toHaveBeenCalledWith(node)
+        });
+
+        it("with right-click should call correct dependencies when parent is undefined", () => {
+            let node = new Initiative();
+            spyOn(component.removeInitiative$, "next");
+            component.remove(node);
+            expect(component.removeInitiative$.next).not.toHaveBeenCalled();
+        });
+
+        it("with tooltip should call correct dependencies", () => {
+            let node = new Initiative();
+            spyOn(component.removeInitiative$, "next");
+            component.removeQuick(node);
+            expect(component.removeInitiative$.next).toHaveBeenCalledWith(node)
+        });
+    });
 
 });
