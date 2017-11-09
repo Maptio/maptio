@@ -113,6 +113,10 @@ export class BuildingComponent {
         treeModel.update();
     }
 
+    updateTree(){
+        this.tree.treeModel.update();
+    }
+
     openNodeDetails(node: Initiative) {
         this.openDetails.emit(node)
     }
@@ -145,16 +149,15 @@ export class BuildingComponent {
         }
 
         this.saveChanges();
-        this.tree.treeModel.update();
+        this.updateTree()
     }
 
     addNodeTo(node: Initiative) {
-
         let hasFoundNode: boolean = false;
         if (this.nodes[0].id === node.id) {
             hasFoundNode = true;
             let newNode = new Initiative();
-            newNode.children = []
+            newNode.children = [];
             newNode.team_id = node.team_id;
             newNode.hasFocus = true;
             newNode.id = Math.floor(Math.random() * 10000000000000);
@@ -182,7 +185,7 @@ export class BuildingComponent {
         }
 
         this.saveChanges();
-        this.tree.treeModel.update();
+        this.updateTree()
     }
 
     // toggleAll() {

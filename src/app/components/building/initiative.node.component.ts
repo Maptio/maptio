@@ -29,8 +29,7 @@ export class InitiativeNodeComponent {
 
     private snapshotRoute: ActivatedRouteSnapshot
 
-    constructor(private router: Router, private route: ActivatedRoute, 
-        // private analytics: Angulartics2Mixpanel
+    constructor(private router: Router, private route: ActivatedRoute
     ) {
         this.snapshotRoute = route.snapshot;
     }
@@ -70,7 +69,6 @@ export class InitiativeNodeComponent {
         this.updateTreeEvent.emit(this.node.treeModel);
         this.edited.emit(true);
         this.add.emit(newNode);
-        // this.analytics.eventTrack("Add node", { mode: "list" });
     }
 
 
@@ -81,12 +79,10 @@ export class InitiativeNodeComponent {
         parent.data.children.splice(index, 1);
         this.updateTreeEvent.emit(this.node.treeModel);
         this.edited.emit(true)
-        // this.analytics.eventTrack("Remove node", { mode: "list" });
     }
 
     openNode(node: Initiative) {
         this.open.emit(node);
-        // this.analytics.eventTrack("Edit node", { mode: "list" });
     }
 
 }

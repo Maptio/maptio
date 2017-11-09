@@ -272,4 +272,100 @@ describe("building.component.ts", () => {
     });
 
 
+    describe("Remove node", () => {
+        it("should remove from root node", () => {
+            let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
+
+            root.id = -1, node1.id = 1, node2.id = 2; node3.id = 3;
+            node1.name = "first", node2.name = "second"; node3.name = "third";
+            root.name = "root";
+            root.children = [node1, node2, node3];
+            node1.children = [];
+            node2.children = [];
+            node3.children = []
+            component.nodes = [root];
+
+            spyOn(component, "saveChanges");
+            spyOn(component, "updateTree")
+            component.removeNode(node2);
+            expect(component.nodes[0].children.length).toBe(2);
+            expect(component.saveChanges).toHaveBeenCalledTimes(1);
+            expect(component.updateTree).toHaveBeenCalledTimes(1);
+        });
+
+        it("should remove from children nodes", () => {
+            let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
+
+            root.id = -1, node1.id = 1, node2.id = 2; node3.id = 3;
+            node1.name = "first", node2.name = "second"; node3.name = "third";
+            root.name = "root";
+            root.children = [node1];
+            node1.children = [node2, node3];
+            node2.children = [];
+            node3.children = []
+            component.nodes = [root];
+
+            spyOn(component, "saveChanges");
+            spyOn(component, "updateTree")
+            component.removeNode(node3);
+
+            expect(component.nodes[0].children.length).toBe(1);
+            expect(component.nodes[0].children[0].children.length).toBe(1);
+            expect(component.saveChanges).toHaveBeenCalledTimes(1);
+            expect(component.updateTree).toHaveBeenCalledTimes(1);
+        });
+    });
+
+    describe("Add node", () => {
+        it("should add to root node in first place", () => {
+            let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
+
+            root.id = -1, node1.id = 1, node2.id = 2; node3.id = 3;
+            node1.name = "first", node2.name = "second"; node3.name = "third";
+            root.name = "root";
+            root.team_id = "team_id"
+            root.children = [node1, node2, node3];
+            node1.children = [];
+            node2.children = [];
+            node3.children = []
+            component.nodes = [root];
+
+            spyOn(component, "saveChanges");
+            spyOn(component, "updateTree")
+            component.addNodeTo(root);
+            console.log(component.nodes[0].children[3])
+            expect(component.nodes[0].children.length).toBe(4);
+            expect(component.nodes[0].children[0].id).toBeDefined();
+            expect(component.nodes[0].children[0].team_id).toBe("team_id")
+            expect(component.nodes[0].children[0].children).toBeDefined();
+            expect(component.saveChanges).toHaveBeenCalledTimes(1);
+            expect(component.updateTree).toHaveBeenCalledTimes(1);
+        });
+
+        it("should add to children nodes in first place", () => {
+            let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
+
+            root.id = -1, node1.id = 1, node2.id = 2; node3.id = 3;
+            node1.name = "first", node2.name = "second"; node3.name = "third";
+            root.name = "root";
+            node1.team_id = "team_id"
+            root.children = [node1];
+            node1.children = [node2, node3];
+            node2.children = [];
+            node3.children = []
+            component.nodes = [root];
+
+            spyOn(component, "saveChanges");
+            spyOn(component, "updateTree")
+            component.addNodeTo(node1);
+
+            expect(component.nodes[0].children.length).toBe(1);
+            expect(component.nodes[0].children[0].children.length).toBe(3);
+            expect(component.nodes[0].children[0].children[0].id).toBeDefined();
+            expect(component.nodes[0].children[0].children[0].team_id).toBe("team_id")
+            expect(component.nodes[0].children[0].children[0].children).toBeDefined();
+            expect(component.saveChanges).toHaveBeenCalledTimes(1);
+            expect(component.updateTree).toHaveBeenCalledTimes(1);
+        });
+    });
 });
