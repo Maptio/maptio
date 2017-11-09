@@ -3,7 +3,7 @@ import { Initiative } from "./../../../shared/model/initiative.data";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs/Subscription";
 import { Component, OnInit, Input, ViewEncapsulation, EventEmitter, Output, ChangeDetectorRef } from "@angular/core";
-import { D3Service, D3, HierarchyCircularNode, ScaleLinear, HSLColor } from "d3-ng2-service";
+import { D3Service, D3, HierarchyCircularNode, ScaleLinear, HSLColor, Transition } from "d3-ng2-service";
 import { ColorService } from "../../../shared/services/ui/color.service"
 import { UIService } from "../../../shared/services/ui/ui.service"
 import { IDataVisualizer } from "../mapping.interface"
@@ -73,11 +73,17 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
     CIRCLE_RADIUS: number = 15;
     MAX_TEXT_LENGTH = 30;
+    TRANSITION_DURATION = 2250;
+    TRANSITION_OPACITY = 750;
+    RATIO_FOR_VISIBILITY = 0.08;
+    OPACITY_DISAPPEARING = 0.1;
+    T: any;
 
     constructor(public d3Service: D3Service, public colorService: ColorService,
         public uiService: UIService, public router: Router,
         private userFactory: UserFactory, private cd: ChangeDetectorRef) {
         this.d3 = d3Service.getD3();
+        this.T = this.d3.transition(null).duration(this.TRANSITION_DURATION);
         this.data$ = new Subject<{ initiative: Initiative, datasetId: string }>();
         this.dataSubscription = this.data$.asObservable().distinct().subscribe(complexData => {
             let data = <any>complexData.initiative;
@@ -94,6 +100,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
     init() {
         this.uiService.clean();
         let d3 = this.d3;
+        let RATIO_FOR_VISIBILITY = this.RATIO_FOR_VISIBILITY;
+        let OPACITY_DISAPPEARING = this.OPACITY_DISAPPEARING;
 
         let svg: any = d3.select("svg"),
             margin = this.margin,
@@ -101,7 +109,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             g = svg.append("g").attr("transform", `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`),
             definitions = svg.append("svg:defs");
 
-        let zooming = d3.zoom().on("zoom", zoomed);
+        let zooming = d3.zoom().scaleExtent([0.5, 3]).on("zoom", zoomed);
 
         try {
             // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
@@ -115,8 +123,18 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
         function zoomed() {
             let transform = d3.event.transform;
+
             location.hash = `x=${transform.x}&y=${transform.y}&scale=${transform.k}`
             g.attr("transform", d3.event.transform);
+            d3.selectAll("g.nodes")
+                .transition(this.T).duration(this.TRANSITION_OPACITY)
+                .style("fill-opacity", function (d: any) {
+                    console.log(d.data.name, transform.k, this.getBBox().width * transform.k, window.outerWidth * 0.5)
+                    return this.getBBox().width * transform.k < window.outerWidth * RATIO_FOR_VISIBILITY ? OPACITY_DISAPPEARING : "1"
+                })
+            // .each(function (d: any) {
+            //     console.log(d.data.name, this, this.getBBox(), this.getBBox().width)
+            // })
         }
 
         this.resetSubscription = this.isReset$.asObservable().filter(r => r).subscribe(isReset => {
@@ -127,7 +145,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             try {
                 // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
                 if (zf) {
-                    zooming.scaleBy(svg, zf);
+                    zooming.scaleBy(svg, zf + 0.000001);
                 }
                 else {
                     svg.call(zooming.transform, d3.zoomIdentity.translate(this.translateX, this.translateY));
@@ -138,7 +156,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             }
         })
 
-        this.fontSubscription =  this.fontSize$.subscribe((fs: number) => {
+        this.fontSubscription = this.fontSize$.subscribe((fs: number) => {
             let uiService = this.uiService;
             let MAX_TEXT_LENGTH = this.MAX_TEXT_LENGTH;
             svg.attr("font-size", fs + "px");
@@ -278,6 +296,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
         let d3 = this.d3;
         let svg = this.svg;
         let g = this.g;
+        let scale = this.scale;
         let definitions = this.definitions;
         let diameter = this.width;
         let margin = this.margin;
@@ -290,11 +309,11 @@ export class MappingCirclesComponent implements IDataVisualizer {
         let showDetailsOf$ = this.showDetailsOf$;
         let addInitiative$ = this.addInitiative$;
         let removeInitiative$ = this.removeInitiative$;
-        let TRANSITION_DURATION = 2250;
         let selectInitiative = this.selectInitiative.bind(this);
         let hoverInitiative = this.hoverInitiative.bind(this);
         let isFirstEditing = this.isFirstEditing;
         let MAX_TEXT_LENGTH = this.MAX_TEXT_LENGTH;
+        let TRANSITION_DURATION = this.TRANSITION_DURATION;
         let setDragTargetNode = this.setDragTargetNode.bind(this);
         let setDraggedNode = this.setDraggedNode.bind(this);
         let setIsDragging = this.setIsDragging.bind(this);
@@ -305,6 +324,9 @@ export class MappingCirclesComponent implements IDataVisualizer {
         let startX: number, startY: number;
         let slug = data.getSlug();
         let getIsLocked = this.getIsLocked.bind(this);
+        let t = this.T;
+        let RATIO_FOR_VISIBILITY = this.RATIO_FOR_VISIBILITY;
+        let OPACITY_DISAPPEARING = this.OPACITY_DISAPPEARING;
 
         let pack = d3.pack()
             .size([diameter - margin, diameter - margin])
@@ -334,8 +356,6 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
         // }
 
-        let t = d3.transition(null).duration(TRANSITION_DURATION);
-
         this.isFirstEditing = false;
         if (nodes.length === 1) {
             this.isFirstEditing = true;
@@ -359,7 +379,10 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .classed("with-children", function (d: any) { return d.children && d !== root; })
             .classed("without-children", function (d: any) { return !d.children && d !== root; })
             .attr("ancestors-id", function (d: any) { return d.parent ? d.ancestors().map((a: any) => { if (a.data.id !== d.data.id) return a.data.id; }).join(",") : "" })
-
+            .style("fill-opacity", function (d: any) {
+                console.log(d.data.name, scale, this.getBBox().width * scale, window.outerWidth * 0.5)
+                return this.getBBox().width * scale < window.outerWidth * RATIO_FOR_VISIBILITY ? OPACITY_DISAPPEARING : "1"
+            })
 
         let enter = selection.enter().append("g").attr("class", "nodes")
             .attr("class", "nodes")
@@ -379,16 +402,13 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
 
 
-        g.selectAll(".nodes")
+        g.selectAll("g.nodes")
             .call(
-
             d3.drag()
                 .filter(() => { return !getIsLocked(); })
                 .on("start", dragstarted)
                 .on("drag", dragged)
                 .on("end", dragended)
-
-
             )
 
 
@@ -494,13 +514,15 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .style("fill", "white")
             .transition(t)
             .style("fill", function (d: any) { return d.children ? (d === root ? "white" : getColor()(d.depth)) : (d.parent && d.parent.data.id === root.data.id ? getColor()(d.depth) : "white"); })
-            .style("cursor", () => { return getIsLocked() ? "default" : "move" });
+            .style("cursor", () => { return getIsLocked() ? "default" : "move" })
+
 
         selection.selectAll("circle.node")
             .attr("class", function (d: any) { return d.parent ? (d.children || d.parent.data.id === root.data.id) ? "node" : "node node--leaf" : "node node--root"; })
             .style("cursor", () => { return getIsLocked() ? "default" : "move" })
             .style("fill", function (d: any) { return d.children ? (d === root ? "white" : getColor()(d.depth)) : (d.parent && d.parent.data.id === root.data.id ? getColor()(d.depth) : "white"); })
             .classed("invisible", function (d: any) { return !d.parent && !(nodes.length === 1) })
+
 
 
         enter.append("text")
@@ -512,11 +534,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
         let tooltip = d3.select("div.tooltip-initiative");
 
-
-
         let joinWithChildren = g.selectAll("g.with-children").data(nodes.filter(function (d: any) { return d.children && d !== root; }))
 
-        // joinWithChildren.exit().selectAll("tspan").remove();
         joinWithChildren.enter()
             .append("text")
         joinWithChildren
@@ -545,7 +564,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .select("text")
             .attr("pointer-events", "auto")
             .attr("dy", 0)
-            .attr("x", function (d: any) { return -d.r * .85 })
+            .attr("x", function (d: any) { return -d.r * .9 })
             .attr("y", function (d: any) { return -d.r * .2 })
             .text(function (d: any) { return d.data.name; })
             .on("click", function (d: any, i: number) {
