@@ -71,7 +71,7 @@
 #sideNavTree {
     height: 90vh;
     max-height: 90vh;
-    min-width: 3.5vw;
+    min-width: 3.0vw;
     position: fixed;
     left: 0;
     overflow: hidden;
@@ -101,7 +101,7 @@
     margin-top: 7vh;
     width: 0;
     padding: 10px 0 0 10px;
-    margin-left: 3.5vw;
+    margin-left: 3.0vw;
 }
 
 #sideNavDetails.showDetails {
