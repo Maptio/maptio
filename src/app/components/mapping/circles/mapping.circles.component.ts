@@ -113,7 +113,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             g = svg.append("g").attr("transform", `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`),
             definitions = svg.append("svg:defs");
 
-        let zooming = d3.zoom().scaleExtent([1/3, 3]).on("zoom", zoomed);
+        let zooming = d3.zoom().scaleExtent([1 / 3, 3]).on("zoom", zoomed);
 
         try {
             // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
@@ -386,9 +386,9 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .classed("with-children", function (d: any) { return d.children && d !== root; })
             .classed("without-children", function (d: any) { return !d.children && d !== root; })
             .attr("ancestors-id", function (d: any) { return d.parent ? d.ancestors().map((a: any) => { if (a.data.id !== d.data.id) return a.data.id; }).join(",") : "" })
-            // .style("fill-opacity", function (d: any) {
-            //     return (<any>this).getBBox().width * scale < window.outerWidth * RATIO_FOR_VISIBILITY ? OPACITY_DISAPPEARING : "1"
-            // })
+        // .style("fill-opacity", function (d: any) {
+        //     return (<any>this).getBBox().width * scale < window.outerWidth * RATIO_FOR_VISIBILITY ? OPACITY_DISAPPEARING : "1"
+        // })
 
         let enter = selection.enter().append("g").attr("class", "nodes")
             .attr("class", "nodes")
