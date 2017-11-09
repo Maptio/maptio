@@ -42,7 +42,6 @@ export class BuildingComponent {
                     this.fromInitiative = from.data;
                     this.toInitiative = to.parent.data;
 
-                    // console.log(from.parent.id, to.parent.id)
                     if (from.parent.id === to.parent.id) { // if simple reordering, we dont ask for confirmation
                         this.analytics.eventTrack("Move node", { mode: "list", confirmed: true });
                         TREE_ACTIONS.MOVE_NODE(tree, node, $event, { from: from, to: to })
@@ -122,6 +121,7 @@ export class BuildingComponent {
         let foundTreeNode = this.tree.treeModel.getNodeById(node.id)
         let foundToNode = this.tree.treeModel.getNodeById(to.id);
         TREE_ACTIONS.MOVE_NODE(this.tree.treeModel, foundToNode, {}, { from: foundTreeNode, to: { parent: foundToNode } })
+      
     }
 
 

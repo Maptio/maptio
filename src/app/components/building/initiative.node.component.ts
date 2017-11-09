@@ -3,7 +3,7 @@ import { Component, Input, Output, ViewChild, EventEmitter } from "@angular/core
 import { TreeNode, TreeModel } from "angular-tree-component";
 import { Initiative } from "../../shared/model/initiative.data";
 import { InitiativeComponent } from "../initiative/initiative.component";
-import { Angulartics2Mixpanel } from "angulartics2/dist";
+import { Angulartics2Mixpanel , Angulartics2} from "angulartics2/dist";
 
 @Component({
     selector: "initiative-node",
@@ -29,7 +29,9 @@ export class InitiativeNodeComponent {
 
     private snapshotRoute: ActivatedRouteSnapshot
 
-    constructor(private router: Router, private route: ActivatedRoute, private analytics: Angulartics2Mixpanel) {
+    constructor(private router: Router, private route: ActivatedRoute, 
+        // private analytics: Angulartics2Mixpanel
+    ) {
         this.snapshotRoute = route.snapshot;
     }
 
@@ -68,7 +70,7 @@ export class InitiativeNodeComponent {
         this.updateTreeEvent.emit(this.node.treeModel);
         this.edited.emit(true);
         this.add.emit(newNode);
-        this.analytics.eventTrack("Add node", { mode: "list" });
+        // this.analytics.eventTrack("Add node", { mode: "list" });
     }
 
 
@@ -79,12 +81,12 @@ export class InitiativeNodeComponent {
         parent.data.children.splice(index, 1);
         this.updateTreeEvent.emit(this.node.treeModel);
         this.edited.emit(true)
-        this.analytics.eventTrack("Remove node", { mode: "list" });
+        // this.analytics.eventTrack("Remove node", { mode: "list" });
     }
 
     openNode(node: Initiative) {
         this.open.emit(node);
-        this.analytics.eventTrack("Edit node", { mode: "list" });
+        // this.analytics.eventTrack("Edit node", { mode: "list" });
     }
 
 }

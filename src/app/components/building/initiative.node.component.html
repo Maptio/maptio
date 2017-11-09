@@ -13,11 +13,15 @@
 				<p *ngIf="isRoot()"> Add overall vision </p>
 				<p *ngIf="!isRoot()"> Add sub-initiative</p>
 			</ng-template>
-			<a class="btn add " (click)="addChildNode(node.data)" placement="top" [ngbTooltip]="addButtonTooltip" container="body"></a>
-			<a class="btn edit" *ngIf="!isRoot()" (click)="openNode(node.data)" placement="top" container="body" ngbTooltip="Edit initiative"></a>
+			<a class="btn add " (click)="addChildNode(node.data)" placement="top" [ngbTooltip]="addButtonTooltip" container="body"
+			angulartics2On="click" angularticsEvent="Add node"  [angularticsProperties]="{mode: 'list'}"
+			></a>
+			<a class="btn edit" *ngIf="!isRoot()" (click)="openNode(node.data)" placement="top" container="body" ngbTooltip="Edit initiative"
+			angulartics2On="click" angularticsEvent="Edit node"  [angularticsProperties]="{mode: 'list'}"></a>
 
 			<a class="btn remove" *ngIf="!isRoot()" placement="top" container="body" mwlConfirmationPopover title="Remove initiative and sub initiatives ?"
-			 focusbutton="cancel" appendToBody="false" (confirm)="removeChildNode(node.data)" (cancel)="cancelClicked = true">
+			 focusbutton="cancel" appendToBody="false" (confirm)="removeChildNode(node.data)" (cancel)="cancelClicked = true"
+			 angulartics2On="click" angularticsEvent="Remove node"  [angularticsProperties]="{mode: 'list'}">
 			</a>
 		</span>
 	</div>

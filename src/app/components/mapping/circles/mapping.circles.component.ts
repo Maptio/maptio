@@ -133,12 +133,9 @@ export class MappingCirclesComponent implements IDataVisualizer {
             d3.selectAll("g.nodes")
                 .transition(this.T).duration(this.TRANSITION_OPACITY)
                 .style("fill-opacity", function (d: any) {
-                    console.log(d.data.name, transform.k, (<any>this).getBBox().width * transform.k, window.outerWidth * 0.5)
+                    // console.log(d.data.name, transform.k, (<any>this).getBBox().width * transform.k, window.outerWidth * 0.5)
                     return (<any>this).getBBox().width * transform.k < window.outerWidth * RATIO_FOR_VISIBILITY ? OPACITY_DISAPPEARING : "1"
                 })
-            // .each(function (d: any) {
-            //     console.log(d.data.name, this, this.getBBox(), this.getBBox().width)
-            // })
         }
 
         this.resetSubscription = this.isReset$.asObservable().filter(r => r).subscribe(isReset => {
@@ -391,7 +388,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .classed("without-children", function (d: any) { return !d.children && d !== root; })
             .attr("ancestors-id", function (d: any) { return d.parent ? d.ancestors().map((a: any) => { if (a.data.id !== d.data.id) return a.data.id; }).join(",") : "" })
             .style("fill-opacity", function (d: any) {
-                console.log(d.data.name, scale, (<any>this).getBBox().width * scale, window.outerWidth * 0.5)
+                // console.log(d.data.name, scale, (<any>this).getBBox().width * scale, window.outerWidth * 0.5)
                 return (<any>this).getBBox().width * scale < window.outerWidth * RATIO_FOR_VISIBILITY ? OPACITY_DISAPPEARING : "1"
             })
 
