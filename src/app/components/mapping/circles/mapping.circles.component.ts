@@ -73,6 +73,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
     private isDragging: boolean = false;
 
     private color: ScaleLinear<HSLColor, string>;
+    public slug: string;
 
     CIRCLE_RADIUS: number = 15;
     MAX_TEXT_LENGTH = 35;
@@ -93,6 +94,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             let data = <any>complexData.initiative;
             this.datasetId = complexData.datasetId;
             this.rootNode = complexData.initiative;
+            this.slug = data.getSlug();
             this.update(data)
         })
     }
@@ -329,7 +331,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
         let setColor = this.setColor.bind(this);
         let move = this.move.bind(this);
         let startX: number, startY: number;
-        let slug = data.getSlug();
+        let slug = this.slug;
         let getIsLocked = this.getIsLocked.bind(this);
         let t = this.T;
         let RATIO_FOR_VISIBILITY = this.RATIO_FOR_VISIBILITY;
@@ -590,10 +592,13 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .on("mouseover", function (d: any) {
                 // setTooltipDescriptionVisible(true)
                 hoverInitiative(d.data)
+                console.log(d3.event.pageX, d3.event.pageY, this.getBBox(), diameter * 0.7)
                 d3.select("div.tooltip-initiative").style("visibility", "visible")
-                    .style("top", (d3.event.pageY - 20) + "px")
-                    .style("left", () => { return d3.event.pageX > diameter * 0.90 ? "auto" : (d3.event.pageX) + "px" })
-                    .style("right", () => { return d3.event.pageX > diameter * 0.90 ? "0" : "" })
+                    .style("top", () => { return d3.event.pageY > diameter / 2 * 0.70 ? "" : (d3.event.pageY - 20) + "px" })
+                    .style("bottom", () => { return d3.event.pageY > diameter / 2 * 0.70 ? `${this.getBBox().height}px` : "" })
+
+                    .style("left", () => { return d3.event.pageX > diameter * 0.70 ? "auto" : (d3.event.pageX) + "px" })
+                    .style("right", () => { return d3.event.pageX > diameter * 0.70 ? "0" : "" })
 
                     .on("mouseenter", function () {
                         d3.select(this).style("visibility", "visible")
@@ -605,7 +610,9 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .on("mousemove", function (d: any) {
                 hoverInitiative(d.data)
                 d3.select("div.tooltip-initiative").style("visibility", "visible")
-                    .style("top", (d3.event.pageY - 20) + "px")
+                    .style("top", () => { return d3.event.pageY > diameter / 2 * 0.70 ? "" : (d3.event.pageY - 20) + "px" })
+                    .style("bottom", () => { return d3.event.pageY > diameter / 2 * 0.70 ? `${this.getBBox().height}px` : "" })
+
                     .style("left", () => { return d3.event.pageX > diameter * 0.70 ? "auto" : (d3.event.pageX) + "px" })
                     .style("right", () => { return d3.event.pageX > diameter * 0.70 ? "0" : "" })
                     .on("mouseenter", function () {
