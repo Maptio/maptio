@@ -592,7 +592,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .on("mouseover", function (d: any) {
                 // setTooltipDescriptionVisible(true)
                 hoverInitiative(d.data)
-                console.log(d3.event.pageX, d3.event.pageY, this.getBBox(), diameter * 0.7)
+                // console.log(d3.event.pageX, d3.event.pageY, this.getBBox(), diameter * 0.7)
                 d3.select("div.tooltip-initiative").style("visibility", "visible")
                     .style("top", () => { return d3.event.pageY > diameter / 2 * 0.80 ? "" : (d3.event.pageY - 20) + "px" })
                     .style("bottom", () => { return d3.event.pageY > diameter / 2 * 0.80 ? `${this.getBBox().height}px` : "" })
