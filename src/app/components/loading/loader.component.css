@@ -13,6 +13,48 @@
   /* padding-bottom: 40px; */
 }
 
+h1{
+  color:#2980b9;
+}
+h1 > img{
+  width:6vh;
+  margin-bottom:2vh;
+  visibility: hidden;
+}
+
+.loading-dots {
+  text-align: center;
+  z-index: 5;
+  top: 45%;
+  position: absolute;
+  left: 45%;
+}
+
+.dot {
+  display: inline;
+  margin-left: 0.05em;
+  margin-right: 0.05em;
+  position: relative;
+  top: -1em;
+  font-size: 3.5em;
+  opacity: 0;
+  animation: showHideDot 2.5s ease-in-out infinite;
+color:#2980b9;
+ 
+}
+
+.dot.one { animation-delay: 0.2s; }
+.dot.two { animation-delay: 0.4s; }
+.dot.three { animation-delay: 0.6s; }
+@keyframes showHideDot {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  60% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+
+
 @keyframes spinner {
     to {
       transform: rotate(360deg);
