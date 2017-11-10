@@ -17,6 +17,7 @@
     <div class="card">
         <div class="card-block p-1">
             <div class="d-flex w-100 justify-content-between">
+                <img *ngIf="hoveredNode?.accountable" src="{{hoveredNode?.accountable.picture}}" width="30" height="30" class="rounded-circle mr-2">
                 <h6 class="card-title text-color"> {{hoveredNode?.name}}</h6>
                 <small>
                     <div class="btn-group" role="group">
@@ -39,7 +40,7 @@
         <div class="card-block p-1">
             <markdown class="small text-muted" [data]="hoveredNode?.description || ''"></markdown>
         </div>
-        <div *ngIf="hoveredNode?.helpers && hoveredNode?.helpers.length>0"  class="card-footer text-muted background">
+        <div *ngIf="hoveredNode?.helpers && hoveredNode?.helpers.length>0" class="card-footer text-muted background">
             <div *ngFor="let user of hoveredNode?.helpers; let i=index">
                 <div class="row mb-0">
                     <span class="pl-1 col">
