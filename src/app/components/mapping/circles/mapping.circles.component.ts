@@ -594,8 +594,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 hoverInitiative(d.data)
                 console.log(d3.event.pageX, d3.event.pageY, this.getBBox(), diameter * 0.7)
                 d3.select("div.tooltip-initiative").style("visibility", "visible")
-                    .style("top", () => { return d3.event.pageY > diameter / 2 * 0.70 ? "" : (d3.event.pageY - 20) + "px" })
-                    .style("bottom", () => { return d3.event.pageY > diameter / 2 * 0.70 ? `${this.getBBox().height}px` : "" })
+                    .style("top", () => { return d3.event.pageY > diameter / 2 * 0.90 ? "" : (d3.event.pageY - 20) + "px" })
+                    .style("bottom", () => { return d3.event.pageY > diameter / 2 * 0.90 ? `${this.getBBox().height}px` : "" })
 
                     .style("left", () => { return d3.event.pageX > diameter * 0.70 ? "auto" : (d3.event.pageX) + "px" })
                     .style("right", () => { return d3.event.pageX > diameter * 0.70 ? "0" : "" })
@@ -610,8 +610,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .on("mousemove", function (d: any) {
                 hoverInitiative(d.data)
                 d3.select("div.tooltip-initiative").style("visibility", "visible")
-                    .style("top", () => { return d3.event.pageY > diameter / 2 * 0.70 ? "" : (d3.event.pageY - 20) + "px" })
-                    .style("bottom", () => { return d3.event.pageY > diameter / 2 * 0.70 ? `${this.getBBox().height}px` : "" })
+                    .style("top", () => { return d3.event.pageY > diameter / 2 * 0.90 ? "" : (d3.event.pageY - 20) + "px" })
+                    .style("bottom", () => { return d3.event.pageY > diameter / 2 * 0.90 ? `${this.getBBox().height}px` : "" })
 
                     .style("left", () => { return d3.event.pageX > diameter * 0.70 ? "auto" : (d3.event.pageX) + "px" })
                     .style("right", () => { return d3.event.pageX > diameter * 0.70 ? "0" : "" })
