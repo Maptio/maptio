@@ -102,7 +102,7 @@ describe("building.component.ts", () => {
             spyOn(component, "saveChanges");
             spyOn(component.openDetailsEditOnly, "emit");
 
-            component.loadData("someId").then(() => {
+            component.loadData("someId", "", "", "").then(() => {
                 expect(spyDataService).toHaveBeenCalledWith("someId");
                 spyDataService.calls.mostRecent().returnValue
                     .then(() => {
@@ -141,7 +141,7 @@ describe("building.component.ts", () => {
             })
             spyOn(component, "saveChanges");
             spyOn(component.openDetailsEditOnly, "emit")
-            component.loadData("someId", "2").then(() => {
+            component.loadData("someId", "2", "", "").then(() => {
                 expect(spyDataService).toHaveBeenCalledWith("someId");
                 spyDataService.calls.mostRecent().returnValue
                     .then(() => {
@@ -333,7 +333,7 @@ describe("building.component.ts", () => {
             spyOn(component, "saveChanges");
             spyOn(component, "updateTree")
             component.addNodeTo(root);
-            
+
             expect(component.nodes[0].children.length).toBe(4);
             expect(component.nodes[0].children[0].id).toBeDefined();
             expect(component.nodes[0].children[0].team_id).toBe("team_id")
