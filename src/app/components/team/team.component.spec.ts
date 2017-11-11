@@ -10,7 +10,6 @@ import { Http, BaseRequestOptions } from "@angular/http";
 import { TeamFactory } from "./../../shared/services/team.factory";
 import { ActivatedRoute } from "@angular/router";
 import { TestBed, async, ComponentFixture } from "@angular/core/testing";
-
 import { TeamComponent } from "./team.component";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { ErrorService } from "../../shared/services/error/error.service";
@@ -19,6 +18,8 @@ import { Team } from "../../shared/model/team.data";
 import { Auth } from "../../shared/services/auth/auth.service";
 import { AuthHttp } from "angular2-jwt/angular2-jwt";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
+import { Angulartics2Mixpanel, Angulartics2, Angulartics2Module } from "angulartics2";
+import { RouterTestingModule } from "@angular/router/testing";
 
 export class AuthStub {
     fakeProfile: User = new User({
@@ -52,10 +53,13 @@ describe("team.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [TeamComponent],
-            schemas: [NO_ERRORS_SCHEMA]
+            schemas: [NO_ERRORS_SCHEMA],
+            imports: [RouterTestingModule, Angulartics2Module]
         }).overrideComponent(TeamComponent, {
             set: {
-                providers: [TeamFactory, UserFactory, DatasetFactory, AuthConfiguration, JwtEncoder, MailingService,
+                providers: [
+                    TeamFactory, UserFactory, DatasetFactory, AuthConfiguration,
+                    JwtEncoder, MailingService,
                     {
                         provide: AuthHttp,
                         useFactory: authHttpServiceFactoryTesting,
@@ -77,7 +81,9 @@ describe("team.component.ts", () => {
                         useValue: {
                             params: Observable.of({ teamid: 123 })
                         }
-                    }]
+                    },
+                    Angulartics2Mixpanel, Angulartics2
+                ]
             }
         }).compileComponents();
     }));
@@ -85,10 +91,7 @@ describe("team.component.ts", () => {
     beforeEach(() => {
         target = TestBed.createComponent(TeamComponent);
         component = target.componentInstance;
-    });
-
-    it("should behave...", () => {
-        expect(true).toBe(true);
+        target.detectChanges();
     });
 
     describe("getAllMembers", () => {

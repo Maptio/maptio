@@ -81,7 +81,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                     t => {
                         this.teamName = t.name;
                         this.teamId = t.team_id;
-                        console.log("workspace", this.teamName, this.teamId)
                         return t
                     },
                     () => { return Promise.reject("No team") }).catch(() => { })

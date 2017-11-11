@@ -28,7 +28,8 @@ export class TeamsListComponent implements OnInit {
     public createForm: FormGroup;
     public teamName: string;
 
-    constructor(public auth: Auth, private teamFactory: TeamFactory, private userFactory: UserFactory, private userService: UserService, private analytics: Angulartics2Mixpanel) {
+    constructor(public auth: Auth, private teamFactory: TeamFactory, private userFactory: UserFactory, 
+        private userService: UserService, private analytics: Angulartics2Mixpanel) {
         this.isLoading = true;
         this.userSubscription = this.auth.getUser().subscribe((user: User) => {
             this.user = user;

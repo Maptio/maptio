@@ -15,14 +15,14 @@ import { UUID } from "angular2-uuid";
 import { DataSet } from "../../shared/model/dataset.data";
 import { compact, sortBy, differenceBy, remove, uniqBy } from "lodash"
 import { UserService } from "../../shared/services/user/user.service";
-import { Angulartics2Mixpanel } from "angulartics2";
+import { Angulartics2Mixpanel} from "angulartics2";
 
 @Component({
     selector: "team",
     templateUrl: "./team.component.html",
     styleUrls: ["./team.component.css"]
 })
-export class TeamComponent implements OnDestroy {
+export class TeamComponent implements OnInit {
 
     public team$: Promise<Team>
     public members$: Promise<User[]>;
@@ -153,7 +153,7 @@ export class TeamComponent implements OnDestroy {
                 })
             })
             .then((team: Team) => {
-                this.analytics.eventTrack("Team", { action: "add existing", team: team.name, teamId: team.team_id })
+                // this.analytics.eventTrack("Team", { action: "add existing", team: team.name, teamId: team.team_id })
             })
             .then(() => {
                 this.members$ = this.getAllMembers();
@@ -188,7 +188,7 @@ export class TeamComponent implements OnDestroy {
             return this.userService.sendInvite(user.email, user.user_id, user.firstname, user.lastname, user.name, team.name, this.user.name)
                 .then((isSent) => {
                     user.isInvitationSent = isSent;
-                    this.analytics.eventTrack("Team", { action: "send invitation", team: team.name, teamId: team.team_id })
+                    // this.analytics.eventTrack("Team", { action: "send invitation", team: team.name, teamId: team.team_id })
                     return;
                 }
                 )
@@ -252,7 +252,7 @@ export class TeamComponent implements OnDestroy {
                         this.members$ = this.getAllMembers();
                     })
                     .then(() => {
-                        this.analytics.eventTrack("Team", { action: "create", team: team.name, teamId: team.team_id });
+                        // this.analytics.eventTrack("Team", { action: "create", team: team.name, teamId: team.team_id });
                     })
                     .catch((reason) => {
                         this.errorMessage = reason;

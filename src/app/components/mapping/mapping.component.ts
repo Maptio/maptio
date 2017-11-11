@@ -101,7 +101,6 @@ export class MappingComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log(this.teamId, this.teamName)
         this.isLoading.next(true);
 
         this.subscription = this.route.params

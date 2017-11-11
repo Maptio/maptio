@@ -333,7 +333,7 @@ describe("building.component.ts", () => {
             spyOn(component, "saveChanges");
             spyOn(component, "updateTree")
             component.addNodeTo(root);
-            console.log(component.nodes[0].children[3])
+            
             expect(component.nodes[0].children.length).toBe(4);
             expect(component.nodes[0].children[0].id).toBeDefined();
             expect(component.nodes[0].children[0].team_id).toBe("team_id")
