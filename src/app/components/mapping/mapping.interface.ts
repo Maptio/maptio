@@ -4,6 +4,9 @@ import { Observable } from "rxjs/Observable";
 import { Angulartics2Mixpanel } from "angulartics2/dist";
 
 export interface IDataVisualizer {
+    teamName: string;
+    teamId: string;
+
 
     datasetId: string;
 

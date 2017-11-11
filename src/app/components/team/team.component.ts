@@ -15,6 +15,7 @@ import { UUID } from "angular2-uuid";
 import { DataSet } from "../../shared/model/dataset.data";
 import { compact, sortBy, differenceBy, remove, uniqBy } from "lodash"
 import { UserService } from "../../shared/services/user/user.service";
+import { Angulartics2Mixpanel } from "angulartics2";
 
 @Component({
     selector: "team",
@@ -47,7 +48,9 @@ export class TeamComponent implements OnDestroy {
 
     private EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-    constructor(public auth: Auth, private userService: UserService, private route: ActivatedRoute, private teamFactory: TeamFactory, private userFactory: UserFactory, private datasetFactory: DatasetFactory) {
+    constructor(public auth: Auth, private userService: UserService, private route: ActivatedRoute,
+        private teamFactory: TeamFactory, private userFactory: UserFactory,
+        private datasetFactory: DatasetFactory, private analytics: Angulartics2Mixpanel) {
 
         this.routeSubscription = this.route.params.subscribe((params: Params) => {
             if (!params["teamid"]) return
@@ -146,8 +149,11 @@ export class TeamComponent implements OnDestroy {
             .then((newTeam: Team) => {
                 return this.teamFactory.upsert(newTeam).then((result) => {
                     this.newMember = undefined;
-                    return result
+                    return newTeam;
                 })
+            })
+            .then((team: Team) => {
+                this.analytics.eventTrack("Team", { action: "add existing", team: team.name, teamId: team.team_id })
             })
             .then(() => {
                 this.members$ = this.getAllMembers();
@@ -182,6 +188,7 @@ export class TeamComponent implements OnDestroy {
             return this.userService.sendInvite(user.email, user.user_id, user.firstname, user.lastname, user.name, team.name, this.user.name)
                 .then((isSent) => {
                     user.isInvitationSent = isSent;
+                    this.analytics.eventTrack("Team", { action: "send invitation", team: team.name, teamId: team.team_id })
                     return;
                 }
                 )
@@ -190,7 +197,7 @@ export class TeamComponent implements OnDestroy {
 
     resendUser(user: User): Promise<void> {
         return this.inviteUser(user).then(() => {
-            this.resentMessage = `Invitation email successfully sent to ${user.email}.`
+            this.resentMessage = `Invitation email successfully sent to ${user.email}.`;
         })
     }
 
@@ -243,6 +250,9 @@ export class TeamComponent implements OnDestroy {
                     })
                     .then(() => {
                         this.members$ = this.getAllMembers();
+                    })
+                    .then(() => {
+                        this.analytics.eventTrack("Team", { action: "create", team: team.name, teamId: team.team_id });
                     })
                     .catch((reason) => {
                         this.errorMessage = reason;

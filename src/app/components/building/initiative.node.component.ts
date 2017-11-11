@@ -18,6 +18,8 @@ export class InitiativeNodeComponent {
 
     @Input() node: TreeNode;
     @Input() datasetId: string;
+    @Input("teamName") teamName: string;
+    @Input("teamId") teamId: string;
 
     @Output("edited") edited = new EventEmitter<boolean>();
     @Output("update") updateTreeEvent = new EventEmitter<TreeModel>();

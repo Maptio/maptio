@@ -55,12 +55,15 @@ export class MappingComponent implements OnInit {
 
     public isLoading: Subject<boolean>;
     public datasetId: string;
+    public teamName: string;
+    public teamId: string;
     public slug: string;
 
     public fontSize$: BehaviorSubject<number>;
     public isLocked$: BehaviorSubject<boolean>;
     public closeEditingPanel$: BehaviorSubject<boolean>;
     public data$: Subject<{ initiative: Initiative, datasetId: string }>;
+
 
     @Output("showDetails") showDetails = new EventEmitter<Initiative>();
     @Output("addInitiative") addInitiative = new EventEmitter<Initiative>();
@@ -98,6 +101,7 @@ export class MappingComponent implements OnInit {
     }
 
     ngOnInit() {
+        console.log(this.teamId, this.teamName)
         this.isLoading.next(true);
 
         this.subscription = this.route.params
@@ -127,6 +131,8 @@ export class MappingComponent implements OnInit {
                 this.isLoading.next(false);
             })
             .subscribe((data) => {
+                this.instance.teamId = data.teamId;
+                this.instance.teamName = data.teamName;
                 this.instance.data$.next(data);
             })
 
@@ -200,28 +206,28 @@ export class MappingComponent implements OnInit {
 
     zoomOut() {
         this.zoom$.next(0.9);
-        this.analytics.eventTrack("Zoom out", { mode: "button" });
+        this.analytics.eventTrack("Map", { action: "zoom out", mode: "button", team: this.teamName, teamId: this.teamId });
     }
 
     zoomIn() {
         this.zoom$.next(1.1);
-        this.analytics.eventTrack("Zoom in", { mode: "button" });
+        this.analytics.eventTrack("Map", { action: "zoom in", mode: "button", team: this.teamName, teamId: this.teamId });
     }
 
     resetZoom() {
         this.instance.isReset$.next(true);
-        this.analytics.eventTrack("Reset zoom", { mode: "button" });
+        this.analytics.eventTrack("Map", { action: "reset zoom", mode: "button", team: this.teamName, teamId: this.teamId });
     }
 
 
     lock(locking: boolean) {
         this.isLocked = !this.isLocked;
         this.isLocked$.next(this.isLocked);
-        this.analytics.eventTrack(locking ? "Lock map" : "Unlock map", {});
+        this.analytics.eventTrack("Map", { action: (locking ? "Lock map" : "Unlock map"), team: this.teamName, teamId: this.teamId });
     }
 
     changeFontSize(size: number) {
         this.fontSize$.next(size);
-        this.analytics.eventTrack("Change font size", { size: size })
+        this.analytics.eventTrack("Map", { action: "change font size", size: size, team: this.teamName, teamId: this.teamId })
     }
 }

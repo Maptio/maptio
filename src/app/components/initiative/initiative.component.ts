@@ -23,11 +23,13 @@ import { DataSet } from "../../shared/model/dataset.data";
 import { compact, sortBy } from "lodash";
 import { Helper } from "../../shared/model/helper.data";
 import { MarkdownService } from "angular2-markdown";
+import { Angulartics2Mixpanel, Angulartics2, Angulartics2Module } from "angulartics2/dist";
 
 @Component({
     selector: "initiative",
     templateUrl: "./initiative.component.html",
-    styleUrls: ["./initiative.component.css"]
+    styleUrls: ["./initiative.component.css"],
+    providers: [Angulartics2Mixpanel, Angulartics2]
 })
 
 export class InitiativeComponent implements OnChanges {
@@ -52,13 +54,15 @@ export class InitiativeComponent implements OnChanges {
     authorityHideMe: boolean;
     descriptionHideMe: boolean;
     cancelClicked: boolean;
+    teamName: string;
+    teamId: string;
 
     @ViewChild("inputDescription") public inputDescriptionElement: ElementRef;
     @ViewChild("inputRole") public inputRoleElement: ElementRef;
     @ViewChild("inputAuthorityRole") public inputAuthorityRole: ElementRef;
 
     constructor(private teamFactory: TeamFactory, private userFactory: UserFactory,
-        private datasetFactory: DatasetFactory) {
+        private datasetFactory: DatasetFactory, private analytics: Angulartics2Mixpanel) {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -66,7 +70,10 @@ export class InitiativeComponent implements OnChanges {
             this.descriptionHideMe = changes.node.currentValue.description ? (changes.node.currentValue.description.trim() !== "") : false;
             if (changes.node.isFirstChange() || !(changes.node.previousValue) || changes.node.currentValue.team_id !== changes.node.previousValue.team_id) {
 
-                this.team$ = this.teamFactory.get(changes.node.currentValue.team_id).then(t => t, () => { return Promise.reject("No team available") }).catch(() => { })
+                this.team$ = this.teamFactory.get(changes.node.currentValue.team_id)
+                    .then(t => { this.teamName = t.name; this.teamId = t.team_id; return t },
+                    () => { return Promise.reject("No team available") }).catch(() => { }
+                    )
 
                 this.members$ = this.team$
                     .then((team: Team) => {
@@ -96,6 +103,7 @@ export class InitiativeComponent implements OnChanges {
 
     saveName(newName: any) {
         this.node.name = newName;
+        this.analytics.eventTrack("Initiative", { action: "change name", team: this.teamName, teamId: this.teamId });
     }
 
     saveDescription(newDesc: string) {
@@ -105,11 +113,12 @@ export class InitiativeComponent implements OnChanges {
     saveRole(helper: Helper, description: string) {
         // console.log(helper.name, description)
         if (helper.roles[0]) {
-            helper.roles[0].description = description
+            helper.roles[0].description = description;
         }
         else {
             helper.roles[0] = new Role({ description: description })
         }
+        this.analytics.eventTrack("Initiative", { action: "changing role", team: this.teamName, teamId: this.teamId });
     }
 
     toggleRole(i: number) {
@@ -125,6 +134,7 @@ export class InitiativeComponent implements OnChanges {
         if (this.inputAuthorityRole) accountable.roles[0] = new Role({ description: this.inputAuthorityRole.nativeElement.value });
         this.node.accountable = accountable;
         this.onBlur();
+        this.analytics.eventTrack("Initiative", { action: "add authority", team: this.teamName, teamId: this.teamId });
     }
 
     saveHelper(newHelper: NgbTypeaheadSelectItemEvent) {
@@ -134,12 +144,14 @@ export class InitiativeComponent implements OnChanges {
             this.node.helpers.unshift(helper);
         }
         this.onBlur();
+        this.analytics.eventTrack("Initiative", { action: "add helper", team: this.teamName });
     }
 
     removeHelper(helper: Helper) {
         let index = this.node.helpers.findIndex(user => user.user_id === helper.user_id);
         this.node.helpers.splice(index, 1);
         this.onBlur();
+        this.analytics.eventTrack("Initiative", { action: "remove helper", team: this.teamName, teamId: this.teamId });
     }
 
     filterMembers(term: string): Observable<User[]> {
@@ -154,6 +166,7 @@ export class InitiativeComponent implements OnChanges {
     removeAuthority() {
         this.node.accountable = undefined;
         this.onBlur();
+        this.analytics.eventTrack("Initiative", { action: "remove authority", team: this.teamName, teamId: this.teamId });
     }
 
     searchTeamMember = (text$: Observable<string>) =>

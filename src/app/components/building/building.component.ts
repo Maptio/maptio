@@ -7,7 +7,7 @@ import { DataSet } from "./../../shared/model/dataset.data";
 import { Initiative } from "./../../shared/model/initiative.data";
 import { Observable } from "rxjs/Rx";
 import { EmitterService } from "./../../shared/services/emitter.service";
-import { Component, ViewChild, Output, ElementRef } from "@angular/core";
+import { Component, ViewChild, Output, ElementRef, Input } from "@angular/core";
 import { InitiativeComponent } from "../initiative/initiative.component";
 import { TreeNode, IActionMapping, TREE_ACTIONS, TreeModel, TreeComponent } from "angular-tree-component";
 import { DataService } from "../../shared/services/data.service";
@@ -38,23 +38,22 @@ export class BuildingComponent {
             mouse: {
                 drop: (tree: any, node: TreeNode, $event: any, { from, to }: { from: TreeNode, to: TreeNode }) => {
                     // console.log(tree, node, $event, from, to)
-
                     this.fromInitiative = from.data;
                     this.toInitiative = to.parent.data;
 
                     if (from.parent.id === to.parent.id) { // if simple reordering, we dont ask for confirmation
-                        this.analytics.eventTrack("Move node", { mode: "list", confirmed: true });
+                        this.analytics.eventTrack("Map", { action: "move", mode: "list", confirmed: true });
                         TREE_ACTIONS.MOVE_NODE(tree, node, $event, { from: from, to: to })
                     }
                     else {
                         this.modalService.open(this.dragConfirmationModal).result
                             .then(result => {
                                 if (result) {
-                                    this.analytics.eventTrack("Move node", { mode: "list", confirmed: true });
+                                    this.analytics.eventTrack("Map", { action: "move", mode: "list", confirmed: true });
                                     TREE_ACTIONS.MOVE_NODE(tree, node, $event, { from: from, to: to })
                                 }
                                 else {
-                                    this.analytics.eventTrack("Move node", { mode: "list", confirm: false });
+                                    this.analytics.eventTrack("Initiative", { action: "move", mode: "list", confirm: false });
                                 }
                             })
                             .catch(reason => { });
@@ -78,6 +77,8 @@ export class BuildingComponent {
 
     datasetId: string;
 
+    teamName: string;
+    teamId: string;
     @Output("save") save = new EventEmitter<Initiative>();
     @Output("openDetails") openDetails = new EventEmitter<Initiative>();
     @Output("openDetailsEditOnly") openDetailsEditOnly = new EventEmitter<Initiative>();
@@ -87,8 +88,6 @@ export class BuildingComponent {
         private userFactory: UserFactory) {
         // this.nodes = [];
     }
-
-
 
     saveChanges() {
         // console.log("send to workspace", this.nodes[0])
@@ -113,7 +112,7 @@ export class BuildingComponent {
         treeModel.update();
     }
 
-    updateTree(){
+    updateTree() {
         this.tree.treeModel.update();
     }
 
@@ -125,7 +124,7 @@ export class BuildingComponent {
         let foundTreeNode = this.tree.treeModel.getNodeById(node.id)
         let foundToNode = this.tree.treeModel.getNodeById(to.id);
         TREE_ACTIONS.MOVE_NODE(this.tree.treeModel, foundToNode, {}, { from: foundTreeNode, to: { parent: foundToNode } })
-      
+
     }
 
 
@@ -200,8 +199,10 @@ export class BuildingComponent {
      * @param id Dataset Id
      * @param slugToOpen Slug of initiative to open
      */
-    loadData(datasetID: string, nodeIdToOpen: string = undefined): Promise<void> {
+    loadData(datasetID: string, nodeIdToOpen: string = undefined, teamName: string, teamId: string): Promise<void> {
         this.datasetId = datasetID;
+        this.teamId = teamId;
+        this.teamName = teamName;
         return this.datasetFactory.get(datasetID)
             .then(data => {
                 this.nodes = [];
@@ -244,7 +245,7 @@ export class BuildingComponent {
     }
 
     filterNodes(treeModel: any, searched: string) {
-        this.analytics.eventTrack("Search map", { search: searched });
+        this.analytics.eventTrack("Search map", { search: searched, teamId: this.teamId });
         if (!searched || searched === "") {
             treeModel.clearFilter();
         }

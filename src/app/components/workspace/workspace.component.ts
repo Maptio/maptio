@@ -46,6 +46,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public openedNodeTeamId: string;
 
     public mapped: Initiative;
+    teamName: string;
+    teamId: string;
 
     @ViewChild("dragConfirmation")
     dragConfirmationModal: NgbModal;
@@ -74,7 +76,15 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
             })
 
             this.team$ = this.dataset$.then((dataset: DataSet) => {
-                return this.teamFactory.get(dataset.initiative.team_id).then(t => t, () => { return Promise.reject("No team") }).catch(() => { })
+                return this.teamFactory.get(dataset.initiative.team_id)
+                    .then(
+                    t => {
+                        this.teamName = t.name;
+                        this.teamId = t.team_id;
+                        console.log("workspace", this.teamName, this.teamId)
+                        return t
+                    },
+                    () => { return Promise.reject("No team") }).catch(() => { })
             });
 
             this.members = this.team$.then((team: Team) => {
@@ -84,7 +94,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                         .then(members => sortBy(members, m => m.name))
             });
 
-            this.buildingComponent.loadData(this.datasetId, params["nodeid"]) // .then(()=>{console.log("finished buioding data")});
+            this.buildingComponent.loadData(this.datasetId, params["nodeid"], this.teamName, this.teamId) // .then(()=>{console.log("finished buioding data")});
         });
 
         this.userSubscription = this.auth.getUser().subscribe((user: User) => {
@@ -111,7 +121,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.datasetFactory.upsert(new DataSet({ _id: this.datasetId, initiative: initiative }), this.datasetId)
             .then((hasSaved: boolean) => {
                 // console.log("seding change to mapping")
-                this.dataService.set({ initiative: initiative, datasetId: this.datasetId });
+                this.dataService.set({ initiative: initiative, datasetId: this.datasetId, teamName: this.teamName, teamId: this.teamId });
                 return hasSaved;
             }, (reason) => { console.log(reason) });
         // .then(() => {

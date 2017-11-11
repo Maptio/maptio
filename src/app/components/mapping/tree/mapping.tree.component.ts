@@ -21,6 +21,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     public width: number;
 
     public datasetId: string;
+    public teamId: string;
+    public teamName: string;
 
     public height: number;
 

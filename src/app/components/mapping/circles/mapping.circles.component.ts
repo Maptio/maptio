@@ -24,6 +24,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
     // @ViewChild("tooltip")
     // public tooltip: TooltipComponent;
     public datasetId: string;
+    public teamId: string;
+    public teamName: string;
     public width: number;
     public height: number;
     public translateX: number;
@@ -253,38 +255,38 @@ export class MappingCirclesComponent implements IDataVisualizer {
     edit(node: Initiative) {
         if (!this.selectedNodeParent) { return }
         this.showDetailsOf$.next(node);
-        this.analytics.eventTrack("Edit node", { mode: "map" });
+        this.analytics.eventTrack("Map", { mode: "context menu", action: "edit", team: this.teamName, teamId: this.teamId });
     }
 
     editQuick(node: Initiative) {
         this.showDetailsOf$.next(node);
-        this.analytics.eventTrack("Edit node", { mode: "tooltip" });
+        this.analytics.eventTrack("Map", { mode: "tooltip", action: "edit", team: this.teamName, teamId: this.teamId });
     }
 
     add(node: Initiative) {
         this.addInitiative$.next(node);
-        this.analytics.eventTrack("Add node", { mode: "map" });
+        this.analytics.eventTrack("Map", { mode: "context menu", action: "add", team: this.teamName, teamId: this.teamId });
     }
 
     addQuick(node: Initiative) {
         this.addInitiative$.next(node);
-        this.analytics.eventTrack("Add node", { mode: "tooltip" });
+        this.analytics.eventTrack("Map", { mode: "tooltip", action: "add", team: this.teamName, teamId: this.teamId });
     }
 
     addFirstNode() {
         this.addInitiative$.next(this.rootNode);
-        this.analytics.eventTrack("Add node", { mode: "instruction" });
+        this.analytics.eventTrack("Map", { mode: "instruction", action: "add", team: this.teamName, teamId: this.teamId });
     }
 
     remove(node: Initiative) {
         if (!this.selectedNodeParent) { return }
         this.removeInitiative$.next(node);
-        this.analytics.eventTrack("Remove node", { mode: "map" });
+        this.analytics.eventTrack("Map", { mode: "context menu", action: "remove", team: this.teamName, teamId: this.teamId });
     }
 
     removeQuick(node: Initiative) {
         this.removeInitiative$.next(node);
-        this.analytics.eventTrack("Remove node", { mode: "tooltip" });
+        this.analytics.eventTrack("Map", { mode: "tooltip", action: "remove", team: this.teamName, teamId: this.teamId });
     }
 
     move() {
@@ -294,7 +296,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
         this.moveInitiative$.next({ node: this.draggedNode, from: null, to: this.dragTargetNode });
         this.draggedNode = null;
         this.dragTargetNode = null;
-        this.analytics.eventTrack("Move node", { mode: "map" });
+        this.analytics.eventTrack("Map", { mode: "drag", action: "move", team: this.teamName, teamId: this.teamId });
     }
 
     update(data: any) {
