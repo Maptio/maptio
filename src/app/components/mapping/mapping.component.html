@@ -13,14 +13,22 @@
     <a class="btn minus" (click)="zoomOut()" placement="left" container="body" ngbTooltip="Zoom out"></a>
     <a class="btn plus" (click)="zoomIn()" placement="left" container="body" ngbTooltip="Zoom in"></a>
     <a class="btn reset" (click)="resetZoom()" placement="left" container="body" ngbTooltip="Zoom fit"></a>
-    <a #lockInput *ngIf="isLocked" class="btn locked text-default" (click)="lock(false)" placement="left" container="body" ngbTooltip="Switch to edit mode"></a>
-    <a #lockInput *ngIf="!isLocked" class="btn unlocked text-warning" (click)="lock(true)" placement="left" container="body" ngbTooltip="Switch to view mode"></a>
     <div class="btn-group">
       <input class="vertical transparent" #fontInput name="fontInput" type="range" min="8" max="30" value="16" (change)="changeFontSize(fontInput.value)"
         orient="vertical" placement="left" container="body" ngbTooltip="Text size">
     </div>
   </div>
 </div>
+
+<div class="control third">
+  <div class=" btn-group-vertical">
+    <a #lockInput *ngIf="isLocked" [class.background]="isLocked" class="btn locked text-default" (click)="lock(false)" placement="left" container="body" ngbTooltip="Unlock the map and edit"></a>
+    <a #lockInput *ngIf="!isLocked" [class.background]="isLocked" class="btn unlocked text-warning" (click)="lock(true)" placement="left" container="body"
+      ngbTooltip="Lock the map and explore"></a>
+
+  </div>
+</div>
+
 
 <!-- SVG goes here -->
 <ng-template #drawing anchor></ng-template>
