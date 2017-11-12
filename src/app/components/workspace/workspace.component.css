@@ -103,6 +103,7 @@
     width: 0;
     padding: 10px 0 0 10px;
     margin-left: 3.0vw;
+    z-index: 10;
 }
 
 #sideNavDetails.showDetails {

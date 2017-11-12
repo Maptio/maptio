@@ -137,7 +137,7 @@ svg circle.cut {
 
 .instructions {
   position: absolute;
-  z-index: 10;
+  z-index: 5;
   opacity: 1;
   top: 34vh;
   right: 24vw;
