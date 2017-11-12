@@ -7,13 +7,14 @@ import { DataSet } from "./../../shared/model/dataset.data";
 import { Initiative } from "./../../shared/model/initiative.data";
 import { Observable } from "rxjs/Rx";
 import { EmitterService } from "./../../shared/services/emitter.service";
-import { Component, ViewChild, Output } from "@angular/core";
+import { Component, ViewChild, Output, ElementRef, Input } from "@angular/core";
 import { InitiativeComponent } from "../initiative/initiative.component";
-import { TreeNode, IActionMapping, TREE_ACTIONS, TreeModel } from "angular-tree-component";
+import { TreeNode, IActionMapping, TREE_ACTIONS, TreeModel, TreeComponent } from "angular-tree-component";
 import { DataService } from "../../shared/services/data.service";
 import "rxjs/add/operator/map";
 import { InitiativeNodeComponent } from "./initiative.node.component"
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { ITreeNode } from "angular-tree-component/dist/defs/api";
 
 @Component({
     selector: "building",
@@ -36,18 +37,23 @@ export class BuildingComponent {
         actionMapping: {
             mouse: {
                 drop: (tree: any, node: TreeNode, $event: any, { from, to }: { from: TreeNode, to: TreeNode }) => {
+                    // console.log(tree, node, $event, from, to)
                     this.fromInitiative = from.data;
                     this.toInitiative = to.parent.data;
 
-                    // console.log(from.parent.id, to.parent.id)
                     if (from.parent.id === to.parent.id) { // if simple reordering, we dont ask for confirmation
+                        this.analytics.eventTrack("Map", { action: "move", mode: "list", confirmed: true });
                         TREE_ACTIONS.MOVE_NODE(tree, node, $event, { from: from, to: to })
                     }
                     else {
                         this.modalService.open(this.dragConfirmationModal).result
                             .then(result => {
                                 if (result) {
+                                    this.analytics.eventTrack("Map", { action: "move", mode: "list", confirmed: true });
                                     TREE_ACTIONS.MOVE_NODE(tree, node, $event, { from: from, to: to })
+                                }
+                                else {
+                                    this.analytics.eventTrack("Initiative", { action: "move", mode: "list", confirm: false });
                                 }
                             })
                             .catch(reason => { });
@@ -60,8 +66,8 @@ export class BuildingComponent {
 
     SAVING_FREQUENCY: number = 10;
 
-    // @ViewChild(TreeComponent)
-    // tree: TreeComponent;
+
+    @ViewChild("tree") public tree: TreeComponent;
 
     @ViewChild(InitiativeNodeComponent)
     node: InitiativeNodeComponent;
@@ -71,6 +77,8 @@ export class BuildingComponent {
 
     datasetId: string;
 
+    teamName: string;
+    teamId: string;
     @Output("save") save = new EventEmitter<Initiative>();
     @Output("openDetails") openDetails = new EventEmitter<Initiative>();
     @Output("openDetailsEditOnly") openDetailsEditOnly = new EventEmitter<Initiative>();
@@ -80,8 +88,6 @@ export class BuildingComponent {
         private userFactory: UserFactory) {
         // this.nodes = [];
     }
-
-
 
     saveChanges() {
         // console.log("send to workspace", this.nodes[0])
@@ -106,8 +112,79 @@ export class BuildingComponent {
         treeModel.update();
     }
 
+    updateTree() {
+        this.tree.treeModel.update();
+    }
+
     openNodeDetails(node: Initiative) {
         this.openDetails.emit(node)
+    }
+
+    moveNode(node: Initiative, from: Initiative, to: Initiative) {
+        let foundTreeNode = this.tree.treeModel.getNodeById(node.id)
+        let foundToNode = this.tree.treeModel.getNodeById(to.id);
+        TREE_ACTIONS.MOVE_NODE(this.tree.treeModel, foundToNode, {}, { from: foundTreeNode, to: { parent: foundToNode } })
+
+    }
+
+
+    removeNode(node: Initiative) {
+
+        let hasFoundNode: boolean = false;
+
+        let index = this.nodes[0].children.findIndex(c => c.id === node.id);
+        if (index > -1) {
+            this.nodes[0].children.splice(index, 1);
+        }
+        else {
+            this.nodes[0].traverse(n => {
+                if (hasFoundNode) return;
+                let index = n.children.findIndex(c => c.id === node.id);
+                if (index > -1) {
+                    hasFoundNode = true;
+                    n.children.splice(index, 1);
+                }
+            });
+        }
+
+        this.saveChanges();
+        this.updateTree()
+    }
+
+    addNodeTo(node: Initiative) {
+        let hasFoundNode: boolean = false;
+        if (this.nodes[0].id === node.id) {
+            hasFoundNode = true;
+            let newNode = new Initiative();
+            newNode.children = [];
+            newNode.team_id = node.team_id;
+            newNode.hasFocus = true;
+            newNode.id = Math.floor(Math.random() * 10000000000000);
+            // console.log("new node", Math.ceil(node.id * Math.random()));
+            this.nodes[0].children = this.nodes[0].children || [];
+            this.nodes[0].children.unshift(newNode);
+            this.openDetailsEditOnly.emit(newNode)
+        }
+        else {
+            this.nodes[0].traverse(n => {
+                if (hasFoundNode) return;
+                if (n.id === node.id) {
+                    hasFoundNode = true;
+                    let newNode = new Initiative();
+                    newNode.children = []
+                    newNode.team_id = node.team_id;
+                    newNode.hasFocus = true;
+                    newNode.id = Math.floor(Math.random() * 10000000000000);
+                    // console.log("new node", Math.ceil(node.id * Math.random()));
+                    n.children = n.children || [];
+                    n.children.unshift(newNode);
+                    this.openDetailsEditOnly.emit(newNode)
+                }
+            });
+        }
+
+        this.saveChanges();
+        this.updateTree()
     }
 
     // toggleAll() {
@@ -122,8 +199,10 @@ export class BuildingComponent {
      * @param id Dataset Id
      * @param slugToOpen Slug of initiative to open
      */
-    loadData(datasetID: string, nodeIdToOpen: string = undefined): Promise<void> {
+    loadData(datasetID: string, nodeIdToOpen: string = undefined, teamName: string, teamId: string): Promise<void> {
         this.datasetId = datasetID;
+        this.teamId = teamId;
+        this.teamName = teamName;
         return this.datasetFactory.get(datasetID)
             .then(data => {
                 this.nodes = [];
@@ -132,7 +211,6 @@ export class BuildingComponent {
                 this.nodes[0].traverse(function (node: Initiative) {
                     node.team_id = defaultTeamId; // For now, the sub initiative are all owned by the same team
                 });
-
             })
             .then(() => {
                 let queue = this.nodes[0].traversePromise(function (node: Initiative) {
@@ -167,7 +245,7 @@ export class BuildingComponent {
     }
 
     filterNodes(treeModel: any, searched: string) {
-        this.analytics.eventTrack("Search map", { search: searched });
+        this.analytics.eventTrack("Search map", { search: searched, teamId: this.teamId });
         if (!searched || searched === "") {
             treeModel.clearFilter();
         }

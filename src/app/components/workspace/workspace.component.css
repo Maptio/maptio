@@ -10,7 +10,7 @@
 }
 
 .header {
-    padding-left: 60px;
+    /* padding-left: 60px; */
     MARGIN-TOP: 2.5vh;
     background: transparent;
     background-color: transparent;
@@ -47,7 +47,7 @@
     transition: margin-left .5s;
     width: 100%;
     height: 100%;
-    padding-top: 5vh;
+    /* padding-top: 5vh; */
 }
 
 #main.showTree {
@@ -71,7 +71,7 @@
 #sideNavTree {
     height: 90vh;
     max-height: 90vh;
-    min-width: 3.5vw;
+    min-width: 3.0vw;
     position: fixed;
     left: 0;
     overflow: hidden;
@@ -87,6 +87,7 @@
     width: 45vw;
     transition: 0.5s ease-in;
     padding: 10px;
+    z-index: 10;
 }
 
 #sideNavDetails {
@@ -101,13 +102,14 @@
     margin-top: 7vh;
     width: 0;
     padding: 10px 0 0 10px;
-    margin-left: 3.5vw;
+    margin-left: 3.0vw;
 }
 
 #sideNavDetails.showDetails {
     width: 45vw;
     transition: 0.5s ease-in;
     padding: 10px;
+    z-index: 10;
 }
 
 #sideNavDetails.showTree {
@@ -218,7 +220,7 @@
 
 .toggle.showDetails {
     transition: 0.5s;
-    margin-left:40vw;
+    margin-left:41vw;
 }
 
 .toggle:hover{

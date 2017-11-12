@@ -67,7 +67,7 @@ export class MemberSummaryComponent implements OnInit {
                     if (i.accountable && i.accountable.user_id === this.memberUserId) {
                         if (!this.authorities.includes(i)) this.authorities.push(i)
                     }
-                    if (i.helpers && i.helpers.find(h => h.user_id === this.memberUserId && i.accountable.user_id !== h.user_id)) {
+                    if (i.helpers && i.helpers.find(h => h.user_id === this.memberUserId && i.accountable && i.accountable.user_id !== h.user_id)) {
                         if (!this.helps.includes(i)) this.helps.push(i)
                     }
                 }.bind(this));

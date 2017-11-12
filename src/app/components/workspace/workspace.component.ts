@@ -14,7 +14,7 @@ import { Component, OnInit, OnDestroy, ChangeDetectorRef } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 import { User } from "../../shared/model/user.data";
 import { Auth } from "../../shared/services/auth/auth.service";
-import * as _ from "lodash";
+import { compact, sortBy } from "lodash";
 import { UserService } from "../../shared/services/user/user.service";
 
 @Component({
@@ -46,6 +46,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public openedNodeTeamId: string;
 
     public mapped: Initiative;
+    teamName: string;
+    teamId: string;
 
     @ViewChild("dragConfirmation")
     dragConfirmationModal: NgbModal;
@@ -74,17 +76,28 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
             })
 
             this.team$ = this.dataset$.then((dataset: DataSet) => {
-                return this.teamFactory.get(dataset.initiative.team_id).then(t => t, () => { return Promise.reject("No team") }).catch(() => { })
+                return this.teamFactory.get(dataset.initiative.team_id)
+                    .then(
+                    t => {
+                        this.teamName = t.name;
+                        this.teamId = t.team_id;
+                        return t
+                    },
+                    () => { return Promise.reject("No team") }).catch(() => { })
             });
 
             this.members = this.team$.then((team: Team) => {
                 if (team)
                     return this.userFactory.getUsers(team.members.map(m => m.user_id))
-                        .then(members => _.compact(members))
-                        .then(members => _.sortBy(members, m => m.name))
+                        .then(members => compact(members))
+                        .then(members => sortBy(members, m => m.name))
             });
 
-            this.buildingComponent.loadData(this.datasetId, params["nodeid"]) // .then(()=>{console.log("finished buioding data")});
+            this.team$.then((team: Team) => {
+                this.buildingComponent.loadData(this.datasetId, params["nodeid"], this.teamName, this.teamId) // .then(()=>{console.log("finished buioding data")});
+
+            })
+
         });
 
         this.userSubscription = this.auth.getUser().subscribe((user: User) => {
@@ -110,35 +123,36 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
         this.datasetFactory.upsert(new DataSet({ _id: this.datasetId, initiative: initiative }), this.datasetId)
             .then((hasSaved: boolean) => {
-                this.dataService.set({ initiative: initiative, datasetId: this.datasetId });
+                // console.log("seding change to mapping")
+                this.dataService.set({ initiative: initiative, datasetId: this.datasetId, teamName: this.teamName, teamId: this.teamId });
                 return hasSaved;
-            }, (reason) => { console.log(reason) })
+            }, (reason) => { console.log(reason) });
         // .then(() => {
         //     this.dataset$ = this.datasetFactory.get(this.datasetId)
         // });
 
     }
 
-    addTeamToInitiative(team: Team) {
-        this.modalService.open(this.dragConfirmationModal).result.then((result: boolean) => {
-            if (result) {
-                this.isBuildingPanelCollapsed = true;
-                this.isDetailsPanelCollapsed = true;
-                this.team$ = this.dataset$.then((dataset: DataSet) => {
-                    dataset.initiative.team_id = team.team_id;
-                    this.datasetFactory.upsert(dataset, dataset._id).then(() => {
-                        this.buildingComponent.loadData(dataset._id);
-                    })
-                    return team;
-                });
-                this.updateTeamMembers();
-            }
-        })
-            .catch(reason => { });
+    // addTeamToInitiative(team: Team) {
+    //     this.modalService.open(this.dragConfirmationModal).result.then((result: boolean) => {
+    //         if (result) {
+    //             this.isBuildingPanelCollapsed = true;
+    //             this.isDetailsPanelCollapsed = true;
+    //             this.team$ = this.dataset$.then((dataset: DataSet) => {
+    //                 dataset.initiative.team_id = team.team_id;
+    //                 this.datasetFactory.upsert(dataset, dataset._id).then(() => {
+    //                     this.buildingComponent.loadData(dataset._id);
+    //                 })
+    //                 return team;
+    //             });
+    //             this.updateTeamMembers();
+    //         }
+    //     })
+    //         .catch(reason => { });
 
 
 
-    }
+    // }
 
     updateTeamMembers() {
         this.isBuildingPanelCollapsed = true;
@@ -172,6 +186,30 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.isBuildingPanelCollapsed = willCloseBuildingPanel;
                 this.isDetailsPanelCollapsed = false;
             })
+    }
+
+    addInitiative(node: Initiative) {
+        // console.log("workspace.compoentn", "adding to", node.name);
+        this.buildingComponent.addNodeTo(node);
+    }
+
+    removeInitiative(node: Initiative) {
+        // console.log("workspace.compoentn", "remove", node.name);
+        this.buildingComponent.removeNode(node);
+    }
+
+    moveInitiative({ node, from, to }: { node: Initiative, from: Initiative, to: Initiative }) {
+        // console.log("workspace.compoentn", "move", node.name, "", to.name);
+        this.buildingComponent.moveNode(node, from, to);
+    }
+
+    closeEditingPanel(close: boolean) {
+        console.log(this.isDetailsPanelCollapsed);
+        this.isDetailsPanelCollapsed = !this.isDetailsPanelCollapsed;
+        // if (!this.isDetailsPanelCollapsed ) {
+        //     this.isBuildingPanelCollapsed = true;
+        //     this.isDetailsPanelCollapsed = true;
+        // }
     }
 
 }

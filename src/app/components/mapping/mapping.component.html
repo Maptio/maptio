@@ -1,30 +1,25 @@
-<div class="control">
-  <div class=" btn-group-vertical mb-4">
-    
-    <!-- <a class="btn options" placement="left" container="body" ngbTooltip="Views" (click)="isCollapsed = !isCollapsed"
-    [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"></a> -->
-    <!-- <div class="collapse" id="collapseExample" [ngbCollapse]="isCollapsed"> -->
-      <!-- <div class=" btn-group-vertical "> -->
-        <a class="btn circleview"  [class.disabled]="(isLoading | async)" routerLink="/map/{{data?.datasetId}}/{{data?.initiative?.getSlug()}}/initiatives" placement="left" container="body" ngbTooltip="Initiatives map"></a>
-        <a class="btn treeview"  [class.disabled]="(isLoading | async)" routerLink="/map/{{data?.datasetId}}/{{data?.initiative?.getSlug()}}/people" placement="left" container="body" ngbTooltip="Team view"></a>
-      <!-- </div> -->
-    <!-- </div> -->
-
+<div class="control first">
+  <div class=" btn-group-vertical mb-1">
+    <a class="btn circleview" [class.disabled]="(isLoading | async)" routerLink="/map/{{datasetId}}/{{slug}}/initiatives" placement="left"
+      container="body" ngbTooltip="Circle view"></a>
+    <a class="btn treeview" [class.disabled]="(isLoading | async)" routerLink="/map/{{datasetId}}/{{slug}}/people" placement="left"
+      container="body" ngbTooltip="Tree view"></a>
   </div>
-  
+</div>
 
+
+<div class="control second">
   <div class=" btn-group-vertical">
     <a class="btn minus" (click)="zoomOut()" placement="left" container="body" ngbTooltip="Zoom out"></a>
     <a class="btn plus" (click)="zoomIn()" placement="left" container="body" ngbTooltip="Zoom in"></a>
     <a class="btn reset" (click)="resetZoom()" placement="left" container="body" ngbTooltip="Zoom fit"></a>
-
+    <a #lockInput *ngIf="isLocked" class="btn locked text-default" (click)="lock(false)" placement="left" container="body" ngbTooltip="Switch to edit mode"></a>
+    <a #lockInput *ngIf="!isLocked" class="btn unlocked text-warning" (click)="lock(true)" placement="left" container="body" ngbTooltip="Switch to view mode"></a>
     <div class="btn-group">
-      <input class="vertical transparent" #fontInput name="fontInput" type="range" min="8" max="30" value="14" (change)="changeFontSize(fontInput.value)"
+      <input class="vertical transparent" #fontInput name="fontInput" type="range" min="8" max="30" value="16" (change)="changeFontSize(fontInput.value)"
         orient="vertical" placement="left" container="body" ngbTooltip="Text size">
     </div>
   </div>
-
-
 </div>
 
 <!-- SVG goes here -->

@@ -1,6 +1,6 @@
 import { Initiative } from "./../../shared/model/initiative.data";
 // import { MappingNetworkComponent } from "./network/mapping.network.component";
-import { Angulartics2Mixpanel } from "angulartics2";
+import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 
 import { ActivatedRoute, Params, UrlSegment } from "@angular/router";
 import {
@@ -42,6 +42,11 @@ export class MappingComponent implements OnInit {
     TOOLTIP_ZOOM_FIT: string = "Zoom fit";
 
     public data: { initiative: Initiative, datasetId: string };
+    public x: number;
+    public y: number;
+    public scale: number;
+    public isLocked: boolean = true;
+
     public isCollapsed: boolean = true;
 
     public zoom$: Subject<number>;
@@ -49,10 +54,22 @@ export class MappingComponent implements OnInit {
     private VIEWPORT_HEIGHT: number = 1522;
 
     public isLoading: Subject<boolean>;
+    public datasetId: string;
+    public teamName: string;
+    public teamId: string;
+    public slug: string;
 
     public fontSize$: BehaviorSubject<number>;
+    public isLocked$: BehaviorSubject<boolean>;
+    public closeEditingPanel$: BehaviorSubject<boolean>;
+    public data$: Subject<{ initiative: Initiative, datasetId: string }>;
+
 
     @Output("showDetails") showDetails = new EventEmitter<Initiative>();
+    @Output("addInitiative") addInitiative = new EventEmitter<Initiative>();
+    @Output("removeInitiative") removeInitiative = new EventEmitter<Initiative>();
+    @Output("moveInitiative") moveInitiative = new EventEmitter<{ node: Initiative, from: Initiative, to: Initiative }>();
+    @Output("closeEditingPanel") closeEditingPanel = new EventEmitter<boolean>();
 
     @ViewChild(AnchorDirective) anchorComponent: AnchorDirective;
 
@@ -62,6 +79,7 @@ export class MappingComponent implements OnInit {
     public componentFactory: ComponentFactory<IDataVisualizer>;
     public layout: string;
     public subscription: Subscription;
+    public instance: IDataVisualizer;
 
     constructor(
         private dataService: DataService,
@@ -72,8 +90,11 @@ export class MappingComponent implements OnInit {
         private analytics: Angulartics2Mixpanel
     ) {
         this.zoom$ = new Subject<number>();
-        this.fontSize$ = new BehaviorSubject<number>(14);
+        this.fontSize$ = new BehaviorSubject<number>(16);
+        this.isLocked$ = new BehaviorSubject<boolean>(true);
+        this.closeEditingPanel$ = new BehaviorSubject<boolean>(false);
         this.isLoading = new BehaviorSubject<boolean>(true);
+        this.data$ = new Subject<{ initiative: Initiative, datasetId: string }>();
     }
 
     ngAfterViewInit() {
@@ -81,29 +102,46 @@ export class MappingComponent implements OnInit {
 
     ngOnInit() {
         this.isLoading.next(true);
-        this.subscription =
-            Observable
-                .combineLatest(this.route.params.distinct(), this.dataService.get())
-                .withLatestFrom(this.route.fragment)
-                .subscribe((value: [[Params, any], string]) => {
-                    this.isLoading.next(true);
-                    let layout = value[0][0]["layout"];
-                    this.data = value[0][1];
 
-                    this.componentFactory = this.getComponentFactory(layout);
-                    let fragment = value[1] || this.getFragment(layout);
-                    let x = Number.parseFloat(fragment.split("&")[0].replace("x=", ""))
-                    let y = Number.parseFloat(fragment.split("&")[1].replace("y=", ""))
-                    let scale = Number.parseFloat(fragment.split("&")[2].replace("scale=", ""));
+        this.subscription = this.route.params
+            .map(params => { this.layout = params["layout"]; return this.layout })
+            .do(layout => {
+                this.isLoading.next(true);
 
-                    this.show(value[0][1], x, y, scale);
-                    this.layout = layout;
-                    this.isLoading.next(false);
-                });
+                this.componentFactory = this.getComponentFactory(layout);
+                let component = this.anchorComponent.createComponent<IDataVisualizer>(this.componentFactory);
+                this.instance = this.getInstance(component);
+            })
+            .withLatestFrom(this.route.fragment)
+            .do(([layout, fragment]: [string, string]) => {
+                this.isLoading.next(true);
+                let f = fragment || this.getFragment(this.layout);
+                this.x = Number.parseFloat(f.split("&")[0].replace("x=", ""))
+                this.y = Number.parseFloat(f.split("&")[1].replace("y=", ""))
+                this.scale = Number.parseFloat(f.split("&")[2].replace("scale=", ""));
+
+                this.setup();
+            })
+            .combineLatest(this.dataService.get())
+            .map(data => data[1])
+            .do((data) => {
+                this.datasetId = data.datasetId;
+                this.teamId = data.teamId;
+                this.teamName = data.teamName;
+                this.slug = data.initiative.getSlug();
+                this.isLoading.next(false);
+            })
+            .subscribe((data) => {
+                this.instance.teamId = data.teamId;
+                this.instance.teamName = data.teamName;
+                this.instance.data$.next(data);
+            })
+
     }
 
     ngOnDestroy() {
-        this.subscription.unsubscribe();
+        if (this.subscription)
+            this.subscription.unsubscribe();
     }
 
     getFragment(layout: string) {
@@ -123,8 +161,6 @@ export class MappingComponent implements OnInit {
                 return this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent);
             case "people":
                 return this.componentFactoryResolver.resolveComponentFactory(MappingTreeComponent);
-            // case "network":
-            //     return this.componentFactoryResolver.resolveComponentFactory(MappingNetworkComponent);
             default:
                 return this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent);
         }
@@ -134,50 +170,65 @@ export class MappingComponent implements OnInit {
         return component.instance;
     }
 
-    show(data: any, x: number, y: number, scale: number) {
-        let component = this.anchorComponent.createComponent<IDataVisualizer>(this.componentFactory);
-
-        let instance = this.getInstance(component);
-        instance.showDetailsOf$.asObservable().subscribe(node => {
+    setup() {
+        this.instance.showDetailsOf$.asObservable().subscribe(node => {
             this.showDetails.emit(node)
         })
-        instance.width = this.VIEWPORT_WIDTH;
-        instance.height = this.VIEWPORT_HEIGHT;
-        instance.margin = 50;
-        instance.datasetId = data.datasetId;
-        instance.zoom$ = this.zoom$.asObservable();
-        instance.fontSize$ = this.fontSize$.asObservable();
+        this.instance.addInitiative$.asObservable().subscribe(node => {
+            // console.log("mapping.component.ts", "adding initiative under", node.name)
+            this.addInitiative.emit(node)
+        })
+        this.instance.removeInitiative$.asObservable().subscribe(node => {
+            // console.log("mapping.component.ts", "remove initiative", node.name)
+            this.removeInitiative.emit(node)
+        })
+        this.instance.moveInitiative$.asObservable().subscribe(({ node: node, from: from, to: to }) => {
+            // console.log("mapping.component.ts", "move initiative", node.name, to.name)
+            this.moveInitiative.emit({ node: node, from: from, to: to })
+        })
+        this.instance.closeEditingPanel$.asObservable().subscribe((close: boolean) => {
+            this.closeEditingPanel.emit(true);
+        })
 
-        instance.draw(data.initiative, x, y, scale);
+        this.instance.width = this.VIEWPORT_WIDTH;
+        this.instance.height = this.VIEWPORT_HEIGHT;
 
+        this.instance.margin = 50;
+        this.instance.zoom$ = this.zoom$.asObservable();
+        this.instance.fontSize$ = this.fontSize$.asObservable();
+        this.instance.isLocked$ = this.isLocked$.asObservable();
+        this.instance.translateX = this.x;
+        this.instance.translateY = this.y;
+        this.instance.scale = this.scale;
+        this.instance.analytics = this.analytics;
+        this.instance.isReset$ = new Subject<boolean>();
     }
 
 
     zoomOut() {
         this.zoom$.next(0.9);
+        this.analytics.eventTrack("Map", { action: "zoom out", mode: "button", team: this.teamName, teamId: this.teamId });
     }
 
     zoomIn() {
         this.zoom$.next(1.1);
+        this.analytics.eventTrack("Map", { action: "zoom in", mode: "button", team: this.teamName, teamId: this.teamId });
     }
 
     resetZoom() {
+        this.instance.isReset$.next(true);
+        this.analytics.eventTrack("Map", { action: "reset zoom", mode: "button", team: this.teamName, teamId: this.teamId });
+    }
 
-        switch (this.layout) {
-            case "initiatives":
-                this.show(this.data, this.VIEWPORT_WIDTH / 2, this.VIEWPORT_HEIGHT / 2, 1);
-                break;
-            case "people":
-                this.show(this.data, 100, 0, 1);
-                break;
-            default:
-                this.show(this.data, this.VIEWPORT_WIDTH / 2, this.VIEWPORT_HEIGHT / 2, 1);
-                break;
-        }
+
+    lock(locking: boolean) {
+        this.isLocked = !this.isLocked;
+        this.isLocked$.next(this.isLocked);
+        this.analytics.eventTrack("Map", { action: (locking ? "lock" : "unlock"), team: this.teamName, teamId: this.teamId });
     }
 
     changeFontSize(size: number) {
         this.fontSize$.next(size);
-        this.analytics.eventTrack("Change font size", { size: size, map: this.data.initiative.name })
+        this.analytics.eventTrack("Map", { action: "change font size", size: size, team: this.teamName, teamId: this.teamId })
     }
 }

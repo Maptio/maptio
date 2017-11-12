@@ -22,9 +22,12 @@
   stroke-width: 1.5px;
 }
 
+.name{
+  font-size: small;
+}
 .name:hover{
-  font-size:initial;
   pointer-events: auto;
+  text-decoration: underline;
 }
 
 .accountable{

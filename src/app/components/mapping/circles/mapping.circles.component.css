@@ -7,17 +7,12 @@
   stroke-width: 1.5px;
 }
 
-.node-root:hover{
-  stroke: white !important;
-  stroke-width: 0;
-}
-
 .node--leaf {
   fill: white;
 }
 
 svg {
-  pointer-events: auto;
+  /* pointer-events: auto; */
   background: transparent!important
 }
 
@@ -34,19 +29,9 @@ svg text {
   /* cursor: url(/assets/images/cursors/more.cur), auto; */
 }
 
-
-/* svg .with-children{
-   font-size:1.2em; 
-} */
-
-
-/* svg .without-children{
-   font-size:1em; 
-}  */
-
 svg text:hover {
   opacity: 1;
-  font-size: larger;
+  /* font-size: larger; */
 }
 
 svg circle:hover {
@@ -55,10 +40,26 @@ svg circle:hover {
   stroke-opacity: 0.5;
   /*fill-opacity: 0.7;*/
 }
-svg circle.node--root:hover {
-  stroke: white !important;
-  stroke-width: 0 !important;
+
+svg circle.node--root, svg circle.node--root:hover {
+  /* stroke-opacity: 0.5 !important; */
+  stroke-dasharray: 10, 3 !important;
+  stroke: #f7f7f7 !important;
+  stroke-width: 3 !important;
+  /* fill: #f7f7f7!important; */
 }
+
+svg circle.node.dragged{
+  stroke-opacity: 0.5 !important;
+  stroke-dasharray: 10, 3 !important;
+  stroke: black !important;
+  stroke-width: 3 !important;
+}
+
+/* svg circle.node--root.inactive {
+  stroke: none!important;
+  fill: white !important
+} */
 
 svg .icon {
   font-family: FontAwesome;
@@ -70,11 +71,96 @@ svg group {
   opacity: 0.7;
 }
 
-scg circle{
-  pointer-events: none;
-}
 
 svg circle.accountable {
-  pointer-events: auto;
+  /* pointer-events: auto; */
   cursor: pointer;
+}
+
+svg circle.highlighted, svg circle.highlighted:hover {
+  fill: #ff5a00 !important;
+  fill-opacity: 0.5;
+  stroke:#ff5a00 !important;
+  stroke-width: 5!important;
+}
+
+svg circle.cut {
+  fill-opacity: 0.5;
+  stroke-dasharray: 10, 3;
+  stroke: black !important;
+  stroke-width: 3;
+}
+
+.add:before {
+  content: "\f067";
+  font-family: FontAwesome;
+}
+
+.remove:before {
+  content: "\f1f8";
+  font-family: FontAwesome;
+}
+
+.edit:before {
+  content: "\f040";
+  font-family: FontAwesome;
+}
+
+.cut:before {
+  content: "\f0c4";
+  font-family: FontAwesome;
+}
+
+.paste:before {
+  content: "\f0ea";
+  font-family: FontAwesome;
+}
+
+.undo:after {
+  content: "\f0e2";
+  font-family: FontAwesome;
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 10;
+  opacity: 0;
+}
+
+.undo-box {
+  position: absolute;
+  z-index: 10;
+  opacity: 1;
+  top: 14vh;
+  right: 22vh;
+}
+
+.instructions {
+  position: absolute;
+  z-index: 10;
+  opacity: 1;
+  top: 34vh;
+  right: 24vw;
+}
+
+.tooltip-initiative{
+  position: absolute;
+  z-index: 5;
+}
+
+
+.background
+{
+  background-color: #f7f7f7;
+}
+
+.text-color{
+  color: #266DAC !important;
+}
+
+dede{
+  color : rgb(198, 223, 219);
+  color : rgb(138, 194, 201) ;
+  color: rgb(80, 162, 193);
+  color: rgb(40, 127, 184);
 }

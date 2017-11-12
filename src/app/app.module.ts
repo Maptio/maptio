@@ -154,7 +154,8 @@ export function markdownServiceFactory(http: Http) {
     RouterModule.forRoot(appRoutes),
     ResponsiveModule,
     ConfirmationPopoverModule.forRoot({
-      confirmButtonType: "danger"
+      confirmButtonType: "danger",
+      cancelButtonType: "secondary"
     }),
     MarkdownModule.forRoot(),
     Angulartics2Module.forRoot([Angulartics2Mixpanel]),

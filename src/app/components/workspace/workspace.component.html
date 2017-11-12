@@ -1,23 +1,17 @@
 <div class="row header">
-    <div class="col-auto">
-        <a class="dropdown-toggle mr-3" id="teamDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {{(team$|async)?.name}}
-        </a>
-        <div class="dropdown-menu" aria-labelledby="teamDropdownLink">
-            <a class="dropdown-item" (click)="addTeamToInitiative(team)" *ngFor="let team of teams$ | async">
-                {{team.name}}
-            </a>
-        </div>
-    </div>
+    <!-- <div class="col-auto">
+        <small class="text-muted">Team</small>   <a routerLink="/team/{{(team$ |async)?.team_id}}/{{(team$|async)?.getSlug()}}">{{(team$|async)?.name}}</a> 
+   
+    </div> -->
     <div class="col">
         <div class="btn-group pull-left d-flex flex-wrap" *ngIf="team$ | async">
             <a *ngFor="let user of members | async" class="btn btn-link btn-xs no-padding" [class.deleted]="user.isDeleted" routerLink="/summary/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/u/{{user.shortid}}/{{user.getSlug()}}">
                 <img *ngIf="user?.picture" class="member rounded-circle" src="{{user?.picture}}" alt="{{user?.name}}" title="{{user?.name}}"
-                    placement="top" container="body" ngbTooltip="{{user?.name}}">
+                    placement="bottom" container="body" ngbTooltip="{{user?.name}}">
                 <img *ngIf="!user?.picture" class="member rounded-circle" src="/assets/images/user.jpg" alt="{{user?.name}}" title="{{user?.name}}"
-                    placement="top" container="body" ngbTooltip="{{user?.name}}">
+                    placement="bottom" container="body" ngbTooltip="{{user?.name}}">
             </a>
-            <a class="btn btn-link btn-xs no-padding" routerLink="/team/{{(team$ |async)?.team_id}}/{{(team$|async)?.getSlug()}}" placement="top"
+            <a class="btn btn-link btn-xs no-padding" routerLink="/team/{{(team$ |async)?.team_id}}/{{(team$|async)?.getSlug()}}" placement="bottom"
                 container="body" ngbTooltip="Add team member">
                 <i class="fa fa-plus" aria-hidden="true"></i>
             </a>
@@ -28,7 +22,7 @@
 
 <div id="sideNavTree" class="" [class.showTree]="!isBuildingPanelCollapsed">
     <a class="btn toggle" (click)="toggleBuildingPanel()" [class.showTree]="!isBuildingPanelCollapsed">
-        <i class="fa all" [class.fa-pencil]="isBuildingPanelCollapsed" aria-hidden="true"></i>
+        <i class="fa all" [class.fa-list]="isBuildingPanelCollapsed" aria-hidden="true" ></i>
         <i class="fa" [class.fa-times]="!isBuildingPanelCollapsed" aria-hidden="true"></i>
     </a>
 
@@ -58,7 +52,13 @@
 <div id="main" [class.expand]="!isBuildingPanelCollapsed">
 
     <div class="mapping">
-        <mapping (showDetails)="openDetails($event, true)">Loading...</mapping>
+        <mapping
+        (showDetails)="openDetails($event, true)" 
+        (addInitiative)="addInitiative($event)" 
+        (removeInitiative)="removeInitiative($event)"
+        (moveInitiative)="moveInitiative($event)"
+        (closeEditingPanel)="closeEditingPanel($event)"
+        > Loading...</mapping>
     </div>
 </div>
 

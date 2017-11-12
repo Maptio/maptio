@@ -79,7 +79,7 @@ module.exports = {
       mainPath: helpers.root('src', 'bootstrap.ts')
     }),
     new webpack.optimize.CommonsChunkPlugin({
-      name: ['app', 'polyfills']
+      name: ['app', 'vendor', 'polyfills']
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true,
@@ -108,8 +108,9 @@ module.exports = {
       }
     }),
     new CopyWebpackPlugin([
-      { from: 'public', to: 'assets' }
-
+      { from: 'public/images', to: 'assets/images' },
+      { from: 'public/styles', to: 'assets/styles' },
+      { from: 'public/templates', to: 'assets/templates' }
     ])
   ]
 };

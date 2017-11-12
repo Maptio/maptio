@@ -12,10 +12,19 @@ import { UserFactory } from "../user.factory";
 import { User } from "../../model/user.data";
 import { EmitterService } from "../emitter.service";
 import { tokenNotExpired } from "angular2-jwt/angular2-jwt";
-import * as _ from "lodash";
+import { uniq } from "lodash";
 
 @Injectable()
 export class Auth {
+
+    private MAPTIO_INTERNAL_EMAILS =
+    [
+        "safiyya.babio@gmail.com",
+        "hello@tomnixon.co.uk",
+        "karlparton@gmail.com",
+        "lisa@reimaginaire.com",
+        "hellochandnipatel@gmail.com"
+    ]
 
     private user$: Subject<User> = new Subject();
 
@@ -103,13 +112,13 @@ export class Auth {
                 this.userFactory.get(JSON.parse(profileString).user_id)])
                 .then(([auth0User, databaseUser]: [User, User]) => {
                     let user = auth0User;
-                    user.teams = _.uniq(databaseUser.teams); // HACK : where does the duplication comes from?
+                    user.teams = uniq(databaseUser.teams); // HACK : where does the duplication comes from?
                     user.shortid = databaseUser.shortid;
                     return user
                 })
                 .then((user: User) => {
                     this.datasetFactory.get(user).then(ds => {
-                        user.datasets = _.uniq(ds);
+                        user.datasets = uniq(ds);
                         this.user$.next(user)
                     })
                 });
@@ -185,10 +194,15 @@ export class Auth {
                                             return user;
                                         })
                                         .then((user: User) => {
-                                            this.analytics.setSuperProperties({ user_id: user.user_id, email: user.email })
+                                            let isMaptioTeam = this.MAPTIO_INTERNAL_EMAILS.includes(user.email);
+                                            console.log("is mapito team", isMaptioTeam)
+                                            this.analytics.setSuperProperties({
+                                                user_id: user.user_id, email: user.email, isInternal: isMaptioTeam
+
+                                            })
                                             this.analytics.eventTrack("Login", { email: user.email, firstname: user.firstname, lastname: user.lastname });
 
-                                            let isUserVIP = (user.email === "safiyya.babio@gmail.com" || user.email === "hello@tomnixon.co.uk");
+                                            // let isUserVIP = (user.email === "safiyya.babio@gmail.com" || user.email === "hello@tomnixon.co.uk");
                                             // (<any>window).Intercom("boot", {
                                             //     app_id: environment.INTERCOM_APP_ID,
                                             //     email: user.email,

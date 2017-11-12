@@ -8,6 +8,7 @@ import { UIService } from "../../../shared/services/ui/ui.service"
 import { IDataVisualizer } from "../mapping.interface"
 import { Observable, Subject } from "rxjs/Rx";
 import { Initiative } from "../../../shared/model/initiative.data";
+import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 
 @Component({
     selector: "tree",
@@ -20,54 +21,54 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     public width: number;
 
     public datasetId: string;
+    public teamId: string;
+    public teamName: string;
 
     public height: number;
 
     public margin: number;
+    public translateX: number;
+    public translateY: number;
+    public scale: number;
 
     public zoom$: Observable<number>
     public fontSize$: Observable<number>
+    public isLocked$: Observable<boolean>;
+    public isReset$: Subject<boolean>
+    public data$: Subject<{ initiative: Initiative, datasetId: string }>;
 
     private zoomSubscription: Subscription;
+    private dataSubscription: Subscription;
+    private resetSubscription: Subscription;
+
+    public analytics: Angulartics2Mixpanel;
+
+    private svg: any;
+    private g: any;
+    private definitions: any;
+
     public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>()
+    public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
+    public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
+    public moveInitiative$: Subject<{ node: Initiative, from: Initiative, to: Initiative }> = new Subject<{ node: Initiative, from: Initiative, to: Initiative }>();
+    public closeEditingPanel$: Subject<boolean> = new Subject<boolean>();
 
     constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService, public router: Router, private userFactory: UserFactory) {
         this.d3 = d3Service.getD3();
+        this.data$ = new Subject<{ initiative: Initiative, datasetId: string }>();
+        this.dataSubscription = this.data$.asObservable().distinct().subscribe(complexData => {
+            let data = <any>complexData.initiative;
+            this.datasetId = complexData.datasetId;
+            this.update(data)
+        })
     }
 
-
-    ngOnInit() {
-    }
-
-    ngOnDestroy() {
-        if (this.zoomSubscription) {
-            this.zoomSubscription.unsubscribe();
-        }
-    }
-
-    draw(data: any, translateX: number, translateY: number, scale: number) {
-        let d3 = this.d3;
-        let colorService = this.colorService;
-        let uiService = this.uiService;
-        let CIRCLE_RADIUS = 15;
-        let viewerWidth = this.width ;
-        let viewerHeight = this.height;
-        let zoom$ = this.zoom$;
-        let fontSize$ = this.fontSize$;
-        let datasetId = this.datasetId;
-        let router = this.router;
-        let userFactory = this.userFactory;
-        let showDetailsOf$ = this.showDetailsOf$;
-
-        if (!data) {
-            // console.log("CLEAN");
-            this.uiService.clean();
-            return;
-        }
-        let slug = data.getSlug();
-
+    init() {
+        // console.log("tree init")
         this.uiService.clean();
-        // let color = colorService.getDefaulColorRange();
+        let d3 = this.d3;
+        let viewerWidth = this.width;
+        let viewerHeight = this.height;
 
         let margins = { top: 0, right: this.margin, bottom: this.margin, left: this.margin }
 
@@ -81,35 +82,39 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             g.attr("transform", d3.event.transform);
         }
 
-        let zooming = d3.zoom().on("zoom", zoomed);
+        let zooming = d3.zoom().scaleExtent([1 / 3, 3]).on("zoom", zoomed);
 
         let svg: any = d3.select("svg").attr("width", viewerWidth)
             .attr("height", viewerHeight).attr("class", "overlay");
-
-        fontSize$.subscribe((fs: number) => {
+        let g = svg.append("g")
+            .attr("transform", `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`);
+        let definitions = g.append("defs")
+        this.fontSize$.subscribe((fs: number) => {
             svg.attr("font-size", fs + "px")
         })
 
-        let g = svg.append("g")
-            .attr("transform", `translate(${translateX}, ${translateY}) scale(${scale})`);
 
         try {
             // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
-            svg.call(zooming.transform, d3.zoomIdentity.translate(translateX, translateY).scale(scale));
+            svg.call(zooming.transform, d3.zoomIdentity.translate(this.translateX, this.translateY).scale(this.scale));
             svg.call(zooming);
         }
         catch (error) {
 
         }
 
-        this.zoomSubscription = zoom$.subscribe((zf: number) => {
+        this.resetSubscription = this.isReset$.asObservable().filter(r => r).subscribe(isReset => {
+            svg.call(zooming.transform, d3.zoomIdentity.translate(100, 0));
+        })
+
+        this.zoomSubscription = this.zoom$.subscribe((zf: number) => {
             try {
                 // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
                 if (zf) {
                     zooming.scaleBy(svg, zf);
                 }
                 else {
-                    svg.call(zooming.transform, d3.zoomIdentity.translate(translateX, translateY));
+                    svg.call(zooming.transform, d3.zoomIdentity.translate(this.translateX, this.translateY));
                 }
             }
             catch (error) {
@@ -117,10 +122,53 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             }
         })
 
+
+        this.svg = svg;
+        this.g = g;
+        this.definitions = definitions;
+    }
+
+    ngOnInit() {
+        this.init();
+    }
+
+    ngOnDestroy() {
+        if (this.zoomSubscription) {
+            this.zoomSubscription.unsubscribe();
+        }
+    }
+
+
+
+    // draw(translateX: number, translateY: number, scale: number) {
+    update(data: any) {
+        // console.log(this.g)
+        if (!this.g) {
+            this.init();
+        }
+
+        let d3 = this.d3;
+        let colorService = this.colorService;
+        let uiService = this.uiService;
+        let CIRCLE_RADIUS = 15;
+        let viewerWidth = this.width;
+        let viewerHeight = this.height;
+        let zoom$ = this.zoom$;
+        let fontSize$ = this.fontSize$;
+        let datasetId = this.datasetId;
+        let router = this.router;
+        let userFactory = this.userFactory;
+        let showDetailsOf$ = this.showDetailsOf$;
+        let svg = this.svg;
+        let g = this.g;
+        let definitions = this.definitions;
+
+        let slug = data.getSlug();
+        let treemap = d3.tree().size([viewerWidth / 2, viewerHeight]);
+
         let i = 0,
             duration = 750,
             root: any;
-
 
         // Assigns parent, children, height, depth
         root = d3.hierarchy(data, function (d) { return d.children; });
@@ -135,7 +183,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
         // Collapse after the second level
         // root.children.forEach(collapse);
-
+        // console.log(g)
         update(root, 0);
 
 
@@ -159,19 +207,34 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 links = treeData.descendants().slice(1);
 
             // Normalize for fixed-depth.
-            nodes.forEach(function (d) { d.y = d.depth * 200; d.x = d.x * 1.1 });
+            nodes.forEach(function (d: any) { d.y = d.depth * 200; d.x = d.x * 1.1 });
 
             // ****************** Nodes section ***************************
 
             // Update the nodes...
+            // console.log(g)
             let node = g.selectAll("g.node")
                 .data(nodes, function (d: any) { return d.id || (d.id = ++i); });
 
-            let definitions = g.append("defs")
-            definitions.selectAll("pattern")
-                .data(nodes)
-                .enter()
-                .append("pattern")
+            // let definitions = g.append("defs")
+            // definitions.selectAll("pattern")
+            //     .data(nodes)
+            //     .enter()
+            //     .append("pattern")
+            //     .attr("id", function (d: any) { return "image" + d.data.id; })
+            //     .attr("width", "100%")
+            //     .attr("height", "100%")
+            //     .append("image")
+            //     .attr("width", CIRCLE_RADIUS * 2)
+            //     .attr("height", CIRCLE_RADIUS * 2)
+            //     .attr("xlink:href", function (d: any) { return d.data.accountable ? d.data.accountable.picture : ""; })
+            //     ;
+
+
+            let patterns = definitions.selectAll("pattern").data(nodes, function (d: any) { return d.data.id });
+            let enterPatterns = patterns.enter().append("pattern")
+
+            enterPatterns.merge(patterns).filter(function (d: any) { return d.data.accountable })
                 .attr("id", function (d: any) { return "image" + d.data.id; })
                 .attr("width", "100%")
                 .attr("height", "100%")
@@ -180,6 +243,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 .attr("height", CIRCLE_RADIUS * 2)
                 .attr("xlink:href", function (d: any) { return d.data.accountable ? d.data.accountable.picture : ""; })
                 ;
+            patterns.exit().remove();
 
 
             // Enter any new modes at the parent's previous position.
@@ -255,6 +319,14 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                     return color(d.depth)
                 })
                 .attr("cursor", "pointer");
+
+            nodeUpdate.select("text.name")
+                .text(function (d: any) { return d.data.name; })
+                .each(function (d: any) {
+                    uiService.wrap(d3.select(this), d.data.name, d.y / d.depth * 0.85);
+                });
+            nodeUpdate.select("text.accountable")
+                .text(function (d: any) { return d.data.accountable ? d.data.accountable.name : ""; })
 
 
             // Remove any exiting nodes

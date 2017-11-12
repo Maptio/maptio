@@ -17,7 +17,7 @@ import { UserFactory } from "../../shared/services/user.factory";
 import { ErrorService } from "../../shared/services/error/error.service";
 import { Initiative } from "../../shared/model/initiative.data";
 import { UserService } from "../../shared/services/user/user.service";
-import * as _ from "lodash";
+import {compact, sortBy} from "lodash";
 
 @Component({
     selector: "header",
@@ -69,14 +69,14 @@ export class HeaderComponent implements OnInit {
                     }
                     )
                 })
-                .then(datasets => _.compact(datasets))
-                .then(datasets => _.sortBy(datasets, d => d.name))
+                .then(datasets => compact(datasets))
+                .then(datasets => sortBy(datasets, d => d.name))
 
             this.teams$ = Promise.all(
                 this.user.teams.map(tid => this.teamFactory.get(tid).then(t => t, () => { return Promise.reject("No team") }).catch(() => { return <Team>undefined }))
             )
-                .then(teams => _.compact(teams))
-                .then(teams => _.sortBy(teams, t => t.name))
+                .then(teams => compact(teams))
+                .then(teams => sortBy(teams, t => t.name))
         },
             (error: any) => { this.errorService.handleError(error) });
 

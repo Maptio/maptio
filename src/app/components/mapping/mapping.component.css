@@ -19,8 +19,12 @@
   background-color: #f7f7f7;
 }
 
+.control.first{
+  top:7vh;
+}
+
 .control.second {
-  margin-top: 3%
+  top:21vh;
 }
 
 .control > a {
@@ -50,6 +54,17 @@
 content: "\f066"; 
   font-family: FontAwesome;
 }
+
+.locked:before {
+  content: "\f023";
+  font-family: FontAwesome;
+}
+
+.unlocked:before {
+  content: "\f13e";
+  font-family: FontAwesome;
+}
+
 
 .treeview {
   background: url(/assets/images/treeview.webp) no-repeat;

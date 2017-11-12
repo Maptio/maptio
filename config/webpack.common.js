@@ -3,6 +3,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var helpers = require('./helpers');
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   entry: {
@@ -54,8 +55,11 @@ module.exports = {
     new ExtractTextPlugin('style.css'),
 
     new CopyWebpackPlugin([
-      { from: 'public', to: 'assets' }
+      { from: 'public/images', to: 'assets/images' },
+      { from: 'public/styles', to: 'assets/styles' },
+      { from: 'public/templates', to: 'assets/templates' }
 
-    ])
+    ]),
+    new BundleAnalyzerPlugin()
   ]
 };

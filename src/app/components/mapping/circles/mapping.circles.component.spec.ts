@@ -1,9 +1,9 @@
 import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { AuthHttp } from "angular2-jwt";
-import { Router } from "@angular/router";
+import { Router, NavigationStart } from "@angular/router";
 import { UserFactory } from "./../../../shared/services/user.factory";
-import { Observable } from "rxjs/Rx";
+import { Observable, Subject } from "rxjs/Rx";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 // import { TooltipComponent } from "./../tooltip/tooltip.component";
 import { Initiative } from "./../../../shared/model/initiative.data";
@@ -14,6 +14,8 @@ import { TestBed, async, ComponentFixture } from "@angular/core/testing";
 import { MappingCirclesComponent } from "./mapping.circles.component";
 import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
 import { ErrorService } from "../../../shared/services/error/error.service";
+import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2/dist";
+import { RouterTestingModule } from "@angular/router/testing";
 
 describe("mapping.circles.component.ts", () => {
 
@@ -24,7 +26,7 @@ describe("mapping.circles.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
-                D3Service, ColorService, UIService, UserFactory,
+                D3Service, ColorService, UIService, UserFactory, Angulartics2Mixpanel, Angulartics2,
                 {
                     provide: AuthHttp,
                     useFactory: authHttpServiceFactoryTesting,
@@ -40,10 +42,16 @@ describe("mapping.circles.component.ts", () => {
                 MockBackend,
                 BaseRequestOptions,
                 ErrorService,
-                { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } }
+                {
+                    provide: Router, useClass: class {
+                        navigate = jasmine.createSpy("navigate");
+                        events = Observable.of(new NavigationStart(0, "/next"))
+                    }
+                }
             ],
             declarations: [MappingCirclesComponent],
-            schemas: [NO_ERRORS_SCHEMA]
+            schemas: [NO_ERRORS_SCHEMA],
+            imports: [RouterTestingModule]
         })
             .compileComponents()
 
@@ -57,8 +65,14 @@ describe("mapping.circles.component.ts", () => {
         component.width = 1000;
         component.height = 1000;
         component.margin = 50;
+        component.translateX = 100
+        component.translateY = 100
+        component.scale = 1;
         component.zoom$ = Observable.of(1);
+        component.isReset$ = new Subject<boolean>();
         component.fontSize$ = Observable.of(12);
+        component.isLocked$ = Observable.of(true);
+        component.analytics = jasmine.createSpyObj("analytics", ["eventTrack"]);
 
         target.detectChanges(); // trigger initial data binding
     });
@@ -125,7 +139,8 @@ describe("mapping.circles.component.ts", () => {
 
     it("should draw SVG with correct size when data is valid", () => {
         let data = new Initiative().deserialize(fixture.load("data.json"));
-        component.draw(data, 100, 100, 1);
+        component.data$.next({ initiative: data, datasetId: "ID" })
+
         let svg = document.getElementsByTagName("svg")
         expect(svg.length).toBe(1);
         expect(svg.item(0).viewBox.baseVal.width).toBe(1522);
@@ -135,8 +150,8 @@ describe("mapping.circles.component.ts", () => {
 
     it("should draw SVG centered when data is valid", () => {
         let data = new Initiative().deserialize(fixture.load("data.json"));
+        component.data$.next({ initiative: data, datasetId: "ID" })
 
-        component.draw(data, 100, 100, 1);
         let svgs = document.getElementsByTagName("svg")
         expect(svgs.length).toBe(1);
         let svg = svgs.item(0);
@@ -149,31 +164,35 @@ describe("mapping.circles.component.ts", () => {
 
     it("should draw SVG with correct number of circles when data is valid", () => {
         let data = new Initiative().deserialize(fixture.load("data.json"));
+        component.data$.next({ initiative: data, datasetId: "ID" })
 
-        component.draw(data, 100, 100, 1);
         let svgs = document.getElementsByTagName("svg")
         expect(svgs.length).toBe(1);
         let g = svgs.item(0).querySelector("g");
         expect(g.querySelectorAll("circle.node.node--root").length).toBe(1);
-        expect(g.querySelectorAll("circle.node.node--leaf").length).toBe(2);
+        expect(g.querySelectorAll("circle.node").length).toBe(3);
     });
 
     it("should draw SVG with correct text labels  when data is valid", () => {
         let data = new Initiative().deserialize(fixture.load("data.json"));
+        component.data$.next({ initiative: data, datasetId: "ID" })
 
-        component.draw(data, 100, 100, 1);
         let svgs = document.getElementsByTagName("svg")
         expect(svgs.length).toBe(1);
         let g = svgs.item(0).querySelector("g");
-        expect(g.querySelector("text#title0")).toBe(null); // do not dusplay map name
-        expect(g.querySelector("text#title1").textContent).toBe("Tech");
-        expect(g.querySelector("text#title2").textContent).toBe("Marketing")
+
+        expect(g.querySelectorAll("text").length).toBe(3) // do not dusplay map name
+        expect(g.querySelectorAll("text")[0].textContent).toBe("");
+        expect(g.querySelectorAll("text")[1].textContent).toBe("Tech")
+        expect(g.querySelectorAll("text")[2].textContent).toBe("Marketing")
     });
 
     it("should calculate paths when data is valid", () => {
-        let data = new Initiative().deserialize(fixture.load("data.json"));
         let spy = spyOn(component.uiService, "getCircularPath");
-        component.draw(data, 100, 100, 1);
+        let data = new Initiative().deserialize(fixture.load("data.json"));
+        component.data$.next({ initiative: data, datasetId: "ID" })
+
+        // let spy = spyOn(component.uiService, "getCircularPath");
 
         expect(spy).toHaveBeenCalledTimes(3);
         let svg = document.getElementsByTagName("svg").item(0)
@@ -185,13 +204,75 @@ describe("mapping.circles.component.ts", () => {
         expect(defs.querySelectorAll("path#path2")).toBeDefined();
     });
 
-    it("should draw empty svg when data is undefined", () => {
-        let spy = spyOn(component.uiService, "clean");
-        component.draw(undefined, 100, 100, 1);
-        let svgs = document.getElementsByTagName("svg");
-        expect(svgs.length).toBe(1);
-        expect(svgs.item(0).hasChildNodes()).toBe(false);
-        expect(spy).toHaveBeenCalled();
-    })
+    describe("Editing", () => {
+        it("with right-click should call correct dependencies when parent is defined", () => {
+            let node = new Initiative();
+            component.selectedNodeParent = new Initiative();
+            spyOn(component.showDetailsOf$, "next");
+            component.edit(node);
+            expect(component.showDetailsOf$.next).toHaveBeenCalledWith(node)
+        });
+
+        it("with right-click should call correct dependencies when parent is undefined", () => {
+            let node = new Initiative();
+            spyOn(component.showDetailsOf$, "next");
+            component.edit(node);
+            expect(component.showDetailsOf$.next).not.toHaveBeenCalled();
+        });
+
+        it("with tooltip should call correct dependencies", () => {
+            let node = new Initiative();
+            spyOn(component.showDetailsOf$, "next");
+            component.editQuick(node);
+            expect(component.showDetailsOf$.next).toHaveBeenCalledWith(node)
+        });
+    });
+
+    describe("Adding", () => {
+        it("with right-click should call correct dependencies when parent is defined", () => {
+            let node = new Initiative();
+            component.selectedNodeParent = new Initiative();
+            spyOn(component.addInitiative$, "next");
+            component.add(node);
+            expect(component.addInitiative$.next).toHaveBeenCalledWith(node)
+        });
+
+        it("with tooltip should call correct dependencies", () => {
+            let node = new Initiative();
+            spyOn(component.addInitiative$, "next");
+            component.addQuick(node);
+            expect(component.addInitiative$.next).toHaveBeenCalledWith(node)
+        });
+
+        it("first node", () => {
+            spyOn(component.addInitiative$, "next");
+            component.addFirstNode();
+            expect(component.addInitiative$.next).toHaveBeenCalledWith(component.rootNode)
+        });
+    });
+
+    describe("Removing", () => {
+        it("with right-click should call correct dependencies when parent is defined", () => {
+            let node = new Initiative();
+            component.selectedNodeParent = new Initiative();
+            spyOn(component.removeInitiative$, "next");
+            component.remove(node);
+            expect(component.removeInitiative$.next).toHaveBeenCalledWith(node)
+        });
+
+        it("with right-click should call correct dependencies when parent is undefined", () => {
+            let node = new Initiative();
+            spyOn(component.removeInitiative$, "next");
+            component.remove(node);
+            expect(component.removeInitiative$.next).not.toHaveBeenCalled();
+        });
+
+        it("with tooltip should call correct dependencies", () => {
+            let node = new Initiative();
+            spyOn(component.removeInitiative$, "next");
+            component.removeQuick(node);
+            expect(component.removeInitiative$.next).toHaveBeenCalledWith(node)
+        });
+    });
 
 });

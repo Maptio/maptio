@@ -3,6 +3,7 @@ import { Component, Input, Output, ViewChild, EventEmitter } from "@angular/core
 import { TreeNode, TreeModel } from "angular-tree-component";
 import { Initiative } from "../../shared/model/initiative.data";
 import { InitiativeComponent } from "../initiative/initiative.component";
+import { Angulartics2Mixpanel , Angulartics2} from "angulartics2/dist";
 
 @Component({
     selector: "initiative-node",
@@ -17,6 +18,8 @@ export class InitiativeNodeComponent {
 
     @Input() node: TreeNode;
     @Input() datasetId: string;
+    @Input("teamName") teamName: string;
+    @Input("teamId") teamId: string;
 
     @Output("edited") edited = new EventEmitter<boolean>();
     @Output("update") updateTreeEvent = new EventEmitter<TreeModel>();
@@ -28,7 +31,8 @@ export class InitiativeNodeComponent {
 
     private snapshotRoute: ActivatedRouteSnapshot
 
-    constructor(private router: Router, private route: ActivatedRoute) {
+    constructor(private router: Router, private route: ActivatedRoute
+    ) {
         this.snapshotRoute = route.snapshot;
     }
 

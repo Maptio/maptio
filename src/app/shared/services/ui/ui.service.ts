@@ -61,6 +61,7 @@ export class UIService {
             });
     }
 
+    /*
     adjustLabels(textNodes: Selection<BaseType, HierarchyCircularNode<{}>, BaseType, {}>, k: number) {
         let d3 = this.d3;
         textNodes
@@ -69,23 +70,13 @@ export class UIService {
 
                 d.pathLength = (<SVGPathElement>d3.select("#path" + d.data.id).node()).getTotalLength();
                 d.tw = (<any>d3.select(this).node()).getComputedTextLength()
-                // console.log(d.data.name + " NODE " + d3.select(this).html());
                 d.radius = d.r * k;
-                // console.log(d.data.name + "------------------ADJUST LABELS ---------------------" + k);
-                // console.log(d.data.name + " RADIUS " + d.radius + " CIRCUMFERENCE "  +d.pathLength );
-                let maxLength = 2 / 5 * d.pathLength;
+               let maxLength = 2 / 5 * d.pathLength;
                 let proposedLabel = d.data.name;
                 let proposedLabelArray = proposedLabel.split("");
 
-                // var j = 0;
-                // console.log(i + ":"+d.data.name + "== " +proposedLabel+ "LENGTH : " + d.tw + ", MAX" + maxLength);
-
-                // console.log(d.data.name + " GO IN LOOP : " + (d.tw > maxLength));
-                while ((d.tw > maxLength && proposedLabelArray.length)) {
-                    // j++;
-                    // console.log(i + ":"+d.data.name + "== " +proposedLabel+ "LENGTH : " + d.tw + ", MAX" + maxLength);
-
-                    proposedLabelArray.pop(); proposedLabelArray.pop(); proposedLabelArray.pop();
+               while ((d.tw > maxLength && proposedLabelArray.length)) {
+                   proposedLabelArray.pop(); proposedLabelArray.pop(); proposedLabelArray.pop();
                     if (proposedLabelArray.length === 0) {
                         proposedLabel = "";
                     } else {
@@ -98,15 +89,7 @@ export class UIService {
                 // }
             });
     }
-
-
-    // getTooltipData(): Observable<[string, Initiative, Initiative]> {
-    //     return this.tooltip$.asObservable();
-    // }
-
-    // setTooltipData(datasetId: string, node: Initiative, parent: Initiative): void {
-    //     this.tooltip$.next([datasetId, node, parent]);
-    // }
+*/
 
 
 }

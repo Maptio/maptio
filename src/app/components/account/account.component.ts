@@ -101,6 +101,7 @@ export class AccountComponent {
     }
 
     ngOnDestroy() {
+        if(this.subscription)
         this.subscription.unsubscribe();
     }
 

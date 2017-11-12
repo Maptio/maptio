@@ -8,4 +8,21 @@ import "@angular/router";
 // RxJS
 import "rxjs";
 // Other vendors for example jQuery, Lodash or Bootstrap
+import "angular2-jwt";
+import "lodash";
+import "bootstrap";
+import "@ng-bootstrap/ng-bootstrap";
+import "@cloudinary/angular-4.x";
+import "cloudinary-core";
+import "auth0-js";
+import "ng2-responsive";
+import "d3-ng2-service";
+import "angular-tree-component";
+import "angulartics2";
+import "ng2-file-upload";
+import "ng2-bs3-modal";
+import "angular-confirmation-popover";
+import "angular2-markdown";
+import "marked";
+import "slug";
 // You can import js, ts, css, sass, ...
