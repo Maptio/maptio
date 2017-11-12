@@ -51,7 +51,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
     public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
     public moveInitiative$: Subject<{ node: Initiative, from: Initiative, to: Initiative }> = new Subject<{ node: Initiative, from: Initiative, to: Initiative }>();
-    public closeEditingPanel$: Subject<boolean>;
+    public closeEditingPanel$: Subject<boolean> = new Subject<boolean>();
 
     constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService, public router: Router, private userFactory: UserFactory) {
         this.d3 = d3Service.getD3();
@@ -82,7 +82,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             g.attr("transform", d3.event.transform);
         }
 
-        let zooming = d3.zoom().on("zoom", zoomed);
+        let zooming = d3.zoom().scaleExtent([1 / 3, 3]).on("zoom", zoomed);
 
         let svg: any = d3.select("svg").attr("width", viewerWidth)
             .attr("height", viewerHeight).attr("class", "overlay");
