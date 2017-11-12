@@ -13,9 +13,9 @@ import { User } from "../../shared/model/user.data";
 import { Auth } from "../../shared/services/auth/auth.service";
 import { UUID } from "angular2-uuid";
 import { DataSet } from "../../shared/model/dataset.data";
-import { compact, sortBy, differenceBy, remove, uniqBy } from "lodash"
+import { compact, sortBy, differenceBy, remove, uniqBy, map } from "lodash"
 import { UserService } from "../../shared/services/user/user.service";
-import { Angulartics2Mixpanel} from "angulartics2";
+import { Angulartics2Mixpanel } from "angulartics2";
 
 @Component({
     selector: "team",
@@ -45,6 +45,8 @@ export class TeamComponent implements OnInit {
 
     public inviteForm: FormGroup;
     public createdUser: User;
+
+    isSendingMap: Map<string, boolean> = new Map<string, boolean>(;
 
     private EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -120,8 +122,18 @@ export class TeamComponent implements OnInit {
 
                     return membersPending.concat(allDeleted);
                 })
-                .then(members => { this.isLoading = false; return sortBy(members, m => m.name) })
+                .then(members => {
+                    this.isLoading = false;
+                    members.forEach(m => {
+                        this.isSendingMap.set(m.user_id, false);
+                    })
+                    return sortBy(members, m => m.name)
+                })
         });
+    }
+
+    isDisplayLoader(user_id: string) {
+        return this.isSendingMap.get(user_id)
     }
 
 
@@ -183,11 +195,12 @@ export class TeamComponent implements OnInit {
     }
 
     inviteUser(user: User): Promise<void> {
-
+        this.isSendingMap.set(user.user_id, true);
         return this.team$.then((team: Team) => {
             return this.userService.sendInvite(user.email, user.user_id, user.firstname, user.lastname, user.name, team.name, this.user.name)
                 .then((isSent) => {
                     user.isInvitationSent = isSent;
+                    this.isSendingMap.set(user.user_id, false);
                     // this.analytics.eventTrack("Team", { action: "send invitation", team: team.name, teamId: team.team_id })
                     return;
                 }
