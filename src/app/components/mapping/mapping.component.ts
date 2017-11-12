@@ -45,7 +45,7 @@ export class MappingComponent implements OnInit {
     public x: number;
     public y: number;
     public scale: number;
-    public isLocked: boolean = true;
+    public isLocked: boolean = false;
 
     public isCollapsed: boolean = true;
 
@@ -91,7 +91,7 @@ export class MappingComponent implements OnInit {
     ) {
         this.zoom$ = new Subject<number>();
         this.fontSize$ = new BehaviorSubject<number>(16);
-        this.isLocked$ = new BehaviorSubject<boolean>(true);
+        this.isLocked$ = new BehaviorSubject<boolean>(this.isLocked);
         this.closeEditingPanel$ = new BehaviorSubject<boolean>(false);
         this.isLoading = new BehaviorSubject<boolean>(true);
         this.data$ = new Subject<{ initiative: Initiative, datasetId: string }>();

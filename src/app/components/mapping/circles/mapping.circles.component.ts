@@ -175,11 +175,9 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
 
         this.lockedSubscription = this.isLocked$.subscribe((locked: boolean) => {
-
-            d3.selectAll("circle.node").style("cursor", () => { return locked ? "default" : "move" })
-
+            d3.selectAll("circle.node").style("cursor", () => { return locked ? "default" : "move" });
+            svg.style("background", function () { return locked ? "#f7f7f7" : "transparent" });
             this.setIsLocked(locked);
-
         })
 
         this.svg = svg;
@@ -419,7 +417,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
         g.selectAll("g.nodes")
             .call(
             d3.drag()
-                .filter(() => { return !getIsLocked(); })
+                // context menu do not trigger drag and drop
+                .filter(() => { return !getIsLocked() && d3.event.button !== 2; })
                 .on("start", dragstarted)
                 .on("drag", dragged)
                 .on("end", dragended)
@@ -488,26 +487,26 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 if (getIsDragging()) setDragTargetNode(d.data);
                 if (d.parent) d3.select(this).classed("highlighted", !getIsLocked() && true);
             })
-            .on("contextmenu", function (d: any) {
-                d3.select("div.tooltip-initiative").style("visibility", "hidden");
-                d3.event.preventDefault();
-                selectInitiative(d.data, d.parent ? d.parent.data : undefined);
-                let circleClicked = d3.select(this);
-                d3.select(`div.tooltip`)
-                    .style("visibility", "visible")
-                    .style("opacity", "1")
-                    .style("top", (d3.event.pageY - 15) + "px").style("left", (d3.event.pageX) + "px")
-                    .on("mouseenter", function () {
-                        circleClicked.classed("highlighted", true)
-                        d3.select(this).style("visibility", "visible").style("opacity", "1")
-                    })
-                    .on("mouseleave", function () {
-                        circleClicked.classed("highlighted", true)
-                        d3.select(this).style("visibility", "visible").style("opacity", "0")
-                    })
-                d3.select(this).classed("highlighted", true);
-                d3.event.stopPropagation();
-            })
+            // .on("contextmenu", function (d: any) {
+            //     d3.select("div.tooltip-initiative").style("visibility", "hidden");
+            //     d3.event.preventDefault();
+            //     selectInitiative(d.data, d.parent ? d.parent.data : undefined);
+            //     let circleClicked = d3.select(this);
+            //     d3.select(`div.tooltip`)
+            //         .style("visibility", "visible")
+            //         .style("opacity", "1")
+            //         .style("top", (d3.event.pageY - 15) + "px").style("left", (d3.event.pageX) + "px")
+            //         .on("mouseenter", function () {
+            //             circleClicked.classed("highlighted", true)
+            //             d3.select(this).style("visibility", "visible").style("opacity", "1")
+            //         })
+            //         .on("mouseleave", function () {
+            //             circleClicked.classed("highlighted", true)
+            //             d3.select(this).style("visibility", "visible").style("opacity", "0")
+            //         })
+            //     d3.select(this).classed("highlighted", true);
+            //     d3.event.stopPropagation();
+            // })
             .on("mouseleave", function (d: any) {
                 // for (let index = -1; index <= depth; index++) {
                 //     console.log("mouseleave color", index, getColor()(index))
@@ -587,7 +586,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 d3.select("div.tooltip-initiative").style("visibility", "hidden");
             })
             .each(function (d: any) {
-                let realText = d.data.name ? (d.data.name.length > MAX_TEXT_LENGTH ? `${d.data.name.substr(0, MAX_TEXT_LENGTH)}...` : d.data.name) : "";
+                let realText = d.data.name ? (d.data.name.length > MAX_TEXT_LENGTH ? `${d.data.name.substr(0, MAX_TEXT_LENGTH)}...` : d.data.name) : "(Empty)";
                 uiService.wrap(d3.select(this), realText, d.r * 2 * 0.95);
             });
 
