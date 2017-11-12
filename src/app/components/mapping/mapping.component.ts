@@ -45,7 +45,7 @@ export class MappingComponent implements OnInit {
     public x: number;
     public y: number;
     public scale: number;
-    public isLocked: boolean = false;
+    public isLocked: boolean = true;
 
     public isCollapsed: boolean = true;
 
