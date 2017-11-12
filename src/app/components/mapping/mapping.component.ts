@@ -126,6 +126,8 @@ export class MappingComponent implements OnInit {
             .map(data => data[1])
             .do((data) => {
                 this.datasetId = data.datasetId;
+                this.teamId = data.teamId;
+                this.teamName = data.teamName;
                 this.slug = data.initiative.getSlug();
                 this.isLoading.next(false);
             })
@@ -222,7 +224,7 @@ export class MappingComponent implements OnInit {
     lock(locking: boolean) {
         this.isLocked = !this.isLocked;
         this.isLocked$.next(this.isLocked);
-        this.analytics.eventTrack("Map", { action: (locking ? "Lock map" : "Unlock map"), team: this.teamName, teamId: this.teamId });
+        this.analytics.eventTrack("Map", { action: (locking ? "lock" : "unlock"), team: this.teamName, teamId: this.teamId });
     }
 
     changeFontSize(size: number) {

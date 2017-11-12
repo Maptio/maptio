@@ -144,7 +144,7 @@ export class InitiativeComponent implements OnChanges {
             this.node.helpers.unshift(helper);
         }
         this.onBlur();
-        this.analytics.eventTrack("Initiative", { action: "add helper", team: this.teamName });
+        this.analytics.eventTrack("Initiative", { action: "add helper", team: this.teamName, teamId: this.teamId });
     }
 
     removeHelper(helper: Helper) {

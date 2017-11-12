@@ -93,7 +93,11 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                         .then(members => sortBy(members, m => m.name))
             });
 
-            this.buildingComponent.loadData(this.datasetId, params["nodeid"], this.teamName, this.teamId) // .then(()=>{console.log("finished buioding data")});
+            this.team$.then((team: Team) => {
+                this.buildingComponent.loadData(this.datasetId, params["nodeid"], this.teamName, this.teamId) // .then(()=>{console.log("finished buioding data")});
+
+            })
+
         });
 
         this.userSubscription = this.auth.getUser().subscribe((user: User) => {
