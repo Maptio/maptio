@@ -46,7 +46,7 @@ export class TeamComponent implements OnInit {
     public inviteForm: FormGroup;
     public createdUser: User;
 
-    isSendingMap: Map<string, boolean> = new Map<string, boolean>(;
+    isSendingMap: Map<string, boolean> = new Map<string, boolean>();
 
     private EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -165,7 +165,7 @@ export class TeamComponent implements OnInit {
                 })
             })
             .then((team: Team) => {
-                // this.analytics.eventTrack("Team", { action: "add existing", team: team.name, teamId: team.team_id })
+                this.analytics.eventTrack("Team", { action: "add", team: team.name, teamId: team.team_id })
             })
             .then(() => {
                 this.members$ = this.getAllMembers();
@@ -201,7 +201,7 @@ export class TeamComponent implements OnInit {
                 .then((isSent) => {
                     user.isInvitationSent = isSent;
                     this.isSendingMap.set(user.user_id, false);
-                    // this.analytics.eventTrack("Team", { action: "send invitation", team: team.name, teamId: team.team_id })
+                    this.analytics.eventTrack("Team", { action: "invite", team: team.name, teamId: team.team_id })
                     return;
                 }
                 )
@@ -265,7 +265,7 @@ export class TeamComponent implements OnInit {
                         this.members$ = this.getAllMembers();
                     })
                     .then(() => {
-                        // this.analytics.eventTrack("Team", { action: "create", team: team.name, teamId: team.team_id });
+                        this.analytics.eventTrack("Team", { action: "create", team: team.name, teamId: team.team_id });
                     })
                     .catch((reason) => {
                         this.errorMessage = reason;
