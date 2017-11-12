@@ -25,7 +25,7 @@ h1 > img{
 .loading-dots {
   text-align: center;
   z-index: 5;
-  top: 45%;
+  top: 40%;
   position: absolute;
   left: 45%;
 }

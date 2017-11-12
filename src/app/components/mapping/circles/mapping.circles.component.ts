@@ -213,6 +213,10 @@ export class MappingCirclesComponent implements IDataVisualizer {
         this.cd.markForCheck();
     }
 
+    isRootNode() {
+        return this.selectedNode && this.selectedNode.id === this.rootNode.id;
+    }
+
     hoverInitiative(node: Initiative) {
         this.hoveredNode = node;
         this.cd.markForCheck();

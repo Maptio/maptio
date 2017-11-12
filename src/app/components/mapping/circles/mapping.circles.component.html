@@ -67,10 +67,10 @@
             <button type="button" class="btn  add btn-secondary" (click)="add(selectedNode)" placement="top" ngbTooltip="New initiative"
                 container="body"></button>
 
-            <button *ngIf="!isFirstEditing" type="button" class="btn  edit btn-secondary" (click)="edit(selectedNode)" placement="top"
+            <button *ngIf="!isFirstEditing && !isRootNode()" type="button" class="btn  edit btn-secondary" (click)="edit(selectedNode)" placement="top"
                 ngbTooltip="Edit" container="body"></button>
 
-            <button *ngIf="!isFirstEditing" type="button" class="btn  remove btn-secondary" placement="top" container="body" ngbTooltip="Remove"
+            <button *ngIf="!isFirstEditing  && !isRootNode()" type="button" class="btn  remove btn-secondary" placement="top" container="body" ngbTooltip="Remove"
                 mwlConfirmationPopover title="Remove initiative {{selectedNode?.name}} and sub initiatives ?" focusbutton="cancel"
                 appendToBody="false" (confirm)="remove(selectedNode)" (cancel)="cancelClicked = true"></button>
 
