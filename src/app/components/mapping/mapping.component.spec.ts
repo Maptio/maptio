@@ -141,10 +141,10 @@ describe("mapping.component.ts", () => {
                 expect(actual).toBeFalsy()
             });
 
-            it("should return false by default", () => {
+            it("should return true by default", () => {
                 component.layout = ""
                 let actual = component.isDisplayLockingToggle();
-                expect(actual).toBeFalsy()
+                expect(actual).toBeTruthy()
             });
         });
 
