@@ -17,6 +17,7 @@
   border-radius: 4px;
  
   background-color: rgb(224, 224, 224);
+
 }
 
 .control.first{
@@ -36,6 +37,15 @@
 .background{
   background-color: #f0ad4e;
 }
+
+.control.third {
+  top:43vh;
+}
+
+.background{
+  background-color: #f0ad4e;
+}
+
 
 .control > a {
   color: gray;
