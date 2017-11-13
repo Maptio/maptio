@@ -232,7 +232,7 @@ export class MappingComponent implements OnInit {
     }
 
     isDisplayLockingToggle() {
-        return this.layout === "initiatives";
+        return this.layout !== "people" ;
     }
 
     changeFontSize(size: number) {
