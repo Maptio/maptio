@@ -1,1 +1,49 @@
 <svg width="100%" viewBox="0 0 1522 1522"></svg>
+
+<div class="tooltip-initiative col-3">
+        <div class="card">
+            <div class="card-block p-1">
+                <div class="d-flex w-100 justify-content-between">
+                    <a *ngIf="hoveredNode?.accountable" routerLink="/summary/map/{{datasetId}}/{{slug}}/u/{{hoveredNode?.accountable.shortid}}/{{hoveredNode?.accountable.getSlug()}}">
+                        <img *ngIf="hoveredNode?.accountable" src="{{hoveredNode?.accountable.picture}}" width="30" height="30" class="rounded-circle mr-2">
+                    </a>
+                    <h6 class="card-title text-color"> {{hoveredNode?.name}}</h6>
+                    <!-- <small>
+                        <div class="btn-group" role="group">
+                            <button  type="button" class="btn btn-sm add btn-secondary" (click)="addQuick(hoveredNode)" placement="top" ngbTooltip="New initiative"
+                                container="body"></button>
+    
+                            <button  type="button" class="btn btn-sm edit btn-secondary" (click)="editQuick(hoveredNode)" placement="top"
+                                ngbTooltip="Edit" container="body"></button>
+    
+                            <button  type="button" class="btn btn-sm remove btn-secondary" placement="top" container="body" ngbTooltip="Remove"
+                                mwlConfirmationPopover title="Remove initiative {{hoveredNode?.name}} and sub initiatives ?" focusbutton="cancel"
+                                appendToBody="false" (confirm)="removeQuick(hoveredNode)" (cancel)="cancelClicked = true"></button>
+    
+    
+                        </div>
+                    </small> -->
+    
+                </div>
+            </div>
+            <div class="card-block p-1">
+                <markdown class="small text-muted" [data]="hoveredNode?.description || ''"></markdown>
+            </div>
+            <div *ngIf="hoveredNode?.helpers && hoveredNode?.helpers.length>0" class="card-footer text-muted background">
+                <div *ngFor="let user of hoveredNode?.helpers; let i=index">
+                    <div class="row mb-0">
+                        <span class="pl-1 col">
+                            <a routerLink="/summary/map/{{datasetId}}/{{slug}}/u/{{user.shortid}}/{{user.getSlug()}}">
+    
+                                <img src="{{user.picture}}" width="16" class="rounded-circle">
+                                <small>{{user.name}}</small>
+                            </a>
+    
+                        </span>
+                    </div>
+    
+                    <markdown class="small mb-2" *ngIf="user.roles[0]?.description" [data]="user.roles[0]?.description || ''"></markdown>
+                </div>
+            </div>
+        </div>
+    </div>

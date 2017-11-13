@@ -43,3 +43,8 @@
 image.accountable{
   border: 2px red solid
 }
+
+.tooltip-initiative{
+  position: absolute;
+  z-index: 5;
+}
