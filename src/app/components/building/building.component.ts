@@ -94,14 +94,11 @@ export class BuildingComponent {
         this.save.emit(this.nodes[0]);
     }
 
-    toggleChanged(event: { eventName: string, node: TreeNode, isActive: boolean, treeModel: TreeModel }) {
-        localStorage.setItem(`${this.datasetId}_expandednodes`, JSON.stringify(event.treeModel.expandedNodeIds));
-    }
+    state = localStorage.getItem(`${this.datasetId}_state`) && JSON.parse(localStorage.getItem(`${this.datasetId}_state`));
 
-    treeInitialize(event: { eventName: string, treeModel: TreeModel }) {
-        if (localStorage.getItem(`${this.datasetId}_expandednodes`)) {
-            event.treeModel.setState({ expandedNodeIds: JSON.parse(localStorage.getItem(`${this.datasetId}_expandednodes`)) })
-        }
+    setState(state: any) {
+        console.log(this.datasetId)
+        localStorage.setItem(`${this.datasetId}_state`, JSON.stringify(state));
     }
 
     isRootValid(): boolean {
