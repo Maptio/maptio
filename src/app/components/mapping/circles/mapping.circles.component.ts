@@ -490,26 +490,26 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 if (getIsDragging()) setDragTargetNode(d.data);
                 if (d.parent) d3.select(this).classed("highlighted", !getIsLocked() && true);
             })
-            // .on("contextmenu", function (d: any) {
-            //     d3.select("div.tooltip-initiative").style("visibility", "hidden");
-            //     d3.event.preventDefault();
-            //     selectInitiative(d.data, d.parent ? d.parent.data : undefined);
-            //     let circleClicked = d3.select(this);
-            //     d3.select(`div.tooltip`)
-            //         .style("visibility", "visible")
-            //         .style("opacity", "1")
-            //         .style("top", (d3.event.pageY - 15) + "px").style("left", (d3.event.pageX) + "px")
-            //         .on("mouseenter", function () {
-            //             circleClicked.classed("highlighted", true)
-            //             d3.select(this).style("visibility", "visible").style("opacity", "1")
-            //         })
-            //         .on("mouseleave", function () {
-            //             circleClicked.classed("highlighted", true)
-            //             d3.select(this).style("visibility", "visible").style("opacity", "0")
-            //         })
-            //     d3.select(this).classed("highlighted", true);
-            //     d3.event.stopPropagation();
-            // })
+            .on("contextmenu", function (d: any) {
+                d3.select("div.tooltip-initiative").style("visibility", "hidden");
+                d3.event.preventDefault();
+                selectInitiative(d.data, d.parent ? d.parent.data : undefined);
+                let circleClicked = d3.select(this);
+                d3.select(`div.tooltip`)
+                    .style("visibility", "visible")
+                    .style("opacity", "1")
+                    .style("top", (d3.event.pageY - 15) + "px").style("left", (d3.event.pageX) + "px")
+                    .on("mouseenter", function () {
+                        circleClicked.classed("highlighted", true)
+                        d3.select(this).style("visibility", "visible").style("opacity", "1")
+                    })
+                    .on("mouseleave", function () {
+                        circleClicked.classed("highlighted", true)
+                        d3.select(this).style("visibility", "visible").style("opacity", "0")
+                    })
+                d3.select(this).classed("highlighted", true);
+                d3.event.stopPropagation();
+            })
             .on("mouseleave", function (d: any) {
                 // for (let index = -1; index <= depth; index++) {
                 //     console.log("mouseleave color", index, getColor()(index))
