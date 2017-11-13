@@ -14,7 +14,8 @@ import { D3Service, D3 } from "d3-ng2-service";
 import { TestBed, async, ComponentFixture } from "@angular/core/testing";
 import { MappingTreeComponent } from "./mapping.tree.component";
 import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
-import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2/dist";
+import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
+import { NO_ERRORS_SCHEMA } from "@angular/core";
 
 describe("mapping.tree.component.ts", () => {
 
@@ -50,6 +51,7 @@ describe("mapping.tree.component.ts", () => {
                 }
             ],
             declarations: [MappingTreeComponent],
+            schemas: [NO_ERRORS_SCHEMA],
             imports: [RouterTestingModule]
         })
             .compileComponents()
@@ -70,6 +72,8 @@ describe("mapping.tree.component.ts", () => {
         component.zoom$ = Observable.of(1)
         component.isReset$ = new Subject<boolean>();
         component.fontSize$ = Observable.of(12);
+        component.isLocked$ = Observable.of(true);
+        component.analytics = jasmine.createSpyObj("analytics", ["eventTrack"]);
 
         target.detectChanges(); // trigger initial data binding
     });
@@ -81,7 +85,6 @@ describe("mapping.tree.component.ts", () => {
     afterEach(() => {
         fixture.cleanup();
     });
-
 
     /*
     <svg _ngcontent-a-0="" viewBox="0 0 1522 1522" width="100%">

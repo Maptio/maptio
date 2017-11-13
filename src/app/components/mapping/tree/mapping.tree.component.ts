@@ -1,7 +1,7 @@
 import { UserFactory } from "./../../../shared/services/user.factory";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs/Subscription";
-import { Component, OnInit, Input, ViewEncapsulation } from "@angular/core";
+import { Component, OnInit, Input, ViewEncapsulation, ChangeDetectorRef } from "@angular/core";
 import { D3Service, D3 } from "d3-ng2-service";
 import { ColorService } from "../../../shared/services/ui/color.service"
 import { UIService } from "../../../shared/services/ui/ui.service"
@@ -40,6 +40,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     private zoomSubscription: Subscription;
     private dataSubscription: Subscription;
     private resetSubscription: Subscription;
+    private fontSubscription: Subscription;
 
     public analytics: Angulartics2Mixpanel;
 
@@ -47,18 +48,26 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     private g: any;
     private definitions: any;
 
+    public hoveredNode: Initiative;
+    public slug: string;
+
     public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>()
     public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
     public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
     public moveInitiative$: Subject<{ node: Initiative, from: Initiative, to: Initiative }> = new Subject<{ node: Initiative, from: Initiative, to: Initiative }>();
     public closeEditingPanel$: Subject<boolean> = new Subject<boolean>();
 
-    constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService, public router: Router, private userFactory: UserFactory) {
+    MAX_TEXT_LENGTH = 35;
+
+    constructor(public d3Service: D3Service, public colorService: ColorService,
+        public uiService: UIService, public router: Router, private userFactory: UserFactory,
+        private cd: ChangeDetectorRef) {
         this.d3 = d3Service.getD3();
         this.data$ = new Subject<{ initiative: Initiative, datasetId: string }>();
         this.dataSubscription = this.data$.asObservable().distinct().subscribe(complexData => {
             let data = <any>complexData.initiative;
             this.datasetId = complexData.datasetId;
+            this.slug = data.getSlug();
             this.update(data)
         })
     }
@@ -89,7 +98,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         let g = svg.append("g")
             .attr("transform", `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`);
         let definitions = g.append("defs")
-        this.fontSize$.subscribe((fs: number) => {
+        this.fontSubscription = this.fontSize$.subscribe((fs: number) => {
             svg.attr("font-size", fs + "px")
         })
 
@@ -104,7 +113,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         }
 
         this.resetSubscription = this.isReset$.asObservable().filter(r => r).subscribe(isReset => {
-            svg.call(zooming.transform, d3.zoomIdentity.translate(100, 0));
+            svg.call(zooming.transform, d3.zoomIdentity.translate(100, this.height / 4));
         })
 
         this.zoomSubscription = this.zoom$.subscribe((zf: number) => {
@@ -136,9 +145,18 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         if (this.zoomSubscription) {
             this.zoomSubscription.unsubscribe();
         }
+        if (this.fontSubscription) {
+            this.fontSubscription.unsubscribe();
+        }
+        if (this.resetSubscription) {
+            this.resetSubscription.unsubscribe();
+        }
     }
 
-
+    hoverInitiative(node: Initiative) {
+        this.hoveredNode = node;
+        this.cd.markForCheck();
+    }
 
     // draw(translateX: number, translateY: number, scale: number) {
     update(data: any) {
@@ -151,6 +169,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         let colorService = this.colorService;
         let uiService = this.uiService;
         let CIRCLE_RADIUS = 15;
+        let MAX_TEXT_LENGTH = this.MAX_TEXT_LENGTH;
         let viewerWidth = this.width;
         let viewerHeight = this.height;
         let zoom$ = this.zoom$;
@@ -162,9 +181,10 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         let svg = this.svg;
         let g = this.g;
         let definitions = this.definitions;
+        let hoverInitiative = this.hoverInitiative.bind(this);
+        let slug = this.slug;
 
-        let slug = data.getSlug();
-        let treemap = d3.tree().size([viewerWidth / 2, viewerHeight]);
+        let treemap = d3.tree().size([viewerWidth / 2, viewerHeight]).nodeSize([40, 1]);
 
         let i = 0,
             duration = 750,
@@ -207,7 +227,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 links = treeData.descendants().slice(1);
 
             // Normalize for fixed-depth.
-            nodes.forEach(function (d: any) { d.y = d.depth * 200; d.x = d.x * 1.1 });
+            nodes.forEach(function (d: any) { d.y = d.depth * 200; d.x = d.x * 1.5 });
 
             // ****************** Nodes section ***************************
 
@@ -279,7 +299,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 })
                 .text(function (d: any) { return d.data.name; })
                 .each(function (d: any) {
-                    uiService.wrap(d3.select(this), d.data.name, d.y / d.depth * 0.85);
+                    let realText = d.data.name ? (d.data.name.length > MAX_TEXT_LENGTH ? `${d.data.name.substr(0, MAX_TEXT_LENGTH)}...` : d.data.name) : "(Empty)";
+                    uiService.wrap(d3.select(this), realText, d.y / d.depth * 0.85);
+                    // uiService.wrap(d3.select(this), d.data.name.substr(0, 35), d.y / d.depth * 0.85);
                 });
 
             nodeEnter.append("text")
@@ -323,7 +345,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             nodeUpdate.select("text.name")
                 .text(function (d: any) { return d.data.name; })
                 .each(function (d: any) {
-                    uiService.wrap(d3.select(this), d.data.name, d.y / d.depth * 0.85);
+                    let realText = d.data.name ? (d.data.name.length > MAX_TEXT_LENGTH ? `${d.data.name.substr(0, MAX_TEXT_LENGTH)}...` : d.data.name) : "(Empty)";
+                    uiService.wrap(d3.select(this), realText, d.y / d.depth * 0.85);
+                    // uiService.wrap(d3.select(this), d.data.name.substr(0, 35), d.y / d.depth * 0.85);
                 });
             nodeUpdate.select("text.accountable")
                 .text(function (d: any) { return d.data.accountable ? d.data.accountable.name : ""; })
@@ -344,6 +368,43 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             // On exit reduce the opacity of text labels
             nodeExit.select("text")
                 .style("fill-opacity", 1e-6);
+
+
+            g.selectAll("text")
+                .on("mouseover", function (d: any) {
+                    // setTooltipDescriptionVisible(true)
+                    hoverInitiative(d.data)
+                    // console.log(d3.event.pageX, d3.event.pageY, viewerHeight * 0.7, viewerWidth/2 * 0.8)
+                    d3.select("div.tooltip-initiative").style("visibility", "visible")
+                        .style("top", () => { return d3.event.pageY > viewerWidth / 2 * 0.80 ? "" : (d3.event.pageY - 20) + "px" })
+                        .style("bottom", () => { return d3.event.pageY > viewerWidth / 2 * 0.80 ? `${this.getBBox().height}px` : "" })
+
+                        .style("left", () => { return d3.event.pageX > viewerHeight * 0.70 ? "auto" : (d3.event.pageX) + "px" })
+                        .style("right", () => { return d3.event.pageX > viewerHeight * 0.70 ? "0" : "" })
+
+                        .on("mouseenter", function () {
+                            d3.select(this).style("visibility", "visible")
+                        })
+                        .on("mouseleave", function () {
+                            d3.select("div.tooltip-initiative").style("visibility", "hidden")
+                        })
+                })
+                .on("mousemove", function (d: any) {
+                    hoverInitiative(d.data)
+                    d3.select("div.tooltip-initiative").style("visibility", "visible")
+                        .style("top", () => { return d3.event.pageY > viewerWidth / 2 * 0.80 ? "" : (d3.event.pageY - 20) + "px" })
+                        .style("bottom", () => { return d3.event.pageY > viewerWidth / 2 * 0.80 ? `${this.getBBox().height}px` : "" })
+
+                        .style("left", () => { return d3.event.pageX > viewerHeight * 0.70 ? "auto" : (d3.event.pageX) + "px" })
+                        .style("right", () => { return d3.event.pageX > viewerHeight * 0.70 ? "0" : "" })
+                        .on("mouseenter", function () {
+                            d3.select(this).style("visibility", "visible")
+                        })
+                        .on("mouseleave", function () {
+                            d3.select(this).style("visibility", "visible")
+                        })
+                })
+
 
             // ****************** links section ***************************
 

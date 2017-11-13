@@ -11,10 +11,10 @@
   fill: white;
 }
 
-svg {
-  /* pointer-events: auto; */
-  /* background: transparent!important */
-}
+/* svg {
+  pointer-events: auto; 
+  background: transparent!important 
+} */
 
 svg text {
   /* font-size:1em; */

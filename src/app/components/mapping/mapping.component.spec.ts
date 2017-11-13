@@ -109,6 +109,8 @@ describe("mapping.component.ts", () => {
             });
         });
 
+
+
         describe("getFragment", () => {
             it("should return #x=761&y=761&scale=1 when layout is initiatives", () => {
                 let actual = component.getFragment("initiatives");
@@ -117,7 +119,7 @@ describe("mapping.component.ts", () => {
 
             it("should return #x=100&y=0&scale=1 when layout is people", () => {
                 let actual = component.getFragment("people");
-                expect(actual).toBe("x=100&y=0&scale=1")
+                expect(actual).toBe("x=100&y=380.5&scale=1")
             });
 
             it("should return #x=761&y=761&scale=1 by default", () => {
@@ -125,6 +127,27 @@ describe("mapping.component.ts", () => {
                 expect(actual).toBe("x=761&y=761&scale=1")
             });
         });
+
+        describe("isDisplayLockingToggle", () => {
+            it("should return true when layout is initiatives", () => {
+                component.layout = "initiatives"
+                let actual = component.isDisplayLockingToggle();
+                expect(actual).toBeTruthy()
+            });
+
+            it("should return false when layout is people", () => {
+                component.layout = "people"
+                let actual = component.isDisplayLockingToggle();
+                expect(actual).toBeFalsy()
+            });
+
+            it("should return false by default", () => {
+                component.layout = ""
+                let actual = component.isDisplayLockingToggle();
+                expect(actual).toBeFalsy()
+            });
+        });
+
 
 
 
