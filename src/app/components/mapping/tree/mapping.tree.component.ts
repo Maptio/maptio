@@ -40,6 +40,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     private zoomSubscription: Subscription;
     private dataSubscription: Subscription;
     private resetSubscription: Subscription;
+    private fotnSubscription:Subscription;
 
     public analytics: Angulartics2Mixpanel;
 
@@ -97,7 +98,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         let g = svg.append("g")
             .attr("transform", `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`);
         let definitions = g.append("defs")
-        this.fontSize$.subscribe((fs: number) => {
+        this.fontSubscription = this.fontSize$.subscribe((fs: number) => {
             svg.attr("font-size", fs + "px")
         })
 
@@ -143,6 +144,12 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     ngOnDestroy() {
         if (this.zoomSubscription) {
             this.zoomSubscription.unsubscribe();
+        }
+        if (this.fotnSubscription) {
+            this.fotnSubscription.unsubscribe();
+        }
+        if (this.resetSubscription) {
+            this.resetSubscription.unsubscribe();
         }
     }
 
