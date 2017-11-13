@@ -40,7 +40,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     private zoomSubscription: Subscription;
     private dataSubscription: Subscription;
     private resetSubscription: Subscription;
-    private fotnSubscription: Subscription;
+    private fontSubscription: Subscription;
 
     public analytics: Angulartics2Mixpanel;
 
@@ -145,8 +145,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         if (this.zoomSubscription) {
             this.zoomSubscription.unsubscribe();
         }
-        if (this.fotnSubscription) {
-            this.fotnSubscription.unsubscribe();
+        if (this.fontSubscription) {
+            this.fontSubscription.unsubscribe();
         }
         if (this.resetSubscription) {
             this.resetSubscription.unsubscribe();

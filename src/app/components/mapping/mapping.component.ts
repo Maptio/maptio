@@ -132,6 +132,10 @@ export class MappingComponent implements OnInit {
                 this.isLoading.next(false);
             })
             .subscribe((data) => {
+                // until the initiave has some children, we leve it in lock mode
+                if (!data.initiative.children[0] || !data.initiative.children[0].children) {
+                    this.lock(false);
+                }
                 this.instance.teamId = data.teamId;
                 this.instance.teamName = data.teamName;
                 this.instance.data$.next(data);
