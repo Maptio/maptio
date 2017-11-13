@@ -70,7 +70,7 @@ describe("mapping.component.ts", () => {
     beforeEach(() => {
         target = TestBed.createComponent(MappingComponent);
         component = target.componentInstance;
-        spyOn(component, "isDisplayLockingToggle").and.returnValue(true);
+
         target.detectChanges(); // trigger initial data binding
     });
 
