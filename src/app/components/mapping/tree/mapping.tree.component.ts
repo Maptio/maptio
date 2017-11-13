@@ -40,7 +40,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     private zoomSubscription: Subscription;
     private dataSubscription: Subscription;
     private resetSubscription: Subscription;
-    private fotnSubscription:Subscription;
+    private fotnSubscription: Subscription;
 
     public analytics: Angulartics2Mixpanel;
 
@@ -113,7 +113,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         }
 
         this.resetSubscription = this.isReset$.asObservable().filter(r => r).subscribe(isReset => {
-            svg.call(zooming.transform, d3.zoomIdentity.translate(100, 0));
+            svg.call(zooming.transform, d3.zoomIdentity.translate(100, this.height / 4));
         })
 
         this.zoomSubscription = this.zoom$.subscribe((zf: number) => {
@@ -227,7 +227,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 links = treeData.descendants().slice(1);
 
             // Normalize for fixed-depth.
-            nodes.forEach(function (d: any) { d.y = d.depth * 250; d.x = d.x * 1.1 });
+            nodes.forEach(function (d: any) { d.y = d.depth * 200; d.x = d.x * 1.5 });
 
             // ****************** Nodes section ***************************
 

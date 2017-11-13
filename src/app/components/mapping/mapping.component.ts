@@ -45,7 +45,7 @@ export class MappingComponent implements OnInit {
     public x: number;
     public y: number;
     public scale: number;
-    public isLocked: boolean = false;
+    public isLocked: boolean = true;
 
     public isCollapsed: boolean = true;
 
@@ -104,7 +104,7 @@ export class MappingComponent implements OnInit {
         this.isLoading.next(true);
 
         this.subscription = this.route.params
-            .map(params => { this.layout = params["layout"]; return this.layout })
+            .map(params => { this.layout = params["layout"]; this.cd.markForCheck() ; return this.layout })
             .do(layout => {
                 this.isLoading.next(true);
 
@@ -149,7 +149,7 @@ export class MappingComponent implements OnInit {
             case "initiatives":
                 return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`
             case "people":
-                return `x=100&y=0&scale=1`
+                return `x=100&y=${this.VIEWPORT_HEIGHT / 4}&scale=1`
             default:
                 return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`
         }
@@ -225,6 +225,10 @@ export class MappingComponent implements OnInit {
         this.isLocked = !this.isLocked;
         this.isLocked$.next(this.isLocked);
         this.analytics.eventTrack("Map", { action: (locking ? "lock" : "unlock"), team: this.teamName, teamId: this.teamId });
+    }
+
+    isDisplayLockingToggle(){
+        return this.layout === "initiatives";
     }
 
     changeFontSize(size: number) {

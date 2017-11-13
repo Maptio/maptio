@@ -10,25 +10,27 @@
 
 .control {
   position: absolute;
-  right: 1vw;
+  right: 0.5vw;
   /* box-shadow: 1px 1px 6px #888888; */
   top: 14vh;
-  margin-right: 1%;
+  margin-right: 0.5vw;
   border-radius: 4px;
-  width: 43px;
-  background-color: #f7f7f7;
+ 
+  background-color: rgb(224, 224, 224);
 }
 
 .control.first{
   top:7vh;
+  width: 43px;
 }
 
 .control.second {
   top:21vh;
+  width: 43px;
 }
 
 .control.third {
-  top:43vh;
+  top:83vh;
 }
 
 .background{
