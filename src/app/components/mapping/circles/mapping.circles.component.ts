@@ -175,8 +175,10 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
 
         this.lockedSubscription = this.isLocked$.subscribe((locked: boolean) => {
+
             d3.selectAll("circle.node").style("cursor", () => { return locked ? "default" : "move" });
             svg.style("background", function () { return locked ? "#f7f7f7" : "transparent" });
+
             this.setIsLocked(locked);
         })
 
@@ -418,6 +420,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .call(
             d3.drag()
                 // context menu do not trigger drag and drop
+
                 .filter(() => { return !getIsLocked() && d3.event.button !== 2; })
                 .on("start", dragstarted)
                 .on("drag", dragged)
