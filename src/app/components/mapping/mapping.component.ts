@@ -104,7 +104,7 @@ export class MappingComponent implements OnInit {
         this.isLoading.next(true);
 
         this.subscription = this.route.params
-            .map(params => { this.layout = params["layout"]; this.cd.markForCheck() ; return this.layout })
+            .map(params => { this.layout = params["layout"]; this.cd.markForCheck(); return this.layout })
             .do(layout => {
                 this.isLoading.next(true);
 
@@ -227,7 +227,7 @@ export class MappingComponent implements OnInit {
         this.analytics.eventTrack("Map", { action: (locking ? "lock" : "unlock"), team: this.teamName, teamId: this.teamId });
     }
 
-    isDisplayLockingToggle(){
+    isDisplayLockingToggle() {
         return this.layout === "initiatives";
     }
 
