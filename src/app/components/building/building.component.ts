@@ -94,11 +94,9 @@ export class BuildingComponent {
         this.save.emit(this.nodes[0]);
     }
 
-    state = localStorage.getItem(`${this.datasetId}_state`) && JSON.parse(localStorage.getItem(`${this.datasetId}_state`));
-
+    state = localStorage.treeState && JSON.parse(localStorage.treeState);
     setState(state: any) {
-        console.log(this.datasetId)
-        localStorage.setItem(`${this.datasetId}_state`, JSON.stringify(state));
+        localStorage.treeState = JSON.stringify(state);
     }
 
     isRootValid(): boolean {
