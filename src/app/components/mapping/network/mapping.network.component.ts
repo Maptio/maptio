@@ -96,7 +96,52 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         let svg: any = d3.select("svg"),
             margin = this.margin,
             diameter = +this.width
-        let g = svg.append("g");
+        let g = svg.append("g")
+        .attr("width", this.width)
+            .attr("height", this.height)
+            .attr("transform", `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`)
+
+        let zooming = d3.zoom().scaleExtent([1 / 2, 4]).on("zoom", zoomed);
+
+        // svg.append("rect")
+        //     .attr("id", "zoom-layer")
+        //     .attr("width", this.width)
+        //     .attr("height", this.height)
+        //     .style("fill", "none")
+        //     .attr("pointer-events", "all")
+        //     .call(zooming);
+
+        function zoomed() {
+            let transform = d3.event.transform;
+
+            location.hash = `x=${transform.x}&y=${transform.y}&scale=${transform.k}`
+            g.attr("transform", d3.event.transform);
+        }
+
+        try {
+            // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
+            // svg.call(zooming.transform, d3.zoomIdentity.translate(diameter / 2, diameter / 2));
+            svg.call(zooming.transform, d3.zoomIdentity.translate(this.translateX, this.translateY).scale(this.scale));
+            svg.call(zooming);
+        }
+        catch (error) {
+
+        }
+
+        this.zoomSubscription = this.zoom$.subscribe((zf: number) => {
+            try {
+                // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
+                if (zf) {
+                    zooming.scaleBy(svg, zf);
+                }
+                else {
+                    svg.call(zooming.transform, d3.zoomIdentity.translate(this.translateX, this.translateY));
+                }
+            }
+            catch (error) {
+
+            }
+        })
 
         this.svg = svg;
         this.g = g;
@@ -188,17 +233,17 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
         let d3 = this.d3;
         let svg = this.svg;
+        let g = this.g;
         let width = this.width;
         let height = this.height;
         let hoverLink = this.hoverLink.bind(this);
-        let CIRCLE_RADIUS: number = 15;
-        let LINE_WEIGHT = 2;
+        let CIRCLE_RADIUS: number = 20;
+        let LINE_WEIGHT = 4;
 
 
         let node: any;
         let link: any;
         let bilinks: Array<any> = [];
-        let zoomLayer: any;
 
         let initiativesList: HierarchyNode<Initiative>[] = this.d3.hierarchy(data).descendants();
         let graph = this.prepare(initiativesList);
@@ -210,22 +255,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .force("charge", d3.forceManyBody()
                 .strength(function (d) { return -600; }))
             .force("center", d3.forceCenter(width / 2, height / 2));
-
-
-        let zoom = d3.zoom()
-            .scaleExtent([1 / 2, 4])
-            .on("zoom", zoomed);
-
-        zoomLayer = svg.append("rect")
-            .attr("id", "zoom-layer")
-            .attr("width", width)
-            .attr("height", height)
-            .style("fill", "none")
-            .attr("pointer-events", "all")
-            .call(zoom);
-
-        let g = svg.append("g").attr("width", width)
-            .attr("height", height).attr("transform", "translate(" + 0 + "," + -380 + ")"), transform = d3.zoomIdentity;
 
         let definitions = g.append("defs")
         definitions.selectAll("pattern")
@@ -296,6 +325,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .data(nodes.filter(function (d) { return d.id; }))
             .enter().append("g")
             .attr("class", "node")
+            .on("dblclick", releaseNode)
             .call(d3.drag<SVGElement, any>()
                 .on("start", dragstarted)
                 .on("drag", dragged)
@@ -378,6 +408,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
         function dragstarted(d: any) {
             if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+            d3.select(this).classed("fixed", d.fixed = true);
             d.fx = d.x;
             d.fy = d.y;
         }
@@ -389,13 +420,18 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
         function dragended(d: any) {
             if (!d3.event.active) simulation.alphaTarget(0);
-            d.fx = null;
-            d.fy = null;
+            // d.fx = null;
+            // d.fy = null;
         }
 
-        function zoomed() {
-            g.attr("transform", d3.event.transform);
+        function releaseNode(d: any) {
+            d3.select(this).classed("fixed", d.fixed = false);
+            d.fx = null;
+            d.fy = null;
+            d3.event.stopPropagation();
         }
+
+
 
         function cleanSelected() {
             node.classed("picked", false);

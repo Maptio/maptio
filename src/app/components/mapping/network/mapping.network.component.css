@@ -22,6 +22,11 @@
     stroke-width: 3px;
     stroke-opacity: .6;
 }
+
+.node.fixed {
+   fill: inherit;
+  }
+
 .link {
     fill: none;
     stroke: #bbb;
@@ -35,4 +40,8 @@
   .edit:before {
     content: "\f040";
     font-family: FontAwesome;
+  }
+
+  .initiative-item{
+    border-bottom: solid 1px #f7f7f7;
   }

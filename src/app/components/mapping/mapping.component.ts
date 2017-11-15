@@ -155,6 +155,8 @@ export class MappingComponent implements OnInit {
                 return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`
             case "people":
                 return `x=100&y=${this.VIEWPORT_HEIGHT / 4}&scale=1`
+            case "connections":
+                return `x=0&y=${-this.VIEWPORT_HEIGHT / 4}&scale=1`
             default:
                 return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`
         }
@@ -235,7 +237,7 @@ export class MappingComponent implements OnInit {
     }
 
     isDisplayLockingToggle() {
-        return this.layout !== "people" ;
+        return this.layout !== "people" && this.layout !== "connections";
     }
 
     changeFontSize(size: number) {

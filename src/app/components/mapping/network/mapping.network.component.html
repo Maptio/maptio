@@ -2,20 +2,20 @@
 
 <div class="tooltip-initiative col-3">
     <div class="card">
-        <div class="card-block p-1">
+        <div class="card-header p-1">
 
             <div class="d-flex w-100 justify-content-between">
-                <h6 class="card-title text-color">
+                <h5 class="card-title text-color">
                     <img src="{{tooltipSourceUser?.picture}}" width="30" height="30" class="rounded-circle mr-2"> helps
                     <img src="{{tooltipTargetUser?.picture}}" width="30" height="30" class="rounded-circle mr-2">
 
-                </h6>
+                </h5>
             </div>
         </div>
         <div class="card-block p-1">
-            <div *ngFor="let i of tooltipRoles">
-                <div class="d-flex w-100 justify-content-between">
-                    <h6 class="card-title text-color small"> {{i.initiative?.name}}</h6>
+            <div *ngFor="let i of tooltipRoles" class="initiative-item mt-1">
+                <div class="d-flex w-100 justify-content-between mb-1">
+                    <h6 class="card-title text-color small mb-1"><strong>{{i.initiative?.name}}</strong> </h6>
                     <small>
                         <div class="btn-group" role="group">
                             <button type="button" class="btn btn-sm edit btn-secondary" (click)="showDetails(i.initiative)" placement="top" ngbTooltip="Edit"
@@ -23,10 +23,13 @@
                         </div>
                     </small>
                 </div>
-                <markdown *ngIf="i.role?.description !==''" class="small text-muted ml-2" [data]="i.role?.description || ''"></markdown>
-                
-                
+                <div *ngIf="i.role?.description" class="small">
+                    <span class=" text-muted">by</span>
+                    <markdown class="" [data]="i.role?.description || ''"></markdown>
+                </div>
+
             </div>
+
         </div>
     </div>
 </div>
