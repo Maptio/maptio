@@ -8,7 +8,7 @@ import { ColorService } from "../../../shared/services/ui/color.service"
 import { UIService } from "../../../shared/services/ui/ui.service"
 import { IDataVisualizer } from "../mapping.interface"
 import { UserFactory } from "../../../shared/services/user.factory";
-import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2/dist";
+import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 
 @Component({
     selector: "circles",

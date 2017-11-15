@@ -21,12 +21,13 @@ import { AnchorDirective } from "../../shared/directives/anchor.directive"
 import "rxjs/add/operator/map"
 import { EmitterService } from "../../shared/services/emitter.service";
 import { Subject, BehaviorSubject, Subscription, Observable } from "rxjs/Rx";
+import { MappingNetworkComponent } from "./network/mapping.network.component";
 
 @Component({
     selector: "mapping",
     templateUrl: "./mapping.component.html",
     styleUrls: ["./mapping.component.css"],
-    entryComponents: [MappingCirclesComponent, MappingTreeComponent],
+    entryComponents: [MappingCirclesComponent, MappingTreeComponent, MappingNetworkComponent],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
@@ -165,6 +166,8 @@ export class MappingComponent implements OnInit {
                 return this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent);
             case "people":
                 return this.componentFactoryResolver.resolveComponentFactory(MappingTreeComponent);
+            case "connections":
+                return this.componentFactoryResolver.resolveComponentFactory(MappingNetworkComponent);
             default:
                 return this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent);
         }

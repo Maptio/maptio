@@ -1,4 +1,4 @@
-/* #zoom-layer:active{
+#zoom-layer:active{
     cursor: move;
 }
 
@@ -25,4 +25,14 @@
 .link {
     fill: none;
     stroke: #bbb;
-  } */
+  }
+
+  .tooltip-initiative{
+    position: absolute;
+    z-index: 5;
+  }
+
+  .edit:before {
+    content: "\f040";
+    font-family: FontAwesome;
+  }
