@@ -108,9 +108,13 @@ content: "\f066";
   padding: 0;
 }
 
-.network::before {
-  content: "\f0c1";
-  font-family: FontAwesome;
+.network {
+  background: url(/assets/images/network.webp) no-repeat;
+  background-size: 20px 20px;
+  background-position: center;
+  height: 40px;
+  width:40px;
+  padding: 0;
 }
 
 

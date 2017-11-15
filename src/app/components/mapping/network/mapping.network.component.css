@@ -2,19 +2,20 @@
     cursor: move;
 }
 
+svg text{
+    pointer-events: none;
+}
+
 .links line {
-  stroke: #999;
+  stroke: #000;
   stroke-opacity: 0.6;
 }
 
 .nodes circle {
-  stroke: #fff;
   stroke-width: 1.5px;
 }
 
 .nodes text{
-    stroke:black;
-    font:10px;
 }
 
 .nodes circle.picked {
@@ -27,7 +28,7 @@
    fill: inherit;
   }
 
-.link {
+svg path.edge {
     fill: none;
     stroke: #bbb;
   }

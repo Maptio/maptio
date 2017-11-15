@@ -304,6 +304,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
     }
 
     update(data: any) {
+        
         if (!this.g) {
             this.init();
         }

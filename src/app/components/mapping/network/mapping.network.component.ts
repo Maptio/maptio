@@ -52,12 +52,14 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
     private zoomSubscription: Subscription;
     private dataSubscription: Subscription;
+    private resetSubscription: Subscription;
+    private fontSubscription: Subscription;
 
     T: any;
     TRANSITION_DURATION = 2250;
 
     CIRCLE_RADIUS: number = 20;
-    LINE_WEIGHT = 4;
+    LINE_WEIGHT = 2;
     private svg: any;
     private g: any;
     private link: any;
@@ -68,6 +70,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
     constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService,
         private cd: ChangeDetectorRef) {
+            console.log("constructor")
         this.d3 = d3Service.getD3();
         this.T = this.d3.transition(null).duration(this.TRANSITION_DURATION);
         this.data$ = new Subject<{ initiative: Initiative, datasetId: string }>();
@@ -81,6 +84,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     }
 
     ngOnInit() {
+        console.log("ngOnInit")
         this.init();
     }
 
@@ -91,10 +95,17 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         if (this.dataSubscription) {
             this.dataSubscription.unsubscribe();
         }
+        if (this.resetSubscription) {
+            this.resetSubscription.unsubscribe();
+        }
+        if (this.fontSubscription) {
+            this.fontSubscription.unsubscribe();
+        }
     }
 
     init() {
-
+        this.uiService.clean();
+        console.log("init")
         let d3 = this.d3;
 
         let svg: any = d3.select("svg"),
@@ -121,15 +132,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .attr("d", "M0,-5L10,0L0,5");
 
 
-        let zooming = d3.zoom().scaleExtent([1 / 2, 4]).on("zoom", zoomed);
-
-        // svg.append("rect")
-        //     .attr("id", "zoom-layer")
-        //     .attr("width", this.width)
-        //     .attr("height", this.height)
-        //     .style("fill", "none")
-        //     .attr("pointer-events", "all")
-        //     .call(zooming);
+        let zooming = d3.zoom().scaleExtent([1 / 10, 4]).on("zoom", zoomed);
 
         function zoomed() {
             let transform = d3.event.transform;
@@ -162,6 +165,15 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
             }
         })
+
+        this.resetSubscription = this.isReset$.asObservable().filter(r => r).subscribe(isReset => {
+            svg.call(zooming.transform, d3.zoomIdentity.translate(0, -this.height / 4));
+        })
+
+        this.fontSubscription = this.fontSize$.subscribe((fs: number) => {
+            svg.attr("font-size", fs + "px");
+            svg.selectAll("text").attr("font-size", fs + "px");
+        });
 
         this.svg = svg;
         this.g = g;
@@ -251,6 +263,10 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
     public update(data: any) {
 
+        if (!this.g) {
+            this.init();
+        }
+
         let d3 = this.d3;
         let svg = this.svg;
         let g = this.g;
@@ -305,10 +321,11 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
 
         let link =
-            g.select("g.links").selectAll("path.link").data(bilinks, function (d: any) { return d[5]; })
+            g.select("g.links").selectAll("path.edge").data(bilinks, function (d: any) { return d[5]; })
         link.exit().remove();
 
-        link = link.enter().append("path").attr("class", "link")
+        console.log(bilinks)
+        link = link.enter().append("path").attr("class", "edge")
             .merge(link)
             .attr("data-initiatives", function (d: any) { return d[4].join(",") })
             .attr("data-source", function (d: any) { return d[0].id })
@@ -336,7 +353,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .attr("fill", function (d: any) { return "url(#image" + d.id + ")" });
 
         node.select("text")
-            .attr("dx", CIRCLE_RADIUS)
+            .attr("dx", CIRCLE_RADIUS + 3)
             .text(function (d: any) { return d.name; });
 
         node.exit().remove();
