@@ -55,8 +55,12 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
     T: any;
     TRANSITION_DURATION = 2250;
+
+    CIRCLE_RADIUS: number = 20;
+    LINE_WEIGHT = 4;
     private svg: any;
     private g: any;
+    private link: any;
     public tooltipInitiatives: Array<Initiative>;
     public tooltipRoles: Array<{ initiative: Initiative, role: Role }>;
     public tooltipSourceUser: User;
@@ -97,9 +101,25 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             margin = this.margin,
             diameter = +this.width
         let g = svg.append("g")
-        .attr("width", this.width)
+            .attr("width", this.width)
             .attr("height", this.height)
             .attr("transform", `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`)
+        g.append("g").attr("class", "links");
+        g.append("g").attr("class", "nodes");
+        g.append("defs");
+
+        svg.append("defs").append("marker")
+            .attr("id", "arrow")
+            .attr("viewBox", "0 -5 10 10")
+            .attr("refX", 20)
+            .attr("refY", 0)
+            .attr("markerWidth", this.CIRCLE_RADIUS)
+            .attr("markerHeight", this.CIRCLE_RADIUS)
+            .attr("markerUnits", "userSpaceOnUse")
+            .attr("orient", "auto")
+            .append("svg:path")
+            .attr("d", "M0,-5L10,0L0,5");
+
 
         let zooming = d3.zoom().scaleExtent([1 / 2, 4]).on("zoom", zoomed);
 
@@ -237,14 +257,10 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         let width = this.width;
         let height = this.height;
         let hoverLink = this.hoverLink.bind(this);
-        let CIRCLE_RADIUS: number = 20;
-        let LINE_WEIGHT = 4;
-
-
-        let node: any;
-        let link: any;
         let bilinks: Array<any> = [];
 
+        let CIRCLE_RADIUS = this.CIRCLE_RADIUS
+        let LINE_WEIGHT = this.LINE_WEIGHT;
         let initiativesList: HierarchyNode<Initiative>[] = this.d3.hierarchy(data).descendants();
         let graph = this.prepare(initiativesList);
         let color = d3.scaleOrdinal(d3.schemeCategory20);
@@ -256,11 +272,10 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
                 .strength(function (d) { return -600; }))
             .force("center", d3.forceCenter(width / 2, height / 2));
 
-        let definitions = g.append("defs")
-        definitions.selectAll("pattern")
-            .data(graph.nodes)
+        let definitions = g.select("defs").selectAll("pattern").data(graph.nodes)
+        definitions
             .enter()
-            .append("pattern")
+            .append("pattern").merge(definitions)
             .attr("id", function (d: any) { return "image" + d.id; })
             .attr("width", "100%")
             .attr("height", "100%")
@@ -270,17 +285,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .attr("xlink:href", function (d: any) { return d.picture })
             ;
 
-        svg.append("defs").append("marker")
-            .attr("id", "arrow")
-            .attr("viewBox", "0 -5 10 10")
-            .attr("refX", 20)
-            .attr("refY", 0)
-            .attr("markerWidth", CIRCLE_RADIUS)
-            .attr("markerHeight", CIRCLE_RADIUS)
-            .attr("markerUnits", "userSpaceOnUse")
-            .attr("orient", "auto")
-            .append("svg:path")
-            .attr("d", "M0,-5L10,0L0,5");
 
         let nodes = graph.nodes,
             nodeById = d3.map(nodes, function (d: any) { return d.id; }),
@@ -291,53 +295,51 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
                 t = link.target = <any>nodeById.get(link.target),
                 i = {},
                 weight = link.weight,
-                initiatives = link.initiatives; // intermediate node
+                initiatives = link.initiatives,
+                id = `${s.id}-${t.id}`; // intermediate node
 
             nodes.push(<any>i);
             links.push(<any>{ source: s, target: i }, <any>{ source: i, target: t });
-            bilinks.push([s, i, t, weight, initiatives]);
+            bilinks.push([s, i, t, weight, initiatives, id]);
         });
 
-        console.log(bilinks);
 
-        link = g.append("g")
-            .attr("class", "links")
-            .selectAll("line")
-            .data(bilinks)
-            .enter().append("path")
-            .attr("class", "link")
+        let link =
+            g.select("g.links").selectAll("path.link").data(bilinks, function (d: any) { return d[5]; })
+        link.exit().remove();
+
+        link = link.enter().append("path").attr("class", "link")
+            .merge(link)
             .attr("data-initiatives", function (d: any) { return d[4].join(",") })
             .attr("data-source", function (d: any) { return d[0].id })
             .attr("data-target", function (d: any) { return d[2].id })
-            .attr("stroke", "red")
             .attr("stroke-width", function (d: any) { return `${LINE_WEIGHT * d[3]}px` })
-            .attr("marker-end", "url(#arrow)")
-            .on("mouseover", function (d: any) {
-                console.log(d3.select(this).attr("data-initiatives"))
-            })
-            .on("mouseout", function (d: any) {
-                console.log(d3.select(this).attr("data-initiatives"))
-            });
+            .attr("id", function (d: any) { return d[5] })
+            .attr("marker-end", "url(#arrow)");
 
-        node = g.append("g")
-            .attr("class", "nodes")
-            .selectAll(".node")
-            .data(nodes.filter(function (d) { return d.id; }))
-            .enter().append("g")
-            .attr("class", "node")
+
+
+        let node = g.select("g.nodes").selectAll("g.node").data(nodes.filter(function (d) { return d.id; }))
+
+        node = node.enter().append("g").attr("class", "node")
+            .merge(node)
             .on("dblclick", releaseNode)
             .call(d3.drag<SVGElement, any>()
                 .on("start", dragstarted)
                 .on("drag", dragged)
                 .on("end", dragended));
 
-        node.append("circle")
-            .attr("r", CIRCLE_RADIUS)
+        node.append("circle");
+        node.append("text");
+
+        node.select("circle").attr("r", CIRCLE_RADIUS)
             .attr("fill", function (d: any) { return "url(#image" + d.id + ")" });
 
-        node.append("text")
+        node.select("text")
             .attr("dx", CIRCLE_RADIUS)
             .text(function (d: any) { return d.name; });
+
+        node.exit().remove();
 
 
         g.selectAll("path")
@@ -397,6 +399,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         }
 
         function positionLink(d: any) {
+            // console.log(d)
             return "M" + d[0].x + "," + d[0].y
                 + "S" + d[1].x + "," + d[1].y
                 + " " + d[2].x + "," + d[2].y;
