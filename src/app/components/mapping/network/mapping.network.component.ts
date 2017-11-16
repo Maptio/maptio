@@ -11,6 +11,7 @@ import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import * as _ from "lodash";
 import { User } from "../../../shared/model/user.data";
 import { Role } from "../../../shared/model/role.data";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "network",
@@ -70,8 +71,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     public tooltipTargetUser: User;
 
     constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService,
-        private cd: ChangeDetectorRef) {
-            
+        private cd: ChangeDetectorRef, private router: Router) {
+
         this.d3 = d3Service.getD3();
         this.T = this.d3.transition(null).duration(this.TRANSITION_DURATION);
         this.data$ = new Subject<{ initiative: Initiative, datasetId: string }>();
@@ -85,7 +86,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     }
 
     ngOnInit() {
-        
+
         this.init();
     }
 
@@ -106,7 +107,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
     init() {
         this.uiService.clean();
-        
+
         let d3 = this.d3;
 
         let svg: any = d3.select("svg"),
@@ -211,7 +212,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
                 return [...pre, ...cur]
             })
             .map(u => {
-                return { name: u.name, id: u.user_id, picture: u.picture };
+                return { name: u.name, id: u.user_id, picture: u.picture, shortid: u.shortid, slug: u.getSlug() };
             })
             ;
 
@@ -301,6 +302,9 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         let initiativesList: HierarchyNode<Initiative>[] = this.d3.hierarchy(data).descendants();
         let graph = this.prepare(initiativesList);
         let color = d3.scaleOrdinal(d3.schemeCategory20);
+        let router = this.router;
+        let datasetId = this.datasetId;
+        let slug = this.slug;
 
         let simulation = d3.forceSimulation()
             .force("link", d3.forceLink()
@@ -345,7 +349,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             g.select("g.links").selectAll("path.edge").data(bilinks, function (d: any) { return d[5]; })
         link.exit().remove();
 
-        
+
         link = link.enter().append("path").attr("class", "edge")
             .merge(link)
             .attr("data-initiatives", function (d: any) { return d[4].join(",") })
@@ -373,8 +377,14 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
         node.select("circle").attr("r", CIRCLE_RADIUS)
             .attr("fill", function (d: any) { return "url(#image" + d.id + ")" })
+            .attr("pointer-events", "auto")
+            .attr("cursor", "pointer")
             .on("mouseover", fade(FADED_OPACITY))
             .on("mouseout", fade(1))
+            .on("click", function (d: any) {
+                router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.shortid}/${d.slug}`)
+
+            })
 
         node.select("text")
             .attr("dx", CIRCLE_RADIUS + 3)
@@ -440,7 +450,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         }
 
         function positionLink(d: any) {
-            
             return "M" + d[0].x + "," + d[0].y
                 + "S" + d[1].x + "," + d[1].y
                 + " " + d[2].x + "," + d[2].y;
