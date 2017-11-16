@@ -3,7 +3,7 @@
 }
 
 svg text{
-    pointer-events: none;
+    /* pointer-events: none; */
 }
 
 .links line {

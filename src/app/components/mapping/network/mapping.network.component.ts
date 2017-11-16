@@ -61,7 +61,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
     CIRCLE_RADIUS: number = 20;
     LINE_WEIGHT = 2;
-    FADED_OPACITY = 0.1
+    FADED_OPACITY = 0.05
     private svg: any;
     private g: any;
     private link: any;
@@ -324,7 +324,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
                 .id(function (d: any) { return d.id; }))
             .force("charge", d3.forceManyBody().distanceMax(400)
                 .strength(function (d) { return -600; }))
-                
             .force("center", d3.forceCenter(width / 2, height / 2));
 
         let patterns = g.select("defs").selectAll("pattern").data(graph.nodes)
@@ -401,21 +400,25 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         node.select("circle").attr("r", CIRCLE_RADIUS)
             .attr("fill", function (d: any) { return "url(#image" + d.id + ")" })
             .attr("pointer-events", "auto")
-            .attr("cursor", "pointer")
+            .attr("cursor", "default")
             .on("mouseover", fade(FADED_OPACITY))
             .on("mouseout", fade(1))
             .on("mouseleave", () => {
                 d3.selectAll("text.edge").style("display", "none");
                 // d3.selectAll("text.initiatives").style("display", "none");
             })
+
+
+        node.select("text.name")
+            .attr("pointer-events", "auto")
+            .attr("cursor", "pointer")
+            .attr("dx", CIRCLE_RADIUS + 3)
+            .attr("dy", CIRCLE_RADIUS / 2)
             .on("click", function (d: any) {
                 router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.shortid}/${d.slug}`);
             })
-
-        node.select("text.name")
-            .attr("dx", CIRCLE_RADIUS + 3)
-            .attr("dy", CIRCLE_RADIUS/2)
-            .text(function (d: any) { return d.name; });
+            .text(function (d: any) { return d.name; })
+            ;
 
         // node.select("text.initiatives")
         // .attr("dx", CIRCLE_RADIUS + 3)
@@ -502,7 +505,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
         function positionLink(d: any) {
             return "M" + d[0].x + "," + d[0].y
-                + "S" +  d[1].x + "," +  d[1].y
+                + "S" + d[1].x + "," + d[1].y
                 + " " + d[2].x + "," + d[2].y;
         }
 
