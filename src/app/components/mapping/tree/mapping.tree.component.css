@@ -9,7 +9,7 @@ svg text{
 .node circle {
   /*fill: #fff;*/
   stroke: steelblue;
-  stroke-width: 1.5px;
+  /* stroke-width: 1.5px; */
 }
 
 .node circle .withChildren{

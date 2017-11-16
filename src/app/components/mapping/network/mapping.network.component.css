@@ -32,6 +32,10 @@ svg text:hover{
    fill: inherit;
   }
 
+svg circle{
+  
+}
+
 svg path.edge {
     fill: none;
     stroke: #bbb;

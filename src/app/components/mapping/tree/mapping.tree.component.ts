@@ -201,11 +201,10 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         })
         let color = colorService.getDefaulColorRange(depth);
 
-        // Collapse after the second level
-        // root.children.forEach(collapse);
+        // Collapse after the third level
+        root.children.forEach((c: any) => { c.children.forEach(collapse)});
         // console.log(g)
         update(root, 0);
-
 
 
         // Collapse the node and all it's children
@@ -227,7 +226,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 links = treeData.descendants().slice(1);
 
             // Normalize for fixed-depth.
-            nodes.forEach(function (d: any) { d.y = d.depth * 200; d.x = d.x * 1.5 });
+            nodes.forEach(function (d: any) { d.y = d.depth * 200; d.x = d.x * 1.4 });
 
             // ****************** Nodes section ***************************
 
@@ -281,8 +280,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 .attr("r", 1e-4)
                 .attr("fill", function (d: any) { return d.data.accountable ? "url(#image" + d.data.id + ")" : (d.children ? color(d.depth) : "#fff") })
                 .style("stroke", function (d: any) {
-                    return color(d.depth)
+                    return d._children ? "#000" : color(d.depth);
                 })
+                .attr("stroke-width", function (d: any) { return d._children ? 2 : 1 })
                 ;
 
 
@@ -338,8 +338,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 .attr("r", 15)
                 .attr("fill", function (d: any) { return d.data.accountable ? "url(#image" + d.data.id + ")" : (d._children ? color(d.depth) : "#fff") })
                 .style("stroke", function (d: any) {
-                    return color(d.depth)
+                    return d._children ? "#000" : color(d.depth);
                 })
+                .attr("stroke-width", function (d: any) { return d._children ? 2 : 1 })
                 .attr("cursor", "pointer");
 
             nodeUpdate.select("text.name")
