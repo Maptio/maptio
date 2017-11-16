@@ -325,8 +325,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
                 .id(function (d: any) { return d.id; }))
             .force("charge", d3.forceManyBody().distanceMax(400)
                 .strength(function (d) { return -600; }))
-            .force("center", d3.forceCenter(width / 2, height / 2))
-            .force("collide", d3.forceCollide(75));
+            .force("center", d3.forceCenter(width / 2, height / 2));
+            
 
         let patterns = g.select("defs").selectAll("pattern").data(graph.nodes)
         patterns
