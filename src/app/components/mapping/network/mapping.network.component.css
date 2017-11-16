@@ -33,7 +33,7 @@ svg text:hover{
   }
 
 svg circle{
-  
+
 }
 
 svg path.edge {
@@ -42,9 +42,9 @@ svg path.edge {
   }
 
 svg text.edge{
-  fill: #333;
   stroke-width: 1px;
 }
+
 
 .is-helping{
   fill-opacity: 1;

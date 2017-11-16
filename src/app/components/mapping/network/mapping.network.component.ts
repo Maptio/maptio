@@ -326,7 +326,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .force("charge", d3.forceManyBody().distanceMax(400)
                 .strength(function (d) { return -600; }))
             .force("center", d3.forceCenter(width / 2, height / 2));
-            
+
 
         let patterns = g.select("defs").selectAll("pattern").data(graph.nodes)
         patterns
@@ -383,7 +383,21 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
         label = label.enter().append("text").attr("class", "edge")
             .merge(label)
-            .attr("font-size", `${fontSize * 0.8}px`);
+            .attr("font-size", `${fontSize * 0.8}px`)
+            .style("display", "none")
+            .html(function (d: any) {
+                let source = d[0];
+                let target = d[2]
+
+                let filtered = initiativesList.filter((i: any) => d[4].includes(i.data.id)).map(i => i.data);
+
+                if (filtered.length > 0) {
+                    let h = filtered
+                        .map((i, ix) => `<tspan class="is-helping" x="0" y="0" dy="${ix + 1}em">${i.name}</tspan>`).join("")
+
+                    return `<tspan  x="0" y="0" class="is-helping-title" dy="0em">${source.name} helps ${target.name} with</tspan>` + h;
+                }
+            });
 
         let node = g.select("g.nodes").selectAll("g.node").data(nodes.filter(function (d) { return d.id; }))
 
@@ -407,7 +421,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .on("mouseout", fade(1))
             .on("mouseleave", () => {
                 d3.selectAll("text.edge").style("display", "none");
-                d3.selectAll("text.initiatives").style("display", "none");
             })
 
 
@@ -422,10 +435,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .text(function (d: any) { return d.name; })
             ;
 
-        node.select("text.initiatives")
-            .attr("font-size", `${fontSize * 0.8}px`)
-            .attr("dx", CIRCLE_RADIUS + 3)
-            .attr("dy", CIRCLE_RADIUS * 2 + 3);
 
         node.exit().remove();
 
@@ -490,8 +499,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         function positionLabel(d: any) {
             let path = g.select("defs").select(`path[id="path${d[5]}"]`);
             if (path.node()) {
-                let p = path.node().getPointAtLength(.4 * path.node().getTotalLength());
-                return "translate(" + p.x + "," + p.y + ")";
+                let p = path.node().getPointAtLength(.6 * path.node().getTotalLength());
+                return "translate(" + (p.x) + "," + p.y + ")";
             }
             else {
                 return "translate(" + 0 + "," + 0 + ")";
@@ -580,15 +589,12 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
                     return thisOpacity;
                 });
 
-                // console.log(node.select("text.initiatives"))
-                node.select("text.initiatives")
-                    .html(function (o: any) { return getAuthoredInitiatives(o); })
-                    .style("display", (o: any) => {
-                        return (o === d ? "inline" : "none");
-                    })
-
                 label
-                    .html(function (o: any) { if (o[0] === d || o[2] === d) return getHelpingInitiatives(o[0], o[2], d, o[4]); })
+                    // .attr("fill", function (o: any) { return o[0] === d ? "red" : "green" })
+                    // .style("stroke-width", function (o: any) { return o[0] === d ? "3" : "1" })
+                    // .style("fill-opacity", function (o: any) { return o[0] === d ? "1" : "0.7" })
+                    .style("font-size", function (o: any) { return o[0] === d ? fontSize * 1.2 : fontSize * 0.8 })
+
                     .style("display", (o: any) => {
                         return (o[0] === d || o[2] === d ? "inline" : "none");
                     })
