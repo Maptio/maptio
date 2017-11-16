@@ -202,7 +202,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         let color = colorService.getDefaulColorRange(depth);
 
         // Collapse after the third level
-        root.children.forEach((c: any) => { c.children.forEach(collapse) });
+        root.children.forEach((c: any) => { if (c.children) c.children.forEach(collapse) });
         // console.log(g)
         update(root, 0);
 
