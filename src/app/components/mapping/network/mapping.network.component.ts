@@ -60,6 +60,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
     CIRCLE_RADIUS: number = 20;
     LINE_WEIGHT = 2;
+    FADED_OPACITY = 0.1
     private svg: any;
     private g: any;
     private link: any;
@@ -70,7 +71,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
     constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService,
         private cd: ChangeDetectorRef) {
-            console.log("constructor")
+            
         this.d3 = d3Service.getD3();
         this.T = this.d3.transition(null).duration(this.TRANSITION_DURATION);
         this.data$ = new Subject<{ initiative: Initiative, datasetId: string }>();
@@ -84,7 +85,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     }
 
     ngOnInit() {
-        console.log("ngOnInit")
+        
         this.init();
     }
 
@@ -105,7 +106,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
     init() {
         this.uiService.clean();
-        console.log("init")
+        
         let d3 = this.d3;
 
         let svg: any = d3.select("svg"),
@@ -119,8 +120,10 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         g.append("g").attr("class", "nodes");
         g.append("defs");
 
-        svg.append("defs").append("marker")
-            .attr("id", "arrow")
+        svg.append("svg:defs").selectAll("marker")
+            .data([{ id: "arrow", opacity: 1 }, { id: "arrow-fade", opacity: this.FADED_OPACITY }])
+            .enter().append("marker")
+            .attr("id", (d: any) => d.id)
             .attr("viewBox", "0 -5 10 10")
             .attr("refX", 20)
             .attr("refY", 0)
@@ -129,7 +132,24 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .attr("markerUnits", "userSpaceOnUse")
             .attr("orient", "auto")
             .append("svg:path")
-            .attr("d", "M0,-5L10,0L0,5");
+            .attr("d", "M0,-5L10,0L0,5")
+            .style("opacity", (d: any) => d.opacity);
+
+
+
+        // definitions.append("marker")
+        //     .attr("id", "arrow-fade")
+        //     .attr("viewBox", "0 -5 10 10")
+        //     .attr("refX", 20)
+        //     .attr("refY", 0)
+        //     .attr("markerWidth", this.CIRCLE_RADIUS)
+        //     .attr("markerHeight", this.CIRCLE_RADIUS)
+        //     .attr("markerUnits", "userSpaceOnUse")
+        //     .attr("orient", "auto")
+
+        //     .append("svg:path")
+        //     .attr("d", "M0,-5L10,0L0,5")
+        //     .style("opacity", this.FADED_OPACITY);
 
 
         let zooming = d3.zoom().scaleExtent([1 / 10, 4]).on("zoom", zoomed);
@@ -277,6 +297,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
         let CIRCLE_RADIUS = this.CIRCLE_RADIUS
         let LINE_WEIGHT = this.LINE_WEIGHT;
+        let FADED_OPACITY = this.FADED_OPACITY;
         let initiativesList: HierarchyNode<Initiative>[] = this.d3.hierarchy(data).descendants();
         let graph = this.prepare(initiativesList);
         let color = d3.scaleOrdinal(d3.schemeCategory20);
@@ -324,7 +345,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             g.select("g.links").selectAll("path.edge").data(bilinks, function (d: any) { return d[5]; })
         link.exit().remove();
 
-        console.log(bilinks)
+        
         link = link.enter().append("path").attr("class", "edge")
             .merge(link)
             .attr("data-initiatives", function (d: any) { return d[4].join(",") })
@@ -332,7 +353,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .attr("data-target", function (d: any) { return d[2].id })
             .attr("stroke-width", function (d: any) { return `${LINE_WEIGHT * d[3]}px` })
             .attr("id", function (d: any) { return d[5] })
-            .attr("marker-end", "url(#arrow)");
+            .attr("marker-end", "url(#arrow)")
+            .on("mouseout", fade(1));
 
 
 
@@ -350,7 +372,9 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         node.append("text");
 
         node.select("circle").attr("r", CIRCLE_RADIUS)
-            .attr("fill", function (d: any) { return "url(#image" + d.id + ")" });
+            .attr("fill", function (d: any) { return "url(#image" + d.id + ")" })
+            .on("mouseover", fade(FADED_OPACITY))
+            .on("mouseout", fade(1))
 
         node.select("text")
             .attr("dx", CIRCLE_RADIUS + 3)
@@ -416,7 +440,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         }
 
         function positionLink(d: any) {
-            // console.log(d)
+            
             return "M" + d[0].x + "," + d[0].y
                 + "S" + d[1].x + "," + d[1].y
                 + " " + d[2].x + "," + d[2].y;
@@ -451,7 +475,29 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             d3.event.stopPropagation();
         }
 
+        const linkedByIndex = {};
+        graph.links.forEach(d => {
+            linkedByIndex[`${d.source.index},${d.target.index}`] = 1;
+        });
 
+        function isConnected(a: any, b: any) {
+            return linkedByIndex[`${a.index},${b.index}`] || linkedByIndex[`${b.index},${a.index}`] || a.index === b.index;
+        }
+
+        function fade(opacity: number) {
+            return (d: any) => {
+                node.style("stroke-opacity", function (o: any) {
+                    const thisOpacity = isConnected(d, o) ? 1 : opacity;
+                    this.setAttribute("fill-opacity", thisOpacity);
+                    return thisOpacity;
+                });
+
+                link.style("stroke-opacity", (o: any) => {
+                    return (o[0] === d || o[2] === d ? 1 : opacity);
+                });
+                link.attr("marker-end", (o: any) => (opacity === 1 || o[0] === d || o[2] === d ? "url(#arrow)" : "url(#arrow-fade)"));
+            };
+        }
 
         function cleanSelected() {
             node.classed("picked", false);
