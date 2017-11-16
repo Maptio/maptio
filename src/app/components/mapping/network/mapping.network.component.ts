@@ -59,8 +59,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     T: any;
     TRANSITION_DURATION = 2250;
 
-    CIRCLE_RADIUS: number = 20;
-    LINE_WEIGHT = 2;
+    CIRCLE_RADIUS: number = 25;
+    LINE_WEIGHT = 4;
     FADED_OPACITY = 0.05
     private svg: any;
     private g: any;
@@ -136,6 +136,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .attr("orient", "auto")
             .append("svg:path")
             .attr("d", "M0,-5L10,0L0,5")
+            .attr("fill", "#bbb")
             .style("opacity", (d: any) => d.opacity);
 
 
