@@ -202,7 +202,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         let color = colorService.getDefaulColorRange(depth);
 
         // Collapse after the third level
-        root.children.forEach((c: any) => { c.children.forEach(collapse)});
+        root.children.forEach((c: any) => { c.children.forEach(collapse) });
         // console.log(g)
         update(root, 0);
 
@@ -402,8 +402,11 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                             d3.select(this).style("visibility", "visible")
                         })
                         .on("mouseleave", function () {
-                            d3.select(this).style("visibility", "visible")
+                            d3.select(this).style("visibility", "hidden")
                         })
+                })
+                .on("mouseout", () => {
+                    d3.select("div.tooltip-initiative").style("visibility", "hidden")
                 })
 
 
@@ -464,7 +467,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                     d.children = d._children;
                     d._children = null;
                 }
-                update(d, 750);
+                update(d, 500);
                 // centerNode(d)
             }
         }
