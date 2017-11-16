@@ -215,7 +215,13 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
                 return [...pre, ...cur]
             })
             .map(u => {
-                return { name: u.name, id: u.user_id, picture: u.picture, shortid: u.shortid, slug: u.getSlug() };
+                return {
+                    name: u.name,
+                    id: u.user_id,
+                    picture: u.picture,
+                    shortid: u.shortid,
+                    slug: u.getSlug()
+                };
             })
             ;
 
@@ -262,6 +268,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
             })
             .value();
+
+
         return { nodes: _.uniqBy(nodesRaw, (u) => { return u.id }), links: links }
     }
 
@@ -303,9 +311,10 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         let CIRCLE_RADIUS = this.CIRCLE_RADIUS
         let LINE_WEIGHT = this.LINE_WEIGHT;
         let FADED_OPACITY = this.FADED_OPACITY;
+
         let initiativesList: HierarchyNode<Initiative>[] = this.d3.hierarchy(data).descendants();
         let graph = this.prepare(initiativesList);
-        let color = d3.scaleOrdinal(d3.schemeCategory20);
+
         let router = this.router;
         let datasetId = this.datasetId;
         let slug = this.slug;
@@ -355,7 +364,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .attr("data-initiatives", function (d: any) { return d[4].join(",") })
             .attr("data-source", function (d: any) { return d[0].id })
             .attr("data-target", function (d: any) { return d[2].id })
-            .attr("stroke-width", function (d: any) { console.log(d); return `${LINE_WEIGHT * d[3]}px` })
+            .attr("stroke-width", function (d: any) { return `${LINE_WEIGHT * d[3]}px` })
             .attr("id", function (d: any) { return d[5] })
             .attr("marker-end", "url(#arrow)")
             .on("mouseout", fade(1));
@@ -385,7 +394,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
                 .on("end", dragended));
 
         node.append("circle");
-        node.append("text");
+        node.append("text").attr("class", "name");
+        node.append("text").attr("class", "initiatives");
 
         node.select("circle").attr("r", CIRCLE_RADIUS)
             .attr("fill", function (d: any) { return "url(#image" + d.id + ")" })
@@ -395,14 +405,19 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .on("mouseout", fade(1))
             .on("mouseleave", () => {
                 d3.selectAll("text.edge").style("display", "none");
+                // d3.selectAll("text.initiatives").style("display", "none");
             })
             .on("click", function (d: any) {
                 router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.shortid}/${d.slug}`);
             })
 
-        node.select("text")
+        node.select("text.name")
             .attr("dx", CIRCLE_RADIUS + 3)
             .text(function (d: any) { return d.name; });
+
+        // node.select("text.initiatives")
+        // .attr("dx", CIRCLE_RADIUS + 3)
+        // .attr("dy", CIRCLE_RADIUS * 2 + 3);
 
         node.exit().remove();
 
@@ -460,15 +475,22 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         function ticked() {
             link.attr("d", positionLink);
             node.attr("transform", positionNode);
-            labelPaths.attr("d", positionLabelPath)
-            label.attr("transform", positionLabel)
+            labelPaths.attr("d", positionLabelPath);
+            label.attr("transform", positionLabel);
         }
 
         function positionLabel(d: any) {
             let path = g.select("defs").select(`path[id="path${d[5]}"]`);
-            let p = path.node().getPointAtLength(.5 * path.node().getTotalLength());
-            return "translate(" + p.x + "," + p.y + ")";
+            if (path.node()) {
+                let p = path.node().getPointAtLength(.5 * path.node().getTotalLength());
+                return "translate(" + (p.x - 30) + "," + p.y + ")";
+            }
+
+            else {
+                return "translate(" + 0 + "," + 0 + ")";
+            }
         }
+
 
         function positionLabelPath(d: any) {
             return "M" + d[0].x + "," + d[0].y
@@ -478,7 +500,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
         function positionLink(d: any) {
             return "M" + d[0].x + "," + d[0].y
-                + "S" + d[1].x + "," + d[1].y
+                + "S" + 1.1 * d[1].x + "," + 1.1 * d[1].y
                 + " " + d[2].x + "," + d[2].y;
         }
 
@@ -486,11 +508,24 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             return "translate(" + d.x + "," + d.y + ")";
         }
 
-        function getInitiativeDetails(ids: string[]) {
-            // console.log(ids)
+        function getHelpingInitiatives(source: any, target: any, hovered: any, ids: string[]) {
             let filtered = initiativesList.filter((i: any) => ids.includes(i.data.id)).map(i => i.data);
-            // console.log(filtered.map(i => `<tspan>${i.name}</tspan>`).join(""))
-            return filtered.map((i, ix) => `<tspan x="0" y="0" dy="${ix}em">${i.name}</tspan>`).join("")
+
+            let [authoredInitiative, helpedInitiative] = _.partition(filtered, i => i.accountable.user_id === hovered.id)
+            if (helpedInitiative.length > 0) {
+                let h = helpedInitiative
+                    .map((i, ix) => `<tspan class="is-helping" x="0" y="0" dy="${ix + 1}em">${i.name}</tspan>`).join("")
+
+                return `<tspan  x="0" y="0" class="is-helping-title" dy="0em"> ${source.name} helps with</tspan>` + h;
+            }
+
+        }
+
+        function getAuthoredInitiatives(hovered: any) {
+            let authoredInitiative = initiativesList.filter(i => i.data.accountable && i.data.accountable.user_id === hovered.id)
+            let a = authoredInitiative.map((i, ix) => `<tspan class="is-responsible" x="${CIRCLE_RADIUS}" y="0" dy="${CIRCLE_RADIUS * 2 + ix * 15}px">${i.data.name}</tspan>`).join("")
+            console.log(a)
+            return a;
         }
 
         function dragstarted(d: any) {
@@ -535,8 +570,15 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
                     return thisOpacity;
                 });
 
+                // console.log(node.select("text.initiatives"))
+                // node.select("text.initiatives")
+                //     .html(function (o: any) { return getAuthoredInitiatives(o); })
+                //     .style("display", (o: any) => {
+                //         return (o === d ? "inline" : "none");
+                //     })
+
                 label
-                    .html(function (o: any) { if (o[0] === d || o[2] === d) return getInitiativeDetails(o[4]); })
+                    .html(function (o: any) { if (o[0] === d || o[2] === d) return getHelpingInitiatives(o[0], o[2], d, o[4]); })
                     .style("display", (o: any) => {
                         return (o[0] === d || o[2] === d ? "inline" : "none");
                     })

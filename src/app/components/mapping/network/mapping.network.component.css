@@ -38,6 +38,19 @@ svg text.edge{
   stroke-width: 1px;
 }
 
+.is-helping{
+
+}
+
+.is-helping-title{
+  fill:#000;
+  fill-opacity: 0.5;
+  }
+
+.is-responsible{
+  fill-opacity: 1;
+}
+
   .tooltip-initiative{
     position: absolute;
     z-index: 5;
