@@ -482,8 +482,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         function positionLabel(d: any) {
             let path = g.select("defs").select(`path[id="path${d[5]}"]`);
             if (path.node()) {
-                let p = path.node().getPointAtLength(.5 * path.node().getTotalLength());
-                return "translate(" + (p.x - 30) + "," + p.y + ")";
+                let p = path.node().getPointAtLength(.4 * path.node().getTotalLength());
+                return "translate(" + p.x + "," + p.y + ")";
             }
 
             else {
