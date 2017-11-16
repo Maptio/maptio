@@ -34,7 +34,8 @@ svg path.edge {
   }
 
 svg text.edge{
-  stroke: #111;
+  fill: #111;
+  stroke-width: 1px;
 }
 
   .tooltip-initiative{
