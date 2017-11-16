@@ -355,7 +355,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .attr("data-initiatives", function (d: any) { return d[4].join(",") })
             .attr("data-source", function (d: any) { return d[0].id })
             .attr("data-target", function (d: any) { return d[2].id })
-            .attr("stroke-width", function (d: any) { return `${LINE_WEIGHT * d[3]}px` })
+            .attr("stroke-width", function (d: any) { console.log(d); return `${LINE_WEIGHT * d[3]}px` })
             .attr("id", function (d: any) { return d[5] })
             .attr("marker-end", "url(#arrow)")
             .on("mouseout", fade(1));
@@ -376,182 +376,182 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
         let node = g.select("g.nodes").selectAll("g.node").data(nodes.filter(function (d) { return d.id; }))
 
-node = node.enter().append("g").attr("class", "node")
-    .merge(node)
-    .on("dblclick", releaseNode)
-    .call(d3.drag<SVGElement, any>()
-        .on("start", dragstarted)
-        .on("drag", dragged)
-        .on("end", dragended));
+        node = node.enter().append("g").attr("class", "node")
+            .merge(node)
+            .on("dblclick", releaseNode)
+            .call(d3.drag<SVGElement, any>()
+                .on("start", dragstarted)
+                .on("drag", dragged)
+                .on("end", dragended));
 
-node.append("circle");
-node.append("text");
+        node.append("circle");
+        node.append("text");
 
-node.select("circle").attr("r", CIRCLE_RADIUS)
-    .attr("fill", function (d: any) { return "url(#image" + d.id + ")" })
-    .attr("pointer-events", "auto")
-    .attr("cursor", "pointer")
-    .on("mouseover", fade(FADED_OPACITY))
-    .on("mouseout", fade(1))
-    .on("mouseleave", () => {
-        d3.selectAll("text.edge").style("display", "none");
-    })
-    .on("click", function (d: any) {
-        router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.shortid}/${d.slug}`);
-    })
-
-node.select("text")
-    .attr("dx", CIRCLE_RADIUS + 3)
-    .text(function (d: any) { return d.name; });
-
-node.exit().remove();
-
-
-g.selectAll("path")
-    .on("mouseover", function (d: any) {
-        let initiatives = d3.select(this).attr("data-initiatives").split(",");
-        let source = d3.select(this).attr("data-source");
-        let target = d3.select(this).attr("data-target");
-
-        hoverLink(initiativesList, initiatives, source, target);
-        d3.select("div.tooltip-initiative").style("visibility", "visible")
-            .style("top", () => { return d3.event.pageY > width / 2 * 0.80 ? "" : (d3.event.pageY - 30) + "px" })
-            .style("bottom", () => { return d3.event.pageY > width / 2 * 0.80 ? `${this.getBBox().height}px` : "" })
-
-            .style("left", () => { return d3.event.pageX > height * 0.70 ? "auto" : (d3.event.pageX) + "px" })
-            .style("right", () => { return d3.event.pageX > height * 0.70 ? "0" : "" })
-
-            .on("mouseenter", function () {
-                d3.select(this).style("visibility", "visible")
+        node.select("circle").attr("r", CIRCLE_RADIUS)
+            .attr("fill", function (d: any) { return "url(#image" + d.id + ")" })
+            .attr("pointer-events", "auto")
+            .attr("cursor", "pointer")
+            .on("mouseover", fade(FADED_OPACITY))
+            .on("mouseout", fade(1))
+            .on("mouseleave", () => {
+                d3.selectAll("text.edge").style("display", "none");
             })
-            .on("mouseleave", function () {
-                d3.select("div.tooltip-initiative").style("visibility", "hidden")
+            .on("click", function (d: any) {
+                router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.shortid}/${d.slug}`);
             })
-    })
-    .on("mousemove", function (d: any) {
-        let initiatives = d3.select(this).attr("data-initiatives").split(",");
-        let source = d3.select(this).attr("data-source");
-        let target = d3.select(this).attr("data-target");
 
-        hoverLink(initiativesList, initiatives, source, target);
-        d3.select("div.tooltip-initiative").style("visibility", "visible")
-            .style("top", () => { return d3.event.pageY > width / 2 * 0.80 ? "" : (d3.event.pageY - 30) + "px" })
-            .style("bottom", () => { return d3.event.pageY > width / 2 * 0.80 ? `${this.getBBox().height}px` : "" })
+        node.select("text")
+            .attr("dx", CIRCLE_RADIUS + 3)
+            .text(function (d: any) { return d.name; });
 
-            .style("left", () => { return d3.event.pageX > height * 0.70 ? "auto" : (d3.event.pageX) + "px" })
-            .style("right", () => { return d3.event.pageX > height * 0.70 ? "0" : "" })
-            .on("mouseenter", function () {
-                d3.select(this).style("visibility", "visible")
+        node.exit().remove();
+
+
+        g.selectAll("path")
+            .on("mouseover", function (d: any) {
+                let initiatives = d3.select(this).attr("data-initiatives").split(",");
+                let source = d3.select(this).attr("data-source");
+                let target = d3.select(this).attr("data-target");
+
+                hoverLink(initiativesList, initiatives, source, target);
+                d3.select("div.tooltip-initiative").style("visibility", "visible")
+                    .style("top", () => { return d3.event.pageY > width / 2 * 0.80 ? "" : (d3.event.pageY - 30) + "px" })
+                    .style("bottom", () => { return d3.event.pageY > width / 2 * 0.80 ? `${this.getBBox().height}px` : "" })
+
+                    .style("left", () => { return d3.event.pageX > height * 0.70 ? "auto" : (d3.event.pageX) + "px" })
+                    .style("right", () => { return d3.event.pageX > height * 0.70 ? "0" : "" })
+
+                    .on("mouseenter", function () {
+                        d3.select(this).style("visibility", "visible")
+                    })
+                    .on("mouseleave", function () {
+                        d3.select("div.tooltip-initiative").style("visibility", "hidden")
+                    })
             })
-            .on("mouseleave", function () {
-                d3.select(this).style("visibility", "hidden")
+            .on("mousemove", function (d: any) {
+                let initiatives = d3.select(this).attr("data-initiatives").split(",");
+                let source = d3.select(this).attr("data-source");
+                let target = d3.select(this).attr("data-target");
+
+                hoverLink(initiativesList, initiatives, source, target);
+                d3.select("div.tooltip-initiative").style("visibility", "visible")
+                    .style("top", () => { return d3.event.pageY > width / 2 * 0.80 ? "" : (d3.event.pageY - 30) + "px" })
+                    .style("bottom", () => { return d3.event.pageY > width / 2 * 0.80 ? `${this.getBBox().height}px` : "" })
+
+                    .style("left", () => { return d3.event.pageX > height * 0.70 ? "auto" : (d3.event.pageX) + "px" })
+                    .style("right", () => { return d3.event.pageX > height * 0.70 ? "0" : "" })
+                    .on("mouseenter", function () {
+                        d3.select(this).style("visibility", "visible")
+                    })
+                    .on("mouseleave", function () {
+                        d3.select(this).style("visibility", "hidden")
+                    })
             })
-    })
-    .on("mouseout", function () {
-        d3.select("div.tooltip-initiative").style("visibility", "hidden");
-    })
+            .on("mouseout", function () {
+                d3.select("div.tooltip-initiative").style("visibility", "hidden");
+            })
 
-simulation
-    .nodes(graph.nodes)
-    .on("tick", ticked);
+        simulation
+            .nodes(graph.nodes)
+            .on("tick", ticked);
 
-simulation.force<ForceLink<any, any>>("link").links(graph.links);
+        simulation.force<ForceLink<any, any>>("link").links(graph.links);
 
-function ticked() {
-    link.attr("d", positionLink);
-    node.attr("transform", positionNode);
-    labelPaths.attr("d", positionLabelPath)
-    label.attr("transform", positionLabel)
-}
+        function ticked() {
+            link.attr("d", positionLink);
+            node.attr("transform", positionNode);
+            labelPaths.attr("d", positionLabelPath)
+            label.attr("transform", positionLabel)
+        }
 
-function positionLabel(d: any) {
-    let path = g.select("defs").select(`path[id="path${d[5]}"]`);
-    let p = path.node().getPointAtLength(.5 * path.node().getTotalLength());
-    return "translate(" + p.x + "," + p.y + ")";
-}
+        function positionLabel(d: any) {
+            let path = g.select("defs").select(`path[id="path${d[5]}"]`);
+            let p = path.node().getPointAtLength(.5 * path.node().getTotalLength());
+            return "translate(" + p.x + "," + p.y + ")";
+        }
 
-function positionLabelPath(d: any) {
-    return "M" + d[0].x + "," + d[0].y
-        + "S" + d[1].x + "," + d[1].y
-        + " " + d[2].x + "," + d[2].y;
-}
+        function positionLabelPath(d: any) {
+            return "M" + d[0].x + "," + d[0].y
+                + "S" + d[1].x + "," + d[1].y
+                + " " + d[2].x + "," + d[2].y;
+        }
 
-function positionLink(d: any) {
-    return "M" + d[0].x + "," + d[0].y
-        + "S" + d[1].x + "," + d[1].y
-        + " " + d[2].x + "," + d[2].y;
-}
+        function positionLink(d: any) {
+            return "M" + d[0].x + "," + d[0].y
+                + "S" + d[1].x + "," + d[1].y
+                + " " + d[2].x + "," + d[2].y;
+        }
 
-function positionNode(d: any) {
-    return "translate(" + d.x + "," + d.y + ")";
-}
+        function positionNode(d: any) {
+            return "translate(" + d.x + "," + d.y + ")";
+        }
 
-function getInitiativeDetails(ids: string[]) {
-    // console.log(ids)
-    let filtered = initiativesList.filter((i: any) => ids.includes(i.data.id)).map(i => i.data);
-    // console.log(filtered.map(i => `<tspan>${i.name}</tspan>`).join(""))
-    return filtered.map((i, ix) => `<tspan x="0" y="0" dy="${ix}em">${i.name}</tspan>`).join("")
-}
+        function getInitiativeDetails(ids: string[]) {
+            // console.log(ids)
+            let filtered = initiativesList.filter((i: any) => ids.includes(i.data.id)).map(i => i.data);
+            // console.log(filtered.map(i => `<tspan>${i.name}</tspan>`).join(""))
+            return filtered.map((i, ix) => `<tspan x="0" y="0" dy="${ix}em">${i.name}</tspan>`).join("")
+        }
 
-function dragstarted(d: any) {
-    if (!d3.event.active) simulation.alphaTarget(0.3).restart();
-    d3.select(this).classed("fixed", d.fixed = true);
-    d.fx = d.x;
-    d.fy = d.y;
-}
+        function dragstarted(d: any) {
+            if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+            d3.select(this).classed("fixed", d.fixed = true);
+            d.fx = d.x;
+            d.fy = d.y;
+        }
 
-function dragged(d: any) {
-    d.fx = d3.event.x;
-    d.fy = d3.event.y;
-}
+        function dragged(d: any) {
+            d.fx = d3.event.x;
+            d.fy = d3.event.y;
+        }
 
-function dragended(d: any) {
-    if (!d3.event.active) simulation.alphaTarget(0);
-    // d.fx = null;
-    // d.fy = null;
-}
+        function dragended(d: any) {
+            if (!d3.event.active) simulation.alphaTarget(0);
+            // d.fx = null;
+            // d.fy = null;
+        }
 
-function releaseNode(d: any) {
-    d3.select(this).classed("fixed", d.fixed = false);
-    d.fx = null;
-    d.fy = null;
-    d3.event.stopPropagation();
-}
+        function releaseNode(d: any) {
+            d3.select(this).classed("fixed", d.fixed = false);
+            d.fx = null;
+            d.fy = null;
+            d3.event.stopPropagation();
+        }
 
-const linkedByIndex = {};
-graph.links.forEach(d => {
-    linkedByIndex[`${d.source.index},${d.target.index}`] = 1;
-});
-
-function isConnected(a: any, b: any) {
-    return linkedByIndex[`${a.index},${b.index}`] || linkedByIndex[`${b.index},${a.index}`] || a.index === b.index;
-}
-
-function fade(opacity: number) {
-    return (d: any) => {
-        node.style("stroke-opacity", function (o: any) {
-            const thisOpacity = isConnected(d, o) ? 1 : opacity;
-            this.setAttribute("fill-opacity", thisOpacity);
-            return thisOpacity;
+        const linkedByIndex = {};
+        graph.links.forEach(d => {
+            linkedByIndex[`${d.source.index},${d.target.index}`] = 1;
         });
 
-        label
-            .html(function (o: any) { if (o[0] === d || o[2] === d) return getInitiativeDetails(o[4]); })
-            .style("display", (o: any) => {
-                return (o[0] === d || o[2] === d ? "inline" : "none");
-            })
+        function isConnected(a: any, b: any) {
+            return linkedByIndex[`${a.index},${b.index}`] || linkedByIndex[`${b.index},${a.index}`] || a.index === b.index;
+        }
 
-        link.style("stroke-opacity", (o: any) => {
-            return (o[0] === d || o[2] === d ? 1 : opacity);
-        });
-        link.attr("marker-end", (o: any) => (opacity === 1 || o[0] === d || o[2] === d ? "url(#arrow)" : "url(#arrow-fade)"));
-    };
-}
+        function fade(opacity: number) {
+            return (d: any) => {
+                node.style("stroke-opacity", function (o: any) {
+                    const thisOpacity = isConnected(d, o) ? 1 : opacity;
+                    this.setAttribute("fill-opacity", thisOpacity);
+                    return thisOpacity;
+                });
 
-function cleanSelected() {
-    node.classed("picked", false);
-    node.each(function (d: any) { d.picked = d.previouslyPicked = false; })
-}
+                label
+                    .html(function (o: any) { if (o[0] === d || o[2] === d) return getInitiativeDetails(o[4]); })
+                    .style("display", (o: any) => {
+                        return (o[0] === d || o[2] === d ? "inline" : "none");
+                    })
+
+                link.style("stroke-opacity", (o: any) => {
+                    return (o[0] === d || o[2] === d ? 1 : opacity);
+                });
+                link.attr("marker-end", (o: any) => (opacity === 1 || o[0] === d || o[2] === d ? "url(#arrow)" : "url(#arrow-fade)"));
+            };
+        }
+
+        function cleanSelected() {
+            node.classed("picked", false);
+            node.each(function (d: any) { d.picked = d.previouslyPicked = false; })
+        }
 
     }
 }

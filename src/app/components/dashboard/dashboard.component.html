@@ -7,11 +7,11 @@
             <div class="row mb-3" *ngFor="let dataset of (datasets$ | async)">
                 <div class="card mb-3 ">
                     <div class="d-flex w-100 justify-content-between card-header p-0 pl3">
-                        <h5 class="m-0 p-0">
+                        <h5 class="m-0 p-0 pl-2">
                             <a routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}"> {{dataset.initiative.name}}</a>
-                            <a class="btn btn-link btn-sm circleview" routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}/initiatives"></a>
-                            <a class="btn btn-link btn-sm treeview" routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}/people"> </a>
-                            <a class="btn btn-link btn-sm networkview" routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}/connections"></a>
+                            <a class="btn  circleview p-0" routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}/initiatives"></a>
+                            <a class="btn  treeview p-0" routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}/people"> </a>
+                            <a class="btn  networkview p-0" routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}/connections"></a>
                         </h5>
                         <small class="text-muted p-2">Team
                             <a routerLink="/team/{{dataset.team?.team_id}}/{{dataset.team?.getSlug()}}">{{dataset.team?.name}}</a>
