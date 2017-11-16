@@ -374,7 +374,12 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
         label = label.enter().append("text").attr("class", "edge")
             .merge(label)
-            .text(function (d: any) { return "dede" });
+            // .attr("fill-opacity", 0)
+            // .attr("stroke-opacity", 0)
+            .style("display", "none")
+            .html(function (d: any) {
+                return `<textPath xlink:href="#path${d[5]}" startOffset="10%">dede</textPath>`
+            });
 
         let node = g.select("g.nodes").selectAll("g.node").data(nodes.filter(function (d) { return d.id; }))
 
@@ -395,9 +400,11 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .attr("cursor", "pointer")
             .on("mouseover", fade(FADED_OPACITY))
             .on("mouseout", fade(1))
+            .on("mouseleave", () => {
+                d3.selectAll("text.edge").style("display", "none");
+            })
             .on("click", function (d: any) {
-                router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.shortid}/${d.slug}`)
-
+                router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.shortid}/${d.slug}`);
             })
 
         node.select("text")
@@ -462,15 +469,15 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             link.attr("d", positionLink);
             node.attr("transform", positionNode);
             labelPaths.attr("d", positionLabelPath)
-            label.html(positionLabel)
+            // label.html(positionLabel)
         }
 
-        function positionLabel(d: any) {
-            let path = "M" + d[0].x + "," + d[0].y
-                + "S" + d[1].x + "," + d[1].y
-                + " " + d[2].x + "," + d[2].y;
-            return `<textPath xlink:href="#path${d[5]}" startOffset="10%">dede</textPath>`
-        }
+        // function positionLabel(d: any) {
+        //     let path = "M" + d[0].x + "," + d[0].y
+        //         + "S" + d[1].x + "," + d[1].y
+        //         + " " + d[2].x + "," + d[2].y;
+        //     return `<textPath xlink:href="#path${d[5]}" startOffset="10%">dede</textPath>`
+        // }
 
         function positionLabelPath(d: any) {
             return "M" + d[0].x + "," + d[0].y
@@ -529,6 +536,11 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
                     this.setAttribute("fill-opacity", thisOpacity);
                     return thisOpacity;
                 });
+
+                label
+                    .style("display", (o: any) => {
+                        return (o[0] === d || o[2] === d ? "inline" : "none");
+                    })
 
                 link.style("stroke-opacity", (o: any) => {
                     return (o[0] === d || o[2] === d ? 1 : opacity);

@@ -33,6 +33,10 @@ svg path.edge {
     stroke: #bbb;
   }
 
+svg text.edge{
+  stroke: #111;
+}
+
   .tooltip-initiative{
     position: absolute;
     z-index: 5;
