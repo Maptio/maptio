@@ -395,7 +395,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
         node.append("circle");
         node.append("text").attr("class", "name");
-        // node.append("text").attr("class", "initiatives");
+        node.append("text").attr("class", "initiatives");
 
         node.select("circle").attr("r", CIRCLE_RADIUS)
             .attr("fill", function (d: any) { return "url(#image" + d.id + ")" })
@@ -405,7 +405,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .on("mouseout", fade(1))
             .on("mouseleave", () => {
                 d3.selectAll("text.edge").style("display", "none");
-                // d3.selectAll("text.initiatives").style("display", "none");
+                d3.selectAll("text.initiatives").style("display", "none");
             })
 
 
@@ -420,9 +420,10 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .text(function (d: any) { return d.name; })
             ;
 
-        // node.select("text.initiatives")
-        // .attr("dx", CIRCLE_RADIUS + 3)
-        // .attr("dy", CIRCLE_RADIUS * 2 + 3);
+        node.select("text.initiatives")
+            .attr("font-size", `${fontSize * 0.8}px`)
+            .attr("dx", CIRCLE_RADIUS + 3)
+            .attr("dy", CIRCLE_RADIUS * 2 + 3);
 
         node.exit().remove();
 
@@ -490,7 +491,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
                 let p = path.node().getPointAtLength(.4 * path.node().getTotalLength());
                 return "translate(" + p.x + "," + p.y + ")";
             }
-
             else {
                 return "translate(" + 0 + "," + 0 + ")";
             }
@@ -521,16 +521,19 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
                 let h = helpedInitiative
                     .map((i, ix) => `<tspan class="is-helping" x="0" y="0" dy="${ix + 1}em">${i.name}</tspan>`).join("")
 
-                return `<tspan  x="0" y="0" class="is-helping-title" dy="0em"> ${source.name} helps ${target.name} with</tspan>` + h;
+                return `<tspan  x="0" y="0" class="is-helping-title" dy="0em">helps ${target.name} with</tspan>` + h;
             }
 
         }
 
         function getAuthoredInitiatives(hovered: any) {
+            // .attr("dx", CIRCLE_RADIUS + 3)
+            // .attr("dy", CIRCLE_RADIUS / 2)
             let authoredInitiative = initiativesList.filter(i => i.data.accountable && i.data.accountable.user_id === hovered.id)
-            let a = authoredInitiative.map((i, ix) => `<tspan class="is-responsible" x="${CIRCLE_RADIUS}" y="0" dy="${CIRCLE_RADIUS * 2 + ix * 15}px">${i.data.name}</tspan>`).join("")
-            console.log(a)
-            return a;
+            if (authoredInitiative.length > 0) {
+                let a = authoredInitiative.map((i, ix) => `<tspan class="is-responsible" x="0" y="1em" dx="${CIRCLE_RADIUS}" dy="${ix + 1}em">${i.data.name}</tspan>`).join("")
+                return a;
+            }
         }
 
         function dragstarted(d: any) {
@@ -576,11 +579,11 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
                 });
 
                 // console.log(node.select("text.initiatives"))
-                // node.select("text.initiatives")
-                //     .html(function (o: any) { return getAuthoredInitiatives(o); })
-                //     .style("display", (o: any) => {
-                //         return (o === d ? "inline" : "none");
-                //     })
+                node.select("text.initiatives")
+                    .html(function (o: any) { return getAuthoredInitiatives(o); })
+                    .style("display", (o: any) => {
+                        return (o === d ? "inline" : "none");
+                    })
 
                 label
                     .html(function (o: any) { if (o[0] === d || o[2] === d) return getHelpingInitiatives(o[0], o[2], d, o[4]); })
