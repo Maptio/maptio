@@ -118,6 +118,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .attr("height", this.height)
             .attr("transform", `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`)
         g.append("g").attr("class", "links");
+        g.append("g").attr("class", "labels");
         g.append("g").attr("class", "nodes");
         g.append("defs");
 
@@ -313,10 +314,10 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
                 .strength(function (d) { return -600; }))
             .force("center", d3.forceCenter(width / 2, height / 2));
 
-        let definitions = g.select("defs").selectAll("pattern").data(graph.nodes)
-        definitions
+        let patterns = g.select("defs").selectAll("pattern").data(graph.nodes)
+        patterns
             .enter()
-            .append("pattern").merge(definitions)
+            .append("pattern").merge(patterns)
             .attr("id", function (d: any) { return "image" + d.id; })
             .attr("width", "100%")
             .attr("height", "100%")
@@ -325,6 +326,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .attr("height", CIRCLE_RADIUS * 2)
             .attr("xlink:href", function (d: any) { return d.picture })
             ;
+
+
 
 
         let nodes = graph.nodes,
@@ -345,8 +348,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         });
 
 
-        let link =
-            g.select("g.links").selectAll("path.edge").data(bilinks, function (d: any) { return d[5]; })
+        let link = g.select("g.links").selectAll("path.edge").data(bilinks, function (d: any) { return d[5]; })
         link.exit().remove();
 
 
@@ -361,6 +363,18 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .on("mouseout", fade(1));
 
 
+        let labelPaths = g.select("defs").selectAll("path").data(bilinks);
+        labelPaths = labelPaths
+            .enter()
+            .append("path").merge(labelPaths)
+            .attr("id", function (d: any) { return "path" + d[5]; });
+
+        let label = g.select("g.labels").selectAll("text.edge").data(bilinks, function (d: any) { return d[5]; })
+        label.exit().remove();
+
+        label = label.enter().append("text").attr("class", "edge")
+            .merge(label)
+            .text(function (d: any) { return "dede" });
 
         let node = g.select("g.nodes").selectAll("g.node").data(nodes.filter(function (d) { return d.id; }))
 
@@ -447,6 +461,21 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         function ticked() {
             link.attr("d", positionLink);
             node.attr("transform", positionNode);
+            labelPaths.attr("d", positionLabelPath)
+            label.html(positionLabel)
+        }
+
+        function positionLabel(d: any) {
+            let path = "M" + d[0].x + "," + d[0].y
+                + "S" + d[1].x + "," + d[1].y
+                + " " + d[2].x + "," + d[2].y;
+            return `<textPath xlink:href="#path${d[5]}" startOffset="10%">dede</textPath>`
+        }
+
+        function positionLabelPath(d: any) {
+            return "M" + d[0].x + "," + d[0].y
+                + "S" + d[1].x + "," + d[1].y
+                + " " + d[2].x + "," + d[2].y;
         }
 
         function positionLink(d: any) {
