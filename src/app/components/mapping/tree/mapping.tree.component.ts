@@ -401,8 +401,11 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                             d3.select(this).style("visibility", "visible")
                         })
                         .on("mouseleave", function () {
-                            d3.select(this).style("visibility", "visible")
+                            d3.select(this).style("visibility", "hidden")
                         })
+                })
+                .on("mouseout", () => {
+                    d3.select("div.tooltip-initiative").style("visibility", "hidden")
                 })
 
 
