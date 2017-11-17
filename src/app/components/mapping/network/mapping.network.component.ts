@@ -593,7 +593,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
                     // .attr("fill", function (o: any) { return o[0] === d ? "red" : "green" })
                     // .style("stroke-width", function (o: any) { return o[0] === d ? "3" : "1" })
                     // .style("fill-opacity", function (o: any) { return o[0] === d ? "1" : "0.7" })
-                    .style("font-size", function (o: any) { return o[0] === d ? fontSize * 1.2 : fontSize * 0.8 })
+                    .style("font-size", function (o: any) { fontSize * 1.2 })
 
                     .style("display", (o: any) => {
                         return (o[0] === d || o[2] === d ? "inline" : "none");
