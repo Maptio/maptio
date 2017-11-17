@@ -133,8 +133,9 @@ export class MappingComponent implements OnInit {
             })
             .subscribe((data) => {
                 // until the initiave has some children, we leve it in lock mode
-                if (!data.initiative.children[0] || !data.initiative.children[0].children) {
-                    this.lock(false);
+                if (!data.initiative.children || !data.initiative.children[0] || !data.initiative.children[0].children) {
+                   this.lock(false);
+                    this.cd.markForCheck();
                 }
                 this.instance.teamId = data.teamId;
                 this.instance.teamName = data.teamName;
@@ -226,7 +227,7 @@ export class MappingComponent implements OnInit {
 
 
     lock(locking: boolean) {
-        this.isLocked = !this.isLocked;
+        this.isLocked = locking;
         this.isLocked$.next(this.isLocked);
         this.analytics.eventTrack("Map", { action: (locking ? "lock" : "unlock"), team: this.teamName, teamId: this.teamId });
     }
