@@ -69,7 +69,16 @@ svg text.edge{
     z-index: 5;
   }
 
-  .edit:before {
+  .tooltip-initiative > .card{
+    pointer-events: none;
+  }
+
+.btn.edit{
+  pointer-events: all !important;
+  cursor: pointer !important;
+}
+
+.edit:before {
     content: "\f040";
     font-family: FontAwesome;
   }
