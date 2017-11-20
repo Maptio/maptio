@@ -417,11 +417,11 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .attr("fill", function (d: any) { return "url(#image" + d.id + ")" })
             .attr("pointer-events", "auto")
             .attr("cursor", "default")
-            // .on("mouseover", fade(FADED_OPACITY))
-            // .on("mouseout", fade(1))
-            // .on("mouseleave", () => {
-            //     d3.selectAll("text.edge").style("display", "none");
-            // })
+        // .on("mouseover", fade(FADED_OPACITY))
+        // .on("mouseout", fade(1))
+        // .on("mouseleave", () => {
+        //     d3.selectAll("text.edge").style("display", "none");
+        // })
 
 
         node.select("text.name")
@@ -450,7 +450,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
                     .style("top", () => { return d3.event.pageY > width / 2 * 0.80 ? "" : (d3.event.pageY - 30) + "px" })
                     .style("bottom", () => { return d3.event.pageY > width / 2 * 0.80 ? `${this.getBBox().height}px` : "" })
 
-                    .style("left", () => { return d3.event.pageX > height * 0.70 ? "auto" : (d3.event.pageX -8) + "px" })
+                    .style("left", () => { return d3.event.pageX > height * 0.70 ? "auto" : (d3.event.pageX - 8) + "px" })
                     .style("right", () => { return d3.event.pageX > height * 0.70 ? "0" : "" })
 
                     .on("mouseenter", function () {
@@ -470,7 +470,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
                     .style("top", () => { return d3.event.pageY > width / 2 * 0.80 ? "" : (d3.event.pageY - 30) + "px" })
                     .style("bottom", () => { return d3.event.pageY > width / 2 * 0.80 ? `${this.getBBox().height}px` : "" })
 
-                    .style("left", () => { return d3.event.pageX > height * 0.70 ? "auto" : (d3.event.pageX -8) + "px" })
+                    .style("left", () => { return d3.event.pageX > height * 0.70 ? "auto" : (d3.event.pageX - 8) + "px" })
                     .style("right", () => { return d3.event.pageX > height * 0.70 ? "0" : "" })
                     .on("mouseenter", function () {
                         d3.select(this).style("visibility", "visible")
