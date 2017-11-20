@@ -17,7 +17,7 @@ import { UserFactory } from "../../shared/services/user.factory";
 import { ErrorService } from "../../shared/services/error/error.service";
 import { Initiative } from "../../shared/model/initiative.data";
 import { UserService } from "../../shared/services/user/user.service";
-import {compact, sortBy} from "lodash";
+import { compact, sortBy } from "lodash";
 
 @Component({
     selector: "header",
@@ -35,7 +35,7 @@ export class HeaderComponent implements OnInit {
     private isSaving: Promise<boolean> = Promise.resolve(false);
     private timeToSaveInSec: Promise<number>;
     public areMapsAvailable: Promise<boolean>
-    public isCreateMode: boolean =false;
+    public isCreateMode: boolean = false;
     private selectedTeamId: string;
 
     private loginForm: FormGroup;
@@ -50,8 +50,35 @@ export class HeaderComponent implements OnInit {
             this.selectedDataset = value;
         });
 
+        this.loginForm = new FormGroup({
+            "email": new FormControl("", [
+                Validators.required
+            ]),
+            "password": new FormControl("", [
+                Validators.required
+            ])
+        });
+
+        this.createMapForm = new FormGroup({
+            "mapName": new FormControl("", [Validators.required, Validators.minLength(2)]),
+            "teamId": new FormControl(this.selectedTeamId, [Validators.required]),
+        })
+    }
+
+    ngOnDestroy() {
+        if (this.emitterSubscription) {
+            this.emitterSubscription.unsubscribe();
+        }
+        if (this.userSubscription) {
+            this.userSubscription.unsubscribe();
+        }
+    }
+
+    ngOnInit() {
+       
         this.userSubscription = this.auth.getUser().subscribe((user: User) => {
             this.user = user;
+            console.log("header", user)
             this.datasets$ = Promise.all(
                 // get all datasets available to this user accross all teams
                 this.user.datasets.map(
@@ -79,33 +106,6 @@ export class HeaderComponent implements OnInit {
                 .then(teams => sortBy(teams, t => t.name))
         },
             (error: any) => { this.errorService.handleError(error) });
-
-
-        this.loginForm = new FormGroup({
-            "email": new FormControl("", [
-                Validators.required
-            ]),
-            "password": new FormControl("", [
-                Validators.required
-            ])
-        });
-
-        this.createMapForm = new FormGroup({
-            "mapName": new FormControl("", [Validators.required, Validators.minLength(2)]),
-            "teamId": new FormControl(this.selectedTeamId, [Validators.required]),
-        })
-    }
-
-    ngOnDestroy() {
-        if (this.emitterSubscription) {
-            this.emitterSubscription.unsubscribe();
-        }
-        if (this.userSubscription) {
-            this.userSubscription.unsubscribe();
-        }
-    }
-
-    ngOnInit() {
     }
 
     goTo(dataset: DataSet) {

@@ -1,51 +1,36 @@
-import { Subscription } from "rxjs/Rx";
-import { Component, OnInit } from "@angular/core";
+import { Subscription, Observable } from "rxjs/Rx";
+import { Component, OnInit, Injectable, Input } from "@angular/core";
 import { Auth } from "../../shared/services/auth/auth.service";
 import { DatasetFactory } from "../../shared/services/dataset.factory";
 import { TeamFactory } from "../../shared/services/team.factory";
 import { ErrorService } from "../../shared/services/error/error.service";
 import { User } from "../../shared/model/user.data";
 import { DataSet } from "../../shared/model/dataset.data";
-import {compact, sortBy} from "lodash";
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, ActivatedRoute } from "@angular/router";
+import { DashboardComponentResolver } from "./dashboard.resolver";
 
 @Component({
     selector: "dashboard",
     templateUrl: "./dashboard.component.html",
     styleUrls: ["./dashboard.component.css"]
 })
-
 export class DashboardComponent {
 
-    public datasets$: Promise<Array<DataSet>>;
+    datasets: DataSet[];
     public subscription: Subscription;
     public isLoading: boolean;
 
-    constructor(public auth: Auth, public datasetFactory: DatasetFactory, public teamFactory: TeamFactory, public errorService: ErrorService) {
-        this.isLoading = true;
-        this.subscription = this.auth.getUser().subscribe((user: User) => {
+    constructor(private route: ActivatedRoute) {
+        console.log("constructor dashboard")
+    }
 
-            this.datasets$ = Promise
-                .all(user.datasets.map(did => this.datasetFactory.get(did)
-                    .then(d => d, () => { return Promise.reject("No dataset") }).catch(() => { return <DataSet>undefined }
-
-                    )))
-                .then(datasets => compact(datasets))
-                .then(datasets => datasets.map(d => {
-                    let i = 0
-                    d.initiative.traverse((n) => { i++ })
-                    d.depth = i;
-                    return d;
-                })
-                )
-                .then((datasets: Array<DataSet>) => {
-                    return datasets.map(d => {
-                        this.teamFactory.get(d.initiative.team_id).then(team => { d.team = team }, () => { d.team = undefined })
-                        return d;
-                    })
-                })
-                .then(datasets => { this.isLoading = false; return sortBy(datasets, d => d.initiative.name) })
-        },
-            (error: any) => { this.errorService.handleError(error) });
+    ngOnInit() {
+        console.log("ngOnInit", this.route.snapshot.data)
+        this.route.data
+            .subscribe((data: { datasets: DataSet[] }) => {
+                console.log(data)
+                this.datasets = data.datasets;
+            });
     }
 
     ngOnDestroy() {

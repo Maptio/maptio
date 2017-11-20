@@ -86,12 +86,30 @@ import { ChangePasswordComponent } from "./components/login/change-password.comp
 import { AnAnchorableComponent } from "../test/specs/shared/component.helper.shared";
 // import { MappingNetworkComponent } from "./components/mapping/network/mapping.network.component";
 import { LoaderComponent } from "./components/loading/loader.component";
+import { DashboardComponentResolver } from "./components/dashboard/dashboard.resolver";
 
 // Routes
 const appRoutes: Routes = [
-  { path: "", redirectTo: "", pathMatch: "full", component: HomeComponent },
+  { path: "", redirectTo: "home", pathMatch: "full" },
 
-  { path: "home", component: HomeComponent },
+  {
+    path: "home", component: HomeComponent,
+    children: [
+      {
+        path: "",
+        component: DashboardComponent,
+        resolve: {
+          datasets: DashboardComponentResolver
+        },
+        outlet: "dashboard"
+      },
+      {
+        path: "",
+        component: SignupComponent,
+        outlet: "signup"
+      }
+    ]
+  },
 
   { path: "login", component: LoginComponent },
   { path: "help", component: HelpComponent },
@@ -183,7 +201,8 @@ export function markdownServiceFactory(http: Http) {
       provide: MarkdownService,
       useFactory: markdownServiceFactory,
       deps: [Http]
-    }
+    },
+    DashboardComponentResolver
   ],
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]

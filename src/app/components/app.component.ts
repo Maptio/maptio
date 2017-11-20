@@ -2,7 +2,7 @@ import { Subscription } from "rxjs/Subscription";
 import { Observable, Subject } from "rxjs/Rx";
 import { LoaderService } from "./../shared/services/loading/loader.service";
 import { EmitterService } from "../shared/services/emitter.service";
-import { Router, NavigationStart, NavigationEnd, NavigationCancel, ActivatedRouteSnapshot, ActivatedRoute, UrlSegment } from "@angular/router";
+import { Router, NavigationStart, NavigationEnd, NavigationCancel, ActivatedRouteSnapshot, ActivatedRoute, UrlSegment, NavigationError } from "@angular/router";
 import {
   Component,
   OnInit, AfterViewInit,
@@ -31,6 +31,7 @@ export class AppComponent {
   constructor(private router: Router, private loaderService: LoaderService) {
     this.routerSubscription = this.router.events
       .subscribe((event) => {
+        console.log(event)
         if (event instanceof NavigationStart) {
           this.isHome = this.isUrlHome(event.url)
           this.isMap = this.isUrlMap(event.url);
@@ -42,6 +43,10 @@ export class AppComponent {
           event instanceof NavigationCancel
         ) {
           this.isHome = this.isUrlHome(event.url)
+          this.loaderService.hide();
+        }
+
+        if (event instanceof NavigationError) {
           this.loaderService.hide();
         }
       });

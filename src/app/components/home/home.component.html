@@ -14,10 +14,13 @@
 
         </div>
     </div>
-    <div class="col-6 signup mt-3 rounded" *ngIf="!auth.allAuthenticated()">
-        <signup></signup>
-    </div>
-    <div class="col-6 signup mt-3 rounded" *ngIf="auth.allAuthenticated()">
-        <dashboard></dashboard>
+    <!-- <div class="col-6 signup mt-3 rounded" *ngIf="!auth.allAuthenticated()">
+       
+        <router-outlet name="signup"></router-outlet>
+    </div> -->
+    <div class="col-6 signup mt-3 rounded" >
+        <router-outlet *ngIf="auth.allAuthenticated()" name="dashboard"></router-outlet>
+        <router-outlet *ngIf="!auth.allAuthenticated()" name="signup"></router-outlet>
+        <!-- <dashboard></dashboard> -->
     </div>
 </div>
