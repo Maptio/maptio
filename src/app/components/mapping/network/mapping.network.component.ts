@@ -128,7 +128,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .enter().append("marker")
             .attr("id", (d: any) => d.id)
             .attr("viewBox", "0 -5 10 10")
-            .attr("refX", 20)
+            .attr("refX", 19)
             .attr("refY", 0)
             .attr("markerWidth", this.CIRCLE_RADIUS)
             .attr("markerHeight", this.CIRCLE_RADIUS)
