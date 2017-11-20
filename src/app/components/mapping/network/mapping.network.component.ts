@@ -450,7 +450,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
                     .style("top", () => { return d3.event.pageY > width / 2 * 0.80 ? "" : (d3.event.pageY - 30) + "px" })
                     .style("bottom", () => { return d3.event.pageY > width / 2 * 0.80 ? `${this.getBBox().height}px` : "" })
 
-                    .style("left", () => { return d3.event.pageX > height * 0.70 ? "auto" : (d3.event.pageX -10) + "px" })
+                    .style("left", () => { return d3.event.pageX > height * 0.70 ? "auto" : (d3.event.pageX -8) + "px" })
                     .style("right", () => { return d3.event.pageX > height * 0.70 ? "0" : "" })
 
                     .on("mouseenter", function () {
@@ -470,7 +470,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
                     .style("top", () => { return d3.event.pageY > width / 2 * 0.80 ? "" : (d3.event.pageY - 30) + "px" })
                     .style("bottom", () => { return d3.event.pageY > width / 2 * 0.80 ? `${this.getBBox().height}px` : "" })
 
-                    .style("left", () => { return d3.event.pageX > height * 0.70 ? "auto" : (d3.event.pageX -10) + "px" })
+                    .style("left", () => { return d3.event.pageX > height * 0.70 ? "auto" : (d3.event.pageX -8) + "px" })
                     .style("right", () => { return d3.event.pageX > height * 0.70 ? "0" : "" })
                     .on("mouseenter", function () {
                         d3.select(this).style("visibility", "visible")
