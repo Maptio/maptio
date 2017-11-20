@@ -417,11 +417,11 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .attr("fill", function (d: any) { return "url(#image" + d.id + ")" })
             .attr("pointer-events", "auto")
             .attr("cursor", "default")
-            .on("mouseover", fade(FADED_OPACITY))
-            .on("mouseout", fade(1))
-            .on("mouseleave", () => {
-                d3.selectAll("text.edge").style("display", "none");
-            })
+            // .on("mouseover", fade(FADED_OPACITY))
+            // .on("mouseout", fade(1))
+            // .on("mouseleave", () => {
+            //     d3.selectAll("text.edge").style("display", "none");
+            // })
 
 
         node.select("text.name")
