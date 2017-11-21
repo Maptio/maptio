@@ -377,26 +377,26 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                     hoverInitiative(d.data)
                     // console.log(d3.event.pageX, d3.event.pageY, viewerHeight * 0.7, viewerWidth/2 * 0.8)
                     d3.select("div.tooltip-initiative").style("visibility", "visible")
-                        .style("top", () => { return d3.event.pageY > viewerWidth / 2 * 0.80 ? "" : (d3.event.pageY - 20) + "px" })
+                        .style("top", () => { return d3.event.pageY > viewerWidth / 2 * 0.80 ? "" : (d3.event.pageY - 30) + "px" })
                         .style("bottom", () => { return d3.event.pageY > viewerWidth / 2 * 0.80 ? `${this.getBBox().height}px` : "" })
 
-                        .style("left", () => { return d3.event.pageX > viewerHeight * 0.70 ? "auto" : (d3.event.pageX) + "px" })
+                        .style("left", () => { return d3.event.pageX > viewerHeight * 0.70 ? "auto" : (d3.event.pageX - 8) + "px" })
                         .style("right", () => { return d3.event.pageX > viewerHeight * 0.70 ? "0" : "" })
 
                         .on("mouseenter", function () {
                             d3.select(this).style("visibility", "visible")
                         })
                         .on("mouseleave", function () {
-                            d3.select("div.tooltip-initiative").style("visibility", "hidden")
+                            d3.select(this).style("visibility", "hidden")
                         })
                 })
                 .on("mousemove", function (d: any) {
                     hoverInitiative(d.data)
                     d3.select("div.tooltip-initiative").style("visibility", "visible")
-                        .style("top", () => { return d3.event.pageY > viewerWidth / 2 * 0.80 ? "" : (d3.event.pageY - 20) + "px" })
+                        .style("top", () => { return d3.event.pageY > viewerWidth / 2 * 0.80 ? "" : (d3.event.pageY - 30) + "px" })
                         .style("bottom", () => { return d3.event.pageY > viewerWidth / 2 * 0.80 ? `${this.getBBox().height}px` : "" })
 
-                        .style("left", () => { return d3.event.pageX > viewerHeight * 0.70 ? "auto" : (d3.event.pageX) + "px" })
+                        .style("left", () => { return d3.event.pageX > viewerHeight * 0.70 ? "auto" : (d3.event.pageX - 8) + "px" })
                         .style("right", () => { return d3.event.pageX > viewerHeight * 0.70 ? "0" : "" })
                         .on("mouseenter", function () {
                             d3.select(this).style("visibility", "visible")
