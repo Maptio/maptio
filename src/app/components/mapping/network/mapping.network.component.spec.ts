@@ -17,7 +17,7 @@ import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2/dist";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MappingNetworkComponent } from "./mapping.network.component";
 
-fdescribe("mapping.network.component.ts", () => {
+describe("mapping.network.component.ts", () => {
 
     let component: MappingNetworkComponent;
     let target: ComponentFixture<MappingNetworkComponent>;

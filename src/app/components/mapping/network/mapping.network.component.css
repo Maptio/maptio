@@ -22,12 +22,6 @@ svg text:hover{
 .nodes text{
 }
 
-.nodes circle.picked {
-    stroke: #202020;
-    stroke-width: 3px;
-    stroke-opacity: .6;
-}
-
 .node.fixed {
    fill: inherit;
   }
