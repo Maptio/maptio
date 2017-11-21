@@ -86,12 +86,17 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         let treemap = d3.tree().size([viewerWidth / 2, viewerHeight]);
 
         function zoomed() {
-            let transform = d3.event.transform;
-            location.hash = `x=${transform.x}&y=${transform.y}&scale=${transform.k}`
+            // let transform = d3.event.transform;
+            // location.hash = `x=${transform.x}&y=${transform.y}&scale=${transform.k}`
             g.attr("transform", d3.event.transform);
         }
 
-        let zooming = d3.zoom().scaleExtent([1 / 3, 3]).on("zoom", zoomed);
+        let zooming = d3.zoom().scaleExtent([1 / 3, 3])
+            .on("zoom", zoomed)
+            .on("end", () => {
+                let transform = d3.event.transform;
+                location.hash = `x=${transform.x}&y=${transform.y}&scale=${transform.k}`;
+            });
 
         let svg: any = d3.select("svg").attr("width", viewerWidth)
             .attr("height", viewerHeight).attr("class", "overlay");
@@ -283,7 +288,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                     return d._children ? "#000" : color(d.depth);
                 })
                 .attr("stroke-width", function (d: any) { return d._children ? 4 : 1 })
-                .attr("cursor", function (d: any) { return d._children  || d.children ? "pointer" : "default" })
+                .attr("cursor", function (d: any) { return d._children || d.children ? "pointer" : "default" })
                 ;
 
 

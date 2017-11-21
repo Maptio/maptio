@@ -156,12 +156,17 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         //     .style("opacity", this.FADED_OPACITY);
 
 
-        let zooming = d3.zoom().scaleExtent([1 / 10, 4]).on("zoom", zoomed);
+        let zooming = d3.zoom().scaleExtent([1 / 10, 4])
+            .on("zoom", zoomed)
+            .on("end", () => {
+                let transform = d3.event.transform;
+                location.hash = `x=${transform.x}&y=${transform.y}&scale=${transform.k}`;
+            });
 
         function zoomed() {
-            let transform = d3.event.transform;
+            // let transform = d3.event.transform;
 
-            location.hash = `x=${transform.x}&y=${transform.y}&scale=${transform.k}`
+            // location.hash = `x=${transform.x}&y=${transform.y}&scale=${transform.k}`
             g.attr("transform", d3.event.transform);
         }
 
