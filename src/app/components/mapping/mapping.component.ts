@@ -105,7 +105,13 @@ export class MappingComponent implements OnInit {
         this.isLoading.next(true);
 
         this.subscription = this.route.params
-            .map(params => { this.layout = params["layout"]; this.cd.markForCheck(); return this.layout })
+            .map(params => {
+                this.layout = params["layout"];
+                this.cd.markForCheck();
+                this.analytics.eventTrack("Map", { view: this.layout, team: this.teamName, teamId: this.teamId });
+
+                return this.layout
+            })
             .do(layout => {
                 this.isLoading.next(true);
 
@@ -134,8 +140,9 @@ export class MappingComponent implements OnInit {
             })
             .subscribe((data) => {
                 // until the initiave has some children, we leve it in lock mode
-                if (!data.initiative.children[0] || !data.initiative.children[0].children) {
+                if (!data.initiative.children || !data.initiative.children[0] || !data.initiative.children[0].children) {
                     this.lock(false);
+                    this.cd.markForCheck();
                 }
                 this.instance.teamId = data.teamId;
                 this.instance.teamName = data.teamName;
@@ -231,13 +238,14 @@ export class MappingComponent implements OnInit {
 
 
     lock(locking: boolean) {
-        this.isLocked = !this.isLocked;
+        this.isLocked = locking;
         this.isLocked$.next(this.isLocked);
         this.analytics.eventTrack("Map", { action: (locking ? "lock" : "unlock"), team: this.teamName, teamId: this.teamId });
     }
 
     isDisplayLockingToggle() {
         return this.layout !== "people" && this.layout !== "connections";
+
     }
 
     changeFontSize(size: number) {

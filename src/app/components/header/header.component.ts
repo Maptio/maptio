@@ -35,7 +35,7 @@ export class HeaderComponent implements OnInit {
     private isSaving: Promise<boolean> = Promise.resolve(false);
     private timeToSaveInSec: Promise<number>;
     public areMapsAvailable: Promise<boolean>
-    public isCreateMode: boolean;
+    public isCreateMode: boolean =false;
     private selectedTeamId: string;
 
     private loginForm: FormGroup;
