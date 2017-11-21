@@ -61,15 +61,17 @@ svg text.edge{
   .tooltip-initiative{
     position: absolute;
     z-index: 5;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
   }
 
-  .tooltip-initiative > .card{
-    pointer-events: none;
-  }
 
 .btn.edit{
-  pointer-events: all !important;
-  cursor: pointer !important;
+  cursor: pointer ;
 }
 
 .edit:before {
