@@ -260,13 +260,15 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         return { nodes: _.uniqBy(nodesRaw, (u) => { return u.id }), links: links }
     }
 
-    hoverLink(nodesList: HierarchyNode<Initiative>[], initiativeIds: string[], sourceUserId: string, targetUserId: string) {
-        let filtered = _.filter(nodesList, function (i) { return initiativeIds.includes(`${i.data.id}`); });
-        this.tooltipInitiatives = filtered.map(n => n.data);
+    hoverLink(nodes: Initiative[], initiativeIds: string[], sourceUserId: string, targetUserId: string) {
+        this.tooltipInitiatives = _.filter(nodes, function (i) { return initiativeIds.includes(`${i.id}`); });
+
+        if (_.isEmpty(this.tooltipInitiatives)) return;
+
         this.tooltipSourceUser = this.tooltipInitiatives[0].helpers.filter(h => h.user_id === sourceUserId)[0];
         this.tooltipTargetUser = this.tooltipInitiatives[0].accountable;
 
-        this.tooltipRoles = []
+        this.tooltipRoles = [];
         this.tooltipInitiatives.forEach(i => {
             let role = i.helpers.filter(h => h.user_id === sourceUserId)[0].roles[0];
             this.tooltipRoles.push({ initiative: i, role: role })
@@ -355,7 +357,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .attr("stroke-width", function (d: any) { return `${LINE_WEIGHT * d[3]}px` })
             .attr("id", function (d: any) { return d[5] })
             .attr("marker-end", "url(#arrow)")
-            // .on("m ouseout", fade(1));
+        // .on("m ouseout", fade(1));
 
 
         // let labelPaths = g.select("defs").selectAll("path").data(bilinks);
@@ -431,7 +433,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
                 let source = d3.select(this).attr("data-source");
                 let target = d3.select(this).attr("data-target");
 
-                hoverLink(initiativesList, initiatives, source, target);
+                hoverLink(initiativesList.map(d => d.data), initiatives, source, target);
                 d3.select("div.tooltip-initiative").style("visibility", "visible")
                     .style("top", () => { return d3.event.pageY > width / 2 * 0.80 ? "" : (d3.event.pageY - 30) + "px" })
                     .style("bottom", () => { return d3.event.pageY > width / 2 * 0.80 ? `${this.getBBox().height}px` : "" })
@@ -451,7 +453,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
                 let source = d3.select(this).attr("data-source");
                 let target = d3.select(this).attr("data-target");
 
-                hoverLink(initiativesList, initiatives, source, target);
+                hoverLink(initiativesList.map(d => d.data), initiatives, source, target);
                 d3.select("div.tooltip-initiative").style("visibility", "visible")
                     .style("top", () => { return d3.event.pageY > width / 2 * 0.80 ? "" : (d3.event.pageY - 30) + "px" })
                     .style("bottom", () => { return d3.event.pageY > width / 2 * 0.80 ? `${this.getBBox().height}px` : "" })
