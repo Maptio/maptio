@@ -288,6 +288,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                     return d._children ? "#000" : color(d.depth);
                 })
                 .attr("stroke-width", function (d: any) { return d._children ? 4 : 1 })
+                .attr("stroke-dasharray", function (d: any) { return d._children || d.children ? "9, 3" : "0, 0" })
                 .attr("cursor", function (d: any) { return d._children || d.children ? "pointer" : "default" })
                 ;
 
@@ -347,6 +348,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                     return d._children ? "#000" : color(d.depth);
                 })
                 .attr("stroke-width", function (d: any) { return d._children ? 4 : 1 })
+                .attr("stroke-dasharray", function (d: any) { return d._children || d.children ? "9, 3" : "0, 0" })
                 .attr("cursor", function (d: any) { return d._children || d.children ? "pointer" : "default" });
 
             nodeUpdate.select("text.name")

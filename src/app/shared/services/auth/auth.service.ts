@@ -195,7 +195,7 @@ export class Auth {
                                         })
                                         .then((user: User) => {
                                             let isMaptioTeam = this.MAPTIO_INTERNAL_EMAILS.includes(user.email);
-                                            
+
                                             this.analytics.setSuperProperties({
                                                 user_id: user.user_id, email: user.email, isInternal: isMaptioTeam
 
