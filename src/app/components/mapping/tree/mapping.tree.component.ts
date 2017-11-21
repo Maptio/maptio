@@ -282,7 +282,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 .style("stroke", function (d: any) {
                     return d._children ? "#000" : color(d.depth);
                 })
-                .attr("stroke-width", function (d: any) { return d._children ? 2 : 1 })
+                .attr("stroke-width", function (d: any) { return d._children ? 4 : 1 })
+                .attr("cursor", function (d: any) { return d._children  || d.children ? "pointer" : "default" })
                 ;
 
 
@@ -340,8 +341,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 .style("stroke", function (d: any) {
                     return d._children ? "#000" : color(d.depth);
                 })
-                .attr("stroke-width", function (d: any) { return d._children ? 2 : 1 })
-                .attr("cursor", "pointer");
+                .attr("stroke-width", function (d: any) { return d._children ? 4 : 1 })
+                .attr("cursor", function (d: any) { return d._children || d.children ? "pointer" : "default" });
 
             nodeUpdate.select("text.name")
                 .text(function (d: any) { return d.data.name; })
@@ -467,7 +468,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                     d.children = d._children;
                     d._children = null;
                 }
-                update(d, 500);
+                update(d, 250);
                 // centerNode(d)
             }
         }
