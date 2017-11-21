@@ -613,7 +613,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
                         d3.select(this).style("visibility", "visible")
                     })
                     .on("mouseleave", function () {
-                        d3.select("div.tooltip-initiative").style("visibility", "hidden")
+                        d3.select(this).style("visibility", "hidden")
                     })
             })
             .on("mousemove", function (d: any) {
@@ -628,8 +628,11 @@ export class MappingCirclesComponent implements IDataVisualizer {
                         d3.select(this).style("visibility", "visible")
                     })
                     .on("mouseleave", function () {
-                        d3.select(this).style("visibility", "visible")
+                        d3.select(this).style("visibility", "hidden")
                     })
+            })
+            .on("mouseout", () => {
+                d3.select("div.tooltip-initiative").style("visibility", "hidden")
             })
 
 
