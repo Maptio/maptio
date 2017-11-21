@@ -119,11 +119,11 @@ export class MappingCirclesComponent implements IDataVisualizer {
             definitions = svg.append("svg:defs");
 
         let zooming = d3.zoom().scaleExtent([1 / 3, 3])
-        .on("zoom", zoomed)
-        .on("end", () => {
-            let transform = d3.event.transform;
-            location.hash = `x=${transform.x}&y=${transform.y}&scale=${transform.k}`;
-        });
+            .on("zoom", zoomed)
+            .on("end", () => {
+                let transform = d3.event.transform;
+                location.hash = `x=${transform.x}&y=${transform.y}&scale=${transform.k}`;
+            });
 
         try {
             // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
@@ -139,7 +139,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             // let transform = d3.event.transform;
             g.attr("transform", d3.event.transform);
             // location.hash = `x=${transform.x}&y=${transform.y}&scale=${transform.k}`
-            
+
             // d3.selectAll("g.nodes")
             //     .transition(this.T).duration(this.TRANSITION_OPACITY)
             //     .style("fill-opacity", function (d: any) {
@@ -314,7 +314,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
         if (!this.g) {
             this.init();
         }
-        
+
         let d3 = this.d3;
         let svg = this.svg;
         let g = this.g;
