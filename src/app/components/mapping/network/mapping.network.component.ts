@@ -140,22 +140,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .style("opacity", (d: any) => d.opacity);
 
 
-
-        // definitions.append("marker")
-        //     .attr("id", "arrow-fade")
-        //     .attr("viewBox", "0 -5 10 10")
-        //     .attr("refX", 20)
-        //     .attr("refY", 0)
-        //     .attr("markerWidth", this.CIRCLE_RADIUS)
-        //     .attr("markerHeight", this.CIRCLE_RADIUS)
-        //     .attr("markerUnits", "userSpaceOnUse")
-        //     .attr("orient", "auto")
-
-        //     .append("svg:path")
-        //     .attr("d", "M0,-5L10,0L0,5")
-        //     .style("opacity", this.FADED_OPACITY);
-
-
         let zooming = d3.zoom().scaleExtent([1 / 10, 4])
             .on("zoom", zoomed)
             .on("end", () => {
@@ -164,9 +148,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             });
 
         function zoomed() {
-            // let transform = d3.event.transform;
-
-            // location.hash = `x=${transform.x}&y=${transform.y}&scale=${transform.k}`
             g.attr("transform", d3.event.transform);
         }
 
@@ -374,14 +355,14 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .attr("stroke-width", function (d: any) { return `${LINE_WEIGHT * d[3]}px` })
             .attr("id", function (d: any) { return d[5] })
             .attr("marker-end", "url(#arrow)")
-            .on("mouseout", fade(1));
+            // .on("m ouseout", fade(1));
 
 
-        let labelPaths = g.select("defs").selectAll("path").data(bilinks);
-        labelPaths = labelPaths
-            .enter()
-            .append("path").merge(labelPaths)
-            .attr("id", function (d: any) { return "path" + d[5]; });
+        // let labelPaths = g.select("defs").selectAll("path").data(bilinks);
+        // labelPaths = labelPaths
+        //     .enter()
+        //     .append("path").merge(labelPaths)
+        //     .attr("id", function (d: any) { return "path" + d[5]; });
 
         let label = g.select("g.labels").selectAll("text.edge").data(bilinks, function (d: any) { return d[5]; })
         label.exit().remove();
@@ -497,7 +478,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         function ticked() {
             link.attr("d", positionLink);
             node.attr("transform", positionNode);
-            labelPaths.attr("d", positionLabelPath);
+            // labelPaths.attr("d", positionLabelPath);
             label.attr("transform", positionLabel);
         }
 
@@ -513,11 +494,11 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         }
 
 
-        function positionLabelPath(d: any) {
-            return "M" + d[0].x + "," + d[0].y
-                + "S" + d[1].x + "," + d[1].y
-                + " " + d[2].x + "," + d[2].y;
-        }
+        // function positionLabelPath(d: any) {
+        //     return "M" + d[0].x + "," + d[0].y
+        //         + "S" + d[1].x + "," + d[1].y
+        //         + " " + d[2].x + "," + d[2].y;
+        // }
 
         function positionLink(d: any) {
             return "M" + d[0].x + "," + d[0].y
@@ -529,28 +510,26 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             return "translate(" + d.x + "," + d.y + ")";
         }
 
-        function getHelpingInitiatives(source: any, target: any, hovered: any, ids: string[]) {
-            let filtered = initiativesList.filter((i: any) => ids.includes(i.data.id)).map(i => i.data);
+        // function getHelpingInitiatives(source: any, target: any, hovered: any, ids: string[]) {
+        //     let filtered = initiativesList.filter((i: any) => ids.includes(i.data.id)).map(i => i.data);
 
-            let [authoredInitiative, helpedInitiative] = _.partition(filtered, i => i.accountable.user_id === hovered.id)
-            if (helpedInitiative.length > 0) {
-                let h = helpedInitiative
-                    .map((i, ix) => `<tspan class="is-helping" x="0" y="0" dy="${ix + 1}em">${i.name}</tspan>`).join("")
+        //     let [authoredInitiative, helpedInitiative] = _.partition(filtered, i => i.accountable.user_id === hovered.id)
+        //     if (helpedInitiative.length > 0) {
+        //         let h = helpedInitiative
+        //             .map((i, ix) => `<tspan class="is-helping" x="0" y="0" dy="${ix + 1}em">${i.name}</tspan>`).join("")
 
-                return `<tspan  x="0" y="0" class="is-helping-title" dy="0em">helps ${target.name} with</tspan>` + h;
-            }
+        //         return `<tspan  x="0" y="0" class="is-helping-title" dy="0em">helps ${target.name} with</tspan>` + h;
+        //     }
 
-        }
+        // }
 
-        function getAuthoredInitiatives(hovered: any) {
-            // .attr("dx", CIRCLE_RADIUS + 3)
-            // .attr("dy", CIRCLE_RADIUS / 2)
-            let authoredInitiative = initiativesList.filter(i => i.data.accountable && i.data.accountable.user_id === hovered.id)
-            if (authoredInitiative.length > 0) {
-                let a = authoredInitiative.map((i, ix) => `<tspan class="is-responsible" x="0" y="1em" dx="${CIRCLE_RADIUS}" dy="${ix + 1}em">${i.data.name}</tspan>`).join("")
-                return a;
-            }
-        }
+        // function getAuthoredInitiatives(hovered: any) {
+        //     let authoredInitiative = initiativesList.filter(i => i.data.accountable && i.data.accountable.user_id === hovered.id)
+        //     if (authoredInitiative.length > 0) {
+        //         let a = authoredInitiative.map((i, ix) => `<tspan class="is-responsible" x="0" y="1em" dx="${CIRCLE_RADIUS}" dy="${ix + 1}em">${i.data.name}</tspan>`).join("")
+        //         return a;
+        //     }
+        // }
 
         function dragstarted(d: any) {
             if (!d3.event.active) simulation.alphaTarget(0.3).restart();
@@ -577,39 +556,36 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             d3.event.stopPropagation();
         }
 
-        const linkedByIndex = {};
-        graph.links.forEach(d => {
-            linkedByIndex[`${d.source.index},${d.target.index}`] = 1;
-        });
+        // const linkedByIndex = {};
+        // graph.links.forEach(d => {
+        //     linkedByIndex[`${d.source.index},${d.target.index}`] = 1;
+        // });
 
-        function isConnected(a: any, b: any) {
-            return linkedByIndex[`${a.index},${b.index}`] || linkedByIndex[`${b.index},${a.index}`] || a.index === b.index;
-        }
+        // function isConnected(a: any, b: any) {
+        //     return linkedByIndex[`${a.index},${b.index}`] || linkedByIndex[`${b.index},${a.index}`] || a.index === b.index;
+        // }
 
-        function fade(opacity: number) {
-            return (d: any) => {
-                node.style("stroke-opacity", function (o: any) {
-                    const thisOpacity = isConnected(d, o) ? 1 : opacity;
-                    this.setAttribute("fill-opacity", thisOpacity);
-                    return thisOpacity;
-                });
+        // function fade(opacity: number) {
+        //     return (d: any) => {
+        //         node.style("stroke-opacity", function (o: any) {
+        //             const thisOpacity = isConnected(d, o) ? 1 : opacity;
+        //             this.setAttribute("fill-opacity", thisOpacity);
+        //             return thisOpacity;
+        //         });
 
-                label
-                    // .attr("fill", function (o: any) { return o[0] === d ? "red" : "green" })
-                    // .style("stroke-width", function (o: any) { return o[0] === d ? "3" : "1" })
-                    // .style("fill-opacity", function (o: any) { return o[0] === d ? "1" : "0.7" })
-                    .style("font-size", function (o: any) { fontSize * 1.2 })
+        //         label
+        //             .style("font-size", function (o: any) { fontSize * 1.2 })
 
-                    .style("display", (o: any) => {
-                        return (o[0] === d || o[2] === d ? "inline" : "none");
-                    })
+        //             .style("display", (o: any) => {
+        //                 return (o[0] === d || o[2] === d ? "inline" : "none");
+        //             })
 
-                link.style("stroke-opacity", (o: any) => {
-                    return (o[0] === d || o[2] === d ? 1 : opacity);
-                });
-                link.attr("marker-end", (o: any) => (opacity === 1 || o[0] === d || o[2] === d ? "url(#arrow)" : "url(#arrow-fade)"));
-            };
-        }
+        //         link.style("stroke-opacity", (o: any) => {
+        //             return (o[0] === d || o[2] === d ? 1 : opacity);
+        //         });
+        //         link.attr("marker-end", (o: any) => (opacity === 1 || o[0] === d || o[2] === d ? "url(#arrow)" : "url(#arrow-fade)"));
+        //     };
+        // }
 
         function cleanSelected() {
             node.classed("picked", false);

@@ -32,7 +32,7 @@ svg circle{
 
 svg path.edge {
     fill: none;
-    stroke: #bbb;
+    stroke: #000;
   }
 
 svg text.edge{
