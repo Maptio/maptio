@@ -86,6 +86,7 @@ import { ChangePasswordComponent } from "./components/login/change-password.comp
 import { AnAnchorableComponent } from "../test/specs/shared/component.helper.shared";
 // import { MappingNetworkComponent } from "./components/mapping/network/mapping.network.component";
 import { LoaderComponent } from "./components/loading/loader.component";
+import { MappingNetworkComponent } from "./components/mapping/network/mapping.network.component";
 
 // Routes
 const appRoutes: Routes = [
@@ -130,7 +131,7 @@ export function markdownServiceFactory(http: Http) {
 @NgModule({
   declarations: [
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent, TeamComponent,
-    MappingComponent, MappingCirclesComponent, MappingTreeComponent, MemberSummaryComponent,
+    MappingComponent, MappingCirclesComponent, MappingTreeComponent, MappingNetworkComponent, MemberSummaryComponent,
     BuildingComponent, InitiativeNodeComponent, LoginComponent, HomeComponent, UnauthorizedComponent, NotFoundComponent,
     InitiativeComponent, ChangePasswordComponent, LoaderComponent, TeamsListComponent, SignupComponent,
     FocusIfDirective,

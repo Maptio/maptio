@@ -1,18 +1,11 @@
-svg text{
-  
-}
 
-.node {
-  cursor: pointer;
-}
-
-.node circle {
+::ng-deep .node circle {
   /*fill: #fff;*/
   stroke: steelblue;
-  stroke-width: 1.5px;
+  /* stroke-width: 1.5px; */
 }
 
-.node circle .withChildren{
+::ng-deep .node circle .withChildren{
   stroke-width: 3px;
 }
 
@@ -20,31 +13,31 @@ svg text{
   font: normal;
 } */
 
-.link {
+::ng-deep .link {
   fill: none;
   stroke: #ccc;
   stroke-width: 1.5px;
 }
 
-.name{
+::ng-deep .name{
   font-size: small;
 }
-.name:hover{
+::ng-deep .name:hover{
   pointer-events: auto;
   text-decoration: underline;
 }
 
-.accountable{
+::ng-deep .accountable{
   font-weight: bold;
 }
 
-.accountable:hover{
+::ng-deep .accountable:hover{
   text-decoration: underline;
 }
 
 
 
-image.accountable{
+::ng-deep image.accountable{
   border: 2px red solid
 }
 

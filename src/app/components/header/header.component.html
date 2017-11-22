@@ -33,8 +33,10 @@
 
             </li>
             <li class="nav-item dropdown" *ngIf="auth.allAuthenticated()">
+
                 <a *ngIf="(teams$ | async)?.length > 0 " class="nav-link dropdown-toggle without-caret" (mouseenter)="isCreateMode=true" [class.coloured]="isCreateMode">
                     Create a map <i class="fa" [class.fa-caret-up]="isCreateMode"  [class.fa-caret-down]="!isCreateMode"aria-hidden="true"></i>
+
                 </a>
                 <a *ngIf="(teams$ | async)?.length === 0 " class="nav-link dropdown-toggle without-caret text-success" (click)="createTeam()" [class.coloured]="isCreateMode">
                     Create a team
