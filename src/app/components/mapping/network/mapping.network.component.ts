@@ -404,7 +404,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         node.select("circle").attr("r", CIRCLE_RADIUS)
             .attr("fill", function (d: any) { return "url(#image" + d.id + ")" })
             .attr("pointer-events", "auto")
-            .attr("cursor", "default")
+            .attr("cursor", "move")
         // .on("mouseover", fade(FADED_OPACITY))
         // .on("mouseout", fade(1))
         // .on("mouseleave", () => {
