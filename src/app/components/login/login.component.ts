@@ -74,6 +74,11 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit() {
+        if (this.auth.authenticated()) {
+            this.router.navigateByUrl("/home");
+            return;
+        }
+
         this.subscription = this.route.queryParams.subscribe((params: Params) => {
             this.token = params["token"];
             // HACK : wouldbe nicer to have booleans for login attempt cases, but that will do for now

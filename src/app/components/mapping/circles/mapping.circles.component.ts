@@ -8,13 +8,13 @@ import { ColorService } from "../../../shared/services/ui/color.service"
 import { UIService } from "../../../shared/services/ui/ui.service"
 import { IDataVisualizer } from "../mapping.interface"
 import { UserFactory } from "../../../shared/services/user.factory";
-import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2/dist";
+import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 
 @Component({
     selector: "circles",
     templateUrl: "./mapping.circles.component.html",
     styleUrls: ["./mapping.circles.component.css"],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.Emulated
 })
 
 export class MappingCirclesComponent implements IDataVisualizer {
@@ -106,6 +106,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
     }
 
     init() {
+
         this.uiService.clean();
         let d3 = this.d3;
         let RATIO_FOR_VISIBILITY = this.RATIO_FOR_VISIBILITY;
@@ -117,7 +118,12 @@ export class MappingCirclesComponent implements IDataVisualizer {
             g = svg.append("g").attr("transform", `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`),
             definitions = svg.append("svg:defs");
 
-        let zooming = d3.zoom().scaleExtent([1 / 3, 3]).on("zoom", zoomed);
+        let zooming = d3.zoom().scaleExtent([1 / 3, 3])
+            .on("zoom", zoomed)
+            .on("end", () => {
+                let transform = d3.event.transform;
+                location.hash = `x=${transform.x}&y=${transform.y}&scale=${transform.k}`;
+            });
 
         try {
             // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
@@ -130,10 +136,10 @@ export class MappingCirclesComponent implements IDataVisualizer {
         }
 
         function zoomed() {
-            let transform = d3.event.transform;
-
-            location.hash = `x=${transform.x}&y=${transform.y}&scale=${transform.k}`
+            // let transform = d3.event.transform;
             g.attr("transform", d3.event.transform);
+            // location.hash = `x=${transform.x}&y=${transform.y}&scale=${transform.k}`
+
             // d3.selectAll("g.nodes")
             //     .transition(this.T).duration(this.TRANSITION_OPACITY)
             //     .style("fill-opacity", function (d: any) {
@@ -304,6 +310,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
     }
 
     update(data: any) {
+
         if (!this.g) {
             this.init();
         }
@@ -602,33 +609,36 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 hoverInitiative(d.data)
                 // console.log(d3.event.pageX, d3.event.pageY, this.getBBox(), diameter * 0.7)
                 d3.select("div.tooltip-initiative").style("visibility", "visible")
-                    .style("top", () => { return d3.event.pageY > diameter / 2 * 0.80 ? "" : (d3.event.pageY - 20) + "px" })
+                    .style("top", () => { return d3.event.pageY > diameter / 2 * 0.80 ? "" : (d3.event.pageY - 30) + "px" })
                     .style("bottom", () => { return d3.event.pageY > diameter / 2 * 0.80 ? `${this.getBBox().height}px` : "" })
 
-                    .style("left", () => { return d3.event.pageX > diameter * 0.70 ? "auto" : (d3.event.pageX) + "px" })
+                    .style("left", () => { return d3.event.pageX > diameter * 0.70 ? "auto" : (d3.event.pageX - 8) + "px" })
                     .style("right", () => { return d3.event.pageX > diameter * 0.70 ? "0" : "" })
 
                     .on("mouseenter", function () {
                         d3.select(this).style("visibility", "visible")
                     })
                     .on("mouseleave", function () {
-                        d3.select("div.tooltip-initiative").style("visibility", "hidden")
+                        d3.select(this).style("visibility", "hidden")
                     })
             })
             .on("mousemove", function (d: any) {
                 hoverInitiative(d.data)
                 d3.select("div.tooltip-initiative").style("visibility", "visible")
-                    .style("top", () => { return d3.event.pageY > diameter / 2 * 0.80 ? "" : (d3.event.pageY - 20) + "px" })
+                    .style("top", () => { return d3.event.pageY > diameter / 2 * 0.80 ? "" : (d3.event.pageY - 30) + "px" })
                     .style("bottom", () => { return d3.event.pageY > diameter / 2 * 0.80 ? `${this.getBBox().height}px` : "" })
 
-                    .style("left", () => { return d3.event.pageX > diameter * 0.70 ? "auto" : (d3.event.pageX) + "px" })
+                    .style("left", () => { return d3.event.pageX > diameter * 0.70 ? "auto" : (d3.event.pageX - 8) + "px" })
                     .style("right", () => { return d3.event.pageX > diameter * 0.70 ? "0" : "" })
                     .on("mouseenter", function () {
                         d3.select(this).style("visibility", "visible")
                     })
                     .on("mouseleave", function () {
-                        d3.select(this).style("visibility", "visible")
+                        d3.select(this).style("visibility", "hidden")
                     })
+            })
+            .on("mouseout", () => {
+                d3.select("div.tooltip-initiative").style("visibility", "hidden")
             })
 
 

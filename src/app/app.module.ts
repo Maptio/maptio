@@ -88,6 +88,7 @@ import { AnAnchorableComponent } from "../test/specs/shared/component.helper.sha
 import { LoaderComponent } from "./components/loading/loader.component";
 import { DashboardComponentResolver } from "./components/dashboard/dashboard.resolver";
 
+
 // Routes
 const appRoutes: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
@@ -148,7 +149,7 @@ export function markdownServiceFactory(http: Http) {
 @NgModule({
   declarations: [
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent, TeamComponent,
-    MappingComponent, MappingCirclesComponent, MappingTreeComponent, MemberSummaryComponent,
+    MappingComponent, MappingCirclesComponent, MappingTreeComponent, MappingNetworkComponent, MemberSummaryComponent,
     BuildingComponent, InitiativeNodeComponent, LoginComponent, HomeComponent, UnauthorizedComponent, NotFoundComponent,
     InitiativeComponent, ChangePasswordComponent, LoaderComponent, TeamsListComponent, SignupComponent,
     FocusIfDirective,

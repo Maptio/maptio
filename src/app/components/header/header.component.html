@@ -33,8 +33,10 @@
 
             </li>
             <li class="nav-item dropdown" *ngIf="auth.allAuthenticated()">
+
                 <a *ngIf="(teams$ | async)?.length > 0 " class="nav-link dropdown-toggle without-caret" (mouseenter)="isCreateMode=true" [class.coloured]="isCreateMode">
                     Create a map <i class="fa" [class.fa-caret-up]="isCreateMode"  [class.fa-caret-down]="!isCreateMode"aria-hidden="true"></i>
+
                 </a>
                 <a *ngIf="(teams$ | async)?.length === 0 " class="nav-link dropdown-toggle without-caret text-success" (click)="createTeam()" [class.coloured]="isCreateMode">
                     Create a team
@@ -58,7 +60,7 @@
 
                 <form class="form-inline" [formGroup]="loginForm" (submit)="login()">
                     <div class="form-group mr-1" [class.has-warning]="loginForm.controls['email'].invalid  && (loginForm.controls['email'].dirty || loginForm.controls['email'].touched)">
-                        <input type="text" id="inputEmail" formControlName="email" class="form-control form-control-sm  form-control-warning" placeholder="Email"
+                        <input type="email" id="inputEmail" formControlName="email" class="form-control form-control-sm  form-control-warning" placeholder="Email"
                             required email>
                     </div>
                     <div class="form-group mr-1" [class.has-warning]="loginForm.controls['password'].invalid  && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)">

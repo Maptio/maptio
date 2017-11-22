@@ -9,6 +9,9 @@
                     <div class="d-flex w-100 justify-content-between card-header">
                         <h5>
                             <a routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}"> {{dataset.initiative.name}}</a>
+                            <!-- <a ngbTooltip="Circle view" placement="top" container="body" class="btn circleview p-0 small" routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}/initiatives"></a>
+                            <a ngbTooltip="Tree view" placement="top" container="body" class="btn treeview p-0 small" routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}/people"> </a>
+                            <a ngbTooltip="Network view" placement="top" container="body" class="btn networkview p-0 small"  routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}/connections"></a> -->
                         </h5>
                         <small class="text-muted">Team
                             <a routerLink="/team/{{dataset.team?.team_id}}/{{dataset.team?.getSlug()}}">{{dataset.team?.name}}</a>

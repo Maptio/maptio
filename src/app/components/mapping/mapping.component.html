@@ -1,9 +1,11 @@
 <div class="control first">
   <div class=" btn-group-vertical mb-1">
-    <a class="btn circleview" [class.disabled]="(isLoading | async)" routerLink="/map/{{datasetId}}/{{slug}}/initiatives" placement="left"
+    <a class="btn circleview ml-1" [class.disabled]="(isLoading | async)" routerLink="/map/{{datasetId}}/{{slug}}/initiatives" placement="left"
       container="body" ngbTooltip="Circle view"></a>
-    <a class="btn treeview" [class.disabled]="(isLoading | async)" routerLink="/map/{{datasetId}}/{{slug}}/people" placement="left"
+    <a class="btn treeview ml-1" [class.disabled]="(isLoading | async)" routerLink="/map/{{datasetId}}/{{slug}}/people" placement="left"
       container="body" ngbTooltip="Tree view"></a>
+    <a class="btn networkview ml-1" [class.disabled]="(isLoading | async)" routerLink="/map/{{datasetId}}/{{slug}}/connections" placement="left"
+      container="body" ngbTooltip="Network view"></a>
   </div>
 </div>
 
@@ -21,11 +23,12 @@
 </div>
 <div class="control third" *ngIf="isDisplayLockingToggle()">
   <div class="">
-    <a #lockInput *ngIf="isLocked" [class.background]="!isLocked" class="btn text-warning" (click)="lock(false)" 
-    placement="top" container="body" ngbTooltip="Drag and drop, adding and removing disabled">
-       <i class="fa fa-lock" aria-hidden="true"></i> Locked (view mode)</a>
-    <a #lockInput *ngIf="!isLocked" [class.background]="!isLocked" class="btn text-default" (click)="lock(true)" placement="top" container="body"
-      ngbTooltip="Drag and drop, adding and removing enabled"><i class="fa fa-unlock-alt" aria-hidden="true"></i> Unlocked (edit mode)</a>
+    <a #lockInput *ngIf="isLocked" [class.background]="!isLocked" class="btn text-warning" (click)="lock(false)" placement="top"
+      container="body" ngbTooltip="Drag and drop, adding and removing disabled">
+      <i class="fa fa-lock" aria-hidden="true"></i> Locked (view mode)</a>
+    <a #lockInput *ngIf="!isLocked" [class.background]="!isLocked" class="btn text-default" (click)="lock(true)" placement="top"
+      container="body" ngbTooltip="Drag and drop, adding and removing enabled">
+      <i class="fa fa-unlock-alt" aria-hidden="true"></i> Unlocked (edit mode)</a>
   </div>
 </div>
 

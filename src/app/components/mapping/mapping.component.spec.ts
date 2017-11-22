@@ -24,6 +24,7 @@ import { UserService } from "../../shared/services/user/user.service";
 import { JwtEncoder } from "../../shared/services/encoding/jwt.service";
 import { IDataVisualizer } from "./mapping.interface";
 import { Subject } from "rxjs/Rx";
+import { MappingNetworkComponent } from "./network/mapping.network.component";
 
 describe("mapping.component.ts", () => {
 
@@ -60,7 +61,7 @@ describe("mapping.component.ts", () => {
 
             ],
             schemas: [NO_ERRORS_SCHEMA],
-            declarations: [MappingComponent, MappingCirclesComponent, MappingTreeComponent, AnchorDirective],
+            declarations: [MappingComponent, MappingCirclesComponent, MappingTreeComponent, MappingNetworkComponent, AnchorDirective],
             imports: [RouterTestingModule]
         })
             .compileComponents()

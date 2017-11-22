@@ -21,12 +21,13 @@ import { AnchorDirective } from "../../shared/directives/anchor.directive"
 import "rxjs/add/operator/map"
 import { EmitterService } from "../../shared/services/emitter.service";
 import { Subject, BehaviorSubject, Subscription, Observable } from "rxjs/Rx";
+import { MappingNetworkComponent } from "./network/mapping.network.component";
 
 @Component({
     selector: "mapping",
     templateUrl: "./mapping.component.html",
     styleUrls: ["./mapping.component.css"],
-    entryComponents: [MappingCirclesComponent, MappingTreeComponent],
+    entryComponents: [MappingCirclesComponent, MappingTreeComponent, MappingNetworkComponent],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
@@ -161,6 +162,8 @@ export class MappingComponent implements OnInit {
                 return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`
             case "people":
                 return `x=100&y=${this.VIEWPORT_HEIGHT / 4}&scale=1`
+            case "connections":
+                return `x=0&y=${-this.VIEWPORT_HEIGHT / 4}&scale=1`
             default:
                 return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`
         }
@@ -172,6 +175,8 @@ export class MappingComponent implements OnInit {
                 return this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent);
             case "people":
                 return this.componentFactoryResolver.resolveComponentFactory(MappingTreeComponent);
+            case "connections":
+                return this.componentFactoryResolver.resolveComponentFactory(MappingNetworkComponent);
             default:
                 return this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent);
         }
@@ -239,7 +244,8 @@ export class MappingComponent implements OnInit {
     }
 
     isDisplayLockingToggle() {
-        return this.layout !== "people";
+        return this.layout !== "people" && this.layout !== "connections";
+
     }
 
     changeFontSize(size: number) {

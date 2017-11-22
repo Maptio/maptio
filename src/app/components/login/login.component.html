@@ -83,10 +83,10 @@
 
         <div class="form-group" [class.has-warning]="loginForm.controls['email'].invalid  && (loginForm.controls['email'].dirty || loginForm.controls['email'].touched)">
             <label for="inputEmail">Email</label>
-            <input type="text" id="inputEmail" formControlName="email" class="form-control form-control-warning form-control-lg" placeholder="e.g. rick.sanchez@cartoonnetwork.com"
+            <input type="email" id="inputEmail" formControlName="email" class="form-control form-control-warning form-control-lg" placeholder="e.g. rick.sanchez@cartoonnetwork.com"
                 required email>
             <small class="form-control-feedback" *ngIf="loginForm.controls['email'].invalid  && (loginForm.controls['email'].dirty || loginForm.controls['email'].touched)">
-                                    Required
+                                    An email is required e.g. rick.sanchez@cartoonnetwork.com
                                 </small>
         </div>
         <div class="form-group" [class.has-warning]="loginForm.controls['password'].invalid  && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)">

@@ -14,7 +14,7 @@ import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
     selector: "tree",
     templateUrl: "./mapping.tree.component.html",
     styleUrls: ["./mapping.tree.component.css"],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.Emulated
 })
 export class MappingTreeComponent implements OnInit, IDataVisualizer {
     private d3: D3;
@@ -86,12 +86,17 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         let treemap = d3.tree().size([viewerWidth / 2, viewerHeight]);
 
         function zoomed() {
-            let transform = d3.event.transform;
-            location.hash = `x=${transform.x}&y=${transform.y}&scale=${transform.k}`
+            // let transform = d3.event.transform;
+            // location.hash = `x=${transform.x}&y=${transform.y}&scale=${transform.k}`
             g.attr("transform", d3.event.transform);
         }
 
-        let zooming = d3.zoom().scaleExtent([1 / 3, 3]).on("zoom", zoomed);
+        let zooming = d3.zoom().scaleExtent([1 / 3, 3])
+            .on("zoom", zoomed)
+            .on("end", () => {
+                let transform = d3.event.transform;
+                location.hash = `x=${transform.x}&y=${transform.y}&scale=${transform.k}`;
+            });
 
         let svg: any = d3.select("svg").attr("width", viewerWidth)
             .attr("height", viewerHeight).attr("class", "overlay");
@@ -201,11 +206,10 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         })
         let color = colorService.getDefaulColorRange(depth);
 
-        // Collapse after the second level
-        // root.children.forEach(collapse);
+        // Collapse after the third level
+        root.children.forEach((c: any) => { if (c.children) c.children.forEach(collapse) });
         // console.log(g)
         update(root, 0);
-
 
 
         // Collapse the node and all it's children
@@ -227,7 +231,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 links = treeData.descendants().slice(1);
 
             // Normalize for fixed-depth.
-            nodes.forEach(function (d: any) { d.y = d.depth * 200; d.x = d.x * 1.5 });
+            nodes.forEach(function (d: any) { d.y = d.depth * 200; d.x = d.x * 1.4 });
 
             // ****************** Nodes section ***************************
 
@@ -281,8 +285,11 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 .attr("r", 1e-4)
                 .attr("fill", function (d: any) { return d.data.accountable ? "url(#image" + d.data.id + ")" : (d.children ? color(d.depth) : "#fff") })
                 .style("stroke", function (d: any) {
-                    return color(d.depth)
+                    return d._children ? "#000" : color(d.depth);
                 })
+                .attr("stroke-width", function (d: any) { return d._children ? 4 : 1 })
+                .attr("stroke-dasharray", function (d: any) { return d._children || d.children ? "9, 3" : "0, 0" })
+                .attr("cursor", function (d: any) { return d._children || d.children ? "pointer" : "default" })
                 ;
 
 
@@ -338,9 +345,11 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 .attr("r", 15)
                 .attr("fill", function (d: any) { return d.data.accountable ? "url(#image" + d.data.id + ")" : (d._children ? color(d.depth) : "#fff") })
                 .style("stroke", function (d: any) {
-                    return color(d.depth)
+                    return d._children ? "#000" : color(d.depth);
                 })
-                .attr("cursor", "pointer");
+                .attr("stroke-width", function (d: any) { return d._children ? 4 : 1 })
+                .attr("stroke-dasharray", function (d: any) { return d._children || d.children ? "9, 3" : "0, 0" })
+                .attr("cursor", function (d: any) { return d._children || d.children ? "pointer" : "default" });
 
             nodeUpdate.select("text.name")
                 .text(function (d: any) { return d.data.name; })
@@ -376,26 +385,26 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                     hoverInitiative(d.data)
                     // console.log(d3.event.pageX, d3.event.pageY, viewerHeight * 0.7, viewerWidth/2 * 0.8)
                     d3.select("div.tooltip-initiative").style("visibility", "visible")
-                        .style("top", () => { return d3.event.pageY > viewerWidth / 2 * 0.80 ? "" : (d3.event.pageY - 20) + "px" })
+                        .style("top", () => { return d3.event.pageY > viewerWidth / 2 * 0.80 ? "" : (d3.event.pageY - 30) + "px" })
                         .style("bottom", () => { return d3.event.pageY > viewerWidth / 2 * 0.80 ? `${this.getBBox().height}px` : "" })
 
-                        .style("left", () => { return d3.event.pageX > viewerHeight * 0.70 ? "auto" : (d3.event.pageX) + "px" })
+                        .style("left", () => { return d3.event.pageX > viewerHeight * 0.70 ? "auto" : (d3.event.pageX - 8) + "px" })
                         .style("right", () => { return d3.event.pageX > viewerHeight * 0.70 ? "0" : "" })
 
                         .on("mouseenter", function () {
                             d3.select(this).style("visibility", "visible")
                         })
                         .on("mouseleave", function () {
-                            d3.select("div.tooltip-initiative").style("visibility", "hidden")
+                            d3.select(this).style("visibility", "hidden")
                         })
                 })
                 .on("mousemove", function (d: any) {
                     hoverInitiative(d.data)
                     d3.select("div.tooltip-initiative").style("visibility", "visible")
-                        .style("top", () => { return d3.event.pageY > viewerWidth / 2 * 0.80 ? "" : (d3.event.pageY - 20) + "px" })
+                        .style("top", () => { return d3.event.pageY > viewerWidth / 2 * 0.80 ? "" : (d3.event.pageY - 30) + "px" })
                         .style("bottom", () => { return d3.event.pageY > viewerWidth / 2 * 0.80 ? `${this.getBBox().height}px` : "" })
 
-                        .style("left", () => { return d3.event.pageX > viewerHeight * 0.70 ? "auto" : (d3.event.pageX) + "px" })
+                        .style("left", () => { return d3.event.pageX > viewerHeight * 0.70 ? "auto" : (d3.event.pageX - 8) + "px" })
                         .style("right", () => { return d3.event.pageX > viewerHeight * 0.70 ? "0" : "" })
                         .on("mouseenter", function () {
                             d3.select(this).style("visibility", "visible")
@@ -466,7 +475,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                     d.children = d._children;
                     d._children = null;
                 }
-                update(d, 750);
+                update(d, 250);
                 // centerNode(d)
             }
         }

@@ -28,7 +28,8 @@ export class AppComponent {
   @ViewChild("help")
   helpComponent: HelpComponent;
 
-  constructor(private router: Router, private loaderService: LoaderService) {
+  constructor(private auth: Auth, private router: Router, private loaderService: LoaderService) {
+
     this.routerSubscription = this.router.events
       .subscribe((event) => {
         console.log(event)

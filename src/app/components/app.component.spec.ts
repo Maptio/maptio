@@ -13,6 +13,7 @@ import {
 } from "@angular/router/testing";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
+import { Auth } from "../shared/services/auth/auth.service";
 
 describe("app.component.ts", () => {
 
@@ -32,6 +33,11 @@ describe("app.component.ts", () => {
             set: {
                 providers: [
                     LoaderService,
+                    {
+                        provide: Auth, useClass: class {
+                            allAuthenticated() { return; }
+                        }
+                    },
                     {
                         provide: Router, useClass: class {
                             navigate = jasmine.createSpy("navigate");
