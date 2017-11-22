@@ -14,7 +14,7 @@ import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
     selector: "circles",
     templateUrl: "./mapping.circles.component.html",
     styleUrls: ["./mapping.circles.component.css"],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.Emulated
 })
 
 export class MappingCirclesComponent implements IDataVisualizer {

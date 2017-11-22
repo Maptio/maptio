@@ -14,7 +14,7 @@ import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
     selector: "tree",
     templateUrl: "./mapping.tree.component.html",
     styleUrls: ["./mapping.tree.component.css"],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.Emulated
 })
 export class MappingTreeComponent implements OnInit, IDataVisualizer {
     private d3: D3;

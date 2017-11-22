@@ -17,7 +17,7 @@ import { Router } from "@angular/router";
     selector: "network",
     templateUrl: "./mapping.network.component.html",
     styleUrls: ["./mapping.network.component.css"],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.Emulated
 })
 
 export class MappingNetworkComponent implements OnInit, IDataVisualizer {

@@ -1,13 +1,13 @@
-.node {
+::ng-deep .node {
   cursor: auto;
 }
 
-.node:hover {
+::ng-deep .node:hover {
   stroke: #000;
   stroke-width: 1.5px;
 }
 
-.node--leaf {
+::ng-deep .node--leaf {
   fill: white;
 }
 
@@ -16,7 +16,7 @@
   background: transparent!important 
 } */
 
-svg text {
+::ng-deep svg text {
   /* font-size:1em; */
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-anchor: start;
@@ -29,19 +29,19 @@ svg text {
   /* cursor: url(/assets/images/cursors/more.cur), auto; */
 }
 
-svg text:hover {
+::ng-deep svg text:hover {
   opacity: 1;
   /* font-size: larger; */
 }
 
-svg circle:hover {
+::ng-deep svg circle:hover {
   stroke: black !important;
   stroke-width: 1.5px !important;
   stroke-opacity: 0.5;
   /*fill-opacity: 0.7;*/
 }
 
-svg circle.node--root, svg circle.node--root:hover {
+::ng-deep svg circle.node--root, svg circle.node--root:hover {
   /* stroke-opacity: 0.5 !important; */
   stroke-dasharray: 10, 3 !important;
   stroke: #f7f7f7 !important;
@@ -49,7 +49,7 @@ svg circle.node--root, svg circle.node--root:hover {
   /* fill: #f7f7f7!important; */
 }
 
-svg circle.node.dragged{
+::ng-deep svg circle.node.dragged{
   stroke-opacity: 0.5 !important;
   stroke-dasharray: 10, 3 !important;
   stroke: black !important;
@@ -61,30 +61,30 @@ svg circle.node.dragged{
   fill: white !important
 } */
 
-svg .icon {
+::ng-deep svg .icon {
   font-family: FontAwesome;
   font-size: 12px;
 }
 
-svg group {
+::ng-deep svg group {
   visibility: visible;
   opacity: 0.7;
 }
 
 
-svg circle.accountable {
+::ng-deep svg circle.accountable {
   /* pointer-events: auto; */
   cursor: pointer;
 }
 
-svg circle.highlighted, svg circle.highlighted:hover {
+::ng-deep svg circle.highlighted, svg circle.highlighted:hover {
   fill: #ff5a00 !important;
   fill-opacity: 0.5;
   stroke:#ff5a00 !important;
   stroke-width: 5!important;
 }
 
-svg circle.cut {
+::ng-deep svg circle.cut {
   fill-opacity: 0.5;
   stroke-dasharray: 10, 3;
   stroke: black !important;
