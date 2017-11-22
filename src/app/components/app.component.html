@@ -8,21 +8,25 @@
 	<div class="center-container">
 		<loader></loader>
 
-		<div class="center-row" [class.background]="isHome">
+		<div class="center-row" [class.background]="isHome" *ngIf="auth.allAuthenticated()">
 
 			<div class="container-fluid h-100 pt-3" [class.background]="isHome" [class.overflow-hidden]="isMap">
 				<div *showItDevice="['mobile','tablet']" class="alert alert-dismissible alert-warning">
 					<button type="button" class="close" data-dismiss="alert">&times;</button>
 					<p>
 						<b>Maptio</b> works best on desktop using
-						<b><a target="_blank" href="https://www.google.com/chrome/browser/desktop/index.html">Chrome</a>		</b>
+						<b>
+							<a target="_blank" href="https://www.google.com/chrome/browser/desktop/index.html">Chrome</a>
+						</b>
 					</p>
 				</div>
 				<div *hideItBrowser="['chrome']" class="alert alert-dismissible alert-warning">
 					<button type="button" class="close" data-dismiss="alert">&times;</button>
 					<p>
 						<b>Maptio</b> works best on desktop using
-						<b><a target="_blank" href="https://www.google.com/chrome/browser/desktop/index.html">Chrome</a>		</b>
+						<b>
+							<a target="_blank" href="https://www.google.com/chrome/browser/desktop/index.html">Chrome</a>
+						</b>
 					</p>
 				</div>
 
@@ -31,6 +35,14 @@
 			</div>
 
 		</div>
+		<div class="center-row background" *ngIf="!auth.allAuthenticated()">
+			<div class="container-fluid h-100 pt-3 background">
+
+				<home></home>
+			</div>
+		</div>
+
+
 
 
 	</div>
