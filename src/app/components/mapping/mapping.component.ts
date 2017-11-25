@@ -32,7 +32,7 @@ import { MappingNetworkComponent } from "./network/mapping.network.component";
 })
 
 
-export class MappingComponent implements OnInit {
+export class MappingComponent {
 
     PLACEMENT: string = "left"
     TOGGLE: string = "tooltip"
@@ -101,52 +101,119 @@ export class MappingComponent implements OnInit {
     ngAfterViewInit() {
     }
 
+    onActivate(component: IDataVisualizer) {
+
+        console.log("before activation", component);
+
+        component.showDetailsOf$.asObservable().subscribe(node => {
+            this.showDetails.emit(node)
+        })
+        component.addInitiative$.asObservable().subscribe(node => {
+            // console.log("mapping.component.ts", "adding initiative under", node.name)
+            this.addInitiative.emit(node)
+        })
+        component.removeInitiative$.asObservable().subscribe(node => {
+            // console.log("mapping.component.ts", "remove initiative", node.name)
+            this.removeInitiative.emit(node)
+        })
+        component.moveInitiative$.asObservable().subscribe(({ node: node, from: from, to: to }) => {
+            // console.log("mapping.component.ts", "move initiative", node.name, to.name)
+            this.moveInitiative.emit({ node: node, from: from, to: to })
+        })
+        component.closeEditingPanel$.asObservable().subscribe((close: boolean) => {
+            this.closeEditingPanel.emit(true);
+        })
+
+        component.width = this.VIEWPORT_WIDTH;
+        component.height = this.VIEWPORT_HEIGHT;
+
+        component.margin = 50;
+        component.zoom$ = this.zoom$.asObservable();
+        component.fontSize$ = this.fontSize$.asObservable();
+        component.isLocked$ = this.isLocked$.asObservable();
+        component.translateX = 0; // this.x;
+        component.translateY = 0; // this.y;
+        component.scale = 1; // this.scale;
+        component.analytics = this.analytics;
+        component.isReset$ = new Subject<boolean>();
+
+        // this.dataService.get().subscribe((data => {
+        //     console.log("assign data")
+        //     component.teamId = data.teamId;
+        //     component.teamName = data.teamName;
+        //     component.data$.next(data);
+        // }));
+
+        console.log("after activation", component);
+    }
+
+    onDeactivate(component: any) {
+        console.log("deactivate", component);
+
+    }
+
+    isCircle: boolean;
+    isTree: boolean;
+    isNetwork: boolean;
+
     ngOnInit() {
+        console.log("mapping ngOnInit")
         this.isLoading.next(true);
 
         this.subscription = this.route.params
             .map(params => {
-                this.layout = params["layout"];
-                this.cd.markForCheck();
+                console.log(0, params);
+                this.datasetId = params["mapid"];
+                this.slug = params["mapslug"];
+                console.log(this.datasetId, this.slug)
+                // this.layout = params["layout"];
+                // this.cd.markForCheck();
                 this.analytics.eventTrack("Map", { view: this.layout, team: this.teamName, teamId: this.teamId });
+
+
 
                 return this.layout
             })
             .do(layout => {
+                console.log(1)
                 this.isLoading.next(true);
 
-                this.componentFactory = this.getComponentFactory(layout);
-                let component = this.anchorComponent.createComponent<IDataVisualizer>(this.componentFactory);
-                this.instance = this.getInstance(component);
+                // this.componentFactory = this.getComponentFactory(layout);
+                // let component = this.anchorComponent.createComponent<IDataVisualizer>(this.componentFactory);
+                // this.instance = this.getInstance(component);
             })
             .withLatestFrom(this.route.fragment)
             .do(([layout, fragment]: [string, string]) => {
+                console.log(2)
                 this.isLoading.next(true);
                 let f = fragment || this.getFragment(this.layout);
                 this.x = Number.parseFloat(f.split("&")[0].replace("x=", ""))
                 this.y = Number.parseFloat(f.split("&")[1].replace("y=", ""))
                 this.scale = Number.parseFloat(f.split("&")[2].replace("scale=", ""));
 
-                this.setup();
+                // this.setup();
             })
             .combineLatest(this.dataService.get())
             .map(data => data[1])
             .do((data) => {
+                console.log(3)
                 this.datasetId = data.datasetId;
                 this.teamId = data.teamId;
                 this.teamName = data.teamName;
-                this.slug = data.initiative.getSlug();
+                // this.slug = data.initiative.getSlug();
                 this.isLoading.next(false);
             })
             .subscribe((data) => {
+                console.log(4)
                 // until the initiave has some children, we leve it in lock mode
                 if (!data.initiative.children || !data.initiative.children[0] || !data.initiative.children[0].children) {
                     this.lock(false);
                     this.cd.markForCheck();
                 }
-                this.instance.teamId = data.teamId;
-                this.instance.teamName = data.teamName;
-                this.instance.data$.next(data);
+                this.data = data;
+                // this.instance.teamId = data.teamId;
+                // this.instance.teamName = data.teamName;
+                // this.instance.data$.next(data);
             })
 
     }

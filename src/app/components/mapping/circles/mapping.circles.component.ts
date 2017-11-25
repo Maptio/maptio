@@ -9,6 +9,7 @@ import { UIService } from "../../../shared/services/ui/ui.service"
 import { IDataVisualizer } from "../mapping.interface"
 import { UserFactory } from "../../../shared/services/user.factory";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
+import { DataService } from "../../../shared/services/data.service";
 
 @Component({
     selector: "circles",
@@ -87,22 +88,24 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
     constructor(public d3Service: D3Service, public colorService: ColorService,
         public uiService: UIService, public router: Router,
-        private userFactory: UserFactory, private cd: ChangeDetectorRef
+        private userFactory: UserFactory, private cd: ChangeDetectorRef, private dataService: DataService
     ) {
         this.d3 = d3Service.getD3();
         this.T = this.d3.transition(null).duration(this.TRANSITION_DURATION);
         this.data$ = new Subject<{ initiative: Initiative, datasetId: string }>();
-        this.dataSubscription = this.data$.asObservable().distinct().subscribe(complexData => {
+        
+    }
+
+    ngOnInit() {
+        this.init();
+        this.dataSubscription = this.dataService.get().subscribe(complexData => {
+            console.log("circles assign data")
             let data = <any>complexData.initiative;
             this.datasetId = complexData.datasetId;
             this.rootNode = complexData.initiative;
             this.slug = data.getSlug();
             this.update(data)
         })
-    }
-
-    ngOnInit() {
-        this.init();
     }
 
     init() {

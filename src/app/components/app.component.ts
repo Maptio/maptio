@@ -32,7 +32,7 @@ export class AppComponent {
 
     this.routerSubscription = this.router.events
       .subscribe((event) => {
-        console.log(event)
+        // console.log(event)
         if (event instanceof NavigationStart) {
           this.isHome = this.isUrlHome(event.url)
           this.isMap = this.isUrlMap(event.url);

@@ -12,6 +12,7 @@ import * as _ from "lodash";
 import { User } from "../../../shared/model/user.data";
 import { Role } from "../../../shared/model/role.data";
 import { Router } from "@angular/router";
+import { DataService } from "../../../shared/services/data.service";
 
 @Component({
     selector: "network",
@@ -72,23 +73,25 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     public tooltipTargetUser: User;
 
     constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService,
-        private cd: ChangeDetectorRef, private router: Router) {
-
+        private cd: ChangeDetectorRef, private router: Router, private dataService: DataService) {
+        console.log("network constructor")
         this.d3 = d3Service.getD3();
         this.T = this.d3.transition(null).duration(this.TRANSITION_DURATION);
         this.data$ = new Subject<{ initiative: Initiative, datasetId: string }>();
-        this.dataSubscription = this.data$.asObservable().distinct().subscribe(complexData => {
+
+    }
+
+    ngOnInit() {
+        console.log("network ngOnInit")
+        this.init();
+        this.dataSubscription = this.dataService.get().subscribe(complexData => {
+            console.log("network assign data")
             let data = <any>complexData.initiative;
             this.datasetId = complexData.datasetId;
             this.rootNode = complexData.initiative;
             this.slug = data.getSlug();
             this.update(data)
         })
-    }
-
-    ngOnInit() {
-
-        this.init();
     }
 
     ngOnDestroy() {

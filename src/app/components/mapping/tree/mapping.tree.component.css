@@ -1,3 +1,7 @@
+::ng-deep .node {
+  
+}
+
 
 ::ng-deep .node circle {
   /*fill: #fff;*/

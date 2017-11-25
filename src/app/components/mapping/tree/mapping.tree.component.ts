@@ -9,6 +9,7 @@ import { IDataVisualizer } from "../mapping.interface"
 import { Observable, Subject } from "rxjs/Rx";
 import { Initiative } from "../../../shared/model/initiative.data";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
+import { DataService } from "../../../shared/services/data.service";
 
 @Component({
     selector: "tree",
@@ -61,15 +62,11 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
     constructor(public d3Service: D3Service, public colorService: ColorService,
         public uiService: UIService, public router: Router, private userFactory: UserFactory,
-        private cd: ChangeDetectorRef) {
+        private cd: ChangeDetectorRef, private dataService: DataService) {
+        console.log("tree constructor")
         this.d3 = d3Service.getD3();
         this.data$ = new Subject<{ initiative: Initiative, datasetId: string }>();
-        this.dataSubscription = this.data$.asObservable().distinct().subscribe(complexData => {
-            let data = <any>complexData.initiative;
-            this.datasetId = complexData.datasetId;
-            this.slug = data.getSlug();
-            this.update(data)
-        })
+
     }
 
     init() {
@@ -143,7 +140,15 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     }
 
     ngOnInit() {
+        console.log("tree ngOnInit")
         this.init();
+        this.dataSubscription = this.dataService.get().subscribe(complexData => {
+            console.log("tree assign data")
+            let data = <any>complexData.initiative;
+            this.datasetId = complexData.datasetId;
+            this.slug = data.getSlug();
+            this.update(data)
+        })
     }
 
     ngOnDestroy() {

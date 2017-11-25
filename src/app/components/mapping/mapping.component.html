@@ -1,11 +1,11 @@
 <div class="control first">
   <div class=" btn-group-vertical mb-1">
-    <a class="btn circleview ml-1" [class.disabled]="(isLoading | async)" routerLink="/map/{{datasetId}}/{{slug}}/initiatives" placement="left"
-      container="body" ngbTooltip="Circle view"></a>
-    <a class="btn treeview ml-1" [class.disabled]="(isLoading | async)" routerLink="/map/{{datasetId}}/{{slug}}/people" placement="left"
+    <a class="btn circleview ml-1"  routerLink="/map/{{datasetId}}/{{slug}}/initiatives"
+      placement="left" container="body" ngbTooltip="Circle view"></a>
+    <a class="btn treeview ml-1"  routerLink="/map/{{datasetId}}/{{slug}}/people" placement="left"
       container="body" ngbTooltip="Tree view"></a>
-    <a class="btn networkview ml-1" [class.disabled]="(isLoading | async)" routerLink="/map/{{datasetId}}/{{slug}}/connections" placement="left"
-      container="body" ngbTooltip="Network view"></a>
+    <a class="btn networkview ml-1"  routerLink="/map/{{datasetId}}/{{slug}}/connections"
+      placement="left" container="body" ngbTooltip="Network view"></a>
   </div>
 </div>
 
@@ -43,7 +43,11 @@
 
 
 <!-- SVG goes here -->
-<ng-template #drawing anchor></ng-template>
+MAPPING
+<router-outlet name="circle" (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>
+<router-outlet name="tree" (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>
+<router-outlet name="network" (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>
+<!-- <ng-template #drawing anchor></ng-template> -->
 
 <!-- tooltip goes here -->
 <!-- <tooltip #tooltip></tooltip> -->

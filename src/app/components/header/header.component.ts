@@ -78,7 +78,6 @@ export class HeaderComponent implements OnInit {
        
         this.userSubscription = this.auth.getUser().subscribe((user: User) => {
             this.user = user;
-            console.log("header", user)
             this.datasets$ = Promise.all(
                 // get all datasets available to this user accross all teams
                 this.user.datasets.map(

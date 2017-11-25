@@ -4,7 +4,7 @@ import { Component, OnInit } from "@angular/core";
     selector: "not-found",
     // templateUrl: "not-found.component.html",
     template: `
-    <h4 class="m-3">Either you don't know how to type or we broke something. In doubt, support@maptio.com ;)</h4>
+    <h4 class="m-3">Did we break something? In doubt, support@maptio.com ;)</h4>
     `
 })
 

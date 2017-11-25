@@ -2,6 +2,7 @@
 import { environment } from "./../environment/environment";
 
 import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule, Injector } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -87,6 +88,7 @@ import { AnAnchorableComponent } from "../test/specs/shared/component.helper.sha
 // import { MappingNetworkComponent } from "./components/mapping/network/mapping.network.component";
 import { LoaderComponent } from "./components/loading/loader.component";
 import { DashboardComponentResolver } from "./components/dashboard/dashboard.resolver";
+import { MappingNetworkComponent } from "./components/mapping/network/mapping.network.component";
 
 
 // Routes
@@ -121,9 +123,52 @@ const appRoutes: Routes = [
 
   { path: ":shortid/:slug", component: AccountComponent, canActivate: [AuthGuard] },
 
-  { path: "map/:mapid/:slug", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
+  // { path: "map/:mapid/:slug", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
   { path: "map/:mapid/:mapslug/i/:nodeid/:nodeslug", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
-  { path: "map/:mapid/:mapslug/:layout", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
+  {
+    path: "map/:mapid/:mapslug",
+    component: WorkspaceComponent,
+    canActivate: [AuthGuard, AccessGuard],
+    // canActivateChild: [AuthGuard, AccessGuard],
+
+    children: [
+      {
+        path: "", redirectTo: "initiatives", pathMatch: "full"
+      },
+      {
+        path: "initiatives",
+        children: [
+          {
+            path: "",
+            component: MappingCirclesComponent,
+            outlet: "circle"
+          }
+        ]
+      },
+      {
+        path: "people",
+        children: [
+          {
+            path: "",
+            component: MappingTreeComponent,
+            outlet: "tree"
+          }
+        ]
+      },
+      {
+        path: "connections",
+        children: [
+          {
+            path: "",
+            component: MappingNetworkComponent,
+            outlet: "network"
+          }
+        ]
+      }
+
+    ]
+
+  },
 
   { path: "summary/map/:mapid/:mapslug/u/:usershortid/:userslug", component: MemberSummaryComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
 
@@ -170,7 +215,7 @@ export function markdownServiceFactory(http: Http) {
     TreeModule,
     Ng2Bs3ModalModule,
     NgbModule.forRoot(),
-    RouterModule.forRoot(appRoutes),
+    RouterModule.forRoot(appRoutes, { enableTracing: true }),
     ResponsiveModule,
     ConfirmationPopoverModule.forRoot({
       confirmButtonType: "danger",
@@ -183,6 +228,7 @@ export function markdownServiceFactory(http: Http) {
   ],
   exports: [RouterModule],
   providers: [
+    BrowserAnimationsModule,
     AuthGuard, AccessGuard, AuthConfiguration,
     D3Service, DataService, ColorService, UIService, DatasetFactory, TeamFactory,
     ErrorService, Auth, UserService, UserFactory, MailingService, JwtEncoder, LoaderService,
