@@ -55,6 +55,11 @@ export class AuthHttpInterceptor extends AuthHttp {
         return status === 0 || status === 401 || status === 403;
     }
 
+    private isJWTExpired(message: string): boolean {
+        return message === "No JWT present or has expired";
+    }
+
+
     intercept(observable: Observable<Response>): Observable<Response> {
 
         return observable.catch((err, source) => {
@@ -66,7 +71,12 @@ export class AuthHttpInterceptor extends AuthHttp {
                     return Observable.throw(err.json().message || "backend server error");
                 }
                 return Observable.empty();
-            } else {
+            }
+            else if (this.isJWTExpired(err.message)) {
+                this.router.navigateByUrl("login");
+                return Observable.empty();
+            }
+            else {
                 return Observable.throw(err);
             }
         });
