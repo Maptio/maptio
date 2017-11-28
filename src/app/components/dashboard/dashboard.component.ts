@@ -21,14 +21,11 @@ export class DashboardComponent {
     public isLoading: boolean;
 
     constructor(private route: ActivatedRoute) {
-        console.log("constructor dashboard")
     }
 
     ngOnInit() {
-        console.log("ngOnInit", this.route.snapshot.data)
         this.subscription = this.route.data
             .subscribe((data: { datasets: DataSet[] }) => {
-                console.log(data)
                 this.datasets = data.datasets;
             });
     }

@@ -13,15 +13,13 @@ import { compact, sortBy } from "lodash";
 export class DashboardComponentResolver implements Resolve<Array<DataSet>> {
 
     constructor(public auth: Auth, public datasetFactory: DatasetFactory, public teamFactory: TeamFactory, public errorService: ErrorService) {
-        console.log("constrcutor resolver")
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<DataSet[]> {
-        console.log("resolver");
 
         return this.auth.getUser().take(1)
             .map((user: User) => {
-                 console.log("1")
+                // console.log("1", user.datasets)
                 return user.datasets;
             })
             .mergeMap(datasetsIds => {
@@ -29,6 +27,7 @@ export class DashboardComponentResolver implements Resolve<Array<DataSet>> {
                 const promises = datasetsIds
                     .map(did => {
                         return this.datasetFactory.get(did)
+                            .then(d => d, () => { return <DataSet>undefined })
                     });
                 return Observable.forkJoin(promises);
             })
@@ -45,15 +44,17 @@ export class DashboardComponentResolver implements Resolve<Array<DataSet>> {
                     return d;
                 })
             })
-            .do(datasets => {
+            .mergeMap(datasets => {
                 // console.log("5", datasets)
-                return datasets.map(d => {
-                    this.teamFactory.get(d.initiative.team_id).then(team => { d.team = team }, () => { d.team = undefined })
-                    return d;
-                })
+                const promises = datasets
+                    .map(d => {
+                        return this.teamFactory.get(d.initiative.team_id).then((t) => { d.team = t; return d })
+                    });
+
+                return Observable.forkJoin(promises);
             })
             .map(datasets => {
-                console.log("6", datasets)
+                // console.log("6", datasets.map(d => d.team))
                 return sortBy(datasets, d => d.initiative.name)
             });
     }
