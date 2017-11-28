@@ -105,11 +105,6 @@ const appRoutes: Routes = [
           datasets: DashboardComponentResolver
         },
         outlet: "dashboard"
-      },
-      {
-        path: "",
-        component: SignupComponent,
-        outlet: "signup"
       }
     ]
   },

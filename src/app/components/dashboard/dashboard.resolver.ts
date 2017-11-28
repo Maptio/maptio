@@ -19,11 +19,9 @@ export class DashboardComponentResolver implements Resolve<Array<DataSet>> {
 
         return this.auth.getUser().take(1)
             .map((user: User) => {
-                // console.log("1", user.datasets)
                 return user.datasets;
             })
             .mergeMap(datasetsIds => {
-                // console.log("2", datasetsIds)
                 const promises = datasetsIds
                     .map(did => {
                         return this.datasetFactory.get(did)
@@ -32,11 +30,9 @@ export class DashboardComponentResolver implements Resolve<Array<DataSet>> {
                 return Observable.forkJoin(promises);
             })
             .map(datasets => {
-                // console.log("3", datasets)
                 return compact(datasets);
             })
             .do(datasets => {
-                // console.log("4", datasets)
                 datasets.map(d => {
                     let i = 0
                     d.initiative.traverse((n) => { i++ })
@@ -45,7 +41,6 @@ export class DashboardComponentResolver implements Resolve<Array<DataSet>> {
                 })
             })
             .mergeMap(datasets => {
-                // console.log("5", datasets)
                 const promises = datasets
                     .map(d => {
                         return this.teamFactory.get(d.initiative.team_id).then((t) => { d.team = t; return d })
@@ -54,7 +49,6 @@ export class DashboardComponentResolver implements Resolve<Array<DataSet>> {
                 return Observable.forkJoin(promises);
             })
             .map(datasets => {
-                // console.log("6", datasets.map(d => d.team))
                 return sortBy(datasets, d => d.initiative.name)
             });
     }

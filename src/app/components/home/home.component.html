@@ -8,19 +8,14 @@
             <h1 class="mb-3">Maptio</h1>
             <h4>A simple online tool to allow organisations and initiatives to be mapped, visualised and explored in nested circles.
             </h4>
-
-           
-
-
         </div>
     </div>
-    <!-- <div class="col-6 signup mt-3 rounded" *ngIf="!auth.allAuthenticated()">
-       
-        <router-outlet name="signup"></router-outlet>
-    </div> -->
-    <div class="col-6 signup mt-3 rounded" >
-        <router-outlet *ngIf="auth.allAuthenticated()" name="dashboard"></router-outlet>
-        <router-outlet *ngIf="!auth.allAuthenticated()" name="signup"></router-outlet>
-        <!-- <dashboard></dashboard> -->
+    
+    <div class="col-6 signup mt-3 rounded" *ngIf="auth.allAuthenticated()" >
+        <router-outlet  name="dashboard"></router-outlet>
     </div>
+    <div class="col-6 signup mt-3 rounded" *ngIf="!auth.allAuthenticated()">
+        <signup ></signup>
+    </div>
+    
 </div>
