@@ -93,39 +93,39 @@ describe("mapping.component.ts", () => {
             }));
         });
 
-        describe("getComponentFactory", () => {
-            it("should return MappingCirclesComponent if layout is initiatives", () => {
-                let actual = component.getComponentFactory("initiatives");
-                expect(actual.componentType.name).toBe("MappingCirclesComponent")
-            });
+        // describe("getComponentFactory", () => {
+        //     it("should return MappingCirclesComponent if layout is initiatives", () => {
+        //         let actual = component.getComponentFactory("initiatives");
+        //         expect(actual.componentType.name).toBe("MappingCirclesComponent")
+        //     });
 
-            it("should return MappingTreeComponent if layout is people", () => {
-                let actual = component.getComponentFactory("people");
-                expect(actual.componentType.name).toBe("MappingTreeComponent")
-            });
+        //     it("should return MappingTreeComponent if layout is people", () => {
+        //         let actual = component.getComponentFactory("people");
+        //         expect(actual.componentType.name).toBe("MappingTreeComponent")
+        //     });
 
-            it("should return MappingCirclesComponent if layout is empty", () => {
-                let actual = component.getComponentFactory("");
-                expect(actual.componentType.name).toBe("MappingCirclesComponent")
-            });
-        });
+        //     it("should return MappingCirclesComponent if layout is empty", () => {
+        //         let actual = component.getComponentFactory("");
+        //         expect(actual.componentType.name).toBe("MappingCirclesComponent")
+        //     });
+        // });
 
 
 
         describe("getFragment", () => {
             it("should return #x=761&y=761&scale=1 when layout is initiatives", () => {
-                let actual = component.getFragment("initiatives");
+                let actual = component.getFragment(new MappingCirclesComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined));
                 expect(actual).toBe("x=761&y=761&scale=1")
             });
 
-            it("should return #x=100&y=0&scale=1 when layout is people", () => {
-                let actual = component.getFragment("people");
+            it("should return #x=100&y=380.5&scale=1 when layout is people", () => {
+                let actual = component.getFragment(new MappingTreeComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined));
                 expect(actual).toBe("x=100&y=380.5&scale=1")
             });
 
-            it("should return #x=761&y=761&scale=1 by default", () => {
-                let actual = component.getFragment("notlayout");
-                expect(actual).toBe("x=761&y=761&scale=1")
+            it("should return #x=0&y=-380.5&scale=1 when layout is network", () => {
+                let actual = component.getFragment(new MappingNetworkComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined));
+                expect(actual).toBe("x=0&y=-380.5&scale=1")
             });
         });
 

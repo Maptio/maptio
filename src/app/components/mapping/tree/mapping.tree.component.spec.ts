@@ -16,6 +16,7 @@ import { MappingTreeComponent } from "./mapping.tree.component";
 import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
+import { DataService } from "../../../shared/services/data.service";
 
 describe("mapping.tree.component.ts", () => {
 
@@ -27,7 +28,7 @@ describe("mapping.tree.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
-                D3Service, ColorService, UIService, UserFactory, Angulartics2Mixpanel, Angulartics2,
+                D3Service, ColorService, UIService, DataService, UserFactory, Angulartics2Mixpanel, Angulartics2,
                 {
                     provide: AuthHttp,
                     useFactory: authHttpServiceFactoryTesting,
@@ -75,6 +76,10 @@ describe("mapping.tree.component.ts", () => {
         component.isLocked$ = Observable.of(true);
         component.analytics = jasmine.createSpyObj("analytics", ["eventTrack"]);
 
+        let data = new Initiative().deserialize(fixture.load("data.json"));
+        let mockDataService = target.debugElement.injector.get(DataService);
+        spyOn(mockDataService, "get").and.returnValue(Observable.of({ initiative: data, datasetId: "ID" }));
+
         target.detectChanges(); // trigger initial data binding
     });
 
@@ -120,8 +125,8 @@ describe("mapping.tree.component.ts", () => {
 */
 
     it("should draw SVG with correct size when data is valid", () => {
-        let data = new Initiative().deserialize(fixture.load("data.json"));
-        component.data$.next({ initiative: data, datasetId: "ID" })
+        // let data = new Initiative().deserialize(fixture.load("data.json"));
+        // component.data$.next({ initiative: data, datasetId: "ID" })
         // component.draw(data, 100, 100, 1);Ì
         let svg = document.getElementsByTagName("svg")
         expect(svg.length).toBe(1);
@@ -131,8 +136,8 @@ describe("mapping.tree.component.ts", () => {
     });
 
     it("should draw SVG with correct transform when data is valid", () => {
-        let data = new Initiative().deserialize(fixture.load("data.json"));
-        component.data$.next({ initiative: data, datasetId: "ID" });
+        // let data = new Initiative().deserialize(fixture.load("data.json"));
+        // component.data$.next({ initiative: data, datasetId: "ID" });
         let svgs = document.getElementsByTagName("svg")
         expect(svgs.length).toBe(1);
         let svg = svgs.item(0);
@@ -146,8 +151,8 @@ describe("mapping.tree.component.ts", () => {
 
     it("should draw SVG with correct number of links when data is valid", () => {
 
-        let data = new Initiative().deserialize(fixture.load("data.json"));
-        component.data$.next({ initiative: data, datasetId: "ID" })
+        // let data = new Initiative().deserialize(fixture.load("data.json"));
+        // component.data$.next({ initiative: data, datasetId: "ID" })
         let svgs = document.getElementsByTagName("svg")
         expect(svgs.length).toBe(1);
         let svg = svgs.item(0);
@@ -160,8 +165,8 @@ describe("mapping.tree.component.ts", () => {
 
         // component.draw(data, 100, 100, 1);
 
-        let data = new Initiative().deserialize(fixture.load("data.json"));
-        component.data$.next({ initiative: data, datasetId: "ID" })
+        // let data = new Initiative().deserialize(fixture.load("data.json"));
+        // component.data$.next({ initiative: data, datasetId: "ID" })
         let svgs = document.getElementsByTagName("svg")
         expect(svgs.length).toBe(1);
         let svg = svgs.item(0);
@@ -171,8 +176,8 @@ describe("mapping.tree.component.ts", () => {
 
     it("should draw SVG with correct text labels when data is valid", () => {
 
-        let data = new Initiative().deserialize(fixture.load("data.json"));
-        component.data$.next({ initiative: data, datasetId: "ID" })
+        // let data = new Initiative().deserialize(fixture.load("data.json"));
+        // component.data$.next({ initiative: data, datasetId: "ID" })
         let svgs = document.getElementsByTagName("svg")
         expect(svgs.length).toBe(1);
         let svg = svgs.item(0);
@@ -188,8 +193,8 @@ describe("mapping.tree.component.ts", () => {
 
     it("should draw SVG with correct pictures labels when data is valid", () => {
 
-        let data = new Initiative().deserialize(fixture.load("data.json"));
-        component.data$.next({ initiative: data, datasetId: "ID" })
+        // let data = new Initiative().deserialize(fixture.load("data.json"));
+        // component.data$.next({ initiative: data, datasetId: "ID" })
         let svgs = document.getElementsByTagName("svg")
         expect(svgs.length).toBe(1);
         let svg = svgs.item(0);

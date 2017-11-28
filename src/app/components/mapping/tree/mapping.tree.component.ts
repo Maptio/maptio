@@ -63,7 +63,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     constructor(public d3Service: D3Service, public colorService: ColorService,
         public uiService: UIService, public router: Router, private userFactory: UserFactory,
         private cd: ChangeDetectorRef, private dataService: DataService) {
-        console.log("tree constructor")
+        // console.log("tree constructor")
         this.d3 = d3Service.getD3();
         this.data$ = new Subject<{ initiative: Initiative, datasetId: string, teamName: string, teamId: string }>();
 
@@ -142,10 +142,10 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     }
 
     ngOnInit() {
-        console.log("tree ngOnInit")
+        // console.log("tree ngOnInit")
         this.init();
         this.dataSubscription = this.dataService.get().subscribe(complexData => {
-            console.log("tree assign data")
+            // console.log("tree assign data")
             let data = <any>complexData.initiative;
             this.datasetId = complexData.datasetId;
             this.slug = data.getSlug();

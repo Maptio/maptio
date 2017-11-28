@@ -26,7 +26,7 @@ export class DashboardComponent {
 
     ngOnInit() {
         console.log("ngOnInit", this.route.snapshot.data)
-        this.route.data
+        this.subscription = this.route.data
             .subscribe((data: { datasets: DataSet[] }) => {
                 console.log(data)
                 this.datasets = data.datasets;

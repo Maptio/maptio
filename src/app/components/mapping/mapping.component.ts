@@ -165,7 +165,7 @@ export class MappingComponent {
 
         this.subscription = this.route.params
             .do(params => {
-                console.log(0, params);
+                // console.log(0, params);
                 this.datasetId = params["mapid"];
                 this.slug = params["mapslug"];
                 // this.layout = params["layout"];
@@ -174,7 +174,7 @@ export class MappingComponent {
             .combineLatest(this.dataService.get())
             .map(data => data[1])
             .subscribe((data) => {
-                console.log(4)
+                // console.log(4)
                 // until the initiave has some children, we leve it in lock mode
                 if (!data.initiative.children || !data.initiative.children[0] || !data.initiative.children[0].children) {
                     this.lock(false);

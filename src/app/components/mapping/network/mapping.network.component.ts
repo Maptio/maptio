@@ -74,7 +74,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
     constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService,
         private cd: ChangeDetectorRef, private router: Router, private dataService: DataService) {
-        console.log("network constructor")
+        // console.log("network constructor")
         this.d3 = d3Service.getD3();
         this.T = this.d3.transition(null).duration(this.TRANSITION_DURATION);
         this.data$ = new Subject<{ initiative: Initiative, datasetId: string, teamName: string, teamId: string }>();
@@ -82,10 +82,10 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     }
 
     ngOnInit() {
-        console.log("network ngOnInit")
+        // console.log("network ngOnInit")
         this.init();
         this.dataSubscription = this.dataService.get().subscribe(complexData => {
-            console.log("network assign data")
+            // console.log("network assign data")
             let data = <any>complexData.initiative;
             this.datasetId = complexData.datasetId;
             this.rootNode = complexData.initiative;

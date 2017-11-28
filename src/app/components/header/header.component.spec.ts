@@ -82,6 +82,7 @@ describe("header.component.ts", () => {
     });
 
     it("should load user's datasets when all load", async(() => {
+        component.ngOnInit();
         let mockDataSetFactory = target.debugElement.injector.get(DatasetFactory);
         let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
 
@@ -104,6 +105,7 @@ describe("header.component.ts", () => {
     }));
 
     it("should load user's datasets when some fail", async(() => {
+        component.ngOnInit();
         let mockDataSetFactory = target.debugElement.injector.get(DatasetFactory);
         let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
 
@@ -130,6 +132,7 @@ describe("header.component.ts", () => {
     }));
 
     it("should get rid of subscription on destroy", () => {
+        component.ngOnInit();
         let spyEmitter = spyOn(component.emitterSubscription, "unsubscribe");
         let spyUser = spyOn(component.userSubscription, "unsubscribe")
         target.destroy();

@@ -99,7 +99,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
     ngOnInit() {
         this.init();
         this.dataSubscription = this.dataService.get().subscribe(complexData => {
-            console.log("circles assign data")
+            // console.log("circles assign data")
             let data = <any>complexData.initiative;
             this.datasetId = complexData.datasetId;
             this.rootNode = complexData.initiative;
@@ -224,6 +224,11 @@ export class MappingCirclesComponent implements IDataVisualizer {
         this.cd.markForCheck();
     }
 
+    setIsFirstEditing(isFirstEditing: boolean) {
+        this.isFirstEditing = isFirstEditing;
+        this.cd.markForCheck();
+    }
+
     isRootNode() {
         return this.selectedNode && this.selectedNode.id === this.rootNode.id;
     }
@@ -338,7 +343,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
         let removeInitiative$ = this.removeInitiative$;
         let selectInitiative = this.selectInitiative.bind(this);
         let hoverInitiative = this.hoverInitiative.bind(this);
-        let isFirstEditing = this.isFirstEditing;
+        // let isFirstEditing = this.isFirstEditing;
+        let setIsFirstEditing = this.setIsFirstEditing.bind(this);
         let MAX_TEXT_LENGTH = this.MAX_TEXT_LENGTH;
         let TRANSITION_DURATION = this.TRANSITION_DURATION;
         let setDragTargetNode = this.setDragTargetNode.bind(this);
@@ -383,9 +389,10 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
         // }
 
-        this.isFirstEditing = false;
+        this.setIsFirstEditing(false);
+
         if (nodes.length === 1) {
-            this.isFirstEditing = true;
+            this.setIsFirstEditing(true);
         }
         svg.on("contextmenu", function () {
             d3.event.preventDefault();
