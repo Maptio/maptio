@@ -406,8 +406,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
                 .on("end", dragended));
 
         node.append("circle");
-        node.append("text").attr("class", "name");
-        node.append("text").attr("class", "initiatives");
+        node.append("text").attr("class", "authority-name");
+        // node.append("text").attr("class", "initiatives");
 
         node.select("circle").attr("r", CIRCLE_RADIUS)
             .attr("fill", function (d: any) { return "url(#image" + d.id + ")" })
@@ -420,7 +420,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         // })
 
 
-        node.select("text.name")
+        node.select("text.authority-name")
             .attr("pointer-events", "auto")
             .attr("cursor", "pointer")
             .attr("dx", CIRCLE_RADIUS + 3)
