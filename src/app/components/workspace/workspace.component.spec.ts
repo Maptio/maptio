@@ -95,7 +95,15 @@ describe("workspace.component.ts", () => {
                     {
                         provide: ActivatedRoute,
                         useValue: {
-                            params: Observable.of({ mapid: 123, slug: "slug" })
+                            params: Observable.of({ mapid: 123, slug: "slug" }),
+                            data: Observable.of({
+                                data: {
+                                    dataset:
+                                    new DataSet({ _id: "123" }),
+                                    team: new Team({ team_id: "team123", name: "team" }),
+                                    members: []
+                                }
+                            })
                         }
                     }]
             }
@@ -112,18 +120,16 @@ describe("workspace.component.ts", () => {
 
     describe("Controller", () => {
 
-
-
-        describe("update team members", () => {
-            it("should get the list of members when team is defined", () => {
-                component.team$ = Promise.resolve(new Team({ name: "Winners", members: [new User({ user_id: "1" })], team_id: "some_team_id" }));
-                component.updateTeamMembers();
-                component.members.then(m => {
-                    expect(m.length).toBe(1);
-                    expect(m[0].user_id).toBe("1")
-                })
-            });
-        })
+        // describe("update team members", () => {
+        //     it("should get the list of members when team is defined", () => {
+        //         component.team$ = Promise.resolve(new Team({ name: "Winners", members: [new User({ user_id: "1" })], team_id: "some_team_id" }));
+        //         component.updateTeamMembers();
+        //         component.members.then(m => {
+        //             expect(m.length).toBe(1);
+        //             expect(m[0].user_id).toBe("1")
+        //         })
+        //     });
+        // })
 
         // describe("adding team to initiative", () => {
         //     it("should add team to current dataset and update team members", async(() => {
@@ -192,6 +198,16 @@ describe("workspace.component.ts", () => {
             });
         });
 
+        describe("closeEditingPanel", () => {
+            it("should call correct dependencies", () => {
+                component.isDetailsPanelCollapsed = true;
+                component.closeEditingPanel();
+                expect(component.isDetailsPanelCollapsed).toBe(false);
+                component.closeEditingPanel();
+                expect(component.isDetailsPanelCollapsed).toBe(true);
+            });
+        });
+
         describe("saveDetailsChange", () => {
             it("should call saveChanges", () => {
                 spyOn(component.buildingComponent, "saveChanges");
@@ -202,131 +218,63 @@ describe("workspace.component.ts", () => {
 
         describe("openDetails", () => {
             it("should call correct dependencies and keep building panel opened", async(() => {
-                component.dataset$ = Promise.resolve(new DataSet({ initiative: new Initiative({ id: 1, name: "Name", children: [new Initiative({ id: 2, name: "opening" })] }) }));
-                component.team$ = Promise.resolve(new Team({ team_id: "1", name: "Team" }));
+                component.dataset = new DataSet({ initiative: new Initiative({ id: 1, name: "Name", children: [new Initiative({ id: 2, name: "opening" })] }) });
+                component.team = new Team({ team_id: "1", name: "Team" });
 
                 component.openDetails(new Initiative({ name: "opening", id: 2 }))
 
-                Promise.all([component.dataset$, component.team$]).then(() => {
-                    expect(component.openedNode.name).toBe("opening");
-                    expect(component.openedNodeParent.name).toBe("Name")
-                })
-                    .then(() => {
-                        expect(component.isDetailsPanelCollapsed).toBe(false);
-                        expect(component.isBuildingPanelCollapsed).toBe(false);
-                    })
+                // Promise.all([component.dataset$, component.team$]).then(() => {
+                expect(component.openedNode.name).toBe("opening");
+                expect(component.openedNodeParent.name).toBe("Name")
+                // })
+                //     .then(() => {
+                expect(component.isDetailsPanelCollapsed).toBe(false);
+                expect(component.isBuildingPanelCollapsed).toBe(false);
+                // })
 
             }));
 
             it("should call correct dependencies and keep building panel closed", async(() => {
-                component.dataset$ = Promise.resolve(new DataSet({ initiative: new Initiative({ id: 1, name: "Name", children: [new Initiative({ id: 2, name: "opening" })] }) }));
-                component.team$ = Promise.resolve(new Team({ team_id: "1", name: "Team" }));
+                component.dataset = new DataSet({ initiative: new Initiative({ id: 1, name: "Name", children: [new Initiative({ id: 2, name: "opening" })] }) });
+                component.team = new Team({ team_id: "1", name: "Team" });
 
                 component.openDetails(new Initiative({ name: "opening", id: 2 }), true)
 
-                Promise.all([component.dataset$, component.team$]).then(() => {
-                    expect(component.openedNode.name).toBe("opening");
-                    expect(component.openedNodeParent.name).toBe("Name")
-                })
-                    .then(() => {
-                        expect(component.isDetailsPanelCollapsed).toBe(false);
-                        expect(component.isBuildingPanelCollapsed).toBe(true);
-                    })
+                // Promise.all([component.dataset$, component.team$]).then(() => {
+                expect(component.openedNode.name).toBe("opening");
+                expect(component.openedNodeParent.name).toBe("Name")
+                // })
+                //     .then(() => {
+                expect(component.isDetailsPanelCollapsed).toBe(false);
+                expect(component.isBuildingPanelCollapsed).toBe(true);
+                // })
 
             }));
         });
 
-        describe("ngOnInit", () => {
-
-
-            it("loads dataset matching :id", async(() => {
-
-                // let spy = spyOn(component.buildingComponent, "loadData");
-                let mockRoute: ActivatedRoute = target.debugElement.injector.get(ActivatedRoute);
-                let mockDataSetFactory = target.debugElement.injector.get(DatasetFactory);
-                let spyGet = spyOn(mockDataSetFactory, "get").and.returnValue(Promise.resolve(new DataSet({ _id: "123", initiative: new Initiative({ team_id: "team1" }) })));
-
-                component.ngOnInit();
-
-                mockRoute.params.toPromise().then((params: Params) => {
-                    // expect(spy).toHaveBeenCalledWith(123, "slug");
-                    expect(spyGet).toHaveBeenCalled();
-                    spyGet.calls.mostRecent().returnValue.then(() => {
-                        expect(spyGet).toHaveBeenCalledWith(123)
-                    })
-                    component.dataset$.then((r) => {
-                        expect(r).toEqual(new DataSet({ _id: "123", initiative: new Initiative({ team_id: "team1" }) }))
-                    })
-                });
-
-            }));
-
-            it("loads team matching dataset", async(() => {
-
-                // let spy = spyOn(component.buildingComponent, "loadData");
-                let mockRoute: ActivatedRoute = target.debugElement.injector.get(ActivatedRoute);
-                let mockDataSetFactory = target.debugElement.injector.get(DatasetFactory);
-                let mockUserFactory = target.debugElement.injector.get(UserFactory);
-                let spyGetDataset = spyOn(mockDataSetFactory, "get").and.returnValue(Promise.resolve(new DataSet({ _id: "123", initiative: new Initiative({ team_id: "team_id" }) })));
-
-                let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
-                let spyGetTeam = spyOn(mockTeamFactory, "get").and.returnValue(Promise.resolve(new Team({ team_id: "team_id", name: "Winners", members: [new User({ user_id: "1" }), new User({ user_id: "2" })] })))
-                let spyGetUser = spyOn(mockUserFactory, "getUsers").and.returnValue(Promise.resolve([new User({ user_id: "1" })]));
-
-                component.ngOnInit();
-
-                mockRoute.params.toPromise().then((params: Params) => {
-                    // expect(spy).toHaveBeenCalledWith(123, "slug");
-                    expect(spyGetDataset).toHaveBeenCalled();
-                    spyGetDataset.calls.mostRecent().returnValue.then(() => {
-                        expect(spyGetDataset).toHaveBeenCalledWith(123);
-
-                        expect(spyGetTeam).toHaveBeenCalledWith("team_id");
-                        component.team$.then((r) => {
-                            expect(r).toEqual(new Team({ team_id: "team_id", name: "Winners", members: [new User({ user_id: "1" }), new User({ user_id: "2" })] }))
-                            expect(spyGetUser).toHaveBeenCalledTimes(1);
-                            expect(spyGetUser).toHaveBeenCalledWith(["1", "2"])
-                        })
-                    })
-                });
-
-            }));
-
-            it("loads members from team", async(() => {
-
-                // let spy = spyOn(component.buildingComponent, "loadData");
-                let mockRoute: ActivatedRoute = target.debugElement.injector.get(ActivatedRoute);
-                let mockDataSetFactory = target.debugElement.injector.get(DatasetFactory);
-                let mockUserFactory = target.debugElement.injector.get(UserFactory);
-                let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
-
-                let spyGetDataset = spyOn(mockDataSetFactory, "get").and.returnValue(Promise.resolve(new DataSet({ _id: "123", initiative: new Initiative({ team_id: "team_id" }) })));
-                let spyGetUser = spyOn(mockUserFactory, "getUsers").and.returnValue(Promise.resolve([new User({ user_id: "1" }), new User({ user_id: "2" })]));
-                let spyGetTeam = spyOn(mockTeamFactory, "get").and.returnValue(Promise.resolve(new Team({ members: [new User({ user_id: "1" }), new User({ user_id: "2" })] })));
-
-                component.ngOnInit();
-
-                mockRoute.params.toPromise().then((params: Params) => {
-                    // expect(spy).toHaveBeenCalledWith(123, "slug");
-                    expect(spyGetDataset).toHaveBeenCalled();
-                    spyGetDataset.calls.mostRecent().returnValue.then(() => {
-                        expect(spyGetDataset).toHaveBeenCalledWith(123);
-
-                        expect(spyGetTeam).toHaveBeenCalledWith("team_id");
-
-                        component.team$.then((r) => {
-                            expect(spyGetUser).toHaveBeenCalledTimes(1);
-                            expect(spyGetUser).toHaveBeenCalledWith(["1", "2"]);
-                            component.members.then((members) => {
-                                expect(members.length).toBe(2)
-                            })
-                        })
-                    })
-                });
-
-            }));
+        describe("addInitiatives", () => {
+            it("should call correct dependencies", () => {
+                spyOn(component.buildingComponent, "addNodeTo")
+                component.addInitiative(new Initiative({}));
+                expect(component.buildingComponent.addNodeTo).toHaveBeenCalled();
+            });
         });
 
+        describe("removeInitiative", () => {
+            it("should call correct dependencies", () => {
+                spyOn(component.buildingComponent, "removeNode")
+                component.removeInitiative(new Initiative({}));
+                expect(component.buildingComponent.removeNode).toHaveBeenCalled();
+            });
+        });
+
+        describe("moveInitiative", () => {
+            it("should call correct dependencies", () => {
+                spyOn(component.buildingComponent, "moveNode")
+                component.moveInitiative({ node: new Initiative({}), from: new Initiative({}), to: new Initiative({}) });
+                expect(component.buildingComponent.moveNode).toHaveBeenCalled();
+            });
+        });
     });
 
 });

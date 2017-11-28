@@ -89,6 +89,7 @@ import { AnAnchorableComponent } from "../test/specs/shared/component.helper.sha
 import { LoaderComponent } from "./components/loading/loader.component";
 import { DashboardComponentResolver } from "./components/dashboard/dashboard.resolver";
 import { MappingNetworkComponent } from "./components/mapping/network/mapping.network.component";
+import { WorkspaceComponentResolver } from "./components/workspace/workspace.resolver";
 
 
 // Routes
@@ -118,50 +119,27 @@ const appRoutes: Routes = [
 
   { path: ":shortid/:slug", component: AccountComponent, canActivate: [AuthGuard] },
 
-  // { path: "map/:mapid/:slug", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
-  { path: "map/:mapid/:mapslug/i/:nodeid/:nodeslug", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
+  {
+    path: "map/:mapid/:mapslug/i/:nodeid/:nodeslug",
+    component: WorkspaceComponent, resolve: {
+      data: WorkspaceComponentResolver
+    },
+    canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard]
+  },
   {
     path: "map/:mapid/:mapslug",
     component: WorkspaceComponent,
     canActivate: [AuthGuard, AccessGuard],
-    // canActivateChild: [AuthGuard, AccessGuard],
-
+    resolve: {
+      data: WorkspaceComponentResolver
+    },
     children: [
-      {
-        path: "", redirectTo: "initiatives", pathMatch: "full"
-      },
-      {
-        path: "initiatives",
-        children: [
-          {
-            path: "",
-            component: MappingCirclesComponent
-          }
-        ]
-      },
-      {
-        path: "people",
-        children: [
-          {
-            path: "",
-            component: MappingTreeComponent
-          }
-        ]
-      },
-      {
-        path: "connections",
-        children: [
-          {
-            path: "",
-            component: MappingNetworkComponent
-          }
-        ]
-      }
-
+      { path: "", redirectTo: "initiatives", pathMatch: "full" },
+      { path: "initiatives", component: MappingCirclesComponent },
+      { path: "people", component: MappingTreeComponent },
+      { path: "connections", component: MappingNetworkComponent },
     ]
-
   },
-
   { path: "summary/map/:mapid/:mapslug/u/:usershortid/:userslug", component: MemberSummaryComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
 
   { path: "unauthorized", component: UnauthorizedComponent },
@@ -241,7 +219,8 @@ export function markdownServiceFactory(http: Http) {
       useFactory: markdownServiceFactory,
       deps: [Http]
     },
-    DashboardComponentResolver
+    DashboardComponentResolver,
+    WorkspaceComponentResolver
   ],
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]

@@ -1,6 +1,5 @@
 
-import { TestBed, inject } from "@angular/core/testing";
-import { DashboardComponentResolver } from "./dashboard.resolver";
+import { TestBed, inject, async, fakeAsync } from "@angular/core/testing";
 import { Auth } from "../../shared/services/auth/auth.service";
 import { TeamFactory } from "../../shared/services/team.factory";
 import { DatasetFactory } from "../../shared/services/dataset.factory";
@@ -15,7 +14,7 @@ import { UserService } from "../../shared/services/user/user.service";
 import { MailingService } from "../../shared/services/mailing/mailing.service";
 import { JwtEncoder } from "../../shared/services/encoding/jwt.service";
 import { UserFactory } from "../../shared/services/user.factory";
-import { Router } from "@angular/router";
+import { Router, ActivatedRouteSnapshot, Params } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { LoaderService } from "../../shared/services/loading/loader.service";
 import { Angulartics2Module, Angulartics2, Angulartics2Mixpanel } from "angulartics2";
@@ -23,14 +22,15 @@ import { ErrorService } from "../../shared/services/error/error.service";
 import { DataSet } from "../../shared/model/dataset.data";
 import { Initiative } from "../../shared/model/initiative.data";
 import { Team } from "../../shared/model/team.data";
+import { WorkspaceComponentResolver } from "./workspace.resolver";
 
-describe("dashboard.resolver.ts", () => {
+describe("workspace.resolver.ts", () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [RouterTestingModule, Angulartics2Module],
             providers: [
-                DashboardComponentResolver,
+                WorkspaceComponentResolver,
                 Auth,
                 TeamFactory,
                 DatasetFactory,
@@ -56,46 +56,28 @@ describe("dashboard.resolver.ts", () => {
         });
     });
 
-    it("resolves when all datasets and teams load", inject([DashboardComponentResolver, Auth, DatasetFactory, TeamFactory], (target: DashboardComponentResolver, auth: Auth, datasetFactory: DatasetFactory, teamFactory: TeamFactory) => {
-        spyOn(auth, "getUser").and.returnValue(Observable.of(new User({ user_id: "some_new_id", datasets: ["1", "2", "3"] })))
+    it("resolves when all datasets and teams load", fakeAsync(inject([WorkspaceComponentResolver, DatasetFactory, TeamFactory, UserFactory], (target: WorkspaceComponentResolver, datasetFactory: DatasetFactory, teamFactory: TeamFactory, userFactory: UserFactory) => {
         let spyGetDataSet = spyOn(datasetFactory, "get").and.callFake((id: string) => {
             return Promise.resolve(new DataSet({ _id: id, initiative: new Initiative({ name: `Name ${id}`, team_id: `team_${id}` }) }))
         })
         let spyGetTeam = spyOn(teamFactory, "get").and.callFake((id: string) => {
-            return Promise.resolve(new Team({ team_id: id, name: `Team ${id}` }))
+            return Promise.resolve(new Team({ team_id: id, name: `Team ${id}`, members: [new User({ user_id: "1" }), new User({ user_id: "2" })] }))
         })
-        target.resolve(undefined, undefined).subscribe(ds => {
-            expect(ds).toBeDefined();
-            expect(ds.length).toBe(4);
-            ds.forEach((d, index) => {
-                expect(d._id).toBe(`${index + 1}`);
-                expect(d.initiative.name).toBe(`Name ${index + 1}`);
-                expect(d.team.name).toBe(`Team team_${index + 1}`);
-            })
+        let spyGetUser = spyOn(userFactory, "get").and.callFake((id: string) => {
+            return Promise.resolve(new User({ user_id: `user_${id}` }))
         })
-    }));
 
-    it("resolves  when one dataset doesnt load", inject([DashboardComponentResolver, Auth, DatasetFactory, TeamFactory], (target: DashboardComponentResolver, auth: Auth, datasetFactory: DatasetFactory, teamFactory: TeamFactory) => {
-        spyOn(auth, "getUser").and.returnValue(Observable.of(new User({ user_id: "some_new_id", datasets: ["1", "2", "3"] })))
-        let spyGetDataSet = spyOn(datasetFactory, "get").and.callFake((id: string) => {
-            return (Number.parseInt(id) % 2)
-                ? Promise.resolve(new DataSet({ _id: id, initiative: new Initiative({ name: `Name ${id}`, team_id: `team_${id}` }) }))
-                : Promise.reject("Something went wrong")
+        let snapshot = new ActivatedRouteSnapshot();
+        snapshot.params = { "mapid": "123" };
+        target.resolve(snapshot, undefined).subscribe(data => {
+            expect(spyGetDataSet).toHaveBeenCalledWith("123")
+            expect(spyGetTeam).toHaveBeenCalledWith("team_123")
+            expect(spyGetUser).toHaveBeenCalledWith("1", "2");
+            expect(data.dataset._id).toBe("123");
+            expect(data.team.team_id).toBe("team_123");
+            expect(data.members.length).toBe(3);
         })
-        let spyGetTeam = spyOn(teamFactory, "get").and.callFake((id: string) => {
-            return Promise.resolve(new Team({ team_id: id, name: `Team ${id}` }))
-        })
-        target.resolve(undefined, undefined).subscribe(ds => {
-            expect(ds.length).toBe(2);
-            expect(ds[0]._id).toBe("1");
-            expect(ds[0].initiative.name).toBe(`Name 1`);
-            expect(ds[0].team.name).toBe(`Team team_1`);
-            expect(ds[0].depth).toBe(0);
-            expect(ds[1]._id).toBe("3");
-            expect(ds[1].initiative.name).toBe(`Name 3`);
-            expect(ds[1].team.name).toBe(`Team team_3`);
-            expect(ds[1].depth).toBe(0);
-        })
-    }))
+    })));
+
 
 });
