@@ -140,8 +140,7 @@ const appRoutes: Routes = [
         children: [
           {
             path: "",
-            component: MappingCirclesComponent,
-            outlet: "circle"
+            component: MappingCirclesComponent
           }
         ]
       },
@@ -150,8 +149,7 @@ const appRoutes: Routes = [
         children: [
           {
             path: "",
-            component: MappingTreeComponent,
-            outlet: "tree"
+            component: MappingTreeComponent
           }
         ]
       },
@@ -160,8 +158,7 @@ const appRoutes: Routes = [
         children: [
           {
             path: "",
-            component: MappingNetworkComponent,
-            outlet: "network"
+            component: MappingNetworkComponent
           }
         ]
       }
@@ -215,7 +212,7 @@ export function markdownServiceFactory(http: Http) {
     TreeModule,
     Ng2Bs3ModalModule,
     NgbModule.forRoot(),
-    RouterModule.forRoot(appRoutes, { enableTracing: true }),
+    RouterModule.forRoot(appRoutes),
     ResponsiveModule,
     ConfirmationPopoverModule.forRoot({
       confirmButtonType: "danger",

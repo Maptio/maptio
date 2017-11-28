@@ -43,10 +43,8 @@
 
 
 <!-- SVG goes here -->
-MAPPING
-<router-outlet name="circle" (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>
-<router-outlet name="tree" (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>
-<router-outlet name="network" (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>
+
+<router-outlet (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>
 <!-- <ng-template #drawing anchor></ng-template> -->
 
 <!-- tooltip goes here -->

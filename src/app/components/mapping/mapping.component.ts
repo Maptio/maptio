@@ -42,7 +42,7 @@ export class MappingComponent {
     TOOLTIP_ZOOM_OUT: string = "Zoom out";
     TOOLTIP_ZOOM_FIT: string = "Zoom fit";
 
-    public data: { initiative: Initiative, datasetId: string };
+    public data: { initiative: Initiative, datasetId: string, teamName: string, teamId: string };
     public x: number;
     public y: number;
     public scale: number;
@@ -51,6 +51,7 @@ export class MappingComponent {
     public isCollapsed: boolean = true;
 
     public zoom$: Subject<number>;
+    public isReset$: Subject<boolean>;
     private VIEWPORT_WIDTH: number = 1522;
     private VIEWPORT_HEIGHT: number = 1522;
 
@@ -91,6 +92,7 @@ export class MappingComponent {
         private analytics: Angulartics2Mixpanel
     ) {
         this.zoom$ = new Subject<number>();
+        this.isReset$ = new Subject<boolean>();
         this.fontSize$ = new BehaviorSubject<number>(16);
         this.isLocked$ = new BehaviorSubject<boolean>(this.isLocked);
         this.closeEditingPanel$ = new BehaviorSubject<boolean>(false);
@@ -102,27 +104,38 @@ export class MappingComponent {
     }
 
     onActivate(component: IDataVisualizer) {
+        this.isLoading.next(true);
+        // console.log("before activation", component);
+        // console.log("iscircle", (component instanceof MappingCirclesComponent));
 
-        console.log("before activation", component);
+        // console.log("istree", (component instanceof MappingTreeComponent));
+
+        // console.log("isnetwork", (component instanceof MappingNetworkComponent));
 
         component.showDetailsOf$.asObservable().subscribe(node => {
             this.showDetails.emit(node)
         })
         component.addInitiative$.asObservable().subscribe(node => {
-            // console.log("mapping.component.ts", "adding initiative under", node.name)
             this.addInitiative.emit(node)
         })
         component.removeInitiative$.asObservable().subscribe(node => {
-            // console.log("mapping.component.ts", "remove initiative", node.name)
             this.removeInitiative.emit(node)
         })
         component.moveInitiative$.asObservable().subscribe(({ node: node, from: from, to: to }) => {
-            // console.log("mapping.component.ts", "move initiative", node.name, to.name)
             this.moveInitiative.emit({ node: node, from: from, to: to })
         })
         component.closeEditingPanel$.asObservable().subscribe((close: boolean) => {
             this.closeEditingPanel.emit(true);
         })
+
+        let f = this.route.snapshot.fragment || this.getFragment(component);
+        this.x = Number.parseFloat(f.split("&")[0].replace("x=", ""))
+        this.y = Number.parseFloat(f.split("&")[1].replace("y=", ""))
+        this.scale = Number.parseFloat(f.split("&")[2].replace("scale=", ""));
+
+        this.layout = this.getLayout(component);
+        // console.log(layout, this.teamName, this.teamId)
+
 
         component.width = this.VIEWPORT_WIDTH;
         component.height = this.VIEWPORT_HEIGHT;
@@ -131,78 +144,35 @@ export class MappingComponent {
         component.zoom$ = this.zoom$.asObservable();
         component.fontSize$ = this.fontSize$.asObservable();
         component.isLocked$ = this.isLocked$.asObservable();
-        component.translateX = 0; // this.x;
-        component.translateY = 0; // this.y;
-        component.scale = 1; // this.scale;
+        component.translateX = this.x;
+        component.translateY = this.y;
+        component.scale = this.scale;
         component.analytics = this.analytics;
-        component.isReset$ = new Subject<boolean>();
+        component.isReset$ = this.isReset$.asObservable();
 
-        // this.dataService.get().subscribe((data => {
-        //     console.log("assign data")
-        //     component.teamId = data.teamId;
-        //     component.teamName = data.teamName;
-        //     component.data$.next(data);
-        // }));
-
-        console.log("after activation", component);
+        // console.log("after activation", component);
+        this.isLoading.next(false);
     }
 
     onDeactivate(component: any) {
-        console.log("deactivate", component);
+        // console.log("deactivate", component);
 
     }
 
-    isCircle: boolean;
-    isTree: boolean;
-    isNetwork: boolean;
-
     ngOnInit() {
-        console.log("mapping ngOnInit")
-        this.isLoading.next(true);
+        // console.log("mapping ngOnInit")
+        // this.isLoading.next(true);
 
         this.subscription = this.route.params
-            .map(params => {
+            .do(params => {
                 console.log(0, params);
                 this.datasetId = params["mapid"];
                 this.slug = params["mapslug"];
-                console.log(this.datasetId, this.slug)
                 // this.layout = params["layout"];
-                // this.cd.markForCheck();
-                this.analytics.eventTrack("Map", { view: this.layout, team: this.teamName, teamId: this.teamId });
-
-
-
-                return this.layout
-            })
-            .do(layout => {
-                console.log(1)
-                this.isLoading.next(true);
-
-                // this.componentFactory = this.getComponentFactory(layout);
-                // let component = this.anchorComponent.createComponent<IDataVisualizer>(this.componentFactory);
-                // this.instance = this.getInstance(component);
-            })
-            .withLatestFrom(this.route.fragment)
-            .do(([layout, fragment]: [string, string]) => {
-                console.log(2)
-                this.isLoading.next(true);
-                let f = fragment || this.getFragment(this.layout);
-                this.x = Number.parseFloat(f.split("&")[0].replace("x=", ""))
-                this.y = Number.parseFloat(f.split("&")[1].replace("y=", ""))
-                this.scale = Number.parseFloat(f.split("&")[2].replace("scale=", ""));
-
-                // this.setup();
+                this.cd.markForCheck();
             })
             .combineLatest(this.dataService.get())
             .map(data => data[1])
-            .do((data) => {
-                console.log(3)
-                this.datasetId = data.datasetId;
-                this.teamId = data.teamId;
-                this.teamName = data.teamName;
-                // this.slug = data.initiative.getSlug();
-                this.isLoading.next(false);
-            })
             .subscribe((data) => {
                 console.log(4)
                 // until the initiave has some children, we leve it in lock mode
@@ -210,11 +180,53 @@ export class MappingComponent {
                     this.lock(false);
                     this.cd.markForCheck();
                 }
-                this.data = data;
+                // this.data = data;
                 // this.instance.teamId = data.teamId;
                 // this.instance.teamName = data.teamName;
                 // this.instance.data$.next(data);
             })
+
+        // .do(layout => {
+        //     console.log(1)
+
+
+        //     // this.componentFactory = this.getComponentFactory(layout);
+        //     // let component = this.anchorComponent.createComponent<IDataVisualizer>(this.componentFactory);
+        //     // this.instance = this.getInstance(component);
+        // })
+        // .withLatestFrom(this.route.fragment)
+        // .do(([layout, fragment]: [string, string]) => {
+        //     console.log(2)
+        //     // this.isLoading.next(true);
+        //     // let f = fragment || this.getFragment(this.layout);
+        //     // this.x = Number.parseFloat(f.split("&")[0].replace("x=", ""))
+        //     // this.y = Number.parseFloat(f.split("&")[1].replace("y=", ""))
+        //     // this.scale = Number.parseFloat(f.split("&")[2].replace("scale=", ""));
+
+        //     // this.setup();
+        // })
+        // .combineLatest(this.dataService.get())
+        // .map(data => data[1])
+        // .do((data) => {
+        //     console.log(3)
+        //     this.datasetId = data.datasetId;
+        //     this.teamId = data.teamId;
+        //     this.teamName = data.teamName;
+        //     // this.slug = data.initiative.getSlug();
+        //     this.isLoading.next(false);
+        // })
+        // .subscribe((data) => {
+        //     console.log(4)
+        //     // until the initiave has some children, we leve it in lock mode
+        //     if (!data.initiative.children || !data.initiative.children[0] || !data.initiative.children[0].children) {
+        //         this.lock(false);
+        //         this.cd.markForCheck();
+        //     }
+        //     this.data = data;
+        //     // this.instance.teamId = data.teamId;
+        //     // this.instance.teamName = data.teamName;
+        //     // this.instance.data$.next(data);
+        // })
 
     }
 
@@ -223,69 +235,95 @@ export class MappingComponent {
             this.subscription.unsubscribe();
     }
 
-    getFragment(layout: string) {
-        switch (layout) {
-            case "initiatives":
+    // getFragment(layout: string) {
+    //     switch (layout) {
+    //         case "initiatives":
+    //             return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`
+    //         case "people":
+    //             return `x=100&y=${this.VIEWPORT_HEIGHT / 4}&scale=1`
+    //         case "connections":
+    //             return `x=0&y=${-this.VIEWPORT_HEIGHT / 4}&scale=1`
+    //         default:
+    //             return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`
+    //     }
+    // }
+
+    getFragment(component: IDataVisualizer) {
+        switch (component.constructor) {
+            case MappingCirclesComponent:
                 return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`
-            case "people":
+            case MappingTreeComponent:
                 return `x=100&y=${this.VIEWPORT_HEIGHT / 4}&scale=1`
-            case "connections":
+            case MappingNetworkComponent:
                 return `x=0&y=${-this.VIEWPORT_HEIGHT / 4}&scale=1`
             default:
                 return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`
         }
     }
 
-    getComponentFactory(layout: string) {
-        switch (layout) {
-            case "initiatives":
-                return this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent);
-            case "people":
-                return this.componentFactoryResolver.resolveComponentFactory(MappingTreeComponent);
-            case "connections":
-                return this.componentFactoryResolver.resolveComponentFactory(MappingNetworkComponent);
+    getLayout(component: IDataVisualizer) {
+        switch (component.constructor) {
+            case MappingCirclesComponent:
+                return `initiatives`
+            case MappingTreeComponent:
+                return `people`
+            case MappingNetworkComponent:
+                return `connections`
             default:
-                return this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent);
+                return `initiatives`
         }
     }
 
-    getInstance(component: ComponentRef<IDataVisualizer>): IDataVisualizer {
-        return component.instance;
-    }
+    // getComponentFactory(layout: string) {
+    //     switch (layout) {
+    //         case "initiatives":
+    //             return this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent);
+    //         case "people":
+    //             return this.componentFactoryResolver.resolveComponentFactory(MappingTreeComponent);
+    //         case "connections":
+    //             return this.componentFactoryResolver.resolveComponentFactory(MappingNetworkComponent);
+    //         default:
+    //             return this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent);
+    //     }
+    // }
 
-    setup() {
-        this.instance.showDetailsOf$.asObservable().subscribe(node => {
-            this.showDetails.emit(node)
-        })
-        this.instance.addInitiative$.asObservable().subscribe(node => {
-            // console.log("mapping.component.ts", "adding initiative under", node.name)
-            this.addInitiative.emit(node)
-        })
-        this.instance.removeInitiative$.asObservable().subscribe(node => {
-            // console.log("mapping.component.ts", "remove initiative", node.name)
-            this.removeInitiative.emit(node)
-        })
-        this.instance.moveInitiative$.asObservable().subscribe(({ node: node, from: from, to: to }) => {
-            // console.log("mapping.component.ts", "move initiative", node.name, to.name)
-            this.moveInitiative.emit({ node: node, from: from, to: to })
-        })
-        this.instance.closeEditingPanel$.asObservable().subscribe((close: boolean) => {
-            this.closeEditingPanel.emit(true);
-        })
+    // getInstance(component: ComponentRef<IDataVisualizer>): IDataVisualizer {
+    //     return component.instance;
+    // }
 
-        this.instance.width = this.VIEWPORT_WIDTH;
-        this.instance.height = this.VIEWPORT_HEIGHT;
+    // setup() {
+    //     this.instance.showDetailsOf$.asObservable().subscribe(node => {
+    //         this.showDetails.emit(node)
+    //     })
+    //     this.instance.addInitiative$.asObservable().subscribe(node => {
+    //         // console.log("mapping.component.ts", "adding initiative under", node.name)
+    //         this.addInitiative.emit(node)
+    //     })
+    //     this.instance.removeInitiative$.asObservable().subscribe(node => {
+    //         // console.log("mapping.component.ts", "remove initiative", node.name)
+    //         this.removeInitiative.emit(node)
+    //     })
+    //     this.instance.moveInitiative$.asObservable().subscribe(({ node: node, from: from, to: to }) => {
+    //         // console.log("mapping.component.ts", "move initiative", node.name, to.name)
+    //         this.moveInitiative.emit({ node: node, from: from, to: to })
+    //     })
+    //     this.instance.closeEditingPanel$.asObservable().subscribe((close: boolean) => {
+    //         this.closeEditingPanel.emit(true);
+    //     })
 
-        this.instance.margin = 50;
-        this.instance.zoom$ = this.zoom$.asObservable();
-        this.instance.fontSize$ = this.fontSize$.asObservable();
-        this.instance.isLocked$ = this.isLocked$.asObservable();
-        this.instance.translateX = this.x;
-        this.instance.translateY = this.y;
-        this.instance.scale = this.scale;
-        this.instance.analytics = this.analytics;
-        this.instance.isReset$ = new Subject<boolean>();
-    }
+    //     this.instance.width = this.VIEWPORT_WIDTH;
+    //     this.instance.height = this.VIEWPORT_HEIGHT;
+
+    //     this.instance.margin = 50;
+    //     this.instance.zoom$ = this.zoom$.asObservable();
+    //     this.instance.fontSize$ = this.fontSize$.asObservable();
+    //     this.instance.isLocked$ = this.isLocked$.asObservable();
+    //     this.instance.translateX = this.x;
+    //     this.instance.translateY = this.y;
+    //     this.instance.scale = this.scale;
+    //     this.instance.analytics = this.analytics;
+    //     this.instance.isReset$ = new Subject<boolean>();
+    // }
 
 
     zoomOut() {
@@ -299,7 +337,7 @@ export class MappingComponent {
     }
 
     resetZoom() {
-        this.instance.isReset$.next(true);
+        this.isReset$.next(true);
         this.analytics.eventTrack("Map", { action: "reset zoom", mode: "button", team: this.teamName, teamId: this.teamId });
     }
 

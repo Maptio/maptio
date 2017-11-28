@@ -35,10 +35,10 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
     public margin: number;
     public zoom$: Observable<number>;
-    public isReset$: Subject<boolean>
+    public isReset$: Observable<boolean>
     public fontSize$: Observable<number>;
     public isLocked$: Observable<boolean>;
-    public data$: Subject<{ initiative: Initiative, datasetId: string }>;
+    public data$: Subject<{ initiative: Initiative, datasetId: string, teamName: string, teamId: string }>;
     public rootNode: Initiative;
 
     public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
@@ -92,8 +92,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
     ) {
         this.d3 = d3Service.getD3();
         this.T = this.d3.transition(null).duration(this.TRANSITION_DURATION);
-        this.data$ = new Subject<{ initiative: Initiative, datasetId: string }>();
-        
+        this.data$ = new Subject<{ initiative: Initiative, datasetId: string, teamName: string, teamId: string }>();
+
     }
 
     ngOnInit() {
@@ -104,7 +104,9 @@ export class MappingCirclesComponent implements IDataVisualizer {
             this.datasetId = complexData.datasetId;
             this.rootNode = complexData.initiative;
             this.slug = data.getSlug();
-            this.update(data)
+            this.update(data);
+            this.analytics.eventTrack("Map", { view: "initiatives", team: data.teamName, teamId: data.teamId });
+
         })
     }
 
@@ -150,7 +152,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             //     })
         }
 
-        this.resetSubscription = this.isReset$.asObservable().filter(r => r).subscribe(isReset => {
+        this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
             svg.call(zooming.transform, d3.zoomIdentity.translate(761, 761));
         })
 

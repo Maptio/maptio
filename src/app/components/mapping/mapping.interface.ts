@@ -24,7 +24,7 @@ export interface IDataVisualizer {
 
     data$: Subject<{ initiative: Initiative, datasetId: string }>;
 
-    isReset$: Subject<boolean>;
+    isReset$: Observable<boolean>;
 
     translateX: number;
     translateY: number;

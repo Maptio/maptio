@@ -39,7 +39,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     public zoom$: Observable<number>
     public fontSize$: Observable<number>;
     public isLocked$: Observable<boolean>;
-    public isReset$: Subject<boolean>;
+    public isReset$: Observable<boolean>;
     public data$: Subject<{ initiative: Initiative, datasetId: string }>;
 
     public rootNode: Initiative;
@@ -77,7 +77,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         console.log("network constructor")
         this.d3 = d3Service.getD3();
         this.T = this.d3.transition(null).duration(this.TRANSITION_DURATION);
-        this.data$ = new Subject<{ initiative: Initiative, datasetId: string }>();
+        this.data$ = new Subject<{ initiative: Initiative, datasetId: string, teamName: string, teamId: string }>();
 
     }
 
@@ -90,7 +90,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             this.datasetId = complexData.datasetId;
             this.rootNode = complexData.initiative;
             this.slug = data.getSlug();
-            this.update(data)
+            this.update(data);
+            this.analytics.eventTrack("Map", { view: "connections", team: data.teamName, teamId: data.teamId });
         })
     }
 
@@ -125,6 +126,9 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         g.append("g").attr("class", "labels");
         g.append("g").attr("class", "nodes");
         g.append("defs");
+
+        svg.style("background", "#f7f7f7");
+
 
         svg.append("svg:defs").selectAll("marker")
             .data([{ id: "arrow", opacity: 1 }, { id: "arrow-fade", opacity: this.FADED_OPACITY }])
@@ -179,7 +183,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             }
         })
 
-        this.resetSubscription = this.isReset$.asObservable().filter(r => r).subscribe(isReset => {
+        this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
             svg.call(zooming.transform, d3.zoomIdentity.translate(0, -this.height / 4));
         })
 

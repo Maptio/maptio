@@ -35,8 +35,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     public zoom$: Observable<number>
     public fontSize$: Observable<number>
     public isLocked$: Observable<boolean>;
-    public isReset$: Subject<boolean>
-    public data$: Subject<{ initiative: Initiative, datasetId: string }>;
+    public isReset$: Observable<boolean>
+    public data$: Subject<{ initiative: Initiative, datasetId: string, teamName: string, teamId: string }>;
 
     private zoomSubscription: Subscription;
     private dataSubscription: Subscription;
@@ -65,7 +65,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         private cd: ChangeDetectorRef, private dataService: DataService) {
         console.log("tree constructor")
         this.d3 = d3Service.getD3();
-        this.data$ = new Subject<{ initiative: Initiative, datasetId: string }>();
+        this.data$ = new Subject<{ initiative: Initiative, datasetId: string, teamName: string, teamId: string }>();
 
     }
 
@@ -96,7 +96,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             });
 
         let svg: any = d3.select("svg").attr("width", viewerWidth)
-            .attr("height", viewerHeight).attr("class", "overlay");
+            .attr("height", viewerHeight).attr("class", "overlay")
+            .style("background", "#f7f7f7");
+
         let g = svg.append("g")
             .attr("transform", `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`);
         let definitions = g.append("defs")
@@ -114,7 +116,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
         }
 
-        this.resetSubscription = this.isReset$.asObservable().filter(r => r).subscribe(isReset => {
+        this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
             svg.call(zooming.transform, d3.zoomIdentity.translate(100, this.height / 4));
         })
 
@@ -147,7 +149,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             let data = <any>complexData.initiative;
             this.datasetId = complexData.datasetId;
             this.slug = data.getSlug();
-            this.update(data)
+            this.update(data);
+            this.analytics.eventTrack("Map", { view: "people", team: data.teamName, teamId: data.teamId });
         })
     }
 
