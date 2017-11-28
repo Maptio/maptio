@@ -55,7 +55,8 @@ describe("mapping.component.ts", () => {
                     provide: ActivatedRoute,
                     useValue: {
                         params: Observable.of({ mapid: 123, layout: "initiatives" }),
-                        fragment: Observable.of(`x=50&y=50&scale=1.2`)
+                        fragment: Observable.of(`x=50&y=50&scale=1.2`),
+                        snapshot: { fragment: undefined }
                     }
                 }
 
@@ -93,22 +94,22 @@ describe("mapping.component.ts", () => {
             }));
         });
 
-        // describe("getComponentFactory", () => {
-        //     it("should return MappingCirclesComponent if layout is initiatives", () => {
-        //         let actual = component.getComponentFactory("initiatives");
-        //         expect(actual.componentType.name).toBe("MappingCirclesComponent")
-        //     });
+        describe("getLayout", () => {
+            it("should return #x=761&y=761&scale=1 when layout is initiatives", () => {
+                let actual = component.getLayout(new MappingCirclesComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined));
+                expect(actual).toBe("initiatives")
+            });
 
-        //     it("should return MappingTreeComponent if layout is people", () => {
-        //         let actual = component.getComponentFactory("people");
-        //         expect(actual.componentType.name).toBe("MappingTreeComponent")
-        //     });
+            it("should return #x=100&y=380.5&scale=1 when layout is people", () => {
+                let actual = component.getLayout(new MappingTreeComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined));
+                expect(actual).toBe("people")
+            });
 
-        //     it("should return MappingCirclesComponent if layout is empty", () => {
-        //         let actual = component.getComponentFactory("");
-        //         expect(actual.componentType.name).toBe("MappingCirclesComponent")
-        //     });
-        // });
+            it("should return #x=0&y=-380.5&scale=1 when layout is network", () => {
+                let actual = component.getLayout(new MappingNetworkComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined));
+                expect(actual).toBe("connections")
+            });
+        });
 
 
 
@@ -149,8 +150,60 @@ describe("mapping.component.ts", () => {
             });
         });
 
+        describe("resetZoom", () => {
+            it("should reset zoom", () => {
+                spyOn(component.isReset$, "next");
+                spyOn(target.debugElement.injector.get(Angulartics2Mixpanel), "eventTrack")
+                component.resetZoom();
+                expect(component.isReset$.next).toHaveBeenCalledWith(true);
+                expect(target.debugElement.injector.get(Angulartics2Mixpanel).eventTrack).toHaveBeenCalled();
+            });
+        });
 
+        describe("change font size", () => {
+            it("should chnage font size", () => {
+                spyOn(component.fontSize$, "next");
+                spyOn(target.debugElement.injector.get(Angulartics2Mixpanel), "eventTrack")
+                component.changeFontSize(12);
+                expect(component.fontSize$.next).toHaveBeenCalledWith(12);
+                expect(target.debugElement.injector.get(Angulartics2Mixpanel).eventTrack).toHaveBeenCalled();
+            });
+        });
 
+        describe("lock", () => {
+            it("should lock", () => {
+                spyOn(component.isLocked$, "next");
+                spyOn(target.debugElement.injector.get(Angulartics2Mixpanel), "eventTrack")
+                component.lock(true);
+                expect(component.isLocked$.next).toHaveBeenCalledWith(true);
+                expect(target.debugElement.injector.get(Angulartics2Mixpanel).eventTrack).toHaveBeenCalled();
+                expect(component.isLocked).toBe(true)
+            });
+
+            it("should unlock", () => {
+                spyOn(component.isLocked$, "next");
+                spyOn(target.debugElement.injector.get(Angulartics2Mixpanel), "eventTrack")
+                component.lock(false);
+                expect(component.isLocked$.next).toHaveBeenCalledWith(false);
+                expect(target.debugElement.injector.get(Angulartics2Mixpanel).eventTrack).toHaveBeenCalled();
+                expect(component.isLocked).toBe(false)
+            });
+        });
+
+        it("onActivate", () => {
+            let activated = <IDataVisualizer>new MappingNetworkComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined)
+            spyOn(component, "getFragment").and.returnValue("x=10&y=100&scale=1.3")
+
+            component.onActivate(activated);
+
+            expect(activated.width).toBe(1522)
+            expect(activated.height).toBe(1522)
+            expect(activated.margin).toBe(50);
+            expect(component.getFragment).toHaveBeenCalledTimes(1);
+            expect(activated.translateX).toBe(10);
+            expect(activated.translateY).toBe(100);
+            expect(activated.scale).toBe(1.3);
+        })
 
     });
 });
