@@ -78,7 +78,6 @@ export class MemberSummaryComponent implements OnInit, IDataVisualizer {
     }
 
     ngOnInit() {
-        this.init();
 
         this.subscription = this.dataService.get()
             .map(data => {

@@ -62,52 +62,11 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         if (this.userSubscription) this.userSubscription.unsubscribe();
     }
 
-    constructor(private route: ActivatedRoute, private datasetFactory: DatasetFactory, private dataService: DataService) {
+    constructor(private route: ActivatedRoute, private router: Router, private datasetFactory: DatasetFactory, private dataService: DataService) {
     }
 
-
-
-    // ngOnInit() {
-    //     this.routeSubscription = this.route.params.subscribe((params: Params) => {
-    //         this.datasetId = params["mapid"];
-
-    //         this.dataset$ = this.datasetFactory.get(this.datasetId).then((d: DataSet) => {
-    //             EmitterService.get("currentDataset").emit(d)
-    //             return d;
-    //         });
-
-    //         this.dataset$.then(d => {
-
-    //         })
-
-    //         this.team$ = this.dataset$.then((dataset: DataSet) => {
-    //             return this.teamFactory.get(dataset.initiative.team_id)
-    //                 .then(
-    //                 t => {
-    //                     this.teamName = t.name;
-    //                     this.teamId = t.team_id;
-    //                     return t
-    //                 },
-    //                 () => { return Promise.reject("No team") }).catch(() => { })
-    //         });
-
-    //         this.members = this.team$.then((team: Team) => {
-    //             if (team)
-    //                 return this.userFactory.getUsers(team.members.map(m => m.user_id))
-    //                     .then(members => compact(members))
-    //                     .then(members => sortBy(members, m => m.name))
-    //         });
-
-    //         this.team$.then((team: Team) => {
-    //             this.buildingComponent.loadData(this.datasetId, params["nodeid"], this.teamName, this.teamId) // .then(()=>{console.log("finished buioding data")});
-
-    //         })
-
-    //     });
-
-    // }
-
     ngOnInit() {
+
         this.routeSubscription = this.route.data
             .subscribe((data: { data: { dataset: DataSet, team: Team, members: User[] } }) => {
                 this.dataset = data.data.dataset;
@@ -117,8 +76,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.teamName = this.team.name;
                 this.teamId = this.team.team_id;
                 EmitterService.get("currentDataset").emit(this.dataset);
-                this.buildingComponent.loadData(this.dataset._id, "", this.team.name, this.team.team_id) // .then(()=>{console.log("finished buioding data")});
-
+                this.buildingComponent.loadData(this.dataset._id, "", this.team.name, this.team.team_id)
             });
     }
 
@@ -213,7 +171,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     closeEditingPanel() {
-        this.isDetailsPanelCollapsed = !this.isDetailsPanelCollapsed;
+        this.isDetailsPanelCollapsed = true;
+        this.isBuildingPanelCollapsed = true;
     }
 
 }

@@ -105,6 +105,8 @@ export class MappingComponent {
     }
 
     onActivate(component: IDataVisualizer) {
+
+
         this.isLoading.next(true);
 
         component.showDetailsOf$.asObservable().subscribe(node => {
@@ -142,6 +144,9 @@ export class MappingComponent {
         component.scale = this.scale;
         component.analytics = this.analytics;
         component.isReset$ = this.isReset$.asObservable();
+        if (component.constructor === MemberSummaryComponent) {
+            component.closeEditingPanel$.next(true)
+        }
 
         this.isLoading.next(false);
     }
