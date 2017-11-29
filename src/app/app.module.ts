@@ -98,17 +98,7 @@ const appRoutes: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
 
   {
-    path: "home", component: HomeComponent,
-    // children: [
-    //   {
-    //     path: "",
-    //     component: DashboardComponent,
-    //     resolve: {
-    //       datasets: DashboardComponentResolver
-    //     },
-    //     outlet: "dashboard"
-    //   }
-    // ]
+    path: "home", component: HomeComponent
   },
 
   { path: "login", component: LoginComponent },

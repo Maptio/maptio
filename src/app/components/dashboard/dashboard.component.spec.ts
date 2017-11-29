@@ -16,6 +16,7 @@ import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authht
 import { DataSet } from "../../shared/model/dataset.data";
 import { Team } from "../../shared/model/team.data";
 import { ActivatedRoute } from "@angular/router";
+import { DashboardComponentResolver } from "./dashboard.resolver";
 
 describe("dashboard.component.ts", () => {
 
@@ -33,7 +34,7 @@ describe("dashboard.component.ts", () => {
         }).overrideComponent(DashboardComponent, {
             set: {
                 providers: [
-                    DatasetFactory, TeamFactory,
+                    DatasetFactory, TeamFactory, DashboardComponentResolver,
                     {
                         provide: ActivatedRoute, useClass: class {
                             get data() { return datasets$.asObservable() };
@@ -64,17 +65,18 @@ describe("dashboard.component.ts", () => {
     beforeEach(() => {
         target = TestBed.createComponent(DashboardComponent);
         component = target.componentInstance;
+        spyOn(target.debugElement.injector.get(DashboardComponentResolver), "resolve")
+            .and.returnValue(Observable.of([
+                new DataSet({ _id: "1", initiative: new Initiative() }),
+                new DataSet({ _id: "2", initiative: new Initiative() })]))
 
         target.detectChanges();
     });
 
-    it("should get datasets from resolver", async(() => {
-        datasets$.next([new DataSet({ _id: "1" }), new DataSet({ _id: "2" })]);
-        target.debugElement.injector.get(ActivatedRoute).data.subscribe(() => {
-            expect(component.datasets).toBeDefined();
-            expect(component.datasets.length).toBe(2);
-        })
-    }));
+    it("should get datasets from resolver", () => {
+        expect(component.datasets).toBeDefined();
+        expect(component.datasets.length).toBe(2);
+    });
 
     it("should get rid of subscription on destroy", () => {
         let spy = spyOn(component.subscription, "unsubscribe")

@@ -24,7 +24,7 @@ export class DashboardComponent {
     }
 
     ngOnInit() {
-        this.subscription = this.resolver.resolve(this.route.snapshot, undefined)
+        this.subscription = this.resolver.resolve(undefined, undefined)
             .subscribe((datasets: DataSet[]) => {
                 this.datasets = datasets;
             });
