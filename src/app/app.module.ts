@@ -67,6 +67,7 @@ import { AutoSelectDirective } from "./shared/directives/autoselect.directive"
 import { AnchorDirective } from "./shared/directives/anchor.directive"
 
 // External libraries
+import { LoadingModule, ANIMATION_TYPES } from "ngx-loading";
 import { MarkdownModule, MarkdownService } from "angular2-markdown";
 import { FileUploadModule } from "ng2-file-upload";
 import { CloudinaryModule } from "@cloudinary/angular-4.x";
@@ -188,6 +189,14 @@ export function markdownServiceFactory(http: Http) {
     MarkdownModule.forRoot(),
     Angulartics2Module.forRoot([Angulartics2Mixpanel]),
     FileUploadModule,
+    LoadingModule.forRoot({
+      animationType: ANIMATION_TYPES.chasingDots,
+      backdropBackgroundColour: "#f7f7f7",
+      backdropBorderRadius: "0px",
+      primaryColour: "#2F81B7",
+      secondaryColour: "#2F81B7",
+      tertiaryColour: "#ffffff"
+    }),
     CloudinaryModule.forRoot(cloudinaryLib, { cloud_name: environment.CLOUDINARY_CLOUDNAME, upload_preset: environment.CLOUDINARY_UPLOAD_PRESET })
   ],
   exports: [RouterModule],

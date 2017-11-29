@@ -24,10 +24,14 @@ export class DashboardComponent {
     }
 
     ngOnInit() {
+        this.isLoading = true;
         this.subscription = this.resolver.resolve(undefined, undefined)
             .subscribe((datasets: DataSet[]) => {
                 this.datasets = datasets;
-            });
+                this.isLoading = false;
+            },
+            (error: any) => { this.isLoading = false; },
+            () => { this.isLoading = false; });
     }
 
     ngOnDestroy() {
