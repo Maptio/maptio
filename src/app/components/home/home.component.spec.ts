@@ -18,6 +18,10 @@ export class AuthStub {
     authenticate() {
         return;
     }
+
+    allAuthenticated() {
+        return true;
+    }
 }
 
 describe("home.component.ts", () => {
@@ -27,42 +31,21 @@ describe("home.component.ts", () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [HomeComponent, SignupComponent, DashboardComponent],
-            imports: [ReactiveFormsModule, FormsModule, RouterTestingModule, NgbModule.forRoot()]
+            declarations: [HomeComponent, SignupComponent, DashboardComponent]
         }).overrideComponent(HomeComponent, {
             set: {
                 providers: [
-                    // JwtEncoder,
-                    { provide: Auth, useClass: AuthStub },
-                    // {
-                    //     provide: ActivatedRoute,
-                    //     useValue: {
-                    //         queryParams: Observable.of({ token: "TOKEN" })
-                    //     }
-                    // },
-                    // {
-                    //     provide: Http,
-                    //     useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
-                    //         return new Http(mockBackend, options);
-                    //     },
-                    //     deps: [MockBackend, BaseRequestOptions]
-                    // },
-                    // MockBackend,
-                    // BaseRequestOptions,
-                    // ErrorService
+                    { provide: Auth, useClass: AuthStub }
                 ]
             }
         }).compileComponents();
-    })); 
+    }));
 
     beforeEach(() => {
         target = TestBed.createComponent(HomeComponent);
         component = target.componentInstance;
 
-        // target.detectChanges(); // trigger initial data binding
-    });
+        target.detectChanges();
 
-    it("all dependencies are provided", () => {
-        expect(true).toBe(true);
-    })
+    });
 });
