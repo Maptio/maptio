@@ -200,11 +200,9 @@ describe("workspace.component.ts", () => {
 
         describe("closeEditingPanel", () => {
             it("should call correct dependencies", () => {
-                component.isDetailsPanelCollapsed = true;
-                component.closeEditingPanel();
-                expect(component.isDetailsPanelCollapsed).toBe(false);
                 component.closeEditingPanel();
                 expect(component.isDetailsPanelCollapsed).toBe(true);
+                expect(component.isBuildingPanelCollapsed).toBe(true);
             });
         });
 
