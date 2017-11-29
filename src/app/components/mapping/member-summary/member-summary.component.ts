@@ -78,7 +78,7 @@ export class MemberSummaryComponent implements OnInit, IDataVisualizer {
     }
 
     ngOnInit() {
-
+        this.isLoading = true;
         this.subscription = this.dataService.get()
             .map(data => {
                 this.datasetId = data.datasetId;
@@ -113,6 +113,7 @@ export class MemberSummaryComponent implements OnInit, IDataVisualizer {
                     }
                 }.bind(this));
                 this.cd.markForCheck();
+                this.isLoading = false;
             })
     }
 

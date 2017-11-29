@@ -53,7 +53,7 @@ describe("home.component.ts", () => {
                 ]
             }
         }).compileComponents();
-    }));
+    })); 
 
     beforeEach(() => {
         target = TestBed.createComponent(HomeComponent);

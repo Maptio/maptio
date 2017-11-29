@@ -56,7 +56,7 @@ export class MappingComponent {
     private VIEWPORT_WIDTH: number = 1522;
     private VIEWPORT_HEIGHT: number = 1522;
 
-    public isLoading: Subject<boolean>;
+    public isLoading: boolean;
     public datasetId: string;
     public teamName: string;
     public teamId: string;
@@ -97,7 +97,6 @@ export class MappingComponent {
         this.fontSize$ = new BehaviorSubject<number>(16);
         this.isLocked$ = new BehaviorSubject<boolean>(this.isLocked);
         this.closeEditingPanel$ = new BehaviorSubject<boolean>(false);
-        this.isLoading = new BehaviorSubject<boolean>(true);
         this.data$ = new Subject<{ initiative: Initiative, datasetId: string }>();
     }
 
@@ -105,9 +104,6 @@ export class MappingComponent {
     }
 
     onActivate(component: IDataVisualizer) {
-
-
-        this.isLoading.next(true);
 
         component.showDetailsOf$.asObservable().subscribe(node => {
             this.showDetails.emit(node)
@@ -147,8 +143,6 @@ export class MappingComponent {
         if (component.constructor === MemberSummaryComponent) {
             component.closeEditingPanel$.next(true)
         }
-
-        this.isLoading.next(false);
     }
 
     onDeactivate(component: any) {
