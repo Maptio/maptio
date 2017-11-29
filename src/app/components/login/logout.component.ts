@@ -10,11 +10,11 @@ import { Router } from "@angular/router";
 export class LogoutComponent implements OnInit {
 
     constructor(private router: Router) {
-        localStorage.clear();
+        
     }
 
     ngOnInit() {
-        
+        localStorage.clear();
         this.router.navigateByUrl("/home");
     }
 
