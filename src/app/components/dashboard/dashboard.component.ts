@@ -20,13 +20,13 @@ export class DashboardComponent {
     public subscription: Subscription;
     public isLoading: boolean;
 
-    constructor(private route: ActivatedRoute) {
+    constructor(private route: ActivatedRoute, private resolver: DashboardComponentResolver) {
     }
 
     ngOnInit() {
-        this.subscription = this.route.data
-            .subscribe((data: { datasets: DataSet[] }) => {
-                this.datasets = data.datasets;
+        this.subscription = this.resolver.resolve(this.route.snapshot, undefined)
+            .subscribe((datasets: DataSet[]) => {
+                this.datasets = datasets;
             });
     }
 

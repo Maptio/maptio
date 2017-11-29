@@ -90,6 +90,7 @@ import { LoaderComponent } from "./components/loading/loader.component";
 import { DashboardComponentResolver } from "./components/dashboard/dashboard.resolver";
 import { MappingNetworkComponent } from "./components/mapping/network/mapping.network.component";
 import { WorkspaceComponentResolver } from "./components/workspace/workspace.resolver";
+import { LogoutComponent } from "./components/login/logout.component";
 
 
 // Routes
@@ -98,19 +99,21 @@ const appRoutes: Routes = [
 
   {
     path: "home", component: HomeComponent,
-    children: [
-      {
-        path: "",
-        component: DashboardComponent,
-        resolve: {
-          datasets: DashboardComponentResolver
-        },
-        outlet: "dashboard"
-      }
-    ]
+    // children: [
+    //   {
+    //     path: "",
+    //     component: DashboardComponent,
+    //     resolve: {
+    //       datasets: DashboardComponentResolver
+    //     },
+    //     outlet: "dashboard"
+    //   }
+    // ]
   },
 
   { path: "login", component: LoginComponent },
+
+  { path: "logout", component: LogoutComponent },
   { path: "help", component: HelpComponent },
   { path: "signup", component: SignupComponent },
 
@@ -166,7 +169,7 @@ export function markdownServiceFactory(http: Http) {
   declarations: [
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent, TeamComponent,
     MappingComponent, MappingCirclesComponent, MappingTreeComponent, MappingNetworkComponent, MemberSummaryComponent,
-    BuildingComponent, InitiativeNodeComponent, LoginComponent, HomeComponent, UnauthorizedComponent, NotFoundComponent,
+    BuildingComponent, InitiativeNodeComponent, LoginComponent, LogoutComponent, HomeComponent, UnauthorizedComponent, NotFoundComponent,
     InitiativeComponent, ChangePasswordComponent, LoaderComponent, TeamsListComponent, SignupComponent,
     FocusIfDirective,
     AutoSelectDirective,

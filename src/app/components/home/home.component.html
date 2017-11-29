@@ -12,7 +12,7 @@
     </div>
     
     <div class="col-6 signup mt-3 rounded" *ngIf="auth.allAuthenticated()" >
-        <router-outlet  name="dashboard"></router-outlet>
+        <dashboard></dashboard>
     </div>
     <div class="col-6 signup mt-3 rounded" *ngIf="!auth.allAuthenticated()">
         <signup ></signup>

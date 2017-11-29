@@ -8,7 +8,7 @@
 	<div class="center-container">
 		<loader></loader>
 
-		<div class="center-row" [class.background]="isHome" *ngIf="auth.allAuthenticated()">
+		<div class="center-row" [class.background]="isHome">
 
 			<div class="container-fluid h-100 pt-3" [class.background]="isHome" [class.overflow-hidden]="isMap">
 				<div *showItDevice="['mobile','tablet']" class="alert alert-dismissible alert-warning">
@@ -35,12 +35,12 @@
 			</div>
 
 		</div>
-		<div class="center-row background" *ngIf="!auth.allAuthenticated()">
+		<!-- <div class="center-row background" *ngIf="!auth.allAuthenticated()">
 			<div class="container-fluid h-100 pt-3 background">
 
 				<home></home>
 			</div>
-		</div>
+		</div> -->
 
 
 
