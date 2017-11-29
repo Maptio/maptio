@@ -28,6 +28,8 @@ export class AccountComponent {
     public uploader: FileUploader;
     public isRefreshingPicture: boolean;
 
+    public isLoading: boolean;
+
     constructor(public auth: Auth, public errorService: ErrorService, private userService: UserService, private userFactory: UserFactory,
         private cloudinary: Cloudinary) {
         this.accountForm = new FormGroup({
@@ -41,12 +43,15 @@ export class AccountComponent {
     }
 
     ngOnInit() {
+        this.isLoading = true;
         this.subscription = this.auth.getUser().subscribe((user: User) => {
             this.user = user;
             this.firstname = user.firstname;
             this.lastname = user.lastname;
+            this.isLoading = false
         },
-            (error: any) => { this.errorService.handleError(error) });
+            (error: any) => { this.errorService.handleError(error) },
+            () => { this.isLoading = false });
 
         const uploaderOptions: FileUploaderOptions = {
             url: `https://api.cloudinary.com/v1_1/${this.cloudinary.config().cloud_name}/upload`,
@@ -55,7 +60,7 @@ export class AccountComponent {
             // Use xhrTransport in favor of iframeTransport
             isHTML5: true,
 
-            maxFileSize: 1024000 *2,
+            maxFileSize: 1024000 * 2,
             // Calculate progress independently for each uploaded file
             removeAfterUpload: true,
             // XHR request headers
@@ -101,8 +106,8 @@ export class AccountComponent {
     }
 
     ngOnDestroy() {
-        if(this.subscription)
-        this.subscription.unsubscribe();
+        if (this.subscription)
+            this.subscription.unsubscribe();
     }
 
     save() {

@@ -8,9 +8,12 @@
         {{errorMessage}}
     </div>
     <div class="row">
+
+            
         <div class="col-3">
             <div class="profile" [style.background-image]="'url('+ user?.picture +')'">
                 <div *ngIf="isRefreshingPicture">Refreshing...</div>
+                <ngx-loading [show]="isLoading"></ngx-loading>
             </div>
             <input class="inputfile" type="file" id="fileupload" #fileInput ng2FileSelect [uploader]="uploader" (change)="fileInput.value=''"
                 accept="image/*" />
