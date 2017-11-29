@@ -676,9 +676,9 @@ export class MappingCirclesComponent implements IDataVisualizer {
                     if (!d.data.accountable.shortid) {
                         userFactory.get(d.data.accountable.user_id)
                             .then(u => d.data.accountable.shortid = u.shortid)
-                            .then(() => { router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.data.accountable.shortid}/${d.data.accountable.getSlug()}`) })
+                            .then(() => { router.navigateByUrl(`/map/${datasetId}/${slug}/u/${d.data.accountable.shortid}/${d.data.accountable.getSlug()}`) })
                     }
-                    router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.data.accountable.shortid}/${d.data.accountable.getSlug()}`)
+                    router.navigateByUrl(`/map/${datasetId}/${slug}/u/${d.data.accountable.shortid}/${d.data.accountable.getSlug()}`)
                 }
 
             })

@@ -14,7 +14,7 @@ import { TestBed, async, ComponentFixture } from "@angular/core/testing";
 import { MappingCirclesComponent } from "./mapping.circles.component";
 import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
 import { ErrorService } from "../../../shared/services/error/error.service";
-import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2/dist";
+import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { RouterTestingModule } from "@angular/router/testing";
 import { DataService } from "../../../shared/services/data.service";
 

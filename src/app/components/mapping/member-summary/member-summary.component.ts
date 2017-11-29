@@ -66,8 +66,6 @@ export class MemberSummaryComponent implements OnInit, IDataVisualizer {
     constructor(public auth: Auth, public route: ActivatedRoute, public datasetFactory: DatasetFactory,
         public userFactory: UserFactory, public teamFactory: TeamFactory, private dataService: DataService,
         private cd: ChangeDetectorRef) {
-
-
     }
 
 

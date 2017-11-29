@@ -25,6 +25,7 @@ import { JwtEncoder } from "../../shared/services/encoding/jwt.service";
 import { IDataVisualizer } from "./mapping.interface";
 import { Subject } from "rxjs/Rx";
 import { MappingNetworkComponent } from "./network/mapping.network.component";
+import { MemberSummaryComponent } from "./member-summary/member-summary.component";
 
 describe("mapping.component.ts", () => {
 
@@ -62,7 +63,8 @@ describe("mapping.component.ts", () => {
 
             ],
             schemas: [NO_ERRORS_SCHEMA],
-            declarations: [MappingComponent, MappingCirclesComponent, MappingTreeComponent, MappingNetworkComponent, AnchorDirective],
+            declarations: [MappingComponent, MappingCirclesComponent, MappingTreeComponent,
+                MappingNetworkComponent, MemberSummaryComponent],
             imports: [RouterTestingModule]
         })
             .compileComponents()
@@ -95,19 +97,24 @@ describe("mapping.component.ts", () => {
         });
 
         describe("getLayout", () => {
-            it("should return #x=761&y=761&scale=1 when layout is initiatives", () => {
+            it("should return initiatives when component is MappingCirclesComponent", () => {
                 let actual = component.getLayout(new MappingCirclesComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined));
                 expect(actual).toBe("initiatives")
             });
 
-            it("should return #x=100&y=380.5&scale=1 when layout is people", () => {
+            it("should return people when component is MappingTreeComponent", () => {
                 let actual = component.getLayout(new MappingTreeComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined));
                 expect(actual).toBe("people")
             });
 
-            it("should return #x=0&y=-380.5&scale=1 when layout is network", () => {
+            it("should return connections when component is MappingNetworkComponent", () => {
                 let actual = component.getLayout(new MappingNetworkComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined));
                 expect(actual).toBe("connections")
+            });
+
+            it("should return list when layout is list", () => {
+                let actual = component.getLayout(new MemberSummaryComponent(undefined, undefined, undefined, undefined, undefined, undefined, undefined));
+                expect(actual).toBe("list")
             });
         });
 
@@ -127,6 +134,12 @@ describe("mapping.component.ts", () => {
             it("should return #x=0&y=-380.5&scale=1 when layout is network", () => {
                 let actual = component.getFragment(new MappingNetworkComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined));
                 expect(actual).toBe("x=0&y=-380.5&scale=1")
+            });
+
+
+            it("should return #x=0&y=0&scale=1 when layout is list", () => {
+                let actual = component.getFragment(new MemberSummaryComponent(undefined, undefined, undefined, undefined, undefined, undefined, undefined));
+                expect(actual).toBe("x=0&y=0&scale=1")
             });
         });
 
