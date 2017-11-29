@@ -49,6 +49,7 @@ describe("auth.service.ts", () => {
                 {
                     provide: Router, useClass: class {
                         navigate = jasmine.createSpy("navigate");
+                        navigateByUrl = jasmine.createSpy("navigateByUrl");
                         events = Observable.of(new NavigationStart(0, "/next"))
                     }
                 },
@@ -80,7 +81,7 @@ describe("auth.service.ts", () => {
         it("should redirect to /logout", inject([Auth, Router], (auth: Auth, router: Router) => {
             // spyOn(auth, "shutDownIntercom");
             auth.logout();
-            expect(router.navigateByUrl).toHaveBeenCalledWith("logout");
+            expect(router.navigateByUrl).toHaveBeenCalledWith("/logout");
             // expect(auth.shutDownIntercom).toHaveBeenCalled();
         }));
     });
