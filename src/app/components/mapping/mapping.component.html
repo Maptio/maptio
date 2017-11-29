@@ -1,16 +1,17 @@
-<div class="control first">
-  <div class=" btn-group-vertical mb-1">
-    <a class="btn circleview ml-1"  routerLink="/map/{{datasetId}}/{{slug}}/initiatives"
+<div class="control first mr-2">
+  <div class=" btn-group-vertical">
+      
+    <a class="btn circles icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/initiatives"
       placement="left" container="body" ngbTooltip="Circle view"></a>
-    <a class="btn treeview ml-1"  routerLink="/map/{{datasetId}}/{{slug}}/people" placement="left"
+    <a class="btn tree icon"  routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/people" placement="left"
       container="body" ngbTooltip="Tree view"></a>
-    <a class="btn networkview ml-1"  routerLink="/map/{{datasetId}}/{{slug}}/connections"
+    <a class="btn network icon" routerLinkActive="active-link"  routerLink="/map/{{datasetId}}/{{slug}}/connections"
       placement="left" container="body" ngbTooltip="Network view"></a>
   </div>
 </div>
 
 
-<div class="control second">
+<div class="control second mr-2">
   <div class=" btn-group-vertical">
     <a class="btn minus" (click)="zoomOut()" placement="left" container="body" ngbTooltip="Zoom out"></a>
     <a class="btn plus" (click)="zoomIn()" placement="left" container="body" ngbTooltip="Zoom in"></a>

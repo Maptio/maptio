@@ -18,16 +18,15 @@
  
   background-color: rgb(224, 224, 224);
 
+  /* width: 43px; */
 }
 
 .control.first{
   top:7vh;
-  width: 43px;
 }
 
 .control.second {
   top:27vh;
-  width: 43px;
 }
 
 .control.third {
@@ -56,6 +55,38 @@
 
 .control > a:hover {
   color: black;
+}
+
+
+.network:before {
+  content: "\e901";
+  font-family: icomoon;
+}
+.tree:before {
+  display: inline-block;
+  content: "\e903";
+  font-family: icomoon;
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+.circles {
+  background: url(/assets/images/circles.webp) no-repeat;
+  background-size: 20px 20px;
+  background-position: center;
+  height: 40px;
+  width:100%;
+  padding: 0;
+}
+
+
+.icon, .icon:hover{
+  font-weight: bold;
+  color: #1F2021;
+  box-shadow: 0px 0px 0px;
 }
 
 .plus:before {
@@ -111,7 +142,7 @@ content: "\f066";
 
 .vertical {
   writing-mode: bt-lr;
-  width: 39px;
+  width: 44px;
   /* height: 22px; */
   margin-left: 3px;
   margin-right: 3px;
@@ -120,4 +151,9 @@ content: "\f066";
 .control.second > span {
   position: absolute;
   top: 85%;
+}
+
+
+.active-link{
+  background-color: #2F81B7;
 }
