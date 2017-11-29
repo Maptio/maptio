@@ -14,6 +14,9 @@ import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from "@
 import { ColorService } from "../../../shared/services/ui/color.service";
 import { UIService } from "../../../shared/services/ui/ui.service";
 import { Team } from "../../../shared/model/team.data";
+import { Subject } from "rxjs/Rx";
+import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
+import { DataService } from "../../../shared/services/data.service";
 
 @Component({
     selector: "member-summary",
@@ -21,12 +24,32 @@ import { Team } from "../../../shared/model/team.data";
     styleUrls: ["./member-summary.component.css"]
 })
 
-export class MemberSummaryComponent implements OnInit {
+export class MemberSummaryComponent implements OnInit, IDataVisualizer {
+
+    public width: number;
+    public height: number;
+    public margin: number;
+    public teamName: string;
+    public teamId: string;
+    public translateX: number;
+    public translateY: number;
+    public scale: number;
+    public zoom$: Observable<number>
+    public fontSize$: Observable<number>;
+    public isLocked$: Observable<boolean>;
+    public isReset$: Observable<boolean>;
+    public data$: Subject<{ initiative: Initiative, datasetId: string }>;
+    public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>()
+    public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
+    public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
+    public moveInitiative$: Subject<{ node: Initiative, from: Initiative, to: Initiative }> = new Subject<{ node: Initiative, from: Initiative, to: Initiative }>();
+    public closeEditingPanel$: Subject<boolean> = new Subject<boolean>();
+    public analytics: Angulartics2Mixpanel;
 
     // private userSubscription: Subscription;
-    public routeSubscription: Subscription;
-    public member$: Promise<User>;
-    public team$: Promise<Team>
+    public subscription: Subscription;
+    public member: User;
+    public team: Team
     public dataset$: Promise<DataSet>;
     public datasetId: string;
     public datasetSlug: string;
@@ -39,30 +62,48 @@ export class MemberSummaryComponent implements OnInit {
     authoritiesHideme: Array<boolean> = [];
     helpingHideme: Array<boolean> = [];
 
+
     constructor(public auth: Auth, public route: ActivatedRoute, public datasetFactory: DatasetFactory,
-        public userFactory: UserFactory, public teamFactory: TeamFactory) {
+        public userFactory: UserFactory, public teamFactory: TeamFactory, private dataService: DataService,
+        private cd: ChangeDetectorRef) {
 
-        this.route.params.subscribe((params: Params) => {
-            this.isLoading = true;
-            this.memberShortId = params["usershortid"];
-            this.datasetId = params["mapid"];
-            this.datasetSlug = params["mapslug"];
 
-            this.member$ = this.userFactory.get(this.memberShortId).then((user: User) => {
-                this.memberUserId = user.user_id;
-                return user;
-            })
-            this.dataset$ = this.datasetFactory.get(this.datasetId)
-        })
+    }
+
+
+    init() {
+
     }
 
     ngOnInit() {
-        this.isLoading = true;
-        this.routeSubscription = this.route.params.subscribe((params: Params) => {
-            this.authorities = [];
-            this.helps = [];
-            Promise.all([this.member$, this.dataset$]).then(([user, dataset]) => {
-                this.initiative = dataset.initiative;
+        this.init();
+
+        this.subscription = this.dataService.get()
+            .map(data => {
+                this.datasetId = data.datasetId;
+                this.analytics.eventTrack("Map", { view: "personal", team: data.teamName, teamId: data.teamId });
+                this.initiative = data.initiative;
+                this.teamFactory.get(this.initiative.team_id).then(t => { this.team = t })
+            })
+            .combineLatest(this.route.params)
+            .map(([, params]: [void, Params]) => {
+                this.memberShortId = params["usershortid"];
+                return this.memberShortId;
+            })
+            .switchMap((memberShortId: string) => {
+
+                return this.userFactory.get(memberShortId)
+                    .then((user: User) => {
+                        this.memberUserId = user.user_id;
+                        this.member = user;
+                        return user;
+                    });
+
+            })
+            .subscribe((user: User) => {
+                this.authorities = [];
+                this.helps = [];
+
                 this.initiative.traverse(function (i: Initiative) {
                     if (i.accountable && i.accountable.user_id === this.memberUserId) {
                         if (!this.authorities.includes(i)) this.authorities.push(i)
@@ -71,63 +112,8 @@ export class MemberSummaryComponent implements OnInit {
                         if (!this.helps.includes(i)) this.helps.push(i)
                     }
                 }.bind(this));
-                return { authorities: this.authorities, helps: this.helps, dataset: dataset }
+                this.cd.markForCheck();
             })
-                .then(authoritiesAndHelps => {
-                    this.authorities = authoritiesAndHelps.authorities;
-                    this.helps = authoritiesAndHelps.helps;
-
-                    // this.authorities.forEach((i: Initiative) => {
-
-                    //     Promise.all(
-                    //         i.helpers.map(
-                    //             m => Promise.all([this.auth.getUserInfo(m.user_id), this.userFactory.get(m.user_id)])
-                    //                 .then(m => m, (reason) => { return Promise.reject(reason) })
-                    //                 .then(([userInfo, userShortId]: [User, Helper]) => {
-                    //                     userInfo.shortid = userShortId.shortid;
-                    //                     return userInfo;
-                    //                 })
-                    //                 .catch(() => { m.isDeleted = true; return m })
-                    //         )
-
-                    //     )
-                    //         .then(members => i.helpers = members)
-                    // })
-
-                    this.helps.forEach((i: Initiative) => {
-
-                        // Promise.all(
-                        //     i.helpers.map(
-                        //         m => Promise.all([this.auth.getUserInfo(m.user_id), this.userFactory.get(m.user_id)])
-                        //             .then(m => m, (reason) => { return Promise.reject(reason) })
-                        //             .then(([userInfo, userShortId]: [User, User]) => {
-                        //                 userInfo.shortid = userShortId.shortid;
-                        //                 return userInfo;
-                        //             })
-                        //             .catch(() => { m.isDeleted = true; return m })
-                        //     )
-
-                        // )
-                        //     .then(members => i.helpers = members)
-
-                        // Promise.all([this.auth.getUserInfo(i.accountable.user_id), this.userFactory.get(i.accountable.user_id)])
-                        //     .then(m => m, (reason) => { return Promise.reject(reason) })
-                        //     .then(([userInfo, userShortId]: [User, User]) => {
-                        //         userInfo.shortid = userShortId.shortid;
-                        //         return userInfo;
-                        //     })
-                        //     .then(m => { i.accountable = m })
-
-                    })
-
-                    return authoritiesAndHelps.dataset;
-                })
-                .then((d: DataSet) => {
-                    this.isLoading = false;
-                    this.team$ = this.teamFactory.get(d.initiative.team_id)
-                })
-        }
-        )
     }
 
 
@@ -147,7 +133,7 @@ export class MemberSummaryComponent implements OnInit {
 
 
     ngOnDestroy() {
-        if (this.routeSubscription)
-            this.routeSubscription.unsubscribe()
+        if (this.subscription)
+            this.subscription.unsubscribe()
     }
 }

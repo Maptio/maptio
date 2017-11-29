@@ -396,7 +396,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
         let node = g.select("g.nodes").selectAll("g.node").data(nodes.filter(function (d) { return d.id; }))
         node.exit().remove();
-        
+
         node = node.enter().append("g").attr("class", "node")
             .merge(node)
             .on("dblclick", releaseNode)
@@ -426,14 +426,10 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .attr("dx", CIRCLE_RADIUS + 3)
             .attr("dy", CIRCLE_RADIUS / 2)
             .on("click", function (d: any) {
-                router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.shortid}/${d.slug}`);
+                router.navigateByUrl(`/map/${datasetId}/${slug}/u/${d.shortid}/${d.slug}`);
             })
             .text(function (d: any) { return d.name; })
             ;
-
-
-        
-
 
         g.selectAll("path")
             .on("mouseover", function (d: any) {

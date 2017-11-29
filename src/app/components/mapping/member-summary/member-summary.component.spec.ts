@@ -128,7 +128,7 @@ describe("member-summary.component.ts", () => {
     it("should get rid of subscription on destroy", () => {
         routeParams$.next({ mapid: "123", usershortid: "abc123" });
         target.detectChanges();
-        let spyRoute = spyOn(component.routeSubscription, "unsubscribe")
+        let spyRoute = spyOn(component.subscription, "unsubscribe")
         target.destroy();
         expect(spyRoute).toHaveBeenCalled();
     })

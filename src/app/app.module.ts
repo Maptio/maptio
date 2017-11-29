@@ -138,9 +138,10 @@ const appRoutes: Routes = [
       { path: "initiatives", component: MappingCirclesComponent },
       { path: "people", component: MappingTreeComponent },
       { path: "connections", component: MappingNetworkComponent },
+      { path: "u/:usershortid/:userslug", component: MemberSummaryComponent },
     ]
   },
-  { path: "summary/map/:mapid/:mapslug/u/:usershortid/:userslug", component: MemberSummaryComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
+  // { path: "summary/map/:mapid/:mapslug/u/:usershortid/:userslug", component: MemberSummaryComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
 
   { path: "unauthorized", component: UnauthorizedComponent },
   { path: "forgot", component: ChangePasswordComponent },

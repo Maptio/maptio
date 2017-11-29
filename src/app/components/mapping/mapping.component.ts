@@ -22,12 +22,13 @@ import "rxjs/add/operator/map"
 import { EmitterService } from "../../shared/services/emitter.service";
 import { Subject, BehaviorSubject, Subscription, Observable } from "rxjs/Rx";
 import { MappingNetworkComponent } from "./network/mapping.network.component";
+import { MemberSummaryComponent } from "./member-summary/member-summary.component";
 
 @Component({
     selector: "mapping",
     templateUrl: "./mapping.component.html",
     styleUrls: ["./mapping.component.css"],
-    entryComponents: [MappingCirclesComponent, MappingTreeComponent, MappingNetworkComponent],
+    entryComponents: [MappingCirclesComponent, MappingTreeComponent, MappingNetworkComponent, MemberSummaryComponent],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
@@ -180,6 +181,8 @@ export class MappingComponent {
                 return `x=100&y=${this.VIEWPORT_HEIGHT / 4}&scale=1`
             case MappingNetworkComponent:
                 return `x=0&y=${-this.VIEWPORT_HEIGHT / 4}&scale=1`
+            case MemberSummaryComponent:
+                return `x=0&y=0&scale=1`;
             default:
                 return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`
         }
@@ -193,6 +196,8 @@ export class MappingComponent {
                 return `people`
             case MappingNetworkComponent:
                 return `connections`
+            case MemberSummaryComponent:
+                return `list`
             default:
                 return `initiatives`
         }
@@ -221,7 +226,7 @@ export class MappingComponent {
     }
 
     isDisplayLockingToggle() {
-        return this.layout !== "people" && this.layout !== "connections";
+        return this.layout !== "people" && this.layout !== "connections" && this.layout !== "list";
 
     }
 

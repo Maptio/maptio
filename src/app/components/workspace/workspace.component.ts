@@ -110,7 +110,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSubscription = this.route.data
             .subscribe((data: { data: { dataset: DataSet, team: Team, members: User[] } }) => {
-               
                 this.dataset = data.data.dataset;
                 this.team = data.data.team;
                 this.members = data.data.members;
