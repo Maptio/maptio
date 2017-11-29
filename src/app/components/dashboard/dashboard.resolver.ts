@@ -22,7 +22,6 @@ export class DashboardComponentResolver implements Resolve<Array<DataSet>> {
                 return user.datasets;
             })
             .mergeMap(datasetsIds => {
-                console.log(0, datasetsIds)
                 const promises = datasetsIds
                     .map(did => {
                         return this.datasetFactory.get(did)
@@ -31,11 +30,9 @@ export class DashboardComponentResolver implements Resolve<Array<DataSet>> {
                 return Observable.forkJoin(promises);
             })
             .map(datasets => {
-                console.log(1, datasets)
                 return compact(datasets);
             })
             .do(datasets => {
-                console.log(2, datasets)
                 datasets.map(d => {
                     let i = 0
                     d.initiative.traverse((n) => { i++ })
