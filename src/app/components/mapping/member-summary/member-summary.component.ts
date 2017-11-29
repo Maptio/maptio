@@ -85,7 +85,6 @@ export class MemberSummaryComponent implements OnInit, IDataVisualizer {
                 this.datasetId = data.datasetId;
                 this.analytics.eventTrack("Map", { view: "personal", team: data.teamName, teamId: data.teamId });
                 this.initiative = data.initiative;
-                this.teamFactory.get(this.initiative.team_id).then(t => { this.team = t })
             })
             .combineLatest(this.route.params)
             .map(([, params]: [void, Params]) => {

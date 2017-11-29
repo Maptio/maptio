@@ -2,16 +2,16 @@
 margin-left: 4vw;
 margin-top: 7vh;
 ">
-    <div class="m-3">
-        <h3 class="mt-4">
+    <div class="mt-4 ml-4 p-0">
+        <h4 class="mt-4">
             <img class="rounded-circle profile" src="{{member?.picture}}" alt="{{member?.name}}"> {{member?.name}} in
             <a routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}">{{initiative?.name}}</a>
-        </h3>
+        </h4>
 
-        <h5>
+        <!-- <h5>
             <span class="text-muted ml-5">Team </span>
             <a routerLink="/team/{{team?.team_id}}/{{team?.getSlug()}}">{{team?.name}}</a>
-        </h5>
+        </h5> -->
 
     </div>
     <div *ngIf="isLoading">Loading...</div>
@@ -26,8 +26,8 @@ margin-top: 7vh;
                     <div class="list-group">
                         <div *ngFor="let i of authorities; let ix=index" class=" list-group-item flex-column align-items-start ">
                             <div class="d-flex w-100 justify-content-between">
-                                    <button class="w-75 col btn btn-link m-0 p-0 mr-2 fake-link" (click)="openInitiative(i)">
-                                            <h5 class="mb-1">{{i.name}}</h5>
+                                    <button class="w-75 col btn btn-link m-0 p-0 mr-2 ml-1 fake-link" (click)="openInitiative(i)">
+                                            <h6 class="mb-1">{{i.name}}</h6>
                                         </button>
                             </div>
                             <div class="small row">
@@ -85,7 +85,7 @@ margin-top: 7vh;
                         <div *ngFor="let i of helps; let ix=index" class=" list-group-item flex-column align-items-start ">
                             <div class="d-flex w-100 row justify-content-between">
                                 <button class="w-75 col btn btn-link m-0 p-0 mr-2 fake-link" (click)="openInitiative(i)">
-                                    <h5 class="mb-1">{{i.name}}</h5>
+                                    <h6 class="mb-1">{{i.name}}</h6>
                                 </button>
 
                                 <!-- <h5 class="mb-0 w-75">{{i.name}}</h5> -->
