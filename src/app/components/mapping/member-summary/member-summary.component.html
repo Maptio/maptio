@@ -26,9 +26,9 @@ margin-top: 7vh;
                     <div class="list-group">
                         <div *ngFor="let i of authorities; let ix=index" class=" list-group-item flex-column align-items-start ">
                             <div class="d-flex w-100 justify-content-between">
-                                <a routerLink="/map/{{datasetId}}/{{datasetSlug}}/i/{{i.id}}/{{i.getSlug()}}">
-                                    <h5 class="mb-1">{{i.name}}</h5>
-                                </a>
+                                    <button class="w-75 col btn btn-link m-0 p-0 mr-2 fake-link" (click)="openInitiative(i)">
+                                            <h5 class="mb-1">{{i.name}}</h5>
+                                        </button>
                             </div>
                             <div class="small row">
                                 <span *ngIf="i.getRoles(i.accountable?.user_id)[0]?.description" class="text-muted col">Role :
@@ -49,8 +49,8 @@ margin-top: 7vh;
                                 <div class="">
                                     <div class="btn-group" *ngIf="!authoritiesHideme[ix]">
                                         <a *ngFor="let h of i.helpers" class="btn btn-link btn-xs no-padding" routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}/u/{{h.shortid}}/{{h.getSlug()}}">
-                                            <img [hidden]="h.user_id === member?.user_id " class="rounded-circle helper" src="{{h.picture}}" alt="{{h.name}}"
-                                                title="{{h.name}}" placement="top" container="body" ngbTooltip="{{h.name}}">
+                                            <img [hidden]="h.user_id === member?.user_id " class="rounded-circle helper" src="{{h.picture}}" alt="{{h.name}}" title="{{h.name}}"
+                                                placement="top" container="body" ngbTooltip="{{h.name}}">
                                         </a>
                                     </div>
                                     <div *ngIf="authoritiesHideme[ix]">
@@ -84,9 +84,9 @@ margin-top: 7vh;
                     <div class="list-group">
                         <div *ngFor="let i of helps; let ix=index" class=" list-group-item flex-column align-items-start ">
                             <div class="d-flex w-100 row justify-content-between">
-                                <a class="w-75 col" routerLink="/map/{{datasetId}}/{{datasetSlug}}/i/{{i.id}}/{{i.getSlug()}}">
+                                <button class="w-75 col btn btn-link m-0 p-0 mr-2 fake-link" (click)="openInitiative(i)">
                                     <h5 class="mb-1">{{i.name}}</h5>
-                                </a>
+                                </button>
 
                                 <!-- <h5 class="mb-0 w-75">{{i.name}}</h5> -->
                                 <span class="mb-0" *ngIf="(i.helpers?.length !== 0)">
@@ -116,8 +116,8 @@ margin-top: 7vh;
                                 <div class="">
                                     <div class="btn-group" *ngIf="!helpingHideme[ix]">
                                         <a *ngFor="let h of i.helpers" class="btn btn-link btn-xs no-padding" routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}/u/{{h.shortid}}/{{h.getSlug()}}">
-                                            <img [hidden]="h.user_id === member?.user_id " class="rounded-circle helper" src="{{h.picture}}" alt="{{h.name}}"
-                                                title="{{h.name}}" placement="top" container="body" ngbTooltip="{{h.name}}">
+                                            <img [hidden]="h.user_id === member?.user_id " class="rounded-circle helper" src="{{h.picture}}" alt="{{h.name}}" title="{{h.name}}"
+                                                placement="top" container="body" ngbTooltip="{{h.name}}">
                                         </a>
                                     </div>
                                     <div *ngIf="helpingHideme[ix]">

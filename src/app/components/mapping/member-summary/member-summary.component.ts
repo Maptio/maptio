@@ -73,6 +73,10 @@ export class MemberSummaryComponent implements OnInit, IDataVisualizer {
 
     }
 
+    openInitiative(node: Initiative) {
+        this.showDetailsOf$.next(node);
+    }
+
     ngOnInit() {
         this.init();
 

@@ -34,3 +34,9 @@
 .btn-link:focus, .btn-link:active {
     box-shadow: none!important;
 }
+
+.fake-link{
+    white-space: normal;
+    text-align: left;
+    cursor: pointer;
+}
