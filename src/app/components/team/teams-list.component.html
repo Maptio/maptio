@@ -1,4 +1,5 @@
 <div class="col-lg-8 mt-3 ">
+
     <h1>My teams</h1>
 
     <div class="alert alert-danger" role="alert" *ngIf="errorMessage">
@@ -17,16 +18,18 @@
                 </span>
             </div>
             <small class="form-control-feedback" *ngIf="createForm.controls['teamName'].invalid  && (createForm.controls['teamName'].dirty || createForm.controls['teamName'].touched)">
-               That doesnt sound right... actually does it even sound like the name of your team?
+                That doesnt sound right... actually does it even sound like the name of your team?
             </small>
 
         </form>
     </div>
 
-    <div *ngIf="isLoading">Loading...</div>
-    <div class="overflow">
 
+    <div class="overflow">
+            <ngx-loading [show]="isLoading"></ngx-loading>
+ 
         <div class="card mb-3 " *ngFor="let team of (teams$ | async);trackBy:trackByTeamId">
+
             <div class="d-flex w-100 justify-content-between card-header">
                 <h5>
                     <a routerLink="/team/{{team?.team_id}}/{{team?.getSlug()}}"> {{team?.name}}</a>

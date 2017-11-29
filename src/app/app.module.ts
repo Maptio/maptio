@@ -191,8 +191,8 @@ export function markdownServiceFactory(http: Http) {
     FileUploadModule,
     LoadingModule.forRoot({
       animationType: ANIMATION_TYPES.chasingDots,
-      backdropBackgroundColour: "#f7f7f7",
-      backdropBorderRadius: "0px",
+      backdropBackgroundColour: "#fff",
+      backdropBorderRadius: ".25rem",
       primaryColour: "#2F81B7",
       secondaryColour: "#2F81B7",
       tertiaryColour: "#ffffff"
