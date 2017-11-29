@@ -62,7 +62,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         if (this.userSubscription) this.userSubscription.unsubscribe();
     }
 
-    constructor(private route: ActivatedRoute, private router: Router, private datasetFactory: DatasetFactory, private dataService: DataService) {
+    constructor(private route: ActivatedRoute, private datasetFactory: DatasetFactory, private dataService: DataService) {
     }
 
     ngOnInit() {
