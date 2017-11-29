@@ -63,6 +63,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
     public isTooltipDescriptionVisible: boolean = false;
     public isFirstEditing: boolean = false;
     public isLocked: boolean;
+    public isLoading: boolean;
 
     public selectedNode: Initiative;
     public selectedNodeParent: Initiative;
@@ -97,6 +98,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
     }
 
     ngOnInit() {
+        this.isLoading = true;
         this.init();
         this.dataSubscription = this.dataService.get().subscribe(complexData => {
             // console.log("circles assign data")
@@ -106,7 +108,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
             this.slug = data.getSlug();
             this.update(data);
             this.analytics.eventTrack("Map", { view: "initiatives", team: data.teamName, teamId: data.teamId });
-
+            this.isLoading = false;
+            this.cd.markForCheck();
         })
     }
 

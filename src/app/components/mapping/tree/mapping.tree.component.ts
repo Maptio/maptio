@@ -48,6 +48,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     private svg: any;
     private g: any;
     private definitions: any;
+    public isLoading: boolean;
 
     public hoveredNode: Initiative;
     public slug: string;
@@ -142,7 +143,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     }
 
     ngOnInit() {
-        // console.log("tree ngOnInit")
+        this.isLoading = true;
         this.init();
         this.dataSubscription = this.dataService.get().subscribe(complexData => {
             // console.log("tree assign data")
@@ -151,6 +152,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             this.slug = data.getSlug();
             this.update(data);
             this.analytics.eventTrack("Map", { view: "people", team: data.teamName, teamId: data.teamId });
+            this.isLoading = false;
+            this.cd.markForCheck();
         })
     }
 

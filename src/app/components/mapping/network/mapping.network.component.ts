@@ -71,6 +71,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     public tooltipRoles: Array<{ initiative: Initiative, role: Role }>;
     public tooltipSourceUser: User;
     public tooltipTargetUser: User;
+    public isLoading:boolean;
 
     constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService,
         private cd: ChangeDetectorRef, private router: Router, private dataService: DataService) {
@@ -82,7 +83,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     }
 
     ngOnInit() {
-        // console.log("network ngOnInit")
+        this.isLoading = true;
         this.init();
         this.dataSubscription = this.dataService.get().subscribe(complexData => {
             // console.log("network assign data")
@@ -92,6 +93,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             this.slug = data.getSlug();
             this.update(data);
             this.analytics.eventTrack("Map", { view: "connections", team: data.teamName, teamId: data.teamId });
+            this.isLoading = false;
+            this.cd.markForCheck();
         })
     }
 

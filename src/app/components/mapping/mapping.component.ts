@@ -104,7 +104,6 @@ export class MappingComponent {
     }
 
     onActivate(component: IDataVisualizer) {
-
         component.showDetailsOf$.asObservable().subscribe(node => {
             this.showDetails.emit(node)
         })
