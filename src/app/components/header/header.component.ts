@@ -75,7 +75,7 @@ export class HeaderComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.userSubscription = this.auth.getUser().take(1).subscribe((user: User) => {
+        this.userSubscription = this.auth.getUser().subscribe((user: User) => {
             this.user = user;
             this.datasets$ = Promise.all(
                 // get all datasets available to this user accross all teams
