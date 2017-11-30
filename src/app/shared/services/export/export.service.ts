@@ -19,7 +19,7 @@ export class ExportService {
 
         dataset.initiative.traverse(i => {
             let inList = list.find(l => l.data.id === i.id);
-            exportString += `\n"${Array((inList.depth - 1) * 5).join(String.fromCharCode(32))}${i.name}","${i.accountable ? i.accountable.name : ""}",${i.helpers.map(h => h.name).join(",")}`
+            exportString += `\n"${Array((inList.depth - 1) * 5).join(String.fromCharCode(32))}${i.name}","${i.accountable ? i.accountable.name : ""}",${i.helpers.map(h => `"${h.name}"`).join(",")}`
         });
         return Observable.of(exportString);
     }
