@@ -81,6 +81,11 @@ export class DatasetFactory {
     // }
 
     /**
+    *  Retrieves a list dataset matching given ids
+    * @param id List of dataset ids
+    */
+    get(ids: string[]): Promise<DataSet[]>;
+    /**
      *  Retrieves a dataset matching a given id
      * @param id Unique dataset id
      */
@@ -99,7 +104,7 @@ export class DatasetFactory {
      * Retrieves one or many datasets
      * @param idOrUser Dataset unique ID or User
      */
-    get(idOrUserOrTeam: string | User | Team): Promise<DataSet> | Promise<DataSet[]> | Promise<string[]> | Promise<void> {
+    get(idOrUserOrTeam: string | string[] | User | Team): Promise<DataSet> | Promise<DataSet[]> | Promise<string[]> | Promise<void> {
 
         if (!idOrUserOrTeam) return Promise.reject("Parameter missing");
         if (idOrUserOrTeam instanceof User) {
@@ -107,6 +112,9 @@ export class DatasetFactory {
         }
         if (idOrUserOrTeam instanceof Team) {
             return this.getWithTeam(<Team>idOrUserOrTeam)
+        }
+        if (idOrUserOrTeam.constructor === Array) {
+            return this.getWithIds(<string[]>idOrUserOrTeam)
         }
         return this.getWithId(<string>idOrUserOrTeam)
     }
@@ -146,6 +154,26 @@ export class DatasetFactory {
                 let d = DataSet.create().deserialize(response.json());
                 d._id = id; // reassign id
                 return d;
+            })
+            .toPromise()
+    }
+
+    private getWithIds(datasetIds: string[]): Promise<DataSet[]> {
+        if (!datasetIds || datasetIds.length === 0) {
+            return Promise.reject("You cannot make a search for all datasets !")
+        }
+        return this._http.get("/api/v1/dataset/in/" + datasetIds.join(","))
+            .map((responseData) => {
+                return responseData.json();
+            })
+            .map((inputs: Array<any>) => {
+                let result: Array<DataSet> = [];
+                if (inputs) {
+                    inputs.forEach((input) => {
+                        result.push(DataSet.create().deserialize(input));
+                    });
+                }
+                return result;
             })
             .toPromise()
     }

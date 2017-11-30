@@ -16,7 +16,7 @@ export class WorkspaceComponentResolver implements Resolve<{ dataset: DataSet, t
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ dataset: DataSet, team: Team, members: User[] }> {
-        let datasetId = route.params["mapid"];
+        let datasetId = <string>route.params["mapid"];
         return Observable.fromPromise(
             this.datasetFactory.get(datasetId)
                 .then((dataset: DataSet) => {
@@ -27,7 +27,7 @@ export class WorkspaceComponentResolver implements Resolve<{ dataset: DataSet, t
                         })
                 })
                 .then(dt => {
-                    return this.userFactory.getUsers(dt.team.members.map(m => m.user_id))
+                    return this.userFactory.getUsers(dt.team.members.map((m: User) => m.user_id))
                         .then(members => compact(members))
                         .then(members => sortBy(members, m => m.name))
                         .then(members => { return { dataset: dt.dataset, team: dt.team, members: sortBy(members, m => m.name) } })

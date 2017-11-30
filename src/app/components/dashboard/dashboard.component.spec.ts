@@ -16,6 +16,9 @@ import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authht
 import { DataSet } from "../../shared/model/dataset.data";
 import { ActivatedRoute } from "@angular/router";
 import { DashboardComponentResolver } from "./dashboard.resolver";
+import { ExportService } from "../../shared/services/export/export.service";
+import { D3Service } from "d3-ng2-service";
+import * as filesaver from "file-saver"
 
 describe("dashboard.component.ts", () => {
 
@@ -32,7 +35,7 @@ describe("dashboard.component.ts", () => {
         }).overrideComponent(DashboardComponent, {
             set: {
                 providers: [
-                    DatasetFactory, TeamFactory, DashboardComponentResolver,
+                    DatasetFactory, TeamFactory, DashboardComponentResolver, ExportService, D3Service,
                     {
                         provide: ActivatedRoute, useClass: class {
                             get data() { return datasets$.asObservable() };
@@ -81,4 +84,20 @@ describe("dashboard.component.ts", () => {
         target.destroy();
         expect(spy).toHaveBeenCalled();
     })
+
+    describe("export", () => {
+        it("should call correct dependencies", async(() => {
+            let dataset = new DataSet({ _id: "ID", initiative: new Initiative({ name: "data" }) })
+
+            let spy = spyOn(target.debugElement.injector.get(ExportService), "getReport").and.returnValue(Observable.of("some exported data"));
+            let saveAsSpy = spyOn(filesaver, "saveAs");
+            component.export(dataset);
+            spy.calls.mostRecent().returnValue.subscribe((exportedData: string) => {
+                expect(saveAsSpy).toHaveBeenCalledWith(new Blob(["some exported data"], { type: "text/csv" }), "data.csv");
+            })
+
+        }));
+    });
+
+
 });

@@ -19,13 +19,14 @@ import { Auth } from "../../shared/services/auth/auth.service";
 import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { User } from "../../shared/model/user.data";
-import {Subject } from "rxjs/Rx";
+import { Subject } from "rxjs/Rx";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import { RouterTestingModule } from "@angular/router/testing";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 import { JwtEncoder } from "../../shared/services/encoding/jwt.service";
 import { LoaderService } from "../../shared/services/loading/loader.service";
+import { Team } from "../../shared/model/team.data";
 
 describe("header.component.ts", () => {
 
@@ -80,10 +81,25 @@ describe("header.component.ts", () => {
     it("should load user's datasets when all load", async(() => {
         component.ngOnInit();
         let mockDataSetFactory = target.debugElement.injector.get(DatasetFactory);
+        let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
         target.debugElement.injector.get(TeamFactory);
 
-        spyOn(mockDataSetFactory, "get").and.callFake((id: string) => {
-            return Promise.resolve(new DataSet({ _id: id, initiative: new Initiative({ name: `Name ${id}`, team_id: `team_${id}` }) }))
+        spyOn(mockDataSetFactory, "get").and.callFake((ids: string[]) => {
+            return Promise.resolve([
+                new DataSet({ _id: "1", initiative: new Initiative({ name: `Name 1`, team_id: `team_1` }) }),
+                new DataSet({ _id: "2", initiative: new Initiative({ name: `Name 2`, team_id: `team_2` }) }),
+                new DataSet({ _id: "3", initiative: new Initiative({ name: `Name 3`, team_id: `team_3` }) })
+            ]
+            )
+        })
+
+        spyOn(mockTeamFactory, "get").and.callFake((ids: string[]) => {
+            return Promise.resolve([
+                new Team({ team_id: "team_1" }),
+                new Team({ team_id: "team_2" }),
+                new Team({ team_id: "team_3" }),
+            ]
+            )
         })
 
         user$.next(new User({ user_id: "some_new_id", datasets: ["1", "2", "3"], teams: [] }));
@@ -103,12 +119,23 @@ describe("header.component.ts", () => {
     it("should load user's datasets when some fail", async(() => {
         component.ngOnInit();
         let mockDataSetFactory = target.debugElement.injector.get(DatasetFactory);
+        let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
         target.debugElement.injector.get(TeamFactory);
 
-        spyOn(mockDataSetFactory, "get").and.callFake((id: string) => {
-            return (Number.parseInt(id) % 2)
-                ? Promise.resolve(new DataSet({ _id: id, initiative: new Initiative({ name: `Name ${id}`, team_id: `team_${id}` }) }))
-                : Promise.reject("Something went wrong")
+        spyOn(mockDataSetFactory, "get").and.callFake((ids: string[]) => {
+            return Promise.resolve([
+                new DataSet({ _id: "1", initiative: new Initiative({ name: `Name 1`, team_id: `team_1` }) }),
+                new DataSet({ _id: "3", initiative: new Initiative({ name: `Name 3`, team_id: `team_3` }) })
+            ]
+            )
+        })
+
+        spyOn(mockTeamFactory, "get").and.callFake((ids: string[]) => {
+            return Promise.resolve([
+                new Team({ team_id: "team_1" }),
+                new Team({ team_id: "team_3" }),
+            ]
+            )
         })
 
         user$.next(new User({ user_id: "some_new_id", datasets: ["1", "2", "3"], teams: [] }));

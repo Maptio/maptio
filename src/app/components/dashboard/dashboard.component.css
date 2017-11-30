@@ -26,3 +26,11 @@
 .card-block{
     padding:1em;
 }
+
+.btn.focus, .btn:focus{
+  box-shadow: 0 0 0;
+}
+
+.dropdown-toggle{
+    cursor: pointer;
+}

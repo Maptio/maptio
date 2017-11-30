@@ -41,7 +41,7 @@ describe("team.factory.ts", () => {
 
 
     describe("get", () => {
-        it("should call correct REST API endpoint", fakeAsync(inject([TeamFactory, MockBackend], (target: TeamFactory, mockBackend: MockBackend) => {
+        it("(id) should call correct REST API endpoint", fakeAsync(inject([TeamFactory, MockBackend], (target: TeamFactory, mockBackend: MockBackend) => {
             let mockTeam = jasmine.createSpyObj("Team", ["deserialize"]);
             let spyCreate = spyOn(Team, "create").and.returnValue(mockTeam);
             let spyDeserialize = mockTeam.deserialize.and.returnValue(new Team({ name: "Deserialized" }));
@@ -66,6 +66,29 @@ describe("team.factory.ts", () => {
                 expect(spyDeserialize).toHaveBeenCalled();
                 expect(team).toBeDefined();
                 expect(team.name).toBe("Deserialized");
+            });
+        })));
+
+        it("(ids) should call correct REST API endpoint", fakeAsync(inject([TeamFactory, MockBackend], (target: TeamFactory, mockBackend: MockBackend) => {
+
+            const mockResponse = [{ _id: "1" }, { _id: "2" }, { _id: "3" }];
+
+            mockBackend.connections.subscribe((connection: MockConnection) => {
+                if (connection.request.url === "/api/v1/team/in/1,2,3") {
+                    connection.mockRespond(new Response(new ResponseOptions({
+                        body: JSON.stringify(mockResponse)
+                    })));
+                }
+                else {
+                    throw new Error(connection.request.url + " is not setup.");
+                }
+            });
+
+            target.get(["1", "2", "3"]).then(teams => {
+                expect(teams.length).toBe(3);
+                expect(teams[0].team_id).toBe("1");
+                expect(teams[1].team_id).toBe("2");
+                expect(teams[2].team_id).toBe("3");
             });
         })));
     });

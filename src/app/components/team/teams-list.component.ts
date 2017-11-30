@@ -30,9 +30,9 @@ export class TeamsListComponent implements OnInit {
 
     constructor(public auth: Auth, private teamFactory: TeamFactory, private userFactory: UserFactory,
         private userService: UserService, private analytics: Angulartics2Mixpanel) {
-            this.userSubscription = this.auth.getUser().subscribe((user: User) => {
-                this.user = user;
-            });
+        this.userSubscription = this.auth.getUser().subscribe((user: User) => {
+            this.user = user;
+        });
 
         this.createForm = new FormGroup({
             "teamName": new FormControl(this.teamName, [
@@ -95,7 +95,7 @@ export class TeamsListComponent implements OnInit {
 
                 this.teams$ = Promise.all(
                     user.teams.map(
-                        team_id => this.teamFactory.get(team_id).then(t => t, (reason) => { return Promise.reject(reason) }).catch(() => { return <Team>undefined })
+                        (team_id: string) => this.teamFactory.get(team_id).then(t => t, (reason) => { return Promise.reject(reason) }).catch(() => { return <Team>undefined })
                     )
                 )
                     .then((teams: Array<Team>) => {

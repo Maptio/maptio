@@ -14,33 +14,30 @@ export class TeamFactory {
         this._http = http;
     }
 
-    /** Gets all teams
-     *
-     */
-    // getAll(): Promise<Team[]> {
-    //     return this.http.get("/api/v1/teams")
-    //         .map((responseData) => {
-    //             return responseData.json();
-    //         })
-    //         .map((inputs: Array<any>) => {
-    //             let result: Array<Team> = [];
-    //             if (inputs) {
-    //                 inputs.forEach((input) => {
-    //                     result.push(Team.create().deserialize(input));
-    //                 });
-    //             }
-    //             return result;
-    //         })
-    //         .toPromise()
-    //         .then(r => r)
-    //         .catch(this.errorService.handleError);
 
-    // }
+    /**
+*  Retrieves a list team matching given ids
+* @param id List of team ids
+*/
+    get(ids: string[]): Promise<Team[]>;
+    /**
+     *  Retrieves a dataset matching a given id
+     * @param id Unique team id
+     */
+    get(id: string): Promise<Team>;
+
+    get(idOrIds: string | string[]): Promise<Team> | Promise<Team[]> {
+        if (!idOrIds) return Promise.reject("Parameter missing");
+        if (idOrIds.constructor === Array) {
+            return this.getWithIds(<string[]>idOrIds)
+        }
+        return this.getWithId(<string>idOrIds)
+    }
 
     /** Gets a team using its uniquerId
      *  Returns undefined if no user is found
      */
-    get(uniqueId: string): Promise<Team> {
+    private getWithId(uniqueId: string): Promise<Team> {
         if (uniqueId) {
             return this.http.get("/api/v1/team/" + uniqueId)
                 .map((response: Response) => {
@@ -52,6 +49,26 @@ export class TeamFactory {
             return Promise.reject("No team_id provided")
         }
 
+    }
+
+    private getWithIds(teamIds: string[]): Promise<Team[]> {
+        if (!teamIds || teamIds.length === 0) {
+            return Promise.reject("You cannot make a search for all teams !")
+        }
+        return this._http.get("/api/v1/team/in/" + teamIds.join(","))
+            .map((responseData) => {
+                return responseData.json();
+            })
+            .map((inputs: Array<any>) => {
+                let result: Array<Team> = [];
+                if (inputs) {
+                    inputs.forEach((input) => {
+                        result.push(Team.create().deserialize(input));
+                    });
+                }
+                return result;
+            })
+            .toPromise()
     }
 
     /**

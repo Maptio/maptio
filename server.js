@@ -110,7 +110,6 @@ app.use('/api/v1/dataset/', jwtCheck, check_scopes(["api"]), datasets);
 app.use('/api/v1/user', jwtCheck, check_scopes(["api"]), users);
 app.use('/api/v1/team', jwtCheck, check_scopes(["api"]), teams);
 
-
 app.set("port", process.env.PORT || DEFAULT_PORT);
 app.get(cache('5 seconds'))
 

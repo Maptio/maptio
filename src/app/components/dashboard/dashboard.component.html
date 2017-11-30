@@ -4,31 +4,58 @@
 <div class="overflow">
     <div class="card-deck mt-3">
         <div class="col-12">
-            <div class="row mb-3" *ngFor="let dataset of datasets">
+            <div class="row mb-3 mr-1" *ngFor="let dataset of datasets">
                 <div class="card mb-3 ">
                     <div class="d-flex w-100 justify-content-between card-header">
-                        <h5>
+                        <!-- <h5>
                             <a routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}"> {{dataset.initiative.name}}</a>
-                            <!-- <a ngbTooltip="Circle view" placement="top" container="body" class="btn circleview p-0 small" routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}/initiatives"></a>
-                            <a ngbTooltip="Tree view" placement="top" container="body" class="btn treeview p-0 small" routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}/people"> </a>
-                            <a ngbTooltip="Network view" placement="top" container="body" class="btn networkview p-0 small"  routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}/connections"></a> -->
-                        </h5>
+                       </h5> -->
+                        <div class="btn-group">
+                            <h5>
+                                <a routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}/initiatives"> {{dataset.initiative.name}}</a>
+                                <button type="button" class="btn btn-link p-0 dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}/initiatives">Circle view</a>
+                                    <a class="dropdown-item" routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}/people">Tree view</a>
+                                    <a class="dropdown-item" routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}/connections">Network view</a>
+
+                                </div>
+
+                            </h5>
+
+                        </div>
+
+
                         <small class="text-muted">Team
                             <a routerLink="/team/{{dataset.team?.team_id}}/{{dataset.team?.getSlug()}}">{{dataset.team?.name}}</a>
                         </small>
                     </div>
                     <div class="card-block">
                         <small *ngIf="dataset.initiative.children" class="text-muted">Vision held by
-                            <img class="visionnary rounded-circle" src="{{dataset.initiative.children[0]?.accountable?.picture}}" alt="{{dataset.initiative.children[0]?.accountable?.name}}"
-                                placement="top" container="body" ngbTooltip="{{dataset.initiative.children[0]?.accountable?.name}}">
-                            <b> {{dataset.initiative.children[0]?.accountable?.name}}</b>
+                            <img class="visionnary rounded-circle" src="{{dataset.initiative.children[0]?.accountable?.picture}}" alt="{{dataset.initiative.children[0]?.accountable?.name}}">
+                            <a class="text-muted" routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}/u/{{dataset.initiative.children[0]?.accountable?.user_id}}/{{dataset.initiative.children[0]?.accountable?.getSlug()}}">
+                               <b> {{dataset.initiative.children[0]?.accountable?.name}}</b>
+                            </a>
+
                         </small>
 
                         <small *ngIf="!dataset.initiative.children" class="text-warning">
                             No vision holder yet.
                         </small>
 
-                        <small class="pull-right">{{dataset.depth}} sub-initiatives</small>
+                        <small class="pull-right">
+                            <div>{{dataset.depth}} sub-initiatives</div>
+                            <!-- <div>
+                                <button class="btn btn-sm btn-secondary pull-right mt-1" (click)="export(dataset)">
+                                    <span *ngIf="!isDisplayLoader(dataset._id)">
+                                        <i class="fa fa-table" aria-hidden="true"></i> Export</span>
+                                    <span class="text-muted" *ngIf="isDisplayLoader(dataset._id)">Exporting</span>
+                                </button>
+                            </div> -->
+                        </small>
 
                     </div>
                 </div>
