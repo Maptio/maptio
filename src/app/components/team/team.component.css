@@ -97,5 +97,7 @@ td.delete{
 
 .sending{
     text-align: center;
-    margin-right:2vw;
+    margin-right:5vw;
+    margin-top: 4vh;
+    position: relative;
 }

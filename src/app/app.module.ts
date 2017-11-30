@@ -192,7 +192,7 @@ export function markdownServiceFactory(http: Http) {
       animationType: ANIMATION_TYPES.chasingDots,
       backdropBackgroundColour: "#fff",
       backdropBorderRadius: ".25rem",
-      primaryColour: "#2F81B7",
+      primaryColour: "#EF5E26",
       secondaryColour: "#2F81B7",
       tertiaryColour: "#ffffff"
     }),

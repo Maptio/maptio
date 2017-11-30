@@ -47,7 +47,7 @@
                         <!-- <small [hidden]="!(member.isActivationPending && member.isInvitationSent)" class="text-warning pull-right" placement="top" container="body"
                             ngbTooltip="{{member.name}} was sent an invitation.">Pending</small> -->
                     </td>
-                    <td class="">
+                    <td class="" >
                         <span *ngIf="member.isDeleted" class="text-muted">(Deleted)</span>
                         <button [class.deleted]="member.isDeleted" *ngIf="!member.isActivationPending" class="btn btn-default  mt-2" placement="top"
                             container="body" ngbTooltip="{{member.name}} is a confirmed user." disabled>Active</button>
@@ -55,10 +55,15 @@
                             class="btn btn-success  mt-2" (click)="inviteUser(member, i)" placement="left" container="body" ngbTooltip="Invite {{member.name}} to view and edit maps">Invite </button>
                         <button [class.deleted]="member.isDeleted" [hidden]="isDisplayLoader(member.user_id)" *ngIf="member.isActivationPending && member.isInvitationSent"
                             class="btn btn-success  mt-2" (click)="resendUser(member, i)" placement="left" container="body" ngbTooltip="Resend an invitation to {{member.name}}">Resend </button>
-                        <span class="sending text-default" [hidden]="!isDisplayLoader(member.user_id)">
+                    <div class="sending" [hidden]="!isDisplayLoader(member.user_id)">
+                        <ngx-loading [show]="isDisplayLoader(member.user_id)" [config]="{ backdropBackgroundColour: 'transparent'}"></ngx-loading>
+                    </div>
+                        
+        
+        <!-- <span class="sending text-default" [hidden]="!isDisplayLoader(member.user_id)">
                             <i class="fa fa-cog fa-2x fa-spin fa-fw"></i>
                             <span class="sr-only">Sending...</span>
-                        </span>
+                        </span> -->
 
                     </td>
                 </tr>
