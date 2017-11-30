@@ -69,13 +69,13 @@ export class UserFactory {
             .toPromise()
     }
 
-    getByShortId(shortid: string): Promise<User> {
-        return this.http.get("/api/v1/user/" + shortid)
-            .map((response: Response) => {
-                return User.create().deserialize(response.json());
-            })
-            .toPromise()
-    }
+    // getByShortId(shortid: string): Promise<User> {
+    //     return this.http.get("/api/v1/user/" + shortid)
+    //         .map((response: Response) => {
+    //             return User.create().deserialize(response.json());
+    //         })
+    //         .toPromise()
+    // }
 
     /**
      * Creates a new user
