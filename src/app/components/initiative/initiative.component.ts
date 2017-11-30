@@ -67,7 +67,7 @@ export class InitiativeComponent implements OnChanges {
             this.descriptionHideMe = changes.node.currentValue.description ? (changes.node.currentValue.description.trim() !== "") : false;
             if (changes.node.isFirstChange() || !(changes.node.previousValue) || changes.node.currentValue.team_id !== changes.node.previousValue.team_id) {
 
-                this.team$ = this.teamFactory.get(changes.node.currentValue.team_id)
+                this.team$ = this.teamFactory.get(<string>changes.node.currentValue.team_id)
                     .then(t => { this.teamName = t.name; this.teamId = t.team_id; return t },
                     () => { return Promise.reject("No team available") }).catch(() => { }
                     )

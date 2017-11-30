@@ -23,7 +23,6 @@ export class DashboardComponent {
     }
 
     ngOnInit() {
-        let start = new Date().getTime();
         this.isLoading = true;
         this.subscription = this.resolver.resolve(undefined, undefined)
             .subscribe((datasets: DataSet[]) => {
@@ -32,8 +31,6 @@ export class DashboardComponent {
                     this.isExportingMap.set(d._id, false);
                 })
                 this.isLoading = false;
-                let end = new Date().getTime();
-                console.log("elapsed", end - start)
             },
             (error: any) => { this.isLoading = false; },
             () => {

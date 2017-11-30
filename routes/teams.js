@@ -33,6 +33,19 @@ router.get('/:id', function (req, res, next) {
         });
 });
 
+router.get('/in/:query', function (req, res, next) {
+    let teams_id = req.params.query.split(',').map(t => mongojs.ObjectId(t));
+    db.teams.find(
+        { _id: { $in: teams_id } }
+        , function (err, teams) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.json(teams);
+            }
+        });
+})
+
 /**
  * Get all users in a given team
  */

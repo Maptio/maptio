@@ -31,7 +31,6 @@ router.get('/:id', function (req, res, next) {
 
 router.get('/in/:query', function (req, res, next) {
     let datasets_id = req.params.query.split(',').map(d => mongojs.ObjectId(d));
-    console.log(datasets_id)
     db.datasets.find(
         { _id: { $in: datasets_id } }
         , function (err, datasets) {
