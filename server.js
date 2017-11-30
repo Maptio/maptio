@@ -101,6 +101,7 @@ var teams = require('./routes/teams');
 var inviting = require('./routes/invite-mail');
 var confirming = require('./routes/confirm-mail');
 var encoding = require('./routes/encoding');
+var exporting = require('./routes/exporting');
 
 app.use('/api/v1/jwt/', encoding);
 app.use('/api/v1/mail/confirm', confirming);
@@ -109,7 +110,7 @@ app.use('/api/v1/mail/invite', jwtCheck, check_scopes(["invite"]), inviting);
 app.use('/api/v1/dataset/', jwtCheck, check_scopes(["api"]), datasets);
 app.use('/api/v1/user', jwtCheck, check_scopes(["api"]), users);
 app.use('/api/v1/team', jwtCheck, check_scopes(["api"]), teams);
-
+app.use('/api/v1/export', jwtCheck, check_scopes(["api"]), exporting);
 
 app.set("port", process.env.PORT || DEFAULT_PORT);
 app.get(cache('5 seconds'))

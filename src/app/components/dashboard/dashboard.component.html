@@ -28,8 +28,11 @@
                             No vision holder yet.
                         </small>
 
-                        <small class="pull-right">{{dataset.depth}} sub-initiatives</small>
-
+                        <small class="pull-right">
+                            <div>{{dataset.depth}} sub-initiatives</div>
+                            <div><button class="btn btn-sm btn-secondary pull-right mt-1" (click)="export(dataset)"><i class="fa fa-table" aria-hidden="true"></i> Export</button></div>
+                        </small>
+                        
                     </div>
                 </div>
             </div>
