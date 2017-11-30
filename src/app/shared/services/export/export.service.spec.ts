@@ -31,8 +31,8 @@ describe("export.service.ts", () => {
         target.getReport(dataset).subscribe(exported => {
             expect(exported.split(`\n`).length).toBe(3);
             expect(exported.split(`\n`)[0]).toBe("Initiative,Authority,Helpers");
-            expect(exported.split(`\n`)[1]).toBe(`"Tech","My Company","CTO",CTO1,CTO2`);
-            expect(exported.split(`\n`)[2]).toBe(`"Marketing","My Company","CMO",CMO1,CMO2`);
+            expect(exported.split(`\n`)[1]).toBe(`"Tech","CTO",CTO1,CTO2`);
+            expect(exported.split(`\n`)[2]).toBe(`"Marketing","CMO",CMO1,CMO2`);
         })
     }))
 
