@@ -14,29 +14,6 @@ export class TeamFactory {
         this._http = http;
     }
 
-    /** Gets all teams
-     *
-     */
-    // getAll(): Promise<Team[]> {
-    //     return this.http.get("/api/v1/teams")
-    //         .map((responseData) => {
-    //             return responseData.json();
-    //         })
-    //         .map((inputs: Array<any>) => {
-    //             let result: Array<Team> = [];
-    //             if (inputs) {
-    //                 inputs.forEach((input) => {
-    //                     result.push(Team.create().deserialize(input));
-    //                 });
-    //             }
-    //             return result;
-    //         })
-    //         .toPromise()
-    //         .then(r => r)
-    //         .catch(this.errorService.handleError);
-
-    // }
-
 
     /**
 *  Retrieves a list team matching given ids
