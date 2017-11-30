@@ -72,14 +72,15 @@ export class HeaderComponent implements OnInit {
     ngOnInit() {
         this.userSubscription = this.auth.getUser().subscribe((user: User) => {
             this.user = user;
-            this.datasets$ = Promise.all(
-                // get all datasets available to this user accross all teams
-                this.user.datasets.map(
-                    (dataset_id: string) => this.datasetFactory.get(dataset_id).then(d => d, () => { return Promise.reject("No dataset") }).catch(() => { return <DataSet>undefined })
-                )
-            )
+            // this.datasets$ = Promise.all(
+            //     // get all datasets available to this user accross all teams
+            //     this.user.datasets.map(
+            //         (dataset_id: string) => this.datasetFactory.get(dataset_id).then(d => d, () => { return Promise.reject("No dataset") }).catch(() => { return <DataSet>undefined })
+            //     )
+            // )
+            this.datasets$ = this.datasetFactory.get(this.user.datasets)
                 .then(datasets => {
-                    return datasets.filter(d => d !== undefined).map(d => {
+                    return datasets.map(d => {
                         return {
                             _id: d._id,
                             initiative: d.initiative,
@@ -89,7 +90,6 @@ export class HeaderComponent implements OnInit {
                     }
                     )
                 })
-                .then(datasets => compact(datasets))
                 .then(datasets => sortBy(datasets, d => d.name))
 
             this.teams$ = Promise.all(

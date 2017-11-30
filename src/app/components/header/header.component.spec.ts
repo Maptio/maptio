@@ -83,7 +83,12 @@ describe("header.component.ts", () => {
         target.debugElement.injector.get(TeamFactory);
 
         spyOn(mockDataSetFactory, "get").and.callFake((id: string) => {
-            return Promise.resolve(new DataSet({ _id: id, initiative: new Initiative({ name: `Name ${id}`, team_id: `team_${id}` }) }))
+            return Promise.resolve([
+                new DataSet({ _id: "1", initiative: new Initiative({ name: `Name 1`, team_id: `team_1` }) }),
+                new DataSet({ _id: "2", initiative: new Initiative({ name: `Name 2`, team_id: `team_2` }) }),
+                new DataSet({ _id: "3", initiative: new Initiative({ name: `Name 3`, team_id: `team_3` }) })
+            ]
+            )
         })
 
         user$.next(new User({ user_id: "some_new_id", datasets: ["1", "2", "3"], teams: [] }));
@@ -106,9 +111,11 @@ describe("header.component.ts", () => {
         target.debugElement.injector.get(TeamFactory);
 
         spyOn(mockDataSetFactory, "get").and.callFake((id: string) => {
-            return (Number.parseInt(id) % 2)
-                ? Promise.resolve(new DataSet({ _id: id, initiative: new Initiative({ name: `Name ${id}`, team_id: `team_${id}` }) }))
-                : Promise.reject("Something went wrong")
+            return Promise.resolve([
+                new DataSet({ _id: "1", initiative: new Initiative({ name: `Name 1`, team_id: `team_1` }) }),
+               new DataSet({ _id: "3", initiative: new Initiative({ name: `Name 3`, team_id: `team_3` }) })
+            ]
+            )
         })
 
         user$.next(new User({ user_id: "some_new_id", datasets: ["1", "2", "3"], teams: [] }));

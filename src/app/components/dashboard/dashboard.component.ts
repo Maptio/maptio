@@ -23,6 +23,7 @@ export class DashboardComponent {
     }
 
     ngOnInit() {
+        let start = new Date().getTime();
         this.isLoading = true;
         this.subscription = this.resolver.resolve(undefined, undefined)
             .subscribe((datasets: DataSet[]) => {
@@ -31,9 +32,13 @@ export class DashboardComponent {
                     this.isExportingMap.set(d._id, false);
                 })
                 this.isLoading = false;
+                let end = new Date().getTime();
+                console.log("elapsed", end - start)
             },
             (error: any) => { this.isLoading = false; },
-            () => { this.isLoading = false; });
+            () => {
+                this.isLoading = false;
+            });
     }
 
     ngOnDestroy() {
@@ -47,6 +52,7 @@ export class DashboardComponent {
     }
 
     export(dataset: DataSet) {
+
         this.isExportingMap.set(dataset._id, true);
         this.exportService.getReport(dataset).subscribe((exportString: string) => {
             let blob = new Blob([exportString], { type: "text/csv" });
@@ -54,7 +60,10 @@ export class DashboardComponent {
         }
             ,
             (error: Error) => console.log("Error downloading the file."),
-            () => { this.isExportingMap.set(dataset._id, false); }
+            () => {
+                this.isExportingMap.set(dataset._id, false);
+
+            }
         )
     }
 }
