@@ -2,9 +2,8 @@ import { Angulartics2Mixpanel } from "angulartics2";
 import { LoaderService } from "./../../shared/services/loading/loader.service";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs/Rx";
-import { EventEmitter } from "@angular/core";
 import { OnInit } from "@angular/core";
-import { Component, Output } from "@angular/core";
+import { Component } from "@angular/core";
 import { User } from "../../shared/model/user.data";
 import { Team } from "../../shared/model/team.data";
 import { DataSet } from "../../shared/model/dataset.data";
@@ -13,7 +12,6 @@ import { Auth } from "../../shared/services/auth/auth.service";
 import { DatasetFactory } from "../../shared/services/dataset.factory";
 import { TeamFactory } from "../../shared/services/team.factory";
 import { EmitterService } from "../../shared/services/emitter.service";
-import { UserFactory } from "../../shared/services/user.factory";
 import { ErrorService } from "../../shared/services/error/error.service";
 import { Initiative } from "../../shared/model/initiative.data";
 import { UserService } from "../../shared/services/user/user.service";
@@ -31,9 +29,6 @@ export class HeaderComponent implements OnInit {
     public datasets$: Promise<Array<any>>;
     private teams$: Promise<Array<Team>>;
     public selectedDataset: DataSet;
-    private isValid: boolean = false;
-    private isSaving: Promise<boolean> = Promise.resolve(false);
-    private timeToSaveInSec: Promise<number>;
     public areMapsAvailable: Promise<boolean>
     public isCreateMode: boolean = false;
     private selectedTeamId: string;
@@ -45,7 +40,7 @@ export class HeaderComponent implements OnInit {
     public userSubscription: Subscription;
 
     constructor(public auth: Auth, private userService: UserService, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory,
-        private userFactory: UserFactory, public errorService: ErrorService, private router: Router, private loader: LoaderService, private analytics: Angulartics2Mixpanel) {
+        public errorService: ErrorService, private router: Router, private loader: LoaderService, private analytics: Angulartics2Mixpanel) {
         this.emitterSubscription = EmitterService.get("currentDataset").subscribe((value: DataSet) => {
             this.selectedDataset = value;
         });

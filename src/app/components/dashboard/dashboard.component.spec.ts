@@ -14,7 +14,6 @@ import { User } from "../../shared/model/user.data";
 import { Auth } from "../../shared/services/auth/auth.service";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 import { DataSet } from "../../shared/model/dataset.data";
-import { Team } from "../../shared/model/team.data";
 import { ActivatedRoute } from "@angular/router";
 import { DashboardComponentResolver } from "./dashboard.resolver";
 
@@ -24,7 +23,6 @@ describe("dashboard.component.ts", () => {
     let target: ComponentFixture<DashboardComponent>;
     let user$: Subject<User> = new Subject<User>();
     let datasets$: Subject<DataSet[]> = new Subject<DataSet[]>();
-    let AuthStub;
 
     beforeEach(async(() => {
 

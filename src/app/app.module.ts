@@ -3,10 +3,10 @@ import { environment } from "./../environment/environment";
 
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { NgModule, Injector } from "@angular/core";
+import { NgModule} from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { HttpModule, RequestOptions, XHRBackend, Http } from "@angular/http";
+import { HttpModule, RequestOptions, Http } from "@angular/http";
 
 // Routing
 import { PathLocationStrategy, Location, LocationStrategy } from "@angular/common";
@@ -23,7 +23,7 @@ import { ColorService } from "./shared/services/ui/color.service"
 import { UIService } from "./shared/services/ui/ui.service"
 import { ErrorService } from "./shared/services/error/error.service";
 import { Auth } from "./shared/services/auth/auth.service";
-import { AuthHttp, provideAuth } from "angular2-jwt";
+import { AuthHttp } from "angular2-jwt";
 import { UserFactory } from "./shared/services/user.factory";
 import { TeamFactory } from "./shared/services/team.factory";
 import { MailingService } from "./shared/services/mailing/mailing.service"
@@ -64,7 +64,7 @@ import { Angulartics2Mixpanel, Angulartics2Module } from "angulartics2";
 // Directives
 import { FocusIfDirective } from "./shared/directives/focusif.directive";
 import { AutoSelectDirective } from "./shared/directives/autoselect.directive"
-import { AnchorDirective } from "./shared/directives/anchor.directive"
+// import { AnchorDirective } from "./shared/directives/anchor.directivse"
 
 // External libraries
 import { LoadingModule, ANIMATION_TYPES } from "ngx-loading";
@@ -164,7 +164,6 @@ export function markdownServiceFactory(http: Http) {
     InitiativeComponent, ChangePasswordComponent, LoaderComponent, TeamsListComponent, SignupComponent,
     FocusIfDirective,
     AutoSelectDirective,
-    AnchorDirective,
     HelpComponent,
     DashboardComponent,
 

@@ -2,12 +2,12 @@ import { Subject } from "rxjs/Rx";
 import { Initiative } from "./../../../shared/model/initiative.data";
 import { Subscription } from "rxjs/Subscription";
 import { Observable } from "rxjs/Observable";
-import { Component, OnInit, Input, ViewEncapsulation, ChangeDetectorRef } from "@angular/core";
-import { D3Service, D3, Force, DragBehavior, ForceLink, HierarchyNode } from "d3-ng2-service";
+import { Component, OnInit, ViewEncapsulation, ChangeDetectorRef } from "@angular/core";
+import { D3Service, D3, ForceLink, HierarchyNode } from "d3-ng2-service";
 import { ColorService } from "../../../shared/services/ui/color.service"
 import { UIService } from "../../../shared/services/ui/ui.service"
 import { IDataVisualizer } from "../mapping.interface"
-import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
+import { Angulartics2Mixpanel } from "angulartics2";
 import * as _ from "lodash";
 import { User } from "../../../shared/model/user.data";
 import { Role } from "../../../shared/model/role.data";
@@ -65,13 +65,13 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     FADED_OPACITY = 0.1
     private svg: any;
     private g: any;
-    private link: any;
+    // private link: any;
     private fontSize: number;
     public tooltipInitiatives: Array<Initiative>;
     public tooltipRoles: Array<{ initiative: Initiative, role: Role }>;
     public tooltipSourceUser: User;
     public tooltipTargetUser: User;
-    public isLoading:boolean;
+    public isLoading: boolean;
 
     constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService,
         private cd: ChangeDetectorRef, private router: Router, private dataService: DataService) {
@@ -118,9 +118,9 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
         let d3 = this.d3;
 
-        let svg: any = d3.select("svg"),
-            margin = this.margin,
-            diameter = +this.width
+        let svg: any = d3.select("svg");
+            // margin = this.margin,
+            // diameter = +this.width
         let g = svg.append("g")
             .attr("width", this.width)
             .attr("height", this.height)
@@ -299,7 +299,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         }
 
         let d3 = this.d3;
-        let svg = this.svg;
+        // let svg = this.svg;
         let g = this.g;
         let fontSize = this.fontSize;
         let width = this.width;
@@ -309,7 +309,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
         let CIRCLE_RADIUS = this.CIRCLE_RADIUS
         let LINE_WEIGHT = this.LINE_WEIGHT;
-        let FADED_OPACITY = this.FADED_OPACITY;
+        // let FADED_OPACITY = this.FADED_OPACITY;
 
         let initiativesList: HierarchyNode<Initiative>[] = this.d3.hierarchy(data).descendants();
         let graph = this.prepare(initiativesList);
@@ -596,10 +596,10 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         //     };
         // }
 
-        function cleanSelected() {
-            node.classed("picked", false);
-            node.each(function (d: any) { d.picked = d.previouslyPicked = false; })
-        }
+        // function cleanSelected() {
+        //     node.classed("picked", false);
+        //     node.each(function (d: any) { d.picked = d.previouslyPicked = false; })
+        // }
 
     }
 }

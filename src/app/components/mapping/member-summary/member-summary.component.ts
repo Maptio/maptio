@@ -1,5 +1,4 @@
 import { TeamFactory } from "./../../../shared/services/team.factory";
-import { map } from "rxjs/operator/map";
 import { UserFactory } from "./../../../shared/services/user.factory";
 import { DataSet } from "./../../../shared/model/dataset.data";
 import { ActivatedRoute, Params } from "@angular/router";
@@ -7,15 +6,12 @@ import { DatasetFactory } from "./../../../shared/services/dataset.factory";
 import { User } from "./../../../shared/model/user.data";
 import { Auth } from "./../../../shared/services/auth/auth.service";
 import { Initiative } from "./../../../shared/model/initiative.data";
-import { D3Service, D3 } from "d3-ng2-service";
 import { Observable, Subscription } from "rxjs/Rx";
 import { IDataVisualizer } from "./../mapping.interface";
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from "@angular/core";
-import { ColorService } from "../../../shared/services/ui/color.service";
-import { UIService } from "../../../shared/services/ui/ui.service";
+import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { Team } from "../../../shared/model/team.data";
 import { Subject } from "rxjs/Rx";
-import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
+import { Angulartics2Mixpanel } from "angulartics2";
 import { DataService } from "../../../shared/services/data.service";
 
 @Component({

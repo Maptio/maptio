@@ -1,6 +1,5 @@
 import { EmitterService } from "./../../shared/services/emitter.service";
 import { Component, OnInit } from "@angular/core";
-import { User } from "../../shared/model/user.data";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { UserService } from "../../shared/services/user/user.service";
 

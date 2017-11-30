@@ -2,35 +2,28 @@ import { MailingService } from "./../../shared/services/mailing/mailing.service"
 import { AuthConfiguration } from "./../../shared/services/auth/auth.config";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Angulartics2, Angulartics2Mixpanel } from "angulartics2";
-import { AuthModule, authHttpServiceFactory } from "./../../shared/services/auth/auth.module";
-import { encodeTestToken } from "angular2-jwt/angular2-jwt-test-helpers";
-import { AuthConfig, tokenNotExpired } from "angular2-jwt";
-import { AuthHttp, JwtHelper } from "angular2-jwt";
+import { AuthHttp } from "angular2-jwt";
 import { NgbModule, NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { EmitterService } from "./../../shared/services/emitter.service";
 import { Initiative } from "./../../shared/model/initiative.data";
 import { DataSet } from "./../../shared/model/dataset.data";
 import { TeamFactory } from "./../../shared/services/team.factory";
-import { Params } from "@angular/router";
 import { ActivatedRoute } from "@angular/router";
 import { WorkspaceComponent } from "./workspace.component";
 import { UserFactory } from "./../../shared/services/user.factory";
-import { ComponentFixture, TestBed, async, fakeAsync } from "@angular/core/testing";
-import { NO_ERRORS_SCHEMA, EventEmitter } from "@angular/core"
-import { By } from "@angular/platform-browser";
+import { ComponentFixture, TestBed, async } from "@angular/core/testing";
+import { NO_ERRORS_SCHEMA } from "@angular/core"
 import { BuildingComponent } from "../../components/building/building.component"
 import { DatasetFactory } from "../../shared/services/dataset.factory";
 import { DataService } from "../../shared/services/data.service";
 import { ErrorService } from "../../shared/services/error/error.service";
 import { MockBackend } from "@angular/http/testing";
-import { Http, BaseRequestOptions, RequestOptions } from "@angular/http";
+import { Http, BaseRequestOptions } from "@angular/http";
 import { Observable } from "rxjs/Rx";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import { Team } from "../../shared/model/team.data";
 import { User } from "../../shared/model/user.data";
 import { Auth } from "../../shared/services/auth/auth.service";
-import { AuthHttpInterceptor } from "../../shared/services/auth/authHttpInterceptor";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 import { UserService } from "../../shared/services/user/user.service";
 import { JwtEncoder } from "../../shared/services/encoding/jwt.service";

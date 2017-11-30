@@ -15,7 +15,6 @@ import { UserService } from "../../shared/services/user/user.service";
 import { MailingService } from "../../shared/services/mailing/mailing.service";
 import { JwtEncoder } from "../../shared/services/encoding/jwt.service";
 import { UserFactory } from "../../shared/services/user.factory";
-import { Router } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { LoaderService } from "../../shared/services/loading/loader.service";
 import { Angulartics2Module, Angulartics2, Angulartics2Mixpanel } from "angulartics2";
@@ -58,10 +57,10 @@ describe("dashboard.resolver.ts", () => {
 
     it("resolves when all datasets and teams load", inject([DashboardComponentResolver, Auth, DatasetFactory, TeamFactory], (target: DashboardComponentResolver, auth: Auth, datasetFactory: DatasetFactory, teamFactory: TeamFactory) => {
         spyOn(auth, "getUser").and.returnValue(Observable.of(new User({ user_id: "some_new_id", datasets: ["1", "2", "3"] })))
-        let spyGetDataSet = spyOn(datasetFactory, "get").and.callFake((id: string) => {
+        spyOn(datasetFactory, "get").and.callFake((id: string) => {
             return Promise.resolve(new DataSet({ _id: id, initiative: new Initiative({ name: `Name ${id}`, team_id: `team_${id}` }) }))
         })
-        let spyGetTeam = spyOn(teamFactory, "get").and.callFake((id: string) => {
+        spyOn(teamFactory, "get").and.callFake((id: string) => {
             return Promise.resolve(new Team({ team_id: id, name: `Team ${id}` }))
         })
         target.resolve(undefined, undefined).subscribe(ds => {
@@ -77,12 +76,12 @@ describe("dashboard.resolver.ts", () => {
 
     it("resolves  when one dataset doesnt load", inject([DashboardComponentResolver, Auth, DatasetFactory, TeamFactory], (target: DashboardComponentResolver, auth: Auth, datasetFactory: DatasetFactory, teamFactory: TeamFactory) => {
         spyOn(auth, "getUser").and.returnValue(Observable.of(new User({ user_id: "some_new_id", datasets: ["1", "2", "3"] })))
-        let spyGetDataSet = spyOn(datasetFactory, "get").and.callFake((id: string) => {
+        spyOn(datasetFactory, "get").and.callFake((id: string) => {
             return (Number.parseInt(id) % 2)
                 ? Promise.resolve(new DataSet({ _id: id, initiative: new Initiative({ name: `Name ${id}`, team_id: `team_${id}` }) }))
                 : Promise.reject("Something went wrong")
         })
-        let spyGetTeam = spyOn(teamFactory, "get").and.callFake((id: string) => {
+        spyOn(teamFactory, "get").and.callFake((id: string) => {
             return Promise.resolve(new Team({ team_id: id, name: `Team ${id}` }))
         })
         target.resolve(undefined, undefined).subscribe(ds => {

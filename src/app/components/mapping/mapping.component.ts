@@ -1,26 +1,21 @@
 import { Initiative } from "./../../shared/model/initiative.data";
 // import { MappingNetworkComponent } from "./network/mapping.network.component";
-import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
+import { Angulartics2Mixpanel } from "angulartics2";
 
-import { ActivatedRoute, Params, UrlSegment } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import {
-    Component,
-    AfterViewInit, EventEmitter,
-    ViewChild, ViewContainerRef, ComponentFactoryResolver, ElementRef,
-    OnInit,
-    ChangeDetectionStrategy, ChangeDetectorRef, ComponentRef, ComponentFactory, Input, Output
+    Component, EventEmitter,
+    ViewChild, ElementRef,
+    ChangeDetectionStrategy, ChangeDetectorRef, ComponentFactory, Output
 } from "@angular/core";
 
 import { DataService } from "../../shared/services/data.service"
-import { Views } from "../../shared/model/view.enum"
 import { IDataVisualizer } from "./mapping.interface"
 import { MappingCirclesComponent } from "./circles/mapping.circles.component"
 import { MappingTreeComponent } from "./tree/mapping.tree.component"
-import { AnchorDirective } from "../../shared/directives/anchor.directive"
 
 import "rxjs/add/operator/map"
-import { EmitterService } from "../../shared/services/emitter.service";
-import { Subject, BehaviorSubject, Subscription, Observable } from "rxjs/Rx";
+import { Subject, BehaviorSubject, Subscription, } from "rxjs/Rx";
 import { MappingNetworkComponent } from "./network/mapping.network.component";
 import { MemberSummaryComponent } from "./member-summary/member-summary.component";
 
@@ -74,7 +69,7 @@ export class MappingComponent {
     @Output("moveInitiative") moveInitiative = new EventEmitter<{ node: Initiative, from: Initiative, to: Initiative }>();
     @Output("closeEditingPanel") closeEditingPanel = new EventEmitter<boolean>();
 
-    @ViewChild(AnchorDirective) anchorComponent: AnchorDirective;
+    // @ViewChild(AnchorDirective) anchorComponent: AnchorDirective;
 
     @ViewChild("drawing")
     public element: ElementRef;
@@ -86,8 +81,8 @@ export class MappingComponent {
 
     constructor(
         private dataService: DataService,
-        private viewContainer: ViewContainerRef,
-        private componentFactoryResolver: ComponentFactoryResolver,
+        // private viewContainer: ViewContainerRef,
+        // private componentFactoryResolver: ComponentFactoryResolver,
         private cd: ChangeDetectorRef,
         private route: ActivatedRoute,
         private analytics: Angulartics2Mixpanel

@@ -14,7 +14,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { ActivatedRoute, Router, NavigationStart } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { LoginComponent } from "./login.component";
-import { ComponentFixture, async, TestBed, fakeAsync } from "@angular/core/testing";
+import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 import { Auth } from "../../shared/services/auth/auth.service";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 
@@ -191,9 +191,9 @@ describe("login.component.ts", () => {
                 email: "huey@maptio.com"
             }));
             let spyIsActivationPending = spyOn(target.debugElement.injector.get(UserService), "isActivationPendingByUserId").and.returnValue(Promise.resolve(true));
-            let spyUpdateUserCredentials = spyOn(target.debugElement.injector.get(UserService), "updateUserCredentials").and.returnValue(Promise.resolve(true));
-            let spyUpdateActivationPending = spyOn(target.debugElement.injector.get(UserService), "updateActivationPendingStatus").and.returnValue(Promise.resolve(true));
-            let spyEventTrack = spyOn(target.debugElement.injector.get(Angulartics2Mixpanel), "eventTrack");
+            spyOn(target.debugElement.injector.get(UserService), "updateUserCredentials").and.returnValue(Promise.resolve(true));
+            spyOn(target.debugElement.injector.get(UserService), "updateActivationPendingStatus").and.returnValue(Promise.resolve(true));
+            spyOn(target.debugElement.injector.get(Angulartics2Mixpanel), "eventTrack");
 
 
             component.token = "SOME_TOKEN";

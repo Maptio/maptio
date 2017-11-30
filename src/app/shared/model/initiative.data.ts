@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core"
 import { ITraversable } from "../interfaces/traversable.interface"
 import { Serializable } from "../interfaces/serializable.interface";
-import { User } from "./user.data";
 import * as slug from "slug";
 import { Helper } from "./helper.data";
 import { Role } from "./role.data";

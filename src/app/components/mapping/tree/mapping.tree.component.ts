@@ -1,14 +1,14 @@
 import { UserFactory } from "./../../../shared/services/user.factory";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs/Subscription";
-import { Component, OnInit, Input, ViewEncapsulation, ChangeDetectorRef } from "@angular/core";
+import { Component, OnInit, ViewEncapsulation, ChangeDetectorRef } from "@angular/core";
 import { D3Service, D3 } from "d3-ng2-service";
 import { ColorService } from "../../../shared/services/ui/color.service"
 import { UIService } from "../../../shared/services/ui/ui.service"
 import { IDataVisualizer } from "../mapping.interface"
 import { Observable, Subject } from "rxjs/Rx";
 import { Initiative } from "../../../shared/model/initiative.data";
-import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
+import { Angulartics2Mixpanel } from "angulartics2";
 import { DataService } from "../../../shared/services/data.service";
 
 @Component({
@@ -77,11 +77,11 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         let viewerWidth = this.width;
         let viewerHeight = this.height;
 
-        let margins = { top: 0, right: this.margin, bottom: this.margin, left: this.margin }
+        // let margins = { top: 0, right: this.margin, bottom: this.margin, left: this.margin }
 
         // declares a tree layout and assigns the size
         // CAREFUL : width and height are reversed in this function
-        let treemap = d3.tree().size([viewerWidth / 2, viewerHeight]);
+        d3.tree().size([viewerWidth / 2, viewerHeight]);
 
         function zoomed() {
             // let transform = d3.event.transform;
@@ -188,13 +188,13 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         let MAX_TEXT_LENGTH = this.MAX_TEXT_LENGTH;
         let viewerWidth = this.width;
         let viewerHeight = this.height;
-        let zoom$ = this.zoom$;
-        let fontSize$ = this.fontSize$;
+        // let zoom$ = this.zoom$;
+        // let fontSize$ = this.fontSize$;
         let datasetId = this.datasetId;
         let router = this.router;
         let userFactory = this.userFactory;
         let showDetailsOf$ = this.showDetailsOf$;
-        let svg = this.svg;
+        // let svg = this.svg;
         let g = this.g;
         let definitions = this.definitions;
         let hoverInitiative = this.hoverInitiative.bind(this);
@@ -203,7 +203,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         let treemap = d3.tree().size([viewerWidth / 2, viewerHeight]).nodeSize([40, 1]);
 
         let i = 0,
-            duration = 750,
+            // duration = 750,
             root: any;
 
         // Assigns parent, children, height, depth

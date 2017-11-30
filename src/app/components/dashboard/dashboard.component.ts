@@ -1,12 +1,6 @@
-import { Subscription, Observable } from "rxjs/Rx";
-import { Component, OnInit, Injectable, Input } from "@angular/core";
-import { Auth } from "../../shared/services/auth/auth.service";
-import { DatasetFactory } from "../../shared/services/dataset.factory";
-import { TeamFactory } from "../../shared/services/team.factory";
-import { ErrorService } from "../../shared/services/error/error.service";
-import { User } from "../../shared/model/user.data";
+import { Subscription} from "rxjs/Rx";
+import { Component } from "@angular/core";
 import { DataSet } from "../../shared/model/dataset.data";
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, ActivatedRoute } from "@angular/router";
 import { DashboardComponentResolver } from "./dashboard.resolver";
 
 @Component({
@@ -20,7 +14,7 @@ export class DashboardComponent {
     public subscription: Subscription;
     public isLoading: boolean;
 
-    constructor(private route: ActivatedRoute, private resolver: DashboardComponentResolver) {
+    constructor(private resolver: DashboardComponentResolver) {
     }
 
     ngOnInit() {

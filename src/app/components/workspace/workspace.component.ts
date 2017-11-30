@@ -4,18 +4,13 @@ import { Subscription } from "rxjs/Rx";
 import { Initiative } from "./../../shared/model/initiative.data";
 import { DataSet } from "./../../shared/model/dataset.data";
 import { Team } from "./../../shared/model/team.data";
-import { UserFactory } from "./../../shared/services/user.factory";
-import { TeamFactory } from "./../../shared/services/team.factory";
 import { EmitterService } from "./../../shared/services/emitter.service";
 import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { ViewChild } from "@angular/core";
 import { BuildingComponent } from "./../building/building.component";
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from "@angular/core";
-import { ActivatedRoute, Params } from "@angular/router";
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { ActivatedRoute} from "@angular/router";
 import { User } from "../../shared/model/user.data";
-import { Auth } from "../../shared/services/auth/auth.service";
-import { compact, sortBy } from "lodash";
-import { UserService } from "../../shared/services/user/user.service";
 
 @Component({
     selector: "workspace",
@@ -32,7 +27,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public isBuildingPanelCollapsed: boolean = true;
     public isDetailsPanelCollapsed: boolean = true;
     private datasetId: string;
-    private emitterSubscription: Subscription;
     private routeSubscription: Subscription;
     private userSubscription: Subscription;
 

@@ -2,16 +2,13 @@ import { MarkdownModule } from "angular2-markdown";
 import { AuthHttp } from "angular2-jwt";
 import { UserFactory } from "./../../shared/services/user.factory";
 import { RouterTestingModule } from "@angular/router/testing";
-import { Team } from "./../../shared/model/team.data";
 import { ErrorService } from "./../../shared/services/error/error.service";
 import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { TeamFactory } from "./../../shared/services/team.factory";
 import { User } from "./../../shared/model/user.data";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
-import { DebugElement } from "@angular/core"
 import { FormsModule } from "@angular/forms";
-import { By } from "@angular/platform-browser";
 import { InitiativeComponent } from "./initiative.component";
 import { Initiative } from "../../shared/model/initiative.data";
 import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
@@ -26,10 +23,7 @@ describe("initiative.component.ts", () => {
 
     let component: InitiativeComponent;
     let target: ComponentFixture<InitiativeComponent>;
-    let de: DebugElement;
-    let el: HTMLElement;
     let inputNode: Initiative;
-    let inputTeam: Team;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({

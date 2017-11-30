@@ -23,7 +23,7 @@ describe("mapping.tree.component.ts", () => {
     let component: MappingTreeComponent;
     let target: ComponentFixture<MappingTreeComponent>;
     let d3: D3;
-    let data$: Subject<{ initiative: Initiative, datasetId: string }> = new Subject<{ initiative: Initiative, datasetId: string }>();
+    // let data$: Subject<{ initiative: Initiative, datasetId: string }> = new Subject<{ initiative: Initiative, datasetId: string }>();
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({

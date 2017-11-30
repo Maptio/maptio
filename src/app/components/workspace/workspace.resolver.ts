@@ -1,11 +1,9 @@
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/router";
-import { Auth } from "../../shared/services/auth/auth.service";
 import { DatasetFactory } from "../../shared/services/dataset.factory";
 import { DataSet } from "../../shared/model/dataset.data";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Rx";
 import { TeamFactory } from "../../shared/services/team.factory";
-import { ErrorService } from "../../shared/services/error/error.service";
 import { User } from "../../shared/model/user.data";
 import { compact, sortBy } from "lodash";
 import { Team } from "../../shared/model/team.data";

@@ -1,9 +1,9 @@
-import { Router, ActivatedRouteSnapshot, ActivatedRoute } from "@angular/router";
+import { ActivatedRouteSnapshot, ActivatedRoute } from "@angular/router";
 import { Component, Input, Output, ViewChild, EventEmitter } from "@angular/core";
 import { TreeNode, TreeModel } from "angular-tree-component";
 import { Initiative } from "../../shared/model/initiative.data";
 import { InitiativeComponent } from "../initiative/initiative.component";
-import { Angulartics2Mixpanel , Angulartics2} from "angulartics2/dist";
+import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2/dist";
 
 @Component({
     selector: "initiative-node",
@@ -31,7 +31,7 @@ export class InitiativeNodeComponent {
 
     private snapshotRoute: ActivatedRouteSnapshot
 
-    constructor(private router: Router, private route: ActivatedRoute
+    constructor(private route: ActivatedRoute
     ) {
         this.snapshotRoute = route.snapshot;
     }

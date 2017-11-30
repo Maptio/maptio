@@ -3,7 +3,6 @@ import { MockBackend, MockConnection } from "@angular/http/testing";
 import { Http, BaseRequestOptions, RequestMethod, Response, ResponseOptions } from "@angular/http";
 import { TestBed, inject } from "@angular/core/testing";
 import { AuthConfiguration } from "./auth.config";
-import { WebAuth } from "auth0-js";
 
 
 describe("auth.config.ts", () => {

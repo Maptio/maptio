@@ -2,13 +2,13 @@ import { Observable, Subject } from "rxjs/Rx";
 import { Initiative } from "./../../../shared/model/initiative.data";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs/Subscription";
-import { Component, OnInit, Input, ViewEncapsulation, EventEmitter, Output, ChangeDetectorRef } from "@angular/core";
-import { D3Service, D3, HierarchyCircularNode, ScaleLinear, HSLColor, Transition } from "d3-ng2-service";
+import { Component,  ViewEncapsulation,  ChangeDetectorRef } from "@angular/core";
+import { D3Service, D3,  ScaleLinear, HSLColor } from "d3-ng2-service";
 import { ColorService } from "../../../shared/services/ui/color.service"
 import { UIService } from "../../../shared/services/ui/ui.service"
 import { IDataVisualizer } from "../mapping.interface"
 import { UserFactory } from "../../../shared/services/user.factory";
-import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
+import { Angulartics2Mixpanel} from "angulartics2";
 import { DataService } from "../../../shared/services/data.service";
 
 @Component({
@@ -55,7 +55,6 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
     public analytics: Angulartics2Mixpanel;
 
-    private counter: number = 0;
     private svg: any;
     private g: any;
     private definitions: any;
@@ -68,9 +67,6 @@ export class MappingCirclesComponent implements IDataVisualizer {
     public selectedNode: Initiative;
     public selectedNodeParent: Initiative;
     public hoveredNode: Initiative;
-
-    private cutNode: Initiative;
-    private cutNodeParent: Initiative;
 
     private draggedNode: Initiative;
     private dragTargetNode: Initiative;
@@ -117,12 +113,12 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
         this.uiService.clean();
         let d3 = this.d3;
-        let RATIO_FOR_VISIBILITY = this.RATIO_FOR_VISIBILITY;
-        let OPACITY_DISAPPEARING = this.OPACITY_DISAPPEARING;
+        // let RATIO_FOR_VISIBILITY = this.RATIO_FOR_VISIBILITY;
+        // let OPACITY_DISAPPEARING = this.OPACITY_DISAPPEARING;
 
         let svg: any = d3.select("svg"),
-            margin = this.margin,
-            diameter = +this.width,
+            // margin = this.margin,
+            // diameter = +this.width,
             g = svg.append("g").attr("transform", `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`),
             definitions = svg.append("svg:defs");
 
@@ -331,7 +327,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
         let d3 = this.d3;
         let svg = this.svg;
         let g = this.g;
-        let scale = this.scale;
+        // let scale = this.scale;
         let definitions = this.definitions;
         let diameter = this.width;
         let margin = this.margin;
@@ -342,8 +338,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
         let router = this.router;
         let uiService = this.uiService;
         let showDetailsOf$ = this.showDetailsOf$;
-        let addInitiative$ = this.addInitiative$;
-        let removeInitiative$ = this.removeInitiative$;
+        // let addInitiative$ = this.addInitiative$;
+        // let removeInitiative$ = this.removeInitiative$;
         let selectInitiative = this.selectInitiative.bind(this);
         let hoverInitiative = this.hoverInitiative.bind(this);
         // let isFirstEditing = this.isFirstEditing;
@@ -361,8 +357,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
         let slug = this.slug;
         let getIsLocked = this.getIsLocked.bind(this);
         let t = this.T;
-        let RATIO_FOR_VISIBILITY = this.RATIO_FOR_VISIBILITY;
-        let OPACITY_DISAPPEARING = this.OPACITY_DISAPPEARING;
+        // let RATIO_FOR_VISIBILITY = this.RATIO_FOR_VISIBILITY;
+        // let OPACITY_DISAPPEARING = this.OPACITY_DISAPPEARING;
 
         let pack = d3.pack()
             .size([diameter - margin, diameter - margin])
@@ -392,10 +388,10 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
         // }
 
-        this.setIsFirstEditing(false);
+        setIsFirstEditing(false);
 
         if (nodes.length === 1) {
-            this.setIsFirstEditing(true);
+            setIsFirstEditing(true);
         }
         svg.on("contextmenu", function () {
             d3.event.preventDefault();
@@ -430,13 +426,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
 
         selection.order();
-        let exit = selection
-            .exit()
-            .remove();
-
-
-
-
+        selection.exit().remove();
 
         g.selectAll("g.nodes")
             .call(
@@ -570,7 +560,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .classed("with-children", function (d: any) { return d.children && d !== root; })
             .classed("without-children", function (d: any) { return !d.children && d !== root; })
 
-        let tooltip = d3.select("div.tooltip-initiative");
+        // let tooltip = d3.select("div.tooltip-initiative");
 
         let joinWithChildren = g.selectAll("g.with-children").data(nodes.filter(function (d: any) { return d.children && d !== root; }))
 
@@ -773,41 +763,41 @@ export class MappingCirclesComponent implements IDataVisualizer {
             showDetailsOf$.next(d.data);
         }
 
-        function definePatterns() {
-            definitions.selectAll("pattern")
-                .data(nodes)
-                .enter().merge(definitions)
-                .filter(function (d: any) { return d.data.accountable })
-                .append("pattern")
-                .attr("id", function (d: any) { return "image" + d.data.id; })
-                .attr("width", "100%")
-                .attr("height", "100%")
-                .append("image")
-                .attr("width", CIRCLE_RADIUS * 2)
-                .attr("height", CIRCLE_RADIUS * 2)
-                .attr("xlink:href", function (d: any) {
-                    return d.data.accountable.picture;
-                });
+        // function definePatterns() {
+        //     definitions.selectAll("pattern")
+        //         .data(nodes)
+        //         .enter().merge(definitions)
+        //         .filter(function (d: any) { return d.data.accountable })
+        //         .append("pattern")
+        //         .attr("id", function (d: any) { return "image" + d.data.id; })
+        //         .attr("width", "100%")
+        //         .attr("height", "100%")
+        //         .append("image")
+        //         .attr("width", CIRCLE_RADIUS * 2)
+        //         .attr("height", CIRCLE_RADIUS * 2)
+        //         .attr("xlink:href", function (d: any) {
+        //             return d.data.accountable.picture;
+        //         });
 
-            definitions
-                .append("pattern")
-                .attr("id", "add-icon")
-                .attr("width", "100%")
-                .attr("height", "100%")
-                .append("image")
-                .attr("width", CIRCLE_RADIUS)
-                .attr("height", CIRCLE_RADIUS)
-                .attr("xlink:href", "/assets/images/plus.png")
+        //     definitions
+        //         .append("pattern")
+        //         .attr("id", "add-icon")
+        //         .attr("width", "100%")
+        //         .attr("height", "100%")
+        //         .append("image")
+        //         .attr("width", CIRCLE_RADIUS)
+        //         .attr("height", CIRCLE_RADIUS)
+        //         .attr("xlink:href", "/assets/images/plus.png")
 
-            definitions
-                .append("pattern")
-                .attr("id", "remove-icon")
-                .attr("width", "100%")
-                .attr("height", "100%")
-                .append("image")
-                .attr("width", CIRCLE_RADIUS)
-                .attr("height", CIRCLE_RADIUS)
-                .attr("xlink:href", "/assets/images/minus.png")
-        }
+        //     definitions
+        //         .append("pattern")
+        //         .attr("id", "remove-icon")
+        //         .attr("width", "100%")
+        //         .attr("height", "100%")
+        //         .append("image")
+        //         .attr("width", CIRCLE_RADIUS)
+        //         .attr("height", CIRCLE_RADIUS)
+        //         .attr("xlink:href", "/assets/images/minus.png")
+        // }
     }
 }

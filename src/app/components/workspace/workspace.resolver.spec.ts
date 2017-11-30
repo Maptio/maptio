@@ -1,10 +1,9 @@
 
-import { TestBed, inject, async, fakeAsync } from "@angular/core/testing";
+import { TestBed, inject, fakeAsync } from "@angular/core/testing";
 import { Auth } from "../../shared/services/auth/auth.service";
 import { TeamFactory } from "../../shared/services/team.factory";
 import { DatasetFactory } from "../../shared/services/dataset.factory";
 import { User } from "../../shared/model/user.data";
-import { Observable } from "rxjs/Rx";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { MockBackend } from "@angular/http/testing";
 import { AuthConfiguration } from "../../shared/services/auth/auth.config";
@@ -14,7 +13,7 @@ import { UserService } from "../../shared/services/user/user.service";
 import { MailingService } from "../../shared/services/mailing/mailing.service";
 import { JwtEncoder } from "../../shared/services/encoding/jwt.service";
 import { UserFactory } from "../../shared/services/user.factory";
-import { Router, ActivatedRouteSnapshot, Params } from "@angular/router";
+import { ActivatedRouteSnapshot} from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { LoaderService } from "../../shared/services/loading/loader.service";
 import { Angulartics2Module, Angulartics2, Angulartics2Mixpanel } from "angulartics2";

@@ -10,8 +10,6 @@ import { TestBed } from "@angular/core/testing";
 import { ComponentFixture, async } from "@angular/core/testing";
 import { LoaderService } from "./../../shared/services/loading/loader.service";
 import { Router } from "@angular/router";
-import { Auth } from "../../shared/services/auth/auth.service";
-import { User } from "../../shared/model/user.data";
 import { MockBackend } from "@angular/http/testing";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 

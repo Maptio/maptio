@@ -1,5 +1,4 @@
 import { User } from "./user.data";
-import { Serializable } from "../interfaces/serializable.interface";
 import { Role } from "./role.data";
 
 

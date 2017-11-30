@@ -1,5 +1,5 @@
 import { environment } from "./../../../environment/environment";
-import { Component, OnInit } from "@angular/core";
+import { Component} from "@angular/core";
 
 @Component({
     selector: "footer",

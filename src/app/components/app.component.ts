@@ -1,15 +1,11 @@
 import { Subscription } from "rxjs/Subscription";
-import { Observable, Subject } from "rxjs/Rx";
 import { LoaderService } from "./../shared/services/loading/loader.service";
-import { EmitterService } from "../shared/services/emitter.service";
-import { Router, NavigationStart, NavigationEnd, NavigationCancel, ActivatedRouteSnapshot, ActivatedRoute, UrlSegment, NavigationError } from "@angular/router";
+import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from "@angular/router";
 import {
   Component,
-  OnInit, AfterViewInit,
   ViewChild
 } from "@angular/core";
 import { HelpComponent } from "../components/help/help.component";
-import { DataSet } from "../shared/model/dataset.data"
 import "rxjs/add/operator/map"
 import { Auth } from "../shared/services/auth/auth.service";
 @Component({

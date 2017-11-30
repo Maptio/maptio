@@ -1,10 +1,6 @@
-import { environment } from "./../../../environment/environment";
 import { repeatValidator } from "./../../shared/directives/equal-validator.directive";
 import { LoaderService } from "./../../shared/services/loading/loader.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
-import { UserFactory } from "./../../shared/services/user.factory";
-import { Auth } from "./../../shared/services/auth/auth.service";
 import { Component, OnInit } from "@angular/core";
 import { User } from "../../shared/model/user.data";
 import { UserService } from "../../shared/services/user/user.service";
@@ -36,7 +32,7 @@ export class SignupComponent implements OnInit {
 
     public signupForm: FormGroup;
 
-    constructor(private userService: UserService, private router: Router, private loader: LoaderService, private analytics: Angulartics2Mixpanel) {
+    constructor(private userService: UserService, private loader: LoaderService, private analytics: Angulartics2Mixpanel) {
         this.signupForm = new FormGroup({
             "firstname": new FormControl(this.firstname, [
                 Validators.required,

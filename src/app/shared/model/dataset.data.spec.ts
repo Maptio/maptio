@@ -1,9 +1,6 @@
 import { DataSet } from "./dataset.data";
 
 describe("Dataset Tests", () => {
-    let dataset: DataSet;
-
-    let NAME: string = "name";
 
     beforeEach(() => {
     });

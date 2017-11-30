@@ -1,19 +1,14 @@
-import { MarkdownService, MarkdownModule } from "angular2-markdown";
-import { DataSet } from "./../../../shared/model/dataset.data";
+import { MarkdownModule } from "angular2-markdown";
 import { UserFactory } from "./../../../shared/services/user.factory";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { AuthHttp } from "angular2-jwt";
 import { DatasetFactory } from "./../../../shared/services/dataset.factory";
 import { MemberSummaryComponent } from "./member-summary.component";
-import { AuthConfiguration } from "./../../../shared/services/auth/auth.config";
 import { Auth } from "./../../../shared/services/auth/auth.service";
 import { Observable, Subject } from "rxjs/Rx";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 // import { TooltipComponent } from "./../tooltip/tooltip.component";
 import { Initiative } from "./../../../shared/model/initiative.data";
-import { UIService } from "./../../../shared/services/ui/ui.service";
-import { ColorService } from "./../../../shared/services/ui/color.service";
-import { D3Service, D3 } from "d3-ng2-service";
 import { TestBed, async, ComponentFixture } from "@angular/core/testing";
 import { User } from "../../../shared/model/user.data";
 import { TeamFactory } from "../../../shared/services/team.factory";
@@ -106,9 +101,9 @@ describe("member-summary.component.ts", () => {
     it("should gather user data based on URL", async(() => {
         // let initiative = new Initiative().deserialize(fixture.load("data.json"));
 
-        let mockRoute: ActivatedRoute = target.debugElement.injector.get(ActivatedRoute);
+        // let mockRoute: ActivatedRoute = target.debugElement.injector.get(ActivatedRoute);
         let mockUserFactory = target.debugElement.injector.get(UserFactory);
-        let mockDatasetFactory = target.debugElement.injector.get(DatasetFactory);
+        // let mockDatasetFactory = target.debugElement.injector.get(DatasetFactory);
 
         let spyGetUser = spyOn(mockUserFactory, "get").and.returnValue(Promise.resolve(new User({ user_id: "some_user_id" })))
         // let spyGetDataset = spyOn(mockDatasetFactory, "get").and.returnValue(Promise.resolve(new DataSet({ _id: "123", initiative: initiative })))
