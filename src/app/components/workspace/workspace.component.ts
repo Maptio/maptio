@@ -4,18 +4,13 @@ import { Subscription } from "rxjs/Rx";
 import { Initiative } from "./../../shared/model/initiative.data";
 import { DataSet } from "./../../shared/model/dataset.data";
 import { Team } from "./../../shared/model/team.data";
-import { UserFactory } from "./../../shared/services/user.factory";
-import { TeamFactory } from "./../../shared/services/team.factory";
 import { EmitterService } from "./../../shared/services/emitter.service";
 import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { ViewChild } from "@angular/core";
 import { BuildingComponent } from "./../building/building.component";
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from "@angular/core";
-import { ActivatedRoute, Params } from "@angular/router";
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { ActivatedRoute} from "@angular/router";
 import { User } from "../../shared/model/user.data";
-import { Auth } from "../../shared/services/auth/auth.service";
-import { compact, sortBy } from "lodash";
-import { UserService } from "../../shared/services/user/user.service";
 
 @Component({
     selector: "workspace",
@@ -32,14 +27,13 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public isBuildingPanelCollapsed: boolean = true;
     public isDetailsPanelCollapsed: boolean = true;
     private datasetId: string;
-    private emitterSubscription: Subscription;
     private routeSubscription: Subscription;
     private userSubscription: Subscription;
 
-    public dataset$: Promise<DataSet>;
-    public members: Promise<Array<User>>;
-    public team$: Promise<Team>;
-    public teams$: Promise<Team[]>;
+    public dataset: DataSet;
+    public members: Array<User>;
+    public team: Team;
+    public teams: Team[];
 
     public openedNode: Initiative;
     public openedNodeParent: Initiative;
@@ -52,9 +46,9 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     @ViewChild("dragConfirmation")
     dragConfirmationModal: NgbModal;
 
-    constructor(private auth: Auth, private route: ActivatedRoute, private datasetFactory: DatasetFactory, private dataService: DataService,
-        private teamFactory: TeamFactory, private userFactory: UserFactory, private userService: UserService, private modalService: NgbModal) {
-    }
+    // constructor(private auth: Auth, private route: ActivatedRoute, private datasetFactory: DatasetFactory, private dataService: DataService,
+    //     private teamFactory: TeamFactory, private userFactory: UserFactory, private userService: UserService, private modalService: NgbModal) {
+    // }
 
     ngOnDestroy(): void {
         EmitterService.get("currentDataset").emit(undefined)
@@ -62,55 +56,22 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         if (this.userSubscription) this.userSubscription.unsubscribe();
     }
 
+    constructor(private route: ActivatedRoute, private datasetFactory: DatasetFactory, private dataService: DataService) {
+    }
+
     ngOnInit() {
-        this.routeSubscription = this.route.params.subscribe((params: Params) => {
-            this.datasetId = params["mapid"];
 
-            this.dataset$ = this.datasetFactory.get(this.datasetId).then((d: DataSet) => {
-                EmitterService.get("currentDataset").emit(d)
-                return d;
+        this.routeSubscription = this.route.data
+            .subscribe((data: { data: { dataset: DataSet, team: Team, members: User[] } }) => {
+                this.dataset = data.data.dataset;
+                this.team = data.data.team;
+                this.members = data.data.members;
+                this.datasetId = this.dataset._id;
+                this.teamName = this.team.name;
+                this.teamId = this.team.team_id;
+                EmitterService.get("currentDataset").emit(this.dataset);
+                this.buildingComponent.loadData(this.dataset._id, "", this.team.name, this.team.team_id)
             });
-
-            this.dataset$.then(d => {
-
-            })
-
-            this.team$ = this.dataset$.then((dataset: DataSet) => {
-                return this.teamFactory.get(dataset.initiative.team_id)
-                    .then(
-                    t => {
-                        this.teamName = t.name;
-                        this.teamId = t.team_id;
-                        return t
-                    },
-                    () => { return Promise.reject("No team") }).catch(() => { })
-            });
-
-            this.members = this.team$.then((team: Team) => {
-                if (team)
-                    return this.userFactory.getUsers(team.members.map(m => m.user_id))
-                        .then(members => compact(members))
-                        .then(members => sortBy(members, m => m.name))
-            });
-
-            this.team$.then((team: Team) => {
-                this.buildingComponent.loadData(this.datasetId, params["nodeid"], this.teamName, this.teamId) // .then(()=>{console.log("finished buioding data")});
-
-            })
-
-        });
-
-        this.userSubscription = this.auth.getUser().subscribe((user: User) => {
-            this.teams$ = Promise.all(
-                user.teams.map(
-                    (team_id: string) => this.teamFactory.get(team_id).then((team: Team) => { return team }, () => { return Promise.reject("No team") }).catch(() => { return undefined })
-                )
-            ).then((teams: Team[]) => {
-                return teams.filter(t => { return t !== undefined })
-            })
-
-        })
-
     }
 
     saveDetailChanges() {
@@ -154,15 +115,15 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     // }
 
-    updateTeamMembers() {
-        this.isBuildingPanelCollapsed = true;
-        this.isDetailsPanelCollapsed = true;
-        this.members = this.team$
-            .then((team: Team) => {
-                if (team)
-                    return team.members;
-            });
-    }
+    // updateTeamMembers() {
+    //     this.isBuildingPanelCollapsed = true;
+    //     this.isDetailsPanelCollapsed = true;
+    //     this.members = this.team$
+    //         .then((team: Team) => {
+    //             if (team)
+    //                 return team.members;
+    //         });
+    // }
 
     toggleBuildingPanel() {
         this.isBuildingPanelCollapsed = !this.isBuildingPanelCollapsed;
@@ -175,17 +136,17 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     openDetails(node: Initiative, willCloseBuildingPanel: boolean = false) {
         // console.log(node)
-        Promise.all([this.dataset$, this.team$])
-            .then((result: [DataSet, Team]) => {
-                let dataset = result[0]
-                let team = result[1];
-                this.openedNodeParent = node.getParent(dataset.initiative);
-                this.openedNode = node;
-            })
-            .then(() => {
-                this.isBuildingPanelCollapsed = willCloseBuildingPanel;
-                this.isDetailsPanelCollapsed = false;
-            })
+        // Promise.all([this.dataset$, this.team$])
+        //     .then((result: [DataSet, Team]) => {
+        //         let dataset = result[0]
+        //         let team = result[1];
+        this.openedNodeParent = node.getParent(this.dataset.initiative);
+        this.openedNode = node;
+        // })
+        // .then(() => {
+        this.isBuildingPanelCollapsed = willCloseBuildingPanel;
+        this.isDetailsPanelCollapsed = false;
+        // })
     }
 
     addInitiative(node: Initiative) {
@@ -203,13 +164,9 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.buildingComponent.moveNode(node, from, to);
     }
 
-    closeEditingPanel(close: boolean) {
-        console.log(this.isDetailsPanelCollapsed);
-        this.isDetailsPanelCollapsed = !this.isDetailsPanelCollapsed;
-        // if (!this.isDetailsPanelCollapsed ) {
-        //     this.isBuildingPanelCollapsed = true;
-        //     this.isDetailsPanelCollapsed = true;
-        // }
+    closeEditingPanel() {
+        this.isDetailsPanelCollapsed = true;
+        this.isBuildingPanelCollapsed = true;
     }
 
 }

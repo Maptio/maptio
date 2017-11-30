@@ -8,12 +8,10 @@ import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { DataService } from "./../../shared/services/data.service";
 import { Initiative } from "./../../shared/model/initiative.data";
 import { TeamFactory } from "./../../shared/services/team.factory";
-import { EmitterService } from "./../../shared/services/emitter.service";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
-import { NO_ERRORS_SCHEMA, EventEmitter } from "@angular/core"
-import { By } from "@angular/platform-browser";
+import { NO_ERRORS_SCHEMA,  } from "@angular/core"
 import { BuildingComponent } from "./building.component";
-import { TreeComponent, TreeDraggedElement, TreeModule, TreeModel } from "angular-tree-component";
+import { TreeComponent, TreeDraggedElement,  TreeModel } from "angular-tree-component";
 import { FocusIfDirective } from "../..//shared/directives/focusif.directive"
 import { ErrorService } from "../../shared/services/error/error.service";
 import { MockBackend } from "@angular/http/testing";

@@ -23,7 +23,6 @@ describe("account.component.ts", () => {
     let component: AccountComponent;
     let target: ComponentFixture<AccountComponent>;
     let user$: Subject<User> = new Subject<User>();
-    let AuthStub;
 
     beforeEach(async(() => {
 

@@ -1,8 +1,5 @@
 import { Http } from "@angular/http";
-// import { AuthHttp } from "angular2-jwt";
 import { Injectable } from "@angular/core";
-import * as jwt from "jsonwebtoken";
-import { ErrorService } from "../error/error.service";
 
 
 @Injectable()

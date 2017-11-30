@@ -62,7 +62,7 @@ if (!isDevelopment) {
         'cdn.mxpnl.com', 'cdn4.mxpnl.com',
         'www.google-analytics.com', 'mixpanel.com', 'widget.intercom.io', 'https://app.intercom.io',
         'https://js.intercomcdn.com', 'https://fullstory.com'],
-      fontSrc: ['maxcdn.bootstrapcdn.com', 'cdn.mixpnl.com', 'https://js.intercomcdn.com'],
+      fontSrc: ["'self'",'maxcdn.bootstrapcdn.com', 'cdn.mixpnl.com', 'https://js.intercomcdn.com'],
       connectSrc: ["'self'", 'api.mixpanel.com', 'api.cloudinary.com', 'circlemapping.auth0.com', 'www.google-analytics.com', 'mixpanel.com', 'https://api.intercom.io', 'https://api-iam.intercom.io',
         'https://api-ping.intercom.io',
         'https://nexus-websocket-a.intercom.io',

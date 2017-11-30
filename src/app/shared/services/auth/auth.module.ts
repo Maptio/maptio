@@ -1,5 +1,5 @@
 import { Router } from "@angular/router";
-import { NgModule, Injector } from "@angular/core";
+import { NgModule } from "@angular/core";
 import { Http, RequestOptions } from "@angular/http";
 import { AuthHttp, AuthConfig } from "angular2-jwt";
 import { AuthHttpInterceptor } from "./authHttpInterceptor";

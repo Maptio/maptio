@@ -13,7 +13,6 @@ import { ComponentFixture, async } from "@angular/core/testing";
 import { LoaderService } from "./../../shared/services/loading/loader.service";
 import { Router, NavigationStart } from "@angular/router";
 import { SignupComponent } from "./signup.component";
-import { Auth } from "../../shared/services/auth/auth.service";
 import { User } from "../../shared/model/user.data";
 import { JwtEncoder } from "../../shared/services/encoding/jwt.service";
 import { AuthHttp } from "angular2-jwt/angular2-jwt";
@@ -183,7 +182,7 @@ describe("signup.component.ts", () => {
             let spyEmailExists = spyOn(component, "isEmailExist").and.returnValue(Promise.resolve(false));
             let spyActivationPending = spyOn(component, "isActivationPending").and.returnValue(Promise.resolve({ isActivationPending: false, userToken: "token" }));
             let spyCreateUser = spyOn(mockUserService, "createUser").and.returnValue(Promise.reject("Account creation failed"))
-            let spySendConfirmation = spyOn(mockUserService, "sendConfirmation").and.returnValue(Promise.resolve(true))
+            spyOn(mockUserService, "sendConfirmation").and.returnValue(Promise.resolve(true))
 
             component.createAccount();
 
@@ -248,7 +247,7 @@ describe("signup.component.ts", () => {
         it("returns correct values if user exists and activation is pending", async(() => {
             let mockUserService = target.debugElement.injector.get(UserService);
             let spy = spyOn(mockUserService, "isActivationPendingByEmail").and.returnValue(Promise.resolve({ isActivationPending: true, user_id: "some_random_id" }))
-            let spyGenerateToken = spyOn(mockUserService, "generateUserToken").and.returnValue(Promise.resolve("some_token"))
+            spyOn(mockUserService, "generateUserToken").and.returnValue(Promise.resolve("some_token"))
             component.isActivationPending("exist@company.com", "iam", "here").then(({ isActivationPending, userToken }) => {
                 expect(isActivationPending).toBeTruthy()
                 expect(userToken).toBe("some_token")
@@ -259,7 +258,7 @@ describe("signup.component.ts", () => {
         it("returns correct values if user exists and activation is pending", async(() => {
             let mockUserService = target.debugElement.injector.get(UserService);
             let spy = spyOn(mockUserService, "isActivationPendingByEmail").and.returnValue(Promise.resolve({ isActivationPending: false, user_id: "some_random_id" }))
-            let spyGenerateToken = spyOn(mockUserService, "generateUserToken").and.returnValue(Promise.resolve("some_token"))
+            spyOn(mockUserService, "generateUserToken").and.returnValue(Promise.resolve("some_token"))
             component.isActivationPending("exist@company.com", "iam", "here").then(({ isActivationPending, userToken }) => {
                 expect(isActivationPending).toBeFalsy();
                 expect(userToken).toBe("some_token")

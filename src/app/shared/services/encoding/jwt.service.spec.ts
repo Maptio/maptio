@@ -57,8 +57,6 @@ describe("jwt.service.ts", () => {
             }
         });
 
-        let payload = { data: "some randow data" }
-
         target.decode("abcdefghijklmn").then((payload) => {
             expect(payload.data).toBe("some randow data")
         })

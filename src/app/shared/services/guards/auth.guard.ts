@@ -1,4 +1,3 @@
-import { User } from "./../../model/user.data";
 import { Injectable } from "@angular/core";
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, CanActivateChild } from "@angular/router";
 import { Auth } from "../auth/auth.service";

@@ -11,7 +11,7 @@ import { Router } from "@angular/router";
 import { EmitterService } from "./../../shared/services/emitter.service";
 import { UserFactory } from "./../../shared/services/user.factory";
 import { HeaderComponent } from "./header.component";
-import { ComponentFixture, TestBed, async, fakeAsync } from "@angular/core/testing";
+import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
 import { DatasetFactory } from "../../shared/services/dataset.factory";
 import { ErrorService } from "../../shared/services/error/error.service";
@@ -19,10 +19,9 @@ import { Auth } from "../../shared/services/auth/auth.service";
 import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { User } from "../../shared/model/user.data";
-import { Observable, Subject } from "rxjs/Rx";
+import {Subject } from "rxjs/Rx";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
-import { Team } from "../../shared/model/team.data";
 import { RouterTestingModule } from "@angular/router/testing";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 import { JwtEncoder } from "../../shared/services/encoding/jwt.service";
@@ -32,9 +31,6 @@ describe("header.component.ts", () => {
 
     let component: HeaderComponent;
     let target: ComponentFixture<HeaderComponent>;
-    let TEAMS = [new Team({ name: "Team one", team_id: "1" }), new Team({ name: "Team two", team_id: "2" })]
-    let spyDataSetService: jasmine.Spy;
-    let spyAuthService: jasmine.Spy;
     let user$: Subject<User> = new Subject<User>();
 
     beforeEach(async(() => {
@@ -82,10 +78,11 @@ describe("header.component.ts", () => {
     });
 
     it("should load user's datasets when all load", async(() => {
+        component.ngOnInit();
         let mockDataSetFactory = target.debugElement.injector.get(DatasetFactory);
-        let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
+        target.debugElement.injector.get(TeamFactory);
 
-        let spyGetDataSet = spyOn(mockDataSetFactory, "get").and.callFake((id: string) => {
+        spyOn(mockDataSetFactory, "get").and.callFake((id: string) => {
             return Promise.resolve(new DataSet({ _id: id, initiative: new Initiative({ name: `Name ${id}`, team_id: `team_${id}` }) }))
         })
 
@@ -104,10 +101,11 @@ describe("header.component.ts", () => {
     }));
 
     it("should load user's datasets when some fail", async(() => {
+        component.ngOnInit();
         let mockDataSetFactory = target.debugElement.injector.get(DatasetFactory);
-        let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
+        target.debugElement.injector.get(TeamFactory);
 
-        let spyGetDataSet = spyOn(mockDataSetFactory, "get").and.callFake((id: string) => {
+        spyOn(mockDataSetFactory, "get").and.callFake((id: string) => {
             return (Number.parseInt(id) % 2)
                 ? Promise.resolve(new DataSet({ _id: id, initiative: new Initiative({ name: `Name ${id}`, team_id: `team_${id}` }) }))
                 : Promise.reject("Something went wrong")
@@ -130,6 +128,7 @@ describe("header.component.ts", () => {
     }));
 
     it("should get rid of subscription on destroy", () => {
+        component.ngOnInit();
         let spyEmitter = spyOn(component.emitterSubscription, "unsubscribe");
         let spyUser = spyOn(component.userSubscription, "unsubscribe")
         target.destroy();
@@ -164,7 +163,7 @@ describe("header.component.ts", () => {
 
                 target.detectChanges();
 
-                let imgElement = target.debugElement.query(By.css("li#profileInformation a div img")).nativeElement as HTMLImageElement;
+                // let imgElement = target.debugElement.query(By.css("li#profileInformation a div img")).nativeElement as HTMLImageElement;
                 // expect(imgElement.src).toBe("http://seemyface.com/user.jpg");
 
                 let button = target.debugElement.queryAll(By.css("a#logoutButton"));
@@ -174,7 +173,7 @@ describe("header.component.ts", () => {
 
             it("should call authenticate.logout()  when LogOut button is clicked", () => {
                 let mockAuth = target.debugElement.injector.get(Auth);
-                let mockRouter = target.debugElement.injector.get(Router);
+                // let mockRouter = target.debugElement.injector.get(Router);
                 let spyAuthService = spyOn(mockAuth, "allAuthenticated").and.returnValue(true);
                 let spyLogOut = spyOn(mockAuth, "logout");
 

@@ -1,38 +1,34 @@
 import { Initiative } from "./../../shared/model/initiative.data";
 // import { MappingNetworkComponent } from "./network/mapping.network.component";
-import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
+import { Angulartics2Mixpanel } from "angulartics2";
 
-import { ActivatedRoute, Params, UrlSegment } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import {
-    Component,
-    AfterViewInit, EventEmitter,
-    ViewChild, ViewContainerRef, ComponentFactoryResolver, ElementRef,
-    OnInit,
-    ChangeDetectionStrategy, ChangeDetectorRef, ComponentRef, ComponentFactory, Input, Output
+    Component, EventEmitter,
+    ViewChild, ElementRef,
+    ChangeDetectionStrategy, ChangeDetectorRef, ComponentFactory, Output
 } from "@angular/core";
 
 import { DataService } from "../../shared/services/data.service"
-import { Views } from "../../shared/model/view.enum"
 import { IDataVisualizer } from "./mapping.interface"
 import { MappingCirclesComponent } from "./circles/mapping.circles.component"
 import { MappingTreeComponent } from "./tree/mapping.tree.component"
-import { AnchorDirective } from "../../shared/directives/anchor.directive"
 
 import "rxjs/add/operator/map"
-import { EmitterService } from "../../shared/services/emitter.service";
-import { Subject, BehaviorSubject, Subscription, Observable } from "rxjs/Rx";
+import { Subject, BehaviorSubject, Subscription, } from "rxjs/Rx";
 import { MappingNetworkComponent } from "./network/mapping.network.component";
+import { MemberSummaryComponent } from "./member-summary/member-summary.component";
 
 @Component({
     selector: "mapping",
     templateUrl: "./mapping.component.html",
     styleUrls: ["./mapping.component.css"],
-    entryComponents: [MappingCirclesComponent, MappingTreeComponent, MappingNetworkComponent],
+    entryComponents: [MappingCirclesComponent, MappingTreeComponent, MappingNetworkComponent, MemberSummaryComponent],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 
-export class MappingComponent implements OnInit {
+export class MappingComponent {
 
     PLACEMENT: string = "left"
     TOGGLE: string = "tooltip"
@@ -42,7 +38,7 @@ export class MappingComponent implements OnInit {
     TOOLTIP_ZOOM_OUT: string = "Zoom out";
     TOOLTIP_ZOOM_FIT: string = "Zoom fit";
 
-    public data: { initiative: Initiative, datasetId: string };
+    public data: { initiative: Initiative, datasetId: string, teamName: string, teamId: string };
     public x: number;
     public y: number;
     public scale: number;
@@ -51,10 +47,11 @@ export class MappingComponent implements OnInit {
     public isCollapsed: boolean = true;
 
     public zoom$: Subject<number>;
+    public isReset$: Subject<boolean>;
     private VIEWPORT_WIDTH: number = 1522;
     private VIEWPORT_HEIGHT: number = 1522;
 
-    public isLoading: Subject<boolean>;
+    public isLoading: boolean;
     public datasetId: string;
     public teamName: string;
     public teamId: string;
@@ -72,7 +69,7 @@ export class MappingComponent implements OnInit {
     @Output("moveInitiative") moveInitiative = new EventEmitter<{ node: Initiative, from: Initiative, to: Initiative }>();
     @Output("closeEditingPanel") closeEditingPanel = new EventEmitter<boolean>();
 
-    @ViewChild(AnchorDirective) anchorComponent: AnchorDirective;
+    // @ViewChild(AnchorDirective) anchorComponent: AnchorDirective;
 
     @ViewChild("drawing")
     public element: ElementRef;
@@ -84,71 +81,84 @@ export class MappingComponent implements OnInit {
 
     constructor(
         private dataService: DataService,
-        private viewContainer: ViewContainerRef,
-        private componentFactoryResolver: ComponentFactoryResolver,
+        // private viewContainer: ViewContainerRef,
+        // private componentFactoryResolver: ComponentFactoryResolver,
         private cd: ChangeDetectorRef,
         private route: ActivatedRoute,
         private analytics: Angulartics2Mixpanel
     ) {
         this.zoom$ = new Subject<number>();
+        this.isReset$ = new Subject<boolean>();
         this.fontSize$ = new BehaviorSubject<number>(16);
         this.isLocked$ = new BehaviorSubject<boolean>(this.isLocked);
         this.closeEditingPanel$ = new BehaviorSubject<boolean>(false);
-        this.isLoading = new BehaviorSubject<boolean>(true);
         this.data$ = new Subject<{ initiative: Initiative, datasetId: string }>();
     }
 
     ngAfterViewInit() {
     }
 
+    onActivate(component: IDataVisualizer) {
+        component.showDetailsOf$.asObservable().subscribe(node => {
+            this.showDetails.emit(node)
+        })
+        component.addInitiative$.asObservable().subscribe(node => {
+            this.addInitiative.emit(node)
+        })
+        component.removeInitiative$.asObservable().subscribe(node => {
+            this.removeInitiative.emit(node)
+        })
+        component.moveInitiative$.asObservable().subscribe(({ node: node, from: from, to: to }) => {
+            this.moveInitiative.emit({ node: node, from: from, to: to })
+        })
+        component.closeEditingPanel$.asObservable().subscribe((close: boolean) => {
+            this.closeEditingPanel.emit(true);
+        })
+
+        let f = this.route.snapshot.fragment || this.getFragment(component);
+        this.x = Number.parseFloat(f.split("&")[0].replace("x=", ""))
+        this.y = Number.parseFloat(f.split("&")[1].replace("y=", ""))
+        this.scale = Number.parseFloat(f.split("&")[2].replace("scale=", ""));
+
+        this.layout = this.getLayout(component);
+
+        component.width = this.VIEWPORT_WIDTH;
+        component.height = this.VIEWPORT_HEIGHT;
+
+        component.margin = 50;
+        component.zoom$ = this.zoom$.asObservable();
+        component.fontSize$ = this.fontSize$.asObservable();
+        component.isLocked$ = this.isLocked$.asObservable();
+        component.translateX = this.x;
+        component.translateY = this.y;
+        component.scale = this.scale;
+        component.analytics = this.analytics;
+        component.isReset$ = this.isReset$.asObservable();
+        if (component.constructor === MemberSummaryComponent) {
+            component.closeEditingPanel$.next(true)
+        }
+    }
+
+    onDeactivate(component: any) {
+
+    }
+
     ngOnInit() {
-        this.isLoading.next(true);
 
         this.subscription = this.route.params
-            .map(params => {
-                this.layout = params["layout"];
+            .do(params => {
+                this.datasetId = params["mapid"];
+                this.slug = params["mapslug"];
                 this.cd.markForCheck();
-                this.analytics.eventTrack("Map", { view: this.layout, team: this.teamName, teamId: this.teamId });
-
-                return this.layout
-            })
-            .do(layout => {
-                this.isLoading.next(true);
-
-                this.componentFactory = this.getComponentFactory(layout);
-                let component = this.anchorComponent.createComponent<IDataVisualizer>(this.componentFactory);
-                this.instance = this.getInstance(component);
-            })
-            .withLatestFrom(this.route.fragment)
-            .do(([layout, fragment]: [string, string]) => {
-                this.isLoading.next(true);
-                let f = fragment || this.getFragment(this.layout);
-                this.x = Number.parseFloat(f.split("&")[0].replace("x=", ""))
-                this.y = Number.parseFloat(f.split("&")[1].replace("y=", ""))
-                this.scale = Number.parseFloat(f.split("&")[2].replace("scale=", ""));
-
-                this.setup();
             })
             .combineLatest(this.dataService.get())
             .map(data => data[1])
-            .do((data) => {
-                this.datasetId = data.datasetId;
-                this.teamId = data.teamId;
-                this.teamName = data.teamName;
-                this.slug = data.initiative.getSlug();
-                this.isLoading.next(false);
-            })
             .subscribe((data) => {
-                // until the initiave has some children, we leve it in lock mode
                 if (!data.initiative.children || !data.initiative.children[0] || !data.initiative.children[0].children) {
                     this.lock(false);
                     this.cd.markForCheck();
                 }
-                this.instance.teamId = data.teamId;
-                this.instance.teamName = data.teamName;
-                this.instance.data$.next(data);
             })
-
     }
 
     ngOnDestroy() {
@@ -156,70 +166,35 @@ export class MappingComponent implements OnInit {
             this.subscription.unsubscribe();
     }
 
-    getFragment(layout: string) {
-        switch (layout) {
-            case "initiatives":
+    getFragment(component: IDataVisualizer) {
+        switch (component.constructor) {
+            case MappingCirclesComponent:
                 return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`
-            case "people":
+            case MappingTreeComponent:
                 return `x=100&y=${this.VIEWPORT_HEIGHT / 4}&scale=1`
-            case "connections":
+            case MappingNetworkComponent:
                 return `x=0&y=${-this.VIEWPORT_HEIGHT / 4}&scale=1`
+            case MemberSummaryComponent:
+                return `x=0&y=0&scale=1`;
             default:
                 return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`
         }
     }
 
-    getComponentFactory(layout: string) {
-        switch (layout) {
-            case "initiatives":
-                return this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent);
-            case "people":
-                return this.componentFactoryResolver.resolveComponentFactory(MappingTreeComponent);
-            case "connections":
-                return this.componentFactoryResolver.resolveComponentFactory(MappingNetworkComponent);
+    getLayout(component: IDataVisualizer) {
+        switch (component.constructor) {
+            case MappingCirclesComponent:
+                return `initiatives`
+            case MappingTreeComponent:
+                return `people`
+            case MappingNetworkComponent:
+                return `connections`
+            case MemberSummaryComponent:
+                return `list`
             default:
-                return this.componentFactoryResolver.resolveComponentFactory(MappingCirclesComponent);
+                return `initiatives`
         }
     }
-
-    getInstance(component: ComponentRef<IDataVisualizer>): IDataVisualizer {
-        return component.instance;
-    }
-
-    setup() {
-        this.instance.showDetailsOf$.asObservable().subscribe(node => {
-            this.showDetails.emit(node)
-        })
-        this.instance.addInitiative$.asObservable().subscribe(node => {
-            // console.log("mapping.component.ts", "adding initiative under", node.name)
-            this.addInitiative.emit(node)
-        })
-        this.instance.removeInitiative$.asObservable().subscribe(node => {
-            // console.log("mapping.component.ts", "remove initiative", node.name)
-            this.removeInitiative.emit(node)
-        })
-        this.instance.moveInitiative$.asObservable().subscribe(({ node: node, from: from, to: to }) => {
-            // console.log("mapping.component.ts", "move initiative", node.name, to.name)
-            this.moveInitiative.emit({ node: node, from: from, to: to })
-        })
-        this.instance.closeEditingPanel$.asObservable().subscribe((close: boolean) => {
-            this.closeEditingPanel.emit(true);
-        })
-
-        this.instance.width = this.VIEWPORT_WIDTH;
-        this.instance.height = this.VIEWPORT_HEIGHT;
-
-        this.instance.margin = 50;
-        this.instance.zoom$ = this.zoom$.asObservable();
-        this.instance.fontSize$ = this.fontSize$.asObservable();
-        this.instance.isLocked$ = this.isLocked$.asObservable();
-        this.instance.translateX = this.x;
-        this.instance.translateY = this.y;
-        this.instance.scale = this.scale;
-        this.instance.analytics = this.analytics;
-        this.instance.isReset$ = new Subject<boolean>();
-    }
-
 
     zoomOut() {
         this.zoom$.next(0.9);
@@ -232,7 +207,7 @@ export class MappingComponent implements OnInit {
     }
 
     resetZoom() {
-        this.instance.isReset$.next(true);
+        this.isReset$.next(true);
         this.analytics.eventTrack("Map", { action: "reset zoom", mode: "button", team: this.teamName, teamId: this.teamId });
     }
 
@@ -244,7 +219,7 @@ export class MappingComponent implements OnInit {
     }
 
     isDisplayLockingToggle() {
-        return this.layout !== "people" && this.layout !== "connections";
+        return this.layout !== "people" && this.layout !== "connections" && this.layout !== "list";
 
     }
 

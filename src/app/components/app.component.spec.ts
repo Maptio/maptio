@@ -1,8 +1,6 @@
 import { Observable } from "rxjs/Rx";
 import { LoaderService } from "./../shared/services/loading/loader.service";
-import { Initiative } from "./../shared/model/initiative.data";
 import { ResponsiveModule } from "ng2-responsive";
-import { DataSet } from "../shared/model/dataset.data";
 import { Router, NavigationEnd } from "@angular/router";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core"

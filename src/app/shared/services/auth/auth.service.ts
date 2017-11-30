@@ -37,8 +37,8 @@ export class Auth {
     public logout(): void {
         this.analytics.eventTrack("Logout", {});
         // this.shutDownIntercom();
-        localStorage.clear();
-        this.router.navigate(["home"]);
+        this.router.navigateByUrl("/logout")
+        // localStorage.clear();
     }
 
     // public shutDownIntercom() {
@@ -213,9 +213,10 @@ export class Auth {
                                             return user;
                                         }, () => { })
                                         .then((user: User) => {
+                                            let welcomeURL = user.datasets.length === 1 ? `/map/${user.datasets[0]}/welcome/initiatives` : `/home`;
                                             this.loader.hide()
                                             let redirectUrl = localStorage.getItem("redirectUrl");
-                                            this.router.navigateByUrl(redirectUrl ? redirectUrl : "/home");
+                                            this.router.navigateByUrl(redirectUrl ? redirectUrl : welcomeURL);
                                         })
                                 }
                                 else {

@@ -1,20 +1,16 @@
 import { User } from "./../../shared/model/user.data";
 import { UserFactory } from "./../../shared/services/user.factory";
-import { Angulartics2, Angulartics2Mixpanel } from "angulartics2";
+import { Angulartics2Mixpanel } from "angulartics2";
 import { EventEmitter } from "@angular/core";
 import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { DataSet } from "./../../shared/model/dataset.data";
 import { Initiative } from "./../../shared/model/initiative.data";
-import { Observable } from "rxjs/Rx";
-import { EmitterService } from "./../../shared/services/emitter.service";
-import { Component, ViewChild, Output, ElementRef, Input } from "@angular/core";
-import { InitiativeComponent } from "../initiative/initiative.component";
+import { Component, ViewChild, Output} from "@angular/core";
 import { TreeNode, IActionMapping, TREE_ACTIONS, TreeModel, TreeComponent } from "angular-tree-component";
 import { DataService } from "../../shared/services/data.service";
 import "rxjs/add/operator/map";
 import { InitiativeNodeComponent } from "./initiative.node.component"
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { ITreeNode } from "angular-tree-component/dist/defs/api";
 
 @Component({
     selector: "building",

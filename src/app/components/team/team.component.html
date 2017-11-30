@@ -1,5 +1,6 @@
-<div class="row">
+<div class="row col-12">
     <div class="col-lg-7 mt-3 team-list-panel">
+        <ngx-loading [show]="isLoading"></ngx-loading>
         <h3 class="mb-3">
             {{(team$ | async)?.name}}
             <small class="text-muted h6 pull-right">{{(team$ | async)?.members.length}} members</small>
@@ -25,7 +26,7 @@
                 </div> -->
             </thead>
             <tbody>
-                <div *ngIf="isLoading">Loading...</div>
+
                 <tr class="row" *ngFor="let member of (members$ | async); trackBy: trackByMemberId;let i=index" [class.deleted]="member.isDeleted">
                     <td class=" delete">
                         <i *ngIf="member.isActivationPending && !member.isInvitationSent" class="fa fa-trash-o text-danger" aria-hidden="true" mwlConfirmationPopover
@@ -50,14 +51,16 @@
                         <span *ngIf="member.isDeleted" class="text-muted">(Deleted)</span>
                         <button [class.deleted]="member.isDeleted" *ngIf="!member.isActivationPending" class="btn btn-default  mt-2" placement="top"
                             container="body" ngbTooltip="{{member.name}} is a confirmed user." disabled>Active</button>
-                        <button [class.deleted]="member.isDeleted" [hidden]="isDisplayLoader(member.user_id)" *ngIf="member.isActivationPending && !member.isInvitationSent" class="btn btn-success  mt-2"
-                            (click)="inviteUser(member, i)" placement="left" container="body" ngbTooltip="Invite {{member.name}} to view and edit maps">Invite </button>
-                        <button [class.deleted]="member.isDeleted" [hidden]="isDisplayLoader(member.user_id)" *ngIf="member.isActivationPending && member.isInvitationSent" class="btn btn-success  mt-2"
-                            (click)="resendUser(member, i)" placement="left" container="body" ngbTooltip="Resend an invitation to {{member.name}}">Resend </button>
-                        <span class="sending text-default" [hidden]="!isDisplayLoader(member.user_id)"><i class="fa fa-cog fa-2x fa-spin fa-fw"></i>
-                            <span class="sr-only">Sending...</span></span>
-                    
-                        </td>
+                        <button [class.deleted]="member.isDeleted" [hidden]="isDisplayLoader(member.user_id)" *ngIf="member.isActivationPending && !member.isInvitationSent"
+                            class="btn btn-success  mt-2" (click)="inviteUser(member, i)" placement="left" container="body" ngbTooltip="Invite {{member.name}} to view and edit maps">Invite </button>
+                        <button [class.deleted]="member.isDeleted" [hidden]="isDisplayLoader(member.user_id)" *ngIf="member.isActivationPending && member.isInvitationSent"
+                            class="btn btn-success  mt-2" (click)="resendUser(member, i)" placement="left" container="body" ngbTooltip="Resend an invitation to {{member.name}}">Resend </button>
+                        <span class="sending text-default" [hidden]="!isDisplayLoader(member.user_id)">
+                            <i class="fa fa-cog fa-2x fa-spin fa-fw"></i>
+                            <span class="sr-only">Sending...</span>
+                        </span>
+
+                    </td>
                 </tr>
             </tbody>
         </table>

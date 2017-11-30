@@ -1,8 +1,5 @@
-import { Initiative } from "./../../model/initiative.data";
 import { Injectable } from "@angular/core"
-import { D3Service, D3, Selection, BaseType, HierarchyCircularNode } from "d3-ng2-service"
-import { Observable } from "rxjs/Observable";
-import { Subject } from "rxjs/Subject"
+import { D3Service, D3, Selection, BaseType } from "d3-ng2-service"
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 

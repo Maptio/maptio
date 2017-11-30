@@ -1,6 +1,5 @@
 
 import { Initiative } from "./initiative.data";
-import { User } from "./user.data";
 import { Helper } from "./helper.data";
 import { Role } from "./role.data";
 

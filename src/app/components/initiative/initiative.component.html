@@ -78,7 +78,7 @@
 						<div class="row mb-0">
 							<span class="ml-1 col">
 								<img src="{{node?.accountable?.picture}}" width="16" class="rounded-circle">
-								<a routerLink="/summary/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/u/{{node?.accountable?.shortid}}/{{node?.accountable?.getSlug()}}">{{node?.accountable.name}}</a>
+								<a routerLink="/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/u/{{node?.accountable?.shortid}}/{{node?.accountable?.getSlug()}}">{{node?.accountable.name}}</a>
 								<span class="text-muted small">(Authority)</span>
 							</span>
 							<button  class="btn btn-link pull-right btn-sm" (click)="authorityHideMe=!authorityHideMe">Role
@@ -102,7 +102,7 @@
 							</span>
 							<span class="pl-1 col">
 								<img src="{{user.picture}}" width="16" class="rounded-circle">
-								<a routerLink="/summary/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/u/{{user.shortid}}/{{user.getSlug()}}">{{user.name}}</a>
+								<a routerLink="/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/u/{{user.shortid}}/{{user.getSlug()}}">{{user.name}}</a>
 
 							</span>
 							<button  class="btn btn-link pull-right btn-sm" (click)="toggleRole(i)">Role

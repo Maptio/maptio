@@ -2,10 +2,11 @@
 import { environment } from "./../environment/environment";
 
 import { BrowserModule } from "@angular/platform-browser";
-import { NgModule, Injector } from "@angular/core";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { NgModule} from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { HttpModule, RequestOptions, XHRBackend, Http } from "@angular/http";
+import { HttpModule, RequestOptions, Http } from "@angular/http";
 
 // Routing
 import { PathLocationStrategy, Location, LocationStrategy } from "@angular/common";
@@ -22,7 +23,7 @@ import { ColorService } from "./shared/services/ui/color.service"
 import { UIService } from "./shared/services/ui/ui.service"
 import { ErrorService } from "./shared/services/error/error.service";
 import { Auth } from "./shared/services/auth/auth.service";
-import { AuthHttp, provideAuth } from "angular2-jwt";
+import { AuthHttp } from "angular2-jwt";
 import { UserFactory } from "./shared/services/user.factory";
 import { TeamFactory } from "./shared/services/team.factory";
 import { MailingService } from "./shared/services/mailing/mailing.service"
@@ -63,9 +64,10 @@ import { Angulartics2Mixpanel, Angulartics2Module } from "angulartics2";
 // Directives
 import { FocusIfDirective } from "./shared/directives/focusif.directive";
 import { AutoSelectDirective } from "./shared/directives/autoselect.directive"
-import { AnchorDirective } from "./shared/directives/anchor.directive"
+// import { AnchorDirective } from "./shared/directives/anchor.directivse"
 
 // External libraries
+import { LoadingModule, ANIMATION_TYPES } from "ngx-loading";
 import { MarkdownModule, MarkdownService } from "angular2-markdown";
 import { FileUploadModule } from "ng2-file-upload";
 import { CloudinaryModule } from "@cloudinary/angular-4.x";
@@ -86,15 +88,23 @@ import { ChangePasswordComponent } from "./components/login/change-password.comp
 import { AnAnchorableComponent } from "../test/specs/shared/component.helper.shared";
 // import { MappingNetworkComponent } from "./components/mapping/network/mapping.network.component";
 import { LoaderComponent } from "./components/loading/loader.component";
+import { DashboardComponentResolver } from "./components/dashboard/dashboard.resolver";
 import { MappingNetworkComponent } from "./components/mapping/network/mapping.network.component";
+import { WorkspaceComponentResolver } from "./components/workspace/workspace.resolver";
+import { LogoutComponent } from "./components/login/logout.component";
+
 
 // Routes
 const appRoutes: Routes = [
-  { path: "", redirectTo: "", pathMatch: "full", component: HomeComponent },
+  { path: "", redirectTo: "home", pathMatch: "full" },
 
-  { path: "home", component: HomeComponent },
+  {
+    path: "home", component: HomeComponent
+  },
 
   { path: "login", component: LoginComponent },
+
+  { path: "logout", component: LogoutComponent },
   { path: "help", component: HelpComponent },
   { path: "signup", component: SignupComponent },
 
@@ -103,11 +113,29 @@ const appRoutes: Routes = [
 
   { path: ":shortid/:slug", component: AccountComponent, canActivate: [AuthGuard] },
 
-  { path: "map/:mapid/:slug", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
-  { path: "map/:mapid/:mapslug/i/:nodeid/:nodeslug", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
-  { path: "map/:mapid/:mapslug/:layout", component: WorkspaceComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
-
-  { path: "summary/map/:mapid/:mapslug/u/:usershortid/:userslug", component: MemberSummaryComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
+  {
+    path: "map/:mapid/:mapslug/i/:nodeid/:nodeslug",
+    component: WorkspaceComponent, resolve: {
+      data: WorkspaceComponentResolver
+    },
+    canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard]
+  },
+  {
+    path: "map/:mapid/:mapslug",
+    component: WorkspaceComponent,
+    canActivate: [AuthGuard, AccessGuard],
+    resolve: {
+      data: WorkspaceComponentResolver
+    },
+    children: [
+      { path: "", redirectTo: "initiatives", pathMatch: "full" },
+      { path: "initiatives", component: MappingCirclesComponent },
+      { path: "people", component: MappingTreeComponent },
+      { path: "connections", component: MappingNetworkComponent },
+      { path: "u/:usershortid/:userslug", component: MemberSummaryComponent },
+    ]
+  },
+  // { path: "summary/map/:mapid/:mapslug/u/:usershortid/:userslug", component: MemberSummaryComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
 
   { path: "unauthorized", component: UnauthorizedComponent },
   { path: "forgot", component: ChangePasswordComponent },
@@ -132,11 +160,10 @@ export function markdownServiceFactory(http: Http) {
   declarations: [
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent, TeamComponent,
     MappingComponent, MappingCirclesComponent, MappingTreeComponent, MappingNetworkComponent, MemberSummaryComponent,
-    BuildingComponent, InitiativeNodeComponent, LoginComponent, HomeComponent, UnauthorizedComponent, NotFoundComponent,
+    BuildingComponent, InitiativeNodeComponent, LoginComponent, LogoutComponent, HomeComponent, UnauthorizedComponent, NotFoundComponent,
     InitiativeComponent, ChangePasswordComponent, LoaderComponent, TeamsListComponent, SignupComponent,
     FocusIfDirective,
     AutoSelectDirective,
-    AnchorDirective,
     HelpComponent,
     DashboardComponent,
 
@@ -161,10 +188,19 @@ export function markdownServiceFactory(http: Http) {
     MarkdownModule.forRoot(),
     Angulartics2Module.forRoot([Angulartics2Mixpanel]),
     FileUploadModule,
+    LoadingModule.forRoot({
+      animationType: ANIMATION_TYPES.chasingDots,
+      backdropBackgroundColour: "#fff",
+      backdropBorderRadius: ".25rem",
+      primaryColour: "#2F81B7",
+      secondaryColour: "#2F81B7",
+      tertiaryColour: "#ffffff"
+    }),
     CloudinaryModule.forRoot(cloudinaryLib, { cloud_name: environment.CLOUDINARY_CLOUDNAME, upload_preset: environment.CLOUDINARY_UPLOAD_PRESET })
   ],
   exports: [RouterModule],
   providers: [
+    BrowserAnimationsModule,
     AuthGuard, AccessGuard, AuthConfiguration,
     D3Service, DataService, ColorService, UIService, DatasetFactory, TeamFactory,
     ErrorService, Auth, UserService, UserFactory, MailingService, JwtEncoder, LoaderService,
@@ -184,7 +220,9 @@ export function markdownServiceFactory(http: Http) {
       provide: MarkdownService,
       useFactory: markdownServiceFactory,
       deps: [Http]
-    }
+    },
+    DashboardComponentResolver,
+    WorkspaceComponentResolver
   ],
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]

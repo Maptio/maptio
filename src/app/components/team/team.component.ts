@@ -7,13 +7,12 @@ import { Observable, Subscription } from "rxjs/Rx";
 import { NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-bootstrap";
 import { TeamFactory } from "./../../shared/services/team.factory";
 import { ActivatedRoute, Params } from "@angular/router";
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Team } from "../../shared/model/team.data";
 import { User } from "../../shared/model/user.data";
 import { Auth } from "../../shared/services/auth/auth.service";
-import { UUID } from "angular2-uuid";
 import { DataSet } from "../../shared/model/dataset.data";
-import { compact, sortBy, differenceBy, remove, uniqBy, map } from "lodash"
+import { compact, sortBy, differenceBy, remove, uniqBy} from "lodash"
 import { UserService } from "../../shared/services/user/user.service";
 import { Angulartics2Mixpanel } from "angulartics2";
 

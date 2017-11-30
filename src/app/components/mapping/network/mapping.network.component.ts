@@ -2,16 +2,17 @@ import { Subject } from "rxjs/Rx";
 import { Initiative } from "./../../../shared/model/initiative.data";
 import { Subscription } from "rxjs/Subscription";
 import { Observable } from "rxjs/Observable";
-import { Component, OnInit, Input, ViewEncapsulation, ChangeDetectorRef } from "@angular/core";
-import { D3Service, D3, Force, DragBehavior, ForceLink, HierarchyNode } from "d3-ng2-service";
+import { Component, OnInit, ViewEncapsulation, ChangeDetectorRef } from "@angular/core";
+import { D3Service, D3, ForceLink, HierarchyNode } from "d3-ng2-service";
 import { ColorService } from "../../../shared/services/ui/color.service"
 import { UIService } from "../../../shared/services/ui/ui.service"
 import { IDataVisualizer } from "../mapping.interface"
-import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
+import { Angulartics2Mixpanel } from "angulartics2";
 import * as _ from "lodash";
 import { User } from "../../../shared/model/user.data";
 import { Role } from "../../../shared/model/role.data";
 import { Router } from "@angular/router";
+import { DataService } from "../../../shared/services/data.service";
 
 @Component({
     selector: "network",
@@ -38,7 +39,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     public zoom$: Observable<number>
     public fontSize$: Observable<number>;
     public isLocked$: Observable<boolean>;
-    public isReset$: Subject<boolean>;
+    public isReset$: Observable<boolean>;
     public data$: Subject<{ initiative: Initiative, datasetId: string }>;
 
     public rootNode: Initiative;
@@ -64,31 +65,37 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     FADED_OPACITY = 0.1
     private svg: any;
     private g: any;
-    private link: any;
+    // private link: any;
     private fontSize: number;
     public tooltipInitiatives: Array<Initiative>;
     public tooltipRoles: Array<{ initiative: Initiative, role: Role }>;
     public tooltipSourceUser: User;
     public tooltipTargetUser: User;
+    public isLoading: boolean;
 
     constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService,
-        private cd: ChangeDetectorRef, private router: Router) {
-
+        private cd: ChangeDetectorRef, private router: Router, private dataService: DataService) {
+        // console.log("network constructor")
         this.d3 = d3Service.getD3();
         this.T = this.d3.transition(null).duration(this.TRANSITION_DURATION);
-        this.data$ = new Subject<{ initiative: Initiative, datasetId: string }>();
-        this.dataSubscription = this.data$.asObservable().distinct().subscribe(complexData => {
+        this.data$ = new Subject<{ initiative: Initiative, datasetId: string, teamName: string, teamId: string }>();
+
+    }
+
+    ngOnInit() {
+        this.isLoading = true;
+        this.init();
+        this.dataSubscription = this.dataService.get().subscribe(complexData => {
+            // console.log("network assign data")
             let data = <any>complexData.initiative;
             this.datasetId = complexData.datasetId;
             this.rootNode = complexData.initiative;
             this.slug = data.getSlug();
-            this.update(data)
+            this.update(data);
+            this.analytics.eventTrack("Map", { view: "connections", team: data.teamName, teamId: data.teamId });
+            this.isLoading = false;
+            this.cd.markForCheck();
         })
-    }
-
-    ngOnInit() {
-
-        this.init();
     }
 
     ngOnDestroy() {
@@ -111,9 +118,9 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
         let d3 = this.d3;
 
-        let svg: any = d3.select("svg"),
-            margin = this.margin,
-            diameter = +this.width
+        let svg: any = d3.select("svg");
+            // margin = this.margin,
+            // diameter = +this.width
         let g = svg.append("g")
             .attr("width", this.width)
             .attr("height", this.height)
@@ -122,6 +129,9 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         g.append("g").attr("class", "labels");
         g.append("g").attr("class", "nodes");
         g.append("defs");
+
+        svg.style("background", "#f7f7f7");
+
 
         svg.append("svg:defs").selectAll("marker")
             .data([{ id: "arrow", opacity: 1 }, { id: "arrow-fade", opacity: this.FADED_OPACITY }])
@@ -176,7 +186,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             }
         })
 
-        this.resetSubscription = this.isReset$.asObservable().filter(r => r).subscribe(isReset => {
+        this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
             svg.call(zooming.transform, d3.zoomIdentity.translate(0, -this.height / 4));
         })
 
@@ -289,7 +299,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         }
 
         let d3 = this.d3;
-        let svg = this.svg;
+        // let svg = this.svg;
         let g = this.g;
         let fontSize = this.fontSize;
         let width = this.width;
@@ -299,7 +309,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
         let CIRCLE_RADIUS = this.CIRCLE_RADIUS
         let LINE_WEIGHT = this.LINE_WEIGHT;
-        let FADED_OPACITY = this.FADED_OPACITY;
+        // let FADED_OPACITY = this.FADED_OPACITY;
 
         let initiativesList: HierarchyNode<Initiative>[] = this.d3.hierarchy(data).descendants();
         let graph = this.prepare(initiativesList);
@@ -388,6 +398,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             });
 
         let node = g.select("g.nodes").selectAll("g.node").data(nodes.filter(function (d) { return d.id; }))
+        node.exit().remove();
 
         node = node.enter().append("g").attr("class", "node")
             .merge(node)
@@ -398,8 +409,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
                 .on("end", dragended));
 
         node.append("circle");
-        node.append("text").attr("class", "name");
-        node.append("text").attr("class", "initiatives");
+        node.append("text").attr("class", "authority-name");
+        // node.append("text").attr("class", "initiatives");
 
         node.select("circle").attr("r", CIRCLE_RADIUS)
             .attr("fill", function (d: any) { return "url(#image" + d.id + ")" })
@@ -412,20 +423,16 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         // })
 
 
-        node.select("text.name")
+        node.select("text.authority-name")
             .attr("pointer-events", "auto")
             .attr("cursor", "pointer")
             .attr("dx", CIRCLE_RADIUS + 3)
             .attr("dy", CIRCLE_RADIUS / 2)
             .on("click", function (d: any) {
-                router.navigateByUrl(`/summary/map/${datasetId}/${slug}/u/${d.shortid}/${d.slug}`);
+                router.navigateByUrl(`/map/${datasetId}/${slug}/u/${d.shortid}/${d.slug}`);
             })
             .text(function (d: any) { return d.name; })
             ;
-
-
-        node.exit().remove();
-
 
         g.selectAll("path")
             .on("mouseover", function (d: any) {
@@ -589,10 +596,10 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         //     };
         // }
 
-        function cleanSelected() {
-            node.classed("picked", false);
-            node.each(function (d: any) { d.picked = d.previouslyPicked = false; })
-        }
+        // function cleanSelected() {
+        //     node.classed("picked", false);
+        //     node.each(function (d: any) { d.picked = d.previouslyPicked = false; })
+        // }
 
     }
 }

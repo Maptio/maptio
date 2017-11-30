@@ -14,8 +14,9 @@ import { TestBed, async, ComponentFixture } from "@angular/core/testing";
 import { MappingCirclesComponent } from "./mapping.circles.component";
 import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
 import { ErrorService } from "../../../shared/services/error/error.service";
-import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2/dist";
+import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { RouterTestingModule } from "@angular/router/testing";
+import { DataService } from "../../../shared/services/data.service";
 
 describe("mapping.circles.component.ts", () => {
 
@@ -26,7 +27,7 @@ describe("mapping.circles.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
-                D3Service, ColorService, UIService, UserFactory, Angulartics2Mixpanel, Angulartics2,
+                D3Service, ColorService, DataService, UIService, UserFactory, Angulartics2Mixpanel, Angulartics2,
                 {
                     provide: AuthHttp,
                     useFactory: authHttpServiceFactoryTesting,
@@ -73,6 +74,11 @@ describe("mapping.circles.component.ts", () => {
         component.fontSize$ = Observable.of(12);
         component.isLocked$ = Observable.of(true);
         component.analytics = jasmine.createSpyObj("analytics", ["eventTrack"]);
+
+        let data = new Initiative().deserialize(fixture.load("data.json"));
+        let mockDataService = target.debugElement.injector.get(DataService);
+        spyOn(mockDataService, "get").and.returnValue(Observable.of({ initiative: data, datasetId: "ID" }));
+        spyOn(component.uiService, "getCircularPath");
 
         target.detectChanges(); // trigger initial data binding
     });
@@ -138,8 +144,10 @@ describe("mapping.circles.component.ts", () => {
 */
 
     it("should draw SVG with correct size when data is valid", () => {
-        let data = new Initiative().deserialize(fixture.load("data.json"));
-        component.data$.next({ initiative: data, datasetId: "ID" })
+
+        // let mockDataService = target.debugElement.injector.get(DataService);
+        // spyOn(mockDataService, "get").and.returnValue(Observable.of({ initiative: data, datasetId: "ID" }));
+        // component.data$.next()
 
         let svg = document.getElementsByTagName("svg")
         expect(svg.length).toBe(1);
@@ -149,8 +157,9 @@ describe("mapping.circles.component.ts", () => {
     });
 
     it("should draw SVG centered when data is valid", () => {
-        let data = new Initiative().deserialize(fixture.load("data.json"));
-        component.data$.next({ initiative: data, datasetId: "ID" })
+        // let data = new Initiative().deserialize(fixture.load("data.json"));
+        // let mockDataService = target.debugElement.injector.get(DataService);
+        // spyOn(mockDataService, "get").and.returnValue(Observable.of({ initiative: data, datasetId: "ID" }));
 
         let svgs = document.getElementsByTagName("svg")
         expect(svgs.length).toBe(1);
@@ -163,8 +172,9 @@ describe("mapping.circles.component.ts", () => {
     });
 
     it("should draw SVG with correct number of circles when data is valid", () => {
-        let data = new Initiative().deserialize(fixture.load("data.json"));
-        component.data$.next({ initiative: data, datasetId: "ID" })
+        // let data = new Initiative().deserialize(fixture.load("data.json"));
+        // let mockDataService = target.debugElement.injector.get(DataService);
+        // spyOn(mockDataService, "get").and.returnValue(Observable.of({ initiative: data, datasetId: "ID" }));
 
         let svgs = document.getElementsByTagName("svg")
         expect(svgs.length).toBe(1);
@@ -174,8 +184,9 @@ describe("mapping.circles.component.ts", () => {
     });
 
     it("should draw SVG with correct text labels  when data is valid", () => {
-        let data = new Initiative().deserialize(fixture.load("data.json"));
-        component.data$.next({ initiative: data, datasetId: "ID" })
+        // let data = new Initiative().deserialize(fixture.load("data.json"));
+        // let mockDataService = target.debugElement.injector.get(DataService);
+        // spyOn(mockDataService, "get").and.returnValue(Observable.of({ initiative: data, datasetId: "ID" }));
 
         let svgs = document.getElementsByTagName("svg")
         expect(svgs.length).toBe(1);
@@ -188,13 +199,8 @@ describe("mapping.circles.component.ts", () => {
     });
 
     it("should calculate paths when data is valid", () => {
-        let spy = spyOn(component.uiService, "getCircularPath");
-        let data = new Initiative().deserialize(fixture.load("data.json"));
-        component.data$.next({ initiative: data, datasetId: "ID" })
 
-        // let spy = spyOn(component.uiService, "getCircularPath");
-
-        expect(spy).toHaveBeenCalledTimes(3);
+        expect(component.uiService.getCircularPath).toHaveBeenCalledTimes(3);
         let svg = document.getElementsByTagName("svg").item(0)
         expect(svg.querySelector("defs")).toBeDefined();
         let defs = svg.querySelector("defs");

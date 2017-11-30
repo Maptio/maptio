@@ -7,7 +7,7 @@ import { TeamFactory } from "../../shared/services/team.factory";
 import { Auth } from "../../shared/services/auth/auth.service";
 import { User } from "../../shared/model/user.data";
 import { Team } from "../../shared/model/team.data";
-import {differenceBy, sortBy} from "lodash"
+import { differenceBy, sortBy } from "lodash"
 import { UserService } from "../../shared/services/user/user.service";
 
 @Component({
@@ -28,12 +28,11 @@ export class TeamsListComponent implements OnInit {
     public createForm: FormGroup;
     public teamName: string;
 
-    constructor(public auth: Auth, private teamFactory: TeamFactory, private userFactory: UserFactory, 
+    constructor(public auth: Auth, private teamFactory: TeamFactory, private userFactory: UserFactory,
         private userService: UserService, private analytics: Angulartics2Mixpanel) {
-        this.isLoading = true;
-        this.userSubscription = this.auth.getUser().subscribe((user: User) => {
-            this.user = user;
-        })
+            this.userSubscription = this.auth.getUser().subscribe((user: User) => {
+                this.user = user;
+            });
 
         this.createForm = new FormGroup({
             "teamName": new FormControl(this.teamName, [
@@ -42,11 +41,11 @@ export class TeamsListComponent implements OnInit {
             ]),
         });
 
-        this.getTeams();
+
     }
 
     ngOnInit() {
-
+        this.getTeams();
     }
 
     ngOnDestroy(): void {

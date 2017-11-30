@@ -3,8 +3,7 @@ import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { UserFactory } from "./../../shared/services/user.factory";
 import { Observable } from "rxjs/Rx";
 import { TeamFactory } from "./../../shared/services/team.factory";
-import { Component, Input, ViewChild, OnChanges, SimpleChanges, OnInit, EventEmitter, Output, ElementRef } from "@angular/core";
-import { ModalComponent } from "ng2-bs3-modal/ng2-bs3-modal";
+import { Component, Input, ViewChild, OnChanges, SimpleChanges, EventEmitter, Output, ElementRef } from "@angular/core";
 import { Initiative } from "../../shared/model/initiative.data"
 import { Team } from "../../shared/model/team.data"
 import "rxjs/add/operator/map";
@@ -16,14 +15,12 @@ import { _catch } from "rxjs/operator/catch";
 import { _do } from "rxjs/operator/do";
 import { switchMap } from "rxjs/operator/switchMap";
 import { of } from "rxjs/observable/of";
-import { map } from "rxjs/operator/map";
 import { debounceTime } from "rxjs/operator/debounceTime";
 import { distinctUntilChanged } from "rxjs/operator/distinctUntilChanged";
 import { DataSet } from "../../shared/model/dataset.data";
 import { compact, sortBy } from "lodash";
 import { Helper } from "../../shared/model/helper.data";
-import { MarkdownService } from "angular2-markdown";
-import { Angulartics2Mixpanel, Angulartics2, Angulartics2Module } from "angulartics2/dist";
+import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2/dist";
 
 @Component({
     selector: "initiative",

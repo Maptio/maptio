@@ -4,10 +4,10 @@ import { Subscription } from "rxjs/Subscription";
 import { LoaderService } from "./../../shared/services/loading/loader.service";
 import { Params } from "@angular/router";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Component, OnInit, ViewChild, Input } from "@angular/core";
+import { Component, OnInit} from "@angular/core";
 import { JwtEncoder } from "../../shared/services/encoding/jwt.service";
 import { EmitterService } from "../../shared/services/emitter.service";
-import { FormGroup, FormBuilder, FormControl, Validators, NgForm } from "@angular/forms";
+import { FormGroup, FormBuilder, FormControl, Validators} from "@angular/forms";
 import { Auth } from "../../shared/services/auth/auth.service";
 @Component({
     selector: "login",
@@ -135,7 +135,7 @@ export class LoginComponent implements OnInit {
             this.userService.isUserExist(email)
                 .then((isUserExist: boolean) => {
                     if (isUserExist) {
-                        let user = this.auth.login(email, password)
+                        this.auth.login(email, password)
                         // HACK .login() should be promisified instead of using EmitterService
                         EmitterService.get("loginErrorMessage").subscribe((loginErrorMessage: string) => {
                             this.loginErrorMessage =

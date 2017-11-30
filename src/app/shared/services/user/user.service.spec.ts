@@ -4,7 +4,7 @@ import { MailingService } from "./../mailing/mailing.service";
 import { JwtEncoder } from "./../encoding/jwt.service";
 import { AuthHttp } from "angular2-jwt";
 import { UserService } from "./user.service";
-import { TestBed, inject, fakeAsync, async } from "@angular/core/testing";
+import { TestBed, inject, fakeAsync} from "@angular/core/testing";
 import { MockBackend, MockConnection } from "@angular/http/testing";
 import { Http, HttpModule, Response, BaseRequestOptions, ResponseOptions, RequestMethod } from "@angular/http";
 import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
@@ -126,7 +126,7 @@ describe("user.service.ts", () => {
     describe("changePassword", () => {
         it("should call right dependencies", fakeAsync(inject([UserService, Http, AuthConfiguration, MockBackend], (target: UserService, http: Http, configuration: AuthConfiguration, mockBackend: MockBackend) => {
             let webAuth = jasmine.createSpyObj("webAuth", ["changePassword"])
-            let spyChangePassword = spyOn(configuration, "getWebAuth").and.returnValue(webAuth);
+            spyOn(configuration, "getWebAuth").and.returnValue(webAuth);
             target.changePassword("someone@company.com")
             expect(webAuth.changePassword).toHaveBeenCalledWith({ connection: environment.CONNECTION_NAME, email: "someone@company.com" }, jasmine.any(Function));
         })));
@@ -630,7 +630,7 @@ describe("user.service.ts", () => {
             let spyMailing = spyOn(mailing, "sendConfirmation")
             let spyUpdateStatus = spyOn(target, "updateActivationPendingStatus")
 
-            let httpCall = mockBackend.connections.subscribe((connection: MockConnection) => {
+            mockBackend.connections.subscribe((connection: MockConnection) => {
                 if (connection.request.method === RequestMethod.Post
                     && connection.request.url === `${environment.TICKETS_API_URL}`
                     && connection.request.headers.get("Authorization") === "Bearer accessToken"
@@ -680,7 +680,7 @@ describe("user.service.ts", () => {
             let spyMailing = spyOn(mailing, "sendInvitation")
             let spyUpdateStatus = spyOn(target, "updateInvitiationSentStatus")
 
-            let httpCall = mockBackend.connections.subscribe((connection: MockConnection) => {
+            mockBackend.connections.subscribe((connection: MockConnection) => {
                 if (connection.request.method === RequestMethod.Post
                     && connection.request.url === `${environment.TICKETS_API_URL}`
                     && connection.request.headers.get("Authorization") === "Bearer accessToken"

@@ -1,4 +1,4 @@
-<div [class.loader-hidden]="!show">
+<!-- <div [class.loader-hidden]="!show">
     <div class="loader-overlay">
         <div class="loading-dots">
             <h1><img src="/assets/images/logo-full.webp" alt=""> </h1>
@@ -7,4 +7,5 @@
             <h1 class="dot three">.</h1>
         </div>
     </div>
-</div>
+</div> -->
+<ngx-loading [show]="show" [config]="{ backdropBackgroundColour: '#f7f7f7' }"></ngx-loading>

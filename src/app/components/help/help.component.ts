@@ -1,6 +1,4 @@
-import { Angulartics2Mixpanel } from "angulartics2";
-import { Component, ViewChild, OnInit } from "@angular/core";
-import { ModalComponent } from "ng2-bs3-modal/ng2-bs3-modal";
+import { Component, OnInit } from "@angular/core";
 
 @Component({
     selector: "help",

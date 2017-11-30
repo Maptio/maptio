@@ -1,15 +1,11 @@
 import { Subscription } from "rxjs/Subscription";
-import { Observable, Subject } from "rxjs/Rx";
 import { LoaderService } from "./../shared/services/loading/loader.service";
-import { EmitterService } from "../shared/services/emitter.service";
-import { Router, NavigationStart, NavigationEnd, NavigationCancel, ActivatedRouteSnapshot, ActivatedRoute, UrlSegment } from "@angular/router";
+import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from "@angular/router";
 import {
   Component,
-  OnInit, AfterViewInit,
   ViewChild
 } from "@angular/core";
 import { HelpComponent } from "../components/help/help.component";
-import { DataSet } from "../shared/model/dataset.data"
 import "rxjs/add/operator/map"
 import { Auth } from "../shared/services/auth/auth.service";
 @Component({
@@ -28,10 +24,11 @@ export class AppComponent {
   @ViewChild("help")
   helpComponent: HelpComponent;
 
-  constructor(private auth: Auth, private router: Router, private loaderService: LoaderService) {
+  constructor(public auth: Auth, private router: Router, private loaderService: LoaderService) {
 
     this.routerSubscription = this.router.events
       .subscribe((event) => {
+        // console.log(event)
         if (event instanceof NavigationStart) {
           this.isHome = this.isUrlHome(event.url)
           this.isMap = this.isUrlMap(event.url);
@@ -43,6 +40,10 @@ export class AppComponent {
           event instanceof NavigationCancel
         ) {
           this.isHome = this.isUrlHome(event.url)
+          this.loaderService.hide();
+        }
+
+        if (event instanceof NavigationError) {
           this.loaderService.hide();
         }
       });

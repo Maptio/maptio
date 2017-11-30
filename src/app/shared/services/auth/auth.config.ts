@@ -1,4 +1,3 @@
-import { JwtHelper } from "angular2-jwt";
 import { environment } from "./../../../../environment/environment";
 import { Http } from "@angular/http";
 import { WebAuth } from "auth0-js";
