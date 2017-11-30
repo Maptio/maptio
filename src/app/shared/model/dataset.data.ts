@@ -41,9 +41,9 @@ export class DataSet implements Serializable<DataSet> {
 
   tryDeserialize(input: any): [boolean, DataSet] {
     try {
-      let user = this.deserialize(input);
-      if (user !== undefined) {
-        return [true, user];
+      let dataset = this.deserialize(input);
+      if (dataset !== undefined) {
+        return [true, dataset];
       }
       else {
         return [false, undefined]
