@@ -9,7 +9,7 @@ import { D3Service, D3 } from "d3-ng2-service";
 export class ExportService {
 
     private d3: D3;
-    constructor(private http: AuthHttp, d3Service: D3Service) {
+    constructor(d3Service: D3Service) {
         this.d3 = d3Service.getD3();
     }
 
