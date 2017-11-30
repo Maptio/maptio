@@ -75,7 +75,7 @@ export class HeaderComponent implements OnInit {
             this.datasets$ = Promise.all(
                 // get all datasets available to this user accross all teams
                 this.user.datasets.map(
-                    dataset_id => this.datasetFactory.get(dataset_id).then(d => d, () => { return Promise.reject("No dataset") }).catch(() => { return <DataSet>undefined })
+                    (dataset_id: string) => this.datasetFactory.get(dataset_id).then(d => d, () => { return Promise.reject("No dataset") }).catch(() => { return <DataSet>undefined })
                 )
             )
                 .then(datasets => {

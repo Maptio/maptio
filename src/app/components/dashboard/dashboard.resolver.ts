@@ -18,22 +18,11 @@ export class DashboardComponentResolver implements Resolve<Array<DataSet>> {
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<DataSet[]> {
 
         return this.auth.getUser()
-            .map((user: User) => {
-                return user.datasets;
+            .mergeMap((user: User) => {
+                return this.datasetFactory.get(user.datasets);
             })
-            .mergeMap(datasetsIds => {
-                const promises = datasetsIds
-                    .map(did => {
-                        return this.datasetFactory.get(did)
-                            .then(d => d, () => { return <DataSet>undefined })
-                    });
-                return Observable.forkJoin(promises);
-            })
-            .map(datasets => {
-                return compact(datasets);
-            })
-            .do(datasets => {
-                datasets.map(d => {
+            .map((datasets: DataSet[]) => {
+                return datasets.map(d => {
                     let i = 0
                     d.initiative.traverse((n) => { i++ })
                     d.depth = i;

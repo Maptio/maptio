@@ -29,6 +29,20 @@ router.get('/:id', function (req, res, next) {
         });
 });
 
+router.get('/in/:query', function (req, res, next) {
+    let datasets_id = req.params.query.split(',').map(d => mongojs.ObjectId(d));
+    console.log(datasets_id)
+    db.datasets.find(
+        { _id: { $in: datasets_id } }
+        , function (err, datasets) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.json(datasets);
+            }
+        });
+})
+
 /* POST/SAVE a dataset */
 router.post('/', function (req, res, next) {
     var dataset = req.body;
