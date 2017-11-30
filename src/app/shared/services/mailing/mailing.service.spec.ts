@@ -1,9 +1,8 @@
 import { AuthHttp } from "angular2-jwt";
 import { MailingService } from "./mailing.service";
-import { TestBed, inject, fakeAsync } from "@angular/core/testing";
+import { TestBed, inject } from "@angular/core/testing";
 import { MockBackend, MockConnection } from "@angular/http/testing";
 import { Http, HttpModule, Response, BaseRequestOptions, ResponseOptions, RequestMethod } from "@angular/http";
-import * as aws from "aws-sdk";
 import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
 
 describe("mailing.service.ts", () => {

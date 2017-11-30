@@ -46,8 +46,8 @@ describe("auth.guard.ts", () => {
 
             let spyAuth = spyOn(mockAuth, "authenticated").and.returnValue(true);
 
-            let spyApi = spyOn(mockAuth, "authenticationProviderAuthenticated").and.returnValue(true);
-            let spyMaptioApi = spyOn(mockAuth, "internalApiAuthenticated").and.returnValue(true);
+            spyOn(mockAuth, "authenticationProviderAuthenticated").and.returnValue(true);
+            spyOn(mockAuth, "internalApiAuthenticated").and.returnValue(true);
 
             expect(target.canActivate(route, state)).toBe(true);
             expect(spyAuth).toHaveBeenCalled();

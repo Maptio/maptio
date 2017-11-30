@@ -73,7 +73,7 @@ describe("team.factory.ts", () => {
     describe("create", () => {
         it("should call correct REST API endpoint", fakeAsync(inject([TeamFactory, MockBackend], (target: TeamFactory, mockBackend: MockBackend) => {
             let mockTeam = jasmine.createSpyObj("Team", ["deserialize"]);
-            let spyCreate = spyOn(Team, "create").and.returnValue(mockTeam);
+            spyOn(Team, "create").and.returnValue(mockTeam);
             let spyDeserialize = mockTeam.deserialize.and.returnValue(new Team({ name: "Deserialized" }));
 
             const mockResponse = [
@@ -113,8 +113,8 @@ describe("team.factory.ts", () => {
     describe("upsert", () => {
         it("should call correct REST API endpoint", fakeAsync(inject([TeamFactory, MockBackend], (target: TeamFactory, mockBackend: MockBackend) => {
             let mockTeam = jasmine.createSpyObj("Team", ["deserialize"]);
-            let spyCreate = spyOn(Team, "create").and.returnValue(mockTeam);
-            let spyDeserialize = mockTeam.deserialize.and.returnValue(new Team({ name: "Deserialized" }));
+            spyOn(Team, "create").and.returnValue(mockTeam);
+            mockTeam.deserialize.and.returnValue(new Team({ name: "Deserialized" }));
 
             const mockResponse = [
                 { id: 1, team_id: "uniqueId1", name: "First" }

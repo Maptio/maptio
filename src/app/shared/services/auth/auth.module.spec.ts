@@ -1,15 +1,10 @@
 import { authHttpServiceFactory } from "./auth.module";
-import { Http, RequestOptions, BaseRequestOptions } from "@angular/http";
+import { Http, BaseRequestOptions } from "@angular/http";
 import { Auth } from "./auth.service";
 import { Router } from "@angular/router";
 import { TestBed, inject } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MockBackend } from "@angular/http/testing";
-import { AuthConfiguration } from "./auth.config";
-import { DatasetFactory } from "../dataset.factory";
-import { UserFactory } from "../user.factory";
-import { LoaderService } from "../loading/loader.service";
-import { AuthHttp, AuthConfig } from "angular2-jwt/angular2-jwt";
 
 describe("auth.module.ts", () => {
 

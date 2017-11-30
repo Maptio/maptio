@@ -75,9 +75,6 @@ describe("dataset.factory.ts", () => {
             })))
 
             it("should return empty array when API response is invalid", fakeAsync(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
-                const mockResponse = {
-
-                };
 
                 mockBackend.connections.subscribe((connection: MockConnection) => {
                     if (connection.request.method === RequestMethod.Get && connection.request.url === "/api/v1/user/uniqueId/datasets") {

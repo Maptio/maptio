@@ -1,22 +1,21 @@
 import { Observable } from "rxjs/Rx";
-import { Angulartics2Module, Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
+import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { environment } from "./../../../../environment/environment";
 import { encodeTestToken } from "angular2-jwt/angular2-jwt-test-helpers";
-import { tokenNotExpired } from "angular2-jwt/angular2-jwt";
 import { DatasetFactory } from "./../dataset.factory";
 import { AuthHttp } from "angular2-jwt";
 import { LoaderService } from "./../loading/loader.service";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MailingService } from "./../mailing/mailing.service";
 import { JwtEncoder } from "./../encoding/jwt.service";
-import { Router, NavigationEnd, NavigationStart } from "@angular/router";
+import { Router, NavigationStart } from "@angular/router";
 import { User } from "../../model/user.data";
 import { ErrorService } from "../error/error.service";
 import { MockBackend, MockConnection } from "@angular/http/testing";
 import { Http, BaseRequestOptions, RequestMethod, Response, ResponseOptions } from "@angular/http";
 import { UserFactory } from "../user.factory";
 import { Auth } from "./auth.service"
-import { TestBed, async, inject, fakeAsync } from "@angular/core/testing";
+import { TestBed, inject, fakeAsync } from "@angular/core/testing";
 import { AuthConfiguration } from "./auth.config";
 import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
 
@@ -29,11 +28,11 @@ describe("auth.service.ts", () => {
     const validToken = encodeTestToken({
         "exp": 9999999999
     });
-    const noExpiryToken = encodeTestToken({
-        "sub": "1234567890",
-        "name": "John Doe",
-        "admin": true
-    });
+    // const noExpiryToken = encodeTestToken({
+    //     "sub": "1234567890",
+    //     "name": "John Doe",
+    //     "admin": true
+    // });
 
 
     beforeEach(() => {
@@ -241,9 +240,9 @@ describe("auth.service.ts", () => {
 
         it("should do nothing when profile is in localStorage and return undefined", fakeAsync(inject([Auth, Http, AuthConfiguration, MockBackend, UserFactory, DatasetFactory], (target: Auth, http: Http, configuration: AuthConfiguration, mockBackend: MockBackend, userFactory: UserFactory, datasetFactory: DatasetFactory) => {
             spyOn(localStorage, "getItem").and.returnValue(undefined);
-            let spyGetUserInfo = spyOn(target, "getUserInfo").and.returnValue(Promise.resolve(new User({ user_id: "ID", name: "Jane Doe" })))
-            let spyGetUserDb = spyOn(userFactory, "get").and.returnValue(Promise.resolve(new User({ user_id: "ID", name: "Jane Doe", teams: ["t1", "t2", "t3"], shortid: "short" })))
-            let spyGetDatasets = spyOn(datasetFactory, "get").and.returnValue(Promise.resolve(["d1", "d2", "d3"]))
+            spyOn(target, "getUserInfo").and.returnValue(Promise.resolve(new User({ user_id: "ID", name: "Jane Doe" })))
+            spyOn(userFactory, "get").and.returnValue(Promise.resolve(new User({ user_id: "ID", name: "Jane Doe", teams: ["t1", "t2", "t3"], shortid: "short" })))
+            spyOn(datasetFactory, "get").and.returnValue(Promise.resolve(["d1", "d2", "d3"]))
             target.getUser().subscribe(user => {
                 expect(user).toBeUndefined()
             })

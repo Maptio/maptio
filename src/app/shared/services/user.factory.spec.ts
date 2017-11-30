@@ -44,8 +44,8 @@ describe("user.factory.ts", () => {
         it("should be rejected when no parameters", async(inject([UserFactory, MockBackend], (target: UserFactory, mockBackend: MockBackend) => {
 
             let mockUser = jasmine.createSpyObj("User", ["deserialize"]);
-            let spyCreate = spyOn(User, "create").and.returnValue(mockUser);
-            let spyDeserialize = mockUser.deserialize.and.returnValue(new User({ name: "Deserialized" }));
+            spyOn(User, "create").and.returnValue(mockUser);
+            mockUser.deserialize.and.returnValue(new User({ name: "Deserialized" }));
 
             const mockResponse = [
                 { id: 1, uniqueId: "uniqueId1", name: "First", email: "first@domain.com", picture: "http://seemyface/user.jpg" },
@@ -110,8 +110,8 @@ describe("user.factory.ts", () => {
         it("should be rejected when no parameters", async(inject([UserFactory, MockBackend], (target: UserFactory, mockBackend: MockBackend) => {
 
             let mockUser = jasmine.createSpyObj("User", ["deserialize"]);
-            let spyCreate = spyOn(User, "create").and.returnValue(mockUser);
-            let spyDeserialize = mockUser.deserialize.and.returnValue(new User({ name: "Deserialized" }));
+            spyOn(User, "create").and.returnValue(mockUser);
+            mockUser.deserialize.and.returnValue(new User({ name: "Deserialized" }));
 
             const mockResponse = [
                 { id: 1, uniqueId: "uniqueId1", name: "First", email: "first@domain.com", picture: "http://seemyface/user.jpg" },

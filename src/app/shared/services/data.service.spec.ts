@@ -1,6 +1,6 @@
-import { TestBed, inject, fakeAsync } from "@angular/core/testing";
-import { MockBackend, MockConnection } from "@angular/http/testing";
-import { Http, HttpModule, Response, BaseRequestOptions, ResponseOptions } from "@angular/http";
+import { TestBed } from "@angular/core/testing";
+import { MockBackend } from "@angular/http/testing";
+import { Http, HttpModule, BaseRequestOptions } from "@angular/http";
 import { DataService } from "./data.service"
 import { ErrorService } from "./error/error.service";
 
