@@ -14,18 +14,18 @@
                             <h5>
                                 <a routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}/initiatives"> {{dataset.initiative.name}}</a>
                                 <button type="button" class="btn btn-link p-0 dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}/initiatives">Circle view</a>
-                                <a class="dropdown-item" routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}/people">Tree view</a>
-                                <a class="dropdown-item" routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}/connections">Network view</a>
+                                    aria-expanded="false">
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}/initiatives">Circle view</a>
+                                    <a class="dropdown-item" routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}/people">Tree view</a>
+                                    <a class="dropdown-item" routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}/connections">Network view</a>
 
-                            </div>
-                            
+                                </div>
+
                             </h5>
-                            
+
                         </div>
 
 
@@ -35,9 +35,11 @@
                     </div>
                     <div class="card-block">
                         <small *ngIf="dataset.initiative.children" class="text-muted">Vision held by
-                            <img class="visionnary rounded-circle" src="{{dataset.initiative.children[0]?.accountable?.picture}}" alt="{{dataset.initiative.children[0]?.accountable?.name}}"
-                                placement="top" container="body" ngbTooltip="{{dataset.initiative.children[0]?.accountable?.name}}">
-                            <b> {{dataset.initiative.children[0]?.accountable?.name}}</b>
+                            <img class="visionnary rounded-circle" src="{{dataset.initiative.children[0]?.accountable?.picture}}" alt="{{dataset.initiative.children[0]?.accountable?.name}}">
+                            <a class="text-muted" routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}/u/{{dataset.initiative.children[0]?.accountable?.user_id}}/{{dataset.initiative.children[0]?.accountable?.getSlug()}}">
+                               <b> {{dataset.initiative.children[0]?.accountable?.name}}</b>
+                            </a>
+
                         </small>
 
                         <small *ngIf="!dataset.initiative.children" class="text-warning">
