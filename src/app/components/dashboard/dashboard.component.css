@@ -26,3 +26,8 @@
 .card-block{
     padding:1em;
 }
+
+.btn.focus{
+
+  box-shadow: 0px 0px 0px;
+}
