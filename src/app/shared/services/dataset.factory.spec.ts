@@ -9,8 +9,9 @@ import { DatasetFactory } from "./dataset.factory"
 import { User } from "../../../app/shared/model/user.data"
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 import { Auth } from "./auth/auth.service";
+import { Team } from "../model/team.data";
 
-describe("dataset.factory.ts", () => {
+fdescribe("dataset.factory.ts", () => {
 
     beforeEach(() => {
 
@@ -51,7 +52,7 @@ describe("dataset.factory.ts", () => {
 
         describe("(user)", () => {
             it("should get a list of datasets when called with User", fakeAsync(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
-                const mockResponse = [{ _id: "1" }, { _id: "2" }, { _id: "3" } ];
+                const mockResponse = [{ _id: "1" }, { _id: "2" }, { _id: "3" }];
 
                 mockBackend.connections.subscribe((connection: MockConnection) => {
                     if (connection.request.method === RequestMethod.Get && connection.request.url === "/api/v1/user/uniqueId/datasets") {
@@ -71,6 +72,53 @@ describe("dataset.factory.ts", () => {
                     expect(datasets[0]).toBe("1");
                     expect(datasets[1]).toBe("2");
                     expect(datasets[2]).toBe("3");
+                }))
+            })))
+
+            it("should return empty array when API response is invalid", fakeAsync(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
+
+                mockBackend.connections.subscribe((connection: MockConnection) => {
+                    if (connection.request.method === RequestMethod.Get && connection.request.url === "/api/v1/user/uniqueId/datasets") {
+                        connection.mockRespond(new Response(new ResponseOptions({
+                            body: ""
+                        })));
+                    }
+                    else {
+                        throw new Error("URL " + connection.request.url + " is not configured");
+                    }
+                });
+
+                let user = new User({ user_id: "uniqueId" });
+
+                target.get(user).then(datasets => {
+                    expect(datasets.length).toBe(0);
+                });
+            })));
+
+        });
+
+        describe("(team)", () => {
+            it("should get a list of datasets when called with Team", fakeAsync(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
+                const mockResponse = [{ _id: "1" }, { _id: "2" }, { _id: "3" }];
+
+                mockBackend.connections.subscribe((connection: MockConnection) => {
+                    if (connection.request.method === RequestMethod.Get && connection.request.url === "/api/v1/team/teamId/datasets") {
+                        connection.mockRespond(new Response(new ResponseOptions({
+                            body: mockResponse
+                        })));
+                    }
+                    else {
+                        throw new Error("URL " + connection.request.url + " is not configured");
+                    }
+                });
+
+                let team = new Team({ team_id: "teamId" });
+
+                target.get(team).then((datasets => {
+                    expect(datasets.length).toBe(3);
+                    expect(datasets[0]._id).toBe("1");
+                    expect(datasets[1]._id).toBe("2");
+                    expect(datasets[2]._id).toBe("3");
                 }))
             })))
 
@@ -122,32 +170,30 @@ describe("dataset.factory.ts", () => {
 
                 });
             })));
+        });
 
-            // it("should call error service when REST API response is invalid", fakeAsync(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
-            //     const mockResponse = {
-            //         crazy: "value"
-            //     };
+        describe("(ids)", () => {
+            it("should get many datasets when called with <ids>", fakeAsync(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
 
-            //     mockBackend.connections.subscribe((connection: MockConnection) => {
-            //         if (connection.request.method === RequestMethod.Get && connection.request.url === "/api/v1/dataset/uniqueId") {
-            //             connection.mockRespond(new Response(new ResponseOptions({
-            //                 body: JSON.stringify(mockResponse)
-            //             })));
-            //         }
-            //         else {
-            //             throw new Error("URL " + connection.request.url + " is not configured");
-            //         }
-            //     });
+                const mockResponse = [{ _id: "1" }, { _id: "2" }, { _id: "3" }];
 
-            //     let mockDataset = jasmine.createSpyObj("DataSet", ["deserialize"]);
-            //     spyOn(DataSet, "create").and.returnValue(mockDataset);
-            //     mockDataset.deserialize.and.throwError();
 
-            //     target.get("uniqueId").then(dataset => {
-            //         expect(dataset).toBeUndefined();
+                mockBackend.connections.subscribe((connection: MockConnection) => {
+                    if (connection.request.method === RequestMethod.Get && connection.request.url === "/api/v1/dataset/in/1,2,3") {
+                        connection.mockRespond(new Response(new ResponseOptions({
+                            body: JSON.stringify(mockResponse)
+                        })));
+                    }
+                    else {
+                        throw new Error("URL " + connection.request.url + " is not configured");
+                    }
+                });
 
-            //     });
-            // })));
+                target.get(["1", "2", "3"]).then(datasets => {
+                    expect(datasets.length).toBe(3)
+
+                });
+            })));
         });
     });
 
