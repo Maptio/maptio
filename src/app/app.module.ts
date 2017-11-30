@@ -63,7 +63,7 @@ import { Angulartics2Mixpanel, Angulartics2Module } from "angulartics2";
 
 // Directives
 import { FocusIfDirective } from "./shared/directives/focusif.directive";
-import { AutoSelectDirective } from "./shared/directives/autoselect.directive"
+// import { AutoSelectDirective } from "./shared/directives/autoselect.directive"
 // import { AnchorDirective } from "./shared/directives/anchor.directivse"
 
 // External libraries
@@ -164,7 +164,6 @@ export function markdownServiceFactory(http: Http) {
     BuildingComponent, InitiativeNodeComponent, LoginComponent, LogoutComponent, HomeComponent, UnauthorizedComponent, NotFoundComponent,
     InitiativeComponent, ChangePasswordComponent, LoaderComponent, TeamsListComponent, SignupComponent,
     FocusIfDirective,
-    AutoSelectDirective,
     HelpComponent,
     DashboardComponent,
 
