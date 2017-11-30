@@ -4,7 +4,7 @@ import { DataSet } from "../../shared/model/dataset.data";
 import { DashboardComponentResolver } from "./dashboard.resolver";
 import { Initiative } from "../../shared/model/initiative.data";
 import { ExportService } from "../../shared/services/export/export.service";
-import * as filesaver from "file-saver"
+import {saveAs}  from "file-saver"
 
 @Component({
     selector: "dashboard",
@@ -40,17 +40,11 @@ export class DashboardComponent {
     export(dataset: DataSet) {
         this.exportService.getReport(dataset).subscribe((exportString: string) => {
             let blob = new Blob([exportString], { type: "text/csv" });
-            filesaver.saveAs(blob, `${dataset.initiative.name}.csv`);
-
+            saveAs(blob, `${dataset.initiative.name}.csv`);
         }
             ,
             (error: Error) => console.log("Error downloading the file."),
             () => console.info("OK")
         );
     }
-
-    // downloadFile(data: string, name: string) {
-    //     let blob = new Blob([data], { type: "text/csv" });
-    //     filesaver.saveAs(blob, `${name}.csv`);
-    // }
 }
