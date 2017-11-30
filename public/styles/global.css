@@ -361,5 +361,9 @@ button[data-handler=bootstrap-markdown-cmdImage] {
 .icon, .icon:hover{
   font-weight: bold;
   color: #1F2021;
-  box-shadow: 0px 0px 0px;
+  box-shadow: 0 0 0 !important;
+}
+
+.btn.focus, .btn:focus{
+  box-shadow: 0 0 0 !important;
 }
