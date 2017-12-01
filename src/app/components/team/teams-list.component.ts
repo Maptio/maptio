@@ -93,24 +93,24 @@ export class TeamsListComponent implements OnInit {
         this.userSubscription2 = this.auth.getUser().subscribe(
             (user: User) => {
 
-                this.teams$ = Promise.all(
-                    user.teams.map(
-                        (team_id: string) => this.teamFactory.get(team_id).then(t => t, (reason) => { return Promise.reject(reason) }).catch(() => { return <Team>undefined })
-                    )
-                )
-                    .then((teams: Array<Team>) => {
-                        teams.forEach(t => {
-                            if (t) {
-                                this.userService.getUsersInfo(t.members).then((actualMembers: User[]) => {
-                                    let allDeleted = differenceBy(t.members, actualMembers, m => m.user_id).map(m => { m.isDeleted = true; return m });
-                                    return actualMembers.concat(allDeleted);
-                                })
-                                    .then(members => t.members = sortBy(members, m => m.name))
-                            }
+                this.teams$ =
+                    this.teamFactory.get(user.teams)
+                        .then((teams: Array<Team>) => {
+                            teams.forEach(t => {
+                                if (t) {
+                                    this.userService.getUsersInfo(t.members).then((actualMembers: User[]) => {
+                                        let allDeleted = differenceBy(t.members, actualMembers, m => m.user_id).map(m => { m.isDeleted = true; return m });
+                                        return actualMembers.concat(allDeleted);
+                                    })
+                                        .then(members => t.members = sortBy(members, m => m.name))
+                                }
+                            })
+                            return teams.filter(t => { return t !== undefined });
                         })
-                        return teams.filter(t => { return t !== undefined });
-                    })
-                    .then(teams => { this.isLoading = false; return sortBy(teams, t => t.name) })
+                        .then(teams => {
+                            this.isLoading = false;
+                            return sortBy(teams, t => t.name)
+                        })
             })
     }
 

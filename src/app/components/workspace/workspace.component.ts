@@ -135,18 +135,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
 
     openDetails(node: Initiative, willCloseBuildingPanel: boolean = false) {
-        // console.log(node)
-        // Promise.all([this.dataset$, this.team$])
-        //     .then((result: [DataSet, Team]) => {
-        //         let dataset = result[0]
-        //         let team = result[1];
         this.openedNodeParent = node.getParent(this.dataset.initiative);
         this.openedNode = node;
-        // })
-        // .then(() => {
         this.isBuildingPanelCollapsed = willCloseBuildingPanel;
         this.isDetailsPanelCollapsed = false;
-        // })
     }
 
     addInitiative(node: Initiative) {

@@ -214,14 +214,10 @@ describe("workspace.component.ts", () => {
 
                 component.openDetails(new Initiative({ name: "opening", id: 2 }))
 
-                // Promise.all([component.dataset$, component.team$]).then(() => {
                 expect(component.openedNode.name).toBe("opening");
                 expect(component.openedNodeParent.name).toBe("Name")
-                // })
-                //     .then(() => {
                 expect(component.isDetailsPanelCollapsed).toBe(false);
                 expect(component.isBuildingPanelCollapsed).toBe(false);
-                // })
 
             }));
 
@@ -231,14 +227,10 @@ describe("workspace.component.ts", () => {
 
                 component.openDetails(new Initiative({ name: "opening", id: 2 }), true)
 
-                // Promise.all([component.dataset$, component.team$]).then(() => {
                 expect(component.openedNode.name).toBe("opening");
                 expect(component.openedNodeParent.name).toBe("Name")
-                // })
-                //     .then(() => {
                 expect(component.isDetailsPanelCollapsed).toBe(false);
                 expect(component.isBuildingPanelCollapsed).toBe(true);
-                // })
 
             }));
         });
