@@ -84,11 +84,13 @@ export class HeaderComponent implements OnInit {
                         }
                     }
                     )
-                })
+                }, (r) => { return Promise.reject(r)})
                 .then(datasets => sortBy(datasets, d => d.name))
+                .catch(() => { })
 
             this.teams$ = this.teamFactory.get(this.user.teams)
-                .then(teams => sortBy(teams, t => t.name))
+                .then(teams => sortBy(teams, t => t.name), (r) => { return Promise.reject(r)})
+                .catch(() => { })
         },
             (error: any) => { this.errorService.handleError(error) });
     }
