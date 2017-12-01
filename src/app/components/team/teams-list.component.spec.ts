@@ -75,7 +75,7 @@ describe("teams-list.component.ts", () => {
     // })
 
     it("should gather user data", () => {
-        user$.next(new User({ user_id: "some_new_id", teams: [] }));
+        user$.next(new User({ user_id: "some_new_id", teams: ["1", "2", "3"] }));
         expect(component.user.user_id).toBe("some_new_id");
     });
 
