@@ -105,13 +105,14 @@ describe("teams-list.component.ts", () => {
         it("should gather team and members data", async(() => {
             let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
             let mockUserService = target.debugElement.injector.get(UserService);
-
-            let spyGetTeam = spyOn(mockTeamFactory, "get").and.callFake((id: string) => {
-                return Promise.resolve(new Team({
-                    team_id: id,
-                    name: `Team ${id}`,
-                    members: [new User({ user_id: `${id}1` }), new User({ user_id: `${id}2` }), new User({ user_id: `${id}3` })]
-                }))
+            let spyGetTeam = spyOn(mockTeamFactory, "get").and.callFake((ids: string[]) => {
+                return Promise.resolve(
+                    [
+                        new Team({ team_id: "3", name: `Team 3`, members: [new User({ user_id: `31` }), new User({ user_id: `32` }), new User({ user_id: `33` })] }),
+                        new Team({ team_id: "1", name: `Team 1`, members: [new User({ user_id: `21` }), new User({ user_id: `12` }), new User({ user_id: `13` })] }),
+                        new Team({ team_id: "2", name: `Team 2`, members: [new User({ user_id: `11` }), new User({ user_id: `22` }), new User({ user_id: `23` })] })
+                    ]
+                )
             })
 
             let spyGetUserInfo = spyOn(mockUserService, "getUsersInfo").and.callFake((users: User[]) => {
@@ -130,21 +131,19 @@ describe("teams-list.component.ts", () => {
                 })
                 expect(spyGetUserInfo).toHaveBeenCalledTimes(3)
             })
-            expect(spyGetTeam).toHaveBeenCalledTimes(3);
+            expect(spyGetTeam).toHaveBeenCalledTimes(1);
         }))
 
         it("should gather team and members data when team retrieval fails", async(() => {
             let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
             let mockUserService = target.debugElement.injector.get(UserService);
-
-            let spyGetTeam = spyOn(mockTeamFactory, "get").and.callFake((id: string) => {
-                return (Number.parseInt(id) % 2)
-                    ? Promise.resolve(new Team({
-                        team_id: id,
-                        name: `Team ${id}`,
-                        members: [new User({ user_id: `${id}1` }), new User({ user_id: `${id}2` }), new User({ user_id: `${id}3` })]
-                    }))
-                    : Promise.reject("Can't find team")
+            let spyGetTeam = spyOn(mockTeamFactory, "get").and.callFake((ids: string[]) => {
+                return Promise.resolve(
+                    [
+                        new Team({ team_id: "3", name: `Team 3`, members: [new User({ user_id: `31` }), new User({ user_id: `32` }), new User({ user_id: `33` })] }),
+                        new Team({ team_id: "1", name: `Team 1`, members: [new User({ user_id: `21` }), new User({ user_id: `12` }), new User({ user_id: `13` })] }),
+                    ]
+                )
             })
 
             let spyGetUserInfo = spyOn(mockUserService, "getUsersInfo").and.callFake((users: User[]) => {
@@ -169,19 +168,21 @@ describe("teams-list.component.ts", () => {
 
                 expect(spyGetUserInfo).toHaveBeenCalledTimes(2)
             })
-            expect(spyGetTeam).toHaveBeenCalledTimes(3);
+            expect(spyGetTeam).toHaveBeenCalledTimes(1);
         }))
 
         it("should gather team and members data when member retrieval fails", async(() => {
             let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
             let mockUserService = target.debugElement.injector.get(UserService);
 
-            let spyGetTeam = spyOn(mockTeamFactory, "get").and.callFake((id: string) => {
-                return Promise.resolve(new Team({
-                    team_id: id,
-                    name: `Team ${id}`,
-                    members: [new User({ user_id: `${id}1` }), new User({ user_id: `${id}2` }), new User({ user_id: `${id}3` })]
-                }))
+            let spyGetTeam = spyOn(mockTeamFactory, "get").and.callFake((ids: string[]) => {
+                return Promise.resolve(
+                    [
+                        new Team({ team_id: "3", name: `Team 3`, members: [new User({ user_id: `31` }), new User({ user_id: `32` }), new User({ user_id: `33` })] }),
+                        new Team({ team_id: "1", name: `Team 1`, members: [new User({ user_id: `21` }), new User({ user_id: `12` }), new User({ user_id: `13` })] }),
+                        new Team({ team_id: "2", name: `Team 2`, members: [new User({ user_id: `11` }), new User({ user_id: `22` }), new User({ user_id: `23` })] })
+                    ]
+                )
             })
 
             let spyGetUserInfo = spyOn(mockUserService, "getUsersInfo").and.callFake((users: User[]) => {
@@ -203,7 +204,7 @@ describe("teams-list.component.ts", () => {
                 })
                 expect(spyGetUserInfo).toHaveBeenCalledTimes(3)
             })
-            expect(spyGetTeam).toHaveBeenCalledTimes(3);
+            expect(spyGetTeam).toHaveBeenCalledTimes(1);
         }))
     });
 
