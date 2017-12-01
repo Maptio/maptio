@@ -6,7 +6,7 @@ import { D3Service } from "d3-ng2-service";
 import { DataSet } from "../../model/dataset.data";
 import { Initiative } from "../../model/initiative.data";
 
-fdescribe("export.service.ts", () => {
+describe("export.service.ts", () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
