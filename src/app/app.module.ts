@@ -196,6 +196,7 @@ export function markdownServiceFactory(http: Http) {
       secondaryColour: "#2F81B7",
       tertiaryColour: "#ffffff"
     }),
+    BrowserAnimationsModule,
     CloudinaryModule.forRoot(cloudinaryLib, { cloud_name: environment.CLOUDINARY_CLOUDNAME, upload_preset: environment.CLOUDINARY_UPLOAD_PRESET })
   ],
   exports: [RouterModule],
