@@ -209,14 +209,18 @@ export class LoginComponent implements OnInit {
                             })
                     })
                     .then((user_id: string) => {
+                        this.loader.show();
                         this.isActivationPending = Promise.resolve(false);
-                        this.loader.hide();
                     })
                     .then(() => {
                         this.analytics.eventTrack("Activate", { email: email, firstname: firstname, lastname: lastname });
                     }, () => { })
                     .then(() => {
+                        this.loader.show();
                         this.auth.login(email, password)
+                    }).
+                    then(() => {
+                        this.loader.show();
                     })
             }
             else {
