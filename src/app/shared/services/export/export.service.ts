@@ -4,6 +4,7 @@ import { Observable } from "rxjs/Rx";
 import { AuthHttp } from "angular2-jwt/angular2-jwt";
 import { DataSet } from "../../model/dataset.data";
 import { D3Service, D3 } from "d3-ng2-service";
+import { sortBy } from "lodash";
 
 @Injectable()
 export class ExportService {
@@ -15,11 +16,16 @@ export class ExportService {
 
     getReport(dataset: DataSet): Observable<string> {
         let list = this.d3.hierarchy(dataset.initiative).descendants();
-        let exportString: string = "Initiative,Authority,Helpers";
+        let exportString: string = "Depth,Initiative,Parent Initiative,Type,Person,All,Helpers";
 
         dataset.initiative.traverse(i => {
             let inList = list.find(l => l.data.id === i.id);
-            exportString += `\n"${Array((inList.depth - 1) * 5).join(String.fromCharCode(32))}${i.name}","${i.accountable ? i.accountable.name : ""}",${i.helpers.map(h => `"${h.name}"`).join(",")}`
+            let nbrHelpers = i.helpers.length;
+            let nbrAll = nbrHelpers + (i.accountable ? 1 : 0);
+            exportString += `\n"${inList.depth}","${i.name}","${inList.parent.data.name}","Authority","${i.accountable ? i.accountable.name : ""}","${nbrAll}","${nbrHelpers}"`
+            sortBy(i.helpers, "name").forEach(h => {
+                exportString += `\n"${inList.depth}","${i.name}","${inList.parent.data.name}","Helpers","${h.name}","${nbrAll}","${nbrHelpers}"`
+            })
         });
         return Observable.of(exportString);
     }
