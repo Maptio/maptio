@@ -1,5 +1,6 @@
 <div class="mt-3">
-
+    <ngx-loading [show]="isLoading"></ngx-loading>
+    
     <h2 class="ml-3">Create a Maptio account</h2>
     <br>
     <div class="alert alert-danger" role="alert" *ngIf="signUpMessageFail">
@@ -17,8 +18,8 @@
         email to complete set-up. Not received? Email support@maptio.com
     </div>
 
-    <form class="form-group" [formGroup]="signupForm" (submit)="createAccount()">
-
+    <form class="form-group" [formGroup]="signupForm" (submit)="createAccount()" >
+        
         <div class="form-group" [class.has-warning]="signupForm.controls['firstname'].invalid  && (signupForm.controls['firstname'].dirty || signupForm.controls['firstname'].touched)">
             <label for="inputFirstname">First name</label>
             <input type="text" id="inputFirstname" formControlName="firstname" class="form-control form-control-warning form-control-lg"
