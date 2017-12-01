@@ -149,7 +149,7 @@ export class LoginComponent implements OnInit {
                     }
                 }).
                 then(() => {
-                    this.loader.hide();
+                    this.loader.show();
                 })
         }
     }
