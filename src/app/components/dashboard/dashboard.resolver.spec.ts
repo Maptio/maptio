@@ -70,7 +70,7 @@ describe("dashboard.resolver.ts", () => {
         })
         target.resolve(undefined, undefined).subscribe(ds => {
             expect(ds).toBeDefined();
-            expect(ds.length).toBe(4);
+            expect(ds.length).toBe(3);
             ds.forEach((d, index) => {
                 expect(d._id).toBe(`${index + 1}`);
                 expect(d.initiative.name).toBe(`Name ${index + 1}`);

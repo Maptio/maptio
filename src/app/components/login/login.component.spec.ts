@@ -112,9 +112,6 @@ describe("login.component.ts", () => {
                     expect(isUserExist).toBe(true);
                     expect(target.debugElement.injector.get(Auth).login).toHaveBeenCalledWith("someone@company.com", "secret")
                 })
-                .then(() => {
-                    expect(spyLoaderHide).toHaveBeenCalled()
-                })
         }));
 
         it("should not login user when login form is valid and user does not exists", async(() => {

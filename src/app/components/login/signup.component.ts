@@ -28,6 +28,7 @@ export class SignupComponent implements OnInit {
     public isRedirectToActivate: boolean;
     public isConfirmationEmailSent: boolean;
     public signUpMessageFail: string;
+    public isLoading: boolean;
     public userToken: string;
 
     public signupForm: FormGroup;
@@ -64,14 +65,14 @@ export class SignupComponent implements OnInit {
         this.signUpMessageFail = "";
 
         if (this.signupForm.dirty && this.signupForm.valid) {
-            this.loader.show();
+            this.isLoading = true;
             let email = this.signupForm.controls["email"].value
             let firstname = this.signupForm.controls["firstname"].value
             let lastname = this.signupForm.controls["lastname"].value
 
             Promise.all([this.isEmailExist(email), this.isActivationPending(email, firstname, lastname)])
                 .then(([isEmailExist, { isActivationPending, userToken }]) => {
-                    this.loader.show();
+                    this.isLoading = true;
                     if (isEmailExist) {
                         if (isActivationPending) {
                             // account is created but still needs activation => redirect to activation page
@@ -103,7 +104,7 @@ export class SignupComponent implements OnInit {
                                 this.signUpMessageFail = `${reason}! Please email us at support@maptio.com and we'll help you out. `
                             })
                     }
-                }).then(() => { this.loader.hide(); })
+                }).then(() => { this.isLoading = false; })
         }
     }
 
