@@ -29,10 +29,14 @@ describe("export.service.ts", () => {
         let data = new Initiative().deserialize(fixture.load("data.json"));
         let dataset = new DataSet({ _id: "ID", initiative: data });
         target.getReport(dataset).subscribe(exported => {
-            expect(exported.split(`\n`).length).toBe(3);
-            expect(exported.split(`\n`)[0]).toBe("Initiative,Authority,Helpers");
-            expect(exported.split(`\n`)[1]).toBe(`"Tech","CTO","CTO1","CTO2"`);
-            expect(exported.split(`\n`)[2]).toBe(`"Marketing","CMO","CMO1","CMO2"`);
+            expect(exported.split(`\n`).length).toBe(7);
+            expect(exported.split(`\n`)[0]).toBe("Depth,Initiative,Parent Initiative,Type,Person,Participants,Helpers");
+            expect(exported.split(`\n`)[1]).toBe(`"1","Tech","My Company","Authority","CTO","3","2"`);
+            expect(exported.split(`\n`)[2]).toBe(`"1","Tech","My Company","Helpers","CTO1","3","2"`);
+            expect(exported.split(`\n`)[3]).toBe(`"1","Tech","My Company","Helpers","CTO2","3","2"`);
+            expect(exported.split(`\n`)[4]).toBe(`"1","Marketing","My Company","Authority","CMO","3","2"`);
+            expect(exported.split(`\n`)[5]).toBe(`"1","Marketing","My Company","Helpers","CMO1","3","2"`);
+            expect(exported.split(`\n`)[6]).toBe(`"1","Marketing","My Company","Helpers","CMO2","3","2"`);
         });
     }))
 

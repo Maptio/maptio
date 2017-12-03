@@ -213,10 +213,10 @@ export class Auth {
                                             return user;
                                         }, () => { })
                                         .then((user: User) => {
-                                            let welcomeURL = user.datasets.length === 1 ? `/map/${user.datasets[0]}/welcome/initiatives` : `/home`;
+                                            // let welcomeURL = user.datasets.length === 1 ? `/map/${user.datasets[0]}/welcome/initiatives` : `/home`;
                                             this.loader.hide()
                                             let redirectUrl = localStorage.getItem("redirectUrl");
-                                            this.router.navigateByUrl(redirectUrl ? redirectUrl : welcomeURL);
+                                            this.router.navigateByUrl(redirectUrl ? redirectUrl : "/home");
                                         })
                                 }
                                 else {
