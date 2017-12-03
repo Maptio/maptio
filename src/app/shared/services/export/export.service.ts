@@ -16,7 +16,7 @@ export class ExportService {
 
     getReport(dataset: DataSet): Observable<string> {
         let list = this.d3.hierarchy(dataset.initiative).descendants();
-        let exportString: string = "Depth,Initiative,Parent Initiative,Type,Person,All,Helpers";
+        let exportString: string = "Depth,Initiative,Parent Initiative,Type,Person,Participants,Helpers";
 
         dataset.initiative.traverse(i => {
             let inList = list.find(l => l.data.id === i.id);

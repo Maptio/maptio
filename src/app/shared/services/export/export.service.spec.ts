@@ -30,7 +30,7 @@ describe("export.service.ts", () => {
         let dataset = new DataSet({ _id: "ID", initiative: data });
         target.getReport(dataset).subscribe(exported => {
             expect(exported.split(`\n`).length).toBe(7);
-            expect(exported.split(`\n`)[0]).toBe("Depth,Initiative,Parent Initiative,Type,Person,All,Helpers");
+            expect(exported.split(`\n`)[0]).toBe("Depth,Initiative,Parent Initiative,Type,Person,Participants,Helpers");
             expect(exported.split(`\n`)[1]).toBe(`"1","Tech","My Company","Authority","CTO","3","2"`);
             expect(exported.split(`\n`)[2]).toBe(`"1","Tech","My Company","Helpers","CTO1","3","2"`);
             expect(exported.split(`\n`)[3]).toBe(`"1","Tech","My Company","Helpers","CTO2","3","2"`);
