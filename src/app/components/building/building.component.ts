@@ -5,7 +5,7 @@ import { EventEmitter } from "@angular/core";
 import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { DataSet } from "./../../shared/model/dataset.data";
 import { Initiative } from "./../../shared/model/initiative.data";
-import { Component, ViewChild, Output} from "@angular/core";
+import { Component, ViewChild, Output } from "@angular/core";
 import { TreeNode, IActionMapping, TREE_ACTIONS, TreeModel, TreeComponent } from "angular-tree-component";
 import { DataService } from "../../shared/services/data.service";
 import "rxjs/add/operator/map";
@@ -205,13 +205,25 @@ export class BuildingComponent {
             })
             .then(() => {
                 let queue = this.nodes[0].traversePromise(function (node: Initiative) {
+                    let q: any = [];
                     if (node.accountable) {
-                        return this.userFactory.get(node.accountable.user_id).then((u: User) => {
+                        q += this.userFactory.get(node.accountable.user_id).then((u: User) => {
                             node.accountable.picture = u.picture;
                             node.accountable.name = u.name
                             // return u.picture;
                         }, () => { return Promise.reject("No user") }).catch(() => { })
                     }
+                    if (node.helpers) {
+                        node.helpers.forEach(h => {
+                            return this.userFactory.get(h.user_id).then((u: User) => {
+                                h.picture = u.picture;
+                                h.name = u.name
+                                // return u.picture;
+                            }, () => { return Promise.reject("No user") }).catch(() => { })
+                        })
+                    }
+
+
                 }.bind(this));
                 return Promise.all(queue).then(t => t).catch(() => { })
             })
