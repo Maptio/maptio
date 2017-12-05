@@ -191,6 +191,7 @@ export class LoginComponent implements OnInit {
                                 if (isUpdated) {
                                     return Promise.resolve(user_id)
                                 }
+                                 return Promise.reject("Password cannot be updated");
                             },
                             (error: any) => {
                                 this.isPasswordTooWeak = true;
@@ -209,7 +210,7 @@ export class LoginComponent implements OnInit {
                             })
                     })
                     .then((user_id: string) => {
-                        this.loader.show();
+                        // this.loader.show();
                         this.isActivationPending = Promise.resolve(false);
                     })
                     .then(() => {
@@ -218,9 +219,6 @@ export class LoginComponent implements OnInit {
                     .then(() => {
                         this.loader.show();
                         this.auth.login(email, password)
-                    }).
-                    then(() => {
-                        this.loader.show();
                     })
             }
             else {

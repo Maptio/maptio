@@ -213,7 +213,7 @@ export class UserService {
                 .toPromise()
                 .then((response) => {
                     return true
-                })
+                }, (error) => { return Promise.reject("Cannot update user credentials") })
         });
     }
 
@@ -237,7 +237,7 @@ export class UserService {
                 .toPromise()
                 .then((response) => {
                     return true
-                })
+                }, (error) => { return Promise.reject("Cannot update user profile") })
         });
     }
 
@@ -260,7 +260,7 @@ export class UserService {
                 .toPromise()
                 .then((response) => {
                     return true
-                })
+                }, (error) => { return Promise.reject("Cannot update user picture") })
         });
     }
 
@@ -278,7 +278,7 @@ export class UserService {
                 .toPromise()
                 .then((response) => {
                     return true
-                })
+                }, (error) => { return Promise.reject("Cannot update user credentials") })
         });
     }
 
