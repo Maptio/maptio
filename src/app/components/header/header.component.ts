@@ -84,13 +84,13 @@ export class HeaderComponent implements OnInit {
                         }
                     }
                     )
-                }, (r) => { return Promise.reject(r)})
+                }, (r) => { return Promise.reject(r) })
                 .then(datasets => sortBy(datasets, d => d.name))
                 .catch(() => { return [] })
 
             this.teams$ = this.teamFactory.get(this.user.teams)
-                .then(teams => sortBy(teams, t => t.name), (r) => { return Promise.reject(r)})
-                .catch(() => { return []})
+                .then(teams => sortBy(teams, t => t.name), (r) => { return Promise.reject(r) })
+                .catch(() => { return [] })
         },
             (error: any) => { this.errorService.handleError(error) });
     }
@@ -128,6 +128,17 @@ export class HeaderComponent implements OnInit {
     }
 
     login() {
+
+        if (this.loginForm.dirty && this.loginForm.controls["email"].invalid) {
+            console.log("login", this.loginForm.controls)
+            let message = "An email is required e.g. rick.sanchez@cartoonnetwork.com"
+            this.router.navigateByUrl(`/login?login_message=${encodeURIComponent(message)}`);
+        }
+        if (this.loginForm.dirty && this.loginForm.controls["password"].invalid) {
+            console.log("login", this.loginForm.controls)
+            let message = "Password required"
+            this.router.navigateByUrl(`/login?login_message=${encodeURIComponent(message)}`);
+        }
 
         if (this.loginForm.dirty && this.loginForm.valid) {
             localStorage.clear();
