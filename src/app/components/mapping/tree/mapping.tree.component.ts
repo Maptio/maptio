@@ -59,7 +59,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     public moveInitiative$: Subject<{ node: Initiative, from: Initiative, to: Initiative }> = new Subject<{ node: Initiative, from: Initiative, to: Initiative }>();
     public closeEditingPanel$: Subject<boolean> = new Subject<boolean>();
 
-    MAX_TEXT_LENGTH = 35;
+    MAX_TEXT_LENGTH = 135;
 
     constructor(public d3Service: D3Service, public colorService: ColorService,
         public uiService: UIService, public router: Router, private userFactory: UserFactory,
@@ -104,7 +104,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             .attr("transform", `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`);
         let definitions = g.append("defs")
         this.fontSubscription = this.fontSize$.subscribe((fs: number) => {
-            svg.attr("font-size", fs + "px")
+            svg.attr("font-size", fs + "px");
+            d3.selectAll("text").attr("font-size", fs + "px")
         })
 
 
@@ -200,7 +201,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         let hoverInitiative = this.hoverInitiative.bind(this);
         let slug = this.slug;
 
-        let treemap = d3.tree().size([viewerWidth / 2, viewerHeight]).nodeSize([40, 1]);
+        let treemap = d3.tree().size([viewerWidth / 2, viewerHeight]).nodeSize([65, 1]);
 
         let i = 0,
             // duration = 750,
@@ -319,7 +320,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 .each(function (d: any) {
                     let realText = d.data.name ? (d.data.name.length > MAX_TEXT_LENGTH ? `${d.data.name.substr(0, MAX_TEXT_LENGTH)}...` : d.data.name) : "(Empty)";
                     uiService.wrap(d3.select(this), realText, d.y / d.depth * 0.85);
-                    // uiService.wrap(d3.select(this), d.data.name.substr(0, 35), d.y / d.depth * 0.85);
                 });
 
             nodeEnter.append("text")
