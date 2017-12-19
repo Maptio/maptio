@@ -8,6 +8,7 @@ import { User } from "../../shared/model/user.data";
 import { compact, sortBy } from "lodash";
 import { Team } from "../../shared/model/team.data";
 import { UserFactory } from "../../shared/services/user.factory";
+import { SelectableTag } from "../../shared/model/tag.data";
 
 @Injectable()
 export class WorkspaceComponentResolver implements Resolve<{ dataset: DataSet, team: Team, members: User[] }> {
@@ -19,6 +20,10 @@ export class WorkspaceComponentResolver implements Resolve<{ dataset: DataSet, t
         let datasetId = <string>route.params["mapid"];
         return Observable.fromPromise(
             this.datasetFactory.get(datasetId)
+                .then((dataset: DataSet) => {
+                    dataset.tags = dataset.tags.map(t => new SelectableTag(t)).map(t => { t.isSelected = true; return t });
+                    return dataset;
+                })
                 .then((dataset: DataSet) => {
                     return this.teamFactory.get(dataset.initiative.team_id)
                         .then(

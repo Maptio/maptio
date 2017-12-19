@@ -3,7 +3,7 @@ import { environment } from "./../environment/environment";
 
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { NgModule} from "@angular/core";
+import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpModule, RequestOptions, Http } from "@angular/http";
@@ -93,6 +93,7 @@ import { MappingNetworkComponent } from "./components/mapping/network/mapping.ne
 import { WorkspaceComponentResolver } from "./components/workspace/workspace.resolver";
 import { LogoutComponent } from "./components/login/logout.component";
 import { ExportService } from "./shared/services/export/export.service";
+import { TagsEditingComponent } from "./components/tags/tags-editing.component";
 
 
 // Routes
@@ -114,13 +115,18 @@ const appRoutes: Routes = [
 
   { path: ":shortid/:slug", component: AccountComponent, canActivate: [AuthGuard] },
 
+  // {
+  //   path: "map/:mapid/:mapslug/i/:nodeid/:nodeslug",
+  //   component: WorkspaceComponent, resolve: {
+  //     data: WorkspaceComponentResolver
+  //   },
+  //   canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard]
+  // },
   {
-    path: "map/:mapid/:mapslug/i/:nodeid/:nodeslug",
-    component: WorkspaceComponent, resolve: {
-      data: WorkspaceComponentResolver
-    },
-    canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard]
-  },
+    path: "map/:mapid/:mapslug/tags",
+    component: TagsEditingComponent
+  }
+  ,
   {
     path: "map/:mapid/:mapslug",
     component: WorkspaceComponent,
@@ -166,6 +172,7 @@ export function markdownServiceFactory(http: Http) {
     FocusIfDirective,
     HelpComponent,
     DashboardComponent,
+    TagsEditingComponent,
 
     // for tests
     AnAnchorableComponent

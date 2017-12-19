@@ -72,10 +72,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     @ViewChild("dragConfirmation")
     dragConfirmationModal: NgbModal;
 
-    // constructor(private auth: Auth, private route: ActivatedRoute, private datasetFactory: DatasetFactory, private dataService: DataService,
-    //     private teamFactory: TeamFactory, private userFactory: UserFactory, private userService: UserService, private modalService: NgbModal) {
-    // }
-
     ngOnDestroy(): void {
         EmitterService.get("currentDataset").emit(undefined)
         if (this.routeSubscription) this.routeSubscription.unsubscribe();
@@ -87,9 +83,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-
-
-
         this.routeSubscription = this.route.data
             .subscribe((data: { data: { dataset: DataSet, team: Team, members: User[] } }) => {
                 this.dataset = data.data.dataset;
@@ -100,8 +93,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.teamId = this.team.team_id;
                 EmitterService.get("currentDataset").emit(this.dataset);
                 this.buildingComponent.loadData(this.dataset._id, "", this.team.name, this.team.team_id);
-
-
+                
                 this.members.forEach(m => {
                     this.isPictureLoadedMap.set(m.user_id, false);
                     this.isFadeInMap.set(m.user_id, "in");

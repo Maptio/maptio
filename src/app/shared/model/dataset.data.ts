@@ -1,25 +1,19 @@
 import { Initiative } from "./initiative.data";
 import { Serializable } from "./../interfaces/serializable.interface";
+import { Tag, DEFAULT_TAGS } from "./tag.data";
 
 export class DataSet implements Serializable<DataSet> {
-
-
-  /**
-     * Team short id (URL friendly)
-     */
   public shortid: string;
 
   _id: string;
-
-  // team_id: string;
-
-  // createdOn: Date;
 
   initiative: Initiative;
 
   team: any;
 
   depth: number;
+
+  tags: Array<Tag> = DEFAULT_TAGS;
 
   public constructor(init?: Partial<DataSet>) {
     Object.assign(this, init);

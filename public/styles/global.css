@@ -367,3 +367,64 @@ button[data-handler=bootstrap-markdown-cmdImage] {
 .btn.focus, .btn:focus{
   box-shadow: 0 0 0 !important;
 }
+
+
+.tags {
+  list-style: none;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+}
+
+.tags li {
+  float: left;
+}
+
+.tag {
+  background: #eee;
+  border-radius: 3px 0 0 3px;
+  color: #fefefe!important;
+  display: inline-block;
+  height: 22px;
+  line-height: 22px;
+  padding: 0 20px 0 23px;
+  position: relative;
+  margin: 0 10px 0 0;
+  text-decoration: none;
+  -webkit-transition: color 0.2s;
+  border-radius:3px;
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.tag::before {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: inset 0 1px rgba(0, 0, 0, 0.25);
+  content: '';
+  height: 6px;
+  left: 10px;
+  position: absolute;
+  width: 6px;
+  top: 8px;
+}
+
+/* .tag::after {
+  background: #fff;
+  border-bottom: 11px solid transparent;
+  border-left: 10px solid #eee;
+  border-top: 11px solid transparent;
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+} */
+
+.tag:hover {
+  background-color: crimson;
+  color: white;
+}
+
+.tag:hover::after {
+  border-left-color: crimson;
+}
