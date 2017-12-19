@@ -58,6 +58,7 @@ export class InitiativeComponent implements OnChanges {
 
     @ViewChild("inputDescription") public inputDescriptionElement: ElementRef;
     @ViewChild("inputRole") public inputRoleElement: ElementRef;
+    @ViewChild("inputTag") public inputTagElement: ElementRef;
     @ViewChild("inputAuthorityRole") public inputAuthorityRole: ElementRef;
 
     constructor(private teamFactory: TeamFactory, private userFactory: UserFactory,
@@ -147,10 +148,11 @@ export class InitiativeComponent implements OnChanges {
     }
 
     saveTag(newTag: NgbTypeaheadSelectItemEvent) {
-        this.node.tags.unshift(new Tag(newTag.item));
+        if (this.node.tags.findIndex(t => t.shortid === newTag.item.shortid) < 0) {
+            this.node.tags.unshift(new Tag(newTag.item));
+        }
         this.onBlur();
         this.analytics.eventTrack("Initiative", { action: "add tag", team: this.teamName, teamId: this.teamId });
-
     }
 
     removeHelper(helper: Helper) {

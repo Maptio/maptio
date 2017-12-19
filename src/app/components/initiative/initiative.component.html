@@ -7,7 +7,7 @@
 
 <form>
 	<fieldset>
-		<div class="mb-3">
+		<div class="mb-1">
 			<div class="row">
 				<div class="col-xl-12 mt-3">
 					<!-- <h4 *ngIf="isReadOnly">{{node?.name}}</h4> -->
@@ -17,19 +17,19 @@
 				</div>
 			</div>
 		</div>
-		<div class="card mb-3">
+		<div class="card mb-3 transparent borderless">
 
-			<div class="card-block">
+			<div class="">
 				<ul class="tags">
 					<li *ngFor="let tag of node?.tags; let i=index">
 						<a class="tag small checked" [style.background]="tag?.color">{{tag?.name}}
-							<span class="remove text-muted transparent" (click)="removeTag(tag)"></span>
+							<span class="remove text-muted transparent ml-1" (click)="removeTag(tag)"></span>
 
 						</a>
 					</li>
 					<li>
-						<input #inputtag required="required" (focus)="inputtag.value=''" [resultTemplate]="rtTag" type="text" id="inputTag" placeholder="Add tag"
-						 class="form-control form-control-sm" (selectItem)="saveTag($event)" [ngbTypeahead]="searchTag" editable="false" [resultFormatter]="tagFormatter"
+						<input #inputTag required="required" (focus)="inputTag.value=''" [resultTemplate]="rtTag" type="text" id="inputTag" placeholder="Add tag"
+						 class="form-control form-control-sm col-8 p-1" (selectItem)="saveTag($event)" [ngbTypeahead]="searchTag" editable="false" [resultFormatter]="tagFormatter"
 						 [inputFormatter]="tagFormatter" />
 					</li>
 				</ul>
