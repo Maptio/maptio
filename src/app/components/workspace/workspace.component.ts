@@ -47,7 +47,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     public isBuildingPanelCollapsed: boolean = true;
     public isDetailsPanelCollapsed: boolean = true;
-    private datasetId: string;
+    public datasetId: string;
     private routeSubscription: Subscription;
     private userSubscription: Subscription;
 
