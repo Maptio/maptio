@@ -13,7 +13,7 @@ import { UserService } from "../../shared/services/user/user.service";
 import { MailingService } from "../../shared/services/mailing/mailing.service";
 import { JwtEncoder } from "../../shared/services/encoding/jwt.service";
 import { UserFactory } from "../../shared/services/user.factory";
-import { ActivatedRouteSnapshot} from "@angular/router";
+import { ActivatedRouteSnapshot } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { LoaderService } from "../../shared/services/loading/loader.service";
 import { Angulartics2Module, Angulartics2, Angulartics2Mixpanel } from "angulartics2";
@@ -57,7 +57,7 @@ describe("workspace.resolver.ts", () => {
 
     it("resolves when all datasets and teams load", fakeAsync(inject([WorkspaceComponentResolver, DatasetFactory, TeamFactory, UserFactory], (target: WorkspaceComponentResolver, datasetFactory: DatasetFactory, teamFactory: TeamFactory, userFactory: UserFactory) => {
         let spyGetDataSet = spyOn(datasetFactory, "get").and.callFake((id: string) => {
-            return Promise.resolve(new DataSet({ _id: id, initiative: new Initiative({ name: `Name ${id}`, team_id: `team_${id}` }) }))
+            return Promise.resolve(new DataSet({ _id: id, tags: [], initiative: new Initiative({ name: `Name ${id}`, team_id: `team_${id}` }) }))
         })
         let spyGetTeam = spyOn(teamFactory, "get").and.callFake((id: string) => {
             return Promise.resolve(new Team({ team_id: id, name: `Team ${id}`, members: [new User({ user_id: "1" }), new User({ user_id: "2" })] }))
