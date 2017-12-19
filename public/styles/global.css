@@ -432,5 +432,8 @@ button[data-handler=bootstrap-markdown-cmdImage] {
 .tag.checked {
   font-weight: 500;
   opacity: 1;
-  box-shadow: 1px 1px 1px #ccc;
+}
+
+.tag.checked::before {
+  background:transparent!important;
 }
