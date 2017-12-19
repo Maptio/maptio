@@ -428,3 +428,9 @@ button[data-handler=bootstrap-markdown-cmdImage] {
 .tag:hover::after {
   border-left-color: crimson;
 }
+
+.tag.checked {
+  font-weight: 500;
+  opacity: 1;
+  box-shadow: 1px 1px 1px #ccc;
+}

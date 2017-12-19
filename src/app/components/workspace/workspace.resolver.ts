@@ -8,7 +8,7 @@ import { User } from "../../shared/model/user.data";
 import { compact, sortBy } from "lodash";
 import { Team } from "../../shared/model/team.data";
 import { UserFactory } from "../../shared/services/user.factory";
-import { SelectableTag } from "../../shared/model/tag.data";
+import { SelectableTag, DEFAULT_TAGS } from "../../shared/model/tag.data";
 
 @Injectable()
 export class WorkspaceComponentResolver implements Resolve<{ dataset: DataSet, team: Team, members: User[] }> {

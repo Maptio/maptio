@@ -11,6 +11,7 @@ import { DataService } from "../../shared/services/data.service";
 import "rxjs/add/operator/map";
 import { InitiativeNodeComponent } from "./initiative.node.component"
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { Tag } from "../../shared/model/tag.data";
 
 @Component({
     selector: "building",
@@ -75,6 +76,7 @@ export class BuildingComponent {
 
     teamName: string;
     teamId: string;
+
     @Output("save") save = new EventEmitter<Initiative>();
     @Output("openDetails") openDetails = new EventEmitter<Initiative>();
     @Output("openDetailsEditOnly") openDetailsEditOnly = new EventEmitter<Initiative>();
@@ -195,9 +197,9 @@ export class BuildingComponent {
         this.teamId = teamId;
         this.teamName = teamName;
         return this.datasetFactory.get(datasetID)
-            .then(data => {
+            .then(dataset => {
                 this.nodes = [];
-                this.nodes.push(new DataSet().deserialize(data).initiative);
+                this.nodes.push(new DataSet().deserialize(dataset).initiative);
                 let defaultTeamId = this.nodes[0].team_id;
                 this.nodes[0].traverse(function (node: Initiative) {
                     node.team_id = defaultTeamId; // For now, the sub initiative are all owned by the same team

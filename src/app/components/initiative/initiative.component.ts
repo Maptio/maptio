@@ -21,6 +21,7 @@ import { DataSet } from "../../shared/model/dataset.data";
 import { compact, sortBy } from "lodash";
 import { Helper } from "../../shared/model/helper.data";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2/dist";
+import { Tag } from "../../shared/model/tag.data";
 
 @Component({
     selector: "initiative",
@@ -35,6 +36,7 @@ export class InitiativeComponent implements OnChanges {
 
     @Input() node: Initiative;
     @Input() parent: Initiative;
+    @Input() datasetTags: Array<Tag>;
     // @Input() isReadOnly: boolean;
     @Input() datasetId: string;
 
@@ -144,6 +146,13 @@ export class InitiativeComponent implements OnChanges {
         this.analytics.eventTrack("Initiative", { action: "add helper", team: this.teamName, teamId: this.teamId });
     }
 
+    saveTag(newTag: NgbTypeaheadSelectItemEvent) {
+        this.node.tags.unshift(new Tag(newTag.item));
+        this.onBlur();
+        this.analytics.eventTrack("Initiative", { action: "add tag", team: this.teamName, teamId: this.teamId });
+
+    }
+
     removeHelper(helper: Helper) {
         let index = this.node.helpers.findIndex(user => user.user_id === helper.user_id);
         this.node.helpers.splice(index, 1);
@@ -160,10 +169,24 @@ export class InitiativeComponent implements OnChanges {
 
     }
 
+    filterTags(term: string): Observable<Tag[]> {
+        return term.length < 1
+            ? Observable.of(this.datasetTags)
+            : Observable.of(this.datasetTags.filter(v => new RegExp(term, "gi").test(v.name)).splice(0, 10))
+
+    }
+
     removeAuthority() {
         this.node.accountable = undefined;
         this.onBlur();
         this.analytics.eventTrack("Initiative", { action: "remove authority", team: this.teamName, teamId: this.teamId });
+    }
+
+    removeTag(tag: Tag) {
+        let index = this.node.tags.findIndex(t => t.shortid === tag.shortid);
+        this.node.tags.splice(index, 1);
+        this.onBlur();
+        this.analytics.eventTrack("Initiative", { action: "remove tag", team: this.teamName, teamId: this.teamId });
     }
 
     searchTeamMember = (text$: Observable<string>) =>
@@ -186,8 +209,31 @@ export class InitiativeComponent implements OnChanges {
             ),
             () => this.searching = false);
 
+    searchTag = (text$: Observable<string>) =>
+        _do.call(
+            switchMap.call(
+                _do.call(
+                    distinctUntilChanged.call(
+                        debounceTime.call(text$, 300)),
+                    () => this.searching = true),
+                (term: string) =>
+                    _catch.call(
+                        _do.call(
+                            this.filterTags(term)
+                            , () => this.searchFailed = false),
+                        () => {
+                            this.searchFailed = true;
+                            return of.call([]);
+                        }
+                    )
+            ),
+            () => this.searching = false);
+
+
+
 
     formatter = (result: User) => { return result.name };
+    tagFormatter = (result: Tag) => { return result.name };
 }
 
 

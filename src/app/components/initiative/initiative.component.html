@@ -1,6 +1,9 @@
 <ng-template #rt let-r="result" let-t="term">
 	<img src="{{r.picture}}" class="rounded-circle authority" /> {{r.name}}
 </ng-template>
+<ng-template #rtTag let-r="result" let-t="term">
+	<span class="tag small checked" [style.background]="r.color">{{r.name}}</span>
+</ng-template>
 
 <form>
 	<fieldset>
@@ -19,9 +22,18 @@
 			<div class="card-block">
 				<ul class="tags">
 					<li *ngFor="let tag of node?.tags; let i=index">
-						<a href="#" class="tag">tag.name</a>
+						<a class="tag small checked" [style.background]="tag?.color">{{tag?.name}}
+							<span class="remove text-muted transparent" (click)="removeTag(tag)"></span>
+
+						</a>
+					</li>
+					<li>
+						<input #inputtag required="required" (focus)="inputtag.value=''" [resultTemplate]="rtTag" type="text" id="inputTag" placeholder="Add tag"
+						 class="form-control form-control-sm" (selectItem)="saveTag($event)" [ngbTypeahead]="searchTag" editable="false" [resultFormatter]="tagFormatter"
+						 [inputFormatter]="tagFormatter" />
 					</li>
 				</ul>
+
 			</div>
 		</div>
 

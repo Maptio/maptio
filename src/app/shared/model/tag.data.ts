@@ -11,7 +11,7 @@ export class Tag implements Serializable<Tag> {
     }
 
     deserialize(input: any): Tag {
-        if (!input || !input.description) return
+        if (!input) return
         let deserialized = new Tag();
         deserialized.name = input.name;
         deserialized.shortid = input.shortid;

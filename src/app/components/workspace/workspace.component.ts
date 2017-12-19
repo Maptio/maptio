@@ -20,6 +20,7 @@ import {
 import { ActivatedRoute } from "@angular/router";
 import { User } from "../../shared/model/user.data";
 import { SafeUrl, DomSanitizer } from "@angular/platform-browser";
+import { Tag } from "../../shared/model/tag.data";
 
 @Component({
     selector: "workspace",
@@ -54,6 +55,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public members: Array<User>;
     public team: Team;
     public teams: Team[];
+    public tags: Tag[];
 
     public openedNode: Initiative;
     public openedNodeParent: Initiative;
@@ -86,6 +88,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.routeSubscription = this.route.data
             .subscribe((data: { data: { dataset: DataSet, team: Team, members: User[] } }) => {
                 this.dataset = data.data.dataset;
+                this.tags = data.data.dataset.tags;
                 this.team = data.data.team;
                 this.members = data.data.members;
                 this.datasetId = this.dataset._id;
@@ -93,7 +96,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.teamId = this.team.team_id;
                 EmitterService.get("currentDataset").emit(this.dataset);
                 this.buildingComponent.loadData(this.dataset._id, "", this.team.name, this.team.team_id);
-                
+
                 this.members.forEach(m => {
                     this.isPictureLoadedMap.set(m.user_id, false);
                     this.isFadeInMap.set(m.user_id, "in");

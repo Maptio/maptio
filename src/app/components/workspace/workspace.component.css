@@ -237,9 +237,3 @@ img.blur {
     color: black;
 }
 
-.tag.checked {
-    font-weight: 500;
-    opacity: 1;
-    color: #fefefe!important;
-    box-shadow: 1px 1px 1px #ccc;
-}
