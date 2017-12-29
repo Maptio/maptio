@@ -7,7 +7,7 @@
 
 <form>
 	<fieldset>
-		<div class="mb-1">
+		<div class="mb-3">
 			<div class="row">
 				<div class="col-xl-12 mt-3">
 					<!-- <h4 *ngIf="isReadOnly">{{node?.name}}</h4> -->
@@ -17,9 +17,10 @@
 				</div>
 			</div>
 		</div>
-		<div class="card mb-3 transparent borderless">
-
-			<div class="">
+		<div class="card mb-3 borderless">
+				
+			<div class="card-block form-inline">
+				<span class="m-0 text-muted mr-2">Add or change tags </span>
 				<ul class="tags">
 					<li *ngFor="let tag of node?.tags; let i=index">
 						<a class="tag small checked" [style.background]="tag?.color">{{tag?.name}}
