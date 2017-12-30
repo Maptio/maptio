@@ -20,7 +20,7 @@ import {
 import { ActivatedRoute } from "@angular/router";
 import { User } from "../../shared/model/user.data";
 import { SafeUrl, DomSanitizer } from "@angular/platform-browser";
-import { Tag } from "../../shared/model/tag.data";
+import { Tag, SelectableTag } from "../../shared/model/tag.data";
 
 @Component({
     selector: "workspace",
@@ -64,6 +64,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public mapped: Initiative;
     teamName: string;
     teamId: string;
+    selectedTags: Array<Tag>;
     isPictureLoadedMap: Map<string, boolean> = new Map<string, boolean>();
     isFadeInMap: Map<string, string> = new Map<string, string>();
     isFadeOutMap: Map<string, string> = new Map<string, string>();
@@ -118,6 +119,11 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         return this._imgSafe;
     }
 
+    toggleTag(tag: SelectableTag) {
+        tag.isSelected = !tag.isSelected;
+        this.selectedTags = this.dataset.tags.map(t => <SelectableTag>t).filter(t => t.isSelected);
+    }
+
     saveDetailChanges() {
         // console.log("saveDetailChanges")
         this.buildingComponent.saveChanges();
@@ -132,42 +138,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.dataService.set({ initiative: initiative, datasetId: this.datasetId, teamName: this.teamName, teamId: this.teamId });
                 return hasSaved;
             }, (reason) => { console.log(reason) });
-        // .then(() => {
-        //     this.dataset$ = this.datasetFactory.get(this.datasetId)
-        // });
 
     }
-
-    // addTeamToInitiative(team: Team) {
-    //     this.modalService.open(this.dragConfirmationModal).result.then((result: boolean) => {
-    //         if (result) {
-    //             this.isBuildingPanelCollapsed = true;
-    //             this.isDetailsPanelCollapsed = true;
-    //             this.team$ = this.dataset$.then((dataset: DataSet) => {
-    //                 dataset.initiative.team_id = team.team_id;
-    //                 this.datasetFactory.upsert(dataset, dataset._id).then(() => {
-    //                     this.buildingComponent.loadData(dataset._id);
-    //                 })
-    //                 return team;
-    //             });
-    //             this.updateTeamMembers();
-    //         }
-    //     })
-    //         .catch(reason => { });
-
-
-
-    // }
-
-    // updateTeamMembers() {
-    //     this.isBuildingPanelCollapsed = true;
-    //     this.isDetailsPanelCollapsed = true;
-    //     this.members = this.team$
-    //         .then((team: Team) => {
-    //             if (team)
-    //                 return team.members;
-    //         });
-    // }
 
     toggleBuildingPanel() {
         this.isBuildingPanelCollapsed = !this.isBuildingPanelCollapsed;

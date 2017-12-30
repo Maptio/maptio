@@ -2,14 +2,16 @@ import { Observable, Subject } from "rxjs/Rx";
 import { Initiative } from "./../../../shared/model/initiative.data";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs/Subscription";
-import { Component,  ViewEncapsulation,  ChangeDetectorRef } from "@angular/core";
-import { D3Service, D3,  ScaleLinear, HSLColor } from "d3-ng2-service";
+import { Component, ViewEncapsulation, ChangeDetectorRef } from "@angular/core";
+import { D3Service, D3, ScaleLinear, HSLColor } from "d3-ng2-service";
 import { ColorService } from "../../../shared/services/ui/color.service"
 import { UIService } from "../../../shared/services/ui/ui.service"
 import { IDataVisualizer } from "../mapping.interface"
 import { UserFactory } from "../../../shared/services/user.factory";
-import { Angulartics2Mixpanel} from "angulartics2";
+import { Angulartics2Mixpanel } from "angulartics2";
 import { DataService } from "../../../shared/services/data.service";
+import { Tag } from "../../../shared/model/tag.data";
+import * as _ from "lodash";
 
 @Component({
     selector: "circles",
@@ -35,6 +37,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
     public margin: number;
     public zoom$: Observable<number>;
+    public selectedTags$: Observable<Array<Tag>>;
     public isReset$: Observable<boolean>
     public fontSize$: Observable<number>;
     public isLocked$: Observable<boolean>;
@@ -82,6 +85,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
     RATIO_FOR_VISIBILITY = 0.08;
     OPACITY_DISAPPEARING = 0.1;
     T: any;
+
+    public tags: Tag[];
 
     constructor(public d3Service: D3Service, public colorService: ColorService,
         public uiService: UIService, public router: Router,
@@ -182,6 +187,21 @@ export class MappingCirclesComponent implements IDataVisualizer {
                     uiService.wrap(d3.select(this), realText, d.r * 2 * 0.95);
                 });
         });
+
+        this.selectedTags$.subscribe((tags: Array<Tag>) => {
+            this.tags = tags;
+
+            d3.selectAll("g.nodes").style("opacity", function (d: any) {
+                let selectedTags = tags.map(t => t.shortid);
+                let nodeTags = d.data.tags.map(t => t.shortid);
+                console.log("circles tags", d3.select(this).attr("id"), selectedTags, nodeTags)
+                return _.isEmpty(nodeTags)
+                    ? 0.1
+                    : _.intersection(selectedTags, nodeTags).length === 0
+                        ? 0.1
+                        : 1;
+            })
+        })
 
 
         this.lockedSubscription = this.isLocked$.subscribe((locked: boolean) => {
@@ -412,6 +432,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .classed("with-children", function (d: any) { return d.children && d !== root; })
             .classed("without-children", function (d: any) { return !d.children && d !== root; })
             .attr("ancestors-id", function (d: any) { return d.parent ? d.ancestors().map((a: any) => { if (a.data.id !== d.data.id) return a.data.id; }).join(",") : "" })
+            .attr("tags-id", function (d: any) { return d.data.tags.map((t: Tag) => t.shortid).join(",") })
+
         // .style("fill-opacity", function (d: any) {
         //     return (<any>this).getBBox().width * scale < window.outerWidth * RATIO_FOR_VISIBILITY ? OPACITY_DISAPPEARING : "1"
         // })
@@ -421,6 +443,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .attr("pointer-events", "auto")
             .attr("id", function (d: any) { return d.data.id; })
             .attr("ancestors-id", function (d: any) { return d.parent ? d.ancestors().map((a: any) => { if (a.data.id !== d.data.id) return a.data.id; }).join(",") : "" })
+            .attr("tags-id", function (d: any) { return d.data.tags.map((t: Tag) => t.shortid).join(",") })
             .classed("with-children", function (d: any) { return d.children && d !== root; })
             .classed("without-children", function (d: any) { return !d.children && d !== root; })
 

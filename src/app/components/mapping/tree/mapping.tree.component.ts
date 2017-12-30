@@ -10,6 +10,7 @@ import { Observable, Subject } from "rxjs/Rx";
 import { Initiative } from "../../../shared/model/initiative.data";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { DataService } from "../../../shared/services/data.service";
+import { Tag } from "../../../shared/model/tag.data";
 
 @Component({
     selector: "tree",
@@ -33,6 +34,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     public scale: number;
 
     public zoom$: Observable<number>
+    public selectedTags$: Observable<Array<Tag>>;
     public fontSize$: Observable<number>
     public isLocked$: Observable<boolean>;
     public isReset$: Observable<boolean>

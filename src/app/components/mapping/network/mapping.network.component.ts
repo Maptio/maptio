@@ -13,6 +13,7 @@ import { User } from "../../../shared/model/user.data";
 import { Role } from "../../../shared/model/role.data";
 import { Router } from "@angular/router";
 import { DataService } from "../../../shared/services/data.service";
+import { Tag } from "../../../shared/model/tag.data";
 
 @Component({
     selector: "network",
@@ -36,6 +37,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
 
     public margin: number;
+    public selectedTags$: Observable<Array<Tag>>;
     public zoom$: Observable<number>
     public fontSize$: Observable<number>;
     public isLocked$: Observable<boolean>;

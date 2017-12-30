@@ -435,5 +435,5 @@ button[data-handler=bootstrap-markdown-cmdImage] {
 }
 
 .tag.checked::before {
-  background:transparent!important;
+  /* background:transparent!important; */
 }

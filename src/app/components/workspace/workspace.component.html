@@ -25,7 +25,7 @@
                         <div class="">
                             <ul class="tags">
                                 <li *ngFor="let tag of dataset?.tags; let i=index">
-                                    <a class="tag small" [class.checked]="tag.isSelected" (click)="tag.isSelected=!tag.isSelected" [style.background]="tag.color">{{tag.name}}</a>
+                                    <a class="tag small" [class.checked]="tag.isSelected" (click)="toggleTag(tag)" [style.background]="tag.color">{{tag.name}}</a>
                                 </li>
                                 <li>
                                     <a routerLink="/map/{{datasetId}}/{{dataset?.initiative?.getSlug()}}/tags" class="small">Edit tags ...</a>
@@ -41,11 +41,6 @@
             <span class="sr-only">Previous</span>
         </a>
     </div>
-
-    <!--  -->
-
-    <!--  -->
-
 
 </div>
 
@@ -78,7 +73,7 @@
 
 <div id="main" [class.expand]="!isBuildingPanelCollapsed">
     <div class="mapping">
-        <mapping (showDetails)="openDetails($event, true)" (addInitiative)="addInitiative($event)" (removeInitiative)="removeInitiative($event)"
+        <mapping [selectedTags]="selectedTags" (showDetails)="openDetails($event, true)" (addInitiative)="addInitiative($event)" (removeInitiative)="removeInitiative($event)"
             (moveInitiative)="moveInitiative($event)" (closeEditingPanel)="closeEditingPanel()"> Loading...</mapping>
     </div>
 </div>
