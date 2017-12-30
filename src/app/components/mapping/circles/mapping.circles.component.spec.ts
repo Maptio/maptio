@@ -70,6 +70,7 @@ describe("mapping.circles.component.ts", () => {
         component.translateY = 100
         component.scale = 1;
         component.zoom$ = Observable.of(1);
+        component.selectableTags$ = Observable.of([]);
         component.isReset$ = new Subject<boolean>();
         component.fontSize$ = Observable.of(12);
         component.isLocked$ = Observable.of(true);
