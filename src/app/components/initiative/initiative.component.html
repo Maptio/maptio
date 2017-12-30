@@ -17,10 +17,10 @@
 				</div>
 			</div>
 		</div>
-		<div class="card mb-3 borderless">
+		<div class="card mb-3 borderless transparent">
 				
-			<div class="card-block form-inline">
-				<span class="m-0 text-muted mr-2">Add or change tags </span>
+			<div class="card-block m-0 p-0">
+				<!-- <span class="m-0 text-muted mr-2">Add or change tags </span> -->
 				<ul class="tags">
 					<li *ngFor="let tag of node?.tags; let i=index">
 						<a class="tag small checked" [style.background]="tag?.color">{{tag?.name}}
