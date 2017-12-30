@@ -64,7 +64,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public mapped: Initiative;
     teamName: string;
     teamId: string;
-    selectedTags: Array<Tag>;
+    selectableTags: Array<Tag>;
     isPictureLoadedMap: Map<string, boolean> = new Map<string, boolean>();
     isFadeInMap: Map<string, string> = new Map<string, string>();
     isFadeOutMap: Map<string, string> = new Map<string, string>();
@@ -121,7 +121,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     toggleTag(tag: SelectableTag) {
         tag.isSelected = !tag.isSelected;
-        this.selectedTags = this.dataset.tags.map(t => <SelectableTag>t).filter(t => t.isSelected);
+        this.selectableTags = this.dataset.tags.map(t => <SelectableTag>t) // .filter(t => t.isSelected);
     }
 
     saveDetailChanges() {

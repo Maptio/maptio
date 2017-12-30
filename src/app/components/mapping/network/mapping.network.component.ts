@@ -37,7 +37,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
 
     public margin: number;
-    public selectedTags$: Observable<Array<Tag>>;
+    public selectableTags$: Observable<Array<Tag>>;
     public zoom$: Observable<number>
     public fontSize$: Observable<number>;
     public isLocked$: Observable<boolean>;

@@ -18,7 +18,7 @@ import "rxjs/add/operator/map"
 import { Subject, BehaviorSubject, Subscription, } from "rxjs/Rx";
 import { MappingNetworkComponent } from "./network/mapping.network.component";
 import { MemberSummaryComponent } from "./member-summary/member-summary.component";
-import { Tag } from "../../shared/model/tag.data";
+import { Tag, SelectableTag } from "../../shared/model/tag.data";
 
 @Component({
     selector: "mapping",
@@ -49,7 +49,7 @@ export class MappingComponent {
 
     public zoom$: Subject<number>;
     public isReset$: Subject<boolean>;
-    public selectedTags$: Subject<Array<Tag>>;
+    public selectableTags$: Subject<Array<SelectableTag>>;
     private VIEWPORT_WIDTH: number = 1522;
     private VIEWPORT_HEIGHT: number = 1522;
 
@@ -64,7 +64,7 @@ export class MappingComponent {
     public closeEditingPanel$: BehaviorSubject<boolean>;
     public data$: Subject<{ initiative: Initiative, datasetId: string }>;
 
-    @Input("selectedTags") selectedTags: Array<Tag>;
+    @Input("tags") selectableTags: Array<SelectableTag>;
     @Output("showDetails") showDetails = new EventEmitter<Initiative>();
     @Output("addInitiative") addInitiative = new EventEmitter<Initiative>();
     @Output("removeInitiative") removeInitiative = new EventEmitter<Initiative>();
@@ -91,7 +91,7 @@ export class MappingComponent {
     ) {
         this.zoom$ = new Subject<number>();
         this.isReset$ = new Subject<boolean>();
-        this.selectedTags$ = new Subject<Array<Tag>>();
+        this.selectableTags$ = new Subject<Array<Tag>>();
         this.fontSize$ = new BehaviorSubject<number>(16);
         this.isLocked$ = new BehaviorSubject<boolean>(this.isLocked);
         this.closeEditingPanel$ = new BehaviorSubject<boolean>(false);
@@ -130,7 +130,7 @@ export class MappingComponent {
 
         component.margin = 50;
         component.zoom$ = this.zoom$.asObservable();
-        component.selectedTags$ = this.selectedTags$.asObservable();
+        component.selectableTags$ = this.selectableTags$.asObservable();
         component.fontSize$ = this.fontSize$.asObservable();
         component.isLocked$ = this.isLocked$.asObservable();
         component.translateX = this.x;
@@ -172,7 +172,7 @@ export class MappingComponent {
 
     ngOnChanges(changes: SimpleChanges) {
         // console.log("mapping changes", changes);
-        this.selectedTags$.next(changes.selectedTags.currentValue);
+        this.selectableTags$.next(changes.selectableTags.currentValue);
     }
 
     getFragment(component: IDataVisualizer) {

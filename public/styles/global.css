@@ -393,7 +393,7 @@ button[data-handler=bootstrap-markdown-cmdImage] {
   text-decoration: none;
   -webkit-transition: color 0.2s;
   border-radius:3px;
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: pointer;
 }
 

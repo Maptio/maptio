@@ -34,7 +34,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     public scale: number;
 
     public zoom$: Observable<number>
-    public selectedTags$: Observable<Array<Tag>>;
+    public selectableTags$: Observable<Array<Tag>>;
     public fontSize$: Observable<number>
     public isLocked$: Observable<boolean>;
     public isReset$: Observable<boolean>

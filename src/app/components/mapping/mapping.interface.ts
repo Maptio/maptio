@@ -2,7 +2,7 @@ import { Subject } from "rxjs/Rx";
 import { Initiative } from "./../../shared/model/initiative.data";
 import { Observable } from "rxjs/Observable";
 import { Angulartics2Mixpanel } from "angulartics2/dist";
-import { Tag } from "../../shared/model/tag.data";
+import { Tag, SelectableTag } from "../../shared/model/tag.data";
 
 export interface IDataVisualizer {
     teamName: string;
@@ -21,7 +21,7 @@ export interface IDataVisualizer {
 
     fontSize$: Observable<number>;
 
-    selectedTags$: Observable<Array<Tag>>;
+    selectableTags$: Observable<Array<SelectableTag>>;
 
     isLocked$: Observable<boolean>;
 

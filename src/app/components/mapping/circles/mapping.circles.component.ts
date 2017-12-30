@@ -10,7 +10,7 @@ import { IDataVisualizer } from "../mapping.interface"
 import { UserFactory } from "../../../shared/services/user.factory";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { DataService } from "../../../shared/services/data.service";
-import { Tag } from "../../../shared/model/tag.data";
+import { Tag, SelectableTag } from "../../../shared/model/tag.data";
 import * as _ from "lodash";
 
 @Component({
@@ -37,7 +37,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
     public margin: number;
     public zoom$: Observable<number>;
-    public selectedTags$: Observable<Array<Tag>>;
+    public selectableTags$: Observable<Array<SelectableTag>>;
     public isReset$: Observable<boolean>
     public fontSize$: Observable<number>;
     public isLocked$: Observable<boolean>;
@@ -86,7 +86,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
     OPACITY_DISAPPEARING = 0.1;
     T: any;
 
-    public tags: Tag[];
+    // public tags: Tag[];
 
     constructor(public d3Service: D3Service, public colorService: ColorService,
         public uiService: UIService, public router: Router,
@@ -188,18 +188,22 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 });
         });
 
-        this.selectedTags$.subscribe((tags: Array<Tag>) => {
-            this.tags = tags;
+        this.selectableTags$.subscribe((tags: Array<SelectableTag>) => {
+            // this.tags = tags;
 
             d3.selectAll("g.nodes").style("opacity", function (d: any) {
-                let selectedTags = tags.map(t => t.shortid);
-                let nodeTags = d.data.tags.map(t => t.shortid);
+                let [selectedTags, unselectedTags] = _.partition(tags, t => t.isSelected)
+                let nodeTags = d.data.tags.map((t: Tag) => t.shortid);
                 console.log("circles tags", d3.select(this).attr("id"), selectedTags, nodeTags)
-                return _.isEmpty(nodeTags)
-                    ? 0.1
-                    : _.intersection(selectedTags, nodeTags).length === 0
+                return _.isEmpty(unselectedTags)
+                    ? 1
+                    : _.isEmpty(nodeTags)
                         ? 0.1
-                        : 1;
+                        : _.intersection(selectedTags.map(t => t.shortid), nodeTags).length === 0
+                            ? 0.1
+                            : 1;
+
+
             })
         })
 
