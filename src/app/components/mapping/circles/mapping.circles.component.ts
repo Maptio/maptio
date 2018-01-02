@@ -600,7 +600,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .attr("y", 0)
             .html(function (d: any) {
 
-                let tagsSpan = d.data.tags.map((tag: Tag) => `<tspan class="dot-tags" fill=${tag.color}>&#xf0c8</tspan>`).join("");
+                let tagsSpan = d.data.tags.map((tag: Tag) => `<tspan class="dot-tags" fill=${tag.color}>&#xf02b</tspan>`).join("");
 
                 return `<textPath xlink:href="#path${d.data.id}" startOffset="10%">
                 <tspan>${d.data.name || ""}</tspan>

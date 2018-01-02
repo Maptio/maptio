@@ -65,7 +65,7 @@ export class UIService {
                         .attr("dx", index *20)
                         .attr("class", "dot-tags")
                         .attr("fill", tag.color)
-                        .html("&#xf0c8");
+                        .html("&#xf02b");
                 })
 
 
