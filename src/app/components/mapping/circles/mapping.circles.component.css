@@ -91,10 +91,7 @@
   stroke-width: 3;
 }
 
-::ng-deep svg tspan.dot-tags{
-  font-family: FontAwesome;
-  font-size: large;
-}
+
 
 .add:before {
   content: "\f067";
