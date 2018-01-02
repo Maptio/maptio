@@ -21,7 +21,7 @@ export class WorkspaceComponentResolver implements Resolve<{ dataset: DataSet, t
         return Observable.fromPromise(
             this.datasetFactory.get(datasetId)
                 .then((dataset: DataSet) => {
-                    dataset.tags = dataset.tags.map(t => new SelectableTag(t)).map(t => { t.isSelected = true; return t });
+                    dataset.tags = dataset.tags.map(t => new SelectableTag(t)).map(t => { t.isSelected = false; return t });
                     return dataset;
                 })
                 .then((dataset: DataSet) => {

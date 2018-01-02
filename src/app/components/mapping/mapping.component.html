@@ -1,12 +1,12 @@
 <div class="control first mr-2">
   <div class=" btn-group-vertical">
-      
-    <a class="btn circles icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/initiatives"
-      placement="left" container="body" ngbTooltip="Circle view"></a>
-    <a class="btn tree icon"  routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/people" placement="left"
+
+    <a class="btn circles icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/initiatives" placement="left"
+      container="body" ngbTooltip="Circle view"></a>
+    <a class="btn tree icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/people" placement="left"
       container="body" ngbTooltip="Tree view"></a>
-    <a class="btn network icon" routerLinkActive="active-link"  routerLink="/map/{{datasetId}}/{{slug}}/connections"
-      placement="left" container="body" ngbTooltip="Network view"></a>
+    <a class="btn network icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/connections" placement="left"
+      container="body" ngbTooltip="Network view"></a>
   </div>
 </div>
 
@@ -22,7 +22,29 @@
     </div>
   </div>
 </div>
-<div class="control third" *ngIf="isDisplayLockingToggle()">
+
+
+<div class="control third mr-2">
+  <div class="btn-group-vertical">
+    <a class="btn btn-tag" placement="left" container="body" ngbTooltip="{{tag.name}}" *ngFor="let tag of tags; let i=index"
+      [style.background]="tag.color"  (click)="toggleTag(tag)">
+      <i *ngIf="tag.isSelected" class="fa fa-check" aria-hidden="true"></i>
+    </a>
+  </div>
+
+
+  <!-- <ul class="tags">
+    <li *ngFor="let tag of selectableTags; let i=index">
+      <a class="tag small" [class.checked]="tag.isSelected" (click)="toggleTag(tag)" [style.background]="tag.color">{{tag.name}}</a>
+    </li>
+    <li>
+      <a routerLink="/map/{{datasetId}}/{{dataset?.initiative?.getSlug()}}/tags" class="small">Edit tags ...</a>
+    </li>
+  </ul> -->
+
+</div>
+
+<div class="control fourth" *ngIf="isDisplayLockingToggle()">
   <div class="">
     <a #lockInput *ngIf="isLocked" [class.background]="!isLocked" class="btn text-warning" (click)="lock(false)" placement="top"
       container="body" ngbTooltip="Drag and drop, adding and removing disabled">

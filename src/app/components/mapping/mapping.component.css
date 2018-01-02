@@ -15,36 +15,35 @@
   top: 14vh;
   margin-right: 0.5vw;
   border-radius: 4px;
- 
   background-color: rgb(224, 224, 224);
-
   /* width: 43px; */
 }
 
-.control.first{
-  top:7vh;
+.control.first {
+  top: 7vh;
 }
 
 .control.second {
-  top:27vh;
+  top: 27vh;
 }
 
 .control.third {
-  top:83vh;
+  top: 50vh;
 }
 
-.background{
+.control.fourth {
+  top: 83vh;
+}
+
+.background {
   background-color: #f0ad4e;
 }
 
-
-
-.background{
+.background {
   background-color: #f0ad4e;
 }
 
-
-.control > a {
+.control>a {
   color: gray;
   border: 1px solid lightgray;
   background-color: #FCFCFC;
@@ -53,11 +52,9 @@
   height: 100%;
 }
 
-.control > a:hover {
+.control>a:hover {
   color: black;
 }
-
-
 
 .plus:before {
   content: "\f067";
@@ -70,7 +67,7 @@
 }
 
 .reset:before {
-content: "\f066"; 
+  content: "\f066";
   font-family: FontAwesome;
 }
 
@@ -84,12 +81,13 @@ content: "\f066";
   font-family: FontAwesome;
 }
 
+.btn-tag {
+  width: 50px;
+  height: 39px;
+}
 
 
-
-
-
-.options{
+.options {
   width: 44px;
 }
 
@@ -103,7 +101,7 @@ content: "\f066";
   font-family: FontAwesome;
   height: 50px;
   padding: 0;
-  color:black
+  color: black
 }
 
 .zoom a {
@@ -118,12 +116,11 @@ content: "\f066";
   margin-right: 3px;
 }
 
-.control.second > span {
+.control.second>span {
   position: absolute;
   top: 85%;
 }
 
-
-.active-link{
+.active-link {
   background-color: #2F81B7;
 }

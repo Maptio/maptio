@@ -119,10 +119,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         return this._imgSafe;
     }
 
-    toggleTag(tag: SelectableTag) {
-        tag.isSelected = !tag.isSelected;
-        this.selectableTags = this.dataset.tags.map(t => <SelectableTag>t) // .filter(t => t.isSelected);
-    }
+    // toggleTag(tag: SelectableTag) {
+    //     tag.isSelected = !tag.isSelected;
+    //     this.selectableTags = this.dataset.tags.map(t => <SelectableTag>t) // .filter(t => t.isSelected);
+    // }
 
     saveDetailChanges() {
         // console.log("saveDetailChanges")
@@ -135,7 +135,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.datasetFactory.upsert(new DataSet({ _id: this.datasetId, initiative: initiative }), this.datasetId)
             .then((hasSaved: boolean) => {
                 // console.log("seding change to mapping")
-                this.dataService.set({ initiative: initiative, datasetId: this.datasetId, teamName: this.teamName, teamId: this.teamId });
+                this.dataService.set({ initiative: initiative, datasetId: this.datasetId, teamName: this.teamName, teamId: this.teamId, tags: this.dataset.tags });
                 return hasSaved;
             }, (reason) => { console.log(reason) });
 

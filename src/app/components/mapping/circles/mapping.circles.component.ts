@@ -190,14 +190,14 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
         this.selectableTags$.subscribe((tags: Array<SelectableTag>) => {
             // this.tags = tags;
-
+            
             d3.selectAll("g.nodes").style("opacity", function (d: any) {
                 let [selectedTags, unselectedTags] = _.partition(tags, t => t.isSelected)
                 let nodeTags = d.data.tags.map((t: Tag) => t.shortid);
-                console.log("circles tags", d3.select(this).attr("id"), selectedTags, nodeTags)
-                return _.isEmpty(unselectedTags)
+                console.log("circles tags", d.data.name, selectedTags, nodeTags)
+                return _.isEmpty(selectedTags) // all tags are unselected by default
                     ? 1
-                    : _.isEmpty(nodeTags)
+                    : _.isEmpty(nodeTags) // the circle doesnt have any tags
                         ? 0.1
                         : _.intersection(selectedTags.map(t => t.shortid), nodeTags).length === 0
                             ? 0.1

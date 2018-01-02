@@ -58,6 +58,7 @@ export class MappingComponent {
     public teamName: string;
     public teamId: string;
     public slug: string;
+    public tags: Array<SelectableTag>;
 
     public fontSize$: BehaviorSubject<number>;
     public isLocked$: BehaviorSubject<boolean>;
@@ -162,6 +163,8 @@ export class MappingComponent {
                     this.lock(false);
                     this.cd.markForCheck();
                 }
+                this.tags = data.tags;
+                this.cd.markForCheck();
             })
     }
 
@@ -170,10 +173,10 @@ export class MappingComponent {
             this.subscription.unsubscribe();
     }
 
-    ngOnChanges(changes: SimpleChanges) {
-        // console.log("mapping changes", changes);
-        this.selectableTags$.next(changes.selectableTags.currentValue);
-    }
+    // ngOnChanges(changes: SimpleChanges) {
+    //     this.selectableTags$.next(changes.selectableTags.currentValue);
+
+    // }
 
     getFragment(component: IDataVisualizer) {
         switch (component.constructor) {
@@ -235,5 +238,12 @@ export class MappingComponent {
     changeFontSize(size: number) {
         this.fontSize$.next(size);
         this.analytics.eventTrack("Map", { action: "change font size", size: size, team: this.teamName, teamId: this.teamId })
+    }
+
+    toggleTag(tag: SelectableTag) {
+        tag.isSelected = !tag.isSelected;
+        this.selectableTags$.next(this.tags);
+
+        // this.selectableTags = this.dataset.tags.map(t => <SelectableTag>t) // .filter(t => t.isSelected);
     }
 }
