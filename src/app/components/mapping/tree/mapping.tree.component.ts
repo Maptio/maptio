@@ -321,7 +321,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 .text(function (d: any) { return d.data.name; })
                 .each(function (d: any) {
                     let realText = d.data.name ? (d.data.name.length > MAX_TEXT_LENGTH ? `${d.data.name.substr(0, MAX_TEXT_LENGTH)}...` : d.data.name) : "(Empty)";
-                    uiService.wrap(d3.select(this), realText, d.y / d.depth * 0.85);
+                    uiService.wrap(d3.select(this), realText, d.data.tags, d.y / d.depth * 0.85);
                 });
 
             nodeEnter.append("text")
@@ -368,7 +368,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 .text(function (d: any) { return d.data.name; })
                 .each(function (d: any) {
                     let realText = d.data.name ? (d.data.name.length > MAX_TEXT_LENGTH ? `${d.data.name.substr(0, MAX_TEXT_LENGTH)}...` : d.data.name) : "(Empty)";
-                    uiService.wrap(d3.select(this), realText, d.y / d.depth * 0.85);
+                    uiService.wrap(d3.select(this), realText, d.data.tags, d.y / d.depth * 0.85);
                     // uiService.wrap(d3.select(this), d.data.name.substr(0, 35), d.y / d.depth * 0.85);
                 });
             nodeUpdate.select("text.accountable")

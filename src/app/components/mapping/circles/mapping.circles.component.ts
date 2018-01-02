@@ -184,13 +184,13 @@ export class MappingCirclesComponent implements IDataVisualizer {
             d3.selectAll("text.without-children")
                 .each(function (d: any) {
                     let realText = d.data.name ? (d.data.name.length > MAX_TEXT_LENGTH ? `${d.data.name.substr(0, MAX_TEXT_LENGTH)}...` : d.data.name) : "";
-                    uiService.wrap(d3.select(this), realText, d.r * 2 * 0.95);
+                    uiService.wrap(d3.select(this), d.data.tags, realText, d.r * 2 * 0.95);
                 });
         });
 
         this.selectableTags$.subscribe((tags: Array<SelectableTag>) => {
             // this.tags = tags;
-            
+
             d3.selectAll("g.nodes").style("opacity", function (d: any) {
                 let [selectedTags, unselectedTags] = _.partition(tags, t => t.isSelected)
                 let nodeTags = d.data.tags.map((t: Tag) => t.shortid);
@@ -599,7 +599,13 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .attr("x", 0)
             .attr("y", 0)
             .html(function (d: any) {
-                return `<textPath xlink:href="#path${d.data.id}" startOffset="10%">${d.data.name || ""}</textPath>`
+
+                let tagsSpan = d.data.tags.map((tag: Tag) => `<tspan class="dot-tags" fill=${tag.color}>&#xf0c8</tspan>`).join("");
+
+                return `<textPath xlink:href="#path${d.data.id}" startOffset="10%">
+                <tspan>${d.data.name || ""}</tspan>
+                ${tagsSpan}
+                </textPath>`
             })
             .on("click", function (d: any, i: number) {
                 if (d3.event.defaultPrevented) return; // dragged
@@ -628,8 +634,12 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 d3.select("div.tooltip-initiative").style("visibility", "hidden");
             })
             .each(function (d: any) {
-                let realText = d.data.name ? (d.data.name.length > MAX_TEXT_LENGTH ? `${d.data.name.substr(0, MAX_TEXT_LENGTH)}...` : d.data.name) : "(Empty)";
-                uiService.wrap(d3.select(this), realText, d.r * 2 * 0.95);
+
+                let realText = d.data.name ? (d.data.name.length > MAX_TEXT_LENGTH ? `${d.data.name.substr(0, MAX_TEXT_LENGTH)}...   ` : d.data.name) : "(Empty)";
+
+                let linesNumber = uiService.wrap(d3.select(this), realText, d.data.tags, d.r * 2 * 0.95);
+
+
             });
 
 

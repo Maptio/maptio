@@ -91,6 +91,11 @@
   stroke-width: 3;
 }
 
+::ng-deep svg tspan.dot-tags{
+  font-family: FontAwesome;
+  font-size: large;
+}
+
 .add:before {
   content: "\f067";
   font-family: FontAwesome;
@@ -170,3 +175,4 @@ dede{
   color: rgb(80, 162, 193);
   color: rgb(40, 127, 184);
 }
+

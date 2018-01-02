@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core"
 import { D3Service, D3, Selection, BaseType } from "d3-ng2-service"
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
+import { Tag } from "../../model/tag.data";
 
 @Injectable()
 export class UIService {
@@ -29,7 +30,7 @@ export class UIService {
         this.d3.select("svg").selectAll("*").remove();
     }
 
-    wrap(text: Selection<BaseType, {}, HTMLElement, any>, actualText: string, width: number) {
+    wrap(text: Selection<BaseType, {}, HTMLElement, any>, actualText: string, tags: Tag[], width: number) {
         let d3 = this.d3;
         text
             .each(function () {
@@ -55,6 +56,19 @@ export class UIService {
                         tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
                     }
                 }
+
+                tags.forEach((tag: Tag, index: number) => {
+                    text.append("tspan")
+                        .attr("x", x)
+                        .attr("y", y)
+                        .attr("dy", (lineNumber + 1) * lineHeight + dy + "em")
+                        .attr("dx", index *20)
+                        .attr("class", "dot-tags")
+                        .attr("fill", tag.color)
+                        .html("&#xf0c8");
+                })
+
+
             });
     }
 
