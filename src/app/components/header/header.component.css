@@ -176,6 +176,7 @@ img.blur {
 nav.toggeable {
     z-index:20;
   margin-top: 0vh;
+  padding-left: 6vw;
   -webkit-transition: margin-top 0.5s ease-in;
   -moz-transition: margin-top 0.5s ease-in;
   -ms-transition: margin-top 0.5s ease-in;
