@@ -24,7 +24,6 @@
 
 <div id="sideNavSettings" class="rounded-left" [class.showSettings]="!isSettingsPanelCollapsed">
 
-
   <div class="btn-secondary">
     <input class="vertical transparent" #fontInput name="fontInput" type="range" min="8" max="30" value="16" (change)="changeFontSize(fontInput.value)"
       orient="vertical" placement="left" container="body" ngbTooltip="Text size">
@@ -36,12 +35,6 @@
         *ngFor="let tag of tags; let i=index" (click)="toggleTag(tag)">
         <i class="fa fa-tag" aria-hidden="true" [style.color]="tag.color"></i>
       </a>
-    </div>
-  </div>
-
-  <div id="edit-panel-settings" class=" ml-1 showSettings" [class.showSettings]="!isSettingsPanelCollapsed">
-    <div class="settings" *ngIf="!isSettingsPanelCollapsed">
-      Settings
     </div>
   </div>
 </div>
