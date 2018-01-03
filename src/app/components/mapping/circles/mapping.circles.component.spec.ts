@@ -154,7 +154,8 @@ describe("mapping.circles.component.ts", () => {
         expect(svg.length).toBe(1);
         expect(svg.item(0).viewBox.baseVal.width).toBe(1522);
         expect(svg.item(0).viewBox.baseVal.height).toBe(1522); // these are harcoded for now
-        expect(svg.item(0).getAttribute("width")).toBe("100%");
+        expect(svg.item(0).getAttribute("width")).toBe("1522");
+        expect(svg.item(0).getAttribute("height")).toBe("1522");
     });
 
     it("should draw SVG centered when data is valid", () => {
@@ -168,8 +169,8 @@ describe("mapping.circles.component.ts", () => {
 
         expect(svg.querySelector("g")).toBeDefined();
         expect(svg.querySelector("g").transform.baseVal.getItem(0).type).toBe(SVGTransform.SVG_TRANSFORM_TRANSLATE);
-        expect(svg.querySelector("g").transform.baseVal.getItem(0).matrix.e).toBe(100);
-        expect(svg.querySelector("g").transform.baseVal.getItem(0).matrix.f).toBe(100);
+        expect(Math.round(svg.querySelector("g").transform.baseVal.getItem(0).matrix.e)).toBe(100);
+        expect(Math.round(svg.querySelector("g").transform.baseVal.getItem(0).matrix.f)).toBe(100);
     });
 
     it("should draw SVG with correct number of circles when data is valid", () => {

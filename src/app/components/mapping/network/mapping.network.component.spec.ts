@@ -98,7 +98,8 @@ describe("mapping.network.component.ts", () => {
         expect(svg.length).toBe(1);
         expect(svg.item(0).viewBox.baseVal.width).toBe(1522);
         expect(svg.item(0).viewBox.baseVal.height).toBe(1522); // these are harcoded for now
-        expect(svg.item(0).getAttribute("width")).toBe("100%");
+        expect(svg.item(0).getAttribute("width")).toBe("1522");
+        expect(svg.item(0).getAttribute("height")).toBe("1522");
     });
 
     it("should draw SVG centered when data is valid", () => {
