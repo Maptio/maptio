@@ -45,7 +45,8 @@
         <div class="card-block p-1">
             <ul class="tags small">
                 <li *ngFor="let tag of hoveredNode?.tags; let i=index">
-                    <a class="tag small checked" [style.background]="tag?.color">{{tag?.name}}
+                    <a class="btn btn-sm btn-secondary mr-1 tag" [style.color]="tag.color">
+                        <i class="fa fa-tag mr-1" aria-hidden="true" [style.color]="tag.color"></i>{{tag?.name}}
                     </a>
                 </li>
             </ul>
