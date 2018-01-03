@@ -10,7 +10,8 @@ import { Observable, Subject } from "rxjs/Rx";
 import { Initiative } from "../../../shared/model/initiative.data";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { DataService } from "../../../shared/services/data.service";
-import { Tag } from "../../../shared/model/tag.data";
+import { Tag, SelectableTag } from "../../../shared/model/tag.data";
+import * as _ from "lodash";
 
 @Component({
     selector: "tree",
@@ -137,6 +138,25 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             catch (error) {
 
             }
+        });
+
+        this.selectableTags$.subscribe((tags: Array<SelectableTag>) => {
+            // this.tags = tags;
+
+            d3.selectAll("g.node").style("opacity", function (d: any) {
+                let [selectedTags, unselectedTags] = _.partition(tags, t => t.isSelected)
+                let nodeTags = d.data.tags.map((t: Tag) => t.shortid);
+                console.log("circles tags", d.data.name, selectedTags, nodeTags)
+                return _.isEmpty(selectedTags) // all tags are unselected by default
+                    ? 1
+                    : _.isEmpty(nodeTags) // the circle doesnt have any tags
+                        ? 0.1
+                        : _.intersection(selectedTags.map(t => t.shortid), nodeTags).length === 0
+                            ? 0.1
+                            : 1;
+
+
+            })
         })
 
 
@@ -252,7 +272,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             // Update the nodes...
             // console.log(g)
             let node = g.selectAll("g.node")
-                .data(nodes, function (d: any) { return d.id || (d.id = ++i); });
+                .data(nodes, function (d: any) { return d.id || (d.id = ++i); })
+                ;
 
             // let definitions = g.append("defs")
             // definitions.selectAll("pattern")
@@ -287,6 +308,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             // Enter any new modes at the parent's previous position.
             let nodeEnter = node.enter().append("g")
                 .attr("class", "node")
+                .attr("tags-id", function (d: any) { return d.data.tags.map((t: Tag) => t.shortid).join(",") })
                 .attr("transform", function (d: any) {
                     return "translate(" + source.y0 + "," + source.x0 + ")";
                 })
@@ -321,14 +343,22 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 .text(function (d: any) { return d.data.name; })
                 .each(function (d: any) {
                     let realText = d.data.name ? (d.data.name.length > MAX_TEXT_LENGTH ? `${d.data.name.substr(0, MAX_TEXT_LENGTH)}...` : d.data.name) : "(Empty)";
-                    uiService.wrap(d3.select(this), realText, d.data.tags, d.y / d.depth * 0.85);
+                    uiService.wrap(d3.select(this), realText, [], d.y / d.depth * 0.85);
                 });
 
             nodeEnter.append("text")
                 .attr("class", "accountable")
                 .attr("dy", "5")
                 .attr("x", CIRCLE_RADIUS + 4)
-                .text(function (d: any) { return d.data.accountable ? d.data.accountable.name : ""; })
+                .html(function (d: any) {
+
+                    let tagsSpan = d.data.tags.map((tag: Tag) => `<tspan class="dot-tags" fill=${tag.color}>&#xf02b</tspan>`).join("");
+
+                    return `
+                            <tspan>${d.data.accountable ? d.data.accountable.name : ""}</tspan>
+                            ${tagsSpan}`
+                })
+                // .text(function (d: any) { return d.data.accountable ? d.data.accountable.name : ""; })
                 .on("click", function (d: any) {
                     if (d.data.accountable) {
                         // TODO : keep until migration of database towards shortids
@@ -368,11 +398,20 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 .text(function (d: any) { return d.data.name; })
                 .each(function (d: any) {
                     let realText = d.data.name ? (d.data.name.length > MAX_TEXT_LENGTH ? `${d.data.name.substr(0, MAX_TEXT_LENGTH)}...` : d.data.name) : "(Empty)";
-                    uiService.wrap(d3.select(this), realText, d.data.tags, d.y / d.depth * 0.85);
+                    uiService.wrap(d3.select(this), realText, [], d.y / d.depth * 0.85);
                     // uiService.wrap(d3.select(this), d.data.name.substr(0, 35), d.y / d.depth * 0.85);
                 });
             nodeUpdate.select("text.accountable")
-                .text(function (d: any) { return d.data.accountable ? d.data.accountable.name : ""; })
+                .html(function (d: any) {
+
+                    let tagsSpan = d.data.tags.map((tag: Tag) => `<tspan class="dot-tags" fill=${tag.color}>&#xf02b</tspan>`).join("");
+
+                    return `
+                        <tspan>${d.data.accountable ? d.data.accountable.name : ""}</tspan>
+                        ${tagsSpan}`
+                })
+
+            // .text(function (d: any) { return d.data.accountable ? d.data.accountable.name : ""; })
 
 
             // Remove any exiting nodes

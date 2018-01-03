@@ -15,7 +15,7 @@
     <span class="navbar-text col-6 pt-2 ">
         <a class="lead" routerLink="/map/{{selectedDataset?._id}}/{{selectedDataset?.initiative?.getSlug()}}/initiatives">{{selectedDataset?.initiative?.name}}</a>
 
-        <small class="row ml-4" *ngIf="team">
+        <small class="row ml-1" *ngIf="team">
             <span class="text-muted mr-1">Team </span>
             <a routerLink="/team/{{team?.team_id}}/{{team?.getSlug()}}">
                 {{team?.name}}
