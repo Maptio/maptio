@@ -17,6 +17,7 @@ import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/aut
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { DataService } from "../../../shared/services/data.service";
+import { Tag } from "../../../shared/model/tag.data";
 
 describe("mapping.tree.component.ts", () => {
 
@@ -72,6 +73,7 @@ describe("mapping.tree.component.ts", () => {
         component.scale = 1;
         component.zoom$ = Observable.of(1)
         component.isReset$ = new Subject<boolean>();
+        component.selectableTags$ = new Subject<Array<Tag>>();
         component.fontSize$ = Observable.of(12);
         component.isLocked$ = Observable.of(true);
         component.analytics = jasmine.createSpyObj("analytics", ["eventTrack"]);
