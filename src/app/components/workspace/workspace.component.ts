@@ -89,7 +89,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
             });
     }
 
-   
+
 
     // toggleTag(tag: SelectableTag) {
     //     tag.isSelected = !tag.isSelected;
@@ -120,6 +120,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     toggleDetailsPanel() {
         this.isDetailsPanelCollapsed = !this.isDetailsPanelCollapsed;
     }
+
+   
 
 
     openDetails(node: Initiative, willCloseBuildingPanel: boolean = false) {

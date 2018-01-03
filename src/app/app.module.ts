@@ -115,13 +115,6 @@ const appRoutes: Routes = [
 
   { path: ":shortid/:slug", component: AccountComponent, canActivate: [AuthGuard] },
 
-  // {
-  //   path: "map/:mapid/:mapslug/i/:nodeid/:nodeslug",
-  //   component: WorkspaceComponent, resolve: {
-  //     data: WorkspaceComponentResolver
-  //   },
-  //   canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard]
-  // },
   {
     path: "map/:mapid/:mapslug/tags",
     component: TagsEditingComponent

@@ -17,8 +17,13 @@
   border-radius: 4px;
   background-color: rgb(224, 224, 224);
   /* width: 43px; */
+  transition: 0.5s ease-in;
 }
 
+.control.showSettings{
+  right:45vw;
+  transition: 0.5s ease-in;
+}
 .control.first {
   top: 7vh;
 }
@@ -71,6 +76,11 @@
   font-family: FontAwesome;
 }
 
+.settings:before {
+  content: "\f1de";
+  font-family: FontAwesome;
+}
+
 .locked:before {
   content: "\f023";
   font-family: FontAwesome;
@@ -85,7 +95,6 @@
   width: 50px;
   height: 39px;
 }
-
 
 .options {
   width: 44px;
@@ -125,6 +134,27 @@
   background-color: #2F81B7;
 }
 
-.btn-tag.active{
+.btn-tag.active {
   background-color: #2F81B7;
+}
+
+#sideNavSettings {
+  height: 90vh;
+  max-height: 90vh;
+  min-width: 0.0vw;
+  position: fixed;
+  right: 0;
+  overflow: hidden;
+  transition: 0.5s ease-in;
+  background-color: #ccc;
+  margin-top: 3vh;
+  width: 0;
+  padding: 10px 0 0 10px;
+}
+
+#sideNavSettings.showSettings {
+  width: 45vw;
+  transition: 0.5s ease-in;
+  padding: 10px;
+  z-index: 10;
 }

@@ -14,6 +14,9 @@
 
     <span class="navbar-text col-6 pt-2 ">
         <a class="lead" routerLink="/map/{{selectedDataset?._id}}/{{selectedDataset?.initiative?.getSlug()}}/initiatives">{{selectedDataset?.initiative?.name}}</a>
+        <a class="btn btn-link p-0" routerLink="/map/{{selectedDataset?._id}}/{{selectedDataset?.initiative?.getSlug()}}/tags">
+            <i class="fa fa-tags" aria-hidden="true"></i>
+        </a>
 
         <small class="row ml-1" *ngIf="team">
             <span class="text-muted mr-1">Team </span>

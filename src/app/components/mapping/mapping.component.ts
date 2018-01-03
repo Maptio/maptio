@@ -46,6 +46,7 @@ export class MappingComponent {
     public isLocked: boolean = true;
 
     public isCollapsed: boolean = true;
+    public isSettingsPanelCollapsed: boolean = true;
 
     public zoom$: Subject<number>;
     public isReset$: Subject<boolean>;
@@ -173,10 +174,9 @@ export class MappingComponent {
             this.subscription.unsubscribe();
     }
 
-    // ngOnChanges(changes: SimpleChanges) {
-    //     this.selectableTags$.next(changes.selectableTags.currentValue);
-
-    // }
+    toggleSettingsPanel() {
+        this.isSettingsPanelCollapsed = !this.isSettingsPanelCollapsed;
+    }
 
     getFragment(component: IDataVisualizer) {
         switch (component.constructor) {

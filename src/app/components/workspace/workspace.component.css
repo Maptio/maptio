@@ -16,7 +16,6 @@
     background-color: transparent;
     z-index: 59;
     position: absolute;
-
     margin-left: 4vw;
     /* width: 30%; */
 }
@@ -116,6 +115,8 @@
 #sideNavDetails.showTree {
     margin-left: 45vw;
 }
+
+
 
 /* The navigation menu links */
 
@@ -238,4 +239,3 @@ img.blur {
 .black {
     color: black;
 }
-
