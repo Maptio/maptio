@@ -72,6 +72,7 @@ export class MappingComponent {
     @Output("removeInitiative") removeInitiative = new EventEmitter<Initiative>();
     @Output("moveInitiative") moveInitiative = new EventEmitter<{ node: Initiative, from: Initiative, to: Initiative }>();
     @Output("closeEditingPanel") closeEditingPanel = new EventEmitter<boolean>();
+    @Output("toggleSettingsPanel") toggleSettingsPanel = new EventEmitter<boolean>();
 
     // @ViewChild(AnchorDirective) anchorComponent: AnchorDirective;
 
@@ -174,8 +175,9 @@ export class MappingComponent {
             this.subscription.unsubscribe();
     }
 
-    toggleSettingsPanel() {
+    togglePanel() {
         this.isSettingsPanelCollapsed = !this.isSettingsPanelCollapsed;
+        this.toggleSettingsPanel.emit(this.isSettingsPanelCollapsed)
     }
 
     getFragment(component: IDataVisualizer) {

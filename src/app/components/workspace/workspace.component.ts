@@ -36,6 +36,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     public isBuildingPanelCollapsed: boolean = true;
     public isDetailsPanelCollapsed: boolean = true;
+    // public isSettingsPanelCollapsed: boolean = true;
     public datasetId: string;
     private routeSubscription: Subscription;
     private userSubscription: Subscription;
@@ -121,7 +122,9 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.isDetailsPanelCollapsed = !this.isDetailsPanelCollapsed;
     }
 
-   
+    // toggleSettingsPanel() {
+    //     this.isSettingsPanelCollapsed = !this.isSettingsPanelCollapsed;
+    // }
 
 
     openDetails(node: Initiative, willCloseBuildingPanel: boolean = false) {

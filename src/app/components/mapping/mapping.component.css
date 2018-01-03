@@ -158,3 +158,13 @@
   padding: 10px;
   z-index: 10;
 }
+
+.map{
+  margin-left:0;
+  transition: 0.5s ease-in;
+}
+
+.map.slide{
+  margin-left:-45vw;
+  transition: 0.5s ease-in;
+}

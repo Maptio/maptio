@@ -55,6 +55,11 @@
     transition: 0.5s;
 }
 
+#main.slide {
+    margin-right: 50vw;
+    transition: 0.5s;
+}
+
 #edit-panel-tree {
     opacity: 0;
     transition: opacity 0.5s ease-in;

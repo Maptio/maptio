@@ -121,7 +121,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
         // let RATIO_FOR_VISIBILITY = this.RATIO_FOR_VISIBILITY;
         // let OPACITY_DISAPPEARING = this.OPACITY_DISAPPEARING;
 
-        let svg: any = d3.select("svg"),
+        let svg: any = d3.select("svg").attr("width", 1522)
+            .attr("height", 1522),
             // margin = this.margin,
             // diameter = +this.width,
             g = svg.append("g").attr("transform", `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`),

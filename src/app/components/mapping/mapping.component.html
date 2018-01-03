@@ -15,10 +15,17 @@
     <a class="btn btn-secondary minus" (click)="zoomOut()" placement="left" container="body" ngbTooltip="Zoom out"></a>
     <a class="btn btn-secondary plus" (click)="zoomIn()" placement="left" container="body" ngbTooltip="Zoom in"></a>
     <a class="btn btn-secondary reset" (click)="resetZoom()" placement="left" container="body" ngbTooltip="Zoom fit"></a>
-    <a class="btn btn-secondary settings" (click)="toggleSettingsPanel()" placement="left" container="body" ngbTooltip="Settings"></a>
+    <a class="btn btn-secondary settings" (click)="togglePanel()" placement="left" container="body" ngbTooltip="Settings"></a>
 
+  </div>
+</div>
 
-
+<div class="control third" [class.showSettings]="!isSettingsPanelCollapsed">
+  <div class="btn-group-vertical">
+    <a class="btn btn-secondary btn-tag" [class.active]="tag.isSelected" placement="left" container="body" ngbTooltip="{{tag.name}}"
+      *ngFor="let tag of tags; let i=index" (click)="toggleTag(tag)">
+      <i class="fa fa-tag" aria-hidden="true" [style.color]="tag.color"></i>
+    </a>
   </div>
 </div>
 
@@ -29,14 +36,7 @@
       orient="vertical" placement="left" container="body" ngbTooltip="Text size">
   </div>
 
-  <div class="control third mr-2">
-    <div class="btn-group-vertical">
-      <a class="btn btn-secondary btn-tag" [class.active]="tag.isSelected" placement="left" container="body" ngbTooltip="{{tag.name}}"
-        *ngFor="let tag of tags; let i=index" (click)="toggleTag(tag)">
-        <i class="fa fa-tag" aria-hidden="true" [style.color]="tag.color"></i>
-      </a>
-    </div>
-  </div>
+
 </div>
 
 
@@ -51,4 +51,6 @@
   </div>
 </div>
 
-<router-outlet (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>
+<div class="map" [class.slide]="!isSettingsPanelCollapsed">
+    <router-outlet (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>
+</div>
