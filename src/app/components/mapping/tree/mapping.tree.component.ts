@@ -351,9 +351,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 .attr("dy", "5")
                 .attr("x", CIRCLE_RADIUS + 4)
                 .html(function (d: any) {
-
                     let tagsSpan = d.data.tags.map((tag: Tag) => `<tspan class="dot-tags" fill=${tag.color}>&#xf02b</tspan>`).join("");
-
                     return `
                             <tspan>${d.data.accountable ? d.data.accountable.name : ""}</tspan>
                             ${tagsSpan}`
@@ -381,7 +379,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 .duration(duration)
                 .attr("transform", function (d: any) {
                     return "translate(" + d.y + "," + d.x + ")";
-                });
+                }); 
 
             // Update the node attributes and style
             nodeUpdate.select("circle.node")
@@ -399,7 +397,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 .each(function (d: any) {
                     let realText = d.data.name ? (d.data.name.length > MAX_TEXT_LENGTH ? `${d.data.name.substr(0, MAX_TEXT_LENGTH)}...` : d.data.name) : "(Empty)";
                     uiService.wrap(d3.select(this), realText, [], d.y / d.depth * 0.85);
-                    // uiService.wrap(d3.select(this), d.data.name.substr(0, 35), d.y / d.depth * 0.85);
                 });
             nodeUpdate.select("text.accountable")
                 .html(function (d: any) {
@@ -409,10 +406,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                     return `
                         <tspan>${d.data.accountable ? d.data.accountable.name : ""}</tspan>
                         ${tagsSpan}`
-                })
-
-            // .text(function (d: any) { return d.data.accountable ? d.data.accountable.name : ""; })
-
+                });
 
             // Remove any exiting nodes
             let nodeExit = node.exit().transition()

@@ -637,7 +637,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
                 let realText = d.data.name ? (d.data.name.length > MAX_TEXT_LENGTH ? `${d.data.name.substr(0, MAX_TEXT_LENGTH)}...   ` : d.data.name) : "(Empty)";
 
-                let linesNumber = uiService.wrap(d3.select(this), realText, d.data.tags, d.r * 2 * 0.95);
+                uiService.wrap(d3.select(this), realText, d.data.tags, d.r * 2 * 0.95);
 
 
             });

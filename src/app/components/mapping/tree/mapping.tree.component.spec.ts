@@ -187,10 +187,9 @@ describe("mapping.tree.component.ts", () => {
         expect(nodes.item(0).querySelector("text.name").textContent).toBe("My Company");
         expect(nodes.item(1).querySelector("text.name").textContent).toBe("Tech");
         expect(nodes.item(2).querySelector("text.name").textContent).toBe("Marketing");
-
-        expect(nodes.item(0).querySelector("text.accountable").textContent).toBe("");
-        expect(nodes.item(1).querySelector("text.accountable").textContent).toBe("CTO");
-        expect(nodes.item(2).querySelector("text.accountable").textContent).toBe("CMO");
+        // expect(nodes.item(0).querySelector("text.accountable").textContent).toBe("");
+        // expect(nodes.item(1).querySelector("text.accountable").textContent).toBe("CTO");
+        // expect(nodes.item(2).querySelector("text.accountable").textContent).toBe("CMO");
     });
 
     it("should draw SVG with correct pictures labels when data is valid", () => {
