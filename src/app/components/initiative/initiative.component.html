@@ -2,7 +2,9 @@
 	<img src="{{r.picture}}" class="rounded-circle authority" /> {{r.name}}
 </ng-template>
 <ng-template #rtTag let-r="result" let-t="term">
-	<span class="tag small checked" [style.background]="r.color">{{r.name}}</span>
+	<span [style.color]="r.color">
+		<i class="fa fa-tag mr-1" aria-hidden="true" [style.color]="r.color"></i>
+		{{r.name}}</span>
 </ng-template>
 
 <form>
@@ -17,21 +19,22 @@
 				</div>
 			</div>
 		</div>
-		<div class="card mb-3 borderless transparent">
-				
+		<div class="card mb-3 borderless  card-secondary p-2">
+
 			<div class="card-block m-0 p-0">
 				<!-- <span class="m-0 text-muted mr-2">Add or change tags </span> -->
 				<ul class="tags">
 					<li *ngFor="let tag of node?.tags; let i=index">
-						<a class="tag small checked" [style.background]="tag?.color">{{tag?.name}}
-							<span class="remove text-muted transparent ml-1" (click)="removeTag(tag)"></span>
+						<a class="btn btn-sm btn-secondary mr-1 tag" [style.color]="tag.color">
+							<i class="fa fa-tag mr-1" aria-hidden="true" [style.color]="tag.color"></i>{{tag?.name}}
+							<span class="remove transparent ml-1" [style.color]="tag.color" (click)="removeTag(tag)"></span>
 
 						</a>
 					</li>
 					<li>
 						<input #inputTag required="required" (focus)="inputTag.value=''" [resultTemplate]="rtTag" type="text" id="inputTag" placeholder="Add tag"
-						 class="form-control form-control-sm col-8 p-1" (selectItem)="saveTag($event)" [ngbTypeahead]="searchTag" editable="false" [resultFormatter]="tagFormatter"
-						 [inputFormatter]="tagFormatter" />
+						 class="form-control form-control-sm col-8 p-1" (selectItem)="saveTag($event)" [ngbTypeahead]="searchTag" editable="false"
+						 [resultFormatter]="tagFormatter" [inputFormatter]="tagFormatter" />
 					</li>
 				</ul>
 
