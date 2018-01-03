@@ -12,8 +12,20 @@
         </picture>
     </a>
 
-    <span class="navbar-text col-6 h5">
-        <a routerLink="/map/{{selectedDataset?._id}}/{{selectedDataset?.initiative?.getSlug()}}/initiatives">{{selectedDataset?.initiative?.name}}</a>
+    <span class="navbar-text col-6 pt-2 ">
+        <a class="lead" routerLink="/map/{{selectedDataset?._id}}/{{selectedDataset?.initiative?.getSlug()}}/initiatives">{{selectedDataset?.initiative?.name}}</a>
+
+        <small class="row ml-4" *ngIf="team">
+            <span class="text-muted mr-1">Team </span>
+            <a routerLink="/team/{{team?.team_id}}/{{team?.getSlug()}}">
+                {{team?.name}}
+            </a>
+            <span (click)="isMembersToggled=!isMembersToggled">
+                <i class="fa fa-caret-up pt-1 pl-1" *ngIf="isMembersToggled" aria-hidden="true"></i>
+                <i class="fa fa-caret-down pt-1 pl-1" *ngIf="!isMembersToggled" aria-hidden="true"></i>
+            </span>
+
+        </small>
     </span>
 
     <div class="collapse navbar-collapse" id="navbarToggler">
@@ -87,7 +99,17 @@
         </ul>
     </div>
 </nav>
+<nav class="navbar navbar-toggleable-md navbar-light bg-faded fixed-top toggeable" [class.toggled]="isMembersToggled">
+    <span class="col" *ngIf="isMembersToggled">
+        <a *ngFor="let user of members" class="btn btn-link btn-xs no-padding" [class.deleted]="user.isDeleted" routerLink="/map/{{selectedDataset?._id}}/{{selectedDataset?.initiative?.getSlug()}}/u/{{user.shortid}}/{{user.getSlug()}}">
 
+            <img *ngIf="!isPictureLoadedMap.get(user?.user_id)" class="blur member rounded-circle" [@fadeInOut]="isFadeInMap.get(user?.user_id)"
+                alt="image" [src]="image" />
+            <img class="member rounded-circle" [@fadeInOut]="isFadeOutMap.get(user?.user_id)" alt="" [src]="user?.picture" (load)="isPictureLoaded(user?.user_id)"
+                placement="bottom" container="body" ngbTooltip="{{user?.name}}" />
+        </a>
+    </span>
+</nav>
 
 <div class="card creation borderless col-6 rounded-0" *ngIf="isCreateMode" (mouseleave)="isCreateMode=false">
     <div class="card-block">

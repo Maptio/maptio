@@ -1,48 +1,19 @@
-<div class="row header">
+<!-- <div class="row header hidden">
+    <div class="btn-group pull-left d-flex flex-wrap" *ngIf="team">
+        <a *ngFor="let user of members" class="btn btn-link btn-xs no-padding" [class.deleted]="user.isDeleted" routerLink="/map/{{datasetId}}/{{dataset?.initiative?.getSlug()}}/u/{{user.shortid}}/{{user.getSlug()}}">
 
-    <!-- <div id="carouselExampleControls" class="carousel slide col ml-0" data-ride="carousel" data-interval="false">
-        <div class="carousel-inner col ml-4" role="listbox">
-            <div class="carousel-item">
-                <div class="col"> -->
-                    <div class="btn-group pull-left d-flex flex-wrap" *ngIf="team">
-                        <a *ngFor="let user of members" class="btn btn-link btn-xs no-padding" [class.deleted]="user.isDeleted" routerLink="/map/{{datasetId}}/{{dataset?.initiative?.getSlug()}}/u/{{user.shortid}}/{{user.getSlug()}}">
-
-                            <img *ngIf="!isPictureLoadedMap.get(user?.user_id)" class="blur member rounded-circle" [@fadeInOut]="isFadeInMap.get(user?.user_id)"
-                                alt="image" [src]="image" />
-                            <img class="member rounded-circle" [@fadeInOut]="isFadeOutMap.get(user?.user_id)" alt="" [src]="user?.picture" (load)="isPictureLoaded(user?.user_id)"
-                                placement="bottom" container="body" ngbTooltip="{{user?.name}}" />
-                        </a>
-                        <a class="btn btn-link btn-xs no-padding" routerLink="/team/{{team?.team_id}}/{{team?.getSlug()}}" placement="bottom" container="body"
-                            ngbTooltip="Add team member">
-                            <i class="fa fa-plus" aria-hidden="true"></i>
-                        </a>
-                    </div>
-                <!-- </div>
-            </div> -->
-            <!-- <div class="carousel-item active">
-                <div class="col">
-                    <div class="pull-left d-flex flex-wrap">
-                        <div class="">
-                            <ul class="tags">
-                                <li *ngFor="let tag of dataset?.tags; let i=index">
-                                    <a class="tag small" [class.checked]="tag.isSelected" (click)="toggleTag(tag)" [style.background]="tag.color">{{tag.name}}</a>
-                                </li>
-                                <li>
-                                    <a routerLink="/map/{{datasetId}}/{{dataset?.initiative?.getSlug()}}/tags" class="small">Edit tags ...</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-        <!-- </div>
-        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-            <i class="fa fa-chevron-left black" aria-hidden="true"></i>
-            <span class="sr-only">Previous</span>
+            <img *ngIf="!isPictureLoadedMap.get(user?.user_id)" class="blur member rounded-circle" [@fadeInOut]="isFadeInMap.get(user?.user_id)"
+                alt="image" [src]="image" />
+            <img class="member rounded-circle" [@fadeInOut]="isFadeOutMap.get(user?.user_id)" alt="" [src]="user?.picture" (load)="isPictureLoaded(user?.user_id)"
+                placement="bottom" container="body" ngbTooltip="{{user?.name}}" />
         </a>
-    </div> -->
+        <a class="btn btn-link btn-xs no-padding" routerLink="/team/{{team?.team_id}}/{{team?.getSlug()}}" placement="bottom" container="body"
+            ngbTooltip="Add team member">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+        </a>
+    </div>
 
-</div>
+</div> -->
 
 <div id="sideNavTree" class="" [class.showTree]="!isBuildingPanelCollapsed">
     <a class="btn toggle" (click)="toggleBuildingPanel()" [class.showTree]="!isBuildingPanelCollapsed">
@@ -64,8 +35,8 @@
 
     <div id="edit-panel-details" class=" ml-1 showDetails" [class.showDetails]="!isDetailsPanelCollapsed">
         <div class="details" *ngIf="!isDetailsPanelCollapsed">
-            <initiative *ngIf="!isDetailsPanelCollapsed" #initiative [datasetTags]="tags" [datasetId]="datasetId" [node]="openedNode" [parent]="openedNodeParent"
-                (edited)="saveDetailChanges()"></initiative>
+            <initiative *ngIf="!isDetailsPanelCollapsed" #initiative [datasetTags]="tags" [datasetId]="datasetId" [node]="openedNode"
+                [parent]="openedNodeParent" (edited)="saveDetailChanges()"></initiative>
 
         </div>
     </div>

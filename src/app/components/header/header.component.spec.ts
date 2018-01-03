@@ -28,6 +28,8 @@ import { JwtEncoder } from "../../shared/services/encoding/jwt.service";
 import { LoaderService } from "../../shared/services/loading/loader.service";
 import { Team } from "../../shared/model/team.data";
 
+import { NO_ERRORS_SCHEMA } from "@angular/core"
+
 describe("header.component.ts", () => {
 
     let component: HeaderComponent;
@@ -38,7 +40,8 @@ describe("header.component.ts", () => {
 
         TestBed.configureTestingModule({
             declarations: [HeaderComponent],
-            imports: [RouterTestingModule, FormsModule, ReactiveFormsModule]
+            imports: [RouterTestingModule, FormsModule, ReactiveFormsModule],
+            schemas: [NO_ERRORS_SCHEMA]
         }).overrideComponent(HeaderComponent, {
             set: {
                 providers: [
@@ -76,6 +79,7 @@ describe("header.component.ts", () => {
     beforeEach(() => {
         target = TestBed.createComponent(HeaderComponent);
         component = target.componentInstance;
+        EmitterService.get("currentMembers").emit([]);
     });
 
     it("should load user's datasets when all load", async(() => {

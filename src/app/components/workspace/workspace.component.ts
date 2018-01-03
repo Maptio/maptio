@@ -25,18 +25,7 @@ import { Tag, SelectableTag } from "../../shared/model/tag.data";
 @Component({
     selector: "workspace",
     templateUrl: "workspace.component.html",
-    styleUrls: ["./workspace.component.css"],
-    animations: [
-        trigger("fadeInOut", [
-            state("in", style({
-                opacity: 1, visibility: "visible", display: "inline"
-            })),
-            state("out", style({ opacity: 0.5, visibility: "hidden", display: "none" })),
-            transition("in <=> out", [
-                animate("1s ease-out")
-            ])
-        ])
-    ]
+    styleUrls: ["./workspace.component.css"]
 })
 
 
@@ -65,24 +54,20 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     teamName: string;
     teamId: string;
     selectableTags: Array<Tag>;
-    isPictureLoadedMap: Map<string, boolean> = new Map<string, boolean>();
-    isFadeInMap: Map<string, string> = new Map<string, string>();
-    isFadeOutMap: Map<string, string> = new Map<string, string>();
-
-    private _placeHolderSafe: SafeUrl;
-    private _imgSafe: SafeUrl;
 
     @ViewChild("dragConfirmation")
     dragConfirmationModal: NgbModal;
 
     ngOnDestroy(): void {
-        EmitterService.get("currentDataset").emit(undefined)
+        EmitterService.get("currentDataset").emit(undefined);
+        EmitterService.get("currentTeam").emit(undefined)
+        EmitterService.get("currentMembers").emit(undefined);
         if (this.routeSubscription) this.routeSubscription.unsubscribe();
         if (this.userSubscription) this.userSubscription.unsubscribe();
     }
 
     constructor(private route: ActivatedRoute, private datasetFactory: DatasetFactory,
-        private dataService: DataService, private sanitizer: DomSanitizer, private cd: ChangeDetectorRef) {
+        private dataService: DataService, private cd: ChangeDetectorRef) {
     }
 
     ngOnInit() {
@@ -96,28 +81,15 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.teamName = this.team.name;
                 this.teamId = this.team.team_id;
                 EmitterService.get("currentDataset").emit(this.dataset);
+                EmitterService.get("currentTeam").emit(this.team);
+                EmitterService.get("currentMembers").emit(this.members);
                 this.buildingComponent.loadData(this.dataset._id, "", this.team.name, this.team.team_id);
 
-                this.members.forEach(m => {
-                    this.isPictureLoadedMap.set(m.user_id, false);
-                    this.isFadeInMap.set(m.user_id, "in");
-                    this.isFadeOutMap.set(m.user_id, "out")
-                })
-                // this._placeHolderSafe = this.sanitizer.bypassSecurityTrustUrl(this._placeholderBase64);
-                this._imgSafe = this.sanitizer.bypassSecurityTrustUrl("/assets/images/user.jpg");
+
             });
     }
 
-    public isPictureLoaded(user_id: string) {
-        this.isPictureLoadedMap.set(user_id, true);
-        this.isFadeInMap.set(user_id, "out");
-        this.isFadeOutMap.set(user_id, "in");
-        this.cd.markForCheck();
-    }
-
-    public get image() {
-        return this._imgSafe;
-    }
+   
 
     // toggleTag(tag: SelectableTag) {
     //     tag.isSelected = !tag.isSelected;

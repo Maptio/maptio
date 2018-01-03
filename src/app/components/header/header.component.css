@@ -101,7 +101,6 @@
     padding-right: 8px;
 }
 
-
 /* curious is this the bootstrap overwrite file */
 
 .navbar {
@@ -147,11 +146,49 @@ span.navbar-text a {
     background-color: rgb(41, 128, 185);
 }
 
-
-.coloured{
+.coloured {
     color: rgb(41, 128, 185) !important;
 }
 
-.nav-item.dropdown{
+.nav-item.dropdown {
     cursor: pointer;
+}
+
+.member {
+    float: left;
+    background: 50% 50% no-repeat;
+    background-size: auto 100%;
+    max-width: 22px;
+}
+
+img.blur {
+    filter: blur(1px);
+    -webkit-filter: blur(1px);
+    -moz-filter: blur(1px);
+    -o-filter: blur(1px);
+    -ms-filter: blur(1px);
+}
+
+.no-padding {
+    padding: 0;
+}
+
+nav.toggeable {
+  z-index:-1;
+  margin-top: 0vh;
+  -webkit-transition: margin-top 0.5s ease-in;
+  -moz-transition: margin-top 0.5s ease-in;
+  -ms-transition: margin-top 0.5s ease-in;
+  -o-transition: margin-top 0.5s ease-in;
+  transition: margin-top 0.5s ease-in;
+}
+
+nav.toggeable.toggled {
+    z-index:20;
+    margin-top: 7vh;
+    -webkit-transition: margin-top 0.5s ease-in;
+    -moz-transition: margin-top 0.5s ease-in;
+    -ms-transition: margin-top 0.5s ease-in;
+    -o-transition: margin-top 0.5s ease-in;
+    transition: margin-top 0.5s ease-in;
 }
