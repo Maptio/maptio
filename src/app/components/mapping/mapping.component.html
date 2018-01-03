@@ -1,11 +1,11 @@
 <div class="control first mr-2">
   <div class=" btn-group-vertical">
 
-    <a class="btn circles icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/initiatives" placement="left"
+    <a class="btn btn-secondary circles icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/initiatives" placement="left"
       container="body" ngbTooltip="Circle view"></a>
-    <a class="btn tree icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/people" placement="left"
+    <a class="btn btn-secondary tree icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/people" placement="left"
       container="body" ngbTooltip="Tree view"></a>
-    <a class="btn network icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/connections" placement="left"
+    <a class="btn btn-secondary network icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/connections" placement="left"
       container="body" ngbTooltip="Network view"></a>
   </div>
 </div>
@@ -13,10 +13,10 @@
 
 <div class="control second mr-2">
   <div class=" btn-group-vertical">
-    <a class="btn minus" (click)="zoomOut()" placement="left" container="body" ngbTooltip="Zoom out"></a>
-    <a class="btn plus" (click)="zoomIn()" placement="left" container="body" ngbTooltip="Zoom in"></a>
-    <a class="btn reset" (click)="resetZoom()" placement="left" container="body" ngbTooltip="Zoom fit"></a>
-    <div class="btn-group">
+    <a class="btn btn-secondary minus" (click)="zoomOut()" placement="left" container="body" ngbTooltip="Zoom out"></a>
+    <a class="btn btn-secondary plus" (click)="zoomIn()" placement="left" container="body" ngbTooltip="Zoom in"></a>
+    <a class="btn  btn-secondary reset" (click)="resetZoom()" placement="left" container="body" ngbTooltip="Zoom fit"></a>
+    <div class="btn-secondary">
       <input class="vertical transparent" #fontInput name="fontInput" type="range" min="8" max="30" value="16" (change)="changeFontSize(fontInput.value)"
         orient="vertical" placement="left" container="body" ngbTooltip="Text size">
     </div>

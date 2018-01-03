@@ -160,7 +160,7 @@ input[type=range]::-webkit-slider-thumb {
   height: 10px;
   width: 7px;
   border-radius: 0px;
-  background: #f7f7f7;
+  background: #fff;
   cursor: pointer;
   -webkit-appearance: none;
   margin-top: 0px;
@@ -187,7 +187,7 @@ input[type=range]::-moz-range-thumb {
   height: 10px;
   width: 6px;
   border-radius: 0px;
-  background: #f7f7f7;
+  background: #fff;
   cursor: pointer;
 }
 
@@ -222,7 +222,7 @@ input[type=range]::-ms-thumb {
   height: 10px;
   width: 7px;
   border-radius: 0px;
-  background: #f7f7f7;
+  background: #fff;
   cursor: pointer;
 }
 
