@@ -13,7 +13,7 @@
     </a>
 
     <span class="navbar-text col-6 pt-2 ">
-        <a class="lead" routerLink="/map/{{selectedDataset?._id}}/{{selectedDataset?.initiative?.getSlug()}}/initiatives">{{selectedDataset?.initiative?.name}}</a>
+        <a class="lead" routerLink="/map/{{selectedDataset?.datasetId}}/{{selectedDataset?.initiative?.getSlug()}}/initiatives">{{selectedDataset?.initiative?.name}}</a>
 
         <small class="row ml-1" *ngIf="team">
             <span class="text-muted mr-1">Team </span>
@@ -101,7 +101,7 @@
 </nav>
 <nav class="navbar navbar-toggleable-md navbar-light bg-faded fixed-top toggeable" [class.toggled]="isMembersToggled">
     <span class="col" *ngIf="isMembersToggled">
-        <a *ngFor="let user of members" class="btn btn-link btn-xs no-padding" [class.deleted]="user.isDeleted" routerLink="/map/{{selectedDataset?._id}}/{{selectedDataset?.initiative?.getSlug()}}/u/{{user.shortid}}/{{user.getSlug()}}">
+        <a *ngFor="let user of members" class="btn btn-link btn-xs no-padding" [class.deleted]="user.isDeleted" routerLink="/map/{{selectedDataset?.datasetId}}/{{selectedDataset?.initiative?.getSlug()}}/u/{{user.shortid}}/{{user.getSlug()}}">
 
             <img *ngIf="!isPictureLoadedMap.get(user?.user_id)" class="blur member rounded-circle" [@fadeInOut]="isFadeInMap.get(user?.user_id)"
                 alt="image" [src]="image" />

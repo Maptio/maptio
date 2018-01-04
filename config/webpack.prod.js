@@ -44,12 +44,12 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        exclude: helpers.root('src', 'app'),
+        exclude: [helpers.root('src', 'app'), /ngx-color-picker/],
         loaders: ExtractTextPlugin.extract({ fallback: 'style-loader', loader: 'css-loader?sourceMap' })
       },
       {
         test: /\.css$/,
-        include: helpers.root('src', 'app'),
+        include: [helpers.root('src', 'app'), /ngx-color-picker/],
         loaders: ['css-to-string-loader', 'css-loader']
       },
       {
@@ -94,11 +94,11 @@ module.exports = {
     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
-          warnings: false,
-          drop_console: true
+        warnings: false,
+        drop_console: true
       },
       output: {
-          comments: false
+        comments: false
       }
     }),
     new ExtractTextPlugin('[name].[hash].css'),

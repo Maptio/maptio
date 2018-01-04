@@ -60,7 +60,7 @@
 
       <div class="form-group row ml-0" *ngFor="let tag of tags; let i=index">
         <input type="text" class="col-4 col-form-label form-control" name="inputTagName" [ngModelOptions]="{standalone: true}"
-          [ngModel]="tag.name" placeholder="Initiative name" (ngModelChange)="saveTagName(tag, $event)" />
+          [ngModel]="tag.name" (ngModelChange)="saveTagName(tag, $event)" />
         <div class="col-4">
 
           <input class="form-control" [(colorPicker)]="tag.color" [style.background]="tag.color" [value]="tag.color" [cpOutputFormat]="'hex'"
@@ -68,6 +68,17 @@
           />
         </div>
       </div>
+      <!-- <div class="form-group row ml-0" >
+          <input type="text" class="col-4 col-form-label form-control" name="inputTagName" [ngModelOptions]="{standalone: true}"
+            [ngModel]="tag.name" placeholder="New tag"  />
+          <div class="col-4">
+  
+            <input class="form-control" [(colorPicker)]="tag.color" [style.background]="tag.color" [value]="tag.color" [cpOutputFormat]="'hex'"
+              [cpPosition]="'bottom'" [cpPositionOffset]="'40%'" [cpPositionRelativeToArrow]="true" (colorPickerChange)="saveColor(tag, $event)"
+            />
+          </div>
+        </div> -->
+
 
     </div>
   </div>
