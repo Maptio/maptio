@@ -23,7 +23,6 @@ export class DatasetFactory {
 
 
     upsert(dataset: DataSet, datasetId?: string): Promise<boolean> {
-        console.log("upsert", dataset.tags)
         return this._http.put("/api/v1/dataset/" + (dataset.datasetId || datasetId), dataset)
             .map((responseData) => {
                 return responseData.json();
@@ -143,8 +142,14 @@ export class DatasetFactory {
             .map((responseData) => {
                 return responseData.json();
             })
-            .map((datasets: any) => {
-                return datasets || [];
+            .map((inputs: Array<any>) => {
+                let result: Array<DataSet> = [];
+                if (inputs) {
+                    inputs.forEach((input) => {
+                        result.push(DataSet.create().deserialize(input));
+                    });
+                }
+                return result;
             })
             .toPromise()
     }
