@@ -19,6 +19,7 @@ import { Subject, BehaviorSubject, Subscription, } from "rxjs/Rx";
 import { MappingNetworkComponent } from "./network/mapping.network.component";
 import { MemberSummaryComponent } from "./member-summary/member-summary.component";
 import { Tag, SelectableTag } from "../../shared/model/tag.data";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
 
 @Component({
     selector: "mapping",
@@ -85,6 +86,8 @@ export class MappingComponent {
     public layout: string;
     public subscription: Subscription;
     public instance: IDataVisualizer;
+    public newTagForm: FormGroup;
+    newTagColor = "#fff";
 
     constructor(
         private dataService: DataService,
@@ -99,6 +102,15 @@ export class MappingComponent {
         this.isLocked$ = new BehaviorSubject<boolean>(this.isLocked);
         this.closeEditingPanel$ = new BehaviorSubject<boolean>(false);
         this.data$ = new Subject<{ initiative: Initiative, datasetId: string }>();
+
+        this.newTagForm = new FormGroup({
+            "name": new FormControl("", [
+                Validators.required
+            ]),
+            "color": new FormControl(this.newTagColor, [
+                Validators.required
+            ])
+        });
     }
 
     ngAfterViewInit() {
@@ -261,5 +273,18 @@ export class MappingComponent {
         console.log("changing name", tag, name)
         tag.name = name;
         this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
+    }
+
+    addTag() {
+        console.log(this.newTagForm.controls);
+
+        if (this.newTagForm.dirty && this.newTagForm.valid) {
+            let name = this.newTagForm.controls["name"].value;
+            let tag = new Tag().create(name, this.newTagColor);
+
+            this.tags.unshift(<SelectableTag>tag)
+            this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
+            this.newTagForm.reset();
+        }
     }
 }

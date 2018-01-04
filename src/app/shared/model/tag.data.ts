@@ -1,4 +1,5 @@
 import { Serializable } from "../interfaces/serializable.interface";
+import * as shortid from "shortid";
 
 export class Tag implements Serializable<Tag> {
 
@@ -8,6 +9,10 @@ export class Tag implements Serializable<Tag> {
 
     public constructor(init?: Partial<Tag>) {
         Object.assign(this, init);
+    }
+
+    create(name: string, color: string) {
+        return new Tag({ name: name, color: color, shortid: shortid.generate() });
     }
 
     deserialize(input: any): Tag {
