@@ -199,7 +199,7 @@ export class BuildingComponent {
         return this.datasetFactory.get(datasetID)
             .then(dataset => {
                 this.nodes = [];
-                this.nodes.push(new DataSet().deserialize(dataset).initiative);
+                this.nodes.push(dataset.initiative);
                 let defaultTeamId = this.nodes[0].team_id;
                 this.nodes[0].traverse(function (node: Initiative) {
                     node.team_id = defaultTeamId; // For now, the sub initiative are all owned by the same team

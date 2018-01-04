@@ -116,7 +116,7 @@ export class HeaderComponent implements OnInit {
                 .then(datasets => {
                     return datasets.map(d => {
                         return {
-                            _id: d._id,
+                            _id: d.datasetId,
                             initiative: d.initiative,
                             name: d.initiative.name,
                             team_id: (d.initiative && d.initiative.team_id) ? d.initiative.team_id : undefined,
@@ -152,7 +152,7 @@ export class HeaderComponent implements OnInit {
 
     goTo(dataset: DataSet) {
         this.selectedDataset = dataset;
-        if (dataset) this.router.navigate(["map", dataset._id, dataset.initiative.getSlug(), "initiatives"]);
+        if (dataset) this.router.navigate(["map", dataset.datasetId, dataset.initiative.getSlug(), "initiatives"]);
     }
 
     createDataset() {
@@ -162,10 +162,10 @@ export class HeaderComponent implements OnInit {
 
             let newDataset = new DataSet({ initiative: new Initiative({ name: mapName, team_id: teamId }) });
             this.datasetFactory.create(newDataset).then((created: DataSet) => {
-                this.user.datasets.push(created._id)
+                this.user.datasets.push(created.datasetId)
                 this.auth.getUser();
                 this.isCreateMode = false;
-                this.router.navigate(["map", created._id, created.initiative.getSlug()]);
+                this.router.navigate(["map", created.datasetId, created.initiative.getSlug()]);
                 this.selectedDataset = created;
                 this.analytics.eventTrack("Create a map", { email: this.user.email, name: mapName, teamId: teamId })
             }).catch(this.errorService.handleError);

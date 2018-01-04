@@ -67,6 +67,7 @@ import { FocusIfDirective } from "./shared/directives/focusif.directive";
 // import { AnchorDirective } from "./shared/directives/anchor.directivse"
 
 // External libraries
+import {ColorPickerModule} from "ngx-color-picker";
 import { LoadingModule, ANIMATION_TYPES } from "ngx-loading";
 import { MarkdownModule, MarkdownService } from "angular2-markdown";
 import { FileUploadModule } from "ng2-file-upload";
@@ -196,6 +197,7 @@ export function markdownServiceFactory(http: Http) {
       secondaryColour: "#2F81B7",
       tertiaryColour: "#ffffff"
     }),
+    ColorPickerModule,
     BrowserAnimationsModule,
     CloudinaryModule.forRoot(cloudinaryLib, { cloud_name: environment.CLOUDINARY_CLOUDNAME, upload_preset: environment.CLOUDINARY_UPLOAD_PRESET })
   ],

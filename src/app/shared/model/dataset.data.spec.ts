@@ -23,7 +23,7 @@ describe("Dataset Tests", () => {
                 let deserialized = new DataSet().deserialize(jsonString);
 
                 expect(deserialized).toBeDefined();
-                expect(deserialized._id).toBe("uniqueId");
+                expect(deserialized.datasetId).toBe("uniqueId");
                 expect(deserialized.initiative).toBeDefined();
                 expect(deserialized.initiative.name).toBe("Root");
                 expect(deserialized.initiative.helpers.length).toBe(1);

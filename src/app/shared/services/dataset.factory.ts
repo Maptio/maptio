@@ -23,7 +23,8 @@ export class DatasetFactory {
 
 
     upsert(dataset: DataSet, datasetId?: string): Promise<boolean> {
-        return this._http.put("/api/v1/dataset/" + (dataset._id || datasetId), dataset.initiative)
+        console.log("upsert", dataset.tags)
+        return this._http.put("/api/v1/dataset/" + (dataset.datasetId || datasetId), dataset)
             .map((responseData) => {
                 return responseData.json();
             })
@@ -37,7 +38,7 @@ export class DatasetFactory {
      * @param user
      */
     add(dataset: DataSet, user: User): Promise<boolean> {
-        return this._http.put("/api/v1/user/" + user.user_id + "/dataset/" + dataset._id, null)
+        return this._http.put("/api/v1/user/" + user.user_id + "/dataset/" + dataset.datasetId, null)
             .map((responseData) => {
                 return responseData.json();
             })
@@ -152,7 +153,7 @@ export class DatasetFactory {
         return this._http.get("/api/v1/dataset/" + id)
             .map((response: Response) => {
                 let d = DataSet.create().deserialize(response.json());
-                d._id = id; // reassign id
+                d.datasetId = id; // reassign id
                 return d;
             })
             .toPromise()

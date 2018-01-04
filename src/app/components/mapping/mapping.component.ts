@@ -46,7 +46,7 @@ export class MappingComponent {
     public isLocked: boolean = true;
 
     public isCollapsed: boolean = true;
-    public isSettingsPanelCollapsed: boolean = true;
+    public isSettingsPanelCollapsed: boolean = false;
 
     public zoom$: Subject<number>;
     public isReset$: Subject<boolean>;
@@ -56,6 +56,8 @@ export class MappingComponent {
 
     public isLoading: boolean;
     public datasetId: string;
+    public datasetName: string;
+    public initiative: Initiative;
     public teamName: string;
     public teamId: string;
     public slug: string;
@@ -73,7 +75,7 @@ export class MappingComponent {
     @Output("moveInitiative") moveInitiative = new EventEmitter<{ node: Initiative, from: Initiative, to: Initiative }>();
     @Output("closeEditingPanel") closeEditingPanel = new EventEmitter<boolean>();
     @Output("toggleSettingsPanel") toggleSettingsPanel = new EventEmitter<boolean>();
-
+    @Output("applySettings") applySettings = new EventEmitter<{ initiative: Initiative, tags: Tag[] }>();
     // @ViewChild(AnchorDirective) anchorComponent: AnchorDirective;
 
     @ViewChild("drawing")
@@ -86,8 +88,6 @@ export class MappingComponent {
 
     constructor(
         private dataService: DataService,
-        // private viewContainer: ViewContainerRef,
-        // private componentFactoryResolver: ComponentFactoryResolver,
         private cd: ChangeDetectorRef,
         private route: ActivatedRoute,
         private analytics: Angulartics2Mixpanel
@@ -166,6 +166,8 @@ export class MappingComponent {
                     this.cd.markForCheck();
                 }
                 this.tags = data.tags;
+                this.datasetName = data.initiative.name;
+                this.initiative = data.initiative;
                 this.cd.markForCheck();
             })
     }
@@ -247,5 +249,10 @@ export class MappingComponent {
         this.selectableTags$.next(this.tags);
 
         // this.selectableTags = this.dataset.tags.map(t => <SelectableTag>t) // .filter(t => t.isSelected);
+    }
+
+    saveColor(tag: Tag, color: string) {
+        tag.color = color;
+        this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
     }
 }

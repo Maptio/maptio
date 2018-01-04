@@ -31,12 +31,46 @@
 
 <div id="sideNavSettings" class="rounded-left" [class.showSettings]="!isSettingsPanelCollapsed">
 
-  <div class="btn-secondary">
-    <input class="vertical transparent" #fontInput name="fontInput" type="range" min="8" max="30" value="16" (change)="changeFontSize(fontInput.value)"
-      orient="vertical" placement="left" container="body" ngbTooltip="Text size">
+  <h4 class="text-muted d-flex justify-content-center mb-4">{{datasetName}}</h4>
+  <!-- Nav tabs -->
+  <ul class="nav nav-pills nav-fill mb-2" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="filters-tab" data-toggle="tab" href="#filters" role="tab" aria-controls="filters" aria-selected="true">Filters</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Settings</a>
+    </li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div class="tab-pane active" id="filters" role="tabpanel" aria-labelledby="filters-tab">...</div>
+    <div class="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+
+      <h6 class="lead">Font settings</h6>
+      <div class="form-group row">
+        <label for="example-time-input" class="col-4 col-form-label">Font size</label>
+        <div class="col-8">
+          <input class="vertical transparent" #fontInput name="fontInput" type="range" min="8" max="30" value="16" (change)="changeFontSize(fontInput.value)"
+            orient="vertical" placement="left" container="body" ngbTooltip="Text size">
+        </div>
+      </div>
+
+      <h6 class="lead">Edit Tags</h6>
+
+      <div class="form-group row ml-0" *ngFor="let tag of tags; let i=index">
+        <input type="text" class="col-4 col-form-label form-control" name="inputTagName" [ngModelOptions]="{standalone: true}"
+          [ngModel]="tag.name" placeholder="Initiative name" (ngModelChange)="saveTagName($event)" />
+        <div class="col-4">
+
+          <input class="form-control" [(colorPicker)]="tag.color" [style.background]="tag.color" [value]="tag.color" [cpOutputFormat]="'hex'"
+            [cpPosition]="'bottom'" [cpPositionOffset]="'40%'" [cpPositionRelativeToArrow]="true" (colorPickerChange)="saveColor(tag, $event)"
+          />
+        </div>
+      </div>
+
+    </div>
   </div>
-
-
 </div>
 
 
@@ -52,5 +86,5 @@
 </div>
 
 <div class="map" [class.slide]="!isSettingsPanelCollapsed">
-    <router-outlet (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>
+  <router-outlet (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>
 </div>

@@ -31,7 +31,7 @@
 <div id="main" [class.expand]="!isBuildingPanelCollapsed" >
     <div class="mapping">
         <mapping [tags]="selectableTags" (showDetails)="openDetails($event, true)" (addInitiative)="addInitiative($event)" (removeInitiative)="removeInitiative($event)"
-            (moveInitiative)="moveInitiative($event)" (closeEditingPanel)="closeEditingPanel()"> Loading...</mapping>
+            (moveInitiative)="moveInitiative($event)" (closeEditingPanel)="closeEditingPanel()" (applySettings)="applySettings($event)"> Loading...</mapping>
     </div>
 </div>
 

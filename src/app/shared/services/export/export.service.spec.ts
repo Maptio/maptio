@@ -27,7 +27,7 @@ describe("export.service.ts", () => {
     it("exports", inject([ExportService, D3Service], (target: ExportService, d3Service: D3Service) => {
         let d3 = d3Service.getD3();
         let data = new Initiative().deserialize(fixture.load("data.json"));
-        let dataset = new DataSet({ _id: "ID", initiative: data });
+        let dataset = new DataSet({ datasetId: "ID", initiative: data });
         target.getReport(dataset).subscribe(exported => {
             expect(exported.split(`\n`).length).toBe(7);
             expect(exported.split(`\n`)[0]).toBe("Depth,Initiative,Parent Initiative,Type,Person,Participants,Helpers");

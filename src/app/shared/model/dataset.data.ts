@@ -5,7 +5,7 @@ import { Tag, DEFAULT_TAGS } from "./tag.data";
 export class DataSet implements Serializable<DataSet> {
   public shortid: string;
 
-  _id: string;
+  datasetId: string;
 
   initiative: Initiative;
 
@@ -27,7 +27,7 @@ export class DataSet implements Serializable<DataSet> {
     if (!input || !input._id) return
     let deserialized = new DataSet();
     deserialized.shortid = input.shortid;
-    deserialized._id = input._id;
+    deserialized.datasetId = input._id;
     deserialized.initiative = Initiative.create().deserialize(input.initiative || input);
     let tags = new Array<Tag>();
     if (input.tags && input.tags instanceof Array && input.tags.length > 0) {

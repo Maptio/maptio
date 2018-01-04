@@ -242,7 +242,7 @@ export class TeamComponent implements OnInit {
                             virtualUser.user_id = user.user_id;
                             virtualUser.picture = user.picture;
                             virtualUser.teams = [this.teamId];
-                            virtualUser.datasets = datasets.map(d => d._id);
+                            virtualUser.datasets = datasets.map(d => d.datasetId);
                             this.createdUser = virtualUser;
                             return virtualUser;
                         }, (reason) => {

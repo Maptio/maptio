@@ -78,13 +78,13 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.tags = data.data.dataset.tags;
                 this.team = data.data.team;
                 this.members = data.data.members;
-                this.datasetId = this.dataset._id;
+                this.datasetId = this.dataset.datasetId;
                 this.teamName = this.team.name;
                 this.teamId = this.team.team_id;
                 EmitterService.get("currentDataset").emit(this.dataset);
                 EmitterService.get("currentTeam").emit(this.team);
                 EmitterService.get("currentMembers").emit(this.members);
-                this.buildingComponent.loadData(this.dataset._id, "", this.team.name, this.team.team_id);
+                this.buildingComponent.loadData(this.dataset.datasetId, "", this.team.name, this.team.team_id);
 
 
             });
@@ -102,12 +102,19 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.buildingComponent.saveChanges();
     }
 
-    saveChanges(initiative: Initiative) {
-        // console.log("initiative", initiative);
+    applySettings(data: { initiative: Initiative, tags: Tag[] }) {
+        console.log("save settings", data.tags);
+        this.saveChanges(data.initiative, data.tags)
+    }
 
-        this.datasetFactory.upsert(new DataSet({ _id: this.datasetId, initiative: initiative }), this.datasetId)
+    saveChanges(initiative: Initiative, tags?: Array<Tag>) {
+        console.log("initiative", initiative, "tags", tags);
+
+        this.dataset.initiative = initiative;
+        if (tags) this.dataset.tags = tags;
+        console.log("save changes", this.dataset)
+        this.datasetFactory.upsert(this.dataset, this.datasetId)
             .then((hasSaved: boolean) => {
-                // console.log("seding change to mapping")
                 this.dataService.set({ initiative: initiative, datasetId: this.datasetId, teamName: this.teamName, teamId: this.teamId, tags: this.dataset.tags });
                 return hasSaved;
             }, (reason) => { console.log(reason) });
