@@ -252,7 +252,14 @@ export class MappingComponent {
     }
 
     saveColor(tag: Tag, color: string) {
+        console.log("changing color", tag, color)
         tag.color = color;
+        this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
+    }
+
+    saveTagName(tag: Tag, name: string) {
+        console.log("changing name", tag, name)
+        tag.name = name;
         this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
     }
 }

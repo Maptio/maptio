@@ -21,6 +21,7 @@ import { ActivatedRoute } from "@angular/router";
 import { User } from "../../shared/model/user.data";
 import { SafeUrl, DomSanitizer } from "@angular/platform-browser";
 import { Tag, SelectableTag } from "../../shared/model/tag.data";
+import * as _ from "lodash";
 
 @Component({
     selector: "workspace",
@@ -85,8 +86,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 EmitterService.get("currentTeam").emit(this.team);
                 EmitterService.get("currentMembers").emit(this.members);
                 this.buildingComponent.loadData(this.dataset.datasetId, "", this.team.name, this.team.team_id);
-
-
             });
     }
 
@@ -104,6 +103,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     applySettings(data: { initiative: Initiative, tags: Tag[] }) {
         console.log("save settings", data.tags);
+        data.initiative.traverse((node: Initiative) => {
+            node.tags = _.intersectionBy(data.tags, node.tags, (t: Tag) => t.shortid);
+        })
+
         this.saveChanges(data.initiative, data.tags)
     }
 
