@@ -57,30 +57,36 @@
       </div>
 
       <h6 class="lead">Edit Tags</h6>
-
-      <div class="form-group row ml-0" *ngFor="let tag of tags; let i=index">
-        <input type="text" class="col-4 col-form-label form-control" name="inputTagName" [ngModelOptions]="{standalone: true}" [ngModel]="tag.name"
-          (ngModelChange)="saveTagName(tag, $event)" />
-        <div class="col-4">
-
-          <input class="form-control" [(colorPicker)]="tag.color" [style.background]="tag.color" [value]="tag.color" [cpOutputFormat]="'hex'"
-            [cpPosition]="'bottom'" [cpPositionOffset]="'40%'" [cpPositionRelativeToArrow]="true" (colorPickerChange)="saveColor(tag, $event)"
-          />
-        </div>
-      </div>
       <form class="form-group row ml-0" [formGroup]="newTagForm" (submit)="addTag()">
         <div class="" [class.has-warning]="newTagForm.controls['name'].invalid  && (newTagForm.controls['name'].dirty || newTagForm.controls['name'].touched)">
           <input type="text" id="inputname" formControlName="name" class="col-form-label form-control form-control-warning" placeholder="New tag"
             required name>
         </div>
         <div class="col-4">
-          <input class="form-control" placeholder="Pick a color" [(colorPicker)]="newTagColor" [style.background]="newTagColor" [value]="newTagColor" [cpOutputFormat]="'hex'"
-            [cpPosition]="'bottom'" [cpPositionOffset]="'40%'" [cpPositionRelativeToArrow]="true" (colorPickerChange)="newTagColor=$event"
-            formControlName="color"
-            />
+          <input class="form-control" placeholder="Pick a color" [(colorPicker)]="newTagColor" [style.background]="newTagColor" [value]="newTagColor"
+            [cpOutputFormat]="'hex'" [cpPosition]="'bottom'" [cpPositionOffset]="'40%'" [cpPositionRelativeToArrow]="true"
+            (colorPickerChange)="newTagColor=$event" formControlName="color" />
         </div>
         <button type="submit" class="btn btn-success" [class.disabled]="!newTagForm.valid">Add</button>
       </form>
+      <div class="overflow edit-tags">
+
+        <div class="form-group row ml-0" *ngFor="let tag of tags; let i=index">
+          <span class="remove text-danger mr-1 mt-1" placement="top" container="body" mwlConfirmationPopover title="Remove this tag"
+            focusbutton="cancel" appendToBody="false" (confirm)="removeTag(tag)" (cancel)="cancelClicked = true">
+
+          </span>
+          <input type="text" class="col-4 col-form-label form-control" name="inputTagName" [ngModelOptions]="{standalone: true}" [ngModel]="tag.name"
+            (ngModelChange)="saveTagName(tag, $event)" />
+          <div class="col-4">
+
+            <input class="form-control" [(colorPicker)]="tag.color" [style.background]="tag.color" [value]="tag.color" [cpOutputFormat]="'hex'"
+              [cpPosition]="'bottom'" [cpPositionOffset]="'40%'" [cpPositionRelativeToArrow]="true" (colorPickerChange)="saveColor(tag, $event)"
+            />
+          </div>
+        </div>
+
+      </div>
 
 
 

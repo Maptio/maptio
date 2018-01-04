@@ -287,4 +287,10 @@ export class MappingComponent {
             this.newTagForm.reset();
         }
     }
+
+    removeTag(tag: Tag) {
+        let index = this.tags.findIndex(t => t.shortid === tag.shortid);
+        this.tags.splice(index, 1);
+        this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
+    }
 }

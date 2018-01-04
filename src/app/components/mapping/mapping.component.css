@@ -171,3 +171,8 @@
   margin-left:-45vw;
   transition: 0.3s ease-in;
 }
+
+.edit-tags.overflow{
+  overflow-y: auto;
+  max-height: 45vh;
+}
