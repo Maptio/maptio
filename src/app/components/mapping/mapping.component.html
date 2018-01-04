@@ -20,78 +20,107 @@
   </div>
 </div>
 
-<div class="control third" [class.showSettings]="!isSettingsPanelCollapsed">
+<!-- <div class="control third" [class.showSettings]="!isSettingsPanelCollapsed">
   <div class="btn-group-vertical">
     <a class="btn btn-secondary btn-tag" [class.active]="tag.isSelected" placement="left" container="body" ngbTooltip="{{tag.name}}"
       *ngFor="let tag of tags; let i=index" (click)="toggleTag(tag)">
       <i class="fa fa-tag" aria-hidden="true" [style.color]="tag.color"></i>
     </a>
   </div>
-</div>
+</div> -->
 
-<div id="sideNavSettings" class="rounded-left" [class.showSettings]="!isSettingsPanelCollapsed">
+<div id="sideNavSettings" class="rounded" [class.showSettings]="!isSettingsPanelCollapsed">
 
-  <h4 class="text-muted d-flex justify-content-center mb-4">{{datasetName}}</h4>
-  <!-- Nav tabs -->
-  <ul class="nav nav-pills nav-fill mb-2" id="myTab" role="tablist">
-    <li class="nav-item">
-      <a class="nav-link active" id="filters-tab" data-toggle="tab" href="#filters" role="tab" aria-controls="filters" aria-selected="true">Filters</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Settings</a>
-    </li>
-  </ul>
+  <div *ngIf="!isSettingsPanelCollapsed">
+    <h4 class="text-muted d-flex justify-content-center mb-4">{{datasetName}}</h4>
+    <!-- Nav tabs -->
+    <ul class="nav nav-pills nav-fill mb-4" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="filters-tab" data-toggle="tab" href="#filters" role="tab" aria-controls="filters" aria-selected="true">Filters</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " id="tags-tab" data-toggle="tab" href="#tags" role="tab" aria-controls="tags" aria-selected="false">Tags</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Settings</a>
+      </li>
+    </ul>
 
-  <!-- Tab panes -->
-  <div class="tab-content">
-    <div class="tab-pane active" id="filters" role="tabpanel" aria-labelledby="filters-tab">...</div>
-    <div class="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div class="tab-pane " id="tags" role="tabpanel" aria-labelledby="tags-tab">
 
-      <h6 class="lead">Font settings</h6>
-      <div class="form-group row">
-        <label for="example-time-input" class="col-4 col-form-label">Font size</label>
-        <div class="col-8">
-          <input class="vertical transparent" #fontInput name="fontInput" type="range" min="8" max="30" value="16" (change)="changeFontSize(fontInput.value)"
-            orient="vertical" placement="left" container="body" ngbTooltip="Text size">
-        </div>
-      </div>
 
-      <h6 class="lead">Edit Tags</h6>
-      <form class="form-group row ml-0" [formGroup]="newTagForm" (submit)="addTag()">
-        <div class="" [class.has-warning]="newTagForm.controls['name'].invalid  && (newTagForm.controls['name'].dirty || newTagForm.controls['name'].touched)">
-          <input type="text" id="inputname" formControlName="name" class="col-form-label form-control form-control-warning" placeholder="New tag"
-            required name>
-        </div>
-        <div class="col-4">
-          <input class="form-control" placeholder="Pick a color" [(colorPicker)]="newTagColor" [style.background]="newTagColor" [value]="newTagColor"
-            [cpOutputFormat]="'hex'" [cpPosition]="'bottom'" [cpPositionOffset]="'40%'" [cpPositionRelativeToArrow]="true"
-            (colorPickerChange)="newTagColor=$event" formControlName="color" />
-        </div>
-        <button type="submit" class="btn btn-success" [class.disabled]="!newTagForm.valid">Add</button>
-      </form>
-      <div class="overflow edit-tags">
+        <div class="edit-tags">
 
-        <div class="form-group row ml-0" *ngFor="let tag of tags; let i=index">
-          <span class="remove text-danger mr-1 mt-1" placement="top" container="body" mwlConfirmationPopover title="This cannot be undone! The tag {{tag.name}} will be removed from all initiatives too. Confirm?"
-            focusbutton="cancel" appendToBody="false" (confirm)="removeTag(tag)" (cancel)="cancelClicked = true">
+          <h6 class="lead">Edit Tags</h6>
+          <form class="form-group row ml-3" [formGroup]="newTagForm" (submit)="addTag()">
+            <div class="" [class.has-warning]="newTagForm.controls['name'].invalid  && (newTagForm.controls['name'].dirty || newTagForm.controls['name'].touched)">
+              <input type="text" id="inputname" formControlName="name" class="col-form-label form-control form-control-warning" placeholder="New tag"
+                required name>
+            </div>
+            <div class="col-4">
+              <input class="form-control" placeholder="Pick a color" [(colorPicker)]="newTagColor" [style.background]="newTagColor" [value]="newTagColor"
+                [cpOutputFormat]="'hex'" [cpPosition]="'bottom'" [cpPositionOffset]="'40%'" [cpPositionRelativeToArrow]="true"
+                (colorPickerChange)="newTagColor=$event" formControlName="color" />
+            </div>
+            <button type="submit" class="btn btn-success" [class.disabled]="!newTagForm.valid">Add</button>
+          </form>
+          <div class="overflow ">
 
-          </span>
-          <input type="text" class="col-4 col-form-label form-control" name="inputTagName" [ngModelOptions]="{standalone: true}" [ngModel]="tag.name"
-            (ngModelChange)="saveTagName(tag, $event)" />
-          <div class="col-4">
+            <div class="form-group row ml-0" *ngFor="let tag of tags; let i=index">
+              <span class="remove text-danger mr-1 mt-1" placement="top" container="body" mwlConfirmationPopover title="This cannot be undone! The tag {{tag.name}} will be removed from all initiatives too. Confirm?"
+                focusbutton="cancel" appendToBody="false" (confirm)="removeTag(tag)" (cancel)="cancelClicked = true">
 
-            <input class="form-control" [(colorPicker)]="tag.color" [style.background]="tag.color" [value]="tag.color" [cpOutputFormat]="'hex'"
-              [cpPosition]="'bottom'" [cpPositionOffset]="'40%'" [cpPositionRelativeToArrow]="true" (colorPickerChange)="saveColor(tag, $event)"
-            />
+              </span>
+              <input type="text" class="col-4 col-form-label form-control" name="inputTagName" [ngModelOptions]="{standalone: true}" [ngModel]="tag.name"
+                (ngModelChange)="saveTagName(tag, $event)" />
+              <div class="col-4">
+
+                <input class="form-control" [(colorPicker)]="tag.color" [style.background]="tag.color" [value]="tag.color" [cpOutputFormat]="'hex'"
+                  [cpPosition]="'bottom'" [cpPositionOffset]="'40%'" [cpPositionRelativeToArrow]="true" (colorPickerChange)="saveColor(tag, $event)"
+                />
+              </div>
+            </div>
+
           </div>
         </div>
 
       </div>
+      <div class="tab-pane active" id="filters" role="tabpanel" aria-labelledby="filters-tab">
+
+        <div class="filter-tag mb-4">
+          <h6 class="lead">Filter with tags</h6>
+          <div class="d-flex flex-wrap">
+            <a class="btn btn-sm btn-secondary  mr-1" [class.active]="tag.isSelected" placement="left" container="body" ngbTooltip="{{tag.name}}"
+              *ngFor="let tag of tags; let i=index" (click)="toggleTag(tag)">
+              <i class="fa fa-tag" aria-hidden="true" [style.color]="tag.color"></i> {{tag.name}}
+            </a>
+          </div>
+        </div>
 
 
 
+      </div>
+      <div class="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+
+        <div class="edit-font mb-4">
+          <h6 class="lead">Font settings</h6>
+          <div class="form-group row">
+            <label for="example-time-input" class="col-4 col-form-label">Font size</label>
+            <div class="col-8">
+              <input class="vertical transparent" #fontInput name="fontInput" type="range" min="8" max="30" value="16" (change)="changeFontSize(fontInput.value)"
+                orient="vertical" placement="left" container="body" ngbTooltip="Text size">
+            </div>
+          </div>
+        </div>
+        <hr/>
+
+
+      </div>
     </div>
   </div>
+
 </div>
 
 

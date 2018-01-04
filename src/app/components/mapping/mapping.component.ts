@@ -47,7 +47,7 @@ export class MappingComponent {
     public isLocked: boolean = true;
 
     public isCollapsed: boolean = true;
-    public isSettingsPanelCollapsed: boolean = false;
+    public isSettingsPanelCollapsed: boolean = true;
 
     public zoom$: Subject<number>;
     public isReset$: Subject<boolean>;
