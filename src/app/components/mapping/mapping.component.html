@@ -28,7 +28,7 @@
     <a class="btn btn-secondary plus" (click)="zoomIn()" placement="left" container="body" ngbTooltip="Zoom in"></a>
     <a class="btn btn-secondary reset" (click)="resetZoom()" placement="left" container="body" ngbTooltip="Zoom fit"></a>
     <a class="btn btn-secondary settings" (click)="togglePanel()" placement="left" container="body" ngbTooltip="Settings"></a>
-    <a class="btn btn-secondary edit-tags" (click)="toggleTagSettingsTab()" placement="left" container="body" ngbTooltip="Edit tags"></a>
+    <a class="btn btn-secondary edit-tag" (click)="toggleTagSettingsTab()" placement="left" container="body" ngbTooltip="Edit tags"></a>
   </div>
 </div>
 
@@ -46,12 +46,12 @@
   <div *ngIf="!isSettingsPanelCollapsed">
     <h4 class="text-muted d-flex justify-content-center mb-4">{{datasetName}}</h4>
     <!-- Nav tabs -->
-    <ul class="nav nav-pills nav-fill mb-4" id="myTab" role="tablist">
+    <ul class="nav nav-tabs nav-fill mb-4" id="myTab" role="tablist">
       <!-- <li class="nav-item">
         <a class="nav-link active" id="filters-tab" data-toggle="tab" href="#filters" role="tab" aria-controls="filters" aria-selected="true">Filters</a>
       </li> -->
       <li class="nav-item">
-        <a class="nav-link " [class.active]="isTagSettingActive" id="tags-tab" data-toggle="tab" href="#tags" role="tab" aria-controls="tags" aria-selected="false">Tags</a>
+        <a class="nav-link " [class.active]="isTagSettingActive" id="tags-tab" data-toggle="tab" href="#tags" role="tab" aria-controls="tags" aria-selected="false">Edit Tags</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" [class.active]="isMapSettingActive" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Settings</a>
@@ -65,7 +65,7 @@
 
         <div class="edit-tags">
 
-          <h6 class="lead">Edit Tags</h6>
+          <!-- <h6 class="lead">Edit Tags</h6> -->
           <form class="form-group row ml-3" [formGroup]="newTagForm" (submit)="addTag()">
             <div class="" [class.has-warning]="newTagForm.controls['name'].invalid  && (newTagForm.controls['name'].dirty || newTagForm.controls['name'].touched)">
               <input type="text" id="inputname" formControlName="name" class="col-form-label form-control form-control-warning" placeholder="New tag"

@@ -82,7 +82,7 @@
   font-family: FontAwesome;
 }
 
-.edit-tags:before {
+.edit-tag:before {
   content: "\f02c";
   font-family: FontAwesome;
 }
