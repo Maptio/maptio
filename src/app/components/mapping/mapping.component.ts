@@ -48,6 +48,8 @@ export class MappingComponent {
 
     public isCollapsed: boolean = true;
     public isSettingsPanelCollapsed: boolean = true;
+    public isTagSettingActive: boolean;
+    public isMapSettingActive: boolean;
 
     public zoom$: Subject<number>;
     public isReset$: Subject<boolean>;
@@ -189,10 +191,6 @@ export class MappingComponent {
             this.subscription.unsubscribe();
     }
 
-    togglePanel() {
-        this.isSettingsPanelCollapsed = !this.isSettingsPanelCollapsed;
-        this.toggleSettingsPanel.emit(this.isSettingsPanelCollapsed)
-    }
 
     getFragment(component: IDataVisualizer) {
         switch (component.constructor) {
@@ -292,5 +290,26 @@ export class MappingComponent {
         let index = this.tags.findIndex(t => t.shortid === tag.shortid);
         this.tags.splice(index, 1);
         this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
+    }
+
+    toggleTagSettingsTab() {
+        this.isSettingsPanelCollapsed = !this.isSettingsPanelCollapsed;
+       
+        this.isTagSettingActive = true;
+        if (this.isSettingsPanelCollapsed) {
+            this.isMapSettingActive = false;
+            this.isTagSettingActive = false;
+        }
+    }
+
+    togglePanel() {
+        this.isSettingsPanelCollapsed = !this.isSettingsPanelCollapsed;
+       
+        this.isMapSettingActive = true;
+        if (this.isSettingsPanelCollapsed) {
+            this.isMapSettingActive = false;
+            this.isTagSettingActive = false;
+        }
+        this.toggleSettingsPanel.emit(this.isSettingsPanelCollapsed)
     }
 }
