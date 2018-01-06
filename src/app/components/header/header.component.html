@@ -12,21 +12,42 @@
         </picture>
     </a>
 
-    <span class="navbar-text col-6 pt-2 ">
-        <a class="lead" routerLink="/map/{{selectedDataset?.datasetId}}/{{selectedDataset?.initiative?.getSlug()}}/initiatives">{{selectedDataset?.initiative?.name}}</a>
-
-        <small class="row ml-1" *ngIf="team">
-            <span class="text-muted mr-1">Team </span>
-            <a routerLink="/team/{{team?.team_id}}/{{team?.getSlug()}}">
-                {{team?.name}}
+    <div class="row justify-content-between col-7">
+        <span class="navbar-text col pt-2 ">
+            <a class="lead" routerLink="/map/{{selectedDataset?.datasetId}}/{{selectedDataset?.initiative?.getSlug()}}/initiatives">
+                {{selectedDataset?.initiative?.name}}
             </a>
-            <span (click)="isMembersToggled=!isMembersToggled">
-                <i class="fa fa-caret-up pt-1 pl-1" *ngIf="isMembersToggled" aria-hidden="true"></i>
-                <i class="fa fa-caret-down pt-1 pl-1" *ngIf="!isMembersToggled" aria-hidden="true"></i>
-            </span>
+        </span>
+        <span class="navbar-text col pt-3 ">
 
-        </small>
-    </span>
+            <small class="row ml-1" *ngIf="team">
+                <span class="text-muted mr-1">Team </span>
+                <a routerLink="/team/{{team?.team_id}}/{{team?.getSlug()}}">
+                    {{team?.name}}
+                </a>
+                <span (click)="isMembersToggled=!isMembersToggled">
+                    <i class="fa fa-caret-up pt-1 pl-1" *ngIf="isMembersToggled" aria-hidden="true"></i>
+                    <i class="fa fa-caret-down pt-1 pl-1" *ngIf="!isMembersToggled" aria-hidden="true"></i>
+                </span>
+
+            </small>
+        </span>
+        <!-- <span class="navbar-text col-2 pt-3 ">
+
+            <small class="row ml-1" *ngIf="team" (click)="isFiltersToggled=!isFiltersToggled">
+                <span>
+                    Filters
+                    <i class="fa fa-filter" aria-hidden="true"></i>
+                </span>
+                <span>
+                    <i class="fa fa-caret-up pt-1 pl-1" *ngIf="isFiltersToggled" aria-hidden="true"></i>
+                    <i class="fa fa-caret-down pt-1 pl-1" *ngIf="!isFiltersToggled" aria-hidden="true"></i>
+                </span>
+
+            </small>
+        </span> -->
+    </div>
+
 
     <div class="collapse navbar-collapse" id="navbarToggler">
         <ul class="navbar-nav ml-auto mt-2 mt-md-0">
@@ -99,8 +120,8 @@
         </ul>
     </div>
 </nav>
-<nav class="navbar navbar-toggleable-md navbar-light bg-faded fixed-top toggeable" [class.toggled]="isMembersToggled">
-    <span class="col" *ngIf="isMembersToggled">
+<nav class="navbar navbar-toggleable-md navbar-light bg-faded fixed-top toggeable" [class.toggled]="isMembersToggled || isFiltersToggled">
+    <span class="col ml-0 pl-0" *ngIf="isMembersToggled">
         <a *ngFor="let user of members" class="btn btn-link btn-xs no-padding" [class.deleted]="user.isDeleted" routerLink="/map/{{selectedDataset?.datasetId}}/{{selectedDataset?.initiative?.getSlug()}}/u/{{user.shortid}}/{{user.getSlug()}}">
 
             <img *ngIf="!isPictureLoadedMap.get(user?.user_id)" class="blur member rounded-circle" [@fadeInOut]="isFadeInMap.get(user?.user_id)"
@@ -113,6 +134,17 @@
             <i class="fa fa-user-plus text-muted" aria-hidden="true"></i>
         </a>
     </span>
+    <!-- <span class="col ml-0 pl-0" *ngIf="isFiltersToggled">
+        <div class="row filter-tags d-flex justify-content-center ">
+            <div class="col-10 m-1 mt-4 pl-0">
+                <div class="d-flex flex-wrap">
+                    <a class="btn btn-sm btn-tag btn-secondary  mr-1" [class.active]="tag.isSelected" *ngFor="let tag of tags; let i=index" (click)="toggleTag(tag)">
+                        <i class="fa fa-tag" aria-hidden="true" [style.color]="tag.color"></i> {{tag.name}}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </span> -->
 </nav>
 
 <div class="card creation borderless col-6 rounded-0" *ngIf="isCreateMode" (mouseleave)="isCreateMode=false">

@@ -140,9 +140,7 @@
   background-color: #2F81B7;
 }
 
-.btn-tag.active {
-  background-color: #2F81B7;
-}
+
 
 #sideNavSettings {
   height: 90vh;
@@ -192,6 +190,10 @@
   border: solid 2px;
 }
 
-.filter-tags{
-  background-color: #f5f5f5;
+.filter-tags {
+  background-color: transparent;
+  position: absolute;
+  top: 2vh;
+  left: 7vw;
+  min-width: 80vw;
 }

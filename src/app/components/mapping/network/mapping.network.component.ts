@@ -276,7 +276,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             })
             .value();
 
-        console.log(links)
         return { nodes: _.uniqBy(nodesRaw, (u) => { return u.id }), links: links }
     }
 

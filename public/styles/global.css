@@ -377,6 +377,16 @@ button[data-handler=bootstrap-markdown-cmdImage] {
   background-color: initial
 }
 
+.btn-tag {
+  border: 1px solid !important;
+  color: #f5f5f5 !important;
+}
+
+.btn-tag.active {
+  /* background-color: #2F81B7 !important; */
+  color: #000 !important;
+}
+
 /*
 .tag {
   background: #eee;

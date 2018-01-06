@@ -1,9 +1,9 @@
-<div class="row filter-tags d-flex justify-content-center ">
+<div class="row filter-tags d-flex justify-content-start ">
   <div class="col-10 m-1 mt-4 pl-0">
     <div class="d-flex flex-wrap">
-      <a class="btn btn-sm btn-tag btn-secondary  mr-1" [class.active]="tag.isSelected" 
+      <a class="btn btn-sm btn-tag btn-secondary  mr-1" [class.active]="tag.isSelected"  [style.background-color]="tag.color"
         *ngFor="let tag of tags; let i=index" (click)="toggleTag(tag)">
-        <i class="fa fa-tag" aria-hidden="true" [style.color]="tag.color"></i> {{tag.name}}
+        <i class="fa fa-tag" aria-hidden="true" ></i> {{tag.name}}
       </a>
     </div>
   </div>
@@ -122,7 +122,7 @@
             <label for="example-time-input" class="col-4 col-form-label">Font size</label>
             <div class="col-8">
               <input class="vertical transparent" #fontInput name="fontInput" type="range" min="8" max="30" value="16" (change)="changeFontSize(fontInput.value)"
-                orient="vertical" placement="left" container="body" ngbTooltip="Text size">
+                orient="vertical">
             </div>
           </div>
         </div>
