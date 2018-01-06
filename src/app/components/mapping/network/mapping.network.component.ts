@@ -77,7 +77,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     public isLoading: boolean;
 
     constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService,
-        private cd: ChangeDetectorRef, private router: Router, private dataService: DataService, private uriService:URIService) {
+        private cd: ChangeDetectorRef, private router: Router, private dataService: DataService, private uriService: URIService) {
         // console.log("network constructor")
         this.d3 = d3Service.getD3();
         this.T = this.d3.transition(null).duration(this.TRANSITION_DURATION);
@@ -360,28 +360,18 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             let s = link.source = <any>nodeById.get(link.source),
                 t = link.target = <any>nodeById.get(link.target),
                 i = {},
-                weight = _.isEmpty(selectedTags) // all tags are unselected by default
-                    ? link.weight
-                    : _.isEmpty(link.tags) // the circle doesnt have any tags
-                        ? 0
-                        : _.intersection(selectedTags.map(t => t.shortid), link.tags).length === 0
-                            ? 0
-                            : link.weight - _.intersection(selectedTags.map(t => t.shortid), link.tags).length
-                ,
+                // weight = _.isEmpty(selectedTags) // all tags are unselected by default
+                //     ? link.weight
+                //     : _.isEmpty(link.tags) // the circle doesnt have any tags
+                //         ? 0
+                //         : _.intersection(selectedTags.map(t => t.shortid), link.tags).length === 0
+                //             ? 0
+                //             : link.weight - _.intersection(selectedTags.map(t => t.shortid), link.tags).length
+                // ,
+                weight = link.weight,
                 initiatives = link.initiatives,
                 tags = link.tags,
                 id = `${s.id}-${t.id}`; // intermediate node
-
-            // let nodeTags = link.tags;
-
-            // weight -= _.isEmpty(selectedTags) // all tags are unselected by default
-            //     ? 1
-            //     : _.isEmpty(nodeTags) // the circle doesnt have any tags
-            //         ? 0
-            //         : _.intersection(selectedTags.map(t => t.shortid), nodeTags).length === 0
-            //             ? 0
-            //             : 1;
-
 
             nodes.push(<any>i);
             links.push(<any>{ source: s, target: i }, <any>{ source: i, target: t });
@@ -398,8 +388,19 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .attr("data-source", function (d: any) { return d[0].id })
             .attr("data-target", function (d: any) { return d[2].id })
             .attr("stroke-width", function (d: any) { return `${LINE_WEIGHT * d[3]}px` })
+            .style("opacity", function (d: any) {
+                return _.isEmpty(selectedTags) // all tags are unselected by default
+                    ? link.weight
+                    : _.isEmpty(d[5]) // the circle doesnt have any tags
+                        ? 0.1
+                        : _.intersection(selectedTags.map(t => t.shortid), d[5]).length === 0
+                            ? 0.1
+                            : link.weight - _.intersection(selectedTags.map(t => t.shortid), d[5]).length
+
+
+            })
             .attr("id", function (d: any) { return d[6] })
-            .attr("marker-end", function(d:any){return d[3] === 0 ? "" : "url(#arrow)" } )
+            .attr("marker-end", "url(#arrow)")
         // .on("m ouseout", fade(1));
 
 
