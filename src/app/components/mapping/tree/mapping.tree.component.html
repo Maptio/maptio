@@ -2,44 +2,44 @@
 <svg width="100%" viewBox="0 0 1522 1522"></svg>
 
 <div class="tooltip-initiative col-3">
-        <div class="card">
-            <div class="card-block p-1">
-                <div class="d-flex w-100 justify-content-between">
-                    <a *ngIf="hoveredNode?.accountable" routerLink="/map/{{datasetId}}/{{slug}}/u/{{hoveredNode?.accountable.shortid}}/{{hoveredNode?.accountable.getSlug()}}">
-                        <img *ngIf="hoveredNode?.accountable" src="{{hoveredNode?.accountable.picture}}" width="30" height="30" class="rounded-circle mr-2">
+    <div class="card">
+        <div class="card-block p-1">
+            <div class="d-flex w-100 justify-content-between">
+                <a *ngIf="hoveredNode?.accountable" routerLink="/map/{{datasetId}}/{{slug}}/u/{{hoveredNode?.accountable.shortid}}/{{hoveredNode?.accountable.getSlug()}}">
+                    <img *ngIf="hoveredNode?.accountable" src="{{hoveredNode?.accountable.picture}}" width="30" height="30" class="rounded-circle mr-2">
+                </a>
+                <h6 class="card-title text-color"> {{hoveredNode?.name}}</h6>
+
+
+            </div>
+        </div>
+        <div class="card-block p-1">
+            <ul class="tags small">
+                <li *ngFor="let tag of hoveredNode?.tags; let i=index">
+                    <a class="btn btn-sm btn-secondary mr-1 tag" [style.color]="tag.color">
+                        <i class="fa fa-tag mr-1" aria-hidden="true" [style.color]="tag.color"></i>{{tag?.name}}
                     </a>
-                    <h6 class="card-title text-color"> {{hoveredNode?.name}}</h6>
-                    
-    
+                </li>
+            </ul>
+        </div>
+        <div class="card-block p-1">
+            <markdown class="small text-muted" [data]="hoveredNode?.description || ''"></markdown>
+        </div>
+        <div *ngIf="hoveredNode?.helpers && hoveredNode?.helpers.length>0" class="card-footer text-muted background">
+            <div *ngFor="let user of hoveredNode?.helpers; let i=index">
+                <div class="row mb-0">
+                    <span class="pl-1 col">
+                        <a routerLink="/map/{{datasetId}}/{{slug}}/u/{{user.shortid}}/{{user.getSlug()}}">
+
+                            <img src="{{user.picture}}" width="16" class="rounded-circle">
+                            <small>{{user.name}}</small>
+                        </a>
+
+                    </span>
                 </div>
-            </div>
-            <div class="card-block p-1">
-                    <ul class="tags small">
-                        <li *ngFor="let tag of hoveredNode?.tags; let i=index">
-                            <a class="btn btn-sm btn-secondary mr-1 tag" [style.color]="tag.color">
-                                <i class="fa fa-tag mr-1" aria-hidden="true" [style.color]="tag.color"></i>{{tag?.name}}
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            <div class="card-block p-1">
-                <markdown class="small text-muted" [data]="hoveredNode?.description || ''"></markdown>
-            </div>
-            <div *ngIf="hoveredNode?.helpers && hoveredNode?.helpers.length>0" class="card-footer text-muted background">
-                <div *ngFor="let user of hoveredNode?.helpers; let i=index">
-                    <div class="row mb-0">
-                        <span class="pl-1 col">
-                            <a routerLink="/map/{{datasetId}}/{{slug}}/u/{{user.shortid}}/{{user.getSlug()}}">
-    
-                                <img src="{{user.picture}}" width="16" class="rounded-circle">
-                                <small>{{user.name}}</small>
-                            </a>
-    
-                        </span>
-                    </div>
-    
-                    <markdown class="small mb-2" *ngIf="user.roles[0]?.description" [data]="user.roles[0]?.description || ''"></markdown>
-                </div>
+
+                <markdown class="small mb-2" *ngIf="user.roles[0]?.description" [data]="user.roles[0]?.description || ''"></markdown>
             </div>
         </div>
     </div>
+</div>

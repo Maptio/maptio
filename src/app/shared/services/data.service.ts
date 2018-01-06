@@ -36,6 +36,7 @@ export class DataService {
 
 export class URIService {
     parseFragment(fragment: string): Map<string, string> {
+        if (!fragment) return new Map<string, string>();
         var query = new Map<string, string>();
         var pairs = (fragment[0] === '#' ? fragment.substr(1) : fragment).split('&');
         for (var i = 0; i < pairs.length; i++) {

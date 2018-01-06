@@ -287,6 +287,8 @@ export class MappingComponent {
 
     toggleTag(tag: SelectableTag) {
         tag.isSelected = !tag.isSelected;
+        this.selectableTags$.next(this.tags);
+        
         let tagsHash = this.tags.map(t => `${t.shortid}:${t.isSelected ? 1 : 0}`).join(',');
         this.tagsFragment = `tags=${tagsHash}`;
 
@@ -294,7 +296,6 @@ export class MappingComponent {
         ancient.set("tags", tagsHash);
         location.hash = this.uriService.buildFragment(ancient);
 
-        this.selectableTags$.next(this.tags);
     }
 
     getTagsFragment(layout: string) {

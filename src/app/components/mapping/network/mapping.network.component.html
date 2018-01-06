@@ -1,5 +1,5 @@
 <ngx-loading [show]="isLoading" [config]="{ backdropBackgroundColour: '#f7f7f7' }"></ngx-loading>
-<svg width="100%" viewBox="0 0 1522 1522" ></svg>
+<svg width="100%" viewBox="0 0 1522 1522"></svg>
 
 <div class="tooltip-initiative col-3">
     <div class="card">
@@ -16,13 +16,26 @@
         <div class="card-block p-1">
             <div *ngFor="let i of tooltipRoles" class="initiative-item mt-1">
                 <div class="d-flex w-100 justify-content-between mb-1">
-                    <h6 class="card-title text-color small mb-1"><strong>{{i.initiative?.name}}</strong> </h6>
+                    <span class="card-title text-color small mb-1 ">
+                        <strong>{{i.initiative?.name}}</strong>
+                        <ul class="tags">
+                                <li *ngFor="let tag of i.initiative.tags">
+                                    <a class="btn btn-sm btn-secondary mr-1 tag" [style.color]="tag.color">
+                                        <i class="fa fa-tag mr-1" aria-hidden="true" [style.color]="tag.color"></i>{{tag?.name}}
+                                    </a>
+                                </li>
+                            </ul>
+                    </span>
+                   
                     <small>
                         <div class="btn-group" role="group">
                             <button type="button" class="btn btn-sm edit btn-secondary" (click)="showDetails(i.initiative)" placement="top" ngbTooltip="Edit"
                                 container="body"></button>
                         </div>
                     </small>
+                </div>
+                <div class="card-block p-1">
+
                 </div>
                 <div *ngIf="i.role?.description" class="small">
                     <span class=" text-muted">by</span>
