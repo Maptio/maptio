@@ -120,7 +120,7 @@
         </ul>
     </div>
 </nav>
-<nav class="navbar navbar-toggleable-md navbar-light bg-faded fixed-top toggeable" [class.toggled]="isMembersToggled || isFiltersToggled">
+<nav class="navbar navbar-toggleable-md navbar-light bg-faded fixed-top toggeable" [class.toggled]="isMembersToggled">
     <span class="col ml-0 pl-0" *ngIf="isMembersToggled">
         <a *ngFor="let user of members" class="btn btn-link btn-xs no-padding" [class.deleted]="user.isDeleted" routerLink="/map/{{selectedDataset?.datasetId}}/{{selectedDataset?.initiative?.getSlug()}}/u/{{user.shortid}}/{{user.getSlug()}}">
 
