@@ -9,7 +9,7 @@ import { UIService } from "../../../shared/services/ui/ui.service"
 import { IDataVisualizer } from "../mapping.interface"
 import { UserFactory } from "../../../shared/services/user.factory";
 import { Angulartics2Mixpanel } from "angulartics2";
-import { DataService } from "../../../shared/services/data.service";
+import { DataService, TagsService, URIService } from "../../../shared/services/data.service";
 import { Tag, SelectableTag } from "../../../shared/model/tag.data";
 import * as _ from "lodash";
 
@@ -34,6 +34,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
     public translateX: number;
     public translateY: number;
     public scale: number;
+    public tagsState: Array<SelectableTag>;
 
     public margin: number;
     public zoom$: Observable<number>;
@@ -55,6 +56,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
     private resetSubscription: Subscription;
     private fontSubscription: Subscription;
     private lockedSubscription: Subscription;
+    private tagsSubscription: Subscription;
 
     public analytics: Angulartics2Mixpanel;
 
@@ -90,7 +92,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
     constructor(public d3Service: D3Service, public colorService: ColorService,
         public uiService: UIService, public router: Router,
-        private userFactory: UserFactory, private cd: ChangeDetectorRef, private dataService: DataService
+        private userFactory: UserFactory, private cd: ChangeDetectorRef,
+        private dataService: DataService, private tagsService: TagsService, private uriService: URIService
     ) {
         this.d3 = d3Service.getD3();
         this.T = this.d3.transition(null).duration(this.TRANSITION_DURATION);
@@ -99,22 +102,28 @@ export class MappingCirclesComponent implements IDataVisualizer {
     }
 
     ngOnInit() {
+
         this.isLoading = true;
         this.init();
-        this.dataSubscription = this.dataService.get().subscribe(complexData => {
-            // console.log("circles assign data")
-            let data = <any>complexData.initiative;
-            this.datasetId = complexData.datasetId;
-            this.rootNode = complexData.initiative;
-            this.slug = data.getSlug();
-            this.update(data);
-            this.analytics.eventTrack("Map", { view: "initiatives", team: data.teamName, teamId: data.teamId });
-            this.isLoading = false;
-            this.cd.markForCheck();
-        })
+        this.dataSubscription = this.dataService.get()
+            .combineLatest(this.selectableTags$)
+            .subscribe(complexData => {
+                // console.log("circles assign data")
+                let data = <any>complexData[0].initiative;
+                this.datasetId = complexData[0].datasetId;
+                this.rootNode = complexData[0].initiative;
+                this.slug = data.getSlug();
+                this.tagsState = complexData[1];
+                this.update(data, complexData[1]);
+                this.analytics.eventTrack("Map", { view: "initiatives", team: data.teamName, teamId: data.teamId });
+                this.isLoading = false;
+                this.cd.markForCheck();
+            })
     }
 
     init() {
+
+        console.log("circle init")
 
         this.uiService.clean();
         let d3 = this.d3;
@@ -131,8 +140,11 @@ export class MappingCirclesComponent implements IDataVisualizer {
         let zooming = d3.zoom().scaleExtent([1 / 3, 3])
             .on("zoom", zoomed)
             .on("end", () => {
+                console.log(this.tagsState);
                 let transform = d3.event.transform;
-                location.hash = `x=${transform.x}&y=${transform.y}&scale=${transform.k}`;
+                let tagFragment = this.tagsState.map(t => `${t.shortid}:${t.isSelected ? 1 : 0}`).join(',')
+                location.hash = this.uriService.buildFragment(new Map([["x", transform.x], ["y", transform.y], ["scale", transform.k], ["tags", tagFragment]]))
+
             });
 
         try {
@@ -146,15 +158,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
         }
 
         function zoomed() {
-            // let transform = d3.event.transform;
             g.attr("transform", d3.event.transform);
-            // location.hash = `x=${transform.x}&y=${transform.y}&scale=${transform.k}`
-
-            // d3.selectAll("g.nodes")
-            //     .transition(this.T).duration(this.TRANSITION_OPACITY)
-            //     .style("fill-opacity", function (d: any) {
-            //         return (<any>this).getBBox().width * transform.k < window.outerWidth * RATIO_FOR_VISIBILITY ? OPACITY_DISAPPEARING : "1"
-            //     })
         }
 
         this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
@@ -177,6 +181,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
         })
 
         this.fontSubscription = this.fontSize$.subscribe((fs: number) => {
+            console.log("circles font size", fs)
+
             let uiService = this.uiService;
             let MAX_TEXT_LENGTH = this.MAX_TEXT_LENGTH;
             svg.attr("font-size", fs + "px");
@@ -188,26 +194,6 @@ export class MappingCirclesComponent implements IDataVisualizer {
                     uiService.wrap(d3.select(this), d.data.tags, realText, d.r * 2 * 0.95);
                 });
         });
-
-        this.selectableTags$.subscribe((tags: Array<SelectableTag>) => {
-            // this.tags = tags;
-
-            d3.selectAll("g.nodes").style("opacity", function (d: any) {
-                let [selectedTags, unselectedTags] = _.partition(tags, t => t.isSelected)
-                let nodeTags = d.data.tags.map((t: Tag) => t.shortid);
-                console.log("circles tags", d.data.name, selectedTags, nodeTags)
-                return _.isEmpty(selectedTags) // all tags are unselected by default
-                    ? 1
-                    : _.isEmpty(nodeTags) // the circle doesnt have any tags
-                        ? 0.1
-                        : _.intersection(selectedTags.map(t => t.shortid), nodeTags).length === 0
-                            ? 0.1
-                            : 1;
-
-
-            })
-        })
-
 
         this.lockedSubscription = this.isLocked$.subscribe((locked: boolean) => {
 
@@ -238,6 +224,9 @@ export class MappingCirclesComponent implements IDataVisualizer {
         }
         if (this.lockedSubscription) {
             this.lockedSubscription.unsubscribe();
+        }
+        if (this.tagsSubscription) {
+            this.tagsSubscription.unsubscribe();
         }
     }
 
@@ -343,8 +332,9 @@ export class MappingCirclesComponent implements IDataVisualizer {
         this.analytics.eventTrack("Map", { mode: "drag", action: "move", team: this.teamName, teamId: this.teamId });
     }
 
-    update(data: any) {
+    update(data: any, tags: Array<SelectableTag>) {
 
+        console.log("circle update")
         if (!this.g) {
             this.init();
         }
@@ -467,6 +457,20 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 .on("end", dragended)
             )
 
+        console.log("circle filtering", tags)
+        let [selectedTags, unselectedTags] = _.partition(tags, t => t.isSelected);
+        g.selectAll("g.nodes").style("opacity", function (d: any) {
+            let nodeTags = d.data.tags.map((t: Tag) => t.shortid);
+            let opacity = _.isEmpty(selectedTags) // all tags are unselected by default
+                ? 1
+                : _.isEmpty(nodeTags) // the circle doesnt have any tags
+                    ? 0.1
+                    : _.intersection(selectedTags.map(t => t.shortid), nodeTags).length === 0
+                        ? 0.1
+                        : 1;
+            // console.log("circles", d.data.name, opacity);
+            return opacity;
+        })
 
 
 

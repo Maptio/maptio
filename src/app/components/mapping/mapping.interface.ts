@@ -32,6 +32,7 @@ export interface IDataVisualizer {
     translateX: number;
     translateY: number;
     scale: number;
+    tagsState: Array<SelectableTag>;
 
     showDetailsOf$: Subject<Initiative>;
 

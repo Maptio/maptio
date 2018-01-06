@@ -1,7 +1,7 @@
 <div class="row filter-tags d-flex justify-content-center ">
   <div class="col-10 m-1 mt-4 pl-0">
     <div class="d-flex flex-wrap">
-      <a class="btn btn-sm btn-tag btn-secondary  mr-1" [class.active]="tag.isSelected" placement="left" container="body" ngbTooltip="{{tag.name}}"
+      <a class="btn btn-sm btn-tag btn-secondary  mr-1" [class.active]="tag.isSelected" 
         *ngFor="let tag of tags; let i=index" (click)="toggleTag(tag)">
         <i class="fa fa-tag" aria-hidden="true" [style.color]="tag.color"></i> {{tag.name}}
       </a>
@@ -13,11 +13,11 @@
 <div class="control first" [class.showSettings]="!isSettingsPanelCollapsed">
   <div class=" btn-group-vertical">
 
-    <a class="btn btn-secondary circles icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/initiatives"
+    <a class="btn btn-secondary circles icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/initiatives" fragment="x=761&y=761&scale=1&{{tagsFragment}}"
       placement="left" container="body" ngbTooltip="Circle view"></a>
-    <a class="btn btn-secondary tree icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/people" placement="left"
+    <a class="btn btn-secondary tree icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/people" fragment="x=0&y=100&scale=1&{{tagsFragment}}" placement="left"
       container="body" ngbTooltip="Tree view"></a>
-    <a class="btn btn-secondary network icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/connections"
+    <a class="btn btn-secondary network icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/connections" fragment="x=0&y=0&scale=1&{{tagsFragment}}"
       placement="left" container="body" ngbTooltip="Network view"></a>
   </div>
 </div>

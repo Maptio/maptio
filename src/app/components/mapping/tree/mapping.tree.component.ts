@@ -9,7 +9,7 @@ import { IDataVisualizer } from "../mapping.interface"
 import { Observable, Subject } from "rxjs/Rx";
 import { Initiative } from "../../../shared/model/initiative.data";
 import { Angulartics2Mixpanel } from "angulartics2";
-import { DataService } from "../../../shared/services/data.service";
+import { DataService, URIService } from "../../../shared/services/data.service";
 import { Tag, SelectableTag } from "../../../shared/model/tag.data";
 import * as _ from "lodash";
 
@@ -33,10 +33,11 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     public translateX: number;
     public translateY: number;
     public scale: number;
+    public tagsState: Array<SelectableTag>;
 
     public zoom$: Observable<number>
-    public selectableTags$: Observable<Array<Tag>>;
-    public fontSize$: Observable<number>
+    public selectableTags$: Observable<Array<SelectableTag>>;
+    public fontSize$: Observable<number>;
     public isLocked$: Observable<boolean>;
     public isReset$: Observable<boolean>
     public data$: Subject<{ initiative: Initiative, datasetId: string, teamName: string, teamId: string }>;
@@ -45,6 +46,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     private dataSubscription: Subscription;
     private resetSubscription: Subscription;
     private fontSubscription: Subscription;
+    private tagsSubscription: Subscription;
 
     public analytics: Angulartics2Mixpanel;
 
@@ -66,7 +68,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
     constructor(public d3Service: D3Service, public colorService: ColorService,
         public uiService: UIService, public router: Router, private userFactory: UserFactory,
-        private cd: ChangeDetectorRef, private dataService: DataService) {
+        private cd: ChangeDetectorRef, private dataService: DataService, private uriService: URIService) {
         // console.log("tree constructor")
         this.d3 = d3Service.getD3();
         this.data$ = new Subject<{ initiative: Initiative, datasetId: string, teamName: string, teamId: string }>();
@@ -74,7 +76,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     }
 
     init() {
-        // console.log("tree init")
+        console.log("tree init")
         this.uiService.clean();
         let d3 = this.d3;
         let viewerWidth = this.width;
@@ -87,8 +89,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         d3.tree().size([viewerWidth / 2, viewerHeight]);
 
         function zoomed() {
-            // let transform = d3.event.transform;
-            // location.hash = `x=${transform.x}&y=${transform.y}&scale=${transform.k}`
             g.attr("transform", d3.event.transform);
         }
 
@@ -96,7 +96,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             .on("zoom", zoomed)
             .on("end", () => {
                 let transform = d3.event.transform;
-                location.hash = `x=${transform.x}&y=${transform.y}&scale=${transform.k}`;
+                let tagFragment = this.tagsState.map(t => `${t.shortid}:${t.isSelected ? 1 : 0}`).join(',')
+                location.hash = this.uriService.buildFragment(new Map([["x", transform.x], ["y", transform.y], ["scale", transform.k], ["tags", tagFragment]]))
+
             });
 
         let svg: any = d3.select("svg").attr("width", viewerWidth)
@@ -106,7 +108,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         let g = svg.append("g")
             .attr("transform", `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`);
         let definitions = g.append("defs")
+
         this.fontSubscription = this.fontSize$.subscribe((fs: number) => {
+            console.log("tree font size", fs)
             svg.attr("font-size", fs + "px");
             d3.selectAll("text").attr("font-size", fs + "px")
         })
@@ -140,25 +144,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             }
         });
 
-        this.selectableTags$.subscribe((tags: Array<SelectableTag>) => {
-            // this.tags = tags;
-
-            d3.selectAll("g.node").style("opacity", function (d: any) {
-                let [selectedTags, unselectedTags] = _.partition(tags, t => t.isSelected)
-                let nodeTags = d.data.tags.map((t: Tag) => t.shortid);
-                console.log("circles tags", d.data.name, selectedTags, nodeTags)
-                return _.isEmpty(selectedTags) // all tags are unselected by default
-                    ? 1
-                    : _.isEmpty(nodeTags) // the circle doesnt have any tags
-                        ? 0.1
-                        : _.intersection(selectedTags.map(t => t.shortid), nodeTags).length === 0
-                            ? 0.1
-                            : 1;
-
-
-            })
-        })
-
 
         this.svg = svg;
         this.g = g;
@@ -168,16 +153,19 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     ngOnInit() {
         this.isLoading = true;
         this.init();
-        this.dataSubscription = this.dataService.get().subscribe(complexData => {
-            // console.log("tree assign data")
-            let data = <any>complexData.initiative;
-            this.datasetId = complexData.datasetId;
-            this.slug = data.getSlug();
-            this.update(data);
-            this.analytics.eventTrack("Map", { view: "people", team: data.teamName, teamId: data.teamId });
-            this.isLoading = false;
-            this.cd.markForCheck();
-        })
+        this.dataSubscription = this.dataService.get()
+            .combineLatest(this.selectableTags$)
+            .subscribe(complexData => {
+                // console.log("tree assign data")
+                let data = <any>complexData[0].initiative;
+                this.datasetId = complexData[0].datasetId;
+                this.slug = data.getSlug();
+                this.tagsState = complexData[1];
+                this.update(data, complexData[1]);
+                this.analytics.eventTrack("Map", { view: "people", team: data.teamName, teamId: data.teamId });
+                this.isLoading = false;
+                this.cd.markForCheck();
+            })
     }
 
     ngOnDestroy() {
@@ -190,6 +178,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         if (this.resetSubscription) {
             this.resetSubscription.unsubscribe();
         }
+        if (this.tagsSubscription) {
+            this.tagsSubscription.unsubscribe();
+        }
     }
 
     hoverInitiative(node: Initiative) {
@@ -198,8 +189,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     }
 
     // draw(translateX: number, translateY: number, scale: number) {
-    update(data: any) {
-        // console.log(this.g)
+    update(data: any, tags: Array<SelectableTag>) {
+
+        console.log("tree update")
         if (!this.g) {
             this.init();
         }
@@ -274,6 +266,23 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             let node = g.selectAll("g.node")
                 .data(nodes, function (d: any) { return d.id || (d.id = ++i); })
                 ;
+
+            console.log("tree filtering", tags)
+            let [selectedTags, unselectedTags] = _.partition(tags, t => t.isSelected)
+
+            g.selectAll("g.node").style("opacity", function (d: any) {
+                let nodeTags = d.data.tags.map((t: Tag) => t.shortid);
+                let opacity = _.isEmpty(selectedTags) // all tags are unselected by default
+                    ? 1
+                    : _.isEmpty(nodeTags) // the circle doesnt have any tags
+                        ? 0.1
+                        : _.intersection(selectedTags.map(t => t.shortid), nodeTags).length === 0
+                            ? 0.1
+                            : 1;
+                // console.log("tree", d.data.name, opacity);
+                return opacity;
+            })
+
 
             // let definitions = g.append("defs")
             // definitions.selectAll("pattern")
@@ -379,7 +388,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 .duration(duration)
                 .attr("transform", function (d: any) {
                     return "translate(" + d.y + "," + d.x + ")";
-                }); 
+                });
 
             // Update the node attributes and style
             nodeUpdate.select("circle.node")

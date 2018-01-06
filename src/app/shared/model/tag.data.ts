@@ -45,7 +45,7 @@ export class SelectableTag extends Tag {
 
     public isSelected: boolean;
 
-    public constructor(init?: Partial<Tag>) {
+    public constructor(init?: Partial<SelectableTag>) {
         super()
         Object.assign(this, init);
     }

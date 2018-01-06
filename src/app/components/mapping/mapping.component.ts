@@ -9,17 +9,18 @@ import {
     ChangeDetectionStrategy, ChangeDetectorRef, ComponentFactory, Output, Input, SimpleChanges
 } from "@angular/core";
 
-import { DataService } from "../../shared/services/data.service"
+import { DataService, TagsService, URIService } from "../../shared/services/data.service"
 import { IDataVisualizer } from "./mapping.interface"
 import { MappingCirclesComponent } from "./circles/mapping.circles.component"
 import { MappingTreeComponent } from "./tree/mapping.tree.component"
 
 import "rxjs/add/operator/map"
-import { Subject, BehaviorSubject, Subscription, } from "rxjs/Rx";
+import { Subject, BehaviorSubject, Subscription, ReplaySubject, } from "rxjs/Rx";
 import { MappingNetworkComponent } from "./network/mapping.network.component";
 import { MemberSummaryComponent } from "./member-summary/member-summary.component";
 import { Tag, SelectableTag } from "../../shared/model/tag.data";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
+import * as _ from "lodash";
 
 @Component({
     selector: "mapping",
@@ -65,6 +66,7 @@ export class MappingComponent {
     public teamId: string;
     public slug: string;
     public tags: Array<SelectableTag>;
+    public tagsFragment: string;
 
     public fontSize$: BehaviorSubject<number>;
     public isLocked$: BehaviorSubject<boolean>;
@@ -93,13 +95,15 @@ export class MappingComponent {
 
     constructor(
         private dataService: DataService,
+        private tagsService: TagsService,
         private cd: ChangeDetectorRef,
         private route: ActivatedRoute,
-        private analytics: Angulartics2Mixpanel
+        private analytics: Angulartics2Mixpanel,
+        private uriService: URIService
     ) {
         this.zoom$ = new Subject<number>();
         this.isReset$ = new Subject<boolean>();
-        this.selectableTags$ = new Subject<Array<Tag>>();
+        this.selectableTags$ = new ReplaySubject<Array<SelectableTag>>();
         this.fontSize$ = new BehaviorSubject<number>(16);
         this.isLocked$ = new BehaviorSubject<boolean>(this.isLocked);
         this.closeEditingPanel$ = new BehaviorSubject<boolean>(false);
@@ -135,10 +139,17 @@ export class MappingComponent {
             this.closeEditingPanel.emit(true);
         })
 
+
         let f = this.route.snapshot.fragment || this.getFragment(component);
-        this.x = Number.parseFloat(f.split("&")[0].replace("x=", ""))
-        this.y = Number.parseFloat(f.split("&")[1].replace("y=", ""))
-        this.scale = Number.parseFloat(f.split("&")[2].replace("scale=", ""));
+        this.x = Number.parseFloat(this.uriService.parseFragment(f).get("x"));
+        this.y = Number.parseFloat(this.uriService.parseFragment(f).get("y"))
+        this.scale = Number.parseFloat(this.uriService.parseFragment(f).get("scale"))
+
+        let tagsState = this.uriService.parseFragment(f).has("tags")
+            ? this.uriService.parseFragment(f).get("tags")
+                .split(",")
+                .map((s: string) => new SelectableTag({ shortid: s.split(':')[0], isSelected: s.split(':')[1] === "1" ? true : false }))
+            : [];
 
         this.layout = this.getLayout(component);
 
@@ -153,6 +164,9 @@ export class MappingComponent {
         component.translateX = this.x;
         component.translateY = this.y;
         component.scale = this.scale;
+        component.tagsState = tagsState;
+        this.selectableTags$.next(tagsState)
+
         component.analytics = this.analytics;
         component.isReset$ = this.isReset$.asObservable();
         if (component.constructor === MemberSummaryComponent) {
@@ -174,16 +188,34 @@ export class MappingComponent {
             })
             .combineLatest(this.dataService.get())
             .map(data => data[1])
-            .subscribe((data) => {
+            .combineLatest(this.route.fragment)
+            .subscribe(([data, fragment]) => {
                 if (!data.initiative.children || !data.initiative.children[0] || !data.initiative.children[0].children) {
                     this.lock(false);
                     this.cd.markForCheck();
                 }
-                this.tags = data.tags;
+                // this.tags = data.tags;
+                let fragmentTags = this.uriService.parseFragment(fragment).has("tags") && this.uriService.parseFragment(fragment).get("tags")
+                    ? this.uriService.parseFragment(fragment).get("tags")
+                        .split(",")
+                        .map((s: string) => new SelectableTag({ shortid: s.split(':')[0], isSelected: s.split(':')[1] === "1" ? true : false }))
+                    : <SelectableTag[]>data.tags;
+
+                this.tags = _.zip(fragmentTags, data.tags).map(([fragmentT, dataT]) => {
+                    return new SelectableTag({ shortid: dataT.shortid, name: dataT.name, color: dataT.color, isSelected: fragmentT.isSelected })
+                })
+                // console.log(this.uriService.parseFragment(fragment), tags)
+
+
                 this.datasetName = data.initiative.name;
                 this.initiative = data.initiative;
                 this.cd.markForCheck();
-            })
+            });
+
+        this.route.fragment.subscribe(f => {
+
+
+        })
     }
 
     ngOnDestroy() {
@@ -256,9 +288,19 @@ export class MappingComponent {
 
     toggleTag(tag: SelectableTag) {
         tag.isSelected = !tag.isSelected;
-        this.selectableTags$.next(this.tags);
+        let tagsHash = this.tags.map(t => `${t.shortid}:${t.isSelected ? 1 : 0}`).join(',');
+        this.tagsFragment = `tags=${tagsHash}`;
 
-        // this.selectableTags = this.dataset.tags.map(t => <SelectableTag>t) // .filter(t => t.isSelected);
+        let ancient = this.uriService.parseFragment(this.route.snapshot.fragment);
+        ancient.set("tags", tagsHash);
+        location.hash = this.uriService.buildFragment(ancient);
+
+        this.selectableTags$.next(this.tags);
+    }
+
+    getTagsFragment(layout: string) {
+        console.log(layout, this.tagsFragment)
+        return this.tagsFragment;
     }
 
     saveColor(tag: Tag, color: string) {
@@ -294,7 +336,7 @@ export class MappingComponent {
 
     toggleTagSettingsTab() {
         this.isSettingsPanelCollapsed = !this.isSettingsPanelCollapsed;
-       
+
         this.isTagSettingActive = true;
         if (this.isSettingsPanelCollapsed) {
             this.isMapSettingActive = false;
@@ -304,7 +346,7 @@ export class MappingComponent {
 
     togglePanel() {
         this.isSettingsPanelCollapsed = !this.isSettingsPanelCollapsed;
-       
+
         this.isMapSettingActive = true;
         if (this.isSettingsPanelCollapsed) {
             this.isMapSettingActive = false;
@@ -312,4 +354,7 @@ export class MappingComponent {
         }
         this.toggleSettingsPanel.emit(this.isSettingsPanelCollapsed)
     }
+
+
+
 }
