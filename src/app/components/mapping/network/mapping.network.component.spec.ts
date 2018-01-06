@@ -16,7 +16,7 @@ import { ErrorService } from "../../../shared/services/error/error.service";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2/dist";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MappingNetworkComponent } from "./mapping.network.component";
-import { DataService } from "../../../shared/services/data.service";
+import { DataService, URIService } from "../../../shared/services/data.service";
 
 describe("mapping.network.component.ts", () => {
 
@@ -27,7 +27,7 @@ describe("mapping.network.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
-                D3Service, ColorService, UIService, DataService, UserFactory, Angulartics2Mixpanel, Angulartics2,
+                D3Service, ColorService, UIService, URIService, DataService, UserFactory, Angulartics2Mixpanel, Angulartics2,
                 {
                     provide: AuthHttp,
                     useFactory: authHttpServiceFactoryTesting,
@@ -71,6 +71,7 @@ describe("mapping.network.component.ts", () => {
         component.scale = 1;
         component.zoom$ = Observable.of(1);
         component.isReset$ = new Subject<boolean>();
+        component.selectableTags$ = Observable.of([]);
         component.fontSize$ = Observable.of(12);
         component.isLocked$ = Observable.of(true);
         component.analytics = jasmine.createSpyObj("analytics", ["eventTrack"]);
