@@ -50,7 +50,7 @@
 <div id="sideNavSettings" class="rounded" [class.showSettings]="!isSettingsPanelCollapsed">
 
   <div *ngIf="!isSettingsPanelCollapsed">
-    <h4 class="text-muted d-flex justify-content-center mb-4">{{datasetName}}</h4>
+    <h5 class="text-muted d-flex justify-content-center mb-4 lead">{{datasetName}}</h5>
     <!-- Nav tabs -->
     <ul class="nav nav-tabs nav-fill mb-4" id="myTab" role="tablist">
       <!-- <li class="nav-item">
@@ -128,7 +128,7 @@
           <h6 class="lead">Font settings</h6>
           <div class="form-group row">
             <label for="example-time-input" class="col-4 col-form-label">Font size</label>
-            <div class="col-8">
+            <div class="col-6">
               <input class="vertical transparent" #fontInput name="fontInput" type="range" min="8" max="30" value="16" (change)="changeFontSize(fontInput.value)"
                 orient="vertical">
             </div>
