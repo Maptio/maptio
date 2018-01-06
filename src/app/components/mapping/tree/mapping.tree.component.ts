@@ -76,7 +76,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     }
 
     init() {
-        console.log("tree init")
         this.uiService.clean();
         let d3 = this.d3;
         let viewerWidth = this.width;
@@ -110,7 +109,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         let definitions = g.append("defs")
 
         this.fontSubscription = this.fontSize$.subscribe((fs: number) => {
-            console.log("tree font size", fs)
             svg.attr("font-size", fs + "px");
             d3.selectAll("text").attr("font-size", fs + "px")
         })
@@ -156,7 +154,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         this.dataSubscription = this.dataService.get()
             .combineLatest(this.selectableTags$)
             .subscribe(complexData => {
-                // console.log("tree assign data")
                 let data = <any>complexData[0].initiative;
                 this.datasetId = complexData[0].datasetId;
                 this.slug = data.getSlug();
@@ -191,7 +188,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     // draw(translateX: number, translateY: number, scale: number) {
     update(data: any, tags: Array<SelectableTag>) {
 
-        console.log("tree update")
         if (!this.g) {
             this.init();
         }
@@ -266,8 +262,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             let node = g.selectAll("g.node")
                 .data(nodes, function (d: any) { return d.id || (d.id = ++i); })
                 ;
-
-            console.log("tree filtering", tags)
             let [selectedTags, unselectedTags] = _.partition(tags, t => t.isSelected)
 
             g.selectAll("g.node").style("opacity", function (d: any) {

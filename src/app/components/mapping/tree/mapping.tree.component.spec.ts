@@ -16,8 +16,8 @@ import { MappingTreeComponent } from "./mapping.tree.component";
 import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
-import { DataService } from "../../../shared/services/data.service";
-import { Tag } from "../../../shared/model/tag.data";
+import { DataService, URIService } from "../../../shared/services/data.service";
+import { Tag, SelectableTag } from "../../../shared/model/tag.data";
 
 describe("mapping.tree.component.ts", () => {
 
@@ -29,7 +29,7 @@ describe("mapping.tree.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
-                D3Service, ColorService, UIService, DataService, UserFactory, Angulartics2Mixpanel, Angulartics2,
+                D3Service, ColorService, UIService, DataService, URIService, UserFactory, Angulartics2Mixpanel, Angulartics2,
                 {
                     provide: AuthHttp,
                     useFactory: authHttpServiceFactoryTesting,
@@ -73,7 +73,7 @@ describe("mapping.tree.component.ts", () => {
         component.scale = 1;
         component.zoom$ = Observable.of(1)
         component.isReset$ = new Subject<boolean>();
-        component.selectableTags$ = new Subject<Array<Tag>>();
+        component.selectableTags$ = Observable.of([]);
         component.fontSize$ = Observable.of(12);
         component.isLocked$ = Observable.of(true);
         component.analytics = jasmine.createSpyObj("analytics", ["eventTrack"]);
@@ -81,7 +81,7 @@ describe("mapping.tree.component.ts", () => {
         let data = new Initiative().deserialize(fixture.load("data.json"));
         let mockDataService = target.debugElement.injector.get(DataService);
         spyOn(mockDataService, "get").and.returnValue(Observable.of({ initiative: data, datasetId: "ID" }));
-
+        
         target.detectChanges(); // trigger initial data binding
     });
 

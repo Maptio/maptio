@@ -9,7 +9,7 @@ import {
     ChangeDetectionStrategy, ChangeDetectorRef, ComponentFactory, Output, Input, SimpleChanges
 } from "@angular/core";
 
-import { DataService, TagsService, URIService } from "../../shared/services/data.service"
+import { DataService, URIService } from "../../shared/services/data.service"
 import { IDataVisualizer } from "./mapping.interface"
 import { MappingCirclesComponent } from "./circles/mapping.circles.component"
 import { MappingTreeComponent } from "./tree/mapping.tree.component"
@@ -95,7 +95,6 @@ export class MappingComponent {
 
     constructor(
         private dataService: DataService,
-        private tagsService: TagsService,
         private cd: ChangeDetectorRef,
         private route: ActivatedRoute,
         private analytics: Angulartics2Mixpanel,
@@ -258,7 +257,7 @@ export class MappingComponent {
         this.zoom$.next(0.9);
         this.analytics.eventTrack("Map", { action: "zoom out", mode: "button", team: this.teamName, teamId: this.teamId });
     }
-
+    
     zoomIn() {
         this.zoom$.next(1.1);
         this.analytics.eventTrack("Map", { action: "zoom in", mode: "button", team: this.teamName, teamId: this.teamId });

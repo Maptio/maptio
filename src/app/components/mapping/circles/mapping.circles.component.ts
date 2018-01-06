@@ -9,7 +9,7 @@ import { UIService } from "../../../shared/services/ui/ui.service"
 import { IDataVisualizer } from "../mapping.interface"
 import { UserFactory } from "../../../shared/services/user.factory";
 import { Angulartics2Mixpanel } from "angulartics2";
-import { DataService, TagsService, URIService } from "../../../shared/services/data.service";
+import { DataService, URIService } from "../../../shared/services/data.service";
 import { Tag, SelectableTag } from "../../../shared/model/tag.data";
 import * as _ from "lodash";
 
@@ -93,7 +93,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
     constructor(public d3Service: D3Service, public colorService: ColorService,
         public uiService: UIService, public router: Router,
         private userFactory: UserFactory, private cd: ChangeDetectorRef,
-        private dataService: DataService, private tagsService: TagsService, private uriService: URIService
+        private dataService: DataService, private uriService: URIService
     ) {
         this.d3 = d3Service.getD3();
         this.T = this.d3.transition(null).duration(this.TRANSITION_DURATION);
@@ -123,8 +123,6 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
     init() {
 
-        console.log("circle init")
-
         this.uiService.clean();
         let d3 = this.d3;
         // let RATIO_FOR_VISIBILITY = this.RATIO_FOR_VISIBILITY;
@@ -140,7 +138,6 @@ export class MappingCirclesComponent implements IDataVisualizer {
         let zooming = d3.zoom().scaleExtent([1 / 3, 3])
             .on("zoom", zoomed)
             .on("end", () => {
-                console.log(this.tagsState);
                 let transform = d3.event.transform;
                 let tagFragment = this.tagsState.map(t => `${t.shortid}:${t.isSelected ? 1 : 0}`).join(',')
                 location.hash = this.uriService.buildFragment(new Map([["x", transform.x], ["y", transform.y], ["scale", transform.k], ["tags", tagFragment]]))
@@ -181,7 +178,6 @@ export class MappingCirclesComponent implements IDataVisualizer {
         })
 
         this.fontSubscription = this.fontSize$.subscribe((fs: number) => {
-            console.log("circles font size", fs)
 
             let uiService = this.uiService;
             let MAX_TEXT_LENGTH = this.MAX_TEXT_LENGTH;
@@ -201,7 +197,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             svg.style("background", function () { return locked ? "#f7f7f7" : "transparent" });
 
             this.setIsLocked(locked);
-        })
+        });
 
         this.svg = svg;
         this.g = g;
@@ -334,7 +330,6 @@ export class MappingCirclesComponent implements IDataVisualizer {
 
     update(data: any, tags: Array<SelectableTag>) {
 
-        console.log("circle update")
         if (!this.g) {
             this.init();
         }
@@ -457,7 +452,6 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 .on("end", dragended)
             )
 
-        console.log("circle filtering", tags)
         let [selectedTags, unselectedTags] = _.partition(tags, t => t.isSelected);
         g.selectAll("g.nodes").style("opacity", function (d: any) {
             let nodeTags = d.data.tags.map((t: Tag) => t.shortid);

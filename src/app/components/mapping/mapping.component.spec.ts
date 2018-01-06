@@ -9,7 +9,7 @@ import { Observable } from "rxjs/Observable";
 import { ErrorService } from "./../..//shared/services/error/error.service";
 import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
-import { DataService } from "./../..//shared/services/data.service";
+import { DataService, URIService } from "./../..//shared/services/data.service";
 import { MappingTreeComponent } from "./tree/mapping.tree.component";
 import { MappingCirclesComponent } from "./circles/mapping.circles.component";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
@@ -29,7 +29,7 @@ describe("mapping.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
-                DataService, ErrorService, D3Service, ColorService, UIService, Angulartics2Mixpanel, Angulartics2,
+                DataService, ErrorService, D3Service, ColorService, UIService, URIService, Angulartics2Mixpanel, Angulartics2,
                 UserFactory,
                 {
                     provide: Http,
@@ -92,12 +92,12 @@ describe("mapping.component.ts", () => {
 
         describe("getLayout", () => {
             it("should return initiatives when component is MappingCirclesComponent", () => {
-                let actual = component.getLayout(new MappingCirclesComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined));
+                let actual = component.getLayout(new MappingCirclesComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined, undefined));
                 expect(actual).toBe("initiatives")
             });
 
             it("should return people when component is MappingTreeComponent", () => {
-                let actual = component.getLayout(new MappingTreeComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined));
+                let actual = component.getLayout(new MappingTreeComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined, undefined));
                 expect(actual).toBe("people")
             });
 
@@ -116,12 +116,12 @@ describe("mapping.component.ts", () => {
 
         describe("getFragment", () => {
             it("should return #x=761&y=761&scale=1 when layout is initiatives", () => {
-                let actual = component.getFragment(new MappingCirclesComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined));
+                let actual = component.getFragment(new MappingCirclesComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined, undefined));
                 expect(actual).toBe("x=761&y=761&scale=1")
             });
 
             it("should return #x=100&y=380.5&scale=1 when layout is people", () => {
-                let actual = component.getFragment(new MappingTreeComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined));
+                let actual = component.getFragment(new MappingTreeComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined, undefined));
                 expect(actual).toBe("x=100&y=380.5&scale=1")
             });
 

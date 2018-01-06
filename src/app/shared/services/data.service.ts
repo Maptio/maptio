@@ -33,29 +33,6 @@ export class DataService {
 }
 
 
-export class TagsService {
-
-    private _tags$: Subject<Array<SelectableTag>>;
-
-    constructor() {
-        this._tags$ = new Subject();
-    }
-
-    set(data: Array<SelectableTag>): void {
-        this._tags$.next(data);
-    }
-
-    get(): Observable<Array<SelectableTag>> {
-        return this._tags$.asObservable();
-    }
-
-    // fetch(url: string): Promise<any> {
-    //     return this.http.get(url)
-    //         .toPromise()
-    //         .then(response => response.json())
-    //         .catch(this.errorService.handleError);
-    // }
-}
 
 export class URIService {
     parseFragment(fragment: string): Map<string, string> {

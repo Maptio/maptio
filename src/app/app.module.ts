@@ -17,7 +17,7 @@ import { AuthGuard } from "./shared/services/guards/auth.guard";
 import { AccessGuard } from "./shared/services/guards/access.guard";
 
 // Services
-import { DataService, TagsService, URIService } from "./shared/services/data.service";
+import { DataService, URIService } from "./shared/services/data.service";
 import { DatasetFactory } from "./shared/services/dataset.factory";
 import { ColorService } from "./shared/services/ui/color.service"
 import { UIService } from "./shared/services/ui/ui.service"
@@ -205,7 +205,7 @@ export function markdownServiceFactory(http: Http) {
   providers: [
     BrowserAnimationsModule,
     AuthGuard, AccessGuard, AuthConfiguration,
-    D3Service, DataService, URIService, TagsService, ColorService, UIService, DatasetFactory, TeamFactory,
+    D3Service, DataService, URIService, ColorService, UIService, DatasetFactory, TeamFactory,
     ErrorService, Auth, UserService, UserFactory, MailingService, JwtEncoder, LoaderService,
     ExportService,
     Location,

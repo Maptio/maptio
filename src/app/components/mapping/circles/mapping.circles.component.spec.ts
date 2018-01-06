@@ -16,7 +16,7 @@ import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/aut
 import { ErrorService } from "../../../shared/services/error/error.service";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { RouterTestingModule } from "@angular/router/testing";
-import { DataService } from "../../../shared/services/data.service";
+import { DataService, URIService } from "../../../shared/services/data.service";
 
 describe("mapping.circles.component.ts", () => {
 
@@ -27,7 +27,7 @@ describe("mapping.circles.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
-                D3Service, ColorService, DataService, UIService, UserFactory, Angulartics2Mixpanel, Angulartics2,
+                D3Service, ColorService, DataService, UIService, URIService, UserFactory, Angulartics2Mixpanel, Angulartics2,
                 {
                     provide: AuthHttp,
                     useFactory: authHttpServiceFactoryTesting,

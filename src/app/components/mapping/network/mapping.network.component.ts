@@ -13,7 +13,7 @@ import { User } from "../../../shared/model/user.data";
 import { Role } from "../../../shared/model/role.data";
 import { Router } from "@angular/router";
 import { DataService } from "../../../shared/services/data.service";
-import { Tag } from "../../../shared/model/tag.data";
+import { Tag, SelectableTag } from "../../../shared/model/tag.data";
 
 @Component({
     selector: "network",
@@ -34,6 +34,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     public translateX: number;
     public translateY: number;
     public scale: number;
+    public tagsState: Array<SelectableTag>;
 
 
     public margin: number;

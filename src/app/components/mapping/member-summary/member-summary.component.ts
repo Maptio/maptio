@@ -13,7 +13,7 @@ import { Team } from "../../../shared/model/team.data";
 import { Subject } from "rxjs/Rx";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { DataService } from "../../../shared/services/data.service";
-import { Tag } from "../../../shared/model/tag.data";
+import { Tag, SelectableTag } from "../../../shared/model/tag.data";
 
 @Component({
     selector: "member-summary",
@@ -33,6 +33,7 @@ export class MemberSummaryComponent implements OnInit, IDataVisualizer {
     public scale: number;
     public zoom$: Observable<number>
     public selectableTags$: Observable<Array<Tag>>;
+    public tagsState: Array<SelectableTag>;
     public fontSize$: Observable<number>;
     public isLocked$: Observable<boolean>;
     public isReset$: Observable<boolean>;
