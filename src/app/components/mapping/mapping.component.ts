@@ -200,9 +200,9 @@ export class MappingComponent {
                         .map((s: string) => new SelectableTag({ shortid: s.split(':')[0], isSelected: s.split(':')[1] === "1" ? true : false }))
                     : <SelectableTag[]>data.tags;
 
-                this.tags = _.zip(fragmentTags, data.tags).map(([fragmentT, dataT]) => {
+                this.tags = _.sortBy(_.zip(fragmentTags, data.tags).map(([fragmentT, dataT]) => {
                     return new SelectableTag({ shortid: dataT.shortid, name: dataT.name, color: dataT.color, isSelected: fragmentT.isSelected })
-                })
+                }), "name");
                 // console.log(this.uriService.parseFragment(fragment), tags)
 
 
@@ -288,7 +288,7 @@ export class MappingComponent {
     toggleTag(tag: SelectableTag) {
         tag.isSelected = !tag.isSelected;
         this.selectableTags$.next(this.tags);
-        
+
         let tagsHash = this.tags.map(t => `${t.shortid}:${t.isSelected ? 1 : 0}`).join(',');
         this.tagsFragment = `tags=${tagsHash}`;
 
@@ -298,10 +298,10 @@ export class MappingComponent {
 
     }
 
-    toggleAllTags(isAll:boolean){
-        this.tags.forEach(t => t.isSelected=isAll);
+    toggleAllTags(isAll: boolean) {
+        this.tags.forEach(t => t.isSelected = isAll);
         this.selectableTags$.next(this.tags);
-        
+
         let tagsHash = this.tags.map(t => `${t.shortid}:${t.isSelected ? 1 : 0}`).join(',');
         this.tagsFragment = `tags=${tagsHash}`;
 
