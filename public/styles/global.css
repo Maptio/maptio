@@ -383,8 +383,9 @@ button[data-handler=bootstrap-markdown-cmdImage] {
 }
 
 .btn-tag.active {
-  /* background-color: #2F81B7 !important; */
-  color: #000 !important;
+    /* background-color: #2F81B7 !important; */
+    /* color: #000 !important; */
+    box-shadow: 0px 2px #bbb;
 }
 
 /*
