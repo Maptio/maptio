@@ -144,7 +144,7 @@ export class MappingComponent {
         this.y = Number.parseFloat(this.uriService.parseFragment(f).get("y"))
         this.scale = Number.parseFloat(this.uriService.parseFragment(f).get("scale"))
 
-        let tagsState = this.uriService.parseFragment(f).has("tags")
+        let tagsState = this.uriService.parseFragment(f).has("tags") && this.uriService.parseFragment(f).get("tags")
             ? this.uriService.parseFragment(f).get("tags")
                 .split(",")
                 .map((s: string) => new SelectableTag({ shortid: s.split(':')[0], isSelected: s.split(':')[1] === "1" ? true : false }))
@@ -257,7 +257,7 @@ export class MappingComponent {
         this.zoom$.next(0.9);
         this.analytics.eventTrack("Map", { action: "zoom out", mode: "button", team: this.teamName, teamId: this.teamId });
     }
-    
+
     zoomIn() {
         this.zoom$.next(1.1);
         this.analytics.eventTrack("Map", { action: "zoom in", mode: "button", team: this.teamName, teamId: this.teamId });
