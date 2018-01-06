@@ -1,10 +1,16 @@
 <div class="row filter-tags d-flex justify-content-start ">
   <div class="col-10 m-1 mt-4 pl-0">
     <div class="d-flex flex-wrap">
-      <a class="btn btn-sm btn-tag btn-secondary  mr-1" [class.active]="tag.isSelected"  [style.background-color]="tag.color"
-        *ngFor="let tag of tags; let i=index" (click)="toggleTag(tag)">
-        <i class="fa fa-tag" aria-hidden="true" ></i> {{tag.name}}
+      <a class="btn btn-sm btn-tag btn-secondary  mr-1" [class.active]="tag.isSelected" [style.background-color]="tag.color" *ngFor="let tag of tags; let i=index"
+        (click)="toggleTag(tag)">
+        <i class="fa fa-tag" aria-hidden="true"></i> {{tag.name}}
+        <i *ngIf="tag.isSelected" class="fa fa-check" aria-hidden="true" [style.color]="white"> </i>
+        <i *ngIf="!tag.isSelected" class="fa fa-check" aria-hidden="true" [style.color]="tag.color"></i>
       </a>
+      <!-- <button class="btn btn-sm btn-link mr-1"  (click)="isAll=!isAll; toggleAllTags(isAll)">
+        <span *ngIf="!isAll">Select all</span>   
+        <span *ngIf="isAll">Unselect all</span>
+      </button> -->
     </div>
   </div>
 </div>
@@ -13,12 +19,12 @@
 <div class="control first" [class.showSettings]="!isSettingsPanelCollapsed">
   <div class=" btn-group-vertical">
 
-    <a class="btn btn-secondary circles icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/initiatives" fragment="x=761&y=761&scale=1&{{tagsFragment}}"
-      placement="left" container="body" ngbTooltip="Circle view"></a>
-    <a class="btn btn-secondary tree icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/people" fragment="x=100&y=380.5&scale=1&{{tagsFragment}}" placement="left"
-      container="body" ngbTooltip="Tree view"></a>
-    <a class="btn btn-secondary network icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/connections" fragment="x=0&y=-380.5&scale=1&{{tagsFragment}}"
-      placement="left" container="body" ngbTooltip="Network view"></a>
+    <a class="btn btn-secondary circles icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/initiatives"
+      fragment="x=761&y=761&scale=1&{{tagsFragment}}" placement="left" container="body" ngbTooltip="Circle view"></a>
+    <a class="btn btn-secondary tree icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/people" fragment="x=100&y=380.5&scale=1&{{tagsFragment}}"
+      placement="left" container="body" ngbTooltip="Tree view"></a>
+    <a class="btn btn-secondary network icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/connections"
+      fragment="x=0&y=-380.5&scale=1&{{tagsFragment}}" placement="left" container="body" ngbTooltip="Network view"></a>
   </div>
 </div>
 
@@ -51,10 +57,12 @@
         <a class="nav-link active" id="filters-tab" data-toggle="tab" href="#filters" role="tab" aria-controls="filters" aria-selected="true">Filters</a>
       </li> -->
       <li class="nav-item">
-        <a class="nav-link " [class.active]="isTagSettingActive" id="tags-tab" data-toggle="tab" href="#tags" role="tab" aria-controls="tags" aria-selected="false">Edit Tags</a>
+        <a class="nav-link " [class.active]="isTagSettingActive" id="tags-tab" data-toggle="tab" href="#tags" role="tab" aria-controls="tags"
+          aria-selected="false">Edit Tags</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [class.active]="isMapSettingActive" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">Settings</a>
+        <a class="nav-link" [class.active]="isMapSettingActive" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings"
+          aria-selected="false">Settings</a>
       </li>
     </ul>
 

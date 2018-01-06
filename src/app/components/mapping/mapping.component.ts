@@ -298,6 +298,18 @@ export class MappingComponent {
 
     }
 
+    toggleAllTags(isAll:boolean){
+        this.tags.forEach(t => t.isSelected=isAll);
+        this.selectableTags$.next(this.tags);
+        
+        let tagsHash = this.tags.map(t => `${t.shortid}:${t.isSelected ? 1 : 0}`).join(',');
+        this.tagsFragment = `tags=${tagsHash}`;
+
+        let ancient = this.uriService.parseFragment(this.route.snapshot.fragment);
+        ancient.set("tags", tagsHash);
+        location.hash = this.uriService.buildFragment(ancient);
+    }
+
     getTagsFragment(layout: string) {
         console.log(layout, this.tagsFragment)
         return this.tagsFragment;
