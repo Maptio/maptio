@@ -102,7 +102,7 @@ describe("mapping.component.ts", () => {
             });
 
             it("should return connections when component is MappingNetworkComponent", () => {
-                let actual = component.getLayout(new MappingNetworkComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined));
+                let actual = component.getLayout(new MappingNetworkComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined));
                 expect(actual).toBe("connections")
             });
 
@@ -126,7 +126,7 @@ describe("mapping.component.ts", () => {
             });
 
             it("should return #x=0&y=-380.5&scale=1 when layout is network", () => {
-                let actual = component.getFragment(new MappingNetworkComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined));
+                let actual = component.getFragment(new MappingNetworkComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined));
                 expect(actual).toBe("x=0&y=-380.5&scale=1")
             });
 
@@ -198,7 +198,7 @@ describe("mapping.component.ts", () => {
         });
 
         it("onActivate", () => {
-            let activated = <IDataVisualizer>new MappingNetworkComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined)
+            let activated = <IDataVisualizer>new MappingNetworkComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined)
             spyOn(component, "getFragment").and.returnValue("x=10&y=100&scale=1.3")
 
             component.onActivate(activated);

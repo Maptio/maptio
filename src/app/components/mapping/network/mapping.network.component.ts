@@ -162,7 +162,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
                 let transform = d3.event.transform;
                 let tagFragment = this.tagsState.map(t => `${t.shortid}:${t.isSelected ? 1 : 0}`).join(',')
                 location.hash = this.uriService.buildFragment(new Map([["x", transform.x], ["y", transform.y], ["scale", transform.k], ["tags", tagFragment]]))
-
             });
 
         function zoomed() {
@@ -260,8 +259,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
                     tags: l.tags
                 }
             })
-
-        console.log(rawlinks)
 
         let links = _(rawlinks)
             .groupBy("linkid")
