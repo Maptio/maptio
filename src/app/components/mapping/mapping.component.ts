@@ -200,9 +200,9 @@ export class MappingComponent {
                         .map((s: string) => new SelectableTag({ shortid: s.split(':')[0], isSelected: s.split(':')[1] === "1" ? true : false }))
                     : <SelectableTag[]>data.tags;
 
-                this.tags = _.sortBy(_.zip(fragmentTags, data.tags).map(([fragmentT, dataT]) => {
+                this.tags = _.zip(fragmentTags, data.tags).map(([fragmentT, dataT]) => {
                     return new SelectableTag({ shortid: dataT.shortid, name: dataT.name, color: dataT.color, isSelected: fragmentT.isSelected })
-                }), "name");
+                });
                 // console.log(this.uriService.parseFragment(fragment), tags)
 
 
@@ -295,7 +295,7 @@ export class MappingComponent {
         let ancient = this.uriService.parseFragment(this.route.snapshot.fragment);
         ancient.set("tags", tagsHash);
         location.hash = this.uriService.buildFragment(ancient);
-
+        console.log(this.tags);
     }
 
     toggleAllTags(isAll: boolean) {
