@@ -147,7 +147,7 @@ export class MappingComponent {
         let tagsState = this.uriService.parseFragment(f).has("tags") && this.uriService.parseFragment(f).get("tags")
             ? this.uriService.parseFragment(f).get("tags")
                 .split(",")
-                .map((s: string) => new SelectableTag({ shortid: s.split(':')[0], isSelected: s.split(':')[1] === "1" ? true : false }))
+                .map((s: string) => new SelectableTag({ shortid: s.split(":")[0], isSelected: s.split(":")[1] === "1" ? true : false }))
             : [];
 
         this.layout = this.getLayout(component);
@@ -197,14 +197,15 @@ export class MappingComponent {
                 let fragmentTags = this.uriService.parseFragment(fragment).has("tags") && this.uriService.parseFragment(fragment).get("tags")
                     ? this.uriService.parseFragment(fragment).get("tags")
                         .split(",")
-                        .map((s: string) => new SelectableTag({ shortid: s.split(':')[0], isSelected: s.split(':')[1] === "1" ? true : false }))
+                        .map((s: string) => new SelectableTag({ shortid: s.split(":")[0], isSelected: s.split(":")[1] === "1" ? true : false }))
                     : <SelectableTag[]>data.tags;
 
-                this.tags = _.zip(fragmentTags, data.tags).map(([fragmentT, dataT]) => {
-                    return new SelectableTag({ shortid: dataT.shortid, name: dataT.name, color: dataT.color, isSelected: fragmentT.isSelected })
-                });
-                // console.log(this.uriService.parseFragment(fragment), tags)
-
+                this.tags = _.compact<SelectableTag>(data.tags.map((dataTag: SelectableTag) => {
+                    let searchTag = fragmentTags.find(t => t.shortid === dataTag.shortid);
+                    if (searchTag) {
+                        return new SelectableTag({ shortid: dataTag.shortid, name: dataTag.name, color: dataTag.color, isSelected: searchTag.isSelected })
+                    }
+                }));
 
                 this.datasetName = data.initiative.name;
                 this.initiative = data.initiative;
@@ -289,7 +290,7 @@ export class MappingComponent {
         tag.isSelected = !tag.isSelected;
         this.selectableTags$.next(this.tags);
 
-        let tagsHash = this.tags.map(t => `${t.shortid}:${t.isSelected ? 1 : 0}`).join(',');
+        let tagsHash = this.tags.map(t => `${t.shortid}:${t.isSelected ? 1 : 0}`).join(",");
         this.tagsFragment = `tags=${tagsHash}`;
 
         let ancient = this.uriService.parseFragment(this.route.snapshot.fragment);
@@ -302,7 +303,7 @@ export class MappingComponent {
         this.tags.forEach(t => t.isSelected = isAll);
         this.selectableTags$.next(this.tags);
 
-        let tagsHash = this.tags.map(t => `${t.shortid}:${t.isSelected ? 1 : 0}`).join(',');
+        let tagsHash = this.tags.map(t => `${t.shortid}:${t.isSelected ? 1 : 0}`).join(",");
         this.tagsFragment = `tags=${tagsHash}`;
 
         let ancient = this.uriService.parseFragment(this.route.snapshot.fragment);
