@@ -111,7 +111,7 @@ describe("header.component.ts", () => {
         component.datasets$.then(ds => {
             expect(ds.length).toBe(3);
             ds.forEach((d, index) => {
-                expect(d._id).toBe(`${index + 1}`);
+                expect(d.datasetId).toBe(`${index + 1}`);
                 expect(d.initiative.name).toBe(`Name ${index + 1}`);
                 expect(d.name).toBe(`Name ${index + 1}`);
                 expect(d.team_id).toBe(`team_${index + 1}`);
@@ -146,11 +146,11 @@ describe("header.component.ts", () => {
 
         component.datasets$.then(ds => {
             expect(ds.length).toBe(2);
-            expect(ds[0]._id).toBe("1");
+            expect(ds[0].datasetId).toBe("1");
             expect(ds[0].initiative.name).toBe(`Name 1`);
             expect(ds[0].name).toBe(`Name 1`);
             expect(ds[0].team_id).toBe(`team_1`);
-            expect(ds[1]._id).toBe("3");
+            expect(ds[1].datasetId).toBe("3");
             expect(ds[1].initiative.name).toBe(`Name 3`);
             expect(ds[1].name).toBe(`Name 3`);
             expect(ds[1].team_id).toBe(`team_3`);

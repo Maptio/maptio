@@ -13,11 +13,6 @@
           <i *ngIf="tag.isSelected" class="fa fa-check" aria-hidden="true" [style.color]="white"> </i>
         </a>
       </span>
-
-      <!-- <button class="btn btn-sm btn-link mr-1"  (click)="isAll=!isAll; toggleAllTags(isAll)">
-        <span *ngIf="!isAll">Select all</span>   
-        <span *ngIf="isAll">Unselect all</span>
-      </button> -->
     </div>
   </div>
 </div>
@@ -162,6 +157,6 @@
   </div>
 </div>
 
-<div tabIndex="2" class="map" [class.slide]="!isSettingsPanelCollapsed" (focus)="isSettingsPanelCollapsed=true">
+<div tabIndex="0" class="map" [class.slide]="!isSettingsPanelCollapsed" (focus)="isSettingsPanelCollapsed=true">
   <router-outlet (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>
 </div>
