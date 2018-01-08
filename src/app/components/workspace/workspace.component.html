@@ -28,10 +28,15 @@
 
 
 
-<div id="main" [class.expand]="!isBuildingPanelCollapsed" >
-    <div class="mapping">
+<div id="main" tabindex="1" contenteditable="true" [class.expand]="!isBuildingPanelCollapsed"
+(focus)="isBuildingPanelCollapsed=true; isDetailsPanelCollapsed=true;">
+    <div  class="mapping" >
         <mapping [tags]="selectableTags" (showDetails)="openDetails($event, true)" (addInitiative)="addInitiative($event)" (removeInitiative)="removeInitiative($event)"
-            (moveInitiative)="moveInitiative($event)" (closeEditingPanel)="closeEditingPanel()" (applySettings)="applySettings($event)"> Loading...</mapping>
+            (moveInitiative)="moveInitiative($event)" (closeEditingPanel)="closeEditingPanel()" (applySettings)="applySettings($event)"
+            
+            
+            >
+        Loading...</mapping>
     </div>
 </div>
 

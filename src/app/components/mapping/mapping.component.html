@@ -54,7 +54,7 @@
   </div>
 </div> -->
 
-<div id="sideNavSettings" class="rounded" [class.showSettings]="!isSettingsPanelCollapsed">
+<div id="sideNavSettings" class="rounded" [class.showSettings]="!isSettingsPanelCollapsed" >
 
   <div *ngIf="!isSettingsPanelCollapsed">
     <h5 class="text-muted d-flex justify-content-center mb-4 lead">{{datasetName}}</h5>
@@ -162,6 +162,6 @@
   </div>
 </div>
 
-<div class="map" [class.slide]="!isSettingsPanelCollapsed">
+<div tabIndex="2" class="map" [class.slide]="!isSettingsPanelCollapsed" (focus)="isSettingsPanelCollapsed=true">
   <router-outlet (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>
 </div>
