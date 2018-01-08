@@ -85,6 +85,8 @@
     "jwks-rsa": "^1.2.0",
     "lodash": "^4.17.4",
     "method-override": "^2.3.7",
+    "mobx": "^3.4.1",
+    "mobx-angular": "^2.0.1",
     "mongojs": "^2.4.0",
     "newrelic": "^1.37.2",
     "ng2-bs3-modal": "^0.10.4",
