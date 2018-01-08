@@ -1,5 +1,5 @@
 import { environment } from "./../../../environment/environment";
-import { CloudinaryModule } from "@cloudinary/angular-4.x";
+import { CloudinaryModule } from "@cloudinary/angular-5.x";
 import * as  Cloudinary from "cloudinary-core";
 import { UserFactory } from "./../../shared/services/user.factory";
 import { AuthConfiguration } from "./../../shared/services/auth/auth.config";

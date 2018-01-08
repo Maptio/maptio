@@ -32,7 +32,7 @@ export class MemberSummaryComponent implements OnInit, IDataVisualizer {
     public translateY: number;
     public scale: number;
     public zoom$: Observable<number>
-    public selectableTags$: Observable<Array<Tag>>;
+    public selectableTags$: Observable<Array<SelectableTag>>;
     public tagsState: Array<SelectableTag>;
     public fontSize$: Observable<number>;
     public isLocked$: Observable<boolean>;

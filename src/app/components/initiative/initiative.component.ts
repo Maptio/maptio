@@ -78,8 +78,9 @@ export class InitiativeComponent implements OnChanges {
 
                 this.team$ = this.teamFactory.get(<string>changes.node.currentValue.team_id)
                     .then(t => { this.teamName = t.name; this.teamId = t.team_id; return t },
-                    () => { return Promise.reject("No team available") }).catch(() => { }
-                    )
+                    () => { return Promise.reject("No team available") })
+                    // .catch(() => { })
+
 
                 this.members$ = this.team$
                     .then((team: Team) => {
@@ -87,7 +88,7 @@ export class InitiativeComponent implements OnChanges {
                             .then(members => compact(members))
                             .then(members => sortBy(members, m => m.name))
                     })
-                    .catch(() => { })
+                    // .catch(() => { })
             }
 
         }

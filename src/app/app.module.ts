@@ -71,7 +71,7 @@ import {ColorPickerModule} from "ngx-color-picker";
 import { LoadingModule, ANIMATION_TYPES } from "ngx-loading";
 import { MarkdownModule, MarkdownService } from "angular2-markdown";
 import { FileUploadModule } from "ng2-file-upload";
-import { CloudinaryModule } from "@cloudinary/angular-4.x";
+import { CloudinaryModule } from "@cloudinary/angular-5.x";
 import { Cloudinary } from "cloudinary-core";
 import { D3Service } from "d3-ng2-service";
 import { TreeModule } from "angular-tree-component";

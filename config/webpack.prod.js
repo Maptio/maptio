@@ -72,7 +72,7 @@ module.exports = {
       $: "jquery",
       jQuery: "jquery"
     }),*/
-    new ngToolsWebpack.AotPlugin({
+    new ngToolsWebpack.AngularCompilerPlugin({
       tsConfigPath: helpers.root('tsconfig-aot.json'),
       basePath: helpers.root(''),
       entryModule: helpers.root('src', 'app', 'app.module#AppModule'),
