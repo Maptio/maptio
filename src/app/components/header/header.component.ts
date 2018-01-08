@@ -116,7 +116,7 @@ export class HeaderComponent implements OnInit {
                 .then(datasets => {
                     return datasets.map(d => {
                         return {
-                            _id: d.datasetId,
+                            datasetId: d.datasetId,
                             initiative: d.initiative,
                             name: d.initiative.name,
                             team_id: (d.initiative && d.initiative.team_id) ? d.initiative.team_id : undefined,

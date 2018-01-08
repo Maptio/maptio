@@ -25,10 +25,9 @@
 				<!-- <span class="m-0 text-muted mr-2">Add or change tags </span> -->
 				<ul class="tags">
 					<li *ngFor="let tag of node?.tags; let i=index">
-						<a class="btn btn-sm btn-secondary mr-1 tag btn-tag" [style.background-color]="tag.color">
+						<a class="btn btn-sm btn-secondary mr-1 tag btn-tag borderless active" [style.background-color]="tag.color" [style.color]="white">
 							<i class="fa fa-tag mr-1" aria-hidden="true" ></i>{{tag?.name}}
 							<span class="remove transparent ml-1" (click)="removeTag(tag)"></span>
-
 						</a>
 					</li>
 					<li>

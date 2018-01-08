@@ -113,7 +113,7 @@ a.caret-after {
 } */
 
 .remove::before {
-  content: "\f014";
+  content: "\f1f8";
   font-family: FontAwesome;
   cursor: pointer;
 }
