@@ -62,7 +62,7 @@ export class UIService {
                         .attr("x", x)
                         .attr("y", y)
                         .attr("dy", (lineNumber + 1) * lineHeight + dy + "em")
-                        .attr("dx", index *20)
+                        .attr("dx", index * 20)
                         .attr("class", "dot-tags")
                         .attr("fill", tag.color)
                         .html("&#xf02b");
