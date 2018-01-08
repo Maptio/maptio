@@ -36,7 +36,7 @@
     "@angular/platform-server": "^4.4.4",
     "@angular/router": "^4.1.1",
     "@cloudinary/angular-4.x": "^1.0.0",
-    "@ng-bootstrap/ng-bootstrap": "^1.0.0-alpha.27",
+    "@ng-bootstrap/ng-bootstrap": "^1.0.0-beta.9",
     "@types/auth0-js": "^8.6.3",
     "@types/core-js": "^0.9.39",
     "@types/d3-request": "^1.0.1",

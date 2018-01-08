@@ -32,9 +32,11 @@
 						</a>
 					</li>
 					<li>
-						<input #inputTag required="required" (focus)="inputTag.value=''" [resultTemplate]="rtTag" type="text" id="inputTag" placeholder="Add tag"
+						<input required="required" [resultTemplate]="rtTag" type="text"  placeholder="Add tag"
 						 class="form-control form-control-sm col-8 p-1" (selectItem)="saveTag($event)" [ngbTypeahead]="searchTag" editable="false"
-						 [resultFormatter]="tagFormatter" [inputFormatter]="tagFormatter" />
+						 (focus)="$event.target.value='';focus$.next($event.target.value)"
+						 (click)="$event.target.value=''; click$.next($event.target.value)"
+						 [resultFormatter]="tagFormatter" [inputFormatter]="tagFormatter" #inputTag="ngbTypeahead"  />
 					</li>
 				</ul>
 

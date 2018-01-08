@@ -76,7 +76,7 @@ import { Cloudinary } from "cloudinary-core";
 import { D3Service } from "d3-ng2-service";
 import { TreeModule } from "angular-tree-component";
 import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModule, NgbTypeaheadModule } from "@ng-bootstrap/ng-bootstrap";
 import { AuthConfiguration } from "./shared/services/auth/auth.config";
 import { ResponsiveModule, } from "ng2-responsive";
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";

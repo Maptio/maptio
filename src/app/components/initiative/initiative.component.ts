@@ -1,15 +1,17 @@
 import { Role } from "./../../shared/model/role.data";
 import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { UserFactory } from "./../../shared/services/user.factory";
-import { Observable } from "rxjs/Rx";
+import { Observable, Subject } from "rxjs/Rx";
 import { TeamFactory } from "./../../shared/services/team.factory";
-import { Component, Input, ViewChild, OnChanges, SimpleChanges, EventEmitter, Output, ElementRef } from "@angular/core";
+import { Component, Input, ViewChild, OnChanges, SimpleChanges, EventEmitter, Output, ElementRef, Renderer } from "@angular/core";
 import { Initiative } from "../../shared/model/initiative.data"
 import { Team } from "../../shared/model/team.data"
 import "rxjs/add/operator/map";
+import "rxjs/add/operator/merge";
+import "rxjs/add/operator/filter";
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/distinctUntilChanged";
-import { NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-bootstrap";
+import { NgbTypeaheadSelectItemEvent, NgbTypeahead } from "@ng-bootstrap/ng-bootstrap";
 import { User } from "../../shared/model/user.data";
 import { _catch } from "rxjs/operator/catch";
 import { _do } from "rxjs/operator/do";
@@ -58,8 +60,12 @@ export class InitiativeComponent implements OnChanges {
 
     @ViewChild("inputDescription") public inputDescriptionElement: ElementRef;
     @ViewChild("inputRole") public inputRoleElement: ElementRef;
-    @ViewChild("inputTag") public inputTagElement: ElementRef;
     @ViewChild("inputAuthorityRole") public inputAuthorityRole: ElementRef;
+
+
+    @ViewChild("inputTag") instance: NgbTypeahead;
+    focus$ = new Subject<string>();
+    click$ = new Subject<string>();
 
     constructor(private teamFactory: TeamFactory, private userFactory: UserFactory,
         private datasetFactory: DatasetFactory, private analytics: Angulartics2Mixpanel) {
@@ -172,8 +178,8 @@ export class InitiativeComponent implements OnChanges {
     }
 
     filterTags(term: string): Observable<Tag[]> {
-        console.log("filter tags")
-        return term.length < 1
+        console.log("filter tags", term, term.length)
+        return term === "" || term.length < 1
             ? Observable.of(this.datasetTags)
             : Observable.of(this.datasetTags.filter(v => new RegExp(term, "gi").test(v.name)).splice(0, 10))
 
@@ -212,26 +218,13 @@ export class InitiativeComponent implements OnChanges {
             ),
             () => this.searching = false);
 
-    searchTag = (text$: Observable<string>) =>
-        _do.call(
-            switchMap.call(
-                _do.call(
-                    distinctUntilChanged.call(
-                        debounceTime.call(text$, 300)),
-                    () => this.searching = true),
-                (term: string) =>
-                    _catch.call(
-                        _do.call(
-                            this.filterTags(term)
-                            , () => this.searchFailed = false),
-                        () => {
-                            this.searchFailed = true;
-                            return of.call([]);
-                        }
-                    )
-            ),
-            () => this.searching = false);
 
+    searchTag = (text$: Observable<string>) =>
+        text$
+            .debounceTime(200).distinctUntilChanged()
+            .merge(this.focus$)
+            .merge(this.click$.filter(() => !this.instance.isPopupOpen()))
+            .map(term => (term === "" ? this.datasetTags : this.datasetTags.filter(v => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10));
 
 
 
