@@ -160,7 +160,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .on("zoom", zoomed)
             .on("end", () => {
                 let transform = d3.event.transform;
-                let tagFragment = this.tagsState.map(t => `${t.shortid}:${t.isSelected ? 1 : 0}`).join(',')
+                let tagFragment = this.tagsState.filter(t => t.isSelected).map(t => t.shortid).join(",")
                 location.hash = this.uriService.buildFragment(new Map([["x", transform.x], ["y", transform.y], ["scale", transform.k], ["tags", tagFragment]]))
             });
 
@@ -315,6 +315,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         let height = this.height;
         let hoverLink = this.hoverLink.bind(this);
         let bilinks: Array<any> = [];
+        let uiService = this.uiService;
 
         let CIRCLE_RADIUS = this.CIRCLE_RADIUS
         let LINE_WEIGHT = this.LINE_WEIGHT;
@@ -359,14 +360,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             let s = link.source = <any>nodeById.get(link.source),
                 t = link.target = <any>nodeById.get(link.target),
                 i = {},
-                // weight = _.isEmpty(selectedTags) // all tags are unselected by default
-                //     ? link.weight
-                //     : _.isEmpty(link.tags) // the circle doesnt have any tags
-                //         ? 0
-                //         : _.intersection(selectedTags.map(t => t.shortid), link.tags).length === 0
-                //             ? 0
-                //             : link.weight - _.intersection(selectedTags.map(t => t.shortid), link.tags).length
-                // ,
                 weight = link.weight,
                 initiatives = link.initiatives,
                 tags = link.tags,
@@ -388,14 +381,11 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .attr("data-target", function (d: any) { return d[2].id })
             .attr("stroke-width", function (d: any) { return `${LINE_WEIGHT * d[3]}px` })
             .style("opacity", function (d: any) {
-                return _.isEmpty(selectedTags) // all tags are unselected by default
-                    ? link.weight
-                    : _.isEmpty(d[5]) // the circle doesnt have any tags
-                        ? 0.1
-                        : _.intersection(selectedTags.map(t => t.shortid), d[5]).length === 0
-                            ? 0.1
-                            : link.weight - _.intersection(selectedTags.map(t => t.shortid), d[5]).length
-
+                return uiService.filter(selectedTags, unselectedTags, d[5])
+                // &&
+                // uiService.filter(selectedUsers, unselectedUsers, _.compact(_.flatten([...[d.data.accountable], d.data.helpers])).map(u => u.shortid))
+                ? 1
+                : 0.1
 
             })
             .attr("id", function (d: any) { return d[6] })

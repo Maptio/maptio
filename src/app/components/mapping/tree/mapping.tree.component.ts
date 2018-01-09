@@ -95,7 +95,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             .on("zoom", zoomed)
             .on("end", () => {
                 let transform = d3.event.transform;
-                let tagFragment = this.tagsState.map(t => `${t.shortid}:${t.isSelected ? 1 : 0}`).join(',')
+                let tagFragment = this.tagsState.filter(t => t.isSelected).map(t => t.shortid).join(",")
                 location.hash = this.uriService.buildFragment(new Map([["x", transform.x], ["y", transform.y], ["scale", transform.k], ["tags", tagFragment]]))
 
             });
@@ -265,16 +265,11 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             let [selectedTags, unselectedTags] = _.partition(tags, t => t.isSelected)
 
             g.selectAll("g.node").style("opacity", function (d: any) {
-                let nodeTags = d.data.tags.map((t: Tag) => t.shortid);
-                let opacity = _.isEmpty(selectedTags) // all tags are unselected by default
+                return uiService.filter(selectedTags, unselectedTags, d.data.tags.map((t: Tag) => t.shortid))
+                    // &&
+                    // uiService.filter(selectedUsers, unselectedUsers, _.compact(_.flatten([...[d.data.accountable], d.data.helpers])).map(u => u.shortid))
                     ? 1
-                    : _.isEmpty(nodeTags) // the circle doesnt have any tags
-                        ? 0.1
-                        : _.intersection(selectedTags.map(t => t.shortid), nodeTags).length === 0
-                            ? 0.1
-                            : 1;
-                // console.log("tree", d.data.name, opacity);
-                return opacity;
+                    : 0.1
             })
 
 
