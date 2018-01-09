@@ -32,6 +32,7 @@ export class UIService {
 
     wrap(text: Selection<BaseType, {}, HTMLElement, any>, actualText: string, tags: Tag[], width: number) {
         let d3 = this.d3;
+        
         text
             .each(function () {
                 let text = d3.select(this),

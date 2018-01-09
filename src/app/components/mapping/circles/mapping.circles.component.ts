@@ -187,7 +187,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             d3.selectAll("text.without-children")
                 .each(function (d: any) {
                     let realText = d.data.name ? (d.data.name.length > MAX_TEXT_LENGTH ? `${d.data.name.substr(0, MAX_TEXT_LENGTH)}...` : d.data.name) : "";
-                    uiService.wrap(d3.select(this), d.data.tags, realText, d.r * 2 * 0.95);
+                    uiService.wrap(d3.select(this), realText, d.data.tags, d.r * 2 * 0.95);
                 });
         });
 
