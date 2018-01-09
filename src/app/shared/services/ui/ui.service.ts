@@ -31,7 +31,7 @@ export class UIService {
         this.d3.select("svg").selectAll("*").remove();
     }
 
-    wrap(text: Selection<BaseType, {}, HTMLElement, any>, actualText: string, tags: Tag[], width: number) {
+    wrap(text: Selection<BaseType, {}, HTMLElement, any>, actualText: string, tags: Tag[], width: number, tagLineHeightRatio?: number) {
         let d3 = this.d3;
 
         text
@@ -63,7 +63,7 @@ export class UIService {
                     text.append("tspan")
                         .attr("x", x)
                         .attr("y", y)
-                        .attr("dy", (lineNumber + 1) * lineHeight + dy + "em")
+                        .attr("dy", (lineNumber + 1) * (lineHeight * (tagLineHeightRatio || 1)) + dy + "em")
                         .attr("dx", index * 20)
                         .attr("class", "dot-tags")
                         .attr("fill", tag.color)
