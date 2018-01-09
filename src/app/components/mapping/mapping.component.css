@@ -197,3 +197,13 @@
   left: 7vw;
   min-width: 80vw;
 }
+
+.toggle {
+  border: none;
+  background-color: transparent;
+  padding: 3vh;
+  margin: -3vh;
+  top: 2vh;
+  position: absolute;
+  right: 43vw;
+}

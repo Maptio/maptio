@@ -7,8 +7,7 @@
           <i class="fa fa-tag" aria-hidden="true"></i> {{tag.name}}
           <i class="fa fa-check" aria-hidden="true" [style.color]="'white'"></i>
         </a>
-        <a *ngIf="tag.isSelected"  class="btn btn-sm btn-tag btn-secondary  active mr-1"  [style.background-color]="tag.color"
-         (click)="toggleTag(tag)">
+        <a *ngIf="tag.isSelected" class="btn btn-sm btn-tag btn-secondary  active mr-1" [style.background-color]="tag.color" (click)="toggleTag(tag)">
           <i class="fa fa-tag" aria-hidden="true"></i> {{tag.name}}
           <i *ngIf="tag.isSelected" class="fa fa-check" aria-hidden="true" [style.color]="white"> </i>
         </a>
@@ -49,10 +48,13 @@
   </div>
 </div> -->
 
-<div id="sideNavSettings" class="rounded" [class.showSettings]="!isSettingsPanelCollapsed" >
+<div id="sideNavSettings" class="rounded" [class.showSettings]="!isSettingsPanelCollapsed">
 
   <div *ngIf="!isSettingsPanelCollapsed">
     <h5 class="text-muted d-flex justify-content-center mb-4 lead">{{datasetName}}</h5>
+    <a class="btn toggle" (click)="isSettingsPanelCollapsed=true" >
+        <i class="fa fa-times" aria-hidden="true"></i>
+    </a>
     <!-- Nav tabs -->
     <ul class="nav nav-tabs nav-fill mb-4" id="myTab" role="tablist">
       <!-- <li class="nav-item">

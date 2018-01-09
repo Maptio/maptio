@@ -348,24 +348,16 @@ export class MappingComponent {
     }
 
     toggleTagSettingsTab() {
-        this.isSettingsPanelCollapsed = !this.isSettingsPanelCollapsed;
 
+        this.isSettingsPanelCollapsed = false;
         this.isTagSettingActive = true;
-        if (this.isSettingsPanelCollapsed) {
-            this.isMapSettingActive = false;
-            this.isTagSettingActive = false;
-        }
+        this.isMapSettingActive = false;
     }
 
     togglePanel() {
-        this.isSettingsPanelCollapsed = !this.isSettingsPanelCollapsed;
-
+        this.isSettingsPanelCollapsed = false;
         this.isMapSettingActive = true;
-        if (this.isSettingsPanelCollapsed) {
-            this.isMapSettingActive = false;
-            this.isTagSettingActive = false;
-        }
-        this.toggleSettingsPanel.emit(this.isSettingsPanelCollapsed)
+        this.isTagSettingActive = false;
     }
 
 
