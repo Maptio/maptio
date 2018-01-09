@@ -169,7 +169,7 @@
 .map {
   margin-left: 0;
   transition: 0.3s ease-in;
-  background-color: #f5f5f5;
+  background-color: #fff;
 }
 
 .map.slide {
