@@ -98,7 +98,7 @@ export class MappingComponent {
     public newTagForm: FormGroup;
     newTagColor = "#fff";
 
-    isFiltersToggled:boolean;
+    isFiltersToggled: boolean;
 
     constructor(
         private dataService: DataService,
