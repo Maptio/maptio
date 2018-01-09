@@ -119,7 +119,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         }
         this.datasetFactory.upsert(this.dataset, this.datasetId)
             .then((hasSaved: boolean) => {
-                this.dataService.set({ initiative: initiative, datasetId: this.datasetId, teamName: this.teamName, teamId: this.teamId, tags: this.dataset.tags });
+                this.dataService.set({ initiative: initiative, datasetId: this.datasetId, teamName: this.teamName, teamId: this.teamId, tags: this.dataset.tags, members: this.members });
                 return hasSaved;
             }, (reason) => { console.log(reason) });
 

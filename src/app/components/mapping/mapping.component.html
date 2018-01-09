@@ -1,20 +1,36 @@
 <div class="row filter-tags d-flex justify-content-start ">
-  <div class="col-10 m-1 mt-4 pl-0">
+  <div class="col-11 m-1 mt-4 pl-0">
     <div class="d-flex flex-wrap">
-        <span class="text-muted small mr-1 pt-1"><i class="fa fa-filter mr-1" aria-hidden="true"></i>Filter with tags</span>  
+      <span class="text-muted small mr-1 pt-1">
+        <i class="fa fa-filter mr-1" aria-hidden="true"></i>Filter with tags</span>
       <span *ngFor="let tag of tags; let i=index">
         <a *ngIf="!tag.isSelected" class="btn btn-sm btn-tag btn-secondary  mr-1" [style.border-color]="tag.color" [style.color]="tag.color"
           (click)="toggleTag(tag)">
           <i class="fa fa-tag" aria-hidden="true"></i> {{tag.name}}
           <i class="fa fa-check" aria-hidden="true" [style.color]="'white'"></i>
         </a>
-        <a *ngIf="tag.isSelected" class="btn btn-sm btn-tag btn-secondary  active mr-1" [style.background-color]="tag.color" (click)="toggleTag(tag)">
+        <a *ngIf="tag.isSelected" class="btn btn-sm btn-tag btn-secondary  active mr-1"  [style.border-color]="tag.color" [style.background-color]="tag.color"  (click)="toggleTag(tag)">
           <i class="fa fa-tag" aria-hidden="true"></i> {{tag.name}}
           <i *ngIf="tag.isSelected" class="fa fa-check" aria-hidden="true" [style.color]="white"> </i>
         </a>
       </span>
     </div>
   </div>
+
+
+  <!-- <div class="col-11 m-1 mt-4 pl-0">
+    <div class="d-flex flex-wrap">
+      <span class="text-muted small mr-1 pt-1">
+        <i class="fa fa-filter mr-1" aria-hidden="true"></i>Filter with members</span>
+      <span *ngFor="let user of members; let i=index">
+        <a class="btn btn-sm btn-user active btn-secondary  mr-1" [class.active]="user.isSelected" (click)="toggleUser(user)">
+          <img src="{{ user.picture }}" class="rounded-circle tag-image mr-1" alt="">{{user.name}}
+          <i *ngIf="user.isSelected" class="fa fa-check" aria-hidden="true"></i> 
+          <i *ngIf="!user.isSelected" class="fa fa-check" aria-hidden="true" [style.color]="'white'"></i>
+        </a>
+      </span>
+    </div>
+  </div> -->
 </div>
 
 
@@ -53,8 +69,8 @@
 
   <div *ngIf="!isSettingsPanelCollapsed">
     <h5 class="text-muted d-flex justify-content-center mb-4 lead">{{datasetName}}</h5>
-    <a class="btn toggle" (click)="isSettingsPanelCollapsed=true" >
-        <i class="fa fa-times" aria-hidden="true"></i>
+    <a class="btn toggle" (click)="isSettingsPanelCollapsed=true">
+      <i class="fa fa-times" aria-hidden="true"></i>
     </a>
     <!-- Nav tabs -->
     <ul class="nav nav-tabs nav-fill mb-4" id="myTab" role="tablist">

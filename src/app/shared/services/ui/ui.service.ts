@@ -3,6 +3,7 @@ import { D3Service, D3, Selection, BaseType } from "d3-ng2-service"
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import { Tag } from "../../model/tag.data";
+import * as _ from "lodash";
 
 @Injectable()
 export class UIService {
@@ -32,7 +33,7 @@ export class UIService {
 
     wrap(text: Selection<BaseType, {}, HTMLElement, any>, actualText: string, tags: Tag[], width: number) {
         let d3 = this.d3;
-        
+
         text
             .each(function () {
                 let text = d3.select(this),
@@ -71,6 +72,16 @@ export class UIService {
 
 
             });
+    }
+
+    filter(selectedTags: any[], unselectedTags: any[], selection: any[]): boolean {
+        return _.isEmpty(selectedTags) // all tags are unselected by default
+            ? true
+            : _.isEmpty(selection) // the circle doesnt have any tags
+                ? false
+                : _.intersection(selectedTags.map(t => t.shortid), selection).length === 0
+                    ? false
+                    : true;
     }
 
     /*

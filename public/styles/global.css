@@ -376,6 +376,16 @@ button[data-handler=bootstrap-markdown-cmdImage] {
     color:#f5f5f5 !important;
 }
 
+.btn-user{
+  background-color: white !important;
+  color: #000 !important;
+}
+
+.btn-user.active{
+  background-color: #bbb !important;
+  color: white !important;
+}
+
 /*
 .tag {
   background: #eee;

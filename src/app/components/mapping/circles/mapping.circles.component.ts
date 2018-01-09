@@ -12,6 +12,7 @@ import { Angulartics2Mixpanel } from "angulartics2";
 import { DataService, URIService } from "../../../shared/services/data.service";
 import { Tag, SelectableTag } from "../../../shared/model/tag.data";
 import * as _ from "lodash";
+import { SelectableUser } from "src/app/shared/model/user.data";
 
 @Component({
     selector: "circles",
@@ -39,6 +40,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
     public margin: number;
     public zoom$: Observable<number>;
     public selectableTags$: Observable<Array<SelectableTag>>;
+    public selectableUsers$: Observable<Array<SelectableUser>>;
     public isReset$: Observable<boolean>
     public fontSize$: Observable<number>;
     public isLocked$: Observable<boolean>;
@@ -114,6 +116,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 this.rootNode = complexData[0].initiative;
                 this.slug = data.getSlug();
                 this.tagsState = complexData[1];
+                console.log(complexData[2])
                 this.update(data, complexData[1]);
                 this.analytics.eventTrack("Map", { view: "initiatives", team: data.teamName, teamId: data.teamId });
                 this.isLoading = false;
@@ -139,9 +142,8 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .on("zoom", zoomed)
             .on("end", () => {
                 let transform = d3.event.transform;
-                let tagFragment = this.tagsState.map(t => `${t.shortid}:${t.isSelected ? 1 : 0}`).join(',')
+                let tagFragment = this.tagsState.filter(t => t.isSelected).map(t => t.shortid).join(",")
                 location.hash = this.uriService.buildFragment(new Map([["x", transform.x], ["y", transform.y], ["scale", transform.k], ["tags", tagFragment]]))
-
             });
 
         try {
@@ -423,6 +425,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .classed("without-children", function (d: any) { return !d.children && d !== root; })
             .attr("ancestors-id", function (d: any) { return d.parent ? d.ancestors().map((a: any) => { if (a.data.id !== d.data.id) return a.data.id; }).join(",") : "" })
             .attr("tags-id", function (d: any) { return d.data.tags.map((t: Tag) => t.shortid).join(",") })
+            .attr("users-id", function (d: any) { return d.data.accountable ? d.data.accountable.shortid : "" })
 
         // .style("fill-opacity", function (d: any) {
         //     return (<any>this).getBBox().width * scale < window.outerWidth * RATIO_FOR_VISIBILITY ? OPACITY_DISAPPEARING : "1"
@@ -453,20 +456,14 @@ export class MappingCirclesComponent implements IDataVisualizer {
             )
 
         let [selectedTags, unselectedTags] = _.partition(tags, t => t.isSelected);
+        // let [selectedUsers, unselectedUsers] = _.partition(users, u => u.isSelected);
         g.selectAll("g.nodes").style("opacity", function (d: any) {
-            let nodeTags = d.data.tags.map((t: Tag) => t.shortid);
-            let opacity = _.isEmpty(selectedTags) // all tags are unselected by default
+            return uiService.filter(selectedTags, unselectedTags, d.data.tags.map((t: Tag) => t.shortid))
+                // &&
+                // uiService.filter(selectedUsers, unselectedUsers, _.compact(_.flatten([...[d.data.accountable], d.data.helpers])).map(u => u.shortid))
                 ? 1
-                : _.isEmpty(nodeTags) // the circle doesnt have any tags
-                    ? 0.1
-                    : _.intersection(selectedTags.map(t => t.shortid), nodeTags).length === 0
-                        ? 0.1
-                        : 1;
-            // console.log("circles", d.data.name, opacity);
-            return opacity;
-        })
-
-
+                : 0.1
+        });
 
         function dragstarted(d: any) {
             setIsDragging(true)
