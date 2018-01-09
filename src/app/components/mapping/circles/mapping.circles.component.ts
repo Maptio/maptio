@@ -12,7 +12,7 @@ import { Angulartics2Mixpanel } from "angulartics2";
 import { DataService, URIService } from "../../../shared/services/data.service";
 import { Tag, SelectableTag } from "../../../shared/model/tag.data";
 import * as _ from "lodash";
-import { SelectableUser } from "src/app/shared/model/user.data";
+import { SelectableUser } from "../../../shared/model/user.data";
 
 @Component({
     selector: "circles",

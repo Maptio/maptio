@@ -3,7 +3,7 @@ import { Initiative } from "./../../shared/model/initiative.data";
 import { Observable } from "rxjs/Observable";
 import { Angulartics2Mixpanel } from "angulartics2/dist";
 import { Tag, SelectableTag } from "../../shared/model/tag.data";
-import { SelectableUser } from "src/app/shared/model/user.data";
+import { SelectableUser } from "../../shared/model/user.data";
 
 export interface IDataVisualizer {
     teamName: string;
