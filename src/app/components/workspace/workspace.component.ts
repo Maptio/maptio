@@ -102,7 +102,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     applySettings(data: { initiative: Initiative, tags: Tag[] }) {
-        console.log("save settings", data.tags);
+        // console.log("save settings", data.tags);
         data.initiative.traverse((node: Initiative) => {
             node.tags = _.intersectionBy(data.tags, node.tags, (t: Tag) => t.shortid);
         })
@@ -111,7 +111,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     saveChanges(initiative: Initiative, tags?: Array<Tag>) {
-        console.log(initiative, tags)
+        // console.log(initiative, tags)
         this.dataset.initiative = initiative;
         if (tags) {
             this.dataset.tags = tags;

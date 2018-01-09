@@ -179,7 +179,7 @@ export class InitiativeComponent implements OnChanges {
     }
 
     filterTags(term: string): Observable<Tag[]> {
-        console.log("filter tags", term, term.length)
+        // console.log("filter tags", term, term.length)
         return term === "" || term.length < 1
             ? Observable.of(this.datasetTags)
             : Observable.of(this.datasetTags.filter(v => new RegExp(term, "gi").test(v.name)).splice(0, 10))
