@@ -40,3 +40,7 @@
     text-align: left;
     cursor: pointer;
 }
+
+.hide{
+    display: none;
+}

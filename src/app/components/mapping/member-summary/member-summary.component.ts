@@ -14,6 +14,7 @@ import { Subject } from "rxjs/Rx";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { DataService } from "../../../shared/services/data.service";
 import { Tag, SelectableTag } from "../../../shared/model/tag.data";
+import * as _ from "lodash";
 
 @Component({
     selector: "member-summary",
@@ -60,6 +61,7 @@ export class MemberSummaryComponent implements OnInit, IDataVisualizer {
     public isLoading: boolean;
     authoritiesHideme: Array<boolean> = [];
     helpingHideme: Array<boolean> = [];
+    initiativesMap: Map<number, boolean> = new Map<number, boolean>();
 
 
     constructor(public auth: Auth, public route: ActivatedRoute, public datasetFactory: DatasetFactory,
@@ -99,10 +101,13 @@ export class MemberSummaryComponent implements OnInit, IDataVisualizer {
                     });
 
             })
-            .subscribe((user: User) => {
+            .combineLatest(this.selectableTags$)
+            .subscribe(([user, tags]: [User, Array<SelectableTag>]) => {
                 this.authorities = [];
                 this.helps = [];
+                let [selectedTags, unselectedTags] = _.partition(tags, t => t.isSelected);
 
+                console.log(tags)
                 this.initiative.traverse(function (i: Initiative) {
                     if (i.accountable && i.accountable.user_id === this.memberUserId) {
                         if (!this.authorities.includes(i)) this.authorities.push(i)
@@ -110,10 +115,23 @@ export class MemberSummaryComponent implements OnInit, IDataVisualizer {
                     if (i.helpers && i.helpers.find(h => h.user_id === this.memberUserId && i.accountable && i.accountable.user_id !== h.user_id)) {
                         if (!this.helps.includes(i)) this.helps.push(i)
                     }
+                    let nodeTags = i.tags.map((t: Tag) => t.shortid);
+                    this.initiativesMap.set(i.id, _.isEmpty(selectedTags) // all tags are unselected by default
+                        ? true
+                        : _.isEmpty(nodeTags) // the circle doesnt have any tags
+                            ? false
+                            : _.intersection(selectedTags.map(t => t.shortid), nodeTags).length === 0
+                                ? false
+                                : true);
+
                 }.bind(this));
                 this.cd.markForCheck();
                 this.isLoading = false;
             })
+    }
+
+    isInitiativeSelected(id: number): boolean {
+        return this.initiativesMap.get(id);
     }
 
 

@@ -19,7 +19,8 @@ margin-left: 3vw;margin-top: 12vh;background-color:white
                 <div class="card-block" *ngIf="authorities.length >0">
                     <h6 class="card-title">Responsible for</h6>
                     <div class="list-group">
-                        <div *ngFor="let i of authorities; let ix=index" class=" list-group-item flex-column align-items-start ">
+                        <div *ngFor="let i of authorities; let ix=index" class=" list-group-item flex-column align-items-start " [class.hide]="!isInitiativeSelected(i.id)">
+
                             <div class="d-flex w-100 justify-content-between">
                                 <button class="w-75 col btn btn-link m-0 p-0 mr-2 ml-1 fake-link" (click)="openInitiative(i)">
                                     <h6 class="mb-1">{{i.name}}</h6>
@@ -38,7 +39,6 @@ margin-left: 3vw;margin-top: 12vh;background-color:white
                                 <span *ngIf="!i.getRoles(i.accountable?.user_id)[0]?.description" class="text-muted text-warning col">No role specified yet</span>
                                 <markdown *ngIf="i.getRoles(i.accountable?.user_id)[0]?.description" [data]="i.getRoles(i.accountable?.user_id)[0]?.description"></markdown>
                             </div>
-
 
                             <span class="mb-2 text-muted" *ngIf="(i.helpers?.length !== 0)">with the help of</span>
 
@@ -70,6 +70,8 @@ margin-left: 3vw;margin-top: 12vh;background-color:white
                                 </div>
                             </div>
                             <span class="mb-1 small text-warning" *ngIf="(i.helpers?.length === 0)">No helpers</span>
+
+
                         </div>
                     </div>
                 </div>
@@ -84,19 +86,20 @@ margin-left: 3vw;margin-top: 12vh;background-color:white
                 <div class="card-block" *ngIf="helps.length > 0">
                     <h6 class="card-title">Helping with</h6>
                     <div class="list-group">
-                        <div *ngFor="let i of helps; let ix=index" class=" list-group-item flex-column align-items-start ">
+                        <div *ngFor="let i of helps; let ix=index" class=" list-group-item flex-column align-items-start "
+                        [class.hide]="!isInitiativeSelected(i.id)">
                             <div class="d-flex w-100 row justify-content-between">
                                 <button class="w-75 col btn btn-link m-0 p-0 mr-2 fake-link" (click)="openInitiative(i)">
                                     <h6 class="mb-1">{{i.name}}</h6>
                                 </button>
 
                                 <ul class="tags small">
-                                        <li *ngFor="let tag of i.tags; let i=index">
-                                            <a class="btn btn-sm btn-secondary borderless mr-1 tag" [style.color]="tag.color">
-                                                <i class="fa fa-tag mr-1" aria-hidden="true" [style.color]="tag.color"></i>{{tag?.name}}
-                                            </a>
-                                        </li>
-                                    </ul>
+                                    <li *ngFor="let tag of i.tags; let i=index">
+                                        <a class="btn btn-sm btn-secondary borderless mr-1 tag" [style.color]="tag.color">
+                                            <i class="fa fa-tag mr-1" aria-hidden="true" [style.color]="tag.color"></i>{{tag?.name}}
+                                        </a>
+                                    </li>
+                                </ul>
                                 <!-- <h5 class="mb-0 w-75">{{i.name}}</h5> -->
                                 <span class="mb-0" *ngIf="(i.helpers?.length !== 0)">
                                     <span class="text-muted">Authority</span>

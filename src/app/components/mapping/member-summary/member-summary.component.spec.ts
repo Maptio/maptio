@@ -83,6 +83,7 @@ describe("member-summary.component.ts", () => {
         component = target.componentInstance;
 
         let data = new Initiative().deserialize(fixture.load("data.json"));
+        component.selectableTags$ = Observable.of([]);
         let mockDataService = target.debugElement.injector.get(DataService);
         spyOn(mockDataService, "get").and.returnValue(Observable.of({ initiative: data, datasetId: "ID" }));
         component.analytics = jasmine.createSpyObj("analytics", ["eventTrack"]);
