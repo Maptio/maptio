@@ -1,6 +1,7 @@
 <div class="row filter-tags d-flex justify-content-start ">
   <div class="col-10 m-1 mt-4 pl-0">
     <div class="d-flex flex-wrap">
+        <span class="text-muted small mr-1 pt-1"><i class="fa fa-filter mr-1" aria-hidden="true"></i>Filter with tags</span>  
       <span *ngFor="let tag of tags; let i=index">
         <a *ngIf="!tag.isSelected" class="btn btn-sm btn-tag btn-secondary  mr-1" [style.border-color]="tag.color" [style.color]="tag.color"
           (click)="toggleTag(tag)">

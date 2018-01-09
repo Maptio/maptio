@@ -15,32 +15,39 @@
     max-width: 22px;
 }
 
-
 .borderless {
     border: none
 }
 
-.no-padding
-{
+.no-padding {
     padding: 0
 }
 
-.overflow{
+.overflow {
     overflow-y: auto;
     max-height: 60vh
 }
-
 
 .btn-link:focus, .btn-link:active {
     box-shadow: none!important;
 }
 
-.fake-link{
+.fake-link {
     white-space: normal;
     text-align: left;
     cursor: pointer;
 }
 
-.hide{
+.hide {
     display: none;
+}
+
+.summary {
+    margin-left: 3vw;
+    margin-top: 12vh;
+    background-color: white
+}
+
+.summary:focus{
+    outline:0;
 }
