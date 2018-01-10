@@ -1,8 +1,8 @@
 <div class="form-group">
 	<div class="input-group">
-		<span *ngIf="!isRoot()" class="input-group-addon knurled" (mouseenter)="node.data.isDraggable=true" (mouseleave)="node.data.isDraggable=false">
+		<!-- <span *ngIf="!isRoot()" class="input-group-addon knurled" (mouseenter)="node.data.isDraggable=true" (mouseleave)="node.data.isDraggable=false">
 			<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-		</span>
+		</span> -->
 
 		<input class="form-control input inputNodeName" type="text" [focusif]="node.data.hasFocus" [ngModel]="node.data.name" (ngModelChange)="saveNodeName($event, node.data)"
 		 (focus)="node.data.isDraggable=false" (blur)="node.data.isDraggable=true" />
@@ -22,9 +22,9 @@
 			 angularticsEvent="Map" [angularticsProperties]="{mode: 'list', action:'remove', team:teamName, teamId:teamId }">
 			</a>
 
-			<a class="btn move-up" *ngIf="!isRoot()" (click)="moveUp(node)" angulartics2On="click"
+			<a class="btn move-up" *ngIf="!isRoot()" (click)="moveUp(node)" angulartics2On="click" placement="top" container="body" ngbTooltip="Move up"
 			angularticsEvent="Map" [angularticsProperties]="{mode: 'list', action:'move up', team:teamName, teamId:teamId  }"></a>
-			<a class="btn move-down" *ngIf="!isRoot()" (click)="moveDown(node)" angulartics2On="click"
+			<a class="btn move-down" *ngIf="!isRoot()" (click)="moveDown(node)" angulartics2On="click" placement="top" container="body" ngbTooltip="Move down"
 			angularticsEvent="Map" [angularticsProperties]="{mode: 'list', action:'move down', team:teamName, teamId:teamId  }"></a>
 		   
 
