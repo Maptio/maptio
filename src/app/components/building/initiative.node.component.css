@@ -63,6 +63,18 @@ display: flex;
     font-family: FontAwesome;
 }
 
+.move-up:before{
+    content: "\f176";
+    font-family: FontAwesome;
+    
+}
+
+.move-down:before{
+    content: "\f175";
+    font-family: FontAwesome;
+   
+}
+
 .zoom:before {
     content: "\f002";
     font-family: FontAwesome;

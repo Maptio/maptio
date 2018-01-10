@@ -87,5 +87,18 @@ export class InitiativeNodeComponent {
         this.open.emit(node);
     }
 
+    moveUp(node: TreeNode) {
+        let parent = node.parent;
+        let previous = node.findPreviousSibling();
+        node.treeModel.moveNode(node, { parent: parent, index: previous.index });
+        this.updateTreeEvent.emit(this.node.treeModel);
+    }
+
+    moveDown(node: TreeNode) {
+        let parent = node.parent;
+        let next = node.findNextSibling();
+        node.treeModel.moveNode(node, { parent: parent, index: next.index + 1 });
+        this.updateTreeEvent.emit(this.node.treeModel);
+    }
 }
 
