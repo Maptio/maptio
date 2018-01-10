@@ -26,9 +26,6 @@
                     {{team?.name}}
                 </a>
                 <span (click)="isMembersToggled=!isMembersToggled">
-
-          <!-- <i *ngIf="!isFiltersToggled" class="fa fa-plus-square" aria-hidden="true"></i>
-          <i *ngIf="isFiltersToggled"class="fa fa-minus-square" aria-hidden="true"></i> -->
                     <i class="fa fa-minus-square pt-1 pl-1" *ngIf="isMembersToggled" aria-hidden="true"></i>
                     <i class="fa fa-plus-square pt-1 pl-1" *ngIf="!isMembersToggled" aria-hidden="true"></i>
                 </span>
