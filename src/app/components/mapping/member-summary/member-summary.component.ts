@@ -107,7 +107,6 @@ export class MemberSummaryComponent implements OnInit, IDataVisualizer {
                 this.helps = [];
                 let [selectedTags, unselectedTags] = _.partition(tags, t => t.isSelected);
 
-                console.log(tags)
                 this.initiative.traverse(function (i: Initiative) {
                     if (i.accountable && i.accountable.user_id === this.memberUserId) {
                         if (!this.authorities.includes(i)) this.authorities.push(i)

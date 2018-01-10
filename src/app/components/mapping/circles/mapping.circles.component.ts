@@ -116,7 +116,6 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 this.rootNode = complexData[0].initiative;
                 this.slug = data.getSlug();
                 this.tagsState = complexData[1];
-                console.log(complexData[2])
                 this.update(data, complexData[1]);
                 this.analytics.eventTrack("Map", { view: "initiatives", team: data.teamName, teamId: data.teamId });
                 this.isLoading = false;

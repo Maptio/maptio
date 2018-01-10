@@ -310,7 +310,6 @@ export class MappingComponent {
     }
 
     toggleTag(tag: SelectableTag) {
-        console.log("toggle", tag)
         tag.isSelected = !tag.isSelected;
         this.selectableTags$.next(this.tags);
 
@@ -320,7 +319,6 @@ export class MappingComponent {
         let ancient = this.uriService.parseFragment(this.route.snapshot.fragment);
         ancient.set("tags", tagsHash);
         location.hash = this.uriService.buildFragment(ancient);
-        console.log(this.tags);
     }
 
     // toggleUser(user: SelectableUser) {
@@ -353,19 +351,16 @@ export class MappingComponent {
     // }
 
     saveColor(tag: Tag, color: string) {
-        console.log("changing color", tag, color)
         tag.color = color;
         this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
     }
 
     saveTagName(tag: Tag, name: string) {
-        console.log("changing name", tag, name)
         tag.name = name;
         this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
     }
 
     addTag() {
-        console.log(this.newTagForm.controls);
 
         if (this.newTagForm.dirty && this.newTagForm.valid) {
             let name = this.newTagForm.controls["name"].value;
