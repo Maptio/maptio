@@ -163,7 +163,8 @@
   transition: 0.3s ease-in;
   padding: 10px;
   z-index: 10;
-  background-color: #38AECC;
+  /* background-color: #38AECC; */
+  background-color: #fff;
 }
 
 .map {

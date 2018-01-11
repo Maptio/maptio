@@ -212,7 +212,6 @@ export class BuildingComponent {
                         q += this.userFactory.get(node.accountable.user_id).then((u: User) => {
                             node.accountable.picture = u.picture;
                             node.accountable.name = u.name
-                            // return u.picture;
                         }, () => { return Promise.reject("No user") }).catch(() => { })
                     }
                     if (node.helpers) {
@@ -220,7 +219,6 @@ export class BuildingComponent {
                             return this.userFactory.get(h.user_id).then((u: User) => {
                                 h.picture = u.picture;
                                 h.name = u.name
-                                // return u.picture;
                             }, () => { return Promise.reject("No user") }).catch(() => { })
                         })
                     }
