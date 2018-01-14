@@ -18,12 +18,6 @@
                     <th class="col" scope="col"></th>
                     <th class="" cope="col"></th>
                 </tr>
-                <!-- <div *ngIf="resentMessage" class="alert alert-success alert-dismissible fade show" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    {{resentMessage}}
-                </div> -->
             </thead>
             <tbody>
 
@@ -47,7 +41,7 @@
                         <!-- <small [hidden]="!(member.isActivationPending && member.isInvitationSent)" class="text-warning pull-right" placement="top" container="body"
                             ngbTooltip="{{member.name}} was sent an invitation.">Pending</small> -->
                     </td>
-                    <td class="" >
+                    <td class="">
                         <span *ngIf="member.isDeleted" class="text-muted">(Deleted)</span>
                         <button [class.deleted]="member.isDeleted" *ngIf="!member.isActivationPending" class="btn btn-default  mt-2" placement="top"
                             container="body" ngbTooltip="{{member.name}} is a confirmed user." disabled>Active</button>
@@ -55,12 +49,12 @@
                             class="btn btn-success  mt-2" (click)="inviteUser(member, i)" placement="left" container="body" ngbTooltip="Invite {{member.name}} to view and edit maps">Invite </button>
                         <button [class.deleted]="member.isDeleted" [hidden]="isDisplayLoader(member.user_id)" *ngIf="member.isActivationPending && member.isInvitationSent"
                             class="btn btn-success  mt-2" (click)="resendUser(member, i)" placement="left" container="body" ngbTooltip="Resend an invitation to {{member.name}}">Resend </button>
-                    <div class="sending" [hidden]="!isDisplayLoader(member.user_id)">
-                        <ngx-loading [show]="isDisplayLoader(member.user_id)" [config]="{ backdropBackgroundColour: 'transparent'}"></ngx-loading>
-                    </div>
-                        
-        
-        <!-- <span class="sending text-default" [hidden]="!isDisplayLoader(member.user_id)">
+                        <div class="sending" [hidden]="!isDisplayLoader(member.user_id)">
+                            <ngx-loading [show]="isDisplayLoader(member.user_id)" [config]="{ backdropBackgroundColour: 'transparent'}"></ngx-loading>
+                        </div>
+
+
+                        <!-- <span class="sending text-default" [hidden]="!isDisplayLoader(member.user_id)">
                             <i class="fa fa-cog fa-2x fa-spin fa-fw"></i>
                             <span class="sr-only">Sending...</span>
                         </span> -->
@@ -72,87 +66,144 @@
 
     </div>
 
-    <div class="col-lg-5 mt-3 ">
-        <div class="card mt-5 card-inverse panel">
-            <div class="card-block">
-                <h5 class="card-title">Add teammates to team
-                    <b>{{(team$ | async)?.name}}</b>
-                </h5>
-                <div class="card-text">
-                    <!-- <div class="input-group mt-3 col-12" *ngIf="team$ |async"> -->
-                    <ng-template #rt let-r="result" let-t="term">
-                        <img src="{{r.picture}}" width="16"> {{r.email}}
-                    </ng-template>
 
-                    <div class="input-group">
-                        <input #inputNewMember type="text" id="inputNewMember" [resultTemplate]="rt" placeholder="e.g. hermes.conrad@planetexpress.com"
-                            class="form-control col-12" [ngModelOptions]="{standalone: true}" [ngModel]="newMember" (selectItem)="saveNewMember($event)"
-                            [ngbTypeahead]="searchUsers" [resultFormatter]="formatter" [inputFormatter]="formatter" email />
 
-                        <span class="input-group-btn" *ngIf="!searchFailed || !inputNewMember.value">
-                            <button class="btn btn-primary" [class.disabled]="!isUserChosen" type="button" (click)="addMemberToTeam()">
-                                Add
-                            </button>
-                        </span>
-                    </div>
-                    <small *ngIf="isAlreadyInTeam" class="form-control-feedback text-warning">Already added!</small>
+    <div class="col-5 mt-3">
 
-                    <small class="form-text">Search for a person in Maptio by email address or enter an email address to invite someone new.</small>
-                    <span *ngIf="searching">searching...</span>
+        <ul class="nav nav-pills" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link " data-toggle="tab" href="#add" role="tab">Add users</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#import" role="tab">Import</a>
+            </li>
+        </ul>
 
-                    <!-- </div> -->
-                    <div class="col-12 mt-1" *ngIf="searchFailed && inputNewMember.value">
-                        <span *ngIf="!isUserSearchedEmail">No results</span>
+        <div class="tab-content">
+            <div class="tab-pane " id="add" role="tabpanel">
 
-                        <div *ngIf="isUserSearchedEmail">
+                <div class="">
+                    <div class="card mt-0 card-inverse panel">
+                        <div class="card-block">
+                            <h5 class="card-title">Add teammates to team
+                                <b>{{(team$ | async)?.name}}</b>
+                            </h5>
+                            <div class="card-text">
+                                <!-- <div class="input-group mt-3 col-12" *ngIf="team$ |async"> -->
+                                <ng-template #rt let-r="result" let-t="term">
+                                    <img src="{{r.picture}}" width="16"> {{r.email}}
+                                </ng-template>
 
-                            <div>
-                                <div class="card-text">
-                                    <br>
-                                    <b>{{userSearched}}</b> ? We don’t know that person.
-                                    <div class="alert alert-danger " role="alert" *ngIf="errorMessage">
-                                        {{errorMessage}}
-                                    </div>
+                                <div class="input-group">
+                                    <input #inputNewMember type="text" id="inputNewMember" [resultTemplate]="rt" placeholder="e.g. hermes.conrad@planetexpress.com"
+                                        class="form-control col-12" [ngModelOptions]="{standalone: true}" [ngModel]="newMember"
+                                        (selectItem)="saveNewMember($event)" [ngbTypeahead]="searchUsers" [resultFormatter]="formatter"
+                                        [inputFormatter]="formatter" email />
 
-                                    <form class="from-group mb-1" [formGroup]="inviteForm" (submit)="createUser(userSearched)">
-
-                                        <div class="input-group mb-2">
-                                            <input type="text" id="inputFirstname" formControlName="firstname" class="form-control form-control-warning " placeholder="First name"
-                                                required minlength="2">
-                                            <input type="text" id="inputLastname" formControlName="lastname" class="form-control form-control-warning" placeholder="Last name"
-                                                required minlength="2">
-                                            <button type="submit" class="btn btn-success" [class.disabled]="!inviteForm.valid">Add</button>
-                                        </div>
-                                        <small class="form-control-feedback text-warning" *ngIf="inviteForm.controls['lastname'].invalid  && (inviteForm.controls['lastname'].dirty || inviteForm.controls['lastname'].touched)">
-                                            Last name must be at least 2 characters in length
-                                        </small>
-                                        <small class="form-control-feedback text-warning" *ngIf="inviteForm.controls['firstname'].invalid  && (inviteForm.controls['firstname'].dirty || inviteForm.controls['firstname'].touched)">
-                                            First name must be at least 2 characters in length
-                                        </small>
-                                        <!-- <div class="form-check" [class.has-warning]="inviteForm.controls['isInvited'].invalid  && (inviteForm.controls['isInvited'].dirty || inviteForm.controls['isInvited'].touched)">
-                                            <label class="form-check-label">
-                                                <input  type="checkbox" id="inputTC" formControlName="isInvited" class="form-check-input">
-                                                    Invite {{userSearched}} to view and/or edit <b>{{(team$ | async)?.name}}</b>'s maps (You can invite them at anytime in the future)
-                                            </label>
-                                        </div> -->
-
-                                    </form>
+                                    <span class="input-group-btn" *ngIf="!searchFailed || !inputNewMember.value">
+                                        <button class="btn btn-primary" [class.disabled]="!isUserChosen" type="button" (click)="addMemberToTeam()">
+                                            Add
+                                        </button>
+                                    </span>
                                 </div>
+                                <small *ngIf="isAlreadyInTeam" class="form-control-feedback text-warning">Already added!</small>
 
+                                <small class="form-text">Search for a person in Maptio by email address or enter an email address to invite someone
+                                    new.
+                                </small>
+                                <span *ngIf="searching">searching...</span>
+
+                                <!-- </div> -->
+                                <div class="col-12 mt-1" *ngIf="searchFailed && inputNewMember.value">
+                                    <span *ngIf="!isUserSearchedEmail">No results</span>
+
+                                    <div *ngIf="isUserSearchedEmail">
+
+                                        <div>
+                                            <div class="card-text">
+                                                <br>
+                                                <b>{{userSearched}}</b> ? We don’t know that person.
+                                                <div class="alert alert-danger " role="alert" *ngIf="errorMessage">
+                                                    {{errorMessage}}
+                                                </div>
+
+                                                <form class="from-group mb-1" [formGroup]="inviteForm" (submit)="createUser(userSearched)">
+
+                                                    <div class="input-group mb-2">
+                                                        <input type="text" id="inputFirstname" formControlName="firstname" class="form-control form-control-warning " placeholder="First name"
+                                                            required minlength="2">
+                                                        <input type="text" id="inputLastname" formControlName="lastname" class="form-control form-control-warning" placeholder="Last name"
+                                                            required minlength="2">
+                                                        <button type="submit" class="btn btn-success" [class.disabled]="!inviteForm.valid">Add</button>
+                                                    </div>
+                                                    <small class="form-control-feedback text-warning" *ngIf="inviteForm.controls['lastname'].invalid  && (inviteForm.controls['lastname'].dirty || inviteForm.controls['lastname'].touched)">
+                                                        Last name must be at least 2 characters in length
+                                                    </small>
+                                                    <small class="form-control-feedback text-warning" *ngIf="inviteForm.controls['firstname'].invalid  && (inviteForm.controls['firstname'].dirty || inviteForm.controls['firstname'].touched)">
+                                                        First name must be at least 2 characters in length
+                                                    </small>
+                                                </form>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
 
                             </div>
                         </div>
+
+
                     </div>
 
+
+                </div>
+
+
+            </div>
+            <div class="tab-pane active" id="import" role="tabpanel">
+
+                <div class="mt-1">
+                    <div class="card">
+                        <div class="card-block">
+                            <h5 class="card-title">Import from a CSV file
+                            </h5>
+                            <div class="card-text">
+                                Your file must have columns : "First name", "Last name" and "Email" Maximum size : 2Mb.
+                                <!-- <input class="inputfile" type="file" id="fileupload" #fileInput ng2FileSelect [uploader]="uploader" (change)="fileInput.value=''"
+                                            accept=".csv" />
+                                        <label for="fileupload">
+                                            <i class="fa fa-upload" aria-hidden="true"></i> Upload .csv
+                                        </label> -->
+                                <input type="file" #fileImportInput name="File Upload" id="txtFileUpload" class="btn btn-primary" (change)="fileChangeListener($event)"
+                                    accept=".csv" />
+
+                                <div>
+                                    <table class="table table-responsive table-hover">
+                                        <tbody>
+                                            <ng-container *ngFor="let csvRec of csvRecords;let i=index">
+                                                <tr>
+                                                    <ng-container *ngFor="let data of csvRec;let j=index">
+                                                        <td>{{data}}</td>
+                                                    </ng-container>
+                                                </tr>
+                                            </ng-container>
+                                        </tbody>
+                                    </table>
+                                    <button *ngIf="csvRecords.length !==0" class="btn btn-success" (click)="importUsers()">Import users</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
-
-
         </div>
 
 
-    </div>
 
+
+    </div>
 
 
 </div>

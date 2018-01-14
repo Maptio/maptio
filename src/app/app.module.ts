@@ -93,6 +93,7 @@ import { MappingNetworkComponent } from "./components/mapping/network/mapping.ne
 import { WorkspaceComponentResolver } from "./components/workspace/workspace.resolver";
 import { LogoutComponent } from "./components/login/logout.component";
 import { ExportService } from "./shared/services/export/export.service";
+import { FileService } from "./shared/services/file/file.service";
 
 
 // Routes
@@ -205,7 +206,7 @@ export function markdownServiceFactory(http: Http) {
     AuthGuard, AccessGuard, AuthConfiguration,
     D3Service, DataService, ColorService, UIService, DatasetFactory, TeamFactory,
     ErrorService, Auth, UserService, UserFactory, MailingService, JwtEncoder, LoaderService,
-    ExportService,
+    ExportService, FileService,
     Location,
     { provide: LocationStrategy, useClass: PathLocationStrategy },
     // {

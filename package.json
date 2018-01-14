@@ -35,7 +35,7 @@
     "@angular/platform-browser-dynamic": "^4.1.1",
     "@angular/platform-server": "^4.4.4",
     "@angular/router": "^4.1.1",
-    "@cloudinary/angular-4.x": "^1.0.0",
+    "@cloudinary/angular-4.x": "^1.1.0",
     "@ng-bootstrap/ng-bootstrap": "^1.0.0-alpha.27",
     "@types/auth0-js": "^8.6.3",
     "@types/core-js": "^0.9.39",

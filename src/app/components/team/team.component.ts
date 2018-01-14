@@ -7,14 +7,17 @@ import { Observable, Subscription } from "rxjs/Rx";
 import { NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-bootstrap";
 import { TeamFactory } from "./../../shared/services/team.factory";
 import { ActivatedRoute, Params } from "@angular/router";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { Team } from "../../shared/model/team.data";
 import { User } from "../../shared/model/user.data";
 import { Auth } from "../../shared/services/auth/auth.service";
 import { DataSet } from "../../shared/model/dataset.data";
-import { compact, sortBy, differenceBy, remove, uniqBy} from "lodash"
+import { compact, sortBy, differenceBy, remove, uniqBy } from "lodash"
 import { UserService } from "../../shared/services/user/user.service";
 import { Angulartics2Mixpanel } from "angulartics2";
+import { FileUploader, FileUploaderOptions, FileLikeObject, ParsedResponseHeaders } from "ng2-file-upload";
+import { Constants, FileService } from "../../shared/services/file/file.service";
+import * as _ from "lodash";
 
 @Component({
     selector: "team",
@@ -44,6 +47,9 @@ export class TeamComponent implements OnInit {
 
     public inviteForm: FormGroup;
     public createdUser: User;
+    @ViewChild("fileImportInput") fileImportInput: any;
+
+    csvRecords: any[] = [];
 
     isSendingMap: Map<string, boolean> = new Map<string, boolean>();
 
@@ -51,7 +57,8 @@ export class TeamComponent implements OnInit {
 
     constructor(public auth: Auth, private userService: UserService, private route: ActivatedRoute,
         private teamFactory: TeamFactory, private userFactory: UserFactory,
-        private datasetFactory: DatasetFactory, private analytics: Angulartics2Mixpanel) {
+        private datasetFactory: DatasetFactory, private analytics: Angulartics2Mixpanel,
+        private fileService: FileService) {
 
         this.routeSubscription = this.route.params.subscribe((params: Params) => {
             if (!params["teamid"]) return
@@ -228,50 +235,53 @@ export class TeamComponent implements OnInit {
             let firstname = this.inviteForm.controls["firstname"].value
             let lastname = this.inviteForm.controls["lastname"].value
 
-            this.team$.then((team: Team) => {
-
-                return this.userService.createUser(email, firstname, lastname)
-                    .then((user: User) => {
-                        return this.datasetFactory.get(team).then((datasets: DataSet[]) => {
-                            let virtualUser = new User();
-                            virtualUser.name = user.name;
-                            virtualUser.email = user.email;
-                            virtualUser.firstname = user.firstname;
-                            virtualUser.lastname = user.lastname;
-                            virtualUser.nickname = user.nickname;
-                            virtualUser.user_id = user.user_id;
-                            virtualUser.picture = user.picture;
-                            virtualUser.teams = [this.teamId];
-                            virtualUser.datasets = datasets.map(d => d._id);
-                            this.createdUser = virtualUser;
-                            return virtualUser;
-                        }, (reason) => {
-                            return Promise.reject(`Can't create ${email} : ${reason}`);
-                        })
-                    })
-                    .then((virtualUser: User) => {
-                        this.userFactory.create(virtualUser)
-                        return virtualUser;
-                    })
-                    .then((user: User) => {
-                        team.members.push(user);
-                        this.teamFactory.upsert(team).then((result) => {
-                            this.newMember = undefined;
-                            this.searchFailed = false;
-                        })
-                    })
-                    .then(() => {
-                        this.members$ = this.getAllMembers();
-                    })
-                    .then(() => {
-                        this.analytics.eventTrack("Team", { action: "create", team: team.name, teamId: team.team_id });
-                    })
-                    .catch((reason) => {
-                        this.errorMessage = reason;
-                    })
-            })
+            this.createUserFullDetails(email, firstname, lastname);
         }
+    }
 
+    createUserFullDetails(email: string, firstname: string, lastname: string) {
+        this.team$.then((team: Team) => {
+
+            return this.userService.createUser(email, firstname, lastname)
+                .then((user: User) => {
+                    return this.datasetFactory.get(team).then((datasets: DataSet[]) => {
+                        let virtualUser = new User();
+                        virtualUser.name = user.name;
+                        virtualUser.email = user.email;
+                        virtualUser.firstname = user.firstname;
+                        virtualUser.lastname = user.lastname;
+                        virtualUser.nickname = user.nickname;
+                        virtualUser.user_id = user.user_id;
+                        virtualUser.picture = user.picture;
+                        virtualUser.teams = [this.teamId];
+                        virtualUser.datasets = datasets.map(d => d.datasetId);
+                        this.createdUser = virtualUser;
+                        return virtualUser;
+                    }, (reason) => {
+                        return Promise.reject(`Can't create ${email} : ${reason}`);
+                    })
+                })
+                .then((virtualUser: User) => {
+                    this.userFactory.create(virtualUser)
+                    return virtualUser;
+                })
+                .then((user: User) => {
+                    team.members.push(user);
+                    this.teamFactory.upsert(team).then((result) => {
+                        this.newMember = undefined;
+                        this.searchFailed = false;
+                    })
+                })
+                .then(() => {
+                    this.members$ = this.getAllMembers();
+                })
+                .then(() => {
+                    this.analytics.eventTrack("Team", { action: "create", team: team.name, teamId: team.team_id });
+                })
+                .catch((reason) => {
+                    this.errorMessage = reason;
+                })
+        })
     }
 
     searchUsers =
@@ -335,6 +345,62 @@ export class TeamComponent implements OnInit {
 
     trackByMemberId(index: number, member: User) {
         return member.user_id;
+    }
+
+
+    fileChangeListener($event: any): void {
+
+        let text = [];
+        let files = $event.srcElement.files;
+
+        if (Constants.validateHeaderAndRecordLengthFlag) {
+            if (!this.fileService.isCSVFile(files[0])) {
+                alert("Please import valid .csv file.");
+                this.fileReset();
+            }
+        }
+
+        let input = $event.target;
+        let reader = new FileReader();
+        reader.readAsText(input.files[0]);
+
+        reader.onload = (data) => {
+            let csvData = reader.result;
+            let csvRecordsArray = csvData.split(/\r\n|\n/);
+            let headerLength = -1;
+            if (Constants.isHeaderPresentFlag) {
+                let headersRow = this.fileService.getHeaderArray(csvRecordsArray, Constants.tokenDelimeter);
+                headerLength = headersRow.length;
+                let isHeaderValid = this.fileService.validateHeaders(headersRow, ["First name", "Last name", "Email"])
+                if (!isHeaderValid) {
+                    throw new Error(`Header should be : First name, Last name, Email`);
+                }
+            }
+
+            this.csvRecords = this.fileService.getDataRecordsArrayFromCSVFile(csvRecordsArray,
+                headerLength, Constants.validateHeaderAndRecordLengthFlag, Constants.tokenDelimeter);
+            console.log(this.csvRecords)
+            if (this.csvRecords == null) {
+                // If control reached here it means csv file contains error, reset file.
+                this.fileReset();
+            }
+        }
+
+        reader.onerror = function () {
+            alert("Unable to read " + input.files[0]);
+        };
+    };
+
+    fileReset() {
+        this.fileImportInput.nativeElement.value = "";
+        this.csvRecords = [];
+    }
+
+    importUsers() {
+        _(this.csvRecords).drop(1).forEach(record => {
+            console.log("import", record[0], record[1], record[2]);
+            this.createUserFullDetails(record[2], record[0], record[1]);
+        })
     }
 
 }
