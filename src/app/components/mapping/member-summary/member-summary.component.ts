@@ -15,6 +15,7 @@ import { Angulartics2Mixpanel } from "angulartics2";
 import { DataService } from "../../../shared/services/data.service";
 import { Tag, SelectableTag } from "../../../shared/model/tag.data";
 import * as _ from "lodash";
+import { UIService } from "../../../shared/services/ui/ui.service";
 
 @Component({
     selector: "member-summary",
@@ -66,6 +67,7 @@ export class MemberSummaryComponent implements OnInit, IDataVisualizer {
 
     constructor(public auth: Auth, public route: ActivatedRoute, public datasetFactory: DatasetFactory,
         public userFactory: UserFactory, public teamFactory: TeamFactory, private dataService: DataService,
+        private uiService: UIService,
         private cd: ChangeDetectorRef) {
     }
 
@@ -114,14 +116,11 @@ export class MemberSummaryComponent implements OnInit, IDataVisualizer {
                     if (i.helpers && i.helpers.find(h => h.user_id === this.memberUserId && i.accountable && i.accountable.user_id !== h.user_id)) {
                         if (!this.helps.includes(i)) this.helps.push(i)
                     }
+
                     let nodeTags = i.tags.map((t: Tag) => t.shortid);
-                    this.initiativesMap.set(i.id, _.isEmpty(selectedTags) // all tags are unselected by default
-                        ? true
-                        : _.isEmpty(nodeTags) // the circle doesnt have any tags
-                            ? false
-                            : _.intersection(selectedTags.map(t => t.shortid), nodeTags).length === 0
-                                ? false
-                                : true);
+                    this.initiativesMap.set(i.id,
+                        this.uiService.filter(selectedTags, unselectedTags, nodeTags)
+                    );
 
                 }.bind(this));
                 this.cd.markForCheck();

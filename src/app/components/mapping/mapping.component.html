@@ -2,8 +2,8 @@
   <div class="col-11 m-1 mt-4 pl-0">
     <div class="d-flex flex-wrap">
       <span (click)="isFiltersToggled=!isFiltersToggled" class="mr-1">
-          <i *ngIf="!isFiltersToggled" class="fa fa-plus-square" aria-hidden="true"></i>
-          <i *ngIf="isFiltersToggled" class="fa fa-minus-square" aria-hidden="true"></i>
+        <i *ngIf="!isFiltersToggled" class="fa fa-plus-square" aria-hidden="true"></i>
+        <i *ngIf="isFiltersToggled" class="fa fa-minus-square" aria-hidden="true"></i>
         <!-- <button *ngIf="!isFiltersToggled" class="btn btn-sm btn-link">Show</button>
         <button  class="btn btn-sm btn-link">Hide</button> -->
       </span>
@@ -30,19 +30,25 @@
   </div>
 
 
-  <!-- <div class="col-11 m-1 mt-4 pl-0">
+  <div class="col-11 m-1 mt-4 pl-0">
     <div class="d-flex flex-wrap">
-      <span class="text-muted small mr-1 pt-1">
-        <i class="fa fa-filter mr-1" aria-hidden="true"></i>Filter with members</span>
+
+      <span (click)="isFiltersToggled=!isFiltersToggled" class="mr-1">
+        <i *ngIf="!isFiltersToggled" class="fa fa-plus-square" aria-hidden="true"></i>
+        <i *ngIf="isFiltersToggled" class="fa fa-minus-square" aria-hidden="true"></i>
+      </span>
+      <span class="text-muted mr-3">
+        Team
+      </span>
       <span *ngFor="let user of members; let i=index">
         <a class="btn btn-sm btn-user active btn-secondary  mr-1" [class.active]="user.isSelected" (click)="toggleUser(user)">
           <img src="{{ user.picture }}" class="rounded-circle tag-image mr-1" alt="">{{user.name}}
-          <i *ngIf="user.isSelected" class="fa fa-check" aria-hidden="true"></i> 
+          <i *ngIf="user.isSelected" class="fa fa-check" aria-hidden="true"></i>
           <i *ngIf="!user.isSelected" class="fa fa-check" aria-hidden="true" [style.color]="'white'"></i>
         </a>
       </span>
     </div>
-  </div> -->
+  </div>
 </div>
 
 
