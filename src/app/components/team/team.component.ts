@@ -53,6 +53,10 @@ export class TeamComponent implements OnInit {
 
     isSendingMap: Map<string, boolean> = new Map<string, boolean>();
 
+    currentImportedUserIndex: number;
+    importUserLength: number;
+    progress: number;
+
     private EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     constructor(public auth: Auth, private userService: UserService, private route: ActivatedRoute,
@@ -396,10 +400,16 @@ export class TeamComponent implements OnInit {
         this.csvRecords = [];
     }
 
+
     importUsers() {
-        _(this.csvRecords).drop(1).forEach(record => {
-            console.log("import", record[0], record[1], record[2]);
-            this.createUserFullDetails(record[2], record[0], record[1]);
+        this.importUserLength = this.csvRecords.length - 1;
+        this.currentImportedUserIndex = 0;
+        _(this.csvRecords).drop(1).forEach((record, index, all) => {
+            this.progress = Math.ceil((index + 1) / all.length) * 100;
+            this.currentImportedUserIndex = index + 1;
+
+            console.log("import", record[0], record[1], record[2], index + 1, all.length);
+            // this.createUserFullDetails(record[2], record[0], record[1]);
         })
     }
 

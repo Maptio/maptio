@@ -70,12 +70,12 @@
 
     <div class="col-5 mt-3">
 
-        <ul class="nav nav-pills" role="tablist">
+        <ul class="nav nav-tabs nav-fill" role="tablist">
             <li class="nav-item">
                 <a class="nav-link " data-toggle="tab" href="#add" role="tab">Add users</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#import" role="tab">Import</a>
+                <a class="nav-link active" data-toggle="tab" href="#import" role="tab">Import .csv</a>
             </li>
         </ul>
 
@@ -164,22 +164,20 @@
             <div class="tab-pane active" id="import" role="tabpanel">
 
                 <div class="mt-1">
-                    <div class="card">
+                    <div class="card borderless">
                         <div class="card-block">
                             <h5 class="card-title">Import from a CSV file
                             </h5>
                             <div class="card-text">
-                                Your file must have columns : "First name", "Last name" and "Email" Maximum size : 2Mb.
-                                <!-- <input class="inputfile" type="file" id="fileupload" #fileInput ng2FileSelect [uploader]="uploader" (change)="fileInput.value=''"
-                                            accept=".csv" />
-                                        <label for="fileupload">
-                                            <i class="fa fa-upload" aria-hidden="true"></i> Upload .csv
-                                        </label> -->
-                                <input type="file" #fileImportInput name="File Upload" id="txtFileUpload" class="btn btn-primary" (change)="fileChangeListener($event)"
-                                    accept=".csv" />
+                                <div>
+                                    Your file header must be : "First name", "Last name" and "Email"
+                                </div>
+                                <input type="file" #fileImportInput name="File Upload" id="txtFileUpload" class="btn btn-outline-success btn-secondary mt-2 mb-4"
+                                    (change)="fileChangeListener($event)" accept=".csv" />
+                                <small class="text-muted">Maximum size : 2Mb.</small>
 
                                 <div>
-                                    <table class="table table-responsive table-hover">
+                                    <table class="table table-hover tableSection">
                                         <tbody>
                                             <ng-container *ngFor="let csvRec of csvRecords;let i=index">
                                                 <tr>
@@ -191,6 +189,14 @@
                                         </tbody>
                                     </table>
                                     <button *ngIf="csvRecords.length !==0" class="btn btn-success" (click)="importUsers()">Import users</button>
+
+                                    <p>
+                                        <ngb-progressbar type="info" [value]="progress" *ngIf="currentImportedUserIndex!==importUserLength && currentImportedUserIndex>0;">Importing user
+                                            <b>{{currentImportedUserIndex}} of {{importUserLength}}</b>...</ngb-progressbar>
+                                        <ngb-progressbar type="success" [value]="progress" *ngIf="currentImportedUserIndex===importUserLength && importUserLength>0">Importing user
+                                            <b>{{currentImportedUserIndex}} of {{importUserLength}}</b>...</ngb-progressbar>
+                                    </p>
+
                                 </div>
                             </div>
                         </div>
