@@ -56,6 +56,10 @@ export class TeamComponent implements OnInit {
     currentImportedUserIndex: number;
     importUserLength: number;
     progress: number;
+    importedSuccessfully: number;
+    importedFailed: number;
+    isImportFinished: boolean;
+    isFileInvalid: boolean;
 
     private EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -244,10 +248,11 @@ export class TeamComponent implements OnInit {
     }
 
     createUserFullDetails(email: string, firstname: string, lastname: string) {
-        this.team$.then((team: Team) => {
+        return this.team$.then((team: Team) => {
 
             return this.userService.createUser(email, firstname, lastname)
                 .then((user: User) => {
+                    console.log("her with", user)
                     return this.datasetFactory.get(team).then((datasets: DataSet[]) => {
                         let virtualUser = new User();
                         virtualUser.name = user.name;
@@ -264,6 +269,9 @@ export class TeamComponent implements OnInit {
                     }, (reason) => {
                         return Promise.reject(`Can't create ${email} : ${reason}`);
                     })
+                }, (reason: any) => {
+                    // console.log("reject", JSON.parse(reason._body).message)
+                    throw JSON.parse(reason._body).message;
                 })
                 .then((virtualUser: User) => {
                     this.userFactory.create(virtualUser)
@@ -281,9 +289,12 @@ export class TeamComponent implements OnInit {
                 })
                 .then(() => {
                     this.analytics.eventTrack("Team", { action: "create", team: team.name, teamId: team.team_id });
+                    return true;
                 })
                 .catch((reason) => {
+                    // console.log("catching ", reason)
                     this.errorMessage = reason;
+                    throw Error(reason);
                 })
         })
     }
@@ -353,13 +364,14 @@ export class TeamComponent implements OnInit {
 
 
     fileChangeListener($event: any): void {
-
+        this.isFileInvalid = false;
+        this.csvRecords = [];
         let text = [];
         let files = $event.srcElement.files;
 
         if (Constants.validateHeaderAndRecordLengthFlag) {
             if (!this.fileService.isCSVFile(files[0])) {
-                alert("Please import valid .csv file.");
+                this.isFileInvalid = true;
                 this.fileReset();
             }
         }
@@ -377,40 +389,61 @@ export class TeamComponent implements OnInit {
                 headerLength = headersRow.length;
                 let isHeaderValid = this.fileService.validateHeaders(headersRow, ["First name", "Last name", "Email"])
                 if (!isHeaderValid) {
-                    throw new Error(`Header should be : First name, Last name, Email`);
+                    this.isFileInvalid = true;
                 }
             }
 
-            this.csvRecords = this.fileService.getDataRecordsArrayFromCSVFile(csvRecordsArray,
-                headerLength, Constants.validateHeaderAndRecordLengthFlag, Constants.tokenDelimeter);
-            console.log(this.csvRecords)
-            if (this.csvRecords == null) {
-                // If control reached here it means csv file contains error, reset file.
-                this.fileReset();
+            try {
+                this.csvRecords = this.fileService.getDataRecordsArrayFromCSVFile(csvRecordsArray,
+                    headerLength, Constants.validateHeaderAndRecordLengthFlag, Constants.tokenDelimeter);
+                if (this.csvRecords == null) {
+                    // If control reached here it means csv file contains error, reset file.
+                    this.fileReset();
+                }
             }
+            catch (error) {
+                this.isFileInvalid = true;
+            }
+
         }
 
         reader.onerror = function () {
-            alert("Unable to read " + input.files[0]);
-        };
+            // alert("Unable to read " + input.files[0]);
+            this.isFileInvalid = true;
+        }.bind(this);
     };
 
     fileReset() {
+        this.isFileInvalid = false;
         this.fileImportInput.nativeElement.value = "";
         this.csvRecords = [];
     }
 
 
-    importUsers() {
-        this.importUserLength = this.csvRecords.length - 1;
-        this.currentImportedUserIndex = 0;
-        _(this.csvRecords).drop(1).forEach((record, index, all) => {
-            this.progress = Math.ceil((index + 1) / all.length) * 100;
-            this.currentImportedUserIndex = index + 1;
 
-            console.log("import", record[0], record[1], record[2], index + 1, all.length);
-            // this.createUserFullDetails(record[2], record[0], record[1]);
-        })
+    importUsers() {
+        this.isImportFinished = false;
+        this.importedSuccessfully = 0;
+        this.importedFailed = 0;
+        _(this.csvRecords).drop(1).forEach((record, index, all) => {
+            record[3] = "";
+            record[4] = false; // processed
+            this.createUserFullDetails((<String>record[2]).trim(), (<String>record[0]).trim(), (<String>record[1]).trim()).then(result => {
+                this.importedSuccessfully += 1;
+                record[3] = "Imported";
+                record[4] = true;
+            }, (error: any) => {
+                this.importedFailed += 1;
+                record[3] = error.message;
+                record[4] = true;
+            });
+        });
+        this.isImportFinished = true;
+    }
+
+    fakeCreate(firstname: string, lastname: string, email: string) {
+        return Promise.resolve(Math.random() < 0.5 ? true : "Error message");
     }
 
 }
+

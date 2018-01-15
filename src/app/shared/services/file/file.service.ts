@@ -51,10 +51,10 @@ export class FileService {
 
             if (validateHeaderAndRecordLengthFlag && data.length !== headerLength) {
                 if (data === "") {
-                    alert("Extra blank line is present at line number " + i + ", please remove it.");
+                    throw "Extra blank line is present at line number " + i + ", please remove it.";
                     return null;
                 } else {
-                    alert("Record at line number " + i + " contain " + data.length + " tokens, and is not matching with header length of :" + headerLength);
+                    throw "Record at line number " + i + " contain " + data.length + " tokens, and is not matching with header length of :" + headerLength;
                     return null;
                 }
             }

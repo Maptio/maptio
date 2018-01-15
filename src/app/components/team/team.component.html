@@ -8,7 +8,7 @@
 
         <button class="btn btn-success mb-3 pull-right" (click)="inviteAll()">Invite/resend all</button>
 
-        <table class="table table-hover table-sm tableSection">
+        <table class="table table-hover table-sm tableSection left">
             <thead>
                 <tr class="row">
                     <th class="" scope="col"></th>
@@ -83,7 +83,7 @@
             <div class="tab-pane " id="add" role="tabpanel">
 
                 <div class="">
-                    <div class="card mt-0 card-inverse panel">
+                    <div class="card mt-0 borderless">
                         <div class="card-block">
                             <h5 class="card-title">Add teammates to team
                                 <b>{{(team$ | async)?.name}}</b>
@@ -166,36 +166,44 @@
                 <div class="mt-1">
                     <div class="card borderless">
                         <div class="card-block">
-                            <h5 class="card-title">Import from a CSV file
-                            </h5>
+                            <!-- <h5 class="card-title">Import from a CSV file
+                            </h5> -->
                             <div class="card-text">
                                 <div>
                                     Your file header must be : "First name", "Last name" and "Email"
                                 </div>
-                                <input type="file" #fileImportInput name="File Upload" id="txtFileUpload" class="btn btn-outline-success btn-secondary mt-2 mb-4"
-                                    (change)="fileChangeListener($event)" accept=".csv" />
                                 <small class="text-muted">Maximum size : 2Mb.</small>
+                                <div class="mt-2 mb-2 d-flex justify-content-between">
+                                        <input type="file" #fileImportInput name="File Upload" id="txtFileUpload" class="col-7 btn btn-secondary btn-outline-success p-1"
+                                        (change)="fileChangeListener($event)" accept=".csv" />
+                                    <button class="btn btn-secondary text-muted" (click)="fileReset()" >Reset</button>
+                                </div>
+                                <span *ngIf="isFileInvalid" class="text-danger">Invalid file</span>
+                              
 
-                                <div>
-                                    <table class="table table-hover tableSection">
+                                <div *ngIf="!isFileInvalid">
+                                    <table class="table table-hover tableSection right">
                                         <tbody>
                                             <ng-container *ngFor="let csvRec of csvRecords;let i=index">
-                                                <tr>
+                                                <tr *ngIf="!csvRec[4] || csvRec[4]===false" class="row pl-2 text-muted">
                                                     <ng-container *ngFor="let data of csvRec;let j=index">
-                                                        <td>{{data}}</td>
+                                                        <td class="col" [class.small]="j===3" [class.hidden-xs-up]="j===4">{{data}}</td>
+                                                    </ng-container>
+                                                </tr>
+                                                <tr *ngIf="csvRec[4]===true" class="row pl-2" [class.text-success]="csvRec[3] === 'Imported'" [class.text-warning]="csvRec[3] !== 'Imported'">
+                                                    <ng-container *ngFor="let data of csvRec;let j=index">
+                                                        <td class="col" [class.small]="j===3" [class.hidden-xs-up]="j===4">{{data}}</td>
                                                     </ng-container>
                                                 </tr>
                                             </ng-container>
                                         </tbody>
                                     </table>
-                                    <button *ngIf="csvRecords.length !==0" class="btn btn-success" (click)="importUsers()">Import users</button>
 
-                                    <p>
-                                        <ngb-progressbar type="info" [value]="progress" *ngIf="currentImportedUserIndex!==importUserLength && currentImportedUserIndex>0;">Importing user
-                                            <b>{{currentImportedUserIndex}} of {{importUserLength}}</b>...</ngb-progressbar>
-                                        <ngb-progressbar type="success" [value]="progress" *ngIf="currentImportedUserIndex===importUserLength && importUserLength>0">Importing user
-                                            <b>{{currentImportedUserIndex}} of {{importUserLength}}</b>...</ngb-progressbar>
-                                    </p>
+                                    <button *ngIf="csvRecords.length !==0" class="btn btn-success mb-2 pull-right" (click)="importUsers()">Import users</button>
+
+                                    <span *ngIf="isImportFinished" class="text-success">Imported successfully : {{importedSuccessfully}}</span>
+                                    <span *ngIf="isImportFinished" class="text-warning">Imported failed : {{importedFailed}}</span>
+                                     
 
                                 </div>
                             </div>
