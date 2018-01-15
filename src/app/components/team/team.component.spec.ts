@@ -20,6 +20,7 @@ import { AuthHttp } from "angular2-jwt/angular2-jwt";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 import { Angulartics2Mixpanel, Angulartics2, Angulartics2Module } from "angulartics2";
 import { RouterTestingModule } from "@angular/router/testing";
+import { FileService } from "../../shared/services/file/file.service";
 
 export class AuthStub {
     fakeProfile: User = new User({
@@ -58,7 +59,7 @@ describe("team.component.ts", () => {
         }).overrideComponent(TeamComponent, {
             set: {
                 providers: [
-                    TeamFactory, UserFactory, DatasetFactory, AuthConfiguration,
+                    TeamFactory, UserFactory, DatasetFactory, AuthConfiguration, FileService,
                     JwtEncoder, MailingService,
                     {
                         provide: AuthHttp,

@@ -52,10 +52,8 @@ export class FileService {
             if (validateHeaderAndRecordLengthFlag && data.length !== headerLength) {
                 if (data === "") {
                     throw "Extra blank line is present at line number " + i + ", please remove it.";
-                    return null;
                 } else {
                     throw "Record at line number " + i + " contain " + data.length + " tokens, and is not matching with header length of :" + headerLength;
-                    return null;
                 }
             }
 
