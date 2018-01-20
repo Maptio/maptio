@@ -201,7 +201,7 @@ export class MappingComponent {
             })
             .combineLatest(this.dataService.get())
             .map(data => data[1])
-            .combineLatest(this.route.fragment)
+            .combineLatest(this.route.fragment) // PEFORMACE : with latest changes
             .subscribe(([data, fragment]) => {
                 if (!data.initiative.children || !data.initiative.children[0] || !data.initiative.children[0].children) {
                     this.lock(false);
@@ -374,7 +374,7 @@ export class MappingComponent {
 
     removeTag(tag: Tag) {
         let index = this.tags.findIndex(t => t.shortid === tag.shortid);
-        this.tags.splice(index, 1);
+        if (index > 0) { this.tags.splice(index, 1); }
         this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
     }
 

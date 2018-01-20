@@ -19,6 +19,8 @@ import { ErrorService } from "../../../shared/services/error/error.service";
 import { DataService } from "../../../shared/services/data.service";
 import { Angulartics2Mixpanel, Angulartics2, Angulartics2Module } from "angulartics2";
 import { RouterTestingModule } from "@angular/router/testing";
+import { UIService } from "../../../shared/services/ui/ui.service";
+import { D3Service } from "d3-ng2-service";
 
 
 describe("member-summary.component.ts", () => {
@@ -43,7 +45,7 @@ describe("member-summary.component.ts", () => {
                         getUserInfo(id: string) { return Promise.resolve(new User({})); }
                     }
                 },
-                UserFactory, TeamFactory, DatasetFactory, DataService,
+                UserFactory, TeamFactory, DatasetFactory, DataService, UIService, D3Service,
                 {
                     provide: ActivatedRoute,
                     // useValue: { params: Observable.of({ mapid: "123", usershortid: "abc123" }) }

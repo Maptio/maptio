@@ -167,7 +167,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             try {
                 // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
                 if (zf) {
-                    zooming.scaleBy(svg, zf + 0.000001);
+                    zooming.scaleBy(svg, zf);
                 }
                 else {
                     svg.call(zooming.transform, d3.zoomIdentity.translate(this.translateX, this.translateY));

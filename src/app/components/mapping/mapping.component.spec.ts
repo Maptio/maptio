@@ -20,6 +20,7 @@ import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authht
 import { IDataVisualizer } from "./mapping.interface";
 import { MappingNetworkComponent } from "./network/mapping.network.component";
 import { MemberSummaryComponent } from "./member-summary/member-summary.component";
+import { Tag, SelectableTag } from "../../shared/model/tag.data";
 
 describe("mapping.component.ts", () => {
 
@@ -107,7 +108,7 @@ describe("mapping.component.ts", () => {
             });
 
             it("should return list when layout is list", () => {
-                let actual = component.getLayout(new MemberSummaryComponent(undefined, undefined, undefined, undefined, undefined, undefined, undefined));
+                let actual = component.getLayout(new MemberSummaryComponent(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined));
                 expect(actual).toBe("list")
             });
         });
@@ -132,7 +133,7 @@ describe("mapping.component.ts", () => {
 
 
             it("should return #x=0&y=0&scale=1 when layout is list", () => {
-                let actual = component.getFragment(new MemberSummaryComponent(undefined, undefined, undefined, undefined, undefined, undefined, undefined));
+                let actual = component.getFragment(new MemberSummaryComponent(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined));
                 expect(actual).toBe("x=0&y=0&scale=1")
             });
         });
@@ -211,6 +212,114 @@ describe("mapping.component.ts", () => {
             expect(activated.translateY).toBe(100);
             expect(activated.scale).toBe(1.3);
         })
+
+        describe("Toggling", () => {
+            it("toggles settings panel  ", () => {
+                component.toggleTagSettingsTab();
+                expect(component.isSettingsPanelCollapsed).toBe(false);
+                expect(component.isTagSettingActive).toBe(true);
+                expect(component.isMapSettingActive).toBe(false);
+            });
+
+            it("toggles tags editing panel", () => {
+                component.togglePanel();
+                expect(component.isSettingsPanelCollapsed).toBe(false);
+                expect(component.isTagSettingActive).toBe(false);
+                expect(component.isMapSettingActive).toBe(true);
+            });
+        });
+
+        describe("Tagging", () => {
+            describe("Saving ", () => {
+                it("should save color and send event to apply to dataset", () => {
+                    let spy = spyOn(component.applySettings, "emit");
+                    let tag = new Tag({ name: "tag", color: "red" });
+                    component.saveColor(tag, "#fff");
+                    expect(tag.color).toBe("#fff");
+                    expect(spy).toHaveBeenCalledWith(jasmine.objectContaining({
+                        initiative: component.initiative,
+                        tags: component.tags
+                    }))
+                });
+
+                it("should save name and send event to apply to dataset", () => {
+                    let spy = spyOn(component.applySettings, "emit");
+                    let tag = new Tag({ name: "tag", color: "red" });
+                    component.saveTagName(tag, "new name");
+                    expect(tag.name).toBe("new name");
+                    expect(spy).toHaveBeenCalledWith(jasmine.objectContaining({
+                        initiative: component.initiative,
+                        tags: component.tags
+                    }))
+                });
+            });
+            describe("Adding", () => {
+                it("should do nothing if form is invalid", () => {
+                    component.newTagForm.setValue({ name: "", color: "" });
+                    let spy = spyOn(component.applySettings, "emit")
+                    component.addTag();
+                    expect(spy).not.toHaveBeenCalled();
+                });
+
+                it("should add tag if form is valid and reset form", () => {
+                    component.tags = [new SelectableTag({ name: "first" }), new SelectableTag({ name: "second" })]
+                    component.newTagForm.setValue({ name: "new", color: "irrelevant" });
+                    component.newTagForm.markAsDirty();
+                    component.newTagColor = "blue"
+                    spyOn(component.applySettings, "emit");
+                    spyOn(component.newTagForm, "reset")
+                    component.addTag();
+                    expect(component.applySettings.emit).toHaveBeenCalledWith(jasmine.objectContaining({
+                        initiative: component.initiative,
+                        tags: component.tags
+                    }));
+                    expect(component.tags.length).toBe(3);
+                    expect(component.tags[0].name).toBe("new")
+                    expect(component.tags[0].color).toBe("blue");
+                    expect(component.newTagForm.reset).toHaveBeenCalled();
+                });
+            });
+
+            describe("Removing tag", () => {
+                it("should remove tag when it exits", () => {
+                    component.tags = [
+                        new SelectableTag({ name: "first", shortid: "1" }),
+                        new SelectableTag({ name: "second", shortid: "2" }),
+                        new SelectableTag({ name: "three", shortid: "3" })]
+                    spyOn(component.applySettings, "emit");
+
+                    component.removeTag(new Tag({ shortid: "2" }));
+                    expect(component.tags.length).toBe(2);
+                    expect(component.tags[0].shortid).toBe("1")
+                    expect(component.tags[1].shortid).toBe("3")
+                    expect(component.applySettings.emit).toHaveBeenCalledWith(jasmine.objectContaining({
+                        initiative: component.initiative,
+                        tags: component.tags
+                    }));
+
+                });
+
+                it("should not throw if tag doesnt exist", () => {
+                    component.tags = [
+                        new SelectableTag({ name: "first", shortid: "1" }),
+                        new SelectableTag({ name: "second", shortid: "2" }),
+                        new SelectableTag({ name: "three", shortid: "3" })]
+                    spyOn(component.applySettings, "emit");
+
+                    component.removeTag(new Tag({ shortid: "4" }));
+                    expect(component.tags.length).toBe(3);
+                    expect(component.tags[0].shortid).toBe("1")
+                    expect(component.tags[1].shortid).toBe("2")
+                    expect(component.tags[2].shortid).toBe("3")
+                    expect(component.applySettings.emit).toHaveBeenCalledWith(jasmine.objectContaining({
+                        initiative: component.initiative,
+                        tags: component.tags
+                    }));
+                });
+            });
+
+
+        });
 
     });
 });
