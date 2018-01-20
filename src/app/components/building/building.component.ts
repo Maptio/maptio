@@ -5,7 +5,7 @@ import { EventEmitter } from "@angular/core";
 import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { DataSet } from "./../../shared/model/dataset.data";
 import { Initiative } from "./../../shared/model/initiative.data";
-import { Component, ViewChild, Output } from "@angular/core";
+import { Component, ViewChild, Output, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
 import { TreeNode, IActionMapping, TREE_ACTIONS, TreeModel, TreeComponent } from "angular-tree-component";
 import { DataService } from "../../shared/services/data.service";
 import "rxjs/add/operator/map";
@@ -33,8 +33,10 @@ export class BuildingComponent {
         nodeHeight: 55,
         actionMapping: {
             mouse: {
+                dragStart: () => { console.log("drg start"); this.cd.detach(); },
+                dragEnd: () => { console.log("drg end"); this.cd.reattach(); },
                 drop: (tree: any, node: TreeNode, $event: any, { from, to }: { from: TreeNode, to: TreeNode }) => {
-                    // console.log(tree, node, $event, from, to)
+                    console.log("drop")
                     this.fromInitiative = from.data;
                     this.toInitiative = to.parent.data;
 
@@ -83,7 +85,7 @@ export class BuildingComponent {
 
     constructor(private dataService: DataService, private datasetFactory: DatasetFactory,
         private modalService: NgbModal, private analytics: Angulartics2Mixpanel,
-        private userFactory: UserFactory) {
+        private userFactory: UserFactory, private cd: ChangeDetectorRef) {
         // this.nodes = [];
     }
 

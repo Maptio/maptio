@@ -75,6 +75,24 @@ display: flex;
    
 }
 
+.move-left:before{
+    content: "\f148";
+    font-family: FontAwesome;
+    
+}
+
+.move-right:before{
+    content: "\f149";
+    font-family: FontAwesome;
+    
+}
+
+.open-menu:before{
+    content: "\f141";
+    font-family: FontAwesome;
+    
+}
+
 .zoom:before {
     content: "\f002";
     font-family: FontAwesome;
