@@ -170,7 +170,7 @@
 .map {
   margin-left: 0;
   transition: 0.3s ease-in;
-  background-color: transparent;
+  background-color: #f7f7f7;
 }
 
 .map.slide {

@@ -9,6 +9,8 @@
       </span>
       <span class="text-muted mr-3">
         Tags
+        <!-- <a class="edit-tag" (click)="toggleTagSettingsTab()" placement="left" container="body" ngbTooltip="Edit tags"></a> -->
+        <i class="fa fa-wrench" aria-hidden="true" (click)="toggleTagSettingsTab()" placement="left" container="body" ngbTooltip="Edit tags"></i>
       </span>
 
       <div *ngIf="isFiltersToggled">
@@ -91,7 +93,7 @@
       <i class="fa fa-times" aria-hidden="true"></i>
     </a>
     <!-- Nav tabs -->
-    <ul class="nav nav-pills nav-fill mb-4" id="myTab" role="tablist">
+    <ul class="nav nav-tabs nav-fill mb-4" id="myTab" role="tablist">
       <!-- <li class="nav-item">
         <a class="nav-link active" id="filters-tab" data-toggle="tab" href="#filters" role="tab" aria-controls="filters" aria-selected="true">Filters</a>
       </li> -->
