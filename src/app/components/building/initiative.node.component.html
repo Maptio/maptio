@@ -28,7 +28,7 @@
 		</span>
 	</div>
 	<div class="input-group d-flex justify-content-between mt-1" *ngIf="isMovingToggled">
-		<div class="form-inline col ml-3">
+		<div class="form-inline col pl-0">
 			<select class="custom-select form-control" id="inlineFormCustomSelect"  (change)="changeParent($event.target.value)">
 				<option selected>Change parent initiative</option>      
 				<option *ngFor="let node of nodesList" [value]="node.id">{{node.name}}</option>

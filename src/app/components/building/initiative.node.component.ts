@@ -127,7 +127,7 @@ export class InitiativeNodeComponent {
     getNodesList() {
         let list: any[] = [];
         this.node.treeModel.doForAll((node: TreeNode) => {
-            list.push({ id: node.id, name: `${Array(node.level).join("\t")}${node.data.name}` })
+            list.push({ id: node.id, name: `${Array(node.level).join("\xA0\xA0\xA0")}${node.data.name}` })
         })
         return list;
     }
