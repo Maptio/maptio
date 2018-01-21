@@ -31,6 +31,7 @@ export class InitiativeNodeComponent {
     editInitiative: InitiativeComponent;
 
     private snapshotRoute: ActivatedRouteSnapshot
+    isMovingToggled: boolean;
 
     constructor(private route: ActivatedRoute
     ) {
