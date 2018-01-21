@@ -94,7 +94,7 @@ import { MappingNetworkComponent } from "./components/mapping/network/mapping.ne
 import { WorkspaceComponentResolver } from "./components/workspace/workspace.resolver";
 import { LogoutComponent } from "./components/login/logout.component";
 import { ExportService } from "./shared/services/export/export.service";
-import { TagsEditingComponent } from "./components/tags/tags-editing.component";
+// import { TagsEditingComponent } from "./components/tags/tags-editing.component";
 
 
 // Routes
@@ -116,11 +116,6 @@ const appRoutes: Routes = [
 
   { path: ":shortid/:slug", component: AccountComponent, canActivate: [AuthGuard] },
 
-  {
-    path: "map/:mapid/:mapslug/tags",
-    component: TagsEditingComponent
-  }
-  ,
   {
     path: "map/:mapid/:mapslug",
     component: WorkspaceComponent,
@@ -166,7 +161,6 @@ export function markdownServiceFactory(http: Http) {
     FocusIfDirective,
     HelpComponent,
     DashboardComponent,
-    TagsEditingComponent,
 
     // for tests
     AnAnchorableComponent
