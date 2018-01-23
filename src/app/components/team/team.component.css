@@ -78,3 +78,7 @@ td.delete{
     margin-top: 4vh;
     position: relative;
 }
+
+.wrap{
+    word-wrap: break-word;
+}

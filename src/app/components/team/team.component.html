@@ -186,12 +186,13 @@
                                             <ng-container *ngFor="let csvRec of csvRecords;let i=index">
                                                 <tr class="row pl-2 text-muted">
                                                     <ng-container *ngFor="let data of csvRec;let j=index">
-                                                        <td class="col-3" *ngIf="j<3">{{data}}</td>
-                                                        <td *ngIf="j===3">
-                                                            <i *ngIf="isImportFinished && csvRec[3] !== 'Imported'" class="fa fa-exclamation text-danger" aria-hidden="true" 
-                                                            placement="top" container="body" ngbTooltip="{{csvRec[3]}}"></i>
-                                                            <i *ngIf="isImportFinished && csvRec[3] === 'Imported'" class="fa fa-check text-success" aria-hidden="true"></i>
-                                                            <i *ngIf="isParsingFinished && !isImportFinished" class="fa fa-flag text-primary" aria-hidden="true"></i>
+
+                                                        <td class="wrap" [class.col-3]="j<2" [class.col-5]="j===2" *ngIf="j<3">{{data}}</td>
+                                                        <td class="col-1" *ngIf="j===3">
+                                                            <i *ngIf="csvRec[4]===true && csvRec[3] !== 'Imported'" class="fa fa-exclamation text-danger" aria-hidden="true" placement="top"
+                                                                container="body" ngbTooltip="{{csvRec[3]}}"></i>
+                                                            <i *ngIf="csvRec[4]===true && csvRec[3] === 'Imported'" class="fa fa-check text-success" aria-hidden="true"></i>
+                                                            <i *ngIf="csvRec[4]===false" class="text-muted fa fa-circle-o-notch fa-spin fa-fw"></i>
                                                         </td>
                                                     </ng-container>
 
@@ -200,12 +201,25 @@
                                         </tbody>
                                     </table>
 
-                                    <button *ngIf="csvRecords.length !==0" class="btn btn-success mb-2 pull-right" (click)="importUsers()">Import users</button>
+                                    <div class="row align-items-center mt-4" *ngIf="csvRecords.length !==0">
+                                        <div class="col">
+                                            <div>
+                                                <ngb-progressbar type="success" [value]="(importedSuccessfully) / totalRecordsToImport * 100" [striped]="true">Imported
+                                                    <b>{{importedSuccessfully}} of {{totalRecordsToImport}} </b> users
+                                                </ngb-progressbar>
+                                            </div>
+                                            <div>
+                                                <!-- <span *ngIf="isImportFinished" class="badge badge-success">Success : {{importedSuccessfully}}</span> -->
+                                                <span *ngIf="isImportFinished" class="badge badge-danger">Failed : {{importedFailed}}</span>
 
-                                    <span *ngIf="isImportFinished" class="text-success">Imported successfully : {{importedSuccessfully}}</span>
-                                    <span *ngIf="isImportFinished" class="text-warning">Imported failed : {{importedFailed}}</span>
+                                            </div>
+                                            <!-- <span *ngIf="isImportFinished" class="badge badge-default">Imported : {{importedFailed + importedSuccessfully}} / {{totalRecordsToImport}}</span> -->
+                                        </div>
+                                        <div class=" pull-right">
+                                            <button class="btn btn-success" (click)="importUsers()">Import {{totalRecordsToImport}} users</button>
 
-
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -58,6 +58,7 @@ export class TeamComponent implements OnInit {
     progress: number;
     importedSuccessfully: number;
     importedFailed: number;
+    totalRecordsToImport: number;
     isImportFinished: boolean;
     isParsingFinished: boolean;
     isFileInvalid: boolean;
@@ -400,7 +401,7 @@ export class TeamComponent implements OnInit {
             try {
                 this.csvRecords = this.fileService.getDataRecordsArrayFromCSVFile(csvRecordsArray,
                     headerLength, Constants.validateHeaderAndRecordLengthFlag, Constants.tokenDelimeter);
-                console.log(this.csvRecords)
+                this.totalRecordsToImport = this.csvRecords.length - 1; // remove header
                 if (this.csvRecords == null) {
                     // If control reached here it means csv file contains error, reset file.
                     this.fileReset();
@@ -425,6 +426,7 @@ export class TeamComponent implements OnInit {
         this.isFileInvalid = false;
         this.importedSuccessfully = 0;
         this.importedFailed = 0;
+        this.isImportFinished = false;
         this.fileImportInput.nativeElement.value = "";
         this.csvRecords = [];
     }
@@ -435,27 +437,33 @@ export class TeamComponent implements OnInit {
         this.isImportFinished = false;
         this.importedSuccessfully = 0;
         this.importedFailed = 0;
+
         _(this.csvRecords).drop(1).forEach((record, index, all) => {
             record[3] = "";
-            this.createUserFullDetails((<String>record[2]).trim(), (<String>record[0]).trim(), (<String>record[1]).trim()).then(result => {
-
-                this.importedSuccessfully += 1;
-                record[3] = "Imported";
-                console.log(record, result)
-            }, (error: any) => {
-                this.importedFailed += 1;
-                record[3] = error.message;
-                console.log(record, error)
-            });
+            record[4] = false; // has finished processed
+            // this.fakeCreate((<String>record[2]).trim(), (<String>record[0]).trim(), (<String>record[1]).trim())
+            //     .delay(1000)
+            //     .toPromise()
+            this.createUserFullDetails((<String>record[2]).trim(), (<String>record[0]).trim(), (<String>record[1]).trim())
+                .then(result => {
+                    this.importedSuccessfully += 1;
+                    record[3] = "Imported";
+                    record[4] = true;
+                }, (error: any) => {
+                    this.importedFailed += 1;
+                    record[3] = error.message;
+                    record[4] = true;
+                });
         });
         this.isImportFinished = true;
     }
 
     fakeCreate(firstname: string, lastname: string, email: string) {
-        if (Math.random() < 0.5)
-            return Promise.resolve(true)
-        else
-            return Promise.reject({ message: "Something bad happened" })
+        return Observable.if(
+            () => { return Math.random() < 0.9 },
+            Observable.of(true),
+            Observable.throw({ message: "Something bad happened" }));
+
     }
 
 }
