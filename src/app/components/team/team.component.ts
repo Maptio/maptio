@@ -59,6 +59,7 @@ export class TeamComponent implements OnInit {
     importedSuccessfully: number;
     importedFailed: number;
     isImportFinished: boolean;
+    isParsingFinished: boolean;
     isFileInvalid: boolean;
 
     private EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -252,7 +253,6 @@ export class TeamComponent implements OnInit {
 
             return this.userService.createUser(email, firstname, lastname)
                 .then((user: User) => {
-                    console.log("her with", user)
                     return this.datasetFactory.get(team).then((datasets: DataSet[]) => {
                         let virtualUser = new User();
                         virtualUser.name = user.name;
@@ -263,7 +263,7 @@ export class TeamComponent implements OnInit {
                         virtualUser.user_id = user.user_id;
                         virtualUser.picture = user.picture;
                         virtualUser.teams = [this.teamId];
-                        virtualUser.datasets = datasets.map(d => d._id);
+                        virtualUser.datasets = datasets.map(d => d.datasetId);
                         this.createdUser = virtualUser;
 
                         return virtualUser;
@@ -365,7 +365,10 @@ export class TeamComponent implements OnInit {
 
 
     fileChangeListener($event: any): void {
+        this.isParsingFinished = false;
         this.isFileInvalid = false;
+        this.importedSuccessfully = 0;
+        this.importedFailed = 0;
         this.csvRecords = [];
         let text = [];
         let files = $event.srcElement.files;
@@ -401,11 +404,12 @@ export class TeamComponent implements OnInit {
                     // If control reached here it means csv file contains error, reset file.
                     this.fileReset();
                 }
+
             }
             catch (error) {
                 this.isFileInvalid = true;
             }
-
+            this.isParsingFinished = true;
         }
 
         reader.onerror = function () {
@@ -416,6 +420,8 @@ export class TeamComponent implements OnInit {
 
     fileReset() {
         this.isFileInvalid = false;
+        this.importedSuccessfully = 0;
+        this.importedFailed = 0;
         this.fileImportInput.nativeElement.value = "";
         this.csvRecords = [];
     }
@@ -428,22 +434,25 @@ export class TeamComponent implements OnInit {
         this.importedFailed = 0;
         _(this.csvRecords).drop(1).forEach((record, index, all) => {
             record[3] = "";
-            record[4] = false; // processed
             this.createUserFullDetails((<String>record[2]).trim(), (<String>record[0]).trim(), (<String>record[1]).trim()).then(result => {
+
                 this.importedSuccessfully += 1;
                 record[3] = "Imported";
-                record[4] = true;
+                console.log(record, result)
             }, (error: any) => {
                 this.importedFailed += 1;
                 record[3] = error.message;
-                record[4] = true;
+                console.log(record, error)
             });
         });
         this.isImportFinished = true;
     }
 
     fakeCreate(firstname: string, lastname: string, email: string) {
-        return Promise.resolve(Math.random() < 0.5 ? true : "Error message");
+        if (Math.random() < 0.5)
+            return Promise.resolve(true)
+        else
+            return Promise.reject({message: "Something bad happened"})
     }
 
 }

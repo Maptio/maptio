@@ -26,7 +26,7 @@
                         <span *ngIf="member.isActivationPending && !member.isInvitationSent" class="remove text-danger" aria-hidden="true" mwlConfirmationPopover
                             title="This cannot be undone ! Are you sure you want to delete {{member.name}} ? They haven't receive an email yet so they won't know ( ... and we won't tell ) "
                             placement="right" focusButton="cancel" appendToBody="true" (confirm)="deleteMember(member)" (cancel)="cancelClicked = true">
-                    </span>
+                        </span>
                     </td>
                     <td class="col-1">
                         <img class="rounded-circle member " src="{{member.picture}}" alt="{{member.name}}">
@@ -174,27 +174,40 @@
                                 </div>
                                 <small class="text-muted">Maximum size : 2Mb.</small>
                                 <div class="mt-2 mb-2 d-flex justify-content-between">
-                                        <input type="file" #fileImportInput name="File Upload" id="txtFileUpload" class="col-7 btn btn-secondary btn-outline-success p-1"
+                                    <input type="file" #fileImportInput name="File Upload" id="txtFileUpload" class="col-7 btn btn-secondary btn-outline-success p-1"
                                         (change)="fileChangeListener($event)" accept=".csv" />
-                                    <button class="btn btn-secondary text-muted" (click)="fileReset()" >Reset</button>
+                                    <button class="btn btn-secondary text-muted" (click)="fileReset()">Reset</button>
                                 </div>
                                 <span *ngIf="isFileInvalid" class="text-danger">Invalid file</span>
-                              
+
 
                                 <div *ngIf="!isFileInvalid">
                                     <table class="table table-hover tableSection right">
                                         <tbody>
                                             <ng-container *ngFor="let csvRec of csvRecords;let i=index">
-                                                <tr *ngIf="!csvRec[4] || csvRec[4]===false" class="row pl-2 text-muted">
+                                                <tr class="row pl-2 text-muted">
                                                     <ng-container *ngFor="let data of csvRec;let j=index">
-                                                        <td class="col" [class.small]="j===3" [class.hidden-xs-up]="j===4">{{data}}</td>
+                                                        <td class="col" *ngIf="j<3">{{data}}</td>
+                                                        <td *ngIf="j===3">
+                                                            <i *ngIf="isImportFinished && csvRec[3] !== 'Imported'" class="fa fa-exclamation text-danger" aria-hidden="true" 
+                                                            placement="top" container="body" ngbTooltip="{{csvRec[3]}}"></i>
+                                                            <i *ngIf="isImportFinished && csvRec[3] === 'Imported'" class="fa fa-check text-success" aria-hidden="true"></i>
+                                                            <i *ngIf="isParsingFinished && !isImportFinished" class="fa fa-flag text-primary" aria-hidden="true"></i>
+                                                        </td>
                                                     </ng-container>
+
                                                 </tr>
+                                                <!-- <tr>
+                                                        
+                                                </tr>
+
                                                 <tr *ngIf="csvRec[4]===true" class="row pl-2" [class.text-success]="csvRec[3] === 'Imported'" [class.text-warning]="csvRec[3] !== 'Imported'">
                                                     <ng-container *ngFor="let data of csvRec;let j=index">
                                                         <td class="col" [class.small]="j===3" [class.hidden-xs-up]="j===4">{{data}}</td>
                                                     </ng-container>
-                                                </tr>
+                                                    <i class="fa fa-flag text-danger" aria-hidden="true"></i>
+                                                    <i class="fa fa-check text-success" aria-hidden="true"></i>
+                                                </tr> -->
                                             </ng-container>
                                         </tbody>
                                     </table>
@@ -203,7 +216,7 @@
 
                                     <span *ngIf="isImportFinished" class="text-success">Imported successfully : {{importedSuccessfully}}</span>
                                     <span *ngIf="isImportFinished" class="text-warning">Imported failed : {{importedFailed}}</span>
-                                     
+
 
                                 </div>
                             </div>
