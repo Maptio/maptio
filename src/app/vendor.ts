@@ -12,7 +12,7 @@ import "angular2-jwt";
 import "lodash";
 import "bootstrap";
 import "@ng-bootstrap/ng-bootstrap";
-import "@cloudinary/angular-4.x";
+import "@cloudinary/angular-5.x";
 import "cloudinary-core";
 import "auth0-js";
 import "ng2-responsive";

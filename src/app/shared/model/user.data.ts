@@ -140,3 +140,13 @@ export class User implements Serializable<User> {
         return slug(this.name || "", { lower: true })
     }
 }
+
+export class SelectableUser extends User {
+
+    public isSelected: boolean;
+
+    public constructor(init?: Partial<SelectableUser>) {
+        super()
+        Object.assign(this, init);
+    }
+}

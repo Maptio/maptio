@@ -1,15 +1,17 @@
 import { Role } from "./../../shared/model/role.data";
 import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { UserFactory } from "./../../shared/services/user.factory";
-import { Observable } from "rxjs/Rx";
+import { Observable, Subject } from "rxjs/Rx";
 import { TeamFactory } from "./../../shared/services/team.factory";
-import { Component, Input, ViewChild, OnChanges, SimpleChanges, EventEmitter, Output, ElementRef } from "@angular/core";
+import { Component, Input, ViewChild, OnChanges, SimpleChanges, EventEmitter, Output, ElementRef, Renderer } from "@angular/core";
 import { Initiative } from "../../shared/model/initiative.data"
 import { Team } from "../../shared/model/team.data"
 import "rxjs/add/operator/map";
+import "rxjs/add/operator/merge";
+import "rxjs/add/operator/filter";
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/distinctUntilChanged";
-import { NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-bootstrap";
+import { NgbTypeaheadSelectItemEvent, NgbTypeahead } from "@ng-bootstrap/ng-bootstrap";
 import { User } from "../../shared/model/user.data";
 import { _catch } from "rxjs/operator/catch";
 import { _do } from "rxjs/operator/do";
@@ -21,6 +23,7 @@ import { DataSet } from "../../shared/model/dataset.data";
 import { compact, sortBy } from "lodash";
 import { Helper } from "../../shared/model/helper.data";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2/dist";
+import { Tag } from "../../shared/model/tag.data";
 
 @Component({
     selector: "initiative",
@@ -35,6 +38,7 @@ export class InitiativeComponent implements OnChanges {
 
     @Input() node: Initiative;
     @Input() parent: Initiative;
+    @Input() datasetTags: Array<Tag>;
     // @Input() isReadOnly: boolean;
     @Input() datasetId: string;
 
@@ -58,6 +62,11 @@ export class InitiativeComponent implements OnChanges {
     @ViewChild("inputRole") public inputRoleElement: ElementRef;
     @ViewChild("inputAuthorityRole") public inputAuthorityRole: ElementRef;
 
+
+    @ViewChild("inputTag") instance: NgbTypeahead;
+    focus$ = new Subject<string>();
+    click$ = new Subject<string>();
+
     constructor(private teamFactory: TeamFactory, private userFactory: UserFactory,
         private datasetFactory: DatasetFactory, private analytics: Angulartics2Mixpanel) {
     }
@@ -69,8 +78,9 @@ export class InitiativeComponent implements OnChanges {
 
                 this.team$ = this.teamFactory.get(<string>changes.node.currentValue.team_id)
                     .then(t => { this.teamName = t.name; this.teamId = t.team_id; return t },
-                    () => { return Promise.reject("No team available") }).catch(() => { }
-                    )
+                    () => { return Promise.reject("No team available") })
+                    // .catch(() => { })
+
 
                 this.members$ = this.team$
                     .then((team: Team) => {
@@ -78,7 +88,7 @@ export class InitiativeComponent implements OnChanges {
                             .then(members => compact(members))
                             .then(members => sortBy(members, m => m.name))
                     })
-                    .catch(() => { })
+                    // .catch(() => { })
             }
 
         }
@@ -144,6 +154,14 @@ export class InitiativeComponent implements OnChanges {
         this.analytics.eventTrack("Initiative", { action: "add helper", team: this.teamName, teamId: this.teamId });
     }
 
+    saveTag(newTag: NgbTypeaheadSelectItemEvent) {
+        if (this.node.tags.findIndex(t => t.shortid === newTag.item.shortid) < 0) {
+            this.node.tags.unshift(new Tag(newTag.item));
+        }
+        this.onBlur();
+        this.analytics.eventTrack("Initiative", { action: "add tag", team: this.teamName, teamId: this.teamId });
+    }
+
     removeHelper(helper: Helper) {
         let index = this.node.helpers.findIndex(user => user.user_id === helper.user_id);
         this.node.helpers.splice(index, 1);
@@ -160,10 +178,25 @@ export class InitiativeComponent implements OnChanges {
 
     }
 
+    filterTags(term: string): Observable<Tag[]> {
+        // console.log("filter tags", term, term.length)
+        return term === "" || term.length < 1
+            ? Observable.of(this.datasetTags)
+            : Observable.of(this.datasetTags.filter(v => new RegExp(term, "gi").test(v.name)).splice(0, 10))
+
+    }
+
     removeAuthority() {
         this.node.accountable = undefined;
         this.onBlur();
         this.analytics.eventTrack("Initiative", { action: "remove authority", team: this.teamName, teamId: this.teamId });
+    }
+
+    removeTag(tag: Tag) {
+        let index = this.node.tags.findIndex(t => t.shortid === tag.shortid);
+        this.node.tags.splice(index, 1);
+        this.onBlur();
+        this.analytics.eventTrack("Initiative", { action: "remove tag", team: this.teamName, teamId: this.teamId });
     }
 
     searchTeamMember = (text$: Observable<string>) =>
@@ -187,7 +220,17 @@ export class InitiativeComponent implements OnChanges {
             () => this.searching = false);
 
 
+    searchTag = (text$: Observable<string>) =>
+        text$
+            .debounceTime(200).distinctUntilChanged()
+            .merge(this.focus$)
+            .merge(this.click$.filter(() => !this.instance.isPopupOpen()))
+            .map(term => (term === "" ? this.datasetTags : this.datasetTags.filter(v => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10));
+
+
+
     formatter = (result: User) => { return result.name };
+    tagFormatter = (result: Tag) => { return result.name };
 }
 
 

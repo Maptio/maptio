@@ -265,6 +265,7 @@ export class TeamComponent implements OnInit {
                         virtualUser.teams = [this.teamId];
                         virtualUser.datasets = datasets.map(d => d._id);
                         this.createdUser = virtualUser;
+
                         return virtualUser;
                     }, (reason) => {
                         return Promise.reject(`Can't create ${email} : ${reason}`);

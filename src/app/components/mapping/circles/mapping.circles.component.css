@@ -22,7 +22,7 @@
   text-anchor: start;
   /*text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;*/
   /*color:white;*/
-  opacity: 0.7;
+  opacity: 0.9;
   transition: opacity 200ms;
   /* pointer-events: auto; */
   cursor: pointer;
@@ -90,6 +90,8 @@
   stroke: black !important;
   stroke-width: 3;
 }
+
+
 
 .add:before {
   content: "\f067";
@@ -170,3 +172,4 @@ dede{
   color: rgb(80, 162, 193);
   color: rgb(40, 127, 184);
 }
+

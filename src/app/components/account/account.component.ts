@@ -6,7 +6,7 @@ import { Subscription } from "rxjs/Rx";
 import { User } from "./../../shared/model/user.data";
 import { Component } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { Cloudinary } from "@cloudinary/angular-4.x";
+import { Cloudinary } from "@cloudinary/angular-5.x";
 import { FileUploaderOptions, FileUploader, ParsedResponseHeaders, FileLikeObject } from "ng2-file-upload";
 import { UserFactory } from "../../shared/services/user.factory";
 

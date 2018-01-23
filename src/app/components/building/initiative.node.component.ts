@@ -20,6 +20,7 @@ export class InitiativeNodeComponent {
     @Input() datasetId: string;
     @Input("teamName") teamName: string;
     @Input("teamId") teamId: string;
+    // nodesList: Array<any>
 
     @Output("edited") edited = new EventEmitter<boolean>();
     @Output("update") updateTreeEvent = new EventEmitter<TreeModel>();
@@ -30,15 +31,24 @@ export class InitiativeNodeComponent {
     editInitiative: InitiativeComponent;
 
     private snapshotRoute: ActivatedRouteSnapshot
+    isMovingToggled: boolean;
 
     constructor(private route: ActivatedRoute
     ) {
         this.snapshotRoute = route.snapshot;
     }
 
+    // ngOnInit() {
+    //     this.nodesList = this.getNodesList();
+    // }
+
 
     isRoot(): boolean {
         return this.node.isRoot;
+    }
+
+    isFirstLevel() {
+        return this.node.parent.isRoot;
     }
 
     hasChildren(): boolean {
@@ -86,6 +96,41 @@ export class InitiativeNodeComponent {
     openNode(node: Initiative) {
         this.open.emit(node);
     }
+
+    // moveUp(node: TreeNode) {
+    //     let parent = node.parent;
+    //     let previous = node.findPreviousSibling();
+    //     node.treeModel.moveNode(node, { parent: parent, index: previous.index });
+    //     this.updateTreeEvent.emit(this.node.treeModel);
+    // }
+
+    // moveDown(node: TreeNode) {
+    //     let parent = node.parent;
+    //     let next = node.findNextSibling();
+    //     node.treeModel.moveNode(node, { parent: parent, index: next.index + 1 });
+    //     this.updateTreeEvent.emit(this.node.treeModel);
+    // }
+
+    // moveLeft(node: TreeNode) {
+    //     let parent = node.parent.parent;
+    //     // let previous = node.findPreviousSibling();
+    //     node.treeModel.moveNode(node, { parent: parent });
+    //     this.updateTreeEvent.emit(this.node.treeModel);
+    // }
+
+    // changeParent(parentId: string) {
+    //     let parent = this.node.treeModel.getNodeById(parentId);
+    //     this.node.treeModel.moveNode(this.node, { parent: parent });
+    //     this.updateTreeEvent.emit(this.node.treeModel);
+    // }
+
+    // getNodesList() {
+    //     let list: any[] = [];
+    //     this.node.treeModel.doForAll((node: TreeNode) => {
+    //         list.push({ id: node.id, name: `${Array(node.level).join("\xA0\xA0\xA0")}${node.data.name}` })
+    //     })
+    //     return list;
+    // }
 
 }
 

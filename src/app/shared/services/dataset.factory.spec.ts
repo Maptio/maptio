@@ -116,9 +116,9 @@ describe("dataset.factory.ts", () => {
 
                 target.get(team).then((datasets => {
                     expect(datasets.length).toBe(3);
-                    expect(datasets[0]._id).toBe("1");
-                    expect(datasets[1]._id).toBe("2");
-                    expect(datasets[2]._id).toBe("3");
+                    expect(datasets[0].datasetId).toBe("1");
+                    expect(datasets[1].datasetId).toBe("2");
+                    expect(datasets[2].datasetId).toBe("3");
                 }))
             })))
 
@@ -166,7 +166,7 @@ describe("dataset.factory.ts", () => {
 
                 target.get("uniqueId").then(dataset => {
                     expect(dataset).toBeDefined();
-                    expect(dataset._id).toBe("uniqueId");
+                    expect(dataset.datasetId).toBe("uniqueId");
 
                 });
             })));
@@ -203,7 +203,7 @@ describe("dataset.factory.ts", () => {
         })));
 
         it("should call REST API with post", fakeAsync(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
-            let dataset = new DataSet({ _id: "some_unique_id", initiative: new Initiative({ name: "Project" }) });
+            let dataset = new DataSet({ datasetId: "some_unique_id", initiative: new Initiative({ name: "Project" }) });
             const mockResponse = {
                 _id: "some_unique_id",
                 name: "Project"
@@ -223,7 +223,7 @@ describe("dataset.factory.ts", () => {
 
             target.create(dataset).then((dataset: DataSet) => {
                 expect(dataset).toBeDefined();
-                expect(dataset._id).toBe("some_unique_id");
+                expect(dataset.datasetId).toBe("some_unique_id");
                 expect(dataset.initiative.name).toBe("Project");
             });
         })));
@@ -256,7 +256,7 @@ describe("dataset.factory.ts", () => {
                     throw new Error("URL " + connection.request.url + " is not configured");
                 }
             });
-            let dataset = new DataSet({ _id: "did" });
+            let dataset = new DataSet({ datasetId: "did" });
             let user = new User({ user_id: "uid" })
             target.add(dataset, user).then((result: boolean) => {
                 expect(result).toBe(true);
@@ -306,7 +306,7 @@ describe("dataset.factory.ts", () => {
         })));
 
         it("should call REST API with put when id is empty", fakeAsync(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
-            let dataset = new DataSet({ _id: "some_unique_id", initiative: new Initiative({ name: "Project" }) });
+            let dataset = new DataSet({ datasetId: "some_unique_id", initiative: new Initiative({ name: "Project" }) });
 
             const mockResponse = {
                 _id: "some_unique_id",
@@ -315,7 +315,7 @@ describe("dataset.factory.ts", () => {
 
             mockBackend.connections.subscribe((connection: MockConnection) => {
                 if (connection.request.method === RequestMethod.Put && connection.request.url === "/api/v1/dataset/some_unique_id") {
-                    expect(<Initiative>connection.request.json()).toBe(dataset.initiative);
+                    expect(<DataSet>connection.request.json()).toBe(dataset);
                     connection.mockRespond(new Response(new ResponseOptions({
                         body: JSON.stringify(mockResponse)
                     })));
@@ -331,7 +331,7 @@ describe("dataset.factory.ts", () => {
         })));
 
         it("should call REST API with put when id is not empty", fakeAsync(inject([DatasetFactory, MockBackend], (target: DatasetFactory, mockBackend: MockBackend) => {
-            let dataset = new DataSet({ _id: "some_unique_id", initiative: new Initiative({ name: "Project" }) });
+            let dataset = new DataSet({ datasetId: "some_unique_id", initiative: new Initiative({ name: "Project" }) });
 
             const mockResponse = {
                 _id: "some_unique_id",
@@ -340,7 +340,7 @@ describe("dataset.factory.ts", () => {
 
             mockBackend.connections.subscribe((connection: MockConnection) => {
                 if (connection.request.method === RequestMethod.Put && connection.request.url === "/api/v1/dataset/some_unique_id") {
-                    expect(connection.request.json()).toBe(dataset.initiative);
+                    expect(connection.request.json()).toBe(dataset);
                     connection.mockRespond(new Response(new ResponseOptions({
                         body: JSON.stringify(mockResponse)
                     })));

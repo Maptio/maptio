@@ -63,6 +63,36 @@ display: flex;
     font-family: FontAwesome;
 }
 
+.move-up:before{
+    content: "\f176";
+    font-family: FontAwesome;
+    
+}
+
+.move-down:before{
+    content: "\f175";
+    font-family: FontAwesome;
+   
+}
+
+.move-left:before{
+    content: "\f148";
+    font-family: FontAwesome;
+    
+}
+
+.move-right:before{
+    content: "\f149";
+    font-family: FontAwesome;
+    
+}
+
+.open-menu:before{
+    content: "\f141";
+    font-family: FontAwesome;
+    
+}
+
 .zoom:before {
     content: "\f002";
     font-family: FontAwesome;
@@ -86,4 +116,9 @@ display: flex;
 
 .form-group{
     padding-left:5px;
+}
+
+.dropdown-menu.overflow{
+    max-height: 20vh;
+    overflow-y: auto;
 }

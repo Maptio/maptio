@@ -9,7 +9,9 @@ import { IDataVisualizer } from "../mapping.interface"
 import { Observable, Subject } from "rxjs/Rx";
 import { Initiative } from "../../../shared/model/initiative.data";
 import { Angulartics2Mixpanel } from "angulartics2";
-import { DataService } from "../../../shared/services/data.service";
+import { DataService, URIService } from "../../../shared/services/data.service";
+import { Tag, SelectableTag } from "../../../shared/model/tag.data";
+import * as _ from "lodash";
 
 @Component({
     selector: "tree",
@@ -31,9 +33,11 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     public translateX: number;
     public translateY: number;
     public scale: number;
+    public tagsState: Array<SelectableTag>;
 
     public zoom$: Observable<number>
-    public fontSize$: Observable<number>
+    public selectableTags$: Observable<Array<SelectableTag>>;
+    public fontSize$: Observable<number>;
     public isLocked$: Observable<boolean>;
     public isReset$: Observable<boolean>
     public data$: Subject<{ initiative: Initiative, datasetId: string, teamName: string, teamId: string }>;
@@ -42,6 +46,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     private dataSubscription: Subscription;
     private resetSubscription: Subscription;
     private fontSubscription: Subscription;
+    private tagsSubscription: Subscription;
 
     public analytics: Angulartics2Mixpanel;
 
@@ -63,7 +68,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
     constructor(public d3Service: D3Service, public colorService: ColorService,
         public uiService: UIService, public router: Router, private userFactory: UserFactory,
-        private cd: ChangeDetectorRef, private dataService: DataService) {
+        private cd: ChangeDetectorRef, private dataService: DataService, private uriService: URIService) {
         // console.log("tree constructor")
         this.d3 = d3Service.getD3();
         this.data$ = new Subject<{ initiative: Initiative, datasetId: string, teamName: string, teamId: string }>();
@@ -71,7 +76,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     }
 
     init() {
-        // console.log("tree init")
         this.uiService.clean();
         let d3 = this.d3;
         let viewerWidth = this.width;
@@ -84,8 +88,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         d3.tree().size([viewerWidth / 2, viewerHeight]);
 
         function zoomed() {
-            // let transform = d3.event.transform;
-            // location.hash = `x=${transform.x}&y=${transform.y}&scale=${transform.k}`
             g.attr("transform", d3.event.transform);
         }
 
@@ -93,7 +95,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             .on("zoom", zoomed)
             .on("end", () => {
                 let transform = d3.event.transform;
-                location.hash = `x=${transform.x}&y=${transform.y}&scale=${transform.k}`;
+                let tagFragment = this.tagsState.filter(t => t.isSelected).map(t => t.shortid).join(",")
+                location.hash = this.uriService.buildFragment(new Map([["x", transform.x], ["y", transform.y], ["scale", transform.k], ["tags", tagFragment]]))
+
             });
 
         let svg: any = d3.select("svg").attr("width", viewerWidth)
@@ -103,6 +107,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         let g = svg.append("g")
             .attr("transform", `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`);
         let definitions = g.append("defs")
+
         this.fontSubscription = this.fontSize$.subscribe((fs: number) => {
             svg.attr("font-size", fs + "px");
             d3.selectAll("text").attr("font-size", fs + "px")
@@ -135,7 +140,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             catch (error) {
 
             }
-        })
+        });
 
 
         this.svg = svg;
@@ -146,16 +151,18 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     ngOnInit() {
         this.isLoading = true;
         this.init();
-        this.dataSubscription = this.dataService.get().subscribe(complexData => {
-            // console.log("tree assign data")
-            let data = <any>complexData.initiative;
-            this.datasetId = complexData.datasetId;
-            this.slug = data.getSlug();
-            this.update(data);
-            this.analytics.eventTrack("Map", { view: "people", team: data.teamName, teamId: data.teamId });
-            this.isLoading = false;
-            this.cd.markForCheck();
-        })
+        this.dataSubscription = this.dataService.get()
+            .combineLatest(this.selectableTags$)
+            .subscribe(complexData => {
+                let data = <any>complexData[0].initiative;
+                this.datasetId = complexData[0].datasetId;
+                this.slug = data.getSlug();
+                this.tagsState = complexData[1];
+                this.update(data, complexData[1]);
+                this.analytics.eventTrack("Map", { view: "people", team: data.teamName, teamId: data.teamId });
+                this.isLoading = false;
+                this.cd.markForCheck();
+            })
     }
 
     ngOnDestroy() {
@@ -168,6 +175,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         if (this.resetSubscription) {
             this.resetSubscription.unsubscribe();
         }
+        if (this.tagsSubscription) {
+            this.tagsSubscription.unsubscribe();
+        }
     }
 
     hoverInitiative(node: Initiative) {
@@ -176,8 +186,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     }
 
     // draw(translateX: number, translateY: number, scale: number) {
-    update(data: any) {
-        // console.log(this.g)
+    update(data: any, tags: Array<SelectableTag>) {
+
         if (!this.g) {
             this.init();
         }
@@ -250,7 +260,18 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             // Update the nodes...
             // console.log(g)
             let node = g.selectAll("g.node")
-                .data(nodes, function (d: any) { return d.id || (d.id = ++i); });
+                .data(nodes, function (d: any) { return d.id || (d.id = ++i); })
+                ;
+            let [selectedTags, unselectedTags] = _.partition(tags, t => t.isSelected)
+
+            g.selectAll("g.node").style("opacity", function (d: any) {
+                return uiService.filter(selectedTags, unselectedTags, d.data.tags.map((t: Tag) => t.shortid))
+                    // &&
+                    // uiService.filter(selectedUsers, unselectedUsers, _.compact(_.flatten([...[d.data.accountable], d.data.helpers])).map(u => u.shortid))
+                    ? 1
+                    : 0.1
+            })
+
 
             // let definitions = g.append("defs")
             // definitions.selectAll("pattern")
@@ -285,6 +306,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             // Enter any new modes at the parent's previous position.
             let nodeEnter = node.enter().append("g")
                 .attr("class", "node")
+                .attr("tags-id", function (d: any) { return d.data.tags.map((t: Tag) => t.shortid).join(",") })
                 .attr("transform", function (d: any) {
                     return "translate(" + source.y0 + "," + source.x0 + ")";
                 })
@@ -319,14 +341,19 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 .text(function (d: any) { return d.data.name; })
                 .each(function (d: any) {
                     let realText = d.data.name ? (d.data.name.length > MAX_TEXT_LENGTH ? `${d.data.name.substr(0, MAX_TEXT_LENGTH)}...` : d.data.name) : "(Empty)";
-                    uiService.wrap(d3.select(this), realText, d.y / d.depth * 0.85);
+                    uiService.wrap(d3.select(this), realText, d.data.tags, d.y / d.depth * 0.85, 0.65);
                 });
 
             nodeEnter.append("text")
                 .attr("class", "accountable")
                 .attr("dy", "5")
                 .attr("x", CIRCLE_RADIUS + 4)
-                .text(function (d: any) { return d.data.accountable ? d.data.accountable.name : ""; })
+                .html(function (d: any) {
+                    // let tagsSpan = d.data.tags.map((tag: Tag) => `<tspan class="dot-tags" fill=${tag.color}>&#xf02b</tspan>`).join("");
+                    return `
+                            <tspan>${d.data.accountable ? d.data.accountable.name : ""}</tspan>`
+                })
+                // .text(function (d: any) { return d.data.accountable ? d.data.accountable.name : ""; })
                 .on("click", function (d: any) {
                     if (d.data.accountable) {
                         // TODO : keep until migration of database towards shortids
@@ -366,12 +393,16 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 .text(function (d: any) { return d.data.name; })
                 .each(function (d: any) {
                     let realText = d.data.name ? (d.data.name.length > MAX_TEXT_LENGTH ? `${d.data.name.substr(0, MAX_TEXT_LENGTH)}...` : d.data.name) : "(Empty)";
-                    uiService.wrap(d3.select(this), realText, d.y / d.depth * 0.85);
-                    // uiService.wrap(d3.select(this), d.data.name.substr(0, 35), d.y / d.depth * 0.85);
+                    uiService.wrap(d3.select(this), realText, d.data.tags, d.y / d.depth * 0.85, 0.65);
                 });
             nodeUpdate.select("text.accountable")
-                .text(function (d: any) { return d.data.accountable ? d.data.accountable.name : ""; })
+                .html(function (d: any) {
 
+                    // let tagsSpan = d.data.tags.map((tag: Tag) => `<tspan class="dot-tags" fill=${tag.color}>&#xf02b</tspan>`).join("");
+
+                    return `
+                        <tspan>${d.data.accountable ? d.data.accountable.name : ""}</tspan>`
+                });
 
             // Remove any exiting nodes
             let nodeExit = node.exit().transition()
@@ -399,7 +430,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                         .style("top", () => { return d3.event.pageY > viewerWidth / 2 * 0.80 ? "" : (d3.event.pageY - 30) + "px" })
                         .style("bottom", () => { return d3.event.pageY > viewerWidth / 2 * 0.80 ? `${this.getBBox().height}px` : "" })
 
-                        .style("left", () => { return d3.event.pageX > viewerHeight * 0.70 ? "auto" : (d3.event.pageX - 8) + "px" })
+                        .style("left", () => { return d3.event.pageX > viewerHeight * 0.70 ? "auto" : (d3.event.pageX - 0) + "px" })
                         .style("right", () => { return d3.event.pageX > viewerHeight * 0.70 ? "0" : "" })
 
                         .on("mouseenter", function () {
@@ -415,7 +446,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                         .style("top", () => { return d3.event.pageY > viewerWidth / 2 * 0.80 ? "" : (d3.event.pageY - 30) + "px" })
                         .style("bottom", () => { return d3.event.pageY > viewerWidth / 2 * 0.80 ? `${this.getBBox().height}px` : "" })
 
-                        .style("left", () => { return d3.event.pageX > viewerHeight * 0.70 ? "auto" : (d3.event.pageX - 8) + "px" })
+                        .style("left", () => { return d3.event.pageX > viewerHeight * 0.70 ? "auto" : (d3.event.pageX - 0) + "px" })
                         .style("right", () => { return d3.event.pageX > viewerHeight * 0.70 ? "0" : "" })
                         .on("mouseenter", function () {
                             d3.select(this).style("visibility", "visible")

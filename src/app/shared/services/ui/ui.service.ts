@@ -2,6 +2,8 @@ import { Injectable } from "@angular/core"
 import { D3Service, D3, Selection, BaseType } from "d3-ng2-service"
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
+import { Tag } from "../../model/tag.data";
+import * as _ from "lodash";
 
 @Injectable()
 export class UIService {
@@ -29,8 +31,9 @@ export class UIService {
         this.d3.select("svg").selectAll("*").remove();
     }
 
-    wrap(text: Selection<BaseType, {}, HTMLElement, any>, actualText: string, width: number) {
+    wrap(text: Selection<BaseType, {}, HTMLElement, any>, actualText: string, tags: Tag[], width: number, tagLineHeightRatio?: number) {
         let d3 = this.d3;
+
         text
             .each(function () {
                 let text = d3.select(this),
@@ -55,7 +58,30 @@ export class UIService {
                         tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
                     }
                 }
+
+                tags.forEach((tag: Tag, index: number) => {
+                    text.append("tspan")
+                        .attr("x", x)
+                        .attr("y", y)
+                        .attr("dy", (lineNumber + 1) * (lineHeight * (tagLineHeightRatio || 1)) + dy + "em")
+                        .attr("dx", index * 20)
+                        .attr("class", "dot-tags")
+                        .attr("fill", tag.color)
+                        .html("&#xf02b");
+                })
+
+
             });
+    }
+
+    filter(selectedTags: any[], unselectedTags: any[], selection: any[]): boolean {
+        return _.isEmpty(selectedTags) // all tags are unselected by default
+            ? true
+            : _.isEmpty(selection) // the circle doesnt have any tags
+                ? false
+                : _.intersection(selectedTags.map(t => t.shortid), selection).length === 0
+                    ? false
+                    : true;
     }
 
     /*

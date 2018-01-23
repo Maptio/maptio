@@ -23,10 +23,10 @@
 
                 <tr class="row" *ngFor="let member of (members$ | async); trackBy: trackByMemberId;let i=index" [class.deleted]="member.isDeleted">
                     <td class=" delete">
-                        <i *ngIf="member.isActivationPending && !member.isInvitationSent" class="fa fa-trash-o text-danger" aria-hidden="true" mwlConfirmationPopover
+                        <span *ngIf="member.isActivationPending && !member.isInvitationSent" class="remove text-danger" aria-hidden="true" mwlConfirmationPopover
                             title="This cannot be undone ! Are you sure you want to delete {{member.name}} ? They haven't receive an email yet so they won't know ( ... and we won't tell ) "
                             placement="right" focusButton="cancel" appendToBody="true" (confirm)="deleteMember(member)" (cancel)="cancelClicked = true">
-                        </i>
+                    </span>
                     </td>
                     <td class="col-1">
                         <img class="rounded-circle member " src="{{member.picture}}" alt="{{member.name}}">

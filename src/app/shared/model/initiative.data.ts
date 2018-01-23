@@ -5,6 +5,7 @@ import * as slug from "slug";
 import { Helper } from "./helper.data";
 import { Role } from "./role.data";
 import { compact } from "lodash";
+import { Tag } from "./tag.data";
 
 @Injectable()
 export class Initiative implements ITraversable, Serializable<Initiative> {
@@ -37,6 +38,11 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
      * REFACTOR : this should be a Set<Helper>
      */
     helpers: Array<Helper> = [];
+
+    /**
+     * List of tags
+     */
+    tags: Array<Tag> = [];
 
     /**
      * Team
@@ -112,8 +118,19 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
             helpers = []
         }
 
+        let tags = new Array<Tag>();
+        if (input.tags && input.tags instanceof Array) {
+            input.tags.forEach(function (inputTag: any) {
+                tags.push(new Tag().deserialize(inputTag))
+            });
+        }
+        else {
+            tags = []
+        }
+
         this.children = children;
         this.helpers = helpers;
+        this.tags = tags;
         return this;
     }
 

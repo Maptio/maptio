@@ -59,9 +59,9 @@ describe("dashboard.resolver.ts", () => {
         spyOn(auth, "getUser").and.returnValue(Observable.of(new User({ user_id: "some_new_id", datasets: ["1", "2", "3"] })))
         spyOn(datasetFactory, "get").and.callFake((id: string) => {
             return Promise.resolve([
-                new DataSet({ _id: "1", initiative: new Initiative({ name: `Name 1`, team_id: `team_1` }) }),
-                new DataSet({ _id: "2", initiative: new Initiative({ name: `Name 2`, team_id: `team_2` }) }),
-                new DataSet({ _id: "3", initiative: new Initiative({ name: `Name 3`, team_id: `team_3` }) })
+                new DataSet({ datasetId: "1", initiative: new Initiative({ name: `Name 1`, team_id: `team_1` }) }),
+                new DataSet({ datasetId: "2", initiative: new Initiative({ name: `Name 2`, team_id: `team_2` }) }),
+                new DataSet({ datasetId: "3", initiative: new Initiative({ name: `Name 3`, team_id: `team_3` }) })
             ]
             )
         })
@@ -72,7 +72,7 @@ describe("dashboard.resolver.ts", () => {
             expect(ds).toBeDefined();
             expect(ds.length).toBe(3);
             ds.forEach((d, index) => {
-                expect(d._id).toBe(`${index + 1}`);
+                expect(d.datasetId).toBe(`${index + 1}`);
                 expect(d.initiative.name).toBe(`Name ${index + 1}`);
                 expect(d.team.name).toBe(`Team team_${index + 1}`);
             })
@@ -83,8 +83,8 @@ describe("dashboard.resolver.ts", () => {
         spyOn(auth, "getUser").and.returnValue(Observable.of(new User({ user_id: "some_new_id", datasets: ["1", "2", "3"] })))
         spyOn(datasetFactory, "get").and.callFake((id: string) => {
             return Promise.resolve([
-                new DataSet({ _id: "1", initiative: new Initiative({ name: `Name 1`, team_id: `team_1` }) }),
-                new DataSet({ _id: "3", initiative: new Initiative({ name: `Name 3`, team_id: `team_3` }) })
+                new DataSet({ datasetId: "1", initiative: new Initiative({ name: `Name 1`, team_id: `team_1` }) }),
+                new DataSet({ datasetId: "3", initiative: new Initiative({ name: `Name 3`, team_id: `team_3` }) })
             ]
             )
         })
@@ -93,11 +93,11 @@ describe("dashboard.resolver.ts", () => {
         })
         target.resolve(undefined, undefined).subscribe(ds => {
             expect(ds.length).toBe(2);
-            expect(ds[0]._id).toBe("1");
+            expect(ds[0].datasetId).toBe("1");
             expect(ds[0].initiative.name).toBe(`Name 1`);
             expect(ds[0].team.name).toBe(`Team team_1`);
             expect(ds[0].depth).toBe(0);
-            expect(ds[1]._id).toBe("3");
+            expect(ds[1].datasetId).toBe("3");
             expect(ds[1].initiative.name).toBe(`Name 3`);
             expect(ds[1].team.name).toBe(`Team team_3`);
             expect(ds[1].depth).toBe(0);

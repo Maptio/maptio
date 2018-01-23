@@ -1,4 +1,4 @@
-<div class="building">
+<div class="building" >
 	<!-- <div class="form-group">
 		<input id="searchTreeInput" type="text" class="form-control" placeholder="Search map by name or description" (input)="filterNodes(tree.treeModel, $event.target.value)"
 		/>
@@ -6,7 +6,8 @@
 	<tree-root #tree [nodes]="nodes" (updateData)="saveChanges()" 
 	 [options]="options"  [state]="state" (stateChange)="setState($event)" >
 		<ng-template #treeNodeTemplate let-node let-index="index">
-			<initiative-node [node]="node" [datasetId]="datasetId" [teamName]="teamName" [teamId]="teamId" (edited)="saveChanges()" (update)="updateTreeModel(tree.treeModel)"
+			<initiative-node [node]="node" [datasetId]="datasetId" [teamName]="teamName" [teamId]="teamId" 
+			(edited)="saveChanges()" (update)="updateTreeModel(tree.treeModel)"
 			 (open)="openNodeDetails($event)" (add)="openNodeDetails($event)"></initiative-node>
 		</ng-template>
 

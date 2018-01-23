@@ -12,15 +12,15 @@
                        </h5> -->
                         <div class="btn-group">
                             <h5>
-                                <a routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}/initiatives"> {{dataset.initiative.name}}</a>
+                                <a routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/initiatives"> {{dataset.initiative.name}}</a>
                                 <button type="button" class="btn btn-link p-0 dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false">
                                     <span class="sr-only">Toggle Dropdown</span>
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}/initiatives">Circle view</a>
-                                    <a class="dropdown-item" routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}/people">Tree view</a>
-                                    <a class="dropdown-item" routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}/connections">Network view</a>
+                                    <a class="dropdown-item" routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/initiatives">Circle view</a>
+                                    <a class="dropdown-item" routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/people">Tree view</a>
+                                    <a class="dropdown-item" routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/connections">Network view</a>
                                  </div>
                             </h5>
 

@@ -20,22 +20,13 @@ import {
 import { ActivatedRoute } from "@angular/router";
 import { User } from "../../shared/model/user.data";
 import { SafeUrl, DomSanitizer } from "@angular/platform-browser";
+import { Tag, SelectableTag } from "../../shared/model/tag.data";
+import * as _ from "lodash";
 
 @Component({
     selector: "workspace",
     templateUrl: "workspace.component.html",
-    styleUrls: ["./workspace.component.css"],
-    animations: [
-        trigger("fadeInOut", [
-            state("in", style({
-                opacity: 1, visibility: "visible", display: "inline"
-            })),
-            state("out", style({ opacity: 0.5, visibility: "hidden", display: "none" })),
-            transition("in <=> out", [
-                animate("1s ease-out")
-            ])
-        ])
-    ]
+    styleUrls: ["./workspace.component.css"]
 })
 
 
@@ -46,7 +37,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     public isBuildingPanelCollapsed: boolean = true;
     public isDetailsPanelCollapsed: boolean = true;
-    private datasetId: string;
+    // public isSettingsPanelCollapsed: boolean = true;
+    public datasetId: string;
     private routeSubscription: Subscription;
     private userSubscription: Subscription;
 
@@ -54,6 +46,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public members: Array<User>;
     public team: Team;
     public teams: Team[];
+    public tags: Tag[];
 
     public openedNode: Initiative;
     public openedNodeParent: Initiative;
@@ -62,117 +55,75 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public mapped: Initiative;
     teamName: string;
     teamId: string;
-    isPictureLoadedMap: Map<string, boolean> = new Map<string, boolean>();
-    isFadeInMap: Map<string, string> = new Map<string, string>();
-    isFadeOutMap: Map<string, string> = new Map<string, string>();
-
-    private _placeHolderSafe: SafeUrl;
-    private _imgSafe: SafeUrl;
+    selectableTags: Array<Tag>;
 
     @ViewChild("dragConfirmation")
     dragConfirmationModal: NgbModal;
 
-    // constructor(private auth: Auth, private route: ActivatedRoute, private datasetFactory: DatasetFactory, private dataService: DataService,
-    //     private teamFactory: TeamFactory, private userFactory: UserFactory, private userService: UserService, private modalService: NgbModal) {
-    // }
-
     ngOnDestroy(): void {
-        EmitterService.get("currentDataset").emit(undefined)
+        EmitterService.get("currentDataset").emit(undefined);
+        EmitterService.get("currentTeam").emit(undefined)
+        EmitterService.get("currentMembers").emit(undefined);
         if (this.routeSubscription) this.routeSubscription.unsubscribe();
         if (this.userSubscription) this.userSubscription.unsubscribe();
     }
 
     constructor(private route: ActivatedRoute, private datasetFactory: DatasetFactory,
-        private dataService: DataService, private sanitizer: DomSanitizer, private cd: ChangeDetectorRef) {
+        private dataService: DataService, private cd: ChangeDetectorRef) {
     }
 
     ngOnInit() {
-
-
-
         this.routeSubscription = this.route.data
             .subscribe((data: { data: { dataset: DataSet, team: Team, members: User[] } }) => {
                 this.dataset = data.data.dataset;
+                this.tags = data.data.dataset.tags;
                 this.team = data.data.team;
                 this.members = data.data.members;
-                this.datasetId = this.dataset._id;
+                this.datasetId = this.dataset.datasetId;
                 this.teamName = this.team.name;
                 this.teamId = this.team.team_id;
                 EmitterService.get("currentDataset").emit(this.dataset);
-                this.buildingComponent.loadData(this.dataset._id, "", this.team.name, this.team.team_id);
-
-
-                this.members.forEach(m => {
-                    this.isPictureLoadedMap.set(m.user_id, false);
-                    this.isFadeInMap.set(m.user_id, "in");
-                    this.isFadeOutMap.set(m.user_id, "out")
-                })
-                // this._placeHolderSafe = this.sanitizer.bypassSecurityTrustUrl(this._placeholderBase64);
-                this._imgSafe = this.sanitizer.bypassSecurityTrustUrl("/assets/images/user.jpg");
+                EmitterService.get("currentTeam").emit(this.team);
+                EmitterService.get("currentMembers").emit(this.members);
+                this.buildingComponent.loadData(this.dataset.datasetId, "", this.team.name, this.team.team_id);
             });
     }
 
-    public isPictureLoaded(user_id: string) {
-        this.isPictureLoadedMap.set(user_id, true);
-        this.isFadeInMap.set(user_id, "out");
-        this.isFadeOutMap.set(user_id, "in");
-        this.cd.markForCheck();
-    }
 
-    public get image() {
-        return this._imgSafe;
-    }
+
+    // toggleTag(tag: SelectableTag) {
+    //     tag.isSelected = !tag.isSelected;
+    //     this.selectableTags = this.dataset.tags.map(t => <SelectableTag>t) // .filter(t => t.isSelected);
+    // }
 
     saveDetailChanges() {
         // console.log("saveDetailChanges")
         this.buildingComponent.saveChanges();
     }
 
-    saveChanges(initiative: Initiative) {
-        // console.log("initiative", initiative);
+    applySettings(data: { initiative: Initiative, tags: Tag[] }) {
+        // console.log("save settings", data.tags);
+        data.initiative.traverse((node: Initiative) => {
+            node.tags = _.intersectionBy(data.tags, node.tags, (t: Tag) => t.shortid);
+        })
 
-        this.datasetFactory.upsert(new DataSet({ _id: this.datasetId, initiative: initiative }), this.datasetId)
-            .then((hasSaved: boolean) => {
-                // console.log("seding change to mapping")
-                this.dataService.set({ initiative: initiative, datasetId: this.datasetId, teamName: this.teamName, teamId: this.teamId });
-                return hasSaved;
-            }, (reason) => { console.log(reason) });
-        // .then(() => {
-        //     this.dataset$ = this.datasetFactory.get(this.datasetId)
-        // });
-
+        this.saveChanges(data.initiative, data.tags)
     }
 
-    // addTeamToInitiative(team: Team) {
-    //     this.modalService.open(this.dragConfirmationModal).result.then((result: boolean) => {
-    //         if (result) {
-    //             this.isBuildingPanelCollapsed = true;
-    //             this.isDetailsPanelCollapsed = true;
-    //             this.team$ = this.dataset$.then((dataset: DataSet) => {
-    //                 dataset.initiative.team_id = team.team_id;
-    //                 this.datasetFactory.upsert(dataset, dataset._id).then(() => {
-    //                     this.buildingComponent.loadData(dataset._id);
-    //                 })
-    //                 return team;
-    //             });
-    //             this.updateTeamMembers();
-    //         }
-    //     })
-    //         .catch(reason => { });
+    saveChanges(initiative: Initiative, tags?: Array<Tag>) {
+        // console.log(initiative, tags)
+        this.dataset.initiative = initiative;
+        if (tags) {
+            this.dataset.tags = tags;
+            this.tags = tags
+        }
+        this.datasetFactory.upsert(this.dataset, this.datasetId)
+            .then((hasSaved: boolean) => {
+                this.dataService.set({ initiative: initiative, datasetId: this.datasetId, teamName: this.teamName, teamId: this.teamId, tags: this.dataset.tags, members: this.members });
+                return hasSaved;
+            }, (reason) => { console.log(reason) });
 
-
-
-    // }
-
-    // updateTeamMembers() {
-    //     this.isBuildingPanelCollapsed = true;
-    //     this.isDetailsPanelCollapsed = true;
-    //     this.members = this.team$
-    //         .then((team: Team) => {
-    //             if (team)
-    //                 return team.members;
-    //         });
-    // }
+    }
 
     toggleBuildingPanel() {
         this.isBuildingPanelCollapsed = !this.isBuildingPanelCollapsed;
@@ -181,6 +132,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     toggleDetailsPanel() {
         this.isDetailsPanelCollapsed = !this.isDetailsPanelCollapsed;
     }
+
+    // toggleSettingsPanel() {
+    //     this.isSettingsPanelCollapsed = !this.isSettingsPanelCollapsed;
+    // }
 
 
     openDetails(node: Initiative, willCloseBuildingPanel: boolean = false) {

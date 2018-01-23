@@ -22,23 +22,34 @@
                     <img *ngIf="hoveredNode?.accountable" src="{{hoveredNode?.accountable.picture}}" width="30" height="30" class="rounded-circle mr-2">
                 </a>
                 <h6 class="card-title text-color"> {{hoveredNode?.name}}</h6>
+
+
                 <small>
                     <div class="btn-group" role="group">
-                        <button *ngIf="!getIsLocked()" type="button" class="btn btn-sm add btn-secondary" (click)="addQuick(hoveredNode)" placement="top" ngbTooltip="New initiative"
-                            container="body"></button>
+                        <button *ngIf="!getIsLocked()" type="button" class="btn btn-sm add btn-secondary" (click)="addQuick(hoveredNode)" placement="top"
+                            ngbTooltip="New initiative" container="body"></button>
 
                         <button *ngIf="!isFirstEditing" type="button" class="btn btn-sm edit btn-secondary" (click)="editQuick(hoveredNode)" placement="top"
                             ngbTooltip="Edit" container="body"></button>
 
-                        <button *ngIf="!isFirstEditing && !getIsLocked()" type="button" class="btn btn-sm remove btn-secondary" placement="top" container="body" ngbTooltip="Remove"
-                            mwlConfirmationPopover title="Remove initiative {{hoveredNode?.name}} and sub initiatives ?" focusbutton="cancel"
-                            appendToBody="false" (confirm)="removeQuick(hoveredNode)" (cancel)="cancelClicked = true"></button>
+                        <button *ngIf="!isFirstEditing && !getIsLocked()" type="button" class="btn btn-sm remove btn-secondary" placement="top" container="body"
+                            ngbTooltip="Remove" mwlConfirmationPopover title="Remove initiative {{hoveredNode?.name}} and sub initiatives ?"
+                            focusbutton="cancel" appendToBody="false" (confirm)="removeQuick(hoveredNode)" (cancel)="cancelClicked = true"></button>
 
 
                     </div>
                 </small>
 
             </div>
+        </div>
+        <div class="card-block p-1">
+            <ul class="tags small">
+                <li *ngFor="let tag of hoveredNode?.tags; let i=index">
+                    <a class="btn btn-sm btn-secondary borderless mr-1 tag" [style.color]="tag.color">
+                        <i class="fa fa-tag mr-1" aria-hidden="true" [style.color]="tag.color"></i>{{tag?.name}}
+                    </a>
+                </li>
+            </ul>
         </div>
         <div class="card-block p-1">
             <markdown class="small text-muted" [data]="hoveredNode?.description || ''"></markdown>
@@ -65,7 +76,7 @@
 <div class="tooltip" *ngIf="!getIsLocked()">
     <div>
         <div class="btn-group" role="group">
-            <button  type="button" class="btn  add btn-secondary" (click)="add(selectedNode)" placement="top" ngbTooltip="New initiative"
+            <button type="button" class="btn  add btn-secondary" (click)="add(selectedNode)" placement="top" ngbTooltip="New initiative"
                 container="body"></button>
 
             <button *ngIf="!isFirstEditing" type="button" class="btn  edit btn-secondary" (click)="edit(selectedNode)" placement="top"
