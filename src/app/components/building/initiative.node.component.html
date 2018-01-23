@@ -5,7 +5,7 @@
 		</span>
 
 		<input class="form-control input inputNodeName" type="text" [focusif]="node.data.hasFocus" [ngModel]="node.data.name" (ngModelChange)="saveNodeName($event, node.data)"
-		 (focus)="node.data.isDraggable=false" (blur)="node.data.isDraggable=true" />
+		 (focus)="node.data.isDraggable=false;openNode(node.data)" (blur)="node.data.isDraggable=true" />
 
 		<span class="btn-group control">
 			<ng-template #addButtonTooltip>
