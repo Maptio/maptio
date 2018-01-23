@@ -170,7 +170,7 @@
                             </h5> -->
                             <div class="card-text">
                                 <div>
-                                    Your file header must be : "First name", "Last name" and "Email"
+                                    Your file header must be : "First name", "Last name" and "Email" in that order
                                 </div>
                                 <small class="text-muted">Maximum size : 2Mb.</small>
                                 <div class="mt-2 mb-2 d-flex justify-content-between">
@@ -178,7 +178,7 @@
                                         (change)="fileChangeListener($event)" accept=".csv" />
                                     <button class="btn btn-secondary text-muted" (click)="fileReset()">Reset</button>
                                 </div>
-                                <span *ngIf="isFileInvalid" class="text-danger">Invalid file</span>
+                                <span *ngIf="isFileInvalid" class="text-danger">Invalid file. Your file header must be : "First name", "Last name" and "Email" in that order</span>
 
 
                                 <div *ngIf="!isFileInvalid">

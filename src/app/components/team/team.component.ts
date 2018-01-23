@@ -382,16 +382,16 @@ export class TeamComponent implements OnInit {
 
         let input = $event.target;
         let reader = new FileReader();
-        reader.readAsText(input.files[0]);
+        reader.readAsText(input.files[0], "utf-8");
 
         reader.onload = (data) => {
             let csvData = reader.result;
-            let csvRecordsArray = csvData.split(/\r\n|\n/);
+            let csvRecordsArray = csvData.split(/\r\n|\n|\r/);
             let headerLength = -1;
             if (Constants.isHeaderPresentFlag) {
                 let headersRow = this.fileService.getHeaderArray(csvRecordsArray, Constants.tokenDelimeter);
                 headerLength = headersRow.length;
-                let isHeaderValid = this.fileService.validateHeaders(headersRow, ["First name", "Last name", "Email"])
+                let isHeaderValid = this.fileService.validateHeaders(headersRow, ["First name", "Last name", "Email"]);
                 if (!isHeaderValid) {
                     this.isFileInvalid = true;
                 }
@@ -400,6 +400,7 @@ export class TeamComponent implements OnInit {
             try {
                 this.csvRecords = this.fileService.getDataRecordsArrayFromCSVFile(csvRecordsArray,
                     headerLength, Constants.validateHeaderAndRecordLengthFlag, Constants.tokenDelimeter);
+                console.log(this.csvRecords)
                 if (this.csvRecords == null) {
                     // If control reached here it means csv file contains error, reset file.
                     this.fileReset();
@@ -407,6 +408,8 @@ export class TeamComponent implements OnInit {
 
             }
             catch (error) {
+
+                console.log(error)
                 this.isFileInvalid = true;
             }
             this.isParsingFinished = true;
@@ -452,7 +455,7 @@ export class TeamComponent implements OnInit {
         if (Math.random() < 0.5)
             return Promise.resolve(true)
         else
-            return Promise.reject({message: "Something bad happened"})
+            return Promise.reject({ message: "Something bad happened" })
     }
 
 }
