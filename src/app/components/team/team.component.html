@@ -187,7 +187,7 @@
                                             <ng-container *ngFor="let csvRec of csvRecords;let i=index">
                                                 <tr class="row pl-2 text-muted">
                                                     <ng-container *ngFor="let data of csvRec;let j=index">
-                                                        <td class="col" *ngIf="j<3">{{data}}</td>
+                                                        <td class="col-3" *ngIf="j<3">{{data}}</td>
                                                         <td *ngIf="j===3">
                                                             <i *ngIf="isImportFinished && csvRec[3] !== 'Imported'" class="fa fa-exclamation text-danger" aria-hidden="true" 
                                                             placement="top" container="body" ngbTooltip="{{csvRec[3]}}"></i>
