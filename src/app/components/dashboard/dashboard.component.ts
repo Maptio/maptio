@@ -28,7 +28,7 @@ export class DashboardComponent {
             .subscribe((datasets: DataSet[]) => {
                 this.datasets = datasets;
                 datasets.forEach(d => {
-                    this.isExportingMap.set(d._id, false);
+                    this.isExportingMap.set(d.datasetId, false);
                 })
                 this.isLoading = false;
             },
@@ -50,7 +50,7 @@ export class DashboardComponent {
 
     export(dataset: DataSet) {
 
-        this.isExportingMap.set(dataset._id, true);
+        this.isExportingMap.set(dataset.datasetId, true);
         this.exportService.getReport(dataset).subscribe((exportString: string) => {
             let blob = new Blob([exportString], { type: "text/csv" });
             saveAs(blob, `${dataset.initiative.name}.csv`);
@@ -58,7 +58,7 @@ export class DashboardComponent {
             ,
             (error: Error) => console.log("Error downloading the file."),
             () => {
-                this.isExportingMap.set(dataset._id, false);
+                this.isExportingMap.set(dataset.datasetId, false);
 
             }
         )

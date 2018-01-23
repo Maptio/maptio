@@ -28,6 +28,8 @@ import { JwtEncoder } from "../../shared/services/encoding/jwt.service";
 import { LoaderService } from "../../shared/services/loading/loader.service";
 import { Team } from "../../shared/model/team.data";
 
+import { NO_ERRORS_SCHEMA } from "@angular/core"
+
 describe("header.component.ts", () => {
 
     let component: HeaderComponent;
@@ -38,7 +40,8 @@ describe("header.component.ts", () => {
 
         TestBed.configureTestingModule({
             declarations: [HeaderComponent],
-            imports: [RouterTestingModule, FormsModule, ReactiveFormsModule]
+            imports: [RouterTestingModule, FormsModule, ReactiveFormsModule],
+            schemas: [NO_ERRORS_SCHEMA]
         }).overrideComponent(HeaderComponent, {
             set: {
                 providers: [
@@ -76,6 +79,7 @@ describe("header.component.ts", () => {
     beforeEach(() => {
         target = TestBed.createComponent(HeaderComponent);
         component = target.componentInstance;
+        EmitterService.get("currentMembers").emit([]);
     });
 
     it("should load user's datasets when all load", async(() => {
@@ -86,9 +90,9 @@ describe("header.component.ts", () => {
 
         spyOn(mockDataSetFactory, "get").and.callFake((ids: string[]) => {
             return Promise.resolve([
-                new DataSet({ _id: "1", initiative: new Initiative({ name: `Name 1`, team_id: `team_1` }) }),
-                new DataSet({ _id: "2", initiative: new Initiative({ name: `Name 2`, team_id: `team_2` }) }),
-                new DataSet({ _id: "3", initiative: new Initiative({ name: `Name 3`, team_id: `team_3` }) })
+                new DataSet({ datasetId: "1", initiative: new Initiative({ name: `Name 1`, team_id: `team_1` }) }),
+                new DataSet({ datasetId: "2", initiative: new Initiative({ name: `Name 2`, team_id: `team_2` }) }),
+                new DataSet({ datasetId: "3", initiative: new Initiative({ name: `Name 3`, team_id: `team_3` }) })
             ]
             )
         })
@@ -107,7 +111,7 @@ describe("header.component.ts", () => {
         component.datasets$.then(ds => {
             expect(ds.length).toBe(3);
             ds.forEach((d, index) => {
-                expect(d._id).toBe(`${index + 1}`);
+                expect(d.datasetId).toBe(`${index + 1}`);
                 expect(d.initiative.name).toBe(`Name ${index + 1}`);
                 expect(d.name).toBe(`Name ${index + 1}`);
                 expect(d.team_id).toBe(`team_${index + 1}`);
@@ -124,8 +128,8 @@ describe("header.component.ts", () => {
 
         spyOn(mockDataSetFactory, "get").and.callFake((ids: string[]) => {
             return Promise.resolve([
-                new DataSet({ _id: "1", initiative: new Initiative({ name: `Name 1`, team_id: `team_1` }) }),
-                new DataSet({ _id: "3", initiative: new Initiative({ name: `Name 3`, team_id: `team_3` }) })
+                new DataSet({ datasetId: "1", initiative: new Initiative({ name: `Name 1`, team_id: `team_1` }) }),
+                new DataSet({ datasetId: "3", initiative: new Initiative({ name: `Name 3`, team_id: `team_3` }) })
             ]
             )
         })
@@ -142,11 +146,11 @@ describe("header.component.ts", () => {
 
         component.datasets$.then(ds => {
             expect(ds.length).toBe(2);
-            expect(ds[0]._id).toBe("1");
+            expect(ds[0].datasetId).toBe("1");
             expect(ds[0].initiative.name).toBe(`Name 1`);
             expect(ds[0].name).toBe(`Name 1`);
             expect(ds[0].team_id).toBe(`team_1`);
-            expect(ds[1]._id).toBe("3");
+            expect(ds[1].datasetId).toBe("3");
             expect(ds[1].initiative.name).toBe(`Name 3`);
             expect(ds[1].name).toBe(`Name 3`);
             expect(ds[1].team_id).toBe(`team_3`);
@@ -166,8 +170,8 @@ describe("header.component.ts", () => {
     describe("View", () => {
 
         it("display selected dataset", () => {
-            EmitterService.get("currentDataset").emit(new DataSet({ _id: "some_id" }));
-            expect(component.selectedDataset._id).toBe("some_id")
+            EmitterService.get("currentDataset").emit(new DataSet({ datasetId: "some_id" }));
+            expect(component.selectedDataset.datasetId).toBe("some_id")
         });
 
         describe("Authentication", () => {
@@ -222,7 +226,7 @@ describe("header.component.ts", () => {
             it("opens correct dataset", () => {
                 let mockRouter = target.debugElement.injector.get(Router);
                 let spyNavigate = spyOn(mockRouter, "navigate")
-                let dataset = new DataSet({ _id: "some_id", initiative: new Initiative({ name: "Some long name" }) });
+                let dataset = new DataSet({ datasetId: "some_id", initiative: new Initiative({ name: "Some long name" }) });
                 component.goTo(dataset);
                 expect(spyNavigate).toHaveBeenCalledWith(["map", "some_id", "some-long-name", "initiatives"]);
                 expect(component.selectedDataset).toBe(dataset)

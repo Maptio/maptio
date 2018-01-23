@@ -1,27 +1,3 @@
-<div class="row header">
-    <!-- <div class="col-auto">
-        <small class="text-muted">Team</small>   <a routerLink="/team/{{(team$ |async)?.team_id}}/{{(team$|async)?.getSlug()}}">{{(team$|async)?.name}}</a> 
-   
-    </div> -->
-    <div class="col">
-        <div class="btn-group pull-left d-flex flex-wrap" *ngIf="team">
-            <a *ngFor="let user of members" class="btn btn-link btn-xs no-padding" [class.deleted]="user.isDeleted" routerLink="/map/{{datasetId}}/{{dataset?.initiative?.getSlug()}}/u/{{user.shortid}}/{{user.getSlug()}}">
-          
-                <img *ngIf="!isPictureLoadedMap.get(user?.user_id)" class="blur member rounded-circle" [@fadeInOut]="isFadeInMap.get(user?.user_id)" alt="image" [src]="image" />
-                <img  class="member rounded-circle" [@fadeInOut]="isFadeOutMap.get(user?.user_id)" alt="" [src]="user?.picture" (load)="isPictureLoaded(user?.user_id)" placement="bottom" container="body" ngbTooltip="{{user?.name}}" />
-
-
-
-            </a>
-            <a class="btn btn-link btn-xs no-padding" routerLink="/team/{{team?.team_id}}/{{team?.getSlug()}}" placement="bottom" container="body"
-                ngbTooltip="Add team member">
-                <i class="fa fa-plus" aria-hidden="true"></i>
-            </a>
-        </div>
-    </div>
-
-</div>
-
 <div id="sideNavTree" class="" [class.showTree]="!isBuildingPanelCollapsed">
     <a class="btn toggle" (click)="toggleBuildingPanel()" [class.showTree]="!isBuildingPanelCollapsed">
         <i class="fa all" [class.fa-list]="isBuildingPanelCollapsed" aria-hidden="true"></i>
@@ -42,18 +18,25 @@
 
     <div id="edit-panel-details" class=" ml-1 showDetails" [class.showDetails]="!isDetailsPanelCollapsed">
         <div class="details" *ngIf="!isDetailsPanelCollapsed">
-            <initiative *ngIf="!isDetailsPanelCollapsed" #initiative [datasetId]="datasetId" [node]="openedNode" [parent]="openedNodeParent"
-                (edited)="saveDetailChanges()"></initiative>
+            <initiative *ngIf="!isDetailsPanelCollapsed" #initiative [datasetTags]="tags" [datasetId]="datasetId" [node]="openedNode"
+                [parent]="openedNodeParent" (edited)="saveDetailChanges()"></initiative>
 
         </div>
     </div>
 </div>
 
 
-<div id="main" [class.expand]="!isBuildingPanelCollapsed">
-    <div class="mapping">
-        <mapping (showDetails)="openDetails($event, true)" (addInitiative)="addInitiative($event)" (removeInitiative)="removeInitiative($event)"
-            (moveInitiative)="moveInitiative($event)" (closeEditingPanel)="closeEditingPanel()"> Loading...</mapping>
+
+
+<div id="main" tabindex="1"  [class.expand]="!isBuildingPanelCollapsed"
+(focus)="isBuildingPanelCollapsed=true; isDetailsPanelCollapsed=true;">
+    <div  class="mapping" >
+        <mapping [tags]="selectableTags" (showDetails)="openDetails($event, true)" (addInitiative)="addInitiative($event)" (removeInitiative)="removeInitiative($event)"
+            (moveInitiative)="moveInitiative($event)" (closeEditingPanel)="closeEditingPanel()" (applySettings)="applySettings($event)"
+            
+            
+            >
+        Loading...</mapping>
     </div>
 </div>
 

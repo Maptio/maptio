@@ -169,7 +169,7 @@ export class UserService {
                             ? { isActivationPending: user.app_metadata.activation_pending, user_id: user.user_id }
                             : { isActivationPending: false, user_id: user.user_id }
                     }
-                    return Promise.reject("There is more than one user with this email")
+                    // return Promise.reject("There is more than one user with this email")
                 })
                 .toPromise()
         });

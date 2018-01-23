@@ -9,9 +9,9 @@ import { DataService } from "./../../shared/services/data.service";
 import { Initiative } from "./../../shared/model/initiative.data";
 import { TeamFactory } from "./../../shared/services/team.factory";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
-import { NO_ERRORS_SCHEMA,  } from "@angular/core"
+import { NO_ERRORS_SCHEMA, } from "@angular/core"
 import { BuildingComponent } from "./building.component";
-import { TreeComponent, TreeDraggedElement,  TreeModel } from "angular-tree-component";
+import { TreeComponent, TreeDraggedElement, TreeModel } from "angular-tree-component";
 import { FocusIfDirective } from "../..//shared/directives/focusif.directive"
 import { ErrorService } from "../../shared/services/error/error.service";
 import { MockBackend } from "@angular/http/testing";
@@ -22,6 +22,7 @@ import { Auth } from "../../shared/services/auth/auth.service";
 import { Router, NavigationStart } from "@angular/router";
 import { UserFactory } from "../../shared/services/user.factory";
 import { User } from "../../shared/model/user.data";
+import { DataSet } from "../../shared/model/dataset.data";
 
 export class AuthStub {
 
@@ -93,7 +94,9 @@ describe("building.component.ts", () => {
             let mockUserFactory = target.debugElement.injector.get(UserFactory);
             fixture.load("data.json");
 
-            let spyDataService = spyOn(mockDataService, "get").and.returnValue(Promise.resolve(fixture.json[0]));
+            let initiative = new Initiative().deserialize(fixture.json[0]);
+            let dataset = new DataSet({ initiative: initiative })
+            let spyDataService = spyOn(mockDataService, "get").and.returnValue(Promise.resolve(dataset));
             spyOn(mockUserFactory, "get").and.callFake((user_id: string) => {
                 return Promise.resolve(new User({ picture: `URL${user_id}`, name: `Name${user_id}` }))
             })
@@ -133,7 +136,9 @@ describe("building.component.ts", () => {
             let mockUserFactory = target.debugElement.injector.get(UserFactory);
             fixture.load("data.json");
 
-            let spyDataService = spyOn(mockDataService, "get").and.returnValue(Promise.resolve(fixture.json[0]));
+            let initiative = new Initiative().deserialize(fixture.json[0]);
+            let dataset = new DataSet({ initiative: initiative })
+            let spyDataService = spyOn(mockDataService, "get").and.returnValue(Promise.resolve(dataset));
             spyOn(mockUserFactory, "get").and.callFake((user_id: string) => {
                 return Promise.resolve(new User({ picture: `URL${user_id}`, name: `Name${user_id}` }))
             })

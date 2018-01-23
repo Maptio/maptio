@@ -16,7 +16,7 @@ import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/aut
 import { ErrorService } from "../../../shared/services/error/error.service";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { RouterTestingModule } from "@angular/router/testing";
-import { DataService } from "../../../shared/services/data.service";
+import { DataService, URIService } from "../../../shared/services/data.service";
 
 describe("mapping.circles.component.ts", () => {
 
@@ -27,7 +27,7 @@ describe("mapping.circles.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
-                D3Service, ColorService, DataService, UIService, UserFactory, Angulartics2Mixpanel, Angulartics2,
+                D3Service, ColorService, DataService, UIService, URIService, UserFactory, Angulartics2Mixpanel, Angulartics2,
                 {
                     provide: AuthHttp,
                     useFactory: authHttpServiceFactoryTesting,
@@ -70,6 +70,7 @@ describe("mapping.circles.component.ts", () => {
         component.translateY = 100
         component.scale = 1;
         component.zoom$ = Observable.of(1);
+        component.selectableTags$ = Observable.of([]);
         component.isReset$ = new Subject<boolean>();
         component.fontSize$ = Observable.of(12);
         component.isLocked$ = Observable.of(true);
@@ -153,7 +154,8 @@ describe("mapping.circles.component.ts", () => {
         expect(svg.length).toBe(1);
         expect(svg.item(0).viewBox.baseVal.width).toBe(1522);
         expect(svg.item(0).viewBox.baseVal.height).toBe(1522); // these are harcoded for now
-        expect(svg.item(0).getAttribute("width")).toBe("100%");
+        expect(svg.item(0).getAttribute("width")).toBe("1522");
+        expect(svg.item(0).getAttribute("height")).toBe("1522");
     });
 
     it("should draw SVG centered when data is valid", () => {
@@ -167,8 +169,8 @@ describe("mapping.circles.component.ts", () => {
 
         expect(svg.querySelector("g")).toBeDefined();
         expect(svg.querySelector("g").transform.baseVal.getItem(0).type).toBe(SVGTransform.SVG_TRANSFORM_TRANSLATE);
-        expect(svg.querySelector("g").transform.baseVal.getItem(0).matrix.e).toBe(100);
-        expect(svg.querySelector("g").transform.baseVal.getItem(0).matrix.f).toBe(100);
+        expect(Math.round(svg.querySelector("g").transform.baseVal.getItem(0).matrix.e)).toBe(100);
+        expect(Math.round(svg.querySelector("g").transform.baseVal.getItem(0).matrix.f)).toBe(100);
     });
 
     it("should draw SVG with correct number of circles when data is valid", () => {

@@ -3,7 +3,7 @@ import { environment } from "./../environment/environment";
 
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { NgModule} from "@angular/core";
+import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpModule, RequestOptions, Http } from "@angular/http";
@@ -17,7 +17,7 @@ import { AuthGuard } from "./shared/services/guards/auth.guard";
 import { AccessGuard } from "./shared/services/guards/access.guard";
 
 // Services
-import { DataService } from "./shared/services/data.service";
+import { DataService, URIService } from "./shared/services/data.service";
 import { DatasetFactory } from "./shared/services/dataset.factory";
 import { ColorService } from "./shared/services/ui/color.service"
 import { UIService } from "./shared/services/ui/ui.service"
@@ -67,15 +67,16 @@ import { FocusIfDirective } from "./shared/directives/focusif.directive";
 // import { AnchorDirective } from "./shared/directives/anchor.directivse"
 
 // External libraries
+import {ColorPickerModule} from "ngx-color-picker";
 import { LoadingModule, ANIMATION_TYPES } from "ngx-loading";
 import { MarkdownModule, MarkdownService } from "angular2-markdown";
 import { FileUploadModule } from "ng2-file-upload";
-import { CloudinaryModule } from "@cloudinary/angular-4.x";
+import { CloudinaryModule } from "@cloudinary/angular-5.x";
 import { Cloudinary } from "cloudinary-core";
 import { D3Service } from "d3-ng2-service";
 import { TreeModule } from "angular-tree-component";
 import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModule, NgbTypeaheadModule } from "@ng-bootstrap/ng-bootstrap";
 import { AuthConfiguration } from "./shared/services/auth/auth.config";
 import { ResponsiveModule, } from "ng2-responsive";
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";
@@ -93,6 +94,7 @@ import { MappingNetworkComponent } from "./components/mapping/network/mapping.ne
 import { WorkspaceComponentResolver } from "./components/workspace/workspace.resolver";
 import { LogoutComponent } from "./components/login/logout.component";
 import { ExportService } from "./shared/services/export/export.service";
+// import { TagsEditingComponent } from "./components/tags/tags-editing.component";
 
 
 // Routes
@@ -114,13 +116,6 @@ const appRoutes: Routes = [
 
   { path: ":shortid/:slug", component: AccountComponent, canActivate: [AuthGuard] },
 
-  {
-    path: "map/:mapid/:mapslug/i/:nodeid/:nodeslug",
-    component: WorkspaceComponent, resolve: {
-      data: WorkspaceComponentResolver
-    },
-    canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard]
-  },
   {
     path: "map/:mapid/:mapslug",
     component: WorkspaceComponent,
@@ -196,6 +191,7 @@ export function markdownServiceFactory(http: Http) {
       secondaryColour: "#2F81B7",
       tertiaryColour: "#ffffff"
     }),
+    ColorPickerModule,
     BrowserAnimationsModule,
     CloudinaryModule.forRoot(cloudinaryLib, { cloud_name: environment.CLOUDINARY_CLOUDNAME, upload_preset: environment.CLOUDINARY_UPLOAD_PRESET })
   ],
@@ -203,7 +199,7 @@ export function markdownServiceFactory(http: Http) {
   providers: [
     BrowserAnimationsModule,
     AuthGuard, AccessGuard, AuthConfiguration,
-    D3Service, DataService, ColorService, UIService, DatasetFactory, TeamFactory,
+    D3Service, DataService, URIService, ColorService, UIService, DatasetFactory, TeamFactory,
     ErrorService, Auth, UserService, UserFactory, MailingService, JwtEncoder, LoaderService,
     ExportService,
     Location,

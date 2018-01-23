@@ -12,7 +12,8 @@ import * as _ from "lodash";
 import { User } from "../../../shared/model/user.data";
 import { Role } from "../../../shared/model/role.data";
 import { Router } from "@angular/router";
-import { DataService } from "../../../shared/services/data.service";
+import { DataService, URIService } from "../../../shared/services/data.service";
+import { Tag, SelectableTag } from "../../../shared/model/tag.data";
 
 @Component({
     selector: "network",
@@ -33,9 +34,11 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     public translateX: number;
     public translateY: number;
     public scale: number;
+    public tagsState: Array<SelectableTag>;
 
 
     public margin: number;
+    public selectableTags$: Observable<Array<SelectableTag>>;
     public zoom$: Observable<number>
     public fontSize$: Observable<number>;
     public isLocked$: Observable<boolean>;
@@ -74,7 +77,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     public isLoading: boolean;
 
     constructor(public d3Service: D3Service, public colorService: ColorService, public uiService: UIService,
-        private cd: ChangeDetectorRef, private router: Router, private dataService: DataService) {
+        private cd: ChangeDetectorRef, private router: Router, private dataService: DataService, private uriService: URIService) {
         // console.log("network constructor")
         this.d3 = d3Service.getD3();
         this.T = this.d3.transition(null).duration(this.TRANSITION_DURATION);
@@ -85,17 +88,19 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     ngOnInit() {
         this.isLoading = true;
         this.init();
-        this.dataSubscription = this.dataService.get().subscribe(complexData => {
-            // console.log("network assign data")
-            let data = <any>complexData.initiative;
-            this.datasetId = complexData.datasetId;
-            this.rootNode = complexData.initiative;
-            this.slug = data.getSlug();
-            this.update(data);
-            this.analytics.eventTrack("Map", { view: "connections", team: data.teamName, teamId: data.teamId });
-            this.isLoading = false;
-            this.cd.markForCheck();
-        })
+        this.dataSubscription = this.dataService.get()
+            .combineLatest(this.selectableTags$)
+            .subscribe(complexData => {
+                // console.log("network assign data")
+                let data = <any>complexData[0].initiative;
+                this.datasetId = complexData[0].datasetId;
+                this.rootNode = complexData[0].initiative;
+                this.slug = data.getSlug();
+                this.update(data, complexData[1]);
+                this.analytics.eventTrack("Map", { view: "connections", team: data.teamName, teamId: data.teamId });
+                this.isLoading = false;
+                this.cd.markForCheck();
+            })
     }
 
     ngOnDestroy() {
@@ -118,9 +123,10 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
         let d3 = this.d3;
 
-        let svg: any = d3.select("svg");
-            // margin = this.margin,
-            // diameter = +this.width
+        let svg: any = d3.select("svg").attr("width", 1522)
+            .attr("height", 1522);
+        // margin = this.margin,
+        // diameter = +this.width
         let g = svg.append("g")
             .attr("width", this.width)
             .attr("height", this.height)
@@ -154,7 +160,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             .on("zoom", zoomed)
             .on("end", () => {
                 let transform = d3.event.transform;
-                location.hash = `x=${transform.x}&y=${transform.y}&scale=${transform.k}`;
+                let tagFragment = this.tagsState.filter(t => t.isSelected).map(t => t.shortid).join(",")
+                location.hash = this.uriService.buildFragment(new Map([["x", transform.x], ["y", transform.y], ["scale", transform.k], ["tags", tagFragment]]))
             });
 
         function zoomed() {
@@ -232,7 +239,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
                             source: h.user_id,
                             target: (i.accountable ? i.accountable.user_id : undefined),
                             type: "helps",
-                            initiative: i.id
+                            initiative: i.id,
+                            tags: i.tags
                         }
                 })
             })
@@ -247,7 +255,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
                     source: l.source,
                     target: l.target,
                     initiative: l.initiative,
-                    type: l.type
+                    type: l.type,
+                    tags: l.tags
                 }
             })
 
@@ -260,12 +269,12 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
                         target: items[0].target,
                         type: items[0].type,
                         weight: items.length,
-                        initiatives: items.map((item: any) => item.initiative)
+                        initiatives: items.map((item: any) => item.initiative),
+                        tags: _.flattenDeep(items.map((item: any) => item.tags)).map((t: Tag) => t.shortid)
                     })
 
             })
             .value();
-
 
         return { nodes: _.uniqBy(nodesRaw, (u) => { return u.id }), links: links }
     }
@@ -292,7 +301,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     }
 
 
-    public update(data: any) {
+    public update(data: any, tags: SelectableTag[]) {
 
         if (!this.g) {
             this.init();
@@ -306,6 +315,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         let height = this.height;
         let hoverLink = this.hoverLink.bind(this);
         let bilinks: Array<any> = [];
+        let uiService = this.uiService;
 
         let CIRCLE_RADIUS = this.CIRCLE_RADIUS
         let LINE_WEIGHT = this.LINE_WEIGHT;
@@ -341,19 +351,23 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
         let nodes = graph.nodes,
             nodeById = d3.map(nodes, function (d: any) { return d.id; }),
-            links = graph.links
+            links = graph.links;
 
-        links.forEach(function (link: { source: string, target: string, weight: number, initiatives: Array<string> }) {
+        let [selectedTags, unselectedTags] = _.partition(tags, t => t.isSelected)
+
+
+        links.forEach(function (link: { source: string, target: string, weight: number, initiatives: Array<string>, tags: Array<string> }) {
             let s = link.source = <any>nodeById.get(link.source),
                 t = link.target = <any>nodeById.get(link.target),
                 i = {},
                 weight = link.weight,
                 initiatives = link.initiatives,
+                tags = link.tags,
                 id = `${s.id}-${t.id}`; // intermediate node
 
             nodes.push(<any>i);
             links.push(<any>{ source: s, target: i }, <any>{ source: i, target: t });
-            bilinks.push([s, i, t, weight, initiatives, id]);
+            bilinks.push([s, i, t, weight, initiatives, tags, id]);
         });
 
         let link = g.select("g.links").selectAll("path.edge").data(bilinks, function (d: any) { return d[5]; })
@@ -362,10 +376,19 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         link = link.enter().append("path").attr("class", "edge")
             .merge(link)
             .attr("data-initiatives", function (d: any) { return d[4].join(",") })
+            .attr("data-tags", function (d: any) { return d[5].join(",") })
             .attr("data-source", function (d: any) { return d[0].id })
             .attr("data-target", function (d: any) { return d[2].id })
             .attr("stroke-width", function (d: any) { return `${LINE_WEIGHT * d[3]}px` })
-            .attr("id", function (d: any) { return d[5] })
+            .style("opacity", function (d: any) {
+                return uiService.filter(selectedTags, unselectedTags, d[5])
+                // &&
+                // uiService.filter(selectedUsers, unselectedUsers, _.compact(_.flatten([...[d.data.accountable], d.data.helpers])).map(u => u.shortid))
+                ? 1
+                : 0.1
+
+            })
+            .attr("id", function (d: any) { return d[6] })
             .attr("marker-end", "url(#arrow)")
         // .on("m ouseout", fade(1));
 

@@ -1,7 +1,10 @@
-::ng-deep .node {
-  
+::ng-deep .node:hover {
+  stroke: initial!important;
+  stroke-width: initial!important;
 }
-
+::ng-deep svg text {
+  cursor: pointer;
+}
 
 ::ng-deep .node circle {
   /*fill: #fff;*/

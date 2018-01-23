@@ -1,25 +1,19 @@
 import { Initiative } from "./initiative.data";
 import { Serializable } from "./../interfaces/serializable.interface";
+import { Tag, DEFAULT_TAGS } from "./tag.data";
 
 export class DataSet implements Serializable<DataSet> {
-
-
-  /**
-     * Team short id (URL friendly)
-     */
   public shortid: string;
 
-  _id: string;
-
-  // team_id: string;
-
-  // createdOn: Date;
+  datasetId: string;
 
   initiative: Initiative;
 
   team: any;
 
   depth: number;
+
+  tags: Array<Tag>;
 
   public constructor(init?: Partial<DataSet>) {
     Object.assign(this, init);
@@ -33,8 +27,19 @@ export class DataSet implements Serializable<DataSet> {
     if (!input || !input._id) return
     let deserialized = new DataSet();
     deserialized.shortid = input.shortid;
-    deserialized._id = input._id;
+    deserialized.datasetId = input._id;
     deserialized.initiative = Initiative.create().deserialize(input.initiative || input);
+    let tags = new Array<Tag>();
+    if (input.tags && input.tags instanceof Array && input.tags.length > 0) {
+      input.tags.forEach(function (inputTag: any) {
+        tags.push(new Tag().deserialize(inputTag))
+      });
+    }
+    else {
+      tags = DEFAULT_TAGS;
+    }
+
+    deserialized.tags = tags;
     // deserialized.createdOn = input.createdOn;
     return deserialized;
   }
