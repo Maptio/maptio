@@ -204,15 +204,13 @@
                                     <div class="row align-items-center mt-4" *ngIf="csvRecords.length !==0">
                                         <div class="col">
                                             <div>
-                                                <ngb-progressbar type="success" [value]="(importedSuccessfully) / totalRecordsToImport * 100" [striped]="true">Imported
-                                                    <b>{{importedSuccessfully}} of {{totalRecordsToImport}} </b> users
+                                                <ngb-progressbar height="5vh" type="success" [value]="(importedSuccessfully) / totalRecordsToImport * 100" [animated]="true">Imported {{importedSuccessfully}} of {{totalRecordsToImport}}  users
                                                 </ngb-progressbar>
                                             </div>
-                                            <div>
-                                                <!-- <span *ngIf="isImportFinished" class="badge badge-success">Success : {{importedSuccessfully}}</span> -->
+                                            <!-- <div>
                                                 <span *ngIf="isImportFinished" class="badge badge-danger">Failed : {{importedFailed}}</span>
 
-                                            </div>
+                                            </div> -->
                                             <!-- <span *ngIf="isImportFinished" class="badge badge-default">Imported : {{importedFailed + importedSuccessfully}} / {{totalRecordsToImport}}</span> -->
                                         </div>
                                         <div class=" pull-right">
@@ -220,6 +218,8 @@
 
                                         </div>
                                     </div>
+                                    <span *ngIf="isImportFinished" class="badge badge-danger">Failed : {{importedFailed}}</span>
+
                                 </div>
                             </div>
                         </div>
