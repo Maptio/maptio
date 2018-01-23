@@ -16,7 +16,8 @@ import { Tag } from "../../shared/model/tag.data";
 @Component({
     selector: "building",
     templateUrl: "./building.component.html",
-    styleUrls: ["./building.component.css"]
+    styleUrls: ["./building.component.css"],
+    changeDetection : ChangeDetectionStrategy.OnPush
 })
 export class BuildingComponent {
 
@@ -36,7 +37,7 @@ export class BuildingComponent {
                 dragStart: () => { console.log("drg start"); this.cd.detach(); },
                 dragEnd: () => { console.log("drg end"); this.cd.reattach(); },
                 drop: (tree: any, node: TreeNode, $event: any, { from, to }: { from: TreeNode, to: TreeNode }) => {
-                    console.log("drop")
+
                     this.fromInitiative = from.data;
                     this.toInitiative = to.parent.data;
 

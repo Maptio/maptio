@@ -1,17 +1,16 @@
 <div class="row filter-tags d-flex justify-content-start w-100 ">
   <div class="col-11 m-1 mt-4 pl-0">
     <div class="d-flex flex-wrap">
-      <span (click)="isFiltersToggled=!isFiltersToggled" class="mr-1">
-        <i *ngIf="!isFiltersToggled" class="fa fa-plus-square" aria-hidden="true"></i>
-        <i *ngIf="isFiltersToggled" class="fa fa-minus-square" aria-hidden="true"></i>
-        <!-- <button *ngIf="!isFiltersToggled" class="btn btn-sm btn-link">Show</button>
-        <button  class="btn btn-sm btn-link">Hide</button> -->
-      </span>
-      <span class="text-muted mr-3">
+      <span class="text-muted mr-1">
         Tags
-        <!-- <a class="edit-tag" (click)="toggleTagSettingsTab()" placement="left" container="body" ngbTooltip="Edit tags"></a> -->
-        <i class="fa fa-wrench" aria-hidden="true" (click)="toggleTagSettingsTab()" placement="left" container="body" ngbTooltip="Edit tags"></i>
       </span>
+      <span (click)="isFiltersToggled=!isFiltersToggled" class="mr-1">
+        <!-- <i *ngIf="!isFiltersToggled" class="fa fa-plus-square" aria-hidden="true"></i>
+        <i *ngIf="isFiltersToggled" class="fa fa-minus-square" aria-hidden="true"></i> -->
+        <button *ngIf="!isFiltersToggled" class="btn btn-sm btn-link ">Show</button>
+        <button *ngIf="isFiltersToggled" class="btn btn-sm btn-link ">Hide</button>
+      </span>
+
 
       <div *ngIf="isFiltersToggled">
         <span *ngFor="let tag of tags; let i=index">
@@ -26,6 +25,7 @@
             <i *ngIf="tag.isSelected" class="fa fa-check" aria-hidden="true" [style.color]="white"> </i>
           </a>
         </span>
+        <span class="btn btn-link btn-sm pl-0" (click)="toggleTagSettingsTab()">Edit tags...</span>
       </div>
 
     </div>
@@ -72,7 +72,7 @@
     <a class="btn btn-secondary plus" (click)="zoomIn()" placement="left" container="body" ngbTooltip="Zoom in"></a>
     <a class="btn btn-secondary reset" (click)="resetZoom()" placement="left" container="body" ngbTooltip="Zoom fit"></a>
     <a class="btn btn-secondary settings" (click)="togglePanel()" placement="left" container="body" ngbTooltip="Settings"></a>
-    <a class="btn btn-secondary edit-tag" (click)="toggleTagSettingsTab()" placement="left" container="body" ngbTooltip="Edit tags"></a>
+    <!-- <a class="btn btn-secondary edit-tag" (click)="toggleTagSettingsTab()" placement="left" container="body" ngbTooltip="Edit tags"></a> -->
   </div>
 </div>
 
