@@ -164,7 +164,7 @@ const rollbarConfig = {
   accessToken: environment.ROLLBAR_ACCESS_TOKEN,
   captureUncaught: true,
   captureUnhandledRejections: true,
-  environment: isDevMode() ? "development" : "production"
+  environment: process.env.ENV === "production" ? "production" : "development"
 };
 
 @Injectable()
