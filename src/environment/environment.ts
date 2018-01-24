@@ -17,5 +17,6 @@ export const environment = {
     INTERCOM_APP_ID: "rktylk1k",
     CLOUDINARY_CLOUDNAME: "hgkbm0qes",
     CLOUDINARY_UPLOAD_PRESET: "rk6tzs5q",
-    CLOUDINARY_PROFILE_TAGNAME: "profile"
+    CLOUDINARY_PROFILE_TAGNAME: "profile",
+    ROLLBAR_ACCESS_TOKEN : "f3b4577fe4a341879fd268623033dc98"
 };
