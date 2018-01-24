@@ -38,6 +38,10 @@ table.tableSection {
     width: 100%;
 }
 
+table.tableSection.right{
+    font-size: small;
+}
+
 table.tableSection thead, table.tableSection tbody {
     float: left;
     width: 100%;
@@ -51,7 +55,7 @@ table.tableSection.left tbody {
 
 table.tableSection.right tbody {
     overflow: auto;
-    height: 51vh;
+    height: 35vh;
     position:relative
 }
 
