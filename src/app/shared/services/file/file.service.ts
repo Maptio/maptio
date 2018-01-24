@@ -19,7 +19,7 @@ export class FileService {
     }
 
     getHeaderArray(csvRecordsArr: any[], tokenDelimeter: string) {
-        let headers = csvRecordsArr[0].split(tokenDelimeter);
+        let headers = (csvRecordsArr[0] || "").split(tokenDelimeter);
         let headerArray = [];
         for (let j = 0; j < headers.length; j++) {
             headerArray.push(headers[j]);
