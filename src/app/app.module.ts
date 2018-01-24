@@ -3,7 +3,13 @@ import { environment } from "./../environment/environment";
 
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { NgModule } from "@angular/core";
+import {
+  NgModule, Injectable,
+  Injector,
+  InjectionToken,
+  ErrorHandler,
+  isDevMode
+} from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpModule, RequestOptions, Http } from "@angular/http";
@@ -67,7 +73,9 @@ import { FocusIfDirective } from "./shared/directives/focusif.directive";
 // import { AnchorDirective } from "./shared/directives/anchor.directivse"
 
 // External libraries
-import {ColorPickerModule} from "ngx-color-picker";
+
+import * as Rollbar from "rollbar";
+import { ColorPickerModule } from "ngx-color-picker";
 import { LoadingModule, ANIMATION_TYPES } from "ngx-loading";
 import { MarkdownModule, MarkdownService } from "angular2-markdown";
 import { FileUploadModule } from "ng2-file-upload";
@@ -94,7 +102,7 @@ import { MappingNetworkComponent } from "./components/mapping/network/mapping.ne
 import { WorkspaceComponentResolver } from "./components/workspace/workspace.resolver";
 import { LogoutComponent } from "./components/login/logout.component";
 import { ExportService } from "./shared/services/export/export.service";
-// import { TagsEditingComponent } from "./components/tags/tags-editing.component";
+import { FileService } from "./shared/services/file/file.service";
 
 
 // Routes
@@ -152,6 +160,29 @@ export function markdownServiceFactory(http: Http) {
   return _markdown
 }
 
+const rollbarConfig = {
+  accessToken: environment.ROLLBAR_ACCESS_TOKEN,
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+  environment: process.env.ENV === "production" ? "production" : "development"
+};
+
+@Injectable()
+export class RollbarErrorHandler implements ErrorHandler {
+  constructor(private injector: Injector) { }
+
+  handleError(err: any): void {
+    let rollbar = this.injector.get(RollbarService);
+    rollbar.error(err.originalError || err);
+  }
+}
+
+export function rollbarFactory() {
+  return new Rollbar(rollbarConfig);
+}
+
+export const RollbarService = new InjectionToken<Rollbar>("rollbar");
+
 @NgModule({
   declarations: [
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent, TeamComponent,
@@ -201,7 +232,7 @@ export function markdownServiceFactory(http: Http) {
     AuthGuard, AccessGuard, AuthConfiguration,
     D3Service, DataService, URIService, ColorService, UIService, DatasetFactory, TeamFactory,
     ErrorService, Auth, UserService, UserFactory, MailingService, JwtEncoder, LoaderService,
-    ExportService,
+    ExportService, FileService,
     Location,
     { provide: LocationStrategy, useClass: PathLocationStrategy },
     // {
@@ -220,7 +251,9 @@ export function markdownServiceFactory(http: Http) {
       deps: [Http]
     },
     DashboardComponentResolver,
-    WorkspaceComponentResolver
+    WorkspaceComponentResolver,
+    { provide: ErrorHandler, useClass: RollbarErrorHandler },
+    { provide: RollbarService, useFactory: rollbarFactory }
   ],
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]

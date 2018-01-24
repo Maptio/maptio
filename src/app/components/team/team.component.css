@@ -38,14 +38,24 @@ table.tableSection {
     width: 100%;
 }
 
+table.tableSection.right{
+    font-size: small;
+}
+
 table.tableSection thead, table.tableSection tbody {
     float: left;
     width: 100%;
 }
 
-table.tableSection tbody {
+table.tableSection.left tbody {
     overflow: auto;
     height: 61vh;
+    position:relative
+}
+
+table.tableSection.right tbody {
+    overflow: auto;
+    height: 35vh;
     position:relative
 }
 
@@ -66,38 +76,13 @@ td.delete{
     min-width: 2vw;
 }
 
-/*Delete*/
-/* table.tableSection th:nth-child(0n+1), table.tableSection td:nth-child(0n+1) {
-    max-width: 5%;
-} */
-/*Picture*/
-/* table.tableSection th:nth-child(0n+2), table.tableSection td:nth-child(0n+2) {
-    width: 5%;
-} */
-/*Name*/
-/* table.tableSection th:nth-child(0n+3), table.tableSection td:nth-child(0n+3) {
-    width: 30%;
-    text-align: left;
-    float:left;
-} */
-/*Email*/
-/* table.tableSection th:nth-child(0n+4), table.tableSection td:nth-child(0n+4) {
-    width: 40%;
-    text-align: left;
-    float:left;
-} */
-/*Pending*/
-/* table.tableSection th:nth-child(0n+5), table.tableSection td:nth-child(0n+5) {
-    width: 10%;
-} */
-/*Action*/
-/* table.tableSection th:nth-child(0n+6), table.tableSection td:nth-child(0n+6) {
-    width: 10%;
-} */
-
 .sending{
     text-align: center;
     margin-right:5vw;
     margin-top: 4vh;
     position: relative;
+}
+
+.wrap{
+    word-wrap: break-word;
 }

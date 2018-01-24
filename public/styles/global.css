@@ -349,6 +349,32 @@ button[data-handler=bootstrap-markdown-cmdImage] {
   box-shadow: 0 0 0 !important;
 }
 
+
+.inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.inputfile + label {
+  font-size: 1.25em;
+  font-weight: 700;
+  /* color: white; */
+  background-color: transparent;
+  display: inline-block;
+  cursor: pointer;
+  margin-left: 38%;
+}
+
+.inputfile:focus + label, .inputfile + label:hover {
+  background-color: transparent;
+  color:#0275D8;
+}
+
+
 .tags {
   list-style: none;
   margin: 0;

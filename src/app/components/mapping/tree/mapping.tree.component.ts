@@ -1,7 +1,7 @@
 import { UserFactory } from "./../../../shared/services/user.factory";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs/Subscription";
-import { Component, OnInit, ViewEncapsulation, ChangeDetectorRef } from "@angular/core";
+import { Component, OnInit, ViewEncapsulation, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
 import { D3Service, D3 } from "d3-ng2-service";
 import { ColorService } from "../../../shared/services/ui/color.service"
 import { UIService } from "../../../shared/services/ui/ui.service"
@@ -17,7 +17,8 @@ import * as _ from "lodash";
     selector: "tree",
     templateUrl: "./mapping.tree.component.html",
     styleUrls: ["./mapping.tree.component.css"],
-    encapsulation: ViewEncapsulation.Emulated
+    encapsulation: ViewEncapsulation.Emulated,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MappingTreeComponent implements OnInit, IDataVisualizer {
     private d3: D3;

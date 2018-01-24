@@ -3,7 +3,8 @@ import { LoaderService } from "./../shared/services/loading/loader.service";
 import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from "@angular/router";
 import {
   Component,
-  ViewChild
+  ViewChild,
+  ChangeDetectionStrategy
 } from "@angular/core";
 import { HelpComponent } from "../components/help/help.component";
 import "rxjs/add/operator/map"
@@ -11,7 +12,8 @@ import { Auth } from "../shared/services/auth/auth.service";
 @Component({
   selector: "my-app",
   templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.css"]
+  styleUrls: ["./app.component.css"],
+  changeDetection : ChangeDetectionStrategy.OnPush
 })
 
 export class AppComponent {

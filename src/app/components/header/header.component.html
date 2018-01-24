@@ -76,7 +76,7 @@
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdownLink">
-                    <a class="dropdown-item" routerLink="{{user?.shortid}}/{{user?.getSlug()}}">Profile</a>
+                    <a class="dropdown-item" routerLink="{{user?.shortid}}/{{user?.getSlug() || 'profile'}}">Profile</a>
                     <a class="dropdown-item" routerLink="/teams">My teams</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" routerLink="/home">Export maps</a>

@@ -1,5 +1,5 @@
 import { ActivatedRouteSnapshot, ActivatedRoute } from "@angular/router";
-import { Component, Input, Output, ViewChild, EventEmitter } from "@angular/core";
+import { Component, Input, Output, ViewChild, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from "@angular/core";
 import { TreeNode, TreeModel } from "angular-tree-component";
 import { Initiative } from "../../shared/model/initiative.data";
 import { InitiativeComponent } from "../initiative/initiative.component";
@@ -33,7 +33,7 @@ export class InitiativeNodeComponent {
     private snapshotRoute: ActivatedRouteSnapshot
     isMovingToggled: boolean;
 
-    constructor(private route: ActivatedRoute
+    constructor(private route: ActivatedRoute, private cd : ChangeDetectorRef
     ) {
         this.snapshotRoute = route.snapshot;
     }
@@ -65,6 +65,7 @@ export class InitiativeNodeComponent {
 
     saveNodeName(newName: any, initiative: Initiative) {
         initiative.name = newName;
+        this.cd.detectChanges();
         this.edited.emit(true)
     }
 

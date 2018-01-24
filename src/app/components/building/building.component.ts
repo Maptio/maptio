@@ -34,8 +34,8 @@ export class BuildingComponent {
         nodeHeight: 55,
         actionMapping: {
             mouse: {
-                dragStart: () => { console.log("drg start"); this.cd.detach(); },
-                dragEnd: () => { console.log("drg end"); this.cd.reattach(); },
+                dragStart: () => { this.cd.detach(); },
+                dragEnd: () => {  this.cd.reattach(); },
                 drop: (tree: any, node: TreeNode, $event: any, { from, to }: { from: TreeNode, to: TreeNode }) => {
 
                     this.fromInitiative = from.data;
