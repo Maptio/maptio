@@ -3,7 +3,7 @@ import { LoaderService } from "./../../shared/services/loading/loader.service";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs/Rx";
 import { OnInit } from "@angular/core";
-import { Component, trigger, state, style, animate, transition, ChangeDetectorRef } from "@angular/core";
+import { Component, trigger, state, style, animate, transition, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
 import { User } from "../../shared/model/user.data";
 import { Team } from "../../shared/model/team.data";
 import { DataSet } from "../../shared/model/dataset.data";
@@ -32,7 +32,8 @@ import { SafeUrl, DomSanitizer } from "@angular/platform-browser";
                 animate("1s ease-out")
             ])
         ])
-    ]
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class HeaderComponent implements OnInit {
@@ -108,6 +109,7 @@ export class HeaderComponent implements OnInit {
         }
     }
 
+
     ngOnInit() {
         this.userSubscription = this.auth.getUser().subscribe((user: User) => {
             this.user = user;
@@ -131,6 +133,8 @@ export class HeaderComponent implements OnInit {
             this.teams$ = this.teamFactory.get(this.user.teams)
                 .then(teams => sortBy(teams, t => t.name), (r) => { return Promise.reject(r) })
                 .catch(() => { return [] })
+
+            this.cd.markForCheck();
         },
             (error: any) => { this.errorService.handleError(error) });
     }

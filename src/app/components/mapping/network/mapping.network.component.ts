@@ -2,7 +2,7 @@ import { Subject } from "rxjs/Rx";
 import { Initiative } from "./../../../shared/model/initiative.data";
 import { Subscription } from "rxjs/Subscription";
 import { Observable } from "rxjs/Observable";
-import { Component, OnInit, ViewEncapsulation, ChangeDetectorRef } from "@angular/core";
+import { Component, OnInit, ViewEncapsulation, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
 import { D3Service, D3, ForceLink, HierarchyNode } from "d3-ng2-service";
 import { ColorService } from "../../../shared/services/ui/color.service"
 import { UIService } from "../../../shared/services/ui/ui.service"
@@ -19,7 +19,8 @@ import { Tag, SelectableTag } from "../../../shared/model/tag.data";
     selector: "network",
     templateUrl: "./mapping.network.component.html",
     styleUrls: ["./mapping.network.component.css"],
-    encapsulation: ViewEncapsulation.Emulated
+    encapsulation: ViewEncapsulation.Emulated,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class MappingNetworkComponent implements OnInit, IDataVisualizer {

@@ -8,7 +8,7 @@ import { Auth } from "./../../../shared/services/auth/auth.service";
 import { Initiative } from "./../../../shared/model/initiative.data";
 import { Observable, Subscription } from "rxjs/Rx";
 import { IDataVisualizer } from "./../mapping.interface";
-import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
 import { Team } from "../../../shared/model/team.data";
 import { Subject } from "rxjs/Rx";
 import { Angulartics2Mixpanel } from "angulartics2";
@@ -20,7 +20,8 @@ import { UIService } from "../../../shared/services/ui/ui.service";
 @Component({
     selector: "member-summary",
     templateUrl: "./member-summary.component.html",
-    styleUrls: ["./member-summary.component.css"]
+    styleUrls: ["./member-summary.component.css"],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class MemberSummaryComponent implements OnInit, IDataVisualizer {

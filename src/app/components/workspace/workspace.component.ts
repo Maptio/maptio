@@ -15,7 +15,8 @@ import {
     style,
     transition,
     animate,
-    ChangeDetectorRef
+    ChangeDetectorRef,
+    ChangeDetectionStrategy
 } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { User } from "../../shared/model/user.data";
@@ -26,7 +27,8 @@ import * as _ from "lodash";
 @Component({
     selector: "workspace",
     templateUrl: "workspace.component.html",
-    styleUrls: ["./workspace.component.css"]
+    styleUrls: ["./workspace.component.css"],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 

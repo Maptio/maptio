@@ -3,7 +3,7 @@ import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { UserFactory } from "./../../shared/services/user.factory";
 import { Observable, Subject } from "rxjs/Rx";
 import { TeamFactory } from "./../../shared/services/team.factory";
-import { Component, Input, ViewChild, OnChanges, SimpleChanges, EventEmitter, Output, ElementRef, Renderer } from "@angular/core";
+import { Component, Input, ViewChild, OnChanges, SimpleChanges, EventEmitter, Output, ElementRef, Renderer, ChangeDetectionStrategy } from "@angular/core";
 import { Initiative } from "../../shared/model/initiative.data"
 import { Team } from "../../shared/model/team.data"
 import "rxjs/add/operator/map";

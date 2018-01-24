@@ -2,7 +2,7 @@ import { Observable, Subject } from "rxjs/Rx";
 import { Initiative } from "./../../../shared/model/initiative.data";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs/Subscription";
-import { Component, ViewEncapsulation, ChangeDetectorRef } from "@angular/core";
+import { Component, ViewEncapsulation, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
 import { D3Service, D3, ScaleLinear, HSLColor } from "d3-ng2-service";
 import { ColorService } from "../../../shared/services/ui/color.service"
 import { UIService } from "../../../shared/services/ui/ui.service"
@@ -18,7 +18,8 @@ import { SelectableUser } from "../../../shared/model/user.data";
     selector: "circles",
     templateUrl: "./mapping.circles.component.html",
     styleUrls: ["./mapping.circles.component.css"],
-    encapsulation: ViewEncapsulation.Emulated
+    encapsulation: ViewEncapsulation.Emulated,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class MappingCirclesComponent implements IDataVisualizer {

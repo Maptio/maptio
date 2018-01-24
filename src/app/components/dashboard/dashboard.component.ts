@@ -1,5 +1,5 @@
 import { Subscription, Observable } from "rxjs/Rx";
-import { Component } from "@angular/core";
+import { Component, ChangeDetectorRef } from "@angular/core";
 import { DataSet } from "../../shared/model/dataset.data";
 import { DashboardComponentResolver } from "./dashboard.resolver";
 import { Initiative } from "../../shared/model/initiative.data";
@@ -19,7 +19,7 @@ export class DashboardComponent {
 
     isExportingMap: Map<string, boolean> = new Map<string, boolean>();
 
-    constructor(private resolver: DashboardComponentResolver, private exportService: ExportService) {
+    constructor(private resolver: DashboardComponentResolver, private exportService: ExportService, private cd:ChangeDetectorRef) {
     }
 
     ngOnInit() {
@@ -31,6 +31,7 @@ export class DashboardComponent {
                     this.isExportingMap.set(d.datasetId, false);
                 })
                 this.isLoading = false;
+                this.cd.markForCheck();
             },
             (error: any) => { this.isLoading = false; },
             () => {
