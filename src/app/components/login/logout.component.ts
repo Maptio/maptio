@@ -10,7 +10,7 @@ import { Auth } from "../../shared/services/auth/auth.service";
 
 export class LogoutComponent implements OnInit {
 
-    constructor(private router: Router, private auth:Auth, private cd:ChangeDetectorRef) {
+    constructor(private router: Router, private cd: ChangeDetectorRef) {
     }
 
     ngOnInit() {
