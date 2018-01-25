@@ -1,6 +1,7 @@
 
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { Router } from "@angular/router";
+import { Auth } from "../../shared/services/auth/auth.service";
 
 @Component({
     selector: "logout",
@@ -9,11 +10,12 @@ import { Router } from "@angular/router";
 
 export class LogoutComponent implements OnInit {
 
-    constructor(private router: Router) {
+    constructor(private router: Router, private cd: ChangeDetectorRef) {
     }
 
     ngOnInit() {
         localStorage.clear();
+        this.cd.detectChanges();
         this.router.navigateByUrl("/home");
     }
 
