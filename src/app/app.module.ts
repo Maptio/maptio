@@ -12,11 +12,11 @@ import {
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { HttpModule, RequestOptions, Http } from "@angular/http";
+import { HttpModule, RequestOptions, Http, XHRBackend } from "@angular/http";
 
 // Routing
 import { PathLocationStrategy, Location, LocationStrategy } from "@angular/common";
-import { Routes, RouterModule } from "@angular/router";
+import { Routes, RouterModule, Router } from "@angular/router";
 
 // Guards
 import { AuthGuard } from "./shared/services/guards/auth.guard";
@@ -103,6 +103,8 @@ import { WorkspaceComponentResolver } from "./components/workspace/workspace.res
 import { LogoutComponent } from "./components/login/logout.component";
 import { ExportService } from "./shared/services/export/export.service";
 import { FileService } from "./shared/services/file/file.service";
+import { HttpLogInterceptor, httpFactory, HttpFactoryModule } from "./shared/services/auth/httpInterceptor";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
 
 
 // Routes
@@ -222,6 +224,7 @@ export const RollbarService = new InjectionToken<Rollbar>("rollbar");
       secondaryColour: "#2F81B7",
       tertiaryColour: "#ffffff"
     }),
+    HttpFactoryModule,
     ColorPickerModule,
     BrowserAnimationsModule,
     CloudinaryModule.forRoot(cloudinaryLib, { cloud_name: environment.CLOUDINARY_CLOUDNAME, upload_preset: environment.CLOUDINARY_UPLOAD_PRESET })
@@ -237,9 +240,10 @@ export const RollbarService = new InjectionToken<Rollbar>("rollbar");
     { provide: LocationStrategy, useClass: PathLocationStrategy },
     // {
     //   provide: Http,
-    //   useFactory: HttpServiceFactory,
-    //   deps: [XHRBackend, RequestOptions, LoaderService, ErrorService]
+    //   useFactory: HttpFactory,
+    //   deps: [XHRBackend, RequestOptions, ErrorHandler, Router]
     // },
+
     {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,
