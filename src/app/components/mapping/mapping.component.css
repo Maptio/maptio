@@ -140,8 +140,6 @@
   background-color: #2F81B7;
 }
 
-
-
 #sideNavSettings {
   height: 90vh;
   max-height: 90vh;
@@ -209,6 +207,10 @@
   right: 43vw;
 }
 
-.tag-image{
-  height:14px;
+.tag-image {
+  height: 14px;
+}
+
+.btn-link {
+  color: #2F81B7!important;
 }
