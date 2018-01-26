@@ -221,6 +221,9 @@ export class HeaderComponent implements OnInit {
                     }
                     this.loader.show();
                 })
+                .then(() => {
+                    this.cd.markForCheck();
+                })
         }
     }
 

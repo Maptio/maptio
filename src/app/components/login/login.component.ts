@@ -4,10 +4,10 @@ import { Subscription } from "rxjs/Subscription";
 import { LoaderService } from "./../../shared/services/loading/loader.service";
 import { Params } from "@angular/router";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Component, OnInit} from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { JwtEncoder } from "../../shared/services/encoding/jwt.service";
 import { EmitterService } from "../../shared/services/emitter.service";
-import { FormGroup, FormBuilder, FormControl, Validators} from "@angular/forms";
+import { FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms";
 import { Auth } from "../../shared/services/auth/auth.service";
 @Component({
     selector: "login",
@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit {
     public isUserAlreadyActive: boolean;
     public activationStatusCannotBeUpdated: boolean;
     public previousAttemptMessage: string;
+    public isWaiting: boolean;
 
     public activateForm: FormGroup;
     public loginForm: FormGroup;
@@ -40,7 +41,8 @@ export class LoginComponent implements OnInit {
     public subscription: Subscription;
 
     constructor(private auth: Auth, private userService: UserService, private route: ActivatedRoute, private router: Router,
-        public encoding: JwtEncoder, public formBuilder: FormBuilder, private loader: LoaderService, private analytics: Angulartics2Mixpanel) {
+        public encoding: JwtEncoder, public formBuilder: FormBuilder, private loader: LoaderService, private analytics: Angulartics2Mixpanel,
+        private cd: ChangeDetectorRef) {
         this.activateForm = new FormGroup({
             "firstname": new FormControl(this.firstname, [
                 Validators.required,
@@ -135,21 +137,26 @@ export class LoginComponent implements OnInit {
             this.userService.isUserExist(email)
                 .then((isUserExist: boolean) => {
                     if (isUserExist) {
+                        this.loader.show();
                         this.auth.login(email, password)
+                        this.isWaiting = true;
                         // HACK .login() should be promisified instead of using EmitterService
                         EmitterService.get("loginErrorMessage").subscribe((loginErrorMessage: string) => {
                             this.loginErrorMessage =
                                 (loginErrorMessage === "Wrong email or password.") ? "Wrong password" : loginErrorMessage;
                             this.loader.hide();
+                            this.isWaiting = false;
+                            this.cd.markForCheck();
                         })
                     }
                     else {
-                        this.loginErrorMessage = "We don't know that email"
+                        this.isWaiting = false;
+                        this.loginErrorMessage = "We don't know that email";
                         this.loader.hide();
                     }
-                }).
-                then(() => {
-                    this.loader.show();
+                })
+                .then(() => {
+                    this.cd.markForCheck();
                 })
         }
     }
@@ -181,6 +188,7 @@ export class LoginComponent implements OnInit {
                             },
                             (error: any) => {
                                 this.isUserAlreadyActive = true;
+                                this.cd.markForCheck();
                                 this.loader.hide();
                                 return Promise.reject("User has already activated account");
                             });
@@ -191,12 +199,13 @@ export class LoginComponent implements OnInit {
                                 if (isUpdated) {
                                     return Promise.resolve(user_id)
                                 }
-                                 return Promise.reject("Password cannot be updated");
+                                throw "Password cannot be updated";
                             },
                             (error: any) => {
                                 this.isPasswordTooWeak = true;
+                                this.cd.markForCheck();
                                 this.loader.hide();
-                                return Promise.reject("Password cannot be updated");
+                                throw "Password cannot be updated";
                             })
                     })
                     .then((user_id: string) => {
@@ -205,6 +214,7 @@ export class LoginComponent implements OnInit {
                         },
                             (error: any) => {
                                 this.activationStatusCannotBeUpdated = true;
+                                this.cd.markForCheck();
                                 this.loader.hide();
                                 return Promise.reject("Status cannot be updated");
                             })
@@ -218,7 +228,7 @@ export class LoginComponent implements OnInit {
                     }, () => { })
                     .then(() => {
                         this.loader.show();
-                        this.auth.login(email, password)
+                        this.auth.login(email, password);
                     })
             }
             else {

@@ -1,7 +1,7 @@
 import { repeatValidator } from "./../../shared/directives/equal-validator.directive";
 import { LoaderService } from "./../../shared/services/loading/loader.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { User } from "../../shared/model/user.data";
 import { UserService } from "../../shared/services/user/user.service";
 import { Angulartics2Mixpanel } from "angulartics2";
@@ -33,7 +33,8 @@ export class SignupComponent implements OnInit {
 
     public signupForm: FormGroup;
 
-    constructor(private userService: UserService, private loader: LoaderService, private analytics: Angulartics2Mixpanel) {
+    constructor(private userService: UserService, private loader: LoaderService,
+        private analytics: Angulartics2Mixpanel, private cd: ChangeDetectorRef) {
         this.signupForm = new FormGroup({
             "firstname": new FormControl(this.firstname, [
                 Validators.required,
@@ -78,10 +79,12 @@ export class SignupComponent implements OnInit {
                             // account is created but still needs activation => redirect to activation page
                             this.userToken = userToken;
                             this.isRedirectToActivate = true;
+                            this.cd.markForCheck();
                         }
                         else {
                             // account is created and is already activated => this user should login
                             this.isEmailAlreadyExist = true;
+                            this.cd.markForCheck();
                         }
                     }
                     else {
@@ -93,15 +96,17 @@ export class SignupComponent implements OnInit {
                             .then((user: User) => {
                                 return this.userService.sendConfirmation(user.email, user.user_id, user.firstname, user.lastname, user.name)
                                     .then((success: boolean) => {
-                                        this.isConfirmationEmailSent = success
+                                        this.isConfirmationEmailSent = success;
+                                        this.cd.markForCheck();
                                     },
-                                    (reason) => { this.isConfirmationEmailSent = false; return Promise.reject("Confirmation email failed to send") })
+                                    (reason) => { this.isConfirmationEmailSent = false; this.cd.markForCheck(); return Promise.reject("Confirmation email failed to send") })
                             })
                             .then(() => {
                                 this.analytics.eventTrack("Sign up", { email: email, firstname: firstname, lastname: lastname });
                             }, () => { })
                             .catch((reason: any) => {
-                                this.signUpMessageFail = `${reason}! Please email us at support@maptio.com and we'll help you out. `
+                                this.signUpMessageFail = `${reason}! Please email us at support@maptio.com and we'll help you out. `;
+                                this.cd.markForCheck();
                             })
                     }
                 }).then(() => { this.isLoading = false; })

@@ -17,6 +17,7 @@ import { LoginComponent } from "./login.component";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 import { Auth } from "../../shared/services/auth/auth.service";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
+import { NO_ERRORS_SCHEMA } from "@angular/core";
 
 export class AuthStub {
     login() {
@@ -31,6 +32,7 @@ describe("login.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [LoginComponent],
+            schemas: [NO_ERRORS_SCHEMA],
             imports: [FormsModule, ReactiveFormsModule, RouterTestingModule]
         }).overrideComponent(LoginComponent, {
             set: {
