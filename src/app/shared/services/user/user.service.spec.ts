@@ -4,7 +4,7 @@ import { MailingService } from "./../mailing/mailing.service";
 import { JwtEncoder } from "./../encoding/jwt.service";
 import { AuthHttp } from "angular2-jwt";
 import { UserService } from "./user.service";
-import { TestBed, inject, fakeAsync} from "@angular/core/testing";
+import { TestBed, inject, fakeAsync } from "@angular/core/testing";
 import { MockBackend, MockConnection } from "@angular/http/testing";
 import { Http, HttpModule, Response, BaseRequestOptions, ResponseOptions, RequestMethod } from "@angular/http";
 import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
@@ -753,11 +753,11 @@ describe("user.service.ts", () => {
 
         })));
 
-        it("should send request call when non empty array", fakeAsync(inject([UserService, Http, AuthConfiguration, MockBackend], (target: UserService, http: Http, configuration: AuthConfiguration, mockBackend: MockBackend) => {
+        it("should send request call when non empty array - one request", fakeAsync(inject([UserService, Http, AuthConfiguration, MockBackend], (target: UserService, http: Http, configuration: AuthConfiguration, mockBackend: MockBackend) => {
 
             mockBackend.connections.subscribe((connection: MockConnection) => {
                 if (connection.request.method === RequestMethod.Get
-                    && connection.request.url === `${environment.USERS_API_URL}?per_page=100&q=${encodeURIComponent("user_id=\"1\" OR user_id=\"2\" OR user_id=\"3\"")}`
+                    && connection.request.url === `${environment.USERS_API_URL}?page=0&per_page=${environment.AUTH0_USERS_PAGE_LIMIT}&q=${encodeURIComponent("user_id=\"1\" OR user_id=\"2\" OR user_id=\"3\"")}`
                     && connection.request.headers.get("Authorization") === "Bearer token"
                 ) {
                     connection.mockRespond(new Response(new ResponseOptions({
@@ -784,7 +784,7 @@ describe("user.service.ts", () => {
 
             mockBackend.connections.subscribe((connection: MockConnection) => {
                 if (connection.request.method === RequestMethod.Get
-                    && connection.request.url === `${environment.USERS_API_URL}?per_page=100&q=${encodeURIComponent("user_id=\"1\" OR user_id=\"2\" OR user_id=\"3\"")}`
+                    && connection.request.url === `${environment.USERS_API_URL}?page=0&per_page=100&q=${encodeURIComponent("user_id=\"1\" OR user_id=\"2\" OR user_id=\"3\"")}`
                     && connection.request.headers.get("Authorization") === "Bearer token"
                 ) {
                     connection.mockRespond(new Response(new ResponseOptions({

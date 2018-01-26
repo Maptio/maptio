@@ -7,6 +7,8 @@ import { JwtEncoder } from "../encoding/jwt.service";
 import { MailingService } from "../mailing/mailing.service";
 import { UUID } from "angular2-uuid/index";
 import { EmitterService } from "../emitter.service";
+import { Observable } from "rxjs/Rx";
+import * as _ from "lodash";
 
 @Injectable()
 export class UserService {
@@ -110,29 +112,49 @@ export class UserService {
 
     public getUsersInfo(users: Array<User>): Promise<Array<User>> {
         if (users.length === 0)
-            return Promise.reject("You must specify some user ids.")
+            return Promise.reject("You must specify some user ids.");
 
         let query = users.map(u => `user_id="${u.user_id}"`).join(" OR ");
+
         return this.configuration.getAccessToken().then((token: string) => {
 
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
 
-            return this.http.get(`${environment.USERS_API_URL}?per_page=100&q=` + encodeURIComponent(query), { headers: headers })
-                .map((responseData) => {
-                    return responseData.json();
-                })
-                .map((inputs: Array<any>) => {
-                    let result: Array<User> = [];
-                    if (inputs) {
-                        inputs.forEach((input) => {
-                            result.push(User.create().deserialize(input));
-                        });
-                    }
-                    return result;
-                })
-                .toPromise()
+            // we can get all users at once
+            if (users.length <= environment.AUTH0_USERS_PAGE_LIMIT) {
+                return this.requestUsersPerPage(query, headers, 0).toPromise()
+            }
+            else { // query several times
+                let maxCounter = Math.ceil(users.length / environment.AUTH0_USERS_PAGE_LIMIT);
+                let pageArrays = Array.from(Array(maxCounter - 1).keys())
+                let singleObservables = pageArrays.map((pageNumber: number) => {
+                    return this.requestUsersPerPage(query, headers, pageNumber)
+                        .map(single => { console.log(single); return single })
+                });
+
+                return Observable.forkJoin(singleObservables).toPromise().then((result: User[][]) => {
+                    return _.flatten(result);
+                });
+            }
+
         });
+    }
+
+    private requestUsersPerPage(query: string, headers: Headers, page: number): Observable<User[]> {
+        return this.http.get(`${environment.USERS_API_URL}?page=${page}&per_page=${environment.AUTH0_USERS_PAGE_LIMIT}&q=` + encodeURIComponent(query), { headers: headers })
+            .map((responseData) => {
+                return responseData.json();
+            })
+            .map((inputs: Array<any>) => {
+                let result: Array<User> = [];
+                if (inputs) {
+                    inputs.forEach((input) => {
+                        result.push(User.create().deserialize(input));
+                    });
+                }
+                return result;
+            })
     }
 
     public isActivationPendingByUserId(user_id: string): Promise<boolean> {
