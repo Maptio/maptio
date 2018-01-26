@@ -40,7 +40,6 @@ export class ChangePasswordComponent implements OnInit {
                     else {
                         this.userService.changePassword(email);
                         EmitterService.get("changePasswordFeedbackMessage").subscribe((message: string) => {
-                            console.log(message)
                             this.feedbackMessage = message;
                             this.cd.markForCheck();
                         })
