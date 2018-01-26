@@ -326,6 +326,7 @@ export class UserService {
             connection: environment.CONNECTION_NAME,
             email: email
         }, function (err, resp) {
+            console.log(err, resp)
             if (err) {
                 EmitterService.get("changePasswordFeedbackMessage").emit(err.error)
             } else {
