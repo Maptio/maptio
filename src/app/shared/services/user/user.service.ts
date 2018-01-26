@@ -118,7 +118,7 @@ export class UserService {
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
 
-            return this.http.get(`${environment.USERS_API_URL}?q=` + encodeURIComponent(query), { headers: headers })
+            return this.http.get(`${environment.USERS_API_URL}?per_page=100&q=` + encodeURIComponent(query), { headers: headers })
                 .map((responseData) => {
                     return responseData.json();
                 })
