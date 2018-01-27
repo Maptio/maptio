@@ -205,7 +205,7 @@ export const RollbarService = new InjectionToken<Rollbar>("rollbar");
     CommonModule,
     HttpModule,
     TreeModule,
-    Ng2Bs3ModalModule,
+    // Ng2Bs3ModalModule,
     NgbModule.forRoot(),
     RouterModule.forRoot(appRoutes),
     ResponsiveModule,
