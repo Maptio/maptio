@@ -23,6 +23,7 @@ import { Router, NavigationStart } from "@angular/router";
 import { UserFactory } from "../../shared/services/user.factory";
 import { User } from "../../shared/model/user.data";
 import { DataSet } from "../../shared/model/dataset.data";
+import { Team } from "../../shared/model/team.data";
 
 export class AuthStub {
 
@@ -96,14 +97,25 @@ describe("building.component.ts", () => {
 
             let initiative = new Initiative().deserialize(fixture.json[0]);
             let dataset = new DataSet({ initiative: initiative })
-            let spyDataService = spyOn(mockDataService, "get").and.returnValue(Promise.resolve(dataset));
-            spyOn(mockUserFactory, "get").and.callFake((user_id: string) => {
-                return Promise.resolve(new User({ picture: `URL${user_id}`, name: `Name${user_id}` }))
+            let team = new Team({
+                team_id: "ID1", members: [
+                    new User({ picture: `URL1`, name: `Name1`, user_id: "1" }),
+                    new User({ picture: `URL2`, name: `Name2`, user_id: "2" }),
+                    new User({ picture: `URL3`, name: `Name3`, user_id: "3" })
+                ]
             })
+            let spyDataService = spyOn(mockDataService, "get").and.returnValue(Promise.resolve(dataset));
+            spyOn(mockUserFactory, "getUsers").and.callFake((user_ids: string[]) => {
+                return Promise.resolve([
+                    new User({ picture: `URL1`, name: `Name1`, user_id: "1" }),
+                    new User({ picture: `URL2`, name: `Name2`, user_id: "2" }),
+                    new User({ picture: `URL3`, name: `Name3`, user_id: "3" })
+                ])
+            });
             spyOn(component, "saveChanges");
             spyOn(component.openDetailsEditOnly, "emit");
 
-            component.loadData("someId", "", "", "").then(() => {
+            component.loadData("someId", "", team).then(() => {
                 expect(spyDataService).toHaveBeenCalledWith("someId");
                 spyDataService.calls.mostRecent().returnValue
                     .then(() => {
@@ -138,13 +150,24 @@ describe("building.component.ts", () => {
 
             let initiative = new Initiative().deserialize(fixture.json[0]);
             let dataset = new DataSet({ initiative: initiative })
-            let spyDataService = spyOn(mockDataService, "get").and.returnValue(Promise.resolve(dataset));
-            spyOn(mockUserFactory, "get").and.callFake((user_id: string) => {
-                return Promise.resolve(new User({ picture: `URL${user_id}`, name: `Name${user_id}` }))
+            let team = new Team({
+                team_id: "ID1", members: [
+                    new User({ picture: `URL1`, name: `Name1`, user_id: "1" }),
+                    new User({ picture: `URL2`, name: `Name2`, user_id: "2" }),
+                    new User({ picture: `URL3`, name: `Name3`, user_id: "3" })
+                ]
             })
+            let spyDataService = spyOn(mockDataService, "get").and.returnValue(Promise.resolve(dataset));
+            spyOn(mockUserFactory, "getUsers").and.callFake((user_ids: string[]) => {
+                return Promise.resolve([
+                    new User({ picture: `URL1`, name: `Name1`, user_id: "1" }),
+                    new User({ picture: `URL2`, name: `Name2`, user_id: "2" }),
+                    new User({ picture: `URL3`, name: `Name3`, user_id: "3" })
+                ])
+            });
             spyOn(component, "saveChanges");
             spyOn(component.openDetailsEditOnly, "emit")
-            component.loadData("someId", "2", "", "").then(() => {
+            component.loadData("someId", "2", team).then(() => {
                 expect(spyDataService).toHaveBeenCalledWith("someId");
                 spyDataService.calls.mostRecent().returnValue
                     .then(() => {

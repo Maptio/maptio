@@ -12,12 +12,13 @@ import "rxjs/add/operator/map";
 import { InitiativeNodeComponent } from "./initiative.node.component"
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Tag } from "../../shared/model/tag.data";
+import { Team } from "../../shared/model/team.data";
 
 @Component({
     selector: "building",
     templateUrl: "./building.component.html",
     styleUrls: ["./building.component.css"],
-    changeDetection : ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BuildingComponent {
 
@@ -35,7 +36,7 @@ export class BuildingComponent {
         actionMapping: {
             mouse: {
                 dragStart: () => { this.cd.detach(); },
-                dragEnd: () => {  this.cd.reattach(); },
+                dragEnd: () => { this.cd.reattach(); },
                 drop: (tree: any, node: TreeNode, $event: any, { from, to }: { from: TreeNode, to: TreeNode }) => {
 
                     this.fromInitiative = from.data;
@@ -195,10 +196,10 @@ export class BuildingComponent {
      * @param id Dataset Id
      * @param slugToOpen Slug of initiative to open
      */
-    loadData(datasetID: string, nodeIdToOpen: string = undefined, teamName: string, teamId: string): Promise<void> {
+    loadData(datasetID: string, nodeIdToOpen: string = undefined, team: Team): Promise<void> {
         this.datasetId = datasetID;
-        this.teamId = teamId;
-        this.teamName = teamName;
+        this.teamId = team.team_id;
+        this.teamName = team.name;
         return this.datasetFactory.get(datasetID)
             .then(dataset => {
                 this.nodes = [];
@@ -207,30 +208,40 @@ export class BuildingComponent {
                 this.nodes[0].traverse(function (node: Initiative) {
                     node.team_id = defaultTeamId; // For now, the sub initiative are all owned by the same team
                 });
+
+                return this.userFactory.getUsers(team.members.map(u => u.user_id));
+
             })
-            .then(() => {
+            .then((users: User[]) => {
                 let queue = this.nodes[0].traversePromise(function (node: Initiative) {
                     let q: any = [];
                     if (node.accountable) {
-                        q += this.userFactory.get(node.accountable.user_id).then((u: User) => {
-                            node.accountable.picture = u.picture;
-                            node.accountable.name = u.name
-                        }, () => { return Promise.reject("No user") }).catch(() => { })
-                    }
-                    if (node.helpers) {
-                        node.helpers.forEach(h => {
-                            return this.userFactory.get(h.user_id).then((u: User) => {
-                                h.picture = u.picture;
-                                h.name = u.name
-                            }, () => { return Promise.reject("No user") }).catch(() => { })
+                        q += new Promise(() => {
+                            let a = users.find(u => u.user_id === node.accountable.user_id);
+                            if (a) {
+                                node.accountable.picture = a.picture;
+                                node.accountable.name = a.name
+                            }
+
                         })
                     }
-
-
+                    if (node.helpers) {
+                        node.helpers.forEach(helper => {
+                            q += new Promise(() => {
+                                let h = users.find(u => u.user_id === helper.user_id);
+                                if (h) {
+                                    helper.picture = h.picture;
+                                    helper.name = h.name;
+                                }
+                            })
+                        })
+                    }
                 }.bind(this));
-                return Promise.all(queue).then(t => t).catch(() => { })
+
+                return Promise.all(queue).then(t => t).catch(() => { });
             })
             .then(() => {
+
                 this.saveChanges();
             })
             .then(() => {
