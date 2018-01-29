@@ -369,12 +369,17 @@ export class MappingComponent {
             this.tags.unshift(<SelectableTag>tag)
             this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
             this.newTagForm.reset();
+            this.analytics.eventTrack("Map", { action: "Add tag", team: this.teamName, teamId: this.teamId });
+
         }
     }
 
     removeTag(tag: Tag) {
         let index = this.tags.findIndex(t => t.shortid === tag.shortid);
-        if (index > 0) { this.tags.splice(index, 1); }
+        if (index > 0) {
+            this.tags.splice(index, 1);
+            this.analytics.eventTrack("Map", { action: "Remove tag", team: this.teamName, teamId: this.teamId });
+        }
         this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
     }
 
