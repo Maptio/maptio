@@ -29,6 +29,10 @@
   top: 12vh;
 }
 
+.control.first >  .btn-group-vertical{
+  width: 48px;
+}
+
 .control.second {
   top: 29vh;
 }

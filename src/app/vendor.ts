@@ -20,7 +20,6 @@ import "d3-ng2-service";
 import "angular-tree-component";
 import "angulartics2";
 import "ng2-file-upload";
-import "ng2-bs3-modal";
 import "angular-confirmation-popover";
 import "angular2-markdown";
 import "marked";
