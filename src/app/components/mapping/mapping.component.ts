@@ -357,6 +357,10 @@ export class MappingComponent {
 
     saveTagName(tag: Tag, name: string) {
         tag.name = name;
+        // this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
+    }
+
+    saveTagChanges(){
         this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
     }
 

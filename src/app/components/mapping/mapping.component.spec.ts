@@ -247,6 +247,15 @@ describe("mapping.component.ts", () => {
                     let tag = new Tag({ name: "tag", color: "red" });
                     component.saveTagName(tag, "new name");
                     expect(tag.name).toBe("new name");
+                    expect(spy).not.toHaveBeenCalledWith(jasmine.objectContaining({
+                        initiative: component.initiative,
+                        tags: component.tags
+                    }))
+                });
+
+                it("should send event to apply to dataset", () => {
+                    let spy = spyOn(component.applySettings, "emit");
+                    component.saveTagChanges();
                     expect(spy).toHaveBeenCalledWith(jasmine.objectContaining({
                         initiative: component.initiative,
                         tags: component.tags
