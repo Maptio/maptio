@@ -25,7 +25,7 @@ export interface IDataVisualizer {
     selectableTags$: Observable<Array<SelectableTag>>;
     // selectableUsers$: Observable<Array<SelectableUser>>;
 
-    isLocked$: Observable<boolean>;
+    // isLocked$: Observable<boolean>;
 
     data$: Subject<{ initiative: Initiative, datasetId: string }>;
 

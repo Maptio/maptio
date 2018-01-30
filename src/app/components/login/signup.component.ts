@@ -22,7 +22,7 @@ export class SignupComponent implements OnInit {
     public confirmedEmail: string;
     public firstname: string;
     public lastname: string;
-    public isTermsAccepted: boolean;
+    // public isTermsAccepted: boolean;
 
     public isEmailAlreadyExist: boolean
     public isRedirectToActivate: boolean;
@@ -30,6 +30,7 @@ export class SignupComponent implements OnInit {
     public signUpMessageFail: string;
     public isLoading: boolean;
     public userToken: string;
+    public isResending: boolean;
 
     public signupForm: FormGroup;
 
@@ -49,10 +50,10 @@ export class SignupComponent implements OnInit {
             ]),
             "confirmedEmail": new FormControl(this.confirmedEmail, [
                 Validators.required, repeatValidator("email")
-            ]),
-            "isTermsAccepted": new FormControl(this.isTermsAccepted, [
-                Validators.requiredTrue
             ])
+            // "isTermsAccepted": new FormControl(this.isTermsAccepted, [
+            //     Validators.requiredTrue
+            // ])
         });
 
     }
@@ -76,7 +77,7 @@ export class SignupComponent implements OnInit {
                     this.isLoading = true;
                     if (isEmailExist) {
                         if (isActivationPending) {
-                            // account is created but still needs activation => redirect to activation page
+                            // account is created but still needs activation => display message to check email or resend invitation
                             this.userToken = userToken;
                             this.isRedirectToActivate = true;
                             this.cd.markForCheck();
@@ -130,5 +131,15 @@ export class SignupComponent implements OnInit {
                 });
                 // }
             })
+    }
+
+    resendEmail() {
+        this.isResending = true;
+        if (!this.userToken)
+            return;
+        this.userService.sendConfirmationWithUserToken(this.userToken).then(() => {
+            this.isResending = false;
+            this.cd.markForCheck();
+        })
     }
 }

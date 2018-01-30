@@ -76,9 +76,9 @@ export class MappingCirclesComponent implements IDataVisualizer {
     public selectedNodeParent: Initiative;
     public hoveredNode: Initiative;
 
-    private draggedNode: Initiative;
-    private dragTargetNode: Initiative;
-    private isDragging: boolean = false;
+    // private draggedNode: Initiative;
+    // private dragTargetNode: Initiative;
+    // private isDragging: boolean = false;
 
     private color: ScaleLinear<HSLColor, string>;
     public slug: string;
@@ -193,13 +193,13 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 });
         });
 
-        this.lockedSubscription = this.isLocked$.subscribe((locked: boolean) => {
+        // this.lockedSubscription = this.isLocked$.subscribe((locked: boolean) => {
 
-            d3.selectAll("circle.node").style("cursor", () => { return locked ? "default" : "move" });
-            svg.style("background", function () { return locked ? "#f7f7f7" : "transparent" });
+        //     d3.selectAll("circle.node").style("cursor", () => { return locked ? "default" : "move" });
+        //     svg.style("background", function () { return locked ? "#f7f7f7" : "transparent" });
 
-            this.setIsLocked(locked);
-        });
+        //     this.setIsLocked(locked);
+        // });
 
         this.svg = svg;
         this.g = g;
@@ -249,23 +249,21 @@ export class MappingCirclesComponent implements IDataVisualizer {
         this.cd.markForCheck();
     }
 
-    setDragTargetNode(node: Initiative) {
-        // console.log("set dragged target node", node.name)
-        this.dragTargetNode = node;
-    }
+    // setDragTargetNode(node: Initiative) {
+    //     this.dragTargetNode = node;
+    // }
 
-    setDraggedNode(node: Initiative) {
-        // console.log("set dragged node", node.name)
-        this.draggedNode = node;
-    }
+    // setDraggedNode(node: Initiative) {
+    //     this.draggedNode = node;
+    // }
 
-    setIsDragging(isDragging: boolean) {
-        this.isDragging = isDragging;
-    }
+    // setIsDragging(isDragging: boolean) {
+    //     this.isDragging = isDragging;
+    // }
 
-    getIsDragging(): boolean {
-        return this.isDragging;
-    }
+    // getIsDragging(): boolean {
+    //     return this.isDragging;
+    // }
 
     setColor(color: ScaleLinear<HSLColor, string>) {
         this.color = color;
@@ -275,13 +273,13 @@ export class MappingCirclesComponent implements IDataVisualizer {
         return this.color;
     }
 
-    setIsLocked(isLocked: boolean) {
-        this.isLocked = isLocked;
-    }
+    // setIsLocked(isLocked: boolean) {
+    //     this.isLocked = isLocked;
+    // }
 
-    getIsLocked(): boolean {
-        return this.isLocked;
-    }
+    // getIsLocked(): boolean {
+    //     return this.isLocked;
+    // }
 
     edit(node: Initiative) {
         if (!this.selectedNodeParent) { return }
@@ -320,15 +318,15 @@ export class MappingCirclesComponent implements IDataVisualizer {
         this.analytics.eventTrack("Map", { mode: "tooltip", action: "remove", team: this.teamName, teamId: this.teamId });
     }
 
-    move() {
-        if (!this.draggedNode || !this.dragTargetNode) {
-            return;
-        }
-        this.moveInitiative$.next({ node: this.draggedNode, from: null, to: this.dragTargetNode });
-        this.draggedNode = null;
-        this.dragTargetNode = null;
-        this.analytics.eventTrack("Map", { mode: "drag", action: "move", team: this.teamName, teamId: this.teamId });
-    }
+    // move() {
+    //     if (!this.draggedNode || !this.dragTargetNode) {
+    //         return;
+    //     }
+    //     this.moveInitiative$.next({ node: this.draggedNode, from: null, to: this.dragTargetNode });
+    //     this.draggedNode = null;
+    //     this.dragTargetNode = null;
+    //     this.analytics.eventTrack("Map", { mode: "drag", action: "move", team: this.teamName, teamId: this.teamId });
+    // }
 
     update(data: any, tags: Array<SelectableTag>) {
 
@@ -358,16 +356,16 @@ export class MappingCirclesComponent implements IDataVisualizer {
         let setIsFirstEditing = this.setIsFirstEditing.bind(this);
         let MAX_TEXT_LENGTH = this.MAX_TEXT_LENGTH;
         let TRANSITION_DURATION = this.TRANSITION_DURATION;
-        let setDragTargetNode = this.setDragTargetNode.bind(this);
-        let setDraggedNode = this.setDraggedNode.bind(this);
-        let setIsDragging = this.setIsDragging.bind(this);
-        let getIsDragging = this.getIsDragging.bind(this);
+        // let setDragTargetNode = this.setDragTargetNode.bind(this);
+        // let setDraggedNode = this.setDraggedNode.bind(this);
+        // let setIsDragging = this.setIsDragging.bind(this);
+        // let getIsDragging = this.getIsDragging.bind(this);
         let getColor = this.getColor.bind(this);
         let setColor = this.setColor.bind(this);
-        let move = this.move.bind(this);
+        // let move = this.move.bind(this);
         let startX: number, startY: number;
         let slug = this.slug;
-        let getIsLocked = this.getIsLocked.bind(this);
+        // let getIsLocked = this.getIsLocked.bind(this);
         let t = this.T;
         // let RATIO_FOR_VISIBILITY = this.RATIO_FOR_VISIBILITY;
         // let OPACITY_DISAPPEARING = this.OPACITY_DISAPPEARING;
@@ -414,9 +412,9 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 .style("top", (d3.event.pageY - 15) + "px").style("left", (d3.event.pageX) + "px");
             selectInitiative(root.data, undefined);
         })
-            .on("mouseover", function (d: any) {
-                if (getIsDragging()) setDragTargetNode(root.data);
-            })
+            // .on("mouseover", function (d: any) {
+            //     if (getIsDragging()) setDragTargetNode(root.data);
+            // })
 
 
         let selection = g.selectAll(".nodes").data(nodes, function (d: any) { return d.data.id })
@@ -444,16 +442,14 @@ export class MappingCirclesComponent implements IDataVisualizer {
         selection.order();
         selection.exit().remove();
 
-        g.selectAll("g.nodes")
-            .call(
-            d3.drag()
-                // context menu do not trigger drag and drop
-
-                .filter(() => { return !getIsLocked() && d3.event.button !== 2; })
-                .on("start", dragstarted)
-                .on("drag", dragged)
-                .on("end", dragended)
-            )
+        // g.selectAll("g.nodes")
+        //     .call(
+        //     d3.drag()
+        //         .filter(() => { return !getIsLocked() && d3.event.button !== 2; })
+        //         .on("start", dragstarted)
+        //         .on("drag", dragged)
+        //         .on("end", dragended)
+        //     )
 
         let [selectedTags, unselectedTags] = _.partition(tags, t => t.isSelected);
         // let [selectedUsers, unselectedUsers] = _.partition(users, u => u.isSelected);
@@ -465,42 +461,37 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 : 0.1
         });
 
-        function dragstarted(d: any) {
-            setIsDragging(true)
-            // console.log("drag start", getIsDragging())
-            setDraggedNode(d.data)
+        // function dragstarted(d: any) {
+        //     setIsDragging(true)
+        //     setDraggedNode(d.data)
 
-            // if (!d.children) this.parentNode.appendChild(this);
+        //     d3.event.sourceEvent.stopPropagation();
+        //     d3.event.sourceEvent.preventDefault();
+        //     d3.select(this).attr("pointer-events", "none");
+        //     d3.select(this).select("circle.node").classed("dragged", true)
+        //     startX = d3.event.x;
+        //     startY = d3.event.y;
 
-            d3.event.sourceEvent.stopPropagation();
-            d3.event.sourceEvent.preventDefault();
-            d3.select(this).attr("pointer-events", "none");
-            d3.select(this).select("circle.node").classed("dragged", true)
-            startX = d3.event.x;
-            startY = d3.event.y;
+        // }
 
-        }
+        // function dragged(d: any) {
+        //     d3.select(this)
+        //         .attr("transform", function (d: any) {
+        //             return "translate(" + (d3.event.x - diameter / 2) + "," + (d3.event.y - diameter / 2) + ")";
+        //         });
 
-        function dragged(d: any) {
-            // console.log("dragging")
-            d3.select(this)
-                .attr("transform", function (d: any) {
-                    return "translate(" + (d3.event.x - diameter / 2) + "," + (d3.event.y - diameter / 2) + ")";
-                });
+        //     d3.selectAll(`g.nodes[ancestors-id*="${d.data.id}"]`)
+        //         .attr("transform", function (d: any) {
+        //             return "translate(" + (d.x - diameter / 2 - (startX - d3.event.x)) + "," + (d.y - diameter / 2 - (startY - d3.event.y)) + ")";
+        //         });
+        //     d3.select(this).select("circle.node").classed("dragged", true)
+        // }
 
-            d3.selectAll(`g.nodes[ancestors-id*="${d.data.id}"]`)
-                .attr("transform", function (d: any) {
-                    return "translate(" + (d.x - diameter / 2 - (startX - d3.event.x)) + "," + (d.y - diameter / 2 - (startY - d3.event.y)) + ")";
-                });
-            d3.select(this).select("circle.node").classed("dragged", true)
-        }
-
-        function dragended(d: any) {
-            // console.log("drag end")
-            d3.select(this).select("circle.node").classed("dragged", false)
-            if (getIsDragging()) move();
-            setIsDragging(false)
-        }
+        // function dragended(d: any) {
+        //     d3.select(this).select("circle.node").classed("dragged", false)
+        //     if (getIsDragging()) move();
+        //     setIsDragging(false)
+        // }
 
 
 
@@ -512,7 +503,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .style("stroke", function (d: any) { return d.data.isSearchedFor ? "#d9831f" : "none" })
             .style("stroke-width", function (d: any) { return d.data.isSearchedFor ? 3 : "none" })
             .attr("id", function (d: any) { return d.data.id; })
-            .style("cursor", () => { return getIsLocked() ? "default" : "move" })
+            // .style("cursor", () => { return getIsLocked() ? "default" : "move" })
             .on("click", function (d: any) {
                 if (d3.event.defaultPrevented) return; // dragged
                 if (d.parent) {
@@ -520,11 +511,11 @@ export class MappingCirclesComponent implements IDataVisualizer {
                     d3.select("div.tooltip-initiative").style("visibility", "hidden")
                 }
             })
-            .on("mouseover", function (d: any) {
-                d3.event.stopPropagation();
-                if (getIsDragging()) setDragTargetNode(d.data);
-                if (d.parent) d3.select(this).classed("highlighted", !getIsLocked() && true);
-            })
+            // .on("mouseover", function (d: any) {
+            //     d3.event.stopPropagation();
+            //     if (getIsDragging()) setDragTargetNode(d.data);
+            //     if (d.parent) d3.select(this).classed("highlighted", !getIsLocked() && true);
+            // })
             .on("contextmenu", function (d: any) {
                 d3.select("div.tooltip-initiative").style("visibility", "hidden");
                 d3.event.preventDefault();
@@ -565,12 +556,12 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .style("fill", "white")
             .transition(t)
             .style("fill", function (d: any) { return d.children ? (d === root ? "white" : getColor()(d.depth)) : (d.parent && d.parent.data.id === root.data.id ? getColor()(d.depth) : "white"); })
-            .style("cursor", () => { return getIsLocked() ? "default" : "move" })
+            // .style("cursor", () => { return getIsLocked() ? "default" : "move" })
 
 
         selection.selectAll("circle.node")
             .attr("class", function (d: any) { return d.parent ? (d.children || d.parent.data.id === root.data.id) ? "node" : "node node--leaf" : "node node--root"; })
-            .style("cursor", () => { return getIsLocked() ? "default" : "move" })
+            // .style("cursor", () => { return getIsLocked() ? "default" : "move" })
             .style("fill", function (d: any) { return d.children ? (d === root ? "white" : getColor()(d.depth)) : (d.parent && d.parent.data.id === root.data.id ? getColor()(d.depth) : "white"); })
             .classed("invisible", function (d: any) { return !d.parent && !(nodes.length === 1) })
 

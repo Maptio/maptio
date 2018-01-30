@@ -42,7 +42,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     public selectableTags$: Observable<Array<SelectableTag>>;
     public zoom$: Observable<number>
     public fontSize$: Observable<number>;
-    public isLocked$: Observable<boolean>;
+    // public isLocked$: Observable<boolean>;
     public isReset$: Observable<boolean>;
     public data$: Subject<{ initiative: Initiative, datasetId: string }>;
 

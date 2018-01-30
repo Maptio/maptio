@@ -75,7 +75,7 @@ describe("signup.component.ts", () => {
                 lastname: "something",
                 email: "something@else.com",
                 confirmedEmail: "someone@else.com",
-                isTermsAccepted: true
+                // isTermsAccepted: true
             })
 
             let mockUserService = target.debugElement.injector.get(UserService);
@@ -92,7 +92,7 @@ describe("signup.component.ts", () => {
                 lastname: "something",
                 email: "someone@else.com",
                 confirmedEmail: "someone@else.com",
-                isTermsAccepted: true
+                // isTermsAccepted: true
             })
             component.signupForm.markAsDirty();
 
@@ -115,7 +115,7 @@ describe("signup.component.ts", () => {
                 lastname: "something",
                 email: "someone@else.com",
                 confirmedEmail: "someone@else.com",
-                isTermsAccepted: true
+                // isTermsAccepted: true
             })
             component.signupForm.markAsDirty();
 
@@ -138,7 +138,7 @@ describe("signup.component.ts", () => {
                 lastname: "something",
                 email: "someone@else.com",
                 confirmedEmail: "someone@else.com",
-                isTermsAccepted: true
+                // isTermsAccepted: true
             })
             component.signupForm.markAsDirty();
 
@@ -174,7 +174,7 @@ describe("signup.component.ts", () => {
                 lastname: "something",
                 email: "someone@else.com",
                 confirmedEmail: "someone@else.com",
-                isTermsAccepted: true
+                // isTermsAccepted: true
             })
             component.signupForm.markAsDirty();
 
@@ -202,7 +202,7 @@ describe("signup.component.ts", () => {
                 lastname: "something",
                 email: "someone@else.com",
                 confirmedEmail: "someone@else.com",
-                isTermsAccepted: true
+                // isTermsAccepted: true
             })
             component.signupForm.markAsDirty();
 

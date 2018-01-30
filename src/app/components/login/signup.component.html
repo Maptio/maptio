@@ -7,7 +7,7 @@
         {{signUpMessageFail}}
     </div>
     <div class="alert alert-success" role="alert" *ngIf="isRedirectToActivate">
-        You already have created an account but we need to verify your email ! Check your inbox first.
+        You already have created an account but we need to verify your email ! Check your inbox or <button (click)="resendEmail()" class="btn btn-secondary">resend a confirmation email <i *ngIf="isResending" class="text-muted fa fa-circle-o-notch fa-spin fa-fw ml-3 "></i></button>
     </div>
 
     <div class="alert alert-success" role="alert" *ngIf="isEmailAlreadyExist">
@@ -55,13 +55,13 @@
                 </small>
         </div>
 
-        <div class="form-check" [class.has-warning]="signupForm.controls['isTermsAccepted'].invalid  && (signupForm.controls['isTermsAccepted'].dirty || signupForm.controls['isTermsAccepted'].touched)">
+        <!-- <div class="form-check" [class.has-warning]="signupForm.controls['isTermsAccepted'].invalid  && (signupForm.controls['isTermsAccepted'].dirty || signupForm.controls['isTermsAccepted'].touched)">
             <label class="form-check-label">
                 <input  type="checkbox" id="inputTC" formControlName="isTermsAccepted" class="form-check-input">
                 
                 I agree to Maptio's <a href="{{TOS_URL}}">Terms of Service</a>  and <a href="{{PRIVACY_URL}}">Privacy Policy</a>  
             </label>
-        </div>
+        </div> -->
 
         <button type="submit" class="btn btn-success btn-lg" [class.disabled]="!signupForm.valid">Sign up</button>
 

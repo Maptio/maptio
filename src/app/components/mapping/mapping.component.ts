@@ -46,7 +46,7 @@ export class MappingComponent {
     public x: number;
     public y: number;
     public scale: number;
-    public isLocked: boolean = true;
+    // public isLocked: boolean = true;
 
     public isCollapsed: boolean = true;
     public isSettingsPanelCollapsed: boolean = true;
@@ -74,7 +74,7 @@ export class MappingComponent {
     // public usersFragment: string;
 
     public fontSize$: BehaviorSubject<number>;
-    public isLocked$: BehaviorSubject<boolean>;
+    // public isLocked$: BehaviorSubject<boolean>;
     public closeEditingPanel$: BehaviorSubject<boolean>;
     public data$: Subject<{ initiative: Initiative, datasetId: string }>;
 
@@ -112,7 +112,7 @@ export class MappingComponent {
         this.selectableTags$ = new ReplaySubject<Array<SelectableTag>>();
         // this.selectableUsers$ = new ReplaySubject<Array<SelectableUser>>();
         this.fontSize$ = new BehaviorSubject<number>(16);
-        this.isLocked$ = new BehaviorSubject<boolean>(this.isLocked);
+        // this.isLocked$ = new BehaviorSubject<boolean>(this.isLocked);
         this.closeEditingPanel$ = new BehaviorSubject<boolean>(false);
         this.data$ = new Subject<{ initiative: Initiative, datasetId: string }>();
 
@@ -172,7 +172,7 @@ export class MappingComponent {
         component.selectableTags$ = this.selectableTags$.asObservable();
         // component.selectableUsers$ = this.selectableUsers$.asObservable();
         component.fontSize$ = this.fontSize$.asObservable();
-        component.isLocked$ = this.isLocked$.asObservable();
+        // component.isLocked$ = this.isLocked$.asObservable();
         component.translateX = this.x;
         component.translateY = this.y;
         component.scale = this.scale;
@@ -203,11 +203,11 @@ export class MappingComponent {
             .map(data => data[1])
             .combineLatest(this.route.fragment) // PEFORMACE : with latest changes
             .subscribe(([data, fragment]) => {
-                if (!data.initiative.children || !data.initiative.children[0] || !data.initiative.children[0].children) {
-                    this.lock(false);
-                    this.cd.markForCheck();
-                }
-                // this.tags = data.tags;
+                // if (!data.initiative.children || !data.initiative.children[0] || !data.initiative.children[0].children) {
+                //     this.lock(false);
+                //     this.cd.markForCheck();
+                // }
+
                 let fragmentTags = this.uriService.parseFragment(fragment).has("tags") && this.uriService.parseFragment(fragment).get("tags")
                     ? this.uriService.parseFragment(fragment).get("tags")
                         .split(",")
@@ -293,11 +293,11 @@ export class MappingComponent {
     }
 
 
-    lock(locking: boolean) {
-        this.isLocked = locking;
-        this.isLocked$.next(this.isLocked);
-        this.analytics.eventTrack("Map", { action: (locking ? "lock" : "unlock"), team: this.teamName, teamId: this.teamId });
-    }
+    // lock(locking: boolean) {
+    //     this.isLocked = locking;
+    //     this.isLocked$.next(this.isLocked);
+    //     this.analytics.eventTrack("Map", { action: (locking ? "lock" : "unlock"), team: this.teamName, teamId: this.teamId });
+    // }
 
     isDisplayLockingToggle() {
         return this.layout !== "people" && this.layout !== "connections" && this.layout !== "list";
@@ -360,7 +360,7 @@ export class MappingComponent {
         // this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
     }
 
-    saveTagChanges(){
+    saveTagChanges() {
         this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
     }
 

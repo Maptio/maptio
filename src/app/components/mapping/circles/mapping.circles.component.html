@@ -2,7 +2,7 @@
 <svg width="100%" viewBox="0 0 1522 1522"></svg>
 
 <div *ngIf="isFirstEditing" class="instructions h2">
-    <button type="button" class="btn add btn-success" (click)="addFirstNode()" placement="top" ngbTooltip="New initiative" container="body"></button> or bring up the context menu to create your first initiative
+    Click <button type="button" class="btn add btn-success" (click)="addFirstNode()" placement="top" ngbTooltip="New initiative" container="body"></button> or bring up the context menu to create the outer circle
 
     <h6 class="offset-4">
         <small class="text-muted pull-right">On
@@ -26,15 +26,15 @@
 
                 <small>
                     <div class="btn-group" role="group">
-                        <button *ngIf="!getIsLocked()" type="button" class="btn btn-sm add btn-secondary" (click)="addQuick(hoveredNode)" placement="top"
-                            ngbTooltip="New initiative" container="body"></button>
+                        <!-- <button *ngIf="!getIsLocked()" type="button" class="btn btn-sm add btn-secondary" (click)="addQuick(hoveredNode)" placement="top"
+                            ngbTooltip="New initiative" container="body"></button> -->
 
                         <button *ngIf="!isFirstEditing" type="button" class="btn btn-sm edit btn-secondary" (click)="editQuick(hoveredNode)" placement="top"
                             ngbTooltip="Edit" container="body"></button>
 
-                        <button *ngIf="!isFirstEditing && !getIsLocked()" type="button" class="btn btn-sm remove btn-secondary" placement="top" container="body"
+                        <!-- <button *ngIf="!isFirstEditing && !getIsLocked()" type="button" class="btn btn-sm remove btn-secondary" placement="top" container="body"
                             ngbTooltip="Remove" mwlConfirmationPopover title="Remove initiative {{hoveredNode?.name}} and sub initiatives ?"
-                            focusbutton="cancel" appendToBody="false" (confirm)="removeQuick(hoveredNode)" (cancel)="cancelClicked = true"></button>
+                            focusbutton="cancel" appendToBody="false" (confirm)="removeQuick(hoveredNode)" (cancel)="cancelClicked = true"></button> -->
 
 
                     </div>
@@ -73,7 +73,7 @@
     </div>
 </div>
 
-<div class="tooltip" *ngIf="!getIsLocked()">
+<div class="tooltip">
     <div>
         <div class="btn-group" role="group">
             <button type="button" class="btn  add btn-secondary" (click)="add(selectedNode)" placement="top" ngbTooltip="New initiative"

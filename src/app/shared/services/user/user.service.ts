@@ -70,6 +70,45 @@ export class UserService {
             });
     }
 
+    public sendConfirmationWithUserToken(userToken: string): Promise<boolean> {
+
+        let getUserId = () => {
+            return this.encodingService.decode(userToken).then(decoded => decoded.user_id)
+        }
+        let getUserEmail = () => {
+            return this.encodingService.decode(userToken).then(decoded => decoded.email)
+        }
+
+        return Promise.all([
+            getUserId(),
+            getUserEmail(),
+            this.configuration.getAccessToken()]
+        ).then(([userId, email, apiToken]: [string, string, string]) => {
+            let headers = new Headers();
+            headers.set("Authorization", "Bearer " + apiToken);
+            return this.http.post(
+                environment.TICKETS_API_URL,
+                {
+                    "result_url": "http://app.maptio.com/login?token=" + userToken,
+                    "user_id": userId
+                },
+                { headers: headers })
+                .map((responseData) => {
+                    return { ticket: <string>responseData.json().ticket, email: email, userId: userId };
+                }).toPromise()
+        })
+            .then((data: { ticket: string, email: string, userId: string }) => {
+                // console.log("sending ticket")
+                return this.mailing.sendConfirmation(environment.SUPPORT_EMAIL, [data.email], data.ticket)
+            })
+            .then(() => {
+                return getUserId();
+            })
+            .then((userId: string) => {
+                return this.updateActivationPendingStatus(userId, true)
+            });
+    }
+
     public generateUserToken(userId: string, email: string, firstname: string, lastname: string): Promise<string> {
         return this.encodingService.encode({ user_id: userId, email: email, firstname: firstname, lastname: lastname })
     }
