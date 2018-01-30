@@ -14,7 +14,7 @@ import { User } from "../../shared/model/user.data";
 import { Auth } from "../../shared/services/auth/auth.service";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 import { DataSet } from "../../shared/model/dataset.data";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { DashboardComponentResolver } from "./dashboard.resolver";
 import { ExportService } from "../../shared/services/export/export.service";
 import { D3Service } from "d3-ng2-service";
@@ -47,6 +47,12 @@ describe("dashboard.component.ts", () => {
                         provide: AuthHttp,
                         useFactory: authHttpServiceFactoryTesting,
                         deps: [Http, BaseRequestOptions]
+                    },
+                    {
+                        provide: Router,
+                        useClass: class {
+                            navigate: jasmine.createSpy("navigate")
+                        }
                     },
                     {
                         provide: Http,

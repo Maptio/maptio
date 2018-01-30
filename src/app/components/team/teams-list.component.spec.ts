@@ -9,7 +9,7 @@ import { UserFactory } from "./../../shared/services/user.factory";
 import { TeamsListComponent } from "./teams-list.component";
 import { ErrorService } from "./../../shared/services/error/error.service";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
-import { Subject } from "rxjs/Rx";
+import { Subject, Observable } from "rxjs/Rx";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 import { User } from "../../shared/model/user.data";
 import { Auth } from "../../shared/services/auth/auth.service";
@@ -18,6 +18,7 @@ import { MockBackend } from "@angular/http/testing";
 import { Team } from "../../shared/model/team.data";
 import { RouterTestingModule } from "@angular/router/testing";
 import { AuthConfiguration } from "../../shared/services/auth/auth.config";
+import { Router, NavigationStart } from "@angular/router";
 
 describe("teams-list.component.ts", () => {
 
@@ -45,6 +46,12 @@ describe("teams-list.component.ts", () => {
                         provide: AuthHttp,
                         useFactory: authHttpServiceFactoryTesting,
                         deps: [Http, BaseRequestOptions]
+                    },
+                    {
+                        provide: Router, useClass: class {
+                            // navigate = jasmine.createSpy("navigate");
+                            events = Observable.of(new NavigationStart(0, "/next"))
+                        }
                     },
                     {
                         provide: Http,
@@ -234,9 +241,10 @@ describe("teams-list.component.ts", () => {
 
             let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
             let mockUserFactory = target.debugElement.injector.get(UserFactory);
+            let mockRouter = target.debugElement.injector.get(Router)
 
-            let spyCreate = spyOn(mockTeamFactory, "create").and.returnValue(Promise.resolve(new Team({ team_id: "3" })))
-            let spyUpsert = spyOn(mockUserFactory, "upsert").and.returnValue(Promise.resolve(true))
+            let spyCreate = spyOn(mockTeamFactory, "create").and.returnValue(Promise.resolve(new Team({ team_id: "3", name: "new team" })))
+            let spyUpsert = spyOn(mockUserFactory, "upsert").and.returnValue(Promise.resolve(true));
 
             component.user = new User({ user_id: "123", teams: ["1", "2"] });
             component.createNewTeam();
@@ -246,7 +254,7 @@ describe("teams-list.component.ts", () => {
             spyCreate.calls.mostRecent().returnValue.then((team: Team) => {
                 expect(team.team_id).toBe("3");
                 expect(component.user.teams.length).toBe(3);
-                expect(spyUpsert).toHaveBeenCalledWith(component.user)
+                expect(spyUpsert).toHaveBeenCalledWith(component.user);
             })
 
         }));
@@ -260,6 +268,7 @@ describe("teams-list.component.ts", () => {
 
             let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
             let mockUserFactory = target.debugElement.injector.get(UserFactory);
+            let mockRouter = target.debugElement.injector.get(Router)
 
             let spyCreate = spyOn(mockTeamFactory, "create").and.returnValue(Promise.reject("Cant create this team"))
             let spyUpsert = spyOn(mockUserFactory, "upsert")
@@ -272,6 +281,9 @@ describe("teams-list.component.ts", () => {
             spyCreate.calls.mostRecent().returnValue
                 .then((team: Team) => {
                     expect(spyUpsert).not.toHaveBeenCalled();
+                })
+                .then(() => {
+                    // expect(mockRouter.navigate).not.toHaveBeenCalled();
                 })
                 .catch(() => {
                     expect(component.errorMessage).toBe("Unable to create team New!")
@@ -288,6 +300,7 @@ describe("teams-list.component.ts", () => {
 
             let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
             let mockUserFactory = target.debugElement.injector.get(UserFactory);
+            let mockRouter = target.debugElement.injector.get(Router);
 
             let spyCreate = spyOn(mockTeamFactory, "create").and.returnValue(Promise.resolve(new Team({ team_id: "3" })))
             let spyUpsert = spyOn(mockUserFactory, "upsert").and.returnValue(Promise.resolve(false))
@@ -302,11 +315,16 @@ describe("teams-list.component.ts", () => {
                     expect(team.team_id).toBe("3");
                     expect(component.user.teams.length).toBe(3);
                     expect(spyUpsert).toHaveBeenCalledWith(component.user)
-                    spyUpsert.calls.mostRecent().returnValue.then(() => { }).catch((reason: any) => {
-                        expect(reason).toBe("Unable to add you to team New!")
-                    })
+                    spyUpsert.calls.mostRecent().returnValue.then(() => { })
+                        .then(() => { })
+                        .catch((reason: any) => {
+                            expect(reason).toBe("Unable to add you to team New!")
+                        })
                 })
-                .catch(() => {
+                .then(() => {
+                    // expect(mockRouter.navigate).not.toHaveBeenCalled();
+                })
+                .catch((reason: any) => {
                     expect(component.errorMessage).toBe("Unable to add you to team New!")
                 })
 

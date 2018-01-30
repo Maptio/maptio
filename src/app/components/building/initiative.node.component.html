@@ -9,8 +9,8 @@
 
 		<span class="btn-group control">
 			<ng-template #addButtonTooltip>
-				<p *ngIf="isRoot()"> Add overall vision </p>
-				<p *ngIf="!isRoot()"> Add sub-initiative</p>
+				<p *ngIf="isRoot()">Create outer circle</p>
+				<p *ngIf="!isRoot()">Add sub-initiative</p>
 			</ng-template>
 			<a class="btn add " (click)="addChildNode(node.data)" placement="top" [ngbTooltip]="addButtonTooltip" container="body" angulartics2On="click"
 			 angularticsEvent="Map" [angularticsProperties]="{mode: 'list', action:'add', team:teamName, teamId:teamId  }"></a>

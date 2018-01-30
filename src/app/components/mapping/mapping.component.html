@@ -135,9 +135,8 @@
 
               </span>
               <input type="text" class="col-4 col-form-label form-control" name="inputTagName" [ngModelOptions]="{standalone: true}" [ngModel]="tag.name"
-                (ngModelChange)="saveTagName(tag, $event)" />
+                (ngModelChange)="saveTagName(tag, $event)" (blur)="saveTagChanges()" />
               <div class="col-4">
-
                 <input class="form-control" [(colorPicker)]="tag.color" [style.background]="tag.color" [value]="tag.color" [cpOutputFormat]="'hex'"
                   [cpPosition]="'bottom'" [cpPositionOffset]="'40%'" [cpPositionRelativeToArrow]="true" (colorPickerChange)="saveColor(tag, $event)"
                 />
