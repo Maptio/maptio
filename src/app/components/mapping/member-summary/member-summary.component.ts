@@ -38,7 +38,7 @@ export class MemberSummaryComponent implements OnInit, IDataVisualizer {
     public selectableTags$: Observable<Array<SelectableTag>>;
     public tagsState: Array<SelectableTag>;
     public fontSize$: Observable<number>;
-    public isLocked$: Observable<boolean>;
+    // public isLocked$: Observable<boolean>;
     public isReset$: Observable<boolean>;
     public data$: Subject<{ initiative: Initiative, datasetId: string }>;
     public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>()

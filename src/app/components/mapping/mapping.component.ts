@@ -46,7 +46,7 @@ export class MappingComponent {
     public x: number;
     public y: number;
     public scale: number;
-    public isLocked: boolean = true;
+    // public isLocked: boolean = true;
 
     public isCollapsed: boolean = true;
     public isSettingsPanelCollapsed: boolean = true;
@@ -74,7 +74,7 @@ export class MappingComponent {
     // public usersFragment: string;
 
     public fontSize$: BehaviorSubject<number>;
-    public isLocked$: BehaviorSubject<boolean>;
+    // public isLocked$: BehaviorSubject<boolean>;
     public closeEditingPanel$: BehaviorSubject<boolean>;
     public data$: Subject<{ initiative: Initiative, datasetId: string }>;
 
@@ -112,7 +112,7 @@ export class MappingComponent {
         this.selectableTags$ = new ReplaySubject<Array<SelectableTag>>();
         // this.selectableUsers$ = new ReplaySubject<Array<SelectableUser>>();
         this.fontSize$ = new BehaviorSubject<number>(16);
-        this.isLocked$ = new BehaviorSubject<boolean>(this.isLocked);
+        // this.isLocked$ = new BehaviorSubject<boolean>(this.isLocked);
         this.closeEditingPanel$ = new BehaviorSubject<boolean>(false);
         this.data$ = new Subject<{ initiative: Initiative, datasetId: string }>();
 
@@ -172,7 +172,7 @@ export class MappingComponent {
         component.selectableTags$ = this.selectableTags$.asObservable();
         // component.selectableUsers$ = this.selectableUsers$.asObservable();
         component.fontSize$ = this.fontSize$.asObservable();
-        component.isLocked$ = this.isLocked$.asObservable();
+        // component.isLocked$ = this.isLocked$.asObservable();
         component.translateX = this.x;
         component.translateY = this.y;
         component.scale = this.scale;

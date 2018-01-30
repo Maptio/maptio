@@ -193,13 +193,13 @@ export class MappingCirclesComponent implements IDataVisualizer {
                 });
         });
 
-        this.lockedSubscription = this.isLocked$.subscribe((locked: boolean) => {
+        // this.lockedSubscription = this.isLocked$.subscribe((locked: boolean) => {
 
-            d3.selectAll("circle.node").style("cursor", () => { return locked ? "default" : "move" });
-            svg.style("background", function () { return locked ? "#f7f7f7" : "transparent" });
+        //     d3.selectAll("circle.node").style("cursor", () => { return locked ? "default" : "move" });
+        //     svg.style("background", function () { return locked ? "#f7f7f7" : "transparent" });
 
-            this.setIsLocked(locked);
-        });
+        //     this.setIsLocked(locked);
+        // });
 
         this.svg = svg;
         this.g = g;
@@ -273,13 +273,13 @@ export class MappingCirclesComponent implements IDataVisualizer {
         return this.color;
     }
 
-    setIsLocked(isLocked: boolean) {
-        this.isLocked = isLocked;
-    }
+    // setIsLocked(isLocked: boolean) {
+    //     this.isLocked = isLocked;
+    // }
 
-    getIsLocked(): boolean {
-        return this.isLocked;
-    }
+    // getIsLocked(): boolean {
+    //     return this.isLocked;
+    // }
 
     edit(node: Initiative) {
         if (!this.selectedNodeParent) { return }
@@ -365,7 +365,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
         // let move = this.move.bind(this);
         let startX: number, startY: number;
         let slug = this.slug;
-        let getIsLocked = this.getIsLocked.bind(this);
+        // let getIsLocked = this.getIsLocked.bind(this);
         let t = this.T;
         // let RATIO_FOR_VISIBILITY = this.RATIO_FOR_VISIBILITY;
         // let OPACITY_DISAPPEARING = this.OPACITY_DISAPPEARING;
@@ -503,7 +503,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .style("stroke", function (d: any) { return d.data.isSearchedFor ? "#d9831f" : "none" })
             .style("stroke-width", function (d: any) { return d.data.isSearchedFor ? 3 : "none" })
             .attr("id", function (d: any) { return d.data.id; })
-            .style("cursor", () => { return getIsLocked() ? "default" : "move" })
+            // .style("cursor", () => { return getIsLocked() ? "default" : "move" })
             .on("click", function (d: any) {
                 if (d3.event.defaultPrevented) return; // dragged
                 if (d.parent) {
@@ -556,12 +556,12 @@ export class MappingCirclesComponent implements IDataVisualizer {
             .style("fill", "white")
             .transition(t)
             .style("fill", function (d: any) { return d.children ? (d === root ? "white" : getColor()(d.depth)) : (d.parent && d.parent.data.id === root.data.id ? getColor()(d.depth) : "white"); })
-            .style("cursor", () => { return getIsLocked() ? "default" : "move" })
+            // .style("cursor", () => { return getIsLocked() ? "default" : "move" })
 
 
         selection.selectAll("circle.node")
             .attr("class", function (d: any) { return d.parent ? (d.children || d.parent.data.id === root.data.id) ? "node" : "node node--leaf" : "node node--root"; })
-            .style("cursor", () => { return getIsLocked() ? "default" : "move" })
+            // .style("cursor", () => { return getIsLocked() ? "default" : "move" })
             .style("fill", function (d: any) { return d.children ? (d === root ? "white" : getColor()(d.depth)) : (d.parent && d.parent.data.id === root.data.id ? getColor()(d.depth) : "white"); })
             .classed("invisible", function (d: any) { return !d.parent && !(nodes.length === 1) })
 
