@@ -184,7 +184,7 @@
 </div>
 
 
-<div class="control fourth" *ngIf="isDisplayLockingToggle()">
+<!-- <div class="control fourth" *ngIf="isDisplayLockingToggle()">
   <div class="">
     <a #lockInput *ngIf="isLocked" [class.background]="!isLocked" class="btn text-warning" (click)="lock(false)" placement="top"
       container="body" ngbTooltip="Drag and drop, adding and removing disabled">
@@ -193,7 +193,7 @@
       container="body" ngbTooltip="Drag and drop, adding and removing enabled">
       <i class="fa fa-unlock-alt" aria-hidden="true"></i> Unlocked (edit mode)</a>
   </div>
-</div>
+</div> -->
 
 <div tabIndex="-1" class="map" [class.slide]="!isSettingsPanelCollapsed" (focus)="isSettingsPanelCollapsed=true">
   <router-outlet (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>

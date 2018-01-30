@@ -178,25 +178,25 @@ describe("mapping.component.ts", () => {
             });
         });
 
-        describe("lock", () => {
-            it("should lock", () => {
-                spyOn(component.isLocked$, "next");
-                spyOn(target.debugElement.injector.get(Angulartics2Mixpanel), "eventTrack")
-                component.lock(true);
-                expect(component.isLocked$.next).toHaveBeenCalledWith(true);
-                expect(target.debugElement.injector.get(Angulartics2Mixpanel).eventTrack).toHaveBeenCalled();
-                expect(component.isLocked).toBe(true)
-            });
+        // describe("lock", () => {
+        //     it("should lock", () => {
+        //         spyOn(component.isLocked$, "next");
+        //         spyOn(target.debugElement.injector.get(Angulartics2Mixpanel), "eventTrack")
+        //         component.lock(true);
+        //         expect(component.isLocked$.next).toHaveBeenCalledWith(true);
+        //         expect(target.debugElement.injector.get(Angulartics2Mixpanel).eventTrack).toHaveBeenCalled();
+        //         expect(component.isLocked).toBe(true)
+        //     });
 
-            it("should unlock", () => {
-                spyOn(component.isLocked$, "next");
-                spyOn(target.debugElement.injector.get(Angulartics2Mixpanel), "eventTrack")
-                component.lock(false);
-                expect(component.isLocked$.next).toHaveBeenCalledWith(false);
-                expect(target.debugElement.injector.get(Angulartics2Mixpanel).eventTrack).toHaveBeenCalled();
-                expect(component.isLocked).toBe(false)
-            });
-        });
+        //     it("should unlock", () => {
+        //         spyOn(component.isLocked$, "next");
+        //         spyOn(target.debugElement.injector.get(Angulartics2Mixpanel), "eventTrack")
+        //         component.lock(false);
+        //         expect(component.isLocked$.next).toHaveBeenCalledWith(false);
+        //         expect(target.debugElement.injector.get(Angulartics2Mixpanel).eventTrack).toHaveBeenCalled();
+        //         expect(component.isLocked).toBe(false)
+        //     });
+        // });
 
         it("onActivate", () => {
             let activated = <IDataVisualizer>new MappingNetworkComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined)

@@ -203,11 +203,11 @@ export class MappingComponent {
             .map(data => data[1])
             .combineLatest(this.route.fragment) // PEFORMACE : with latest changes
             .subscribe(([data, fragment]) => {
-                if (!data.initiative.children || !data.initiative.children[0] || !data.initiative.children[0].children) {
-                    this.lock(false);
-                    this.cd.markForCheck();
-                }
-                // this.tags = data.tags;
+                // if (!data.initiative.children || !data.initiative.children[0] || !data.initiative.children[0].children) {
+                //     this.lock(false);
+                //     this.cd.markForCheck();
+                // }
+
                 let fragmentTags = this.uriService.parseFragment(fragment).has("tags") && this.uriService.parseFragment(fragment).get("tags")
                     ? this.uriService.parseFragment(fragment).get("tags")
                         .split(",")
@@ -293,11 +293,11 @@ export class MappingComponent {
     }
 
 
-    lock(locking: boolean) {
-        this.isLocked = locking;
-        this.isLocked$.next(this.isLocked);
-        this.analytics.eventTrack("Map", { action: (locking ? "lock" : "unlock"), team: this.teamName, teamId: this.teamId });
-    }
+    // lock(locking: boolean) {
+    //     this.isLocked = locking;
+    //     this.isLocked$.next(this.isLocked);
+    //     this.analytics.eventTrack("Map", { action: (locking ? "lock" : "unlock"), team: this.teamName, teamId: this.teamId });
+    // }
 
     isDisplayLockingToggle() {
         return this.layout !== "people" && this.layout !== "connections" && this.layout !== "list";
@@ -360,7 +360,7 @@ export class MappingComponent {
         // this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
     }
 
-    saveTagChanges(){
+    saveTagChanges() {
         this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
     }
 
