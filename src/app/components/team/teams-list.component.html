@@ -6,7 +6,7 @@
         {{errorMessage}}
     </div>
 
-    <div class="mb-3">
+    <div class="mb-3 d-flex">
         <form class="w-75" [class.has-warning]="createForm.controls['teamName'].invalid  && (createForm.controls['teamName'].dirty || createForm.controls['teamName'].touched)"
             [formGroup]="createForm" (submit)="createNewTeam()">
             <div class="input-group">
@@ -22,6 +22,7 @@
             </small>
 
         </form>
+        <i *ngIf="isCreating" class="text-muted fa fa-circle-o-notch fa-spin fa-fw ml-3 fa-2x"></i>
     </div>
 
 

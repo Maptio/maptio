@@ -9,6 +9,7 @@ import { User } from "../../shared/model/user.data";
 import { Team } from "../../shared/model/team.data";
 import { differenceBy, sortBy } from "lodash"
 import { UserService } from "../../shared/services/user/user.service";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "teams-list",
@@ -24,12 +25,13 @@ export class TeamsListComponent implements OnInit {
     public teams$: Promise<Array<Team>>;
     public errorMessage: string;
     public isLoading: boolean;
+    public isCreating: boolean;
 
     public createForm: FormGroup;
     public teamName: string;
 
     constructor(public auth: Auth, private teamFactory: TeamFactory, private userFactory: UserFactory,
-        private userService: UserService, private analytics: Angulartics2Mixpanel) {
+        private userService: UserService, private analytics: Angulartics2Mixpanel, public router: Router) {
         this.userSubscription = this.auth.getUser().subscribe((user: User) => {
             this.user = user;
         });
@@ -55,14 +57,14 @@ export class TeamsListComponent implements OnInit {
 
 
     createNewTeam() {
-
+        // REFACTOR : this is not the right way to write then/catch
         if (this.createForm.dirty && this.createForm.valid) {
             let teamName = this.createForm.controls["teamName"].value;
-
+            this.isCreating = true;
             this.teamFactory.create(new Team({ name: teamName, members: [this.user] }))
                 .then((team: Team) => {
                     this.user.teams.push(team.team_id);
-                    this.userFactory.upsert(this.user)
+                    return this.userFactory.upsert(this.user)
                         .then((result: boolean) => {
                             if (result) {
                                 this.getTeams();
@@ -70,17 +72,27 @@ export class TeamsListComponent implements OnInit {
                                 this.analytics.eventTrack("Create team", { email: this.user.email, name: teamName, teamId: team.team_id })
                             }
                             else {
-                                return Promise.reject(`Unable to add you to team ${teamName}!`)
+                                throw `Unable to add you to team ${teamName}!`
                             }
+                        },
+                        () => { throw `Unable to create team ${teamName}!` })
+                        .then(() => {
+                            return { team_id: team.team_id, teamSlug: team.getSlug() }
                         })
-                        .catch((reason) => {
-                            this.errorMessage = reason;
-                        })
+                    // .catch((reason) => {
+                    //     this.errorMessage = reason;
+                    // })
                 },
-                () => { return Promise.reject(`Unable to create team ${teamName}!`) })
+                () => { throw `Unable to create team ${teamName}!` })
+                .then((team: { team_id: string, teamSlug: string }) => {
+                    this.router.navigate(["team", team.team_id, team.teamSlug])
+                    this.isCreating = false;
+                })
                 .catch((reason) => {
+                    // console.log(3, reason)
                     this.errorMessage = reason;
                     this.teamName = ""
+                    this.isCreating = false;
                 })
 
         }
@@ -111,7 +123,7 @@ export class TeamsListComponent implements OnInit {
                             this.isLoading = false;
                             return sortBy(teams, t => t.name)
                         })
-                        // .catch(() => { this.isLoading = false; })
+                // .catch(() => { this.isLoading = false; })
             })
     }
 
