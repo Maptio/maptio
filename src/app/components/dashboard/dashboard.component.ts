@@ -5,7 +5,6 @@ import { DashboardComponentResolver } from "./dashboard.resolver";
 import { Initiative } from "../../shared/model/initiative.data";
 import { ExportService } from "../../shared/services/export/export.service";
 import { saveAs } from "file-saver"
-import { Router } from "@angular/router";
 import { EmitterService } from "../../shared/services/emitter.service";
 
 @Component({
@@ -22,7 +21,7 @@ export class DashboardComponent {
     isExportingMap: Map<string, boolean> = new Map<string, boolean>();
 
     constructor(private resolver: DashboardComponentResolver, private exportService: ExportService,
-        private cd: ChangeDetectorRef, private router: Router) {
+        private cd: ChangeDetectorRef) {
     }
 
     ngOnInit() {

@@ -14,12 +14,11 @@ import { User } from "../../shared/model/user.data";
 import { Auth } from "../../shared/services/auth/auth.service";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 import { DataSet } from "../../shared/model/dataset.data";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { DashboardComponentResolver } from "./dashboard.resolver";
 import { ExportService } from "../../shared/services/export/export.service";
 import { D3Service } from "d3-ng2-service";
 import * as filesaver from "file-saver"
-import { RouterTestingModule } from "@angular/router/testing";
 
 describe("dashboard.component.ts", () => {
 
@@ -32,8 +31,7 @@ describe("dashboard.component.ts", () => {
 
         TestBed.configureTestingModule({
             declarations: [DashboardComponent],
-            schemas: [NO_ERRORS_SCHEMA],
-            imports: [RouterTestingModule]
+            schemas: [NO_ERRORS_SCHEMA]
         }).overrideComponent(DashboardComponent, {
             set: {
                 providers: [
@@ -49,11 +47,6 @@ describe("dashboard.component.ts", () => {
                         provide: AuthHttp,
                         useFactory: authHttpServiceFactoryTesting,
                         deps: [Http, BaseRequestOptions]
-                    },
-                    {
-                        provide: Router, useClass: class {
-                            navigate = jasmine.createSpy("navigate");
-                        }
                     },
                     {
                         provide: Http,
