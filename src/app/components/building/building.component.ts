@@ -31,7 +31,7 @@ export class BuildingComponent {
 
     options = {
         allowDrag: (node: TreeNode) => node.data.isDraggable,
-        allowDrop: (element: any, to: { parent: any, index: number }) {
+        allowDrop: (element: any, to: { parent: any, index: number }) => {
             return to.parent.parent !== null;
         },
         nodeHeight: 55,
