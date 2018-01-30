@@ -5,6 +5,8 @@ import { DashboardComponentResolver } from "./dashboard.resolver";
 import { Initiative } from "../../shared/model/initiative.data";
 import { ExportService } from "../../shared/services/export/export.service";
 import { saveAs } from "file-saver"
+import { Router } from "@angular/router";
+import { EmitterService } from "../../shared/services/emitter.service";
 
 @Component({
     selector: "dashboard",
@@ -19,7 +21,8 @@ export class DashboardComponent {
 
     isExportingMap: Map<string, boolean> = new Map<string, boolean>();
 
-    constructor(private resolver: DashboardComponentResolver, private exportService: ExportService, private cd:ChangeDetectorRef) {
+    constructor(private resolver: DashboardComponentResolver, private exportService: ExportService,
+        private cd: ChangeDetectorRef, private router: Router) {
     }
 
     ngOnInit() {
@@ -47,6 +50,12 @@ export class DashboardComponent {
 
     isDisplayLoader(datasetId: string) {
         return this.isExportingMap.get(datasetId);
+    }
+
+
+    goTo(dataset: DataSet) {
+        EmitterService.get("currentDataset").emit(dataset);
+        EmitterService.get("currentTeam").emit(dataset.team)
     }
 
     export(dataset: DataSet) {
