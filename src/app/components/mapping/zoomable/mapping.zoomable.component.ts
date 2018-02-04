@@ -205,6 +205,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
         let svg = this.svg;
         let definitions = this.definitions;
         let uiService = this.uiService;
+        let marginLeft = 200;
+        let TOOLTIP_WIDTH = 300;
+        let TOOLTIP_HEIGHT = 200;
+        let TOOLTIP_PADDING = 20;
 
         let pack = d3.pack()
             .size([diameter - margin, diameter - margin])
@@ -234,20 +238,63 @@ export class MappingZoomableComponent implements IDataVisualizer {
                 return uiService.getCircularPath(radius, -radius, 0);
             });
 
+
+        let tooltip = d3.select("body").append("div")
+            .attr("class", "arrow_box")
+            .style("opacity", 0);
+
         let circle = g.selectAll("circle")
             .data(nodes, function (d: any) { return d.data.id })
             .enter().append("circle")
             .attr("id", function (d: any) { return `path${d.data.id}`; })
             .attr("class", function (d: any) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
             .style("fill", function (d: any) { return d.children ? color(d.depth) : null; })
-            .on("click", function (d: any) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
+            .on("click", function (d: any) { if (focus !== d) zoom(d), d3.event.stopPropagation(); })
+            .on("mouseover", function (d: any) {
+                let matrix = this.getScreenCTM()
+                    .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
+                tooltip.transition().duration(200).style("opacity", 1);
+
+                let tagsSpan = d.data.tags.map((tag: Tag) => `
+                <li><a class="btn btn-sm btn-secondary borderless mr-1 tag" style="color:${tag.color}">
+                        <i class="fa fa-tag mr-1" aria-hidden="true" style="color:${tag.color}"></i>${tag.name}
+                    </a></li>
+                `).join("");
+
+                let accountableImg = d.data.accountable
+                    ? `<a >
+                            <img src="${d.data.accountable.picture}" width="30" height="30" class="rounded-circle mr-2">
+                        </a>`
+                    : "";
+
+                tooltip.html(
+
+                    `
+                    ${accountableImg}
+                    <h6>${d.data.name || ""}</h6>
+                    <ul class="tags small">
+                    ${tagsSpan}
+                </ul>
+                </textPath>`
+                );
+
+                TOOLTIP_HEIGHT = tooltip.node().getBoundingClientRect().height;
+                tooltip
+                    .style("left", (window.pageXOffset + matrix.e - TOOLTIP_WIDTH / 2) + "px")
+                    .style("top", (window.pageYOffset + matrix.f - TOOLTIP_HEIGHT - 10 - d.r) + "px");
+
+            })
+        // .on("mouseout", function (d: any) {
+        //     tooltip.transition()
+        //         .duration(200)
+        //         .style("opacity", 0);
+        // });
 
         let text = g.selectAll("text")
             .data(nodes, function (d: any) { return d.data.id })
             .enter().append("text")
             .attr("id", function (d: any) { return `path${d.data.id}`; })
             .attr("class", "label")
-            // .style("stroke", "#2F81B7")
             .style("fill", function (d: any) { return d.parent === root ? "#2F81B7" : "#fff" })
             .style("fill-opacity", function (d: any) { return d.parent === root ? 1 : 0; })
             .style("display", function (d: any) { return d.parent === root ? "inline" : "none"; })
@@ -256,11 +303,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
                 let tagsSpan = d.data.tags.map((tag: Tag) => `<tspan class="dot-tags" fill=${tag.color}>&#xf02b</tspan>`).join("");
 
                 return `<textPath xlink:href="#path${d.data.id}" startOffset="10%">
-                    <tspan>${d.data.name || ""}</tspan>
-                    ${tagsSpan}
-                    </textPath>`
+                <tspan>${d.data.name || ""}</tspan>
+                ${tagsSpan}
+                </textPath>`
             })
-
 
 
 

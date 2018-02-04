@@ -24,3 +24,65 @@
 ::ng-deep .label, .node--root, .node--leaf {
     pointer-events: none;
 }
+
+
+
+
+/* ::ng-deep .arrow_box {
+    position: absolute;
+    z-index: 1070;
+    display: block;
+    font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    letter-spacing: normal;
+    line-break: auto;
+    line-height: 1.5;
+    text-align: left;
+    text-align: start;
+    text-decoration: none;
+    text-shadow: none;
+    text-transform: none;
+    white-space: normal;
+    word-break: normal;
+    word-spacing: normal;
+    font-size: .875rem;
+    word-wrap: break-word;
+    opacity: 0;
+    background: white;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid black;	
+    width: 200px;
+} */
+::ng-deep .arrow_box {
+	position: absolute;
+	background: #f5f5f5;
+    border: 1px solid #444;
+    border-radius: 4px;
+    width: 300px;
+    padding: 10px;
+}
+::ng-deep .arrow_box:after, .arrow_box:before {
+	top: 100%;
+	left: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+::ng-deep .arrow_box:after {
+	border-color: rgba(245, 245, 245, 0);
+	border-top-color: #f5f5f5;
+	border-width: 10px;
+	margin-left: -10px;
+}
+::ng-deep .arrow_box:before {
+	border-color: rgba(68, 68, 68, 0);
+	border-top-color: #444;
+	border-width: 13px;
+	margin-left: -13px;
+}

@@ -34,7 +34,7 @@
 }
 
 .control.second {
-  top: 29vh;
+  top: 31vh;
 }
 
 .control.third {
@@ -83,6 +83,11 @@
 
 .settings:before {
   content: "\f1de";
+  font-family: FontAwesome;
+}
+
+.experimental:before {
+  content: "\f0c3";
   font-family: FontAwesome;
 }
 
