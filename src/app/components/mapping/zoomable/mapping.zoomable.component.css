@@ -1,4 +1,4 @@
-::ng-deep svg.background{
+::ng-deep svg.background {
     background: #f5f5f5;
 }
 
@@ -24,9 +24,6 @@
 ::ng-deep .label, .node--root, .node--leaf {
     pointer-events: none;
 }
-
-
-
 
 /* ::ng-deep .arrow_box {
     position: absolute;
@@ -55,34 +52,44 @@
     border: 1px solid black;	
     width: 200px;
 } */
+
 ::ng-deep .arrow_box {
-	position: absolute;
-	background: #f5f5f5;
+    position: absolute;
+    background: #f5f5f5;
     border: 1px solid #444;
     border-radius: 4px;
     width: 300px;
     padding: 10px;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
 }
+
+::ng-deep .arrow_box.show {
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
 ::ng-deep .arrow_box:after, .arrow_box:before {
-	top: 100%;
-	left: 50%;
-	border: solid transparent;
-	content: " ";
-	height: 0;
-	width: 0;
-	position: absolute;
-	pointer-events: none;
+    top: 100%;
+    left: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
 }
 
 ::ng-deep .arrow_box:after {
-	border-color: rgba(245, 245, 245, 0);
-	border-top-color: #f5f5f5;
-	border-width: 10px;
-	margin-left: -10px;
+    border-color: rgba(245, 245, 245, 0);
+    border-top-color: #f5f5f5;
+    border-width: 10px;
+    margin-left: -10px;
 }
+
 ::ng-deep .arrow_box:before {
-	border-color: rgba(68, 68, 68, 0);
-	border-top-color: #444;
-	border-width: 13px;
-	margin-left: -13px;
+    border-color: rgba(68, 68, 68, 0);
+    border-top-color: #444;
+    border-width: 13px;
+    margin-left: -13px;
 }

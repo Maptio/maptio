@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { Subscription } from "rxjs/Subscription";
 import { Component, ViewEncapsulation, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
 import { D3Service, D3, ScaleLinear, HSLColor } from "d3-ng2-service";
+import { transition } from "d3-transition"
 import { ColorService } from "../../../shared/services/ui/color.service"
 import { UIService } from "../../../shared/services/ui/ui.service"
 import { IDataVisualizer } from "../mapping.interface"
@@ -241,7 +242,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
         let tooltip = d3.select("body").append("div")
             .attr("class", "arrow_box")
-            .style("opacity", 0);
+            .classed("show", false)
 
         let circle = g.selectAll("circle")
             .data(nodes, function (d: any) { return d.data.id })
@@ -253,7 +254,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .on("mouseover", function (d: any) {
                 let matrix = this.getScreenCTM()
                     .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
-                tooltip.transition().duration(200).style("opacity", 1);
+                // tooltip.transition().duration(200).style("opacity", 1);
+                tooltip.classed("show", true)
 
                 let tagsSpan = d.data.tags.map((tag: Tag) => `
                 <li><a class="btn btn-sm btn-secondary borderless mr-1 tag" style="color:${tag.color}">
@@ -278,7 +280,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
                 </textPath>`
                 );
 
-                TOOLTIP_HEIGHT = tooltip.node().getBoundingClientRect().height;
+                TOOLTIP_HEIGHT = (tooltip.node() as HTMLElement).getBoundingClientRect().height;
                 tooltip
                     .style("left", (window.pageXOffset + matrix.e - TOOLTIP_WIDTH / 2) + "px")
                     .style("top", (window.pageYOffset + matrix.f - TOOLTIP_HEIGHT - 10 - d.r) + "px");
@@ -329,10 +331,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
                 });
 
             transition.selectAll("text")
-                .filter(function (d: any) { return d.parent === focus || this.style.display === "inline"; })
+                .filter(function (d: any) { return d.parent === focus || (this as SVGElement).style.display === "inline"; })
                 .style("fill-opacity", function (d: any) { return d.parent === focus ? 1 : 0; })
-                .on("start", function (d: any) { if (d.parent === focus) this.style.display = "inline"; })
-                .on("end", function (d: any) { if (d.parent !== focus) this.style.display = "none"; });
+                .on("start", function (d: any) { if (d.parent === focus) (this as SVGElement).style.display = "inline"; })
+                .on("end", function (d: any) { if (d.parent !== focus) (this as SVGElement).style.display = "none"; });
         }
 
         function zoomTo(v: any) {
