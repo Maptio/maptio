@@ -14,6 +14,7 @@ import { DataService, URIService } from "../../../shared/services/data.service";
 import { Tag, SelectableTag } from "../../../shared/model/tag.data";
 import * as _ from "lodash";
 import { SelectableUser } from "../../../shared/model/user.data";
+import { Helper } from "../../../shared/model/helper.data";
 
 @Component({
     selector: "zoomable",
@@ -217,13 +218,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
         let pack = d3.pack()
             .size([diameter - margin, diameter - margin])
             .padding(4)
-        // .padding(function (d: any) {
-        //     console.log(d)
-        //     return d.children ? 5 : 2;
-        // })
 
         let root: any = d3.hierarchy(data)
-            .sum(function (d) { return 1; })
+            .sum(function (d) {
+                return (d.accountable ? 1 : 0) + (d.helpers ? d.helpers.length : 0) + 1
+            })
             .sort(function (a, b) { return b.value - a.value; });
 
         let depth = 0;
@@ -235,7 +234,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
         let focus = root,
             nodes = pack(root).descendants(),
             view: any;
-
 
 
         let tooltip = d3.select("body").append("div")
@@ -268,71 +266,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .attr("class", function (d: any) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
             .style("fill", function (d: any) { return d.children ? color(d.depth) : null; })
             .on("click", function (d: any) { if (focus !== d) zoom(d), d3.event.stopPropagation(); })
-            .on("mouseover", function (d: any) {
-
-                // change color of circle
-                d3.select(this).classed("highlight", true)
-                // tooltip
-                let matrix = this.getScreenCTM()
-                    .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
-
-                tooltip.classed("show", true)
-
-                let tagsSpan = d.data.tags.map((tag: Tag) => `
-                <li><a class="btn btn-sm btn-secondary borderless mr-1 tag" style="color:${tag.color}">
-                        <i class="fa fa-tag mr-1" aria-hidden="true" style="color:${tag.color}"></i>${tag.name}
-                    </a></li>
-                `).join("");
-
-                let accountableImg = d.data.accountable
-                    ? `<a >
-                            <img src="${d.data.accountable.picture}" width="30" height="30" class="rounded-circle mr-2">
-                            ${d.data.accountable.name}
-                        </a>`
-                    : "";
-
-                tooltip.html(
-                    `
-                    <h6 class="mb-1">${d.data.name || ""}</h6>
-                    ${accountableImg}
-                    <ul class="tags small">
-                    ${tagsSpan}
-                </ul>
-                </textPath>`
-                );
-
-                TOOLTIP_HEIGHT = (tooltip.node() as HTMLElement).getBoundingClientRect().height;
-                tooltip
-                    .style("left", (window.pageXOffset + matrix.e - TOOLTIP_WIDTH / 2) + "px")
-                    .style("top", (window.pageYOffset + matrix.f - TOOLTIP_HEIGHT - 10 - d.r) + "px")
-                    .on("mouseenter", function () {
-                        d3.select(this).classed("show", true)
-                    })
-                    .on("mouseleave", function () {
-                        d3.select(this).classed("show", false)
-                    });
-
-            })
-            .on("mousemove", function (d: any) {
-
-                let matrix = this.getScreenCTM()
-                    .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
-
-                tooltip
-                    .style("left", (window.pageXOffset + matrix.e - TOOLTIP_WIDTH / 2) + "px")
-                    .style("top", (window.pageYOffset + matrix.f - TOOLTIP_HEIGHT - 10 - d.r) + "px")
-                    .on("mouseenter", function () {
-                        d3.select(this).classed("show", true)
-                    })
-                    .on("mouseleave", function () {
-                        d3.select(this).classed("show", false)
-                    });
-            })
-            .on("mouseout", function (d: any) {
-                d3.select(this).classed("highlight", false)
-            });
-
-
 
 
         let textAround = initiative.filter(function (d: any) { return d.children })
@@ -344,9 +277,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .style("fill-opacity", function (d: any) { return (d.parent === root || d.depth <= 3) ? 1 : 0; })
             .style("display", function (d: any) { return d !== root ? (d.parent === root || d.depth <= 3) ? "inline" : "none" : "none" })
             .html(function (d: any) {
-
-                // let tagsSpan = d.data.tags.map((tag: Tag) => `<tspan class="dot-tags" fill=${tag.color}>&#xf02b</tspan>`).join("");
-
                 return `<textPath xlink:href="#path${d.data.id}" startOffset="5%">
                 <tspan>${d.data.name || ""}</tspan>
                 </textPath>`
@@ -372,7 +302,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
         let node = g.selectAll("g.node");
 
         svg
-            // .style("background", color(-1))
             .on("click", function () { zoom(root); });
 
         zoomTo([root.x, root.y, root.r * 2 + margin]);
@@ -397,7 +326,62 @@ export class MappingZoomableComponent implements IDataVisualizer {
         function zoomTo(v: any) {
             let k = diameter / v[2]; view = v;
             node.attr("transform", function (d: any) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
-            circle.attr("r", function (d: any) { return d.r * k; });
+            circle.attr("r", function (d: any) { return d.r * k; })
+                .on("mouseover", function (d: any) {
+
+                    // tooltip
+                    let matrix = this.getScreenCTM()
+                        .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
+
+                    tooltip.classed("show", true)
+
+                    let tagsSpan = d.data.tags.map((tag: Tag) => `
+                <li><a class="btn btn-sm btn-secondary borderless mr-1 tag" style="color:${tag.color}">
+                        <i class="fa fa-tag mr-1" aria-hidden="true" style="color:${tag.color}"></i>${tag.name}
+                    </a></li>
+                `).join("");
+
+                    let accountableImg = d.data.accountable
+                        ? `<a >
+                            <img src="${d.data.accountable.picture}" width="30" height="30" class="rounded-circle mr-2">
+                            ${d.data.accountable.name}
+                        </a>`
+                        : "";
+
+                    let helpersImg = d.data.helpers.map((helper: Helper) =>
+                        `
+                        <a class="mr-1">
+                            <img src="${helper.picture}" width="15" height="15" class="rounded-circle">
+                            <small>${helper.name}</small>
+                        </a>`
+                    ).join("");
+
+                    tooltip.html(
+                        `
+                    <h6 class="mb-1">${d.data.name}</h6>
+                    ${accountableImg}
+                    <div class="row p-3 d-flex justify-content-start" >${helpersImg}</div>
+                    <ul class="tags small">
+                    ${tagsSpan}
+                </ul>
+                </textPath>`
+                    );
+
+                    TOOLTIP_HEIGHT = (tooltip.node() as HTMLElement).getBoundingClientRect().height;
+                    tooltip
+                        .style("left", (window.pageXOffset + matrix.e - TOOLTIP_WIDTH / 2) + "px")
+                        .style("top", (window.pageYOffset + matrix.f - TOOLTIP_HEIGHT - 10 - d.r * k) + "px")
+                        .on("mouseenter", function () {
+                            d3.select(this).classed("show", true)
+                        })
+                        .on("mouseleave", function () {
+                            d3.select(this).classed("show", false)
+                        });
+
+                })
+
+
+
             path.attr("transform", "scale(" + k + ")");
 
 
