@@ -21,6 +21,7 @@ import { IDataVisualizer } from "./mapping.interface";
 import { MappingNetworkComponent } from "./network/mapping.network.component";
 import { MemberSummaryComponent } from "./member-summary/member-summary.component";
 import { Tag, SelectableTag } from "../../shared/model/tag.data";
+import { MappingZoomableComponent } from "./zoomable/mapping.zoomable.component";
 
 describe("mapping.component.ts", () => {
 
@@ -59,7 +60,7 @@ describe("mapping.component.ts", () => {
             ],
             schemas: [NO_ERRORS_SCHEMA],
             declarations: [MappingComponent, MappingCirclesComponent, MappingTreeComponent,
-                MappingNetworkComponent, MemberSummaryComponent],
+                MappingNetworkComponent, MemberSummaryComponent, MappingZoomableComponent],
             imports: [RouterTestingModule]
         })
             .compileComponents()
