@@ -65,6 +65,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     private g: any;
     private diameter: number;
     private definitions: any;
+    private fontSize: number;
     public isWaitingForDestinationNode: boolean = false;
     public isTooltipDescriptionVisible: boolean = false;
     public isFirstEditing: boolean = false;
@@ -163,6 +164,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         this.fontSubscription = this.fontSize$.subscribe((fs: number) => {
             svg.attr("font-size", fs + "px");
             svg.selectAll(".label").attr("font-size", fs + "px");
+            this.fontSize = fs;
         });
         let color = this.colorService.getDefaulColorRange(20)
 
@@ -206,6 +208,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         let svg = this.svg;
         let definitions = this.definitions;
         let uiService = this.uiService;
+        let fontSize = this.fontSize;
         let marginLeft = 200;
         let TOOLTIP_WIDTH = 300;
         let TOOLTIP_HEIGHT = 200;
@@ -229,7 +232,15 @@ export class MappingZoomableComponent implements IDataVisualizer {
             nodes = pack(root).descendants(),
             view: any;
 
-        let path = g.selectAll("path").data(nodes, function (d: any) { return d.data.id })
+
+
+        let tooltip = d3.select("body").append("div")
+            .attr("class", "arrow_box")
+            .classed("show", false)
+
+
+        let paths = g.append("g").attr("class", "paths");
+        let path = paths.selectAll("path").data(nodes, function (d: any) { return d.data.id })
             .enter().append("path")
             .attr("id", function (d: any) { return `path${d.data.id}`; })
             .style("stroke", "none")
@@ -240,21 +251,27 @@ export class MappingZoomableComponent implements IDataVisualizer {
             });
 
 
-        let tooltip = d3.select("body").append("div")
-            .attr("class", "arrow_box")
-            .classed("show", false)
-
-        let circle = g.selectAll("circle")
+        let initiative = g.selectAll("g.node")
             .data(nodes, function (d: any) { return d.data.id })
-            .enter().append("circle")
-            .attr("id", function (d: any) { return `path${d.data.id}`; })
+            .enter()
+            .append("g")
+            .attr("class", "node")
+            .attr("id", function (d: any) { return `${d.data.id}`; })
+
+
+        let circle = initiative.append("circle")
+            .attr("id", function (d: any) { return `${d.data.id}`; })
             .attr("class", function (d: any) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
             .style("fill", function (d: any) { return d.children ? color(d.depth) : null; })
             .on("click", function (d: any) { if (focus !== d) zoom(d), d3.event.stopPropagation(); })
             .on("mouseover", function (d: any) {
+
+                // change color of circle
+                d3.select(this).classed("highlight", true)
+                // tooltip
                 let matrix = this.getScreenCTM()
                     .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
-                // tooltip.transition().duration(200).style("opacity", 1);
+
                 tooltip.classed("show", true)
 
                 let tagsSpan = d.data.tags.map((tag: Tag) => `
@@ -266,14 +283,14 @@ export class MappingZoomableComponent implements IDataVisualizer {
                 let accountableImg = d.data.accountable
                     ? `<a >
                             <img src="${d.data.accountable.picture}" width="30" height="30" class="rounded-circle mr-2">
+                            ${d.data.accountable.name}
                         </a>`
                     : "";
 
                 tooltip.html(
-
                     `
+                    <h6 class="mb-1">${d.data.name || ""}</h6>
                     ${accountableImg}
-                    <h6>${d.data.name || ""}</h6>
                     <ul class="tags small">
                     ${tagsSpan}
                 </ul>
@@ -283,20 +300,42 @@ export class MappingZoomableComponent implements IDataVisualizer {
                 TOOLTIP_HEIGHT = (tooltip.node() as HTMLElement).getBoundingClientRect().height;
                 tooltip
                     .style("left", (window.pageXOffset + matrix.e - TOOLTIP_WIDTH / 2) + "px")
-                    .style("top", (window.pageYOffset + matrix.f - TOOLTIP_HEIGHT - 10 - d.r) + "px");
+                    .style("top", (window.pageYOffset + matrix.f - TOOLTIP_HEIGHT - 10 - d.r) + "px")
+                    .on("mouseenter", function () {
+                        d3.select(this).classed("show", true)
+                    })
+                    .on("mouseleave", function () {
+                        d3.select(this).classed("show", false)
+                    });
 
             })
-        // .on("mouseout", function (d: any) {
-        //     tooltip.transition()
-        //         .duration(200)
-        //         .style("opacity", 0);
-        // });
+            .on("mousemove", function (d: any) {
 
-        let text = g.selectAll("text")
-            .data(nodes, function (d: any) { return d.data.id })
-            .enter().append("text")
-            .attr("id", function (d: any) { return `path${d.data.id}`; })
+                let matrix = this.getScreenCTM()
+                    .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
+
+                tooltip
+                    .style("left", (window.pageXOffset + matrix.e - TOOLTIP_WIDTH / 2) + "px")
+                    .style("top", (window.pageYOffset + matrix.f - TOOLTIP_HEIGHT - 10 - d.r) + "px")
+                    .on("mouseenter", function () {
+                        d3.select(this).classed("show", true)
+                    })
+                    .on("mouseleave", function () {
+                        d3.select(this).classed("show", false)
+                    });
+            })
+            .on("mouseout", function (d: any) {
+                d3.select(this).classed("highlight", false)
+            });
+
+
+
+
+        let textAround = initiative.filter(function (d: any) { return d.children })
+            .append("text")
+            .attr("id", function (d: any) { return `${d.data.id}`; })
             .attr("class", "label")
+            .classed("around", true)
             .style("fill", function (d: any) { return d.parent === root ? "#2F81B7" : "#fff" })
             .style("fill-opacity", function (d: any) { return d.parent === root ? 1 : 0; })
             .style("display", function (d: any) { return d.parent === root ? "inline" : "none"; })
@@ -310,9 +349,24 @@ export class MappingZoomableComponent implements IDataVisualizer {
                 </textPath>`
             })
 
+        let textInside = initiative.filter(function (d: any) { return !d.children })
+            .append("text")
+            .attr("id", function (d: any) { return `${d.data.id}`; })
+            .attr("class", "label")
+            .classed("inside", true)
+            .style("fill", "black")
+            .attr("dy", 0)
+            .attr("x", function (d: any) { return -d.r * .9 })
+            .attr("y", function (d: any) { return -d.r * .2 })
+            .attr("font-size", function (d: any) { return `${fontSize / d.depth}px` })
+            .text(function (d: any) { return d.data.name })
+            .each(function (d: any) {
+                uiService.wrap(d3.select(this), d.data.name, d.data.tags, d.r * 2 * 0.95);
+            });
 
 
-        let node = g.selectAll("circle,text");
+
+        let node = g.selectAll("g.node");
 
         svg
             // .style("background", color(-1))
@@ -342,6 +396,20 @@ export class MappingZoomableComponent implements IDataVisualizer {
             node.attr("transform", function (d: any) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
             circle.attr("r", function (d: any) { return d.r * k; });
             path.attr("transform", "scale(" + k + ")");
+
+
+            textInside
+                .attr("font-size", function (d: any) { return `${fontSize / d.depth}px` })
+                .attr("dy", 0)
+                .attr("x", function (d: any) { return -d.r * k * .9 })
+                .attr("y", function (d: any) { return -d.r * k * .2 })
+                .attr("font-size", function (d: any) { return `${fontSize / d.depth * k}px` })
+                .text(function (d: any) { return d.data.name })
+                .each(function (d: any) {
+                    uiService.wrap(d3.select(this), d.data.name, d.data.tags, d.r * k * 2 * 0.95);
+                });
+
+
         }
     }
 }

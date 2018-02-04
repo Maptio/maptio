@@ -8,7 +8,7 @@
 
 ::ng-deep .node:hover {
     stroke: #000;
-    stroke-width: 1.5px;
+    stroke-width: 3.5px;
 }
 
 ::ng-deep .node--leaf {
@@ -56,8 +56,8 @@
 ::ng-deep .arrow_box {
     position: absolute;
     background: #f5f5f5;
-    border: 1px solid #444;
-    border-radius: 4px;
+    border: 2.5px solid #444;
+    border-radius: 5px;
     width: 300px;
     padding: 10px;
     opacity: 0;
