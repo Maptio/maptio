@@ -105,6 +105,7 @@ import { ExportService } from "./shared/services/export/export.service";
 import { FileService } from "./shared/services/file/file.service";
 import { HttpLogInterceptor, httpFactory, HttpFactoryModule } from "./shared/services/auth/httpInterceptor";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { MappingZoomableComponent } from "./components/mapping/zoomable/mapping.zoomable.component";
 
 
 // Routes
@@ -136,6 +137,7 @@ const appRoutes: Routes = [
     children: [
       { path: "", redirectTo: "initiatives", pathMatch: "full" },
       { path: "initiatives", component: MappingCirclesComponent },
+      { path: "zoomable", component: MappingZoomableComponent },
       { path: "people", component: MappingTreeComponent },
       { path: "connections", component: MappingNetworkComponent },
       { path: "u/:usershortid/:userslug", component: MemberSummaryComponent },
@@ -188,7 +190,7 @@ export const RollbarService = new InjectionToken<Rollbar>("rollbar");
 @NgModule({
   declarations: [
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent, TeamComponent,
-    MappingComponent, MappingCirclesComponent, MappingTreeComponent, MappingNetworkComponent, MemberSummaryComponent,
+    MappingComponent, MappingCirclesComponent, MappingTreeComponent, MappingNetworkComponent, MemberSummaryComponent, MappingZoomableComponent,
     BuildingComponent, InitiativeNodeComponent, LoginComponent, LogoutComponent, HomeComponent, UnauthorizedComponent, NotFoundComponent,
     InitiativeComponent, ChangePasswordComponent, LoaderComponent, TeamsListComponent, SignupComponent,
     FocusIfDirective,

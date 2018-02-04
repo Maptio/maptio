@@ -1,0 +1,26 @@
+::ng-deep svg.background{
+    background: #f5f5f5;
+}
+
+::ng-deep .node {
+    cursor: pointer;
+}
+
+::ng-deep .node:hover {
+    stroke: #000;
+    stroke-width: 1.5px;
+}
+
+::ng-deep .node--leaf {
+    fill: white;
+}
+
+::ng-deep .label {
+    font: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-anchor: start;
+    /* text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff; */
+}
+
+::ng-deep .label, .node--root, .node--leaf {
+    pointer-events: none;
+}

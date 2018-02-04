@@ -21,13 +21,14 @@ import { MemberSummaryComponent } from "./member-summary/member-summary.componen
 import { Tag, SelectableTag } from "../../shared/model/tag.data";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import * as _ from "lodash";
+import { MappingZoomableComponent } from "./zoomable/mapping.zoomable.component";
 // import { User, SelectableUser } from "../../shared/model/user.data";
 
 @Component({
     selector: "mapping",
     templateUrl: "./mapping.component.html",
     styleUrls: ["./mapping.component.css"],
-    entryComponents: [MappingCirclesComponent, MappingTreeComponent, MappingNetworkComponent, MemberSummaryComponent],
+    entryComponents: [MappingCirclesComponent, MappingTreeComponent, MappingNetworkComponent, MemberSummaryComponent,MappingZoomableComponent],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
