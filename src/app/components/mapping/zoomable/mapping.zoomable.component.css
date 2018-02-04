@@ -7,9 +7,14 @@
 }
 
 ::ng-deep .node:hover {
+    /* stroke: #000;
+    stroke-width: 3.5px; */
+}
+
+::ng-deep svg circle:hover {
     stroke: #000;
     stroke-width: 3.5px;
-}
+  }
 
 ::ng-deep .node--leaf {
     fill: white;

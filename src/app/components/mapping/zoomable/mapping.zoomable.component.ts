@@ -216,7 +216,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
         let pack = d3.pack()
             .size([diameter - margin, diameter - margin])
-            .padding(1)
+            .padding(4)
+        // .padding(function (d: any) {
+        //     console.log(d)
+        //     return d.children ? 5 : 2;
+        // })
 
         let root: any = d3.hierarchy(data)
             .sum(function (d) { return 1; })
@@ -246,7 +250,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .style("stroke", "none")
             .style("fill", "none")
             .attr("d", function (d: any, i: number) {
-                let radius = d.r + 1;
+                let radius = d.r - 2;
                 return uiService.getCircularPath(radius, -radius, 0);
             });
 
@@ -336,16 +340,15 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .attr("id", function (d: any) { return `${d.data.id}`; })
             .attr("class", "label")
             .classed("around", true)
-            .style("fill", function (d: any) { return d.parent === root ? "#2F81B7" : "#fff" })
-            .style("fill-opacity", function (d: any) { return d.parent === root ? 1 : 0; })
-            .style("display", function (d: any) { return d.parent === root ? "inline" : "none"; })
+            .style("fill", "#fff")
+            .style("fill-opacity", function (d: any) { return (d.parent === root || d.depth <= 3) ? 1 : 0; })
+            .style("display", function (d: any) { return d !== root ? (d.parent === root || d.depth <= 3) ? "inline" : "none" : "none" })
             .html(function (d: any) {
 
-                let tagsSpan = d.data.tags.map((tag: Tag) => `<tspan class="dot-tags" fill=${tag.color}>&#xf02b</tspan>`).join("");
+                // let tagsSpan = d.data.tags.map((tag: Tag) => `<tspan class="dot-tags" fill=${tag.color}>&#xf02b</tspan>`).join("");
 
-                return `<textPath xlink:href="#path${d.data.id}" startOffset="10%">
+                return `<textPath xlink:href="#path${d.data.id}" startOffset="5%">
                 <tspan>${d.data.name || ""}</tspan>
-                ${tagsSpan}
                 </textPath>`
             })
 
@@ -386,9 +389,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
             transition.selectAll("text")
                 .filter(function (d: any) { return d.parent === focus || (this as SVGElement).style.display === "inline"; })
-                .style("fill-opacity", function (d: any) { return d.parent === focus ? 1 : 0; })
-                .on("start", function (d: any) { if (d.parent === focus) (this as SVGElement).style.display = "inline"; })
-                .on("end", function (d: any) { if (d.parent !== focus) (this as SVGElement).style.display = "none"; });
+            // .style("fill-opacity", function (d: any) { return d.parent === focus ? 1 : 0; })
+            // .on("start", function (d: any) { if (d.parent === focus) (this as SVGElement).style.display = "inline"; })
+            // .on("end", function (d: any) { if (d.parent !== focus) (this as SVGElement).style.display = "none"; });
         }
 
         function zoomTo(v: any) {
