@@ -75,13 +75,13 @@ describe("mapping.tree.component.ts", () => {
         component.isReset$ = new Subject<boolean>();
         component.selectableTags$ = Observable.of([]);
         component.fontSize$ = Observable.of(12);
-        component.isLocked$ = Observable.of(true);
+        // component.isLocked$ = Observable.of(true);
         component.analytics = jasmine.createSpyObj("analytics", ["eventTrack"]);
 
         let data = new Initiative().deserialize(fixture.load("data.json"));
         let mockDataService = target.debugElement.injector.get(DataService);
         spyOn(mockDataService, "get").and.returnValue(Observable.of({ initiative: data, datasetId: "ID" }));
-        
+
         target.detectChanges(); // trigger initial data binding
     });
 
