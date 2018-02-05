@@ -38,8 +38,8 @@ export class ColorService implements OnInit {
     getFontSizeRange(depth: number, maxFontSize: number): ScaleLinear<number, number> {
         return this.d3.scaleLinear<number, number>()
             .domain([-1, depth])
-            .interpolate(this.d3.interpolate)
-            .range([0, maxFontSize])
+            .interpolate(this.d3.interpolateNumber)
+            .range([maxFontSize, 0])
     }
 
 }

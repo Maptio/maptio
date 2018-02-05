@@ -68,6 +68,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     private diameter: number;
     private definitions: any;
     private fontSize: number;
+    private fonts: ScaleLinear<number, number>;
     public isWaitingForDestinationNode: boolean = false;
     public isTooltipDescriptionVisible: boolean = false;
     public isFirstEditing: boolean = false;
@@ -137,7 +138,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             g = svg.append("g").attr("transform", `translate(${diameter / 2 + margin.left}, ${diameter / 2 + margin.top}) scale(1)`),
             definitions = svg.append("svg:defs");
 
-        let zooming = d3.zoom().scaleExtent([1, 1])
+        let zooming = d3.zoom().scaleExtent([2 / 3, 4 / 3])
             .on("zoom", zoomed)
             .on("end", () => {
                 let transform = d3.event.transform;
@@ -168,6 +169,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             svg.attr("font-size", fs + "px");
             svg.selectAll("text").attr("font-size", fs + "px");
             this.fontSize = fs;
+            this.fonts = this.colorService.getFontSizeRange(20, fs);
         });
         let color = this.colorService.getDefaulColorRange(20)
 
@@ -216,6 +218,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         let TOOLTIP_PADDING = 20;
         let CIRCLE_RADIUS = this.CIRCLE_RADIUS;
         let markdown = this.markdown;
+        let fonts = this.fonts;
 
         let pack = d3.pack()
             .size([diameter - margin, diameter - margin])
@@ -232,12 +235,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
             depth = (depth > n.depth) ? depth : n.depth;
         })
         let color = this.colorService.getDefaulColorRange(depth);
-
-        let fonts = this.colorService.getFontSizeRange(depth, fontSize);
-        for (let index = -1; index <= depth; index++) {
-            console.log("fonts", index, fonts(index))
-
-        }
 
         let focus = root,
             nodes = pack(root).descendants(),
@@ -344,7 +341,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .attr("dy", 0)
             .text(function (d: any) { return d.data.name })
             .style("display", "inline")
-            .style("opacity", "0")
+            .style("opacity", function (d: any) { return (d.parent === root || d.depth <= 3) ? 1 : 0; })
             .each(function (d: any) {
                 uiService.wrap(d3.select(this), d.data.name, d.data.tags, d.r * 2 * 0.95);
             });
@@ -421,7 +418,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             circle.attr("r", function (d: any) { return d.r * k; })
                 .on("mouseover", function (d: any) {
                     d3.event.stopPropagation();
-                    console.log("mouserover circle", d.data.name)
+
                     let tooltip = d3.select(`div.arrow_box[id="${d.data.id}"]`);
                     let matrix = this.getScreenCTM()
                         .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
@@ -447,11 +444,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
                                 .style("top", 0)
                         });
                 })
-                .on("mousemove", function (d: any) {
-                    console.log("mousemove circle", d.data.name)
-                })
                 .on("mouseout", function (d: any) {
-                    console.log("mouseout circle", d.data.name)
                     let tooltip = d3.select(`div.arrow_box[id="${d.data.id}"]`);
                     tooltip.classed("show", false)
                         .style("left", 0)
