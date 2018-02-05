@@ -282,20 +282,32 @@ export class MappingZoomableComponent implements IDataVisualizer {
                 </textPath>`
             })
 
-        let textInside = initiative.filter(function (d: any) { return !d.children })
-            .append("text")
-            .attr("id", function (d: any) { return `${d.data.id}`; })
-            .attr("class", "label")
-            .classed("inside", true)
-            .style("fill", "black")
-            .attr("dy", 0)
+        // let textInside = initiative.filter(function (d: any) { return !d.children })
+        //     .append("text")
+        //     .attr("id", function (d: any) { return `${d.data.id}`; })
+        //     .attr("class", "label")
+        //     .classed("inside", true)
+        //     .style("fill", "black")
+        //     .attr("dy", 0)
+        //     .attr("x", function (d: any) { return -d.r * .9 })
+        //     .attr("y", function (d: any) { return -d.r * .2 })
+        //     .attr("font-size", function (d: any) { return `${fontSize / d.depth}px` })
+        //     .text(function (d: any) { return d.data.name })
+        //     .each(function (d: any) {
+        //         uiService.wrap(d3.select(this), d.data.name, d.data.tags, d.r * 2 * 0.95);
+        //     });
+
+        let foreignObject = initiative.filter(function (d: any) { return !d.children })
+            .append("foreignObject")
             .attr("x", function (d: any) { return -d.r * .9 })
             .attr("y", function (d: any) { return -d.r * .2 })
-            .attr("font-size", function (d: any) { return `${fontSize / d.depth}px` })
-            .text(function (d: any) { return d.data.name })
-            .each(function (d: any) {
-                uiService.wrap(d3.select(this), d.data.name, d.data.tags, d.r * 2 * 0.95);
-            });
+            .attr("width", function (d: any) { return d.r * .9 })
+            .attr("height", function (d: any) { return d.r * .9 })
+            .append("xhtml:body")
+            .style("font", function (d: any) { return `${fontSize / d.depth}px 'Helvetica Neue' ` })
+            .html("<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eu enim quam. Quisque nisi risus, sagittis quis tempor nec, aliquam eget neque. Nulla bibendum semper lorem non ullamcorper. Nulla non ligula lorem. Praesent porttitor, tellus nec suscipit aliquam, enim elit posuere lorem, at laoreet enim ligula sed tortor. Ut sodales, urna a aliquam semper, nibh diam gravida sapien, sit amet fermentum purus lacus eget massa. Donec ac arcu vel magna consequat pretium et vel ligula. Donec sit amet erat elit. Vivamus eu metus eget est hendrerit rutrum. Curabitur vitae orci et leo interdum egestas ut sit amet dui. In varius enim ut sem posuere in tristique metus ultrices.<p>Integer mollis massa at orci porta vestibulum. Pellentesque dignissim turpis ut tortor ultricies condimentum et quis nibh. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer euismod lorem vulputate dui pharetra luctus. Sed vulputate, nunc quis porttitor scelerisque, dui est varius ipsum, eu blandit mauris nibh pellentesque tortor. Vivamus ultricies ante eget ipsum pulvinar ac tempor turpis mollis. Morbi tortor orci, euismod vel sagittis ac, lobortis nec est. Quisque euismod venenatis felis at dapibus. Vestibulum dignissim nulla ut nisi tristique porttitor. Proin et nunc id arcu cursus dapibus non quis libero. Nunc ligula mi, bibendum non mattis nec, luctus id neque. Suspendisse ut eros lacus. Praesent eget lacus eget risus congue vestibulum. Morbi tincidunt pulvinar lacus sed faucibus. Phasellus sed vestibulum sapien.");
+
+
 
 
 
@@ -385,16 +397,24 @@ export class MappingZoomableComponent implements IDataVisualizer {
             path.attr("transform", "scale(" + k + ")");
 
 
-            textInside
-                .attr("font-size", function (d: any) { return `${fontSize / d.depth}px` })
-                .attr("dy", 0)
+            // textInside
+            //     .attr("font-size", function (d: any) { return `${fontSize / d.depth}px` })
+            //     .attr("dy", 0)
+            //     .attr("x", function (d: any) { return -d.r * k * .9 })
+            //     .attr("y", function (d: any) { return -d.r * k * .2 })
+            //     .attr("font-size", function (d: any) { return `${fontSize / d.depth * k}px` })
+            //     .text(function (d: any) { return d.data.name })
+            //     .each(function (d: any) {
+            //         uiService.wrap(d3.select(this), d.data.name, d.data.tags, d.r * k * 2 * 0.95);
+            //     });
+            foreignObject
                 .attr("x", function (d: any) { return -d.r * k * .9 })
                 .attr("y", function (d: any) { return -d.r * k * .2 })
-                .attr("font-size", function (d: any) { return `${fontSize / d.depth * k}px` })
-                .text(function (d: any) { return d.data.name })
-                .each(function (d: any) {
-                    uiService.wrap(d3.select(this), d.data.name, d.data.tags, d.r * k * 2 * 0.95);
-                });
+                .attr("width", function (d: any) { return d.r * k * .9 })
+                .attr("height", function (d: any) { return d.r * k * .9 })
+                .append("xhtml:body")
+                .style("font", function (d: any) { return `${fontSize * k / d.depth}px 'Helvetica Neue' ` })
+                .html("<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eu enim quam. Quisque nisi risus, sagittis quis tempor nec, aliquam eget neque. Nulla bibendum semper lorem non ullamcorper. Nulla non ligula lorem. Praesent porttitor, tellus nec suscipit aliquam, enim elit posuere lorem, at laoreet enim ligula sed tortor. Ut sodales, urna a aliquam semper, nibh diam gravida sapien, sit amet fermentum purus lacus eget massa. Donec ac arcu vel magna consequat pretium et vel ligula. Donec sit amet erat elit. Vivamus eu metus eget est hendrerit rutrum. Curabitur vitae orci et leo interdum egestas ut sit amet dui. In varius enim ut sem posuere in tristique metus ultrices.<p>Integer mollis massa at orci porta vestibulum. Pellentesque dignissim turpis ut tortor ultricies condimentum et quis nibh. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer euismod lorem vulputate dui pharetra luctus. Sed vulputate, nunc quis porttitor scelerisque, dui est varius ipsum, eu blandit mauris nibh pellentesque tortor. Vivamus ultricies ante eget ipsum pulvinar ac tempor turpis mollis. Morbi tortor orci, euismod vel sagittis ac, lobortis nec est. Quisque euismod venenatis felis at dapibus. Vestibulum dignissim nulla ut nisi tristique porttitor. Proin et nunc id arcu cursus dapibus non quis libero. Nunc ligula mi, bibendum non mattis nec, luctus id neque. Suspendisse ut eros lacus. Praesent eget lacus eget risus congue vestibulum. Morbi tincidunt pulvinar lacus sed faucibus. Phasellus sed vestibulum sapien.");
 
 
         }
