@@ -81,7 +81,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     private color: ScaleLinear<HSLColor, string>;
     public slug: string;
 
-    CIRCLE_RADIUS: number = 15;
+    CIRCLE_RADIUS: number = 12;
     MAX_TEXT_LENGTH = 35;
     TRANSITION_DURATION = 2250;
     TRANSITION_OPACITY = 750;
@@ -216,6 +216,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         let TOOLTIP_WIDTH = 300;
         let TOOLTIP_HEIGHT = 200;
         let TOOLTIP_PADDING = 20;
+        let CIRCLE_RADIUS = this.CIRCLE_RADIUS;
         let markdown = this.markdown;
 
         let pack = d3.pack()
@@ -237,6 +238,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
         let focus = root,
             nodes = pack(root).descendants(),
             view: any;
+
+        buildPatterns();
+
+
+
 
 
         let tooltip = d3.select("body").selectAll("div.arrow_box").data(nodes, function (d: any) { return d.data.id })
@@ -273,6 +279,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
                 return `
                 <h6 class="mb-1">${d.data.name}</h6>
+                <div>${accountableImg}</div>
                 <div class="row p-3 d-flex justify-content-start" >${helpersImg}</div>
                 <ul class="tags small"> ${tagsSpan}</ul>
                 <small>${markdown.compile(d.data.description || "")}</small>
@@ -334,32 +341,26 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .classed("name", true)
             .style("fill", "black")
             .attr("dy", 0)
-            .attr("x", function (d: any) { return -d.r * .9 })
-            .attr("y", function (d: any) { return -d.r * .5 })
-            .attr("font-size", function (d: any) { return `${fontSize / d.depth}px` })
             .text(function (d: any) { return d.data.name })
             .each(function (d: any) {
                 uiService.wrap(d3.select(this), d.data.name, d.data.tags, d.r * 2 * 0.95);
             });
 
 
+        let accountablePicture = initiative.filter(function (d: any) { return !d.children })
+            .append("circle")
+            .attr("class", "accountable")
+            .attr("pointer-events", "auto")
+            .attr("fill", function (d: any) { return "url(#image" + d.data.id + ")" })
 
-        // let initiativeDescription = initiative.filter(function (d: any) { return !d.children })
-        //     .append("text")
-        //     .attr("id", function (d: any) { return `${d.data.id}`; })
-        //     .attr("class", "label")
-        //     .classed("inside", true)
-        //     .classed("description", true)
-        //     .style("fill", "black")
-        //     .style("display", "none")
-        //     .attr("dy", 0)
-        //     .attr("x", function (d: any) { return -d.r * .9 })
-        //     .attr("y", function (d: any) { return 0 })
-        //     .attr("font-size", function (d: any) { return `${fontSize / d.depth}px` })
-        //     .text(function (d: any) { return d.data.name })
-        //     .each(function (d: any) {
-        //         uiService.wrap(d3.select(this), d.data.description, d.data.tags, d.r * 2 * 0.95);
-        //     });
+        let accountableName = initiative.filter(function (d: any) { return !d.children })
+            .filter(function (d: any) { return d.data.accountable })
+            .append("text")
+            .attr("class", "accountable")
+            .attr("id", function (d: any) { return `${d.data.id}`; })
+            .classed("inside", true)
+            .style("fill", "black")
+            .text(function (d: any) { return d.data.accountable.name })
 
         let node = g.selectAll("g.node");
 
@@ -438,14 +439,55 @@ export class MappingZoomableComponent implements IDataVisualizer {
                 .each(function (d: any) {
                     uiService.wrap(d3.select(this), d.data.name, d.data.tags, d.r * k * 2 * 0.95);
                 });
-            // initiativeDescription
-            //     .attr("x", function (d: any) { return -d.r * k * .9 })
-            //     .attr("y", function (d: any) { return 0 })
-            //     .attr("font-size", function (d: any) { return `${fontSize * k / d.depth}px` })
-            //     .text(function (d: any) { return d.data.description })
-            //     .each(function (d: any) {
-            //         uiService.wrap(d3.select(this), d.data.description, d.data.tags, d.r * k * 2 * 0.95);
-            //     });
+
+            accountablePicture
+                .attr("r", function (d: any) { return `${CIRCLE_RADIUS}px` })
+                .attr("cx", function (d: any) {
+                    return d.children
+                        ? Math.cos(Math.PI - Math.PI * 36 / 180) * (d.r * k + 3) - 20
+                        : 0
+                })
+                .attr("cy", function (d: any) {
+                    return d.children
+                        ? - Math.sin(Math.PI - Math.PI * 36 / 180) * (d.r * k + 3) + 10
+                        : -d.r * k * 0.70
+                })
+            accountableName
+                .attr("text-anchor", "middle")
+                .attr("x", function (d: any) { return 0 })
+                .attr("y", function (d: any) { return -d.r * k * .4 })
+                .attr("font-size", function (d: any) { return `${fontSize * 0.8 * k / d.depth}px` })
         }
+
+        function buildPatterns() {
+            let patterns = definitions.selectAll("pattern").data(nodes.filter(function (d: any) { return d.data.accountable }), function (d: any) { return d.data.id });
+            let enterPatterns = patterns.enter().filter(function (d: any) { return d.data.accountable }).append("pattern");
+
+            enterPatterns
+                .attr("id", function (d: any) { return "image" + d.data.id; })
+                .attr("width", "100%")
+                .attr("height", "100%")
+                .filter(function (d: any) { return d.data.accountable })
+                .append("image")
+                .attr("width", CIRCLE_RADIUS * 2)
+                .attr("height", CIRCLE_RADIUS * 2)
+                .attr("xlink:href", function (d: any) {
+                    return d.data.accountable.picture;
+                })
+
+            patterns
+                .attr("id", function (d: any) { return "image" + d.data.id; })
+                .attr("width", "100%")
+                .attr("height", "100%")
+                .filter(function (d: any) { return d.data.accountable })
+                .select("image")
+                .attr("width", CIRCLE_RADIUS * 2)
+                .attr("height", CIRCLE_RADIUS * 2)
+                .attr("xlink:href", function (d: any) {
+                    return d.data.accountable.picture;
+                })
+            patterns.exit().remove();
+        }
+
     }
 }
