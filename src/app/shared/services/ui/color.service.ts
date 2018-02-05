@@ -14,7 +14,7 @@ export class ColorService implements OnInit {
     constructor(d3Service: D3Service) {
         this.d3 = d3Service.getD3();
         this.FRONT_COLOR = this.d3.hsl(0, 0, 0.99);
-        this.BACK_COLOR =  this.d3.hsl(0, 0, 0.2);
+        this.BACK_COLOR = this.d3.hsl(0, 0, 0.2);
     }
 
     ngOnInit() {
@@ -33,6 +33,13 @@ export class ColorService implements OnInit {
             .interpolate(this.d3.interpolateHcl)
             .range([this.FRONT_COLOR, this.BACK_COLOR])
 
+    }
+
+    getFontSizeRange(depth: number, maxFontSize: number): ScaleLinear<number, number> {
+        return this.d3.scaleLinear<number, number>()
+            .domain([-1, depth])
+            .interpolate(this.d3.interpolate)
+            .range([0, maxFontSize])
     }
 
 }
