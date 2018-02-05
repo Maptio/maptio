@@ -342,6 +342,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
                 uiService.wrap(d3.select(this), d.data.name, d.data.tags, d.r * 2 * 0.95);
             });
 
+
+
         // let initiativeDescription = initiative.filter(function (d: any) { return !d.children })
         //     .append("text")
         //     .attr("id", function (d: any) { return `${d.data.id}`; })
@@ -405,18 +407,25 @@ export class MappingZoomableComponent implements IDataVisualizer {
                         .style("top", (window.pageYOffset + matrix.f - TOOLTIP_HEIGHT - 10 - d.r * k) + "px")
                         .classed("show", true)
                         .on("click", function (d: any) {
-                            d3.select(this).classed("show", false)
+                            tooltip.classed("show", false)
+                                .style("left", 0)
+                                .style("top", 0)
                         })
                         .on("mouseenter", function () {
                             d3.select(this).classed("show", true)
                         })
                         .on("mouseleave", function () {
-                            d3.select(this).classed("show", false)
+                            tooltip.classed("show", false)
+                                .style("left", 0)
+                                .style("top", 0)
                         });
                 })
                 .on("mouseout", function (d: any) {
                     let tooltip = d3.select(`div.arrow_box[id="${d.data.id}"]`);
                     tooltip.classed("show", false)
+                        .style("left", 0)
+                        .style("top", 0)
+
                 })
 
             path.attr("transform", "scale(" + k + ")");
