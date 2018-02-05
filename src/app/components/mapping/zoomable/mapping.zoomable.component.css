@@ -14,7 +14,25 @@
 ::ng-deep svg circle:hover {
     stroke: #000;
     stroke-width: 3.5px;
-  }
+}
+
+::ng-deep svg text.accountable {
+    fill: #555;
+    /* stroke-width: 0px; */
+    /* stroke: #555; */
+}
+
+::ng-deep .accountable {
+    font-weight: 500;
+}
+
+::ng-deep svg text.name {
+    fill: #000;
+}
+
+::ng-deep .name {
+    font-weight: 200;
+}
 
 ::ng-deep .node--leaf {
     fill: white;

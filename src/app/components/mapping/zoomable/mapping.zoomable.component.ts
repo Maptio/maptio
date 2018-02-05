@@ -166,7 +166,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
         this.fontSubscription = this.fontSize$.subscribe((fs: number) => {
             svg.attr("font-size", fs + "px");
-            svg.selectAll(".label").attr("font-size", fs + "px");
+            svg.selectAll("text").attr("font-size", fs + "px");
             this.fontSize = fs;
         });
         let color = this.colorService.getDefaulColorRange(20)
@@ -278,7 +278,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
                     : "";
 
                 return `
-                <h6 class="mb-1">${d.data.name}</h6>
+                <h6 class="mb-1 lead">${d.data.name}</h6>
                 <div>${accountableImg}</div>
                 <div class="row p-3 d-flex justify-content-start" >${helpersImg}</div>
                 <ul class="tags small"> ${tagsSpan}</ul>
@@ -336,10 +336,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         let initiativeName = initiative.filter(function (d: any) { return !d.children })
             .append("text")
             .attr("id", function (d: any) { return `${d.data.id}`; })
-            .attr("class", "label")
-            .classed("inside", true)
-            .classed("name", true)
-            .style("fill", "black")
+            .attr("class", "name")
             .attr("dy", 0)
             .text(function (d: any) { return d.data.name })
             .each(function (d: any) {
@@ -358,8 +355,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .append("text")
             .attr("class", "accountable")
             .attr("id", function (d: any) { return `${d.data.id}`; })
-            .classed("inside", true)
-            .style("fill", "black")
             .text(function (d: any) { return d.data.accountable.name })
 
         let node = g.selectAll("g.node");
