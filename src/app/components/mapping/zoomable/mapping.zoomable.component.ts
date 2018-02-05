@@ -252,6 +252,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .attr("class", "arrow_box")
             .classed("show", false)
             .attr("id", function (d: any) { return `${d.data.id}`; })
+            .on("mouseenter", function () {
+                d3.select(this).classed("show", true)
+            })
+            .on("mouseleave", function () {
+                tooltip.classed("show", false)
+            })
             .html(function (d: any) {
                 let tagsSpan = d.data.tags
                     ? d.data.tags.map((tag: Tag) => `
@@ -432,23 +438,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
                         .classed("show", true)
                         .on("click", function (d: any) {
                             tooltip.classed("show", false)
-                                .style("left", 0)
-                                .style("top", 0)
                         })
-                        .on("mouseenter", function () {
-                            d3.select(this).classed("show", true)
-                        })
-                        .on("mouseleave", function () {
-                            tooltip.classed("show", false)
-                                .style("left", 0)
-                                .style("top", 0)
-                        });
                 })
                 .on("mouseout", function (d: any) {
                     let tooltip = d3.select(`div.arrow_box[id="${d.data.id}"]`);
                     tooltip.classed("show", false)
-                        .style("left", 0)
-                        .style("top", 0)
 
                 })
 

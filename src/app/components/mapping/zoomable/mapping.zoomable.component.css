@@ -91,6 +91,8 @@
 
 ::ng-deep .arrow_box {
     position: absolute;
+    left:0;
+    top:0;
     background: #f5f5f5;
     border: 1px solid #444;
     border-radius: 5px;
@@ -107,13 +109,16 @@
     -ms-user-select: none;
     /* Internet Explorer/Edge */
     user-select: none;
+    visibility: hidden;
     opacity: 0;
-    transition: opacity 0s ease-in;
+    transition:visibility 0s linear 0.2s,opacity 0.2s linear;
+
 }
 
 ::ng-deep .arrow_box.show {
+    visibility: visible;
     opacity: 1;
-    transition: opacity 0.2s ease-in;
+    transition: visibility 0.1s ease-in;
 }
 
 ::ng-deep .arrow_box:after, .arrow_box:before {
