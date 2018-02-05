@@ -327,6 +327,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .append("text")
             .attr("id", function (d: any) { return `${d.data.id}`; })
             .attr("class", "name")
+            .style("pointer-events", "none")
             .style("fill-opacity", function (d: any) { return (d.parent === root || d.depth <= 3) ? 1 : 0; })
             .style("display", function (d: any) { return d !== root ? (d.parent === root || d.depth <= 3) ? "inline" : "none" : "none" })
             .html(function (d: any) {
@@ -339,6 +340,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .append("text")
             .attr("id", function (d: any) { return `${d.data.id}`; })
             .attr("class", "name")
+            .style("pointer-events", "none")
             .attr("dy", 0)
             .text(function (d: any) { return d.data.name })
             .style("display", "inline")
@@ -351,7 +353,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         let accountablePictureWithChildren = initiative.filter(function (d: any) { return d.children })
             .append("circle")
             .attr("class", "accountable")
-            .attr("pointer-events", "auto")
+            .attr("pointer-events", "none")
             .attr("fill", function (d: any) { return "url(#image" + d.data.id + ")" })
             .style("fill-opacity", function (d: any) { return (d.parent === root || d.depth <= 3) ? 1 : 0; })
             .style("display", function (d: any) { return d !== root ? (d.parent === root || d.depth <= 3) ? "inline" : "none" : "none" })
@@ -359,7 +361,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         let accountablePictureWithoutChildren = initiative.filter(function (d: any) { return !d.children })
             .append("circle")
             .attr("class", "accountable")
-            .attr("pointer-events", "auto")
+            .attr("pointer-events", "none")
             .attr("fill", function (d: any) { return "url(#image" + d.data.id + ")" })
             .style("display", "inline")
             .style("opacity", "0")
@@ -367,6 +369,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         let accountableName = initiative.filter(function (d: any) { return !d.children })
             .filter(function (d: any) { return d.data.accountable })
             .append("text")
+            .style("pointer-events", "none")
             .attr("class", "accountable")
             .attr("id", function (d: any) { return `${d.data.id}`; })
             .style("display", "none")
@@ -418,6 +421,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             circle.attr("r", function (d: any) { return d.r * k; })
                 .on("mouseover", function (d: any) {
                     d3.event.stopPropagation();
+                    console.log("mouserover circle", d.data.name)
                     let tooltip = d3.select(`div.arrow_box[id="${d.data.id}"]`);
                     let matrix = this.getScreenCTM()
                         .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
@@ -443,7 +447,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
                                 .style("top", 0)
                         });
                 })
+                .on("mousemove", function (d: any) {
+                    console.log("mousemove circle", d.data.name)
+                })
                 .on("mouseout", function (d: any) {
+                    console.log("mouseout circle", d.data.name)
                     let tooltip = d3.select(`div.arrow_box[id="${d.data.id}"]`);
                     tooltip.classed("show", false)
                         .style("left", 0)
