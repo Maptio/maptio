@@ -61,17 +61,17 @@
 ::ng-deep .arrow_box {
     position: absolute;
     background: #f5f5f5;
-    border: 2.5px solid #444;
+    border: 1px solid #444;
     border-radius: 5px;
     width: 300px;
     padding: 10px;
     opacity: 0;
-    transition: opacity 0.5s ease-in-out;
+    transition: opacity 0.2s ease-in;
 }
 
 ::ng-deep .arrow_box.show {
     opacity: 1;
-    transition: opacity 0.5s ease-in-out;
+    transition: opacity 0.2s ease-in;
 }
 
 ::ng-deep .arrow_box:after, .arrow_box:before {

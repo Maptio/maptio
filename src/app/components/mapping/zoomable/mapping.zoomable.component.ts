@@ -15,6 +15,7 @@ import { Tag, SelectableTag } from "../../../shared/model/tag.data";
 import * as _ from "lodash";
 import { SelectableUser } from "../../../shared/model/user.data";
 import { Helper } from "../../../shared/model/helper.data";
+import { MarkdownService } from "angular2-markdown";
 
 @Component({
     selector: "zoomable",
@@ -91,7 +92,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
     constructor(public d3Service: D3Service, public colorService: ColorService,
         public uiService: UIService, public router: Router,
         private userFactory: UserFactory, private cd: ChangeDetectorRef,
-        private dataService: DataService, private uriService: URIService
+        private dataService: DataService, private uriService: URIService,
+        private markdown: MarkdownService
     ) {
         this.d3 = d3Service.getD3();
         this.T = this.d3.transition(null).duration(this.TRANSITION_DURATION);
@@ -214,6 +216,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         let TOOLTIP_WIDTH = 300;
         let TOOLTIP_HEIGHT = 200;
         let TOOLTIP_PADDING = 20;
+        let markdown = this.markdown;
 
         let pack = d3.pack()
             .size([diameter - margin, diameter - margin])
@@ -236,9 +239,50 @@ export class MappingZoomableComponent implements IDataVisualizer {
             view: any;
 
 
-        let tooltip = d3.select("body").append("div")
+        let tooltip = d3.select("body").selectAll("div.arrow_box").data(nodes, function (d: any) { return d.data.id })
+            .enter()
+            .append("div")
             .attr("class", "arrow_box")
             .classed("show", false)
+            .attr("id", function (d: any) { return `${d.data.id}`; })
+            .html(function (d: any) {
+                let tagsSpan = d.data.tags
+                    ? d.data.tags.map((tag: Tag) => `
+        <li><a class="btn btn-sm btn-secondary borderless mr-1 tag" style="color:${tag.color}">
+                <i class="fa fa-tag mr-1" aria-hidden="true" style="color:${tag.color}"></i>${tag.name}
+            </a></li>
+        `).join("")
+                    : "";
+
+                let accountableImg = d.data.accountable
+                    ? `<a >
+                    <img src="${d.data.accountable.picture}" width="30" height="30" class="rounded-circle mr-2">
+                    ${d.data.accountable.name}
+                </a>`
+                    : "<a ></a>";
+
+                let helpersImg = d.data.helpers
+                    ? d.data.helpers.map((helper: Helper) =>
+                        `
+                <a class="mr-1">
+                    <img src="${helper.picture}" width="15" height="15" class="rounded-circle">
+                    <small>${helper.name}</small>
+                </a>`
+                    ).join("")
+                    : "";
+
+                return `
+                <h6 class="mb-1">${d.data.name}</h6>
+                <div class="row p-3 d-flex justify-content-start" >${helpersImg}</div>
+                <ul class="tags small"> ${tagsSpan}</ul>
+                <small>${markdown.compile(d.data.description || "")}</small>
+                </textPath>
+                `
+                    ;
+            });
+
+
+
 
 
         let paths = g.append("g").attr("class", "paths");
@@ -282,34 +326,38 @@ export class MappingZoomableComponent implements IDataVisualizer {
                 </textPath>`
             })
 
-        // let textInside = initiative.filter(function (d: any) { return !d.children })
+        let initiativeName = initiative.filter(function (d: any) { return !d.children })
+            .append("text")
+            .attr("id", function (d: any) { return `${d.data.id}`; })
+            .attr("class", "label")
+            .classed("inside", true)
+            .classed("name", true)
+            .style("fill", "black")
+            .attr("dy", 0)
+            .attr("x", function (d: any) { return -d.r * .9 })
+            .attr("y", function (d: any) { return -d.r * .5 })
+            .attr("font-size", function (d: any) { return `${fontSize / d.depth}px` })
+            .text(function (d: any) { return d.data.name })
+            .each(function (d: any) {
+                uiService.wrap(d3.select(this), d.data.name, d.data.tags, d.r * 2 * 0.95);
+            });
+
+        // let initiativeDescription = initiative.filter(function (d: any) { return !d.children })
         //     .append("text")
         //     .attr("id", function (d: any) { return `${d.data.id}`; })
         //     .attr("class", "label")
         //     .classed("inside", true)
+        //     .classed("description", true)
         //     .style("fill", "black")
+        //     .style("display", "none")
         //     .attr("dy", 0)
         //     .attr("x", function (d: any) { return -d.r * .9 })
-        //     .attr("y", function (d: any) { return -d.r * .2 })
+        //     .attr("y", function (d: any) { return 0 })
         //     .attr("font-size", function (d: any) { return `${fontSize / d.depth}px` })
         //     .text(function (d: any) { return d.data.name })
         //     .each(function (d: any) {
-        //         uiService.wrap(d3.select(this), d.data.name, d.data.tags, d.r * 2 * 0.95);
+        //         uiService.wrap(d3.select(this), d.data.description, d.data.tags, d.r * 2 * 0.95);
         //     });
-
-        let foreignObject = initiative.filter(function (d: any) { return !d.children })
-            .append("foreignObject")
-            .attr("x", function (d: any) { return -d.r * .9 })
-            .attr("y", function (d: any) { return -d.r * .2 })
-            .attr("width", function (d: any) { return d.r * .9 })
-            .attr("height", function (d: any) { return d.r * .9 })
-            .append("xhtml:body")
-            .style("font", function (d: any) { return `${fontSize / d.depth}px 'Helvetica Neue' ` })
-            .html("<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eu enim quam. Quisque nisi risus, sagittis quis tempor nec, aliquam eget neque. Nulla bibendum semper lorem non ullamcorper. Nulla non ligula lorem. Praesent porttitor, tellus nec suscipit aliquam, enim elit posuere lorem, at laoreet enim ligula sed tortor. Ut sodales, urna a aliquam semper, nibh diam gravida sapien, sit amet fermentum purus lacus eget massa. Donec ac arcu vel magna consequat pretium et vel ligula. Donec sit amet erat elit. Vivamus eu metus eget est hendrerit rutrum. Curabitur vitae orci et leo interdum egestas ut sit amet dui. In varius enim ut sem posuere in tristique metus ultrices.<p>Integer mollis massa at orci porta vestibulum. Pellentesque dignissim turpis ut tortor ultricies condimentum et quis nibh. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer euismod lorem vulputate dui pharetra luctus. Sed vulputate, nunc quis porttitor scelerisque, dui est varius ipsum, eu blandit mauris nibh pellentesque tortor. Vivamus ultricies ante eget ipsum pulvinar ac tempor turpis mollis. Morbi tortor orci, euismod vel sagittis ac, lobortis nec est. Quisque euismod venenatis felis at dapibus. Vestibulum dignissim nulla ut nisi tristique porttitor. Proin et nunc id arcu cursus dapibus non quis libero. Nunc ligula mi, bibendum non mattis nec, luctus id neque. Suspendisse ut eros lacus. Praesent eget lacus eget risus congue vestibulum. Morbi tincidunt pulvinar lacus sed faucibus. Phasellus sed vestibulum sapien.");
-
-
-
-
 
         let node = g.selectAll("g.node");
 
@@ -333,6 +381,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
             // .style("fill-opacity", function (d: any) { return d.parent === focus ? 1 : 0; })
             // .on("start", function (d: any) { if (d.parent === focus) (this as SVGElement).style.display = "inline"; })
             // .on("end", function (d: any) { if (d.parent !== focus) (this as SVGElement).style.display = "none"; });
+
+            transition.selectAll("text.description")
+                .on("start", function (d: any) { if (d.parent === focus || d === focus) (this as SVGElement).style.display = "inline"; })
+                .on("end", function (d: any) { if (d.parent !== focus && d !== focus) (this as SVGElement).style.display = "none"; });
+
         }
 
         function zoomTo(v: any) {
@@ -340,83 +393,50 @@ export class MappingZoomableComponent implements IDataVisualizer {
             node.attr("transform", function (d: any) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
             circle.attr("r", function (d: any) { return d.r * k; })
                 .on("mouseover", function (d: any) {
-
-                    // tooltip
+                    d3.event.stopPropagation();
+                    let tooltip = d3.select(`div.arrow_box[id="${d.data.id}"]`);
                     let matrix = this.getScreenCTM()
                         .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
 
-                    tooltip.classed("show", true)
-
-                    let tagsSpan = d.data.tags.map((tag: Tag) => `
-                <li><a class="btn btn-sm btn-secondary borderless mr-1 tag" style="color:${tag.color}">
-                        <i class="fa fa-tag mr-1" aria-hidden="true" style="color:${tag.color}"></i>${tag.name}
-                    </a></li>
-                `).join("");
-
-                    let accountableImg = d.data.accountable
-                        ? `<a >
-                            <img src="${d.data.accountable.picture}" width="30" height="30" class="rounded-circle mr-2">
-                            ${d.data.accountable.name}
-                        </a>`
-                        : "";
-
-                    let helpersImg = d.data.helpers.map((helper: Helper) =>
-                        `
-                        <a class="mr-1">
-                            <img src="${helper.picture}" width="15" height="15" class="rounded-circle">
-                            <small>${helper.name}</small>
-                        </a>`
-                    ).join("");
-
-                    tooltip.html(
-                        `
-                    <h6 class="mb-1">${d.data.name}</h6>
-                    ${accountableImg}
-                    <div class="row p-3 d-flex justify-content-start" >${helpersImg}</div>
-                    <ul class="tags small">
-                    ${tagsSpan}
-                </ul>
-                </textPath>`
-                    );
 
                     TOOLTIP_HEIGHT = (tooltip.node() as HTMLElement).getBoundingClientRect().height;
                     tooltip
                         .style("left", (window.pageXOffset + matrix.e - TOOLTIP_WIDTH / 2) + "px")
                         .style("top", (window.pageYOffset + matrix.f - TOOLTIP_HEIGHT - 10 - d.r * k) + "px")
+                        .classed("show", true)
+                        .on("click", function (d: any) {
+                            d3.select(this).classed("show", false)
+                        })
                         .on("mouseenter", function () {
                             d3.select(this).classed("show", true)
                         })
                         .on("mouseleave", function () {
                             d3.select(this).classed("show", false)
                         });
-
                 })
-
-
+                .on("mouseout", function (d: any) {
+                    let tooltip = d3.select(`div.arrow_box[id="${d.data.id}"]`);
+                    tooltip.classed("show", false)
+                })
 
             path.attr("transform", "scale(" + k + ")");
 
-
-            // textInside
-            //     .attr("font-size", function (d: any) { return `${fontSize / d.depth}px` })
-            //     .attr("dy", 0)
-            //     .attr("x", function (d: any) { return -d.r * k * .9 })
-            //     .attr("y", function (d: any) { return -d.r * k * .2 })
-            //     .attr("font-size", function (d: any) { return `${fontSize / d.depth * k}px` })
-            //     .text(function (d: any) { return d.data.name })
-            //     .each(function (d: any) {
-            //         uiService.wrap(d3.select(this), d.data.name, d.data.tags, d.r * k * 2 * 0.95);
-            //     });
-            foreignObject
+            initiativeName
                 .attr("x", function (d: any) { return -d.r * k * .9 })
                 .attr("y", function (d: any) { return -d.r * k * .2 })
-                .attr("width", function (d: any) { return d.r * k * .9 })
-                .attr("height", function (d: any) { return d.r * k * .9 })
-                .append("xhtml:body")
-                .style("font", function (d: any) { return `${fontSize * k / d.depth}px 'Helvetica Neue' ` })
-                .html("<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eu enim quam. Quisque nisi risus, sagittis quis tempor nec, aliquam eget neque. Nulla bibendum semper lorem non ullamcorper. Nulla non ligula lorem. Praesent porttitor, tellus nec suscipit aliquam, enim elit posuere lorem, at laoreet enim ligula sed tortor. Ut sodales, urna a aliquam semper, nibh diam gravida sapien, sit amet fermentum purus lacus eget massa. Donec ac arcu vel magna consequat pretium et vel ligula. Donec sit amet erat elit. Vivamus eu metus eget est hendrerit rutrum. Curabitur vitae orci et leo interdum egestas ut sit amet dui. In varius enim ut sem posuere in tristique metus ultrices.<p>Integer mollis massa at orci porta vestibulum. Pellentesque dignissim turpis ut tortor ultricies condimentum et quis nibh. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer euismod lorem vulputate dui pharetra luctus. Sed vulputate, nunc quis porttitor scelerisque, dui est varius ipsum, eu blandit mauris nibh pellentesque tortor. Vivamus ultricies ante eget ipsum pulvinar ac tempor turpis mollis. Morbi tortor orci, euismod vel sagittis ac, lobortis nec est. Quisque euismod venenatis felis at dapibus. Vestibulum dignissim nulla ut nisi tristique porttitor. Proin et nunc id arcu cursus dapibus non quis libero. Nunc ligula mi, bibendum non mattis nec, luctus id neque. Suspendisse ut eros lacus. Praesent eget lacus eget risus congue vestibulum. Morbi tincidunt pulvinar lacus sed faucibus. Phasellus sed vestibulum sapien.");
-
-
+                .attr("font-size", function (d: any) { return `${fontSize * k / d.depth}px` })
+                .text(function (d: any) { return d.data.name })
+                .each(function (d: any) {
+                    uiService.wrap(d3.select(this), d.data.name, d.data.tags, d.r * k * 2 * 0.95);
+                });
+            // initiativeDescription
+            //     .attr("x", function (d: any) { return -d.r * k * .9 })
+            //     .attr("y", function (d: any) { return 0 })
+            //     .attr("font-size", function (d: any) { return `${fontSize * k / d.depth}px` })
+            //     .text(function (d: any) { return d.data.description })
+            //     .each(function (d: any) {
+            //         uiService.wrap(d3.select(this), d.data.description, d.data.tags, d.r * k * 2 * 0.95);
+            //     });
         }
     }
 }
