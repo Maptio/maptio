@@ -68,10 +68,12 @@ export class HeaderComponent implements OnInit {
         this.emitterSubscription = EmitterService.get("currentDataset")
             .subscribe((value: DataSet) => {
                 this.selectedDataset = value;
+                this.cd.markForCheck();
             });
 
         EmitterService.get("currentTeam").subscribe((value: Team) => {
             this.team = value;
+            this.cd.markForCheck();
         });
 
         EmitterService.get("currentMembers").subscribe((value: Array<User>) => {
@@ -156,6 +158,7 @@ export class HeaderComponent implements OnInit {
 
     goTo(dataset: DataSet) {
         this.selectedDataset = dataset;
+        this.team = dataset.team;
         if (dataset) this.router.navigate(["map", dataset.datasetId, dataset.initiative.getSlug(), "initiatives"]);
     }
 
