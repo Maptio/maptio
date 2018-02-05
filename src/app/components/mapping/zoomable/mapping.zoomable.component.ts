@@ -127,7 +127,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         let d3 = this.d3;
 
         let margin = { top: 20, right: 200, bottom: 20, left: 200 };
-        let width = 1280 - margin.left - margin.right,
+        let width = 1580 - margin.left - margin.right,
             height = 800 - margin.top - margin.bottom;
 
         let svg = d3.select("svg")
@@ -213,8 +213,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
         let uiService = this.uiService;
         let fontSize = this.fontSize;
         let marginLeft = 200;
-        let TOOLTIP_WIDTH = 300;
-        let TOOLTIP_HEIGHT = 200;
         let TOOLTIP_PADDING = 20;
         let CIRCLE_RADIUS = this.CIRCLE_RADIUS;
         let markdown = this.markdown;
@@ -322,13 +320,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
         let textAround = initiative.filter(function (d: any) { return d.children })
             .append("text")
             .attr("id", function (d: any) { return `${d.data.id}`; })
-            .attr("class", "label")
-            .classed("around", true)
+            .attr("class", "name")
             .style("fill", "#fff")
             .style("fill-opacity", function (d: any) { return (d.parent === root || d.depth <= 3) ? 1 : 0; })
             .style("display", function (d: any) { return d !== root ? (d.parent === root || d.depth <= 3) ? "inline" : "none" : "none" })
             .html(function (d: any) {
-                return `<textPath xlink:href="#path${d.data.id}" startOffset="5%">
+                return `<textPath xlink:href="#path${d.data.id}" startOffset="10%">
                 <tspan>${d.data.name || ""}</tspan>
                 </textPath>`
             })
@@ -339,22 +336,35 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .attr("class", "name")
             .attr("dy", 0)
             .text(function (d: any) { return d.data.name })
+            .style("display", "inline")
+            .style("opacity", "0")
             .each(function (d: any) {
                 uiService.wrap(d3.select(this), d.data.name, d.data.tags, d.r * 2 * 0.95);
             });
 
 
-        let accountablePicture = initiative.filter(function (d: any) { return !d.children })
+        let accountablePictureWithChildren = initiative.filter(function (d: any) { return d.children })
             .append("circle")
             .attr("class", "accountable")
             .attr("pointer-events", "auto")
             .attr("fill", function (d: any) { return "url(#image" + d.data.id + ")" })
+            .style("fill-opacity", function (d: any) { return (d.parent === root || d.depth <= 3) ? 1 : 0; })
+            .style("display", function (d: any) { return d !== root ? (d.parent === root || d.depth <= 3) ? "inline" : "none" : "none" })
+
+        let accountablePictureWithoutChildren = initiative.filter(function (d: any) { return !d.children })
+            .append("circle")
+            .attr("class", "accountable")
+            .attr("pointer-events", "auto")
+            .attr("fill", function (d: any) { return "url(#image" + d.data.id + ")" })
+            .style("display", "inline")
+            .style("opacity", "0")
 
         let accountableName = initiative.filter(function (d: any) { return !d.children })
             .filter(function (d: any) { return d.data.accountable })
             .append("text")
             .attr("class", "accountable")
             .attr("id", function (d: any) { return `${d.data.id}`; })
+            .style("display", "none")
             .text(function (d: any) { return d.data.accountable.name })
 
         let node = g.selectAll("g.node");
@@ -368,21 +378,32 @@ export class MappingZoomableComponent implements IDataVisualizer {
             let focus0 = focus; focus = d;
 
             let transition = d3.transition("zooming")
-                .duration(d3.event.altKey ? 7500 : 750)
+                .duration(750)
                 .tween("zoom", function (d) {
                     let i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
                     return function (t) { zoomTo(i(t)); };
                 });
 
-            transition.selectAll("text")
-                .filter(function (d: any) { return d.parent === focus || (this as SVGElement).style.display === "inline"; })
-            // .style("fill-opacity", function (d: any) { return d.parent === focus ? 1 : 0; })
-            // .on("start", function (d: any) { if (d.parent === focus) (this as SVGElement).style.display = "inline"; })
-            // .on("end", function (d: any) { if (d.parent !== focus) (this as SVGElement).style.display = "none"; });
+            let revealTransition = d3.transition("reveal").delay(750).duration(750)
 
-            transition.selectAll("text.description")
-                .on("start", function (d: any) { if (d.parent === focus || d === focus) (this as SVGElement).style.display = "inline"; })
-                .on("end", function (d: any) { if (d.parent !== focus && d !== focus) (this as SVGElement).style.display = "none"; });
+            transition.selectAll("text").filter((d: any) => d.children)
+                .style("fill-opacity", function (d: any) { return (d.depth - focus.depth) <= 1 ? 1 : 0; })
+                .style("display", function (d: any) { return d !== root ? (d.depth - focus.depth) <= 1 ? "inline" : "none" : "none" })
+
+            transition.selectAll("circle.accountable").filter((d: any) => d.children)
+                .style("fill-opacity", function (d: any) { return (d.depth - focus.depth) <= 1 ? 1 : 0; })
+                .style("display", function (d: any) { return d !== root ? (d.depth - focus.depth) <= 1 ? "inline" : "none" : "none" })
+
+            revealTransition.selectAll("text").filter((d: any) => !d.children)
+                .style("opacity", function (d: any) { return (d.depth - focus.depth) <= 2 ? "1" : "0" })
+            revealTransition.selectAll("circle.accountable").filter((d: any) => !d.children)
+                .style("opacity", function (d: any) { return (d.depth - focus.depth) <= 2 ? "1" : "0" })
+
+            // transition.selectAll("text")
+            //     .filter(function (d: any) { return d.parent === focus || d === focus || (this as SVGElement).style.display === "inline"; })
+            //     .style("fill-opacity", function (d: any) { return d.parent === focus || d === focus ? 1 : 0; })
+            //     .on("start", function (d: any) { if (d.parent === focus || d === focus) (this as SVGElement).style.display = "inline"; })
+            //     .on("end", function (d: any) { if (d.parent !== focus && d !== focus) (this as SVGElement).style.display = "none"; });
 
         }
 
@@ -397,7 +418,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
                         .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
 
 
-                    TOOLTIP_HEIGHT = (tooltip.node() as HTMLElement).getBoundingClientRect().height;
+                    let TOOLTIP_HEIGHT = (tooltip.node() as HTMLElement).getBoundingClientRect().height;
+                    let TOOLTIP_WIDTH = (tooltip.node() as HTMLElement).getBoundingClientRect().width;
                     tooltip
                         .style("left", (window.pageXOffset + matrix.e - TOOLTIP_WIDTH / 2) + "px")
                         .style("top", (window.pageYOffset + matrix.f - TOOLTIP_HEIGHT - 10 - d.r * k) + "px")
@@ -435,23 +457,25 @@ export class MappingZoomableComponent implements IDataVisualizer {
                     uiService.wrap(d3.select(this), d.data.name, d.data.tags, d.r * k * 2 * 0.95);
                 });
 
-            accountablePicture
+            g.selectAll("circle.accountable")
                 .attr("r", function (d: any) { return `${CIRCLE_RADIUS}px` })
                 .attr("cx", function (d: any) {
                     return d.children
-                        ? Math.cos(Math.PI - Math.PI * 36 / 180) * (d.r * k + 3) - 20
+                        ? Math.cos(Math.PI - Math.PI * 36 / 180) * (d.r * k) - 12
                         : 0
                 })
                 .attr("cy", function (d: any) {
                     return d.children
-                        ? - Math.sin(Math.PI - Math.PI * 36 / 180) * (d.r * k + 3) + 10
+                        ? - Math.sin(Math.PI - Math.PI * 36 / 180) * (d.r * k) + 7
                         : -d.r * k * 0.70
-                })
+                });
+
+
             accountableName
                 .attr("text-anchor", "middle")
                 .attr("x", function (d: any) { return 0 })
                 .attr("y", function (d: any) { return -d.r * k * .4 })
-                .attr("font-size", function (d: any) { return `${fontSize * 0.8 * k / d.depth}px` })
+                .attr("font-size", function (d: any) { return `${fontSize * 0.9 * k / d.depth}px` })
         }
 
         function buildPatterns() {
