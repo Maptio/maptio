@@ -356,7 +356,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .attr("pointer-events", "none")
             .attr("fill", function (d: any) { return "url(#image" + d.data.id + ")" })
             .style("opacity", function (d: any) { return (d.parent === root || d.depth <= 3) ? 1 : 0; })
-            
+
 
         let accountableName = initiative.filter(function (d: any) { return !d.children })
             .filter(function (d: any) { return d.data.accountable })
@@ -473,12 +473,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
                 .attr("r", function (d: any) { return `${CIRCLE_RADIUS}px` })
                 .attr("cx", function (d: any) {
                     return d.children
-                        ? Math.cos(Math.PI - Math.PI * 36 / 180) * (d.r * k) - 12
+                        ? Math.cos(Math.PI - Math.PI * 36 / 180) * (d.r * k) - 11
                         : 0
                 })
                 .attr("cy", function (d: any) {
                     return d.children
-                        ? - Math.sin(Math.PI - Math.PI * 36 / 180) * (d.r * k) + 7
+                        ? - Math.sin(Math.PI - Math.PI * 36 / 180) * (d.r * k) + 10
                         : -d.r * k * 0.70
                 });
 
