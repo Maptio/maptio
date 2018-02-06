@@ -29,7 +29,7 @@
   top: 12vh;
 }
 
-.control.first >  .btn-group-vertical{
+.control.first>.btn-group-vertical {
   width: 48px;
 }
 
@@ -222,4 +222,14 @@
 
 .btn-link {
   color: #2F81B7!important;
+}
+
+:host /deep/ button.dropdown-item:nth-child(even) {
+  background: #ddd !important;
+}
+
+:host /deep/ .dropdown-menu {
+  max-height: 65vh;
+  overflow-y: auto;
+
 }

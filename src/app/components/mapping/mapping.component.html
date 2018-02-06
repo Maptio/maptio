@@ -4,6 +4,13 @@
     <small class="ml-3" *ngIf="r.accountable">led by
       <img [src]="r.accountable.picture" width="15" height="15" class="rounded-circle mr-1">{{r.accountable.name}}
     </small>
+    <small class="ml-3 d-flex" *ngIf="r.helpers">with the help of
+
+      <span class="pl-1 col" *ngFor="let helper of r.helpers; let i=index">
+        <img [src]="helper.picture" width="15" height="15" class="rounded-circle mr-1">{{helper.name}}
+      </span>
+
+    </small>
   </div>
 
 </ng-template>
@@ -18,9 +25,9 @@
         <button *ngIf="isSearchToggled" class="btn btn-sm btn-link ">Hide</button>
       </span> -->
       <div class="col-8 pl-0">
-        <input #initiativeSearch [resultTemplate]="rt" type="text" id="inputHelper" placeholder="Search initiatives by name" class="form-control"
+        <input #initiativeSearch [resultTemplate]="rt" type="text" id="inputHelper" placeholder="Search initiatives by name or people" class="form-control"
           (selectItem)="zoomToInitiative($event)" [ngbTypeahead]="searchInitiatives" [resultFormatter]="formatter" [inputFormatter]="formatter"
-          editable="false" (focus)="initiativeSearch.value=''"/>
+          editable="false" (focus)="initiativeSearch.value=''" />
       </div>
     </div>
 
