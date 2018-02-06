@@ -4,6 +4,9 @@ import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import { Tag } from "../../model/tag.data";
 import * as _ from "lodash";
+import { Initiative } from "../../model/initiative.data";
+import { Helper } from "../../model/helper.data";
+import { MarkdownService } from "angular2-markdown";
 
 @Injectable()
 export class UIService {
@@ -12,7 +15,8 @@ export class UIService {
 
     // private tooltip$: Subject<[string, Initiative, Initiative]>
 
-    constructor(d3Service: D3Service) {
+    constructor(d3Service: D3Service,
+        private markdown: MarkdownService) {
         this.d3 = d3Service.getD3();
         // this.tooltip$ = new Subject<[string, Initiative, Initiative]>();
     }
@@ -82,6 +86,43 @@ export class UIService {
                 : _.intersection(selectedTags.map(t => t.shortid), selection).length === 0
                     ? false
                     : true;
+    }
+
+    getTooltipHTML(initiative: Initiative): string {
+        let tagsSpan = initiative.tags
+            ? initiative.tags.map((tag: Tag) => `
+        <li><a class="btn btn-sm btn-secondary borderless mr-1 tag" style="color:${tag.color}">
+                <i class="fa fa-tag mr-1" aria-hidden="true" style="color:${tag.color}"></i>${tag.name}
+            </a></li>
+        `).join("")
+            : "";
+
+        let accountableImg = initiative.accountable
+            ? `<a >
+                    <img src="${initiative.accountable.picture}" width="30" height="30" class="rounded-circle mr-2">
+                    ${initiative.accountable.name}
+                </a>`
+            : "<a ></a>";
+
+        let helpersImg = initiative.helpers
+            ? initiative.helpers.map((helper: Helper) =>
+                `
+                <a class="mr-1">
+                    <img src="${helper.picture}" width="15" height="15" class="rounded-circle">
+                    <small>${helper.name}</small>
+                </a>`
+            ).join("")
+            : "";
+
+        return `
+                <h6 class="mb-1 lead"><button class="btn btn-link lead open" id="${initiative.id}">${initiative.name}</button></h6>
+                <div>${accountableImg}</div>
+                <div class="row p-3 d-flex justify-content-start" >${helpersImg}</div>
+                <ul class="tags small"> ${tagsSpan}</ul>
+                <small>${this.markdown.compile(initiative.description || "")}</small>
+                </textPath>
+                `
+            ;
     }
 
     /*

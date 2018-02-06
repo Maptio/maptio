@@ -176,8 +176,13 @@ export class RollbarErrorHandler implements ErrorHandler {
   constructor(private injector: Injector) { }
 
   handleError(err: any): void {
-    let rollbar = this.injector.get(RollbarService);
-    rollbar.error(err.originalError || err);
+    if (process.env.ENV === "production") {
+      let rollbar = this.injector.get(RollbarService);
+      rollbar.error(err.originalError || err);
+    }
+    else
+      console.error(err)
+
   }
 }
 
