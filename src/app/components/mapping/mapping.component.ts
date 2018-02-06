@@ -416,6 +416,7 @@ export class MappingComponent {
                     ? this.flattenInitiative
                     : this.flattenInitiative
                         .filter(v => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1
+                                || ( v.description && v.description.toLowerCase().indexOf(term.toLowerCase()) > -1)
                                 || ( v.accountable && v.accountable.name.toLowerCase().indexOf(term.toLowerCase()) > -1)
                                 || ( v.helpers && v.helpers.map(h => h.name).join("").toLowerCase().indexOf(term.toLowerCase()) > -1)
                                 )).slice(0, 10));

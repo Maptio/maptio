@@ -1,10 +1,10 @@
 <ng-template #rt let-r="result" let-t="term">
   <div>
     <div>{{r.name}}</div>
-    <small class="ml-3" *ngIf="r.accountable">led by
+    <small class="ml-3" *ngIf="r.accountable"><span *ngIf="r.accountable" class="text-muted">led by</span>
       <img [src]="r.accountable.picture" width="15" height="15" class="rounded-circle mr-1">{{r.accountable.name}}
     </small>
-    <small class="ml-3 d-flex" *ngIf="r.helpers">with the help of
+    <small class="ml-3 d-flex" *ngIf="r.helpers.length>0"><span *ngIf="r.helpers.length>0" class="text-muted">with the help of</span>
 
       <span class="pl-1" *ngFor="let helper of r.helpers; let i=index">
         <img [src]="helper.picture" width="15" height="15" class="rounded-circle mr-1">{{helper.name}}
@@ -25,7 +25,7 @@
         <button *ngIf="isSearchToggled" class="btn btn-sm btn-link ">Hide</button>
       </span> -->
       <div class="col-8 pl-0">
-        <input #initiativeSearch [resultTemplate]="rt" type="text" id="inputHelper" placeholder="Search initiatives by name or people" class="form-control"
+        <input #initiativeSearch [resultTemplate]="rt" type="text" id="inputHelper" placeholder="Search initiatives by name, people or description" class="form-control"
           (selectItem)="zoomToInitiative($event)" [ngbTypeahead]="searchInitiatives" [resultFormatter]="formatter" [inputFormatter]="formatter"
           editable="false" (focus)="initiativeSearch.value=''" />
       </div>
