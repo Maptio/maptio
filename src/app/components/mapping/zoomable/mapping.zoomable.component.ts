@@ -84,7 +84,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     CIRCLE_RADIUS: number = 12;
     MAX_TEXT_LENGTH = 35;
-    TRANSITION_DURATION = 2250;
+    TRANSITION_DURATION = 750;
     TRANSITION_OPACITY = 750;
     RATIO_FOR_VISIBILITY = 0.08;
     OPACITY_DISAPPEARING = 0.1;
@@ -219,6 +219,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         let marginLeft = 200;
         let TOOLTIP_PADDING = 20;
         let CIRCLE_RADIUS = this.CIRCLE_RADIUS;
+        let TRANSITION_DURATION = this.TRANSITION_DURATION;
         let fonts = this.fonts;
         let showDetailsOf$ = this.showDetailsOf$;
         let datasetId = this.datasetId;
@@ -300,6 +301,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
 
         let circle = initiative.append("circle")
+            .each((d: any) => d.k = 1)
             .attr("id", function (d: any) { return `${d.data.id}`; })
             .attr("class", function (d: any) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--root"; })
             .classed("initiative-map", true)
@@ -328,6 +330,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .classed("initiative-map", true)
             .style("pointer-events", "none")
             .attr("dy", 0)
+            .attr("x", function (d: any) { return -d.r * .9 })
+            .attr("y", function (d: any) { return -d.r * .2 })
             .text(function (d: any) { return d.data.name })
             .style("display", "inline")
             .style("opacity", function (d: any) { return (d.parent === root || d.depth <= 3) ? 1 : 0; })
@@ -351,8 +355,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .classed("initiative-map", true)
             .attr("pointer-events", "none")
             .attr("fill", function (d: any) { return "url(#image" + d.data.id + ")" })
-            .style("display", "inline")
-            .style("opacity", "0")
+            .style("opacity", function (d: any) { return (d.parent === root || d.depth <= 3) ? 1 : 0; })
+            
 
         let accountableName = initiative.filter(function (d: any) { return !d.children })
             .filter(function (d: any) { return d.data.accountable })
@@ -377,13 +381,17 @@ export class MappingZoomableComponent implements IDataVisualizer {
             let focus0 = focus; focus = d;
 
             let transition = d3.transition("zooming")
-                .duration(750)
+                .duration(TRANSITION_DURATION)
                 .tween("zoom", function (d) {
                     let i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
                     return function (t) { zoomTo(i(t)); };
+                })
+                .on("end", function (d: any) {
+
+
                 });
 
-            let revealTransition = d3.transition("reveal").delay(750).duration(750)
+            let revealTransition = d3.transition("reveal").delay(TRANSITION_DURATION).duration(TRANSITION_DURATION)
 
             // with children
             transition.selectAll("text").filter((d: any) => d.children)
@@ -400,18 +408,25 @@ export class MappingZoomableComponent implements IDataVisualizer {
             revealTransition.selectAll("circle.accountable").filter((d: any) => !d.children)
                 .style("opacity", function (d: any) { return (d.depth - focus.depth) <= 2 ? "1" : "0" })
 
-            // transition.selectAll("text")
-            //     .filter(function (d: any) { return d.parent === focus || d === focus || (this as SVGElement).style.display === "inline"; })
-            //     .style("fill-opacity", function (d: any) { return d.parent === focus || d === focus ? 1 : 0; })
-            //     .on("start", function (d: any) { if (d.parent === focus || d === focus) (this as SVGElement).style.display = "inline"; })
-            //     .on("end", function (d: any) { if (d.parent !== focus && d !== focus) (this as SVGElement).style.display = "none"; });
-
+            transition.selectAll("text.name").filter((d: any) => !d.children)
+                .on("end", function (d: any) {
+                    d3.select(this)
+                        .attr("x", function (d: any) { return -d.r * d.k * .9 })
+                        .attr("y", function (d: any) { return -d.r * d.k * .2 })
+                        .attr("dy", 0)
+                        .attr("font-size", function (d: any) { return `${fonts(d.depth) * d.k / 2}px` })
+                        // .text(function (d: any) { return d.data.name })
+                        .each(function (d: any) {
+                            uiService.wrap(d3.select(this), d.data.name, d.data.tags, d.r * d.k * 2 * 0.95);
+                        });
+                });
         }
 
         function zoomTo(v: any) {
             let k = diameter / v[2]; view = v;
             node.attr("transform", function (d: any) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
             circle.attr("r", function (d: any) { return d.r * k; })
+                .each((d: any) => d.k = k)
                 .on("mouseover", function (d: any) {
                     d3.event.stopPropagation();
 
@@ -438,14 +453,15 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
             path.attr("transform", "scale(" + k + ")");
 
-            initiativeName
-                .attr("x", function (d: any) { return -d.r * k * .9 })
-                .attr("y", function (d: any) { return -d.r * k * .2 })
-                .attr("font-size", function (d: any) { return `${fonts(d.depth) * k / 2}px` })
-                .text(function (d: any) { return d.data.name })
-                .each(function (d: any) {
-                    uiService.wrap(d3.select(this), d.data.name, d.data.tags, d.r * k * 2 * 0.95);
-                });
+            // initiativeName
+            //     .attr("x", function (d: any) { return -d.r * k * .9 })
+            //     .attr("y", function (d: any) { return -d.r * k * .2 })
+
+            // .attr("font-size", function (d: any) { return `${fonts(d.depth) * k / 2}px` })
+            // .text(function (d: any) { return d.data.name })
+            // .each(function (d: any) {
+            //     uiService.wrap(d3.select(this), d.data.name, d.data.tags, d.r * k * 2 * 0.95);
+            // });
 
             accountableName
                 .attr("text-anchor", "middle")
