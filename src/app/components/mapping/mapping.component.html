@@ -6,7 +6,7 @@
     </small>
     <small class="ml-3 d-flex" *ngIf="r.helpers">with the help of
 
-      <span class="pl-1 col" *ngFor="let helper of r.helpers; let i=index">
+      <span class="pl-1" *ngFor="let helper of r.helpers; let i=index">
         <img [src]="helper.picture" width="15" height="15" class="rounded-circle mr-1">{{helper.name}}
       </span>
 
