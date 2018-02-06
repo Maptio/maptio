@@ -357,6 +357,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         let accountableName = initiative.filter(function (d: any) { return !d.children })
             .filter(function (d: any) { return d.data.accountable })
             .append("text")
+            .attr("text-anchor", "middle")
             .style("pointer-events", "none")
             .attr("class", "accountable")
             .classed("initiative-map", true)
@@ -392,8 +393,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
             transition.selectAll("circle.accountable").filter((d: any) => d.children)
                 .style("fill-opacity", function (d: any) { return (d.depth - focus.depth) <= 1 ? 1 : 0; })
                 .style("display", function (d: any) { return d !== root ? (d.depth - focus.depth) <= 1 ? "inline" : "none" : "none" })
-            
-                // nochildren
+
+            // nochildren
             revealTransition.selectAll("text").filter((d: any) => !d.children)
                 .style("opacity", function (d: any) { return (d.depth - focus.depth) <= 2 ? "1" : "0" })
             revealTransition.selectAll("circle.accountable").filter((d: any) => !d.children)
@@ -450,7 +451,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
                 .attr("text-anchor", "middle")
                 .attr("x", function (d: any) { return 0 })
                 .attr("y", function (d: any) { return -d.r * k * .4 })
-                .attr("font-size", function (d: any) { return `${fonts(d.depth) * k / 2 * 0.9}px` })
+                .attr("font-size", function (d: any) { return `${fonts(d.depth) * k / 2 * 0.8}px` })
 
             g.selectAll("circle.accountable")
                 .attr("r", function (d: any) { return `${CIRCLE_RADIUS}px` })
