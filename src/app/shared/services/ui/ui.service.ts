@@ -99,7 +99,7 @@ export class UIService {
 
         let accountableImg = initiative.accountable
             ? `<button class="open-summary btn btn-link pl-0" data-shortid="${initiative.accountable.shortid}" data-slug="${initiative.accountable.getSlug()}">
-                    <img src="${initiative.accountable.picture}" width="30" height="30" class="rounded-circle mr-2">${initiative.accountable.name}
+                    <img src="${initiative.accountable.picture}" width="30" height="30" class="rounded-circle mr-1">${initiative.accountable.name}
                 </button>`
             : "<a ></a>";
 
@@ -107,7 +107,7 @@ export class UIService {
             ? initiative.helpers.map((helper: Helper) =>
                 `
                 <button class="mr-1 open-summary btn btn-link p-0" data-shortid="${helper.shortid}" data-slug="${helper.getSlug()}" >
-                    <img src="${helper.picture}" width="15" height="15" class="rounded-circle"><small>${helper.name}</small>
+                    <img src="${helper.picture}" width="15" height="15" class="rounded-circle mr-1"><small>${helper.name}</small>
                 </button>`
             ).join("")
             : "";
