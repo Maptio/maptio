@@ -1,4 +1,25 @@
+<ng-template #rt let-r="result" let-t="term">
+  {{r.name}}
+</ng-template>
 <div class="row filter-tags d-flex justify-content-start w-100 ">
+  <div class="col-11 m-1 mt-4 pl-0">
+    <div class="d-flex flex-wrap">
+      <!-- <span class="text-muted mr-1">
+        Search
+      </span> -->
+      <!-- <span (click)="isSearchToggled=!isSearchToggled" class="mr-1">
+        <button *ngIf="!isSearchToggled" class="btn btn-sm btn-link ">Show</button>
+        <button *ngIf="isSearchToggled" class="btn btn-sm btn-link ">Hide</button>
+      </span> -->
+      <div class="col-8 pl-0">
+        <input #initiativeSearch [resultTemplate]="rt" type="text" id="inputHelper" placeholder="Search initiatives by name" class="form-control"
+          (selectItem)="zoomToInitiative($event)" [ngbTypeahead]="searchInitiatives" [resultFormatter]="formatter" [inputFormatter]="formatter"
+          editable="false" />
+      </div>
+    </div>
+
+  </div>
+
   <div class="col-11 m-1 mt-4 pl-0">
     <div class="d-flex flex-wrap">
       <span class="text-muted mr-1">
@@ -30,6 +51,7 @@
 
     </div>
   </div>
+
 
 
   <!-- <div class="col-11 m-1 mt-4 pl-0">

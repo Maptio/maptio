@@ -22,6 +22,8 @@ export interface IDataVisualizer {
 
     fontSize$: Observable<number>;
 
+
+    zoomInitiative$: Observable<Initiative>;
     selectableTags$: Observable<Array<SelectableTag>>;
     // selectableUsers$: Observable<Array<SelectableUser>>;
 

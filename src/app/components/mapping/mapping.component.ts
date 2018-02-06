@@ -15,20 +15,21 @@ import { MappingCirclesComponent } from "./circles/mapping.circles.component"
 import { MappingTreeComponent } from "./tree/mapping.tree.component"
 
 import "rxjs/add/operator/map"
-import { Subject, BehaviorSubject, Subscription, ReplaySubject, } from "rxjs/Rx";
+import { Subject, BehaviorSubject, Subscription, ReplaySubject, Observable, } from "rxjs/Rx";
 import { MappingNetworkComponent } from "./network/mapping.network.component";
 import { MemberSummaryComponent } from "./member-summary/member-summary.component";
 import { Tag, SelectableTag } from "../../shared/model/tag.data";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import * as _ from "lodash";
 import { MappingZoomableComponent } from "./zoomable/mapping.zoomable.component";
+import { NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-bootstrap";
 // import { User, SelectableUser } from "../../shared/model/user.data";
 
 @Component({
     selector: "mapping",
     templateUrl: "./mapping.component.html",
     styleUrls: ["./mapping.component.css"],
-    entryComponents: [MappingCirclesComponent, MappingTreeComponent, MappingNetworkComponent, MemberSummaryComponent,MappingZoomableComponent],
+    entryComponents: [MappingCirclesComponent, MappingTreeComponent, MappingNetworkComponent, MemberSummaryComponent, MappingZoomableComponent],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
@@ -66,6 +67,7 @@ export class MappingComponent {
     public datasetId: string;
     public datasetName: string;
     public initiative: Initiative;
+    public flattenInitiative: Initiative[] = [];
     public teamName: string;
     public teamId: string;
     public slug: string;
@@ -75,6 +77,7 @@ export class MappingComponent {
     // public usersFragment: string;
 
     public fontSize$: BehaviorSubject<number>;
+    public zoomToInitiative$: Subject<Initiative>;
     // public isLocked$: BehaviorSubject<boolean>;
     public closeEditingPanel$: BehaviorSubject<boolean>;
     public data$: Subject<{ initiative: Initiative, datasetId: string }>;
@@ -113,6 +116,7 @@ export class MappingComponent {
         this.selectableTags$ = new ReplaySubject<Array<SelectableTag>>();
         // this.selectableUsers$ = new ReplaySubject<Array<SelectableUser>>();
         this.fontSize$ = new BehaviorSubject<number>(16);
+        this.zoomToInitiative$ = new Subject();
         // this.isLocked$ = new BehaviorSubject<boolean>(this.isLocked);
         this.closeEditingPanel$ = new BehaviorSubject<boolean>(false);
         this.data$ = new Subject<{ initiative: Initiative, datasetId: string }>();
@@ -174,6 +178,7 @@ export class MappingComponent {
         component.selectableTags$ = this.selectableTags$.asObservable();
         // component.selectableUsers$ = this.selectableUsers$.asObservable();
         component.fontSize$ = this.fontSize$.asObservable();
+        component.zoomInitiative$ = this.zoomToInitiative$.asObservable();
         // component.isLocked$ = this.isLocked$.asObservable();
         component.translateX = this.x;
         component.translateY = this.y;
@@ -234,6 +239,7 @@ export class MappingComponent {
                 // }));
                 this.datasetName = data.initiative.name;
                 this.initiative = data.initiative;
+                this.flattenInitiative = data.initiative.flatten();
                 this.cd.markForCheck();
             });
 
@@ -402,6 +408,18 @@ export class MappingComponent {
         this.isTagSettingActive = false;
     }
 
+    searchInitiatives = (text$: Observable<string>) =>
+        text$
+            .debounceTime(200).distinctUntilChanged()
+            .map(term => (term === "" ? this.flattenInitiative : this.flattenInitiative.filter(v => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10));
 
+
+    formatter = (result: Initiative) => { return result.name };
+
+    zoomToInitiative(event: NgbTypeaheadSelectItemEvent) {
+        let initiative = event.item;
+        console.log(initiative);
+        this.zoomToInitiative$.next(initiative);
+    }
 
 }

@@ -44,6 +44,7 @@ export class MappingCirclesComponent implements IDataVisualizer {
     public selectableUsers$: Observable<Array<SelectableUser>>;
     public isReset$: Observable<boolean>
     public fontSize$: Observable<number>;
+    public zoomInitiative$: Observable<Initiative>;
     public isLocked$: Observable<boolean>;
     public data$: Subject<{ initiative: Initiative, datasetId: string, teamName: string, teamId: string }>;
     public rootNode: Initiative;
