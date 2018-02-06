@@ -20,7 +20,7 @@
       <div class="col-8 pl-0">
         <input #initiativeSearch [resultTemplate]="rt" type="text" id="inputHelper" placeholder="Search initiatives by name" class="form-control"
           (selectItem)="zoomToInitiative($event)" [ngbTypeahead]="searchInitiatives" [resultFormatter]="formatter" [inputFormatter]="formatter"
-          editable="false" />
+          editable="false" (focus)="initiativeSearch.value=''"/>
       </div>
     </div>
 
