@@ -7,7 +7,7 @@
 }
 
 ::ng-deep .initiative-map.node:hover {
-    stroke: initial;
+    /* stroke: initial; */
     stroke-width: initial;
 }
 
