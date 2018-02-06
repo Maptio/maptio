@@ -130,11 +130,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
         let width = 1580 - margin.left - margin.right,
             height = 800 - margin.top - margin.bottom;
 
-        let svg = d3.select("svg")
+        let svg: any = d3.select("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom),
             diameter = +width,
-            g = svg.append("g").attr("transform", `translate(${diameter / 2 + margin.left}, ${diameter / 2 + margin.top}) scale(1)`),
+            g = svg.append("g").attr("transform", `translate(${diameter / 2 + margin.left}, ${diameter / 2 + margin.top}) scale(${this.scale})`),
             definitions = svg.append("svg:defs");
 
         let zooming = d3.zoom().scaleExtent([2 / 3, 4 / 3])
@@ -148,7 +148,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         try {
             // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
             // svg.call(zooming.transform, d3.zoomIdentity.translate(diameter / 2, diameter / 2));
-            svg.call(zooming.transform, d3.zoomIdentity.translate(this.translateX, this.translateY).scale(1));
+            svg.call(zooming.transform, d3.zoomIdentity.translate(this.translateX, this.translateY).scale(this.scale));
             svg.call(zooming);
         }
         catch (error) {
@@ -161,6 +161,21 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
         this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
             svg.call(zooming.transform, d3.zoomIdentity.translate(diameter / 2 + margin.left, diameter / 2 + margin.top));
+        })
+
+        this.zoomSubscription = this.zoom$.subscribe((zf: number) => {
+            try {
+                // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
+                if (zf) {
+                    zooming.scaleBy(svg, zf);
+                }
+                else {
+                    svg.call(zooming.transform, d3.zoomIdentity.translate(this.translateX, this.translateY));
+                }
+            }
+            catch (error) {
+
+            }
         })
 
 
