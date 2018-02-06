@@ -435,6 +435,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
                             uiService.wrap(d3.select(this), d.data.name, d.data.tags, d.r * d.k * 2 * 0.95);
                         });
                 });
+
+            // all
+            transition.selectAll("g.node.initiative-map")
+                .style("opacity", function (d: any) { return focus.descendants().includes(d) ? 1 : 0.1; })
+
         }
 
         function zoomTo(v: any) {

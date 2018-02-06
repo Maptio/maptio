@@ -39,7 +39,7 @@ export class ColorService implements OnInit {
         return this.d3.scaleLinear<number, number>()
             .domain([-1, depth])
             .interpolate(this.d3.interpolateNumber)
-            .range([maxFontSize, 0])
+            .range([maxFontSize, maxFontSize * 0.75])
     }
 
 }
