@@ -204,7 +204,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
 
 
-    update(data: any, tags: Array<SelectableTag>) {
+    update(data: Initiative, tags: Array<SelectableTag>) {
 
         let d3 = this.d3;
         let diameter = this.diameter;
@@ -219,6 +219,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         let CIRCLE_RADIUS = this.CIRCLE_RADIUS;
         let markdown = this.markdown;
         let fonts = this.fonts;
+        let showDetailsOf$ = this.showDetailsOf$;
 
         let pack = d3.pack()
             .size([diameter - margin, diameter - margin])
@@ -238,6 +239,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
         let focus = root,
             nodes = pack(root).descendants(),
+            list = d3.hierarchy(data).descendants(),
             view: any;
 
         buildPatterns();
@@ -285,7 +287,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
                     : "";
 
                 return `
-                <h6 class="mb-1 lead">${d.data.name}</h6>
+                <h6 class="mb-1 lead"><button class="btn btn-link lead open" id="${d.data.id}">${d.data.name}</button></h6>
                 <div>${accountableImg}</div>
                 <div class="row p-3 d-flex justify-content-start" >${helpersImg}</div>
                 <ul class="tags small"> ${tagsSpan}</ul>
@@ -296,7 +298,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
             });
 
 
-
+        d3.selectAll(`.open`)
+            .on("click", function (d: any) {
+                let id = Number.parseFloat(d3.select(this).attr("id"));
+                showDetailsOf$.next(list.find(n => (<any>n.data).id === id).data)
+            })
 
 
         let paths = g.append("g").attr("class", "paths");

@@ -132,6 +132,7 @@ export class MappingComponent {
 
     onActivate(component: IDataVisualizer) {
         component.showDetailsOf$.asObservable().subscribe(node => {
+            console.log("show details ", node)
             this.showDetails.emit(node)
         })
         component.addInitiative$.asObservable().subscribe(node => {
