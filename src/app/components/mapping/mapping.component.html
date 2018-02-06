@@ -1,5 +1,11 @@
 <ng-template #rt let-r="result" let-t="term">
-  {{r.name}}
+  <div>
+    <div>{{r.name}}</div>
+    <small class="ml-3" *ngIf="r.accountable">led by
+      <img [src]="r.accountable.picture" width="15" height="15" class="rounded-circle mr-1">{{r.accountable.name}}
+    </small>
+  </div>
+
 </ng-template>
 <div class="row filter-tags d-flex justify-content-start w-100 ">
   <div class="col-11 m-1 mt-4 pl-0">
