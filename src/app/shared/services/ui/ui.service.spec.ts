@@ -1,6 +1,9 @@
 import { D3Service } from "d3-ng2-service";
 import { UIService } from "./ui.service";
 import { TestBed, inject, } from "@angular/core/testing";
+import { MarkdownService } from "angular2-markdown";
+import { MockBackend } from "@angular/http/testing";
+import { BaseRequestOptions, Http } from "@angular/http";
 // import { Fixtures } from "./fixtures";
 
 describe("ui.service.ts", function () {
@@ -10,7 +13,16 @@ describe("ui.service.ts", function () {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
-                UIService, D3Service
+                UIService, D3Service, MarkdownService,
+                {
+                    provide: Http,
+                    useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
+                        return new Http(mockBackend, options);
+                    },
+                    deps: [MockBackend, BaseRequestOptions]
+                },
+                MockBackend,
+                BaseRequestOptions,
             ]
         });
         spyOn(D3Service.prototype, "getD3").and.callThrough();

@@ -15,7 +15,6 @@ import { Tag, SelectableTag } from "../../../shared/model/tag.data";
 import * as _ from "lodash";
 import { SelectableUser } from "../../../shared/model/user.data";
 import { Helper } from "../../../shared/model/helper.data";
-import { MarkdownService } from "angular2-markdown";
 
 @Component({
     selector: "zoomable",
@@ -93,8 +92,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     constructor(public d3Service: D3Service, public colorService: ColorService,
         public uiService: UIService, public router: Router,
         private userFactory: UserFactory, private cd: ChangeDetectorRef,
-        private dataService: DataService, private uriService: URIService,
-        private markdown: MarkdownService
+        private dataService: DataService, private uriService: URIService
     ) {
         this.d3 = d3Service.getD3();
         this.T = this.d3.transition(null).duration(this.TRANSITION_DURATION);
@@ -217,7 +215,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
         let marginLeft = 200;
         let TOOLTIP_PADDING = 20;
         let CIRCLE_RADIUS = this.CIRCLE_RADIUS;
-        let markdown = this.markdown;
         let fonts = this.fonts;
         let showDetailsOf$ = this.showDetailsOf$;
 

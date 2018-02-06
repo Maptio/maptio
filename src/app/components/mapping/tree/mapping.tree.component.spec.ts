@@ -18,6 +18,7 @@ import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { DataService, URIService } from "../../../shared/services/data.service";
 import { Tag, SelectableTag } from "../../../shared/model/tag.data";
+import { MarkdownService } from "angular2-markdown";
 
 describe("mapping.tree.component.ts", () => {
 
@@ -45,6 +46,7 @@ describe("mapping.tree.component.ts", () => {
                 MockBackend,
                 BaseRequestOptions,
                 ErrorService,
+                MarkdownService,
                 {
                     provide: Router, useClass: class {
                         navigate = jasmine.createSpy("navigate");
@@ -81,7 +83,7 @@ describe("mapping.tree.component.ts", () => {
         let data = new Initiative().deserialize(fixture.load("data.json"));
         let mockDataService = target.debugElement.injector.get(DataService);
         spyOn(mockDataService, "get").and.returnValue(Observable.of({ initiative: data, datasetId: "ID" }));
-        
+
         target.detectChanges(); // trigger initial data binding
     });
 

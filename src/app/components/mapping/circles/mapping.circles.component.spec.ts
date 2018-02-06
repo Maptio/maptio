@@ -17,6 +17,7 @@ import { ErrorService } from "../../../shared/services/error/error.service";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { RouterTestingModule } from "@angular/router/testing";
 import { DataService, URIService } from "../../../shared/services/data.service";
+import { MarkdownService } from "angular2-markdown";
 
 describe("mapping.circles.component.ts", () => {
 
@@ -43,6 +44,7 @@ describe("mapping.circles.component.ts", () => {
                 MockBackend,
                 BaseRequestOptions,
                 ErrorService,
+                MarkdownService,
                 {
                     provide: Router, useClass: class {
                         navigate = jasmine.createSpy("navigate");
