@@ -1,5 +1,5 @@
 import { Injectable, OnInit } from "@angular/core"
-import { D3Service, D3, ScaleLinear, HSLColor } from "d3-ng2-service"
+import { D3Service, D3, ScaleLinear, HSLColor, InterpolatorFactory } from "d3-ng2-service"
 
 
 @Injectable()
@@ -36,10 +36,22 @@ export class ColorService implements OnInit {
     }
 
     getFontSizeRange(depth: number, maxFontSize: number): ScaleLinear<number, number> {
+
+        let slowInterpolator = function (a: number, b: number) {
+            return function (t: number) {
+                console.log(
+                    `t=${t}`,
+                    `y=${Math.max(a, b) - Math.exp(t / Math.max(a, b) * 100)}`
+                )
+                let E = Math.max(a, b)
+                return E * (1 - Math.exp((t - 1) * E / 2));
+            };
+        }
+        this.d3.interpolateNumber
         return this.d3.scaleLinear<number, number>()
             .domain([-1, depth])
             .interpolate(this.d3.interpolateNumber)
-            .range([maxFontSize, maxFontSize * 0.75])
+            .range([maxFontSize, maxFontSize * 0.75]);
     }
 
 }
