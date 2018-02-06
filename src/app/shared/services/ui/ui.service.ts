@@ -98,26 +98,24 @@ export class UIService {
             : "";
 
         let accountableImg = initiative.accountable
-            ? `<a >
-                    <img src="${initiative.accountable.picture}" width="30" height="30" class="rounded-circle mr-2">
-                    ${initiative.accountable.name}
-                </a>`
+            ? `<button class="open-summary btn btn-link pl-0" data-shortid="${initiative.accountable.shortid}" data-slug="${initiative.accountable.getSlug()}">
+                    <img src="${initiative.accountable.picture}" width="30" height="30" class="rounded-circle mr-2">${initiative.accountable.name}
+                </button>`
             : "<a ></a>";
 
         let helpersImg = initiative.helpers
             ? initiative.helpers.map((helper: Helper) =>
                 `
-                <a class="mr-1">
-                    <img src="${helper.picture}" width="15" height="15" class="rounded-circle">
-                    <small>${helper.name}</small>
-                </a>`
+                <button class="mr-1 open-summary btn btn-link p-0" data-shortid="${helper.shortid}" data-slug="${helper.getSlug()}" >
+                    <img src="${helper.picture}" width="15" height="15" class="rounded-circle"><small>${helper.name}</small>
+                </button>`
             ).join("")
             : "";
 
         return `
-                <h6 class="mb-1 lead"><button class="btn btn-link lead open" id="${initiative.id}">${initiative.name}</button></h6>
-                <div>${accountableImg}</div>
-                <div class="row p-3 d-flex justify-content-start" >${helpersImg}</div>
+                <h6 class="mb-1 lead"><button class="btn btn-link lead open-initiative" id="${initiative.id}">${initiative.name}</button></h6>
+                <div class="mb-0 p-0 ml-0">${accountableImg}</div>
+                <div class="row pl-3 mb-2 d-flex justify-content-start" >${helpersImg}</div>
                 <ul class="tags small"> ${tagsSpan}</ul>
                 <small>${this.markdown.compile(initiative.description || "")}</small>
                 </textPath>

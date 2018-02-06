@@ -217,6 +217,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
         let CIRCLE_RADIUS = this.CIRCLE_RADIUS;
         let fonts = this.fonts;
         let showDetailsOf$ = this.showDetailsOf$;
+        let datasetId = this.datasetId;
+        let datasetSlug = this.slug;
+        let router = this.router;
 
         let pack = d3.pack()
             .size([diameter - margin, diameter - margin])
@@ -258,10 +261,17 @@ export class MappingZoomableComponent implements IDataVisualizer {
             });
 
 
-        d3.selectAll(`.open`)
+        d3.selectAll(`.open-initiative`)
             .on("click", function (d: any) {
                 let id = Number.parseFloat(d3.select(this).attr("id"));
-                showDetailsOf$.next(list.find(n => (<any>n.data).id === id).data)
+                showDetailsOf$.next(list.find(n => (<any>n.data).id === id).data);
+            })
+        d3.selectAll(`.open-summary`)
+            .on("click", function (d: any) {
+                let shortid = d3.select(this).attr("data-shortid");
+                let slug = d3.select(this).attr("data-slug");
+                console.log("open summary", d3.select(this), shortid, slug)
+                router.navigateByUrl(`/map/${datasetId}/${datasetSlug}/u/${shortid}/${slug}`);
             })
 
 
