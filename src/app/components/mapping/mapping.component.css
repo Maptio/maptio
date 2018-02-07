@@ -12,7 +12,7 @@
   position: absolute;
   right: 0.5vw;
   /* box-shadow: 1px 1px 6px #888888; */
-  top: 14vh;
+  top: 10vh;
   margin-right: 0.5vw;
   border-radius: 4px;
   background-color: rgb(224, 224, 224);
@@ -26,7 +26,7 @@
 }
 
 .control.first {
-  top: 12vh;
+  top: 6vh;
 }
 
 .control.first > .btn-group-vertical {
@@ -34,7 +34,7 @@
 }
 
 .control.second {
-  top: 31vh;
+  top: 25vh;
 }
 
 .control.third {

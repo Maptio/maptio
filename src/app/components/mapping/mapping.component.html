@@ -18,54 +18,44 @@
 </ng-template>
 <div class="row filter-tags d-flex justify-content-start w-100 ">
   <div class="col-11 m-1 mt-4 pl-0">
-    <div class="d-flex flex-wrap">
-      <!-- <span class="text-muted mr-1">
-        Search
-      </span> -->
-      <!-- <span (click)="isSearchToggled=!isSearchToggled" class="mr-1">
-        <button *ngIf="!isSearchToggled" class="btn btn-sm btn-link ">Show</button>
-        <button *ngIf="isSearchToggled" class="btn btn-sm btn-link ">Hide</button>
-      </span> -->
-      <div class="col-8 pl-0">
+    <div class="d-flex flex-wrap justify-content-center">
+      <div class="col-8 pl-0 form-group">
         <label *ngIf="isSearching" for="initiativeSearch" class="static-value small text-muted">{{searchResultsCount}} matches</label>
-        <input #initiativeSearch [resultTemplate]="rt" type="text" id="initiativeSearch" placeholder="Search initiatives by name or people "
-          class="form-control search" (selectItem)="zoomToInitiative($event)" [ngbTypeahead]="searchInitiatives" [resultFormatter]="formatter"
-          [inputFormatter]="formatter" editable="false" (focus)="initiativeSearch.value=''" />
+        <input #initiativeSearch [resultTemplate]="rt" type="text" id="initiativeSearch" class="form-control search" (selectItem)="zoomToInitiative($event)"
+          [ngbTypeahead]="searchInitiatives" [resultFormatter]="formatter" [inputFormatter]="formatter" editable="false" (focus)="initiativeSearch.value=''"
+        />
+        <small (click)="isFiltersToggled=!isFiltersToggled"  class="form-text text-muted pull-right">More
+          <span class="mr-1">
+            <i *ngIf="isFiltersToggled" class="fa fa-caret-down" aria-hidden="true"></i>
+            <i *ngIf="!isFiltersToggled" class="fa fa-caret-left" aria-hidden="true"></i>
+          </span>
+        </small>
+      </div>
+      <div *ngIf="isFiltersToggled" class="col-8 card card-block">
+        <h6 class="card-subtitle mb-2 text-muted d-flex justify-content-between">Tags
+          <span class="btn btn-link btn-sm pl-0" (click)="toggleTagSettingsTab()">Edit tags...</span>
+        </h6>    
+        <div class="d-flex flex-wrap">
+          <span *ngFor="let tag of tags; let i=index">
+            <a *ngIf="!tag.isSelected" class="btn btn-sm btn-tag btn-secondary  mr-1" [style.border-color]="tag.color" [style.color]="tag.color"
+              (click)="toggleTag(tag)">
+              <i class="fa fa-tag" aria-hidden="true"></i> {{tag.name}}
+              <i class="fa fa-check" aria-hidden="true" [style.color]="'white'"></i>
+            </a>
+            <a *ngIf="tag.isSelected" class="btn btn-sm btn-tag btn-secondary  active mr-1" [style.border-color]="tag.color" [style.background-color]="tag.color"
+              (click)="toggleTag(tag)">
+              <i class="fa fa-tag" aria-hidden="true"></i> {{tag.name}}
+              <i *ngIf="tag.isSelected" class="fa fa-check" aria-hidden="true" [style.color]="white"> </i>
+            </a>
+          </span>
+        </div>
       </div>
     </div>
 
   </div>
 
   <div class="col-11 m-1 mt-4 pl-0">
-    <div class="d-flex flex-wrap">
-      <span class="text-muted mr-1">
-        Tags
-      </span>
-      <span (click)="isFiltersToggled=!isFiltersToggled" class="mr-1">
-        <!-- <i *ngIf="!isFiltersToggled" class="fa fa-plus-square" aria-hidden="true"></i>
-        <i *ngIf="isFiltersToggled" class="fa fa-minus-square" aria-hidden="true"></i> -->
-        <button *ngIf="!isFiltersToggled" class="btn btn-sm btn-link ">Show</button>
-        <button *ngIf="isFiltersToggled" class="btn btn-sm btn-link ">Hide</button>
-      </span>
 
-
-      <div *ngIf="isFiltersToggled">
-        <span *ngFor="let tag of tags; let i=index">
-          <a *ngIf="!tag.isSelected" class="btn btn-sm btn-tag btn-secondary  mr-1" [style.border-color]="tag.color" [style.color]="tag.color"
-            (click)="toggleTag(tag)">
-            <i class="fa fa-tag" aria-hidden="true"></i> {{tag.name}}
-            <i class="fa fa-check" aria-hidden="true" [style.color]="'white'"></i>
-          </a>
-          <a *ngIf="tag.isSelected" class="btn btn-sm btn-tag btn-secondary  active mr-1" [style.border-color]="tag.color" [style.background-color]="tag.color"
-            (click)="toggleTag(tag)">
-            <i class="fa fa-tag" aria-hidden="true"></i> {{tag.name}}
-            <i *ngIf="tag.isSelected" class="fa fa-check" aria-hidden="true" [style.color]="white"> </i>
-          </a>
-        </span>
-        <span class="btn btn-link btn-sm pl-0" (click)="toggleTagSettingsTab()">Edit tags...</span>
-      </div>
-
-    </div>
   </div>
 
 
