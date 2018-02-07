@@ -305,9 +305,9 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
     public update(data: any, tags: SelectableTag[]) {
 
-        if (!this.g) {
+        if (this.d3.selectAll("g").empty()) {
             this.init();
-        }
+          }
 
         let d3 = this.d3;
         // let svg = this.svg;

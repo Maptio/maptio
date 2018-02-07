@@ -267,6 +267,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
   }
 
   update(data: Initiative, tags: Array<SelectableTag>) {
+    if (this.d3.selectAll("g").empty()) {
+      this.init();
+    }
     let d3 = this.d3;
     let diameter = this.diameter;
     let margin = this.margin;
@@ -347,7 +350,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     d3.selectAll(`.open-summary`).on("click", function(d: any) {
       let shortid = d3.select(this).attr("data-shortid");
       let slug = d3.select(this).attr("data-slug");
-      console.log("open summary", d3.select(this), shortid, slug);
+      // console.log("open summary", d3.select(this), shortid, slug);
       router.navigateByUrl(
         `/map/${datasetId}/${datasetSlug}/u/${shortid}/${slug}`
       );
@@ -527,6 +530,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .attr("font-size", function(d: any) {
         return `${fonts(d.depth) * 0.8}px`;
       })
+      .attr("x", function(d: any) {
+        return 0;
+      })
+      .attr("y", function(d: any) {
+        return -d.r * 0.45;
+      })
       .text(function(d: any) {
         return d.data.accountable.name;
       });
@@ -699,7 +708,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .width;
 
           let left = window.pageXOffset + matrix.e - TOOLTIP_WIDTH / 2;
-          let top = window.pageYOffset + matrix.f - TOOLTIP_HEIGHT - 10 - d.r * k;
+          let top =
+            window.pageYOffset + matrix.f - TOOLTIP_HEIGHT - 10 - d.r * k;
           let bottom = window.pageYOffset + matrix.f + 10 + d.r * k;
 
           tooltip
@@ -708,8 +718,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
               return top > 0 ? `${top}px` : `${bottom}px`;
             })
             .classed("show", true)
-            .classed("arrow-top", (top < 0))
-            .classed("arrow-bottom", (top >= 0))
+            .classed("arrow-top", top < 0)
+            .classed("arrow-bottom", top >= 0)
             .on("click", function(d: any) {
               tooltip.classed("show", false);
             });

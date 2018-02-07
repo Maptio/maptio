@@ -36,6 +36,7 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
 import * as _ from "lodash";
 import { MappingZoomableComponent } from "./zoomable/mapping.zoomable.component";
 import { NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-bootstrap";
+import { UIService } from "../../shared/services/ui/ui.service";
 // import { User, SelectableUser } from "../../shared/model/user.data";
 
 @Component({
@@ -133,7 +134,8 @@ export class MappingComponent {
     private cd: ChangeDetectorRef,
     private route: ActivatedRoute,
     private analytics: Angulartics2Mixpanel,
-    private uriService: URIService
+    private uriService: URIService,
+    private uiService: UIService
   ) {
     this.zoom$ = new Subject<number>();
     this.isReset$ = new Subject<boolean>();
@@ -143,7 +145,10 @@ export class MappingComponent {
     this.zoomToInitiative$ = new Subject();
     // this.isLocked$ = new BehaviorSubject<boolean>(this.isLocked);
     this.closeEditingPanel$ = new BehaviorSubject<boolean>(false);
-    this.data$ = new Subject<{ initiative: Initiative; datasetId: string }>();
+    this.data$ = new Subject<{
+      initiative: Initiative;
+      datasetId: string;
+    }>();
 
     this.newTagForm = new FormGroup({
       name: new FormControl("", [Validators.required]),
@@ -154,6 +159,7 @@ export class MappingComponent {
   ngAfterViewInit() {}
 
   onActivate(component: IDataVisualizer) {
+    
     component.showDetailsOf$.asObservable().subscribe(node => {
       this.showDetails.emit(node);
     });
@@ -222,7 +228,8 @@ export class MappingComponent {
     }
   }
 
-  onDeactivate(component: any) {}
+  onDeactivate(component: any) {
+  }
 
   ngOnInit() {
     this.subscription = this.route.params

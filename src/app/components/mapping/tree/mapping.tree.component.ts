@@ -190,9 +190,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     // draw(translateX: number, translateY: number, scale: number) {
     update(data: any, tags: Array<SelectableTag>) {
 
-        if (!this.g) {
+        if (this.d3.selectAll("g").empty()) {
             this.init();
-        }
+          }
 
         let d3 = this.d3;
         let colorService = this.colorService;

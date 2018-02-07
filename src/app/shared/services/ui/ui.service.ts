@@ -49,6 +49,7 @@ export class UIService {
   }
 
   public clean() {
+    console.log("cleaning svg", this.d3.select("svg").selectAll("*"));
     this.d3
       .select("svg")
       .selectAll("*")

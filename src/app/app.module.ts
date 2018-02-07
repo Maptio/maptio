@@ -19,7 +19,7 @@ import { PathLocationStrategy, Location, LocationStrategy } from "@angular/commo
 import { Routes, RouterModule, Router } from "@angular/router";
 
 // Guards
-import { AuthGuard } from "./shared/services/guards/auth.guard";
+import { AuthGuard, MapGuard } from "./shared/services/guards/auth.guard";
 import { AccessGuard } from "./shared/services/guards/access.guard";
 
 // Services
@@ -136,11 +136,11 @@ const appRoutes: Routes = [
     },
     children: [
       { path: "", redirectTo: "initiatives", pathMatch: "full" },
-      { path: "initiatives", component: MappingZoomableComponent },
+      { path: "initiatives", component: MappingZoomableComponent,canActivate: [MapGuard] },
       // { path: "zoomable", component: MappingZoomableComponent },
-      { path: "people", component: MappingTreeComponent },
-      { path: "connections", component: MappingNetworkComponent },
-      { path: "u/:usershortid/:userslug", component: MemberSummaryComponent },
+      { path: "people", component: MappingTreeComponent,canActivate: [MapGuard] },
+      { path: "connections", component: MappingNetworkComponent ,canActivate: [MapGuard]},
+      { path: "u/:usershortid/:userslug", component: MemberSummaryComponent,canActivate: [MapGuard] },
     ]
   },
   // { path: "summary/map/:mapid/:mapslug/u/:usershortid/:userslug", component: MemberSummaryComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
@@ -239,7 +239,7 @@ export const RollbarService = new InjectionToken<Rollbar>("rollbar");
   exports: [RouterModule],
   providers: [
     BrowserAnimationsModule,
-    AuthGuard, AccessGuard, AuthConfiguration,
+    AuthGuard, AccessGuard,MapGuard, AuthConfiguration,
     D3Service, DataService, URIService, ColorService, UIService, DatasetFactory, TeamFactory,
     ErrorService, Auth, UserService, UserFactory, MailingService, JwtEncoder, LoaderService,
     ExportService, FileService,

@@ -169,7 +169,6 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
     }
 
     flatten(): Initiative[] {
-        console.log("flattening")
         let array: Initiative[] = [];
         this.traverse(n => {
             array.push(n)
