@@ -109,7 +109,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
             node.tags = _.intersectionBy(data.tags, node.tags, (t: Tag) => t.shortid);
         })
 
-        this.saveChanges(data.initiative, data.tags)
+        this.saveChanges(data.initiative, data.tags);
+        this.cd.markForCheck();
     }
 
     saveChanges(initiative: Initiative, tags?: Array<Tag>) {

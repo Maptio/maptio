@@ -24,7 +24,7 @@
         <input #initiativeSearch [resultTemplate]="rt" type="text" id="initiativeSearch" class="form-control search" (selectItem)="zoomToInitiative($event)"
           [ngbTypeahead]="searchInitiatives" [resultFormatter]="formatter" [inputFormatter]="formatter" editable="false" (focus)="initiativeSearch.value=''"
         />
-        <small (click)="isFiltersToggled=!isFiltersToggled"  class="form-text text-muted pull-right">More
+        <small (click)="isFiltersToggled=!isFiltersToggled" class="form-text text-muted pull-right btn btn-link btn-sm">More
           <span class="mr-1">
             <i *ngIf="isFiltersToggled" class="fa fa-caret-down" aria-hidden="true"></i>
             <i *ngIf="!isFiltersToggled" class="fa fa-caret-left" aria-hidden="true"></i>
@@ -32,9 +32,14 @@
         </small>
       </div>
       <div *ngIf="isFiltersToggled" class="col-8 card card-block">
-        <h6 class="card-subtitle mb-2 text-muted d-flex justify-content-between">Tags
-          <span class="btn btn-link btn-sm pl-0" (click)="toggleTagSettingsTab()">Edit tags...</span>
-        </h6>    
+        <h5 class="card-subtitle mb-2 text-muted d-flex justify-content-between">Tags
+          <span class="btn btn-link btn-sm pl-0" (click)="isEditTags=!isEditTags">Edit tags
+            <span class="mr-1">
+              <i *ngIf="isEditTags" class="fa fa-caret-down" aria-hidden="true"></i>
+              <i *ngIf="!isEditTags" class="fa fa-caret-left" aria-hidden="true"></i>
+            </span>
+          </span>
+        </h5>
         <div class="d-flex flex-wrap">
           <span *ngFor="let tag of tags; let i=index">
             <a *ngIf="!tag.isSelected" class="btn btn-sm btn-tag btn-secondary  mr-1" [style.border-color]="tag.color" [style.color]="tag.color"
@@ -49,114 +54,20 @@
             </a>
           </span>
         </div>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="col-11 m-1 mt-4 pl-0">
-
-  </div>
-
-
-
-  <!-- <div class="col-11 m-1 mt-4 pl-0">
-    <div class="d-flex flex-wrap">
-
-      <span (click)="isFiltersToggled=!isFiltersToggled" class="mr-1">
-        <i *ngIf="!isFiltersToggled" class="fa fa-plus-square" aria-hidden="true"></i>
-        <i *ngIf="isFiltersToggled" class="fa fa-minus-square" aria-hidden="true"></i>
-      </span>
-      <span class="text-muted mr-3">
-        Team
-      </span>
-      <span *ngFor="let user of members; let i=index">
-        <a class="btn btn-sm btn-user active btn-secondary  mr-1" [class.active]="user.isSelected" (click)="toggleUser(user)">
-          <img src="{{ user.picture }}" class="rounded-circle tag-image mr-1" alt="">{{user.name}}
-          <i *ngIf="user.isSelected" class="fa fa-check" aria-hidden="true"></i>
-          <i *ngIf="!user.isSelected" class="fa fa-check" aria-hidden="true" [style.color]="'white'"></i>
-        </a>
-      </span>
-    </div>
-  </div> -->
-</div>
-
-
-<div class="control first" [class.showSettings]="!isSettingsPanelCollapsed">
-  <div class=" btn-group-vertical">
-
-    <a class="btn btn-secondary circles icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/initiatives"
-      fragment="x=761&y=761&scale=1&{{tagsFragment}}" placement="left" container="body" ngbTooltip="Circle view"></a>
-    <a class="btn btn-secondary tree icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/people" fragment="x=100&y=380.5&scale=1&{{tagsFragment}}"
-      placement="left" container="body" ngbTooltip="Tree view"></a>
-    <a class="btn btn-secondary network icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/connections"
-      fragment="x=0&y=-380.5&scale=1&{{tagsFragment}}" placement="left" container="body" ngbTooltip="Network view"></a>
-
-    <a class="btn btn-secondary experimental icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/zoomable"
-      fragment="x=640&y=460&scale=1&{{tagsFragment}}" placement="left" container="body" ngbTooltip="Experimental"></a>
-  </div>
-</div>
-
-<div class="control  second mt-4" [class.showSettings]="!isSettingsPanelCollapsed">
-  <div class=" btn-group-vertical">
-    <a class="btn btn-secondary minus" (click)="zoomOut()" placement="left" container="body" ngbTooltip="Zoom out"></a>
-    <a class="btn btn-secondary plus" (click)="zoomIn()" placement="left" container="body" ngbTooltip="Zoom in"></a>
-    <a class="btn btn-secondary reset" (click)="resetZoom()" placement="left" container="body" ngbTooltip="Zoom fit"></a>
-    <a class="btn btn-secondary settings" (click)="togglePanel()" placement="left" container="body" ngbTooltip="Settings"></a>
-    <!-- <a class="btn btn-secondary edit-tag" (click)="toggleTagSettingsTab()" placement="left" container="body" ngbTooltip="Edit tags"></a> -->
-  </div>
-</div>
-
-<!-- <div class="control third" [class.showSettings]="!isSettingsPanelCollapsed">
-  <div class="btn-group-vertical">
-    <a class="btn btn-secondary btn-tag" [class.active]="tag.isSelected" placement="left" container="body" ngbTooltip="{{tag.name}}"
-      *ngFor="let tag of tags; let i=index" (click)="toggleTag(tag)">
-      <i class="fa fa-tag" aria-hidden="true" [style.color]="tag.color"></i>
-    </a>
-  </div>
-</div> -->
-
-<div id="sideNavSettings" class="rounded" [class.showSettings]="!isSettingsPanelCollapsed">
-
-  <div *ngIf="!isSettingsPanelCollapsed">
-    <h5 class="text-white d-flex justify-content-center mb-4 lead">{{datasetName}}</h5>
-    <a class="btn toggle" (click)="isSettingsPanelCollapsed=true">
-      <i class="fa fa-times" aria-hidden="true"></i>
-    </a>
-    <!-- Nav tabs -->
-    <ul class="nav nav-tabs nav-fill mb-4" id="myTab" role="tablist">
-      <!-- <li class="nav-item">
-        <a class="nav-link active" id="filters-tab" data-toggle="tab" href="#filters" role="tab" aria-controls="filters" aria-selected="true">Filters</a>
-      </li> -->
-      <li class="nav-item">
-        <a class="nav-link " [class.active]="isTagSettingActive" id="tags-tab" data-toggle="tab" href="#tags" role="tab" aria-controls="tags"
-          aria-selected="false">Edit Tags</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [class.active]="isMapSettingActive" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings"
-          aria-selected="false">Settings</a>
-      </li>
-    </ul>
-
-    <!-- Tab panes -->
-    <div class="tab-content">
-      <div class="tab-pane" [class.active]="isTagSettingActive" id="tags" role="tabpanel" aria-labelledby="tags-tab">
-
-
-        <div class="edit-tags">
-
-          <!-- <h6 class="lead">Edit Tags</h6> -->
-          <form class="form-group row ml-3" [formGroup]="newTagForm" (submit)="addTag()">
-            <div class="" [class.has-warning]="newTagForm.controls['name'].invalid  && (newTagForm.controls['name'].dirty || newTagForm.controls['name'].touched)">
-              <input type="text" id="inputname" formControlName="name" class="col-form-label form-control form-control-warning" placeholder="New tag"
-                required name>
+        <div class="edit-tags" *ngIf="isEditTags">
+          <h6 class="mt-4">Edit tags</h6>
+          <form class="form-group form-inline ml-3 mt-1" [formGroup]="newTagForm" (submit)="addTag()">
+            <div class="d-flex col-4 pl-0 pr-0" [class.has-warning]="newTagForm.controls['name'].invalid  && (newTagForm.controls['name'].dirty || newTagForm.controls['name'].touched)"
+              [style.min-width.vw]="19.5">
+              <input type="text" id="inputname" formControlName="name" placeholder="New tag" required name class="w-100 form-control ">
             </div>
-            <div class="col-4">
-              <input class="form-control" placeholder="Pick a color" [(colorPicker)]="newTagColor" [style.background]="newTagColor" [value]="newTagColor"
-                [cpOutputFormat]="'hex'" [cpPosition]="'bottom'" [cpPositionOffset]="'40%'" [cpPositionRelativeToArrow]="true"
+            <div class="d-flex col-4 ml-2 pl-2 pr-0">
+              <input [style.min-width.vw]="17.2" class="form-control" placeholder="Pick a color" [(colorPicker)]="newTagColor" [style.background]="newTagColor"
+                [value]="newTagColor" [cpOutputFormat]="'hex'" [cpPosition]="'bottom'" [cpPositionOffset]="'40%'" [cpPositionRelativeToArrow]="true"
                 (colorPickerChange)="newTagColor=$event" formControlName="color" />
             </div>
             <button type="submit" class="btn btn-success" [class.disabled]="!newTagForm.valid">Add</button>
+
           </form>
           <div class="overflow ">
 
@@ -176,38 +87,45 @@
 
           </div>
         </div>
-
       </div>
-      <!-- <div class="tab-pane active" id="filters" role="tabpanel" aria-labelledby="filters-tab">
+    </div>
 
-        <div class="filter-tag mb-4">
-          <h6 class="lead">Filter with tags</h6>
-          <div class="d-flex flex-wrap">
-            <a class="btn btn-sm btn-secondary  mr-1" [class.active]="tag.isSelected" placement="left" container="body" ngbTooltip="{{tag.name}}"
-              *ngFor="let tag of tags; let i=index" (click)="toggleTag(tag)">
-              <i class="fa fa-tag" aria-hidden="true" [style.color]="tag.color"></i> {{tag.name}}
-            </a>
-          </div>
-        </div>
+  </div>
+</div>
 
 
+<div class="control first">
+  <div class=" btn-group-vertical">
 
-      </div> -->
-      <div class="tab-pane" [class.active]="isMapSettingActive" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+    <a class="btn btn-secondary circles icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/initiatives"
+      fragment="x=761&y=761&scale=1&{{tagsFragment}}" placement="left" container="body" ngbTooltip="Circle view"></a>
+    <a class="btn btn-secondary tree icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/people" fragment="x=100&y=380.5&scale=1&{{tagsFragment}}"
+      placement="left" container="body" ngbTooltip="Tree view"></a>
+    <a class="btn btn-secondary network icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/connections"
+      fragment="x=0&y=-380.5&scale=1&{{tagsFragment}}" placement="left" container="body" ngbTooltip="Network view"></a>
 
-        <div class="edit-font mb-4">
-          <h6 class="lead">Font settings</h6>
-          <div class="form-group row">
-            <label for="example-time-input" class="col-4 col-form-label">Font size</label>
-            <div class="col-6">
-              <input class="vertical transparent" #fontInput name="fontInput" type="range" min="8" max="30" value="16" (change)="changeFontSize(fontInput.value)"
-                orient="vertical">
-            </div>
-          </div>
-        </div>
-        <hr/>
+    <a class="btn btn-secondary experimental icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/zoomable"
+      fragment="x=640&y=460&scale=1&{{tagsFragment}}" placement="left" container="body" ngbTooltip="Experimental"></a>
+  </div>
+</div>
 
+<div class="control  second mt-4">
+  <div class=" btn-group-vertical">
+    <a class="btn btn-secondary minus" (click)="zoomOut()" placement="left" container="body" ngbTooltip="Zoom out"></a>
+    <a class="btn btn-secondary plus" (click)="zoomIn()" placement="left" container="body" ngbTooltip="Zoom in"></a>
+    <a class="btn btn-secondary reset" (click)="resetZoom()" placement="left" container="body" ngbTooltip="Zoom fit"></a>
+    <a class="btn btn-secondary settings" (click)="isSettingToggled=!isSettingToggled" placement="left" container="body" ngbTooltip="Settings"></a>
+  </div>
+</div>
 
+<div class="control third mt-4" *ngIf="isSettingToggled">
+  <div class="card card-block">
+    <h6 class="card-subtitle">Text settings</h6>
+    <div class="form-group form-inline">
+      <label for="example-time-input" class="col-4 col-form-label">Text size</label>
+      <div class="col-6">
+        <input class="vertical transparent" #fontInput name="fontInput" type="range" min="8" max="30" value="16" (change)="changeFontSize(fontInput.value)"
+          orient="vertical">
       </div>
     </div>
   </div>
@@ -215,17 +133,6 @@
 </div>
 
 
-<!-- <div class="control fourth" *ngIf="isDisplayLockingToggle()">
-  <div class="">
-    <a #lockInput *ngIf="isLocked" [class.background]="!isLocked" class="btn text-warning" (click)="lock(false)" placement="top"
-      container="body" ngbTooltip="Drag and drop, adding and removing disabled">
-      <i class="fa fa-lock" aria-hidden="true"></i> Locked (view mode)</a>
-    <a #lockInput *ngIf="!isLocked" [class.background]="!isLocked" class="btn text-default" (click)="lock(true)" placement="top"
-      container="body" ngbTooltip="Drag and drop, adding and removing enabled">
-      <i class="fa fa-unlock-alt" aria-hidden="true"></i> Unlocked (edit mode)</a>
-  </div>
-</div> -->
-
-<div tabIndex="-1" class="map" [class.slide]="!isSettingsPanelCollapsed" (focus)="isSettingsPanelCollapsed=true">
+<div tabIndex="-1" class="map" (focus)="isSettingsPanelCollapsed=true">
   <router-outlet (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>
 </div>

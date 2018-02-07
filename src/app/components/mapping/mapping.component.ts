@@ -71,10 +71,10 @@ export class MappingComponent {
   public scale: number;
   // public isLocked: boolean = true;
 
-  public isCollapsed: boolean = true;
-  public isSettingsPanelCollapsed: boolean = true;
-  public isTagSettingActive: boolean;
-  public isMapSettingActive: boolean;
+  //   public isCollapsed: boolean = true;
+  //   public isSettingsPanelCollapsed: boolean = true;
+  //   public isTagSettingActive: boolean;
+  public isSettingToggled: boolean;
 
   public zoom$: Subject<number>;
   public isReset$: Subject<boolean>;
@@ -118,9 +118,6 @@ export class MappingComponent {
   toggleSettingsPanel = new EventEmitter<boolean>();
   @Output("applySettings")
   applySettings = new EventEmitter<{ initiative: Initiative; tags: Tag[] }>();
-  // @ViewChild(AnchorDirective) anchorComponent: AnchorDirective;
-
-  @ViewChild("drawing") public element: ElementRef;
 
   public componentFactory: ComponentFactory<IDataVisualizer>;
   public layout: string;
@@ -445,7 +442,7 @@ export class MappingComponent {
 
       this.tags.unshift(<SelectableTag>tag);
       this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
-      this.newTagForm.reset();
+      this.newTagForm.reset({ name: "", color: this.newTagColor });
       this.analytics.eventTrack("Map", {
         action: "Add tag",
         team: this.teamName,
@@ -456,7 +453,8 @@ export class MappingComponent {
 
   removeTag(tag: Tag) {
     let index = this.tags.findIndex(t => t.shortid === tag.shortid);
-    if (index > 0) {
+    console.log(tag, index);
+    if (index >= 0) {
       this.tags.splice(index, 1);
       this.analytics.eventTrack("Map", {
         action: "Remove tag",
@@ -467,17 +465,17 @@ export class MappingComponent {
     this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
   }
 
-  toggleTagSettingsTab() {
-    this.isSettingsPanelCollapsed = false;
-    this.isTagSettingActive = true;
-    this.isMapSettingActive = false;
-  }
+  //   toggleTagSettingsTab() {
+  //     // this.isSettingsPanelCollapsed = false;
+  //     // this.isTagSettingActive = true;
+  //     this.isMapSettingActive = false;
+  //   }
 
-  togglePanel() {
-    this.isSettingsPanelCollapsed = false;
-    this.isMapSettingActive = true;
-    this.isTagSettingActive = false;
-  }
+  //   togglePanel() {
+  //     this.isSettingsPanelCollapsed = false;
+  //     this.isMapSettingActive = true;
+  //     this.isTagSettingActive = false;
+  //   }
 
   public searchResultsCount: number;
   public isSearching: boolean;

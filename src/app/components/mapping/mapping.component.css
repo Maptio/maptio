@@ -20,10 +20,10 @@
   transition: 0.3s ease-in;
 }
 
-.control.showSettings {
+/* .control.showSettings {
   right: 45vw;
   transition: 0.3s ease-in;
-}
+} */
 
 .control.first {
   top: 6vh;
@@ -38,7 +38,7 @@
 }
 
 .control.third {
-  top: 50vh;
+  top: 45vh;
 }
 
 .control.fourth {
@@ -165,14 +165,13 @@
   /* box-shadow: -9px -5px #888888; */
 }
 
-#sideNavSettings.showSettings {
+/* #sideNavSettings.showSettings {
   width: 45vw;
   transition: 0.3s ease-in;
   padding: 10px;
   z-index: 10;
-  /* background-color: #38AECC; */
   background-color: #fff;
-}
+} */
 
 .map {
   margin-left: 0;
@@ -254,3 +253,4 @@
 .search{
   padding-right: 7vw;
 }
+
