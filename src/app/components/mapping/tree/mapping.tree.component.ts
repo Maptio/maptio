@@ -261,7 +261,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     let g = this.g;
     let definitions = this.definitions;
     let hoverInitiative = this.hoverInitiative.bind(this);
-    let slug = this.slug;
+    // let slug = this.slug;
+    let datasetSlug = this.slug;
 
     let treemap = d3
       .tree()
@@ -307,7 +308,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
       // Compute the new tree layout.
       let nodes = treeData.descendants(),
-        links = treeData.descendants().slice(1);
+        links = treeData.descendants().slice(1),
+        list = d3.hierarchy(data).descendants();
 
       // Normalize for fixed-depth.
       nodes.forEach(function(d: any) {
@@ -337,6 +339,18 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .html(function(d: any) {
           return uiService.getTooltipHTML(d.data);
         });
+
+      d3.selectAll(`.open-initiative`).on("click", function(d: any) {
+        let id = Number.parseFloat(d3.select(this).attr("id"));
+        showDetailsOf$.next(list.find(n => (<any>n.data).id === id).data);
+      });
+      d3.selectAll(`.open-summary`).on("click", function(d: any) {
+        let shortid = d3.select(this).attr("data-shortid");
+        let slug = d3.select(this).attr("data-slug");
+        router.navigateByUrl(
+          `/map/${datasetId}/${datasetSlug}/u/${shortid}/${slug}`
+        );
+      });
 
       // ****************** Nodes section ***************************
 
@@ -481,28 +495,28 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                             }</tspan>`;
         })
         // .text(function (d: any) { return d.data.accountable ? d.data.accountable.name : ""; })
-        .on("click", function(d: any) {
-          if (d.data.accountable) {
-            // TODO : keep until migration of database towards shortids
-            if (!d.data.accountable.shortid) {
-              userFactory
-                .get(d.data.accountable.user_id)
-                .then(u => (d.data.accountable.shortid = u.shortid))
-                .then(() => {
-                  router.navigateByUrl(
-                    `/map/${datasetId}/${slug}/u/${
-                      d.data.accountable.shortid
-                    }/${d.data.accountable.getSlug()}`
-                  );
-                });
-            }
-            router.navigateByUrl(
-              `/map/${datasetId}/${slug}/u/${
-                d.data.accountable.shortid
-              }/${d.data.accountable.getSlug()}`
-            );
-          }
-        });
+        // .on("click", function(d: any) {
+        //   if (d.data.accountable) {
+        //     // TODO : keep until migration of database towards shortids
+        //     if (!d.data.accountable.shortid) {
+        //       userFactory
+        //         .get(d.data.accountable.user_id)
+        //         .then(u => (d.data.accountable.shortid = u.shortid))
+        //         .then(() => {
+        //           router.navigateByUrl(
+        //             `/map/${datasetId}/${slug}/u/${
+        //               d.data.accountable.shortid
+        //             }/${d.data.accountable.getSlug()}`
+        //           );
+        //         });
+        //     }
+        //     router.navigateByUrl(
+        //       `/map/${datasetId}/${slug}/u/${
+        //         d.data.accountable.shortid
+        //       }/${d.data.accountable.getSlug()}`
+        //     );
+        //   }
+        // });
 
       // UPDATE
       let nodeUpdate = nodeEnter.merge(node);
@@ -598,8 +612,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             .width;
           console.log(window.pageYOffset, matrix);
           let left = window.pageXOffset + matrix.e - TOOLTIP_WIDTH / 2;
-          let top = window.pageYOffset + matrix.f - TOOLTIP_HEIGHT - 10 - CIRCLE_RADIUS;
-          console.log(d.data.name, "top", top, d.r)
+          let top =
+            window.pageYOffset + matrix.f - TOOLTIP_HEIGHT - 10 - CIRCLE_RADIUS;
           let bottom = window.pageYOffset + matrix.f + 10 + CIRCLE_RADIUS;
 
           tooltip
