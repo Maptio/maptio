@@ -104,7 +104,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
         let svg: any = d3.select("svg").attr("width", viewerWidth)
             .attr("height", viewerHeight).attr("class", "overlay")
-            .style("background", "#f7f7f7");
+            .style("background", "#fff");
 
         let g = svg.append("g")
             .attr("transform", `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`);
