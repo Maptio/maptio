@@ -136,8 +136,8 @@ const appRoutes: Routes = [
     },
     children: [
       { path: "", redirectTo: "initiatives", pathMatch: "full" },
-      { path: "initiatives", component: MappingCirclesComponent },
-      { path: "zoomable", component: MappingZoomableComponent },
+      { path: "initiatives", component: MappingZoomableComponent },
+      // { path: "zoomable", component: MappingZoomableComponent },
       { path: "people", component: MappingTreeComponent },
       { path: "connections", component: MappingNetworkComponent },
       { path: "u/:usershortid/:userslug", component: MemberSummaryComponent },
