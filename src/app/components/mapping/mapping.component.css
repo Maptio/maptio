@@ -29,7 +29,7 @@
   top: 12vh;
 }
 
-.control.first>.btn-group-vertical {
+.control.first > .btn-group-vertical {
   width: 48px;
 }
 
@@ -53,16 +53,16 @@
   background-color: #f0ad4e;
 }
 
-.control>a {
+.control > a {
   color: gray;
   border: 1px solid lightgray;
-  background-color: #FCFCFC;
+  background-color: #fcfcfc;
   clear: both;
   width: 100%;
   height: 100%;
 }
 
-.control>a:hover {
+.control > a:hover {
   color: black;
 }
 
@@ -125,7 +125,7 @@
   font-family: FontAwesome;
   height: 50px;
   padding: 0;
-  color: black
+  color: black;
 }
 
 .zoom a {
@@ -140,19 +140,19 @@
   margin-right: 3px;
 }
 
-.control.second>span {
+.control.second > span {
   position: absolute;
   top: 85%;
 }
 
 .active-link {
-  background-color: #2F81B7;
+  background-color: #2f81b7;
 }
 
 #sideNavSettings {
   height: 90vh;
   max-height: 90vh;
-  min-width: 0.0vw;
+  min-width: 0vw;
   position: fixed;
   right: 0;
   overflow: hidden;
@@ -190,7 +190,8 @@
   max-height: 45vh;
 }
 
-.nav-pills .nav-item.show .nav-link, .nav-pills .nav-link.active {
+.nav-pills .nav-item.show .nav-link,
+.nav-pills .nav-link.active {
   color: #959595;
   cursor: default;
   border-color: #959595;
@@ -221,7 +222,7 @@
 }
 
 .btn-link {
-  color: #2F81B7!important;
+  color: #2f81b7 !important;
 }
 
 :host /deep/ button.dropdown-item:nth-child(even) {
@@ -231,5 +232,25 @@
 :host /deep/ .dropdown-menu {
   max-height: 65vh;
   overflow-y: auto;
+}
 
+/* .input-group input {
+  border-right: 0px solid transparent;
+}
+
+.input-group .input-group-addon {
+  background-color: transparent;
+  border-left: 0px solid transparent;
+} */
+
+.static-value {
+  position: absolute;
+  right: 2vw;
+  font-size: 0.8em;
+  color: #444;
+  top: 9px;
+}
+
+.search{
+  padding-right: 7vw;
 }
