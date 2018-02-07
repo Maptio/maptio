@@ -76,6 +76,7 @@ describe("mapping.network.component.ts", () => {
         component.selectableTags$ = Observable.of([]);
         component.fontSize$ = Observable.of(12);
         component.zoomInitiative$ = Observable.of(new Initiative());
+
         // component.isLocked$ = Observable.of(true);
         component.analytics = jasmine.createSpyObj("analytics", ["eventTrack"]);
 

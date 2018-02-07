@@ -50,15 +50,8 @@
                         <button [class.deleted]="member.isDeleted" [hidden]="isDisplayLoader(member.user_id)" *ngIf="member.isActivationPending && member.isInvitationSent"
                             class="btn btn-success  mt-2" (click)="resendUser(member, i)" placement="left" container="body" ngbTooltip="Resend an invitation to {{member.name}}">Resend </button>
                         <div class="sending" [hidden]="!isDisplayLoader(member.user_id)">
-                            <ngx-loading [show]="isDisplayLoader(member.user_id)" [config]="{ backdropBackgroundColour: 'transparent'}"></ngx-loading>
+                            <i *ngIf="isDisplayLoader(member.user_id)" class="text-muted fa fa-circle-o-notch fa-spin fa-fw fa-2x"></i>
                         </div>
-
-
-                        <!-- <span class="sending text-default" [hidden]="!isDisplayLoader(member.user_id)">
-                            <i class="fa fa-cog fa-2x fa-spin fa-fw"></i>
-                            <span class="sr-only">Sending...</span>
-                        </span> -->
-
                     </td>
                 </tr>
             </tbody>

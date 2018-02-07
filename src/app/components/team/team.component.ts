@@ -7,7 +7,7 @@ import { Observable, Subscription } from "rxjs/Rx";
 import { NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-bootstrap";
 import { TeamFactory } from "./../../shared/services/team.factory";
 import { ActivatedRoute, Params } from "@angular/router";
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from "@angular/core";
 import { Team } from "../../shared/model/team.data";
 import { User } from "../../shared/model/user.data";
 import { Auth } from "../../shared/services/auth/auth.service";
@@ -68,7 +68,7 @@ export class TeamComponent implements OnInit {
     constructor(public auth: Auth, private userService: UserService, private route: ActivatedRoute,
         private teamFactory: TeamFactory, private userFactory: UserFactory,
         private datasetFactory: DatasetFactory, private analytics: Angulartics2Mixpanel,
-        private fileService: FileService) {
+        private fileService: FileService, private cd: ChangeDetectorRef) {
 
         this.routeSubscription = this.route.params.subscribe((params: Params) => {
             if (!params["teamid"]) return
@@ -143,6 +143,7 @@ export class TeamComponent implements OnInit {
                     members.forEach(m => {
                         this.isSendingMap.set(m.user_id, false);
                     })
+                    this.cd.markForCheck();
                     return sortBy(members, m => m.name)
                 })
         });
@@ -217,6 +218,7 @@ export class TeamComponent implements OnInit {
                 .then((isSent) => {
                     user.isInvitationSent = isSent;
                     this.isSendingMap.set(user.user_id, false);
+                    this.cd.markForCheck();
                     this.analytics.eventTrack("Team", { action: "invite", team: team.name, teamId: team.team_id })
                     return;
                 }
