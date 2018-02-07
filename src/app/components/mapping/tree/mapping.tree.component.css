@@ -1,18 +1,18 @@
-::ng-deep .node:hover {
+::ng-deep .node.tree-map:hover {
   stroke: initial!important;
   stroke-width: initial!important;
 }
-::ng-deep svg text {
+::ng-deep svg text.tree-map {
   cursor: pointer;
 }
 
-::ng-deep .node circle {
+::ng-deep .node.tree-map circle {
   /*fill: #fff;*/
   stroke: steelblue;
   /* stroke-width: 1.5px; */
 }
 
-::ng-deep .node circle .withChildren{
+::ng-deep .node.tree-map circle .withChildren{
   stroke-width: 3px;
 }
 
@@ -20,31 +20,31 @@
   font: normal;
 } */
 
-::ng-deep .link {
+::ng-deep .link.tree-map {
   fill: none;
   stroke: #ccc;
   stroke-width: 1.5px;
 }
 
-::ng-deep .name{
+::ng-deep .name.tree-map{
   font-size: small;
 }
-::ng-deep .name:hover{
+::ng-deep .name.tree-map:hover{
   pointer-events: auto;
   text-decoration: underline;
 }
 
-::ng-deep .accountable{
+::ng-deep .accountable.tree-map{
   font-weight: bold;
 }
 
-::ng-deep .accountable:hover{
+::ng-deep .accountable.tree-map:hover{
   text-decoration: underline;
 }
 
 
 
-::ng-deep image.accountable{
+::ng-deep image.tree-map.accountable{
   border: 2px red solid
 }
 

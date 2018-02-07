@@ -350,7 +350,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
     d3.selectAll(`.open-summary`).on("click", function(d: any) {
       let shortid = d3.select(this).attr("data-shortid");
       let slug = d3.select(this).attr("data-slug");
-      // console.log("open summary", d3.select(this), shortid, slug);
       router.navigateByUrl(
         `/map/${datasetId}/${datasetSlug}/u/${shortid}/${slug}`
       );
@@ -678,7 +677,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
       transition
         .selectAll("g.node.initiative-map")
         .style("opacity", function(d: any) {
-          return (<any[]>focus.descendants()).find(desc => desc.data.id === d.data.id) ? 1 : 0.1;
+          return (<any[]>focus.descendants()).find(
+            desc => desc.data.id === d.data.id
+          )
+            ? 1
+            : 0.1;
         });
     }
 
