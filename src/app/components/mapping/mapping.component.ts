@@ -155,7 +155,6 @@ export class MappingComponent {
 
   onActivate(component: IDataVisualizer) {
     component.showDetailsOf$.asObservable().subscribe(node => {
-      console.log("show details ", node);
       this.showDetails.emit(node);
     });
     component.addInitiative$.asObservable().subscribe(node => {
@@ -453,7 +452,6 @@ export class MappingComponent {
 
   removeTag(tag: Tag) {
     let index = this.tags.findIndex(t => t.shortid === tag.shortid);
-    console.log(tag, index);
     if (index >= 0) {
       this.tags.splice(index, 1);
       this.analytics.eventTrack("Map", {

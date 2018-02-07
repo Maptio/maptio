@@ -139,26 +139,6 @@ describe("mapping.component.ts", () => {
             });
         });
 
-        describe("isDisplayLockingToggle", () => {
-            it("should return true when layout is initiatives", () => {
-                component.layout = "initiatives"
-                let actual = component.isDisplayLockingToggle();
-                expect(actual).toBeTruthy()
-            });
-
-            it("should return false when layout is people", () => {
-                component.layout = "people"
-                let actual = component.isDisplayLockingToggle();
-                expect(actual).toBeFalsy()
-            });
-
-            it("should return true by default", () => {
-                component.layout = ""
-                let actual = component.isDisplayLockingToggle();
-                expect(actual).toBeTruthy()
-            });
-        });
-
         describe("resetZoom", () => {
             it("should reset zoom", () => {
                 spyOn(component.isReset$, "next");
@@ -213,22 +193,6 @@ describe("mapping.component.ts", () => {
             expect(activated.translateY).toBe(100);
             expect(activated.scale).toBe(1.3);
         })
-
-        describe("Toggling", () => {
-            it("toggles settings panel  ", () => {
-                component.toggleTagSettingsTab();
-                expect(component.isSettingsPanelCollapsed).toBe(false);
-                expect(component.isTagSettingActive).toBe(true);
-                expect(component.isMapSettingActive).toBe(false);
-            });
-
-            it("toggles tags editing panel", () => {
-                component.togglePanel();
-                expect(component.isSettingsPanelCollapsed).toBe(false);
-                expect(component.isTagSettingActive).toBe(false);
-                expect(component.isMapSettingActive).toBe(true);
-            });
-        });
 
         describe("Tagging", () => {
             describe("Saving ", () => {
