@@ -22,6 +22,7 @@ import { MappingNetworkComponent } from "./network/mapping.network.component";
 import { MemberSummaryComponent } from "./member-summary/member-summary.component";
 import { Tag, SelectableTag } from "../../shared/model/tag.data";
 import { MappingZoomableComponent } from "./zoomable/mapping.zoomable.component";
+import { MarkdownService } from "angular2-markdown";
 
 describe("mapping.component.ts", () => {
 
@@ -47,6 +48,7 @@ describe("mapping.component.ts", () => {
                     deps: [Http, BaseRequestOptions]
                 }
                 ,
+                MarkdownService,
                 BaseRequestOptions,
                 {
                     provide: ActivatedRoute,
