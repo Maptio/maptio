@@ -678,7 +678,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       transition
         .selectAll("g.node.initiative-map")
         .style("opacity", function(d: any) {
-          return focus.descendants().includes(d) ? 1 : 0.1;
+          return (<any[]>focus.descendants()).find(desc => desc.data.id === d.data.id) ? 1 : 0.1;
         });
     }
 
