@@ -82,6 +82,11 @@
     transition: visibility 0s linear 0.2s, opacity 0.2s linear;
 }
 
+::ng-deep .arrow_box .content{
+    max-height: 25vh;
+    overflow-y: auto;
+}
+
 ::ng-deep .arrow_box button {
     pointer-events: auto;
     cursor: pointer;
