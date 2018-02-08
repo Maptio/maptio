@@ -130,8 +130,15 @@ export class MappingComponent {
   public instance: IDataVisualizer;
   public newTagForm: FormGroup;
   newTagColor = "#fff";
-  fontColor = "#000";
-  mapColor = "#f5f5f5";
+  fontColor = localStorage.getItem("FONT_COLOR")
+    ? localStorage.getItem("FONT_COLOR")
+    : "#000";
+  mapColor = localStorage.getItem("MAP_COLOR")
+    ? localStorage.getItem("MAP_COLOR")
+    : "#f5f5f5";
+  fontSize = Number.parseFloat(localStorage.getItem("FONT_SIZE"))
+    ? Number.parseFloat(localStorage.getItem("FONT_SIZE"))
+    : 1;
 
   isFiltersToggled: boolean = false;
 
@@ -147,8 +154,8 @@ export class MappingComponent {
     this.isReset$ = new Subject<boolean>();
     this.selectableTags$ = new ReplaySubject<Array<SelectableTag>>();
     // this.selectableUsers$ = new ReplaySubject<Array<SelectableUser>>();
-    this.fontSize$ = new BehaviorSubject<number>(1);
-    this.fontColor$ = new BehaviorSubject<string>("#000");
+    this.fontSize$ = new BehaviorSubject<number>(this.fontSize);
+    this.fontColor$ = new BehaviorSubject<string>(this.fontColor);
     this.mapColor$ = new BehaviorSubject<string>(this.mapColor);
     this.zoomToInitiative$ = new Subject();
     // this.isLocked$ = new BehaviorSubject<boolean>(this.isLocked);
@@ -383,6 +390,7 @@ export class MappingComponent {
 
   changeFontSize(size: number) {
     this.fontSize$.next(size);
+    localStorage.setItem("FONT_SIZE", `${size}`);
     this.analytics.eventTrack("Map", {
       action: "change font size",
       size: size,
@@ -393,6 +401,7 @@ export class MappingComponent {
 
   changeFontColor(color: string) {
     this.fontColor$.next(color);
+    localStorage.setItem("FONT_COLOR", `${color}`);
     this.fontColor = color;
     this.analytics.eventTrack("Map", {
       action: "change font color",
@@ -404,6 +413,7 @@ export class MappingComponent {
 
   changeMapColor(color: string) {
     this.mapColor$.next(color);
+    localStorage.setItem("MAP_COLOR", `${color}`);
     this.mapColor = color;
     this.analytics.eventTrack("Map", {
       action: "change map color",
@@ -412,7 +422,6 @@ export class MappingComponent {
       teamId: this.teamId
     });
   }
-
 
   toggleTag(tag: SelectableTag) {
     tag.isSelected = !tag.isSelected;
