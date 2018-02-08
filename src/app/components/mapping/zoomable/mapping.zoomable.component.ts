@@ -300,7 +300,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let pack = d3
       .pack()
       .size([diameter - margin, diameter - margin])
-      .padding(4);
+      .padding(10);
 
     let root: any = d3
       .hierarchy(data)
@@ -419,6 +419,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
     g.selectAll("circle.node").style("fill", function(d: any) {
       return d.children ? color(d.depth) : null;
     });
+
+    
 
     let textAround = initiative
       .filter(function(d: any) {
