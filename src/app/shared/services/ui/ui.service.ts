@@ -98,24 +98,25 @@ export class UIService {
         }
       }
 
-      tags.forEach((tag: Tag, index: number) => {
-        text
-          .append("tspan")
-          .attr("x", x)
-          .attr("y", y)
-          .attr(
-            "dy",
-            (lineNumber + 1) * (lineHeight * (tagLineHeightRatio || 1)) +
-              dy +
-              "em"
-          )
-          .attr("dx", index * 20)
-          .attr("class", "dot-tags")
-          .attr("fill", tag.color)
-          .html("&#xf02b");
-      });
+      // tags.forEach((tag: Tag, index: number) => {
+      //   text
+      //     .append("tspan")
+      //     .attr("x", x)
+      //     .attr("y", y)
+      //     .attr(
+      //       "dy",
+      //       (lineNumber + 1) * (lineHeight * (tagLineHeightRatio || 1)) +
+      //         dy +
+      //         "em"
+      //     )
+      //     .attr("dx", index * 20)
+      //     .attr("class", "dot-tags")
+      //     .attr("fill", tag.color)
+      //     .html("&#xf02b");
+      // });
     });
   }
+  
 
   filter(
     selectedTags: any[],

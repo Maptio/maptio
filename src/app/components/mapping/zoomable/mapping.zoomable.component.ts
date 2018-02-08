@@ -104,6 +104,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
   OPACITY_DISAPPEARING = 0.1;
   T: any;
 
+  POSITION_INITIATIVE_NAME = { x: 0.9, y: 0.1, fontRatio: 1 };
+  POSITION_TAGS_NAME = { x: 0, y: 0.35, fontRatio: 0.6 };
+  POSITION_ACCOUNTABLE_NAME = { x: 0, y: 0.45, fontRatio: 0.8 };
+
   constructor(
     public d3Service: D3Service,
     public colorService: ColorService,
@@ -297,6 +301,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let datasetSlug = this.slug;
     let router = this.router;
 
+    let POSITION_INITIATIVE_NAME = this.POSITION_INITIATIVE_NAME;
+    let POSITION_TAGS_NAME = this.POSITION_TAGS_NAME;
+    let POSITION_ACCOUNTABLE_NAME = this.POSITION_ACCOUNTABLE_NAME;
+
     let pack = d3
       .pack()
       .size([diameter - margin, diameter - margin])
@@ -419,7 +427,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
       });
 
     g.selectAll("circle.node").style("fill", function(d: any) {
-      return d.children ? color(d.depth) : (!d.children && d.parent === root ? color(d.depth) : null);
+      return d.children
+        ? color(d.depth)
+        : !d.children && d.parent === root ? color(d.depth) : null;
     });
 
     let textAround = initiative
@@ -461,10 +471,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .style("pointer-events", "none")
       .attr("dy", 0)
       .attr("x", function(d: any) {
-        return -d.r * 0.9;
+        return -d.r * POSITION_INITIATIVE_NAME.x;
       })
       .attr("y", function(d: any) {
-        return -d.r * 0.1;
+        return -d.r * POSITION_INITIATIVE_NAME.y;
       })
       .attr("font-size", function(d: any) {
         return `${fonts(d.depth)}em`;
@@ -483,6 +493,38 @@ export class MappingZoomableComponent implements IDataVisualizer {
           d.data.tags,
           d.r * 2 * 0.95
         );
+      });
+
+    let tagsName = initiative
+      .filter(function(d: any) {
+        return !d.children;
+      })
+      .filter(function(d: any) {
+        return d.data.tags;
+      })
+      .append("text")
+      .attr("id", function(d: any) {
+        return `${d.data.id}`;
+      })
+      .attr("class", "tags")
+      .classed("initiative-map", true)
+      .style("pointer-events", "none")
+      .attr("text-anchor", "middle")
+      .attr("x", function(d: any) {
+        return -d.r * POSITION_TAGS_NAME.x;
+      })
+      .attr("y", function(d: any) {
+        return -d.r * POSITION_TAGS_NAME.y;
+      })
+      .attr("font-size", function(d: any) {
+        return `${fonts(d.depth) * POSITION_TAGS_NAME.fontRatio}em`;
+      })
+      .style("display", "inline")
+      .style("opacity", function(d: any) {
+        return d.parent === root || d.depth <= 3 ? 1 : 0;
+      })
+      .html(function(d: any) {
+        return d.data.tags.map((tag: Tag) => `<tspan fill="${tag.color}" class="dot-tags">&#xf02b</tspan><tspan fill="${tag.color}">${tag.name}</tspan>`).join(" ");
       });
 
     let accountablePictureWithChildren = initiative
@@ -540,13 +582,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return d.parent === root || d.depth <= 3 ? 1 : 0;
       })
       .attr("font-size", function(d: any) {
-        return `${fonts(d.depth) * 0.8}em`;
+        return `${fonts(d.depth) * POSITION_ACCOUNTABLE_NAME.fontRatio}em`;
       })
       .attr("x", function(d: any) {
-        return 0;
+        return d.r * POSITION_ACCOUNTABLE_NAME.x;
       })
       .attr("y", function(d: any) {
-        return -d.r * 0.45;
+        return -d.r * POSITION_ACCOUNTABLE_NAME.y;
       })
       .text(function(d: any) {
         return d.data.accountable.name;
@@ -642,10 +684,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
           d3
             .select(this)
             .attr("x", function(d: any) {
-              return -d.r * d.k * 0.9;
+              return -d.r * d.k * POSITION_INITIATIVE_NAME.x;
             })
             .attr("y", function(d: any) {
-              return -d.r * d.k * 0.1;
+              return -d.r * d.k * POSITION_INITIATIVE_NAME.y;
             })
             .attr("dy", 0)
             .attr("font-size", function(d: any) {
@@ -676,13 +718,42 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .select(this)
             .attr("text-anchor", "middle")
             .attr("x", function(d: any) {
-              return 0;
+              return d.r * POSITION_ACCOUNTABLE_NAME.x;
             })
             .attr("y", function(d: any) {
-              return -d.r * d.k * 0.45;
+              return -d.r * d.k * POSITION_ACCOUNTABLE_NAME.y;
             })
             .attr("font-size", function(d: any) {
-              return `${fonts(d.depth) / 2 * d.k * 0.8}em`;
+              return `${fonts(d.depth) /
+                2 *
+                d.k *
+                POSITION_ACCOUNTABLE_NAME.fontRatio}em`;
+            });
+        });
+
+      transition
+        .selectAll("text.tags")
+        .filter((d: any) => !d.children)
+        .filter(function(d: any) {
+          return d.data.tags;
+        })
+        .on("start", function(d: any) {
+          d3.select(this).style("opacity", 0);
+        })
+        .on("end", function(d: any) {
+          d3
+            .select(this)
+            .attr("x", function(d: any) {
+              return -d.r * d.k * POSITION_TAGS_NAME.x;
+            })
+            .attr("y", function(d: any) {
+              return -d.r * d.k * POSITION_TAGS_NAME.y;
+            })
+            .attr("font-size", function(d: any) {
+              return `${fonts(d.depth) /
+                2 *
+                d.k *
+                POSITION_TAGS_NAME.fontRatio}em`;
             });
         });
 
