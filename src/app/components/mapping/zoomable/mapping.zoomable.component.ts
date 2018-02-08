@@ -105,7 +105,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   T: any;
 
   POSITION_INITIATIVE_NAME = { x: 0.9, y: 0.1, fontRatio: 1 };
-  POSITION_TAGS_NAME = { x: 0, y: 0.35, fontRatio: 0.6 };
+  POSITION_TAGS_NAME = { x: 0, y: 0.3, fontRatio: 0.65 };
   POSITION_ACCOUNTABLE_NAME = { x: 0, y: 0.45, fontRatio: 0.8 };
 
   constructor(
