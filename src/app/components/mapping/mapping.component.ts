@@ -124,7 +124,7 @@ export class MappingComponent {
   applySettings = new EventEmitter<{ initiative: Initiative; tags: Tag[] }>();
 
   public componentFactory: ComponentFactory<IDataVisualizer>;
-  public layout: string;
+  // public layout: string;
   public subscription: Subscription;
   public instance: IDataVisualizer;
   public newTagForm: FormGroup;
@@ -206,7 +206,7 @@ export class MappingComponent {
     //         .map((s: string) => new SelectableUser({ shortid: s, isSelected: true }))
     //     : [];
 
-    this.layout = this.getLayout(component);
+    // this.layout = this.getLayout(component);
 
     component.width = this.VIEWPORT_WIDTH;
     component.height = this.VIEWPORT_HEIGHT;
@@ -318,20 +318,20 @@ export class MappingComponent {
     }
   }
 
-  getLayout(component: IDataVisualizer) {
-    switch (component.constructor) {
-      case MappingCirclesComponent:
-        return `initiatives`;
-      case MappingTreeComponent:
-        return `people`;
-      case MappingNetworkComponent:
-        return `connections`;
-      case MemberSummaryComponent:
-        return `list`;
-      default:
-        return `initiatives`;
-    }
-  }
+  // getLayout(component: IDataVisualizer) {
+  //   switch (component.constructor) {
+  //     case MappingCirclesComponent:
+  //       return `initiatives`;
+  //     case MappingTreeComponent:
+  //       return `people`;
+  //     case MappingNetworkComponent:
+  //       return `connections`;
+  //     case MemberSummaryComponent:
+  //       return `list`;
+  //     default:
+  //       return `initiatives`;
+  //   }
+  // }
 
   zoomOut() {
     this.zoom$.next(0.9);
@@ -369,13 +369,13 @@ export class MappingComponent {
   //     this.analytics.eventTrack("Map", { action: (locking ? "lock" : "unlock"), team: this.teamName, teamId: this.teamId });
   // }
 
-  isDisplayLockingToggle() {
-    return (
-      this.layout !== "people" &&
-      this.layout !== "connections" &&
-      this.layout !== "list"
-    );
-  }
+  // isDisplayLockingToggle() {
+  //   return (
+  //     this.layout !== "people" &&
+  //     this.layout !== "connections" &&
+  //     this.layout !== "list"
+  //   );
+  // }
 
   changeFontSize(size: number) {
     this.fontSize$.next(size);
