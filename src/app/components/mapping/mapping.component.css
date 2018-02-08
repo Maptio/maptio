@@ -225,7 +225,7 @@
 }
 
 :host /deep/ button.dropdown-item:nth-child(even) {
-  background: #f5f5f5 !important;
+  background: #f5f5f5;
 }
 
 :host /deep/ .dropdown-menu {
@@ -252,6 +252,15 @@
 
 .search{
   padding-right: 7vw;
+  background: #00000005;
+  font-weight: 400;
+}
+
+:host /deep/  .dropdown-item.active, .dropdown-item:active {
+  /* color: #fff; */
+  text-decoration: none;
+  /* font-style: italic; */
+  background-color: #2f81b78c !important;
 }
 
 .fontSizeOutput{
