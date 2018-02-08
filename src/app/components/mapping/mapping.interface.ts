@@ -22,6 +22,7 @@ export interface IDataVisualizer {
 
     fontSize$: Observable<number>;
     fontColor$: Observable<string>;
+    mapColor$: Observable<string>;
 
 
     zoomInitiative$: Observable<Initiative>;

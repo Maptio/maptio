@@ -47,6 +47,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public isReset$: Observable<boolean>;
   public fontSize$: Observable<number>;
   public fontColor$: Observable<string>;
+  public mapColor$: Observable<string>;
   public zoomInitiative$: Observable<Initiative>;
   public isLocked$: Observable<boolean>;
   public data$: Subject<{
@@ -128,15 +129,15 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.init();
     this.dataSubscription = this.dataService
       .get()
-      .combineLatest(this.selectableTags$)
-      .subscribe(complexData => {
+      .combineLatest(this.selectableTags$, this.mapColor$)
+      .subscribe((complexData: [any, SelectableTag[], string]) => {
         // console.log("circles assign data")
         let data = <any>complexData[0].initiative;
         this.datasetId = complexData[0].datasetId;
         this.rootNode = complexData[0].initiative;
         this.slug = data.getSlug();
         this.tagsState = complexData[1];
-        this.update(data, complexData[1]);
+        this.update(data, complexData[1], complexData[2]);
         this.analytics.eventTrack("Map", {
           view: "initiatives",
           team: data.teamName,
@@ -273,7 +274,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
   }
 
-  update(data: Initiative, tags: Array<SelectableTag>) {
+  update(data: Initiative, tags: Array<SelectableTag>, seedColor: string) {
+    console.log("update");
     if (this.d3.selectAll("g").empty()) {
       this.init();
     }
@@ -314,7 +316,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       depth = depth > n.depth ? depth : n.depth;
     });
     let fonts = this.colorService.getFontSizeRange(depth, fontSize);
-    let color = this.colorService.getDefaulColorRange(depth);
+    let color = this.colorService.getColorRange(depth, seedColor);
 
     // for (let i = -1; i <= depth; i++) {
     //     console.log(i, fonts(i))
@@ -409,12 +411,15 @@ export class MappingZoomableComponent implements IDataVisualizer {
           : "node node--root";
       })
       .classed("initiative-map", true)
-      .style("fill", function(d: any) {
-        return d.children ? color(d.depth) : null;
-      })
+
       .on("click", function(d: any) {
         if (focus !== d) zoom(d), d3.event.stopPropagation();
       });
+
+    console.log(g.selectAll("circle.node"))
+    g.selectAll("circle.node").style("fill", function(d: any) {
+      return d.children ? color(d.depth) : null;
+    });
 
     let textAround = initiative
       .filter(function(d: any) {

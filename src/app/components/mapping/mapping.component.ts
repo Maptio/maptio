@@ -101,6 +101,7 @@ export class MappingComponent {
   // TODO : replace by a format object
   public fontSize$: BehaviorSubject<number>;
   public fontColor$: BehaviorSubject<string>;
+  public mapColor$: BehaviorSubject<string>;
 
   public zoomToInitiative$: Subject<Initiative>;
   // public isLocked$: BehaviorSubject<boolean>;
@@ -129,7 +130,8 @@ export class MappingComponent {
   public instance: IDataVisualizer;
   public newTagForm: FormGroup;
   newTagColor = "#fff";
-  fontColor = "#000"
+  fontColor = "#000";
+  mapColor = "#f5f5f5";
 
   isFiltersToggled: boolean = false;
 
@@ -147,6 +149,7 @@ export class MappingComponent {
     // this.selectableUsers$ = new ReplaySubject<Array<SelectableUser>>();
     this.fontSize$ = new BehaviorSubject<number>(1);
     this.fontColor$ = new BehaviorSubject<string>("#000");
+    this.mapColor$ = new BehaviorSubject<string>(this.mapColor);
     this.zoomToInitiative$ = new Subject();
     // this.isLocked$ = new BehaviorSubject<boolean>(this.isLocked);
     this.closeEditingPanel$ = new BehaviorSubject<boolean>(false);
@@ -217,6 +220,7 @@ export class MappingComponent {
     // component.selectableUsers$ = this.selectableUsers$.asObservable();
     component.fontSize$ = this.fontSize$.asObservable();
     component.fontColor$ = this.fontColor$.asObservable();
+    component.mapColor$ = this.mapColor$.asObservable();
     component.zoomInitiative$ = this.zoomToInitiative$.asObservable();
     // component.isLocked$ = this.isLocked$.asObservable();
     component.translateX = this.x;
@@ -397,6 +401,18 @@ export class MappingComponent {
       teamId: this.teamId
     });
   }
+
+  changeMapColor(color: string) {
+    this.mapColor$.next(color);
+    this.mapColor = color;
+    this.analytics.eventTrack("Map", {
+      action: "change map color",
+      color: color,
+      team: this.teamName,
+      teamId: this.teamId
+    });
+  }
+
 
   toggleTag(tag: SelectableTag) {
     tag.isSelected = !tag.isSelected;

@@ -135,15 +135,23 @@
     <div class="form-group form-inline">
         <label for="example-time-input" class="col-form-label col-2">Color</label>
         <input class="col-6 form-control ml-1" [(colorPicker)]="fontColor" [style.background]="fontColor"
-        [value]="fontColor" [cpOutputFormat]="'hex'" [cpPosition]="'bottom'" [cpPositionOffset]="'40%'" [cpPositionRelativeToArrow]="true"
+        [value]="fontColor" [cpOutputFormat]="'hex'" [cpPosition]="'top'" [cpPositionOffset]="'40%'" [cpPositionRelativeToArrow]="true"
         (colorPickerChange)="changeFontColor($event)" />
         <button class="btn  btn-secondary text-muted ml-4" (click)="changeFontColor('#000')">Reset</button>
+    </div>
+    <h6 class="card-subtitle mt-2">Map settings</h6>
+    <div class="form-group form-inline">
+        <label for="example-time-input" class="col-form-label col-2">Color</label>
+        <input class="col-6 form-control ml-1" [(colorPicker)]="mapColor" [style.background]="mapColor"
+        [value]="mapColor" [cpOutputFormat]="'hex'" [cpPosition]="'top'" [cpPositionOffset]="'40%'" [cpPositionRelativeToArrow]="true"
+        (colorPickerChange)="changeMapColor($event)" />
+        <button class="btn  btn-secondary text-muted ml-4" (click)="changeMapColor('#ddd')">Reset</button>
     </div>
   </div>
 
 </div>
 
 
-<div tabIndex="-1" class="map">
+<div tabIndex="-1" class="map" (focus)="isSettingToggled=false">
   <router-outlet (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>
 </div>
