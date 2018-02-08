@@ -5,7 +5,7 @@ import { Router, NavigationStart } from "@angular/router";
 import { LogoutComponent } from "./logout.component";
 import { Observable } from "rxjs/Rx";
 import { RouterTestingModule } from "@angular/router/testing";
-import { Auth } from "src/app/shared/services/auth/auth.service";
+import { Auth } from "../../shared/services/auth/auth.service";
 
 describe("logout.component.ts", () => {
   let component: LogoutComponent;
@@ -24,7 +24,7 @@ describe("logout.component.ts", () => {
               {
                 provide: Auth,
                 useClass: class {
-                  login = jasmine.createSpy("clear");
+                  clear = jasmine.createSpy("clear");
                 }
               },
               {
@@ -46,13 +46,13 @@ describe("logout.component.ts", () => {
     target = TestBed.createComponent(LogoutComponent);
 
     component = target.componentInstance;
-    spyOn(localStorage, "clear");
+    // spyOn(target.debugElement.injector.get(Auth), "clear");
 
     target.detectChanges();
   });
 
   it("should clear localStorage", () => {
-    expect(localStorage.clear).toHaveBeenCalled();
+    expect(target.debugElement.injector.get(Auth).clear).toHaveBeenCalled();
   });
 
   it("should redirect to home", () => {
