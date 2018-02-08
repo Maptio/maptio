@@ -75,6 +75,7 @@ describe("mapping.network.component.ts", () => {
         component.isReset$ = new Subject<boolean>();
         component.selectableTags$ = Observable.of([]);
         component.fontSize$ = Observable.of(12);
+        component.fontColor$ = Observable.of("");
         component.zoomInitiative$ = Observable.of(new Initiative());
 
         // component.isLocked$ = Observable.of(true);
