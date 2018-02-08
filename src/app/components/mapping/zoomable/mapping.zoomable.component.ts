@@ -378,7 +378,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .style("stroke", "none")
       .style("fill", "none")
       .attr("d", function(d: any, i: number) {
-        let radius = d.r - 2;
+        let radius = d.r + 1;
         return uiService.getCircularPath(radius, -radius, 0);
       });
 
@@ -754,12 +754,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
         })
         .attr("cx", function(d: any) {
           return d.children
-            ? Math.cos(Math.PI - Math.PI * 36 / 180) * (d.r * k) - 11
+            ? Math.cos(Math.PI - Math.PI * 36 / 180) * (d.r * k) - 12
             : 0;
         })
         .attr("cy", function(d: any) {
           return d.children
-            ? -Math.sin(Math.PI - Math.PI * 36 / 180) * (d.r * k) + 10
+            ? -Math.sin(Math.PI - Math.PI * 36 / 180) * (d.r * k) + 7
             : -d.r * k * 0.8;
         });
     }
