@@ -411,16 +411,16 @@ export class MappingZoomableComponent implements IDataVisualizer {
           : "node node--root";
       })
       .classed("initiative-map", true)
-
+      .classed("with-border", function(d: any) {
+        return !d.children && d.parent === root;
+      })
       .on("click", function(d: any) {
         if (focus !== d) zoom(d), d3.event.stopPropagation();
       });
 
     g.selectAll("circle.node").style("fill", function(d: any) {
-      return d.children ? color(d.depth) : null;
+      return d.children ? color(d.depth) : (!d.children && d.parent === root ? color(d.depth) : null);
     });
-
-    
 
     let textAround = initiative
       .filter(function(d: any) {
