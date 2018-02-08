@@ -458,11 +458,11 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .attr("dy", "0.65em")
         .attr("y", "1.00em")
         .attr("x", CIRCLE_RADIUS + 5)
-        .on("click", function(d: any, i: number) {
-          // console.log("cliked", d.data);
-          showDetailsOf$.next(d.data);
-          d3.event.stopPropagation();
-        })
+        // .on("click", function(d: any, i: number) {
+        //   // console.log("cliked", d.data);
+        //   showDetailsOf$.next(d.data);
+        //   d3.event.stopPropagation();
+        // })
         .text(function(d: any) {
           return d.data.name;
         })

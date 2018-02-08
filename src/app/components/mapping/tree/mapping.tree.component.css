@@ -31,7 +31,7 @@
 }
 ::ng-deep .name.tree-map:hover{
   pointer-events: auto;
-  text-decoration: underline;
+  /* text-decoration: underline; */
 }
 
 ::ng-deep .accountable.tree-map{
@@ -39,7 +39,7 @@
 }
 
 ::ng-deep .accountable.tree-map:hover{
-  text-decoration: underline;
+  /* text-decoration: underline; */
 }
 
 
