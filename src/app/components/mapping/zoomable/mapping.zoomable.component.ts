@@ -416,7 +416,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
         if (focus !== d) zoom(d), d3.event.stopPropagation();
       });
 
-    console.log(g.selectAll("circle.node"))
     g.selectAll("circle.node").style("fill", function(d: any) {
       return d.children ? color(d.depth) : null;
     });

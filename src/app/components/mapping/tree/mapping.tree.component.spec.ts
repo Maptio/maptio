@@ -78,6 +78,7 @@ describe("mapping.tree.component.ts", () => {
         component.selectableTags$ = Observable.of([]);
         component.fontSize$ = Observable.of(12);
         component.fontColor$ = Observable.of("")
+        component.mapColor$ = Observable.of("")
         component.zoomInitiative$ = Observable.of(new Initiative());
 
         // component.isLocked$ = Observable.of(true);

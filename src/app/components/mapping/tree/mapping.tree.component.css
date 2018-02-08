@@ -8,7 +8,7 @@
 
 ::ng-deep .node.tree-map circle {
   /*fill: #fff;*/
-  stroke: steelblue;
+  /* stroke: steelblue; */
   /* stroke-width: 1.5px; */
 }
 
@@ -22,8 +22,8 @@
 
 ::ng-deep .link.tree-map {
   fill: none;
-  stroke: #ccc;
-  stroke-width: 1.5px;
+  /* stroke: #ccc; */
+  stroke-width: 2.5px;
 }
 
 ::ng-deep .name.tree-map{

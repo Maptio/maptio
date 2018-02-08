@@ -39,6 +39,7 @@ export class MemberSummaryComponent implements OnInit, IDataVisualizer {
     public tagsState: Array<SelectableTag>;
     public fontSize$: Observable<number>;
     public fontColor$: Observable<string>;
+    public mapColor$: Observable<string>;
     public zoomInitiative$: Observable<Initiative>;
     // public isLocked$: Observable<boolean>;
     public isReset$: Observable<boolean>;

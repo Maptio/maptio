@@ -41,7 +41,6 @@ export class ColorService implements OnInit {
     depth: number,
     seedColor: string
   ): ScaleLinear<HSLColor, string> {
-    console.log(depth, seedColor);
     let seed = this.d3.hsl(seedColor);
     return this.d3
       .scaleLinear<HSLColor, HSLColor>()

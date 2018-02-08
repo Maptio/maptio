@@ -46,6 +46,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   public selectableTags$: Observable<Array<SelectableTag>>;
   public fontSize$: Observable<number>;
   public fontColor$: Observable<string>;
+  public mapColor$: Observable<string>;
   public zoomInitiative$: Observable<Initiative>;
   // public isLocked$: Observable<boolean>;
   public isReset$: Observable<boolean>;
@@ -208,13 +209,13 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     this.init();
     this.dataSubscription = this.dataService
       .get()
-      .combineLatest(this.selectableTags$)
-      .subscribe(complexData => {
+      .combineLatest(this.selectableTags$, this.mapColor$)
+      .subscribe((complexData: [any, SelectableTag[], string]) => {
         let data = <any>complexData[0].initiative;
         this.datasetId = complexData[0].datasetId;
         this.slug = data.getSlug();
         this.tagsState = complexData[1];
-        this.update(data, complexData[1]);
+        this.update(data, complexData[1], complexData[2]);
         this.analytics.eventTrack("Map", {
           view: "people",
           team: data.teamName,
@@ -246,7 +247,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   }
 
   // draw(translateX: number, translateY: number, scale: number) {
-  update(data: any, tags: Array<SelectableTag>) {
+  update(data: any, tags: Array<SelectableTag>, seedColor: string) {
     if (this.d3.selectAll("g").empty()) {
       this.init();
     }
@@ -291,7 +292,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     root.eachAfter(function(n: any) {
       depth = depth > n.depth ? depth : n.depth;
     });
-    let color = colorService.getDefaulColorRange(depth);
+    let color = colorService.getColorRange(depth, seedColor);
 
     // Collapse after the third level
     root.children.forEach((c: any) => {
@@ -655,6 +656,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .insert("path", "g")
         .attr("class", "link")
         .classed("tree-map", true)
+        .style("stroke", function(d: any) {
+          return color(d.depth);
+        })
         .attr("d", function(d: any) {
           let o = { x: source.x0, y: source.y0 };
           return diagonal(o, o);
@@ -667,6 +671,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       linkUpdate
         .transition()
         .duration(duration)
+        .style("stroke", function(d: any) {
+          return color(d.depth);
+        })
         .attr("d", function(d: any) {
           return diagonal(d, d.parent);
         });
