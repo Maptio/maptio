@@ -27,7 +27,7 @@
 }
 
 ::ng-deep .name.tree-map{
-  font-size: small;
+  /* font-size: small; */
 }
 ::ng-deep .name.tree-map:hover{
   pointer-events: auto;

@@ -46,6 +46,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public selectableUsers$: Observable<Array<SelectableUser>>;
   public isReset$: Observable<boolean>;
   public fontSize$: Observable<number>;
+  public fontColor$: Observable<string>;
   public zoomInitiative$: Observable<Initiative>;
   public isLocked$: Observable<boolean>;
   public data$: Subject<{
@@ -228,11 +229,17 @@ export class MappingZoomableComponent implements IDataVisualizer {
       } catch (error) {}
     });
 
-    this.fontSubscription = this.fontSize$.subscribe((fs: number) => {
-      svg.attr("font-size", fs + "px");
-      svg.selectAll("text").attr("font-size", fs + "px");
-      this.fontSize = fs;
-    });
+    this.fontSubscription = this.fontSize$
+      .combineLatest(this.fontColor$)
+      .subscribe((format: [number, string]) => {
+        // font size
+        svg.attr("font-size", format[0] + "em");
+        svg.selectAll("text").attr("font-size", format[0] + "em");
+        this.fontSize = format[0];
+        // font color
+        svg.style("fill", format[1]);
+        svg.selectAll("text").style("fill", format[1]);
+      });
 
     this.zoomInitiative$.subscribe(node => {
       svg.select(`circle.initiative-map[id="${node.id}"]`).dispatch("click");
@@ -454,7 +461,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return -d.r * 0.1;
       })
       .attr("font-size", function(d: any) {
-        return `${fonts(d.depth)}px`;
+        return `${fonts(d.depth)}em`;
       })
       .text(function(d: any) {
         return d.data.name;
@@ -527,7 +534,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return d.parent === root || d.depth <= 3 ? 1 : 0;
       })
       .attr("font-size", function(d: any) {
-        return `${fonts(d.depth) * 0.8}px`;
+        return `${fonts(d.depth) * 0.8}em`;
       })
       .attr("x", function(d: any) {
         return 0;
@@ -636,7 +643,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             })
             .attr("dy", 0)
             .attr("font-size", function(d: any) {
-              return `${fonts(d.depth) / 2 * d.k}px`;
+              return `${fonts(d.depth) / 2 * d.k}em`;
             })
             // .text(function (d: any) { return d.data.name })
             .each(function(d: any) {
@@ -669,7 +676,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
               return -d.r * d.k * 0.45;
             })
             .attr("font-size", function(d: any) {
-              return `${fonts(d.depth) / 2 * d.k * 0.8}px`;
+              return `${fonts(d.depth) / 2 * d.k * 0.8}em`;
             });
         });
 

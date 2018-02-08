@@ -114,7 +114,8 @@
     <a class="btn btn-secondary minus" (click)="zoomOut()" placement="left" container="body" ngbTooltip="Zoom out"></a>
     <a class="btn btn-secondary plus" (click)="zoomIn()" placement="left" container="body" ngbTooltip="Zoom in"></a>
     <a class="btn btn-secondary reset" (click)="resetZoom()" placement="left" container="body" ngbTooltip="Zoom fit"></a>
-    <a class="btn btn-secondary settings" (click)="isSettingToggled=!isSettingToggled" placement="left" container="body" ngbTooltip="Settings"></a>
+    <a class="btn btn-secondary settings" [class.active]="isSettingToggled" (click)="isSettingToggled=!isSettingToggled" placement="left"
+      container="body" ngbTooltip="Settings"></a>
   </div>
 </div>
 
@@ -122,17 +123,27 @@
   <div class="card card-block">
     <h6 class="card-subtitle">Text settings</h6>
     <div class="form-group form-inline">
-      <label for="example-time-input" class="col-6 col-form-label">Text size</label>
-      <div class="col-6">
-        <input class="vertical transparent" #fontInput name="fontInput" type="range" min="8" max="30" value="16" (change)="changeFontSize(fontInput.value)"
-          orient="vertical">
-      </div>
+      <label for="fontSizeInput" class="col-form-label col-2">Size</label>
+
+      <span class="fontSizeOutput">x {{fontSize$ | async}}</span>
+      <input class="col-6" #fontInput name="fontSizeInput" type="range" min="0.2" max="2" value="{{fontSize$ | async}}"
+        step="0.1" (change)="changeFontSize(fontInput.value)" orient="vertical">
+     
+      <button class="btn  btn-secondary text-muted ml-4" (click)="changeFontSize(1)">Reset</button>
+
+    </div>
+    <div class="form-group form-inline">
+        <label for="example-time-input" class="col-form-label col-2">Color</label>
+        <input class="col-6 form-control ml-1" [(colorPicker)]="fontColor" [style.background]="fontColor"
+        [value]="fontColor" [cpOutputFormat]="'hex'" [cpPosition]="'bottom'" [cpPositionOffset]="'40%'" [cpPositionRelativeToArrow]="true"
+        (colorPickerChange)="changeFontColor($event)" />
+        <button class="btn  btn-secondary text-muted ml-4" (click)="changeFontColor('#000')">Reset</button>
     </div>
   </div>
 
 </div>
 
 
-<div tabIndex="-1" class="map" (focus)="isSettingToggled=false">
+<div tabIndex="-1" class="map">
   <router-outlet (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>
 </div>

@@ -98,7 +98,10 @@ export class MappingComponent {
   // public members: Array<SelectableUser>;
   // public usersFragment: string;
 
+  // TODO : replace by a format object
   public fontSize$: BehaviorSubject<number>;
+  public fontColor$: BehaviorSubject<string>;
+
   public zoomToInitiative$: Subject<Initiative>;
   // public isLocked$: BehaviorSubject<boolean>;
   public closeEditingPanel$: BehaviorSubject<boolean>;
@@ -126,6 +129,7 @@ export class MappingComponent {
   public instance: IDataVisualizer;
   public newTagForm: FormGroup;
   newTagColor = "#fff";
+  fontColor = "#000"
 
   isFiltersToggled: boolean = false;
 
@@ -141,7 +145,8 @@ export class MappingComponent {
     this.isReset$ = new Subject<boolean>();
     this.selectableTags$ = new ReplaySubject<Array<SelectableTag>>();
     // this.selectableUsers$ = new ReplaySubject<Array<SelectableUser>>();
-    this.fontSize$ = new BehaviorSubject<number>(16);
+    this.fontSize$ = new BehaviorSubject<number>(1);
+    this.fontColor$ = new BehaviorSubject<string>("#000");
     this.zoomToInitiative$ = new Subject();
     // this.isLocked$ = new BehaviorSubject<boolean>(this.isLocked);
     this.closeEditingPanel$ = new BehaviorSubject<boolean>(false);
@@ -159,7 +164,6 @@ export class MappingComponent {
   ngAfterViewInit() {}
 
   onActivate(component: IDataVisualizer) {
-    
     component.showDetailsOf$.asObservable().subscribe(node => {
       this.showDetails.emit(node);
     });
@@ -212,6 +216,7 @@ export class MappingComponent {
     component.selectableTags$ = this.selectableTags$.asObservable();
     // component.selectableUsers$ = this.selectableUsers$.asObservable();
     component.fontSize$ = this.fontSize$.asObservable();
+    component.fontColor$ = this.fontColor$.asObservable();
     component.zoomInitiative$ = this.zoomToInitiative$.asObservable();
     // component.isLocked$ = this.isLocked$.asObservable();
     component.translateX = this.x;
@@ -228,8 +233,7 @@ export class MappingComponent {
     }
   }
 
-  onDeactivate(component: any) {
-  }
+  onDeactivate(component: any) {}
 
   ngOnInit() {
     this.subscription = this.route.params
@@ -378,6 +382,17 @@ export class MappingComponent {
     this.analytics.eventTrack("Map", {
       action: "change font size",
       size: size,
+      team: this.teamName,
+      teamId: this.teamId
+    });
+  }
+
+  changeFontColor(color: string) {
+    this.fontColor$.next(color);
+    this.fontColor = color;
+    this.analytics.eventTrack("Map", {
+      action: "change font color",
+      color: color,
       team: this.teamName,
       teamId: this.teamId
     });

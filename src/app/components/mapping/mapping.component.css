@@ -254,3 +254,9 @@
   padding-right: 7vw;
 }
 
+.fontSizeOutput{
+  position: absolute;
+  top: 3vh;
+  left: 14vw;
+  font-size: small;
+}

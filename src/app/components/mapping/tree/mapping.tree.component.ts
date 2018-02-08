@@ -45,6 +45,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   public zoom$: Observable<number>;
   public selectableTags$: Observable<Array<SelectableTag>>;
   public fontSize$: Observable<number>;
+  public fontColor$: Observable<string>;
   public zoomInitiative$: Observable<Initiative>;
   // public isLocked$: Observable<boolean>;
   public isReset$: Observable<boolean>;
@@ -154,10 +155,16 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       );
     let definitions = g.append("defs");
 
-    this.fontSubscription = this.fontSize$.subscribe((fs: number) => {
-      svg.attr("font-size", fs + "px");
-      d3.selectAll("text").attr("font-size", fs + "px");
-    });
+    this.fontSubscription = this.fontSize$
+      .combineLatest(this.fontColor$)
+      .subscribe((format: [number, string]) => {
+        // font size
+        svg.attr("font-size", format[0] + "em");
+        svg.selectAll("text").attr("font-size", format[0] + "em");
+        // font color
+        svg.style("fill", format[1]);
+        svg.selectAll("text").style("fill", format[1]);
+      });
 
     try {
       // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
@@ -493,30 +500,30 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                             <tspan>${
                               d.data.accountable ? d.data.accountable.name : ""
                             }</tspan>`;
-        })
-        // .text(function (d: any) { return d.data.accountable ? d.data.accountable.name : ""; })
-        // .on("click", function(d: any) {
-        //   if (d.data.accountable) {
-        //     // TODO : keep until migration of database towards shortids
-        //     if (!d.data.accountable.shortid) {
-        //       userFactory
-        //         .get(d.data.accountable.user_id)
-        //         .then(u => (d.data.accountable.shortid = u.shortid))
-        //         .then(() => {
-        //           router.navigateByUrl(
-        //             `/map/${datasetId}/${slug}/u/${
-        //               d.data.accountable.shortid
-        //             }/${d.data.accountable.getSlug()}`
-        //           );
-        //         });
-        //     }
-        //     router.navigateByUrl(
-        //       `/map/${datasetId}/${slug}/u/${
-        //         d.data.accountable.shortid
-        //       }/${d.data.accountable.getSlug()}`
-        //     );
-        //   }
-        // });
+        });
+      // .text(function (d: any) { return d.data.accountable ? d.data.accountable.name : ""; })
+      // .on("click", function(d: any) {
+      //   if (d.data.accountable) {
+      //     // TODO : keep until migration of database towards shortids
+      //     if (!d.data.accountable.shortid) {
+      //       userFactory
+      //         .get(d.data.accountable.user_id)
+      //         .then(u => (d.data.accountable.shortid = u.shortid))
+      //         .then(() => {
+      //           router.navigateByUrl(
+      //             `/map/${datasetId}/${slug}/u/${
+      //               d.data.accountable.shortid
+      //             }/${d.data.accountable.getSlug()}`
+      //           );
+      //         });
+      //     }
+      //     router.navigateByUrl(
+      //       `/map/${datasetId}/${slug}/u/${
+      //         d.data.accountable.shortid
+      //       }/${d.data.accountable.getSlug()}`
+      //     );
+      //   }
+      // });
 
       // UPDATE
       let nodeUpdate = nodeEnter.merge(node);

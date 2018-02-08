@@ -12,7 +12,7 @@
 }
 
 ::ng-deep .initiative-map.node text {
-    fill: #fff;
+    /* fill: #fff; */
 }
 
 ::ng-deep .initiative-map.node--leaf {
