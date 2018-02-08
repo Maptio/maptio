@@ -476,3 +476,8 @@ button[data-handler="bootstrap-markdown-cmdImage"] {
 svg tspan.dot-tags {
   font-family: FontAwesome;
 }
+
+
+li a.tag{
+  background: transparent;
+}

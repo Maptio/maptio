@@ -116,7 +116,6 @@ export class UIService {
       // });
     });
   }
-  
 
   filter(
     selectedTags: any[],
@@ -185,9 +184,9 @@ export class UIService {
                 <h6 class="mb-1 lead"><button class="btn btn-link lead open-initiative" id="${
                   initiative.id
                 }">${initiative.name}</button></h6>
+                <ul class="tags small"> ${tagsSpan}</ul>
                 <div class="mb-0 p-0 ml-0">${accountableImg}</div>
                 <div class="row pl-3 mb-2 d-flex justify-content-start" >${helpersImg}</div>
-                <ul class="tags small"> ${tagsSpan}</ul>
                 <small>${this.markdown.compile(
                   initiative.description || ""
                 )}</small>
