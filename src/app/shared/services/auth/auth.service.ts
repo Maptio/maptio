@@ -51,9 +51,9 @@ export class Auth {
     let FONT_COLOR = localStorage.getItem("FONT_COLOR");
     let MAP_COLOR = localStorage.getItem("MAP_COLOR");
     localStorage.clear();
-    localStorage.setItem("FONT_SIZE", FONT_SIZE);
-    localStorage.setItem("FONT_COLOR", FONT_COLOR);
-    localStorage.setItem("MAP_COLOR", MAP_COLOR);
+    localStorage.setItem("FONT_SIZE", FONT_SIZE || "");
+    localStorage.setItem("FONT_COLOR", FONT_COLOR || "");
+    localStorage.setItem("MAP_COLOR", MAP_COLOR || "");
   }
 
   // public shutDownIntercom() {
