@@ -538,9 +538,9 @@ export class MappingComponent {
           : this.flattenInitiative.filter(
               v =>
                 v.name.toLowerCase().indexOf(term.toLowerCase()) > -1 ||
-                // (v.description &&
-                //   v.description.toLowerCase().indexOf(term.toLowerCase()) >
-                //     -1) ||
+                (v.description &&
+                  v.description.toLowerCase().indexOf(term.toLowerCase()) >
+                    -1) ||
                 (v.accountable &&
                   v.accountable.name.toLowerCase().indexOf(term.toLowerCase()) >
                     -1) ||
