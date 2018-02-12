@@ -550,7 +550,7 @@ export class MappingComponent {
                   .join("")
                   .toLowerCase()
                   .indexOf(term.toLowerCase()) > -1)
-          );
+          ).slice(0,10);
       })
       .do(list => {
         this.searchResultsCount = list.length;
