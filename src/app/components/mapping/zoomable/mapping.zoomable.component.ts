@@ -279,7 +279,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   }
 
   update(data: Initiative, tags: Array<SelectableTag>, seedColor: string) {
-    console.log("update");
+    // console.log("update");
     if (this.d3.selectAll("g").empty()) {
       this.init();
     }
@@ -308,7 +308,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let pack = d3
       .pack()
       .size([diameter - margin, diameter - margin])
-      .padding(10);
+      .padding(function (d: any) {
+        // if node has siblings who are branches , padding is 35
+        // otherwise padding is 2 ;
+        console.log(d.data.name, 30 / d.depth)
+        return d.parent ? 30 / d.depth : 0;
+      });
 
     let root: any = d3
       .hierarchy(data)
@@ -619,12 +624,30 @@ export class MappingZoomableComponent implements IDataVisualizer {
             zoomTo(i(t));
           };
         })
+        .on("start", function (d: any) {
+          d3.selectAll(`div.arrow_box`).classed("show", false)
+        })
         .on("end", function (d: any) { });
 
       let revealTransition = d3
         .transition("reveal")
         .delay(TRANSITION_DURATION)
         .duration(TRANSITION_DURATION);
+
+      function getDepthDifference(d: any): number {
+        return d.depth - focus.depth;
+      }
+
+      function isBranchDisplayed(d: any): boolean {
+        return getDepthDifference(d) <= 2;
+      }
+      function isLeafDisplayed(d: any): boolean {
+        return getDepthDifference(d) <= 1;
+      }
+
+      // function isDisplay(d: any): boolean {
+      //   return d.children ? isBranchDisplayed(d) : isLeafDisplayed(d);
+      // }
 
       // with children
 
@@ -638,11 +661,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
           d3
             .select(this)
             .style("opacity", function (d: any) {
-              return d.depth - focus.depth <= 1 ? 1 : 0;
+              return isBranchDisplayed(d) ? 1 : 0;
             })
             .style("display", function (d: any) {
               return d !== root
-                ? d.depth - focus.depth <= 1 ? "inline" : "none"
+                ? isBranchDisplayed(d) ? "inline" : "none"
                 : "none";
             });
           // .attr("font-size", function (d: any) { return `${fonts(d.depth) * d.k / 2}px` })
@@ -652,11 +675,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .selectAll("circle.accountable")
         .filter((d: any) => d.children)
         .style("fill-opacity", function (d: any) {
-          return d.depth - focus.depth <= 1 ? 1 : 0;
+          return isBranchDisplayed(d) ? 1 : 0;
         })
         .style("display", function (d: any) {
           return d !== root
-            ? d.depth - focus.depth <= 1 ? "inline" : "none"
+            ? isBranchDisplayed(d) ? "inline" : "none"
             : "none";
         });
 
@@ -665,13 +688,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .selectAll("text")
         .filter((d: any) => !d.children)
         .style("opacity", function (d: any) {
-          return d.depth - focus.depth <= 2 ? "1" : "0";
+          return isLeafDisplayed(d) ? "1" : "0";
         });
       revealTransition
         .selectAll("circle.accountable")
         .filter((d: any) => !d.children)
         .style("opacity", function (d: any) {
-          return d.depth - focus.depth <= 2 ? "1" : "0";
+          return isLeafDisplayed(d) ? "1" : "0";
         });
 
       transition
@@ -703,7 +726,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
               );
             })
             .style("opacity", function (d: any) {
-              return d.depth - focus.depth <= 2 ? "1" : "0";
+              return isLeafDisplayed(d) ? "1" : "0";
             });
         });
 
@@ -798,9 +821,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
           let left = window.pageXOffset + matrix.e - TOOLTIP_WIDTH / 2;
           let top = window.pageYOffset + matrix.f - TOOLTIP_HEIGHT - ARROW_DIMENSION - d.r * k;
           let bottom = window.pageYOffset + matrix.f + ARROW_DIMENSION + d.r * k;
-          console.log(d.data.name, window.pageXOffset + matrix.e + d.r * d.k + ARROW_DIMENSION, Number.parseFloat(svg.attr("width")) - 400)
+          // console.log(d.data.name, window.pageXOffset + matrix.e + d.r * d.k + ARROW_DIMENSION, Number.parseFloat(svg.attr("width")) - 400)
 
-          let isHorizontalPosition = bottom + TOOLTIP_HEIGHT > Number.parseFloat(svg.attr("height"));
+          let isHorizontalPosition = top < 0 && bottom + TOOLTIP_HEIGHT > Number.parseFloat(svg.attr("height"));
           let isLeft = window.pageXOffset + matrix.e + d.r * d.k + ARROW_DIMENSION < Number.parseFloat(svg.attr("width")) - 400;
           tooltip
             .style("z-index", 2000)

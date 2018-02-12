@@ -171,7 +171,7 @@ export class MappingComponent {
     });
   }
 
-  ngAfterViewInit() {}
+  ngAfterViewInit() { }
 
   onActivate(component: IDataVisualizer) {
     component.showDetailsOf$.asObservable().subscribe(node => {
@@ -201,14 +201,14 @@ export class MappingComponent {
 
     let tagsState =
       this.uriService.parseFragment(f).has("tags") &&
-      this.uriService.parseFragment(f).get("tags")
+        this.uriService.parseFragment(f).get("tags")
         ? this.uriService
-            .parseFragment(f)
-            .get("tags")
-            .split(",")
-            .map(
-              (s: string) => new SelectableTag({ shortid: s, isSelected: true })
-            )
+          .parseFragment(f)
+          .get("tags")
+          .split(",")
+          .map(
+          (s: string) => new SelectableTag({ shortid: s, isSelected: true })
+          )
         : [];
     // let membersState = this.uriService.parseFragment(f).has("users") && this.uriService.parseFragment(f).get("users")
     //     ? this.uriService.parseFragment(f).get("users")
@@ -244,7 +244,7 @@ export class MappingComponent {
     }
   }
 
-  onDeactivate(component: any) {}
+  onDeactivate(component: any) { }
 
   ngOnInit() {
     this.subscription = this.route.params
@@ -264,15 +264,15 @@ export class MappingComponent {
 
         let fragmentTags =
           this.uriService.parseFragment(fragment).has("tags") &&
-          this.uriService.parseFragment(fragment).get("tags")
+            this.uriService.parseFragment(fragment).get("tags")
             ? this.uriService
-                .parseFragment(fragment)
-                .get("tags")
-                .split(",")
-                .map(
-                  (s: string) =>
-                    new SelectableTag({ shortid: s, isSelected: true })
-                )
+              .parseFragment(fragment)
+              .get("tags")
+              .split(",")
+              .map(
+              (s: string) =>
+                new SelectableTag({ shortid: s, isSelected: true })
+              )
             : <SelectableTag[]>[];
         // let fragmentUsers = this.uriService.parseFragment(fragment).has("users") && this.uriService.parseFragment(fragment).get("users")
         //     ? this.uriService.parseFragment(fragment).get("users")
@@ -305,7 +305,7 @@ export class MappingComponent {
         this.cd.markForCheck();
       });
 
-    this.route.fragment.subscribe(f => {});
+    this.route.fragment.subscribe(f => { });
   }
 
   ngOnDestroy() {
@@ -536,21 +536,21 @@ export class MappingComponent {
         return term === ""
           ? this.flattenInitiative
           : this.flattenInitiative.filter(
-              v =>
-                v.name.toLowerCase().indexOf(term.toLowerCase()) > -1 ||
-                (v.description &&
-                  v.description.toLowerCase().indexOf(term.toLowerCase()) >
-                    -1) ||
-                (v.accountable &&
-                  v.accountable.name.toLowerCase().indexOf(term.toLowerCase()) >
-                    -1) ||
-                (v.helpers &&
-                  v.helpers
-                    .map(h => h.name)
-                    .join("")
-                    .toLowerCase()
-                    .indexOf(term.toLowerCase()) > -1)
-            );
+            v =>
+              v.name.toLowerCase().indexOf(term.toLowerCase()) > -1 ||
+              (v.description &&
+                v.description.toLowerCase().indexOf(term.toLowerCase()) >
+                -1) ||
+              (v.accountable &&
+                v.accountable.name.toLowerCase().indexOf(term.toLowerCase()) >
+                -1) ||
+              (v.helpers &&
+                v.helpers
+                  .map(h => h.name)
+                  .join("")
+                  .toLowerCase()
+                  .indexOf(term.toLowerCase()) > -1)
+          );
       })
       .do(list => {
         this.searchResultsCount = list.length;
@@ -566,5 +566,14 @@ export class MappingComponent {
     this.isSearching = false;
     this.cd.markForCheck();
     this.zoomToInitiative$.next(initiative);
+  }
+
+  closeSettingsPanel(event: Event) {
+    this.isSettingToggled = false;
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+    event.preventDefault();
+    console.log(event);
+    return false;
   }
 }
