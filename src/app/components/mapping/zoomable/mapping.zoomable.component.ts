@@ -176,7 +176,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     let zooming = d3
       .zoom()
-      .scaleExtent([2 / 3, 4 / 3])
+      .scaleExtent([1, 1])
       .on("zoom", zoomed)
       .on("end", () => {
         let transform = d3.event.transform;

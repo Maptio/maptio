@@ -15,7 +15,7 @@
   top: 10vh;
   margin-right: 0.5vw;
   border-radius: 4px;
-  background-color: rgb(224, 224, 224);
+  /* background-color: rgb(224, 224, 224); */
   /* width: 43px; */
   transition: 0.3s ease-in;
 }
@@ -24,9 +24,13 @@
   right: 45vw;
   transition: 0.3s ease-in;
 } */
+.control.zero {
+  top: 5vh;
+}
+
 
 .control.first {
-  top: 5vh;
+  top: 15vh;
 }
 
 .control.first > .btn-group-vertical {
@@ -34,11 +38,11 @@
 }
 
 .control.second {
-  top: 25vh;
+  top: 35vh;
 }
 
 .control.third {
-  top: 45vh;
+  top: 55vh;
 }
 
 .control.fourth {
@@ -244,16 +248,18 @@
 
 .static-value {
   position: absolute;
-  right: 2vw;
-  font-size: 0.8em;
+  left: 1vw;
+  /* font-size: 0.8em; */
   color: #444;
   top: 9px;
 }
 
 .search{
-  padding-right: 7vw;
-  background: #00000005;
+  /* padding-right: 7vw;
+  background: #00000005; */
   font-weight: 400;
+  width:30vw;
+  padding-left: 3vw;
 }
 
 :host /deep/  .dropdown-item.active, .dropdown-item:active {
