@@ -793,20 +793,37 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .height;
           let TOOLTIP_WIDTH = (tooltip.node() as HTMLElement).getBoundingClientRect()
             .width;
+          let ARROW_DIMENSION = 10;
 
           let left = window.pageXOffset + matrix.e - TOOLTIP_WIDTH / 2;
-          let top =
-            window.pageYOffset + matrix.f - TOOLTIP_HEIGHT - 10 - d.r * k;
-          let bottom = window.pageYOffset + matrix.f + 10 + d.r * k;
-          console.log(d.data.name, top, bottom)
+          let top = window.pageYOffset + matrix.f - TOOLTIP_HEIGHT - ARROW_DIMENSION - d.r * k;
+          let bottom = window.pageYOffset + matrix.f + ARROW_DIMENSION + d.r * k;
+          console.log(d.data.name, window.pageXOffset + matrix.e + d.r * d.k + ARROW_DIMENSION, Number.parseFloat(svg.attr("width")) - 400)
+
+          let isHorizontalPosition = bottom + TOOLTIP_HEIGHT > Number.parseFloat(svg.attr("height"));
+          let isLeft = window.pageXOffset + matrix.e + d.r * d.k + ARROW_DIMENSION < Number.parseFloat(svg.attr("width")) - 400;
           tooltip
-            .style("left", `${left}px`)
+            .style("z-index", 2000)
+            .style("left", () => {
+              return isHorizontalPosition
+                ? (isLeft
+                  ? `${window.pageXOffset + matrix.e + d.r * d.k + ARROW_DIMENSION}px`
+                  : `${window.pageXOffset + matrix.e - d.r * d.k - TOOLTIP_WIDTH - ARROW_DIMENSION}px`)
+                : `${left}px`
+            })
             .style("top", () => {
-              return top > 0 ? `${top}px` : `${bottom}px`;
+              return isHorizontalPosition
+                ? `${window.pageYOffset + matrix.f - TOOLTIP_HEIGHT / 2}px`
+                : (
+                  top > 0
+                    ? `${top}px`
+                    : `${bottom}px`);
             })
             .classed("show", true)
-            .classed("arrow-top", top < 0)
-            .classed("arrow-bottom", top >= 0)
+            .classed("arrow-top", !isHorizontalPosition && top < 0)
+            .classed("arrow-bottom", !isHorizontalPosition && top >= 0)
+            .classed("arrow-left", isHorizontalPosition && isLeft)
+            .classed("arrow-right", isHorizontalPosition && !isLeft)
             .on("click", function (d: any) {
               tooltip.classed("show", false);
             });
