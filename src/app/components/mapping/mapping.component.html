@@ -166,11 +166,11 @@
 </div> -->
 
 <div class="control zero form-inline">
-  <input *ngIf="isSearchToggle" #initiativeSearch [resultTemplate]="rt" type="text" id="initiativeSearch" class="form-control search mr-2" (selectItem)="zoomToInitiative($event)"
+  <input *ngIf="isSearchToggled" #initiativeSearch [resultTemplate]="rt" type="text" id="initiativeSearch" class="form-control search mr-2" (selectItem)="zoomToInitiative($event)"
     [ngbTypeahead]="searchInitiatives" [resultFormatter]="formatter" [inputFormatter]="formatter" editable="false" (focus)="initiativeSearch.value=''"
     placement="bottom-right" />
   <div class="btn-group-vertical">
-    <a class="btn btn-secondary" [class.active]="isSearchToggle" (click)="isSearchToggle=!isSearchToggle">
+    <a class="btn btn-secondary" [class.active]="isSearchToggled" (click)="isSearchToggled=!isSearchToggled">
       <i class="fa fa-search"></i>
     </a>
   </div>

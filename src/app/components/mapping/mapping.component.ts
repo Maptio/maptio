@@ -76,6 +76,7 @@ export class MappingComponent {
   //   public isSettingsPanelCollapsed: boolean = true;
   //   public isTagSettingActive: boolean;
   public isSettingToggled: boolean;
+  public isSearchToggled: boolean;
 
   public zoom$: Subject<number>;
   public isReset$: Subject<boolean>;
@@ -550,7 +551,7 @@ export class MappingComponent {
                   .join("")
                   .toLowerCase()
                   .indexOf(term.toLowerCase()) > -1)
-          ).slice(0,10);
+          ).slice(0, 10);
       })
       .do(list => {
         this.searchResultsCount = list.length;
