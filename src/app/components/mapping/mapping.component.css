@@ -47,11 +47,13 @@
 }
 
 .control.third {
-  top: 54vh;
+  top: 49vh;
+  right: 4vw
 }
 
 .control.fourth {
   top: 78vh;
+
 }
 
 .icon-text-label{
@@ -188,7 +190,6 @@
 .map {
   margin-left: 0;
   transition: 0.3s ease-in;
-  background-color: #f7f7f7;
 }
 
 .map.slide {
