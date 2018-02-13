@@ -315,7 +315,7 @@ export class MappingComponent {
 
   getFragment(component: IDataVisualizer) {
     switch (component.constructor) {
-      case MappingCirclesComponent:
+      case MappingZoomableComponent:
         return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_HEIGHT /
           2}&scale=1`;
       case MappingTreeComponent:

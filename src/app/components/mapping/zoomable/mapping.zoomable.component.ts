@@ -314,9 +314,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .pack()
       .size([diameter - margin, diameter - margin])
       .padding(function (d: any) {
-        // if node has siblings who are branches , padding is 35
-        // otherwise padding is 2 ;
-        console.log(d.data.name, d.children ? 65 : 10)
         return PADDING_CIRCLE;
       });
 
@@ -799,7 +796,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .attr("r", function (d: any) {
           return d.r * k;
         })
-        .each((d: any) => (d.k = k, d.scale = +svg.attr("scale")))
+        .each((d: any) => (d.k = k))
         .on("mouseover", function (d: any) {
           d3.event.stopPropagation();
 
@@ -809,31 +806,33 @@ export class MappingZoomableComponent implements IDataVisualizer {
             +this.getAttribute("cy")
           );
 
+
           let TOOLTIP_HEIGHT = (tooltip.node() as HTMLElement).getBoundingClientRect()
             .height;
           let TOOLTIP_WIDTH = (tooltip.node() as HTMLElement).getBoundingClientRect()
             .width;
           let ARROW_DIMENSION = 10;
           let DEFAULT_ANGLE = 180 - 36;
-          let SCALE = + svg.attr("scale")
-          console.log(d.data.name, matrix.e, matrix.f, window.pageXOffset, window.pageYOffset, d.k, SCALE);
+          let svgScale = + svg.attr("scale");
 
-          let left = window.pageXOffset + matrix.e - TOOLTIP_WIDTH / 2;
-          let top = window.pageYOffset + matrix.f - TOOLTIP_HEIGHT - ARROW_DIMENSION - d.r * d.k * SCALE;
-          let bottom = window.pageYOffset + matrix.f + ARROW_DIMENSION + d.r * d.k * SCALE;
+          let center = { x: window.pageXOffset + matrix.e, y: window.pageYOffset + matrix.f };
+          let radius = d.r * d.k * svgScale;
+
+          let left = center.x - TOOLTIP_WIDTH / 2;
+          let top = center.y - TOOLTIP_HEIGHT - ARROW_DIMENSION - radius;
+          let bottom = center.y + ARROW_DIMENSION + radius;
 
           let isHorizontalPosition = top < 0 && bottom + TOOLTIP_HEIGHT > Number.parseFloat(svg.attr("height"));
-          let isLeft = window.pageXOffset + matrix.e + d.r * d.k * SCALE + ARROW_DIMENSION < Number.parseFloat(svg.attr("width")) - 400;
-          tooltip
+           tooltip
             .style("z-index", 2000)
             .style("left", () => {
               return isHorizontalPosition
-                ? `${window.pageXOffset + matrix.e + d.r * d.k * SCALE * Math.cos(DEFAULT_PICTURE_ANGLE) - TOOLTIP_WIDTH / 2 - ARROW_DIMENSION}px`
+                ? `${center.x + radius * Math.cos(DEFAULT_PICTURE_ANGLE) - TOOLTIP_WIDTH / 2 - ARROW_DIMENSION}px`
                 : `${left}px`
             })
             .style("top", () => {
               return isHorizontalPosition
-                ? `${window.pageYOffset + matrix.f - d.r * d.k * SCALE * Math.sin(DEFAULT_PICTURE_ANGLE) + CIRCLE_RADIUS * 2}px`
+                ? `${center.y - radius * Math.sin(DEFAULT_PICTURE_ANGLE) + CIRCLE_RADIUS * 2}px`
                 : (
                   top > 0
                     ? `${top}px`

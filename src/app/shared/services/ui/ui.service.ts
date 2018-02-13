@@ -53,6 +53,7 @@ export class UIService {
       .select("svg")
       .selectAll("*")
       .remove();
+    this.d3.selectAll("div.arrow_box").remove();
   }
 
   wrap(
