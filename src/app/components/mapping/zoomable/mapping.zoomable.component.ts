@@ -238,8 +238,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .combineLatest(this.fontColor$)
       .subscribe((format: [number, string]) => {
         // font size
-        svg.attr("font-size", format[0] + "em");
-        svg.selectAll("text").attr("font-size", format[0] + "em");
+        svg.attr("font-size", format[0] + "rem");
+        svg.selectAll("text").attr("font-size", format[0] + "rem");
         this.fontSize = format[0];
         // font color
         svg.style("fill", format[1]);
@@ -490,7 +490,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return -d.r * POSITION_INITIATIVE_NAME.y;
       })
       .attr("font-size", function (d: any) {
-        return `${fonts(d.depth)}em`;
+        return `${fonts(d.depth)}rem`;
       })
       .text(function (d: any) {
         return d.data.name;
@@ -530,7 +530,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return -d.r * POSITION_TAGS_NAME.y;
       })
       .attr("font-size", function (d: any) {
-        return `${fonts(d.depth) * POSITION_TAGS_NAME.fontRatio}em`;
+        return `${fonts(d.depth) * POSITION_TAGS_NAME.fontRatio}rem`;
       })
       .style("display", "inline")
       .style("opacity", function (d: any) {
@@ -595,7 +595,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return isLeafDisplayed(d) ? 1 : 0;
       })
       .attr("font-size", function (d: any) {
-        return `${fonts(d.depth) * POSITION_ACCOUNTABLE_NAME.fontRatio}em`;
+        return `${fonts(d.depth) * POSITION_ACCOUNTABLE_NAME.fontRatio}rem`;
       })
       .attr("x", function (d: any) {
         return d.r * POSITION_ACCOUNTABLE_NAME.x;
@@ -707,7 +707,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             })
             .attr("dy", 0)
             .attr("font-size", function (d: any) {
-              return `${fonts(d.depth) / 2 * d.k}em`;
+              return `${fonts(d.depth) / 2 * d.k}rem`;
             })
             // .text(function (d: any) { return d.data.name })
             .each(function (d: any) {
@@ -743,7 +743,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
               return `${fonts(d.depth) /
                 2 *
                 d.k *
-                POSITION_ACCOUNTABLE_NAME.fontRatio}em`;
+                POSITION_ACCOUNTABLE_NAME.fontRatio}rem`;
             });
         });
 
@@ -769,7 +769,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
               return `${fonts(d.depth) /
                 2 *
                 d.k *
-                POSITION_TAGS_NAME.fontRatio}em`;
+                POSITION_TAGS_NAME.fontRatio}rem`;
             });
         });
 
