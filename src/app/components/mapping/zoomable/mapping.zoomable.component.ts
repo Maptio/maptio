@@ -135,7 +135,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .get()
       .combineLatest(this.selectableTags$, this.mapColor$)
       .subscribe((complexData: [any, SelectableTag[], string]) => {
-        // console.log("circles assign data")
         let data = <any>complexData[0].initiative;
         this.datasetId = complexData[0].datasetId;
         this.rootNode = complexData[0].initiative;
@@ -279,7 +278,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
   }
 
   update(data: Initiative, tags: Array<SelectableTag>, seedColor: string) {
-    // console.log("update");
     if (this.d3.selectAll("g").empty()) {
       this.init();
     }
@@ -311,7 +309,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .padding(function (d: any) {
         // if node has siblings who are branches , padding is 35
         // otherwise padding is 2 ;
-        console.log(d.data.name, 30 / d.depth)
         return d.parent ? 30 / d.depth : 0;
       });
 
@@ -331,16 +328,23 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let fonts = this.colorService.getFontSizeRange(depth, fontSize);
     let color = this.colorService.getColorRange(depth, seedColor);
 
-    // for (let i = -1; i <= depth; i++) {
-    //     console.log(i, fonts(i))
-    // }
-
     let focus = root,
       nodes = pack(root).descendants(),
       list = d3.hierarchy(data).descendants(),
       view: any;
 
     buildPatterns();
+
+    function getDepthDifference(d: any): number {
+      return d.depth - focus.depth;
+    }
+
+    function isBranchDisplayed(d: any): boolean {
+      return getDepthDifference(d) <= 3;
+    }
+    function isLeafDisplayed(d: any): boolean {
+      return getDepthDifference(d) <= 2;
+    }
 
     let tooltip = d3
       .select("body")
@@ -450,11 +454,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .style("pointer-events", "none")
       // .attr("font-size", function (d: any) { return `${fonts(d.depth)}px` })
       .style("opacity", function (d: any) {
-        return d.parent === root || d.depth <= 3 ? 1 : 0;
+        return isBranchDisplayed(d) ? 1 : 0;
       })
       .style("display", function (d: any) {
         return d !== root
-          ? d.parent === root || d.depth <= 3 ? "inline" : "none"
+          ? isBranchDisplayed(d) ? "inline" : "none"
           : "none";
       })
       .html(function (d: any) {
@@ -489,7 +493,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       })
       .style("display", "inline")
       .style("opacity", function (d: any) {
-        return d.parent === root || d.depth <= 3 ? 1 : 0;
+        return isLeafDisplayed(d) ? 1 : 0;
       })
       .each(function (d: any) {
         uiService.wrap(
@@ -526,7 +530,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       })
       .style("display", "inline")
       .style("opacity", function (d: any) {
-        return d.parent === root || d.depth <= 3 ? 1 : 0;
+        return isLeafDisplayed(d) ? 1 : 0;
       })
       .html(function (d: any) {
         return d.data.tags.map((tag: Tag) => `<tspan fill="${tag.color}" class="dot-tags">&#xf02b</tspan><tspan fill="${tag.color}">${tag.name}</tspan>`).join(" ");
@@ -544,11 +548,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return "url(#image" + d.data.id + ")";
       })
       .style("fill-opacity", function (d: any) {
-        return d.parent === root || d.depth <= 3 ? 1 : 0;
+        return isBranchDisplayed(d) ? 1 : 0;
       })
       .style("display", function (d: any) {
         return d !== root
-          ? d.parent === root || d.depth <= 3 ? "inline" : "none"
+          ? isBranchDisplayed(d) ? "inline" : "none"
           : "none";
       });
 
@@ -564,7 +568,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return "url(#image" + d.data.id + ")";
       })
       .style("opacity", function (d: any) {
-        return d.parent === root || d.depth <= 3 ? 1 : 0;
+        return isLeafDisplayed(d) ? 1 : 0;
       });
 
     let accountableName = initiative
@@ -584,7 +588,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       })
       .style("display", "inline")
       .style("opacity", function (d: any) {
-        return d.parent === root || d.depth <= 3 ? 1 : 0;
+        return isLeafDisplayed(d) ? 1 : 0;
       })
       .attr("font-size", function (d: any) {
         return `${fonts(d.depth) * POSITION_ACCOUNTABLE_NAME.fontRatio}em`;
@@ -634,16 +638,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .delay(TRANSITION_DURATION)
         .duration(TRANSITION_DURATION);
 
-      function getDepthDifference(d: any): number {
-        return d.depth - focus.depth;
-      }
 
-      function isBranchDisplayed(d: any): boolean {
-        return getDepthDifference(d) <= 2;
-      }
-      function isLeafDisplayed(d: any): boolean {
-        return getDepthDifference(d) <= 1;
-      }
 
       // function isDisplay(d: any): boolean {
       //   return d.children ? isBranchDisplayed(d) : isLeafDisplayed(d);
@@ -821,7 +816,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
           let left = window.pageXOffset + matrix.e - TOOLTIP_WIDTH / 2;
           let top = window.pageYOffset + matrix.f - TOOLTIP_HEIGHT - ARROW_DIMENSION - d.r * k;
           let bottom = window.pageYOffset + matrix.f + ARROW_DIMENSION + d.r * k;
-          // console.log(d.data.name, window.pageXOffset + matrix.e + d.r * d.k + ARROW_DIMENSION, Number.parseFloat(svg.attr("width")) - 400)
 
           let isHorizontalPosition = top < 0 && bottom + TOOLTIP_HEIGHT > Number.parseFloat(svg.attr("height"));
           let isLeft = window.pageXOffset + matrix.e + d.r * d.k + ARROW_DIMENSION < Number.parseFloat(svg.attr("width")) - 400;
