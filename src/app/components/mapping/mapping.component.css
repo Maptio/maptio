@@ -60,8 +60,9 @@
   font-size: xx-small;
   width: 2.5vw;
   max-width: 2.5vw;
-  height: 1.5vh;
-  max-height: 2.0vh;
+  min-height: 1.5vh;
+  /* max-height: 2.0vh; */
+  white-space: normal;
 }
 
 .background {
