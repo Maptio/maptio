@@ -68,8 +68,8 @@ describe("dashboard.component.ts", () => {
         component = target.componentInstance;
         spyOn(target.debugElement.injector.get(DashboardComponentResolver), "resolve")
             .and.returnValue(Observable.of([
-                new DataSet({ datasetId: "1", initiative: new Initiative() }),
-                new DataSet({ datasetId: "2", initiative: new Initiative() })]))
+                new DataSet({ datasetId: "1", initiative: new Initiative({ id: 1 }) }),
+                new DataSet({ datasetId: "2", initiative: new Initiative({ id: 2 }) })]))
 
         target.detectChanges();
     });
@@ -87,7 +87,7 @@ describe("dashboard.component.ts", () => {
 
     describe("export", () => {
         it("should call correct dependencies", async(() => {
-            let dataset = new DataSet({ datasetId: "ID", initiative: new Initiative({ name: "data" }) })
+            let dataset = new DataSet({ datasetId: "ID", initiative: new Initiative({ name: "data", id: 123 }) })
 
             let spy = spyOn(target.debugElement.injector.get(ExportService), "getReport").and.returnValue(Observable.of("some exported data"));
             let saveAsSpy = spyOn(filesaver, "saveAs");

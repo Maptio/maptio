@@ -202,7 +202,8 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
     }
 
     getSlug() {
-        return slug(this.name || "", { lower: true });
+        // HACK : quick fix for non latin characters
+        return slug(this.name || this.id.toString()  , { lower: true }) || "initiative";
     }
 
     getRoles(userId: string): Role[] {
