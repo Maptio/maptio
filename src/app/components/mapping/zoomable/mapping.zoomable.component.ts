@@ -812,6 +812,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           let TOOLTIP_WIDTH = (tooltip.node() as HTMLElement).getBoundingClientRect()
             .width;
           let ARROW_DIMENSION = 10;
+          let DEFAULT_ANGLE = 45;
 
           let left = window.pageXOffset + matrix.e - TOOLTIP_WIDTH / 2;
           let top = window.pageYOffset + matrix.f - TOOLTIP_HEIGHT - ARROW_DIMENSION - d.r * k;
@@ -822,25 +823,34 @@ export class MappingZoomableComponent implements IDataVisualizer {
           tooltip
             .style("z-index", 2000)
             .style("left", () => {
+              // return isHorizontalPosition
+              //   ? (isLeft
+              //     ? `${window.pageXOffset + matrix.e + d.r * d.k + ARROW_DIMENSION}px`
+              //     : `${window.pageXOffset + matrix.e - d.r * d.k - TOOLTIP_WIDTH - ARROW_DIMENSION}px`)
+              //   : `${left}px`
               return isHorizontalPosition
-                ? (isLeft
-                  ? `${window.pageXOffset + matrix.e + d.r * d.k + ARROW_DIMENSION}px`
-                  : `${window.pageXOffset + matrix.e - d.r * d.k - TOOLTIP_WIDTH - ARROW_DIMENSION}px`)
+                ? `${window.pageXOffset + matrix.e + d.r * Math.cos(Math.PI * DEFAULT_ANGLE / 180) - TOOLTIP_WIDTH / 2 - ARROW_DIMENSION}px`
                 : `${left}px`
             })
             .style("top", () => {
+              // return isHorizontalPosition
+              //   ? `${window.pageYOffset + matrix.f - TOOLTIP_HEIGHT / 2}px`
+              //   : (
+              //     top > 0
+              //       ? `${top}px`
+              //       : `${bottom}px`);
               return isHorizontalPosition
-                ? `${window.pageYOffset + matrix.f - TOOLTIP_HEIGHT / 2}px`
+                ? `${window.pageYOffset + matrix.f - d.r * Math.sin(Math.PI * DEFAULT_ANGLE / 180)}px`
                 : (
                   top > 0
                     ? `${top}px`
                     : `${bottom}px`);
             })
             .classed("show", true)
-            .classed("arrow-top", !isHorizontalPosition && top < 0)
-            .classed("arrow-bottom", !isHorizontalPosition && top >= 0)
-            .classed("arrow-left", isHorizontalPosition && isLeft)
-            .classed("arrow-right", isHorizontalPosition && !isLeft)
+            .classed("arrow-top", top < 0)
+            .classed("arrow-bottom", top >= 0)
+            // .classed("arrow-left", isHorizontalPosition && isLeft)
+            // .classed("arrow-right", isHorizontalPosition && !isLeft)
             .on("click", function (d: any) {
               tooltip.classed("show", false);
             });
