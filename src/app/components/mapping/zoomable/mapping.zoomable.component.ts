@@ -304,6 +304,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let POSITION_TAGS_NAME = this.POSITION_TAGS_NAME;
     let POSITION_ACCOUNTABLE_NAME = this.POSITION_ACCOUNTABLE_NAME;
     let DEFAULT_PICTURE_ANGLE = this.DEFAULT_PICTURE_ANGLE;
+    let PADDING_CIRCLE = 20
 
     let pack = d3
       .pack()
@@ -311,7 +312,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .padding(function (d: any) {
         // if node has siblings who are branches , padding is 35
         // otherwise padding is 2 ;
-        return d.parent ? 30 / d.depth : 0;
+        console.log(d.data.name, d.children ? 65 : 10)
+        return PADDING_CIRCLE;
       });
 
     let root: any = d3
@@ -825,7 +827,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             })
             .style("top", () => {
               return isHorizontalPosition
-                ? `${window.pageYOffset + matrix.f - d.r * d.k * Math.sin(DEFAULT_PICTURE_ANGLE) + CIRCLE_RADIUS*2}px`
+                ? `${window.pageYOffset + matrix.f - d.r * d.k * Math.sin(DEFAULT_PICTURE_ANGLE) + CIRCLE_RADIUS * 2}px`
                 : (
                   top > 0
                     ? `${top}px`

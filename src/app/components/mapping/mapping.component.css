@@ -30,7 +30,7 @@
 
 
 .control.first {
-  top: 15vh;
+  top: 12vh;
 }
 
 .control.first > .btn-group-vertical {
@@ -38,15 +38,15 @@
 }
 
 .control.second {
-  top: 35vh;
+  top: 26vh;
 }
 
 .control.third {
-  top: 55vh;
+  top: 47vh;
 }
 
 .control.fourth {
-  top: 83vh;
+  top: 78vh;
 }
 
 .background {
@@ -259,7 +259,7 @@
   background: #00000005; */
   font-weight: 400;
   width:30vw;
-  padding-left: 3vw;
+  /* padding-left: 3vw; */
 }
 
 :host /deep/  .dropdown-item.active, .dropdown-item:active {
@@ -271,7 +271,11 @@
 
 .fontSizeOutput{
   position: absolute;
-  top: 3vh;
-  left: 14vw;
+  top: 4.5vh;
+  left: 16vw;
   font-size: small;
+}
+
+#fontSizeInput{
+  background: transparent;
 }

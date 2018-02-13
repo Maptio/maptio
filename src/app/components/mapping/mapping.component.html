@@ -168,9 +168,10 @@
 <div class="control zero form-inline">
   <input *ngIf="isSearchToggled" #initiativeSearch [resultTemplate]="rt" type="text" id="initiativeSearch" class="form-control search mr-2" (selectItem)="zoomToInitiative($event)"
     [ngbTypeahead]="searchInitiatives" [resultFormatter]="formatter" [inputFormatter]="formatter" editable="false" (focus)="initiativeSearch.value=''"
-    placement="bottom-right" />
+    placement="bottom-right" placeholder="Search initiatives, people and description" />
   <div class="btn-group-vertical">
-    <a class="btn btn-secondary" [class.active]="isSearchToggled" (click)="isSearchToggled=!isSearchToggled">
+    <a class="btn btn-secondary" [class.active]="isSearchToggled" (click)="isSearchToggled=!isSearchToggled"
+    placement="left" container="body" ngbTooltip="Search">
       <i class="fa fa-search"></i>
     </a>
   </div>
@@ -208,8 +209,8 @@
       <label for="fontSizeInput" class="col-form-label col-2">Size</label>
 
       <span class="fontSizeOutput">x {{fontSize$ | async}}</span>
-      <input class="col-6" #fontInput name="fontSizeInput" type="range" min="0.2" max="2" value="{{fontSize$ | async}}" step="0.1"
-        (change)="changeFontSize(fontInput.value)" orient="vertical">
+      <input class="col-6" id="fontSizeInput" #fontSizeInput name="fontSizeInput" type="range" min="0.2" max="2" value="{{fontSize$ | async}}" step="0.1"
+        (change)="changeFontSize(fontSizeInput.value)" orient="vertical">
 
       <button class="btn  btn-secondary text-muted ml-4" (click)="changeFontSize(1)">Reset</button>
 
@@ -221,7 +222,7 @@
       />
       <button class="btn  btn-secondary text-muted ml-4" (click)="changeFontColor('#000')">Reset</button>
     </div>
-    <h6 class="card-subtitle mt-2">Map settings</h6>
+    <h6 class="card-subtitle mt-2 mb-2">Map settings</h6>
     <div class="form-group form-inline">
       <label for="example-time-input" class="col-form-label col-2">Color</label>
       <input class="col-6 form-control ml-1" [(colorPicker)]="mapColor" [style.background]="mapColor" [value]="mapColor" [cpOutputFormat]="'hex'"
