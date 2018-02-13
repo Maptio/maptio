@@ -130,6 +130,7 @@
             <form [formGroup]="createMapForm" (submit)="createDataset()" class="form-inline">
                 <input type="text" id="inputMapName" formControlName="mapName" class="form-control col-6" placeholder="Enter map name " required>
                 <select formControlName="teamId" required class="form-control col-4 mr-1">
+                    <option value="null" disabled="true" [selected]="true">Select a team</option>
                     <option *ngFor="let team of teams$ | async" [value]="team.team_id">{{team?.name}}</option>
                 </select>
 
