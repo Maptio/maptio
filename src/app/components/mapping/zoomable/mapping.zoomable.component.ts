@@ -107,6 +107,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   POSITION_INITIATIVE_NAME = { x: 0.9, y: 0.1, fontRatio: 1 };
   POSITION_TAGS_NAME = { x: 0, y: 0.3, fontRatio: 0.65 };
   POSITION_ACCOUNTABLE_NAME = { x: 0, y: 0.45, fontRatio: 0.8 };
+  DEFAULT_PICTURE_ANGLE = Math.PI - Math.PI * 36 / 180;
 
   constructor(
     public d3Service: D3Service,
@@ -302,6 +303,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let POSITION_INITIATIVE_NAME = this.POSITION_INITIATIVE_NAME;
     let POSITION_TAGS_NAME = this.POSITION_TAGS_NAME;
     let POSITION_ACCOUNTABLE_NAME = this.POSITION_ACCOUNTABLE_NAME;
+    let DEFAULT_PICTURE_ANGLE = this.DEFAULT_PICTURE_ANGLE;
 
     let pack = d3
       .pack()
@@ -812,7 +814,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           let TOOLTIP_WIDTH = (tooltip.node() as HTMLElement).getBoundingClientRect()
             .width;
           let ARROW_DIMENSION = 10;
-          let DEFAULT_ANGLE = 45;
+          let DEFAULT_ANGLE = 180 - 36;
 
           let left = window.pageXOffset + matrix.e - TOOLTIP_WIDTH / 2;
           let top = window.pageYOffset + matrix.f - TOOLTIP_HEIGHT - ARROW_DIMENSION - d.r * k;
@@ -829,7 +831,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
               //     : `${window.pageXOffset + matrix.e - d.r * d.k - TOOLTIP_WIDTH - ARROW_DIMENSION}px`)
               //   : `${left}px`
               return isHorizontalPosition
-                ? `${window.pageXOffset + matrix.e + d.r * Math.cos(Math.PI * DEFAULT_ANGLE / 180) - TOOLTIP_WIDTH / 2 - ARROW_DIMENSION}px`
+                ? `${window.pageXOffset + matrix.e + d.r * d.k * Math.cos(DEFAULT_PICTURE_ANGLE) - TOOLTIP_WIDTH / 2 - ARROW_DIMENSION}px`
                 : `${left}px`
             })
             .style("top", () => {
@@ -840,7 +842,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
               //       ? `${top}px`
               //       : `${bottom}px`);
               return isHorizontalPosition
-                ? `${window.pageYOffset + matrix.f - d.r * Math.sin(Math.PI * DEFAULT_ANGLE / 180)}px`
+                ? `${window.pageYOffset + matrix.f - d.r * d.k * Math.sin(DEFAULT_PICTURE_ANGLE) + CIRCLE_RADIUS*2}px`
                 : (
                   top > 0
                     ? `${top}px`
@@ -871,12 +873,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
         })
         .attr("cx", function (d: any) {
           return d.children
-            ? Math.cos(Math.PI - Math.PI * 36 / 180) * (d.r * k) - 12
+            ? Math.cos(DEFAULT_PICTURE_ANGLE) * (d.r * k) - 12
             : 0;
         })
         .attr("cy", function (d: any) {
           return d.children
-            ? -Math.sin(Math.PI - Math.PI * 36 / 180) * (d.r * k) + 7
+            ? -Math.sin(DEFAULT_PICTURE_ANGLE) * (d.r * k) + 7
             : -d.r * k * 0.8;
         });
     }
