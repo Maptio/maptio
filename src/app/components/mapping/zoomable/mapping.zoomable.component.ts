@@ -176,10 +176,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     let zooming = d3
       .zoom()
-      .scaleExtent([1, 1])
+      .scaleExtent([1 / 3, 4 / 3])
       .on("zoom", zoomed)
       .on("end", () => {
         let transform = d3.event.transform;
+        svg.attr("scale", transform.k);
         let tagFragment = this.tagsState
           .filter(t => t.isSelected)
           .map(t => t.shortid)
@@ -287,6 +288,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let margin = this.margin;
     let g = this.g;
     let svg = this.svg;
+    let scale = this.scale;
+    let translateX = this.translateX;
+    let translateY = this.translateY;
     let definitions = this.definitions;
     let uiService = this.uiService;
     let fontSize = this.fontSize;
@@ -320,7 +324,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .hierarchy(data)
       .sum(function (d) {
         return (d.accountable ? 1 : 0) + (d.helpers ? d.helpers.length : 0) + 1;
-    })
+      })
       .sort(function (a, b) {
         return b.value - a.value;
       });
@@ -795,7 +799,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .attr("r", function (d: any) {
           return d.r * k;
         })
-        .each((d: any) => (d.k = k))
+        .each((d: any) => (d.k = k, d.scale = +svg.attr("scale")))
         .on("mouseover", function (d: any) {
           d3.event.stopPropagation();
 
@@ -811,23 +815,25 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .width;
           let ARROW_DIMENSION = 10;
           let DEFAULT_ANGLE = 180 - 36;
+          let SCALE = + svg.attr("scale")
+          console.log(d.data.name, matrix.e, matrix.f, window.pageXOffset, window.pageYOffset, d.k, SCALE);
 
           let left = window.pageXOffset + matrix.e - TOOLTIP_WIDTH / 2;
-          let top = window.pageYOffset + matrix.f - TOOLTIP_HEIGHT - ARROW_DIMENSION - d.r * k;
-          let bottom = window.pageYOffset + matrix.f + ARROW_DIMENSION + d.r * k;
+          let top = window.pageYOffset + matrix.f - TOOLTIP_HEIGHT - ARROW_DIMENSION - d.r * d.k * SCALE;
+          let bottom = window.pageYOffset + matrix.f + ARROW_DIMENSION + d.r * d.k * SCALE;
 
           let isHorizontalPosition = top < 0 && bottom + TOOLTIP_HEIGHT > Number.parseFloat(svg.attr("height"));
-          let isLeft = window.pageXOffset + matrix.e + d.r * d.k + ARROW_DIMENSION < Number.parseFloat(svg.attr("width")) - 400;
+          let isLeft = window.pageXOffset + matrix.e + d.r * d.k * SCALE + ARROW_DIMENSION < Number.parseFloat(svg.attr("width")) - 400;
           tooltip
             .style("z-index", 2000)
             .style("left", () => {
               return isHorizontalPosition
-                ? `${window.pageXOffset + matrix.e + d.r * d.k * Math.cos(DEFAULT_PICTURE_ANGLE) - TOOLTIP_WIDTH / 2 - ARROW_DIMENSION}px`
+                ? `${window.pageXOffset + matrix.e + d.r * d.k * SCALE * Math.cos(DEFAULT_PICTURE_ANGLE) - TOOLTIP_WIDTH / 2 - ARROW_DIMENSION}px`
                 : `${left}px`
             })
             .style("top", () => {
               return isHorizontalPosition
-                ? `${window.pageYOffset + matrix.f - d.r * d.k * Math.sin(DEFAULT_PICTURE_ANGLE) + CIRCLE_RADIUS * 2}px`
+                ? `${window.pageYOffset + matrix.f - d.r * d.k * SCALE * Math.sin(DEFAULT_PICTURE_ANGLE) + CIRCLE_RADIUS * 2}px`
                 : (
                   top > 0
                     ? `${top}px`
