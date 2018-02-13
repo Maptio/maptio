@@ -254,8 +254,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .combineLatest(this.fontColor$)
       .subscribe((format: [number, string]) => {
         // font size
-        svg.attr("font-size", format[0] + "em");
-        svg.selectAll("text").attr("font-size", format[0] + "em");
+        svg.attr("font-size", format[0] + "rem");
+        svg.selectAll("text").attr("font-size", format[0] + "rem");
         this.fontSize = format[0];
         // font color
         svg.style("fill", format[1]);
@@ -542,14 +542,14 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
           let h = filtered
             .map(
               (i, ix) =>
-                `<tspan class="is-helping" x="0" y="0" dy="${ix + 1}em">${
+                `<tspan class="is-helping" x="0" y="0" dy="${ix + 1}rem">${
                   i.name
                 }</tspan>`
             )
             .join("");
 
           return (
-            `<tspan  x="0" y="0" class="is-helping-title" dy="0em">${
+            `<tspan  x="0" y="0" class="is-helping-title" dy="0rem">${
               source.name
             } helps ${target.name} with</tspan>` + h
           );

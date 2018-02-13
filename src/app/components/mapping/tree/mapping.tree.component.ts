@@ -160,8 +160,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       .combineLatest(this.fontColor$)
       .subscribe((format: [number, string]) => {
         // font size
-        svg.attr("font-size", format[0] + "em");
-        svg.selectAll("text").attr("font-size", format[0] + "em");
+        svg.attr("font-size", format[0] + "rem");
+        svg.selectAll("text").attr("font-size", format[0] + "rem");
         // font color
         svg.style("fill", format[1]);
         svg.selectAll("text").style("fill", format[1]);
@@ -463,8 +463,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .append("text")
         .attr("class", "name")
         .classed("tree-map", true)
-        .attr("dy", "0.65em")
-        .attr("y", "1.00em")
+        .attr("dy", "0.65rem")
+        .attr("y", "1.00rem")
         .attr("x", CIRCLE_RADIUS + 5)
         // .on("click", function(d: any, i: number) {
         //   // console.log("cliked", d.data);
