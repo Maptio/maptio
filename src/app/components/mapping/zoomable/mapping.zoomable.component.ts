@@ -320,7 +320,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .hierarchy(data)
       .sum(function (d) {
         return (d.accountable ? 1 : 0) + (d.helpers ? d.helpers.length : 0) + 1;
-      })
+    })
       .sort(function (a, b) {
         return b.value - a.value;
       });

@@ -28,9 +28,13 @@
   top: 5vh;
 }
 
+.control.zero.panel{
+  right: 4vw;
+}
+
 
 .control.first {
-  top: 12vh;
+  top: 18vh;
 }
 
 .control.first > .btn-group-vertical {
@@ -38,15 +42,19 @@
 }
 
 .control.second {
-  top: 26vh;
+  top: 32vh;
 }
 
 .control.third {
-  top: 47vh;
+  top: 54vh;
 }
 
 .control.fourth {
   top: 78vh;
+}
+
+.icon-text-label{
+  font-size: xx-small;
 }
 
 .background {
@@ -258,7 +266,7 @@
   /* padding-right: 7vw;
   background: #00000005; */
   font-weight: 400;
-  width:30vw;
+  /* width:30vw; */
   /* padding-left: 3vw; */
 }
 
