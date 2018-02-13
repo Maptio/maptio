@@ -167,13 +167,11 @@
 
 <div class="control zero ">
   <div class="btn-group-vertical">
-    <a class="btn btn-secondary p-2" [class.active]="isSearchToggled" (click)="isSearchToggled=!isSearchToggled" placement="left"
-      container="body" ngbTooltip="Search">
+    <a class="btn btn-secondary p-1" [class.active]="isSearchToggled" (click)="isSearchToggled=!isSearchToggled">
       <i class="fa fa-search"></i>
       <div class="icon-text-label">Search</div>
     </a>
-    <a class="btn btn-secondary p-2" [class.active]="isFiltersToggled" (click)="isFiltersToggled=!isFiltersToggled" placement="left"
-      container="body" ngbTooltip="Filter">
+    <a class="btn btn-secondary p-1" [class.active]="isFiltersToggled" (click)="isFiltersToggled=!isFiltersToggled">
       <i class="fa fa-filter"></i>
       <div class="icon-text-label">Filter</div>
     </a>
@@ -251,12 +249,17 @@
 <div class="control first">
   <div class=" btn-group-vertical">
 
-    <a class="btn btn-secondary circles icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/initiatives"
-      fragment="x=761&y=761&scale=1&{{tagsFragment}}" placement="left" container="body" ngbTooltip="Circle view"></a>
-    <a class="btn btn-secondary tree icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/people" fragment="x=100&y=380.5&scale=1&{{tagsFragment}}"
-      placement="left" container="body" ngbTooltip="Tree view"></a>
-    <a class="btn btn-secondary network icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/connections"
-      fragment="x=0&y=-380.5&scale=1&{{tagsFragment}}" placement="left" container="body" ngbTooltip="Network view"></a>
+    <a class="btn btn-secondary circles p-1" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/initiatives"
+      fragment="x=761&y=761&scale=1&{{tagsFragment}}">
+      <div _ngcontent-c8="" class="icon-text-label" style="bottom: 3px;position: absolute;">Circles</div>
+    </a>
+    <a class="btn btn-secondary tree p-1" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/people" fragment="x=100&y=380.5&scale=1&{{tagsFragment}}">
+      <div class="icon-text-label">Tree</div>
+    </a>
+    <a class="btn btn-secondary network p-1" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/connections"
+      fragment="x=0&y=-380.5&scale=1&{{tagsFragment}}">
+      <div class="icon-text-label">Network</div>
+    </a>
 
     <!-- <a class="btn btn-secondary experimental icon" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/zoomable"
       fragment="x=640&y=460&scale=1&{{tagsFragment}}" placement="left" container="body" ngbTooltip="Experimental"></a> -->
@@ -265,11 +268,22 @@
 
 <div class="control  second mt-4">
   <div class=" btn-group-vertical">
-    <a class="btn btn-secondary minus" (click)="zoomOut()" placement="left" container="body" ngbTooltip="Zoom out"></a>
-    <a class="btn btn-secondary plus" (click)="zoomIn()" placement="left" container="body" ngbTooltip="Zoom in"></a>
-    <a class="btn btn-secondary reset" (click)="resetZoom()" placement="left" container="body" ngbTooltip="Zoom fit"></a>
-    <a class="btn btn-secondary settings" [class.active]="isSettingToggled" (click)="isSettingToggled=!isSettingToggled" placement="left"
-      container="body" ngbTooltip="Settings"></a>
+    <a class="btn btn-secondary p-1" (click)="zoomOut()" >
+      <i class="fa fa-minus"></i>
+      <div class="icon-text-label">Zoom out</div>
+    </a>
+    <a class="btn btn-secondary p-1" (click)="zoomIn()" >
+      <i class="fa fa-plus"></i>
+      <div class="icon-text-label">Zoom in</div>
+    </a>
+    <a class="btn btn-secondary p-1" (click)="resetZoom()">
+      <i class="fa fa-compress" aria-hidden="true"></i>
+      <div class="icon-text-label">Zoom fit</div>
+    </a>
+    <a class="btn btn-secondary p-1" [class.active]="isSettingToggled" (click)="isSettingToggled=!isSettingToggled">
+      <i class="fa fa-sliders" aria-hidden="true"></i>
+      <div class="icon-text-label">Settings</div>
+    </a>
   </div>
 </div>
 

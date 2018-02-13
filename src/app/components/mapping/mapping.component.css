@@ -20,6 +20,7 @@
   transition: 0.3s ease-in;
 }
 
+
 /* .control.showSettings {
   right: 45vw;
   transition: 0.3s ease-in;
@@ -37,9 +38,9 @@
   top: 18vh;
 }
 
-.control.first > .btn-group-vertical {
+/* .control.first > .btn-group-vertical {
   width: 48px;
-}
+} */
 
 .control.second {
   top: 32vh;
@@ -55,6 +56,10 @@
 
 .icon-text-label{
   font-size: xx-small;
+  width: 2.5vw;
+  max-width: 2.5vw;
+  height: 1.5vh;
+  max-height: 2.0vh;
 }
 
 .background {
@@ -116,11 +121,6 @@
 .unlocked:before {
   content: "\f13e";
   font-family: FontAwesome;
-}
-
-.btn-tag {
-  /* width: 50px;
-  height: 39px; */
 }
 
 .options {
