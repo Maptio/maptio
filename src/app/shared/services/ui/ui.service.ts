@@ -7,6 +7,8 @@ import * as _ from "lodash";
 import { Initiative } from "../../model/initiative.data";
 import { Helper } from "../../model/helper.data";
 import { MarkdownService } from "angular2-markdown";
+import { Role } from "src/app/shared/model/role.data";
+import { User } from "src/app/shared/model/user.data";
 
 @Injectable()
 export class UIService {
@@ -65,7 +67,7 @@ export class UIService {
   ) {
     let d3 = this.d3;
 
-    text.each(function() {
+    text.each(function () {
       let text = d3.select(this),
         words = actualText ? actualText.split(/\s+/).reverse() : [],
         word: any,
@@ -133,67 +135,82 @@ export class UIService {
           : true;
   }
 
+  getConnectionsHTML(initiatives: Initiative[], sourceUserId: string) {
+    console.log(initiatives, sourceUserId, initiatives[0].helpers)
+    let sourceUser = initiatives[0].helpers.find(
+      h => h.user_id === sourceUserId
+    );
+    let targetUser = initiatives[0].accountable;
+
+    let roles: { initiative: Initiative, role: Role }[] = [];
+    initiatives.forEach(i => {
+      let role = i.helpers.filter(h => h.user_id === sourceUserId)[0].roles[0];
+      roles.push({ initiative: i, role: role });
+    });
+
+    let printInitiatives = roles.map(i =>
+      `<h6 class="mb-1 lead"><button class="btn btn-link lead open-initiative" id="${i.initiative.id}">${i.initiative.name}</button></h6>
+      <small>by ${i.role ? this.markdown.compile(i.role.description || "") : ""}</small>
+      `
+    ).join("")
+
+
+
+    return `
+    <div class="content">
+      <div class="d-inline-flex no-white-space">${this.getUserHtml(sourceUser, false)}<span class="m-2">helps</span> ${this.getUserHtml(targetUser, false)}</div>
+      ${printInitiatives}
+    </div>
+    `
+
+  }
+
+  getUserHtml(user: User, isSmall: boolean) {
+    if (!user) return "<a ></a>";
+    let formattedName = isSmall ? `<small>${user.name}</small>` : `${user.name}`
+    return `<button class="open-summary btn btn-link pl-0" data-shortid="${user.shortid}" data-slug="${user.getSlug()}">
+            <img src="${user.picture}" width="${isSmall ? 15 : 30}" height="${isSmall ? 15 : 30}" class="rounded-circle mr-1">${formattedName}
+        </button>`;
+  }
+
+  getTagHtml(tag: Tag) {
+    if (!tag) return;
+    return `
+    <li><a class="btn btn-sm btn-secondary borderless mr-1 tag" style="color:${
+      tag.color
+      }">
+            <i class="fa fa-tag mr-1" aria-hidden="true" style="color:${
+      tag.color
+      }"></i>${tag.name}
+        </a></li>
+    `
+  }
+
   getTooltipHTML(initiative: Initiative): string {
     let tagsSpan = initiative.tags
       ? initiative.tags
-          .map(
-            (tag: Tag) => `
-        <li><a class="btn btn-sm btn-secondary borderless mr-1 tag" style="color:${
-          tag.color
-        }">
-                <i class="fa fa-tag mr-1" aria-hidden="true" style="color:${
-                  tag.color
-                }"></i>${tag.name}
-            </a></li>
-        `
-          )
-          .join("")
+        .map(
+        (tag: Tag) => this.getTagHtml(tag))
+        .join("")
       : "";
 
-    let accountableImg = initiative.accountable
-      ? `<button class="open-summary btn btn-link pl-0" data-shortid="${
-          initiative.accountable.shortid
-        }" data-slug="${initiative.accountable.getSlug()}">
-                    <img src="${
-                      initiative.accountable.picture
-                    }" width="30" height="30" class="rounded-circle mr-1">${
-          initiative.accountable.name
-        }
-                </button>`
-      : "<a ></a>";
+    let accountableImg = this.getUserHtml(initiative.accountable, false)
 
     let helpersImg = initiative.helpers
       ? initiative.helpers
-          .map(
-            (helper: Helper) =>
-              `
-                <button class="mr-1 open-summary btn btn-link p-0" data-shortid="${
-                  helper.shortid
-                }" data-slug="${helper.getSlug()}" >
-                    <img src="${
-                      helper.picture
-                    }" width="15" height="15" class="rounded-circle mr-1"><small>${
-                helper.name
-              }</small>
-                </button>`
-          )
-          .join("")
+        .map((helper: Helper) => this.getUserHtml(helper, true))
+        .join("")
       : "";
 
     return `
         <div class="content">
-                <h6 class="mb-1 lead"><button class="btn btn-link lead open-initiative" id="${
-                  initiative.id
-                }">${initiative.name}</button></h6>
-                <ul class="tags small"> ${tagsSpan}</ul>
-                <div class="mb-0 p-0 ml-0">${accountableImg}</div>
-                <div class="row pl-3 mb-2 d-flex justify-content-start" >${helpersImg}</div>
-                <small>${this.markdown.compile(
-                  initiative.description || ""
-                )}</small>
-                </textPath>
-                </div>
-                `;
+          <h6 class="mb-1 lead"><button class="btn btn-link lead open-initiative" id="${initiative.id}">${initiative.name}</button></h6>
+          <ul class="tags small"> ${tagsSpan}</ul>
+          <div class="mb-0 p-0 ml-0">${accountableImg}</div>
+          <div class="row pl-3 mb-2 d-flex justify-content-start" >${helpersImg}</div>
+          <small>${this.markdown.compile(initiative.description || "")}</small>
+        </div>
+          `;
   }
 
   /*

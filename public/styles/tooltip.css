@@ -38,6 +38,10 @@
   white-space: normal;
 }
 
+.no-white-space button{
+  white-space: nowrap;
+}
+
 .arrow_box.show {
   visibility: visible;
   opacity: 1;

@@ -112,14 +112,14 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     this.init();
     this.dataSubscription = this.dataService
       .get()
-      .combineLatest(this.selectableTags$)
+      .combineLatest(this.selectableTags$, this.mapColor$)
       .subscribe(complexData => {
         // console.log("network assign data")
         let data = <any>complexData[0].initiative;
         this.datasetId = complexData[0].datasetId;
         this.rootNode = complexData[0].initiative;
         this.slug = data.getSlug();
-        this.update(data, complexData[1]);
+        this.update(data, complexData[1], complexData[2]);
         this.analytics.eventTrack("Map", {
           view: "connections",
           team: data.teamName,
@@ -161,8 +161,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .attr("width", this.width)
       .attr("height", this.height)
       .attr(
-        "transform",
-        `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`
+      "transform",
+      `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`
       );
     g.append("g").attr("class", "links");
     g.append("g").attr("class", "labels");
@@ -227,7 +227,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
           .scale(this.scale)
       );
       svg.call(zooming);
-    } catch (error) {}
+    } catch (error) { }
 
     this.zoomSubscription = this.zoom$.subscribe((zf: number) => {
       try {
@@ -240,7 +240,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             d3.zoomIdentity.translate(this.translateX, this.translateY)
           );
         }
-      } catch (error) {}
+      } catch (error) { }
     });
 
     this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
@@ -343,54 +343,53 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     };
   }
 
-  hoverLink(
-    nodes: Initiative[],
-    initiativeIds: string[],
-    sourceUserId: string,
-    targetUserId: string
-  ) {
-    this.tooltipInitiatives = _.filter(nodes, function(i) {
-      return initiativeIds.includes(`${i.id}`);
-    });
+  // hoverLink(
+  //   nodes: Initiative[],
+  //   initiativeIds: string[],
+  //   sourceUserId: string,
+  //   targetUserId: string
+  // ) {
+  //   this.tooltipInitiatives = _.filter(nodes, function (i) {
+  //     return initiativeIds.includes(`${i.id}`);
+  //   });
 
-    if (_.isEmpty(this.tooltipInitiatives)) return;
+  //   if (_.isEmpty(this.tooltipInitiatives)) return;
 
-    this.tooltipSourceUser = this.tooltipInitiatives[0].helpers.filter(
-      h => h.user_id === sourceUserId
-    )[0];
-    this.tooltipTargetUser = this.tooltipInitiatives[0].accountable;
+  //   this.tooltipSourceUser = this.tooltipInitiatives[0].helpers.filter(
+  //     h => h.user_id === sourceUserId
+  //   )[0];
+  //   this.tooltipTargetUser = this.tooltipInitiatives[0].accountable;
 
-    this.tooltipRoles = [];
-    this.tooltipInitiatives.forEach(i => {
-      let role = i.helpers.filter(h => h.user_id === sourceUserId)[0].roles[0];
-      this.tooltipRoles.push({ initiative: i, role: role });
-    });
+  //   this.tooltipRoles = [];
+  //   this.tooltipInitiatives.forEach(i => {
+  //     let role = i.helpers.filter(h => h.user_id === sourceUserId)[0].roles[0];
+  //     this.tooltipRoles.push({ initiative: i, role: role });
+  //   });
 
-    this.cd.markForCheck();
-  }
+  //   this.cd.markForCheck();
+  // }
 
-  showDetails(node: Initiative) {
-    this.showDetailsOf$.next(node);
-  }
+  // showDetails(node: Initiative) {
+  //   this.showDetailsOf$.next(node);
+  // }
 
-  public update(data: any, tags: SelectableTag[]) {
+  public update(data: any, tags: SelectableTag[], seedColor: string) {
     if (this.d3.selectAll("g").empty()) {
       this.init();
     }
 
     let d3 = this.d3;
-    // let svg = this.svg;
     let g = this.g;
     let fontSize = this.fontSize;
     let width = this.width;
     let height = this.height;
-    let hoverLink = this.hoverLink.bind(this);
     let bilinks: Array<any> = [];
     let uiService = this.uiService;
+    let showDetailsOf$ = this.showDetailsOf$;
+    let datasetSlug = this.slug;
 
     let CIRCLE_RADIUS = this.CIRCLE_RADIUS;
     let LINE_WEIGHT = this.LINE_WEIGHT;
-    // let FADED_OPACITY = this.FADED_OPACITY;
 
     let initiativesList: HierarchyNode<Initiative>[] = this.d3
       .hierarchy(data)
@@ -404,19 +403,19 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     let simulation = d3
       .forceSimulation()
       .force(
-        "link",
-        d3.forceLink().id(function(d: any) {
-          return d.id;
-        })
+      "link",
+      d3.forceLink().id(function (d: any) {
+        return d.id;
+      })
       )
       .force(
-        "charge",
-        d3
-          .forceManyBody()
-          .distanceMax(400)
-          .strength(function(d) {
-            return -600;
-          })
+      "charge",
+      d3
+        .forceManyBody()
+        .distanceMax(400)
+        .strength(function (d) {
+          return -600;
+        })
       )
       .force("center", d3.forceCenter(width / 2, height / 2));
 
@@ -428,7 +427,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .enter()
       .append("pattern")
       .merge(patterns)
-      .attr("id", function(d: any) {
+      .attr("id", function (d: any) {
         return "image" + d.id;
       })
       .attr("width", "100%")
@@ -436,19 +435,19 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .append("image")
       .attr("width", CIRCLE_RADIUS * 2)
       .attr("height", CIRCLE_RADIUS * 2)
-      .attr("xlink:href", function(d: any) {
+      .attr("xlink:href", function (d: any) {
         return d.picture;
       });
 
     let nodes = graph.nodes,
-      nodeById = d3.map(nodes, function(d: any) {
+      nodeById = d3.map(nodes, function (d: any) {
         return d.id;
       }),
       links = graph.links;
 
     let [selectedTags, unselectedTags] = _.partition(tags, t => t.isSelected);
 
-    links.forEach(function(link: {
+    links.forEach(function (link: {
       source: string;
       target: string;
       weight: number;
@@ -471,7 +470,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     let link = g
       .select("g.links")
       .selectAll("path.edge")
-      .data(bilinks, function(d: any) {
+      .data(bilinks, function (d: any) {
         return d[5];
       });
     link.exit().remove();
@@ -481,44 +480,38 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .append("path")
       .attr("class", "edge")
       .merge(link)
-      .attr("data-initiatives", function(d: any) {
+      .attr("stroke", seedColor)
+      .attr("data-initiatives", function (d: any) {
         return d[4].join(",");
       })
-      .attr("data-tags", function(d: any) {
+      .attr("data-tags", function (d: any) {
         return d[5].join(",");
       })
-      .attr("data-source", function(d: any) {
+      .attr("data-source", function (d: any) {
         return d[0].id;
       })
-      .attr("data-target", function(d: any) {
+      .attr("data-target", function (d: any) {
         return d[2].id;
       })
-      .attr("stroke-width", function(d: any) {
+      .attr("stroke-width", function (d: any) {
         return `${LINE_WEIGHT * d[3]}px`;
       })
-      .style("opacity", function(d: any) {
+      .style("opacity", function (d: any) {
         return uiService.filter(selectedTags, unselectedTags, d[5])
           ? // &&
-            // uiService.filter(selectedUsers, unselectedUsers, _.compact(_.flatten([...[d.data.accountable], d.data.helpers])).map(u => u.shortid))
-            1
+          // uiService.filter(selectedUsers, unselectedUsers, _.compact(_.flatten([...[d.data.accountable], d.data.helpers])).map(u => u.shortid))
+          1
           : 0.1;
       })
-      .attr("id", function(d: any) {
+      .attr("id", function (d: any) {
         return d[6];
       })
       .attr("marker-end", "url(#arrow)");
-    // .on("m ouseout", fade(1));
-
-    // let labelPaths = g.select("defs").selectAll("path").data(bilinks);
-    // labelPaths = labelPaths
-    //     .enter()
-    //     .append("path").merge(labelPaths)
-    //     .attr("id", function (d: any) { return "path" + d[5]; });
 
     let label = g
       .select("g.labels")
       .selectAll("text.edge")
-      .data(bilinks, function(d: any) {
+      .data(bilinks, function (d: any) {
         return d[5];
       });
     label.exit().remove();
@@ -530,7 +523,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .merge(label)
       .attr("font-size", `${fontSize * 0.8}px`)
       .style("display", "none")
-      .html(function(d: any) {
+      .html(function (d: any) {
         let source = d[0];
         let target = d[2];
 
@@ -541,16 +534,16 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         if (filtered.length > 0) {
           let h = filtered
             .map(
-              (i, ix) =>
-                `<tspan class="is-helping" x="0" y="0" dy="${ix + 1}rem">${
-                  i.name
-                }</tspan>`
+            (i, ix) =>
+              `<tspan class="is-helping" x="0" y="0" dy="${ix + 1}rem">${
+              i.name
+              }</tspan>`
             )
             .join("");
 
           return (
             `<tspan  x="0" y="0" class="is-helping-title" dy="0rem">${
-              source.name
+            source.name
             } helps ${target.name} with</tspan>` + h
           );
         }
@@ -560,9 +553,9 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .select("g.nodes")
       .selectAll("g.node")
       .data(
-        nodes.filter(function(d) {
-          return d.id;
-        })
+      nodes.filter(function (d) {
+        return d.id;
+      })
       );
     node.exit().remove();
 
@@ -573,30 +566,24 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .merge(node)
       .on("dblclick", releaseNode)
       .call(
-        d3
-          .drag<SVGElement, any>()
-          .on("start", dragstarted)
-          .on("drag", dragged)
-          .on("end", dragended)
+      d3
+        .drag<SVGElement, any>()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended)
       );
 
     node.append("circle");
     node.append("text").attr("class", "authority-name");
-    // node.append("text").attr("class", "initiatives");
 
     node
       .select("circle")
       .attr("r", CIRCLE_RADIUS)
-      .attr("fill", function(d: any) {
+      .attr("fill", function (d: any) {
         return "url(#image" + d.id + ")";
       })
       .attr("pointer-events", "auto")
       .attr("cursor", "move");
-    // .on("mouseover", fade(FADED_OPACITY))
-    // .on("mouseout", fade(1))
-    // .on("mouseleave", () => {
-    //     d3.selectAll("text.edge").style("display", "none");
-    // })
 
     node
       .select("text.authority-name")
@@ -604,107 +591,97 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .attr("cursor", "pointer")
       .attr("dx", CIRCLE_RADIUS + 3)
       .attr("dy", CIRCLE_RADIUS / 2)
-      .on("click", function(d: any) {
+      .on("click", function (d: any) {
         router.navigateByUrl(
           `/map/${datasetId}/${slug}/u/${d.shortid}/${d.slug}`
         );
       })
-      .text(function(d: any) {
+      .text(function (d: any) {
         return d.name;
       });
 
-    g
-      .selectAll("path")
-      .on("mouseover", function(d: any) {
-        let initiatives = d3
-          .select(this)
-          .attr("data-initiatives")
-          .split(",");
-        let source = d3.select(this).attr("data-source");
-        let target = d3.select(this).attr("data-target");
-
-        hoverLink(
-          initiativesList.map(d => d.data),
-          initiatives,
-          source,
-          target
-        );
-        d3
-          .select("div.tooltip-initiative")
-          .style("visibility", "visible")
-          .style("top", () => {
-            return d3.event.pageY > width / 2 * 0.8
-              ? ""
-              : d3.event.pageY - 30 + "px";
-          })
-          .style("bottom", () => {
-            return d3.event.pageY > width / 2 * 0.8
-              ? `${this.getBBox().height}px`
-              : "";
-          })
-
-          .style("left", () => {
-            return d3.event.pageX > height * 0.7
-              ? "auto"
-              : d3.event.pageX - 8 + "px";
-          })
-          .style("right", () => {
-            return d3.event.pageX > height * 0.7 ? "0" : "";
-          })
-
-          .on("mouseenter", function() {
-            d3.select(this).style("visibility", "visible");
-          })
-          .on("mouseleave", function() {
-            d3.select("div.tooltip-initiative").style("visibility", "hidden");
-          });
+    let tooltip = d3
+      .select("body")
+      .selectAll("div.arrow_box")
+      .data(bilinks, function (d: any) {
+        return d[5];
       })
-      .on("mousemove", function(d: any) {
-        let initiatives = d3
-          .select(this)
-          .attr("data-initiatives")
-          .split(",");
-        let source = d3.select(this).attr("data-source");
-        let target = d3.select(this).attr("data-target");
-
-        hoverLink(
-          initiativesList.map(d => d.data),
-          initiatives,
-          source,
-          target
-        );
-        d3
-          .select("div.tooltip-initiative")
-          .style("visibility", "visible")
-          .style("top", () => {
-            return d3.event.pageY > width / 2 * 0.8
-              ? ""
-              : d3.event.pageY - 30 + "px";
-          })
-          .style("bottom", () => {
-            return d3.event.pageY > width / 2 * 0.8
-              ? `${this.getBBox().height}px`
-              : "";
-          })
-
-          .style("left", () => {
-            return d3.event.pageX > height * 0.7
-              ? "auto"
-              : d3.event.pageX - 8 + "px";
-          })
-          .style("right", () => {
-            return d3.event.pageX > height * 0.7 ? "0" : "";
-          })
-          .on("mouseenter", function() {
-            d3.select(this).style("visibility", "visible");
-          })
-          .on("mouseleave", function() {
-            d3.select(this).style("visibility", "hidden");
-          });
+      .enter()
+      .append("div")
+      .attr("class", "arrow_box")
+      .classed("show", false)
+      .attr("data-initiatives", function (d: any) {
+        return d[4].join(",");
       })
-      .on("mouseout", function() {
-        d3.select("div.tooltip-initiative").style("visibility", "hidden");
+      .attr("id", function (d: any) {
+        return d[6];
+      })
+      .on("mouseenter", function () {
+        d3.select(this).classed("show", true);
+      })
+      .on("mouseleave", function () {
+        tooltip.classed("show", false);
+      })
+      .html(function (d: any) {
+        let ids: any[] = d[4];
+
+        let list = initiativesList.map(i => i.data).filter(i => {
+          return ids.includes(i.id)
+        });
+        // console.log("tooltip building", d)
+        if (_.isEmpty(list)) return;
+        return uiService.getConnectionsHTML(list, d[0].id);
       });
+
+    d3.selectAll(`.open-initiative`).on("click", function (d: any) {
+      let id = Number.parseFloat(d3.select(this).attr("id"));
+      showDetailsOf$.next(initiativesList.find(n => (<any>n.data).id === id).data);
+    });
+    d3.selectAll(`.open-summary`).on("click", function (d: any) {
+      let shortid = d3.select(this).attr("data-shortid");
+      let slug = d3.select(this).attr("data-slug");
+      router.navigateByUrl(
+        `/map/${datasetId}/${datasetSlug}/u/${shortid}/${slug}`
+      );
+    });
+
+
+    g.selectAll("path")
+      .on("mouseover", function (d: any) {
+        d3.event.stopPropagation();
+
+        let path = d3.select(this);
+        let p = path
+          .node()
+          .getPointAtLength(0.5 * path.node().getTotalLength())
+
+        let tooltip = d3.select(`div.arrow_box[id="${d[6]}"]`);
+
+        let TOOLTIP_HEIGHT = (tooltip.node() as HTMLElement).getBoundingClientRect().height;
+        let TOOLTIP_WIDTH = (tooltip.node() as HTMLElement).getBoundingClientRect().width;
+        let ARROW_DIMENSION = 10;
+        console.log(d, p, path)
+        let left = p.x;
+        let top = p.y;
+
+        tooltip
+          .style("top", () => {
+            return `${d3.event.pageY + ARROW_DIMENSION}px`;
+          })
+          .style("left", () => {
+            return `${d3.event.pageX - TOOLTIP_WIDTH / 2}px`;
+          })
+          .classed("show", true)
+          .classed("arrow-top", true)
+          .on("click", function (d: any) {
+            tooltip.classed("show", false);
+          });
+      })
+      .on("mouseout", function (d: any) {
+        let tooltip = d3.select(`div.arrow_box[id="${d[6]}"]`);
+        tooltip.classed("show", false);
+      });
+
 
     simulation.nodes(graph.nodes).on("tick", ticked);
 
@@ -713,9 +690,23 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     function ticked() {
       link.attr("d", positionLink);
       node.attr("transform", positionNode);
-      // labelPaths.attr("d", positionLabelPath);
       label.attr("transform", positionLabel);
     }
+
+    // function positionTooltip(d: any): { x: number, y: number } {
+
+    //   let path = g.select("defs").select(`path[id="path${d[5]}"]`);
+    //   console.log(d, path)
+    //   if (path.node()) {
+    //     let p = path
+    //       .node()
+    //       .getPointAtLength(0.5 * path.node().getTotalLength());
+    //     return { x: p.x, y: p.y };
+    //   } else {
+    //     return { x: 0, y: 0 };
+    //   }
+    // }
+
 
     function positionLabel(d: any) {
       let path = g.select("defs").select(`path[id="path${d[5]}"]`);
@@ -728,12 +719,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         return "translate(" + 0 + "," + 0 + ")";
       }
     }
-
-    // function positionLabelPath(d: any) {
-    //     return "M" + d[0].x + "," + d[0].y
-    //         + "S" + d[1].x + "," + d[1].y
-    //         + " " + d[2].x + "," + d[2].y;
-    // }
 
     function positionLink(d: any) {
       return (
@@ -755,27 +740,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     function positionNode(d: any) {
       return "translate(" + d.x + "," + d.y + ")";
     }
-
-    // function getHelpingInitiatives(source: any, target: any, hovered: any, ids: string[]) {
-    //     let filtered = initiativesList.filter((i: any) => ids.includes(i.data.id)).map(i => i.data);
-
-    //     let [authoredInitiative, helpedInitiative] = _.partition(filtered, i => i.accountable.user_id === hovered.id)
-    //     if (helpedInitiative.length > 0) {
-    //         let h = helpedInitiative
-    //             .map((i, ix) => `<tspan class="is-helping" x="0" y="0" dy="${ix + 1}em">${i.name}</tspan>`).join("")
-
-    //         return `<tspan  x="0" y="0" class="is-helping-title" dy="0em">helps ${target.name} with</tspan>` + h;
-    //     }
-
-    // }
-
-    // function getAuthoredInitiatives(hovered: any) {
-    //     let authoredInitiative = initiativesList.filter(i => i.data.accountable && i.data.accountable.user_id === hovered.id)
-    //     if (authoredInitiative.length > 0) {
-    //         let a = authoredInitiative.map((i, ix) => `<tspan class="is-responsible" x="0" y="1em" dx="${CIRCLE_RADIUS}" dy="${ix + 1}em">${i.data.name}</tspan>`).join("")
-    //         return a;
-    //     }
-    // }
 
     function dragstarted(d: any) {
       if (!d3.event.active) simulation.alphaTarget(0.3).restart();
@@ -802,40 +766,5 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       d3.event.stopPropagation();
     }
 
-    // const linkedByIndex = {};
-    // graph.links.forEach(d => {
-    //     linkedByIndex[`${d.source.index},${d.target.index}`] = 1;
-    // });
-
-    // function isConnected(a: any, b: any) {
-    //     return linkedByIndex[`${a.index},${b.index}`] || linkedByIndex[`${b.index},${a.index}`] || a.index === b.index;
-    // }
-
-    // function fade(opacity: number) {
-    //     return (d: any) => {
-    //         node.style("stroke-opacity", function (o: any) {
-    //             const thisOpacity = isConnected(d, o) ? 1 : opacity;
-    //             this.setAttribute("fill-opacity", thisOpacity);
-    //             return thisOpacity;
-    //         });
-
-    //         label
-    //             .style("font-size", function (o: any) { fontSize * 1.2 })
-
-    //             .style("display", (o: any) => {
-    //                 return (o[0] === d || o[2] === d ? "inline" : "none");
-    //             })
-
-    //         link.style("stroke-opacity", (o: any) => {
-    //             return (o[0] === d || o[2] === d ? 1 : opacity);
-    //         });
-    //         link.attr("marker-end", (o: any) => (opacity === 1 || o[0] === d || o[2] === d ? "url(#arrow)" : "url(#arrow-fade)"));
-    //     };
-    // }
-
-    // function cleanSelected() {
-    //     node.classed("picked", false);
-    //     node.each(function (d: any) { d.picked = d.previouslyPicked = false; })
-    // }
   }
 }
