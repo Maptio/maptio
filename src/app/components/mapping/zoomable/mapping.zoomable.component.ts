@@ -173,6 +173,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         margin.top}) scale(${this.scale})`
         ),
       definitions = svg.append("svg:defs");
+    g.append("g").attr("class", "paths");
 
     let zooming = d3
       .zoom()
@@ -357,10 +358,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .data(nodes, function (d: any) {
         return d.data.id;
       })
-      .enter()
+    tooltip.exit().remove();
+
+    tooltip = tooltip.enter()
       .append("div")
       .attr("class", "arrow_box")
       .classed("show", false)
+      .merge(tooltip)
       .attr("id", function (d: any) {
         return `${d.data.id}`;
       })
@@ -386,14 +390,17 @@ export class MappingZoomableComponent implements IDataVisualizer {
       );
     });
 
-    let paths = g.append("g").attr("class", "paths");
-    let path = paths
+    // let paths = g.append("g").attr("class", "paths");
+    let path = g.select("g.paths")
       .selectAll("path")
       .data(nodes, function (d: any) {
         return d.data.id;
       })
-      .enter()
+
+    path.exit().remove();
+    path = path.enter()
       .append("path")
+      .merge(path)
       .attr("id", function (d: any) {
         return `path${d.data.id}`;
       })
@@ -823,7 +830,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           let bottom = center.y + ARROW_DIMENSION + radius;
 
           let isHorizontalPosition = top < 0 && bottom + TOOLTIP_HEIGHT > Number.parseFloat(svg.attr("height"));
-           tooltip
+          tooltip
             .style("z-index", 2000)
             .style("left", () => {
               return isHorizontalPosition
