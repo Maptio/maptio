@@ -549,6 +549,55 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         }
       });
 
+    let tooltip = d3
+      .select("body")
+      .selectAll("div.arrow_box")
+      .data(bilinks, function (d: any) {
+        return d[5];
+      })
+
+    tooltip.exit().remove();
+
+    tooltip = tooltip.enter()
+      .append("div")
+      .attr("class", "arrow_box")
+      .classed("show", false)
+      .merge(tooltip)
+      .attr("data-initiatives", function (d: any) {
+        return d[4].join(",");
+      })
+      .attr("id", function (d: any) {
+        return d[6];
+      })
+      .on("mouseenter", function () {
+        d3.select(this).classed("show", true);
+      })
+      .on("mouseleave", function () {
+        tooltip.classed("show", false);
+      })
+      .html(function (d: any) {
+        let ids: any[] = d[4];
+
+        let list = initiativesList.map(i => i.data).filter(i => {
+          return ids.includes(i.id)
+        });
+        // console.log("tooltip building", d)
+        if (_.isEmpty(list)) return;
+        return uiService.getConnectionsHTML(list, d[0].id);
+      });
+
+    d3.selectAll(`.open-initiative`).on("click", function (d: any) {
+      let id = Number.parseFloat(d3.select(this).attr("id"));
+      showDetailsOf$.next(initiativesList.find(n => (<any>n.data).id === id).data);
+    });
+    d3.selectAll(`.open-summary`).on("click", function (d: any) {
+      let shortid = d3.select(this).attr("data-shortid");
+      let slug = d3.select(this).attr("data-slug");
+      router.navigateByUrl(
+        `/map/${datasetId}/${datasetSlug}/u/${shortid}/${slug}`
+      );
+    });
+
     let node = g
       .select("g.nodes")
       .selectAll("g.node")
@@ -600,50 +649,9 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         return d.name;
       });
 
-    let tooltip = d3
-      .select("body")
-      .selectAll("div.arrow_box")
-      .data(bilinks, function (d: any) {
-        return d[5];
-      })
-      .enter()
-      .append("div")
-      .attr("class", "arrow_box")
-      .classed("show", false)
-      .attr("data-initiatives", function (d: any) {
-        return d[4].join(",");
-      })
-      .attr("id", function (d: any) {
-        return d[6];
-      })
-      .on("mouseenter", function () {
-        d3.select(this).classed("show", true);
-      })
-      .on("mouseleave", function () {
-        tooltip.classed("show", false);
-      })
-      .html(function (d: any) {
-        let ids: any[] = d[4];
 
-        let list = initiativesList.map(i => i.data).filter(i => {
-          return ids.includes(i.id)
-        });
-        // console.log("tooltip building", d)
-        if (_.isEmpty(list)) return;
-        return uiService.getConnectionsHTML(list, d[0].id);
-      });
 
-    d3.selectAll(`.open-initiative`).on("click", function (d: any) {
-      let id = Number.parseFloat(d3.select(this).attr("id"));
-      showDetailsOf$.next(initiativesList.find(n => (<any>n.data).id === id).data);
-    });
-    d3.selectAll(`.open-summary`).on("click", function (d: any) {
-      let shortid = d3.select(this).attr("data-shortid");
-      let slug = d3.select(this).attr("data-slug");
-      router.navigateByUrl(
-        `/map/${datasetId}/${datasetSlug}/u/${shortid}/${slug}`
-      );
-    });
+
 
 
     g.selectAll("path")

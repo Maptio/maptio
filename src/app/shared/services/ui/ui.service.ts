@@ -135,6 +135,63 @@ export class UIService {
           : true;
   }
 
+
+
+  getUserHtml(user: User, isSmall: boolean) {
+    if (!user) return "<a ></a>";
+    let formattedName = isSmall ? `<small>${user.name}</small>` : `${user.name}`
+    return `<button class="open-summary btn btn-link pl-0" data-shortid="${user.shortid}" data-slug="${user.getSlug()}">
+            <img src="${user.picture}" width="${isSmall ? 15 : 30}" height="${isSmall ? 15 : 30}" class="rounded-circle mr-1">${formattedName}
+        </button>`;
+  }
+
+  getTagsHtml(tags: Tag[]) {
+
+    function getTagHtml(tag: Tag) {
+      if (!tag) return;
+      return `
+      <li><a class="btn btn-sm btn-secondary borderless mr-1 tag" style="color:${
+        tag.color
+        }">
+              <i class="fa fa-tag mr-1" aria-hidden="true" style="color:${
+        tag.color
+        }"></i>${tag.name}
+          </a></li>
+      `
+    }
+    return tags
+      .map(
+      (tag: Tag) => getTagHtml(tag))
+      .join("")
+
+  }
+
+  getInitiatveHTML(initiative: Initiative) {
+    return `<h6 class="mb-1 lead"><button class="btn btn-link lead open-initiative" id="${initiative.id}">${initiative.name}</button></h6>`
+  }
+
+  getTooltipHTML(initiative: Initiative): string {
+
+
+    let accountableImg = this.getUserHtml(initiative.accountable, false)
+
+    let helpersImg = initiative.helpers
+      ? initiative.helpers
+        .map((helper: Helper) => this.getUserHtml(helper, true))
+        .join("")
+      : "";
+
+    return `
+        <div class="content">
+         ${this.getInitiatveHTML(initiative)}
+          <ul class="tags small"> ${this.getTagsHtml(initiative.tags)}</ul>
+          <div class="mb-0 p-0 ml-0">${accountableImg}</div>
+          <div class="row pl-3 mb-2 d-flex justify-content-start" >${helpersImg}</div>
+          <small>${this.markdown.compile(initiative.description || "")}</small>
+        </div>
+          `;
+  }
+
   getConnectionsHTML(initiatives: Initiative[], sourceUserId: string) {
     console.log(initiatives, sourceUserId, initiatives[0].helpers)
     let sourceUser = initiatives[0].helpers.find(
@@ -149,8 +206,9 @@ export class UIService {
     });
 
     let printInitiatives = roles.map(i =>
-      `<h6 class="mb-1 lead"><button class="btn btn-link lead open-initiative" id="${i.initiative.id}">${i.initiative.name}</button></h6>
-      <small>by ${i.role ? this.markdown.compile(i.role.description || "") : ""}</small>
+      `${this.getInitiatveHTML(i.initiative)}
+      <ul class="tags small"> ${this.getTagsHtml(i.initiative.tags)}</ul>
+      <small>${i.role ? "by" + this.markdown.compile(i.role.description || "") : ""}</small>
       `
     ).join("")
 
@@ -164,82 +222,4 @@ export class UIService {
     `
 
   }
-
-  getUserHtml(user: User, isSmall: boolean) {
-    if (!user) return "<a ></a>";
-    let formattedName = isSmall ? `<small>${user.name}</small>` : `${user.name}`
-    return `<button class="open-summary btn btn-link pl-0" data-shortid="${user.shortid}" data-slug="${user.getSlug()}">
-            <img src="${user.picture}" width="${isSmall ? 15 : 30}" height="${isSmall ? 15 : 30}" class="rounded-circle mr-1">${formattedName}
-        </button>`;
-  }
-
-  getTagHtml(tag: Tag) {
-    if (!tag) return;
-    return `
-    <li><a class="btn btn-sm btn-secondary borderless mr-1 tag" style="color:${
-      tag.color
-      }">
-            <i class="fa fa-tag mr-1" aria-hidden="true" style="color:${
-      tag.color
-      }"></i>${tag.name}
-        </a></li>
-    `
-  }
-
-  getTooltipHTML(initiative: Initiative): string {
-    let tagsSpan = initiative.tags
-      ? initiative.tags
-        .map(
-        (tag: Tag) => this.getTagHtml(tag))
-        .join("")
-      : "";
-
-    let accountableImg = this.getUserHtml(initiative.accountable, false)
-
-    let helpersImg = initiative.helpers
-      ? initiative.helpers
-        .map((helper: Helper) => this.getUserHtml(helper, true))
-        .join("")
-      : "";
-
-    return `
-        <div class="content">
-          <h6 class="mb-1 lead"><button class="btn btn-link lead open-initiative" id="${initiative.id}">${initiative.name}</button></h6>
-          <ul class="tags small"> ${tagsSpan}</ul>
-          <div class="mb-0 p-0 ml-0">${accountableImg}</div>
-          <div class="row pl-3 mb-2 d-flex justify-content-start" >${helpersImg}</div>
-          <small>${this.markdown.compile(initiative.description || "")}</small>
-        </div>
-          `;
-  }
-
-  /*
-    adjustLabels(textNodes: Selection<BaseType, HierarchyCircularNode<{}>, BaseType, {}>, k: number) {
-        let d3 = this.d3;
-        textNodes
-            .text(function (d: any) { return d.data.name })
-            .each(function (d: any, i: number) {
-
-                d.pathLength = (<SVGPathElement>d3.select("#path" + d.data.id).node()).getTotalLength();
-                d.tw = (<any>d3.select(this).node()).getComputedTextLength()
-                d.radius = d.r * k;
-               let maxLength = 2 / 5 * d.pathLength;
-                let proposedLabel = d.data.name;
-                let proposedLabelArray = proposedLabel.split("");
-
-               while ((d.tw > maxLength && proposedLabelArray.length)) {
-                   proposedLabelArray.pop(); proposedLabelArray.pop(); proposedLabelArray.pop();
-                    if (proposedLabelArray.length === 0) {
-                        proposedLabel = "";
-                    } else {
-                        proposedLabel = proposedLabelArray.join("") + "..."; // manually truncate with ellipsis
-                    }
-                    d3.select(this).text(proposedLabel);
-
-                    d.tw = (<any>d3.select(this).node()).getComputedTextLength();
-                }
-                // }
-            });
-    }
-*/
 }
