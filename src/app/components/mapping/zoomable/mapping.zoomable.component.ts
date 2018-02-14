@@ -411,12 +411,15 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return uiService.getCircularPath(radius, -radius, 0);
       });
 
+
     let initiative = g
       .selectAll("g.node.initiative-map")
       .data(nodes, function (d: any) {
         return d.data.id;
-      })
-      .enter()
+      });
+
+    initiative.exit().remove();
+    initiative = initiative.enter()
       .append("g")
       .attr("class", function (d: any) {
         return d.parent
@@ -424,6 +427,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           : "node node--root";
       })
       .classed("initiative-map", true)
+      .merge(initiative)
       .attr("id", function (d: any) {
         return `${d.data.id}`;
       });
