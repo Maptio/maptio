@@ -144,29 +144,29 @@ describe("mapping.network.component.ts", () => {
         expect(g.querySelectorAll("g.labels > text.edge").length).toBe(4);
     });
 
-    describe("hoverLink", () => {
-        it("should gather initiatives when there is a match", () => {
-            let data = new Initiative().deserialize(fixture.load("data.json"));
-            let nodes = d3.hierarchy(data).descendants().map(d => d.data);
+    // describe("hoverLink", () => {
+    //     it("should gather initiatives when there is a match", () => {
+    //         let data = new Initiative().deserialize(fixture.load("data.json"));
+    //         let nodes = d3.hierarchy(data).descendants().map(d => d.data);
 
-            component.hoverLink(nodes, ["2"], "22", "2");
+    //         component.hoverLink(nodes, ["2"], "22", "2");
 
-            expect(component.tooltipInitiatives.length).toBe(1);
-            expect(component.tooltipInitiatives[0].name).toBe("Marketing");
-            expect(component.tooltipInitiatives[0].id.toString()).toBe("2");
-            expect(component.tooltipRoles.length).toBe(1)
-            expect(component.tooltipRoles[0].initiative.id.toString()).toBe("2");
-            expect(component.tooltipRoles[0].role.description).toBe("helping with something");
-        });
+    //         expect(component.tooltipInitiatives.length).toBe(1);
+    //         expect(component.tooltipInitiatives[0].name).toBe("Marketing");
+    //         expect(component.tooltipInitiatives[0].id.toString()).toBe("2");
+    //         expect(component.tooltipRoles.length).toBe(1)
+    //         expect(component.tooltipRoles[0].initiative.id.toString()).toBe("2");
+    //         expect(component.tooltipRoles[0].role.description).toBe("helping with something");
+    //     });
 
-        it("should not gather initiatives when there is no match", () => {
-            let data = new Initiative().deserialize(fixture.load("data.json"));
-            let nodes = d3.hierarchy(data).descendants().map(d => d.data);
+    //     it("should not gather initiatives when there is no match", () => {
+    //         let data = new Initiative().deserialize(fixture.load("data.json"));
+    //         let nodes = d3.hierarchy(data).descendants().map(d => d.data);
 
-            component.hoverLink(nodes, ["99"], "22", "2");
+    //         component.hoverLink(nodes, ["99"], "22", "2");
 
-            expect(component.tooltipInitiatives).toEqual([]);
-            expect(component.tooltipRoles).toBeUndefined();
-        });
-    });
+    //         expect(component.tooltipInitiatives).toEqual([]);
+    //         expect(component.tooltipRoles).toBeUndefined();
+    //     });
+    // });
 });
