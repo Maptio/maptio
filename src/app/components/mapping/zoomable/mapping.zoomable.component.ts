@@ -270,7 +270,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
       });
 
     this.zoomInitiative$.subscribe(node => {
-      svg.select(`circle.initiative-map[id="${node.id}"]`).dispatch("click");
+      console.log("searched", node.name, node.id)
+      svg.select(`circle.node.initiative-map[id="${node.id}"]`).dispatch("click");
     });
 
     this.svg = svg;
@@ -378,7 +379,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
       })
 
     initiativeEnter.append("circle")
-      .classed("initiative-map", true)
     initiativeEnter.filter((d: any) => d.children).append("text").attr("class", "name with-children").classed("initiative-map", true);
     initiativeEnter.filter((d: any) => !d.children).append("text").attr("class", "name no-children").classed("initiative-map", true);
 
@@ -398,6 +398,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           ? d.children ? "node" : "node node--leaf"
           : "node node--root";
       })
+      .classed("initiative-map", true)
       .each((d: any) => (d.k = 1))
       .attr("id", function (d: any) {
         return `${d.data.id}`;
