@@ -193,7 +193,6 @@ export class UIService {
   }
 
   getConnectionsHTML(initiatives: Initiative[], sourceUserId: string) {
-    console.log(initiatives, sourceUserId, initiatives[0].helpers)
     let sourceUser = initiatives[0].helpers.find(
       h => h.user_id === sourceUserId
     );

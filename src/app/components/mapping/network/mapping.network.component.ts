@@ -262,6 +262,19 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         svg.selectAll("text").style("fill", format[1]);
       });
 
+    this.zoomInitiative$.combineLatest(this.mapColor$, this.fontColor$).subscribe((zoomed: [any, string, string]) => {
+      let node = zoomed[0];
+      let mapColor = zoomed[1];
+      let fontColor = zoomed[2];
+     
+      let people = _.flatten([...[node.accountable], node.helpers]);
+      console.log(node.name, node.id, people)
+      d3.selectAll("g.node").style("font-weight","initial")
+      d3.selectAll("path").style("stroke",mapColor)
+      d3.selectAll(`${people.map(p => `g.node[id="${p.user_id}"]`).join(",")}`).style("font-weight","900");
+      d3.selectAll(`path[data-initiatives~="${node.id}"]`).style("stroke", fontColor)
+    });
+
     this.svg = svg;
     this.g = g;
   }
@@ -482,7 +495,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .merge(link)
       .attr("stroke", seedColor)
       .attr("data-initiatives", function (d: any) {
-        return d[4].join(",");
+        return d[4].join(" ");
       })
       .attr("data-tags", function (d: any) {
         return d[5].join(",");
@@ -564,7 +577,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .classed("show", false)
       .merge(tooltip)
       .attr("data-initiatives", function (d: any) {
-        return d[4].join(",");
+        return d[4].join(" ");
       })
       .attr("id", function (d: any) {
         return d[6];
@@ -612,6 +625,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .enter()
       .append("g")
       .attr("class", "node")
+      .attr("id", (d:any)=>d.id)
       .merge(node)
       .on("dblclick", releaseNode)
       .call(
@@ -668,7 +682,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         let TOOLTIP_HEIGHT = (tooltip.node() as HTMLElement).getBoundingClientRect().height;
         let TOOLTIP_WIDTH = (tooltip.node() as HTMLElement).getBoundingClientRect().width;
         let ARROW_DIMENSION = 10;
-        console.log(d, p, path)
+        
         let left = p.x;
         let top = p.y;
 
