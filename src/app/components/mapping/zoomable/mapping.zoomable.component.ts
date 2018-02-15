@@ -152,6 +152,27 @@ export class MappingZoomableComponent implements IDataVisualizer {
       });
   }
 
+  ngOnDestroy() {
+    if (this.zoomSubscription) {
+      this.zoomSubscription.unsubscribe();
+    }
+    if (this.dataSubscription) {
+      this.dataSubscription.unsubscribe();
+    }
+    if (this.resetSubscription) {
+      this.resetSubscription.unsubscribe();
+    }
+    if (this.fontSubscription) {
+      this.fontSubscription.unsubscribe();
+    }
+    if (this.lockedSubscription) {
+      this.lockedSubscription.unsubscribe();
+    }
+    if (this.tagsSubscription) {
+      this.tagsSubscription.unsubscribe();
+    }
+  }
+
   init() {
     this.uiService.clean();
     let d3 = this.d3;
@@ -259,27 +280,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.definitions = definitions;
   }
 
-  ngOnDestroy() {
-    if (this.zoomSubscription) {
-      this.zoomSubscription.unsubscribe();
-    }
-    if (this.dataSubscription) {
-      this.dataSubscription.unsubscribe();
-    }
-    if (this.resetSubscription) {
-      this.resetSubscription.unsubscribe();
-    }
-    if (this.fontSubscription) {
-      this.fontSubscription.unsubscribe();
-    }
-    if (this.lockedSubscription) {
-      this.lockedSubscription.unsubscribe();
-    }
-    if (this.tagsSubscription) {
-      this.tagsSubscription.unsubscribe();
-    }
-  }
-
   update(data: Initiative, tags: Array<SelectableTag>, seedColor: string) {
     if (this.d3.selectAll("g").empty()) {
       this.init();
@@ -339,7 +339,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
       list = d3.hierarchy(data).descendants(),
       view: any;
 
-    buildPatterns();
 
     function getDepthDifference(d: any): number {
       return d.depth - focus.depth;
@@ -352,65 +351,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
       return getDepthDifference(d) <= 2;
     }
 
-    let tooltip = d3
-      .select("body")
-      .selectAll("div.arrow_box")
-      .data(nodes, function (d: any) {
-        return d.data.id;
-      })
-    tooltip.exit().remove();
+    buildPatterns();
 
-    tooltip = tooltip.enter()
-      .append("div")
-      .attr("class", "arrow_box")
-      .classed("show", false)
-      .merge(tooltip)
-      .attr("id", function (d: any) {
-        return `${d.data.id}`;
-      })
-      .on("mouseenter", function () {
-        d3.select(this).classed("show", true);
-      })
-      .on("mouseleave", function () {
-        tooltip.classed("show", false);
-      })
-      .html(function (d: any) {
-        return uiService.getTooltipHTML(d.data);
-      });
+    buildTooltips();
 
-    d3.selectAll(`.open-initiative`).on("click", function (d: any) {
-      let id = Number.parseFloat(d3.select(this).attr("id"));
-      showDetailsOf$.next(list.find(n => (<any>n.data).id === id).data);
-    });
-    d3.selectAll(`.open-summary`).on("click", function (d: any) {
-      let shortid = d3.select(this).attr("data-shortid");
-      let slug = d3.select(this).attr("data-slug");
-      router.navigateByUrl(
-        `/map/${datasetId}/${datasetSlug}/u/${shortid}/${slug}`
-      );
-    });
-
-    // let paths = g.append("g").attr("class", "paths");
-    let path = g.select("g.paths")
-      .selectAll("path")
-      .data(nodes, function (d: any) {
-        return d.data.id;
-      })
-
-    path.exit().remove();
-    path = path.enter()
-      .append("path")
-      .merge(path)
-      .attr("id", function (d: any) {
-        return `path${d.data.id}`;
-      })
-      .style("stroke", "none")
-      .style("fill", "none")
-      .attr("d", function (d: any, i: number) {
-        let radius = d.r + 1;
-        return uiService.getCircularPath(radius, -radius, 0);
-      });
-
+    let path = buildPaths();
 
     let initiative = g
       .selectAll("g.node.initiative-map")
@@ -432,11 +377,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return `${d.data.id}`;
       })
 
-    initiativeEnter.append("circle").attr("class", function (d: any) {
-      return d.parent
-        ? d.children ? "node" : "node node--leaf"
-        : "node node--root";
-    })
+    initiativeEnter.append("circle")
       .classed("initiative-map", true)
     initiativeEnter.filter(d => d.children).append("text").attr("class", "name with-children").classed("initiative-map", true);
     initiativeEnter.filter(d => !d.children).append("text").attr("class", "name no-children").classed("initiative-map", true);
@@ -452,23 +393,30 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
 
     let circle = initiative.select("circle")
+      .attr("class", function (d: any) {
+        return d.parent
+          ? d.children ? "node" : "node node--leaf"
+          : "node node--root";
+      })
       .each((d: any) => (d.k = 1))
       .attr("id", function (d: any) {
         return `${d.data.id}`;
       })
-
       .classed("with-border", function (d: any) {
         return !d.children && d.parent === root;
       })
+
       .on("click", function (d: any) {
         if (focus !== d) zoom(d), d3.event.stopPropagation();
       });
 
-    g.selectAll("circle.node").style("fill", function (d: any) {
-      return d.children
-        ? color(d.depth)
-        : !d.children && d.parent === root ? color(d.depth) : null;
-    });
+    g.selectAll("circle.node")
+      .style("fill", function (d: any) {
+        return d.children
+          ? color(d.depth)
+          : !d.children && d.parent === root ? color(d.depth) : null;
+      })
+      ;
 
     let textAround = initiative.select("text.name.with-children")
       .attr("id", function (d: any) {
@@ -903,6 +851,70 @@ export class MappingZoomableComponent implements IDataVisualizer {
           return d.data.accountable.picture;
         });
       patterns.exit().remove();
+    }
+
+    function buildTooltips() {
+      let tooltip = d3
+        .select("body")
+        .selectAll("div.arrow_box")
+        .data(nodes, function (d: any) {
+          return d.data.id;
+        })
+      tooltip.exit().remove();
+
+      tooltip = tooltip.enter()
+        .append("div")
+        .attr("class", "arrow_box")
+        .classed("show", false)
+        .merge(tooltip)
+        .attr("id", function (d: any) {
+          return `${d.data.id}`;
+        })
+        .on("mouseenter", function () {
+          d3.select(this).classed("show", true);
+        })
+        .on("mouseleave", function () {
+          tooltip.classed("show", false);
+        })
+        .html(function (d: any) {
+          return uiService.getTooltipHTML(d.data);
+        });
+
+      d3.selectAll(`.open-initiative`).on("click", function (d: any) {
+        let id = Number.parseFloat(d3.select(this).attr("id"));
+        showDetailsOf$.next(list.find(n => (<any>n.data).id === id).data);
+      });
+      d3.selectAll(`.open-summary`).on("click", function (d: any) {
+        let shortid = d3.select(this).attr("data-shortid");
+        let slug = d3.select(this).attr("data-slug");
+        router.navigateByUrl(
+          `/map/${datasetId}/${datasetSlug}/u/${shortid}/${slug}`
+        );
+      });
+    }
+
+    function buildPaths() {
+      let path = g.select("g.paths")
+        .selectAll("path")
+        .data(nodes, function (d: any) {
+          return d.data.id;
+        })
+
+      path.exit().remove();
+      path = path.enter()
+        .append("path")
+        .merge(path)
+        .attr("id", function (d: any) {
+          return `path${d.data.id}`;
+        })
+        .style("stroke", "none")
+        .style("fill", "none")
+        .attr("d", function (d: any, i: number) {
+          let radius = d.r + 1;
+          return uiService.getCircularPath(radius, -radius, 0);
+        });
+
+      return path;
     }
   }
 }

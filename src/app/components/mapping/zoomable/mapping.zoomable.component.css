@@ -11,10 +11,6 @@
     stroke-width: initial;
 }
 
-::ng-deep .initiative-map.node text {
-    /* fill: #fff; */
-}
-
 ::ng-deep .initiative-map.node--leaf {
     fill: white;
     pointer-events: visible;
@@ -54,5 +50,4 @@
 ::ng-deep .label.initiative-map {
     font: "Helvetica Neue", Helvetica, Arial, sans-serif;
     text-anchor: start;
-    /* text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff; */
 }
