@@ -215,6 +215,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       let fontColor = zoomed[2];
       d3.selectAll(`g.node.tree-map`).style("fill", fontColor);
       d3.select(`g.node.tree-map[id~="${node.id}"]`).dispatch("expand")
+      if (!this.getPathsToRoot().has(node.id)) return;
       this.getPathsToRoot().get(node.id).filter(id => id !== node.id).reverse().forEach(nodeId => {
         d3.select(`g.node.tree-map[id~="${nodeId}"]`).dispatch("expand");
       })
@@ -265,7 +266,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   }
 
 
-  private _pathsToRoot: Map<number, number[]>;
+  private _pathsToRoot: Map<number, number[]> = new Map();
 
   setPathsToRoot(paths: Map<number, number[]>) {
     this._pathsToRoot = paths;
@@ -328,7 +329,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       pathsToRoot.set(n.data.id, n.ancestors().map((a: any) => a.data.id));
     });
     setPathsToRoot(pathsToRoot)
-    console.log(pathsToRoot)
 
     // Collapse after the third level
     root.children.forEach((c: any) => {

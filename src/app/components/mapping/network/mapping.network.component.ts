@@ -262,13 +262,12 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         svg.selectAll("text").style("fill", format[1]);
       });
 
-    this.zoomInitiative$.combineLatest(this.mapColor$, this.fontColor$).subscribe((zoomed: [any, string, string]) => {
+    this.zoomInitiative$.combineLatest(this.mapColor$, this.fontColor$).subscribe((zoomed: [Initiative, string, string]) => {
       let node = zoomed[0];
       let mapColor = zoomed[1];
       let fontColor = zoomed[2];
      
       let people = _.flatten([...[node.accountable], node.helpers]);
-      console.log(node.name, node.id, people)
       d3.selectAll("g.node").style("font-weight","initial")
       d3.selectAll("path").style("stroke",mapColor)
       d3.selectAll(`${people.map(p => `g.node[id="${p.user_id}"]`).join(",")}`).style("font-weight","900");
