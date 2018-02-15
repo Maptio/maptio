@@ -379,15 +379,15 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     initiativeEnter.append("circle")
       .classed("initiative-map", true)
-    initiativeEnter.filter(d => d.children).append("text").attr("class", "name with-children").classed("initiative-map", true);
-    initiativeEnter.filter(d => !d.children).append("text").attr("class", "name no-children").classed("initiative-map", true);
+    initiativeEnter.filter((d: any) => d.children).append("text").attr("class", "name with-children").classed("initiative-map", true);
+    initiativeEnter.filter((d: any) => !d.children).append("text").attr("class", "name no-children").classed("initiative-map", true);
 
-    initiativeEnter.filter(d => !d.children).append("text").attr("class", "tags no-children").classed("initiative-map", true);
+    initiativeEnter.filter((d: any) => !d.children).append("text").attr("class", "tags no-children").classed("initiative-map", true);
 
-    initiativeEnter.filter(d => d.children).append("circle").attr("class", "accountable with-children").classed("initiative-map", true);
-    initiativeEnter.filter(d => !d.children).append("circle").attr("class", "accountable no-children").classed("initiative-map", true);
+    initiativeEnter.filter((d: any) => d.children).append("circle").attr("class", "accountable with-children").classed("initiative-map", true);
+    initiativeEnter.filter((d: any) => !d.children).append("circle").attr("class", "accountable no-children").classed("initiative-map", true);
 
-    initiativeEnter.filter(d => !d.children).append("text").attr("class", "accountable no-children").classed("initiative-map", true)
+    initiativeEnter.filter((d: any) => !d.children).append("text").attr("class", "accountable no-children").classed("initiative-map", true)
 
     initiative = initiativeEnter.merge(initiative);
 
