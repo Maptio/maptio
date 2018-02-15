@@ -199,6 +199,29 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       } catch (error) { }
     });
 
+
+    function centerNode(d: any) {
+      let t = d3.zoomTransform(svg.node());
+      let x = -d.y0;
+      let y = -d.x0;
+      x = x * t.k + viewerWidth / 2;
+      y = y * t.k + viewerHeight / 2;
+      svg.transition().duration(750).call(zooming.transform, d3.zoomIdentity.translate(x, y).scale(t.k));
+    }
+
+    this.zoomInitiative$.combineLatest(this.mapColor$, this.fontColor$).subscribe((zoomed: [any, string, string]) => {
+      let node = zoomed[0];
+      let mapColor = zoomed[1];
+      let fontColor = zoomed[2];
+      d3.selectAll(`g.node.tree-map`).style("fill", fontColor);
+      d3.select(`g.node.tree-map[id~="${node.id}"]`).dispatch("expand")
+      this.getPathsToRoot().get(node.id).filter(id => id !== node.id).reverse().forEach(nodeId => {
+        d3.select(`g.node.tree-map[id~="${nodeId}"]`).dispatch("expand");
+      })
+      let gNode = d3.select(`g.node.tree-map[id~="${node.id}"]`)
+      gNode.style("fill", mapColor);
+    });
+
     this.svg = svg;
     this.g = g;
     this.definitions = definitions;
@@ -241,12 +264,18 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     }
   }
 
-  hoverInitiative(node: Initiative) {
-    this.hoveredNode = node;
-    this.cd.markForCheck();
+
+  private _pathsToRoot: Map<number, number[]>;
+
+  setPathsToRoot(paths: Map<number, number[]>) {
+    this._pathsToRoot = paths;
   }
 
-  // draw(translateX: number, translateY: number, scale: number) {
+  getPathsToRoot() {
+    return this._pathsToRoot;
+  }
+
+
   update(data: any, tags: Array<SelectableTag>, seedColor: string) {
     if (this.d3.selectAll("g").empty()) {
       this.init();
@@ -259,18 +288,15 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     let MAX_TEXT_LENGTH = this.MAX_TEXT_LENGTH;
     let viewerWidth = this.width;
     let viewerHeight = this.height;
-    // let zoom$ = this.zoom$;
-    // let fontSize$ = this.fontSize$;
     let datasetId = this.datasetId;
     let router = this.router;
     let userFactory = this.userFactory;
     let showDetailsOf$ = this.showDetailsOf$;
-    // let svg = this.svg;
     let g = this.g;
+    let svg = this.svg;
     let definitions = this.definitions;
-    let hoverInitiative = this.hoverInitiative.bind(this);
-    // let slug = this.slug;
     let datasetSlug = this.slug;
+    let setPathsToRoot = this.setPathsToRoot.bind(this)
 
     let treemap = d3
       .tree()
@@ -279,20 +305,30 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
     let i = 0,
       // duration = 750,
-      root: any;
+      root: any,
+      list: any[];
 
     // Assigns parent, children, height, depth
     root = d3.hierarchy(data, function (d) {
       return d.children;
-    });
+    }),
+      list = d3.hierarchy(data).descendants();
     root.x0 = viewerHeight;
     root.y0 = 0;
+
 
     let depth = 0;
     root.eachAfter(function (n: any) {
       depth = depth > n.depth ? depth : n.depth;
     });
     let color = colorService.getColorRange(depth, seedColor);
+
+    let pathsToRoot: Map<string, string[]> = new Map();
+    root.eachAfter(function (n: any) {
+      pathsToRoot.set(n.data.id, n.ancestors().map((a: any) => a.data.id));
+    });
+    setPathsToRoot(pathsToRoot)
+    console.log(pathsToRoot)
 
     // Collapse after the third level
     root.children.forEach((c: any) => {
@@ -310,14 +346,24 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       }
     }
 
+    function expand(d: any) {
+      if (d._children) {
+        d.children = d._children;
+        // d.children.forEach(expand);
+        d._children = null;
+      }
+    }
+
+
     function update(source: any, duration: number) {
+
+
       // Assigns the x and y position for the nodes
       let treeData = treemap(root);
 
       // Compute the new tree layout.
       let nodes = treeData.descendants(),
-        links = treeData.descendants().slice(1),
-        list = d3.hierarchy(data).descendants();
+        links = treeData.descendants().slice(1);
 
       // Normalize for fixed-depth.
       nodes.forEach(function (d: any) {
@@ -369,9 +415,12 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
       // Update the nodes...
       // console.log(g)
-      let node = g.selectAll("g.node.tree-map").data(nodes, function (d: any) {
-        return d.id || (d.id = ++i);
-      });
+      let node = g.selectAll("g.node.tree-map")
+        .data(nodes, function (d: any) {
+          return d.id || (d.id = ++i);
+        })
+        .attr("id", (d: any) => d.data.id)
+        ;
       let [selectedTags, unselectedTags] = _.partition(tags, t => t.isSelected);
 
       g.selectAll("g.node.tree-map").style("opacity", function (d: any) {
@@ -385,20 +434,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
           1
           : 0.1;
       });
-
-      // let definitions = g.append("defs")
-      // definitions.selectAll("pattern")
-      //     .data(nodes)
-      //     .enter()
-      //     .append("pattern")
-      //     .attr("id", function (d: any) { return "image" + d.data.id; })
-      //     .attr("width", "100%")
-      //     .attr("height", "100%")
-      //     .append("image")
-      //     .attr("width", CIRCLE_RADIUS * 2)
-      //     .attr("height", CIRCLE_RADIUS * 2)
-      //     .attr("xlink:href", function (d: any) { return d.data.accountable ? d.data.accountable.picture : ""; })
-      //     ;
 
       let patterns = definitions
         .selectAll("pattern")
@@ -430,6 +465,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .enter()
         .append("g")
         .attr("class", "node")
+        .attr("id", (d: any) => d.data.id)
         .classed("tree-map", true)
         .attr("tags-id", function (d: any) {
           return d.data.tags.map((t: Tag) => t.shortid).join(",");
@@ -437,7 +473,12 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .attr("transform", function (d: any) {
           return "translate(" + source.y0 + "," + source.x0 + ")";
         })
-        .on("click", click);
+        .on("click", click)
+        .on("expand", (d: any) => {
+          console.log("expanding", d.data.id, d.data.name)
+          expand(d);
+          update(d, 250)
+        })
 
       // Add Circle for the nodes
       nodeEnter
@@ -502,34 +543,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .attr("x", CIRCLE_RADIUS + 4)
         .html(function (d: any) {
           // let tagsSpan = d.data.tags.map((tag: Tag) => `<tspan class="dot-tags" fill=${tag.color}>&#xf02b</tspan>`).join("");
-          return `
-                            <tspan>${
-            d.data.accountable ? d.data.accountable.name : ""
-            }</tspan>`;
+          return `<tspan>${d.data.accountable ? d.data.accountable.name : ""}</tspan>`;
         });
-      // .text(function (d: any) { return d.data.accountable ? d.data.accountable.name : ""; })
-      // .on("click", function(d: any) {
-      //   if (d.data.accountable) {
-      //     // TODO : keep until migration of database towards shortids
-      //     if (!d.data.accountable.shortid) {
-      //       userFactory
-      //         .get(d.data.accountable.user_id)
-      //         .then(u => (d.data.accountable.shortid = u.shortid))
-      //         .then(() => {
-      //           router.navigateByUrl(
-      //             `/map/${datasetId}/${slug}/u/${
-      //               d.data.accountable.shortid
-      //             }/${d.data.accountable.getSlug()}`
-      //           );
-      //         });
-      //     }
-      //     router.navigateByUrl(
-      //       `/map/${datasetId}/${slug}/u/${
-      //         d.data.accountable.shortid
-      //       }/${d.data.accountable.getSlug()}`
-      //     );
-      //   }
-      // });
 
       // UPDATE
       let nodeUpdate = nodeEnter.merge(node);
@@ -540,7 +555,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .duration(duration)
         .attr("transform", function (d: any) {
           return "translate(" + d.y + "," + d.x + ")";
-        });
+        })
+        .attr("descendants-id", (d: any) => d._children ? d.descendantIds : "");
 
       // Update the node attributes and style
       nodeUpdate
@@ -623,7 +639,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             .height;
           let TOOLTIP_WIDTH = (tooltip.node() as HTMLElement).getBoundingClientRect()
             .width;
-          console.log(window.pageYOffset, matrix);
+
           let left = window.pageXOffset + matrix.e - TOOLTIP_WIDTH / 2;
           let top =
             window.pageYOffset + matrix.f - TOOLTIP_HEIGHT - 10 - CIRCLE_RADIUS;
@@ -722,6 +738,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         update(d, 250);
         // centerNode(d)
       }
+
+
     }
   }
 }

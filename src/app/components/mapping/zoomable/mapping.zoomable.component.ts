@@ -270,7 +270,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
       });
 
     this.zoomInitiative$.subscribe(node => {
-      console.log("searched", node.name, node.id)
       svg.select(`circle.node.initiative-map[id="${node.id}"]`).dispatch("click");
     });
 
