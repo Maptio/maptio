@@ -415,11 +415,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let initiative = g
       .selectAll("g.node.initiative-map")
       .data(nodes, function (d: any) {
-        return d.data.id;
+        return `${d.data.id}`;
       });
 
     initiative.exit().remove();
-    initiative = initiative.enter()
+
+    let initiativeEnter = initiative.enter()
       .append("g")
       .attr("class", function (d: any) {
         return d.parent
@@ -427,23 +428,35 @@ export class MappingZoomableComponent implements IDataVisualizer {
           : "node node--root";
       })
       .classed("initiative-map", true)
-      .merge(initiative)
       .attr("id", function (d: any) {
         return `${d.data.id}`;
-      });
+      })
 
-    let circle = initiative
-      .append("circle")
+    initiativeEnter.append("circle").attr("class", function (d: any) {
+      return d.parent
+        ? d.children ? "node" : "node node--leaf"
+        : "node node--root";
+    })
+      .classed("initiative-map", true)
+    initiativeEnter.filter(d => d.children).append("text").attr("class", "name with-children").classed("initiative-map", true);
+    initiativeEnter.filter(d => !d.children).append("text").attr("class", "name no-children").classed("initiative-map", true);
+
+    initiativeEnter.filter(d => !d.children).append("text").attr("class", "tags no-children").classed("initiative-map", true);
+
+    initiativeEnter.filter(d => d.children).append("circle").attr("class", "accountable with-children").classed("initiative-map", true);
+    initiativeEnter.filter(d => !d.children).append("circle").attr("class", "accountable no-children").classed("initiative-map", true);
+
+    initiativeEnter.filter(d => !d.children).append("text").attr("class", "accountable no-children").classed("initiative-map", true)
+
+    initiative = initiativeEnter.merge(initiative);
+
+
+    let circle = initiative.select("circle")
       .each((d: any) => (d.k = 1))
       .attr("id", function (d: any) {
         return `${d.data.id}`;
       })
-      .attr("class", function (d: any) {
-        return d.parent
-          ? d.children ? "node" : "node node--leaf"
-          : "node node--root";
-      })
-      .classed("initiative-map", true)
+
       .classed("with-border", function (d: any) {
         return !d.children && d.parent === root;
       })
@@ -457,18 +470,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
         : !d.children && d.parent === root ? color(d.depth) : null;
     });
 
-    let textAround = initiative
-      .filter(function (d: any) {
-        return d.children;
-      })
-      .append("text")
+    let textAround = initiative.select("text.name.with-children")
       .attr("id", function (d: any) {
         return `${d.data.id}`;
       })
-      .classed("initiative-map", true)
-      .attr("class", "name")
       .style("pointer-events", "none")
-      // .attr("font-size", function (d: any) { return `${fonts(d.depth)}px` })
       .style("opacity", function (d: any) {
         return isBranchDisplayed(d) ? 1 : 0;
       })
@@ -479,19 +485,16 @@ export class MappingZoomableComponent implements IDataVisualizer {
       })
       .html(function (d: any) {
         return `<textPath xlink:href="#path${d.data.id}" startOffset="10%">
-                <tspan>${d.data.name || ""}</tspan>
-                </textPath>`;
+                  <tspan>${d.data.name || ""}</tspan>
+                  </textPath>`;
       });
 
-    let initiativeName = initiative
-      .filter(function (d: any) {
-        return !d.children;
-      })
-      .append("text")
+
+
+    let initiativeName = initiative.select("text.name.no-children")
       .attr("id", function (d: any) {
         return `${d.data.id}`;
       })
-      .attr("class", "name")
       .classed("initiative-map", true)
       .style("pointer-events", "none")
       .attr("dy", 0)
@@ -520,19 +523,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
         );
       });
 
-    let tagsName = initiative
-      .filter(function (d: any) {
-        return !d.children;
-      })
-      .filter(function (d: any) {
-        return d.data.tags;
-      })
-      .append("text")
+    let tagsName = initiative.select("text.tags")
       .attr("id", function (d: any) {
         return `${d.data.id}`;
       })
-      .attr("class", "tags")
-      .classed("initiative-map", true)
       .style("pointer-events", "none")
       .attr("text-anchor", "middle")
       .attr("x", function (d: any) {
@@ -552,13 +546,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return d.data.tags.map((tag: Tag) => `<tspan fill="${tag.color}" class="dot-tags">&#xf02b</tspan><tspan fill="${tag.color}">${tag.name}</tspan>`).join(" ");
       });
 
-    let accountablePictureWithChildren = initiative
-      .filter(function (d: any) {
-        return d.children;
-      })
-      .append("circle")
-      .attr("class", "accountable")
-      .classed("initiative-map", true)
+    let accountablePictureWithChildren = initiative.select("circle.accountable.with-children")
       .attr("pointer-events", "none")
       .attr("fill", function (d: any) {
         return "url(#image" + d.data.id + ")";
@@ -572,13 +560,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           : "none";
       });
 
-    let accountablePictureWithoutChildren = initiative
-      .filter(function (d: any) {
-        return !d.children;
-      })
-      .append("circle")
-      .attr("class", "accountable")
-      .classed("initiative-map", true)
+    let accountablePictureWithoutChildren = initiative.select("circle.accountable.no-children")
       .attr("pointer-events", "none")
       .attr("fill", function (d: any) {
         return "url(#image" + d.data.id + ")";
@@ -587,18 +569,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return isLeafDisplayed(d) ? 1 : 0;
       });
 
-    let accountableName = initiative
-      .filter(function (d: any) {
-        return !d.children;
-      })
-      .filter(function (d: any) {
-        return d.data.accountable;
-      })
-      .append("text")
+    let accountableName = initiative.select("text.accountable.no-children")
       .attr("text-anchor", "middle")
       .style("pointer-events", "none")
-      .attr("class", "accountable")
-      .classed("initiative-map", true)
       .attr("id", function (d: any) {
         return `${d.data.id}`;
       })
@@ -616,7 +589,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return -d.r * POSITION_ACCOUNTABLE_NAME.y;
       })
       .text(function (d: any) {
-        return d.data.accountable.name;
+        return d.data.accountable ? d.data.accountable.name : "";
       });
 
     let node = g.selectAll("g.node");
