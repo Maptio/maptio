@@ -7,8 +7,8 @@ import * as _ from "lodash";
 import { Initiative } from "../../model/initiative.data";
 import { Helper } from "../../model/helper.data";
 import { MarkdownService } from "angular2-markdown";
-import { Role } from "src/app/shared/model/role.data";
-import { User } from "src/app/shared/model/user.data";
+import { Role } from "../../model/role.data";
+import { User } from "../../model/user.data";
 
 @Injectable()
 export class UIService {

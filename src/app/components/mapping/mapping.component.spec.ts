@@ -121,7 +121,7 @@ describe("mapping.component.ts", () => {
         describe("getFragment", () => {
             it("should return #x=761&y=761&scale=1 when layout is initiatives", () => {
                 let actual = component.getFragment(new MappingZoomableComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined, undefined));
-                expect(actual).toBe("x=761&y=761&scale=1")
+                expect(actual).toBe("x=761&y=608.8&scale=1")
             });
 
             it("should return #x=100&y=380.5&scale=1 when layout is people", () => {
