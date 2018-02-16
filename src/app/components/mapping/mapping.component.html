@@ -154,7 +154,7 @@
     <div class="form-group form-inline">
       <label for="fontSizeInput" class="col-form-label col-2">Size</label>
 
-      <span class="fontSizeOutput">x {{fontSize$ | async}}</span>
+      <!-- <span class="fontSizeOutput">x {{fontSize$ | async}}</span> -->
       <input class="col-6" id="fontSizeInput" #fontSizeInput name="fontSizeInput" type="range" min="0.2" max="2" value="{{fontSize$ | async}}"
         step="0.1" (change)="changeFontSize(fontSizeInput.value)" orient="vertical">
 

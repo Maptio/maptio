@@ -275,7 +275,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     });
 
     this.selectableTags$.subscribe(tags => {
-      console.log(tags)
+      
       this.tagsState = tags;
       let [selectedTags, unselectedTags] = _.partition(tags, t => t.isSelected);
       // let [selectedUsers, unselectedUsers] = _.partition(users, u => u.isSelected);

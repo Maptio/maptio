@@ -290,7 +290,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     let treemap = d3
       .tree()
       .size([viewerWidth / 2, viewerHeight])
-      .nodeSize([65, 1]);
+      .nodeSize([80, 1]);
 
     let i = 0,
       // duration = 750,
@@ -492,19 +492,20 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
           return d._children || d.children ? "pointer" : "default";
         });
 
+      nodeEnter
+        .append("text")
+        .attr("class", "tags")
+        .classed("tree-map", true)
+
+
       // Add labels for the nodes
       nodeEnter
         .append("text")
         .attr("class", "name")
         .classed("tree-map", true)
         .attr("dy", "0.65rem")
-        .attr("y", "1.00rem")
+        .attr("y", (d: any) => d.data.tags && d.data.tags.length > 0 ? `2.00rem` : `1.00rem`)
         .attr("x", CIRCLE_RADIUS + 5)
-        // .on("click", function(d: any, i: number) {
-        //   // console.log("cliked", d.data);
-        //   showDetailsOf$.next(d.data);
-        //   d3.event.stopPropagation();
-        // })
         .text(function (d: any) {
           return d.data.name;
         })
@@ -568,8 +569,17 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
           return d._children || d.children ? "pointer" : "default";
         });
 
+        nodeUpdate.select("text.tags.tree-map")
+        .attr("dy", "0.65rem")
+        .attr("y", "1.00rem")
+        .attr("x", CIRCLE_RADIUS + 5)
+        .html(function (d: any) {
+          return d.data.tags.map((tag: Tag) => `<tspan fill="${tag.color}" class="dot-tags">&#xf02b</tspan><tspan fill="${tag.color}">${tag.name}</tspan>`).join(" ");
+        });
+
       nodeUpdate
         .select("text.name.tree-map")
+        .attr("y", (d: any) => d.data.tags && d.data.tags.length > 0 ? `2.00rem` : `1.00rem`)
         .text(function (d: any) {
           return d.data.name;
         })
@@ -595,6 +605,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
           d.data.accountable ? d.data.accountable.name : ""
           }</tspan>`;
       });
+
+      
 
       // Remove any exiting nodes
       let nodeExit = node
