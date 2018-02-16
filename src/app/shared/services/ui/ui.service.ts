@@ -137,12 +137,15 @@ export class UIService {
 
 
 
-  getUserHtml(user: User, isSmall: boolean) {
+  getUserHtml(user: Helper, isSmall: boolean) {
     if (!user) return "<a ></a>";
     let formattedName = isSmall ? `<small>${user.name}</small>` : `${user.name}`
-    return `<button class="open-summary btn btn-link pl-0" data-shortid="${user.shortid}" data-slug="${user.getSlug()}">
-            <img src="${user.picture}" alt="${user.name}" width="${isSmall ? 15 : 30}" height="${isSmall ? 15 : 30}" class="rounded-circle mr-1">${formattedName}
-        </button>`;
+    return `<div>
+              <button class="open-summary btn btn-link pl-0" data-shortid="${user.shortid}" data-slug="${user.getSlug()}">
+                <img src="${user.picture}" alt="${user.name}" width="${isSmall ? 15 : 30}" height="${isSmall ? 15 : 30}" class="rounded-circle mr-1">${formattedName}
+              </button>
+              <small>${user.roles[0] ? this.markdown.compile(user.roles[0].description) : "" }</small>
+            </div>`;
   }
 
   getTagsHtml(tags: Tag[]) {
@@ -186,8 +189,8 @@ export class UIService {
          ${this.getInitiatveHTML(initiative)}
           <ul class="tags small"> ${this.getTagsHtml(initiative.tags)}</ul>
           <div class="mb-0 p-0 ml-0">${accountableImg}</div>
-          <div class="row pl-3 mb-2 d-flex justify-content-start" >${helpersImg}</div>
           <small>${this.markdown.compile(initiative.description || "")}</small>
+          <div class="row pl-3 mb-2 d-flex justify-content-start flex-column align-items-start" >${helpersImg}</div>
         </div>
           `;
   }
