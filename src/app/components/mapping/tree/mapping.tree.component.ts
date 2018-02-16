@@ -108,14 +108,12 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   init() {
     this.uiService.clean();
     let d3 = this.d3;
-    let viewerWidth = this.width;
-    let viewerHeight = this.height;
 
     // let margins = { top: 0, right: this.margin, bottom: this.margin, left: this.margin }
 
     // declares a tree layout and assigns the size
     // CAREFUL : width and height are reversed in this function
-    d3.tree().size([viewerWidth / 2, viewerHeight]);
+    d3.tree().size([this.width / 2, this.height]);
 
     function zoomed() {
       g.attr("transform", d3.event.transform);
@@ -143,8 +141,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
     let svg: any = d3
       .select("svg")
-      .attr("width", viewerWidth)
-      .attr("height", viewerHeight)
+      .attr("width", this.width)
+      .attr("height", this.height)
       .attr("class", "overlay")
       .style("background", "#fff");
 
@@ -181,7 +179,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
       svg.call(
         zooming.transform,
-        d3.zoomIdentity.translate(100, this.height / 4)
+        d3.zoomIdentity.translate(100, this.height / 3)
       );
     });
 
@@ -198,16 +196,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         }
       } catch (error) { }
     });
-
-
-    function centerNode(d: any) {
-      let t = d3.zoomTransform(svg.node());
-      let x = -d.y0;
-      let y = -d.x0;
-      x = x * t.k + viewerWidth / 2;
-      y = y * t.k + viewerHeight / 2;
-      svg.transition().duration(750).call(zooming.transform, d3.zoomIdentity.translate(x, y).scale(t.k));
-    }
 
     this.zoomInitiative$.combineLatest(this.mapColor$, this.fontColor$).subscribe((zoomed: [any, string, string]) => {
       let node = zoomed[0];

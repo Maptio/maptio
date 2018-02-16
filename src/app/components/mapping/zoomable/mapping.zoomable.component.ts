@@ -179,8 +179,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let d3 = this.d3;
 
     let margin = { top: 20, right: 200, bottom: 20, left: 200 };
-    let width = 1580 - margin.left - margin.right,
-      height = 800 - margin.top - margin.bottom;
+    let width = this.width  - margin.left - margin.right,
+      height = this.height  - margin.top - margin.bottom;
 
     let svg: any = d3
       .select("svg")
@@ -191,8 +191,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .append("g")
         .attr(
         "transform",
-        `translate(${diameter / 2 + margin.left}, ${diameter / 2 +
-        margin.top}) scale(${this.scale})`
+        `translate(${diameter / 2 + margin.left}, ${diameter / 2 + margin.top}) scale(${this.scale})`
         ),
       definitions = svg.append("svg:defs");
     g.append("g").attr("class", "paths");
@@ -235,6 +234,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
 
     this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
+      console.log("resetting")
       svg.call(
         zooming.transform,
         d3.zoomIdentity.translate(

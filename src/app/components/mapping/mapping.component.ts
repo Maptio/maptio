@@ -83,8 +83,8 @@ export class MappingComponent {
   public selectableTags$: Subject<Array<SelectableTag>>;
   // public selectableUsers$: Subject<Array<SelectableUser>>;
 
-  private VIEWPORT_WIDTH: number = 1522;
-  private VIEWPORT_HEIGHT: number = 1522;
+  private VIEWPORT_WIDTH: number = window.screen.availWidth;
+  private VIEWPORT_HEIGHT: number = window.screen.availHeight;
 
   public isLoading: boolean;
   public datasetId: string;
@@ -240,9 +240,10 @@ export class MappingComponent {
 
     component.analytics = this.analytics;
     component.isReset$ = this.isReset$.asObservable();
-    if (component.constructor === MemberSummaryComponent) {
-      component.closeEditingPanel$.next(true);
-    }
+    
+    // if (component.constructor === MemberSummaryComponent) {
+    //   component.closeEditingPanel$.next(true);
+    // }
   }
 
   onDeactivate(component: any) { }
@@ -316,9 +317,9 @@ export class MappingComponent {
   getFragment(component: IDataVisualizer) {
     switch (component.constructor) {
       case MappingZoomableComponent:
-        return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_HEIGHT * 2 / 5}&scale=1`;
+        return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_WIDTH / 2 -180}&scale=1`;
       case MappingTreeComponent:
-        return `x=100&y=${this.VIEWPORT_HEIGHT / 4}&scale=1`;
+        return `x=${this.VIEWPORT_WIDTH/10}&y=${this.VIEWPORT_HEIGHT / 3}&scale=1`;
       case MappingNetworkComponent:
         return `x=0&y=${-this.VIEWPORT_HEIGHT / 4}&scale=1`;
       case MemberSummaryComponent:
