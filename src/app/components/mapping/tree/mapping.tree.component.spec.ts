@@ -67,8 +67,8 @@ describe("mapping.tree.component.ts", () => {
         component = target.componentInstance;
         d3 = component.d3Service.getD3();
 
-        component.width = 1000;
-        component.height = 1000;
+        component.width = window.screen.availWidth;
+        component.height = window.screen.availHeight;
         component.margin = 50;
         component.translateX = 100;
         component.translateY = 100;
@@ -137,10 +137,8 @@ describe("mapping.tree.component.ts", () => {
         // component.data$.next({ initiative: data, datasetId: "ID" })
         // component.draw(data, 100, 100, 1);Ì
         let svg = document.getElementsByTagName("svg")
-        expect(svg.length).toBe(1);
-        expect(svg.item(0).viewBox.baseVal.width).toBe(1522);
-        expect(svg.item(0).viewBox.baseVal.height).toBe(1522); // these are harcoded for now
-        expect(svg.item(0).getAttribute("width")).toBe("1000");
+        expect(svg.length).toBe(1);// these are harcoded for now
+        expect(svg.item(0).getAttribute("width")).toBe(window.screen.availWidth.toString());
     });
 
     it("should draw SVG with correct transform when data is valid", () => {

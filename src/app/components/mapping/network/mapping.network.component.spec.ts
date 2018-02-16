@@ -66,8 +66,8 @@ describe("mapping.network.component.ts", () => {
         component = target.componentInstance;
         d3 = component.d3Service.getD3();
 
-        component.width = 1000;
-        component.height = 1000;
+        component.height = window.screen.availHeight;
+        component.width = window.screen.availWidth;
         component.margin = 50;
         component.translateX = 100
         component.translateY = 100
@@ -99,21 +99,13 @@ describe("mapping.network.component.ts", () => {
     });
 
     it("should draw SVG with correct size when data is valid", () => {
-        // let data = new Initiative().deserialize(fixture.load("data.json"));
-        // component.data$.next({ initiative: data, datasetId: "ID" })
-
         let svg = document.getElementsByTagName("svg")
-        expect(svg.length).toBe(1);
-        expect(svg.item(0).viewBox.baseVal.width).toBe(1522);
-        expect(svg.item(0).viewBox.baseVal.height).toBe(1522); // these are harcoded for now
-        expect(svg.item(0).getAttribute("width")).toBe("1522");
-        expect(svg.item(0).getAttribute("height")).toBe("1522");
+        expect(svg.length).toBe(1);// these are harcoded for now
+        expect(svg.item(0).getAttribute("width")).toBe(`${component.width}`);
+        expect(svg.item(0).getAttribute("height")).toBe(`${component.height}`);
     });
 
     it("should draw SVG centered when data is valid", () => {
-        // let data = new Initiative().deserialize(fixture.load("data.json"));
-        // component.data$.next({ initiative: data, datasetId: "ID" })
-
         let svgs = document.getElementsByTagName("svg")
         expect(svgs.length).toBe(1);
         let svg = svgs.item(0);
@@ -125,9 +117,6 @@ describe("mapping.network.component.ts", () => {
     });
 
     it("should draw SVG with correct number of node when data is valid", () => {
-        // let data = new Initiative().deserialize(fixture.load("data.json"));
-        // component.data$.next({ initiative: data, datasetId: "ID" })
-
         let svgs = document.getElementsByTagName("svg")
         expect(svgs.length).toBe(1);
         let g = svgs.item(0).querySelector("g");
@@ -135,13 +124,9 @@ describe("mapping.network.component.ts", () => {
     });
 
     it("should draw SVG with correct text labels  when data is valid", () => {
-        // let data = new Initiative().deserialize(fixture.load("data.json"));
-        // component.data$.next({ initiative: data, datasetId: "ID" })
-
         let svgs = document.getElementsByTagName("svg")
         expect(svgs.length).toBe(1);
         let g = svgs.item(0).querySelector("g");
-        // console.log(g.querySelectorAll("g.labels > text.edge"))
         expect(g.querySelectorAll("g.labels > text.edge").length).toBe(4);
     });
 

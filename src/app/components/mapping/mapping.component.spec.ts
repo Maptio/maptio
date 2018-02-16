@@ -121,19 +121,18 @@ describe("mapping.component.ts", () => {
         describe("getFragment", () => {
             it("should return #x=761&y=761&scale=1 when layout is initiatives", () => {
                 let actual = component.getFragment(new MappingZoomableComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined, undefined));
-                expect(actual).toBe("x=761&y=608.8&scale=1")
+                expect(actual).toBe(`x=${component.VIEWPORT_WIDTH / 2}&y=${component.VIEWPORT_WIDTH / 2 - 180}&scale=1`)
             });
 
             it("should return #x=100&y=380.5&scale=1 when layout is people", () => {
                 let actual = component.getFragment(new MappingTreeComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined, undefined));
-                expect(actual).toBe("x=100&y=380.5&scale=1")
+                expect(actual).toBe(`x=${component.VIEWPORT_WIDTH / 10}&y=${component.VIEWPORT_HEIGHT / 3}&scale=1`)
             });
 
             it("should return #x=0&y=-380.5&scale=1 when layout is network", () => {
                 let actual = component.getFragment(new MappingNetworkComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined));
-                expect(actual).toBe("x=0&y=-380.5&scale=1")
+                expect(actual).toBe(`x=0&y=${-component.VIEWPORT_HEIGHT / 4}&scale=1`)
             });
-
 
             it("should return #x=0&y=0&scale=1 when layout is list", () => {
                 let actual = component.getFragment(new MemberSummaryComponent(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined));
@@ -187,8 +186,8 @@ describe("mapping.component.ts", () => {
 
             component.onActivate(activated);
 
-            expect(activated.width).toBe(1522)
-            expect(activated.height).toBe(1522)
+            expect(activated.width).toBe(window.screen.availWidth)
+            expect(activated.height).toBe(window.screen.availHeight)
             expect(activated.margin).toBe(50);
             expect(component.getFragment).toHaveBeenCalledTimes(1);
             expect(activated.translateX).toBe(10);

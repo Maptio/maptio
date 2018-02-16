@@ -83,8 +83,8 @@ export class MappingComponent {
   public selectableTags$: Subject<Array<SelectableTag>>;
   // public selectableUsers$: Subject<Array<SelectableUser>>;
 
-  private VIEWPORT_WIDTH: number = window.screen.availWidth;
-  private VIEWPORT_HEIGHT: number = window.screen.availHeight;
+  public VIEWPORT_WIDTH: number = window.screen.availWidth;
+  public VIEWPORT_HEIGHT: number = window.screen.availHeight;
 
   public isLoading: boolean;
   public datasetId: string;
@@ -176,7 +176,7 @@ export class MappingComponent {
   ngAfterViewInit() { }
 
   onActivate(component: IDataVisualizer) {
-    console.log("activate", component)
+    
     component.showDetailsOf$.asObservable().subscribe(node => {
       this.showDetails.emit(node);
     });
@@ -589,7 +589,7 @@ export class MappingComponent {
     event.stopPropagation();
     event.stopImmediatePropagation();
     event.preventDefault();
-    console.log(event);
+    
     return false;
   }
 }
