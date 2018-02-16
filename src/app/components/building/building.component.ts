@@ -187,10 +187,6 @@ export class BuildingComponent {
     }
 
     toggleAll(isExpand:boolean) {
-        // this.tree.treeModel.getNodeById(this.nodes[0].id).toggleExpanded();
-        // this.nodes[0].traverse(function (i: Initiative) {
-        //     this.tree.treeModel.getNodeById(i.id).toggleExpanded();
-        // }.bind(this));
         isExpand 
         ? this.tree.treeModel.expandAll()
         : this.tree.treeModel.collapseAll();

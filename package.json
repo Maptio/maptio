@@ -65,6 +65,7 @@
     "awesome-typescript-loader": "^3.1.2",
     "aws-sdk": "^2.106.0",
     "body-parser": "^1.17.0",
+    "bootstrap": "^4.0.0",
     "cloudinary-core": "^2.3.0",
     "compression": "^1.7.0",
     "copy-webpack-plugin": "^4.0.0",
