@@ -134,14 +134,14 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.init();
     this.dataSubscription = this.dataService
       .get()
-      .combineLatest(this.selectableTags$, this.mapColor$)
-      .subscribe((complexData: [any, SelectableTag[], string]) => {
+      .combineLatest(this.mapColor$)
+      .subscribe((complexData: [any, string]) => {
         let data = <any>complexData[0].initiative;
         this.datasetId = complexData[0].datasetId;
         this.rootNode = complexData[0].initiative;
         this.slug = data.getSlug();
-        this.tagsState = complexData[1];
-        this.update(data, complexData[1], complexData[2]);
+        // this.tagsState = complexData[1];
+        this.update(data, complexData[1]);
         this.analytics.eventTrack("Map", {
           view: "initiatives",
           team: data.teamName,
@@ -150,6 +150,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         this.isLoading = false;
         this.cd.markForCheck();
       });
+    this.selectableTags$.subscribe(tags => this.tagsState = tags)
   }
 
   ngOnDestroy() {
@@ -273,6 +274,24 @@ export class MappingZoomableComponent implements IDataVisualizer {
       svg.select(`circle.node.initiative-map[id="${node.id}"]`).dispatch("click");
     });
 
+    this.selectableTags$.subscribe(tags => {
+      console.log(tags)
+      this.tagsState = tags;
+      let [selectedTags, unselectedTags] = _.partition(tags, t => t.isSelected);
+      // let [selectedUsers, unselectedUsers] = _.partition(users, u => u.isSelected);
+      let uiService = this.uiService
+      function filterByTags(d: any): number {
+        return uiService.filter(selectedTags, unselectedTags, d.data.tags.map((t: Tag) => t.shortid))
+          // &&
+          // uiService.filter(selectedUsers, unselectedUsers, _.compact(_.flatten([...[d.data.accountable], d.data.helpers])).map(u => u.shortid))
+          ? 1
+          : 0.1
+      }
+      g.selectAll("g.node.initiative-map").style("opacity", function (d: any) {
+        return filterByTags(d)
+      });
+    })
+
     this.svg = svg;
     this.g = g;
     // this.color = color;
@@ -280,7 +299,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.definitions = definitions;
   }
 
-  update(data: Initiative, tags: Array<SelectableTag>, seedColor: string) {
+  getTags() {
+    return this.tagsState;
+  }
+
+  update(data: Initiative, seedColor: string) {
     if (this.d3.selectAll("g").empty()) {
       this.init();
     }
@@ -304,6 +327,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let datasetId = this.datasetId;
     let datasetSlug = this.slug;
     let router = this.router;
+    let getTags = this.getTags.bind(this)
 
     let POSITION_INITIATIVE_NAME = this.POSITION_INITIATIVE_NAME;
     let POSITION_TAGS_NAME = this.POSITION_TAGS_NAME;
@@ -568,7 +592,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .on("start", function (d: any) {
           d3.selectAll(`div.arrow_box`).classed("show", false)
         })
-        .on("end", function (d: any) { });
+        .on("end", function (d: any) {
+
+
+
+        });
 
       let revealTransition = d3
         .transition("reveal")
@@ -707,14 +735,17 @@ export class MappingZoomableComponent implements IDataVisualizer {
         });
 
       // all
+      console.log("zoom to ", getTags())
+      let [selectedTags, unselectedTags] = _.partition(getTags(), (t: SelectableTag) => t.isSelected);
+
       transition
         .selectAll("g.node.initiative-map")
         .style("opacity", function (d: any) {
-          return (<any[]>focus.descendants()).find(
-            desc => desc.data.id === d.data.id
-          )
-            ? 1
-            : 0.1;
+          return getTags().every((t: SelectableTag) => !t.isSelected)
+            // no tags selecteed, we apply node focusing 
+            ? (<any[]>focus.descendants()).find(desc => desc.data.id === d.data.id) ? 1 : 0.1
+            // otherwise, we apply tags focusing
+            : uiService.filter(selectedTags, unselectedTags, d.data.tags.map((t: Tag) => t.shortid)) ? 1 : 0.1;
         });
     }
 
@@ -723,7 +754,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
       view = v;
       node.attr("transform", function (d: any) {
         return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")";
-      });
+      })
+
+
+        ;
       circle
         .attr("r", function (d: any) {
           return d.r * k;
@@ -801,6 +835,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
             ? -Math.sin(DEFAULT_PICTURE_ANGLE) * (d.r * k) + 7
             : -d.r * k * 0.8;
         });
+
+
+
     }
 
     function buildPatterns() {
