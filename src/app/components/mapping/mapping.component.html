@@ -9,7 +9,7 @@
       <span *ngIf="r.helpers.length>0" class="text-muted">with the help of</span>
 
       <span class="pl-1" *ngFor="let helper of r.helpers; let i=index">
-        <img [src]="helper.picture" [alt]="helper.accountable.name" width="15" height="15" class="rounded-circle mr-1">{{helper.name}}
+        <img [src]="helper.picture" [alt]="helper.name" width="15" height="15" class="rounded-circle mr-1">{{helper.name}}
       </span>
 
     </small>
@@ -31,14 +31,17 @@
 </div>
 
 <div class="control zero panel d-flex flex-column col-5 align-items-start">
-  <div *ngIf="isSearchToggled" class="card card-block col-12">
-    <h5 class="card-subtitle mb-2 text-muted d-flex justify-content-between">Search
-    </h5>
-    <input *ngIf="isSearchToggled" #initiativeSearch [resultTemplate]="rt" type="text" id="initiativeSearch" class="form-control search mr-2"
-      (selectItem)="zoomToInitiative($event)" [ngbTypeahead]="searchInitiatives" [resultFormatter]="formatter" [inputFormatter]="formatter"
-      editable="false" autofocus="autofocus" (focus)="initiativeSearch.value=''" placement="bottom-right" placeholder="Search initiatives, people and description"
+  <div *ngIf="isSearchToggled" class="mb-3 col-12 p-0">
+    <input #initiativeSearch [resultTemplate]="rt" type="text" id="initiativeSearch" class="form-control search mr-2" (selectItem)="zoomToInitiative($event)"
+      [ngbTypeahead]="searchInitiatives" [resultFormatter]="formatter" [inputFormatter]="formatter" editable="false" autofocus="autofocus"
+      (focus)="initiativeSearch.value=''" placement="bottom-right" placeholder="Search initiatives, people and description"
     />
   </div>
+  <!-- <div  class="card card-block col-12 mb-3">
+    <h5 class="card-subtitle mb-2 text-muted d-flex justify-content-between">Search
+    </h5> -->
+
+  <!-- </div> -->
   <div *ngIf="isFiltersToggled" class="card card-block col-12">
     <h5 class="card-subtitle mb-2 text-muted d-flex justify-content-between">Tags
       <span class="btn btn-link btn-sm pl-0" (click)="isEditTags=!isEditTags">Edit tags
@@ -120,11 +123,11 @@
 
 <div class="control  second mt-4">
   <div class=" btn-group-vertical">
-    <a class="btn btn-secondary p-1" (click)="zoomOut()" >
+    <a class="btn btn-secondary p-1" (click)="zoomOut()">
       <i class="fa fa-minus"></i>
       <div class="icon-text-label">Zoom out</div>
     </a>
-    <a class="btn btn-secondary p-1" (click)="zoomIn()" >
+    <a class="btn btn-secondary p-1" (click)="zoomIn()">
       <i class="fa fa-plus"></i>
       <div class="icon-text-label">Zoom in</div>
     </a>
