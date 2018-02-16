@@ -141,7 +141,7 @@ export class UIService {
     if (!user) return "<a ></a>";
     let formattedName = isSmall ? `<small>${user.name}</small>` : `${user.name}`
     return `<button class="open-summary btn btn-link pl-0" data-shortid="${user.shortid}" data-slug="${user.getSlug()}">
-            <img src="${user.picture}" width="${isSmall ? 15 : 30}" height="${isSmall ? 15 : 30}" class="rounded-circle mr-1">${formattedName}
+            <img src="${user.picture}" alt="${user.name}" width="${isSmall ? 15 : 30}" height="${isSmall ? 15 : 30}" class="rounded-circle mr-1">${formattedName}
         </button>`;
   }
 

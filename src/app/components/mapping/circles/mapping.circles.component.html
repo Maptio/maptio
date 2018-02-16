@@ -19,7 +19,7 @@
         <div class="card-block p-1">
             <div class="d-flex w-100 justify-content-between">
                 <a *ngIf="hoveredNode?.accountable" routerLink="/map/{{datasetId}}/{{slug}}/u/{{hoveredNode?.accountable.shortid}}/{{hoveredNode?.accountable.getSlug()}}">
-                    <img *ngIf="hoveredNode?.accountable" src="{{hoveredNode?.accountable.picture}}" width="30" height="30" class="rounded-circle mr-2">
+                    <img *ngIf="hoveredNode?.accountable" src="{{hoveredNode?.accountable.picture}}" alt="{{hoveredNode?.accountable.name}}" width="30" height="30" class="rounded-circle mr-2">
                 </a>
                 <h6 class="card-title text-color"> {{hoveredNode?.name}}</h6>
 
@@ -60,7 +60,7 @@
                     <span class="pl-1 col">
                         <a routerLink="/map/{{datasetId}}/{{slug}}/u/{{user.shortid}}/{{user.getSlug()}}">
 
-                            <img src="{{user.picture}}" width="16" class="rounded-circle">
+                            <img src="{{user.picture}}" width="16" class="rounded-circle" alt="{{user.name}}">
                             <small>{{user.name}}</small>
                         </a>
 
