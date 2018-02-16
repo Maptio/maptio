@@ -179,7 +179,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
       svg.call(
         zooming.transform,
-        d3.zoomIdentity.translate(100, this.height / 3)
+        d3.zoomIdentity.translate(this.width / 10, this.height / 2)
       );
     });
 
@@ -569,7 +569,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
           return d._children || d.children ? "pointer" : "default";
         });
 
-        nodeUpdate.select("text.tags.tree-map")
+      nodeUpdate.select("text.tags.tree-map")
         .attr("dy", "0.65rem")
         .attr("y", "1.00rem")
         .attr("x", CIRCLE_RADIUS + 5)
@@ -606,7 +606,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
           }</tspan>`;
       });
 
-      
+
 
       // Remove any exiting nodes
       let nodeExit = node

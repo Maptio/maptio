@@ -126,7 +126,7 @@ describe("mapping.component.ts", () => {
 
             it("should return #x=100&y=380.5&scale=1 when layout is people", () => {
                 let actual = component.getFragment(new MappingTreeComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined, undefined));
-                expect(actual).toBe(`x=${component.VIEWPORT_WIDTH / 10}&y=${component.VIEWPORT_HEIGHT / 3}&scale=1`)
+                expect(actual).toBe(`x=${component.VIEWPORT_WIDTH / 10}&y=${component.VIEWPORT_HEIGHT / 2}&scale=1`)
             });
 
             it("should return #x=0&y=-380.5&scale=1 when layout is network", () => {

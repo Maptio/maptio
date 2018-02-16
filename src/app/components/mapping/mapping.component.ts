@@ -320,7 +320,7 @@ export class MappingComponent {
       case MappingZoomableComponent:
         return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_WIDTH / 2 - 180}&scale=1`;
       case MappingTreeComponent:
-        return `x=${this.VIEWPORT_WIDTH / 10}&y=${this.VIEWPORT_HEIGHT / 3}&scale=1`;
+        return `x=${this.VIEWPORT_WIDTH / 10}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`;
       case MappingNetworkComponent:
         return `x=0&y=${-this.VIEWPORT_HEIGHT / 4}&scale=1`;
       case MemberSummaryComponent:
