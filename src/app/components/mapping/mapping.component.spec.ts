@@ -119,22 +119,22 @@ describe("mapping.component.ts", () => {
 
 
         describe("getFragment", () => {
-            it("should return #x=761&y=761&scale=1 when layout is initiatives", () => {
+            it("should return correct fragment  when layout is initiatives", () => {
                 let actual = component.getFragment(new MappingZoomableComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined, undefined));
                 expect(actual).toBe(`x=${component.VIEWPORT_WIDTH / 2}&y=${component.VIEWPORT_WIDTH / 2 - 180}&scale=1`)
             });
 
-            it("should return #x=100&y=380.5&scale=1 when layout is people", () => {
+            it("should return correct fragment when layout is people", () => {
                 let actual = component.getFragment(new MappingTreeComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined, undefined));
                 expect(actual).toBe(`x=${component.VIEWPORT_WIDTH / 10}&y=${component.VIEWPORT_HEIGHT / 2}&scale=1`)
             });
 
-            it("should return #x=0&y=-380.5&scale=1 when layout is network", () => {
+            it("should return correct fragment when layout is network", () => {
                 let actual = component.getFragment(new MappingNetworkComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined));
                 expect(actual).toBe(`x=0&y=${-component.VIEWPORT_HEIGHT / 4}&scale=1`)
             });
 
-            it("should return #x=0&y=0&scale=1 when layout is list", () => {
+            it("should return correct fragment  when layout is list", () => {
                 let actual = component.getFragment(new MemberSummaryComponent(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined));
                 expect(actual).toBe("x=0&y=0&scale=1")
             });
