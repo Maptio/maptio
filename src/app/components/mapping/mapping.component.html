@@ -43,14 +43,18 @@
 
   <!-- </div> -->
   <div *ngIf="isFiltersToggled" class="card card-block col-12">
-    <h5 class="card-subtitle mb-2 text-muted d-flex justify-content-between">Tags
-      <span class="btn btn-link btn-sm pl-0" (click)="isEditTags=!isEditTags">Edit tags
+    <h5 class="card-subtitle mb-2 text-muted d-flex justify-content-start">Tags
+      <span class="btn btn-link btn-sm pl-0 ml-auto" (click)="isEditTags=!isEditTags">Edit tags
         <span class="mr-1">
           <i *ngIf="isEditTags" class="fa fa-caret-down" aria-hidden="true"></i>
           <i *ngIf="!isEditTags" class="fa fa-caret-left" aria-hidden="true"></i>
         </span>
       </span>
     </h5>
+    <span>
+        <button class="btn btn-link btn-sm p-0" (click)="selectAllTags()">Select all</button>
+        <button class="btn btn-link btn-sm p-0" (click)="unselectAllTags()">Unselect all</button>
+    </span>
     <div class="d-flex flex-wrap">
       <span *ngFor="let tag of tags; let i=index">
         <a *ngIf="!tag.isSelected" class="btn btn-sm btn-tag btn-secondary  mr-1" [style.border-color]="tag.color" [style.color]="tag.color"
@@ -64,6 +68,7 @@
           <i *ngIf="tag.isSelected" class="fa fa-check" aria-hidden="true" [style.color]="white"> </i>
         </a>
       </span>
+      
     </div>
     <div class="edit-tags" *ngIf="isEditTags">
       <h6 class="mt-4">Edit tags</h6>

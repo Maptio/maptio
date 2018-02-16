@@ -423,8 +423,7 @@ export class MappingComponent {
     });
   }
 
-  toggleTag(tag: SelectableTag) {
-    tag.isSelected = !tag.isSelected;
+  private broadcastTagsSelection() {
     this.selectableTags$.next(this.tags);
 
     let tagsHash = this.tags
@@ -436,6 +435,21 @@ export class MappingComponent {
     let ancient = this.uriService.parseFragment(this.route.snapshot.fragment);
     ancient.set("tags", tagsHash);
     location.hash = this.uriService.buildFragment(ancient);
+  }
+
+  toggleTag(tag: SelectableTag) {
+    tag.isSelected = !tag.isSelected;
+    this.broadcastTagsSelection();
+  }
+
+  selectAllTags() {
+    this.tags.forEach(t => t.isSelected = true);
+    this.broadcastTagsSelection();
+  }
+
+  unselectAllTags() {
+    this.tags.forEach(t => t.isSelected = false);
+    this.broadcastTagsSelection();
   }
 
   // toggleUser(user: SelectableUser) {
