@@ -19,11 +19,11 @@
 
 <div class="control zero ">
   <div class="btn-group-vertical">
-    <a class="btn btn-secondary p-1" [class.active]="isSearchToggled" (click)="isSearchToggled=!isSearchToggled">
+    <a class="btn btn-secondary p-1" [class.active]="isSearchToggled" [class.disabled]="isSearchDisabled" (click)="isSearchToggled=!isSearchToggled">
       <i class="fa fa-search"></i>
       <div class="icon-text-label">Search</div>
     </a>
-    <a class="btn btn-secondary p-1" [class.active]="isFiltersToggled" (click)="isFiltersToggled=!isFiltersToggled">
+    <a class="btn btn-secondary p-1" [class.active]="isFiltersToggled" [class.disabled]="isSearchDisabled" (click)="isFiltersToggled=!isFiltersToggled">
       <i class="fa fa-filter"></i>
       <div class="icon-text-label">Filter</div>
     </a>
@@ -129,19 +129,19 @@
 
 <div class="control  second mt-4">
   <div class=" btn-group-vertical">
-    <a class="btn btn-secondary p-1" (click)="zoomOut()">
+    <a class="btn btn-secondary p-1" [class.disabled]="isSearchDisabled" (click)="zoomOut()">
       <i class="fa fa-minus"></i>
       <div class="icon-text-label">Zoom out</div>
     </a>
-    <a class="btn btn-secondary p-1" (click)="zoomIn()">
+    <a class="btn btn-secondary p-1" [class.disabled]="isSearchDisabled" (click)="zoomIn()">
       <i class="fa fa-plus"></i>
       <div class="icon-text-label">Zoom in</div>
     </a>
-    <a class="btn btn-secondary p-1" (click)="resetZoom()">
+    <a class="btn btn-secondary p-1" [class.disabled]="isSearchDisabled" (click)="resetZoom()">
       <i class="fa fa-compress" aria-hidden="true"></i>
       <div class="icon-text-label">Zoom fit</div>
     </a>
-    <a class="btn btn-secondary p-1" [class.active]="isSettingToggled" (click)="isSettingToggled=!isSettingToggled">
+    <a class="btn btn-secondary p-1" [class.active]="isSettingToggled" [class.disabled]="isSearchDisabled" (click)="isSettingToggled=!isSettingToggled">
       <i class="fa fa-sliders" aria-hidden="true"></i>
       <div class="icon-text-label">Settings</div>
     </a>

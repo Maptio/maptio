@@ -142,6 +142,7 @@ export class MappingComponent {
     : 1;
 
   isFiltersToggled: boolean = false;
+  isSearchDisabled: boolean = false;
 
   constructor(
     private dataService: DataService,
@@ -175,6 +176,7 @@ export class MappingComponent {
   ngAfterViewInit() { }
 
   onActivate(component: IDataVisualizer) {
+    console.log("activate", component)
     component.showDetailsOf$.asObservable().subscribe(node => {
       this.showDetails.emit(node);
     });
@@ -240,10 +242,9 @@ export class MappingComponent {
 
     component.analytics = this.analytics;
     component.isReset$ = this.isReset$.asObservable();
-    
-    // if (component.constructor === MemberSummaryComponent) {
-    //   component.closeEditingPanel$.next(true);
-    // }
+
+    this.isSearchDisabled = component.constructor === MemberSummaryComponent;
+    this.isSearchToggled = !(component.constructor === MemberSummaryComponent);
   }
 
   onDeactivate(component: any) { }
@@ -317,9 +318,9 @@ export class MappingComponent {
   getFragment(component: IDataVisualizer) {
     switch (component.constructor) {
       case MappingZoomableComponent:
-        return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_WIDTH / 2 -180}&scale=1`;
+        return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_WIDTH / 2 - 180}&scale=1`;
       case MappingTreeComponent:
-        return `x=${this.VIEWPORT_WIDTH/10}&y=${this.VIEWPORT_HEIGHT / 3}&scale=1`;
+        return `x=${this.VIEWPORT_WIDTH / 10}&y=${this.VIEWPORT_HEIGHT / 3}&scale=1`;
       case MappingNetworkComponent:
         return `x=0&y=${-this.VIEWPORT_HEIGHT / 4}&scale=1`;
       case MemberSummaryComponent:
