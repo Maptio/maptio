@@ -17,8 +17,8 @@ import { Initiative } from "../../../shared/model/initiative.data";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { DataService } from "../../../shared/services/data.service";
 import { Tag, SelectableTag } from "../../../shared/model/tag.data";
-import * as _ from "lodash";
 import { URIService } from "../../../shared/services/uri.service";
+import {partition} from "lodash";
 
 @Component({
   selector: "tree",
@@ -410,7 +410,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         })
         .attr("id", (d: any) => d.data.id)
         ;
-      let [selectedTags, unselectedTags] = _.partition(tags, t => t.isSelected);
+      let [selectedTags, unselectedTags] = partition(tags, t => t.isSelected);
 
       g.selectAll("g.node.tree-map").style("opacity", function (d: any) {
         return uiService.filter(

@@ -34,11 +34,10 @@ import { MappingNetworkComponent } from "./network/mapping.network.component";
 import { MemberSummaryComponent } from "./member-summary/member-summary.component";
 import { Tag, SelectableTag } from "../../shared/model/tag.data";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import * as _ from "lodash";
 import { MappingZoomableComponent } from "./zoomable/mapping.zoomable.component";
 import { NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-bootstrap";
 import { UIService } from "../../shared/services/ui/ui.service";
-// import { User, SelectableUser } from "../../shared/model/user.data";
+import {compact} from "lodash"
 
 @Component({
   selector: "mapping",
@@ -283,7 +282,7 @@ export class MappingComponent {
         //         .map((s: string) => new SelectableUser({ shortid: s, isSelected: true }))
         //     : <SelectableUser[]>[];
 
-        this.tags = _.compact<SelectableTag>(
+        this.tags = compact<SelectableTag>(
           data.tags.map((dataTag: SelectableTag) => {
             let searchTag = fragmentTags.find(
               t => t.shortid === dataTag.shortid

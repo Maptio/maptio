@@ -3,12 +3,12 @@ import { D3Service, D3, Selection, BaseType } from "d3-ng2-service";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import { Tag } from "../../model/tag.data";
-import * as _ from "lodash";
 import { Initiative } from "../../model/initiative.data";
 import { Helper } from "../../model/helper.data";
 import { MarkdownService } from "angular2-markdown";
 import { Role } from "../../model/role.data";
 import { User } from "../../model/user.data";
+import {isEmpty, intersection} from "lodash"
 
 @Injectable()
 export class UIService {
@@ -125,11 +125,11 @@ export class UIService {
     unselectedTags: any[],
     selection: any[]
   ): boolean {
-    return _.isEmpty(selectedTags) // all tags are unselected by default
+    return isEmpty(selectedTags) // all tags are unselected by default
       ? true
-      : _.isEmpty(selection) // the circle doesnt have any tags
+      : isEmpty(selection) // the circle doesnt have any tags
         ? false
-        : _.intersection(selectedTags.map(t => t.shortid), selection).length ===
+        : intersection(selectedTags.map(t => t.shortid), selection).length ===
           0
           ? false
           : true;

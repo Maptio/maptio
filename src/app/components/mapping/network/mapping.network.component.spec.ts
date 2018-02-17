@@ -101,7 +101,7 @@ describe("mapping.network.component.ts", () => {
 
     it("should draw SVG with correct size when data is valid", () => {
         let svg = document.getElementsByTagName("svg")
-        expect(svg.length).toBe(1);// these are harcoded for now
+        expect(svg.length).toBe(1); // these are harcoded for now
         expect(svg.item(0).getAttribute("width")).toBe(`${component.width}`);
         expect(svg.item(0).getAttribute("height")).toBe(`${component.height}`);
     });

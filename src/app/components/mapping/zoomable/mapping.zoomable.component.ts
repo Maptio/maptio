@@ -17,10 +17,10 @@ import { UserFactory } from "../../../shared/services/user.factory";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { DataService } from "../../../shared/services/data.service";
 import { Tag, SelectableTag } from "../../../shared/model/tag.data";
-import * as _ from "lodash";
 import { SelectableUser } from "../../../shared/model/user.data";
 import { Helper } from "../../../shared/model/helper.data";
 import { URIService } from "../../../shared/services/uri.service";
+import { partition } from "lodash";
 
 @Component({
   selector: "zoomable",
@@ -277,7 +277,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.selectableTags$.subscribe(tags => {
 
       this.tagsState = tags;
-      let [selectedTags, unselectedTags] = _.partition(tags, t => t.isSelected);
+      let [selectedTags, unselectedTags] = partition(tags, t => t.isSelected);
       // let [selectedUsers, unselectedUsers] = _.partition(users, u => u.isSelected);
       let uiService = this.uiService
       function filterByTags(d: any): number {
@@ -736,13 +736,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
       // all
       console.log("zoom to ", getTags())
-      let [selectedTags, unselectedTags] = _.partition(getTags(), (t: SelectableTag) => t.isSelected);
+      let [selectedTags, unselectedTags] = partition(getTags(), (t: SelectableTag) => t.isSelected);
 
       transition
         .selectAll("g.node.initiative-map")
         .style("opacity", function (d: any) {
           return getTags().every((t: SelectableTag) => !t.isSelected)
-            // no tags selecteed, we apply node focusing 
+            // no tags selecteed, we apply node focusing
             ? (<any[]>focus.descendants()).find(desc => desc.data.id === d.data.id) ? 1 : 0.1
             // otherwise, we apply tags focusing
             : uiService.filter(selectedTags, unselectedTags, d.data.tags.map((t: Tag) => t.shortid)) ? 1 : 0.1;

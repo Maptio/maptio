@@ -14,8 +14,8 @@ import { Subject } from "rxjs/Rx";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { DataService } from "../../../shared/services/data.service";
 import { Tag, SelectableTag } from "../../../shared/model/tag.data";
-import * as _ from "lodash";
 import { UIService } from "../../../shared/services/ui/ui.service";
+import {partition} from "lodash";
 
 @Component({
     selector: "member-summary",
@@ -111,7 +111,7 @@ export class MemberSummaryComponent implements OnInit, IDataVisualizer {
             .subscribe(([user, tags]: [User, Array<SelectableTag>]) => {
                 this.authorities = [];
                 this.helps = [];
-                let [selectedTags, unselectedTags] = _.partition(tags, t => t.isSelected);
+                let [selectedTags, unselectedTags] = partition(tags, t => t.isSelected);
 
                 this.initiative.traverse(function (i: Initiative) {
                     if (i.accountable && i.accountable.user_id === this.memberUserId) {
