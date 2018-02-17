@@ -513,13 +513,4 @@ export class MappingComponent {
     this.cd.markForCheck();
     this.zoomToInitiative$.next(initiative);
   }
-
-  closeSettingsPanel(event: Event) {
-    this.isSettingToggled = false;
-    event.stopPropagation();
-    event.stopImmediatePropagation();
-    event.preventDefault();
-
-    return false;
-  }
 }

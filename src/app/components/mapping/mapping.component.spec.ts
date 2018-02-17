@@ -15,7 +15,7 @@ import { MappingTreeComponent } from "./tree/mapping.tree.component";
 // import { MappingCirclesComponent } from "./circles/mapping.circles.component";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { MappingComponent } from "./mapping.component";
-import { NO_ERRORS_SCHEMA } from "@angular/core";
+import { NO_ERRORS_SCHEMA, ChangeDetectorRef } from "@angular/core";
 import { AuthHttp } from "angular2-jwt/angular2-jwt";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 import { IDataVisualizer } from "./mapping.interface";
@@ -24,6 +24,7 @@ import { MemberSummaryComponent } from "./member-summary/member-summary.componen
 import { Tag, SelectableTag } from "../../shared/model/tag.data";
 import { MappingZoomableComponent } from "./zoomable/mapping.zoomable.component";
 import { MarkdownService } from "angular2-markdown";
+import { Initiative } from "../../shared/model/initiative.data";
 
 describe("mapping.component.ts", () => {
 
@@ -155,6 +156,15 @@ describe("mapping.component.ts", () => {
                 component.changeMapColor("color")
                 expect(component.mapColor$.next).toHaveBeenCalledWith("color");
                 expect(target.debugElement.injector.get(Angulartics2Mixpanel).eventTrack).toHaveBeenCalled();
+            });
+        });
+
+        describe("Searching", () => {
+            it("should zoom on selected initiative", () => {
+                spyOn(component.zoomToInitiative$, "next")
+                component.zoomToInitiative({ item: new Initiative(), preventDefault: null });
+                expect(component.isSearching).toBe(false);
+                expect(component.zoomToInitiative$.next).toHaveBeenCalled();
             });
         });
 
