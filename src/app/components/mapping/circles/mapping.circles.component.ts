@@ -9,10 +9,11 @@ import { UIService } from "../../../shared/services/ui/ui.service"
 import { IDataVisualizer } from "../mapping.interface"
 import { UserFactory } from "../../../shared/services/user.factory";
 import { Angulartics2Mixpanel } from "angulartics2";
-import { DataService, URIService } from "../../../shared/services/data.service";
+import { DataService } from "../../../shared/services/data.service";
 import { Tag, SelectableTag } from "../../../shared/model/tag.data";
 import * as _ from "lodash";
 import { SelectableUser } from "../../../shared/model/user.data";
+import { URIService } from "../../../shared/services/uri.service";
 
 @Component({
     selector: "circles",

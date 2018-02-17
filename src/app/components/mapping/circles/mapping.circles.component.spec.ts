@@ -16,8 +16,9 @@ import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/aut
 import { ErrorService } from "../../../shared/services/error/error.service";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { RouterTestingModule } from "@angular/router/testing";
-import { DataService, URIService } from "../../../shared/services/data.service";
+import { DataService } from "../../../shared/services/data.service";
 import { MarkdownService } from "angular2-markdown";
+import { URIService } from "../../../shared/services/uri.service";
 
 describe("mapping.circles.component.ts", () => {
 

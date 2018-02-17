@@ -1,7 +1,7 @@
 import { TestBed, inject } from "@angular/core/testing";
 import { URIService } from "./uri.service";
 
-fdescribe("uri.service.ts", () => {
+describe("uri.service.ts", () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({

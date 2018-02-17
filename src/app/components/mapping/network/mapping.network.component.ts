@@ -18,8 +18,9 @@ import * as _ from "lodash";
 import { User } from "../../../shared/model/user.data";
 import { Role } from "../../../shared/model/role.data";
 import { Router } from "@angular/router";
-import { DataService, URIService } from "../../../shared/services/data.service";
+import { DataService } from "../../../shared/services/data.service";
 import { Tag, SelectableTag } from "../../../shared/model/tag.data";
+import { URIService } from "../../../shared/services/uri.service";
 
 @Component({
   selector: "network",
@@ -266,11 +267,11 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       let node = zoomed[0];
       let mapColor = zoomed[1];
       let fontColor = zoomed[2];
-     
+
       let people = _.compact(_.flatten([...[node.accountable], node.helpers]));
-      d3.selectAll("g.node").style("font-weight","initial")
-      d3.selectAll("path").style("stroke",mapColor)
-      d3.selectAll(`${people.map(p => `g.node[id="${p.user_id}"]`).join(",")}`).style("font-weight","900");
+      d3.selectAll("g.node").style("font-weight", "initial")
+      d3.selectAll("path").style("stroke", mapColor)
+      d3.selectAll(`${people.map(p => `g.node[id="${p.user_id}"]`).join(",")}`).style("font-weight", "900");
       d3.selectAll(`path[data-initiatives~="${node.id}"]`).style("stroke", fontColor)
     });
 
@@ -624,7 +625,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .enter()
       .append("g")
       .attr("class", "node")
-      .attr("id", (d:any)=>d.id)
+      .attr("id", (d: any) => d.id)
       .merge(node)
       .on("dblclick", releaseNode)
       .call(
@@ -681,7 +682,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         let TOOLTIP_HEIGHT = (tooltip.node() as HTMLElement).getBoundingClientRect().height;
         let TOOLTIP_WIDTH = (tooltip.node() as HTMLElement).getBoundingClientRect().width;
         let ARROW_DIMENSION = 10;
-        
+
         let left = p.x;
         let top = p.y;
 

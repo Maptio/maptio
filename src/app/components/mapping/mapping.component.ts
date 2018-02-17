@@ -16,7 +16,8 @@ import {
   SimpleChanges
 } from "@angular/core";
 
-import { DataService, URIService } from "../../shared/services/data.service";
+import { DataService, } from "../../shared/services/data.service";
+import { URIService } from "../../shared/services/uri.service";
 import { IDataVisualizer } from "./mapping.interface";
 import { MappingCirclesComponent } from "./circles/mapping.circles.component";
 import { MappingTreeComponent } from "./tree/mapping.tree.component";
@@ -176,7 +177,7 @@ export class MappingComponent {
   ngAfterViewInit() { }
 
   onActivate(component: IDataVisualizer) {
-    
+
     component.showDetailsOf$.asObservable().subscribe(node => {
       this.showDetails.emit(node);
     });
@@ -589,7 +590,7 @@ export class MappingComponent {
     event.stopPropagation();
     event.stopImmediatePropagation();
     event.preventDefault();
-    
+
     return false;
   }
 }

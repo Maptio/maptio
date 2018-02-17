@@ -15,9 +15,10 @@ import { IDataVisualizer } from "../mapping.interface";
 import { Observable, Subject } from "rxjs/Rx";
 import { Initiative } from "../../../shared/model/initiative.data";
 import { Angulartics2Mixpanel } from "angulartics2";
-import { DataService, URIService } from "../../../shared/services/data.service";
+import { DataService } from "../../../shared/services/data.service";
 import { Tag, SelectableTag } from "../../../shared/model/tag.data";
 import * as _ from "lodash";
+import { URIService } from "../../../shared/services/uri.service";
 
 @Component({
   selector: "tree",

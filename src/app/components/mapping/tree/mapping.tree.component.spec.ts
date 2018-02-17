@@ -16,7 +16,8 @@ import { MappingTreeComponent } from "./mapping.tree.component";
 import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
-import { DataService, URIService } from "../../../shared/services/data.service";
+import { DataService } from "../../../shared/services/data.service";
+import { URIService } from "../../../shared/services/uri.service";
 import { Tag, SelectableTag } from "../../../shared/model/tag.data";
 import { MarkdownService } from "angular2-markdown";
 
@@ -137,7 +138,7 @@ describe("mapping.tree.component.ts", () => {
         // component.data$.next({ initiative: data, datasetId: "ID" })
         // component.draw(data, 100, 100, 1);Ì
         let svg = document.getElementsByTagName("svg")
-        expect(svg.length).toBe(1);// these are harcoded for now
+        expect(svg.length).toBe(1); // these are harcoded for now
         expect(svg.item(0).getAttribute("width")).toBe(window.screen.availWidth.toString());
     });
 

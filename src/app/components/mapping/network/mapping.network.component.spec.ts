@@ -16,7 +16,8 @@ import { ErrorService } from "../../../shared/services/error/error.service";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2/dist";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MappingNetworkComponent } from "./mapping.network.component";
-import { DataService, URIService } from "../../../shared/services/data.service";
+import { DataService } from "../../../shared/services/data.service";
+import { URIService } from "../../../shared/services/uri.service";
 import { MarkdownService } from "angular2-markdown";
 import { Helper } from "../../../shared/model/helper.data";
 

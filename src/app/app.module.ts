@@ -23,7 +23,8 @@ import { AuthGuard, MapGuard } from "./shared/services/guards/auth.guard";
 import { AccessGuard } from "./shared/services/guards/access.guard";
 
 // Services
-import { DataService, URIService } from "./shared/services/data.service";
+import { DataService } from "./shared/services/data.service";
+import { URIService } from "./shared/services/uri.service";
 import { DatasetFactory } from "./shared/services/dataset.factory";
 import { ColorService } from "./shared/services/ui/color.service"
 import { UIService } from "./shared/services/ui/ui.service"
@@ -136,11 +137,11 @@ const appRoutes: Routes = [
     },
     children: [
       { path: "", redirectTo: "initiatives", pathMatch: "full" },
-      { path: "initiatives", component: MappingZoomableComponent,canActivate: [MapGuard] },
+      { path: "initiatives", component: MappingZoomableComponent, canActivate: [MapGuard] },
       // { path: "zoomable", component: MappingZoomableComponent },
-      { path: "people", component: MappingTreeComponent,canActivate: [MapGuard] },
-      { path: "connections", component: MappingNetworkComponent ,canActivate: [MapGuard]},
-      { path: "u/:usershortid/:userslug", component: MemberSummaryComponent,canActivate: [MapGuard] },
+      { path: "people", component: MappingTreeComponent, canActivate: [MapGuard] },
+      { path: "connections", component: MappingNetworkComponent, canActivate: [MapGuard] },
+      { path: "u/:usershortid/:userslug", component: MemberSummaryComponent, canActivate: [MapGuard] },
     ]
   },
   // { path: "summary/map/:mapid/:mapslug/u/:usershortid/:userslug", component: MemberSummaryComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
@@ -239,7 +240,7 @@ export const RollbarService = new InjectionToken<Rollbar>("rollbar");
   exports: [RouterModule],
   providers: [
     BrowserAnimationsModule,
-    AuthGuard, AccessGuard,MapGuard, AuthConfiguration,
+    AuthGuard, AccessGuard, MapGuard, AuthConfiguration,
     D3Service, DataService, URIService, ColorService, UIService, DatasetFactory, TeamFactory,
     ErrorService, Auth, UserService, UserFactory, MailingService, JwtEncoder, LoaderService,
     ExportService, FileService,
