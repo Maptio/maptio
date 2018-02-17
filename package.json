@@ -81,7 +81,7 @@
     "heroku-ssl-redirect": "0.0.3",
     "html-loader": "^0.4.3",
     "html-webpack-plugin": "^2.22.0",
-    "jsonwebtoken": "^7.4.3",
+    "jsonwebtoken": "^8.0.0",
     "jwks-rsa": "^1.2.0",
     "lodash": "^4.17.4",
     "method-override": "^2.3.7",
