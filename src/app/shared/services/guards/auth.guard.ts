@@ -43,22 +43,4 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   }
 }
 
-@Injectable()
-export class MapGuard implements CanActivate, CanActivateChild {
-  constructor(private uiService: UIService, private router: Router) {}
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): boolean {
-    this.uiService.clean();
-    return true;
-  }
-
-  canActivateChild(
-    childRoute: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): boolean {
-    return this.canActivate(childRoute, state);
-  }
-}

@@ -19,8 +19,9 @@ import { PathLocationStrategy, Location, LocationStrategy } from "@angular/commo
 import { Routes, RouterModule, Router } from "@angular/router";
 
 // Guards
-import { AuthGuard, MapGuard } from "./shared/services/guards/auth.guard";
+import { AuthGuard } from "./shared/services/guards/auth.guard";
 import { AccessGuard } from "./shared/services/guards/access.guard";
+import { WorkspaceGuard } from "./shared/services/guards/workspace.guard";
 
 // Services
 import { DataService } from "./shared/services/data.service";
@@ -135,10 +136,10 @@ const appRoutes: Routes = [
     },
     children: [
       { path: "", redirectTo: "initiatives", pathMatch: "full" },
-      { path: "initiatives", component: MappingZoomableComponent, canActivate: [MapGuard] },
-     { path: "people", component: MappingTreeComponent, canActivate: [MapGuard] },
-      { path: "connections", component: MappingNetworkComponent, canActivate: [MapGuard] },
-      { path: "u/:usershortid/:userslug", component: MemberSummaryComponent, canActivate: [MapGuard] },
+      { path: "initiatives", component: MappingZoomableComponent, canActivate: [WorkspaceGuard] },
+      { path: "people", component: MappingTreeComponent, canActivate: [WorkspaceGuard] },
+      { path: "connections", component: MappingNetworkComponent, canActivate: [WorkspaceGuard] },
+      { path: "u/:usershortid/:userslug", component: MemberSummaryComponent, canActivate: [WorkspaceGuard] },
     ]
   },
   // { path: "summary/map/:mapid/:mapslug/u/:usershortid/:userslug", component: MemberSummaryComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
@@ -237,7 +238,7 @@ export const RollbarService = new InjectionToken<Rollbar>("rollbar");
   exports: [RouterModule],
   providers: [
     BrowserAnimationsModule,
-    AuthGuard, AccessGuard, MapGuard, AuthConfiguration,
+    AuthGuard, AccessGuard, WorkspaceGuard, AuthConfiguration,
     D3Service, DataService, URIService, ColorService, UIService, DatasetFactory, TeamFactory,
     ErrorService, Auth, UserService, UserFactory, MailingService, JwtEncoder, LoaderService,
     ExportService, FileService,
