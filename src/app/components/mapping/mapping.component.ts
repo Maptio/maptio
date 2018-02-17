@@ -331,21 +331,6 @@ export class MappingComponent {
     }
   }
 
-  // getLayout(component: IDataVisualizer) {
-  //   switch (component.constructor) {
-  //     case MappingCirclesComponent:
-  //       return `initiatives`;
-  //     case MappingTreeComponent:
-  //       return `people`;
-  //     case MappingNetworkComponent:
-  //       return `connections`;
-  //     case MemberSummaryComponent:
-  //       return `list`;
-  //     default:
-  //       return `initiatives`;
-  //   }
-  // }
-
   zoomOut() {
     this.zoom$.next(0.9);
     this.analytics.eventTrack("Map", {
@@ -375,20 +360,6 @@ export class MappingComponent {
       teamId: this.teamId
     });
   }
-
-  // lock(locking: boolean) {
-  //     this.isLocked = locking;
-  //     this.isLocked$.next(this.isLocked);
-  //     this.analytics.eventTrack("Map", { action: (locking ? "lock" : "unlock"), team: this.teamName, teamId: this.teamId });
-  // }
-
-  // isDisplayLockingToggle() {
-  //   return (
-  //     this.layout !== "people" &&
-  //     this.layout !== "connections" &&
-  //     this.layout !== "list"
-  //   );
-  // }
 
   changeFontSize(size: number) {
     this.fontSize$.next(size);
@@ -454,35 +425,6 @@ export class MappingComponent {
     this.broadcastTagsSelection();
   }
 
-  // toggleUser(user: SelectableUser) {
-  //     user.isSelected = !user.isSelected;
-  //     this.selectableUsers$.next(this.members);
-
-  //     let userssHash = this.members.filter(m => m.isSelected).map(m => m.shortid).join(",");
-  //     this.usersFragment = `users=${userssHash}`;
-
-  //     let ancient = this.uriService.parseFragment(this.route.snapshot.fragment);
-  //     ancient.set("users", userssHash);
-  //     location.hash = this.uriService.buildFragment(ancient);
-  // }
-
-  // toggleAllTags(isAll: boolean) {
-  //     this.tags.forEach(t => t.isSelected = isAll);
-  //     this.selectableTags$.next(this.tags);
-
-  //     let tagsHash = this.tags.map(t => `${t.shortid}:${t.isSelected ? 1 : 0}`).join(",");
-  //     this.usersFragment = `tags=${tagsHash}`;
-
-  //     let ancient = this.uriService.parseFragment(this.route.snapshot.fragment);
-  //     ancient.set("tags", tagsHash);
-  //     location.hash = this.uriService.buildFragment(ancient);
-  // }
-
-  // getTagsFragment(layout: string) {
-  //     console.log(layout, this.usersFragment)
-  //     return this.usersFragment;
-  // }
-
   saveColor(tag: Tag, color: string) {
     tag.color = color;
     this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
@@ -525,18 +467,6 @@ export class MappingComponent {
     }
     this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
   }
-
-  //   toggleTagSettingsTab() {
-  //     // this.isSettingsPanelCollapsed = false;
-  //     // this.isTagSettingActive = true;
-  //     this.isMapSettingActive = false;
-  //   }
-
-  //   togglePanel() {
-  //     this.isSettingsPanelCollapsed = false;
-  //     this.isMapSettingActive = true;
-  //     this.isTagSettingActive = false;
-  //   }
 
   public searchResultsCount: number;
   public isSearching: boolean;
