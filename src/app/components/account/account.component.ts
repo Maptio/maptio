@@ -113,6 +113,7 @@ export class AccountComponent {
     }
 
     save() {
+        this.feedbackMessage = null;
         if (this.accountForm.dirty && this.accountForm.valid) {
             let firstname = this.accountForm.controls["firstname"].value;
             let lastname = this.accountForm.controls["lastname"].value;
