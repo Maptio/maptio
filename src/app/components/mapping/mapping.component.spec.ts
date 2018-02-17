@@ -95,30 +95,6 @@ describe("mapping.component.ts", () => {
             }));
         });
 
-        // describe("getLayout", () => {
-        //     it("should return initiatives when component is MappingCirclesComponent", () => {
-        //         let actual = component.getLayout(new MappingCirclesComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined, undefined));
-        //         expect(actual).toBe("initiatives")
-        //     });
-
-        //     it("should return people when component is MappingTreeComponent", () => {
-        //         let actual = component.getLayout(new MappingTreeComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined, undefined));
-        //         expect(actual).toBe("people")
-        //     });
-
-        //     it("should return connections when component is MappingNetworkComponent", () => {
-        //         let actual = component.getLayout(new MappingNetworkComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined));
-        //         expect(actual).toBe("connections")
-        //     });
-
-        //     it("should return list when layout is list", () => {
-        //         let actual = component.getLayout(new MemberSummaryComponent(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined));
-        //         expect(actual).toBe("list")
-        //     });
-        // });
-
-
-
         describe("getFragment", () => {
             it("should return correct fragment  when layout is initiatives", () => {
                 let actual = component.getFragment(new MappingZoomableComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined, undefined));
@@ -161,25 +137,26 @@ describe("mapping.component.ts", () => {
             });
         });
 
-        // describe("lock", () => {
-        //     it("should lock", () => {
-        //         spyOn(component.isLocked$, "next");
-        //         spyOn(target.debugElement.injector.get(Angulartics2Mixpanel), "eventTrack")
-        //         component.lock(true);
-        //         expect(component.isLocked$.next).toHaveBeenCalledWith(true);
-        //         expect(target.debugElement.injector.get(Angulartics2Mixpanel).eventTrack).toHaveBeenCalled();
-        //         expect(component.isLocked).toBe(true)
-        //     });
+        describe("change font color", () => {
+            it("should change font color", () => {
+                spyOn(component.fontColor$, "next");
+                spyOn(target.debugElement.injector.get(Angulartics2Mixpanel), "eventTrack")
+                component.changeFontColor("color")
+                expect(component.fontColor$.next).toHaveBeenCalledWith("color");
+                expect(target.debugElement.injector.get(Angulartics2Mixpanel).eventTrack).toHaveBeenCalled();
+            });
+        });
 
-        //     it("should unlock", () => {
-        //         spyOn(component.isLocked$, "next");
-        //         spyOn(target.debugElement.injector.get(Angulartics2Mixpanel), "eventTrack")
-        //         component.lock(false);
-        //         expect(component.isLocked$.next).toHaveBeenCalledWith(false);
-        //         expect(target.debugElement.injector.get(Angulartics2Mixpanel).eventTrack).toHaveBeenCalled();
-        //         expect(component.isLocked).toBe(false)
-        //     });
-        // });
+
+        describe("change map color", () => {
+            it("should change map color", () => {
+                spyOn(component.mapColor$, "next");
+                spyOn(target.debugElement.injector.get(Angulartics2Mixpanel), "eventTrack")
+                component.changeMapColor("color")
+                expect(component.mapColor$.next).toHaveBeenCalledWith("color");
+                expect(target.debugElement.injector.get(Angulartics2Mixpanel).eventTrack).toHaveBeenCalled();
+            });
+        });
 
         it("onActivate", () => {
             let activated = <IDataVisualizer>new MappingNetworkComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined)
@@ -291,6 +268,47 @@ describe("mapping.component.ts", () => {
                         initiative: component.initiative,
                         tags: component.tags
                     }));
+                });
+            });
+
+            describe("Selecting Tag", () => {
+                it("should selectAll and broadcat changes", () => {
+                    spyOn(component, "broadcastTagsSelection");
+                    component.tags = [
+                        new SelectableTag({ name: "one", isSelected: true }),
+                        new SelectableTag({ name: "two", isSelected: false }),
+                        new SelectableTag({ name: "three", isSelected: true })
+                    ]
+
+                    component.selectAllTags();
+                    expect(component.tags.every(t => t.isSelected)).toBeTruthy();
+                    expect(component.broadcastTagsSelection).toHaveBeenCalled();
+                });
+
+                it("should unselectAll and braodcast changes", () => {
+                    spyOn(component, "broadcastTagsSelection");
+                    component.tags = [
+                        new SelectableTag({ name: "one", isSelected: true }),
+                        new SelectableTag({ name: "two", isSelected: false }),
+                        new SelectableTag({ name: "three", isSelected: true })
+                    ]
+
+                    component.unselectAllTags();
+                    expect(component.tags.every(t => !t.isSelected)).toBeTruthy();
+                    expect(component.broadcastTagsSelection).toHaveBeenCalled();
+                });
+
+                it("should toggleTag and braodcast changes", () => {
+                    spyOn(component, "broadcastTagsSelection");
+                    component.tags = [
+                        new SelectableTag({ name: "one", isSelected: true }),
+                        new SelectableTag({ name: "two", isSelected: false }),
+                        new SelectableTag({ name: "three", isSelected: true })
+                    ]
+
+                    component.toggleTag(component.tags[1]);
+                    expect(component.tags[1].isSelected).toBeTruthy();
+                    expect(component.broadcastTagsSelection).toHaveBeenCalled();
                 });
             });
 

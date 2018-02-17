@@ -425,7 +425,7 @@ export class MappingComponent {
     });
   }
 
-  private broadcastTagsSelection() {
+  public broadcastTagsSelection() {
     this.selectableTags$.next(this.tags);
 
     let tagsHash = this.tags
