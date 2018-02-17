@@ -42,9 +42,7 @@ import { LoginComponent } from "./components/login/login.component";
 import { HomeComponent } from "./components/home/home.component";
 import { AppComponent } from "./components/app.component";
 import { MappingComponent } from "./components/mapping/mapping.component";
-import { MappingCirclesComponent } from "./components/mapping/circles/mapping.circles.component";
 import { MappingTreeComponent } from "./components/mapping/tree/mapping.tree.component";
-// import { TooltipComponent } from "./components/mapping/tooltip/tooltip.component";
 import { MemberSummaryComponent } from "./components/mapping/member-summary/member-summary.component";
 
 import { InitiativeComponent } from "./components/initiative/initiative.component"
@@ -138,8 +136,7 @@ const appRoutes: Routes = [
     children: [
       { path: "", redirectTo: "initiatives", pathMatch: "full" },
       { path: "initiatives", component: MappingZoomableComponent, canActivate: [MapGuard] },
-      // { path: "zoomable", component: MappingZoomableComponent },
-      { path: "people", component: MappingTreeComponent, canActivate: [MapGuard] },
+     { path: "people", component: MappingTreeComponent, canActivate: [MapGuard] },
       { path: "connections", component: MappingNetworkComponent, canActivate: [MapGuard] },
       { path: "u/:usershortid/:userslug", component: MemberSummaryComponent, canActivate: [MapGuard] },
     ]
@@ -196,7 +193,7 @@ export const RollbarService = new InjectionToken<Rollbar>("rollbar");
 @NgModule({
   declarations: [
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent, TeamComponent,
-    MappingComponent, MappingCirclesComponent, MappingTreeComponent, MappingNetworkComponent, MemberSummaryComponent, MappingZoomableComponent,
+    MappingComponent, MappingTreeComponent, MappingNetworkComponent, MemberSummaryComponent, MappingZoomableComponent,
     BuildingComponent, InitiativeNodeComponent, LoginComponent, LogoutComponent, HomeComponent, UnauthorizedComponent, NotFoundComponent,
     InitiativeComponent, ChangePasswordComponent, LoaderComponent, TeamsListComponent, SignupComponent,
     FocusIfDirective,

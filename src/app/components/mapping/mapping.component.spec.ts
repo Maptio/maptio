@@ -12,7 +12,7 @@ import { Http, BaseRequestOptions } from "@angular/http";
 import { DataService } from "./../..//shared/services/data.service";
 import { URIService } from "./../..//shared/services/uri.service";
 import { MappingTreeComponent } from "./tree/mapping.tree.component";
-import { MappingCirclesComponent } from "./circles/mapping.circles.component";
+// import { MappingCirclesComponent } from "./circles/mapping.circles.component";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { MappingComponent } from "./mapping.component";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
@@ -62,7 +62,7 @@ describe("mapping.component.ts", () => {
 
             ],
             schemas: [NO_ERRORS_SCHEMA],
-            declarations: [MappingComponent, MappingCirclesComponent, MappingTreeComponent,
+            declarations: [MappingComponent, MappingTreeComponent,
                 MappingNetworkComponent, MemberSummaryComponent, MappingZoomableComponent],
             imports: [RouterTestingModule]
         })

@@ -196,7 +196,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
         ),
       definitions = svg.append("svg:defs");
     g.append("g").attr("class", "paths");
-
     let zooming = d3
       .zoom()
       .scaleExtent([1 / 3, 4 / 3])

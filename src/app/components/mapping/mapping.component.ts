@@ -19,7 +19,7 @@ import {
 import { DataService, } from "../../shared/services/data.service";
 import { URIService } from "../../shared/services/uri.service";
 import { IDataVisualizer } from "./mapping.interface";
-import { MappingCirclesComponent } from "./circles/mapping.circles.component";
+// import { MappingCirclesComponent } from "./circles/mapping.circles.component";
 import { MappingTreeComponent } from "./tree/mapping.tree.component";
 
 import "rxjs/add/operator/map";
@@ -45,7 +45,6 @@ import { UIService } from "../../shared/services/ui/ui.service";
   templateUrl: "./mapping.component.html",
   styleUrls: ["./mapping.component.css"],
   entryComponents: [
-    MappingCirclesComponent,
     MappingTreeComponent,
     MappingNetworkComponent,
     MemberSummaryComponent,

@@ -31,12 +31,6 @@
 
                         <button *ngIf="!isFirstEditing" type="button" class="btn btn-sm edit btn-secondary" (click)="editQuick(hoveredNode)" placement="top"
                             ngbTooltip="Edit" container="body"></button>
-
-                        <!-- <button *ngIf="!isFirstEditing && !getIsLocked()" type="button" class="btn btn-sm remove btn-secondary" placement="top" container="body"
-                            ngbTooltip="Remove" mwlConfirmationPopover title="Remove initiative {{hoveredNode?.name}} and sub initiatives ?"
-                            focusbutton="cancel" appendToBody="false" (confirm)="removeQuick(hoveredNode)" (cancel)="cancelClicked = true"></button> -->
-
-
                     </div>
                 </small>
 
