@@ -21,9 +21,11 @@ import { Routes, RouterModule, Router } from "@angular/router";
 // Guards
 import { AuthGuard } from "./shared/services/guards/auth.guard";
 import { AccessGuard } from "./shared/services/guards/access.guard";
+import { WorkspaceGuard } from "./shared/services/guards/workspace.guard";
 
 // Services
-import { DataService, URIService } from "./shared/services/data.service";
+import { DataService } from "./shared/services/data.service";
+import { URIService } from "./shared/services/uri.service";
 import { DatasetFactory } from "./shared/services/dataset.factory";
 import { ColorService } from "./shared/services/ui/color.service"
 import { UIService } from "./shared/services/ui/ui.service"
@@ -41,9 +43,7 @@ import { LoginComponent } from "./components/login/login.component";
 import { HomeComponent } from "./components/home/home.component";
 import { AppComponent } from "./components/app.component";
 import { MappingComponent } from "./components/mapping/mapping.component";
-import { MappingCirclesComponent } from "./components/mapping/circles/mapping.circles.component";
 import { MappingTreeComponent } from "./components/mapping/tree/mapping.tree.component";
-// import { TooltipComponent } from "./components/mapping/tooltip/tooltip.component";
 import { MemberSummaryComponent } from "./components/mapping/member-summary/member-summary.component";
 
 import { InitiativeComponent } from "./components/initiative/initiative.component"
@@ -105,6 +105,7 @@ import { ExportService } from "./shared/services/export/export.service";
 import { FileService } from "./shared/services/file/file.service";
 import { HttpLogInterceptor, httpFactory, HttpFactoryModule } from "./shared/services/auth/httpInterceptor";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { MappingZoomableComponent } from "./components/mapping/zoomable/mapping.zoomable.component";
 
 
 // Routes
@@ -135,10 +136,10 @@ const appRoutes: Routes = [
     },
     children: [
       { path: "", redirectTo: "initiatives", pathMatch: "full" },
-      { path: "initiatives", component: MappingCirclesComponent },
-      { path: "people", component: MappingTreeComponent },
-      { path: "connections", component: MappingNetworkComponent },
-      { path: "u/:usershortid/:userslug", component: MemberSummaryComponent },
+      { path: "initiatives", component: MappingZoomableComponent, canActivate: [WorkspaceGuard] },
+      { path: "people", component: MappingTreeComponent, canActivate: [WorkspaceGuard] },
+      { path: "connections", component: MappingNetworkComponent, canActivate: [WorkspaceGuard] },
+      { path: "u/:usershortid/:userslug", component: MemberSummaryComponent, canActivate: [WorkspaceGuard] },
     ]
   },
   // { path: "summary/map/:mapid/:mapslug/u/:usershortid/:userslug", component: MemberSummaryComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
@@ -174,8 +175,13 @@ export class RollbarErrorHandler implements ErrorHandler {
   constructor(private injector: Injector) { }
 
   handleError(err: any): void {
-    let rollbar = this.injector.get(RollbarService);
-    rollbar.error(err.originalError || err);
+    if (process.env.ENV === "production") {
+      let rollbar = this.injector.get(RollbarService);
+      rollbar.error(err.originalError || err);
+    }
+    else
+      console.error(err)
+
   }
 }
 
@@ -188,7 +194,7 @@ export const RollbarService = new InjectionToken<Rollbar>("rollbar");
 @NgModule({
   declarations: [
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent, TeamComponent,
-    MappingComponent, MappingCirclesComponent, MappingTreeComponent, MappingNetworkComponent, MemberSummaryComponent,
+    MappingComponent, MappingTreeComponent, MappingNetworkComponent, MemberSummaryComponent, MappingZoomableComponent,
     BuildingComponent, InitiativeNodeComponent, LoginComponent, LogoutComponent, HomeComponent, UnauthorizedComponent, NotFoundComponent,
     InitiativeComponent, ChangePasswordComponent, LoaderComponent, TeamsListComponent, SignupComponent,
     FocusIfDirective,
@@ -232,7 +238,7 @@ export const RollbarService = new InjectionToken<Rollbar>("rollbar");
   exports: [RouterModule],
   providers: [
     BrowserAnimationsModule,
-    AuthGuard, AccessGuard, AuthConfiguration,
+    AuthGuard, AccessGuard, WorkspaceGuard, AuthConfiguration,
     D3Service, DataService, URIService, ColorService, UIService, DatasetFactory, TeamFactory,
     ErrorService, Auth, UserService, UserFactory, MailingService, JwtEncoder, LoaderService,
     ExportService, FileService,

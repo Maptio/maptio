@@ -168,6 +168,14 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
         return queue;
     }
 
+    flatten(): Initiative[] {
+        let array: Initiative[] = [];
+        this.traverse(n => {
+            array.push(n)
+        })
+        return array;
+    }
+
     getParent(tree: Initiative): Initiative {
         let parent: Initiative;
         let id = this.id;

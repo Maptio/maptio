@@ -34,7 +34,7 @@
                     <div class="card-block">
                         <small *ngIf="dataset.initiative.children" class="text-muted">Vision held by
                             <img class="visionnary rounded-circle" src="{{dataset.initiative.children[0]?.accountable?.picture}}" alt="{{dataset.initiative.children[0]?.accountable?.name}}">
-                            <a class="text-muted" routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}/u/{{dataset.initiative.children[0]?.accountable?.user_id}}/{{dataset.initiative.children[0]?.accountable?.getSlug()}}">
+                            <a class="text-muted" routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/u/{{dataset.initiative.children[0]?.accountable?.shortid}}/{{dataset.initiative.children[0]?.accountable?.getSlug()}}">
                                <b> {{dataset.initiative.children[0]?.accountable?.name}}</b>
                             </a>
 

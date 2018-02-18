@@ -43,7 +43,7 @@
                     aria-haspopup="true" aria-expanded="false">
                     Maps
                 </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="mapsListDropdownLink">
+                <div class="dropdown-menu dropdown-menu-right overflow" aria-labelledby="mapsListDropdownLink">
                     <a class="dropdown-item" (click)="goTo(dataset)" *ngFor="let dataset of datasets$ | async">
                         {{dataset?.name}}
                     </a>
@@ -72,7 +72,7 @@
             <li class="nav-item dropdown" id="profileInformation" *ngIf="auth.allAuthenticated()">
                 <a class="nav-link dropdown-toggle without-caret" id="profileDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div>
-                        <img src="{{ user?.picture }}" class="rounded-circle profile-image" alt="">
+                        <img src="{{ user?.picture }}" class="rounded-circle profile-image" alt="{{user?.name}}">
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdownLink">
@@ -130,6 +130,7 @@
             <form [formGroup]="createMapForm" (submit)="createDataset()" class="form-inline">
                 <input type="text" id="inputMapName" formControlName="mapName" class="form-control col-6" placeholder="Enter map name " required>
                 <select formControlName="teamId" required class="form-control col-4 mr-1">
+                    <option value="null" disabled="true" [selected]="true">Select a team</option>
                     <option *ngFor="let team of teams$ | async" [value]="team.team_id">{{team?.name}}</option>
                 </select>
 

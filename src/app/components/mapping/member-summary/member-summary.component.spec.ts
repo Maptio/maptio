@@ -1,4 +1,4 @@
-import { MarkdownModule } from "angular2-markdown";
+import { MarkdownModule, MarkdownService } from "angular2-markdown";
 import { UserFactory } from "./../../../shared/services/user.factory";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { AuthHttp } from "angular2-jwt";
@@ -69,6 +69,7 @@ describe("member-summary.component.ts", () => {
                 MockBackend,
                 BaseRequestOptions,
                 ErrorService,
+                MarkdownService,
                 Angulartics2Mixpanel, Angulartics2
             ],
             declarations: [MemberSummaryComponent],

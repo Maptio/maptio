@@ -8,21 +8,28 @@
         {{errorMessage}}
     </div>
     <div class="row">
-
-            
         <div class="col-3">
             <div class="profile" [style.background-image]="'url('+ user?.picture +')'">
-                <div *ngIf="isRefreshingPicture">Refreshing...</div>
+                <!--                                                         
+                <div *ngIf="isRefreshingPicture">Refreshing...</div> -->
                 <ngx-loading [show]="isLoading"></ngx-loading>
             </div>
-            <input class="inputfile" type="file" id="fileupload" #fileInput ng2FileSelect [uploader]="uploader" (change)="fileInput.value=''"
-                accept="image/*" />
-            <label for="fileupload">
-                <i class="fa fa-upload" aria-hidden="true"></i>
-                <small class="text-muted"> Maxixum size : 2MB</small>
-            </label>
-        </div>
+            <div class="mt-2 mb-2 d-flex flex-column">
+                <div class="d-flex">
+                    <input class="btn btn-secondary btn-outline-success p-1" type="file" id="fileupload" #fileInput ng2FileSelect
+                        [uploader]="uploader" (change)="fileInput.value=''" accept="image/*" />
+                    <i *ngIf="isRefreshingPicture" class="ml-1 text-muted fa fa-circle-o-notch fa-spin fa-fw fa-2x"></i>
+                </div>
 
+
+                <small class="form-text text-muted"> Maxixum size : 2MB</small>
+            </div>
+
+            <!-- <label for="fileupload">
+                <i class="fa fa-upload" aria-hidden="true"></i>
+                
+            </label> -->
+        </div>
 
         <form class="form-group col-9" [formGroup]="accountForm" (submit)="save()">
             <div class="d-flex w-100 justify-content-between">

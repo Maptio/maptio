@@ -16,8 +16,10 @@ import { MappingTreeComponent } from "./mapping.tree.component";
 import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
-import { DataService, URIService } from "../../../shared/services/data.service";
+import { DataService } from "../../../shared/services/data.service";
+import { URIService } from "../../../shared/services/uri.service";
 import { Tag, SelectableTag } from "../../../shared/model/tag.data";
+import { MarkdownService } from "angular2-markdown";
 
 describe("mapping.tree.component.ts", () => {
 
@@ -45,6 +47,7 @@ describe("mapping.tree.component.ts", () => {
                 MockBackend,
                 BaseRequestOptions,
                 ErrorService,
+                MarkdownService,
                 {
                     provide: Router, useClass: class {
                         navigate = jasmine.createSpy("navigate");
@@ -65,8 +68,8 @@ describe("mapping.tree.component.ts", () => {
         component = target.componentInstance;
         d3 = component.d3Service.getD3();
 
-        component.width = 1000;
-        component.height = 1000;
+        component.width = window.screen.availWidth;
+        component.height = window.screen.availHeight;
         component.margin = 50;
         component.translateX = 100;
         component.translateY = 100;
@@ -75,6 +78,10 @@ describe("mapping.tree.component.ts", () => {
         component.isReset$ = new Subject<boolean>();
         component.selectableTags$ = Observable.of([]);
         component.fontSize$ = Observable.of(12);
+        component.fontColor$ = Observable.of("")
+        component.mapColor$ = Observable.of("")
+        component.zoomInitiative$ = Observable.of(new Initiative());
+
         // component.isLocked$ = Observable.of(true);
         component.analytics = jasmine.createSpyObj("analytics", ["eventTrack"]);
 
@@ -131,10 +138,8 @@ describe("mapping.tree.component.ts", () => {
         // component.data$.next({ initiative: data, datasetId: "ID" })
         // component.draw(data, 100, 100, 1);Ì
         let svg = document.getElementsByTagName("svg")
-        expect(svg.length).toBe(1);
-        expect(svg.item(0).viewBox.baseVal.width).toBe(1522);
-        expect(svg.item(0).viewBox.baseVal.height).toBe(1522); // these are harcoded for now
-        expect(svg.item(0).getAttribute("width")).toBe("1000");
+        expect(svg.length).toBe(1); // these are harcoded for now
+        expect(svg.item(0).getAttribute("width")).toBe(window.screen.availWidth.toString());
     });
 
     it("should draw SVG with correct transform when data is valid", () => {

@@ -28,7 +28,10 @@
 
 ::ng-deep svg path.edge {
     fill: none;
-    stroke: #bbb;
+    stroke-opacity: 0.7;
+  }
+  ::ng-deep svg path.edge:hover {
+    stroke-opacity: 1;
   }
 
 ::ng-deep svg text.edge{

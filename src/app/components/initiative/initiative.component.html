@@ -1,5 +1,5 @@
 <ng-template #rt let-r="result" let-t="term">
-	<img src="{{r.picture}}" class="rounded-circle authority" /> {{r.name}}
+	<img src="{{r.picture}}" class="rounded-circle authority" alt={{r.name}} /> {{r.name}}
 </ng-template>
 <ng-template #rtTag let-r="result" let-t="term">
 	<span [style.color]="r.color">
@@ -108,7 +108,7 @@
 					<div *ngIf="node?.accountable">
 						<div class="row mb-0">
 							<span class="ml-1 col">
-								<img src="{{node?.accountable?.picture}}" width="16" class="rounded-circle">
+								<img src="{{node?.accountable?.picture}}" width="16" class="rounded-circle" alt="{{node?.accountable?.name}}">
 								<a routerLink="/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/u/{{node?.accountable?.shortid}}/{{node?.accountable?.getSlug()}}">{{node?.accountable.name}}</a>
 								<span class="text-muted small">(Authority)</span>
 							</span>
@@ -132,7 +132,7 @@
 
 							</span>
 							<span class="pl-1 col">
-								<img src="{{user.picture}}" width="16" class="rounded-circle">
+								<img src="{{user.picture}}" width="16" class="rounded-circle" alt={{user.name}}>
 								<a routerLink="/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/u/{{user.shortid}}/{{user.getSlug()}}">{{user.name}}</a>
 
 							</span>

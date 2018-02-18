@@ -1,17 +1,22 @@
-<div class="building" >
-	<!-- <div class="form-group">
-		<input id="searchTreeInput" type="text" class="form-control" placeholder="Search map by name or description" (input)="filterNodes(tree.treeModel, $event.target.value)"
-		/>
-	</div> -->
-	<tree-root #tree [nodes]="nodes" (updateData)="saveChanges()" 
-	 [options]="options"  [state]="state" (stateChange)="setState($event)" >
-		<ng-template #treeNodeTemplate let-node let-index="index">
-			<initiative-node [node]="node" [datasetId]="datasetId" [teamName]="teamName" [teamId]="teamId" 
-			(edited)="saveChanges()" (update)="updateTreeModel(tree.treeModel)"
-			 (open)="openNodeDetails($event)" (add)="openNodeDetails($event)"></initiative-node>
-		</ng-template>
-
-	</tree-root>
+<div class="building d-flex flex-column">
+	<div class="form-group d-flex justify-content-end">
+		<button name="" id="" class="btn btn-link btn-sm" (click)="toggleAll(true)" role="button">
+			Expand all
+		</button>
+		<button name="" id="" class="btn btn-link btn-sm" (click)="toggleAll(false)" role="button">
+			Collapse all
+		</button>
+	</div>
+	<div class="mt-3">
+			<tree-root #tree [nodes]="nodes" (updateData)="saveChanges()" [options]="options" [state]="state" (stateChange)="setState($event)">
+					<ng-template #treeNodeTemplate let-node let-index="index">
+						<initiative-node [node]="node" [datasetId]="datasetId" [teamName]="teamName" [teamId]="teamId" (edited)="saveChanges()" (update)="updateTreeModel(tree.treeModel)"
+						 (open)="openNodeDetails($event)" (add)="openNodeDetails($event)"></initiative-node>
+					</ng-template>
+			
+				</tree-root>
+	</div>
+	
 </div>
 
 <ng-template #dragConfirmation let-c="close" let-d="dismiss">
@@ -47,11 +52,12 @@
 		<button type="button" class="btn btn-warning" (click)="c(true)">Yes</button>
 		<button type="button" class="btn btn-default" (click)="c(false)">No</button>
 
-	
+
 	</div>
 	<div class="modal-footer">
-			<div class="alert alert-info" role="alert">
-					<strong>Did you know?</strong>  You can now directly edit the map itself, adding new circles to the map in the places you want them, and dragging and dropping them to new locations.
-				  </div>
+		<div class="alert alert-info" role="alert">
+			<strong>Did you know?</strong> You can now directly edit the map itself, adding new circles to the map in the places you want
+			them, and dragging and dropping them to new locations.
+		</div>
 	</div>
 </ng-template>

@@ -8,7 +8,7 @@ import { MailingService } from "../mailing/mailing.service";
 import { UUID } from "angular2-uuid/index";
 import { EmitterService } from "../emitter.service";
 import { Observable } from "rxjs/Rx";
-import * as _ from "lodash";
+import {flatten} from "lodash"
 
 @Injectable()
 export class UserService {
@@ -173,7 +173,7 @@ export class UserService {
                 });
 
                 return Observable.forkJoin(singleObservables).toPromise().then((result: User[][]) => {
-                    return _.flatten(result);
+                    return flatten(result);
                 });
             }
 

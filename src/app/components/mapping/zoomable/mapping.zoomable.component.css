@@ -1,0 +1,53 @@
+::ng-deep svg.background {
+    background: #fff;
+}
+
+::ng-deep .initiative-map.node {
+    cursor: pointer;
+}
+
+::ng-deep .initiative-map.node:hover {
+    /* stroke: initial; */
+    stroke-width: initial;
+}
+
+::ng-deep .initiative-map.node--leaf {
+    fill: white;
+    pointer-events: visible;
+}
+
+::ng-deep .initiative-map.node--leaf text {
+    fill: #000;
+}
+
+::ng-deep .initiative-map.node--root {
+    display: none;
+}
+
+::ng-deep svg circle.initiative-map:hover {
+    stroke: #000;
+    stroke-width: 3.5px;
+}
+
+::ng-deep svg text.initiative-map.accountable {
+    fill: #555;
+    /* stroke-width: 0px; */
+    /* stroke: #555; */
+}
+
+::ng-deep .accountable.initiative-map {
+    font-weight: 500;
+}
+
+/* ::ng-deep svg text.name {
+    fill: #000;
+} */
+
+::ng-deep .name.initiative-map {
+    font-weight: 500;
+}
+
+::ng-deep .label.initiative-map {
+    font: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-anchor: start;
+}

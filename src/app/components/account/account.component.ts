@@ -75,6 +75,7 @@ export class AccountComponent {
         this.uploader = new FileUploader(uploaderOptions);
         this.uploader.onBuildItemForm = (fileItem: any, form: FormData): any => {
             this.isRefreshingPicture = true;
+            this.feedbackMessage = null;
             this.errorMessage = "";
             // Add Cloudinary's unsigned upload preset to the upload form
             form.append("upload_preset", this.cloudinary.config().upload_preset);
@@ -98,6 +99,7 @@ export class AccountComponent {
         this.uploader.onCompleteItem = (item: any, response: string, status: number, headers: ParsedResponseHeaders) => {
             let pictureURL = JSON.parse(response).secure_url;
             this.updatePicture(pictureURL);
+            this.feedbackMessage = "Successfully updated."
         }
 
         this.uploader.onProgressItem = (fileItem: any, progress: any) => {
@@ -111,6 +113,7 @@ export class AccountComponent {
     }
 
     save() {
+        this.feedbackMessage = null;
         if (this.accountForm.dirty && this.accountForm.valid) {
             let firstname = this.accountForm.controls["firstname"].value;
             let lastname = this.accountForm.controls["lastname"].value;

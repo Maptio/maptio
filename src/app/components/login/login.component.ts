@@ -129,7 +129,7 @@ export class LoginComponent implements OnInit {
 
         this.loginErrorMessage = ""
         if (this.loginForm.dirty && this.loginForm.valid) {
-            localStorage.clear();
+            this.auth.clear();
             this.loader.show();
             let email = this.loginForm.controls["email"].value
             let password = this.loginForm.controls["password"].value
