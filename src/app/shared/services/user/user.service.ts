@@ -169,7 +169,7 @@ export class UserService {
                 let pageArrays = Array.from(Array(maxCounter - 1).keys())
                 let singleObservables = pageArrays.map((pageNumber: number) => {
                     return this.requestUsersPerPage(query, headers, pageNumber)
-                        .map(single => { console.log(single); return single })
+                        .map(single => {return single })
                 });
 
                 return Observable.forkJoin(singleObservables).toPromise().then((result: User[][]) => {
