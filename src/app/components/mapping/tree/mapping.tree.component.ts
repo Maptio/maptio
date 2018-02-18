@@ -84,7 +84,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   }> = new Subject<{ node: Initiative; from: Initiative; to: Initiative }>();
   public closeEditingPanel$: Subject<boolean> = new Subject<boolean>();
 
-  MAX_TEXT_LENGTH = 135;
 
   constructor(
     public d3Service: D3Service,
@@ -275,7 +274,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     let colorService = this.colorService;
     let uiService = this.uiService;
     let CIRCLE_RADIUS = 15;
-    let MAX_TEXT_LENGTH = this.MAX_TEXT_LENGTH;
     let viewerWidth = this.width;
     let viewerHeight = this.height;
     let datasetId = this.datasetId;
@@ -512,9 +510,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         })
         .each(function (d: any) {
           let realText = d.data.name
-            ? d.data.name.length > MAX_TEXT_LENGTH
-              ? `${d.data.name.substr(0, MAX_TEXT_LENGTH)}...`
-              : d.data.name
+            ? d.data.name
             : "(Empty)";
           uiService.wrap(
             d3.select(this),
@@ -585,10 +581,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
           return d.data.name;
         })
         .each(function (d: any) {
+          console.log(d.data.id, d.data.name)
           let realText = d.data.name
-            ? d.data.name.length > MAX_TEXT_LENGTH
-              ? `${d.data.name.substr(0, MAX_TEXT_LENGTH)}...`
-              : d.data.name
+            ? d.data.name
             : "(Empty)";
           uiService.wrap(
             d3.select(this),

@@ -66,10 +66,11 @@ export class UIService {
     tagLineHeightRatio?: number
   ) {
     let d3 = this.d3;
+    let allSpacesRegex = /\t|\n|\r|\r\n|\u0020|\u00A0|\u1680|\u2000|\u2001|\u2002|\u2003|\u2004|\u2005|\u2006|\u2007|\u2008|\u2009|\u202A|\u202F|\u205F|\u3000/
 
     text.each(function () {
       let text = d3.select(this),
-        words = actualText ? actualText.split(/\s+/).reverse() : [],
+        words = actualText ? actualText.split(allSpacesRegex).reverse() : [],
         word: any,
         line: any[] = [],
         lineNumber = 0,
