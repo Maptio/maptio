@@ -412,7 +412,7 @@ export class TeamComponent implements OnInit {
             }
             catch (error) {
 
-                console.log(error)
+                // console.log(error)
                 this.isFileInvalid = true;
             }
             this.isParsingFinished = true;

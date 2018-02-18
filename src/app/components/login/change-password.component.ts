@@ -2,6 +2,7 @@ import { EmitterService } from "./../../shared/services/emitter.service";
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { UserService } from "../../shared/services/user/user.service";
+import { User } from "../../shared/model/user.data";
 
 @Component({
     selector: "change-password",
@@ -12,10 +13,13 @@ export class ChangePasswordComponent implements OnInit {
 
     public email: string;
     public errorMessage: string;
+    public isActivationPending: boolean;
+    public isResending: boolean;
     public feedbackMessage: string;
     public changePasswordForm: FormGroup;
+    public user: User;
 
-    constructor(private userService: UserService, private cd:ChangeDetectorRef) {
+    constructor(private userService: UserService, private cd: ChangeDetectorRef) {
         this.changePasswordForm = new FormGroup({
             "email": new FormControl(this.email, [
                 Validators.required
@@ -28,14 +32,22 @@ export class ChangePasswordComponent implements OnInit {
     resetPassword() {
         this.feedbackMessage = "";
         this.errorMessage = "";
+        this.isActivationPending = false;
+        this.user = null;
         if (this.changePasswordForm.dirty && this.changePasswordForm.valid) {
             let email = this.changePasswordForm.controls["email"].value;
 
             this.userService.isActivationPendingByEmail(email)
                 .then(({ isActivationPending, user_id }) => {
                     if (isActivationPending) {
-                        this.errorMessage = "Looks like you're haven't confirmed your email yet! Check your email to setup your account."
-                        this.cd.markForCheck();
+                        this.userService.getUsersInfo([new User({ user_id: user_id })])
+                            .then(users => {
+                                if (users.length !== 1) {
+                                    throw "There are more than one user with this email! Please contact us."
+                                }
+                                this.user = users[0];
+                            })
+                            .then(() => { this.isActivationPending = true; this.cd.markForCheck() })
                     }
                     else {
                         this.userService.changePassword(email);
@@ -45,6 +57,17 @@ export class ChangePasswordComponent implements OnInit {
                         })
                     }
                 })
+                .catch((error) => {
+                    this.errorMessage = error;
+                })
         }
+    }
+
+    resendEmail() {
+        this.isResending = true;
+        this.userService.sendConfirmation(this.user.email, this.user.user_id, this.user.firstname, this.user.lastname, this.user.name).then(() => {
+            this.isResending = false;
+            this.cd.markForCheck();
+        })
     }
 }

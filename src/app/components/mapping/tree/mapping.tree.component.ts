@@ -462,7 +462,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         })
         .on("click", click)
         .on("expand", (d: any) => {
-          console.log("expanding", d.data.id, d.data.name)
+          // console.log("expanding", d.data.id, d.data.name)
           expand(d);
           update(d, 250)
         })
@@ -581,7 +581,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
           return d.data.name;
         })
         .each(function (d: any) {
-          console.log(d.data.id, d.data.name)
+          // console.log(d.data.id, d.data.name)
           let realText = d.data.name
             ? d.data.name
             : "(Empty)";

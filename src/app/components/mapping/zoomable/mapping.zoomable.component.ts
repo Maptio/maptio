@@ -234,7 +234,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
 
     this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
-      console.log("resetting")
+      // console.log("resetting")
       svg.call(
         zooming.transform,
         d3.zoomIdentity.translate(
@@ -735,7 +735,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         });
 
       // all
-      console.log("zoom to ", getTags())
+      // console.log("zoom to ", getTags())
       let [selectedTags, unselectedTags] = partition(getTags(), (t: SelectableTag) => t.isSelected);
 
       transition

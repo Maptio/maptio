@@ -93,6 +93,7 @@ export class LoginComponent implements OnInit {
                         this.email = decoded.email
                         this.firstname = decoded.firstname
                         this.lastname = decoded.lastname
+                        this.cd.markForCheck();
                         return decoded.user_id;
                     })
                     .then((user_id: string) => {
