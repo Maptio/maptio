@@ -60,5 +60,5 @@ describe("uri.service.ts", () => {
             let actual = target.buildFragment(fragmentMap)
             expect(actual).toBe("x=abc&y=123&array=col1,col2,col3");
         }));
-    })
-}
+    });
+});
