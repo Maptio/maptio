@@ -37,7 +37,7 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { MappingZoomableComponent } from "./zoomable/mapping.zoomable.component";
 import { NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-bootstrap";
 import { UIService } from "../../shared/services/ui/ui.service";
-import {compact} from "lodash"
+import { compact } from "lodash"
 
 @Component({
   selector: "mapping",
@@ -242,8 +242,13 @@ export class MappingComponent {
     component.analytics = this.analytics;
     component.isReset$ = this.isReset$.asObservable();
 
-    this.isSearchDisabled = component.constructor === MemberSummaryComponent;
-    this.isSearchToggled = !(component.constructor === MemberSummaryComponent);
+    if (component.constructor === MemberSummaryComponent) {
+      this.isSearchDisabled = true;
+      this.isSearchToggled = false;
+    }
+    else {
+      this.isSearchDisabled = false;
+    }
   }
 
   onDeactivate(component: any) { }
