@@ -73,16 +73,16 @@
     <div class="edit-tags" *ngIf="isEditTags">
       <h6 class="mt-4">Edit tags</h6>
       <form class="form-group form-inline ml-3 mt-1" [formGroup]="newTagForm" (submit)="addTag()">
-        <div class="d-flex col-4 pl-0 pr-0" [class.has-warning]="newTagForm.controls['name'].invalid  && (newTagForm.controls['name'].dirty || newTagForm.controls['name'].touched)"
-          [style.min-width.vw]="19.5">
+        <div class="pl-0 pr-0" [class.has-warning]="newTagForm.controls['name'].invalid  && (newTagForm.controls['name'].dirty || newTagForm.controls['name'].touched)"
+          >
           <input type="text" id="inputname" formControlName="name" placeholder="New tag" required name class="w-100 form-control ">
         </div>
-        <div class="d-flex col-4 ml-2 pl-2 pr-0">
-          <input [style.min-width.vw]="17.2" class="form-control" placeholder="Pick a color" [(colorPicker)]="newTagColor" [style.background]="newTagColor"
+        <div class="ml-2 pl-2 pr-0">
+          <input class="form-control" placeholder="Pick a color" [(colorPicker)]="newTagColor" [style.background]="newTagColor"
             [value]="newTagColor" [cpOutputFormat]="'hex'" [cpPosition]="'bottom'" [cpPositionOffset]="'40%'" [cpPositionRelativeToArrow]="true"
             (colorPickerChange)="newTagColor=$event" formControlName="color" />
         </div>
-        <button type="submit" class="btn btn-success" [class.disabled]="!newTagForm.valid">Add</button>
+        <button type="submit" class="btn btn-success ml-2" [class.disabled]="!newTagForm.valid">Add</button>
 
       </form>
       <div class="overflow ">
