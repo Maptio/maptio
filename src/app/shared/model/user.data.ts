@@ -137,7 +137,9 @@ export class User implements Serializable<User> {
     // }
 
     getSlug() {
-        return slug(this.name || this.nickname || "", { lower: true })
+        // support for non latin character is lackign for now
+        // HACK : is slug is empty, return "user"
+        return slug(this.name || this.nickname || "", { lower: true }) || "user";
     }
 }
 
