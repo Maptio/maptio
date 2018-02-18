@@ -191,7 +191,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .attr("orient", "auto")
       .append("svg:path")
       .attr("d", "M0,-5L10,0L0,5")
-      .attr("fill", "#bbb")
       .style("opacity", (d: any) => d.opacity);
 
     let zooming = d3
@@ -252,8 +251,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     });
 
     this.fontSubscription = this.fontSize$
-      .combineLatest(this.fontColor$)
-      .subscribe((format: [number, string]) => {
+      .combineLatest(this.fontColor$, this.mapColor$)
+      .subscribe((format: [number, string, string]) => {
         // font size
         svg.attr("font-size", format[0] + "rem");
         svg.selectAll("text").attr("font-size", format[0] + "rem");
@@ -261,6 +260,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         // font color
         svg.style("fill", format[1]);
         svg.selectAll("text").style("fill", format[1]);
+        svg.selectAll("marker").attr("fill", format[2])
       });
 
     this.zoomInitiative$.combineLatest(this.mapColor$, this.fontColor$).subscribe((zoomed: [Initiative, string, string]) => {
