@@ -9,11 +9,13 @@ import {
 import { HelpComponent } from "../components/help/help.component";
 import "rxjs/add/operator/map"
 import { Auth } from "../shared/services/auth/auth.service";
+import { environment } from "../../environment/environment";
+import { Observable } from "rxjs/Observable";
 @Component({
   selector: "my-app",
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
-  changeDetection : ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class AppComponent {
@@ -63,9 +65,16 @@ export class AppComponent {
     return url.startsWith("/map")
   }
 
-  // ngOnInit() {
-
-  // }
+  ngOnInit() {
+    Observable
+      .interval(environment.CHECK_TOKEN_EXPIRATION_INTERVAL_IN_MINUTES * 60 * 1000)
+      .timeInterval()
+      .flatMap(() => {return Observable.of(this.auth.allAuthenticated()) })
+      .filter(isExpired => !isExpired)
+      .subscribe((isExpired: boolean) => {
+        this.router.navigateByUrl("/logout")
+      });
+  }
 
   // ngAfterViewInit() {
 
