@@ -22,7 +22,7 @@ import { ActivatedRoute } from "@angular/router";
 import { User } from "../../shared/model/user.data";
 import { SafeUrl, DomSanitizer } from "@angular/platform-browser";
 import { Tag, SelectableTag } from "../../shared/model/tag.data";
-import {intersectionBy} from "lodash";
+import { intersectionBy } from "lodash";
 
 @Component({
     selector: "workspace",
@@ -122,7 +122,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         }
         this.datasetFactory.upsert(this.dataset, this.datasetId)
             .then((hasSaved: boolean) => {
-                this.dataService.set({ initiative: initiative, datasetId: this.datasetId, teamName: this.teamName, teamId: this.teamId, tags: this.dataset.tags, members: this.members });
+                this.dataService.set({ initiative: initiative, datasetId: this.datasetId, teamName: this.teamName, teamId: this.teamId, team: this.team, tags: this.dataset.tags, members: this.members });
                 return hasSaved;
             }, (reason) => { console.log(reason) });
 

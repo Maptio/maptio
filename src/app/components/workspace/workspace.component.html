@@ -39,25 +39,3 @@
         Loading...</mapping>
     </div>
 </div>
-
-
-<ng-template #dragConfirmation let-c="close" let-d="dismiss">
-    <div class="modal-header">
-        You are about to switch teams
-        <button type="button" class="close" aria-label="Close" (click)="d(false)">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-
-    <div class="modal-body">
-        <p>
-            Switching teams keeps your initiative structure intact but
-            <b>resets authorities and helpers</b> .
-        </p>
-    </div>
-    <div class="modal-footer">
-        <p>These changes cannot be undone. Are you sure ? </p>
-        <button type="button" class="btn btn-warning" (click)="c(true)">Yes</button>
-        <button type="button" class="btn btn-default" (click)="c(false)">No</button>
-    </div>
-</ng-template>

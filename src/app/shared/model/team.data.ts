@@ -1,6 +1,7 @@
 import { User } from "./user.data";
 import { Serializable } from "../interfaces/serializable.interface";
 import * as slug from "slug";
+import { Setting, AuthorityLabelSetting, HelperLabelSetting } from "./setting.data";
 
 export class Team implements Serializable<Team> {
 
@@ -25,6 +26,8 @@ export class Team implements Serializable<Team> {
      */
     public members: Array<User>;
 
+    public settings: { authority: string, helper: string } = { authority: "dRiver", helper: "bACKseat" };
+
     public constructor(init?: Partial<Team>) {
         Object.assign(this, init);
     }
@@ -38,11 +41,11 @@ export class Team implements Serializable<Team> {
             return undefined;
         }
 
+
         let deserialized = new Team();
         deserialized.name = input.name;
         deserialized.team_id = input._id;
         deserialized.shortid = input.shortid;
-
         if (input.members) {
             deserialized.members = []
             input.members.forEach((member: any) => {

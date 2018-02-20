@@ -25,9 +25,9 @@ export class ExportService {
             let nbrAll = nbrHelpers + (i.accountable ? 1 : 0);
             let tags = i.tags.map(t => t.name).join("/");
 
-            exportString += `\n"${inList.depth}","${i.name}","${inList.parent.data.name}","Authority","${i.accountable ? i.accountable.name : ""}","${nbrAll}","${nbrHelpers}","${tags}"`
+            exportString += `\n"${inList.depth}","${i.name}","${inList.parent.data.name}","${dataset.team.settings.authority}","${i.accountable ? i.accountable.name : ""}","${nbrAll}","${nbrHelpers}","${tags}"`
             sortBy(i.helpers, "name").forEach(h => {
-                exportString += `\n"${inList.depth}","${i.name}","${inList.parent.data.name}","Helpers","${h.name}","${nbrAll}","${nbrHelpers}","${tags}"`
+                exportString += `\n"${inList.depth}","${i.name}","${inList.parent.data.name}","${dataset.team.settings.helper}","${h.name}","${nbrAll}","${nbrHelpers}","${tags}"`
             })
 
         });
