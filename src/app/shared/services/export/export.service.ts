@@ -6,6 +6,7 @@ import { DataSet } from "../../model/dataset.data";
 import { D3Service, D3 } from "d3-ng2-service";
 import { sortBy } from "lodash";
 import { Tag } from "../../../shared/model/tag.data";
+import {upperFirst, lowerCase,toLower} from "lodash"
 
 @Injectable()
 export class ExportService {
@@ -25,9 +26,9 @@ export class ExportService {
             let nbrAll = nbrHelpers + (i.accountable ? 1 : 0);
             let tags = i.tags.map(t => t.name).join("/");
 
-            exportString += `\n"${inList.depth}","${i.name}","${inList.parent.data.name}","${dataset.team.settings.authority}","${i.accountable ? i.accountable.name : ""}","${nbrAll}","${nbrHelpers}","${tags}"`
+            exportString += `\n"${inList.depth}","${i.name}","${inList.parent.data.name}","${upperFirst(toLower(dataset.team.settings.authority))}","${i.accountable ? i.accountable.name : ""}","${nbrAll}","${nbrHelpers}","${tags}"`
             sortBy(i.helpers, "name").forEach(h => {
-                exportString += `\n"${inList.depth}","${i.name}","${inList.parent.data.name}","${dataset.team.settings.helper}","${h.name}","${nbrAll}","${nbrHelpers}","${tags}"`
+                exportString += `\n"${inList.depth}","${i.name}","${inList.parent.data.name}","${upperFirst(toLower(dataset.team.settings.helper))}","${h.name}","${nbrAll}","${nbrHelpers}","${tags}"`
             })
 
         });

@@ -1,6 +1,7 @@
 import { Initiative } from "./initiative.data";
 import { Serializable } from "./../interfaces/serializable.interface";
 import { Tag, DEFAULT_TAGS } from "./tag.data";
+import { Team } from "./team.data";
 
 export class DataSet implements Serializable<DataSet> {
   public shortid: string;
@@ -9,7 +10,7 @@ export class DataSet implements Serializable<DataSet> {
 
   initiative: Initiative;
 
-  team: any;
+  team: Team;
 
   depth: number;
 
