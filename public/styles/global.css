@@ -481,3 +481,13 @@ svg tspan.dot-tags {
 li a.tag{
   background: transparent;
 }
+
+.nav-link {
+  color: #2f81b7;
+}
+
+.nav-pills .nav-item.show .nav-link, .nav-pills .nav-link.active {
+  color: #2f81b7!important;
+  cursor: default;
+  background-color: #f5f5f5!important;
+}

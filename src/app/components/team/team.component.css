@@ -49,13 +49,13 @@ table.tableSection thead, table.tableSection tbody {
 
 table.tableSection.left tbody {
     overflow: auto;
-    height: 61vh;
+    height: 51vh;
     position:relative
 }
 
 table.tableSection.right tbody {
     overflow: auto;
-    height: 35vh;
+    height: 55vh;
     position:relative
 }
 
@@ -86,3 +86,4 @@ td.delete{
 .wrap{
     word-wrap: break-word;
 }
+

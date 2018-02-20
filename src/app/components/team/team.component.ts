@@ -46,6 +46,11 @@ export class TeamComponent implements OnInit {
     public resentMessage: string;
 
     public inviteForm: FormGroup;
+    public teamSettingsForm: FormGroup;
+    public teamName: string;
+    public teamAuthority: string;
+    public teamHelper: string;
+
     public createdUser: User;
     @ViewChild("fileImportInput") fileImportInput: any;
 
@@ -94,6 +99,24 @@ export class TeamComponent implements OnInit {
             // "isInvited": new FormControl("", [
             // ])
         });
+        this.teamSettingsForm = new FormGroup({
+            "name": new FormControl(this.teamName, [
+                Validators.required,
+                Validators.minLength(2)
+            ]),
+            "authority": new FormControl(this.teamAuthority),
+            "helper": new FormControl(this.teamHelper),
+        })
+
+        this.team$.then(team => {
+            this.teamName = team.name;
+            this.teamAuthority = team.settings.authority;
+            this.teamHelper = team.settings.helper;
+
+
+        })
+
+
 
     }
 
@@ -414,6 +437,9 @@ export class TeamComponent implements OnInit {
 
                 // console.log(error)
                 this.isFileInvalid = true;
+            }
+            finally {
+                this.cd.markForCheck();
             }
             this.isParsingFinished = true;
         }
