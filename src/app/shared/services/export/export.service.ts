@@ -6,7 +6,7 @@ import { DataSet } from "../../model/dataset.data";
 import { D3Service, D3 } from "d3-ng2-service";
 import { sortBy } from "lodash";
 import { Tag } from "../../../shared/model/tag.data";
-import {upperFirst, lowerCase,toLower} from "lodash"
+import { upperFirst, lowerCase, toLower } from "lodash"
 
 @Injectable()
 export class ExportService {
