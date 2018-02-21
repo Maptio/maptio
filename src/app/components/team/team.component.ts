@@ -77,8 +77,7 @@ export class TeamComponent implements OnInit {
         private fileService: FileService, private cd: ChangeDetectorRef) {
 
         this.routeSubscription = this.route.params.subscribe((params: Params) => {
-            console.log(params)
-            if (!params["teamid"]) return
+           if (!params["teamid"]) return
             this.teamId = params["teamid"]
             this.team$ = this.teamFactory.get(this.teamId);
 
