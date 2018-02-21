@@ -77,6 +77,7 @@ export class TeamComponent implements OnInit {
         private fileService: FileService, private cd: ChangeDetectorRef) {
 
         this.routeSubscription = this.route.params.subscribe((params: Params) => {
+            console.log(params)
             if (!params["teamid"]) return
             this.teamId = params["teamid"]
             this.team$ = this.teamFactory.get(this.teamId);
@@ -88,18 +89,7 @@ export class TeamComponent implements OnInit {
             this.user = user;
         })
 
-        this.inviteForm = new FormGroup({
-            "firstname": new FormControl("", [
-                Validators.required,
-                Validators.minLength(2)
-            ]),
-            "lastname": new FormControl("", [
-                Validators.required,
-                Validators.minLength(2)
-            ]),
-            // "isInvited": new FormControl("", [
-            // ])
-        });
+
         this.teamSettingsForm = new FormGroup({
             "name": new FormControl(this.teamName, [
                 Validators.required,
@@ -122,6 +112,19 @@ export class TeamComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.inviteForm = new FormGroup({
+            "firstname": new FormControl("", [
+                Validators.required,
+                Validators.minLength(2)
+            ]),
+            "lastname": new FormControl("", [
+                Validators.required,
+                Validators.minLength(2)
+            ]),
+            // "isInvited": new FormControl("", [
+            // ])
+        });
+
         this.members$ = this.getAllMembers();
     }
 
