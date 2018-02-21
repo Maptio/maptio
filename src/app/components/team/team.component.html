@@ -231,6 +231,19 @@
                     Team Settings
                 </h3>
 
+                <div class="alert alert-success alert-dismissible fade show" role="alert" *ngIf="isTeamSettingSaved">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    Successfully updated team <strong>{{teamName}}</strong> settings
+                </div>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="isTeamSettingFailed">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    Cannot update settings.
+                </div>
+
                 <form class="form-group col-9" [formGroup]="teamSettingsForm" (submit)="saveTeamSettings()">
                     <h5 class="mt-3">General</h5>
                     <div class="form-inline row m-1"  [class.has-warning]="teamSettingsForm.controls['name'].invalid  && (teamSettingsForm.controls['name'].dirty || teamSettingsForm.controls['name'].touched)">
@@ -260,7 +273,7 @@
                         </small> -->
                     </div>
 
-                    <button type="submit" class="btn btn-success btn-lg pull-right" [class.disabled]="!teamSettingsForm.valid">Save</button>
+                    <button type="submit" class="btn btn-success  pull-right mt-2" [class.disabled]="!teamSettingsForm.valid || !teamSettingsForm.dirty">Save</button>
                 </form>
             </div>
         </div>

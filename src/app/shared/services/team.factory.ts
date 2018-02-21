@@ -105,13 +105,13 @@ export class TeamFactory {
             settings: team.settings,
             members: team.members.map(m => { return { name: m.name, picture: m.picture, user_id: m.user_id, nickname: m.nickname } })
         };
-        console.log(transformed)
         return this.http.put("/api/v1/team/" + team.team_id, transformed)
             .map((responseData) => {
                 return responseData.json();
             })
             .toPromise()
-            .then(r => { return true })
+            .then(r => true)
+            .catch(() => false)
     }
 
 

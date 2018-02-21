@@ -50,7 +50,7 @@ export class TeamComponent implements OnInit {
     public teamName: string;
     public teamAuthority: string;
     public teamHelper: string;
-    public team:Team;
+    public team: Team;
 
     public createdUser: User;
     @ViewChild("fileImportInput") fileImportInput: any;
@@ -486,20 +486,25 @@ export class TeamComponent implements OnInit {
     }
 
 
+    isTeamSettingSaved: boolean;
+    isTeamSettingFailed: boolean;
     saveTeamSettings() {
+        this.isTeamSettingSaved = false;
+        this.isTeamSettingFailed = false;
         if (this.teamSettingsForm.valid && this.teamSettingsForm.dirty) {
             let updatedTeam = new Team({
                 team_id: this.teamId,
                 name: this.teamName,
-                members : this.team.members ,
+                members: this.team.members,
                 settings: { authority: this.teamAuthority, helper: this.teamHelper }
             });
-            console.log("upsert", updatedTeam)
+
             this.teamFactory.upsert(updatedTeam)
                 .then((isUpdated: boolean) => {
-                    console.log("updated")
+                    this.isTeamSettingSaved = isUpdated;
+                    this.cd.markForCheck();
                 })
-                .catch(err => console.log(err))
+                .catch(err => { this.isTeamSettingFailed = true; this.cd.markForCheck(); })
         }
     }
     // fakeCreate(firstname: string, lastname: string, email: string) {
