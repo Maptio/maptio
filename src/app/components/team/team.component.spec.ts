@@ -80,7 +80,15 @@ describe("team.component.ts", () => {
                     {
                         provide: ActivatedRoute,
                         useValue: {
-                            params: Observable.of({ teamid: 123 })
+                            params: Observable.of({ teamid: 123, slug: "slug" }),
+                            data: Observable.of({
+                                team: new Team({
+                                    team_id: "team123",
+                                    name: "team",
+                                    settings: { authority: "A", helper: "H" },
+                                    members: [new User({ user_id: "1" })]
+                                })
+                            })
                         }
                     },
                     Angulartics2Mixpanel, Angulartics2
@@ -97,7 +105,7 @@ describe("team.component.ts", () => {
 
     describe("getAllMembers", () => {
         it("should retrieve members information ", async(() => {
-            component.team$ = Promise.resolve(new Team({ team_id: "ID", name: "My team", members: [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })] }))
+            component.team = new Team({ team_id: "ID", name: "My team", members: [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })] });
 
             spyOn(target.debugElement.injector.get(UserService), "getUsersInfo").and.returnValue((users: User[]) => {
                 return Promise.resolve(users)
@@ -116,7 +124,7 @@ describe("team.component.ts", () => {
         }));
 
         it("should retrieve members information when user retrieval fails", async(() => {
-            component.team$ = Promise.resolve(new Team({ team_id: "ID", name: "My team", members: [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })] }))
+            component.team = new Team({ team_id: "ID", name: "My team", members: [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })] });
 
             spyOn(target.debugElement.injector.get(UserFactory), "get").and.callFake((id: string) => {
                 return (Number.parseInt(id) % 2)
@@ -138,7 +146,7 @@ describe("team.component.ts", () => {
         }));
 
         it("should retrieve members information when invitation status fails ", async(() => {
-            component.team$ = Promise.resolve(new Team({ team_id: "ID", name: "My team", members: [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })] }))
+            component.team = new Team({ team_id: "ID", name: "My team", members: [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })] });
 
             spyOn(target.debugElement.injector.get(UserService), "getUsersInfo").and.returnValue((users: User[]) => {
                 return Promise.resolve(users.map(u => { u.isInvitationSent = false; return u }))
@@ -157,7 +165,7 @@ describe("team.component.ts", () => {
         }));
 
         it("should retrieve members information when activation pending status fails ", async(() => {
-            component.team$ = Promise.resolve(new Team({ team_id: "ID", name: "My team", members: [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })] }))
+            component.team = new Team({ team_id: "ID", name: "My team", members: [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })] });
 
             spyOn(target.debugElement.injector.get(UserService), "getUsersInfo").and.returnValue((users: User[]) => {
                 return Promise.resolve(users.map(u => { u.isActivationPending = false; return u }))
@@ -177,20 +185,20 @@ describe("team.component.ts", () => {
 
     describe("inviteUser", () => {
         it("should send invitation email and update status when it succeeds", () => {
-            component.team$ = Promise.resolve(new Team({ team_id: "ID", name: "My team", members: [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })] }))
+            component.team = new Team({ team_id: "ID", name: "My team", members: [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })] });
             component.user = new User({ name: "Founder" })
             let spySendInvite = spyOn(target.debugElement.injector.get(UserService), "sendInvite").and.returnValue(Promise.resolve(true))
 
             let user = new User({ user_id: "1", email: "jane@doe.com", firstname: "Jane", lastname: "Doe", name: "Jane Doe" });
             component.inviteUser(user);
 
-            component.team$.then(t => {
-                expect(spySendInvite).toHaveBeenCalledWith("jane@doe.com", "1", "Jane", "Doe", "Jane Doe", "My team", "Founder");
-                spySendInvite.calls.mostRecent().returnValue.then(() => {
-                    expect(user.isInvitationSent).toBe(true)
-                })
-
+            // component.team$.then(t => {
+            expect(spySendInvite).toHaveBeenCalledWith("jane@doe.com", "1", "Jane", "Doe", "Jane Doe", "My team", "Founder");
+            spySendInvite.calls.mostRecent().returnValue.then(() => {
+                expect(user.isInvitationSent).toBe(true)
             })
+
+            // })
         });
     });
 });
