@@ -26,7 +26,7 @@ export class Team implements Serializable<Team> {
      */
     public members: Array<User>;
 
-    public settings: { authority: string, helper: string } = { authority: "dRiver", helper: "bACKseat" };
+    public settings: { authority: string, helper: string } ;
 
     public constructor(init?: Partial<Team>) {
         Object.assign(this, init);
@@ -52,6 +52,9 @@ export class Team implements Serializable<Team> {
                 deserialized.members.push(User.create().deserialize(member))
             });
         }
+        deserialized.settings = {authority: "Authority", helper: "Helper"}
+        deserialized.settings.authority = input.settings ? input.settings.authority || "Authority" : "Authority";
+        deserialized.settings.helper = input.settings ? input.settings.helper || "Helper" : "Helper"
 
         return deserialized;
     }

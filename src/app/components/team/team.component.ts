@@ -50,6 +50,7 @@ export class TeamComponent implements OnInit {
     public teamName: string;
     public teamAuthority: string;
     public teamHelper: string;
+    public team:Team;
 
     public createdUser: User;
     @ViewChild("fileImportInput") fileImportInput: any;
@@ -112,7 +113,7 @@ export class TeamComponent implements OnInit {
             this.teamName = team.name;
             this.teamAuthority = team.settings.authority;
             this.teamHelper = team.settings.helper;
-
+            this.team = team;
 
         })
 
@@ -459,8 +460,6 @@ export class TeamComponent implements OnInit {
         this.csvRecords = [];
     }
 
-
-
     importUsers() {
         this.isImportFinished = false;
         this.importedSuccessfully = 0;
@@ -486,13 +485,30 @@ export class TeamComponent implements OnInit {
         this.isImportFinished = true;
     }
 
-    fakeCreate(firstname: string, lastname: string, email: string) {
-        return Observable.if(
-            () => { return Math.random() < 0.9 },
-            Observable.of(true),
-            Observable.throw({ message: "Something bad happened" }));
 
+    saveTeamSettings() {
+        if (this.teamSettingsForm.valid && this.teamSettingsForm.dirty) {
+            let updatedTeam = new Team({
+                team_id: this.teamId,
+                name: this.teamName,
+                members : this.team.members ,
+                settings: { authority: this.teamAuthority, helper: this.teamHelper }
+            });
+            console.log("upsert", updatedTeam)
+            this.teamFactory.upsert(updatedTeam)
+                .then((isUpdated: boolean) => {
+                    console.log("updated")
+                })
+                .catch(err => console.log(err))
+        }
     }
+    // fakeCreate(firstname: string, lastname: string, email: string) {
+    //     return Observable.if(
+    //         () => { return Math.random() < 0.9 },
+    //         Observable.of(true),
+    //         Observable.throw({ message: "Something bad happened" }));
+
+    // }
 
 }
 
