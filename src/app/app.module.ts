@@ -110,6 +110,7 @@ import { MappingZoomableComponent } from "./components/mapping/zoomable/mapping.
 import { McBreadcrumbsModule, McBreadcrumbsConfig } from "ngx-breadcrumbs";
 import { TeamComponentResolver } from "./components/team/team.resolver";
 import { SearchComponent } from "./components/search/search.component";
+import { FilterTagsComponent } from "./components/filter/tags.component";
 
 // Routes
 const appRoutes: Routes = [
@@ -223,7 +224,7 @@ export const RollbarService = new InjectionToken<Rollbar>("rollbar");
     MappingComponent, MappingTreeComponent, MappingNetworkComponent, MemberSummaryComponent, MappingZoomableComponent,
     BuildingComponent, InitiativeNodeComponent, LoginComponent, LogoutComponent, HomeComponent, UnauthorizedComponent, NotFoundComponent,
     InitiativeComponent, ChangePasswordComponent, LoaderComponent, TeamsListComponent, SignupComponent,
-    FocusIfDirective, SearchComponent,
+    FocusIfDirective, SearchComponent,FilterTagsComponent,
     HelpComponent,
     DashboardComponent,
 

@@ -128,8 +128,8 @@ export class MappingComponent {
   // public layout: string;
   public subscription: Subscription;
   public instance: IDataVisualizer;
-  public newTagForm: FormGroup;
-  newTagColor = "#fff";
+
+
   fontColor = localStorage.getItem("FONT_COLOR")
     ? localStorage.getItem("FONT_COLOR")
     : "#000";
@@ -166,10 +166,7 @@ export class MappingComponent {
       datasetId: string;
     }>();
 
-    this.newTagForm = new FormGroup({
-      name: new FormControl("", [Validators.required]),
-      color: new FormControl(this.newTagColor, [Validators.required])
-    });
+
   }
 
   ngAfterViewInit() { }
@@ -400,10 +397,11 @@ export class MappingComponent {
     });
   }
 
-  public broadcastTagsSelection() {
-    this.selectableTags$.next(this.tags);
+  public broadcastTagsSelection(tags: SelectableTag[]) {
+    this.selectableTags$.next(tags);
+    this.applySettings.emit({ initiative: this.initiative, tags: tags });
 
-    let tagsHash = this.tags
+    let tagsHash = tags
       .filter(t => t.isSelected === true)
       .map(t => t.shortid)
       .join(",");
@@ -412,64 +410,6 @@ export class MappingComponent {
     let ancient = this.uriService.parseFragment(this.route.snapshot.fragment);
     ancient.set("tags", tagsHash);
     location.hash = this.uriService.buildFragment(ancient);
-  }
-
-  toggleTag(tag: SelectableTag) {
-    tag.isSelected = !tag.isSelected;
-    this.broadcastTagsSelection();
-  }
-
-  selectAllTags() {
-    this.tags.forEach(t => t.isSelected = true);
-    this.broadcastTagsSelection();
-  }
-
-  unselectAllTags() {
-    this.tags.forEach(t => t.isSelected = false);
-    this.broadcastTagsSelection();
-  }
-
-  saveColor(tag: Tag, color: string) {
-    tag.color = color;
-    this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
-  }
-
-  saveTagName(tag: Tag, name: string) {
-    tag.name = name;
-    // this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
-  }
-
-  saveTagChanges() {
-    this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
-  }
-
-  addTag() {
-    if (this.newTagForm.dirty && this.newTagForm.valid) {
-      let name = this.newTagForm.controls["name"].value;
-      let tag = new Tag().create(name, this.newTagColor);
-
-      this.tags.unshift(<SelectableTag>tag);
-      this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
-      this.newTagForm.reset({ name: "", color: this.newTagColor });
-      this.analytics.eventTrack("Map", {
-        action: "Add tag",
-        team: this.teamName,
-        teamId: this.teamId
-      });
-    }
-  }
-
-  removeTag(tag: Tag) {
-    let index = this.tags.findIndex(t => t.shortid === tag.shortid);
-    if (index >= 0) {
-      this.tags.splice(index, 1);
-      this.analytics.eventTrack("Map", {
-        action: "Remove tag",
-        team: this.teamName,
-        teamId: this.teamId
-      });
-    }
-    this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
   }
 
   zoomToInitiative(selected: Initiative) {
