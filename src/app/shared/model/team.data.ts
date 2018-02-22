@@ -1,7 +1,6 @@
 import { User } from "./user.data";
 import { Serializable } from "../interfaces/serializable.interface";
 import * as slug from "slug";
-import { Setting, AuthorityLabelSetting, HelperLabelSetting } from "./setting.data";
 
 export class Team implements Serializable<Team> {
 
