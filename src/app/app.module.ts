@@ -238,7 +238,7 @@ export const RollbarService = new InjectionToken<Rollbar>("rollbar");
     TreeModule,
     McBreadcrumbsModule.forRoot(),
     NgbModule.forRoot(),
-    RouterModule.forRoot(appRoutes, { enableTracing: true }),
+    RouterModule.forRoot(appRoutes),
     ResponsiveModule,
     ConfirmationPopoverModule.forRoot({
       confirmButtonType: "danger",
