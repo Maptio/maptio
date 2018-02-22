@@ -18,6 +18,26 @@ export class SearchComponent implements OnInit {
 
     public searchResultsCount: number;
     public isSearching: boolean;
+
+    filter(term: string) {
+        return this.list.filter(
+            v =>
+                v.name.toLowerCase().indexOf(term.toLowerCase()) > -1 ||
+                (v.description &&
+                    v.description.toLowerCase().indexOf(term.toLowerCase()) >
+                    -1) ||
+                (v.accountable &&
+                    v.accountable.name.toLowerCase().indexOf(term.toLowerCase()) >
+                    -1) ||
+                (v.helpers &&
+                    v.helpers
+                        .map(h => h.name)
+                        .join("")
+                        .toLowerCase()
+                        .indexOf(term.toLowerCase()) > -1)
+        ).slice(0, 10);
+    }
+
     searchInitiatives = (text$: Observable<string>) =>
         text$
             .debounceTime(200)
@@ -29,22 +49,7 @@ export class SearchComponent implements OnInit {
             .map(term => {
                 return term === ""
                     ? this.list
-                    : this.list.filter(
-                        v =>
-                            v.name.toLowerCase().indexOf(term.toLowerCase()) > -1 ||
-                            (v.description &&
-                                v.description.toLowerCase().indexOf(term.toLowerCase()) >
-                                -1) ||
-                            (v.accountable &&
-                                v.accountable.name.toLowerCase().indexOf(term.toLowerCase()) >
-                                -1) ||
-                            (v.helpers &&
-                                v.helpers
-                                    .map(h => h.name)
-                                    .join("")
-                                    .toLowerCase()
-                                    .indexOf(term.toLowerCase()) > -1)
-                    ).slice(0, 10);
+                    : this.filter(term)
             })
             .do(list => {
                 this.searchResultsCount = list.length;
@@ -55,7 +60,7 @@ export class SearchComponent implements OnInit {
         return result.name;
     };
 
-    zoomToInitiative(event: NgbTypeaheadSelectItemEvent) {
+    select(event: NgbTypeaheadSelectItemEvent) {
         let initiative = event.item;
         this.isSearching = false;
         this.cd.markForCheck();
