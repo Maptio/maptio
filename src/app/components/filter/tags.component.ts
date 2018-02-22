@@ -18,6 +18,7 @@ export class FilterTagsComponent implements OnInit {
 
     public newTagForm: FormGroup;
     newTagColor = "#fff";
+    isEditTags:boolean;
     constructor(private analytics: Angulartics2Mixpanel) { }
 
     ngOnInit() {
