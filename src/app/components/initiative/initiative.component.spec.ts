@@ -176,6 +176,7 @@ describe("initiative.component.ts", () => {
 
         describe("removeTag", () => {
             it("should remove tag from list", () => {
+                spyOn(component, "onBlur")
                 component.node.tags = [new Tag({ shortid: "1", name: "one" }), new Tag({ shortid: "2", name: "two" })]
                 component.removeTag(new Tag({ shortid: "1", name: "one" }));
                 expect(component.node.tags.length).toBe(1);
