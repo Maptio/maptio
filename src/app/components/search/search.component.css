@@ -1,0 +1,23 @@
+.search{
+    /* padding-right: 7vw;
+    background: #00000005; */
+    font-weight: 400;
+    /* width:30vw; */
+    /* padding-left: 3vw; */
+  }
+  
+  :host /deep/  .dropdown-item.active, .dropdown-item:active {
+    /* color: #fff; */
+    text-decoration: none;
+    /* font-style: italic; */
+    background-color: #2f81b78c !important;
+  }
+
+  :host /deep/ button.dropdown-item:nth-child(even) {
+    background: #f5f5f5;
+  }
+  
+  :host /deep/ .dropdown-menu {
+    max-height: 65vh;
+    overflow-y: auto;
+  }

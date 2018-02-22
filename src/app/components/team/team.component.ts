@@ -26,13 +26,10 @@ import * as _ from "lodash";
 })
 export class TeamComponent implements OnInit {
 
-    // public team$: Promise<Team>
     public members$: Promise<User[]>;
-    // public teams$: Promise<Team[]>
     public newMember: User;
     public searching: boolean = false;
     public searchFailed: boolean = false;
-    public teamId: string;
     private routeSubscription: Subscription;
     private userSubscription: Subscription;
     public user: User;
@@ -174,7 +171,7 @@ export class TeamComponent implements OnInit {
     }
 
     addMemberToTeam() {
-        this.newMember.teams.push(this.teamId);
+        this.newMember.teams.push(this.team.team_id);
 
         this.userFactory.upsert(this.newMember)
             .then((result: boolean) => {
@@ -281,7 +278,7 @@ export class TeamComponent implements OnInit {
                     virtualUser.nickname = user.nickname;
                     virtualUser.user_id = user.user_id;
                     virtualUser.picture = user.picture;
-                    virtualUser.teams = [this.teamId];
+                    virtualUser.teams = [this.team.team_id];
                     virtualUser.datasets = datasets.map(d => d.datasetId);
                     this.createdUser = virtualUser;
 
@@ -485,7 +482,7 @@ export class TeamComponent implements OnInit {
         this.isTeamSettingFailed = false;
         if (this.teamSettingsForm.valid && this.teamSettingsForm.dirty) {
             let updatedTeam = new Team({
-                team_id: this.teamId,
+                team_id: this.team.team_id,
                 name: this.teamName,
                 members: this.team.members,
                 settings: { authority: this.teamAuthority, helper: this.teamHelper }

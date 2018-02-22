@@ -472,49 +472,7 @@ export class MappingComponent {
     this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
   }
 
-  public searchResultsCount: number;
-  public isSearching: boolean;
-  searchInitiatives = (text$: Observable<string>) =>
-    text$
-      .debounceTime(200)
-      .distinctUntilChanged()
-      .do((term: string) => {
-        this.isSearching = true && term !== "";
-        this.cd.markForCheck();
-      })
-      .map(term => {
-        return term === ""
-          ? this.flattenInitiative
-          : this.flattenInitiative.filter(
-            v =>
-              v.name.toLowerCase().indexOf(term.toLowerCase()) > -1 ||
-              (v.description &&
-                v.description.toLowerCase().indexOf(term.toLowerCase()) >
-                -1) ||
-              (v.accountable &&
-                v.accountable.name.toLowerCase().indexOf(term.toLowerCase()) >
-                -1) ||
-              (v.helpers &&
-                v.helpers
-                  .map(h => h.name)
-                  .join("")
-                  .toLowerCase()
-                  .indexOf(term.toLowerCase()) > -1)
-          ).slice(0, 10);
-      })
-      .do(list => {
-        this.searchResultsCount = list.length;
-        this.cd.markForCheck();
-      });
-
-  formatter = (result: Initiative) => {
-    return result.name;
-  };
-
-  zoomToInitiative(event: NgbTypeaheadSelectItemEvent) {
-    let initiative = event.item;
-    this.isSearching = false;
-    this.cd.markForCheck();
-    this.zoomToInitiative$.next(initiative);
+  zoomToInitiative(selected: Initiative) {
+    this.zoomToInitiative$.next(selected);
   }
 }

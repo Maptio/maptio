@@ -1,0 +1,22 @@
+<ng-template #rt let-r="result" let-t="term">
+    <div>
+        <div>{{r.name}}</div>
+        <small class="ml-3" *ngIf="r.accountable">
+            <span *ngIf="r.accountable" class="text-muted">led by</span>
+            <img [src]="r.accountable.picture" [alt]="r.accountable.name" width="15" height="15" class="rounded-circle mr-1">{{r.accountable.name}}
+        </small>
+        <small class="ml-3 d-flex" *ngIf="r.helpers.length>0">
+            <span *ngIf="r.helpers.length>0" class="text-muted">with the help of</span>
+
+            <span class="pl-1" *ngFor="let helper of r.helpers; let i=index">
+                <img [src]="helper.picture" [alt]="helper.name" width="15" height="15" class="rounded-circle mr-1">{{helper.name}}
+            </span>
+
+        </small>
+    </div>
+
+</ng-template>
+
+<input #initiativeSearch [resultTemplate]="rt" type="text" id="initiativeSearch" class="form-control search mr-2" (selectItem)="zoomToInitiative($event)"
+    [ngbTypeahead]="searchInitiatives" [resultFormatter]="formatter" [inputFormatter]="formatter" editable="false" autofocus="autofocus"
+    (focus)="initiativeSearch.value=''" placement="bottom-right" placeholder="Search initiatives, people and description" />
