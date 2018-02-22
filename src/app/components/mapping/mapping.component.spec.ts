@@ -162,8 +162,7 @@ describe("mapping.component.ts", () => {
         describe("Searching", () => {
             it("should zoom on selected initiative", () => {
                 spyOn(component.zoomToInitiative$, "next")
-                component.zoomToInitiative({ item: new Initiative(), preventDefault: null });
-                expect(component.isSearching).toBe(false);
+                component.zoomToInitiative(new Initiative());
                 expect(component.zoomToInitiative$.next).toHaveBeenCalled();
             });
         });
