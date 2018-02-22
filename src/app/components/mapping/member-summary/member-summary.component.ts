@@ -91,6 +91,7 @@ export class MemberSummaryComponent implements OnInit, IDataVisualizer {
                 this.datasetId = data.datasetId;
                 this.analytics.eventTrack("Map", { view: "personal", team: data.teamName, teamId: data.teamId });
                 this.initiative = data.initiative;
+                this.team = data.team;
             })
             .combineLatest(this.route.params)
             .map(([, params]: [void, Params]) => {
@@ -98,14 +99,12 @@ export class MemberSummaryComponent implements OnInit, IDataVisualizer {
                 return this.memberShortId;
             })
             .switchMap((memberShortId: string) => {
-
                 return this.userFactory.get(memberShortId)
                     .then((user: User) => {
                         this.memberUserId = user.user_id;
                         this.member = user;
                         return user;
                     });
-
             })
             .combineLatest(this.selectableTags$)
             .subscribe(([user, tags]: [User, Array<SelectableTag>]) => {

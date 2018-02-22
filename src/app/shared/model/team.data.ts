@@ -25,6 +25,8 @@ export class Team implements Serializable<Team> {
      */
     public members: Array<User>;
 
+    public settings: { authority: string, helper: string } ;
+
     public constructor(init?: Partial<Team>) {
         Object.assign(this, init);
     }
@@ -38,17 +40,20 @@ export class Team implements Serializable<Team> {
             return undefined;
         }
 
+
         let deserialized = new Team();
         deserialized.name = input.name;
         deserialized.team_id = input._id;
         deserialized.shortid = input.shortid;
-
         if (input.members) {
             deserialized.members = []
             input.members.forEach((member: any) => {
                 deserialized.members.push(User.create().deserialize(member))
             });
         }
+        deserialized.settings = {authority: "Authority", helper: "Helper"}
+        deserialized.settings.authority = input.settings ? input.settings.authority || "Authority" : "Authority";
+        deserialized.settings.helper = input.settings ? input.settings.helper || "Helper" : "Helper"
 
         return deserialized;
     }

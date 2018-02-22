@@ -12,17 +12,18 @@
         </picture>
     </a>
 
-    <div class="row justify-content-between col-7">
-        <span class="navbar-text col pt-2 ">
+    <div class="row d-flex justify-content-between col-7">
+        <!-- <span class="navbar-text col pt-2 ">
             <a class="lead" routerLink="/map/{{selectedDataset?.datasetId}}/{{selectedDataset?.initiative?.getSlug()}}/initiatives">
                 {{selectedDataset?.initiative?.name}}
             </a>
-        </span>
-        <span class="navbar-text col pt-3 ">
+        </span> -->
+        <mc-breadcrumbs></mc-breadcrumbs>
+        <span class="navbar-text col-2 pt-3 ">
 
-            <small class="row ml-1" *ngIf="team">
+            <span class="row ml-1" *ngIf="team">
                 <span class="text-muted mr-1">Team </span>
-                <a routerLink="/team/{{team?.team_id}}/{{team?.getSlug()}}">
+                <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}">
                     {{team?.name}}
                 </a>
                 <!-- <span (click)="isMembersToggled=!isMembersToggled">
@@ -30,7 +31,7 @@
                     <i class="fa fa-plus-square pt-1 pl-1" *ngIf="!isMembersToggled" aria-hidden="true"></i>
                 </span> -->
 
-            </small>
+            </span>
         </span>
     </div>
 
@@ -77,7 +78,7 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdownLink">
                     <a class="dropdown-item" routerLink="{{user?.shortid}}/{{user?.getSlug() || 'profile'}}">Profile</a>
-                    <a class="dropdown-item" routerLink="/teams">My teams</a>
+                    <a class="dropdown-item" routerLink="/teams">Teams</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" routerLink="/home">Export maps</a>
                     <div class="dropdown-divider"></div>
@@ -108,21 +109,6 @@
         </ul>
     </div>
 </nav>
-<!-- <nav class="navbar navbar-toggleable-md navbar-light bg-faded fixed-top toggeable" [class.toggled]="isMembersToggled">
-    <span class="col ml-0 pl-0" *ngIf="isMembersToggled">
-        <a *ngFor="let user of members" class="btn btn-link btn-xs no-padding" [class.deleted]="user.isDeleted" routerLink="/map/{{selectedDataset?.datasetId}}/{{selectedDataset?.initiative?.getSlug()}}/u/{{user.shortid}}/{{user.getSlug()}}">
-
-            <img *ngIf="!isPictureLoadedMap.get(user?.user_id)" class="blur member rounded-circle" [@fadeInOut]="isFadeInMap.get(user?.user_id)"
-                alt="image" [src]="image" />
-            <img class="member rounded-circle" [@fadeInOut]="isFadeOutMap.get(user?.user_id)" alt="" [src]="user?.picture" (load)="isPictureLoaded(user?.user_id)"
-                placement="bottom" container="body" ngbTooltip="{{user?.name}}" />
-        </a>
-        <a class="btn btn-link btn-xs no-padding" routerLink="/team/{{team?.team_id}}/{{team?.getSlug()}}" placement="bottom" container="body"
-            ngbTooltip="Add team member">
-            <i class="fa fa-user-plus text-muted" aria-hidden="true"></i>
-        </a>
-    </span>
-</nav> -->
 
 <div class="card creation borderless col-6 rounded-0" *ngIf="isCreateMode">
     <div class="card-block">

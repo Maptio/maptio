@@ -5,6 +5,7 @@ import { ExportService } from "./export.service";
 import { D3Service } from "d3-ng2-service";
 import { DataSet } from "../../model/dataset.data";
 import { Initiative } from "../../model/initiative.data";
+import { Team } from "../../model/team.data";
 
 describe("export.service.ts", () => {
 
@@ -27,20 +28,22 @@ describe("export.service.ts", () => {
     it("exports", inject([ExportService, D3Service], (target: ExportService, d3Service: D3Service) => {
         let d3 = d3Service.getD3();
         let data = new Initiative().deserialize(fixture.load("data.json"));
-        let dataset = new DataSet({ datasetId: "ID", initiative: data });
+        let team = new Team({ settings: { authority: "dRiveR", helper: "backSeaT" } })
+        let dataset = new DataSet({ datasetId: "ID", initiative: data, team: team });
         target.getReport(dataset).subscribe(exported => {
             expect(exported.split(`\n`).length).toBe(10);
             expect(exported.split(`\n`)[0]).toBe("Depth,Initiative,Parent Initiative,Type,Person,Participants,Helpers,Tags");
-            expect(exported.split(`\n`)[1]).toBe(`"1","Tech","My Company","Authority","CTO","3","2","tag 1"`);
-            expect(exported.split(`\n`)[2]).toBe(`"1","Tech","My Company","Helpers","CTO1","3","2","tag 1"`);
-            expect(exported.split(`\n`)[3]).toBe(`"1","Tech","My Company","Helpers","CTO2","3","2","tag 1"`);
-            expect(exported.split(`\n`)[4]).toBe(`"1","Marketing","My Company","Authority","CMO","3","2","tag 1/tag 2"`);
-            expect(exported.split(`\n`)[5]).toBe(`"1","Marketing","My Company","Helpers","CMO1","3","2","tag 1/tag 2"`);
-            expect(exported.split(`\n`)[6]).toBe(`"1","Marketing","My Company","Helpers","CMO2","3","2","tag 1/tag 2"`);
-            expect(exported.split(`\n`)[7]).toBe(`"1","Finance","My Company","Authority","CFO","3","2",""`);
-            expect(exported.split(`\n`)[8]).toBe(`"1","Finance","My Company","Helpers","CFO1","3","2",""`);
-            expect(exported.split(`\n`)[9]).toBe(`"1","Finance","My Company","Helpers","CFO2","3","2",""`);
+            expect(exported.split(`\n`)[1]).toBe(`"1","Tech","My Company","Driver","CTO","3","2","tag 1"`);
+            expect(exported.split(`\n`)[2]).toBe(`"1","Tech","My Company","Backseat","CTO1","3","2","tag 1"`);
+            expect(exported.split(`\n`)[3]).toBe(`"1","Tech","My Company","Backseat","CTO2","3","2","tag 1"`);
+            expect(exported.split(`\n`)[4]).toBe(`"1","Marketing","My Company","Driver","CMO","3","2","tag 1/tag 2"`);
+            expect(exported.split(`\n`)[5]).toBe(`"1","Marketing","My Company","Backseat","CMO1","3","2","tag 1/tag 2"`);
+            expect(exported.split(`\n`)[6]).toBe(`"1","Marketing","My Company","Backseat","CMO2","3","2","tag 1/tag 2"`);
+            expect(exported.split(`\n`)[7]).toBe(`"1","Finance","My Company","Driver","CFO","3","2",""`);
+            expect(exported.split(`\n`)[8]).toBe(`"1","Finance","My Company","Backseat","CFO1","3","2",""`);
+            expect(exported.split(`\n`)[9]).toBe(`"1","Finance","My Company","Backseat","CFO2","3","2",""`);
         });
     }))
+
 
 });

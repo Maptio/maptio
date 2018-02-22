@@ -18,6 +18,7 @@ import { Auth } from "../../shared/services/auth/auth.service";
 import { DatasetFactory } from "../../shared/services/dataset.factory";
 import { Helper } from "../../shared/model/helper.data";
 import { Role } from "../../shared/model/role.data";
+import { Tag } from "../../shared/model/tag.data";
 
 describe("initiative.component.ts", () => {
 
@@ -148,6 +149,40 @@ describe("initiative.component.ts", () => {
                 component.node.accountable = new Helper({ name: "John" })
                 component.removeAuthority();
                 expect(component.node.accountable).toBeUndefined();
+            });
+        });
+
+        describe("saveTag", () => {
+            it("should save new tag when not present", () => {
+                spyOn(component, "onBlur")
+                component.node.tags = []
+                component.saveTag({ item: new Tag({ shortid: "1", name: "NEW" }), preventDefault: null });
+                expect(component.node.tags.length).toBe(1);
+                expect(component.node.tags[0].shortid).toBe("1");
+                expect(component.node.tags[0].name).toEqual("NEW");
+                expect(component.onBlur).toHaveBeenCalled();
+            });
+
+            it("should not save new tag when present", () => {
+                spyOn(component, "onBlur")
+                component.node.tags = [new Tag({ shortid: "1", name: "NEW" })]
+                component.saveHelper({ item: new Tag({ shortid: "1", name: "NEW" }), preventDefault: null });
+                expect(component.node.helpers.length).toBe(1);
+                expect(component.node.tags[0].shortid).toBe("1");
+                expect(component.node.tags[0].name).toEqual("NEW");
+                expect(component.onBlur).toHaveBeenCalled();
+            });
+        });
+
+        describe("removeTag", () => {
+            it("should remove tag from list", () => {
+                spyOn(component, "onBlur")
+                component.node.tags = [new Tag({ shortid: "1", name: "one" }), new Tag({ shortid: "2", name: "two" })]
+                component.removeTag(new Tag({ shortid: "1", name: "one" }));
+                expect(component.node.tags.length).toBe(1);
+                expect(component.node.tags[0].shortid).toBe("2");
+                expect(component.node.tags[0].name).toEqual("two");
+                expect(component.onBlur).toHaveBeenCalled();
             });
         });
 

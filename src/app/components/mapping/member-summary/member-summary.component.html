@@ -14,10 +14,10 @@
         <div class="col-6">
             <div class="card borderless">
                 <div class="card-block" *ngIf="authorities.length===0">
-                    <h6 class="card-title">No authorities yet.</h6>
+                    <h6 class="card-title">Not a {{team?.settings.authority | lowercase }} yet</h6>
                 </div>
                 <div class="card-block" *ngIf="authorities.length >0">
-                    <h6 class="card-title">Responsible for</h6>
+                    <h6 class="card-title">{{team?.settings.authority | titlecase }} of initiatives</h6>
                     <div class="list-group">
                         <div *ngFor="let i of authorities; let ix=index" class=" list-group-item flex-column align-items-start " [class.hide]="!isInitiativeSelected(i.id)">
 
@@ -69,7 +69,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <span class="mb-1 small text-warning" *ngIf="(i.helpers?.length === 0)">No helpers</span>
+                            <span class="mb-1 small text-warning" *ngIf="(i.helpers?.length === 0)">No {{team?.settings.helper | lowercase }}</span>
 
 
                         </div>
@@ -84,10 +84,9 @@
                 </div>
 
                 <div class="card-block" *ngIf="helps.length > 0">
-                    <h6 class="card-title">Helping with</h6>
+                    <h6 class="card-title">A {{team.settings.helper | lowercase }} in initiatives</h6>
                     <div class="list-group">
-                        <div *ngFor="let i of helps; let ix=index" class=" list-group-item flex-column align-items-start "
-                        [class.hide]="!isInitiativeSelected(i.id)">
+                        <div *ngFor="let i of helps; let ix=index" class=" list-group-item flex-column align-items-start " [class.hide]="!isInitiativeSelected(i.id)">
                             <div class="d-flex w-100 row justify-content-between">
                                 <button class="w-75 col btn btn-link m-0 p-0 mr-2 fake-link" (click)="openInitiative(i)">
                                     <h6 class="mb-1">{{i.name}}</h6>
@@ -102,7 +101,7 @@
                                 </ul>
                                 <!-- <h5 class="mb-0 w-75">{{i.name}}</h5> -->
                                 <span class="mb-0" *ngIf="(i.helpers?.length !== 0)">
-                                    <span class="text-muted">Authority</span>
+                                    <span class="text-muted">{{team?.settings.authority | titlecase }}</span>
                                     <a routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}/u/{{i.accountable?.shortid}}/{{i.accountable?.getSlug()}}">
                                         <img class="rounded-circle authority" src="{{i.accountable?.picture}}" alt="{{i.accountable?.name}}" title="{{i.accountable?.name}}"
                                             placement="top" container="body" ngbTooltip="{{i.accountable?.name}}">
@@ -114,8 +113,8 @@
                                 <span class="text-muted small"> by </span>
                                 <markdown class="small" *ngIf="i.getRoles(member?.user_id)[0]?.description" [data]="i.getRoles(member?.user_id)[0]?.description || ''"></markdown>
                             </div>
-                            <span class="text-muted small mb-2" *ngIf="(i.helpers?.length !== 0) && (i.helpers?.length !== 1)">Other helpers</span>
-                            <span class="text-warning small mb-2" *ngIf="(i.helpers?.length === 1)">No other helpers</span>
+                            <span class="text-muted small mb-2" *ngIf="(i.helpers?.length !== 0) && (i.helpers?.length !== 1)">with</span>
+                            <span class="text-warning small mb-2" *ngIf="(i.helpers?.length === 1)">No other {{team.settings.helper | lowercase }}</span>
 
 
 

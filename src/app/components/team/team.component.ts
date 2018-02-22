@@ -26,13 +26,10 @@ import * as _ from "lodash";
 })
 export class TeamComponent implements OnInit {
 
-    public team$: Promise<Team>
     public members$: Promise<User[]>;
-    public teams$: Promise<Team[]>
     public newMember: User;
     public searching: boolean = false;
     public searchFailed: boolean = false;
-    public teamId: string;
     private routeSubscription: Subscription;
     private userSubscription: Subscription;
     public user: User;
@@ -46,6 +43,12 @@ export class TeamComponent implements OnInit {
     public resentMessage: string;
 
     public inviteForm: FormGroup;
+    public teamSettingsForm: FormGroup;
+    public teamName: string;
+    public teamAuthority: string;
+    public teamHelper: string;
+    public team: Team;
+
     public createdUser: User;
     @ViewChild("fileImportInput") fileImportInput: any;
 
@@ -70,17 +73,14 @@ export class TeamComponent implements OnInit {
         private datasetFactory: DatasetFactory, private analytics: Angulartics2Mixpanel,
         private fileService: FileService, private cd: ChangeDetectorRef) {
 
-        this.routeSubscription = this.route.params.subscribe((params: Params) => {
-            if (!params["teamid"]) return
-            this.teamId = params["teamid"]
-            this.team$ = this.teamFactory.get(this.teamId);
-
-        },
-            error => { console.log(error) });
-
-        this.userSubscription = this.auth.getUser().subscribe((user: User) => {
-            this.user = user;
-        })
+        this.teamSettingsForm = new FormGroup({
+            "name": new FormControl(this.teamName, [
+                Validators.required,
+                Validators.minLength(2)
+            ]),
+            "authority": new FormControl(this.teamAuthority),
+            "helper": new FormControl(this.teamHelper),
+        });
 
         this.inviteForm = new FormGroup({
             "firstname": new FormControl("", [
@@ -90,14 +90,24 @@ export class TeamComponent implements OnInit {
             "lastname": new FormControl("", [
                 Validators.required,
                 Validators.minLength(2)
-            ]),
-            // "isInvited": new FormControl("", [
-            // ])
+            ])
         });
 
+        this.userSubscription = this.auth.getUser().subscribe((user: User) => {
+            this.user = user;
+        })
     }
 
     ngOnInit() {
+
+        this.routeSubscription = this.route.data
+            .subscribe((data: { team: Team }) => {
+                this.team = data.team;
+                this.teamName = data.team.name;
+                this.teamAuthority = data.team.settings.authority;
+                this.teamHelper = data.team.settings.helper;
+            });
+
         this.members$ = this.getAllMembers();
     }
 
@@ -112,41 +122,41 @@ export class TeamComponent implements OnInit {
 
     getAllMembers() {
         this.isLoading = true;
-        return this.team$.then((team: Team) => {
-            // console.log(team.members)
-            return this.userFactory.getUsers(team.members.map(m => m.user_id))
-                .then(members => compact(members))
-                .then((members: User[]) => {
-                    // console.log("asking for ", members.map(u => { console.log(u.user_id) }))
-                    return this.userService.getUsersInfo(members).then(pending => {
-                        // console.log("got ", pending.map(u => { console.log(u.user_id) }))
-                        if (this.createdUser) {
-                            this.createdUser.isActivationPending = true;
-                            this.createdUser.isInvitationSent = false;
-                            pending.push(this.createdUser)
-                        }
+        // return this.team$.then((team: Team) => {
+        // console.log(team.members)
+        return this.userFactory.getUsers(this.team.members.map(m => m.user_id))
+            .then(members => compact(members))
+            .then((members: User[]) => {
+                // console.log("asking for ", members.map(u => { console.log(u.user_id) }))
+                return this.userService.getUsersInfo(members).then(pending => {
+                    // console.log("got ", pending.map(u => { console.log(u.user_id) }))
+                    if (this.createdUser) {
+                        this.createdUser.isActivationPending = true;
+                        this.createdUser.isInvitationSent = false;
+                        pending.push(this.createdUser)
+                    }
 
-                        return { members: members, membersPending: pending }
-                    })
+                    return { members: members, membersPending: pending }
                 })
-                .then((result) => {
-                    let members = result.members;
+            })
+            .then((result) => {
+                let members = result.members;
 
-                    let membersPending = uniqBy(result.membersPending, m => m.user_id);
-                    // console.log(members, membersPending);
-                    let allDeleted = differenceBy(members, membersPending, m => m.user_id).map(m => { m.isDeleted = true; return m });
+                let membersPending = uniqBy(result.membersPending, m => m.user_id);
+                // console.log(members, membersPending);
+                let allDeleted = differenceBy(members, membersPending, m => m.user_id).map(m => { m.isDeleted = true; return m });
 
-                    return membersPending.concat(allDeleted);
+                return membersPending.concat(allDeleted);
+            })
+            .then(members => {
+                this.isLoading = false;
+                members.forEach(m => {
+                    this.isSendingMap.set(m.user_id, false);
                 })
-                .then(members => {
-                    this.isLoading = false;
-                    members.forEach(m => {
-                        this.isSendingMap.set(m.user_id, false);
-                    })
-                    this.cd.markForCheck();
-                    return sortBy(members, m => m.name)
-                })
-        });
+                this.cd.markForCheck();
+                return sortBy(members, m => m.name)
+            })
+        // });
     }
 
     isDisplayLoader(user_id: string) {
@@ -161,7 +171,7 @@ export class TeamComponent implements OnInit {
     }
 
     addMemberToTeam() {
-        this.newMember.teams.push(this.teamId);
+        this.newMember.teams.push(this.team.team_id);
 
         this.userFactory.upsert(this.newMember)
             .then((result: boolean) => {
@@ -169,10 +179,10 @@ export class TeamComponent implements OnInit {
             })
             .then((result: boolean) => {
                 if (result) {
-                    return this.team$.then((team: Team) => {
-                        team.members.push(this.newMember);
-                        return team
-                    });
+                    // return this.team$.then((team: Team) => {
+                    this.team.members.push(this.newMember);
+                    return this.team
+                    // });
                 }
             })
             .then((newTeam: Team) => {
@@ -213,17 +223,17 @@ export class TeamComponent implements OnInit {
 
     inviteUser(user: User): Promise<void> {
         this.isSendingMap.set(user.user_id, true);
-        return this.team$.then((team: Team) => {
-            return this.userService.sendInvite(user.email, user.user_id, user.firstname, user.lastname, user.name, team.name, this.user.name)
-                .then((isSent) => {
-                    user.isInvitationSent = isSent;
-                    this.isSendingMap.set(user.user_id, false);
-                    this.cd.markForCheck();
-                    this.analytics.eventTrack("Team", { action: "invite", team: team.name, teamId: team.team_id })
-                    return;
-                }
-                )
-        })
+        // return this.team$.then((team: Team) => {
+        return this.userService.sendInvite(user.email, user.user_id, user.firstname, user.lastname, user.name, this.team.name, this.user.name)
+            .then((isSent) => {
+                user.isInvitationSent = isSent;
+                this.isSendingMap.set(user.user_id, false);
+                this.cd.markForCheck();
+                this.analytics.eventTrack("Team", { action: "invite", team: this.team.name, teamId: this.team.team_id })
+                return;
+            }
+            )
+        // })
     }
 
     resendUser(user: User): Promise<void> {
@@ -234,10 +244,11 @@ export class TeamComponent implements OnInit {
 
     deleteMember(user: User) {
         // console.log("deleting", user.email)
-        this.team$.then((team: Team) => {
-            remove(team.members, function (m) { return m.user_id === user.user_id })
-            this.teamFactory.upsert(team).then(() => { this.members$ = this.getAllMembers(); })
-        })
+        // this.team$.then((team: Team) => {
+        remove(this.team.members, function (m) { return m.user_id === user.user_id });
+        this.cd.markForCheck();
+        this.teamFactory.upsert(this.team).then(() => { this.members$ = this.getAllMembers(); })
+        // })
 
     }
 
@@ -252,55 +263,57 @@ export class TeamComponent implements OnInit {
     }
 
     createUserFullDetails(email: string, firstname: string, lastname: string) {
-        return this.team$.then((team: Team) => {
+        // return this.team$.then((team: Team) => {
 
-            return this.userService.createUser(email, firstname, lastname)
-                .then((user: User) => {
-                    return this.datasetFactory.get(team).then((datasets: DataSet[]) => {
-                        let virtualUser = new User();
-                        virtualUser.name = user.name;
-                        virtualUser.email = user.email;
-                        virtualUser.firstname = user.firstname;
-                        virtualUser.lastname = user.lastname;
-                        virtualUser.nickname = user.nickname;
-                        virtualUser.user_id = user.user_id;
-                        virtualUser.picture = user.picture;
-                        virtualUser.teams = [this.teamId];
-                        virtualUser.datasets = datasets.map(d => d.datasetId);
-                        this.createdUser = virtualUser;
+        // })
 
-                        return virtualUser;
-                    }, (reason) => {
-                        return Promise.reject(`Can't create ${email} : ${reason}`);
-                    })
-                }, (reason: any) => {
-                    // console.log("reject", JSON.parse(reason._body).message)
-                    throw JSON.parse(reason._body).message;
-                })
-                .then((virtualUser: User) => {
-                    this.userFactory.create(virtualUser)
+        return this.userService.createUser(email, firstname, lastname)
+            .then((user: User) => {
+                return this.datasetFactory.get(this.team).then((datasets: DataSet[]) => {
+                    let virtualUser = new User();
+                    virtualUser.name = user.name;
+                    virtualUser.email = user.email;
+                    virtualUser.firstname = user.firstname;
+                    virtualUser.lastname = user.lastname;
+                    virtualUser.nickname = user.nickname;
+                    virtualUser.user_id = user.user_id;
+                    virtualUser.picture = user.picture;
+                    virtualUser.teams = [this.team.team_id];
+                    virtualUser.datasets = datasets.map(d => d.datasetId);
+                    this.createdUser = virtualUser;
+
                     return virtualUser;
+                }, (reason) => {
+                    return Promise.reject(`Can't create ${email} : ${reason}`);
                 })
-                .then((user: User) => {
-                    team.members.push(user);
-                    this.teamFactory.upsert(team).then((result) => {
-                        this.newMember = undefined;
-                        this.searchFailed = false;
-                    })
+            }, (reason: any) => {
+                // console.log("reject", JSON.parse(reason._body).message)
+                throw JSON.parse(reason._body).message;
+            })
+            .then((virtualUser: User) => {
+                this.userFactory.create(virtualUser)
+                return virtualUser;
+            })
+            .then((user: User) => {
+                this.team.members.push(user);
+                this.teamFactory.upsert(this.team).then((result) => {
+                    this.newMember = undefined;
+                    this.searchFailed = false;
                 })
-                .then(() => {
-                    this.members$ = this.getAllMembers();
-                })
-                .then(() => {
-                    this.analytics.eventTrack("Team", { action: "create", team: team.name, teamId: team.team_id });
-                    return true;
-                })
-                .catch((reason) => {
-                    // console.log("catching ", reason)
-                    this.errorMessage = reason;
-                    throw Error(reason);
-                })
-        })
+            })
+            .then(() => {
+                this.members$ = this.getAllMembers();
+            })
+            .then(() => {
+                this.analytics.eventTrack("Team", { action: "create", team: this.team.name, teamId: this.team.team_id });
+                return true;
+            })
+            .catch((reason) => {
+                // console.log("catching ", reason)
+                this.errorMessage = reason;
+                throw Error(reason);
+            })
+
     }
 
     searchUsers =
@@ -415,6 +428,9 @@ export class TeamComponent implements OnInit {
                 // console.log(error)
                 this.isFileInvalid = true;
             }
+            finally {
+                this.cd.markForCheck();
+            }
             this.isParsingFinished = true;
         }
 
@@ -432,8 +448,6 @@ export class TeamComponent implements OnInit {
         this.fileImportInput.nativeElement.value = "";
         this.csvRecords = [];
     }
-
-
 
     importUsers() {
         this.isImportFinished = false;
@@ -460,13 +474,35 @@ export class TeamComponent implements OnInit {
         this.isImportFinished = true;
     }
 
-    fakeCreate(firstname: string, lastname: string, email: string) {
-        return Observable.if(
-            () => { return Math.random() < 0.9 },
-            Observable.of(true),
-            Observable.throw({ message: "Something bad happened" }));
 
+    isTeamSettingSaved: boolean;
+    isTeamSettingFailed: boolean;
+    saveTeamSettings() {
+        this.isTeamSettingSaved = false;
+        this.isTeamSettingFailed = false;
+        if (this.teamSettingsForm.valid && this.teamSettingsForm.dirty) {
+            let updatedTeam = new Team({
+                team_id: this.team.team_id,
+                name: this.teamName,
+                members: this.team.members,
+                settings: { authority: this.teamAuthority, helper: this.teamHelper }
+            });
+
+            this.teamFactory.upsert(updatedTeam)
+                .then((isUpdated: boolean) => {
+                    this.isTeamSettingSaved = isUpdated;
+                    this.cd.markForCheck();
+                })
+                .catch(err => { this.isTeamSettingFailed = true; this.cd.markForCheck(); })
+        }
     }
+    // fakeCreate(firstname: string, lastname: string, email: string) {
+    //     return Observable.if(
+    //         () => { return Math.random() < 0.9 },
+    //         Observable.of(true),
+    //         Observable.throw({ message: "Something bad happened" }));
+
+    // }
 
 }
 

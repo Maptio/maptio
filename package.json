@@ -92,6 +92,7 @@
     "ng2-bs3-modal": "^0.10.4",
     "ng2-file-upload": "^1.2.1",
     "ng2-responsive": "^0.8.3",
+    "ngx-breadcrumbs": "0.0.3",
     "ngx-color-picker": "^4.5.3",
     "ngx-loading": "^1.0.9",
     "null-loader": "^0.1.1",

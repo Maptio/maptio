@@ -27,17 +27,33 @@ describe("Team Tests", () => {
         expect(team.name).toBe("Team")
     });
 
-    describe("Serialization", () => {
+   describe("Serialization", () => {
 
         describe("deserialize", () => {
-            it("should deserialize a valid input", () => {
+            it("should deserialize a valid input - no settings", () => {
                 let input = JSON.parse("{\"name\": \"Team FTW\", \"_id\":\"unique\" , \"members\":[{\"name\":\"John\", \"user_id\":\"1\"}, {\"name\":\"Jane\"}]}");
                 let deserialized = new Team().deserialize(input);
                 expect(deserialized).toBeDefined();
                 expect(deserialized.name).toBe("Team FTW");
                 expect(deserialized.team_id).toBe("unique");
+                expect(deserialized.settings.authority).toBe("Authority");
+                expect(deserialized.settings.helper).toBe("Helper");
                 expect(deserialized.members).toBeDefined();
-                expect(deserialized.members.length).toBe(2)
+                expect(deserialized.members.length).toBe(2);
+                expect(deserialized.members[0].name).toBe("John")
+                expect(deserialized.members[1]).toBeUndefined();
+            });
+
+            it("should deserialize a valid input - with settings", () => {
+                let input = JSON.parse("{\"name\": \"Team FTW\", \"settings\" : {\"authority\" : \"Driver\", \"helper\": \"Backseat\"}, \"_id\":\"unique\" , \"members\":[{\"name\":\"John\", \"user_id\":\"1\"}, {\"name\":\"Jane\"}]}");
+                let deserialized = new Team().deserialize(input);
+                expect(deserialized).toBeDefined();
+                expect(deserialized.name).toBe("Team FTW");
+                expect(deserialized.team_id).toBe("unique");
+                expect(deserialized.settings.authority).toBe("Driver");
+                expect(deserialized.settings.helper).toBe("Backseat");
+                expect(deserialized.members).toBeDefined();
+                expect(deserialized.members.length).toBe(2);
                 expect(deserialized.members[0].name).toBe("John")
                 expect(deserialized.members[1]).toBeUndefined();
             });

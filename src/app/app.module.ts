@@ -107,28 +107,55 @@ import { HttpLogInterceptor, httpFactory, HttpFactoryModule } from "./shared/ser
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { MappingZoomableComponent } from "./components/mapping/zoomable/mapping.zoomable.component";
 
+import { McBreadcrumbsModule, McBreadcrumbsConfig } from "ngx-breadcrumbs";
+import { TeamComponentResolver } from "./components/team/team.resolver";
+import { SearchComponent } from "./components/search/search.component";
+import { FilterTagsComponent } from "./components/filter/tags.component";
 
 // Routes
 const appRoutes: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
 
   {
-    path: "home", component: HomeComponent
+    path: "home", component: HomeComponent, data: { breadcrumbs: "Home" },
+
+
   },
 
-  { path: "login", component: LoginComponent },
+  { path: "login", component: LoginComponent, data: { breadcrumbs: "Login" } },
 
   { path: "logout", component: LogoutComponent },
-  { path: "help", component: HelpComponent },
-  { path: "signup", component: SignupComponent },
+  { path: "help", component: HelpComponent, data: { breadcrumbs: "Help" } },
+  { path: "signup", component: SignupComponent, data: { breadcrumbs: "Sign up" } },
 
-  { path: "teams", component: TeamsListComponent, canActivate: [AuthGuard] },
-  { path: "team/:teamid/:slug", component: TeamComponent, canActivate: [AuthGuard, AccessGuard] },
+  {
+    path: "teams",
+    data: { breadcrumbs: "Teams" },
+    children: [
+      { path: "", component: TeamsListComponent, canActivate: [AuthGuard] },
+      {
+        path: ":teamid/:slug",
+        resolve: {
+          team: TeamComponentResolver
+        },
+        component: TeamComponent, data: { breadcrumbs: "{{team.name}}" },
+        canActivate: [AuthGuard, AccessGuard]
+      }
+    ]
 
-  { path: ":shortid/:slug", component: AccountComponent, canActivate: [AuthGuard] },
+  },
+
+
+  {
+    path: ":shortid/:slug",
+    component: AccountComponent,
+    canActivate: [AuthGuard],
+    data: { breadcrumbs: "Profile" }
+  },
 
   {
     path: "map/:mapid/:mapslug",
+    data: { breadcrumbs: "{{data.dataset.initiative.name}}" },
     component: WorkspaceComponent,
     canActivate: [AuthGuard, AccessGuard],
     resolve: {
@@ -145,7 +172,7 @@ const appRoutes: Routes = [
   // { path: "summary/map/:mapid/:mapslug/u/:usershortid/:userslug", component: MemberSummaryComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
 
   { path: "unauthorized", component: UnauthorizedComponent },
-  { path: "forgot", component: ChangePasswordComponent },
+  { path: "forgot", component: ChangePasswordComponent, data: { breadcrumbs: "Password change" } },
   { path: "404", component: NotFoundComponent },
   { path: "**", redirectTo: "/404" }
 ];
@@ -197,7 +224,7 @@ export const RollbarService = new InjectionToken<Rollbar>("rollbar");
     MappingComponent, MappingTreeComponent, MappingNetworkComponent, MemberSummaryComponent, MappingZoomableComponent,
     BuildingComponent, InitiativeNodeComponent, LoginComponent, LogoutComponent, HomeComponent, UnauthorizedComponent, NotFoundComponent,
     InitiativeComponent, ChangePasswordComponent, LoaderComponent, TeamsListComponent, SignupComponent,
-    FocusIfDirective,
+    FocusIfDirective, SearchComponent,FilterTagsComponent,
     HelpComponent,
     DashboardComponent,
 
@@ -211,7 +238,7 @@ export const RollbarService = new InjectionToken<Rollbar>("rollbar");
     CommonModule,
     HttpModule,
     TreeModule,
-    // Ng2Bs3ModalModule,
+    McBreadcrumbsModule.forRoot(),
     NgbModule.forRoot(),
     RouterModule.forRoot(appRoutes),
     ResponsiveModule,
@@ -262,6 +289,7 @@ export const RollbarService = new InjectionToken<Rollbar>("rollbar");
     },
     DashboardComponentResolver,
     WorkspaceComponentResolver,
+    TeamComponentResolver,
     { provide: ErrorHandler, useClass: RollbarErrorHandler },
     { provide: RollbarService, useFactory: rollbarFactory }
   ],
@@ -270,5 +298,24 @@ export const RollbarService = new InjectionToken<Rollbar>("rollbar");
 })
 
 export class AppModule {
+  constructor(breadcrumbsConfig: McBreadcrumbsConfig) {
 
+    breadcrumbsConfig.postProcess = (x) => {
+
+      // Ensure that the first breadcrumb always points to home
+
+      let y = x;
+
+      if (x.length && x[0].text !== "Home") {
+        y = [
+          {
+            text: "Home",
+            path: ""
+          }
+        ].concat(x);
+      }
+
+      return y;
+    };
+  }
 }
