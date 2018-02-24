@@ -1,7 +1,6 @@
 <div class="card-text">
     <div class="">
-        <span class=""> Import team
-            <strong>{{team.name}}</strong> members from a
+        <span class=""> Import team members from a
             <strong>.csv</strong> file.
             <span class="">Once they are imported, they must be invited to view and edit maps.</span>
         </span>
@@ -42,11 +41,6 @@
                     <ngb-progressbar height="5vh" type="success" [value]="(importedSuccessfully) / totalRecordsToImport * 100" [animated]="true">Imported {{importedSuccessfully}} of {{totalRecordsToImport}} users
                     </ngb-progressbar>
                 </div>
-                <!-- <div>
-                                <span *ngIf="isImportFinished" class="badge badge-danger">Failed : {{importedFailed}}</span>
-
-                            </div> -->
-                <!-- <span *ngIf="isImportFinished" class="badge badge-default">Imported : {{importedFailed + importedSuccessfully}} / {{totalRecordsToImport}}</span> -->
             </div>
             <div class=" pull-right">
                 <button class="btn btn-success" (click)="importUsers()">Import {{totalRecordsToImport}} users</button>

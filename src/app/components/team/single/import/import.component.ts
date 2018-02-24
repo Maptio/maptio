@@ -120,9 +120,6 @@ export class TeamImportComponent implements OnInit {
         _(this.csvRecords).drop(1).forEach((record, index, all) => {
             record[3] = "";
             record[4] = false; // has finished processed
-            // this.fakeCreate((<String>record[2]).trim(), (<String>record[0]).trim(), (<String>record[1]).trim())
-            //     .delay(1000)
-            //     .toPromise()
             this.createUser((<String>record[2]).trim(), (<String>record[0]).trim(), (<String>record[1]).trim())
                 .then(result => {
                     this.importedSuccessfully += 1;
@@ -160,7 +157,6 @@ export class TeamImportComponent implements OnInit {
                     return Promise.reject(`Can't create ${email} : ${reason}`);
                 })
             }, (reason: any) => {
-                // console.log("reject", JSON.parse(reason._body).message)
                 throw JSON.parse(reason._body).message;
             })
             .then((virtualUser: User) => {
