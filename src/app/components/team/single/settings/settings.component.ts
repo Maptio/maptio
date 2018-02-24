@@ -6,7 +6,7 @@ import { TeamFactory } from "../../../../shared/services/team.factory";
 @Component({
     selector: "team-single-settings",
     templateUrl: "./settings.component.html",
-    styleUrls: ["./settings.component.css"]
+    // styleUrls: ["./settings.component.css"]
 })
 export class TeamSettingsComponent implements OnInit {
 
@@ -31,7 +31,6 @@ export class TeamSettingsComponent implements OnInit {
     }
 
     ngOnInit() {
-
         this.teamName = this.team.name;
         this.teamAuthority = this.team.settings.authority;
         this.teamHelper = this.team.settings.helper;
@@ -44,9 +43,12 @@ export class TeamSettingsComponent implements OnInit {
         if (this.teamSettingsForm.valid && this.teamSettingsForm.dirty) {
             let updatedTeam = new Team({
                 team_id: this.team.team_id,
-                name: this.teamName,
+                name: this.teamSettingsForm.controls["name"].value,
                 members: this.team.members,
-                settings: { authority: this.teamAuthority, helper: this.teamHelper }
+                settings: {
+                    authority: this.teamSettingsForm.controls["authority"].value,
+                    helper: this.teamSettingsForm.controls["helper"].value
+                }
             });
 
             this.teamFactory.upsert(updatedTeam)

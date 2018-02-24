@@ -69,7 +69,7 @@ export class TeamComponent implements OnInit {
         private datasetFactory: DatasetFactory, private analytics: Angulartics2Mixpanel,
         private fileService: FileService, private cd: ChangeDetectorRef) {
 
-        
+
 
         this.inviteForm = new FormGroup({
             "firstname": new FormControl("", [
@@ -461,7 +461,7 @@ export class TeamComponent implements OnInit {
     }
 
 
-   
+
     // fakeCreate(firstname: string, lastname: string, email: string) {
     //     return Observable.if(
     //         () => { return Math.random() < 0.9 },
