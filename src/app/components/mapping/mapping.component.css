@@ -167,7 +167,7 @@
 #sideNavSettings {
   height: 90vh;
   max-height: 90vh;
-  min-width: 0vw;
+  min-width: 0;
   position: fixed;
   right: 0;
   overflow: hidden;
