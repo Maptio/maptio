@@ -8,7 +8,7 @@ import { Team } from "../../shared/model/team.data";
 @Component({
     selector: "filter-tags",
     templateUrl: "./tags.component.html",
-    styleUrls: ["./tags.component.css"]
+    // styleUrls: ["./tags.component.css"]
 })
 export class FilterTagsComponent implements OnInit {
     @Input() tags: SelectableTag[];

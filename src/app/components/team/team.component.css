@@ -16,14 +16,6 @@
     margin-right: 0;
 }
 
-.card-img-left {
-    border-bottom-left-radius: calc(.25rem - 1px);
-    border-top-left-radius: calc(.25rem - 1px);
-    float: left;
-    padding-right: 1em;
-    margin-bottom: -1.25em;
-}
-
 .panel {
     background-color: #808C8A;
     border-color: #808C8A;

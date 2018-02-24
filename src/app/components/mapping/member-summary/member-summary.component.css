@@ -33,9 +33,9 @@
 }
 
 .fake-link {
-    white-space: normal;
-    text-align: left;
     cursor: pointer;
+    text-align: left;
+    white-space: normal;
 }
 
 .hide {
@@ -43,11 +43,11 @@
 }
 
 .summary {
+    background-color: white;
     margin-left: 3vw;
     margin-top: 9vh;
-    background-color: white
 }
 
-.summary:focus{
-    outline:0;
+.summary:focus {
+    outline: 0;
 }

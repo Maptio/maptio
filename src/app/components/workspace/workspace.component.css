@@ -9,16 +9,7 @@
     padding: 0;
 }
 
-.header {
-    /* padding-left: 60px; */
-    MARGIN-TOP: 2.5vh;
-    background: transparent;
-    background-color: transparent;
-    z-index: 59;
-    position: absolute;
-    margin-left: 4vw;
-    /* width: 30%; */
-}
+
 
 .team-name {
     /* padding: 0 8px 1px 0; */

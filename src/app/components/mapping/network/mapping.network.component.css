@@ -2,10 +2,6 @@
     cursor: move;
 }
 
-::ng-deep svg text{
-    /* pointer-events: none; */
-}
-
 ::ng-deep svg text:hover{
   text-decoration: underline;
 }
@@ -17,9 +13,6 @@
 
 ::ng-deep .nodes circle {
   stroke-width: 1.5px;
-}
-
-::ng-deep .nodes text{
 }
 
 ::ng-deep .node.fixed {
