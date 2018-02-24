@@ -1,3 +1,4 @@
+import { DataSet } from "./../../../shared/model/dataset.data";
 import { Validators } from "@angular/forms";
 import { FormControl } from "@angular/forms";
 import { FormGroup } from "@angular/forms";
@@ -11,12 +12,9 @@ import { Component, OnInit, ViewChild, ChangeDetectorRef } from "@angular/core";
 import { Team } from "../../../shared/model/team.data";
 import { User } from "../../../shared/model/user.data";
 import { Auth } from "../../../shared/services/auth/auth.service";
-import { DataSet } from "../../../shared/model/dataset.data";
 import { compact, sortBy, differenceBy, remove, uniqBy } from "lodash"
 import { UserService } from "../../../shared/services/user/user.service";
 import { Angulartics2Mixpanel } from "angulartics2";
-import { FileUploader, FileUploaderOptions, FileLikeObject, ParsedResponseHeaders } from "ng2-file-upload";
-import { Constants, FileService } from "../../../shared/services/file/file.service";
 import * as _ from "lodash";
 
 @Component({
@@ -46,28 +44,14 @@ export class TeamComponent implements OnInit {
     public team: Team;
 
     public createdUser: User;
-    @ViewChild("fileImportInput") fileImportInput: any;
-
-    csvRecords: any[] = [];
 
     isSendingMap: Map<string, boolean> = new Map<string, boolean>();
-
-    currentImportedUserIndex: number;
-    importUserLength: number;
-    progress: number;
-    importedSuccessfully: number;
-    importedFailed: number;
-    totalRecordsToImport: number;
-    isImportFinished: boolean;
-    isParsingFinished: boolean;
-    isFileInvalid: boolean;
 
     private EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     constructor(public auth: Auth, private userService: UserService, private route: ActivatedRoute,
         private teamFactory: TeamFactory, private userFactory: UserFactory,
-        private datasetFactory: DatasetFactory, private analytics: Angulartics2Mixpanel,
-        private fileService: FileService, private cd: ChangeDetectorRef) {
+        private datasetFactory: DatasetFactory, private analytics: Angulartics2Mixpanel, private cd: ChangeDetectorRef) {
 
 
 
@@ -244,7 +228,10 @@ export class TeamComponent implements OnInit {
             let firstname = this.inviteForm.controls["firstname"].value
             let lastname = this.inviteForm.controls["lastname"].value
 
-            this.createUserFullDetails(email, firstname, lastname);
+            this.createUserFullDetails(email, firstname, lastname)
+                .then(() => {
+                    this.members$ = this.getAllMembers();
+                });
         }
     }
 
@@ -286,9 +273,6 @@ export class TeamComponent implements OnInit {
                     this.newMember = undefined;
                     this.searchFailed = false;
                 })
-            })
-            .then(() => {
-                this.members$ = this.getAllMembers();
             })
             .then(() => {
                 this.analytics.eventTrack("Team", { action: "create", team: this.team.name, teamId: this.team.team_id });
@@ -364,111 +348,5 @@ export class TeamComponent implements OnInit {
     trackByMemberId(index: number, member: User) {
         return member.user_id;
     }
-
-
-    fileChangeListener($event: any): void {
-        this.isParsingFinished = false;
-        this.isFileInvalid = false;
-        this.importedSuccessfully = 0;
-        this.importedFailed = 0;
-        this.csvRecords = [];
-        let text = [];
-        let files = $event.srcElement.files;
-
-        if (Constants.validateHeaderAndRecordLengthFlag) {
-            if (!this.fileService.isCSVFile(files[0])) {
-                this.isFileInvalid = true;
-                this.fileReset();
-            }
-        }
-
-        let input = $event.target;
-        let reader = new FileReader();
-        reader.readAsText(input.files[0], "utf-8");
-
-        reader.onload = (data) => {
-            let csvData = reader.result;
-            let csvRecordsArray = csvData.split(/\r\n|\n|\r/);
-            let headerLength = -1;
-            if (Constants.isHeaderPresentFlag) {
-                let headersRow = this.fileService.getHeaderArray(csvRecordsArray, Constants.tokenDelimeter);
-                headerLength = headersRow.length;
-                let isHeaderValid = this.fileService.validateHeaders(headersRow, ["First name", "Last name", "Email"]);
-                if (!isHeaderValid) {
-                    this.isFileInvalid = true;
-                }
-            }
-
-            try {
-                this.csvRecords = this.fileService.getDataRecordsArrayFromCSVFile(csvRecordsArray,
-                    headerLength, Constants.validateHeaderAndRecordLengthFlag, Constants.tokenDelimeter);
-                this.totalRecordsToImport = this.csvRecords.length - 1; // remove header
-                if (this.csvRecords == null) {
-                    // If control reached here it means csv file contains error, reset file.
-                    this.fileReset();
-                }
-
-            }
-            catch (error) {
-
-                // console.log(error)
-                this.isFileInvalid = true;
-            }
-            finally {
-                this.cd.markForCheck();
-            }
-            this.isParsingFinished = true;
-        }
-
-        reader.onerror = function () {
-            // alert("Unable to read " + input.files[0]);
-            this.isFileInvalid = true;
-        }.bind(this);
-    };
-
-    fileReset() {
-        this.isFileInvalid = false;
-        this.importedSuccessfully = 0;
-        this.importedFailed = 0;
-        this.isImportFinished = false;
-        this.fileImportInput.nativeElement.value = "";
-        this.csvRecords = [];
-    }
-
-    importUsers() {
-        this.isImportFinished = false;
-        this.importedSuccessfully = 0;
-        this.importedFailed = 0;
-
-        _(this.csvRecords).drop(1).forEach((record, index, all) => {
-            record[3] = "";
-            record[4] = false; // has finished processed
-            // this.fakeCreate((<String>record[2]).trim(), (<String>record[0]).trim(), (<String>record[1]).trim())
-            //     .delay(1000)
-            //     .toPromise()
-            this.createUserFullDetails((<String>record[2]).trim(), (<String>record[0]).trim(), (<String>record[1]).trim())
-                .then(result => {
-                    this.importedSuccessfully += 1;
-                    record[3] = "Imported";
-                    record[4] = true;
-                }, (error: any) => {
-                    this.importedFailed += 1;
-                    record[3] = error.message;
-                    record[4] = true;
-                });
-        });
-        this.isImportFinished = true;
-    }
-
-
-
-    // fakeCreate(firstname: string, lastname: string, email: string) {
-    //     return Observable.if(
-    //         () => { return Math.random() < 0.9 },
-    //         Observable.of(true),
-    //         Observable.throw({ message: "Something bad happened" }));
-
-    // }
-
 }
 

@@ -170,65 +170,7 @@
                     <span class="small text-muted ml-4">Import</span>
                     <small class="text-muted h6 pull-right">{{team.members.length}} members</small>
                 </h3>
-                <div class="card-text">
-                    <div class="">
-                        <span class=""> Import team
-                            <strong>Eworks</strong> members from a
-                            <strong>.csv</strong> file.
-                            <span class="">Once they are imported, they must be invited to view and edit maps.</span>
-                        </span>
-                        <div class=" mb-2 mt-4">The file header must be : "First name", "Last name" and "Email" in that order</div>
-                    </div>
-                    <div class="mt-4 mb-2 d-flex justify-content-start">
-                        <input type="file" #fileImportInput name="File Upload" id="txtFileUpload" class="col-7 btn btn-secondary btn-outline-success p-1"
-                            (change)="fileChangeListener($event)" accept=".csv" />
-                        <button class="btn btn-secondary text-muted ml-1" (click)="fileReset()">Reset</button>
-                    </div>
-                    <span *ngIf="isFileInvalid" class="text-danger">Invalid file. Your file header must be : "First name", "Last name" and "Email" in that order</span>
-
-
-                    <div *ngIf="!isFileInvalid">
-                        <table class="table table-hover tableSection right">
-                            <tbody>
-                                <ng-container *ngFor="let csvRec of csvRecords;let i=index">
-                                    <tr class="row pl-2 text-muted">
-                                        <ng-container *ngFor="let data of csvRec;let j=index">
-
-                                            <td class="wrap" [class.col-3]="j<2" [class.col-5]="j===2" *ngIf="j<3">{{data}}</td>
-                                            <td class="col-1" *ngIf="j===3">
-                                                <i *ngIf="csvRec[4]===true && csvRec[3] !== 'Imported'" class="fa fa-exclamation text-danger" aria-hidden="true" placement="top"
-                                                    container="body" ngbTooltip="{{csvRec[3]}}"></i>
-                                                <i *ngIf="csvRec[4]===true && csvRec[3] === 'Imported'" class="fa fa-check text-success" aria-hidden="true"></i>
-                                                <i *ngIf="csvRec[4]===false" class="text-muted fa fa-circle-o-notch fa-spin fa-fw"></i>
-                                            </td>
-                                        </ng-container>
-
-                                    </tr>
-                                </ng-container>
-                            </tbody>
-                        </table>
-
-                        <div class="row align-items-center mt-4" *ngIf="csvRecords.length !==0">
-                            <div class="col">
-                                <div>
-                                    <ngb-progressbar height="5vh" type="success" [value]="(importedSuccessfully) / totalRecordsToImport * 100" [animated]="true">Imported {{importedSuccessfully}} of {{totalRecordsToImport}} users
-                                    </ngb-progressbar>
-                                </div>
-                                <!-- <div>
-                                                <span *ngIf="isImportFinished" class="badge badge-danger">Failed : {{importedFailed}}</span>
-
-                                            </div> -->
-                                <!-- <span *ngIf="isImportFinished" class="badge badge-default">Imported : {{importedFailed + importedSuccessfully}} / {{totalRecordsToImport}}</span> -->
-                            </div>
-                            <div class=" pull-right">
-                                <button class="btn btn-success" (click)="importUsers()">Import {{totalRecordsToImport}} users</button>
-
-                            </div>
-                        </div>
-                        <span *ngIf="isImportFinished" class="badge badge-danger">Failed : {{importedFailed}}</span>
-
-                    </div>
-                </div>
+               <team-single-import [team]="team"></team-single-import>
 
             </div>
 

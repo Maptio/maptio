@@ -1,3 +1,4 @@
+import { TeamImportComponent } from "./components/team/single/import/import.component";
 
 import { environment } from "./../environment/environment";
 
@@ -225,7 +226,7 @@ export const RollbarService = new InjectionToken<Rollbar>("rollbar");
     MappingComponent, MappingTreeComponent, MappingNetworkComponent, MemberSummaryComponent, MappingZoomableComponent,
     BuildingComponent, InitiativeNodeComponent, LoginComponent, LogoutComponent, HomeComponent, UnauthorizedComponent, NotFoundComponent,
     InitiativeComponent, ChangePasswordComponent, LoaderComponent, TeamListComponent, SignupComponent,
-    FocusIfDirective, SearchComponent, FilterTagsComponent, TeamSettingsComponent,
+    FocusIfDirective, SearchComponent, FilterTagsComponent, TeamSettingsComponent,TeamImportComponent,
     HelpComponent,
     DashboardComponent,
 
