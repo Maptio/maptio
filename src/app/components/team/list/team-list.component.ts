@@ -1,23 +1,23 @@
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { Subscription } from "rxjs/Rx";
-import { UserFactory } from "./../../shared/services/user.factory";
+import { UserFactory } from "../../../shared/services/user.factory";
 import { Component, OnInit } from "@angular/core";
-import { TeamFactory } from "../../shared/services/team.factory";
-import { Auth } from "../../shared/services/auth/auth.service";
-import { User } from "../../shared/model/user.data";
-import { Team } from "../../shared/model/team.data";
+import { TeamFactory } from "../../../shared/services/team.factory";
+import { Auth } from "../../../shared/services/auth/auth.service";
+import { User } from "../../../shared/model/user.data";
+import { Team } from "../../../shared/model/team.data";
 import { differenceBy, sortBy } from "lodash"
-import { UserService } from "../../shared/services/user/user.service";
+import { UserService } from "../../../shared/services/user/user.service";
 import { Router } from "@angular/router";
 
 @Component({
-    selector: "teams-list",
-    templateUrl: "./teams-list.component.html",
-    styleUrls: ["./teams-list-component.css"]
+    selector: "team-list",
+    templateUrl: "./team-list.component.html",
+    styleUrls: ["./team-list-component.css"]
 })
 
-export class TeamsListComponent implements OnInit {
+export class TeamListComponent implements OnInit {
 
     public user: User;
     public userSubscription2: Subscription;

@@ -1,38 +1,38 @@
-import { JwtEncoder } from "./../../shared/services/encoding/jwt.service";
-import { MailingService } from "./../../shared/services/mailing/mailing.service";
-import { UserService } from "./../../shared/services/user/user.service";
+import { JwtEncoder } from "../../../shared/services/encoding/jwt.service";
+import { MailingService } from "../../../shared/services/mailing/mailing.service";
+import { UserService } from "../../../shared/services/user/user.service";
 import { Angulartics2Mixpanel, Angulartics2, Angulartics2Module } from "angulartics2";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { AuthHttp } from "angular2-jwt";
-import { TeamFactory } from "./../../shared/services/team.factory";
-import { UserFactory } from "./../../shared/services/user.factory";
-import { TeamsListComponent } from "./teams-list.component";
-import { ErrorService } from "./../../shared/services/error/error.service";
+import { TeamFactory } from "../../../shared/services/team.factory";
+import { UserFactory } from "../../../shared/services/user.factory";
+import { TeamListComponent } from "./team-list.component";
+import { ErrorService } from "../../../shared/services/error/error.service";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { Subject, Observable } from "rxjs/Rx";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
-import { User } from "../../shared/model/user.data";
-import { Auth } from "../../shared/services/auth/auth.service";
-import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
+import { User } from "../../../shared/model/user.data";
+import { Auth } from "../../../shared/services/auth/auth.service";
+import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
 import { MockBackend } from "@angular/http/testing";
-import { Team } from "../../shared/model/team.data";
+import { Team } from "../../../shared/model/team.data";
 import { RouterTestingModule } from "@angular/router/testing";
-import { AuthConfiguration } from "../../shared/services/auth/auth.config";
+import { AuthConfiguration } from "../../../shared/services/auth/auth.config";
 import { Router, NavigationStart } from "@angular/router";
 
-describe("teams-list.component.ts", () => {
+describe("team-list.component.ts", () => {
 
-    let component: TeamsListComponent;
-    let target: ComponentFixture<TeamsListComponent>;
+    let component: TeamListComponent;
+    let target: ComponentFixture<TeamListComponent>;
     let user$: Subject<User> = new Subject<User>();
 
     beforeEach(async(() => {
 
         TestBed.configureTestingModule({
-            declarations: [TeamsListComponent],
+            declarations: [TeamListComponent],
             schemas: [NO_ERRORS_SCHEMA],
             imports: [RouterTestingModule, Angulartics2Module]
-        }).overrideComponent(TeamsListComponent, {
+        }).overrideComponent(TeamListComponent, {
             set: {
                 providers: [
                     {
@@ -70,7 +70,7 @@ describe("teams-list.component.ts", () => {
     }));
 
     beforeEach(() => {
-        target = TestBed.createComponent(TeamsListComponent);
+        target = TestBed.createComponent(TeamListComponent);
 
         component = target.componentInstance;
 

@@ -1,28 +1,28 @@
 import { Validators } from "@angular/forms";
 import { FormControl } from "@angular/forms";
 import { FormGroup } from "@angular/forms";
-import { DatasetFactory } from "./../../shared/services/dataset.factory";
-import { UserFactory } from "./../../shared/services/user.factory";
+import { DatasetFactory } from "./../../../shared/services/dataset.factory";
+import { UserFactory } from "./../../../shared/services/user.factory";
 import { Observable, Subscription } from "rxjs/Rx";
 import { NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-bootstrap";
-import { TeamFactory } from "./../../shared/services/team.factory";
+import { TeamFactory } from "./../../../shared/services/team.factory";
 import { ActivatedRoute, Params } from "@angular/router";
 import { Component, OnInit, ViewChild, ChangeDetectorRef } from "@angular/core";
-import { Team } from "../../shared/model/team.data";
-import { User } from "../../shared/model/user.data";
-import { Auth } from "../../shared/services/auth/auth.service";
-import { DataSet } from "../../shared/model/dataset.data";
+import { Team } from "../../../shared/model/team.data";
+import { User } from "../../../shared/model/user.data";
+import { Auth } from "../../../shared/services/auth/auth.service";
+import { DataSet } from "../../../shared/model/dataset.data";
 import { compact, sortBy, differenceBy, remove, uniqBy } from "lodash"
-import { UserService } from "../../shared/services/user/user.service";
+import { UserService } from "../../../shared/services/user/user.service";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { FileUploader, FileUploaderOptions, FileLikeObject, ParsedResponseHeaders } from "ng2-file-upload";
-import { Constants, FileService } from "../../shared/services/file/file.service";
+import { Constants, FileService } from "../../../shared/services/file/file.service";
 import * as _ from "lodash";
 
 @Component({
-    selector: "team",
-    templateUrl: "./team.component.html",
-    styleUrls: ["./team.component.css"]
+    selector: "team-single",
+    templateUrl: "./team-single.component.html",
+    styleUrls: ["./team-single.component.css"]
 })
 export class TeamComponent implements OnInit {
 
@@ -43,10 +43,6 @@ export class TeamComponent implements OnInit {
     public resentMessage: string;
 
     public inviteForm: FormGroup;
-    public teamSettingsForm: FormGroup;
-    public teamName: string;
-    public teamAuthority: string;
-    public teamHelper: string;
     public team: Team;
 
     public createdUser: User;
@@ -73,14 +69,7 @@ export class TeamComponent implements OnInit {
         private datasetFactory: DatasetFactory, private analytics: Angulartics2Mixpanel,
         private fileService: FileService, private cd: ChangeDetectorRef) {
 
-        this.teamSettingsForm = new FormGroup({
-            "name": new FormControl(this.teamName, [
-                Validators.required,
-                Validators.minLength(2)
-            ]),
-            "authority": new FormControl(this.teamAuthority),
-            "helper": new FormControl(this.teamHelper),
-        });
+        
 
         this.inviteForm = new FormGroup({
             "firstname": new FormControl("", [
@@ -103,9 +92,6 @@ export class TeamComponent implements OnInit {
         this.routeSubscription = this.route.data
             .subscribe((data: { team: Team }) => {
                 this.team = data.team;
-                this.teamName = data.team.name;
-                this.teamAuthority = data.team.settings.authority;
-                this.teamHelper = data.team.settings.helper;
             });
 
         this.members$ = this.getAllMembers();
@@ -475,27 +461,7 @@ export class TeamComponent implements OnInit {
     }
 
 
-    isTeamSettingSaved: boolean;
-    isTeamSettingFailed: boolean;
-    saveTeamSettings() {
-        this.isTeamSettingSaved = false;
-        this.isTeamSettingFailed = false;
-        if (this.teamSettingsForm.valid && this.teamSettingsForm.dirty) {
-            let updatedTeam = new Team({
-                team_id: this.team.team_id,
-                name: this.teamName,
-                members: this.team.members,
-                settings: { authority: this.teamAuthority, helper: this.teamHelper }
-            });
-
-            this.teamFactory.upsert(updatedTeam)
-                .then((isUpdated: boolean) => {
-                    this.isTeamSettingSaved = isUpdated;
-                    this.cd.markForCheck();
-                })
-                .catch(err => { this.isTeamSettingFailed = true; this.cd.markForCheck(); })
-        }
-    }
+   
     // fakeCreate(firstname: string, lastname: string, email: string) {
     //     return Observable.if(
     //         () => { return Math.random() < 0.9 },

@@ -53,7 +53,7 @@ import { InitiativeNodeComponent } from "./components/building/initiative.node.c
 import { HelpComponent } from "./components/help/help.component";
 
 import { AccountComponent } from "./components/account/account.component";
-import { TeamComponent } from "./components/team/team.component";
+import { TeamComponent } from "./components/team/single/team-single.component";
 
 import { WorkspaceComponent } from "./components/workspace/workspace.component";
 import { FooterComponent } from "./components/footer/footer.component";
@@ -91,7 +91,7 @@ import { ConfirmationPopoverModule } from "angular-confirmation-popover";
 import { JwtEncoder } from "./shared/services/encoding/jwt.service";
 // import { HttpService } from "./shared/services/http/http.service";
 // import { HttpServiceFactory } from "./shared/services/http/htttp.service.factory";
-import { TeamsListComponent } from "./components/team/teams-list.component";
+import { TeamListComponent } from "./components/team/list/team-list.component";
 import { authHttpServiceFactory } from "./shared/services/auth/auth.module";
 import { ChangePasswordComponent } from "./components/login/change-password.component";
 import { AnAnchorableComponent } from "../test/specs/shared/component.helper.shared";
@@ -108,9 +108,10 @@ import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { MappingZoomableComponent } from "./components/mapping/zoomable/mapping.zoomable.component";
 
 import { McBreadcrumbsModule, McBreadcrumbsConfig } from "ngx-breadcrumbs";
-import { TeamComponentResolver } from "./components/team/team.resolver";
+import { TeamComponentResolver } from "./components/team/single/team-single.resolver";
 import { SearchComponent } from "./components/search/search.component";
 import { FilterTagsComponent } from "./components/filter/tags.component";
+import { TeamSettingsComponent } from "./components/team/single/settings/settings.component";
 
 // Routes
 const appRoutes: Routes = [
@@ -132,7 +133,7 @@ const appRoutes: Routes = [
     path: "teams",
     data: { breadcrumbs: "Teams" },
     children: [
-      { path: "", component: TeamsListComponent, canActivate: [AuthGuard] },
+      { path: "", component: TeamListComponent, canActivate: [AuthGuard] },
       {
         path: ":teamid/:slug",
         resolve: {
@@ -223,8 +224,8 @@ export const RollbarService = new InjectionToken<Rollbar>("rollbar");
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent, TeamComponent,
     MappingComponent, MappingTreeComponent, MappingNetworkComponent, MemberSummaryComponent, MappingZoomableComponent,
     BuildingComponent, InitiativeNodeComponent, LoginComponent, LogoutComponent, HomeComponent, UnauthorizedComponent, NotFoundComponent,
-    InitiativeComponent, ChangePasswordComponent, LoaderComponent, TeamsListComponent, SignupComponent,
-    FocusIfDirective, SearchComponent,FilterTagsComponent,
+    InitiativeComponent, ChangePasswordComponent, LoaderComponent, TeamListComponent, SignupComponent,
+    FocusIfDirective, SearchComponent, FilterTagsComponent, TeamSettingsComponent,
     HelpComponent,
     DashboardComponent,
 
