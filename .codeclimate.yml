@@ -5,6 +5,8 @@ engines:
     checks:
       adjoining-classes:
         enabled: false
+      order-alphabetical:
+        enabled: false
   duplication:
     enabled: true
     config:
