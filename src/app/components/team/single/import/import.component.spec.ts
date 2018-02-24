@@ -19,7 +19,7 @@ import { User } from "./../../../../shared/model/user.data";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 import { TeamImportComponent } from "./import.component";
 
-fdescribe("import.component.ts", () => {
+describe("import.component.ts", () => {
 
     let component: TeamImportComponent;
     let target: ComponentFixture<TeamImportComponent>;
