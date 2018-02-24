@@ -1,26 +1,26 @@
-import { DatasetFactory } from "./../../shared/services/dataset.factory";
-import { MailingService } from "./../../shared/services/mailing/mailing.service";
-import { JwtEncoder } from "./../../shared/services/encoding/jwt.service";
-import { AuthConfiguration } from "./../../shared/services/auth/auth.config";
-import { UserService } from "./../../shared/services/user/user.service";
-import { UserFactory } from "./../../shared/services/user.factory";
+import { DatasetFactory } from "./../../../shared/services/dataset.factory";
+import { MailingService } from "./../../../shared/services/mailing/mailing.service";
+import { JwtEncoder } from "./../../../shared/services/encoding/jwt.service";
+import { AuthConfiguration } from "./../../../shared/services/auth/auth.config";
+import { UserService } from "./../../../shared/services/user/user.service";
+import { UserFactory } from "./../../../shared/services/user.factory";
 import { Observable } from "rxjs/Rx";
 import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
-import { TeamFactory } from "./../../shared/services/team.factory";
+import { TeamFactory } from "./../../../shared/services/team.factory";
 import { ActivatedRoute } from "@angular/router";
 import { TestBed, async, ComponentFixture } from "@angular/core/testing";
-import { TeamComponent } from "./team.component";
+import { TeamComponent } from "./team-single.component";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
-import { ErrorService } from "../../shared/services/error/error.service";
-import { User } from "../../shared/model/user.data";
-import { Team } from "../../shared/model/team.data";
-import { Auth } from "../../shared/services/auth/auth.service";
+import { ErrorService } from "../../../shared/services/error/error.service";
+import { User } from "../../../shared/model/user.data";
+import { Team } from "../../../shared/model/team.data";
+import { Auth } from "../../../shared/services/auth/auth.service";
 import { AuthHttp } from "angular2-jwt/angular2-jwt";
-import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
+import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
 import { Angulartics2Mixpanel, Angulartics2, Angulartics2Module } from "angulartics2";
 import { RouterTestingModule } from "@angular/router/testing";
-import { FileService } from "../../shared/services/file/file.service";
+import { FileService } from "../../../shared/services/file/file.service";
 
 export class AuthStub {
     fakeProfile: User = new User({
