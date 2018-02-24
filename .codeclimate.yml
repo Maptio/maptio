@@ -2,6 +2,9 @@
 engines:
   csslint:
     enabled: true
+    checks:
+      adjoining-classes:
+        enabled: false
   duplication:
     enabled: true
     config:
