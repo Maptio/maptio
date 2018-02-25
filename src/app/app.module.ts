@@ -1,5 +1,4 @@
-import { TeamMembersComponent } from "./components/team/single/members/members.component";
-import { TeamImportComponent } from "./components/team/single/import/import.component";
+import { TeamModule } from "./components/team/team.module";
 
 import { environment } from "./../environment/environment";
 
@@ -55,7 +54,6 @@ import { InitiativeNodeComponent } from "./components/building/initiative.node.c
 import { HelpComponent } from "./components/help/help.component";
 
 import { AccountComponent } from "./components/account/account.component";
-import { TeamComponent } from "./components/team/single/team.component";
 
 import { WorkspaceComponent } from "./components/workspace/workspace.component";
 import { FooterComponent } from "./components/footer/footer.component";
@@ -93,7 +91,6 @@ import { ConfirmationPopoverModule } from "angular-confirmation-popover";
 import { JwtEncoder } from "./shared/services/encoding/jwt.service";
 // import { HttpService } from "./shared/services/http/http.service";
 // import { HttpServiceFactory } from "./shared/services/http/htttp.service.factory";
-import { TeamListComponent } from "./components/team/list/team-list.component";
 import { authHttpServiceFactory } from "./shared/services/auth/auth.module";
 import { ChangePasswordComponent } from "./components/login/change-password.component";
 import { AnAnchorableComponent } from "../test/specs/shared/component.helper.shared";
@@ -110,10 +107,8 @@ import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { MappingZoomableComponent } from "./components/mapping/zoomable/mapping.zoomable.component";
 
 import { McBreadcrumbsModule, McBreadcrumbsConfig } from "ngx-breadcrumbs";
-import { TeamComponentResolver } from "./components/team/single/team.resolver";
 import { SearchComponent } from "./components/search/search.component";
 import { FilterTagsComponent } from "./components/filter/tags.component";
-import { TeamSettingsComponent } from "./components/team/single/settings/settings.component";
 
 // Routes
 const appRoutes: Routes = [
@@ -130,30 +125,6 @@ const appRoutes: Routes = [
   { path: "logout", component: LogoutComponent },
   { path: "help", component: HelpComponent, data: { breadcrumbs: "Help" } },
   { path: "signup", component: SignupComponent, data: { breadcrumbs: "Sign up" } },
-
-  {
-    path: "teams",
-    data: { breadcrumbs: "Teams" },
-    children: [
-      { path: "", component: TeamListComponent, canActivate: [AuthGuard] },
-      {
-        path: ":teamid/:slug",
-        resolve: {
-          team: TeamComponentResolver
-        },
-        component: TeamComponent,
-        data: { breadcrumbs: "{{team.name}}" },
-        canActivate: [AuthGuard, AccessGuard],
-        children: [
-          { path: "", redirectTo: "members", pathMatch: "full" },
-          { path: "members", component: TeamMembersComponent, data: { breadcrumbs: true, text: "Members" } },
-          { path: "import", component: TeamImportComponent, data: { breadcrumbs: true, text: "Import" } },
-          { path: "settings", component: TeamSettingsComponent, data: { breadcrumbs: true, text: "Settings" } }
-        ]
-      }
-    ]
-
-  },
 
 
   {
@@ -179,8 +150,6 @@ const appRoutes: Routes = [
       { path: "u/:usershortid/:userslug", component: MemberSummaryComponent, canActivate: [WorkspaceGuard] },
     ]
   },
-  // { path: "summary/map/:mapid/:mapslug/u/:usershortid/:userslug", component: MemberSummaryComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
-
   { path: "unauthorized", component: UnauthorizedComponent },
   { path: "forgot", component: ChangePasswordComponent, data: { breadcrumbs: "Password change" } },
   { path: "404", component: NotFoundComponent },
@@ -230,11 +199,11 @@ export const RollbarService = new InjectionToken<Rollbar>("rollbar");
 
 @NgModule({
   declarations: [
-    AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent, TeamComponent,
+    AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent,
     MappingComponent, MappingTreeComponent, MappingNetworkComponent, MemberSummaryComponent, MappingZoomableComponent,
     BuildingComponent, InitiativeNodeComponent, LoginComponent, LogoutComponent, HomeComponent, UnauthorizedComponent, NotFoundComponent,
-    InitiativeComponent, ChangePasswordComponent, LoaderComponent, TeamListComponent, SignupComponent,
-    FocusIfDirective, SearchComponent, FilterTagsComponent, TeamSettingsComponent, TeamImportComponent, TeamMembersComponent,
+    InitiativeComponent, ChangePasswordComponent, LoaderComponent, SignupComponent,
+    FocusIfDirective, SearchComponent, FilterTagsComponent,
     HelpComponent,
     DashboardComponent,
 
@@ -270,7 +239,9 @@ export const RollbarService = new InjectionToken<Rollbar>("rollbar");
     HttpFactoryModule,
     ColorPickerModule,
     BrowserAnimationsModule,
-    CloudinaryModule.forRoot(cloudinaryLib, { cloud_name: environment.CLOUDINARY_CLOUDNAME, upload_preset: environment.CLOUDINARY_UPLOAD_PRESET })
+    CloudinaryModule.forRoot(cloudinaryLib, { cloud_name: environment.CLOUDINARY_CLOUDNAME, upload_preset: environment.CLOUDINARY_UPLOAD_PRESET }),
+    TeamModule
+
   ],
   exports: [RouterModule],
   providers: [
@@ -299,7 +270,6 @@ export const RollbarService = new InjectionToken<Rollbar>("rollbar");
     },
     DashboardComponentResolver,
     WorkspaceComponentResolver,
-    TeamComponentResolver,
     { provide: ErrorHandler, useClass: RollbarErrorHandler },
     { provide: RollbarService, useFactory: rollbarFactory }
   ],
