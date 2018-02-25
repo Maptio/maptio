@@ -1,3 +1,5 @@
+import { User } from './../../../../shared/model/user.data';
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, Input, ChangeDetectorRef } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Team } from "../../../../shared/model/team.data";
@@ -19,7 +21,7 @@ export class TeamSettingsComponent implements OnInit {
     public isTeamSettingSaved: boolean;
     public isTeamSettingFailed: boolean;
 
-    constructor(private cd: ChangeDetectorRef, private teamFactory: TeamFactory) {
+    constructor(private cd: ChangeDetectorRef, private teamFactory: TeamFactory, private route: ActivatedRoute) {
         this.teamSettingsForm = new FormGroup({
             "name": new FormControl(this.teamName, [
                 Validators.required,
@@ -31,9 +33,16 @@ export class TeamSettingsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.teamName = this.team.name;
-        this.teamAuthority = this.team.settings.authority;
-        this.teamHelper = this.team.settings.helper;
+
+        this.route.parent.data
+            .subscribe((data: { team: Team}) => {
+                console.log("settings", data)
+                this.team = data.team;
+                this.teamName = this.team.name;
+                this.teamAuthority = this.team.settings.authority;
+                this.teamHelper = this.team.settings.helper;
+            });
+
     }
 
 

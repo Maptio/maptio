@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { Angulartics2Mixpanel } from "angulartics2";
 import { TeamFactory } from "./../../../../shared/services/team.factory";
 import { UserFactory } from "./../../../../shared/services/user.factory";
@@ -18,7 +19,7 @@ import * as _ from "lodash";
 })
 export class TeamImportComponent implements OnInit {
 
-    @Input() team: Team;
+    team: Team;
     @ViewChild("fileImportInput") fileImportInput: any;
 
     csvRecords: any[] = [];
@@ -39,9 +40,17 @@ export class TeamImportComponent implements OnInit {
         private datasetFactory: DatasetFactory,
         private userFactory: UserFactory,
         private teamFactory: TeamFactory,
-        private analytics: Angulartics2Mixpanel) { }
+        private analytics: Angulartics2Mixpanel,
+        private route: ActivatedRoute) { }
 
-    ngOnInit() { }
+    ngOnInit() {
+
+        this.route.parent.data
+            .subscribe((data: { team: Team}) => {
+                console.log("import", data.team)
+                this.team = data.team;
+            });
+    }
 
     fileChangeListener($event: any): void {
         this.isParsingFinished = false;

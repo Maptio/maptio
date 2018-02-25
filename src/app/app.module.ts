@@ -1,3 +1,4 @@
+import { TeamMembersComponent } from './components/team/single/members/members.component';
 import { TeamImportComponent } from "./components/team/single/import/import.component";
 
 import { environment } from "./../environment/environment";
@@ -140,8 +141,15 @@ const appRoutes: Routes = [
         resolve: {
           team: TeamComponentResolver
         },
-        component: TeamComponent, data: { breadcrumbs: "{{team.name}}" },
-        canActivate: [AuthGuard, AccessGuard]
+        component: TeamComponent,
+        data: { breadcrumbs: "{{team.name}}" },
+        canActivate: [AuthGuard, AccessGuard],
+        children: [
+          { path: "", redirectTo: "members", pathMatch: "full" },
+          { path: "members", component: TeamMembersComponent, data: { breadcrumbs: true, text: "Members" } },
+          { path: "import", component: TeamImportComponent, data: { breadcrumbs: true, text: "Import" } },
+          { path: "settings", component: TeamSettingsComponent, data: { breadcrumbs: true, text: "Settings" } }
+        ]
       }
     ]
 
@@ -226,7 +234,7 @@ export const RollbarService = new InjectionToken<Rollbar>("rollbar");
     MappingComponent, MappingTreeComponent, MappingNetworkComponent, MemberSummaryComponent, MappingZoomableComponent,
     BuildingComponent, InitiativeNodeComponent, LoginComponent, LogoutComponent, HomeComponent, UnauthorizedComponent, NotFoundComponent,
     InitiativeComponent, ChangePasswordComponent, LoaderComponent, TeamListComponent, SignupComponent,
-    FocusIfDirective, SearchComponent, FilterTagsComponent, TeamSettingsComponent,TeamImportComponent,
+    FocusIfDirective, SearchComponent, FilterTagsComponent, TeamSettingsComponent, TeamImportComponent, TeamMembersComponent,
     HelpComponent,
     DashboardComponent,
 
@@ -242,7 +250,7 @@ export const RollbarService = new InjectionToken<Rollbar>("rollbar");
     TreeModule,
     McBreadcrumbsModule.forRoot(),
     NgbModule.forRoot(),
-    RouterModule.forRoot(appRoutes),
+    RouterModule.forRoot(appRoutes, { enableTracing: false }),
     ResponsiveModule,
     ConfirmationPopoverModule.forRoot({
       confirmButtonType: "danger",
@@ -303,7 +311,7 @@ export class AppModule {
   constructor(breadcrumbsConfig: McBreadcrumbsConfig) {
 
     breadcrumbsConfig.postProcess = (x) => {
-
+console.log(x)
       // Ensure that the first breadcrumb always points to home
 
       let y = x;

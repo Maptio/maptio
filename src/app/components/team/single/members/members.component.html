@@ -1,0 +1,136 @@
+<div>
+    <div>
+        <div class="card mt-0 card-outline-secondary mb-4">
+            <div class="card-block">
+                <h4 class="card-title">Add a Maptio user to the team or create a new user
+                </h4>
+                <span class="lead text-info">Once they are imported, they must be invited to view and edit maps.</span>
+                <div class="card-text">
+                    <ng-template #rt let-r="result" let-t="term">
+                        <img src="{{r.picture}}" width="16" alt="{{r.name}}"> {{r.email}}
+                    </ng-template>
+
+                    <div class="input-group">
+                        <input #inputNewMember type="text" id="inputNewMember" [resultTemplate]="rt" placeholder="e.g. hermes.conrad@planetexpress.com"
+                            class="form-control col-12" [ngModelOptions]="{standalone: true}" [ngModel]="newMember"
+                            (selectItem)="saveNewMember($event)" [ngbTypeahead]="searchUsers" [resultFormatter]="formatter"
+                            [inputFormatter]="formatter" email />
+
+                        <span class="input-group-btn" *ngIf="!searchFailed || !inputNewMember.value">
+                            <button class="btn btn-primary" [class.disabled]="!isUserChosen" type="button" (click)="addMemberToTeam()">
+                                Add
+                            </button>
+                        </span>
+                    </div>
+                    <small *ngIf="isAlreadyInTeam" class="form-control-feedback text-warning">Already added!</small>
+
+                    <small class="form-text">Search for a person in Maptio by email address or enter an email address to add someone
+                        new.
+                    </small>
+                    <span *ngIf="searching">searching...</span>
+
+                    <!-- </div> -->
+                    <div class="col-12 mt-1" *ngIf="searchFailed && inputNewMember.value">
+                        <span *ngIf="!isUserSearchedEmail">No results</span>
+
+                        <div *ngIf="isUserSearchedEmail">
+
+                            <div>
+                                <div class="card-text">
+                                    <br>
+                                    <b>{{userSearched}}</b> ? We don’t know that person.
+                                    <div class="alert alert-danger " role="alert" *ngIf="errorMessage">
+                                        {{errorMessage}}
+                                    </div>
+
+                                    <form class="from-group mb-1" [formGroup]="inviteForm" (submit)="createUser(userSearched)">
+
+                                        <div class="input-group mb-2">
+                                            <input type="text" id="inputFirstname" formControlName="firstname" class="form-control form-control-warning " placeholder="First name"
+                                                required minlength="2">
+                                            <input type="text" id="inputLastname" formControlName="lastname" class="form-control form-control-warning" placeholder="Last name"
+                                                required minlength="2">
+                                            <button type="submit" class="btn btn-success" [class.disabled]="!inviteForm.valid">Add</button>
+                                        </div>
+                                        <small class="form-control-feedback text-warning" *ngIf="inviteForm.controls['lastname'].invalid  && (inviteForm.controls['lastname'].dirty || inviteForm.controls['lastname'].touched)">
+                                            Last name must be at least 2 characters in length
+                                        </small>
+                                        <small class="form-control-feedback text-warning" *ngIf="inviteForm.controls['firstname'].invalid  && (inviteForm.controls['firstname'].dirty || inviteForm.controls['firstname'].touched)">
+                                            First name must be at least 2 characters in length
+                                        </small>
+                                    </form>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+    <div>
+
+        <table class="table table-hover table-sm tableSection left">
+            <thead>
+                <tr class="row">
+                    <th class="" scope="col"></th>
+                    <th class="col-1" scope="col"></th>
+                    <th class="col-3" scope="col">Name</th>
+                    <th class="col-4" scope="col">Email</th>
+                    <th class="col" scope="col"></th>
+                    <th class="" scope="col">
+                        <button class="btn btn-success pull-right" (click)="inviteAll()">Invite/resend all</button>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr class="row" *ngFor="let member of (members$ | async); trackBy: trackByMemberId;let i=index" [class.deleted]="member.isDeleted">
+                    <td class=" delete">
+                        <span *ngIf="member.isActivationPending && !member.isInvitationSent" class="remove text-danger" aria-hidden="true" mwlConfirmationPopover
+                            title="This cannot be undone ! Are you sure you want to delete {{member.name}} ? They haven't receive an email yet so they won't know ( ... and we won't tell ) "
+                            placement="right" focusButton="cancel" appendToBody="true" (confirm)="deleteMember(member)"
+                            (cancel)="cancelClicked = true">
+                        </span>
+                    </td>
+                    <td class="col-1">
+                        <img class="rounded-circle member " src="{{member.picture}}" alt="{{member.name}}">
+                    </td>
+                    <td class="col-3">{{member.name}}</td>
+                    <td class="col-4">{{member.email}}
+                        <br/>
+                        <small [hidden]="!(member.isActivationPending && member.isInvitationSent)" class="text-warning pull-left" placement="top"
+                            container="body" ngbTooltip="{{member.name}} was sent an invitation.">Pending</small>
+                    </td>
+                    <td class="col">
+                        <!-- <small [hidden]="!(member.isActivationPending && member.isInvitationSent)" class="text-warning pull-right" placement="top" container="body"
+                                        ngbTooltip="{{member.name}} was sent an invitation.">Pending</small> -->
+                    </td>
+                    <td class="">
+                        <span *ngIf="member.isDeleted" class="text-muted">(Deleted)</span>
+                        <button [class.deleted]="member.isDeleted" *ngIf="!member.isActivationPending" class="btn btn-default  mt-2" placement="top"
+                            container="body" ngbTooltip="{{member.name}} is a confirmed user." disabled>Active</button>
+                        <button [class.deleted]="member.isDeleted" [hidden]="isDisplayLoader(member.user_id)" *ngIf="member.isActivationPending && !member.isInvitationSent"
+                            class="btn btn-success  mt-2" (click)="inviteUser(member, i)" placement="left" container="body"
+                            ngbTooltip="Invite {{member.name}} to view and edit maps">Invite </button>
+                        <button [class.deleted]="member.isDeleted" [hidden]="isDisplayLoader(member.user_id)" *ngIf="member.isActivationPending && member.isInvitationSent"
+                            class="btn btn-success  mt-2" (click)="resendUser(member, i)" placement="left" container="body"
+                            ngbTooltip="Resend an invitation to {{member.name}}">Resend </button>
+                        <div class="sending" [hidden]="!isDisplayLoader(member.user_id)">
+                            <i *ngIf="isDisplayLoader(member.user_id)" class="text-muted fa fa-circle-o-notch fa-spin fa-fw fa-2x"></i>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>

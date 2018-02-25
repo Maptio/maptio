@@ -1,3 +1,4 @@
+import { Auth } from './../../../shared/services/auth/auth.service';
 
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/router";
 import { DatasetFactory } from "../../../shared/services/dataset.factory";
@@ -14,10 +15,12 @@ import { SelectableTag, DEFAULT_TAGS } from "../../../shared/model/tag.data";
 @Injectable()
 export class TeamComponentResolver implements Resolve<Team> {
 
-    constructor(public teamFactory: TeamFactory) {
+    constructor(private teamFactory: TeamFactory, private auth: Auth) {
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Team> {
+
+
         let teamId: string = route.params["teamid"];
         return Observable.fromPromise(this.teamFactory.get(teamId));
 
