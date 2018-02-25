@@ -36,7 +36,6 @@ export class TeamSettingsComponent implements OnInit {
 
         this.route.parent.data
             .subscribe((data: { team: Team}) => {
-                console.log("settings", data)
                 this.team = data.team;
                 this.teamName = this.team.name;
                 this.teamAuthority = this.team.settings.authority;

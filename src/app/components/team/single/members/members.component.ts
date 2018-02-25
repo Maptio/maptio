@@ -80,7 +80,6 @@ export class TeamMembersComponent implements OnInit {
     ngOnInit() {
         this.routeSubscription = this.route.parent.data
             .subscribe((data: { team: Team}) => {
-                console.log("members", data)
                 this.team = data.team;
             });
 

@@ -1,7 +1,8 @@
+import { ActivatedRouteSnapshot, ActivatedRoute, UrlSegment, ParamMap, Params, Data, Route } from "@angular/router";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 import { TeamSettingsComponent } from "./settings.component";
 import { TeamFactory } from "../../../../shared/services/team.factory";
-import { NO_ERRORS_SCHEMA } from "@angular/core";
+import { NO_ERRORS_SCHEMA, Type } from "@angular/core";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Team } from "../../../../shared/model/team.data";
 import { AuthHttp, AuthConfig } from "angular2-jwt/angular2-jwt";
@@ -9,6 +10,36 @@ import { authHttpServiceFactoryTesting } from "../../../../../test/specs/shared/
 import { Http, BaseRequestOptions } from "@angular/http";
 import { MockBackend } from "@angular/http/testing";
 import { User } from "../../../../shared/model/user.data";
+import { Observable } from "rxjs/Observable";
+
+class MockActivatedRoute implements ActivatedRoute {
+    paramMap: Observable<ParamMap>;
+    queryParamMap: Observable<ParamMap>;
+    snapshot: ActivatedRouteSnapshot;
+    url: Observable<UrlSegment[]>;
+    params: Observable<Params>;
+    queryParams: Observable<Params>;
+    fragment: Observable<string>;
+    data: Observable<Data> = Observable.of({
+        team: new Team({
+            team_id: "123",
+            name: "team",
+            settings: { authority: "A", helper: "H" },
+            members: [new User({ user_id: "1" }), new User({ user_id: "2" })]
+        })
+    })
+    outlet: string;
+    component: Type<any> | string;
+    routeConfig: Route;
+    root: ActivatedRoute;
+    parent: ActivatedRoute;
+    firstChild: ActivatedRoute;
+    children: ActivatedRoute[];
+    pathFromRoot: ActivatedRoute[];
+    toString(): string {
+        return "";
+    };
+}
 
 describe("settings.component.ts", () => {
 
@@ -38,7 +69,14 @@ describe("settings.component.ts", () => {
                         deps: [MockBackend, BaseRequestOptions]
                     },
                     MockBackend,
-                    BaseRequestOptions
+                    BaseRequestOptions,
+                    {
+                        provide: ActivatedRoute,
+                        useClass: class {
+                            params = Observable.of({ teamid: 123, slug: "slug" })
+                            parent = new MockActivatedRoute()
+                        }
+                    }
                     // Angulartics2Mixpanel, Angulartics2
                 ]
             }
@@ -49,19 +87,13 @@ describe("settings.component.ts", () => {
         target = TestBed.createComponent(TeamSettingsComponent);
 
         component = target.componentInstance;
-        component.team = new Team({
-            name: "Team",
-            team_id: "1",
-            settings: { authority: "Authority", helper: "Helper" },
-            members: [new User({ user_id: "1" }), new User({ user_id: "2" })]
-        })
         target.detectChanges();
     });
 
     it("should bind ", () => {
-        expect(component.teamName).toBe("Team");
-        expect(component.teamAuthority).toBe("Authority");
-        expect(component.teamHelper).toBe("Helper")
+        expect(component.teamName).toBe("team");
+        expect(component.teamAuthority).toBe("A");
+        expect(component.teamHelper).toBe("H")
     });
 
     describe("save", () => {
@@ -98,7 +130,7 @@ describe("settings.component.ts", () => {
             expect(mockTeamFactory.upsert).toHaveBeenCalledWith(jasmine.objectContaining({
                 name: "More than 2 letters",
                 settings: { authority: "King", helper: "Kong" },
-                team_id: "1",
+                team_id: "123",
                 members: [new User({ user_id: "1" }), new User({ user_id: "2" })]
             }))
 
@@ -125,7 +157,7 @@ describe("settings.component.ts", () => {
             expect(mockTeamFactory.upsert).toHaveBeenCalledWith(jasmine.objectContaining({
                 name: "More than 2 letters",
                 settings: { authority: "King", helper: "Kong" },
-                team_id: "1",
+                team_id: "123",
                 members: [new User({ user_id: "1" }), new User({ user_id: "2" })]
             }))
 

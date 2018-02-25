@@ -12,12 +12,45 @@ import { UserFactory } from "./../../../../shared/services/user.factory";
 import { DatasetFactory } from "./../../../../shared/services/dataset.factory";
 import { UserService } from "./../../../../shared/services/user/user.service";
 import { FileService } from "./../../../../shared/services/file/file.service";
-import { NO_ERRORS_SCHEMA } from "@angular/core";
+import { NO_ERRORS_SCHEMA, Type } from "@angular/core";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Team } from "./../../../../shared/model/team.data";
 import { User } from "./../../../../shared/model/user.data";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 import { TeamImportComponent } from "./import.component";
+import { ActivatedRouteSnapshot, ActivatedRoute, UrlSegment, ParamMap, Params, Data, Route } from "@angular/router";
+import { Observable } from "rxjs/Observable";
+
+
+class MockActivatedRoute implements ActivatedRoute {
+    paramMap: Observable<ParamMap>;
+    queryParamMap: Observable<ParamMap>;
+    snapshot: ActivatedRouteSnapshot;
+    url: Observable<UrlSegment[]>;
+    params: Observable<Params>;
+    queryParams: Observable<Params>;
+    fragment: Observable<string>;
+    data: Observable<Data> = Observable.of({
+        team: new Team({
+            team_id: "123",
+            name: "team",
+            settings: { authority: "A", helper: "H" },
+            members: [new User({ user_id: "1" }), new User({ user_id: "2" })]
+        })
+    })
+    outlet: string;
+    component: Type<any> | string;
+    routeConfig: Route;
+    root: ActivatedRoute;
+    parent: ActivatedRoute;
+    firstChild: ActivatedRoute;
+    children: ActivatedRoute[];
+    pathFromRoot: ActivatedRoute[];
+    toString(): string {
+        return "";
+    };
+}
+
 
 describe("import.component.ts", () => {
 
@@ -50,7 +83,14 @@ describe("import.component.ts", () => {
                         deps: [MockBackend, BaseRequestOptions]
                     },
                     MockBackend,
-                    BaseRequestOptions
+                    BaseRequestOptions,
+                    {
+                        provide: ActivatedRoute,
+                        useClass: class {
+                            params = Observable.of({ teamid: 123, slug: "slug" })
+                            parent = new MockActivatedRoute()
+                        }
+                    }
                 ]
             }
         }).compileComponents();
@@ -60,12 +100,6 @@ describe("import.component.ts", () => {
         target = TestBed.createComponent(TeamImportComponent);
 
         component = target.componentInstance;
-        component.team = new Team({
-            name: "Team",
-            team_id: "1",
-            settings: { authority: "Authority", helper: "Helper" },
-            members: [new User({ user_id: "1" }), new User({ user_id: "2" })]
-        })
         target.detectChanges();
     });
 

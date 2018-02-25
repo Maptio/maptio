@@ -17,14 +17,12 @@ export class TeamComponent implements OnInit {
     team: Team;
 
     constructor(private route: ActivatedRoute, private cd: ChangeDetectorRef) {
-        console.log()
+
     }
 
     ngOnInit() {
         this.routeSubscription = this.route.data
             .subscribe((data: any) => {
-
-                console.log("team single", data)
                 this.team = data.team;
                 this.cd.markForCheck();
             });

@@ -47,7 +47,6 @@ export class TeamImportComponent implements OnInit {
 
         this.route.parent.data
             .subscribe((data: { team: Team}) => {
-                console.log("import", data.team)
                 this.team = data.team;
             });
     }
