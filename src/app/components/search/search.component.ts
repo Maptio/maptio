@@ -43,15 +43,18 @@ export class SearchComponent implements OnInit {
             .debounceTime(200)
             .distinctUntilChanged()
             .do((term: string) => {
+                console.log("do 1", term)
                 this.isSearching = true && term !== "";
                 this.cd.markForCheck();
             })
             .map(term => {
+                console.log("map", term)
                 return term === ""
                     ? this.list
                     : this.filter(term)
             })
             .do(list => {
+                console.log("do 2", list)
                 this.searchResultsCount = list.length;
                 this.cd.markForCheck();
             });

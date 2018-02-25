@@ -1,4 +1,8 @@
-import { Subject, ReplaySubject } from "rxjs/Rx";
+import { Initiative } from './../../shared/model/initiative.data';
+import { Observable } from 'rxjs';
+import { Observable } from 'rxjs';
+import { Observable } from 'rxjs';
+import { Subject, ReplaySubject, Observable, BehaviorSubject } from "rxjs/Rx";
 import { LoaderService, LoaderState } from "./../../shared/services/loading/loader.service";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { async, TestBed, ComponentFixture } from "@angular/core/testing";
@@ -11,7 +15,7 @@ import { Initiative } from "../../shared/model/initiative.data";
 import { Helper } from "../../shared/model/helper.data";
 
 
-describe("search.component.ts", () => {
+fdescribe("search.component.ts", () => {
 
     let component: SearchComponent;
     let target: ComponentFixture<SearchComponent>;
@@ -97,6 +101,24 @@ describe("search.component.ts", () => {
             expect(actual[3]).toEqual(component.list[3])
         });
 
+    });
+
+    xdescribe("Search", () => {
+        it("calls correct dependencies", async(() => {
+
+            let spyObj = jasmine.createSpyObj<Observable<string>>("text$", ["debounceTime", "distinctUntilChanged", "do", "map"]);
+
+            spyObj.debounceTime.and.returnValue(spyObj)
+            spyObj.distinctUntilChanged.and.returnValue(spyObj)
+            spyObj.do.and.returnValues(Observable.of("blabla"), Observable.of([new Initiative()]))
+            spyObj.map.and.returnValue(Observable.of([new Initiative()]))
+            component.searchInitiatives(spyObj);
+
+            expect(spyObj.debounceTime).toHaveBeenCalledWith(200);
+            expect(spyObj.distinctUntilChanged).toHaveBeenCalledTimes(1);
+            expect(spyObj.do).toHaveBeenCalledTimes(2);
+
+        }));
     });
 
 
