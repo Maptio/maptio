@@ -92,6 +92,7 @@
             </thead>
             <tbody>
 
+                <ngx-loading [show]="isLoading"></ngx-loading>
                 <tr class="row" *ngFor="let member of (members$ | async); trackBy: trackByMemberId;let i=index" [class.deleted]="member.isDeleted">
                     <td class=" delete">
                         <span *ngIf="member.isActivationPending && !member.isInvitationSent" class="remove text-danger" aria-hidden="true" mwlConfirmationPopover
