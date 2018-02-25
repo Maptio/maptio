@@ -1,7 +1,4 @@
-import { Initiative } from './../../shared/model/initiative.data';
-import { Observable } from 'rxjs';
-import { Observable } from 'rxjs';
-import { Observable } from 'rxjs';
+import { Initiative } from "./../../shared/model/initiative.data";
 import { Subject, ReplaySubject, Observable, BehaviorSubject } from "rxjs/Rx";
 import { LoaderService, LoaderState } from "./../../shared/services/loading/loader.service";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
@@ -11,11 +8,10 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { Tag, SelectableTag } from "../../shared/model/tag.data";
 import { Team } from "../../shared/model/team.data";
 import { SearchComponent } from "./search.component";
-import { Initiative } from "../../shared/model/initiative.data";
 import { Helper } from "../../shared/model/helper.data";
 
 
-fdescribe("search.component.ts", () => {
+describe("search.component.ts", () => {
 
     let component: SearchComponent;
     let target: ComponentFixture<SearchComponent>;
