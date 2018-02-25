@@ -7,18 +7,18 @@ import { Component, ChangeDetectorRef } from "@angular/core";
 
 
 @Component({
-    selector: "team-single",
-    templateUrl: "./team-single.component.html",
-    styleUrls: ["./team-single.component.css"]
+    selector: "team",
+    templateUrl: "./team.component.html",
+    styleUrls: ["./team.component.css"]
 })
 export class TeamComponent implements OnInit {
     routeSubscription: Subscription;
 
     team: Team;
 
-    constructor(private route: ActivatedRoute, private cd:ChangeDetectorRef) {
+    constructor(private route: ActivatedRoute, private cd: ChangeDetectorRef) {
         console.log()
-     }
+    }
 
     ngOnInit() {
         this.routeSubscription = this.route.data

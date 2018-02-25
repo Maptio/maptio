@@ -22,18 +22,7 @@ import { SafeUrl, DomSanitizer } from "@angular/platform-browser";
     selector: "header",
     templateUrl: "./header.component.html",
     styleUrls: ["./header.component.css"],
-    animations: [
-        trigger("fadeInOut", [
-            state("in", style({
-                opacity: 1, visibility: "visible", display: "inline"
-            })),
-            state("out", style({ opacity: 0.5, visibility: "hidden", display: "none" })),
-            transition("in <=> out", [
-                animate("1s ease-out")
-            ])
-        ])
-    ],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.Default
 })
 
 export class HeaderComponent implements OnInit {
@@ -100,6 +89,10 @@ export class HeaderComponent implements OnInit {
             "mapName": new FormControl("", [Validators.required, Validators.minLength(2)]),
             "teamId": new FormControl(this.selectedTeamId, [Validators.required]),
         })
+    }
+
+    ngAfterViewInit() {
+        this.cd.markForCheck();
     }
 
     ngOnDestroy() {

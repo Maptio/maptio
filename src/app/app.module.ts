@@ -1,4 +1,4 @@
-import { TeamMembersComponent } from './components/team/single/members/members.component';
+import { TeamMembersComponent } from "./components/team/single/members/members.component";
 import { TeamImportComponent } from "./components/team/single/import/import.component";
 
 import { environment } from "./../environment/environment";
@@ -55,7 +55,7 @@ import { InitiativeNodeComponent } from "./components/building/initiative.node.c
 import { HelpComponent } from "./components/help/help.component";
 
 import { AccountComponent } from "./components/account/account.component";
-import { TeamComponent } from "./components/team/single/team-single.component";
+import { TeamComponent } from "./components/team/single/team.component";
 
 import { WorkspaceComponent } from "./components/workspace/workspace.component";
 import { FooterComponent } from "./components/footer/footer.component";
@@ -110,7 +110,7 @@ import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { MappingZoomableComponent } from "./components/mapping/zoomable/mapping.zoomable.component";
 
 import { McBreadcrumbsModule, McBreadcrumbsConfig } from "ngx-breadcrumbs";
-import { TeamComponentResolver } from "./components/team/single/team-single.resolver";
+import { TeamComponentResolver } from "./components/team/single/team.resolver";
 import { SearchComponent } from "./components/search/search.component";
 import { FilterTagsComponent } from "./components/filter/tags.component";
 import { TeamSettingsComponent } from "./components/team/single/settings/settings.component";
@@ -311,7 +311,7 @@ export class AppModule {
   constructor(breadcrumbsConfig: McBreadcrumbsConfig) {
 
     breadcrumbsConfig.postProcess = (x) => {
-console.log(x)
+      console.log(x)
       // Ensure that the first breadcrumb always points to home
 
       let y = x;
