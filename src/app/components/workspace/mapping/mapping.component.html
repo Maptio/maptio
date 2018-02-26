@@ -27,8 +27,7 @@
       fragment="x={{VIEWPORT_WIDTH / 2}}&y={{VIEWPORT_WIDTH / 2 -180}}&scale=1=1&{{tagsFragment}}">
       <div class="icon-text-label" style="bottom: 2px;position: absolute;">Circles</div>
     </a>
-    <a class="btn btn-secondary tree p-1" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/tree" 
-    fragment="x={{VIEWPORT_WIDTH / 10}}&y={{VIEWPORT_HEIGHT / 2}}&scale=1&{{tagsFragment}}">
+    <a class="btn btn-secondary tree p-1" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/tree" fragment="x={{VIEWPORT_WIDTH / 10}}&y={{VIEWPORT_HEIGHT / 2}}&scale=1&{{tagsFragment}}">
       <div class="icon-text-label">Tree</div>
     </a>
     <a class="btn btn-secondary network p-1" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/network"
@@ -95,6 +94,12 @@
 </div>
 
 
-<div tabIndex="-1" class="map">
+<div *ngIf="isFirstEdit" class="instructions h2">
+  Click
+  <button type="button" class="btn  btn-success" (click)="addFirstNode()" placement="top" ngbTooltip="New initiative"
+    container="body"><i class="fa fa-plus"></i></button> to create your first circle
+</div>
+
+<div tabIndex="-1" class="map" *ngIf="!isFirstEdit">
   <router-outlet (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>
 </div>

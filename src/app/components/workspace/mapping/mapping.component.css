@@ -269,3 +269,10 @@
 #fontSizeInput{
   background: transparent;
 }
+
+
+.instructions {
+  position: absolute;
+  left: 32%;
+  top: 50%;
+}

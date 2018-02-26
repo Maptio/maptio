@@ -1,46 +1,32 @@
-import { compact } from "lodash";
-import { UIService } from "./../../../shared/services/ui/ui.service";
-import { URIService } from "./../../../shared/services/uri.service";
-import { DataService } from "./../../../shared/services/data.service";
-import { SelectableTag, Tag } from "./../../../shared/model/tag.data";
-import { Initiative } from "./../../../shared/model/initiative.data";
+import 'rxjs/add/operator/map';
 
-// import { MappingNetworkComponent } from "./network/mapping.network.component";
-import { Angulartics2Mixpanel } from "angulartics2";
-
-import { ActivatedRoute } from "@angular/router";
 import {
-  Component,
-  EventEmitter,
-  ViewChild,
-  ElementRef,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  Component,
   ComponentFactory,
-  Output,
+  EventEmitter,
   Input,
-  SimpleChanges
-} from "@angular/core";
+  Output,
+} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Angulartics2Mixpanel } from 'angulartics2';
+import { compact } from 'lodash';
+import { BehaviorSubject, ReplaySubject, Subject, Subscription } from 'rxjs/Rx';
 
-import { IDataVisualizer } from "./mapping.interface";
+import { Initiative } from './../../../shared/model/initiative.data';
+import { SelectableTag, Tag } from './../../../shared/model/tag.data';
+import { DataService } from './../../../shared/services/data.service';
+import { UIService } from './../../../shared/services/ui/ui.service';
+import { URIService } from './../../../shared/services/uri.service';
+import { IDataVisualizer } from './mapping.interface';
+import { MemberSummaryComponent } from './member-summary/member-summary.component';
+import { MappingNetworkComponent } from './network/mapping.network.component';
+import { MappingTreeComponent } from './tree/mapping.tree.component';
+import { MappingZoomableComponent } from './zoomable/mapping.zoomable.component';
+
+// import { MappingNetworkComponent } from "./network/mapping.network.component";
 // import { MappingCirclesComponent } from "./circles/mapping.circles.component";
-import { MappingTreeComponent } from "./tree/mapping.tree.component";
-
-import "rxjs/add/operator/map";
-import {
-  Subject,
-  BehaviorSubject,
-  Subscription,
-  ReplaySubject,
-  Observable
-} from "rxjs/Rx";
-import { MappingNetworkComponent } from "./network/mapping.network.component";
-import { MemberSummaryComponent } from "./member-summary/member-summary.component";
-
-import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { MappingZoomableComponent } from "./zoomable/mapping.zoomable.component";
-import { NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-bootstrap";
-
 @Component({
   selector: "mapping",
   templateUrl: "./mapping.component.html",
@@ -54,6 +40,7 @@ import { NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-bootstrap";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MappingComponent {
+  isFirstEdit: boolean;
   PLACEMENT: string = "left";
   TOGGLE: string = "tooltip";
   TOOLTIP_PEOPLE_VIEW: string = "People view";
@@ -97,16 +84,11 @@ export class MappingComponent {
   public slug: string;
   public tags: Array<SelectableTag>;
   public tagsFragment: string;
-  // public members: Array<SelectableUser>;
-  // public usersFragment: string;
-
-  // TODO : replace by a format object
   public fontSize$: BehaviorSubject<number>;
   public fontColor$: BehaviorSubject<string>;
   public mapColor$: BehaviorSubject<string>;
 
   public zoomToInitiative$: Subject<Initiative>;
-  // public isLocked$: BehaviorSubject<boolean>;
   public closeEditingPanel$: BehaviorSubject<boolean>;
   public data$: Subject<{ initiative: Initiative; datasetId: string }>;
 
@@ -121,6 +103,7 @@ export class MappingComponent {
     to: Initiative;
   }>();
   @Output("closeEditingPanel") closeEditingPanel = new EventEmitter<boolean>();
+  @Output("openTreePanel") openTreePanel = new EventEmitter<boolean>();
   @Output("toggleSettingsPanel")
   toggleSettingsPanel = new EventEmitter<boolean>();
   @Output("applySettings")
@@ -263,10 +246,14 @@ export class MappingComponent {
       .map(data => data[1])
       .combineLatest(this.route.fragment) // PEFORMACE : with latest changes
       .subscribe(([data, fragment]) => {
-        // if (!data.initiative.children || !data.initiative.children[0] || !data.initiative.children[0].children) {
-        //     this.lock(false);
-        //     this.cd.markForCheck();
-        // }
+        if (!data.initiative.children || !data.initiative.children[0] || !data.initiative.children[0].children) {
+          this.isFirstEdit = true;
+          this.cd.markForCheck();
+        }
+        else {
+          this.isFirstEdit = false;
+          this.cd.markForCheck();
+        }
 
         let fragmentTags =
           this.uriService.parseFragment(fragment).has("tags") &&
@@ -397,6 +384,12 @@ export class MappingComponent {
       team: this.teamName,
       teamId: this.teamId
     });
+  }
+
+  addFirstNode() {
+    this.addInitiative.emit(this.initiative);
+    this.openTreePanel.emit(true);
+    this.analytics.eventTrack("Map", { mode: "instruction", action: "add", team: this.teamName, teamId: this.teamId });
   }
 
   public broadcastTagsSelection(tags: SelectableTag[]) {
