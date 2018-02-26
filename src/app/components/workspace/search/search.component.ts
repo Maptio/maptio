@@ -48,11 +48,11 @@ export class SearchComponent implements OnInit {
                 this.isSearching = true && term !== "";
                 this.cd.markForCheck();
             })
-            .map(term => {
-                console.log("map", term)
-                return term === ""
+            .map(search => {
+                console.log("map", search)
+                return search === ""
                     ? this.list
-                    : this.filter(term)
+                    : this.filter(search)
             })
             .do(list => {
                 console.log("do 2", list)

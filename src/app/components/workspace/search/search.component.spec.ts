@@ -96,15 +96,17 @@ describe("search.component.ts", () => {
 
     });
 
-    xdescribe("Search", () => {
+    describe("Search", () => {
         it("calls correct dependencies", async(() => {
 
             let spyObj = jasmine.createSpyObj<Observable<string>>("text$", ["debounceTime", "distinctUntilChanged", "do", "map"]);
 
+            let spyFilter = spyOn(component, "filter").and.returnValue([]);
             spyObj.debounceTime.and.returnValue(spyObj)
             spyObj.distinctUntilChanged.and.returnValue(spyObj)
-            spyObj.do.and.returnValues(Observable.of("blabla"), Observable.of([new Initiative()]))
-            spyObj.map.and.returnValue(Observable.of([new Initiative()]))
+            spyObj.do.and.returnValues(spyObj)
+            spyObj.map.and.returnValue(spyObj)
+
             component.searchInitiatives(spyObj);
 
             expect(spyObj.debounceTime).toHaveBeenCalledWith(200);
