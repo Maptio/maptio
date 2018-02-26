@@ -85,7 +85,7 @@ export class TeamListComponent implements OnInit {
                 },
                 () => { throw `Unable to create team ${teamName}!` })
                 .then((team: { team_id: string, teamSlug: string }) => {
-                    this.router.navigate(["team", team.team_id, team.teamSlug])
+                    this.router.navigate(["teams", team.team_id, team.teamSlug])
                     this.isCreating = false;
                 })
                 .catch((reason) => {
