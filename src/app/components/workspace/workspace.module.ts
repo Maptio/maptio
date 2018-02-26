@@ -38,10 +38,10 @@ const routes: Routes = [{
         data: WorkspaceComponentResolver
     },
     children: [
-        { path: "", redirectTo: "initiatives", pathMatch: "full" },
-        { path: "initiatives", component: MappingZoomableComponent, canActivate: [WorkspaceGuard] },
-        { path: "people", component: MappingTreeComponent, canActivate: [WorkspaceGuard] },
-        { path: "connections", component: MappingNetworkComponent, canActivate: [WorkspaceGuard] },
+        { path: "", redirectTo: "circles", pathMatch: "full" },
+        { path: "circles", component: MappingZoomableComponent, canActivate: [WorkspaceGuard] },
+        { path: "tree", component: MappingTreeComponent, canActivate: [WorkspaceGuard] },
+        { path: "network", component: MappingNetworkComponent, canActivate: [WorkspaceGuard] },
         { path: "u/:usershortid/:userslug", component: MemberSummaryComponent, canActivate: [WorkspaceGuard] }
     ]
 }]

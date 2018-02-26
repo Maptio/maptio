@@ -23,15 +23,15 @@
 <div class="control first">
   <div class=" btn-group-vertical">
 
-    <a class="btn btn-secondary circles p-1" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/initiatives"
+    <a class="btn btn-secondary circles p-1" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/circles"
       fragment="x={{VIEWPORT_WIDTH / 2}}&y={{VIEWPORT_WIDTH / 2 -180}}&scale=1=1&{{tagsFragment}}">
       <div class="icon-text-label" style="bottom: 2px;position: absolute;">Circles</div>
     </a>
-    <a class="btn btn-secondary tree p-1" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/people" 
+    <a class="btn btn-secondary tree p-1" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/tree" 
     fragment="x={{VIEWPORT_WIDTH / 10}}&y={{VIEWPORT_HEIGHT / 2}}&scale=1&{{tagsFragment}}">
       <div class="icon-text-label">Tree</div>
     </a>
-    <a class="btn btn-secondary network p-1" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/connections"
+    <a class="btn btn-secondary network p-1" routerLinkActive="active-link" routerLink="/map/{{datasetId}}/{{slug}}/network"
       fragment="x=0&y={{-this.VIEWPORT_HEIGHT / 4}}&scale=1&{{tagsFragment}}">
       <div class="icon-text-label">Network</div>
     </a>
