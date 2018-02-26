@@ -1,18 +1,18 @@
-import { User } from "./../../shared/model/user.data";
-import { UserFactory } from "./../../shared/services/user.factory";
+import { User } from "./../../../shared/model/user.data";
+import { Team } from "./../../../shared/model/team.data";
+import { UserFactory } from "./../../../shared/services/user.factory";
+import { DatasetFactory } from "./../../../shared/services/dataset.factory";
+import { DataService } from "./../../../shared/services/data.service";
+import { Initiative } from "./../../../shared/model/initiative.data";
+
 import { Angulartics2Mixpanel } from "angulartics2";
 import { EventEmitter } from "@angular/core";
-import { DatasetFactory } from "./../../shared/services/dataset.factory";
-import { DataSet } from "./../../shared/model/dataset.data";
-import { Initiative } from "./../../shared/model/initiative.data";
 import { Component, ViewChild, Output, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
 import { TreeNode, IActionMapping, TREE_ACTIONS, TreeModel, TreeComponent } from "angular-tree-component";
-import { DataService } from "../../shared/services/data.service";
+
 import "rxjs/add/operator/map";
 import { InitiativeNodeComponent } from "./initiative.node.component"
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { Tag } from "../../shared/model/tag.data";
-import { Team } from "../../shared/model/team.data";
 
 @Component({
     selector: "building",
@@ -186,10 +186,10 @@ export class BuildingComponent {
         this.updateTree()
     }
 
-    toggleAll(isExpand:boolean) {
-        isExpand 
-        ? this.tree.treeModel.expandAll()
-        : this.tree.treeModel.collapseAll();
+    toggleAll(isExpand: boolean) {
+        isExpand
+            ? this.tree.treeModel.expandAll()
+            : this.tree.treeModel.collapseAll();
     }
 
     /**

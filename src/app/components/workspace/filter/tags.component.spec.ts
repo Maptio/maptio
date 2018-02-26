@@ -1,12 +1,11 @@
+import { SelectableTag, Tag } from "./../../../shared/model/tag.data";
+import { Team } from "./../../../shared/model/team.data";
 import { Subject } from "rxjs/Rx";
-import { LoaderService, LoaderState } from "./../../shared/services/loading/loader.service";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { async, TestBed, ComponentFixture } from "@angular/core/testing";
 import { FilterTagsComponent } from "./tags.component";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { RouterTestingModule } from "@angular/router/testing";
-import { Tag, SelectableTag } from "../../shared/model/tag.data";
-import { Team } from "../../shared/model/team.data";
 
 
 describe("tags.component.ts", () => {

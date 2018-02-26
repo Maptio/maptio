@@ -1,24 +1,24 @@
+import { Tag } from "./../../../shared/model/tag.data";
+import { User } from "./../../../shared/model/user.data";
+import { Role } from "./../../../shared/model/role.data";
+import { Helper } from "./../../../shared/model/helper.data";
+import { Auth } from "./../../../shared/services/auth/auth.service";
+import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
+import { ErrorService } from "./../../../shared/services/error/error.service";
+import { DatasetFactory } from "./../../../shared/services/dataset.factory";
+import { UserFactory } from "./../../../shared/services/user.factory";
+import { TeamFactory } from "./../../../shared/services/team.factory";
+import { Initiative } from "./../../../shared/model/initiative.data";
 import { MarkdownModule } from "angular2-markdown";
 import { AuthHttp } from "angular2-jwt";
-import { UserFactory } from "./../../shared/services/user.factory";
 import { RouterTestingModule } from "@angular/router/testing";
-import { ErrorService } from "./../../shared/services/error/error.service";
 import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
-import { TeamFactory } from "./../../shared/services/team.factory";
-import { User } from "./../../shared/model/user.data";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { FormsModule } from "@angular/forms";
 import { InitiativeComponent } from "./initiative.component";
-import { Initiative } from "../../shared/model/initiative.data";
 import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
-import { Auth } from "../../shared/services/auth/auth.service";
-import { DatasetFactory } from "../../shared/services/dataset.factory";
-import { Helper } from "../../shared/model/helper.data";
-import { Role } from "../../shared/model/role.data";
-import { Tag } from "../../shared/model/tag.data";
 
 describe("initiative.component.ts", () => {
 

@@ -1,20 +1,22 @@
-import { TeamFactory } from "./../../../shared/services/team.factory";
-import { UserFactory } from "./../../../shared/services/user.factory";
-import { DataSet } from "./../../../shared/model/dataset.data";
-import { ActivatedRoute, Params } from "@angular/router";
-import { DatasetFactory } from "./../../../shared/services/dataset.factory";
-import { User } from "./../../../shared/model/user.data";
-import { Auth } from "./../../../shared/services/auth/auth.service";
-import { Initiative } from "./../../../shared/model/initiative.data";
+import { DataService } from "./../../../../shared/services/data.service";
+import { Params } from "@angular/router";
+import { DataSet } from "./../../../../shared/model/dataset.data";
+import { Team } from "./../../../../shared/model/team.data";
+import { User } from "./../../../../shared/model/user.data";
+import { UIService } from "./../../../../shared/services/ui/ui.service";
+import { TeamFactory } from "./../../../../shared/services/team.factory";
+import { UserFactory } from "./../../../../shared/services/user.factory";
+import { DatasetFactory } from "./../../../../shared/services/dataset.factory";
+import { ActivatedRoute } from "@angular/router";
+import { Auth } from "./../../../../shared/services/auth/auth.service";
+import { Initiative } from "./../../../../shared/model/initiative.data";
+import { SelectableTag, Tag } from "./../../../../shared/model/tag.data";
+
 import { Observable, Subscription } from "rxjs/Rx";
 import { IDataVisualizer } from "./../mapping.interface";
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
-import { Team } from "../../../shared/model/team.data";
 import { Subject } from "rxjs/Rx";
 import { Angulartics2Mixpanel } from "angulartics2";
-import { DataService } from "../../../shared/services/data.service";
-import { Tag, SelectableTag } from "../../../shared/model/tag.data";
-import { UIService } from "../../../shared/services/ui/ui.service";
 import {partition} from "lodash";
 
 @Component({

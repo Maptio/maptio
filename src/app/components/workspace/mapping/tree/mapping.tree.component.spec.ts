@@ -1,24 +1,24 @@
-import { ErrorService } from "./../../../shared/services/error/error.service";
+import { ErrorService } from "./../../../../shared/services/error/error.service";
+import { Initiative } from "./../../../../shared/model/initiative.data";
+import { authHttpServiceFactoryTesting } from "../../../../../test/specs/shared/authhttp.helper.shared";
+import { UserFactory } from "./../../../../shared/services/user.factory";
+import { URIService } from "./../../../../shared/services/uri.service";
+import { DataService } from "./../../../../shared/services/data.service";
+import { UIService } from "./../../../../shared/services/ui/ui.service";
+import { ColorService } from "./../../../../shared/services/ui/color.service";
+
 import { MockBackend } from "@angular/http/testing";
 import { Http } from "@angular/http";
 import { BaseRequestOptions } from "@angular/http";
 import { AuthHttp } from "angular2-jwt";
-import { UserFactory } from "./../../../shared/services/user.factory";
 import { Router, NavigationStart } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Observable, Subject } from "rxjs/Rx";
-import { Initiative } from "./../../../shared/model/initiative.data";
-import { UIService } from "./../../../shared/services/ui/ui.service";
-import { ColorService } from "./../../../shared/services/ui/color.service";
 import { D3Service, D3 } from "d3-ng2-service";
 import { TestBed, async, ComponentFixture } from "@angular/core/testing";
 import { MappingTreeComponent } from "./mapping.tree.component";
-import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
-import { DataService } from "../../../shared/services/data.service";
-import { URIService } from "../../../shared/services/uri.service";
-import { Tag, SelectableTag } from "../../../shared/model/tag.data";
 import { MarkdownService } from "angular2-markdown";
 
 describe("mapping.tree.component.ts", () => {
@@ -93,7 +93,7 @@ describe("mapping.tree.component.ts", () => {
     });
 
     beforeAll(() => {
-        fixture.setBase("src/app/components/mapping/tree/fixtures");
+        fixture.setBase("src/app/components/workspace/mapping/tree/fixtures");
     });
 
     afterEach(() => {

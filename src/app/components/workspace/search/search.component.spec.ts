@@ -1,14 +1,11 @@
-import { Initiative } from "./../../shared/model/initiative.data";
+import { Initiative } from "./../../../shared/model/initiative.data";
 import { Subject, ReplaySubject, Observable, BehaviorSubject } from "rxjs/Rx";
-import { LoaderService, LoaderState } from "./../../shared/services/loading/loader.service";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { async, TestBed, ComponentFixture } from "@angular/core/testing";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { RouterTestingModule } from "@angular/router/testing";
-import { Tag, SelectableTag } from "../../shared/model/tag.data";
-import { Team } from "../../shared/model/team.data";
 import { SearchComponent } from "./search.component";
-import { Helper } from "../../shared/model/helper.data";
+import { Helper } from "./../../../shared/model/helper.data";
 
 
 describe("search.component.ts", () => {

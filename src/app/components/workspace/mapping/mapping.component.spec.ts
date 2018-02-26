@@ -1,30 +1,29 @@
-import { UserFactory } from "./../../shared/services/user.factory";
+import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
+import { Initiative } from "./../../../shared/model/initiative.data";
+import { URIService } from "./../../../shared/services/uri.service";
+import { DataService } from "./../../../shared/services/data.service";
+import { UserFactory } from "./../../../shared/services/user.factory";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { ActivatedRoute } from "@angular/router";
-import { UIService } from "./../..//shared/services/ui/ui.service";
-import { ColorService } from "./../..//shared/services/ui/color.service";
+import { UIService } from "./../../../shared/services/ui/ui.service";
+import { ColorService } from "./../../../shared/services/ui/color.service";
 import { D3Service } from "d3-ng2-service";
 import { Observable } from "rxjs/Observable";
-import { ErrorService } from "./../..//shared/services/error/error.service";
+import { ErrorService } from "./../../../shared/services/error/error.service";
 import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
-import { DataService } from "./../..//shared/services/data.service";
-import { URIService } from "./../..//shared/services/uri.service";
 import { MappingTreeComponent } from "./tree/mapping.tree.component";
 // import { MappingCirclesComponent } from "./circles/mapping.circles.component";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { MappingComponent } from "./mapping.component";
 import { NO_ERRORS_SCHEMA, ChangeDetectorRef } from "@angular/core";
 import { AuthHttp } from "angular2-jwt/angular2-jwt";
-import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 import { IDataVisualizer } from "./mapping.interface";
 import { MappingNetworkComponent } from "./network/mapping.network.component";
 import { MemberSummaryComponent } from "./member-summary/member-summary.component";
-import { Tag, SelectableTag } from "../../shared/model/tag.data";
 import { MappingZoomableComponent } from "./zoomable/mapping.zoomable.component";
 import { MarkdownService } from "angular2-markdown";
-import { Initiative } from "../../shared/model/initiative.data";
 
 describe("mapping.component.ts", () => {
 

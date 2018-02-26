@@ -1,25 +1,24 @@
+import { Initiative } from "./../../../../shared/model/initiative.data";
+import { ErrorService } from "./../../../../shared/services/error/error.service";
+import { authHttpServiceFactoryTesting } from "../../../../../test/specs/shared/authhttp.helper.shared";
+import { UIService } from "./../../../../shared/services/ui/ui.service";
+import { DataService } from "./../../../../shared/services/data.service";
+import { DatasetFactory } from "./../../../../shared/services/dataset.factory";
+import { TeamFactory } from "./../../../../shared/services/team.factory";
+import { UserFactory } from "./../../../../shared/services/user.factory";
+import { Auth } from "./../../../../shared/services/auth/auth.service";
+import { User } from "./../../../../shared/model/user.data";
 import { MarkdownModule, MarkdownService } from "angular2-markdown";
-import { UserFactory } from "./../../../shared/services/user.factory";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { AuthHttp } from "angular2-jwt";
-import { DatasetFactory } from "./../../../shared/services/dataset.factory";
 import { MemberSummaryComponent } from "./member-summary.component";
-import { Auth } from "./../../../shared/services/auth/auth.service";
 import { Observable, Subject } from "rxjs/Rx";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
-// import { TooltipComponent } from "./../tooltip/tooltip.component";
-import { Initiative } from "./../../../shared/model/initiative.data";
 import { TestBed, async, ComponentFixture } from "@angular/core/testing";
-import { User } from "../../../shared/model/user.data";
-import { TeamFactory } from "../../../shared/services/team.factory";
 import { ActivatedRoute, Params } from "@angular/router";
-import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
 import { MockBackend } from "@angular/http/testing";
-import { ErrorService } from "../../../shared/services/error/error.service";
-import { DataService } from "../../../shared/services/data.service";
 import { Angulartics2Mixpanel, Angulartics2, Angulartics2Module } from "angulartics2";
 import { RouterTestingModule } from "@angular/router/testing";
-import { UIService } from "../../../shared/services/ui/ui.service";
 import { D3Service } from "d3-ng2-service";
 
 
@@ -95,7 +94,7 @@ describe("member-summary.component.ts", () => {
     });
 
     beforeAll(() => {
-        fixture.setBase("src/app/components/mapping/member-summary/fixtures");
+        fixture.setBase("src/app/components/workspace/mapping/member-summary/fixtures");
     });
 
     afterEach(() => {

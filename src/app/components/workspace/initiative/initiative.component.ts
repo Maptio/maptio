@@ -1,29 +1,29 @@
-import { Role } from "./../../shared/model/role.data";
-import { DatasetFactory } from "./../../shared/services/dataset.factory";
-import { UserFactory } from "./../../shared/services/user.factory";
+import { Role } from "./../../../shared/model/role.data";
+import { Helper } from "./../../../shared/model/helper.data";
+import { DatasetFactory } from "./../../../shared/services/dataset.factory";
+import { UserFactory } from "./../../../shared/services/user.factory";
+import { TeamFactory } from "./../../../shared/services/team.factory";
+import { Team } from "./../../../shared/model/team.data";
+import { DataSet } from "./../../../shared/model/dataset.data";
+import { User } from "./../../../shared/model/user.data";
+import { Tag } from "./../../../shared/model/tag.data";
+import { Initiative } from "./../../../shared/model/initiative.data";
 import { Observable, Subject } from "rxjs/Rx";
-import { TeamFactory } from "./../../shared/services/team.factory";
 import { Component, Input, ViewChild, OnChanges, SimpleChanges, EventEmitter, Output, ElementRef, Renderer, ChangeDetectionStrategy } from "@angular/core";
-import { Initiative } from "../../shared/model/initiative.data"
-import { Team } from "../../shared/model/team.data"
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/merge";
 import "rxjs/add/operator/filter";
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/distinctUntilChanged";
 import { NgbTypeaheadSelectItemEvent, NgbTypeahead } from "@ng-bootstrap/ng-bootstrap";
-import { User } from "../../shared/model/user.data";
 import { _catch } from "rxjs/operator/catch";
 import { _do } from "rxjs/operator/do";
 import { switchMap } from "rxjs/operator/switchMap";
 import { of } from "rxjs/observable/of";
 import { debounceTime } from "rxjs/operator/debounceTime";
 import { distinctUntilChanged } from "rxjs/operator/distinctUntilChanged";
-import { DataSet } from "../../shared/model/dataset.data";
 import { compact, sortBy } from "lodash";
-import { Helper } from "../../shared/model/helper.data";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2/dist";
-import { Tag } from "../../shared/model/tag.data";
 
 @Component({
     selector: "initiative",

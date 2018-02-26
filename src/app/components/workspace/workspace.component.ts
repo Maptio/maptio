@@ -1,3 +1,4 @@
+import { BuildingComponent } from "./building/building.component";
 import { DataService } from "./../../shared/services/data.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs/Rx";
@@ -7,7 +8,6 @@ import { Team } from "./../../shared/model/team.data";
 import { EmitterService } from "./../../shared/services/emitter.service";
 import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { ViewChild } from "@angular/core";
-import { BuildingComponent } from "./../building/building.component";
 import {
     Component, OnInit, OnDestroy,
     trigger,

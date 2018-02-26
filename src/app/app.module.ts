@@ -1,3 +1,8 @@
+import { FilterTagsComponent } from "./components/workspace/filter/tags.component";
+import { InitiativeComponent } from "./components/workspace/initiative/initiative.component";
+import { SearchComponent } from "./components/workspace/search/search.component";
+import { InitiativeNodeComponent } from "./components/workspace/building/initiative.node.component";
+import { BuildingComponent } from "./components/workspace/building/building.component";
 import { TeamModule } from "./components/team/team.module";
 
 import { environment } from "./../environment/environment";
@@ -43,13 +48,10 @@ import { LoaderService } from "./shared/services/loading/loader.service";
 import { LoginComponent } from "./components/login/login.component";
 import { HomeComponent } from "./components/home/home.component";
 import { AppComponent } from "./components/app.component";
-import { MappingComponent } from "./components/mapping/mapping.component";
-import { MappingTreeComponent } from "./components/mapping/tree/mapping.tree.component";
-import { MemberSummaryComponent } from "./components/mapping/member-summary/member-summary.component";
+import { MappingComponent } from "./components/workspace/mapping/mapping.component";
+import { MappingTreeComponent } from "./components/workspace/mapping/tree/mapping.tree.component";
+import { MemberSummaryComponent } from "./components/workspace/mapping/member-summary/member-summary.component";
 
-import { InitiativeComponent } from "./components/initiative/initiative.component"
-import { BuildingComponent } from "./components/building/building.component";
-import { InitiativeNodeComponent } from "./components/building/initiative.node.component";
 
 import { HelpComponent } from "./components/help/help.component";
 
@@ -97,18 +99,16 @@ import { AnAnchorableComponent } from "../test/specs/shared/component.helper.sha
 // import { MappingNetworkComponent } from "./components/mapping/network/mapping.network.component";
 import { LoaderComponent } from "./components/loading/loader.component";
 import { DashboardComponentResolver } from "./components/dashboard/dashboard.resolver";
-import { MappingNetworkComponent } from "./components/mapping/network/mapping.network.component";
+import { MappingNetworkComponent } from "./components/workspace/mapping/network/mapping.network.component";
 import { WorkspaceComponentResolver } from "./components/workspace/workspace.resolver";
 import { LogoutComponent } from "./components/login/logout.component";
 import { ExportService } from "./shared/services/export/export.service";
 import { FileService } from "./shared/services/file/file.service";
 import { HttpLogInterceptor, httpFactory, HttpFactoryModule } from "./shared/services/auth/httpInterceptor";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
-import { MappingZoomableComponent } from "./components/mapping/zoomable/mapping.zoomable.component";
+import { MappingZoomableComponent } from "./components/workspace/mapping/zoomable/mapping.zoomable.component";
 
 import { McBreadcrumbsModule, McBreadcrumbsConfig } from "ngx-breadcrumbs";
-import { SearchComponent } from "./components/search/search.component";
-import { FilterTagsComponent } from "./components/filter/tags.component";
 
 // Routes
 const appRoutes: Routes = [

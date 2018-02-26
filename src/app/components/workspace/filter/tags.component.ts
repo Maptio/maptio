@@ -1,9 +1,8 @@
+import { Team } from "./../../../shared/model/team.data";
+import { SelectableTag, Tag } from "./../../../shared/model/tag.data";
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
-import { URIService } from "../../shared/services/uri.service";
-import { SelectableTag, Tag } from "../../shared/model/tag.data";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Angulartics2Mixpanel } from "angulartics2";
-import { Team } from "../../shared/model/team.data";
 
 @Component({
     selector: "filter-tags",
@@ -18,7 +17,7 @@ export class FilterTagsComponent implements OnInit {
 
     public newTagForm: FormGroup;
     newTagColor = "#fff";
-    isEditTags:boolean;
+    isEditTags: boolean;
     constructor(private analytics: Angulartics2Mixpanel) { }
 
     ngOnInit() {

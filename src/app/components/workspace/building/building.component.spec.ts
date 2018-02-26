@@ -1,29 +1,30 @@
+import { DataSet } from "./../../../shared/model/dataset.data";
+import { Team } from "./../../../shared/model/team.data";
+import { Initiative } from "./../../../shared/model/initiative.data";
+import { User } from "./../../../shared/model/user.data";
+import { NavigationStart } from "@angular/router";
+import { Router } from "@angular/router";
+import { MockBackend } from "@angular/http/testing";
+import { Auth } from "./../../../shared/services/auth/auth.service";
+import { UserFactory } from "./../../../shared/services/user.factory";
+import { DatasetFactory } from "./../../../shared/services/dataset.factory";
+import { TeamFactory } from "./../../../shared/services/team.factory";
+import { ErrorService } from "./../../../shared/services/error/error.service";
+import { DataService } from "./../../../shared/services/data.service";
+import { FocusIfDirective } from "./../../../shared/directives/focusif.directive";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Observable } from "rxjs/Rx";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { AuthHttp } from "angular2-jwt";
 import { NgbModal, NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
-import { DatasetFactory } from "./../../shared/services/dataset.factory";
-import { DataService } from "./../../shared/services/data.service";
-import { Initiative } from "./../../shared/model/initiative.data";
-import { TeamFactory } from "./../../shared/services/team.factory";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA, } from "@angular/core"
 import { BuildingComponent } from "./building.component";
 import { TreeComponent, TreeDraggedElement, TreeModel } from "angular-tree-component";
-import { FocusIfDirective } from "../..//shared/directives/focusif.directive"
-import { ErrorService } from "../../shared/services/error/error.service";
-import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { InitiativeComponent } from "../initiative/initiative.component";
-import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
-import { Auth } from "../../shared/services/auth/auth.service";
-import { Router, NavigationStart } from "@angular/router";
-import { UserFactory } from "../../shared/services/user.factory";
-import { User } from "../../shared/model/user.data";
-import { DataSet } from "../../shared/model/dataset.data";
-import { Team } from "../../shared/model/team.data";
+import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
 
 export class AuthStub {
 
@@ -81,7 +82,7 @@ describe("building.component.ts", () => {
 
 
     beforeAll(() => {
-        fixture.setBase("src/app/components/building/fixtures");
+        fixture.setBase("src/app/components/workspace/building/fixtures");
     });
 
     afterEach(() => {

@@ -1,5 +1,6 @@
+import { Initiative } from "./../../../shared/model/initiative.data";
 import { Component, OnInit, ChangeDetectorRef, Input, Output, EventEmitter } from "@angular/core";
-import { Initiative } from "../../shared/model/initiative.data";
+
 import { NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-bootstrap";
 import { Observable } from "rxjs/Observable";
 

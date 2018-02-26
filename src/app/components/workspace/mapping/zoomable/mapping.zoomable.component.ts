@@ -1,5 +1,14 @@
+import { URIService } from "./../../../../shared/services/uri.service";
+import { DataService } from "./../../../../shared/services/data.service";
+import { UserFactory } from "./../../../../shared/services/user.factory";
+import { UIService } from "./../../../../shared/services/ui/ui.service";
+import { ColorService } from "./../../../../shared/services/ui/color.service";
+import { Angulartics2Mixpanel } from "angulartics2";
+import { Initiative } from "./../../../../shared/model/initiative.data";
+import { SelectableUser } from "./../../../../shared/model/user.data";
+import { SelectableTag, Tag } from "./../../../../shared/model/tag.data";
+import { IDataVisualizer } from "./../../mapping/mapping.interface";
 import { Observable, Subject } from "rxjs/Rx";
-import { Initiative } from "./../../../shared/model/initiative.data";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs/Subscription";
 import {
@@ -10,16 +19,6 @@ import {
 } from "@angular/core";
 import { D3Service, D3, ScaleLinear, HSLColor } from "d3-ng2-service";
 import { transition } from "d3-transition";
-import { ColorService } from "../../../shared/services/ui/color.service";
-import { UIService } from "../../../shared/services/ui/ui.service";
-import { IDataVisualizer } from "../mapping.interface";
-import { UserFactory } from "../../../shared/services/user.factory";
-import { Angulartics2Mixpanel } from "angulartics2";
-import { DataService } from "../../../shared/services/data.service";
-import { Tag, SelectableTag } from "../../../shared/model/tag.data";
-import { SelectableUser } from "../../../shared/model/user.data";
-import { Helper } from "../../../shared/model/helper.data";
-import { URIService } from "../../../shared/services/uri.service";
 import { partition } from "lodash";
 
 @Component({

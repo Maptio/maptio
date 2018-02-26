@@ -1,5 +1,13 @@
+import { Role } from "./../../../../shared/model/role.data";
+import { User } from "./../../../../shared/model/user.data";
+import { ColorService } from "./../../../../shared/services/ui/color.service";
+import { UIService } from "./../../../../shared/services/ui/ui.service";
+import { Router } from "@angular/router";
+import { DataService } from "./../../../../shared/services/data.service";
+import { URIService } from "./../../../../shared/services/uri.service";
+import { Tag, SelectableTag } from "./../../../../shared/model/tag.data";
+import { Initiative } from "./../../../../shared/model/initiative.data";
 import { Subject } from "rxjs/Rx";
-import { Initiative } from "./../../../shared/model/initiative.data";
 import { Subscription } from "rxjs/Subscription";
 import { Observable } from "rxjs/Observable";
 import {
@@ -10,17 +18,9 @@ import {
   ChangeDetectionStrategy
 } from "@angular/core";
 import { D3Service, D3, ForceLink, HierarchyNode } from "d3-ng2-service";
-import { ColorService } from "../../../shared/services/ui/color.service";
-import { UIService } from "../../../shared/services/ui/ui.service";
 import { IDataVisualizer } from "../mapping.interface";
 import { Angulartics2Mixpanel } from "angulartics2";
 import * as _ from "lodash";
-import { User } from "../../../shared/model/user.data";
-import { Role } from "../../../shared/model/role.data";
-import { Router } from "@angular/router";
-import { DataService } from "../../../shared/services/data.service";
-import { Tag, SelectableTag } from "../../../shared/model/tag.data";
-import { URIService } from "../../../shared/services/uri.service";
 
 @Component({
   selector: "network",

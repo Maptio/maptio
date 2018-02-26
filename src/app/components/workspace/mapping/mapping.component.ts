@@ -1,4 +1,10 @@
-import { Initiative } from "./../../shared/model/initiative.data";
+import { compact } from "lodash";
+import { UIService } from "./../../../shared/services/ui/ui.service";
+import { URIService } from "./../../../shared/services/uri.service";
+import { DataService } from "./../../../shared/services/data.service";
+import { SelectableTag, Tag } from "./../../../shared/model/tag.data";
+import { Initiative } from "./../../../shared/model/initiative.data";
+
 // import { MappingNetworkComponent } from "./network/mapping.network.component";
 import { Angulartics2Mixpanel } from "angulartics2";
 
@@ -16,8 +22,6 @@ import {
   SimpleChanges
 } from "@angular/core";
 
-import { DataService, } from "../../shared/services/data.service";
-import { URIService } from "../../shared/services/uri.service";
 import { IDataVisualizer } from "./mapping.interface";
 // import { MappingCirclesComponent } from "./circles/mapping.circles.component";
 import { MappingTreeComponent } from "./tree/mapping.tree.component";
@@ -32,12 +36,10 @@ import {
 } from "rxjs/Rx";
 import { MappingNetworkComponent } from "./network/mapping.network.component";
 import { MemberSummaryComponent } from "./member-summary/member-summary.component";
-import { Tag, SelectableTag } from "../../shared/model/tag.data";
+
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { MappingZoomableComponent } from "./zoomable/mapping.zoomable.component";
 import { NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-bootstrap";
-import { UIService } from "../../shared/services/ui/ui.service";
-import { compact } from "lodash"
 
 @Component({
   selector: "mapping",

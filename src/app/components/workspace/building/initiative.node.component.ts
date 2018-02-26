@@ -1,8 +1,8 @@
+import { InitiativeComponent } from "./../initiative/initiative.component";
+import { Initiative } from "./../../../shared/model/initiative.data";
 import { ActivatedRouteSnapshot, ActivatedRoute } from "@angular/router";
 import { Component, Input, Output, ViewChild, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from "@angular/core";
 import { TreeNode, TreeModel } from "angular-tree-component";
-import { Initiative } from "../../shared/model/initiative.data";
-import { InitiativeComponent } from "../initiative/initiative.component";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2/dist";
 
 @Component({
@@ -33,7 +33,7 @@ export class InitiativeNodeComponent {
     private snapshotRoute: ActivatedRouteSnapshot
     isMovingToggled: boolean;
 
-    constructor(private route: ActivatedRoute, private cd : ChangeDetectorRef
+    constructor(private route: ActivatedRoute, private cd: ChangeDetectorRef
     ) {
         this.snapshotRoute = route.snapshot;
     }
