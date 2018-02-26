@@ -1,3 +1,4 @@
+import { ConfirmationPopoverModule } from "angular-confirmation-popover";
 import { TeamComponentResolver } from "./single/team.resolver";
 import { AccessGuard } from "./../../shared/services/guards/access.guard";
 import { AuthGuard } from "./../../shared/services/guards/auth.guard";
@@ -53,7 +54,11 @@ const routes: Routes = [
             primaryColour: "#EF5E26",
             secondaryColour: "#2F81B7",
             tertiaryColour: "#ffffff"
-        })
+        }),
+        ConfirmationPopoverModule.forRoot({
+            confirmButtonType: "danger",
+            cancelButtonType: "secondary"
+        }),
     ],
     declarations: [
         TeamComponent,

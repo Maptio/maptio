@@ -1,3 +1,4 @@
+import { ConfirmationPopoverModule } from "angular-confirmation-popover";
 import { ColorPickerModule } from "ngx-color-picker";
 import { MarkdownService } from "angular2-markdown";
 import { Http } from "@angular/http";
@@ -73,6 +74,10 @@ export function markdownServiceFactory(http: Http) {
             primaryColour: "#EF5E26",
             secondaryColour: "#2F81B7",
             tertiaryColour: "#ffffff"
+        }),
+        ConfirmationPopoverModule.forRoot({
+            confirmButtonType: "danger",
+            cancelButtonType: "secondary"
         })
     ],
     declarations: [
