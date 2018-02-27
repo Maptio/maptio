@@ -12,7 +12,7 @@
         </picture>
     </a>
 
-    <div class="row d-flex justify-content-between col-9">
+    <div class="row d-flex justify-content-between" [class.col-9]="auth.allAuthenticated()" [class.col-7]="!auth.allAuthenticated()">
         <!-- <span class="navbar-text col pt-2 ">
             <a class="lead" routerLink="/map/{{selectedDataset?.datasetId}}/{{selectedDataset?.initiative?.getSlug()}}/initiatives">
                 {{selectedDataset?.initiative?.name}}
