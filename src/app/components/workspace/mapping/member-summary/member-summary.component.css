@@ -1,0 +1,53 @@
+.profile {
+    width: 45px
+}
+
+.helper {
+    float: left;
+    background: 50% 50% no-repeat;
+    background-size: auto 100%;
+    max-width: 22px;
+}
+
+.authority {
+    background: 50% 50% no-repeat;
+    background-size: auto 100%;
+    max-width: 22px;
+}
+
+.borderless {
+    border: none
+}
+
+.no-padding {
+    padding: 0
+}
+
+.overflow {
+    overflow-y: auto;
+    max-height: 60vh
+}
+
+.btn-link:focus, .btn-link:active {
+    box-shadow: none!important;
+}
+
+.fake-link {
+    cursor: pointer;
+    text-align: left;
+    white-space: normal;
+}
+
+.hide {
+    display: none;
+}
+
+.summary {
+    background-color: white;
+    margin-left: 3vw;
+    margin-top: 9vh;
+}
+
+.summary:focus {
+    outline: 0;
+}

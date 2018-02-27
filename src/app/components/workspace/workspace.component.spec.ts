@@ -1,3 +1,4 @@
+import { BuildingComponent } from "./building/building.component";
 import { MailingService } from "./../../shared/services/mailing/mailing.service";
 import { AuthConfiguration } from "./../../shared/services/auth/auth.config";
 import { RouterTestingModule } from "@angular/router/testing";
@@ -12,7 +13,6 @@ import { WorkspaceComponent } from "./workspace.component";
 import { UserFactory } from "./../../shared/services/user.factory";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core"
-import { BuildingComponent } from "../../components/building/building.component"
 import { DatasetFactory } from "../../shared/services/dataset.factory";
 import { DataService } from "../../shared/services/data.service";
 import { ErrorService } from "../../shared/services/error/error.service";

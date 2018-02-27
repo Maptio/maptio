@@ -1,0 +1,38 @@
+::ng-deep .node.tree-map:hover {
+  stroke: initial!important;
+  stroke-width: initial!important;
+}
+::ng-deep svg text.tree-map {
+  cursor: pointer;
+}
+
+::ng-deep .node.tree-map circle .withChildren{
+  stroke-width: 3px;
+}
+::ng-deep .link.tree-map {
+  fill: none;
+  stroke-width: 2.5px;
+}
+
+::ng-deep .name.tree-map:hover{
+  pointer-events: auto;
+}
+
+::ng-deep .accountable.tree-map{
+  font-weight: bold;
+}
+
+::ng-deep image.tree-map.accountable{
+  border: 2px red solid
+}
+
+.tooltip-initiative{
+  position: absolute;
+  z-index: 5;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+     -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none;
+}

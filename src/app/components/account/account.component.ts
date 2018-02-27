@@ -30,6 +30,25 @@ export class AccountComponent {
 
     public isLoading: boolean;
 
+    private uploaderOptions: FileUploaderOptions = {
+        url: `https://api.cloudinary.com/v1_1/${this.cloudinary.config().cloud_name}/upload`,
+        // Upload files automatically upon addition to upload queue
+        autoUpload: true,
+        // Use xhrTransport in favor of iframeTransport
+        isHTML5: true,
+
+        maxFileSize: 1024000 * 2,
+        // Calsculate progress independently for each uploaded file
+        removeAfterUpload: true,
+        // XHR request headers
+        headers: [
+            {
+                name: "X-Requested-With",
+                value: "XMLHttpRequest"
+            }
+        ]
+    };
+
     constructor(public auth: Auth, public errorService: ErrorService, private userService: UserService, private userFactory: UserFactory,
         private cloudinary: Cloudinary) {
         this.accountForm = new FormGroup({
@@ -53,47 +72,12 @@ export class AccountComponent {
             (error: any) => { this.errorService.handleError(error) },
             () => { this.isLoading = false });
 
-        const uploaderOptions: FileUploaderOptions = {
-            url: `https://api.cloudinary.com/v1_1/${this.cloudinary.config().cloud_name}/upload`,
-            // Upload files automatically upon addition to upload queue
-            autoUpload: true,
-            // Use xhrTransport in favor of iframeTransport
-            isHTML5: true,
-
-            maxFileSize: 1024000 * 2,
-            // Calculate progress independently for each uploaded file
-            removeAfterUpload: true,
-            // XHR request headers
-            headers: [
-                {
-                    name: "X-Requested-With",
-                    value: "XMLHttpRequest"
-                }
-            ]
-        };
-
-        this.uploader = new FileUploader(uploaderOptions);
+        this.uploader = new FileUploader(this.uploaderOptions);
         this.uploader.onBuildItemForm = (fileItem: any, form: FormData): any => {
-            this.isRefreshingPicture = true;
-            this.feedbackMessage = null;
-            this.errorMessage = "";
-            // Add Cloudinary's unsigned upload preset to the upload form
-            form.append("upload_preset", this.cloudinary.config().upload_preset);
-            // Add built-in and custom tags for displaying the uploaded photo in the list
-            form.append("context", `user_id=${encodeURIComponent(this.user.user_id)}`);
-            form.append("tags", environment.CLOUDINARY_PROFILE_TAGNAME);
-            form.append("file", fileItem);
-
-            // Use default "withCredentials" value for CORS requests
-            fileItem.withCredentials = false;
-            return { fileItem, form };
-        };
-
+            this.buildItemForm(fileItem, form)
+        }
         this.uploader.onWhenAddingFileFailed = (item: FileLikeObject, filter: any, options: any) => {
-
-            if (filter.name === "fileSize") {
-                this.errorMessage = "The image size must not exceed 2mb."
-            }
+            this.handleError(item, filter, options);
         }
 
         this.uploader.onCompleteItem = (item: any, response: string, status: number, headers: ParsedResponseHeaders) => {
@@ -105,6 +89,29 @@ export class AccountComponent {
         this.uploader.onProgressItem = (fileItem: any, progress: any) => {
             this.isRefreshingPicture = true
         }
+    }
+
+    private handleError(item: FileLikeObject, filter: any, options: any) {
+
+        if (filter.name === "fileSize") {
+            this.errorMessage = "The image size must not exceed 2mb."
+        }
+    }
+
+    private buildItemForm(fileItem: any, form: FormData): any {
+        this.isRefreshingPicture = true;
+        this.feedbackMessage = null;
+        this.errorMessage = "";
+        // Add Cloudinary's unsigned upload preset to the upload form
+        form.append("upload_preset", this.cloudinary.config().upload_preset);
+        // Add built-in and custom tags for displaying the uploaded photo in the list
+        form.append("context", `user_id=${encodeURIComponent(this.user.user_id)}`);
+        form.append("tags", environment.CLOUDINARY_PROFILE_TAGNAME);
+        form.append("file", fileItem);
+
+        // Use default "withCredentials" value for CORS requests
+        fileItem.withCredentials = false;
+        return { fileItem, form };
     }
 
     ngOnDestroy() {

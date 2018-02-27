@@ -1,149 +1,75 @@
-
-import { environment } from "./../environment/environment";
-
+import { CommonModule, Location, LocationStrategy, PathLocationStrategy } from "@angular/common";
+import { ErrorHandler, Injectable, InjectionToken, Injector, NgModule } from "@angular/core";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { Http, HttpModule, RequestOptions } from "@angular/http";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import {
-  NgModule, Injectable,
-  Injector,
-  InjectionToken,
-  ErrorHandler,
-  isDevMode
-} from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { HttpModule, RequestOptions, Http, XHRBackend } from "@angular/http";
-
-// Routing
-import { PathLocationStrategy, Location, LocationStrategy } from "@angular/common";
-import { Routes, RouterModule, Router } from "@angular/router";
-
-// Guards
-import { AuthGuard } from "./shared/services/guards/auth.guard";
-import { AccessGuard } from "./shared/services/guards/access.guard";
-import { WorkspaceGuard } from "./shared/services/guards/workspace.guard";
-
-// Services
-import { DataService } from "./shared/services/data.service";
-import { URIService } from "./shared/services/uri.service";
-import { DatasetFactory } from "./shared/services/dataset.factory";
-import { ColorService } from "./shared/services/ui/color.service"
-import { UIService } from "./shared/services/ui/ui.service"
-import { ErrorService } from "./shared/services/error/error.service";
-import { Auth } from "./shared/services/auth/auth.service";
-import { AuthHttp } from "angular2-jwt";
-import { UserFactory } from "./shared/services/user.factory";
-import { TeamFactory } from "./shared/services/team.factory";
-import { MailingService } from "./shared/services/mailing/mailing.service"
-import { UserService } from "./shared/services/user/user.service";
-import { LoaderService } from "./shared/services/loading/loader.service";
-
-// Components
-import { LoginComponent } from "./components/login/login.component";
-import { HomeComponent } from "./components/home/home.component";
-import { AppComponent } from "./components/app.component";
-import { MappingComponent } from "./components/mapping/mapping.component";
-import { MappingTreeComponent } from "./components/mapping/tree/mapping.tree.component";
-import { MemberSummaryComponent } from "./components/mapping/member-summary/member-summary.component";
-
-import { InitiativeComponent } from "./components/initiative/initiative.component"
-import { BuildingComponent } from "./components/building/building.component";
-import { InitiativeNodeComponent } from "./components/building/initiative.node.component";
-
-import { HelpComponent } from "./components/help/help.component";
-
-import { AccountComponent } from "./components/account/account.component";
-import { TeamComponent } from "./components/team/team.component";
-
-import { WorkspaceComponent } from "./components/workspace/workspace.component";
-import { FooterComponent } from "./components/footer/footer.component";
-import { HeaderComponent } from "./components/header/header.component";
-
-import { UnauthorizedComponent } from "./components/unauthorized/unauthorized.component";
-import { NotFoundComponent } from "./components/unauthorized/not-found.component";
-import { DashboardComponent } from "./components/dashboard/dashboard.component";
-import { SignupComponent } from "./components/login/signup.component";
-
-// Analytics
-import { Angulartics2Mixpanel, Angulartics2Module } from "angulartics2";
-
-// Directives
-import { FocusIfDirective } from "./shared/directives/focusif.directive";
-// import { AutoSelectDirective } from "./shared/directives/autoselect.directive"
-// import { AnchorDirective } from "./shared/directives/anchor.directivse"
-
-// External libraries
-
-import * as Rollbar from "rollbar";
-import { ColorPickerModule } from "ngx-color-picker";
-import { LoadingModule, ANIMATION_TYPES } from "ngx-loading";
-import { MarkdownModule, MarkdownService } from "angular2-markdown";
-import { FileUploadModule } from "ng2-file-upload";
+import { RouterModule, Routes } from "@angular/router";
 import { CloudinaryModule } from "@cloudinary/angular-5.x";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { ConfirmationPopoverModule } from "angular-confirmation-popover";
+import { AuthHttp } from "angular2-jwt";
+import { Angulartics2Mixpanel, Angulartics2Module } from "angulartics2";
 import { Cloudinary } from "cloudinary-core";
 import { D3Service } from "d3-ng2-service";
-import { TreeModule } from "angular-tree-component";
-import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
-import { NgbModule, NgbTypeaheadModule } from "@ng-bootstrap/ng-bootstrap";
-import { AuthConfiguration } from "./shared/services/auth/auth.config";
-import { ResponsiveModule, } from "ng2-responsive";
-import { ConfirmationPopoverModule } from "angular-confirmation-popover";
-import { JwtEncoder } from "./shared/services/encoding/jwt.service";
-// import { HttpService } from "./shared/services/http/http.service";
-// import { HttpServiceFactory } from "./shared/services/http/htttp.service.factory";
-import { TeamsListComponent } from "./components/team/teams-list.component";
-import { authHttpServiceFactory } from "./shared/services/auth/auth.module";
-import { ChangePasswordComponent } from "./components/login/change-password.component";
+import { FileUploadModule } from "ng2-file-upload";
+import { ResponsiveModule } from "ng2-responsive";
+import { McBreadcrumbsConfig, McBreadcrumbsModule } from "ngx-breadcrumbs";
+import { ANIMATION_TYPES, LoadingModule } from "ngx-loading";
+import * as Rollbar from "rollbar";
+
 import { AnAnchorableComponent } from "../test/specs/shared/component.helper.shared";
-// import { MappingNetworkComponent } from "./components/mapping/network/mapping.network.component";
-import { LoaderComponent } from "./components/loading/loader.component";
+import { environment } from "./../environment/environment";
+import { AccountComponent } from "./components/account/account.component";
+import { AppComponent } from "./components/app.component";
+import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { DashboardComponentResolver } from "./components/dashboard/dashboard.resolver";
-import { MappingNetworkComponent } from "./components/mapping/network/mapping.network.component";
-import { WorkspaceComponentResolver } from "./components/workspace/workspace.resolver";
+import { FooterComponent } from "./components/footer/footer.component";
+import { HeaderComponent } from "./components/header/header.component";
+import { HelpComponent } from "./components/help/help.component";
+import { HomeComponent } from "./components/home/home.component";
+import { LoaderComponent } from "./components/loading/loader.component";
+import { ChangePasswordComponent } from "./components/login/change-password.component";
+import { LoginComponent } from "./components/login/login.component";
 import { LogoutComponent } from "./components/login/logout.component";
+import { SignupComponent } from "./components/login/signup.component";
+import { TeamModule } from "./components/team/team.module";
+import { NotFoundComponent } from "./components/unauthorized/not-found.component";
+import { UnauthorizedComponent } from "./components/unauthorized/unauthorized.component";
+import { WorkspaceModule } from "./components/workspace/workspace.module";
+import { AuthConfiguration } from "./shared/services/auth/auth.config";
+import { authHttpServiceFactory } from "./shared/services/auth/auth.module";
+import { Auth } from "./shared/services/auth/auth.service";
+import { HttpFactoryModule } from "./shared/services/auth/httpInterceptor";
+import { DataService } from "./shared/services/data.service";
+import { DatasetFactory } from "./shared/services/dataset.factory";
+import { JwtEncoder } from "./shared/services/encoding/jwt.service";
+import { ErrorService } from "./shared/services/error/error.service";
 import { ExportService } from "./shared/services/export/export.service";
 import { FileService } from "./shared/services/file/file.service";
-import { HttpLogInterceptor, httpFactory, HttpFactoryModule } from "./shared/services/auth/httpInterceptor";
-import { HTTP_INTERCEPTORS } from "@angular/common/http";
-import { MappingZoomableComponent } from "./components/mapping/zoomable/mapping.zoomable.component";
+import { AccessGuard } from "./shared/services/guards/access.guard";
+import { AuthGuard } from "./shared/services/guards/auth.guard";
+import { WorkspaceGuard } from "./shared/services/guards/workspace.guard";
+import { LoaderService } from "./shared/services/loading/loader.service";
+import { MailingService } from "./shared/services/mailing/mailing.service";
+import { TeamFactory } from "./shared/services/team.factory";
+import { ColorService } from "./shared/services/ui/color.service";
+import { UIService } from "./shared/services/ui/ui.service";
+import { URIService } from "./shared/services/uri.service";
+import { UserFactory } from "./shared/services/user.factory";
+import { UserService } from "./shared/services/user/user.service";
 
-import { McBreadcrumbsModule, McBreadcrumbsConfig } from "ngx-breadcrumbs";
-import { TeamComponentResolver } from "./components/team/team.resolver";
-import { SearchComponent } from "./components/search/search.component";
-import { FilterTagsComponent } from "./components/filter/tags.component";
 
-// Routes
 const appRoutes: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
 
-  {
-    path: "home", component: HomeComponent, data: { breadcrumbs: "Home" },
-
-
-  },
+  { path: "home", component: HomeComponent, data: { breadcrumbs: "Home" }},
 
   { path: "login", component: LoginComponent, data: { breadcrumbs: "Login" } },
 
   { path: "logout", component: LogoutComponent },
   { path: "help", component: HelpComponent, data: { breadcrumbs: "Help" } },
   { path: "signup", component: SignupComponent, data: { breadcrumbs: "Sign up" } },
-
-  {
-    path: "teams",
-    data: { breadcrumbs: "Teams" },
-    children: [
-      { path: "", component: TeamsListComponent, canActivate: [AuthGuard] },
-      {
-        path: ":teamid/:slug",
-        resolve: {
-          team: TeamComponentResolver
-        },
-        component: TeamComponent, data: { breadcrumbs: "{{team.name}}" },
-        canActivate: [AuthGuard, AccessGuard]
-      }
-    ]
-
-  },
 
 
   {
@@ -152,25 +78,6 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard],
     data: { breadcrumbs: "Profile" }
   },
-
-  {
-    path: "map/:mapid/:mapslug",
-    data: { breadcrumbs: "{{data.dataset.initiative.name}}" },
-    component: WorkspaceComponent,
-    canActivate: [AuthGuard, AccessGuard],
-    resolve: {
-      data: WorkspaceComponentResolver
-    },
-    children: [
-      { path: "", redirectTo: "initiatives", pathMatch: "full" },
-      { path: "initiatives", component: MappingZoomableComponent, canActivate: [WorkspaceGuard] },
-      { path: "people", component: MappingTreeComponent, canActivate: [WorkspaceGuard] },
-      { path: "connections", component: MappingNetworkComponent, canActivate: [WorkspaceGuard] },
-      { path: "u/:usershortid/:userslug", component: MemberSummaryComponent, canActivate: [WorkspaceGuard] },
-    ]
-  },
-  // { path: "summary/map/:mapid/:mapslug/u/:usershortid/:userslug", component: MemberSummaryComponent, canActivate: [AuthGuard, AccessGuard], canActivateChild: [AuthGuard, AccessGuard] },
-
   { path: "unauthorized", component: UnauthorizedComponent },
   { path: "forgot", component: ChangePasswordComponent, data: { breadcrumbs: "Password change" } },
   { path: "404", component: NotFoundComponent },
@@ -181,14 +88,7 @@ export const cloudinaryLib = {
   Cloudinary: Cloudinary
 };
 
-export function markdownServiceFactory(http: Http) {
-  let _markdown = new MarkdownService(http)
-  _markdown.setMarkedOptions({ breaks: true })
-  _markdown.renderer.link = (href: string, title: string, text: string) => {
-    return `<a href=${href} class="markdown-link" target="_blank" title=${title}>${text}</a>`;
-  }
-  return _markdown
-}
+
 
 const rollbarConfig = {
   accessToken: environment.ROLLBAR_ACCESS_TOKEN,
@@ -220,11 +120,8 @@ export const RollbarService = new InjectionToken<Rollbar>("rollbar");
 
 @NgModule({
   declarations: [
-    AppComponent, AccountComponent, HeaderComponent, FooterComponent, WorkspaceComponent, TeamComponent,
-    MappingComponent, MappingTreeComponent, MappingNetworkComponent, MemberSummaryComponent, MappingZoomableComponent,
-    BuildingComponent, InitiativeNodeComponent, LoginComponent, LogoutComponent, HomeComponent, UnauthorizedComponent, NotFoundComponent,
-    InitiativeComponent, ChangePasswordComponent, LoaderComponent, TeamsListComponent, SignupComponent,
-    FocusIfDirective, SearchComponent,FilterTagsComponent,
+    AppComponent, AccountComponent, HeaderComponent, FooterComponent, LoginComponent, LogoutComponent, HomeComponent, UnauthorizedComponent, NotFoundComponent,
+    ChangePasswordComponent, LoaderComponent, SignupComponent,
     HelpComponent,
     DashboardComponent,
 
@@ -237,16 +134,14 @@ export const RollbarService = new InjectionToken<Rollbar>("rollbar");
     ReactiveFormsModule,
     CommonModule,
     HttpModule,
-    TreeModule,
     McBreadcrumbsModule.forRoot(),
     NgbModule.forRoot(),
-    RouterModule.forRoot(appRoutes),
+    RouterModule.forRoot(appRoutes, { enableTracing: false }),
     ResponsiveModule,
     ConfirmationPopoverModule.forRoot({
       confirmButtonType: "danger",
       cancelButtonType: "secondary"
     }),
-    MarkdownModule.forRoot(),
     Angulartics2Module.forRoot([Angulartics2Mixpanel]),
     FileUploadModule,
     LoadingModule.forRoot({
@@ -258,9 +153,11 @@ export const RollbarService = new InjectionToken<Rollbar>("rollbar");
       tertiaryColour: "#ffffff"
     }),
     HttpFactoryModule,
-    ColorPickerModule,
     BrowserAnimationsModule,
-    CloudinaryModule.forRoot(cloudinaryLib, { cloud_name: environment.CLOUDINARY_CLOUDNAME, upload_preset: environment.CLOUDINARY_UPLOAD_PRESET })
+    CloudinaryModule.forRoot(cloudinaryLib, { cloud_name: environment.CLOUDINARY_CLOUDNAME, upload_preset: environment.CLOUDINARY_UPLOAD_PRESET }),
+    TeamModule,
+    WorkspaceModule
+
   ],
   exports: [RouterModule],
   providers: [
@@ -271,25 +168,12 @@ export const RollbarService = new InjectionToken<Rollbar>("rollbar");
     ExportService, FileService,
     Location,
     { provide: LocationStrategy, useClass: PathLocationStrategy },
-    // {
-    //   provide: Http,
-    //   useFactory: HttpFactory,
-    //   deps: [XHRBackend, RequestOptions, ErrorHandler, Router]
-    // },
-
     {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,
       deps: [Http, RequestOptions]
     },
-    {
-      provide: MarkdownService,
-      useFactory: markdownServiceFactory,
-      deps: [Http]
-    },
     DashboardComponentResolver,
-    WorkspaceComponentResolver,
-    TeamComponentResolver,
     { provide: ErrorHandler, useClass: RollbarErrorHandler },
     { provide: RollbarService, useFactory: rollbarFactory }
   ],
@@ -301,7 +185,7 @@ export class AppModule {
   constructor(breadcrumbsConfig: McBreadcrumbsConfig) {
 
     breadcrumbsConfig.postProcess = (x) => {
-
+      console.log(x)
       // Ensure that the first breadcrumb always points to home
 
       let y = x;
