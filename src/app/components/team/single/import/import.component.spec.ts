@@ -103,8 +103,30 @@ describe("import.component.ts", () => {
         target.detectChanges();
     });
 
-    it("should bind ", () => {
-        expect(true).toBe(true)
+    describe("File reset", () => {
+        it("should reset properties", () => {
+            component.fileReset();
+            expect(component.isFileInvalid).toBe(false);
+            expect(component.importedSuccessfully).toBe(0);
+            expect(component.importedFailed).toBe(0);
+            expect(component.isImportFinished).toBe(false);
+            expect(component.csvRecords).toEqual([])
+        });
+    });
+
+    describe("importUsers", () => {
+        it("should call correct dependencies", async(() => {
+            component.csvRecords = [
+                ["First name", "Lastname", "email"],
+                ["one", "Maptio", "one@maptio.com"],
+                ["two", "Maptio", "two@maptio.com"],
+                ["three", "Maptio", "three@maptio.com"]
+            ];
+            spyOn(component, "createUser").and.returnValue(Promise.resolve(true));
+            component.importUsers();
+            expect(component.createUser).toHaveBeenCalledTimes(3);
+
+        }));
     });
 
 });

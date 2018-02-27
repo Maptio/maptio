@@ -83,7 +83,7 @@ export class TeamMembersComponent implements OnInit {
                 this.team = data.team;
             });
 
-        this.auth.getUser().subscribe(u => this.user = u);
+        this.userSubscription =  this.auth.getUser().subscribe(u => this.user = u);
         this.members$ = this.getAllMembers();
     }
 
