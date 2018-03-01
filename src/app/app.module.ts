@@ -1,5 +1,5 @@
 import { CommonModule, Location, LocationStrategy, PathLocationStrategy } from "@angular/common";
-import { ErrorHandler, Injectable, InjectionToken, Injector, NgModule } from "@angular/core";
+import { ErrorHandler, Injectable, InjectionToken, Injector, NgModule, Inject } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { Http, HttpModule, RequestOptions } from "@angular/http";
 import { BrowserModule } from "@angular/platform-browser";
@@ -63,7 +63,7 @@ import { UserService } from "./shared/services/user/user.service";
 const appRoutes: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
 
-  { path: "home", component: HomeComponent, data: { breadcrumbs: "Home" }},
+  { path: "home", component: HomeComponent, data: { breadcrumbs: "Home" } },
 
   { path: "login", component: LoginComponent, data: { breadcrumbs: "Login" } },
 
@@ -92,31 +92,34 @@ export const cloudinaryLib = {
 
 const rollbarConfig = {
   accessToken: environment.ROLLBAR_ACCESS_TOKEN,
+  verbose: true,
   captureUncaught: true,
   captureUnhandledRejections: true,
-  environment: process.env.ENV === "production" ? "production" : "development"
+  payload: {
+    environment: process.env.ENV === "production" ? "production" : "development"
+  }
+
 };
+
+export const RollbarService = new InjectionToken<Rollbar>("rollbar");
 
 @Injectable()
 export class RollbarErrorHandler implements ErrorHandler {
-  constructor(private injector: Injector) { }
+  constructor( @Inject(RollbarService) private rollbar: Rollbar) { }
 
   handleError(err: any): void {
-    if (process.env.ENV === "production") {
-      let rollbar = this.injector.get(RollbarService);
-      rollbar.error(err.originalError || err);
-    }
-    else
-      console.error(err)
-
+    this.rollbar.error(err.originalError || err);
   }
 }
+
+
 
 export function rollbarFactory() {
   return new Rollbar(rollbarConfig);
 }
 
-export const RollbarService = new InjectionToken<Rollbar>("rollbar");
+
+
 
 @NgModule({
   declarations: [
