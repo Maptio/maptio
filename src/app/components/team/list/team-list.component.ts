@@ -118,12 +118,12 @@ export class TeamListComponent implements OnInit {
                                 }
                             })
                             return teams.filter(t => { return t !== undefined });
-                        }, (r) => { return Promise.reject(r) })
+                        }, (r) => { this.isLoading = false; return Promise.reject(r) })
                         .then(teams => {
                             this.isLoading = false;
                             return sortBy(teams, t => t.name)
                         })
-                        .catch(() => { this.isLoading = false; })
+                        // .catch(() => { this.isLoading = false; })
             })
     }
 
