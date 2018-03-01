@@ -185,7 +185,6 @@ export class AppModule {
   constructor(breadcrumbsConfig: McBreadcrumbsConfig) {
 
     breadcrumbsConfig.postProcess = (x) => {
-      console.log(x)
       // Ensure that the first breadcrumb always points to home
 
       let y = x;

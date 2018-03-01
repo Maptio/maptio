@@ -123,7 +123,7 @@ export class TeamListComponent implements OnInit {
                             this.isLoading = false;
                             return sortBy(teams, t => t.name)
                         })
-                // .catch(() => { this.isLoading = false; })
+                        .catch(() => { this.isLoading = false; })
             })
     }
 
