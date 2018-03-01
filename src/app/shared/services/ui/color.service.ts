@@ -55,10 +55,10 @@ export class ColorService implements OnInit {
   ): ScaleLinear<number, number> {
     let slowInterpolator = function(a: number, b: number) {
       return function(t: number) {
-        console.log(
-          `t=${t}`,
-          `y=${Math.max(a, b) - Math.exp(t / Math.max(a, b) * 100)}`
-        );
+        // console.log(
+        //   `t=${t}`,
+        //   `y=${Math.max(a, b) - Math.exp(t / Math.max(a, b) * 100)}`
+        // );
         let E = Math.max(a, b);
         return E * (1 - Math.exp((t - 1) * E / 2));
       };

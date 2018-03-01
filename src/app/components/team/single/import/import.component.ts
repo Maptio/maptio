@@ -126,8 +126,6 @@ export class TeamImportComponent implements OnInit {
         this.importedFailed = 0;
 
         _(this.csvRecords).drop(1).forEach((record, index, all) => {
-            console.log(record);
-            
             record[3] = "";
             record[4] = false; // has finished processed
             this.createUser((<String>record[2]).trim(), (<String>record[0]).trim(), (<String>record[1]).trim())
@@ -182,7 +180,6 @@ export class TeamImportComponent implements OnInit {
                 return true;
             })
             .catch((reason) => {
-                console.log(reason)
                 throw Error(reason);
             })
 
