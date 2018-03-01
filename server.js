@@ -73,7 +73,8 @@ if (!isDevelopment) {
         'wss://nexus-websocket-b.intercom.io',
         'https://uploads.intercomcdn.com',
         'https://uploads.intercomusercontent.com', 
-        'https://rs.fullstory.com'
+        'https://rs.fullstory.com',
+        'https://api.rollbar.com'
       ],
       childSrc: [
         'https://share.intercom.io',
