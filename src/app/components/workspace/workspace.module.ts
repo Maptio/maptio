@@ -3,7 +3,7 @@ import { ColorPickerModule } from "ngx-color-picker";
 import { MarkdownService } from "angular2-markdown";
 import { Http } from "@angular/http";
 import { MarkdownModule } from "angular2-markdown";
-import { Angulartics2Mixpanel, Angulartics2Module } from "angulartics2";
+import {  Angulartics2Module } from "angulartics2";
 import { FilterTagsComponent } from "./filter/tags.component";
 import { SearchComponent } from "./search/search.component";
 import { FocusIfDirective } from "./../../shared/directives/focusif.directive";

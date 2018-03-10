@@ -20,7 +20,7 @@ import {
 import { D3Service, D3, ForceLink, HierarchyNode } from "d3-ng2-service";
 import { IDataVisualizer } from "../mapping.interface";
 import { Angulartics2Mixpanel } from "angulartics2";
-import * as _ from "lodash";
+import { compact, flatten, uniqBy, remove, flattenDeep, partition, isEmpty, groupBy, chain } from "lodash";
 
 @Component({
   selector: "network",
@@ -268,7 +268,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       let mapColor = zoomed[1];
       let fontColor = zoomed[2];
 
-      let people = _.compact(_.flatten([...[node.accountable], node.helpers]));
+      let people = compact(flatten([...[node.accountable], node.helpers]));
       d3.selectAll("g.node").style("font-weight", "initial")
       d3.selectAll("path").style("stroke", mapColor)
       d3.selectAll(`${people.map(p => `g.node[id="${p.user_id}"]`).join(",")}`).style("font-weight", "900");
@@ -282,8 +282,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   private prepare(initiativeList: HierarchyNode<Initiative>[]) {
     let nodesRaw = initiativeList
       .map(d => {
-        let all = _.flatten([...[d.data.accountable], d.data.helpers]);
-        return _.uniqBy(_.remove(all), a => {
+        let all = flatten([...[d.data.accountable], d.data.helpers]);
+        return uniqBy(remove(all), a => {
           return a.user_id;
         });
       })
@@ -317,7 +317,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         });
       })
       .reduce((pre, cur) => {
-        let reduced = _.remove([...pre, ...cur]);
+        let reduced = remove([...pre, ...cur]);
 
         return reduced;
       })
@@ -332,8 +332,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         };
       });
 
-    let links = _(rawlinks)
-      .groupBy("linkid")
+
+    let links = chain(rawlinks).groupBy("linkid")
       .map((items: any, linkid: string) => {
         return {
           source: items[0].source,
@@ -341,7 +341,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
           type: items[0].type,
           weight: items.length,
           initiatives: items.map((item: any) => item.initiative),
-          tags: _.flattenDeep(items.map((item: any) => item.tags)).map(
+          tags: flattenDeep(items.map((item: any) => item.tags)).map(
             (t: Tag) => t.shortid
           )
         };
@@ -349,7 +349,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .value();
 
     return {
-      nodes: _.uniqBy(nodesRaw, u => {
+      nodes: uniqBy(nodesRaw, u => {
         return u.id;
       }),
       links: links
@@ -458,7 +458,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       }),
       links = graph.links;
 
-    let [selectedTags, unselectedTags] = _.partition(tags, t => t.isSelected);
+    let [selectedTags, unselectedTags] = partition(tags, t => t.isSelected);
 
     links.forEach(function (link: {
       source: string;
@@ -595,7 +595,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
           return ids.includes(i.id)
         });
         // console.log("tooltip building", d)
-        if (_.isEmpty(list)) return;
+        if (isEmpty(list)) return;
         return uiService.getConnectionsHTML(list, d[0].id);
       });
 

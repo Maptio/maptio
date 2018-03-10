@@ -7,7 +7,7 @@ import { Observable } from "rxjs/Rx";
 import { TeamFactory } from "../../shared/services/team.factory";
 import { ErrorService } from "../../shared/services/error/error.service";
 import { User } from "../../shared/model/user.data";
-import { compact, sortBy } from "lodash";
+import {  sortBy } from "lodash";
 
 @Injectable()
 export class DashboardComponentResolver implements Resolve<Array<DataSet>> {

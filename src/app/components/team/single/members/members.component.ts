@@ -19,7 +19,7 @@ import { FormControl } from "@angular/forms";
 import { Validators } from "@angular/forms";
 import { FormGroup } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
-import { Component, OnInit, ChangeDetectorRef, Input } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 
 @Component({
     selector: "team-single-members",

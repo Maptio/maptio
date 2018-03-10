@@ -1,4 +1,3 @@
-import { User } from "./../../../shared/model/user.data";
 import { ActivatedRoute } from "@angular/router";
 import { Team } from "./../../../shared/model/team.data";
 import { Subscription } from "rxjs/Rx";

@@ -1,5 +1,5 @@
 import { Initiative } from "./../../../shared/model/initiative.data";
-import { Subject, ReplaySubject, Observable, BehaviorSubject } from "rxjs/Rx";
+import {  ReplaySubject, Observable } from "rxjs/Rx";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { async, TestBed, ComponentFixture } from "@angular/core/testing";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";

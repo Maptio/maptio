@@ -1,8 +1,7 @@
-import { Subscription, Observable } from "rxjs/Rx";
+import { Subscription } from "rxjs/Rx";
 import { Component, ChangeDetectorRef } from "@angular/core";
 import { DataSet } from "../../shared/model/dataset.data";
 import { DashboardComponentResolver } from "./dashboard.resolver";
-import { Initiative } from "../../shared/model/initiative.data";
 import { ExportService } from "../../shared/services/export/export.service";
 import { saveAs } from "file-saver"
 import { EmitterService } from "../../shared/services/emitter.service";

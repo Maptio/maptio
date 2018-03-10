@@ -20,7 +20,6 @@ import {
 } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { User } from "../../shared/model/user.data";
-import { SafeUrl, DomSanitizer } from "@angular/platform-browser";
 import { Tag, SelectableTag } from "../../shared/model/tag.data";
 import { intersectionBy } from "lodash";
 

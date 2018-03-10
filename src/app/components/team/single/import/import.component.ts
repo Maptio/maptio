@@ -7,10 +7,9 @@ import { DatasetFactory } from "./../../../../shared/services/dataset.factory";
 import { User } from "./../../../../shared/model/user.data";
 import { UserService } from "./../../../../shared/services/user/user.service";
 import { Team } from "./../../../../shared/model/team.data";
-import { Component, OnInit, Input, ViewChild, ChangeDetectorRef } from "@angular/core";
-import { FileUploader, FileUploaderOptions, FileLikeObject, ParsedResponseHeaders } from "ng2-file-upload";
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from "@angular/core";
 import { Constants, FileService } from "../../../../shared/services/file/file.service";
-import * as _ from "lodash";
+import { drop } from "lodash";
 
 @Component({
     selector: "team-single-import",
@@ -46,7 +45,7 @@ export class TeamImportComponent implements OnInit {
     ngOnInit() {
 
         this.route.parent.data
-            .subscribe((data: { team: Team}) => {
+            .subscribe((data: { team: Team }) => {
                 this.team = data.team;
             });
     }
@@ -125,7 +124,7 @@ export class TeamImportComponent implements OnInit {
         this.importedSuccessfully = 0;
         this.importedFailed = 0;
 
-        _(this.csvRecords).drop(1).forEach((record, index, all) => {
+        drop(this.csvRecords, 1).forEach((record, index, all) => {
             record[3] = "";
             record[4] = false; // has finished processed
             this.createUser((<String>record[2]).trim(), (<String>record[0]).trim(), (<String>record[1]).trim())

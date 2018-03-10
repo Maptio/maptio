@@ -8,7 +8,7 @@ import { Initiative } from "./../../../shared/model/initiative.data";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { EventEmitter } from "@angular/core";
 import { Component, ViewChild, Output, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
-import { TreeNode, IActionMapping, TREE_ACTIONS, TreeModel, TreeComponent } from "angular-tree-component";
+import { TreeNode, TREE_ACTIONS, TreeComponent } from "angular-tree-component";
 
 import "rxjs/add/operator/map";
 import { InitiativeNodeComponent } from "./initiative.node.component"

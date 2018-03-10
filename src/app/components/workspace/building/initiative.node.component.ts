@@ -1,9 +1,8 @@
 import { InitiativeComponent } from "./../initiative/initiative.component";
 import { Initiative } from "./../../../shared/model/initiative.data";
 import { ActivatedRouteSnapshot, ActivatedRoute } from "@angular/router";
-import { Component, Input, Output, ViewChild, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef } from "@angular/core";
+import { Component, Input, Output, ViewChild, EventEmitter, ChangeDetectorRef } from "@angular/core";
 import { TreeNode, TreeModel } from "angular-tree-component";
-import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2/dist";
 
 @Component({
     selector: "initiative-node",

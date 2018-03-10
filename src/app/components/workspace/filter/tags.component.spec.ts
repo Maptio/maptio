@@ -1,6 +1,5 @@
 import { SelectableTag, Tag } from "./../../../shared/model/tag.data";
 import { Team } from "./../../../shared/model/team.data";
-import { Subject } from "rxjs/Rx";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { async, TestBed, ComponentFixture } from "@angular/core/testing";
 import { FilterTagsComponent } from "./tags.component";

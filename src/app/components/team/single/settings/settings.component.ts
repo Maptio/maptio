@@ -1,4 +1,3 @@
-import { User } from './../../../../shared/model/user.data';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, Input, ChangeDetectorRef } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";

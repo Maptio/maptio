@@ -17,7 +17,7 @@ import { MappingTreeComponent } from "./tree/mapping.tree.component";
 // import { MappingCirclesComponent } from "./circles/mapping.circles.component";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { MappingComponent } from "./mapping.component";
-import { NO_ERRORS_SCHEMA, ChangeDetectorRef } from "@angular/core";
+import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { AuthHttp } from "angular2-jwt/angular2-jwt";
 import { IDataVisualizer } from "./mapping.interface";
 import { MappingNetworkComponent } from "./network/mapping.network.component";

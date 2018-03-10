@@ -9,7 +9,7 @@ import { User } from "./../../../shared/model/user.data";
 import { Tag } from "./../../../shared/model/tag.data";
 import { Initiative } from "./../../../shared/model/initiative.data";
 import { Observable, Subject } from "rxjs/Rx";
-import { Component, Input, ViewChild, OnChanges, SimpleChanges, EventEmitter, Output, ElementRef, Renderer, ChangeDetectionStrategy } from "@angular/core";
+import { Component, Input, ViewChild, OnChanges, SimpleChanges, EventEmitter, Output, ElementRef } from "@angular/core";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/merge";
 import "rxjs/add/operator/filter";

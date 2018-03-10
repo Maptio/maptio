@@ -3,7 +3,7 @@ import { LoaderService } from "./../../shared/services/loading/loader.service";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs/Rx";
 import { OnInit } from "@angular/core";
-import { Component, trigger, state, style, animate, transition, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
 import { User } from "../../shared/model/user.data";
 import { Team } from "../../shared/model/team.data";
 import { DataSet } from "../../shared/model/dataset.data";
@@ -15,7 +15,7 @@ import { EmitterService } from "../../shared/services/emitter.service";
 import { ErrorService } from "../../shared/services/error/error.service";
 import { Initiative } from "../../shared/model/initiative.data";
 import { UserService } from "../../shared/services/user/user.service";
-import { compact, sortBy } from "lodash";
+import {  sortBy } from "lodash";
 import { SafeUrl, DomSanitizer } from "@angular/platform-browser";
 
 @Component({

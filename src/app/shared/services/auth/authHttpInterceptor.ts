@@ -1,6 +1,6 @@
+import { Observable } from "rxjs/Rx";
 import { Router } from "@angular/router";
 import { RequestOptions, Response, Request, RequestOptionsArgs, Headers, Http } from "@angular/http";
-import { Observable } from "rxjs";
 import { AuthHttp, AuthConfig } from "angular2-jwt";
 import { Auth } from "./auth.service";
 

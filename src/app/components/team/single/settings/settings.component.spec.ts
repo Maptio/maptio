@@ -5,7 +5,7 @@ import { TeamFactory } from "../../../../shared/services/team.factory";
 import { NO_ERRORS_SCHEMA, Type } from "@angular/core";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Team } from "../../../../shared/model/team.data";
-import { AuthHttp, AuthConfig } from "angular2-jwt/angular2-jwt";
+import { AuthHttp } from "angular2-jwt/angular2-jwt";
 import { authHttpServiceFactoryTesting } from "../../../../../test/specs/shared/authhttp.helper.shared";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { MockBackend } from "@angular/http/testing";
