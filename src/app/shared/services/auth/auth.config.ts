@@ -3,7 +3,7 @@ import { Http } from "@angular/http";
 import { WebAuth } from "auth0-js";
 import { Injectable } from "@angular/core";
 
-declare var Auth0Lock: any;
+// declare var Auth0Lock: any;
 
 @Injectable()
 export class AuthConfiguration {
