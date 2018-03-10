@@ -370,6 +370,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     function isBranchDisplayed(d: any): boolean {
       return getDepthDifference(d) <= 3;
     }
+    
     function isLeafDisplayed(d: any): boolean {
       return getDepthDifference(d) <= 2;
     }
@@ -667,9 +668,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
             })
             .attr("dy", 0)
             .attr("font-size", function (d: any) {
-              return `${fonts(d.depth) / 2 * d.k}rem`;
+              return `${fonts(d.depth) / (d.depth <= 2 ? 1 : 2) * d.k}rem`;
             })
-            // .text(function (d: any) { return d.data.name })
             .each(function (d: any) {
               uiService.wrap(
                 d3.select(this),
@@ -701,7 +701,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             })
             .attr("font-size", function (d: any) {
               return `${fonts(d.depth) /
-                2 *
+                (d.depth <= 2 ? 1 : 2) *
                 d.k *
                 POSITION_ACCOUNTABLE_NAME.fontRatio}rem`;
             });
@@ -727,7 +727,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             })
             .attr("font-size", function (d: any) {
               return `${fonts(d.depth) /
-                2 *
+                (d.depth <= 2 ? 1 : 2) *
                 d.k *
                 POSITION_TAGS_NAME.fontRatio}rem`;
             });
