@@ -33,7 +33,7 @@
     <div  class="mapping" >
         <mapping [tags]="selectableTags" (showDetails)="openDetails($event, true)" (addInitiative)="addInitiative($event)" (removeInitiative)="removeInitiative($event)"
             (moveInitiative)="moveInitiative($event)" (closeEditingPanel)="closeEditingPanel()" (openTreePanel)="isBuildingPanelCollapsed=false" (applySettings)="applySettings($event)"
-            
+            (expandTree)="buildingComponent.toggleAll(true)"
             
             >
         Loading...</mapping>

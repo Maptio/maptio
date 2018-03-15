@@ -104,6 +104,7 @@ export class MappingComponent {
   }>();
   @Output("closeEditingPanel") closeEditingPanel = new EventEmitter<boolean>();
   @Output("openTreePanel") openTreePanel = new EventEmitter<boolean>();
+  @Output("expandTree") expandTree = new EventEmitter<boolean>();
   @Output("toggleSettingsPanel")
   toggleSettingsPanel = new EventEmitter<boolean>();
   @Output("applySettings")
@@ -389,6 +390,7 @@ export class MappingComponent {
   addFirstNode() {
     this.addInitiative.emit(this.initiative);
     this.openTreePanel.emit(true);
+    this.expandTree.emit(true);
     this.analytics.eventTrack("Map", { mode: "instruction", action: "add", team: this.teamName, teamId: this.teamId });
   }
 
