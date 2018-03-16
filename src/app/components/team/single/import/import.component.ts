@@ -1,4 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from "@angular/router";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { TeamFactory } from "./../../../../shared/services/team.factory";
 import { UserFactory } from "./../../../../shared/services/user.factory";
@@ -59,11 +59,9 @@ export class TeamImportComponent implements OnInit {
         let text = [];
         let files = $event.srcElement.files;
 
-        if (Constants.validateHeaderAndRecordLengthFlag) {
-            if (!this.fileService.isCSVFile(files[0])) {
-                this.isFileInvalid = true;
-                this.fileReset();
-            }
+        if (!this.fileService.isCSVFile(files[0])) {
+            this.isFileInvalid = true;
+            this.fileReset();
         }
 
         let input = $event.target;
@@ -74,13 +72,11 @@ export class TeamImportComponent implements OnInit {
             let csvData = reader.result;
             let csvRecordsArray = csvData.split(/\r\n|\n|\r/);
             let headerLength = -1;
-            if (Constants.isHeaderPresentFlag) {
-                let headersRow = this.fileService.getHeaderArray(csvRecordsArray, Constants.tokenDelimeter);
-                headerLength = headersRow.length;
-                let isHeaderValid = this.fileService.validateHeaders(headersRow, ["First name", "Last name", "Email"]);
-                if (!isHeaderValid) {
-                    this.isFileInvalid = true;
-                }
+            let headersRow = this.fileService.getHeaderArray(csvRecordsArray, Constants.tokenDelimeter);
+            headerLength = headersRow.length;
+            let isHeaderValid = this.fileService.validateHeaders(headersRow, ["First name", "Last name", "Email"]);
+            if (!isHeaderValid) {
+                this.isFileInvalid = true;
             }
 
             try {

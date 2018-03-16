@@ -51,7 +51,6 @@ class MockActivatedRoute implements ActivatedRoute {
     };
 }
 
- 
 describe("import.component.ts", () => {
 
     let component: TeamImportComponent;
@@ -111,6 +110,28 @@ describe("import.component.ts", () => {
             expect(component.importedFailed).toBe(0);
             expect(component.isImportFinished).toBe(false);
             expect(component.csvRecords).toEqual([])
+        });
+    });
+
+    describe("FileChangeListener", () => {
+        it("should flag a non CSV file and reset input", () => {
+            spyOn(component, "fileReset");
+            spyOn(target.debugElement.injector.get(FileService), "isCSVFile").and.returnValue(false);
+
+            component.fileChangeListener({ srcElement: { files: ["/disk/folder/file.scv"] } , target: { files: ["/disk/folder/file.csv"] }});
+            expect(component.fileReset).toHaveBeenCalled();
+            expect(target.debugElement.injector.get(FileService).isCSVFile).toHaveBeenCalledWith("/disk/folder/file.scv")
+            expect(component.isFileInvalid).toBe(true)
+        });
+
+        it("should not flag a .csv file", () => {
+            spyOn(component, "fileReset");
+            spyOn(target.debugElement.injector.get(FileService), "isCSVFile").and.returnValue(true);
+
+            component.fileChangeListener({ srcElement: { files: ["/disk/folder/file.csv"] }, target: { files: ["/disk/folder/file.csv"] } });
+            expect(component.fileReset).not.toHaveBeenCalled();
+            expect(target.debugElement.injector.get(FileService).isCSVFile).toHaveBeenCalledWith("/disk/folder/file.csv")
+            expect(component.isFileInvalid).toBe(false)
         });
     });
 
