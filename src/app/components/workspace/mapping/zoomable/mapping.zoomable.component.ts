@@ -438,7 +438,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     initiativeWithChildren = initiativeWithChildrenEnter.merge(initiativeWithChildren);
     initiativeNoChildren = initiativeNoChildrenEnter.merge(initiativeNoChildren);
 
-    g.selectAll("g.node").sort((a, b) => {
+    g.selectAll("g.node").sort((a: any, b: any) => {
       return b.height - a.height;
     });
 
