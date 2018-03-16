@@ -249,4 +249,54 @@ describe("members.component.ts", () => {
             })
         }));
     });
+
+
+    describe("isDisplayLoader", () => {
+        it("should work", () => {
+            component.isSendingMap = new Map<string, boolean>()
+            component.isSendingMap.set("user_1", true)
+            component.isSendingMap.set("user_2", false)
+            component.isSendingMap.set("user_3", true);
+
+            expect(component.isDisplayLoader("user_1")).toBe(true);
+            expect(component.isDisplayLoader("user_2")).toBe(false);
+            expect(component.isDisplayLoader("user_3")).toBe(true);
+        });
+    });
+
+    describe("saveNewMember", () => {
+        it("should work", () => {
+            component.saveNewMember({ item: new User({ user_id: "1" }), preventDefault: null });
+            expect(component.newMember.user_id).toBe("1");
+            expect(component.isUserChosen).toBe(true)
+        });
+    });
+
+    describe("createUser", () => {
+        it("should do nothing if the form is invalid", () => {
+            component.inviteForm.setValue({
+                firstname: "", lastname: ""
+            });
+            spyOn(component, "createUserFullDetails");
+
+            component.createUser("one@company.com");
+            expect(component.createUserFullDetails).not.toHaveBeenCalled();
+        });
+
+        it("should call the correct dependencies if the form is valid", () => {
+            component.inviteForm.setValue({
+                firstname: "one", lastname: "Last"
+            });
+            component.inviteForm.markAsDirty();
+            let spy = spyOn(component, "createUserFullDetails").and.returnValue(Promise.resolve(true));
+            spyOn(component, "getAllMembers")
+            component.createUser("one@company.com");
+
+            expect(component.createUserFullDetails).toHaveBeenCalledWith("one@company.com", "one", "Last");
+            spy.calls.mostRecent().returnValue.then(() => {
+                expect(component.getAllMembers).toHaveBeenCalledTimes(1)
+            })
+
+        });
+    });
 });
