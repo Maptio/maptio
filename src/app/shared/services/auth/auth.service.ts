@@ -144,7 +144,7 @@ export class Auth {
           return user;
         })
         .then((user: User) => {
-          user.permissions = this.permissionService.get(user.status)
+          user.permissions = this.permissionService.get(user.userRole)
           return user;
         })
         .then((user: User) => {

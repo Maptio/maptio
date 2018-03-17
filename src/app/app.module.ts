@@ -1,4 +1,4 @@
-import { PermissionService } from './shared/model/permission.data';
+import { PermissionService } from "./shared/model/permission.data";
 import { CommonModule, Location, LocationStrategy, PathLocationStrategy } from "@angular/common";
 import { ErrorHandler, Injectable, InjectionToken, Injector, NgModule, Inject } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -128,7 +128,6 @@ export function rollbarFactory() {
     ChangePasswordComponent, LoaderComponent, SignupComponent,
     HelpComponent,
     DashboardComponent,
-
     // for tests
     AnAnchorableComponent
   ],

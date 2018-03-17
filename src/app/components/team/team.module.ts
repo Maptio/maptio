@@ -1,3 +1,4 @@
+import { KeysPipe } from './../../pipes/keys.pipe';
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";
 import { TeamComponentResolver } from "./single/team.resolver";
 import { AccessGuard } from "./../../shared/services/guards/access.guard";
@@ -65,8 +66,8 @@ const routes: Routes = [
         TeamListComponent,
         TeamMembersComponent,
         TeamSettingsComponent,
-        TeamImportComponent
-
+        TeamImportComponent,
+        KeysPipe,
     ],
     providers: [TeamComponentResolver]
 })

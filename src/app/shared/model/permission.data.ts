@@ -1,4 +1,4 @@
-export enum Status {
+export enum UserRole {
     /**
      * Standard user
      */
@@ -27,17 +27,19 @@ export enum Permissions {
     RemoveUser,
     EditUser,
 
+    CreateTeam,
     EditTeam,
+
     EditStatus
 }
 
 
 export class PermissionService {
-    get(status: Status) {
+    get(status: UserRole) {
         switch (status) {
-            case Status.Standard:
+            case UserRole.Standard:
                 return this.getStandardPermissions();
-            case Status.Admin:
+            case UserRole.Admin:
                 return this.getAdminPermissions();
             default:
                 throw new Error(`No permissions can be found for status ${status}`)

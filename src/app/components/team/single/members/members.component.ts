@@ -1,3 +1,4 @@
+import { KeysPipe } from "./../../../../pipes/keys.pipe";
 import { Auth } from "./../../../../shared/services/auth/auth.service";
 import { Observable } from "rxjs/Rx";
 import { DataSet } from "./../../../../shared/model/dataset.data";
@@ -20,16 +21,19 @@ import { Validators } from "@angular/forms";
 import { FormGroup } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
+import { UserRole } from "../../../../shared/model/permission.data";
 
 @Component({
     selector: "team-single-members",
     templateUrl: "./members.component.html",
-    styleUrls: ["./members.component.css"]
+    styleUrls: ["./members.component.css"],
+    providers: [KeysPipe]
 })
 export class TeamMembersComponent implements OnInit {
 
     team: Team;
     user: User;
+    userRoles = UserRole;
 
     public members$: Promise<User[]>;
     public newMember: User;
@@ -79,11 +83,11 @@ export class TeamMembersComponent implements OnInit {
 
     ngOnInit() {
         this.routeSubscription = this.route.parent.data
-            .subscribe((data: { team: Team}) => {
+            .subscribe((data: { team: Team }) => {
                 this.team = data.team;
             });
 
-        this.userSubscription =  this.auth.getUser().subscribe(u => this.user = u);
+        this.userSubscription = this.auth.getUser().subscribe(u => this.user = u);
         this.members$ = this.getAllMembers();
     }
 
@@ -354,5 +358,9 @@ export class TeamMembersComponent implements OnInit {
 
     trackByMemberId(index: number, member: User) {
         return member.user_id;
+    }
+
+    changeUserRole(user: User, userRole: UserRole) {
+        this.userService.updateUserRole(user.user_id, UserRole[userRole])
     }
 }

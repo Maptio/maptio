@@ -1,3 +1,4 @@
+import { UserRole } from './../../model/permission.data';
 import { User } from "./../../model/user.data";
 import { environment } from "./../../../../environment/environment";
 import { Http, Headers } from "@angular/http";
@@ -351,6 +352,23 @@ export class UserService {
 
             return this.http.patch(`${environment.USERS_API_URL}/${user_id}`,
                 { "app_metadata": { "invitation_sent": isInvitationSent } }
+                ,
+                { headers: headers })
+                .map((responseData) => {
+                    return true;
+                })
+                .toPromise()
+        });
+    }
+
+    public updateUserRole(user_id: string, userRole: string): Promise<boolean> {
+        return this.configuration.getAccessToken().then((token: string) => {
+
+            let headers = new Headers();
+            headers.set("Authorization", "Bearer " + token);
+
+            return this.http.patch(`${environment.USERS_API_URL}/${user_id}`,
+                { "app_metadata": { "role": userRole } }
                 ,
                 { headers: headers })
                 .map((responseData) => {

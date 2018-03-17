@@ -1,4 +1,4 @@
-import { Permissions, Status } from './permission.data';
+import { Permissions, UserRole } from './permission.data';
 import { Serializable } from "../interfaces/serializable.interface";
 import * as slug from "slug";
 
@@ -81,7 +81,7 @@ export class User implements Serializable<User> {
     /**
      * User status e.g. Standard, Admin, Guest, etc
      */
-    public status: Status;
+    public userRole: UserRole;
 
     public constructor(init?: Partial<User>) {
         Object.assign(this, init);
@@ -103,7 +103,7 @@ export class User implements Serializable<User> {
         deserialized.name = ((deserialized.firstname) && (deserialized.lastname)) ? `${deserialized.firstname || ""} ${deserialized.lastname || ""}` : input.name;
         deserialized.isActivationPending = input.app_metadata && input.app_metadata.activation_pending ? input.app_metadata.activation_pending : false;
         deserialized.isInvitationSent = input.app_metadata && input.app_metadata.invitation_sent ? input.app_metadata.invitation_sent : false;
-        deserialized.status = input.app_metadata && input.app_metadata.status ? (<any>Status)[input.app_metadata.status] : Status.Standard;
+        deserialized.userRole = input.app_metadata && input.app_metadata.role ? (<any>UserRole)[input.app_metadata.role] : UserRole.Standard;
 
         deserialized.nickname = input.nickname;
         deserialized.email = input.email;
