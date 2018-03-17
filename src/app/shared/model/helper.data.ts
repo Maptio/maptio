@@ -1,7 +1,9 @@
 import { User } from "./user.data";
 import { Role } from "./role.data";
 
-
+/**
+ * Represents a Helper i.e. a User with a set of Roles
+ */
 export class Helper extends User {
 
     public roles: Array<Role> = [];

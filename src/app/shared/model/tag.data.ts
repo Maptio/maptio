@@ -1,6 +1,9 @@
 import { Serializable } from "../interfaces/serializable.interface";
 import * as shortid from "shortid";
 
+/**
+ * Represents a tag 
+ */
 export class Tag implements Serializable<Tag> {
 
     shortid: string;

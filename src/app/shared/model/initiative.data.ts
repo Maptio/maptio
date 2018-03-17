@@ -8,6 +8,9 @@ import { compact } from "lodash";
 import { Tag } from "./tag.data";
 
 @Injectable()
+/**
+ * Represents an initiative
+ */
 export class Initiative implements ITraversable, Serializable<Initiative> {
 
     /** Unique Id */
