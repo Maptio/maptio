@@ -1,3 +1,4 @@
+import { PermissionService } from "./../../model/permission.data";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { environment } from "./../../../../environment/environment";
 import { LoaderService } from "./../loading/loader.service";
@@ -33,6 +34,7 @@ export class Auth {
     private userFactory: UserFactory,
     private router: Router,
     private loader: LoaderService,
+    private permissionService: PermissionService,
     private analytics: Angulartics2Mixpanel
   ) {}
 
@@ -142,6 +144,10 @@ export class Auth {
           return user;
         })
         .then((user: User) => {
+          user.permissions = this.permissionService.get(user.status)
+          return user;
+        })
+        .then((user: User) => {
           this.datasetFactory.get(user).then(ds => {
             user.datasets = uniq(ds);
             this.user$.next(user);
@@ -224,33 +230,33 @@ export class Auth {
                             return user;
                           })
                           .then(
-                            (user: User) => {
-                              let isMaptioTeam = this.MAPTIO_INTERNAL_EMAILS.includes(
-                                user.email
-                              );
+                          (user: User) => {
+                            let isMaptioTeam = this.MAPTIO_INTERNAL_EMAILS.includes(
+                              user.email
+                            );
 
-                              this.analytics.setSuperProperties({
-                                user_id: user.user_id,
-                                email: user.email,
-                                isInternal: isMaptioTeam
-                              });
-                              this.analytics.eventTrack("Login", {
-                                email: user.email,
-                                firstname: user.firstname,
-                                lastname: user.lastname
-                              });
+                            this.analytics.setSuperProperties({
+                              user_id: user.user_id,
+                              email: user.email,
+                              isInternal: isMaptioTeam
+                            });
+                            this.analytics.eventTrack("Login", {
+                              email: user.email,
+                              firstname: user.firstname,
+                              lastname: user.lastname
+                            });
 
-                              // let isUserVIP = (user.email === "safiyya.babio@gmail.com" || user.email === "hello@tomnixon.co.uk");
-                              // (<any>window).Intercom("boot", {
-                              //     app_id: environment.INTERCOM_APP_ID,
-                              //     email: user.email,
-                              //     user_id: user.user_id,
-                              //     hide_default_launcher: !isUserVIP
-                              // });
+                            // let isUserVIP = (user.email === "safiyya.babio@gmail.com" || user.email === "hello@tomnixon.co.uk");
+                            // (<any>window).Intercom("boot", {
+                            //     app_id: environment.INTERCOM_APP_ID,
+                            //     email: user.email,
+                            //     user_id: user.user_id,
+                            //     hide_default_launcher: !isUserVIP
+                            // });
 
-                              return user;
-                            },
-                            () => {}
+                            return user;
+                          },
+                          () => {}
                           )
                           .then((user: User) => {
                             // let welcomeURL = user.datasets.length === 1 ? `/map/${user.datasets[0]}/welcome/initiatives` : `/home`;
