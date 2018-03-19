@@ -1,4 +1,4 @@
-import { PermissionService } from "./../../model/permission.data";
+import { PermissionService, Permissions } from "./../../model/permission.data";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { environment } from "./../../../../environment/environment";
 import { LoaderService } from "./../loading/loader.service";
@@ -26,6 +26,7 @@ export class Auth {
   ];
 
   private user$: Subject<User> = new Subject();
+  private permissions$: Subject<Permissions[]> = new Subject();
 
   constructor(
     private http: Http,
@@ -36,7 +37,7 @@ export class Auth {
     private loader: LoaderService,
     private permissionService: PermissionService,
     private analytics: Angulartics2Mixpanel
-  ) {}
+  ) { }
 
   public logout(): void {
     this.analytics.eventTrack("Logout", {});
@@ -102,7 +103,7 @@ export class Auth {
         scope: "openid profile api invite",
         audience: environment.MAPTIO_API_URL
       },
-      function(err: any, authResult: any) {
+      function (err: any, authResult: any) {
         if (authResult.accessToken) {
           EmitterService.get("maptio_api_token").emit(authResult.accessToken);
         }
@@ -129,6 +130,10 @@ export class Auth {
     });
   }
 
+  public getPermissions(): Observable<Permissions[]> {
+    return this.permissions$.first();
+  }
+
   public getUser(): Observable<User> {
     let profileString = localStorage.getItem("profile");
 
@@ -144,7 +149,7 @@ export class Auth {
           return user;
         })
         .then((user: User) => {
-          user.permissions = this.permissionService.get(user.userRole)
+          this.permissions$.next(this.permissionService.get(user.userRole))
           return user;
         })
         .then((user: User) => {
@@ -198,7 +203,7 @@ export class Auth {
           password: password,
           scope: "profile openid email"
         },
-        function(err: any, authResult: any) {
+        function (err: any, authResult: any) {
           if (err) {
             // console.log(err)
             EmitterService.get("loginErrorMessage").emit(err.description);
@@ -209,7 +214,7 @@ export class Auth {
           if (authResult.accessToken) {
             this.configuration.getWebAuth().client.userInfo(
               authResult.accessToken,
-              function(err: Error, profile: any) {
+              function (err: Error, profile: any) {
                 profile.user_id = profile.sub;
                 profile.sub = undefined;
 
@@ -256,7 +261,7 @@ export class Auth {
 
                             return user;
                           },
-                          () => {}
+                          () => { }
                           )
                           .then((user: User) => {
                             // let welcomeURL = user.datasets.length === 1 ? `/map/${user.datasets[0]}/welcome/initiatives` : `/home`;

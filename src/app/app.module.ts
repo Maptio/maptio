@@ -1,3 +1,4 @@
+import { HasPermissionDirective } from "./shared/directives/hasperrmission.directive";
 import { PermissionService } from "./shared/model/permission.data";
 import { CommonModule, Location, LocationStrategy, PathLocationStrategy } from "@angular/common";
 import { ErrorHandler, Injectable, InjectionToken, Injector, NgModule, Inject } from "@angular/core";
@@ -129,7 +130,8 @@ export function rollbarFactory() {
     HelpComponent,
     DashboardComponent,
     // for tests
-    AnAnchorableComponent
+    AnAnchorableComponent,
+    HasPermissionDirective
   ],
   imports: [
     BrowserModule,

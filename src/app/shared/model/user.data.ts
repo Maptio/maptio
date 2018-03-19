@@ -76,7 +76,7 @@ export class User implements Serializable<User> {
     /**
      * List of permissions
      */
-    public permissions: Permissions[];
+    // public permissions: Permissions[];
 
     /**
      * User status e.g. Standard, Admin, Guest, etc

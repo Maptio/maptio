@@ -10,7 +10,7 @@
 
 		<div class="center-row" [class.background]="isHome">
 
-				
+
 			<div class="container-fluid h-100 pt-3" [class.background]="isHome" [class.overflow-hidden]="isMap">
 				<div *showItDevice="['mobile','tablet']" class="alert alert-dismissible alert-warning">
 					<button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -30,13 +30,16 @@
 						</b>
 					</p>
 				</div>
+				<!-- <div *hasPermission="Permissions.ViewInitiative">
+					Only Admin can see this
+				</div> -->
 				<!-- <div *ngIf="auth.allAuthenticated()"> -->
-						<router-outlet></router-outlet> 
+				<router-outlet></router-outlet>
 				<!-- </div>
 				<div  *ngIf="!auth.allAuthenticated()">
 					<home></home>
 				</div> -->
-				
+
 
 			</div>
 
