@@ -10,27 +10,12 @@ export enum UserRole {
 }
 
 export enum Permissions {
-    AddInitiative,
-    DeleteInitiative,
-    EditInitiative,
-    ViewInitiative,
+    canAddUser,
+    canRemoveUser,
+    canEditUser,
 
-    AddHelper,
-    RemoveHelper,
-
-    AddAuthority,
-    RemoveAuthority,
-
-    EditDescription,
-
-    AddUser,
-    RemoveUser,
-    EditUser,
-
-    CreateTeam,
-    EditTeam,
-
-    EditStatus
+    canCreateTeam,
+    canEditTeam
 }
 
 
@@ -52,8 +37,6 @@ export class PermissionService {
         // Add other helpers to initiatives and set their roles (but not remove them from initiatives)
 
         return [
-            Permissions.AddInitiative,
-            Permissions.AddHelper
         ]
     }
 
@@ -63,20 +46,10 @@ export class PermissionService {
         // can add or remove users to a team
         // can change the team jargon
         return [
-            Permissions.AddInitiative,
-            Permissions.DeleteInitiative,
-            Permissions.EditInitiative,
-            Permissions.ViewInitiative,
-            Permissions.AddHelper,
-            Permissions.RemoveHelper,
-            Permissions.AddAuthority,
-            Permissions.RemoveAuthority,
-            Permissions.EditDescription,
-            Permissions.AddUser,
-            Permissions.RemoveUser,
-            Permissions.EditUser,
-            Permissions.EditTeam,
-            Permissions.EditStatus
+            Permissions.canAddUser,
+            Permissions.canRemoveUser,
+            Permissions.canEditUser,
+            Permissions.canEditTeam
         ]
     }
 }

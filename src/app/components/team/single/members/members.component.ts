@@ -21,7 +21,7 @@ import { Validators } from "@angular/forms";
 import { FormGroup } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
-import { UserRole } from "../../../../shared/model/permission.data";
+import { UserRole, Permissions } from "../../../../shared/model/permission.data";
 
 @Component({
     selector: "team-single-members",
@@ -33,7 +33,8 @@ export class TeamMembersComponent implements OnInit {
 
     team: Team;
     user: User;
-    userRoles = UserRole;
+    UserRole = UserRole;
+    Permissions = Permissions;
 
     public members$: Promise<User[]>;
     public newMember: User;

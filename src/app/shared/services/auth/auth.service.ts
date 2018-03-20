@@ -26,7 +26,7 @@ export class Auth {
   ];
 
   private user$: Subject<User> = new Subject();
-  private permissions$: Subject<Permissions[]> = new Subject();
+  private permissions: Permissions[] = [];
 
   constructor(
     private http: Http,
@@ -130,8 +130,8 @@ export class Auth {
     });
   }
 
-  public getPermissions(): Observable<Permissions[]> {
-    return this.permissions$.first();
+  public getPermissions(): Permissions[] {
+    return this.permissions;
   }
 
   public getUser(): Observable<User> {
@@ -149,7 +149,7 @@ export class Auth {
           return user;
         })
         .then((user: User) => {
-          this.permissions$.next(this.permissionService.get(user.userRole))
+          this.permissions = this.permissionService.get(user.userRole);
           return user;
         })
         .then((user: User) => {

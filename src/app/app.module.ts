@@ -131,7 +131,6 @@ export function rollbarFactory() {
     DashboardComponent,
     // for tests
     AnAnchorableComponent,
-    HasPermissionDirective
   ],
   imports: [
     BrowserModule,
