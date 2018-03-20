@@ -1,3 +1,4 @@
+import { Permissions } from './../../../shared/model/permission.data';
 import { ActivatedRoute } from "@angular/router";
 import { Team } from "./../../../shared/model/team.data";
 import { Subscription } from "rxjs/Rx";
@@ -14,6 +15,7 @@ export class TeamComponent implements OnInit {
     routeSubscription: Subscription;
 
     team: Team;
+    Permissions = Permissions;
 
     constructor(private route: ActivatedRoute, private cd: ChangeDetectorRef) {
 
