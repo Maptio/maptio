@@ -3,7 +3,9 @@
         <div *hasPermission="Permissions.canAddUser; else elseBlock; then thenBlock"></div>
         <ng-template #elseBlock>
             <button class="btn btn-link" placement="top" container="body" ngbTooltip="Admin only">
-                Add member<i class="fa fa-lock ml-1"></i></button>
+                Add member
+                <i class="fa fa-lock ml-1"></i>
+            </button>
         </ng-template>
         <ng-template #thenBlock>
             <button class="btn btn-link" (click)="isAddUserToggled=!isAddUserToggled">Add member
@@ -124,11 +126,11 @@
                             container="body" ngbTooltip="{{member.name}} was sent an invitation.">Pending</small>
                     </td>
                     <td class="col-2">
-                        <div *hasPermission="Permissions.canEditUser; else elseBlock; then thenBlock">main</div>
-                        <ng-template #elseBlock>
+                        <div *hasPermission="Permissions.canEditUser; else elseRoleBlock; then thenRoleBlock">main</div>
+                        <ng-template #elseRoleBlock>
                             {{UserRole[member.userRole]}}
                         </ng-template>
-                        <ng-template #thenBlock>
+                        <ng-template #thenRoleBlock>
                             <select [disabled]="member.isDeleted" class="form-control" (change)="changeUserRole(member,$event.target.value)">
                                 <option *ngFor="let userRole of UserRole | keys" [value]="userRole.key" [selected]="member.userRole">{{userRole.value}}</option>
                             </select>
@@ -141,12 +143,24 @@
                     </td>
                     <td class="">
                         <span *ngIf="member.isDeleted" class="text-muted">(Deleted)</span>
-                        <button [class.deleted]="member.isDeleted" *ngIf="!member.isActivationPending" class="btn btn-default  mt-2" placement="top"
+                        <button [class.deleted]="member.isDeleted" *ngIf="!member.isActivationPending" class="btn btn-default" placement="top"
                             container="body" ngbTooltip="{{member.name}} is a confirmed user." disabled>Active</button>
-                        <button [class.deleted]="member.isDeleted" [hidden]="isDisplayLoader(member.user_id)" *ngIf="member.isActivationPending && !member.isInvitationSent"
-                            class="btn btn-success  mt-2" (click)="inviteUser(member, i)" placement="left" container="body" ngbTooltip="Invite {{member.name}} to view and edit maps">Invite </button>
+
+                        <ng-container *hasPermission="Permissions.canInviteUser;then thenInviteBlock; else elseInviteBlock"></ng-container>
+                        <ng-template #thenInviteBlock>
+                            <button [class.deleted]="member.isDeleted" [hidden]="isDisplayLoader(member.user_id)" *ngIf="member.isActivationPending && !member.isInvitationSent"
+                                class="btn btn-success" (click)="inviteUser(member, i)" placement="left" container="body"
+                                ngbTooltip="Invite {{member.name}} to view and edit maps"> Invite </button>
+
+                        </ng-template>
+                        <ng-template #elseInviteBlock>
+                            <button *ngIf="member.isActivationPending && !member.isInvitationSent" class="btn btn-success disabled"  placement="left" container="body" ngbTooltip="Admin only">Invite<i class="fa fa-lock ml-1"></i></button> 
+                        </ng-template>
+
+
+
                         <button [class.deleted]="member.isDeleted" [hidden]="isDisplayLoader(member.user_id)" *ngIf="member.isActivationPending && member.isInvitationSent"
-                            class="btn btn-success  mt-2" (click)="resendUser(member, i)" placement="left" container="body" ngbTooltip="Resend an invitation to {{member.name}}">Resend </button>
+                            class="btn btn-success" (click)="resendUser(member, i)" placement="left" container="body" ngbTooltip="Resend an invitation to {{member.name}}">Resend </button>
                         <div class="sending" [hidden]="!isDisplayLoader(member.user_id)">
                             <i *ngIf="isDisplayLoader(member.user_id)" class="text-muted fa fa-circle-o-notch fa-spin fa-fw fa-2x"></i>
                         </div>

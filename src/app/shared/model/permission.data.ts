@@ -13,6 +13,7 @@ export enum Permissions {
     canAddUser,
     canRemoveUser,
     canEditUser,
+    canInviteUser,
 
     canCreateTeam,
     canEditTeam
@@ -49,7 +50,8 @@ export class PermissionService {
             Permissions.canAddUser,
             Permissions.canRemoveUser,
             Permissions.canEditUser,
-            Permissions.canEditTeam
+            Permissions.canEditTeam,
+            Permissions.canInviteUser
         ]
     }
 }

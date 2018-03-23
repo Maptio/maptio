@@ -31,6 +31,7 @@ export class HasPermissionDirective {
 
     @Input()
     set hasPermission(permission: Permissions) {
+
         this.permission = permission;
         this._context.$implicit = this._context.hasPermission = this.checkPermission();
         this._updateView();
@@ -74,6 +75,7 @@ export class HasPermissionDirective {
 
 
     private checkPermission() {
+        console.log("chekc", Permissions[this.permission], this.userPermissions,this.userPermissions.includes(this.permission))
         if (this.userPermissions) {
             return this.userPermissions.includes(this.permission);
         }
