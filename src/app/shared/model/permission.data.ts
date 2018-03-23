@@ -11,7 +11,7 @@ export enum UserRole {
 
 export enum Permissions {
     canAddUser,
-    canRemoveUser,
+    canDeleteUser,
     canEditUser,
     canInviteUser,
 
@@ -48,7 +48,7 @@ export class PermissionService {
         // can change the team jargon
         return [
             Permissions.canAddUser,
-            Permissions.canRemoveUser,
+            Permissions.canDeleteUser,
             Permissions.canEditUser,
             Permissions.canEditTeam,
             Permissions.canInviteUser
