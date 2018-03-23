@@ -1,3 +1,4 @@
+import { PermissionService } from './../../shared/model/permission.data';
 
 import { TestBed, inject } from "@angular/core/testing";
 import { DashboardComponentResolver } from "./dashboard.resolver";
@@ -34,6 +35,7 @@ describe("dashboard.resolver.ts", () => {
                 TeamFactory,
                 DatasetFactory,
                 UserFactory,
+                PermissionService,
                 AuthConfiguration, UserService, MailingService, JwtEncoder, LoaderService,
                 {
                     provide: AuthHttp,

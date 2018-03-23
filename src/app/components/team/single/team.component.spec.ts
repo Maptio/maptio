@@ -1,3 +1,8 @@
+import { Permissions } from "./../../../shared/model/permission.data";
+import { Auth } from "./../../../shared/services/auth/auth.service";
+import { HasPermissionDirective } from "./../../../shared/directives/hasperrmission.directive";
+import { KeysPipe } from "./../../../pipes/keys.pipe";
+import { TeamModule } from "./../team.module";
 import { User } from "./../../../shared/model/user.data";
 import { Team } from "./../../../shared/model/team.data";
 import { Observable } from "rxjs/Rx";
@@ -5,7 +10,6 @@ import { ActivatedRoute, ActivatedRouteSnapshot } from "@angular/router";
 import { TeamComponent } from "./team.component";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { TestBed, async, ComponentFixture } from "@angular/core/testing";
-
 import { RouterTestingModule } from "@angular/router/testing";
 
 
@@ -17,12 +21,20 @@ describe("team.component.ts", () => {
     beforeEach(async(() => {
 
         TestBed.configureTestingModule({
-            declarations: [TeamComponent],
+            declarations: [TeamComponent, HasPermissionDirective],
             schemas: [NO_ERRORS_SCHEMA],
             imports: [RouterTestingModule]
         }).overrideComponent(TeamComponent, {
             set: {
                 providers: [
+                    {
+                        provide: Auth,
+                        useClass: class {
+                            getPermissions(): Permissions[] {
+                                return []
+                            }
+                        }
+                    },
                     {
                         provide: ActivatedRoute,
                         useClass: class {

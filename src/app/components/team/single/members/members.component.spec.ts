@@ -1,3 +1,6 @@
+import { KeysPipe } from "./../../../../pipes/keys.pipe";
+import { Permissions, UserRole } from "./../../../../shared/model/permission.data";
+import { HasPermissionDirective } from "./../../../../shared/directives/hasperrmission.directive";
 import { authHttpServiceFactoryTesting } from "../../../../../test/specs/shared/authhttp.helper.shared"
 import { Angulartics2Mixpanel } from "angulartics2";
 import { User } from "./../../../../shared/model/user.data";
@@ -60,7 +63,7 @@ describe("members.component.ts", () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [TeamMembersComponent],
+            declarations: [TeamMembersComponent, HasPermissionDirective, KeysPipe],
             schemas: [NO_ERRORS_SCHEMA],
             imports: [RouterTestingModule, Angulartics2Module]
         }).overrideComponent(TeamMembersComponent, {
@@ -81,8 +84,12 @@ describe("members.component.ts", () => {
                         deps: [MockBackend, BaseRequestOptions]
                     },
                     {
-                        provide: Auth, useClass: class {
+                        provide: Auth,
+                        useClass: class {
                             getUser() { return Observable.of(new User({ user_id: "USER_ID" })) }
+                            getPermissions(): Permissions[] {
+                                return []
+                            }
                         }
                     },
                     MockBackend,
@@ -106,6 +113,7 @@ describe("members.component.ts", () => {
         component = target.componentInstance;
         target.detectChanges();
     });
+
 
     describe("getAllMembers", () => {
         it("should retrieve members information ", async(() => {

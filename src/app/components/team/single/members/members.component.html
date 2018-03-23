@@ -128,7 +128,7 @@
                             container="body" ngbTooltip="{{member.name}} was sent an invitation.">Pending</small>
                     </td>
                     <td class="col-2">
-                        <div *hasPermission="Permissions.canEditUser; else elseRoleBlock; then thenRoleBlock">main</div>
+                        <ng-container *hasPermission="Permissions.canEditUser; else elseRoleBlock; then thenRoleBlock">main</ng-container>
                         <ng-template #elseRoleBlock>
                             {{UserRole[member.userRole]}}
                         </ng-template>

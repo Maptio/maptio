@@ -1,4 +1,3 @@
-import { KeysPipe } from "./../../../../pipes/keys.pipe";
 import { Auth } from "./../../../../shared/services/auth/auth.service";
 import { Observable } from "rxjs/Rx";
 import { DataSet } from "./../../../../shared/model/dataset.data";
@@ -26,8 +25,7 @@ import { UserRole, Permissions } from "../../../../shared/model/permission.data"
 @Component({
     selector: "team-single-members",
     templateUrl: "./members.component.html",
-    styleUrls: ["./members.component.css"],
-    providers: [KeysPipe]
+    styleUrls: ["./members.component.css"]
 })
 export class TeamMembersComponent implements OnInit {
 

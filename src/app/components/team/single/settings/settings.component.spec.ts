@@ -1,3 +1,7 @@
+import { Permissions } from "./../../../../shared/model/permission.data";
+import { Auth } from "./../../../../shared/services/auth/auth.service";
+import { DisableIfNoPermission } from "./../../../../shared/directives/disableIfNoPermission.directive";
+import { HasPermissionDirective } from "./../../../../shared/directives/hasperrmission.directive";
 import { ActivatedRouteSnapshot, ActivatedRoute, UrlSegment, ParamMap, Params, Data, Route } from "@angular/router";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 import { TeamSettingsComponent } from "./settings.component";
@@ -49,12 +53,20 @@ describe("settings.component.ts", () => {
     beforeEach(async(() => {
 
         TestBed.configureTestingModule({
-            declarations: [TeamSettingsComponent],
+            declarations: [TeamSettingsComponent, HasPermissionDirective, DisableIfNoPermission],
             schemas: [NO_ERRORS_SCHEMA],
             imports: [RouterTestingModule]
         }).overrideComponent(TeamSettingsComponent, {
             set: {
                 providers: [
+                    {
+                        provide: Auth,
+                        useClass: class {
+                            getPermissions(): Permissions[] {
+                                return []
+                            }
+                        }
+                    },
                     TeamFactory,
                     {
                         provide: AuthHttp,

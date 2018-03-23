@@ -1,3 +1,4 @@
+import { PermissionService } from './../../shared/model/permission.data';
 import { Initiative } from "./../../shared/model/initiative.data";
 import { MockBackend } from "@angular/http/testing";
 import { BaseRequestOptions, Http } from "@angular/http";
@@ -41,7 +42,7 @@ describe("dashboard.component.ts", () => {
                             get data() { return datasets$.asObservable() };
                         }
                     },
-
+                    PermissionService,
                     { provide: Auth, useClass: class { getUser() { return user$.asObservable() } } },
                     {
                         provide: AuthHttp,

@@ -1,6 +1,6 @@
-import { DisableIfNoPermission } from './../../shared/directives/disableIfNoPermission.directive';
-import { HasPermissionDirective } from './../../shared/directives/hasperrmission.directive';
-import { KeysPipe } from './../../pipes/keys.pipe';
+import { DisableIfNoPermission } from "./../../shared/directives/disableIfNoPermission.directive";
+import { HasPermissionDirective } from "./../../shared/directives/hasperrmission.directive";
+import { KeysPipe } from "./../../pipes/keys.pipe";
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";
 import { TeamComponentResolver } from "./single/team.resolver";
 import { AccessGuard } from "./../../shared/services/guards/access.guard";

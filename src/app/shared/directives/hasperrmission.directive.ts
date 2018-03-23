@@ -75,7 +75,6 @@ export class HasPermissionDirective {
 
 
     private checkPermission() {
-        console.log("chekc", Permissions[this.permission], this.userPermissions,this.userPermissions.includes(this.permission))
         if (this.userPermissions) {
             return this.userPermissions.includes(this.permission);
         }
