@@ -123,6 +123,11 @@ a.caret-after {
   font-family: FontAwesome;
 }
 
+.unlocked::before{
+  content: "\f100";
+  font-family: FontAwesome;
+}
+
 .next::before {
   content: "\f101";
   font-family: FontAwesome;

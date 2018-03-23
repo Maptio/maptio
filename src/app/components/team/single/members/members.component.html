@@ -111,15 +111,12 @@
                 <ngx-loading [show]="isLoading"></ngx-loading>
                 <tr class="row" *ngFor="let member of (members$ | async); trackBy: trackByMemberId;let i=index" [class.deleted]="member.isDeleted">
                     <td class=" delete">
-                        <!-- <ng-container *ngIf="member.isActivationPending && !member.isInvitationSent"> -->
                         <ng-container *hasPermission="Permissions.canDeleteUser;then thenDeleteBlock"></ng-container>
                         <ng-template #thenDeleteBlock>
                             <span class="remove text-danger" aria-hidden="true" mwlConfirmationPopover title="This cannot be undone ! Are you sure you want to delete {{member.name}} ?"
                                 placement="right" focusButton="cancel" appendToBody="true" (confirm)="deleteMember(member)" (cancel)="cancelClicked = true">
                             </span>
                         </ng-template>
-                        <!-- </ng-container> -->
-
                     </td>
                     <td class="col-1">
                         <img class="rounded-circle member " src="{{member.picture}}" alt="{{member.name}}">

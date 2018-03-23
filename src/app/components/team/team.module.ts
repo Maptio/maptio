@@ -1,3 +1,4 @@
+import { DisableIfNoPermission } from './../../shared/directives/disableIfNoPermission.directive';
 import { HasPermissionDirective } from './../../shared/directives/hasperrmission.directive';
 import { KeysPipe } from './../../pipes/keys.pipe';
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";
@@ -69,7 +70,8 @@ const routes: Routes = [
         TeamSettingsComponent,
         TeamImportComponent,
         KeysPipe,
-        HasPermissionDirective
+        HasPermissionDirective,
+        DisableIfNoPermission
     ],
     providers: [TeamComponentResolver]
 })
