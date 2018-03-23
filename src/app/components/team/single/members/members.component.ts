@@ -48,7 +48,7 @@ export class TeamMembersComponent implements OnInit {
 
     public resentMessage: string;
     public isLoading: boolean;
-
+    public isAddUserToggled:boolean;
 
     public createdUser: User;
     public inviteForm: FormGroup;
