@@ -1,5 +1,5 @@
 import { Permissions } from "./../../../../shared/model/permission.data";
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from "@angular/router";
 import { Component, OnInit, Input, ChangeDetectorRef } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Team } from "../../../../shared/model/team.data";
@@ -23,7 +23,7 @@ export class TeamSettingsComponent implements OnInit {
 
     Permissions = Permissions;
     CanEditTeam = Permissions.canEditTeam;
-    
+
     constructor(private cd: ChangeDetectorRef, private teamFactory: TeamFactory, private route: ActivatedRoute) {
         this.teamSettingsForm = new FormGroup({
             "name": new FormControl(this.teamName, [
@@ -38,7 +38,7 @@ export class TeamSettingsComponent implements OnInit {
     ngOnInit() {
 
         this.route.parent.data
-            .subscribe((data: { team: Team}) => {
+            .subscribe((data: { team: Team }) => {
                 this.team = data.team;
                 this.teamName = this.team.name;
                 this.teamAuthority = this.team.settings.authority;

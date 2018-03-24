@@ -1,31 +1,29 @@
-import { KeysPipe } from "./../../../../pipes/keys.pipe";
-import { Permissions, UserRole } from "./../../../../shared/model/permission.data";
-import { HasPermissionDirective } from "./../../../../shared/directives/hasperrmission.directive";
-import { authHttpServiceFactoryTesting } from "../../../../../test/specs/shared/authhttp.helper.shared"
-import { Angulartics2Mixpanel } from "angulartics2";
-import { User } from "./../../../../shared/model/user.data";
-import { Team } from "./../../../../shared/model/team.data";
-import { Observable } from "rxjs/Rx";
-import { UserService } from "./../../../../shared/services/user/user.service";
-import { ErrorService } from "./../../../../shared/services/error/error.service";
-import { Auth } from "./../../../../shared/services/auth/auth.service";
-import { MockBackend } from "@angular/http/testing";
-import { BaseRequestOptions } from "@angular/http";
-import { Http } from "@angular/http";
-import { AuthHttp } from "angular2-jwt";
-import { MailingService } from "./../../../../shared/services/mailing/mailing.service";
-import { JwtEncoder } from "./../../../../shared/services/encoding/jwt.service";
-import { FileService } from "./../../../../shared/services/file/file.service";
-import { AuthConfiguration } from "./../../../../shared/services/auth/auth.config";
-import { UserFactory } from "./../../../../shared/services/user.factory";
-import { DatasetFactory } from "./../../../../shared/services/dataset.factory";
-import { TeamFactory } from "./../../../../shared/services/team.factory";
-import { Angulartics2Module, Angulartics2 } from "angulartics2";
-import { RouterTestingModule } from "@angular/router/testing";
 import { NO_ERRORS_SCHEMA, Type } from "@angular/core";
-import { ComponentFixture, async, TestBed } from "@angular/core/testing";
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { BaseRequestOptions, Http } from "@angular/http";
+import { MockBackend } from "@angular/http/testing";
+import { ActivatedRoute, ActivatedRouteSnapshot, Data, ParamMap, Params, Route, UrlSegment } from "@angular/router";
+import { RouterTestingModule } from "@angular/router/testing";
+import { AuthHttp } from "angular2-jwt";
+import { Angulartics2, Angulartics2Mixpanel, Angulartics2Module } from "angulartics2";
+import { Observable } from "rxjs/Rx";
+import { authHttpServiceFactoryTesting } from "../../../../../test/specs/shared/authhttp.helper.shared";
+import { KeysPipe } from "./../../../../pipes/keys.pipe";
+import { HasPermissionDirective } from "./../../../../shared/directives/hasperrmission.directive";
+import { Permissions } from "./../../../../shared/model/permission.data";
+import { Team } from "./../../../../shared/model/team.data";
+import { User } from "./../../../../shared/model/user.data";
+import { AuthConfiguration } from "./../../../../shared/services/auth/auth.config";
+import { Auth } from "./../../../../shared/services/auth/auth.service";
+import { DatasetFactory } from "./../../../../shared/services/dataset.factory";
+import { JwtEncoder } from "./../../../../shared/services/encoding/jwt.service";
+import { ErrorService } from "./../../../../shared/services/error/error.service";
+import { FileService } from "./../../../../shared/services/file/file.service";
+import { MailingService } from "./../../../../shared/services/mailing/mailing.service";
+import { TeamFactory } from "./../../../../shared/services/team.factory";
+import { UserFactory } from "./../../../../shared/services/user.factory";
+import { UserService } from "./../../../../shared/services/user/user.service";
 import { TeamMembersComponent } from "./members.component";
-import { ActivatedRouteSnapshot, ActivatedRoute, UrlSegment, ParamMap, Params, Data, Route } from "@angular/router";
 
 class MockActivatedRoute implements ActivatedRoute {
     paramMap: Observable<ParamMap>;
@@ -114,7 +112,6 @@ describe("members.component.ts", () => {
         target.detectChanges();
     });
 
-
     describe("getAllMembers", () => {
         it("should retrieve members information ", async(() => {
             component.team = new Team({ team_id: "ID", name: "My team", members: [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })] });
@@ -144,10 +141,6 @@ describe("members.component.ts", () => {
                     : Promise.reject("Can't find user")
             })
 
-
-            // let spyGetInvitationSent = spyOn(target.debugElement.injector.get(UserService), "isInvitationSent").and.returnValue(Promise.resolve(true))
-            // let spyActivationPending = spyOn(target.debugElement.injector.get(UserService), "isActivationPendingByUserId").and.returnValue(Promise.resolve(true))
-
             component.getAllMembers().then(members => {
                 expect(members.length).toBe(2);
                 expect(members.every(m => m.isInvitationSent === true)).toBe(true)
@@ -164,9 +157,6 @@ describe("members.component.ts", () => {
                 return Promise.resolve(users.map(u => { u.isInvitationSent = false; return u }))
             })
 
-            // let spyGetInvitationSent = spyOn(target.debugElement.injector.get(UserService), "isInvitationSent").and.returnValue(Promise.reject("Cant find user"))
-            // let spyActivationPending = spyOn(target.debugElement.injector.get(UserService), "isActivationPendingByUserId").and.returnValue(Promise.resolve(true))
-
             component.getAllMembers().then(members => {
                 expect(members.length).toBe(3);
                 expect(members.every(m => m.isInvitationSent === false)).toBe(true)
@@ -182,8 +172,6 @@ describe("members.component.ts", () => {
             spyOn(target.debugElement.injector.get(UserService), "getUsersInfo").and.returnValue((users: User[]) => {
                 return Promise.resolve(users.map(u => { u.isActivationPending = false; return u }))
             })
-            // let spyGetInvitationSent = spyOn(target.debugElement.injector.get(UserService), "isActivationPendingByUserId").and.returnValue(Promise.reject("Cant find user"))
-            // let spyActivationPending = spyOn(target.debugElement.injector.get(UserService), "isInvitationSent").and.returnValue(Promise.resolve(true))
 
             component.getAllMembers().then(members => {
                 expect(members.length).toBe(3);

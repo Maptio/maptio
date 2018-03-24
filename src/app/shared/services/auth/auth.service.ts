@@ -144,12 +144,9 @@ export class Auth {
       ])
         .then(([auth0User, databaseUser]: [User, User]) => {
           let user = auth0User;
+          this.permissions = this.permissionService.get(user.userRole);
           user.teams = uniq(databaseUser.teams); // HACK : where does the duplication comes from?
           user.shortid = databaseUser.shortid;
-          return user;
-        })
-        .then((user: User) => {
-          this.permissions = this.permissionService.get(user.userRole);
           return user;
         })
         .then((user: User) => {
