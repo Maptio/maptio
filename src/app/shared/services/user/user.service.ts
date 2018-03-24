@@ -9,7 +9,7 @@ import { MailingService } from "../mailing/mailing.service";
 import { UUID } from "angular2-uuid/index";
 import { EmitterService } from "../emitter.service";
 import { Observable } from "rxjs/Rx";
-import {flatten} from "lodash"
+import { flatten } from "lodash"
 
 @Injectable()
 export class UserService {
@@ -114,7 +114,7 @@ export class UserService {
         return this.encodingService.encode({ user_id: userId, email: email, firstname: firstname, lastname: lastname })
     }
 
-    public createUser(email: string, firstname: string, lastname: string, isSignUp?: boolean): Promise<User> {
+    public createUser(email: string, firstname: string, lastname: string, isSignUp?: boolean, isAdmin?: boolean): Promise<User> {
         let newUser = {
             "connection": environment.CONNECTION_NAME,
             "email": email,
@@ -125,7 +125,8 @@ export class UserService {
             "app_metadata":
             {
                 "activation_pending": true,
-                "invitation_sent": false
+                "invitation_sent": false,
+                "role": isAdmin ? UserRole[UserRole.Admin] : UserRole[UserRole.Standard]
             },
             "user_metadata":
             {
@@ -170,7 +171,7 @@ export class UserService {
                 let pageArrays = Array.from(Array(maxCounter - 1).keys())
                 let singleObservables = pageArrays.map((pageNumber: number) => {
                     return this.requestUsersPerPage(query, headers, pageNumber)
-                        .map(single => {return single })
+                        .map(single => { return single })
                 });
 
                 return Observable.forkJoin(singleObservables).toPromise().then((result: User[][]) => {

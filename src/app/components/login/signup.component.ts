@@ -91,15 +91,11 @@ export class SignupComponent implements OnInit {
                     }
                     else {
                         // no matching email => create user
-                        return this.userService.createUser(email, firstname, lastname, true)
+                        return this.userService.createUser(email, firstname, lastname, true, true)
                             .then((user: User) => {
-
+                                console.log("just created user", user)
                                 return user;
                             }, (reason) => { return Promise.reject("Account creation failed") })
-                            .then((user: User) => {
-                                return this.userService.updateUserRole(user.user_id, UserRole[UserRole.Admin])
-                                    .then(() => user)
-                            }, (reason) => { return Promise.reject("Cannot set user role") })
                             .then((user: User) => {
                                 return this.userService.sendConfirmation(user.email, user.user_id, user.firstname, user.lastname, user.name)
                                     .then((success: boolean) => {

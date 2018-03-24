@@ -20,7 +20,6 @@ import { Router, ActivatedRoute } from "@angular/router";
 export class TeamListComponent implements OnInit {
 
     public user: User;
-    public userSubscription2: Subscription;
     public userSubscription: Subscription;
     public routeSubscription: Subscription;
     public teams: Array<Team>;
@@ -56,7 +55,7 @@ export class TeamListComponent implements OnInit {
     }
 
     ngOnDestroy(): void {
-        if (this.userSubscription2) this.userSubscription2.unsubscribe();
+        if (this.userSubscription) this.userSubscription.unsubscribe();
         if (this.routeSubscription) this.routeSubscription.unsubscribe();
     }
 
