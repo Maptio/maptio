@@ -1,3 +1,4 @@
+import { UserRole } from './../../shared/model/permission.data';
 import { environment } from "./../../../environment/environment";
 import { UserService } from "./../../shared/services/user/user.service";
 import { ErrorService } from "./../../shared/services/error/error.service";
@@ -29,7 +30,7 @@ export class AccountComponent {
     public isRefreshingPicture: boolean;
 
     public isLoading: boolean;
-
+    UserRole = UserRole;
     private uploaderOptions: FileUploaderOptions = {
         url: `https://api.cloudinary.com/v1_1/${this.cloudinary.config().cloud_name}/upload`,
         // Upload files automatically upon addition to upload queue

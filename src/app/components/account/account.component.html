@@ -16,8 +16,8 @@
             </div>
             <div class="mt-2 mb-2 d-flex flex-column">
                 <div class="d-flex">
-                    <input class="btn btn-secondary btn-outline-success p-1" type="file" id="fileupload" #fileInput ng2FileSelect
-                        [uploader]="uploader" (change)="fileInput.value=''" accept="image/*" />
+                    <input class="btn btn-secondary btn-outline-success p-1" type="file" id="fileupload" #fileInput ng2FileSelect [uploader]="uploader"
+                        (change)="fileInput.value=''" accept="image/*" />
                     <i *ngIf="isRefreshingPicture" class="ml-1 text-muted fa fa-circle-o-notch fa-spin fa-fw fa-2x"></i>
                 </div>
 
@@ -33,7 +33,8 @@
 
         <form class="form-group col-9" [formGroup]="accountForm" (submit)="save()">
             <div class="d-flex w-100 justify-content-between">
-                <h1 class="mb-3">{{user?.name}}</h1>
+                <h1 class="mb-3">{{user?.name}} </h1>
+
                 <h6 class="email">
                     <span class="fa-stack fa-lg">
                         <i class="fa fa-circle fa-stack-2x"></i>
@@ -41,6 +42,7 @@
                     </span>
                     {{user?.email}}</h6>
             </div>
+            <span class="small text-muted">{{UserRole[user?.userRole]}}</span>
             <div class="form-group" [class.has-warning]="accountForm.controls['firstname'].invalid  && (accountForm.controls['firstname'].dirty || accountForm.controls['firstname'].touched)">
                 <label for="inputFirstname">First name</label>
                 <input type="text" class="form-control form-control-warning form-control-lg" [(ngModel)]="firstname" formControlName="firstname"
@@ -56,6 +58,10 @@
                 <small class="form-control-feedback" *ngIf="accountForm.controls['lastname'].invalid  && (accountForm.controls['lastname'].dirty || accountForm.controls['lastname'].touched)">
                     In the army, that's how they would refer to you. Just tell us (please)
                 </small>
+            </div>
+            <div class="form-group">
+                <label for="inputRole">Role</label>
+                <input type="text" disabled class="form-control form-control-warning form-control-lg disabled" [value]="UserRole[user?.userRole]">
             </div>
 
             <button type="submit" class="btn btn-success btn-lg pull-right" [class.disabled]="!accountForm.valid">Save</button>
