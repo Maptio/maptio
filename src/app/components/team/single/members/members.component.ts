@@ -143,7 +143,6 @@ export class TeamMembersComponent implements OnInit {
         return this.isSendingMap.get(user_id)
     }
 
-
     saveNewMember(event: NgbTypeaheadSelectItemEvent) {
 
         this.newMember = event.item;
@@ -360,6 +359,10 @@ export class TeamMembersComponent implements OnInit {
     }
 
     changeUserRole(user: User, userRole: UserRole) {
-        this.userService.updateUserRole(user.user_id, UserRole[userRole])
+        this.isSendingMap.set(user.user_id, true)
+        this.userService.updateUserRole(user.user_id, UserRole[userRole]).then(() => {
+            this.isSendingMap.set(user.user_id, false);
+            this.cd.markForCheck();
+        })
     }
 }
