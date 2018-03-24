@@ -22,6 +22,7 @@ export class DisableIfNoPermission {
     }
 
     private checkPermission() {
+        console.log("check permissions", this.userPermissions, this.permission)
         if (this.userPermissions) {
             return this.userPermissions.includes(this.permission);
         }

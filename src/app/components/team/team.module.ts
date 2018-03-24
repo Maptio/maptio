@@ -1,3 +1,4 @@
+import { TeamListComponentResolver } from "./list/team-list.resolver";
 import { DisableIfNoPermission } from "./../../shared/directives/disableIfNoPermission.directive";
 import { HasPermissionDirective } from "./../../shared/directives/hasperrmission.directive";
 import { KeysPipe } from "./../../pipes/keys.pipe";
@@ -22,7 +23,12 @@ const routes: Routes = [
         path: "teams",
         data: { breadcrumbs: "Teams" },
         children: [
-            { path: "", component: TeamListComponent, canActivate: [AuthGuard] },
+            {
+                path: "", component: TeamListComponent, canActivate: [AuthGuard],
+                resolve: {
+                    teams: TeamListComponentResolver
+                }
+            },
             {
                 path: ":teamid/:slug",
                 resolve: {
@@ -73,6 +79,6 @@ const routes: Routes = [
         HasPermissionDirective,
         DisableIfNoPermission
     ],
-    providers: [TeamComponentResolver]
+    providers: [TeamComponentResolver, TeamListComponentResolver]
 })
 export class TeamModule { }

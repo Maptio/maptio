@@ -1,15 +1,15 @@
+import { Subscription } from "rxjs/Subscription";
+import { Permissions } from "./../../../shared/model/permission.data";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Angulartics2Mixpanel } from "angulartics2";
-import { Subscription } from "rxjs/Rx";
 import { UserFactory } from "../../../shared/services/user.factory";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { TeamFactory } from "../../../shared/services/team.factory";
 import { Auth } from "../../../shared/services/auth/auth.service";
 import { User } from "../../../shared/model/user.data";
 import { Team } from "../../../shared/model/team.data";
-import { differenceBy, sortBy } from "lodash"
 import { UserService } from "../../../shared/services/user/user.service";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({
     selector: "team-list",
@@ -22,7 +22,8 @@ export class TeamListComponent implements OnInit {
     public user: User;
     public userSubscription2: Subscription;
     public userSubscription: Subscription;
-    public teams$: Promise<Array<Team>>;
+    public routeSubscription: Subscription;
+    public teams: Array<Team>;
     public errorMessage: string;
     public isLoading: boolean;
     public isCreating: boolean;
@@ -30,11 +31,10 @@ export class TeamListComponent implements OnInit {
     public createForm: FormGroup;
     public teamName: string;
 
-    constructor(public auth: Auth, private teamFactory: TeamFactory, private userFactory: UserFactory,
+    Permissions = Permissions;
+
+    constructor(private route: ActivatedRoute, private cd: ChangeDetectorRef, public auth: Auth, private teamFactory: TeamFactory, private userFactory: UserFactory,
         private userService: UserService, private analytics: Angulartics2Mixpanel, public router: Router) {
-        this.userSubscription = this.auth.getUser().subscribe((user: User) => {
-            this.user = user;
-        });
 
         this.createForm = new FormGroup({
             "teamName": new FormControl(this.teamName, [
@@ -42,17 +42,22 @@ export class TeamListComponent implements OnInit {
                 Validators.minLength(2)
             ]),
         });
-
-
     }
 
     ngOnInit() {
-        this.getTeams();
+        this.routeSubscription = this.route.data
+            .subscribe((data: any) => {
+                this.teams = data.teams;
+                this.cd.markForCheck();
+            });
+        this.userSubscription = this.auth.getUser().subscribe(user => {
+            this.user = user;
+        })
     }
 
     ngOnDestroy(): void {
         if (this.userSubscription2) this.userSubscription2.unsubscribe();
-        if (this.userSubscription) this.userSubscription.unsubscribe();
+        if (this.routeSubscription) this.routeSubscription.unsubscribe();
     }
 
 
@@ -67,7 +72,7 @@ export class TeamListComponent implements OnInit {
                     return this.userFactory.upsert(this.user)
                         .then((result: boolean) => {
                             if (result) {
-                                this.getTeams();
+                                // this.getTeams();
                                 this.teamName = ""
                                 this.analytics.eventTrack("Create team", { email: this.user.email, name: teamName, teamId: team.team_id })
                             }
@@ -97,34 +102,6 @@ export class TeamListComponent implements OnInit {
 
         }
 
-    }
-
-
-    getTeams() {
-        this.isLoading = true;
-        this.userSubscription2 = this.auth.getUser().subscribe(
-            (user: User) => {
-
-                this.teams$ =
-                    this.teamFactory.get(user.teams)
-                        .then((teams: Array<Team>) => {
-                            teams.forEach(t => {
-                                if (t) {
-                                    this.userService.getUsersInfo(t.members).then((actualMembers: User[]) => {
-                                        let allDeleted = differenceBy(t.members, actualMembers, m => m.user_id).map(m => { m.isDeleted = true; return m });
-                                        return actualMembers.concat(allDeleted);
-                                    })
-                                        .then(members => t.members = sortBy(members, m => m.name))
-                                }
-                            })
-                            return teams.filter(t => { return t !== undefined });
-                        }, (r) => { this.isLoading = false; return Promise.reject(r) })
-                        .then(teams => {
-                            this.isLoading = false;
-                            return sortBy(teams, t => t.name)
-                        })
-                        // .catch(() => { this.isLoading = false; })
-            })
     }
 
     trackByMemberId(index: number, member: User) {

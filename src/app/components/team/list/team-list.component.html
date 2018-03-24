@@ -9,27 +9,28 @@
     <div class="mb-3">
         <form class="w-50" [class.has-warning]="createForm.controls['teamName'].invalid  && (createForm.controls['teamName'].dirty || createForm.controls['teamName'].touched)"
             [formGroup]="createForm" (submit)="createNewTeam()">
-            <div class="input-group">
-                <input type="text" class="form-control form-control-warning" formControlName="teamName" placeholder="e.g. Planet Express"
-                    required>
+            <fieldset [disableIfNoPermission]="Permissions.canCreateTeam">
+                <div class="input-group">
+                    <input type="text" class="form-control form-control-warning" formControlName="teamName" placeholder="e.g. Planet Express"
+                        required>
 
-                <span class="input-group-btn">
-                    <button type="submit" class="btn btn-success" [class.disabled]="!createForm.valid">Create</button>
-                </span>
-            </div>
-            <small class="form-control-feedback" *ngIf="createForm.controls['teamName'].invalid  && (createForm.controls['teamName'].dirty || createForm.controls['teamName'].touched)">
-                That doesnt sound right... actually does it even sound like the name of your team?
-            </small>
-
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-success" [class.disabled]="!createForm.valid">Create</button>
+                    </span>
+                </div>
+                <small class="form-control-feedback" *ngIf="createForm.controls['teamName'].invalid  && (createForm.controls['teamName'].dirty || createForm.controls['teamName'].touched)">
+                    That doesnt sound right... actually does it even sound like the name of your team?
+                </small>
+            </fieldset>
         </form>
         <i *ngIf="isCreating" class="text-muted fa fa-circle-o-notch fa-spin fa-fw ml-3 fa-2x"></i>
     </div>
 
 
     <div class="overflow">
-            <ngx-loading [show]="isLoading"></ngx-loading>
- 
-        <div class="card mb-3 " *ngFor="let team of (teams$ | async);trackBy:trackByTeamId">
+        <ngx-loading [show]="isLoading"></ngx-loading>
+
+        <div class="card mb-3 " *ngFor="let team of teams;trackBy:trackByTeamId">
 
             <div class="d-flex w-100 justify-content-between card-header">
                 <h5>

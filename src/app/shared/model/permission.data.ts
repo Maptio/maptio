@@ -51,6 +51,7 @@ export class PermissionService {
             Permissions.canDeleteUser,
             Permissions.canEditUser,
             Permissions.canEditTeam,
+            Permissions.canCreateTeam,
             Permissions.canInviteUser
         ]
     }
