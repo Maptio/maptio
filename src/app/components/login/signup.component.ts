@@ -1,10 +1,11 @@
-import { repeatValidator } from "./../../shared/directives/equal-validator.directive";
-import { LoaderService } from "./../../shared/services/loading/loader.service";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { Angulartics2Mixpanel } from "angulartics2";
 import { User } from "../../shared/model/user.data";
 import { UserService } from "../../shared/services/user/user.service";
-import { Angulartics2Mixpanel } from "angulartics2";
+import { repeatValidator } from "./../../shared/directives/equal-validator.directive";
+import { UserRole } from "./../../shared/model/permission.data";
+import { LoaderService } from "./../../shared/services/loading/loader.service";
 
 
 @Component({
@@ -92,8 +93,13 @@ export class SignupComponent implements OnInit {
                         // no matching email => create user
                         return this.userService.createUser(email, firstname, lastname, true)
                             .then((user: User) => {
+
                                 return user;
                             }, (reason) => { return Promise.reject("Account creation failed") })
+                            .then((user: User) => {
+                                return this.userService.updateUserRole(user.user_id, UserRole[UserRole.Admin])
+                                    .then(() => user)
+                            }, (reason) => { return Promise.reject("Cannot set user role") })
                             .then((user: User) => {
                                 return this.userService.sendConfirmation(user.email, user.user_id, user.firstname, user.lastname, user.name)
                                     .then((success: boolean) => {
