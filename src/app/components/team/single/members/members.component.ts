@@ -243,7 +243,7 @@ export class TeamMembersComponent implements OnInit {
             let firstname = this.inviteForm.controls["firstname"].value
             let lastname = this.inviteForm.controls["lastname"].value
 
-            this.createUserFullDetailsFake(email, firstname, lastname)
+            this.createUserFullDetails(email, firstname, lastname)
                 .then(() => {
                     this.members$ = this.getAllMembers();
                 })

@@ -93,7 +93,7 @@ export class SignupComponent implements OnInit {
                         // no matching email => create user
                         return this.userService.createUser(email, firstname, lastname, true, true)
                             .then((user: User) => {
-                                console.log("just created user", user)
+                                // console.log("just created user", user)
                                 return user;
                             }, (reason) => { return Promise.reject("Account creation failed") })
                             .then((user: User) => {
