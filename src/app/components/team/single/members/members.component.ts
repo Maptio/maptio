@@ -48,7 +48,9 @@ export class TeamMembersComponent implements OnInit {
 
     public resentMessage: string;
     public isLoading: boolean;
+    public isCreatingUser: boolean;
     public isAddUserToggled: boolean;
+    public invitableUsersCount: number;
 
     public createdUser: User;
     public inviteForm: FormGroup;
@@ -126,6 +128,10 @@ export class TeamMembersComponent implements OnInit {
                 let allDeleted = differenceBy(members, membersPending, m => m.user_id).map(m => { m.isDeleted = true; return m });
 
                 return membersPending.concat(allDeleted);
+            })
+            .then((members) => {
+                this.invitableUsersCount = members.filter(m => m.isActivationPending).length;
+                return members
             })
             .then(members => {
                 this.isLoading = false;
@@ -233,16 +239,25 @@ export class TeamMembersComponent implements OnInit {
 
     createUser(email: string) {
         if (this.inviteForm.dirty && this.inviteForm.valid) {
-
+            this.isCreatingUser = true;
             let firstname = this.inviteForm.controls["firstname"].value
             let lastname = this.inviteForm.controls["lastname"].value
 
-            this.createUserFullDetails(email, firstname, lastname)
+            this.createUserFullDetailsFake(email, firstname, lastname)
                 .then(() => {
                     this.members$ = this.getAllMembers();
+                })
+                .then(() => {
+                    this.isCreatingUser = false;
+                    this.cd.markForCheck()
                 });
         }
     }
+
+    createUserFullDetailsFake(email: string, firstname: string, lastname: string) {
+        return new Promise((resolve) => setTimeout(resolve, 3000))
+    }
+
 
     createUserFullDetails(email: string, firstname: string, lastname: string) {
         // return this.team$.then((team: Team) => {
@@ -301,15 +316,16 @@ export class TeamMembersComponent implements OnInit {
             .debounceTime(500)
             .distinctUntilChanged()
             .filter(text => this.isEmail(text))
-            .do(() => { this.searching = true; this.isAlreadyInTeam = false; this.inviteForm.reset() })
+            .do(() => { this.isUserSearchedEmail = false; this.searching = true; this.isAlreadyInTeam = false; this.inviteForm.reset(); this.cd.markForCheck(); 8 })
             .switchMap(term =>
                 Observable.fromPromise(
 
                     this.userFactory.getAll(term)
                         .then((users: User[]) => {
+                            // console.log("typed",term, "users", users)
                             this.userSearched = term;
                             return this.members$.then((existingMembers: User[]) => {
-                                // console.log(existingMembers)
+                                //  console.log("existing", existingMembers)
                                 let alreadyInTeam = existingMembers.filter(m => m.email === term);
                                 let availableToChoose = users.filter(u => !existingMembers.find(m => u.user_id === m.user_id));
 
@@ -317,10 +333,11 @@ export class TeamMembersComponent implements OnInit {
                             })
                         })
                         .then(([alreadyInTeam, availableToChoose]: [User[], User[]]) => {
-                            // console.log(alreadyInTeam, availableToChoose)
+                            //  console.log("already", alreadyInTeam, "avilable", availableToChoose)
                             if (alreadyInTeam.length > 0) {
                                 this.isAlreadyInTeam = true;
                                 this.searchFailed = false;
+                                this.cd.markForCheck();
                                 return [];
                             }
                             else {
@@ -329,6 +346,7 @@ export class TeamMembersComponent implements OnInit {
                                     // this.userSearched = Promise.resolve(term);
 
                                     this.searchFailed = true;
+                                    this.cd.markForCheck();
                                     throw new Error()
                                 }
                                 else {
@@ -341,12 +359,14 @@ export class TeamMembersComponent implements OnInit {
                 )
                     .do(() => {
                         this.searchFailed = false;
+                        this.cd.markForCheck();
                     })
                     .catch(() => {
                         this.isUserSearchedEmail = this.isEmail(term);
                         // this.userSearched = Promise.resolve(term);
                         this.userSearched = term;
                         this.searchFailed = true;
+                        this.cd.markForCheck();
                         return Observable.of([]);
                     })
             )

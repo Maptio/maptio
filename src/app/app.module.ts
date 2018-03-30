@@ -73,7 +73,6 @@ const appRoutes: Routes = [
   { path: "help", component: HelpComponent, data: { breadcrumbs: "Help" } },
   { path: "signup", component: SignupComponent, data: { breadcrumbs: "Sign up" } },
 
-
   {
     path: ":shortid/:slug",
     component: AccountComponent,

@@ -23,7 +23,7 @@ table.tableSection {
     width: 100%;
 }
 
-table.tableSection.right{
+table.tableSection.right {
     font-size: small;
 }
 
@@ -35,13 +35,13 @@ table.tableSection thead, table.tableSection tbody {
 table.tableSection.left tbody {
     /*overflow: auto;
     height: 51vh;*/
-    position:relative
+    position: relative
 }
 
 table.tableSection.right tbody {
     overflow: auto;
     height: 55vh;
-    position:relative
+    position: relative
 }
 
 table.tableSection tr {
@@ -55,23 +55,28 @@ table.tableSection th, table.tableSection td {
     vertical-align: middle;
 }
 
-td.delete{
+td.delete {
     font-size: 1em;
-    margin-left:1vw;
+    margin-left: 1vw;
     min-width: 2vw;
 }
 
-.sending{
+.sending {
     text-align: center;
-    margin-right:1vw;
+    margin-right: 1vw;
     margin-top: 1vh;
     position: relative;
 }
 
-.wrap{
+.wrap {
     word-wrap: break-word;
 }
 
-.border-right{
+.border-right {
     border-right: 1px solid #f5f5f5
+}
+
+.first-row {
+    
+    background-color: #2f81b778;
 }
