@@ -2,7 +2,7 @@
     float: left;
     background: 50% 50% no-repeat;
     background-size: auto 100%;
-    width: 45px;
+    width: 30px;
 }
 
 .list-inline-item:not(:last-child) {
