@@ -59,7 +59,8 @@ display: flex;
 }
 
 .edit:before {
-    content: "\f040";
+    /* content: "\f040"; */
+    content : "\f07c";
     font-family: FontAwesome;
 }
 
@@ -122,6 +123,7 @@ display: flex;
     max-height: 20vh;
     overflow-y: auto;
 }
+
 
 .disabled{
    pointer-events: auto !important;
