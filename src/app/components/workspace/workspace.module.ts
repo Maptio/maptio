@@ -1,3 +1,6 @@
+import { SharedModule } from './../../shared/shared.module';
+import { HasPermissionDirective } from './../../shared/directives/hasPermission.directive';
+import { CheckInitiativePermissions } from "./../../shared/directives/checkInitiativePermission.directive";
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";
 import { ColorPickerModule } from "ngx-color-picker";
 import { MarkdownService } from "angular2-markdown";
@@ -78,7 +81,8 @@ export function markdownServiceFactory(http: Http) {
         ConfirmationPopoverModule.forRoot({
             confirmButtonType: "danger",
             cancelButtonType: "secondary"
-        })
+        }),
+        SharedModule
     ],
     declarations: [
         FocusIfDirective,

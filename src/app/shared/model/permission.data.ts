@@ -14,9 +14,13 @@ export enum Permissions {
     canDeleteUser,
     canEditUser,
     canInviteUser,
-
     canCreateTeam,
-    canEditTeam
+    canEditTeam,
+
+    canCreateInitiative,
+    canDeleteInitiative,
+    canMoveInitiative,
+
 }
 
 
@@ -33,26 +37,22 @@ export class PermissionService {
     }
 
     private getStandardPermissions(): Permissions[] {
-        // Add new initiatives but not delete them
-        // Add or remove themselves from any initiative and change their roles
-        // Add other helpers to initiatives and set their roles (but not remove them from initiatives)
-
         return [
+            Permissions.canCreateInitiative
         ]
     }
 
     private getAdminPermissions(): Permissions[] {
-        // Everything a regular user can do
-        // can change authority, helper and description on any initiative
-        // can add or remove users to a team
-        // can change the team jargon
         return [
             Permissions.canAddUser,
             Permissions.canDeleteUser,
             Permissions.canEditUser,
             Permissions.canEditTeam,
             Permissions.canCreateTeam,
-            Permissions.canInviteUser
+            Permissions.canInviteUser,
+            Permissions.canCreateInitiative,
+            Permissions.canDeleteInitiative,
+            Permissions.canMoveInitiative,
         ]
     }
 }

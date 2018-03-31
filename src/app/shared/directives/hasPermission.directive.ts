@@ -1,3 +1,4 @@
+import { Initiative } from './../model/initiative.data';
 import { Permissions } from "./../model/permission.data";
 import { User } from "./../model/user.data";
 import { Auth } from "./../services/auth/auth.service";
@@ -9,7 +10,8 @@ import {
     ElementRef,
     OnInit,
     Attribute,
-    EmbeddedViewRef
+    EmbeddedViewRef,
+    SimpleChanges
 } from "@angular/core";
 
 
@@ -23,40 +25,64 @@ export class HasPermissionDirective {
 
     private userPermissions: Permissions[];
     private permission: Permissions;
+    private initiative: Initiative;
+    private userId: string;
 
     constructor(private _viewContainer: ViewContainerRef, templateRef: TemplateRef<HasPermissionContext>, private auth: Auth) {
         this._thenTemplateRef = templateRef;
         this.userPermissions = auth.getPermissions();
+        if (localStorage.getItem("profile")) {
+            this.userId = JSON.parse(localStorage.getItem("profile")).user_id
+        }
+
     }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        console.log("ngOnChanges", this.permission, this.initiative, this._thenTemplateRef, this._elseTemplateRef)
+        this._context.$implicit = this._context.hasPermission = this.checkPermission();
+        console.log("checkPermissions", this._context.$implicit)
+        this._updateView();
+    }
+
 
     @Input()
     set hasPermission(permission: Permissions) {
-
+        console.log("set Permissions")
         this.permission = permission;
-        this._context.$implicit = this._context.hasPermission = this.checkPermission();
-        this._updateView();
+        //this._updateView();
+    }
+
+    @Input()
+    set hasPermissionInitiative(initiative: Initiative) {
+        console.log("set Initiative")
+        this.initiative = initiative;
+        //this._updateView();
     }
 
     @Input()
     set hasPermissionThen(templateRef: TemplateRef<HasPermissionContext> | null) {
+        console.log("set Then template")
         this._thenTemplateRef = templateRef;
         this._thenViewRef = null;  // clear previous view if any.
-        this._updateView();
+        //this._updateView();
     }
 
     @Input()
     set hasPermissionElse(templateRef: TemplateRef<HasPermissionContext> | null) {
+        console.log("set Else template")
         this._elseTemplateRef = templateRef;
         this._elseViewRef = null;  // clear previous view if any.
-        this._updateView();
+        //this._updateView();
     }
 
     private _updateView() {
+        console.log("update view", this._context.$implicit, this._thenViewRef, this._elseViewRef)
         if (this._context.$implicit) {
             if (!this._thenViewRef) {
                 this._viewContainer.clear();
                 this._elseViewRef = null;
                 if (this._thenTemplateRef) {
+                    console.log("then")
                     this._thenViewRef =
                         this._viewContainer.createEmbeddedView(this._thenTemplateRef, this._context);
                 }
@@ -66,6 +92,7 @@ export class HasPermissionDirective {
                 this._viewContainer.clear();
                 this._thenViewRef = null;
                 if (this._elseTemplateRef) {
+                    console.log("else")
                     this._elseViewRef =
                         this._viewContainer.createEmbeddedView(this._elseTemplateRef, this._context);
                 }
@@ -73,12 +100,35 @@ export class HasPermissionDirective {
         }
     }
 
+    // private checkPermission() {
+    //     console.log(this.permission, this.userPermissions, this.initiative)
+    //     if (this.userPermissions) {
+    //         return this.userPermissions.includes(this.permission);
+    //     }
+    //     return false;
+    // }
 
     private checkPermission() {
-        if (this.userPermissions) {
-            return this.userPermissions.includes(this.permission);
+
+        switch (this.permission) {
+            case Permissions.canMoveInitiative:
+                return this.canMoveInitiative();
+            case Permissions.canDeleteInitiative:
+                return this.canDeleteInitiative();
+            default:
+                return false;
         }
-        return false;
+    }
+
+    private canMoveInitiative(): boolean {
+        return this.userPermissions.includes(Permissions.canMoveInitiative)
+    }
+
+    private canDeleteInitiative(): boolean {
+        console.log(this.permission, this.userPermissions, this.userId, this.initiative)
+        return this.userPermissions.includes(Permissions.canDeleteInitiative)
+            ||
+            (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
     }
 }
 

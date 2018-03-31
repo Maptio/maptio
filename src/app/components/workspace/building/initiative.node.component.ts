@@ -1,8 +1,11 @@
+import { Team } from "./../../../shared/model/team.data";
+import { Permissions } from "./../../../shared/model/permission.data";
 import { InitiativeComponent } from "./../initiative/initiative.component";
 import { Initiative } from "./../../../shared/model/initiative.data";
 import { ActivatedRouteSnapshot, ActivatedRoute } from "@angular/router";
-import { Component, Input, Output, ViewChild, EventEmitter, ChangeDetectorRef } from "@angular/core";
+import { Component, Input, Output, ViewChild, EventEmitter, ChangeDetectorRef, TemplateRef, Renderer2, ElementRef, SimpleChanges } from "@angular/core";
 import { TreeNode, TreeModel } from "angular-tree-component";
+import { NgbPopover } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
     selector: "initiative-node",
@@ -17,26 +20,55 @@ export class InitiativeNodeComponent {
 
     @Input() node: TreeNode;
     @Input() datasetId: string;
-    @Input("teamName") teamName: string;
-    @Input("teamId") teamId: string;
-    // nodesList: Array<any>
+    @Input("team") team: Team;
 
     @Output("edited") edited = new EventEmitter<boolean>();
     @Output("update") updateTreeEvent = new EventEmitter<TreeModel>();
     @Output("open") open = new EventEmitter<Initiative>();
     @Output("add") add = new EventEmitter<Initiative>();
 
-    @ViewChild("initiative")
-    editInitiative: InitiativeComponent;
+    @ViewChild("initiative") editInitiative: InitiativeComponent;
+
+    Permissions = Permissions;
+    teamName: string;
+    teamId: string;
+    authority: string;
+    helper: string;
 
     private snapshotRoute: ActivatedRouteSnapshot
     isMovingToggled: boolean;
 
-    constructor(private route: ActivatedRoute, private cd: ChangeDetectorRef
-    ) {
+    @ViewChild("popOver") public popover: NgbPopover;
+
+
+    constructor(private route: ActivatedRoute, private cd: ChangeDetectorRef) {
         this.snapshotRoute = route.snapshot;
     }
 
+
+    ngOnChanges(changes: SimpleChanges) {
+        this.teamName = changes.team.currentValue.name;
+        this.teamId = changes.team.currentValue.team_id;
+        this.authority = changes.team.currentValue.settings.authority;
+        this.helper = changes.team.currentValue.settings.helper;
+    }
+    // public enableFunc = (templateRef: TemplateRef<any>) => {
+    //     //console.log("enableFunc", (templateRef.elementRef.nativeElement as HTMLElement).nextSibling)
+    //     this.renderer.addClass(templateRef.elementRef.nativeElement.nextSibling, "disabled");
+
+    // }
+
+    // ngAfterViewInit() {
+    //     let els = (this.element.nativeElement as HTMLElement).querySelectorAll(".btn.remove.disabled")
+    //     console.log(els)
+    //     let length = els.length;
+    //     for (let i = 0; i < length; i++) {
+    //         els.item(i).addEventListener("click", (e: any) => {
+    //             console.log(e)
+    //         })
+    //     }
+
+    // }
     // ngOnInit() {
     //     this.nodesList = this.getNodesList();
     // }

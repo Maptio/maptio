@@ -1,6 +1,6 @@
 import { Permissions } from "./../../../shared/model/permission.data";
 import { Auth } from "./../../../shared/services/auth/auth.service";
-import { HasPermissionDirective } from "./../../../shared/directives/hasperrmission.directive";
+import { HasPermissionDirective } from "./../../../shared/directives/hasPermission.directive";
 import { KeysPipe } from "./../../../pipes/keys.pipe";
 import { TeamModule } from "./../team.module";
 import { User } from "./../../../shared/model/user.data";

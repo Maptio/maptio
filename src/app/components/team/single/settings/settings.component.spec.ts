@@ -1,7 +1,7 @@
 import { Permissions } from "./../../../../shared/model/permission.data";
 import { Auth } from "./../../../../shared/services/auth/auth.service";
 import { DisableIfNoPermission } from "./../../../../shared/directives/disableIfNoPermission.directive";
-import { HasPermissionDirective } from "./../../../../shared/directives/hasperrmission.directive";
+import { HasPermissionDirective } from "./../../../../shared/directives/hasPermission.directive";
 import { ActivatedRouteSnapshot, ActivatedRoute, UrlSegment, ParamMap, Params, Data, Route } from "@angular/router";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 import { TeamSettingsComponent } from "./settings.component";

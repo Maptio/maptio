@@ -122,3 +122,7 @@ display: flex;
     max-height: 20vh;
     overflow-y: auto;
 }
+
+.disabled{
+   pointer-events: auto !important;
+}

@@ -1,6 +1,7 @@
+import { SharedModule } from './../../shared/shared.module';
 import { TeamListComponentResolver } from "./list/team-list.resolver";
 import { DisableIfNoPermission } from "./../../shared/directives/disableIfNoPermission.directive";
-import { HasPermissionDirective } from "./../../shared/directives/hasperrmission.directive";
+import { HasPermissionDirective } from "./../../shared/directives/hasPermission.directive";
 import { KeysPipe } from "./../../pipes/keys.pipe";
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";
 import { TeamComponentResolver } from "./single/team.resolver";
@@ -68,6 +69,7 @@ const routes: Routes = [
             confirmButtonType: "danger",
             cancelButtonType: "secondary"
         }),
+        SharedModule
     ],
     declarations: [
         TeamComponent,
@@ -75,9 +77,7 @@ const routes: Routes = [
         TeamMembersComponent,
         TeamSettingsComponent,
         TeamImportComponent,
-        KeysPipe,
-        HasPermissionDirective,
-        DisableIfNoPermission
+        KeysPipe
     ],
     providers: [TeamComponentResolver, TeamListComponentResolver]
 })

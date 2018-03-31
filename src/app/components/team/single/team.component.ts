@@ -1,5 +1,4 @@
-import { HasPermissionDirective } from './../../../shared/directives/hasperrmission.directive';
-import { Permissions } from './../../../shared/model/permission.data';
+import { Permissions } from "./../../../shared/model/permission.data";
 import { ActivatedRoute } from "@angular/router";
 import { Team } from "./../../../shared/model/team.data";
 import { Subscription } from "rxjs/Rx";
@@ -10,8 +9,7 @@ import { Component, ChangeDetectorRef } from "@angular/core";
 @Component({
     selector: "team",
     templateUrl: "./team.component.html",
-    styleUrls: ["./team.component.css"],
-    providers : [HasPermissionDirective]
+    styleUrls: ["./team.component.css"]
 })
 export class TeamComponent implements OnInit {
     routeSubscription: Subscription;

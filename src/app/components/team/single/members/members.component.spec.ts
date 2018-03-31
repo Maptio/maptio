@@ -9,7 +9,7 @@ import { Angulartics2, Angulartics2Mixpanel, Angulartics2Module } from "angulart
 import { Observable } from "rxjs/Rx";
 import { authHttpServiceFactoryTesting } from "../../../../../test/specs/shared/authhttp.helper.shared";
 import { KeysPipe } from "./../../../../pipes/keys.pipe";
-import { HasPermissionDirective } from "./../../../../shared/directives/hasperrmission.directive";
+import { HasPermissionDirective } from "./../../../../shared/directives/hasPermission.directive";
 import { Permissions } from "./../../../../shared/model/permission.data";
 import { Team } from "./../../../../shared/model/team.data";
 import { User } from "./../../../../shared/model/user.data";

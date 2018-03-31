@@ -17,34 +17,29 @@
 			<a class="btn edit" *ngIf="!isRoot()" (click)="openNode(node.data)" placement="top" container="body" ngbTooltip="Edit initiative"
 			 angulartics2On="click" angularticsEvent="Map" [angularticsProperties]="{mode: 'list', action:'edit', team:teamName, teamId:teamId }"></a>
 
-			<a class="btn remove" *ngIf="!isRoot()" placement="top" container="body" mwlConfirmationPopover title="Remove initiative and sub initiatives ?"
-			 focusbutton="cancel" appendToBody="false" (confirm)="removeChildNode(node.data)" (cancel)="cancelClicked = true" angulartics2On="click"
-			 angularticsEvent="Map" [angularticsProperties]="{mode: 'list', action:'remove', team:teamName, teamId:teamId }">
-			</a>
-			<!-- <a class="btn" *ngIf="!isRoot()" (click)="isMovingToggled=!isMovingToggled" placement="top" container="body" ngbTooltip="Move and reorder">
-				<i class="fa fa-caret-down" aria-hidden="true" *ngIf="!isMovingToggled"></i>
-				<i class="fa fa-caret-up" aria-hidden="true" *ngIf="isMovingToggled"></i>
-			</a> -->
-			<!-- <a class="btn move-up" *ngIf="!isRoot() " (click)="moveUp(node)" angulartics2On="click" placement="top" container="body"
-			 ngbTooltip="Move up" angularticsEvent="Map" [angularticsProperties]="{mode: 'list', action:'move up', team:teamName, teamId:teamId  }"></a>
-			<a class="btn move-down" *ngIf="!isRoot() " (click)="moveDown(node)" angulartics2On="click" placement="top" container="body"
-			 ngbTooltip="Move down" angularticsEvent="Map" [angularticsProperties]="{mode: 'list', action:'move down', team:teamName, teamId:teamId  }"></a> -->
+			<ng-container *ngIf="!isRoot()">
+				<div *permissionsOnly="Permissions.canDeleteInitiative; initiative node.data; else elseDeleteBlock;then thenDeleteBlock; ">
+
+				</div>
+				<ng-template #thenDeleteBlock>
+					<a class="btn remove" placement="top" container="body" mwlConfirmationPopover title="Remove initiative and sub initiatives ?"
+					 focusbutton="cancel" appendToBody="false" (confirm)="removeChildNode(node.data)" (cancel)="cancelClicked = true" angularticsEvent="Map"
+					 [angularticsProperties]="{mode: 'list', action:'remove', team:teamName, teamId:teamId }" angulartics2On="click">
+
+					</a>
+				</ng-template>
+				<ng-template #elseDeleteBlock>
+					<a disabled class="btn remove disabled" placement="top" container="body" mwlConfirmationPopover title="Remove initiative and sub initiatives ?"
+					focusbutton="cancel" appendToBody="false" (confirm)="cancelClicked = true" message="Only the {{authority}} of this initiative can delete it"
+					hideCancelButton="true" confirmText="OK" confirmButtonType="secondary">
+					
+				</a>
+				</ng-template>
+
+			</ng-container>
+
+
 
 		</span>
 	</div>
-	<!-- <div class="input-group d-flex justify-content-between mt-1" *ngIf="isMovingToggled">
-		<div class="form-inline col pl-0">
-			<div class="dropdown">
-				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-				 aria-expanded="false">
-					Change parent initiative
-				</button>
-				<div class="dropdown-menu overflow" aria-labelledby="dropdownMenuButton">
-					<a *ngFor="let node of nodesList" class="dropdown-item" (click)="changeParent(node.id)">{{node.name}}</a>
-				</div>
-			</div>
-		</div>
-		<span class="btn-group control">
-		</span>
-	</div> -->
 </div>
