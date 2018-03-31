@@ -259,6 +259,8 @@ export class PermissionsDirective implements OnInit, OnDestroy {
                 return this.canMoveInitiative();
             case Permissions.canDeleteInitiative:
                 return this.canDeleteInitiative();
+            case Permissions.canEditInitiativeName:
+                return this.canEditInitiativeName();
             default:
                 return false;
         }
@@ -266,6 +268,13 @@ export class PermissionsDirective implements OnInit, OnDestroy {
 
     private canMoveInitiative(): boolean {
         return this.userPermissions.includes(Permissions.canMoveInitiative)
+    }
+
+    private canEditInitiativeName(): boolean {
+        return this.userPermissions.includes(Permissions.canEditInitiativeName)
+            ||
+            (this.permissionsOnlyInitiative.accountable && this.permissionsOnlyInitiative.accountable.user_id === this.userId)
+
     }
 
     private canDeleteInitiative(): boolean {

@@ -9,17 +9,25 @@
 				</span>
 			</ng-template>
 			<ng-template #elseMoveBlock>
-				<span class="input-group-addon knurled not-allowed" (mouseenter)="node.data.isDraggable=false" (mouseleave)="node.data.isDraggable=false"
-				ngbTooltip="Only admins can move initiatives" container="body" placement="top" >
+				<span class="input-group-addon knurled not-allowed" (mouseenter)="node.data.isDraggable=false;isMoveWarningToggled=true" (mouseleave)="node.data.isDraggable=false;isMoveWarningToggled=false"
+				>
 					<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
 				</span>
 			</ng-template>
 		</ng-container>
 
+		<div *permissionsOnly="Permissions.canEditInitiativeName;initiative node.data; else elseNameBlock; then thenNameBlock; "></div>
+		<ng-template #thenNameBlock>
+			<input class="form-control input inputNodeName" type="text" [focusif]="node.data.hasFocus" [ngModel]="node.data.name" (ngModelChange)="saveNodeName($event, node.data)"
+			 (focus)="node.data.isDraggable=false;openNode(node.data)" (blur)="node.data.isDraggable=true" />
+		</ng-template>
+		<ng-template #elseNameBlock>
+			<input class="form-control input inputNodeName" type="text" [ngModel]="node.data.name"
+			 (keydown)="$event.preventDefault();isEditWarningToggled=true" (mouseout)="isEditWarningToggled=false"
+			(focus)="node.data.isDraggable=false;openNode(node.data)" (blur)="node.data.isDraggable=true;isEditWarningToggled=false"
+			/>
+		</ng-template>
 
-
-		<input class="form-control input inputNodeName" type="text" [focusif]="node.data.hasFocus" [ngModel]="node.data.name" (ngModelChange)="saveNodeName($event, node.data)"
-		 (focus)="node.data.isDraggable=false;openNode(node.data)" (blur)="node.data.isDraggable=true" />
 
 		<span class="btn-group control">
 			<ng-template #addButtonTooltip>
@@ -43,7 +51,7 @@
 					</a>
 				</ng-template>
 				<ng-template #elseDeleteBlock>
-					<a disabled class="btn remove disabled not-allowed" ngbTooltip="Only the {{authority}} of this initiative can delete it" container="body" placement="top">
+					<a disabled class="btn remove disabled not-allowed" (click)="isDeleteWarningToggled=true" (mouseout)="isDeleteWarningToggled=false">
 
 					</a>
 				</ng-template>
@@ -51,4 +59,7 @@
 			</ng-container>
 		</span>
 	</div>
+	<span *ngIf="isDeleteWarningToggled" #canDeleteWarning class="form-text text-warning">Only the {{authority}} of this initiative can delete it</span>
+	<span *ngIf="isMoveWarningToggled"#canMoveWarning class="form-text text-warning">Only admins can move initiatives</span>
+	<span *ngIf="isEditWarningToggled" #canEditWarning class="form-text text-warning">Only the {{authority}} of this initiative can edit it</span>
 </div>

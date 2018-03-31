@@ -20,6 +20,9 @@ export enum Permissions {
     canCreateInitiative,
     canDeleteInitiative,
     canMoveInitiative,
+    canEditInitiativeName,
+    canEditInitiativeDescription,
+    canEditInitiativeTags
 
 }
 
