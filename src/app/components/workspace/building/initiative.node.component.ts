@@ -34,12 +34,12 @@ export class InitiativeNodeComponent {
     teamId: string;
     authority: string;
     helper: string;
+    isDeleteWarningToggled: boolean;
+    isMoveWarningToggled: boolean;
+    isEditWarningToggled: boolean;
 
     private snapshotRoute: ActivatedRouteSnapshot
     isMovingToggled: boolean;
-
-    @ViewChild("popOver") public popover: NgbPopover;
-
 
     constructor(private route: ActivatedRoute, private cd: ChangeDetectorRef) {
         this.snapshotRoute = route.snapshot;

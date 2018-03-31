@@ -54,6 +54,7 @@ export class TeamMembersComponent implements OnInit {
 
     public createdUser: User;
     public inviteForm: FormGroup;
+    cancelClicked: boolean;
 
     isSendingMap: Map<string, boolean> = new Map<string, boolean>();
 

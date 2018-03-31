@@ -204,6 +204,7 @@ describe("building.component.ts", () => {
             node1.name = "first", node2.name = "second"; node3.name = "third";
             root.children = [node1, node2, node3];
             component.nodes = [root];
+            component.team = new Team({ team_id: "ID1"})
             target.detectChanges();
             let spy = spyOn(component, "saveChanges");
             let treeModel = jasmine.createSpyObj<TreeModel>("treeModel", ["clearFilter"])
@@ -221,6 +222,7 @@ describe("building.component.ts", () => {
             node1.description = "primero", node2.description = "segundo"; node3.description = "segundo tercero";
             root.children = [node1, node2, node3];
             component.nodes = [root];
+            component.team = new Team({ team_id: "ID1"})
             target.detectChanges();
             let spy = spyOn(component, "saveChanges");
             let treeModel = jasmine.createSpyObj<TreeModel>("treeModel", ["filterNodes"]);

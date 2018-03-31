@@ -117,7 +117,7 @@ export class PermissionsDirective implements OnInit, OnDestroy {
     // }
 
     private validateOnlyPermissions(): void {
-        console.log("validateOnlyPermissions")
+        // console.log("validateOnlyPermissions")
         // Promise.all([this.permissionsService.hasPermission(this.permissionsOnly)/*, this.rolesService.hasOnlyRoles(this.permissionsOnly)*/])
         //     .then(([permissionPr/*, roles*/]) => {
         //         if (permissionPr || roles) {
@@ -129,10 +129,10 @@ export class PermissionsDirective implements OnInit, OnDestroy {
         //         this.handleUnauthorisedPermission(this.permissionsOnlyElse || this.permissionsElse);
         //     });
         if (this.checkPermission()) {
-            console.log("true", this.permissionsOnlyThen || this.permissionsThen || this.templateRef)
+            // console.log("true", this.permissionsOnlyThen || this.permissionsThen || this.templateRef)
             this.handleAuthorisedPermission(this.permissionsOnlyThen || this.permissionsThen || this.templateRef);
         } else {
-            console.log("false", this.permissionsOnlyElse || this.permissionsElse)
+            // console.log("false", this.permissionsOnlyElse || this.permissionsElse)
             this.handleUnauthorisedPermission(this.permissionsOnlyElse || this.permissionsElse);
         }
     }

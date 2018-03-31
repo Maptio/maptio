@@ -38,30 +38,30 @@ export class HasPermissionDirective {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        console.log("ngOnChanges", this.permission, this.initiative, this._thenTemplateRef, this._elseTemplateRef)
+        // console.log("ngOnChanges", this.permission, this.initiative, this._thenTemplateRef, this._elseTemplateRef)
         this._context.$implicit = this._context.hasPermission = this.checkPermission();
-        console.log("checkPermissions", this._context.$implicit)
+        // console.log("checkPermissions", this._context.$implicit)
         this._updateView();
     }
 
 
     @Input()
     set hasPermission(permission: Permissions) {
-        console.log("set Permissions")
+        // console.log("set Permissions")
         this.permission = permission;
         //this._updateView();
     }
 
     @Input()
     set hasPermissionInitiative(initiative: Initiative) {
-        console.log("set Initiative")
+        // console.log("set Initiative")
         this.initiative = initiative;
         //this._updateView();
     }
 
     @Input()
     set hasPermissionThen(templateRef: TemplateRef<HasPermissionContext> | null) {
-        console.log("set Then template")
+        // console.log("set Then template")
         this._thenTemplateRef = templateRef;
         this._thenViewRef = null;  // clear previous view if any.
         //this._updateView();
@@ -69,14 +69,14 @@ export class HasPermissionDirective {
 
     @Input()
     set hasPermissionElse(templateRef: TemplateRef<HasPermissionContext> | null) {
-        console.log("set Else template")
+        // console.log("set Else template")
         this._elseTemplateRef = templateRef;
         this._elseViewRef = null;  // clear previous view if any.
         //this._updateView();
     }
 
     private _updateView() {
-        console.log("update view", this._context.$implicit, this._thenViewRef, this._elseViewRef)
+        // console.log("update view", this._context.$implicit, this._thenViewRef, this._elseViewRef)
         if (this._context.$implicit) {
             if (!this._thenViewRef) {
                 this._viewContainer.clear();
@@ -92,7 +92,7 @@ export class HasPermissionDirective {
                 this._viewContainer.clear();
                 this._thenViewRef = null;
                 if (this._elseTemplateRef) {
-                    console.log("else")
+                    // console.log("else")
                     this._elseViewRef =
                         this._viewContainer.createEmbeddedView(this._elseTemplateRef, this._context);
                 }
@@ -125,7 +125,7 @@ export class HasPermissionDirective {
     }
 
     private canDeleteInitiative(): boolean {
-        console.log(this.permission, this.userPermissions, this.userId, this.initiative)
+        // console.log(this.permission, this.userPermissions, this.userId, this.initiative)
         return this.userPermissions.includes(Permissions.canDeleteInitiative)
             ||
             (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
