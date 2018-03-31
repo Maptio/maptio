@@ -1,8 +1,22 @@
 <div class="form-group mr-1">
 	<div class="input-group">
-		<span *ngIf="!isRoot()" class="input-group-addon knurled" (mouseenter)="node.data.isDraggable=true" (mouseleave)="node.data.isDraggable=false">
-			<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-		</span>
+
+		<ng-container *ngIf="!isRoot()">
+			<div *permissionsOnly="Permissions.canMoveInitiative; else elseMoveBlock; then thenMoveBlock; "></div>
+			<ng-template #thenMoveBlock>
+				<span class="input-group-addon knurled" (mouseenter)="node.data.isDraggable=true" (mouseleave)="node.data.isDraggable=false">
+					<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+				</span>
+			</ng-template>
+			<ng-template #elseMoveBlock>
+				<span class="input-group-addon knurled not-allowed" (mouseenter)="node.data.isDraggable=false" (mouseleave)="node.data.isDraggable=false"
+				ngbTooltip="Only admins can move initiatives" container="body" placement="top" >
+					<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+				</span>
+			</ng-template>
+		</ng-container>
+
+
 
 		<input class="form-control input inputNodeName" type="text" [focusif]="node.data.hasFocus" [ngModel]="node.data.name" (ngModelChange)="saveNodeName($event, node.data)"
 		 (focus)="node.data.isDraggable=false;openNode(node.data)" (blur)="node.data.isDraggable=true" />
@@ -29,17 +43,12 @@
 					</a>
 				</ng-template>
 				<ng-template #elseDeleteBlock>
-					<a disabled class="btn remove disabled" placement="top" container="body" mwlConfirmationPopover title="Remove initiative and sub initiatives ?"
-					focusbutton="cancel" appendToBody="false" (confirm)="cancelClicked = true" message="Only the {{authority}} of this initiative can delete it"
-					hideCancelButton="true" confirmText="OK" confirmButtonType="secondary">
-					
-				</a>
+					<a disabled class="btn remove disabled not-allowed" ngbTooltip="Only the {{authority}} of this initiative can delete it" container="body" placement="top">
+
+					</a>
 				</ng-template>
 
 			</ng-container>
-
-
-
 		</span>
 	</div>
 </div>

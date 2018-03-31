@@ -132,7 +132,7 @@ export class PermissionsDirective implements OnInit, OnDestroy {
             console.log("true", this.permissionsOnlyThen || this.permissionsThen || this.templateRef)
             this.handleAuthorisedPermission(this.permissionsOnlyThen || this.permissionsThen || this.templateRef);
         } else {
-            console.log("false",this.permissionsOnlyElse || this.permissionsElse)
+            console.log("false", this.permissionsOnlyElse || this.permissionsElse)
             this.handleUnauthorisedPermission(this.permissionsOnlyElse || this.permissionsElse);
         }
     }
@@ -269,9 +269,9 @@ export class PermissionsDirective implements OnInit, OnDestroy {
     }
 
     private canDeleteInitiative(): boolean {
-        // console.log(this.permissionsOnly, this.userPermissions, this.userId, this.permissionsOnlyInitiative)
         return this.userPermissions.includes(Permissions.canDeleteInitiative)
             ||
             (this.permissionsOnlyInitiative.accountable && this.permissionsOnlyInitiative.accountable.user_id === this.userId)
+
     }
 }
