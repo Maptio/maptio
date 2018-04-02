@@ -129,6 +129,10 @@ display: flex;
    pointer-events: auto !important;
 }
 
+.text-warning{
+    color:white !important;
+}
+
 .not-allowed{
     cursor: not-allowed;
 }

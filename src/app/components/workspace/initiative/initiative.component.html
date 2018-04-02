@@ -12,10 +12,22 @@
 		<div class="mb-3">
 			<div class="row">
 				<div class="col-xl-12 mt-3">
-					<!-- <h4 *ngIf="isReadOnly">{{node?.name}}</h4> -->
-					<input type="text" class="form-control unresizable" id="inputName" type="text" name="inputName" [ngModelOptions]="{standalone: true}"
-					 [ngModel]="node?.name" placeholder="Initiative name" (ngModelChange)="saveName($event)" rows="2" cols="" (blur)="onBlur()"
-					/>
+					<div *permissionsOnly="Permissions.canEditInitiativeName;initiative node; else elseNameBlock; then thenNameBlock; "></div>
+					<ng-template #thenNameBlock>
+						<input class="form-control unresizable" id="inputName" type="text" name="inputName" [ngModelOptions]="{standalone: true}"
+						 [ngModel]="node?.name" placeholder="Initiative name" (ngModelChange)="saveName($event)" rows="2" cols="" (blur)="onBlur()"
+						/>
+					</ng-template>
+					<ng-template #elseNameBlock>
+						<input readonly class="form-control" id="inputName" type="text" name="inputName" rows="2" cols="" 
+						[ngModel]="node?.name"  (keydown)="$event.preventDefault();isEditWarningToggled=true"  (mouseout)="isEditWarningToggled=false"
+						(blur)="isEditWarningToggled=false"
+						/>
+					</ng-template>
+					<span *ngIf="isEditWarningToggled" #canEditWarning class="form-text text-warning small">Only the {{authority}} of this initiative can edit it</span>
+
+
+
 				</div>
 			</div>
 		</div>
@@ -26,16 +38,15 @@
 				<ul class="tags">
 					<li *ngFor="let tag of node?.tags; let i=index">
 						<a class="btn btn-sm btn-secondary mr-1 tag btn-tag borderless active" [style.background-color]="tag.color" [style.color]="white">
-							<i class="fa fa-tag mr-1" aria-hidden="true" ></i>{{tag?.name}}
+							<i class="fa fa-tag mr-1" aria-hidden="true"></i>{{tag?.name}}
 							<span class="remove transparent ml-1" (click)="removeTag(tag)"></span>
 						</a>
 					</li>
 					<li>
-						<input required="required" [resultTemplate]="rtTag" type="text"  placeholder="Add tag"
-						 class="form-control form-control-sm col-8 p-1" (selectItem)="saveTag($event)" [ngbTypeahead]="searchTag" editable="false"
-						 (focus)="$event.target.value='';focus$.next($event.target.value)"
-						 (click)="$event.target.value=''; click$.next($event.target.value)"
-						 [resultFormatter]="tagFormatter" [inputFormatter]="tagFormatter" #inputTag="ngbTypeahead"  />
+						<input required="required" [resultTemplate]="rtTag" type="text" placeholder="Add tag" class="form-control form-control-sm col-8 p-1"
+						 (selectItem)="saveTag($event)" [ngbTypeahead]="searchTag" editable="false" (focus)="$event.target.value='';focus$.next($event.target.value)"
+						 (click)="$event.target.value=''; click$.next($event.target.value)" [resultFormatter]="tagFormatter" [inputFormatter]="tagFormatter"
+						 #inputTag="ngbTypeahead" />
 					</li>
 				</ul>
 

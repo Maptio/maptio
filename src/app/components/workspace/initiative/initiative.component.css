@@ -26,7 +26,6 @@ span.help-popup {
         max-height: 25vh;
         overflow-y: auto;
     }
-
     .description.overflow {
         max-height: 22vh;
         overflow-y: auto;
@@ -38,7 +37,6 @@ span.help-popup {
         max-height: 31vh;
         overflow-y: auto;
     }
-
     .description.overflow {
         max-height: 23vh;
         overflow-y: auto;
@@ -69,4 +67,8 @@ textarea {
 
 .edit-description {
     text-align: right;
+}
+
+.text-warning {
+    color: white!important;
 }

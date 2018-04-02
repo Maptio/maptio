@@ -1,3 +1,4 @@
+import { Permissions } from './../../../shared/model/permission.data';
 import { Role } from "./../../../shared/model/role.data";
 import { Helper } from "./../../../shared/model/helper.data";
 import { DatasetFactory } from "./../../../shared/services/dataset.factory";
@@ -41,10 +42,13 @@ export class InitiativeComponent implements OnChanges {
     @Input() datasetTags: Array<Tag>;
     // @Input() isReadOnly: boolean;
     @Input() datasetId: string;
+    @Input() team: Team;
 
     public members$: Promise<User[]>;
     public dataset$: Promise<DataSet>
     public team$: Promise<Team>;
+    public authority: string;
+    public helper: string;
 
     isTeamMemberFound: boolean = true;
     isTeamMemberAdded: boolean = false;
@@ -57,6 +61,7 @@ export class InitiativeComponent implements OnChanges {
     cancelClicked: boolean;
     teamName: string;
     teamId: string;
+    Permissions = Permissions;
 
     @ViewChild("inputDescription") public inputDescriptionElement: ElementRef;
     @ViewChild("inputRole") public inputRoleElement: ElementRef;
@@ -79,7 +84,7 @@ export class InitiativeComponent implements OnChanges {
                 this.team$ = this.teamFactory.get(<string>changes.node.currentValue.team_id)
                     .then(t => { this.teamName = t.name; this.teamId = t.team_id; return t },
                     () => { return Promise.reject("No team available") })
-                    // .catch(() => { })
+                // .catch(() => { })
 
 
                 this.members$ = this.team$
@@ -88,7 +93,7 @@ export class InitiativeComponent implements OnChanges {
                             .then(members => compact(members))
                             .then(members => sortBy(members, m => m.name))
                     })
-                    // .catch(() => { })
+                // .catch(() => { })
             }
 
         }
@@ -96,6 +101,9 @@ export class InitiativeComponent implements OnChanges {
         if (changes.datasetId && changes.datasetId.currentValue) {
             this.dataset$ = this.datasetFactory.get(<string>changes.datasetId.currentValue).then(d => d, () => { return Promise.reject("no dataset") })
         }
+
+        this.authority = changes.team.currentValue.settings.authority;
+        this.helper = changes.team.currentValue.settings.helper;
     }
 
     ngOnInit() {
