@@ -116,7 +116,7 @@ export class HasPermissionDirective {
             case Permissions.canDeleteInitiative:
                 return this.canDeleteInitiative();
             default:
-                return false;
+            return this.userPermissions.includes(this.permission);
         }
     }
 
