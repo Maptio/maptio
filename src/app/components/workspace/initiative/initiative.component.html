@@ -68,19 +68,17 @@
 				<span class="borderless transparent icon-disabled text-muted input-group-addon " ngbTooltip="Only the {{authority}} of this initiative can edit it" placement="top"
 				 container="body"></span>
 			</div>
-
-
 		</fieldset>
 	</div>
 
-	<div class="card transparent borderless mb-2">
+	<div class="card borderless mb-2 p-2">
 		<fieldset name="initiativeDescription" *permissionsOnly="Permissions.canEditInitiativeDescription;initiative node; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
-			<div class="d-flex justify-content-start">
-				<div class="form-control description overflow">
+			<div class="d-flex justify-content-start input-group">
+				<div class="w-100 description overflow">
 					<button *ngIf="descriptionHideMe" class="edit-description btn btn-link btn-sm col" (click)="descriptionHideMe=!descriptionHideMe">
 						Edit
 					</button>
-					<textarea [hidden]="descriptionHideMe" #inputDescription class="form-control initiativeMarkdownDescription" id="inputDescription"
+					<textarea [hidden]="descriptionHideMe" #inputDescription class="w-100 form-control initiativeMarkdownDescription" id="inputDescription"
 					 [ngModelOptions]="{standalone: true}" data-provide="markdown" data-iconlibrary="fa" data-autofocus="true" [ngModel]="node?.description || ''"
 					 rows="5" placeholder='Describe the initiative in your own words and/or add a URL to your main resource' (ngModelChange)="saveDescription($event)"
 					 (blur)="onBlur(); descriptionHideMe= !(node?.description === '') && !descriptionHideMe " (change)="saveDescription($event.target.value)">
@@ -93,7 +91,7 @@
 						<markdown class="small mb-3" *ngIf="node?.description || ''" [data]="node?.description || ''"></markdown>
 					</div>
 				</div>
-				<span class="pl-1 pt-2 icon-disabled text-muted" ngbTooltip="Only the {{authority}} of this initiative can edit it" placement="top"
+				<span class="input-group-addon icon-disabled text-muted borderless transparent" ngbTooltip="Only the {{authority}} of this initiative can edit it" placement="top"
 				 container="body"></span>
 			</div>
 		</fieldset>
