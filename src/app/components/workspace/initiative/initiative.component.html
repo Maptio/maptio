@@ -8,29 +8,22 @@
 </ng-template>
 
 <form>
-	<fieldset>
+	<fieldset name="initiativeName" *permissionsOnly="Permissions.canEditInitiativeName;initiative node; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
 		<div class="mb-3">
 			<div class="row">
 				<div class="col-xl-12 mt-3">
-					<div *permissionsOnly="Permissions.canEditInitiativeName;initiative node; else elseNameBlock; then thenNameBlock; "></div>
-					<ng-template #thenNameBlock>
+					<div class="input-group">
 						<input class="form-control unresizable" id="inputName" type="text" name="inputName" [ngModelOptions]="{standalone: true}"
 						 [ngModel]="node?.name" placeholder="Initiative name" (ngModelChange)="saveName($event)" rows="2" cols="" (blur)="onBlur()"
 						/>
-					</ng-template>
-					<ng-template #elseNameBlock>
-						<input readonly class="form-control" id="inputName" type="text" name="inputName" rows="2" cols="" 
-						[ngModel]="node?.name"  (keydown)="$event.preventDefault();isEditWarningToggled=true"  (mouseout)="isEditWarningToggled=false"
-						(blur)="isEditWarningToggled=false"
-						/>
-					</ng-template>
-					<span *ngIf="isEditWarningToggled" #canEditWarning class="form-text text-warning small">Only the {{authority}} of this initiative can edit it</span>
-
-
-
+						<span class="input-group-addon icon-disabled text-muted" ngbTooltip="Only the {{authority}} of this initiative can edit it"
+						 placement="top" container="body"></span>
+					</div>
 				</div>
 			</div>
 		</div>
+	</fieldset>
+	<fieldset name="initiativeTags">
 		<div class="card mb-3 borderless  card-secondary p-2">
 
 			<div class="card-block m-0 p-0">
@@ -52,12 +45,14 @@
 
 			</div>
 		</div>
+	</fieldset>
 
 
-		<div class="card mb-3">
 
-			<div class="card-block">
+	<div class="card mb-3">
 
+		<div class="card-block">
+			<fieldset name="initiativeAuthority">
 				<div class="row justify-content-between no-gutters">
 					<label for="inputAccountable" class="form-control-label col-form-label text-muted">{{(team$ | async)?.settings.authority | titlecase }}
 						<!-- <span class="help-popup" placement="top" container="body" ngbTooltip="The authority is the source of the initiative"></span> -->
@@ -78,6 +73,9 @@
 						</div>
 					</div>
 				</div>
+			</fieldset>
+
+			<fieldset name="initiativeDescription" *permissionsOnly="Permissions.canEditInitiativeDescription;initiative node; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
 				<div class="row description overflow">
 					<div class="col-xl-12 mt-3">
 						<button *ngIf="descriptionHideMe" class="edit-description btn btn-link btn-sm col" (click)="descriptionHideMe=!descriptionHideMe">
@@ -87,7 +85,7 @@
 						 [ngModelOptions]="{standalone: true}" data-provide="markdown" data-iconlibrary="fa" data-autofocus="true" [ngModel]="node?.description || ''"
 						 rows="5" placeholder='Describe the initiative in your own words and/or add a URL to your main resource' (ngModelChange)="saveDescription($event)"
 						 (blur)="onBlur(); descriptionHideMe= !(node?.description === '') && !descriptionHideMe " (change)="saveDescription($event.target.value)">
-						</textarea>
+												</textarea>
 						<small [hidden]="descriptionHideMe" class="help-popup text-default text-muted">
 							You can use
 							<a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank">markdown</a> to create links and add formatting
@@ -95,73 +93,71 @@
 						<div [hidden]="!descriptionHideMe">
 							<markdown class="small mb-3" *ngIf="node?.description || ''" [data]="node?.description || ''"></markdown>
 						</div>
-
 					</div>
-
 				</div>
-			</div>
+			</fieldset>
 		</div>
+	</div>
 
-		<div class="card mb-3 helpers overflow">
-			<div class="card-block">
-				<h6 class="card-subtitle mb-2 text-muted">Who’s helping with this initiative?
-					<!-- <span class="help-popup" placement="top" container="body" ngbTooltip="A source is rarely able to fully manifest their initiative alone. They usually need help.
+	<div class="card mb-3 helpers overflow">
+		<div class="card-block">
+			<h6 class="card-subtitle mb-2 text-muted">Who’s helping with this initiative?
+				<!-- <span class="help-popup" placement="top" container="body" ngbTooltip="A source is rarely able to fully manifest their initiative alone. They usually need help.
 						
 						Helpers bring specific ideas and carry out actions to realise the vision"></span> -->
-				</h6>
-				<div class="input-group mb-3">
-					<input #person required="required" [resultTemplate]="rt" type="text" id="inputHelper" placeholder="Enter the name of a {{(team$ | async)?.settings.helper | lowercase}}"
-					 class="form-control" (selectItem)="saveHelper($event)" (focus)="person.value=''" [ngbTypeahead]="searchTeamMember" [resultFormatter]="formatter"
-					 [inputFormatter]="formatter" editable="false" />
+			</h6>
+			<div class="input-group mb-3">
+				<input #person required="required" [resultTemplate]="rt" type="text" id="inputHelper" placeholder="Enter the name of a {{(team$ | async)?.settings.helper | lowercase}}"
+				 class="form-control" (selectItem)="saveHelper($event)" (focus)="person.value=''" [ngbTypeahead]="searchTeamMember" [resultFormatter]="formatter"
+				 [inputFormatter]="formatter" editable="false" />
+			</div>
+
+			<div class="col-12">
+				<div *ngIf="node?.accountable">
+					<div class="row mb-0">
+						<span class="ml-1 col">
+							<img src="{{node?.accountable?.picture}}" width="16" class="rounded-circle" alt="{{node?.accountable?.name}}">
+							<a routerLink="/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/u/{{node?.accountable?.shortid}}/{{node?.accountable?.getSlug()}}">{{node?.accountable.name}}</a>
+							<span class="text-muted small">({{(team$ | async)?.settings.authority | titlecase }})</span>
+						</span>
+						<button class="btn btn-link pull-right btn-sm" (click)="authorityHideMe=!authorityHideMe">Role
+							<i class="fa" [class.fa-caret-up]="hideme[i]" [class.fa-caret-down]="!hideme[i]" aria-hidden="true"></i>
+						</button>
+					</div>
+					<textarea [hidden]="!authorityHideMe" #inputAuthorityRole class="form-control form-control-sm unresizable mb-3" id="inputRole"
+					 [ngModelOptions]="{standalone: true}" data-provide="markdown" data-iconlibrary="fa" data-autofocus="true" [ngModel]="node?.accountable?.roles[0]?.description || ''"
+					 rows="3" placeholder="How is {{node?.accountable?.name}} helping?" (ngModelChange)="saveRole(node?.accountable,$event)"
+					 (blur)="onBlur();authorityHideMe=!authorityHideMe" (change)="saveRole(node?.accountable,$event.target.value)"></textarea>
+
+					<markdown class="small mb-3" [hidden]="authorityHideMe" *ngIf="node?.accountable?.roles[0]?.description" [data]="node?.accountable?.roles[0]?.description || ''"></markdown>
+
 				</div>
 
-				<div class="col-12">
-					<div *ngIf="node?.accountable">
-						<div class="row mb-0">
-							<span class="ml-1 col">
-								<img src="{{node?.accountable?.picture}}" width="16" class="rounded-circle" alt="{{node?.accountable?.name}}">
-								<a routerLink="/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/u/{{node?.accountable?.shortid}}/{{node?.accountable?.getSlug()}}">{{node?.accountable.name}}</a>
-								<span class="text-muted small">({{(team$ | async)?.settings.authority | titlecase }})</span>
-							</span>
-							<button class="btn btn-link pull-right btn-sm" (click)="authorityHideMe=!authorityHideMe">Role
-								<i class="fa" [class.fa-caret-up]="hideme[i]" [class.fa-caret-down]="!hideme[i]" aria-hidden="true"></i>
-							</button>
-						</div>
-						<textarea [hidden]="!authorityHideMe" #inputAuthorityRole class="form-control form-control-sm unresizable mb-3" id="inputRole"
-						 [ngModelOptions]="{standalone: true}" data-provide="markdown" data-iconlibrary="fa" data-autofocus="true" [ngModel]="node?.accountable?.roles[0]?.description || ''"
-						 rows="3" placeholder="How is {{node?.accountable?.name}} helping?" (ngModelChange)="saveRole(node?.accountable,$event)"
-						 (blur)="onBlur();authorityHideMe=!authorityHideMe" (change)="saveRole(node?.accountable,$event.target.value)"></textarea>
+				<div *ngFor="let user of node?.helpers; let i=index">
+					<div class="row mb-0">
+						<span class="remove text-danger mr-1 " placement="top" container="body" mwlConfirmationPopover title="Remove this helper and associated role?"
+						 focusbutton="cancel" appendToBody="false" (confirm)="removeHelper(user)" (cancel)="cancelClicked = true">
 
-						<markdown class="small mb-3" [hidden]="authorityHideMe" *ngIf="node?.accountable?.roles[0]?.description" [data]="node?.accountable?.roles[0]?.description || ''"></markdown>
+						</span>
+						<span class="pl-1 col">
+							<img src="{{user.picture}}" width="16" class="rounded-circle" alt={{user.name}}>
+							<a routerLink="/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/u/{{user.shortid}}/{{user.getSlug()}}">{{user.name}}</a>
 
+						</span>
+						<button class="btn btn-link pull-right btn-sm" (click)="toggleRole(i)">Role
+							<i class="fa" [class.fa-caret-up]="hideme[i]" [class.fa-caret-down]="!hideme[i]" aria-hidden="true"></i>
+						</button>
 					</div>
+					<textarea [hidden]="!hideme[i]" #inputRole class="form-control form-control-sm unresizable mb-3 ml-1" id="inputRole" [ngModelOptions]="{standalone: true}"
+					 data-provide="markdown" data-iconlibrary="fa" data-autofocus="true" [ngModel]="user.roles[0]?.description || ''" rows="3"
+					 placeholder="How is {{user.name}} helping?" (ngModelChange)="saveRole(user,$event)" (blur)="onBlur();toggleRole(i)"
+					 (change)="saveRole(user,$event.target.value)"></textarea>
 
-					<div *ngFor="let user of node?.helpers; let i=index">
-						<div class="row mb-0">
-							<span class="remove text-danger mr-1 " placement="top" container="body" mwlConfirmationPopover title="Remove this helper and associated role?"
-							 focusbutton="cancel" appendToBody="false" (confirm)="removeHelper(user)" (cancel)="cancelClicked = true">
-
-							</span>
-							<span class="pl-1 col">
-								<img src="{{user.picture}}" width="16" class="rounded-circle" alt={{user.name}}>
-								<a routerLink="/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/u/{{user.shortid}}/{{user.getSlug()}}">{{user.name}}</a>
-
-							</span>
-							<button class="btn btn-link pull-right btn-sm" (click)="toggleRole(i)">Role
-								<i class="fa" [class.fa-caret-up]="hideme[i]" [class.fa-caret-down]="!hideme[i]" aria-hidden="true"></i>
-							</button>
-						</div>
-						<textarea [hidden]="!hideme[i]" #inputRole class="form-control form-control-sm unresizable mb-3 ml-1" id="inputRole" [ngModelOptions]="{standalone: true}"
-						 data-provide="markdown" data-iconlibrary="fa" data-autofocus="true" [ngModel]="user.roles[0]?.description || ''" rows="3"
-						 placeholder="How is {{user.name}} helping?" (ngModelChange)="saveRole(user,$event)" (blur)="onBlur();toggleRole(i)"
-						 (change)="saveRole(user,$event.target.value)"></textarea>
-
-						<markdown class="small mb-2" [hidden]="hideme[i]" *ngIf="user.roles[0]?.description" [data]="user.roles[0]?.description || ''"></markdown>
-					</div>
-					<small class="text-warning" *ngIf="node?.helpers.length === 0 || !(node?.helpers)">No helpers yet</small>
-
+					<markdown class="small mb-2" [hidden]="hideme[i]" *ngIf="user.roles[0]?.description" [data]="user.roles[0]?.description || ''"></markdown>
 				</div>
+				<small class="text-warning" *ngIf="node?.helpers.length === 0 || !(node?.helpers)">No helpers yet</small>
+
 			</div>
 		</div>
-	</fieldset>
+	</div>
 </form>

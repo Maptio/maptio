@@ -1,4 +1,4 @@
-import { Permissions } from './../../../shared/model/permission.data';
+import { Permissions } from "./../../../shared/model/permission.data";
 import { Role } from "./../../../shared/model/role.data";
 import { Helper } from "./../../../shared/model/helper.data";
 import { DatasetFactory } from "./../../../shared/services/dataset.factory";
@@ -10,7 +10,7 @@ import { User } from "./../../../shared/model/user.data";
 import { Tag } from "./../../../shared/model/tag.data";
 import { Initiative } from "./../../../shared/model/initiative.data";
 import { Observable, Subject } from "rxjs/Rx";
-import { Component, Input, ViewChild, OnChanges, SimpleChanges, EventEmitter, Output, ElementRef } from "@angular/core";
+import { Component, Input, ViewChild, OnChanges, SimpleChanges, EventEmitter, Output, ElementRef, ChangeDetectorRef, ChangeDetectionStrategy, TemplateRef, Renderer2 } from "@angular/core";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/merge";
 import "rxjs/add/operator/filter";
@@ -30,7 +30,8 @@ import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2/dist";
     selector: "initiative",
     templateUrl: "./initiative.component.html",
     styleUrls: ["./initiative.component.css"],
-    providers: [Angulartics2Mixpanel, Angulartics2]
+    providers: [Angulartics2Mixpanel, Angulartics2],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class InitiativeComponent implements OnChanges {
@@ -73,7 +74,16 @@ export class InitiativeComponent implements OnChanges {
     click$ = new Subject<string>();
 
     constructor(private teamFactory: TeamFactory, private userFactory: UserFactory,
-        private datasetFactory: DatasetFactory, private analytics: Angulartics2Mixpanel) {
+        private datasetFactory: DatasetFactory, private analytics: Angulartics2Mixpanel,
+        private cd: ChangeDetectorRef, private renderer: Renderer2) {
+    }
+
+    public disableFieldset = (templateRef: TemplateRef<any>) => {
+        this.renderer.setAttribute(templateRef.elementRef.nativeElement.nextSibling, "disabled", "");
+        
+    }
+    public enableFieldset = (templateRef: TemplateRef<any>) => {
+        //this.renderer.removeAttribute(templateRef.elementRef.nativeElement.nextSibling, "disabled");
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -102,8 +112,13 @@ export class InitiativeComponent implements OnChanges {
             this.dataset$ = this.datasetFactory.get(<string>changes.datasetId.currentValue).then(d => d, () => { return Promise.reject("no dataset") })
         }
 
-        this.authority = changes.team.currentValue.settings.authority;
-        this.helper = changes.team.currentValue.settings.helper;
+        if (changes.team && changes.team.currentValue) {
+            this.authority = changes.team.currentValue.settings.authority;
+            this.helper = changes.team.currentValue.settings.helper;
+        }
+
+        this.cd.markForCheck();
+
     }
 
     ngOnInit() {

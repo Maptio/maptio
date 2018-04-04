@@ -56,7 +56,8 @@ export class PermissionService {
             Permissions.canCreateInitiative,
             Permissions.canDeleteInitiative,
             Permissions.canMoveInitiative,
-            Permissions.canEditInitiativeName
+            Permissions.canEditInitiativeName,
+            Permissions.canEditInitiativeDescription
         ]
     }
 }

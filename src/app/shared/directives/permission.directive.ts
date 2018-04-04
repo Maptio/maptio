@@ -65,6 +65,7 @@ export class PermissionsDirective implements OnInit, OnDestroy {
 
 
     ngOnInit(): void {
+        console.log("check permission ngOnInit")
         this.viewContainer.clear();
         this.initPermissionSubscription = this.validateExceptOnlyPermissions();
     }
@@ -253,7 +254,7 @@ export class PermissionsDirective implements OnInit, OnDestroy {
     }
 
     private checkPermission() {
-
+        console.log("check permissions")
         switch (this.permissionsOnly) {
             case Permissions.canMoveInitiative:
                 return this.canMoveInitiative();
@@ -261,8 +262,10 @@ export class PermissionsDirective implements OnInit, OnDestroy {
                 return this.canDeleteInitiative();
             case Permissions.canEditInitiativeName:
                 return this.canEditInitiativeName();
+            case Permissions.canEditInitiativeDescription:
+                return this.canEditInitiativeDescription();
             default:
-                return false;
+                return this.userPermissions.includes(this.permissionsOnly);
         }
     }
 
@@ -272,6 +275,14 @@ export class PermissionsDirective implements OnInit, OnDestroy {
 
     private canEditInitiativeName(): boolean {
         return this.userPermissions.includes(Permissions.canEditInitiativeName)
+            ||
+            (this.permissionsOnlyInitiative.accountable && this.permissionsOnlyInitiative.accountable.user_id === this.userId)
+
+    }
+
+    private canEditInitiativeDescription(): boolean {
+        console.log("check desciprtion")
+        return this.userPermissions.includes(Permissions.canEditInitiativeDescription)
             ||
             (this.permissionsOnlyInitiative.accountable && this.permissionsOnlyInitiative.accountable.user_id === this.userId)
 
