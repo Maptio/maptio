@@ -91,6 +91,7 @@ export class InitiativeComponent implements OnChanges {
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.node && changes.node.currentValue) {
             this.descriptionHideMe = changes.node.currentValue.description ? (changes.node.currentValue.description.trim() !== "") : false;
+            this.isRestrictedAddHelper = false;
             if (changes.node.isFirstChange() || !(changes.node.previousValue) || changes.node.currentValue.team_id !== changes.node.previousValue.team_id) {
 
                 this.team$ = this.teamFactory.get(<string>changes.node.currentValue.team_id)
@@ -249,6 +250,7 @@ export class InitiativeComponent implements OnChanges {
                 (term: string) =>
                     _catch.call(
                         _do.call(
+
                             this.filterMembers(term)
                             , () => this.searchFailed = false),
                         () => {

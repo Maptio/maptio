@@ -113,7 +113,7 @@
 					<input #person required="required" [resultTemplate]="rt" type="text" id="inputHelper" placeholder="Enter the name of a {{helper | lowercase}}"
 					 class="form-control" (selectItem)="saveHelperRestricted($event)" (focus)="person.value=''" [ngbTypeahead]="searchTeamMember"
 					 [resultFormatter]="formatter" [inputFormatter]="formatter" editable="false" />
-					<span class="text-warning small" *ngIf="isRestrictedAddHelper">You can only add yourself as a {{helper}} in this initiative</span>
+					<span class="text-info small" *ngIf="isRestrictedAddHelper">You can only add yourself as a {{helper}} in this initiative</span>
 				</ng-template>
 			</div>
 
