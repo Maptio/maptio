@@ -264,6 +264,10 @@ export class PermissionsDirective implements OnInit, OnDestroy {
                 return this.canEditInitiativeName();
             case Permissions.canEditInitiativeDescription:
                 return this.canEditInitiativeDescription();
+            case Permissions.canEditInitiativeTags:
+                return this.canEditInitiativeTags();
+            case Permissions.canEditInitiativeAuthority:
+                return this.canEditInitiativeAuthority();
             default:
                 return this.userPermissions.includes(this.permissionsOnly);
         }
@@ -281,8 +285,21 @@ export class PermissionsDirective implements OnInit, OnDestroy {
     }
 
     private canEditInitiativeDescription(): boolean {
-        console.log("check desciprtion")
         return this.userPermissions.includes(Permissions.canEditInitiativeDescription)
+            ||
+            (this.permissionsOnlyInitiative.accountable && this.permissionsOnlyInitiative.accountable.user_id === this.userId)
+
+    }
+
+    private canEditInitiativeTags(): boolean {
+        return this.userPermissions.includes(Permissions.canEditInitiativeTags)
+            ||
+            (this.permissionsOnlyInitiative.accountable && this.permissionsOnlyInitiative.accountable.user_id === this.userId)
+
+    }
+
+    private canEditInitiativeAuthority(): boolean {
+        return this.userPermissions.includes(Permissions.canEditInitiativeAuthority)
             ||
             (this.permissionsOnlyInitiative.accountable && this.permissionsOnlyInitiative.accountable.user_id === this.userId)
 

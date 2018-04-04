@@ -22,7 +22,8 @@ export enum Permissions {
     canMoveInitiative,
     canEditInitiativeName,
     canEditInitiativeDescription,
-    canEditInitiativeTags
+    canEditInitiativeTags,
+    canEditInitiativeAuthority
 
 }
 
@@ -57,7 +58,9 @@ export class PermissionService {
             Permissions.canDeleteInitiative,
             Permissions.canMoveInitiative,
             Permissions.canEditInitiativeName,
-            Permissions.canEditInitiativeDescription
+            Permissions.canEditInitiativeDescription,
+            Permissions.canEditInitiativeTags,
+            canEditInitiativeAuthority
         ]
     }
 }
