@@ -863,11 +863,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
       g.selectAll("text.name")
         .on("mouseover", function (d: any) {
-          d3.select(`circle[id="${d.data.id}"]`).dispatch("mouseover")
+          d3.select(`circle[id="${d.data.id}"]`).classed("hovered", true).dispatch("mouseover");
+
 
         })
         .on("mouseout", function (d: any) {
-          d3.select(`circle[id="${d.data.id}"]`).dispatch("mouseout")
+          d3.select(`circle[id="${d.data.id}"]`).classed("hovered", false).dispatch("mouseout")
         });
 
 
