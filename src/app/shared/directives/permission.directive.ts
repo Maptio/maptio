@@ -1,3 +1,4 @@
+import { Helper } from './../model/helper.data';
 import { Initiative } from "./../model/initiative.data";
 import { Permissions } from "./../model/permission.data";
 import { Auth } from "./../services/auth/auth.service";
@@ -32,6 +33,7 @@ export class PermissionsDirective implements OnInit, OnDestroy {
 
     permission: Permissions;
     initiative: Initiative;
+    helper: Helper;
 
     @Input()
     set permissionsOnly(p: Permissions) {
@@ -41,6 +43,11 @@ export class PermissionsDirective implements OnInit, OnDestroy {
     @Input()
     set permissionsOnlyInitiative(i: Initiative) {
         this.initiative = i;
+    };
+
+    @Input()
+    set permissionsOnlyHelper(h: Helper) {
+        this.helper = h;
     };
 
     @Input() permissionsOnlyThen: TemplateRef<any>;
@@ -92,6 +99,22 @@ export class PermissionsDirective implements OnInit, OnDestroy {
         }
         else {
             this.initiative = null;
+        }
+
+        if (changes.permissionsOnlyHelper) {
+            if (changes.permissionsOnlyHelper.isFirstChange()) {
+                this.initiative = changes.permissionsOnlyHelper.currentValue;
+            }
+            else if (changes.permissionsOnlyHelper.previousValue.user_id !== changes.permissionsOnlyHelper.currentValue.user_id) {
+                this.helper = changes.permissionsOnlyHelper.currentValue;
+                this.validateExceptOnlyPermissions();
+            }
+            else {
+                this.helper = null;
+            }
+        }
+        else {
+            this.helper = null;
         }
 
         // if (changes.permissionsOnly) {
@@ -311,6 +334,10 @@ export class PermissionsDirective implements OnInit, OnDestroy {
                 return this.canEditInitiativeTags();
             case Permissions.canEditInitiativeAuthority:
                 return this.canEditInitiativeAuthority();
+            case Permissions.canAddHelper:
+                return this.canAddHelper();
+            case Permissions.canDeleteHelper:
+                return this.canDeleteHelper();
             default:
                 return this.userPermissions.includes(this.permission);
         }
@@ -345,6 +372,22 @@ export class PermissionsDirective implements OnInit, OnDestroy {
         return this.userPermissions.includes(Permissions.canEditInitiativeAuthority)
             ||
             (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
+
+    }
+
+    private canAddHelper(): boolean {
+        return this.userPermissions.includes(Permissions.canAddHelper)
+            ||
+            (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
+
+    }
+
+    private canDeleteHelper(): boolean {
+        return this.userPermissions.includes(Permissions.canDeleteHelper)
+            ||
+            (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
+            ||
+            (this.helper.user_id === this.userId)
 
     }
 

@@ -1,3 +1,4 @@
+import { Auth } from "./../../../shared/services/auth/auth.service";
 import { Permissions } from "./../../../shared/model/permission.data";
 import { Role } from "./../../../shared/model/role.data";
 import { Helper } from "./../../../shared/model/helper.data";
@@ -50,9 +51,11 @@ export class InitiativeComponent implements OnChanges {
     public team$: Promise<Team>;
     public authority: string;
     public helper: string;
+    public user: User;
 
     isTeamMemberFound: boolean = true;
     isTeamMemberAdded: boolean = false;
+    isRestrictedAddHelper: boolean;
     currentTeamName: string;
     searching: boolean;
     searchFailed: boolean;
@@ -73,7 +76,7 @@ export class InitiativeComponent implements OnChanges {
     focus$ = new Subject<string>();
     click$ = new Subject<string>();
 
-    constructor(private teamFactory: TeamFactory, private userFactory: UserFactory,
+    constructor(private auth: Auth, private teamFactory: TeamFactory, private userFactory: UserFactory,
         private datasetFactory: DatasetFactory, private analytics: Angulartics2Mixpanel,
         private cd: ChangeDetectorRef, private renderer: Renderer2) {
     }
@@ -82,7 +85,7 @@ export class InitiativeComponent implements OnChanges {
         this.renderer.setAttribute(templateRef.elementRef.nativeElement.nextSibling, "disabled", "");
     }
     public enableFieldset = (templateRef: TemplateRef<any>) => {
-        //this.renderer.removeAttribute(templateRef.elementRef.nativeElement.nextSibling, "disabled");
+        // this.renderer.removeAttribute(templateRef.elementRef.nativeElement.nextSibling, "disabled");
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -121,7 +124,7 @@ export class InitiativeComponent implements OnChanges {
     }
 
     ngOnInit() {
-
+        this.auth.getUser().subscribe(user => this.user = user)
     }
 
     onBlur() {
@@ -174,6 +177,21 @@ export class InitiativeComponent implements OnChanges {
         }
         this.onBlur();
         this.analytics.eventTrack("Initiative", { action: "add helper", team: this.teamName, teamId: this.teamId });
+    }
+
+    saveHelperRestricted(newHelper: NgbTypeaheadSelectItemEvent) {
+        if (newHelper.item.user_id === this.user.user_id) {
+            this.saveHelper({ item: this.user, preventDefault: null })
+        } else {
+            this.isRestrictedAddHelper = true;
+        }
+        // if (this.node.helpers.findIndex(user => user.user_id === newHelper.item.user_id) < 0) {
+        //     let helper = newHelper.item;
+        //     helper.roles = [];
+        //     this.node.helpers.unshift(helper);
+        // }
+        // this.onBlur();
+        // this.analytics.eventTrack("Initiative", { action: "add helper", team: this.teamName, teamId: this.teamId });
     }
 
     saveTag(newTag: NgbTypeaheadSelectItemEvent) {
