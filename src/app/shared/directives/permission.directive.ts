@@ -9,7 +9,8 @@ import {
     OnInit,
     Output,
     TemplateRef,
-    ViewContainerRef
+    ViewContainerRef,
+    SimpleChanges
 } from "@angular/core";
 // import { NgxPermissionsService } from "../service/permissions.service";
 import { Subscription } from "rxjs/Subscription";
@@ -29,8 +30,18 @@ export type StrategyFunction = (templateRef?: TemplateRef<any>) => void;
 })
 export class PermissionsDirective implements OnInit, OnDestroy {
 
-    @Input() permissionsOnly: Permissions;
-    @Input() permissionsOnlyInitiative: Initiative;
+    permission: Permissions;
+    initiative: Initiative;
+
+    @Input()
+    set permissionsOnly(p: Permissions) {
+        this.permission = p;
+    };
+
+    @Input()
+    set permissionsOnlyInitiative(i: Initiative) {
+        this.initiative = i;
+    };
 
     @Input() permissionsOnlyThen: TemplateRef<any>;
     @Input() permissionsOnlyElse: TemplateRef<any>;
@@ -64,8 +75,39 @@ export class PermissionsDirective implements OnInit, OnDestroy {
     }
 
 
+    ngOnChanges(changes: SimpleChanges) {
+        // console.log("changes", changes)
+
+        if (changes.permissionsOnlyInitiative) {
+            if (changes.permissionsOnlyInitiative.isFirstChange()) {
+                this.initiative = changes.permissionsOnlyInitiative.currentValue;
+            }
+            else if (changes.permissionsOnlyInitiative.previousValue.id !== changes.permissionsOnlyInitiative.currentValue.id) {
+                this.initiative = changes.permissionsOnlyInitiative.currentValue;
+                this.validateExceptOnlyPermissions();
+            }
+            else {
+                this.initiative = null;
+            }
+        }
+        else {
+            this.initiative = null;
+        }
+
+        // if (changes.permissionsOnly) {
+        //     this.permission = changes.permissionsOnly.currentValue
+        // }
+
+        // if (changes.permissionsOnlyThen) {
+        //     this.permissionsOnlyThen = changes.permissionsOnlyThen.currentValue
+        // }
+
+        // if (changes.permissionsOnlyElse) {
+        //     this.permissionsOnlyElse = changes.permissionsOnlyElse.currentValue
+        // }
+    }
+
     ngOnInit(): void {
-        console.log("check permission ngOnInit")
         this.viewContainer.clear();
         this.initPermissionSubscription = this.validateExceptOnlyPermissions();
     }
@@ -77,6 +119,7 @@ export class PermissionsDirective implements OnInit, OnDestroy {
     }
 
     private validateExceptOnlyPermissions(): Subscription {
+        // if (this.initiative) console.log("checking for ", Permissions[this.permission], "in", this.initiative.name)
         return Observable.of(this.userPermissions)
             // this.permissionsService.permissions$
             // .merge(this.rolesService.roles$)
@@ -87,7 +130,7 @@ export class PermissionsDirective implements OnInit, OnDestroy {
                 //     return;
                 // }
 
-                if (this.permissionsOnly) {
+                if (this.permission) {
                     this.validateOnlyPermissions();
                     return;
                 }
@@ -254,8 +297,8 @@ export class PermissionsDirective implements OnInit, OnDestroy {
     }
 
     private checkPermission() {
-        console.log("check permissions")
-        switch (this.permissionsOnly) {
+        // ("checkPermissions", Permissions[this.permission], this.initiative)
+        switch (this.permission) {
             case Permissions.canMoveInitiative:
                 return this.canMoveInitiative();
             case Permissions.canDeleteInitiative:
@@ -269,7 +312,7 @@ export class PermissionsDirective implements OnInit, OnDestroy {
             case Permissions.canEditInitiativeAuthority:
                 return this.canEditInitiativeAuthority();
             default:
-                return this.userPermissions.includes(this.permissionsOnly);
+                return this.userPermissions.includes(this.permission);
         }
     }
 
@@ -280,35 +323,35 @@ export class PermissionsDirective implements OnInit, OnDestroy {
     private canEditInitiativeName(): boolean {
         return this.userPermissions.includes(Permissions.canEditInitiativeName)
             ||
-            (this.permissionsOnlyInitiative.accountable && this.permissionsOnlyInitiative.accountable.user_id === this.userId)
+            (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
 
     }
 
     private canEditInitiativeDescription(): boolean {
         return this.userPermissions.includes(Permissions.canEditInitiativeDescription)
             ||
-            (this.permissionsOnlyInitiative.accountable && this.permissionsOnlyInitiative.accountable.user_id === this.userId)
+            (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
 
     }
 
     private canEditInitiativeTags(): boolean {
         return this.userPermissions.includes(Permissions.canEditInitiativeTags)
             ||
-            (this.permissionsOnlyInitiative.accountable && this.permissionsOnlyInitiative.accountable.user_id === this.userId)
+            (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
 
     }
 
     private canEditInitiativeAuthority(): boolean {
         return this.userPermissions.includes(Permissions.canEditInitiativeAuthority)
             ||
-            (this.permissionsOnlyInitiative.accountable && this.permissionsOnlyInitiative.accountable.user_id === this.userId)
+            (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
 
     }
 
     private canDeleteInitiative(): boolean {
         return this.userPermissions.includes(Permissions.canDeleteInitiative)
             ||
-            (this.permissionsOnlyInitiative.accountable && this.permissionsOnlyInitiative.accountable.user_id === this.userId)
+            (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
 
     }
 }

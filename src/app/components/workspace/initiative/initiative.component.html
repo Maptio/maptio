@@ -8,52 +8,46 @@
 </ng-template>
 
 <form>
-	<div class="card transparent borderless mb-2">
+	<div class="card borderless mb-2 p-2">
 		<fieldset name="initiativeName" *permissionsOnly="Permissions.canEditInitiativeName;initiative node; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
-			<div class="d-flex justify-content-start">
-				<input class="form-control unresizable" id="inputName" type="text" name="inputName" [ngModelOptions]="{standalone: true}"
+			<div class="d-flex justify-content-start input-group">
+				<input class="form-control borderless" id="inputName" type="text" name="inputName" [ngModelOptions]="{standalone: true}"
 				 [ngModel]="node?.name" placeholder="Initiative name" (ngModelChange)="saveName($event)" rows="2" cols="" (blur)="onBlur()"
 				/>
-				<span class="pl-1 pt-2 icon-disabled text-muted" ngbTooltip="Only the {{authority}} of this initiative can edit it" placement="top"
-				 container="body"></span>
+				<span class="input-group-addon icon-disabled text-muted transparent borderless" ngbTooltip="Only the {{authority}} of this initiative can edit it"
+				 placement="top" container="body"></span>
 			</div>
 		</fieldset>
 	</div>
 
-	<div class="card transparent borderless mb-2">
+	<div class="card borderless mb-2 p-2">
 		<fieldset name="initiativeTags" *permissionsOnly="Permissions.canEditInitiativeTags;initiative node; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset;">
 			<div class="d-flex justify-content-start">
-				<ul class="tags form-control">
-					<ng-container *ngIf="node?.tags.length >0">
-						<li *ngFor="let tag of node?.tags; let i=index">
-							<a class="btn btn-sm btn-secondary mr-1 tag btn-tag borderless active" [style.background-color]="tag.color" [style.color]="white">
-								<i class="fa fa-tag mr-1" aria-hidden="true"></i>{{tag?.name}}
-								<span class="remove transparent ml-1" (click)="removeTag(tag)"></span>
-							</a>
-						</li>
-					</ng-container>
-					<ng-container *ngIf="node?.tags.length ===0">
-						No tags
-					</ng-container>
-
-					<li *permissionsOnly="Permissions.canEditInitiativeTags;initiative node">
+				<ul class="tags w-100 borderless-right pt-1">
+					<li *ngFor="let tag of node?.tags; let i=index">
+						<a class="btn btn-sm btn-secondary mr-1 tag btn-tag borderless active" [style.background-color]="tag.color" [style.color]="white">
+							<i class="fa fa-tag mr-1" aria-hidden="true"></i>{{tag?.name}}
+							<span class="remove transparent ml-1" (click)="removeTag(tag)"></span>
+						</a>
+					</li>
+					<li>
 						<input required="required" [resultTemplate]="rtTag" type="text" placeholder="Add tag" class="form-control form-control-sm col-8 p-1"
 						 (selectItem)="saveTag($event)" [ngbTypeahead]="searchTag" editable="false" (focus)="$event.target.value='';focus$.next($event.target.value)"
 						 (click)="$event.target.value=''; click$.next($event.target.value)" [resultFormatter]="tagFormatter" [inputFormatter]="tagFormatter"
 						 #inputTag="ngbTypeahead" />
 					</li>
 				</ul>
-				<span class="pl-1 pt-2 icon-disabled text-muted" ngbTooltip="Only the {{authority}} of this initiative can edit it" placement="top"
-				 container="body"></span>
+				<span class="input-group-addon icon-disabled text-muted transparent borderless" ngbTooltip="Only the {{authority}} of this initiative can edit it"
+				 placement="top" container="body"></span>
 			</div>
 		</fieldset>
 	</div>
 
 
-	<div class="card transparent borderless mb-2">
+	<div class="card borderless mb-2 p-2">
 		<fieldset name="initiativeAuthority" *permissionsOnly="Permissions.canEditInitiativeAuthority;initiative node; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
-			<div class="d-flex justify-content-start">
-				<div class="form-inline form-control">
+			<div class="d-flex justify-content-start input-group">
+				<div class="form-inline w-100">
 					<label for="inputAccountable" class="form-control-label col-form-label text-muted">{{(team$ | async)?.settings.authority | titlecase }}
 
 					</label>
@@ -71,7 +65,7 @@
 						</div>
 					</div>
 				</div>
-				<span class="pl-1 pt-2 icon-disabled text-muted" ngbTooltip="Only the {{authority}} of this initiative can edit it" placement="top"
+				<span class="borderless transparent icon-disabled text-muted input-group-addon " ngbTooltip="Only the {{authority}} of this initiative can edit it" placement="top"
 				 container="body"></span>
 			</div>
 

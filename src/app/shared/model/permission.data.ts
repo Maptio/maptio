@@ -60,7 +60,7 @@ export class PermissionService {
             Permissions.canEditInitiativeName,
             Permissions.canEditInitiativeDescription,
             Permissions.canEditInitiativeTags,
-            canEditInitiativeAuthority
+            Permissions.canEditInitiativeAuthority
         ]
     }
 }
