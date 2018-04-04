@@ -494,7 +494,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .attr("id", function (d: any) {
         return `${d.data.id}`;
       })
-      .style("pointer-events", "none")
+      // .style("pointer-events", "none")
       .style("opacity", function (d: any) {
         return isBranchDisplayed(d) ? 1 : 0;
       })
@@ -516,7 +516,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return `${d.data.id}`;
       })
       .classed("initiative-map", true)
-      .style("pointer-events", "none")
+      // .style("pointer-events", "none")
       .attr("dy", 0)
       .attr("x", function (d: any) {
         return -d.r * POSITION_INITIATIVE_NAME.x;
@@ -801,10 +801,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
       view = v;
       node.attr("transform", function (d: any) {
         return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")";
-      })
+      });
 
-
-        ;
       circle
         .attr("r", function (d: any) {
           return d.r * k;
@@ -862,6 +860,16 @@ export class MappingZoomableComponent implements IDataVisualizer {
           let tooltip = d3.select(`div.arrow_box[id="${d.data.id}"]`);
           tooltip.classed("show", false);
         });
+
+      g.selectAll("text.name")
+        .on("mouseover", function (d: any) {
+          d3.select(`circle[id="${d.data.id}"]`).dispatch("mouseover")
+
+        })
+        .on("mouseout", function (d: any) {
+          d3.select(`circle[id="${d.data.id}"]`).dispatch("mouseout")
+        });
+
 
       path.attr("transform", "scale(" + k + ")");
 
