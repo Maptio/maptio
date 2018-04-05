@@ -119,27 +119,8 @@
 			</div>
 
 			<div class="col-12">
-				<div *ngIf="node?.accountable">
-					<div class="row mb-0">
-						<span class="ml-1 col">
-							<img src="{{node?.accountable?.picture}}" width="16" class="rounded-circle" alt="{{node?.accountable?.name}}">
-							<a routerLink="/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/u/{{node?.accountable?.shortid}}/{{node?.accountable?.getSlug()}}">{{node?.accountable.name}}</a>
-							<span class="text-muted small">({{(team$ | async)?.settings.authority | titlecase }})</span>
-						</span>
-						<button class="btn btn-link pull-right btn-sm" (click)="authorityHideMe=!authorityHideMe">Role
-							<i class="fa" [class.fa-caret-up]="hideme[i]" [class.fa-caret-down]="!hideme[i]" aria-hidden="true"></i>
-						</button>
-					</div>
-					<textarea [hidden]="!authorityHideMe" #inputAuthorityRole class="form-control form-control-sm unresizable mb-3" id="inputRole"
-					 [ngModelOptions]="{standalone: true}" data-provide="markdown" data-iconlibrary="fa" data-autofocus="true" [ngModel]="node?.accountable?.roles[0]?.description || ''"
-					 rows="3" placeholder="How is {{node?.accountable?.name}} helping?" (ngModelChange)="saveRole(node?.accountable,$event)"
-					 (blur)="onBlur();authorityHideMe=!authorityHideMe" (change)="saveRole(node?.accountable,$event.target.value)"></textarea>
 
-					<markdown class="small mb-3" [hidden]="authorityHideMe" *ngIf="node?.accountable?.roles[0]?.description" [data]="node?.accountable?.roles[0]?.description || ''"></markdown>
-
-				</div>
-
-				<div *ngFor="let user of node?.helpers; let i=index">
+				<div *ngFor="let user of getAllHelpers(); let i=index">
 					<div class="row mb-0">
 						<div *permissionsOnly="Permissions.canDeleteHelper;initiative node;helper user; then thenDeleteHelperBlock; else elseDeleteHelperBlock "></div>
 						<ng-template #thenDeleteHelperBlock>
@@ -153,25 +134,39 @@
 						<span class="pl-1 col">
 							<img src="{{user.picture}}" width="16" class="rounded-circle" alt={{user.name}}>
 							<a routerLink="/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/u/{{user.shortid}}/{{user.getSlug()}}">{{user.name}}</a>
-
+							<span class="text-muted small" *ngIf="isAuthority(user)">({{authority | titlecase }})</span>
 						</span>
 
-						<button class="btn btn-link pull-right btn-sm" (click)="toggleRole(i)">Role
-							<i class="fa" [class.fa-caret-up]="hideme[i]" [class.fa-caret-down]="!hideme[i]" aria-hidden="true"></i>
-						</button>
+						<ng-container *permissionsOnly="Permissions.canEditHelper;initiative node; helper user; then thenEditRoleButtonBlock; else elseEditRoleButtonBlock"></ng-container>
+						<ng-template #thenEditRoleButtonBlock>
+							<button class="btn btn-link pull-right btn-sm" (click)="toggleRole(i)">Role
+								<i class="fa" [class.fa-caret-up]="hideme[i]" [class.fa-caret-down]="!hideme[i]" aria-hidden="true"></i>
+							</button>
+						</ng-template>
+						<ng-template #elseEditRoleButtonBlock>
+							<button class="btn btn-link pull-right btn-sm disabled" ngbTooltip="Only the {{authority}} of this initiative can edit roles"
+							 placement="top" container="body">Role
+								<i class="fa fa-lock"></i>
+							</button>
+						</ng-template>
+
 					</div>
+
 					<textarea [hidden]="!hideme[i]" #inputRole class="form-control form-control-sm unresizable ml-1" id="inputRole" [ngModelOptions]="{standalone: true}"
 					 data-provide="markdown" data-iconlibrary="fa" data-autofocus="true" [ngModel]="user.roles[0]?.description || ''" rows="3"
 					 placeholder="How is {{user.name}} helping?" (ngModelChange)="saveRole(user,$event)" (blur)="onBlur();toggleRole(i)"
 					 (change)="saveRole(user,$event.target.value)"></textarea>
 
 					<markdown class="small" [hidden]="hideme[i]" *ngIf="user.roles[0]?.description" [data]="user.roles[0]?.description || ''"></markdown>
-					
-					<label class="custom-control custom-checkbox small ml-1">
-						<input type="checkbox" class="custom-control-input"  (ngModelChange)="savePrivilege(user,$event)" [ngModel]="user.hasAuthorityPrivileges" [ngModelOptions]="{standalone: true}">
-						<span class="custom-control-indicator"></span>
-						<span class="custom-control-description">{{user.name}} can edit this initiative</span>
-					</label>
+
+					<fieldset *permissionsOnly="Permissions.canGiveHelperPrivileges;initiative node; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
+						<label class="custom-control custom-checkbox small ml-1">
+							<input type="checkbox" class="custom-control-input" (ngModelChange)="savePrivilege(user,$event)" [ngModel]="user.hasAuthorityPrivileges"
+							 [ngModelOptions]="{standalone: true}">
+							<span class="custom-control-indicator"></span>
+							<span class="custom-control-description">{{user.name}} can edit this initiative</span>
+						</label>
+					</fieldset>
 				</div>
 				<small class="text-warning" *ngIf="node?.helpers.length === 0 || !(node?.helpers)">No helpers yet</small>
 

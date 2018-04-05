@@ -25,7 +25,9 @@ export enum Permissions {
     canEditInitiativeTags,
     canEditInitiativeAuthority,
     canAddHelper,
-    canDeleteHelper
+    canDeleteHelper,
+    canEditHelper,
+    canGiveHelperPrivileges
 
 }
 
@@ -64,7 +66,9 @@ export class PermissionService {
             Permissions.canEditInitiativeTags,
             Permissions.canEditInitiativeAuthority,
             Permissions.canAddHelper,
-            Permissions.canDeleteHelper
+            Permissions.canDeleteHelper,
+            Permissions.canEditHelper,
+            Permissions.canGiveHelperPrivileges
         ]
     }
 }

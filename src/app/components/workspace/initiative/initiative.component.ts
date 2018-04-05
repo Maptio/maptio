@@ -168,6 +168,14 @@ export class InitiativeComponent implements OnChanges {
         this.hideme[i] = !this.hideme[i];
     }
 
+    getAllHelpers() {
+        return [...this.node.helpers, this.node.accountable].reverse(); // always disaply the authority first
+    }
+
+    isAuthority(helper: Helper) {
+        return this.node.accountable && this.node.accountable.user_id === helper.user_id
+    }
+
     saveAccountable(newAccountable: NgbTypeaheadSelectItemEvent) {
         let accountable = newAccountable.item;
         accountable.roles = [];

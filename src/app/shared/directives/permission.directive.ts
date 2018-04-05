@@ -338,6 +338,10 @@ export class PermissionsDirective implements OnInit, OnDestroy {
                 return this.canAddHelper();
             case Permissions.canDeleteHelper:
                 return this.canDeleteHelper();
+            case Permissions.canEditHelper:
+                return this.canEditHelper();
+            case Permissions.canGiveHelperPrivileges:
+                return this.canGiveHelperPrivilege()
             default:
                 return this.userPermissions.includes(this.permission);
         }
@@ -399,6 +403,24 @@ export class PermissionsDirective implements OnInit, OnDestroy {
             (this.helper.user_id === this.userId)
             ||
             (this.initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
+
+    }
+
+    private canEditHelper(): boolean {
+        return this.userPermissions.includes(Permissions.canEditHelper)
+            ||
+            (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
+            ||
+            (this.helper.user_id === this.userId)
+            ||
+            (this.initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
+
+    }
+
+    private canGiveHelperPrivilege(): boolean {
+        return this.userPermissions.includes(Permissions.canEditHelper)
+            ||
+            (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
 
     }
 
