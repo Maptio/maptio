@@ -14,7 +14,7 @@
 				<input class="form-control borderless" id="inputName" type="text" name="inputName" [ngModelOptions]="{standalone: true}"
 				 [ngModel]="node?.name" placeholder="Initiative name" (ngModelChange)="saveName($event)" rows="2" cols="" (blur)="onBlur()"
 				/>
-				<span class="input-group-addon icon-disabled text-muted transparent borderless" ngbTooltip="Only the {{authority}} of this initiative can edit it"
+				<span class="input-group-addon icon-disabled text-muted transparent borderless" ngbTooltip="Only the {{authority}} and super {{helper}} of this initiative can edit it"
 				 placement="top" container="body"></span>
 			</div>
 		</fieldset>
@@ -37,7 +37,7 @@
 						 #inputTag="ngbTypeahead" />
 					</li>
 				</ul>
-				<span class="input-group-addon icon-disabled text-muted transparent borderless" ngbTooltip="Only the {{authority}} of this initiative can edit it"
+				<span class="input-group-addon icon-disabled text-muted transparent borderless" ngbTooltip="Only the {{authority}} and super {{helper}} of this initiative can edit it"
 				 placement="top" container="body"></span>
 			</div>
 		</fieldset>
@@ -65,7 +65,7 @@
 						</div>
 					</div>
 				</div>
-				<span class="borderless transparent icon-disabled text-muted input-group-addon " ngbTooltip="Only the {{authority}} of this initiative can edit it"
+				<span class="borderless transparent icon-disabled text-muted input-group-addon " ngbTooltip="Only the {{authority}} and super {{helper}} of this initiative can edit it"
 				 placement="top" container="body"></span>
 			</div>
 		</fieldset>
@@ -91,7 +91,7 @@
 						<markdown class="small mb-3" *ngIf="node?.description || ''" [data]="node?.description || ''"></markdown>
 					</div>
 				</div>
-				<span class="input-group-addon icon-disabled text-muted borderless transparent" ngbTooltip="Only the {{authority}} of this initiative can edit it"
+				<span class="input-group-addon icon-disabled text-muted borderless transparent" ngbTooltip="Only the {{authority}} and super {{helper}} of this initiative can edit it"
 				 placement="top" container="body"></span>
 			</div>
 		</fieldset>
@@ -128,7 +128,7 @@
 							 focusbutton="cancel" appendToBody="false" (confirm)="removeHelper(user)" (cancel)="cancelClicked = true"></span>
 						</ng-template>
 						<ng-template #elseDeleteHelperBlock>
-							<span class="remove text-muted mr-1 " placement="top" container="body" ngbTooltip="Only the {{authority}} of this initiative can delete a {{helper}}"></span>
+							<span class="remove text-muted mr-1 " placement="top" container="body" ngbTooltip="Only the {{authority}} and super {{helper}} of this initiative can delete a {{helper}}"></span>
 						</ng-template>
 
 						<span class="pl-1 col">
@@ -144,7 +144,7 @@
 							</button>
 						</ng-template>
 						<ng-template #elseEditRoleButtonBlock>
-							<button class="btn btn-link pull-right btn-sm disabled" ngbTooltip="Only the {{authority}} of this initiative can edit roles"
+							<button class="btn btn-link pull-right btn-sm disabled" ngbTooltip="Only the {{authority}} and super {{helper}} of this initiative can edit roles"
 							 placement="top" container="body">Role
 								<i class="fa fa-lock"></i>
 							</button>
