@@ -103,7 +103,7 @@ export class PermissionsDirective implements OnInit, OnDestroy {
 
         if (changes.permissionsOnlyHelper) {
             if (changes.permissionsOnlyHelper.isFirstChange()) {
-                this.initiative = changes.permissionsOnlyHelper.currentValue;
+                this.helper = changes.permissionsOnlyHelper.currentValue;
             }
             else if (changes.permissionsOnlyHelper.previousValue.user_id !== changes.permissionsOnlyHelper.currentValue.user_id) {
                 this.helper = changes.permissionsOnlyHelper.currentValue;
@@ -384,6 +384,10 @@ export class PermissionsDirective implements OnInit, OnDestroy {
         return this.userPermissions.includes(Permissions.canAddHelper)
             ||
             (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
+            ||
+            (this.initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
+            ||
+            (this.initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
 
     }
 
@@ -393,6 +397,8 @@ export class PermissionsDirective implements OnInit, OnDestroy {
             (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
             ||
             (this.helper.user_id === this.userId)
+            ||
+            (this.initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
 
     }
 
