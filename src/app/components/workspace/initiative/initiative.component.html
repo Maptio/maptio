@@ -113,11 +113,10 @@
 					<input #person required="required" [resultTemplate]="rt" type="text" id="inputHelper" placeholder="Enter the name of a {{helper | lowercase}}"
 					 class="form-control" (selectItem)="saveHelperRestricted($event)" (focus)="person.value=''" [ngbTypeahead]="searchTeamMember"
 					 [resultFormatter]="formatter" [inputFormatter]="formatter" editable="false" />
-					<span class="text-info small" *ngIf="isRestrictedAddHelper">You can only add yourself as a {{helper}} in this initiative</span>
+					<span class="text-info small" *ngIf="isRestrictedAddHelper">You can only add
+						<strong>yourself</strong> as a {{helper | lowercase}} in this initiative</span>
 				</ng-template>
 			</div>
-
-
 
 			<div class="col-12">
 				<div *ngIf="node?.accountable">
@@ -156,16 +155,23 @@
 							<a routerLink="/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/u/{{user.shortid}}/{{user.getSlug()}}">{{user.name}}</a>
 
 						</span>
+
 						<button class="btn btn-link pull-right btn-sm" (click)="toggleRole(i)">Role
 							<i class="fa" [class.fa-caret-up]="hideme[i]" [class.fa-caret-down]="!hideme[i]" aria-hidden="true"></i>
 						</button>
 					</div>
-					<textarea [hidden]="!hideme[i]" #inputRole class="form-control form-control-sm unresizable mb-3 ml-1" id="inputRole" [ngModelOptions]="{standalone: true}"
+					<textarea [hidden]="!hideme[i]" #inputRole class="form-control form-control-sm unresizable ml-1" id="inputRole" [ngModelOptions]="{standalone: true}"
 					 data-provide="markdown" data-iconlibrary="fa" data-autofocus="true" [ngModel]="user.roles[0]?.description || ''" rows="3"
 					 placeholder="How is {{user.name}} helping?" (ngModelChange)="saveRole(user,$event)" (blur)="onBlur();toggleRole(i)"
 					 (change)="saveRole(user,$event.target.value)"></textarea>
 
-					<markdown class="small mb-2" [hidden]="hideme[i]" *ngIf="user.roles[0]?.description" [data]="user.roles[0]?.description || ''"></markdown>
+					<markdown class="small" [hidden]="hideme[i]" *ngIf="user.roles[0]?.description" [data]="user.roles[0]?.description || ''"></markdown>
+					
+					<label class="custom-control custom-checkbox small ml-1">
+						<input type="checkbox" class="custom-control-input"  (ngModelChange)="savePrivilege(user,$event)" [ngModel]="user.hasAuthorityPrivileges" [ngModelOptions]="{standalone: true}">
+						<span class="custom-control-indicator"></span>
+						<span class="custom-control-description">{{user.name}} can edit this initiative</span>
+					</label>
 				</div>
 				<small class="text-warning" *ngIf="node?.helpers.length === 0 || !(node?.helpers)">No helpers yet</small>
 

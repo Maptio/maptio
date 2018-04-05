@@ -514,3 +514,9 @@ li a.tag {
   font-size: 1.25rem!important;
   font-weight: 300!important;
 }
+
+p.markdown {
+  margin-bottom: 0;
+  /* margin-left: 0.25rem; */
+  padding-left: 0.25rem;
+}

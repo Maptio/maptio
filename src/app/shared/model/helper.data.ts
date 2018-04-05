@@ -6,7 +6,15 @@ import { Role } from "./role.data";
  */
 export class Helper extends User {
 
+    /**
+     * List of roles held by the helper
+     */
     public roles: Array<Role> = [];
+
+    /**
+     * True if the helper can act as an authority for initiative modifications, false otherwise
+     */
+    public hasAuthorityPrivileges: boolean;
 
     public constructor(init?: Partial<Helper>) {
         super()
@@ -28,6 +36,8 @@ export class Helper extends User {
         else {
             roles = [];
         }
+
+        deserialized.hasAuthorityPrivileges = input.hasAuthorityPrivileges || false;
 
         deserialized.roles = roles;
         return deserialized;

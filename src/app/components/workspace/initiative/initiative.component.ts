@@ -154,6 +154,13 @@ export class InitiativeComponent implements OnChanges {
         this.analytics.eventTrack("Initiative", { action: "changing role", team: this.teamName, teamId: this.teamId });
     }
 
+    savePrivilege(helper: Helper, hasAuthorityPrivileges: boolean) {
+        console.log("saving privilege", this.node.name, helper.name, hasAuthorityPrivileges)
+        helper.hasAuthorityPrivileges = hasAuthorityPrivileges;
+        this.onBlur();
+        this.analytics.eventTrack("Initiative", { action: "changing helper privilege", team: this.teamName, teamId: this.teamId });
+    }
+
     toggleRole(i: number) {
         this.hideme.forEach(el => {
             el = true
