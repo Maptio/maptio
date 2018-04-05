@@ -354,6 +354,8 @@ export class PermissionsDirective implements OnInit, OnDestroy {
     private canEditInitiativeName(): boolean {
         return this.userPermissions.includes(Permissions.canEditInitiativeName)
             ||
+            !this.initiative.accountable
+            ||
             (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
             ||
             (this.initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
@@ -362,6 +364,8 @@ export class PermissionsDirective implements OnInit, OnDestroy {
 
     private canEditInitiativeDescription(): boolean {
         return this.userPermissions.includes(Permissions.canEditInitiativeDescription)
+            || 
+            !this.initiative.accountable
             ||
             (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
             ||
@@ -372,6 +376,8 @@ export class PermissionsDirective implements OnInit, OnDestroy {
     private canEditInitiativeTags(): boolean {
         return this.userPermissions.includes(Permissions.canEditInitiativeTags)
             ||
+            !this.initiative.accountable
+            ||
             (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
             ||
             (this.initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
@@ -381,11 +387,15 @@ export class PermissionsDirective implements OnInit, OnDestroy {
     private canEditInitiativeAuthority(): boolean {
         return this.userPermissions.includes(Permissions.canEditInitiativeAuthority)
             ||
+            !this.initiative.accountable
+            ||
             (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
     }
 
     private canAddHelper(): boolean {
         return this.userPermissions.includes(Permissions.canAddHelper)
+            ||
+            !this.initiative.accountable
             ||
             (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
             ||
@@ -398,6 +408,8 @@ export class PermissionsDirective implements OnInit, OnDestroy {
     private canDeleteHelper(): boolean {
         return this.userPermissions.includes(Permissions.canDeleteHelper)
             ||
+            !this.initiative.accountable
+            ||
             (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
             ||
             (this.helper.user_id === this.userId)
@@ -408,6 +420,8 @@ export class PermissionsDirective implements OnInit, OnDestroy {
 
     private canEditHelper(): boolean {
         return this.userPermissions.includes(Permissions.canEditHelper)
+            ||
+            !this.initiative.accountable
             ||
             (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
             ||
@@ -426,6 +440,8 @@ export class PermissionsDirective implements OnInit, OnDestroy {
 
     private canDeleteInitiative(): boolean {
         return this.userPermissions.includes(Permissions.canDeleteInitiative)
+            ||
+            !this.initiative.accountable
             ||
             (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
 

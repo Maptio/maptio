@@ -26,6 +26,7 @@ import { debounceTime } from "rxjs/operator/debounceTime";
 import { distinctUntilChanged } from "rxjs/operator/distinctUntilChanged";
 import { compact, sortBy } from "lodash";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2/dist";
+import {remove} from "lodash"
 
 @Component({
     selector: "initiative",
@@ -169,7 +170,7 @@ export class InitiativeComponent implements OnChanges {
     }
 
     getAllHelpers() {
-        return [...this.node.helpers, this.node.accountable].reverse(); // always disaply the authority first
+        return remove([...this.node.helpers, this.node.accountable].reverse()); // always disaply the authority first
     }
 
     isAuthority(helper: Helper) {
