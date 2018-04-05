@@ -1,3 +1,4 @@
+import { PermissionsDirective } from "./../../../shared/directives/permission.directive";
 import { DataSet } from "./../../../shared/model/dataset.data";
 import { Team } from "./../../../shared/model/team.data";
 import { Initiative } from "./../../../shared/model/initiative.data";
@@ -26,10 +27,6 @@ import { Http, BaseRequestOptions } from "@angular/http";
 import { InitiativeComponent } from "../initiative/initiative.component";
 import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
 
-export class AuthStub {
-
-}
-
 export class TreeComponentStub extends TreeComponent {
 
 }
@@ -42,13 +39,19 @@ describe("building.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [Ng2Bs3ModalModule, NgbModule.forRoot(), RouterTestingModule],
-            declarations: [BuildingComponent, FocusIfDirective, InitiativeComponent],
+            declarations: [BuildingComponent, FocusIfDirective, InitiativeComponent, PermissionsDirective],
             schemas: [NO_ERRORS_SCHEMA]
         }).overrideComponent(BuildingComponent, {
             set: {
                 providers: [DataService, ErrorService, TeamFactory, DatasetFactory, UserFactory, TreeDraggedElement, Angulartics2Mixpanel,
                     Angulartics2, NgbModal,
-                    { provide: Auth, useClass: AuthStub },
+                    {
+                        provide: Auth,
+                        useClass: class {
+                            getPermissions = jasmine.createSpy("getPermissions").and.returnValue([])
+                            getUser = jasmine.createSpy("getUser").and.returnValue(Observable.of(new User({ user_id: "UID" })))
+                        }
+                    },
                     {
                         provide: Http,
                         useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
@@ -204,7 +207,7 @@ describe("building.component.ts", () => {
             node1.name = "first", node2.name = "second"; node3.name = "third";
             root.children = [node1, node2, node3];
             component.nodes = [root];
-            component.team = new Team({ team_id: "ID1"})
+            component.team = new Team({ team_id: "ID1" })
             target.detectChanges();
             let spy = spyOn(component, "saveChanges");
             let treeModel = jasmine.createSpyObj<TreeModel>("treeModel", ["clearFilter"])
@@ -222,7 +225,7 @@ describe("building.component.ts", () => {
             node1.description = "primero", node2.description = "segundo"; node3.description = "segundo tercero";
             root.children = [node1, node2, node3];
             component.nodes = [root];
-            component.team = new Team({ team_id: "ID1"})
+            component.team = new Team({ team_id: "ID1" })
             target.detectChanges();
             let spy = spyOn(component, "saveChanges");
             let treeModel = jasmine.createSpyObj<TreeModel>("treeModel", ["filterNodes"]);

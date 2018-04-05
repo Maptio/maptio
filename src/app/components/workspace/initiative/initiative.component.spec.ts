@@ -1,3 +1,4 @@
+import { PermissionsDirective } from './../../../shared/directives/permission.directive';
 import { Tag } from "./../../../shared/model/tag.data";
 import { User } from "./../../../shared/model/user.data";
 import { Role } from "./../../../shared/model/role.data";
@@ -19,6 +20,7 @@ import { FormsModule } from "@angular/forms";
 import { InitiativeComponent } from "./initiative.component";
 import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { Observable } from "rxjs/Observable";
 
 describe("initiative.component.ts", () => {
 
@@ -29,7 +31,7 @@ describe("initiative.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [Ng2Bs3ModalModule, NgbModule.forRoot(), FormsModule, RouterTestingModule, MarkdownModule.forRoot()],
-            declarations: [InitiativeComponent],
+            declarations: [InitiativeComponent, PermissionsDirective],
             providers: [TeamFactory, UserFactory, DatasetFactory,
                 {
                     provide: Http,
@@ -46,7 +48,13 @@ describe("initiative.component.ts", () => {
                     useFactory: authHttpServiceFactoryTesting,
                     deps: [Http, BaseRequestOptions]
                 },
-                { provide: Auth, useValue: undefined }
+                {
+                    provide: Auth,
+                    useClass: class {
+                        getPermissions = jasmine.createSpy("getPermissions").and.returnValue([])
+                        getUser = jasmine.createSpy("getUser").and.returnValue(Observable.of(new User({ user_id: "UID" })))
+                    }
+                }
             ]
         })
             .compileComponents()
