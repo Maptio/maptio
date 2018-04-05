@@ -180,7 +180,7 @@ export class InitiativeComponent implements OnChanges {
     saveAccountable(newAccountable: NgbTypeaheadSelectItemEvent) {
         let accountable = newAccountable.item;
         accountable.roles = [];
-        if (this.inputAuthorityRole) accountable.roles[0] = new Role({ description: this.inputAuthorityRole.nativeElement.value });
+        // if (this.inputAuthorityRole) accountable.roles[0] = new Role({ description: this.inputAuthorityRole.nativeElement.value });
         this.node.accountable = accountable;
         this.onBlur();
         this.analytics.eventTrack("Initiative", { action: "add authority", team: this.teamName, teamId: this.teamId });
