@@ -1,11 +1,9 @@
-import { Http, BaseRequestOptions, RequestMethod, ResponseOptions, Response } from "@angular/http";
-import { TestBed, inject } from "@angular/core/testing";
-import { MockBackend, MockConnection } from "@angular/http/testing";
-import { ExportService } from "./export.service";
-import { D3Service } from "d3-ng2-service";
-import { DataSet } from "../../model/dataset.data";
-import { Initiative } from "../../model/initiative.data";
-import { Team } from "../../model/team.data";
+import { inject, TestBed } from '@angular/core/testing';
+import { D3Service } from 'd3-ng2-service';
+import { DataSet } from '../../model/dataset.data';
+import { Initiative } from '../../model/initiative.data';
+import { Team } from '../../model/team.data';
+import { ExportService } from './export.service';
 
 describe("export.service.ts", () => {
 

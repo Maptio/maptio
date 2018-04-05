@@ -18,22 +18,28 @@ export class FileService {
         return file.name.endsWith(".csv");
     }
 
+    isEmptyString(val: any) {
+        return val === undefined || val === "";
+    }
+
     getHeaderArray(csvRecordsArr: any[], tokenDelimeter: string) {
         let headers = (csvRecordsArr[0] || "").split(tokenDelimeter);
         let headerArray = [];
         for (let j = 0; j < headers.length; j++) {
-            headerArray.push(headers[j]);
+            if (!this.isEmptyString(headers[j])) headerArray.push(headers[j]);
         }
         return headerArray;
     }
 
     validateHeaders(origHeaders: any[], fileHeaaders: any[]) {
+        // console.log(origHeaders, fileHeaaders)
         if (origHeaders.length !== fileHeaaders.length) {
             return false;
         }
 
         let fileHeaderMatchFlag = true;
         for (let j = 0; j < origHeaders.length; j++) {
+            // console.log(origHeaders[j], fileHeaaders[j], origHeaders[j] === fileHeaaders[j])
             if (origHeaders[j] !== fileHeaaders[j]) {
                 fileHeaderMatchFlag = false;
                 break;
@@ -47,7 +53,7 @@ export class FileService {
         let dataArr = []
 
         for (let i = 0; i < csvRecordsArray.length; i++) {
-            let data = csvRecordsArray[i].split(tokenDelimeter);
+            let data = csvRecordsArray[i].split(tokenDelimeter).slice(0, headerLength);
 
             if (validateHeaderAndRecordLengthFlag && data.length !== headerLength) {
                 if (data === "") {
