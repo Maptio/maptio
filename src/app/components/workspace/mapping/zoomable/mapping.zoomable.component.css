@@ -24,9 +24,12 @@
     display: none;
 }
 
-::ng-deep svg circle.initiative-map:hover {
+::ng-deep svg circle.initiative-map:hover{
     stroke: #000;
-    stroke-width: 3.5px;
+}
+
+::ng-deep svg circle.initiative-map.hovered {
+    stroke: #000;
 }
 
 ::ng-deep svg text.initiative-map.accountable {
