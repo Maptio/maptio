@@ -757,7 +757,7 @@ describe("user.service.ts", () => {
 
             mockBackend.connections.subscribe((connection: MockConnection) => {
                 if (connection.request.method === RequestMethod.Get
-                    && connection.request.url === `${environment.USERS_API_URL}?page=0&per_page=${environment.AUTH0_USERS_PAGE_LIMIT}&q=${encodeURIComponent("user_id=\"1\" OR user_id=\"2\" OR user_id=\"3\"")}`
+                    && connection.request.url === `${environment.USERS_API_URL}?q=${encodeURIComponent("user_id=\"1\" OR user_id=\"2\" OR user_id=\"3\"")}`
                     && connection.request.headers.get("Authorization") === "Bearer token"
                 ) {
                     connection.mockRespond(new Response(new ResponseOptions({
@@ -784,7 +784,7 @@ describe("user.service.ts", () => {
 
             mockBackend.connections.subscribe((connection: MockConnection) => {
                 if (connection.request.method === RequestMethod.Get
-                    && connection.request.url === `${environment.USERS_API_URL}?page=0&per_page=100&q=${encodeURIComponent("user_id=\"1\" OR user_id=\"2\" OR user_id=\"3\"")}`
+                    && connection.request.url === `${environment.USERS_API_URL}?q=${encodeURIComponent("user_id=\"1\" OR user_id=\"2\" OR user_id=\"3\"")}`
                     && connection.request.headers.get("Authorization") === "Bearer token"
                 ) {
                     connection.mockRespond(new Response(new ResponseOptions({
