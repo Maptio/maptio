@@ -8,7 +8,7 @@ import { MailingService } from "../mailing/mailing.service";
 import { UUID } from "angular2-uuid/index";
 import { EmitterService } from "../emitter.service";
 import { Observable } from "rxjs/Rx";
-import {flatten} from "lodash"
+import { flatten } from "lodash"
 
 @Injectable()
 export class UserService {
@@ -167,12 +167,17 @@ export class UserService {
             else { // query several times
                 let maxCounter = Math.ceil(users.length / environment.AUTH0_USERS_PAGE_LIMIT);
                 let pageArrays = Array.from(Array(maxCounter - 1).keys())
-                let singleObservables = pageArrays.map((pageNumber: number) => {
-                    return this.requestUsersPerPage(query, headers, pageNumber)
-                        .map(single => {return single })
+                let singleObservables = pageArrays.map((pageNumber: number, index: number) => {
+                    let truncatedQuery = users
+                        .slice(index * environment.AUTH0_USERS_PAGE_LIMIT, (index + 1) * environment.AUTH0_USERS_PAGE_LIMIT)
+                        .map(u => `user_id="${u.user_id}"`).join(" OR ");
+
+                    return this.requestUsersPerPage(truncatedQuery, headers, pageNumber)
+                        .map(single => { return single })
                 });
 
                 return Observable.forkJoin(singleObservables).toPromise().then((result: User[][]) => {
+                    // console.log("getUsersInfo", flatten(result))
                     return flatten(result);
                 });
             }
@@ -181,7 +186,7 @@ export class UserService {
     }
 
     private requestUsersPerPage(query: string, headers: Headers, page: number): Observable<User[]> {
-        return this.http.get(`${environment.USERS_API_URL}?page=${page}&per_page=${environment.AUTH0_USERS_PAGE_LIMIT}&q=` + encodeURIComponent(query), { headers: headers })
+        return this.http.get(`${environment.USERS_API_URL}?q=` + encodeURIComponent(query), { headers: headers })
             .map((responseData) => {
                 return responseData.json();
             })
