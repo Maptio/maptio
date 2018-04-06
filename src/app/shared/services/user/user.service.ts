@@ -166,12 +166,13 @@ export class UserService {
             }
             else { // query several times
                 let maxCounter = Math.ceil(users.length / environment.AUTH0_USERS_PAGE_LIMIT);
-                let pageArrays = Array.from(Array(maxCounter - 1).keys())
+                let pageArrays = Array.from(Array(maxCounter).keys());
+                // console.log(pageArrays)
                 let singleObservables = pageArrays.map((pageNumber: number, index: number) => {
                     let truncatedQuery = users
                         .slice(index * environment.AUTH0_USERS_PAGE_LIMIT, (index + 1) * environment.AUTH0_USERS_PAGE_LIMIT)
                         .map(u => `user_id="${u.user_id}"`).join(" OR ");
-
+                    // console.log(index, index * environment.AUTH0_USERS_PAGE_LIMIT, (index + 1) * environment.AUTH0_USERS_PAGE_LIMIT, truncatedQuery)
                     return this.requestUsersPerPage(truncatedQuery, headers, pageNumber)
                         .map(single => { return single })
                 });

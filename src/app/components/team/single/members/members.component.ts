@@ -103,7 +103,7 @@ export class TeamMembersComponent implements OnInit {
         return this.userFactory.getUsers(this.team.members.map(m => m.user_id))
             .then(members => compact(members))
             .then((members: User[]) => {
-                // console.log("asking for ", console.log(members.map(u => u.user_id)))
+                 // console.log("asking for ", console.log(members.map(u => u.user_id)))
                 return this.userService.getUsersInfo(members).then(pending => {
                     // console.log("got ", console.log(pending.map(u => u.user_id)))
                     if (this.createdUser) {
