@@ -504,7 +504,7 @@ li a.tag {
 }
 
 .breadcrumb {
-  /* padding: .75rem 1rem; */
+  padding: 0 !important;
   /* margin-bottom: 1rem; */
   list-style: none;
   background-color: transparent!important;
@@ -513,6 +513,7 @@ li a.tag {
   margin-bottom: 0!important;
   font-size: 1.25rem!important;
   font-weight: 300!important;
+  flex-wrap: nowrap!important;
 }
 
 p.markdown {
