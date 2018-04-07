@@ -109,8 +109,8 @@
 		</fieldset>
 	</div>
 
-	<div class="card borderless p-2 ">
-		<div class="helpers overflow">
+	<div class="card borderless p-2 helpers overflow">
+		<div class="">
 			<h6 class="card-subtitle mb-1 mt-1 text-muted">Who’s helping with this initiative?
 			</h6>
 
@@ -177,13 +177,6 @@
 							[ngModelOptions]="{standalone: true}">
 							<label class="custom-control-label" for="customCheck1">{{user.name}} can edit this initiative</label>
 						</div>
-
-						<!-- <label class="custom-control custom-checkbox small ml-1">
-							<input type="checkbox" class="custom-control-input" (ngModelChange)="savePrivilege(user,$event)" [ngModel]="user.hasAuthorityPrivileges"
-							 [ngModelOptions]="{standalone: true}">
-							<span class="custom-control-indicator"></span>
-							<span class="custom-control-description">{{user.name}} can edit this initiative</span>
-						</label> -->
 					</fieldset>
 				</div>
 				<small class="text-warning" *ngIf="node?.helpers.length === 0 || !(node?.helpers)">No helpers yet</small>
