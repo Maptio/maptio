@@ -125,7 +125,7 @@ export class TeamImportComponent implements OnInit {
         drop(this.csvRecords, 1).forEach((record, index, all) => {
             record[3] = "";
             record[4] = false; // has finished processed
-            this.createFakeUser((<String>record[2]).trim(), (<String>record[0]).trim(), (<String>record[1]).trim())
+            this.createUser((<String>record[2]).trim(), (<String>record[0]).trim(), (<String>record[1]).trim())
                 .then(result => {
                     this.importedSuccessfully += 1;
                     record[3] = "Imported";
@@ -141,13 +141,13 @@ export class TeamImportComponent implements OnInit {
         this.isImportFinished = true;
     }
 
-    public createFakeUser(email: string, firstname: string, lastname: string) {
-         if(Math.random() > 0.5) {
-           return  Promise.resolve(true)
-        } else {
-            return Promise.reject(new Error("Something really bad happened!"))
-        }
-    }
+    // public createFakeUser(email: string, firstname: string, lastname: string) {
+    //      if(Math.random() > 0.5) {
+    //        return  Promise.resolve(true)
+    //     } else {
+    //         return Promise.reject(new Error("Something really bad happened!"))
+    //     }
+    // }
 
     public createUser(email: string, firstname: string, lastname: string) {
 
