@@ -41,10 +41,10 @@ const routes: Routes = [{
     },
     children: [
         { path: "", redirectTo: "circles", pathMatch: "full" },
-        { path: "circles", component: MappingZoomableComponent, canActivate: [WorkspaceGuard] },
-        { path: "tree", component: MappingTreeComponent, canActivate: [WorkspaceGuard] },
-        { path: "network", component: MappingNetworkComponent, canActivate: [WorkspaceGuard] },
-        { path: "u/:usershortid/:userslug", component: MemberSummaryComponent, canActivate: [WorkspaceGuard] }
+        { path: "circles", component: MappingZoomableComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Circles" } },
+        { path: "tree", component: MappingTreeComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Tree" } },
+        { path: "network", component: MappingNetworkComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Network" } },
+        { path: "u/:usershortid/:userslug", component: MemberSummaryComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Summary" } }
     ]
 }]
 
