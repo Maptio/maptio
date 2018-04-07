@@ -38,6 +38,11 @@ table.tableSection.left tbody {
     position: relative
 }
 
+table.overflow tbody{
+    overflow: auto;
+    height: 55vh;
+}
+
 table.tableSection.right tbody {
     overflow: auto;
     height: 55vh;
@@ -77,6 +82,5 @@ td.delete {
 }
 
 .first-row {
-    
     background-color: #2f81b778;
 }

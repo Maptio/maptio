@@ -88,7 +88,7 @@
 
     <div class="w-100">
 
-        <table class="table table-hover">
+        <table class="table table-hover overflow">
             <thead>
                 <tr>
                     <th scope="col"></th>
@@ -126,7 +126,7 @@
                             </select>
                         </ng-template>
                     </td>
-                    <td class="justify-content-end d-flex">
+                    <td class="justify-content-end d-flex pr-0">
                         <span *ngIf="member.isDeleted" class="text-muted">(Deleted)</span>
                         <button [class.deleted]="member.isDeleted" *ngIf="!member.isActivationPending" class="btn btn-default" placement="top" container="body"
                             ngbTooltip="{{member.name}} is a confirmed user." disabled>Active</button>
