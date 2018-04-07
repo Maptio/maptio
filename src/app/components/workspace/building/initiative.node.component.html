@@ -1,5 +1,63 @@
 <div class="col-12">
 	<div class="input-group">
+		<div class="input-group-prepend">
+			<ng-container *ngIf="!isRoot()">
+				<div *permissionsOnly="Permissions.canMoveInitiative; else elseMoveBlock; then thenMoveBlock; "></div>
+				<ng-template #thenMoveBlock>
+					<span class="input-group-text knurled" (mouseenter)="node.data.isDraggable=true" (mouseleave)="node.data.isDraggable=false">
+						<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+					</span>
+				</ng-template>
+				<ng-template #elseMoveBlock>
+					<span class="input-group-text knurled not-allowed" (mouseenter)="node.data.isDraggable=false" (mouseleave)="node.data.isDraggable=false"
+					placement="top" container="body" ngbTooltip="Only admins can move initiatives">
+						<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+					</span>
+				</ng-template>
+			</ng-container>
+		</div>
+		<div *permissionsOnly="Permissions.canEditInitiativeName;initiative node.data; else elseNameBlock; then thenNameBlock; "></div>
+		<ng-template #thenNameBlock>
+			<input class="form-control input inputNodeName" type="text" [focusif]="node.data.hasFocus" [ngModel]="node.data.name" (ngModelChange)="saveNodeName($event, node.data)"
+			 (focus)="node.data.isDraggable=false;openNode(node.data)" (blur)="node.data.isDraggable=true" />
+		</ng-template>
+		<ng-template #elseNameBlock>
+			<input readonly class="form-control input inputNodeName" type="text" [ngModel]="node.data.name" (keydown)="$event.preventDefault();isEditWarningToggled=true"
+			 (focus)="node.data.isDraggable=false;openNode(node.data)" (blur)="node.data.isDraggable=true"
+			/>
+		</ng-template>
+
+		<div class="input-group-append">
+			<ng-template #addButtonTooltip>
+				<p *ngIf="isRoot()">Create outer circle</p>
+				<p *ngIf="!isRoot()">Add sub-initiative</p>
+			</ng-template>
+			<button class="btn add btn-outline-secondary" (click)="addChildNode(node.data)" placement="top" [ngbTooltip]="addButtonTooltip"
+			 container="body" angulartics2On="click" angularticsEvent="Map" [angularticsProperties]="{mode: 'list', action:'add', team:teamName, teamId:teamId  }"></button>
+			<button class="btn edit btn-outline-secondary" *ngIf="!isRoot()" (click)="openNode(node.data)" placement="top" container="body"
+			 ngbTooltip="Open initiative" angulartics2On="click" angularticsEvent="Map" [angularticsProperties]="{mode: 'list', action:'edit', team:teamName, teamId:teamId }"></button>
+			<ng-container *ngIf="!isRoot()">
+				<div *permissionsOnly="Permissions.canDeleteInitiative; initiative node.data; else elseDeleteBlock;then thenDeleteBlock; ">
+
+				</div>
+				<ng-template #thenDeleteBlock>
+					<button class="btn remove btn-outline-secondary" placement="top" container="body" mwlConfirmationPopover title="Remove initiative and sub initiatives ?"
+					 focusbutton="cancel" appendToBody="false" (confirm)="removeChildNode(node.data)" (cancel)="cancelClicked = true" angularticsEvent="Map"
+					 [angularticsProperties]="{mode: 'list', action:'remove', team:teamName, teamId:teamId }" angulartics2On="click"></button>
+
+				</ng-template>
+				<ng-template #elseDeleteBlock>
+					<button class="btn remove btn-outline-secondary disabled not-allowed" 
+					
+					placement="top" container="body" ngbTooltip="Only the {{authority}} of this initiative can delete it">
+
+					</button>
+				</ng-template>
+
+			</ng-container>
+		</div>
+	</div>
+	<!-- <div class="input-group">
 		<ng-container *ngIf="!isRoot()">
 			<div *permissionsOnly="Permissions.canMoveInitiative; else elseMoveBlock; then thenMoveBlock; "></div>
 			<ng-template #thenMoveBlock>
@@ -28,31 +86,34 @@
 			<p *ngIf="isRoot()">Create outer circle</p>
 			<p *ngIf="!isRoot()">Add sub-initiative</p>
 		</ng-template>
-		<a class="btn add input-group-addon" (click)="addChildNode(node.data)" placement="top" [ngbTooltip]="addButtonTooltip" container="body"
-		 angulartics2On="click" angularticsEvent="Map" [angularticsProperties]="{mode: 'list', action:'add', team:teamName, teamId:teamId  }"></a>
-		<a class="btn edit input-group-addon" *ngIf="!isRoot()" (click)="openNode(node.data)" placement="top" container="body" ngbTooltip="Open initiative"
-		 angulartics2On="click" angularticsEvent="Map" [angularticsProperties]="{mode: 'list', action:'edit', team:teamName, teamId:teamId }"></a>
+		<div class="input-group-append">
+			<a class="btn add input-group-addon" (click)="addChildNode(node.data)" placement="top" [ngbTooltip]="addButtonTooltip" container="body"
+			 angulartics2On="click" angularticsEvent="Map" [angularticsProperties]="{mode: 'list', action:'add', team:teamName, teamId:teamId  }"></a>
+			<a class="btn edit input-group-addon" *ngIf="!isRoot()" (click)="openNode(node.data)" placement="top" container="body" ngbTooltip="Open initiative"
+			 angulartics2On="click" angularticsEvent="Map" [angularticsProperties]="{mode: 'list', action:'edit', team:teamName, teamId:teamId }"></a>
+			<ng-container *ngIf="!isRoot()">
+				<div *permissionsOnly="Permissions.canDeleteInitiative; initiative node.data; else elseDeleteBlock;then thenDeleteBlock; ">
 
-		<ng-container *ngIf="!isRoot()">
-			<div *permissionsOnly="Permissions.canDeleteInitiative; initiative node.data; else elseDeleteBlock;then thenDeleteBlock; ">
+				</div>
+				<ng-template #thenDeleteBlock>
+					<a class="btn remove input-group-addon" placement="top" container="body" mwlConfirmationPopover title="Remove initiative and sub initiatives ?"
+					 focusbutton="cancel" appendToBody="false" (confirm)="removeChildNode(node.data)" (cancel)="cancelClicked = true" angularticsEvent="Map"
+					 [angularticsProperties]="{mode: 'list', action:'remove', team:teamName, teamId:teamId }" angulartics2On="click">
 
-			</div>
-			<ng-template #thenDeleteBlock>
-				<a class="btn remove input-group-addon" placement="top" container="body" mwlConfirmationPopover title="Remove initiative and sub initiatives ?"
-				 focusbutton="cancel" appendToBody="false" (confirm)="removeChildNode(node.data)" (cancel)="cancelClicked = true" angularticsEvent="Map"
-				 [angularticsProperties]="{mode: 'list', action:'remove', team:teamName, teamId:teamId }" angulartics2On="click">
+					</a>
+				</ng-template>
+				<ng-template #elseDeleteBlock>
+					<a disabled class="btn remove input-group-addon disabled not-allowed" (click)="isDeleteWarningToggled=true" (mouseout)="isDeleteWarningToggled=false">
 
-				</a>
-			</ng-template>
-			<ng-template #elseDeleteBlock>
-				<a disabled class="btn remove input-group-addon disabled not-allowed" (click)="isDeleteWarningToggled=true" (mouseout)="isDeleteWarningToggled=false">
+					</a>
+				</ng-template>
 
-				</a>
-			</ng-template>
+			</ng-container>
+		</div>
 
-		</ng-container>
-	</div>
+
+	</div> -->
 </div>
-<span *ngIf="isDeleteWarningToggled" #canDeleteWarning class="form-text text-warning">Only the {{authority}} of this initiative can delete it</span>
-<span *ngIf="isMoveWarningToggled" #canMoveWarning class="form-text text-warning">Only admins can move initiatives</span>
-<span *ngIf="isEditWarningToggled" #canEditWarning class="form-text text-warning">Only the {{authority}} of this initiative can edit it</span>
+<!-- <span *ngIf="isDeleteWarningToggled" #canDeleteWarning class="form-text text-warning">Only the {{authority}} of this initiative can delete it</span> -->
+<!-- <span *ngIf="isMoveWarningToggled" #canMoveWarning class="form-text text-warning">Only admins can move initiatives</span> -->
+<!-- <span *ngIf="isEditWarningToggled" #canEditWarning class="form-text text-warning">Only the {{authority}} of this initiative can edit it</span> -->

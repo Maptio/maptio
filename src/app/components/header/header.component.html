@@ -57,7 +57,7 @@
                     Create a team
                 </a>
             </li>
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown" id="profileInformation">
                 <a class="nav-link dropdown-toggle without-caret" id="profileDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div>
                         <img src="{{ user?.picture }}" class="rounded-circle profile-image" alt="{{user?.name}}">
@@ -75,7 +75,7 @@
             </li>
         </ul>
     </div>
-    <form class="form-inline pr-2" [formGroup]="loginForm" (submit)="login()" *ngIf="!auth.allAuthenticated()">
+    <form id="loginForm" class="form-inline pr-2" [formGroup]="loginForm" (submit)="login()" *ngIf="!auth.allAuthenticated()">
         <div class="d-flex flex-column">
             <div>
                 <input type="email" id="inputEmail" formControlName="email" class="form-control form-control-sm form-control-warning" placeholder="Email"

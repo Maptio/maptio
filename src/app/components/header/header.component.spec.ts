@@ -183,7 +183,7 @@ describe("header.component.ts", () => {
                 let imgElement = target.debugElement.queryAll(By.css("li#profileInformation"));
                 expect(imgElement.length).toBe(0);
 
-                let button = target.debugElement.queryAll(By.css("li#loginButton a"));
+                let button = target.debugElement.queryAll(By.css("form#loginForm"));
                 expect(button.length).toBe(1);
                 expect(spyAuthService).toHaveBeenCalled();
             });
