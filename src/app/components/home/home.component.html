@@ -2,7 +2,23 @@
     <strong>{{invitedEmail}} ? </strong> <span *ngIf="(isActivationPending | async)">Activate your account <a routerLink="/login" queryParamsHandling="preserve">here</a></span>
 </div> -->
 
-<div class="row  m-4">
+
+<div class="d-flex justify-content-between p-4">
+    <div class="jumbotron transparent">
+        <h1 class="mb-3">Maptio</h1>
+        <h4>A simple online tool to allow organisations and initiatives to be mapped, visualised and explored in nested circles.
+        </h4>
+    </div>
+    <div class="col-6 signup rounded" *ngIf="auth.allAuthenticated()">
+        <dashboard></dashboard>
+    </div>
+    <div class="col-6 signup rounded" *ngIf="!auth.allAuthenticated()">
+        <signup></signup>
+    </div>
+
+</div>
+
+<!-- <div class="row  m-4">
     <div class="col-6">
         <div class="jumbotron transparent">
             <h1 class="mb-3">Maptio</h1>
@@ -10,11 +26,11 @@
             </h4>
         </div>
     </div>
-    <div class="col-6 signup mt-3 rounded" *ngIf="auth.allAuthenticated()" >
+    <div class="col-6 signup mt-3 rounded" *ngIf="auth.allAuthenticated()">
         <dashboard></dashboard>
     </div>
     <div class="col-6 signup mt-3 rounded" *ngIf="!auth.allAuthenticated()">
-        <signup ></signup>
+        <signup></signup>
     </div>
-    
-</div>
+
+</div> -->

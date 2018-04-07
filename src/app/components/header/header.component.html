@@ -86,7 +86,7 @@
             </li>
         </ul>
     </div>
-    <form class="form-inline" [formGroup]="loginForm" (submit)="login()" *ngIf="!auth.allAuthenticated()">
+    <form class="form-inline pr-2" [formGroup]="loginForm" (submit)="login()" *ngIf="!auth.allAuthenticated()">
         <div class="d-flex flex-column">
             <div>
                 <input type="email" id="inputEmail" formControlName="email" class="form-control form-control-sm form-control-warning" placeholder="Email"
