@@ -26,7 +26,7 @@
   transition: 0.3s ease-in;
 } */
 .control.zero {
-  top: 5vh;
+  top: 11vh;
 }
 
 .control.zero.panel{
@@ -35,7 +35,7 @@
 
 
 .control.first {
-  top: 18vh;
+  top: 29vh;
 }
 
 /* .control.first > .btn-group-vertical {
@@ -43,16 +43,16 @@
 } */
 
 .control.second {
-  top: 32vh;
+  top: 50vh;
 }
 
 .control.third {
-  top: 49vh;
+  top: 50vh;
   right: 4vw
 }
 
 .control.fourth {
-  top: 78vh;
+  top: 85vh;
 
 }
 

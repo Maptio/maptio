@@ -17,6 +17,11 @@
 
 </ng-template>
 
-<input #initiativeSearch [resultTemplate]="rt" type="text" id="initiativeSearch" class="form-control search mr-2" (selectItem)="select($event)"
-    [ngbTypeahead]="searchInitiatives" [resultFormatter]="formatter" [inputFormatter]="formatter" editable="false" autofocus="autofocus"
-    (focus)="initiativeSearch.value=''" placement="bottom-right" placeholder="Search initiatives, people and description" />
+<div class="card bg-light border-light">
+    <div class="card-body">
+        <input #initiativeSearch [resultTemplate]="rt" type="text" id="initiativeSearch" class="form-control search mr-2" (selectItem)="select($event)"
+            [ngbTypeahead]="searchInitiatives" [resultFormatter]="formatter" [inputFormatter]="formatter" editable="false" autofocus="autofocus"
+            (focus)="initiativeSearch.value=''" placement="bottom-right" placeholder="Search initiatives, people and description"
+        />
+    </div>
+</div>
