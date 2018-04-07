@@ -1,3 +1,4 @@
+import { Team } from './../../../shared/model/team.data';
 import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
 import { Initiative } from "./../../../shared/model/initiative.data";
 import { URIService } from "./../../../shared/services/uri.service";
@@ -73,7 +74,7 @@ describe("mapping.component.ts", () => {
     beforeEach(() => {
         target = TestBed.createComponent(MappingComponent);
         component = target.componentInstance;
-
+        component.team = new Team({ name: "team", team_id: "TEAMID" })
         target.detectChanges(); // trigger initial data binding
     });
 
