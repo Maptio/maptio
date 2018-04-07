@@ -1,10 +1,12 @@
 <div class="control zero ">
   <div class="btn-group-vertical">
-    <a class="btn btn-light p-1" [class.active]="isSearchToggled" [class.disabled]="isSearchDisabled" (click)="isSearchToggled=!isSearchToggled">
+    <a class="btn btn-light p-1" [class.active]="isSearchToggled" [class.disabled]="isSearchDisabled" 
+    (click)="isSearchToggled=!isSearchToggled" data-toggle="collapse" href="#collapseSearch" role="button">
       <i class="fa fa-search"></i>
       <div class="icon-text-label">Search</div>
     </a>
-    <a class="btn btn-light p-1" [class.active]="isFiltersToggled" [class.disabled]="isSearchDisabled" (click)="isFiltersToggled=!isFiltersToggled">
+    <a class="btn btn-light p-1" [class.active]="isFiltersToggled" [class.disabled]="isSearchDisabled" 
+    (click)="isFiltersToggled=!isFiltersToggled" data-toggle="collapse" href="#collapseFilter" role="button">
       <i class="fa fa-filter"></i>
       <div class="icon-text-label">Filter</div>
     </a>
@@ -12,10 +14,10 @@
 </div>
 
 <div class="control zero panel d-flex flex-column col-5 align-items-start">
-  <div *ngIf="isSearchToggled" class="mb-3 col-12">
+  <div id="collapseSearch" class="collapse mb-3 col-12">
     <search [list]="flattenInitiative" (selectInitiative)="zoomToInitiative($event)"></search>
   </div>
-  <div *ngIf="isFiltersToggled" class="col-12">
+  <div id="collapseFilter" class="collapse col-12">
     <filter-tags [team]="team" [tags]="tags" (changeTags)="broadcastTagsSelection($event)"></filter-tags>
   </div>
 </div>
@@ -52,14 +54,15 @@
       <i class="fa fa-compress" aria-hidden="true"></i>
       <div class="icon-text-label">Zoom fit</div>
     </a>
-    <a class="btn btn-light p-1" [class.active]="isSettingToggled" [class.disabled]="isSearchDisabled" (click)="isSettingToggled=!isSettingToggled">
+    <a class="btn btn-light p-1" [class.active]="isSettingToggled" [class.disabled]="isSearchDisabled" 
+     (click)="isSettingToggled=!isSettingToggled" data-toggle="collapse" href="#collapseSettings" role="button">
       <i class="fa fa-sliders" aria-hidden="true"></i>
       <div class="icon-text-label">Settings</div>
     </a>
   </div>
 </div>
 
-<div class="control third mt-4" *ngIf="isSettingToggled">
+<div class="control third mt-4 collapse" id="collapseSettings">
   <div class="card bg-light border-light">
     <div class="card-body">
       <h6 class="card-title">Text settings</h6>
