@@ -1,4 +1,4 @@
-<div class="m-3">
+<div class="card borderless m-3">
     <div class="alert alert-success alert-dismissable" role="alert" *ngIf="feedbackMessage">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
         {{feedbackMessage}}
@@ -7,65 +7,57 @@
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
         {{errorMessage}}
     </div>
-    <div class="row">
-        <div class="col-3">
-            <div class="profile" [style.background-image]="'url('+ user?.picture +')'">
-                <!--                                                         
-                <div *ngIf="isRefreshingPicture">Refreshing...</div> -->
-                <ngx-loading [show]="isLoading"></ngx-loading>
+    <div class="row ">
+        <div class="col-4">
+            <div class="card-block">
+                <form class="form-group " [formGroup]="accountForm" (submit)="save()">
+                    <fieldset>
+                        <legend>{{user?.name}} </legend>
+                        <div class="form-group">
+                            <label for="inputPicture">Avatar</label>
+                            <div id="inputPicture" class="d-flex justify-content-between">
+                                <img src="{{user?.picture}}" class="rounded mb-2" width="38" height="38">
+                                <div class="custom-file col-9">
+                                    <input type="file" class="custom-file-input" id="customFile" id="fileupload" #fileInput ng2FileSelect [uploader]="uploader"
+                                        (change)="fileInput.value=''" accept="image/*">
+                                    <label class="custom-file-label" for="customFile">
+                                        <i *ngIf="isRefreshingPicture" class="ml-1 text-muted fa fa-circle-o-notch fa-spin fa-fw"></i>
+                                        <span *ngIf="!isRefreshingPicture">Choose file</span>
+                                    </label>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" [class.has-warning]="accountForm.controls['firstname'].invalid  && (accountForm.controls['firstname'].dirty || accountForm.controls['firstname'].touched)">
+                            <label for="inputFirstname">First name</label>
+                            <input type="text" class="form-control form-control-warning form-control-lg" [(ngModel)]="firstname" formControlName="firstname"
+                                placeholder="e.g. Harvey" required>
+                            <small class="form-control-feedback" *ngIf="accountForm.controls['firstname'].invalid  && (accountForm.controls['firstname'].dirty || accountForm.controls['firstname'].touched)">
+                                Is this really how your mum calls you?
+                            </small>
+                        </div>
+                        <div class="form-group" [class.has-warning]="accountForm.controls['lastname'].invalid  && (accountForm.controls['lastname'].dirty || accountForm.controls['lastname'].touched)">
+                            <label for="inputLastname">Last name</label>
+                            <input type="text" class="form-control form-control-warning form-control-lg" [(ngModel)]="lastname" formControlName="lastname"
+                                placeholder="e.g. Dent" required>
+                            <small class="form-control-feedback" *ngIf="accountForm.controls['lastname'].invalid  && (accountForm.controls['lastname'].dirty || accountForm.controls['lastname'].touched)">
+                                In the army, that's how they would refer to you. Just tell us (please)
+                            </small>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputRole">Email</label>
+                            <input type="text" disabled class="form-control form-control-warning form-control-lg disabled" [value]="user?.email">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputRole">Role</label>
+                            <input type="text" disabled class="form-control form-control-warning form-control-lg disabled" [value]="UserRole[user?.userRole]">
+                        </div>
+                        <button type="submit" class="btn btn-success btn-lg pull-right" [class.disabled]="!accountForm.valid">Save</button>
+
+                    </fieldset>
+                </form>
             </div>
-            <div class="mt-2 mb-2 d-flex flex-column">
-                <div class="d-flex">
-                    <input class="btn btn-secondary btn-outline-success p-1" type="file" id="fileupload" #fileInput ng2FileSelect [uploader]="uploader"
-                        (change)="fileInput.value=''" accept="image/*" />
-                    <i *ngIf="isRefreshingPicture" class="ml-1 text-muted fa fa-circle-o-notch fa-spin fa-fw fa-2x"></i>
-                </div>
-
-
-                <small class="form-text text-muted"> Maxixum size : 2MB</small>
-            </div>
-
-            <!-- <label for="fileupload">
-                <i class="fa fa-upload" aria-hidden="true"></i>
-                
-            </label> -->
         </div>
-
-        <form class="form-group col-9" [formGroup]="accountForm" (submit)="save()">
-            <div class="d-flex w-100 justify-content-between">
-                <h1 class="mb-3">{{user?.name}} </h1>
-
-                <h6 class="email">
-                    <span class="fa-stack fa-lg">
-                        <i class="fa fa-circle fa-stack-2x"></i>
-                        <i class="fa fa-envelope-o fa-stack-1x fa-inverse"></i>
-                    </span>
-                    {{user?.email}}</h6>
-            </div>
-            <span class="small text-muted">{{UserRole[user?.userRole]}}</span>
-            <div class="form-group" [class.has-warning]="accountForm.controls['firstname'].invalid  && (accountForm.controls['firstname'].dirty || accountForm.controls['firstname'].touched)">
-                <label for="inputFirstname">First name</label>
-                <input type="text" class="form-control form-control-warning form-control-lg" [(ngModel)]="firstname" formControlName="firstname"
-                    placeholder="e.g. Harvey" required>
-                <small class="form-control-feedback" *ngIf="accountForm.controls['firstname'].invalid  && (accountForm.controls['firstname'].dirty || accountForm.controls['firstname'].touched)">
-                    Is this really how your mum calls you?
-                </small>
-            </div>
-            <div class="form-group" [class.has-warning]="accountForm.controls['lastname'].invalid  && (accountForm.controls['lastname'].dirty || accountForm.controls['lastname'].touched)">
-                <label for="inputLastname">Last name</label>
-                <input type="text" class="form-control form-control-warning form-control-lg" [(ngModel)]="lastname" formControlName="lastname"
-                    placeholder="e.g. Dent" required>
-                <small class="form-control-feedback" *ngIf="accountForm.controls['lastname'].invalid  && (accountForm.controls['lastname'].dirty || accountForm.controls['lastname'].touched)">
-                    In the army, that's how they would refer to you. Just tell us (please)
-                </small>
-            </div>
-            <div class="form-group">
-                <label for="inputRole">Role</label>
-                <input type="text" disabled class="form-control form-control-warning form-control-lg disabled" [value]="UserRole[user?.userRole]">
-            </div>
-
-            <button type="submit" class="btn btn-success btn-lg pull-right" [class.disabled]="!accountForm.valid">Save</button>
-        </form>
 
     </div>
 </div>

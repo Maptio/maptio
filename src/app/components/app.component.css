@@ -39,7 +39,7 @@
 .container-fluid {
     padding: 0;
     background-color: white;
-    overflow: auto;
+    overflow: hidden;
 }
 
 .center-row {

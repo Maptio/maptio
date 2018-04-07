@@ -109,7 +109,7 @@ export class HeaderComponent implements OnInit {
         this.userSubscription = this.auth.getUser().subscribe((user: User) => {
             this.user = user;
 
-            this.datasets$ = Promise.resolve([]); /*this.datasetFactory.get(this.user.datasets)
+            this.datasets$ = this.datasetFactory.get(this.user.datasets)
                 .then(datasets => {
                     return datasets.map(d => {
                         return {
@@ -122,7 +122,7 @@ export class HeaderComponent implements OnInit {
                     )
                 }, (r) => { return Promise.reject(r) })
                 .then(datasets => sortBy(datasets, d => d.name))
-                .catch(() => { return [] })*/
+                .catch(() => { return [] })
 
 
             this.teams$ = this.teamFactory.get(this.user.teams)
