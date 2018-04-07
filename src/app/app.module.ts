@@ -147,12 +147,12 @@ export function rollbarFactory() {
     Angulartics2Module.forRoot([Angulartics2Mixpanel]),
     FileUploadModule,
     LoadingModule.forRoot({
-      animationType: ANIMATION_TYPES.chasingDots,
+      animationType: ANIMATION_TYPES.threeBounce,
       backdropBackgroundColour: "#fff",
       backdropBorderRadius: ".25rem",
       primaryColour: "#EF5E26",
-      secondaryColour: "#2F81B7",
-      tertiaryColour: "#ffffff"
+      secondaryColour: "#fff",
+      tertiaryColour: "#2F81B7"
     }),
     HttpFactoryModule,
     BrowserAnimationsModule,
