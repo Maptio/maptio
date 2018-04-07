@@ -12,7 +12,7 @@
     Cannot update settings.
 </div>
 
-<form class="form-group col-9" [formGroup]="teamSettingsForm" (submit)="saveTeamSettings()">
+<form class="form-group w-75" [formGroup]="teamSettingsForm" (submit)="saveTeamSettings()">
     <fieldset [disableIfNoPermission]="Permissions.canEditTeam">
         <div class="form-group" [class.has-warning]="teamSettingsForm.controls['name'].invalid  && (teamSettingsForm.controls['name'].dirty || teamSettingsForm.controls['name'].touched)">
             <label class="col-form-label" for="inputTeamName">Team name</label>
@@ -54,7 +54,7 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-success  pull-right mt-2" [class.disabled]="!teamSettingsForm.valid || !teamSettingsForm.dirty">Save</button>
+        <button type="submit" class="btn btn-outline-success  pull-right mt-2" [class.disabled]="!teamSettingsForm.valid || !teamSettingsForm.dirty">Save</button>
 
     </fieldset>
 </form>

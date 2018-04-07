@@ -32,7 +32,7 @@
         <ngx-loading [show]="isLoading"></ngx-loading>
         <div class="card" *ngFor="let team of teams;trackBy:trackByTeamId">
             <div class="card-body">
-                <h5 class="card-title">{{team?.name}}</h5>
+                <h5 class="card-title"><a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}"> {{team?.name}}</a></h5>
                 <div class="card-text mb-1 d-flex flex-wrap">
                     <div *ngFor="let member of team?.members;trackBy:trackByMemberId" [class.deleted]="member.isDeleted">
                         <img class="rounded-circle member mr-1 mb-1" src="{{member.picture}}" alt="{{member.name}}" placement="top" container="body"

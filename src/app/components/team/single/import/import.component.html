@@ -1,4 +1,4 @@
-<div class="card-text col-12">
+<div class="card-text w-100">
     <div class="">
         <span class=""> Import team members from a
             <strong>.csv</strong> file.
@@ -9,7 +9,7 @@
     <div class="mt-4 mb-2 d-flex justify-content-start">
         <input type="file" #fileImportInput name="File Upload" id="txtFileUpload" class="col-7 btn btn-secondary btn-outline-success p-1"
             (change)="fileChangeListener($event)" accept=".csv" />
-        <button class="btn btn-secondary text-muted ml-1" (click)="fileReset()">Reset</button>
+        <button class="btn btn-outline-secondary text-muted ml-1" (click)="fileReset()">Reset</button>
     </div>
     <span *ngIf="isFileInvalid" class="text-danger">Invalid file. Your file header must be : "First name", "Last name" and "Email" in that order</span>
 
