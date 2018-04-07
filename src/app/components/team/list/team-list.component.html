@@ -1,4 +1,4 @@
-<div class="col-6 mt-3 ">
+<div class="col-4 mt-3 ">
 
     <h1 class="mt-3">Teams</h1>
 
@@ -7,7 +7,7 @@
     </div>
 
     <div class="mb-3">
-        <form class="w-50" [class.has-warning]="createForm.controls['teamName'].invalid  && (createForm.controls['teamName'].dirty || createForm.controls['teamName'].touched)"
+        <form [class.has-warning]="createForm.controls['teamName'].invalid  && (createForm.controls['teamName'].dirty || createForm.controls['teamName'].touched)"
             [formGroup]="createForm" (submit)="createNewTeam()">
             <fieldset [disableIfNoPermission]="Permissions.canCreateTeam">
                 <div class="input-group">
@@ -26,26 +26,48 @@
         <i *ngIf="isCreating" class="text-muted fa fa-circle-o-notch fa-spin fa-fw ml-3 fa-2x"></i>
     </div>
 
-
-    <div class="overflow">
+</div>
+<div class="col-12 overflow">
+    <div class="card-columns ">
         <ngx-loading [show]="isLoading"></ngx-loading>
-
-        <div class="card mb-3 " *ngFor="let team of teams;trackBy:trackByTeamId">
-
-            <div class="d-flex w-100 justify-content-between card-header">
-                <h5>
-                    <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}"> {{team?.name}}</a>
-                </h5>
-                <small>{{team?.members?.length}} members</small>
-            </div>
-            <div class="card-block">
-                <div class="mb-1 d-flex flex-wrap">
+        <div class="card" *ngFor="let team of teams;trackBy:trackByTeamId">
+            <div class="card-body">
+                <h5 class="card-title">{{team?.name}}</h5>
+                <div class="card-text mb-1 d-flex flex-wrap">
                     <div *ngFor="let member of team?.members;trackBy:trackByMemberId" [class.deleted]="member.isDeleted">
                         <img class="rounded-circle member mr-1 mb-1" src="{{member.picture}}" alt="{{member.name}}" placement="top" container="body"
                             ngbTooltip="{{member.name}}">
                     </div>
                 </div>
             </div>
+            <div class="card-footer">
+                <small class="text-muted">{{team?.members?.length}} members</small>
+            </div>
         </div>
+
     </div>
 </div>
+
+
+
+<!-- <div class="overflow">
+    <ngx-loading [show]="isLoading"></ngx-loading>
+
+    <div class="card mb-3 " *ngFor="let team of teams;trackBy:trackByTeamId">
+
+        <div class="d-flex w-100 justify-content-between card-header">
+            <h5>
+                <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}"> {{team?.name}}</a>
+            </h5>
+            <small>{{team?.members?.length}} members</small>
+        </div>
+        <div class="card-block">
+            <div class="mb-1 d-flex flex-wrap">
+                <div *ngFor="let member of team?.members;trackBy:trackByMemberId" [class.deleted]="member.isDeleted">
+                    <img class="rounded-circle member mr-1 mb-1" src="{{member.picture}}" alt="{{member.name}}" placement="top" container="body"
+                        ngbTooltip="{{member.name}}">
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->

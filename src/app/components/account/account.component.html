@@ -15,8 +15,8 @@
                         <legend>{{user?.name}} </legend>
                         <div class="form-group">
                             <label for="inputPicture">Avatar</label>
-                            <div id="inputPicture" class="d-flex justify-content-between">
-                                <img src="{{user?.picture}}" class="rounded mb-2" width="38" height="38">
+                            <div id="inputPicture" class="d-flex justify-content-between flex-column">
+                                <img src="{{user?.picture}}" class="rounded-circle mb-2" width="70" height="70">
                                 <div class="custom-file col-9">
                                     <input type="file" class="custom-file-input" id="customFile" id="fileupload" #fileInput ng2FileSelect [uploader]="uploader"
                                         (change)="fileInput.value=''" accept="image/*">
