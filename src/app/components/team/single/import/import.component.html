@@ -1,53 +1,85 @@
-<div class="card-text w-100">
-    <div class="">
-        <span class=""> Import team members from a
-            <strong>.csv</strong> file.
-            <span class="">Once they are imported, they must be invited to view and edit maps.</span>
-        </span>
-        <div class=" mb-2 mt-4">The file header must be : "First name", "Last name" and "Email" in that order</div>
-    </div>
-    <div class="mt-4 mb-2 d-flex justify-content-start">
-        <input type="file" #fileImportInput name="File Upload" id="txtFileUpload" class="col-7 btn btn-secondary btn-outline-success p-1"
-            (change)="fileChangeListener($event)" accept=".csv" />
-        <button class="btn btn-outline-secondary text-muted ml-1" (click)="fileReset()">Reset</button>
-    </div>
-    <span *ngIf="isFileInvalid" class="text-danger">Invalid file. Your file header must be : "First name", "Last name" and "Email" in that order</span>
+<div class="w-100">
+    <h5 class="card-title">Import team members from a
+        <strong>.csv</strong> file.</h5>
+    <h6 class="card-subtitle mb-2 text-muted">Once they are imported, they must be invited to view and edit maps.</h6>
+</div>
 
 
-    <div *ngIf="!isFileInvalid">
-        <table class="table table-hover tableSection right">
-            <tbody>
-                <ng-container *ngFor="let csvRec of csvRecords;let i=index">
-                    <tr class="row pl-2 text-muted">
-                        <ng-container *ngFor="let data of csvRec;let j=index">
+<div class="w-100 h-100 d-flex flex-column justify-content-start">
 
-                            <td class="wrap" [class.col-3]="j<2" [class.col-5]="j===2" *ngIf="j<3">{{data}}</td>
-                            <td class="col-1" *ngIf="j===3">
-                                <i *ngIf="csvRec[4]===true && csvRec[3] !== 'Imported'" class="fa fa-exclamation text-danger" aria-hidden="true" placement="top"
-                                    container="body" ngbTooltip="{{csvRec[3]}}"></i>
-                                <i *ngIf="csvRec[4]===true && csvRec[3] === 'Imported'" class="fa fa-check text-success" aria-hidden="true"></i>
-                                <i *ngIf="csvRec[4]===false" class="text-muted fa fa-circle-o-notch fa-spin fa-fw"></i>
-                            </td>
-                        </ng-container>
-
-                    </tr>
-                </ng-container>
-            </tbody>
-        </table>
-
-        <div class="row align-items-center mt-4" *ngIf="csvRecords.length !==0">
-            <div class="col">
-                <div>
-                    <ngb-progressbar height="5vh" type="success" [value]="(importedSuccessfully) / totalRecordsToImport * 100" [animated]="true">Imported {{importedSuccessfully}} of {{totalRecordsToImport}} users
-                    </ngb-progressbar>
+    <div class="card mb-3 bg-light border-light">
+        <div class="card-body">
+            <div class="d-flex justify-content-start w-50">
+                <div class="custom-file">
+                    <input #fileImportInput name="File Upload" id="txtFileUpload" type="file" class="custom-file-input" id="customFile" (change)="fileChangeListener($event)"
+                        accept=".csv">
+                    <label class="custom-file-label" for="customFile">Choose file</label>
                 </div>
+                <button class="btn btn-outline-secondary text-muted ml-1" (click)="fileReset()">Reset</button>
             </div>
-            <div class=" pull-right">
-                <button class="btn btn-success" (click)="importUsers()">Import {{totalRecordsToImport}} users</button>
+            <span class="text-info">The file header must be : "First name", "Last name" and "Email" in that order</span>
+            <div *ngIf="isFileInvalid" class="text-warning small">Invalid file. Your file header must be : "First name", "Last name" and "Email" in that order</div>
+
+        </div>
+    </div>
+
+    <ng-container *ngIf="isParsingFinished">
+        <div class="card mb-3 bg-light border-light">
+            <div class="card-body">
+
+                <table class="table table-hover tableSection right">
+                    <tbody>
+                        <ng-container *ngFor="let csvRec of csvRecords;let i=index">
+                            <tr class="row pl-2 text-muted">
+                                <ng-container *ngFor="let data of csvRec;let j=index">
+
+                                    <td class="wrap" [class.col-3]="j<2" [class.col-5]="j===2" *ngIf="j<3">{{data}}</td>
+                                    <td class="col-1" *ngIf="j===3">
+                                        <span *ngIf="csvRec[4]===true && csvRec[3] !== 'Imported'" aria-hidden="true" class="text-warning">{{csvRec[3]}}</span>
+                                        <i *ngIf="csvRec[4]===true && csvRec[3] === 'Imported'" class="fa fa-check text-success" aria-hidden="true"></i>
+                                        <i *ngIf="csvRec[4]===false" class="text-muted fa fa-circle-o-notch fa-spin fa-fw"></i>
+                                    </td>
+                                </ng-container>
+
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+
 
             </div>
         </div>
-        <span *ngIf="isImportFinished" class="badge badge-danger">Failed : {{importedFailed}}</span>
+    </ng-container>
 
-    </div>
+    <ng-container *ngIf="isParsingFinished">
+        <div class="card mb-3 bg-light border-light ">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div class="progress w-75" style="height:38px">
+                        <div class="progress-bar bg-success" role="progressbar" [style.width.%]="importedSuccessfully" [attr.aria-valuenow]="importedSuccessfully"
+                            aria-valuemin="0" [attr.aria-valuemax]="totalRecordsToImport">Imported : {{importedSuccessfully}} </div>
+                        <div class="progress-bar bg-warning" role="progressbar" [style.width.%]="importedFailed" [attr.aria-valuenow]="importedFailed"
+                            aria-valuemin="0" [attr.aria-valuemax]="totalRecordsToImport">Failed : {{importedFailed}}</div>
+                    </div>
+                    <div class=" pull-right">
+                        <button class="btn btn-outline-success" (click)="importUsers()">Import {{totalRecordsToImport}} users</button>
+
+                    </div>
+                </div>
+
+                <!-- <div class="row align-items-center mt-4" *ngIf="csvRecords.length !==0">
+                    <div class="col">
+                        <div>
+                            <ngb-progressbar height="5vh" type="success" [value]="(importedSuccessfully) / totalRecordsToImport * 100" [animated]="true">Imported {{importedSuccessfully}} of {{totalRecordsToImport}} users
+                            </ngb-progressbar>
+                        </div>
+                    </div>
+
+                </div>
+                <span *ngIf="isImportFinished" class="badge badge-danger">Failed : {{importedFailed}}</span> -->
+
+            </div>
+        </div>
+    </ng-container>
+
 </div>
