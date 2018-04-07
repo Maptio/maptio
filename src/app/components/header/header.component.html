@@ -14,6 +14,12 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <span class="navbar-text offset-6" *ngIf="team">
+            <span class="text-muted mr-1">Team </span>
+            <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}">
+                {{team?.name}}
+            </a>
+        </span>
         <ul class="navbar-nav ml-auto" *ngIf="auth.allAuthenticated()">
 
             <li class="nav-item dropdown">
