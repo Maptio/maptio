@@ -1,15 +1,69 @@
-<h3 class="text-muted m-1"> Maps</h3>
-<ngx-loading [show]="isLoading"></ngx-loading>
+<h2 class=""> Maps</h2>
 
-<div class="overflow">
+
+<div class="overflow mt-3">
+    <ngx-loading [show]="isLoading"></ngx-loading>
+
+    <div class="card m-2" *ngFor="let dataset of datasets">
+        <div class="card-body">
+            <h5 class="card-title">
+                <div class="d-flex justify-content-between">
+                    <a routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/circles" (click)="goTo(dataset)"> {{dataset.initiative.name}}</a>
+                    <small>
+                        Team
+                        <a routerLink="/teams/{{dataset.team?.team_id}}/{{dataset.team?.getSlug()}}">{{dataset.team?.name}}</a>
+
+                    </small>
+
+                </div>
+
+            </h5>
+            <h6 class="card-subtitle mb-2 text-muted">
+                <div class="d-flex justify-content-between">
+                    <small>
+                        <div *ngIf="dataset.initiative.children" class="text-muted">Vision held by
+                            <img class="visionnary rounded-circle" src="{{dataset.initiative.children[0]?.accountable?.picture}}" alt="{{dataset.initiative.children[0]?.accountable?.name}}">
+                            <a class="text-muted" routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/u/{{dataset.initiative.children[0]?.accountable?.shortid}}/{{dataset.initiative.children[0]?.accountable?.getSlug()}}">
+                                <b> {{dataset.initiative.children[0]?.accountable?.name}}</b>
+                            </a>
+
+                        </div>
+
+                        <div *ngIf="!dataset.initiative.children" class="text-warning">
+                            No vision holder yet.
+                        </div>
+                    </small>
+                    <!-- <small>
+                        <div class="btn-group" role="group" aria-label="Choose visualisation">
+                            <button type="button" class="btn btn-light circles" routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/circles"></button>
+                            <button type="button" class="btn btn-light tree" routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/tree"></button>
+                            <button type="button" class="btn btn-light network" routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/network"></button>
+                        </div>
+                    </small> -->
+                </div>
+
+            </h6>
+        </div>
+        <div class="card-footer">
+            <div class="small d-flex justify-content-between align-items-center">
+                <div>{{dataset.depth}} sub-initiatives</div>
+                <button class="btn btn-sm btn-outline-secondary " (click)="export(dataset)">
+                    <span *ngIf="!isDisplayLoader(dataset._id)">
+                        <i class="fa fa-table" aria-hidden="true"></i> Export</span>
+                    <span class="text-muted" *ngIf="isDisplayLoader(dataset._id)">Exporting</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- <div class="overflow mt-3">
     <div class="card-deck mt-3">
         <div class="col-12">
             <div class="row mb-3 mr-1" *ngFor="let dataset of datasets">
                 <div class="card mb-3 ">
                     <div class="d-flex w-100 justify-content-between card-header">
-                        <!-- <h5>
-                            <a routerLink="/map/{{dataset._id}}/{{dataset.initiative.getSlug()}}"> {{dataset.initiative.name}}</a>
-                       </h5> -->
                         <div class="btn-group">
                             <h5>
                                 <a routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/circles" (click)="goTo(dataset)"> {{dataset.initiative.name}}</a>
@@ -21,7 +75,7 @@
                                     <a class="dropdown-item" routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/circles">Circle view</a>
                                     <a class="dropdown-item" routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/tree">Tree view</a>
                                     <a class="dropdown-item" routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/network">Network view</a>
-                                 </div>
+                                </div>
                             </h5>
 
                         </div>
@@ -35,7 +89,7 @@
                         <small *ngIf="dataset.initiative.children" class="text-muted">Vision held by
                             <img class="visionnary rounded-circle" src="{{dataset.initiative.children[0]?.accountable?.picture}}" alt="{{dataset.initiative.children[0]?.accountable?.name}}">
                             <a class="text-muted" routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/u/{{dataset.initiative.children[0]?.accountable?.shortid}}/{{dataset.initiative.children[0]?.accountable?.getSlug()}}">
-                               <b> {{dataset.initiative.children[0]?.accountable?.name}}</b>
+                                <b> {{dataset.initiative.children[0]?.accountable?.name}}</b>
                             </a>
 
                         </small>
@@ -60,4 +114,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
