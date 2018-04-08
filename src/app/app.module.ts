@@ -152,7 +152,7 @@ export function rollbarFactory() {
       backdropBackgroundColour: "#f8f9fa",
       backdropBorderRadius: ".25rem",
       primaryColour: "#EF5E26",
-      secondaryColour: "#f8f9fa",
+      secondaryColour: "transparent",
       tertiaryColour: "#2F81B7"
     }),
     HttpFactoryModule,

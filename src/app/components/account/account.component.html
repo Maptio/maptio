@@ -34,7 +34,7 @@
                         </div>
                         <div class="form-group" [class.has-warning]="accountForm.controls['firstname'].invalid  && (accountForm.controls['firstname'].dirty || accountForm.controls['firstname'].touched)">
                             <label for="inputFirstname">First name</label>
-                            <input type="text" class="form-control form-control-warning form-control-lg" [(ngModel)]="firstname" formControlName="firstname"
+                            <input type="text" class="form-control form-control-warning " [(ngModel)]="firstname" formControlName="firstname"
                                 placeholder="e.g. Harvey" required>
                             <small class="form-control-feedback" *ngIf="accountForm.controls['firstname'].invalid  && (accountForm.controls['firstname'].dirty || accountForm.controls['firstname'].touched)">
                                 Is this really how your mum calls you?
@@ -42,7 +42,7 @@
                         </div>
                         <div class="form-group" [class.has-warning]="accountForm.controls['lastname'].invalid  && (accountForm.controls['lastname'].dirty || accountForm.controls['lastname'].touched)">
                             <label for="inputLastname">Last name</label>
-                            <input type="text" class="form-control form-control-warning form-control-lg" [(ngModel)]="lastname" formControlName="lastname"
+                            <input type="text" class="form-control form-control-warning " [(ngModel)]="lastname" formControlName="lastname"
                                 placeholder="e.g. Dent" required>
                             <small class="form-control-feedback" *ngIf="accountForm.controls['lastname'].invalid  && (accountForm.controls['lastname'].dirty || accountForm.controls['lastname'].touched)">
                                 In the army, that's how they would refer to you. Just tell us (please)
@@ -50,13 +50,13 @@
                         </div>
                         <div class="form-group">
                             <label for="inputRole">Email</label>
-                            <input type="text" disabled class="form-control form-control-warning form-control-lg disabled" [value]="user?.email">
+                            <input type="text" disabled class="form-control form-control-warning  disabled" [value]="user?.email">
                         </div>
                         <div class="form-group">
                             <label for="inputRole">Role</label>
-                            <input type="text" disabled class="form-control form-control-warning form-control-lg disabled" [value]="UserRole[user?.userRole]">
+                            <input type="text" disabled class="form-control form-control-warning  disabled" [value]="UserRole[user?.userRole]">
                         </div>
-                        <button type="submit" class="btn btn-success btn-lg pull-right" [class.disabled]="!accountForm.valid">Save</button>
+                        <button type="submit" class="btn btn-outline-success pull-right" [class.disabled]="!accountForm.valid">Save</button>
 
                     </fieldset>
                 </form>
