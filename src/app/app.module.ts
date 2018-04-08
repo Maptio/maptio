@@ -148,10 +148,11 @@ export function rollbarFactory() {
     FileUploadModule,
     LoadingModule.forRoot({
       animationType: ANIMATION_TYPES.threeBounce,
-      backdropBackgroundColour: "#fff",
+      fullScreenBackdrop: true,
+      backdropBackgroundColour: "#f8f9fa",
       backdropBorderRadius: ".25rem",
       primaryColour: "#EF5E26",
-      secondaryColour: "#fff",
+      secondaryColour: "#f8f9fa",
       tertiaryColour: "#2F81B7"
     }),
     HttpFactoryModule,
