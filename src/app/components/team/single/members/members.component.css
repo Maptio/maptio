@@ -66,6 +66,10 @@ td.delete {
     min-width: 2vw;
 }
 
+tr.deleted{
+    font-weight: 100;
+}
+
 .sending {
     text-align: center;
     margin-right: 1vw;
@@ -83,4 +87,11 @@ td.delete {
 
 .first-row {
     background-color: #2f81b778;
+}
+
+.overflow{
+    overflow-y: auto;
+}
+.bold{
+    font-weight: bold;
 }
