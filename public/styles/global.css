@@ -13,6 +13,10 @@ body {
   overflow: hidden;
 }
 
+a {
+  color: #2f81b7 !important;
+}
+
 .toggle-children {
   top: 11px !important;
   background-image: none !important;

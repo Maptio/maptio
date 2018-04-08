@@ -40,7 +40,7 @@ table.tableSection.left tbody {
 
 table.tableSection.right tbody {
     overflow: auto;
-    height: 35vh;
+    height: 30vh;
     position:relative
 }
 

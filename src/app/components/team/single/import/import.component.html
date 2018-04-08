@@ -56,9 +56,9 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between">
                     <div class="progress w-75" style="height:38px">
-                        <div class="progress-bar bg-success" role="progressbar" [style.width.%]="importedSuccessfully" [attr.aria-valuenow]="importedSuccessfully"
+                        <div class="progress-bar bg-success" role="progressbar" [style.width.%]="importedSuccessfully/totalRecordsToImport*100" [attr.aria-valuenow]="importedSuccessfully"
                             aria-valuemin="0" [attr.aria-valuemax]="totalRecordsToImport">Imported : {{importedSuccessfully}} </div>
-                        <div class="progress-bar bg-warning" role="progressbar" [style.width.%]="importedFailed" [attr.aria-valuenow]="importedFailed"
+                        <div class="progress-bar bg-warning" role="progressbar" [style.width.%]="importedFailed/totalRecordsToImport*100" [attr.aria-valuenow]="importedFailed"
                             aria-valuemin="0" [attr.aria-valuemax]="totalRecordsToImport">Failed : {{importedFailed}}</div>
                     </div>
                     <div class=" pull-right">
