@@ -1,3 +1,5 @@
+<ngx-loading [show]="isLoading"></ngx-loading>
+
 <div class="card borderless m-3">
     <div class="alert alert-success alert-dismissable" role="alert" *ngIf="feedbackMessage">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -15,9 +17,11 @@
                         <legend>{{user?.name}} </legend>
                         <div class="form-group">
                             <label for="inputPicture">Avatar</label>
-                            <div id="inputPicture" class="d-flex justify-content-between flex-column">
-                                <img src="{{user?.picture}}" class="rounded-circle mb-2" width="70" height="70">
-                                <div class="custom-file col-9">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <button class="btn btn-light cover" type="button" [ngStyle]="{'background': ' url(' + user?.picture + ') no-repeat'}"></button>
+                                </div>
+                                <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="customFile" id="fileupload" #fileInput ng2FileSelect [uploader]="uploader"
                                         (change)="fileInput.value=''" accept="image/*">
                                     <label class="custom-file-label" for="customFile">

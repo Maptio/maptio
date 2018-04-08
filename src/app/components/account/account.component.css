@@ -19,3 +19,8 @@
 .name {
     line-height: 12vh;
 }
+
+.cover {
+    background-size: cover !important;
+    width: 3vw;
+}
