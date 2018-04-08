@@ -14,7 +14,7 @@
   }
 
   :host /deep/ button.dropdown-item:nth-child(even) {
-    background: #f5f5f5;
+    background: #f8f9fa;
   }
   
   :host /deep/ .dropdown-menu {

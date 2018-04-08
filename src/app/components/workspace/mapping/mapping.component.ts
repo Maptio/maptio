@@ -121,7 +121,7 @@ export class MappingComponent {
     : "#000";
   mapColor = localStorage.getItem("MAP_COLOR")
     ? localStorage.getItem("MAP_COLOR")
-    : "#f5f5f5";
+    : "#f8f9fa";
   fontSize = Number.parseFloat(localStorage.getItem("FONT_SIZE"))
     ? Number.parseFloat(localStorage.getItem("FONT_SIZE"))
     : 1;

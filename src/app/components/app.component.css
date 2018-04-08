@@ -14,7 +14,7 @@
 
 #footer {
     height: 40px;
-    background-color: #f7f7f7;
+    background-color: #f8f9fa;
     position: fixed;
     width: 100%;
     z-index: 99;
@@ -44,7 +44,7 @@
 
 .center-row {
     height: 100%;
-    background-color: #f7f7f7;
+    background-color: #f8f9fa;
     /* background-image: url('/assets/example/bg_cloud.jpg');
     background-size: cover; */
     /* color: #fff; */
