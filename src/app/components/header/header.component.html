@@ -82,26 +82,24 @@
                 </div>
             </li>
         </ul>
-        <ng-container  *showItBootstrap="['md','lg','xl']">
-            <form *ngIf="!auth.allAuthenticated()" id="loginForm" class="form-inline pr-2" [formGroup]="loginForm" (submit)="login()">
-                <div class="d-flex flex-column">
-                    <div>
-                        <input type="email" id="inputEmail" formControlName="email" class="form-control form-control-sm form-control-warning" placeholder="Email"
-                            required email>
-                        <input id="inputPassword" type="password" class="form-control form-control-sm form-control-warning" formControlName="password"
-                            placeholder="e.g. ••••••••" autocomplete="on">
-                        <button type="submit" class="btn btn-outline-success btn-sm" [class.disabled]="!loginForm.valid">Log in</button>
+        <ng-container *showItBootstrap="['md','lg','xl']">
+            <ng-container *ngIf="!auth.allAuthenticated()">
+                <form id="loginForm" class="form-inline pr-2" [formGroup]="loginForm" (submit)="login()">
+                    <div class="d-flex flex-column">
+                        <div>
+                            <input type="email" id="inputEmail" formControlName="email" class="form-control form-control-sm form-control-warning" placeholder="Email"
+                                required email>
+                            <input id="inputPassword" type="password" class="form-control form-control-sm form-control-warning" formControlName="password"
+                                placeholder="e.g. ••••••••" autocomplete="on">
+                            <button type="submit" class="btn btn-outline-success btn-sm" [class.disabled]="!loginForm.valid">Log in</button>
 
+                        </div>
+                        <small class="text-muted">
+                            <a routerLink="/forgot">Forgot your password?</a>
+                        </small>
                     </div>
-                    <small class="text-muted">
-                        <a routerLink="/forgot">Forgot your password?</a>
-                    </small>
-                </div>
-
-
-            </form>
+                </form>
+            </ng-container>
         </ng-container>
-
     </div>
-
 </nav>
