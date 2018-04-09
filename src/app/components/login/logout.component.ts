@@ -4,14 +4,15 @@ import { Auth } from "../../shared/services/auth/auth.service";
 
 @Component({
   selector: "logout",
-  template: ""
+  templateUrl: "./logout.component.html"
+
 })
 export class LogoutComponent implements OnInit {
-  constructor(private auth:Auth, private router: Router, private cd: ChangeDetectorRef) {}
+  constructor(private auth: Auth, private router: Router, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.auth.clear();
-    this.cd.detectChanges();
-    this.router.navigateByUrl("/home");
+    // this.cd.detectChanges();
+    // this.router.navigateByUrl("/home");
   }
 }
