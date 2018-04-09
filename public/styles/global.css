@@ -67,6 +67,10 @@ body {
   background-color: #f8f9fa!important;
 }
 
+.btn.focus, .btn:focus {
+  box-shadow: 0 0 0 !important;
+}
+
 /* 
 html, body {
   height: 100%;
