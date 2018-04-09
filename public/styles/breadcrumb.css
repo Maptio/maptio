@@ -2,3 +2,7 @@
     font-size: initial !important;
     font-weight: initial !important;
 }
+
+.breadcrumb-item+.breadcrumb-item::before {
+    content: ">" !important;
+}
