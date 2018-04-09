@@ -140,3 +140,52 @@ tree-root .angular-tree-component-rtl .tree-children {
   padding-right: 20px;
   padding-left: 0;
 }
+
+
+.toggle-children {
+  top: 11px !important;
+  background-image: none !important;
+  transform: rotate(0deg) !important;
+  width: 6px !important;
+}
+
+.toggle-children:before {
+  color: #0275d8;
+  transform: rotate(0deg) !important;
+  font-family: FontAwesome;
+  font-size: 17px;
+}
+
+.toggle-children-wrapper-expanded .toggle-children:before {
+  content: "\F056";
+}
+
+.toggle-children-wrapper-collapsed .toggle-children:before {
+  content: "\F055";
+}
+
+
+.node-content-wrapper {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  padding: 2px 0px !important;
+  margin-left: 0.5vw; 
+  margin-right: 0.5vw;
+}
+
+@media only screen and (max-height: 800px) {
+  .angular-tree-component {
+    width: 100%;
+    max-height: 73vh;
+    overflow-y: auto;
+  }
+}
+
+@media only screen and (min-height: 800px) {
+  .angular-tree-component {
+    width: 100%;
+    max-height: 75vh;
+    overflow-y: auto;
+  }
+}

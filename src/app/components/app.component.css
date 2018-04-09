@@ -65,3 +65,11 @@
 .container-fluid.overflow-hidden {
     overflow: hidden;
 }
+
+.background {
+    background-image: url(/assets/images/home-background.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position-x: center;
+    background-blend-mode: luminosity;
+}

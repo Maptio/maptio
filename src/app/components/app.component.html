@@ -1,61 +1,16 @@
-<!-- Wrap all page content here -->
-<div id="wrap">
-
-	<!-- Fixed navbar -->
+<div class="container-fluid d-flex flex-column pt-5 h-100" [class.background]="isHome">
 	<header>
 	</header>
-	<!-- Begin page content -->
-	<div class="center-container">
-		<loader></loader>
-
-		<div class="center-row" [class.background]="isHome">
-
-
-			<div class="container-fluid h-100 pt-3" [class.background]="isHome" [class.overflow-hidden]="isMap">
-				<div *showItDevice="['mobile','tablet']" class="alert alert-dismissible alert-warning">
-					<button type="button" class="close" data-dismiss="alert">&times;</button>
-					<p>
-						<b>Maptio</b> works best on desktop using
-						<b>
-							<a target="_blank" href="https://www.google.com/chrome/browser/desktop/index.html">Chrome</a>
-						</b>
-					</p>
-				</div>
-				<div *hideItBrowser="['chrome']" class="alert alert-dismissible alert-warning">
-					<button type="button" class="close" data-dismiss="alert">&times;</button>
-					<p>
-						<b>Maptio</b> works best on desktop using
-						<b>
-							<a target="_blank" href="https://www.google.com/chrome/browser/desktop/index.html">Chrome</a>
-						</b>
-					</p>
-				</div>
-				<!-- <div *ngIf="auth.allAuthenticated()"> -->
-				<router-outlet></router-outlet>
-				<!-- </div>
-				<div  *ngIf="!auth.allAuthenticated()">
-					<home></home>
-				</div> -->
-
-
+	<div *showItBootstrap="['xs','sm']" class="h-100">
+		<div class="jumbotron jumbotron-fluid h-100">
+			<div class="container">
+				<h1 class="display-4">Size matters...</h1>
+				<p class="lead">Maptio is not yet optimized for small devices, come back with a larger screen and start mapping! </p>
 			</div>
-
 		</div>
-		<!-- <div class="center-row background" *ngIf="!auth.allAuthenticated()">
-			<div class="container-fluid h-100 pt-3 background">
-
-				<home></home>
-			</div>
-		</div> -->
-
-
-
-
 	</div>
-
-</div>
-
-<div id="footer">
+	<div *showItBootstrap="['md','lg','xl']">
+		<router-outlet></router-outlet>
+	</div>
 	<footer></footer>
 </div>
-<!-- <help #help></help> -->
