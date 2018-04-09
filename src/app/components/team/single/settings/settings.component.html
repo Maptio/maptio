@@ -16,7 +16,7 @@
     <fieldset [disableIfNoPermission]="Permissions.canEditTeam">
         <div class="form-group" [class.has-warning]="teamSettingsForm.controls['name'].invalid  && (teamSettingsForm.controls['name'].dirty || teamSettingsForm.controls['name'].touched)">
             <label class="col-form-label" for="inputTeamName">Team name</label>
-            <input type="text" class="col-3 form-control form-control-warning" [(ngModel)]="teamName" formControlName="name" placeholder="e.g. The Avengers"
+            <input type="text" class="col-4 form-control form-control-warning" [(ngModel)]="teamName" formControlName="name" placeholder="e.g. The Avengers"
                 required>
             <small class="form-control-feedback" *ngIf="teamSettingsForm.controls['name'].invalid  && (teamSettingsForm.controls['name'].dirty || teamSettingsForm.controls['name'].touched)">
                 Give us a real team name!
@@ -34,8 +34,8 @@
         <div class="form-group">
             <label class="col-form-label" for="inputAuthorityName">Authority</label>
             <div class="">
-                <input type="text" class="mr-2 col-3 form-control form-control-warning " [(ngModel)]="teamAuthority" formControlName="authority"
-                    placeholder="e.g. Authority, Grand Masterflash" maxlength="25">
+                <input type="text" class="mr-2 col-4 form-control form-control-warning " [(ngModel)]="teamAuthority" formControlName="authority"
+                    placeholder="e.g. Beloved leader" maxlength="25">
                 <small class="form-text text-muted">
                     What does your team call the person in the main key role for each initiative? e.g. Authority, Driver, Lead link, Source.
                 </small>
@@ -47,8 +47,8 @@
         <div class="form-group">
             <label class="col-form-label" for="inputHelperName">Helper</label>
             <div class="">
-                <input type="text" class="mr-2 col-3 form-control form-control-warning " [(ngModel)]="teamHelper" formControlName="helper"
-                    placeholder="e.g. Contributor, Backseat driver" maxlength="25">
+                <input type="text" class="mr-2 col-4 form-control form-control-warning " [(ngModel)]="teamHelper" formControlName="helper"
+                    placeholder="e.g. Backseat driver" maxlength="25">
                 <small class="form-text text-muted">And what do you call others contributing to an initiative? e.g. Contributor, Helper, Role-holder, Sub-source.
                 </small>
             </div>
