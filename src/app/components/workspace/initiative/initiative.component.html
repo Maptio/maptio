@@ -176,17 +176,16 @@
 						<markdown class="small" [hidden]="hideme[i]" *ngIf="user.roles[0]?.description" [data]="user.roles[0]?.description || ''"></markdown>
 
 						<ng-container *ngIf="!isAuthority(user)">
+							
 							<fieldset *permissionsOnly="Permissions.canGiveHelperPrivileges;initiative node; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
 								<div class="custom-control custom-checkbox small">
-									<input type="checkbox" class="custom-control-input small" (ngModelChange)="savePrivilege(user,$event)" [ngModel]="user.hasAuthorityPrivileges"
-									 [ngModelOptions]="{standalone: true}">
-									<label class="custom-control-label" for="customCheck1">{{user.name}} can edit this initiative</label>
-								</div>
+										<input type="checkbox" class="custom-control-input small" id="customCheck-{{i}}" (ngModelChange)="savePrivilege(user,$event)" [ngModel]="user.hasAuthorityPrivileges"
+										[ngModelOptions]="{standalone: true}">
+										<label class="custom-control-label" for="customCheck-{{i}}">{{user.name}} can edit this initiative</label>
+									  </div>
 							</fieldset>
 						</ng-container>
-
 					</div>
-
 				</div>
 				<small class="text-warning" *ngIf="node?.helpers.length === 0 || !(node?.helpers)">No helpers yet</small>
 
