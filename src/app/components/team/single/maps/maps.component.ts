@@ -1,7 +1,7 @@
-import { Team } from './../../../../shared/model/team.data';
-import { DataSet } from './../../../../shared/model/dataset.data';
-import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Team } from "./../../../../shared/model/team.data";
+import { DataSet } from "./../../../../shared/model/dataset.data";
+import { ActivatedRoute } from "@angular/router";
+import { Component, OnInit } from "@angular/core";
 
 @Component({
     selector: "team-maps-settings",
@@ -10,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TeamMapsComponent implements OnInit {
 
-    private datasets: DataSet[];
+    public datasets: DataSet[];
 
     constructor(private route: ActivatedRoute) {
 

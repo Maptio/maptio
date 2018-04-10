@@ -1,10 +1,5 @@
-<!-- <div *ngFor="let d of datasets">
-    {{d.initiative.name}}
-</div> -->
-
 <div class="w-100 overflow">
     <div class="card-columns ">
-        <ngx-loading [show]="isLoading"></ngx-loading>
         <div class="card" *ngFor="let dataset of datasets">
             <div class="card-body">
                 <h5 class="card-title">
