@@ -66,7 +66,7 @@ router.get('/:id/users', function (req, res, next) {
 /* GET all datasets for a given team*/
 router.get('/:teamid/datasets', function (req, res, next) {
     db.datasets.find(
-        { team_id: req.params.teamid },
+        { 'initiative.team_id': req.params.teamid },
         function (err, datasets) {
             if (err) {
                 res.send(err);

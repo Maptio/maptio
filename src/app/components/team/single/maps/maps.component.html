@@ -1,0 +1,35 @@
+<!-- <div *ngFor="let d of datasets">
+    {{d.initiative.name}}
+</div> -->
+
+<div class="w-100 overflow">
+    <div class="card-columns ">
+        <ngx-loading [show]="isLoading"></ngx-loading>
+        <div class="card" *ngFor="let dataset of datasets">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <a routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/circles"> {{dataset.initiative.name}}</a>
+                </h5>
+                <div class="card-text mb-1 d-flex flex-wrap">
+                    <small>
+                        <div *ngIf="dataset.initiative.children" class="text-muted">Vision held by
+                            <img class="visionnary rounded-circle" src="{{dataset.initiative.children[0]?.accountable?.picture}}" alt="{{dataset.initiative.children[0]?.accountable?.name}}">
+                            <a class="text-muted" routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/u/{{dataset.initiative.children[0]?.accountable?.shortid}}/{{dataset.initiative.children[0]?.accountable?.getSlug()}}">
+                                <b> {{dataset.initiative.children[0]?.accountable?.name}}</b>
+                            </a>
+
+                        </div>
+
+                        <div *ngIf="!dataset.initiative.children" class="text-warning">
+                            No vision holder yet.
+                        </div>
+                    </small>
+                </div>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted">{{dataset.depth}} initiatives</small>
+            </div>
+        </div>
+
+    </div>
+</div>

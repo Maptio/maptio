@@ -45,8 +45,8 @@ export class TeamImportComponent implements OnInit {
     ngOnInit() {
 
         this.route.parent.data
-            .subscribe((data: { team: Team }) => {
-                this.team = data.team;
+            .subscribe((data: { assets: { team: Team, datasets: DataSet[] } }) => {
+                this.team = data.assets.team;
             });
     }
 

@@ -1,3 +1,4 @@
+import { DataSet } from './../../../../shared/model/dataset.data';
 import { Permissions } from "./../../../../shared/model/permission.data";
 import { ActivatedRoute } from "@angular/router";
 import { Component, OnInit, Input, ChangeDetectorRef } from "@angular/core";
@@ -38,8 +39,8 @@ export class TeamSettingsComponent implements OnInit {
     ngOnInit() {
 
         this.route.parent.data
-            .subscribe((data: { team: Team }) => {
-                this.team = data.team;
+            .subscribe((data: { assets: { team: Team, datasets: DataSet[] } }) => {
+                this.team = data.assets.team;
                 this.teamName = this.team.name;
                 this.teamAuthority = this.team.settings.authority;
                 this.teamHelper = this.team.settings.helper;

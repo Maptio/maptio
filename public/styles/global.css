@@ -71,6 +71,10 @@ body {
   box-shadow: 0 0 0 !important;
 }
 
+.visionnary{
+  width: 25px;
+  height: 25px;
+}
 /* 
 html, body {
   height: 100%;

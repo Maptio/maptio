@@ -85,8 +85,8 @@ export class TeamMembersComponent implements OnInit {
 
     ngOnInit() {
         this.routeSubscription = this.route.parent.data
-            .subscribe((data: { team: Team }) => {
-                this.team = data.team;
+            .subscribe((data: { assets: { team: Team, datasets: DataSet[] } }) => {
+                this.team = data.assets.team;
             });
 
         this.userSubscription = this.auth.getUser().subscribe(u => this.user = u);
@@ -109,7 +109,7 @@ export class TeamMembersComponent implements OnInit {
         return this.userFactory.getUsers(this.team.members.map(m => m.user_id))
             .then(members => compact(members))
             .then((members: User[]) => {
-                 // console.log("asking for ", console.log(members.map(u => u.user_id)))
+                // console.log("asking for ", console.log(members.map(u => u.user_id)))
                 return this.userService.getUsersInfo(members).then(pending => {
                     // console.log("got ", console.log(pending.map(u => u.user_id)))
                     if (this.createdUser) {
