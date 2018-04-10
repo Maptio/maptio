@@ -1,10 +1,10 @@
-import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
-import { Router } from "@angular/router";
+import { Component, OnInit } from "@angular/core";
 import { Auth } from "../../shared/services/auth/auth.service";
 
 @Component({
   selector: "logout",
-  templateUrl: "./logout.component.html"
+  templateUrl: "./logout.component.html",
+  styleUrls: ["./logout.component.css"]
 
 })
 export class LogoutComponent implements OnInit {
