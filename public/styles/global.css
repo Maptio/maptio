@@ -79,6 +79,10 @@ body {
   width: 25px;
   height: 25px;
 }
+
+.btn-link, a {
+  color: #2f81b7 !important;
+}
 /* 
 html, body {
   height: 100%;

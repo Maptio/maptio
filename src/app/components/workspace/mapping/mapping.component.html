@@ -1,11 +1,11 @@
 <div class="control zero ">
   <div class="btn-group-vertical">
-    <a class="btn btn-light p-1" [class.active]="isSearchToggled" [class.disabled]="isSearchDisabled" 
+    <a class="btn btn-light p-1 text-dark" [class.active]="isSearchToggled" [class.disabled]="isSearchDisabled" 
     (click)="isSearchToggled=!isSearchToggled" data-toggle="collapse" href="#collapseSearch" role="button">
       <i class="fa fa-search"></i>
       <div class="icon-text-label">Search</div>
     </a>
-    <a class="btn btn-light p-1" [class.active]="isFiltersToggled" [class.disabled]="isSearchDisabled" 
+    <a class="btn btn-light p-1 text-dark" [class.active]="isFiltersToggled" [class.disabled]="isSearchDisabled" 
     (click)="isFiltersToggled=!isFiltersToggled" data-toggle="collapse" href="#collapseFilter" role="button">
       <i class="fa fa-filter"></i>
       <div class="icon-text-label">Filter</div>
@@ -25,13 +25,13 @@
 <div class="control first">
   <div class=" btn-group-vertical">
 
-    <a class="btn btn-light circles p-1" routerLinkActive="active" routerLink="/map/{{datasetId}}/{{slug}}/circles" fragment="x={{VIEWPORT_WIDTH / 2}}&y={{VIEWPORT_WIDTH / 2 -180}}&scale=1=1&{{tagsFragment}}">
+    <a class="btn btn-light circles text-dark p-1" routerLinkActive="active" routerLink="/map/{{datasetId}}/{{slug}}/circles" fragment="x={{VIEWPORT_WIDTH / 2}}&y={{VIEWPORT_WIDTH / 2 -180}}&scale=1=1&{{tagsFragment}}">
       <div class="icon-text-label" style="bottom: 2px;position: absolute;">Circles</div>
     </a>
-    <a class="btn btn-light tree p-1" routerLinkActive="active" routerLink="/map/{{datasetId}}/{{slug}}/tree" fragment="x={{VIEWPORT_WIDTH / 10}}&y={{VIEWPORT_HEIGHT / 2}}&scale=1&{{tagsFragment}}">
+    <a class="btn btn-light tree text-dark p-1" routerLinkActive="active" routerLink="/map/{{datasetId}}/{{slug}}/tree" fragment="x={{VIEWPORT_WIDTH / 10}}&y={{VIEWPORT_HEIGHT / 2}}&scale=1&{{tagsFragment}}">
       <div class="icon-text-label">Tree</div>
     </a>
-    <a class="btn btn-light network p-1" routerLinkActive="active" routerLink="/map/{{datasetId}}/{{slug}}/network" fragment="x=0&y={{-this.VIEWPORT_HEIGHT / 4}}&scale=1&{{tagsFragment}}">
+    <a class="btn btn-light network text-dark p-1" routerLinkActive="active" routerLink="/map/{{datasetId}}/{{slug}}/network" fragment="x=0&y={{-this.VIEWPORT_HEIGHT / 4}}&scale=1&{{tagsFragment}}">
       <div class="icon-text-label">Network</div>
     </a>
 
@@ -42,19 +42,19 @@
 
 <div class="control  second mt-4">
   <div class=" btn-group-vertical">
-    <a class="btn btn-light p-1" [class.disabled]="isSearchDisabled" (click)="zoomOut()">
+    <a class="btn btn-light text-dark p-1" [class.disabled]="isSearchDisabled" (click)="zoomOut()">
       <i class="fa fa-minus"></i>
       <div class="icon-text-label">Zoom out</div>
     </a>
-    <a class="btn btn-light p-1" [class.disabled]="isSearchDisabled" (click)="zoomIn()">
+    <a class="btn btn-light text-dark p-1" [class.disabled]="isSearchDisabled" (click)="zoomIn()">
       <i class="fa fa-plus"></i>
       <div class="icon-text-label">Zoom in</div>
     </a>
-    <a class="btn btn-light p-1" [class.disabled]="isSearchDisabled" (click)="resetZoom()">
+    <a class="btn btn-light text-dark p-1" [class.disabled]="isSearchDisabled" (click)="resetZoom()">
       <i class="fa fa-compress" aria-hidden="true"></i>
       <div class="icon-text-label">Zoom fit</div>
     </a>
-    <a class="btn btn-light p-1" [class.active]="isSettingToggled" [class.disabled]="isSearchDisabled" 
+    <a class="btn btn-light text-dark p-1" [class.active]="isSettingToggled" [class.disabled]="isSearchDisabled" 
      (click)="isSettingToggled=!isSettingToggled" data-toggle="collapse" href="#collapseSettings" role="button">
       <i class="fa fa-sliders" aria-hidden="true"></i>
       <div class="icon-text-label">Settings</div>
@@ -70,7 +70,7 @@
         <label for="fontSizeInput" class="col-form-label col-2">Size</label>
 
         <!-- <span class="fontSizeOutput">x {{fontSize$ | async}}</span> -->
-        <input class="col-6" id="fontSizeInput" #fontSizeInput name="fontSizeInput" type="range" min="0.2" max="2" value="{{fontSize$ | async}}"
+        <input class="col-6 form-control ml-1" id="fontSizeInput" #fontSizeInput name="fontSizeInput" type="range" min="0.2" max="2" value="{{fontSize$ | async}}"
           step="0.1" (change)="changeFontSize(fontSizeInput.value)" orient="vertical">
 
         <button class="btn  btn-outline-secondary  ml-4" (click)="changeFontSize(1)">Reset</button>
