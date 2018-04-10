@@ -25,12 +25,14 @@ class MockActivatedRoute implements ActivatedRoute {
     queryParams: Observable<Params>;
     fragment: Observable<string>;
     data: Observable<Data> = Observable.of({
-        team: new Team({
-            team_id: "123",
-            name: "team",
-            settings: { authority: "A", helper: "H" },
-            members: [new User({ user_id: "1" }), new User({ user_id: "2" })]
-        })
+        assets: {
+            team: new Team({
+                team_id: "123",
+                name: "team",
+                settings: { authority: "A", helper: "H" },
+                members: [new User({ user_id: "1" }), new User({ user_id: "2" })]
+            })
+        }
     })
     outlet: string;
     component: Type<any> | string;

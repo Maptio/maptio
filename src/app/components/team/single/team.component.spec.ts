@@ -41,12 +41,14 @@ describe("team.component.ts", () => {
                             params = Observable.of({ teamid: 123, slug: "slug" })
                             snapshot: ActivatedRouteSnapshot = new ActivatedRouteSnapshot()
                             data = Observable.of({
-                                team: new Team({
-                                    team_id: "team123",
-                                    name: "team",
-                                    settings: { authority: "A", helper: "H" },
-                                    members: [new User({ user_id: "1" })]
-                                })
+                                assets: {
+                                    team: new Team({
+                                        team_id: "team123",
+                                        name: "team",
+                                        settings: { authority: "A", helper: "H" },
+                                        members: [new User({ user_id: "1" })]
+                                    })
+                                }
                             })
                         }
                     }

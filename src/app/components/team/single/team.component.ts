@@ -25,7 +25,7 @@ export class TeamComponent implements OnInit {
     ngOnInit() {
         this.routeSubscription = this.route.data
             .subscribe((data: { assets: { team: Team, datasets: DataSet[] } }) => {
-                console.log(data)
+                // console.log(data)
                 this.team = data.assets.team;
                 this.cd.markForCheck();
             });
