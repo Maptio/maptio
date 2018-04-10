@@ -8,11 +8,9 @@ import { Auth } from "../../shared/services/auth/auth.service";
 
 })
 export class LogoutComponent implements OnInit {
-  constructor(private auth: Auth, private router: Router, private cd: ChangeDetectorRef) { }
+  constructor(private auth: Auth) { }
 
   ngOnInit() {
     this.auth.clear();
-    // this.cd.detectChanges();
-    // this.router.navigateByUrl("/home");
   }
 }
