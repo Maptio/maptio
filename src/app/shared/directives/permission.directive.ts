@@ -364,7 +364,7 @@ export class PermissionsDirective implements OnInit, OnDestroy {
 
     private canEditInitiativeDescription(): boolean {
         return this.userPermissions.includes(Permissions.canEditInitiativeDescription)
-            || 
+            ||
             !this.initiative.accountable
             ||
             (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
@@ -444,6 +444,8 @@ export class PermissionsDirective implements OnInit, OnDestroy {
             !this.initiative.accountable
             ||
             (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
+            ||
+            (this.initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
 
     }
 }
