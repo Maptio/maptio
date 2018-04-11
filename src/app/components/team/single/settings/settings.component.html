@@ -1,3 +1,8 @@
+<ng-template #adminTipContent>
+    <span class="text-warning">You don't have permission to edit this.
+        <a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
+    </span>
+</ng-template>
 <div class="alert alert-success alert-dismissible fade show" role="alert" *ngIf="isTeamSettingSaved">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
@@ -28,7 +33,10 @@
         </ng-template>
         <ng-template #elseMessageBlock>
             <legend class="mt-3">Terminology
-                <small class="text-muted"><i class="fa fa-lock mr-1"></i>Admin only</small>
+                <small class="text-muted" [ngbPopover]="adminTipContent" placement='right' popoverTitle="Permissions" container="body" #t="ngbPopover"
+                    triggers="manual" (blur)="t.close()" (mouseenter)="t.open()" (document:click)="t.close()">
+                    <i class="fa fa-lock mr-1"></i>
+                </small>
             </legend>
         </ng-template>
         <div class="form-group">

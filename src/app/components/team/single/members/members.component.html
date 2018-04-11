@@ -1,8 +1,14 @@
+<ng-template #adminTipContent>
+    <span class="text-warning">You don't have permission to do this.
+        <a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
+    </span>
+</ng-template>
 <div class="d-flex flex-column align-items-start">
     <div class="mb-3 d-flex justify-content-end w-100">
         <div *hasPermission="Permissions.canAddUser; else elseBlock; then thenBlock"></div>
         <ng-template #elseBlock>
-            <button class="btn btn-outline-secondary disabled" placement="top" container="body" ngbTooltip="Admin only">
+            <button class="btn btn-outline-secondary disabled" [ngbPopover]="adminTipContent" placement='left' popoverTitle="Permissions"
+                container="body" #t="ngbPopover" triggers="manual" (blur)="t.close()" (mouseenter)="t.open()" (document:click)="t.close()">
                 Add member
                 <i class="fa fa-lock ml-1"></i>
             </button>
@@ -11,8 +17,6 @@
             <button data-toggle="collapse" href="#addMemberCollapse" role="button" class="btn btn-outline-secondary" (click)="isAddUserToggled=!isAddUserToggled"
                 [class.active]="isAddUserToggled">Add member
                 <i class="ml-1 fa fa-user-plus" aria-hidden="true"></i>
-                <!-- <i *ngIf="isAddUserToggled" class="fa fa-caret-up ml-1"></i>
-                <i *ngIf="!isAddUserToggled" class="fa fa-caret-left ml-1"></i> -->
             </button>
         </ng-template>
     </div>
@@ -141,7 +145,8 @@
                                         Invite </button>
                                 </ng-template>
                                 <ng-template #elseInviteBlock>
-                                    <button class="btn btn-outline-secondary disabled pull-right" placement="left" container="body" ngbTooltip="Admin only">Invite
+                                    <button class="btn btn-outline-secondary disabled pull-right" [ngbPopover]="adminTipContent" placement='left' popoverTitle="Permissions"
+                                    container="body" #t="ngbPopover" triggers="manual" (blur)="t.close()" (mouseenter)="t.open()" (document:click)="t.close()">Invite
                                         <i class="fa fa-lock ml-1"></i>
                                     </button>
                                 </ng-template>
