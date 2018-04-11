@@ -1,6 +1,18 @@
-<ng-template #dragAndDropTipContent>You don't have permission to drag-and-drop. <a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a></ng-template>
-<ng-template #editTipContent>You don't have permission to edit this. <a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a></ng-template>
-<ng-template #deleteTipContent>You don't have permission to delete this. <a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a></ng-template>
+<ng-template #dragAndDropTipContent>
+	<span class="text-warning">You don't have permission to drag-and-drop.
+		<a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
+	</span>
+</ng-template>
+<ng-template #editTipContent>
+	<span class="text-warning">You don't have permission to edit this.
+		<a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
+	</span>You don't have permission to edit this.
+</ng-template>
+<ng-template #deleteTipContent>
+	<span class="text-warning">You don't have permission to delete this.
+		<a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
+	</span>
+</ng-template>
 
 <div class="col-12">
 	<div class="input-group">
@@ -13,9 +25,9 @@
 					</span>
 				</ng-template>
 				<ng-template #elseMoveBlock>
-					<span class="input-group-text knurled not-allowed" (mouseenter)="node.data.isDraggable=false" (mouseleave)="node.data.isDraggable=false"
-					placement="right" container="body" [ngbTooltip]="dragAndDropTipContent" triggers="manual"
-					#t="ngbTooltip" (click)="t.isOpen() ? t.close() : t.open()">
+					<span class="input-group-text knurled" (mouseenter)="node.data.isDraggable=false" (mouseleave)="node.data.isDraggable=false"
+					 placement="right" container="body" [ngbPopover]="dragAndDropTipContent" popoverTitle="Permissions" triggers="click"
+					 #t="ngbPopover">
 						<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
 					</span>
 				</ng-template>
@@ -28,8 +40,7 @@
 		</ng-template>
 		<ng-template #elseNameBlock>
 			<input readonly class="form-control input inputNodeName" type="text" [ngModel]="node.data.name" (keydown)="$event.preventDefault();isEditWarningToggled=true"
-			 (focus)="node.data.isDraggable=false;openNode(node.data)" (blur)="node.data.isDraggable=true"
-			/>
+			 (focus)="node.data.isDraggable=false;openNode(node.data)" (blur)="node.data.isDraggable=true" />
 		</ng-template>
 
 		<div class="input-group-append">
@@ -52,10 +63,8 @@
 
 				</ng-template>
 				<ng-template #elseDeleteBlock>
-					<button class="btn remove btn-outline-secondary disabled not-allowed" 
-					
-					placement="top" container="body" [ngbTooltip]="deleteTipContent" triggers="manual"
-					#t="ngbTooltip" (click)="t.isOpen() ? t.close() : t.open()">
+					<button class="btn remove btn-outline-secondary disabled" placement="top" container="body" [ngbPopover]="deleteTipContent"
+					 popoverTitle="Permissions" #t="ngbPopover" triggers="click">
 
 					</button>
 				</ng-template>

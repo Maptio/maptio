@@ -6,6 +6,17 @@
 		<i class="fa fa-tag mr-1" aria-hidden="true" [style.color]="r.color"></i>
 		{{r.name}}</span>
 </ng-template>
+<ng-template #editTipContent>
+	<span class="text-warning">You don't have permission to edit this.
+		<a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
+	</span>
+</ng-template>
+<ng-template #deleteTipContent>
+	<span class="text-warning">You don't have permission to delete this.
+		<a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
+	</span>
+</ng-template>
+
 
 <form class="pt-2">
 	<div class="card borderless mb-2 p-2">
@@ -15,8 +26,10 @@
 				 [ngModel]="node?.name" placeholder="Initiative name" (ngModelChange)="saveName($event)" rows="2" cols="" (blur)="onBlur()"
 				/>
 				<div class="input-group-append">
-					<span class="icon-disabled text-muted transparent bg-white border-white input-group-text" ngbTooltip="Only the {{authority}} and super {{helper}} of this initiative can edit it"
-					 placement="top" container="body"></span>
+					<span class="icon-disabled text-muted transparent bg-white border-white input-group-text" 
+					[ngbPopover]="editTipContent" placement='top' popoverTitle="Permissions"
+					 container="body" #t="ngbPopover" triggers="manual" (blur)="t.close()"
+					 (mouseenter)="t.open()" (document:click)="t.close()"></span>
 				</div>
 
 			</div>
@@ -41,8 +54,9 @@
 					</li>
 				</ul>
 				<div class="input-group-append">
-					<span class="icon-disabled text-muted transparent bg-white border-white input-group-text" ngbTooltip="Only the {{authority}} and super {{helper}} of this initiative can edit it"
-					 placement="top" container="body"></span>
+					<span class="icon-disabled text-muted transparent bg-white border-white input-group-text" 
+					[ngbPopover]="editTipContent" placement='top' popoverTitle="Permissions"
+					 container="body" #t="ngbPopover" triggers="manual" (mouseenter)="t.open()" (document:click)="t.close()"></span>
 				</div>
 			</div>
 		</fieldset>
@@ -72,8 +86,10 @@
 					</div>
 				</div>
 				<div class="input-group-append">
-					<span class="icon-disabled text-muted transparent bg-white border-white input-group-text" ngbTooltip="Only the {{authority}} and super {{helper}} of this initiative can edit it"
-					 placement="top" container="body"></span>
+					<span class="icon-disabled text-muted transparent bg-white border-white input-group-text" 
+					[ngbPopover]="editTipContent" placement='top' popoverTitle="Permissions"
+					 container="body" #t="ngbPopover" triggers="manual" (mouseenter)="t.open()" (document:click)="t.close()"></span>
+
 				</div>
 			</div>
 		</fieldset>
@@ -98,8 +114,9 @@
 				 [data]="node?.description || ''"></markdown>
 
 				<div class="input-group-append">
-					<span class="icon-disabled text-muted transparent bg-white border-white input-group-text" ngbTooltip="Only the {{authority}} and super {{helper}} of this initiative can edit it"
-					 placement="top" container="body"></span>
+					<span class="icon-disabled text-muted transparent bg-white border-white input-group-text" 
+					[ngbPopover]="editTipContent" placement='top' popoverTitle="Permissions"
+					 container="body" #t="ngbPopover" triggers="manual" (mouseenter)="t.open()" (document:click)="t.close()"></span>
 				</div>
 			</div>
 			<small [hidden]="descriptionHideMe" class="help-popup text-default text-muted">
@@ -135,8 +152,8 @@
 				<div class="">
 					<div class="d-flex justify-content-between align-items-center">
 						<div></div>
-						<span class="small d-flex mr-2 ml-auto" ngbTooltip="Check this box to allow contributors to edit the details of this initiative" placement="top"
-						 container="body">Can edit</span>
+						<span class="small d-flex mr-2 ml-auto" ngbTooltip="Check this box to allow contributors to edit the details of this initiative"
+						 placement="top" container="body">Can edit</span>
 					</div>
 					<ng-container *ngFor="let user of getAllHelpers(); let i=index">
 						<div class="d-flex justify-content-between align-items-center">
@@ -151,7 +168,9 @@
 													 focusbutton="cancel" appendToBody="false" (confirm)="removeHelper(user)" (cancel)="cancelClicked = true"></span>
 												</ng-template>
 												<ng-template #elseDeleteHelperBlock>
-													<span class="remove text-muted mr-1 " placement="top" container="body" ngbTooltip="Only the {{authority}} and super {{helper}} of this initiative can delete a {{helper}}"></span>
+													<span class="remove text-muted mr-1 " 
+													[ngbPopover]="deleteTipContent" placement='top' container="body" popoverTitle="Permissions"
+													#t="ngbPopover" triggers="manual" (mouseenter)="t.open()" (document:click)="t.close()"></span>
 												</ng-template>
 
 												<span class="pl-1 col">
@@ -169,8 +188,9 @@
 													</button>
 												</ng-template>
 												<ng-template #elseEditRoleButtonBlock>
-													<button class="btn btn-link pull-right btn-sm disabled" ngbTooltip="Only the {{authority}} and super {{helper}} of this initiative can edit roles"
-													 placement="top" container="body">Role
+													<button class="btn btn-link pull-right btn-sm disabled" 
+													[ngbPopover]="editTipContent" placement='top' container="body" popoverTitle="Permissions"
+													#t="ngbPopover" triggers="manual" (mouseenter)="t.open()" (document:click)="t.close()">Role
 														<i class="fa fa-lock"></i>
 													</button>
 												</ng-template>

@@ -71,9 +71,6 @@ textarea {
     text-align: right;
 }
 
-.text-warning {
-    color: white!important;
-}
 
 fieldset:disabled span.icon-disabled {
     visibility: visible;

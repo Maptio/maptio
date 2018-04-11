@@ -22,5 +22,5 @@ export const environment = {
     AUTH0_USERS_PAGE_LIMIT: 50,
     CHECK_TOKEN_EXPIRATION_INTERVAL_IN_MINUTES : 1,
 
-    KB_URL_PERMISSIONS : "https://www.google.com"
+    KB_URL_PERMISSIONS : "https://maptio.outseta.com/support/kb#/articles/bB9l5DW8/managing-permissions"
 };
