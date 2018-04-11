@@ -1,3 +1,4 @@
+import { environment } from './../../../../environment/environment';
 import { Team } from "./../../../shared/model/team.data";
 import { Permissions } from "./../../../shared/model/permission.data";
 import { InitiativeComponent } from "./../initiative/initiative.component";
@@ -17,6 +18,7 @@ export class InitiativeNodeComponent {
     PLACEMENT: string = "top";
     TOGGLE: string = "tooltip";
     TOOLTIP_ADD: string = "Add sub-initiative"
+    KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
 
     @Input() node: TreeNode;
     @Input() datasetId: string;
