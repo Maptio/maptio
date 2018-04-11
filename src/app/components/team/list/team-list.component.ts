@@ -3,7 +3,7 @@ import { Permissions } from "./../../../shared/model/permission.data";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { UserFactory } from "../../../shared/services/user.factory";
-import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef, TemplateRef, Renderer2 } from "@angular/core";
 import { TeamFactory } from "../../../shared/services/team.factory";
 import { Auth } from "../../../shared/services/auth/auth.service";
 import { User } from "../../../shared/model/user.data";
@@ -33,7 +33,8 @@ export class TeamListComponent implements OnInit {
     Permissions = Permissions;
 
     constructor(private route: ActivatedRoute, private cd: ChangeDetectorRef, public auth: Auth, private teamFactory: TeamFactory, private userFactory: UserFactory,
-        private userService: UserService, private analytics: Angulartics2Mixpanel, public router: Router) {
+        private userService: UserService, private analytics: Angulartics2Mixpanel, public router: Router,
+        private renderer: Renderer2) {
 
         this.createForm = new FormGroup({
             "teamName": new FormControl(this.teamName, [
@@ -41,6 +42,13 @@ export class TeamListComponent implements OnInit {
                 Validators.minLength(2)
             ]),
         });
+    }
+
+    public disableFieldset = (templateRef: TemplateRef<any>) => {
+        this.renderer.setAttribute(templateRef.elementRef.nativeElement.nextSibling, "disabled", "");
+    }
+    public enableFieldset = (templateRef: TemplateRef<any>) => {
+        // this.renderer.removeAttribute(templateRef.elementRef.nativeElement.nextSibling, "disabled");
     }
 
     ngOnInit() {

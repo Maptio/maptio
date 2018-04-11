@@ -72,18 +72,4 @@ textarea {
 }
 
 
-fieldset:disabled span.icon-disabled {
-    visibility: visible;
-    display: inline-block;
-}
-
-fieldset span.icon-disabled {
-    visibility: hidden;
-    display: none;
-}
-
-.icon-disabled::before {
-    content: "\f023";
-    font-family: FontAwesome;
-}
 

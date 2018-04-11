@@ -1,3 +1,5 @@
+import { PermissionsDirective } from './../../../shared/directives/permission.directive';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { JwtEncoder } from "../../../shared/services/encoding/jwt.service";
 import { MailingService } from "../../../shared/services/mailing/mailing.service";
 import { UserService } from "../../../shared/services/user/user.service";
@@ -29,15 +31,16 @@ describe("team-list.component.ts", () => {
     beforeEach(async(() => {
 
         TestBed.configureTestingModule({
-            declarations: [TeamListComponent],
+            declarations: [TeamListComponent, PermissionsDirective],
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [RouterTestingModule, Angulartics2Module]
+            imports: [RouterTestingModule, Angulartics2Module, NgbModule.forRoot()]
         }).overrideComponent(TeamListComponent, {
             set: {
                 providers: [
                     {
                         provide: Auth, useClass: class {
                             getUser() { return user$.asObservable() }
+                            getPermissions(): any[] { return [] }
                             getUserInfo(id: string) { return Promise.resolve(new User({})); }
                         }
                     },
