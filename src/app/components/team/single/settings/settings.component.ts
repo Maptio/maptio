@@ -1,3 +1,4 @@
+import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { DataSet } from './../../../../shared/model/dataset.data';
 import { Permissions } from "./../../../../shared/model/permission.data";
 import { ActivatedRoute } from "@angular/router";
@@ -8,7 +9,7 @@ import { TeamFactory } from "../../../../shared/services/team.factory";
 
 @Component({
     selector: "team-single-settings",
-    templateUrl: "./settings.component.html",
+    templateUrl: "./settings.component.html"
     // styleUrls: ["./settings.component.css"]
 })
 export class TeamSettingsComponent implements OnInit {

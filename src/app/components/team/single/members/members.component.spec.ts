@@ -1,3 +1,4 @@
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NO_ERRORS_SCHEMA, Type } from "@angular/core";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { BaseRequestOptions, Http } from "@angular/http";
@@ -65,7 +66,7 @@ describe("members.component.ts", () => {
         TestBed.configureTestingModule({
             declarations: [TeamMembersComponent, HasPermissionDirective, KeysPipe],
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [RouterTestingModule, Angulartics2Module]
+            imports: [RouterTestingModule, Angulartics2Module, NgbModule.forRoot()]
         }).overrideComponent(TeamMembersComponent, {
             set: {
                 providers: [
