@@ -83,6 +83,22 @@ body {
 .btn-link, a {
   color: #2f81b7 !important;
 }
+
+fieldset:disabled span.icon-disabled {
+  visibility: visible;
+  display: inline-block;
+}
+
+fieldset span.icon-disabled {
+  visibility: hidden;
+  display: none;
+}
+
+.icon-disabled::before {
+  content: "\f023";
+  font-family: FontAwesome;
+}
+
 /* 
 html, body {
   height: 100%;
