@@ -1,5 +1,3 @@
-
-import { PopoverStickyComponent } from './../utils/popover/sticky.component';
 import { SharedModule } from './../../shared/shared.module';
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";
 import { ColorPickerModule } from "ngx-color-picker";
@@ -95,9 +93,7 @@ export function markdownServiceFactory(http: Http) {
         BuildingComponent, InitiativeNodeComponent, InitiativeComponent,
         MappingComponent, MappingZoomableComponent, MappingTreeComponent, MappingNetworkComponent, MemberSummaryComponent,
 
-        SearchComponent, FilterTagsComponent,
-
-        PopoverStickyComponent
+        SearchComponent, FilterTagsComponent
     ],
     providers: [
         WorkspaceComponentResolver,

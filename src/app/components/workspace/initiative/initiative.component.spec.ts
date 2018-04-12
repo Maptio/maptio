@@ -1,3 +1,4 @@
+import { SharedModule } from './../../../shared/shared.module';
 import { PermissionsDirective } from './../../../shared/directives/permission.directive';
 import { Tag } from "./../../../shared/model/tag.data";
 import { User } from "./../../../shared/model/user.data";
@@ -30,8 +31,8 @@ describe("initiative.component.ts", () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [Ng2Bs3ModalModule, NgbModule.forRoot(), FormsModule, RouterTestingModule, MarkdownModule.forRoot()],
-            declarations: [InitiativeComponent, PermissionsDirective],
+            imports: [SharedModule, Ng2Bs3ModalModule, NgbModule.forRoot(), FormsModule, RouterTestingModule, MarkdownModule.forRoot()],
+            declarations: [InitiativeComponent],
             providers: [TeamFactory, UserFactory, DatasetFactory,
                 {
                     provide: Http,

@@ -54,23 +54,17 @@ export class StickyPopoverDirective extends NgbPopover {
         super.ngOnInit();
         this.ngbPopover = this.stickyPopover;
 
-        console.log(this.stickyPopover)
-
-
         this._render.listen(this._elRef.nativeElement, "mouseenter", () => {
             this.canClosePopover = true;
-            // console.log("icon mouse enter", this.canClosePopover);
             this.open()
         });
 
         this._render.listen(this._elRef.nativeElement, "mouseleave", (event: Event) => {
-            // console.log("icon mouse leave", this.canClosePopover);
             setTimeout(() => { if (this.canClosePopover) this.close() }, 100)
 
         })
 
         this._render.listen(this._elRef.nativeElement, "click", () => {
-            // console.log("icon mouse click", this.canClosePopover);
             this.close();
         })
     }
@@ -80,30 +74,23 @@ export class StickyPopoverDirective extends NgbPopover {
     }
 
     open() {
-        // console.log("open")
         super.open();
         let popover = window.document.querySelector(".popover")
         this._render.listen(popover, "mouseover", () => {
-            // console.log("popover mouse over", this.canClosePopover);
             this.canClosePopover = false;
         });
 
         this._render.listen(popover, "mouseout", () => {
-            // console.log("popover mouse out", this.canClosePopover);
             this.canClosePopover = true;
             setTimeout(() => { if (this.canClosePopover) this.close() }, 0)
-            // this.delayClose();
         });
     }
 
     close() {
-
-        // console.log("close")
         super.close();
     }
 
     public delayClose() {
-        // console.log("delay close")
         setTimeout(() => { if (this.canClosePopover) this.close() }, 2000)
     }
 }
