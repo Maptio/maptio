@@ -1,3 +1,4 @@
+import { environment } from "./../../../../environment/environment";
 import { Auth } from "./../../../shared/services/auth/auth.service";
 import { Permissions } from "./../../../shared/model/permission.data";
 import { Role } from "./../../../shared/model/role.data";
@@ -26,7 +27,7 @@ import { debounceTime } from "rxjs/operator/debounceTime";
 import { distinctUntilChanged } from "rxjs/operator/distinctUntilChanged";
 import { compact, sortBy } from "lodash";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2/dist";
-import {remove} from "lodash"
+import { remove } from "lodash"
 
 @Component({
     selector: "initiative",
@@ -76,6 +77,8 @@ export class InitiativeComponent implements OnChanges {
     @ViewChild("inputTag") instance: NgbTypeahead;
     focus$ = new Subject<string>();
     click$ = new Subject<string>();
+    KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
+    MESSAGE_PERMISSIONS_DENIED_EDIT = environment.MESSAGE_PERMISSIONS_DENIED_EDIT;
 
     constructor(private auth: Auth, private teamFactory: TeamFactory, private userFactory: UserFactory,
         private datasetFactory: DatasetFactory, private analytics: Angulartics2Mixpanel,

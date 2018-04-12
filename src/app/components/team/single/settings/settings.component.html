@@ -33,8 +33,7 @@
         </ng-template>
         <ng-template #elseMessageBlock>
             <legend class="mt-3">Terminology
-                <small class="text-muted" [ngbPopover]="adminTipContent" placement='right' popoverTitle="Permissions" container="body" #t="ngbPopover"
-                    triggers="manual" (blur)="t.close()" (mouseenter)="t.open()" (document:click)="t.close()">
+                <small class="text-muted" [stickyPopover]="adminTipContent">
                     <i class="fa fa-lock mr-1"></i>
                 </small>
             </legend>

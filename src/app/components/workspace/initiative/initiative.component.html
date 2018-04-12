@@ -7,9 +7,10 @@
 		{{r.name}}</span>
 </ng-template>
 <ng-template #editTipContent>
-	<span class="text-warning">You don't have permission to edit this.
+	<div class="text-warning">
+		You don't have permission to edit this.
 		<a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
-	</span>
+	</div>
 </ng-template>
 <ng-template #deleteTipContent>
 	<span class="text-warning">You don't have permission to delete this.
@@ -26,10 +27,9 @@
 				 [ngModel]="node?.name" placeholder="Initiative name" (ngModelChange)="saveName($event)" rows="2" cols="" (blur)="onBlur()"
 				/>
 				<div class="input-group-append">
-					<span class="icon-disabled text-muted transparent bg-white border-white input-group-text" 
-					[ngbPopover]="editTipContent" placement='top' popoverTitle="Permissions"
-					 container="body" #t="ngbPopover" triggers="manual" (blur)="t.close()"
-					 (mouseenter)="t.open()" (document:click)="t.close()"></span>
+					<span class="icon-disabled text-muted transparent bg-white border-white input-group-text" [stickyPopover]="editTipContent"
+					 placement='top'>
+					</span>
 				</div>
 
 			</div>
@@ -54,9 +54,9 @@
 					</li>
 				</ul>
 				<div class="input-group-append">
-					<span class="icon-disabled text-muted transparent bg-white border-white input-group-text" 
-					[ngbPopover]="editTipContent" placement='top' popoverTitle="Permissions"
-					 container="body" #t="ngbPopover" triggers="manual" (mouseenter)="t.open()" (document:click)="t.close()"></span>
+					<span class="icon-disabled text-muted transparent bg-white border-white input-group-text" [stickyPopover]="editTipContent"
+					 placement='top'>
+					</span>
 				</div>
 			</div>
 		</fieldset>
@@ -86,10 +86,9 @@
 					</div>
 				</div>
 				<div class="input-group-append">
-					<span class="icon-disabled text-muted transparent bg-white border-white input-group-text" 
-					[ngbPopover]="editTipContent" placement='top' popoverTitle="Permissions"
-					 container="body" #t="ngbPopover" triggers="manual" (mouseenter)="t.open()" (document:click)="t.close()"></span>
-
+					<span class="icon-disabled text-muted transparent bg-white border-white input-group-text" [stickyPopover]="editTipContent"
+					 placement='top'>
+					</span>
 				</div>
 			</div>
 		</fieldset>
@@ -114,9 +113,9 @@
 				 [data]="node?.description || ''"></markdown>
 
 				<div class="input-group-append">
-					<span class="icon-disabled text-muted transparent bg-white border-white input-group-text" 
-					[ngbPopover]="editTipContent" placement='top' popoverTitle="Permissions"
-					 container="body" #t="ngbPopover" triggers="manual" (mouseenter)="t.open()" (document:click)="t.close()"></span>
+					<span class="icon-disabled text-muted transparent bg-white border-white input-group-text" [stickyPopover]="editTipContent"
+					 placement='top'>
+					</span>
 				</div>
 			</div>
 			<small [hidden]="descriptionHideMe" class="help-popup text-default text-muted">
@@ -153,7 +152,7 @@
 					<div class="d-flex justify-content-between align-items-center">
 						<div></div>
 						<span class="small d-flex mr-2 ml-auto" ngbTooltip="Check this box to allow contributors to edit the details of this initiative"
-						 placement="top" container="body">Can edit</span>
+						 placement="top" container="body">Deputy</span>
 					</div>
 					<ng-container *ngFor="let user of getAllHelpers(); let i=index">
 						<div class="d-flex justify-content-between align-items-center">
@@ -168,9 +167,7 @@
 													 focusbutton="cancel" appendToBody="false" (confirm)="removeHelper(user)" (cancel)="cancelClicked = true"></span>
 												</ng-template>
 												<ng-template #elseDeleteHelperBlock>
-													<span class="remove text-muted mr-1 " 
-													[ngbPopover]="deleteTipContent" placement='top' container="body" popoverTitle="Permissions"
-													#t="ngbPopover" triggers="manual" (mouseenter)="t.open()" (document:click)="t.close()"></span>
+													<span class="remove text-muted mr-1 " [stickyPopover]="deleteTipContent" placement='top'></span>
 												</ng-template>
 
 												<span class="pl-1 col">
@@ -188,9 +185,7 @@
 													</button>
 												</ng-template>
 												<ng-template #elseEditRoleButtonBlock>
-													<button class="btn btn-link pull-right btn-sm disabled" 
-													[ngbPopover]="editTipContent" placement='top' container="body" popoverTitle="Permissions"
-													#t="ngbPopover" triggers="manual" (mouseenter)="t.open()" (document:click)="t.close()">Role
+													<button class="btn btn-link pull-right btn-sm disabled" [stickyPopover]="editTipContent" placement='top'>Role
 														<i class="fa fa-lock"></i>
 													</button>
 												</ng-template>

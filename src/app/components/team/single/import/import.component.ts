@@ -1,3 +1,4 @@
+import { environment } from './../../../../../environment/environment';
 import { ActivatedRoute } from "@angular/router";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { TeamFactory } from "./../../../../shared/services/team.factory";
@@ -32,6 +33,7 @@ export class TeamImportComponent implements OnInit {
     isParsingFinished: boolean;
     isFileInvalid: boolean;
 
+    KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
     constructor(
         private fileService: FileService,
         private cd: ChangeDetectorRef,

@@ -7,8 +7,7 @@
     <div class="mb-3 d-flex justify-content-end w-100">
         <div *hasPermission="Permissions.canAddUser; else elseBlock; then thenBlock"></div>
         <ng-template #elseBlock>
-            <button class="btn btn-outline-secondary disabled" [ngbPopover]="adminTipContent" placement='left' popoverTitle="Permissions"
-                container="body" #t="ngbPopover" triggers="manual" (blur)="t.close()" (mouseenter)="t.open()" (document:click)="t.close()">
+            <button class="btn btn-outline-secondary disabled" [stickyPopover]="adminTipContent">
                 Add member
                 <i class="fa fa-lock ml-1"></i>
             </button>
@@ -145,8 +144,7 @@
                                         Invite </button>
                                 </ng-template>
                                 <ng-template #elseInviteBlock>
-                                    <button class="btn btn-outline-secondary disabled pull-right" [ngbPopover]="adminTipContent" placement='left' popoverTitle="Permissions"
-                                    container="body" #t="ngbPopover" triggers="manual" (blur)="t.close()" (mouseenter)="t.open()" (document:click)="t.close()">Invite
+                                    <button class="btn btn-outline-secondary disabled pull-right" [stickyPopover]="adminTipContent" placement='left'>Invite
                                         <i class="fa fa-lock ml-1"></i>
                                     </button>
                                 </ng-template>

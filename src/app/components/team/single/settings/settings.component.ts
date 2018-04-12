@@ -1,4 +1,4 @@
-import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { environment } from './../../../../../environment/environment';
 import { DataSet } from './../../../../shared/model/dataset.data';
 import { Permissions } from "./../../../../shared/model/permission.data";
 import { ActivatedRoute } from "@angular/router";
@@ -26,6 +26,7 @@ export class TeamSettingsComponent implements OnInit {
     Permissions = Permissions;
     CanEditTeam = Permissions.canEditTeam;
 
+    KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
     constructor(private cd: ChangeDetectorRef, private teamFactory: TeamFactory, private route: ActivatedRoute) {
         this.teamSettingsForm = new FormGroup({
             "name": new FormControl(this.teamName, [

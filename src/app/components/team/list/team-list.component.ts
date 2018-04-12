@@ -1,3 +1,4 @@
+import { environment } from './../../../../environment/environment';
 import { Subscription } from "rxjs/Subscription";
 import { Permissions } from "./../../../shared/model/permission.data";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
@@ -31,6 +32,7 @@ export class TeamListComponent implements OnInit {
     public teamName: string;
 
     Permissions = Permissions;
+    KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
 
     constructor(private route: ActivatedRoute, private cd: ChangeDetectorRef, public auth: Auth, private teamFactory: TeamFactory, private userFactory: UserFactory,
         private userService: UserService, private analytics: Angulartics2Mixpanel, public router: Router,

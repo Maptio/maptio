@@ -25,9 +25,8 @@
 					</span>
 				</ng-template>
 				<ng-template #elseMoveBlock>
-					<span class="input-group-text knurled" (mouseenter)="node.data.isDraggable=false" (mouseleave)="node.data.isDraggable=false"
-					 placement="right" container="body" [ngbPopover]="dragAndDropTipContent" popoverTitle="Permissions" triggers="click"
-					 #t="ngbPopover">
+					<span class="input-group-text knurled not-allowed" (mouseenter)="node.data.isDraggable=false" (mouseleave)="node.data.isDraggable=false"
+					 placement="right" [stickyPopover]="dragAndDropTipContent">
 						<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
 					</span>
 				</ng-template>
@@ -63,8 +62,7 @@
 
 				</ng-template>
 				<ng-template #elseDeleteBlock>
-					<button class="btn remove btn-outline-secondary disabled" placement="top" container="body" [ngbPopover]="deleteTipContent"
-					 popoverTitle="Permissions" #t="ngbPopover" triggers="click">
+					<button class="btn remove btn-outline-secondary disabled not-allowed" placement="top"  [stickyPopover]="deleteTipContent">
 
 					</button>
 				</ng-template>

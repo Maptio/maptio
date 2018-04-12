@@ -1,3 +1,4 @@
+import { environment } from './../../../../../environment/environment';
 import { Auth } from "./../../../../shared/services/auth/auth.service";
 import { Observable } from "rxjs/Rx";
 import { DataSet } from "./../../../../shared/model/dataset.data";
@@ -60,6 +61,7 @@ export class TeamMembersComponent implements OnInit {
 
     private EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+    KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
 
     constructor(
         private route: ActivatedRoute,
