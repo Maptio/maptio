@@ -7,7 +7,7 @@
     <div class="mb-3 d-flex justify-content-end w-100">
         <div *hasPermission="Permissions.canAddUser; else elseBlock; then thenBlock"></div>
         <ng-template #elseBlock>
-            <button class="btn btn-outline-secondary disabled" [stickyPopover]="adminTipContent">
+            <button class="btn btn-outline-secondary disabled" [stickyPopover]="adminTipContent" placement="left">
                 Add member
                 <i class="fa fa-lock ml-1"></i>
             </button>
