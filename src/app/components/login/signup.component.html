@@ -24,7 +24,7 @@
         Email support@maptio.com
     </div>
 
-    <form class="form-group" [formGroup]="signupForm" (submit)="createAccount()">
+    <form class="form-group" [formGroup]="signupForm" (submit)="createAccount()" *ngIf="!isConfirmationEmailSent">
         <fieldset>
             <div class="form-group" [class.has-warning]="signupForm.controls['firstname'].invalid  && (signupForm.controls['firstname'].dirty || signupForm.controls['firstname'].touched)">
                 <label for="inputFirstname">First name</label>
