@@ -5,7 +5,7 @@
         <h4 class="text-white">Making agility at work easier. Onboard new people quickly. Make smarter decisions. Keep everyone aligned.
         </h4>
 
-        <div class="text-white mt-auto">
+        <div class="text-white mt-auto" *ngIf="auth.allAuthenticated()">
             <span>New to Maptio? Watch our 12 minute tutorial video.</span>
             <div class="embed-responsive embed-responsive-16by9">
                 <iframe src="https://drive.google.com/file/d/10AYJduyqXgbsCxRRk_GSz7v59adJgp3Q/preview" width="640" height="480"></iframe>

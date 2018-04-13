@@ -169,3 +169,7 @@ span.navbar-text a {
     max-height: 75vh;
     overflow-y: auto;
 }
+
+.form-big{
+    width:25vw;
+}

@@ -1,3 +1,6 @@
+import { User } from './../../shared/model/user.data';
+import { Auth } from './../../shared/services/auth/auth.service';
+import { isEmpty } from 'lodash';
 import { Subscription } from "rxjs/Rx";
 import { Component, ChangeDetectorRef } from "@angular/core";
 import { DataSet } from "../../shared/model/dataset.data";
@@ -15,11 +18,15 @@ export class DashboardComponent {
 
     datasets: DataSet[];
     public subscription: Subscription;
+    public userSubscription: Subscription;
     public isLoading: boolean;
+    isZeroTeam: boolean;
 
     isExportingMap: Map<string, boolean> = new Map<string, boolean>();
 
-    constructor(private resolver: DashboardComponentResolver, private exportService: ExportService,
+    constructor(private resolver: DashboardComponentResolver,
+        private exportService: ExportService,
+        private auth: Auth;
         private cd: ChangeDetectorRef) {
     }
 
@@ -38,6 +45,10 @@ export class DashboardComponent {
             () => {
                 this.isLoading = false;
             });
+
+        this.userSubscription = this.auth.getUser().subscribe((user: User) => {
+            this.isZeroTeam = isEmpty(user.teams);
+        })
     }
 
     ngOnDestroy() {

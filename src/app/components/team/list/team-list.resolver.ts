@@ -6,7 +6,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Rx";
 import { TeamFactory } from "../../../shared/services/team.factory";
 import { Team } from "../../../shared/model/team.data";
-import { differenceBy, sortBy } from "lodash"
+import { differenceBy, sortBy, isEmpty } from "lodash"
 
 @Injectable()
 export class TeamListComponentResolver implements Resolve<Team[]> {
@@ -15,10 +15,9 @@ export class TeamListComponentResolver implements Resolve<Team[]> {
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Team[]> {
-
         return this.auth.getUser().first()
-            .mergeMap(user => this.teamFactory.get(user.teams))
-            .map(teams => {
+            .mergeMap(user => isEmpty(user.teams) ? [] : this.teamFactory.get(user.teams))
+            .map((teams: Team[]) => {
                 teams.forEach(t => {
                     if (t) {
                         this.userService.getUsersInfo(t.members).then((actualMembers: User[]) => {

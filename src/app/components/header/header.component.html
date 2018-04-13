@@ -24,8 +24,8 @@
         </span>
         <ul class="navbar-nav ml-auto" *ngIf="auth.allAuthenticated()">
 
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" [class.disabled]="(datasets$ | async)?.length === 0" id="mapsListDropdownLink" data-toggle="dropdown"
+            <li class="nav-item dropdown" *ngIf="(datasets$ | async)?.length !== 0">
+                <a class="nav-link dropdown-toggle" id="mapsListDropdownLink" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     Maps
                 </a>
@@ -39,16 +39,16 @@
                 <a class="nav-link dropdown-toggle " id="mapsListDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Create a map
                 </a>
-                <div class="dropdown-menu dropdown-menu-right">
+                <div class="dropdown-menu dropdown-menu-right form-big">
                     <form [formGroup]="createMapForm" (submit)="createDataset()" class="p-4">
-                        <div class="form-group form-inline">
+                        <div class="form-group ">
                             <label for="inputMapName">Map name</label>
                             <input type="text" id="inputMapName" formControlName="mapName" class="form-control w-100" placeholder="Enter map name " required>
                             <small class="form-text text-muted">
                                 This is usually your company or organisation name
                             </small>
                         </div>
-                        <div class="form-group form-inline">
+                        <div class="form-group ">
                             <label for="inputTeamName">Team</label>
                             <select id="inputTeamName" formControlName="teamId" required class="form-control">
                                 <option value="null" disabled="true" [selected]="true">Select a team</option>
@@ -63,11 +63,11 @@
 
                 </div>
             </li>
-            <li class="nav-item dropdown" *ngIf="(teams$ | async)?.length === 0">
+            <!-- <li class="nav-item dropdown" *ngIf="(teams$ | async)?.length === 0">
                 <a class="nav-link dropdown-toggle without-caret text-success" (click)="createTeam()" [class.coloured]="isCreateMode">
                     Create a team
                 </a>
-            </li>
+            </li> -->
             <li class="nav-item dropdown" id="profileInformation">
                 <a class="nav-link dropdown-toggle without-caret" id="profileDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div>
