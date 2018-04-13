@@ -26,7 +26,7 @@ export class DashboardComponent {
 
     constructor(private resolver: DashboardComponentResolver,
         private exportService: ExportService,
-        private auth: Auth;
+        private auth: Auth,
         private cd: ChangeDetectorRef) {
     }
 
