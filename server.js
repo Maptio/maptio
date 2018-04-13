@@ -74,7 +74,8 @@ if (!isDevelopment) {
         'https://uploads.intercomcdn.com',
         'https://uploads.intercomusercontent.com', 
         'https://rs.fullstory.com',
-        'https://api.rollbar.com'
+        'https://api.rollbar.com',
+        'https://drive.google.com'
       ],
       childSrc: [
         'https://share.intercom.io',
