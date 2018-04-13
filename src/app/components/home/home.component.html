@@ -1,9 +1,22 @@
 <div class="d-flex justify-content-between p-4">
-    <div class="jumbotron transparent">
-        <h1 class="mb-3">Maptio</h1>
-        <h4>Making agility at work easier. Onboard new people quickly. Make smarter decisions. Keep everyone aligned.
+    <div class="d-flex flex-column card bg-transparent border-0 ml-2 mr-2">
+
+        <h1 class="mb-3 text-white">Maptio</h1>
+        <h4 class="text-white">Making agility at work easier. Onboard new people quickly. Make smarter decisions. Keep everyone aligned.
         </h4>
+
+        <div class="text-white mt-auto">
+            <span>New to Maptio? Watch our 12 minute tutorial video.</span>
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe src="https://drive.google.com/file/d/10AYJduyqXgbsCxRRk_GSz7v59adJgp3Q/preview" width="640" height="480"></iframe>
+            </div>
+        </div>
+
     </div>
+
+
+
+
     <div class="col-6 signup rounded" *ngIf="auth.allAuthenticated()">
         <dashboard></dashboard>
     </div>
