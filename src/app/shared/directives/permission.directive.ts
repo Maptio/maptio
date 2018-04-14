@@ -1,4 +1,4 @@
-import { Helper } from './../model/helper.data';
+import { Helper } from "./../model/helper.data";
 import { Initiative } from "./../model/initiative.data";
 import { Permissions } from "./../model/permission.data";
 import { Auth } from "./../services/auth/auth.service";
@@ -13,14 +13,9 @@ import {
     ViewContainerRef,
     SimpleChanges
 } from "@angular/core";
-// import { NgxPermissionsService } from "../service/permissions.service";
 import { Subscription } from "rxjs/Subscription";
-// import { NgxRolesService } from "../service/roles.service";
 import "rxjs/add/operator/merge";
 import "rxjs/add/operator/skip";
-// import { isBoolean, isFunction, isString, notEmptyValue } from "../utils/utils";
-// import { NgxPermissionsConfigurationService, StrategyFunction } from "../service/configuration.service";
-// import { NgxPermissionsPredefinedStrategies } from "../enums/predefined-strategies.enum";
 import { Observable } from "rxjs/Observable";
 
 export type StrategyFunction = (templateRef?: TemplateRef<any>) => void;
@@ -63,8 +58,6 @@ export class PermissionsDirective implements OnInit, OnDestroy {
     @Output() permissionsUnauthorized = new EventEmitter();
 
     private initPermissionSubscription: Subscription;
-    // skip first run cause merge will fire twice
-    private firstMergeUnusedRun = 1;
     private currentAuthorizedState: boolean;
 
     private userPermissions: Permissions[];
@@ -83,7 +76,6 @@ export class PermissionsDirective implements OnInit, OnDestroy {
 
 
     ngOnChanges(changes: SimpleChanges) {
-        // console.log("changes", changes)
 
         if (changes.permissionsOnlyInitiative) {
             if (changes.permissionsOnlyInitiative.isFirstChange()) {
@@ -116,18 +108,6 @@ export class PermissionsDirective implements OnInit, OnDestroy {
         else {
             this.helper = null;
         }
-
-        // if (changes.permissionsOnly) {
-        //     this.permission = changes.permissionsOnly.currentValue
-        // }
-
-        // if (changes.permissionsOnlyThen) {
-        //     this.permissionsOnlyThen = changes.permissionsOnlyThen.currentValue
-        // }
-
-        // if (changes.permissionsOnlyElse) {
-        //     this.permissionsOnlyElse = changes.permissionsOnlyElse.currentValue
-        // }
     }
 
     ngOnInit(): void {
@@ -142,64 +122,21 @@ export class PermissionsDirective implements OnInit, OnDestroy {
     }
 
     private validateExceptOnlyPermissions(): Subscription {
-        // if (this.initiative) console.log("checking for ", Permissions[this.permission], "in", this.initiative.name)
         return Observable.of(this.userPermissions)
-            // this.permissionsService.permissions$
-            // .merge(this.rolesService.roles$)
-            // .skip(this.firstMergeUnusedRun)
             .subscribe(() => {
-                // if (notEmptyValue(this.ngxPermissionsExcept)) {
-                //     this.validateExceptAndOnlyPermissions();
-                //     return;
-                // }
-
                 if (this.permission) {
                     this.validateOnlyPermissions();
                     return;
                 }
-
                 this.handleAuthorisedPermission(this.getAuthorisedTemplates());
             });
     }
 
-    // private validateExceptAndOnlyPermissions(): void {
-    //     Promise.all([this.permissionsService.hasPermission(this.ngxPermissionsExcept), this.rolesService.hasOnlyRoles(this.ngxPermissionsExcept)])
-    //         .then(([hasPermission, hasRole]) => {
-    //             if (hasPermission || hasRole) {
-    //                 this.handleUnauthorisedPermission(this.ngxPermissionsExceptElse || this.permissionsElse);
-    //             } else {
-    //                 if (!!this.permissionsOnly) {
-    //                     throw false;
-    //                 } else {
-    //                     this.handleAuthorisedPermission(this.ngxPermissionsExceptThen || this.permissionsThen || this.templateRef);
-    //                 }
-    //             }
-    //         }).catch(() => {
-    //             if (!!this.permissionsOnly) {
-    //                 this.validateOnlyPermissions();
-    //             } else {
-    //                 this.handleAuthorisedPermission(this.ngxPermissionsExceptThen || this.permissionsThen || this.templateRef);
-    //             }
-    //         });
-    // }
 
     private validateOnlyPermissions(): void {
-        // console.log("validateOnlyPermissions")
-        // Promise.all([this.permissionsService.hasPermission(this.permissionsOnly)/*, this.rolesService.hasOnlyRoles(this.permissionsOnly)*/])
-        //     .then(([permissionPr/*, roles*/]) => {
-        //         if (permissionPr || roles) {
-        //             this.handleAuthorisedPermission(this.permissionsOnlyThen || this.permissionsThen || this.templateRef);
-        //         } else {
-        //             this.handleUnauthorisedPermission(this.permissionsOnlyElse || this.permissionsElse);
-        //         }
-        //     }).catch(() => {
-        //         this.handleUnauthorisedPermission(this.permissionsOnlyElse || this.permissionsElse);
-        //     });
         if (this.checkPermission()) {
-            // console.log("true", this.permissionsOnlyThen || this.permissionsThen || this.templateRef)
             this.handleAuthorisedPermission(this.permissionsOnlyThen || this.permissionsThen || this.templateRef);
         } else {
-            // console.log("false", this.permissionsOnlyElse || this.permissionsElse)
             this.handleUnauthorisedPermission(this.permissionsOnlyElse || this.permissionsElse);
         }
     }
@@ -211,22 +148,13 @@ export class PermissionsDirective implements OnInit, OnDestroy {
             this.permissionsUnauthorized.emit();
 
             if (this.unauthorisedStrategyDefined()) {
-                // if (isString(this.unauthorisedStrategyDefined())) {
-                //     this.applyStrategy(this.unauthorisedStrategyDefined());
-                // } else
                 if (this.isFunction(this.unauthorisedStrategyDefined())) {
                     this.showTemplateBlockInView(this.templateRef);
                     (this.unauthorisedStrategyDefined() as Function)(this.templateRef)
                 }
                 return;
             }
-
-            // if (this.configurationService.onUnAuthorisedDefaultStrategy && this.noElseBlockDefined()) {
-            //     this.applyStrategy(this.configurationService.onUnAuthorisedDefaultStrategy);
-            // } else {
             this.showTemplateBlockInView(template);
-            // }
-
         }
     }
 
@@ -236,21 +164,13 @@ export class PermissionsDirective implements OnInit, OnDestroy {
             this.permissionsAuthorized.emit();
 
             if (this.onlyAuthorisedStrategyDefined()) {
-                // if (this.isString(this.onlyAuthorisedStrategyDefined())) {
-                //     this.applyStrategy(this.onlyAuthorisedStrategyDefined());
-                // } else
                 if (this.isFunction(this.onlyAuthorisedStrategyDefined())) {
                     this.showTemplateBlockInView(this.templateRef);
                     (this.onlyAuthorisedStrategyDefined() as Function)(this.templateRef)
                 }
                 return;
             }
-
-            // if (this.configurationService.onAuthorisedDefaultStrategy && this.noThenBlockDefined()) {
-            //     this.applyStrategy(this.configurationService.onAuthorisedDefaultStrategy);
-            // } else {
             this.showTemplateBlockInView(template);
-            // }
         }
     }
 
@@ -265,46 +185,26 @@ export class PermissionsDirective implements OnInit, OnDestroy {
 
     private getAuthorisedTemplates(): TemplateRef<any> {
         return this.permissionsOnlyThen
-            // || this.ngxPermissionsExceptThen
             || this.permissionsThen
             || this.templateRef
     }
 
     private noElseBlockDefined(): boolean {
-        return /*!this.ngxPermissionsExceptElse ||*/ !this.permissionsElse;
+        return !this.permissionsElse;
     }
 
     private noThenBlockDefined() {
-        return /*!this.ngxPermissionsExceptThen ||*/ !this.permissionsThen;
+        return  !this.permissionsThen;
     }
 
     private onlyAuthorisedStrategyDefined() {
-        return this.permissionsOnlyAuthorisedStrategy; /*this.ngxPermissionsOnlyAuthorisedStrategy ||
-            this.ngxPermissionsExceptAuthorisedStrategy ||*/
+        return this.permissionsOnlyAuthorisedStrategy;
 
     }
 
     private unauthorisedStrategyDefined() {
         return this.permissionsOnlyUnauthorisedStrategy;
-        // return this.ngxPermissionsOnlyUnauthorisedStrategy ||
-        //     this.ngxPermissionsExceptUnauthorisedStrategy ||
-        //     this.ngxPermissionsUnauthorisedStrategy
     }
-
-    // private applyStrategy(str: any) {
-    //     if (str === NgxPermissionsPredefinedStrategies.SHOW) {
-    //         this.showTemplateBlockInView(this.templateRef);
-    //         return;
-    //     }
-
-    //     if (str === NgxPermissionsPredefinedStrategies.REMOVE) {
-    //         this.viewContainer.clear();
-    //         return;
-    //     }
-    //     const strategy = this.configurationService.getStrategy(str);
-    //     this.showTemplateBlockInView(this.templateRef);
-    //     strategy(this.templateRef);
-    // }
 
     private isBoolean(value: any): value is boolean {
         return typeof value === "boolean";
@@ -320,7 +220,6 @@ export class PermissionsDirective implements OnInit, OnDestroy {
     }
 
     private checkPermission() {
-        // ("checkPermissions", Permissions[this.permission], this.initiative)
         switch (this.permission) {
             case Permissions.canMoveInitiative:
                 return this.canMoveInitiative();
