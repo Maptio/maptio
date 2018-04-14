@@ -1,3 +1,4 @@
+import { PermissionGuard } from './shared/services/guards/permission.guard';
 import { PermissionService } from "./shared/model/permission.data";
 import { CommonModule, Location, LocationStrategy, PathLocationStrategy } from "@angular/common";
 import { ErrorHandler, Injectable, InjectionToken, Injector, NgModule, Inject } from "@angular/core";
@@ -165,7 +166,8 @@ export function rollbarFactory() {
   exports: [RouterModule],
   providers: [
     BrowserAnimationsModule,
-    AuthGuard, AccessGuard, WorkspaceGuard, AuthConfiguration,
+    AuthGuard, AccessGuard, WorkspaceGuard, PermissionGuard,
+    AuthConfiguration,
     D3Service, DataService, URIService, ColorService, UIService, DatasetFactory, TeamFactory,
     ErrorService, Auth, UserService, UserFactory, MailingService, JwtEncoder, LoaderService,
     ExportService, FileService, PermissionService,
