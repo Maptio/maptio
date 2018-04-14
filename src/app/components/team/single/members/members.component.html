@@ -118,7 +118,11 @@
                     <td class="d-flex align-items-center">
                         <img class="rounded-circle member mr-1" src="{{member.picture}}" alt="{{member.name}}">{{member.name}}
                     </td>
-                    <td>{{member.email}}</td>
+                    <td>{{member.email}}
+                        <br/>
+                        <small [hidden]="!(member.isActivationPending && member.isInvitationSent)" class="text-warning pull-left" placement="top"
+                            container="body" ngbTooltip="{{member.name}} was sent an invitation.">Pending</small>
+                    </td>
                     <td>
                         <ng-container *permissionsOnly="Permissions.canEditUser; else elseRoleBlock; then thenRoleBlock">main</ng-container>
                         <ng-template #elseRoleBlock>
