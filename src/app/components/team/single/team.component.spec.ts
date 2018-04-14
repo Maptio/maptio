@@ -1,6 +1,6 @@
+import { SharedModule } from './../../../shared/shared.module';
 import { Permissions } from "./../../../shared/model/permission.data";
 import { Auth } from "./../../../shared/services/auth/auth.service";
-import { HasPermissionDirective } from "./../../../shared/directives/hasPermission.directive";
 import { KeysPipe } from "./../../../pipes/keys.pipe";
 import { TeamModule } from "./../team.module";
 import { User } from "./../../../shared/model/user.data";
@@ -21,9 +21,9 @@ describe("team.component.ts", () => {
     beforeEach(async(() => {
 
         TestBed.configureTestingModule({
-            declarations: [TeamComponent, HasPermissionDirective],
+            declarations: [TeamComponent],
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [RouterTestingModule]
+            imports: [RouterTestingModule, SharedModule]
         }).overrideComponent(TeamComponent, {
             set: {
                 providers: [

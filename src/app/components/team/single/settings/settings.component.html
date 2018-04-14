@@ -27,7 +27,7 @@
                 Give us a real team name!
             </small>
         </div>
-        <ng-container *hasPermission="Permissions.canEditTeam; then thenMessageBlock; else elseMessageBlock"></ng-container>
+        <ng-container *permissionsOnly="Permissions.canEditTeam; then thenMessageBlock; else elseMessageBlock"></ng-container>
         <ng-template #thenMessageBlock>
             <legend class="mt-3">Terminology</legend>
         </ng-template>

@@ -1,4 +1,5 @@
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SharedModule } from './../../../../shared/shared.module';
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NO_ERRORS_SCHEMA, Type } from "@angular/core";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { BaseRequestOptions, Http } from "@angular/http";
@@ -10,7 +11,6 @@ import { Angulartics2, Angulartics2Mixpanel, Angulartics2Module } from "angulart
 import { Observable } from "rxjs/Rx";
 import { authHttpServiceFactoryTesting } from "../../../../../test/specs/shared/authhttp.helper.shared";
 import { KeysPipe } from "./../../../../pipes/keys.pipe";
-import { HasPermissionDirective } from "./../../../../shared/directives/hasPermission.directive";
 import { Permissions } from "./../../../../shared/model/permission.data";
 import { Team } from "./../../../../shared/model/team.data";
 import { User } from "./../../../../shared/model/user.data";
@@ -64,9 +64,9 @@ describe("members.component.ts", () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [TeamMembersComponent, HasPermissionDirective, KeysPipe],
+            declarations: [TeamMembersComponent,  KeysPipe],
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [RouterTestingModule, Angulartics2Module, NgbModule.forRoot()]
+            imports: [RouterTestingModule, SharedModule, Angulartics2Module, NgbModule.forRoot()]
         }).overrideComponent(TeamMembersComponent, {
             set: {
                 providers: [

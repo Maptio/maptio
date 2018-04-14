@@ -5,7 +5,7 @@
 </ng-template>
 <div class="d-flex flex-column align-items-start">
     <div class="mb-3 d-flex justify-content-end w-100">
-        <div *hasPermission="Permissions.canAddUser; else elseBlock; then thenBlock"></div>
+        <div *permissionsOnly="Permissions.canAddUser; else elseBlock; then thenBlock"></div>
         <ng-template #elseBlock>
             <button class="btn btn-outline-secondary disabled" [stickyPopover]="adminTipContent" placement="left">
                 Add member
@@ -108,7 +108,7 @@
                 <tr *ngFor="let member of (members$ | async); trackBy: trackByMemberId;let i=index" [class.text-muted]="member.isDeleted"
                     [class.font-weight-light]="member.isDeleted" [class.bold]="member.userRole===UserRole.Admin">
                     <td>
-                        <ng-container *hasPermission="Permissions.canDeleteUser;then thenDeleteBlock"></ng-container>
+                        <ng-container *permissionsOnly="Permissions.canDeleteUser;then thenDeleteBlock"></ng-container>
                         <ng-template #thenDeleteBlock>
                             <span *ngIf="!member.isDeleted" class="remove text-danger" aria-hidden="true" mwlConfirmationPopover title="This cannot be undone ! Are you sure you want to delete {{member.name}} ?"
                                 placement="right" focusButton="cancel" appendToBody="true" (confirm)="deleteMember(member)" (cancel)="cancelClicked = true">
@@ -120,7 +120,7 @@
                     </td>
                     <td>{{member.email}}</td>
                     <td>
-                        <ng-container *hasPermission="Permissions.canEditUser; else elseRoleBlock; then thenRoleBlock">main</ng-container>
+                        <ng-container *permissionsOnly="Permissions.canEditUser; else elseRoleBlock; then thenRoleBlock">main</ng-container>
                         <ng-template #elseRoleBlock>
                             {{UserRole[member.userRole]}}
                         </ng-template>
@@ -137,7 +137,7 @@
                                 disabled>Active</button>
 
                             <ng-container *ngIf="member.isActivationPending && !member.isInvitationSent">
-                                <ng-container *hasPermission="Permissions.canInviteUser;then thenInviteBlock; else elseInviteBlock"></ng-container>
+                                <ng-container *permissionsOnly="Permissions.canInviteUser;then thenInviteBlock; else elseInviteBlock"></ng-container>
                                 <ng-template #thenInviteBlock>
                                     <button [class.deleted]="member.isDeleted" [hidden]="isDisplayLoader(member.user_id)" class="pull-right btn btn-outline-secondary"
                                         (click)="inviteUser(member, i)" placement="left" container="body" ngbTooltip="Invite {{member.name}} to view and edit maps">
