@@ -1,8 +1,7 @@
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SharedModule } from "./../../../../shared/shared.module";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { Permissions } from "./../../../../shared/model/permission.data";
 import { Auth } from "./../../../../shared/services/auth/auth.service";
-import { DisableIfNoPermission } from "./../../../../shared/directives/disableIfNoPermission.directive";
-import { HasPermissionDirective } from "./../../../../shared/directives/hasPermission.directive";
 import { ActivatedRouteSnapshot, ActivatedRoute, UrlSegment, ParamMap, Params, Data, Route } from "@angular/router";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 import { TeamSettingsComponent } from "./settings.component";
@@ -48,7 +47,7 @@ class MockActivatedRoute implements ActivatedRoute {
     };
 }
 
-describe("settings.component.ts", () => { 
+describe("settings.component.ts", () => {
 
     let component: TeamSettingsComponent;
     let target: ComponentFixture<TeamSettingsComponent>;
@@ -56,9 +55,9 @@ describe("settings.component.ts", () => {
     beforeEach(async(() => {
 
         TestBed.configureTestingModule({
-            declarations: [TeamSettingsComponent, HasPermissionDirective, DisableIfNoPermission],
+            declarations: [TeamSettingsComponent],
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [RouterTestingModule, NgbModule.forRoot()]
+            imports: [RouterTestingModule, NgbModule.forRoot(), SharedModule]
         }).overrideComponent(TeamSettingsComponent, {
             set: {
                 providers: [

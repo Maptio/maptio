@@ -11,7 +11,7 @@ import { NgModule } from "@angular/core";
     ],
     declarations: [
         HasPermissionDirective,
-        DisableIfNoPermission,
+        // DisableIfNoPermission,
         PermissionsDirective,
         StickyPopoverDirective
     ],
@@ -19,7 +19,7 @@ import { NgModule } from "@angular/core";
     ],
     exports: [
         HasPermissionDirective,
-        DisableIfNoPermission,
+        // DisableIfNoPermission,
         PermissionsDirective,
         StickyPopoverDirective
     ]

@@ -18,7 +18,7 @@
 </div>
 
 <form class="form-group w-75" [formGroup]="teamSettingsForm" (submit)="saveTeamSettings()">
-    <fieldset [disableIfNoPermission]="Permissions.canEditTeam">
+    <fieldset *permissionsOnly="Permissions.canEditTeam;authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
         <div class="form-group" [class.has-warning]="teamSettingsForm.controls['name'].invalid  && (teamSettingsForm.controls['name'].dirty || teamSettingsForm.controls['name'].touched)">
             <label class="col-form-label" for="inputTeamName">Team name</label>
             <input type="text" class="col-4 form-control form-control-warning" [(ngModel)]="teamName" formControlName="name" placeholder="e.g. The Avengers"

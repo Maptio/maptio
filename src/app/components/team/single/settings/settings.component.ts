@@ -2,7 +2,7 @@ import { environment } from './../../../../../environment/environment';
 import { DataSet } from './../../../../shared/model/dataset.data';
 import { Permissions } from "./../../../../shared/model/permission.data";
 import { ActivatedRoute } from "@angular/router";
-import { Component, OnInit, Input, ChangeDetectorRef } from "@angular/core";
+import { Component, OnInit, Input, ChangeDetectorRef, TemplateRef, Renderer2 } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Team } from "../../../../shared/model/team.data";
 import { TeamFactory } from "../../../../shared/services/team.factory";
@@ -27,7 +27,8 @@ export class TeamSettingsComponent implements OnInit {
     CanEditTeam = Permissions.canEditTeam;
 
     KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
-    constructor(private cd: ChangeDetectorRef, private teamFactory: TeamFactory, private route: ActivatedRoute) {
+    constructor(private cd: ChangeDetectorRef, private teamFactory: TeamFactory,
+        private route: ActivatedRoute, private renderer: Renderer2) {
         this.teamSettingsForm = new FormGroup({
             "name": new FormControl(this.teamName, [
                 Validators.required,
@@ -36,6 +37,13 @@ export class TeamSettingsComponent implements OnInit {
             "authority": new FormControl(this.teamAuthority),
             "helper": new FormControl(this.teamHelper),
         });
+    }
+
+    public disableFieldset = (templateRef: TemplateRef<any>) => {
+        this.renderer.setAttribute(templateRef.elementRef.nativeElement.nextSibling, "disabled", "");
+    }
+    public enableFieldset = (templateRef: TemplateRef<any>) => {
+        // this.renderer.removeAttribute(templateRef.elementRef.nativeElement.nextSibling, "disabled");
     }
 
     ngOnInit() {
