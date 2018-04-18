@@ -42,7 +42,7 @@ body {
   transform: rotate(90deg);
 }
 
-.circles {
+.circles{
   background: url(/assets/images/circles.png) no-repeat;
   background-size: 20px 20px;
   background-position: center center;
@@ -50,6 +50,11 @@ body {
   width: 100%;
   padding: 0;
 }
+
+.btn:not(:disabled):not(.disabled).active, .btn:not(:disabled):not(.disabled):active .circles {
+  background-image: url(/assets/images/circles.png) !important;
+}
+
 
 .remove::before {
   content: "\f1f8";
