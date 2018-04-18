@@ -51,7 +51,7 @@ body {
   padding: 0;
 }
 
-.btn:not(:disabled):not(.disabled).active, .btn:not(:disabled):not(.disabled):active .circles {
+.btn:not(:disabled):not(.disabled).active.circles, .btn.circles:not(:disabled):not(.disabled):active {
   background-image: url(/assets/images/circles.png) !important;
 }
 
