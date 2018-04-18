@@ -82,6 +82,7 @@ if (!isDevelopment) {
         'https://www.youtube.com',
         'https://player.vimeo.com',
         'https://fast.wistia.net',
+        'https://drive.google.com'
       ],
       imgSrc: ['data:', '*']
     }
