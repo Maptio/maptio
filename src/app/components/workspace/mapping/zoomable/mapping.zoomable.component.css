@@ -34,17 +34,11 @@
 
 ::ng-deep svg text.initiative-map.accountable {
     fill: #555;
-    /* stroke-width: 0px; */
-    /* stroke: #555; */
 }
 
 ::ng-deep .accountable.initiative-map {
     font-weight: 500;
 }
-
-/* ::ng-deep svg text.name {
-    fill: #000;
-} */
 
 ::ng-deep .name.initiative-map {
     font-weight: 500;

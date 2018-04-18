@@ -263,6 +263,14 @@ export class MappingZoomableComponent implements IDataVisualizer {
         // font size
         svg.attr("font-size", format[0] + "rem");
         svg.selectAll("text").attr("font-size", format[0] + "rem");
+        svg.selectAll("foreignObject.name body")
+          .each(function (d: any) {
+            let initial = Number.parseFloat(d3.select(this).style("font-size").replace("rem", ""));
+            // `${toREM(d.r * d.k * 2 * 0.95 / 15)}rem`
+            console.log(d.data.name, d.r * d.k * 2 * 0.95 / 15 / 16, format[0], d.r * d.k * 2 * 0.95 / 15 / 16 * format[0])
+            d3.select(this).style("font-size", `${d.r * d.k * 2 * 0.95 / 15 * format[0] / 16}rem`)
+          })
+
         this.fontSize = format[0];
         // font color
         svg.style("fill", format[1]);
@@ -374,6 +382,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
       return getDepthDifference(d) <= 2;
     }
 
+    function toREM(pixels: number) {
+      return pixels / 16;
+    }
+
     buildPatterns();
 
     buildTooltips();
@@ -426,7 +438,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
     initiativeNoChildrenEnter.append("circle");
 
     initiativeWithChildrenEnter.append("text").attr("class", "name with-children").classed("initiative-map", true);
-    initiativeNoChildrenEnter.append("text").attr("class", "name no-children").classed("initiative-map", true);
+    // initiativeNoChildrenEnter.append("text").attr("class", "name no-children").classed("initiative-map", true);
+    initiativeNoChildrenEnter.append("foreignObject").attr("class", "name no-children").classed("initiative-map", true);
 
     initiativeNoChildrenEnter.append("text").attr("class", "tags no-children").classed("initiative-map", true);
 
@@ -510,38 +523,60 @@ export class MappingZoomableComponent implements IDataVisualizer {
       });
 
 
-
-    let initiativeName = initiativeNoChildren.select("text.name.no-children")
+    let initiativeName = initiativeNoChildren.select("foreignObject.name.no-children")
       .attr("id", function (d: any) {
         return `${d.data.id}`;
       })
       .classed("initiative-map", true)
-      // .style("pointer-events", "none")
-      .attr("dy", 0)
       .attr("x", function (d: any) {
         return -d.r * POSITION_INITIATIVE_NAME.x;
       })
       .attr("y", function (d: any) {
         return -d.r * POSITION_INITIATIVE_NAME.y;
       })
-      .attr("font-size", function (d: any) {
-        return `${fonts(d.depth)}rem`;
-      })
-      .text(function (d: any) {
-        return d.data.name;
-      })
+      .attr("width", function (d: any) { return d.r * 2 * 0.95 })
+      .attr("height", function (d: any) { return d.r * 2 * 0.5 })
       .style("display", "inline")
       .style("opacity", function (d: any) {
         return isLeafDisplayed(d) ? 1 : 0;
       })
-      .each(function (d: any) {
-        uiService.wrap(
-          d3.select(this),
-          d.data.name,
-          d.data.tags,
-          d.r * 2 * 0.95
-        );
-      });
+      .append("xhtml:body")
+      .style("font-size", function (d: any) {
+        return `${toREM(d.r * 2 * 0.95 / 15)}rem`; // `${fonts(d.depth) / (d.depth <= 2 ? 1 : 2) * d.k}rem`;
+      })
+      .style("background", "none")
+      .html(function (d: any) { return d.data.name });
+    // let initiativeName = initiativeNoChildren.select("text.name.no-children")
+    //   .attr("id", function (d: any) {
+    //     return `${d.data.id}`;
+    //   })
+    //   .classed("initiative-map", true)
+    //   // .style("pointer-events", "none")
+    //   .attr("dy", 0)
+    //   .attr("x", function (d: any) {
+    //     return -d.r * POSITION_INITIATIVE_NAME.x;
+    //   })
+    //   .attr("y", function (d: any) {
+    //     return -d.r * POSITION_INITIATIVE_NAME.y;
+    //   })
+    //   .attr("font-size", function (d: any) {
+    //     return `${fonts(d.depth)}rem`;
+    //   })
+    //   .text(function (d: any) {
+    //     return d.data.name;
+    //   })
+    //   .style("display", "inline")
+    //   .style("opacity", function (d: any) {
+    //     return isLeafDisplayed(d) ? 1 : 0;
+    //   })
+    //   .each(function (d: any) {
+    //     uiService.wrap(
+    //       d3.select(this),
+    //       d.data.name,
+    //       d.data.tags,
+    //       d.r * 2 * 0.95
+    //     );
+    //   });
 
     let tagsName = initiativeNoChildren.select("text.tags")
       .attr("id", function (d: any) {
@@ -649,7 +684,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       let revealTransition = d3
         .transition("reveal")
         .delay(TRANSITION_DURATION)
-        .duration(TRANSITION_DURATION);
+        .duration(TRANSITION_DURATION / 10);
 
       // with children
 
@@ -687,7 +722,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
       // nochildren
       revealTransition
-        .selectAll("text")
+        .selectAll("foreignObject.name")
         .filter((d: any) => !d.children)
         .style("opacity", function (d: any) {
           return isLeafDisplayed(d) ? "1" : "0";
@@ -699,11 +734,48 @@ export class MappingZoomableComponent implements IDataVisualizer {
           return isLeafDisplayed(d) ? "1" : "0";
         });
 
-      transition
-        .selectAll("text.name")
+      /*
+    transition
+      .selectAll("text.name")
+      .filter((d: any) => !d.children)
+      .on("start", function (d: any) {
+        d3.select(this)
+          .style("opacity", 0);
+      })
+      .on("end", function (d: any) {
+        d3
+          .select(this)
+          .attr("x", function (d: any) {
+            return -d.r * d.k * POSITION_INITIATIVE_NAME.x;
+          })
+          .attr("y", function (d: any) {
+            return -d.r * d.k * POSITION_INITIATIVE_NAME.y;
+          })
+          .attr("dy", 0)
+          .attr("font-size", function (d: any) {
+            return `${d.r * d.k * 2 * 0.95 / 15}px`; // `${fonts(d.depth) / (d.depth <= 2 ? 1 : 2) * d.k}rem`;
+          })
+          .each(function (d: any) {
+            uiService.wrap(
+              d3.select(this),
+              d.data.name,
+              d.data.tags,
+              d.r * d.k * 2 * 0.95
+            );
+          })
+          .style("opacity", function (d: any) {
+            return isLeafDisplayed(d) ? "1" : "0";
+          });
+      });*/
+
+      transition.selectAll("foreignObject.name")
         .filter((d: any) => !d.children)
         .on("start", function (d: any) {
-          d3.select(this).style("opacity", 0);
+          d3.select(this)
+            .style("opacity", 0)
+            .style("display", "none");
+
+          // d3.select(this).select("body").remove();
         })
         .on("end", function (d: any) {
           d3
@@ -714,22 +786,21 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .attr("y", function (d: any) {
               return -d.r * d.k * POSITION_INITIATIVE_NAME.y;
             })
-            .attr("dy", 0)
-            .attr("font-size", function (d: any) {
-              return `${fonts(d.depth) / (d.depth <= 2 ? 1 : 2) * d.k}rem`;
-            })
-            .each(function (d: any) {
-              uiService.wrap(
-                d3.select(this),
-                d.data.name,
-                d.data.tags,
-                d.r * d.k * 2 * 0.95
-              );
-            })
+            .attr("width", function (d: any) { return d.r * 2 * d.k * 0.95 })
+            .attr("height", function (d: any) { return d.r * 2 * d.k * 0.5 })
+            .style("display", "inline")
             .style("opacity", function (d: any) {
-              return isLeafDisplayed(d) ? "1" : "0";
-            });
-        });
+              return isLeafDisplayed(d) ? 1 : 0;
+            })
+            .select("body")
+            .style("font-size", function (d: any) {
+              console.log(d.data.name, fontSize)
+              return `${toREM(d.r * d.k * 2 * 0.95 / 15)}rem`; // `${fonts(d.depth) / (d.depth <= 2 ? 1 : 2) * d.k}rem`;
+            })
+            .style("overflow", "initial")
+          // .style("background", "none")
+          // .html(function (d: any) { return d.data.name });
+        })
 
       transition
         .selectAll("text.accountable")
@@ -748,11 +819,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
               return -d.r * d.k * POSITION_ACCOUNTABLE_NAME.y;
             })
             .attr("font-size", function (d: any) {
-              return `${fonts(d.depth) /
-                (d.depth <= 2 ? 1 : 2) *
-                d.k *
-                POSITION_ACCOUNTABLE_NAME.fontRatio}rem`;
-            });
+              return `${toREM(d.r * d.k * 2 * 0.95 / 15 * POSITION_ACCOUNTABLE_NAME.fontRatio)}rem`
+              // return `${fonts(d.depth) /
+              //   (d.depth <= 2 ? 1 : 2) *
+              //   d.k *
+              //   POSITION_ACCOUNTABLE_NAME.fontRatio}rem`;
+            })
+            .style("opacity", 1);
         });
 
       transition
@@ -774,10 +847,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
               return -d.r * d.k * POSITION_TAGS_NAME.y;
             })
             .attr("font-size", function (d: any) {
-              return `${fonts(d.depth) /
-                (d.depth <= 2 ? 1 : 2) *
-                d.k *
-                POSITION_TAGS_NAME.fontRatio}rem`;
+              return `${toREM(d.r * d.k * 2 * 0.95 / 15 * POSITION_TAGS_NAME.fontRatio)}rem`
+              // return `${fonts(d.depth) /
+              //   (d.depth <= 2 ? 1 : 2) *
+              //   d.k *
+              //   POSITION_TAGS_NAME.fontRatio}rem`;
             });
         });
 

@@ -62,8 +62,7 @@ export class UIService {
     text: Selection<BaseType, {}, HTMLElement, any>,
     actualText: string,
     tags: Tag[],
-    width: number,
-    tagLineHeightRatio?: number
+    width: number
   ) {
     let d3 = this.d3;
     let allSpacesRegex = /\t|\n|\r|\r\n|\u0020|\u00A0|\u1680|\u2000|\u2001|\u2002|\u2003|\u2004|\u2005|\u2006|\u2007|\u2008|\u2009|\u202A|\u202F|\u205F|\u3000/
@@ -88,7 +87,7 @@ export class UIService {
         line.push(word);
         tspan.text(line.join(" "));
         let node: SVGTSpanElement = <SVGTSpanElement>tspan.node();
-        let hasGreaterWidth = node.getComputedTextLength() > width;
+        let hasGreaterWidth =   node.getComputedTextLength() > width; //line.join("").length > 15 ; //
         if (hasGreaterWidth) {
           line.pop();
           tspan.text(line.join(" "));
@@ -101,23 +100,6 @@ export class UIService {
             .text(word);
         }
       }
-
-      // tags.forEach((tag: Tag, index: number) => {
-      //   text
-      //     .append("tspan")
-      //     .attr("x", x)
-      //     .attr("y", y)
-      //     .attr(
-      //       "dy",
-      //       (lineNumber + 1) * (lineHeight * (tagLineHeightRatio || 1)) +
-      //         dy +
-      //         "em"
-      //     )
-      //     .attr("dx", index * 20)
-      //     .attr("class", "dot-tags")
-      //     .attr("fill", tag.color)
-      //     .html("&#xf02b");
-      // });
     });
   }
 
