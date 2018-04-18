@@ -1,3 +1,4 @@
+import { DebounceDirective } from './directives/debounce.directive';
 import { StickyPopoverDirective } from "./directives/sticky.directive";
 import { PermissionsDirective } from "./directives/permission.directive";
 import { NgModule } from "@angular/core";
@@ -9,13 +10,15 @@ import { NgModule } from "@angular/core";
     ],
     declarations: [
         PermissionsDirective,
-        StickyPopoverDirective
+        StickyPopoverDirective,
+        DebounceDirective
     ],
     providers: [
     ],
     exports: [
         PermissionsDirective,
-        StickyPopoverDirective
+        StickyPopoverDirective,
+        DebounceDirective
     ]
 })
 export class SharedModule { }

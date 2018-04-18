@@ -42,7 +42,7 @@ export class InitiativeComponent implements OnChanges {
     @Output() edited: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     @Input() node: Initiative;
-    @Input() parent: Initiative;
+    // @Input() parent: Initiative;
     @Input() datasetTags: Array<Tag>;
     // @Input() isReadOnly: boolean;
     @Input() datasetId: string;

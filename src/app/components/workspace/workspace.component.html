@@ -19,7 +19,7 @@
     <div id="edit-panel-details" class=" ml-1 showDetails" [class.showDetails]="!isDetailsPanelCollapsed">
         <div class="details" *ngIf="!isDetailsPanelCollapsed">
             <initiative *ngIf="!isDetailsPanelCollapsed" #initiative [datasetTags]="tags" [datasetId]="datasetId" [node]="openedNode" [team]="team"
-                [parent]="openedNodeParent" (edited)="saveDetailChanges()"></initiative>
+                 (edited)="saveDetailChanges()"></initiative>
 
         </div>
     </div>

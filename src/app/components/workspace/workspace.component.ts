@@ -141,7 +141,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
 
     openDetails(node: Initiative, willCloseBuildingPanel: boolean = false) {
-        this.openedNodeParent = node.getParent(this.dataset.initiative);
+        // this.openedNodeParent = node.getParent(this.dataset.initiative);
         this.openedNode = node;
         this.isBuildingPanelCollapsed = willCloseBuildingPanel;
         this.isDetailsPanelCollapsed = false;
