@@ -7,7 +7,7 @@ import { Initiative } from "./../../../shared/model/initiative.data";
 
 import { Angulartics2Mixpanel } from "angulartics2";
 import { EventEmitter } from "@angular/core";
-import { Component, ViewChild, Output, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ViewChild, Output, Input, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
 import { TreeNode, TREE_ACTIONS, TreeComponent } from "angular-tree-component";
 
 import "rxjs/add/operator/map";
@@ -86,6 +86,7 @@ export class BuildingComponent {
     // authority: string;
     // helper: string;
 
+    @Input("user") user: User;
     @Output("save") save = new EventEmitter<Initiative>();
     @Output("openDetails") openDetails = new EventEmitter<Initiative>();
     @Output("openDetailsEditOnly") openDetailsEditOnly = new EventEmitter<Initiative>();

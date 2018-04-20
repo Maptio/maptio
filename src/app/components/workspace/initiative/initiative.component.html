@@ -146,15 +146,15 @@
 				</ng-template>
 			</div>
 
-			<div *ngIf="node?.helpers.length === 0 || !(node?.helpers); then thenNoHelpersTemplate ; else elseNoHelpersTemplate"></div>
-			<ng-template #elseNoHelpersTemplate>
+			<!-- <div *ngIf="node?.helpers.length === 0 || !(node?.helpers); then thenNoHelpersTemplate ; else elseNoHelpersTemplate"></div> -->
+			<!-- <ng-template #elseNoHelpersTemplate> -->
 				<div class="">
 					<div class="d-flex justify-content-between align-items-center">
 						<div></div>
 						<span class="small d-flex mr-2 ml-auto" ngbTooltip="Check this box to allow contributors to edit the details of this initiative"
 						 placement="top" container="body">Can edit</span>
 					</div>
-					<ng-container *ngFor="let user of getAllHelpers(); let i=index">
+					<ng-container *ngFor="let user of getAllHelpers(); let i=index;trackBy:trackByUserId">
 						<div class="d-flex justify-content-between align-items-center">
 							<div class="w-100">
 								<div class="d-flex flex-column">
@@ -237,10 +237,10 @@
 					</ng-container>
 
 				</div>
-			</ng-template>
+			<!-- </ng-template>
 			<ng-template #thenNoHelpersTemplate>
 				<small class="text-warning">No helpers yet</small>
-			</ng-template>
+			</ng-template> -->
 		</div>
 	</div>
 </form>

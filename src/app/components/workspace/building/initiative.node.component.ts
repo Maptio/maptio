@@ -1,3 +1,5 @@
+import { User } from './../../../shared/model/user.data';
+import { Helper } from './../../../shared/model/helper.data';
 import { environment } from './../../../../environment/environment';
 import { Team } from "./../../../shared/model/team.data";
 import { Permissions } from "./../../../shared/model/permission.data";
@@ -22,6 +24,7 @@ export class InitiativeNodeComponent {
     @Input() node: TreeNode;
     @Input() datasetId: string;
     @Input("team") team: Team;
+    @Input("user") user: User;
 
     @Output("edited") edited = new EventEmitter<boolean>();
     @Output("update") updateTreeEvent = new EventEmitter<TreeModel>();
@@ -48,10 +51,15 @@ export class InitiativeNodeComponent {
 
 
     ngOnChanges(changes: SimpleChanges) {
-        this.teamName = changes.team.currentValue.name;
-        this.teamId = changes.team.currentValue.team_id;
-        this.authority = changes.team.currentValue.settings.authority;
-        this.helper = changes.team.currentValue.settings.helper;
+        if (changes.team && changes.team.currentValue) {
+            this.teamName = changes.team.currentValue.name;
+            this.teamId = changes.team.currentValue.team_id;
+            this.authority = changes.team.currentValue.settings.authority;
+            this.helper = changes.team.currentValue.settings.helper;
+        }
+        if (changes.user && changes.user.currentValue) {
+            this.user = changes.user.currentValue;
+        }
     }
 
     isRoot(): boolean {
@@ -85,6 +93,10 @@ export class InitiativeNodeComponent {
         newNode.children = []
         newNode.team_id = initiative.team_id;
         newNode.hasFocus = true;
+        let helper = <Helper>this.user;
+        helper.roles = [];
+        helper.hasAuthorityPrivileges = true;
+        newNode.helpers.push(helper)
         setTimeout(() => { newNode.hasFocus = false });
         treeNode.data.children = treeNode.data.children || [];
         treeNode.data.children.unshift(newNode);

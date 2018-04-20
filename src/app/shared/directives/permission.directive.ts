@@ -334,6 +334,8 @@ export class PermissionsDirective implements OnInit, OnDestroy {
         return this.userPermissions.includes(Permissions.canEditHelper)
             ||
             (this.initiative.accountable && this.initiative.accountable.user_id === this.userId)
+            ||
+            (this.initiative.helpers.filter(h => h.hasAuthorityPrivileges).map(h => h.user_id).includes(this.userId))
 
     }
 

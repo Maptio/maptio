@@ -176,6 +176,10 @@ export class InitiativeComponent implements OnChanges {
         return remove([...this.node.helpers, this.node.accountable].reverse()); // always disaply the authority first
     }
 
+    trackByUserId(index: number, user: User) {
+        return user.user_id;
+    }
+
     isAuthority(helper: Helper) {
         return this.node.accountable && this.node.accountable.user_id === helper.user_id
     }
@@ -183,9 +187,18 @@ export class InitiativeComponent implements OnChanges {
     saveAccountable(newAccountable: NgbTypeaheadSelectItemEvent) {
         let accountable = newAccountable.item;
         accountable.roles = [];
+
         // if (this.inputAuthorityRole) accountable.roles[0] = new Role({ description: this.inputAuthorityRole.nativeElement.value });
         this.node.accountable = accountable;
+        if (this.node.helpers.map(h => h.user_id).includes(accountable.user_id)) {
+            let helper = this.node.helpers.filter(h => h.hasAuthorityPrivileges)[0]
+            let roles = helper.roles;
+            this.removeHelper(helper);
+            this.node.accountable.roles = roles;
+        }
         this.onBlur();
+        this.getAllHelpers();
+        this.cd.markForCheck();
         this.analytics.eventTrack("Initiative", { action: "add authority", team: this.teamName, teamId: this.teamId });
     }
 
