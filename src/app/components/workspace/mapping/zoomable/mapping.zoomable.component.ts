@@ -825,7 +825,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
               //   d.k *
               //   POSITION_ACCOUNTABLE_NAME.fontRatio}rem`;
             })
-            .style("opacity", 1);
+            .style("opacity", function (d: any) {
+              return isLeafDisplayed(d) ? 1 : 0;
+            })
         });
 
       transition
