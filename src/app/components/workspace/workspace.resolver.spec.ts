@@ -1,3 +1,4 @@
+import { PermissionService } from './../../shared/model/permission.data';
 
 import { TestBed, inject, fakeAsync } from "@angular/core/testing";
 import { Auth } from "../../shared/services/auth/auth.service";
@@ -31,6 +32,7 @@ describe("workspace.resolver.ts", () => {
             providers: [
                 WorkspaceComponentResolver,
                 Auth,
+                PermissionService,
                 TeamFactory,
                 DatasetFactory,
                 UserFactory,

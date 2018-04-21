@@ -215,7 +215,6 @@ describe("workspace.component.ts", () => {
                 component.openDetails(new Initiative({ name: "opening", id: 2 }))
 
                 expect(component.openedNode.name).toBe("opening");
-                expect(component.openedNodeParent.name).toBe("Name")
                 expect(component.isDetailsPanelCollapsed).toBe(false);
                 expect(component.isBuildingPanelCollapsed).toBe(false);
 
@@ -228,7 +227,6 @@ describe("workspace.component.ts", () => {
                 component.openDetails(new Initiative({ name: "opening", id: 2 }), true)
 
                 expect(component.openedNode.name).toBe("opening");
-                expect(component.openedNodeParent.name).toBe("Name")
                 expect(component.isDetailsPanelCollapsed).toBe(false);
                 expect(component.isBuildingPanelCollapsed).toBe(true);
 
