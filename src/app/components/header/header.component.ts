@@ -109,12 +109,12 @@ export class HeaderComponent implements OnInit {
         this.userSubscription = this.auth.getUser().subscribe((user: User) => {
             this.user = user;
 
-            this.datasets$ = this.datasetFactory.get(this.user.datasets)
+            this.datasets$ = this.datasetFactory.get(this.user.datasets, true)
                 .then(datasets => {
                     return datasets.map(d => {
                         return {
                             datasetId: d.datasetId,
-                            initiative: d.initiative,
+                             initiative: d.initiative,
                             name: d.initiative.name,
                             team_id: (d.initiative && d.initiative.team_id) ? d.initiative.team_id : undefined,
                         }

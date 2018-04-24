@@ -84,7 +84,7 @@ export class DatasetFactory {
     *  Retrieves a list dataset matching given ids
     * @param id List of dataset ids
     */
-    get(ids: string[]): Promise<DataSet[]>;
+    get(ids: string[], isMinimal?: boolean): Promise<DataSet[]>;
     /**
      *  Retrieves a dataset matching a given id
      * @param id Unique dataset id
@@ -104,7 +104,7 @@ export class DatasetFactory {
      * Retrieves one or many datasets
      * @param idOrUser Dataset unique ID or User
      */
-    get(idOrUserOrTeam: string | string[] | User | Team): Promise<DataSet> | Promise<DataSet[]> | Promise<string[]> | Promise<void> {
+    get(idOrUserOrTeam: string | string[] | User | Team, isMinimal?: boolean): Promise<DataSet> | Promise<DataSet[]> | Promise<string[]> | Promise<void> {
 
         if (!idOrUserOrTeam) return Promise.reject("Parameter missing");
         if (idOrUserOrTeam instanceof User) {
@@ -114,7 +114,7 @@ export class DatasetFactory {
             return this.getWithTeam(<Team>idOrUserOrTeam)
         }
         if (idOrUserOrTeam.constructor === Array) {
-            return this.getWithIds(<string[]>idOrUserOrTeam)
+            return this.getWithIds(<string[]>idOrUserOrTeam, isMinimal)
         }
         return this.getWithId(<string>idOrUserOrTeam)
     }
@@ -164,11 +164,11 @@ export class DatasetFactory {
             .toPromise()
     }
 
-    private getWithIds(datasetIds: string[]): Promise<DataSet[]> {
+    private getWithIds(datasetIds: string[], isMinimal: boolean): Promise<DataSet[]> {
         if (!datasetIds || datasetIds.length === 0) {
             return Promise.reject("You cannot make a search for all datasets !")
         }
-        return this._http.get("/api/v1/dataset/in/" + datasetIds.join(","))
+        return this._http.get(`/api/v1/dataset/in/${datasetIds.join(",")}${isMinimal ? "/minimal" : ""}`)
             .map((responseData) => {
                 return responseData.json();
             })
@@ -179,6 +179,7 @@ export class DatasetFactory {
                         result.push(DataSet.create().deserialize(input));
                     });
                 }
+                console.log("datset factory", result)
                 return result;
             })
             .toPromise()
