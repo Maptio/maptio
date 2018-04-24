@@ -267,7 +267,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           .each(function (d: any) {
             let initial = Number.parseFloat(d3.select(this).style("font-size").replace("rem", ""));
             // `${toREM(d.r * d.k * 2 * 0.95 / 15)}rem`
-            console.log(d.data.name, d.r * d.k * 2 * 0.95 / 15 / 16, format[0], d.r * d.k * 2 * 0.95 / 15 / 16 * format[0])
+            // console.log(d.data.name, d.r * d.k * 2 * 0.95 / 15 / 16, format[0], d.r * d.k * 2 * 0.95 / 15 / 16 * format[0])
             d3.select(this).style("font-size", `${d.r * d.k * 2 * 0.95 / 15 * format[0] / 16}rem`)
           })
 
@@ -794,7 +794,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             })
             .select("body")
             .style("font-size", function (d: any) {
-              console.log(d.data.name, fontSize)
+              // console.log(d.data.name, fontSize)
               return `${toREM(d.r * d.k * 2 * 0.95 / 15)}rem`; // `${fonts(d.depth) / (d.depth <= 2 ? 1 : 2) * d.k}rem`;
             })
             .style("overflow", "initial")

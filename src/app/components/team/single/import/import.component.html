@@ -1,6 +1,16 @@
 <div class="w-100">
-    <h5 class="card-title">Import team members from a
-        <strong>.csv</strong> file.</h5>
+    <h5 class="card-title">
+        Import team members from a
+        <strong>.csv</strong> file.
+    </h5>
+
+    <!-- <span class="text-info small">The file should have 4 columns : "First name", "Last name", "Email" and "Permission type" (Admin or Standard)
+                in that order
+            </span>
+            <div>
+                <a class="text-success small" href="{{IMPORT_USERS_TEMPLATE_URL}}" target="blank"><i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i>Download a template</a>
+
+            </div> -->
     <h6 class="card-subtitle mb-2 text-muted">Once they are imported, they must be invited to view and edit maps.</h6>
 </div>
 
@@ -9,16 +19,32 @@
 
     <div class="card mb-3 bg-light border-light">
         <div class="card-body">
-            <div class="d-flex justify-content-start w-50">
-                <div class="custom-file">
-                    <input #fileImportInput name="File Upload" id="txtFileUpload" type="file" class="custom-file-input" id="customFile" (change)="fileChangeListener($event)"
-                        accept=".csv">
-                    <label class="custom-file-label" for="customFile">Choose file</label>
+            <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-start w-50">
+                    <div class="custom-file">
+                        <input #fileImportInput name="File Upload" id="txtFileUpload" type="file" class="custom-file-input" id="customFile" (change)="fileChangeListener($event)"
+                            accept=".csv">
+                        <label class="custom-file-label" for="customFile">Choose file</label>
+                    </div>
+
+                    <button class="btn btn-outline-secondary text-muted ml-1" (click)="fileReset()">Reset</button>
+
                 </div>
-                <button class="btn btn-outline-secondary text-muted ml-1" (click)="fileReset()">Reset</button>
+                <a class="btn btn-link" href="{{IMPORT_USERS_TEMPLATE_URL}}" target="blank">
+                    <i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i>Download a template</a>
             </div>
-            <span class="text-info">The file header must be : "First name", "Last name" and "Email" in that order</span>
-            <div *ngIf="isFileInvalid" class="text-warning small">Invalid file. Your file header must be : "First name", "Last name" and "Email" in that order</div>
+
+            <span class="text-info small">The file should have 4 columns : "First name", "Last name", "Email" and "Permission type" (Admin or Standard)
+                in that order
+            </span>
+
+            <div *ngIf="isFileInvalid" class="text-warning small">
+                <strong> Invalid file</strong> The header must be : "First name", "Last name", "Email" and "Permission type" in that
+                order
+            </div>
+            <div *ngIf="isFileFormatInvalid" class="text-warning small">
+                <strong> Invalid file</strong> The file must be a .csv
+            </div>
 
         </div>
     </div>
@@ -33,11 +59,11 @@
                             <tr class="row pl-2 text-muted">
                                 <ng-container *ngFor="let data of csvRec;let j=index">
 
-                                    <td class="wrap" [class.col-3]="j<2" [class.col-5]="j===2" *ngIf="j<3">{{data}}</td>
-                                    <td class="col-1" *ngIf="j===3">
-                                        <span *ngIf="csvRec[4]===true && csvRec[3] !== 'Imported'" aria-hidden="true" class="text-warning">{{csvRec[3]}}</span>
-                                        <i *ngIf="csvRec[4]===true && csvRec[3] === 'Imported'" class="fa fa-check text-success" aria-hidden="true"></i>
-                                        <i *ngIf="csvRec[4]===false" class="text-muted fa fa-circle-o-notch fa-spin fa-fw"></i>
+                                    <td class="wrap" [class.col-2]="j<2 || j===3" [class.col-3]="j===2" *ngIf="j<4">{{data}}</td>
+                                    <td class="col" *ngIf="j===4">
+                                        <span *ngIf="csvRec[5]===true && csvRec[4] !== 'Imported'" aria-hidden="true" class="text-warning">{{csvRec[4]}}</span>
+                                        <i *ngIf="csvRec[5]===true && csvRec[4] === 'Imported'" class="fa fa-check text-success" aria-hidden="true"></i>
+                                        <i *ngIf="csvRec[5]===false" class="text-muted fa fa-circle-o-notch fa-spin fa-fw"></i>
                                     </td>
                                 </ng-container>
 

@@ -1,3 +1,4 @@
+import { UserRole } from './../../../../shared/model/permission.data';
 import { environment } from './../../../../../environment/environment';
 import { ActivatedRoute } from "@angular/router";
 import { Angulartics2Mixpanel } from "angulartics2";
@@ -32,8 +33,10 @@ export class TeamImportComponent implements OnInit {
     isImportFinished: boolean;
     isParsingFinished: boolean;
     isFileInvalid: boolean;
+    isFileFormatInvalid: boolean;
 
     KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
+    IMPORT_USERS_TEMPLATE_URL = environment.IMPORT_USERS_TEMPLATE_URL
     constructor(
         private fileService: FileService,
         private cd: ChangeDetectorRef,
@@ -62,7 +65,7 @@ export class TeamImportComponent implements OnInit {
         let files = $event.srcElement.files;
 
         if (!this.fileService.isCSVFile(files[0])) {
-            this.isFileInvalid = true;
+            this.isFileFormatInvalid = true;
             this.fileReset();
         }
 
@@ -76,9 +79,13 @@ export class TeamImportComponent implements OnInit {
             let headerLength = -1;
             let headersRow = this.fileService.getHeaderArray(csvRecordsArray, Constants.tokenDelimeter);
             headerLength = headersRow.length;
-            let isHeaderValid = this.fileService.validateHeaders(headersRow, ["First name", "Last name", "Email"]);
+            // console.log(headersRow, headerLength)
+            let isHeaderValid = this.fileService.validateHeaders(headersRow, ["First name", "Last name", "Email", "Permission type"]);
+            // console.log(isHeaderValid)
             if (!isHeaderValid) {
                 this.isFileInvalid = true;
+                this.cd.markForCheck();
+                return;
             }
 
             try {
@@ -111,6 +118,7 @@ export class TeamImportComponent implements OnInit {
 
     fileReset() {
         this.isFileInvalid = false;
+        this.isFileFormatInvalid = false;
         this.importedSuccessfully = 0;
         this.importedFailed = 0;
         this.isImportFinished = false;
@@ -125,70 +133,85 @@ export class TeamImportComponent implements OnInit {
         this.importedFailed = 0;
 
         drop(this.csvRecords, 1).forEach((record, index, all) => {
-            record[3] = "";
-            record[4] = false; // has finished processed
-            this.createUser((<String>record[2]).trim(), (<String>record[0]).trim(), (<String>record[1]).trim())
+            record[4] = "";
+            record[5] = false; // has finished processed
+
+            this.createUser((<String>record[2]).trim(), (<String>record[0]).trim(), (<String>record[1]).trim(), (<String>record[3]).trim())
                 .then(result => {
                     this.importedSuccessfully += 1;
-                    record[3] = "Imported";
-                    record[4] = true;
+                    record[4] = "Imported";
+                    record[5] = true;
                     this.cd.markForCheck();
                 }, (error: any) => {
                     this.importedFailed += 1;
-                    record[3] = error.message;
-                    record[4] = true;
+                    record[4] = error.message;
+                    record[5] = true;
                     this.cd.markForCheck();
                 });
         });
         this.isImportFinished = true;
     }
 
-    // public createFakeUser(email: string, firstname: string, lastname: string) {
-    //      if(Math.random() > 0.5) {
-    //        return  Promise.resolve(true)
-    //     } else {
-    //         return Promise.reject(new Error("Something really bad happened!"))
+    // public createFakeUser(email: string, firstname: string, lastname: string, userType: string) {
+    //     if (userType.toLowerCase() !== UserRole[UserRole.Standard].toLowerCase() && userType.toLowerCase() !== UserRole[UserRole.Admin].toLowerCase()) {
+    //         return Promise.reject(new Error(`${userType} is not a known user type.`))
+    //     }
+    //     else {
+    //         let isAdmin = userType.toLowerCase() === UserRole[UserRole.Admin].toLowerCase() ? true : false;
+
+    //         if (Math.random() > 0.5) {
+    //             return Promise.resolve(true)
+    //         } else {
+    //             return Promise.reject(new Error("Something really bad happened!"))
+    //         }
     //     }
     // }
 
-    public createUser(email: string, firstname: string, lastname: string) {
+    public createUser(email: string, firstname: string, lastname: string, userType: string) {
+        if (userType.toLowerCase() !== UserRole[UserRole.Standard].toLowerCase() && userType.toLowerCase() !== UserRole[UserRole.Admin].toLowerCase()) {
+            return Promise.reject(new Error(`"${userType}" is not a known user type.`))
+        }
+        else {
+            let isAdmin = userType.toLowerCase() === UserRole[UserRole.Admin].toLowerCase() ? true : false;
 
-        return this.userService.createUser(email, firstname, lastname)
-            .then((user: User) => {
-                return this.datasetFactory.get(this.team).then((datasets: DataSet[]) => {
-                    let virtualUser = new User();
-                    virtualUser.name = user.name;
-                    virtualUser.email = user.email;
-                    virtualUser.firstname = user.firstname;
-                    virtualUser.lastname = user.lastname;
-                    virtualUser.nickname = user.nickname;
-                    virtualUser.user_id = user.user_id;
-                    virtualUser.picture = user.picture;
-                    virtualUser.teams = [this.team.team_id];
-                    virtualUser.datasets = datasets.map(d => d.datasetId);
+            return this.userService.createUser(email, firstname, lastname, false, isAdmin)
+                .then((user: User) => {
+                    return this.datasetFactory.get(this.team).then((datasets: DataSet[]) => {
+                        let virtualUser = new User();
+                        virtualUser.name = user.name;
+                        virtualUser.email = user.email;
+                        virtualUser.firstname = user.firstname;
+                        virtualUser.lastname = user.lastname;
+                        virtualUser.nickname = user.nickname;
+                        virtualUser.user_id = user.user_id;
+                        virtualUser.picture = user.picture;
+                        virtualUser.teams = [this.team.team_id];
+                        virtualUser.datasets = datasets.map(d => d.datasetId);
 
-                    return virtualUser;
-                }, (reason) => {
-                    return Promise.reject(`Can't create ${email} : ${reason}`);
+                        return virtualUser;
+                    }, (reason) => {
+                        return Promise.reject(`Can't create ${email} : ${reason}`);
+                    })
+                }, (reason: any) => {
+                    throw JSON.parse(reason._body).message;
                 })
-            }, (reason: any) => {
-                throw JSON.parse(reason._body).message;
-            })
-            .then((virtualUser: User) => {
-                this.userFactory.create(virtualUser)
-                return virtualUser;
-            })
-            .then((user: User) => {
-                this.team.members.push(user);
-                return this.teamFactory.upsert(this.team)
-            })
-            .then(() => {
-                this.analytics.eventTrack("Team", { action: "create", team: this.team.name, teamId: this.team.team_id });
-                return true;
-            })
-            .catch((reason) => {
-                throw Error(reason);
-            })
+                .then((virtualUser: User) => {
+                    this.userFactory.create(virtualUser)
+                    return virtualUser;
+                })
+                .then((user: User) => {
+                    this.team.members.push(user);
+                    return this.teamFactory.upsert(this.team)
+                })
+                .then(() => {
+                    this.analytics.eventTrack("Team", { action: "create", team: this.team.name, teamId: this.team.team_id });
+                    return true;
+                })
+                .catch((reason) => {
+                    throw Error(reason);
+                })
 
+
+        }
     }
 }

@@ -159,7 +159,7 @@ export class InitiativeComponent implements OnChanges {
     }
 
     savePrivilege(helper: Helper, hasAuthorityPrivileges: boolean) {
-        console.log("saving privilege", this.node.name, helper.name, hasAuthorityPrivileges)
+        // console.log("saving privilege", this.node.name, helper.name, hasAuthorityPrivileges)
         helper.hasAuthorityPrivileges = hasAuthorityPrivileges;
         this.onBlur();
         this.analytics.eventTrack("Initiative", { action: "changing helper privilege", team: this.teamName, teamId: this.teamId });
