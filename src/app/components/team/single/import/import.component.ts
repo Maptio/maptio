@@ -58,6 +58,7 @@ export class TeamImportComponent implements OnInit {
     fileChangeListener($event: any): void {
         this.isParsingFinished = false;
         this.isFileInvalid = false;
+        this.isFileFormatInvalid = false;
         this.importedSuccessfully = 0;
         this.importedFailed = 0;
         this.csvRecords = [];
