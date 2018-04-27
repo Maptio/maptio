@@ -179,7 +179,6 @@ export class DatasetFactory {
                         result.push(DataSet.create().deserialize(input));
                     });
                 }
-                console.log("datset factory", result)
                 return result;
             })
             .toPromise()

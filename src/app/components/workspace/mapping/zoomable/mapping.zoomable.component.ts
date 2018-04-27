@@ -102,6 +102,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   TRANSITION_OPACITY = 750;
   RATIO_FOR_VISIBILITY = 0.08;
   OPACITY_DISAPPEARING = 0.1;
+  MAX_NUMBER_LETTERS_PER_CIRCLE = 15;
   T: any;
 
   POSITION_INITIATIVE_NAME = { x: 0.9, y: 0.1, fontRatio: 1 };
@@ -233,7 +234,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
 
     this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
-      // console.log("resetting")
       svg.call(
         zooming.transform,
         d3.zoomIdentity.translate(
@@ -266,9 +266,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
         svg.selectAll("text").style("font-size", format[0] + "rem");
         svg.selectAll("foreignObject.name body")
           .each(function (d: any) {
-            let initial = Number.parseFloat(d3.select(this).style("font-size").replace("rem", ""));
-            // `${toREM(d.r * d.k * 2 * 0.95 / 15)}rem`
-            // console.log(d.data.name, d.r * d.k * 2 * 0.95 / 15 / 16, format[0], d.r * d.k * 2 * 0.95 / 15 / 16 * format[0])
             d3.select(this).style("font-size", `${d.r * d.k * 2 * 0.95 / 15 * format[0] / 16}rem`)
           })
 
@@ -342,6 +339,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let POSITION_ACCOUNTABLE_NAME = this.POSITION_ACCOUNTABLE_NAME;
     let DEFAULT_PICTURE_ANGLE = this.DEFAULT_PICTURE_ANGLE;
     let PADDING_CIRCLE = 20
+    let MAX_NUMBER_LETTERS_PER_CIRCLE = this.MAX_NUMBER_LETTERS_PER_CIRCLE;
 
     let pack = d3
       .pack()
@@ -543,7 +541,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       })
       .append("xhtml:body")
       .style("font-size", function (d: any) {
-        return `${toREM(d.r * 2 * 0.95 / 15)}rem`; // `${fonts(d.depth) / (d.depth <= 2 ? 1 : 2) * d.k}rem`;
+        return `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`; // `${fonts(d.depth) / (d.depth <= 2 ? 1 : 2) * d.k}rem`;
       })
       .style("background", "none")
       .html(function (d: any) { return d.data.name });
@@ -797,7 +795,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .style("font-size", function (d: any) {
               // console.log(d.data.name, fontSize)
               let multiplier = svg.attr("data-font-multiplier");
-              return `${toREM(d.r * d.k * 2 * 0.95 / 15 * multiplier)}rem`; // `${fonts(d.depth) / (d.depth <= 2 ? 1 : 2) * d.k}rem`;
+              return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * multiplier)}rem`; // `${fonts(d.depth) / (d.depth <= 2 ? 1 : 2) * d.k}rem`;
             })
             .style("overflow", "initial")
             .style("background", "none")
@@ -822,7 +820,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             })
             .attr("font-size", function (d: any) {
               let multiplier = svg.attr("data-font-multiplier");
-              return `${toREM(d.r * d.k * 2 * 0.95 / 15 * POSITION_ACCOUNTABLE_NAME.fontRatio * multiplier)}rem`
+              return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * POSITION_ACCOUNTABLE_NAME.fontRatio * multiplier)}rem`
               // return `${fonts(d.depth) /
               //   (d.depth <= 2 ? 1 : 2) *
               //   d.k *
@@ -853,7 +851,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             })
             .attr("font-size", function (d: any) {
               let multiplier = svg.attr("data-font-multiplier");
-              return `${toREM(d.r * d.k * 2 * 0.95 / 15 * POSITION_TAGS_NAME.fontRatio * multiplier)}rem`
+              return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * POSITION_TAGS_NAME.fontRatio * multiplier)}rem`
               // return `${fonts(d.depth) /
               //   (d.depth <= 2 ? 1 : 2) *
               //   d.k *

@@ -85,7 +85,7 @@ body {
   height: 25px;
 }
 
-.btn-link, a:not(.btn-tag):not(.btn-control) {
+.btn-link, a:not(.btn-tag):not(.btn-control):not(.text-white):not(.text-success) {
   color: #2f81b7 !important;
 }
 
