@@ -85,9 +85,10 @@ body {
   height: 25px;
 }
 
-.btn-link, a {
+.btn-link, a:not(.btn-tag):not(.btn-control) {
   color: #2f81b7 !important;
 }
+
 
 fieldset:disabled span.icon-disabled {
   visibility: visible;

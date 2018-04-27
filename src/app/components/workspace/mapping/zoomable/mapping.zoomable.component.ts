@@ -263,7 +263,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         // font size
         svg.attr("font-size", format[0] + "rem");
         svg.attr("data-font-multiplier", format[0]);
-        svg.selectAll("text").attr("font-size", format[0] + "rem");
+        svg.selectAll("text").style("font-size", format[0] + "rem");
         svg.selectAll("foreignObject.name body")
           .each(function (d: any) {
             let initial = Number.parseFloat(d3.select(this).style("font-size").replace("rem", ""));
