@@ -1,0 +1,30 @@
+.tags {
+    list-style: none;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+  }
+  
+  .tags li {
+    float: left;
+  }
+
+  .btn.tag:hover {
+    background-color: initial;
+  }
+  
+  .btn-tag {
+  }
+  
+  .btn-tag.active {
+    color: #f8f9fa !important;
+  }
+
+  svg tspan.dot-tags {
+    font-family: FontAwesome;
+  }
+  
+  li a.tag {
+    background: transparent;
+    border:0;
+  }

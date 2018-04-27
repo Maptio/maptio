@@ -4,21 +4,25 @@
         <div class="col-3 border-right">
             <ul class="nav flex-column nav-pills mt-3">
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" routerLink="./members" routerLinkActive="active"  role="tab">
-                        <i class="fa fa-users mr-2"></i>Members</a>
+                    <a class="nav-link py-4" data-toggle="tab" routerLink="./members" routerLinkActive="active" role="tab">
+                        Members</a>
+                </li>
+                <li class="nav-item" *permissionsOnly="Permissions.canAddUser">
+                    <a class="nav-link py-4" data-toggle="tab" routerLink="./import" routerLinkActive="active" role="tab">
+                         Import </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" routerLink="./import" routerLinkActive="active" role="tab">
-                        <i class="fa fa-upload mr-2" aria-hidden="true"></i> Import </a>
+                    <a class="nav-link py-4" data-toggle="tab" routerLink="./maps" routerLinkActive="active" role="tab">
+                        Maps</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" routerLink="./settings" routerLinkActive="active" role="tab">
-                        <i class="fa fa-sliders mr-2" aria-hidden="true"></i>Settings</a>
+                    <a class="nav-link py-4" data-toggle="tab" routerLink="./settings" routerLinkActive="active" role="tab">
+                       Settings</a>
                 </li>
             </ul>
         </div>
         <div class="col">
-            <h3 class="mb-3 mt-3">
+            <h3 class="mb-3 mt-3 w-100">
                 {{team.name}}
                 <small class="text-muted h6 pull-right">{{team.members.length}} members</small>
             </h3>

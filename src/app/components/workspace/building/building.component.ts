@@ -7,7 +7,7 @@ import { Initiative } from "./../../../shared/model/initiative.data";
 
 import { Angulartics2Mixpanel } from "angulartics2";
 import { EventEmitter } from "@angular/core";
-import { Component, ViewChild, Output, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ViewChild, Output, Input, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
 import { TreeNode, TREE_ACTIONS, TreeComponent } from "angular-tree-component";
 
 import "rxjs/add/operator/map";
@@ -37,7 +37,7 @@ export class BuildingComponent {
         nodeHeight: 55,
         actionMapping: {
             mouse: {
-                dragStart: () => { this.cd.detach(); },
+                dragStart: () => { console.log("drag start"); this.cd.detach(); },
                 dragEnd: () => { this.cd.reattach(); },
                 drop: (tree: any, node: TreeNode, $event: any, { from, to }: { from: TreeNode, to: TreeNode }) => {
 
@@ -80,9 +80,13 @@ export class BuildingComponent {
 
     datasetId: string;
 
-    teamName: string;
-    teamId: string;
+    team: Team;
+    // teamName: string;
+    // teamId: string;
+    // authority: string;
+    // helper: string;
 
+    @Input("user") user: User;
     @Output("save") save = new EventEmitter<Initiative>();
     @Output("openDetails") openDetails = new EventEmitter<Initiative>();
     @Output("openDetailsEditOnly") openDetailsEditOnly = new EventEmitter<Initiative>();
@@ -199,8 +203,9 @@ export class BuildingComponent {
      */
     loadData(datasetID: string, nodeIdToOpen: string = undefined, team: Team): Promise<void> {
         this.datasetId = datasetID;
-        this.teamId = team.team_id;
-        this.teamName = team.name;
+        // this.teamId = team.team_id;
+        // this.teamName = team.name;
+        this.team = team;
         return this.datasetFactory.get(datasetID)
             .then(dataset => {
                 this.nodes = [];
@@ -263,7 +268,7 @@ export class BuildingComponent {
     }
 
     filterNodes(treeModel: any, searched: string) {
-        this.analytics.eventTrack("Search map", { search: searched, teamId: this.teamId });
+        this.analytics.eventTrack("Search map", { search: searched, teamId: this.team.team_id });
         if (!searched || searched === "") {
             treeModel.clearFilter();
         }

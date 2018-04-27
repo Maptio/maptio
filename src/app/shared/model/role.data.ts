@@ -1,6 +1,8 @@
 import { Serializable } from "../interfaces/serializable.interface";
 
-
+/**
+ * Role i.e. how a helper is contributing to an initiative
+ */
 export class Role implements Serializable<Role> {
 
     public description: string;

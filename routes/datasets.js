@@ -42,6 +42,20 @@ router.get('/in/:query', function (req, res, next) {
         });
 })
 
+router.get('/in/:query/minimal', function (req, res, next) {
+    let datasets_id = req.params.query.split(',').map(d => mongojs.ObjectId(d));
+    db.datasets.find(
+        { _id: { $in: datasets_id } },
+        {_id: 1, 'initiative.name': 1, "initiative.team_id": 1 },
+        function (err, datasets) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.json(datasets);
+            }
+        });
+})
+
 /* POST/SAVE a dataset */
 router.post('/', function (req, res, next) {
     var dataset = req.body;

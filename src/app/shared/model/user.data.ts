@@ -1,6 +1,10 @@
+import { Permissions, UserRole } from './permission.data';
 import { Serializable } from "../interfaces/serializable.interface";
 import * as slug from "slug";
 
+/**
+ * A user
+ */
 export class User implements Serializable<User> {
 
     /**
@@ -69,6 +73,16 @@ export class User implements Serializable<User> {
      */
     public datasets: any[];
 
+    /**
+     * List of permissions
+     */
+    // public permissions: Permissions[];
+
+    /**
+     * User status e.g. Standard, Admin, Guest, etc
+     */
+    public userRole: UserRole;
+
     public constructor(init?: Partial<User>) {
         Object.assign(this, init);
     }
@@ -89,10 +103,11 @@ export class User implements Serializable<User> {
         deserialized.name = ((deserialized.firstname) && (deserialized.lastname)) ? `${deserialized.firstname || ""} ${deserialized.lastname || ""}` : input.name;
         deserialized.isActivationPending = input.app_metadata && input.app_metadata.activation_pending ? input.app_metadata.activation_pending : false;
         deserialized.isInvitationSent = input.app_metadata && input.app_metadata.invitation_sent ? input.app_metadata.invitation_sent : false;
+        deserialized.userRole = input.app_metadata && input.app_metadata.role ? (<any>UserRole)[input.app_metadata.role] : UserRole.Standard;
 
         deserialized.nickname = input.nickname;
         deserialized.email = input.email;
-        deserialized.picture = ( input.user_metadata && input.user_metadata.picture) ? input.user_metadata.picture : input.picture;
+        deserialized.picture = (input.user_metadata && input.user_metadata.picture) ? input.user_metadata.picture : input.picture;
         deserialized.user_id = input.user_id; // specific to Auth0
         // deserialized.isEmailVerified = input.isEmailVerified || input.email_verified;
         // deserialized.loginsCount = input.loginsCount || input.logins_count;

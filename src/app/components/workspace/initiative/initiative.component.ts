@@ -1,3 +1,6 @@
+import { environment } from "./../../../../environment/environment";
+import { Auth } from "./../../../shared/services/auth/auth.service";
+import { Permissions } from "./../../../shared/model/permission.data";
 import { Role } from "./../../../shared/model/role.data";
 import { Helper } from "./../../../shared/model/helper.data";
 import { DatasetFactory } from "./../../../shared/services/dataset.factory";
@@ -9,7 +12,7 @@ import { User } from "./../../../shared/model/user.data";
 import { Tag } from "./../../../shared/model/tag.data";
 import { Initiative } from "./../../../shared/model/initiative.data";
 import { Observable, Subject } from "rxjs/Rx";
-import { Component, Input, ViewChild, OnChanges, SimpleChanges, EventEmitter, Output, ElementRef } from "@angular/core";
+import { Component, Input, ViewChild, OnChanges, SimpleChanges, EventEmitter, Output, ElementRef, ChangeDetectorRef, ChangeDetectionStrategy, TemplateRef, Renderer2 } from "@angular/core";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/merge";
 import "rxjs/add/operator/filter";
@@ -24,12 +27,14 @@ import { debounceTime } from "rxjs/operator/debounceTime";
 import { distinctUntilChanged } from "rxjs/operator/distinctUntilChanged";
 import { compact, sortBy } from "lodash";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2/dist";
+import { remove } from "lodash"
 
 @Component({
     selector: "initiative",
     templateUrl: "./initiative.component.html",
     styleUrls: ["./initiative.component.css"],
-    providers: [Angulartics2Mixpanel, Angulartics2]
+    providers: [Angulartics2Mixpanel, Angulartics2],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class InitiativeComponent implements OnChanges {
@@ -37,17 +42,22 @@ export class InitiativeComponent implements OnChanges {
     @Output() edited: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     @Input() node: Initiative;
-    @Input() parent: Initiative;
+    // @Input() parent: Initiative;
     @Input() datasetTags: Array<Tag>;
     // @Input() isReadOnly: boolean;
     @Input() datasetId: string;
+    @Input() team: Team;
 
     public members$: Promise<User[]>;
     public dataset$: Promise<DataSet>
     public team$: Promise<Team>;
+    public authority: string;
+    public helper: string;
+    public user: User;
 
     isTeamMemberFound: boolean = true;
     isTeamMemberAdded: boolean = false;
+    isRestrictedAddHelper: boolean;
     currentTeamName: string;
     searching: boolean;
     searchFailed: boolean;
@@ -57,6 +67,7 @@ export class InitiativeComponent implements OnChanges {
     cancelClicked: boolean;
     teamName: string;
     teamId: string;
+    Permissions = Permissions;
 
     @ViewChild("inputDescription") public inputDescriptionElement: ElementRef;
     @ViewChild("inputRole") public inputRoleElement: ElementRef;
@@ -66,20 +77,31 @@ export class InitiativeComponent implements OnChanges {
     @ViewChild("inputTag") instance: NgbTypeahead;
     focus$ = new Subject<string>();
     click$ = new Subject<string>();
+    KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
+    MESSAGE_PERMISSIONS_DENIED_EDIT = environment.MESSAGE_PERMISSIONS_DENIED_EDIT;
 
-    constructor(private teamFactory: TeamFactory, private userFactory: UserFactory,
-        private datasetFactory: DatasetFactory, private analytics: Angulartics2Mixpanel) {
+    constructor(private auth: Auth, private teamFactory: TeamFactory, private userFactory: UserFactory,
+        private datasetFactory: DatasetFactory, private analytics: Angulartics2Mixpanel,
+        private cd: ChangeDetectorRef, private renderer: Renderer2) {
+    }
+
+    public disableFieldset = (templateRef: TemplateRef<any>) => {
+        this.renderer.setAttribute(templateRef.elementRef.nativeElement.nextSibling, "disabled", "");
+    }
+    public enableFieldset = (templateRef: TemplateRef<any>) => {
+        // this.renderer.removeAttribute(templateRef.elementRef.nativeElement.nextSibling, "disabled");
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.node && changes.node.currentValue) {
             this.descriptionHideMe = changes.node.currentValue.description ? (changes.node.currentValue.description.trim() !== "") : false;
+            this.isRestrictedAddHelper = false;
             if (changes.node.isFirstChange() || !(changes.node.previousValue) || changes.node.currentValue.team_id !== changes.node.previousValue.team_id) {
 
                 this.team$ = this.teamFactory.get(<string>changes.node.currentValue.team_id)
                     .then(t => { this.teamName = t.name; this.teamId = t.team_id; return t },
                     () => { return Promise.reject("No team available") })
-                    // .catch(() => { })
+                // .catch(() => { })
 
 
                 this.members$ = this.team$
@@ -88,7 +110,7 @@ export class InitiativeComponent implements OnChanges {
                             .then(members => compact(members))
                             .then(members => sortBy(members, m => m.name))
                     })
-                    // .catch(() => { })
+                // .catch(() => { })
             }
 
         }
@@ -96,10 +118,18 @@ export class InitiativeComponent implements OnChanges {
         if (changes.datasetId && changes.datasetId.currentValue) {
             this.dataset$ = this.datasetFactory.get(<string>changes.datasetId.currentValue).then(d => d, () => { return Promise.reject("no dataset") })
         }
+
+        if (changes.team && changes.team.currentValue) {
+            this.authority = changes.team.currentValue.settings.authority;
+            this.helper = changes.team.currentValue.settings.helper;
+        }
+
+        this.cd.markForCheck();
+
     }
 
     ngOnInit() {
-
+        this.auth.getUser().subscribe(user => this.user = user)
     }
 
     onBlur() {
@@ -128,6 +158,13 @@ export class InitiativeComponent implements OnChanges {
         this.analytics.eventTrack("Initiative", { action: "changing role", team: this.teamName, teamId: this.teamId });
     }
 
+    savePrivilege(helper: Helper, hasAuthorityPrivileges: boolean) {
+        // console.log("saving privilege", this.node.name, helper.name, hasAuthorityPrivileges)
+        helper.hasAuthorityPrivileges = hasAuthorityPrivileges;
+        this.onBlur();
+        this.analytics.eventTrack("Initiative", { action: "changing helper privilege", team: this.teamName, teamId: this.teamId });
+    }
+
     toggleRole(i: number) {
         this.hideme.forEach(el => {
             el = true
@@ -135,12 +172,33 @@ export class InitiativeComponent implements OnChanges {
         this.hideme[i] = !this.hideme[i];
     }
 
+    getAllHelpers() {
+        return remove([...this.node.helpers, this.node.accountable].reverse()); // always disaply the authority first
+    }
+
+    trackByUserId(index: number, user: User) {
+        return user.user_id;
+    }
+
+    isAuthority(helper: Helper) {
+        return this.node.accountable && this.node.accountable.user_id === helper.user_id
+    }
+
     saveAccountable(newAccountable: NgbTypeaheadSelectItemEvent) {
         let accountable = newAccountable.item;
         accountable.roles = [];
-        if (this.inputAuthorityRole) accountable.roles[0] = new Role({ description: this.inputAuthorityRole.nativeElement.value });
+
+        // if (this.inputAuthorityRole) accountable.roles[0] = new Role({ description: this.inputAuthorityRole.nativeElement.value });
         this.node.accountable = accountable;
+        if (this.node.helpers.map(h => h.user_id).includes(accountable.user_id)) {
+            let helper = this.node.helpers.filter(h => h.hasAuthorityPrivileges)[0]
+            let roles = helper.roles;
+            this.removeHelper(helper);
+            this.node.accountable.roles = roles;
+        }
         this.onBlur();
+        this.getAllHelpers();
+        this.cd.markForCheck();
         this.analytics.eventTrack("Initiative", { action: "add authority", team: this.teamName, teamId: this.teamId });
     }
 
@@ -152,6 +210,21 @@ export class InitiativeComponent implements OnChanges {
         }
         this.onBlur();
         this.analytics.eventTrack("Initiative", { action: "add helper", team: this.teamName, teamId: this.teamId });
+    }
+
+    saveHelperRestricted(newHelper: NgbTypeaheadSelectItemEvent) {
+        if (newHelper.item.user_id === this.user.user_id) {
+            this.saveHelper({ item: this.user, preventDefault: null })
+        } else {
+            this.isRestrictedAddHelper = true;
+        }
+        // if (this.node.helpers.findIndex(user => user.user_id === newHelper.item.user_id) < 0) {
+        //     let helper = newHelper.item;
+        //     helper.roles = [];
+        //     this.node.helpers.unshift(helper);
+        // }
+        // this.onBlur();
+        // this.analytics.eventTrack("Initiative", { action: "add helper", team: this.teamName, teamId: this.teamId });
     }
 
     saveTag(newTag: NgbTypeaheadSelectItemEvent) {
@@ -209,6 +282,7 @@ export class InitiativeComponent implements OnChanges {
                 (term: string) =>
                     _catch.call(
                         _do.call(
+
                             this.filterMembers(term)
                             , () => this.searchFailed = false),
                         () => {

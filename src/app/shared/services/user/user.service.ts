@@ -1,3 +1,4 @@
+import { UserRole } from './../../model/permission.data';
 import { User } from "./../../model/user.data";
 import { environment } from "./../../../../environment/environment";
 import { Http, Headers } from "@angular/http";
@@ -113,7 +114,7 @@ export class UserService {
         return this.encodingService.encode({ user_id: userId, email: email, firstname: firstname, lastname: lastname })
     }
 
-    public createUser(email: string, firstname: string, lastname: string, isSignUp?: boolean): Promise<User> {
+    public createUser(email: string, firstname: string, lastname: string, isSignUp?: boolean, isAdmin?: boolean): Promise<User> {
         let newUser = {
             "connection": environment.CONNECTION_NAME,
             "email": email,
@@ -124,7 +125,8 @@ export class UserService {
             "app_metadata":
             {
                 "activation_pending": true,
-                "invitation_sent": false
+                "invitation_sent": false,
+                "role": isAdmin ? UserRole[UserRole.Admin] : UserRole[UserRole.Standard]
             },
             "user_metadata":
             {
@@ -166,6 +168,7 @@ export class UserService {
             }
             else { // query several times
                 let maxCounter = Math.ceil(users.length / environment.AUTH0_USERS_PAGE_LIMIT);
+
                 let pageArrays = Array.from(Array(maxCounter).keys());
                 // console.log(pageArrays)
                 let singleObservables = pageArrays.map((pageNumber: number, index: number) => {
@@ -357,6 +360,23 @@ export class UserService {
 
             return this.http.patch(`${environment.USERS_API_URL}/${user_id}`,
                 { "app_metadata": { "invitation_sent": isInvitationSent } }
+                ,
+                { headers: headers })
+                .map((responseData) => {
+                    return true;
+                })
+                .toPromise()
+        });
+    }
+
+    public updateUserRole(user_id: string, userRole: string): Promise<boolean> {
+        return this.configuration.getAccessToken().then((token: string) => {
+
+            let headers = new Headers();
+            headers.set("Authorization", "Bearer " + token);
+
+            return this.http.patch(`${environment.USERS_API_URL}/${user_id}`,
+                { "app_metadata": { "role": userRole } }
                 ,
                 { headers: headers })
                 .map((responseData) => {

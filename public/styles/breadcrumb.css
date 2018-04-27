@@ -1,0 +1,9 @@
+.breadcrumb {
+    font-size: initial !important;
+    font-weight: initial !important;
+}
+
+.breadcrumb-item+.breadcrumb-item::before {
+    content: "\f105" !important;
+    font-family: FontAwesome
+}

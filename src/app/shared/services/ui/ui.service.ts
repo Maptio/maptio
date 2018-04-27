@@ -154,7 +154,7 @@ export class UIService {
     function getTagHtml(tag: Tag) {
       if (!tag) return;
       return `
-      <li><a class="btn btn-sm btn-secondary borderless mr-1 tag" style="color:${
+      <li><a class="btn btn-sm btn-secondary mr-1 tag" style="color:${
         tag.color
         }">
               <i class="fa fa-tag mr-1" aria-hidden="true" style="color:${

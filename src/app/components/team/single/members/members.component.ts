@@ -1,3 +1,4 @@
+import { environment } from './../../../../../environment/environment';
 import { Auth } from "./../../../../shared/services/auth/auth.service";
 import { Observable } from "rxjs/Rx";
 import { DataSet } from "./../../../../shared/model/dataset.data";
@@ -20,6 +21,7 @@ import { Validators } from "@angular/forms";
 import { FormGroup } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
+import { UserRole, Permissions } from "../../../../shared/model/permission.data";
 
 @Component({
     selector: "team-single-members",
@@ -30,6 +32,8 @@ export class TeamMembersComponent implements OnInit {
 
     team: Team;
     user: User;
+    UserRole = UserRole;
+    Permissions = Permissions;
 
     public members$: Promise<User[]>;
     public newMember: User;
@@ -45,15 +49,19 @@ export class TeamMembersComponent implements OnInit {
 
     public resentMessage: string;
     public isLoading: boolean;
-
+    public isCreatingUser: boolean;
+    public isAddUserToggled: boolean;
+    public invitableUsersCount: number;
 
     public createdUser: User;
     public inviteForm: FormGroup;
+    cancelClicked: boolean;
 
     isSendingMap: Map<string, boolean> = new Map<string, boolean>();
 
     private EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+    KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
 
     constructor(
         private route: ActivatedRoute,
@@ -79,8 +87,8 @@ export class TeamMembersComponent implements OnInit {
 
     ngOnInit() {
         this.routeSubscription = this.route.parent.data
-            .subscribe((data: { team: Team }) => {
-                this.team = data.team;
+            .subscribe((data: { assets: { team: Team, datasets: DataSet[] } }) => {
+                this.team = data.assets.team;
             });
 
         this.userSubscription = this.auth.getUser().subscribe(u => this.user = u);
@@ -103,7 +111,7 @@ export class TeamMembersComponent implements OnInit {
         return this.userFactory.getUsers(this.team.members.map(m => m.user_id))
             .then(members => compact(members))
             .then((members: User[]) => {
-                 // console.log("asking for ", console.log(members.map(u => u.user_id)))
+                // console.log("asking for ", console.log(members.map(u => u.user_id)))
                 return this.userService.getUsersInfo(members).then(pending => {
                     // console.log("got ", console.log(pending.map(u => u.user_id)))
                     if (this.createdUser) {
@@ -124,6 +132,10 @@ export class TeamMembersComponent implements OnInit {
 
                 return membersPending.concat(allDeleted);
             })
+            .then((members) => {
+                this.invitableUsersCount = members.filter(m => m.isActivationPending).length;
+                return members
+            })
             .then(members => {
                 this.isLoading = false;
                 members.forEach(m => {
@@ -139,7 +151,6 @@ export class TeamMembersComponent implements OnInit {
     isDisplayLoader(user_id: string) {
         return this.isSendingMap.get(user_id)
     }
-
 
     saveNewMember(event: NgbTypeaheadSelectItemEvent) {
 
@@ -231,16 +242,25 @@ export class TeamMembersComponent implements OnInit {
 
     createUser(email: string) {
         if (this.inviteForm.dirty && this.inviteForm.valid) {
-
+            this.isCreatingUser = true;
             let firstname = this.inviteForm.controls["firstname"].value
             let lastname = this.inviteForm.controls["lastname"].value
 
             this.createUserFullDetails(email, firstname, lastname)
                 .then(() => {
                     this.members$ = this.getAllMembers();
+                })
+                .then(() => {
+                    this.isCreatingUser = false;
+                    this.cd.markForCheck()
                 });
         }
     }
+
+    createUserFullDetailsFake(email: string, firstname: string, lastname: string) {
+        return new Promise((resolve) => setTimeout(resolve, 3000))
+    }
+
 
     createUserFullDetails(email: string, firstname: string, lastname: string) {
         // return this.team$.then((team: Team) => {
@@ -299,15 +319,16 @@ export class TeamMembersComponent implements OnInit {
             .debounceTime(500)
             .distinctUntilChanged()
             .filter(text => this.isEmail(text))
-            .do(() => { this.searching = true; this.isAlreadyInTeam = false; this.inviteForm.reset() })
+            .do(() => { this.isUserSearchedEmail = false; this.searching = true; this.isAlreadyInTeam = false; this.inviteForm.reset(); this.cd.markForCheck(); 8 })
             .switchMap(term =>
                 Observable.fromPromise(
 
                     this.userFactory.getAll(term)
                         .then((users: User[]) => {
+                            // console.log("typed",term, "users", users)
                             this.userSearched = term;
                             return this.members$.then((existingMembers: User[]) => {
-                                // console.log(existingMembers)
+                                //  console.log("existing", existingMembers)
                                 let alreadyInTeam = existingMembers.filter(m => m.email === term);
                                 let availableToChoose = users.filter(u => !existingMembers.find(m => u.user_id === m.user_id));
 
@@ -315,10 +336,11 @@ export class TeamMembersComponent implements OnInit {
                             })
                         })
                         .then(([alreadyInTeam, availableToChoose]: [User[], User[]]) => {
-                            // console.log(alreadyInTeam, availableToChoose)
+                            //  console.log("already", alreadyInTeam, "avilable", availableToChoose)
                             if (alreadyInTeam.length > 0) {
                                 this.isAlreadyInTeam = true;
                                 this.searchFailed = false;
+                                this.cd.markForCheck();
                                 return [];
                             }
                             else {
@@ -327,6 +349,7 @@ export class TeamMembersComponent implements OnInit {
                                     // this.userSearched = Promise.resolve(term);
 
                                     this.searchFailed = true;
+                                    this.cd.markForCheck();
                                     throw new Error()
                                 }
                                 else {
@@ -339,12 +362,14 @@ export class TeamMembersComponent implements OnInit {
                 )
                     .do(() => {
                         this.searchFailed = false;
+                        this.cd.markForCheck();
                     })
                     .catch(() => {
                         this.isUserSearchedEmail = this.isEmail(term);
                         // this.userSearched = Promise.resolve(term);
                         this.userSearched = term;
                         this.searchFailed = true;
+                        this.cd.markForCheck();
                         return Observable.of([]);
                     })
             )
@@ -354,5 +379,13 @@ export class TeamMembersComponent implements OnInit {
 
     trackByMemberId(index: number, member: User) {
         return member.user_id;
+    }
+
+    changeUserRole(user: User, userRole: UserRole) {
+        this.isSendingMap.set(user.user_id, true)
+        this.userService.updateUserRole(user.user_id, UserRole[userRole]).then(() => {
+            this.isSendingMap.set(user.user_id, false);
+            this.cd.markForCheck();
+        })
     }
 }

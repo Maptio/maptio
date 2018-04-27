@@ -1,12 +1,15 @@
-import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit, Input, ChangeDetectorRef } from "@angular/core";
+import { environment } from './../../../../../environment/environment';
+import { DataSet } from './../../../../shared/model/dataset.data';
+import { Permissions } from "./../../../../shared/model/permission.data";
+import { ActivatedRoute } from "@angular/router";
+import { Component, OnInit, Input, ChangeDetectorRef, TemplateRef, Renderer2 } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Team } from "../../../../shared/model/team.data";
 import { TeamFactory } from "../../../../shared/services/team.factory";
 
 @Component({
     selector: "team-single-settings",
-    templateUrl: "./settings.component.html",
+    templateUrl: "./settings.component.html"
     // styleUrls: ["./settings.component.css"]
 })
 export class TeamSettingsComponent implements OnInit {
@@ -20,7 +23,12 @@ export class TeamSettingsComponent implements OnInit {
     public isTeamSettingSaved: boolean;
     public isTeamSettingFailed: boolean;
 
-    constructor(private cd: ChangeDetectorRef, private teamFactory: TeamFactory, private route: ActivatedRoute) {
+    Permissions = Permissions;
+    CanEditTeam = Permissions.canEditTeam;
+
+    KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
+    constructor(private cd: ChangeDetectorRef, private teamFactory: TeamFactory,
+        private route: ActivatedRoute, private renderer: Renderer2) {
         this.teamSettingsForm = new FormGroup({
             "name": new FormControl(this.teamName, [
                 Validators.required,
@@ -31,11 +39,18 @@ export class TeamSettingsComponent implements OnInit {
         });
     }
 
+    public disableFieldset = (templateRef: TemplateRef<any>) => {
+        this.renderer.setAttribute(templateRef.elementRef.nativeElement.nextSibling, "disabled", "");
+    }
+    public enableFieldset = (templateRef: TemplateRef<any>) => {
+        // this.renderer.removeAttribute(templateRef.elementRef.nativeElement.nextSibling, "disabled");
+    }
+
     ngOnInit() {
 
         this.route.parent.data
-            .subscribe((data: { team: Team}) => {
-                this.team = data.team;
+            .subscribe((data: { assets: { team: Team, datasets: DataSet[] } }) => {
+                this.team = data.assets.team;
                 this.teamName = this.team.name;
                 this.teamAuthority = this.team.settings.authority;
                 this.teamHelper = this.team.settings.helper;

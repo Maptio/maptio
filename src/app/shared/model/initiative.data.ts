@@ -8,6 +8,9 @@ import { compact } from "lodash";
 import { Tag } from "./tag.data";
 
 @Injectable()
+/**
+ * Represents an initiative
+ */
 export class Initiative implements ITraversable, Serializable<Initiative> {
 
     /** Unique Id */
@@ -211,7 +214,7 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
 
     getSlug() {
         // HACK : quick fix for non latin characters
-        return slug(this.name || this.id.toString()  , { lower: true }) || "initiative";
+        return slug(this.name || this.id.toString(), { lower: true }) || "initiative";
     }
 
     getRoles(userId: string): Role[] {

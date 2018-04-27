@@ -1,3 +1,7 @@
+import { SharedModule } from "./../../../../shared/shared.module";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { Permissions } from "./../../../../shared/model/permission.data";
+import { Auth } from "./../../../../shared/services/auth/auth.service";
 import { ActivatedRouteSnapshot, ActivatedRoute, UrlSegment, ParamMap, Params, Data, Route } from "@angular/router";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 import { TeamSettingsComponent } from "./settings.component";
@@ -21,12 +25,14 @@ class MockActivatedRoute implements ActivatedRoute {
     queryParams: Observable<Params>;
     fragment: Observable<string>;
     data: Observable<Data> = Observable.of({
-        team: new Team({
-            team_id: "123",
-            name: "team",
-            settings: { authority: "A", helper: "H" },
-            members: [new User({ user_id: "1" }), new User({ user_id: "2" })]
-        })
+        assets: {
+            team: new Team({
+                team_id: "123",
+                name: "team",
+                settings: { authority: "A", helper: "H" },
+                members: [new User({ user_id: "1" }), new User({ user_id: "2" })]
+            })
+        }
     })
     outlet: string;
     component: Type<any> | string;
@@ -51,10 +57,18 @@ describe("settings.component.ts", () => {
         TestBed.configureTestingModule({
             declarations: [TeamSettingsComponent],
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [RouterTestingModule]
+            imports: [RouterTestingModule, NgbModule.forRoot(), SharedModule]
         }).overrideComponent(TeamSettingsComponent, {
             set: {
                 providers: [
+                    {
+                        provide: Auth,
+                        useClass: class {
+                            getPermissions(): Permissions[] {
+                                return []
+                            }
+                        }
+                    },
                     TeamFactory,
                     {
                         provide: AuthHttp,

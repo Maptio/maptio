@@ -3,6 +3,9 @@ import { Serializable } from "./../interfaces/serializable.interface";
 import { Tag, DEFAULT_TAGS } from "./tag.data";
 import { Team } from "./team.data";
 
+/**
+ * Represents a initiative with its team and tags
+ */
 export class DataSet implements Serializable<DataSet> {
   public shortid: string;
 

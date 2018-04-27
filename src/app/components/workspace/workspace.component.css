@@ -78,7 +78,7 @@
 }
 
 #sideNavTree.showTree {
-    background-color: #f7f7f7;
+    background-color: #f8f9fa;
     width: 45vw;
     transition: 0.5s ease-in;
     padding: 10px;

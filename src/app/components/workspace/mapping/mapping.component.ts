@@ -1,4 +1,4 @@
-import 'rxjs/add/operator/map';
+import "rxjs/add/operator/map";
 
 import {
   ChangeDetectionStrategy,
@@ -8,22 +8,23 @@ import {
   EventEmitter,
   Input,
   Output,
-} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Angulartics2Mixpanel } from 'angulartics2';
-import { compact } from 'lodash';
-import { BehaviorSubject, ReplaySubject, Subject, Subscription } from 'rxjs/Rx';
+} from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { Angulartics2Mixpanel } from "angulartics2";
+import { compact } from "lodash";
+import { BehaviorSubject, ReplaySubject, Subject, Subscription } from "rxjs/Rx";
 
-import { Initiative } from './../../../shared/model/initiative.data';
-import { SelectableTag, Tag } from './../../../shared/model/tag.data';
-import { DataService } from './../../../shared/services/data.service';
-import { UIService } from './../../../shared/services/ui/ui.service';
-import { URIService } from './../../../shared/services/uri.service';
-import { IDataVisualizer } from './mapping.interface';
-import { MemberSummaryComponent } from './member-summary/member-summary.component';
-import { MappingNetworkComponent } from './network/mapping.network.component';
-import { MappingTreeComponent } from './tree/mapping.tree.component';
-import { MappingZoomableComponent } from './zoomable/mapping.zoomable.component';
+import { Initiative } from "./../../../shared/model/initiative.data";
+import { SelectableTag, Tag } from "./../../../shared/model/tag.data";
+import { Team } from "./../../../shared/model/team.data";
+import { DataService } from "./../../../shared/services/data.service";
+import { UIService } from "./../../../shared/services/ui/ui.service";
+import { URIService } from "./../../../shared/services/uri.service";
+import { IDataVisualizer } from "./mapping.interface";
+import { MemberSummaryComponent } from "./member-summary/member-summary.component";
+import { MappingNetworkComponent } from "./network/mapping.network.component";
+import { MappingTreeComponent } from "./tree/mapping.tree.component";
+import { MappingZoomableComponent } from "./zoomable/mapping.zoomable.component";
 
 // import { MappingNetworkComponent } from "./network/mapping.network.component";
 // import { MappingCirclesComponent } from "./circles/mapping.circles.component";
@@ -79,8 +80,7 @@ export class MappingComponent {
   public datasetName: string;
   public initiative: Initiative;
   public flattenInitiative: Initiative[] = [];
-  public teamName: string;
-  public teamId: string;
+  public team: Team;
   public slug: string;
   public tags: Array<SelectableTag>;
   public tagsFragment: string;
@@ -121,7 +121,7 @@ export class MappingComponent {
     : "#000";
   mapColor = localStorage.getItem("MAP_COLOR")
     ? localStorage.getItem("MAP_COLOR")
-    : "#f5f5f5";
+    : "#f8f9fa";
   fontSize = Number.parseFloat(localStorage.getItem("FONT_SIZE"))
     ? Number.parseFloat(localStorage.getItem("FONT_SIZE"))
     : 1;
@@ -295,6 +295,7 @@ export class MappingComponent {
         // }));
         this.datasetName = data.initiative.name;
         this.initiative = data.initiative;
+        this.team = data.team;
         this.flattenInitiative = data.initiative.flatten();
         this.cd.markForCheck();
       });
@@ -327,8 +328,8 @@ export class MappingComponent {
     this.analytics.eventTrack("Map", {
       action: "zoom out",
       mode: "button",
-      team: this.teamName,
-      teamId: this.teamId
+      team: this.team.name,
+      teamId: this.team.team_id
     });
   }
 
@@ -337,8 +338,8 @@ export class MappingComponent {
     this.analytics.eventTrack("Map", {
       action: "zoom in",
       mode: "button",
-      team: this.teamName,
-      teamId: this.teamId
+      team: this.team.name,
+      teamId: this.team.team_id
     });
   }
 
@@ -347,8 +348,8 @@ export class MappingComponent {
     this.analytics.eventTrack("Map", {
       action: "reset zoom",
       mode: "button",
-      team: this.teamName,
-      teamId: this.teamId
+      team: this.team.name,
+      teamId: this.team.team_id
     });
   }
 
@@ -358,8 +359,8 @@ export class MappingComponent {
     this.analytics.eventTrack("Map", {
       action: "change font size",
       size: size,
-      team: this.teamName,
-      teamId: this.teamId
+      team: this.team.name,
+      teamId: this.team.team_id
     });
   }
 
@@ -370,8 +371,8 @@ export class MappingComponent {
     this.analytics.eventTrack("Map", {
       action: "change font color",
       color: color,
-      team: this.teamName,
-      teamId: this.teamId
+      team: this.team.name,
+      teamId: this.team.team_id
     });
   }
 
@@ -382,8 +383,8 @@ export class MappingComponent {
     this.analytics.eventTrack("Map", {
       action: "change map color",
       color: color,
-      team: this.teamName,
-      teamId: this.teamId
+      team: this.team.name,
+      teamId: this.team.team_id
     });
   }
 
@@ -391,7 +392,7 @@ export class MappingComponent {
     this.addInitiative.emit(this.initiative);
     this.openTreePanel.emit(true);
     this.expandTree.emit(true);
-    this.analytics.eventTrack("Map", { mode: "instruction", action: "add", team: this.teamName, teamId: this.teamId });
+    this.analytics.eventTrack("Map", { mode: "instruction", action: "add", team: this.team.name, teamId: this.team.team_id });
   }
 
   public broadcastTagsSelection(tags: SelectableTag[]) {

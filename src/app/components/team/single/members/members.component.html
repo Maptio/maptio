@@ -1,132 +1,171 @@
-<div>
-    <div>
-        <div class="card mt-0 card-outline-secondary mb-4">
-            <div class="card-block">
-                <h4 class="card-title">Add a Maptio user to the team or create a new user
-                </h4>
-                <span class="lead text-info">Once they are imported, they must be invited to view and edit maps.</span>
+<ng-template #adminTipContent>
+    <span class="text-warning">You don't have permission to do this.
+        <a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
+    </span>
+</ng-template>
+<div class="d-flex flex-column align-items-start">
+    <div class="mb-3 d-flex justify-content-end w-100">
+        <div *permissionsOnly="Permissions.canAddUser; else elseBlock; then thenBlock"></div>
+        <ng-template #elseBlock>
+            <button class="btn btn-outline-secondary disabled" [stickyPopover]="adminTipContent" placement="left">
+                Add member
+                <i class="fa fa-lock ml-1"></i>
+            </button>
+        </ng-template>
+        <ng-template #thenBlock>
+            <button data-toggle="collapse" href="#addMemberCollapse" role="button" class="btn btn-outline-secondary" (click)="isAddUserToggled=!isAddUserToggled"
+                [class.active]="isAddUserToggled">
+                <i class="ml-1 fa fa-user-plus" aria-hidden="true"></i>Add member ...
+
+            </button>
+        </ng-template>
+    </div>
+
+    <div class="collapse w-100" id="addMemberCollapse">
+        <div class="card mb-3 bg-light border-light">
+            <div class="card-body">
+                <!-- <h5 class="card-title">Add a Maptio user to the team or create a new user</h5> -->
+                <!-- <h6 class="card-subtitle mb-2 text-muted">Once they are imported, they must be invited to view and edit maps.</h6> -->
                 <div class="card-text">
                     <ng-template #rt let-r="result" let-t="term">
                         <img src="{{r.picture}}" width="16" alt="{{r.name}}"> {{r.email}}
                     </ng-template>
 
-                    <div class="input-group">
+                    <div class="input-group w-50">
                         <input #inputNewMember type="text" id="inputNewMember" [resultTemplate]="rt" placeholder="e.g. hermes.conrad@planetexpress.com"
-                            class="form-control col-12" [ngModelOptions]="{standalone: true}" [ngModel]="newMember"
-                            (selectItem)="saveNewMember($event)" [ngbTypeahead]="searchUsers" [resultFormatter]="formatter"
-                            [inputFormatter]="formatter" email />
-
-                        <span class="input-group-btn" *ngIf="!searchFailed || !inputNewMember.value">
-                            <button class="btn btn-primary" [class.disabled]="!isUserChosen" type="button" (click)="addMemberToTeam()">
+                            class="form-control col-12" [ngModelOptions]="{standalone: true}" [ngModel]="newMember" (selectItem)="saveNewMember($event)"
+                            [ngbTypeahead]="searchUsers" [resultFormatter]="formatter" [inputFormatter]="formatter" email />
+                        <div class="input-group-append" *ngIf="!searchFailed || !inputNewMember.value">
+                            <button class="btn btn-outline-success" [class.disabled]="!isUserChosen" type="button" (click)="addMemberToTeam()">
                                 Add
                             </button>
-                        </span>
+                        </div>
                     </div>
                     <small *ngIf="isAlreadyInTeam" class="form-control-feedback text-warning">Already added!</small>
 
-                    <small class="form-text">Search for a person in Maptio by email address or enter an email address to add someone
-                        new.
+                    <small class="form-text">Search for a person in Maptio by email address, or enter an email address to add someone new.
                     </small>
                     <span *ngIf="searching">searching...</span>
 
-                    <!-- </div> -->
-                    <div class="col-12 mt-1" *ngIf="searchFailed && inputNewMember.value">
+                    <div class="" *ngIf="searchFailed && inputNewMember.value">
                         <span *ngIf="!isUserSearchedEmail">No results</span>
 
-                        <div *ngIf="isUserSearchedEmail">
+                        <div *ngIf="isUserSearchedEmail" class="">
 
-                            <div>
-                                <div class="card-text">
-                                    <br>
-                                    <b>{{userSearched}}</b> ? We don’t know that person.
-                                    <div class="alert alert-danger " role="alert" *ngIf="errorMessage">
-                                        {{errorMessage}}
-                                    </div>
-
-                                    <form class="from-group mb-1" [formGroup]="inviteForm" (submit)="createUser(userSearched)">
-
-                                        <div class="input-group mb-2">
-                                            <input type="text" id="inputFirstname" formControlName="firstname" class="form-control form-control-warning " placeholder="First name"
-                                                required minlength="2">
-                                            <input type="text" id="inputLastname" formControlName="lastname" class="form-control form-control-warning" placeholder="Last name"
-                                                required minlength="2">
-                                            <button type="submit" class="btn btn-success" [class.disabled]="!inviteForm.valid">Add</button>
-                                        </div>
-                                        <small class="form-control-feedback text-warning" *ngIf="inviteForm.controls['lastname'].invalid  && (inviteForm.controls['lastname'].dirty || inviteForm.controls['lastname'].touched)">
-                                            Last name must be at least 2 characters in length
-                                        </small>
-                                        <small class="form-control-feedback text-warning" *ngIf="inviteForm.controls['firstname'].invalid  && (inviteForm.controls['firstname'].dirty || inviteForm.controls['firstname'].touched)">
-                                            First name must be at least 2 characters in length
-                                        </small>
-                                    </form>
-                                </div>
-
-
+                            <br>
+                            <b>{{userSearched}}</b> ? We don’t know that person.
+                            <div class="">
+                                Enter a first and last name and click "Add". We’ll add a virtual member to use in the maps.
+                                <u>Once added</u>, you can invite them to view and edit maps.</div>
+                            <div class="alert alert-danger " role="alert" *ngIf="errorMessage">
+                                {{errorMessage}}
                             </div>
+
+                            <form class="form-inline" [formGroup]="inviteForm" (submit)="createUser(userSearched)">
+                                <!-- <fieldset> -->
+                                    <!-- <div class="input-group"> -->
+                                        <input type="text" id="inputFirstname" formControlName="firstname" class="form-control form-control-warning " placeholder="First name"
+                                            required minlength="2">
+                                        <input type="text" id="inputLastname" formControlName="lastname" class="form-control form-control-warning mx-2" placeholder="Last name"
+                                            required minlength="2">
+                                        <button type="submit" class="btn btn-outline-secondary" [class.disabled]="!inviteForm.valid">Add</button>
+                                        <i *ngIf="isCreatingUser" class="text-muted fa fa-circle-o-notch fa-spin fa-fw fa-2x"></i>
+
+                                    <!-- </div> -->
+                                    <small class="form-control-feedback text-warning" *ngIf="inviteForm.controls['lastname'].invalid  && (inviteForm.controls['lastname'].dirty || inviteForm.controls['lastname'].touched)">
+                                        Last name must be at least 2 characters in length
+                                    </small>
+                                    <small class="form-control-feedback text-warning" *ngIf="inviteForm.controls['firstname'].invalid  && (inviteForm.controls['firstname'].dirty || inviteForm.controls['firstname'].touched)">
+                                        First name must be at least 2 characters in length
+                                    </small>
+                                <!-- </fieldset> -->
+
+                            </form>
+
+
                         </div>
                     </div>
 
                 </div>
             </div>
-
-
         </div>
-
-
     </div>
 
-    <div>
 
-        <table class="table table-hover table-sm tableSection left">
+    <div class="w-100 overflow" [style.height.vh]="70">
+
+        <table class="table table-hover">
             <thead>
-                <tr class="row">
-                    <th class="" scope="col"></th>
-                    <th class="col-1" scope="col"></th>
-                    <th class="col-3" scope="col">Name</th>
-                    <th class="col-4" scope="col">Email</th>
-                    <th class="col" scope="col"></th>
-                    <th class="" scope="col">
-                        <button class="btn btn-success pull-right" (click)="inviteAll()">Invite/resend all</button>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Permission type</th>
+                    <th scope="col" class="pr-0">
+                        <button class="btn btn-outline-secondary pull-right" mwlConfirmationPopover title="Are you sure you want to send an invitation email to  these {{invitableUsersCount}} users?"
+                            placement="top" focusButton="cancel" appendToBody="true" (confirm)="inviteAll()" (cancel)="cancelClicked = true">Invite/resend all</button>
                     </th>
                 </tr>
             </thead>
-            <tbody>
-
+            <tbody [style.height.vh]="55">
                 <ngx-loading [show]="isLoading"></ngx-loading>
-                <tr class="row" *ngFor="let member of (members$ | async); trackBy: trackByMemberId;let i=index" [class.deleted]="member.isDeleted">
-                    <td class=" delete">
-                        <span *ngIf="member.isActivationPending && !member.isInvitationSent" class="remove text-danger" aria-hidden="true" mwlConfirmationPopover
-                            title="This cannot be undone ! Are you sure you want to delete {{member.name}} ? They haven't receive an email yet so they won't know ( ... and we won't tell ) "
-                            placement="right" focusButton="cancel" appendToBody="true" (confirm)="deleteMember(member)"
-                            (cancel)="cancelClicked = true">
-                        </span>
+                <tr *ngFor="let member of (members$ | async); trackBy: trackByMemberId;let i=index" [class.text-muted]="member.isDeleted"
+                    [class.font-weight-light]="member.isDeleted" [class.bold]="member.userRole===UserRole.Admin">
+                    <td>
+                        <ng-container *permissionsOnly="Permissions.canDeleteUser;then thenDeleteBlock"></ng-container>
+                        <ng-template #thenDeleteBlock>
+                            <span *ngIf="!member.isDeleted" class="remove text-danger" aria-hidden="true" mwlConfirmationPopover title="This cannot be undone ! Are you sure you want to delete {{member.name}} ?"
+                                placement="right" focusButton="cancel" appendToBody="true" (confirm)="deleteMember(member)" (cancel)="cancelClicked = true">
+                            </span>
+                        </ng-template>
                     </td>
-                    <td class="col-1">
-                        <img class="rounded-circle member " src="{{member.picture}}" alt="{{member.name}}">
+                    <td class="d-flex align-items-center">
+                        <img class="rounded-circle member mr-1" src="{{member.picture}}" alt="{{member.name}}">{{member.name}}
                     </td>
-                    <td class="col-3">{{member.name}}</td>
-                    <td class="col-4">{{member.email}}
+                    <td>{{member.email}}
                         <br/>
                         <small [hidden]="!(member.isActivationPending && member.isInvitationSent)" class="text-warning pull-left" placement="top"
                             container="body" ngbTooltip="{{member.name}} was sent an invitation.">Pending</small>
                     </td>
-                    <td class="col">
-                        <!-- <small [hidden]="!(member.isActivationPending && member.isInvitationSent)" class="text-warning pull-right" placement="top" container="body"
-                                        ngbTooltip="{{member.name}} was sent an invitation.">Pending</small> -->
+                    <td>
+                        <ng-container *permissionsOnly="Permissions.canEditUser; else elseRoleBlock; then thenRoleBlock">main</ng-container>
+                        <ng-template #elseRoleBlock>
+                            {{UserRole[member.userRole]}}
+                        </ng-template>
+                        <ng-template #thenRoleBlock>
+                            <select [disabled]="member.isDeleted" class="form-control" (change)="changeUserRole(member,$event.target.value)">
+                                <option *ngFor="let userRole of UserRole | keys" [value]="userRole.key" [selected]="member.userRole">{{userRole.value}}</option>
+                            </select>
+                        </ng-template>
                     </td>
-                    <td class="">
-                        <span *ngIf="member.isDeleted" class="text-muted">(Deleted)</span>
-                        <button [class.deleted]="member.isDeleted" *ngIf="!member.isActivationPending" class="btn btn-default  mt-2" placement="top"
-                            container="body" ngbTooltip="{{member.name}} is a confirmed user." disabled>Active</button>
-                        <button [class.deleted]="member.isDeleted" [hidden]="isDisplayLoader(member.user_id)" *ngIf="member.isActivationPending && !member.isInvitationSent"
-                            class="btn btn-success  mt-2" (click)="inviteUser(member, i)" placement="left" container="body"
-                            ngbTooltip="Invite {{member.name}} to view and edit maps">Invite </button>
-                        <button [class.deleted]="member.isDeleted" [hidden]="isDisplayLoader(member.user_id)" *ngIf="member.isActivationPending && member.isInvitationSent"
-                            class="btn btn-success  mt-2" (click)="resendUser(member, i)" placement="left" container="body"
-                            ngbTooltip="Resend an invitation to {{member.name}}">Resend </button>
-                        <div class="sending" [hidden]="!isDisplayLoader(member.user_id)">
-                            <i *ngIf="isDisplayLoader(member.user_id)" class="text-muted fa fa-circle-o-notch fa-spin fa-fw fa-2x"></i>
-                        </div>
+                    <td class="pr-0">
+                        <span *ngIf="member.isDeleted" class="text-muted pull-right">(Deleted)</span>
+                        <ng-container *ngIf="!member.isDeleted">
+                            <button *ngIf="!member.isActivationPending" class="btn btn-default pull-right" placement="top" container="body" ngbTooltip="{{member.name}} is a confirmed user."
+                                disabled>Active</button>
+
+                            <ng-container *ngIf="member.isActivationPending && !member.isInvitationSent">
+                                <ng-container *permissionsOnly="Permissions.canInviteUser;then thenInviteBlock; else elseInviteBlock"></ng-container>
+                                <ng-template #thenInviteBlock>
+                                    <button [class.deleted]="member.isDeleted" [hidden]="isDisplayLoader(member.user_id)" class="pull-right btn btn-outline-secondary"
+                                        (click)="inviteUser(member, i)" placement="left" container="body" ngbTooltip="Invite {{member.name}} to view and edit maps">
+                                        Invite </button>
+                                </ng-template>
+                                <ng-template #elseInviteBlock>
+                                    <button class="btn btn-outline-secondary disabled pull-right" [stickyPopover]="adminTipContent" placement='left'>Invite
+                                        <i class="fa fa-lock ml-1"></i>
+                                    </button>
+                                </ng-template>
+                            </ng-container>
+
+                            <button [class.deleted]="member.isDeleted" [hidden]="isDisplayLoader(member.user_id)" *ngIf="member.isActivationPending && member.isInvitationSent"
+                                class="btn btn-outline-secondary pull-right" (click)="resendUser(member, i)" placement="left"
+                                container="body" ngbTooltip="Resend an invitation to {{member.name}}">Resend </button>
+                            <div class="sending" [hidden]="!isDisplayLoader(member.user_id)">
+                                <i *ngIf="isDisplayLoader(member.user_id)" class="text-muted fa fa-circle-o-notch fa-spin fa-fw fa-2x"></i>
+                            </div>
+                        </ng-container>
+
                     </td>
                 </tr>
             </tbody>

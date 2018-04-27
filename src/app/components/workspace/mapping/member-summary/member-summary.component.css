@@ -32,10 +32,13 @@
     box-shadow: none!important;
 }
 
-.fake-link {
-    cursor: pointer;
+.wrap {
     text-align: left;
     white-space: normal;
+}
+
+.no-cursor{
+    pointer-events: none;
 }
 
 .hide {

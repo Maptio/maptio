@@ -2,6 +2,9 @@ import { User } from "./user.data";
 import { Serializable } from "../interfaces/serializable.interface";
 import * as slug from "slug";
 
+/**
+ * Represents a team
+ */
 export class Team implements Serializable<Team> {
 
     /**

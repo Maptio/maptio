@@ -14,6 +14,7 @@ module.exports = function (config) {
             { pattern: "src/environment/*.*" },
             // Application
             { pattern: "src/app/shared/**/*.*" },
+            { pattern: "src/app/pipes/**/*.*" },
             { pattern: "src/app/components/**/*.*" },
             // Specs
             { pattern: "src/test/specs/**/*.*" }

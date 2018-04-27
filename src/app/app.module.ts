@@ -1,3 +1,5 @@
+import { PermissionGuard } from './shared/services/guards/permission.guard';
+import { PermissionService } from "./shared/model/permission.data";
 import { CommonModule, Location, LocationStrategy, PathLocationStrategy } from "@angular/common";
 import { ErrorHandler, Injectable, InjectionToken, Injector, NgModule, Inject } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -71,7 +73,6 @@ const appRoutes: Routes = [
   { path: "help", component: HelpComponent, data: { breadcrumbs: "Help" } },
   { path: "signup", component: SignupComponent, data: { breadcrumbs: "Sign up" } },
 
-
   {
     path: ":shortid/:slug",
     component: AccountComponent,
@@ -127,7 +128,6 @@ export function rollbarFactory() {
     ChangePasswordComponent, LoaderComponent, SignupComponent,
     HelpComponent,
     DashboardComponent,
-
     // for tests
     AnAnchorableComponent
   ],
@@ -148,12 +148,13 @@ export function rollbarFactory() {
     Angulartics2Module.forRoot([Angulartics2Mixpanel]),
     FileUploadModule,
     LoadingModule.forRoot({
-      animationType: ANIMATION_TYPES.chasingDots,
-      backdropBackgroundColour: "#fff",
+      animationType: ANIMATION_TYPES.threeBounce,
+      fullScreenBackdrop: true,
+      backdropBackgroundColour: "#f8f9fa",
       backdropBorderRadius: ".25rem",
       primaryColour: "#EF5E26",
-      secondaryColour: "#2F81B7",
-      tertiaryColour: "#ffffff"
+      secondaryColour: "transparent",
+      tertiaryColour: "#2F81B7"
     }),
     HttpFactoryModule,
     BrowserAnimationsModule,
@@ -165,10 +166,11 @@ export function rollbarFactory() {
   exports: [RouterModule],
   providers: [
     BrowserAnimationsModule,
-    AuthGuard, AccessGuard, WorkspaceGuard, AuthConfiguration,
+    AuthGuard, AccessGuard, WorkspaceGuard, PermissionGuard,
+    AuthConfiguration,
     D3Service, DataService, URIService, ColorService, UIService, DatasetFactory, TeamFactory,
     ErrorService, Auth, UserService, UserFactory, MailingService, JwtEncoder, LoaderService,
-    ExportService, FileService,
+    ExportService, FileService, PermissionService,
     Location,
     { provide: LocationStrategy, useClass: PathLocationStrategy },
     {

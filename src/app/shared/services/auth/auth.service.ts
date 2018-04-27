@@ -1,3 +1,4 @@
+import { PermissionService, Permissions } from "./../../model/permission.data";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { environment } from "./../../../../environment/environment";
 import { LoaderService } from "./../loading/loader.service";
@@ -25,6 +26,7 @@ export class Auth {
   ];
 
   private user$: Subject<User> = new Subject();
+  private permissions: Permissions[] = [];
 
   constructor(
     private http: Http,
@@ -33,8 +35,9 @@ export class Auth {
     private userFactory: UserFactory,
     private router: Router,
     private loader: LoaderService,
+    private permissionService: PermissionService,
     private analytics: Angulartics2Mixpanel
-  ) {}
+  ) { }
 
   public logout(): void {
     this.analytics.eventTrack("Logout", {});
@@ -100,7 +103,7 @@ export class Auth {
         scope: "openid profile api invite",
         audience: environment.MAPTIO_API_URL
       },
-      function(err: any, authResult: any) {
+      function (err: any, authResult: any) {
         if (authResult.accessToken) {
           EmitterService.get("maptio_api_token").emit(authResult.accessToken);
         }
@@ -127,6 +130,10 @@ export class Auth {
     });
   }
 
+  public getPermissions(): Permissions[] {
+    return this.permissions;
+  }
+
   public getUser(): Observable<User> {
     let profileString = localStorage.getItem("profile");
 
@@ -139,6 +146,10 @@ export class Auth {
           let user = auth0User;
           user.teams = uniq(databaseUser.teams); // HACK : where does the duplication comes from?
           user.shortid = databaseUser.shortid;
+          return user;
+        })
+        .then((user: User) => {
+          this.permissions = this.permissionService.get(user.userRole);
           return user;
         })
         .then((user: User) => {
@@ -192,7 +203,7 @@ export class Auth {
           password: password,
           scope: "profile openid email"
         },
-        function(err: any, authResult: any) {
+        function (err: any, authResult: any) {
           if (err) {
             // console.log(err)
             EmitterService.get("loginErrorMessage").emit(err.description);
@@ -203,7 +214,7 @@ export class Auth {
           if (authResult.accessToken) {
             this.configuration.getWebAuth().client.userInfo(
               authResult.accessToken,
-              function(err: Error, profile: any) {
+              function (err: Error, profile: any) {
                 profile.user_id = profile.sub;
                 profile.sub = undefined;
 
@@ -224,33 +235,33 @@ export class Auth {
                             return user;
                           })
                           .then(
-                            (user: User) => {
-                              let isMaptioTeam = this.MAPTIO_INTERNAL_EMAILS.includes(
-                                user.email
-                              );
+                          (user: User) => {
+                            let isMaptioTeam = this.MAPTIO_INTERNAL_EMAILS.includes(
+                              user.email
+                            );
 
-                              this.analytics.setSuperProperties({
-                                user_id: user.user_id,
-                                email: user.email,
-                                isInternal: isMaptioTeam
-                              });
-                              this.analytics.eventTrack("Login", {
-                                email: user.email,
-                                firstname: user.firstname,
-                                lastname: user.lastname
-                              });
+                            this.analytics.setSuperProperties({
+                              user_id: user.user_id,
+                              email: user.email,
+                              isInternal: isMaptioTeam
+                            });
+                            this.analytics.eventTrack("Login", {
+                              email: user.email,
+                              firstname: user.firstname,
+                              lastname: user.lastname
+                            });
 
-                              // let isUserVIP = (user.email === "safiyya.babio@gmail.com" || user.email === "hello@tomnixon.co.uk");
-                              // (<any>window).Intercom("boot", {
-                              //     app_id: environment.INTERCOM_APP_ID,
-                              //     email: user.email,
-                              //     user_id: user.user_id,
-                              //     hide_default_launcher: !isUserVIP
-                              // });
+                            // let isUserVIP = (user.email === "safiyya.babio@gmail.com" || user.email === "hello@tomnixon.co.uk");
+                            // (<any>window).Intercom("boot", {
+                            //     app_id: environment.INTERCOM_APP_ID,
+                            //     email: user.email,
+                            //     user_id: user.user_id,
+                            //     hide_default_launcher: !isUserVIP
+                            // });
 
-                              return user;
-                            },
-                            () => {}
+                            return user;
+                          },
+                          () => { }
                           )
                           .then((user: User) => {
                             // let welcomeURL = user.datasets.length === 1 ? `/map/${user.datasets[0]}/welcome/initiatives` : `/home`;

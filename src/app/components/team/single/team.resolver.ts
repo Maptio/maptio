@@ -1,3 +1,6 @@
+import { sortBy } from 'lodash';
+import { DatasetFactory } from './../../../shared/services/dataset.factory';
+import { DataSet } from './../../../shared/model/dataset.data';
 import { Auth } from './../../../shared/services/auth/auth.service';
 
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/router";
@@ -7,17 +10,30 @@ import { TeamFactory } from "../../../shared/services/team.factory";
 import { Team } from "../../../shared/model/team.data";
 
 @Injectable()
-export class TeamComponentResolver implements Resolve<Team> {
+export class TeamComponentResolver implements Resolve<{ team: Team, datasets: DataSet[] }> {
 
-    constructor(private teamFactory: TeamFactory, private auth: Auth) {
+    constructor(private teamFactory: TeamFactory, private datasetFactory: DatasetFactory, private auth: Auth) {
     }
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Team> {
-
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ team: Team, datasets: DataSet[] }> {
 
         let teamId: string = route.params["teamid"];
-        return Observable.fromPromise(this.teamFactory.get(teamId));
+        let team = new Team({ team_id: teamId })
 
+        return Observable.fromPromise(
+            Promise.all([this.teamFactory.get(teamId), this.datasetFactory.get(team)])
+                .then(result => {
+                    let datasets = result[1]
+                    datasets.map(d => {
+                        let i = 0
+                        d.initiative.traverse((n) => { i++ })
+                        d.depth = i;
+                        return d;
+                    })
+                    return { team: result[0], datasets: sortBy(datasets, d => d.initiative.name) }
+                })
+                .then()
+        )
     }
 
 }

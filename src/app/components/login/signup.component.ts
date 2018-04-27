@@ -1,10 +1,11 @@
-import { repeatValidator } from "./../../shared/directives/equal-validator.directive";
-import { LoaderService } from "./../../shared/services/loading/loader.service";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { Angulartics2Mixpanel } from "angulartics2";
 import { User } from "../../shared/model/user.data";
 import { UserService } from "../../shared/services/user/user.service";
-import { Angulartics2Mixpanel } from "angulartics2";
+import { repeatValidator } from "./../../shared/directives/equal-validator.directive";
+import { UserRole } from "./../../shared/model/permission.data";
+import { LoaderService } from "./../../shared/services/loading/loader.service";
 
 
 @Component({
@@ -90,8 +91,9 @@ export class SignupComponent implements OnInit {
                     }
                     else {
                         // no matching email => create user
-                        return this.userService.createUser(email, firstname, lastname, true)
+                        return this.userService.createUser(email, firstname, lastname, true, true)
                             .then((user: User) => {
+                                // console.log("just created user", user)
                                 return user;
                             }, (reason) => { return Promise.reject("Account creation failed") })
                             .then((user: User) => {

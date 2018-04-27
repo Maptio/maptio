@@ -10,7 +10,7 @@
 
 .control {
   position: absolute;
-  right: 0.5vw;
+  right: 1vw;
   /* box-shadow: 1px 1px 6px #888888; */
   top: 10vh;
   margin-right: 0.5vw;
@@ -26,7 +26,7 @@
   transition: 0.3s ease-in;
 } */
 .control.zero {
-  top: 5vh;
+  top: 11vh;
 }
 
 .control.zero.panel{
@@ -35,7 +35,7 @@
 
 
 .control.first {
-  top: 18vh;
+  top: 29vh;
 }
 
 /* .control.first > .btn-group-vertical {
@@ -43,16 +43,16 @@
 } */
 
 .control.second {
-  top: 32vh;
+  top: 50vh;
 }
 
 .control.third {
-  top: 49vh;
-  right: 4vw
+  top: 50vh;
+  right: 6vw
 }
 
 .control.fourth {
-  top: 78vh;
+  top: 85vh;
 
 }
 
@@ -176,7 +176,7 @@
   margin-top: 3vh;
   width: 0;
   padding: 0 0 0 0;
-  /* border: solid #f5f5f5; */
+  /* border: solid #f8f9fa; */
   /* box-shadow: -9px -5px #888888; */
 }
 

@@ -1,76 +1,74 @@
-<nav class="navbar navbar-toggleable-md navbar-light bg-faded fixed-top">
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler"
+<nav class="navbar fixed-top  navbar-expand-sm navbar-light bg-light justify-content-between">
+    <a class="navbar-brand d-flex align-items-center">
+        <a routerLink="home" class="no-underline">
+            <img width="40" height="40" class="d-inline-block align-top" src="/assets/images/logo-full.webp" alt="Home">
+
+        </a>
+        <span class="navbar-text ml-1">
+            <mc-breadcrumbs></mc-breadcrumbs>
+        </span>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
         aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand " routerLink="home">
-        <!-- <div alt="Maptio Home" class="d-inline-block align-top brand-logo" ></div> -->
-        <picture>
-            <source srcset="/assets/images/logo-full.webp" type="image/webp">
-            <source srcset="/assets/images/logo-full.png" type="image/png">
-            <img src="/assets/images/logo-full.webp" alt="Maptio logo">
-        </picture>
-    </a>
 
-    <div class="row d-flex justify-content-between" [class.col-9]="auth.allAuthenticated()" [class.col-7]="!auth.allAuthenticated()">
-        <!-- <span class="navbar-text col pt-2 ">
-            <a class="lead" routerLink="/map/{{selectedDataset?.datasetId}}/{{selectedDataset?.initiative?.getSlug()}}/initiatives">
-                {{selectedDataset?.initiative?.name}}
+
+
+    <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
+        <span class="navbar-text offset-6" *ngIf="team">
+            <span class="text-muted mr-1">Team </span>
+            <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}">
+                {{team?.name}}
             </a>
-        </span> -->
-        <mc-breadcrumbs></mc-breadcrumbs>
-        <span class="navbar-text col offset-3 pt-3 ">
-
-            <span class="row ml-1" *ngIf="team">
-                <span class="text-muted mr-1">Team </span>
-                <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}">
-                    {{team?.name}}
-                </a>
-                <!-- <span (click)="isMembersToggled=!isMembersToggled">
-                    <i class="fa fa-minus-square pt-1 pl-1" *ngIf="isMembersToggled" aria-hidden="true"></i>
-                    <i class="fa fa-plus-square pt-1 pl-1" *ngIf="!isMembersToggled" aria-hidden="true"></i>
-                </span> -->
-
-            </span>
         </span>
-    </div>
-
-
-    <div class="collapse navbar-collapse" id="navbarToggler">
-        <ul class="navbar-nav ml-auto mt-2 mt-md-0">
-
-            <li class="nav-item dropdown" *ngIf="auth.allAuthenticated()">
-                <a class="nav-link dropdown-toggle" [class.disabled]="(datasets$ | async)?.length === 0" id="mapsListDropdownLink" data-toggle="dropdown"
+        <ul class="navbar-nav ml-auto d-flex align-items-center" *ngIf="auth.allAuthenticated()">
+            
+            <li class="nav-item dropdown" *ngIf="datasets && datasets?.length !== 0">
+                <a class="nav-link dropdown-toggle" id="mapsListDropdownLink" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
-                    Maps
+                    Maps 
                 </a>
                 <div class="dropdown-menu dropdown-menu-right overflow" aria-labelledby="mapsListDropdownLink">
-                    <a class="dropdown-item" (click)="goTo(dataset)" *ngFor="let dataset of datasets$ | async">
+                    <a class="dropdown-item" (click)="goTo(dataset)" *ngFor="let dataset of datasets">
                         {{dataset?.name}}
                     </a>
                 </div>
             </li>
-            <li>
-                <div class="collapse" id="collapseExample">
+            <li class="nav-item dropdown" *ngIf="teams?.length > 0">
+                <a class="nav-link dropdown-toggle " id="mapsListDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Create a map
+                </a>
+                <div class="dropdown-menu dropdown-menu-right form-big">
+                    <form [formGroup]="createMapForm" (submit)="createDataset()" class="p-4">
+                        <div class="form-group ">
+                            <label for="inputMapName">Map name</label>
+                            <input type="text" id="inputMapName" formControlName="mapName" class="form-control w-100" placeholder="Enter map name " required>
+                            <small class="form-text text-muted">
+                                This is usually your company or organisation name
+                            </small>
+                        </div>
+                        <div class="form-group ">
+                            <label for="inputTeamName">Team</label>
+                            <select id="inputTeamName" formControlName="teamId" required class="form-control">
+                                <option value="null" disabled="true" [selected]="true">Select a team</option>
+                                <option *ngFor="let team of teams" [value]="team.team_id">{{team?.name}}</option>
+                            </select>
+                            <a *ngIf="teams?.length === 0 " class="text-danger" (click)="createTeam()">
+                                <small class="offset-md-6">Don't have a team?</small>
+                            </a>
+                        </div>
+                        <button type="submit" class="btn btn-outline-success pull-right" [class.disabled]="!createMapForm.valid">Create</button>
+                    </form>
 
                 </div>
-
             </li>
-            <li class="nav-item dropdown" *ngIf="auth.allAuthenticated()">
-
-                <a *ngIf="(teams$ | async)?.length > 0" class="nav-link dropdown-toggle without-caret" (click)="isCreateMode=!isCreateMode"
-                    [class.coloured]="isCreateMode">
-                    Create a map
-                    <i class="fa" [class.fa-caret-up]="isCreateMode" [class.fa-caret-down]="!isCreateMode" aria-hidden="true"></i>
-
-                </a>
-                <a *ngIf="(teams$ | async)?.length === 0" class="nav-link dropdown-toggle without-caret text-success" (click)="createTeam()"
-                    [class.coloured]="isCreateMode">
+            <!-- <li class="nav-item dropdown" *ngIf="(teams$ | async)?.length === 0">
+                <a class="nav-link dropdown-toggle without-caret text-success" (click)="createTeam()" [class.coloured]="isCreateMode">
                     Create a team
                 </a>
-            </li>
-
-            <li class="nav-item dropdown" id="profileInformation" *ngIf="auth.allAuthenticated()">
+            </li> -->
+            <li class="nav-item dropdown" id="profileInformation">
                 <a class="nav-link dropdown-toggle without-caret" id="profileDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div>
                         <img src="{{ user?.picture }}" class="rounded-circle profile-image" alt="{{user?.name}}">
@@ -86,47 +84,25 @@
                         <i class="fa fa-sign-out text-muted" aria-hidden="true"></i> Log Out</a>
                 </div>
             </li>
-            <li class="nav-link" id="loginButton" *ngIf="!auth.allAuthenticated()">
-
-                <form class="form-inline" [formGroup]="loginForm" (submit)="login()">
-                    <div class="form-group mr-1" [class.has-warning]="loginForm.controls['email'].invalid  && (loginForm.controls['email'].dirty || loginForm.controls['email'].touched)">
-                        <input type="email" id="inputEmail" formControlName="email" class="form-control form-control-sm  form-control-warning" placeholder="Email"
-                            required email>
-                    </div>
-                    <div class="form-group mr-1" [class.has-warning]="loginForm.controls['password'].invalid  && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)">
-
-                        <input id="inputPassword" type="password" class="form-control form-control-sm form-control-warning" formControlName="password"
-                            placeholder="e.g. ••••••••" autocomplete="on">
-                    </div>
-
-
-                    <button type="submit" class="btn btn-success btn-sm" [class.disabled]="!loginForm.valid">Log in</button>
-                </form>
-                <small class="text-muted col-7 pull-right">
-                    <a routerLink="/forgot">Forgot your password?</a>
-                </small>
-            </li>
         </ul>
+        <ng-container *showItBootstrap="['md','lg','xl']">
+            <ng-container *ngIf="!auth.allAuthenticated()">
+                <form id="loginForm" class="form-inline pr-2" [formGroup]="loginForm" (submit)="login()">
+                    <div class="d-flex flex-column">
+                        <div>
+                            <input type="email" id="inputEmail" formControlName="email" class="form-control form-control-sm form-control-warning" placeholder="Email"
+                                required email>
+                            <input id="inputPassword" type="password" class="form-control form-control-sm form-control-warning" formControlName="password"
+                                placeholder="e.g. ••••••••" autocomplete="on">
+                            <button type="submit" class="btn btn-outline-success btn-sm" [class.disabled]="!loginForm.valid">Log in</button>
+
+                        </div>
+                        <small class="text-muted">
+                            <a routerLink="/forgot">Forgot your password?</a>
+                        </small>
+                    </div>
+                </form>
+            </ng-container>
+        </ng-container>
     </div>
 </nav>
-
-<div class="card creation borderless col-6 rounded-0" *ngIf="isCreateMode">
-    <div class="card-block">
-        <div class="card-text">
-            <form [formGroup]="createMapForm" (submit)="createDataset()" class="form-inline">
-                <input type="text" id="inputMapName" formControlName="mapName" class="form-control col-6" placeholder="Enter map name " required>
-                <select formControlName="teamId" required class="form-control col-4 mr-1">
-                    <option value="null" disabled="true" [selected]="true">Select a team</option>
-                    <option *ngFor="let team of teams$ | async" [value]="team.team_id">{{team?.name}}</option>
-                </select>
-
-                <button type="submit" class="btn btn-success pull-right" [class.disabled]="!createMapForm.valid">Create</button>
-            </form>
-            <a *ngIf="(teams$ | async)?.length === 0 " class="text-danger" (click)="createTeam()">
-                <small class="offset-md-6">Don't have a team?</small>
-            </a>
-
-
-        </div>
-    </div>
-</div>

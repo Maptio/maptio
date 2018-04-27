@@ -1,37 +1,56 @@
+import { Permissions } from "./../../shared/model/permission.data";
+import { PermissionGuard } from "./../../shared/services/guards/permission.guard";
+import { CommonModule } from "@angular/common";
+import { NgModule } from "@angular/core";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { RouterModule, Routes } from "@angular/router";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";
-import { TeamComponentResolver } from "./single/team.resolver";
+import { ANIMATION_TYPES, LoadingModule } from "ngx-loading";
+import { KeysPipe } from "./../../pipes/keys.pipe";
 import { AccessGuard } from "./../../shared/services/guards/access.guard";
 import { AuthGuard } from "./../../shared/services/guards/auth.guard";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { RouterModule, Routes } from "@angular/router";
-import { LoadingModule, ANIMATION_TYPES } from "ngx-loading";
-import { TeamImportComponent } from "./single/import/import.component";
-import { TeamSettingsComponent } from "./single/settings/settings.component";
-import { TeamMembersComponent } from "./single/members/members.component";
+import { SharedModule } from "./../../shared/shared.module";
 import { TeamListComponent } from "./list/team-list.component";
+import { TeamListComponentResolver } from "./list/team-list.resolver";
+import { TeamImportComponent } from "./single/import/import.component";
+import { TeamMapsComponent } from "./single/maps/maps.component";
+import { TeamMembersComponent } from "./single/members/members.component";
+import { TeamSettingsComponent } from "./single/settings/settings.component";
 import { TeamComponent } from "./single/team.component";
-import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { TeamComponentResolver } from "./single/team.resolver";
 
 const routes: Routes = [
     {
         path: "teams",
         data: { breadcrumbs: "Teams" },
         children: [
-            { path: "", component: TeamListComponent, canActivate: [AuthGuard] },
+            {
+                path: "", component: TeamListComponent, canActivate: [AuthGuard],
+                resolve: {
+                    teams: TeamListComponentResolver
+                }
+            },
             {
                 path: ":teamid/:slug",
                 resolve: {
-                    team: TeamComponentResolver
+                    assets: TeamComponentResolver
                 },
                 component: TeamComponent,
-                data: { breadcrumbs: "{{team.name}}" },
+                data: { breadcrumbs: "{{assets.team.name}}" },
                 canActivate: [AuthGuard, AccessGuard],
                 children: [
                     { path: "", redirectTo: "members", pathMatch: "full" },
                     { path: "members", component: TeamMembersComponent, data: { breadcrumbs: true, text: "Members" } },
-                    { path: "import", component: TeamImportComponent, data: { breadcrumbs: true, text: "Import" } },
+                    {
+                        path: "import",
+                        component: TeamImportComponent,
+                        canActivate: [PermissionGuard],
+                        data: {
+                            permissions: [Permissions.canInviteUser], breadcrumbs: true, text: "Import"
+                        }
+                    },
+                    { path: "maps", component: TeamMapsComponent, data: { breadcrumbs: true, text: "Maps" } },
                     { path: "settings", component: TeamSettingsComponent, data: { breadcrumbs: true, text: "Settings" } }
                 ]
             }
@@ -59,15 +78,17 @@ const routes: Routes = [
             confirmButtonType: "danger",
             cancelButtonType: "secondary"
         }),
+        SharedModule
     ],
     declarations: [
         TeamComponent,
         TeamListComponent,
         TeamMembersComponent,
         TeamSettingsComponent,
-        TeamImportComponent
-
+        TeamImportComponent,
+        TeamMapsComponent,
+        KeysPipe
     ],
-    providers: [TeamComponentResolver]
+    providers: [TeamComponentResolver, TeamListComponentResolver]
 })
 export class TeamModule { }

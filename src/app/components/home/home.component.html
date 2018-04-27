@@ -1,20 +1,27 @@
-<!-- <div class="alert alert-success" role="alert" *ngIf="invitedEmail">
-    <strong>{{invitedEmail}} ? </strong> <span *ngIf="(isActivationPending | async)">Activate your account <a routerLink="/login" queryParamsHandling="preserve">here</a></span>
-</div> -->
+<div class="d-flex justify-content-between p-4">
+    <div class="d-flex flex-column card bg-transparent border-0 mr-5">
 
-<div class="row  m-4">
-    <div class="col-6">
-        <div class="jumbotron transparent">
-            <h1 class="mb-3">Maptio</h1>
-            <h4>A simple online tool to allow organisations and initiatives to be mapped, visualised and explored in nested circles.
-            </h4>
+        <h1 class="mb-5 text-white">Maptio</h1>
+        <h4 class="text-white">Making agility at work easier. Onboard new people quickly. Make smarter decisions. Keep everyone aligned.
+        </h4>
+
+        <div class="text-white mt-auto" *ngIf="auth.allAuthenticated()">
+            <span>New to Maptio? Watch our 12 minute tutorial video.</span>
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe src="https://drive.google.com/file/d/10AYJduyqXgbsCxRRk_GSz7v59adJgp3Q/preview" width="640" height="480"></iframe>
+            </div>
         </div>
+
     </div>
-    <div class="col-6 signup mt-3 rounded" *ngIf="auth.allAuthenticated()" >
+
+
+
+
+    <div class="col-6 signup rounded" *ngIf="auth.allAuthenticated()">
         <dashboard></dashboard>
     </div>
-    <div class="col-6 signup mt-3 rounded" *ngIf="!auth.allAuthenticated()">
-        <signup ></signup>
+    <div class="col-6 signup rounded" *ngIf="!auth.allAuthenticated()">
+        <signup></signup>
     </div>
-    
+
 </div>

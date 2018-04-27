@@ -1,9 +1,10 @@
+import { SharedModule } from './../../shared/shared.module';
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";
 import { ColorPickerModule } from "ngx-color-picker";
 import { MarkdownService } from "angular2-markdown";
 import { Http } from "@angular/http";
 import { MarkdownModule } from "angular2-markdown";
-import {  Angulartics2Module } from "angulartics2";
+import { Angulartics2Module } from "angulartics2";
 import { FilterTagsComponent } from "./filter/tags.component";
 import { SearchComponent } from "./search/search.component";
 import { FocusIfDirective } from "./../../shared/directives/focusif.directive";
@@ -40,10 +41,10 @@ const routes: Routes = [{
     },
     children: [
         { path: "", redirectTo: "circles", pathMatch: "full" },
-        { path: "circles", component: MappingZoomableComponent, canActivate: [WorkspaceGuard] },
-        { path: "tree", component: MappingTreeComponent, canActivate: [WorkspaceGuard] },
-        { path: "network", component: MappingNetworkComponent, canActivate: [WorkspaceGuard] },
-        { path: "u/:usershortid/:userslug", component: MemberSummaryComponent, canActivate: [WorkspaceGuard] }
+        { path: "circles", component: MappingZoomableComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Circles" } },
+        { path: "tree", component: MappingTreeComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Tree" } },
+        { path: "network", component: MappingNetworkComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Network" } },
+        { path: "u/:usershortid/:userslug", component: MemberSummaryComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Summary" } }
     ]
 }]
 
@@ -52,6 +53,10 @@ export function markdownServiceFactory(http: Http) {
     _markdown.setMarkedOptions({ breaks: true })
     _markdown.renderer.link = (href: string, title: string, text: string) => {
         return `<a href=${href} class="markdown-link" target="_blank" title=${title}>${text}</a>`;
+    }
+
+    _markdown.renderer.paragraph = (text: string) => {
+        return `<p class="markdown">${text}</p>`;
     }
     return _markdown
 }
@@ -78,7 +83,8 @@ export function markdownServiceFactory(http: Http) {
         ConfirmationPopoverModule.forRoot({
             confirmButtonType: "danger",
             cancelButtonType: "secondary"
-        })
+        }),
+        SharedModule
     ],
     declarations: [
         FocusIfDirective,

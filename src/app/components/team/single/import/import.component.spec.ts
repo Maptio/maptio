@@ -31,13 +31,16 @@ class MockActivatedRoute implements ActivatedRoute {
     queryParams: Observable<Params>;
     fragment: Observable<string>;
     data: Observable<Data> = Observable.of({
-        team: new Team({
-            team_id: "123",
-            name: "team",
-            settings: { authority: "A", helper: "H" },
-            members: [new User({ user_id: "1" }), new User({ user_id: "2" })]
-        })
-    })
+        assets: {
+            team: new Team({
+                team_id: "123",
+                name: "team",
+                settings: { authority: "A", helper: "H" },
+                members: [new User({ user_id: "1" }), new User({ user_id: "2" })]
+            })
+        }
+    }
+    )
     outlet: string;
     component: Type<any> | string;
     routeConfig: Route;
@@ -118,10 +121,11 @@ describe("import.component.ts", () => {
             spyOn(component, "fileReset");
             spyOn(target.debugElement.injector.get(FileService), "isCSVFile").and.returnValue(false);
 
-            component.fileChangeListener({ srcElement: { files: ["/disk/folder/file.scv"] } , target: { files: ["/disk/folder/file.csv"] }});
+            component.fileChangeListener({ srcElement: { files: ["/disk/folder/file.scv"] }, target: { files: ["/disk/folder/file.csv"] } });
             expect(component.fileReset).toHaveBeenCalled();
             expect(target.debugElement.injector.get(FileService).isCSVFile).toHaveBeenCalledWith("/disk/folder/file.scv")
-            expect(component.isFileInvalid).toBe(true)
+            expect(component.isFileFormatInvalid).toBe(true)
+            // expect(component.isFileFormatInvalid).toBe(false)
         });
 
         it("should not flag a .csv file", () => {
@@ -131,17 +135,19 @@ describe("import.component.ts", () => {
             component.fileChangeListener({ srcElement: { files: ["/disk/folder/file.csv"] }, target: { files: ["/disk/folder/file.csv"] } });
             expect(component.fileReset).not.toHaveBeenCalled();
             expect(target.debugElement.injector.get(FileService).isCSVFile).toHaveBeenCalledWith("/disk/folder/file.csv")
-            expect(component.isFileInvalid).toBe(false)
+            expect(component.isFileFormatInvalid).toBe(false)
+            // expect(component.isFileFormatInvalid).toBe(false);
+
         });
     });
 
     describe("importUsers", () => {
         it("should call correct dependencies", async(() => {
             component.csvRecords = [
-                ["First name", "Lastname", "email"],
-                ["one", "Maptio", "one@maptio.com"],
-                ["two", "Maptio", "two@maptio.com"],
-                ["three", "Maptio", "three@maptio.com"]
+                ["First name", "Lastname", "email","permission type"],
+                ["one", "Maptio", "one@maptio.com", "admin"],
+                ["two", "Maptio", "two@maptio.com", "standard"],
+                ["three", "Maptio", "three@maptio.com", "admin"]
             ];
             spyOn(component, "createUser").and.returnValue(Promise.resolve(true));
             component.importUsers();

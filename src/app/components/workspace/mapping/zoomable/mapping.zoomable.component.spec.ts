@@ -127,11 +127,10 @@ describe("mapping.zoomable.component.ts", () => {
         let svgs = document.getElementsByTagName("svg")
         expect(svgs.length).toBe(1);
         let g = svgs.item(0).querySelector("g");
-
-        expect(g.querySelectorAll("text.name").length).toBe(3)
-        expect(g.querySelectorAll("text.name")[0].textContent).toBe("");
-        expect(g.querySelectorAll("text.name")[1].textContent).toBe("Tech")
-        expect(g.querySelectorAll("text.name")[2].textContent).toBe("Marketing")
+        expect(g.querySelectorAll(".name").length).toBe(3)
+        expect(g.querySelectorAll(".name")[0].textContent).toBe("");
+        expect(g.querySelectorAll(".name")[1].querySelector("foreignObject")).toBeDefined()
+        expect(g.querySelectorAll(".name")[2].querySelector("foreignObject")).toBeDefined()
     });
 
     it("should calculate paths when data is valid", () => {

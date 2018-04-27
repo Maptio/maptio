@@ -40,7 +40,7 @@ table.tableSection.left tbody {
 
 table.tableSection.right tbody {
     overflow: auto;
-    height: 55vh;
+    height: 30vh;
     position:relative
 }
 
@@ -53,6 +53,11 @@ table.tableSection tr {
 table.tableSection th, table.tableSection td {
     /* width: 20%; */
     vertical-align: middle;
+}
+
+.overflow{
+    overflow: auto;
+    height: 20vh;
 }
 
 td.delete{
@@ -73,5 +78,5 @@ td.delete{
 }
 
 .border-right{
-    border-right: 1px solid #f5f5f5
+    border-right: 1px solid #f8f9fa
 }

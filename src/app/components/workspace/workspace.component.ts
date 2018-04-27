@@ -48,6 +48,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public team: Team;
     public teams: Team[];
     public tags: Tag[];
+    public user: User;
 
     public openedNode: Initiative;
     public openedNodeParent: Initiative;
@@ -75,11 +76,12 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.routeSubscription = this.route.data
-            .subscribe((data: { data: { dataset: DataSet, team: Team, members: User[] } }) => {
+            .subscribe((data: { data: { dataset: DataSet, team: Team, members: User[], user: User } }) => {
                 this.dataset = data.data.dataset;
                 this.tags = data.data.dataset.tags;
                 this.team = data.data.team;
                 this.members = data.data.members;
+                this.user = data.data.user;
                 this.datasetId = this.dataset.datasetId;
                 this.teamName = this.team.name;
                 this.teamId = this.team.team_id;
@@ -141,7 +143,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
 
     openDetails(node: Initiative, willCloseBuildingPanel: boolean = false) {
-        this.openedNodeParent = node.getParent(this.dataset.initiative);
+        // this.openedNodeParent = node.getParent(this.dataset.initiative);
         this.openedNode = node;
         this.isBuildingPanelCollapsed = willCloseBuildingPanel;
         this.isDetailsPanelCollapsed = false;

@@ -1,3 +1,4 @@
+import { PermissionService } from "./../../model/permission.data";
 import { Observable } from "rxjs/Rx";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { environment } from "./../../../../environment/environment";
@@ -44,7 +45,7 @@ describe("auth.service.ts", () => {
                         getAccessToken() { return; }
                     }
                 },
-                Auth, UserFactory, DatasetFactory, JwtEncoder, MailingService, LoaderService,
+                Auth, UserFactory, DatasetFactory, JwtEncoder, MailingService, LoaderService, PermissionService,
                 {
                     provide: Router, useClass: class {
                         navigate = jasmine.createSpy("navigate");
@@ -220,11 +221,12 @@ describe("auth.service.ts", () => {
     });
 
     describe("getUser", () => {
-        it("should make calls to build user when profile is in localStorage and return user", fakeAsync(inject([Auth, Http, AuthConfiguration, MockBackend, UserFactory, DatasetFactory], (target: Auth, http: Http, configuration: AuthConfiguration, mockBackend: MockBackend, userFactory: UserFactory, datasetFactory: DatasetFactory) => {
+        it("should make calls to build user when profile is in localStorage and return user", fakeAsync(inject([Auth, Http, AuthConfiguration, MockBackend, UserFactory, DatasetFactory, PermissionService], (target: Auth, http: Http, configuration: AuthConfiguration, mockBackend: MockBackend, userFactory: UserFactory, datasetFactory: DatasetFactory, permissionsService: PermissionService) => {
             spyOn(localStorage, "getItem").and.returnValue(`{ "user_id": "ID" }`);
             let spyGetUserInfo = spyOn(target, "getUserInfo").and.returnValue(Promise.resolve(new User({ user_id: "ID", name: "Jane Doe" })))
             let spyGetUserDb = spyOn(userFactory, "get").and.returnValue(Promise.resolve(new User({ user_id: "ID", name: "Jane Doe", teams: ["t1", "t2", "t3"], shortid: "short" })))
             let spyGetDatasets = spyOn(datasetFactory, "get").and.returnValue(Promise.resolve(["d1", "d2", "d3"]))
+            let spyGetPermissions = spyOn(permissionsService, "get").and.returnValue([])
             target.getUser().subscribe(user => {
                 expect(user.user_id).toBe("ID");
                 expect(user.name).toBe("Jane Doe");
@@ -235,6 +237,7 @@ describe("auth.service.ts", () => {
                 expect(spyGetUserInfo).toHaveBeenCalledWith("ID");
                 expect(spyGetUserDb).toHaveBeenCalledWith("ID")
                 expect(spyGetDatasets).toHaveBeenCalledWith(jasmine.objectContaining({ user_id: "ID", name: "Jane Doe", teams: ["t1", "t2", "t3"], shortid: "short" }))
+                expect(spyGetPermissions).toHaveBeenCalled();
             })
         })));
 
