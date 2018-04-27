@@ -3,19 +3,16 @@
         Import team members from a
         <strong>.csv</strong> file.
     </h5>
-
-    <!-- <span class="text-info small">The file should have 4 columns : "First name", "Last name", "Email" and "Permission type" (Admin or Standard)
-                in that order
-            </span>
-            <div>
-                <a class="text-success small" href="{{IMPORT_USERS_TEMPLATE_URL}}" target="blank"><i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i>Download a template</a>
-
-            </div> -->
-    <h6 class="card-subtitle mb-2 text-muted">Once they are imported, they must be invited to view and edit maps.</h6>
 </div>
 
 
 <div class="w-100 h-100 d-flex flex-column justify-content-start">
+    <!-- <div class="card mb-3 bg-light border-light">
+        <div class="card-body">
+            <a class="btn btn-link text-success" href="{{IMPORT_USERS_TEMPLATE_URL}}" target="blank">
+                <i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i>Download a template</a>
+        </div>
+    </div> -->
 
     <div class="card mb-3 bg-light border-light">
         <div class="card-body">
@@ -27,15 +24,20 @@
                         <label class="custom-file-label" for="customFile">Choose file</label>
                     </div>
 
-                    <button class="btn btn-outline-secondary text-muted ml-1" (click)="fileReset()">Reset</button>
+                    <button class="btn btn-outline-secondary ml-1" (click)="fileReset()">Reset</button>
 
                 </div>
-                <a class="btn btn-link text-success" href="{{IMPORT_USERS_TEMPLATE_URL}}" target="blank">
-                    <i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i>Download a template</a>
+
             </div>
 
-            <span class="text-info small">The file should have 4 columns : "First name", "Last name", "Email" and "Permission type" (Admin or Standard)
-                in that order
+            <span class=" small">
+                <!-- The file should have 4 columns : "First name", "Last name", "Email" and "Permission type" (Admin or Standard)
+                in that order -->
+                Not sure about the format?
+                <a class="text-success strong" href="{{IMPORT_USERS_TEMPLATE_URL}}" target="blank">
+                    <i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i>
+                    <strong>Download a template</strong>
+                </a>
             </span>
 
             <div *ngIf="isFileInvalid" class="text-warning small">
@@ -81,16 +83,34 @@
         <div class="card mb-3 bg-light border-light ">
             <div class="card-body">
                 <div class="d-flex justify-content-between">
-                    <div class="progress w-75" style="height:38px">
-                        <div class="progress-bar bg-success" role="progressbar" [style.width.%]="importedSuccessfully/totalRecordsToImport*100" [attr.aria-valuenow]="importedSuccessfully"
-                            aria-valuemin="0" [attr.aria-valuemax]="totalRecordsToImport">
-                            <span *ngIf="importedSuccessfully > 0 ">Imported : {{importedSuccessfully}}</span>
+                    <div class="col pl-0">
+                        <div class="progress w-100" style="height:38px">
+                            <div class="progress-bar bg-success" role="progressbar" [style.width.%]="importedSuccessfully/totalRecordsToImport*100" [attr.aria-valuenow]="importedSuccessfully"
+                                aria-valuemin="0" [attr.aria-valuemax]="totalRecordsToImport">
+                                <span *ngIf="importedSuccessfully > 0 ">Imported : {{importedSuccessfully}}</span>
+                            </div>
+                            <div class="progress-bar bg-warning" role="progressbar" [style.width.%]="importedFailed/totalRecordsToImport*100" [attr.aria-valuenow]="importedFailed"
+                                aria-valuemin="0" [attr.aria-valuemax]="totalRecordsToImport">
+                                <span *ngIf="importedFailed > 0 ">Failed : {{importedFailed}}</span>
+                            </div>
                         </div>
-                        <div class="progress-bar bg-warning" role="progressbar" [style.width.%]="importedFailed/totalRecordsToImport*100" [attr.aria-valuenow]="importedFailed"
-                            aria-valuemin="0" [attr.aria-valuemax]="totalRecordsToImport">
-                            <span *ngIf="importedFailed > 0 ">Failed : {{importedFailed}}</span>
-                        </div>
+                        <ng-container *ngIf="importedFailed + importedSuccessfully === totalRecordsToImport">
+                            <span class="mb-2 text-muted" *ngIf="importedFailed===0">
+                                <span class="text-success">
+                                    <i class="fa fa-hand-o-right mr-1" aria-hidden="true"></i>Well done!</span> Once imported, new users must be
+                                <a routerLink="../members">invited</a> to view and edit maps.</span>
+                            <span class="mb-2 text-muted" *ngIf="importedFailed>0">
+                                <span class="text-warning">
+                                    <i class="fa fa-exclamation-circle mr-1" aria-hidden="true"></i>
+                                    We couldn't import all users!</span>
+                                <a routerLink="/help">Get some help</a> or
+                                <a routerLink="../members">go and invite new users to view and edit maps. </a>
+                            </span>
+                        </ng-container>
+
                     </div>
+
+
                     <div class=" pull-right">
                         <button class="btn btn-outline-success" (click)="importUsers()">Import {{totalRecordsToImport}} users</button>
 
@@ -98,6 +118,7 @@
                 </div>
             </div>
         </div>
+
     </ng-container>
 
 </div>
