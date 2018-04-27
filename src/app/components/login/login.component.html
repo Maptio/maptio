@@ -22,8 +22,8 @@
 
     <form class="form-group col-lg-5" [formGroup]="activateForm" (submit)="activateAccount()">
         <div class="form-group">
-            <label for="inputEmail">Email</label>
-            <input type="email" id="inputEmail" value="{{email}}" class="form-control form-control-warning form-control-lg" disabled>
+            <label for="inputEmailActivate">Email</label>
+            <input type="email" id="inputEmailActivate" value="{{email}}" class="form-control form-control-warning form-control-lg" disabled>
 
         </div>
         <div class="form-group" [class.has-warning]="activateForm.controls['firstname'].invalid  && (activateForm.controls['firstname'].dirty || activateForm.controls['firstname'].touched)">
@@ -84,8 +84,8 @@
     <form class="form-group col-lg-5" [formGroup]="loginForm" (submit)="login()">
 
         <div class="form-group" [class.has-warning]="loginForm.controls['email'].invalid  && (loginForm.controls['email'].dirty || loginForm.controls['email'].touched)">
-            <label for="inputEmail">Email</label>
-            <input type="email" id="inputEmail" formControlName="email" class="form-control form-control-warning form-control-lg" placeholder="e.g. rick.sanchez@cartoonnetwork.com"
+            <label for="inputEmailLogin">Email</label>
+            <input type="email" id="inputEmailLogin" formControlName="email" class="form-control form-control-warning form-control-lg" placeholder="e.g. rick.sanchez@cartoonnetwork.com"
                 required email>
             <small class="form-control-feedback" *ngIf="loginForm.controls['email'].invalid  && (loginForm.controls['email'].dirty || loginForm.controls['email'].touched)">
                                     An email is required e.g. rick.sanchez@cartoonnetwork.com

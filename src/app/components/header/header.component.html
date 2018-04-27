@@ -1,7 +1,7 @@
 <nav class="navbar fixed-top  navbar-expand-sm navbar-light bg-light justify-content-between">
-    <a class="navbar-brand">
+    <a class="navbar-brand d-flex align-items-center">
         <a routerLink="home" class="no-underline">
-            <img width="30" height="30" class="d-inline-block align-top" src="/assets/images/logo-full.webp" alt="Home">
+            <img width="40" height="40" class="d-inline-block align-top" src="/assets/images/logo-full.webp" alt="Home">
 
         </a>
         <span class="navbar-text ml-2">
@@ -22,20 +22,20 @@
                 {{team?.name}}
             </a>
         </span>
-        <ul class="navbar-nav ml-auto" *ngIf="auth.allAuthenticated()">
-
-            <li class="nav-item dropdown" *ngIf="(datasets$ | async)?.length !== 0">
+        <ul class="navbar-nav ml-auto d-flex align-items-center" *ngIf="auth.allAuthenticated()">
+            
+            <li class="nav-item dropdown" *ngIf="datasets && datasets?.length !== 0">
                 <a class="nav-link dropdown-toggle" id="mapsListDropdownLink" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
-                    Maps
+                    Maps 
                 </a>
                 <div class="dropdown-menu dropdown-menu-right overflow" aria-labelledby="mapsListDropdownLink">
-                    <a class="dropdown-item" (click)="goTo(dataset)" *ngFor="let dataset of datasets$ | async">
+                    <a class="dropdown-item" (click)="goTo(dataset)" *ngFor="let dataset of datasets">
                         {{dataset?.name}}
                     </a>
                 </div>
             </li>
-            <li class="nav-item dropdown" *ngIf="(teams$ | async)?.length > 0">
+            <li class="nav-item dropdown" *ngIf="teams?.length > 0">
                 <a class="nav-link dropdown-toggle " id="mapsListDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Create a map
                 </a>
@@ -52,9 +52,9 @@
                             <label for="inputTeamName">Team</label>
                             <select id="inputTeamName" formControlName="teamId" required class="form-control">
                                 <option value="null" disabled="true" [selected]="true">Select a team</option>
-                                <option *ngFor="let team of teams$ | async" [value]="team.team_id">{{team?.name}}</option>
+                                <option *ngFor="let team of teams" [value]="team.team_id">{{team?.name}}</option>
                             </select>
-                            <a *ngIf="(teams$ | async)?.length === 0 " class="text-danger" (click)="createTeam()">
+                            <a *ngIf="teams?.length === 0 " class="text-danger" (click)="createTeam()">
                                 <small class="offset-md-6">Don't have a team?</small>
                             </a>
                         </div>

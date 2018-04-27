@@ -15,7 +15,7 @@ import { EmitterService } from "../../shared/services/emitter.service";
 import { ErrorService } from "../../shared/services/error/error.service";
 import { Initiative } from "../../shared/model/initiative.data";
 import { UserService } from "../../shared/services/user/user.service";
-import {  sortBy } from "lodash";
+import { sortBy } from "lodash";
 import { SafeUrl, DomSanitizer } from "@angular/platform-browser";
 
 @Component({
@@ -28,8 +28,8 @@ import { SafeUrl, DomSanitizer } from "@angular/platform-browser";
 export class HeaderComponent implements OnInit {
     public user: User;
 
-    public datasets$: Promise<Array<any>>;
-    private teams$: Promise<Array<Team>>;
+    public datasets: Array<any>;
+    private teams: Array<Team>;
     public team: Team;
     // public members: Array<User>;
     public selectedDataset: DataSet;
@@ -109,12 +109,12 @@ export class HeaderComponent implements OnInit {
         this.userSubscription = this.auth.getUser().subscribe((user: User) => {
             this.user = user;
 
-            this.datasets$ = this.datasetFactory.get(this.user.datasets, true)
+            this.datasetFactory.get(this.user.datasets, true)
                 .then(datasets => {
                     return datasets.map(d => {
                         return {
                             datasetId: d.datasetId,
-                             initiative: d.initiative,
+                            initiative: d.initiative,
                             name: d.initiative.name,
                             team_id: (d.initiative && d.initiative.team_id) ? d.initiative.team_id : undefined,
                         }
@@ -122,11 +122,13 @@ export class HeaderComponent implements OnInit {
                     )
                 }, (r) => { return Promise.reject(r) })
                 .then(datasets => sortBy(datasets, d => d.name))
+                .then(datasets => { this.datasets = datasets })
                 .catch(() => { return [] })
 
 
-            this.teams$ = this.teamFactory.get(this.user.teams)
+            this.teamFactory.get(this.user.teams)
                 .then(teams => sortBy(teams, t => t.name), (r) => { return Promise.reject(r) })
+                .then(teams => { this.teams = teams })
                 .catch(() => { return [] })
 
             this.cd.markForCheck();

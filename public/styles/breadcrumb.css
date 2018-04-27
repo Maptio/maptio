@@ -4,5 +4,6 @@
 }
 
 .breadcrumb-item+.breadcrumb-item::before {
-    content: ">" !important;
+    content: "\f105" !important;
+    font-family: FontAwesome
 }
