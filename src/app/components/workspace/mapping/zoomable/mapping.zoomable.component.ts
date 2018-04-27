@@ -262,6 +262,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .subscribe((format: [number, string]) => {
         // font size
         svg.attr("font-size", format[0] + "rem");
+        svg.attr("data-font-multiplier", format[0]);
         svg.selectAll("text").attr("font-size", format[0] + "rem");
         svg.selectAll("foreignObject.name body")
           .each(function (d: any) {
@@ -775,7 +776,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .style("opacity", 0)
             .style("display", "none");
 
-          // d3.select(this).select("body").remove();
+          d3.select(this).select("body").remove();
         })
         .on("end", function (d: any) {
           d3
@@ -792,14 +793,15 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .style("opacity", function (d: any) {
               return isLeafDisplayed(d) ? 1 : 0;
             })
-            .select("body")
+            .append("xhtml:body")
             .style("font-size", function (d: any) {
               // console.log(d.data.name, fontSize)
-              return `${toREM(d.r * d.k * 2 * 0.95 / 15)}rem`; // `${fonts(d.depth) / (d.depth <= 2 ? 1 : 2) * d.k}rem`;
+              let multiplier = svg.attr("data-font-multiplier");
+              return `${toREM(d.r * d.k * 2 * 0.95 / 15 * multiplier)}rem`; // `${fonts(d.depth) / (d.depth <= 2 ? 1 : 2) * d.k}rem`;
             })
             .style("overflow", "initial")
-          // .style("background", "none")
-          // .html(function (d: any) { return d.data.name });
+            .style("background", "none")
+            .html(function (d: any) { return d.data.name });
         })
 
       transition
@@ -819,7 +821,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
               return -d.r * d.k * POSITION_ACCOUNTABLE_NAME.y;
             })
             .attr("font-size", function (d: any) {
-              return `${toREM(d.r * d.k * 2 * 0.95 / 15 * POSITION_ACCOUNTABLE_NAME.fontRatio)}rem`
+              let multiplier = svg.attr("data-font-multiplier");
+              return `${toREM(d.r * d.k * 2 * 0.95 / 15 * POSITION_ACCOUNTABLE_NAME.fontRatio * multiplier)}rem`
               // return `${fonts(d.depth) /
               //   (d.depth <= 2 ? 1 : 2) *
               //   d.k *
@@ -849,7 +852,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
               return -d.r * d.k * POSITION_TAGS_NAME.y;
             })
             .attr("font-size", function (d: any) {
-              return `${toREM(d.r * d.k * 2 * 0.95 / 15 * POSITION_TAGS_NAME.fontRatio)}rem`
+              let multiplier = svg.attr("data-font-multiplier");
+              return `${toREM(d.r * d.k * 2 * 0.95 / 15 * POSITION_TAGS_NAME.fontRatio * multiplier)}rem`
               // return `${fonts(d.depth) /
               //   (d.depth <= 2 ? 1 : 2) *
               //   d.k *
