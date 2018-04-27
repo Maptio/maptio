@@ -14,8 +14,9 @@
         </ng-template>
         <ng-template #thenBlock>
             <button data-toggle="collapse" href="#addMemberCollapse" role="button" class="btn btn-outline-secondary" (click)="isAddUserToggled=!isAddUserToggled"
-                [class.active]="isAddUserToggled">Add member
-                <i class="ml-1 fa fa-user-plus" aria-hidden="true"></i>
+                [class.active]="isAddUserToggled">
+                <i class="ml-1 fa fa-user-plus" aria-hidden="true"></i>Add member ...
+
             </button>
         </ng-template>
     </div>
@@ -23,8 +24,8 @@
     <div class="collapse w-100" id="addMemberCollapse">
         <div class="card mb-3 bg-light border-light">
             <div class="card-body">
-                <h5 class="card-title">Add a Maptio user to the team or create a new user</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Once they are imported, they must be invited to view and edit maps.</h6>
+                <!-- <h5 class="card-title">Add a Maptio user to the team or create a new user</h5> -->
+                <!-- <h6 class="card-subtitle mb-2 text-muted">Once they are imported, they must be invited to view and edit maps.</h6> -->
                 <div class="card-text">
                     <ng-template #rt let-r="result" let-t="term">
                         <img src="{{r.picture}}" width="16" alt="{{r.name}}"> {{r.email}}
@@ -42,39 +43,42 @@
                     </div>
                     <small *ngIf="isAlreadyInTeam" class="form-control-feedback text-warning">Already added!</small>
 
-                    <small class="form-text">Search for a person in Maptio by email address or enter an email address to add someone new.
+                    <small class="form-text">Search for a person in Maptio by email address, or enter an email address to add someone new.
                     </small>
                     <span *ngIf="searching">searching...</span>
 
                     <div class="" *ngIf="searchFailed && inputNewMember.value">
                         <span *ngIf="!isUserSearchedEmail">No results</span>
 
-                        <div *ngIf="isUserSearchedEmail" class="w-75">
+                        <div *ngIf="isUserSearchedEmail" class="">
 
                             <br>
                             <b>{{userSearched}}</b> ? We don’t know that person.
+                            <div class="">
+                                Enter a first and last name and click "Add". We’ll add a virtual member to use in the maps.
+                                <u>Once added</u>, you can invite them to view and edit maps.</div>
                             <div class="alert alert-danger " role="alert" *ngIf="errorMessage">
                                 {{errorMessage}}
                             </div>
 
-                            <form class="from-group" [formGroup]="inviteForm" (submit)="createUser(userSearched)">
-                                <fieldset>
-                                    <div class="input-group">
+                            <form class="form-inline" [formGroup]="inviteForm" (submit)="createUser(userSearched)">
+                                <!-- <fieldset> -->
+                                    <!-- <div class="input-group"> -->
                                         <input type="text" id="inputFirstname" formControlName="firstname" class="form-control form-control-warning " placeholder="First name"
                                             required minlength="2">
-                                        <input type="text" id="inputLastname" formControlName="lastname" class="form-control form-control-warning" placeholder="Last name"
+                                        <input type="text" id="inputLastname" formControlName="lastname" class="form-control form-control-warning mx-2" placeholder="Last name"
                                             required minlength="2">
                                         <button type="submit" class="btn btn-outline-secondary" [class.disabled]="!inviteForm.valid">Add</button>
                                         <i *ngIf="isCreatingUser" class="text-muted fa fa-circle-o-notch fa-spin fa-fw fa-2x"></i>
 
-                                    </div>
+                                    <!-- </div> -->
                                     <small class="form-control-feedback text-warning" *ngIf="inviteForm.controls['lastname'].invalid  && (inviteForm.controls['lastname'].dirty || inviteForm.controls['lastname'].touched)">
                                         Last name must be at least 2 characters in length
                                     </small>
                                     <small class="form-control-feedback text-warning" *ngIf="inviteForm.controls['firstname'].invalid  && (inviteForm.controls['firstname'].dirty || inviteForm.controls['firstname'].touched)">
                                         First name must be at least 2 characters in length
                                     </small>
-                                </fieldset>
+                                <!-- </fieldset> -->
 
                             </form>
 

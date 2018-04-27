@@ -102,9 +102,8 @@
                             <span class="mb-2 text-muted" *ngIf="importedFailed>0">
                                 <span class="text-warning">
                                     <i class="fa fa-exclamation-circle mr-1" aria-hidden="true"></i>
-                                    We couldn't import all users!</span>
-                                <a routerLink="/help">Get some help</a> or
-                                <a routerLink="../members">go and invite new users to view and edit maps. </a>
+                                    We couldn't import {{importedFailed}} users!</span>
+                                Try again or <a routerLink="../members">skip and invite {{importedSuccessfully}} new users to view and edit maps. </a>
                             </span>
                         </ng-container>
 
