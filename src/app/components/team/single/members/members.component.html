@@ -46,7 +46,6 @@
                     <small class="form-text">Search for a person in Maptio by email address, or enter an email address to add someone new.
                     </small>
                     <span *ngIf="searching">searching...</span>
-
                     <div class="" *ngIf="searchFailed && inputNewMember.value">
                         <span *ngIf="!isUserSearchedEmail">No results</span>
 
@@ -108,7 +107,7 @@
                 </tr>
             </thead>
             <tbody [style.height.vh]="55">
-                <ngx-loading [show]="isLoading"></ngx-loading>
+                <ngx-loading [show]="isLoading" [config]="{fullScreenBackdrop : 'false',backdropBackgroundColour:'transparent'}"></ngx-loading>
                 <tr *ngFor="let member of (members$ | async); trackBy: trackByMemberId;let i=index" [class.text-muted]="member.isDeleted"
                     [class.font-weight-light]="member.isDeleted" [class.bold]="member.userRole===UserRole.Admin">
                     <td>
@@ -129,7 +128,8 @@
                         <small [hidden]="!(member.isActivationPending && !member.isInvitationSent)" class="text-warning pull-left" placement="top"
                             container="body" ngbTooltip="{{member.name}} cannot view or edit maps.">Not yet invited</small>
                         <small [hidden]="!(member.isDeleted)" class="text-danger pull-left" placement="top" container="body" ngbTooltip="{{member.name}} was deleted.">Deleted</small>
-                        <small [hidden]="(member.isActivationPending || member.isDeleted)" class="text-success pull-left" placement="top" container="body" ngbTooltip="{{member.name}} can view and edit maps">Active</small>
+                        <small [hidden]="(member.isActivationPending || member.isDeleted)" class="text-success pull-left" placement="top" container="body"
+                            ngbTooltip="{{member.name}} can view and edit maps">Active</small>
 
                     </td>
                     <td>
