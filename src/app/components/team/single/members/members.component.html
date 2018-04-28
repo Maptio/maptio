@@ -63,21 +63,21 @@
 
                             <form class="form-inline" [formGroup]="inviteForm" (submit)="createUser(userSearched)">
                                 <!-- <fieldset> -->
-                                    <!-- <div class="input-group"> -->
-                                        <input type="text" id="inputFirstname" formControlName="firstname" class="form-control form-control-warning " placeholder="First name"
-                                            required minlength="2">
-                                        <input type="text" id="inputLastname" formControlName="lastname" class="form-control form-control-warning mx-2" placeholder="Last name"
-                                            required minlength="2">
-                                        <button type="submit" class="btn btn-outline-secondary" [class.disabled]="!inviteForm.valid">Add</button>
-                                        <i *ngIf="isCreatingUser" class="text-muted fa fa-circle-o-notch fa-spin fa-fw fa-2x"></i>
+                                <!-- <div class="input-group"> -->
+                                <input type="text" id="inputFirstname" formControlName="firstname" class="form-control form-control-warning " placeholder="First name"
+                                    required minlength="2">
+                                <input type="text" id="inputLastname" formControlName="lastname" class="form-control form-control-warning mx-2" placeholder="Last name"
+                                    required minlength="2">
+                                <button type="submit" class="btn btn-outline-secondary" [class.disabled]="!inviteForm.valid">Add</button>
+                                <i *ngIf="isCreatingUser" class="text-muted fa fa-circle-o-notch fa-spin fa-fw fa-2x"></i>
 
-                                    <!-- </div> -->
-                                    <small class="form-control-feedback text-warning" *ngIf="inviteForm.controls['lastname'].invalid  && (inviteForm.controls['lastname'].dirty || inviteForm.controls['lastname'].touched)">
-                                        Last name must be at least 2 characters in length
-                                    </small>
-                                    <small class="form-control-feedback text-warning" *ngIf="inviteForm.controls['firstname'].invalid  && (inviteForm.controls['firstname'].dirty || inviteForm.controls['firstname'].touched)">
-                                        First name must be at least 2 characters in length
-                                    </small>
+                                <!-- </div> -->
+                                <small class="form-control-feedback text-warning" *ngIf="inviteForm.controls['lastname'].invalid  && (inviteForm.controls['lastname'].dirty || inviteForm.controls['lastname'].touched)">
+                                    Last name must be at least 2 characters in length
+                                </small>
+                                <small class="form-control-feedback text-warning" *ngIf="inviteForm.controls['firstname'].invalid  && (inviteForm.controls['firstname'].dirty || inviteForm.controls['firstname'].touched)">
+                                    First name must be at least 2 characters in length
+                                </small>
                                 <!-- </fieldset> -->
 
                             </form>
@@ -124,8 +124,13 @@
                     </td>
                     <td>{{member.email}}
                         <br/>
-                        <small [hidden]="!(member.isActivationPending && member.isInvitationSent)" class="text-warning pull-left" placement="top"
-                            container="body" ngbTooltip="{{member.name}} was sent an invitation.">Pending</small>
+                        <small [hidden]="!(member.isActivationPending && member.isInvitationSent)" class="text-info pull-left" placement="top" container="body"
+                            ngbTooltip="{{member.name}} was sent an invitation.">Pending invitation</small>
+                        <small [hidden]="!(member.isActivationPending && !member.isInvitationSent)" class="text-warning pull-left" placement="top"
+                            container="body" ngbTooltip="{{member.name}} cannot view or edit maps.">Not yet invited</small>
+                        <small [hidden]="!(member.isDeleted)" class="text-danger pull-left" placement="top" container="body" ngbTooltip="{{member.name}} was deleted.">Deleted</small>
+                        <small [hidden]="(member.isActivationPending || member.isDeleted)" class="text-success pull-left" placement="top" container="body" ngbTooltip="{{member.name}} can view and edit maps">Active</small>
+
                     </td>
                     <td>
                         <ng-container *permissionsOnly="Permissions.canEditUser; else elseRoleBlock; then thenRoleBlock">main</ng-container>
@@ -139,10 +144,10 @@
                         </ng-template>
                     </td>
                     <td class="pr-0">
-                        <span *ngIf="member.isDeleted" class="text-muted pull-right">(Deleted)</span>
+                        <!-- <span *ngIf="member.isDeleted" class="text-muted pull-right">(Deleted)</span> -->
                         <ng-container *ngIf="!member.isDeleted">
-                            <button *ngIf="!member.isActivationPending" class="btn btn-default pull-right" placement="top" container="body" ngbTooltip="{{member.name}} is a confirmed user."
-                                disabled>Active</button>
+                            <!-- <button *ngIf="!member.isActivationPending" class="btn btn-default pull-right" placement="top" container="body" ngbTooltip="{{member.name}} is a confirmed user."
+                                disabled>Active</button> -->
 
                             <ng-container *ngIf="member.isActivationPending && !member.isInvitationSent">
                                 <ng-container *permissionsOnly="Permissions.canInviteUser;then thenInviteBlock; else elseInviteBlock"></ng-container>
