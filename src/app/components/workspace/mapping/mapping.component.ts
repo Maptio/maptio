@@ -477,7 +477,7 @@ export class MappingComponent {
     let ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, bbox.width, bbox.height);
     let data = (new XMLSerializer()).serializeToString(copy);
-    let DOMURL = window.URL || window.webkitURL || window;
+    let DOMURL: any = window.URL || window;
     console.log(1)
     let img = new Image();
     img.crossOrigin = "Anonymous";
@@ -497,7 +497,7 @@ export class MappingComponent {
         let imgURI = canvas
           .toDataURL("image/png")
           .replace("image/png", "image/octet-stream");
-          console.log(5)
+        console.log(5)
         this.triggerDownload(imgURI, fileName);
       }
       document.removeChild(canvas);
