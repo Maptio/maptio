@@ -61,8 +61,8 @@ if (!isDevelopment) {
         'maxcdn.bootstrapcdn.com', 'cdnjs.cloudflare.com', 'cdn.auth0.com', 'api.mixpanel.com',
         'cdn.mxpnl.com', 'cdn4.mxpnl.com',
         'www.google-analytics.com', 'mixpanel.com', 'widget.intercom.io', 'https://app.intercom.io',
-        'https://js.intercomcdn.com', 'https://fullstory.com','code.jquery.com'],
-      fontSrc: ["'self'",'maxcdn.bootstrapcdn.com', 'cdn.mixpnl.com', 'https://js.intercomcdn.com'],
+        'https://js.intercomcdn.com', 'https://fullstory.com', 'code.jquery.com'],
+      fontSrc: ["'self'", 'maxcdn.bootstrapcdn.com', 'cdn.mixpnl.com', 'https://js.intercomcdn.com'],
       connectSrc: ["'self'", 'api.mixpanel.com', 'api.cloudinary.com', 'circlemapping.auth0.com', 'www.google-analytics.com', 'mixpanel.com', 'https://api.intercom.io', 'https://api-iam.intercom.io',
         'https://api-ping.intercom.io',
         'https://nexus-websocket-a.intercom.io',
@@ -72,7 +72,7 @@ if (!isDevelopment) {
         'wss://nexus-websocket-a.intercom.io',
         'wss://nexus-websocket-b.intercom.io',
         'https://uploads.intercomcdn.com',
-        'https://uploads.intercomusercontent.com', 
+        'https://uploads.intercomusercontent.com',
         'https://rs.fullstory.com',
         'https://api.rollbar.com',
         'https://drive.google.com'
@@ -84,7 +84,7 @@ if (!isDevelopment) {
         'https://fast.wistia.net',
         'https://drive.google.com'
       ],
-      imgSrc: ['data:', '*']
+      imgSrc: ['data:', "'self'", '*']
     }
   }))
 }
@@ -93,7 +93,7 @@ if (!isDevelopment) {
 let cache = apicache.middleware
 // app.use(cache('5 seconds'))
 
-app.use(bodyParser.json({limit: '1mb'}));
+app.use(bodyParser.json({ limit: '1mb' }));
 app.use(sslRedirect());
 app.use(compression())
 // app.use(jwtCheck.unless({ path: ['/','/api/v1/mail/confirm', "/api/v1/jwt/encode", "/api/v1/jwt/decode"] }));
