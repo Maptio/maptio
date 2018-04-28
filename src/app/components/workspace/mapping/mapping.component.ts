@@ -28,6 +28,10 @@ import { MappingZoomableComponent } from "./zoomable/mapping.zoomable.component"
 
 // import { MappingNetworkComponent } from "./network/mapping.network.component";
 // import { MappingCirclesComponent } from "./circles/mapping.circles.component";
+
+
+declare var canvg: any;
+
 @Component({
   selector: "mapping",
   templateUrl: "./mapping.component.html",
@@ -412,5 +416,92 @@ export class MappingComponent {
 
   zoomToInitiative(selected: Initiative) {
     this.zoomToInitiative$.next(selected);
+  }
+
+
+  // print() {
+  //   console.log("printing");
+  //   // the canvg call that takes the svg xml and converts it to a canvas
+  //   canvg("canvas", document.getElementById("svg_circles").outerHTML);
+
+  //   // the canvas calls to output a png
+  //   let canvas = document.getElementById("canvas");
+  //   canvas.setAttribute("width", `${this.VIEWPORT_WIDTH}px`);
+  //   canvas.setAttribute("height", `${this.VIEWPORT_HEIGHT}px`);
+  //   let img = canvas.toDataURL("image/png");
+  //   document.write("<img src=\"" + img + "\"/>");
+  // }
+
+  print() {
+    let svg = document.getElementById("svg_circles");
+    this.downloadSvg(svg, "http://localhost:3000/image.png")
+  }
+
+  copyStylesInline(destinationNode: any, sourceNode: any) {
+    let containerElements = ["svg", "g"];
+    for (let cd = 0; cd < destinationNode.childNodes.length; cd++) {
+      let child = destinationNode.childNodes[cd];
+      if (containerElements.indexOf(child.tagName) !== -1) {
+        this.copyStylesInline(child, sourceNode.childNodes[cd]);
+        continue;
+      }
+      let style = sourceNode.childNodes[cd].currentStyle || window.getComputedStyle(sourceNode.childNodes[cd]);
+      if (style === "undefined" || style == null) continue;
+      for (let st = 0; st < style.length; st++) {
+        child.style.setProperty(style[st], style.getPropertyValue(style[st]));
+      }
+    }
+  }
+
+  triggerDownload(imgURI: string, fileName: string) {
+    console.log(6)
+    let evt = new MouseEvent("click", {
+      view: window,
+      bubbles: false,
+      cancelable: true
+    });
+    let a = document.createElement("a");
+    a.setAttribute("download", fileName);
+    a.setAttribute("href", imgURI);
+    a.setAttribute("target", "_blank");
+    a.dispatchEvent(evt);
+  }
+
+  downloadSvg(svg: any, fileName: string) {
+    let copy = svg.cloneNode(true);
+    this.copyStylesInline(copy, svg);
+    let canvas = document.createElement("canvas");
+    let bbox = svg.getBBox();
+    canvas.width = bbox.width;
+    canvas.height = bbox.height;
+    let ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, bbox.width, bbox.height);
+    let data = (new XMLSerializer()).serializeToString(copy);
+    let DOMURL = window.URL || window.webkitURL || window;
+    console.log(1)
+    let img = new Image();
+    img.crossOrigin = "Anonymous";
+    let svgBlob = new Blob([data], { type: "image/svg+xml;charset=utf-8" });
+    let url = DOMURL.createObjectURL(svgBlob);
+    console.log(2)
+    img.onload = function () {
+      console.log(3)
+      ctx.drawImage(img, 0, 0);
+      DOMURL.revokeObjectURL(url);
+      if (typeof navigator !== "undefined" && navigator.msSaveOrOpenBlob) {
+        let blob = canvas.msToBlob();
+        navigator.msSaveOrOpenBlob(blob, fileName);
+      }
+      else {
+        console.log(4, canvas)
+        let imgURI = canvas
+          .toDataURL("image/png")
+          .replace("image/png", "image/octet-stream");
+          console.log(5)
+        this.triggerDownload(imgURI, fileName);
+      }
+      document.removeChild(canvas);
+    }.bind(this);
+    img.src = url;
   }
 }
