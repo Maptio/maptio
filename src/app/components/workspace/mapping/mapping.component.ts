@@ -14,6 +14,7 @@ import { Angulartics2Mixpanel } from "angulartics2";
 import { compact } from "lodash";
 import { BehaviorSubject, ReplaySubject, Subject, Subscription } from "rxjs/Rx";
 
+import { saveAs } from "file-saver"
 import { Initiative } from "./../../../shared/model/initiative.data";
 import { SelectableTag, Tag } from "./../../../shared/model/tag.data";
 import { Team } from "./../../../shared/model/team.data";
@@ -432,9 +433,12 @@ export class MappingComponent {
   //   document.write("<img src=\"" + img + "\"/>");
   // }
 
+
   print() {
     let svg = document.getElementById("svg_circles");
-    this.downloadSvg(svg, "http://localhost:3000/image.png")
+    let w = Number.parseFloat(svg.getAttribute("width"));
+    let h = Number.parseFloat(svg.getAttribute("height"));
+    this.downloadSvg(svg, "image.png", w, h)
   }
 
   copyStylesInline(destinationNode: any, sourceNode: any) {
@@ -446,15 +450,27 @@ export class MappingComponent {
         continue;
       }
       let style = sourceNode.childNodes[cd].currentStyle || window.getComputedStyle(sourceNode.childNodes[cd]);
+      // console.log(style["display"], style["opacity"])
       if (style === "undefined" || style == null) continue;
       for (let st = 0; st < style.length; st++) {
-        child.style.setProperty(style[st], style.getPropertyValue(style[st]));
+        if (style[st] === "display" && style.getPropertyValue(style[st]) === "none") {
+          child.style.setProperty(style[st], "block");
+
+        }
+        else if (style[st] === "opacity" && style.getPropertyValue(style[st]) === "0") {
+          child.style.setProperty(style[st], "1");
+
+        }
+        else {
+          child.style.setProperty(style[st], style.getPropertyValue(style[st]));
+        }
+        // child.style.setProperty(style[st], style.getPropertyValue(style[st]));
       }
     }
   }
 
   triggerDownload(imgURI: string, fileName: string) {
-    console.log(6)
+    // console.log(6)
     let evt = new MouseEvent("click", {
       view: window,
       bubbles: false,
@@ -467,23 +483,50 @@ export class MappingComponent {
     a.dispatchEvent(evt);
   }
 
-  downloadSvg(svg: any, fileName: string) {
+  downloadSvg(svg: any, fileName: string, width: number, height: number) {
     let copy = svg.cloneNode(true);
     this.copyStylesInline(copy, svg);
     let canvas = document.createElement("canvas");
-    let bbox = svg.getBBox();
-    canvas.width = bbox.width;
-    canvas.height = bbox.height;
+    let WIDTH = width *2 ;
+    let HEIGHT = height *2;
+    // let bbox = svg.getBBox();
+    canvas.setAttribute("width", WIDTH + "px");
+    canvas.setAttribute("height", HEIGHT + "px");
     let ctx = canvas.getContext("2d");
-    ctx.clearRect(0, 0, bbox.width, bbox.height);
+    ctx.clearRect(0, 0, WIDTH, HEIGHT);
     let data = (new XMLSerializer()).serializeToString(copy);
     let DOMURL: any = window.URL || window;
-    console.log(1)
+    // console.log(1)
     let img = new Image();
     img.crossOrigin = "Anonymous";
+    img.setAttribute("crossOrigin", "Anonymous")
     let svgBlob = new Blob([data], { type: "image/svg+xml;charset=utf-8" });
+
+    // var svg = d3.select("svg")[0][0],
+    //   img = new Image(),
+    //   serializer = new XMLSerializer(),
+    //   svgStr = serializer.serializeToString(svg);
+    // console.log(data)
+    img.src = "data:image/svg+xml;utf8," + data;
+
+    // You could also use the actual string without base64 encoding it:
+    // img.src = "data:image/svg+xml;utf8," + svgStr;
+
+    // var canvas = document.createElement("canvas");
+    // document.body.appendChild(canvas);
+
+    // canvas.width = w;
+    // canvas.height = h;
+    canvas.getContext("2d").drawImage(img, 0, 0, WIDTH, HEIGHT);
+    let url = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+    // console.log(img, url);
+    this.triggerDownload(url, `${Date.now()}-image.png`)
+    // document.write("<img src=\""+url+"\"/>");
+    /*
+    console.log(svgBlob)
     let url = DOMURL.createObjectURL(svgBlob);
-    console.log(2)
+    img.src = url;
+    console.log(2, img, url)
     img.onload = function () {
       console.log(3)
       ctx.drawImage(img, 0, 0);
@@ -502,6 +545,6 @@ export class MappingComponent {
       }
       document.removeChild(canvas);
     }.bind(this);
-    img.src = url;
+    */
   }
 }

@@ -1,20 +1,3 @@
-<canvas id="canvas" ></canvas> 
-<script>
-		$(function () {
-
-			$("#print").click(function () {
-				console.log("printing")
-				// the canvg call that takes the svg xml and converts it to a canvas
-				canvg('canvas', $("#svg_circles").html());
-
-				// the canvas calls to output a png
-				var canvas = document.getElementById("canvas");
-				var img = canvas.toDataURL("image/png");
-				document.write('<img src="' + img + '"/>');
-				// do what you want with the base64, write to screen, post to server, etc...
-			});
-		})
-	</script>
 <div class="control zero ">
   <div class="btn-group-vertical">
     <a class="btn btn-light p-1 text-dark btn-control" [class.active]="isSearchToggled" [class.disabled]="isSearchDisabled" (click)="isSearchToggled=!isSearchToggled"
