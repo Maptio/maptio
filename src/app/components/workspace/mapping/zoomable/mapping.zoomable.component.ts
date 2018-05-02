@@ -539,12 +539,19 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .style("opacity", function (d: any) {
         return isLeafDisplayed(d) ? 1 : 0;
       })
-      .append("xhtml:body")
-      .style("font-size", function (d: any) {
-        return `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`; // `${fonts(d.depth) / (d.depth <= 2 ? 1 : 2) * d.k}rem`;
+      .html(function (d: any) {
+        let fs = `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`;
+        return `<body style="font-size: ${fs}; background: none;">${d.data.name}</body>`;
       })
-      .style("background", "none")
-      .html(function (d: any) { return d.data.name });
+    // .append("xhtml:body")
+    // .style("font-size", function (d: any) {
+    //   return `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`; // `${fonts(d.depth) / (d.depth <= 2 ? 1 : 2) * d.k}rem`;
+    // })
+    // .style("background", "none")
+    // .html(function (d: any) { return d.data.name });
+
+
+
     // let initiativeName = initiativeNoChildren.select("text.name.no-children")
     //   .attr("id", function (d: any) {
     //     return `${d.data.id}`;
@@ -791,15 +798,21 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .style("opacity", function (d: any) {
               return isLeafDisplayed(d) ? 1 : 0;
             })
-            .append("xhtml:body")
-            .style("font-size", function (d: any) {
-              // console.log(d.data.name, fontSize)
+            .html(function (d: any) {
               let multiplier = svg.attr("data-font-multiplier");
-              return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * multiplier)}rem`; // `${fonts(d.depth) / (d.depth <= 2 ? 1 : 2) * d.k}rem`;
+              let fs = `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * multiplier)}rem`;
+              return `<body style="font-size: ${fs}; background: none;overflow: initial">${d.data.name}</body>`;
             })
-            .style("overflow", "initial")
-            .style("background", "none")
-            .html(function (d: any) { return d.data.name });
+
+            // .append("xhtml:body")
+            // .style("font-size", function (d: any) {
+            //   // console.log(d.data.name, fontSize)
+            //   let multiplier = svg.attr("data-font-multiplier");
+            //   return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * multiplier)}rem`; // `${fonts(d.depth) / (d.depth <= 2 ? 1 : 2) * d.k}rem`;
+            // })
+            // .style("overflow", "initial")
+            // .style("background", "none")
+            // .html(function (d: any) { return d.data.name });
         })
 
       transition
