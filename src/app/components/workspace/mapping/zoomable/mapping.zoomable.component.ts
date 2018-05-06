@@ -264,10 +264,19 @@ export class MappingZoomableComponent implements IDataVisualizer {
         svg.attr("font-size", format[0] + "rem");
         svg.attr("data-font-multiplier", format[0]);
         svg.selectAll("text").style("font-size", format[0] + "rem");
-        svg.selectAll("foreignObject.name body")
+        svg.selectAll("foreignObject.name")
           .each(function (d: any) {
-            d3.select(this).style("font-size", `${d.r * d.k * 2 * 0.95 / 15 * format[0] / 16}rem`)
+            // console.log(d.data.name, d3.select(this).select("div"))
+            d3.select(this).select("div").style("font-size", `${d.r * d.k * 2 * 0.95 / 15 * format[0] / 16}rem`)
           })
+        // svg.selectAll("body.name")
+        //   .each(function (d: any) {
+        //     d3.select(this).style("font-size", `${d.r * d.k * 2 * 0.95 / 15 * format[0] / 16}rem`)
+        //   })
+        // svg.selectAll("foreignObject.name")
+        //   .each(function (d: any) {
+        //     d3.select(this).style("font-size", `${d.r * d.k * 2 * 0.95 / 15 * format[0] / 16}rem`)
+        //   })
 
         this.fontSize = format[0];
         // font color
@@ -539,9 +548,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .style("opacity", function (d: any) {
         return isLeafDisplayed(d) ? 1 : 0;
       })
+      // .style("font-size", function (d: any) {
+      //   return `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`;
+      // })
       .html(function (d: any) {
         let fs = `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`;
-        return `<body style="font-size: ${fs}; background: none;">${d.data.name}</body>`;
+        return `<div style="font-size: ${fs}; background: none; display: inline-block">${d.data.name}</div>`;
       })
     // .append("xhtml:body")
     // .style("font-size", function (d: any) {
@@ -798,21 +810,27 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .style("opacity", function (d: any) {
               return isLeafDisplayed(d) ? 1 : 0;
             })
+            // .style("font-size", function (d: any) {
+            //   let multiplier = svg.attr("data-font-multiplier");
+
+            //   return `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * multiplier)}rem`;
+            // })
             .html(function (d: any) {
+              console.log("here")
               let multiplier = svg.attr("data-font-multiplier");
-              let fs = `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * multiplier)}rem`;
-              return `<body style="font-size: ${fs}; background: none;overflow: initial">${d.data.name}</body>`;
+              let fs = `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * multiplier)}rem`;
+              return `<div style="font-size: ${fs}; background: none;overflow: initial; display: inline-block">${d.data.name}</div>`;
             })
 
-            // .append("xhtml:body")
-            // .style("font-size", function (d: any) {
-            //   // console.log(d.data.name, fontSize)
-            //   let multiplier = svg.attr("data-font-multiplier");
-            //   return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * multiplier)}rem`; // `${fonts(d.depth) / (d.depth <= 2 ? 1 : 2) * d.k}rem`;
-            // })
-            // .style("overflow", "initial")
-            // .style("background", "none")
-            // .html(function (d: any) { return d.data.name });
+          // .append("xhtml:body")
+          // .style("font-size", function (d: any) {
+          //   // console.log(d.data.name, fontSize)
+          //   let multiplier = svg.attr("data-font-multiplier");
+          //   return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * multiplier)}rem`; // `${fonts(d.depth) / (d.depth <= 2 ? 1 : 2) * d.k}rem`;
+          // })
+          // .style("overflow", "initial")
+          // .style("background", "none")
+          // .html(function (d: any) { return d.data.name });
         })
 
       transition
