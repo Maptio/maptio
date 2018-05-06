@@ -107,7 +107,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
   POSITION_INITIATIVE_NAME = { x: 0.9, y: 0.1, fontRatio: 1 };
   POSITION_TAGS_NAME = { x: 0, y: 0.3, fontRatio: 0.65 };
-  POSITION_ACCOUNTABLE_NAME = { x: 0, y: 0.45, fontRatio: 0.8 };
+  POSITION_ACCOUNTABLE_NAME = { x: 0, y: 0.45, fontRatio: 0.9 };
   DEFAULT_PICTURE_ANGLE = Math.PI - Math.PI * 36 / 180;
 
   constructor(
@@ -263,20 +263,21 @@ export class MappingZoomableComponent implements IDataVisualizer {
         // font size
         svg.attr("font-size", format[0] + "rem");
         svg.attr("data-font-multiplier", format[0]);
-        svg.selectAll("text").style("font-size", format[0] + "rem");
+        // svg.selectAll("text").style("font-size", format[0] + "rem");
         svg.selectAll("foreignObject.name")
           .each(function (d: any) {
-            // console.log(d.data.name, d3.select(this).select("div"))
             d3.select(this).select("div").style("font-size", `${d.r * d.k * 2 * 0.95 / 15 * format[0] / 16}rem`)
+          });
+        svg.selectAll("text.accountable")
+          .attr("font-size", function (d: any) {
+            let multiplier = svg.attr("data-font-multiplier");
+            return `${d.r * d.k * 2 * 0.95 / 15 * 0.9 * multiplier / 16}rem`
           })
-        // svg.selectAll("body.name")
-        //   .each(function (d: any) {
-        //     d3.select(this).style("font-size", `${d.r * d.k * 2 * 0.95 / 15 * format[0] / 16}rem`)
-        //   })
-        // svg.selectAll("foreignObject.name")
-        //   .each(function (d: any) {
-        //     d3.select(this).style("font-size", `${d.r * d.k * 2 * 0.95 / 15 * format[0] / 16}rem`)
-        //   })
+        svg.selectAll("text.tags")
+          .attr("font-size", function (d: any) {
+            let multiplier = svg.attr("data-font-multiplier");
+            return `${d.r * d.k * 2 * 0.95 / 15 * 0.65 * multiplier / 16}rem`
+          })
 
         this.fontSize = format[0];
         // font color
@@ -609,8 +610,16 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return -d.r * POSITION_TAGS_NAME.y;
       })
       .attr("font-size", function (d: any) {
-        return `${fonts(d.depth) * POSITION_TAGS_NAME.fontRatio}rem`;
+        let multiplier = svg.attr("data-font-multiplier");
+        return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * POSITION_TAGS_NAME.fontRatio * multiplier)}rem`
+        // return `${fonts(d.depth) /
+        //   (d.depth <= 2 ? 1 : 2) *
+        //   d.k *
+        //   POSITION_TAGS_NAME.fontRatio}rem`;
       })
+      // .attr("font-size", function (d: any) {
+      //   return `${fonts(d.depth) * POSITION_TAGS_NAME.fontRatio}rem`;
+      // })
       .style("display", "inline")
       .style("opacity", function (d: any) {
         return isLeafDisplayed(d) ? 1 : 0;
@@ -653,8 +662,16 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return isLeafDisplayed(d) ? 1 : 0;
       })
       .attr("font-size", function (d: any) {
-        return `${fonts(d.depth) * POSITION_ACCOUNTABLE_NAME.fontRatio}rem`;
+        let multiplier = svg.attr("data-font-multiplier");
+        return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * POSITION_ACCOUNTABLE_NAME.fontRatio * multiplier)}rem`
+        // return `${fonts(d.depth) /
+        //   (d.depth <= 2 ? 1 : 2) *
+        //   d.k *
+        //   POSITION_ACCOUNTABLE_NAME.fontRatio}rem`;
       })
+      // .attr("font-size", function (d: any) {
+      //   return `${fonts(d.depth) * POSITION_ACCOUNTABLE_NAME.fontRatio}rem`;
+      // })
       .attr("x", function (d: any) {
         return d.r * POSITION_ACCOUNTABLE_NAME.x;
       })
@@ -887,7 +904,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
               //   (d.depth <= 2 ? 1 : 2) *
               //   d.k *
               //   POSITION_TAGS_NAME.fontRatio}rem`;
-            });
+            })
+            .style("opacity", function (d: any) {
+              return isLeafDisplayed(d) ? 1 : 0;
+            })
         });
 
       // all
