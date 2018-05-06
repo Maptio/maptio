@@ -20,5 +20,5 @@
   :host /deep/ .dropdown-menu {
     max-height: 65vh;
     overflow-y: auto;
-    max-width: 50vw;
+    max-width: 34.5vw;
   }
