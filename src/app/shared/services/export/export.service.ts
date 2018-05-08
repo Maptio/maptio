@@ -1,3 +1,7 @@
+import { RequestMethod } from '@angular/http';
+import { Request } from '@angular/http';
+import { Http } from '@angular/http';
+import { RequestOptions, Headers } from '@angular/http';
 
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Rx";
@@ -12,7 +16,7 @@ import { upperFirst, lowerCase, toLower } from "lodash"
 export class ExportService {
 
     private d3: D3;
-    constructor(d3Service: D3Service) {
+    constructor(d3Service: D3Service, private http: Http) {
         this.d3 = d3Service.getD3();
     }
 
@@ -33,6 +37,21 @@ export class ExportService {
 
         });
         return Observable.of(exportString);
+    }
+
+    getSnapshot(svgString: string, datasetId: string) {
+        let headers = new Headers();
+        headers.append("Content-Type", "text/html");
+        headers.append("Accept", "text/html");
+        let req = new Request({
+            url: `/api/v1/images/upload/${datasetId}`,
+            body: svgString,
+            method: RequestMethod.Post,
+            headers: headers
+        });
+        return this.http.request(req).map((responseData) => {
+            return <string>responseData.json().secure_url;
+        })
     }
 
 }

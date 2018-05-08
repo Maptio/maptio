@@ -41,13 +41,17 @@ export class AuthHttpInterceptor extends AuthHttp {
     }
 
     private getRequestOptionArgs(options?: RequestOptionsArgs): RequestOptionsArgs {
+        console.log("get options", options)
         if (options == null) {
             options = new RequestOptions();
         }
         if (options.headers == null) {
             options.headers = new Headers();
         }
-        options.headers.append("Content-Type", "application/json");
+        // if (!options.headers.has("Content-Type")) {
+        //     options.headers.append("Content-Type", "application/json");
+        // }
+        console.log(options)
         return options;
     }
 

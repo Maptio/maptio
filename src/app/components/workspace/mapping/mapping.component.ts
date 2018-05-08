@@ -1,3 +1,4 @@
+import { ExportService } from './../../../shared/services/export/export.service';
 import "rxjs/add/operator/map";
 
 import {
@@ -140,7 +141,8 @@ export class MappingComponent {
     private route: ActivatedRoute,
     private analytics: Angulartics2Mixpanel,
     private uriService: URIService,
-    private uiService: UIService
+    private uiService: UIService,
+    private exportService: ExportService
   ) {
     this.zoom$ = new Subject<number>();
     this.isReset$ = new Subject<boolean>();
@@ -433,24 +435,54 @@ export class MappingComponent {
   //   document.write("<img src=\"" + img + "\"/>");
   // }
 
+  isPrinting: boolean;
 
   print() {
+    this.isPrinting = true;
+    // this.resetZoom();
+    this.changeFontSize(1)
+
     let svg = document.getElementById("svg_circles");
     let w = Number.parseFloat(svg.getAttribute("width"));
     let h = Number.parseFloat(svg.getAttribute("height"));
-    this.downloadSvg(svg, "image.png", w, h)
+    svg.setAttribute("xmlns", "http://www.w3.org/2000/svg")
+    svg.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink")
+    let svgNode = this.downloadSvg(svg, "image.png", w, h);
+    console.log(svgNode.outerHTML)
+    this.exportService.getSnapshot(svgNode.outerHTML, this.datasetId)
+      .subscribe(url => { this.triggerDownload(url, ""); this.isPrinting = false; this.cd.markForCheck() })
+
   }
 
   copyStylesInline(destinationNode: any, sourceNode: any) {
     let containerElements = ["svg", "g"];
     for (let cd = 0; cd < destinationNode.childNodes.length; cd++) {
       let child = destinationNode.childNodes[cd];
+      if (child.tagName === "foreignObject") {
+        console.log("beofre", child.tagName, child.childNodes[0].tagName)
+        if (child.childNodes[0].tagName === "DIV") {
+          let bodyChild = document.createElement("body");
+          bodyChild.setAttribute("xmnls", "http://www.w3.org/1999/xhtml");
+          let divChild = document.createElement("div")
+          bodyChild.style.background = "none";
+          bodyChild.style.overflow = "initial";
+          bodyChild.style.display = "inline-block";
+          bodyChild.style.lineHeight = "unset";
+          let font = Number.parseFloat((<HTMLDivElement>child.childNodes[0]).style.fontSize.replace("rem", ""));
+          let realFont = font / 16 < 1 ? "3px" : (<HTMLDivElement>child.childNodes[0]).style.fontSize
+          bodyChild.style.fontSize = realFont;
+          divChild.textContent = (<HTMLDivElement>child.childNodes[0]).textContent;
+          bodyChild.appendChild(divChild);
+          (<Node>child).replaceChild(bodyChild, child.childNodes[0])
+
+        }
+      }
       if (containerElements.indexOf(child.tagName) !== -1) {
         this.copyStylesInline(child, sourceNode.childNodes[cd]);
         continue;
       }
       let style = sourceNode.childNodes[cd].currentStyle || window.getComputedStyle(sourceNode.childNodes[cd]);
-      // console.log(style["display"], style["opacity"])
+      // console.log(style["fill"], )
       if (style === "undefined" || style == null) continue;
       for (let st = 0; st < style.length; st++) {
         if (style[st] === "display" && style.getPropertyValue(style[st]) === "none") {
@@ -459,8 +491,10 @@ export class MappingComponent {
         }
         else if (style[st] === "opacity" && style.getPropertyValue(style[st]) === "0") {
           child.style.setProperty(style[st], "1");
-
         }
+        // else if (style["fill"].includes("url(")) {
+        //   child.style.setProperty("display", "none")
+        // }
         else {
           child.style.setProperty(style[st], style.getPropertyValue(style[st]));
         }
@@ -470,81 +504,43 @@ export class MappingComponent {
   }
 
   triggerDownload(imgURI: string, fileName: string) {
-    // console.log(6)
+    console.log(imgURI)
     let evt = new MouseEvent("click", {
       view: window,
       bubbles: false,
       cancelable: true
     });
     let a = document.createElement("a");
-    a.setAttribute("download", fileName);
+    // a.setAttribute("download", fileName);
     a.setAttribute("href", imgURI);
     a.setAttribute("target", "_blank");
     a.dispatchEvent(evt);
   }
 
-  downloadSvg(svg: any, fileName: string, width: number, height: number) {
+  downloadSvg(svg: HTMLElement, fileName: string, width: number, height: number): Node {
     let copy = svg.cloneNode(true);
     this.copyStylesInline(copy, svg);
-    let canvas = document.createElement("canvas");
-    let WIDTH = width *2 ;
-    let HEIGHT = height *2;
-    // let bbox = svg.getBBox();
-    canvas.setAttribute("width", WIDTH + "px");
-    canvas.setAttribute("height", HEIGHT + "px");
-    let ctx = canvas.getContext("2d");
-    ctx.clearRect(0, 0, WIDTH, HEIGHT);
-    let data = (new XMLSerializer()).serializeToString(copy);
-    let DOMURL: any = window.URL || window;
-    // console.log(1)
-    let img = new Image();
-    img.crossOrigin = "Anonymous";
-    img.setAttribute("crossOrigin", "Anonymous")
-    let svgBlob = new Blob([data], { type: "image/svg+xml;charset=utf-8" });
-
-    // var svg = d3.select("svg")[0][0],
-    //   img = new Image(),
-    //   serializer = new XMLSerializer(),
-    //   svgStr = serializer.serializeToString(svg);
-    // console.log(data)
-    img.src = "data:image/svg+xml;utf8," + data;
-
-    // You could also use the actual string without base64 encoding it:
-    // img.src = "data:image/svg+xml;utf8," + svgStr;
-
-    // var canvas = document.createElement("canvas");
-    // document.body.appendChild(canvas);
-
-    // canvas.width = w;
-    // canvas.height = h;
-    canvas.getContext("2d").drawImage(img, 0, 0, WIDTH, HEIGHT);
-    let url = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-    // console.log(img, url);
-    this.triggerDownload(url, `${Date.now()}-image.png`)
-    // document.write("<img src=\""+url+"\"/>");
+    // console.log(copy)
+    return copy;
     /*
-    console.log(svgBlob)
-    let url = DOMURL.createObjectURL(svgBlob);
-    img.src = url;
-    console.log(2, img, url)
-    img.onload = function () {
-      console.log(3)
-      ctx.drawImage(img, 0, 0);
-      DOMURL.revokeObjectURL(url);
-      if (typeof navigator !== "undefined" && navigator.msSaveOrOpenBlob) {
-        let blob = canvas.msToBlob();
-        navigator.msSaveOrOpenBlob(blob, fileName);
-      }
-      else {
-        console.log(4, canvas)
-        let imgURI = canvas
-          .toDataURL("image/png")
-          .replace("image/png", "image/octet-stream");
-        console.log(5)
-        this.triggerDownload(imgURI, fileName);
-      }
-      document.removeChild(canvas);
-    }.bind(this);
-    */
+        let canvas = document.createElement("canvas");
+        let WIDTH = width * 2;
+        let HEIGHT = height * 3;
+        canvas.setAttribute("width", WIDTH + "px");
+        canvas.setAttribute("height", HEIGHT + "px");
+        let ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, WIDTH, HEIGHT);
+        let data = (new XMLSerializer()).serializeToString(copy);
+        let DOMURL: any = window.URL || window;
+        let img = new Image();
+        img.crossOrigin = "Anonymous";
+        img.setAttribute("crossOrigin", "Anonymous")
+        let svgBlob = new Blob([data], { type: "image/svg+xml;charset=utf-8" });
+    
+        img.src = "data:image/svg+xml;utf8," + data;
+        canvas.getContext("2d").drawImage(img, 0, 0, WIDTH, HEIGHT);
+        let url = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+        this.triggerDownload(url, `${Date.now()}-image.png`)
+        */
   }
 }

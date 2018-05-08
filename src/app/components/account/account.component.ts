@@ -90,6 +90,7 @@ export class AccountComponent {
         this.uploader.onProgressItem = (fileItem: any, progress: any) => {
             this.isRefreshingPicture = true
         }
+
     }
 
     private handleError(item: FileLikeObject, filter: any, options: any) {
