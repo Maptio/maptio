@@ -54,11 +54,11 @@ export class HeaderComponent implements OnInit {
     constructor(public auth: Auth, private userService: UserService, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory,
         public errorService: ErrorService, private router: Router, private loader: LoaderService, private sanitizer: DomSanitizer,
         private analytics: Angulartics2Mixpanel, private cd: ChangeDetectorRef) {
-        this.emitterSubscription = EmitterService.get("currentDataset")
-            .subscribe((value: DataSet) => {
-                this.selectedDataset = value;
-                this.cd.markForCheck();
-            });
+        // this.emitterSubscription = EmitterService.get("currentDataset")
+        //     .subscribe((value: DataSet) => {
+        //         this.selectedDataset = value;
+        //         this.cd.markForCheck();
+        //     });
 
         EmitterService.get("currentTeam").subscribe((value: Team) => {
             this.team = value;
@@ -96,9 +96,9 @@ export class HeaderComponent implements OnInit {
     }
 
     ngOnDestroy() {
-        if (this.emitterSubscription) {
-            this.emitterSubscription.unsubscribe();
-        }
+        // if (this.emitterSubscription) {
+        //     this.emitterSubscription.unsubscribe();
+        // }
         if (this.userSubscription) {
             this.userSubscription.unsubscribe();
         }
@@ -151,11 +151,12 @@ export class HeaderComponent implements OnInit {
     //     return this._imgSafe;
     // }
 
-    goTo(dataset: DataSet) {
-        this.selectedDataset = dataset;
-        this.team = dataset.team;
-        if (dataset) this.router.navigate(["map", dataset.datasetId, dataset.initiative.getSlug(), "circles"]);
-    }
+    // goTo(dataset: DataSet) {
+    //     // this.selectedDataset = dataset;
+    //     // this.team = dataset.team;
+    //     // if (dataset) 
+    //     this.router.navigate(["map", dataset.datasetId, dataset.initiative.getSlug(), "circles"]);
+    // }
 
     createDataset() {
         if (this.createMapForm.dirty && this.createMapForm.valid) {

@@ -63,9 +63,9 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     dragConfirmationModal: NgbModal;
 
     ngOnDestroy(): void {
-        EmitterService.get("currentDataset").emit(undefined);
+        // EmitterService.get("currentDataset").emit(undefined);
         EmitterService.get("currentTeam").emit(undefined)
-        EmitterService.get("currentMembers").emit(undefined);
+        // EmitterService.get("currentMembers").emit(undefined);
         if (this.routeSubscription) this.routeSubscription.unsubscribe();
         if (this.userSubscription) this.userSubscription.unsubscribe();
     }
@@ -85,9 +85,9 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.datasetId = this.dataset.datasetId;
                 this.teamName = this.team.name;
                 this.teamId = this.team.team_id;
-                EmitterService.get("currentDataset").emit(this.dataset);
+                // EmitterService.get("currentDataset").emit(this.dataset);
                 EmitterService.get("currentTeam").emit(this.team);
-                EmitterService.get("currentMembers").emit(this.members);
+                // EmitterService.get("currentMembers").emit(this.members);
                 this.buildingComponent.loadData(this.dataset.datasetId, "", this.team);
             });
     }

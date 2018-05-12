@@ -30,7 +30,9 @@
                     Maps 
                 </a>
                 <div class="dropdown-menu dropdown-menu-right overflow" aria-labelledby="mapsListDropdownLink">
-                    <a class="dropdown-item" (click)="goTo(dataset)" *ngFor="let dataset of datasets">
+                    <a class="dropdown-item" 
+                    routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/circles"
+                    *ngFor="let dataset of datasets">
                         {{dataset?.name}}
                     </a>
                 </div>
