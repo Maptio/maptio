@@ -4,7 +4,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Component, OnInit } from "@angular/core";
 
 @Component({
-    selector: "team-maps-settings",
+    selector: "team-single-maps",
     templateUrl: "./maps.component.html",
     styleUrls: ["./maps.component.css"]
 })

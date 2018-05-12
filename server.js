@@ -105,11 +105,15 @@ var inviting = require('./routes/invite-mail');
 var confirming = require('./routes/confirm-mail');
 var encoding = require('./routes/encoding');
 var images = require('./routes/images');
+var notifications = require('./routes/notifications');
+var oauth = require('./routes/oauth');
 
 app.use('/api/v1/jwt/', encoding);
 app.use('/api/v1/mail/confirm', confirming);
 
-app.use('/api/v1/images/',  images)
+app.use('/api/v1/images/', images)
+app.use('/api/v1/notifications/', notifications)
+app.use('/api/v1/oauth', jwtCheck, check_scopes(["api"]), oauth);
 app.use('/api/v1/mail/invite', jwtCheck, check_scopes(["invite"]), inviting);
 app.use('/api/v1/dataset/', jwtCheck, check_scopes(["api"]), datasets);
 app.use('/api/v1/user', jwtCheck, check_scopes(["api"]), users);

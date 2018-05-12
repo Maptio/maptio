@@ -1,7 +1,7 @@
-import { RequestMethod } from '@angular/http';
-import { Request } from '@angular/http';
-import { Http } from '@angular/http';
-import { RequestOptions, Headers } from '@angular/http';
+import { RequestMethod } from "@angular/http";
+import { Request } from "@angular/http";
+import { Http } from "@angular/http";
+import { RequestOptions, Headers } from "@angular/http";
 
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Rx";
@@ -52,6 +52,27 @@ export class ExportService {
         return this.http.request(req).map((responseData) => {
             return <string>responseData.json().secure_url;
         })
+    }
+
+    sendSlackNotification(svgString: string, datasetId: string, datasetName: string) {
+        return this.getSnapshot(svgString, datasetId).map((imageUrl: string) => {
+            console.log(imageUrl)
+            let headers = new Headers();
+            headers.append("Content-Type", "application/json");
+            headers.append("Accept", "application/json");
+            return new Request({
+                url: `/api/v1/notifications/send/`,
+                body: {
+                    text: `Changes in ${datasetName}`,
+                    title: `${datasetName} current initiatives`,
+                    imageUrl: imageUrl.replace(".svg",".png"),
+                    time: Date.now()
+                },
+                method: RequestMethod.Post,
+                headers: headers
+            })
+        })
+            .mergeMap(req => this.http.request(req))
     }
 
 }

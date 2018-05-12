@@ -1,3 +1,6 @@
+import { BaseRequestOptions } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
+import { Http } from '@angular/http';
 import { inject, TestBed } from '@angular/core/testing';
 import { D3Service } from 'd3-ng2-service';
 import { DataSet } from '../../model/dataset.data';
@@ -10,7 +13,19 @@ describe("export.service.ts", () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
-                ExportService, D3Service
+                ExportService, D3Service,
+                {
+                    provide: Http,
+                    useFactory: (
+                        mockBackend: MockBackend,
+                        options: BaseRequestOptions
+                    ) => {
+                        return new Http(mockBackend, options);
+                    },
+                    deps: [MockBackend, BaseRequestOptions]
+                },
+                MockBackend,
+                BaseRequestOptions,
             ]
         });
     })

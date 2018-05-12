@@ -1,6 +1,10 @@
+import { SlackIntegration } from "./integrations.data";
+import { Serializable } from "./../interfaces/serializable.interface";
 import { User } from "./user.data";
-import { Serializable } from "../interfaces/serializable.interface";
 import * as slug from "slug";
+
+
+
 
 /**
  * Represents a team
@@ -28,7 +32,9 @@ export class Team implements Serializable<Team> {
      */
     public members: Array<User>;
 
-    public settings: { authority: string, helper: string } ;
+    public settings: { authority: string, helper: string };
+
+    public slack: SlackIntegration;
 
     public constructor(init?: Partial<Team>) {
         Object.assign(this, init);
@@ -54,9 +60,12 @@ export class Team implements Serializable<Team> {
                 deserialized.members.push(User.create().deserialize(member))
             });
         }
-        deserialized.settings = {authority: "Authority", helper: "Helper"}
+        deserialized.settings = { authority: "Authority", helper: "Helper" }
         deserialized.settings.authority = input.settings ? input.settings.authority || "Authority" : "Authority";
         deserialized.settings.helper = input.settings ? input.settings.helper || "Helper" : "Helper"
+
+        deserialized.slack = SlackIntegration.create().deserialize(input.slack || {});
+
 
         return deserialized;
     }
