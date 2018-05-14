@@ -15,7 +15,7 @@ import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 export class TeamIntegrationsComponent implements OnInit {
 
     public REDIRECT_URL = `${window.location.protocol}//${window.location.host}${window.location.pathname}`; // "http://localhost:3000/api/v1/oauth/slack";
-    public SLACK_URL = `https://slack.com/oauth/authorize?scope=incoming-webhook&client_id=${environment.SLACK_CLIENT_ID}&redirect_uri=${this.REDIRECT_URL}`
+    public SLACK_URL = `https://slack.com/oauth/authorize?scope=incoming-webhook,chat:write:user,channels:read&client_id=${environment.SLACK_CLIENT_ID}&redirect_uri=${this.REDIRECT_URL}`
 
     private team: Team;
 
@@ -28,6 +28,7 @@ export class TeamIntegrationsComponent implements OnInit {
         this.route.parent.data
             .subscribe((data: { assets: { team: Team, datasets: DataSet[] } }) => {
                 this.team = data.assets.team;
+                console.log(this.team)
             });
 
         this.route.queryParams.map(queryParams => {
@@ -46,6 +47,7 @@ export class TeamIntegrationsComponent implements OnInit {
                     })
             })
             .subscribe(slack => {
+                console.log(slack)
                 if (slack.ok) {
                     this.updateTeam(slack.access_token, slack.incoming_webhook).then(team => {
 

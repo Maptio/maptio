@@ -18,14 +18,10 @@ export class SlackIntegration implements Serializable<SlackIntegration> {
     }
 
     deserialize(input: any): SlackIntegration {
-        if (!input._id) {
-            return undefined;
-        }
-
         let deserialized = new SlackIntegration();
         deserialized.access_token = input.access_token;
         deserialized.incoming_webhook = input.incoming_webhook;
-
+        // console.log("deserialize slack", deserialized, input)
         return deserialized;
     }
 

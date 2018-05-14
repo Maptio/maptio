@@ -63,9 +63,9 @@ export class Team implements Serializable<Team> {
         deserialized.settings = { authority: "Authority", helper: "Helper" }
         deserialized.settings.authority = input.settings ? input.settings.authority || "Authority" : "Authority";
         deserialized.settings.helper = input.settings ? input.settings.helper || "Helper" : "Helper"
-
         deserialized.slack = SlackIntegration.create().deserialize(input.slack || {});
-
+        // console.log("deserialize team", input.slack, deserialized.slack)
+        
 
         return deserialized;
     }
