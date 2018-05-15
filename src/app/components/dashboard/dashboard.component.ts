@@ -63,8 +63,8 @@ export class DashboardComponent {
 
 
     goTo(dataset: DataSet) {
-        EmitterService.get("currentDataset").emit(dataset);
-        EmitterService.get("currentTeam").emit(dataset.team)
+        // EmitterService.get("currentDataset").emit(dataset);
+        // EmitterService.get("currentTeam").emit(dataset.team)
     }
 
     export(dataset: DataSet) {

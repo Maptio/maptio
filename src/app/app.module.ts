@@ -179,8 +179,8 @@ export function rollbarFactory() {
       deps: [Http, RequestOptions]
     },
     DashboardComponentResolver,
-    { provide: ErrorHandler, useClass: RollbarErrorHandler },
-    { provide: RollbarService, useFactory: rollbarFactory }
+    // { provide: ErrorHandler, useClass: RollbarErrorHandler },
+    // { provide: RollbarService, useFactory: rollbarFactory }
   ],
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]

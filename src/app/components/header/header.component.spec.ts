@@ -169,19 +169,19 @@ describe("header.component.ts", () => {
 
     it("should get rid of subscription on destroy", () => {
         component.ngOnInit();
-        let spyEmitter = spyOn(component.emitterSubscription, "unsubscribe");
+        // let spyEmitter = spyOn(component.emitterSubscription, "unsubscribe");
         let spyUser = spyOn(component.userSubscription, "unsubscribe")
         target.destroy();
         expect(spyUser).toHaveBeenCalled();
-        expect(spyEmitter).toHaveBeenCalled();
+        // expect(spyEmitter).toHaveBeenCalled();
     })
 
     describe("View", () => {
 
-        it("display selected dataset", () => {
-            EmitterService.get("currentDataset").emit(new DataSet({ datasetId: "some_id" }));
-            expect(component.selectedDataset.datasetId).toBe("some_id")
-        });
+        // it("display selected dataset", () => {
+        //     EmitterService.get("currentDataset").emit(new DataSet({ datasetId: "some_id" }));
+        //     expect(component.selectedDataset.datasetId).toBe("some_id")
+        // });
 
         describe("Authentication", () => {
             xit("should display LogIn button when no user is authenticated", () => {
@@ -231,16 +231,16 @@ describe("header.component.ts", () => {
 
     describe("Controller", () => {
 
-        describe("goTo", () => {
-            it("opens correct dataset", () => {
-                let mockRouter = target.debugElement.injector.get(Router);
-                let spyNavigate = spyOn(mockRouter, "navigate")
-                let dataset = new DataSet({ datasetId: "some_id", initiative: new Initiative({ name: "Some long name" }) });
-                component.goTo(dataset);
-                expect(spyNavigate).toHaveBeenCalledWith(["map", "some_id", "some-long-name", "circles"]);
-                expect(component.selectedDataset).toBe(dataset)
-            });
-        });
+        // describe("goTo", () => {
+        //     it("opens correct dataset", () => {
+        //         let mockRouter = target.debugElement.injector.get(Router);
+        //         let spyNavigate = spyOn(mockRouter, "navigate")
+        //         let dataset = new DataSet({ datasetId: "some_id", initiative: new Initiative({ name: "Some long name" }) });
+        //         component.goTo(dataset);
+        //         expect(spyNavigate).toHaveBeenCalledWith(["map", "some_id", "some-long-name", "circles"]);
+        //         expect(component.selectedDataset).toBe(dataset)
+        //     });
+        // });
 
 
         // describe("createDataset", () => {
