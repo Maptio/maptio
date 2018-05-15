@@ -1,3 +1,4 @@
+import { SlackIntegration } from './../model/integrations.data';
 import { AuthHttp } from "angular2-jwt";
 import { Team } from "./../model/team.data";
 import { TeamFactory } from "./team.factory";
@@ -149,6 +150,7 @@ describe("team.factory.ts", () => {
                         team_id: "id",
                         name: "New",
                         settings: { authority: "Driver", helper: "Backseat" },
+                        slack: new SlackIntegration({ access_token: "token" }),
                         members: [
                             { user_id: "1", name: undefined, picture: undefined, nickname: undefined },
                             { user_id: "2", name: "Two", picture: undefined, nickname: undefined },
@@ -165,7 +167,14 @@ describe("team.factory.ts", () => {
             });
 
             let members = [new User({ user_id: "1" }), new User({ user_id: "2", name: "Two" }), new User({ user_id: "3", picture: "Three" }), new User({ user_id: "4", nickname: "Four" })]
-            let team = new Team({ name: "New", team_id: "id", members: members, settings: { authority: "Driver", helper: "Backseat" } })
+            let team = new Team({
+                name: "New", team_id: "id", 
+                members: members, 
+                settings: { authority: "Driver", helper: "Backseat" }, 
+                slack: new SlackIntegration({
+                    access_token: "token"
+                })
+            })
             target.upsert(team).then(result => {
                 expect(result).toBe(true)
             });

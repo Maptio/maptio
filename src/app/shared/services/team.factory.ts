@@ -79,6 +79,7 @@ export class TeamFactory {
             shortid: shortid.generate(),
             team_id: input.team_id,
             name: input.name,
+            slack : input.slack,
             members: input.members.map(m => { return { name: m.name, picture: m.picture, user_id: m.user_id, nickname: m.nickname } })
         };
 
