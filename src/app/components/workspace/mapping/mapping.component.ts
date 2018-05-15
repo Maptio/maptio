@@ -433,8 +433,8 @@ export class MappingComponent {
     svg.setAttribute("xmlns", "http://www.w3.org/2000/svg")
     svg.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink")
     let svgNode = this.downloadSvg(svg, "image.png", w, h);
-    console.log(svgNode.outerHTML)
-    this.exportService.sendSlackNotification(svgNode.outerHTML, this.datasetId, this.initiative, this.team.slack, message)
+    // console.log(((<any>svgNode).outerHTML)
+    this.exportService.sendSlackNotification((<any>svgNode).outerHTML, this.datasetId, this.initiative, this.team.slack, message)
       .subscribe(() => { this.isPrinting = false; this.cd.markForCheck() })
 
   }
@@ -453,24 +453,25 @@ export class MappingComponent {
   // }
 
   isPrinting: boolean;
+  isSharingToggled:boolean;
 
-  print() {
-    this.isPrinting = true;
-    this.cd.markForCheck()
-    this.zoom$.next(0.8);
-    this.changeFontSize(1)
+  // print() {
+  //   this.isPrinting = true;
+  //   this.cd.markForCheck()
+  //   this.zoom$.next(0.8);
+  //   this.changeFontSize(1)
 
-    let svg = document.getElementById("svg_circles");
-    let w = Number.parseFloat(svg.getAttribute("width"));
-    let h = Number.parseFloat(svg.getAttribute("height"));
-    svg.setAttribute("xmlns", "http://www.w3.org/2000/svg")
-    svg.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink")
-    let svgNode = this.downloadSvg(svg, "image.png", w, h);
-    console.log(svgNode.outerHTML)
-    this.exportService.sendSlackNotification(svgNode.outerHTML, this.datasetId, this.datasetName, this.team.slack)
-      .subscribe(() => { this.isPrinting = false; this.cd.markForCheck() })
+  //   let svg = document.getElementById("svg_circles");
+  //   let w = Number.parseFloat(svg.getAttribute("width"));
+  //   let h = Number.parseFloat(svg.getAttribute("height"));
+  //   svg.setAttribute("xmlns", "http://www.w3.org/2000/svg")
+  //   svg.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink")
+  //   let svgNode = this.downloadSvg(svg, "image.png", w, h);
+  //   console.log(svgNode.outerHTML)
+  //   this.exportService.sendSlackNotification(svgNode.outerHTML, this.datasetId, this.datasetName, this.team.slack)
+  //     .subscribe(() => { this.isPrinting = false; this.cd.markForCheck() })
 
-  }
+  // }
 
   copyStylesInline(destinationNode: any, sourceNode: any) {
     let containerElements = ["svg", "g"];
@@ -480,7 +481,7 @@ export class MappingComponent {
       //   if (child.childNodes[0].tagName === "DIV") {
       //     let bodyChild = document.createElement("body");
       //     bodyChild.setAttribute("xmnls", "http://www.w3.org/1999/xhtml");
-      //     let divChild = document.createElement("div"); 
+      //     let divChild = document.createElement("div");
       //     bodyChild.style.background = "none";
       //     bodyChild.style.overflow = "initial";
       //     bodyChild.style.display = "inline-block";
@@ -553,7 +554,6 @@ export class MappingComponent {
         img.crossOrigin = "Anonymous";
         img.setAttribute("crossOrigin", "Anonymous")
         let svgBlob = new Blob([data], { type: "image/svg+xml;charset=utf-8" });
-    
         img.src = "data:image/svg+xml;utf8," + data;
         canvas.getContext("2d").drawImage(img, 0, 0, WIDTH, HEIGHT);
         let url = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
