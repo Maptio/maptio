@@ -29,7 +29,7 @@
     <filter-tags [team]="team" [tags]="tags" (changeTags)="broadcastTagsSelection($event)"></filter-tags>
   </div>
   <div id="collapseSlack" class="collapse col-12">
-    <slack-share [team]="team" (shareMap)="sendSlackNotification($event)"></slack-share>
+    <slack-share [slack]="team?.slack" [isPrinting]="isPrinting" (shareMap)="sendSlackNotification($event)"></slack-share>
   </div>
 </div>
 
@@ -120,7 +120,6 @@
 </div>
 
 <div tabIndex="-1" class="map" *ngIf="!isFirstEdit">
-  <ngx-loading [show]="isPrinting" [config]="{backdropBackgroundColour:'rgba(0, 0, 0, 0.3)'}"></ngx-loading>
-
+  
   <router-outlet (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>
 </div>

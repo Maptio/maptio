@@ -421,7 +421,7 @@ export class MappingComponent {
     this.zoomToInitiative$.next(selected);
   }
 
-  sendSlackNotification(data: { message: string, channelId: string }) {
+  sendSlackNotification(message: string) {
     this.isPrinting = true;
     this.cd.markForCheck()
     // this.zoom$.next(0.8);
@@ -434,7 +434,7 @@ export class MappingComponent {
     svg.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink")
     let svgNode = this.downloadSvg(svg, "image.png", w, h);
     console.log(svgNode.outerHTML)
-    this.exportService.sendSlackNotification(svgNode.outerHTML, this.datasetId, this.initiative.getSlug(), this.team.slack, data.message, data.channelId)
+    this.exportService.sendSlackNotification(svgNode.outerHTML, this.datasetId, this.initiative, this.team.slack, message)
       .subscribe(() => { this.isPrinting = false; this.cd.markForCheck() })
 
   }

@@ -1,3 +1,4 @@
+import { Initiative } from './../../model/initiative.data';
 import { SlackIntegration } from './../../model/integrations.data';
 import { RequestMethod } from "@angular/http";
 import { Request } from "@angular/http";
@@ -72,33 +73,16 @@ export class ExportService {
         })
     }
 
-    sendSlackNotification(svgString: string, datasetId: string, datasetName: string, slack: SlackIntegration, message: string, channelID: string) {
+    sendSlackNotification(svgString: string, datasetId: string, initiative: Initiative, slack: SlackIntegration, message: string) {
         return this.getSnapshot(svgString, datasetId)
 
             .map((imageUrl: string) => {
-                // console.log(imageUrl)
-                // let headers = new Headers();
-                // headers.append("Content-Type", "application/json");
-                // headers.append("Accept", "application/json");
-                // return new Request({
-                //     url: `/api/v1/notifications/send/`,
-                //     body: {
-                //         text: `Changes in ${datasetName}`,
-                //         title: `${datasetName} current initiatives`,
-                //         imageUrl: imageUrl.replace(".svg", ".png"),
-                //         time: Date.now()
-                //     },
-                //     method: RequestMethod.Post,
-                //     headers: headers
-                // })
-let iconURL = "https://res.cloudinary.com/hgkbm0qes/image/upload/v1525289881/mtlx49a4dd46isn09i7k.jpg"
                 let attachments = [
                     {
                         color: "#2f81b7",
                         pretext: message,
-                        title: `Changes to ${datasetName}`,
-                        title_link: `https://app.maptio.com/map/${datasetId}/${datasetName}/circles`,
-                        // text: `Text ${message}`,
+                        title: `Changes to ${initiative.name}`,
+                        title_link: `https://app.maptio.com/map/${datasetId}/${initiative.getSlug()}/circles`,
                         image_url: imageUrl.replace(".svg", ".png"),
                         thumb_url: imageUrl.replace(".svg", ".png"),
                         footer: "Maptio",
@@ -110,11 +94,14 @@ let iconURL = "https://res.cloudinary.com/hgkbm0qes/image/upload/v1525289881/mtl
                 headers.append("Content-Type", "application/json");
                 headers.append("Accept", "application/json");
                 return new Request({
-                    url: `https://slack.com/api/chat.postMessage?token=${slack.access_token}&channel=${channelID}&attachments=${encodeURIComponent(JSON.stringify(attachments))}`,
-                    method: RequestMethod.Get
+                    url: "api/v1/notifications/send",
+                    body: {
+                        url: slack.incoming_webhook.url,
+                        attachments: attachments
+                    },
+                    method: RequestMethod.Post,
+                    headers: headers
                 })
-
-
             })
             .mergeMap(req => this.http.request(req))
     }
