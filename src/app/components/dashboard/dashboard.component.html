@@ -4,23 +4,26 @@
     <ngx-loading [show]="isLoading"></ngx-loading>
 
     <ng-container *ngIf="isZeroTeam">
-            Let's get started by <a routerLink="/teams">setting up your team</a> . After that you can create your first map.
-         
+        Let's get started by
+        <a routerLink="/teams">setting up your team</a> . After that you can create your first map.
+
     </ng-container>
     <ng-container *ngIf="!isZeroTeam">
-            <div class="card mb-2 mr-4" *ngFor="let dataset of datasets">
+        <ng-container *ngFor="let dataset of datasets">
+            <ng-container *ngIf="dataset.initiative.name">
+                <div class="card mb-2 mr-4">
                     <div class="card-body">
                         <h5 class="card-title">
                             <div class="d-flex justify-content-between align-items-center">
-                                <a routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/circles" > {{dataset.initiative.name}}</a>
+                                <a routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/circles"> {{dataset.initiative.name}}</a>
                                 <small>
                                     Team
                                     <a routerLink="/teams/{{dataset.team?.team_id}}/{{dataset.team?.getSlug()}}">{{dataset.team?.name}}</a>
-            
+
                                 </small>
-            
+
                             </div>
-            
+
                         </h5>
                         <h6 class="card-subtitle mb-2 text-muted">
                             <div class="d-flex justify-content-between">
@@ -30,22 +33,22 @@
                                         <a class="text-muted" routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/u/{{dataset.initiative.children[0]?.accountable?.shortid}}/{{dataset.initiative.children[0]?.accountable?.getSlug()}}">
                                             <b> {{dataset.initiative.children[0]?.accountable?.name}}</b>
                                         </a>
-            
+
                                     </div>
-            
+
                                     <div *ngIf="!dataset.initiative.children" class="text-warning">
                                         No vision holder yet.
                                     </div>
                                 </small>
                                 <!-- <small>
-                                    <div class="btn-group" role="group" aria-label="Choose visualisation">
-                                        <button type="button" class="btn btn-light circles" routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/circles"></button>
-                                        <button type="button" class="btn btn-light tree" routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/tree"></button>
-                                        <button type="button" class="btn btn-light network" routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/network"></button>
-                                    </div>
-                                </small> -->
+                                                            <div class="btn-group" role="group" aria-label="Choose visualisation">
+                                                                <button type="button" class="btn btn-light circles" routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/circles"></button>
+                                                                <button type="button" class="btn btn-light tree" routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/tree"></button>
+                                                                <button type="button" class="btn btn-light network" routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/network"></button>
+                                                            </div>
+                                                        </small> -->
                             </div>
-            
+
                         </h6>
                     </div>
                     <div class="card-footer">
@@ -59,7 +62,11 @@
                         </div>
                     </div>
                 </div>
+            </ng-container>
+
+        </ng-container>
+
     </ng-container>
-    
-    
+
+
 </div>

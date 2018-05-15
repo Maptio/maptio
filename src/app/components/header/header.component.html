@@ -23,18 +23,22 @@
             </a>
         </span>
         <ul class="navbar-nav ml-auto d-flex align-items-center" *ngIf="auth.allAuthenticated()">
-            
+
             <li class="nav-item dropdown" *ngIf="datasets && datasets?.length !== 0">
-                <a class="nav-link dropdown-toggle" id="mapsListDropdownLink" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    Maps 
+                <a class="nav-link dropdown-toggle" id="mapsListDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Maps
                 </a>
                 <div class="dropdown-menu dropdown-menu-right overflow" aria-labelledby="mapsListDropdownLink">
-                    <a class="dropdown-item" 
-                    routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/circles"
-                    *ngFor="let dataset of datasets">
-                        {{dataset?.name}}
-                    </a>
+                    <ng-container *ngFor="let dataset of datasets">
+                        <ng-container *ngIf="dataset.name">
+                            <a class="dropdown-item" routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/circles">
+
+                                {{dataset?.name}}
+                            </a>
+                        </ng-container>
+
+                    </ng-container>
+
                 </div>
             </li>
             <li class="nav-item dropdown" *ngIf="teams?.length > 0">

@@ -21,31 +21,42 @@ export class WorkspaceComponentResolver implements Resolve<{ dataset: DataSet, t
         let datasetId = <string>route.params["mapid"];
 
         // return Observable.forkJoin(
-          return   Observable.fromPromise(
-                this.datasetFactory.get(datasetId)
-                    .then((dataset: DataSet) => {
-                        dataset.tags = dataset.tags.map(t => new SelectableTag(t)).map(t => { t.isSelected = false; return t });
-                        return dataset;
-                    })
-                    .then((dataset: DataSet) => {
-                        return this.teamFactory.get(dataset.initiative.team_id)
-                            .then(
-                            t => {
-                                return { dataset: dataset, team: t }
-                            })
-                    })
-                    .then(dt => {
-                        return this.userFactory.getUsers(dt.team.members.map((m: User) => m.user_id))
-                            .then(members => compact(members))
-                            .then(members => sortBy(members, m => m.name))
-                            .then(members => { return { dataset: dt.dataset, team: dt.team, members: sortBy(members, m => m.name) } })
+        return Observable.fromPromise(
+            this.datasetFactory.get(datasetId)
+                .then((dataset: DataSet) => {
 
-                    })
-            )
-            .withLatestFrom(this.auth.getUser())
-            .map(data => {
-                    return { dataset: data[0].dataset, team: data[0].team, members: data[0].members, user: data[1] }
+                    dataset.tags = dataset.tags.map(t => new SelectableTag(t)).map(t => { t.isSelected = false; return t });
+                    return dataset;
                 })
+                .then((dataset: DataSet) => {
+                    return this.teamFactory.get(dataset.initiative.team_id)
+                        .then(
+                        t => {
+                            // console.log("team", t, "dataset", dataset)
+                            return { dataset: dataset, team: t }
+                        })
+                })
+                .then(dt => {
+                    // console.log("dt", dt)
+                    return this.userFactory.getUsers(dt.team.members.map((m: User) => m.user_id))
+                        .then(members => compact(members))
+                        .then(members => sortBy(members, m => m.name))
+                        .then(members => { return { dataset: dt.dataset, team: dt.team, members: sortBy(members, m => m.name) } })
+
+                })
+                .then(dt => {
+                    return this.auth.getUser().first().toPromise().then(u => { return { user: u, data: dt } })
+                })
+                .then(data => {
+                    return { dataset: data.data.dataset, team: data.data.team, members: data.data.members, user: data.user }
+
+                })
+        )
+        // .combineLatest(this.auth.getUser())
+        // .map(data => {
+        //     console.log({ dataset: data[0].dataset, team: data[0].team, members: data[0].members, user: data[1] })
+        //     return { dataset: data[0].dataset, team: data[0].team, members: data[0].members, user: data[1] }
+        // })
         // )
 
     }

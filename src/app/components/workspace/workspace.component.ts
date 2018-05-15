@@ -86,6 +86,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.teamName = this.team.name;
                 this.teamId = this.team.team_id;
                 // EmitterService.get("currentDataset").emit(this.dataset);
+                // console.log("workspace", this.team)
                 EmitterService.get("currentTeam").emit(this.team);
                 // EmitterService.get("currentMembers").emit(this.members);
                 this.buildingComponent.loadData(this.dataset.datasetId, "", this.team);
