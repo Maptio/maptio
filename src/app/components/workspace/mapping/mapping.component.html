@@ -10,13 +10,16 @@
       <i class="fa fa-filter"></i>
       <div class="icon-text-label">Filter</div>
     </a>
-    <a id="print" (click)="print()" class="btn btn-light p-1 text-dark btn-control" role="button">
-      <i class="fa fa-print"></i>
-      <div class="icon-text-label">Print</div>
+    <a class="btn btn-light p-1 text-dark btn-control" [class.active]="isSharingToggled" [class.disabled]="isSearchDisabled"
+      (click)="isSharingToggled=!isSharingToggled" data-toggle="collapse" href="#collapseSlack" role="button">
+      <i class="fa fa-slack"></i>
+      <div class="icon-text-label">Share</div>
     </a>
 
   </div>
 </div>
+
+
 
 <div class="control zero panel d-flex flex-column col-5 align-items-start">
   <div id="collapseSearch" class="collapse mb-3 col-12">
@@ -24,6 +27,9 @@
   </div>
   <div id="collapseFilter" class="collapse col-12">
     <filter-tags [team]="team" [tags]="tags" (changeTags)="broadcastTagsSelection($event)"></filter-tags>
+  </div>
+  <div id="collapseSlack" class="collapse col-12">
+    <slack-share [team]="team" (shareMap)="sendSlackNotification($event)"></slack-share>
   </div>
 </div>
 

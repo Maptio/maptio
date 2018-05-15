@@ -1,0 +1,16 @@
+<ng-template #rt let-r="result" let-t="term">
+    <div>
+        <div>#{{r.name}}</div>
+    </div>
+
+</ng-template>
+
+<div class="card bg-light border-light">
+    <div class="card-body">
+        <input #slackChannelList [resultTemplate]="rt" type="text" id="slackChannelList" class="form-control mr-2" (selectItem)="selectChannel($event)"
+            [ngbTypeahead]="getChannels" [resultFormatter]="formatter" [inputFormatter]="formatter" editable="false" autofocus="autofocus"
+            (focus)="slackChannelList.value=''" placeholder="Select a Slack channel" />
+        <textarea #slackMessage class="form-control" id="slackMessage" [(ngModel)]="message" rows="5" placeholder='What changes have you made to the map?'></textarea>  
+            <button class="btn btn-secondary-success" (click)="sendNotification()">Share</button>
+    </div>
+</div>

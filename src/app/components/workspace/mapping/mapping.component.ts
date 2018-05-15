@@ -421,6 +421,23 @@ export class MappingComponent {
     this.zoomToInitiative$.next(selected);
   }
 
+  sendSlackNotification(data: { message: string, channelId: string }) {
+    this.isPrinting = true;
+    this.cd.markForCheck()
+    // this.zoom$.next(0.8);
+    this.changeFontSize(1)
+
+    let svg = document.getElementById("svg_circles");
+    let w = Number.parseFloat(svg.getAttribute("width"));
+    let h = Number.parseFloat(svg.getAttribute("height"));
+    svg.setAttribute("xmlns", "http://www.w3.org/2000/svg")
+    svg.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink")
+    let svgNode = this.downloadSvg(svg, "image.png", w, h);
+    console.log(svgNode.outerHTML)
+    this.exportService.sendSlackNotification(svgNode.outerHTML, this.datasetId, this.initiative.getSlug(), this.team.slack, data.message, data.channelId)
+      .subscribe(() => { this.isPrinting = false; this.cd.markForCheck() })
+
+  }
 
   // print() {
   //   console.log("printing");
@@ -440,7 +457,7 @@ export class MappingComponent {
   print() {
     this.isPrinting = true;
     this.cd.markForCheck()
-    // this.resetZoom();
+    this.zoom$.next(0.8);
     this.changeFontSize(1)
 
     let svg = document.getElementById("svg_circles");
@@ -450,8 +467,8 @@ export class MappingComponent {
     svg.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink")
     let svgNode = this.downloadSvg(svg, "image.png", w, h);
     console.log(svgNode.outerHTML)
-    this.exportService.sendSlackNotification(svgNode.outerHTML, this.datasetId, this.datasetName)
-      .subscribe(() => {this.isPrinting = false; this.cd.markForCheck() })
+    this.exportService.sendSlackNotification(svgNode.outerHTML, this.datasetId, this.datasetName, this.team.slack)
+      .subscribe(() => { this.isPrinting = false; this.cd.markForCheck() })
 
   }
 
