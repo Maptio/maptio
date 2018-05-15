@@ -15,9 +15,9 @@ import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 export class TeamIntegrationsComponent implements OnInit {
 
     public REDIRECT_URL = `${window.location.protocol}//${window.location.host}${window.location.pathname}`; // "http://localhost:3000/api/v1/oauth/slack";
-    public SLACK_URL = `https://slack.com/oauth/authorize?scope=chat:write:user,channels:read&client_id=${environment.SLACK_CLIENT_ID}&redirect_uri=${this.REDIRECT_URL}`
+    public SLACK_URL = `https://slack.com/oauth/authorize?scope=incoming-webhook&client_id=${environment.SLACK_CLIENT_ID}&redirect_uri=${this.REDIRECT_URL}`
 
-    public team: Team;
+    private team: Team;
 
     constructor(private route: ActivatedRoute, private router: Router,
         private http: AuthHttp, private teamFactory: TeamFactory,
