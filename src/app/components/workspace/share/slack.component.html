@@ -1,26 +1,26 @@
-<!-- <ng-template #rt let-r="result" let-t="term">
-    <div>
-        <div>#{{r.name}}</div>
-    </div>
-
-</ng-template> -->
-<!-- <input #slackChannelList [resultTemplate]="rt" type="text" id="slackChannelList" class="form-control mr-2" (selectItem)="selectChannel($event)"
-            [ngbTypeahead]="getChannels" [resultFormatter]="formatter" [inputFormatter]="formatter" editable="false" autofocus="autofocus"
-            (focus)="slackChannelList.value=''" placeholder="Select a Slack channel" /> -->
-
 <div class="card bg-light border-light">
     <div class="card-body">
         <h5 class="card-title mb-2 text-muted d-flex justify-content-start align-items-center">
             <img width="30" height="30" src="/assets/images/slack-icon.png" alt="Slack logo"> Share on Slack
         </h5>
-        <small class="text-muted">Share the current map with your team! Let them know what you have changed : </small>
-        <div class="card-text">
+        <ng-container *ngIf="!showConfiguration">
+            <small class="text-muted">Share the current map with your team! Let them know what you have changed : </small>
+            <div class="card-text">
                 <textarea #slackMessage class="form-control unresizable" id="slackMessage" [(ngModel)]="message" rows="3" placeholder=''></textarea>
-                <div class="d-flex justify-content-end mt-2" >
-                        <button class="btn btn-outline-secondary " (click)="sendNotification()">Share<i *ngIf="isPrinting" class="fa fa-circle-o-notch fa-spin fa-fw"></i></button>
-                        
+                <div class="d-flex justify-content-end mt-2">
+                    <button class="btn btn-outline-secondary " (click)="sendNotification()">
+                        <span *ngIf="!isPrinting">Share</span>
+                        <span *ngIf="isPrinting">Generating image preview
+                            <i class="fa fa-circle-o-notch fa-spin fa-fw"></i>
+                        </span>
+                    </button>
+
                 </div>
-        </div>
-   
+            </div>
+        </ng-container>
+        <ng-container *ngIf="showConfiguration">
+            Slack is not setup for team <strong>{{team.name}}</strong>! <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}/integrations">Configure updates first.</a> 
+        </ng-container>
+
     </div>
 </div>

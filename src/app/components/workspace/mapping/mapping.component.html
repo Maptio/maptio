@@ -29,7 +29,7 @@
     <filter-tags [team]="team" [tags]="tags" (changeTags)="broadcastTagsSelection($event)"></filter-tags>
   </div>
   <div id="collapseSlack" class="collapse col-12">
-    <slack-share [slack]="team?.slack" [isPrinting]="isPrinting" (shareMap)="sendSlackNotification($event)"></slack-share>
+    <slack-share [slack]="team?.slack" [team]="team" [isPrinting]="isPrinting" (shareMap)="sendSlackNotification($event)"></slack-share>
   </div>
 </div>
 

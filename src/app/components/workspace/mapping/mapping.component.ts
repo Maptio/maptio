@@ -427,7 +427,7 @@ export class MappingComponent {
     // this.zoom$.next(0.8);
     this.changeFontSize(1)
 
-    let svg = document.getElementById("svg_circles");
+    let svg = document.getElementById("map");
     let w = Number.parseFloat(svg.getAttribute("width"));
     let h = Number.parseFloat(svg.getAttribute("height"));
     svg.setAttribute("xmlns", "http://www.w3.org/2000/svg")

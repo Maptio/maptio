@@ -1,3 +1,4 @@
+import { Team } from './../../../shared/model/team.data';
 import { SlackIntegration } from './../../../shared/model/integrations.data';
 import { Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
@@ -16,6 +17,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ShareSlackComponent implements OnInit {
     @Input("slack") slackIntegration: SlackIntegration;
+    @Input("team") team: Team;
     @Input("isPrinting") isPrinting: boolean;
 
     @Output() shareMap: EventEmitter<string> = new EventEmitter<string>();
@@ -24,7 +26,7 @@ export class ShareSlackComponent implements OnInit {
 
     // selectedChannel: any;
     message: string;
-
+    showConfiguration: boolean;
     constructor(private cd: ChangeDetectorRef, private exportService: ExportService) { }
 
     ngOnInit(): void {
@@ -32,39 +34,21 @@ export class ShareSlackComponent implements OnInit {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes.isPrinting && changes.isPrinting.currentValue) {
+        console.log(changes)
+        if (changes.isPrinting) {
             this.cd.markForCheck();
         }
+        else{
+            if (changes.slackIntegration && changes.slackIntegration.currentValue && changes.slackIntegration.currentValue.access_token) {
+                this.showConfiguration = false
+            } else {
+                this.showConfiguration = true
+            }
+        }
+        
     }
-
-    // selectChannel(event: NgbTypeaheadSelectItemEvent) {
-    //     console.log(event.item);
-    //     this.selectedChannel = event.item;
-    // }
 
     sendNotification() {
-        // console.log(this.message, this.selectedChannel);
         this.shareMap.emit(this.message)
     }
-
-    // filter(term: string) {
-    //     return this.channels.filter(
-    //         v =>
-    //             v.name.toLowerCase().indexOf(term.toLowerCase()) > -1
-    //     ).slice(0, 10);
-    // }
-
-    // getChannels = (text$: Observable<string>) =>
-    //     text$
-    //         .debounceTime(200)
-    //         .distinctUntilChanged()
-    //         .map(search => {
-    //             return search === ""
-    //                 ? this.channels
-    //                 : this.filter(search)
-    //         })
-
-    // formatter = (result: any) => {
-    //     return result.name;
-    // };
 }
