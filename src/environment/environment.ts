@@ -24,6 +24,7 @@ export const environment = {
 
     KB_URL_PERMISSIONS: "https://maptio.outseta.com/support/kb#/articles/bB9l5DW8/managing-permissions",
     KB_URL_HOME: "https://maptio.outseta.com/support/kb",
+    KB_URL_INTEGRATIONS : "https://maptio.outseta.com/#/app/support/kb/categories/2amREWJ6/articles/2amRZEmJ",
 
     MESSAGE_PERMISSIONS_DENIED_EDIT: "You don't have permissions to edit this",
 
