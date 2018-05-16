@@ -8,18 +8,20 @@
             <div class="card-text">
                 <textarea #slackMessage class="form-control unresizable" id="slackMessage" [(ngModel)]="message" rows="3" placeholder=''></textarea>
                 <div class="d-flex justify-content-end mt-2">
-                    <button class="btn btn-outline-secondary " (click)="sendNotification()">
-                        <span *ngIf="!isPrinting">Share</span>
-                        <span *ngIf="isPrinting">Generating image preview
-                            <i class="fa fa-circle-o-notch fa-spin fa-fw"></i>
-                        </span>
+                    <button class="btn btn-outline-secondary" [class.disabled]="isPrinting" (click)="sendNotification()">
+                        <span>Share</span>
                     </button>
-
                 </div>
+                <span class="text-muted small  d-flex justify-content-end align-items-center" *ngIf="isPrinting && !hasNotified">
+                    <i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Generating image preview
+                </span>
+                <span class="text-success small  d-flex justify-content-end" *ngIf="hasNotified">Shared!</span>
             </div>
         </ng-container>
         <ng-container *ngIf="showConfiguration">
-            Slack is not setup for team <strong>{{team.name}}</strong>! <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}/integrations">Configure updates first.</a> 
+            Slack is not setup for team
+            <strong>{{team.name}}</strong>!
+            <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}/integrations">Configure updates first.</a>
         </ng-container>
 
     </div>

@@ -423,6 +423,7 @@ export class MappingComponent {
 
   sendSlackNotification(message: string) {
     this.isPrinting = true;
+    this.hasNotified = false;
     this.cd.markForCheck()
     // this.zoom$.next(0.8);
     this.changeFontSize(1)
@@ -435,7 +436,7 @@ export class MappingComponent {
     let svgNode = this.downloadSvg(svg, "image.png", w, h);
     // console.log(((<any>svgNode).outerHTML)
     this.exportService.sendSlackNotification((<any>svgNode).outerHTML, this.datasetId, this.initiative, this.team.slack, message)
-      .subscribe(() => { this.isPrinting = false; this.cd.markForCheck() })
+      .subscribe(() => { this.isPrinting = false; this.hasNotified = true; this.cd.markForCheck() })
 
   }
 
@@ -453,6 +454,7 @@ export class MappingComponent {
   // }
 
   isPrinting: boolean;
+  hasNotified: boolean;
   isSharingToggled: boolean;
 
   // print() {

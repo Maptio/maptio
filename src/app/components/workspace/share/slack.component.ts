@@ -19,6 +19,7 @@ export class ShareSlackComponent implements OnInit {
     @Input("slack") slackIntegration: SlackIntegration;
     @Input("team") team: Team;
     @Input("isPrinting") isPrinting: boolean;
+    @Input("hasNotified") hasNotified: boolean;
 
     @Output() shareMap: EventEmitter<string> = new EventEmitter<string>();
 
@@ -35,7 +36,7 @@ export class ShareSlackComponent implements OnInit {
 
     ngOnChanges(changes: SimpleChanges): void {
         console.log(changes)
-        if (changes.isPrinting) {
+        if (changes.isPrinting || changes.hasNotified) {
             this.cd.markForCheck();
         }
         else {
@@ -48,6 +49,7 @@ export class ShareSlackComponent implements OnInit {
     }
 
     sendNotification() {
-        this.shareMap.emit(this.message)
+        if (!this.isPrinting)
+            this.shareMap.emit(this.message)
     }
 }
