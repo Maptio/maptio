@@ -5,7 +5,7 @@
 </ng-template>
 <h5 class="d-flex align-items-center ">
     <img width="30" height="30" src="/assets/images/slack-icon.png" alt="Slack logo">Slack
-    <i *ngIf="team.slack?.access_token" class="ml-1 fa fa-check-circle-o text-success" aria-hidden="true"></i>
+    <i *ngIf="team.slack?.access_token" class="ml-1 fa fa-check-circle text-success" aria-hidden="true"></i>
 </h5>
 <hr>
 <div *ngIf="isDisplayRevokedToken" class="alert alert-success alert-dismissible fade show" role="alert">
