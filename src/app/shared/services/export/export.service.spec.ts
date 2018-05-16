@@ -1,3 +1,4 @@
+import { AuthHttp } from 'angular2-jwt';
 import { BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { Http } from '@angular/http';
@@ -7,6 +8,7 @@ import { DataSet } from '../../model/dataset.data';
 import { Initiative } from '../../model/initiative.data';
 import { Team } from '../../model/team.data';
 import { ExportService } from './export.service';
+import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
 
 describe("export.service.ts", () => {
 
@@ -14,6 +16,11 @@ describe("export.service.ts", () => {
         TestBed.configureTestingModule({
             providers: [
                 ExportService, D3Service,
+                {
+                    provide: AuthHttp,
+                    useFactory: authHttpServiceFactoryTesting,
+                    deps: [Http, BaseRequestOptions]
+                },
                 {
                     provide: Http,
                     useFactory: (
