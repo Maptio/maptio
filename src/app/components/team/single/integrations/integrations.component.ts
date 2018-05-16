@@ -1,3 +1,4 @@
+import { Permissions } from './../../../../shared/model/permission.data';
 import { Http } from '@angular/http';
 import { TeamFactory } from "./../../../../shared/services/team.factory";
 import { SlackIntegration } from "./../../../../shared/model/integrations.data";
@@ -22,6 +23,7 @@ export class TeamIntegrationsComponent implements OnInit {
     public team: Team;
     public isDisplayRevokedToken: boolean;
     public isDisplayWaitingForSlackSync: boolean;
+    public Permissions = Permissions;
 
     constructor(private route: ActivatedRoute, private router: Router,
         private secureHttp: AuthHttp, private http: Http, private teamFactory: TeamFactory,
@@ -55,7 +57,6 @@ export class TeamIntegrationsComponent implements OnInit {
             .subscribe(slack => {
                 // console.log(slack)
                 if (slack.ok) {
-
                     this.updateTeam(slack.access_token, slack.incoming_webhook, slack.team_name, slack.team_id)
                         .then(team => {
                             this.isDisplayWaitingForSlackSync = false;
@@ -63,7 +64,7 @@ export class TeamIntegrationsComponent implements OnInit {
                         })
                 }
                 else {
-
+                    // do nothing, its probably 
                 }
             }, err => { console.log(err) })
     }

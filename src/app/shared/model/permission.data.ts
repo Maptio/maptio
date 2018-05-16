@@ -10,7 +10,7 @@ export enum UserRole {
 }
 
 export enum Permissions {
-    Nothing, // HACK : to avoid (Permissions.canAddUser) = false (because its inde is 0)
+    Nothing, // HACK : to avoid (Permissions.canAddUser) = false (because its index is 0)
     canAddUser,
     canDeleteUser,
     canEditUser,
