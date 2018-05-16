@@ -18,7 +18,7 @@ import { upperFirst, lowerCase, toLower } from "lodash"
 export class ExportService {
 
     private d3: D3;
-    constructor(d3Service: D3Service, private http: Http) {
+    constructor(d3Service: D3Service, private http: AuthHttp) {
         this.d3 = d3Service.getD3();
     }
 
