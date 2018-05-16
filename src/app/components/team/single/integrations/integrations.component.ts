@@ -1,3 +1,4 @@
+import { Http } from '@angular/http';
 import { TeamFactory } from "./../../../../shared/services/team.factory";
 import { SlackIntegration } from "./../../../../shared/model/integrations.data";
 import { AuthHttp } from "angular2-jwt";
@@ -18,9 +19,10 @@ export class TeamIntegrationsComponent implements OnInit {
     public SLACK_URL = `https://slack.com/oauth/authorize?scope=incoming-webhook&client_id=${environment.SLACK_CLIENT_ID}&redirect_uri=${this.REDIRECT_URL}`
 
     public team: Team;
+    public isDisplayRevokedToken: boolean;
 
     constructor(private route: ActivatedRoute, private router: Router,
-        private http: AuthHttp, private teamFactory: TeamFactory,
+        private secureHttp: AuthHttp, private http: Http, private teamFactory: TeamFactory,
         private cd: ChangeDetectorRef) {
         // console.log(window.location)
     }
@@ -37,7 +39,7 @@ export class TeamIntegrationsComponent implements OnInit {
             .filter(code => code !== undefined && code !== "")
             .flatMap(code => {
                 // console.log("code", code)
-                return this.http.post("/api/v1/oauth/slack", {
+                return this.secureHttp.post("/api/v1/oauth/slack", {
                     code: code,
                     redirect_uri: this.REDIRECT_URL
                 })
@@ -88,6 +90,27 @@ export class TeamIntegrationsComponent implements OnInit {
             }
         })
 
+    }
+
+    revokeToken(token: string) {
+        return this.http.get(`https://slack.com/api/auth.revoke?token=${token}`)
+            .map(response => response.json())
+            .subscribe(response => {
+                let updatedTeam = new Team({
+                    team_id: this.team.team_id,
+                    name: this.team.name,
+                    members: this.team.members,
+                    settings: { authority: this.team.settings.authority, helper: this.team.settings.helper },
+                    slack: new SlackIntegration({})
+                });
+
+                return this.teamFactory.upsert(updatedTeam).then(result => {
+                    this.team = updatedTeam;
+                    this.isDisplayRevokedToken = true;
+                    this.cd.markForCheck();
+                }
+                )
+            })
     }
 
 }
