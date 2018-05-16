@@ -1,7 +1,7 @@
-import { TeamFactory } from './../../../../shared/services/team.factory';
-import { SlackIntegration } from './../../../../shared/model/integrations.data';
-import { AuthHttp } from 'angular2-jwt';
-import { environment } from './../../../../../environment/environment';
+import { TeamFactory } from "./../../../../shared/services/team.factory";
+import { SlackIntegration } from "./../../../../shared/model/integrations.data";
+import { AuthHttp } from "angular2-jwt";
+import { environment } from "./../../../../../environment/environment";
 import { Team } from "./../../../../shared/model/team.data";
 import { DataSet } from "./../../../../shared/model/dataset.data";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -14,7 +14,7 @@ import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 })
 export class TeamIntegrationsComponent implements OnInit {
 
-    public REDIRECT_URL = `${window.location.protocol}//${window.location.host}${window.location.pathname}`; // "http://localhost:3000/api/v1/oauth/slack";
+    public REDIRECT_URL = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
     public SLACK_URL = `https://slack.com/oauth/authorize?scope=incoming-webhook&client_id=${environment.SLACK_CLIENT_ID}&redirect_uri=${this.REDIRECT_URL}`
 
     public team: Team;
@@ -28,7 +28,7 @@ export class TeamIntegrationsComponent implements OnInit {
         this.route.parent.data
             .subscribe((data: { assets: { team: Team, datasets: DataSet[] } }) => {
                 this.team = data.assets.team;
-                console.log(this.team)
+                // console.log(this.team)
             });
 
         this.route.queryParams.map(queryParams => {
@@ -36,22 +36,23 @@ export class TeamIntegrationsComponent implements OnInit {
         })
             .filter(code => code !== undefined && code !== "")
             .flatMap(code => {
-                console.log("code", code)
+                // console.log("code", code)
                 return this.http.post("/api/v1/oauth/slack", {
                     code: code,
                     redirect_uri: this.REDIRECT_URL
                 })
                     .map((responseData) => {
-                        console.log("responsedata", responseData)
+                        // console.log("responsedata", responseData)
                         return responseData.json();
                     })
             })
             .subscribe(slack => {
-                console.log(slack)
+                // console.log(slack)
                 if (slack.ok) {
-                    this.updateTeam(slack.access_token, slack.incoming_webhook).then(team => {
+                    this.updateTeam(slack.access_token, slack.incoming_webhook, slack.team_name, slack.team_id)
+                        .then(team => {
 
-                    })
+                        })
                 }
                 else {
 
@@ -59,7 +60,7 @@ export class TeamIntegrationsComponent implements OnInit {
             })
     }
 
-    updateTeam(slackAccessToken: string, slackWebookDetails: any) {
+    updateTeam(slackAccessToken: string, slackWebookDetails: any, slackTeamName: string, slackTeamId: string) {
         let updatedTeam = new Team({
             team_id: this.team.team_id,
             name: this.team.name,
@@ -67,6 +68,8 @@ export class TeamIntegrationsComponent implements OnInit {
             settings: { authority: this.team.settings.authority, helper: this.team.settings.helper },
             slack: new SlackIntegration({
                 access_token: slackAccessToken,
+                team_name: slackTeamName,
+                team_id: slackTeamId,
                 incoming_webhook: {
                     url: slackWebookDetails.url,
                     channel: slackWebookDetails.channel,

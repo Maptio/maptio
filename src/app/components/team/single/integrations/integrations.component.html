@@ -1,6 +1,28 @@
-<a href={{SLACK_URL}}>
-    <img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x"
-    />
-</a>
+<h5 class="d-flex align-items-center">
+    <img width="30" height="30" src="/assets/images/slack-icon.png" alt="Slack logo">Slack<i *ngIf="team.slack?.access_token" class="ml-1 fa fa-check-circle-o text-success" aria-hidden="true"></i>
+</h5>
 
-{{team.slack?.access_token}}
+
+<hr>
+
+<ng-container *ngIf="!team.slack?.access_token">
+    <a href={{SLACK_URL}}>
+        <img alt=" Add to Slack " height="40 " width="139 " src="https://platform.slack-edge.com/img/add_to_slack.png
+    " srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x "
+        />
+    </a>
+</ng-container>
+<ng-container *ngIf="team.slack?.access_token">
+    <div>
+            <span>
+                    Channel <strong>{{team.slack?.incoming_webhook?.channel}}</strong> from workspace <strong>{{team.slack?.team_name}}</strong> receives updates from Maptio
+            
+             </span>     
+             <!-- <a href="{{team.slack?.incoming_webhook.configuration_url}}" target="blank">COnfigure</a> -->
+    </div>
+  
+
+</ng-container>
+
+
+<!-- {{team.slack?.access_token}} -->

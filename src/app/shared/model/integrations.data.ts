@@ -2,6 +2,8 @@ import { Serializable } from './../interfaces/serializable.interface';
 
 export class SlackIntegration implements Serializable<SlackIntegration> {
     access_token: string;
+    team_name: string;
+    team_id: string;
     incoming_webhook: {
         url: string,
         channel: string,
@@ -20,6 +22,8 @@ export class SlackIntegration implements Serializable<SlackIntegration> {
     deserialize(input: any): SlackIntegration {
         let deserialized = new SlackIntegration();
         deserialized.access_token = input.access_token;
+        deserialized.team_name = input.team_name;
+        deserialized.team_id = input.team_id;
         deserialized.incoming_webhook = input.incoming_webhook;
         // console.log("deserialize slack", deserialized, input)
         return deserialized;
@@ -28,9 +32,9 @@ export class SlackIntegration implements Serializable<SlackIntegration> {
 
     tryDeserialize(input: any): [boolean, SlackIntegration] {
         try {
-            let user = this.deserialize(input);
-            if (user !== undefined) {
-                return [true, user];
+            let slack = this.deserialize(input);
+            if (slack !== undefined) {
+                return [true, slack];
             }
             else {
                 return [false, undefined]
