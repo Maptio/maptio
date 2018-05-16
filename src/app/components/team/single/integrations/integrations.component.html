@@ -2,37 +2,33 @@
     <img width="30" height="30" src="/assets/images/slack-icon.png" alt="Slack logo">Slack
     <i *ngIf="team.slack?.access_token" class="ml-1 fa fa-check-circle-o text-success" aria-hidden="true"></i>
 </h5>
-<small class="text-muted">Share the map on Slack when you want to announce your updates.</small>
-
 <hr>
-
 <div *ngIf="isDisplayRevokedToken" class="alert alert-success alert-dismissible fade show" role="alert">
     Updates will not be shared on Slack anymore.
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-
 <ng-container *ngIf="!team.slack?.access_token">
-    <a href={{SLACK_URL}}>
-        <img alt=" Add to Slack " height="40 " width="139 " src="https://platform.slack-edge.com/img/add_to_slack.png
-    " srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x "
-        />
-    </a>
+    <div class="d-flex justify-content-between align-items-center">
+            <span >Share the map on Slack when you want to announce your updates.</span>
+            <a href={{SLACK_URL}}>
+                <img alt=" Add to Slack " height="40 " width="139 " src="https://platform.slack-edge.com/img/add_to_slack.png
+            " srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x "
+                />
+            </a>
+    </div>
 </ng-container>
 <ng-container *ngIf="team.slack?.access_token">
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between align-items-center">
         <span>
             Channel
             <strong>{{team.slack?.incoming_webhook?.channel}}</strong> from workspace
-            <strong>{{team.slack?.team_name}}</strong> receives updates from Maptio
+            <strong>{{team.slack?.team_name}}</strong> receives updates from Maptio.
         </span>
         <button class="btn btn-outline-danger" (click)="revokeToken(team.slack?.access_token)">Remove</button>
-        <!-- <a href="{{team.slack?.incoming_webhook.configuration_url}}" target="blank">COnfigure</a> -->
     </div>
-
-
 </ng-container>
 
 
-{{team.slack?.access_token}}
+<!-- {{team.slack?.access_token}} -->
