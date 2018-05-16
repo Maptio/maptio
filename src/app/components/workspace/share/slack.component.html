@@ -17,7 +17,7 @@
         <div class="card-text">
                 <textarea #slackMessage class="form-control unresizable" id="slackMessage" [(ngModel)]="message" rows="3" placeholder=''></textarea>
                 <div class="d-flex justify-content-end mt-2" >
-                        <button class="btn btn-outline-secondary " (click)="sendNotification()">Share on {{slackIntegration?.incoming_webhook.channel}} <i *ngIf="isPrinting" class="fa fa-circle-o-notch fa-spin fa-fw"></i></button>
+                        <button class="btn btn-outline-secondary " (click)="sendNotification()">Share<i *ngIf="isPrinting" class="fa fa-circle-o-notch fa-spin fa-fw"></i></button>
                         
                 </div>
         </div>
