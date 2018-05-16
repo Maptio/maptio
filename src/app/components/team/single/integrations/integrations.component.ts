@@ -8,6 +8,7 @@ import { Team } from "./../../../../shared/model/team.data";
 import { DataSet } from "./../../../../shared/model/dataset.data";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
+import * as uuid from "angular2-uuid";
 
 @Component({
     selector: "team-single-integrations",
@@ -17,45 +18,54 @@ import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 export class TeamIntegrationsComponent implements OnInit {
 
     public REDIRECT_URL = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
-    public SLACK_URL = `https://slack.com/oauth/authorize?scope=incoming-webhook&client_id=${environment.SLACK_CLIENT_ID}&redirect_uri=${this.REDIRECT_URL}`
+    public SLACK_URL: string;
 
     public KB_URL_INTEGRATIONS = environment.KB_URL_INTEGRATIONS;
     public team: Team;
     public isDisplayRevokedToken: boolean;
     public isDisplayWaitingForSlackSync: boolean;
+    public isSlackAuthError: boolean;
     public Permissions = Permissions;
 
     constructor(private route: ActivatedRoute, private router: Router,
         private secureHttp: AuthHttp, private http: Http, private teamFactory: TeamFactory,
         private cd: ChangeDetectorRef) {
-        // console.log(window.location)
     }
+
     ngOnInit() {
+        if (!localStorage.getItem("slack_state")) {
+            localStorage.setItem("slack_state", uuid.UUID.UUID())
+        }
+
+        this.SLACK_URL = `https://slack.com/oauth/authorize?scope=incoming-webhook&client_id=${environment.SLACK_CLIENT_ID}&state=${localStorage.getItem("slack_state")}&redirect_uri=${encodeURIComponent(this.REDIRECT_URL)}`
+        this.cd.markForCheck();
+
         this.route.parent.data
             .subscribe((data: { assets: { team: Team, datasets: DataSet[] } }) => {
                 this.team = data.assets.team;
-                // console.log(this.team)
             });
 
         this.route.queryParams.map(queryParams => {
-            return queryParams["code"]
+            return { code: queryParams["code"], state: queryParams["state"] }
         })
-            .filter(code => code !== undefined && code !== "")
-            .flatMap(code => {
+            .filter(params => params.code !== undefined && params.code !== "" && params.state !== undefined && params.state !== "")
+            .flatMap(params => {
+                console.log(localStorage.getItem("slack_state"), params.state)
+                if (localStorage.getItem("slack_state") !== params.state) {
+                    throw new Error("State mismatch!")
+                }
+
                 this.isDisplayWaitingForSlackSync = true;
                 this.cd.markForCheck();
-                // console.log("code", code)
                 return this.secureHttp.post("/api/v1/oauth/slack", {
-                    code: code,
+                    code: params.code,
                     redirect_uri: this.REDIRECT_URL
                 })
                     .map((responseData) => {
-                        // console.log("responsedata", responseData)
                         return responseData.json();
                     })
             })
             .subscribe(slack => {
-                // console.log(slack)
                 if (slack.ok) {
                     this.updateTeam(slack.access_token, slack.incoming_webhook, slack.team_name, slack.team_id)
                         .then(team => {
@@ -66,7 +76,7 @@ export class TeamIntegrationsComponent implements OnInit {
                 else {
                     // do nothing, its probably
                 }
-            }, err => { console.log(err) })
+            }, err => { this.isSlackAuthError = true; this.cd.markForCheck(); })
     }
 
     updateTeam(slackAccessToken: string, slackWebookDetails: any, slackTeamName: string, slackTeamId: string) {
