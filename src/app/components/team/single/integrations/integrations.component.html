@@ -53,7 +53,9 @@
             Channel
             <strong>{{team.slack?.incoming_webhook?.channel}}</strong> from workspace
             <strong>{{team.slack?.team_name}}</strong> receives updates from Maptio.
+            <a [href]="KB_URL_INTEGRATIONS" target="blank">Learn more</a>
         </span>
+        
         <ng-container *permissionsOnly="Permissions.canEditTeam;then thenRemoveSlack ; else elseRemoveSlack">
 
         </ng-container>
