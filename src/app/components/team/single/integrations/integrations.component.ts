@@ -18,9 +18,10 @@ export class TeamIntegrationsComponent implements OnInit {
     public REDIRECT_URL = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
     public SLACK_URL = `https://slack.com/oauth/authorize?scope=incoming-webhook&client_id=${environment.SLACK_CLIENT_ID}&redirect_uri=${this.REDIRECT_URL}`
 
-    public KB_URL_INTEGRATIONS = environment.KB_URL_INTEGRATIONS;
+    public KB_URL_INTEGRATIONS = environment.KB_URL_INTEGRATIONS; \
     public team: Team;
     public isDisplayRevokedToken: boolean;
+    public isDisplayWaitingForSlackSync: boolean;
 
     constructor(private route: ActivatedRoute, private router: Router,
         private secureHttp: AuthHttp, private http: Http, private teamFactory: TeamFactory,
@@ -39,6 +40,8 @@ export class TeamIntegrationsComponent implements OnInit {
         })
             .filter(code => code !== undefined && code !== "")
             .flatMap(code => {
+                this.isDisplayWaitingForSlackSync = true;
+                this.cd.markForCheck();
                 // console.log("code", code)
                 return this.secureHttp.post("/api/v1/oauth/slack", {
                     code: code,
@@ -52,15 +55,17 @@ export class TeamIntegrationsComponent implements OnInit {
             .subscribe(slack => {
                 // console.log(slack)
                 if (slack.ok) {
+
                     this.updateTeam(slack.access_token, slack.incoming_webhook, slack.team_name, slack.team_id)
                         .then(team => {
-
+                            this.isDisplayWaitingForSlackSync = false;
+                            this.cd.markForCheck();
                         })
                 }
                 else {
 
                 }
-            })
+            }, err => { console.log(err) })
     }
 
     updateTeam(slackAccessToken: string, slackWebookDetails: any, slackTeamName: string, slackTeamId: string) {
@@ -94,6 +99,8 @@ export class TeamIntegrationsComponent implements OnInit {
     }
 
     revokeToken(token: string) {
+        this.isDisplayWaitingForSlackSync = true;
+        this.cd.markForCheck();
         return this.http.get(`https://slack.com/api/auth.revoke?token=${token}`)
             .map(response => response.json())
             .subscribe(response => {
@@ -108,6 +115,7 @@ export class TeamIntegrationsComponent implements OnInit {
                 return this.teamFactory.upsert(updatedTeam).then(result => {
                     this.team = updatedTeam;
                     this.isDisplayRevokedToken = true;
+                    this.isDisplayWaitingForSlackSync = false;
                     this.cd.markForCheck();
                 }
                 )
