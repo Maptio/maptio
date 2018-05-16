@@ -38,14 +38,13 @@ export class ShareSlackComponent implements OnInit {
         if (changes.isPrinting) {
             this.cd.markForCheck();
         }
-        else{
+        else {
             if (changes.slackIntegration && changes.slackIntegration.currentValue && changes.slackIntegration.currentValue.access_token) {
                 this.showConfiguration = false
             } else {
                 this.showConfiguration = true
             }
         }
-        
     }
 
     sendNotification() {

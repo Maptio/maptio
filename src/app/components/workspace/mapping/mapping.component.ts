@@ -453,7 +453,7 @@ export class MappingComponent {
   // }
 
   isPrinting: boolean;
-  isSharingToggled:boolean;
+  isSharingToggled: boolean;
 
   // print() {
   //   this.isPrinting = true;

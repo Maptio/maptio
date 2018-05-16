@@ -19,7 +19,7 @@ export class TeamIntegrationsComponent implements OnInit {
     public REDIRECT_URL = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
     public SLACK_URL = `https://slack.com/oauth/authorize?scope=incoming-webhook&client_id=${environment.SLACK_CLIENT_ID}&redirect_uri=${this.REDIRECT_URL}`
 
-    public KB_URL_INTEGRATIONS = environment.KB_URL_INTEGRATIONS; \
+    public KB_URL_INTEGRATIONS = environment.KB_URL_INTEGRATIONS;
     public team: Team;
     public isDisplayRevokedToken: boolean;
     public isDisplayWaitingForSlackSync: boolean;
@@ -64,7 +64,7 @@ export class TeamIntegrationsComponent implements OnInit {
                         })
                 }
                 else {
-                    // do nothing, its probably 
+                    // do nothing, its probably
                 }
             }, err => { console.log(err) })
     }
