@@ -143,7 +143,7 @@ export function rollbarFactory() {
     ResponsiveModule,
     ConfirmationPopoverModule.forRoot({
       confirmButtonType: "danger",
-      cancelButtonType: "secondary"
+      cancelButtonType: "outline-secondary"
     }),
     Angulartics2Module.forRoot([Angulartics2Mixpanel]),
     FileUploadModule,

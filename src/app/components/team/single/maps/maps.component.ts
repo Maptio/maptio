@@ -22,4 +22,8 @@ export class TeamMapsComponent implements OnInit {
             });
     }
 
+    archiveMap(dataset: DataSet) {
+console.log("archive", dataset.initiative.name)
+    }
+
 }
