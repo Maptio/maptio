@@ -1,7 +1,7 @@
-import { sortBy } from 'lodash';
-import { DatasetFactory } from './../../../shared/services/dataset.factory';
-import { DataSet } from './../../../shared/model/dataset.data';
-import { Auth } from './../../../shared/services/auth/auth.service';
+import { sortBy } from "lodash";
+import { DatasetFactory } from "./../../../shared/services/dataset.factory";
+import { DataSet } from "./../../../shared/model/dataset.data";
+import { Auth } from "./../../../shared/services/auth/auth.service";
 
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/router";
 import { Injectable } from "@angular/core";
@@ -32,7 +32,6 @@ export class TeamComponentResolver implements Resolve<{ team: Team, datasets: Da
                     })
                     return { team: result[0], datasets: sortBy(datasets, d => d.initiative.name) }
                 })
-                .then()
         )
     }
 
