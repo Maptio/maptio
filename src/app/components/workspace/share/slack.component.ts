@@ -12,7 +12,7 @@ import { Component, OnInit } from "@angular/core";
     templateUrl: "./slack.component.html",
     styleUrls: ["./slack.component.css"]
 })
-export class ShareSlackComponent implements OnInit {
+export class ShareSlackComponent {
     @Input("slack") slackIntegration: SlackIntegration;
     @Input("team") team: Team;
     @Input("isPrinting") isPrinting: boolean;
