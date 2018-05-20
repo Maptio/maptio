@@ -8,7 +8,10 @@
             <div class="card-text">
                 <textarea #slackMessage class="form-control unresizable" id="slackMessage" [(ngModel)]="message" rows="3" placeholder=''></textarea>
                 <div class="d-flex justify-content-end mt-2">
-                    <button class="btn btn-outline-secondary" [class.disabled]="isPrinting" (click)="sendNotification()">
+                    <button *ngIf="isPrinting" class="btn btn-outline-secondary disabled">
+                        <span>Share</span>
+                    </button>
+                    <button *ngIf="!isPrinting" class="btn btn-outline-secondary disabled" (click)="sendNotification()">
                         <span>Share</span>
                     </button>
                 </div>
@@ -19,8 +22,7 @@
             </div>
         </ng-container>
         <ng-container *ngIf="showConfiguration">
-            Slack is not setup for team
-            <strong>{{team.name}}</strong>!
+            Slack is not setup for team <strong>{{team?.name}}</strong>!
             <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}/integrations">Configure updates first.</a>
         </ng-container>
 

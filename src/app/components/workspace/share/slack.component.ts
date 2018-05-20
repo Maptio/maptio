@@ -2,18 +2,15 @@ import { Team } from './../../../shared/model/team.data';
 import { SlackIntegration } from './../../../shared/model/integrations.data';
 import { Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
-import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import { SimpleChanges } from '@angular/core';
-import { ExportService } from './../../../shared/services/export/export.service';
-import { ChangeDetectorRef } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
-import { Input } from '@angular/core';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef } from "@angular/core";
+import { Input } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 
 @Component({
-    selector: 'slack-share',
-    templateUrl: './slack.component.html',
-    styleUrls: ['./slack.component.css']
+    selector: "slack-share",
+    templateUrl: "./slack.component.html",
+    styleUrls: ["./slack.component.css"]
 })
 export class ShareSlackComponent implements OnInit {
     @Input("slack") slackIntegration: SlackIntegration;
@@ -23,21 +20,15 @@ export class ShareSlackComponent implements OnInit {
 
     @Output() shareMap: EventEmitter<string> = new EventEmitter<string>();
 
-    channels: Array<any>;
-
-    // selectedChannel: any;
     message: string;
     showConfiguration: boolean;
-    constructor(private cd: ChangeDetectorRef, private exportService: ExportService) { }
-
-    ngOnInit(): void {
-
-    }
+    constructor(private cd: ChangeDetectorRef) { }
 
     ngOnChanges(changes: SimpleChanges): void {
-        console.log(changes)
+        // console.log("changes", changes)
         if (changes.isPrinting || changes.hasNotified) {
-            this.cd.markForCheck();
+            // console.log("here")
+            this.updateTemplate();
         }
         else {
             if (changes.slackIntegration && changes.slackIntegration.currentValue && changes.slackIntegration.currentValue.access_token) {
@@ -48,8 +39,12 @@ export class ShareSlackComponent implements OnInit {
         }
     }
 
+
+    updateTemplate(){
+        this.cd.markForCheck();
+    }
+
     sendNotification() {
-        if (!this.isPrinting)
             this.shareMap.emit(this.message)
     }
 }
