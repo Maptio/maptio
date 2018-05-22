@@ -1,6 +1,5 @@
 import { compact } from "lodash";
 import { SlackIntegration } from "./../../../../shared/model/integrations.data";
-import { TeamFactory } from "./../../../../shared/services/team.factory";
 
 import { TeamIntegrationsComponent } from "./integrations.component";
 
@@ -131,7 +130,7 @@ describe("integrations.component.ts", () => {
                     new Response({ body: {}, status: 200, headers: null, url: "", merge: null })
                 ));
 
-            let spyTeamFactory = spyOn(target.debugElement.injector.get(TeamFactory), "upsert").and.returnValue(Promise.resolve(new Team({ team_id: "id", slack: new SlackIntegration({}))))
+            let spyTeamFactory = spyOn(target.debugElement.injector.get(TeamFactory), "upsert").and.returnValue(Promise.resolve(new Team({ team_id: "id", slack: new SlackIntegration({})})))
 
             component.revokeToken("TOKEN");
             expect(target.debugElement.injector.get(Http).get).toHaveBeenCalledWith("https://slack.com/api/auth.revoke?token=TOKEN")
