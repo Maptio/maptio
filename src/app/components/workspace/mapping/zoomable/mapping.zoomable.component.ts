@@ -946,7 +946,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
             +this.getAttribute("cy")
           );
 
-
           let TOOLTIP_HEIGHT = (tooltip.node() as HTMLElement).getBoundingClientRect()
             .height;
           let TOOLTIP_WIDTH = (tooltip.node() as HTMLElement).getBoundingClientRect()
@@ -990,11 +989,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
           tooltip.classed("show", false);
         });
 
-      g.selectAll("text.name")
+      g.selectAll("foreignObject.name")
         .on("mouseover", function (d: any) {
           d3.select(`circle[id="${d.data.id}"]`).classed("hovered", true).dispatch("mouseover");
-
-
         })
         .on("mouseout", function (d: any) {
           d3.select(`circle[id="${d.data.id}"]`).classed("hovered", false).dispatch("mouseout")
