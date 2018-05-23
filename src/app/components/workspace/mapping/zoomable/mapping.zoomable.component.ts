@@ -554,7 +554,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       // })
       .html(function (d: any) {
         let fs = `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`;
-        return `<div style="font-size: ${fs}; background: none; display: inline-block">${d.data.name}</div>`;
+        return `<div style="font-size: ${fs}; background: none; display: inline-block;pointer-events: none">${d.data.name}</div>`;
       })
     // .append("xhtml:body")
     // .style("font-size", function (d: any) {
@@ -836,7 +836,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
               console.log("here")
               let multiplier = svg.attr("data-font-multiplier");
               let fs = `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * multiplier)}rem`;
-              return `<div style="font-size: ${fs}; background: none;overflow: initial; display: inline-block">${d.data.name}</div>`;
+              return `<div style="font-size: ${fs}; background: none;overflow: initial; display: inline-block; pointer-events:none">${d.data.name}</div>`;
             })
 
           // .append("xhtml:body")
@@ -989,7 +989,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           tooltip.classed("show", false);
         });
 
-      g.selectAll("foreignObject.name")
+      g.selectAll("foreignObject.name, .accountable, .tags")
         .on("mouseover", function (d: any) {
           d3.select(`circle[id="${d.data.id}"]`).classed("hovered", true).dispatch("mouseover");
         })
