@@ -190,7 +190,10 @@ export function rollbarFactory() {
 export class AppModule {
   constructor(breadcrumbsConfig: McBreadcrumbsConfig) {
 
-    LogRocket.init("w3vkbz/maptio");
+    if (process.env.ENV === "production") {
+      LogRocket.init("w3vkbz/maptio");
+    }
+
     breadcrumbsConfig.postProcess = (x) => {
       // Ensure that the first breadcrumb always points to home
 
