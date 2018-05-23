@@ -1,4 +1,4 @@
-import { PermissionGuard } from './shared/services/guards/permission.guard';
+import { PermissionGuard } from "./shared/services/guards/permission.guard";
 import { PermissionService } from "./shared/model/permission.data";
 import { CommonModule, Location, LocationStrategy, PathLocationStrategy } from "@angular/common";
 import { ErrorHandler, Injectable, InjectionToken, Injector, NgModule, Inject } from "@angular/core";
@@ -61,6 +61,7 @@ import { URIService } from "./shared/services/uri.service";
 import { UserFactory } from "./shared/services/user.factory";
 import { UserService } from "./shared/services/user/user.service";
 
+import * as LogRocket from "logrocket";
 
 const appRoutes: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
@@ -189,6 +190,7 @@ export function rollbarFactory() {
 export class AppModule {
   constructor(breadcrumbsConfig: McBreadcrumbsConfig) {
 
+    LogRocket.init("w3vkbz/maptio");
     breadcrumbsConfig.postProcess = (x) => {
       // Ensure that the first breadcrumb always points to home
 
