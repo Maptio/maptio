@@ -14,6 +14,7 @@ import { User } from "../../model/user.data";
 import { EmitterService } from "../emitter.service";
 import { tokenNotExpired } from "angular2-jwt/angular2-jwt";
 import { uniq } from "lodash";
+import * as LogRocket from "logrocket";
 
 @Injectable()
 export class Auth {
@@ -250,6 +251,10 @@ export class Auth {
                               firstname: user.firstname,
                               lastname: user.lastname
                             });
+                            LogRocket.identify(user.user_id, {
+                              name: user.name,
+                              email: user.email,
+                            })
 
                             // let isUserVIP = (user.email === "safiyya.babio@gmail.com" || user.email === "hello@tomnixon.co.uk");
                             // (<any>window).Intercom("boot", {
