@@ -59,7 +59,7 @@ if (!isDevelopment) {
       styleSrc: ["'self'", "'unsafe-inline'", 'maxcdn.bootstrapcdn.com', 'cdnjs.cloudflare.com', 'api.mixpanel.com'],
       scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'",
         'maxcdn.bootstrapcdn.com', 'cdnjs.cloudflare.com', 'cdn.auth0.com', 'api.mixpanel.com',
-        'cdn.mxpnl.com', 'cdn4.mxpnl.com','https://cdn.logrocket.io',
+        'cdn.mxpnl.com', 'cdn4.mxpnl.com',
         'www.google-analytics.com', 'mixpanel.com', 'widget.intercom.io', 'https://app.intercom.io',
         'https://js.intercomcdn.com', 'https://fullstory.com', 'code.jquery.com','http://canvg.github.io'],
       fontSrc: ["'self'", 'maxcdn.bootstrapcdn.com', 'cdn.mixpnl.com', 'https://js.intercomcdn.com'],
@@ -75,14 +75,19 @@ if (!isDevelopment) {
         'https://uploads.intercomusercontent.com',
         'https://rs.fullstory.com',
         'https://api.rollbar.com',
-        'https://drive.google.com'
+        'https://drive.google.com',
+        'https://*.logrocket.io'
       ],
       childSrc: [
+        "'self'",'blob:',
         'https://share.intercom.io',
         'https://www.youtube.com',
         'https://player.vimeo.com',
         'https://fast.wistia.net',
         'https://drive.google.com'
+      ],
+      workerSrc : [
+        "'self'",'blob:'
       ],
       imgSrc: ['data:', "'self'", '*']
     }
