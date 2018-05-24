@@ -77,7 +77,8 @@ if (!isDevelopment) {
         'https://rs.fullstory.com',
         'https://api.rollbar.com',
         'https://drive.google.com',
-        'https://*.logrocket.io'
+        'https://*.logrocket.io',
+        'https://slack.com/api/'
       ],
       childSrc: [
         "'self'",'blob:',
