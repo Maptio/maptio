@@ -436,7 +436,7 @@ export class MappingComponent {
     let svgNode = this.downloadSvg(svg, "image.png", w, h);
     // console.log(((<any>svgNode).outerHTML)
     this.exportService.sendSlackNotification((<any>svgNode).outerHTML, this.datasetId, this.initiative, this.team.slack, message)
-      .subscribe(() => { this.isPrinting = false; this.hasNotified = true; this.cd.markForCheck() })
+      .subscribe((result) => { console.log("result" , result); this.isPrinting = false; this.hasNotified = true; this.cd.markForCheck() }, (err)=>{console.error("error", err)})
 
   }
 

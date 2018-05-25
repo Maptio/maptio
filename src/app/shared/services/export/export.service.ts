@@ -104,6 +104,7 @@ export class ExportService {
                 })
             })
             .mergeMap(req => this.http.request(req))
+            .map(res => res.json())
     }
 
 }

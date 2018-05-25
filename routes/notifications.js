@@ -18,7 +18,7 @@ router.post('/send', function (req, res, next) {
     let attachments = req.body.attachments;
 
     let payload = {
-        "attachments" : attachments
+        "attachments": attachments
         // "text": text,
 
         // "attachments": [
@@ -41,12 +41,20 @@ router.post('/send', function (req, res, next) {
         headers: { 'content-type': 'application/json' },
         url: url,
         body: payload,
-        json:true
+        json: true
     }, function (error, response, body) {
+        console.log(error, response.statusCode)
         if (error) {
             res.send(error);
-        } else {
-            res.json(response)
+        }
+        else if (response.statusCode === 404) {
+            res.status(404).send(body);
+        }
+        else if (response.statusCode === 200) {
+            res.status(200).json(response)
+        }
+        else {
+            res.status(500);
         }
     });
     // webhook.send(payload, function (err, res) {
