@@ -60,9 +60,9 @@ export class Team implements Serializable<Team> {
                 deserialized.members.push(User.create().deserialize(member))
             });
         }
-        deserialized.settings = { authority: "Authority", helper: "Helper" }
-        deserialized.settings.authority = input.settings ? input.settings.authority || "Authority" : "Authority";
-        deserialized.settings.helper = input.settings ? input.settings.helper || "Helper" : "Helper"
+        deserialized.settings = { authority: "Lead", helper: "Contributor" }
+        deserialized.settings.authority = input.settings ? input.settings.authority || "Lead" : "Lead";
+        deserialized.settings.helper = input.settings ? input.settings.helper || "Contributor" : "Contributor"
         deserialized.slack = SlackIntegration.create().deserialize(input.slack || {});
         // console.log("deserialize team", input.slack, deserialized.slack)
         
