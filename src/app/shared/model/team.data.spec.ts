@@ -36,8 +36,8 @@ describe("Team Tests", () => {
                 expect(deserialized).toBeDefined();
                 expect(deserialized.name).toBe("Team FTW");
                 expect(deserialized.team_id).toBe("unique");
-                expect(deserialized.settings.authority).toBe("Authority");
-                expect(deserialized.settings.helper).toBe("Helper");
+                expect(deserialized.settings.authority).toBe("Lead");
+                expect(deserialized.settings.helper).toBe("Contributor");
                 expect(deserialized.members).toBeDefined();
                 expect(deserialized.members.length).toBe(2);
                 expect(deserialized.members[0].name).toBe("John")
