@@ -11,18 +11,24 @@
                     <button *ngIf="isPrinting" class="btn btn-outline-secondary disabled">
                         <span>Share</span>
                     </button>
-                    <button *ngIf="!isPrinting" class="btn btn-outline-secondary disabled" (click)="sendNotification()">
+                    <button *ngIf="!isPrinting" class="btn btn-outline-secondary" (click)="sendNotification()">
                         <span>Share</span>
                     </button>
                 </div>
-                <span class="text-muted small  d-flex justify-content-end align-items-center" *ngIf="isPrinting && !hasNotified">
+                <span class="text-muted small  d-flex justify-content-end align-items-center" *ngIf="isPrinting && !hasNotified && !hasConfigurationError">
                     <i class="fa fa-circle-o-notch fa-spin fa-fw"></i>Generating image preview
                 </span>
-                <span class="text-success small  d-flex justify-content-end" *ngIf="hasNotified">Shared!</span>
+                <span class="text-danger small  d-flex justify-content-end" *ngIf="hasConfigurationError">
+                    We cannot post to your Slack workspace anymore!
+                    <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}/integrations" class="ml-1">Go to settings</a>
+
+                </span>
+                <span class="text-success small  d-flex justify-content-end" *ngIf="hasNotified && !hasConfigurationError">Shared!</span>
             </div>
         </ng-container>
         <ng-container *ngIf="showConfiguration">
-            Slack is not setup for team <strong>{{team?.name}}</strong>!
+            Slack is not setup for team
+            <strong>{{team?.name}}</strong>!
             <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}/integrations">Configure updates first.</a>
         </ng-container>
 

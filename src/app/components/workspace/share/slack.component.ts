@@ -17,6 +17,7 @@ export class ShareSlackComponent {
     @Input("team") team: Team;
     @Input("isPrinting") isPrinting: boolean;
     @Input("hasNotified") hasNotified: boolean;
+    @Input("hasConfigurationError") hasConfigurationError: boolean;
 
     @Output() shareMap: EventEmitter<string> = new EventEmitter<string>();
 
@@ -26,7 +27,7 @@ export class ShareSlackComponent {
 
     ngOnChanges(changes: SimpleChanges): void {
         // console.log("changes", changes)
-        if (changes.isPrinting || changes.hasNotified) {
+        if (changes.isPrinting || changes.hasNotified || changes.hasConfigurationError) {
             // console.log("here")
             this.updateTemplate();
         }

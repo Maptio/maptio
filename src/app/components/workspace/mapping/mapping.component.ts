@@ -1,4 +1,3 @@
-import { ExportService } from './../../../shared/services/export/export.service';
 import "rxjs/add/operator/map";
 
 import {
@@ -27,6 +26,7 @@ import { MemberSummaryComponent } from "./member-summary/member-summary.componen
 import { MappingNetworkComponent } from "./network/mapping.network.component";
 import { MappingTreeComponent } from "./tree/mapping.tree.component";
 import { MappingZoomableComponent } from "./zoomable/mapping.zoomable.component";
+import { ExportService } from "./../../../shared/services/export/export.service";
 
 // import { MappingNetworkComponent } from "./network/mapping.network.component";
 // import { MappingCirclesComponent } from "./circles/mapping.circles.component";
@@ -436,7 +436,14 @@ export class MappingComponent {
     let svgNode = this.downloadSvg(svg, "image.png", w, h);
     // console.log(((<any>svgNode).outerHTML)
     this.exportService.sendSlackNotification((<any>svgNode).outerHTML, this.datasetId, this.initiative, this.team.slack, message)
-      .subscribe((result) => { console.log("result" , result); this.isPrinting = false; this.hasNotified = true; this.cd.markForCheck() }, (err)=>{console.error("error", err)})
+      .subscribe((result) => {
+        console.log("result", result);
+        this.isPrinting = false; this.hasNotified = true; this.cd.markForCheck()
+      },
+      (err) => {
+        this.hasConfigurationError = true;
+        this.cd.markForCheck();
+      })
 
   }
 
@@ -455,6 +462,7 @@ export class MappingComponent {
 
   isPrinting: boolean;
   hasNotified: boolean;
+  hasConfigurationError: boolean;
   isSharingToggled: boolean;
 
   // print() {
