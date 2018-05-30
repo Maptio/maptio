@@ -113,7 +113,7 @@
                     <td>
                         <ng-container *permissionsOnly="Permissions.canDeleteUser;then thenDeleteBlock"></ng-container>
                         <ng-template #thenDeleteBlock>
-                            <span *ngIf="!member.isDeleted" class="remove text-danger" aria-hidden="true" mwlConfirmationPopover title="This cannot be undone ! Are you sure you want to delete {{member.name}} ?"
+                            <span *ngIf="!member.isDeleted" class="remove text-danger" [class.d-none]="team.members.length===1" aria-hidden="true" mwlConfirmationPopover title="This cannot be undone ! Are you sure you want to delete {{member.name}} ?"
                                 placement="right" focusButton="cancel" appendToBody="true" (confirm)="deleteMember(member)" (cancel)="cancelClicked = true">
                             </span>
                         </ng-template>

@@ -233,7 +233,7 @@ describe("members.component.ts", () => {
     });
 
     describe("delete", () => {
-        it("should remote user,  update team and refresh page", async(() => {
+        it("should remote user,  update team and refresh page when there is more than one member left", async(() => {
             component.team = new Team({ team_id: "ID", name: "My team", members: [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })] });
             let user = new User({ user_id: "2" })
 
@@ -246,6 +246,18 @@ describe("members.component.ts", () => {
             spyUpsert.calls.mostRecent().returnValue.then(() => {
                 expect(component.getAllMembers).toHaveBeenCalled();
             })
+        }));
+
+        it("should not remove member when there is  only one member left", async(() => {
+            component.team = new Team({ team_id: "ID", name: "My team", members: [new User({ user_id: "1" })] });
+            let user = new User({ user_id: "1" })
+
+            let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
+            let spyUpsert = spyOn(mockTeamFactory, "upsert").and.returnValue(Promise.resolve(true))
+            spyOn(component, "getAllMembers")
+            component.deleteMember(user);
+            expect(component.team.members.length).toBe(1)
+            expect(mockTeamFactory.upsert).not.toHaveBeenCalledWith(component.team);
         }));
     });
 
