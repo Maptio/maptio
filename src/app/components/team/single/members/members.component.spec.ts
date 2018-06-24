@@ -146,6 +146,7 @@ describe("members.component.ts", () => {
 
             component.getAllMembers().then(members => {
                 expect(members.length).toBe(2);
+                
                 expect(members.every(m => m.isInvitationSent === true)).toBe(true)
                 expect(members.every(m => m.isActivationPending === true)).toBe(true)
                 expect(members.every(m => m.isDeleted === false)).toBe(true)

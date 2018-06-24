@@ -402,9 +402,14 @@ export class MappingComponent {
     this.analytics.eventTrack("Map", { mode: "instruction", action: "add", team: this.team.name, teamId: this.team.team_id });
   }
 
+  public broadcastTagsSettings(tags: SelectableTag[]) {
+    console.log("broadcast settings")
+    this.applySettings.emit({ initiative: this.initiative, tags: tags });
+
+  }
+
   public broadcastTagsSelection(tags: SelectableTag[]) {
     this.selectableTags$.next(tags);
-    this.applySettings.emit({ initiative: this.initiative, tags: tags });
 
     let tagsHash = tags
       .filter(t => t.isSelected === true)

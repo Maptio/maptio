@@ -116,7 +116,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     saveChanges(initiative: Initiative, tags?: Array<Tag>) {
-        // console.log(initiative, tags)
+        console.log("svechanges", initiative, tags)
         this.dataset.initiative = initiative;
         if (tags) {
             this.dataset.tags = tags;

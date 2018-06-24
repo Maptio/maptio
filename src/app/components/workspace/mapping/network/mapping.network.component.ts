@@ -113,14 +113,14 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     this.init();
     this.dataSubscription = this.dataService
       .get()
-      .combineLatest(this.selectableTags$, this.mapColor$)
+      .combineLatest(this.mapColor$)
       .subscribe(complexData => {
-        // console.log("network assign data")
+        console.log("network assign data", complexData)
         let data = <any>complexData[0].initiative;
         this.datasetId = complexData[0].datasetId;
         this.rootNode = complexData[0].initiative;
         this.slug = data.getSlug();
-        this.update(data, complexData[1], complexData[2]);
+        this.update(data, complexData[1]);
         this.analytics.eventTrack("Map", {
           view: "connections",
           team: data.teamName,
@@ -129,6 +129,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         this.isLoading = false;
         this.cd.markForCheck();
       });
+
+    this.selectableTags$.subscribe(tags => this.tagsState = tags)
   }
 
   ngOnDestroy() {
@@ -275,6 +277,22 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       d3.selectAll(`path[data-initiatives~="${node.id}"]`).style("stroke", fontColor)
     });
 
+    this.selectableTags$.subscribe(tags => {
+      console.log("subscribe tags")
+      let [selectedTags, unselectedTags] = partition(tags, t => t.isSelected);
+      let uiService = this.uiService
+      let FADED_OPACITY = this.FADED_OPACITY
+      g.selectAll("path.edge")
+        .style("stroke-opacity", function (d: any) {
+          return uiService.filter(selectedTags, unselectedTags, d[5]) ? 1 : FADED_OPACITY;
+        }).style("opacity", function (d: any) {
+          return uiService.filter(selectedTags, unselectedTags, d[5]) ? 1 : FADED_OPACITY;
+        })
+        .attr("marker-end", function (d: any) {
+          return uiService.filter(selectedTags, unselectedTags, d[5]) ? "url(#arrow)" : "url(#arrow-fade)";
+        });
+    })
+
     this.svg = svg;
     this.g = g;
   }
@@ -386,7 +404,11 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   //   this.showDetailsOf$.next(node);
   // }
 
-  public update(data: any, tags: SelectableTag[], seedColor: string) {
+  getTags() {
+    return this.tagsState;
+  }
+
+  public update(data: any, seedColor: string) {
     if (this.d3.selectAll("g").empty()) {
       this.init();
     }
@@ -400,9 +422,11 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     let uiService = this.uiService;
     let showDetailsOf$ = this.showDetailsOf$;
     let datasetSlug = this.slug;
+    let getTags = this.getTags.bind(this);
 
     let CIRCLE_RADIUS = this.CIRCLE_RADIUS;
     let LINE_WEIGHT = this.LINE_WEIGHT;
+    let FADED_OPACITY = this.FADED_OPACITY;
 
     let initiativesList: HierarchyNode<Initiative>[] = this.d3
       .hierarchy(data)
@@ -458,7 +482,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       }),
       links = graph.links;
 
-    let [selectedTags, unselectedTags] = partition(tags, t => t.isSelected);
+    let [selectedTags, unselectedTags] = partition(getTags(), (t: SelectableTag) => t.isSelected);
+    console.log(selectedTags, unselectedTags)
 
     links.forEach(function (link: {
       source: string;
@@ -510,16 +535,18 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         return `${LINE_WEIGHT * d[3]}px`;
       })
       .style("opacity", function (d: any) {
-        return uiService.filter(selectedTags, unselectedTags, d[5])
-          ? // &&
-          // uiService.filter(selectedUsers, unselectedUsers, _.compact(_.flatten([...[d.data.accountable], d.data.helpers])).map(u => u.shortid))
-          1
-          : 0.1;
+        return uiService.filter(selectedTags, unselectedTags, d[5]) ? 1 : FADED_OPACITY;
+      })
+      .style("stroke-opacity", function (d: any) {
+        return uiService.filter(selectedTags, unselectedTags, d[5]) ? 1 : FADED_OPACITY;
       })
       .attr("id", function (d: any) {
         return d[6];
       })
-      .attr("marker-end", "url(#arrow)");
+      .attr("marker-end", function (d: any) {
+        return uiService.filter(selectedTags, unselectedTags, d[5]) ? "url(#arrow)" : "url(#arrow-fade)";
+      });
+      // .attr("marker-end", "url(#arrow)");
 
     let label = g
       .select("g.labels")
@@ -662,11 +689,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .text(function (d: any) {
         return d.name;
       });
-
-
-
-
-
 
     g.selectAll("path")
       .on("mouseover", function (d: any) {

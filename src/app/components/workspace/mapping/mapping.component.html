@@ -26,7 +26,7 @@
     <search [list]="flattenInitiative" (selectInitiative)="zoomToInitiative($event)"></search>
   </div>
   <div id="collapseFilter" class="collapse col-12">
-    <filter-tags [team]="team" [tags]="tags" (changeTags)="broadcastTagsSelection($event)"></filter-tags>
+    <filter-tags [team]="team" [tags]="tags" (changeTagsSettings)="broadcastTagsSettings($event)" (changeTagsSelection)="broadcastTagsSelection($event)"></filter-tags>
   </div>
   <div id="collapseSlack" class="collapse col-12">
     <slack-share [slack]="team?.slack" [team]="team" [isPrinting]="isPrinting" [hasNotified]="hasNotified" [hasConfigurationError]="hasConfigurationError" (shareMap)="sendSlackNotification($event)"></slack-share>
