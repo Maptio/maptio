@@ -25,7 +25,7 @@
   <div id="collapseSearch" class="collapse mb-3 col-12">
     <search [list]="flattenInitiative" (selectInitiative)="zoomToInitiative($event)"></search>
   </div>
-  <div id="collapseFilter" class="collapse col-12">
+  <div id="collapseFilter" class="collapse mb-3 col-12">
     <filter-tags [team]="team" [tags]="tags" (changeTagsSettings)="broadcastTagsSettings($event)" (changeTagsSelection)="broadcastTagsSelection($event)"></filter-tags>
   </div>
   <div id="collapseSlack" class="collapse col-12">
