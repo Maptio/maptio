@@ -50,7 +50,7 @@ export class TeamIntegrationsComponent implements OnInit {
         })
             .filter(params => params.code !== undefined && params.code !== "" && params.state !== undefined && params.state !== "")
             .flatMap(params => {
-                console.log(localStorage.getItem("slack_state"), params.state)
+                // console.log(localStorage.getItem("slack_state"), params.state)
                 if (localStorage.getItem("slack_state") !== params.state) {
                     throw new Error("State mismatch!")
                 }

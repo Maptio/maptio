@@ -72,7 +72,6 @@ export class AppComponent {
       .flatMap(() => {return Observable.of(this.auth.allAuthenticated()) })
       .filter(isExpired => !isExpired)
       .subscribe((isExpired: boolean) => {
-        console.log("going to lougou")
         this.router.navigateByUrl("/logout")
       });
   }

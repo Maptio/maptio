@@ -115,7 +115,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .get()
       .combineLatest(this.mapColor$)
       .subscribe(complexData => {
-        console.log("network assign data", complexData)
+        // console.log("network assign data", complexData)
         let data = <any>complexData[0].initiative;
         this.datasetId = complexData[0].datasetId;
         this.rootNode = complexData[0].initiative;
@@ -278,7 +278,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     });
 
     this.selectableTags$.subscribe(tags => {
-      console.log("subscribe tags")
       let [selectedTags, unselectedTags] = partition(tags, t => t.isSelected);
       let uiService = this.uiService
       let FADED_OPACITY = this.FADED_OPACITY
@@ -483,7 +482,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       links = graph.links;
 
     let [selectedTags, unselectedTags] = partition(getTags(), (t: SelectableTag) => t.isSelected);
-    console.log(selectedTags, unselectedTags)
+    // console.log(selectedTags, unselectedTags)
 
     links.forEach(function (link: {
       source: string;

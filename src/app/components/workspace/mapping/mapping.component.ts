@@ -403,7 +403,7 @@ export class MappingComponent {
   }
 
   public broadcastTagsSettings(tags: SelectableTag[]) {
-    console.log("broadcast settings")
+    // console.log("broadcast settings")
     this.applySettings.emit({ initiative: this.initiative, tags: tags });
 
   }
@@ -442,7 +442,7 @@ export class MappingComponent {
     // console.log(((<any>svgNode).outerHTML)
     this.exportService.sendSlackNotification((<any>svgNode).outerHTML, this.datasetId, this.initiative, this.team.slack, message)
       .subscribe((result) => {
-        console.log("result", result);
+        // console.log("result", result);
         this.isPrinting = false; this.hasNotified = true; this.cd.markForCheck()
       },
       (err) => {
@@ -537,7 +537,7 @@ export class MappingComponent {
   }
 
   triggerDownload(imgURI: string, fileName: string) {
-    console.log(imgURI)
+    // console.log(imgURI)
     let evt = new MouseEvent("click", {
       view: window,
       bubbles: false,

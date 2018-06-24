@@ -833,7 +833,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             //   return `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * multiplier)}rem`;
             // })
             .html(function (d: any) {
-              console.log("here")
+              // console.log("here")
               let multiplier = svg.attr("data-font-multiplier");
               let fs = `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * multiplier)}rem`;
               return `<div style="font-size: ${fs}; background: none;overflow: initial; display: inline-block; pointer-events:none">${d.data.name}</div>`;

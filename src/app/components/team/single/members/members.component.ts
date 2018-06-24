@@ -327,7 +327,7 @@ export class TeamMembersComponent implements OnInit {
 
                     this.userFactory.getAll(term)
                         .then((users: User[]) => {
-                            console.log("typed", term, "users", users)
+                            // console.log("typed", term, "users", users)
                             this.userSearched = term;
                             return this.members$.then((existingMembers: User[]) => {
                                 //  console.log("existing", existingMembers)
