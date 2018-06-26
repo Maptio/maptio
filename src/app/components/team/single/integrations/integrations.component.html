@@ -1,0 +1,92 @@
+<ng-template #adminTipContent>
+    <span class="text-warning">You don't have permission to edit this.
+        <a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
+    </span>
+</ng-template>
+<h5 class="d-flex align-items-center justify-content-between ">
+    <span>
+        <img width="30" height="30" src="/assets/images/slack-icon.png" alt="Slack logo">Slack
+<small>(Beta version)</small>
+        <i *ngIf="team.slack?.access_token" class="ml-1 fa fa-check-circle text-success" aria-hidden="true"></i>
+    </span>
+    <!-- <span>
+        <small class="text-muted">(Beta feature)</small>
+    </span> -->
+</h5>
+<hr>
+<div *ngIf="isDisplayRevokedToken" class="alert alert-success alert-dismissible fade show" role="alert">
+    Updates will not be shared on Slack anymore.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div *ngIf="isSlackAuthError" class="alert alert-warning alert-dismissible fade show" role="alert">
+    We cannot connect with your Slack workspace
+    <a routerLink="/help" class="alert-link">Need some help?</a>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<ng-container *ngIf="!team.slack?.access_token">
+    <div class="d-flex justify-content-between align-items-center">
+        <span>Share the map on Slack when you want to announce your updates.
+            <a [href]="KB_URL_INTEGRATIONS" target="blank">Learn more</a>
+        </span>
+        <span *ngIf="isDisplayWaitingForSlackSync">
+            <i class="fa fa-circle-o-notch fa-spin fa-fw"></i>
+        </span>
+        <ng-container *permissionsOnly="Permissions.canEditTeam;then thenAddSlack ; else elseAddSlack">
+
+        </ng-container>
+        <ng-template #thenAddSlack>
+            <a *ngIf="!isDisplayWaitingForSlackSync" href={{SLACK_URL}}>
+                <img alt=" Add to Slack " height="40 " width="139 " src="https://platform.slack-edge.com/img/add_to_slack.png
+                        " srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x "
+                />
+            </a>
+        </ng-template>
+        <ng-template #elseAddSlack>
+            <span>
+                <a *ngIf="!isDisplayWaitingForSlackSync" [stickyPopover]="adminTipContent">
+
+                    <img alt=" Add to Slack " height="40 " width="139 " class="b-and-w" src="https://platform.slack-edge.com/img/add_to_slack.png
+                                        " srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x "
+                    />
+                </a>
+            </span>
+
+        </ng-template>
+
+    </div>
+</ng-container>
+<ng-container *ngIf="team.slack?.access_token">
+    <div class="d-flex justify-content-between align-items-center">
+        <span>
+            <div>
+                Channel
+                <strong>{{team.slack?.incoming_webhook?.channel}}</strong> from workspace
+                <strong>{{team.slack?.team_name}}</strong> receives updates from Maptio.
+                <a [href]="KB_URL_INTEGRATIONS" target="blank">Learn more</a>
+            </div>
+            <div class="small text-muted">
+                Can you not post to Slack anymore?
+                <a [href]="team.slack?.incoming_webhook?.configuration_url" target="blank">Check your Slack configuration</a>
+            </div>
+
+        </span>
+        <div>
+            <ng-container *permissionsOnly="Permissions.canEditTeam;then thenRemoveSlack ; else elseRemoveSlack">
+            </ng-container>
+            <ng-template #thenRemoveSlack>
+                <button class="btn btn-outline-danger" (click)="revokeToken(team.slack?.access_token)">Remove</button>
+            </ng-template>
+            <ng-template #elseRemoveSlack>
+                <button class="btn btn-outline-danger disabled" [stickyPopover]="adminTipContent">Remove</button>
+            </ng-template>
+        </div>
+    </div>
+</ng-container>
+
+
+<!-- {{team.slack?.access_token}} -->

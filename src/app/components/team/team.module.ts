@@ -1,3 +1,4 @@
+import { TeamIntegrationsComponent } from "./single/integrations/integrations.component";
 import { Permissions } from "./../../shared/model/permission.data";
 import { PermissionGuard } from "./../../shared/services/guards/permission.guard";
 import { CommonModule } from "@angular/common";
@@ -51,7 +52,8 @@ const routes: Routes = [
                         }
                     },
                     { path: "maps", component: TeamMapsComponent, data: { breadcrumbs: true, text: "Maps" } },
-                    { path: "settings", component: TeamSettingsComponent, data: { breadcrumbs: true, text: "Settings" } }
+                    { path: "settings", component: TeamSettingsComponent, data: { breadcrumbs: true, text: "Settings" } },
+                    { path: "integrations", component: TeamIntegrationsComponent, data: { breadcrumbs: true, text: "Integrations" } }
                 ]
             }
         ]
@@ -86,6 +88,7 @@ const routes: Routes = [
         TeamMembersComponent,
         TeamSettingsComponent,
         TeamImportComponent,
+        TeamIntegrationsComponent,
         TeamMapsComponent,
         KeysPipe
     ],

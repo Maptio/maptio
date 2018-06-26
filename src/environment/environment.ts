@@ -4,7 +4,7 @@ export const environment = {
     AUTH0_APP_KEY: "CRvF82hID2lNIMK4ei2wDz20LH7S5BMy",
     AUTH0_DOMAIN: "circlemapping.auth0.com",
     TOS_URL: "https://termsfeed.com/terms-conditions/f0e548940bde8842b1fb58637ae048c0",
-    PRIVACY_URL: "https://termsfeed.com/privacy-policy/61f888ebea93b0029582b88a7be1e1e3",
+    PRIVACY_URL: "https://termsfeed.com/privacy-policy/9a9cf258899b266a6aed7997c9a8044c",
     BLOG_URL: "https://medium.com/maptio",
     USERS_API_URL: "https://circlemapping.auth0.com/api/v2/users",
     TICKETS_API_URL: "https://circlemapping.auth0.com/api/v2/tickets/email-verification",
@@ -24,8 +24,12 @@ export const environment = {
 
     KB_URL_PERMISSIONS: "https://maptio.outseta.com/support/kb#/articles/bB9l5DW8/managing-permissions",
     KB_URL_HOME: "https://maptio.outseta.com/support/kb",
+    KB_URL_INTEGRATIONS : "https://maptio.outseta.com/support/kb#/articles/2amRZEmJ/integrations",
 
     MESSAGE_PERMISSIONS_DENIED_EDIT: "You don't have permissions to edit this",
 
-    IMPORT_USERS_TEMPLATE_URL : "https://docs.google.com/spreadsheets/d/e/2PACX-1vRQewDW362vuWI0Wo9MJuoJu0QXL2JmuZZQldw91FFxeywprO0HzHSuxN_vLosSSlADKww7Ph9iCyuh/pub?gid=0&single=true&output=csv"
+    IMPORT_USERS_TEMPLATE_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRQewDW362vuWI0Wo9MJuoJu0QXL2JmuZZQldw91FFxeywprO0HzHSuxN_vLosSSlADKww7Ph9iCyuh/pub?gid=0&single=true&output=csv",
+
+    SLACK_CLIENT_ID: "97212882021.321753214899"
+
 };

@@ -42,10 +42,10 @@
                 </div>
             </li>
             <li class="nav-item dropdown" *ngIf="teams?.length > 0">
-                <a class="nav-link dropdown-toggle " id="mapsListDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle " id="mapsListDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="isCreateMode=!isCreateMode">
                     Create a map
                 </a>
-                <div class="dropdown-menu dropdown-menu-right form-big">
+                <div class="dropdown-menu dropdown-menu-right form-big" [class.show]="isCreateMode" [class.hide]="!isCreateMode">
                     <form [formGroup]="createMapForm" (submit)="createDataset()" class="p-4">
                         <div class="form-group ">
                             <label for="inputMapName">Map name</label>

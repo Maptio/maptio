@@ -47,7 +47,6 @@ export class AuthHttpInterceptor extends AuthHttp {
         if (options.headers == null) {
             options.headers = new Headers();
         }
-        options.headers.append("Content-Type", "application/json");
         return options;
     }
 

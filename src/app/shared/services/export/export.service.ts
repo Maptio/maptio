@@ -1,3 +1,9 @@
+import { Initiative } from './../../model/initiative.data';
+import { SlackIntegration } from './../../model/integrations.data';
+import { RequestMethod } from "@angular/http";
+import { Request } from "@angular/http";
+import { Http } from "@angular/http";
+import { RequestOptions, Headers } from "@angular/http";
 
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Rx";
@@ -12,7 +18,7 @@ import { upperFirst, lowerCase, toLower } from "lodash"
 export class ExportService {
 
     private d3: D3;
-    constructor(d3Service: D3Service) {
+    constructor(d3Service: D3Service, private http: AuthHttp) {
         this.d3 = d3Service.getD3();
     }
 
@@ -33,6 +39,72 @@ export class ExportService {
 
         });
         return Observable.of(exportString);
+    }
+
+    getSlackChannels(slack: SlackIntegration) {
+        let request = new Request({
+            url: `https://slack.com/api/channels.list?token=${slack.access_token}`,
+            method: RequestMethod.Get
+        })
+
+        return this.http.request(request).map((responseData) => {
+            let response = responseData.json();
+            if (response.ok) {
+                return response.channels;
+            }
+            else {
+                throw new Error("Cannot retrieve slack channels!")
+            }
+        })
+    }
+
+    getSnapshot(svgString: string, datasetId: string) {
+        let headers = new Headers();
+        headers.append("Content-Type", "text/html");
+        headers.append("Accept", "text/html");
+        let req = new Request({
+            url: `/api/v1/images/upload/${datasetId}`,
+            body: svgString,
+            method: RequestMethod.Post,
+            headers: headers
+        });
+        return this.http.request(req).map((responseData) => {
+            return <string>responseData.json().secure_url;
+        })
+    }
+
+    sendSlackNotification(svgString: string, datasetId: string, initiative: Initiative, slack: SlackIntegration, message: string) {
+        return this.getSnapshot(svgString, datasetId)
+
+            .map((imageUrl: string) => {
+                let attachments = [
+                    {
+                        color: "#2f81b7",
+                        pretext: message,
+                        title: `Changes to ${initiative.name}`,
+                        title_link: `https://app.maptio.com/map/${datasetId}/${initiative.getSlug()}/circles`,
+                        image_url: imageUrl.replace(".svg", ".png"),
+                        thumb_url: imageUrl.replace(".svg", ".png"),
+                        footer: "Maptio",
+                        footer_icon: "https://app.maptio.com/assets/images/logo-full.png",
+                        ts: Date.now()
+                    }]
+
+                let headers = new Headers();
+                headers.append("Content-Type", "application/json");
+                headers.append("Accept", "application/json");
+                return new Request({
+                    url: "api/v1/notifications/send",
+                    body: {
+                        url: slack.incoming_webhook.url,
+                        attachments: attachments
+                    },
+                    method: RequestMethod.Post,
+                    headers: headers
+                })
+            })
+            .mergeMap(req => this.http.request(req))
+            .map(res => res.json())
     }
 
 }

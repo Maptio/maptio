@@ -79,6 +79,7 @@ export class TeamFactory {
             shortid: shortid.generate(),
             team_id: input.team_id,
             name: input.name,
+            slack : input.slack,
             members: input.members.map(m => { return { name: m.name, picture: m.picture, user_id: m.user_id, nickname: m.nickname } })
         };
 
@@ -103,6 +104,7 @@ export class TeamFactory {
             team_id: team.team_id,
             name: team.name,
             settings: team.settings,
+            slack : team.slack,
             members: team.members.map(m => { return { name: m.name, picture: m.picture, user_id: m.user_id, nickname: m.nickname } })
         };
         return this.http.put("/api/v1/team/" + team.team_id, transformed)

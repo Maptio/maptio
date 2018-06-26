@@ -1,3 +1,4 @@
+import { ExportService } from './../../../shared/services/export/export.service';
 import { Team } from './../../../shared/model/team.data';
 import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
 import { Initiative } from "./../../../shared/model/initiative.data";
@@ -35,7 +36,7 @@ describe("mapping.component.ts", () => {
         TestBed.configureTestingModule({
             providers: [
                 DataService, ErrorService, D3Service, ColorService, UIService, URIService, Angulartics2Mixpanel, Angulartics2,
-                UserFactory,
+                UserFactory, ExportService,
                 {
                     provide: Http,
                     useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {

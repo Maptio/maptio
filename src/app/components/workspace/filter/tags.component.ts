@@ -12,7 +12,8 @@ import { Angulartics2Mixpanel } from "angulartics2";
 export class FilterTagsComponent implements OnInit {
     @Input() tags: SelectableTag[];
     @Input() team: Team;
-    @Output() changeTags: EventEmitter<SelectableTag[]> = new EventEmitter<SelectableTag[]>();
+    @Output() changeTagsSettings: EventEmitter<SelectableTag[]> = new EventEmitter<SelectableTag[]>();
+    @Output() changeTagsSelection: EventEmitter<SelectableTag[]> = new EventEmitter<SelectableTag[]>();
 
 
     public newTagForm: FormGroup;
@@ -30,24 +31,24 @@ export class FilterTagsComponent implements OnInit {
     toggleTag(tag: SelectableTag) {
         tag.isSelected = !tag.isSelected;
         // this.broadcastTagsSelection();
-        this.changeTags.emit(this.tags)
+        this.changeTagsSelection.emit(this.tags)
     }
 
     selectAllTags() {
         this.tags.forEach(t => t.isSelected = true);
         // this.broadcastTagsSelection();
-        this.changeTags.emit(this.tags)
+        this.changeTagsSelection.emit(this.tags)
     }
 
     unselectAllTags() {
         this.tags.forEach(t => t.isSelected = false);
-        this.changeTags.emit(this.tags)
+        this.changeTagsSelection.emit(this.tags)
         // this.broadcastTagsSelection();
     }
 
     saveColor(tag: Tag, color: string) {
         tag.color = color;
-        this.changeTags.emit(this.tags)
+        this.changeTagsSettings.emit(this.tags)
         // this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
     }
 
@@ -57,7 +58,7 @@ export class FilterTagsComponent implements OnInit {
     }
 
     saveTagChanges() {
-        this.changeTags.emit(this.tags)
+        this.changeTagsSettings.emit(this.tags)
         // this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
     }
 
@@ -67,7 +68,7 @@ export class FilterTagsComponent implements OnInit {
             let tag = new Tag().create(name, this.newTagColor);
 
             this.tags.unshift(<SelectableTag>tag);
-            this.changeTags.emit(this.tags)
+            this.changeTagsSettings.emit(this.tags)
             // this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
             this.newTagForm.reset({ name: "", color: this.newTagColor });
             this.analytics.eventTrack("Map", {
@@ -88,7 +89,7 @@ export class FilterTagsComponent implements OnInit {
                 teamId: this.team.team_id
             });
         }
-        this.changeTags.emit(this.tags)
+        this.changeTagsSettings.emit(this.tags)
         // this.applySettings.emit({ initiative: this.initiative, tagss: this.tags });
     }
 }

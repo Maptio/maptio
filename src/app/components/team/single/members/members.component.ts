@@ -144,6 +144,11 @@ export class TeamMembersComponent implements OnInit {
                 this.cd.markForCheck();
                 return sortBy(members, m => m.name)
             })
+            .catch(() => {
+                this.isLoading = false;
+                this.cd.markForCheck();
+                return []
+            })
         // });
     }
 
@@ -231,13 +236,10 @@ export class TeamMembersComponent implements OnInit {
     }
 
     deleteMember(user: User) {
-        // console.log("deleting", user.email)
-        // this.team$.then((team: Team) => {
+        if (this.team.members.length === 1) return;
         remove(this.team.members, function (m) { return m.user_id === user.user_id });
         this.cd.markForCheck();
         this.teamFactory.upsert(this.team).then(() => { this.members$ = this.getAllMembers(); })
-        // })
-
     }
 
     createUser(email: string) {
@@ -325,7 +327,7 @@ export class TeamMembersComponent implements OnInit {
 
                     this.userFactory.getAll(term)
                         .then((users: User[]) => {
-                            // console.log("typed",term, "users", users)
+                            // console.log("typed", term, "users", users)
                             this.userSearched = term;
                             return this.members$.then((existingMembers: User[]) => {
                                 //  console.log("existing", existingMembers)

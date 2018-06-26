@@ -14,6 +14,7 @@ import { Angulartics2Mixpanel } from "angulartics2";
 import { compact } from "lodash";
 import { BehaviorSubject, ReplaySubject, Subject, Subscription } from "rxjs/Rx";
 
+import { saveAs } from "file-saver"
 import { Initiative } from "./../../../shared/model/initiative.data";
 import { SelectableTag, Tag } from "./../../../shared/model/tag.data";
 import { Team } from "./../../../shared/model/team.data";
@@ -25,9 +26,14 @@ import { MemberSummaryComponent } from "./member-summary/member-summary.componen
 import { MappingNetworkComponent } from "./network/mapping.network.component";
 import { MappingTreeComponent } from "./tree/mapping.tree.component";
 import { MappingZoomableComponent } from "./zoomable/mapping.zoomable.component";
+import { ExportService } from "./../../../shared/services/export/export.service";
 
 // import { MappingNetworkComponent } from "./network/mapping.network.component";
 // import { MappingCirclesComponent } from "./circles/mapping.circles.component";
+
+
+declare var canvg: any;
+
 @Component({
   selector: "mapping",
   templateUrl: "./mapping.component.html",
@@ -135,7 +141,8 @@ export class MappingComponent {
     private route: ActivatedRoute,
     private analytics: Angulartics2Mixpanel,
     private uriService: URIService,
-    private uiService: UIService
+    private uiService: UIService,
+    private exportService: ExportService
   ) {
     this.zoom$ = new Subject<number>();
     this.isReset$ = new Subject<boolean>();
@@ -395,9 +402,14 @@ export class MappingComponent {
     this.analytics.eventTrack("Map", { mode: "instruction", action: "add", team: this.team.name, teamId: this.team.team_id });
   }
 
+  public broadcastTagsSettings(tags: SelectableTag[]) {
+    // console.log("broadcast settings")
+    this.applySettings.emit({ initiative: this.initiative, tags: tags });
+
+  }
+
   public broadcastTagsSelection(tags: SelectableTag[]) {
     this.selectableTags$.next(tags);
-    this.applySettings.emit({ initiative: this.initiative, tags: tags });
 
     let tagsHash = tags
       .filter(t => t.isSelected === true)
@@ -412,5 +424,155 @@ export class MappingComponent {
 
   zoomToInitiative(selected: Initiative) {
     this.zoomToInitiative$.next(selected);
+  }
+
+  sendSlackNotification(message: string) {
+    this.isPrinting = true;
+    this.hasNotified = false;
+    this.cd.markForCheck()
+    // this.zoom$.next(0.8);
+    this.changeFontSize(1)
+
+    let svg = document.getElementById("map");
+    let w = Number.parseFloat(svg.getAttribute("width"));
+    let h = Number.parseFloat(svg.getAttribute("height"));
+    svg.setAttribute("xmlns", "http://www.w3.org/2000/svg")
+    svg.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink")
+    let svgNode = this.downloadSvg(svg, "image.png", w, h);
+    // console.log(((<any>svgNode).outerHTML)
+    this.exportService.sendSlackNotification((<any>svgNode).outerHTML, this.datasetId, this.initiative, this.team.slack, message)
+      .subscribe((result) => {
+        // console.log("result", result);
+        this.isPrinting = false; this.hasNotified = true; this.cd.markForCheck()
+      },
+      (err) => {
+        this.hasConfigurationError = true;
+        this.cd.markForCheck();
+      })
+
+  }
+
+  // print() {
+  //   console.log("printing");
+  //   // the canvg call that takes the svg xml and converts it to a canvas
+  //   canvg("canvas", document.getElementById("svg_circles").outerHTML);
+
+  //   // the canvas calls to output a png
+  //   let canvas = document.getElementById("canvas");
+  //   canvas.setAttribute("width", `${this.VIEWPORT_WIDTH}px`);
+  //   canvas.setAttribute("height", `${this.VIEWPORT_HEIGHT}px`);
+  //   let img = canvas.toDataURL("image/png");
+  //   document.write("<img src=\"" + img + "\"/>");
+  // }
+
+  isPrinting: boolean;
+  hasNotified: boolean;
+  hasConfigurationError: boolean;
+  isSharingToggled: boolean;
+
+  // print() {
+  //   this.isPrinting = true;
+  //   this.cd.markForCheck()
+  //   this.zoom$.next(0.8);
+  //   this.changeFontSize(1)
+
+  //   let svg = document.getElementById("svg_circles");
+  //   let w = Number.parseFloat(svg.getAttribute("width"));
+  //   let h = Number.parseFloat(svg.getAttribute("height"));
+  //   svg.setAttribute("xmlns", "http://www.w3.org/2000/svg")
+  //   svg.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink")
+  //   let svgNode = this.downloadSvg(svg, "image.png", w, h);
+  //   console.log(svgNode.outerHTML)
+  //   this.exportService.sendSlackNotification(svgNode.outerHTML, this.datasetId, this.datasetName, this.team.slack)
+  //     .subscribe(() => { this.isPrinting = false; this.cd.markForCheck() })
+
+  // }
+
+  copyStylesInline(destinationNode: any, sourceNode: any) {
+    let containerElements = ["svg", "g"];
+    for (let cd = 0; cd < destinationNode.childNodes.length; cd++) {
+      let child = destinationNode.childNodes[cd];
+      // if (child.tagName === "foreignObject") {
+      //   if (child.childNodes[0].tagName === "DIV") {
+      //     let bodyChild = document.createElement("body");
+      //     bodyChild.setAttribute("xmnls", "http://www.w3.org/1999/xhtml");
+      //     let divChild = document.createElement("div");
+      //     bodyChild.style.background = "none";
+      //     bodyChild.style.overflow = "initial";
+      //     bodyChild.style.display = "inline-block";
+      //     bodyChild.style.lineHeight = "unset";
+      //     let font = Number.parseFloat((<HTMLDivElement>child.childNodes[0]).style.fontSize.replace("rem", ""));
+      //     let realFont = font / 16 < 1 ? "3px" : (<HTMLDivElement>child.childNodes[0]).style.fontSize
+      //     bodyChild.style.fontSize = realFont;
+      //     divChild.textContent = (<HTMLDivElement>child.childNodes[0]).textContent;
+      //     bodyChild.appendChild(divChild);
+      //     (<Node>child).replaceChild(bodyChild, child.childNodes[0])
+
+      //   }
+      // }
+      if (containerElements.indexOf(child.tagName) !== -1) {
+        this.copyStylesInline(child, sourceNode.childNodes[cd]);
+        continue;
+      }
+      let style = sourceNode.childNodes[cd].currentStyle || window.getComputedStyle(sourceNode.childNodes[cd]);
+      // console.log(style["fill"], )
+      if (style === "undefined" || style == null) continue;
+      for (let st = 0; st < style.length; st++) {
+        if (style[st] === "display" && style.getPropertyValue(style[st]) === "none") {
+          child.style.setProperty(style[st], "block");
+
+        }
+        else if (style[st] === "opacity" && style.getPropertyValue(style[st]) === "0") {
+          child.style.setProperty(style[st], "1");
+        }
+        // else if (style["fill"].includes("url(")) {
+        //   child.style.setProperty("display", "none")
+        // }
+        else {
+          child.style.setProperty(style[st], style.getPropertyValue(style[st]));
+        }
+        // child.style.setProperty(style[st], style.getPropertyValue(style[st]));
+      }
+    }
+  }
+
+  triggerDownload(imgURI: string, fileName: string) {
+    // console.log(imgURI)
+    let evt = new MouseEvent("click", {
+      view: window,
+      bubbles: false,
+      cancelable: true
+    });
+    let a = document.createElement("a");
+    // a.setAttribute("download", fileName);
+    a.setAttribute("href", imgURI);
+    a.setAttribute("target", "_blank");
+    a.dispatchEvent(evt);
+  }
+
+  downloadSvg(svg: HTMLElement, fileName: string, width: number, height: number): Node {
+    let copy = svg.cloneNode(true);
+    this.copyStylesInline(copy, svg);
+    // console.log(copy)
+    return copy;
+    /*
+        let canvas = document.createElement("canvas");
+        let WIDTH = width * 2;
+        let HEIGHT = height * 3;
+        canvas.setAttribute("width", WIDTH + "px");
+        canvas.setAttribute("height", HEIGHT + "px");
+        let ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, WIDTH, HEIGHT);
+        let data = (new XMLSerializer()).serializeToString(copy);
+        let DOMURL: any = window.URL || window;
+        let img = new Image();
+        img.crossOrigin = "Anonymous";
+        img.setAttribute("crossOrigin", "Anonymous")
+        let svgBlob = new Blob([data], { type: "image/svg+xml;charset=utf-8" });
+        img.src = "data:image/svg+xml;utf8," + data;
+        canvas.getContext("2d").drawImage(img, 0, 0, WIDTH, HEIGHT);
+        let url = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+        this.triggerDownload(url, `${Date.now()}-image.png`)
+        */
   }
 }

@@ -1,37 +1,51 @@
 <div class="control zero ">
   <div class="btn-group-vertical">
-    <a class="btn btn-light p-1 text-dark btn-control" [class.active]="isSearchToggled" [class.disabled]="isSearchDisabled" 
-    (click)="isSearchToggled=!isSearchToggled" data-toggle="collapse" href="#collapseSearch" role="button">
+    <a class="btn btn-light p-1 text-dark btn-control" [class.active]="isSearchToggled" [class.disabled]="isSearchDisabled" (click)="isSearchToggled=!isSearchToggled"
+      data-toggle="collapse" href="#collapseSearch" role="button">
       <i class="fa fa-search"></i>
       <div class="icon-text-label">Search</div>
     </a>
-    <a class="btn btn-light p-1 text-dark btn-control" [class.active]="isFiltersToggled" [class.disabled]="isSearchDisabled" 
-    (click)="isFiltersToggled=!isFiltersToggled" data-toggle="collapse" href="#collapseFilter" role="button">
+    <a class="btn btn-light p-1 text-dark btn-control" [class.active]="isFiltersToggled" [class.disabled]="isSearchDisabled"
+      (click)="isFiltersToggled=!isFiltersToggled" data-toggle="collapse" href="#collapseFilter" role="button">
       <i class="fa fa-filter"></i>
       <div class="icon-text-label">Filter</div>
     </a>
+    <a class="btn btn-light p-1 text-dark btn-control" [class.active]="isSharingToggled" [class.disabled]="isSearchDisabled"
+      (click)="isSharingToggled=!isSharingToggled" data-toggle="collapse" href="#collapseSlack" role="button">
+      <i class="fa fa-slack"></i>
+      <div class="icon-text-label">Share</div>
+    </a>
+
   </div>
 </div>
+
+
 
 <div class="control zero panel d-flex flex-column col-5 align-items-start">
   <div id="collapseSearch" class="collapse mb-3 col-12">
     <search [list]="flattenInitiative" (selectInitiative)="zoomToInitiative($event)"></search>
   </div>
-  <div id="collapseFilter" class="collapse col-12">
-    <filter-tags [team]="team" [tags]="tags" (changeTags)="broadcastTagsSelection($event)"></filter-tags>
+  <div id="collapseFilter" class="collapse mb-3 col-12">
+    <filter-tags [team]="team" [tags]="tags" (changeTagsSettings)="broadcastTagsSettings($event)" (changeTagsSelection)="broadcastTagsSelection($event)"></filter-tags>
+  </div>
+  <div id="collapseSlack" class="collapse col-12">
+    <slack-share [slack]="team?.slack" [team]="team" [isPrinting]="isPrinting" [hasNotified]="hasNotified" [hasConfigurationError]="hasConfigurationError" (shareMap)="sendSlackNotification($event)"></slack-share>
   </div>
 </div>
 
 <div class="control first">
   <div class=" btn-group-vertical">
 
-    <a class="btn btn-light circles text-dark p-1 btn-control" routerLinkActive="active" routerLink="/map/{{datasetId}}/{{slug}}/circles" fragment="x={{VIEWPORT_WIDTH / 2}}&y={{VIEWPORT_WIDTH / 2 -180}}&scale=1=1&{{tagsFragment}}">
+    <a class="btn btn-light circles text-dark p-1 btn-control" routerLinkActive="active" routerLink="/map/{{datasetId}}/{{slug}}/circles"
+      fragment="x={{VIEWPORT_WIDTH / 2}}&y={{VIEWPORT_WIDTH / 2 -180}}&scale=1=1&{{tagsFragment}}">
       <div class="icon-text-label" style="bottom: 2px;position: absolute;">Circles</div>
     </a>
-    <a class="btn btn-light tree text-dark p-1 btn-control" routerLinkActive="active" routerLink="/map/{{datasetId}}/{{slug}}/tree" fragment="x={{VIEWPORT_WIDTH / 10}}&y={{VIEWPORT_HEIGHT / 2}}&scale=1&{{tagsFragment}}">
+    <a class="btn btn-light tree text-dark p-1 btn-control" routerLinkActive="active" routerLink="/map/{{datasetId}}/{{slug}}/tree"
+      fragment="x={{VIEWPORT_WIDTH / 10}}&y={{VIEWPORT_HEIGHT / 2}}&scale=1&{{tagsFragment}}">
       <div class="icon-text-label">Tree</div>
     </a>
-    <a class="btn btn-light network text-dark p-1 btn-control" routerLinkActive="active" routerLink="/map/{{datasetId}}/{{slug}}/network" fragment="x=0&y={{-this.VIEWPORT_HEIGHT / 4}}&scale=1&{{tagsFragment}}">
+    <a class="btn btn-light network text-dark p-1 btn-control" routerLinkActive="active" routerLink="/map/{{datasetId}}/{{slug}}/network"
+      fragment="x=0&y={{-this.VIEWPORT_HEIGHT / 4}}&scale=1&{{tagsFragment}}">
       <div class="icon-text-label">Network</div>
     </a>
 
@@ -54,8 +68,8 @@
       <i class="fa fa-compress" aria-hidden="true"></i>
       <div class="icon-text-label">Zoom fit</div>
     </a>
-    <a class="btn btn-light text-dark p-1 btn-control" [class.active]="isSettingToggled" [class.disabled]="isSearchDisabled" 
-     (click)="isSettingToggled=!isSettingToggled" data-toggle="collapse" href="#collapseSettings" role="button">
+    <a class="btn btn-light text-dark p-1 btn-control" [class.active]="isSettingToggled" [class.disabled]="isSearchDisabled"
+      (click)="isSettingToggled=!isSettingToggled" data-toggle="collapse" href="#collapseSettings" role="button">
       <i class="fa fa-sliders" aria-hidden="true"></i>
       <div class="icon-text-label">Settings</div>
     </a>
@@ -70,8 +84,8 @@
         <label for="fontSizeInput" class="col-form-label col-2">Size</label>
 
         <!-- <span class="fontSizeOutput">x {{fontSize$ | async}}</span> -->
-        <input class="col-6 form-control ml-1" id="fontSizeInput" #fontSizeInput name="fontSizeInput" type="range" min="0.2" max="2" value="{{fontSize$ | async}}"
-          step="0.1" (change)="changeFontSize(fontSizeInput.value)" orient="vertical">
+        <input class="col-6 form-control ml-1" id="fontSizeInput" #fontSizeInput name="fontSizeInput" type="range" min="0.2" max="2"
+          value="{{fontSize$ | async}}" step="0.1" (change)="changeFontSize(fontSizeInput.value)" orient="vertical">
 
         <button class="btn  btn-outline-secondary  ml-4" (click)="changeFontSize(1)">Reset</button>
 
@@ -105,6 +119,7 @@
   </button> to create your first circle
 </div>
 
-<div tabIndex="-1" class="map" *ngIf="!isFirstEdit">
+<!-- <div tabIndex="-1" class="map" *ngIf="!isFirstEdit"> -->
+  
   <router-outlet (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>
-</div>
+<!-- </div> -->

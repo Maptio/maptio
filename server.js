@@ -60,9 +60,10 @@ if (!isDevelopment) {
       scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'",
         'maxcdn.bootstrapcdn.com', 'cdnjs.cloudflare.com', 'cdn.auth0.com', 'api.mixpanel.com',
         'cdn.mxpnl.com', 'cdn4.mxpnl.com',
+        'https://*.logrocket.io',
         'www.google-analytics.com', 'mixpanel.com', 'widget.intercom.io', 'https://app.intercom.io',
-        'https://js.intercomcdn.com', 'https://fullstory.com','code.jquery.com'],
-      fontSrc: ["'self'",'maxcdn.bootstrapcdn.com', 'cdn.mixpnl.com', 'https://js.intercomcdn.com'],
+        'https://js.intercomcdn.com', 'https://fullstory.com', 'code.jquery.com','http://canvg.github.io'],
+      fontSrc: ["'self'", 'maxcdn.bootstrapcdn.com', 'cdn.mixpnl.com', 'https://js.intercomcdn.com'],
       connectSrc: ["'self'", 'api.mixpanel.com', 'api.cloudinary.com', 'circlemapping.auth0.com', 'www.google-analytics.com', 'mixpanel.com', 'https://api.intercom.io', 'https://api-iam.intercom.io',
         'https://api-ping.intercom.io',
         'https://nexus-websocket-a.intercom.io',
@@ -72,19 +73,25 @@ if (!isDevelopment) {
         'wss://nexus-websocket-a.intercom.io',
         'wss://nexus-websocket-b.intercom.io',
         'https://uploads.intercomcdn.com',
-        'https://uploads.intercomusercontent.com', 
+        'https://uploads.intercomusercontent.com',
         'https://rs.fullstory.com',
         'https://api.rollbar.com',
-        'https://drive.google.com'
+        'https://drive.google.com',
+        'https://*.logrocket.io',
+        'https://slack.com/api/'
       ],
       childSrc: [
+        "'self'",'blob:',
         'https://share.intercom.io',
         'https://www.youtube.com',
         'https://player.vimeo.com',
         'https://fast.wistia.net',
         'https://drive.google.com'
       ],
-      imgSrc: ['data:', '*']
+      workerSrc : [
+        "'self'",'blob:'
+      ],
+      imgSrc: ['data:', "'self'", '*']
     }
   }))
 }
@@ -92,8 +99,8 @@ if (!isDevelopment) {
 
 let cache = apicache.middleware
 // app.use(cache('5 seconds'))
-
-app.use(bodyParser.json({limit: '1mb'}));
+app.use(bodyParser.text({ type: "text/html", limit: '5mb' }))
+app.use(bodyParser.json({ limit: '1mb' }));
 app.use(sslRedirect());
 app.use(compression())
 // app.use(jwtCheck.unless({ path: ['/','/api/v1/mail/confirm', "/api/v1/jwt/encode", "/api/v1/jwt/decode"] }));
@@ -104,10 +111,16 @@ var teams = require('./routes/teams');
 var inviting = require('./routes/invite-mail');
 var confirming = require('./routes/confirm-mail');
 var encoding = require('./routes/encoding');
+var images = require('./routes/images');
+var notifications = require('./routes/notifications');
+var oauth = require('./routes/oauth');
 
 app.use('/api/v1/jwt/', encoding);
 app.use('/api/v1/mail/confirm', confirming);
 
+app.use('/api/v1/images/', jwtCheck, check_scopes(["api"]), images)
+app.use('/api/v1/notifications/', jwtCheck, check_scopes(["api"]), notifications)
+app.use('/api/v1/oauth', jwtCheck, check_scopes(["api"]), oauth);
 app.use('/api/v1/mail/invite', jwtCheck, check_scopes(["invite"]), inviting);
 app.use('/api/v1/dataset/', jwtCheck, check_scopes(["api"]), datasets);
 app.use('/api/v1/user', jwtCheck, check_scopes(["api"]), users);

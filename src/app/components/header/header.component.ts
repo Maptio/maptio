@@ -164,14 +164,21 @@ export class HeaderComponent implements OnInit {
             let teamId = this.createMapForm.controls["teamId"].value
 
             let newDataset = new DataSet({ initiative: new Initiative({ name: mapName, team_id: teamId }) });
-            this.datasetFactory.create(newDataset).then((created: DataSet) => {
-                this.user.datasets.push(created.datasetId)
-                this.auth.getUser();
-                this.isCreateMode = false;
-                this.router.navigate(["map", created.datasetId, created.initiative.getSlug()]);
-                this.selectedDataset = created;
-                this.analytics.eventTrack("Create a map", { email: this.user.email, name: mapName, teamId: teamId })
-            }).catch(this.errorService.handleError);
+            this.datasetFactory.create(newDataset)
+                .then((created: DataSet) => {
+                    this.user.datasets.push(created.datasetId)
+                    this.auth.getUser();
+                    this.isCreateMode = false;
+                    this.selectedDataset = created;
+                    this.analytics.eventTrack("Create a map", { email: this.user.email, name: mapName, teamId: teamId })
+                    this.createMapForm.reset();
+                    this.cd.markForCheck();
+                    return created
+                })
+                .then(created => {
+                    this.router.navigate(["map", created.datasetId, created.initiative.getSlug()]);
+                })
+                .catch(this.errorService.handleError);
             this.ngOnInit();
         }
     }

@@ -116,7 +116,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     saveChanges(initiative: Initiative, tags?: Array<Tag>) {
-        // console.log(initiative, tags)
+        // console.log("svechanges", initiative, tags)
         this.dataset.initiative = initiative;
         if (tags) {
             this.dataset.tags = tags;
@@ -126,7 +126,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
             .then((hasSaved: boolean) => {
                 this.dataService.set({ initiative: initiative, datasetId: this.datasetId, teamName: this.teamName, teamId: this.teamId, team: this.team, tags: this.dataset.tags, members: this.members });
                 return hasSaved;
-            }, (reason) => { console.log(reason) });
+            }, (reason) => { /*console.log(reason)*/ });
 
     }
 

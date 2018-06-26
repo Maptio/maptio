@@ -29,7 +29,8 @@ export class UserService {
                 environment.TICKETS_API_URL,
                 {
                     "result_url": "http://app.maptio.com/login?token=" + userToken,
-                    "user_id": userId
+                    "user_id": userId,
+                    "ttl_sec": 30 * 24 * 3600
                 },
                 { headers: headers })
                 .map((responseData) => {
