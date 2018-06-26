@@ -14,12 +14,12 @@
     </span>
     <div class="d-flex flex-wrap">
       <span *ngFor="let tag of tags; let i=index">
-        <a *ngIf="!tag.isSelected" class="btn btn-sm btn-tag  mr-1" [style.border-color]="tag.color" [style.color]="tag.color"
+        <a *ngIf="!tag.isSelected" class="btn btn-sm btn-tag btn-light mr-1" [style.border-color]="tag.color" [style.color]="tag.color"
           (click)="toggleTag(tag)">
           <i class="fa fa-tag" aria-hidden="true"></i> {{tag.name}}
           <i class="fa fa-check" aria-hidden="true" [style.color]="'white'"></i>
         </a>
-        <a *ngIf="tag.isSelected" class="btn btn-sm btn-tag  active mr-1" [style.border-color]="tag.color" [style.background-color]="tag.color"
+        <a *ngIf="tag.isSelected" class="btn btn-sm btn-tag  btn-light active mr-1" [style.border-color]="tag.color" [style.background-color]="tag.color"
           (click)="toggleTag(tag)">
           <i class="fa fa-tag" aria-hidden="true"></i> {{tag.name}}
           <i *ngIf="tag.isSelected" class="fa fa-check" aria-hidden="true" [style.color]="white"> </i>
