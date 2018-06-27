@@ -56,6 +56,10 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   public rootNode: Initiative;
   public slug: string;
 
+  private isAuthorityCentricMode$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  public _isAuthorityCentricMode: boolean = true;
+
+
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
   public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
@@ -179,7 +183,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .selectAll("marker")
       .data([
         { id: "arrow", opacity: 1 },
-        { id: "arrow-fade", opacity: this.FADED_OPACITY }
+        { id: "arrow-fade", opacity: this.FADED_OPACITY },
+        { id: "arrow-hover", fill: "black" }
       ])
       .enter()
       .append("marker")
@@ -262,7 +267,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         // font color
         svg.style("fill", format[1]);
         svg.selectAll("text").style("fill", format[1]);
-        svg.selectAll("marker").attr("fill", format[2])
+        svg.selectAll("marker#arrow, marker#arrow-fade").attr("fill", format[2]);
       });
 
     this.zoomInitiative$.combineLatest(this.mapColor$, this.fontColor$).subscribe((zoomed: [Initiative, string, string]) => {
@@ -298,16 +303,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
     this.svg = svg;
     this.g = g;
-  }
-
-  private prepare(initiativeList: HierarchyNode<Initiative>[]) {
-    return this.isAuthorityCentricMode$.asObservable().subscribe(isAuthorityMode => {
-      if (isAuthorityMode) {
-        return this.prepareAuthorityCentric(initiativeList);
-      } else {
-        return this.prepareHelperCentric(initiativeList)
-      }
-    });
   }
 
   private prepareAuthorityCentric(initiativeList: HierarchyNode<Initiative>[]) {
@@ -447,11 +442,10 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         };
       });
 
-    // console.log(rawlinks)
     let links = chain(rawlinks).groupBy("linkid")
       .map((items: any, linkid: string) => {
         let uniqueItems = uniqBy(items, (i: any) => i.initiative);
-        console.log(items, uniqueItems)
+        // console.log(items, uniqueItems)
         return {
           source: uniqueItems[0].source,
           target: uniqueItems[0].target,
@@ -465,8 +459,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       })
       .value();
 
-    console.log(links)
-
     return {
       nodes: uniqBy(nodesRaw, u => {
         return u.id;
@@ -479,12 +471,9 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     return this.tagsState;
   }
 
-  private isAuthorityCentricMode$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
-  public _isAuthorityCentricMode: boolean = true;
 
   public switch() {
     this._isAuthorityCentricMode = !this._isAuthorityCentricMode;
-
     this.isAuthorityCentricMode$.next(this._isAuthorityCentricMode);
   }
 
@@ -705,7 +694,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         let list = initiativesList.map(i => i.data).filter(i => {
           return ids.includes(i.id)
         });
-        console.log("tooltip building", d)
+        // console.log("tooltip building", d)
         if (isEmpty(list)) return;
         return uiService.getConnectionsHTML(list, d[0].id, d[2].id, d[7]);
       });
@@ -776,10 +765,16 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
     g.selectAll("path")
       .on("mouseover", function (d: any) {
-        console.log(d)
+        // console.log(d)
         d3.event.stopPropagation();
 
         let path = d3.select(this);
+        path.attr("marker-end", function (d: any) {
+          if (isAuthorityCentricMode)
+            return "url(#arrow-hover)";
+        });
+
+
         let p = path
           .node()
           .getPointAtLength(0.5 * path.node().getTotalLength())
@@ -807,6 +802,13 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
           });
       })
       .on("mouseout", function (d: any) {
+
+        let path = d3.select(this);
+        path.attr("marker-end", function (d: any) {
+          if (isAuthorityCentricMode)
+            return "url(#arrow)";
+        });
+
         let tooltip = d3.select(`div.arrow_box[id="${d[6]}"]`);
         tooltip.classed("show", false);
       });

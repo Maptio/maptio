@@ -25,6 +25,7 @@
   }
   ::ng-deep svg path.edge:hover {
     stroke-opacity: 1;
+    stroke:black;
   }
 
 ::ng-deep svg text.edge{
@@ -49,7 +50,6 @@
   fill:#000;
   fill-opacity: 0.5;
 }
-
   .tooltip-initiative{
     position: absolute;
     z-index: 5;
