@@ -4,11 +4,11 @@
 <div class="switch">
     <div class="custom-control custom-radio custom-control-inline">
         <input type="radio" id="helpModeRadio" name="radioViewMode" class="custom-control-input" [checked]="_isAuthorityCentricMode" (click)="switch()">
-        <label class="custom-control-label" for="helpModeRadio">Helping links (who helps who?)</label>
+        <label class="custom-control-label" for="helpModeRadio">Who helps who?</label>
     </div>
     <div class="custom-control custom-radio custom-control-inline">
         <input type="radio" id="participationModeRadio" name="radioViewMode" class="custom-control-input" [checked]="!_isAuthorityCentricMode" (click)="switch()">
-        <label class="custom-control-label" for="participationModeRadio">Participation links (who works together)</label>
+        <label class="custom-control-label" for="participationModeRadio">Who works together?</label>
     </div>
     <!-- <ui-switch [checked]="_isAuthorityCentricMode" (change)="switch()" color="#f8f9fa" switchColor="#2f81b7"></ui-switch> -->
 </div>
