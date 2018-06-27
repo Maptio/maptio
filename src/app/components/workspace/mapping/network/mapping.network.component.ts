@@ -288,7 +288,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
           return uiService.filter(selectedTags, unselectedTags, d[5]) ? 1 : FADED_OPACITY;
         })
         .attr("marker-end", function (d: any) {
-          return uiService.filter(selectedTags, unselectedTags, d[5]) ? "url(#arrow)" : "url(#arrow-fade)";
+          if (this._isAuthorityCentricMode)
+            return uiService.filter(selectedTags, unselectedTags, d[5]) ? "url(#arrow)" : "url(#arrow-fade)";
         });
     })
 
@@ -499,7 +500,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     let showDetailsOf$ = this.showDetailsOf$;
     let datasetSlug = this.slug;
     let getTags = this.getTags.bind(this);
-    let _isAuthorityCentricMode = this._isAuthorityCentricMode;
     let CIRCLE_RADIUS = this.CIRCLE_RADIUS;
     let LINE_WEIGHT = this.LINE_WEIGHT;
     let FADED_OPACITY = this.FADED_OPACITY;
@@ -624,7 +624,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         return d[6];
       })
       .attr("marker-end", function (d: any) {
-        if (_isAuthorityCentricMode)
+        if (isAuthorityCentricMode)
           return uiService.filter(selectedTags, unselectedTags, d[5]) ? "url(#arrow)" : "url(#arrow-fade)";
       });
     // .attr("marker-end", "url(#arrow)");
