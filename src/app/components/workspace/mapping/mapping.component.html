@@ -23,7 +23,8 @@
 
 <div class="control zero panel d-flex flex-column col-5 align-items-start">
   <div id="collapseSearch" class="collapse mb-3 col-12">
-    <search [list]="flattenInitiative" (selectInitiative)="zoomToInitiative($event)"></search>
+    <search [list]="flattenInitiative" (selectInitiative)="
+    ($event)"></search>
   </div>
   <div id="collapseFilter" class="collapse mb-3 col-12">
     <filter-tags [team]="team" [tags]="tags" (changeTagsSettings)="broadcastTagsSettings($event)" (changeTagsSelection)="broadcastTagsSelection($event)"></filter-tags>
