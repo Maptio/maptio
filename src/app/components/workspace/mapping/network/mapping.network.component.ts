@@ -270,16 +270,24 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         svg.selectAll("marker#arrow, marker#arrow-fade").attr("fill", format[2]);
       });
 
-    this.zoomInitiative$.combineLatest(this.mapColor$, this.fontColor$).subscribe((zoomed: [Initiative, string, string]) => {
-      let node = zoomed[0];
-      let mapColor = zoomed[1];
-      let fontColor = zoomed[2];
+    this.zoomInitiative$.combineLatest(this.isAuthorityCentricMode$.asObservable()).subscribe((zoomed: [Initiative, boolean]) => {
 
-      let people = compact(flatten([...[node.accountable], node.helpers]));
-      d3.selectAll("g.node").style("font-weight", "initial")
-      d3.selectAll("path").style("stroke", mapColor)
-      d3.selectAll(`${people.map(p => `g.node[id="${p.user_id}"]`).join(",")}`).style("font-weight", "900");
-      d3.selectAll(`path[data-initiatives~="${node.id}"]`).style("stroke", fontColor)
+      let node = zoomed[0];
+      // let mapColor = zoomed[1];
+      // let fontColor = zoomed[2];
+      let isAuthorityCentricMode = zoomed[3]
+
+      g.selectAll("path.edge")
+        .style("stroke-opacity", function (d: any) {
+          return d[4].includes(node.id) ? 1 : 0
+        }).style("opacity", function (d: any) {
+          return d[4].includes(node.id) ? 1 : 0
+        })
+        .attr("marker-end", function (d: any) {
+          if (isAuthorityCentricMode)
+            return d[4].includes(node.id) ? 1 : 0
+        });
+
     });
 
     this.selectableTags$.combineLatest(this.isAuthorityCentricMode$.asObservable()).subscribe(value => {
@@ -752,6 +760,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .select("text.authority-name")
       .attr("pointer-events", "auto")
       .attr("cursor", "pointer")
+      // .style("font-weight", "initial")
       .attr("dx", CIRCLE_RADIUS + 3)
       .attr("dy", CIRCLE_RADIUS / 2)
       .on("click", function (d: any) {
