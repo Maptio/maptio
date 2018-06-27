@@ -270,25 +270,42 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         svg.selectAll("marker#arrow, marker#arrow-fade").attr("fill", format[2]);
       });
 
-    this.zoomInitiative$.combineLatest(this.isAuthorityCentricMode$.asObservable()).subscribe((zoomed: [Initiative, boolean]) => {
+    let [clearSearchInitiative, highlightInitiative] = this.zoomInitiative$.partition(node => node === null);
+    clearSearchInitiative
+      .combineLatest(this.isAuthorityCentricMode$.asObservable())
+      .subscribe((zoomed: [Initiative, boolean]) => {
+        let node = zoomed[0];
+        let isAuthorityCentricMode = zoomed[1]
 
-      let node = zoomed[0];
-      // let mapColor = zoomed[1];
-      // let fontColor = zoomed[2];
-      let isAuthorityCentricMode = zoomed[3]
-
-      g.selectAll("path.edge")
-        .style("stroke-opacity", function (d: any) {
-          return d[4].includes(node.id) ? 1 : 0
+        g.selectAll("path.edge").style("stroke-opacity", function (d: any) {
+          return 1;
         }).style("opacity", function (d: any) {
-          return d[4].includes(node.id) ? 1 : 0
+          return 1;
         })
-        .attr("marker-end", function (d: any) {
-          if (isAuthorityCentricMode)
-            return d[4].includes(node.id) ? 1 : 0
-        });
+          .attr("marker-end", function (d: any) {
+            if (isAuthorityCentricMode)
+              return "url(#arrow)";
+          });
+      });
+    highlightInitiative
+      .combineLatest(this.isAuthorityCentricMode$.asObservable())
+      .subscribe((zoomed: [Initiative, boolean]) => {
 
-    });
+        let node = zoomed[0];
+        let isAuthorityCentricMode = zoomed[1]
+
+        g.selectAll("path.edge")
+          .style("stroke-opacity", function (d: any) {
+            return d[4].includes(node.id) ? 1 : 0
+          }).style("opacity", function (d: any) {
+            return d[4].includes(node.id) ? 1 : 0
+          })
+          .attr("marker-end", function (d: any) {
+            if (isAuthorityCentricMode)
+              return d[4].includes(node.id) ? "url(#arrow)" : "url(#arrow-fade)"
+          });
+
+      });
 
     this.selectableTags$.combineLatest(this.isAuthorityCentricMode$.asObservable()).subscribe(value => {
       let tags = value[0];
