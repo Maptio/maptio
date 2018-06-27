@@ -25,7 +25,7 @@
                 [ngbTypeahead]="searchInitiatives" [resultFormatter]="formatter" [inputFormatter]="formatter" editable="false"
                 autofocus="autofocus" placement="bottom-right" placeholder="Search initiatives, people and description" />
             <div class="input-group-append" >
-                <button class="btn btn-dark" (click)="initiativeSearch.value='';clearSearch()"><i class="fa fa-times" aria-hidden="true"></i></button>
+                <button ngbTooltip="Clear search" placement="top" container="body" class="btn btn-dark" (click)="initiativeSearch.value='';clearSearch()"><i class="fa fa-times" aria-hidden="true"></i></button>
             </div>
         </div>
 
