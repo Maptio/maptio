@@ -277,7 +277,10 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       d3.selectAll(`path[data-initiatives~="${node.id}"]`).style("stroke", fontColor)
     });
 
-    this.selectableTags$.subscribe(tags => {
+    this.selectableTags$.combineLatest(this.isAuthorityCentricMode$.asObservable()).subscribe(value => {
+      let tags = value[0];
+      let isAuthorityCentricMode = value[1];
+
       let [selectedTags, unselectedTags] = partition(tags, t => t.isSelected);
       let uiService = this.uiService
       let FADED_OPACITY = this.FADED_OPACITY
@@ -288,7 +291,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
           return uiService.filter(selectedTags, unselectedTags, d[5]) ? 1 : FADED_OPACITY;
         })
         .attr("marker-end", function (d: any) {
-          if (this._isAuthorityCentricMode)
+          if (isAuthorityCentricMode)
             return uiService.filter(selectedTags, unselectedTags, d[5]) ? "url(#arrow)" : "url(#arrow-fade)";
         });
     })
