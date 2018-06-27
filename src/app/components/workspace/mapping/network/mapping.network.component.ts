@@ -476,7 +476,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   }
 
   private isAuthorityCentricMode$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
-  private _isAuthorityCentricMode: boolean = true;
+  public _isAuthorityCentricMode: boolean = true;
 
   public switch() {
     this._isAuthorityCentricMode = !this._isAuthorityCentricMode;
