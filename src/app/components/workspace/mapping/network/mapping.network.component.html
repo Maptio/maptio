@@ -1,5 +1,17 @@
 <ngx-loading [show]="isLoading" [config]="{ backdropBackgroundColour: '#fff' }"></ngx-loading>
 <svg id="map"></svg>
+<!-- <button class="btn btn-secondary switch" (click)="switch()">Switch</button> -->
+<div class="switch">
+    <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" id="helpModeRadio" name="radioViewMode" class="custom-control-input" [checked]="_isAuthorityCentricMode" (click)="switch()">
+        <label class="custom-control-label" for="helpModeRadio">Helping links (who helps who?)</label>
+    </div>
+    <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" id="participationModeRadio" name="radioViewMode" class="custom-control-input" [checked]="!_isAuthorityCentricMode" (click)="switch()">
+        <label class="custom-control-label" for="participationModeRadio">Participation links (who works together)</label>
+    </div>
+    <!-- <ui-switch [checked]="_isAuthorityCentricMode" (change)="switch()" color="#f8f9fa" switchColor="#2f81b7"></ui-switch> -->
+</div>
 
 <!-- <div class="tooltip-initiative col-3">
     <div class="card">

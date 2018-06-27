@@ -7,7 +7,7 @@ import { DataService } from "./../../../../shared/services/data.service";
 import { URIService } from "./../../../../shared/services/uri.service";
 import { Tag, SelectableTag } from "./../../../../shared/model/tag.data";
 import { Initiative } from "./../../../../shared/model/initiative.data";
-import { Subject } from "rxjs/Rx";
+import { Subject, BehaviorSubject } from "rxjs/Rx";
 import { Subscription } from "rxjs/Subscription";
 import { Observable } from "rxjs/Observable";
 import {
@@ -113,14 +113,14 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     this.init();
     this.dataSubscription = this.dataService
       .get()
-      .combineLatest(this.mapColor$)
+      .combineLatest(this.mapColor$, this.isAuthorityCentricMode$.asObservable())
       .subscribe(complexData => {
         // console.log("network assign data", complexData)
         let data = <any>complexData[0].initiative;
         this.datasetId = complexData[0].datasetId;
         this.rootNode = complexData[0].initiative;
         this.slug = data.getSlug();
-        this.update(data, complexData[1]);
+        this.update(data, complexData[1], complexData[2]);
         this.analytics.eventTrack("Map", {
           view: "connections",
           team: data.teamName,
@@ -297,6 +297,16 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   }
 
   private prepare(initiativeList: HierarchyNode<Initiative>[]) {
+    return this.isAuthorityCentricMode$.asObservable().subscribe(isAuthorityMode => {
+      if (isAuthorityMode) {
+        return this.prepareAuthorityCentric(initiativeList);
+      } else {
+        return this.prepareHelperCentric(initiativeList)
+      }
+    });
+  }
+
+  private prepareAuthorityCentric(initiativeList: HierarchyNode<Initiative>[]) {
     let nodesRaw = initiativeList
       .map(d => {
         let all = flatten([...[d.data.accountable], d.data.helpers]);
@@ -373,41 +383,108 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     };
   }
 
-  // hoverLink(
-  //   nodes: Initiative[],
-  //   initiativeIds: string[],
-  //   sourceUserId: string,
-  //   targetUserId: string
-  // ) {
-  //   this.tooltipInitiatives = _.filter(nodes, function (i) {
-  //     return initiativeIds.includes(`${i.id}`);
-  //   });
+  private prepareHelperCentric(initiativeList: HierarchyNode<Initiative>[]) {
+    let nodesRaw = initiativeList
+      .map(d => {
+        let all = flatten([...[d.data.accountable], d.data.helpers]);
+        return uniqBy(remove(all), a => {
+          return a.user_id;
+        });
+      })
+      .reduce((pre, cur) => {
+        return [...pre, ...cur];
+      })
+      .map(u => {
+        return {
+          name: u.name,
+          id: u.user_id,
+          picture: u.picture,
+          shortid: u.shortid,
+          slug: u.getSlug()
+        };
+      });
 
-  //   if (_.isEmpty(this.tooltipInitiatives)) return;
+    let rawlinks = initiativeList
+      .map(i => {
+        return i.data;
+      })
+      .map(i => {
+        let allWorkers = remove(flatten([...[i.accountable], i.helpers]))
 
-  //   this.tooltipSourceUser = this.tooltipInitiatives[0].helpers.filter(
-  //     h => h.user_id === sourceUserId
-  //   )[0];
-  //   this.tooltipTargetUser = this.tooltipInitiatives[0].accountable;
+        let result: any[] = []
+        allWorkers.forEach((w, ix, arr) => {
+          arr.forEach(o => {
+            if (o.user_id !== w.user_id) {
+              result.push({
+                source: w.user_id,
+                target: o.user_id,
+                type: "works with",
+                initiative: i.id,
+                tags: i.tags
+              })
+            }
+          })
+        })
+        return result;
+      })
+      .reduce((pre, cur) => {
+        let reduced = remove([...pre, ...cur]);
 
-  //   this.tooltipRoles = [];
-  //   this.tooltipInitiatives.forEach(i => {
-  //     let role = i.helpers.filter(h => h.user_id === sourceUserId)[0].roles[0];
-  //     this.tooltipRoles.push({ initiative: i, role: role });
-  //   });
+        return reduced;
+      })
+      .map(l => {
+        return {
+          linkid: l.source < l.target ? `${l.source}-${l.target}` : `${l.target}-${l.source}`,
+          source: l.source,
+          target: l.target,
+          initiative: l.initiative,
+          type: l.type,
+          tags: l.tags
+        };
+      });
 
-  //   this.cd.markForCheck();
-  // }
+    // console.log(rawlinks)
+    let links = chain(rawlinks).groupBy("linkid")
+      .map((items: any, linkid: string) => {
+        let uniqueItems = uniqBy(items, (i: any) => i.initiative);
+        console.log(items, uniqueItems)
+        return {
+          source: uniqueItems[0].source,
+          target: uniqueItems[0].target,
+          type: uniqueItems[0].type,
+          weight: uniqueItems.length,
+          initiatives: uniqueItems.map((item: any) => item.initiative),
+          tags: flattenDeep(uniqueItems.map((item: any) => item.tags)).map(
+            (t: Tag) => t.shortid
+          )
+        };
+      })
+      .value();
 
-  // showDetails(node: Initiative) {
-  //   this.showDetailsOf$.next(node);
-  // }
+    console.log(links)
+
+    return {
+      nodes: uniqBy(nodesRaw, u => {
+        return u.id;
+      }),
+      links: links
+    };
+  }
 
   getTags() {
     return this.tagsState;
   }
 
-  public update(data: any, seedColor: string) {
+  private isAuthorityCentricMode$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  private _isAuthorityCentricMode: boolean = true;
+
+  public switch() {
+    this._isAuthorityCentricMode = !this._isAuthorityCentricMode;
+
+    this.isAuthorityCentricMode$.next(this._isAuthorityCentricMode);
+  }
+
+  public update(data: any, seedColor: string, isAuthorityCentricMode: boolean) {
     if (this.d3.selectAll("g").empty()) {
       this.init();
     }
@@ -422,7 +499,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     let showDetailsOf$ = this.showDetailsOf$;
     let datasetSlug = this.slug;
     let getTags = this.getTags.bind(this);
-
+    let isAuthorityCentricMode$ = this.isAuthorityCentricMode$;
     let CIRCLE_RADIUS = this.CIRCLE_RADIUS;
     let LINE_WEIGHT = this.LINE_WEIGHT;
     let FADED_OPACITY = this.FADED_OPACITY;
@@ -430,7 +507,9 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     let initiativesList: HierarchyNode<Initiative>[] = this.d3
       .hierarchy(data)
       .descendants();
-    let graph = this.prepare(initiativesList);
+
+
+    let graph = isAuthorityCentricMode ? this.prepareAuthorityCentric(initiativesList) : this.prepareHelperCentric(initiativesList);
 
     let router = this.router;
     let datasetId = this.datasetId;
@@ -488,6 +567,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       source: string;
       target: string;
       weight: number;
+      type: string;
       initiatives: Array<string>;
       tags: Array<string>;
     }) {
@@ -497,11 +577,12 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         weight = link.weight,
         initiatives = link.initiatives,
         tags = link.tags,
-        id = `${s.id}-${t.id}`; // intermediate node
+        id = `${s.id}-${t.id}`,
+        type = link.type; // intermediate node
 
       nodes.push(<any>i);
       links.push(<any>{ source: s, target: i }, <any>{ source: i, target: t });
-      bilinks.push([s, i, t, weight, initiatives, tags, id]);
+      bilinks.push([s, i, t, weight, initiatives, tags, id, type]);
     });
 
     let link = g
@@ -545,7 +626,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .attr("marker-end", function (d: any) {
         return uiService.filter(selectedTags, unselectedTags, d[5]) ? "url(#arrow)" : "url(#arrow-fade)";
       });
-      // .attr("marker-end", "url(#arrow)");
+    // .attr("marker-end", "url(#arrow)");
 
     let label = g
       .select("g.labels")
@@ -620,9 +701,9 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         let list = initiativesList.map(i => i.data).filter(i => {
           return ids.includes(i.id)
         });
-        // console.log("tooltip building", d)
+        console.log("tooltip building", d)
         if (isEmpty(list)) return;
-        return uiService.getConnectionsHTML(list, d[0].id);
+        return uiService.getConnectionsHTML(list, d[0].id, d[2].id, d[7]);
       });
 
     d3.selectAll(`.open-initiative`).on("click", function (d: any) {
@@ -691,6 +772,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
     g.selectAll("path")
       .on("mouseover", function (d: any) {
+        console.log(d)
         d3.event.stopPropagation();
 
         let path = d3.select(this);

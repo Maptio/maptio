@@ -8,7 +8,7 @@ import { Helper } from "../../model/helper.data";
 import { MarkdownService } from "angular2-markdown";
 import { Role } from "../../model/role.data";
 import { User } from "../../model/user.data";
-import {isEmpty, intersection} from "lodash"
+import { isEmpty, intersection } from "lodash"
 
 @Injectable()
 export class UIService {
@@ -145,7 +145,7 @@ export class UIService {
               <button class="open-summary btn btn-link pl-0" data-shortid="${user.shortid}" data-slug="${user.getSlug()}">
                 <img src="${user.picture}" alt="${user.name}" width="${isSmall ? 15 : 30}" height="${isSmall ? 15 : 30}" class="rounded-circle mr-1">${formattedName}
               </button>
-              <small>${user.roles[0] ? this.markdown.compile(user.roles[0].description) : "" }</small>
+              <small>${user.roles[0] ? this.markdown.compile(user.roles[0].description) : ""}</small>
             </div>`;
   }
 
@@ -196,16 +196,18 @@ export class UIService {
           `;
   }
 
-  getConnectionsHTML(initiatives: Initiative[], sourceUserId: string) {
-    let sourceUser = initiatives[0].helpers.find(
+  getConnectionsHTML(initiatives: Initiative[], sourceUserId: string, targetUserId: string, connectionType: string) {
+    let sourceUser = initiatives[0].getAllParticipants().find(
       h => h.user_id === sourceUserId
     );
-    let targetUser = initiatives[0].accountable;
-
+    let targetUser = initiatives[0].getAllParticipants().find(
+      h => h.user_id === targetUserId
+    );
     let roles: { initiative: Initiative, role: Role }[] = [];
     initiatives.forEach(i => {
-      let role = i.helpers.filter(h => h.user_id === sourceUserId)[0].roles[0];
+      let role = i.getAllParticipants().filter(h => h.user_id === sourceUserId)[0].roles[0];
       roles.push({ initiative: i, role: role });
+
     });
 
     let printInitiatives = roles.map(i =>
@@ -219,7 +221,7 @@ export class UIService {
 
     return `
     <div class="content">
-      <div class="d-inline-flex no-white-space">${this.getUserHtml(sourceUser, false)}<span class="m-2">helps</span> ${this.getUserHtml(targetUser, false)}</div>
+      <div class="d-inline-flex no-white-space">${this.getUserHtml(sourceUser, false)}<span class="m-2">${connectionType}</span> ${this.getUserHtml(targetUser, false)}</div>
       ${printInitiatives}
     </div>
     `

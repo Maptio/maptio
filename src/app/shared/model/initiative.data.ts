@@ -4,7 +4,7 @@ import { Serializable } from "../interfaces/serializable.interface";
 import * as slug from "slug";
 import { Helper } from "./helper.data";
 import { Role } from "./role.data";
-import { compact } from "lodash";
+import { compact, remove, flatten } from "lodash";
 import { Tag } from "./tag.data";
 
 @Injectable()
@@ -221,6 +221,10 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
         return compact([...this.helpers, this.accountable]).filter(h => h.user_id === userId)[0]
             ? compact([...this.helpers, this.accountable]).filter(h => h.user_id === userId)[0].roles
             : [];
+    }
+
+    getAllParticipants() {
+        return remove(flatten([...[this.accountable], this.helpers]));
     }
 
 }
