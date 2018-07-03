@@ -51,10 +51,11 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   public zoomInitiative$: Observable<Initiative>;
   // public isLocked$: Observable<boolean>;
   public isReset$: Observable<boolean>;
-  public data$: Subject<{ initiative: Initiative; datasetId: string }>;
+  // public data$: Subject<{ initiative: Initiative; datasetId: string }>;
 
   public rootNode: Initiative;
   public slug: string;
+  public team: Team;
 
   private isAuthorityCentricMode$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   public _isAuthorityCentricMode: boolean = true;
@@ -104,12 +105,12 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     // console.log("network constructor")
     this.d3 = d3Service.getD3();
     this.T = this.d3.transition(null).duration(this.TRANSITION_DURATION);
-    this.data$ = new Subject<{
-      initiative: Initiative;
-      datasetId: string;
-      teamName: string;
-      teamId: string;
-    }>();
+    // this.data$ = new Subject<{
+    //   initiative: Initiative;
+    //   datasetId: string;
+    //   teamName: string;
+    //   teamId: string;
+    // }>();
   }
 
   ngOnInit() {
@@ -123,6 +124,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         let data = <any>complexData[0].initiative;
         this.datasetId = complexData[0].datasetId;
         this.rootNode = complexData[0].initiative;
+        this.team = complexData[0].team;
         this.slug = data.getSlug();
         this.update(data, complexData[1], complexData[2]);
         this.analytics.eventTrack("Map", {
