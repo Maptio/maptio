@@ -1,3 +1,4 @@
+import { Team } from './../../../../shared/model/team.data';
 import { Role } from "./../../../../shared/model/role.data";
 import { User } from "./../../../../shared/model/user.data";
 import { ColorService } from "./../../../../shared/services/ui/color.service";
@@ -51,7 +52,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   public zoomInitiative$: Observable<Initiative>;
   // public isLocked$: Observable<boolean>;
   public isReset$: Observable<boolean>;
-  // public data$: Subject<{ initiative: Initiative; datasetId: string }>;
+  public data$: Subject<{ initiative: Initiative; datasetId: string }>;
 
   public rootNode: Initiative;
   public slug: string;

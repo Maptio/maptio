@@ -41,22 +41,22 @@ export class ExportService {
         return Observable.of(exportString);
     }
 
-    getSlackChannels(slack: SlackIntegration) {
-        let request = new Request({
-            url: `https://slack.com/api/channels.list?token=${slack.access_token}`,
-            method: RequestMethod.Get
-        })
+    // getSlackChannels(slack: SlackIntegration) {
+    //     let request = new Request({
+    //         url: `https://slack.com/api/channels.list?token=${slack.access_token}`,
+    //         method: RequestMethod.Get
+    //     })
 
-        return this.http.request(request).map((responseData) => {
-            let response = responseData.json();
-            if (response.ok) {
-                return response.channels;
-            }
-            else {
-                throw new Error("Cannot retrieve slack channels!")
-            }
-        })
-    }
+    //     return this.http.request(request).map((responseData) => {
+    //         let response = responseData.json();
+    //         if (response.ok) {
+    //             return response.channels;
+    //         }
+    //         else {
+    //             throw new Error("Cannot retrieve slack channels!")
+    //         }
+    //     })
+    // }
 
     getSnapshot(svgString: string, datasetId: string) {
         let headers = new Headers();
