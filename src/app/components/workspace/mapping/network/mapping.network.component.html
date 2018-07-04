@@ -5,11 +5,11 @@
     <span>Show connections between</span>
     <div class="custom-control custom-radio custom-control-inline">
         <input type="radio" id="helpModeRadio" name="radioViewMode" class="custom-control-input" [checked]="_isAuthorityCentricMode" (click)="switch()">
-        <label class="custom-control-label" for="helpModeRadio">{{team.settings.authority}} and {{team.settings.helper}}</label>
+        <label class="custom-control-label" for="helpModeRadio">{{team?.settings.authority}} and {{team?.settings.helper}}</label>
     </div>
     <div class="custom-control custom-radio custom-control-inline">
         <input type="radio" id="participationModeRadio" name="radioViewMode" class="custom-control-input" [checked]="!_isAuthorityCentricMode" (click)="switch()">
-        <label class="custom-control-label" for="participationModeRadio">All {{team.settings.helper}}</label>
+        <label class="custom-control-label" for="participationModeRadio">All {{team?.settings.helper}}</label>
     </div>
     <!-- <ui-switch [checked]="_isAuthorityCentricMode" (change)="switch()" color="#f8f9fa" switchColor="#2f81b7"></ui-switch> -->
 </div>

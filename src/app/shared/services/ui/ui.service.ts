@@ -171,7 +171,7 @@ export class UIService {
   }
 
   getInitiatveHTML(initiative: Initiative) {
-    return `<h6 class="mb-1 lead"><button class="btn btn-link lead open-initiative" id="${initiative.id}">${initiative.name}</button></h6>`
+    return `<h6 class="mb-1 lead d-flex justify-content-start"><button class="btn btn-link lead open-initiative text-left" id="${initiative.id}">${initiative.name}</button></h6>`
   }
 
   getTooltipHTML(initiative: Initiative): string {
