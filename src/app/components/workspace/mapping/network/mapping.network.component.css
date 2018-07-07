@@ -75,9 +75,10 @@
     border-bottom: solid 1px #f8f9fa;
   }
 
+
   .switch{
     position: absolute;
-    top: 11vh;
-    left: 15%;
+    top: 9vh;
+    left: 5vw;
     z-index: 9;
   }
