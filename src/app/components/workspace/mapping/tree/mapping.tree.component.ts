@@ -198,7 +198,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       } catch (error) { }
     });
 
-    this.zoomInitiative$.combineLatest(this.mapColor$, this.fontColor$).subscribe((zoomed: [any, string, string]) => {
+    let [clearSearchInitiative, highlightInitiative] = this.zoomInitiative$.partition(node => node === null);
+
+    highlightInitiative.combineLatest(this.mapColor$, this.fontColor$).subscribe((zoomed: [any, string, string]) => {
       let node = zoomed[0];
       let mapColor = zoomed[1];
       let fontColor = zoomed[2];
@@ -211,6 +213,13 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       let gNode = d3.select(`g.node.tree-map[id~="${node.id}"]`)
       gNode.style("fill", mapColor);
     });
+
+    clearSearchInitiative.combineLatest(this.mapColor$, this.fontColor$).subscribe(() => {
+      let node = zoomed[0];
+      let mapColor = zoomed[1];
+      let fontColor = zoomed[2];
+      d3.selectAll(`g.node.tree-map`).style("fill", fontColor);
+    })
 
     this.svg = svg;
     this.g = g;

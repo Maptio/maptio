@@ -285,7 +285,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
         svg.selectAll("text").style("fill", format[1]);
       });
 
-    this.zoomInitiative$.subscribe(node => {
+    let [clearSearchInitiative, highlightInitiative] = this.zoomInitiative$.partition(node => node === null);
+    clearSearchInitiative.subscribe(() => {
+      svg.select("circle.node--root").dispatch("click");
+    })
+    highlightInitiative.subscribe(node => {
       svg.select(`circle.node.initiative-map[id="${node.id}"]`).dispatch("click");
     });
 

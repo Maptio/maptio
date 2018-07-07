@@ -1,3 +1,4 @@
+import { Team } from "./../../../../shared/model/team.data";
 import { Helper } from "./../../../../shared/model/helper.data";
 import { Initiative } from "./../../../../shared/model/initiative.data";
 import { ErrorService } from "./../../../../shared/services/error/error.service";
@@ -78,14 +79,15 @@ describe("mapping.network.component.ts", () => {
         component.fontSize$ = Observable.of(12);
         component.fontColor$ = Observable.of("");
         component.mapColor$ = Observable.of("")
-        component.zoomInitiative$ = Observable.of(new Initiative({ id: 1, accountable : new Helper(), helpers : [] }));
+        component.zoomInitiative$ = Observable.of(new Initiative({ id: 1, accountable: new Helper(), helpers: [] }));
 
         // component.isLocked$ = Observable.of(true);
         component.analytics = jasmine.createSpyObj("analytics", ["eventTrack"]);
 
         let data = new Initiative().deserialize(fixture.load("data.json"));
+        let team = new Team({ team_id: "TEAMID", settings: { authority: "King", helper: "Minions" } })
         let mockDataService = target.debugElement.injector.get(DataService);
-        spyOn(mockDataService, "get").and.returnValue(Observable.of({ initiative: data, datasetId: "ID" }));
+        spyOn(mockDataService, "get").and.returnValue(Observable.of({ initiative: data, datasetId: "ID", team: team }));
 
         target.detectChanges(); // trigger initial data binding
     });

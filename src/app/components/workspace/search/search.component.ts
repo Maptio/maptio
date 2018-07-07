@@ -44,6 +44,7 @@ export class SearchComponent implements OnInit {
             .debounceTime(200)
             .distinctUntilChanged()
             .do((term: string) => {
+                console.log("tern", term)
                 this.isSearching = true && term !== "";
                 this.cd.markForCheck();
             })
@@ -67,5 +68,10 @@ export class SearchComponent implements OnInit {
         this.cd.markForCheck();
         this.selectInitiative.emit(initiative)
         // this.zoomToInitiative$.next(initiative);
+    }
+
+    clearSearch() {
+        this.select({ item: null, preventDefault: null })
+        // this.searchInitiatives(Observable.of(""));
     }
 }

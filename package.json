@@ -97,6 +97,7 @@
     "ngx-breadcrumbs": "0.0.3",
     "ngx-color-picker": "^4.5.3",
     "ngx-loading": "^1.0.9",
+    "ngx-toggle-switch": "^2.0.5",
     "null-loader": "^0.1.1",
     "path": "^0.12.7",
     "phantomjs-prebuilt": "^2.1.7",

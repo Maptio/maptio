@@ -1,5 +1,5 @@
-import { ShareSlackComponent } from './share/slack.component';
-import { SharedModule } from './../../shared/shared.module';
+import { ShareSlackComponent } from "./share/slack.component";
+import { SharedModule } from "./../../shared/shared.module";
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";
 import { ColorPickerModule } from "ngx-color-picker";
 import { MarkdownService } from "angular2-markdown";
@@ -21,6 +21,7 @@ import { MappingComponent } from "./mapping/mapping.component";
 import { InitiativeComponent } from "./initiative/initiative.component";
 import { InitiativeNodeComponent } from "./building/initiative.node.component";
 import { BuildingComponent } from "./building/building.component";
+// import { UiSwitchModule } from "ngx-toggle-switch";
 
 import { AccessGuard } from "./../../shared/services/guards/access.guard";
 import { AuthGuard } from "./../../shared/services/guards/auth.guard";
@@ -85,7 +86,8 @@ export function markdownServiceFactory(http: Http) {
             confirmButtonType: "danger",
             cancelButtonType: "secondary"
         }),
-        SharedModule
+        SharedModule,
+        // UiSwitchModule
     ],
     declarations: [
         FocusIfDirective,

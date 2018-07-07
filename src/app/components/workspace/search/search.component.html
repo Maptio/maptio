@@ -18,10 +18,17 @@
 </ng-template>
 
 <div class="card bg-light border-light">
-    <div class="card-body">
-        <input #initiativeSearch [resultTemplate]="rt" type="text" id="initiativeSearch" class="form-control search mr-2" (selectItem)="select($event)"
-            [ngbTypeahead]="searchInitiatives" [resultFormatter]="formatter" [inputFormatter]="formatter" editable="false" autofocus="autofocus"
-            (focus)="initiativeSearch.value=''" placement="bottom-right" placeholder="Search initiatives, people and description"
-        />
+    <div class="card-body d-flex justify-content-start">
+
+        <div class="input-group mr-2">
+            <input #initiativeSearch [resultTemplate]="rt" type="text" id="initiativeSearch" class="form-control search" (selectItem)="select($event)"
+                [ngbTypeahead]="searchInitiatives" [resultFormatter]="formatter" [inputFormatter]="formatter" editable="false"
+                autofocus="autofocus" placement="bottom-right" placeholder="Search initiatives, people and description" />
+            <div class="input-group-append" >
+                <button ngbTooltip="Clear search" placement="top" container="body" class="btn btn-dark" (click)="initiativeSearch.value='';clearSearch()"><i class="fa fa-times" aria-hidden="true"></i></button>
+            </div>
+        </div>
+
+
     </div>
 </div>
