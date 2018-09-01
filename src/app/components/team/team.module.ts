@@ -1,6 +1,6 @@
 import { TeamIntegrationsComponent } from "./single/integrations/integrations.component";
-import { Permissions } from "./../../shared/model/permission.data";
-import { PermissionGuard } from "./../../shared/services/guards/permission.guard";
+import { Permissions } from "../../shared/model/permission.data";
+import { PermissionGuard } from "../../shared/services/guards/permission.guard";
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -8,10 +8,10 @@ import { RouterModule, Routes } from "@angular/router";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";
 import { ANIMATION_TYPES, LoadingModule } from "ngx-loading";
-import { KeysPipe } from "./../../pipes/keys.pipe";
-import { AccessGuard } from "./../../shared/services/guards/access.guard";
-import { AuthGuard } from "./../../shared/services/guards/auth.guard";
-import { SharedModule } from "./../../shared/shared.module";
+import { KeysPipe } from "../../pipes/keys.pipe";
+import { AccessGuard } from "../../shared/services/guards/access.guard";
+import { AuthGuard } from "../../shared/services/guards/auth.guard";
+import { SharedModule } from "../../shared/shared.module";
 import { TeamListComponent } from "./list/team-list.component";
 import { TeamListComponentResolver } from "./list/team-list.resolver";
 import { TeamImportComponent } from "./single/import/import.component";
@@ -20,6 +20,7 @@ import { TeamMembersComponent } from "./single/members/members.component";
 import { TeamSettingsComponent } from "./single/settings/settings.component";
 import { TeamComponent } from "./single/team.component";
 import { TeamComponentResolver } from "./single/team.resolver";
+import { IntercomService } from "./list/intercom.service";
 
 const routes: Routes = [
     {
@@ -92,6 +93,6 @@ const routes: Routes = [
         TeamMapsComponent,
         KeysPipe
     ],
-    providers: [TeamComponentResolver, TeamListComponentResolver]
+    providers: [TeamComponentResolver, TeamListComponentResolver, IntercomService]
 })
 export class TeamModule { }

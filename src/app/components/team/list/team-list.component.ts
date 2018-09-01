@@ -1,6 +1,6 @@
-import { environment } from './../../../../environment/environment';
+import { environment } from '../../../../environment/environment';
 import { Subscription } from "rxjs/Subscription";
-import { Permissions } from "./../../../shared/model/permission.data";
+import { Permissions } from "../../../shared/model/permission.data";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { UserFactory } from "../../../shared/services/user.factory";
@@ -11,6 +11,7 @@ import { User } from "../../../shared/model/user.data";
 import { Team } from "../../../shared/model/team.data";
 import { UserService } from "../../../shared/services/user/user.service";
 import { Router, ActivatedRoute } from "@angular/router";
+import { IntercomService } from './intercom.service';
 
 @Component({
     selector: "team-list",
@@ -38,7 +39,7 @@ export class TeamListComponent implements OnInit {
 
     constructor(private route: ActivatedRoute, private cd: ChangeDetectorRef, public auth: Auth, private teamFactory: TeamFactory, private userFactory: UserFactory,
         private userService: UserService, private analytics: Angulartics2Mixpanel, public router: Router,
-        private renderer: Renderer2) {
+        private renderer: Renderer2, private intercomService: IntercomService) {
 
         this.createForm = new FormGroup({
             "teamName": new FormControl(this.teamName, [
@@ -88,7 +89,6 @@ export class TeamListComponent implements OnInit {
                         return this.userFactory.upsert(this.user)
                             .then((result: boolean) => {
                                 if (result) {
-                                    // this.getTeams();
                                     this.teamName = ""
                                     this.analytics.eventTrack("Create team", { email: this.user.email, name: teamName, teamId: team.team_id })
                                 }
@@ -103,9 +103,12 @@ export class TeamListComponent implements OnInit {
                     },
                         () => { throw `Unable to create team ${teamName}!` })
                     .then((team: Team) => {
-
-                        
-                        return team;
+                        return this.intercomService.createTeam(this.user, team).toPromise().then(result => {
+                            if (result)
+                                return team
+                            else
+                                throw new Error("Cannot sync team with Intercom.")
+                        })
                     })
                     .then((team: Team) => {
                         this.router.navigate(["teams", team.team_id, team.getSlug()])
