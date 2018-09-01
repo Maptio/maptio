@@ -15,15 +15,21 @@ export class IntercomService {
     getTeamStatus(team: Team): Observable<{ created_at: Date, freeTrialLength: Number, isPaying: Boolean }> {
         return this.http.get(`/api/v1/intercom/team/${team.team_id}`)
             .map((response: Response) => {
-                console.log(response.json())
-                return response.json().body
+                return response.json().statusCode == 200 ? response.json().body : null
             })
             .map(result => {
-                return {
-                    created_at: new Date(result.created_at*1000),
-                    freeTrialLength: result.custom_attributes.free_trial_length,
-                    isPaying: result.custom_attributes.is_paying
-                }
+                console.log(result)
+                return result
+                    ? {
+                        created_at: new Date(result.created_at * 1000),
+                        freeTrialLength: result.custom_attributes.free_trial_length,
+                        isPaying: result.custom_attributes.is_paying
+                    }
+                    : {
+                        created_at : new Date(),
+                        freeTrialLength : -1,
+                        isPaying: true
+                    }
             })
     }
 

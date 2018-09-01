@@ -99,7 +99,6 @@ export class Team implements Serializable<Team> {
 
     getRemainingTrialDays() {
         let cutoffDate = moment(this.createdAt).add(this.freeTrialLength, "d");
-        console.log(this.createdAt, cutoffDate, this.freeTrialLength)
         return Math.floor(moment.duration(cutoffDate.diff(moment())).asDays());
     }
 
