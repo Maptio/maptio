@@ -114,6 +114,7 @@ var encoding = require('./routes/encoding');
 var images = require('./routes/images');
 var notifications = require('./routes/notifications');
 var oauth = require('./routes/oauth');
+var intercom = require("./routes/intercom");
 
 app.use('/api/v1/jwt/', encoding);
 app.use('/api/v1/mail/confirm', confirming);
@@ -125,6 +126,7 @@ app.use('/api/v1/mail/invite', jwtCheck, check_scopes(["invite"]), inviting);
 app.use('/api/v1/dataset/', jwtCheck, check_scopes(["api"]), datasets);
 app.use('/api/v1/user', jwtCheck, check_scopes(["api"]), users);
 app.use('/api/v1/team', jwtCheck, check_scopes(["api"]), teams);
+app.use('/api/v1/intercom', jwtCheck, check_scopes(["api"]), intercom);
 
 app.set("port", process.env.PORT || DEFAULT_PORT);
 app.get(cache('5 seconds'))

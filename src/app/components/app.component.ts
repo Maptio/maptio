@@ -11,6 +11,8 @@ import "rxjs/add/operator/map"
 import { Auth } from "../shared/services/auth/auth.service";
 import { environment } from "../../environment/environment";
 import { Observable } from "rxjs/Observable";
+import { Intercom } from 'ng-intercom';
+
 @Component({
   selector: "my-app",
   templateUrl: "./app.component.html",
@@ -28,7 +30,8 @@ export class AppComponent {
   @ViewChild("help")
   helpComponent: HelpComponent;
 
-  constructor(public auth: Auth, private router: Router, private loaderService: LoaderService) {
+  constructor(public auth: Auth, private router: Router, private loaderService: LoaderService,
+    public intercom: Intercom) {
 
     this.routerSubscription = this.router.events
       .subscribe((event) => {
@@ -69,11 +72,13 @@ export class AppComponent {
     Observable
       .interval(environment.CHECK_TOKEN_EXPIRATION_INTERVAL_IN_MINUTES * 60 * 1000)
       .timeInterval()
-      .flatMap(() => {return Observable.of(this.auth.allAuthenticated()) })
+      .flatMap(() => { return Observable.of(this.auth.allAuthenticated()) })
       .filter(isExpired => !isExpired)
       .subscribe((isExpired: boolean) => {
         this.router.navigateByUrl("/logout")
       });
+
+    this.intercom.boot({ app_id: environment.INTERCOM_APP_ID });
   }
 
   // ngAfterViewInit() {

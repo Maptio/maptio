@@ -25,11 +25,13 @@ export class TeamListComponent implements OnInit {
     public routeSubscription: Subscription;
     public teams: Array<Team>;
     public errorMessage: string;
+    public cannotCreateMoreTeamMessage: string;
     public isLoading: boolean;
     public isCreating: boolean;
 
     public createForm: FormGroup;
     public teamName: string;
+    public teamsNumber: Number;
 
     Permissions = Permissions;
     KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
@@ -57,10 +59,12 @@ export class TeamListComponent implements OnInit {
         this.routeSubscription = this.route.data
             .subscribe((data: any) => {
                 this.teams = data.teams;
+                this.teamsNumber = data.teams.length;
                 this.cd.markForCheck();
             });
         this.userSubscription = this.auth.getUser().subscribe(user => {
             this.user = user;
+            console.log(this.user)
         })
     }
 
@@ -71,45 +75,55 @@ export class TeamListComponent implements OnInit {
 
 
     createNewTeam() {
-        // REFACTOR : this is not the right way to write then/catch
-        if (this.createForm.dirty && this.createForm.valid) {
-            let teamName = this.createForm.controls["teamName"].value;
-            this.isCreating = true;
-            this.teamFactory.create(new Team({ name: teamName, members: [this.user] }))
-                .then((team: Team) => {
-                    this.user.teams.push(team.team_id);
-                    return this.userFactory.upsert(this.user)
-                        .then((result: boolean) => {
-                            if (result) {
-                                // this.getTeams();
-                                this.teamName = ""
-                                this.analytics.eventTrack("Create team", { email: this.user.email, name: teamName, teamId: team.team_id })
-                            }
-                            else {
-                                throw `Unable to add you to team ${teamName}!`
-                            }
-                        },
-                        () => { throw `Unable to create team ${teamName}!` })
-                        .then(() => {
-                            return { team_id: team.team_id, teamSlug: team.getSlug() }
-                        })
-                    // .catch((reason) => {
-                    //     this.errorMessage = reason;
-                    // })
-                },
-                () => { throw `Unable to create team ${teamName}!` })
-                .then((team: { team_id: string, teamSlug: string }) => {
-                    this.router.navigate(["teams", team.team_id, team.teamSlug])
-                    this.isCreating = false;
-                })
-                .catch((reason) => {
-                    // console.log(3, reason)
-                    this.errorMessage = reason;
-                    this.teamName = ""
-                    this.isCreating = false;
-                })
+        if (this.teamsNumber >= 1) {
+            this.cannotCreateMoreTeamMessage = "You have reached your maximum number of teams allowed: 1. Please reach out at support@maptio.com if you need to change these settings."
 
+        } else {
+            if (this.createForm.dirty && this.createForm.valid) {
+                let teamName = this.createForm.controls["teamName"].value;
+                this.isCreating = true;
+                this.teamFactory.create(new Team({ name: teamName, members: [this.user] }))
+                    .then((team: Team) => {
+                        this.user.teams.push(team.team_id);
+                        return this.userFactory.upsert(this.user)
+                            .then((result: boolean) => {
+                                if (result) {
+                                    // this.getTeams();
+                                    this.teamName = ""
+                                    this.analytics.eventTrack("Create team", { email: this.user.email, name: teamName, teamId: team.team_id })
+                                }
+                                else {
+                                    throw `Unable to add you to team ${teamName}!`
+                                }
+                            },
+                                () => { throw `Unable to create team ${teamName}!` })
+                            .then(() => {
+                                return team
+                            })
+                    },
+                        () => { throw `Unable to create team ${teamName}!` })
+                    .then((team: Team) => {
+
+                        
+                        return team;
+                    })
+                    .then((team: Team) => {
+                        this.router.navigate(["teams", team.team_id, team.getSlug()])
+                        this.isCreating = false;
+                    })
+                    .catch((reason) => {
+                        // console.log(3, reason)
+                        this.errorMessage = reason;
+                        this.teamName = ""
+                        this.isCreating = false;
+                    })
+
+            }
         }
+
+
+        // REFACTOR : this is not the right way to write then/catch
+
 
     }
 

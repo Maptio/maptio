@@ -60,7 +60,8 @@ import { UIService } from "./shared/services/ui/ui.service";
 import { URIService } from "./shared/services/uri.service";
 import { UserFactory } from "./shared/services/user.factory";
 import { UserService } from "./shared/services/user/user.service";
-
+import { IntercomModule } from 'ng-intercom';
+ 
 import * as LogRocket from "logrocket";
 
 const appRoutes: Routes = [
@@ -161,7 +162,11 @@ export function rollbarFactory() {
     BrowserAnimationsModule,
     CloudinaryModule.forRoot(cloudinaryLib, { cloud_name: environment.CLOUDINARY_CLOUDNAME, upload_preset: environment.CLOUDINARY_UPLOAD_PRESET }),
     TeamModule,
-    WorkspaceModule
+    WorkspaceModule,
+    IntercomModule.forRoot({
+      appId: "q3x5lnhp", // from your Intercom config
+      updateOnRouterChange: true // will automatically run `update` on router event changes. Default: `false`
+    })
 
   ],
   exports: [RouterModule],

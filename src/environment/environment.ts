@@ -14,7 +14,7 @@ export const environment = {
     ACCESS_TOKEN_AUDIENCE: "https://circlemapping.auth0.com/api/v2/",
     MAPTIO_API_URL: "https://app.maptio.com/api/v1",
     MIXPANEL_TOKEN: "de90e67220137ed9cab9510a84ba7ecf",
-    INTERCOM_APP_ID: "rktylk1k",
+    INTERCOM_APP_ID: "q3x5lnhp",
     CLOUDINARY_CLOUDNAME: "hgkbm0qes",
     CLOUDINARY_UPLOAD_PRESET: "rk6tzs5q",
     CLOUDINARY_PROFILE_TAGNAME: "profile",
