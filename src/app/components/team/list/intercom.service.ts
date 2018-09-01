@@ -4,13 +4,13 @@ import { Team } from "../../../shared/model/team.data";
 import { User } from "../../../shared/model/user.data";
 import { Response } from "@angular/http";
 import { Observable } from "../../../../../node_modules/rxjs";
-
+import { Intercom } from "ng-intercom";
 
 
 @Injectable()
 export class IntercomService {
 
-    constructor(private http: AuthHttp) {
+    constructor(private http: AuthHttp, private intercom: Intercom) {
     }
 
     createTeam(user: User, team: Team): Observable<boolean> {
@@ -26,6 +26,10 @@ export class IntercomService {
                 }
             }
         })
+            .map((response: Response) => {
+                this.intercom.trackEvent("created a team", { id: team.team_id, name: team.name });
+                return response;
+            })
             .map((response: Response) => {
                 return response.status === 200
             })
