@@ -21,7 +21,7 @@ import { ANIMATION_TYPES, LoadingModule } from "ngx-loading";
 import * as Rollbar from "rollbar";
 
 import { AnAnchorableComponent } from "../test/specs/shared/component.helper.shared";
-import { environment } from "./../environment/environment";
+import { environment } from "../environment/environment";
 import { AccountComponent } from "./components/account/account.component";
 import { AppComponent } from "./components/app.component";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
@@ -63,6 +63,7 @@ import { UserService } from "./shared/services/user/user.service";
 import { IntercomModule } from 'ng-intercom';
  
 import * as LogRocket from "logrocket";
+import { IntercomService } from "./components/header/intercom.service";
 
 const appRoutes: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
@@ -176,7 +177,7 @@ export function rollbarFactory() {
     AuthConfiguration,
     D3Service, DataService, URIService, ColorService, UIService, DatasetFactory, TeamFactory,
     ErrorService, Auth, UserService, UserFactory, MailingService, JwtEncoder, LoaderService,
-    ExportService, FileService, PermissionService,
+    ExportService, FileService, PermissionService,IntercomService,
     Location,
     { provide: LocationStrategy, useClass: PathLocationStrategy },
     {

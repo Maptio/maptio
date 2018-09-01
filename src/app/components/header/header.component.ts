@@ -1,7 +1,7 @@
 import { Angulartics2Mixpanel } from "angulartics2";
 import { LoaderService } from "./../../shared/services/loading/loader.service";
 import { Router } from "@angular/router";
-import { Subscription } from "rxjs/Rx";
+import { Subscription, Observable } from "rxjs/Rx";
 import { OnInit } from "@angular/core";
 import { Component, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
 import { User } from "../../shared/model/user.data";
@@ -17,6 +17,7 @@ import { Initiative } from "../../shared/model/initiative.data";
 import { UserService } from "../../shared/services/user/user.service";
 import { sortBy } from "lodash";
 import { SafeUrl, DomSanitizer } from "@angular/platform-browser";
+import { IntercomService } from "./intercom.service";
 
 @Component({
     selector: "header",
@@ -43,38 +44,24 @@ export class HeaderComponent implements OnInit {
     public emitterSubscription: Subscription;
     public userSubscription: Subscription;
 
-    // isPictureLoadedMap: Map<string, boolean> = new Map<string, boolean>();
-    // isFadeInMap: Map<string, string> = new Map<string, string>();
-    // isFadeOutMap: Map<string, string> = new Map<string, string>();
-    // isMembersToggled: boolean;
-
-    // private _placeHolderSafe: SafeUrl;
-    // private _imgSafe: SafeUrl;
-
     constructor(public auth: Auth, private userService: UserService, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory,
         public errorService: ErrorService, private router: Router, private loader: LoaderService, private sanitizer: DomSanitizer,
-        private analytics: Angulartics2Mixpanel, private cd: ChangeDetectorRef) {
-        // this.emitterSubscription = EmitterService.get("currentDataset")
-        //     .subscribe((value: DataSet) => {
-        //         this.selectedDataset = value;
-        //         this.cd.markForCheck();
-        //     });
+        private analytics: Angulartics2Mixpanel, private cd: ChangeDetectorRef, private intercomService: IntercomService) {
 
-        EmitterService.get("currentTeam").subscribe((value: Team) => {
-            this.team = value;
-            this.cd.markForCheck();
-        });
+        EmitterService.get("currentTeam")
+            .flatMap((team: Team) => {
+                return this.intercomService.getTeamStatus(team).map((value: { created_at: Date, freeTrialLength: Number, isPaying: Boolean }) => {
+                    team.createdAt = value.created_at;
+                    team.freeTrialLength = value.freeTrialLength;
+                    team.isPaying = value.isPaying;
 
-        // EmitterService.get("currentMembers").subscribe((value: Array<User>) => {
-        //     if (!value) this.isMembersToggled = false;
-        //     this.members = value || [];
-        //     this.members.forEach(m => {
-        //         this.isPictureLoadedMap.set(m.user_id, false);
-        //         this.isFadeInMap.set(m.user_id, "in");
-        //         this.isFadeOutMap.set(m.user_id, "out")
-        //     })
-        //     this._imgSafe = this.sanitizer.bypassSecurityTrustUrl("/assets/images/user.jpg");
-        // });
+                    return team;
+                })
+            })
+            .subscribe((value: Team) => {
+                this.team = value;
+                this.cd.markForCheck();
+            });
 
         this.loginForm = new FormGroup({
             "email": new FormControl("", [
@@ -96,9 +83,6 @@ export class HeaderComponent implements OnInit {
     }
 
     ngOnDestroy() {
-        // if (this.emitterSubscription) {
-        //     this.emitterSubscription.unsubscribe();
-        // }
         if (this.userSubscription) {
             this.userSubscription.unsubscribe();
         }
@@ -131,32 +115,12 @@ export class HeaderComponent implements OnInit {
                 .then(teams => { this.teams = teams })
                 .catch(() => { return [] })
 
+
+
             this.cd.markForCheck();
         },
             (error: any) => { this.errorService.handleError(error) });
     }
-
-    // public isPictureLoaded(user_id: string) {
-    //     this.isPictureLoadedMap.set(user_id, true);
-    //     this.isFadeInMap.set(user_id, "out");
-    //     this.isFadeOutMap.set(user_id, "in");
-    //     this.cd.markForCheck();
-    // }
-
-    // isAnyPictureLoaded() {
-    //     return Array.from(this.isPictureLoadedMap.values()).some(b => b);
-    // }
-
-    // public get image() {
-    //     return this._imgSafe;
-    // }
-
-    // goTo(dataset: DataSet) {
-    //     // this.selectedDataset = dataset;
-    //     // this.team = dataset.team;
-    //     // if (dataset) 
-    //     this.router.navigate(["map", dataset.datasetId, dataset.initiative.getSlug(), "circles"]);
-    // }
 
     createDataset() {
         if (this.createMapForm.dirty && this.createMapForm.valid) {
@@ -195,12 +159,10 @@ export class HeaderComponent implements OnInit {
     login() {
 
         if (this.loginForm.dirty && this.loginForm.controls["email"].invalid) {
-            // console.log("login", this.loginForm.controls)
             let message = "An email is required e.g. rick.sanchez@cartoonnetwork.com"
             this.router.navigateByUrl(`/login?login_message=${encodeURIComponent(message)}`);
         }
         if (this.loginForm.dirty && this.loginForm.controls["password"].invalid) {
-            // console.log("login", this.loginForm.controls)
             let message = "Password required"
             this.router.navigateByUrl(`/login?login_message=${encodeURIComponent(message)}`);
         }

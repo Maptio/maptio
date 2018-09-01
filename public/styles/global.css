@@ -109,6 +109,10 @@ a.card.no-underline, a.no-underline:hover {
   text-decoration: none;
 }
 
+.x-small{
+  font-size: x-small;
+}
+
 /* 
 html, body {
   height: 100%;

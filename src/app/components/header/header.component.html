@@ -13,14 +13,14 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 
-
-
     <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
-        <span class="navbar-text offset-6" *ngIf="team">
-            <span class="text-muted mr-1">Team </span>
-            <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}">
-                {{team?.name}}
-            </a>
+        <span class="navbar-text offset-6 d-flex flex-column " *ngIf="team">
+            <span class="text-muted mr-1">Team
+                <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}">
+                    {{team?.name}}
+                </a>
+            </span>
+            <span *ngIf="!team?.isPaying" class="x-small text-success">{{team?.getRemainingTrialDays()}} days left on your free trial </span>
         </span>
         <ul class="navbar-nav ml-auto d-flex align-items-center" *ngIf="auth.allAuthenticated()">
 
@@ -42,7 +42,8 @@
                 </div>
             </li>
             <li class="nav-item dropdown" *ngIf="teams?.length > 0">
-                <a class="nav-link dropdown-toggle " id="mapsListDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="isCreateMode=!isCreateMode">
+                <a class="nav-link dropdown-toggle " id="mapsListDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                    (click)="isCreateMode=!isCreateMode">
                     Create a map
                 </a>
                 <div class="dropdown-menu dropdown-menu-right form-big" [class.show]="isCreateMode" [class.hide]="!isCreateMode">

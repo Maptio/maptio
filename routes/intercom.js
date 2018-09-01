@@ -26,12 +26,23 @@ router.post('/user/update', function (req, res, next) {
         ]
     }, function (error, user) {
         if (error) {
-            res.error(err)
+            res.send(error)
         }
         else {
             res.json(user)
         }
     });
+})
+
+router.get('/team/:tid', function (req, res, next) {
+    client.companies.find({ company_id: req.params.tid }, function (error, user) {
+        if (error) {
+            res.send(error)
+        }
+        else {
+            res.json(user)
+        }
+    })
 })
 
 

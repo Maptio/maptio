@@ -2,6 +2,8 @@ import { SlackIntegration } from "./integrations.data";
 import { Serializable } from "./../interfaces/serializable.interface";
 import { User } from "./user.data";
 import * as slug from "slug";
+import * as moment from 'moment';
+import { create } from "domain";
 
 
 
@@ -36,6 +38,12 @@ export class Team implements Serializable<Team> {
 
     public slack: SlackIntegration;
 
+    public createdAt: Date;
+
+    public freeTrialLength: number;
+
+    public isPaying: Boolean;
+
     public constructor(init?: Partial<Team>) {
         Object.assign(this, init);
     }
@@ -65,7 +73,7 @@ export class Team implements Serializable<Team> {
         deserialized.settings.helper = input.settings ? input.settings.helper || "Contributor" : "Contributor"
         deserialized.slack = SlackIntegration.create().deserialize(input.slack || {});
         // console.log("deserialize team", input.slack, deserialized.slack)
-        
+
 
         return deserialized;
     }
@@ -87,6 +95,12 @@ export class Team implements Serializable<Team> {
 
     getSlug(): string {
         return slug(this.name || "", { lower: true })
+    }
+
+    getRemainingTrialDays() {
+        let cutoffDate = moment(this.createdAt).add(this.freeTrialLength, "d");
+        console.log(this.createdAt, cutoffDate, this.freeTrialLength)
+        return Math.floor(moment.duration(cutoffDate.diff(moment())).asDays());
     }
 
 }

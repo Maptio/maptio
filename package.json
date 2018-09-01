@@ -90,6 +90,7 @@
     "method-override": "^2.3.7",
     "mobx": "^3.4.1",
     "mobx-angular": "^2.0.1",
+    "moment": "^2.22.2",
     "mongojs": "^2.4.0",
     "newrelic": "^1.37.2",
     "ng-intercom": "^6.0.0-beta.3",
