@@ -21,6 +21,7 @@ import { TeamSettingsComponent } from "./single/settings/settings.component";
 import { TeamComponent } from "./single/team.component";
 import { TeamComponentResolver } from "./single/team.resolver";
 import { IntercomService } from "./list/intercom.service";
+import { TeamBillingComponent } from "./single/billing/billing.component";
 
 const routes: Routes = [
     {
@@ -54,7 +55,8 @@ const routes: Routes = [
                     },
                     { path: "maps", component: TeamMapsComponent, data: { breadcrumbs: true, text: "Maps" } },
                     { path: "settings", component: TeamSettingsComponent, data: { breadcrumbs: true, text: "Settings" } },
-                    { path: "integrations", component: TeamIntegrationsComponent, data: { breadcrumbs: true, text: "Integrations" } }
+                    { path: "integrations", component: TeamIntegrationsComponent, data: { breadcrumbs: true, text: "Integrations" } },
+                    { path: "billing", component: TeamBillingComponent, data: { breadcrumbs: true, text: "Billing" } }
                 ]
             }
         ]
@@ -90,6 +92,7 @@ const routes: Routes = [
         TeamSettingsComponent,
         TeamImportComponent,
         TeamIntegrationsComponent,
+        TeamBillingComponent,
         TeamMapsComponent,
         KeysPipe
     ],

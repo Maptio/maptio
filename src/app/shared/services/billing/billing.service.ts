@@ -7,7 +7,7 @@ import { Team } from "../../shared/model/team.data";
 
 
 @Injectable()
-export class IntercomService {
+export class BillingService {
 
     constructor(private http: AuthHttp) {
     }

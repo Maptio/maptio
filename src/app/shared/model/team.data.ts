@@ -40,7 +40,7 @@ export class Team implements Serializable<Team> {
 
     public createdAt: Date;
 
-    public freeTrialLength: number;
+    public freeTrialLength: Number;
 
     public isPaying: Boolean;
 
@@ -98,7 +98,8 @@ export class Team implements Serializable<Team> {
     }
 
     getRemainingTrialDays() {
-        let cutoffDate = moment(this.createdAt).add(this.freeTrialLength, "d");
+        let cutoffDate = moment(this.createdAt).add(<moment.DurationInputArg1>this.freeTrialLength, "d");
+        console.log(this.createdAt, cutoffDate, moment.duration(cutoffDate.diff(moment())).asDays())
         return Math.floor(moment.duration(cutoffDate.diff(moment())).asDays());
     }
 

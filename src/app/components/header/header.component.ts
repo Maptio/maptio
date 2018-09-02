@@ -17,7 +17,7 @@ import { Initiative } from "../../shared/model/initiative.data";
 import { UserService } from "../../shared/services/user/user.service";
 import { sortBy } from "lodash";
 import { SafeUrl, DomSanitizer } from "@angular/platform-browser";
-import { IntercomService } from "./intercom.service";
+import { BillingService } from "../../shared/services/billing/billing.service";
 
 @Component({
     selector: "header",
@@ -46,11 +46,11 @@ export class HeaderComponent implements OnInit {
 
     constructor(public auth: Auth, private userService: UserService, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory,
         public errorService: ErrorService, private router: Router, private loader: LoaderService, private sanitizer: DomSanitizer,
-        private analytics: Angulartics2Mixpanel, private cd: ChangeDetectorRef, private intercomService: IntercomService) {
+        private analytics: Angulartics2Mixpanel, private cd: ChangeDetectorRef, private billingService: BillingService) {
 
         EmitterService.get("currentTeam")
             .flatMap((team: Team) => {
-                return this.intercomService.getTeamStatus(team).map((value: { created_at: Date, freeTrialLength: Number, isPaying: Boolean }) => {
+                return this.billingService.getTeamStatus(team).map((value: { created_at: Date, freeTrialLength: Number, isPaying: Boolean }) => {
                     team.createdAt = value.created_at;
                     team.freeTrialLength = value.freeTrialLength;
                     team.isPaying = value.isPaying;
