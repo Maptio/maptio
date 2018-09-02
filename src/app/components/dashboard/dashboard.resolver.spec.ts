@@ -23,6 +23,7 @@ import { ErrorService } from "../../shared/services/error/error.service";
 import { DataSet } from "../../shared/model/dataset.data";
 import { Initiative } from "../../shared/model/initiative.data";
 import { Team } from "../../shared/model/team.data";
+import {Intercom, IntercomConfig} from "ng-intercom"
 
 describe("dashboard.resolver.ts", () => {
 
@@ -52,7 +53,8 @@ describe("dashboard.resolver.ts", () => {
                 MockBackend,
                 BaseRequestOptions,
                 Angulartics2Mixpanel, Angulartics2,
-                ErrorService
+                ErrorService,
+                Intercom, IntercomConfig
             ]
         });
     });

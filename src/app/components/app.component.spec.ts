@@ -12,6 +12,7 @@ import {
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import { Auth } from "../shared/services/auth/auth.service";
+import { Intercom, IntercomConfig } from "ng-intercom";
 
 describe("app.component.ts", () => {
 
@@ -30,7 +31,7 @@ describe("app.component.ts", () => {
         }).overrideComponent(AppComponent, {
             set: {
                 providers: [
-                    LoaderService,
+                    LoaderService,Intercom, IntercomConfig,
                     {
                         provide: Auth, useClass: class {
                             allAuthenticated() { return; }

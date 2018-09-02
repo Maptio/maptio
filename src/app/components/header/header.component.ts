@@ -52,7 +52,6 @@ export class HeaderComponent implements OnInit {
         let [teamDefined, teamUndefined] = EmitterService.get("currentTeam").partition(team => team);
 
         teamDefined.flatMap((team: Team) => {
-            console.log("header", team)
             return this.billingService.getTeamStatus(team).map((value: { created_at: Date, freeTrialLength: Number, isPaying: Boolean }) => {
                 team.createdAt = value.created_at;
                 team.freeTrialLength = value.freeTrialLength;

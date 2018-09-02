@@ -21,6 +21,7 @@ import { TeamComponentResolver } from "./team.resolver";
 import { TestBed, inject, async } from "@angular/core/testing";
 import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
 import { MockBackend } from "@angular/http/testing";
+import { Intercom, IntercomConfig } from 'ng-intercom';
 
 describe("team.resolver.ts", () => {
 
@@ -50,6 +51,7 @@ describe("team.resolver.ts", () => {
                 MockBackend,
                 BaseRequestOptions,
                 Angulartics2Mixpanel, Angulartics2,
+                Intercom, IntercomConfig
                 // ErrorService
             ]
         });

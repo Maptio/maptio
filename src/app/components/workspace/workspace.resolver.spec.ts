@@ -23,6 +23,7 @@ import { DataSet } from "../../shared/model/dataset.data";
 import { Initiative } from "../../shared/model/initiative.data";
 import { Team } from "../../shared/model/team.data";
 import { WorkspaceComponentResolver } from "./workspace.resolver";
+import {Intercom , IntercomConfig} from 'ng-intercom';
 
 describe("workspace.resolver.ts", () => {
 
@@ -52,7 +53,8 @@ describe("workspace.resolver.ts", () => {
                 MockBackend,
                 BaseRequestOptions,
                 Angulartics2Mixpanel, Angulartics2,
-                ErrorService
+                ErrorService,
+                Intercom, IntercomConfig
             ]
         });
     });

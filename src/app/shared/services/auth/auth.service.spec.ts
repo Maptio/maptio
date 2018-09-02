@@ -19,6 +19,7 @@ import { Auth } from "./auth.service"
 import { TestBed, inject, fakeAsync } from "@angular/core/testing";
 import { AuthConfiguration } from "./auth.config";
 import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
+import { IntercomConfig, Intercom } from "ng-intercom";
 
 
 describe("auth.service.ts", () => {
@@ -46,6 +47,7 @@ describe("auth.service.ts", () => {
                     }
                 },
                 Auth, UserFactory, DatasetFactory, JwtEncoder, MailingService, LoaderService, PermissionService,
+                Intercom, IntercomConfig,
                 {
                     provide: Router, useClass: class {
                         navigate = jasmine.createSpy("navigate");

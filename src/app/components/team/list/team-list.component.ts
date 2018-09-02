@@ -107,18 +107,18 @@ export class TeamListComponent implements OnInit {
                             if (result)
                                 return team
                             else
-                                throw new Error("Cannot sync team with Intercom.")
+                                throw "Cannot sync team with Intercom."
                         })
                     })
                     .then((team: Team) => {
                         this.router.navigate(["teams", team.team_id, team.getSlug()])
                         this.isCreating = false;
                     })
-                    .catch((reason) => {
-                        // console.log(3, reason)
-                        this.errorMessage = reason;
+                    .catch((error) => {s
+                        this.errorMessage = error;
                         this.teamName = ""
                         this.isCreating = false;
+                        this.cd.markForCheck();
                     })
 
             }
