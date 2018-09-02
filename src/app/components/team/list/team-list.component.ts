@@ -114,7 +114,7 @@ export class TeamListComponent implements OnInit {
                         this.router.navigate(["teams", team.team_id, team.getSlug()])
                         this.isCreating = false;
                     })
-                    .catch((error) => {s
+                    .catch((error) => {
                         this.errorMessage = error;
                         this.teamName = ""
                         this.isCreating = false;
