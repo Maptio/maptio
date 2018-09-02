@@ -27,14 +27,18 @@ export class BillingGuard implements CanActivate, CanActivateChild {
                     team.createdAt = value.created_at;
                     team.freeTrialLength = value.freeTrialLength;
                     team.isPaying = value.isPaying;
-                    console.log("billing uards",team.isPaying
-                    ? true
-                    : !team.isTeamLateOnPayment())
-                    return team.isPaying
-                        ? true
-                        : !team.isTeamLateOnPayment()
+                    return {
+                        team: team, isAllowed: team.isPaying
+                            ? true
+                            : !team.isTeamLateOnPayment()
+                    }
                 })
-
+            })
+            .then((r : {team: Team, isAllowed: boolean}) => {
+                if (!r.isAllowed) {
+                    this.router.navigateByUrl(`/teams/${r.team.team_id}/maptio/billing`);
+                }
+                return true
             })
     }
 

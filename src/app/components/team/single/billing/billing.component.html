@@ -14,8 +14,14 @@
 </div>
 
 <div *ngIf="!team?.isPaying">
-    <div class="mb-3"> You have
+    <div class="mb-3" *ngIf="remaningTrialDays >=0"> You have
         <b>{{remaningTrialDays}} remaining days</b> on your free trial.
+    </div>
+    <div class="mb-3 " *ngIf="remaningTrialDays < 0">
+        <span class="text-danger">Your free trial is over!</span>
+        <div>
+            Subscribe to a plan below to continue using Maptio.
+        </div>
     </div>
     <h5>Plans</h5>
     <hr>

@@ -21,7 +21,7 @@ export class TeamBillingComponent implements OnInit {
                 return this.billingService.getTeamStatus(data.assets.team).map((value: { created_at: Date, freeTrialLength: Number, isPaying: Boolean }) => {
                     data.assets.team.createdAt = value.created_at;
                     data.assets.team.freeTrialLength = value.freeTrialLength;
-                    data.assets.team.isPaying = true; //value.isPaying;
+                    data.assets.team.isPaying = value.isPaying;
 
                     return data.assets.team;
                 })
