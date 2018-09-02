@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { AuthHttp } from "angular2-jwt";
 import { Response } from "@angular/http";
 import { Observable } from "rxjs";
-import { Team } from "../../shared/model/team.data";
+import { Team } from "../../model/team.data";
 
 
 
@@ -18,7 +18,6 @@ export class BillingService {
                 return response.json().statusCode == 200 ? response.json().body : null
             })
             .map(result => {
-                console.log(result)
                 return result
                     ? {
                         created_at: new Date(result.created_at * 1000),

@@ -64,6 +64,7 @@ import { IntercomModule } from 'ng-intercom';
  
 import * as LogRocket from "logrocket";
 import { BillingService } from "./shared/services/billing/billing.service";
+import { BillingGuard } from "./shared/services/guards/billing.guard";
 
 const appRoutes: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
@@ -173,7 +174,7 @@ export function rollbarFactory() {
   exports: [RouterModule],
   providers: [
     BrowserAnimationsModule,
-    AuthGuard, AccessGuard, WorkspaceGuard, PermissionGuard,
+    AuthGuard, AccessGuard, WorkspaceGuard, PermissionGuard,BillingGuard,
     AuthConfiguration,
     D3Service, DataService, URIService, ColorService, UIService, DatasetFactory, TeamFactory,
     ErrorService, Auth, UserService, UserFactory, MailingService, JwtEncoder, LoaderService,

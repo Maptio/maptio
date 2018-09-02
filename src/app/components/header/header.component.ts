@@ -1,7 +1,7 @@
 import { Angulartics2Mixpanel } from "angulartics2";
 import { LoaderService } from "./../../shared/services/loading/loader.service";
 import { Router } from "@angular/router";
-import { Subscription, Observable } from "rxjs/Rx";
+import { Subscription, Observable, Subject } from "rxjs/Rx";
 import { OnInit } from "@angular/core";
 import { Component, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
 import { User } from "../../shared/model/user.data";
@@ -45,19 +45,27 @@ export class HeaderComponent implements OnInit {
     public userSubscription: Subscription;
 
     constructor(public auth: Auth, private userService: UserService, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory,
-        public errorService: ErrorService, private router: Router, private loader: LoaderService, private sanitizer: DomSanitizer,
+        public errorService: ErrorService, private router: Router, private loader: LoaderService,
         private analytics: Angulartics2Mixpanel, private cd: ChangeDetectorRef, private billingService: BillingService) {
 
-        EmitterService.get("currentTeam")
-            .flatMap((team: Team) => {
-                return this.billingService.getTeamStatus(team).map((value: { created_at: Date, freeTrialLength: Number, isPaying: Boolean }) => {
-                    team.createdAt = value.created_at;
-                    team.freeTrialLength = value.freeTrialLength;
-                    team.isPaying = value.isPaying;
 
-                    return team;
-                })
+        let [teamDefined, teamUndefined] = EmitterService.get("currentTeam").partition(team => team);
+
+        teamDefined.flatMap((team: Team) => {
+            console.log("header", team)
+            return this.billingService.getTeamStatus(team).map((value: { created_at: Date, freeTrialLength: Number, isPaying: Boolean }) => {
+                team.createdAt = value.created_at;
+                team.freeTrialLength = value.freeTrialLength;
+                team.isPaying = value.isPaying;
+                return team;
             })
+        })
+            .subscribe((value: Team) => {
+                this.team = value;
+                this.cd.markForCheck();
+            });
+
+        teamUndefined
             .subscribe((value: Team) => {
                 this.team = value;
                 this.cd.markForCheck();
