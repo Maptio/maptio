@@ -11,11 +11,13 @@ import { DataSet } from '../../../../shared/model/dataset.data';
 })
 export class TeamBillingComponent implements OnInit {
     public team: Team;
-    public remaningTrialDays:Number;
+    public remaningTrialDays: Number;
+    public isLoading: boolean;
 
-    constructor(private route: ActivatedRoute, private billingService: BillingService, private cd:ChangeDetectorRef) { }
+    constructor(private route: ActivatedRoute, private billingService: BillingService, private cd: ChangeDetectorRef) { }
 
     ngOnInit(): void {
+        this.isLoading = true;
         this.route.parent.data
             .flatMap((data: { assets: { team: Team, datasets: DataSet[] } }) => {
                 return this.billingService.getTeamStatus(data.assets.team).map((value: { created_at: Date, freeTrialLength: Number, isPaying: Boolean }) => {
@@ -29,6 +31,7 @@ export class TeamBillingComponent implements OnInit {
             .subscribe((team: Team) => {
                 this.team = team;
                 this.remaningTrialDays = team.getRemainingTrialDays();
+                this.isLoading = false;
                 this.cd.markForCheck();
             });
 
