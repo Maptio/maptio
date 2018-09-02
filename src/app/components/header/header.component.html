@@ -20,7 +20,7 @@
                     {{team?.name}}
                 </a>
             </span>
-            <span *ngIf="!team?.isPaying" class="x-small text-success">{{team?.getRemainingTrialDays()}} days left on your free trial </span>
+            <span *ngIf="!team?.isPaying" class="x-small text-success">{{team?.getRemainingTrialDays()}} days left on your free trial. <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}/billing">Subscribe now</a> </span>
         </span>
         <ul class="navbar-nav ml-auto d-flex align-items-center" *ngIf="auth.allAuthenticated()">
 
