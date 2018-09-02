@@ -8,7 +8,7 @@ import { Initiative } from "./../../../../shared/model/initiative.data";
 import { SelectableUser } from "./../../../../shared/model/user.data";
 import { SelectableTag, Tag } from "./../../../../shared/model/tag.data";
 import { IDataVisualizer } from "./../../mapping/mapping.interface";
-import { Observable, Subject } from "rxjs/Rx";
+import { Observable, Subject, BehaviorSubject } from "rxjs/Rx";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs/Subscription";
 import {
@@ -77,6 +77,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
   public analytics: Angulartics2Mixpanel;
 
+
+  private isFullDisplayMode$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  public _isFullDisplayMode: boolean = true;
+
   private svg: any;
   private g: any;
   private diameter: number;
@@ -135,14 +139,14 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.init();
     this.dataSubscription = this.dataService
       .get()
-      .combineLatest(this.mapColor$)
-      .subscribe((complexData: [any, string]) => {
+      .combineLatest(this.mapColor$, this.isFullDisplayMode$.asObservable())
+      .subscribe((complexData: [any, string, boolean]) => {
         let data = <any>complexData[0].initiative;
         this.datasetId = complexData[0].datasetId;
         this.rootNode = complexData[0].initiative;
         this.slug = data.getSlug();
         // this.tagsState = complexData[1];
-        this.update(data, complexData[1]);
+        this.update(data, complexData[1], complexData[2]);
         this.analytics.eventTrack("Map", {
           view: "initiatives",
           team: data.teamName,
@@ -322,7 +326,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
     return this.tagsState;
   }
 
-  update(data: Initiative, seedColor: string) {
+  public switch() {
+    this._isFullDisplayMode = !this._isFullDisplayMode;
+    this.isFullDisplayMode$.next(this._isFullDisplayMode);
+  }
+
+  update(data: Initiative, seedColor: string, isFullDisplayMode:boolean) {
     if (this.d3.selectAll("g").empty()) {
       this.init();
     }
@@ -375,6 +384,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     root.eachAfter(function (n: any) {
       depth = depth > n.depth ? depth : n.depth;
     });
+    console.log(depth)
     let fonts = this.colorService.getFontSizeRange(depth, fontSize);
     let color = this.colorService.getColorRange(depth, seedColor);
 
@@ -383,16 +393,18 @@ export class MappingZoomableComponent implements IDataVisualizer {
       list = d3.hierarchy(data).descendants(),
       view: any;
 
+      
+
     function getDepthDifference(d: any): number {
       return d.depth - focus.depth;
     }
 
     function isBranchDisplayed(d: any): boolean {
-      return getDepthDifference(d) <= 3;
+      return isFullDisplayMode || getDepthDifference(d) <= 3;
     }
 
     function isLeafDisplayed(d: any): boolean {
-      return getDepthDifference(d) <= 2;
+      return isFullDisplayMode || getDepthDifference(d) <= 2;
     }
 
     function toREM(pixels: number) {

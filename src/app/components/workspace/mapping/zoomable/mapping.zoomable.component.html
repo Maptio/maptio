@@ -1,2 +1,14 @@
 <ngx-loading [show]="isLoading" [config]="{ backdropBackgroundColour: '#fff' }"></ngx-loading>
 <svg class="background" id="map"></svg>
+<div class="switch card-body bg-light border-dark rounded">
+    <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" id="helpModeRadio" name="radioViewMode" class="custom-control-input" [checked]="_isFullDisplayMode"
+            (click)="switch()">
+        <label class="custom-control-label" for="helpModeRadio">Full</label>
+    </div>
+    <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" id="participationModeRadio" name="radioViewMode" class="custom-control-input" [checked]="!_isFullDisplayMode"
+            (click)="switch()">
+        <label class="custom-control-label" for="participationModeRadio">Progressive</label>
+    </div>
+</div>
