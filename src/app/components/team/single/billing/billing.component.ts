@@ -3,6 +3,8 @@ import { BillingService } from '../../../../shared/services/billing/billing.serv
 import { ActivatedRoute } from '@angular/router';
 import { Team } from '../../../../shared/model/team.data';
 import { DataSet } from '../../../../shared/model/dataset.data';
+import { Permissions } from './../../../../shared/model/permission.data';
+import { environment } from '../../../../../environment/environment';
 
 @Component({
     selector: 'team-billing',
@@ -13,6 +15,8 @@ export class TeamBillingComponent implements OnInit {
     public team: Team;
     public remaningTrialDays: Number;
     public isLoading: boolean;
+    public Permissions = Permissions;
+    public KB_URL_INTEGRATIONS = environment.KB_URL_INTEGRATIONS;
 
     constructor(private route: ActivatedRoute, private billingService: BillingService, private cd: ChangeDetectorRef) { }
 
