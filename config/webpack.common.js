@@ -60,6 +60,6 @@ module.exports = {
       { from: 'public/templates', to: 'assets/templates' }
 
     ]),
-    new BundleAnalyzerPlugin()
+    new BundleAnalyzerPlugin({defaultSizes :'gzip'})
   ]
 };
