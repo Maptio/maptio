@@ -10,6 +10,8 @@ import "rxjs";
 // Other vendors for example jQuery, Lodash or Bootstrap
 import "angular2-jwt";
 import "lodash";
+import "jquery"
+import "popper.js"
 import "bootstrap";
 import "@ng-bootstrap/ng-bootstrap";
 import "@cloudinary/angular-5.x";
@@ -25,3 +27,6 @@ import "angular2-markdown";
 import "marked";
 import "slug";
 // You can import js, ts, css, sass, ...
+
+import "bootstrap/dist/css/bootstrap.min.css"
+

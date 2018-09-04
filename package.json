@@ -65,7 +65,7 @@
     "awesome-typescript-loader": "^3.1.2",
     "aws-sdk": "^2.106.0",
     "body-parser": "^1.17.0",
-    "bootstrap": "~3.3.x",
+    "bootstrap": "^4.0.0",
     "cloudinary": "^1.11.0",
     "cloudinary-core": "^2.3.0",
     "compression": "^1.7.0",
@@ -83,6 +83,7 @@
     "html-loader": "^0.4.3",
     "html-webpack-plugin": "^2.22.0",
     "intercom-client": "^2.10.2",
+    "jquery": "^3.3.1",
     "jsonwebtoken": "^8.0.0",
     "jwks-rsa": "^1.2.0",
     "lodash": "^4.17.4",
@@ -104,6 +105,7 @@
     "null-loader": "^0.1.1",
     "path": "^0.12.7",
     "phantomjs-prebuilt": "^2.1.7",
+    "popper.js": "^1.14.4",
     "randomstring": "^1.1.5",
     "raw-loader": "^0.5.1",
     "request": "^2.85.0",
@@ -143,6 +145,6 @@
     "karma-typescript-es6-transform": "^1.0.2",
     "karma-webpack": "^2.0.1",
     "webpack": "^3.0.0",
-    "webpack-bundle-analyzer": "^2.9.0"
+    "webpack-bundle-analyzer": "^2.13.1"
   }
 }
