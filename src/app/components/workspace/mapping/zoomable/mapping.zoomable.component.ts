@@ -239,7 +239,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
 
     this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
-      svg.call(
+      svg.transition().duration(this.TRANSITION_DURATION).call(
         zooming.transform,
         d3.zoomIdentity.translate(
           diameter / 2 + margin.left,
@@ -250,11 +250,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     this.zoomSubscription = this.zoom$.subscribe((zf: number) => {
       try {
+        console.log(zf)
         // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
         if (zf) {
-          zooming.scaleBy(svg, zf);
+          zooming.scaleBy(svg.transition().duration(this.TRANSITION_DURATION), zf);
         } else {
-          svg.call(
+          svg.transition().duration(this.TRANSITION_DURATION).call(
             zooming.transform,
             d3.zoomIdentity.translate(this.translateX, this.translateY)
           );
