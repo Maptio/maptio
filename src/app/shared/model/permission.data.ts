@@ -27,7 +27,8 @@ export enum Permissions {
     canAddHelper,
     canDeleteHelper,
     canEditHelper,
-    canGiveHelperPrivileges
+    canGiveHelperPrivileges,
+    canSubscribe
 
 }
 
@@ -68,7 +69,8 @@ export class PermissionService {
             Permissions.canAddHelper,
             Permissions.canDeleteHelper,
             Permissions.canEditHelper,
-            Permissions.canGiveHelperPrivileges
+            Permissions.canGiveHelperPrivileges,
+            Permissions.canSubscribe
         ]
     }
 }
