@@ -8,10 +8,11 @@
         </div>
         <div *ngIf="isPasswordTooWeak" class="alert alert-danger" role="alert">
             Password must always be at least 8 characters in length and include at least 1 lowercase letter, 1 uppercase letter and 1
-            number. Also, you can not include any portion of your email address or name in the password.
+            number.
         </div>
         <div *ngIf="isUserAlreadyActive" class="alert alert-danger" role="alert">
-            Your account is already active, <a routerLink="/login">log in</a>
+            Your account is already active,
+            <a routerLink="/login">log in</a>
         </div>
 
         <div *ngIf="activationStatusCannotBeUpdated" class="alert alert-danger" role="alert">
@@ -31,8 +32,8 @@
             <input type="text" id="inputFirstname" [(ngModel)]="firstname" formControlName="firstname" class="form-control form-control-warning form-control-lg"
                 placeholder="e.g. Tina" required minlength="2">
             <small class="form-control-feedback" *ngIf="activateForm.controls['firstname'].invalid  && (activateForm.controls['firstname'].dirty || activateForm.controls['firstname'].touched)">
-                                First name must be at least 2 characters
-                            </small>
+                First name must be at least 2 characters
+            </small>
         </div>
 
         <div class="form-group" [class.has-warning]="activateForm.controls['lastname'].invalid  && (activateForm.controls['lastname'].dirty || activateForm.controls['lastname'].touched)">
@@ -40,29 +41,37 @@
             <input type="text" id="inputLastname" [(ngModel)]="lastname" class="form-control form-control-warning form-control-lg" formControlName="lastname"
                 placeholder="e.g. Belcher">
             <small class="form-control-feedback" *ngIf="activateForm.controls['lastname'].invalid  && (activateForm.controls['lastname'].dirty || activateForm.controls['lastname'].touched)">
-                                        Last name must be at least 2 characters
-                            </small>
+                Last name must be at least 2 characters
+            </small>
         </div>
         <div class="form-group" [class.has-warning]="activateForm.controls['password'].invalid  && (activateForm.controls['password'].dirty || activateForm.controls['password'].touched)">
             <label for="inputPassword">Password</label>
             <input type="password" class="form-control form-control-warning form-control-lg" formControlName="password" placeholder="e.g. ••••••••"
                 (input)="passwordChange()">
             <small class="form-control-feedback" *ngIf="activateForm.controls['password'].invalid  && (activateForm.controls['password'].dirty || activateForm.controls['password'].touched)">
-                                        Required
-                            </small>
+                Required
+            </small>
+            <small class="form-text text-muted">
+                Password must always be at least 8 characters in length and include at least 1 lowercase letter, 1 uppercase letter and 1
+                number.
+            </small>
         </div>
         <div class="form-check" [class.has-warning]="activateForm.controls['isTermsAccepted'].invalid  && (activateForm.controls['isTermsAccepted'].dirty || activateForm.controls['isTermsAccepted'].touched)">
             <label class="form-check-label">
-                                          <input  type="checkbox" id="inputTC" formControlName="isTermsAccepted" class="form-check-input">
-                                          I agree to Maptio's <a href="{{TOS_URL}}">Terms of Service</a>  and <a href="{{PRIVACY_URL}}">Privacy Policy</a>     . 
-                                          
-                                        </label>
+                <input type="checkbox" id="inputTC" formControlName="isTermsAccepted" class="form-check-input"> I agree to Maptio's
+                <a href="{{TOS_URL}}">Terms of Service</a> and
+                <a href="{{PRIVACY_URL}}">Privacy Policy</a> .
+
+            </label>
         </div>
-        <button type="submit" class="btn btn-success btn-lg" [class.disabled]="!activateForm.valid">Log in</button>
+        <button type="submit" class="btn btn-success btn-lg my-2" [class.disabled]="!activateForm.valid">Log in</button>
 
     </form>
 
-    <div class="text-muted small ml-3">Not your account? <a routerLink="/login">Log in</a> or <a routerLink="/signup">Create an account</a></div>
+    <div class="text-muted small ml-3">Not your account?
+        <a routerLink="/login">Log in</a> or
+        <a routerLink="/signup">Create an account</a>
+    </div>
 
 
 </div>
@@ -78,32 +87,36 @@
         <div class="alert alert-danger" role="alert" *ngIf="previousAttemptMessage">
             {{previousAttemptMessage}}
         </div>
-        
+
     </div>
 
     <form class="form-group col-lg-5" [formGroup]="loginForm" (submit)="login()">
 
         <div class="form-group" [class.has-warning]="loginForm.controls['email'].invalid  && (loginForm.controls['email'].dirty || loginForm.controls['email'].touched)">
             <label for="inputEmailLogin">Email</label>
-            <input type="email" id="inputEmailLogin" formControlName="email" class="form-control form-control-warning form-control-lg" placeholder="e.g. rick.sanchez@cartoonnetwork.com"
-                required email>
+            <input type="email" id="inputEmailLogin" formControlName="email" class="form-control form-control-warning form-control-lg"
+                placeholder="e.g. rick.sanchez@cartoonnetwork.com" required email>
             <small class="form-control-feedback" *ngIf="loginForm.controls['email'].invalid  && (loginForm.controls['email'].dirty || loginForm.controls['email'].touched)">
-                                    An email is required e.g. rick.sanchez@cartoonnetwork.com
-                                </small>
+                An email is required e.g. rick.sanchez@cartoonnetwork.com
+            </small>
         </div>
         <div class="form-group" [class.has-warning]="loginForm.controls['password'].invalid  && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)">
             <label for="inputPassword">Password</label>
-            <input type="password" class="form-control form-control-warning form-control-lg" formControlName="password" placeholder="e.g. ••••••••" id="inputPassword"
-                (input)="passwordChange()">
+            <input type="password" class="form-control form-control-warning form-control-lg" formControlName="password" placeholder="e.g. ••••••••"
+                id="inputPassword" (input)="passwordChange()">
             <small class="form-control-feedback" *ngIf="loginForm.controls['password'].invalid  && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)">
-                                            Required
-                                </small>
-            <small class="text-muted">Forgot your password? <a routerLink="/forgot">Reset it</a></small>
+                Required
+            </small>
+            <small class="text-muted">Forgot your password?
+                <a routerLink="/forgot">Reset it</a>
+            </small>
         </div>
         <button type="submit" class="btn btn-success btn-lg" [class.disabled]="!loginForm.valid">Log in</button>
 
     </form>
-    <p class="mt-2 ml-3">Don't have an account? <a routerLink="/signup">Create a Maptio account</a></p>
+    <p class="mt-2 ml-3">Don't have an account?
+        <a routerLink="/signup">Create a Maptio account</a>
+    </p>
 
 
 </div>
