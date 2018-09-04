@@ -64,7 +64,7 @@ describe("members.component.ts", () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [TeamMembersComponent,  KeysPipe],
+            declarations: [TeamMembersComponent, KeysPipe],
             schemas: [NO_ERRORS_SCHEMA],
             imports: [RouterTestingModule, SharedModule, Angulartics2Module, NgbModule.forRoot()]
         }).overrideComponent(TeamMembersComponent, {
@@ -126,7 +126,7 @@ describe("members.component.ts", () => {
             spyOn(target.debugElement.injector.get(UserService), "isInvitationSent").and.returnValue(Promise.resolve(true))
             spyOn(target.debugElement.injector.get(UserService), "isActivationPendingByUserId").and.returnValue(Promise.resolve(true))
 
-            component.getAllMembers().then(members => {
+            component.getAllMembers().then((members: User[]) => {
                 expect(members.length).toBe(3);
                 expect(members.every(m => m.isInvitationSent === true)).toBe(true)
                 expect(members.every(m => m.isActivationPending === true)).toBe(true)
@@ -144,9 +144,9 @@ describe("members.component.ts", () => {
                     : Promise.reject("Can't find user")
             })
 
-            component.getAllMembers().then(members => {
+            component.getAllMembers().then((members: User[]) => {
                 expect(members.length).toBe(2);
-                
+
                 expect(members.every(m => m.isInvitationSent === true)).toBe(true)
                 expect(members.every(m => m.isActivationPending === true)).toBe(true)
                 expect(members.every(m => m.isDeleted === false)).toBe(true)
@@ -161,7 +161,7 @@ describe("members.component.ts", () => {
                 return Promise.resolve(users.map(u => { u.isInvitationSent = false; return u }))
             })
 
-            component.getAllMembers().then(members => {
+            component.getAllMembers().then((members:User[]) => {
                 expect(members.length).toBe(3);
                 expect(members.every(m => m.isInvitationSent === false)).toBe(true)
                 expect(members.every(m => m.isActivationPending === true)).toBe(true)
@@ -177,7 +177,7 @@ describe("members.component.ts", () => {
                 return Promise.resolve(users.map(u => { u.isActivationPending = false; return u }))
             })
 
-            component.getAllMembers().then(members => {
+            component.getAllMembers().then((members:User[]) => {
                 expect(members.length).toBe(3);
                 expect(members.every(m => m.isInvitationSent === true)).toBe(true)
                 expect(members.every(m => m.isActivationPending === false)).toBe(true)
