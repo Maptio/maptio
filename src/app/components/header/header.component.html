@@ -50,7 +50,7 @@
                     <form [formGroup]="createMapForm" (submit)="createDataset()" class="p-4">
                         <div class="form-group ">
                             <label for="inputMapName">Map name</label>
-                            <input type="text" id="inputMapName" formControlName="mapName" class="form-control w-100" placeholder="Enter map name " required>
+                            <input type="text" id="inputMapName" formControlName="mapName" class="form-control w-100" placeholder="Enter map name" required>
                             <small class="form-text text-muted">
                                 This is usually your company or organisation name
                             </small>
@@ -58,8 +58,8 @@
                         <div class="form-group ">
                             <label for="inputTeamName">Team</label>
                             <select id="inputTeamName" formControlName="teamId" required class="form-control">
-                                <option value="null" disabled="true" [selected]="true">Select a team</option>
-                                <option *ngFor="let team of teams" [value]="team.team_id">{{team?.name}}</option>
+                                <option value="null" disabled="true" [selected]="teams.length > 1">Select a team</option>
+                                <option *ngFor="let team of teams; let i = index" [value]="team.team_id" [selected]="teams.length === 1 && i===0">{{team?.name}}</option>
                             </select>
                             <a *ngIf="teams?.length === 0 " class="text-danger" (click)="createTeam()">
                                 <small class="offset-md-6">Don't have a team?</small>

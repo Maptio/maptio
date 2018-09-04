@@ -79,10 +79,7 @@ export class HeaderComponent implements OnInit {
             ])
         });
 
-        this.createMapForm = new FormGroup({
-            "mapName": new FormControl("", [Validators.required, Validators.minLength(2)]),
-            "teamId": new FormControl(this.selectedTeamId, [Validators.required]),
-        })
+       
     }
 
     ngAfterViewInit() {
@@ -119,7 +116,13 @@ export class HeaderComponent implements OnInit {
 
             this.teamFactory.get(this.user.teams)
                 .then(teams => sortBy(teams, t => t.name), (r) => { return Promise.reject(r) })
-                .then(teams => { this.teams = teams })
+                .then(teams => { this.teams = teams; return teams })
+                .then((teams)=>{
+                    this.createMapForm = new FormGroup({
+                        "mapName": new FormControl(teams.length > 1 ? "" : teams[0].name, [Validators.required, Validators.minLength(2)]),
+                        "teamId": new FormControl(this.selectedTeamId, [Validators.required]),
+                    })
+                })
                 .catch(() => { return [] })
 
 
