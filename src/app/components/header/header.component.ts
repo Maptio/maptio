@@ -44,14 +44,14 @@ export class HeaderComponent implements OnInit {
     public emitterSubscription: Subscription;
     public userSubscription: Subscription;
 
-    public isSaving:Boolean;
+    public isSaving:Boolean=false;
 
     constructor(public auth: Auth, private userService: UserService, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory,
         public errorService: ErrorService, private router: Router, private loader: LoaderService,
         private analytics: Angulartics2Mixpanel, private cd: ChangeDetectorRef, private billingService: BillingService) {
 
 
-        EmitterService.get("isSavingInitiativeData").subscribe((isSaving:Boolean) => {
+        EmitterService.get("isSavingInitiativeData").skip(1).subscribe((isSaving:Boolean) => {
             this.isSaving=isSaving
             this.cd.markForCheck();
         })
