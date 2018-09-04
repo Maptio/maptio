@@ -51,7 +51,7 @@
 }
 
 .center-row .background {
-    background-image: url(/assets/images/home-background.png);
+    background-image: url(/assets/images/home-background.webp);
     background-repeat: no-repeat;
     background-size: cover;
     background-position-x: center;
@@ -67,7 +67,7 @@
 }
 
 .background {
-    background-image: url(/assets/images/home-background.png);
+    background-image: url(/assets/images/home-background.webp);
     background-repeat: no-repeat;
     background-size: cover;
     background-position-x: center;
