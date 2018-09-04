@@ -101,7 +101,14 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: './src/index.html',
-      minify: true
+      minify: {
+        removeAttributeQuotes: true,
+        collapseWhitespace: true,
+        html5: true,
+        minifyCSS: true,
+        removeComments: true,
+        removeEmptyAttributes: true,
+      },
     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
