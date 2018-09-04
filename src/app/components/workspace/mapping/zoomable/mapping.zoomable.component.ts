@@ -78,9 +78,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public analytics: Angulartics2Mixpanel;
 
 
-  private isFullDisplayMode$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
-  public _isFullDisplayMode: boolean = true;
+  public _isFullDisplayMode: boolean = false;
 
+  private isFullDisplayMode$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this._isFullDisplayMode);
+  
   private svg: any;
   private g: any;
   private diameter: number;
@@ -384,7 +385,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     root.eachAfter(function (n: any) {
       depth = depth > n.depth ? depth : n.depth;
     });
-    console.log(depth)
+    
     let fonts = this.colorService.getFontSizeRange(depth, fontSize);
     let color = this.colorService.getColorRange(depth, seedColor);
 
@@ -400,11 +401,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
 
     function isBranchDisplayed(d: any): boolean {
-      return isFullDisplayMode || getDepthDifference(d) <= 3;
+      return isFullDisplayMode ? true :  getDepthDifference(d) <= 3;
     }
 
     function isLeafDisplayed(d: any): boolean {
-      return isFullDisplayMode || getDepthDifference(d) <= 2;
+      return isFullDisplayMode ? true :  getDepthDifference(d) <= 2;
     }
 
     function toREM(pixels: number) {
