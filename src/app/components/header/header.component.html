@@ -8,20 +8,30 @@
             <mc-breadcrumbs></mc-breadcrumbs>
         </span>
     </a>
+
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
         aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
-        <span class="navbar-text offset-6 d-flex flex-column " *ngIf="team">
+        <div class="navbar-text d-flex offset-5 text-success saving" [class.invisible]="!isSaving">
+            <i class="fa fa-floppy-o mx-1" aria-hidden="true"></i>
+            <small>Saving</small>
+        </div>
+
+        <span class="navbar-text offset-1 d-flex flex-column " *ngIf="team">
             <span class="text-muted mr-1">Team
                 <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}">
                     {{team?.name}}
                 </a>
             </span>
-            <span *ngIf="!team?.isPaying" class="x-small text-success">{{team?.getRemainingTrialDays()}} days left on your free trial. <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}/billing">Subscribe now</a> </span>
+            <span *ngIf="!team?.isPaying" class="x-small text-success">{{team?.getRemainingTrialDays()}} days left on your free trial.
+                <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}/billing">Subscribe now</a>
+            </span>
         </span>
+
+
         <ul class="navbar-nav ml-auto d-flex align-items-center" *ngIf="auth.allAuthenticated()">
 
             <li class="nav-item dropdown" *ngIf="datasets && datasets?.length !== 0">

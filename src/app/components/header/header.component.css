@@ -173,3 +173,13 @@ span.navbar-text a {
 .form-big{
     width:25vw;
 }
+
+.saving{
+    opacity: 1;
+    transition:opacity 250ms;
+}
+
+.saving.invisible{
+    opacity: 0;
+    transition:opacity 250ms;
+}
