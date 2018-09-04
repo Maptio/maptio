@@ -42,10 +42,20 @@ module.exports = {
         test: /\.(json|png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico|cur)$/,
         loader: 'file-loader?name=assets/[name].[hash].[ext]'
       },
+      // {
+      //   test: /\.css$/,
+      //   exclude: [helpers.root('src', 'app'), /ngx-color-picker/],
+      //   loaders: ExtractTextPlugin.extract({ fallback: 'style-loader', loader: 'css-loader?sourceMap' })
+      // },
       {
         test: /\.css$/,
         exclude: [helpers.root('src', 'app'), /ngx-color-picker/],
-        loaders: ExtractTextPlugin.extract({ fallback: 'style-loader', loader: 'css-loader?sourceMap' })
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            { loader: 'css-loader', options: { minimize: true } }
+          ]
+        })
       },
       {
         test: /\.css$/,
@@ -91,7 +101,7 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: './src/index.html',
-      minify:true
+      minify: true
     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
