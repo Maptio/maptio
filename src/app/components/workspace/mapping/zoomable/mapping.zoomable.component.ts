@@ -81,7 +81,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public _isFullDisplayMode: boolean = false;
 
   private isFullDisplayMode$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this._isFullDisplayMode);
-  
+
   private svg: any;
   private g: any;
   private diameter: number;
@@ -104,6 +104,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   CIRCLE_RADIUS: number = 12;
   MAX_TEXT_LENGTH = 35;
   TRANSITION_DURATION = 750;
+  ZOOMING_TRANSITION_DURATION = 250;
   TRANSITION_OPACITY = 750;
   RATIO_FOR_VISIBILITY = 0.08;
   OPACITY_DISAPPEARING = 0.1;
@@ -112,7 +113,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
   POSITION_INITIATIVE_NAME = { x: 0.9, y: 0.1, fontRatio: 1 };
   POSITION_TAGS_NAME = { x: 0, y: 0.3, fontRatio: 0.65 };
-  POSITION_ACCOUNTABLE_NAME = { x: 0, y: 0.45, fontRatio: 0.9 };
+  POSITION_ACCOUNTABLE_NAME = { x: 0, y: 0.40, fontRatio: 0.9 };
   DEFAULT_PICTURE_ANGLE = Math.PI - Math.PI * 36 / 180;
 
   constructor(
@@ -196,8 +197,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
       g = svg
         .append("g")
         .attr(
-        "transform",
-        `translate(${diameter / 2 + margin.left}, ${diameter / 2 + margin.top}) scale(${this.scale})`
+          "transform",
+          `translate(${diameter / 2 + margin.left}, ${diameter / 2 + margin.top}) scale(${this.scale})`
         ),
       definitions = svg.append("svg:defs");
     g.append("g").attr("class", "paths");
@@ -239,7 +240,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
 
     this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
-      svg.transition().duration(this.TRANSITION_DURATION).call(
+      svg.transition().duration(this.ZOOMING_TRANSITION_DURATION).call(
         zooming.transform,
         d3.zoomIdentity.translate(
           diameter / 2 + margin.left,
@@ -253,9 +254,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
         console.log(zf)
         // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
         if (zf) {
-          zooming.scaleBy(svg.transition().duration(this.TRANSITION_DURATION), zf);
+          zooming.scaleBy(svg.transition().duration(this.ZOOMING_TRANSITION_DURATION), zf);
         } else {
-          svg.transition().duration(this.TRANSITION_DURATION).call(
+          svg.transition().duration(this.ZOOMING_TRANSITION_DURATION).call(
             zooming.transform,
             d3.zoomIdentity.translate(this.translateX, this.translateY)
           );
@@ -333,7 +334,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.isFullDisplayMode$.next(this._isFullDisplayMode);
   }
 
-  update(data: Initiative, seedColor: string, isFullDisplayMode:boolean) {
+  update(data: Initiative, seedColor: string, isFullDisplayMode: boolean) {
     if (this.d3.selectAll("g").empty()) {
       this.init();
     }
@@ -386,7 +387,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     root.eachAfter(function (n: any) {
       depth = depth > n.depth ? depth : n.depth;
     });
-    
+
     let fonts = this.colorService.getFontSizeRange(depth, fontSize);
     let color = this.colorService.getColorRange(depth, seedColor);
 
@@ -395,18 +396,18 @@ export class MappingZoomableComponent implements IDataVisualizer {
       list = d3.hierarchy(data).descendants(),
       view: any;
 
-      
+
 
     function getDepthDifference(d: any): number {
       return d.depth - focus.depth;
     }
 
     function isBranchDisplayed(d: any): boolean {
-      return isFullDisplayMode ? true :  getDepthDifference(d) <= 3;
+      return isFullDisplayMode ? true : getDepthDifference(d) <= 3;
     }
 
     function isLeafDisplayed(d: any): boolean {
-      return isFullDisplayMode ? true :  getDepthDifference(d) <= 2;
+      return isFullDisplayMode ? true : getDepthDifference(d) <= 2;
     }
 
     function toREM(pixels: number) {
@@ -694,7 +695,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return d.r * POSITION_ACCOUNTABLE_NAME.x;
       })
       .attr("y", function (d: any) {
-        return -d.r * POSITION_ACCOUNTABLE_NAME.y;
+        return Math.max(-d.r * POSITION_ACCOUNTABLE_NAME.y, -d.r + CIRCLE_RADIUS * 2 + 3);
       })
       .text(function (d: any) {
         return d.data.accountable ? d.data.accountable.name : "";
@@ -882,15 +883,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
               return d.r * POSITION_ACCOUNTABLE_NAME.x;
             })
             .attr("y", function (d: any) {
-              return -d.r * d.k * POSITION_ACCOUNTABLE_NAME.y;
+              return Math.max(-d.r * d.k * POSITION_ACCOUNTABLE_NAME.y, -d.r * d.k + CIRCLE_RADIUS * 2 + 3);
             })
             .attr("font-size", function (d: any) {
               let multiplier = svg.attr("data-font-multiplier");
               return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * POSITION_ACCOUNTABLE_NAME.fontRatio * multiplier)}rem`
-              // return `${fonts(d.depth) /
-              //   (d.depth <= 2 ? 1 : 2) *
-              //   d.k *
-              //   POSITION_ACCOUNTABLE_NAME.fontRatio}rem`;
             })
             .style("opacity", function (d: any) {
               return isLeafDisplayed(d) ? 1 : 0;

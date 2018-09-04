@@ -66,7 +66,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   private tagsSubscription: Subscription;
 
   public analytics: Angulartics2Mixpanel;
-  public TRANSITION_DURATION = 750;
+  public TRANSITION_DURATION = 250;
 
   private svg: any;
   private g: any;

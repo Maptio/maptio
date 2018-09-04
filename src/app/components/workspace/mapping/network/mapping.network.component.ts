@@ -79,7 +79,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   private fontSubscription: Subscription;
 
   T: any;
-  TRANSITION_DURATION = 750;
+  TRANSITION_DURATION = 250;
 
   CIRCLE_RADIUS: number = 25;
   LINE_WEIGHT = 4;
