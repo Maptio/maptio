@@ -47,7 +47,11 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin({
       name: ['app', 'vendor', 'polyfills']
     }),
-
+    new webpack.IgnorePlugin(
+      //https://medium.com/@ahmedelgabri/analyzing-optimizing-your-webpack-bundle-8590818af4df
+      //Used in the slug package ....To comment back if we ever get Arabic or Tibetan users
+      /unicode\/category\/So/, /node_modules/  
+    ),
     new HtmlWebpackPlugin({
       template: './src/index.html'
     }),
@@ -60,6 +64,6 @@ module.exports = {
       { from: 'public/templates', to: 'assets/templates' }
 
     ]),
-    new BundleAnalyzerPlugin({defaultSizes :'gzip'})
+    new BundleAnalyzerPlugin({ defaultSizes: 'gzip' })
   ]
 };
