@@ -113,7 +113,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
   POSITION_INITIATIVE_NAME = { x: 0.9, y: 0.1, fontRatio: 1 };
   POSITION_TAGS_NAME = { x: 0, y: 0.3, fontRatio: 0.65 };
-  POSITION_ACCOUNTABLE_NAME = { x: 0, y: 0.40, fontRatio: 0.9 };
+  POSITION_ACCOUNTABLE_NAME = { x: 0, y: 0.45, fontRatio: 0.9 };
   DEFAULT_PICTURE_ANGLE = Math.PI - Math.PI * 36 / 180;
 
   constructor(
@@ -204,7 +204,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     g.append("g").attr("class", "paths");
     let zooming = d3
       .zoom()
-      .scaleExtent([1 / 3, 4 / 3])
+      .scaleExtent([1 / 3, 5/2])
       .on("zoom", zoomed)
       .on("end", () => {
         let transform = d3.event.transform;
