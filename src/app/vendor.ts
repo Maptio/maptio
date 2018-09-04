@@ -27,6 +27,7 @@ import "angular2-markdown";
 import "marked";
 import "slug";
 import "canvg";
+import "moment";
 // You can import js, ts, css, sass, ...
 
 import "bootstrap/dist/css/bootstrap.min.css"
