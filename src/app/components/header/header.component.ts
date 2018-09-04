@@ -120,7 +120,7 @@ export class HeaderComponent implements OnInit {
                 .then((teams)=>{
                     this.createMapForm = new FormGroup({
                         "mapName": new FormControl(teams.length > 1 ? "" : teams[0].name, [Validators.required, Validators.minLength(2)]),
-                        "teamId": new FormControl(this.selectedTeamId, [Validators.required]),
+                        "teamId": new FormControl(teams.length > 1 ? null : teams[0].team_id, [Validators.required]),
                     })
                 })
                 .catch(() => { return [] })
@@ -133,7 +133,8 @@ export class HeaderComponent implements OnInit {
     }
 
     createDataset() {
-        if (this.createMapForm.dirty && this.createMapForm.valid) {
+        console.log(this.createMapForm)
+        if (this.createMapForm.valid) {
             let mapName = this.createMapForm.controls["mapName"].value
             let teamId = this.createMapForm.controls["teamId"].value
 
