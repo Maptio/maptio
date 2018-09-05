@@ -126,14 +126,14 @@
   font-family: FontAwesome;
 }
 
-.options {
+/* .options {
   width: 44px;
 }
 
 .options:before {
   content: "\f0d7";
   font-family: FontAwesome;
-}
+} */
 
 .first-person-view:before {
   content: "\f03a";
@@ -275,4 +275,29 @@
   position: absolute;
   left: 32%;
   top: 50%;
+}
+
+
+.input-group-prepend.options {
+  position: absolute;
+  right: 3vw;
+}
+
+.btn-control + .input-group-prepend.options{
+  visibility: hidden;
+}
+
+.btn-control.active + .input-group-prepend.options{
+  visibility: visible;
+}
+
+.btn-group-vertical>.input-group:not(:last-child)>.btn, .btn-group-vertical>.input-group:not(:last-child):not(.dropdown-toggle)>.btn {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+
+.btn-group-vertical>.input-group:not(:first-child)>.btn, .btn-group-vertical>.input-group:not(:first-child) > .btn {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
