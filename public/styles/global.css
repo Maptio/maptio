@@ -1,3 +1,9 @@
+:root {
+  --maptio-blue: #2f81b7;
+  --maptio-orange: #EF5E26;
+}
+
+
 .transparent {
   background-color: transparent !important;
 }
@@ -24,6 +30,15 @@ html, body {
 
 body {
   overflow: hidden;
+}
+
+.text-blue{
+  color: var(--maptio-blue) !important;
+
+}
+
+.large{
+  font-size: large!important;
 }
 
 .network:before {

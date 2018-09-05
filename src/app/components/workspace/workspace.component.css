@@ -71,7 +71,7 @@
     left: 0;
     overflow: hidden;
     transition: 0.5s ease-in;
-    background-color: rgb(41, 128, 185);
+    background-color: var(--maptio-blue);
     margin-top: 3vh;
     width: 0;
     padding: 10px 0 0 10px;
@@ -105,7 +105,7 @@
     left: 0;
     overflow: hidden;
     transition: 0.5s ease-in;
-    background-color: #EF5E26;
+    background-color: transparent;
     margin-top: 3vh;
     width: 0;
     padding: 10px 0 0 10px;
@@ -118,6 +118,7 @@
     transition: 0.5s ease-in;
     padding: 10px;
     z-index: 10;
+    background-color: var(--maptio-orange);
 }
 
 #sideNavDetails.showTree {

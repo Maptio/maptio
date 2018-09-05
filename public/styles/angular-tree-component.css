@@ -70,15 +70,15 @@
 }
 
 .node-content-wrapper-active, .node-content-wrapper.node-content-wrapper-active:hover, .node-content-wrapper-active.node-content-wrapper-focused {
-  background: #EF5E26;
+  background: var(--maptio-orange);
 }
 
 .node-content-wrapper-focused {
-  background: #EF5E26
+  background: var(--maptio-orange);
 }
 
 .node-content-wrapper:hover {
-  background: #EF5E26
+  background: var(--maptio-orange);
 }
 
 .node-content-wrapper-active, .node-content-wrapper-focused, .node-content-wrapper:hover {
@@ -150,17 +150,17 @@ tree-root .angular-tree-component-rtl .tree-children {
 }
 
 .toggle-children:before {
-  color: #0275d8;
+  color: #2f81b7;
   transform: rotate(0deg) !important;
   font-family: FontAwesome;
   font-size: 17px;
 }
 
-.toggle-children-wrapper-expanded .toggle-children:before {
+.toggle-children-wrapper-expanded >  .toggle-children:before {
   content: "\F056";
 }
 
-.toggle-children-wrapper-collapsed .toggle-children:before {
+.toggle-children-wrapper-collapsed > .toggle-children:before {
   content: "\F055";
 }
 
