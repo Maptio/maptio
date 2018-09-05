@@ -158,7 +158,7 @@ a.card.no-underline, a.no-underline:hover {
 
 .control.switch{
   position: absolute;
-  top: 31vh;
+  top: 33vh;
   right:7vw;
   z-index: 9;
 }
