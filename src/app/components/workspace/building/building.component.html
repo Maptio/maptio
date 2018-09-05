@@ -1,5 +1,5 @@
 <div class="building d-flex flex-column">
-	<div class="form-group d-flex justify-content-end mr-3">
+	<div class="form-group d-flex justify-content-end mr-3" >
 		<button name="" id="" class="btn btn-link btn-sm" (click)="toggleAll(true)" role="button">
 			Expand all
 		</button>
@@ -7,16 +7,14 @@
 			Collapse all
 		</button>
 	</div>
-	<div class="mt-3">
-			<tree-root #tree [nodes]="nodes" (updateData)="saveChanges()" [options]="options" [state]="state" (stateChange)="setState($event)">
-					<ng-template #treeNodeTemplate let-node let-index="index">
-						<initiative-node [node]="node" [datasetId]="datasetId" [team]="team" [user]="user" (edited)="saveChanges()" (update)="updateTreeModel(tree.treeModel)"
-						 (open)="openNodeDetails($event)" (add)="openNodeDetails($event)"></initiative-node>
-					</ng-template>
-			
-				</tree-root>
+	<div class="mt-3" >
+		<tree-root #tree [nodes]="nodes" (updateData)="saveChanges()" [options]="options" [state]="state" (stateChange)="setState($event)">
+			<ng-template #treeNodeTemplate let-node let-index="index">
+				<initiative-node [node]="node" [datasetId]="datasetId" [team]="team" [user]="user" (edited)="saveChanges()" (update)="updateTreeModel(tree.treeModel)"
+				 (open)="openNodeDetails($event)" (add)="openNodeDetails($event)"></initiative-node>
+			</ng-template>
+		</tree-root>
 	</div>
-	
 </div>
 
 <ng-template #dragConfirmation let-c="close" let-d="dismiss">

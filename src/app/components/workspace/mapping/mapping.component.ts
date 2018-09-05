@@ -332,7 +332,7 @@ export class MappingComponent {
   }
 
 
-  public _toggleOptions: Boolean = true;
+  public _toggleOptions: Boolean = false;
   public toggleOptions$: BehaviorSubject<Boolean> = new BehaviorSubject(this._toggleOptions)
 
   toggleOptions(isActive: Boolean) {

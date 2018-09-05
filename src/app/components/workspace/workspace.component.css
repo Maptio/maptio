@@ -75,6 +75,18 @@
     margin-top: 3vh;
     width: 0;
     padding: 10px 0 0 10px;
+    z-index: 10;
+}
+
+#sideNavTree.collapse{
+    width: 0;
+    min-width: 0;
+    transition: all 0.5s ease-in;
+}
+
+#sideNavTree.collapse.show{
+    min-width: 3.0vw;
+    transition: all 0.5s ease-in;
 }
 
 #sideNavTree.showTree {

@@ -1,4 +1,4 @@
-<div id="sideNavTree" class="" [class.showTree]="!isBuildingPanelCollapsed">
+<div id="sideNavTree" class="collapse" [class.show]="!isNoInitiatives" [class.showTree]="!isBuildingPanelCollapsed">
     <a class="btn toggle" (click)="toggleBuildingPanel()" [class.showTree]="!isBuildingPanelCollapsed">
         <i class="fa all text-white" [class.fa-list]="isBuildingPanelCollapsed" aria-hidden="true"></i>
         <i class="fa text-dark" [class.fa-times]="!isBuildingPanelCollapsed" aria-hidden="true"></i>
@@ -11,7 +11,7 @@
     </div>
 </div>
 
-<div id="sideNavDetails" class="rounded-right" [class.showDetails]="!isDetailsPanelCollapsed" [class.showTree]="!isBuildingPanelCollapsed">
+<div id="sideNavDetails" [class.show]="!isNoInitiatives" class="collapse rounded-right" [class.showDetails]="!isDetailsPanelCollapsed" [class.showTree]="!isBuildingPanelCollapsed">
     <a class="btn toggle" (click)="toggleDetailsPanel()" [class.showDetails]="!isDetailsPanelCollapsed">
         <i class="fa text-dark" [class.fa-times]="!isDetailsPanelCollapsed" aria-hidden="true"></i>
     </a>

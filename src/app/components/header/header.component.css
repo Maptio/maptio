@@ -175,11 +175,12 @@ span.navbar-text a {
 }
 
 .saving{
-    opacity: 1;
-    transition:opacity 250ms;
+	opacity: 1;	
+    transition-delay:0s;
 }
 
 .saving.invisible{
-    opacity: 0;
-    transition:opacity 250ms;
+	opacity: 0;	
+    transition: opacity 2s ease;
+    transition-delay:3s;
 }

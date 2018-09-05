@@ -34,6 +34,9 @@ export class BuildingComponent {
         allowDrop: (element: any, to: { parent: any, index: number }) => {
             return to.parent.parent !== null;
         },
+        nodeClass: (node: TreeNode) => {
+            return node.isRoot ? 'node-root' : "";
+        },
         nodeHeight: 55,
         actionMapping: {
             mouse: {
@@ -95,6 +98,17 @@ export class BuildingComponent {
         private modalService: NgbModal, private analytics: Angulartics2Mixpanel,
         private userFactory: UserFactory, private cd: ChangeDetectorRef) {
         // this.nodes = [];
+    }
+
+
+    ngAfterViewChecked() {
+        try {
+            const someNode = this.tree.treeModel.getFirstRoot();
+            someNode.expand()
+        }
+        catch (e) {
+
+        }
     }
 
     saveChanges() {
@@ -247,9 +261,9 @@ export class BuildingComponent {
                 return Promise.all(queue).then(t => t).catch(() => { });
             })
             .then(() => {
-
                 this.saveChanges();
             })
+
             .then(() => {
                 let targetNode: Initiative = undefined;
                 if (nodeIdToOpen) {
@@ -264,6 +278,10 @@ export class BuildingComponent {
                 if (targetNode) {
                     this.openDetailsEditOnly.emit(targetNode)
                 }
+            })
+            .then(() => {
+                console.log(this.tree)
+                localStorage.setItem("treeState", `{"expandedNodeIds":{"5770067817162":true,"568897744103":true,"2974126650332":true,"7529061736819":true,"752716276568":true,"1059138929499":true,"9149501839422":true,"5728112351761":true,"2720409237321":true,"9783364226323":true,"1202554437960":true,"8373571952711":true,"9354251581724":true,"9364264400095":true,"4164495146355":true,"7300190907727":true,"1331799012941":true,"2920482360937":true},"selectedLeafNodeIds":{},"activeNodeIds":{},"hiddenNodeIds":{},"focusedNodeId":null}`)
             })
     }
 

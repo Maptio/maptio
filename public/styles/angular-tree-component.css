@@ -189,3 +189,9 @@ tree-root .angular-tree-component-rtl .tree-children {
     overflow-y: auto;
   }
 }
+
+.node-root > tree-node-wrapper > .node-wrapper{
+  background: red;
+  visibility: hidden;
+  height: 0;
+}
