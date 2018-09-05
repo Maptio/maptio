@@ -61,7 +61,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   public team: Team;
 
 
-  public _isDisplayOptions: Boolean = true;
+  public _isDisplayOptions: Boolean = false;
   private isAuthorityCentricMode$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   public _isAuthorityCentricMode: boolean = true;
 

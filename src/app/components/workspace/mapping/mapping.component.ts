@@ -199,7 +199,7 @@ export class MappingComponent {
           .get("tags")
           .split(",")
           .map(
-          (s: string) => new SelectableTag({ shortid: s, isSelected: true })
+            (s: string) => new SelectableTag({ shortid: s, isSelected: true })
           )
         : [];
     // let membersState = this.uriService.parseFragment(f).has("users") && this.uriService.parseFragment(f).get("users")
@@ -272,8 +272,8 @@ export class MappingComponent {
               .get("tags")
               .split(",")
               .map(
-              (s: string) =>
-                new SelectableTag({ shortid: s, isSelected: true })
+                (s: string) =>
+                  new SelectableTag({ shortid: s, isSelected: true })
               )
             : <SelectableTag[]>[];
         // let fragmentUsers = this.uriService.parseFragment(fragment).has("users") && this.uriService.parseFragment(fragment).get("users")
@@ -332,11 +332,11 @@ export class MappingComponent {
   }
 
 
-  public _toggleOptions :Boolean = true;
-  public toggleOptions$:BehaviorSubject<Boolean> = new BehaviorSubject(this._toggleOptions)
+  public _toggleOptions: Boolean = true;
+  public toggleOptions$: BehaviorSubject<Boolean> = new BehaviorSubject(this._toggleOptions)
 
-  toggleOptions(){
-    this._toggleOptions = !this._toggleOptions;
+  toggleOptions(isActive: Boolean) {
+    this._toggleOptions = isActive ? !this._toggleOptions : false;
     this.toggleOptions$.next(this._toggleOptions)
   }
 
@@ -455,10 +455,10 @@ export class MappingComponent {
         // console.log("result", result);
         this.isPrinting = false; this.hasNotified = true; this.cd.markForCheck()
       },
-      (err) => {
-        this.hasConfigurationError = true;
-        this.cd.markForCheck();
-      })
+        (err) => {
+          this.hasConfigurationError = true;
+          this.cd.markForCheck();
+        })
 
   }
 

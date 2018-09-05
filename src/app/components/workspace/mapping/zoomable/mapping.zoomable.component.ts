@@ -81,7 +81,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public analytics: Angulartics2Mixpanel;
 
 
-  public _isDisplayOptions: Boolean = true;
+  public _isDisplayOptions: Boolean = false;
   public _isFullDisplayMode: Boolean = false;
 
   private isFullDisplayMode$: BehaviorSubject<Boolean> = new BehaviorSubject<Boolean>(this._isFullDisplayMode);
