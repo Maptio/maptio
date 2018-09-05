@@ -109,17 +109,17 @@
         </ul>
         <ng-container *showItBootstrap="['md','lg','xl']">
             <ng-container *ngIf="!auth.allAuthenticated()">
-                <form id="loginForm" class="form-inline pr-2" [formGroup]="loginForm" (submit)="login()">
-                    <div class="d-flex flex-column">
-                        <div>
-                            <input type="email" id="inputEmail" formControlName="email" class="form-control form-control-sm form-control-warning" placeholder="Email"
+                <form id="loginForm" class="form-inline pr-2 col-4" [formGroup]="loginForm" (submit)="login()">
+                    <div class="d-flex flex-column col-12 p-0">
+                        <div class="col-12 p-0 d-flex justiy-content-between">
+                            <input type="email" id="inputEmail" formControlName="email" class="w-50 form-control form-control-sm form-control-warning" placeholder="Email"
                                 required email>
-                            <input id="inputPassword" type="password" class="form-control form-control-sm form-control-warning" formControlName="password"
+                            <input id="inputPassword" type="password" class="col mx-2 form-control form-control-sm form-control-warning" formControlName="password"
                                 placeholder="e.g. ••••••••" autocomplete="on">
                             <button type="submit" class="btn btn-outline-success btn-sm" [class.disabled]="!loginForm.valid">Log in</button>
 
                         </div>
-                        <small class="text-muted">
+                        <small class="text-muted offset-6 px-2">
                             <a routerLink="/forgot">Forgot your password?</a>
                         </small>
                     </div>
