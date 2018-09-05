@@ -4,9 +4,7 @@
             <img width="30" height="30" class="d-inline-block align-top" src="/assets/images/logo-full.webp" alt="Home">
 
         </a>
-        <span class="navbar-text ml-3">
-            <mc-breadcrumbs></mc-breadcrumbs>
-        </span>
+     
     </a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -15,12 +13,17 @@
     </button>
 
     <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
-        <div class="navbar-text d-flex offset-5 text-success saving" [class.invisible]="!isSaving">
-            <i class="fa fa-floppy-o mx-1" aria-hidden="true"></i>
-            <small>Saving</small>
-        </div>
+        <ul class="navbar-nav mr-auto">
+                <li class="nav-item col-auto d-flex flex-column justify-content-end px-0 pt-3">
+                        <mc-breadcrumbs></mc-breadcrumbs>
+                        <div class="small text-success saving d-flex justify-content-end align-items-center" [class.invisible]="!isSaving">
+                                <i class="fa fa-floppy-o mx-1" aria-hidden="true"></i>
+                                <span>Saving</span>
+                            </div>
+                </li>
+        </ul>
 
-        <span class="navbar-text offset-1 d-flex flex-column " *ngIf="team">
+        <span class="navbar-text d-flex flex-column " *ngIf="team">
             <span class="text-muted mr-1">Team
                 <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}">
                     {{team?.name}}
@@ -30,6 +33,8 @@
                 <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}/billing">Subscribe now</a>
             </span>
         </span>
+
+      
 
 
         <ul class="navbar-nav ml-auto d-flex align-items-center" *ngIf="auth.allAuthenticated()">
