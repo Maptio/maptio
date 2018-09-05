@@ -26,6 +26,7 @@ export interface IDataVisualizer {
 
     zoomInitiative$: Observable<Initiative>;
     selectableTags$: Observable<Array<SelectableTag>>;
+    toggleOptions$:Observable<Boolean>;
     // selectableUsers$: Observable<Array<SelectableUser>>;
 
     // isLocked$: Observable<boolean>;

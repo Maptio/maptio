@@ -49,9 +49,3 @@
     text-anchor: start;
 }
 
-.switch{
-    position: absolute;
-    top: 9vh;
-    left: 5vw;
-    z-index: 9;
-  }

@@ -50,6 +50,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   public fontColor$: Observable<string>;
   public mapColor$: Observable<string>;
   public zoomInitiative$: Observable<Initiative>;
+  public toggleOptions$: Observable<Boolean>;
   // public isLocked$: Observable<boolean>;
   public isReset$: Observable<boolean>;
   public data$: Subject<{

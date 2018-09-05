@@ -49,6 +49,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public fontColor$: Observable<string>;
   public mapColor$: Observable<string>;
   public zoomInitiative$: Observable<Initiative>;
+  public toggleOptions$: Observable<Boolean>;
   public isLocked$: Observable<boolean>;
   public data$: Subject<{
     initiative: Initiative;
@@ -74,13 +75,16 @@ export class MappingZoomableComponent implements IDataVisualizer {
   private fontSubscription: Subscription;
   private lockedSubscription: Subscription;
   private tagsSubscription: Subscription;
+  private selectableTagsSubscription: Subscription;
+  public toggleOptionsSubscription: Subscription;
 
   public analytics: Angulartics2Mixpanel;
 
 
-  public _isFullDisplayMode: boolean = false;
+  public _isDisplayOptions: Boolean = true;
+  public _isFullDisplayMode: Boolean = false;
 
-  private isFullDisplayMode$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this._isFullDisplayMode);
+  private isFullDisplayMode$: BehaviorSubject<Boolean> = new BehaviorSubject<Boolean>(this._isFullDisplayMode);
 
   private svg: any;
   private g: any;
@@ -158,6 +162,16 @@ export class MappingZoomableComponent implements IDataVisualizer {
         this.cd.markForCheck();
       });
     this.selectableTags$.subscribe(tags => this.tagsState = tags)
+
+    this.toggleOptionsSubscription = this.toggleOptions$.subscribe(toggled => {
+      this._isDisplayOptions = toggled;
+      this.cd.markForCheck();
+    })
+  }
+
+  public switch() {
+    this._isFullDisplayMode = !this._isFullDisplayMode;
+    this.isFullDisplayMode$.next(this._isFullDisplayMode);
   }
 
   ngOnDestroy() {
@@ -178,6 +192,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
     if (this.tagsSubscription) {
       this.tagsSubscription.unsubscribe();
+    }
+    if (this.selectableTagsSubscription) {
+      this.selectableTagsSubscription.unsubscribe();
+    }
+    if(this.toggleOptionsSubscription){
+      this.toggleOptionsSubscription.unsubscribe();
     }
   }
 
@@ -204,7 +224,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     g.append("g").attr("class", "paths");
     let zooming = d3
       .zoom()
-      .scaleExtent([1 / 3, 5/2])
+      .scaleExtent([1 / 3, 5 / 2])
       .on("zoom", zoomed)
       .on("end", () => {
         let transform = d3.event.transform;
@@ -300,7 +320,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       svg.select(`circle.node.initiative-map[id="${node.id}"]`).dispatch("click");
     });
 
-    this.selectableTags$.subscribe(tags => {
+    this.selectableTagsSubscription = this.selectableTags$.subscribe(tags => {
 
       this.tagsState = tags;
       let [selectedTags, unselectedTags] = partition(tags, t => t.isSelected);
@@ -329,10 +349,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     return this.tagsState;
   }
 
-  public switch() {
-    this._isFullDisplayMode = !this._isFullDisplayMode;
-    this.isFullDisplayMode$.next(this._isFullDisplayMode);
-  }
+
 
   update(data: Initiative, seedColor: string, isFullDisplayMode: boolean) {
     if (this.d3.selectAll("g").empty()) {

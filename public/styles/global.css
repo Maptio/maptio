@@ -43,16 +43,32 @@ body {
 }
 
 .circles{
-  background: url(/assets/images/circles.png) no-repeat;
+  background-image: url(/assets/images/circles.png) ;
+  background-repeat:no-repeat;
   background-size: 20px 20px;
   background-position: center center;
   height: 6.5vh;
   width: 100%;
   padding: 0;
+  -webkit-transition: background-image 0.2s ease-in-out;
+transition: background-image 0.2s ease-in-out;
+}
+
+.circles.options, .circles.options.active{
+  background-image:none !important;
+  -webkit-transition: background-image 0.2s ease-in-out;
+transition: background-image 0.2s ease-in-out;
+  
+}
+
+.circles.options::before{
+  content : "\f141";
+  font-family: FontAwesome;
+  
 }
 
 .btn:not(:disabled):not(.disabled).active.circles, .btn.circles:not(:disabled):not(.disabled):active {
-  background-image: url(/assets/images/circles.png) !important;
+  background-image: url(/assets/images/circles.png) ;
 }
 
 
@@ -111,6 +127,24 @@ a.card.no-underline, a.no-underline:hover {
 
 .x-small{
   font-size: x-small;
+}
+
+.control.switch{
+  position: absolute;
+  top: 31vh;
+  right:7vw;
+  z-index: 9;
+}
+
+.control.switch.collapse{
+max-height: 0;
+overflow: hidden;
+transition: max-height .25s ease-in-out;
+}
+
+.control.switch.show{
+  max-height: 30vh;
+  transition: max-height .25s ease-in-out;
 }
 
 /* 

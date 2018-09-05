@@ -36,36 +36,18 @@
 
 <div class="control first">
   <div class=" btn-group-vertical">
-    <div class="input-group d-flex align-items-center">
-      <a class="btn btn-light circles text-dark p-1 btn-control" routerLinkActive="active" routerLink="/map/{{datasetId}}/{{slug}}/circles"
-        fragment="x={{VIEWPORT_WIDTH / 2}}&y={{VIEWPORT_WIDTH / 2 -180}}&scale=1=1&{{tagsFragment}}">
-        <div class="icon-text-label" style="bottom: 2px;position: absolute;">Circles</div>
-      </a>
-      <div class="input-group-prepend options">
-        <button class="btn bg-transparent" type="button"> <i class="fa fa-caret-left" aria-hidden="true"></i></button>
-      </div>
-    </div>
-
-    <div class="input-group d-flex align-items-center">
-      <a class="btn btn-light tree text-dark p-1 btn-control" routerLinkActive="active" routerLink="/map/{{datasetId}}/{{slug}}/tree"
-        fragment="x={{VIEWPORT_WIDTH / 10}}&y={{VIEWPORT_HEIGHT / 2}}&scale=1&{{tagsFragment}}">
-        <div class="icon-text-label">Tree</div>
-      </a>
-      <div class="input-group-prepend options">
-        <button class="btn bg-transparent" type="button"> <i class="fa fa-caret-left" aria-hidden="true"></i></button>
-      </div>
-    </div>
-
-
-    <div class="input-group d-flex align-items-center">
-      <a class="btn btn-light network text-dark p-1 btn-control" routerLinkActive="active" routerLink="/map/{{datasetId}}/{{slug}}/network"
-        fragment="x=0&y={{-this.VIEWPORT_HEIGHT / 4}}&scale=1&{{tagsFragment}}">
-        <div class="icon-text-label">Network</div>
-      </a>
-      <div class="input-group-prepend options">
-        <button class="btn bg-transparent" type="button"> <i class="fa fa-caret-left" aria-hidden="true"></i></button>
-      </div>
-    </div>
+    <button class="btn btn-light circles text-dark p-1 btn-control"   #rlaCircles="routerLinkActive" [routerLinkActive]="['options', 'active']" routerLink="/map/{{datasetId}}/{{slug}}/circles"
+      fragment="x={{VIEWPORT_WIDTH / 2}}&y={{VIEWPORT_WIDTH / 2 -180}}&scale=1=1&{{tagsFragment}}" (click)="toggleOptions()">
+      <div class="icon-text-label" style="bottom: 2px;position: absolute;">{{rlaCircles.isActive ? (_toggleOptions ?  'Less' : 'More') : 'Circles'}}</div>
+  </button>
+    <a class="btn btn-light tree text-dark p-1 btn-control" routerLinkActive="active" routerLink="/map/{{datasetId}}/{{slug}}/tree"
+      fragment="x={{VIEWPORT_WIDTH / 10}}&y={{VIEWPORT_HEIGHT / 2}}&scale=1&{{tagsFragment}}">
+      <div class="icon-text-label">Tree</div>
+    </a>
+    <button class="btn btn-light network text-dark p-1 btn-control"  #rlaNetwork="routerLinkActive"   [routerLinkActive]="['options', 'active']" routerLink="/map/{{datasetId}}/{{slug}}/network"
+      fragment="x=0&y={{-this.VIEWPORT_HEIGHT / 4}}&scale=1&{{tagsFragment}}" (click)="toggleOptions()">
+      <div class="icon-text-label" >{{rlaNetwork.isActive ? (_toggleOptions ?  'Less' : 'More') : 'Network'}}</div>
+  </button>
 
 
 

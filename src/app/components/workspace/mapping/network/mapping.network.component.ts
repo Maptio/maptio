@@ -52,12 +52,16 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   public zoomInitiative$: Observable<Initiative>;
   // public isLocked$: Observable<boolean>;
   public isReset$: Observable<boolean>;
+
+  public toggleOptions$: Observable<Boolean>;
   public data$: Subject<{ initiative: Initiative; datasetId: string }>;
 
   public rootNode: Initiative;
   public slug: string;
   public team: Team;
 
+
+  public _isDisplayOptions: Boolean = true;
   private isAuthorityCentricMode$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   public _isAuthorityCentricMode: boolean = true;
 
@@ -77,6 +81,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   private dataSubscription: Subscription;
   private resetSubscription: Subscription;
   private fontSubscription: Subscription;
+  public toggleOptionsSubscription: Subscription;
 
   T: any;
   TRANSITION_DURATION = 250;
@@ -129,6 +134,11 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       });
 
     this.selectableTags$.subscribe(tags => this.tagsState = tags)
+
+    this.toggleOptionsSubscription = this.toggleOptions$.subscribe(toggled => {
+      this._isDisplayOptions = toggled;
+      this.cd.markForCheck();
+    })
   }
 
   ngOnDestroy() {
@@ -143,6 +153,9 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     }
     if (this.fontSubscription) {
       this.fontSubscription.unsubscribe();
+    }
+    if(this.toggleOptionsSubscription){
+      this.toggleOptionsSubscription.unsubscribe();
     }
   }
 

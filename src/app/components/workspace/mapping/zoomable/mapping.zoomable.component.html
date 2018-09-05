@@ -1,14 +1,27 @@
 <ngx-loading [show]="isLoading" [config]="{ backdropBackgroundColour: '#fff' }"></ngx-loading>
 <svg class="background" id="map"></svg>
-<div class="switch card-body bg-light border-dark rounded">
-    <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" id="helpModeRadio" name="radioViewMode" class="custom-control-input" [checked]="_isFullDisplayMode"
-            (click)="switch()">
-        <label class="custom-control-label" for="helpModeRadio">Full</label>
-    </div>
-    <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" id="participationModeRadio" name="radioViewMode" class="custom-control-input" [checked]="!_isFullDisplayMode"
-            (click)="switch()">
-        <label class="custom-control-label" for="participationModeRadio">Progressive</label>
+<div class="card control switch border-0 w-25 p-0 collapse" [class.show]="_isDisplayOptions">
+
+    <div class=" card-body bg-light border-dark rounded">
+        <h6 class="card-title">Circles map options</h6>
+        <form>
+            <div class="form-group small">
+                <div class="custom-control custom-radio ">
+                    <input type="radio" id="helpModeRadio" name="radioViewMode" class="custom-control-input" [checked]="_isFullDisplayMode" (click)="switch()">
+                    <label class="custom-control-label" for="helpModeRadio">Static mode (Best for small organizations) </label>
+                    <small class="form-text text-muted">
+                        All circles are shown
+                    </small>
+                </div>
+                <div class="custom-control custom-radio ">
+                    <input type="radio" id="participationModeRadio" name="radioViewMode" class="custom-control-input" [checked]="!_isFullDisplayMode"
+                        (click)="switch()">
+                    <label class="custom-control-label" for="participationModeRadio">Progressive mode (Best for large organizations)</label>
+                    <small class="form-text text-muted">
+                        Click on an initiatives to reveal its sub-initiatives
+                    </small>
+                </div>
+            </div>
+        </form>
     </div>
 </div>

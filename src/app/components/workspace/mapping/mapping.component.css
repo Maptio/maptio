@@ -35,7 +35,7 @@
 
 
 .control.first {
-  top: 29vh;
+  top: 31vh;
 }
 
 /* .control.first > .btn-group-vertical {
@@ -43,11 +43,11 @@
 } */
 
 .control.second {
-  top: 50vh;
+  top: 53vh;
 }
 
 .control.third {
-  top: 50vh;
+  top: 53vh;
   right: 6vw
 }
 

@@ -221,6 +221,7 @@ export class MappingComponent {
     component.fontColor$ = this.fontColor$.asObservable();
     component.mapColor$ = this.mapColor$.asObservable();
     component.zoomInitiative$ = this.zoomToInitiative$.asObservable();
+    component.toggleOptions$ = this.toggleOptions$.asObservable();
     // component.isLocked$ = this.isLocked$.asObservable();
     component.translateX = this.x;
     component.translateY = this.y;
@@ -328,6 +329,15 @@ export class MappingComponent {
         return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_HEIGHT /
           2}&scale=1`;
     }
+  }
+
+
+  public _toggleOptions :Boolean = true;
+  public toggleOptions$:BehaviorSubject<Boolean> = new BehaviorSubject(this._toggleOptions)
+
+  toggleOptions(){
+    this._toggleOptions = !this._toggleOptions;
+    this.toggleOptions$.next(this._toggleOptions)
   }
 
   zoomOut() {
