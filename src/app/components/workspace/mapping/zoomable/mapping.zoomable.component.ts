@@ -172,6 +172,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public switch() {
     this._isFullDisplayMode = !this._isFullDisplayMode;
     this.isFullDisplayMode$.next(this._isFullDisplayMode);
+    this.ngOnInit();
   }
 
   ngOnDestroy() {
@@ -202,6 +203,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   }
 
   init() {
+    console.log("init", this._isFullDisplayMode)
     this.uiService.clean();
     let d3 = this.d3;
 
@@ -224,7 +226,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     g.append("g").attr("class", "paths");
     let zooming = d3
       .zoom()
-      .scaleExtent([1 / 3, 5 / 2])
+      .scaleExtent([1 / 3, this._isFullDisplayMode ? 3 : 4/3])
       .on("zoom", zoomed)
       .on("end", () => {
         let transform = d3.event.transform;
@@ -271,7 +273,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     this.zoomSubscription = this.zoom$.subscribe((zf: number) => {
       try {
-        console.log(zf)
         // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
         if (zf) {
           zooming.scaleBy(svg.transition().duration(this.ZOOMING_TRANSITION_DURATION), zf);
@@ -515,6 +516,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return !d.children && d.parent === root;
       })
       .on("click", function (d: any) {
+        if(isFullDisplayMode) return;
         if (focus !== d) zoom(d), d3.event.stopPropagation();
       });
 
@@ -700,19 +702,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .attr("font-size", function (d: any) {
         let multiplier = svg.attr("data-font-multiplier");
         return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * POSITION_ACCOUNTABLE_NAME.fontRatio * multiplier)}rem`
-        // return `${fonts(d.depth) /
-        //   (d.depth <= 2 ? 1 : 2) *
-        //   d.k *
-        //   POSITION_ACCOUNTABLE_NAME.fontRatio}rem`;
+    
       })
-      // .attr("font-size", function (d: any) {
-      //   return `${fonts(d.depth) * POSITION_ACCOUNTABLE_NAME.fontRatio}rem`;
-      // })
       .attr("x", function (d: any) {
         return d.r * POSITION_ACCOUNTABLE_NAME.x;
       })
       .attr("y", function (d: any) {
-        return Math.max(-d.r * POSITION_ACCOUNTABLE_NAME.y, -d.r + CIRCLE_RADIUS * 2 + 3);
+        return Math.max(-d.r * POSITION_ACCOUNTABLE_NAME.y, -d.r + CIRCLE_RADIUS*2 -3);
       })
       .text(function (d: any) {
         return d.data.accountable ? d.data.accountable.name : "";
@@ -721,6 +717,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let node = g.selectAll("g.node");
 
     svg.on("click", function () {
+      if(isFullDisplayMode) return;
       zoom(root);
     });
 
@@ -863,27 +860,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .style("opacity", function (d: any) {
               return isLeafDisplayed(d) ? 1 : 0;
             })
-            // .style("font-size", function (d: any) {
-            //   let multiplier = svg.attr("data-font-multiplier");
-
-            //   return `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * multiplier)}rem`;
-            // })
             .html(function (d: any) {
-              // console.log("here")
               let multiplier = svg.attr("data-font-multiplier");
               let fs = `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * multiplier)}rem`;
               return `<div style="font-size: ${fs}; background: none;overflow: initial; display: inline-block; pointer-events:none">${d.data.name}</div>`;
             })
-
-          // .append("xhtml:body")
-          // .style("font-size", function (d: any) {
-          //   // console.log(d.data.name, fontSize)
-          //   let multiplier = svg.attr("data-font-multiplier");
-          //   return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * multiplier)}rem`; // `${fonts(d.depth) / (d.depth <= 2 ? 1 : 2) * d.k}rem`;
-          // })
-          // .style("overflow", "initial")
-          // .style("background", "none")
-          // .html(function (d: any) { return d.data.name });
         })
 
       transition
@@ -900,7 +881,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
               return d.r * POSITION_ACCOUNTABLE_NAME.x;
             })
             .attr("y", function (d: any) {
-              return Math.max(-d.r * d.k * POSITION_ACCOUNTABLE_NAME.y, -d.r * d.k + CIRCLE_RADIUS * 2 + 3);
+             return Math.max(-d.r * d.k * POSITION_ACCOUNTABLE_NAME.y, -d.r * d.k + CIRCLE_RADIUS * 2 + 3);
             })
             .attr("font-size", function (d: any) {
               let multiplier = svg.attr("data-font-multiplier");
@@ -943,7 +924,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
         });
 
       // all
-      // console.log("zoom to ", getTags())
       let [selectedTags, unselectedTags] = partition(getTags(), (t: SelectableTag) => t.isSelected);
 
       transition
