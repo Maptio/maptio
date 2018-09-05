@@ -39,7 +39,7 @@
     <button class="btn btn-light circles text-dark p-1 btn-control" [class.more]="!_toggleOptions" [class.less]="_toggleOptions"
       #rlaCircles="routerLinkActive" [routerLinkActive]="['menu', 'active']" routerLink="/map/{{datasetId}}/{{slug}}/circles"
       fragment="x={{VIEWPORT_WIDTH / 2}}&y={{VIEWPORT_WIDTH / 2 -180}}&scale=1=1&{{tagsFragment}}" (click)="toggleOptions(rlaCircles.isActive)">
-      <div class="icon-text-label" style="bottom: 2px;position: absolute;">{{rlaCircles.isActive ? (_toggleOptions ? 'Close': 'Circles options') : 'Circles'}} {{_toggleOptions}}</div>
+      <div class="icon-text-label" style="bottom: 2px;position: absolute;">{{rlaCircles.isActive ? (_toggleOptions ? 'Close': 'Circles options') : 'Circles'}} </div>
     </button>
     <a class="btn btn-light tree text-dark p-1 btn-control" routerLinkActive="active" routerLink="/map/{{datasetId}}/{{slug}}/tree"
       fragment="x={{VIEWPORT_WIDTH / 10}}&y={{VIEWPORT_HEIGHT / 2}}&scale=1&{{tagsFragment}}">
@@ -49,7 +49,7 @@
       [class.less]="_toggleOptions" [routerLinkActive]="['menu', 'active']" routerLink="/map/{{datasetId}}/{{slug}}/network"
       fragment="x=0&y={{-this.VIEWPORT_HEIGHT / 4}}&scale=1&{{tagsFragment}}" (click)="toggleOptions(rlaNetwork.isActive)">
 
-      <div class="icon-text-label">{{rlaNetwork.isActive ? (_toggleOptions ? 'Close' : 'Network options') : 'Network'}} {{_toggleOptions}}</div>
+      <div class="icon-text-label">{{rlaNetwork.isActive ? (_toggleOptions ? 'Close' : 'Network options') : 'Network'}} </div>
     </button>
 
 
