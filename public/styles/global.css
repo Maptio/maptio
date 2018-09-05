@@ -31,6 +31,16 @@ body {
   font-family: icomoon;
 }
 
+.network.menu.more:before {
+  content: "\f0c9";
+  font-family: FontAwesome;
+}
+
+.network.menu.less:before {
+  content: "\f00d";
+  font-family: FontAwesome;
+}
+
 .tree:before {
   display: inline-block;
   content: "\e903";
@@ -54,7 +64,23 @@ body {
 transition: background-image 0.2s ease-in-out;
 }
 
-.circles.options, .circles.options.active{
+.circles.menu{
+  background-image: none!important;
+
+}
+
+.circles.menu.more:before {
+  content: "\f0c9";
+  font-family: FontAwesome;
+}
+
+
+.circles.menu.less:before {
+  content: "\f00d";
+  font-family: FontAwesome;
+}
+
+/* .circles.options, .circles.options.active{
   background-image:none !important;
   -webkit-transition: background-image 0.2s ease-in-out;
 transition: background-image 0.2s ease-in-out;
@@ -65,11 +91,12 @@ transition: background-image 0.2s ease-in-out;
   content : "\f141";
   font-family: FontAwesome;
   
-}
+} */
 
-.btn:not(:disabled):not(.disabled).active.circles, .btn.circles:not(:disabled):not(.disabled):active {
+.btn:not(:disabled):not(.disabled).active.circles, .btn.circles:not(:disabled):not(.disabled):active{
   background-image: url(/assets/images/circles.png) ;
 }
+
 
 
 .remove::before {
