@@ -152,8 +152,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     let g = svg
       .append("g")
       .attr(
-      "transform",
-      `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`
+        "transform",
+        `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`
       );
     let definitions = g.append("defs");
 
@@ -331,9 +331,12 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     setPathsToRoot(pathsToRoot)
 
     // Collapse after the third level
-    root.children.forEach((c: any) => {
-      if (c.children) c.children.forEach(collapse);
-    });
+    if (root.children) {
+      root.children.forEach((c: any) => {
+        if (c.children) c.children.forEach(collapse);
+      });
+    }
+
     // console.log(g)
     update(root, 0);
 

@@ -64,9 +64,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     dragConfirmationModal: NgbModal;
 
     ngOnDestroy(): void {
-        // EmitterService.get("currentDataset").emit(undefined);
         EmitterService.get("currentTeam").emit(undefined)
-        // EmitterService.get("currentMembers").emit(undefined);
         if (this.routeSubscription) this.routeSubscription.unsubscribe();
         if (this.userSubscription) this.userSubscription.unsubscribe();
     }

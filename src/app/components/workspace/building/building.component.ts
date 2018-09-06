@@ -177,10 +177,9 @@ export class BuildingComponent {
             newNode.team_id = node.team_id;
             newNode.hasFocus = true;
             newNode.id = Math.floor(Math.random() * 10000000000000);
-            // console.log("new node", Math.ceil(node.id * Math.random()));
             this.nodes[0].children = this.nodes[0].children || [];
             this.nodes[0].children.unshift(newNode);
-            this.openDetailsEditOnly.emit(newNode)
+            this.openDetails.emit(newNode)
         }
         else {
             this.nodes[0].traverse(n => {
@@ -192,16 +191,19 @@ export class BuildingComponent {
                     newNode.team_id = node.team_id;
                     newNode.hasFocus = true;
                     newNode.id = Math.floor(Math.random() * 10000000000000);
-                    // console.log("new node", Math.ceil(node.id * Math.random()));
                     n.children = n.children || [];
                     n.children.unshift(newNode);
-                    this.openDetailsEditOnly.emit(newNode)
+                    this.openDetails.emit(newNode)
                 }
             });
         }
 
         this.saveChanges();
         this.updateTree()
+    }
+
+    addRootNode() {
+        this.addNodeTo(this.nodes[0])
     }
 
     toggleAll(isExpand: boolean) {
