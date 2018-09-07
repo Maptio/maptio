@@ -65,7 +65,7 @@ export class TeamListComponent implements OnInit {
             });
         this.userSubscription = this.auth.getUser().subscribe(user => {
             this.user = user;
-            console.log(this.user)
+            // console.log(this.user)
         })
     }
 

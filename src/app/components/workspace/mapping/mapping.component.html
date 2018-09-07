@@ -84,29 +84,27 @@
     <div class="card-body">
       <h6 class="card-title">Text settings</h6>
       <div class="form-group form-inline">
-        <label for="fontSizeInput" class="col-form-label col-2">Size</label>
-
-        <!-- <span class="fontSizeOutput">x {{fontSize$ | async}}</span> -->
+        <label for="fontSizeInput" class="col-form-label col-form-label-sm  col-2">Size</label>
         <input class="col-6 form-control ml-1" id="fontSizeInput" #fontSizeInput name="fontSizeInput" type="range" min="0.2" max="2"
           value="{{fontSize$ | async}}" step="0.1" (change)="changeFontSize(fontSizeInput.value)" orient="vertical">
 
-        <button class="btn  btn-outline-secondary  ml-4" (click)="changeFontSize(1)">Reset</button>
+        <button class="btn btn-sm btn-outline-secondary  ml-4" (click)="changeFontSize(1)">Reset</button>
 
       </div>
       <div class="form-group form-inline">
-        <label for="example-time-input" class="col-form-label col-2">Color</label>
-        <input class="col-6 form-control ml-1" [(colorPicker)]="fontColor" [style.background]="fontColor" [value]="fontColor" [cpOutputFormat]="'hex'"
+        <label for="example-time-input" class="col-form-label col-form-label-sm col-2">Color</label>
+        <input class="col-6 form-control form-control-sm ml-1" [(colorPicker)]="fontColor" [style.background]="fontColor" [value]="fontColor" [cpOutputFormat]="'hex'"
           [cpPosition]="'top'" [cpPositionOffset]="'40%'" [cpPositionRelativeToArrow]="true" (colorPickerChange)="changeFontColor($event)"
         />
-        <button class="btn  btn-outline-secondary  ml-4" (click)="changeFontColor('#000')">Reset</button>
+        <button class="btn btn-sm btn-outline-secondary  ml-4" (click)="changeFontColor('#000')">Reset</button>
       </div>
       <h6 class="card-subtitle mt-2 mb-2">Map settings</h6>
       <div class="form-group form-inline">
-        <label for="example-time-input" class="col-form-label col-2">Color</label>
-        <input class="col-6 form-control ml-1" [(colorPicker)]="mapColor" [style.background]="mapColor" [value]="mapColor" [cpOutputFormat]="'hex'"
+        <label for="example-time-input" class="col-form-label col-form-label-sm col-2">Color</label>
+        <input class="col-6 form-control form-control-sm ml-1" [(colorPicker)]="mapColor" [style.background]="mapColor" [value]="mapColor" [cpOutputFormat]="'hex'"
           [cpPosition]="'top'" [cpPositionOffset]="'40%'" [cpPositionRelativeToArrow]="true" (colorPickerChange)="changeMapColor($event)"
         />
-        <button class="btn  btn-outline-secondary ml-4" (click)="changeMapColor('#ddd')">Reset</button>
+        <button class="btn btn-sm  btn-outline-secondary ml-4" (click)="changeMapColor('#ddd')">Reset</button>
       </div>
     </div>
 

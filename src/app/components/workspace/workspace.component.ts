@@ -77,7 +77,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.routeSubscription = this.route.data
             .subscribe((data: { data: { dataset: DataSet, team: Team, members: User[], user: User } }) => {
                 this.dataset = data.data.dataset;
-                console.log(this.dataset)
+                // console.log(this.dataset)
                 this.isNoInitiatives = !(this.dataset.initiative.children && this.dataset.initiative.children.length >0 )
          
                 this.tags = data.data.dataset.tags;

@@ -92,7 +92,7 @@ describe("workspace.component.ts", () => {
                             data: Observable.of({
                                 data: {
                                     dataset:
-                                    new DataSet({ datasetId: "123" }),
+                                    new DataSet({ datasetId: "123", initiative: new Initiative() }),
                                     team: new Team({ team_id: "team123", name: "team" }),
                                     members: []
                                 }
