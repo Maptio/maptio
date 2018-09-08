@@ -26,7 +26,7 @@
 
 html, body {
   height: 100%;
-  font-family: 'Open Sans', sans-serif !important;
+  font-family: 'Questrial', sans-serif !important;
 
 }
 
@@ -37,6 +37,10 @@ body {
 .text-blue{
   color: var(--maptio-blue) !important;
 
+}
+
+.bg-orange{
+  background : var(--maptio-orange)
 }
 
 .large{

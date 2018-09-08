@@ -239,20 +239,21 @@
     overflow-x: hidden; /* Disable horizontal scroll */
     margin-top: 8vh; /* Place content 60px from the top */
     transition: width 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+
     /* border:solid 1px red; */
     /* box-shadow: 0 6px 50px #999; */
  }
 
  @media only screen and (max-height: 800px) {
     .sidenav {
-      max-height: 78vh;
+      max-height: 77vh;
       overflow: hidden;
     }
   }
   
   @media only screen and (min-height: 800px) {
     .sidenav {
-      max-height: 82vh;
+      max-height: 86vh;
       overflow: hidden;
     }
   }
@@ -276,16 +277,12 @@
 /* The side navigation menu */
 .sidenav >  .hierarchy {
     background-color: transparent; /* Black*/
-    /* margin-top :3rem; */
     margin-left: 3vw;
-    /* width: 250px; */
+    min-height: 86vh;
 }
 
-.sidenav >  .details {/* Black*/
-    /* margin-top :3rem; */
-
-    /* box-shadow: 0 6px 50px #999; */
-    /* width: 250px; */
+.sidenav >  .details {
+    /* background: var(--light) */
 }
 
 
@@ -328,7 +325,7 @@
 
 
 #main.full-push{
-    margin-left:93vw;
+    margin-left:90vw;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
