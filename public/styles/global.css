@@ -191,6 +191,10 @@ transition: max-height .25s ease-in-out;
   transition: max-height .25s ease-in-out;
 }
 
+.nowrap{
+  white-space: nowrap;
+}
+
 /* 
 html, body {
   height: 100%;

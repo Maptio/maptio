@@ -14,9 +14,11 @@
                 <div class="card mb-2 mr-4">
                     <div class="card-body">
                         <h5 class="card-title">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <a routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/circles"> {{dataset.initiative.name}}</a>
-                                <small>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <small class="nowrap">
+                                    <a routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/circles"> {{dataset.initiative.name}}</a>
+                                </small>
+                                <small class="nowrap">
                                     Team
                                     <a routerLink="/teams/{{dataset.team?.team_id}}/{{dataset.team?.getSlug()}}">{{dataset.team?.name}}</a>
 
