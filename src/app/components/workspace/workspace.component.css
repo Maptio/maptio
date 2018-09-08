@@ -237,7 +237,7 @@
     top: 0; /* Stay at the top */
     left: 0;
     overflow-x: hidden; /* Disable horizontal scroll */
-    margin-top: 13vh; /* Place content 60px from the top */
+    margin-top: 8vh; /* Place content 60px from the top */
     transition: width 0.5s; /* 0.5 second transition effect to slide in the sidenav */
     /* border:solid 1px red; */
     /* box-shadow: 0 6px 50px #999; */
@@ -316,10 +316,10 @@
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 #main {
     transition: margin-left .5s;
-    /* background: blue; */
-    box-shadow: 0 6px 50px #999;
-    margin: 2rem;
-    /* width: 100%; */
+    box-shadow: 5px 5px 15px 0px #999;
+    margin: 1vh;
+    margin-left:2vw;
+    margin-right:2vw;
 }
 
 #main.half-push{

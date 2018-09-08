@@ -1,13 +1,22 @@
 <nav class="navbar fixed-bottom bg-transparent d-flex justify-content-around">
-    <span class="navbar-text">
-        <small class="">Copyright <i class="fa fa-copyright" aria-hidden="true"></i> {{today | date:'yyyy'}} Maptio Ltd</small>
+    <span class="navbar-text text-muted">
+        <small class="">Copyright
+            <i class="fa fa-copyright" aria-hidden="true"></i> {{today | date:'yyyy'}} Maptio Ltd</small>
     </span>
     <span class="navbar-text">
-        <div class="text-blue">
-            <a class="small mr-1 text-muted" href="{{TOS_URL}}" target="blank">Terms</a>|
-            <a class="small mr-1 text-muted" href="{{PRIVACY_URL}}" target="blank">Privacy</a>|
-            <a class="small mr-1 text-muted" href="{{BLOG_URL}}" target="blank">Blog</a>|
-            <a class="small mr-1 text-muted" routerLink="/help">Help &amp; support</a>
+        <div class="text-muted">
+            <a class="small mr-1" href="{{TOS_URL}}" target="blank">
+                <span class="text-muted">Terms</span>
+            </a>|
+            <a class="small mr-1 text-muted" href="{{PRIVACY_URL}}" target="blank">
+                <span class="text-muted">Privacy</span>
+            </a>|
+            <a class="small mr-1 text-muted" href="{{BLOG_URL}}" target="blank">
+                <span class="text-muted">Blog</span>
+            </a>|
+            <a class="small mr-1 text-muted" routerLink="/help">
+                <span class="text-muted">Help &amp; support</span>
+            </a>
         </div>
     </span>
 </nav>

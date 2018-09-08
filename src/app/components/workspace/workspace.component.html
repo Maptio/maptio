@@ -45,7 +45,7 @@
         <div id="sidenav-hierarchy" class="hierarchy position-relative" [class.opened]="!isBuildingPanelCollapsed" [class.closed]="isBuildingPanelCollapsed">
             <div class="card border-0">
                 <a class="d-flex justify-content-end px-3" [class.invisible]="isBuildingPanelCollapsed" (click)="isBuildingPanelCollapsed=true">
-                    <i class="fa fa-times text-muted" aria-hidden="true"></i>
+                        <span aria-hidden="true" class="text-muted">&times;</span>
                 </a>
                 <div class="card-body" [class.invisible]="isBuildingPanelCollapsed">
                     <building #building [user]="user" (save)="saveChanges($event)" (openDetails)="openDetails($event)" (openDetailsEditOnly)="openDetails($event,true)">Loading...</building>
@@ -57,7 +57,7 @@
         <div id="sidenav-details" class="details position-relative" [class.opened]="!isDetailsPanelCollapsed" [class.closed]="isDetailsPanelCollapsed">
             <div class="card border-0">
                 <a class="d-flex justify-content-end px-3" [class.invisible]="isDetailsPanelCollapsed" (click)="isDetailsPanelCollapsed=true">
-                    <i class="fa fa-times text-muted" aria-hidden="true"></i>
+                        <span aria-hidden="true" class="text-muted">&times;</span>
                 </a>
                 <div class="card-body" [class.invisible]="isDetailsPanelCollapsed">
                     <initiative *ngIf="!isDetailsPanelCollapsed" #initiative [datasetTags]="tags" [datasetId]="datasetId" [node]="openedNode"
@@ -68,15 +68,13 @@
         </div>
     </div>
 
-    <!-- Use any element to open the sidenav -->
     <div class="open-nav d-flex flex-column justify-content-center align-items-center cursor-pointer" (click)="isBuildingPanelCollapsed=false">
         <span>
-            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+            <i class="fa fa-ellipsis-v text-muted" aria-hidden="true"></i>
         </span>
     </div>
 
-    <!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
-    <div id="main" class="d-flex justify-content-center w-100" [class.half-push]="isBuildingPanelCollapsed !== isDetailsPanelCollapsed"
+    <div id="main" class="d-flex justify-content-center w-100 position-relative" [class.half-push]="isBuildingPanelCollapsed !== isDetailsPanelCollapsed"
         [class.full-push]="!isDetailsPanelCollapsed && !isBuildingPanelCollapsed">
         <mapping [tags]="selectableTags" (showDetails)="openDetails($event, true)" (addInitiative)="addInitiative($event)" (removeInitiative)="removeInitiative($event)"
             (moveInitiative)="moveInitiative($event)" (closeEditingPanel)="closeEditingPanel()" (openTreePanel)="isBuildingPanelCollapsed=false"

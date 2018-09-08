@@ -79,7 +79,7 @@ export class MappingComponent {
   // public selectableUsers$: Subject<Array<SelectableUser>>;
 
   public VIEWPORT_WIDTH: number = window.innerWidth-100;
-  public VIEWPORT_HEIGHT: number = window.innerHeight-150;
+  public VIEWPORT_HEIGHT: number = window.innerHeight-125;
 
   public isLoading: boolean;
   public datasetId: string;

@@ -1,60 +1,3 @@
-.save {
-  position: absolute;
-  margin: 5px;
-}
-
-.save:before {
-  content: "\f0c7";
-  font-family: FontAwesome;
-}
-
-.control {
-  position: absolute;
-  right: 1vw;
-  /* box-shadow: 1px 1px 6px #888888; */
-  top: 10vh;
-  margin-right: 0.5vw;
-  border-radius: 4px;
-  /* background-color: rgb(224, 224, 224); */
-  /* width: 43px; */
-  transition: 0.3s ease-in;
-}
-
-
-/* .control.showSettings {
-  right: 45vw;
-  transition: 0.3s ease-in;
-} */
-.control.zero {
-  top:9vh;
-}
-
-.control.zero.panel{
-  right: 4vw;
-}
-
-
-.control.first {
-  top: 29vh;
-}
-
-/* .control.first > .btn-group-vertical {
-  width: 48px;
-} */
-
-.control.second {
-  top: 53vh;
-}
-
-.control.third {
-  top: 53vh;
-  right: 6vw
-}
-
-.control.fourth {
-  top: 85vh;
-
-}
 
 .icon-text-label{
   font-size: xx-small;
@@ -65,144 +8,11 @@
   white-space: normal;
 }
 
-.background {
-  background-color: #f0ad4e;
-}
 
-.background {
-  background-color: #f0ad4e;
-}
-
-.control > a {
-  color: gray;
-  border: 1px solid lightgray;
-  background-color: #fcfcfc;
-  clear: both;
-  width: 100%;
-  height: 100%;
-}
-
-.control > a:hover {
-  color: black;
-}
-
-.plus:before {
-  content: "\f067";
-  font-family: FontAwesome;
-}
-
-.minus:before {
-  content: "\f068";
-  font-family: FontAwesome;
-}
-
-.reset:before {
-  content: "\f066";
-  font-family: FontAwesome;
-}
-
-.settings:before {
-  content: "\f1de";
-  font-family: FontAwesome;
-}
-
-.experimental:before {
-  content: "\f0c3";
-  font-family: FontAwesome;
-}
-
-.edit-tag:before {
-  content: "\f02c";
-  font-family: FontAwesome;
-}
-
-.locked:before {
-  content: "\f023";
-  font-family: FontAwesome;
-}
-
-.unlocked:before {
-  content: "\f13e";
-  font-family: FontAwesome;
-}
-
-/* .options {
-  width: 44px;
-}
-
-.options:before {
-  content: "\f0d7";
-  font-family: FontAwesome;
-} */
-
-.first-person-view:before {
-  content: "\f03a";
-  font-family: FontAwesome;
-  height: 50px;
-  padding: 0;
-  color: black;
-}
-
-.zoom a {
-  border: 0;
-}
-
-.vertical {
-  writing-mode: bt-lr;
-  /* width: 44px; */
-  /* height: 22px; */
-  margin-left: 3px;
-  margin-right: 3px;
-}
-
-.control.second > span {
-  position: absolute;
-  top: 85%;
-}
-
-.active-link {
-  background-color: #2f81b7;
-}
-
-#sideNavSettings {
-  height: 90vh;
-  max-height: 90vh;
-  min-width: 0;
-  position: fixed;
-  right: 0;
-  overflow: hidden;
-  transition: 0.3s ease-in;
-  background-color: #fff;
-  margin-top: 3vh;
-  width: 0;
-  padding: 0 0 0 0;
-  /* border: solid #f8f9fa; */
-  /* box-shadow: -9px -5px #888888; */
-}
-
-
-.map {
-  margin-left: 0;
-  transition: 0.3s ease-in;
-}
-
-.map.slide {
-  margin-left: -45vw;
-  transition: 0.3s ease-in;
-}
 
 .edit-tags .overflow {
   overflow-y: auto;
   max-height: 45vh;
-}
-
-.nav-pills .nav-item.show .nav-link,
-.nav-pills .nav-link.active {
-  color: #959595;
-  cursor: default;
-  border-color: #959595;
-  background-color: white;
-  border: solid 2px;
 }
 
 .filter-tags {
@@ -212,44 +22,6 @@
   left: 7vw;
   min-width: 80vw;
 }
-
-.toggle {
-  border: none;
-  background-color: transparent;
-  padding: 3vh;
-  margin: -3vh;
-  top: 2vh;
-  position: absolute;
-  right: 43vw;
-}
-
-.tag-image {
-  height: 14px;
-}
-
-.btn-link {
-  color: #2f81b7 !important;
-}
-
-
-
-/* .input-group input {
-  border-right: 0px solid transparent;
-}
-
-.input-group .input-group-addon {
-  background-color: transparent;
-  border-left: 0px solid transparent;
-} */
-
-.static-value {
-  position: absolute;
-  left: 1vw;
-  /* font-size: 0.8em; */
-  color: #444;
-  top: 9px;
-}
-
 
 
 .fontSizeOutput{
@@ -270,27 +42,11 @@
   top: 50%;
 }
 
-
 .input-group-prepend.options {
   position: absolute;
   right: 3vw;
 }
 
-.btn-control + .input-group-prepend.options{
-  visibility: hidden;
-}
-
-.btn-control.active + .input-group-prepend.options{
-  visibility: visible;
-}
-
-.btn-group-vertical>.input-group:not(:last-child)>.btn, .btn-group-vertical>.input-group:not(:last-child):not(.dropdown-toggle)>.btn {
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-
-
-.btn-group-vertical>.input-group:not(:first-child)>.btn, .btn-group-vertical>.input-group:not(:first-child) > .btn {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+.windows{
+  right:0;
 }
