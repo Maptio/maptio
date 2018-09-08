@@ -976,7 +976,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
           let isHorizontalPosition = top < 0 && bottom + TOOLTIP_HEIGHT > Number.parseFloat(svg.attr("height"));
           tooltip
-            .style("z-index", 2000)
+            // .style("z-index", 2000)
             .style("left", () => {
               return isHorizontalPosition
                 ? `${center.x + radius * Math.cos(DEFAULT_PICTURE_ANGLE) - TOOLTIP_WIDTH / 2 - ARROW_DIMENSION}px`

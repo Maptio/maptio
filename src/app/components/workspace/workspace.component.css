@@ -237,22 +237,25 @@
     top: 0; /* Stay at the top */
     left: 0;
     overflow-x: hidden; /* Disable horizontal scroll */
-    margin-top: 56px; /* Place content 60px from the top */
+    margin-top: 13vh; /* Place content 60px from the top */
     transition: width 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+    /* border:solid 1px red; */
     /* box-shadow: 0 6px 50px #999; */
  }
 
- /* @media only screen and (max-height: 800px) {
+ @media only screen and (max-height: 800px) {
     .sidenav {
-      max-height: 74vh;
+      max-height: 78vh;
+      overflow: hidden;
     }
   }
   
   @media only screen and (min-height: 800px) {
     .sidenav {
-      max-height: 78vh;
+      max-height: 82vh;
+      overflow: hidden;
     }
-  } */
+  }
 
  .sidenav > .opened{
     width: 42vw;
@@ -273,13 +276,13 @@
 /* The side navigation menu */
 .sidenav >  .hierarchy {
     background-color: transparent; /* Black*/
-    margin-top :3rem;
+    /* margin-top :3rem; */
     margin-left: 3vw;
     /* width: 250px; */
 }
 
 .sidenav >  .details {/* Black*/
-    margin-top :3rem;
+    /* margin-top :3rem; */
 
     /* box-shadow: 0 6px 50px #999; */
     /* width: 250px; */
@@ -315,7 +318,7 @@
     transition: margin-left .5s;
     /* background: blue; */
     box-shadow: 0 6px 50px #999;
-    margin: 3rem;
+    margin: 2rem;
     /* width: 100%; */
 }
 
