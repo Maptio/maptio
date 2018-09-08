@@ -1,4 +1,4 @@
-.member {
+/* .member {
     float: left;
     background: 50% 50% no-repeat;
     background-size: auto 100%;
@@ -12,8 +12,6 @@
 
 
 .team-name {
-    /* padding: 0 8px 1px 0; */
-    /* margin: -18px 0 0 0; */
     font-size: initial;
     margin-right: 13px;
 }
@@ -23,26 +21,18 @@
 }
 
 .mapping {
-    /* opacity: 0.8; */
-    /* margin-left: 25px;
-    position: absolute; */
-    /* left: 0; */
-    /* top: 0; */
     width: 100%;
     height: 100%;
 }
 
-/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 
 #main {
     transition: margin-left .5s;
     width: 100%;
     height: 100%;
-    /* padding-top: 5vh; */
 }
 
 #main.showTree {
-    /* margin-left: 665px; */
     transition: 0.5s;
 }
 
@@ -61,7 +51,6 @@
     transition: opacity 0.5s ease-in;
 }
 
-/* The side navigation menu */
 
 #sideNavTree {
     height: 90vh;
@@ -100,7 +89,6 @@
 #sideNavDetails {
     height: 90vh;
     max-height: 90vh;
-    /* min-width: 3.5vw; */
     position: fixed;
     left: 0;
     overflow: hidden;
@@ -127,7 +115,6 @@
 
 
 
-/* The navigation menu links */
 
 .sidenav a {
     padding: 8px 8px 8px 32px;
@@ -138,23 +125,19 @@
     transition: 0.3s
 }
 
-/* When you mouse over the navigation links, change their color */
 
 .sidenav a:hover, .offcanvas a:focus {
     color: #f1f1f1;
 }
 
-/* Position and style the close button (top right corner) */
 
 .closebtn {
     position: absolute;
     top: -5px;
     right: 3px;
     font-size: 20px;
-    /* margin-left: 50px; */
 }
 
-/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 
 @media screen and (max-height: 450px) {
     .sidenav {
@@ -166,7 +149,6 @@
 }
 
 .edit-map {
-    /* position: absolute; */
     top: -5vh;
     left: -20vh;
     transition: 0.3s;
@@ -197,21 +179,13 @@
     border: 0;
 }
 
-/* .toggle-edit:before {
-    content: "\f07c";
-    font-family: FontAwesome;
-} */
-
-
 
 .all {
-    /* padding: -4vh; */
     margin: -3vh -3vh -77vh -3vh;
     padding: 3vh 3vh 77vh 3vh;
 }
 
 .toggle {
-    /* padding: 0; */
     padding: 3vh;
     margin: -3vh;
     padding-bottom: 80vh;
@@ -252,3 +226,123 @@
     top:9vh;
     right:50vw;
 }
+ */
+
+
+
+ .sidenav{
+    height: 100%; /* 100% Full-height */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    overflow-x: hidden; /* Disable horizontal scroll */
+    margin-top: 56px; /* Place content 60px from the top */
+    transition: width 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+    /* box-shadow: 0 6px 50px #999; */
+ }
+
+ /* @media only screen and (max-height: 800px) {
+    .sidenav {
+      max-height: 74vh;
+    }
+  }
+  
+  @media only screen and (min-height: 800px) {
+    .sidenav {
+      max-height: 78vh;
+    }
+  } */
+
+ .sidenav > .opened{
+    width: 42vw;
+    z-index: 1;
+ }
+
+ .sidenav > .closed{
+    width:0;
+    z-index: 0;
+}
+ 
+
+ #sidenav-hierarchy, #sidenav-details{
+    transition: width 0.5s;
+ }
+
+
+/* The side navigation menu */
+.sidenav >  .hierarchy {
+    background-color: transparent; /* Black*/
+    margin-top :3rem;
+    margin-left: 3vw;
+    /* width: 250px; */
+}
+
+.sidenav >  .details {/* Black*/
+    margin-top :3rem;
+
+    /* box-shadow: 0 6px 50px #999; */
+    /* width: 250px; */
+}
+
+
+/* The navigation menu links */
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.5s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+    transition: margin-left .5s;
+    /* background: blue; */
+    box-shadow: 0 6px 50px #999;
+    margin: 3rem;
+    /* width: 100%; */
+}
+
+#main.half-push{
+    margin-left:48vw;
+}
+
+
+#main.full-push{
+    margin-left:93vw;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+
+.open-nav{
+    height: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: transparent;
+    overflow-x: hidden;
+    transition: 0.5s;
+    width: 2vw;
+}
+

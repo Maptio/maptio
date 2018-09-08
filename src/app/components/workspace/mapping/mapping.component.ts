@@ -78,8 +78,8 @@ export class MappingComponent {
   public selectableTags$: Subject<Array<SelectableTag>>;
   // public selectableUsers$: Subject<Array<SelectableUser>>;
 
-  public VIEWPORT_WIDTH: number = window.screen.availWidth;
-  public VIEWPORT_HEIGHT: number = window.screen.availHeight;
+  public VIEWPORT_WIDTH: number = window.innerWidth-100;
+  public VIEWPORT_HEIGHT: number = window.innerHeight-160;
 
   public isLoading: boolean;
   public datasetId: string;
@@ -212,6 +212,7 @@ export class MappingComponent {
 
     component.width = this.VIEWPORT_WIDTH;
     component.height = this.VIEWPORT_HEIGHT;
+    console.log("svg width", this.VIEWPORT_WIDTH, "screen width", window.screen.availWidth, "browser width", window.innerWidth)
 
     component.margin = 50;
     component.zoom$ = this.zoom$.asObservable();
