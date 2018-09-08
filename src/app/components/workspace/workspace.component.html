@@ -44,7 +44,7 @@
     <div class="sidenav d-flex justify-content-start">
         <div id="sidenav-hierarchy" class="hierarchy position-relative bg-light rounded" [class.opened]="!isBuildingPanelCollapsed" [class.closed]="isBuildingPanelCollapsed">
             <div class="card border-0 bg-transparent">
-                <a class="d-flex justify-content-end px-3 cursor-pointer" [class.invisible]="isBuildingPanelCollapsed" (click)="isBuildingPanelCollapsed=true">
+                <a class="d-flex justify-content-end px-3 cursor-pointer m-0 p-0" [class.invisible]="isBuildingPanelCollapsed" (click)="isBuildingPanelCollapsed=true">
                         <span aria-hidden="true" class="text-muted">&times;</span>
                 </a>
                 <div class="card-body" [class.invisible]="isBuildingPanelCollapsed">
@@ -56,7 +56,7 @@
         </div>
         <div id="sidenav-details" class="details position-relative bg-orange rounded" [class.opened]="!isDetailsPanelCollapsed" [class.closed]="isDetailsPanelCollapsed">
             <div class="card border-0 bg-transparent">
-                <a class="d-flex justify-content-end px-3  cursor-pointer" [class.invisible]="isDetailsPanelCollapsed" (click)="isDetailsPanelCollapsed=true">
+                <a class="d-flex justify-content-end px-3  cursor-pointer  m-0 p-0" [class.invisible]="isDetailsPanelCollapsed" (click)="isDetailsPanelCollapsed=true">
                         <span aria-hidden="true" class="text-muted">&times;</span>
                 </a>
                 <div class="card-body " [class.invisible]="isDetailsPanelCollapsed">

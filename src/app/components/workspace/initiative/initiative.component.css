@@ -23,7 +23,7 @@ span.help-popup {
 
 @media only screen and (max-height: 800px) {
     .helpers.overflow {
-        max-height: 25vh;
+        max-height: 23vh;
         overflow-y: auto;
     }
     .description.overflow {
