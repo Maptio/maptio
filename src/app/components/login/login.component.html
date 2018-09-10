@@ -50,10 +50,10 @@
                 <div class="alert alert-danger " role="alert" *ngIf="loginErrorMessage">
                     {{loginErrorMessage}}
                 </div>
-                <div *ngIf="isPasswordTooWeak" class="alert alert-danger" role="alert">
+                <!-- <div *ngIf="isPasswordTooWeak" class="alert alert-danger" role="alert">
                     Password must always be at least 8 characters in length and include at least 1 lowercase letter, 1 uppercase letter and 1
                     number.
-                </div>
+                </div> -->
                 <div *ngIf="isUserAlreadyActive" class="alert alert-danger" role="alert">
                     Your account is already active,
                     <a routerLink="/login">log in</a>
@@ -95,7 +95,7 @@
                     <small class="form-control-feedback" *ngIf="activateForm.controls['password'].invalid  && (activateForm.controls['password'].dirty || activateForm.controls['password'].touched)">
                         Required
                     </small>
-                    <small class="form-text text-muted">
+                    <small class="form-text " [class.text-muted]="!isPasswordTooWeak" [class.text-danger]="isPasswordTooWeak">
                         Password must :
                         <ul>
                             <li>
