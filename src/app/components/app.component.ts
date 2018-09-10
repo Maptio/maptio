@@ -12,6 +12,7 @@ import { Auth } from "../shared/services/auth/auth.service";
 import { environment } from "../../environment/environment";
 import { Observable } from "rxjs/Observable";
 import { Intercom } from 'ng-intercom';
+import { NgProgress } from "ngx-progressbar";
 
 @Component({
   selector: "my-app",
@@ -30,7 +31,7 @@ export class AppComponent {
   @ViewChild("help")
   helpComponent: HelpComponent;
 
-  constructor(public auth: Auth, private router: Router, private loaderService: LoaderService,
+  constructor(public auth: Auth, private router: Router, private ngProgress: NgProgress,
     public intercom: Intercom) {
 
     this.routerSubscription = this.router.events
@@ -40,18 +41,18 @@ export class AppComponent {
           // this.isHome = this.isUrlHome(event.url)
           // this.isMap = this.isUrlMap(event.url);
           // (<any>window).Intercom("update");
-          this.loaderService.show();
+          this.ngProgress.start();
         }
         else if (
           event instanceof NavigationEnd ||
           event instanceof NavigationCancel
         ) {
           this.isHome = this.isUrlHome(event.url)
-          this.loaderService.hide();
+          this.ngProgress.done();
         }
 
         if (event instanceof NavigationError) {
-          this.loaderService.hide();
+          this.ngProgress.done();
         }
       });
   }

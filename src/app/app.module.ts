@@ -17,7 +17,7 @@ import { D3Service } from "d3-ng2-service";
 import { FileUploadModule } from "ng2-file-upload";
 import { ResponsiveModule } from "ng2-responsive";
 import { McBreadcrumbsConfig, McBreadcrumbsModule } from "ngx-breadcrumbs";
-import { ANIMATION_TYPES, LoadingModule } from "ngx-loading";
+// import { ANIMATION_TYPES, LoadingModule } from "ngx-loading";
 import * as Rollbar from "rollbar";
 
 import { AnAnchorableComponent } from "../test/specs/shared/component.helper.shared";
@@ -65,6 +65,7 @@ import { IntercomModule } from 'ng-intercom';
 import * as LogRocket from "logrocket";
 import { BillingService } from "./shared/services/billing/billing.service";
 import { BillingGuard } from "./shared/services/guards/billing.guard";
+import { NgProgressModule } from 'ngx-progressbar';
 
 const appRoutes: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
@@ -151,15 +152,16 @@ export function rollbarFactory() {
     }),
     Angulartics2Module.forRoot([Angulartics2Mixpanel]),
     FileUploadModule,
-    LoadingModule.forRoot({
-      animationType: ANIMATION_TYPES.threeBounce,
-      fullScreenBackdrop: true,
-      backdropBackgroundColour: "#f8f9fa",
-      backdropBorderRadius: ".25rem",
-      primaryColour: "#EF5E26",
-      secondaryColour: "transparent",
-      tertiaryColour: "#2F81B7"
-    }),
+    // LoadingModule.forRoot({
+    //   animationType: ANIMATION_TYPES.threeBounce,
+    //   fullScreenBackdrop: true,
+    //   backdropBackgroundColour: "#f8f9fa",
+    //   backdropBorderRadius: ".25rem",
+    //   primaryColour: "#EF5E26",
+    //   secondaryColour: "transparent",
+    //   tertiaryColour: "#2F81B7"
+    // }),
+    NgProgressModule,
     HttpFactoryModule,
     BrowserAnimationsModule,
     CloudinaryModule.forRoot(cloudinaryLib, { cloud_name: environment.CLOUDINARY_CLOUDNAME, upload_preset: environment.CLOUDINARY_UPLOAD_PRESET }),

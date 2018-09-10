@@ -102,6 +102,7 @@ export class HeaderComponent implements OnInit {
 
     ngOnInit() {
         this.userSubscription = this.auth.getUser().subscribe((user: User) => {
+            console.log("header", user)
             this.user = user;
 
             this.datasetFactory.get(this.user.datasets, true)

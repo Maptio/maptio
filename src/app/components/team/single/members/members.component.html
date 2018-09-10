@@ -107,7 +107,7 @@
                 </tr>
             </thead>
             <tbody [style.height.vh]="55">
-                <ngx-loading [show]="isLoading" [config]="{fullScreenBackdrop : 'false',backdropBackgroundColour:'transparent'}"></ngx-loading>
+                <!-- <ngx-loading [show]="isLoading" [config]="{fullScreenBackdrop : 'false',backdropBackgroundColour:'transparent'}"></ngx-loading> -->
                 <tr *ngFor="let member of (members$ | async); trackBy: trackByMemberId;let i=index" [class.text-muted]="member.isDeleted"
                     [class.font-weight-light]="member.isDeleted" [class.bold]="member.userRole===UserRole.Admin">
                     <td>

@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-center align-items-center flex-column">
     <div class="col-4 h-100">
         <div *ngIf="isLoggingIn">
-            <ngx-loading [show]="isWaiting"></ngx-loading>
+            <!-- <ngx-loading [show]="isWaiting"></ngx-loading> -->
             <h1 class="text-center">Log in to Maptio</h1>
             <div>
                 <div class="alert alert-danger" role="alert" *ngIf="loginErrorMessage">
@@ -43,7 +43,7 @@
 
         </div>
         <div *ngIf="!isLoggingIn">
-            <ngx-loading [show]="isWaiting"></ngx-loading>
+            <!-- <ngx-loading [show]="isWaiting"></ngx-loading> -->
             <h1>Create a password</h1>
             <!-- <h6 class="ml-3 text-warning">This is also the occasion to check your first and last name</h6> -->
             <div class="ml-3 mt-3">

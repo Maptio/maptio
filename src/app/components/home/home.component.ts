@@ -25,7 +25,7 @@ export class HomeComponent {
     ngOnInit(): void {
         if (!this.auth.allAuthenticated()) return;
         this.routeSubscription = this.auth.getUser()
-            .mergeMap((user: User) => {
+            .switchMap((user: User) => {
 
                 return Observable.forkJoin(this.datasetFactory.get(user.datasets), this.teamFactory.get(user.teams));
             })
@@ -52,7 +52,6 @@ export class HomeComponent {
             .subscribe((data: { datasets: DataSet[], teams: Team[] }) => {
                 this.teams = data.teams;
                 this.datasets = data.datasets
-                console.log(this.datasets, this.teams)
                 this.cd.markForCheck();
             });
 
