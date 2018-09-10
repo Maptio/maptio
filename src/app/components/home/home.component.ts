@@ -23,7 +23,7 @@ export class HomeComponent {
         public datasetFactory: DatasetFactory, public teamFactory: TeamFactory) { }
 
     ngOnInit(): void {
-        this.routeSubscription =  this.auth.getUser()
+        this.routeSubscription = this.auth.getUser()
             .mergeMap((user: User) => {
                 return Observable.forkJoin(this.datasetFactory.get(user.datasets), this.teamFactory.get(user.teams));
             })
@@ -38,13 +38,11 @@ export class HomeComponent {
                     teams
                 ]
             })
-            .do(([datasets, teams]: [DataSet[], Team[]]) => {
-                const promises = datasets
-                    .map(d => {
-                        return this.teamFactory.get(d.initiative.team_id).then((t) => { d.team = t; return d })
-                    });
-
-                return Observable.forkJoin(promises);
+            .map(([datasets, teams]: [DataSet[], Team[]]) => {
+                return [datasets.map(d => {
+                    d.team = teams.find(t => d.initiative.team_id === t.team_id);
+                    return d
+                }), teams]
             })
             .map(([datasets, teams]: [DataSet[], Team[]]) => {
                 return { datasets: sortBy(datasets, d => d.initiative.name), teams: teams }

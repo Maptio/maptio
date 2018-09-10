@@ -9,6 +9,7 @@ import { ExportService } from "../../shared/services/export/export.service";
 import { saveAs } from "file-saver"
 import { EmitterService } from "../../shared/services/emitter.service";
 import { Team } from '../../shared/model/team.data';
+import { TeamFactory } from '../../shared/services/team.factory';
 
 @Component({
     selector: "dashboard",
@@ -29,7 +30,7 @@ export class DashboardComponent {
 
     constructor(
         private exportService: ExportService,
-        private cd: ChangeDetectorRef) {
+        private cd: ChangeDetectorRef, private teamFactory:TeamFactory) {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
