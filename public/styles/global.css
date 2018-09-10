@@ -43,6 +43,10 @@ body {
   background : var(--maptio-orange)
 }
 
+.box-shadow{
+  box-shadow: 5px 5px 15px 0px #999;
+}
+
 .large{
   font-size: large!important;
 }

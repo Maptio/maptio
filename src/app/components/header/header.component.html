@@ -4,7 +4,7 @@
             <img width="30" height="30" class="d-inline-block align-top" src="/assets/images/logo-full.webp" alt="Home">
 
         </a>
-     
+
     </a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -14,13 +14,13 @@
 
     <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-                <li class="nav-item col-auto d-flex flex-column justify-content-end px-0 pt-3">
-                        <mc-breadcrumbs></mc-breadcrumbs>
-                        <div class="small text-success saving d-flex justify-content-end align-items-center" [class.invisible]="!isSaving">
-                                <i class="fa fa-floppy-o mx-1" aria-hidden="true"></i>
-                                <span>Saving</span>
-                            </div>
-                </li>
+            <li class="nav-item col-auto d-flex flex-column justify-content-end px-0 pt-3">
+                <mc-breadcrumbs></mc-breadcrumbs>
+                <div class="small text-success saving d-flex justify-content-end align-items-center" [class.invisible]="!isSaving">
+                    <i class="fa fa-floppy-o mx-1" aria-hidden="true"></i>
+                    <span>Saving</span>
+                </div>
+            </li>
         </ul>
 
         <span class="navbar-text d-flex flex-column " *ngIf="team">
@@ -34,7 +34,7 @@
             </span>
         </span>
 
-      
+
 
 
         <ul class="navbar-nav ml-auto d-flex align-items-center" *ngIf="auth.allAuthenticated()">
@@ -109,7 +109,9 @@
         </ul>
         <ng-container *showItBootstrap="['md','lg','xl']">
             <ng-container *ngIf="!auth.allAuthenticated()">
-                <form id="loginForm" class="form-inline pr-2 col-4" [formGroup]="loginForm" (submit)="login()">
+                <button class="btn btn-outline-secondary mx-2" routerLink="/login">Log in</button>
+                <button class="btn btn-success" routerLink="/signup">Sign up</button>
+                <!-- <form id="loginForm" class="form-inline pr-2 col-4" [formGroup]="loginForm" (submit)="login()">
                     <div class="d-flex flex-column col-12 p-0">
                         <div class="col-12 p-0 d-flex justiy-content-between">
                             <input type="email" id="inputEmail" formControlName="email" class="w-50 form-control form-control-sm form-control-warning" placeholder="Email"
@@ -123,7 +125,7 @@
                             <a routerLink="/forgot">Forgot your password?</a>
                         </small>
                     </div>
-                </form>
+                </form> -->
             </ng-container>
         </ng-container>
     </div>

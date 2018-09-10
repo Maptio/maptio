@@ -1,5 +1,5 @@
-<div class="container-fluid" [class.background]="isHome">
-	<div class="d-flex flex-column">
+<div class="container-fluid h-100">
+	<div class="d-flex flex-column h-100">
 		<header>
 		</header>
 		<div *showItBootstrap="['xs','sm']" class="h-100">
@@ -17,7 +17,7 @@
 				</div>
 			</div>
 		</div>
-		<div *showItBootstrap="['md','lg','xl']" class="container-fluid">
+		<div *showItBootstrap="['md','lg','xl']" class="container-fluid h-100" >
 			<loader></loader>
 			<router-outlet></router-outlet>
 		</div>

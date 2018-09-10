@@ -29,7 +29,7 @@
             <div class="form-group" [class.has-warning]="signupForm.controls['firstname'].invalid  && (signupForm.controls['firstname'].dirty || signupForm.controls['firstname'].touched)">
                 <label for="inputFirstname">First name</label>
                 <input type="text" id="inputFirstname" formControlName="firstname" class="form-control form-control-warning form-control-lg"
-                    placeholder="e.g. Stewie" required minlength="2">
+                     required minlength="2">
                 <small class="form-control-feedback" *ngIf="signupForm.controls['firstname'].invalid  && (signupForm.controls['firstname'].dirty || signupForm.controls['firstname'].touched)">
                     First name must be at least 2 characters
                 </small>
@@ -38,7 +38,7 @@
             <div class="form-group" [class.has-warning]="signupForm.controls['lastname'].invalid  && (signupForm.controls['lastname'].dirty || signupForm.controls['lastname'].touched)">
                 <label for="inputLastname">Last name</label>
                 <input type="text" id="inputLastname" class="form-control form-control-warning form-control-lg" formControlName="lastname"
-                    placeholder="e.g. Griffin">
+                    >
                 <small class="form-control-feedback" *ngIf="signupForm.controls['lastname'].invalid  && (signupForm.controls['lastname'].dirty || signupForm.controls['lastname'].touched)">
                     Last name must be at least 2 characters
                 </small>
@@ -46,7 +46,7 @@
 
             <div class="form-group" [class.has-warning]="signupForm.controls['email'].invalid  && (signupForm.controls['email'].dirty || signupForm.controls['email'].touched)">
                 <label for="inputEmail">Email</label>
-                <input type="email" class="form-control form-control-warning form-control-lg" formControlName="email" placeholder="e.g. stewie.griffin@tinytots.com">
+                <input type="email" class="form-control form-control-warning form-control-lg" formControlName="email" >
                 <small class="form-control-feedback" *ngIf="signupForm.controls['email'].invalid  && (signupForm.controls['email'].dirty || signupForm.controls['email'].touched)">
                     We need your email!
                 </small>
@@ -55,7 +55,7 @@
 
             <div class="form-group" [class.has-warning]="signupForm.controls['confirmedEmail'].invalid  && (signupForm.controls['confirmedEmail'].dirty || signupForm.controls['confirmedEmail'].touched)">
                 <label for="inputConfirmedEmail">Confirm email</label>
-                <input type="email" class="form-control form-control-warning form-control-lg" formControlName="confirmedEmail" placeholder="e.g. stewie.griffin@tinytots.com">
+                <input type="email" class="form-control form-control-warning form-control-lg" formControlName="confirmedEmail" >
                 <small class="form-control-feedback" *ngIf="signupForm.controls['confirmedEmail'].invalid  && (signupForm.controls['confirmedEmail'].dirty || signupForm.controls['confirmedEmail'].touched)">
                     This doesnt look right... check your email again.
                 </small>
