@@ -20,7 +20,7 @@ export class SignupComponent implements OnInit {
 
 
     public email: string;
-    public confirmedEmail: string;
+    // public confirmedEmail: string;
     public firstname: string;
     public lastname: string;
     // public isTermsAccepted: boolean;
@@ -49,9 +49,9 @@ export class SignupComponent implements OnInit {
             "email": new FormControl(this.email, [
                 Validators.required
             ]),
-            "confirmedEmail": new FormControl(this.confirmedEmail, [
-                Validators.required, repeatValidator("email")
-            ])
+            // "confirmedEmail": new FormControl(this.confirmedEmail, [
+            //     Validators.required, repeatValidator("email")
+            // ])
             // "isTermsAccepted": new FormControl(this.isTermsAccepted, [
             //     Validators.requiredTrue
             // ])

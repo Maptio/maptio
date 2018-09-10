@@ -1,71 +1,70 @@
-<div class="mt-3">
-    <ngx-loading [show]="isLoading"></ngx-loading>
+<div class="d-flex justify-content-center align-items-center flex-column">
+    <div class="col-4 h-100">
+        <ngx-loading [show]="isLoading"></ngx-loading>
 
-    <h2 class="">Create a Maptio account</h2>
-    <br>
-    <div class="alert alert-danger" role="alert" *ngIf="signUpMessageFail">
-        {{signUpMessageFail}}
+        <h2 class="">Create a Maptio account</h2>
+        <br>
+        <div class="alert alert-danger" role="alert" *ngIf="signUpMessageFail">
+            {{signUpMessageFail}}
+        </div>
+        <div class="alert alert-success" role="alert" *ngIf="isRedirectToActivate">
+            You already have created an account but we need to verify your email ! Check your inbox or
+            <button (click)="resendEmail()" class="btn btn-secondary">resend a confirmation email
+                <i *ngIf="isResending" class="text-muted fa fa-circle-o-notch fa-spin fa-fw ml-3 "></i>
+            </button>
+        </div>
+
+        <div class="alert alert-success" role="alert" *ngIf="isEmailAlreadyExist">
+            This email already has an account. Do you want to
+            <a routerLink="/login">log in</a>?
+        </div>
+        <div class="alert alert-success" role="alert" *ngIf="isConfirmationEmailSent">
+            We have sent a confirmation email to
+            <b>{{signupForm.controls['email'].value}}</b>. Please follow the link in the email to complete set-up. Not received?
+            Email support@maptio.com
+        </div>
+
+        <form class="form-group" [formGroup]="signupForm" (submit)="createAccount()" *ngIf="!isConfirmationEmailSent">
+            <fieldset>
+                <div class="form-group" [class.has-warning]="signupForm.controls['firstname'].invalid  && (signupForm.controls['firstname'].dirty || signupForm.controls['firstname'].touched)">
+                    <label for="inputFirstname">First name</label>
+                    <input type="text" id="inputFirstname" formControlName="firstname" class="form-control form-control-warning form-control-lg"
+                        required minlength="2">
+                    <small class="form-control-feedback" *ngIf="signupForm.controls['firstname'].invalid  && (signupForm.controls['firstname'].dirty || signupForm.controls['firstname'].touched)">
+                        First name must be at least 2 characters
+                    </small>
+                </div>
+
+                <div class="form-group" [class.has-warning]="signupForm.controls['lastname'].invalid  && (signupForm.controls['lastname'].dirty || signupForm.controls['lastname'].touched)">
+                    <label for="inputLastname">Last name</label>
+                    <input type="text" id="inputLastname" class="form-control form-control-warning form-control-lg" formControlName="lastname">
+                    <small class="form-control-feedback" *ngIf="signupForm.controls['lastname'].invalid  && (signupForm.controls['lastname'].dirty || signupForm.controls['lastname'].touched)">
+                        Last name must be at least 2 characters
+                    </small>
+                </div>
+
+                <div class="form-group" [class.has-warning]="signupForm.controls['email'].invalid  && (signupForm.controls['email'].dirty || signupForm.controls['email'].touched)">
+                    <label for="inputEmail">Email</label>
+                    <input type="email" class="form-control form-control-warning form-control-lg" formControlName="email">
+                    <small class="form-control-feedback" *ngIf="signupForm.controls['email'].invalid  && (signupForm.controls['email'].dirty || signupForm.controls['email'].touched)">
+                        We need your email!
+                    </small>
+                </div>
+
+
+                <!-- <div class="form-group" [class.has-warning]="signupForm.controls['confirmedEmail'].invalid  && (signupForm.controls['confirmedEmail'].dirty || signupForm.controls['confirmedEmail'].touched)">
+                    <label for="inputConfirmedEmail">Confirm email</label>
+                    <input type="email" class="form-control form-control-warning form-control-lg" formControlName="confirmedEmail">
+                    <small class="form-control-feedback" *ngIf="signupForm.controls['confirmedEmail'].invalid  && (signupForm.controls['confirmedEmail'].dirty || signupForm.controls['confirmedEmail'].touched)">
+                        This doesnt look right... check your email again.
+                    </small>
+                </div> -->
+
+                <button type="submit" class="btn btn-success btn-lg w-100" [class.disabled]="!signupForm.valid">Get started - Free for 14 days</button>
+
+            </fieldset>
+
+        </form>
+
     </div>
-    <div class="alert alert-success" role="alert" *ngIf="isRedirectToActivate">
-        You already have created an account but we need to verify your email ! Check your inbox or
-        <button (click)="resendEmail()"
-            class="btn btn-secondary">resend a confirmation email
-            <i *ngIf="isResending" class="text-muted fa fa-circle-o-notch fa-spin fa-fw ml-3 "></i>
-        </button>
-    </div>
-
-    <div class="alert alert-success" role="alert" *ngIf="isEmailAlreadyExist">
-        This email already has an account. Do you want to
-        <a routerLink="/login">log in</a>?
-    </div>
-    <div class="alert alert-success" role="alert" *ngIf="isConfirmationEmailSent">
-        We have sent a confirmation email to
-        <b>{{signupForm.controls['email'].value}}</b>. Please follow the link in the email to complete set-up. Not received?
-        Email support@maptio.com
-    </div>
-
-    <form class="form-group" [formGroup]="signupForm" (submit)="createAccount()" *ngIf="!isConfirmationEmailSent">
-        <fieldset>
-            <div class="form-group" [class.has-warning]="signupForm.controls['firstname'].invalid  && (signupForm.controls['firstname'].dirty || signupForm.controls['firstname'].touched)">
-                <label for="inputFirstname">First name</label>
-                <input type="text" id="inputFirstname" formControlName="firstname" class="form-control form-control-warning form-control-lg"
-                     required minlength="2">
-                <small class="form-control-feedback" *ngIf="signupForm.controls['firstname'].invalid  && (signupForm.controls['firstname'].dirty || signupForm.controls['firstname'].touched)">
-                    First name must be at least 2 characters
-                </small>
-            </div>
-
-            <div class="form-group" [class.has-warning]="signupForm.controls['lastname'].invalid  && (signupForm.controls['lastname'].dirty || signupForm.controls['lastname'].touched)">
-                <label for="inputLastname">Last name</label>
-                <input type="text" id="inputLastname" class="form-control form-control-warning form-control-lg" formControlName="lastname"
-                    >
-                <small class="form-control-feedback" *ngIf="signupForm.controls['lastname'].invalid  && (signupForm.controls['lastname'].dirty || signupForm.controls['lastname'].touched)">
-                    Last name must be at least 2 characters
-                </small>
-            </div>
-
-            <div class="form-group" [class.has-warning]="signupForm.controls['email'].invalid  && (signupForm.controls['email'].dirty || signupForm.controls['email'].touched)">
-                <label for="inputEmail">Email</label>
-                <input type="email" class="form-control form-control-warning form-control-lg" formControlName="email" >
-                <small class="form-control-feedback" *ngIf="signupForm.controls['email'].invalid  && (signupForm.controls['email'].dirty || signupForm.controls['email'].touched)">
-                    We need your email!
-                </small>
-            </div>
-
-
-            <div class="form-group" [class.has-warning]="signupForm.controls['confirmedEmail'].invalid  && (signupForm.controls['confirmedEmail'].dirty || signupForm.controls['confirmedEmail'].touched)">
-                <label for="inputConfirmedEmail">Confirm email</label>
-                <input type="email" class="form-control form-control-warning form-control-lg" formControlName="confirmedEmail" >
-                <small class="form-control-feedback" *ngIf="signupForm.controls['confirmedEmail'].invalid  && (signupForm.controls['confirmedEmail'].dirty || signupForm.controls['confirmedEmail'].touched)">
-                    This doesnt look right... check your email again.
-                </small>
-            </div>
-
-            <button type="submit" class="btn btn-success btn-lg" [class.disabled]="!signupForm.valid">Get started - Free for 14 days</button>
-
-        </fieldset>
-
-    </form>
-
-
 </div>
