@@ -100,7 +100,7 @@ export class Team implements Serializable<Team> {
     getRemainingTrialDays() {
         let cutoffDate = moment(this.createdAt).add(<moment.DurationInputArg1>this.freeTrialLength, "d");
         // console.log(this.createdAt, cutoffDate, moment.duration(cutoffDate.diff(moment())).asDays())
-        return Math.floor(moment.duration(cutoffDate.diff(moment())).asDays());
+        return Math.ceil(moment.duration(cutoffDate.diff(moment())).asDays());
     }
 
     isTeamLateOnPayment(){

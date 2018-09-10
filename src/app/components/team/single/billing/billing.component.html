@@ -5,6 +5,7 @@
 </ng-template>
 <ngx-loading [show]="isLoading" [config]="{fullScreenBackdrop : 'false',backdropBackgroundColour:'transparent'}"></ngx-loading>
 
+
 <div *ngIf="!isLoading">
     <div *ngIf="team?.isPaying" class="my-5">
         <h5>Billing status</h5>
@@ -75,5 +76,13 @@
 
 
 
+    </div>
+    <h5>Teams</h5>
+    <hr>
+    <div>
+        <span>You are limited to
+            <b>one</b> team per plan.
+            <a href="mailto:support@maptio.com?subject=I need to create more teams">Reach out if you need to create more</a>
+        </span>
     </div>
 </div>
