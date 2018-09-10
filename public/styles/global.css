@@ -31,7 +31,7 @@ html, body {
 }
 
 body {
-  /* overflow: hidden; */
+  overflow-x: hidden;
 }
 
 .text-blue{
@@ -197,6 +197,10 @@ transition: max-height .25s ease-in-out;
 .overflow-hidden
 {
   overflow: hidden;
+}
+
+.overflow-x-hidden{
+  overflow-x: hidden!important;
 }
 
 .container-fluid{
