@@ -22,6 +22,7 @@ import { FormGroup } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { UserRole, Permissions } from "../../../../shared/model/permission.data";
+import { LoaderService } from '../../../../shared/services/loading/loader.service';
 
 @Component({
     selector: "team-single-members",
@@ -48,7 +49,6 @@ export class TeamMembersComponent implements OnInit {
     public errorMessage: string;
 
     public resentMessage: string;
-    public isLoading: boolean;
     public isCreatingUser: boolean;
     public isAddUserToggled: boolean;
     public invitableUsersCount: number;
@@ -71,6 +71,7 @@ export class TeamMembersComponent implements OnInit {
         private datasetFactory: DatasetFactory,
         private analytics: Angulartics2Mixpanel,
         private cd: ChangeDetectorRef,
+        private loaderService:LoaderService,
         private auth: Auth) {
         this.inviteForm = new FormGroup({
             "firstname": new FormControl("", [
@@ -105,7 +106,7 @@ export class TeamMembersComponent implements OnInit {
     }
 
     getAllMembers() {
-        this.isLoading = true;
+        this.loaderService.show();
         // return this.team$.then((team: Team) => {
         // console.log(team.members)
         return this.userFactory.getUsers(this.team.members.map(m => m.user_id))
@@ -137,7 +138,7 @@ export class TeamMembersComponent implements OnInit {
                 return members
             })
             .then(members => {
-                this.isLoading = false;
+                this.loaderService.hide();
                 members.forEach(m => {
                     this.isSendingMap.set(m.user_id, false);
                 })
@@ -145,8 +146,8 @@ export class TeamMembersComponent implements OnInit {
                 return sortBy(members, m => m.name)
             })
             .catch(() => {
-                this.isLoading = false;
                 this.cd.markForCheck();
+                this.loaderService.hide();
                 return []
             })
         // });

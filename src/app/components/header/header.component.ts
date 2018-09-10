@@ -1,5 +1,4 @@
 import { Angulartics2Mixpanel } from "angulartics2";
-import { LoaderService } from "./../../shared/services/loading/loader.service";
 import { Router } from "@angular/router";
 import { Subscription, Observable, Subject } from "rxjs/Rx";
 import { OnInit } from "@angular/core";
@@ -47,7 +46,7 @@ export class HeaderComponent implements OnInit {
     public isSaving: Boolean = false;
 
     constructor(public auth: Auth, private userService: UserService, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory,
-        public errorService: ErrorService, private router: Router, private loader: LoaderService,
+        public errorService: ErrorService, private router: Router,
         private analytics: Angulartics2Mixpanel, private cd: ChangeDetectorRef, private billingService: BillingService) {
 
 
@@ -175,44 +174,44 @@ export class HeaderComponent implements OnInit {
         this.auth.logout();
     }
 
-    login() {
+    // login() {
 
-        if (this.loginForm.dirty && this.loginForm.controls["email"].invalid) {
-            let message = "An email is required e.g. rick.sanchez@cartoonnetwork.com"
-            this.router.navigateByUrl(`/login?login_message=${encodeURIComponent(message)}`);
-        }
-        if (this.loginForm.dirty && this.loginForm.controls["password"].invalid) {
-            let message = "Password required"
-            this.router.navigateByUrl(`/login?login_message=${encodeURIComponent(message)}`);
-        }
+    //     if (this.loginForm.dirty && this.loginForm.controls["email"].invalid) {
+    //         let message = "An email is required e.g. rick.sanchez@cartoonnetwork.com"
+    //         this.router.navigateByUrl(`/login?login_message=${encodeURIComponent(message)}`);
+    //     }
+    //     if (this.loginForm.dirty && this.loginForm.controls["password"].invalid) {
+    //         let message = "Password required"
+    //         this.router.navigateByUrl(`/login?login_message=${encodeURIComponent(message)}`);
+    //     }
 
-        if (this.loginForm.dirty && this.loginForm.valid) {
-            this.auth.clear();
-            this.loader.show();
-            let email = this.loginForm.controls["email"].value
-            let password = this.loginForm.controls["password"].value
+    //     if (this.loginForm.dirty && this.loginForm.valid) {
+    //         this.auth.clear();
+    //         this.loader.show();
+    //         let email = this.loginForm.controls["email"].value
+    //         let password = this.loginForm.controls["password"].value
 
-            this.userService.isUserExist(email)
-                .then((isUserExist: boolean) => {
-                    if (isUserExist) {
-                        this.auth.login(email, password);
-                        EmitterService.get("loginErrorMessage").subscribe((loginErrorMessage: string) => {
-                            loginErrorMessage =
-                                (loginErrorMessage === "Wrong email or password.") ? "Wrong password" : loginErrorMessage;
-                            this.router.navigateByUrl(`/login?login_message=${encodeURIComponent(loginErrorMessage)}`);
-                        })
-                    }
-                    else {
-                        let message = "We don't know that email."
-                        this.router.navigateByUrl(`/login?login_message=${encodeURIComponent(message)}`);
-                    }
-                    this.loader.show();
-                })
-                .then(() => {
-                    this.cd.markForCheck();
-                })
-        }
-    }
+    //         this.userService.isUserExist(email)
+    //             .then((isUserExist: boolean) => {
+    //                 if (isUserExist) {
+    //                     this.auth.login(email, password);
+    //                     EmitterService.get("loginErrorMessage").subscribe((loginErrorMessage: string) => {
+    //                         loginErrorMessage =
+    //                             (loginErrorMessage === "Wrong email or password.") ? "Wrong password" : loginErrorMessage;
+    //                         this.router.navigateByUrl(`/login?login_message=${encodeURIComponent(loginErrorMessage)}`);
+    //                     })
+    //                 }
+    //                 else {
+    //                     let message = "We don't know that email."
+    //                     this.router.navigateByUrl(`/login?login_message=${encodeURIComponent(message)}`);
+    //                 }
+    //                 this.loader.show();
+    //             })
+    //             .then(() => {
+    //                 this.cd.markForCheck();
+    //             })
+    //     }
+    // }
 
     toggleCreateMode() {
         this.isCreateMode = !this.isCreateMode;

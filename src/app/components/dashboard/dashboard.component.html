@@ -32,14 +32,10 @@
 
 <ng-container *ngIf="!isZeroMaps">
     <div class="d-flex flex-column justify-content-center col-12 align-items-center">
-       
-
-        <!-- <ngx-loading [show]="isLoading"></ngx-loading> -->
         <div class="card-columns col-12">
             <ng-container *ngFor="let dataset of datasets">
                 <ng-container *ngIf="dataset.initiative.name">
                     <div class="card box-shadow">
-                        <!-- <img class="card-img-top" alt="Card image cap"> -->
                         <div class="card-body">
                             <h5 class="card-title">
                                 <div class="d-flex justify-content-between align-items-start">

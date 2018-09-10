@@ -20,7 +20,6 @@ export class DashboardComponent {
 
     @Input("datasets") datasets: DataSet[];
     @Input("teams") teams: Team[];
-    public isLoading: boolean;
     isZeroMaps: Boolean;
     isZeroTeam: Boolean;
     teamId: String;

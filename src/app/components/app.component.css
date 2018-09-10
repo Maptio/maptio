@@ -73,3 +73,9 @@
     background-position-x: center;
     background-blend-mode: luminosity;
 }
+
+.grayscale{
+    filter: grayscale();
+    user-select: none;
+    pointer-events: none;
+}

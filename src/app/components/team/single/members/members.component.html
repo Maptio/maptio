@@ -107,14 +107,14 @@
                 </tr>
             </thead>
             <tbody [style.height.vh]="55">
-                <!-- <ngx-loading [show]="isLoading" [config]="{fullScreenBackdrop : 'false',backdropBackgroundColour:'transparent'}"></ngx-loading> -->
                 <tr *ngFor="let member of (members$ | async); trackBy: trackByMemberId;let i=index" [class.text-muted]="member.isDeleted"
                     [class.font-weight-light]="member.isDeleted" [class.bold]="member.userRole===UserRole.Admin">
                     <td>
                         <ng-container *permissionsOnly="Permissions.canDeleteUser;then thenDeleteBlock"></ng-container>
                         <ng-template #thenDeleteBlock>
-                            <span *ngIf="!member.isDeleted" class="remove text-danger" [class.d-none]="team.members.length===1" aria-hidden="true" mwlConfirmationPopover title="This cannot be undone ! Are you sure you want to delete {{member.name}} ?"
-                                placement="right" focusButton="cancel" appendToBody="true" (confirm)="deleteMember(member)" (cancel)="cancelClicked = true">
+                            <span *ngIf="!member.isDeleted" class="remove text-danger" [class.d-none]="team.members.length===1" aria-hidden="true" mwlConfirmationPopover
+                                title="This cannot be undone ! Are you sure you want to delete {{member.name}} ?" placement="right"
+                                focusButton="cancel" appendToBody="true" (confirm)="deleteMember(member)" (cancel)="cancelClicked = true">
                             </span>
                         </ng-template>
                     </td>

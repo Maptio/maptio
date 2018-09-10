@@ -8,6 +8,7 @@ import { User } from "../../shared/model/user.data";
 import { DatasetFactory } from "../../shared/services/dataset.factory";
 import { TeamFactory } from "../../shared/services/team.factory";
 import { sortBy } from "lodash";
+import { LoaderService } from "../../shared/services/loading/loader.service";
 
 @Component({
     selector: "home",
@@ -20,10 +21,11 @@ export class HomeComponent {
     public teams: Team[];
 
     constructor(public auth: Auth, private route: ActivatedRoute, private cd: ChangeDetectorRef,
-        public datasetFactory: DatasetFactory, public teamFactory: TeamFactory) { }
+        public datasetFactory: DatasetFactory, public teamFactory: TeamFactory, public loaderService:LoaderService) { }
 
     ngOnInit(): void {
         if (!this.auth.allAuthenticated()) return;
+        this.loaderService.show();
         this.routeSubscription = this.auth.getUser()
             .mergeMap((user: User) => {
                 return Observable.forkJoin(this.datasetFactory.get(user.datasets), this.teamFactory.get(user.teams));
@@ -52,6 +54,7 @@ export class HomeComponent {
                 this.teams = data.teams;
                 this.datasets = data.datasets
                 this.cd.markForCheck();
+                this.loaderService.hide();
             });
 
     }

@@ -5,6 +5,7 @@ import { Team } from '../../../../shared/model/team.data';
 import { DataSet } from '../../../../shared/model/dataset.data';
 import { Permissions } from './../../../../shared/model/permission.data';
 import { environment } from '../../../../../environment/environment';
+import { LoaderService } from '../../../../shared/services/loading/loader.service';
 
 @Component({
     selector: 'team-billing',
@@ -18,10 +19,11 @@ export class TeamBillingComponent implements OnInit {
     public Permissions = Permissions;
     public KB_URL_INTEGRATIONS = environment.KB_URL_INTEGRATIONS;
 
-    constructor(private route: ActivatedRoute, private billingService: BillingService, private cd: ChangeDetectorRef) { }
+    constructor(private route: ActivatedRoute, private billingService: BillingService, 
+        private cd: ChangeDetectorRef, private loaderService:LoaderService) { }
 
     ngOnInit(): void {
-        this.isLoading = true;
+        this.loaderService.show();
         this.route.parent.data
             .flatMap((data: { assets: { team: Team, datasets: DataSet[] } }) => {
                 return this.billingService.getTeamStatus(data.assets.team).map((value: { created_at: Date, freeTrialLength: Number, isPaying: Boolean }) => {
@@ -35,8 +37,8 @@ export class TeamBillingComponent implements OnInit {
             .subscribe((team: Team) => {
                 this.team = team;
                 this.remaningTrialDays = team.getRemainingTrialDays();
-                this.isLoading = false;
                 this.cd.markForCheck();
+                this.loaderService.hide();
             });
 
     }

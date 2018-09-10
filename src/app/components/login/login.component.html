@@ -1,7 +1,6 @@
 <div class="d-flex justify-content-center align-items-center flex-column">
     <div class="col-4 h-100">
         <div *ngIf="isLoggingIn">
-            <!-- <ngx-loading [show]="isWaiting"></ngx-loading> -->
             <h1 class="text-center">Log in to Maptio</h1>
             <div>
                 <div class="alert alert-danger" role="alert" *ngIf="loginErrorMessage">
@@ -43,17 +42,12 @@
 
         </div>
         <div *ngIf="!isLoggingIn">
-            <!-- <ngx-loading [show]="isWaiting"></ngx-loading> -->
             <h1>Create a password</h1>
             <!-- <h6 class="ml-3 text-warning">This is also the occasion to check your first and last name</h6> -->
             <div class="ml-3 mt-3">
                 <div class="alert alert-danger " role="alert" *ngIf="loginErrorMessage">
                     {{loginErrorMessage}}
                 </div>
-                <!-- <div *ngIf="isPasswordTooWeak" class="alert alert-danger" role="alert">
-                    Password must always be at least 8 characters in length and include at least 1 lowercase letter, 1 uppercase letter and 1
-                    number.
-                </div> -->
                 <div *ngIf="isUserAlreadyActive" class="alert alert-danger" role="alert">
                     Your account is already active,
                     <a routerLink="/login">log in</a>

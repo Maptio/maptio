@@ -50,17 +50,10 @@
 <ng-container *ngIf="!isZeroTeam">
     <div class="d-flex flex-column justify-content-center align-items-center col-12">
         <h2 class="my-5"> Teams
-
-
         </h2>
         <a class="d-flex justify-content-end text-muted w-100 my-2" href="mailto:support@maptio.com?subject=I need to create more teams">Need more teams? Reach out</a>
 
-
-
-
-
         <div class="card-columns ">
-            <!-- <ngx-loading [show]="isLoading"></ngx-loading> -->
             <div class="card" *ngFor="let team of teams;trackBy:trackByTeamId">
                 <div class="card-body">
                     <h5 class="card-title">
@@ -82,28 +75,3 @@
     </div>
 
 </ng-container>
-
-
-
-
-<!-- <div class="overflow">
-    <ngx-loading [show]="isLoading"></ngx-loading>
-
-    <div class="card mb-3 " *ngFor="let team of teams;trackBy:trackByTeamId">
-
-        <div class="d-flex w-100 justify-content-between card-header">
-            <h5>
-                <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}"> {{team?.name}}</a>
-            </h5>
-            <small>{{team?.members?.length}} members</small>
-        </div>
-        <div class="card-block">
-            <div class="mb-1 d-flex flex-wrap">
-                <div *ngFor="let member of team?.members;trackBy:trackByMemberId" [class.deleted]="member.isDeleted">
-                    <img class="rounded-circle member mr-1 mb-1" src="{{member.picture}}" alt="{{member.name}}" placement="top" container="body"
-                        ngbTooltip="{{member.name}}">
-                </div>
-            </div>
-        </div>
-    </div>
-</div> -->

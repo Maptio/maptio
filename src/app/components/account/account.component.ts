@@ -10,6 +10,7 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Cloudinary } from "@cloudinary/angular-5.x";
 import { FileUploaderOptions, FileUploader, ParsedResponseHeaders, FileLikeObject } from "ng2-file-upload";
 import { UserFactory } from "../../shared/services/user.factory";
+import { LoaderService } from '../../shared/services/loading/loader.service';
 
 @Component({
     selector: "account",
@@ -29,7 +30,6 @@ export class AccountComponent {
     public uploader: FileUploader;
     public isRefreshingPicture: boolean;
 
-    public isLoading: boolean;
     UserRole = UserRole;
     private uploaderOptions: FileUploaderOptions = {
         url: `https://api.cloudinary.com/v1_1/${this.cloudinary.config().cloud_name}/upload`,
@@ -51,7 +51,7 @@ export class AccountComponent {
     };
 
     constructor(public auth: Auth, public errorService: ErrorService, private userService: UserService, private userFactory: UserFactory,
-        private cloudinary: Cloudinary) {
+        private cloudinary: Cloudinary, private loaderService: LoaderService) {
         this.accountForm = new FormGroup({
             "firstname": new FormControl(this.firstname, [
                 Validators.required
@@ -63,15 +63,17 @@ export class AccountComponent {
     }
 
     ngOnInit() {
-        this.isLoading = true;
+        this.loaderService.show();
         this.subscription = this.auth.getUser().subscribe((user: User) => {
             this.user = user;
             this.firstname = user.firstname;
             this.lastname = user.lastname;
-            this.isLoading = false
+            this.loaderService.hide()
         },
             (error: any) => { this.errorService.handleError(error) },
-            () => { this.isLoading = false });
+            () => {
+                this.loaderService.hide();
+            });
 
         this.uploader = new FileUploader(this.uploaderOptions);
         this.uploader.onBuildItemForm = (fileItem: any, form: FormData): any => {

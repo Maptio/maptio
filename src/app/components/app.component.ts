@@ -12,7 +12,8 @@ import { Auth } from "../shared/services/auth/auth.service";
 import { environment } from "../../environment/environment";
 import { Observable } from "rxjs/Observable";
 import { Intercom } from 'ng-intercom';
-import { NgProgress } from "ngx-progressbar";
+import { NgProgress } from '@ngx-progressbar/core';
+
 
 @Component({
   selector: "my-app",
@@ -31,42 +32,9 @@ export class AppComponent {
   @ViewChild("help")
   helpComponent: HelpComponent;
 
-  constructor(public auth: Auth, private router: Router, private ngProgress: NgProgress,
+  constructor(public auth: Auth, private router: Router, public progress: NgProgress,
     public intercom: Intercom) {
 
-    this.routerSubscription = this.router.events
-      .subscribe((event) => {
-        // console.log(event)
-        if (event instanceof NavigationStart) {
-          // this.isHome = this.isUrlHome(event.url)
-          // this.isMap = this.isUrlMap(event.url);
-          // (<any>window).Intercom("update");
-          this.ngProgress.start();
-        }
-        else if (
-          event instanceof NavigationEnd ||
-          event instanceof NavigationCancel
-        ) {
-          this.isHome = this.isUrlHome(event.url)
-          this.ngProgress.done();
-        }
-
-        if (event instanceof NavigationError) {
-          this.ngProgress.done();
-        }
-      });
-  }
-
-  ngOnDestroy() {
-    if (this.routerSubscription) this.routerSubscription.unsubscribe()
-  }
-
-  isUrlHome(url: string): boolean {
-    return url.startsWith("/home") || url === "/";
-  }
-
-  isUrlMap(url: string): boolean {
-    return url.startsWith("/map")
   }
 
   ngOnInit() {
@@ -81,16 +49,6 @@ export class AppComponent {
 
     this.intercom.boot({ app_id: environment.INTERCOM_APP_ID });
   }
-
-  // ngAfterViewInit() {
-
-  // }
-
-  // ngAfterViewChecked() {
-  //   (<any>window).Intercom("boot", {
-  //     app_id: "rktylk1k"
-  //   });
-  // }
 
 }
 

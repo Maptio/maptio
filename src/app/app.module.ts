@@ -65,7 +65,12 @@ import { IntercomModule } from 'ng-intercom';
 import * as LogRocket from "logrocket";
 import { BillingService } from "./shared/services/billing/billing.service";
 import { BillingGuard } from "./shared/services/guards/billing.guard";
-import { NgProgressModule } from 'ngx-progressbar';
+
+import { NgProgressModule } from '@ngx-progressbar/core';
+import { NgProgressRouterModule } from '@ngx-progressbar/router';
+import { NgProgressHttpModule } from '@ngx-progressbar/http';
+
+
 
 const appRoutes: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
@@ -161,7 +166,9 @@ export function rollbarFactory() {
     //   secondaryColour: "transparent",
     //   tertiaryColour: "#2F81B7"
     // }),
-    NgProgressModule,
+    NgProgressModule.forRoot(),
+    NgProgressRouterModule,
+    // NgProgressHttpModule,
     HttpFactoryModule,
     BrowserAnimationsModule,
     CloudinaryModule.forRoot(cloudinaryLib, { cloud_name: environment.CLOUDINARY_CLOUDNAME, upload_preset: environment.CLOUDINARY_UPLOAD_PRESET }),

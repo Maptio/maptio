@@ -13,6 +13,7 @@ import { UserService } from "../../../shared/services/user/user.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import { IntercomService } from './intercom.service';
 import { isEmpty } from 'lodash';
+import { LoaderService } from '../../../shared/services/loading/loader.service';
 
 @Component({
     selector: "team-list",
@@ -28,7 +29,6 @@ export class TeamListComponent implements OnInit {
     public teams: Array<Team>;
     public errorMessage: string;
     public cannotCreateMoreTeamMessage: string;
-    public isLoading: boolean;
     public isCreating: boolean;
 
     public createForm: FormGroup;
@@ -41,7 +41,7 @@ export class TeamListComponent implements OnInit {
 
     constructor(private route: ActivatedRoute, private cd: ChangeDetectorRef, public auth: Auth, private teamFactory: TeamFactory, private userFactory: UserFactory,
         private userService: UserService, private analytics: Angulartics2Mixpanel, public router: Router,
-        private renderer: Renderer2, private intercomService: IntercomService) {
+        private renderer: Renderer2, private intercomService: IntercomService, private loaderService:LoaderService) {
 
         this.createForm = new FormGroup({
             "teamName": new FormControl(this.teamName, [
@@ -59,12 +59,14 @@ export class TeamListComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.loaderService.show();
         this.routeSubscription = this.route.data
             .subscribe((data: any) => {
                 this.teams = data.teams;
                 this.isZeroTeam = isEmpty(this.teams);
                 this.teamsNumber = data.teams.length;
                 this.cd.markForCheck();
+                this.loaderService.hide();
             });
         this.userSubscription = this.auth.getUser().subscribe(user => {
             this.user = user;

@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
     public isUserAlreadyActive: boolean;
     public activationStatusCannotBeUpdated: boolean;
     public previousAttemptMessage: string;
-    public isWaiting: boolean;
 
     public activateForm: FormGroup;
     public loginForm: FormGroup;
@@ -140,18 +139,17 @@ export class LoginComponent implements OnInit {
                     if (isUserExist) {
                         this.loader.show();
                         this.auth.login(email, password)
-                        this.isWaiting = true;
+                        this.loader.show();
                         // HACK .login() should be promisified instead of using EmitterService
                         EmitterService.get("loginErrorMessage").subscribe((loginErrorMessage: string) => {
                             this.loginErrorMessage =
                                 (loginErrorMessage === "Wrong email or password.") ? "Wrong password" : loginErrorMessage;
                             this.loader.hide();
-                            this.isWaiting = false;
                             this.cd.markForCheck();
                         })
                     }
                     else {
-                        this.isWaiting = false;
+                        this.loader.hide();
                         this.loginErrorMessage = "We don't know that email";
                         this.loader.hide();
                     }
