@@ -31,7 +31,7 @@ html, body {
 }
 
 body {
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .text-blue{
@@ -192,6 +192,15 @@ a.card.no-underline, a.no-underline:hover {
 max-height: 0;
 overflow: hidden;
 transition: max-height .25s ease-in-out;
+}
+
+.overflow-hidden
+{
+  overflow: hidden;
+}
+
+.container-fluid{
+  overflow: auto;
 }
 
 .control.switch.show{

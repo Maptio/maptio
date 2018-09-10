@@ -8,6 +8,7 @@ import { DashboardComponentResolver } from "./dashboard.resolver";
 import { ExportService } from "../../shared/services/export/export.service";
 import { saveAs } from "file-saver"
 import { EmitterService } from "../../shared/services/emitter.service";
+import { Team } from '../../shared/model/team.data';
 
 @Component({
     selector: "dashboard",
@@ -20,7 +21,10 @@ export class DashboardComponent {
     public subscription: Subscription;
     public userSubscription: Subscription;
     public isLoading: boolean;
-    isZeroTeam: boolean;
+    isZeroMaps: boolean;
+    isZeroTeam:boolean;
+    teamId:String;
+    datasetId:String;
 
     isExportingMap: Map<string, boolean> = new Map<string, boolean>();
 
@@ -47,13 +51,19 @@ export class DashboardComponent {
             });
 
         this.userSubscription = this.auth.getUser().subscribe((user: User) => {
-            this.isZeroTeam = isEmpty(user.teams);
+            this.isZeroMaps = isEmpty(user.datasets);
+            this.isZeroTeam = isEmpty(user.teams)
+            this.teamId = user.teams[0];
+            this.datasetId = user.datasets[0];
         })
     }
 
     ngOnDestroy() {
         if (this.subscription) {
             this.subscription.unsubscribe();
+        }
+        if(this.userSubscription){
+            this.userSubscription.unsubscribe();
         }
     }
 
