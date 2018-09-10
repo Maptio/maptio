@@ -23,8 +23,10 @@ export class HomeComponent {
         public datasetFactory: DatasetFactory, public teamFactory: TeamFactory) { }
 
     ngOnInit(): void {
+        if (!this.auth.allAuthenticated()) return;
         this.routeSubscription = this.auth.getUser()
             .mergeMap((user: User) => {
+
                 return Observable.forkJoin(this.datasetFactory.get(user.datasets), this.teamFactory.get(user.teams));
             })
             .map(([datasets, teams]: [DataSet[], Team[]]) => {
@@ -57,7 +59,7 @@ export class HomeComponent {
     }
 
     ngOnDestroy(): void {
-        this.routeSubscription.unsubscribe();
+       if(this.routeSubscription) this.routeSubscription.unsubscribe();
     }
 
 }
