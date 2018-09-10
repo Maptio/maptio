@@ -70,7 +70,7 @@
                                 This is usually your company or organisation name
                             </small>
                         </div>
-                        <div class="form-group ">
+                        <div class="form-group " *ngIf="teams.length > 1">
                             <label for="inputTeamName">Team</label>
                             <select id="inputTeamName" formControlName="teamId" required class="form-control">
                                 <option value="null" disabled="true" [selected]="teams.length > 1">Select a team</option>
