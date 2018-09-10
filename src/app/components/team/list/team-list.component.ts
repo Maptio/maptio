@@ -12,6 +12,7 @@ import { Team } from "../../../shared/model/team.data";
 import { UserService } from "../../../shared/services/user/user.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import { IntercomService } from './intercom.service';
+import { isEmpty } from 'lodash';
 
 @Component({
     selector: "team-list",
@@ -33,6 +34,7 @@ export class TeamListComponent implements OnInit {
     public createForm: FormGroup;
     public teamName: string;
     public teamsNumber: Number;
+    public isZeroTeam:Boolean;
 
     Permissions = Permissions;
     KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
@@ -60,12 +62,12 @@ export class TeamListComponent implements OnInit {
         this.routeSubscription = this.route.data
             .subscribe((data: any) => {
                 this.teams = data.teams;
+                this.isZeroTeam = isEmpty(this.teams);
                 this.teamsNumber = data.teams.length;
                 this.cd.markForCheck();
             });
         this.userSubscription = this.auth.getUser().subscribe(user => {
             this.user = user;
-            // console.log(this.user)
         })
     }
 
