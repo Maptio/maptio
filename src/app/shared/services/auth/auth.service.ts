@@ -160,13 +160,14 @@ export class Auth {
           this.datasetFactory.get(user).then(ds => {
             console.log("getUser", ds)
             user.datasets = uniq(ds);
+            EmitterService.get("headerUser").emit(user);
             this.user$.next(user);
           });
         });
     } else {
       this.user$.next(undefined);
     }
-    return this.user$.asObservable();
+    return  this.user$.asObservable();
   }
 
   public setUser(profile: any): Promise<boolean> {

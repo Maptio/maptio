@@ -44,15 +44,15 @@ export class HeaderComponent implements OnInit {
     public emitterSubscription: Subscription;
     public userSubscription: Subscription;
 
-    public isSaving:Boolean=false;
+    public isSaving: Boolean = false;
 
     constructor(public auth: Auth, private userService: UserService, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory,
         public errorService: ErrorService, private router: Router, private loader: LoaderService,
         private analytics: Angulartics2Mixpanel, private cd: ChangeDetectorRef, private billingService: BillingService) {
 
 
-        EmitterService.get("isSavingInitiativeData").skip(1).subscribe((isSaving:Boolean) => {
-            this.isSaving=isSaving
+        EmitterService.get("isSavingInitiativeData").skip(1).subscribe((isSaving: Boolean) => {
+            this.isSaving = isSaving
             this.cd.markForCheck();
         })
 
@@ -86,7 +86,7 @@ export class HeaderComponent implements OnInit {
             ])
         });
 
-       
+
     }
 
     ngAfterViewInit() {
@@ -101,7 +101,7 @@ export class HeaderComponent implements OnInit {
 
 
     ngOnInit() {
-        this.userSubscription = this.auth.getUser().subscribe((user: User) => {
+        this.userSubscription = EmitterService.get("headerUser").subscribe((user: User) => {
             console.log("header", user)
             this.user = user;
 
@@ -125,7 +125,7 @@ export class HeaderComponent implements OnInit {
             this.teamFactory.get(this.user.teams)
                 .then(teams => sortBy(teams, t => t.name), (r) => { return Promise.reject(r) })
                 .then(teams => { this.teams = teams; return teams })
-                .then((teams)=>{
+                .then((teams) => {
                     this.createMapForm = new FormGroup({
                         "mapName": new FormControl(teams.length > 1 ? "" : teams[0].name, [Validators.required, Validators.minLength(2)]),
                         "teamId": new FormControl(teams.length > 1 ? null : teams[0].team_id, [Validators.required]),
