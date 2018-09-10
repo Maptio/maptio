@@ -1,9 +1,11 @@
+<h2 class="my-5 text-center"> Maps</h2>
+
 <ng-container *ngIf="isZeroMaps">
-    <div class="d-flex justify-content-center flex-column h-75">
-        <h1 class="text-dark">Let's create your first map in 3 simple steps : </h1>
+    <div class="d-flex justify-content-center align-items-center flex-column h-50">
+        <h3 class="text-dark">Let's create your first map in 3 simple steps : </h3>
 
         <div class="d-flex justify-content-center text-muted">
-            <div class="d-flex flex-column col-10 align-items-start h3">
+            <div class="d-flex flex-column col-auto align-items-start h4">
                 <a routerLink="/teams">
                     <span class="badge badge-dark rounded-circle my-2 mx-2">1</span>Set up a team
                     <i *ngIf="!isZeroTeam" class="text-success fa fa-check-circle" aria-hidden="true"></i>
@@ -15,7 +17,7 @@
                     <span class="badge badge-dark rounded-circle my-2 mx-2">2</span>Add a few teammates (optional)</span>
 
                 <a *ngIf="teamId" routerLink="/teams/{{teamId}}/team/maps">
-                    <span class="badge badge-dark rounded-circle my-2 mx-2">3</span>Create a map
+                    <span class="badge badge-dark rounded-circle my-2 mx-2">3</span>Create a map and add a first initiative
                     <i *ngIf="!isZeroMaps" class="text-success fa fa-check-circle" aria-hidden="true"></i>
                 </a>
                 <span *ngIf="!teamId">
@@ -30,10 +32,10 @@
 
 <ng-container *ngIf="!isZeroMaps">
     <div class="d-flex flex-column justify-content-center col-12 align-items-center">
-        <h2 class="my-5"> Maps</h2>
+       
 
         <ngx-loading [show]="isLoading"></ngx-loading>
-        <div class="card-columns">
+        <div class="card-columns col-12">
             <ng-container *ngFor="let dataset of datasets">
                 <ng-container *ngIf="dataset.initiative.name">
                     <div class="card box-shadow">

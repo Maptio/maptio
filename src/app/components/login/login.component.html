@@ -3,7 +3,7 @@
         <div *ngIf="isLoggingIn">
             <ngx-loading [show]="isWaiting"></ngx-loading>
             <h1 class="text-center">Log in to Maptio</h1>
-            <div class="ml-3">
+            <div>
                 <div class="alert alert-danger" role="alert" *ngIf="loginErrorMessage">
                     {{loginErrorMessage}}
                 </div>

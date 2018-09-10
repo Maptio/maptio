@@ -46,6 +46,7 @@ export class Auth {
     this.analytics.eventTrack("Logout", {});
     // this.shutDownIntercom();
     this.router.navigateByUrl("/logout");
+    this.user$.unsubscribe();
     // localStorage.clear();
   }
 
@@ -157,6 +158,7 @@ export class Auth {
         })
         .then((user: User) => {
           this.datasetFactory.get(user).then(ds => {
+            console.log("getUser", ds)
             user.datasets = uniq(ds);
             this.user$.next(user);
           });
@@ -212,6 +214,7 @@ export class Auth {
             EmitterService.get("loginErrorMessage").emit(err.description);
             return;
           }
+          this.user$ = new Subject();
           localStorage.setItem("id_token", authResult.idToken);
 
           if (authResult.accessToken) {

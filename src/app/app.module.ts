@@ -61,7 +61,7 @@ import { URIService } from "./shared/services/uri.service";
 import { UserFactory } from "./shared/services/user.factory";
 import { UserService } from "./shared/services/user/user.service";
 import { IntercomModule } from 'ng-intercom';
- 
+
 import * as LogRocket from "logrocket";
 import { BillingService } from "./shared/services/billing/billing.service";
 import { BillingGuard } from "./shared/services/guards/billing.guard";
@@ -69,7 +69,7 @@ import { BillingGuard } from "./shared/services/guards/billing.guard";
 const appRoutes: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
 
-  { path: "home", component: HomeComponent, data: { breadcrumbs: "Home" } },
+  { path: "home", component: HomeComponent, data: { breadcrumbs: "Home" }},
 
   { path: "login", component: LoginComponent, data: { breadcrumbs: "Login" } },
 
@@ -110,7 +110,7 @@ export const RollbarService = new InjectionToken<Rollbar>("rollbar");
 
 @Injectable()
 export class RollbarErrorHandler implements ErrorHandler {
-  constructor( @Inject(RollbarService) private rollbar: Rollbar) { }
+  constructor(@Inject(RollbarService) private rollbar: Rollbar) { }
 
   handleError(err: any): void {
     this.rollbar.error(err.originalError || err);
@@ -174,11 +174,11 @@ export function rollbarFactory() {
   exports: [RouterModule],
   providers: [
     BrowserAnimationsModule,
-    AuthGuard, AccessGuard, WorkspaceGuard, PermissionGuard,BillingGuard,
+    AuthGuard, AccessGuard, WorkspaceGuard, PermissionGuard, BillingGuard,
     AuthConfiguration,
     D3Service, DataService, URIService, ColorService, UIService, DatasetFactory, TeamFactory,
     ErrorService, Auth, UserService, UserFactory, MailingService, JwtEncoder, LoaderService,
-    ExportService, FileService, PermissionService,BillingService,
+    ExportService, FileService, PermissionService, BillingService,
     Location,
     { provide: LocationStrategy, useClass: PathLocationStrategy },
     {
