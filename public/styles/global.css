@@ -24,9 +24,11 @@
   flex-wrap: nowrap!important;
 }
 
+/* Exo|Oxygen|Quicksand" rel="stylesheet">  */
+
 html, body {
   height: 100%;
-  font-family: 'Questrial', sans-serif !important;
+  font-family: 'Exo', sans-serif !important;
 
 }
 
