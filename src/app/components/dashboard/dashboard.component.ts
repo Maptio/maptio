@@ -6,7 +6,6 @@ import { Component, ChangeDetectorRef, SimpleChanges, Input } from "@angular/cor
 import { DataSet } from "../../shared/model/dataset.data";
 import { DashboardComponentResolver } from "./dashboard.resolver";
 import { ExportService } from "../../shared/services/export/export.service";
-import { saveAs } from "file-saver"
 import { EmitterService } from "../../shared/services/emitter.service";
 import { Team } from '../../shared/model/team.data';
 import { TeamFactory } from '../../shared/services/team.factory';
@@ -57,32 +56,9 @@ export class DashboardComponent {
         this.cd.markForCheck()
     }
 
-    ngOnDestroy() {
-
-    }
-
-    isDisplayLoader(datasetId: string) {
-        return this.isExportingMap.get(datasetId);
-    }
-
-
     isOnboarding() {
         return this.isZeroTeam || this.isZeroMaps || this.isZeroInitiative;
     }
 
-    export(dataset: DataSet) {
-
-        this.isExportingMap.set(dataset.datasetId, true);
-        this.exportService.getReport(dataset).subscribe((exportString: string) => {
-            let blob = new Blob([exportString], { type: "text/csv" });
-            saveAs(blob, `${dataset.initiative.name}.csv`);
-        }
-            ,
-            (error: Error) => console.log("Error downloading the file."),
-            () => {
-                this.isExportingMap.set(dataset.datasetId, false);
-
-            }
-        )
-    }
+    
 }

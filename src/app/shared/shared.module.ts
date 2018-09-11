@@ -4,8 +4,10 @@ import { PermissionsDirective } from "./directives/permission.directive";
 import { NgModule } from "@angular/core";
 import { CreateMapComponent } from './components/create-map/create-map.component';
 import { FormsModule, ReactiveFormsModule } from '../../../node_modules/@angular/forms';
-import { CommonModule } from '../../../node_modules/@angular/common';
-import { BrowserModule } from '../../../node_modules/@angular/platform-browser';
+import { CommonModule } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
+import { CardMapComponent } from './components/card-map/card-map.component';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -14,13 +16,15 @@ import { BrowserModule } from '../../../node_modules/@angular/platform-browser';
         FormsModule,
         ReactiveFormsModule,
         CommonModule,
-        BrowserModule
+        BrowserModule,
+        RouterModule
     ],
     declarations: [
         PermissionsDirective,
         StickyPopoverDirective,
         DebounceDirective,
-        CreateMapComponent
+        CreateMapComponent,
+        CardMapComponent
     ],
     providers: [
     ],
@@ -28,7 +32,8 @@ import { BrowserModule } from '../../../node_modules/@angular/platform-browser';
         PermissionsDirective,
         StickyPopoverDirective,
         DebounceDirective,
-        CreateMapComponent
+        CreateMapComponent,
+        CardMapComponent
     ]
 })
 export class SharedModule { }

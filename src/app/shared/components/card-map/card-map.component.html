@@ -1,0 +1,47 @@
+<div class="card box-shadow">
+        <div class="card-body d-flex flex-column">
+            <h4 class="card-title">
+                <div class="d-flex justify-content-between align-items-start">
+                    <span class="">
+                        <a routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/circles"> {{dataset.initiative.name}}</a>
+                    </span>
+                </div>
+
+            </h4>
+            <h6 class="card-subtitle mb-2 text-muted">
+                    <div class="d-flex justify-content-between">
+                        <small>
+                            <div *ngIf="dataset.initiative.children" class="text-muted">Vision held by
+                                <img class="visionnary rounded-circle" src="{{dataset.initiative.children[0]?.accountable?.picture}}" alt="{{dataset.initiative.children[0]?.accountable?.name}}">
+                                <a class="text-muted" routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/u/{{dataset.initiative.children[0]?.accountable?.shortid}}/{{dataset.initiative.children[0]?.accountable?.getSlug()}}">
+                                    <b> {{dataset.initiative.children[0]?.accountable?.name}}</b>
+                                </a>
+
+                            </div>
+
+                            <div *ngIf="!dataset.initiative.children" class="text-warning">
+                                No vision holder yet.
+                            </div>
+                        </small>
+                    </div>
+
+                </h6>
+
+            <h6 class="">
+                    Team
+                    <a routerLink="/teams/{{dataset.team?.team_id}}/{{dataset.team?.getSlug()}}">{{dataset.team?.name}}</a>
+
+                </h6>
+           
+        </div>
+        <div class="card-footer">
+            <div class="small d-flex justify-content-between align-items-center">
+                <div>{{dataset.depth}} sub-initiatives</div>
+                <button *ngIf="isExportAvailable" class="btn btn-sm btn-outline-secondary " (click)="export(dataset)">
+                    <span *ngIf="!isExporting">
+                        <i class="fa fa-table" aria-hidden="true"></i> Export</span>
+                    <span class="text-muted" *ngIf="isExporting">Exporting</span>
+                </button>
+            </div>
+        </div>
+    </div>
