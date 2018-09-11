@@ -1,9 +1,7 @@
-<h2 class="my-5 text-center"> Maps</h2>
-
 <ng-container *ngIf="isOnboarding()">
-    <div class="d-flex justify-content-center align-items-center">
-            <div class="  d-flex flex-column h-50 align-items-center box-shadow rounded p-3">
-                    <h3 class="text-dark">Let's get you started with 4 simple steps : </h3>
+    <div class="d-flex flex-column justify-content-center align-items-center h-100">
+            <h3 class="text-dark">Let's get you started with 4 simple steps : </h3>
+            <div class="  d-flex flex-column align-items-center box-shadow rounded p-3">
             
                     <div class="d-flex justify-content-center text-muted">
                         <div class="d-flex flex-column col-auto align-items-start h4">
@@ -82,6 +80,8 @@
 </ng-container>
 
 <ng-container *ngIf="!isOnboarding()">
+        <h2 class="my-5 text-center"> Maps</h2>
+
     <div class="d-flex flex-column justify-content-center col-12 align-items-center">
         <div class="card-columns col-12">
             <ng-container *ngFor="let dataset of datasets">

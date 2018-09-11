@@ -67,7 +67,7 @@ export class DashboardComponent {
 
 
     isOnboarding() {
-        return true;// this.isZeroTeam || this.isZeroMaps || this.isZeroInitiative;
+        return this.isZeroTeam || this.isZeroMaps || this.isZeroInitiative;
     }
 
     export(dataset: DataSet) {
