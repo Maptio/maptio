@@ -38,6 +38,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     public isBuildingPanelCollapsed: boolean = true;
     public isDetailsPanelCollapsed: boolean = true;
+    public isEmptyMap:Boolean;
     // public isSettingsPanelCollapsed: boolean = true;
     public datasetId: string;
     private routeSubscription: Subscription;
@@ -58,7 +59,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     teamName: string;
     teamId: string;
     selectableTags: Array<Tag>;
-    public isNoInitiatives:Boolean=true;
 
     @ViewChild("dragConfirmation")
     dragConfirmationModal: NgbModal;
@@ -77,9 +77,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.routeSubscription = this.route.data
             .subscribe((data: { data: { dataset: DataSet, team: Team, members: User[], user: User } }) => {
                 this.dataset = data.data.dataset;
-                // console.log(this.dataset)
-                this.isNoInitiatives = !(this.dataset.initiative.children && this.dataset.initiative.children.length >0 )
-         
+               
                 this.tags = data.data.dataset.tags;
                 this.team = data.data.team;
                 this.members = data.data.members;
@@ -89,6 +87,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.teamId = this.team.team_id;
                 EmitterService.get("currentTeam").emit(this.team);
                 this.buildingComponent.loadData(this.dataset.datasetId, "", this.team);
+                this.isEmptyMap = !this.dataset.initiative.children || this.dataset.initiative.children.length===0;
+                this.cd.markForCheck();
             });
     }
 
@@ -107,8 +107,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     saveChanges(initiative: Initiative, tags?: Array<Tag>) {
         EmitterService.get("isSavingInitiativeData").emit(true);
-        this.isNoInitiatives = !(initiative.children && initiative.children.length >0 )
-                
+
+        this.isEmptyMap = !initiative.children || initiative.children.length===0;
+        this.cd.markForCheck();
+       
         this.dataset.initiative = initiative;
         if (tags) {
             this.dataset.tags = tags;

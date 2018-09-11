@@ -99,6 +99,7 @@ export class MappingComponent {
   public data$: Subject<{ initiative: Initiative; datasetId: string }>;
 
   @Input("tags") selectableTags: Array<SelectableTag>;
+  @Input("isEmptyMap") isEmptyMap:Boolean;
   @Output("showDetails") showDetails = new EventEmitter<Initiative>();
   @Output("addInitiative") addInitiative = new EventEmitter<Initiative>();
   @Output("removeInitiative") removeInitiative = new EventEmitter<Initiative>();

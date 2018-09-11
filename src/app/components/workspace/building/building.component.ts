@@ -84,12 +84,10 @@ export class BuildingComponent {
     datasetId: string;
 
     team: Team;
-    // teamName: string;
-    // teamId: string;
-    // authority: string;
-    // helper: string;
+    isFirstEdit: Boolean;
 
     @Input("user") user: User;
+    @Input("isEmptyMap") isEmptyMap:Boolean;
     @Output("save") save = new EventEmitter<Initiative>();
     @Output("openDetails") openDetails = new EventEmitter<Initiative>();
     @Output("openDetailsEditOnly") openDetailsEditOnly = new EventEmitter<Initiative>();
@@ -123,10 +121,6 @@ export class BuildingComponent {
 
     isRootValid(): boolean {
         return (this.nodes[0].name !== undefined) && this.nodes[0].name.trim().length > 0;
-    }
-
-    isFirstEdit() {
-        return !this.nodes[0].children || !this.nodes[0].children[0] || !this.nodes[0].children[0].children
     }
 
     updateTreeModel(treeModel: any) {
@@ -223,8 +217,6 @@ export class BuildingComponent {
      */
     loadData(datasetID: string, nodeIdToOpen: string = undefined, team: Team): Promise<void> {
         this.datasetId = datasetID;
-        // this.teamId = team.team_id;
-        // this.teamName = team.name;
         this.team = team;
         return this.datasetFactory.get(datasetID)
             .then(dataset => {
@@ -269,7 +261,6 @@ export class BuildingComponent {
             .then(() => {
                 this.saveChanges();
             })
-
             .then(() => {
                 let targetNode: Initiative = undefined;
                 if (nodeIdToOpen) {
@@ -284,10 +275,6 @@ export class BuildingComponent {
                 if (targetNode) {
                     this.openDetailsEditOnly.emit(targetNode)
                 }
-            })
-            .then(() => {
-                // console.log(this.tree)
-                localStorage.setItem("treeState", `{"expandedNodeIds":{"5770067817162":true,"568897744103":true,"2974126650332":true,"7529061736819":true,"752716276568":true,"1059138929499":true,"9149501839422":true,"5728112351761":true,"2720409237321":true,"9783364226323":true,"1202554437960":true,"8373571952711":true,"9354251581724":true,"9364264400095":true,"4164495146355":true,"7300190907727":true,"1331799012941":true,"2920482360937":true},"selectedLeafNodeIds":{},"activeNodeIds":{},"hiddenNodeIds":{},"focusedNodeId":null}`)
             })
     }
 

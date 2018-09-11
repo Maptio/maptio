@@ -174,7 +174,7 @@ describe("mapping.component.ts", () => {
 
             component.onActivate(activated);
 
-            expect(activated.width).toBe(window.innerWidth-100)
+            expect(activated.width).toBe(window.innerWidth-120)
             expect(activated.height).toBe(window.innerHeight-125)
             expect(activated.margin).toBe(50);
             expect(component.getFragment).toHaveBeenCalledTimes(1);
