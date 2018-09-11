@@ -139,7 +139,7 @@
                         </ng-template>
                         <ng-template #thenRoleBlock>
                             <select [disabled]="member.isDeleted" class="form-control" (change)="changeUserRole(member,$event.target.value)">
-                                <option *ngFor="let userRole of UserRole | keys" [value]="userRole.key" [selected]="member.userRole">{{userRole.value}}</option>
+                                <option *ngFor="let userRole of UserRole | keys| slice:0:2;" [value]="userRole.key" [selected]="member.userRole">{{userRole.value}}</option>
                             </select>
                         </ng-template>
                     </td>

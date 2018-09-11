@@ -315,8 +315,8 @@
     transition: margin-left .5s;
     box-shadow: 5px 5px 15px 0px #999;
     margin: 1vh;
-    margin-left:2vw;
-    margin-right:2vw;
+    margin-left:3vw;
+    margin-right:3vw;
 }
 
 #main.half-push{
@@ -343,6 +343,6 @@
     background-color: transparent;
     overflow-x: hidden;
     transition: 0.5s;
-    width: 2vw;
+    width: 3vw;
 }
 

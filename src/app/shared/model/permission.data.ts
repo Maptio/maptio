@@ -6,7 +6,11 @@ export enum UserRole {
     /**
    * Administrator
    */
-    Admin
+    Admin,
+    /**
+     * Superuser i.e. Maptio people 
+     */
+    Superuser
 }
 
 export enum Permissions {
@@ -16,6 +20,7 @@ export enum Permissions {
     canEditUser,
     canInviteUser,
     canCreateTeam,
+    canCreateUnlimitedTeams,
     canEditTeam,
     canCreateInitiative,
     canDeleteInitiative,
@@ -40,6 +45,8 @@ export class PermissionService {
                 return this.getStandardPermissions();
             case UserRole.Admin:
                 return this.getAdminPermissions();
+            case UserRole.Superuser:
+                return this.getSuperPermissions();
             default:
                 throw new Error(`No permissions can be found for status ${status}`)
         }
@@ -72,5 +79,9 @@ export class PermissionService {
             Permissions.canGiveHelperPrivileges,
             Permissions.canSubscribe
         ]
+    }
+
+    private getSuperPermissions(): Permissions[] {
+        return this.getAdminPermissions().concat([Permissions.canCreateUnlimitedTeams])
     }
 }

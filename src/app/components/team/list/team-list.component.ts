@@ -78,6 +78,10 @@ export class TeamListComponent implements OnInit {
         if (this.routeSubscription) this.routeSubscription.unsubscribe();
     }
 
+    canCreateUnlimitedTeams(){
+        return this.auth.getPermissions().includes(Permissions.canCreateUnlimitedTeams);
+    }
+
 
     createNewTeam() {
         if (this.teamsNumber >= 1) {

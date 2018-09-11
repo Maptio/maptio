@@ -78,7 +78,7 @@ export class MappingComponent {
   public selectableTags$: Subject<Array<SelectableTag>>;
   // public selectableUsers$: Subject<Array<SelectableUser>>;
 
-  public VIEWPORT_WIDTH: number = window.innerWidth-100;
+  public VIEWPORT_WIDTH: number = window.innerWidth-120;
   public VIEWPORT_HEIGHT: number = window.innerHeight-125;
 
   public isLoading: boolean;

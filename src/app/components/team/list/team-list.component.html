@@ -4,8 +4,8 @@
     </span>
 </ng-template>
 
-<ng-container *ngIf="isZeroTeam">
-    <div class="d-flex flex-column justify-content-center align-items-center h-75">
+<ng-container *ngIf="isZeroTeam || canCreateUnlimitedTeams()">
+    <div class="d-flex flex-column justify-content-center align-items-center" [class.h-75]="isZeroTeam">
         <div class="col-auto">
             <div class="alert alert-danger" role="alert" *ngIf="errorMessage">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -14,7 +14,7 @@
                 {{errorMessage}}
             </div>
             <h1 class="text-center">Choose a name for your team</h1>
-            <form [class.has-warning]="createForm.controls['teamName'].invalid  && (createForm.controls['teamName'].dirty || createForm.controls['teamName'].touched)"
+           <form [class.has-warning]="createForm.controls['teamName'].invalid  && (createForm.controls['teamName'].dirty || createForm.controls['teamName'].touched)"
                 [formGroup]="createForm" (submit)="createNewTeam()">
                 <fieldset *permissionsOnly="Permissions.canCreateTeam; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
 
@@ -51,7 +51,7 @@
     <div class="d-flex flex-column justify-content-center align-items-center col-12">
         <h2 class="my-5"> Teams
         </h2>
-        <a class="d-flex justify-content-end text-muted w-100 my-2" href="mailto:support@maptio.com?subject=I need to create more teams">Need more teams? Reach out</a>
+        <a *ngIf="!canCreateUnlimitedTeams()" class="d-flex justify-content-end text-muted w-100 my-2" href="mailto:support@maptio.com?subject=I need to create more teams">Need more teams? Reach out</a>
 
         <div class="card-columns ">
             <div class="card" *ngFor="let team of teams;trackBy:trackByTeamId">
