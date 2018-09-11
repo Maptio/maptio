@@ -6,9 +6,9 @@
 		<button name="" id="" class="btn btn-light text-blue" (click)="toggleAll(false)" role="button">
 			<i class="fa fa-minus-circle large" aria-hidden="true"></i> Collapse all
 		</button>
-		<button name="" id="" class="btn btn-outline-secondary ml-auto" (click)="addRootNode()" role="button" placement="top" container="body"
+		<button *ngIf="isFirstEdit()" name="" id="" class="btn btn-outline-secondary ml-auto" (click)="addRootNode()" role="button" placement="top" container="body"
 		ngbTooltip="Add a new initiative">
-			<i class="fa fa-plus large" aria-hidden="true"></i> New initiative
+			<i class="fa fa-plus large" aria-hidden="true"></i> New outer circle
 		</button>
 	</div>
 	<div class="mt-3">

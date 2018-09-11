@@ -125,6 +125,10 @@ export class BuildingComponent {
         return (this.nodes[0].name !== undefined) && this.nodes[0].name.trim().length > 0;
     }
 
+    isFirstEdit() {
+        return !this.nodes[0].children || !this.nodes[0].children[0] || !this.nodes[0].children[0].children
+    }
+
     updateTreeModel(treeModel: any) {
         treeModel.update();
     }
