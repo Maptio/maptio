@@ -110,6 +110,7 @@ describe("header.component.ts", () => {
 
         component.ngOnInit();
         user$.next(new User({ user_id: "some_new_id", datasets: ["1", "2", "3"], teams: [] }));
+        EmitterService.get("headerUser").emit(user$.asObservable());
         spyDatasets.calls.mostRecent().returnValue
             .then(() => { })
             .then(() => { })
@@ -150,6 +151,7 @@ describe("header.component.ts", () => {
 
         component.ngOnInit();
         user$.next(new User({ user_id: "some_new_id", datasets: ["1", "2", "3"], teams: [] }));
+        EmitterService.get("headerUser").emit(user$.asObservable());
         spyDatasets.calls.mostRecent().returnValue
             .then(() => { })
             .then(() => { })

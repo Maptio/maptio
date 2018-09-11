@@ -1,7 +1,7 @@
 import { Auth } from "./../../shared/services/auth/auth.service";
 import { Component, ChangeDetectorRef } from "@angular/core";
 import { Subscription, Observable } from "../../../../node_modules/rxjs";
-import { ActivatedRoute } from "../../../../node_modules/@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { DataSet } from "../../shared/model/dataset.data";
 import { Team } from "../../shared/model/team.data";
 import { User } from "../../shared/model/user.data";

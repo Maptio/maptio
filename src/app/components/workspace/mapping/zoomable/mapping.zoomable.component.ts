@@ -203,7 +203,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
   }
 
   init() {
-    console.log("init", this._isFullDisplayMode)
     this.uiService.clean();
     let d3 = this.d3;
 

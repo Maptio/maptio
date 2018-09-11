@@ -23,6 +23,8 @@ import { AuthConfiguration } from "../../../shared/services/auth/auth.config";
 import { Router, NavigationStart, ActivatedRoute, ActivatedRouteSnapshot } from "@angular/router";
 import { Intercom, IntercomConfig } from 'ng-intercom';
 import { IntercomService } from './intercom.service';
+import { LoaderService } from '../../../shared/services/loading/loader.service';
+import { NgProgress, NgProgressModule } from '@ngx-progressbar/core';
 
 describe("team-list.component.ts", () => {
 
@@ -35,10 +37,11 @@ describe("team-list.component.ts", () => {
         TestBed.configureTestingModule({
             declarations: [TeamListComponent, PermissionsDirective],
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [RouterTestingModule, Angulartics2Module, NgbModule.forRoot()]
+            imports: [RouterTestingModule, Angulartics2Module, NgbModule.forRoot(), NgProgressModule]
         }).overrideComponent(TeamListComponent, {
             set: {
                 providers: [
+                    LoaderService, NgProgress,
                     {
                         provide: Auth, useClass: class {
                             getUser() { return user$.asObservable() }

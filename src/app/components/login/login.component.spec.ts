@@ -18,6 +18,7 @@ import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 import { Auth } from "../../shared/services/auth/auth.service";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
+import { NgProgressModule, NgProgress } from "@ngx-progressbar/core";
 
 export class AuthStub {
   login() {
@@ -34,14 +35,14 @@ describe("login.component.ts", () => {
       TestBed.configureTestingModule({
         declarations: [LoginComponent],
         schemas: [NO_ERRORS_SCHEMA],
-        imports: [FormsModule, ReactiveFormsModule, RouterTestingModule]
+        imports: [FormsModule, ReactiveFormsModule, RouterTestingModule, NgProgressModule]
       })
         .overrideComponent(LoginComponent, {
           set: {
             providers: [
               JwtEncoder,
               FormBuilder,
-              LoaderService,
+              LoaderService,NgProgress, 
               Angulartics2Mixpanel,
               Angulartics2,
               {

@@ -212,7 +212,7 @@ export class MappingComponent {
 
     component.width = this.VIEWPORT_WIDTH;
     component.height = this.VIEWPORT_HEIGHT;
-    console.log("svg width", this.VIEWPORT_WIDTH, "screen width", window.screen.availWidth, "browser width", window.innerWidth)
+    // console.log("svg width", this.VIEWPORT_WIDTH, "screen width", window.screen.availWidth, "browser width", window.innerWidth)
 
     component.margin = 50;
     component.zoom$ = this.zoom$.asObservable();

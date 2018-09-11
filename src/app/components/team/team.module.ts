@@ -23,6 +23,7 @@ import { TeamComponentResolver } from "./single/team.resolver";
 import { IntercomService } from "./list/intercom.service";
 import { TeamBillingComponent } from "./single/billing/billing.component";
 import { CreateMapComponent } from "../../shared/components/create-map/create-map.component";
+import { CommonComponentsModule } from "../../shared/common-components.module";
 
 const routes: Routes = [
     {
@@ -84,7 +85,8 @@ const routes: Routes = [
             confirmButtonType: "danger",
             cancelButtonType: "secondary"
         }),
-        SharedModule
+        SharedModule,
+        CommonComponentsModule
     ],
     declarations: [
         TeamComponent,

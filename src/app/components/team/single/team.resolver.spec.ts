@@ -22,12 +22,13 @@ import { TestBed, inject, async } from "@angular/core/testing";
 import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
 import { MockBackend } from "@angular/http/testing";
 import { Intercom, IntercomConfig } from 'ng-intercom';
+import { NgProgressModule, NgProgress } from '@ngx-progressbar/core';
 
 describe("team.resolver.ts", () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [RouterTestingModule,Angulartics2Module],
+            imports: [RouterTestingModule,Angulartics2Module, NgProgressModule],
             providers: [
                 TeamComponentResolver,
                 Auth,
@@ -35,7 +36,7 @@ describe("team.resolver.ts", () => {
                 TeamFactory,
                 DatasetFactory,
                 UserFactory,
-                AuthConfiguration, UserService, MailingService, JwtEncoder, LoaderService,
+                AuthConfiguration, UserService, MailingService, JwtEncoder, LoaderService,NgProgress,
                 {
                     provide: AuthHttp,
                     useFactory: authHttpServiceFactoryTesting,

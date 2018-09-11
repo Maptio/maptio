@@ -17,6 +17,8 @@ import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 import { User } from "../../shared/model/user.data";
 import { Auth } from "../../shared/services/auth/auth.service";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
+import { LoaderService } from "../../shared/services/loading/loader.service";
+import { NgProgress, NgProgressModule } from "@ngx-progressbar/core";
 
 describe("account.component.ts", () => {
 
@@ -29,7 +31,7 @@ describe("account.component.ts", () => {
         TestBed.configureTestingModule({
             declarations: [AccountComponent],
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [CloudinaryModule.forRoot(Cloudinary, { cloud_name: environment.CLOUDINARY_CLOUDNAME, upload_preset: environment.CLOUDINARY_UPLOAD_PRESET })]
+            imports: [NgProgressModule, CloudinaryModule.forRoot(Cloudinary, { cloud_name: environment.CLOUDINARY_CLOUDNAME, upload_preset: environment.CLOUDINARY_UPLOAD_PRESET })]
         }).overrideComponent(AccountComponent, {
             set: {
                 providers: [
@@ -48,6 +50,15 @@ describe("account.component.ts", () => {
                     },
                     ErrorService, UserService, JwtEncoder, MailingService, MockBackend,
                     BaseRequestOptions, AuthConfiguration, UserFactory,
+                    {
+                        provide: LoaderService,
+                        useClass: class {
+                            hide = jasmine.createSpy("hide")
+                            show = jasmine.createSpy("show")
+                        },
+                        deps: [NgProgress]
+                    }, 
+                    NgProgress
                 ]
             }
         }).compileComponents();

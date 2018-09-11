@@ -4,7 +4,7 @@ import { isEmpty } from 'lodash';
 import { Subscription } from "rxjs/Rx";
 import { Component, ChangeDetectorRef, SimpleChanges, Input } from "@angular/core";
 import { DataSet } from "../../shared/model/dataset.data";
-import { DashboardComponentResolver } from "./dashboard.resolver";
+// import { DashboardComponentResolver } from "./dashboard.resolver";
 import { ExportService } from "../../shared/services/export/export.service";
 import { EmitterService } from "../../shared/services/emitter.service";
 import { Team } from '../../shared/model/team.data';

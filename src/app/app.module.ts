@@ -25,7 +25,7 @@ import { environment } from "../environment/environment";
 import { AccountComponent } from "./components/account/account.component";
 import { AppComponent } from "./components/app.component";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
-import { DashboardComponentResolver } from "./components/dashboard/dashboard.resolver";
+// import { DashboardComponentResolver } from "./components/dashboard/dashboard.resolver";
 import { FooterComponent } from "./components/footer/footer.component";
 import { HeaderComponent } from "./components/header/header.component";
 import { HelpComponent } from "./components/help/help.component";
@@ -71,6 +71,7 @@ import { NgProgressRouterModule } from '@ngx-progressbar/router';
 import { NgProgressHttpModule } from '@ngx-progressbar/http';
 import { CreateMapComponent } from "./shared/components/create-map/create-map.component";
 import { SharedModule } from "./shared/shared.module";
+import { CommonComponentsModule } from "./shared/common-components.module";
 
 
 
@@ -92,7 +93,7 @@ const appRoutes: Routes = [
     data: { breadcrumbs: "Profile" }
   },
   { path: "unauthorized", component: UnauthorizedComponent },
-  { path: "forgot", component: ChangePasswordComponent, data: { breadcrumbs: "Password change" } },
+  { path: "forgot", component: ChangePasswordComponent, data: { breadcrumbs: "Reset password" } },
   { path: "404", component: NotFoundComponent },
   { path: "**", redirectTo: "/404" }
 ];
@@ -180,7 +181,8 @@ export function rollbarFactory() {
       appId: environment.INTERCOM_APP_ID, // from your Intercom config
       updateOnRouterChange: true // will automatically run `update` on router event changes. Default: `false`
     }),
-    SharedModule
+    SharedModule,
+    CommonComponentsModule
 
   ],
   exports: [RouterModule],
@@ -198,7 +200,7 @@ export function rollbarFactory() {
       useFactory: authHttpServiceFactory,
       deps: [Http, RequestOptions]
     },
-    DashboardComponentResolver,
+    // DashboardComponentResolver,
     // { provide: ErrorHandler, useClass: RollbarErrorHandler },
     // { provide: RollbarService, useFactory: rollbarFactory }
   ],

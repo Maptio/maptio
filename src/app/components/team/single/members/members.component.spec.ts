@@ -25,6 +25,8 @@ import { TeamFactory } from "./../../../../shared/services/team.factory";
 import { UserFactory } from "./../../../../shared/services/user.factory";
 import { UserService } from "./../../../../shared/services/user/user.service";
 import { TeamMembersComponent } from "./members.component";
+import { NgProgressModule, NgProgress } from '@ngx-progressbar/core';
+import { LoaderService } from '../../../../shared/services/loading/loader.service';
 
 class MockActivatedRoute implements ActivatedRoute {
     paramMap: Observable<ParamMap>;
@@ -66,11 +68,19 @@ describe("members.component.ts", () => {
         TestBed.configureTestingModule({
             declarations: [TeamMembersComponent, KeysPipe],
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [RouterTestingModule, SharedModule, Angulartics2Module, NgbModule.forRoot()]
+            imports: [RouterTestingModule, SharedModule, Angulartics2Module, NgbModule.forRoot(), NgProgressModule]
         }).overrideComponent(TeamMembersComponent, {
             set: {
                 providers: [
                     TeamFactory, UserFactory, DatasetFactory, AuthConfiguration, FileService,
+                    {
+                        provide: LoaderService,
+                        useClass: class {
+                            hide = jasmine.createSpy("hide")
+                            show = jasmine.createSpy("show")
+                        },
+                        deps: [NgProgress]
+                    }, NgProgress,
                     JwtEncoder, MailingService,
                     {
                         provide: AuthHttp,
@@ -161,7 +171,7 @@ describe("members.component.ts", () => {
                 return Promise.resolve(users.map(u => { u.isInvitationSent = false; return u }))
             })
 
-            component.getAllMembers().then((members:User[]) => {
+            component.getAllMembers().then((members: User[]) => {
                 expect(members.length).toBe(3);
                 expect(members.every(m => m.isInvitationSent === false)).toBe(true)
                 expect(members.every(m => m.isActivationPending === true)).toBe(true)
@@ -177,7 +187,7 @@ describe("members.component.ts", () => {
                 return Promise.resolve(users.map(u => { u.isActivationPending = false; return u }))
             })
 
-            component.getAllMembers().then((members:User[]) => {
+            component.getAllMembers().then((members: User[]) => {
                 expect(members.length).toBe(3);
                 expect(members.every(m => m.isInvitationSent === true)).toBe(true)
                 expect(members.every(m => m.isActivationPending === false)).toBe(true)
