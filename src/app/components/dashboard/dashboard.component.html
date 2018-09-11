@@ -1,36 +1,87 @@
 <h2 class="my-5 text-center"> Maps</h2>
 
-<ng-container *ngIf="isZeroMaps">
-    <div class="d-flex justify-content-center align-items-center flex-column h-50">
-        <h3 class="text-dark">Let's create your first map in 3 simple steps : </h3>
-
-        <div class="d-flex justify-content-center text-muted">
-            <div class="d-flex flex-column col-auto align-items-start h4">
-                <a routerLink="/teams">
-                    <span class="badge badge-dark rounded-circle my-2 mx-2">1</span>Set up a team
-                    <i *ngIf="!isZeroTeam" class="text-success fa fa-check-circle" aria-hidden="true"></i>
-                </a>
-
-                <a *ngIf="teamId" routerLink="/teams/{{teamId}}/team/members">
-                    <span class="badge badge-dark rounded-circle my-2 mx-2">2</span>Add a few teammates (optional)</a>
-                <span *ngIf="!teamId">
-                    <span class="badge badge-dark rounded-circle my-2 mx-2">2</span>Add a few teammates (optional)</span>
-
-                <a *ngIf="teamId" routerLink="/teams/{{teamId}}/team/maps">
-                    <span class="badge badge-dark rounded-circle my-2 mx-2">3</span>Create a map and add a first initiative
-                    <i *ngIf="!isZeroMaps" class="text-success fa fa-check-circle" aria-hidden="true"></i>
-                </a>
-                <span *ngIf="!teamId">
-                    <span class="badge badge-dark rounded-circle my-2 mx-2">3</span>Create a map and add a first initiative
-                    <i *ngIf="!isZeroMaps" class="text-success fa fa-check-circle" aria-hidden="true"></i>
-                </span>
-            </div>
-        </div>
+<ng-container *ngIf="isOnboarding()">
+    <div class="d-flex justify-content-center align-items-center">
+            <div class="  d-flex flex-column h-50 align-items-center box-shadow rounded p-3">
+                    <h3 class="text-dark">Let's get you started with 4 simple steps : </h3>
+            
+                    <div class="d-flex justify-content-center text-muted">
+                        <div class="d-flex flex-column col-auto align-items-start h4">
+                            <div class="d-flex align-items-center my-4">
+                                <span class="mx-2">
+                                    <i *ngIf="isZeroTeam" class="fa fa-square-o" aria-hidden="true"></i>
+                                    <i *ngIf="!isZeroTeam" class="fa fa-check-square text-success" aria-hidden="true"></i>
+                                </span>
+                                <a routerLink="/teams">
+                                    Set up a team
+                                </a>
+                            </div>
+            
+                            <div class="d-flex align-items-center my-4">
+                                <span class="mx-2">
+                                    <i *ngIf="isZeroTeammates" class="fa fa-square-o" aria-hidden="true"></i>
+                                    <i *ngIf="!isZeroTeammates" class="fa fa-check-square text-success" aria-hidden="true"></i>
+                                </span>
+                                <div *ngIf="teamId">
+                                    <a routerLink="/teams/{{teamId}}/team/members">
+                                        Add a few teammates
+                                    </a>
+                                    or
+                                    <a routerLink="/teams/{{teamId}}/team/import"> import a .csv </a> file (recommended)
+                                </div>
+                                <div *ngIf="!teamId">
+                                    <span>
+                                        Add a few teammates
+                                    </span>
+                                    or
+                                    <span> import a .csv </span> file (recommended)
+                                </div>
+                            </div>
+            
+                            <div class="d-flex align-items-center my-4">
+                                <span class="mx-2">
+                                    <i *ngIf="isZeroMaps" class="fa fa-square-o" aria-hidden="true"></i>
+                                    <i *ngIf="!isZeroMaps" class="fa fa-check-square text-success" aria-hidden="true"></i>
+                                </span>
+                                <div *ngIf="teamId">
+                                    <a routerLink="/teams/{{teamId}}/team/maps">
+                                        Create a map
+                                    </a>
+                                </div>
+                                <div *ngIf="!teamId">
+                                    <span>
+                                        Create a map
+                                    </span>
+                                </div>
+                            </div>
+            
+                            <div class="d-flex align-items-center my-4">
+                                <span class="mx-2">
+                                    <i *ngIf="isZeroInitiative" class="fa fa-square-o" aria-hidden="true"></i>
+                                    <i *ngIf="!isZeroInitiative" class="fa fa-check-square text-success" aria-hidden="true"></i>
+                                </span>
+                                <div *ngIf="datasetId">
+                                    <a routerLink="/map/{{datasetId}}/circles/map">
+                                        Add a first initiative
+                                    </a>
+                                </div>
+                                <div *ngIf="!datasetId">
+                                    <span>
+                                        Add a first initiative
+                                    </span>
+                                </div>
+                            </div>
+            
+            
+                        </div>
+                    </div>
+                </div>
     </div>
+   
 
 </ng-container>
 
-<ng-container *ngIf="!isZeroMaps">
+<ng-container *ngIf="!isOnboarding()">
     <div class="d-flex flex-column justify-content-center col-12 align-items-center">
         <div class="card-columns col-12">
             <ng-container *ngFor="let dataset of datasets">

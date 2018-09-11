@@ -22,6 +22,8 @@ export class DashboardComponent {
     @Input("teams") teams: Team[];
     isZeroMaps: Boolean;
     isZeroTeam: Boolean;
+    isZeroInitiative: Boolean;
+    isZeroTeammates: Boolean;
     teamId: String;
     datasetId: String;
 
@@ -29,11 +31,10 @@ export class DashboardComponent {
 
     constructor(
         private exportService: ExportService,
-        private cd: ChangeDetectorRef, private teamFactory:TeamFactory) {
+        private cd: ChangeDetectorRef, private teamFactory: TeamFactory) {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        // console.log(changes)
         if (changes.datasets && changes.datasets.currentValue) {
             this.datasets = changes.datasets.currentValue;
             this.isZeroMaps = isEmpty(this.datasets);
@@ -42,17 +43,16 @@ export class DashboardComponent {
                 this.datasets.forEach(d => {
                     this.isExportingMap.set(d.datasetId, false);
                 })
+                this.isZeroInitiative = !this.datasets[0].initiative.children;
             }
-
         }
 
         if (changes.teams && changes.teams.currentValue) {
             this.isZeroTeam = isEmpty(changes.teams.currentValue)
             if (!this.isZeroTeam) {
                 this.teamId = changes.teams.currentValue[0].team_id;
-
+                this.isZeroTeammates = (<Team>changes.teams.currentValue[0]).members.length === 1;
             }
-
         }
         this.cd.markForCheck()
     }
@@ -66,9 +66,8 @@ export class DashboardComponent {
     }
 
 
-    goTo(dataset: DataSet) {
-        // EmitterService.get("currentDataset").emit(dataset);
-        // EmitterService.get("currentTeam").emit(dataset.team)
+    isOnboarding() {
+        return true;// this.isZeroTeam || this.isZeroMaps || this.isZeroInitiative;
     }
 
     export(dataset: DataSet) {
