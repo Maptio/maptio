@@ -1,5 +1,11 @@
 <div class="w-100 overflow">
     <div class="card-columns ">
+        <div class="card" *ngIf="teams">
+            <div class="card-body bg-light">
+                <common-create-map [teams]="teams" [isRedirect]="true"  (created)="onNewMap()"></common-create-map>
+            </div>
+        </div>
+
         <div class="card" *ngFor="let dataset of datasets">
             <div class="card-body">
                 <h5 class="card-title">

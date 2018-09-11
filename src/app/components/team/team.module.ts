@@ -22,6 +22,7 @@ import { TeamComponent } from "./single/team.component";
 import { TeamComponentResolver } from "./single/team.resolver";
 import { IntercomService } from "./list/intercom.service";
 import { TeamBillingComponent } from "./single/billing/billing.component";
+import { CreateMapComponent } from "../../shared/components/create-map/create-map.component";
 
 const routes: Routes = [
     {
@@ -95,6 +96,7 @@ const routes: Routes = [
         TeamBillingComponent,
         TeamMapsComponent,
         KeysPipe
+        
     ],
     providers: [TeamComponentResolver, TeamListComponentResolver, IntercomService]
 })

@@ -70,6 +70,7 @@ import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressRouterModule } from '@ngx-progressbar/router';
 import { NgProgressHttpModule } from '@ngx-progressbar/http';
 import { CreateMapComponent } from "./shared/components/create-map/create-map.component";
+import { SharedModule } from "./shared/shared.module";
 
 
 
@@ -139,7 +140,6 @@ export function rollbarFactory() {
     ChangePasswordComponent, LoaderComponent, SignupComponent,
     HelpComponent,
     DashboardComponent,
-    CreateMapComponent,
     // for tests
     AnAnchorableComponent
   ],
@@ -179,7 +179,8 @@ export function rollbarFactory() {
     IntercomModule.forRoot({
       appId: environment.INTERCOM_APP_ID, // from your Intercom config
       updateOnRouterChange: true // will automatically run `update` on router event changes. Default: `false`
-    })
+    }),
+    SharedModule
 
   ],
   exports: [RouterModule],

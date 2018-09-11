@@ -61,8 +61,8 @@
                     (click)="isCreateMode=!isCreateMode">
                     Create a map
                 </a>
-                <div class="dropdown-menu dropdown-menu-right form-big" [class.show]="isCreateMode" [class.hide]="!isCreateMode">
-                    <common-create-map [teams]="teams" [user]="user" [isRedirect]="true" (created)="onNewMap($event)"></common-create-map>
+                <div class="dropdown-menu dropdown-menu-right form-big p-4" [class.show]="isCreateMode" [class.hide]="!isCreateMode">
+                    <common-create-map [teams]="teams" [isRedirect]="true"  (created)="onNewMap($event)"></common-create-map>
                 </div>
             </li>
             <li class="nav-item dropdown" id="profileInformation">

@@ -165,9 +165,11 @@ export class HeaderComponent implements OnInit {
     //     }
     // }
 
-    onNewMap(dataset:DataSet){
+    onNewMap(dataset: DataSet) {
         this.isCreateMode = false;
         this.selectedDataset = dataset;
+        this.analytics.eventTrack("Create a map", { email: this.user.email, name: dataset.initiative.name, team: dataset.initiative.team_id })
+
     }
 
     // createTeam() {

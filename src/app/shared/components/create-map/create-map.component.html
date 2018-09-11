@@ -1,4 +1,4 @@
-<form [formGroup]="form" (submit)="submit()" class="p-4">
+<form [formGroup]="form" (submit)="submit()" class="form-row d-flex flex-column">
     <div class="form-group ">
         <label for="inputMapName">Map name</label>
         <input type="text" id="inputMapName" formControlName="mapName" class="form-control w-100" placeholder="Enter map name" required>
@@ -6,15 +6,17 @@
             This is usually your company or organisation name
         </small>
     </div>
-    <div class="form-group " *ngIf="teams.length > 1">
+    <div class="form-group " *ngIf="teams?.length > 1">
         <label for="inputTeamName">Team</label>
         <select id="inputTeamName" formControlName="teamId" required class="form-control">
-            <option value="null" disabled="true" [selected]="teams.length > 1">Select a team</option>
-            <option *ngFor="let team of teams; let i = index" [value]="team.team_id" [selected]="teams.length === 1 && i===0">{{team?.name}}</option>
+            <option value="null" disabled="true" [selected]="teams?.length > 1">Select a team</option>
+            <option *ngFor="let team of teams; let i = index" [value]="team.team_id" [selected]="teams?.length === 1 && i===0">{{team?.name}}</option>
         </select>
         <a *ngIf="teams?.length === 0 " class="text-success" routerLink="/teams">
             <small class="offset-md-6">Don't have a team?</small>
         </a>
     </div>
-    <button type="submit" class="btn btn-outline-success pull-right" [class.disabled]="!form.valid">Create</button>
+    <div class="form-group ">
+        <button type="submit" class="btn btn-success pull-right" [class.disabled]="!form?.valid">Create</button>
+    </div>
 </form>
