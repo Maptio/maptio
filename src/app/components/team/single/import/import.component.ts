@@ -134,7 +134,6 @@ export class TeamImportComponent implements OnInit {
         this.importedFailed = 0;
 
         drop(this.csvRecords, 1).forEach((record, index, all) => {
-            console.log(record)
             record[4] = "";
             record[5] = false; // has finished processed
 

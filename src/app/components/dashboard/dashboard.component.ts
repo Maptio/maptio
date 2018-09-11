@@ -33,7 +33,7 @@ export class DashboardComponent {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        console.log(changes)
+        // console.log(changes)
         if (changes.datasets && changes.datasets.currentValue) {
             this.datasets = changes.datasets.currentValue;
             this.isZeroMaps = isEmpty(this.datasets);
