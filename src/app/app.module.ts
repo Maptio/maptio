@@ -69,6 +69,7 @@ import { BillingGuard } from "./shared/services/guards/billing.guard";
 import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressRouterModule } from '@ngx-progressbar/router';
 import { NgProgressHttpModule } from '@ngx-progressbar/http';
+import { CreateMapComponent } from "./shared/components/create-map/create-map.component";
 
 
 
@@ -138,6 +139,7 @@ export function rollbarFactory() {
     ChangePasswordComponent, LoaderComponent, SignupComponent,
     HelpComponent,
     DashboardComponent,
+    CreateMapComponent,
     // for tests
     AnAnchorableComponent
   ],

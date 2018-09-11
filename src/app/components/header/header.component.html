@@ -62,34 +62,9 @@
                     Create a map
                 </a>
                 <div class="dropdown-menu dropdown-menu-right form-big" [class.show]="isCreateMode" [class.hide]="!isCreateMode">
-                    <form [formGroup]="createMapForm" (submit)="createDataset()" class="p-4">
-                        <div class="form-group ">
-                            <label for="inputMapName">Map name</label>
-                            <input type="text" id="inputMapName" formControlName="mapName" class="form-control w-100" placeholder="Enter map name" required>
-                            <small class="form-text text-muted">
-                                This is usually your company or organisation name
-                            </small>
-                        </div>
-                        <div class="form-group " *ngIf="teams.length > 1">
-                            <label for="inputTeamName">Team</label>
-                            <select id="inputTeamName" formControlName="teamId" required class="form-control">
-                                <option value="null" disabled="true" [selected]="teams.length > 1">Select a team</option>
-                                <option *ngFor="let team of teams; let i = index" [value]="team.team_id" [selected]="teams.length === 1 && i===0">{{team?.name}}</option>
-                            </select>
-                            <a *ngIf="teams?.length === 0 " class="text-danger" (click)="createTeam()">
-                                <small class="offset-md-6">Don't have a team?</small>
-                            </a>
-                        </div>
-                        <button type="submit" class="btn btn-outline-success pull-right" [class.disabled]="!createMapForm.valid">Create</button>
-                    </form>
-
+                    <common-create-map [teams]="teams" [user]="user" [isRedirect]="true" (created)="onNewMap($event)"></common-create-map>
                 </div>
             </li>
-            <!-- <li class="nav-item dropdown" *ngIf="(teams$ | async)?.length === 0">
-                <a class="nav-link dropdown-toggle without-caret text-success" (click)="createTeam()" [class.coloured]="isCreateMode">
-                    Create a team
-                </a>
-            </li> -->
             <li class="nav-item dropdown" id="profileInformation">
                 <a class="nav-link dropdown-toggle without-caret" id="profileDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div>

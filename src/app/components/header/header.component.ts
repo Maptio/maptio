@@ -101,7 +101,7 @@ export class HeaderComponent implements OnInit {
 
     ngOnInit() {
         this.userSubscription = EmitterService.get("headerUser").subscribe((user: User) => {
-            console.log("header", user)
+            // console.log("header", user)
             this.user = user;
 
             this.datasetFactory.get(this.user.datasets, true)
@@ -125,10 +125,10 @@ export class HeaderComponent implements OnInit {
                 .then(teams => sortBy(teams, t => t.name), (r) => { return Promise.reject(r) })
                 .then(teams => { this.teams = teams; return teams })
                 .then((teams) => {
-                    this.createMapForm = new FormGroup({
-                        "mapName": new FormControl(teams.length > 1 ? "" : teams[0].name, [Validators.required, Validators.minLength(2)]),
-                        "teamId": new FormControl(teams.length > 1 ? null : teams[0].team_id, [Validators.required]),
-                    })
+                    // this.createMapForm = new FormGroup({
+                    //     "mapName": new FormControl(teams.length > 1 ? "" : teams[0].name, [Validators.required, Validators.minLength(2)]),
+                    //     "teamId": new FormControl(teams.length > 1 ? null : teams[0].team_id, [Validators.required]),
+                    // })
                 })
                 .catch(() => { return [] })
 
@@ -139,36 +139,41 @@ export class HeaderComponent implements OnInit {
             (error: any) => { this.errorService.handleError(error) });
     }
 
-    createDataset() {
-        console.log(this.createMapForm)
-        if (this.createMapForm.valid) {
-            let mapName = this.createMapForm.controls["mapName"].value
-            let teamId = this.createMapForm.controls["teamId"].value
+    // createDataset() {
+    //     // console.log(this.createMapForm)
+    //     if (this.createMapForm.valid) {
+    //         let mapName = this.createMapForm.controls["mapName"].value
+    //         let teamId = this.createMapForm.controls["teamId"].value
 
-            let newDataset = new DataSet({ initiative: new Initiative({ name: mapName, team_id: teamId }) });
-            this.datasetFactory.create(newDataset)
-                .then((created: DataSet) => {
-                    this.user.datasets.push(created.datasetId)
-                    this.auth.getUser();
-                    this.isCreateMode = false;
-                    this.selectedDataset = created;
-                    this.analytics.eventTrack("Create a map", { email: this.user.email, name: mapName, teamId: teamId })
-                    this.createMapForm.reset();
-                    this.cd.markForCheck();
-                    return created
-                })
-                .then(created => {
-                    this.router.navigate(["map", created.datasetId, created.initiative.getSlug()]);
-                })
-                .catch(this.errorService.handleError);
-            this.ngOnInit();
-        }
-    }
+    //         let newDataset = new DataSet({ initiative: new Initiative({ name: mapName, team_id: teamId }) });
+    //         this.datasetFactory.create(newDataset)
+    //             .then((created: DataSet) => {
+    //                 this.user.datasets.push(created.datasetId)
+    //                 this.auth.getUser();
+    //                 this.isCreateMode = false;
+    //                 this.selectedDataset = created;
+    //                 this.analytics.eventTrack("Create a map", { email: this.user.email, name: mapName, teamId: teamId })
+    //                 this.createMapForm.reset();
+    //                 this.cd.markForCheck();
+    //                 return created
+    //             })
+    //             .then(created => {
+    //                 this.router.navigate(["map", created.datasetId, created.initiative.getSlug()]);
+    //             })
+    //             .catch(this.errorService.handleError);
+    //         this.ngOnInit();
+    //     }
+    // }
 
-    createTeam() {
+    onNewMap(dataset:DataSet){
         this.isCreateMode = false;
-        this.router.navigate(["/teams"]);
+        this.selectedDataset = dataset;
     }
+
+    // createTeam() {
+    //     this.isCreateMode = false;
+    //     this.router.navigate(["/teams"]);
+    // }
 
     logout() {
         this.auth.logout();
