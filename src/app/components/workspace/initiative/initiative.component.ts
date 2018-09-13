@@ -100,7 +100,7 @@ export class InitiativeComponent implements OnChanges {
 
                 this.team$ = this.teamFactory.get(<string>changes.node.currentValue.team_id)
                     .then(t => { this.teamName = t.name; this.teamId = t.team_id; return t },
-                    () => { return Promise.reject("No team available") })
+                    () => { return Promise.reject("No organization available") })
                 // .catch(() => { })
 
 

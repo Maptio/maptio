@@ -47,18 +47,18 @@
 		<div class="input-group-append">
 			<ng-template #addButtonTooltip>
 				<p *ngIf="isRoot()">Create outer circle</p>
-				<p *ngIf="!isRoot()">Add sub-initiative</p>
+				<p *ngIf="!isRoot()">Add sub-circle</p>
 			</ng-template>
 			<button class="btn add btn-outline-secondary" (click)="addChildNode(node.data)" placement="top" [ngbTooltip]="addButtonTooltip"
 			 container="body" angulartics2On="click" angularticsEvent="Map" [angularticsProperties]="{mode: 'list', action:'add', team:teamName, teamId:teamId  }"></button>
 			<button class="btn edit btn-outline-secondary" *ngIf="!isRoot()" (click)="openNode(node.data)" placement="top" container="body"
-			 ngbTooltip="Open initiative" angulartics2On="click" angularticsEvent="Map" [angularticsProperties]="{mode: 'list', action:'edit', team:teamName, teamId:teamId }"></button>
+			 ngbTooltip="Open circle" angulartics2On="click" angularticsEvent="Map" [angularticsProperties]="{mode: 'list', action:'edit', team:teamName, teamId:teamId }"></button>
 			<ng-container *ngIf="!isRoot()">
 				<div *permissionsOnly="Permissions.canDeleteInitiative; initiative node.data; else elseDeleteBlock;then thenDeleteBlock; ">
 
 				</div>
 				<ng-template #thenDeleteBlock>
-					<button class="btn remove btn-outline-secondary" placement="top" container="body" mwlConfirmationPopover title="Remove initiative and sub initiatives ?"
+					<button class="btn remove btn-outline-secondary" placement="top" container="body" mwlConfirmationPopover title="Remove circle and sub-circles ?"
 					 focusbutton="cancel" appendToBody="false" (confirm)="removeChildNode(node.data)" (cancel)="cancelClicked = true" angularticsEvent="Map"
 					 [angularticsProperties]="{mode: 'list', action:'remove', team:teamName, teamId:teamId }" angulartics2On="click"></button>
 

@@ -28,7 +28,7 @@
                 </h6>
 
             <h6 class="">
-                    Team
+                Organization
                     <a routerLink="/teams/{{dataset?.team?.team_id}}/{{dataset?.team?.getSlug()}}">{{dataset?.team?.name}}</a>
 
                 </h6>
@@ -36,7 +36,7 @@
         </div>
         <div class="card-footer">
             <div class="small d-flex justify-content-between align-items-center">
-                <div>{{dataset?.depth}} sub-initiatives</div>
+                <div>{{dataset?.depth}} sub-circles</div>
                 <button *ngIf="isExportAvailable" class="btn btn-sm btn-outline-secondary " (click)="export(dataset)">
                     <span *ngIf="!isExporting">
                         <i class="fa fa-table" aria-hidden="true"></i> Export</span>

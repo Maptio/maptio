@@ -101,21 +101,21 @@ export class TeamListComponent implements OnInit {
                                     this.analytics.eventTrack("Create team", { email: this.user.email, name: teamName, teamId: team.team_id })
                                 }
                                 else {
-                                    throw `Unable to add you to team ${teamName}!`
+                                    throw `Unable to add you to organization ${teamName}!`
                                 }
                             },
-                                () => { throw `Unable to create team ${teamName}!` })
+                                () => { throw `Unable to create organization ${teamName}!` })
                             .then(() => {
                                 return team
                             })
                     },
-                        () => { throw `Unable to create team ${teamName}!` })
+                        () => { throw `Unable to create organization ${teamName}!` })
                     .then((team: Team) => {
                         return this.intercomService.createTeam(this.user, team).toPromise().then(result => {
                             if (result)
                                 return team
                             else
-                                throw "Cannot sync team with Intercom."
+                                throw "Cannot sync organization with Intercom."
                         })
                     })
                     .then((team: Team) => {

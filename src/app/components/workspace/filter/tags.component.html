@@ -44,7 +44,7 @@
       <div class="overflow ">
 
         <div class="form-group row ml-0" *ngFor="let tag of tags; let i=index">
-          <span class="remove text-danger mr-1 mt-1" placement="top" container="body" mwlConfirmationPopover title="This cannot be undone! The tag {{tag.name}} will be removed from all initiatives too. Confirm?"
+          <span class="remove text-danger mr-1 mt-1" placement="top" container="body" mwlConfirmationPopover title="This cannot be undone! The tag {{tag.name}} will be removed from all circles too. Confirm?"
             focusbutton="cancel" appendToBody="false" (confirm)="removeTag(tag)" (cancel)="cancelClicked = true">
 
           </span>

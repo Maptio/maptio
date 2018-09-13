@@ -24,7 +24,7 @@
 		<fieldset name="initiativeName" *permissionsOnly="Permissions.canEditInitiativeName;initiative node; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
 			<div class="d-flex justify-content-start input-group">
 				<input class="form-control borderless" id="inputName" type="text" name="inputName" [ngModelOptions]="{standalone: true}"
-				 [ngModel]="node?.name" placeholder="Initiative name" (ngModelChange)="saveName($event)" rows="2" cols="" (blur)="onBlur()"
+				 [ngModel]="node?.name" placeholder="Circle name" (ngModelChange)="saveName($event)" rows="2" cols="" (blur)="onBlur()"
 				/>
 				<div class="input-group-append">
 					<span class="icon-disabled text-muted transparent bg-white border-white input-group-text" [stickyPopover]="editTipContent"
@@ -105,7 +105,7 @@
 			<div class="d-flex justify-content-start input-group description overflow">
 				<textarea [hidden]="descriptionHideMe" #inputDescription class="form-control initiativeMarkdownDescription" id="inputDescription"
 				 [ngModelOptions]="{standalone: true}" data-provide="markdown" data-iconlibrary="fa" data-autofocus="true" [ngModel]="node?.description || ''"
-				 rows="5" placeholder='Describe the initiative in your own words and/or add a URL to your main resource' (ngModelChange)="saveDescription($event)"
+				 rows="5" placeholder='Describe the circle in your own words and/or add a URL to your main resource' (ngModelChange)="saveDescription($event)"
 				 (blur)="onBlur(); descriptionHideMe= !(node?.description === '') && !descriptionHideMe " (change)="saveDescription($event.target.value)">
 	
 											</textarea>
@@ -127,7 +127,7 @@
 
 	<div class="card borderless p-2 helpers overflow">
 		<div class="">
-			<h6 class="card-subtitle mb-1 mt-1 text-muted">Who’s helping with this initiative?
+			<h6 class="card-subtitle mb-1 mt-1 text-muted">Who’s helping with this circle?
 			</h6>
 
 			<div class="mb-2">
@@ -142,7 +142,7 @@
 					 class="form-control" (selectItem)="saveHelperRestricted($event)" (focus)="person.value=''" [ngbTypeahead]="searchTeamMember"
 					 [resultFormatter]="formatter" [inputFormatter]="formatter" editable="false" />
 					<span class="text-info small" *ngIf="isRestrictedAddHelper">You can only add
-						<strong>yourself</strong> as a {{helper | lowercase}} in this initiative</span>
+						<strong>yourself</strong> as a {{helper | lowercase}} in this circle</span>
 				</ng-template>
 			</div>
 
@@ -151,7 +151,7 @@
 				<div class="">
 					<div class="d-flex justify-content-between align-items-center">
 						<div></div>
-						<span class="small d-flex mr-2 ml-auto" ngbTooltip="Check this box to allow contributors to edit the details of this initiative"
+						<span class="small d-flex mr-2 ml-auto" ngbTooltip="Check this box to allow contributors to edit the details of this circle"
 						 placement="top" container="body">Can edit</span>
 					</div>
 					<ng-container *ngFor="let user of getAllHelpers(); let i=index;trackBy:trackByUserId">

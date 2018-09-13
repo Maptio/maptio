@@ -24,7 +24,7 @@
         </ul>
 
         <span class="navbar-text d-flex flex-column " *ngIf="team">
-            <span class="text-muted mr-1">Team
+            <span class="text-muted mr-1">Organization
                 <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}">
                     {{team?.name}}
                 </a>
@@ -73,7 +73,7 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdownLink">
                     <a class="dropdown-item" routerLink="{{user?.shortid}}/{{user?.getSlug() || 'profile'}}">Profile</a>
-                    <a class="dropdown-item" routerLink="/teams">Teams</a>
+                    <a class="dropdown-item" routerLink="/teams">Organizations</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" routerLink="/home">Export maps</a>
                     <div class="dropdown-divider"></div>

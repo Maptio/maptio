@@ -7,7 +7,7 @@
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
-    Successfully updated team
+    Successfully updated organization
     <strong>{{teamName}}</strong> settings
 </div>
 <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="isTeamSettingFailed">
@@ -20,11 +20,11 @@
 <form class="form-group w-75" [formGroup]="teamSettingsForm" (submit)="saveTeamSettings()">
     <fieldset *permissionsOnly="Permissions.canEditTeam;authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
         <div class="form-group" [class.has-warning]="teamSettingsForm.controls['name'].invalid  && (teamSettingsForm.controls['name'].dirty || teamSettingsForm.controls['name'].touched)">
-            <label class="col-form-label" for="inputTeamName">Team name</label>
+            <label class="col-form-label" for="inputTeamName">Organization name</label>
             <input type="text" class="col-4 form-control form-control-warning" [(ngModel)]="teamName" formControlName="name" placeholder="e.g. The Avengers"
                 required>
             <small class="form-control-feedback" *ngIf="teamSettingsForm.controls['name'].invalid  && (teamSettingsForm.controls['name'].dirty || teamSettingsForm.controls['name'].touched)">
-                Give us a real team name!
+                Give us a real organization name!
             </small>
         </div>
         <ng-container *permissionsOnly="Permissions.canEditTeam; then thenMessageBlock; else elseMessageBlock"></ng-container>
@@ -44,7 +44,7 @@
                 <input type="text" class="mr-2 col-4 form-control form-control-warning " [(ngModel)]="teamAuthority" formControlName="authority"
                     placeholder="e.g. Beloved leader" maxlength="25">
                 <small class="form-text text-muted">
-                    What does your team call the person in the main key role for each initiative? e.g. Lead, Authority, Driver, Lead link, Source.
+                    What does your organization call the person in the main key role for each circle? e.g. Lead, Authority, Driver, Lead link, Source.
                 </small>
             </div>
 
@@ -56,7 +56,7 @@
             <div class="">
                 <input type="text" class="mr-2 col-4 form-control form-control-warning " [(ngModel)]="teamHelper" formControlName="helper"
                     placeholder="e.g. Backseat driver" maxlength="25">
-                <small class="form-text text-muted">And what do you call others contributing to an initiative? e.g. Contributor, Helper, Role-holder, Sub-source.
+                <small class="form-text text-muted">And what do you call others contributing to an circle? e.g. Contributor, Helper, Role-holder, Sub-source.
                 </small>
             </div>
         </div>
