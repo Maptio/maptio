@@ -10,3 +10,10 @@
 .jumbotron{
     color: white;
 }
+
+.background{
+    background-image: url('/assets/images/screenshot.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-x: right;
+}

@@ -1,9 +1,9 @@
-<div class="h-100  d-flex justify-content-center align-items-center flex-column">
-    <div class="d-flex flex-column justify-content-start align-items-center h-100 " [class.col-6]="!auth.allAuthenticated()" [class.col-12]="auth.allAuthenticated()">
+<div class="h-100  d-flex justify-content-center align-items-start flex-column" [class.background]="!auth.allAuthenticated()">
+    <div class="d-flex flex-column justify-content-center align-items-center h-100 " [class.col-6]="!auth.allAuthenticated()" [class.col-12]="auth.allAuthenticated()">
         <div *ngIf="!auth.allAuthenticated()" class="text-blue text-center">
-            <h1>Maptio is the online tool for mapping self-managing organisations.</h1>
-            <h4>Maptio's maps help you making agility at work easier, onboard new people quickly, make smarter decisions and
-                keep everyone aligned.</h4>
+            <h1>Maptio helps you organise without traditional management hierarchy</h1>
+            <h4>Visualise your organisation in nested circles</h4>
+            <h4>Keep track of everyone’s roles</h4>
 
             <button class="btn btn-success btn-lg my-3" routerLink="/signup">Get started - Free for 14 days</button>
 
