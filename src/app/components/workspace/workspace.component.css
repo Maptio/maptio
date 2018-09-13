@@ -253,7 +253,7 @@
   
   @media only screen and (min-height: 800px) {
     .sidenav {
-      max-height: 86vh;
+      max-height: 85vh;
       overflow: hidden;
     }
   }

@@ -107,6 +107,10 @@ transition: background-image 0.2s ease-in-out;
   font-family: FontAwesome;
 }
 
+.cursor-pointer{
+  cursor: pointer;
+}
+
 .home-background{
   background-image: url('/assets/images/screenshot.png');
   background-size: contain;
@@ -188,6 +192,10 @@ a.card.no-underline, a.no-underline:hover {
 
 .x-small{
   font-size: x-small;
+}
+
+.xx-large{
+  font-size: xx-large;
 }
 
 .control.switch{
