@@ -173,9 +173,8 @@ describe("mapping.component.ts", () => {
             spyOn(component, "getFragment").and.returnValue("x=10&y=100&scale=1.3")
 
             component.onActivate(activated);
-
-            expect(activated.width).toBe(window.innerWidth-120)
-            expect(activated.height).toBe(window.innerHeight-125)
+            expect(activated.width).toBe(document.body.clientWidth-120)
+            // expect(activated.height).toBe(document.body.clientHeight-125)
             expect(activated.margin).toBe(50);
             expect(component.getFragment).toHaveBeenCalledTimes(1);
             expect(activated.translateX).toBe(10);

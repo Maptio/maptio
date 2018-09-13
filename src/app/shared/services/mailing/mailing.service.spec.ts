@@ -47,7 +47,7 @@ describe("mailing.service.ts", () => {
                 && connection.request.json().to === to
                 && connection.request.json().url === url
                 && connection.request.json().team === teamName
-                && connection.request.json().subject === `${invitedBy} invited you to join team "${teamName}" on Maptio`
+                && connection.request.json().subject === `${invitedBy} invited you to join organization "${teamName}" on Maptio`
             ) {
                 connection.mockRespond(new Response(new ResponseOptions({
                     body: JSON.stringify(mockResponse)
