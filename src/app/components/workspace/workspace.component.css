@@ -313,7 +313,6 @@
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 #main {
     transition: margin-left .5s;
-    box-shadow: 5px 5px 15px 0px #999;
     margin: 1vh;
     margin-left:3vw;
     margin-right:3vw;

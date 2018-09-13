@@ -3,7 +3,7 @@
         <a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
     </span>
 </ng-template>
-<div class="d-flex flex-column align-items-start">
+<div class="d-flex flex-column align-items-start" >
     <div class="mb-3 d-flex justify-content-end w-100">
         <div *permissionsOnly="Permissions.canAddUser; else elseBlock; then thenBlock"></div>
         <ng-template #elseBlock>

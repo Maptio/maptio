@@ -32,7 +32,7 @@
         </span>
     </div>
 
-    <div id="main" class="d-flex justify-content-center w-100 position-relative rounded" [class.half-push]="isBuildingPanelCollapsed !== isDetailsPanelCollapsed"
+    <div id="main" class="d-flex justify-content-center w-100 position-relative rounded box-shadow" [class.half-push]="isBuildingPanelCollapsed !== isDetailsPanelCollapsed"
         [class.full-push]="!isDetailsPanelCollapsed && !isBuildingPanelCollapsed">
         <mapping [tags]="selectableTags" [isEmptyMap]="isEmptyMap" (showDetails)="openDetails($event, true)" (addInitiative)="addInitiative($event)" (removeInitiative)="removeInitiative($event)"
             (moveInitiative)="moveInitiative($event)" (closeEditingPanel)="closeEditingPanel()" (openTreePanel)="isBuildingPanelCollapsed=false"
