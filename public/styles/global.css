@@ -107,6 +107,13 @@ transition: background-image 0.2s ease-in-out;
   font-family: FontAwesome;
 }
 
+.home-background{
+  background-image: url('/assets/images/screenshot.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position-x: right;
+}
+
 /* .circles.options, .circles.options.active{
   background-image:none !important;
   -webkit-transition: background-image 0.2s ease-in-out;
