@@ -1,5 +1,5 @@
 <div class="h-100  d-flex justify-content-center align-items-start flex-column" [class.home-background]="!auth.allAuthenticated()">
-    <div class="d-flex flex-column justify-content-center align-items-center h-100 " [class.col-6]="!auth.allAuthenticated()" [class.col-12]="auth.allAuthenticated()">
+    <div class="d-flex flex-column justify-content-center align-items-center h-100 " [class.col-6]="!auth.allAuthenticated()">
         <div *ngIf="!auth.allAuthenticated()" class="text-blue text-center">
             <h1>Maptio helps you organise without traditional management hierarchy</h1>
             <h4>Visualise your organisation in nested circles</h4>
@@ -12,7 +12,7 @@
             </div>
             <ng-content></ng-content>
         </div>
-        <div *ngIf="auth.allAuthenticated()" class="h-100 col-12">
+        <div *ngIf="auth.allAuthenticated()" class="h-100">
             <dashboard *ngIf="!isLoading" [datasets]="datasets" [teams]="teams"></dashboard>
         </div>
     </div>

@@ -80,7 +80,9 @@
 </ng-container>
 
 <ng-container *ngIf="!isOnboarding()">
-    <h2 class="my-5 text-center"> Maps</h2>
+    <div class="col-12 my-5 ">
+            <h2 class="text-left col-12"> Maps</h2>
+    </div>
     <div class="d-flex flex-column justify-content-center col-12 align-items-center">
         <div class="card-columns col-12">
             <ng-container *ngFor="let dataset of datasets">
