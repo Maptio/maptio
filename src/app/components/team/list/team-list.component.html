@@ -53,7 +53,7 @@
         </h2>
         <a *ngIf="!canCreateUnlimitedTeams()" class="d-flex justify-content-end text-muted w-100 my-2" href="mailto:support@maptio.com?subject=I need to create more teams">Need more teams? Reach out</a>
 
-        <div class="card-columns ">
+        <div class="card-columns w-100 ">
             <div class="card" *ngFor="let team of teams;trackBy:trackByTeamId">
                 <div class="card-body">
                     <h5 class="card-title">

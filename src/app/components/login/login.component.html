@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-center align-items-center flex-column h-75">
+<div class="d-flex  align-items-center flex-column h-75" [class.justify-content-start]="!isLoggingIn" [class.justify-content-center]="isLoggingIn">
     <div class="col-4">
         <div *ngIf="isLoggingIn">
             <h1 class="text-center">Log in to Maptio</h1>

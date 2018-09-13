@@ -175,9 +175,11 @@ export class LoginComponent implements OnInit {
             if (this.token) {
                 this.encoding.decode(this.token)
                     .then((decoded: any) => {
+                        this.loader.show();
                         return [decoded.user_id, decoded.email];
                     })
                     .then(([user_id, email]: [string, string]) => {
+                        this.loader.show();
                         return this.userService.isActivationPendingByUserId(user_id)
                             .then(
                             (isActivationPending: boolean) => {
@@ -193,6 +195,7 @@ export class LoginComponent implements OnInit {
                             });
                     })
                     .then((user_id: string) => {
+                        this.loader.show();
                         return this.userService.updateUserCredentials(user_id, password, firstname, lastname)
                             .then(isUpdated => {
                                 if (isUpdated) {
@@ -208,6 +211,7 @@ export class LoginComponent implements OnInit {
                             })
                     })
                     .then((user_id: string) => {
+                        this.loader.show();
                         return this.userService.updateActivationPendingStatus(user_id, false).then((isUpdated) => {
                             return user_id
                         },
@@ -219,15 +223,17 @@ export class LoginComponent implements OnInit {
                             })
                     })
                     .then((user_id: string) => {
-                        // this.loader.show();
+                        this.loader.show();
                         this.isActivationPending = Promise.resolve(false);
                     })
                     .then(() => {
+                        this.loader.show();
                         this.analytics.eventTrack("Activate", { email: email, firstname: firstname, lastname: lastname });
                     }, () => { })
                     .then(() => {
                         this.loader.show();
                         this.auth.login(email, password);
+                        this.loader.hide();
                     })
             }
             else {

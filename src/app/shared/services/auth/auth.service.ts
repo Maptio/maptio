@@ -224,7 +224,7 @@ export class Auth {
               function (err: Error, profile: any) {
                 profile.user_id = profile.sub;
                 profile.sub = undefined;
-
+                this.loader.show();
                 this.loginMaptioApi(email, password);
 
                 EmitterService.get("maptio_api_token").subscribe(
@@ -235,6 +235,7 @@ export class Auth {
 
                     return this.setUser(profile).then((isSuccess: boolean) => {
                       if (isSuccess) {
+                        this.loader.show();
                         return this.userFactory
                           .get(profile.user_id)
                           .then((user: User) => {
@@ -243,6 +244,7 @@ export class Auth {
                           })
                           .then(
                             (user: User) => {
+                              this.loader.show();
                               let isMaptioTeam = this.MAPTIO_INTERNAL_EMAILS.includes(
                                 user.email
                               );
@@ -269,7 +271,7 @@ export class Auth {
 
                               return user;
                             },
-                            () => { }
+                            () => {this.loader.hide(); }
                           )
                           .then((user: User) => {
                             // let welcomeURL = user.datasets.length === 1 ? `/map/${user.datasets[0]}/welcome/initiatives` : `/home`;

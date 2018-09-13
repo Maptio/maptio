@@ -20,14 +20,14 @@
                             <i *ngIf="isZeroTeammates" class="fa fa-square-o" aria-hidden="true"></i>
                             <i *ngIf="!isZeroTeammates" class="fa fa-check-square text-success" aria-hidden="true"></i>
                         </span>
-                        <div *ngIf="teamId">
+                        <div *ngIf="!isZeroTeam">
                             <a routerLink="/teams/{{teamId}}/team/members">
                                 Add a few teammates
                             </a>
                             or
                             <a routerLink="/teams/{{teamId}}/team/import"> import a .csv </a> file (recommended)
                         </div>
-                        <div *ngIf="!teamId">
+                        <div *ngIf="isZeroTeam">
                             <span>
                                 Add a few teammates
                             </span>
@@ -59,7 +59,7 @@
                             <i *ngIf="!isZeroInitiative" class="fa fa-check-square text-success" aria-hidden="true"></i>
                         </span>
                         <div *ngIf="datasetId">
-                            <a routerLink="/map/{{datasetId}}/circles/map">
+                            <a routerLink="/map/{{datasetId}}/map/circles">
                                 Add a first circle
                             </a>
                         </div>

@@ -12,7 +12,7 @@
             </div>
         </div>
         <div *ngIf="auth.allAuthenticated()" class="h-100 col-12">
-            <dashboard [datasets]="datasets" [teams]="teams"></dashboard>
+            <dashboard *ngIf="!isLoading" [datasets]="datasets" [teams]="teams"></dashboard>
         </div>
     </div>
 </div>
