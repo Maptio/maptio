@@ -27,32 +27,40 @@ export class SignupComponent implements OnInit {
     public isRedirectToActivate: boolean;
     public isConfirmationEmailSent: boolean;
     public signUpMessageFail: string;
-    
+
     public userToken: string;
     public isResending: boolean;
 
     public signupForm: FormGroup;
 
     constructor(private userService: UserService, private loader: LoaderService,
-        private analytics: Angulartics2Mixpanel, private cd: ChangeDetectorRef, public loaderService:LoaderService) {
+        private analytics: Angulartics2Mixpanel, private cd: ChangeDetectorRef, public loaderService: LoaderService) {
         this.signupForm = new FormGroup({
-            "firstname": new FormControl(this.firstname, [
-                Validators.required,
-                Validators.minLength(2)
-            ]),
-            "lastname": new FormControl(this.lastname, [
-                Validators.required,
-                Validators.minLength(2)
-            ]),
-            "email": new FormControl(this.email, [
-                Validators.required
-            ]),
-            // "confirmedEmail": new FormControl(this.confirmedEmail, [
-            //     Validators.required, repeatValidator("email")
-            // ])
-            // "isTermsAccepted": new FormControl(this.isTermsAccepted, [
-            //     Validators.requiredTrue
-            // ])
+            "firstname": new FormControl(this.firstname, {
+                validators: [
+                    Validators.required,
+                    Validators.minLength(2)
+                ],
+                updateOn: 'submit'
+            }),
+            "lastname": new FormControl(this.lastname, {
+                validators: [
+                    Validators.required,
+                    Validators.minLength(2)
+                ],
+                updateOn: 'submit'
+            }),
+            "email": new FormControl(this.email, {
+                validators: [
+                    Validators.required,
+                    Validators.email
+                ],
+                updateOn: 'submit'
+            })
+        });
+        new FormControl(this.email, {
+            validators: Validators.required,
+            updateOn: 'blur'
         });
 
     }
@@ -91,16 +99,24 @@ export class SignupComponent implements OnInit {
                         // no matching email => create user
                         return this.userService.createUser(email, firstname, lastname, true, true)
                             .then((user: User) => {
-                                // console.log("just created user", user)
                                 return user;
-                            }, (reason) => { return Promise.reject("Account creation failed") })
+                            }, () => { 
+                                this.signUpMessageFail = `${email} is not a valid email address`;
+                                this.cd.markForCheck();
+                                return Promise.reject(`${email} is not a valid email address`);
+                             })
                             .then((user: User) => {
                                 return this.userService.sendConfirmation(user.email, user.user_id, user.firstname, user.lastname, user.name)
                                     .then((success: boolean) => {
                                         this.isConfirmationEmailSent = success;
                                         this.cd.markForCheck();
                                     },
-                                    (reason) => { this.isConfirmationEmailSent = false; this.cd.markForCheck(); return Promise.reject("Confirmation email failed to send") })
+                                        (reason) => {  
+                                            this.isConfirmationEmailSent = false;
+                                            this.signUpMessageFail = `Confirmation email failed to send`;
+                                            this.cd.markForCheck();
+                                            return Promise.reject("Confirmation email failed to send") 
+                                        })
                             })
                             .then(() => {
                                 this.analytics.eventTrack("Sign up", { email: email, firstname: firstname, lastname: lastname });
@@ -111,6 +127,7 @@ export class SignupComponent implements OnInit {
                             })
                     }
                 }).then(() => { this.loaderService.hide(); })
+                .catch(()=>{console.log("final catch")})
         }
     }
 
