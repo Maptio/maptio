@@ -20,10 +20,8 @@ export class SignupComponent implements OnInit {
 
 
     public email: string;
-    // public confirmedEmail: string;
     public firstname: string;
     public lastname: string;
-    // public isTermsAccepted: boolean;
 
     public isEmailAlreadyExist: boolean
     public isRedirectToActivate: boolean;
