@@ -43,29 +43,47 @@ export class LoginComponent implements OnInit {
         public encoding: JwtEncoder, public formBuilder: FormBuilder, private loader: LoaderService, private analytics: Angulartics2Mixpanel,
         private cd: ChangeDetectorRef) {
         this.activateForm = new FormGroup({
-            "firstname": new FormControl(this.firstname, [
-                Validators.required,
-                Validators.minLength(2)
-            ]),
-            "lastname": new FormControl(this.lastname, [
-                Validators.required,
-                Validators.minLength(2)
-            ]),
-            "password": new FormControl(this.password, [
-                Validators.required
-            ]),
-            "isTermsAccepted": new FormControl(this.isTermsAccepted, [
-                Validators.requiredTrue
-            ])
+            "firstname": new FormControl(this.firstname, {
+                validators: [
+                    Validators.required,
+                    Validators.minLength(2)
+                ],
+                updateOn: "submit"
+            }),
+            "lastname": new FormControl(this.lastname, {
+                validators: [
+                    Validators.required,
+                    Validators.minLength(2)
+                ],
+                updateOn: "submit"
+            }),
+            "password": new FormControl(this.password, {
+                validators: [
+                    Validators.required, Validators.minLength(8)
+                ],
+                updateOn: "submit"
+            }),
+            "isTermsAccepted": new FormControl(this.isTermsAccepted, {
+                validators: [
+                    Validators.requiredTrue
+                ],
+                updateOn: "submit"
+            })
         });
 
         this.loginForm = new FormGroup({
-            "email": new FormControl(this.email, [
-                Validators.required
-            ]),
-            "password": new FormControl(this.password, [
-                Validators.required
-            ])
+            "email": new FormControl(this.email, {
+                validators: [
+                    Validators.required, Validators.email
+                ],
+                updateOn: "submit"
+            }),
+            "password": new FormControl(this.password, {
+                validators: [
+                    Validators.required
+                ],
+                updateOn: "submit"
+            })
         });
     }
 
@@ -182,17 +200,17 @@ export class LoginComponent implements OnInit {
                         this.loader.show();
                         return this.userService.isActivationPendingByUserId(user_id)
                             .then(
-                            (isActivationPending: boolean) => {
-                                if (!isActivationPending)
-                                    throw new Error(`User ${email} is already active`)
-                                return user_id;
-                            },
-                            (error: any) => {
-                                this.isUserAlreadyActive = true;
-                                this.cd.markForCheck();
-                                this.loader.hide();
-                                return Promise.reject("User has already activated account");
-                            });
+                                (isActivationPending: boolean) => {
+                                    if (!isActivationPending)
+                                        throw new Error(`User ${email} is already active`)
+                                    return user_id;
+                                },
+                                (error: any) => {
+                                    this.isUserAlreadyActive = true;
+                                    this.cd.markForCheck();
+                                    this.loader.hide();
+                                    return Promise.reject("User has already activated account");
+                                });
                     })
                     .then((user_id: string) => {
                         this.loader.show();
@@ -203,12 +221,12 @@ export class LoginComponent implements OnInit {
                                 }
                                 throw "Password cannot be updated";
                             },
-                            (error: any) => {
-                                this.isPasswordTooWeak = true;
-                                this.cd.markForCheck();
-                                this.loader.hide();
-                                throw "Password cannot be updated";
-                            })
+                                (error: any) => {
+                                    this.isPasswordTooWeak = true;
+                                    this.cd.markForCheck();
+                                    this.loader.hide();
+                                    throw "Password cannot be updated";
+                                })
                     })
                     .then((user_id: string) => {
                         this.loader.show();

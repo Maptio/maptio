@@ -14,23 +14,23 @@
 
             <form class="form-group" [formGroup]="loginForm" (submit)="login()">
 
-                <div class="form-group" [class.has-warning]="loginForm.controls['email'].invalid  && (loginForm.controls['email'].dirty || loginForm.controls['email'].touched)">
+                <div class="form-group">
                     <label for="inputEmailLogin">Email</label>
-                    <input type="email" id="inputEmailLogin" formControlName="email" class="form-control form-control-warning form-control-lg"
-                        placeholder="e.g. rick.sanchez@cartoonnetwork.com" required email>
-                    <small class="form-control-feedback" *ngIf="loginForm.controls['email'].invalid  && (loginForm.controls['email'].dirty || loginForm.controls['email'].touched)">
-                        An email is required e.g. rick.sanchez@cartoonnetwork.com
-                    </small>
-                </div>
-                <div class="form-group" [class.has-warning]="loginForm.controls['password'].invalid  && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)">
-                    <label for="inputPassword">Password</label>
-                    <input type="password" class="form-control form-control-warning form-control-lg" formControlName="password" placeholder="e.g. ••••••••"
-                        id="inputPassword" (input)="passwordChange()">
-                    <small class="form-control-feedback" *ngIf="loginForm.controls['password'].invalid  && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)">
+                    <input type="email" id="inputEmailLogin" formControlName="email" [class.is-invalid]="loginForm.controls['email'].invalid  && (loginForm.controls['email'].dirty || loginForm.controls['email'].touched)" class="form-control form-control-warning form-control-lg"
+                         required email>
+                    <small class="invalid-feedback">
                         Required
                     </small>
                 </div>
-                <button type="submit" class="btn btn-success btn-lg w-100" [class.disabled]="!loginForm.valid">Log in</button>
+                <div class="form-group">
+                    <label for="inputPassword">Password</label>
+                    <input type="password" class="form-control form-control-warning form-control-lg" [class.is-invalid]="loginForm.controls['password'].invalid  && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)" formControlName="password"
+                        id="inputPassword" (input)="passwordChange()">
+                    <small class="invalid-feedback">
+                        Required
+                    </small>
+                </div>
+                <button type="submit" class="btn btn-success btn-lg w-100">Log in</button>
 
             </form>
             <p>
@@ -65,29 +65,29 @@
                     <input type="email" id="inputEmailActivate" value="{{email}}" class="form-control form-control-warning form-control-lg" disabled>
 
                 </div>
-                <div class="form-group" [class.has-warning]="activateForm.controls['firstname'].invalid  && (activateForm.controls['firstname'].dirty || activateForm.controls['firstname'].touched)">
+                <div class="form-group">
                     <label for="inputFirstname">First name</label>
-                    <input type="text" id="inputFirstname" [(ngModel)]="firstname" formControlName="firstname" class="form-control form-control-warning form-control-lg"
-                        placeholder="e.g. Tina" required minlength="2">
-                    <small class="form-control-feedback" *ngIf="activateForm.controls['firstname'].invalid  && (activateForm.controls['firstname'].dirty || activateForm.controls['firstname'].touched)">
+                    <input type="text" id="inputFirstname" [(ngModel)]="firstname" formControlName="firstname" [class.is-invalid]="activateForm.controls['firstname'].invalid  && (activateForm.controls['firstname'].dirty || activateForm.controls['firstname'].touched)" class="form-control form-control-warning form-control-lg"
+                         required minlength="2">
+                    <small class="invalid-feedback" *ngIf="activateForm.controls['firstname'].invalid  && (activateForm.controls['firstname'].dirty || activateForm.controls['firstname'].touched)">
                         First name must be at least 2 characters
                     </small>
                 </div>
 
-                <div class="form-group" [class.has-warning]="activateForm.controls['lastname'].invalid  && (activateForm.controls['lastname'].dirty || activateForm.controls['lastname'].touched)">
+                <div class="form-group">
                     <label for="inputLastname">Last name</label>
-                    <input type="text" id="inputLastname" [(ngModel)]="lastname" class="form-control form-control-warning form-control-lg" formControlName="lastname"
-                        placeholder="e.g. Belcher">
-                    <small class="form-control-feedback" *ngIf="activateForm.controls['lastname'].invalid  && (activateForm.controls['lastname'].dirty || activateForm.controls['lastname'].touched)">
+                    <input type="text" id="inputLastname" [(ngModel)]="lastname" [class.is-invalid]="activateForm.controls['lastname'].invalid  && (activateForm.controls['lastname'].dirty || activateForm.controls['lastname'].touched)" class="form-control form-control-warning form-control-lg" formControlName="lastname"
+                        >
+                    <small class="invalid-feedback">
                         Last name must be at least 2 characters
                     </small>
                 </div>
-                <div class="form-group" [class.has-warning]="activateForm.controls['password'].invalid  && (activateForm.controls['password'].dirty || activateForm.controls['password'].touched)">
+                <div class="form-group" >
                     <label for="inputPassword">Password</label>
-                    <input type="password" class="form-control form-control-warning form-control-lg" formControlName="password" placeholder="e.g. ••••••••"
+                    <input type="password" class="form-control form-control-warning form-control-lg" [class.is-invalid]="activateForm.controls['password'].invalid  && (activateForm.controls['password'].dirty || activateForm.controls['password'].touched)" formControlName="password"
                         (input)="passwordChange()">
-                    <small class="form-control-feedback" *ngIf="activateForm.controls['password'].invalid  && (activateForm.controls['password'].dirty || activateForm.controls['password'].touched)">
-                        Required
+                    <small class="invalid-feedback" *ngIf="activateForm.controls['password'].invalid  && (activateForm.controls['password'].dirty || activateForm.controls['password'].touched)">
+                        Password is not valid
                     </small>
                     <small class="form-text " [class.text-muted]="!isPasswordTooWeak" [class.text-danger]="isPasswordTooWeak">
                         Password must :
@@ -107,15 +107,22 @@
                         </ul>
                     </small>
                 </div>
-                <div class="form-check" [class.has-warning]="activateForm.controls['isTermsAccepted'].invalid  && (activateForm.controls['isTermsAccepted'].dirty || activateForm.controls['isTermsAccepted'].touched)">
-                    <label class="form-check-label">
-                        <input type="checkbox" id="inputTC" formControlName="isTermsAccepted" class="form-check-input"> I agree to Maptio's
-                        <a href="{{TOS_URL}}">Terms of Service</a> and
-                        <a href="{{PRIVACY_URL}}">Privacy Policy</a> .
 
-                    </label>
+              
+                <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" [class.is-invalid]="activateForm.controls['isTermsAccepted'].invalid  && (activateForm.controls['isTermsAccepted'].dirty || activateForm.controls['isTermsAccepted'].touched)" id="inputTC" formControlName="isTermsAccepted"  required>
+                                <label class="custom-control-label" for="inputTC">I agree to Maptio's
+                                        <a href="{{TOS_URL}}">Terms of Service</a> and
+                                        <a href="{{PRIVACY_URL}}">Privacy Policy</a> .
+                                    </label>
+                                <div class="invalid-feedback">Required</div>
+                              </div>
                 </div>
-                <button type="submit" class="btn btn-success btn-lg my-2 w-100" [class.disabled]="!activateForm.valid">Log in</button>
+                <div class="form-group">
+                        <button type="submit" class="btn btn-success btn-lg my-2 w-100">Log in</button>
+                </div>
+                
 
             </form>
 
