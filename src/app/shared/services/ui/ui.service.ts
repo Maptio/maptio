@@ -22,7 +22,7 @@ export class UIService {
   }
 
   getCanvasWidth() {
-    return document.body.clientWidth - 125
+    return document.body.clientWidth - 130
   }
 
   getCanvasHeight() {
