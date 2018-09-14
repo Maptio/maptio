@@ -19,11 +19,11 @@
 
 <form class="form-group w-75" [formGroup]="teamSettingsForm" (submit)="saveTeamSettings()">
     <fieldset *permissionsOnly="Permissions.canEditTeam;authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
-        <div class="form-group" [class.has-warning]="teamSettingsForm.controls['name'].invalid  && (teamSettingsForm.controls['name'].dirty || teamSettingsForm.controls['name'].touched)">
+        <div class="form-group">
             <label class="col-form-label" for="inputTeamName">Organization name</label>
-            <input type="text" class="col-4 form-control form-control-warning" [(ngModel)]="teamName" formControlName="name" placeholder="e.g. The Avengers"
+            <input type="text" [class.is-invalid]="teamSettingsForm.controls['name'].invalid  && (teamSettingsForm.controls['name'].dirty || teamSettingsForm.controls['name'].touched)" class="col-4 form-control form-control-warning" [(ngModel)]="teamName" formControlName="name" placeholder="e.g. The Avengers"
                 required>
-            <small class="form-control-feedback" *ngIf="teamSettingsForm.controls['name'].invalid  && (teamSettingsForm.controls['name'].dirty || teamSettingsForm.controls['name'].touched)">
+            <small class="invalid-feedback">
                 Give us a real organization name!
             </small>
         </div>
@@ -61,7 +61,7 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-outline-success" [class.disabled]="!teamSettingsForm.valid || !teamSettingsForm.dirty">Save</button>
+        <button type="submit" class="btn btn-success" >Save</button>
 
     </fieldset>
 </form>
