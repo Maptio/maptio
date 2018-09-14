@@ -53,12 +53,19 @@ export class AccountComponent {
     constructor(public auth: Auth, public errorService: ErrorService, private userService: UserService, private userFactory: UserFactory,
         private cloudinary: Cloudinary, private loaderService: LoaderService) {
         this.accountForm = new FormGroup({
-            "firstname": new FormControl(this.firstname, [
-                Validators.required
-            ]),
-            "lastname": new FormControl(this.firstname, [
-                Validators.required
-            ])
+            "firstname": new FormControl(this.firstname, {
+                validators: [
+                    Validators.required
+                ],
+                updateOn: "submit"
+            },
+            ),
+            "lastname": new FormControl(this.firstname, {
+                validators: [
+                    Validators.required
+                ],
+                updateOn: "submit"
+            })
         });
     }
 
