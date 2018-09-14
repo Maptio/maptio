@@ -27,7 +27,9 @@ import { Auth } from "../../shared/services/auth/auth.service";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 import { UserService } from "../../shared/services/user/user.service";
 import { JwtEncoder } from "../../shared/services/encoding/jwt.service";
-
+import { UIService } from '../../shared/services/ui/ui.service';
+import { MarkdownService } from 'angular2-markdown';
+import { D3Service } from 'd3-ng2-service';
 
 export class AuthStub {
     fakeProfile: User = new User({
@@ -81,6 +83,8 @@ describe("workspace.component.ts", () => {
                         },
                         deps: [MockBackend, BaseRequestOptions]
                     },
+
+                UIService,D3Service, MarkdownService,,
                     MockBackend, NgbModal,
                     BaseRequestOptions,
                     { provide: Auth, useClass: AuthStub },
