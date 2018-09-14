@@ -14,28 +14,29 @@
                 {{errorMessage}}
             </div>
             <h1 class="text-center">Choose a name for your organization</h1>
-            <form [class.has-warning]="createForm.controls['teamName'].invalid  && (createForm.controls['teamName'].dirty || createForm.controls['teamName'].touched)"
-                [formGroup]="createForm" (submit)="createNewTeam()">
+            <form 
+                [formGroup]="createForm" (submit)="createNewTeam()" class="form-group">
                 <fieldset *permissionsOnly="Permissions.canCreateTeam; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
 
                     <small class="form-text text-muted">
                         This is usually your company or organization name
                     </small>
-                    <div class="input-group">
-                        <input type="text" class="form-control form-control-warning rounded mr-1" formControlName="teamName" placeholder="e.g. Planet Express"
-                            required>
-
+                    <div class="input-group form-group">
+                        <input type="text" class="form-control rounded mr-1" [class.is-invalid]="createForm.controls['teamName'].invalid  && (createForm.controls['teamName'].dirty || createForm.controls['teamName'].touched)" 
+                        formControlName="teamName" placeholder="e.g. Planet Express"
+                            required >
                         <span class="input-group-btn">
-                            <button type="submit" class="btn btn-success" [class.disabled]="!createForm.valid">Create</button>
+                            <button type="submit" class="btn btn-success">Create</button>
                         </span>
                         <div class="input-group-append">
                             <span class="icon-disabled text-muted transparent bg-white border-white input-group-text" [stickyPopover]="adminTipContent"
                                 placement='right'></span>
                         </div>
+                        <small class="invalid-feedback" >
+                            Please enter at least 2 characters
+                        </small>
                     </div>
-                    <small class="form-control-feedback text-warning" *ngIf="createForm.controls['teamName'].invalid  && (createForm.controls['teamName'].dirty || createForm.controls['teamName'].touched)">
-                        This doesnt sound right... actually, is this actually a word?
-                    </small>
+                   
                 </fieldset>
             </form>
             <i *ngIf="isCreating" class="text-muted fa fa-circle-o-notch fa-spin fa-fw ml-3 fa-2x"></i>

@@ -44,10 +44,13 @@ export class TeamListComponent implements OnInit {
         private renderer: Renderer2, private intercomService: IntercomService, private loaderService:LoaderService) {
 
         this.createForm = new FormGroup({
-            "teamName": new FormControl(this.teamName, [
-                Validators.required,
-                Validators.minLength(2)
-            ]),
+            "teamName": new FormControl(this.teamName, {
+                validators : [
+                    Validators.required,
+                    Validators.minLength(2)
+                ],
+                updateOn : "submit"
+            }),
         });
     }
 

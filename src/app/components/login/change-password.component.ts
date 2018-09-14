@@ -21,9 +21,11 @@ export class ChangePasswordComponent implements OnInit {
 
     constructor(private userService: UserService, private cd: ChangeDetectorRef) {
         this.changePasswordForm = new FormGroup({
-            "email": new FormControl(this.email, [
-                Validators.required
-            ])
+            "email": new FormControl(this.email, {
+                validators : [
+                    Validators.required
+                ], updateOn : "submit"
+            })
         });
     }
 

@@ -6,7 +6,6 @@ import { Component, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/
 import { User } from "../../shared/model/user.data";
 import { Team } from "../../shared/model/team.data";
 import { DataSet } from "../../shared/model/dataset.data";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Auth } from "../../shared/services/auth/auth.service";
 import { DatasetFactory } from "../../shared/services/dataset.factory";
 import { TeamFactory } from "../../shared/services/team.factory";
@@ -36,9 +35,6 @@ export class HeaderComponent implements OnInit {
     public areMapsAvailable: Promise<boolean>
     public isCreateMode: boolean = false;
     private selectedTeamId: string;
-
-    private loginForm: FormGroup;
-    private createMapForm: FormGroup;
 
     public emitterSubscription: Subscription;
     public userSubscription: Subscription;
@@ -75,17 +71,6 @@ export class HeaderComponent implements OnInit {
                 this.team = value;
                 this.cd.markForCheck();
             });
-
-        this.loginForm = new FormGroup({
-            "email": new FormControl("", [
-                Validators.required
-            ]),
-            "password": new FormControl("", [
-                Validators.required
-            ])
-        });
-
-
     }
 
     ngAfterViewInit() {
@@ -124,16 +109,8 @@ export class HeaderComponent implements OnInit {
             this.teamFactory.get(this.user.teams)
                 .then(teams => sortBy(teams, t => t.name), (r) => { return Promise.reject(r) })
                 .then(teams => { this.teams = teams; return teams })
-                .then((teams) => {
-                    // this.createMapForm = new FormGroup({
-                    //     "mapName": new FormControl(teams.length > 1 ? "" : teams[0].name, [Validators.required, Validators.minLength(2)]),
-                    //     "teamId": new FormControl(teams.length > 1 ? null : teams[0].team_id, [Validators.required]),
-                    // })
-                })
                 .catch(() => { return [] })
-
-
-
+                
             this.cd.markForCheck();
         },
             (error: any) => { this.errorService.handleError(error) });
