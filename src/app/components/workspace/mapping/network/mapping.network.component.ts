@@ -181,8 +181,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     g.append("g").attr("class", "nodes");
     g.append("defs");
 
-    svg.style("background", "#fff");
-
     svg
       .append("svg:defs")
       .selectAll("marker")

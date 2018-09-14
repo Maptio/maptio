@@ -1,3 +1,7 @@
+::ng-deep svg {
+  background: transparent;
+}
+
 #zoom-layer:active{
     cursor: move;
 }

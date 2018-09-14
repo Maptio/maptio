@@ -78,8 +78,8 @@ export class MappingComponent {
   public selectableTags$: Subject<Array<SelectableTag>>;
   // public selectableUsers$: Subject<Array<SelectableUser>>;
 
-  public VIEWPORT_WIDTH: number = document.body.clientWidth -120;
-  public VIEWPORT_HEIGHT: number = document.body.clientHeight-125;
+  public VIEWPORT_WIDTH: number; // = document.body.clientWidth -120;
+  public VIEWPORT_HEIGHT: number; // = document.body.clientHeight-125;
 
   public isLoading: boolean;
   public datasetId: string;
@@ -159,6 +159,9 @@ export class MappingComponent {
       initiative: Initiative;
       datasetId: string;
     }>();
+
+    this.VIEWPORT_HEIGHT = uiService.getCanvasHeight();
+    this.VIEWPORT_WIDTH = uiService.getCanvasWidth();
 
 
   }

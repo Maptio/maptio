@@ -1,262 +1,15 @@
-/* .member {
-    float: left;
-    background: 50% 50% no-repeat;
-    background-size: auto 100%;
-    max-width: 22px;
-}
-
-.no-padding {
-    padding: 0;
-}
-
-
-
-.team-name {
-    font-size: initial;
-    margin-right: 13px;
-}
-
-.profile-img {
-    border-radius: 23px;
-}
-
-.mapping {
-    width: 100%;
-    height: 100%;
-}
-
-
-#main {
-    transition: margin-left .5s;
-    width: 100%;
-    height: 100%;
-}
-
-#main.showTree {
-    transition: 0.5s;
-}
-
-#main.slide {
-    margin-right: 50vw;
-    transition: 0.5s;
-}
-
-#edit-panel-tree {
-    opacity: 0;
-    transition: opacity 0.5s ease-in;
-}
-
-#edit-panel-tree.showTree {
-    opacity: 1;
-    transition: opacity 0.5s ease-in;
-}
-
-
-#sideNavTree {
-    height: 90vh;
-    max-height: 90vh;
-    min-width: 3.0vw;
-    position: fixed;
-    left: 0;
-    overflow: hidden;
-    transition: 0.5s ease-in;
-    background-color: var(--maptio-blue);
-    margin-top: 3vh;
-    width: 0;
-    padding: 10px 0 0 10px;
-    z-index: 10;
-}
-
-#sideNavTree.collapse{
-    width: 0;
-    min-width: 0;
-    transition: all 0.5s ease-in;
-}
-
-#sideNavTree.collapse.show{
-    min-width: 3.0vw;
-    transition: all 0.5s ease-in;
-}
-
-#sideNavTree.showTree {
-    background-color: #f8f9fa;
-    width: 45vw;
-    transition: 0.5s ease-in;
-    padding: 10px;
-    z-index: 10;
-}
-
-#sideNavDetails {
-    height: 90vh;
-    max-height: 90vh;
-    position: fixed;
-    left: 0;
-    overflow: hidden;
-    transition: 0.5s ease-in;
-    background-color: transparent;
-    margin-top: 3vh;
-    width: 0;
-    padding: 10px 0 0 10px;
-    margin-left: 3.0vw;
-    z-index: 10;
-}
-
-#sideNavDetails.showDetails {
-    width: 45vw;
-    transition: 0.5s ease-in;
-    padding: 10px;
-    z-index: 10;
-    background-color: var(--maptio-orange);
-}
-
-#sideNavDetails.showTree {
-    margin-left: 45vw;
-}
-
-
-
-
-.sidenav a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-    transition: 0.3s
-}
-
-
-.sidenav a:hover, .offcanvas a:focus {
-    color: #f1f1f1;
-}
-
-
-.closebtn {
-    position: absolute;
-    top: -5px;
-    right: 3px;
-    font-size: 20px;
-}
-
-
-@media screen and (max-height: 450px) {
-    .sidenav {
-        padding-top: 15px;
-    }
-    .sidenav a {
-        font-size: 18px;
-    }
-}
-
-.edit-map {
-    top: -5vh;
-    left: -20vh;
-    transition: 0.3s;
-    -webkit-transform: rotate(-90deg);
-    -webkit-transform-origin: top left;
-    -moz-transform: rotate(90deg);
-    -moz-transform-origin: bottom left;
-    -ms-transform: rotate(90deg);
-    -ms-transform-origin: bottom left;
-    -o-transform: rotate(90deg);
-    -o-transform-origin: bottom left;
-    transform: rotate(-90deg);
-    transform-origin: top left;
-}
-
-.edit-map>a {
-    color: gray;
-    border: 1px solid lightgray;
-    background-color: transparent;
-    clear: both;
-}
-
-.edit-map>a:hover {
-    color: black;
-}
-
-.edit-map a {
-    border: 0;
-}
-
-
-.all {
-    margin: -3vh -3vh -77vh -3vh;
-    padding: 3vh 3vh 77vh 3vh;
-}
-
-.toggle {
-    padding: 3vh;
-    margin: -3vh;
-    padding-bottom: 80vh;
-}
-
-.toggle.showTree {
-    margin-left: 40vw;
-    transition: 0.5s;
-    padding-bottom: 3vh;
-}
-
-.toggle.showTree>.all {
-    margin: -3vh -3vh -3vh -3vh;
-    padding: 3vh 3vh 3vh 3vh;
-}
-
-.toggle.showDetails {
-    transition: 0.5s;
-    margin-left: 41vw;
-    padding-bottom: 3vh;
-}
-
-.toggle:hover {
-    opacity: 0.7
-}
-
-.building {
-    padding: 0;
-}
-
-
-.black {
-    color: black;
-}
-
-.saving{
-    position: absolute;
-    top:9vh;
-    right:50vw;
-}
- */
-
-
-
  .sidenav{
     height: 100%; /* 100% Full-height */
     position: fixed; /* Stay in place */
-    z-index: 1; /* Stay on top */
+    z-index: 1;
     top: 0; /* Stay at the top */
     left: 0;
-    overflow-x: hidden; /* Disable horizontal scroll */
-    margin-top: 8vh; /* Place content 60px from the top */
+    margin-top: 61px; /* Place content 60px from the top */
     transition: width 0.5s; /* 0.5 second transition effect to slide in the sidenav */
 
     /* border:solid 1px red; */
     /* box-shadow: 0 6px 50px #999; */
  }
-
- @media only screen and (max-height: 800px) {
-    .sidenav {
-      max-height: 84vh;
-      overflow: hidden;
-    }
-  }
-  
-  @media only screen and (min-height: 800px) {
-    .sidenav {
-      max-height: 85vh;
-      overflow: hidden;
-    }
-  }
 
  .sidenav > .opened{
     width: 42vw;
@@ -276,13 +29,15 @@
 
 /* The side navigation menu */
 .sidenav >  .hierarchy {
-    background-color: transparent; /* Black*/
-    margin-left: 3vw;
-    min-height: 86vh;
+    background-color: transparent; 
 }
 
 .sidenav >  .details {
-    /* background: var(--light) */
+    margin-left: 1vw;
+}
+
+.sidenav >  .details.offset {
+    margin-left: 4vw;
 }
 
 
@@ -313,35 +68,56 @@
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 #main {
     transition: margin-left .5s;
-    margin: 1vh;
-    margin-left:3vw;
-    margin-right:3vw;
+    margin-left:4vw;
+    margin-right:2vw;
+    /* margin-top:1w; */
+    position: fixed;
+    z-index: 1;
+    margin-top: 4px;
+    /*  */
+    /* 
+    
+    margin-right:2vw; */
 }
 
 #main.half-push{
-    margin-left:48vw;
+    margin-left:43vw;
+}
+
+#main.half-push.offset{
+    margin-left:47vw;
 }
 
 
 #main.full-push{
-    margin-left:90vw;
+    margin-left:86vw;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
-@media screen and (max-height: 450px) {
+/* @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
-}
+} */
 
 .open-nav{
-    height: 100%;
+    margin-top: 61px;
     position: fixed;
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: transparent;
+    border-left:0;
     overflow-x: hidden;
     transition: 0.5s;
     width: 3vw;
+    margin-right :1vw;
+}
+
+.open-nav.closed{
+
+}
+
+.open-nav.opened{
+    width: 0vw;
+    transition: 0.5s;
 }
 

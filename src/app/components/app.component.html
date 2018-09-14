@@ -1,4 +1,4 @@
-<div class="container-fluid h-100 overflow-auto" [class.grayscale]="(progress.state$ | async).active">
+<div class="container-fluid h-100 overflow-auto bg-transparent" [class.grayscale]="(progress.state$ | async).active">
 	<div class="d-flex flex-column h-100">
 		<header>
 		</header>
@@ -17,7 +17,7 @@
 				</div>
 			</div>
 		</div>
-		<div *showItBootstrap="['md','lg','xl']" class="container-fluid h-100 overflow-x-hidden" >
+		<div *showItBootstrap="['md','lg','xl']" class="container-fluid h-100 overflow-x-hidden bg-transparent" >
 			<loader></loader>
 			<router-outlet></router-outlet>
 		</div>

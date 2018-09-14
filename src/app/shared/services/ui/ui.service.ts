@@ -21,6 +21,14 @@ export class UIService {
     // this.tooltip$ = new Subject<[string, Initiative, Initiative]>();
   }
 
+  getCanvasWidth() {
+    return document.body.clientWidth - 125
+  }
+
+  getCanvasHeight() {
+    return document.body.clientHeight - 120;
+  }
+
   getCircularPath(radius: number, centerX: number, centerY: number) {
     if (radius === undefined || centerX === undefined || centerY === undefined)
       throw new Error(
@@ -165,7 +173,7 @@ export class UIService {
     }
     return tags
       .map(
-      (tag: Tag) => getTagHtml(tag))
+        (tag: Tag) => getTagHtml(tag))
       .join("")
 
   }

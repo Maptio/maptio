@@ -147,7 +147,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       .attr("width", this.width)
       .attr("height", this.height)
       .attr("class", "overlay")
-      .style("background", "#fff");
 
     let g = svg
       .append("g")
