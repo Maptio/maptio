@@ -28,7 +28,10 @@ export class CreateMapComponent implements OnInit {
 
     ngOnInit(): void {
         this.form = new FormGroup({
-            "mapName": new FormControl("", [Validators.required, Validators.minLength(2)]),
+            "mapName": new FormControl("", {
+                validators : [Validators.required, Validators.minLength(2)],
+                updateOn:"submit"
+            }),
             "teamId": new FormControl(this.teams.length > 1 ? null : this.teams[0].team_id, [Validators.required]),
         })
     }

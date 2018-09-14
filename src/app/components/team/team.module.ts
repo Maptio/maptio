@@ -28,7 +28,7 @@ import { CommonComponentsModule } from "../../shared/common-components.module";
 const routes: Routes = [
     {
         path: "teams",
-        data: { breadcrumbs: "Teams" },
+        data: { breadcrumbs: "Organizations" },
         children: [
             {
                 path: "", component: TeamListComponent, canActivate: [AuthGuard],
