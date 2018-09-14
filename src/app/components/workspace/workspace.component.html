@@ -30,7 +30,7 @@
         </div>
     </div>
 
-    <div [style.min-height.px]="canvasHeight" [style.max-height.px]="canvasHeight" class="open-nav bg-white d-flex flex-column justify-content-start align-items-center cursor-pointer rounded-right box-shadow" 
+    <div [style.min-height.px]="canvasHeight" [style.max-height.px]="canvasHeight" class="open-nav d-flex flex-column justify-content-start align-items-center cursor-pointer rounded-right box-shadow" 
     [class.closed]="isBuildingPanelCollapsed" [class.opened]="!isBuildingPanelCollapsed" (click)="isBuildingPanelCollapsed=false">
         <span class="p-2" *ngIf="isBuildingPanelCollapsed">
             <i class="fa fa-chevron-right text-muted" aria-hidden="true"></i>
@@ -38,7 +38,7 @@
         </span>
     </div>
 
-    <div id="main" [style.min-height.px]="canvasHeight" [style.max-height.px]="canvasHeight" class="d-flex justify-content-center w-100 position-relative rounded box-shadow" [class.half-push]="isOnePanelOpened()"
+    <div id="main" [style.min-height.px]="canvasHeight" [style.max-height.px]="canvasHeight" class="d-flex justify-content-center w-100 position-relative rounded box-shadow bg-white" [class.half-push]="isOnePanelOpened()"
         [class.full-push]="isTwoPanelsOpened()" [class.offset]="!isDetailsPanelCollapsed && isBuildingPanelCollapsed">
         <mapping [tags]="selectableTags" [isEmptyMap]="isEmptyMap" (showDetails)="openDetails($event, true)" (addInitiative)="addInitiative($event)" (removeInitiative)="removeInitiative($event)"
             (moveInitiative)="moveInitiative($event)" (closeEditingPanel)="closeEditingPanel()" (openTreePanel)="isBuildingPanelCollapsed=false"

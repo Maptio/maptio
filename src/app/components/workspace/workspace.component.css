@@ -110,14 +110,20 @@
     transition: 0.5s;
     width: 3vw;
     margin-right :1vw;
+    background: var(--white);
 }
 
 .open-nav.closed{
 
 }
 
-.open-nav.opened{
+.open-nav.opened, .open-nav.opened:hover{
     width: 0vw;
+    transition: 0.5s;
+}
+
+.open-nav:hover{
+    width:3.5vw;
     transition: 0.5s;
 }
 
