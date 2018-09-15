@@ -22,11 +22,11 @@ export class UIService {
   }
 
   getCanvasWidth() {
-    return document.body.clientWidth - 130
+    return window.screen.availWidth - 130
   }
 
   getCanvasHeight() {
-    return document.body.clientHeight - 120;
+    return window.screen.availHeight - 90;
   }
 
   getCircularPath(radius: number, centerX: number, centerY: number) {

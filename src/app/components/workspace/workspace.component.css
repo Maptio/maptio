@@ -119,11 +119,11 @@
 
 .open-nav.opened, .open-nav.opened:hover{
     width: 0vw;
-    transition: 0.5s;
+    transition: 0.25s;
 }
 
 .open-nav:hover{
     width:3.5vw;
-    transition: 0.5s;
+    transition: 0.25s;
 }
 
