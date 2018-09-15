@@ -10,3 +10,14 @@ ng-progress {
 .ng-progress > .bar {
     top:56px!important
 }
+
+.spinner-icon{
+  width:36px !important;
+  height: 36px !important;;
+}
+
+
+.spinner{
+  top:7px !important;
+  right:25px !important;
+}
