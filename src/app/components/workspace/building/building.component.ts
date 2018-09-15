@@ -13,6 +13,7 @@ import { TreeNode, TREE_ACTIONS, TreeComponent } from "angular-tree-component";
 import "rxjs/add/operator/map";
 import { InitiativeNodeComponent } from "./initiative.node.component"
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { LoaderService } from "../../../shared/services/loading/loader.service";
 
 @Component({
     selector: "building",
@@ -94,7 +95,7 @@ export class BuildingComponent {
 
     constructor(private dataService: DataService, private datasetFactory: DatasetFactory,
         private modalService: NgbModal, private analytics: Angulartics2Mixpanel,
-        private userFactory: UserFactory, private cd: ChangeDetectorRef) {
+        private userFactory: UserFactory, private cd: ChangeDetectorRef,private loaderService:LoaderService) {
         // this.nodes = [];
     }
 
@@ -216,6 +217,7 @@ export class BuildingComponent {
      * @param slugToOpen Slug of initiative to open
      */
     loadData(datasetID: string, nodeIdToOpen: string = undefined, team: Team): Promise<void> {
+        this.loaderService.show();
         this.datasetId = datasetID;
         this.team = team;
         return this.datasetFactory.get(datasetID)
@@ -275,6 +277,9 @@ export class BuildingComponent {
                 if (targetNode) {
                     this.openDetailsEditOnly.emit(targetNode)
                 }
+            })
+            .then(()=>{
+                this.loaderService.hide();
             })
     }
 
