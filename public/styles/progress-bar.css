@@ -12,12 +12,14 @@ ng-progress {
 }
 
 .spinner-icon{
-  width:36px !important;
-  height: 36px !important;;
+  width:48px !important;
+  height: 48px !important;;
+  border-top-color: var(--maptio-blue)!important;
+  border-left-color: var(--maptio-blue)!important;
 }
 
 
 .spinner{
-  top:11px !important;
-  left:16px !important;
+  top:5px !important;
+  left:10px !important;
 }
