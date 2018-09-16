@@ -20,7 +20,7 @@ export const environment = {
     CLOUDINARY_PROFILE_TAGNAME: "profile",
     ROLLBAR_ACCESS_TOKEN: "f3b4577fe4a341879fd268623033dc98",
     AUTH0_USERS_PAGE_LIMIT: 50,
-    CHECK_TOKEN_EXPIRATION_INTERVAL_IN_MINUTES: 10,
+    CHECK_TOKEN_EXPIRATION_INTERVAL_IN_MINUTES: 1440,
 
     KB_URL_PERMISSIONS: "https://maptio.outseta.com/support/kb#/articles/bB9l5DW8/managing-permissions",
     KB_URL_HOME: "https://maptio.outseta.com/support/kb",

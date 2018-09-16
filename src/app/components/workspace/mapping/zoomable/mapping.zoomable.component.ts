@@ -20,6 +20,7 @@ import {
 import { D3Service, D3, ScaleLinear, HSLColor } from "d3-ng2-service";
 import { transition } from "d3-transition";
 import { partition } from "lodash";
+import { LoaderService } from "../../../../shared/services/loading/loader.service";
 
 @Component({
   selector: "zoomable",
@@ -128,7 +129,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
     private userFactory: UserFactory,
     private cd: ChangeDetectorRef,
     private dataService: DataService,
-    private uriService: URIService
+    private uriService: URIService,
+    private loaderService: LoaderService
   ) {
     this.d3 = d3Service.getD3();
     this.T = this.d3.transition(null).duration(this.TRANSITION_DURATION);
@@ -141,7 +143,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
   }
 
   ngOnInit() {
-    this.isLoading = true;
+
+    this.loaderService.show();
     this.init();
     this.dataSubscription = this.dataService
       .get()
@@ -151,8 +154,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
         this.datasetId = complexData[0].datasetId;
         this.rootNode = complexData[0].initiative;
         this.slug = data.getSlug();
-        // this.tagsState = complexData[1];
+
+        this.loaderService.keep();
         this.update(data, complexData[1], complexData[2]);
+
+        this.loaderService.hide();
         this.analytics.eventTrack("Map", {
           view: "initiatives",
           team: data.teamName,
@@ -197,7 +203,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     if (this.selectableTagsSubscription) {
       this.selectableTagsSubscription.unsubscribe();
     }
-    if(this.toggleOptionsSubscription){
+    if (this.toggleOptionsSubscription) {
       this.toggleOptionsSubscription.unsubscribe();
     }
   }
@@ -226,7 +232,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     g.append("g").attr("class", "paths");
     let zooming = d3
       .zoom()
-      .scaleExtent([1 / 3, this._isFullDisplayMode ? 3 : 4/3])
+      .scaleExtent([1 / 3, this._isFullDisplayMode ? 3 : 4 / 3])
       .on("zoom", zoomed)
       .on("end", () => {
         let transform = d3.event.transform;
@@ -356,6 +362,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     if (this.d3.selectAll("g").empty()) {
       this.init();
     }
+
     let d3 = this.d3;
     let diameter = this.diameter;
     let margin = this.margin;
@@ -516,7 +523,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return !d.children && d.parent === root;
       })
       .on("click", function (d: any) {
-        if(isFullDisplayMode) return;
+        if (isFullDisplayMode) return;
         if (focus !== d) zoom(d), d3.event.stopPropagation();
       });
 
@@ -702,13 +709,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .attr("font-size", function (d: any) {
         let multiplier = svg.attr("data-font-multiplier");
         return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * POSITION_ACCOUNTABLE_NAME.fontRatio * multiplier)}rem`
-    
+
       })
       .attr("x", function (d: any) {
         return d.r * POSITION_ACCOUNTABLE_NAME.x;
       })
       .attr("y", function (d: any) {
-        return Math.max(-d.r * POSITION_ACCOUNTABLE_NAME.y, -d.r + CIRCLE_RADIUS*2 -3);
+        return Math.max(-d.r * POSITION_ACCOUNTABLE_NAME.y, -d.r + CIRCLE_RADIUS * 2 - 3);
       })
       .text(function (d: any) {
         return d.data.accountable ? d.data.accountable.name : "";
@@ -717,7 +724,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let node = g.selectAll("g.node");
 
     svg.on("click", function () {
-      if(isFullDisplayMode) return;
+      if (isFullDisplayMode) return;
       zoom(root);
     });
 
@@ -881,7 +888,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
               return d.r * POSITION_ACCOUNTABLE_NAME.x;
             })
             .attr("y", function (d: any) {
-             return Math.max(-d.r * d.k * POSITION_ACCOUNTABLE_NAME.y, -d.r * d.k + CIRCLE_RADIUS * 2 + 3);
+              return Math.max(-d.r * d.k * POSITION_ACCOUNTABLE_NAME.y, -d.r * d.k + CIRCLE_RADIUS * 2 + 3);
             })
             .attr("font-size", function (d: any) {
               let multiplier = svg.attr("data-font-multiplier");

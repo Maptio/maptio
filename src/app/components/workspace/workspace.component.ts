@@ -23,6 +23,7 @@ import { User } from "../../shared/model/user.data";
 import { Tag, SelectableTag } from "../../shared/model/tag.data";
 import { intersectionBy } from "lodash";
 import { UIService } from "../../shared/services/ui/ui.service";
+import { LoaderService } from "../../shared/services/loading/loader.service";
 
 @Component({
     selector: "workspace",
@@ -72,7 +73,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     constructor(private route: ActivatedRoute, private datasetFactory: DatasetFactory,
-        private dataService: DataService, private cd: ChangeDetectorRef, private uiService:UIService) {
+        private dataService: DataService, private cd: ChangeDetectorRef, private uiService:UIService, private loaderService:LoaderService) {
             this.canvasHeight = uiService.getCanvasHeight();
     }
 

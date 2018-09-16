@@ -21,4 +21,7 @@ export class LoaderService {
     hide() {
         this.progress.done()
     }
+    keep(){
+        this.progress.inc();
+    }
 }
