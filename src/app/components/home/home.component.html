@@ -13,7 +13,7 @@
             <ng-content></ng-content>
         </div>
         <div *ngIf="auth.allAuthenticated()" class="h-100">
-            <dashboard *ngIf="!isLoading" [datasets]="datasets" [teams]="teams" [user]="user"></dashboard>
+            <dashboard *ngIf="!isLoading" [datasets]="datasets" [teams]="teams"></dashboard>
         </div>
     </div>
 </div>
