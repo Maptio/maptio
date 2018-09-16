@@ -17,4 +17,10 @@ export class URIService {
         });
         return fragment.slice(0, fragment.length - 1);
     }
+
+
+    splitUrl(url:String): {url:String, fragment:String}{
+        let split = url.split('#');
+        return {url : split[0], fragment : split.slice(1).join('#')}
+    }
 }
