@@ -75,7 +75,6 @@ if (!isDevelopment) {
         'https://uploads.intercomcdn.com',
         'https://uploads.intercomusercontent.com',
         'https://rs.fullstory.com',
-        'https://api.rollbar.com',
         'https://drive.google.com',
         'https://*.logrocket.io',
         'https://slack.com/api/'

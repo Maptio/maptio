@@ -17,15 +17,12 @@ import { D3Service } from "d3-ng2-service";
 import { FileUploadModule } from "ng2-file-upload";
 import { ResponsiveModule } from "ng2-responsive";
 import { McBreadcrumbsConfig, McBreadcrumbsModule } from "ngx-breadcrumbs";
-// import { ANIMATION_TYPES, LoadingModule } from "ngx-loading";
-import * as Rollbar from "rollbar";
 
 import { AnAnchorableComponent } from "../test/specs/shared/component.helper.shared";
 import { environment } from "../environment/environment";
 import { AccountComponent } from "./components/account/account.component";
 import { AppComponent } from "./components/app.component";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
-// import { DashboardComponentResolver } from "./components/dashboard/dashboard.resolver";
 import { FooterComponent } from "./components/footer/footer.component";
 import { HeaderComponent } from "./components/header/header.component";
 import { HelpComponent } from "./components/help/help.component";
@@ -103,38 +100,6 @@ export const cloudinaryLib = {
 };
 
 
-
-const rollbarConfig = {
-  accessToken: environment.ROLLBAR_ACCESS_TOKEN,
-  verbose: true,
-  captureUncaught: true,
-  captureUnhandledRejections: true,
-  payload: {
-    environment: process.env.ENV === "production" ? "production" : "development"
-  }
-
-};
-
-export const RollbarService = new InjectionToken<Rollbar>("rollbar");
-
-@Injectable()
-export class RollbarErrorHandler implements ErrorHandler {
-  constructor(@Inject(RollbarService) private rollbar: Rollbar) { }
-
-  handleError(err: any): void {
-    this.rollbar.error(err.originalError || err);
-  }
-}
-
-
-
-export function rollbarFactory() {
-  return new Rollbar(rollbarConfig);
-}
-
-
-
-
 @NgModule({
   declarations: [
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, LoginComponent, LogoutComponent, HomeComponent, UnauthorizedComponent, NotFoundComponent,
@@ -199,10 +164,7 @@ export function rollbarFactory() {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,
       deps: [Http, RequestOptions]
-    },
-    // DashboardComponentResolver,
-    // { provide: ErrorHandler, useClass: RollbarErrorHandler },
-    // { provide: RollbarService, useFactory: rollbarFactory }
+    }
   ],
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]
