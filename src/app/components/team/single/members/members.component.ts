@@ -107,14 +107,10 @@ export class TeamMembersComponent implements OnInit {
 
     getAllMembers() {
         this.loaderService.show();
-        // return this.team$.then((team: Team) => {
-        // console.log(team.members)
         return this.userFactory.getUsers(this.team.members.map(m => m.user_id))
             .then(members => compact(members))
             .then((members: User[]) => {
-                // console.log("asking for ", console.log(members.map(u => u.user_id)))
                 return this.userService.getUsersInfo(members).then(pending => {
-                    // console.log("got ", console.log(pending.map(u => u.user_id)))
                     if (this.createdUser) {
                         this.createdUser.isActivationPending = true;
                         this.createdUser.isInvitationSent = false;
@@ -128,8 +124,7 @@ export class TeamMembersComponent implements OnInit {
                 let members = result.members;
 
                 let membersPending = uniqBy(result.membersPending, m => m.user_id);
-                // console.log(members, membersPending);
-                let allDeleted = differenceBy(members, membersPending, m => m.user_id).map(m => { m.isDeleted = true; return m });
+                let allDeleted = differenceBy(members, membersPending, m => m.user_id)//.map(m => { m.isDeleted = true; return m });
 
                 return membersPending.concat(allDeleted);
             })
