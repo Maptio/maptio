@@ -90,8 +90,9 @@ export class SignupComponent implements OnInit {
                             this.cd.markForCheck();
                         }
                         else {
-                            // account is created and is already activated => this user should login
+                            // account is created and is already activated => this user should login or try to get a confirmation email again
                             this.isEmailAlreadyExist = true;
+                            this.userToken = userToken;
                             this.cd.markForCheck();
                         }
                     }
@@ -151,6 +152,7 @@ export class SignupComponent implements OnInit {
     }
 
     resendEmail() {
+        console.log()
         this.isResending = true;
         if (!this.userToken)
             return;

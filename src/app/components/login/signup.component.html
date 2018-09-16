@@ -5,16 +5,18 @@
         <div class="alert alert-danger" role="alert" *ngIf="signUpMessageFail">
             {{signUpMessageFail}}
         </div>
-        <div class="alert alert-success" role="alert" *ngIf="isRedirectToActivate">
+        <div class="alert alert-warning" role="alert" *ngIf="isRedirectToActivate">
             You already have created an account but we need to verify your email ! Check your inbox or
             <a (click)="resendEmail()" class="alert-link cursor-pointer">resend a confirmation email
                 <i *ngIf="isResending" class="text-muted fa fa-circle-o-notch fa-spin fa-fw ml-1 "></i>
             </a>
         </div>
 
-        <div class="alert alert-success" role="alert" *ngIf="isEmailAlreadyExist">
+        <div class="alert alert-warning" role="alert" *ngIf="isEmailAlreadyExist">
             This email already has an account.
-            <a class="alert-link" routerLink="/login">Log in</a>
+            <a class="alert-link" routerLink="/login">Log in</a> or  <a (click)="resendEmail()" class="alert-link cursor-pointer">resend a confirmation email
+                    <i *ngIf="isResending" class="text-muted fa fa-circle-o-notch fa-spin fa-fw ml-1 "></i>
+                </a>
         </div>
         <div class="alert alert-success" role="alert" *ngIf="isConfirmationEmailSent">
             <h4 class="alert-heading">We have sent a confirmation email to
