@@ -125,18 +125,8 @@ export const cloudinaryLib = {
     }),
     Angulartics2Module.forRoot([Angulartics2Mixpanel]),
     FileUploadModule,
-    // LoadingModule.forRoot({
-    //   animationType: ANIMATION_TYPES.threeBounce,
-    //   fullScreenBackdrop: true,
-    //   backdropBackgroundColour: "#f8f9fa",
-    //   backdropBorderRadius: ".25rem",
-    //   primaryColour: "#EF5E26",
-    //   secondaryColour: "transparent",
-    //   tertiaryColour: "#2F81B7"
-    // }),
     NgProgressModule.forRoot(),
     NgProgressRouterModule,
-    // NgProgressHttpModule,
     HttpFactoryModule,
     BrowserAnimationsModule,
     CloudinaryModule.forRoot(cloudinaryLib, { cloud_name: environment.CLOUDINARY_CLOUDNAME, upload_preset: environment.CLOUDINARY_UPLOAD_PRESET }),

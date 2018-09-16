@@ -10,7 +10,6 @@
             <div class="text-muted">Already use Maptio?
                 <a routerLink="/login">Log in</a>
             </div>
-            <ng-content></ng-content>
         </div>
         <div *ngIf="auth.allAuthenticated()" class="h-100">
             <dashboard *ngIf="!isLoading" [datasets]="datasets" [teams]="teams"></dashboard>
