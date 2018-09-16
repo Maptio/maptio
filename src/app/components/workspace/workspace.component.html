@@ -5,7 +5,7 @@
                 <a class="d-flex justify-content-end px-3 cursor-pointer m-0 p-0" [class.invisible]="isBuildingPanelCollapsed" (click)="isBuildingPanelCollapsed=true">
                         <span aria-hidden="true" class="text-muted">&times;</span>
                 </a>
-                <div class="card-body" [class.invisible]="isBuildingPanelCollapsed">
+                <div class="card-body" [class.show]="!isBuildingPanelCollapsed" [class.hide]="isBuildingPanelCollapsed">
                     <building #building [user]="user" [isEmptyMap]="isEmptyMap" (save)="saveChanges($event)" (openDetails)="openDetails($event)" (openDetailsEditOnly)="openDetails($event,true)">Loading...</building>
 
                 </div>
@@ -21,7 +21,7 @@
                 <a class="d-flex justify-content-end px-3  cursor-pointer  m-0 p-0" [class.invisible]="isDetailsPanelCollapsed" (click)="isDetailsPanelCollapsed=true">
                         <span aria-hidden="true" class="text-muted">&times;</span>
                 </a>
-                <div class="card-body " [class.invisible]="isDetailsPanelCollapsed">
+                <div class="card-body " [class.show]="!isDetailsPanelCollapsed" [class.hide]="isDetailsPanelCollapsed">
                     <initiative *ngIf="!isDetailsPanelCollapsed" #initiative [datasetTags]="tags" [datasetId]="datasetId" [node]="openedNode"
                         [team]="team" (edited)="saveDetailChanges()"></initiative>
                 </div>

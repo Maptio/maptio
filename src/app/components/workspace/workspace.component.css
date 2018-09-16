@@ -65,6 +65,18 @@
     margin-left: 50px;
 }
 
+.card-body.show{
+    visibility: visible;
+    opacity: 1;
+    transition: 0.5s;
+}
+
+.card-body.hide{
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.5s;
+}
+
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 #main {
     transition: margin-left .5s;
