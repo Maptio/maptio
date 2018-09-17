@@ -1,6 +1,6 @@
 :root {
   --maptio-blue: #2f81b7;
-  --maptio-orange: #EF5E26;
+  --maptio-orange: hsla(17, 86%, 54%, 0.90);
 }
 
 
@@ -43,6 +43,14 @@ body {
 
 .bg-orange{
   background : var(--maptio-orange)
+}
+
+.accent-blue{
+  border-top:solid 6px var(--maptio-blue);
+}
+
+.accent-orange{
+  border-top: solid 6px var(--maptio-orange);
 }
 
 .box-shadow{
