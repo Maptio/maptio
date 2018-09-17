@@ -1,5 +1,5 @@
 import { BuildingComponent } from "./building/building.component";
-import { DataService } from "./../../shared/services/data.service";
+import { DataService, CounterService } from "./../../shared/services/data.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs/Rx";
 import { Initiative } from "./../../shared/model/initiative.data";
@@ -24,6 +24,7 @@ import { Tag, SelectableTag } from "../../shared/model/tag.data";
 import { intersectionBy } from "lodash";
 import { UIService } from "../../shared/services/ui/ui.service";
 import { LoaderService } from "../../shared/services/loading/loader.service";
+import * as moment from "moment"
 
 @Component({
     selector: "workspace",
@@ -52,7 +53,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public teams: Team[];
     public tags: Tag[];
     public user: User;
-    public canvasHeight:number;
+    public canvasHeight: number;
 
     public openedNode: Initiative;
     public openedNodeParent: Initiative;
@@ -73,15 +74,16 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     constructor(private route: ActivatedRoute, private datasetFactory: DatasetFactory,
-        private dataService: DataService, private cd: ChangeDetectorRef, private uiService:UIService, private loaderService:LoaderService) {
-            this.canvasHeight = uiService.getCanvasHeight();
+        private dataService: DataService,
+        private counterService: CounterService, private cd: ChangeDetectorRef, private uiService: UIService,
+        private loaderService: LoaderService) {
+        this.canvasHeight = uiService.getCanvasHeight();
     }
 
     ngOnInit() {
         this.routeSubscription = this.route.data
             .subscribe((data: { data: { dataset: DataSet, team: Team, members: User[], user: User } }) => {
                 this.dataset = data.data.dataset;
-
                 this.tags = data.data.dataset.tags;
                 this.team = data.data.team;
                 this.members = data.data.members;
@@ -90,7 +92,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.teamName = this.team.name;
                 this.teamId = this.team.team_id;
                 EmitterService.get("currentTeam").emit(this.team);
-                this.buildingComponent.loadData(this.dataset.datasetId, "", this.team);
+                this.buildingComponent.loadData(this.dataset.datasetId, "", this.team, this.tags, this.members);
                 this.isEmptyMap = !this.dataset.initiative.children || this.dataset.initiative.children.length === 0;
                 this.cd.markForCheck();
             });
@@ -126,9 +128,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 return hasSaved;
             }, (reason) => { /*console.log(reason)*/ })
             .then(() => {
-                EmitterService.get("isSavingInitiativeData").emit(false);
+                this.counterService.set({ datasetId: this.datasetId, time: moment() })
             });
-
     }
 
     toggleBuildingPanel() {

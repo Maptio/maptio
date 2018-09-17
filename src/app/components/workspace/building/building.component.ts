@@ -14,6 +14,7 @@ import "rxjs/add/operator/map";
 import { InitiativeNodeComponent } from "./initiative.node.component"
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { LoaderService } from "../../../shared/services/loading/loader.service";
+import { Tag } from "../../../shared/model/tag.data";
 
 @Component({
     selector: "building",
@@ -216,7 +217,7 @@ export class BuildingComponent {
      * @param id Dataset Id
      * @param slugToOpen Slug of initiative to open
      */
-    loadData(datasetID: string, nodeIdToOpen: string = undefined, team: Team): Promise<void> {
+    loadData(datasetID: string, nodeIdToOpen: string = undefined, team: Team, tags:Tag[], members:User[]): Promise<void> {
         this.loaderService.show();
         this.datasetId = datasetID;
         this.team = team;
@@ -261,7 +262,17 @@ export class BuildingComponent {
                 return Promise.all(queue).then(t => t).catch(() => { });
             })
             .then(() => {
-                this.saveChanges();
+                this.dataService.set({ 
+                    initiative: this.nodes[0], 
+                    datasetId: this.datasetId, 
+                    teamName: team.name, teamId: 
+                    team.team_id, team: 
+                    this.team, 
+                    tags: tags, 
+                    members: members });
+                
+                    this.cd.markForCheck();
+                // this.saveChanges();
             })
             .then(() => {
                 let targetNode: Initiative = undefined;
