@@ -53,7 +53,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public teams: Team[];
     public tags: Tag[];
     public user: User;
-    public canvasHeight: number;
+    public canvasYMargin: number;
+    public canvasHeight:number
 
     public openedNode: Initiative;
     public openedNodeParent: Initiative;
@@ -77,7 +78,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         private dataService: DataService,
         private counterService: CounterService, private cd: ChangeDetectorRef, private uiService: UIService,
         private loaderService: LoaderService) {
-        this.canvasHeight = uiService.getCanvasHeight();
+            this.canvasYMargin = uiService.getCanvasYMargin();
+            this.canvasHeight = uiService.getCanvasHeight();
     }
 
     ngOnInit() {
@@ -171,5 +173,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.isDetailsPanelCollapsed = true;
         this.isBuildingPanelCollapsed = true;
     }
+
+    
 
 }

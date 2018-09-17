@@ -21,12 +21,20 @@ export class UIService {
     // this.tooltip$ = new Subject<[string, Initiative, Initiative]>();
   }
 
+  getCanvasXMargin(){
+    return 130;
+  }
+
+  getCanvasYMargin(){
+    return 112;
+  }
+
   getCanvasWidth() {
-    return window.screen.availWidth - 130
+    return window.innerWidth - this.getCanvasXMargin();
   }
 
   getCanvasHeight() {
-    return window.screen.availHeight - 90;
+    return window.innerHeight - this.getCanvasYMargin();
   }
 
   getCircularPath(radius: number, centerX: number, centerY: number) {
