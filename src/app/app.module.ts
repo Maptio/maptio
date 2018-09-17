@@ -40,7 +40,7 @@ import { AuthConfiguration } from "./shared/services/auth/auth.config";
 import { authHttpServiceFactory } from "./shared/services/auth/auth.module";
 import { Auth } from "./shared/services/auth/auth.service";
 import { HttpFactoryModule } from "./shared/services/auth/httpInterceptor";
-import { DataService } from "./shared/services/data.service";
+import { DataService, CounterService } from "./shared/services/data.service";
 import { DatasetFactory } from "./shared/services/dataset.factory";
 import { JwtEncoder } from "./shared/services/encoding/jwt.service";
 import { ErrorService } from "./shared/services/error/error.service";
@@ -145,7 +145,7 @@ export const cloudinaryLib = {
     BrowserAnimationsModule,
     AuthGuard, AccessGuard, WorkspaceGuard, PermissionGuard, BillingGuard,
     AuthConfiguration,
-    D3Service, DataService, URIService, ColorService, UIService, DatasetFactory, TeamFactory,
+    D3Service, DataService,CounterService,  URIService, ColorService, UIService, DatasetFactory, TeamFactory,
     ErrorService, Auth, UserService, UserFactory, MailingService, JwtEncoder, LoaderService,
     ExportService, FileService, PermissionService, BillingService,
     Location,
