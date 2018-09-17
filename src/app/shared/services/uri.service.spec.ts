@@ -62,7 +62,7 @@ describe("uri.service.ts", () => {
         }));
     });
 
-    fdescribe("splitURL", () => {
+    describe("splitURL", () => {
         it('should return correct split when url doesnt have fragment', inject([URIService], (target: URIService) => {
             let url = "/map/xxxxx/123/circles";
             let actual = target.splitUrl(url);

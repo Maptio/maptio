@@ -186,9 +186,7 @@ describe("login.component.ts", () => {
             expect(
               target.debugElement.injector.get(Auth).login
             ).not.toHaveBeenCalled();
-            expect(component.loginErrorMessage).toBe(
-              "We don't know that email"
-            );
+            expect(component.isUnknownEmail).toBeTruthy();
           })
           .then(() => {
             expect(spyLoaderHide).toHaveBeenCalled();

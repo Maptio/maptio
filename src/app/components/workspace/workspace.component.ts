@@ -10,11 +10,6 @@ import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { ViewChild } from "@angular/core";
 import {
     Component, OnInit, OnDestroy,
-    trigger,
-    state,
-    style,
-    transition,
-    animate,
     ChangeDetectorRef,
     ChangeDetectionStrategy
 } from "@angular/core";
@@ -23,8 +18,6 @@ import { User } from "../../shared/model/user.data";
 import { Tag, SelectableTag } from "../../shared/model/tag.data";
 import { intersectionBy } from "lodash";
 import { UIService } from "../../shared/services/ui/ui.service";
-import { LoaderService } from "../../shared/services/loading/loader.service";
-import * as moment from "moment"
 
 @Component({
     selector: "workspace",
@@ -75,9 +68,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     constructor(private route: ActivatedRoute, private datasetFactory: DatasetFactory,
-        private dataService: DataService,
-        private counterService: CounterService, private cd: ChangeDetectorRef, private uiService: UIService,
-        private loaderService: LoaderService) {
+        private dataService: DataService,private cd: ChangeDetectorRef, private uiService: UIService) {
             this.canvasYMargin = uiService.getCanvasYMargin();
             this.canvasHeight = uiService.getCanvasHeight();
     }

@@ -18,6 +18,8 @@ import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MarkdownService } from "angular2-markdown";
 import { MappingZoomableComponent } from "./mapping.zoomable.component";
+import { NgProgress } from "@ngx-progressbar/core";
+import { LoaderService } from "../../../../shared/services/loading/loader.service";
 
 describe("mapping.zoomable.component.ts", () => {
 
@@ -34,6 +36,15 @@ describe("mapping.zoomable.component.ts", () => {
                     useFactory: authHttpServiceFactoryTesting,
                     deps: [Http, BaseRequestOptions]
                 },
+                {
+                    provide: LoaderService,
+                    useClass: class {
+                        hide = jasmine.createSpy("hide")
+                        show = jasmine.createSpy("show")
+                    },
+                    deps: [NgProgress]
+                },
+                NgProgress,
                 {
                     provide: Http,
                     useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {

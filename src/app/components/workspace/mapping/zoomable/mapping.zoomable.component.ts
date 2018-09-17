@@ -155,7 +155,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         this.rootNode = complexData[0].initiative;
         this.slug = data.getSlug();
 
-        this.loaderService.keep();
+        this.loaderService.show();
         this.update(data, complexData[1], complexData[2]);
 
         this.loaderService.hide();
