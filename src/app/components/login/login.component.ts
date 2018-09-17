@@ -28,11 +28,15 @@ export class LoginComponent implements OnInit {
     public isActivationPending: Promise<boolean>;
     public isLoggingIn: boolean;
     public isPasswordEmpty: boolean;
-    public loginErrorMessage: string;
     public isPasswordTooWeak: boolean;
     public isUserAlreadyActive: boolean;
     public activationStatusCannotBeUpdated: boolean;
     public previousAttemptMessage: string;
+
+
+    public loginErrorMessage: string;
+    public isWrongPassword: Boolean;
+    public isUnknownEmail: Boolean;
 
     public activateForm: FormGroup;
     public loginForm: FormGroup;
@@ -145,7 +149,9 @@ export class LoginComponent implements OnInit {
 
     login(): void {
 
-        this.loginErrorMessage = ""
+        this.loginErrorMessage = "";
+        this.isWrongPassword = false;
+        this.isUnknownEmail = false;
         if (this.loginForm.dirty && this.loginForm.valid) {
             this.auth.clear();
             this.loader.show();
@@ -160,16 +166,17 @@ export class LoginComponent implements OnInit {
                         this.loader.show();
                         // HACK .login() should be promisified instead of using EmitterService
                         EmitterService.get("loginErrorMessage").subscribe((loginErrorMessage: string) => {
-                            this.loginErrorMessage =
-                                (loginErrorMessage === "Wrong email or password.") ? "Wrong password" : loginErrorMessage;
+                            if (loginErrorMessage === "Wrong email or password.") {
+                                this.isWrongPassword = true
+                            } else {
+                                this.loginErrorMessage = loginErrorMessage;
+                            }
                             this.loader.hide();
-                            this.cd.markForCheck();
                         })
                     }
                     else {
                         this.loader.hide();
-                        this.loginErrorMessage = "We don't know that email";
-                        this.loader.hide();
+                        this.isUnknownEmail = true;
                     }
                 })
                 .then(() => {

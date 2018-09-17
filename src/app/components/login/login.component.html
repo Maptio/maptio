@@ -6,6 +6,16 @@
                 <div class="alert alert-danger" role="alert" *ngIf="loginErrorMessage">
                     {{loginErrorMessage}}
                 </div>
+                <div class="alert alert-warning" role="alert" *ngIf="isWrongPassword">
+                    Invalid password! Try again or
+                    <a routerLink="/forgot" class="alert-link cursor-pointer">reset your password
+                    </a>
+                </div>
+                <div class="alert alert-warning" role="alert" *ngIf="isUnknownEmail">
+                        There isn't an account for this email! 
+                        <a routerLink="/signup" class="alert-link cursor-pointer">Sign up
+                        </a>
+                    </div>
                 <div class="alert alert-danger" role="alert" *ngIf="previousAttemptMessage">
                     {{previousAttemptMessage}}
                 </div>
@@ -16,16 +26,16 @@
 
                 <div class="form-group">
                     <label for="inputEmailLogin">Email</label>
-                    <input type="email" id="inputEmailLogin" formControlName="email" [class.is-invalid]="loginForm.controls['email'].invalid  && (loginForm.controls['email'].dirty || loginForm.controls['email'].touched)" class="form-control form-control-warning form-control-lg"
-                         required email>
+                    <input type="email" id="inputEmailLogin" formControlName="email" [class.is-invalid]="loginForm.controls['email'].invalid  && (loginForm.controls['email'].dirty || loginForm.controls['email'].touched)"
+                        class="form-control form-control-warning form-control-lg" required email>
                     <small class="invalid-feedback">
                         Required
                     </small>
                 </div>
                 <div class="form-group">
                     <label for="inputPassword">Password</label>
-                    <input type="password" class="form-control form-control-warning form-control-lg" [class.is-invalid]="loginForm.controls['password'].invalid  && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)" formControlName="password"
-                        id="inputPassword" (input)="passwordChange()">
+                    <input type="password" class="form-control form-control-warning form-control-lg" [class.is-invalid]="loginForm.controls['password'].invalid  && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)"
+                        formControlName="password" id="inputPassword" (input)="passwordChange()">
                     <small class="invalid-feedback">
                         Required
                     </small>
@@ -67,8 +77,8 @@
                 </div>
                 <div class="form-group">
                     <label for="inputFirstname">First name</label>
-                    <input type="text" id="inputFirstname" [(ngModel)]="firstname" formControlName="firstname" [class.is-invalid]="activateForm.controls['firstname'].invalid  && (activateForm.controls['firstname'].dirty || activateForm.controls['firstname'].touched)" class="form-control form-control-warning form-control-lg"
-                         required minlength="2">
+                    <input type="text" id="inputFirstname" [(ngModel)]="firstname" formControlName="firstname" [class.is-invalid]="activateForm.controls['firstname'].invalid  && (activateForm.controls['firstname'].dirty || activateForm.controls['firstname'].touched)"
+                        class="form-control form-control-warning form-control-lg" required minlength="2">
                     <small class="invalid-feedback" *ngIf="activateForm.controls['firstname'].invalid  && (activateForm.controls['firstname'].dirty || activateForm.controls['firstname'].touched)">
                         First name must be at least 2 characters
                     </small>
@@ -76,16 +86,16 @@
 
                 <div class="form-group">
                     <label for="inputLastname">Last name</label>
-                    <input type="text" id="inputLastname" [(ngModel)]="lastname" [class.is-invalid]="activateForm.controls['lastname'].invalid  && (activateForm.controls['lastname'].dirty || activateForm.controls['lastname'].touched)" class="form-control form-control-warning form-control-lg" formControlName="lastname"
-                        >
+                    <input type="text" id="inputLastname" [(ngModel)]="lastname" [class.is-invalid]="activateForm.controls['lastname'].invalid  && (activateForm.controls['lastname'].dirty || activateForm.controls['lastname'].touched)"
+                        class="form-control form-control-warning form-control-lg" formControlName="lastname">
                     <small class="invalid-feedback">
                         Last name must be at least 2 characters
                     </small>
                 </div>
-                <div class="form-group" >
+                <div class="form-group">
                     <label for="inputPassword">Password</label>
-                    <input type="password" class="form-control form-control-warning form-control-lg" [class.is-invalid]="activateForm.controls['password'].invalid  && (activateForm.controls['password'].dirty || activateForm.controls['password'].touched)" formControlName="password"
-                        (input)="passwordChange()">
+                    <input type="password" class="form-control form-control-warning form-control-lg" [class.is-invalid]="activateForm.controls['password'].invalid  && (activateForm.controls['password'].dirty || activateForm.controls['password'].touched)"
+                        formControlName="password" (input)="passwordChange()">
                     <small class="invalid-feedback" *ngIf="activateForm.controls['password'].invalid  && (activateForm.controls['password'].dirty || activateForm.controls['password'].touched)">
                         Password is not valid
                     </small>
@@ -108,21 +118,22 @@
                     </small>
                 </div>
 
-              
+
                 <div class="form-group">
-                        <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" [class.is-invalid]="activateForm.controls['isTermsAccepted'].invalid  && (activateForm.controls['isTermsAccepted'].dirty || activateForm.controls['isTermsAccepted'].touched)" id="inputTC" formControlName="isTermsAccepted"  required>
-                                <label class="custom-control-label" for="inputTC">I agree to Maptio's
-                                        <a href="{{TOS_URL}}">Terms of Service</a> and
-                                        <a href="{{PRIVACY_URL}}">Privacy Policy</a> .
-                                    </label>
-                                <div class="invalid-feedback">Required</div>
-                              </div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" [class.is-invalid]="activateForm.controls['isTermsAccepted'].invalid  && (activateForm.controls['isTermsAccepted'].dirty || activateForm.controls['isTermsAccepted'].touched)"
+                            id="inputTC" formControlName="isTermsAccepted" required>
+                        <label class="custom-control-label" for="inputTC">I agree to Maptio's
+                            <a href="{{TOS_URL}}">Terms of Service</a> and
+                            <a href="{{PRIVACY_URL}}">Privacy Policy</a> .
+                        </label>
+                        <div class="invalid-feedback">Required</div>
+                    </div>
                 </div>
                 <div class="form-group">
-                        <button type="submit" class="btn btn-success btn-lg my-2 w-100">Log in</button>
+                    <button type="submit" class="btn btn-success btn-lg my-2 w-100">Log in</button>
                 </div>
-                
+
 
             </form>
 
