@@ -112,10 +112,9 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     saveChanges(initiative: Initiative, tags?: Array<Tag>) {
-        EmitterService.get("isSavingInitiativeData").emit(true);
-
         this.isEmptyMap = !initiative.children || initiative.children.length === 0;
         this.cd.markForCheck();
+        EmitterService.get("isSavingInitiativeData").emit(true);
 
         this.dataset.initiative = initiative;
         if (tags) {
@@ -128,7 +127,9 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 return hasSaved;
             }, (reason) => { /*console.log(reason)*/ })
             .then(() => {
-                this.counterService.set({ datasetId: this.datasetId, time: moment() })
+                EmitterService.get("isSavingInitiativeData").emit(false);
+
+                // this.counterService.set({ datasetId: this.datasetId, time: moment() })
             });
     }
 

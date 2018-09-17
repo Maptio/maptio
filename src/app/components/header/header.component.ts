@@ -46,10 +46,10 @@ export class HeaderComponent implements OnInit {
         private analytics: Angulartics2Mixpanel, private cd: ChangeDetectorRef, private billingService: BillingService) {
 
 
-        // EmitterService.get("isSavingInitiativeData").skip(1).subscribe((isSaving: Boolean) => {
-        //     this.isSaving = isSaving
-        //     this.cd.markForCheck();
-        // })
+        EmitterService.get("isSavingInitiativeData").subscribe((isSaving: Boolean) => {
+            this.isSaving = isSaving;
+            this.cd.markForCheck();
+        })
 
         let [teamDefined, teamUndefined] = EmitterService.get("currentTeam").partition(team => team);
 
