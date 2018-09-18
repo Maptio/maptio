@@ -252,105 +252,19 @@ transition: max-height .25s ease-in-out;
   white-space: nowrap;
 }
 
-/* 
-html, body {
-  height: 100%;
-}
-
-.node-content-wrapper, .tree-children {
+/* .slack{
   position: relative;
+  padding-left:25px;
 }
 
-.node-content-wrapper::before, .tree-children::after {
-  content: "";
-  position: absolute;
-}
-
-.tree-node-leaf>.node-wrapper>.node-content-wrapper::before {
+.slack::before{
+  background-image: url(/assets/images/slack-icon.png);
+  background-size: cover;
   width: 25px;
-}
-
-.tree-children::after {
-  height: 100%;
-  top: -15px;
-  left: 13px;
-}
-
-treenode:last-child>.tree-node>.tree-children::after {
-  border-left: none;
-}
-
-a.caret-before {
-  padding-right: 1px !important;
-}
-
-a.caret-after {
-  padding-left: 1px !important;
-}
-
-
-a.navigation {
-  color: black !important;
-}
-
-.borderless {
-  border: none !important;
-}
-
-.borderless-left {
-  border-left: none !important;
-}
-
-.borderless-right {
-  border-right: none !important;
-}
-
-.deleted {
-  opacity: 0.3;
-}
-
-button.deleted {
-  display: none;
-}
-
-div.deleted {
-  position: relative;
+  height: 25px;
   display: inline-block;
-}
-
-
-
-.toggle {
-  border: none;
-  background-color: transparent;
-}
-
-.toggle:before {
-  color: #2f81b7;
-}
-
-.icon, .icon:hover {
-  font-weight: bold;
-  color: #1f2021;
-  box-shadow: 0 0 0 !important;
-}
-
-.btn.focus, .btn:focus {
-  box-shadow: 0 0 0 !important;
-}
-
-.btn-user {
-  background-color: white !important;
-  color: #000 !important;
-}
-
-.btn-user.active {
-  background-color: #bbb !important;
-  color: white !important;
-}
-
-
-
-
-
-s */
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  content: " ";
+} */

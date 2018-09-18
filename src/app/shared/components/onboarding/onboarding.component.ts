@@ -21,6 +21,7 @@ export class OnboardingComponent implements OnInit {
     isZeroInitiative: Boolean = true;
     isZeroTeammates: Boolean = true;
     isZeroTerminology: Boolean = true;
+    isZeroIntegration:Boolean=true;
 
     isMultipleTeams: Boolean;
     isMultipleMaps: Boolean;
@@ -88,6 +89,8 @@ export class OnboardingComponent implements OnInit {
                 if (this.isMultipleTeams) {
                     this.teamsCount = changes.teams.currentValue.length
                 }
+
+                this.isZeroIntegration = !(<Team>changes.teams.currentValue[0]).slack.access_token
 
             }
         }

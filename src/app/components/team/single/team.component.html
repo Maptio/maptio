@@ -47,46 +47,37 @@
                 <small class="text-muted h6 pull-right">{{team.members.length}} {{team.members.length ===1 ? "person" : "people"}}</small>
             </h3>
             <div *ngIf="isOnboardingAddMembers" class="accent-blue box-shadow  mb-5 ">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row d-flex justify-content-start align-items-center">
-                            <div class="col-auto">
-                                <i class="fa fa-lightbulb-o fa-3x" aria-hidden="true"></i>
-                            </div>
-                            <div class="col-auto">
-                                <div class="card-body">
-                                    <b class="card-title">
-                                        Add or import members to your organization to bring your map to life.
-                                    </b>
-                                    <p class="card-text"> Members won't know they've been added to Maptio until you invite them later.</p>
-                                    <p class="card-text">
-                                        You can always come back here later. Ready to create your map?
-                                        <a class="alert-link" routerLink="/home">Click here</a>
-                                    </p>
-                                </div>
-                            </div>
+                <div class="d-flex justify-content-start align-items-stretch">
+                    <div class="col-auto d-flex align-items-center">
+                        <i class="fa fa-lightbulb-o fa-3x" aria-hidden="true"></i>
+                    </div>
+                    <div class="card col border-0 p-0">
+                        <b class="card-header border-0 bg-white">Add or import members to your organization to bring your map to life.</b>
+                        <div class="card-body">
+                            <p class="card-text">
+                                A great place to start is adding the people who have most responsibility in your organization.
+
+                            </p>
+                            <p class="card-text"> Members won't know they've been added to Maptio until you invite them later.</p>
+                        </div>
+                        <div class="card-footer bg-light rounded border-0">
+                            You can always come back here later. Ready to create your map?
+                            <a routerLink="/home">Click here</a>
                         </div>
                     </div>
                 </div>
             </div>
             <div *ngIf="isOnboardingAddTerminology" class="accent-blue box-shadow  mb-5 ">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row d-flex justify-content-start align-items-center">
-                            <div class="col-auto">
-                                <i class="fa fa-lightbulb-o fa-3x" aria-hidden="true"></i>
-                            </div>
-                            <div class="col-auto">
-                                <div class="card-body">
-                                    <b class="card-title">
-                                        Tell us how your organization calls its people internally, it will help make the maps more realistic.
-                                    </b>
-                                    <p class="card-text">
-                                        You can always come back here later. Ready to create your map?
-                                        <a class="alert-link" routerLink="/home">Click here</a>
-                                    </p>
-                                </div>
-                            </div>
+                <div class="d-flex justify-content-start align-items-stretch">
+                    <div class="col-auto d-flex align-items-center">
+                        <i class="fa fa-lightbulb-o fa-3x" aria-hidden="true"></i>
+                    </div>
+                    <div class="card col border-0 p-0">
+                        <b class="card-header border-0 bg-white">Tell us how your organization calls its people internally, it will help make the maps more realistic.</b>
+
+                        <div class="card-footer bg-light rounded border-0">
+                            You can always come back here later. Ready to create your map?
+                            <a routerLink="/home">Click here</a>
                         </div>
                     </div>
                 </div>

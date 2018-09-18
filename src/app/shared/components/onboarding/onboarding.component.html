@@ -1,10 +1,46 @@
 <div>
     <h1 class="text-center">Welcome to Maptio! </h1>
     <h6 class="text-muted text-center ">Maptio helps you organise without traditional management hierarchy.</h6>
-    <h3 class="text-dark text-center my-3" *ngIf="!isOnboardingCompleted()">
+    <h3 class="text-dark text-center my-4" *ngIf="!isOnboardingCompleted()">
         Let's get you started:
     </h3>
-    <hr *ngIf="isOnboardingCompleted()">
+    <div *ngIf="isOnboardingCompleted()">
+        <hr>
+
+        <div *ngIf="isOnboardingCompleted()">
+            <h6 class="mx-2">
+                <b>Succeed with Maptio:</b>
+            </h6>
+
+            <div class="d-flex align-items-start my-3">
+                <span class="mx-2">
+                    <i class="fa fa-rss" aria-hidden="true"></i>
+                </span>
+                <span>
+                    Read our
+                    <a target="blank" href="https://medium.com/maptio/create-organisational-clarity-using-initiative-mapping-967069247380">free guide</a> to mapping your organization
+
+                </span>
+            </div>
+
+            <div class="d-flex align-items-start my-3">
+                <span class="mx-2">
+                    <i class="fa fa-phone" aria-hidden="true"></i>
+                </span>
+                <span>
+                    <a target="blank" href="https://calendly.com/tomnixon/30min">Book a free mastery call</a> with Maptio founder Tom Nixon.
+                </span>
+            </div>
+
+
+        </div>
+
+        <hr>
+    </div>
+
+
+
+
 
     <div class="d-flex justify-content-center text-muted">
         <div class="d-flex flex-column  align-items-start" [class.h4]="!isOnboardingCompleted()">
@@ -28,10 +64,10 @@
                 </a>
                 <span *ngIf="!isZeroTeam" class="text-muted">
                     <ng-container *ngIf="!isMultipleTeams">Organization
-                        <a routerLink="/teams/{{teamId}}/team">{{teamName}}</a> set up.
+                        <a routerLink="/teams/{{teamId}}/team">{{teamName}}</a> set up
                     </ng-container>
                     <ng-container *ngIf="isMultipleTeams">
-                        <a routerLink="/teams">{{teamsCount}} organizations</a> set up.
+                        <a routerLink="/teams">{{teamsCount}} organizations</a> set up
                     </ng-container>
 
                 </span>
@@ -51,7 +87,7 @@
                             Add a few people
                         </a>
                         or
-                        <a routerLink="/teams/{{teamId}}/team/import"> import a .csv </a> file 
+                        <a routerLink="/teams/{{teamId}}/team/import"> import a .csv </a> file
                     </ng-container>
 
                 </div>
@@ -94,6 +130,32 @@
                     </ng-container>
                 </span>
             </div>
+
+            <div class="d-flex align-items-start my-3" *ngIf="isOnboardingCompleted()">
+                    <span class="mx-2">
+                        <i *ngIf="isZeroIntegration" class="fa fa-square-o" aria-hidden="true"></i>
+                        <i *ngIf="!isZeroIntegration" class="fa fa-check text-success" aria-hidden="true"></i>
+                    </span>
+                    <div *ngIf="isZeroIntegration">
+                        <ng-container *ngIf="isZeroTeam">
+                            <span class="slack">Set up Slack integration (optional)</span>
+                        </ng-container>
+                        <ng-container *ngIf="!isZeroTeam">
+                            <a class="slack" [routerLink]="['/teams', teamId, 'team','integrations']" [queryParams]="{onboarding: 'integrations'}">
+                                Set up Slack integration (optional) 
+                            </a>
+                        </ng-container>
+    
+                    </div>
+                    <span *ngIf="!isZeroIntegration" class="text-muted">
+                        <ng-container *ngIf="!isMultipleTeams">
+                            <a class="slack" routerLink="/teams/{{teamId}}/team/integrations">Slack integration</a>  is active
+                        </ng-container>
+                        <ng-container *ngIf="isMultipleTeams">
+                                <a class="slack" routerLink="/teams/{{teamId}}/team/integrations">Slack integration</a>  are active
+                        </ng-container>
+                    </span>
+                </div>
 
             <div class="d-flex align-items-start my-3">
                 <span class="mx-2">
@@ -144,7 +206,7 @@
 
                 </div>
                 <div *ngIf="!isZeroInitiative">
-                    <span >
+                    <span>
                         <span class="text-success"></span> Well done !
                         <span>Your first circle is
                             <b>{{firstCircleName}}</b>.
@@ -157,4 +219,6 @@
 
         </div>
     </div>
+
+
 </div>
