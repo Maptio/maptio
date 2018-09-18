@@ -44,7 +44,7 @@
         <div class="col">
             <h3 class="mb-3 mt-3 w-100">
                 {{team.name}}
-                <small class="text-muted h6 pull-right">{{team.members.length}} people</small>
+                <small class="text-muted h6 pull-right">{{team.members.length}} {{team.members.length ===1 ? "person" : "people"}}</small>
             </h3>
             <div *ngIf="isOnboardingAddMembers" class="accent-blue box-shadow  mb-5 ">
                 <div class="card">

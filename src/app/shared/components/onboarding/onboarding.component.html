@@ -58,7 +58,7 @@
                 <span *ngIf="!isZeroTeammates" class="text-muted">
                     <ng-container *ngIf="!isMultipleTeams">
                         Organization
-                        <a [routerLink]="['/teams', teamId, 'team','members']" [queryParams]="{onboarding: 'members'}">{{teamName}}</a> now has {{membersCount}} people.
+                        <a [routerLink]="['/teams', teamId, 'team','members']" [queryParams]="{onboarding: 'members'}">{{teamName}}</a> now has {{membersCount}} {{membersCount===1 ? "person" :"people"}}.
                     </ng-container>
                     <ng-container *ngIf="isMultipleTeams">
                         <a routerLink="/teams">Organizations and people setup </a>
