@@ -23,11 +23,13 @@
                 </ng-container>
                 <ng-container *ngIf="!isOnboarding || isOnboardingAddMap || isOnboardingAddTerminology">
                     <li class="nav-item">
-                        <a class="nav-link py-4" data-toggle="tab" routerLink="./settings" queryParamsHandling="merge" routerLinkActive="active" role="tab">
+                        <a class="nav-link py-4" data-toggle="tab" routerLink="./settings" queryParamsHandling="merge" routerLinkActive="active"
+                            role="tab">
                             Settings</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link py-4" data-toggle="tab" routerLink="./integrations" queryParamsHandling="merge" routerLinkActive="active" role="tab">
+                        <a class="nav-link py-4" data-toggle="tab" routerLink="./integrations" queryParamsHandling="merge" routerLinkActive="active"
+                            role="tab">
                             Integrations</a>
                     </li>
                 </ng-container>
@@ -54,8 +56,9 @@
                             <div class="col-auto">
                                 <div class="card-body">
                                     <b class="card-title">
-                                        Add a few people to help your map look more realistic.
+                                        Add or import members to your organization to bring your map to life.
                                     </b>
+                                    <p class="card-text"> Members won't know they've been added to Maptio until you invite them later.</p>
                                     <p class="card-text">
                                         You can always come back here later. Ready to create your map?
                                         <a class="alert-link" routerLink="/home">Click here</a>
@@ -67,27 +70,27 @@
                 </div>
             </div>
             <div *ngIf="isOnboardingAddTerminology" class="accent-blue box-shadow  mb-5 ">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row d-flex justify-content-start align-items-center">
-                                <div class="col-auto">
-                                    <i class="fa fa-lightbulb-o fa-3x" aria-hidden="true"></i>
-                                </div>
-                                <div class="col-auto">
-                                    <div class="card-body">
-                                        <b class="card-title">
-                                            Tell us how your organization calls its people internally, it will help make the maps more realistic.
-                                        </b>
-                                        <p class="card-text">
-                                            You can always come back here later. Ready to create your map?
-                                            <a class="alert-link" routerLink="/home">Click here</a>
-                                        </p>
-                                    </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row d-flex justify-content-start align-items-center">
+                            <div class="col-auto">
+                                <i class="fa fa-lightbulb-o fa-3x" aria-hidden="true"></i>
+                            </div>
+                            <div class="col-auto">
+                                <div class="card-body">
+                                    <b class="card-title">
+                                        Tell us how your organization calls its people internally, it will help make the maps more realistic.
+                                    </b>
+                                    <p class="card-text">
+                                        You can always come back here later. Ready to create your map?
+                                        <a class="alert-link" routerLink="/home">Click here</a>
+                                    </p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
             <router-outlet></router-outlet>
         </div>
     </div>
