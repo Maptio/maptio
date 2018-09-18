@@ -201,6 +201,10 @@ fieldset span.icon-disabled {
   font-family: FontAwesome;
 }
 
+.strike{
+  text-decoration: line-through;
+}
+
 a.card.no-underline, a.no-underline:hover {
   text-decoration: none;
 }

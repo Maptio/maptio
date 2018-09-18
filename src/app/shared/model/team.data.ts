@@ -4,6 +4,7 @@ import { User } from "./user.data";
 import * as slug from "slug";
 import * as moment from 'moment';
 import { create } from "domain";
+import { environment } from "../../../environment/environment";
 
 
 
@@ -68,9 +69,9 @@ export class Team implements Serializable<Team> {
                 deserialized.members.push(User.create().deserialize(member))
             });
         }
-        deserialized.settings = { authority: "Lead", helper: "Contributor" }
-        deserialized.settings.authority = input.settings ? input.settings.authority || "Lead" : "Lead";
-        deserialized.settings.helper = input.settings ? input.settings.helper || "Contributor" : "Contributor"
+        deserialized.settings = { authority: environment.DEFAULT_AUTHORITY_TERMINOLOGY, helper: environment.DEFAULT_HELPER_TERMINOLOGY }
+        deserialized.settings.authority = input.settings ? input.settings.authority || environment.DEFAULT_AUTHORITY_TERMINOLOGY : environment.DEFAULT_AUTHORITY_TERMINOLOGY;
+        deserialized.settings.helper = input.settings ? input.settings.helper || environment.DEFAULT_HELPER_TERMINOLOGY : environment.DEFAULT_HELPER_TERMINOLOGY
         deserialized.slack = SlackIntegration.create().deserialize(input.slack || {});
         // console.log("deserialize team", input.slack, deserialized.slack)
 

@@ -34,22 +34,23 @@ export class TeamListComponent implements OnInit {
     public createForm: FormGroup;
     public teamName: string;
     public teamsNumber: Number;
-    public isZeroTeam:Boolean;
+    public isZeroTeam: Boolean;
+    public isRedirectHome: Boolean;
 
     Permissions = Permissions;
     KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
 
     constructor(private route: ActivatedRoute, private cd: ChangeDetectorRef, public auth: Auth, private teamFactory: TeamFactory, private userFactory: UserFactory,
         private userService: UserService, private analytics: Angulartics2Mixpanel, public router: Router,
-        private renderer: Renderer2, private intercomService: IntercomService, private loaderService:LoaderService) {
+        private renderer: Renderer2, private intercomService: IntercomService, private loaderService: LoaderService) {
 
         this.createForm = new FormGroup({
             "teamName": new FormControl(this.teamName, {
-                validators : [
+                validators: [
                     Validators.required,
                     Validators.minLength(2)
                 ],
-                updateOn : "submit"
+                updateOn: "submit"
             }),
         });
     }
@@ -71,6 +72,8 @@ export class TeamListComponent implements OnInit {
                 this.cd.markForCheck();
                 this.loaderService.hide();
             });
+
+        this.isRedirectHome = this.route.snapshot.queryParamMap.has("onboarding") ;
         this.userSubscription = this.auth.getUser().subscribe(user => {
             this.user = user;
         })
@@ -81,7 +84,7 @@ export class TeamListComponent implements OnInit {
         if (this.routeSubscription) this.routeSubscription.unsubscribe();
     }
 
-    canCreateUnlimitedTeams(){
+    canCreateUnlimitedTeams() {
         return this.auth.getPermissions().includes(Permissions.canCreateUnlimitedTeams);
     }
 
@@ -122,7 +125,12 @@ export class TeamListComponent implements OnInit {
                         })
                     })
                     .then((team: Team) => {
-                        this.router.navigate(["teams", team.team_id, team.getSlug()])
+                        if (this.isRedirectHome) {
+                            this.router.navigateByUrl("/home")
+                        }
+                        else {
+                            this.router.navigate(["teams", team.team_id, team.getSlug()])
+                        }
                         this.isCreating = false;
                     })
                     .catch((error) => {

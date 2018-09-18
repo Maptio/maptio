@@ -3,6 +3,7 @@ import { Component, ChangeDetectorRef, SimpleChanges, Input } from "@angular/cor
 import { DataSet } from "../../shared/model/dataset.data";
 // import { DashboardComponentResolver } from "./dashboard.resolver";
 import { Team } from '../../shared/model/team.data';
+import { User } from '../../shared/model/user.data';
 
 @Component({
     selector: "dashboard",
@@ -13,13 +14,12 @@ export class DashboardComponent {
 
     @Input("datasets") datasets: DataSet[];
     @Input("teams") teams: Team[];
+    @Input("user") user: User;
 
-    isZeroMaps: Boolean = true;
     isZeroTeam: Boolean = true;
+    isZeroMaps: Boolean = true;
     isZeroInitiative: Boolean = true;
-    isZeroTeammates: Boolean = true;
-    teamId: String;
-    datasetId: String;
+    // isZeroTeammates: Boolean = true;
 
     constructor(private cd: ChangeDetectorRef) {
     }
@@ -29,17 +29,12 @@ export class DashboardComponent {
             this.datasets = changes.datasets.currentValue;
             this.isZeroMaps = isEmpty(this.datasets);
             if (!this.isZeroMaps) {
-                this.datasetId = this.datasets[0].datasetId;
-                this.isZeroInitiative = !this.datasets[0].initiative.children;
+                this.isZeroInitiative = !this.datasets[0].initiative.children || this.datasets[0].initiative.children.length === 0;
             }
         }
 
         if (changes.teams && changes.teams.currentValue) {
             this.isZeroTeam = isEmpty(changes.teams.currentValue)
-            if (!this.isZeroTeam) {
-                this.teamId = changes.teams.currentValue[0].team_id;
-                this.isZeroTeammates = (<Team>changes.teams.currentValue[0]).members.length === 1;
-            }
         }
         this.cd.markForCheck();
     }
@@ -47,6 +42,5 @@ export class DashboardComponent {
     isOnboarding() {
         return this.isZeroTeam || this.isZeroMaps || this.isZeroInitiative;
     }
-
 
 }

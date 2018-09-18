@@ -17,7 +17,10 @@ export class TeamComponent implements OnInit {
 
     team: Team;
     Permissions = Permissions;
-
+    isOnboardingAddMembers: Boolean;
+    isOnboardingAddMap: Boolean;
+    isOnboardingAddTerminology: Boolean;
+    isOnboarding: Boolean;
     constructor(private route: ActivatedRoute, private cd: ChangeDetectorRef) {
 
     }
@@ -29,6 +32,10 @@ export class TeamComponent implements OnInit {
                 this.team = data.assets.team;
                 this.cd.markForCheck();
             });
+        this.isOnboardingAddMembers = this.route.snapshot.queryParamMap.has("onboarding") && this.route.snapshot.queryParamMap.get("onboarding") === "members";
+        this.isOnboardingAddMap = this.route.snapshot.queryParamMap.has("onboarding") && this.route.snapshot.queryParamMap.get("onboarding") === "map";
+        this.isOnboardingAddTerminology = this.route.snapshot.queryParamMap.has("onboarding") && this.route.snapshot.queryParamMap.get("onboarding") === "settings";
+        this.isOnboarding = this.isOnboardingAddMap || this.isOnboardingAddMembers || this.isOnboardingAddTerminology;
     }
 
     ngOnDestroy() {

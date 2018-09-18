@@ -1,95 +1,26 @@
-<ng-container *ngIf="isOnboarding()">
-    <div class="d-flex flex-column justify-content-center align-items-center h-100">
-        <h3 class="text-dark my-3">Let's get you started with 4 simple steps : </h3>
-        <div class="  d-flex flex-column align-items-center bg-white box-shadow rounded p-3">
-
-            <div class="d-flex justify-content-center text-muted">
-                <div class="d-flex flex-column col-auto align-items-start h4">
-                    <div class="d-flex align-items-center my-4">
-                        <span class="mx-2">
-                            <i *ngIf="isZeroTeam" class="fa fa-square-o" aria-hidden="true"></i>
-                            <i *ngIf="!isZeroTeam" class="fa fa-check-square text-success" aria-hidden="true"></i>
-                        </span>
-                        <a routerLink="/teams">
-                            Set up a organization
-                        </a>
+<div class="col-12">
+    <div class="col-12 my-5 d-flex justify-content-between">
+        <div class="col-8 p-0 mr-5" *ngIf="!isOnboarding()">
+            <h2 class="text-left mb-5"> Maps</h2>
+            <div>
+                <div class="d-flex flex-column justify-content-start align-items-start">
+                    <div class="card-columns w-100">
+                        <ng-container *ngFor="let dataset of datasets">
+                            <ng-container *ngIf="dataset.initiative.name">
+                                <common-card-map [dataset]="dataset" [isExportAvailable]="true"></common-card-map>
+                            </ng-container>
+                        </ng-container>
                     </div>
-
-                    <div class="d-flex align-items-center my-4">
-                        <span class="mx-2">
-                            <i *ngIf="isZeroTeammates" class="fa fa-square-o" aria-hidden="true"></i>
-                            <i *ngIf="!isZeroTeammates" class="fa fa-check-square text-success" aria-hidden="true"></i>
-                        </span>
-                        <div *ngIf="!isZeroTeam">
-                            <a routerLink="/teams/{{teamId}}/team/members">
-                                Add a few teammates
-                            </a>
-                            or
-                            <a routerLink="/teams/{{teamId}}/team/import"> import a .csv </a> file (recommended)
-                        </div>
-                        <div *ngIf="isZeroTeam">
-                            <span>
-                                Add a few teammates
-                            </span>
-                            or
-                            <span> import a .csv </span> file (recommended)
-                        </div>
-                    </div>
-
-                    <div class="d-flex align-items-center my-4">
-                        <span class="mx-2">
-                            <i *ngIf="isZeroMaps" class="fa fa-square-o" aria-hidden="true"></i>
-                            <i *ngIf="!isZeroMaps" class="fa fa-check-square text-success" aria-hidden="true"></i>
-                        </span>
-                        <div *ngIf="teamId">
-                            <a routerLink="/teams/{{teamId}}/team/maps">
-                                Create a map
-                            </a>
-                        </div>
-                        <div *ngIf="!teamId">
-                            <span>
-                                Create a map
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="d-flex align-items-center my-4">
-                        <span class="mx-2">
-                            <i *ngIf="isZeroInitiative" class="fa fa-square-o" aria-hidden="true"></i>
-                            <i *ngIf="!isZeroInitiative" class="fa fa-check-square text-success" aria-hidden="true"></i>
-                        </span>
-                        <div *ngIf="datasetId">
-                            <a routerLink="/map/{{datasetId}}/map/circles">
-                                Add a first circle
-                            </a>
-                        </div>
-                        <div *ngIf="!datasetId">
-                            <span>
-                                Add a first circle
-                            </span>
-                        </div>
-                    </div>
-
-
+                </div>
+            </div>
+        </div>
+        <div class="mt-5 col d-flex" [class.justify-content-center]="isOnboarding()" [class.w-100]="isOnboarding()">
+            <div class="h-100">
+                <div class="  d-flex flex-column align-items-center bg-white box-shadow rounded p-3 accent-blue">
+                    <common-onboarding [datasets]="datasets" [teams]="teams" [user]="user"></common-onboarding>
                 </div>
             </div>
         </div>
     </div>
 
-
-</ng-container>
-
-<ng-container *ngIf="!isOnboarding()">
-    <div class="col-12 my-5 ">
-            <h2 class="text-left col-12"> Maps</h2>
-    </div>
-    <div class="d-flex flex-column justify-content-center col-12 align-items-center">
-        <div class="card-columns col-12">
-            <ng-container *ngFor="let dataset of datasets">
-                <ng-container *ngIf="dataset.initiative.name">
-                    <common-card-map [dataset]="dataset" [isExportAvailable]="true"></common-card-map>
-                </ng-container>
-            </ng-container>
-        </div>
-    </div>
-</ng-container>
+</div>

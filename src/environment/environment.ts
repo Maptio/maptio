@@ -29,6 +29,9 @@ export const environment = {
 
     IMPORT_USERS_TEMPLATE_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRQewDW362vuWI0Wo9MJuoJu0QXL2JmuZZQldw91FFxeywprO0HzHSuxN_vLosSSlADKww7Ph9iCyuh/pub?gid=0&single=true&output=csv",
 
-    SLACK_CLIENT_ID: "97212882021.321753214899"
+    SLACK_CLIENT_ID: "97212882021.321753214899",
+
+    DEFAULT_AUTHORITY_TERMINOLOGY : "Lead",
+    DEFAULT_HELPER_TERMINOLOGY : "Contributor",
 
 };

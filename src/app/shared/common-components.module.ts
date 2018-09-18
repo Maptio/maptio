@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { CardMapComponent } from './components/card-map/card-map.component';
 import { RouterModule } from '@angular/router';
+import { OnboardingComponent } from "./components/onboarding/onboarding.component";
 
 
 
@@ -18,13 +19,15 @@ import { RouterModule } from '@angular/router';
     ],
     declarations: [
         CreateMapComponent,
-        CardMapComponent
+        CardMapComponent,
+        OnboardingComponent
     ],
     providers: [
     ],
     exports: [
         CreateMapComponent,
-        CardMapComponent
+        CardMapComponent,
+        OnboardingComponent
     ]
 })
 export class CommonComponentsModule { }
