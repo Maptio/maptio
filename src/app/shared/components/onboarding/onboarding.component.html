@@ -2,7 +2,7 @@
     <h1 class="text-center">Welcome to Maptio! </h1>
     <h6 class="text-muted text-center ">Maptio helps you organise without traditional management hierarchy.</h6>
     <h3 class="text-dark text-center my-3" *ngIf="!isOnboardingCompleted()">
-        Let's get you started :
+        Let's get you started:
     </h3>
     <hr *ngIf="isOnboardingCompleted()">
 
@@ -12,10 +12,10 @@
                 <span class="mx-2">
                     <i class="fa fa-check text-success" aria-hidden="true"></i>
                 </span>
-                <a>
+                <span>
                     Set up your
                     <a routerLink="/{{user.shortid}}/{{user.getSlug()}}">user profile</a>
-                </a>
+                </span>
             </div>
 
             <div class="d-flex align-items-start my-3">
@@ -24,7 +24,7 @@
                     <i *ngIf="!isZeroTeam" class="fa fa-check text-success" aria-hidden="true"></i>
                 </span>
                 <a *ngIf="isZeroTeam" [routerLink]="['/teams']" [queryParams]="{onboarding: 'team'}">
-                    Set up a organization
+                    Set up an organization
                 </a>
                 <span *ngIf="!isZeroTeam" class="text-muted">
                     <ng-container *ngIf="!isMultipleTeams">Organization
@@ -44,14 +44,14 @@
                 </span>
                 <div *ngIf="isZeroTeammates">
                     <ng-container *ngIf="isZeroTeam">
-                        <span>Add a few teammates or import a .csv (recommended)</span>
+                        <span>Add a few people or import a .csv</span>
                     </ng-container>
                     <ng-container *ngIf="!isZeroTeam">
                         <a [routerLink]="['/teams', teamId, 'team','members']" [queryParams]="{onboarding: 'members'}">
-                            Add a few teammates
+                            Add a few people
                         </a>
                         or
-                        <a routerLink="/teams/{{teamId}}/team/import"> import a .csv </a> file (recommended)
+                        <a routerLink="/teams/{{teamId}}/team/import"> import a .csv </a> file 
                     </ng-container>
 
                 </div>
@@ -73,12 +73,12 @@
                 </span>
                 <div *ngIf="isZeroTerminology">
                     <ng-container *ngIf="isZeroTeam">
-                        <span>Customize your organization teminology (recommended)</span>
+                        <span>Customize your organization teminology</span>
                     </ng-container>
                     <ng-container *ngIf="!isZeroTeam">
                         <a [routerLink]="['/teams', teamId, 'team','settings']" [queryParams]="{onboarding: 'settings'}">
                             Customize your organization teminology
-                        </a> (recommended)
+                        </a>
                     </ng-container>
 
                 </div>
@@ -134,11 +134,11 @@
                 </span>
                 <div *ngIf="isZeroInitiative">
                     <ng-container *ngIf="isZeroMaps">
-                        <span>Add a first circle</span>
+                        <span>Add some circles</span>
                     </ng-container>
                     <ng-container *ngIf="!isZeroMaps">
                         <a routerLink="/map/{{datasetId}}/map/circles">
-                            Add a first circle
+                            Add some circles
                         </a>
                     </ng-container>
 
