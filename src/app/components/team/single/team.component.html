@@ -6,7 +6,7 @@
                 <ng-container *ngIf="!isOnboarding || isOnboardingAddMembers || isOnboardingAddMap || isOnboardingAddTerminology">
                     <li class="nav-item">
                         <a class="nav-link py-4" data-toggle="tab" routerLink="./members" queryParamsHandling="merge" routerLinkActive="active" role="tab">
-                            Members</a>
+                            People</a>
                     </li>
                 </ng-container>
                 <ng-container *ngIf="!isOnboarding || isOnboardingAddMembers || isOnboardingAddMap || isOnboardingAddTerminology">
@@ -42,7 +42,7 @@
         <div class="col">
             <h3 class="mb-3 mt-3 w-100">
                 {{team.name}}
-                <small class="text-muted h6 pull-right">{{team.members.length}} members</small>
+                <small class="text-muted h6 pull-right">{{team.members.length}} people</small>
             </h3>
             <div *ngIf="isOnboardingAddMembers" class="accent-blue box-shadow  mb-5 ">
                 <div class="card">
@@ -54,7 +54,7 @@
                             <div class="col-auto">
                                 <div class="card-body">
                                     <b class="card-title">
-                                        Add a few members to help your map look more realistic.
+                                        Add a few people to help your map look more realistic.
                                     </b>
                                     <p class="card-text">
                                         You can always come back here later. Ready to create your map?
