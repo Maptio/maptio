@@ -17,10 +17,10 @@ export class TeamComponent implements OnInit {
 
     team: Team;
     Permissions = Permissions;
-    isOnboardingAddMembers: Boolean;
-    isOnboardingAddMap: Boolean;
-    isOnboardingAddTerminology: Boolean;
-    isOnboarding: Boolean;
+    isOnboardingAddMembers: boolean;
+    isOnboardingAddMap: boolean;
+    isOnboardingAddTerminology: boolean;
+    isOnboarding: boolean;
     constructor(private route: ActivatedRoute, private cd: ChangeDetectorRef) {
 
     }
