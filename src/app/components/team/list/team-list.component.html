@@ -17,9 +17,9 @@
             <form [formGroup]="createForm" (submit)="createNewTeam()" class="form-group">
                 <fieldset *permissionsOnly="Permissions.canCreateTeam; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
 
-                    <small class="form-text text-muted">
+                    <!-- <small class="form-text text-muted">
                         This is usually your company or organization name
-                    </small>
+                    </small> -->
                     <div class="input-group form-group">
                         <input type="text" class="form-control rounded mr-1" [class.is-invalid]="createForm.controls['teamName'].invalid  && (createForm.controls['teamName'].dirty || createForm.controls['teamName'].touched)"
                             formControlName="teamName" placeholder="e.g. Planet Express" required>

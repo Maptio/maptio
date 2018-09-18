@@ -14,7 +14,7 @@
                 </span>
                 <a>
                     Set up your
-                    <a routerLink="/{{user.shortid}}/{{user.getSlug()}}">profile</a>
+                    <a routerLink="/{{user.shortid}}/{{user.getSlug()}}">user profile</a>
                 </a>
             </div>
 
@@ -89,7 +89,7 @@
                         and
                         <a [routerLink]="['/teams', teamId, 'team','settings']" [queryParams]="{onboarding: 'settings'}">{{helperName}}</a>
                     </ng-container>
-                    <ng-container *ngIf="!isMultipleTeams">
+                    <ng-container *ngIf="isMultipleTeams">
                         Terminology set up
                     </ng-container>
                 </span>
