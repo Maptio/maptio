@@ -594,19 +594,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .style("opacity", function (d: any) {
         return isLeafDisplayed(d) ? 1 : 0;
       })
-      // .style("font-size", function (d: any) {
-      //   return `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`;
-      // })
+      .style("pointer-events", function (d: any) {
+        return isLeafDisplayed(d) ? "auto" : "none";
+      })
       .html(function (d: any) {
         let fs = `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`;
         return `<div style="font-size: ${fs}; background: none; display: inline-block;pointer-events: none">${d.data.name}</div>`;
       })
-    // .append("xhtml:body")
-    // .style("font-size", function (d: any) {
-    //   return `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`; // `${fonts(d.depth) / (d.depth <= 2 ? 1 : 2) * d.k}rem`;
-    // })
-    // .style("background", "none")
-    // .html(function (d: any) { return d.data.name });
 
 
 
@@ -668,6 +662,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .style("display", "inline")
       .style("opacity", function (d: any) {
         return isLeafDisplayed(d) ? 1 : 0;
+      })
+      .style("pointer-events", function (d: any) {
+        return isLeafDisplayed(d) ? "auto" : "none";
       })
       .html(function (d: any) {
         return d.data.tags.map((tag: Tag) => `<tspan fill="${tag.color}" class="dot-tags">&#xf02b</tspan><tspan fill="${tag.color}">${tag.name}</tspan>`).join(" ");
