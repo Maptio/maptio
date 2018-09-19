@@ -1,5 +1,5 @@
 <div>
-    <h1 class="text-center">Welcome to Maptio! </h1>
+    <h2 class="text-center">Welcome to Maptio! </h2>
     <h6 class="text-muted text-center ">Maptio helps you organise without traditional management hierarchy.</h6>
     <h3 class="text-dark text-center my-4" *ngIf="!isOnboardingCompleted()">
         Let's get you started:
@@ -42,7 +42,7 @@
 
 
 
-    <div class="d-flex justify-content-center text-muted">
+    <div class="d-flex justify-content-start text-muted">
         <div class="d-flex flex-column  align-items-start" [class.h4]="!isOnboardingCompleted()">
             <div class="d-flex align-items-start my-3">
                 <span class="mx-2">
@@ -73,7 +73,7 @@
                 </span>
             </div>
 
-            <div class="d-flex align-items-start my-3">
+            <div class="d-flex align-items-start my-3" *ngIf="!isMultipleTeams">
                 <span class="mx-2">
                     <i *ngIf="isZeroTeammates" class="fa fa-square-o" aria-hidden="true"></i>
                     <i *ngIf="!isZeroTeammates" class="fa fa-check text-success" aria-hidden="true"></i>
@@ -102,18 +102,18 @@
                 </span>
             </div>
 
-            <div class="d-flex align-items-start my-3">
+            <div class="d-flex align-items-start my-3" *ngIf="!isMultipleTeams">
                 <span class="mx-2">
                     <i *ngIf="isZeroTerminology" class="fa fa-square-o" aria-hidden="true"></i>
                     <i *ngIf="!isZeroTerminology" class="fa fa-check text-success" aria-hidden="true"></i>
                 </span>
                 <div *ngIf="isZeroTerminology">
                     <ng-container *ngIf="isZeroTeam">
-                        <span>Customize your organization teminology</span>
+                        <span>Customize your organization terminology</span>
                     </ng-container>
                     <ng-container *ngIf="!isZeroTeam">
                         <a [routerLink]="['/teams', teamId, 'team','settings']" [queryParams]="{onboarding: 'settings'}">
-                            Customize your organization teminology
+                            Customize your organization terminology
                         </a>
                     </ng-container>
 
@@ -131,31 +131,31 @@
                 </span>
             </div>
 
-            <div class="d-flex align-items-start my-3" *ngIf="isOnboardingCompleted()">
-                    <span class="mx-2">
-                        <i *ngIf="isZeroIntegration" class="fa fa-square-o" aria-hidden="true"></i>
-                        <i *ngIf="!isZeroIntegration" class="fa fa-check text-success" aria-hidden="true"></i>
-                    </span>
-                    <div *ngIf="isZeroIntegration">
-                        <ng-container *ngIf="isZeroTeam">
-                            <span class="slack">Set up Slack integration (optional)</span>
-                        </ng-container>
-                        <ng-container *ngIf="!isZeroTeam">
-                            <a class="slack" [routerLink]="['/teams', teamId, 'team','integrations']" [queryParams]="{onboarding: 'integrations'}">
-                                Set up Slack integration (optional) 
-                            </a>
-                        </ng-container>
-    
-                    </div>
-                    <span *ngIf="!isZeroIntegration" class="text-muted">
-                        <ng-container *ngIf="!isMultipleTeams">
-                            <a class="slack" routerLink="/teams/{{teamId}}/team/integrations">Slack integration</a>  is active
-                        </ng-container>
-                        <ng-container *ngIf="isMultipleTeams">
-                                <a class="slack" routerLink="/teams/{{teamId}}/team/integrations">Slack integration</a>  are active
-                        </ng-container>
-                    </span>
+            <div class="d-flex align-items-start my-3" *ngIf="isOnboardingCompleted() && !isMultipleTeams">
+                <span class="mx-2">
+                    <i *ngIf="isZeroIntegration" class="fa fa-square-o" aria-hidden="true"></i>
+                    <i *ngIf="!isZeroIntegration" class="fa fa-check text-success" aria-hidden="true"></i>
+                </span>
+                <div *ngIf="isZeroIntegration">
+                    <ng-container *ngIf="isZeroTeam">
+                        <span class="slack">Set up Slack integration (optional)</span>
+                    </ng-container>
+                    <ng-container *ngIf="!isZeroTeam">
+                        <a class="slack" [routerLink]="['/teams', teamId, 'team','integrations']" [queryParams]="{onboarding: 'integrations'}">
+                            Set up Slack integration (optional)
+                        </a>
+                    </ng-container>
+
                 </div>
+                <span *ngIf="!isZeroIntegration" class="text-muted">
+                    <ng-container *ngIf="!isMultipleTeams">
+                        <a class="slack" routerLink="/teams/{{teamId}}/team/integrations">Slack integration</a> active
+                    </ng-container>
+                    <ng-container *ngIf="isMultipleTeams">
+                        <a class="slack" routerLink="/teams/{{teamId}}/team/integrations">Slack integrations</a> active
+                    </ng-container>
+                </span>
+            </div>
 
             <div class="d-flex align-items-start my-3">
                 <span class="mx-2">
