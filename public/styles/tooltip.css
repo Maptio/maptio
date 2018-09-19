@@ -2,7 +2,7 @@
   position: absolute;
   left: 0;
   top: 0;
-  background: #F8F9FA;
+  background: var(--maptio-white) ;
   /* border: 1px solid #444; */
   border-radius: 5px;
   width: 350px;
@@ -27,7 +27,7 @@
 
 
 .arrow_box .content {
-  max-height: 25vh;
+  max-height: 35vh;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -35,7 +35,7 @@
 .arrow_box button {
   pointer-events: auto;
   cursor: pointer;
-  color: #2f81b7;
+  color: var(--maptio-blue);
   white-space: normal;
 }
 

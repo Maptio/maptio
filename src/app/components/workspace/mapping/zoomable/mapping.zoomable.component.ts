@@ -1102,7 +1102,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
       tooltip = tooltip.enter()
         .append("div")
-        .attr("class", "arrow_box")
+        .attr("class", "arrow_box p-0 box-shadow")
         .classed("show", false)
         .merge(tooltip)
         .attr("id", function (d: any) {

@@ -1,6 +1,7 @@
 :root {
   --maptio-blue: #2f81b7;
   --maptio-orange: hsla(17, 86%, 54%, 0.90);
+  --maptio-white: #fff;
 }
 
 
@@ -207,6 +208,10 @@ fieldset span.icon-disabled {
 
 a.card.no-underline, a.no-underline:hover {
   text-decoration: none;
+}
+
+.underline:hover{
+  text-decoration: underline!important;
 }
 
 .x-small{

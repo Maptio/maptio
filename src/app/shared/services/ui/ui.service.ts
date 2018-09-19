@@ -170,7 +170,7 @@ export class UIService {
     function getTagHtml(tag: Tag) {
       if (!tag) return;
       return `
-      <li><span class="tag mx-1" style="color:${
+      <li><span class="tag mr-1" style="color:${
         tag.color
         }">
               <i class="fa fa-tag mr-1" aria-hidden="true" style="color:${
@@ -202,12 +202,22 @@ export class UIService {
       : "";
 
     return `
-        <div class="content">
-         ${this.getInitiatveHTML(initiative)}
-          <ul class="tags small"> ${this.getTagsHtml(initiative.tags)}</ul>
-          <div class="mb-0 p-0 ml-0">${accountableImg}</div>
-          <small>${this.markdown.compile(initiative.description || "")}</small>
-          <div class="row pl-3 mb-2 d-flex justify-content-start flex-column align-items-start" >${helpersImg}</div>
+        <div class="card content">
+          <div class="card-body">
+            <a id="${initiative.id}" class="cursor-pointer underline open-initiative card-title">${initiative.name}</a>
+            <p class="card-subtitle my-1">
+              <ul class="tags small"> ${this.getTagsHtml(initiative.tags)}</ul>
+            </p>
+            <p class="card-text">
+            ${accountableImg}
+            </p>
+            <p class="card-text">
+            <small>${this.markdown.compile(initiative.description || "")}</small>
+            </p>
+            <p class="card-text">
+            <small>${helpersImg}</small>
+            </p>
+          </div>
         </div>
           `;
   }
