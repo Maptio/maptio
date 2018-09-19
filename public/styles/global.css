@@ -134,6 +134,12 @@ transition: background-image 0.2s ease-in-out;
   background-position-x: right;
 }
 
+
+.grayscale{
+  filter:grayscale();
+}
+
+
 /* .circles.options, .circles.options.active{
   background-image:none !important;
   -webkit-transition: background-image 0.2s ease-in-out;
@@ -157,6 +163,10 @@ transition: background-image 0.2s ease-in-out;
   content: "\f1f8";
   font-family: FontAwesome;
   cursor: pointer;
+}
+
+nav {
+  height: 56px;
 }
 
 .nav-link {

@@ -77,8 +77,39 @@
 
 <body>
 	<my-app>
-		<div style="background: url('/assets/images/welcome.png');background-repeat: no-repeat;height: 100%;width: auto;background-size: cover;">
+		<div class="container-fluid h-100 overflow-auto bg-transparent grayscale p-0">
+			<div class="d-flex flex-column h-100">
+				<header>
+					<nav class="invisible navbar sticky-top  navbar-expand-sm navbar-light bg-transparent justify-content-between pr-2">
 
+					</nav>
+				</header>
+				<div class="container-fluid h-100 overflow-x-hidden bg-transparent">
+					<home>
+						<div class="h-100 d-flex justify-content-center align-items-start flex-column home-background">
+							<div class="d-flex flex-column justify-content-center align-items-center h-100 col-6">
+								<!---->
+								<div class="text-blue text-center">
+									<h1>Maptio helps you organise without traditional management hierarchy</h1>
+									<h4>Visualise your organisation in nested circles</h4>
+									<h4>Keep track of everyone’s roles</h4>
+
+									<button class="btn btn-success btn-lg my-3" routerlink="/signup" tabindex="0">Get started - Free for 14 days</button>
+
+									<div class="text-muted">Already use Maptio?
+										<a routerlink="/login" href="/login">Log in</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</home>
+				</div>
+				<footer>
+					<nav class="invisible navbar bg-transparent d-flex justify-content-between col-11 mx-3 py-1 px-0">
+
+					</nav>
+				</footer>
+			</div>
 		</div>
 	</my-app>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/markdown.js/0.5.0/markdown.min.js"></script>
