@@ -165,7 +165,7 @@ transition: background-image 0.2s ease-in-out;
   cursor: pointer;
 }
 
-nav {
+nav.header {
   height: 56px;
 }
 
