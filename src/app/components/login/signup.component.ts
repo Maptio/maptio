@@ -30,6 +30,7 @@ export class SignupComponent implements OnInit {
 
     public userToken: string;
     public isResending: boolean;
+    public isConfirmationEmailResent:boolean;
 
     public signupForm: FormGroup;
 
@@ -154,10 +155,12 @@ export class SignupComponent implements OnInit {
     resendEmail() {
         console.log()
         this.isResending = true;
+        this.isConfirmationEmailSent=false;
         if (!this.userToken)
             return;
         this.userService.sendConfirmationWithUserToken(this.userToken).then(() => {
             this.isResending = false;
+            this.isConfirmationEmailSent=true;
             this.cd.markForCheck();
         })
     }

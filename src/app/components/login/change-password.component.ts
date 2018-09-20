@@ -17,6 +17,7 @@ export class ChangePasswordComponent implements OnInit {
     public isResending: boolean;
     public feedbackMessage: string;
     public changePasswordForm: FormGroup;
+    public isConfirmationEmailSent:Boolean;
     public user: User;
 
     constructor(private userService: UserService, private cd: ChangeDetectorRef) {
@@ -67,8 +68,10 @@ export class ChangePasswordComponent implements OnInit {
 
     resendEmail() {
         this.isResending = true;
+        this.isConfirmationEmailSent = false;
         this.userService.sendConfirmation(this.user.email, this.user.user_id, this.user.firstname, this.user.lastname, this.user.name).then(() => {
             this.isResending = false;
+            this.isConfirmationEmailSent = true;
             this.cd.markForCheck();
         })
     }
