@@ -72,9 +72,9 @@ export class InitiativeComponent implements OnChanges {
     @ViewChild("inputDescription") public inputDescriptionElement: ElementRef;
     @ViewChild("inputRole") public inputRoleElement: ElementRef;
     @ViewChild("inputAuthorityRole") public inputAuthorityRole: ElementRef;
+    @ViewChild("inputAuthority") public inputAuthority: ElementRef;
+    @ViewChild("inputTag") public inputTag:NgbTypeahead;
 
-
-    @ViewChild("inputTag") instance: NgbTypeahead;
     focus$ = new Subject<string>();
     click$ = new Subject<string>();
     KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
@@ -133,8 +133,14 @@ export class InitiativeComponent implements OnChanges {
     }
 
     onBlur() {
-        // console.log("saving", this.node)
-        this.saveDescription(this.inputDescriptionElement.nativeElement.value)
+        // console.log("saving", this.node, this.inputAuthority)
+        // this.saveDescription(this.inputDescriptionElement.nativeElement.value);
+        if(!this.node.accountable){
+            (<HTMLInputElement>this.inputAuthority.nativeElement).value ="";
+        }else{
+            (<HTMLInputElement>this.inputAuthority.nativeElement).value =this.node.accountable.name;
+        }
+        this.inputTag.writeValue("");
         this.edited.emit(true);
     }
 
@@ -298,7 +304,7 @@ export class InitiativeComponent implements OnChanges {
         text$
             .debounceTime(200).distinctUntilChanged()
             .merge(this.focus$)
-            .merge(this.click$.filter(() => !this.instance.isPopupOpen()))
+            .merge(this.click$.filter(() => { console.log(this) ; return !this.inputTag.isPopupOpen()} ))
             .map(term => (term === "" ? this.datasetTags : this.datasetTags.filter(v => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10));
 
 
