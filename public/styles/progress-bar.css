@@ -14,8 +14,8 @@ ng-progress {
 .spinner-icon{
   width:37px !important;
   height: 37px !important;;
-  border-top-color: var(--maptio-orange)!important;
-  border-left-color: var(--maptio-orange)!important;
+  border-top-color: var(--maptio-blue)!important;
+  border-left-color: var(--maptio-blue)!important;
 }
 
 
