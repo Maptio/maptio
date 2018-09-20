@@ -74,6 +74,10 @@ describe("team-list.component.ts", () => {
                             data = Observable.of({
                                 teams: []
                             })
+
+                            snapshot = {
+                                queryParamMap : new Map()
+                            } 
                         }
                     },
                     MockBackend,
