@@ -33,6 +33,7 @@ export class TeamMapsComponent implements OnInit {
     }
 
     onNewMap(dataset:DataSet){
+        console.log(dataset)
         this.analytics.eventTrack("Create a map", { email: this.user.email, name: dataset.initiative.name, team: dataset.initiative.team_id })
 
         this.ngOnInit();

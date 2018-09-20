@@ -2,7 +2,7 @@
     <div class="card-columns ">
         <div class="card" *ngIf="teams">
             <div class="card-body bg-light">
-                <common-create-map [teams]="teams" [isRedirect]="true" (created)="onNewMap()"></common-create-map>
+                <common-create-map [teams]="teams" [isRedirect]="true" (created)="onNewMap($event)"></common-create-map>
             </div>
         </div>
 

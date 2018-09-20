@@ -1,10 +1,9 @@
 <form [formGroup]="form" (submit)="submit()" class="form-row d-flex flex-column">
     <div class="form-group ">
         <label for="inputMapName">Map name</label>
-        <input type="text" id="inputMapName" formControlName="mapName" 
-        [class.is-invalid]="form.controls['mapName'].invalid  && (form.controls['mapName'].dirty || form.controls['mapName'].touched)"
-        class="form-control w-100" placeholder="Enter map name" required>
-        <small class="invalid-feedback" >
+        <input type="text" id="inputMapName" formControlName="mapName" [class.is-invalid]="form.controls['mapName'].invalid  && (form.controls['mapName'].dirty || form.controls['mapName'].touched)"
+            class="form-control w-100" placeholder="Enter map name" required>
+        <small class="invalid-feedback">
             Please enter at least 2 characters
         </small>
     </div>
@@ -19,6 +18,10 @@
         </a>
     </div>
     <div class="form-group ">
-        <button type="submit" class="btn btn-success pull-right">Create</button>
+        <button *ngIf="!isCreatingMap" type="submit" class="btn btn-success pull-right">Create</button>
+        <div *ngIf="isCreatingMap" class=" text-success d-flex justify-content-end align-items-center">
+            <i class="fa fa-circle-o-notch fa-spin fa-fw text-success mx-1"></i> Creating
+        </div>
     </div>
+
 </form>
