@@ -32,15 +32,15 @@
 
         </div>
 
-    
+
 
     </div>
     <div class="card-footer border-top-0">
         <div class="small d-flex justify-content-between align-items-center">
-            <div>{{dataset?.depth}} sub-circles</div>
+            <div>{{dataset?.depth}} {{dataset?.depth < 1 ? "sub-circle" : "sub-circles"}}</div>
             <button *ngIf="isExportAvailable" class="btn btn-sm btn-link cursor-pointer " (click)="export(dataset)">
-                <span *ngIf="!isExporting">
-                    <i class="fa fa-table" aria-hidden="true"></i> Export</span>
+                <i class="fa fa-table" aria-hidden="true"></i>
+                <span *ngIf="!isExporting">Export</span>
                 <span class="text-muted" *ngIf="isExporting">Exporting</span>
             </button>
         </div>
