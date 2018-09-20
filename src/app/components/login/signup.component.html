@@ -14,9 +14,10 @@
 
         <div class="alert alert-warning" role="alert" *ngIf="isEmailAlreadyExist">
             This email already has an account.
-            <a class="alert-link" routerLink="/login">Log in</a> or  <a (click)="resendEmail()" class="alert-link cursor-pointer">resend a confirmation email
-                    <i *ngIf="isResending" class="text-muted fa fa-circle-o-notch fa-spin fa-fw ml-1 "></i>
-                </a>
+            <a class="alert-link" routerLink="/login">Log in</a> or
+            <a (click)="resendEmail()" class="alert-link cursor-pointer">resend a confirmation email
+                <i *ngIf="isResending" class="text-muted fa fa-circle-o-notch fa-spin fa-fw ml-1 "></i>
+            </a>
         </div>
         <div class="alert alert-success" role="alert" *ngIf="isConfirmationEmailSent">
             <span class="alert-heading">We have sent a confirmation email to
@@ -24,15 +25,19 @@
             </span>
             <p> Please follow the link in the email to complete set-up.</p>
             <hr>
-            <p>Not received? Email <a href="mailto:support@maptio.com?subject=Support requestw"></a> support@maptio.com</p>
+            <p>Not received?
+                <a (click)="resendImmediately()" class="alert-link cursor-pointer">resend
+                    <i *ngIf="isResending" class="text-muted fa fa-circle-o-notch fa-spin fa-fw ml-1 "></i>
+                </a> or email
+                <a href="mailto:support@maptio.com?subject=Support request"></a> support@maptio.com</p>
         </div>
 
         <form class="form-group" [formGroup]="signupForm" (submit)="createAccount()" *ngIf="!isConfirmationEmailSent">
             <fieldset>
-                <div class="form-group" >
+                <div class="form-group">
                     <label for="inputFirstname">First name</label>
-                    <input type="text" id="inputFirstname" formControlName="firstname" [class.is-invalid]="signupForm.controls['firstname'].invalid  && (signupForm.controls['firstname'].dirty || signupForm.controls['firstname'].touched)" class="form-control form-control-warning form-control-lg"
-                        required minlength="2">
+                    <input type="text" id="inputFirstname" formControlName="firstname" [class.is-invalid]="signupForm.controls['firstname'].invalid  && (signupForm.controls['firstname'].dirty || signupForm.controls['firstname'].touched)"
+                        class="form-control form-control-warning form-control-lg" required minlength="2">
                     <small class="invalid-feedback">
                         First name must be at least 2 characters
                     </small>
@@ -40,7 +45,8 @@
 
                 <div class="form-group">
                     <label for="inputLastname">Last name</label>
-                    <input type="text" id="inputLastname" [class.is-invalid]="signupForm.controls['lastname'].invalid  && (signupForm.controls['lastname'].dirty || signupForm.controls['lastname'].touched)" class="form-control form-control-warning form-control-lg" formControlName="lastname">
+                    <input type="text" id="inputLastname" [class.is-invalid]="signupForm.controls['lastname'].invalid  && (signupForm.controls['lastname'].dirty || signupForm.controls['lastname'].touched)"
+                        class="form-control form-control-warning form-control-lg" formControlName="lastname">
                     <small class="invalid-feedback">
                         Last name must be at least 2 characters
                     </small>
@@ -48,13 +54,14 @@
 
                 <div class="form-group">
                     <label for="inputEmail">Email</label>
-                    <input type="email" class="form-control form-control-warning form-control-lg" [class.is-invalid]="signupForm.controls['email'].invalid  && (signupForm.controls['email'].dirty || signupForm.controls['email'].touched)" formControlName="email">
+                    <input type="email" class="form-control form-control-warning form-control-lg" [class.is-invalid]="signupForm.controls['email'].invalid  && (signupForm.controls['email'].dirty || signupForm.controls['email'].touched)"
+                        formControlName="email">
                     <small class="invalid-feedback">
                         We need a valid email!
                     </small>
                 </div>
 
-                <button type="submit" class="btn btn-success btn-lg w-100" >Get started - Free for 14 days</button>
+                <button type="submit" class="btn btn-success btn-lg w-100">Get started - Free for 14 days</button>
 
             </fieldset>
 

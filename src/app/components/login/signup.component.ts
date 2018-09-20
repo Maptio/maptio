@@ -29,6 +29,7 @@ export class SignupComponent implements OnInit {
     public signUpMessageFail: string;
 
     public userToken: string;
+    public userId:string;
     public isResending: boolean;
     public isConfirmationEmailResent:boolean;
 
@@ -73,6 +74,7 @@ export class SignupComponent implements OnInit {
         this.isRedirectToActivate = false;
         this.isEmailAlreadyExist = false;
         this.signUpMessageFail = "";
+        this.isResending =false;
 
         if (this.signupForm.dirty && this.signupForm.valid) {
             this.loaderService.show();
@@ -101,6 +103,7 @@ export class SignupComponent implements OnInit {
                         // no matching email => create user
                         return this.userService.createUser(email, firstname, lastname, true, true)
                             .then((user: User) => {
+                                this.userId = user.user_id;
                                 return user;
                             }, () => { 
                                 this.signUpMessageFail = `${email} is not a valid email address`;
@@ -153,7 +156,6 @@ export class SignupComponent implements OnInit {
     }
 
     resendEmail() {
-        console.log()
         this.isResending = true;
         this.isConfirmationEmailSent=false;
         if (!this.userToken)
@@ -161,6 +163,16 @@ export class SignupComponent implements OnInit {
         this.userService.sendConfirmationWithUserToken(this.userToken).then(() => {
             this.isResending = false;
             this.isConfirmationEmailSent=true;
+            this.cd.markForCheck();
+        })
+    }
+
+    resendImmediately(){
+        this.isResending = true;
+        // this.isConfirmationEmailSent=false;
+        this.userService.sendConfirmation(this.email, this.userId, this.firstname, this.lastname,"").then(() => {
+            this.isResending = false;
+            // this.isConfirmationEmailSent=true;
             this.cd.markForCheck();
         })
     }
