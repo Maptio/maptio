@@ -4,17 +4,18 @@
     <div class="btn-group-vertical my-2">
       <a class="btn btn-light p-1 text-dark btn-control" [class.active]="isSearchToggled" [class.disabled]="isSearchDisabled" (click)="isSearchToggled=!isSearchToggled"
         data-toggle="collapse" href="#collapseSearch" role="button">
-        <i class="fa fa-search"></i>
+        <i class="fa" [class.fa-search]="!isSearchToggled" [class.fa-times]="isSearchToggled"></i>
+        
         <div class="icon-text-label">Search</div>
       </a>
       <a class="btn btn-light p-1 text-dark btn-control" [class.active]="isFiltersToggled" [class.disabled]="isSearchDisabled"
         (click)="isFiltersToggled=!isFiltersToggled" data-toggle="collapse" href="#collapseFilter" role="button">
-        <i class="fa fa-filter"></i>
+        <i class="fa" [class.fa-filter]="!isFiltersToggled" [class.fa-times]="isFiltersToggled"></i>
         <div class="icon-text-label">Filter</div>
       </a>
       <a class="btn btn-light p-1 text-dark btn-control" [class.active]="isSharingToggled" [class.disabled]="isSearchDisabled"
         (click)="isSharingToggled=!isSharingToggled" data-toggle="collapse" href="#collapseSlack" role="button">
-        <i class="fa fa-slack"></i>
+        <i class="fa" [class.fa-slack]="!isSharingToggled" [class.fa-times]="isFiltersToggled"></i> 
         <div class="icon-text-label">Share</div>
       </a>
 
@@ -37,8 +38,7 @@
       </button>
       <button class="btn btn-light menu text-dark p-1 btn-control" [class.d-none]="!(rlaNetwork.isActive || rlaCircles.isActive)"
         (click)="toggleOptions(rlaNetwork.isActive || rlaCircles.isActive)">
-        <i *ngIf="!_toggleOptions" class="fa fa-ellipsis-h" aria-hidden="true"></i>
-        <i *ngIf="_toggleOptions" class="fa fa-times" aria-hidden="true"></i>
+        <i class="fa" [class.fa-ellipsis-h]="!_toggleOptions" [class.fa-times]="_toggleOptions"></i> 
         <div class="icon-text-label">{{_toggleOptions ? 'Close' : 'Options'}}</div>
       </button>
 
@@ -59,7 +59,7 @@
       </a>
       <a class="btn btn-light text-dark p-1 btn-control" [class.active]="isSettingToggled" [class.disabled]="isSearchDisabled"
         (click)="isSettingToggled=!isSettingToggled" data-toggle="collapse" href="#collapseSettings" role="button">
-        <i class="fa fa-sliders" aria-hidden="true"></i>
+        <i class="fa" [class.fa-sliders]="!isSettingToggled" [class.fa-times]="isSettingToggled"></i> 
         <div class="icon-text-label">Settings</div>
       </a>
     </div>
