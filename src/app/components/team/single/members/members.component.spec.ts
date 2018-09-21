@@ -273,16 +273,16 @@ describe("members.component.ts", () => {
     });
 
 
-    describe("isDisplayLoader", () => {
+    describe("isDisplaySendingLoader", () => {
         it("should work", () => {
             component.isSendingMap = new Map<string, boolean>()
             component.isSendingMap.set("user_1", true)
             component.isSendingMap.set("user_2", false)
             component.isSendingMap.set("user_3", true);
 
-            expect(component.isDisplayLoader("user_1")).toBe(true);
-            expect(component.isDisplayLoader("user_2")).toBe(false);
-            expect(component.isDisplayLoader("user_3")).toBe(true);
+            expect(component.isDisplaySendingLoader("user_1")).toBe(true);
+            expect(component.isDisplaySendingLoader("user_2")).toBe(false);
+            expect(component.isDisplaySendingLoader("user_3")).toBe(true);
         });
     });
 

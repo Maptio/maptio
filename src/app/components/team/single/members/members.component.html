@@ -96,7 +96,11 @@
                     <th scope="col"></th>
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
-                    <th scope="col">Permission type <a href="{{KB_URL_PERMISSIONS}}" target="blank"><i class="fa fa-info-circle text-muted" aria-hidden="true"></i></a> </th>
+                <th scope="col">Permission type
+                    <a href="{{KB_URL_PERMISSIONS}}" target="blank">
+                        <i class="fa fa-info-circle text-muted" aria-hidden="true"></i>
+                    </a>
+                </th>
                     <th scope="col" class="pr-0">
                         <button class="btn btn-outline-secondary pull-right" mwlConfirmationPopover title="Are you sure you want to send an invitation email to  these {{invitableUsersCount}} users?"
                             placement="top" focusButton="cancel" appendToBody="true" (confirm)="inviteAll()" (cancel)="cancelClicked = true">Invite/resend all</button>
@@ -141,16 +145,13 @@
                         </ng-template>
                     </td>
                     <td class="pr-0">
-                        <!-- <span *ngIf="member.isDeleted" class="text-muted pull-right">(Deleted)</span> -->
                         <ng-container *ngIf="!member.isDeleted">
-                            <!-- <button *ngIf="!member.isActivationPending" class="btn btn-default pull-right" placement="top" container="body" ngbTooltip="{{member.name}} is a confirmed user."
-                                disabled>Active</button> -->
-
+                        <ng-container *ngIf="!isDisplaySendingLoader(member.user_id) && !isDisplayUpdatingLoader(member.user_id)">
                             <ng-container *ngIf="member.isActivationPending && !member.isInvitationSent">
                                 <ng-container *permissionsOnly="Permissions.canInviteUser;then thenInviteBlock; else elseInviteBlock"></ng-container>
                                 <ng-template #thenInviteBlock>
-                                    <button [class.deleted]="member.isDeleted" [hidden]="isDisplayLoader(member.user_id)" class="pull-right btn btn-outline-secondary"
-                                        (click)="inviteUser(member, i)" placement="left" container="body" ngbTooltip="Invite {{member.name}} to view and edit maps">
+                                    <button [class.deleted]="member.isDeleted" class="pull-right btn btn-outline-secondary" (click)="inviteUser(member, i)" placement="left"
+                                        container="body" ngbTooltip="Invite {{member.name}} to view and edit maps">
                                         Invite </button>
                                 </ng-template>
                                 <ng-template #elseInviteBlock>
@@ -159,20 +160,24 @@
                                     </button>
                                 </ng-template>
                             </ng-container>
-
-                            <button [class.deleted]="member.isDeleted" [hidden]="isDisplayLoader(member.user_id)" *ngIf="member.isActivationPending && member.isInvitationSent"
-                                class="btn btn-outline-secondary pull-right" (click)="resendUser(member, i)" placement="left"
-                                container="body" ngbTooltip="Resend an invitation to {{member.name}}">Resend </button>
-                            <div class="sending" [hidden]="!isDisplayLoader(member.user_id)">
-                                <i *ngIf="isDisplayLoader(member.user_id)" class="text-muted fa fa-circle-o-notch fa-spin fa-fw fa-2x"></i>
+                            <button [class.deleted]="member.isDeleted" *ngIf="member.isActivationPending && member.isInvitationSent" class="btn btn-outline-secondary pull-right"
+                                (click)="resendUser(member, i)" placement="left" container="body" ngbTooltip="Resend an invitation to {{member.name}}">Resend </button>
+                        </ng-container>
+                        <ng-container *ngIf="isDisplaySendingLoader(member.user_id)">
+                            <div class="indicator text-success d-flex justify-content-end align-items-center">
+                                <i class="fa fa-circle-o-notch fa-spin fa-fw text-success mx-1"></i> Sending
                             </div>
                         </ng-container>
-
+                        <ng-container *ngIf="isDisplayUpdatingLoader(member.user_id)">
+                            <div class=" indicator text-success d-flex justify-content-end align-items-center">
+                                <i class="fa fa-circle-o-notch fa-spin fa-fw text-success mx-1"></i> Updating
+                            </div>
+                        </ng-container>
+                    </ng-container>
                     </td>
                 </tr>
             </tbody>
         </table>
 
-    </div>
 
 </div>

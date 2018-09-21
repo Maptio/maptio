@@ -70,7 +70,7 @@ tr.deleted{
     font-weight: 100;
 }
 
-.sending {
+.indicator {
     text-align: center;
     margin-right: 1vw;
     margin-top: 1vh;

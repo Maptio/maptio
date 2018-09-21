@@ -58,6 +58,8 @@ export class TeamMembersComponent implements OnInit {
     cancelClicked: boolean;
 
     isSendingMap: Map<string, boolean> = new Map<string, boolean>();
+    isUpdatingMap: Map<string, boolean> = new Map<string, boolean>();
+
 
     private EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -71,17 +73,23 @@ export class TeamMembersComponent implements OnInit {
         private datasetFactory: DatasetFactory,
         private analytics: Angulartics2Mixpanel,
         private cd: ChangeDetectorRef,
-        private loaderService:LoaderService,
+        private loaderService: LoaderService,
         private auth: Auth) {
         this.inviteForm = new FormGroup({
-            "firstname": new FormControl("", [
-                Validators.required,
-                Validators.minLength(2)
-            ]),
-            "lastname": new FormControl("", [
-                Validators.required,
-                Validators.minLength(2)
-            ])
+            "firstname": new FormControl("", {
+                validators: [
+                    Validators.required,
+                    Validators.minLength(2)
+                ],
+                updateOn: "submit"
+            }),
+            "lastname": new FormControl("", {
+                validators: [
+                    Validators.required,
+                    Validators.minLength(2)
+                ],
+                updateOn: "submit"
+            }),
         });
 
     }
@@ -136,6 +144,7 @@ export class TeamMembersComponent implements OnInit {
                 this.loaderService.hide();
                 members.forEach(m => {
                     this.isSendingMap.set(m.user_id, false);
+                    this.isUpdatingMap.set(m.user_id, false)
                 })
                 this.cd.markForCheck();
                 return sortBy(members, m => m.name)
@@ -149,8 +158,12 @@ export class TeamMembersComponent implements OnInit {
     }
 
 
-    isDisplayLoader(user_id: string) {
+    isDisplaySendingLoader(user_id: string) {
         return this.isSendingMap.get(user_id)
+    }
+
+    isDisplayUpdatingLoader(user_id: string) {
+        return this.isUpdatingMap.get(user_id)
     }
 
     saveNewMember(event: NgbTypeaheadSelectItemEvent) {
@@ -190,7 +203,7 @@ export class TeamMembersComponent implements OnInit {
 
 
     isEmail(text: string) {
-        // console.log(text, this.EMAIL_REGEXP, this.EMAIL_REGEXP.test(text))
+        console.log(text, this.EMAIL_REGEXP, this.EMAIL_REGEXP.test(text))
         return this.EMAIL_REGEXP.test(text);
     }
 
@@ -312,66 +325,66 @@ export class TeamMembersComponent implements OnInit {
     }
 
     searchUsers =
-    (text$: Observable<string>) =>
-        text$
-            .debounceTime(500)
-            .distinctUntilChanged()
-            .filter(text => this.isEmail(text))
-            .do(() => { this.isUserSearchedEmail = false; this.searching = true; this.isAlreadyInTeam = false; this.inviteForm.reset(); this.cd.markForCheck(); 8 })
-            .switchMap(term =>
-                Observable.fromPromise(
+        (text$: Observable<string>) =>
+            text$
+                .debounceTime(500)
+                .distinctUntilChanged()
+                .filter(text => this.isEmail(text))
+                .do(() => { this.isUserSearchedEmail = false; this.searching = true; this.isAlreadyInTeam = false; this.inviteForm.reset(); this.cd.markForCheck(); 8 })
+                .switchMap(term =>
+                    Observable.fromPromise(
 
-                    this.userFactory.getAll(term)
-                        .then((users: User[]) => {
-                            // console.log("typed", term, "users", users)
-                            this.userSearched = term;
-                            return this.members$.then((existingMembers: User[]) => {
-                                //  console.log("existing", existingMembers)
-                                let alreadyInTeam = existingMembers.filter(m => m.email === term);
-                                let availableToChoose = users.filter(u => !existingMembers.find(m => u.user_id === m.user_id));
+                        this.userFactory.getAll(term)
+                            .then((users: User[]) => {
+                                // console.log("typed", term, "users", users)
+                                this.userSearched = term;
+                                return this.members$.then((existingMembers: User[]) => {
+                                    //  console.log("existing", existingMembers)
+                                    let alreadyInTeam = existingMembers.filter(m => m.email === term);
+                                    let availableToChoose = users.filter(u => !existingMembers.find(m => u.user_id === m.user_id));
 
-                                return [alreadyInTeam, availableToChoose]
+                                    return [alreadyInTeam, availableToChoose]
+                                })
                             })
-                        })
-                        .then(([alreadyInTeam, availableToChoose]: [User[], User[]]) => {
-                            //  console.log("already", alreadyInTeam, "avilable", availableToChoose)
-                            if (alreadyInTeam.length > 0) {
-                                this.isAlreadyInTeam = true;
-                                this.searchFailed = false;
-                                this.cd.markForCheck();
-                                return [];
-                            }
-                            else {
-                                if (availableToChoose.length === 0) {
-                                    this.isUserSearchedEmail = this.isEmail(term);
-                                    // this.userSearched = Promise.resolve(term);
-
-                                    this.searchFailed = true;
+                            .then(([alreadyInTeam, availableToChoose]: [User[], User[]]) => {
+                                //  console.log("already", alreadyInTeam, "avilable", availableToChoose)
+                                if (alreadyInTeam.length > 0) {
+                                    this.isAlreadyInTeam = true;
+                                    this.searchFailed = false;
                                     this.cd.markForCheck();
-                                    throw new Error()
+                                    return [];
                                 }
                                 else {
-                                    return availableToChoose;
-                                }
-                            }
-                        })
-                    // .catch(err => { throw new Error(err) })
+                                    if (availableToChoose.length === 0) {
+                                        this.isUserSearchedEmail = this.isEmail(term);
+                                        // this.userSearched = Promise.resolve(term);
 
+                                        this.searchFailed = true;
+                                        this.cd.markForCheck();
+                                        throw new Error()
+                                    }
+                                    else {
+                                        return availableToChoose;
+                                    }
+                                }
+                            })
+                        // .catch(err => { throw new Error(err) })
+
+                    )
+                        .do(() => {
+                            this.searchFailed = false;
+                            this.cd.markForCheck();
+                        })
+                        .catch(() => {
+                            this.isUserSearchedEmail = this.isEmail(term);
+                            // this.userSearched = Promise.resolve(term);
+                            this.userSearched = term;
+                            this.searchFailed = true;
+                            this.cd.markForCheck();
+                            return Observable.of([]);
+                        })
                 )
-                    .do(() => {
-                        this.searchFailed = false;
-                        this.cd.markForCheck();
-                    })
-                    .catch(() => {
-                        this.isUserSearchedEmail = this.isEmail(term);
-                        // this.userSearched = Promise.resolve(term);
-                        this.userSearched = term;
-                        this.searchFailed = true;
-                        this.cd.markForCheck();
-                        return Observable.of([]);
-                    })
-            )
-            .do(() => this.searching = false);
+                .do(() => this.searching = false);
 
     formatter = (result: User) => `${result.email} (${result.name})`;
 
@@ -380,9 +393,9 @@ export class TeamMembersComponent implements OnInit {
     }
 
     changeUserRole(user: User, userRole: UserRole) {
-        this.isSendingMap.set(user.user_id, true)
+        this.isUpdatingMap.set(user.user_id, true)
         this.userService.updateUserRole(user.user_id, UserRole[userRole]).then(() => {
-            this.isSendingMap.set(user.user_id, false);
+            this.isUpdatingMap.set(user.user_id, false);
             this.cd.markForCheck();
         })
     }
