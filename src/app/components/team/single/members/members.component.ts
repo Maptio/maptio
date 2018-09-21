@@ -1,13 +1,13 @@
 import { environment } from './../../../../../environment/environment';
 import { Auth } from "./../../../../shared/services/auth/auth.service";
-import { Observable } from "rxjs/Rx";
+import { Observable, Subject } from "rxjs/Rx";
 import { DataSet } from "./../../../../shared/model/dataset.data";
 import { DatasetFactory } from "./../../../../shared/services/dataset.factory";
 import { remove } from "lodash";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { TeamFactory } from "./../../../../shared/services/team.factory";
 import { NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-bootstrap";
-import { sortBy } from "lodash";
+import { sortBy, isEmpty } from "lodash";
 import { differenceBy } from "lodash";
 import { uniqBy } from "lodash";
 import { UserService } from "./../../../../shared/services/user/user.service";
@@ -20,7 +20,7 @@ import { FormControl } from "@angular/forms";
 import { Validators } from "@angular/forms";
 import { FormGroup } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
-import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef } from "@angular/core";
 import { UserRole, Permissions } from "../../../../shared/model/permission.data";
 import { LoaderService } from '../../../../shared/services/loading/loader.service';
 
@@ -38,19 +38,14 @@ export class TeamMembersComponent implements OnInit {
 
     public members$: Promise<User[]>;
     public newMember: User;
-    public searching: boolean = false;
-    public searchFailed: boolean = false;
     private routeSubscription: Subscription;
     private userSubscription: Subscription;
-    public userSearched: string;
-    public isUserSearchedEmail: boolean;
-    public isUserChosen: boolean = false;
+    private inputEmailSubscription: Subscription;
     public isAlreadyInTeam: boolean = false;
     public errorMessage: string;
 
     public resentMessage: string;
     public isCreatingUser: boolean;
-    public isAddUserToggled: boolean;
     public invitableUsersCount: number;
 
     public createdUser: User;
@@ -59,7 +54,12 @@ export class TeamMembersComponent implements OnInit {
 
     isSendingMap: Map<string, boolean> = new Map<string, boolean>();
     isUpdatingMap: Map<string, boolean> = new Map<string, boolean>();
-
+    inputEmail$: Subject<string> = new Subject();
+    foundUser: User;
+    isShowSelectToAdd: Boolean;
+    isShowInviteForm:Boolean;
+    isSearching: Boolean;
+    isNewUserAdded: Boolean;
 
     private EMAIL_REGEXP = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -94,10 +94,41 @@ export class TeamMembersComponent implements OnInit {
 
     }
 
+  
+    @ViewChild("inputNewMember") public inputNewMember: ElementRef;
+
     ngOnInit() {
         this.routeSubscription = this.route.parent.data
             .subscribe((data: { assets: { team: Team, datasets: DataSet[] } }) => {
                 this.team = data.assets.team;
+            });
+
+        this.inputEmailSubscription = this.inputEmail$
+            .debounceTime(250)
+            .do(() => {
+                this.isAlreadyInTeam = false;
+                this.isShowSelectToAdd = false;
+                this.isShowInviteForm = false;
+                this.cd.markForCheck();
+            })
+            .filter(email => this.isEmail(email))
+            .do(() => {
+                this.isSearching = true;
+                this.cd.markForCheck();
+            })
+            .flatMap(email => {
+                return this.userFactory.getAll(email)
+            }).subscribe((users: User[]) => {
+                if (!isEmpty(users)) {
+                    this.foundUser = users[0];
+                    this.isShowSelectToAdd = true;
+                    this.isShowInviteForm = false;
+                } else {
+                    this.isShowSelectToAdd = false;
+                    this.isShowInviteForm = true;
+                }
+                this.isSearching = false;
+                this.cd.markForCheck();
             });
 
         this.userSubscription = this.auth.getUser().subscribe(u => this.user = u);
@@ -110,6 +141,9 @@ export class TeamMembersComponent implements OnInit {
         }
         if (this.routeSubscription) {
             this.routeSubscription.unsubscribe();
+        }
+        if (this.inputEmailSubscription) {
+            this.inputEmailSubscription.unsubscribe();
         }
     }
 
@@ -157,6 +191,9 @@ export class TeamMembersComponent implements OnInit {
         // });
     }
 
+    isUserInTeam(newUser: User) {
+        return this.team.members.findIndex(m => m.user_id === newUser.user_id) >= 0;
+    }
 
     isDisplaySendingLoader(user_id: string) {
         return this.isSendingMap.get(user_id)
@@ -166,30 +203,33 @@ export class TeamMembersComponent implements OnInit {
         return this.isUpdatingMap.get(user_id)
     }
 
-    saveNewMember(event: NgbTypeaheadSelectItemEvent) {
-
-        this.newMember = event.item;
-        this.isUserChosen = true;
+    closeAlreadyInTeamAlert() {
+        this.inputNewMember.nativeElement.value = "";
+        this.foundUser = null;
+        this.isShowSelectToAdd = false;
+        this.isAlreadyInTeam = false;
+        this.cd.markForCheck();
     }
 
-    addMemberToTeam() {
-        this.newMember.teams.push(this.team.team_id);
-
-        this.userFactory.upsert(this.newMember)
+    addUser(newUser: User) {
+        if (this.isUserInTeam(newUser)) {
+            this.isAlreadyInTeam = true;
+            this.cd.markForCheck();
+            return;
+        }
+        this.isAlreadyInTeam = false;
+        this.userFactory.upsert(newUser)
             .then((result: boolean) => {
                 return result;
             })
             .then((result: boolean) => {
                 if (result) {
-                    // return this.team$.then((team: Team) => {
-                    this.team.members.push(this.newMember);
+                    this.team.members.push(newUser);
                     return this.team
-                    // });
                 }
             })
             .then((newTeam: Team) => {
                 return this.teamFactory.upsert(newTeam).then((result) => {
-                    this.newMember = undefined;
                     return newTeam;
                 })
             })
@@ -199,14 +239,18 @@ export class TeamMembersComponent implements OnInit {
             .then(() => {
                 this.members$ = this.getAllMembers();
             })
-    }
+            .then(() => {
+                this.inputNewMember.nativeElement.value = "";
+                this.isShowSelectToAdd = false;
+                this.cd.markForCheck();
+            })
 
+    }
 
     isEmail(text: string) {
-        console.log(text, this.EMAIL_REGEXP, this.EMAIL_REGEXP.test(text))
+        // console.log(text, this.EMAIL_REGEXP, this.EMAIL_REGEXP.test(text))
         return this.EMAIL_REGEXP.test(text);
     }
-
 
     inviteAll() {
         // console.log("invite all")
@@ -263,6 +307,8 @@ export class TeamMembersComponent implements OnInit {
                 })
                 .then(() => {
                     this.isCreatingUser = false;
+                    this.inputNewMember.nativeElement.value = "";
+                    this.isShowInviteForm = false;
                     this.cd.markForCheck()
                 });
         }
@@ -271,7 +317,6 @@ export class TeamMembersComponent implements OnInit {
     createUserFullDetailsFake(email: string, firstname: string, lastname: string) {
         return new Promise((resolve) => setTimeout(resolve, 3000))
     }
-
 
     createUserFullDetails(email: string, firstname: string, lastname: string) {
         // return this.team$.then((team: Team) => {
@@ -324,70 +369,11 @@ export class TeamMembersComponent implements OnInit {
 
     }
 
-    searchUsers =
-        (text$: Observable<string>) =>
-            text$
-                .debounceTime(500)
-                .distinctUntilChanged()
-                .filter(text => this.isEmail(text))
-                .do(() => { this.isUserSearchedEmail = false; this.searching = true; this.isAlreadyInTeam = false; this.inviteForm.reset(); this.cd.markForCheck(); 8 })
-                .switchMap(term =>
-                    Observable.fromPromise(
-
-                        this.userFactory.getAll(term)
-                            .then((users: User[]) => {
-                                // console.log("typed", term, "users", users)
-                                this.userSearched = term;
-                                return this.members$.then((existingMembers: User[]) => {
-                                    //  console.log("existing", existingMembers)
-                                    let alreadyInTeam = existingMembers.filter(m => m.email === term);
-                                    let availableToChoose = users.filter(u => !existingMembers.find(m => u.user_id === m.user_id));
-
-                                    return [alreadyInTeam, availableToChoose]
-                                })
-                            })
-                            .then(([alreadyInTeam, availableToChoose]: [User[], User[]]) => {
-                                //  console.log("already", alreadyInTeam, "avilable", availableToChoose)
-                                if (alreadyInTeam.length > 0) {
-                                    this.isAlreadyInTeam = true;
-                                    this.searchFailed = false;
-                                    this.cd.markForCheck();
-                                    return [];
-                                }
-                                else {
-                                    if (availableToChoose.length === 0) {
-                                        this.isUserSearchedEmail = this.isEmail(term);
-                                        // this.userSearched = Promise.resolve(term);
-
-                                        this.searchFailed = true;
-                                        this.cd.markForCheck();
-                                        throw new Error()
-                                    }
-                                    else {
-                                        return availableToChoose;
-                                    }
-                                }
-                            })
-                        // .catch(err => { throw new Error(err) })
-
-                    )
-                        .do(() => {
-                            this.searchFailed = false;
-                            this.cd.markForCheck();
-                        })
-                        .catch(() => {
-                            this.isUserSearchedEmail = this.isEmail(term);
-                            // this.userSearched = Promise.resolve(term);
-                            this.userSearched = term;
-                            this.searchFailed = true;
-                            this.cd.markForCheck();
-                            return Observable.of([]);
-                        })
-                )
-                .do(() => this.searching = false);
-
-    formatter = (result: User) => `${result.email} (${result.name})`;
-
+    
+    onKeyUp(searchTextValue: string) {
+        this.inputEmail$.next(searchTextValue)
+    }
+ 
     trackByMemberId(index: number, member: User) {
         return member.user_id;
     }
