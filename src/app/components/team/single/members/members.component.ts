@@ -354,7 +354,6 @@ export class TeamMembersComponent implements OnInit {
                 this.team.members.push(user);
                 this.teamFactory.upsert(this.team).then((result) => {
                     this.newMember = undefined;
-                    this.searchFailed = false;
                 })
             })
             .then(() => {

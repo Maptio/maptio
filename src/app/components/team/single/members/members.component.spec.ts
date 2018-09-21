@@ -286,15 +286,8 @@ describe("members.component.ts", () => {
         });
     });
 
-    describe("saveNewMember", () => {
-        it("should work", () => {
-            component.saveNewMember({ item: new User({ user_id: "1" }), preventDefault: null });
-            expect(component.newMember.user_id).toBe("1");
-            expect(component.isUserChosen).toBe(true)
-        });
-    });
 
-    describe("createUser", () => {
+    xdescribe("createUser", () => {
         it("should do nothing if the form is invalid", () => {
             component.inviteForm.setValue({
                 firstname: "", lastname: ""
