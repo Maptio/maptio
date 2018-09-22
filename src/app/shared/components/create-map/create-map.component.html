@@ -2,7 +2,7 @@
     <div class="form-group ">
         <label for="inputMapName">Map name</label>
         <input type="text" id="inputMapName" formControlName="mapName" [class.is-invalid]="form.controls['mapName'].invalid  && (form.controls['mapName'].dirty || form.controls['mapName'].touched)"
-            class="form-control w-100" placeholder="Enter map name" required>
+            class="form-control w-100" required>
         <small class="invalid-feedback">
             Please enter at least 2 characters
         </small>

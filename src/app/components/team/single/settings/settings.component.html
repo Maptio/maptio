@@ -21,7 +21,7 @@
     <fieldset *permissionsOnly="Permissions.canEditTeam;authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
         <div class="form-group">
             <label class="col-form-label" for="inputTeamName">Organization name</label>
-            <input type="text" [class.is-invalid]="teamSettingsForm.controls['name'].invalid  && (teamSettingsForm.controls['name'].dirty || teamSettingsForm.controls['name'].touched)" class="col-4 form-control form-control-warning" [(ngModel)]="teamName" formControlName="name" placeholder="e.g. The Avengers"
+            <input type="text" [class.is-invalid]="teamSettingsForm.controls['name'].invalid  && (teamSettingsForm.controls['name'].dirty || teamSettingsForm.controls['name'].touched)" class="col-4 form-control form-control-warning" [(ngModel)]="teamName" formControlName="name"
                 required>
             <small class="invalid-feedback">
                 Give us a real organization name!

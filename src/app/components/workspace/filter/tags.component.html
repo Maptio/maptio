@@ -31,7 +31,7 @@
       <h6 class="mt-4">Edit tags</h6>
       <form class="form-group form-inline ml-3 mt-1" [formGroup]="newTagForm" (submit)="addTag()">
         <div class="pl-0 pr-0" [class.has-warning]="newTagForm.controls['name'].invalid  && (newTagForm.controls['name'].dirty || newTagForm.controls['name'].touched)">
-          <input type="text" id="inputname" formControlName="name" placeholder="New tag" required name class="w-100 form-control ">
+          <input type="text" id="inputname" formControlName="name" required name class="w-100 form-control ">
         </div>
         <div class="ml-2 pl-2 pr-0">
           <input class="form-control" placeholder="Pick a color" [(colorPicker)]="newTagColor" [style.background]="newTagColor" [value]="newTagColor"

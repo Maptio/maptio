@@ -33,7 +33,7 @@
                         <div class="form-group" >
                             <label for="inputFirstname">First name</label>
                             <input type="text" [class.is-invalid]="accountForm.controls['firstname'].invalid  && (accountForm.controls['firstname'].dirty || accountForm.controls['firstname'].touched)" class="form-control form-control-lg sform-control-warning " [(ngModel)]="firstname" formControlName="firstname"
-                                placeholder="e.g. Harvey" required>
+                                required>
                             <small class="invalid-feedback">
                                 Is this really how your mum calls you?
                             </small>
@@ -41,7 +41,7 @@
                         <div class="form-group">
                             <label for="inputLastname">Last name</label>
                             <input type="text" [class.is-invalid]="accountForm.controls['lastname'].invalid  && (accountForm.controls['lastname'].dirty || accountForm.controls['lastname'].touched)" class="form-control form-control-lg form-control-warning " [(ngModel)]="lastname" formControlName="lastname"
-                                placeholder="e.g. Dent" required >
+                                required >
                             <small class="invalid-feedback" >
                                 In the army, that's how they would refer to you. Just tell us (please)
                             </small>

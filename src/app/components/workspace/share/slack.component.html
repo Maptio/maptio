@@ -6,7 +6,7 @@
         <ng-container *ngIf="!showConfiguration">
             <small class="text-muted">Share the current map with your organization! Let them know what you have changed : </small>
             <div class="card-text">
-                <textarea #slackMessage class="form-control unresizable" id="slackMessage" [(ngModel)]="message" rows="3" placeholder=''></textarea>
+                <textarea #slackMessage class="form-control unresizable" id="slackMessage" [(ngModel)]="message" rows="3"></textarea>
                 <div class="d-flex justify-content-end mt-2">
                     <button *ngIf="isPrinting" class="btn btn-outline-secondary disabled">
                         <span>Share</span>
