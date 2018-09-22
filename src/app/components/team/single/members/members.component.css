@@ -18,46 +18,9 @@
     border-right: 2px solid #eee;
 }
 
-table.tableSection {
-    display: table;
-    width: 100%;
-}
 
-table.tableSection.right {
-    font-size: small;
-}
-
-table.tableSection thead, table.tableSection tbody {
-    float: left;
-    width: 100%;
-}
-
-table.tableSection.left tbody {
-    /*overflow: auto;
-    height: 51vh;*/
-    position: relative
-}
-
-table.overflow tbody{
-    overflow: auto;
-    height: 55vh;
-}
-
-table.tableSection.right tbody {
-    overflow: auto;
-    height: 55vh;
-    position: relative
-}
-
-table.tableSection tr {
-    width: 100%;
-    /* display: table; */
-    text-align: left;
-}
-
-table.tableSection th, table.tableSection td {
-    /* width: 20%; */
-    vertical-align: middle;
+tr:first-child > td[_ngcontent-c8] {
+    border-top: 0;
 }
 
 td.delete {
