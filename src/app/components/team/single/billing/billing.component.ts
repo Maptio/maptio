@@ -18,9 +18,12 @@ export class TeamBillingComponent implements OnInit {
     public isLoading: boolean;
     public Permissions = Permissions;
     public KB_URL_INTEGRATIONS = environment.KB_URL_INTEGRATIONS;
+    public BILLING_SMALL_PLAN = environment.BILLING_SMALL_PLAN;
+    public BILLING_MEDIUM_PLAN = environment.BILLING_MEDIUM_PLAN;
+    public BILLING_PORTAL = environment.BILLING_PORTAL;
 
-    constructor(private route: ActivatedRoute, private billingService: BillingService, 
-        private cd: ChangeDetectorRef, private loaderService:LoaderService) { }
+    constructor(private route: ActivatedRoute, private billingService: BillingService,
+        private cd: ChangeDetectorRef, private loaderService: LoaderService) { }
 
     ngOnInit(): void {
         this.loaderService.show();
