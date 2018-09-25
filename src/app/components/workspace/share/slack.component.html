@@ -1,17 +1,17 @@
 <div class="card bg-light border-light">
     <div class="card-body">
-        <h5 class="card-title mb-2 text-muted d-flex justify-content-start align-items-center">
+        <h6 class="card-title mb-2 d-flex justify-content-start align-items-center">
             <img width="30" height="30" src="/assets/images/slack-icon.png" alt="Slack logo"> Share on Slack
-        </h5>
+        </h6>
         <ng-container *ngIf="!showConfiguration">
-            <small class="text-muted">Share the current map with your team! Let them know what you have changed : </small>
+            <small class="text-muted">Share the current map with your organization! Let them know what you have changed : </small>
             <div class="card-text">
-                <textarea #slackMessage class="form-control unresizable" id="slackMessage" [(ngModel)]="message" rows="3" placeholder=''></textarea>
+                <textarea #slackMessage class="form-control unresizable" id="slackMessage" [(ngModel)]="message" rows="3"></textarea>
                 <div class="d-flex justify-content-end mt-2">
                     <button *ngIf="isPrinting" class="btn btn-outline-secondary disabled">
                         <span>Share</span>
                     </button>
-                    <button *ngIf="!isPrinting" class="btn btn-outline-secondary" (click)="sendNotification()">
+                    <button *ngIf="!isPrinting" class="btn btn-outline-secondary btn-sm" (click)="sendNotification()">
                         <span>Share</span>
                     </button>
                 </div>
@@ -27,7 +27,7 @@
             </div>
         </ng-container>
         <ng-container *ngIf="showConfiguration">
-            Slack is not setup for team
+            Slack is not setup for organization
             <strong>{{team?.name}}</strong>!
             <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}/integrations">Configure updates first.</a>
         </ng-container>

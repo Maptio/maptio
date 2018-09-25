@@ -28,10 +28,11 @@ inpu, textarea{
   font: 12px sans-serif;
   width: 43vw;
   max-width: 43vw;
-  max-height: 71vh;
-  height: 71vh;
-  top: -323%;
-  left: 13%;
+  /* max-height: 71vh; */
+  /* overflow-y: auto; */
+  /* height: 71vh; */
+  /* top: -323%;
+  left: 13%; */
   /* overflow-y: auto; */
 }
 

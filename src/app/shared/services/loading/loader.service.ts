@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Subject } from "rxjs/Subject";
+import { NgProgress } from '@ngx-progressbar/core';
 
 export interface LoaderState {
     show: boolean;
@@ -9,11 +10,18 @@ export interface LoaderState {
 export class LoaderService {
     private loaderSubject = new Subject<LoaderState>();
     loaderState = this.loaderSubject.asObservable();
-    constructor() { }
+
+    constructor(public progress: NgProgress) {
+
+    }
+
     show() {
-        this.loaderSubject.next(<LoaderState>{ show: true });
+        this.progress.start()
     }
     hide() {
-        this.loaderSubject.next(<LoaderState>{ show: false });
+        this.progress.done()
+    }
+    keep(){
+        this.progress.inc();
     }
 }

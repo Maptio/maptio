@@ -17,15 +17,12 @@ import { D3Service } from "d3-ng2-service";
 import { FileUploadModule } from "ng2-file-upload";
 import { ResponsiveModule } from "ng2-responsive";
 import { McBreadcrumbsConfig, McBreadcrumbsModule } from "ngx-breadcrumbs";
-import { ANIMATION_TYPES, LoadingModule } from "ngx-loading";
-import * as Rollbar from "rollbar";
 
 import { AnAnchorableComponent } from "../test/specs/shared/component.helper.shared";
-import { environment } from "./../environment/environment";
+import { environment } from "../environment/environment";
 import { AccountComponent } from "./components/account/account.component";
 import { AppComponent } from "./components/app.component";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
-import { DashboardComponentResolver } from "./components/dashboard/dashboard.resolver";
 import { FooterComponent } from "./components/footer/footer.component";
 import { HeaderComponent } from "./components/header/header.component";
 import { HelpComponent } from "./components/help/help.component";
@@ -43,7 +40,7 @@ import { AuthConfiguration } from "./shared/services/auth/auth.config";
 import { authHttpServiceFactory } from "./shared/services/auth/auth.module";
 import { Auth } from "./shared/services/auth/auth.service";
 import { HttpFactoryModule } from "./shared/services/auth/httpInterceptor";
-import { DataService } from "./shared/services/data.service";
+import { DataService, CounterService } from "./shared/services/data.service";
 import { DatasetFactory } from "./shared/services/dataset.factory";
 import { JwtEncoder } from "./shared/services/encoding/jwt.service";
 import { ErrorService } from "./shared/services/error/error.service";
@@ -60,18 +57,32 @@ import { UIService } from "./shared/services/ui/ui.service";
 import { URIService } from "./shared/services/uri.service";
 import { UserFactory } from "./shared/services/user.factory";
 import { UserService } from "./shared/services/user/user.service";
+import { IntercomModule } from 'ng-intercom';
 
 import * as LogRocket from "logrocket";
+import { BillingService } from "./shared/services/billing/billing.service";
+import { BillingGuard } from "./shared/services/guards/billing.guard";
+
+import { NgProgressModule } from '@ngx-progressbar/core';
+import { NgProgressRouterModule } from '@ngx-progressbar/router';
+import { NgProgressHttpModule } from '@ngx-progressbar/http';
+import { CreateMapComponent } from "./shared/components/create-map/create-map.component";
+import { SharedModule } from "./shared/shared.module";
+import { CommonComponentsModule } from "./shared/common-components.module";
+import { PricingComponent } from "./components/pricing/pricing.component";
+
+
 
 const appRoutes: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
 
-  { path: "home", component: HomeComponent, data: { breadcrumbs: "Home" } },
+  { path: "home", component: HomeComponent, data: { breadcrumbs: "Home" }},
 
   { path: "login", component: LoginComponent, data: { breadcrumbs: "Login" } },
 
   { path: "logout", component: LogoutComponent },
   { path: "help", component: HelpComponent, data: { breadcrumbs: "Help" } },
+  { path: "pricing", component: PricingComponent, data: { breadcrumbs: "Pricing" } },
   { path: "signup", component: SignupComponent, data: { breadcrumbs: "Sign up" } },
 
   {
@@ -81,7 +92,7 @@ const appRoutes: Routes = [
     data: { breadcrumbs: "Profile" }
   },
   { path: "unauthorized", component: UnauthorizedComponent },
-  { path: "forgot", component: ChangePasswordComponent, data: { breadcrumbs: "Password change" } },
+  { path: "forgot", component: ChangePasswordComponent, data: { breadcrumbs: "Reset password" } },
   { path: "404", component: NotFoundComponent },
   { path: "**", redirectTo: "/404" }
 ];
@@ -91,43 +102,11 @@ export const cloudinaryLib = {
 };
 
 
-
-const rollbarConfig = {
-  accessToken: environment.ROLLBAR_ACCESS_TOKEN,
-  verbose: true,
-  captureUncaught: true,
-  captureUnhandledRejections: true,
-  payload: {
-    environment: process.env.ENV === "production" ? "production" : "development"
-  }
-
-};
-
-export const RollbarService = new InjectionToken<Rollbar>("rollbar");
-
-@Injectable()
-export class RollbarErrorHandler implements ErrorHandler {
-  constructor( @Inject(RollbarService) private rollbar: Rollbar) { }
-
-  handleError(err: any): void {
-    this.rollbar.error(err.originalError || err);
-  }
-}
-
-
-
-export function rollbarFactory() {
-  return new Rollbar(rollbarConfig);
-}
-
-
-
-
 @NgModule({
   declarations: [
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, LoginComponent, LogoutComponent, HomeComponent, UnauthorizedComponent, NotFoundComponent,
     ChangePasswordComponent, LoaderComponent, SignupComponent,
-    HelpComponent,
+    HelpComponent,PricingComponent,
     DashboardComponent,
     // for tests
     AnAnchorableComponent
@@ -148,40 +127,36 @@ export function rollbarFactory() {
     }),
     Angulartics2Module.forRoot([Angulartics2Mixpanel]),
     FileUploadModule,
-    LoadingModule.forRoot({
-      animationType: ANIMATION_TYPES.threeBounce,
-      fullScreenBackdrop: true,
-      backdropBackgroundColour: "#f8f9fa",
-      backdropBorderRadius: ".25rem",
-      primaryColour: "#EF5E26",
-      secondaryColour: "transparent",
-      tertiaryColour: "#2F81B7"
-    }),
+    NgProgressModule.forRoot(),
+    NgProgressRouterModule,
     HttpFactoryModule,
     BrowserAnimationsModule,
     CloudinaryModule.forRoot(cloudinaryLib, { cloud_name: environment.CLOUDINARY_CLOUDNAME, upload_preset: environment.CLOUDINARY_UPLOAD_PRESET }),
     TeamModule,
-    WorkspaceModule
+    WorkspaceModule,
+    IntercomModule.forRoot({
+      appId: environment.INTERCOM_APP_ID, // from your Intercom config
+      updateOnRouterChange: true // will automatically run `update` on router event changes. Default: `false`
+    }),
+    SharedModule,
+    CommonComponentsModule
 
   ],
   exports: [RouterModule],
   providers: [
     BrowserAnimationsModule,
-    AuthGuard, AccessGuard, WorkspaceGuard, PermissionGuard,
+    AuthGuard, AccessGuard, WorkspaceGuard, PermissionGuard, BillingGuard,
     AuthConfiguration,
-    D3Service, DataService, URIService, ColorService, UIService, DatasetFactory, TeamFactory,
+    D3Service, DataService,CounterService,  URIService, ColorService, UIService, DatasetFactory, TeamFactory,
     ErrorService, Auth, UserService, UserFactory, MailingService, JwtEncoder, LoaderService,
-    ExportService, FileService, PermissionService,
+    ExportService, FileService, PermissionService, BillingService,
     Location,
     { provide: LocationStrategy, useClass: PathLocationStrategy },
     {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,
       deps: [Http, RequestOptions]
-    },
-    DashboardComponentResolver,
-    // { provide: ErrorHandler, useClass: RollbarErrorHandler },
-    // { provide: RollbarService, useFactory: rollbarFactory }
+    }
   ],
   entryComponents: [AppComponent],
   bootstrap: [AppComponent]

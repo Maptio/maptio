@@ -18,7 +18,7 @@ export class InitiativeNodeComponent {
 
     PLACEMENT: string = "top";
     TOGGLE: string = "tooltip";
-    TOOLTIP_ADD: string = "Add sub-initiative"
+    TOOLTIP_ADD: string = "Add sub-circle"
     KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
 
     @Input() node: TreeNode;

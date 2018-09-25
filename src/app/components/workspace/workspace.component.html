@@ -1,41 +1,47 @@
-<div id="sideNavTree" class="" [class.showTree]="!isBuildingPanelCollapsed">
-    <a class="btn toggle " (click)="toggleBuildingPanel()" [class.showTree]="!isBuildingPanelCollapsed">
-        <i class="fa all text-white" [class.fa-list]="isBuildingPanelCollapsed" aria-hidden="true"></i>
-        <i class="fa text-dark" [class.fa-times]="!isBuildingPanelCollapsed" aria-hidden="true"></i>
-    </a>
+<div class="d-flex justify-content-start h-100 overflow-hidden">
+    <div class="sidenav d-flex justify-content-start" [ngStyle]="{'height':'calc(100% - ' + canvasYMargin + 'px)'}">
+        <div id="sidenav-hierarchy" class="hierarchy position-relative bg-white rounded box-shadow" [class.opened]="!isBuildingPanelCollapsed" [class.closed]="isBuildingPanelCollapsed">
+            <div class="card border-0 bg-transparent">
+                <a class="d-flex justify-content-end px-3 cursor-pointer m-0 p-0" [class.invisible]="isBuildingPanelCollapsed" (click)="isBuildingPanelCollapsed=true">
+                        <span aria-hidden="true" class="text-muted">&times;</span>
+                </a>
+                <div class="card-body" [class.show]="!isBuildingPanelCollapsed" [class.hide]="isBuildingPanelCollapsed">
+                    <building #building [user]="user" [isEmptyMap]="isEmptyMap" (save)="saveChanges($event)" (openDetails)="openDetails($event)" (openDetailsEditOnly)="openDetails($event,true)">Loading...</building>
 
-    <div id="edit-panel-tree" class="mt-3 ml-1 mr-3 row" [class.showTree]="!isBuildingPanelCollapsed">
-        <div class="building">
-            <building #building [user]="user" (save)="saveChanges($event)" (openDetails)="openDetails($event)" (openDetailsEditOnly)="openDetails($event,true)">Loading...</building>
-        </div>
-    </div>
-</div>
-
-<div id="sideNavDetails" class="rounded-right" [class.showDetails]="!isDetailsPanelCollapsed" [class.showTree]="!isBuildingPanelCollapsed">
-    <a class="btn toggle" (click)="toggleDetailsPanel()" [class.showDetails]="!isDetailsPanelCollapsed">
-        <i class="fa text-dark" [class.fa-times]="!isDetailsPanelCollapsed" aria-hidden="true"></i>
-    </a>
-
-    <div id="edit-panel-details" class=" ml-1 showDetails" [class.showDetails]="!isDetailsPanelCollapsed">
-        <div class="details" *ngIf="!isDetailsPanelCollapsed">
-            <initiative *ngIf="!isDetailsPanelCollapsed" #initiative [datasetTags]="tags" [datasetId]="datasetId" [node]="openedNode" [team]="team"
-                 (edited)="saveDetailChanges()"></initiative>
+                </div>
+            </div>
 
         </div>
+        <div id="sidenav-details" class="details position-relative bg-orange rounded box-shadow"
+         [class.opened]="!isDetailsPanelCollapsed" 
+         [class.closed]="isDetailsPanelCollapsed"
+         [class.offset]="!isDetailsPanelCollapsed && isBuildingPanelCollapsed"
+         >
+            <div class="card border-0 bg-transparent">
+                <a class="d-flex justify-content-end px-3  cursor-pointer  m-0 p-0" [class.invisible]="isDetailsPanelCollapsed" (click)="isDetailsPanelCollapsed=true">
+                        <span aria-hidden="true" class="text-muted">&times;</span>
+                </a>
+                <div class="card-body " [class.show]="!isDetailsPanelCollapsed" [class.hide]="isDetailsPanelCollapsed">
+                    <initiative *ngIf="!isDetailsPanelCollapsed" #initiative [datasetTags]="tags" [datasetId]="datasetId" [node]="openedNode"
+                        [team]="team" (edited)="saveDetailChanges()"></initiative>
+                </div>
+            </div>
+
+        </div>
     </div>
-</div>
-
-
-
-
-<div id="main" tabindex="1"  [class.expand]="!isBuildingPanelCollapsed"
-(focus)="isBuildingPanelCollapsed=true; isDetailsPanelCollapsed=true;">
-    <div  class="mapping" >
-        <mapping [tags]="selectableTags" (showDetails)="openDetails($event, true)" (addInitiative)="addInitiative($event)" (removeInitiative)="removeInitiative($event)"
-            (moveInitiative)="moveInitiative($event)" (closeEditingPanel)="closeEditingPanel()" (openTreePanel)="isBuildingPanelCollapsed=false" (applySettings)="applySettings($event)"
-            (expandTree)="buildingComponent.toggleAll(true)"
+    <div [ngStyle]="{'height':'calc(100% - ' + canvasYMargin + 'px)'}" class="open-nav d-flex flex-column justify-content-start align-items-center cursor-pointer rounded-right box-shadow" 
+    [class.closed]="isBuildingPanelCollapsed" [class.opened]="!isBuildingPanelCollapsed" (click)="isBuildingPanelCollapsed=false">
+        <span class="p-2" *ngIf="isBuildingPanelCollapsed">
+            <i class="fa fa-chevron-right text-muted" aria-hidden="true"></i>
             
-            >
-        Loading...</mapping>
+        </span>
+    </div>
+
+    <div id="main" [ngStyle]="{'height':'calc(100% - ' + 7 + 'px)'}" class="d-flex justify-content-center w-100 position-relative rounded box-shadow bg-white" [class.half-push]="isOnePanelOpened()"
+        [class.full-push]="isTwoPanelsOpened()" [class.offset]="!isDetailsPanelCollapsed && isBuildingPanelCollapsed">
+        <mapping [tags]="selectableTags" [isEmptyMap]="isEmptyMap" (showDetails)="openDetails($event, true)" (addInitiative)="addInitiative($event)" (removeInitiative)="removeInitiative($event)"
+            (moveInitiative)="moveInitiative($event)" (closeEditingPanel)="closeEditingPanel()" (openTreePanel)="isBuildingPanelCollapsed=false"
+            (applySettings)="applySettings($event)" (expandTree)="buildingComponent.toggleAll(true)" >
+            Loading...</mapping>
     </div>
 </div>

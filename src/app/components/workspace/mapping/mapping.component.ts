@@ -51,7 +51,7 @@ export class MappingComponent {
   PLACEMENT: string = "left";
   TOGGLE: string = "tooltip";
   TOOLTIP_PEOPLE_VIEW: string = "People view";
-  TOOLTIP_INITIATIVES_VIEW: string = "Initiatives view";
+  TOOLTIP_INITIATIVES_VIEW: string = "Circles view";
   TOOLTIP_ZOOM_IN: string = "Zoom in";
   TOOLTIP_ZOOM_OUT: string = "Zoom out";
   TOOLTIP_ZOOM_FIT: string = "Zoom fit";
@@ -78,8 +78,8 @@ export class MappingComponent {
   public selectableTags$: Subject<Array<SelectableTag>>;
   // public selectableUsers$: Subject<Array<SelectableUser>>;
 
-  public VIEWPORT_WIDTH: number = window.screen.availWidth;
-  public VIEWPORT_HEIGHT: number = window.screen.availHeight;
+  public VIEWPORT_WIDTH: number; // = document.body.clientWidth -120;
+  public VIEWPORT_HEIGHT: number; // = document.body.clientHeight-125;
 
   public isLoading: boolean;
   public datasetId: string;
@@ -99,6 +99,7 @@ export class MappingComponent {
   public data$: Subject<{ initiative: Initiative; datasetId: string }>;
 
   @Input("tags") selectableTags: Array<SelectableTag>;
+  @Input("isEmptyMap") isEmptyMap:Boolean;
   @Output("showDetails") showDetails = new EventEmitter<Initiative>();
   @Output("addInitiative") addInitiative = new EventEmitter<Initiative>();
   @Output("removeInitiative") removeInitiative = new EventEmitter<Initiative>();
@@ -159,6 +160,9 @@ export class MappingComponent {
       datasetId: string;
     }>();
 
+    this.VIEWPORT_HEIGHT = uiService.getCanvasHeight();
+    this.VIEWPORT_WIDTH = uiService.getCanvasWidth();
+
 
   }
 
@@ -199,7 +203,7 @@ export class MappingComponent {
           .get("tags")
           .split(",")
           .map(
-          (s: string) => new SelectableTag({ shortid: s, isSelected: true })
+            (s: string) => new SelectableTag({ shortid: s, isSelected: true })
           )
         : [];
     // let membersState = this.uriService.parseFragment(f).has("users") && this.uriService.parseFragment(f).get("users")
@@ -212,6 +216,7 @@ export class MappingComponent {
 
     component.width = this.VIEWPORT_WIDTH;
     component.height = this.VIEWPORT_HEIGHT;
+    // console.log("svg width", this.VIEWPORT_WIDTH, "screen width", window.screen.availWidth, "browser width", window.innerWidth)
 
     component.margin = 50;
     component.zoom$ = this.zoom$.asObservable();
@@ -221,6 +226,7 @@ export class MappingComponent {
     component.fontColor$ = this.fontColor$.asObservable();
     component.mapColor$ = this.mapColor$.asObservable();
     component.zoomInitiative$ = this.zoomToInitiative$.asObservable();
+    component.toggleOptions$ = this.toggleOptions$.asObservable();
     // component.isLocked$ = this.isLocked$.asObservable();
     component.translateX = this.x;
     component.translateY = this.y;
@@ -271,8 +277,8 @@ export class MappingComponent {
               .get("tags")
               .split(",")
               .map(
-              (s: string) =>
-                new SelectableTag({ shortid: s, isSelected: true })
+                (s: string) =>
+                  new SelectableTag({ shortid: s, isSelected: true })
               )
             : <SelectableTag[]>[];
         // let fragmentUsers = this.uriService.parseFragment(fragment).has("users") && this.uriService.parseFragment(fragment).get("users")
@@ -328,6 +334,15 @@ export class MappingComponent {
         return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_HEIGHT /
           2}&scale=1`;
     }
+  }
+
+
+  public _toggleOptions: Boolean = false;
+  public toggleOptions$: BehaviorSubject<Boolean> = new BehaviorSubject(this._toggleOptions)
+
+  toggleOptions(isActive: Boolean) {
+    this._toggleOptions = isActive ? !this._toggleOptions : false;
+    this.toggleOptions$.next(this._toggleOptions)
   }
 
   zoomOut() {
@@ -445,10 +460,10 @@ export class MappingComponent {
         // console.log("result", result);
         this.isPrinting = false; this.hasNotified = true; this.cd.markForCheck()
       },
-      (err) => {
-        this.hasConfigurationError = true;
-        this.cd.markForCheck();
-      })
+        (err) => {
+          this.hasConfigurationError = true;
+          this.cd.markForCheck();
+        })
 
   }
 

@@ -1,7 +1,4 @@
-<ngx-loading [show]="isLoading">
-</ngx-loading>
-
-<div class="d-flex justify-content-center mt-4">
+<div class="d-flex justify-content-center mt-4" [style.width.px]="width">
     <div class="col-10">
         <div class="card bg-light border-light">
             <div class="card-title">
@@ -14,7 +11,7 @@
         <div class="d-flex justify-content-between mt-3 overflow">
             <div class="w-50 mr-1">
                 <h5 *ngIf="authorities.length===0" class="card-title">Not a {{team?.settings.authority | lowercase }} yet</h5>
-                <h5 *ngIf="authorities.length>0" class="card-title">{{team?.settings.authority | titlecase }} of initiatives</h5>
+                <h5 *ngIf="authorities.length>0" class="card-title">{{team?.settings.authority | titlecase }} of circles</h5>
 
                 <div *ngFor="let i of authorities; let ix=index" class="card  mb-3">
                     <div class="card-header bg-transparent">
@@ -72,7 +69,7 @@
             <div class="w-50 ml-1">
 
                 <h5 *ngIf="helps.length===0" class="card-title">No helping participation yet.</h5>
-                <h5 *ngIf="helps.length>0" class="card-title">A {{team.settings.helper | lowercase }} in initiatives</h5>
+                <h5 *ngIf="helps.length>0" class="card-title">A {{team.settings.helper | lowercase }} in circles</h5>
 
                 <div *ngFor="let i of helps; let ix=index" class="card  mb-3">
                     <div class="card-header bg-transparent">

@@ -30,15 +30,11 @@
 	<link rel="stylesheet" href="assets/styles/breadcrumb.css">
 	<link rel="stylesheet" href="assets/styles/tags.css">
 	<link rel="stylesheet" href="assets/styles/markdown.css">
-	<!--Bootstrap Theme-->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-	 crossorigin="anonymous">
+	<link rel="stylesheet" href="assets/styles/collapsing.css">
+	<link rel="stylesheet" href="assets/styles/progress-bar.css">
 
-	<!-- <link rel="stylesheet" href="assets/styles/theme.css"> -->
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-markdown/2.10.0/css/bootstrap-markdown.min.css">
-	<!-- start Mixpanel -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
 	<script type="text/javascript">
 		(function (e, a) {
 			if (!a.__SV) {
@@ -55,8 +51,6 @@
 		})(document, window.mixpanel || []);
 		mixpanel.init("de90e67220137ed9cab9510a84ba7ecf");
 	</script>
-	<!-- end Mixpanel -->
-	<!-- start Fullstory -->
 	<script>
 		window['_fs_debug'] = false;
 		window['_fs_host'] = 'fullstory.com';
@@ -82,37 +76,63 @@
 </head>
 
 <body>
-
 	<my-app>
-	</my-app>
+		<div class="container-fluid h-100 overflow-auto bg-transparent grayscale p-0">
+			<div class="d-flex flex-column h-100">
+				<header>
+					<nav class="header invisible navbar sticky-top  navbar-expand-sm navbar-light bg-transparent justify-content-between pr-2">
 
-	<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
-	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
-	 crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
-	 crossorigin="anonymous"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
-	 crossorigin="anonymous"></script> -->
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-	 crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-	 crossorigin="anonymous"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-	 crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-markdown/2.10.0/js/bootstrap-markdown.min.js"></script>
+					</nav>
+				</header>
+				<div class="container-fluid p-0 h-100 overflow-x-hidden bg-transparent">
+					<home>
+						<div class="h-100 d-flex justify-content-center align-items-start flex-column home-background">
+							<div class="d-flex flex-column justify-content-center align-items-center h-100 col-6">
+								<!---->
+								<div class="text-blue text-center">
+									<h1>Maptio helps you organise without traditional management hierarchy</h1>
+									<h4>Visualise your organisation in nested circles</h4>
+									<h4>Keep track of everyone’s roles</h4>
+
+									<button class="btn btn-success btn-lg my-3" routerlink="/signup" tabindex="0">Get started - Free for 14 days</button>
+
+									<div class="text-muted">Already use Maptio?
+										<a routerlink="/login" href="/login">Log in</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</home>
+				</div>
+				<footer>
+					<nav class=" footer navbar bg-transparent d-flex justify-content-between col-11 mx-3 py-1 px-0">
+						<span class="navbar-text">
+							<div class="text-muted">
+								<a class="small mr-1"  target="blank">
+									<span class="text-muted">Terms</span>
+								</a>|
+								<a class="small mr-1 text-muted"  target="blank">
+									<span class="text-muted">Privacy</span>
+								</a>|
+								<a class="small mr-1 text-muted"  target="blank">
+									<span class="text-muted">Blog</span>
+								</a>|
+								<a class="small mr-1 text-muted" >
+									<span class="text-muted">Help &amp; support</span>
+								</a>
+							</div>
+						</span>
+						<span class="navbar-text text-muted">
+							<small class="">Copyright
+								<i class="fa fa-copyright" aria-hidden="true"></i> 2018 Maptio Ltd</small>
+						</span>
+					</nav>
+				</footer>
+			</div>
+		</div>
+	</my-app>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/markdown.js/0.5.0/markdown.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/to-markdown/3.1.0/to-markdown.min.js"></script>
-	<script>
-		$(function () {
-			$('[data-toggle="tooltip"]').tooltip({ 'delay': { show: 100, hide: 100 }, 'container': 'body' });
-
-		})
-	</script>
-	<script type="text/javascript" src="https://canvg.github.io/canvg/rgbcolor.js"></script>
-	<script type="text/javascript" src="https://canvg.github.io/canvg/StackBlur.js"></script>
-	<script type="text/javascript" src="https://canvg.github.io/canvg/canvg.js"></script>
-
 </body>
 
 </html>

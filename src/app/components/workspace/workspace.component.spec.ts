@@ -27,7 +27,11 @@ import { Auth } from "../../shared/services/auth/auth.service";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 import { UserService } from "../../shared/services/user/user.service";
 import { JwtEncoder } from "../../shared/services/encoding/jwt.service";
-
+import { UIService } from '../../shared/services/ui/ui.service';
+import { MarkdownService } from 'angular2-markdown';
+import { D3Service } from 'd3-ng2-service';
+import { LoaderService } from "../../shared/services/loading/loader.service";
+import { NgProgress } from "@ngx-progressbar/core";
 
 export class AuthStub {
     fakeProfile: User = new User({
@@ -81,6 +85,17 @@ describe("workspace.component.ts", () => {
                         },
                         deps: [MockBackend, BaseRequestOptions]
                     },
+                    {
+                        provide: LoaderService,
+                        useClass: class {
+                            hide = jasmine.createSpy("hide")
+                            show = jasmine.createSpy("show")
+                        },
+                        deps: [NgProgress]
+                    },
+                    NgProgress,
+
+                UIService,D3Service, MarkdownService,,
                     MockBackend, NgbModal,
                     BaseRequestOptions,
                     { provide: Auth, useClass: AuthStub },
@@ -92,7 +107,7 @@ describe("workspace.component.ts", () => {
                             data: Observable.of({
                                 data: {
                                     dataset:
-                                    new DataSet({ datasetId: "123" }),
+                                    new DataSet({ datasetId: "123", initiative: new Initiative() }),
                                     team: new Team({ team_id: "team123", name: "team" }),
                                     members: []
                                 }

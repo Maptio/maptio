@@ -1,5 +1,5 @@
 import { BuildingComponent } from "./building/building.component";
-import { DataService } from "./../../shared/services/data.service";
+import { DataService, CounterService } from "./../../shared/services/data.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs/Rx";
 import { Initiative } from "./../../shared/model/initiative.data";
@@ -10,11 +10,6 @@ import { DatasetFactory } from "./../../shared/services/dataset.factory";
 import { ViewChild } from "@angular/core";
 import {
     Component, OnInit, OnDestroy,
-    trigger,
-    state,
-    style,
-    transition,
-    animate,
     ChangeDetectorRef,
     ChangeDetectionStrategy
 } from "@angular/core";
@@ -22,6 +17,7 @@ import { ActivatedRoute } from "@angular/router";
 import { User } from "../../shared/model/user.data";
 import { Tag, SelectableTag } from "../../shared/model/tag.data";
 import { intersectionBy } from "lodash";
+import { UIService } from "../../shared/services/ui/ui.service";
 
 @Component({
     selector: "workspace",
@@ -38,6 +34,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     public isBuildingPanelCollapsed: boolean = true;
     public isDetailsPanelCollapsed: boolean = true;
+    public isEmptyMap: Boolean;
     // public isSettingsPanelCollapsed: boolean = true;
     public datasetId: string;
     private routeSubscription: Subscription;
@@ -49,6 +46,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public teams: Team[];
     public tags: Tag[];
     public user: User;
+    public canvasYMargin: number;
+    public canvasHeight:number
 
     public openedNode: Initiative;
     public openedNodeParent: Initiative;
@@ -63,15 +62,15 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     dragConfirmationModal: NgbModal;
 
     ngOnDestroy(): void {
-        // EmitterService.get("currentDataset").emit(undefined);
         EmitterService.get("currentTeam").emit(undefined)
-        // EmitterService.get("currentMembers").emit(undefined);
         if (this.routeSubscription) this.routeSubscription.unsubscribe();
         if (this.userSubscription) this.userSubscription.unsubscribe();
     }
 
     constructor(private route: ActivatedRoute, private datasetFactory: DatasetFactory,
-        private dataService: DataService, private cd: ChangeDetectorRef) {
+        private dataService: DataService,private cd: ChangeDetectorRef, private uiService: UIService) {
+            this.canvasYMargin = uiService.getCanvasYMargin();
+            this.canvasHeight = uiService.getCanvasHeight();
     }
 
     ngOnInit() {
@@ -85,38 +84,31 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.datasetId = this.dataset.datasetId;
                 this.teamName = this.team.name;
                 this.teamId = this.team.team_id;
-                // EmitterService.get("currentDataset").emit(this.dataset);
-                // console.log("workspace", this.team)
                 EmitterService.get("currentTeam").emit(this.team);
-                // EmitterService.get("currentMembers").emit(this.members);
-                this.buildingComponent.loadData(this.dataset.datasetId, "", this.team);
+                this.buildingComponent.loadData(this.dataset.datasetId, "", this.team, this.tags, this.members);
+                this.isEmptyMap = !this.dataset.initiative.children || this.dataset.initiative.children.length === 0;
+                this.cd.markForCheck();
             });
     }
 
 
-
-    // toggleTag(tag: SelectableTag) {
-    //     tag.isSelected = !tag.isSelected;
-    //     this.selectableTags = this.dataset.tags.map(t => <SelectableTag>t) // .filter(t => t.isSelected);
-    // }
-
     saveDetailChanges() {
-        // console.log("saveDetailChanges")
         this.buildingComponent.saveChanges();
     }
 
     applySettings(data: { initiative: Initiative, tags: Tag[] }) {
-        // console.log("save settings", data.tags);
         data.initiative.traverse((node: Initiative) => {
             node.tags = intersectionBy(data.tags, node.tags, (t: Tag) => t.shortid);
         })
-
         this.saveChanges(data.initiative, data.tags);
         this.cd.markForCheck();
     }
 
     saveChanges(initiative: Initiative, tags?: Array<Tag>) {
-        // console.log("svechanges", initiative, tags)
+        this.isEmptyMap = !initiative.children || initiative.children.length === 0;
+        this.cd.markForCheck();
+        EmitterService.get("isSavingInitiativeData").emit(true);
+
         this.dataset.initiative = initiative;
         if (tags) {
             this.dataset.tags = tags;
@@ -126,8 +118,12 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
             .then((hasSaved: boolean) => {
                 this.dataService.set({ initiative: initiative, datasetId: this.datasetId, teamName: this.teamName, teamId: this.teamId, team: this.team, tags: this.dataset.tags, members: this.members });
                 return hasSaved;
-            }, (reason) => { /*console.log(reason)*/ });
+            }, (reason) => { /*console.log(reason)*/ })
+            .then(() => {
+                EmitterService.get("isSavingInitiativeData").emit(false);
 
+                // this.counterService.set({ datasetId: this.datasetId, time: moment() })
+            });
     }
 
     toggleBuildingPanel() {
@@ -138,30 +134,29 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.isDetailsPanelCollapsed = !this.isDetailsPanelCollapsed;
     }
 
-    // toggleSettingsPanel() {
-    //     this.isSettingsPanelCollapsed = !this.isSettingsPanelCollapsed;
-    // }
+    isOnePanelOpened() {
+        return this.isBuildingPanelCollapsed !== this.isDetailsPanelCollapsed;
+    }
 
+    isTwoPanelsOpened() {
+        return !this.isDetailsPanelCollapsed && !this.isBuildingPanelCollapsed;
+    }
 
     openDetails(node: Initiative, willCloseBuildingPanel: boolean = false) {
-        // this.openedNodeParent = node.getParent(this.dataset.initiative);
         this.openedNode = node;
         this.isBuildingPanelCollapsed = willCloseBuildingPanel;
         this.isDetailsPanelCollapsed = false;
     }
 
     addInitiative(node: Initiative) {
-        // console.log("workspace.compoentn", "adding to", node.name);
         this.buildingComponent.addNodeTo(node);
     }
 
     removeInitiative(node: Initiative) {
-        // console.log("workspace.compoentn", "remove", node.name);
         this.buildingComponent.removeNode(node);
     }
 
     moveInitiative({ node, from, to }: { node: Initiative, from: Initiative, to: Initiative }) {
-        // console.log("workspace.compoentn", "move", node.name, "", to.name);
         this.buildingComponent.moveNode(node, from, to);
     }
 
@@ -169,5 +164,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.isDetailsPanelCollapsed = true;
         this.isBuildingPanelCollapsed = true;
     }
+
+    
 
 }

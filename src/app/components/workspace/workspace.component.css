@@ -1,230 +1,141 @@
-.member {
-    float: left;
-    background: 50% 50% no-repeat;
-    background-size: auto 100%;
-    max-width: 22px;
+ .sidenav{
+    height: 100%; /* 100% Full-height */
+    position: fixed; /* Stay in place */
+    z-index: 1;
+    top: 0; /* Stay at the top */
+    left: 0;
+    margin-top: 61px; /* Place content 60px from the top */
+    transition: width 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+
+    /* border:solid 1px red; */
+    /* box-shadow: 0 6px 50px #999; */
+ }
+
+ .sidenav > .opened{
+    width: 42vw;
+    z-index: 1;
+ }
+
+ .sidenav > .closed{
+    width:0;
+    z-index: 0;
 }
+ 
 
-.no-padding {
-    padding: 0;
-}
+ #sidenav-hierarchy, #sidenav-details{
+    transition: width 0.5s;
+ }
 
-
-
-.team-name {
-    /* padding: 0 8px 1px 0; */
-    /* margin: -18px 0 0 0; */
-    font-size: initial;
-    margin-right: 13px;
-}
-
-.profile-img {
-    border-radius: 23px;
-}
-
-.mapping {
-    /* opacity: 0.8; */
-    /* margin-left: 25px;
-    position: absolute; */
-    /* left: 0; */
-    /* top: 0; */
-    width: 100%;
-    height: 100%;
-}
-
-/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
-
-#main {
-    transition: margin-left .5s;
-    width: 100%;
-    height: 100%;
-    /* padding-top: 5vh; */
-}
-
-#main.showTree {
-    /* margin-left: 665px; */
-    transition: 0.5s;
-}
-
-#main.slide {
-    margin-right: 50vw;
-    transition: 0.5s;
-}
-
-#edit-panel-tree {
-    opacity: 0;
-    transition: opacity 0.5s ease-in;
-}
-
-#edit-panel-tree.showTree {
-    opacity: 1;
-    transition: opacity 0.5s ease-in;
-}
 
 /* The side navigation menu */
-
-#sideNavTree {
-    height: 90vh;
-    max-height: 90vh;
-    min-width: 3.0vw;
-    position: fixed;
-    left: 0;
-    overflow: hidden;
-    transition: 0.5s ease-in;
-    background-color: rgb(41, 128, 185);
-    margin-top: 3vh;
-    width: 0;
-    padding: 10px 0 0 10px;
+.sidenav >  .hierarchy {
+    background-color: transparent; 
 }
 
-#sideNavTree.showTree {
-    background-color: #f8f9fa;
-    width: 45vw;
-    transition: 0.5s ease-in;
-    padding: 10px;
-    z-index: 10;
+.sidenav >  .details {
+    margin-left: 1vw;
 }
 
-#sideNavDetails {
-    height: 90vh;
-    max-height: 90vh;
-    /* min-width: 3.5vw; */
-    position: fixed;
-    left: 0;
-    overflow: hidden;
-    transition: 0.5s ease-in;
-    background-color: #EF5E26;
-    margin-top: 3vh;
-    width: 0;
-    padding: 10px 0 0 10px;
-    margin-left: 3.0vw;
-    z-index: 10;
+.sidenav >  .details.offset {
+    margin-left: 4vw;
 }
-
-#sideNavDetails.showDetails {
-    width: 45vw;
-    transition: 0.5s ease-in;
-    padding: 10px;
-    z-index: 10;
-}
-
-#sideNavDetails.showTree {
-    margin-left: 45vw;
-}
-
 
 
 /* The navigation menu links */
-
 .sidenav a {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
     font-size: 25px;
     color: #818181;
     display: block;
-    transition: 0.3s
+    transition: 0.5s;
 }
 
 /* When you mouse over the navigation links, change their color */
-
-.sidenav a:hover, .offcanvas a:focus {
+.sidenav a:hover {
     color: #f1f1f1;
 }
 
 /* Position and style the close button (top right corner) */
-
-.closebtn {
+.sidenav .closebtn {
     position: absolute;
-    top: -5px;
-    right: 3px;
-    font-size: 20px;
-    /* margin-left: 50px; */
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+.card-body.show{
+    visibility: visible;
+    opacity: 1;
+    transition: 0.5s;
+}
+
+.card-body.hide{
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.5s;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+    transition: margin-left .5s;
+    margin-left:4vw;
+    margin-right:2vw;
+    /* margin-top:1w; */
+    position: fixed;
+    z-index: 1;
+    margin-top: 4px;
+    /*  */
+    /* 
+    
+    margin-right:2vw; */
+}
+
+#main.half-push{
+    margin-left:43vw;
+}
+
+#main.half-push.offset{
+    margin-left:47vw;
+}
+
+
+#main.full-push{
+    margin-left:86vw;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
-
-@media screen and (max-height: 450px) {
-    .sidenav {
-        padding-top: 15px;
-    }
-    .sidenav a {
-        font-size: 18px;
-    }
-}
-
-.edit-map {
-    /* position: absolute; */
-    top: -5vh;
-    left: -20vh;
-    transition: 0.3s;
-    -webkit-transform: rotate(-90deg);
-    -webkit-transform-origin: top left;
-    -moz-transform: rotate(90deg);
-    -moz-transform-origin: bottom left;
-    -ms-transform: rotate(90deg);
-    -ms-transform-origin: bottom left;
-    -o-transform: rotate(90deg);
-    -o-transform-origin: bottom left;
-    transform: rotate(-90deg);
-    transform-origin: top left;
-}
-
-.edit-map>a {
-    color: gray;
-    border: 1px solid lightgray;
-    background-color: transparent;
-    clear: both;
-}
-
-.edit-map>a:hover {
-    color: black;
-}
-
-.edit-map a {
-    border: 0;
-}
-
-/* .toggle-edit:before {
-    content: "\f07c";
-    font-family: FontAwesome;
+/* @media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
 } */
 
-.toggle {
-    /* padding: 0; */
-    padding: 3vh;
-    margin: -3vh;
-}
-
-.all {
-    /* padding: -4vh; */
-    margin: -3vh -3vh -77vh -3vh;
-    padding: 3vh 3vh 77vh 3vh;
-}
-
-.toggle.showTree {
-    margin-left: 40vw;
+.open-nav{
+    margin-top: 61px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    border-left:0;
+    overflow-x: hidden;
     transition: 0.5s;
+    width: 3vw;
+    margin-right :1vw;
+    background: var(--white);
 }
 
-.toggle.showTree>.all {
-    margin: -3vh -3vh -3vh -3vh;
-    padding: 3vh 3vh 3vh 3vh;
+.open-nav.closed{
+
 }
 
-.toggle.showDetails {
-    transition: 0.5s;
-    margin-left: 41vw;
+.open-nav.opened, .open-nav.opened:hover{
+    width: 0vw;
+    transition: 0.25s;
 }
 
-.toggle:hover {
-    opacity: 0.7
+.open-nav:hover{
+    width:3.5vw;
+    transition: 0.25s;
 }
 
-.building {
-    padding: 0;
-}
-
-
-.black {
-    color: black;
-}

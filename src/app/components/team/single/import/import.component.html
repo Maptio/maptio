@@ -1,18 +1,12 @@
 <div class="w-100">
     <h5 class="card-title">
-        Import team members from a
+        Import people from a
         <strong>.csv</strong> file.
     </h5>
 </div>
 
 
 <div class="w-100 h-100 d-flex flex-column justify-content-start">
-    <!-- <div class="card mb-3 bg-light border-light">
-        <div class="card-body">
-            <a class="btn btn-link text-success" href="{{IMPORT_USERS_TEMPLATE_URL}}" target="blank">
-                <i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i>Download a template</a>
-        </div>
-    </div> -->
 
     <div class="card mb-3 bg-light border-light">
         <div class="card-body">
@@ -31,11 +25,9 @@
             </div>
 
             <div class="small">
-                    Required columns (in that order): <samp>First name</samp>, <samp>Last name</samp>, <samp>Email</samp>, <samp>Permission type</samp>
+                    Required columns (in that order): <samp>First name</samp>, <samp>Last name</samp>, <samp>Email</samp>
             </div>
             <span class=" small">
-                <!-- The file should have 4 columns : "First name", "Last name", "Email" and "Permission type" (Admin or Standard)
-                in that order -->
                  Not sure about the format?
                 <a class="text-success strong" href="{{IMPORT_USERS_TEMPLATE_URL}}" target="blank">
                     <i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i>
@@ -61,11 +53,11 @@
                 <table class="table table-hover tableSection right">
                     <tbody>
                         <ng-container *ngFor="let csvRec of csvRecords;let i=index">
-                            <tr class="row pl-2 text-muted">
+                            <tr class="row text-muted">
                                 <ng-container *ngFor="let data of csvRec;let j=index">
 
-                                    <td class="wrap" [class.col-2]="j<2 || j===3" [class.col-3]="j===2" *ngIf="j<4">{{data}}</td>
-                                    <td class="col" *ngIf="j===4">
+                                    <td class="wrap col-3"  *ngIf="j<3">{{data}}</td>
+                                    <td class="col-3" *ngIf="j===3">
                                         <span *ngIf="csvRec[5]===true && csvRec[4] !== 'Imported'" aria-hidden="true" class="text-warning">{{csvRec[4]}}</span>
                                         <i *ngIf="csvRec[5]===true && csvRec[4] === 'Imported'" class="fa fa-check text-success" aria-hidden="true"></i>
                                         <i *ngIf="csvRec[5]===false" class="text-muted fa fa-circle-o-notch fa-spin fa-fw"></i>

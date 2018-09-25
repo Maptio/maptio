@@ -1,13 +1,13 @@
 <div class="card bg-light border-light">
   <div class="card-body">
-    <h5 class="card-title mb-2 text-muted d-flex justify-content-start">Tags
+    <h6 class="card-title mb-2 d-flex justify-content-start">Tags
       <span class="btn btn-link btn-sm pl-0 ml-auto" (click)="isEditTags=!isEditTags">Edit tags
         <span class="mr-1">
           <i *ngIf="isEditTags" class="fa fa-caret-down" aria-hidden="true"></i>
           <i *ngIf="!isEditTags" class="fa fa-caret-left" aria-hidden="true"></i>
         </span>
       </span>
-    </h5>
+    </h6>
     <span>
       <button class="btn btn-link btn-sm p-0" (click)="selectAllTags()">Select all</button>
       <button class="btn btn-link btn-sm p-0" (click)="unselectAllTags()">Unselect all</button>
@@ -31,7 +31,7 @@
       <h6 class="mt-4">Edit tags</h6>
       <form class="form-group form-inline ml-3 mt-1" [formGroup]="newTagForm" (submit)="addTag()">
         <div class="pl-0 pr-0" [class.has-warning]="newTagForm.controls['name'].invalid  && (newTagForm.controls['name'].dirty || newTagForm.controls['name'].touched)">
-          <input type="text" id="inputname" formControlName="name" placeholder="New tag" required name class="w-100 form-control ">
+          <input type="text" id="inputname" formControlName="name" required name class="w-100 form-control ">
         </div>
         <div class="ml-2 pl-2 pr-0">
           <input class="form-control" placeholder="Pick a color" [(colorPicker)]="newTagColor" [style.background]="newTagColor" [value]="newTagColor"
@@ -44,7 +44,7 @@
       <div class="overflow ">
 
         <div class="form-group row ml-0" *ngFor="let tag of tags; let i=index">
-          <span class="remove text-danger mr-1 mt-1" placement="top" container="body" mwlConfirmationPopover title="This cannot be undone! The tag {{tag.name}} will be removed from all initiatives too. Confirm?"
+          <span class="remove text-danger mr-1 mt-1" placement="top" container="body" mwlConfirmationPopover title="This cannot be undone! The tag {{tag.name}} will be removed from all circles too. Confirm?"
             focusbutton="cancel" appendToBody="false" (confirm)="removeTag(tag)" (cancel)="cancelClicked = true">
 
           </span>

@@ -8,7 +8,7 @@ import { Initiative } from "./../../../../shared/model/initiative.data";
 import { SelectableUser } from "./../../../../shared/model/user.data";
 import { SelectableTag, Tag } from "./../../../../shared/model/tag.data";
 import { IDataVisualizer } from "./../../mapping/mapping.interface";
-import { Observable, Subject } from "rxjs/Rx";
+import { Observable, Subject, BehaviorSubject } from "rxjs/Rx";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs/Subscription";
 import {
@@ -20,6 +20,7 @@ import {
 import { D3Service, D3, ScaleLinear, HSLColor } from "d3-ng2-service";
 import { transition } from "d3-transition";
 import { partition } from "lodash";
+import { LoaderService } from "../../../../shared/services/loading/loader.service";
 
 @Component({
   selector: "zoomable",
@@ -49,6 +50,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public fontColor$: Observable<string>;
   public mapColor$: Observable<string>;
   public zoomInitiative$: Observable<Initiative>;
+  public toggleOptions$: Observable<Boolean>;
   public isLocked$: Observable<boolean>;
   public data$: Subject<{
     initiative: Initiative;
@@ -74,8 +76,16 @@ export class MappingZoomableComponent implements IDataVisualizer {
   private fontSubscription: Subscription;
   private lockedSubscription: Subscription;
   private tagsSubscription: Subscription;
+  private selectableTagsSubscription: Subscription;
+  public toggleOptionsSubscription: Subscription;
 
   public analytics: Angulartics2Mixpanel;
+
+
+  public _isDisplayOptions: Boolean = false;
+  public _isFullDisplayMode: Boolean = false;
+
+  private isFullDisplayMode$: BehaviorSubject<Boolean> = new BehaviorSubject<Boolean>(this._isFullDisplayMode);
 
   private svg: any;
   private g: any;
@@ -99,6 +109,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   CIRCLE_RADIUS: number = 12;
   MAX_TEXT_LENGTH = 35;
   TRANSITION_DURATION = 750;
+  ZOOMING_TRANSITION_DURATION = 250;
   TRANSITION_OPACITY = 750;
   RATIO_FOR_VISIBILITY = 0.08;
   OPACITY_DISAPPEARING = 0.1;
@@ -118,7 +129,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
     private userFactory: UserFactory,
     private cd: ChangeDetectorRef,
     private dataService: DataService,
-    private uriService: URIService
+    private uriService: URIService,
+    private loaderService: LoaderService
   ) {
     this.d3 = d3Service.getD3();
     this.T = this.d3.transition(null).duration(this.TRANSITION_DURATION);
@@ -131,18 +143,22 @@ export class MappingZoomableComponent implements IDataVisualizer {
   }
 
   ngOnInit() {
-    this.isLoading = true;
+
+    this.loaderService.show();
     this.init();
     this.dataSubscription = this.dataService
       .get()
-      .combineLatest(this.mapColor$)
-      .subscribe((complexData: [any, string]) => {
+      .combineLatest(this.mapColor$, this.isFullDisplayMode$.asObservable())
+      .subscribe((complexData: [any, string, boolean]) => {
         let data = <any>complexData[0].initiative;
         this.datasetId = complexData[0].datasetId;
         this.rootNode = complexData[0].initiative;
         this.slug = data.getSlug();
-        // this.tagsState = complexData[1];
-        this.update(data, complexData[1]);
+
+        this.loaderService.show();
+        this.update(data, complexData[1], complexData[2]);
+
+        this.loaderService.hide();
         this.analytics.eventTrack("Map", {
           view: "initiatives",
           team: data.teamName,
@@ -152,6 +168,17 @@ export class MappingZoomableComponent implements IDataVisualizer {
         this.cd.markForCheck();
       });
     this.selectableTags$.subscribe(tags => this.tagsState = tags)
+
+    this.toggleOptionsSubscription = this.toggleOptions$.subscribe(toggled => {
+      this._isDisplayOptions = toggled;
+      this.cd.markForCheck();
+    })
+  }
+
+  public switch() {
+    this._isFullDisplayMode = !this._isFullDisplayMode;
+    this.isFullDisplayMode$.next(this._isFullDisplayMode);
+    this.ngOnInit();
   }
 
   ngOnDestroy() {
@@ -173,6 +200,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
     if (this.tagsSubscription) {
       this.tagsSubscription.unsubscribe();
     }
+    if (this.selectableTagsSubscription) {
+      this.selectableTagsSubscription.unsubscribe();
+    }
+    if (this.toggleOptionsSubscription) {
+      this.toggleOptionsSubscription.unsubscribe();
+    }
   }
 
   init() {
@@ -191,14 +224,15 @@ export class MappingZoomableComponent implements IDataVisualizer {
       g = svg
         .append("g")
         .attr(
-        "transform",
-        `translate(${diameter / 2 + margin.left}, ${diameter / 2 + margin.top}) scale(${this.scale})`
+          "transform",
+          `translate(${diameter / 2 + margin.left}, ${diameter / 2 + margin.top}) scale(${this.scale})`
         ),
       definitions = svg.append("svg:defs");
+
     g.append("g").attr("class", "paths");
     let zooming = d3
       .zoom()
-      .scaleExtent([1 / 3, 4 / 3])
+      .scaleExtent([1 / 3, this._isFullDisplayMode ? 3 : 4 / 3])
       .on("zoom", zoomed)
       .on("end", () => {
         let transform = d3.event.transform;
@@ -234,7 +268,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
 
     this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
-      svg.call(
+      svg.transition().duration(this.ZOOMING_TRANSITION_DURATION).call(
         zooming.transform,
         d3.zoomIdentity.translate(
           diameter / 2 + margin.left,
@@ -247,9 +281,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
       try {
         // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
         if (zf) {
-          zooming.scaleBy(svg, zf);
+          zooming.scaleBy(svg.transition().duration(this.ZOOMING_TRANSITION_DURATION), zf);
         } else {
-          svg.call(
+          svg.transition().duration(this.ZOOMING_TRANSITION_DURATION).call(
             zooming.transform,
             d3.zoomIdentity.translate(this.translateX, this.translateY)
           );
@@ -293,7 +327,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       svg.select(`circle.node.initiative-map[id="${node.id}"]`).dispatch("click");
     });
 
-    this.selectableTags$.subscribe(tags => {
+    this.selectableTagsSubscription = this.selectableTags$.subscribe(tags => {
 
       this.tagsState = tags;
       let [selectedTags, unselectedTags] = partition(tags, t => t.isSelected);
@@ -322,10 +356,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
     return this.tagsState;
   }
 
-  update(data: Initiative, seedColor: string) {
+
+
+  update(data: Initiative, seedColor: string, isFullDisplayMode: boolean) {
     if (this.d3.selectAll("g").empty()) {
       this.init();
     }
+
     let d3 = this.d3;
     let diameter = this.diameter;
     let margin = this.margin;
@@ -375,6 +412,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     root.eachAfter(function (n: any) {
       depth = depth > n.depth ? depth : n.depth;
     });
+
     let fonts = this.colorService.getFontSizeRange(depth, fontSize);
     let color = this.colorService.getColorRange(depth, seedColor);
 
@@ -383,16 +421,18 @@ export class MappingZoomableComponent implements IDataVisualizer {
       list = d3.hierarchy(data).descendants(),
       view: any;
 
+
+
     function getDepthDifference(d: any): number {
       return d.depth - focus.depth;
     }
 
     function isBranchDisplayed(d: any): boolean {
-      return getDepthDifference(d) <= 3;
+      return isFullDisplayMode ? true : getDepthDifference(d) <= 3;
     }
 
     function isLeafDisplayed(d: any): boolean {
-      return getDepthDifference(d) <= 2;
+      return isFullDisplayMode ? true : getDepthDifference(d) <= 2;
     }
 
     function toREM(pixels: number) {
@@ -483,6 +523,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return !d.children && d.parent === root;
       })
       .on("click", function (d: any) {
+        if (isFullDisplayMode) return;
         if (focus !== d) zoom(d), d3.event.stopPropagation();
       });
 
@@ -553,19 +594,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .style("opacity", function (d: any) {
         return isLeafDisplayed(d) ? 1 : 0;
       })
-      // .style("font-size", function (d: any) {
-      //   return `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`;
-      // })
+      .style("pointer-events", function (d: any) {
+        return isLeafDisplayed(d) ? "auto" : "none";
+      })
       .html(function (d: any) {
         let fs = `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`;
         return `<div style="font-size: ${fs}; background: none; display: inline-block;pointer-events: none">${d.data.name}</div>`;
       })
-    // .append("xhtml:body")
-    // .style("font-size", function (d: any) {
-    //   return `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`; // `${fonts(d.depth) / (d.depth <= 2 ? 1 : 2) * d.k}rem`;
-    // })
-    // .style("background", "none")
-    // .html(function (d: any) { return d.data.name });
 
 
 
@@ -628,6 +663,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .style("opacity", function (d: any) {
         return isLeafDisplayed(d) ? 1 : 0;
       })
+      .style("pointer-events", function (d: any) {
+        return isLeafDisplayed(d) ? "auto" : "none";
+      })
       .html(function (d: any) {
         return d.data.tags.map((tag: Tag) => `<tspan fill="${tag.color}" class="dot-tags">&#xf02b</tspan><tspan fill="${tag.color}">${tag.name}</tspan>`).join(" ");
       });
@@ -668,19 +706,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .attr("font-size", function (d: any) {
         let multiplier = svg.attr("data-font-multiplier");
         return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * POSITION_ACCOUNTABLE_NAME.fontRatio * multiplier)}rem`
-        // return `${fonts(d.depth) /
-        //   (d.depth <= 2 ? 1 : 2) *
-        //   d.k *
-        //   POSITION_ACCOUNTABLE_NAME.fontRatio}rem`;
+
       })
-      // .attr("font-size", function (d: any) {
-      //   return `${fonts(d.depth) * POSITION_ACCOUNTABLE_NAME.fontRatio}rem`;
-      // })
       .attr("x", function (d: any) {
         return d.r * POSITION_ACCOUNTABLE_NAME.x;
       })
       .attr("y", function (d: any) {
-        return -d.r * POSITION_ACCOUNTABLE_NAME.y;
+        return Math.max(-d.r * POSITION_ACCOUNTABLE_NAME.y, -d.r + CIRCLE_RADIUS * 2 - 3);
       })
       .text(function (d: any) {
         return d.data.accountable ? d.data.accountable.name : "";
@@ -689,6 +721,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let node = g.selectAll("g.node");
 
     svg.on("click", function () {
+      if (isFullDisplayMode) return;
       zoom(root);
     });
 
@@ -831,27 +864,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .style("opacity", function (d: any) {
               return isLeafDisplayed(d) ? 1 : 0;
             })
-            // .style("font-size", function (d: any) {
-            //   let multiplier = svg.attr("data-font-multiplier");
-
-            //   return `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * multiplier)}rem`;
-            // })
             .html(function (d: any) {
-              // console.log("here")
               let multiplier = svg.attr("data-font-multiplier");
               let fs = `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * multiplier)}rem`;
               return `<div style="font-size: ${fs}; background: none;overflow: initial; display: inline-block; pointer-events:none">${d.data.name}</div>`;
             })
-
-          // .append("xhtml:body")
-          // .style("font-size", function (d: any) {
-          //   // console.log(d.data.name, fontSize)
-          //   let multiplier = svg.attr("data-font-multiplier");
-          //   return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * multiplier)}rem`; // `${fonts(d.depth) / (d.depth <= 2 ? 1 : 2) * d.k}rem`;
-          // })
-          // .style("overflow", "initial")
-          // .style("background", "none")
-          // .html(function (d: any) { return d.data.name });
         })
 
       transition
@@ -868,15 +885,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
               return d.r * POSITION_ACCOUNTABLE_NAME.x;
             })
             .attr("y", function (d: any) {
-              return -d.r * d.k * POSITION_ACCOUNTABLE_NAME.y;
+              return Math.max(-d.r * d.k * POSITION_ACCOUNTABLE_NAME.y, -d.r * d.k + CIRCLE_RADIUS * 2 + 3);
             })
             .attr("font-size", function (d: any) {
               let multiplier = svg.attr("data-font-multiplier");
               return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * POSITION_ACCOUNTABLE_NAME.fontRatio * multiplier)}rem`
-              // return `${fonts(d.depth) /
-              //   (d.depth <= 2 ? 1 : 2) *
-              //   d.k *
-              //   POSITION_ACCOUNTABLE_NAME.fontRatio}rem`;
             })
             .style("opacity", function (d: any) {
               return isLeafDisplayed(d) ? 1 : 0;
@@ -915,7 +928,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
         });
 
       // all
-      // console.log("zoom to ", getTags())
       let [selectedTags, unselectedTags] = partition(getTags(), (t: SelectableTag) => t.isSelected);
 
       transition
@@ -967,7 +979,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
           let isHorizontalPosition = top < 0 && bottom + TOOLTIP_HEIGHT > Number.parseFloat(svg.attr("height"));
           tooltip
-            .style("z-index", 2000)
+            // .style("z-index", 2000)
             .style("left", () => {
               return isHorizontalPosition
                 ? `${center.x + radius * Math.cos(DEFAULT_PICTURE_ANGLE) - TOOLTIP_WIDTH / 2 - ARROW_DIMENSION}px`
@@ -1087,7 +1099,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
       tooltip = tooltip.enter()
         .append("div")
-        .attr("class", "arrow_box")
+        .attr("class", "arrow_box p-0 box-shadow")
         .classed("show", false)
         .merge(tooltip)
         .attr("id", function (d: any) {

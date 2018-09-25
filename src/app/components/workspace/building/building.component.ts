@@ -13,6 +13,8 @@ import { TreeNode, TREE_ACTIONS, TreeComponent } from "angular-tree-component";
 import "rxjs/add/operator/map";
 import { InitiativeNodeComponent } from "./initiative.node.component"
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { LoaderService } from "../../../shared/services/loading/loader.service";
+import { Tag } from "../../../shared/model/tag.data";
 
 @Component({
     selector: "building",
@@ -33,6 +35,9 @@ export class BuildingComponent {
         allowDrag: (node: TreeNode) => node.data.isDraggable,
         allowDrop: (element: any, to: { parent: any, index: number }) => {
             return to.parent.parent !== null;
+        },
+        nodeClass: (node: TreeNode) => {
+            return node.isRoot ? 'node-root' : "";
         },
         nodeHeight: 55,
         actionMapping: {
@@ -81,20 +86,29 @@ export class BuildingComponent {
     datasetId: string;
 
     team: Team;
-    // teamName: string;
-    // teamId: string;
-    // authority: string;
-    // helper: string;
+    isFirstEdit: Boolean;
 
     @Input("user") user: User;
+    @Input("isEmptyMap") isEmptyMap:Boolean;
     @Output("save") save = new EventEmitter<Initiative>();
     @Output("openDetails") openDetails = new EventEmitter<Initiative>();
     @Output("openDetailsEditOnly") openDetailsEditOnly = new EventEmitter<Initiative>();
 
     constructor(private dataService: DataService, private datasetFactory: DatasetFactory,
         private modalService: NgbModal, private analytics: Angulartics2Mixpanel,
-        private userFactory: UserFactory, private cd: ChangeDetectorRef) {
+        private userFactory: UserFactory, private cd: ChangeDetectorRef,private loaderService:LoaderService) {
         // this.nodes = [];
+    }
+
+
+    ngAfterViewChecked() {
+        try {
+            const someNode = this.tree.treeModel.getFirstRoot();
+            someNode.expand()
+        }
+        catch (e) {
+
+        }
     }
 
     saveChanges() {
@@ -163,10 +177,9 @@ export class BuildingComponent {
             newNode.team_id = node.team_id;
             newNode.hasFocus = true;
             newNode.id = Math.floor(Math.random() * 10000000000000);
-            // console.log("new node", Math.ceil(node.id * Math.random()));
             this.nodes[0].children = this.nodes[0].children || [];
             this.nodes[0].children.unshift(newNode);
-            this.openDetailsEditOnly.emit(newNode)
+            this.openDetails.emit(newNode)
         }
         else {
             this.nodes[0].traverse(n => {
@@ -178,16 +191,19 @@ export class BuildingComponent {
                     newNode.team_id = node.team_id;
                     newNode.hasFocus = true;
                     newNode.id = Math.floor(Math.random() * 10000000000000);
-                    // console.log("new node", Math.ceil(node.id * Math.random()));
                     n.children = n.children || [];
                     n.children.unshift(newNode);
-                    this.openDetailsEditOnly.emit(newNode)
+                    this.openDetails.emit(newNode)
                 }
             });
         }
 
         this.saveChanges();
         this.updateTree()
+    }
+
+    addRootNode() {
+        this.addNodeTo(this.nodes[0])
     }
 
     toggleAll(isExpand: boolean) {
@@ -201,10 +217,9 @@ export class BuildingComponent {
      * @param id Dataset Id
      * @param slugToOpen Slug of initiative to open
      */
-    loadData(datasetID: string, nodeIdToOpen: string = undefined, team: Team): Promise<void> {
+    loadData(datasetID: string, nodeIdToOpen: string = undefined, team: Team, tags:Tag[], members:User[]): Promise<void> {
+        this.loaderService.show();
         this.datasetId = datasetID;
-        // this.teamId = team.team_id;
-        // this.teamName = team.name;
         this.team = team;
         return this.datasetFactory.get(datasetID)
             .then(dataset => {
@@ -247,8 +262,17 @@ export class BuildingComponent {
                 return Promise.all(queue).then(t => t).catch(() => { });
             })
             .then(() => {
-
-                this.saveChanges();
+                this.dataService.set({ 
+                    initiative: this.nodes[0], 
+                    datasetId: this.datasetId, 
+                    teamName: team.name, teamId: 
+                    team.team_id, team: 
+                    this.team, 
+                    tags: tags, 
+                    members: members });
+                
+                    this.cd.markForCheck();
+                // this.saveChanges();
             })
             .then(() => {
                 let targetNode: Initiative = undefined;
@@ -264,6 +288,9 @@ export class BuildingComponent {
                 if (targetNode) {
                     this.openDetailsEditOnly.emit(targetNode)
                 }
+            })
+            .then(()=>{
+                this.loaderService.hide();
             })
     }
 

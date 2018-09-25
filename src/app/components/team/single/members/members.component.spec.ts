@@ -25,6 +25,8 @@ import { TeamFactory } from "./../../../../shared/services/team.factory";
 import { UserFactory } from "./../../../../shared/services/user.factory";
 import { UserService } from "./../../../../shared/services/user/user.service";
 import { TeamMembersComponent } from "./members.component";
+import { NgProgressModule, NgProgress } from '@ngx-progressbar/core';
+import { LoaderService } from '../../../../shared/services/loading/loader.service';
 
 class MockActivatedRoute implements ActivatedRoute {
     paramMap: Observable<ParamMap>;
@@ -64,13 +66,21 @@ describe("members.component.ts", () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [TeamMembersComponent,  KeysPipe],
+            declarations: [TeamMembersComponent, KeysPipe],
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [RouterTestingModule, SharedModule, Angulartics2Module, NgbModule.forRoot()]
+            imports: [RouterTestingModule, SharedModule, Angulartics2Module, NgbModule.forRoot(), NgProgressModule]
         }).overrideComponent(TeamMembersComponent, {
             set: {
                 providers: [
                     TeamFactory, UserFactory, DatasetFactory, AuthConfiguration, FileService,
+                    {
+                        provide: LoaderService,
+                        useClass: class {
+                            hide = jasmine.createSpy("hide")
+                            show = jasmine.createSpy("show")
+                        },
+                        deps: [NgProgress]
+                    }, NgProgress,
                     JwtEncoder, MailingService,
                     {
                         provide: AuthHttp,
@@ -126,7 +136,7 @@ describe("members.component.ts", () => {
             spyOn(target.debugElement.injector.get(UserService), "isInvitationSent").and.returnValue(Promise.resolve(true))
             spyOn(target.debugElement.injector.get(UserService), "isActivationPendingByUserId").and.returnValue(Promise.resolve(true))
 
-            component.getAllMembers().then(members => {
+            component.getAllMembers().then((members: User[]) => {
                 expect(members.length).toBe(3);
                 expect(members.every(m => m.isInvitationSent === true)).toBe(true)
                 expect(members.every(m => m.isActivationPending === true)).toBe(true)
@@ -144,9 +154,9 @@ describe("members.component.ts", () => {
                     : Promise.reject("Can't find user")
             })
 
-            component.getAllMembers().then(members => {
+            component.getAllMembers().then((members: User[]) => {
                 expect(members.length).toBe(2);
-                
+
                 expect(members.every(m => m.isInvitationSent === true)).toBe(true)
                 expect(members.every(m => m.isActivationPending === true)).toBe(true)
                 expect(members.every(m => m.isDeleted === false)).toBe(true)
@@ -161,7 +171,7 @@ describe("members.component.ts", () => {
                 return Promise.resolve(users.map(u => { u.isInvitationSent = false; return u }))
             })
 
-            component.getAllMembers().then(members => {
+            component.getAllMembers().then((members: User[]) => {
                 expect(members.length).toBe(3);
                 expect(members.every(m => m.isInvitationSent === false)).toBe(true)
                 expect(members.every(m => m.isActivationPending === true)).toBe(true)
@@ -177,7 +187,7 @@ describe("members.component.ts", () => {
                 return Promise.resolve(users.map(u => { u.isActivationPending = false; return u }))
             })
 
-            component.getAllMembers().then(members => {
+            component.getAllMembers().then((members: User[]) => {
                 expect(members.length).toBe(3);
                 expect(members.every(m => m.isInvitationSent === true)).toBe(true)
                 expect(members.every(m => m.isActivationPending === false)).toBe(true)
@@ -263,28 +273,21 @@ describe("members.component.ts", () => {
     });
 
 
-    describe("isDisplayLoader", () => {
+    describe("isDisplaySendingLoader", () => {
         it("should work", () => {
             component.isSendingMap = new Map<string, boolean>()
             component.isSendingMap.set("user_1", true)
             component.isSendingMap.set("user_2", false)
             component.isSendingMap.set("user_3", true);
 
-            expect(component.isDisplayLoader("user_1")).toBe(true);
-            expect(component.isDisplayLoader("user_2")).toBe(false);
-            expect(component.isDisplayLoader("user_3")).toBe(true);
+            expect(component.isDisplaySendingLoader("user_1")).toBe(true);
+            expect(component.isDisplaySendingLoader("user_2")).toBe(false);
+            expect(component.isDisplaySendingLoader("user_3")).toBe(true);
         });
     });
 
-    describe("saveNewMember", () => {
-        it("should work", () => {
-            component.saveNewMember({ item: new User({ user_id: "1" }), preventDefault: null });
-            expect(component.newMember.user_id).toBe("1");
-            expect(component.isUserChosen).toBe(true)
-        });
-    });
 
-    describe("createUser", () => {
+    xdescribe("createUser", () => {
         it("should do nothing if the form is invalid", () => {
             component.inviteForm.setValue({
                 firstname: "", lastname: ""

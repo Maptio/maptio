@@ -39,8 +39,8 @@ table.tableSection.left tbody {
 }
 
 table.tableSection.right tbody {
-    overflow: auto;
-    height: 30vh;
+    /* overflow: auto; */
+    /* height: 30vh; */
     position:relative
 }
 
@@ -79,4 +79,8 @@ td.delete{
 
 .border-right{
     border-right: 1px solid #f8f9fa
+}
+
+tr:first-child > td {
+    border-top: 0;
 }

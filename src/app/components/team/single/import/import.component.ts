@@ -81,7 +81,7 @@ export class TeamImportComponent implements OnInit {
             let headersRow = this.fileService.getHeaderArray(csvRecordsArray, Constants.tokenDelimeter);
             headerLength = headersRow.length;
             // console.log(headersRow, headerLength)
-            let isHeaderValid = this.fileService.validateHeaders(headersRow, ["First name", "Last name", "Email", "Permission type"]);
+            let isHeaderValid = this.fileService.validateHeaders(headersRow, ["First name", "Last name", "Email"]);
             // console.log(isHeaderValid)
             if (!isHeaderValid) {
                 this.isFileInvalid = true;
@@ -137,7 +137,7 @@ export class TeamImportComponent implements OnInit {
             record[4] = "";
             record[5] = false; // has finished processed
 
-            this.createUser((<String>record[2]).trim(), (<String>record[0]).trim(), (<String>record[1]).trim(), (<String>record[3]).trim())
+            this.createUser((<String>record[2]).trim(), (<String>record[0]).trim(), (<String>record[1]).trim())
                 .then(result => {
                     this.importedSuccessfully += 1;
                     record[4] = "Imported";
@@ -153,29 +153,16 @@ export class TeamImportComponent implements OnInit {
         this.isImportFinished = true;
     }
 
-    // public createFakeUser(email: string, firstname: string, lastname: string, userType: string) {
-    //     if (userType.toLowerCase() !== UserRole[UserRole.Standard].toLowerCase() && userType.toLowerCase() !== UserRole[UserRole.Admin].toLowerCase()) {
-    //         return Promise.reject(new Error(`${userType} is not a known user type.`))
-    //     }
-    //     else {
-    //         let isAdmin = userType.toLowerCase() === UserRole[UserRole.Admin].toLowerCase() ? true : false;
+    public createFakeUser(email: string, firstname: string, lastname: string) {
+            if (Math.random() > 0.6) {
+                return Promise.resolve(true)
+            } else {
+                return Promise.reject(new Error("Something really bad happened!"))
+            }
+    }
 
-    //         if (Math.random() > 0.5) {
-    //             return Promise.resolve(true)
-    //         } else {
-    //             return Promise.reject(new Error("Something really bad happened!"))
-    //         }
-    //     }
-    // }
-
-    public createUser(email: string, firstname: string, lastname: string, userType: string) {
-        if (userType.toLowerCase() !== UserRole[UserRole.Standard].toLowerCase() && userType.toLowerCase() !== UserRole[UserRole.Admin].toLowerCase()) {
-            return Promise.reject(new Error(`"${userType}" is not a known user type.`))
-        }
-        else {
-            let isAdmin = userType.toLowerCase() === UserRole[UserRole.Admin].toLowerCase() ? true : false;
-
-            return this.userService.createUser(email, firstname, lastname, false, isAdmin)
+    public createUser(email: string, firstname: string, lastname: string) {
+            return this.userService.createUser(email, firstname, lastname, false, false)
                 .then((user: User) => {
                     return this.datasetFactory.get(this.team).then((datasets: DataSet[]) => {
                         let virtualUser = new User();
@@ -213,6 +200,6 @@ export class TeamImportComponent implements OnInit {
                 })
 
 
-        }
+        // }
     }
 }

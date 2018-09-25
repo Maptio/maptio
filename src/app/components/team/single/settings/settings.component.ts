@@ -30,12 +30,21 @@ export class TeamSettingsComponent implements OnInit {
     constructor(private cd: ChangeDetectorRef, private teamFactory: TeamFactory,
         private route: ActivatedRoute, private renderer: Renderer2) {
         this.teamSettingsForm = new FormGroup({
-            "name": new FormControl(this.teamName, [
-                Validators.required,
-                Validators.minLength(2)
-            ]),
-            "authority": new FormControl(this.teamAuthority),
-            "helper": new FormControl(this.teamHelper),
+            "name": new FormControl(this.teamName, {
+                validators: [
+                    Validators.required,
+                    Validators.minLength(2)
+                ],
+                updateOn: "submit"
+            }),
+            "authority": new FormControl(this.teamAuthority, {
+                validators: [],
+                updateOn: "submit"
+            }),
+            "helper": new FormControl(this.teamHelper, {
+                validators: [],
+                updateOn: "submit"
+            }),
         });
     }
 

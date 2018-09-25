@@ -1,0 +1,234 @@
+<div>
+    <h2 class="text-center">Welcome to Maptio! </h2>
+    <h6 class="text-muted text-center ">Maptio helps you organise without traditional management hierarchy.</h6>
+    <h3 class="text-dark text-center my-4" *ngIf="!isOnboardingCompleted()">
+        Let's get you started:
+    </h3>
+    <div *ngIf="isOnboardingCompleted()">
+        <hr>
+
+        <div *ngIf="isOnboardingCompleted()">
+            <h6 class="mx-2">
+                <b>Succeed with Maptio:</b>
+            </h6>
+
+            <div class="d-flex align-items-start my-3">
+                <span class="mx-2">
+                    <i class="fa fa-rss" aria-hidden="true"></i>
+                </span>
+                <span>
+                    Read our
+                    <a target="blank" href="https://medium.com/maptio/create-organisational-clarity-using-initiative-mapping-967069247380">free guide</a> to mapping your organization
+
+                </span>
+            </div>
+
+            <div class="d-flex align-items-start my-3">
+                <span class="mx-2">
+                    <i class="fa fa-phone" aria-hidden="true"></i>
+                </span>
+                <span>
+                    <a target="blank" href="https://calendly.com/tomnixon/30min">Book a free mastery call</a> with Maptio founder Tom Nixon
+                </span>
+            </div>
+
+
+            <div class="d-flex align-items-start my-3">
+                    <span class="mx-2">
+                            <i class="fa fa-bullhorn" aria-hidden="true"></i>
+                    </span>
+                    <span>
+                            Help us make Maptio better ! <a target="blank" href="https://docs.google.com/forms/d/e/1FAIpQLSfri4IHNeSC5cWUjrh9Q6UwyjMqu6536YUVqo_061rlTRHPTg/viewform">Take the survey</a>
+                    </span>
+                </div>
+
+
+        </div>
+
+        <hr>
+    </div>
+
+
+
+
+
+    <div class="d-flex justify-content-start text-muted">
+        <div class="d-flex flex-column  align-items-start" [class.h4]="!isOnboardingCompleted()">
+            <div class="d-flex align-items-start my-3">
+                <span class="mx-2">
+                    <i class="fa fa-check text-success" aria-hidden="true"></i>
+                </span>
+                <span>
+                    Set up your
+                    <a routerLink="/{{user.shortid}}/{{user.getSlug()}}">user profile</a>
+                </span>
+            </div>
+
+            <div class="d-flex align-items-start my-3">
+                <span class="mx-2">
+                    <i *ngIf="isZeroTeam" class="fa fa-square-o" aria-hidden="true"></i>
+                    <i *ngIf="!isZeroTeam" class="fa fa-check text-success" aria-hidden="true"></i>
+                </span>
+                <a *ngIf="isZeroTeam" [routerLink]="['/teams']" [queryParams]="{onboarding: 'team'}">
+                    Set up an organization
+                </a>
+                <span *ngIf="!isZeroTeam" class="text-muted">
+                    <ng-container *ngIf="!isMultipleTeams">Organization
+                        <a routerLink="/teams/{{teamId}}/team">{{teamName}}</a> set up
+                    </ng-container>
+                    <ng-container *ngIf="isMultipleTeams">
+                        <a routerLink="/teams">{{teamsCount}} organizations</a> set up
+                    </ng-container>
+
+                </span>
+            </div>
+
+            <div class="d-flex align-items-start my-3" *ngIf="!isMultipleTeams">
+                <span class="mx-2">
+                    <i *ngIf="isZeroTeammates" class="fa fa-square-o" aria-hidden="true"></i>
+                    <i *ngIf="!isZeroTeammates" class="fa fa-check text-success" aria-hidden="true"></i>
+                </span>
+                <div *ngIf="isZeroTeammates">
+                    <ng-container *ngIf="isZeroTeam">
+                        <span>Add a few people or import a .csv</span>
+                    </ng-container>
+                    <ng-container *ngIf="!isZeroTeam">
+                        <a [routerLink]="['/teams', teamId, 'team','members']" [queryParams]="{onboarding: 'members'}">
+                            Add a few people
+                        </a>
+                        or
+                        <a routerLink="/teams/{{teamId}}/team/import"> import a .csv </a> file
+                    </ng-container>
+
+                </div>
+                <span *ngIf="!isZeroTeammates" class="text-muted">
+                    <ng-container *ngIf="!isMultipleTeams">
+                        Organization
+                        <a [routerLink]="['/teams', teamId, 'team','members']" [queryParams]="{onboarding: 'members'}">{{teamName}}</a> now has {{membersCount}} {{membersCount===1 ? "person" :"people"}}.
+                    </ng-container>
+                    <ng-container *ngIf="isMultipleTeams">
+                        <a routerLink="/teams">Organizations and people setup </a>
+                    </ng-container>
+                </span>
+            </div>
+
+            <div class="d-flex align-items-start my-3" *ngIf="!isMultipleTeams">
+                <span class="mx-2">
+                    <i *ngIf="isZeroTerminology" class="fa fa-square-o" aria-hidden="true"></i>
+                    <i *ngIf="!isZeroTerminology" class="fa fa-check text-success" aria-hidden="true"></i>
+                </span>
+                <div *ngIf="isZeroTerminology">
+                    <ng-container *ngIf="isZeroTeam">
+                        <span>Customize your organization terminology</span>
+                    </ng-container>
+                    <ng-container *ngIf="!isZeroTeam">
+                        <a [routerLink]="['/teams', teamId, 'team','settings']" [queryParams]="{onboarding: 'settings'}">
+                            Customize your organization terminology
+                        </a>
+                    </ng-container>
+
+                </div>
+                <span *ngIf="!isZeroTerminology" class="text-muted">
+                    <ng-container *ngIf="!isMultipleTeams">
+                        Terminology:
+                        <a [routerLink]="['/teams', teamId, 'team','settings']" [queryParams]="{onboarding: 'settings'}">{{authorityName}}</a>
+                        and
+                        <a [routerLink]="['/teams', teamId, 'team','settings']" [queryParams]="{onboarding: 'settings'}">{{helperName}}</a>
+                    </ng-container>
+                    <ng-container *ngIf="isMultipleTeams">
+                        Terminology set up
+                    </ng-container>
+                </span>
+            </div>
+
+            <div class="d-flex align-items-start my-3" *ngIf="isOnboardingCompleted() && !isMultipleTeams">
+                <span class="mx-2">
+                    <i *ngIf="isZeroIntegration" class="fa fa-square-o" aria-hidden="true"></i>
+                    <i *ngIf="!isZeroIntegration" class="fa fa-check text-success" aria-hidden="true"></i>
+                </span>
+                <div *ngIf="isZeroIntegration">
+                    <ng-container *ngIf="isZeroTeam">
+                        <span class="slack">Set up Slack integration (optional)</span>
+                    </ng-container>
+                    <ng-container *ngIf="!isZeroTeam">
+                        <a class="slack" [routerLink]="['/teams', teamId, 'team','integrations']" [queryParams]="{onboarding: 'integrations'}">
+                            Set up Slack integration (optional)
+                        </a>
+                    </ng-container>
+
+                </div>
+                <span *ngIf="!isZeroIntegration" class="text-muted">
+                    <ng-container *ngIf="!isMultipleTeams">
+                        <a class="slack" routerLink="/teams/{{teamId}}/team/integrations">Slack integration</a> active
+                    </ng-container>
+                    <ng-container *ngIf="isMultipleTeams">
+                        <a class="slack" routerLink="/teams/{{teamId}}/team/integrations">Slack integrations</a> active
+                    </ng-container>
+                </span>
+            </div>
+
+            <div class="d-flex align-items-start my-3">
+                <span class="mx-2">
+                    <i *ngIf="isZeroMaps" class="fa fa-square-o" aria-hidden="true"></i>
+                    <i *ngIf="!isZeroMaps" class="fa fa-check text-success" aria-hidden="true"></i>
+                </span>
+                <div *ngIf="isZeroMaps">
+                    <ng-container *ngIf="isZeroTeam">
+                        <span>Create a map</span>
+                    </ng-container>
+                    <ng-container *ngIf="!isZeroTeam">
+                        <a [routerLink]="['/teams', teamId, 'team','maps']" [queryParams]="{onboarding: 'map'}">
+                            Create a map
+                        </a>
+                    </ng-container>
+
+                </div>
+                <div *ngIf="!isZeroMaps">
+                    <ng-container *ngIf="!isMultipleMaps">
+                        <span>
+                            Map
+                            <a routerLink="/map/{{datasetId}}/map/circles">
+                                {{mapName}}
+                            </a> is now active
+                        </span>
+                    </ng-container>
+                    <ng-container *ngIf="isMultipleMaps">
+                        {{mapsCount}} active maps
+                    </ng-container>
+
+                </div>
+            </div>
+
+            <div class="d-flex align-items-start my-3" *ngIf="!isMultipleMaps">
+                <span class="mx-2">
+                    <i *ngIf="isZeroInitiative" class="fa fa-square-o" aria-hidden="true"></i>
+                    <i *ngIf="!isZeroInitiative" class="fa fa-check text-success" aria-hidden="true"></i>
+                </span>
+                <div *ngIf="isZeroInitiative">
+                    <ng-container *ngIf="isZeroMaps">
+                        <span>Add some circles</span>
+                    </ng-container>
+                    <ng-container *ngIf="!isZeroMaps">
+                        <a routerLink="/map/{{datasetId}}/map/circles">
+                            Add some circles
+                        </a>
+                    </ng-container>
+
+                </div>
+                <div *ngIf="!isZeroInitiative">
+                    <span>
+                        <span class="text-success"></span> Well done !
+                        <span>Your first circle is
+                            <b>{{firstCircleName}}</b>.
+                            <a routerLink="/map/{{datasetId}}/map/circles">Continue editing</a>
+                        </span>
+                    </span>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+</div>

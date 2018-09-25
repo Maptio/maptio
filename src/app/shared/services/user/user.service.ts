@@ -30,7 +30,7 @@ export class UserService {
                 {
                     "result_url": "http://app.maptio.com/login?token=" + userToken,
                     "user_id": userId,
-                    "ttl_sec": 30 * 24 * 3600
+                    "ttl_sec": 30 * 24 * 3600 // valid for 30 days
                 },
                 { headers: headers })
                 .map((responseData) => {

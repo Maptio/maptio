@@ -23,7 +23,7 @@ span.help-popup {
 
 @media only screen and (max-height: 800px) {
     .helpers.overflow {
-        max-height: 25vh;
+        max-height: 24vh;
         overflow-y: auto;
     }
     .description.overflow {
@@ -35,7 +35,7 @@ span.help-popup {
 
 @media only screen and (min-height: 800px) {
     .helpers.overflow {
-        max-height: 27vh;
+        max-height: 24vh;
         overflow-y: overlay;
     }
     .description.overflow {
@@ -70,6 +70,7 @@ textarea {
 .edit-description {
     text-align: right;
 }
+
 
 
 

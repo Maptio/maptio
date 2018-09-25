@@ -17,6 +17,7 @@ import { User } from "../../shared/model/user.data";
 import { JwtEncoder } from "../../shared/services/encoding/jwt.service";
 import { AuthHttp } from "angular2-jwt/angular2-jwt";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
+import { NgProgressModule, NgProgress } from "@ngx-progressbar/core";
 
 describe("signup.component.ts", () => {
 
@@ -28,7 +29,7 @@ describe("signup.component.ts", () => {
         TestBed.configureTestingModule({
             declarations: [SignupComponent],
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [RouterTestingModule]
+            imports: [RouterTestingModule, NgProgressModule]
         }).overrideComponent(SignupComponent, {
             set: {
                 providers: [
@@ -52,10 +53,18 @@ describe("signup.component.ts", () => {
                             events = Observable.of(new NavigationStart(0, "/next"))
                         }
                     },
+                    {
+                        provide : LoaderService, 
+                        useClass : class{
+                            hide = jasmine.createSpy("hide")
+                            show = jasmine.createSpy("show")
+                        },
+                        deps : [NgProgress]
+                    },
                     MockBackend,
                     BaseRequestOptions,
                     UserService,
-                    LoaderService
+                    NgProgress
                 ]
             }
         }).compileComponents();
@@ -69,12 +78,12 @@ describe("signup.component.ts", () => {
 
 
     describe("createAccount", () => {
-        it("doesnt do anything if the form are not valid", () => {
+        it("doesnt do anything if the form are not valid", async(() => {
             component.signupForm.setValue({
                 firstname: "something",
                 lastname: "something",
                 email: "something@else.com",
-                confirmedEmail: "someone@else.com",
+                // confirmedEmail: "someone@else.com",
                 // isTermsAccepted: true
             })
 
@@ -84,14 +93,14 @@ describe("signup.component.ts", () => {
             component.createAccount();
 
             expect(spy).not.toHaveBeenCalled();
-        });
+        }));
 
         it("should display 'activate' message if user exits and activtion is pending", async(() => {
             component.signupForm.setValue({
                 firstname: "something",
                 lastname: "something",
                 email: "someone@else.com",
-                confirmedEmail: "someone@else.com",
+                // confirmedEmail: "someone@else.com",
                 // isTermsAccepted: true
             })
             component.signupForm.markAsDirty();
@@ -114,7 +123,7 @@ describe("signup.component.ts", () => {
                 firstname: "something",
                 lastname: "something",
                 email: "someone@else.com",
-                confirmedEmail: "someone@else.com",
+                // confirmedEmail: "someone@else.com",
                 // isTermsAccepted: true
             })
             component.signupForm.markAsDirty();
@@ -137,7 +146,7 @@ describe("signup.component.ts", () => {
                 firstname: "something",
                 lastname: "something",
                 email: "someone@else.com",
-                confirmedEmail: "someone@else.com",
+                // confirmedEmail: "someone@else.com",
                 // isTermsAccepted: true
             })
             component.signupForm.markAsDirty();
@@ -173,7 +182,7 @@ describe("signup.component.ts", () => {
                 firstname: "something",
                 lastname: "something",
                 email: "someone@else.com",
-                confirmedEmail: "someone@else.com",
+                // confirmedEmail: "someone@else.com",
                 // isTermsAccepted: true
             })
             component.signupForm.markAsDirty();
@@ -201,7 +210,7 @@ describe("signup.component.ts", () => {
                 firstname: "something",
                 lastname: "something",
                 email: "someone@else.com",
-                confirmedEmail: "someone@else.com",
+                // confirmedEmail: "someone@else.com",
                 // isTermsAccepted: true
             })
             component.signupForm.markAsDirty();

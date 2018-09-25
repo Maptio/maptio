@@ -61,4 +61,27 @@ describe("uri.service.ts", () => {
             expect(actual).toBe("x=abc&y=123&array=col1,col2,col3");
         }));
     });
+
+    describe("splitURL", () => {
+        it('should return correct split when url doesnt have fragment', inject([URIService], (target: URIService) => {
+            let url = "/map/xxxxx/123/circles";
+            let actual = target.splitUrl(url);
+            expect(actual.url).toBe("/map/xxxxx/123/circles");
+            expect(actual.fragment).toBe("")
+        }));
+
+        it('should return correct split when url has fragment', inject([URIService], (target: URIService) => {
+            let url = "/map/xxxxx/123/circles#scale=1.5";
+            let actual = target.splitUrl(url);
+            expect(actual.url).toBe("/map/xxxxx/123/circles");
+            expect(actual.fragment).toBe("scale=1.5")
+        }));
+
+        it('should return correct split when url has 2 fragments', inject([URIService], (target: URIService) => {
+            let url = "/map/xxxxx/123/circles#scale=1.5#left=50";
+            let actual = target.splitUrl(url);
+            expect(actual.url).toBe("/map/xxxxx/123/circles");
+            expect(actual.fragment).toBe("scale=1.5#left=50")
+        }));
+    })
 });

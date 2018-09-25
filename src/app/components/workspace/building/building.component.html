@@ -1,22 +1,24 @@
-<div class="building d-flex flex-column">
-	<div class="form-group d-flex justify-content-end mr-3">
-		<button name="" id="" class="btn btn-link btn-sm" (click)="toggleAll(true)" role="button">
-			Expand all
+<div class=" d-flex flex-column">
+	<div class="d-flex justify-content-start mx-1 px-1">
+		<button name="" id="" class="btn btn-light text-blue" (click)="toggleAll(true)" role="button" >
+			<i class="fa fa-plus-circle large" aria-hidden="true"></i> Expand all
 		</button>
-		<button name="" id="" class="btn btn-link btn-sm" (click)="toggleAll(false)" role="button">
-			Collapse all
+		<button name="" id="" class="btn btn-light text-blue mx-2" (click)="toggleAll(false)" role="button">
+			<i class="fa fa-minus-circle large" aria-hidden="true"></i> Collapse all
+		</button>
+		<button *ngIf="isEmptyMap" name="" id="" class="btn btn-outline-secondary ml-auto" (click)="addRootNode()" role="button" placement="top" container="body"
+		ngbTooltip="Add a new circle">
+			<i class="fa fa-plus large" aria-hidden="true"></i> New outer circle
 		</button>
 	</div>
 	<div class="mt-3">
-			<tree-root #tree [nodes]="nodes" (updateData)="saveChanges()" [options]="options" [state]="state" (stateChange)="setState($event)">
-					<ng-template #treeNodeTemplate let-node let-index="index">
-						<initiative-node [node]="node" [datasetId]="datasetId" [team]="team" [user]="user" (edited)="saveChanges()" (update)="updateTreeModel(tree.treeModel)"
-						 (open)="openNodeDetails($event)" (add)="openNodeDetails($event)"></initiative-node>
-					</ng-template>
-			
-				</tree-root>
+		<tree-root #tree [nodes]="nodes" (updateData)="saveChanges()" [options]="options" [state]="state" (stateChange)="setState($event)">
+			<ng-template #treeNodeTemplate let-node let-index="index">
+				<initiative-node [node]="node" [datasetId]="datasetId" [team]="team" [user]="user" (edited)="saveChanges()" (update)="updateTreeModel(tree.treeModel)"
+				 (open)="openNodeDetails($event)" (add)="openNodeDetails($event)"></initiative-node>
+			</ng-template>
+		</tree-root>
 	</div>
-	
 </div>
 
 <ng-template #dragConfirmation let-c="close" let-d="dismiss">

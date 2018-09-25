@@ -56,14 +56,14 @@ if (!isDevelopment) {
   app.use(helmet.contentSecurityPolicy({
     directives: {
       defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'", 'maxcdn.bootstrapcdn.com', 'cdnjs.cloudflare.com', 'api.mixpanel.com'],
+      styleSrc: ["'self'", "'unsafe-inline'", 'maxcdn.bootstrapcdn.com', 'cdnjs.cloudflare.com', 'api.mixpanel.com','fonts.googleapis.com'],
       scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'",
         'maxcdn.bootstrapcdn.com', 'cdnjs.cloudflare.com', 'cdn.auth0.com', 'api.mixpanel.com',
         'cdn.mxpnl.com', 'cdn4.mxpnl.com',
         'https://*.logrocket.io',
         'www.google-analytics.com', 'mixpanel.com', 'widget.intercom.io', 'https://app.intercom.io',
         'https://js.intercomcdn.com', 'https://fullstory.com', 'code.jquery.com','http://canvg.github.io'],
-      fontSrc: ["'self'", 'maxcdn.bootstrapcdn.com', 'cdn.mixpnl.com', 'https://js.intercomcdn.com'],
+      fontSrc: ["'self'", 'maxcdn.bootstrapcdn.com', 'cdn.mixpnl.com', 'https://js.intercomcdn.com','fonts.gstatic.com'],
       connectSrc: ["'self'", 'api.mixpanel.com', 'api.cloudinary.com', 'circlemapping.auth0.com', 'www.google-analytics.com', 'mixpanel.com', 'https://api.intercom.io', 'https://api-iam.intercom.io',
         'https://api-ping.intercom.io',
         'https://nexus-websocket-a.intercom.io',
@@ -75,7 +75,6 @@ if (!isDevelopment) {
         'https://uploads.intercomcdn.com',
         'https://uploads.intercomusercontent.com',
         'https://rs.fullstory.com',
-        'https://api.rollbar.com',
         'https://drive.google.com',
         'https://*.logrocket.io',
         'https://slack.com/api/'
@@ -114,6 +113,7 @@ var encoding = require('./routes/encoding');
 var images = require('./routes/images');
 var notifications = require('./routes/notifications');
 var oauth = require('./routes/oauth');
+var intercom = require("./routes/intercom");
 
 app.use('/api/v1/jwt/', encoding);
 app.use('/api/v1/mail/confirm', confirming);
@@ -125,6 +125,7 @@ app.use('/api/v1/mail/invite', jwtCheck, check_scopes(["invite"]), inviting);
 app.use('/api/v1/dataset/', jwtCheck, check_scopes(["api"]), datasets);
 app.use('/api/v1/user', jwtCheck, check_scopes(["api"]), users);
 app.use('/api/v1/team', jwtCheck, check_scopes(["api"]), teams);
+app.use('/api/v1/intercom', jwtCheck, check_scopes(["api"]), intercom);
 
 app.set("port", process.env.PORT || DEFAULT_PORT);
 app.get(cache('5 seconds'))

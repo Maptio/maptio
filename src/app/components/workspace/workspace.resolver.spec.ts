@@ -23,12 +23,14 @@ import { DataSet } from "../../shared/model/dataset.data";
 import { Initiative } from "../../shared/model/initiative.data";
 import { Team } from "../../shared/model/team.data";
 import { WorkspaceComponentResolver } from "./workspace.resolver";
+import {Intercom , IntercomConfig} from 'ng-intercom';
+import { NgProgressModule, NgProgress } from '@ngx-progressbar/core';
 
 describe("workspace.resolver.ts", () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [RouterTestingModule, Angulartics2Module],
+            imports: [RouterTestingModule, Angulartics2Module, NgProgressModule],
             providers: [
                 WorkspaceComponentResolver,
                 Auth,
@@ -36,7 +38,7 @@ describe("workspace.resolver.ts", () => {
                 TeamFactory,
                 DatasetFactory,
                 UserFactory,
-                AuthConfiguration, UserService, MailingService, JwtEncoder, LoaderService,
+                AuthConfiguration, UserService, MailingService, JwtEncoder, LoaderService,NgProgress,
                 {
                     provide: AuthHttp,
                     useFactory: authHttpServiceFactoryTesting,
@@ -52,7 +54,8 @@ describe("workspace.resolver.ts", () => {
                 MockBackend,
                 BaseRequestOptions,
                 Angulartics2Mixpanel, Angulartics2,
-                ErrorService
+                ErrorService,
+                Intercom, IntercomConfig
             ]
         });
     });

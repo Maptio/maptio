@@ -1,35 +1,87 @@
 <div class="mt-3 col-12">
 
     <div class="d-flex col-12 mt-3">
-        <div class="col-3 border-right">
+        <div class="col-3 border-right p-0">
             <ul class="nav flex-column nav-pills mt-3">
+                <ng-container *ngIf="!isOnboarding || isOnboardingAddMembers || isOnboardingAddMap || isOnboardingAddTerminology">
+                    <li class="nav-item">
+                        <a class="nav-link py-4" data-toggle="tab" routerLink="./members" queryParamsHandling="merge" routerLinkActive="active" role="tab">
+                            People</a>
+                    </li>
+                </ng-container>
+                <ng-container *ngIf="!isOnboarding || isOnboardingAddMembers || isOnboardingAddMap || isOnboardingAddTerminology">
+                    <li class="nav-item" *permissionsOnly="Permissions.canAddUser">
+                        <a class="nav-link py-4" data-toggle="tab" routerLink="./import" queryParamsHandling="merge" routerLinkActive="active" role="tab">
+                            Import </a>
+                    </li>
+                </ng-container>
+                <ng-container *ngIf="!isOnboarding || isOnboardingAddMap">
+                    <li class="nav-item">
+                        <a class="nav-link py-4" data-toggle="tab" routerLink="./maps" queryParamsHandling="merge" routerLinkActive="active" role="tab">
+                            Maps</a>
+                    </li>
+                </ng-container>
+                <ng-container *ngIf="!isOnboarding || isOnboardingAddMap || isOnboardingAddTerminology">
+                    <li class="nav-item">
+                        <a class="nav-link py-4" data-toggle="tab" routerLink="./settings" queryParamsHandling="merge" routerLinkActive="active"
+                            role="tab">
+                            Settings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link py-4" data-toggle="tab" routerLink="./integrations" queryParamsHandling="merge" routerLinkActive="active"
+                            role="tab">
+                            Integrations</a>
+                    </li>
+                </ng-container>
+
                 <li class="nav-item">
-                    <a class="nav-link py-4" data-toggle="tab" routerLink="./members" routerLinkActive="active" role="tab">
-                        Members</a>
+                    <a class="nav-link py-4" data-toggle="tab" routerLink="./billing" routerLinkActive="active" queryParamsHandling="merge" role="tab">
+                        Billing</a>
                 </li>
-                <li class="nav-item" *permissionsOnly="Permissions.canAddUser">
-                    <a class="nav-link py-4" data-toggle="tab" routerLink="./import" routerLinkActive="active" role="tab">
-                        Import </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link py-4" data-toggle="tab" routerLink="./maps" routerLinkActive="active" role="tab">
-                        Maps</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link py-4" data-toggle="tab" routerLink="./settings" routerLinkActive="active" role="tab">
-                        Settings</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link py-4" data-toggle="tab" routerLink="./integrations" routerLinkActive="active" role="tab">
-                        Integrations</a>
-                </li>
+
             </ul>
         </div>
         <div class="col">
             <h3 class="mb-3 mt-3 w-100">
                 {{team.name}}
-                <small class="text-muted h6 pull-right">{{team.members.length}} members</small>
+                <small class="text-muted h6 pull-right">{{team.members.length}} {{team.members.length ===1 ? "person" : "people"}}</small>
             </h3>
+            <div *ngIf="isOnboardingAddMembers" class="accent-blue box-shadow  mb-5 ">
+                <div class="d-flex justify-content-start align-items-stretch">
+                    <div class="col-auto d-flex align-items-center">
+                        <i class="fa fa-lightbulb-o fa-3x" aria-hidden="true"></i>
+                    </div>
+                    <div class="card col border-0 p-0">
+                        <b class="card-header border-0 bg-white">Add or import members to your organization to bring your map to life.</b>
+                        <div class="card-body">
+                            <p class="card-text">
+                                A great place to start is adding the people who have most responsibility in your organization.
+
+                            </p>
+                            <p class="card-text"> Members won't know they've been added to Maptio until you invite them later.</p>
+                        </div>
+                        <div class="card-footer bg-light rounded border-0">
+                            You can always come back here later. Ready to create your map?
+                            <a routerLink="/home">Click here</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="isOnboardingAddTerminology" class="accent-blue box-shadow  mb-5 ">
+                <div class="d-flex justify-content-start align-items-stretch">
+                    <div class="col-auto d-flex align-items-center">
+                        <i class="fa fa-lightbulb-o fa-3x" aria-hidden="true"></i>
+                    </div>
+                    <div class="card col border-0 p-0">
+                        <b class="card-header border-0 bg-white">Tell us how your organization calls its people internally, it will help make the maps more realistic.</b>
+
+                        <div class="card-footer bg-light rounded border-0">
+                            You can always come back here later. Ready to create your map?
+                            <a routerLink="/home">Click here</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <router-outlet></router-outlet>
         </div>
     </div>

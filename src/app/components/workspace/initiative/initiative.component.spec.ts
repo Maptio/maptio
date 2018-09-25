@@ -22,6 +22,7 @@ import { InitiativeComponent } from "./initiative.component";
 import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { Observable } from "rxjs/Observable";
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe("initiative.component.ts", () => {
 
@@ -56,7 +57,8 @@ describe("initiative.component.ts", () => {
                         getUser = jasmine.createSpy("getUser").and.returnValue(Observable.of(new User({ user_id: "UID" })))
                     }
                 }
-            ]
+            ],
+            schemas: [NO_ERRORS_SCHEMA],
         })
             .compileComponents()
 
@@ -70,7 +72,7 @@ describe("initiative.component.ts", () => {
             id: 1, name: "ORIGINAL", description: "ORIGINAL", children: [], helpers: [], start: new Date(2010, 1, 1),
             accountable: new Helper({ name: "ORIGINAL" }),
             hasFocus: false, isZoomedOn: false, team_id: "team_id", isSearchedFor: false, search: undefined, traverse: undefined, deserialize: undefined, tryDeserialize: undefined,
-            getSlug: undefined, getParent: undefined, isDraggable: false, traversePromise: undefined, isExpanded: true, getRoles: undefined, tags: [], flatten: undefined
+            getSlug: undefined, getParent: undefined, isDraggable: false, traversePromise: undefined, isExpanded: true, getRoles: undefined, tags: [], flatten: undefined, getAllParticipants :undefined
         };
 
         component.node = inputNode;

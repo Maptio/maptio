@@ -16,7 +16,7 @@ export class TeamListComponentResolver implements Resolve<Team[]> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Team[]> {
         return this.auth.getUser().first()
-            .mergeMap(user => isEmpty(user.teams) ? [] : this.teamFactory.get(user.teams))
+            .mergeMap(user => {  return isEmpty(user.teams) ? Promise.resolve([]) : this.teamFactory.get(user.teams)} )
             .map((teams: Team[]) => {
                 teams.forEach(t => {
                     if (t) {

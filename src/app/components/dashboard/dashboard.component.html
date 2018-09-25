@@ -1,72 +1,27 @@
-<h2 class=""> Maps</h2>
+<div class="col-12">
 
-<div class="overflow mt-3">
-    <ngx-loading [show]="isLoading"></ngx-loading>
-
-    <ng-container *ngIf="isZeroTeam">
-        Let's get started by
-        <a routerLink="/teams">setting up your team</a> . After that you can create your first map.
-
-    </ng-container>
-    <ng-container *ngIf="!isZeroTeam">
-        <ng-container *ngFor="let dataset of datasets">
-            <ng-container *ngIf="dataset.initiative.name">
-                <div class="card mb-2 mr-4">
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <a routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/circles"> {{dataset.initiative.name}}</a>
-                                <small>
-                                    Team
-                                    <a routerLink="/teams/{{dataset.team?.team_id}}/{{dataset.team?.getSlug()}}">{{dataset.team?.name}}</a>
-
-                                </small>
-
-                            </div>
-
-                        </h5>
-                        <h6 class="card-subtitle mb-2 text-muted">
-                            <div class="d-flex justify-content-between">
-                                <small>
-                                    <div *ngIf="dataset.initiative.children" class="text-muted">Vision held by
-                                        <img class="visionnary rounded-circle" src="{{dataset.initiative.children[0]?.accountable?.picture}}" alt="{{dataset.initiative.children[0]?.accountable?.name}}">
-                                        <a class="text-muted" routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/u/{{dataset.initiative.children[0]?.accountable?.shortid}}/{{dataset.initiative.children[0]?.accountable?.getSlug()}}">
-                                            <b> {{dataset.initiative.children[0]?.accountable?.name}}</b>
-                                        </a>
-
-                                    </div>
-
-                                    <div *ngIf="!dataset.initiative.children" class="text-warning">
-                                        No vision holder yet.
-                                    </div>
-                                </small>
-                                <!-- <small>
-                                                            <div class="btn-group" role="group" aria-label="Choose visualisation">
-                                                                <button type="button" class="btn btn-light circles" routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/circles"></button>
-                                                                <button type="button" class="btn btn-light tree" routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/tree"></button>
-                                                                <button type="button" class="btn btn-light network" routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/network"></button>
-                                                            </div>
-                                                        </small> -->
-                            </div>
-
-                        </h6>
-                    </div>
-                    <div class="card-footer">
-                        <div class="small d-flex justify-content-between align-items-center">
-                            <div>{{dataset.depth}} sub-initiatives</div>
-                            <button class="btn btn-sm btn-outline-secondary " (click)="export(dataset)">
-                                <span *ngIf="!isDisplayLoader(dataset._id)">
-                                    <i class="fa fa-table" aria-hidden="true"></i> Export</span>
-                                <span class="text-muted" *ngIf="isDisplayLoader(dataset._id)">Exporting</span>
-                            </button>
-                        </div>
+    <h2 class="text-left my-5 col-12"> Maps</h2>
+    <div class="col-12 my-5 d-flex justify-content-between">
+        <div class="col-8 p-0 mr-5" *ngIf="!isOnboarding()">
+            <div>
+                <div class="d-flex flex-column justify-content-start align-items-start">
+                    <div class="card-columns w-100">
+                        <ng-container *ngFor="let dataset of datasets">
+                            <ng-container *ngIf="dataset.initiative.name">
+                                <common-card-map [dataset]="dataset" [isExportAvailable]="true"></common-card-map>
+                            </ng-container>
+                        </ng-container>
                     </div>
                 </div>
-            </ng-container>
-
-        </ng-container>
-
-    </ng-container>
-
+            </div>
+        </div>
+        <div class="col d-flex" [class.justify-content-center]="isOnboarding()" [class.w-100]="isOnboarding()">
+            <div class="h-100">
+                <div class="  d-flex flex-column align-items-center bg-white box-shadow rounded p-3 accent-blue">
+                    <common-onboarding [datasets]="datasets" [teams]="teams" [user]="user"></common-onboarding>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>

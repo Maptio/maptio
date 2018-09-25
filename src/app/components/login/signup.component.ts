@@ -20,41 +20,49 @@ export class SignupComponent implements OnInit {
 
 
     public email: string;
-    public confirmedEmail: string;
     public firstname: string;
     public lastname: string;
-    // public isTermsAccepted: boolean;
 
     public isEmailAlreadyExist: boolean
     public isRedirectToActivate: boolean;
     public isConfirmationEmailSent: boolean;
     public signUpMessageFail: string;
-    public isLoading: boolean;
+
     public userToken: string;
+    public userId:string;
     public isResending: boolean;
+    public isConfirmationEmailResent:boolean;
 
     public signupForm: FormGroup;
 
     constructor(private userService: UserService, private loader: LoaderService,
-        private analytics: Angulartics2Mixpanel, private cd: ChangeDetectorRef) {
+        private analytics: Angulartics2Mixpanel, private cd: ChangeDetectorRef, public loaderService: LoaderService) {
         this.signupForm = new FormGroup({
-            "firstname": new FormControl(this.firstname, [
-                Validators.required,
-                Validators.minLength(2)
-            ]),
-            "lastname": new FormControl(this.lastname, [
-                Validators.required,
-                Validators.minLength(2)
-            ]),
-            "email": new FormControl(this.email, [
-                Validators.required
-            ]),
-            "confirmedEmail": new FormControl(this.confirmedEmail, [
-                Validators.required, repeatValidator("email")
-            ])
-            // "isTermsAccepted": new FormControl(this.isTermsAccepted, [
-            //     Validators.requiredTrue
-            // ])
+            "firstname": new FormControl(this.firstname, {
+                validators: [
+                    Validators.required,
+                    Validators.minLength(2)
+                ],
+                updateOn: 'submit'
+            }),
+            "lastname": new FormControl(this.lastname, {
+                validators: [
+                    Validators.required,
+                    Validators.minLength(2)
+                ],
+                updateOn: 'submit'
+            }),
+            "email": new FormControl(this.email, {
+                validators: [
+                    Validators.required,
+                    Validators.email
+                ],
+                updateOn: 'submit'
+            })
+        });
+        new FormControl(this.email, {
+            validators: Validators.required,
+            updateOn: 'blur'
         });
 
     }
@@ -66,16 +74,17 @@ export class SignupComponent implements OnInit {
         this.isRedirectToActivate = false;
         this.isEmailAlreadyExist = false;
         this.signUpMessageFail = "";
+        this.isResending =false;
 
         if (this.signupForm.dirty && this.signupForm.valid) {
-            this.isLoading = true;
+            this.loaderService.show();
             let email = this.signupForm.controls["email"].value
             let firstname = this.signupForm.controls["firstname"].value
             let lastname = this.signupForm.controls["lastname"].value
 
             Promise.all([this.isEmailExist(email), this.isActivationPending(email, firstname, lastname)])
                 .then(([isEmailExist, { isActivationPending, userToken }]) => {
-                    this.isLoading = true;
+                    this.loaderService.show();
                     if (isEmailExist) {
                         if (isActivationPending) {
                             // account is created but still needs activation => display message to check email or resend invitation
@@ -84,8 +93,9 @@ export class SignupComponent implements OnInit {
                             this.cd.markForCheck();
                         }
                         else {
-                            // account is created and is already activated => this user should login
+                            // account is created and is already activated => this user should login or try to get a confirmation email again
                             this.isEmailAlreadyExist = true;
+                            this.userToken = userToken;
                             this.cd.markForCheck();
                         }
                     }
@@ -93,16 +103,25 @@ export class SignupComponent implements OnInit {
                         // no matching email => create user
                         return this.userService.createUser(email, firstname, lastname, true, true)
                             .then((user: User) => {
-                                // console.log("just created user", user)
+                                this.userId = user.user_id;
                                 return user;
-                            }, (reason) => { return Promise.reject("Account creation failed") })
+                            }, () => { 
+                                this.signUpMessageFail = `${email} is not a valid email address`;
+                                this.cd.markForCheck();
+                                return Promise.reject(`${email} is not a valid email address`);
+                             })
                             .then((user: User) => {
                                 return this.userService.sendConfirmation(user.email, user.user_id, user.firstname, user.lastname, user.name)
                                     .then((success: boolean) => {
                                         this.isConfirmationEmailSent = success;
                                         this.cd.markForCheck();
                                     },
-                                    (reason) => { this.isConfirmationEmailSent = false; this.cd.markForCheck(); return Promise.reject("Confirmation email failed to send") })
+                                        (reason) => {  
+                                            this.isConfirmationEmailSent = false;
+                                            this.signUpMessageFail = `Confirmation email failed to send`;
+                                            this.cd.markForCheck();
+                                            return Promise.reject("Confirmation email failed to send") 
+                                        })
                             })
                             .then(() => {
                                 this.analytics.eventTrack("Sign up", { email: email, firstname: firstname, lastname: lastname });
@@ -112,7 +131,8 @@ export class SignupComponent implements OnInit {
                                 this.cd.markForCheck();
                             })
                     }
-                }).then(() => { this.isLoading = false; })
+                }).then(() => { this.loaderService.hide(); })
+                .catch(()=>{console.log("final catch")})
         }
     }
 
@@ -137,10 +157,22 @@ export class SignupComponent implements OnInit {
 
     resendEmail() {
         this.isResending = true;
+        this.isConfirmationEmailSent=false;
         if (!this.userToken)
             return;
         this.userService.sendConfirmationWithUserToken(this.userToken).then(() => {
             this.isResending = false;
+            this.isConfirmationEmailSent=true;
+            this.cd.markForCheck();
+        })
+    }
+
+    resendImmediately(){
+        this.isResending = true;
+        // this.isConfirmationEmailSent=false;
+        this.userService.sendConfirmation(this.email, this.userId, this.firstname, this.lastname,"").then(() => {
+            this.isResending = false;
+            // this.isConfirmationEmailSent=true;
             this.cd.markForCheck();
         })
     }

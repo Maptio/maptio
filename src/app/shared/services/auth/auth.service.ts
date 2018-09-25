@@ -15,6 +15,7 @@ import { EmitterService } from "../emitter.service";
 import { tokenNotExpired } from "angular2-jwt/angular2-jwt";
 import { uniq } from "lodash";
 import * as LogRocket from "logrocket";
+import { Intercom } from "ng-intercom";
 
 @Injectable()
 export class Auth {
@@ -37,13 +38,15 @@ export class Auth {
     private router: Router,
     private loader: LoaderService,
     private permissionService: PermissionService,
-    private analytics: Angulartics2Mixpanel
+    private analytics: Angulartics2Mixpanel,
+    private intercom: Intercom
   ) { }
 
   public logout(): void {
     this.analytics.eventTrack("Logout", {});
     // this.shutDownIntercom();
     this.router.navigateByUrl("/logout");
+    this.user$.unsubscribe();
     // localStorage.clear();
   }
 
@@ -155,14 +158,16 @@ export class Auth {
         })
         .then((user: User) => {
           this.datasetFactory.get(user).then(ds => {
+            // console.log("getUser", ds)
             user.datasets = uniq(ds);
+            EmitterService.get("headerUser").emit(user);
             this.user$.next(user);
           });
         });
     } else {
       this.user$.next(undefined);
     }
-    return this.user$.asObservable();
+    return  this.user$.asObservable();
   }
 
   public setUser(profile: any): Promise<boolean> {
@@ -210,6 +215,7 @@ export class Auth {
             EmitterService.get("loginErrorMessage").emit(err.description);
             return;
           }
+          this.user$ = new Subject();
           localStorage.setItem("id_token", authResult.idToken);
 
           if (authResult.accessToken) {
@@ -218,7 +224,7 @@ export class Auth {
               function (err: Error, profile: any) {
                 profile.user_id = profile.sub;
                 profile.sub = undefined;
-
+                this.loader.show();
                 this.loginMaptioApi(email, password);
 
                 EmitterService.get("maptio_api_token").subscribe(
@@ -229,6 +235,7 @@ export class Auth {
 
                     return this.setUser(profile).then((isSuccess: boolean) => {
                       if (isSuccess) {
+                        this.loader.show();
                         return this.userFactory
                           .get(profile.user_id)
                           .then((user: User) => {
@@ -236,37 +243,35 @@ export class Auth {
                             return user;
                           })
                           .then(
-                          (user: User) => {
-                            let isMaptioTeam = this.MAPTIO_INTERNAL_EMAILS.includes(
-                              user.email
-                            );
+                            (user: User) => {
+                              this.loader.show();
+                              let isMaptioTeam = this.MAPTIO_INTERNAL_EMAILS.includes(
+                                user.email
+                              );
 
-                            this.analytics.setSuperProperties({
-                              user_id: user.user_id,
-                              email: user.email,
-                              isInternal: isMaptioTeam
-                            });
-                            this.analytics.eventTrack("Login", {
-                              email: user.email,
-                              firstname: user.firstname,
-                              lastname: user.lastname
-                            });
-                            LogRocket.identify(user.user_id, {
-                              name: user.name,
-                              email: user.email,
-                            })
+                              this.analytics.setSuperProperties({
+                                user_id: user.user_id,
+                                email: user.email,
+                                isInternal: isMaptioTeam
+                              });
+                              this.analytics.eventTrack("Login", {
+                                email: user.email,
+                                firstname: user.firstname,
+                                lastname: user.lastname
+                              });
+                              LogRocket.identify(user.user_id, {
+                                name: user.name,
+                                email: user.email,
+                              })
+                              this.intercom.update({
+                                app_id: environment.INTERCOM_APP_ID,
+                                email: user.email,
+                                user_id: user.user_id,
+                              });
 
-                            // let isUserVIP = (user.email === "safiyya.babio@gmail.com" || user.email === "hello@tomnixon.co.uk");
-                            // (<any>window).Intercom("boot", {
-                            //     app_id: environment.INTERCOM_APP_ID,
-                            //     email: user.email,
-                            //     user_id: user.user_id,
-                            //     hide_default_launcher: !isUserVIP
-                            // });
-
-                            return user;
-                          },
-                          () => { }
+                              return user;
+                            },
+                            () => {this.loader.hide(); }
                           )
                           .then((user: User) => {
                             // let welcomeURL = user.datasets.length === 1 ? `/map/${user.datasets[0]}/welcome/initiatives` : `/home`;

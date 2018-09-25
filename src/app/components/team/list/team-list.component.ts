@@ -1,6 +1,6 @@
-import { environment } from './../../../../environment/environment';
+import { environment } from '../../../../environment/environment';
 import { Subscription } from "rxjs/Subscription";
-import { Permissions } from "./../../../shared/model/permission.data";
+import { Permissions } from "../../../shared/model/permission.data";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { UserFactory } from "../../../shared/services/user.factory";
@@ -11,6 +11,9 @@ import { User } from "../../../shared/model/user.data";
 import { Team } from "../../../shared/model/team.data";
 import { UserService } from "../../../shared/services/user/user.service";
 import { Router, ActivatedRoute } from "@angular/router";
+import { IntercomService } from './intercom.service';
+import { isEmpty } from 'lodash';
+import { LoaderService } from '../../../shared/services/loading/loader.service';
 
 @Component({
     selector: "team-list",
@@ -25,24 +28,30 @@ export class TeamListComponent implements OnInit {
     public routeSubscription: Subscription;
     public teams: Array<Team>;
     public errorMessage: string;
-    public isLoading: boolean;
+    public cannotCreateMoreTeamMessage: string;
     public isCreating: boolean;
 
     public createForm: FormGroup;
     public teamName: string;
+    public teamsNumber: Number;
+    public isZeroTeam: Boolean;
+    public isRedirectHome: Boolean;
 
     Permissions = Permissions;
     KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
 
     constructor(private route: ActivatedRoute, private cd: ChangeDetectorRef, public auth: Auth, private teamFactory: TeamFactory, private userFactory: UserFactory,
         private userService: UserService, private analytics: Angulartics2Mixpanel, public router: Router,
-        private renderer: Renderer2) {
+        private renderer: Renderer2, private intercomService: IntercomService, private loaderService: LoaderService) {
 
         this.createForm = new FormGroup({
-            "teamName": new FormControl(this.teamName, [
-                Validators.required,
-                Validators.minLength(2)
-            ]),
+            "teamName": new FormControl(this.teamName, {
+                validators: [
+                    Validators.required,
+                    Validators.minLength(2)
+                ],
+                updateOn: "submit"
+            }),
         });
     }
 
@@ -54,11 +63,17 @@ export class TeamListComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.loaderService.show();
         this.routeSubscription = this.route.data
             .subscribe((data: any) => {
                 this.teams = data.teams;
+                this.isZeroTeam = isEmpty(this.teams);
+                this.teamsNumber = data.teams.length;
                 this.cd.markForCheck();
+                this.loaderService.hide();
             });
+
+        this.isRedirectHome = this.route.snapshot.queryParamMap.has("onboarding") ;
         this.userSubscription = this.auth.getUser().subscribe(user => {
             this.user = user;
         })
@@ -69,47 +84,68 @@ export class TeamListComponent implements OnInit {
         if (this.routeSubscription) this.routeSubscription.unsubscribe();
     }
 
+    canCreateUnlimitedTeams() {
+        return this.auth.getPermissions().includes(Permissions.canCreateUnlimitedTeams);
+    }
+
 
     createNewTeam() {
-        // REFACTOR : this is not the right way to write then/catch
-        if (this.createForm.dirty && this.createForm.valid) {
-            let teamName = this.createForm.controls["teamName"].value;
-            this.isCreating = true;
-            this.teamFactory.create(new Team({ name: teamName, members: [this.user] }))
-                .then((team: Team) => {
-                    this.user.teams.push(team.team_id);
-                    return this.userFactory.upsert(this.user)
-                        .then((result: boolean) => {
-                            if (result) {
-                                // this.getTeams();
-                                this.teamName = ""
-                                this.analytics.eventTrack("Create team", { email: this.user.email, name: teamName, teamId: team.team_id })
-                            }
-                            else {
-                                throw `Unable to add you to team ${teamName}!`
-                            }
-                        },
-                        () => { throw `Unable to create team ${teamName}!` })
-                        .then(() => {
-                            return { team_id: team.team_id, teamSlug: team.getSlug() }
-                        })
-                    // .catch((reason) => {
-                    //     this.errorMessage = reason;
-                    // })
-                },
-                () => { throw `Unable to create team ${teamName}!` })
-                .then((team: { team_id: string, teamSlug: string }) => {
-                    this.router.navigate(["teams", team.team_id, team.teamSlug])
-                    this.isCreating = false;
-                })
-                .catch((reason) => {
-                    // console.log(3, reason)
-                    this.errorMessage = reason;
-                    this.teamName = ""
-                    this.isCreating = false;
-                })
+        if (this.teamsNumber >= 1) {
+            this.cannotCreateMoreTeamMessage = "You have reached your maximum number of teams allowed: 1. Please reach out at support@maptio.com if you need to change these settings."
 
+        } else {
+            if (this.createForm.dirty && this.createForm.valid) {
+                let teamName = this.createForm.controls["teamName"].value;
+                this.isCreating = true;
+                this.teamFactory.create(new Team({ name: teamName, members: [this.user] }))
+                    .then((team: Team) => {
+                        this.user.teams.push(team.team_id);
+                        return this.userFactory.upsert(this.user)
+                            .then((result: boolean) => {
+                                if (result) {
+                                    this.teamName = ""
+                                    this.analytics.eventTrack("Create team", { email: this.user.email, name: teamName, teamId: team.team_id })
+                                }
+                                else {
+                                    throw `Unable to add you to organization ${teamName}!`
+                                }
+                            },
+                                () => { throw `Unable to create organization ${teamName}!` })
+                            .then(() => {
+                                return team
+                            })
+                    },
+                        () => { throw `Unable to create organization ${teamName}!` })
+                    .then((team: Team) => {
+                        return this.intercomService.createTeam(this.user, team).toPromise().then(result => {
+                            if (result)
+                                return team
+                            else
+                                throw "Cannot sync organization with Intercom."
+                        })
+                    })
+                    .then((team: Team) => {
+                        if (this.isRedirectHome) {
+                            this.router.navigateByUrl("/home")
+                        }
+                        else {
+                            this.router.navigate(["teams", team.team_id, team.getSlug()])
+                        }
+                        this.isCreating = false;
+                    })
+                    .catch((error) => {
+                        this.errorMessage = error;
+                        this.teamName = ""
+                        this.isCreating = false;
+                        this.cd.markForCheck();
+                    })
+
+            }
         }
+
+
+        // REFACTOR : this is not the right way to write then/catch
+
 
     }
 

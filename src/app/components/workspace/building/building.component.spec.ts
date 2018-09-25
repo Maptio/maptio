@@ -26,6 +26,8 @@ import { TreeComponent, TreeDraggedElement, TreeModel } from "angular-tree-compo
 import { Http, BaseRequestOptions } from "@angular/http";
 import { InitiativeComponent } from "../initiative/initiative.component";
 import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
+import { LoaderService } from "../../../shared/services/loading/loader.service";
+import { NgProgress } from "@ngx-progressbar/core";
 
 export class TreeComponentStub extends TreeComponent {
 
@@ -45,6 +47,14 @@ describe("building.component.ts", () => {
             set: {
                 providers: [DataService, ErrorService, TeamFactory, DatasetFactory, UserFactory, TreeDraggedElement, Angulartics2Mixpanel,
                     Angulartics2, NgbModal,
+                    {
+                        provide: LoaderService,
+                        useClass: class {
+                            hide = jasmine.createSpy("hide")
+                            show = jasmine.createSpy("show")
+                        },
+                        deps: [NgProgress]
+                    },
                     {
                         provide: Auth,
                         useClass: class {
@@ -70,7 +80,7 @@ describe("building.component.ts", () => {
                             events = Observable.of(new NavigationStart(0, "/next"))
                         }
                     },
-
+                    NgProgress,
                     MockBackend,
                     BaseRequestOptions]
             }
@@ -119,7 +129,7 @@ describe("building.component.ts", () => {
             spyOn(component, "saveChanges");
             spyOn(component.openDetailsEditOnly, "emit");
 
-            component.loadData("someId", "", team).then(() => {
+            component.loadData("someId", "", team, [], []).then(() => {
                 expect(spyDataService).toHaveBeenCalledWith("someId");
                 spyDataService.calls.mostRecent().returnValue
                     .then(() => {
@@ -138,7 +148,7 @@ describe("building.component.ts", () => {
                         expect(component.nodes[0].children[2].accountable).toBeUndefined()
                     })
                     .then((queue: any) => {
-                        expect(component.saveChanges).toHaveBeenCalled();
+                        expect(component.saveChanges).not.toHaveBeenCalled();
                     })
                     .then(() => {
                         expect(component.openDetailsEditOnly.emit).not.toHaveBeenCalled();
@@ -171,7 +181,7 @@ describe("building.component.ts", () => {
             });
             spyOn(component, "saveChanges");
             spyOn(component.openDetailsEditOnly, "emit")
-            component.loadData("someId", "2", team).then(() => {
+            component.loadData("someId", "2", team, [], []).then(() => {
                 expect(spyDataService).toHaveBeenCalledWith("someId");
                 spyDataService.calls.mostRecent().returnValue
                     .then(() => {
@@ -190,7 +200,7 @@ describe("building.component.ts", () => {
                         expect(component.nodes[0].children[2].accountable).toBeUndefined()
                     })
                     .then((queue: any) => {
-                        expect(component.saveChanges).toHaveBeenCalled();
+                        expect(component.saveChanges).not.toHaveBeenCalled();
                     })
                     .then(() => {
                         expect(component.openDetailsEditOnly.emit).toHaveBeenCalledWith(jasmine.objectContaining({ id: "2", name: "Marketing" }))

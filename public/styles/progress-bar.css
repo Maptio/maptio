@@ -1,0 +1,25 @@
+ng-progress {
+  }
+  
+  ng-progress-bar {
+  }
+
+  .ng-progress {
+}
+
+.ng-progress > .bar {
+    top:56px!important
+}
+
+.spinner-icon{
+  width:42px !important;
+  height: 42px !important;;
+  border-top-color: var(--maptio-blue)!important;
+  border-left-color: var(--maptio-blue)!important;
+}
+
+
+.spinner{
+  top:8px !important;
+  left:13px !important;
+}

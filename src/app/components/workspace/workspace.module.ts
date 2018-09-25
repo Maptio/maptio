@@ -31,13 +31,15 @@ import { LoadingModule, ANIMATION_TYPES } from "ngx-loading";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { BillingGuard } from "../../shared/services/guards/billing.guard";
+import { EmitterService } from "../../shared/services/emitter.service";
 
 
 const routes: Routes = [{
     path: "map/:mapid/:mapslug",
     data: { breadcrumbs: "{{data.dataset.initiative.name}}" },
     component: WorkspaceComponent,
-    canActivate: [AuthGuard, AccessGuard],
+    canActivate: [AuthGuard, AccessGuard, BillingGuard],
     resolve: {
         data: WorkspaceComponentResolver
     },

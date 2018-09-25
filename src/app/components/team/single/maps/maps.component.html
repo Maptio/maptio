@@ -1,36 +1,13 @@
 <div class="w-100 overflow">
     <div class="card-columns ">
-        <div class="card" *ngFor="let dataset of datasets">
-            <div class="card-body">
-                <h5 class="card-title">
-                    <a routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/circles"> {{dataset.initiative.name}}</a>
-                </h5>
-                <div class="card-text mb-1 d-flex flex-wrap">
-                    <small>
-                        <div *ngIf="dataset.initiative.children" class="text-muted">Vision held by
-                            <img class="visionnary rounded-circle" src="{{dataset.initiative.children[0]?.accountable?.picture}}" alt="{{dataset.initiative.children[0]?.accountable?.name}}">
-                            <a class="text-muted" routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/u/{{dataset.initiative.children[0]?.accountable?.shortid}}/{{dataset.initiative.children[0]?.accountable?.getSlug()}}">
-                                <b> {{dataset.initiative.children[0]?.accountable?.name}}</b>
-                            </a>
-
-                        </div>
-
-                        <div *ngIf="!dataset.initiative.children" class="text-warning">
-                            No vision holder yet.
-                        </div>
-                    </small>
-                </div>
+        <div class="card" *ngIf="teams">
+            <div class="card-body bg-light">
+                <common-create-map [teams]="teams" [isRedirect]="true" (created)="onNewMap($event)"></common-create-map>
             </div>
+        </div>
 
-            <div class="card-footer d-flex justify-content-between align-items-center">
-                <small class="text-muted">{{dataset.depth}} initiatives</small>
-                <!-- <button class="btn btn-danger btn-sm" mwlConfirmationPopover title="Are you sure you want to delete this map? This cannot be undone."
-                    placement="top" focusButton="cancel" appendToBody="true" (confirm)="archiveMap(dataset)" (cancel)="cancelClicked = true">
-                    <i class="fa fa-trash mr-1" aria-hidden="true"></i> Delete
-                </button> -->
-
-
-            </div>
+        <div *ngFor="let dataset of datasets">
+            <common-card-map [dataset]="dataset" [isExportAvailable]="true"></common-card-map>
         </div>
 
     </div>

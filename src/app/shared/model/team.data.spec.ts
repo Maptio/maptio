@@ -1,5 +1,6 @@
 import { Team } from "./team.data";
 import { User } from "./user.data";
+import { environment } from "../../../environment/environment";
 
 describe("Team Tests", () => {
     let team: Team;
@@ -36,8 +37,8 @@ describe("Team Tests", () => {
                 expect(deserialized).toBeDefined();
                 expect(deserialized.name).toBe("Team FTW");
                 expect(deserialized.team_id).toBe("unique");
-                expect(deserialized.settings.authority).toBe("Lead");
-                expect(deserialized.settings.helper).toBe("Contributor");
+                expect(deserialized.settings.authority).toBe(environment.DEFAULT_AUTHORITY_TERMINOLOGY);
+                expect(deserialized.settings.helper).toBe(environment.DEFAULT_HELPER_TERMINOLOGY);
                 expect(deserialized.members).toBeDefined();
                 expect(deserialized.members.length).toBe(2);
                 expect(deserialized.members[0].name).toBe("John")

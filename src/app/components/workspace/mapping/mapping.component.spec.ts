@@ -6,7 +6,7 @@ import { URIService } from "./../../../shared/services/uri.service";
 import { DataService } from "./../../../shared/services/data.service";
 import { UserFactory } from "./../../../shared/services/user.factory";
 import { RouterTestingModule } from "@angular/router/testing";
-import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
+import { Angulartics2Mixpanel, Angulartics2} from "angulartics2";
 import { ActivatedRoute } from "@angular/router";
 import { UIService } from "./../../../shared/services/ui/ui.service";
 import { ColorService } from "./../../../shared/services/ui/color.service";
@@ -99,7 +99,7 @@ describe("mapping.component.ts", () => {
 
         describe("getFragment", () => {
             it("should return correct fragment  when layout is initiatives", () => {
-                let actual = component.getFragment(new MappingZoomableComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined, undefined));
+                let actual = component.getFragment(new MappingZoomableComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined));
                 expect(actual).toBe(`x=${component.VIEWPORT_WIDTH / 2}&y=${component.VIEWPORT_WIDTH / 2 - 180}&scale=1`)
             });
 
@@ -173,9 +173,8 @@ describe("mapping.component.ts", () => {
             spyOn(component, "getFragment").and.returnValue("x=10&y=100&scale=1.3")
 
             component.onActivate(activated);
-
-            expect(activated.width).toBe(window.screen.availWidth)
-            expect(activated.height).toBe(window.screen.availHeight)
+            expect(activated.width).toBe(window.innerWidth-130)
+            // expect(activated.height).toBe(document.body.clientHeight-125)
             expect(activated.margin).toBe(50);
             expect(component.getFragment).toHaveBeenCalledTimes(1);
             expect(activated.translateX).toBe(10);

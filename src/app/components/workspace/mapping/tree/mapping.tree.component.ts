@@ -50,6 +50,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   public fontColor$: Observable<string>;
   public mapColor$: Observable<string>;
   public zoomInitiative$: Observable<Initiative>;
+  public toggleOptions$: Observable<Boolean>;
   // public isLocked$: Observable<boolean>;
   public isReset$: Observable<boolean>;
   public data$: Subject<{
@@ -66,6 +67,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   private tagsSubscription: Subscription;
 
   public analytics: Angulartics2Mixpanel;
+  public TRANSITION_DURATION = 250;
 
   private svg: any;
   private g: any;
@@ -145,13 +147,12 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       .attr("width", this.width)
       .attr("height", this.height)
       .attr("class", "overlay")
-      .style("background", "#fff");
 
     let g = svg
       .append("g")
       .attr(
-      "transform",
-      `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`
+        "transform",
+        `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`
       );
     let definitions = g.append("defs");
 
@@ -178,7 +179,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     } catch (error) { }
 
     this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
-      svg.call(
+      svg.transition().duration(this.TRANSITION_DURATION).call(
         zooming.transform,
         d3.zoomIdentity.translate(this.width / 10, this.height / 2)
       );
@@ -188,9 +189,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       try {
         // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
         if (zf) {
-          zooming.scaleBy(svg, zf);
+          zooming.scaleBy(svg.transition().duration(this.TRANSITION_DURATION), zf);
         } else {
-          svg.call(
+          svg.transition().duration(this.TRANSITION_DURATION).call(
             zooming.transform,
             d3.zoomIdentity.translate(this.translateX, this.translateY)
           );
@@ -284,6 +285,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     let colorService = this.colorService;
     let uiService = this.uiService;
     let CIRCLE_RADIUS = 15;
+    let TRANSITION_DURATION = this.TRANSITION_DURATION;
     let viewerWidth = this.width;
     let viewerHeight = this.height;
     let datasetId = this.datasetId;
@@ -328,9 +330,12 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     setPathsToRoot(pathsToRoot)
 
     // Collapse after the third level
-    root.children.forEach((c: any) => {
-      if (c.children) c.children.forEach(collapse);
-    });
+    if (root.children) {
+      root.children.forEach((c: any) => {
+        if (c.children) c.children.forEach(collapse);
+      });
+    }
+
     // console.log(g)
     update(root, 0);
 
@@ -353,7 +358,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
 
     function update(source: any, duration: number) {
-
 
       // Assigns the x and y position for the nodes
       let treeData = treemap(root);
@@ -474,7 +478,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .on("expand", (d: any) => {
           // console.log("expanding", d.data.id, d.data.name)
           expand(d);
-          update(d, 250)
+          update(d, TRANSITION_DURATION)
         })
 
       // Add Circle for the nodes
@@ -741,7 +745,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
           d.children = d._children;
           d._children = null;
         }
-        update(d, 250);
+        update(d, TRANSITION_DURATION);
         // centerNode(d)
       }
 

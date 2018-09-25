@@ -30,6 +30,7 @@ import { LoaderService } from "../../shared/services/loading/loader.service";
 import { Team } from "../../shared/model/team.data";
 
 import { NO_ERRORS_SCHEMA } from "@angular/core"
+import { BillingService } from "../../shared/services/billing/billing.service";
 
 describe("header.component.ts", () => {
 
@@ -72,7 +73,7 @@ describe("header.component.ts", () => {
                     MockBackend,
                     BaseRequestOptions,
                     ErrorService, LoaderService,
-                    UserService, JwtEncoder, MailingService]
+                    UserService, JwtEncoder, MailingService, BillingService]
             }
         }).compileComponents();
     }));
@@ -109,6 +110,7 @@ describe("header.component.ts", () => {
 
         component.ngOnInit();
         user$.next(new User({ user_id: "some_new_id", datasets: ["1", "2", "3"], teams: [] }));
+        EmitterService.get("headerUser").emit(user$.asObservable());
         spyDatasets.calls.mostRecent().returnValue
             .then(() => { })
             .then(() => { })
@@ -149,6 +151,7 @@ describe("header.component.ts", () => {
 
         component.ngOnInit();
         user$.next(new User({ user_id: "some_new_id", datasets: ["1", "2", "3"], teams: [] }));
+        EmitterService.get("headerUser").emit(user$.asObservable());
         spyDatasets.calls.mostRecent().returnValue
             .then(() => { })
             .then(() => { })

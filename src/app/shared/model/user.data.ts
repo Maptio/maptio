@@ -63,6 +63,12 @@ export class User implements Serializable<User> {
      */
     public isDeleted: boolean = false;
 
+
+    /**
+     * Number of logins
+     */
+    public loginsCount :number;
+
     /**
      * List of teams
      */
@@ -104,6 +110,7 @@ export class User implements Serializable<User> {
         deserialized.isActivationPending = input.app_metadata && input.app_metadata.activation_pending ? input.app_metadata.activation_pending : false;
         deserialized.isInvitationSent = input.app_metadata && input.app_metadata.invitation_sent ? input.app_metadata.invitation_sent : false;
         deserialized.userRole = input.app_metadata && input.app_metadata.role ? (<any>UserRole)[input.app_metadata.role] : UserRole.Standard;
+        deserialized.loginsCount = input.logins_count;
 
         deserialized.nickname = input.nickname;
         deserialized.email = input.email;

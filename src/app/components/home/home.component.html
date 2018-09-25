@@ -1,27 +1,18 @@
-<div class="d-flex justify-content-between p-4">
-    <div class="d-flex flex-column card bg-transparent border-0 mr-5">
+<div class="h-100  d-flex justify-content-center align-items-start flex-column" [class.home-background]="!auth.allAuthenticated()">
+    <div class="d-flex flex-column justify-content-center align-items-center h-100 " [class.col-6]="!auth.allAuthenticated()" [class.w-100]="auth.allAuthenticated()">
+        <div *ngIf="!auth.allAuthenticated()" class="text-blue text-center">
+            <h1>Maptio helps you organise without traditional management hierarchy</h1>
+            <h4>Visualise your organisation in nested circles</h4>
+            <h4>Keep track of everyone’s roles</h4>
 
-        <h1 class="mb-5 text-white">Maptio</h1>
-        <h4 class="text-white">Making agility at work easier. Onboard new people quickly. Make smarter decisions. Keep everyone aligned.
-        </h4>
+            <button class="btn btn-success btn-lg my-3" routerLink="/signup">Get started - Free for 14 days</button>
 
-        <div class="text-white mt-auto" *ngIf="auth.allAuthenticated()">
-            <span>New to Maptio? Watch our 12 minute tutorial video.</span>
-            <div class="embed-responsive embed-responsive-16by9">
-                <iframe src="https://drive.google.com/file/d/10AYJduyqXgbsCxRRk_GSz7v59adJgp3Q/preview" width="640" height="480"></iframe>
+            <div class="text-muted">Already use Maptio?
+                <a routerLink="/login">Log in</a>
             </div>
         </div>
-
+        <div *ngIf="auth.allAuthenticated()" class="h-100 w-100">
+            <dashboard *ngIf="!isLoading" [datasets]="datasets" [teams]="teams" [user]="user"></dashboard>
+        </div>
     </div>
-
-
-
-
-    <div class="col-6 signup rounded" *ngIf="auth.allAuthenticated()">
-        <dashboard></dashboard>
-    </div>
-    <div class="col-6 signup rounded" *ngIf="!auth.allAuthenticated()">
-        <signup></signup>
-    </div>
-
 </div>

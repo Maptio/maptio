@@ -52,12 +52,16 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   public zoomInitiative$: Observable<Initiative>;
   // public isLocked$: Observable<boolean>;
   public isReset$: Observable<boolean>;
+
+  public toggleOptions$: Observable<Boolean>;
   public data$: Subject<{ initiative: Initiative; datasetId: string }>;
 
   public rootNode: Initiative;
   public slug: string;
   public team: Team;
 
+
+  public _isDisplayOptions: Boolean = false;
   private isAuthorityCentricMode$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   public _isAuthorityCentricMode: boolean = true;
 
@@ -77,9 +81,10 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   private dataSubscription: Subscription;
   private resetSubscription: Subscription;
   private fontSubscription: Subscription;
+  public toggleOptionsSubscription: Subscription;
 
   T: any;
-  TRANSITION_DURATION = 2250;
+  TRANSITION_DURATION = 250;
 
   CIRCLE_RADIUS: number = 25;
   LINE_WEIGHT = 4;
@@ -103,15 +108,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     private dataService: DataService,
     private uriService: URIService
   ) {
-    // console.log("network constructor")
     this.d3 = d3Service.getD3();
-    this.T = this.d3.transition(null).duration(this.TRANSITION_DURATION);
-    // this.data$ = new Subject<{
-    //   initiative: Initiative;
-    //   datasetId: string;
-    //   teamName: string;
-    //   teamId: string;
-    // }>();
   }
 
   ngOnInit() {
@@ -121,7 +118,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .get()
       .combineLatest(this.mapColor$, this.isAuthorityCentricMode$.asObservable())
       .subscribe(complexData => {
-        // console.log("network assign data", complexData)
         let data = <any>complexData[0].initiative;
         this.datasetId = complexData[0].datasetId;
         this.rootNode = complexData[0].initiative;
@@ -138,6 +134,11 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       });
 
     this.selectableTags$.subscribe(tags => this.tagsState = tags)
+
+    this.toggleOptionsSubscription = this.toggleOptions$.subscribe(toggled => {
+      this._isDisplayOptions = toggled;
+      this.cd.markForCheck();
+    })
   }
 
   ngOnDestroy() {
@@ -153,6 +154,9 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     if (this.fontSubscription) {
       this.fontSubscription.unsubscribe();
     }
+    if(this.toggleOptionsSubscription){
+      this.toggleOptionsSubscription.unsubscribe();
+    }
   }
 
   init() {
@@ -164,8 +168,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .select("svg")
       .attr("width", this.width)
       .attr("height", this.height);
-    // margin = this.margin,
-    // diameter = +this.width
     let g = svg
       .append("g")
       .attr("width", this.width)
@@ -178,8 +180,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     g.append("g").attr("class", "labels");
     g.append("g").attr("class", "nodes");
     g.append("defs");
-
-    svg.style("background", "#fff");
 
     svg
       .append("svg:defs")
@@ -243,9 +243,9 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       try {
         // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
         if (zf) {
-          zooming.scaleBy(svg, zf);
+          zooming.scaleBy(svg.transition().duration(this.TRANSITION_DURATION), zf);
         } else {
-          svg.call(
+          svg.transition().duration(this.TRANSITION_DURATION).call(
             zooming.transform,
             d3.zoomIdentity.translate(this.translateX, this.translateY)
           );
@@ -254,7 +254,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     });
 
     this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
-      svg.call(
+      svg.transition().duration(this.TRANSITION_DURATION).call(
         zooming.transform,
         d3.zoomIdentity.translate(0, -this.height / 4)
       );
