@@ -7,6 +7,7 @@ import { Initiative } from '../../model/initiative.data';
 import { Auth } from '../../services/auth/auth.service';
 import { Angulartics2Mixpanel } from 'angulartics2';
 import { Router } from '@angular/router';
+import { Intercom } from 'ng-intercom';
 
 @Component({
     selector: 'common-create-map',
@@ -23,7 +24,7 @@ export class CreateMapComponent implements OnInit {
     @Output("created") created = new EventEmitter<DataSet>();
 
     constructor(private datasetFactory: DatasetFactory, private cd: ChangeDetectorRef,
-        private router: Router) { }
+        private router: Router, private intercom: Intercom) { }
 
 
 
@@ -60,6 +61,10 @@ export class CreateMapComponent implements OnInit {
                     this.isCreatingMap = false;
                     this.cd.markForCheck();
                     return created
+                })
+                .then(created => {
+                    this.intercom.trackEvent("Create map", { teamId: teamId, mapName: mapName });
+                    return created;
                 })
                 .then(created => {
                     if (this.isRedirect) this.router.navigate(["map", created.datasetId, created.initiative.getSlug()]);

@@ -27,6 +27,7 @@ import { MappingNetworkComponent } from "./network/mapping.network.component";
 import { MappingTreeComponent } from "./tree/mapping.tree.component";
 import { MappingZoomableComponent } from "./zoomable/mapping.zoomable.component";
 import { ExportService } from "./../../../shared/services/export/export.service";
+import { Intercom } from "ng-intercom";
 
 // import { MappingNetworkComponent } from "./network/mapping.network.component";
 // import { MappingCirclesComponent } from "./circles/mapping.circles.component";
@@ -99,7 +100,7 @@ export class MappingComponent {
   public data$: Subject<{ initiative: Initiative; datasetId: string }>;
 
   @Input("tags") selectableTags: Array<SelectableTag>;
-  @Input("isEmptyMap") isEmptyMap:Boolean;
+  @Input("isEmptyMap") isEmptyMap: Boolean;
   @Output("showDetails") showDetails = new EventEmitter<Initiative>();
   @Output("addInitiative") addInitiative = new EventEmitter<Initiative>();
   @Output("removeInitiative") removeInitiative = new EventEmitter<Initiative>();
@@ -143,7 +144,8 @@ export class MappingComponent {
     private analytics: Angulartics2Mixpanel,
     private uriService: URIService,
     private uiService: UIService,
-    private exportService: ExportService
+    private exportService: ExportService,
+    private intercom:Intercom
   ) {
     this.zoom$ = new Subject<number>();
     this.isReset$ = new Subject<boolean>();
@@ -458,7 +460,11 @@ export class MappingComponent {
     this.exportService.sendSlackNotification((<any>svgNode).outerHTML, this.datasetId, this.initiative, this.team.slack, message)
       .subscribe((result) => {
         // console.log("result", result);
-        this.isPrinting = false; this.hasNotified = true; this.cd.markForCheck()
+        this.isPrinting = false;
+        this.hasNotified = true;
+        this.intercom.trackEvent("Sharing map", { team: this.team.name, teamId: this.team.team_id, datasetId: this.datasetId, mapName: this.initiative.name });
+
+        this.cd.markForCheck()
       },
         (err) => {
           this.hasConfigurationError = true;

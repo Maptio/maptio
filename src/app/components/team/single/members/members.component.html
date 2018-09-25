@@ -103,12 +103,12 @@
                 </tr>
             </thead>
             <tbody [style.height.vh]="55">
-                <tr *ngFor="let member of (members$ | async); trackBy: trackByMemberId;let i=index" [class.text-muted]="member.isDeleted"
-                    [class.font-weight-light]="member.isDeleted" [class.bold]="member.userRole===UserRole.Admin">
+                <tr *ngFor="let member of (members$ | async); trackBy: trackByMemberId;let i=index" 
+                     [class.bold]="member.userRole===UserRole.Admin">
                     <td>
                         <ng-container *permissionsOnly="Permissions.canDeleteUser;then thenDeleteBlock"></ng-container>
                         <ng-template #thenDeleteBlock>
-                            <span *ngIf="!member.isDeleted" class="remove text-danger" [class.d-none]="team.members.length===1" aria-hidden="true" mwlConfirmationPopover
+                            <span class="remove text-danger" [class.d-none]="team.members.length===1" aria-hidden="true" mwlConfirmationPopover
                                 title="This cannot be undone ! Are you sure you want to delete {{member.name}} from this organization?"
                                 placement="right" focusButton="cancel" appendToBody="true" (confirm)="deleteMember(member)" (cancel)="cancelClicked = true">
                             </span>
@@ -123,8 +123,7 @@
                             ngbTooltip="{{member.name}} was sent an invitation.">Pending invitation</small>
                         <small [hidden]="!(member.isActivationPending && !member.isInvitationSent)" class="text-warning pull-left" placement="top"
                             container="body" ngbTooltip="{{member.name}} cannot view or edit maps.">Not yet invited</small>
-                        <small [hidden]="!(member.isDeleted)" class="text-danger pull-left" placement="top" container="body" ngbTooltip="{{member.name}} was deleted.">Deleted</small>
-                        <small [hidden]="(member.isActivationPending || member.isDeleted)" class="text-success pull-left" placement="top" container="body"
+                        <small [hidden]="member.isActivationPending" class="text-success pull-left" placement="top" container="body"
                             ngbTooltip="{{member.name}} can view and edit maps">Active</small>
 
                     </td>
@@ -134,18 +133,18 @@
                             {{UserRole[member.userRole]}}
                         </ng-template>
                         <ng-template #thenRoleBlock>
-                            <select [disabled]="member.isDeleted" class="form-control" (change)="changeUserRole(member,$event.target.value)">
+                            <select class="form-control" (change)="changeUserRole(member,$event.target.value)">
                                 <option *ngFor="let userRole of UserRole | keys| slice:0:2;" [value]="userRole.key" [selected]="member.userRole">{{userRole.value}}</option>
                             </select>
                         </ng-template>
                     </td>
                     <td class="pr-0">
-                        <ng-container *ngIf="!member.isDeleted">
+                        <ng-container>
                             <ng-container *ngIf="!isDisplaySendingLoader(member.user_id) && !isDisplayUpdatingLoader(member.user_id)">
                                 <ng-container *ngIf="member.isActivationPending && !member.isInvitationSent">
                                     <ng-container *permissionsOnly="Permissions.canInviteUser;then thenInviteBlock; else elseInviteBlock"></ng-container>
                                     <ng-template #thenInviteBlock>
-                                        <button [class.deleted]="member.isDeleted" class="pull-right btn btn-outline-secondary" (click)="inviteUser(member, i)" placement="left"
+                                        <button class="pull-right btn btn-outline-secondary" (click)="inviteUser(member, i)" placement="left"
                                             container="body" ngbTooltip="Invite {{member.name}} to view and edit maps">
                                             Invite </button>
                                     </ng-template>
@@ -155,7 +154,7 @@
                                         </button>
                                     </ng-template>
                                 </ng-container>
-                                <button [class.deleted]="member.isDeleted" *ngIf="member.isActivationPending && member.isInvitationSent" class="btn btn-outline-secondary pull-right"
+                                <button  *ngIf="member.isActivationPending && member.isInvitationSent" class="btn btn-outline-secondary pull-right"
                                     (click)="resendUser(member, i)" placement="left" container="body" ngbTooltip="Resend an invitation to {{member.name}}">Resend </button>
                             </ng-container>
                             <ng-container *ngIf="isDisplaySendingLoader(member.user_id)">

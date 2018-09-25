@@ -32,6 +32,7 @@ import { MarkdownService } from 'angular2-markdown';
 import { D3Service } from 'd3-ng2-service';
 import { LoaderService } from "../../shared/services/loading/loader.service";
 import { NgProgress } from "@ngx-progressbar/core";
+import { Intercom, IntercomConfig } from "ng-intercom";
 
 export class AuthStub {
     fakeProfile: User = new User({
@@ -72,7 +73,9 @@ describe("workspace.component.ts", () => {
             schemas: [NO_ERRORS_SCHEMA]
         }).overrideComponent(WorkspaceComponent, {
             set: {
-                providers: [DataService, DatasetFactory, UserService, AuthConfiguration, JwtEncoder, MailingService, UserFactory, TeamFactory, Angulartics2, Angulartics2Mixpanel,
+                providers: [
+                    Intercom, IntercomConfig,
+                    DataService, DatasetFactory, UserService, AuthConfiguration, JwtEncoder, MailingService, UserFactory, TeamFactory, Angulartics2, Angulartics2Mixpanel,
                     {
                         provide: AuthHttp,
                         useFactory: authHttpServiceFactoryTesting,

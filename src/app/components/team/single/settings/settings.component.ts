@@ -6,6 +6,7 @@ import { Component, OnInit, Input, ChangeDetectorRef, TemplateRef, Renderer2 } f
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Team } from "../../../../shared/model/team.data";
 import { TeamFactory } from "../../../../shared/services/team.factory";
+import { Intercom } from 'ng-intercom';
 
 @Component({
     selector: "team-single-settings",
@@ -28,7 +29,7 @@ export class TeamSettingsComponent implements OnInit {
 
     KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
     constructor(private cd: ChangeDetectorRef, private teamFactory: TeamFactory,
-        private route: ActivatedRoute, private renderer: Renderer2) {
+        private route: ActivatedRoute, private renderer: Renderer2, private intercom: Intercom) {
         this.teamSettingsForm = new FormGroup({
             "name": new FormControl(this.teamName, {
                 validators: [
@@ -85,6 +86,8 @@ export class TeamSettingsComponent implements OnInit {
             this.teamFactory.upsert(updatedTeam)
                 .then((isUpdated: boolean) => {
                     this.isTeamSettingSaved = isUpdated;
+                    this.intercom.trackEvent("Change terminology", { team: this.team.name, teamId: this.team.team_id, authority: updatedTeam.settings.authority, helper: updatedTeam.settings.helper });
+
                     this.cd.markForCheck();
                 })
                 .catch(err => { this.isTeamSettingFailed = true; this.cd.markForCheck(); })

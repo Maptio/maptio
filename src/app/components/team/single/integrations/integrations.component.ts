@@ -9,6 +9,7 @@ import { DataSet } from "./../../../../shared/model/dataset.data";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import * as uuid from "angular2-uuid";
+import { Intercom } from 'ng-intercom';
 
 @Component({
     selector: "team-single-integrations",
@@ -29,7 +30,7 @@ export class TeamIntegrationsComponent implements OnInit {
 
     constructor(private route: ActivatedRoute, private router: Router,
         private secureHttp: AuthHttp, private http: Http, private teamFactory: TeamFactory,
-        private cd: ChangeDetectorRef) {
+        private cd: ChangeDetectorRef, private intercom:Intercom) {
     }
 
     ngOnInit() {
@@ -105,6 +106,10 @@ export class TeamIntegrationsComponent implements OnInit {
             } else {
 
             }
+        })
+        .then(() => {
+            this.intercom.trackEvent("Add Slack", { team: this.team.name, teamId: this.team.team_id, channel : slackWebookDetails.channel });
+            return;
         })
 
     }

@@ -26,6 +26,7 @@ import { MappingNetworkComponent } from "./network/mapping.network.component";
 import { MemberSummaryComponent } from "./member-summary/member-summary.component";
 import { MappingZoomableComponent } from "./zoomable/mapping.zoomable.component";
 import { MarkdownService } from "angular2-markdown";
+import { Intercom, IntercomConfig } from 'ng-intercom';
 
 describe("mapping.component.ts", () => {
 
@@ -36,7 +37,7 @@ describe("mapping.component.ts", () => {
         TestBed.configureTestingModule({
             providers: [
                 DataService, ErrorService, D3Service, ColorService, UIService, URIService, Angulartics2Mixpanel, Angulartics2,
-                UserFactory, ExportService,
+                UserFactory, ExportService,Intercom, IntercomConfig,
                 {
                     provide: Http,
                     useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {

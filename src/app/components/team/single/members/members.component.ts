@@ -23,6 +23,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef } from "@angular/core";
 import { UserRole, Permissions } from "../../../../shared/model/permission.data";
 import { LoaderService } from '../../../../shared/services/loading/loader.service';
+import { Intercom } from 'ng-intercom';
 
 @Component({
     selector: "team-single-members",
@@ -55,10 +56,10 @@ export class TeamMembersComponent implements OnInit {
     isSendingMap: Map<string, boolean> = new Map<string, boolean>();
     isUpdatingMap: Map<string, boolean> = new Map<string, boolean>();
     inputEmail$: Subject<string> = new Subject();
-    inputEmail:String;
+    inputEmail: String;
     foundUser: User;
     isShowSelectToAdd: Boolean;
-    isShowInviteForm:Boolean;
+    isShowInviteForm: Boolean;
     isSearching: Boolean;
     isNewUserAdded: Boolean;
 
@@ -73,6 +74,7 @@ export class TeamMembersComponent implements OnInit {
         private teamFactory: TeamFactory,
         private datasetFactory: DatasetFactory,
         private analytics: Angulartics2Mixpanel,
+        private intercom: Intercom,
         private cd: ChangeDetectorRef,
         private loaderService: LoaderService,
         private auth: Auth) {
@@ -95,7 +97,7 @@ export class TeamMembersComponent implements OnInit {
 
     }
 
-  
+
     @ViewChild("inputNewMember") public inputNewMember: ElementRef;
 
     ngOnInit() {
@@ -113,7 +115,7 @@ export class TeamMembersComponent implements OnInit {
                 this.cd.markForCheck();
             })
             .filter(email => this.isEmail(email))
-            .do((email:string) => {
+            .do((email: string) => {
                 this.inputEmail = email;
                 this.isSearching = true;
                 this.cd.markForCheck();
@@ -278,10 +280,16 @@ export class TeamMembersComponent implements OnInit {
                 user.isInvitationSent = isSent;
                 this.isSendingMap.set(user.user_id, false);
                 this.cd.markForCheck();
+
+                return;
+            }).then(() => {
                 this.analytics.eventTrack("Team", { action: "invite", team: this.team.name, teamId: this.team.team_id })
                 return;
-            }
-            )
+            })
+            .then(() => {
+                this.intercom.trackEvent("Invite user", { team: this.team.name, teamId: this.team.team_id, email: user.email });
+                return;
+            })
         // })
     }
 
@@ -364,6 +372,10 @@ export class TeamMembersComponent implements OnInit {
                 this.analytics.eventTrack("Team", { action: "create", team: this.team.name, teamId: this.team.team_id });
                 return true;
             })
+            .then(() => {
+                this.intercom.trackEvent("Create user", { team: this.team.name, teamId: this.team.team_id, email: email });
+                return true;
+            })
             .catch((reason) => {
                 // console.log("catching ", reason)
                 this.errorMessage = reason;
@@ -372,11 +384,11 @@ export class TeamMembersComponent implements OnInit {
 
     }
 
-    
+
     onKeyUp(searchTextValue: string) {
         this.inputEmail$.next(searchTextValue)
     }
- 
+
     trackByMemberId(index: number, member: User) {
         return member.user_id;
     }

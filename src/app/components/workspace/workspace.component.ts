@@ -18,6 +18,7 @@ import { User } from "../../shared/model/user.data";
 import { Tag, SelectableTag } from "../../shared/model/tag.data";
 import { intersectionBy } from "lodash";
 import { UIService } from "../../shared/services/ui/ui.service";
+import { Intercom } from "ng-intercom";
 
 @Component({
     selector: "workspace",
@@ -47,7 +48,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public tags: Tag[];
     public user: User;
     public canvasYMargin: number;
-    public canvasHeight:number
+    public canvasHeight: number
 
     public openedNode: Initiative;
     public openedNodeParent: Initiative;
@@ -68,9 +69,9 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     constructor(private route: ActivatedRoute, private datasetFactory: DatasetFactory,
-        private dataService: DataService,private cd: ChangeDetectorRef, private uiService: UIService) {
-            this.canvasYMargin = uiService.getCanvasYMargin();
-            this.canvasHeight = uiService.getCanvasHeight();
+        private dataService: DataService, private cd: ChangeDetectorRef, private uiService: UIService, private intercom: Intercom) {
+        this.canvasYMargin = uiService.getCanvasYMargin();
+        this.canvasHeight = uiService.getCanvasHeight();
     }
 
     ngOnInit() {
@@ -120,6 +121,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 return hasSaved;
             }, (reason) => { /*console.log(reason)*/ })
             .then(() => {
+                this.intercom.trackEvent("Editing map", { team: this.team.name, teamId: this.team.team_id, datasetId: this.datasetId, mapName: initiative.name });
+                return;
+            })
+            .then(() => {
                 EmitterService.get("isSavingInitiativeData").emit(false);
 
                 // this.counterService.set({ datasetId: this.datasetId, time: moment() })
@@ -165,6 +170,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.isBuildingPanelCollapsed = true;
     }
 
-    
+
 
 }

@@ -15,6 +15,7 @@ import { Http, BaseRequestOptions } from "@angular/http";
 import { MockBackend } from "@angular/http/testing";
 import { User } from "../../../../shared/model/user.data";
 import { Observable } from "rxjs/Observable";
+import { Intercom, IntercomConfig } from "ng-intercom";
 
 class MockActivatedRoute implements ActivatedRoute {
     paramMap: Observable<ParamMap>;
@@ -61,6 +62,7 @@ describe("settings.component.ts", () => {
         }).overrideComponent(TeamSettingsComponent, {
             set: {
                 providers: [
+                    Intercom, IntercomConfig,
                     {
                         provide: Auth,
                         useClass: class {
