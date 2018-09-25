@@ -15,7 +15,6 @@
                         <ng-container *permissionsOnly="Permissions.canAddUser; then thenAddBlock; else elseAddBlock"></ng-container>
                         <ng-template #thenAddBlock>
                             <input #inputNewMember class="form-control col-5" type="text" (keyup)="onKeyUp(inputNewMember.value)" email>
-
                         </ng-template>
                         <ng-template #elseAddBlock>
                             <input disabled class="form-control col-5" type="text" />
@@ -41,10 +40,15 @@
                         </div>
                     </div>
                     <div *ngIf="isShowInviteForm" class="my-3 col-7 p-0">
-                        <small>Add a first and last name for {{inputNewMember.value}} and we'll add them to your organization. You
-                            can invite them to view and edit the maps later. </small>
+
+                        <small>
+                            <div>Add a first and last name for
+                                <b>{{inputEmail}}</b> and we'll add them to your organization.
+                            </div>
+                            <div>You can invite them to view and edit the maps later. </div>
+                        </small>
                         <form class="form-row d-flex justify-content-start my-1" [class.align-items-start]="!isCreatingUser" [class.align-items-center]="isCreatingUser"
-                            [formGroup]="inviteForm" (submit)="createUser(inputNewMember.value)">
+                            [formGroup]="inviteForm" (submit)="createUser(inputEmail)">
 
                             <div>
                                 <input type="text" id="inputFirstname" formControlName="firstname" class="form-control form-control-warning " [class.is-invalid]="inviteForm.controls['firstname'].invalid  && (inviteForm.controls['firstname'].dirty || inviteForm.controls['firstname'].touched)"

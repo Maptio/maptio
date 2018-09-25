@@ -55,6 +55,7 @@ export class TeamMembersComponent implements OnInit {
     isSendingMap: Map<string, boolean> = new Map<string, boolean>();
     isUpdatingMap: Map<string, boolean> = new Map<string, boolean>();
     inputEmail$: Subject<string> = new Subject();
+    inputEmail:String;
     foundUser: User;
     isShowSelectToAdd: Boolean;
     isShowInviteForm:Boolean;
@@ -112,7 +113,8 @@ export class TeamMembersComponent implements OnInit {
                 this.cd.markForCheck();
             })
             .filter(email => this.isEmail(email))
-            .do(() => {
+            .do((email:string) => {
+                this.inputEmail = email;
                 this.isSearching = true;
                 this.cd.markForCheck();
             })
@@ -241,6 +243,7 @@ export class TeamMembersComponent implements OnInit {
             })
             .then(() => {
                 this.inputNewMember.nativeElement.value = "";
+                this.inputEmail = "";
                 this.isShowSelectToAdd = false;
                 this.cd.markForCheck();
             })
@@ -308,6 +311,7 @@ export class TeamMembersComponent implements OnInit {
                 .then(() => {
                     this.isCreatingUser = false;
                     this.inputNewMember.nativeElement.value = "";
+                    this.inputEmail = "";
                     this.isShowInviteForm = false;
                     this.cd.markForCheck()
                 });
