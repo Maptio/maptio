@@ -25,16 +25,18 @@ To launch it on your local server, see the [Setting up dev](#setting-up-dev) sec
 
 ### Built With
 
-- Angular 4.1.1
+- Angular 5.1.3
 - Typescript 2.3.4
-- Webpack 2.1
-- Bootstrap 3.3
+- Webpack 3.0.0
+- Bootstrap 4.0.0
 - D3 4.0
 - Express 4.14.1
 
 Additionally , we use these services/packages : 
-- Angular Tree Component `angular2-tree-component@1.3.5`
-- Auth0
+- Angular Tree Component `angular2-tree-component@7.0.1`
+- Auth0 for authentication as a service
+- Cloudinary for image storage/retrieval
+
 
 ### Prerequisites
 
