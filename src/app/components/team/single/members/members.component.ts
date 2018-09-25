@@ -321,6 +321,7 @@ export class TeamMembersComponent implements OnInit {
                     this.inputNewMember.nativeElement.value = "";
                     this.inputEmail = "";
                     this.isShowInviteForm = false;
+                    this.inviteForm.reset();
                     this.cd.markForCheck()
                 });
         }
