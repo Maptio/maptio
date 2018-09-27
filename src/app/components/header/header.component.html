@@ -16,9 +16,9 @@
         <ul class="navbar-nav mr-auto">
             <li class="nav-item col-auto d-flex flex-column justify-content-end px-0 pt-3">
                 <mc-breadcrumbs></mc-breadcrumbs>
-                <div class="small text-success saving d-flex justify-content-end align-items-center" [class.invisible]="!isSaving">
+                <div class="small text-success saving d-flex justify-content-end align-items-center" [class.hide]="!isSaving">
                     <i class="fa fa-floppy-o mx-1" aria-hidden="true"></i>
-                    <span>Saving</span>
+                    <b>Autosaved</b>
                 </div>
             </li>
         </ul>

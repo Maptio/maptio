@@ -177,8 +177,8 @@ span.navbar-text a {
     transition-delay:0s;
 }
 
-.saving.invisible{
+.saving.hide{
 	opacity: 0;	
     transition: opacity 2s ease;
-    transition-delay:3s;
+    transition-delay:2s;
 }
