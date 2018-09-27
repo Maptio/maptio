@@ -92,7 +92,7 @@ export class MemberSummaryComponent implements OnInit, IDataVisualizer {
         this.subscription = this.dataService.get()
             .map(data => {
                 this.datasetId = data.datasetId;
-                this.analytics.eventTrack("Map", { view: "personal", team: data.teamName, teamId: data.teamId });
+                this.analytics.eventTrack("Map", { action : "viewing", view: "personal", team: data.teamName, teamId: data.teamId });
                 this.initiative = data.initiative;
                 this.team = data.team;
             })

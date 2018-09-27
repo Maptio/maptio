@@ -125,6 +125,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         this.slug = data.getSlug();
         this.update(data, complexData[1], complexData[2]);
         this.analytics.eventTrack("Map", {
+          action : "viewing",
           view: "connections",
           team: data.teamName,
           teamId: data.teamId

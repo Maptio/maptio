@@ -240,6 +240,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         this.tagsState = complexData[1];
         this.update(data, complexData[1], complexData[2]);
         this.analytics.eventTrack("Map", {
+          action : "viewing",
           view: "people",
           team: data.teamName,
           teamId: data.teamId

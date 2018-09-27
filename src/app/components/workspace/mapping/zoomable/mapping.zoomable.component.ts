@@ -160,6 +160,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
         this.loaderService.hide();
         this.analytics.eventTrack("Map", {
+          action : "viewing",
           view: "initiatives",
           team: data.teamName,
           teamId: data.teamId
