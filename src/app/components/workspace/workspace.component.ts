@@ -115,13 +115,20 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
             this.dataset.tags = tags;
             this.tags = tags
         }
+
+        let depth = 0
+        initiative.traverse((n) => { depth++ });
+
         this.datasetFactory.upsert(this.dataset, this.datasetId)
             .then((hasSaved: boolean) => {
                 this.dataService.set({ initiative: initiative, datasetId: this.datasetId, teamName: this.teamName, teamId: this.teamId, team: this.team, tags: this.dataset.tags, members: this.members });
                 return hasSaved;
             }, (reason) => { /*console.log(reason)*/ })
             .then(() => {
-                this.intercom.trackEvent("Editing map", { team: this.team.name, teamId: this.team.team_id, datasetId: this.datasetId, mapName: initiative.name });
+
+                let depth = 0
+                initiative.traverse((n) => { depth++ });
+                this.intercom.trackEvent("Editing map", { team: this.team.name, teamId: this.team.team_id, datasetId: this.datasetId, mapName: initiative.name, circles: depth });
                 return;
             })
             .then(() => {
