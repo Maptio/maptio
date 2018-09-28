@@ -115,6 +115,26 @@ export class Auth {
     );
   }
 
+  public loginMaptioApiSSO() {
+    return new Promise((resolve, reject) => {
+
+      this.configuration.getWebAuth().checkSession({
+        scope: "openid profile api invite",
+        audience: environment.MAPTIO_API_URL,
+        responseType: "token id_token",
+        redirectUri: "http://maptio.test:3000/authorize",
+        connection: "google-oauth2"
+      },
+        function (err: any, authResult: any) {
+          console.log(err, authResult)
+          if (err) {
+            reject(err)
+          }
+          resolve({ accessToken: authResult.accessToken, idToken: authResult.idToken })
+        })
+    });
+  }
+
   public getUserInfo(userId: string): Promise<User> {
     return this.configuration.getAccessToken().then((token: string) => {
       let headers = new Headers();
@@ -204,25 +224,11 @@ export class Auth {
   }
 
   private signin(connection: string) {
-      //   return this.configuration.getAccessToken().then((token: string) => {
-
-  //     let headers = new Headers();
-  //     headers.set("Authorization", "Bearer " + token);
-
-  //     return this.http.get(`https://${environment.AUTH0_DOMAIN}/authorize?response_type=token&client_id=${environment.AUTH0_APP_KEY}&connection=${connection}&redirect_uri=https://app.maptio.com`, { headers: headers })
-  //         .map((responseData) => {
-  //             if (responseData.json().app_metadata) {
-  //                 return responseData.json().app_metadata.activation_pending;
-  //             }
-  //             return false;
-  //         })
-  //         .toPromise()
-  // });
     this.configuration.getWebAuth().authorize(
       {
         scope: 'profile openid email',
         responseType: 'token',
-        redirectUri: 'http://localhost:3000/authorize',
+        redirectUri: 'http://maptio.test:3000/authorize',
         connection: connection
       }
     )
