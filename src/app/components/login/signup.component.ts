@@ -6,11 +6,13 @@ import { UserService } from "../../shared/services/user/user.service";
 import { repeatValidator } from "./../../shared/directives/equal-validator.directive";
 import { UserRole } from "./../../shared/model/permission.data";
 import { LoaderService } from "./../../shared/services/loading/loader.service";
+import { Auth } from "../../shared/services/auth/auth.service";
 
 
 @Component({
     selector: "signup",
-    templateUrl: "./signup.component.html"
+    templateUrl: "./signup.component.html",
+    styleUrls: ["./signup.component.css"]
 })
 
 export class SignupComponent implements OnInit {
@@ -35,7 +37,7 @@ export class SignupComponent implements OnInit {
 
     public signupForm: FormGroup;
 
-    constructor(private userService: UserService, private loader: LoaderService,
+    constructor(private userService: UserService, private loader: LoaderService, private auth:Auth,
         private analytics: Angulartics2Mixpanel, private cd: ChangeDetectorRef, public loaderService: LoaderService) {
         this.signupForm = new FormGroup({
             "firstname": new FormControl(this.firstname, {
@@ -134,6 +136,10 @@ export class SignupComponent implements OnInit {
                 }).then(() => { this.loaderService.hide(); })
                 .catch(()=>{console.log("final catch")})
         }
+    }
+
+    signInWithGoogle(){
+        this.auth.googleSignIn();
     }
 
     isEmailExist(email: string): Promise<boolean> {

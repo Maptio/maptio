@@ -70,6 +70,7 @@ import { CreateMapComponent } from "./shared/components/create-map/create-map.co
 import { SharedModule } from "./shared/shared.module";
 import { CommonComponentsModule } from "./shared/common-components.module";
 import { PricingComponent } from "./components/pricing/pricing.component";
+import { AuthorizeComponent } from "./components/login/authorize.component";
 
 
 
@@ -79,6 +80,7 @@ const appRoutes: Routes = [
   { path: "home", component: HomeComponent, data: { breadcrumbs: "Home" }},
 
   { path: "login", component: LoginComponent, data: { breadcrumbs: "Login" } },
+  { path: "authorize", component: AuthorizeComponent },
 
   { path: "logout", component: LogoutComponent },
   { path: "help", component: HelpComponent, data: { breadcrumbs: "Help" } },
@@ -105,7 +107,7 @@ export const cloudinaryLib = {
 @NgModule({
   declarations: [
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, LoginComponent, LogoutComponent, HomeComponent, UnauthorizedComponent, NotFoundComponent,
-    ChangePasswordComponent, LoaderComponent, SignupComponent,
+    ChangePasswordComponent, LoaderComponent, SignupComponent,AuthorizeComponent,
     HelpComponent,PricingComponent,
     DashboardComponent,
     // for tests

@@ -167,7 +167,7 @@ export class Auth {
     } else {
       this.user$.next(undefined);
     }
-    return  this.user$.asObservable();
+    return this.user$.asObservable();
   }
 
   public setUser(profile: any): Promise<boolean> {
@@ -198,6 +198,35 @@ export class Auth {
   // public addMinutes(date: Date, minutes: number) {
   //     return new Date(date.getTime() + minutes * 60000);
   // }
+
+  public googleSignIn() {
+    this.signin("google-oauth2")
+  }
+
+  private signin(connection: string) {
+      //   return this.configuration.getAccessToken().then((token: string) => {
+
+  //     let headers = new Headers();
+  //     headers.set("Authorization", "Bearer " + token);
+
+  //     return this.http.get(`https://${environment.AUTH0_DOMAIN}/authorize?response_type=token&client_id=${environment.AUTH0_APP_KEY}&connection=${connection}&redirect_uri=https://app.maptio.com`, { headers: headers })
+  //         .map((responseData) => {
+  //             if (responseData.json().app_metadata) {
+  //                 return responseData.json().app_metadata.activation_pending;
+  //             }
+  //             return false;
+  //         })
+  //         .toPromise()
+  // });
+    this.configuration.getWebAuth().authorize(
+      {
+        scope: 'profile openid email',
+        responseType: 'token',
+        redirectUri: 'http://localhost:3000/authorize',
+        connection: connection
+      }
+    )
+  }
 
   public login(email: string, password: string): Promise<boolean> {
     this.loader.show();
@@ -271,7 +300,7 @@ export class Auth {
 
                               return user;
                             },
-                            () => {this.loader.hide(); }
+                            () => { this.loader.hide(); }
                           )
                           .then((user: User) => {
                             // let welcomeURL = user.datasets.length === 1 ? `/map/${user.datasets[0]}/welcome/initiatives` : `/home`;

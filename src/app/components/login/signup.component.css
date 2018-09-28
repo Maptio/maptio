@@ -1,0 +1,20 @@
+.google-sso{
+    background: url(/assets/images/sso/google/btn_google_signin_light_normal_web@2x.png) no-repeat;
+    background-size: contain;
+    width: -webkit-fill-available;
+    height: 3rem;
+}
+
+.google-sso.focus , .google-sso:focus{
+    background: url(/assets/images/sso/google/btn_google_signin_light_focus_web@2x.png) no-repeat;
+    background-size: contain;
+    width: -webkit-fill-available;
+    height: 3rem;
+}
+
+.google-sso:hover{
+    background: url(/assets/images/sso/google/btn_google_signin_light_pressed_web@2x.png) no-repeat;
+    background-size: contain;
+    width: -webkit-fill-available;
+    height: 3rem;
+}

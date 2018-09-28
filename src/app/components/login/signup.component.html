@@ -1,6 +1,9 @@
 <div class="d-flex justify-content-center align-items-center flex-column  h-75">
     <div class="col-4">
         <h1 class="text-center">Create an account</h1>
+
+
+
         <br>
         <div class="alert alert-danger" role="alert" *ngIf="signUpMessageFail">
             {{signUpMessageFail}}
@@ -31,6 +34,12 @@
                 </a> or email
                 <a href="mailto:support@maptio.com?subject=Support request"></a> support@maptio.com</p>
         </div>
+
+        <div class="w-100">
+            <button class="btn btn-link btn-lg google-sso" (click)="signInWithGoogle()">
+            </button>
+        </div>
+
 
         <form class="form-group" [formGroup]="signupForm" (submit)="createAccount()" *ngIf="!isConfirmationEmailSent">
             <fieldset>
