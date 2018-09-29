@@ -159,6 +159,9 @@ export class AccountComponent {
                 })
 
         }
+        else{
+            this.feedbackMessage = "Successfully updated.";
+        }
     }
 
     updatePicture(pictureURL: string) {

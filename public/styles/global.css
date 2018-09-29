@@ -43,11 +43,15 @@ body {
 }
 
 .bg-orange{
-  background : var(--maptio-orange)
+  background : var(--maptio-orange)!important;
+}
+
+.bg-blue{
+  background : var(--maptio-blue)!important;
 }
 
 .accent-blue{
-  border-top:solid 6px var(--maptio-blue);
+  border-top:solid 6px var(--maptio-blue)!important;
 }
 
 .accent-orange{

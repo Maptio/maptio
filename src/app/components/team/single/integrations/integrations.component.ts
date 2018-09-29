@@ -26,11 +26,12 @@ export class TeamIntegrationsComponent implements OnInit {
     public isDisplayRevokedToken: boolean;
     public isDisplayWaitingForSlackSync: boolean;
     public isSlackAuthError: boolean;
+    public isUpdateTeamFailed: boolean;
     public Permissions = Permissions;
 
     constructor(private route: ActivatedRoute, private router: Router,
         private secureHttp: AuthHttp, private http: Http, private teamFactory: TeamFactory,
-        private cd: ChangeDetectorRef, private intercom:Intercom) {
+        private cd: ChangeDetectorRef, private intercom: Intercom) {
     }
 
     ngOnInit() {
@@ -102,15 +103,16 @@ export class TeamIntegrationsComponent implements OnInit {
         return this.teamFactory.upsert(updatedTeam).then(result => {
             if (result) {
                 this.team = updatedTeam;
+                this.intercom.trackEvent("Add Slack", { team: this.team.name, teamId: this.team.team_id, channel: slackWebookDetails.channel });
                 this.cd.markForCheck();
             } else {
 
             }
         })
-        .then(() => {
-            this.intercom.trackEvent("Add Slack", { team: this.team.name, teamId: this.team.team_id, channel : slackWebookDetails.channel });
-            return;
-        })
+            .catch(() => {
+                this.isUpdateTeamFailed = true;
+                this.cd.markForCheck();
+            })
 
     }
 
