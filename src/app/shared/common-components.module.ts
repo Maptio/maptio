@@ -6,6 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CardMapComponent } from './components/card-map/card-map.component';
 import { RouterModule } from '@angular/router';
 import { OnboardingComponent } from "./components/onboarding/onboarding.component";
+import { GoogleSignInComponent } from "./components/buttons/google-signin.component";
 
 
 
@@ -20,14 +21,16 @@ import { OnboardingComponent } from "./components/onboarding/onboarding.componen
     declarations: [
         CreateMapComponent,
         CardMapComponent,
-        OnboardingComponent
+        OnboardingComponent,
+        GoogleSignInComponent
     ],
     providers: [
     ],
     exports: [
         CreateMapComponent,
         CardMapComponent,
-        OnboardingComponent
+        OnboardingComponent,
+        GoogleSignInComponent
     ]
 })
 export class CommonComponentsModule { }

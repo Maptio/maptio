@@ -138,9 +138,7 @@ export class SignupComponent implements OnInit {
         }
     }
 
-    signInWithGoogle(){
-        this.auth.googleSignIn();
-    }
+ 
 
     isEmailExist(email: string): Promise<boolean> {
         return this.userService.isUserExist(email)

@@ -31,7 +31,7 @@ export class HomeComponent {
         this.isLoading = true;
         this.routeSubscription = this.auth.getUser()
             .mergeMap((user: User) => {
-                // console.log(user);
+                console.log(user);
                 this.user = user;
                 return !isEmpty(user.datasets)
                     ? Observable.forkJoin(this.datasetFactory.get(user.datasets), this.teamFactory.get(user.teams))

@@ -18,19 +18,24 @@ export class AuthorizeComponent implements OnInit {
     ngOnInit(): void {
         this.subscription = this.route.fragment
             .map(fragment => this.uriService.parseFragment(fragment).get("id_token"))
-            .do(() => {
-                this.authConfig.getAccessToken()
-            })
             .map(token => new JwtHelper().decodeToken(token))
-            .do((profile: string) => {
+            .map((profile: string) => {
                 localStorage.setItem("profile", JSON.stringify(profile));
             })
-            .flatMap((token: string) => {
+            .flatMap(() => {
                 return Observable.fromPromise(this.auth.loginMaptioApiSSO());
             })
-            .subscribe((tokens: { accessToken: string, idToken: string }) => {
+            .map((tokens: { accessToken: string, idToken: string }) => {
                 localStorage.setItem("maptio_api_token", tokens.accessToken);
                 localStorage.setItem("id_token", tokens.idToken);
+            })
+            .flatMap(() => {
+                return Observable.fromPromise(this.authConfig.getAccessToken())
+            })
+            .map(accessToken => {
+                localStorage.setItem("access_token", accessToken);
+            })
+            .subscribe(() => {
                 this.router.navigateByUrl("/home");
             })
     }
