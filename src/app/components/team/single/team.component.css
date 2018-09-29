@@ -75,3 +75,9 @@ td.delete{
 .border-right{
     border-right: 1px solid #f8f9fa
 }
+
+
+.tips > .icon{
+    position: absolute;
+    right :0;
+}
