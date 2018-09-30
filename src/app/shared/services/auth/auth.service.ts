@@ -191,16 +191,18 @@ export class Auth {
   }
 
   public setUser(profile: any): Promise<boolean> {
+    console.log("setUser", profile)
     localStorage.setItem("profile", JSON.stringify(profile));
-
+    console.log(profile.user_id)
     return this.userFactory
       .get(profile.user_id)
       .then(user => {
-        // console.log("getting user", user)
+        console.log("getting user", user)
         this.user$.next(user);
         return Promise.resolve<boolean>(true);
       })
       .catch((reason: any) => {
+        console.log("getting user catch", reason)
         let user = User.create().deserialize(profile);
         this.userFactory
           .create(user)
