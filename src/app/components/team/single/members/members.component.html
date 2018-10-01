@@ -119,11 +119,11 @@
                     </td>
                     <td>{{member.email}}
                         <br/>
-                        <small [hidden]="!(member.isActivationPending && member.isInvitationSent)" class="text-info pull-left" placement="top" container="body"
+                        <small *ngIf="member.isActivationPending && member.isInvitationSent" class="text-info pull-left" placement="top" container="body"
                             ngbTooltip="{{member.name}} was sent an invitation.">Pending invitation</small>
-                        <small [hidden]="!(member.isActivationPending && !member.isInvitationSent)" class="text-warning pull-left" placement="top"
+                        <small  *ngIf="member.isActivationPending && !member.isInvitationSent" class="text-warning pull-left" placement="top"
                             container="body" ngbTooltip="{{member.name}} cannot view or edit maps.">Not yet invited</small>
-                        <small [hidden]="member.isActivationPending" class="text-success pull-left" placement="top" container="body"
+                        <small  *ngIf="!member.isActivationPending" class="text-success pull-left" placement="top" container="body"
                             ngbTooltip="{{member.name}} can view and edit maps">Active</small>
 
                     </td>
