@@ -35,9 +35,11 @@
                 <a href="mailto:support@maptio.com?subject=Support request"></a> support@maptio.com</p>
         </div>
 
-        <div class="w-100">
-           <common-google-signin></common-google-signin>
-        </div>
+        <div class="my-2">
+                <common-google-signin>
+                    <span>Sign in</span>
+                </common-google-signin>
+            </div>
 
 
         <form class="form-group" [formGroup]="signupForm" (submit)="createAccount()" *ngIf="!isConfirmationEmailSent">

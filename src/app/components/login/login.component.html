@@ -12,10 +12,10 @@
                     </a>
                 </div>
                 <div class="alert alert-warning" role="alert" *ngIf="isUnknownEmail">
-                        There isn't an account for this email! 
-                        <a routerLink="/signup" class="alert-link cursor-pointer">Sign up
-                        </a>
-                    </div>
+                    There isn't an account for this email!
+                    <a routerLink="/signup" class="alert-link cursor-pointer">Sign up
+                    </a>
+                </div>
                 <div class="alert alert-danger" role="alert" *ngIf="previousAttemptMessage">
                     {{previousAttemptMessage}}
                 </div>
@@ -41,8 +41,12 @@
                     </small>
                 </div>
                 <button type="submit" class="btn btn-success btn-lg w-100">Log in</button>
-                <common-google-signin></common-google-signin>
-                    
+                <div class="my-2">
+                    <common-google-signin>
+                        <span>Log in</span>
+                    </common-google-signin>
+                </div>
+
 
             </form>
             <p>
@@ -69,8 +73,12 @@
                     We cannot activate your account. Please email us at support@maptio.com and we'll help you out.
                 </div>
             </div>
-            <common-google-signin></common-google-signin>
-                    
+            <div class="my-2">
+                    <common-google-signin>
+                        <span>Sign in</span>
+                    </common-google-signin>
+                </div>
+
 
 
             <form class="form-group" [formGroup]="activateForm" (submit)="activateAccount()">
@@ -137,7 +145,7 @@
                 <div class="form-group">
                     <button type="submit" class="btn btn-success btn-lg my-2 w-100">Log in</button>
                 </div>
-               
+
 
 
             </form>
