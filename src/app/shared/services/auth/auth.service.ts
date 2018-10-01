@@ -47,7 +47,7 @@ export class Auth {
     // this.shutDownIntercom();
     this.router.navigateByUrl("/logout");
     this.user$.unsubscribe();
-    // localStorage.clear();
+    localStorage.clear();
   }
 
   public clear() {
