@@ -7,11 +7,9 @@ import { AuthConfiguration } from '../../shared/services/auth/auth.config';
 import { Auth } from '../../shared/services/auth/auth.service';
 import { UserFactory } from '../../shared/services/user.factory';
 import { User } from '../../shared/model/user.data';
-import { filter } from '../../../../node_modules/rxjs/operator/filter';
 import { UserRole } from '../../shared/model/permission.data';
 import { UserService } from '../../shared/services/user/user.service';
-import { ConsoleReporter } from 'jasmine';
-import { last } from '../../../../node_modules/rxjs/operator/last';
+import { LoaderService } from '../../shared/services/loading/loader.service';
 
 @Component({
     selector: 'authorize',
@@ -23,9 +21,10 @@ export class AuthorizeComponent implements OnInit {
     constructor(private route: ActivatedRoute, private router: Router,
         private userFactory: UserFactory, private userService: UserService,
         private uriService: URIService, private auth: Auth,
-        private authConfig: AuthConfiguration) { }
+        private authConfig: AuthConfiguration, private loader: LoaderService) { }
 
     ngOnInit(): void {
+        this.loader.show();
         this.subscription = this.route.fragment
             .map(fragment => this.uriService.parseFragment(fragment).get("id_token"))
             .map(token => new JwtHelper().decodeToken(token))
@@ -34,6 +33,7 @@ export class AuthorizeComponent implements OnInit {
                 return profile;
             })
             .flatMap(() => {
+                this.loader.show();
                 return Observable.fromPromise(this.auth.loginMaptioApiSSO());
             })
             .map((tokens: { accessToken: string, idToken: string }) => {
@@ -41,23 +41,28 @@ export class AuthorizeComponent implements OnInit {
                 localStorage.setItem("id_token", tokens.idToken);
             })
             .flatMap(() => {
+                this.loader.show();
                 return Observable.fromPromise(this.authConfig.getAccessToken())
             })
             .map(accessToken => {
                 localStorage.setItem("access_token", accessToken);
             })
             .flatMap(() => {
+                this.loader.show();
                 let profile = JSON.parse(localStorage.getItem("profile"));
                 return this.upsertUser(profile)
             })
             .flatMap(() => {
+                this.loader.show();
                 let profile = JSON.parse(localStorage.getItem("profile"));
                 return this.updateMetadata(profile)
             })
             .subscribe((user: User) => {
+                this.loader.hide();
                 this.router.navigateByUrl("/home");
             }, (err) => {
-                console.log(err)
+                this.router.navigateByUrl(`/login?login_message=${err}`);
+                this.loader.hide();
             })
     }
 
@@ -93,41 +98,21 @@ export class AuthorizeComponent implements OnInit {
     }
 
     private updateMetadata(profile: any): Observable<User> {
-        /* console.log("user", user);
-  user.user_metadata = user.user_metadata || {};
-  const identitiesNumber = user.identities.length;
-  const googleIdentity = user.identities.find(i => i.provider === 'google-oauth2');
-  if(googleIdentity){
-    //google is only identity
-      if(identitiesNumber===1){
-        user.user_metadata.picture = user.picture;
-        user.user_metadata.given_name = user.given_name;
-        user.user_metadata.family_name = user.family_name;
-      }
-    else{
-      user.user_metadata.picture = googleIdentity.profileData.picture;
-      user.user_metadata.given_name = googleIdentity.profileData.given_name;
-      user.user_metadata.family_name = googleIdentity.profileData.family_name;
-    }
-  }
-  */
-
+        let picture: string, firstName: string, lastName: string;
 
         let user = User.create().deserialize(profile);
 
         let userId = user.user_id;
         let identities = profile.identities.length;
         let googleIdentity = profile.identities.find((i: any) => i.provider === "google-oauth2");
-        let picture: string, firstName: string, lastName: string;
 
-        console.log(userId, identities, googleIdentity)
         if (googleIdentity) {
             if (identities === 1) {
                 picture = profile.picture;
                 firstName = profile.given_name;
                 lastName = profile.family_name;
             }
-            else{
+            else {
                 picture = googleIdentity.profileData.picture;
                 firstName = googleIdentity.profileData.given_name;
                 lastName = googleIdentity.profileData.family_name;
@@ -138,7 +123,6 @@ export class AuthorizeComponent implements OnInit {
             lastName = googleIdentity.profileData.family_name;
         }
 
-        console.log(picture, firstName, lastName)
         return Observable
             .forkJoin(
                 this.userService.updateUserPictureUrl(userId, picture),
