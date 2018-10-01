@@ -85,7 +85,8 @@ if (!isDevelopment) {
         'https://www.youtube.com',
         'https://player.vimeo.com',
         'https://fast.wistia.net',
-        'https://drive.google.com'
+        'https://drive.google.com',
+        'https://termsfeed.com/'
       ],
       workerSrc : [
         "'self'",'blob:'
