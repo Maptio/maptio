@@ -71,6 +71,8 @@ import { SharedModule } from "./shared/shared.module";
 import { CommonComponentsModule } from "./shared/common-components.module";
 import { PricingComponent } from "./components/pricing/pricing.component";
 import { AuthorizeComponent } from "./components/login/authorize.component";
+import { TermsComponent } from "./components/pricing/terms.component";
+import { PrivacyComponent } from "./components/pricing/privacy.component";
 
 
 
@@ -85,6 +87,10 @@ const appRoutes: Routes = [
   { path: "logout", component: LogoutComponent },
   { path: "help", component: HelpComponent, data: { breadcrumbs: "Help" } },
   { path: "pricing", component: PricingComponent, data: { breadcrumbs: "Pricing" } },
+  { path: "terms", component: TermsComponent },
+  
+  { path: "privacy", component: PrivacyComponent },
+  
   { path: "signup", component: SignupComponent, data: { breadcrumbs: "Sign up" } },
 
   {
@@ -108,7 +114,7 @@ export const cloudinaryLib = {
   declarations: [
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, LoginComponent, LogoutComponent, HomeComponent, UnauthorizedComponent, NotFoundComponent,
     ChangePasswordComponent, LoaderComponent, SignupComponent,AuthorizeComponent,
-    HelpComponent,PricingComponent,
+    HelpComponent,PricingComponent, TermsComponent, PrivacyComponent,
     DashboardComponent,
     // for tests
     AnAnchorableComponent
