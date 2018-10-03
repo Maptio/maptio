@@ -156,7 +156,7 @@ export class UserService {
         if (users.length === 0)
             return Promise.reject("You must specify some user ids.");
 
-        let query = users.map(u => `user_id="${u.user_id}"`).join(" OR ");
+        let query = users.map(u => `user_id:"${u.user_id}"`).join(" OR ");
 
         return this.configuration.getAccessToken().then((token: string) => {
 
@@ -175,7 +175,7 @@ export class UserService {
                 let singleObservables = pageArrays.map((pageNumber: number, index: number) => {
                     let truncatedQuery = users
                         .slice(index * environment.AUTH0_USERS_PAGE_LIMIT, (index + 1) * environment.AUTH0_USERS_PAGE_LIMIT)
-                        .map(u => `user_id="${u.user_id}"`).join(" OR ");
+                        .map(u => `user_id:"${u.user_id}"`).join(" OR ");
                     // console.log(index, index * environment.AUTH0_USERS_PAGE_LIMIT, (index + 1) * environment.AUTH0_USERS_PAGE_LIMIT, truncatedQuery)
                     return this.requestUsersPerPage(truncatedQuery, headers, pageNumber)
                         .map(single => { return single })
@@ -191,7 +191,7 @@ export class UserService {
     }
 
     private requestUsersPerPage(query: string, headers: Headers, page: number): Observable<User[]> {
-        return this.http.get(`${environment.USERS_API_URL}?q=` + encodeURIComponent(query), { headers: headers })
+        return this.http.get(`${environment.USERS_API_URL}?q=${encodeURIComponent(query)}&search_engine=v3`, { headers: headers })
             .map((responseData) => {
                 return responseData.json();
             })
@@ -229,7 +229,7 @@ export class UserService {
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
 
-            return this.http.get(`${environment.USERS_API_URL}?include_totals=true&q=` + encodeURIComponent(`email="${email}"`), { headers: headers })
+            return this.http.get(`${environment.USERS_API_URL}?include_totals=true&search_engine=v3&q=` + encodeURIComponent(`email:"${email}"`), { headers: headers })
                 .map((responseData) => {
                     if (responseData.json().total === 0) {
                         return { isActivationPending: false, user_id: undefined }
@@ -406,7 +406,7 @@ export class UserService {
             let headers = new Headers();
             headers.set("Authorization", "Bearer " + token);
 
-            return this.http.get(`${environment.USERS_API_URL}?include_totals=true&q=` + encodeURIComponent(`email="${email}"`), { headers: headers })
+            return this.http.get(`${environment.USERS_API_URL}?include_totals=true&search_engine=v3&q=` + encodeURIComponent(`email:"${email}"`), { headers: headers })
                 .map((responseData) => {
                     if (responseData.json().total) {
                         return responseData.json().total === 1

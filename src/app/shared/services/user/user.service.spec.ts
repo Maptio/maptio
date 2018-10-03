@@ -47,7 +47,7 @@ describe("user.service.ts", () => {
 
             mockBackend.connections.subscribe((connection: MockConnection) => {
                 if (connection.request.method === RequestMethod.Get
-                    && connection.request.url === `${environment.USERS_API_URL}?include_totals=true&q=email%3D%22ido%40exist.com%22`
+                    && connection.request.url === `${environment.USERS_API_URL}?include_totals=true&search_engine=v3&q=email%3A%22ido%40exist.com%22`
                     && connection.request.headers.get("Authorization") === "Bearer token"
                 ) {
                     connection.mockRespond(new Response(new ResponseOptions({
@@ -74,7 +74,7 @@ describe("user.service.ts", () => {
 
             mockBackend.connections.subscribe((connection: MockConnection) => {
                 if (connection.request.method === RequestMethod.Get
-                    && connection.request.url === `${environment.USERS_API_URL}?include_totals=true&q=email%3D%22ido%40exist.com%22`
+                    && connection.request.url === `${environment.USERS_API_URL}?include_totals=true&search_engine=v3&q=email%3A%22ido%40exist.com%22`
                     && connection.request.headers.get("Authorization") === "Bearer token"
                 ) {
                     connection.mockRespond(new Response(new ResponseOptions({
@@ -101,7 +101,7 @@ describe("user.service.ts", () => {
 
             mockBackend.connections.subscribe((connection: MockConnection) => {
                 if (connection.request.method === RequestMethod.Get
-                    && connection.request.url === `${environment.USERS_API_URL}?include_totals=true&q=email%3D%22ido%40exist.com%22`
+                    && connection.request.url === `${environment.USERS_API_URL}?include_totals=true&search_engine=v3&q=email%3A%22ido%40exist.com%22`
                     && connection.request.headers.get("Authorization") === "Bearer token"
                 ) {
                     connection.mockRespond(new Response(new ResponseOptions({
@@ -373,7 +373,7 @@ describe("user.service.ts", () => {
 
             mockBackend.connections.subscribe((connection: MockConnection) => {
                 if (connection.request.method === RequestMethod.Get
-                    && connection.request.url === `${environment.USERS_API_URL}?include_totals=true&q=email%3D%22ido%40exist.com%22`
+                    && connection.request.url === `${environment.USERS_API_URL}?include_totals=true&search_engine=v3&q=email%3A%22ido%40exist.com%22`
                     && connection.request.headers.get("Authorization") === "Bearer token"
                 ) {
                     connection.mockRespond(new Response(new ResponseOptions({
@@ -406,7 +406,7 @@ describe("user.service.ts", () => {
 
             mockBackend.connections.subscribe((connection: MockConnection) => {
                 if (connection.request.method === RequestMethod.Get
-                    && connection.request.url === `${environment.USERS_API_URL}?include_totals=true&q=email%3D%22ido%40exist.com%22`
+                    && connection.request.url === `${environment.USERS_API_URL}?include_totals=true&search_engine=v3&q=email%3A%22ido%40exist.com%22`
                     && connection.request.headers.get("Authorization") === "Bearer token"
                 ) {
                     connection.mockRespond(new Response(new ResponseOptions({
@@ -438,7 +438,7 @@ describe("user.service.ts", () => {
 
             mockBackend.connections.subscribe((connection: MockConnection) => {
                 if (connection.request.method === RequestMethod.Get
-                    && connection.request.url === `${environment.USERS_API_URL}?include_totals=true&q=email%3D%22ido%40exist.com%22`
+                    && connection.request.url === `${environment.USERS_API_URL}?include_totals=true&search_engine=v3&q=email%3A%22ido%40exist.com%22`
                     && connection.request.headers.get("Authorization") === "Bearer token"
                 ) {
                     connection.mockRespond(new Response(new ResponseOptions({
@@ -468,7 +468,7 @@ describe("user.service.ts", () => {
 
             mockBackend.connections.subscribe((connection: MockConnection) => {
                 if (connection.request.method === RequestMethod.Get
-                    && connection.request.url === `${environment.USERS_API_URL}?include_totals=true&q=email%3D%22ido%40exist.com%22`
+                    && connection.request.url === `${environment.USERS_API_URL}?include_totals=true&search_engine=v3&q=email%3A%22ido%40exist.com%22`
                     && connection.request.headers.get("Authorization") === "Bearer token"
                 ) {
                     connection.mockRespond(new Response(new ResponseOptions({
@@ -757,7 +757,7 @@ describe("user.service.ts", () => {
 
             mockBackend.connections.subscribe((connection: MockConnection) => {
                 if (connection.request.method === RequestMethod.Get
-                    && connection.request.url === `${environment.USERS_API_URL}?q=${encodeURIComponent("user_id=\"1\" OR user_id=\"2\" OR user_id=\"3\"")}`
+                    && connection.request.url === `${environment.USERS_API_URL}?q=${encodeURIComponent("user_id:\"1\" OR user_id:\"2\" OR user_id:\"3\"")}&search_engine=v3`
                     && connection.request.headers.get("Authorization") === "Bearer token"
                 ) {
                     connection.mockRespond(new Response(new ResponseOptions({
@@ -784,7 +784,7 @@ describe("user.service.ts", () => {
 
             mockBackend.connections.subscribe((connection: MockConnection) => {
                 if (connection.request.method === RequestMethod.Get
-                    && connection.request.url === `${environment.USERS_API_URL}?q=${encodeURIComponent("user_id=\"1\" OR user_id=\"2\" OR user_id=\"3\"")}`
+                    && connection.request.url === `${environment.USERS_API_URL}?q=${encodeURIComponent("user_id:\"1\" OR user_id:\"2\" OR user_id:\"3\"")}&search_engine=v3`
                     && connection.request.headers.get("Authorization") === "Bearer token"
                 ) {
                     connection.mockRespond(new Response(new ResponseOptions({
