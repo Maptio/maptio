@@ -122,7 +122,7 @@ export class Auth {
         scope: "openid profile api invite",
         audience: environment.MAPTIO_API_URL,
         responseType: "token id_token",
-        redirectUri: "http://maptio.test:3000/authorize",
+        redirectUri: `${window.location.protocol}//${window.location.hostname}/authorize`,
         connection: "google-oauth2"
       },
         function (err: any, authResult: any) {
@@ -230,7 +230,7 @@ export class Auth {
       {
         scope: 'profile openid email',
         responseType: 'token',
-        redirectUri: 'http://maptio.test:3000/authorize',
+        redirectUri: `${window.location.protocol}//${window.location.hostname}/authorize`,
         connection: connection
       }
     )
