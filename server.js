@@ -86,7 +86,8 @@ if (!isDevelopment) {
         'https://player.vimeo.com',
         'https://fast.wistia.net',
         'https://drive.google.com',
-        'https://termsfeed.com/'
+        'https://termsfeed.com/',
+        'https://circlemapping.auth0.com/'
       ],
       workerSrc : [
         "'self'",'blob:'
