@@ -160,8 +160,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       .combineLatest(this.fontColor$)
       .subscribe((format: [number, string]) => {
         // font size
-        svg.attr("font-size", format[0] + "rem");
-        svg.selectAll("text").attr("font-size", format[0] + "rem");
+        svg.attr("font-size", format[0] + "em");
+        svg.selectAll("text").attr("font-size", format[0] + "em");
         // font color
         svg.style("fill", format[1]);
         svg.selectAll("text").style("fill", format[1]);
@@ -517,8 +517,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .append("text")
         .attr("class", "name")
         .classed("tree-map", true)
-        .attr("dy", "0.65rem")
-        .attr("y", (d: any) => d.data.tags && d.data.tags.length > 0 ? `2.00rem` : `1.00rem`)
+        .attr("dy", "0.65em")
+        .attr("y", (d: any) => d.data.tags && d.data.tags.length > 0 ? `2.00em` : `1.00em`)
         .attr("x", CIRCLE_RADIUS + 5)
         .text(function (d: any) {
           return d.data.name;
@@ -582,8 +582,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         });
 
       nodeUpdate.select("text.tags.tree-map")
-        .attr("dy", "0.65rem")
-        .attr("y", "1.00rem")
+        .attr("dy", "0.65em")
+        .attr("y", "1.00em")
         .attr("x", CIRCLE_RADIUS + 5)
         .html(function (d: any) {
           return d.data.tags.map((tag: Tag) => `<tspan fill="${tag.color}" class="dot-tags">&#xf02b</tspan><tspan fill="${tag.color}">${tag.name}</tspan>`).join(" ");
@@ -591,7 +591,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
       nodeUpdate
         .select("text.name.tree-map")
-        .attr("y", (d: any) => d.data.tags && d.data.tags.length > 0 ? `2.00rem` : `1.00rem`)
+        .attr("y", (d: any) => d.data.tags && d.data.tags.length > 0 ? `2.00em` : `1.00em`)
         .text(function (d: any) {
           return d.data.name;
         })
