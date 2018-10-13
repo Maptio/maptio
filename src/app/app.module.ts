@@ -79,9 +79,9 @@ import { PrivacyComponent } from "./components/pricing/privacy.component";
 const appRoutes: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
 
-  { path: "home", component: HomeComponent, data: { breadcrumbs: "Home" }},
+  { path: "home", component: HomeComponent},
 
-  { path: "login", component: LoginComponent, data: { breadcrumbs: "Login" } },
+  { path: "login", component: LoginComponent },
   { path: "authorize", component: AuthorizeComponent },
 
   { path: "logout", component: LogoutComponent },
@@ -91,7 +91,7 @@ const appRoutes: Routes = [
   
   { path: "privacy", component: PrivacyComponent },
   
-  { path: "signup", component: SignupComponent, data: { breadcrumbs: "Sign up" } },
+  { path: "signup", component: SignupComponent },
 
   {
     path: ":shortid/:slug",
