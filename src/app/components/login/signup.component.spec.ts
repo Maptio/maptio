@@ -18,6 +18,12 @@ import { JwtEncoder } from "../../shared/services/encoding/jwt.service";
 import { AuthHttp } from "angular2-jwt/angular2-jwt";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 import { NgProgressModule, NgProgress } from "@ngx-progressbar/core";
+import { Auth } from "../../shared/services/auth/auth.service";
+import { CommonComponentsModule } from "../../shared/common-components.module";
+import { DatasetFactory } from "../../shared/services/dataset.factory";
+import { UserFactory } from "../../shared/services/user.factory";
+import { PermissionService } from "../../shared/model/permission.data";
+import { IntercomConfig, Intercom } from "ng-intercom";
 
 describe("signup.component.ts", () => {
 
@@ -33,7 +39,8 @@ describe("signup.component.ts", () => {
         }).overrideComponent(SignupComponent, {
             set: {
                 providers: [
-                    Angulartics2Mixpanel, Angulartics2,
+                    Angulartics2Mixpanel, Angulartics2,Auth, DatasetFactory, UserFactory,PermissionService,
+                    Intercom, IntercomConfig,
                     {
                         provide: AuthHttp,
                         useFactory: authHttpServiceFactoryTesting,

@@ -47,7 +47,7 @@ export class Auth {
     // this.shutDownIntercom();
     this.router.navigateByUrl("/logout");
     this.user$.unsubscribe();
-    // localStorage.clear();
+    localStorage.clear();
   }
 
   public clear() {
@@ -115,6 +115,26 @@ export class Auth {
     );
   }
 
+  public loginMaptioApiSSO() {
+    return new Promise((resolve, reject) => {
+
+      this.configuration.getWebAuth().checkSession({
+        scope: "openid profile api invite",
+        audience: environment.MAPTIO_API_URL,
+        responseType: "token id_token",
+        redirectUri: `${window.location.protocol}//${window.location.hostname}${window.location.port === "" ? "" : `:${window.location.port}` }/authorize`,
+        connection: "google-oauth2"
+      },
+        function (err: any, authResult: any) {
+          console.log(err, authResult)
+          if (err) {
+            reject(err)
+          }
+          resolve({ accessToken: authResult.accessToken, idToken: authResult.idToken })
+        })
+    });
+  }
+
   public getUserInfo(userId: string): Promise<User> {
     return this.configuration.getAccessToken().then((token: string) => {
       let headers = new Headers();
@@ -167,20 +187,22 @@ export class Auth {
     } else {
       this.user$.next(undefined);
     }
-    return  this.user$.asObservable();
+    return this.user$.asObservable();
   }
 
   public setUser(profile: any): Promise<boolean> {
+    console.log("setUser", profile)
     localStorage.setItem("profile", JSON.stringify(profile));
-
+    console.log(profile.user_id)
     return this.userFactory
       .get(profile.user_id)
       .then(user => {
-        // console.log("getting user", user)
+        console.log("getting user", user)
         this.user$.next(user);
         return Promise.resolve<boolean>(true);
       })
       .catch((reason: any) => {
+        console.log("getting user catch", reason)
         let user = User.create().deserialize(profile);
         this.userFactory
           .create(user)
@@ -198,6 +220,21 @@ export class Auth {
   // public addMinutes(date: Date, minutes: number) {
   //     return new Date(date.getTime() + minutes * 60000);
   // }
+
+  public googleSignIn() {
+    this.signin("google-oauth2")
+  }
+
+  private signin(connection: string) {
+    this.configuration.getWebAuth().authorize(
+      {
+        scope: 'profile openid email',
+        responseType: 'token',
+        redirectUri: `${window.location.protocol}//${window.location.hostname}${window.location.port === "" ? "" : `:${window.location.port}` }/authorize`,
+        connection: connection
+      }
+    )
+  }
 
   public login(email: string, password: string): Promise<boolean> {
     this.loader.show();
@@ -271,7 +308,7 @@ export class Auth {
 
                               return user;
                             },
-                            () => {this.loader.hide(); }
+                            () => { this.loader.hide(); }
                           )
                           .then((user: User) => {
                             // let welcomeURL = user.datasets.length === 1 ? `/map/${user.datasets[0]}/welcome/initiatives` : `/home`;

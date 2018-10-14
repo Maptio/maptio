@@ -116,86 +116,20 @@ export class HeaderComponent implements OnInit {
             (error: any) => { this.errorService.handleError(error) });
     }
 
-    // createDataset() {
-    //     // console.log(this.createMapForm)
-    //     if (this.createMapForm.valid) {
-    //         let mapName = this.createMapForm.controls["mapName"].value
-    //         let teamId = this.createMapForm.controls["teamId"].value
-
-    //         let newDataset = new DataSet({ initiative: new Initiative({ name: mapName, team_id: teamId }) });
-    //         this.datasetFactory.create(newDataset)
-    //             .then((created: DataSet) => {
-    //                 this.user.datasets.push(created.datasetId)
-    //                 this.auth.getUser();
-    //                 this.isCreateMode = false;
-    //                 this.selectedDataset = created;
-    //                 this.analytics.eventTrack("Create a map", { email: this.user.email, name: mapName, teamId: teamId })
-    //                 this.createMapForm.reset();
-    //                 this.cd.markForCheck();
-    //                 return created
-    //             })
-    //             .then(created => {
-    //                 this.router.navigate(["map", created.datasetId, created.initiative.getSlug()]);
-    //             })
-    //             .catch(this.errorService.handleError);
-    //         this.ngOnInit();
-    //     }
-    // }
-
     onNewMap(dataset: DataSet) {
         this.isCreateMode = false;
         this.selectedDataset = dataset;
         this.analytics.eventTrack("Create a map", { email: this.user.email, name: dataset.initiative.name, team: dataset.initiative.team_id })
 
     }
-
-    // createTeam() {
-    //     this.isCreateMode = false;
-    //     this.router.navigate(["/teams"]);
-    // }
-
     logout() {
         this.auth.logout();
     }
 
-    // login() {
-
-    //     if (this.loginForm.dirty && this.loginForm.controls["email"].invalid) {
-    //         let message = "An email is required e.g. rick.sanchez@cartoonnetwork.com"
-    //         this.router.navigateByUrl(`/login?login_message=${encodeURIComponent(message)}`);
-    //     }
-    //     if (this.loginForm.dirty && this.loginForm.controls["password"].invalid) {
-    //         let message = "Password required"
-    //         this.router.navigateByUrl(`/login?login_message=${encodeURIComponent(message)}`);
-    //     }
-
-    //     if (this.loginForm.dirty && this.loginForm.valid) {
-    //         this.auth.clear();
-    //         this.loader.show();
-    //         let email = this.loginForm.controls["email"].value
-    //         let password = this.loginForm.controls["password"].value
-
-    //         this.userService.isUserExist(email)
-    //             .then((isUserExist: boolean) => {
-    //                 if (isUserExist) {
-    //                     this.auth.login(email, password);
-    //                     EmitterService.get("loginErrorMessage").subscribe((loginErrorMessage: string) => {
-    //                         loginErrorMessage =
-    //                             (loginErrorMessage === "Wrong email or password.") ? "Wrong password" : loginErrorMessage;
-    //                         this.router.navigateByUrl(`/login?login_message=${encodeURIComponent(loginErrorMessage)}`);
-    //                     })
-    //                 }
-    //                 else {
-    //                     let message = "We don't know that email."
-    //                     this.router.navigateByUrl(`/login?login_message=${encodeURIComponent(message)}`);
-    //                 }
-    //                 this.loader.show();
-    //             })
-    //             .then(() => {
-    //                 this.cd.markForCheck();
-    //             })
-    //     }
-    // }
+    isSignUp(){
+        console.log(this.router)
+        return this.router.url.startsWith("/login") || this.router.url.startsWith("/signup")
+    }
 
     toggleCreateMode() {
         this.isCreateMode = !this.isCreateMode;

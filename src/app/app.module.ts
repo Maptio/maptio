@@ -70,6 +70,7 @@ import { CreateMapComponent } from "./shared/components/create-map/create-map.co
 import { SharedModule } from "./shared/shared.module";
 import { CommonComponentsModule } from "./shared/common-components.module";
 import { PricingComponent } from "./components/pricing/pricing.component";
+import { AuthorizeComponent } from "./components/login/authorize.component";
 import { TermsComponent } from "./components/pricing/terms.component";
 import { PrivacyComponent } from "./components/pricing/privacy.component";
 
@@ -78,9 +79,10 @@ import { PrivacyComponent } from "./components/pricing/privacy.component";
 const appRoutes: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
 
-  { path: "home", component: HomeComponent, data: { breadcrumbs: "Home" }},
+  { path: "home", component: HomeComponent},
 
-  { path: "login", component: LoginComponent, data: { breadcrumbs: "Login" } },
+  { path: "login", component: LoginComponent },
+  { path: "authorize", component: AuthorizeComponent },
 
   { path: "logout", component: LogoutComponent },
   { path: "help", component: HelpComponent, data: { breadcrumbs: "Help" } },
@@ -89,7 +91,7 @@ const appRoutes: Routes = [
   
   { path: "privacy", component: PrivacyComponent },
   
-  { path: "signup", component: SignupComponent, data: { breadcrumbs: "Sign up" } },
+  { path: "signup", component: SignupComponent },
 
   {
     path: ":shortid/:slug",
@@ -111,8 +113,8 @@ export const cloudinaryLib = {
 @NgModule({
   declarations: [
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, LoginComponent, LogoutComponent, HomeComponent, UnauthorizedComponent, NotFoundComponent,
-    ChangePasswordComponent, LoaderComponent, SignupComponent,
-    HelpComponent,PricingComponent,TermsComponent, PrivacyComponent,
+    ChangePasswordComponent, LoaderComponent, SignupComponent,AuthorizeComponent,
+    HelpComponent,PricingComponent, TermsComponent, PrivacyComponent,
     DashboardComponent,
     // for tests
     AnAnchorableComponent

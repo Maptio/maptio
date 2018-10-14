@@ -42,6 +42,10 @@ body {
 
 }
 
+.font-roboto{
+  font-family: "Roboto" !important
+}
+
 .bg-orange{
   background : var(--maptio-orange)!important;
 }
