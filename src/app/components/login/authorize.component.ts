@@ -10,6 +10,8 @@ import { User } from '../../shared/model/user.data';
 import { UserRole } from '../../shared/model/permission.data';
 import { UserService } from '../../shared/services/user/user.service';
 import { LoaderService } from '../../shared/services/loading/loader.service';
+import { Intercom } from 'ng-intercom';
+import { environment } from '../../../environment/environment';
 
 @Component({
     selector: 'authorize',
@@ -21,6 +23,7 @@ export class AuthorizeComponent implements OnInit {
     constructor(private route: ActivatedRoute, private router: Router,
         private userFactory: UserFactory, private userService: UserService,
         private uriService: URIService, private auth: Auth,
+        private intercom: Intercom,
         private authConfig: AuthConfiguration, private loader: LoaderService) { }
 
     ngOnInit(): void {
@@ -56,6 +59,13 @@ export class AuthorizeComponent implements OnInit {
                 this.loader.show();
                 let profile = JSON.parse(localStorage.getItem("profile"));
                 return this.updateMetadata(profile)
+            })
+            .do((user:User)=>{
+                this.intercom.update({
+                    app_id: environment.INTERCOM_APP_ID,
+                    email: user.email,
+                    user_id: user.user_id,
+                  });
             })
             .subscribe((user: User) => {
                 this.loader.hide();
