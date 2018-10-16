@@ -161,7 +161,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
         this.loaderService.hide();
         this.analytics.eventTrack("Map", {
-          action : "viewing",
+          action: "viewing",
           view: "initiatives",
           team: data.teamName,
           teamId: data.teamId
@@ -550,11 +550,22 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
 
     g.selectAll("circle.node")
+      .style("stroke", function (d: any) {
+        return d.children
+          ? color(d.depth)
+          : !d.children && d.parent === root ? color(d.depth) : null;
+      })
       .style("fill", function (d: any) {
         return d.children
           ? color(d.depth)
           : !d.children && d.parent === root ? color(d.depth) : null;
       })
+      .style("fill-opacity", function (d: any) {
+        return d.children
+          ? 0.1
+          : !d.children && d.parent === root ? 0.1 : 1;
+      })
+      .style("stroke-opacity", 1)
       ;
 
     let circle = g.selectAll("circle.node")
@@ -958,51 +969,51 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .on("mouseover", function (d: any) {
           d3.event.stopPropagation();
 
-        showToolipOf$.next(d.data);
-/*
-          let tooltip = d3.select(`div.arrow_box[id="${d.data.id}"]`);
-          let matrix = this.getScreenCTM().translate(
-            +this.getAttribute("cx"),
-            +this.getAttribute("cy")
-          );
-
-          let TOOLTIP_HEIGHT = (tooltip.node() as HTMLElement).getBoundingClientRect()
-            .height;
-          let TOOLTIP_WIDTH = (tooltip.node() as HTMLElement).getBoundingClientRect()
-            .width;
-          let ARROW_DIMENSION = 10;
-          let DEFAULT_ANGLE = 180 - 36;
-          let svgScale = + svg.attr("scale");
-
-          let center = { x: window.pageXOffset + matrix.e, y: window.pageYOffset + matrix.f };
-          let radius = d.r * d.k * svgScale;
-
-          let left = center.x - TOOLTIP_WIDTH / 2;
-          let top = center.y - TOOLTIP_HEIGHT - ARROW_DIMENSION - radius;
-          let bottom = center.y + ARROW_DIMENSION + radius;
-
-          let isHorizontalPosition = top < 0 && bottom + TOOLTIP_HEIGHT > Number.parseFloat(svg.attr("height"));
-          tooltip
-            .style("left", () => {
-              return isHorizontalPosition
-                ? `${center.x + radius * Math.cos(DEFAULT_PICTURE_ANGLE) - TOOLTIP_WIDTH / 2 - ARROW_DIMENSION}px`
-                : `${left}px`
-            })
-            .style("top", () => {
-              return isHorizontalPosition
-                ? `${center.y - radius * Math.sin(DEFAULT_PICTURE_ANGLE) + CIRCLE_RADIUS * 2}px`
-                : (
-                  top > 0
-                    ? `${top}px`
-                    : `${bottom}px`);
-            })
-            .classed("show", true)
-            .classed("arrow-top", top < 0)
-            .classed("arrow-bottom", top >= 0)
-            .on("click", function (d: any) {
-              tooltip.classed("show", false);
-            });
-            */
+          showToolipOf$.next(d.data);
+          /*
+                    let tooltip = d3.select(`div.arrow_box[id="${d.data.id}"]`);
+                    let matrix = this.getScreenCTM().translate(
+                      +this.getAttribute("cx"),
+                      +this.getAttribute("cy")
+                    );
+          
+                    let TOOLTIP_HEIGHT = (tooltip.node() as HTMLElement).getBoundingClientRect()
+                      .height;
+                    let TOOLTIP_WIDTH = (tooltip.node() as HTMLElement).getBoundingClientRect()
+                      .width;
+                    let ARROW_DIMENSION = 10;
+                    let DEFAULT_ANGLE = 180 - 36;
+                    let svgScale = + svg.attr("scale");
+          
+                    let center = { x: window.pageXOffset + matrix.e, y: window.pageYOffset + matrix.f };
+                    let radius = d.r * d.k * svgScale;
+          
+                    let left = center.x - TOOLTIP_WIDTH / 2;
+                    let top = center.y - TOOLTIP_HEIGHT - ARROW_DIMENSION - radius;
+                    let bottom = center.y + ARROW_DIMENSION + radius;
+          
+                    let isHorizontalPosition = top < 0 && bottom + TOOLTIP_HEIGHT > Number.parseFloat(svg.attr("height"));
+                    tooltip
+                      .style("left", () => {
+                        return isHorizontalPosition
+                          ? `${center.x + radius * Math.cos(DEFAULT_PICTURE_ANGLE) - TOOLTIP_WIDTH / 2 - ARROW_DIMENSION}px`
+                          : `${left}px`
+                      })
+                      .style("top", () => {
+                        return isHorizontalPosition
+                          ? `${center.y - radius * Math.sin(DEFAULT_PICTURE_ANGLE) + CIRCLE_RADIUS * 2}px`
+                          : (
+                            top > 0
+                              ? `${top}px`
+                              : `${bottom}px`);
+                      })
+                      .classed("show", true)
+                      .classed("arrow-top", top < 0)
+                      .classed("arrow-bottom", top >= 0)
+                      .on("click", function (d: any) {
+                        tooltip.classed("show", false);
+                      });
+                      */
         })
         .on("mouseout", function (d: any) {
           showToolipOf$.next(null);
