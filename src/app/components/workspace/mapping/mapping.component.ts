@@ -136,6 +136,9 @@ export class MappingComponent {
 
   isFiltersToggled: boolean = false;
   isSearchDisabled: boolean = false;
+  public _toggleOptions: Boolean = false;
+  public toggleOptions$: BehaviorSubject<Boolean> = new BehaviorSubject(this._toggleOptions)
+
 
   constructor(
     private dataService: DataService,
@@ -171,6 +174,10 @@ export class MappingComponent {
   ngAfterViewInit() { }
 
   onActivate(component: IDataVisualizer) {
+
+    component.showToolipOf$.asObservable().subscribe(node =>{
+      this.showTooltip(node);
+    })
 
     component.showDetailsOf$.asObservable().subscribe(node => {
       this.showDetails.emit(node);
@@ -208,34 +215,23 @@ export class MappingComponent {
             (s: string) => new SelectableTag({ shortid: s, isSelected: true })
           )
         : [];
-    // let membersState = this.uriService.parseFragment(f).has("users") && this.uriService.parseFragment(f).get("users")
-    //     ? this.uriService.parseFragment(f).get("users")
-    //         .split(",")
-    //         .map((s: string) => new SelectableUser({ shortid: s, isSelected: true }))
-    //     : [];
-
-    // this.layout = this.getLayout(component);
 
     component.width = this.VIEWPORT_WIDTH;
     component.height = this.VIEWPORT_HEIGHT;
-    // console.log("svg width", this.VIEWPORT_WIDTH, "screen width", window.screen.availWidth, "browser width", window.innerWidth)
 
     component.margin = 50;
     component.zoom$ = this.zoom$.asObservable();
     component.selectableTags$ = this.selectableTags$.asObservable();
-    // component.selectableUsers$ = this.selectableUsers$.asObservable();
     component.fontSize$ = this.fontSize$.asObservable();
     component.fontColor$ = this.fontColor$.asObservable();
     component.mapColor$ = this.mapColor$.asObservable();
     component.zoomInitiative$ = this.zoomToInitiative$.asObservable();
     component.toggleOptions$ = this.toggleOptions$.asObservable();
-    // component.isLocked$ = this.isLocked$.asObservable();
     component.translateX = this.x;
     component.translateY = this.y;
     component.scale = this.scale;
     component.tagsState = tagsState;
     this.selectableTags$.next(tagsState);
-    // this.selectableUsers$.next(membersState)
 
     component.analytics = this.analytics;
     component.isReset$ = this.isReset$.asObservable();
@@ -290,7 +286,7 @@ export class MappingComponent {
         //     : <SelectableUser[]>[];
 
         this.tags = compact<SelectableTag>(
-          data.tags.map((dataTag: SelectableTag) => {
+          data.dataset.tags.map((dataTag: SelectableTag) => {
             let searchTag = fragmentTags.find(
               t => t.shortid === dataTag.shortid
             );
@@ -339,12 +335,18 @@ export class MappingComponent {
   }
 
 
-  public _toggleOptions: Boolean = false;
-  public toggleOptions$: BehaviorSubject<Boolean> = new BehaviorSubject(this._toggleOptions)
-
+  
   toggleOptions(isActive: Boolean) {
     this._toggleOptions = isActive ? !this._toggleOptions : false;
     this.toggleOptions$.next(this._toggleOptions)
+  }
+
+  hoveredInitiative:Initiative;
+
+  showTooltip(node:Initiative){
+    console.log("tooltip", node)
+    this.hoveredInitiative = node;
+    this.cd.markForCheck();
   }
 
   zoomOut() {

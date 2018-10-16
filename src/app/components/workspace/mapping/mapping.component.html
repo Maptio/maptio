@@ -1,11 +1,42 @@
 <div class="d-flex justify-content-start">
+  <div class="card p-0 summary-tooltip col-3 position-absolute my-0 box-shadow rounded" *ngIf="hoveredInitiative">
+    <div class="card-header border-bottom-0">
+      {{hoveredInitiative.name}}
+    </div>
+    <div class="card-body d-flex flex-column  border-bottom-0">
+      <div class="card-text" *ngIf="hoveredInitiative.tags">
+        <ul class="tags small">
+          <li *ngFor="let tag of hoveredInitiative.tags">
+            <span class="tag mr-1" [style.color]="tag.color">
+              <i class="fa fa-tag mr-1" aria-hidden="true" [style.color]="tag.color"></i>{{tag.name}}
+            </span>
+          </li>
+        </ul>
+      </div>
+      <p class="card-text" *ngIf="hoveredInitiative.accountable">
+        <span>
+          <img src="{{hoveredInitiative.accountable?.picture}}" alt="{{hoveredInitiative.accountable?.name}}" width="30" height="30"
+            class="rounded-circle mr-1">{{hoveredInitiative.accountable?.name}}
+        </span>
+      </p>
+      <p class="card-text small" *ngIf="hoveredInitiative.description">
+        <markdown *ngIf="hoveredInitiative.description || ''" [data]="hoveredInitiative.description || ''"></markdown>
+      </p>
+      <p class="card-text" *ngIf="hoveredInitiative.helpers">
+        <span *ngFor="let helper of hoveredInitiative.helpers">
+          <img src="{{helper.picture}}" alt="{{helper.name}}" width="15" height="15" class="rounded-circle mr-1">{{helper.name}}
+        </span>
+      </p>
+    </div>
+  </div>
   <router-outlet (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>
+
   <div class="d-flex flex-column justify-content-start align-items-end  pr-2">
     <div class="btn-group-vertical my-2">
       <a class="btn btn-light p-1 text-dark btn-control" [class.active]="isSearchToggled" [class.disabled]="isSearchDisabled" (click)="isSearchToggled=!isSearchToggled"
         data-toggle="collapse" href="#collapseSearch" role="button">
         <i class="fa" [class.fa-search]="!isSearchToggled" [class.fa-times]="isSearchToggled"></i>
-        
+
         <div class="icon-text-label">Search</div>
       </a>
       <a class="btn btn-light p-1 text-dark btn-control" [class.active]="isFiltersToggled" [class.disabled]="isSearchDisabled"
@@ -15,7 +46,7 @@
       </a>
       <a class="btn btn-light p-1 text-dark btn-control" [class.active]="isSharingToggled" [class.disabled]="isSearchDisabled"
         (click)="isSharingToggled=!isSharingToggled" data-toggle="collapse" href="#collapseSlack" role="button">
-        <i class="fa" [class.fa-slack]="!isSharingToggled" [class.fa-times]="isSharingToggled"></i> 
+        <i class="fa" [class.fa-slack]="!isSharingToggled" [class.fa-times]="isSharingToggled"></i>
         <div class="icon-text-label">Share</div>
       </a>
 
@@ -23,8 +54,7 @@
 
     <div class=" btn-group-vertical my-1">
       <button class="btn btn-light circles text-dark p-1 btn-control" #rlaCircles="routerLinkActive" [routerLinkActive]="['active']"
-        routerLink="/map/{{datasetId}}/{{slug}}/circles" fragment="x={{VIEWPORT_WIDTH / 2}}&y={{VIEWPORT_WIDTH / 2 -180}}&scale=1=1&{{tagsFragment}}"
-        >
+        routerLink="/map/{{datasetId}}/{{slug}}/circles" fragment="x={{VIEWPORT_WIDTH / 2}}&y={{VIEWPORT_WIDTH / 2 -180}}&scale=1=1&{{tagsFragment}}">
         <div class="icon-text-label" style="bottom: 2px;position: absolute;">Circles </div>
       </button>
       <a class="btn btn-light tree text-dark p-1 btn-control" routerLinkActive="active" routerLink="/map/{{datasetId}}/{{slug}}/tree"
@@ -32,13 +62,12 @@
         <div class="icon-text-label">Tree</div>
       </a>
       <button class="btn btn-light network text-dark p-1 btn-control" #rlaNetwork="routerLinkActive" [routerLinkActive]="['active']"
-        routerLink="/map/{{datasetId}}/{{slug}}/network" fragment="x=0&y={{-this.VIEWPORT_HEIGHT / 4}}&scale=1&{{tagsFragment}}"
-        >
+        routerLink="/map/{{datasetId}}/{{slug}}/network" fragment="x=0&y={{-this.VIEWPORT_HEIGHT / 4}}&scale=1&{{tagsFragment}}">
         <div class="icon-text-label">Network</div>
       </button>
       <button class="btn btn-light menu text-dark p-1 btn-control" [class.d-none]="!(rlaNetwork.isActive || rlaCircles.isActive)"
         (click)="toggleOptions(rlaNetwork.isActive || rlaCircles.isActive)">
-        <i class="fa" [class.fa-ellipsis-h]="!_toggleOptions" [class.fa-times]="_toggleOptions"></i> 
+        <i class="fa" [class.fa-ellipsis-h]="!_toggleOptions" [class.fa-times]="_toggleOptions"></i>
         <div class="icon-text-label">{{_toggleOptions ? 'Close' : 'Options'}}</div>
       </button>
 
@@ -59,12 +88,12 @@
       </a>
       <a class="btn btn-light text-dark p-1 btn-control" [class.active]="isSettingToggled" [class.disabled]="isSearchDisabled"
         (click)="isSettingToggled=!isSettingToggled" data-toggle="collapse" href="#collapseSettings" role="button">
-        <i class="fa" [class.fa-sliders]="!isSettingToggled" [class.fa-times]="isSettingToggled"></i> 
+        <i class="fa" [class.fa-sliders]="!isSettingToggled" [class.fa-times]="isSettingToggled"></i>
         <div class="icon-text-label">Settings</div>
       </a>
     </div>
   </div>
-  <div class="d-flex flex-column justify-content-start align-items-end col-5 position-absolute pr-3 my-3 mx-5 windows" >
+  <div class="d-flex flex-column justify-content-start align-items-end col-5 position-absolute pr-3 my-3 mx-5 windows">
     <div id="collapseSearch" class="collapse mb-3 col-12">
       <search [list]="flattenInitiative" (selectInitiative)="zoomToInitiative($event)"></search>
     </div>
@@ -76,37 +105,37 @@
         (shareMap)="sendSlackNotification($event)"></slack-share>
     </div>
     <div class="collapse col-12" id="collapseSettings">
-        <div class="card bg-light border-light">
-          <div class="card-body">
-            <h6 class="card-title">Text settings</h6>
-            <div class="form-group form-inline">
-              <label for="fontSizeInput" class="col-form-label col-form-label-sm  col-2">Size</label>
-              <input class="col-6 form-control ml-1" id="fontSizeInput" #fontSizeInput name="fontSizeInput" type="range" min="0.2" max="2"
-                value="{{fontSize$ | async}}" step="0.1" (change)="changeFontSize(fontSizeInput.value)" orient="vertical">
-      
-              <button class="btn btn-sm btn-outline-secondary  ml-4" (click)="changeFontSize(1)">Reset</button>
-      
-            </div>
-            <div class="form-group form-inline">
-              <label for="example-time-input" class="col-form-label col-form-label-sm col-2">Color</label>
-              <input class="col-6 form-control form-control-sm ml-1" [(colorPicker)]="fontColor" [style.background]="fontColor" [value]="fontColor"
-                [cpOutputFormat]="'hex'" [cpPosition]="'bottom'" [cpPositionOffset]="'40%'" [cpPositionRelativeToArrow]="true" (colorPickerChange)="changeFontColor($event)"
-              />
-              <button class="btn btn-sm btn-outline-secondary  ml-4" (click)="changeFontColor('#000')">Reset</button>
-            </div>
-            <h6 class="card-subtitle mt-2 mb-2">Map settings</h6>
-            <div class="form-group form-inline">
-              <label for="example-time-input" class="col-form-label col-form-label-sm col-2">Color</label>
-              <input class="col-6 form-control form-control-sm ml-1" [(colorPicker)]="mapColor" [style.background]="mapColor" [value]="mapColor"
-                [cpOutputFormat]="'hex'" [cpPosition]="'bottom'" [cpPositionOffset]="'40%'" [cpPositionRelativeToArrow]="true" (colorPickerChange)="changeMapColor($event)"
-              />
-              <button class="btn btn-sm  btn-outline-secondary ml-4" (click)="changeMapColor('#ddd')">Reset</button>
-            </div>
+      <div class="card bg-light border-light">
+        <div class="card-body">
+          <h6 class="card-title">Text settings</h6>
+          <div class="form-group form-inline">
+            <label for="fontSizeInput" class="col-form-label col-form-label-sm  col-2">Size</label>
+            <input class="col-6 form-control ml-1" id="fontSizeInput" #fontSizeInput name="fontSizeInput" type="range" min="0.2" max="2"
+              value="{{fontSize$ | async}}" step="0.1" (change)="changeFontSize(fontSizeInput.value)" orient="vertical">
+
+            <button class="btn btn-sm btn-outline-secondary  ml-4" (click)="changeFontSize(1)">Reset</button>
+
           </div>
-      
+          <div class="form-group form-inline">
+            <label for="example-time-input" class="col-form-label col-form-label-sm col-2">Color</label>
+            <input class="col-6 form-control form-control-sm ml-1" [(colorPicker)]="fontColor" [style.background]="fontColor" [value]="fontColor"
+              [cpOutputFormat]="'hex'" [cpPosition]="'bottom'" [cpPositionOffset]="'40%'" [cpPositionRelativeToArrow]="true"
+              (colorPickerChange)="changeFontColor($event)" />
+            <button class="btn btn-sm btn-outline-secondary  ml-4" (click)="changeFontColor('#000')">Reset</button>
+          </div>
+          <h6 class="card-subtitle mt-2 mb-2">Map settings</h6>
+          <div class="form-group form-inline">
+            <label for="example-time-input" class="col-form-label col-form-label-sm col-2">Color</label>
+            <input class="col-6 form-control form-control-sm ml-1" [(colorPicker)]="mapColor" [style.background]="mapColor" [value]="mapColor"
+              [cpOutputFormat]="'hex'" [cpPosition]="'bottom'" [cpPositionOffset]="'40%'" [cpPositionRelativeToArrow]="true"
+              (colorPickerChange)="changeMapColor($event)" />
+            <button class="btn btn-sm  btn-outline-secondary ml-4" (click)="changeMapColor('#ddd')">Reset</button>
+          </div>
         </div>
-      
+
       </div>
+
+    </div>
   </div>
 </div>
 <div *ngIf="isEmptyMap" class="instructions h2">

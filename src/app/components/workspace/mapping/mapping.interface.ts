@@ -8,7 +8,6 @@ export interface IDataVisualizer {
     teamName: string;
     teamId: string;
 
-
     datasetId: string;
 
     width: number;
@@ -23,13 +22,9 @@ export interface IDataVisualizer {
     fontColor$: Observable<string>;
     mapColor$: Observable<string>;
 
-
     zoomInitiative$: Observable<Initiative>;
     selectableTags$: Observable<Array<SelectableTag>>;
     toggleOptions$:Observable<Boolean>;
-    // selectableUsers$: Observable<Array<SelectableUser>>;
-
-    // isLocked$: Observable<boolean>;
 
     data$: Subject<{ initiative: Initiative, datasetId: string }>;
 
@@ -41,7 +36,7 @@ export interface IDataVisualizer {
     tagsState: Array<SelectableTag>;
 
     showDetailsOf$: Subject<Initiative>;
-
+    showToolipOf$ : Subject<Initiative>;
     addInitiative$: Subject<Initiative>;
     removeInitiative$: Subject<Initiative>;
     moveInitiative$: Subject<{ node: Initiative, from: Initiative, to: Initiative }>;

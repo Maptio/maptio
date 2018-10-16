@@ -15,6 +15,7 @@ import { InitiativeNodeComponent } from "./initiative.node.component"
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { LoaderService } from "../../../shared/services/loading/loader.service";
 import { Tag } from "../../../shared/model/tag.data";
+import { DataSet } from "../../../shared/model/dataset.data";
 
 @Component({
     selector: "building",
@@ -50,21 +51,27 @@ export class BuildingComponent {
                     this.toInitiative = to.parent.data;
 
                     if (from.parent.id === to.parent.id) { // if simple reordering, we dont ask for confirmation
-                        this.analytics.eventTrack("Map", { action: "move", mode: "list", confirmed: true, team: this.team.name,
-                        teamId: this.team.team_id });
+                        this.analytics.eventTrack("Map", {
+                            action: "move", mode: "list", confirmed: true, team: this.team.name,
+                            teamId: this.team.team_id
+                        });
                         TREE_ACTIONS.MOVE_NODE(tree, node, $event, { from: from, to: to })
                     }
                     else {
                         this.modalService.open(this.dragConfirmationModal).result
                             .then(result => {
                                 if (result) {
-                                    this.analytics.eventTrack("Map", { action: "move", mode: "list", confirmed: true , team: this.team.name,
-                                    teamId: this.team.team_id});
+                                    this.analytics.eventTrack("Map", {
+                                        action: "move", mode: "list", confirmed: true, team: this.team.name,
+                                        teamId: this.team.team_id
+                                    });
                                     TREE_ACTIONS.MOVE_NODE(tree, node, $event, { from: from, to: to })
                                 }
                                 else {
-                                    this.analytics.eventTrack("Initiative", { action: "move", mode: "list", confirm: false , team: this.team.name,
-                                    teamId: this.team.team_id});
+                                    this.analytics.eventTrack("Initiative", {
+                                        action: "move", mode: "list", confirm: false, team: this.team.name,
+                                        teamId: this.team.team_id
+                                    });
                                 }
                             })
                             .catch(reason => { });
@@ -92,14 +99,14 @@ export class BuildingComponent {
     isFirstEdit: Boolean;
 
     @Input("user") user: User;
-    @Input("isEmptyMap") isEmptyMap:Boolean;
+    @Input("isEmptyMap") isEmptyMap: Boolean;
     @Output("save") save = new EventEmitter<Initiative>();
     @Output("openDetails") openDetails = new EventEmitter<Initiative>();
     @Output("openDetailsEditOnly") openDetailsEditOnly = new EventEmitter<Initiative>();
 
     constructor(private dataService: DataService, private datasetFactory: DatasetFactory,
         private modalService: NgbModal, private analytics: Angulartics2Mixpanel,
-        private userFactory: UserFactory, private cd: ChangeDetectorRef,private loaderService:LoaderService) {
+        private userFactory: UserFactory, private cd: ChangeDetectorRef, private loaderService: LoaderService) {
         // this.nodes = [];
     }
 
@@ -220,11 +227,11 @@ export class BuildingComponent {
      * @param id Dataset Id
      * @param slugToOpen Slug of initiative to open
      */
-    loadData(datasetID: string, nodeIdToOpen: string = undefined, team: Team, tags:Tag[], members:User[]): Promise<void> {
+    loadData(dataset: DataSet, team: Team, members: User[]): Promise<void> {
         this.loaderService.show();
-        this.datasetId = datasetID;
+        this.datasetId = dataset.datasetId;
         this.team = team;
-        return this.datasetFactory.get(datasetID)
+        return this.datasetFactory.get(dataset.datasetId)
             .then(dataset => {
                 this.nodes = [];
                 this.nodes.push(dataset.initiative);
@@ -265,60 +272,57 @@ export class BuildingComponent {
                 return Promise.all(queue).then(t => t).catch(() => { });
             })
             .then(() => {
-                this.dataService.set({ 
-                    initiative: this.nodes[0], 
-                    datasetId: this.datasetId, 
-                    teamName: team.name, teamId: 
-                    team.team_id, team: 
-                    this.team, 
-                    tags: tags, 
-                    members: members });
-                
-                    this.cd.markForCheck();
+                this.dataService.set({
+                    initiative: this.nodes[0],
+                    dataset: dataset,
+                    team: this.team,
+                    members: members
+                });
+
+                this.cd.markForCheck();
                 // this.saveChanges();
             })
-            .then(() => {
-                let targetNode: Initiative = undefined;
-                if (nodeIdToOpen) {
+            // .then(() => {
+            //     let targetNode: Initiative = undefined;
+            //     if (nodeIdToOpen) {
 
-                    this.nodes[0].traverse(n => {
-                        if (targetNode) return; // once we find it, we dont need to carry on
-                        if (n.id.toString() === nodeIdToOpen) {
-                            targetNode = n;
-                        }
-                    });
-                }
-                if (targetNode) {
-                    this.openDetailsEditOnly.emit(targetNode)
-                }
-            })
-            .then(()=>{
+            //         this.nodes[0].traverse(n => {
+            //             if (targetNode) return; // once we find it, we dont need to carry on
+            //             if (n.id.toString() === nodeIdToOpen) {
+            //                 targetNode = n;
+            //             }
+            //         });
+            //     }
+            //     if (targetNode) {
+            //         this.openDetailsEditOnly.emit(targetNode)
+            //     }
+            // })
+            .then(() => {
                 this.loaderService.hide();
             })
     }
 
-    filterNodes(treeModel: any, searched: string) {
-        this.analytics.eventTrack("Search map", { search: searched, teamId: this.team.team_id });
-        if (!searched || searched === "") {
-            treeModel.clearFilter();
-        }
-        else {
-            this.nodes.forEach(function (i: Initiative) {
-                i.traverse(function (node) { node.isSearchedFor = false });
-            });
-            treeModel.filterNodes(
-                (node: TreeNode) => {
-                    let initiative = (<Initiative>node.data);
-                    initiative.isSearchedFor = initiative.search(searched);
-                    return initiative.isSearchedFor;
-                    // }
+    // filterNodes(treeModel: any, searched: string) {
+    //     this.analytics.eventTrack("Search map", { search: searched, teamId: this.team.team_id });
+    //     if (!searched || searched === "") {
+    //         treeModel.clearFilter();
+    //     }
+    //     else {
+    //         this.nodes.forEach(function (i: Initiative) {
+    //             i.traverse(function (node) { node.isSearchedFor = false });
+    //         });
+    //         treeModel.filterNodes(
+    //             (node: TreeNode) => {
+    //                 let initiative = (<Initiative>node.data);
+    //                 initiative.isSearchedFor = initiative.search(searched);
+    //                 return initiative.isSearchedFor;
+    //                 // }
 
-                },
-                true);
-        }
-        // console.log("filterNodes")
-        this.saveChanges();
-    }
+    //             },
+    //             true);
+    //     }
+    //     this.saveChanges();
+    // }
 
 }
 

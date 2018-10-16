@@ -8,7 +8,7 @@
 
 ::ng-deep .initiative-map.node:hover {
     /* stroke: initial; */
-    stroke-width: initial;
+    /* stroke-width: initial; */
 }
 
 ::ng-deep .initiative-map.node--leaf {
@@ -25,12 +25,13 @@
 }
 
 ::ng-deep svg circle.initiative-map:hover{
-    stroke: #000;
+    stroke: var(--maptio-blue);
+    stroke-width: 3px;
 }
 
-::ng-deep svg circle.initiative-map.hovered {
+/* ::ng-deep svg circle.initiative-map.hovered {
     stroke: #000;
-}
+} */
 
 ::ng-deep svg text.initiative-map.accountable {
     fill: #555;

@@ -37,7 +37,7 @@
         </span>
     </div>
 
-    <div id="main" [ngStyle]="{'height':'calc(100% - ' + 7 + 'px)'}" class="d-flex justify-content-center w-100 position-relative rounded box-shadow bg-white" [class.half-push]="isOnePanelOpened()"
+    <div id="main" [ngStyle]="{'height':'calc(100% - ' + 7 + 'px)'}" class="d-flex justify-content-center w-100 position-relative bg-white" [class.half-push]="isOnePanelOpened()"
         [class.full-push]="isTwoPanelsOpened()" [class.offset]="!isDetailsPanelCollapsed && isBuildingPanelCollapsed">
         <mapping [tags]="selectableTags" [isEmptyMap]="isEmptyMap" (showDetails)="openDetails($event, true)" (addInitiative)="addInitiative($event)" (removeInitiative)="removeInitiative($event)"
             (moveInitiative)="moveInitiative($event)" (closeEditingPanel)="closeEditingPanel()" (openTreePanel)="isBuildingPanelCollapsed=false"

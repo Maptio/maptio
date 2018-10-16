@@ -86,7 +86,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.teamName = this.team.name;
                 this.teamId = this.team.team_id;
                 EmitterService.get("currentTeam").emit(this.team);
-                this.buildingComponent.loadData(this.dataset.datasetId, "", this.team, this.tags, this.members);
+                this.buildingComponent.loadData(this.dataset, this.team, this.members);
                 this.isEmptyMap = !this.dataset.initiative.children || this.dataset.initiative.children.length === 0;
                 this.cd.markForCheck();
             });
@@ -121,7 +121,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
         this.datasetFactory.upsert(this.dataset, this.datasetId)
             .then((hasSaved: boolean) => {
-                this.dataService.set({ initiative: initiative, datasetId: this.datasetId, teamName: this.teamName, teamId: this.teamId, team: this.team, tags: this.dataset.tags, members: this.members });
+                this.dataService.set({ initiative: initiative, dataset: this.dataset, team: this.team,  members: this.members });
                 return hasSaved;
             }, (reason) => { /*console.log(reason)*/ })
             .then(() => {

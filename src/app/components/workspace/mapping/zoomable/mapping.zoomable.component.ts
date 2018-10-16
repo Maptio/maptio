@@ -62,6 +62,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
   public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
+  public showToolipOf$: Subject<Initiative> = new Subject<Initiative>();
   public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public moveInitiative$: Subject<{
     node: Initiative;
@@ -381,6 +382,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let TRANSITION_DURATION = this.TRANSITION_DURATION;
     // let fonts = this.fonts;
     let showDetailsOf$ = this.showDetailsOf$;
+    let showToolipOf$ = this.showToolipOf$;
     let datasetId = this.datasetId;
     let datasetSlug = this.slug;
     let router = this.router;
@@ -492,15 +494,14 @@ export class MappingZoomableComponent implements IDataVisualizer {
     initiativeNoChildrenEnter.append("circle");
 
     initiativeWithChildrenEnter.append("text").attr("class", "name with-children").classed("initiative-map", true);
-    // initiativeNoChildrenEnter.append("text").attr("class", "name no-children").classed("initiative-map", true);
     initiativeNoChildrenEnter.append("foreignObject").attr("class", "name no-children").classed("initiative-map", true);
 
-    initiativeNoChildrenEnter.append("text").attr("class", "tags no-children").classed("initiative-map", true);
+    // initiativeNoChildrenEnter.append("text").attr("class", "tags no-children").classed("initiative-map", true);
 
     initiativeWithChildrenEnter.append("circle").attr("class", "accountable with-children").classed("initiative-map", true);
     initiativeNoChildrenEnter.append("circle").attr("class", "accountable no-children").classed("initiative-map", true);
 
-    initiativeNoChildrenEnter.append("text").attr("class", "accountable no-children").classed("initiative-map", true)
+    // initiativeNoChildrenEnter.append("text").attr("class", "accountable no-children").classed("initiative-map", true)
 
     initiativeWithChildren = initiativeWithChildrenEnter.merge(initiativeWithChildren);
     initiativeNoChildren = initiativeNoChildrenEnter.merge(initiativeNoChildren);
@@ -957,6 +958,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .on("mouseover", function (d: any) {
           d3.event.stopPropagation();
 
+        showToolipOf$.next(d.data);
+/*
           let tooltip = d3.select(`div.arrow_box[id="${d.data.id}"]`);
           let matrix = this.getScreenCTM().translate(
             +this.getAttribute("cx"),
@@ -980,7 +983,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
           let isHorizontalPosition = top < 0 && bottom + TOOLTIP_HEIGHT > Number.parseFloat(svg.attr("height"));
           tooltip
-            // .style("z-index", 2000)
             .style("left", () => {
               return isHorizontalPosition
                 ? `${center.x + radius * Math.cos(DEFAULT_PICTURE_ANGLE) - TOOLTIP_WIDTH / 2 - ARROW_DIMENSION}px`
@@ -1000,10 +1002,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .on("click", function (d: any) {
               tooltip.classed("show", false);
             });
+            */
         })
         .on("mouseout", function (d: any) {
-          let tooltip = d3.select(`div.arrow_box[id="${d.data.id}"]`);
-          tooltip.classed("show", false);
+          showToolipOf$.next(null);
+          // let tooltip = d3.select(`div.arrow_box[id="${d.data.id}"]`);
+          // tooltip.classed("show", false);
         });
 
       g.selectAll("foreignObject.name, .accountable, .tags")
