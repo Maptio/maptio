@@ -69,6 +69,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
   public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
+  public showToolipOf$: Subject<Initiative> = new Subject<Initiative>();
   public moveInitiative$: Subject<{
     node: Initiative;
     from: Initiative;

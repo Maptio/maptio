@@ -50,6 +50,7 @@ export class MemberSummaryComponent implements OnInit, IDataVisualizer {
     public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>()
     public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
     public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
+    public showToolipOf$: Subject<Initiative> = new Subject<Initiative>();
     public moveInitiative$: Subject<{ node: Initiative, from: Initiative, to: Initiative }> = new Subject<{ node: Initiative, from: Initiative, to: Initiative }>();
     public closeEditingPanel$: Subject<boolean> = new Subject<boolean>();
     public analytics: Angulartics2Mixpanel;
