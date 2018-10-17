@@ -344,7 +344,6 @@ export class MappingComponent {
   hoveredInitiatives:Initiative[];
 
   showTooltip(nodes:Initiative[]){
-    console.log("tooltip", nodes)
     this.hoveredInitiatives = nodes;
     this.cd.markForCheck();
   }

@@ -33,6 +33,7 @@ import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BillingGuard } from "../../shared/services/guards/billing.guard";
 import { EmitterService } from "../../shared/services/emitter.service";
+import { TooltipComponent } from "./mapping/tooltip/tooltip.component";
 
 
 const routes: Routes = [{
@@ -98,7 +99,8 @@ export function markdownServiceFactory(http: Http) {
         BuildingComponent, InitiativeNodeComponent, InitiativeComponent,
         MappingComponent, MappingZoomableComponent, MappingTreeComponent, MappingNetworkComponent, MemberSummaryComponent,
 
-        SearchComponent, FilterTagsComponent, ShareSlackComponent
+        SearchComponent, FilterTagsComponent, ShareSlackComponent,
+        TooltipComponent
     ],
     providers: [
         WorkspaceComponentResolver,

@@ -1,36 +1,6 @@
 <div class="d-flex justify-content-start">
   <div class="summary-tooltip col-3 position-absolute my-0" *ngIf="hoveredInitiatives">
-    <div class="card p-0 box-shadow rounded mb-2" *ngFor="let hoveredInitiative of hoveredInitiatives">
-      <div class="card-header border-bottom-0">
-        {{hoveredInitiative.name}}
-      </div>
-      <div class="card-body d-flex flex-column  border-bottom-0">
-        <div class="card-text" *ngIf="hoveredInitiative.tags">
-          <ul class="tags small">
-            <li *ngFor="let tag of hoveredInitiative.tags">
-              <span class="tag mr-1" [style.color]="tag.color">
-                <i class="fa fa-tag mr-1" aria-hidden="true" [style.color]="tag.color"></i>{{tag.name}}
-              </span>
-            </li>
-          </ul>
-        </div>
-        <p class="card-text" *ngIf="hoveredInitiative.accountable">
-          <span>
-            <img src="{{hoveredInitiative.accountable?.picture}}" alt="{{hoveredInitiative.accountable?.name}}" width="30" height="30"
-              class="rounded-circle mr-1">{{hoveredInitiative.accountable?.name}}
-          </span>
-        </p>
-        <p class="card-text small" *ngIf="hoveredInitiative.description">
-          <markdown *ngIf="hoveredInitiative.description || ''" [data]="hoveredInitiative.description || ''"></markdown>
-        </p>
-        <p class="card-text" *ngIf="hoveredInitiative.helpers">
-          <span *ngFor="let helper of hoveredInitiative.helpers">
-            <img src="{{helper.picture}}" alt="{{helper.name}}" width="15" height="15" class="rounded-circle mr-1">{{helper.name}}
-          </span>
-        </p>
-      </div>
-    </div>
-
+    <tooltip *ngFor="let hoveredInitiative of hoveredInitiatives" [initiative]="hoveredInitiative"></tooltip>
   </div>
   <router-outlet (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>
 

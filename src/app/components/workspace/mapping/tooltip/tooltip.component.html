@@ -1,8 +1,29 @@
-<div class="initative-tooltip card" [class.hidden]="isHidden">
-    <div class="card-header col-12   close">
-            <a class="btn btn-link close-button pull-right" [class.hidden]="isHidden" (click)="isHidden = !isHidden"></a>
+<div class="card p-0 box-shadow rounded mb-2">
+    <div class="card-header border-bottom-0">
+        {{initiative.name}}
     </div>
-    <div class="card-block" >
-        <initiative #initiative [datasetId]="datasetId" [node]="node" [parent]="parent" [isReadOnly]="isReadOnly"></initiative>
+    <div class="card-body d-flex flex-column  border-bottom-0">
+        <div class="card-text" *ngIf="initiative.tags">
+            <ul class="tags small">
+                <li *ngFor="let tag of initiative.tags">
+                    <span class="tag mr-1" [style.color]="tag.color">
+                        <i class="fa fa-tag mr-1" aria-hidden="true" [style.color]="tag.color"></i>{{tag.name}}
+                    </span>
+                </li>
+            </ul>
+        </div>
+        <p class="card-text" *ngIf="initiative.accountable">
+            <span>
+                <img src="{{initiative.accountable?.picture}}" alt="{{initiative.accountable?.name}}" width="30" height="30" class="rounded-circle mr-1">{{initiative.accountable?.name}}
+            </span>
+        </p>
+        <p class="card-text small" *ngIf="initiative.description">
+            <markdown *ngIf="initiative.description || ''" [data]="initiative.description || ''"></markdown>
+        </p>
+        <p class="card-text" *ngIf="initiative.helpers">
+            <span *ngFor="let helper of initiative.helpers">
+                <img src="{{helper.picture}}" alt="{{helper.name}}" width="15" height="15" class="rounded-circle mr-1">{{helper.name}}
+            </span>
+        </p>
     </div>
 </div>
