@@ -36,7 +36,7 @@ export interface IDataVisualizer {
     tagsState: Array<SelectableTag>;
 
     showDetailsOf$: Subject<Initiative>;
-    showToolipOf$ : Subject<Initiative>;
+    showToolipOf$ : Subject<Initiative[]>;
     addInitiative$: Subject<Initiative>;
     removeInitiative$: Subject<Initiative>;
     moveInitiative$: Subject<{ node: Initiative, from: Initiative, to: Initiative }>;

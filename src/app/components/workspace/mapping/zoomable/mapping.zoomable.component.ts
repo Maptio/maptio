@@ -62,7 +62,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
   public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
-  public showToolipOf$: Subject<Initiative> = new Subject<Initiative>();
+  public showToolipOf$: Subject<Initiative[]> = new Subject<Initiative[]>();
   public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public moveInitiative$: Subject<{
     node: Initiative;
@@ -969,7 +969,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .on("mouseover", function (d: any) {
           d3.event.stopPropagation();
 
-          showToolipOf$.next(d.data);
+          showToolipOf$.next([d.data]);
           /*
                     let tooltip = d3.select(`div.arrow_box[id="${d.data.id}"]`);
                     let matrix = this.getScreenCTM().translate(

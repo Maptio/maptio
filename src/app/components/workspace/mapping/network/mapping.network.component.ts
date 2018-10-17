@@ -69,7 +69,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
   public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
-  public showToolipOf$: Subject<Initiative> = new Subject<Initiative>();
+  public showToolipOf$: Subject<Initiative[]> = new Subject<Initiative[]>();
   public moveInitiative$: Subject<{
     node: Initiative;
     from: Initiative;
@@ -126,7 +126,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         this.slug = data.getSlug();
         this.update(data, complexData[1], complexData[2]);
         this.analytics.eventTrack("Map", {
-          action : "viewing",
+          action: "viewing",
           view: "connections",
           team: data.teamName,
           teamId: data.teamId
@@ -156,7 +156,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     if (this.fontSubscription) {
       this.fontSubscription.unsubscribe();
     }
-    if(this.toggleOptionsSubscription){
+    if (this.toggleOptionsSubscription) {
       this.toggleOptionsSubscription.unsubscribe();
     }
   }
@@ -175,8 +175,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .attr("width", this.width)
       .attr("height", this.height)
       .attr(
-      "transform",
-      `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`
+        "transform",
+        `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`
       );
     g.append("g").attr("class", "links");
     g.append("g").attr("class", "labels");
@@ -520,6 +520,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     let bilinks: Array<any> = [];
     let uiService = this.uiService;
     let showDetailsOf$ = this.showDetailsOf$;
+    let showToolipOf$ = this.showToolipOf$;
     let datasetSlug = this.slug;
     let getTags = this.getTags.bind(this);
     let CIRCLE_RADIUS = this.CIRCLE_RADIUS;
@@ -540,19 +541,19 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     let simulation = d3
       .forceSimulation()
       .force(
-      "link",
-      d3.forceLink().id(function (d: any) {
-        return d.id;
-      })
+        "link",
+        d3.forceLink().id(function (d: any) {
+          return d.id;
+        })
       )
       .force(
-      "charge",
-      d3
-        .forceManyBody()
-        .distanceMax(400)
-        .strength(function (d) {
-          return -600;
-        })
+        "charge",
+        d3
+          .forceManyBody()
+          .distanceMax(400)
+          .strength(function (d) {
+            return -600;
+          })
       )
       .force("center", d3.forceCenter(width / 2, height / 2));
 
@@ -677,10 +678,10 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         if (filtered.length > 0) {
           let h = filtered
             .map(
-            (i, ix) =>
-              `<tspan class="is-helping" x="0" y="0" dy="${ix + 1}rem">${
-              i.name
-              }</tspan>`
+              (i, ix) =>
+                `<tspan class="is-helping" x="0" y="0" dy="${ix + 1}rem">${
+                i.name
+                }</tspan>`
             )
             .join("");
 
@@ -692,42 +693,45 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         }
       });
 
-    let tooltip = d3
-      .select("body")
-      .selectAll("div.arrow_box")
-      .data(bilinks, function (d: any) {
-        return d[5];
-      })
+    /*
 
-    tooltip.exit().remove();
+  let tooltip = d3
+    .select("body")
+    .selectAll("div.arrow_box")
+    .data(bilinks, function (d: any) {
+      return d[5];
+    })
 
-    tooltip = tooltip.enter()
-      .append("div")
-      .attr("class", "arrow_box")
-      .classed("show", false)
-      .merge(tooltip)
-      .attr("data-initiatives", function (d: any) {
-        return d[4].join(" ");
-      })
-      .attr("id", function (d: any) {
-        return d[6];
-      })
-      .on("mouseenter", function () {
-        d3.select(this).classed("show", true);
-      })
-      .on("mouseleave", function () {
-        tooltip.classed("show", false);
-      })
-      .html(function (d: any) {
-        let ids: any[] = d[4];
+  tooltip.exit().remove();
 
-        let list = initiativesList.map(i => i.data).filter(i => {
-          return ids.includes(i.id)
-        });
-        // console.log("tooltip building", d)
-        if (isEmpty(list)) return;
-        return uiService.getConnectionsHTML(list, d[0].id, d[2].id, d[7]);
+  tooltip = tooltip.enter()
+    .append("div")
+    .attr("class", "arrow_box")
+    .classed("show", false)
+    .merge(tooltip)
+    .attr("data-initiatives", function (d: any) {
+      return d[4].join(" ");
+    })
+    .attr("id", function (d: any) {
+      return d[6];
+    })
+    .on("mouseenter", function () {
+      d3.select(this).classed("show", true);
+    })
+    .on("mouseleave", function () {
+      tooltip.classed("show", false);
+    })
+    .html(function (d: any) {
+      let ids: any[] = d[4];
+
+      let list = initiativesList.map(i => i.data).filter(i => {
+        return ids.includes(i.id)
       });
+      // console.log("tooltip building", d)
+      if (isEmpty(list)) return;
+      return uiService.getConnectionsHTML(list, d[0].id, d[2].id, d[7]);
+    });
+    */
 
     d3.selectAll(`.open-initiative`).on("click", function (d: any) {
       let id = Number.parseFloat(d3.select(this).attr("id"));
@@ -745,9 +749,9 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .select("g.nodes")
       .selectAll("g.node")
       .data(
-      nodes.filter(function (d) {
-        return d.id;
-      })
+        nodes.filter(function (d) {
+          return d.id;
+        })
       );
     node.exit().remove();
 
@@ -759,11 +763,11 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .merge(node)
       .on("dblclick", releaseNode)
       .call(
-      d3
-        .drag<SVGElement, any>()
-        .on("start", dragstarted)
-        .on("drag", dragged)
-        .on("end", dragended)
+        d3
+          .drag<SVGElement, any>()
+          .on("start", dragstarted)
+          .on("drag", dragged)
+          .on("end", dragended)
       );
 
     node.append("circle");
@@ -808,29 +812,39 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
         let p = path
           .node()
-          .getPointAtLength(0.5 * path.node().getTotalLength())
+          .getPointAtLength(0.5 * path.node().getTotalLength());
 
-        let tooltip = d3.select(`div.arrow_box[id="${d[6]}"]`);
+        let ids: any[] = d[4];
 
-        let TOOLTIP_HEIGHT = (tooltip.node() as HTMLElement).getBoundingClientRect().height;
-        let TOOLTIP_WIDTH = (tooltip.node() as HTMLElement).getBoundingClientRect().width;
-        let ARROW_DIMENSION = 10;
+        let list = initiativesList.map(i => i.data).filter(i => {
+          return ids.includes(i.id)
+        });
 
-        let left = p.x;
-        let top = p.y;
+        showToolipOf$.next(list)
 
-        tooltip
-          .style("top", () => {
-            return `${d3.event.pageY + ARROW_DIMENSION}px`;
-          })
-          .style("left", () => {
-            return `${d3.event.pageX - TOOLTIP_WIDTH / 2}px`;
-          })
-          .classed("show", true)
-          .classed("arrow-top", true)
-          .on("click", function (d: any) {
-            tooltip.classed("show", false);
-          });
+        /*
+      let tooltip = d3.select(`div.arrow_box[id="${d[6]}"]`);
+
+      let TOOLTIP_HEIGHT = (tooltip.node() as HTMLElement).getBoundingClientRect().height;
+      let TOOLTIP_WIDTH = (tooltip.node() as HTMLElement).getBoundingClientRect().width;
+      let ARROW_DIMENSION = 10;
+
+      let left = p.x;
+      let top = p.y;
+
+      tooltip
+        .style("top", () => {
+          return `${d3.event.pageY + ARROW_DIMENSION}px`;
+        })
+        .style("left", () => {
+          return `${d3.event.pageX - TOOLTIP_WIDTH / 2}px`;
+        })
+        .classed("show", true)
+        .classed("arrow-top", true)
+        .on("click", function (d: any) {
+          tooltip.classed("show", false);
+        });
+        */
       })
       .on("mouseout", function (d: any) {
 
@@ -839,9 +853,11 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
           if (isAuthorityCentricMode)
             return "url(#arrow)";
         });
-
-        let tooltip = d3.select(`div.arrow_box[id="${d[6]}"]`);
-        tooltip.classed("show", false);
+        showToolipOf$.next(null)
+        /*
+                let tooltip = d3.select(`div.arrow_box[id="${d[6]}"]`);
+                tooltip.classed("show", false);
+                */
       });
 
 

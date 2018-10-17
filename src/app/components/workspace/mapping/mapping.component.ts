@@ -175,8 +175,8 @@ export class MappingComponent {
 
   onActivate(component: IDataVisualizer) {
 
-    component.showToolipOf$.asObservable().subscribe(node =>{
-      this.showTooltip(node);
+    component.showToolipOf$.asObservable().subscribe(nodes =>{
+      this.showTooltip(nodes);
     })
 
     component.showDetailsOf$.asObservable().subscribe(node => {
@@ -341,11 +341,11 @@ export class MappingComponent {
     this.toggleOptions$.next(this._toggleOptions)
   }
 
-  hoveredInitiative:Initiative;
+  hoveredInitiatives:Initiative[];
 
-  showTooltip(node:Initiative){
-    console.log("tooltip", node)
-    this.hoveredInitiative = node;
+  showTooltip(nodes:Initiative[]){
+    console.log("tooltip", nodes)
+    this.hoveredInitiatives = nodes;
     this.cd.markForCheck();
   }
 
