@@ -566,6 +566,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           : !d.children && d.parent === root ? 0.1 : 1;
       })
       .style("stroke-opacity", 1)
+
       ;
 
     let circle = g.selectAll("circle.node")
@@ -970,6 +971,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
           d3.event.stopPropagation();
 
           showToolipOf$.next([d.data]);
+          d3.select(this)
+            .style("stroke-width", "3px")
+            .style("stroke", seedColor)
+            .style("fill", seedColor)
           /*
                     let tooltip = d3.select(`div.arrow_box[id="${d.data.id}"]`);
                     let matrix = this.getScreenCTM().translate(
@@ -1017,6 +1022,20 @@ export class MappingZoomableComponent implements IDataVisualizer {
         })
         .on("mouseout", function (d: any) {
           showToolipOf$.next(null);
+          d3.select(this)
+            .style("stroke-width", "initial")
+            .style("stroke", function (d: any) {
+
+              return d.children
+                ? color(d.depth)
+                : !d.children && d.parent === root ? color(d.depth) : null;
+            })
+            .style("fill", function (d: any) {
+
+              return d.children
+                ? color(d.depth)
+                : !d.children && d.parent === root ? color(d.depth) : null;
+            })
           // let tooltip = d3.select(`div.arrow_box[id="${d.data.id}"]`);
           // tooltip.classed("show", false);
         });
