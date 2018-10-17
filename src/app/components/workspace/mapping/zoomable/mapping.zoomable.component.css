@@ -27,6 +27,7 @@
 ::ng-deep svg circle.initiative-map:hover{
     stroke: var(--maptio-blue) !important;
     stroke-width: 3px;
+    fill: var(--maptio-blue) !important;
 }
 
 /* ::ng-deep svg circle.initiative-map.hovered {
