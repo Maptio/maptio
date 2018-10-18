@@ -693,46 +693,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         }
       });
 
-    /*
-
-  let tooltip = d3
-    .select("body")
-    .selectAll("div.arrow_box")
-    .data(bilinks, function (d: any) {
-      return d[5];
-    })
-
-  tooltip.exit().remove();
-
-  tooltip = tooltip.enter()
-    .append("div")
-    .attr("class", "arrow_box")
-    .classed("show", false)
-    .merge(tooltip)
-    .attr("data-initiatives", function (d: any) {
-      return d[4].join(" ");
-    })
-    .attr("id", function (d: any) {
-      return d[6];
-    })
-    .on("mouseenter", function () {
-      d3.select(this).classed("show", true);
-    })
-    .on("mouseleave", function () {
-      tooltip.classed("show", false);
-    })
-    .html(function (d: any) {
-      let ids: any[] = d[4];
-
-      let list = initiativesList.map(i => i.data).filter(i => {
-        return ids.includes(i.id)
-      });
-      // console.log("tooltip building", d)
-      if (isEmpty(list)) return;
-      return uiService.getConnectionsHTML(list, d[0].id, d[2].id, d[7]);
-    });
-    */
-
     d3.selectAll(`.open-initiative`).on("click", function (d: any) {
       let id = Number.parseFloat(d3.select(this).attr("id"));
       showDetailsOf$.next(initiativesList.find(n => (<any>n.data).id === id).data);
@@ -821,30 +781,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         });
 
         showToolipOf$.next(list)
-
-        /*
-      let tooltip = d3.select(`div.arrow_box[id="${d[6]}"]`);
-
-      let TOOLTIP_HEIGHT = (tooltip.node() as HTMLElement).getBoundingClientRect().height;
-      let TOOLTIP_WIDTH = (tooltip.node() as HTMLElement).getBoundingClientRect().width;
-      let ARROW_DIMENSION = 10;
-
-      let left = p.x;
-      let top = p.y;
-
-      tooltip
-        .style("top", () => {
-          return `${d3.event.pageY + ARROW_DIMENSION}px`;
-        })
-        .style("left", () => {
-          return `${d3.event.pageX - TOOLTIP_WIDTH / 2}px`;
-        })
-        .classed("show", true)
-        .classed("arrow-top", true)
-        .on("click", function (d: any) {
-          tooltip.classed("show", false);
-        });
-        */
       })
       .on("mouseout", function (d: any) {
 
@@ -870,21 +806,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       node.attr("transform", positionNode);
       label.attr("transform", positionLabel);
     }
-
-    // function positionTooltip(d: any): { x: number, y: number } {
-
-    //   let path = g.select("defs").select(`path[id="path${d[5]}"]`);
-    //   console.log(d, path)
-    //   if (path.node()) {
-    //     let p = path
-    //       .node()
-    //       .getPointAtLength(0.5 * path.node().getTotalLength());
-    //     return { x: p.x, y: p.y };
-    //   } else {
-    //     return { x: 0, y: 0 };
-    //   }
-    // }
-
 
     function positionLabel(d: any) {
       let path = g.select("defs").select(`path[id="path${d[5]}"]`);

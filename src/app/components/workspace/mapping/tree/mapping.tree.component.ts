@@ -375,37 +375,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         d.x = d.x * 1.4;
       });
 
-      /*
-      let tooltip = d3
-        .select("body")
-        .selectAll("div.arrow_box")
-        .data(nodes, function (d: any) {
-          return d.data.id;
-        });
-
-
-      tooltip.exit().remove();
-
-      tooltip = tooltip.enter()
-        .append("div")
-        .attr("class", "arrow_box")
-        .classed("show", false)
-        .merge(tooltip)
-        .attr("id", function (d: any) {
-          return `${d.data.id}`;
-        })
-        .on("mouseenter", function () {
-          d3.select(this).classed("show", true);
-        })
-        .on("mouseleave", function () {
-          tooltip.classed("show", false);
-        })
-        .html(function (d: any) {
-          return uiService.getTooltipHTML(d.data);
-        });
-
-        */
-
       d3.selectAll(`.open-initiative`).on("click", function (d: any) {
         let id = Number.parseFloat(d3.select(this).attr("id"));
         showDetailsOf$.next(list.find(n => (<any>n.data).id === id).data);
@@ -645,36 +614,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .on("mouseover", function (d: any) {
           d3.event.stopPropagation();
           showToolipOf$.next([d.data])
-          /*
-          let tooltip = d3.select(`div.arrow_box[id="${d.data.id}"]`);
-          let matrix = this.getScreenCTM().translate(
-            +this.getAttribute("cx"),
-            +this.getAttribute("cy")
-          );
-
-          let TOOLTIP_HEIGHT = (tooltip.node() as HTMLElement).getBoundingClientRect()
-            .height;
-          let TOOLTIP_WIDTH = (tooltip.node() as HTMLElement).getBoundingClientRect()
-            .width;
-
-          let left = window.pageXOffset + matrix.e - TOOLTIP_WIDTH / 2;
-          let top =
-            window.pageYOffset + matrix.f - TOOLTIP_HEIGHT - 10 - CIRCLE_RADIUS;
-          let bottom = window.pageYOffset + matrix.f + 10 + CIRCLE_RADIUS;
-
-          tooltip
-            .style("left", `${left}px`)
-            .style("top", () => {
-              return top > 0 ? `${top}px` : `${bottom}px`;
-            })
-            .classed("show", true)
-            .classed("arrow-top", top < 0)
-            .classed("arrow-bottom", top >= 0)
-            .on("click", function (d: any) {
-              tooltip.classed("show", false);
-            });
-            */
-        })
+                  })
         .on("mouseout", function (d: any) {
           showToolipOf$.next(null)
           // let tooltip = d3.select(`div.arrow_box[id="${d.data.id}"]`);
