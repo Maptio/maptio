@@ -2,6 +2,9 @@
   <div class="summary-tooltip col-3 position-absolute my-0" *ngIf="hoveredInitiatives">
     <tooltip *ngFor="let hoveredInitiative of hoveredInitiatives" [initiative]="hoveredInitiative"></tooltip>
   </div>
+  <div class="position-absolute d-block col-2 bg-success p-4 context-menu" [class.invisible]="!selectedInitiative" [style.top.px]="selectedInitiativeY" [style.left.px]="selectedInitiativeX">
+    Here {{selectedInitiative?.name}}
+  </div>
   <router-outlet (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>
 
   <div class="d-flex flex-column justify-content-start align-items-end  pr-2">

@@ -148,7 +148,7 @@ export class MappingComponent {
     private uriService: URIService,
     private uiService: UIService,
     private exportService: ExportService,
-    private intercom:Intercom
+    private intercom: Intercom
   ) {
     this.zoom$ = new Subject<number>();
     this.isReset$ = new Subject<boolean>();
@@ -175,8 +175,12 @@ export class MappingComponent {
 
   onActivate(component: IDataVisualizer) {
 
-    component.showToolipOf$.asObservable().subscribe(nodes =>{
+    component.showToolipOf$.asObservable().subscribe(nodes => {
       this.showTooltip(nodes);
+    })
+
+    component.showContextMenuOf$.asObservable().subscribe(node => {
+      this.showContextMenu(node);
     })
 
     component.showDetailsOf$.asObservable().subscribe(node => {
@@ -335,15 +339,26 @@ export class MappingComponent {
   }
 
 
-  
+
   toggleOptions(isActive: Boolean) {
     this._toggleOptions = isActive ? !this._toggleOptions : false;
     this.toggleOptions$.next(this._toggleOptions)
   }
 
-  hoveredInitiatives:Initiative[];
+  hoveredInitiatives: Initiative[];
+  selectedInitiative: Initiative;
+  selectedInitiativeX:Number;
+  selectedInitiativeY:Number;
 
-  showTooltip(nodes:Initiative[]){
+  showContextMenu(context: { initiative: Initiative, x: Number, y: Number }) {
+    // console.log(context)
+    this.selectedInitiative = context.initiative;
+    this.selectedInitiativeX = context.x;
+    this.selectedInitiativeY = context.y;
+    this.cd.markForCheck();
+  }
+
+  showTooltip(nodes: Initiative[]) {
     this.hoveredInitiatives = nodes;
     this.cd.markForCheck();
   }

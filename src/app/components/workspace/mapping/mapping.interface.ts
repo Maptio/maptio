@@ -37,6 +37,7 @@ export interface IDataVisualizer {
 
     showDetailsOf$: Subject<Initiative>;
     showToolipOf$ : Subject<Initiative[]>;
+    showContextMenuOf$ : Subject<{initiative:Initiative, x : Number, y:Number}>;
     addInitiative$: Subject<Initiative>;
     removeInitiative$: Subject<Initiative>;
     moveInitiative$: Subject<{ node: Initiative, from: Initiative, to: Initiative }>;

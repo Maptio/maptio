@@ -63,6 +63,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
   public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public showToolipOf$: Subject<Initiative[]> = new Subject<Initiative[]>();
+  public showContextMenuOf$: Subject<{ initiative: Initiative, x: Number, y: Number }> = new Subject<{ initiative: Initiative, x: Number, y: Number }>();
   public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public moveInitiative$: Subject<{
     node: Initiative;
@@ -383,6 +384,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     // let fonts = this.fonts;
     let showDetailsOf$ = this.showDetailsOf$;
     let showToolipOf$ = this.showToolipOf$;
+    let showContextMenuOf$ = this.showContextMenuOf$;
     let datasetId = this.datasetId;
     let datasetSlug = this.slug;
     let router = this.router;
@@ -394,6 +396,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let DEFAULT_PICTURE_ANGLE = this.DEFAULT_PICTURE_ANGLE;
     let PADDING_CIRCLE = 20
     let MAX_NUMBER_LETTERS_PER_CIRCLE = this.MAX_NUMBER_LETTERS_PER_CIRCLE;
+    let origin = {
+      x: document.getElementsByTagName("svg")[0].getBoundingClientRect().left,
+      y: document.getElementsByTagName("svg")[0].getBoundingClientRect().top
+    }
 
     let pack = d3
       .pack()
@@ -913,7 +919,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .attr("font-size", function (d: any) {
               let multiplier = svg.attr("data-font-multiplier");
               return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * POSITION_TAGS_NAME.fontRatio * multiplier)}rem`
-              
+
             })
             .style("opacity", function (d: any) {
               return isLeafDisplayed(d) ? 1 : 0;
@@ -947,7 +953,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .style("stroke", function (d: any) {
           return d.children
             ? color(d.depth)
-            : !d.children && d.parent === root ? color(d.depth) : null;
+            : !d.children && d.parent === root ? d3.color(color(d.depth)).darker().toString() : null;
         })
         .style("fill", function (d: any) {
           return d.children
@@ -959,7 +965,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
             ? 0.1
             : !d.children && d.parent === root ? 0.1 : 1;
         })
-        // .style("stroke-width", "1px")
         .style("stroke-opacity", 1)
         .each((d: any) => (d.k = k))
         .on("mouseover", function (d: any) {
@@ -967,12 +972,14 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
           showToolipOf$.next([d.data]);
           d3.select(this)
-            .style("stroke", seedColor)
-            .style("fill", seedColor)
+            .style("stroke", d3.color(seedColor).darker().toString())
+            .style("fill", d3.color(seedColor).darker().toString())
             .style("fill-opacity", 1)
+            .style("stroke-width", "3px")
         })
         .on("mouseout", function (d: any) {
           showToolipOf$.next(null);
+          showContextMenuOf$.next({ initiative: null, x: 0, y: 0 })
           d3.select(this)
             .style("stroke", function (d: any) {
               return d.children
@@ -989,7 +996,45 @@ export class MappingZoomableComponent implements IDataVisualizer {
                 ? 0.1
                 : !d.children && d.parent === root ? 0.1 : 1;
             })
+            .style("stroke-width", "initial")
             .style("stroke-opacity", 1)
+        })
+        .on("contextmenu", function (d: any) {
+          let mousePosition = d3.mouse(this);
+          let matrix = this.getScreenCTM().translate(
+            +this.getAttribute("cx"),
+            +this.getAttribute("cy")
+          );
+
+          let center = { x: window.pageXOffset + matrix.e, y: window.pageYOffset + matrix.f };
+          let mouse = { x: mousePosition[0] + 3, y: mousePosition[1] + 3 }
+          let initiative = d.data;
+          let circle = d3.select(this);
+          showContextMenuOf$.next({
+            initiative: initiative,
+            x: center.x - origin.x + mouse.x,
+            y: center.y - origin.y + mouse.y
+          });
+
+          d3.select(".context-menu")
+            .on("mouseenter", function (d: any) {
+              showContextMenuOf$.next({
+                initiative: initiative,
+                x: center.x - origin.x + mouse.x,
+                y: center.y - origin.y + mouse.y
+              });
+              circle.dispatch("mouseover");
+            })
+            .on("mouseleave", function (d: any) {
+              showContextMenuOf$.next({
+                initiative: null,
+                x: 0,
+                y: 0
+              });
+              circle.dispatch("mouseout");
+            })
+
+          d3.event.preventDefault();
         });
 
       g.selectAll("foreignObject.name, .accountable, .tags")
