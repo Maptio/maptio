@@ -13,9 +13,9 @@
           <i class="fa fa-plus mx-1" aria-hidden="true"></i> Create sub-circle here
         </div>
         <div *ngIf="isAddingNode">
-          <input #selectedInitiativeName class="form-control" type="text" name="" id="" (change)="selectedInitiative.name=selectedInitiativeName.value">
-          <button class="btn btn-outline-success" (click)="addNode(selectedInitiative, false);selectedInitiativeName.value=''">Add circle</button>
-          <button class="btn btn-outline-secondary" (click)="addNode(selectedInitiative, true);selectedInitiativeName.value=''">Add circle and edit details</button>
+          <input #inputNewInitiative class="form-control" type="text" name="" id="">
+          <button class="btn btn-outline-success" (click)="addNode(selectedInitiative,inputNewInitiative.value, false)">Add circle</button>
+          <button class="btn btn-outline-secondary" (click)="addNode(selectedInitiative,inputNewInitiative.value, true)">Add circle and edit details</button>
         </div>
 
       </div>

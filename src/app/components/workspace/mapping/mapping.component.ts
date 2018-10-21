@@ -8,6 +8,8 @@ import {
   EventEmitter,
   Input,
   Output,
+  ViewChild,
+  ElementRef,
 } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Angulartics2Mixpanel } from "angulartics2";
@@ -102,7 +104,7 @@ export class MappingComponent {
   @Input("tags") selectableTags: Array<SelectableTag>;
   @Input("isEmptyMap") isEmptyMap: Boolean;
   @Output("showDetails") showDetails = new EventEmitter<Initiative>();
-  @Output("addInitiative") addInitiative = new EventEmitter<Initiative>();
+  @Output("addInitiative") addInitiative = new EventEmitter<{ node: Initiative, subNode: Initiative }>();
   @Output("removeInitiative") removeInitiative = new EventEmitter<Initiative>();
   @Output("moveInitiative")
   moveInitiative = new EventEmitter<{
@@ -347,10 +349,11 @@ export class MappingComponent {
 
   hoveredInitiatives: Initiative[];
   selectedInitiative: Initiative;
-  selectedInitiativeX:Number;
-  selectedInitiativeY:Number;
-  isRemovingNode:Boolean;
-  isAddingNode:Boolean;
+  selectedInitiativeX: Number;
+  selectedInitiativeY: Number;
+  isRemovingNode: Boolean;
+  isAddingNode: Boolean;
+  @ViewChild("inputNewInitiative") public inputNewInitiative: ElementRef
 
   showContextMenu(context: { initiative: Initiative, x: Number, y: Number }) {
     // console.log(context)
@@ -358,7 +361,7 @@ export class MappingComponent {
     this.selectedInitiativeX = context.x;
     this.selectedInitiativeY = context.y;
     this.isRemovingNode = false;
-    this.isAddingNode=false;
+    this.isAddingNode = false;
     this.cd.markForCheck();
   }
 
@@ -433,30 +436,31 @@ export class MappingComponent {
   }
 
   addFirstNode() {
-    this.addInitiative.emit(this.initiative);
+    this.addInitiative.emit({ node: this.initiative, subNode: new Initiative() });
     this.openTreePanel.emit(true);
     this.expandTree.emit(true);
     this.analytics.eventTrack("Map", { mode: "instruction", action: "add", team: this.team.name, teamId: this.team.team_id });
   }
 
-  addNode(node:Initiative, openDetailsPanel:Boolean){
-    this.addInitiative.emit(node);
-    if(openDetailsPanel)
-    {
+  addNode(node: Initiative, subNodeName: string, openDetailsPanel: Boolean) {
+    console.log("add node", node)
+    this.addInitiative.emit({ node: node, subNode: new Initiative({ name: subNodeName }) });
+    if (openDetailsPanel) {
       this.showDetails.emit(node);
     }
-    this.isAddingNode=false;
+    this.isAddingNode = false;
+    (<HTMLInputElement>this.inputNewInitiative.nativeElement).value = "";
     this.cd.markForCheck();
   }
 
-  openNode(node:Initiative){
+  openNode(node: Initiative) {
     this.showDetails.emit(node);
   }
 
-  console(arg:any){
+  console(arg: any) {
     console.log(arg)
   }
-  removeNode(node:Initiative){
+  removeNode(node: Initiative) {
     console.log("removeNode", node, this.selectedInitiative)
     this.removeInitiative.emit(node);
   }

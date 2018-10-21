@@ -160,8 +160,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.isDetailsPanelCollapsed = false;
     }
 
-    addInitiative(node: Initiative) {
-        this.buildingComponent.addNodeTo(node);
+    addInitiative(data : {node: Initiative, subNode:Initiative}) {
+        this.buildingComponent.addNodeTo(data.node, data.subNode);
     }
 
     removeInitiative(node: Initiative) {

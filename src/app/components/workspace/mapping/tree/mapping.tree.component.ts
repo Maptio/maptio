@@ -77,7 +77,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   public hoveredNode: Initiative;
   public slug: string;
   public showContextMenuOf$: Subject<{ initiative: Initiative, x: Number, y: Number }> = new Subject<{ initiative: Initiative, x: Number, y: Number }>();
- 
+
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
   // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public showToolipOf$: Subject<Initiative[]> = new Subject<Initiative[]>();
@@ -280,6 +280,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
 
   update(data: any, tags: Array<SelectableTag>, seedColor: string) {
+    console.log(data)
     if (this.d3.selectAll("g").empty()) {
       this.init();
     }
@@ -295,6 +296,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     let router = this.router;
     let userFactory = this.userFactory;
     let showDetailsOf$ = this.showDetailsOf$;
+    let showContextMenuOf$ = this.showContextMenuOf$;
     let showToolipOf$ = this.showToolipOf$;
     let g = this.g;
     let svg = this.svg;
@@ -615,12 +617,54 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .on("mouseover", function (d: any) {
           d3.event.stopPropagation();
           showToolipOf$.next([d.data])
-                  })
+        })
         .on("mouseout", function (d: any) {
           showToolipOf$.next(null)
           // let tooltip = d3.select(`div.arrow_box[id="${d.data.id}"]`);
           // tooltip.classed("show", false);
-        });
+        })
+        .on("contextmenu", function (d: any) {
+          d3.event.preventDefault();
+          let mousePosition = d3.mouse(this);
+          let matrix = this.getScreenCTM().translate(
+            +this.getAttribute("cx"),
+            +this.getAttribute("cy")
+          );
+          
+          let origin = {
+            x: document.getElementsByTagName("svg")[0].getBoundingClientRect().left,
+            y: document.getElementsByTagName("svg")[0].getBoundingClientRect().top
+          }
+          let center = { x: window.pageXOffset + matrix.e, y: window.pageYOffset + matrix.f };
+          let mouse = { x: mousePosition[0] + 3, y: mousePosition[1] + 3 }
+          let initiative = d.data;
+          let circle = d3.select(this);
+          console.log(center, origin, mouse, initiative);
+          showContextMenuOf$.next({
+            initiative: initiative,
+            x: center.x - origin.x + mouse.x,
+            y: center.y - origin.y + mouse.y
+          });
+
+          d3.select(".context-menu")
+            .on("mouseenter", function (d: any) {
+              showContextMenuOf$.next({
+                initiative: initiative,
+                x: center.x - origin.x + mouse.x,
+                y: center.y - origin.y + mouse.y
+              });
+              circle.dispatch("mouseover");
+            })
+            .on("mouseleave", function (d: any) {
+              showContextMenuOf$.next({
+                initiative: null,
+                x: 0,
+                y: 0
+              });
+              circle.dispatch("mouseout");
+            })
+
+        });;
 
       // ****************** links section ***************************
 

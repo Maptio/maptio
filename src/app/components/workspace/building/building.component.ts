@@ -178,11 +178,11 @@ export class BuildingComponent {
         this.updateTree()
     }
 
-    addNodeTo(node: Initiative) {
+    addNodeTo(node: Initiative, subNode:Initiative) {
         let hasFoundNode: boolean = false;
         if (this.nodes[0].id === node.id) {
             hasFoundNode = true;
-            let newNode = new Initiative();
+            let newNode = subNode;
             newNode.children = [];
             newNode.team_id = node.team_id;
             newNode.hasFocus = true;
@@ -196,7 +196,7 @@ export class BuildingComponent {
                 if (hasFoundNode) return;
                 if (n.id === node.id) {
                     hasFoundNode = true;
-                    let newNode = new Initiative();
+                    let newNode = subNode;
                     newNode.children = []
                     newNode.team_id = node.team_id;
                     newNode.hasFocus = true;
@@ -213,7 +213,7 @@ export class BuildingComponent {
     }
 
     addRootNode() {
-        this.addNodeTo(this.nodes[0])
+        this.addNodeTo(this.nodes[0], new Initiative())
     }
 
     toggleAll(isExpand: boolean) {
