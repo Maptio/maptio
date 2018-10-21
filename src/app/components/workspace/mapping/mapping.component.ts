@@ -183,15 +183,15 @@ export class MappingComponent {
       this.showContextMenu(node);
     })
 
-    component.showDetailsOf$.asObservable().subscribe(node => {
-      this.showDetails.emit(node);
-    });
-    component.addInitiative$.asObservable().subscribe(node => {
-      this.addInitiative.emit(node);
-    });
-    component.removeInitiative$.asObservable().subscribe(node => {
-      this.removeInitiative.emit(node);
-    });
+    // component.showDetailsOf$.asObservable().subscribe(node => {
+    //   this.showDetails.emit(node);
+    // });
+    // component.addInitiative$.asObservable().subscribe(node => {
+    //   this.addInitiative.emit(node);
+    // });
+    // component.removeInitiative$.asObservable().subscribe(node => {
+    //   this.removeInitiative.emit(node);
+    // });
     component.moveInitiative$
       .asObservable()
       .subscribe(({ node: node, from: from, to: to }) => {
@@ -349,12 +349,14 @@ export class MappingComponent {
   selectedInitiative: Initiative;
   selectedInitiativeX:Number;
   selectedInitiativeY:Number;
+  isRemovingNode:Boolean;
 
   showContextMenu(context: { initiative: Initiative, x: Number, y: Number }) {
     // console.log(context)
     this.selectedInitiative = context.initiative;
     this.selectedInitiativeX = context.x;
     this.selectedInitiativeY = context.y;
+    this.isRemovingNode = false;
     this.cd.markForCheck();
   }
 
@@ -433,6 +435,26 @@ export class MappingComponent {
     this.openTreePanel.emit(true);
     this.expandTree.emit(true);
     this.analytics.eventTrack("Map", { mode: "instruction", action: "add", team: this.team.name, teamId: this.team.team_id });
+  }
+
+  addNode(node:Initiative, openDetailsPanel:Boolean){
+    this.addInitiative.emit(node);
+    if(openDetailsPanel)
+    {
+      this.showDetails.emit(node);
+    }
+  }
+
+  openNode(node:Initiative){
+    this.showDetails.emit(node);
+  }
+
+  console(arg:any){
+    console.log(arg)
+  }
+  removeNode(node:Initiative){
+    console.log("removeNode", node, this.selectedInitiative)
+    this.removeInitiative.emit(node);
   }
 
   public broadcastTagsSettings(tags: SelectableTag[]) {

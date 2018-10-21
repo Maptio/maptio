@@ -61,7 +61,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public rootNode: Initiative;
 
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
-  public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
+  // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public showToolipOf$: Subject<Initiative[]> = new Subject<Initiative[]>();
   public showContextMenuOf$: Subject<{ initiative: Initiative, x: Number, y: Number }> = new Subject<{ initiative: Initiative, x: Number, y: Number }>();
   public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
@@ -396,10 +396,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let DEFAULT_PICTURE_ANGLE = this.DEFAULT_PICTURE_ANGLE;
     let PADDING_CIRCLE = 20
     let MAX_NUMBER_LETTERS_PER_CIRCLE = this.MAX_NUMBER_LETTERS_PER_CIRCLE;
-    let origin = {
-      x: document.getElementsByTagName("svg")[0].getBoundingClientRect().left,
-      y: document.getElementsByTagName("svg")[0].getBoundingClientRect().top
-    }
+   
 
     let pack = d3
       .pack()
@@ -597,7 +594,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return isLeafDisplayed(d) ? 1 : 0;
       })
       .style("pointer-events", function (d: any) {
-        return isLeafDisplayed(d) ? "auto" : "none";
+        return "none"; // isLeafDisplayed(d) ? "auto" : "none";
       })
       .html(function (d: any) {
         let fs = `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`;
@@ -1000,16 +997,22 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .style("stroke-opacity", 1)
         })
         .on("contextmenu", function (d: any) {
+          d3.event.preventDefault();
           let mousePosition = d3.mouse(this);
           let matrix = this.getScreenCTM().translate(
             +this.getAttribute("cx"),
             +this.getAttribute("cy")
           );
-
+          
+          let origin = {
+            x: document.getElementsByTagName("svg")[0].getBoundingClientRect().left,
+            y: document.getElementsByTagName("svg")[0].getBoundingClientRect().top
+          }
           let center = { x: window.pageXOffset + matrix.e, y: window.pageYOffset + matrix.f };
           let mouse = { x: mousePosition[0] + 3, y: mousePosition[1] + 3 }
           let initiative = d.data;
           let circle = d3.select(this);
+          console.log(center, origin, mouse);
           showContextMenuOf$.next({
             initiative: initiative,
             x: center.x - origin.x + mouse.x,
@@ -1034,7 +1037,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
               circle.dispatch("mouseout");
             })
 
-          d3.event.preventDefault();
         });
 
       g.selectAll("foreignObject.name, .accountable, .tags")

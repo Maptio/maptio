@@ -189,7 +189,7 @@ export class BuildingComponent {
             newNode.id = Math.floor(Math.random() * 10000000000000);
             this.nodes[0].children = this.nodes[0].children || [];
             this.nodes[0].children.unshift(newNode);
-            this.openDetails.emit(newNode)
+            // this.openDetails.emit(newNode)
         }
         else {
             this.nodes[0].traverse(n => {
@@ -203,7 +203,7 @@ export class BuildingComponent {
                     newNode.id = Math.floor(Math.random() * 10000000000000);
                     n.children = n.children || [];
                     n.children.unshift(newNode);
-                    this.openDetails.emit(newNode)
+                    // this.openDetails.emit(newNode)
                 }
             });
         }

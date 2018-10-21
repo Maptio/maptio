@@ -35,11 +35,11 @@ export interface IDataVisualizer {
     scale: number;
     tagsState: Array<SelectableTag>;
 
-    showDetailsOf$: Subject<Initiative>;
+    // showDetailsOf$: Subject<Initiative>;
     showToolipOf$ : Subject<Initiative[]>;
     showContextMenuOf$ : Subject<{initiative:Initiative, x : Number, y:Number}>;
-    addInitiative$: Subject<Initiative>;
-    removeInitiative$: Subject<Initiative>;
+    // addInitiative$: Subject<Initiative>;
+    // removeInitiative$: Subject<Initiative>;
     moveInitiative$: Subject<{ node: Initiative, from: Initiative, to: Initiative }>;
     closeEditingPanel$: Subject<boolean>;
 
