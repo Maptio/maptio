@@ -4,25 +4,25 @@
   </div>
   <div class="position-absolute d-block col-3 context-menu" [class.invisible]="!selectedInitiative" [style.top.px]="selectedInitiativeY"
     [style.left.px]="selectedInitiativeX">
-    {{selectedInitiative?.name}}
     <ul class="list-group">
+      <li class="list-group-item disabled">{{selectedInitiative?.name}}</li>
       <button class="cursor-pointer list-group-item list-group-item-action" (click)="openNode(selectedInitiative)">
         <i class="fa fa-pencil mx-1" aria-hidden="true"></i> View or edit details</button>
-      <div class="cursor-pointer list-group-item list-group-item-action" >
+      <div class="cursor-pointer list-group-item list-group-item-action">
         <div (click)="isAddingNode=true">
           <i class="fa fa-plus mx-1" aria-hidden="true"></i> Create sub-circle here
         </div>
         <div *ngIf="isAddingNode">
           <input #selectedInitiativeName class="form-control" type="text" name="" id="" (change)="selectedInitiative.name=selectedInitiativeName.value">
-          <button class="btn btn-outline-success" (click)="addNode(selectedInitiative, false);selectedInitiativeName.value='';isAddingNode=false">Add circle</button>
-          <button class="btn btn-outline-secondary" (click)="addNode(selectedInitiative, true);selectedInitiativeName.value='';isAddingNode=false">Add circle and edit details</button>
+          <button class="btn btn-outline-success" (click)="addNode(selectedInitiative, false);selectedInitiativeName.value=''">Add circle</button>
+          <button class="btn btn-outline-secondary" (click)="addNode(selectedInitiative, true);selectedInitiativeName.value=''">Add circle and edit details</button>
         </div>
 
       </div>
 
       <div class="cursor-pointer list-group-item list-group-item-action">
         <div (click)="isRemovingNode=true">
-          <i class="fa fa-trash mx-1" aria-hidden="true"></i> Delete circle ...
+          <i class="fa fa-trash mx-1" aria-hidden="true"></i> Delete circle
         </div>
         <div *ngIf="isRemovingNode">
           <button class="btn btn-danger" (click)="removeNode(selectedInitiative)">Confirm</button>

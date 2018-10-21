@@ -358,6 +358,7 @@ export class MappingComponent {
     this.selectedInitiativeX = context.x;
     this.selectedInitiativeY = context.y;
     this.isRemovingNode = false;
+    this.isAddingNode=false;
     this.cd.markForCheck();
   }
 
@@ -444,6 +445,8 @@ export class MappingComponent {
     {
       this.showDetails.emit(node);
     }
+    this.isAddingNode=false;
+    this.cd.markForCheck();
   }
 
   openNode(node:Initiative){
