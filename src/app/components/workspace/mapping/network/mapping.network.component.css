@@ -6,9 +6,9 @@
     cursor: move;
 }
 
-::ng-deep svg text:hover{
+/* ::ng-deep svg text:hover{
   text-decoration: underline;
-}
+} */
 
 ::ng-deep .links line {
   stroke: #000;
