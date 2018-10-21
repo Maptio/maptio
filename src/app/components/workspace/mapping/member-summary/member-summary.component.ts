@@ -48,8 +48,9 @@ export class MemberSummaryComponent implements OnInit, IDataVisualizer {
     public isReset$: Observable<boolean>;
     public data$: Subject<{ initiative: Initiative, datasetId: string }>;
     public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>()
-    public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
-    public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
+    public showContextMenuOf$: Subject<{ initiative: Initiative, x: Number, y: Number }> = new Subject<{ initiative: Initiative, x: Number, y: Number }>();
+  // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
+    // public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
     public showToolipOf$: Subject<Initiative[]> = new Subject<Initiative[]>();
     public moveInitiative$: Subject<{ node: Initiative, from: Initiative, to: Initiative }> = new Subject<{ node: Initiative, from: Initiative, to: Initiative }>();
     public closeEditingPanel$: Subject<boolean> = new Subject<boolean>();

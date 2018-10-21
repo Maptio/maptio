@@ -76,7 +76,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
   public hoveredNode: Initiative;
   public slug: string;
-
+  public showContextMenuOf$: Subject<{ initiative: Initiative, x: Number, y: Number }> = new Subject<{ initiative: Initiative, x: Number, y: Number }>();
+ 
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
   // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public showToolipOf$: Subject<Initiative[]> = new Subject<Initiative[]>();

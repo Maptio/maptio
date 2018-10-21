@@ -350,6 +350,7 @@ export class MappingComponent {
   selectedInitiativeX:Number;
   selectedInitiativeY:Number;
   isRemovingNode:Boolean;
+  isAddingNode:Boolean;
 
   showContextMenu(context: { initiative: Initiative, x: Number, y: Number }) {
     // console.log(context)
