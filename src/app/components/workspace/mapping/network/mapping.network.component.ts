@@ -66,7 +66,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   public _isAuthorityCentricMode: boolean = true;
 
   public showContextMenuOf$: Subject<{ initiative: Initiative, x: Number, y: Number }> = new Subject<{ initiative: Initiative, x: Number, y: Number }>();
- 
+
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
   // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
@@ -190,7 +190,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .data([
         { id: "arrow", opacity: 1 },
         { id: "arrow-fade", opacity: this.FADED_OPACITY },
-        { id: "arrow-hover", fill: "black" }
+        { id: "arrow-hover", opacity: 1 }
       ])
       .enter()
       .append("marker")
@@ -274,6 +274,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         svg.style("fill", format[1]);
         svg.selectAll("text").style("fill", format[1]);
         svg.selectAll("marker#arrow, marker#arrow-fade").attr("fill", format[2]);
+        svg.selectAll("marker#arrow-hover").attr("fill", d3.color(format[2]).darker(2).toString());
       });
 
     let [clearSearchInitiative, highlightInitiative] = this.zoomInitiative$.partition(node => node === null);
@@ -622,7 +623,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .append("path")
       .attr("class", "edge")
       .merge(link)
-      .attr("stroke", seedColor)
+      // .attr("stroke", seedColor)
       .attr("data-initiatives", function (d: any) {
         return d[4].join(" ");
       })
@@ -760,15 +761,20 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       });
 
     g.selectAll("path")
+      .style("stroke-opacity", 1)
+      .style("stroke", seedColor)
       .on("mouseover", function (d: any) {
         // console.log(d)
         d3.event.stopPropagation();
 
         let path = d3.select(this);
-        path.attr("marker-end", function (d: any) {
-          if (isAuthorityCentricMode)
-            return "url(#arrow-hover)";
-        });
+        path
+          .style("stroke-opacity", 1)
+          .style("stroke", d3.color(seedColor).darker(2).toString())
+          .attr("marker-end", function (d: any) {
+            if (isAuthorityCentricMode)
+              return "url(#arrow-hover)";
+          });
 
 
         let p = path
@@ -786,10 +792,13 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .on("mouseout", function (d: any) {
 
         let path = d3.select(this);
-        path.attr("marker-end", function (d: any) {
-          if (isAuthorityCentricMode)
-            return "url(#arrow)";
-        });
+        path
+          .style("stroke-opacity", 1)
+          .style("stroke", seedColor)
+          .attr("marker-end", function (d: any) {
+            if (isAuthorityCentricMode)
+              return "url(#arrow)";
+          });
         showToolipOf$.next(null)
         /*
                 let tooltip = d3.select(`div.arrow_box[id="${d[6]}"]`);
