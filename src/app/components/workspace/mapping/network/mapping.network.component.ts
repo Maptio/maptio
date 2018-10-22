@@ -120,8 +120,9 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .get()
       .combineLatest(this.mapColor$, this.isAuthorityCentricMode$.asObservable())
       .subscribe(complexData => {
+        console.log(complexData)
         let data = <any>complexData[0].initiative;
-        this.datasetId = complexData[0].datasetId;
+        this.datasetId = complexData[0].dataset.datasetId;
         this.rootNode = complexData[0].initiative;
         this.team = complexData[0].team;
         this.slug = data.getSlug();
@@ -524,6 +525,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     let showDetailsOf$ = this.showDetailsOf$;
     let showToolipOf$ = this.showToolipOf$;
     let datasetSlug = this.slug;
+    let datasetId = this.datasetId;
     let getTags = this.getTags.bind(this);
     let CIRCLE_RADIUS = this.CIRCLE_RADIUS;
     let LINE_WEIGHT = this.LINE_WEIGHT;
@@ -537,7 +539,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     let graph = isAuthorityCentricMode ? this.prepareAuthorityCentric(initiativesList) : this.prepareHelperCentric(initiativesList);
 
     let router = this.router;
-    let datasetId = this.datasetId;
     let slug = this.slug;
 
     let simulation = d3
