@@ -73,7 +73,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   private g: any;
   private definitions: any;
   public isLoading: boolean;
-
+  public _seedColor:string;
   public hoveredNode: Initiative;
   public slug: string;
   public showContextMenuOf$: Subject<{ initiative: Initiative, x: Number, y: Number }> = new Subject<{ initiative: Initiative, x: Number, y: Number }>();
@@ -240,7 +240,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         this.datasetId = complexData[0].datasetId;
         this.slug = data.getSlug();
         this.tagsState = complexData[1];
-        this.update(data, complexData[1], complexData[2]);
+        this.setSeedColor(complexData[2]);
+        this.update(data, complexData[1]);
         this.analytics.eventTrack("Map", {
           action: "viewing",
           view: "people",
@@ -268,6 +269,16 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   }
 
 
+  setSeedColor(color:string){
+    this._seedColor = color;
+  }
+
+  getSeedColor(){
+    return this._seedColor;
+  }
+
+
+
   private _pathsToRoot: Map<number, number[]> = new Map();
 
   setPathsToRoot(paths: Map<number, number[]>) {
@@ -279,7 +290,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   }
 
 
-  update(data: any, tags: Array<SelectableTag>, seedColor: string) {
+  update(data: any, tags: Array<SelectableTag>) {
     console.log(data)
     if (this.d3.selectAll("g").empty()) {
       this.init();
@@ -303,6 +314,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     let definitions = this.definitions;
     let datasetSlug = this.slug;
     let setPathsToRoot = this.setPathsToRoot.bind(this)
+    let getSeedColor = this.getSeedColor.bind(this);
 
     let treemap = d3
       .tree()
@@ -323,11 +335,11 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     root.y0 = 0;
 
 
-    let depth = 0;
-    root.eachAfter(function (n: any) {
-      depth = depth > n.depth ? depth : n.depth;
-    });
-    let color = colorService.getColorRange(depth, seedColor);
+    // let depth = 0;
+    // root.eachAfter(function (n: any) {
+    //   depth = depth > n.depth ? depth : n.depth;
+    // });
+    // let color = colorService.getColorRange(depth, seedColor);
 
     let pathsToRoot: Map<string, string[]> = new Map();
     root.eachAfter(function (n: any) {
@@ -336,14 +348,14 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     setPathsToRoot(pathsToRoot)
 
     // Collapse after the third level
-    if (root.children) {
-      root.children.forEach((c: any) => {
-        if (c.children) c.children.forEach(collapse);
-      });
-    }
+    // if (root.children) {
+    //   root.children.forEach((c: any) => {
+    //     if (c.children) c.children.forEach(collapse);
+    //   });
+    // }
 
     // console.log(g)
-    update(root, 0);
+    updateGraph(root, 0);
 
     // Collapse the node and all it's children
     function collapse(d: any) {
@@ -362,9 +374,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       }
     }
 
-
-    function update(source: any, duration: number) {
-
+    function updateGraph(source: any, duration: number) {
       // Assigns the x and y position for the nodes
       let treeData = treemap(root);
 
@@ -456,7 +466,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .on("expand", (d: any) => {
           // console.log("expanding", d.data.id, d.data.name)
           expand(d);
-          update(d, TRANSITION_DURATION)
+          updateGraph(d, TRANSITION_DURATION)
         })
 
       // Add Circle for the nodes
@@ -468,10 +478,10 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .attr("fill", function (d: any) {
           return d.data.accountable
             ? "url(#image" + d.data.id + ")"
-            : d.children ? color(d.depth) : "#fff";
+            : d.children ? getSeedColor() : "#fff";
         })
         .style("stroke", function (d: any) {
-          return d._children ? "#000" : color(d.depth);
+          return d._children ? "#000" : getSeedColor();
         })
         .attr("stroke-width", function (d: any) {
           return d._children ? 4 : 1;
@@ -543,10 +553,10 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .attr("fill", function (d: any) {
           return d.data.accountable
             ? "url(#image" + d.data.id + ")"
-            : d._children ? color(d.depth) : "#fff";
+            : d._children ? getSeedColor() : "#fff";
         })
         .style("stroke", function (d: any) {
-          return d._children ? "#000" : color(d.depth);
+          return d._children ? "#000" : getSeedColor();
         })
         .attr("stroke-width", function (d: any) {
           return d._children ? 4 : 1;
@@ -630,7 +640,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             +this.getAttribute("cx"),
             +this.getAttribute("cy")
           );
-          
+
           let origin = {
             x: document.getElementsByTagName("svg")[0].getBoundingClientRect().left,
             y: document.getElementsByTagName("svg")[0].getBoundingClientRect().top
@@ -681,8 +691,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .insert("path", "g")
         .attr("class", "link")
         .classed("tree-map", true)
+        .style("stroke-opacity", 0.5)
         .style("stroke", function (d: any) {
-          return color(d.depth);
+          return getSeedColor() //color(d.depth);
         })
         .attr("d", function (d: any) {
           let o = { x: source.x0, y: source.y0 };
@@ -696,8 +707,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       linkUpdate
         .transition()
         .duration(duration)
+        .style("stroke-opacity", 0.5)
         .style("stroke", function (d: any) {
-          return color(d.depth);
+          return getSeedColor() //color(d.depth);
         })
         .attr("d", function (d: any) {
           return diagonal(d, d.parent);
@@ -739,7 +751,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
           d.children = d._children;
           d._children = null;
         }
-        update(d, TRANSITION_DURATION);
+        console.log("click seeedColo", getSeedColor())
+        updateGraph(d, TRANSITION_DURATION);
         // centerNode(d)
       }
 
