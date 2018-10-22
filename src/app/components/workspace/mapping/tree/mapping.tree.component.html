@@ -1,2 +1,12 @@
 <!-- <ngx-loading [show]="isLoading" [config]="{ backdropBackgroundColour: '#fff' }"></ngx-loading> -->
 <svg id="map"></svg>
+<div class="card control switch border-0 w-25 p-0 collapse" [class.show]="_isDisplayOptions">
+
+        <div class=" card-body bg-light border-dark rounded">
+            <h6 class="card-title">Tree view options</h6>
+            <p class="card-text">
+                <button class="btn btn-sm btn-outline-secondary" (click)="expandAllLink()">Expand all</button>
+                <button class="btn btn-sm btn-outline-secondary" (click)="resetExpandState()">Reset</button>
+            </p>   
+        </div>
+    </div>

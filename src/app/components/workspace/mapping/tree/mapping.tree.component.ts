@@ -20,6 +20,7 @@ import { D3Service, D3 } from "d3-ng2-service";
 import { partition } from "lodash";
 import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
+import { BehaviorSubject } from "../../../../../../node_modules/rxjs";
 
 @Component({
   selector: "tree",
@@ -51,7 +52,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   public mapColor$: Observable<string>;
   public zoomInitiative$: Observable<Initiative>;
   public toggleOptions$: Observable<Boolean>;
-  // public isLocked$: Observable<boolean>;
+  public isAllExpanded$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public isReset$: Observable<boolean>;
   public data$: Subject<{
     initiative: Initiative;
@@ -65,6 +66,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   private resetSubscription: Subscription;
   private fontSubscription: Subscription;
   private tagsSubscription: Subscription;
+  private toggleOptionsSubscription:Subscription;
 
   public analytics: Angulartics2Mixpanel;
   public TRANSITION_DURATION = 250;
@@ -90,6 +92,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   }> = new Subject<{ node: Initiative; from: Initiative; to: Initiative }>();
   public closeEditingPanel$: Subject<boolean> = new Subject<boolean>();
 
+  public _isDisplayOptions: Boolean = false;
 
   constructor(
     public d3Service: D3Service,
@@ -115,15 +118,15 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     this.init();
     this.dataSubscription = this.dataService
       .get()
-      .combineLatest(this.selectableTags$, this.mapColor$)
-      .subscribe((complexData: [any, SelectableTag[], string]) => {
+      .combineLatest(this.selectableTags$, this.mapColor$, this.isAllExpanded$.asObservable())
+      .subscribe((complexData: [any, SelectableTag[], string, boolean]) => {
         let data = <any>complexData[0].initiative;
         this.datasetId = complexData[0].datasetId;
         this.slug = data.getSlug();
         this.tagsState = complexData[1];
         this.setSeedColor(complexData[2]);
         this.setData(data);
-        this.update(complexData[1]);
+        this.update(complexData[1], complexData[3]);
         this.analytics.eventTrack("Map", {
           action: "viewing",
           view: "people",
@@ -148,6 +151,17 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     if (this.tagsSubscription) {
       this.tagsSubscription.unsubscribe();
     }
+  }
+
+  expandAllLink(){
+    this.isAllExpanded$.next(true);
+    this.ngOnInit();
+    // this.update(this.tagsState, true)
+  }
+
+  resetExpandState(){
+    this.isAllExpanded$.next(false);
+    this.ngOnInit();
   }
 
   init() {
@@ -264,6 +278,11 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       d3.selectAll(`g.node.tree-map`).style("fill", fontColor);
     })
 
+    this.toggleOptionsSubscription = this.toggleOptions$.subscribe(toggled => {
+      this._isDisplayOptions = toggled;
+      this.cd.markForCheck();
+    })
+
     this.svg = svg;
     this.g = g;
     this.definitions = definitions;
@@ -297,7 +316,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   }
 
 
-  update(tags: Array<SelectableTag>) {
+  update(tags: Array<SelectableTag>, isAllExpanded:boolean) {
     console.log("update")
     if (this.d3.selectAll("g").empty()) {
       this.init();
@@ -357,11 +376,14 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     setPathsToRoot(pathsToRoot)
 
     // Collapse after the third level
-    if (root.children) {
-      root.children.forEach((c: any) => {
-        if (c.children) c.children.forEach(collapse);
-      });
+    if(!isAllExpanded){
+      if (root.children) {
+        root.children.forEach((c: any) => {
+          if (c.children) c.children.forEach(collapse);
+        });
+      }
     }
+ 
 
     updateGraph(root, 0);
 

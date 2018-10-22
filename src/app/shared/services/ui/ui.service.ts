@@ -120,20 +120,20 @@ export class UIService {
   //   });
   // }
 
-  // filter(
-  //   selectedTags: any[],
-  //   unselectedTags: any[],
-  //   selection: any[]
-  // ): boolean {
-  //   return isEmpty(selectedTags) // all tags are unselected by default
-  //     ? true
-  //     : isEmpty(selection) // the circle doesnt have any tags
-  //       ? false
-  //       : intersection(selectedTags.map(t => t.shortid), selection).length ===
-  //         0
-  //         ? false
-  //         : true;
-  // }
+  filter(
+    selectedTags: any[],
+    unselectedTags: any[],
+    selection: any[]
+  ): boolean {
+    return isEmpty(selectedTags) // all tags are unselected by default
+      ? true
+      : isEmpty(selection) // the circle doesnt have any tags
+        ? false
+        : intersection(selectedTags.map(t => t.shortid), selection).length ===
+          0
+          ? false
+          : true;
+  }
 
 
 
