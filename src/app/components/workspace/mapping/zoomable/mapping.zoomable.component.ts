@@ -950,7 +950,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .style("stroke", function (d: any) {
           return d.children
             ? color(d.depth)
-            : !d.children && d.parent === root ? d3.color(color(d.depth)).darker().toString() : null;
+            : !d.children && d.parent === root ? d3.color(color(d.depth)).darker(2).toString() : null;
         })
         .style("fill", function (d: any) {
           return d.children
@@ -969,8 +969,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
           showToolipOf$.next([d.data]);
           d3.select(this)
-            .style("stroke", d3.color(seedColor).darker().toString())
-            .style("fill", d3.color(seedColor).darker().toString())
+            .style("stroke", d3.color(seedColor).darker(2).toString())
+            .style("fill", d3.color(seedColor).darker(2).toString())
             .style("fill-opacity", 1)
             .style("stroke-width", "3px")
         })

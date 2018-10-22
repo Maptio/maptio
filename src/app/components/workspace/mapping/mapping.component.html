@@ -2,36 +2,40 @@
   <div class="summary-tooltip col-3 position-absolute my-0" *ngIf="hoveredInitiatives">
     <tooltip *ngFor="let hoveredInitiative of hoveredInitiatives" [initiative]="hoveredInitiative"></tooltip>
   </div>
-  <div class="position-absolute d-block col-3 context-menu small" [class.invisible]="!selectedInitiative" [style.top.px]="selectedInitiativeY"
+  <div class="position-absolute d-block col-3 context-menu" [class.invisible]="!selectedInitiative" [style.top.px]="selectedInitiativeY"
     [style.left.px]="selectedInitiativeX">
     <ul class="list-group">
       <li class="list-group-item disabled">{{selectedInitiative?.name}}</li>
       <button class="cursor-pointer list-group-item list-group-item-action" (click)="openNode(selectedInitiative)">
         <i class="fa fa-pencil mx-1" aria-hidden="true"></i> View or edit details</button>
       <div class="cursor-pointer list-group-item list-group-item-action">
-        <div (click)="isAddingNode=true">
-          <i class="fa fa-plus mx-1" aria-hidden="true"></i> Create sub-circle here
+        <div (click)="isAddingNode=!isAddingNode" class="d-flex justify-content-between align-items-center">
+          <span>
+            <i class="fa fa-plus mx-1" aria-hidden="true"></i> Create sub-circle here
+          </span>
+          <i class="fa " [class.fa-caret-down]="!isAddingNode" [class.fa-caret-up]="isAddingNode" aria-hidden="true"></i>
         </div>
-        <div *ngIf="isAddingNode">
-          <input #inputNewInitiative class="form-control" type="text" name="" id="">
-          <button class="btn btn-outline-success" (click)="addNode(selectedInitiative,inputNewInitiative.value, false)">Add circle</button>
-          <button class="btn btn-outline-secondary" (click)="addNode(selectedInitiative,inputNewInitiative.value, true)">Add circle and edit details</button>
-        </div>
+        <form *ngIf="isAddingNode" class="my-1">
+          <div class="form-group">
+            <input #inputNewInitiative class="form-control form-control-sm" type="text" name="" id="">
+          </div>
+          <div class="form-group d-flex justify-content-between">
+            <button class="btn btn-outline-success btn-sm mr-1" (click)="addNode(selectedInitiative,inputNewInitiative.value, false)">Add circle</button>
+            <button class="btn btn-outline-secondary btn-sm" (click)="addNode(selectedInitiative,inputNewInitiative.value, true)">Add circle and edit details</button>
+          </div>
+        </form>
 
       </div>
 
-      <div class="cursor-pointer list-group-item list-group-item-action">
-        <div (click)="isRemovingNode=true">
+      <div class="cursor-pointer list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+        <div (click)="isRemovingNode=!isRemovingNode">
           <i class="fa fa-trash mx-1" aria-hidden="true"></i> Delete circle
         </div>
-        <div *ngIf="isRemovingNode">
-          <button class="btn btn-danger" (click)="removeNode(selectedInitiative)">Confirm</button>
-          <button class="btn btn-outline-secondary" (click)="isRemovingNode=false">Cancel</button>
+        <div [class.invisible]="!isRemovingNode" class="d-flex justify-content-start">
+          <button class="btn btn-danger btn-sm mx-1" (click)="removeNode(selectedInitiative)">Confirm</button>
+          <button class="btn btn-outline-secondary btn-sm" (click)="isRemovingNode=false">Cancel</button>
         </div>
       </div>
-
-
-
     </ul>
   </div>
   <router-outlet (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>

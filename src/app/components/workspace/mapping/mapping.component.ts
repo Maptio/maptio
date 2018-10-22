@@ -443,10 +443,11 @@ export class MappingComponent {
   }
 
   addNode(node: Initiative, subNodeName: string, openDetailsPanel: Boolean) {
-    console.log("add node", node)
-    this.addInitiative.emit({ node: node, subNode: new Initiative({ name: subNodeName }) });
+    console.log("add node", node);
+    let subNode = new Initiative({ name: subNodeName })
+    this.addInitiative.emit({ node: node, subNode: subNode });
     if (openDetailsPanel) {
-      this.showDetails.emit(node);
+      this.showDetails.emit(subNode);
     }
     this.isAddingNode = false;
     (<HTMLInputElement>this.inputNewInitiative.nativeElement).value = "";
