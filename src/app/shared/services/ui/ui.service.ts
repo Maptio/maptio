@@ -74,183 +74,166 @@ export class UIService {
     this.d3.selectAll("div.arrow_box").remove();
   }
 
-  wrap(
-    text: Selection<BaseType, {}, HTMLElement, any>,
-    actualText: string,
-    tags: Tag[],
-    width: number,
-    tagLineHeightRatio?: number
-  ) {
-    let d3 = this.d3;
-    let allSpacesRegex = /\t|\n|\r|\r\n|\u0020|\u00A0|\u1680|\u2000|\u2001|\u2002|\u2003|\u2004|\u2005|\u2006|\u2007|\u2008|\u2009|\u202A|\u202F|\u205F|\u3000/
+  // wrap(
+  //   text: Selection<BaseType, {}, HTMLElement, any>,
+  //   actualText: string,
+  //   tags: Tag[],
+  //   width: number,
+  //   tagLineHeightRatio?: number
+  // ) {
+  //   let d3 = this.d3;
+  //   let allSpacesRegex = /\t|\n|\r|\r\n|\u0020|\u00A0|\u1680|\u2000|\u2001|\u2002|\u2003|\u2004|\u2005|\u2006|\u2007|\u2008|\u2009|\u202A|\u202F|\u205F|\u3000/
 
-    text.each(function () {
-      let text = d3.select(this),
-        words = actualText ? actualText.split(allSpacesRegex).reverse() : [],
-        word: any,
-        line: any[] = [],
-        lineNumber = 0,
-        lineHeight = 1.1, // ems
-        y = text.attr("y"),
-        x = text.attr("x"),
-        dy = parseFloat(text.attr("dy")),
-        tspan = text
-          .text(null)
-          .append("tspan")
-          .attr("x", x)
-          .attr("y", y)
-          .attr("dy", dy + "em");
-      while ((word = words.pop())) {
-        line.push(word);
-        tspan.text(line.join(" "));
-        let node: SVGTSpanElement = <SVGTSpanElement>tspan.node();
-        let hasGreaterWidth = node.getComputedTextLength() > width;
-        if (hasGreaterWidth) {
-          line.pop();
-          tspan.text(line.join(" "));
-          line = [word];
-          tspan = text
-            .append("tspan")
-            .attr("x", x)
-            .attr("y", y)
-            .attr("dy", ++lineNumber * lineHeight + dy + "em")
-            .text(word);
-        }
-      }
+  //   text.each(function () {
+  //     let text = d3.select(this),
+  //       words = actualText ? actualText.split(allSpacesRegex).reverse() : [],
+  //       word: any,
+  //       line: any[] = [],
+  //       lineNumber = 0,
+  //       lineHeight = 1.1, // ems
+  //       y = text.attr("y"),
+  //       x = text.attr("x"),
+  //       dy = parseFloat(text.attr("dy")),
+  //       tspan = text
+  //         .text(null)
+  //         .append("tspan")
+  //         .attr("x", x)
+  //         .attr("y", y)
+  //         .attr("dy", dy + "em");
+  //     while ((word = words.pop())) {
+  //       line.push(word);
+  //       tspan.text(line.join(" "));
+  //       let node: SVGTSpanElement = <SVGTSpanElement>tspan.node();
+  //       let hasGreaterWidth = node.getComputedTextLength() > width;
+  //       if (hasGreaterWidth) {
+  //         line.pop();
+  //         tspan.text(line.join(" "));
+  //         line = [word];
+  //         tspan = text
+  //           .append("tspan")
+  //           .attr("x", x)
+  //           .attr("y", y)
+  //           .attr("dy", ++lineNumber * lineHeight + dy + "em")
+  //           .text(word);
+  //       }
+  //     }
+  //   });
+  // }
 
-      // tags.forEach((tag: Tag, index: number) => {
-      //   text
-      //     .append("tspan")
-      //     .attr("x", x)
-      //     .attr("y", y)
-      //     .attr(
-      //       "dy",
-      //       (lineNumber + 1) * (lineHeight * (tagLineHeightRatio || 1)) +
-      //         dy +
-      //         "em"
-      //     )
-      //     .attr("dx", index * 20)
-      //     .attr("class", "dot-tags")
-      //     .attr("fill", tag.color)
-      //     .html("&#xf02b");
-      // });
-    });
-  }
-
-  filter(
-    selectedTags: any[],
-    unselectedTags: any[],
-    selection: any[]
-  ): boolean {
-    return isEmpty(selectedTags) // all tags are unselected by default
-      ? true
-      : isEmpty(selection) // the circle doesnt have any tags
-        ? false
-        : intersection(selectedTags.map(t => t.shortid), selection).length ===
-          0
-          ? false
-          : true;
-  }
+  // filter(
+  //   selectedTags: any[],
+  //   unselectedTags: any[],
+  //   selection: any[]
+  // ): boolean {
+  //   return isEmpty(selectedTags) // all tags are unselected by default
+  //     ? true
+  //     : isEmpty(selection) // the circle doesnt have any tags
+  //       ? false
+  //       : intersection(selectedTags.map(t => t.shortid), selection).length ===
+  //         0
+  //         ? false
+  //         : true;
+  // }
 
 
 
-  getUserHtml(user: Helper, isSmall: boolean) {
-    if (!user) return "<a ></a>";
-    let formattedName = isSmall ? `<small>${user.name}</small>` : `${user.name}`
-    return `<div>
-              <button class="open-summary btn btn-link pl-0" data-shortid="${user.shortid}" data-slug="${user.getSlug()}">
-                <img src="${user.picture}" alt="${user.name}" width="${isSmall ? 15 : 30}" height="${isSmall ? 15 : 30}" class="rounded-circle mr-1">${formattedName}
-              </button>
-              <small>${user.roles[0] ? this.markdown.compile(user.roles[0].description) : ""}</small>
-            </div>`;
-  }
+  // getUserHtml(user: Helper, isSmall: boolean) {
+  //   if (!user) return "<a ></a>";
+  //   let formattedName = isSmall ? `<small>${user.name}</small>` : `${user.name}`
+  //   return `<div>
+  //             <button class="open-summary btn btn-link pl-0" data-shortid="${user.shortid}" data-slug="${user.getSlug()}">
+  //               <img src="${user.picture}" alt="${user.name}" width="${isSmall ? 15 : 30}" height="${isSmall ? 15 : 30}" class="rounded-circle mr-1">${formattedName}
+  //             </button>
+  //             <small>${user.roles[0] ? this.markdown.compile(user.roles[0].description) : ""}</small>
+  //           </div>`;
+  // }
 
-  getTagsHtml(tags: Tag[]) {
+  // getTagsHtml(tags: Tag[]) {
 
-    function getTagHtml(tag: Tag) {
-      if (!tag) return;
-      return `
-      <li><span class="tag mr-1" style="color:${
-        tag.color
-        }">
-              <i class="fa fa-tag mr-1" aria-hidden="true" style="color:${
-        tag.color
-        }"></i>${tag.name}
-          </span></li>
-      `
-    }
-    return tags
-      .map(
-        (tag: Tag) => getTagHtml(tag))
-      .join("")
+  //   function getTagHtml(tag: Tag) {
+  //     if (!tag) return;
+  //     return `
+  //     <li><span class="tag mr-1" style="color:${
+  //       tag.color
+  //       }">
+  //             <i class="fa fa-tag mr-1" aria-hidden="true" style="color:${
+  //       tag.color
+  //       }"></i>${tag.name}
+  //         </span></li>
+  //     `
+  //   }
+  //   return tags
+  //     .map(
+  //       (tag: Tag) => getTagHtml(tag))
+  //     .join("")
 
-  }
+  // }
 
-  getInitiatveHTML(initiative: Initiative) {
-    return `<h6 class="mb-1 lead d-flex justify-content-start"><button class="btn btn-link lead open-initiative text-left" id="${initiative.id}">${initiative.name}</button></h6>`
-  }
+  // getInitiatveHTML(initiative: Initiative) {
+  //   return `<h6 class="mb-1 lead d-flex justify-content-start"><button class="btn btn-link lead open-initiative text-left" id="${initiative.id}">${initiative.name}</button></h6>`
+  // }
 
-  getTooltipHTML(initiative: Initiative): string {
-
-
-    let accountableImg = this.getUserHtml(initiative.accountable, false)
-
-    let helpersImg = initiative.helpers
-      ? initiative.helpers
-        .map((helper: Helper) => this.getUserHtml(helper, true))
-        .join("")
-      : "";
-
-    return `
-        <div class="card content">
-          <div class="card-body">
-            <a id="${initiative.id}" class="cursor-pointer underline open-initiative card-title">${initiative.name}</a>
-            <p class="card-subtitle my-1">
-              <ul class="tags small"> ${this.getTagsHtml(initiative.tags)}</ul>
-            </p>
-            <p class="card-text">
-            ${accountableImg}
-            </p>
-            <p class="card-text">
-            <small>${this.markdown.compile(initiative.description || "")}</small>
-            </p>
-            <p class="card-text">
-            <small>${helpersImg}</small>
-            </p>
-          </div>
-        </div>
-          `;
-  }
-
-  getConnectionsHTML(initiatives: Initiative[], sourceUserId: string, targetUserId: string, connectionType: string) {
-    let sourceUser = initiatives[0].getAllParticipants().find(
-      h => h.user_id === sourceUserId
-    );
-    let targetUser = initiatives[0].getAllParticipants().find(
-      h => h.user_id === targetUserId
-    );
-    let roles: { initiative: Initiative, role: Role }[] = [];
-    initiatives.forEach(i => {
-      let role = i.getAllParticipants().filter(h => h.user_id === sourceUserId)[0].roles[0];
-      roles.push({ initiative: i, role: role });
-
-    });
-
-    let printInitiatives = roles.map(i =>
-      `${this.getInitiatveHTML(i.initiative)}
-      <ul class="tags small"> ${this.getTagsHtml(i.initiative.tags)}</ul>
-      <small>${i.role ? "by" + this.markdown.compile(i.role.description || "") : ""}</small>
-      `
-    ).join("")
+  // getTooltipHTML(initiative: Initiative): string {
 
 
+  //   let accountableImg = this.getUserHtml(initiative.accountable, false)
 
-    return `
-    <div class="content">
-      <div class="d-inline-flex no-white-space">${this.getUserHtml(sourceUser, false)}<span class="m-2">${connectionType}</span> ${this.getUserHtml(targetUser, false)}</div>
-      ${printInitiatives}
-    </div>
-    `
+  //   let helpersImg = initiative.helpers
+  //     ? initiative.helpers
+  //       .map((helper: Helper) => this.getUserHtml(helper, true))
+  //       .join("")
+  //     : "";
 
-  }
+  //   return `
+  //       <div class="card content">
+  //         <div class="card-body">
+  //           <a id="${initiative.id}" class="cursor-pointer underline open-initiative card-title">${initiative.name}</a>
+  //           <p class="card-subtitle my-1">
+  //             <ul class="tags small"> ${this.getTagsHtml(initiative.tags)}</ul>
+  //           </p>
+  //           <p class="card-text">
+  //           ${accountableImg}
+  //           </p>
+  //           <p class="card-text">
+  //           <small>${this.markdown.compile(initiative.description || "")}</small>
+  //           </p>
+  //           <p class="card-text">
+  //           <small>${helpersImg}</small>
+  //           </p>
+  //         </div>
+  //       </div>
+  //         `;
+  // }
+
+  // getConnectionsHTML(initiatives: Initiative[], sourceUserId: string, targetUserId: string, connectionType: string) {
+  //   let sourceUser = initiatives[0].getAllParticipants().find(
+  //     h => h.user_id === sourceUserId
+  //   );
+  //   let targetUser = initiatives[0].getAllParticipants().find(
+  //     h => h.user_id === targetUserId
+  //   );
+  //   let roles: { initiative: Initiative, role: Role }[] = [];
+  //   initiatives.forEach(i => {
+  //     let role = i.getAllParticipants().filter(h => h.user_id === sourceUserId)[0].roles[0];
+  //     roles.push({ initiative: i, role: role });
+
+  //   });
+
+  //   let printInitiatives = roles.map(i =>
+  //     `${this.getInitiatveHTML(i.initiative)}
+  //     <ul class="tags small"> ${this.getTagsHtml(i.initiative.tags)}</ul>
+  //     <small>${i.role ? "by" + this.markdown.compile(i.role.description || "") : ""}</small>
+  //     `
+  //   ).join("")
+
+
+
+  //   return `
+  //   <div class="content">
+  //     <div class="d-inline-flex no-white-space">${this.getUserHtml(sourceUser, false)}<span class="m-2">${connectionType}</span> ${this.getUserHtml(targetUser, false)}</div>
+  //     ${printInitiatives}
+  //   </div>
+  //   `
+
+  // }
 }

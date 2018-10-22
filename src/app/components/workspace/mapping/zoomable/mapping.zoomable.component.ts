@@ -447,8 +447,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     buildPatterns();
 
-    buildTooltips();
-
     let path = buildPaths();
 
     let initiativeWithChildren = g
@@ -600,40 +598,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
         let fs = `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`;
         return `<div style="font-size: ${fs}; background: none; display: inline-block;pointer-events: none">${d.data.name}</div>`;
       })
-
-
-
-    // let initiativeName = initiativeNoChildren.select("text.name.no-children")
-    //   .attr("id", function (d: any) {
-    //     return `${d.data.id}`;
-    //   })
-    //   .classed("initiative-map", true)
-    //   // .style("pointer-events", "none")
-    //   .attr("dy", 0)
-    //   .attr("x", function (d: any) {
-    //     return -d.r * POSITION_INITIATIVE_NAME.x;
-    //   })
-    //   .attr("y", function (d: any) {
-    //     return -d.r * POSITION_INITIATIVE_NAME.y;
-    //   })
-    //   .attr("font-size", function (d: any) {
-    //     return `${fonts(d.depth)}rem`;
-    //   })
-    //   .text(function (d: any) {
-    //     return d.data.name;
-    //   })
-    //   .style("display", "inline")
-    //   .style("opacity", function (d: any) {
-    //     return isLeafDisplayed(d) ? 1 : 0;
-    //   })
-    //   .each(function (d: any) {
-    //     uiService.wrap(
-    //       d3.select(this),
-    //       d.data.name,
-    //       d.data.tags,
-    //       d.r * 2 * 0.95
-    //     );
-    //   });
 
     let tagsName = initiativeNoChildren.select("text.tags")
       .attr("id", function (d: any) {
@@ -1120,45 +1084,45 @@ export class MappingZoomableComponent implements IDataVisualizer {
       patterns.exit().remove();
     }
 
-    function buildTooltips() {
-      let tooltip = d3
-        .select("body")
-        .selectAll("div.arrow_box")
-        .data(nodes, function (d: any) {
-          return d.data.id;
-        })
-      tooltip.exit().remove();
+    // function buildTooltips() {
+    //   let tooltip = d3
+    //     .select("body")
+    //     .selectAll("div.arrow_box")
+    //     .data(nodes, function (d: any) {
+    //       return d.data.id;
+    //     })
+    //   tooltip.exit().remove();
 
-      tooltip = tooltip.enter()
-        .append("div")
-        .attr("class", "arrow_box p-0 box-shadow")
-        .classed("show", false)
-        .merge(tooltip)
-        .attr("id", function (d: any) {
-          return `${d.data.id}`;
-        })
-        .on("mouseenter", function () {
-          d3.select(this).classed("show", true);
-        })
-        .on("mouseleave", function () {
-          tooltip.classed("show", false);
-        })
-        .html(function (d: any) {
-          return uiService.getTooltipHTML(d.data);
-        });
+    //   tooltip = tooltip.enter()
+    //     .append("div")
+    //     .attr("class", "arrow_box p-0 box-shadow")
+    //     .classed("show", false)
+    //     .merge(tooltip)
+    //     .attr("id", function (d: any) {
+    //       return `${d.data.id}`;
+    //     })
+    //     .on("mouseenter", function () {
+    //       d3.select(this).classed("show", true);
+    //     })
+    //     .on("mouseleave", function () {
+    //       tooltip.classed("show", false);
+    //     })
+    //     .html(function (d: any) {
+    //       return uiService.getTooltipHTML(d.data);
+    //     });
 
-      d3.selectAll(`.open-initiative`).on("click", function (d: any) {
-        let id = Number.parseFloat(d3.select(this).attr("id"));
-        showDetailsOf$.next(list.find(n => (<any>n.data).id === id).data);
-      });
-      d3.selectAll(`.open-summary`).on("click", function (d: any) {
-        let shortid = d3.select(this).attr("data-shortid");
-        let slug = d3.select(this).attr("data-slug");
-        router.navigateByUrl(
-          `/map/${datasetId}/${datasetSlug}/u/${shortid}/${slug}`
-        );
-      });
-    }
+    //   d3.selectAll(`.open-initiative`).on("click", function (d: any) {
+    //     let id = Number.parseFloat(d3.select(this).attr("id"));
+    //     showDetailsOf$.next(list.find(n => (<any>n.data).id === id).data);
+    //   });
+    //   d3.selectAll(`.open-summary`).on("click", function (d: any) {
+    //     let shortid = d3.select(this).attr("data-shortid");
+    //     let slug = d3.select(this).attr("data-slug");
+    //     router.navigateByUrl(
+    //       `/map/${datasetId}/${datasetSlug}/u/${shortid}/${slug}`
+    //     );
+    //   });
+    // }
 
     function buildPaths() {
       let path = g.select("g.paths")
