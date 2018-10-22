@@ -4,7 +4,7 @@
   </div>
   <div class="position-absolute d-block col-3 context-menu" [class.invisible]="!selectedInitiative" [style.top.px]="selectedInitiativeY"
     [style.left.px]="selectedInitiativeX">
-    <ul class="list-group">
+    <div class="list-group">
       <li class="list-group-item disabled">{{selectedInitiative?.name}}</li>
       <button class="cursor-pointer list-group-item list-group-item-action" (click)="openNode(selectedInitiative)">
         <i class="fa fa-pencil mx-1" aria-hidden="true"></i> View or edit details</button>
@@ -36,7 +36,7 @@
           <button class="btn btn-outline-secondary btn-sm" (click)="isRemovingNode=false">Cancel</button>
         </div>
       </div>
-    </ul>
+    </div>
   </div>
   <router-outlet (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>
 
