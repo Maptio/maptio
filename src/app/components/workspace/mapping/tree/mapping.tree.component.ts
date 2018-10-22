@@ -300,6 +300,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     let colorService = this.colorService;
     let uiService = this.uiService;
     let CIRCLE_RADIUS = 15;
+    let CIRCLE_MARGIN = 5;
     let TRANSITION_DURATION = this.TRANSITION_DURATION;
     let viewerWidth = this.width;
     let viewerHeight = this.height;
@@ -348,11 +349,11 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     setPathsToRoot(pathsToRoot)
 
     // Collapse after the third level
-    // if (root.children) {
-    //   root.children.forEach((c: any) => {
-    //     if (c.children) c.children.forEach(collapse);
-    //   });
-    // }
+    if (root.children) {
+      root.children.forEach((c: any) => {
+        if (c.children) c.children.forEach(collapse);
+      });
+    }
 
     // console.log(g)
     updateGraph(root, 0);
@@ -460,7 +461,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
           return d.data.tags.map((t: Tag) => t.shortid).join(",");
         })
         .attr("transform", function (d: any) {
-          return "translate(" + source.y0 + "," + source.x0 + ")";
+          console.log(d.data.name, d)
+          return "translate(" + source.y0  + "," + source.x0 + ")";
         })
         .on("click", click)
         .on("expand", (d: any) => {
@@ -480,23 +482,26 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             ? "url(#image" + d.data.id + ")"
             : d.children ? getSeedColor() : "#fff";
         })
+        // .style("fill-opacity", function(d:any){
+        //   return d._children ? "0.5" : "1"
+        // })
         .style("stroke", function (d: any) {
-          return d._children ? "#000" : getSeedColor();
+          return d._children ? getSeedColor() : d3.color(getSeedColor()).darker(2).toString();
         })
         .attr("stroke-width", function (d: any) {
-          return d._children ? 4 : 1;
+          return d._children || d.children  ? 4 : 1;
         })
-        .attr("stroke-dasharray", function (d: any) {
-          return d._children || d.children ? "9, 3" : "0, 0";
-        })
+        // .attr("stroke-dasharray", function (d: any) {
+        //   return d._children || d.children ? "9, 3" : "0, 0";
+        // })
         .attr("cursor", function (d: any) {
           return d._children || d.children ? "pointer" : "default";
         });
 
-      nodeEnter
-        .append("text")
-        .attr("class", "tags")
-        .classed("tree-map", true)
+      // nodeEnter
+      //   .append("text")
+      //   .attr("class", "tags")
+      //   .classed("tree-map", true)
 
 
       // Add labels for the nodes
@@ -505,8 +510,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .attr("class", "name")
         .classed("tree-map", true)
         .attr("dy", "0.65em")
-        .attr("y", (d: any) => d.data.tags && d.data.tags.length > 0 ? `2.00em` : `1.00em`)
-        .attr("x", CIRCLE_RADIUS + 5)
+        .attr("y", "1.00em")
+        // .attr("y", (d: any) => d.data.tags && d.data.tags.length > 0 ? `2.00em` : `1.00em`)
+        .attr("x", CIRCLE_RADIUS*2 + CIRCLE_MARGIN)
         .text(function (d: any) {
           return d.data.name;
         })
@@ -517,7 +523,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
           uiService.wrap(
             d3.select(this),
             realText,
-            d.data.tags,
+            [],
+            // d.data.tags,
             d.y / d.depth * 0.85,
             0.65
           );
@@ -528,10 +535,10 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .attr("class", "accountable")
         .classed("tree-map", true)
         .attr("dy", "5")
-        .attr("x", CIRCLE_RADIUS + 4)
+        .attr("x", CIRCLE_RADIUS*2+ CIRCLE_MARGIN)
         .html(function (d: any) {
           // let tagsSpan = d.data.tags.map((tag: Tag) => `<tspan class="dot-tags" fill=${tag.color}>&#xf02b</tspan>`).join("");
-          return `<tspan>${d.data.accountable ? d.data.accountable.name : ""}</tspan>`;
+          return `<tspan>${d.data.accountable ? d.data.accountable.name : "Unknown"}</tspan>`;
         });
 
       // UPDATE
@@ -549,36 +556,41 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       // Update the node attributes and style
       nodeUpdate
         .select("circle.node.tree-map")
-        .attr("r", 15)
+        .attr("r", CIRCLE_RADIUS)
+        .attr("cx", CIRCLE_RADIUS)
         .attr("fill", function (d: any) {
           return d.data.accountable
             ? "url(#image" + d.data.id + ")"
             : d._children ? getSeedColor() : "#fff";
         })
+        // .style("fill-opacity", function(d:any){
+        //   return d._children ? "0.5" : "1"
+        // })
         .style("stroke", function (d: any) {
-          return d._children ? "#000" : getSeedColor();
+          return d._children ? getSeedColor() : d3.color(getSeedColor()).darker(2).toString();
         })
         .attr("stroke-width", function (d: any) {
-          return d._children ? 4 : 1;
+          return d._children|| d.children  ? 4 : 1;
         })
-        .attr("stroke-dasharray", function (d: any) {
-          return d._children || d.children ? "9, 3" : "0, 0";
-        })
+        // .attr("stroke-dasharray", function (d: any) {
+        //   return d._children || d.children ? "9, 3" : "0, 0";
+        // })
         .attr("cursor", function (d: any) {
           return d._children || d.children ? "pointer" : "default";
         });
 
-      nodeUpdate.select("text.tags.tree-map")
-        .attr("dy", "0.65em")
-        .attr("y", "1.00em")
-        .attr("x", CIRCLE_RADIUS + 5)
-        .html(function (d: any) {
-          return d.data.tags.map((tag: Tag) => `<tspan fill="${tag.color}" class="dot-tags">&#xf02b</tspan><tspan fill="${tag.color}">${tag.name}</tspan>`).join(" ");
-        });
+      // nodeUpdate.select("text.tags.tree-map")
+      //   .attr("dy", "0.65em")
+      //   .attr("y", "1.00em")
+      //   .attr("x", CIRCLE_RADIUS*2+ CIRCLE_MARGIN)
+      //   .html(function (d: any) {
+      //     return d.data.tags.map((tag: Tag) => `<tspan fill="${tag.color}" class="dot-tags">&#xf02b</tspan><tspan fill="${tag.color}">${tag.name}</tspan>`).join(" ");
+      //   });
 
       nodeUpdate
         .select("text.name.tree-map")
-        .attr("y", (d: any) => d.data.tags && d.data.tags.length > 0 ? `2.00em` : `1.00em`)
+        .attr("y", "1.00em")
+        // .attr("y", (d: any) => d.data.tags && d.data.tags.length > 0 ? `2.00em` : `1.00em`)
         .text(function (d: any) {
           return d.data.name;
         })
@@ -600,7 +612,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
         return `
                         <tspan>${
-          d.data.accountable ? d.data.accountable.name : ""
+          d.data.accountable ? d.data.accountable.name : "Unknown"
           }</tspan>`;
       });
 

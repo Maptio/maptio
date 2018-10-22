@@ -3,10 +3,10 @@
   background: transparent;
 }
 
-::ng-deep .node.tree-map:hover {
+/* ::ng-deep .node.tree-map:hover {
   stroke: initial!important;
   stroke-width: initial!important;
-}
+} */
 ::ng-deep svg text.tree-map {
   cursor: pointer;
 }
