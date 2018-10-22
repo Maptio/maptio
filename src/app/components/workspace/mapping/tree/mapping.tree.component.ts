@@ -556,7 +556,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             realText,
             [],
             // d.data.tags,
-            d.y / d.depth * 0.85,
+            d.y / d.depth * 0.85 || 170,
             0.65
           );
         });
@@ -632,8 +632,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
           uiService.wrap(
             d3.select(this),
             realText,
-            d.data.tags,
-            d.y / d.depth * 0.85,
+            [],
+            d.y / d.depth * 0.85 || 170,
             0.65
           );
         });
