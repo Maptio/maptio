@@ -19,12 +19,12 @@
   .btn-tag.active {
     color: #f8f9fa !important;
   }
-
-  svg tspan.dot-tags {
-    font-family: FontAwesome;
-  }
   
   li a.tag {
     background: transparent;
     border:0;
+  }
+
+  .dot-tags {
+    font-family: FontAwesome;
   }
