@@ -335,8 +335,7 @@ export class MappingComponent {
       case MemberSummaryComponent:
         return `x=0&y=0&scale=1`;
       default:
-        return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_HEIGHT /
-          2}&scale=1`;
+        return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_WIDTH / 2 - 180}&scale=1`;
     }
   }
 

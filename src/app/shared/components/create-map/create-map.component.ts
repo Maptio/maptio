@@ -51,7 +51,32 @@ export class CreateMapComponent implements OnInit {
             let mapName = this.form.controls["mapName"].value
             let teamId = this.form.controls["teamId"].value
 
-            let newDataset = new DataSet({ initiative: new Initiative({ name: mapName, team_id: teamId }) });
+            let newDataset = new DataSet({
+                initiative: new Initiative({
+                    name: mapName,
+                    team_id: teamId,
+                    children: [
+                        new Initiative({
+                            name: "This is your map's outer circle. Right-click (ctrl+click on a Mac) to edit.",
+                            team_id: teamId,
+                            children: [
+                                new Initiative({
+                                    name: "This is a sub-circle",
+                                    team_id: teamId,
+                                }),
+                                new Initiative({
+                                    name: "Another sub-circle",
+                                    team_id: teamId,
+                                }),
+                                new Initiative({
+                                    name: "And one more sub-circle",
+                                    team_id: teamId,
+                                })
+                            ]
+                        })
+                    ]
+                })
+            });
             this.datasetFactory.create(newDataset)
                 .then((created: DataSet) => {
                     console.log(created)
