@@ -136,7 +136,7 @@ transition: background-image 0.2s ease-in-out;
 }
 
 .home-background{
-  background-image: url('/assets/images/screenshot.png');
+  background-image: url('/assets/images/screenshot-light.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position-x: right;

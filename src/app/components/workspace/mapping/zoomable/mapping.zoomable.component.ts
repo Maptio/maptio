@@ -228,7 +228,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let margin = { top: 20, right: 200, bottom: 20, left: 200 };
     let width = this.width - margin.left - margin.right,
       height = this.height - margin.top - margin.bottom;
-
     let svg: any = d3
       .select("svg")
       .attr("width", width + margin.left + margin.right)
@@ -241,7 +240,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           `translate(${diameter / 2 + margin.left}, ${diameter / 2 + margin.top}) scale(${this.scale})`
         ),
       definitions = svg.append("svg:defs");
-
+    
     g.append("g").attr("class", "paths");
     let zooming = d3
       .zoom()
@@ -606,7 +605,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       })
       .html(function (d: any) {
         let fs = `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`;
-        return `<div style="font-size: ${fs}; background: none; display: inline-block;pointer-events: none">${d.data.name}</div>`;
+        return `<div style="font-size: ${fs}; background: none; display: inline-block;pointer-events: none">${d.data.name || '(Empty)'}</div>`;
       })
 
     let tagsName = initiativeNoChildren.select("text.tags")
@@ -840,7 +839,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .html(function (d: any) {
               let multiplier = svg.attr("data-font-multiplier");
               let fs = `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * multiplier)}rem`;
-              return `<div style="font-size: ${fs}; background: none;overflow: initial; display: inline-block; pointer-events:none">${d.data.name}</div>`;
+              return `<div style="font-size: ${fs}; background: none;overflow: initial; display: inline-block; pointer-events:none">${(d.data.name || '(Empty)')}</div>`;
             })
         })
 

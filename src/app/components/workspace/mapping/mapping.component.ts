@@ -203,6 +203,7 @@ export class MappingComponent {
       this.closeEditingPanel.emit(true);
     });
 
+    console.log("route fragment", this.route.snapshot.fragment)
     let f = this.route.snapshot.fragment || this.getFragment(component);
     this.x = Number.parseFloat(this.uriService.parseFragment(f).get("x"));
     this.y = Number.parseFloat(this.uriService.parseFragment(f).get("y"));
