@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-start">
   <div class="summary-tooltip col-3 position-absolute my-0" *ngIf="hoveredInitiatives">
-    <tooltip *ngFor="let hoveredInitiative of hoveredInitiatives" [initiative]="hoveredInitiative"></tooltip>
+    <tooltip *ngFor="let hoveredInitiative of hoveredInitiatives" [initiative]="hoveredInitiative" [isNameOnly]="isNameOnly"></tooltip>
   </div>
   <div class="position-absolute d-block col-3 context-menu" [class.invisible]="!selectedInitiative" [style.top.px]="selectedInitiativeY"
     [style.left.px]="selectedInitiativeX">

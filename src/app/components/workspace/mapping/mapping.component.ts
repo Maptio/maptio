@@ -177,8 +177,8 @@ export class MappingComponent {
 
   onActivate(component: IDataVisualizer) {
 
-    component.showToolipOf$.asObservable().subscribe(nodes => {
-      this.showTooltip(nodes);
+    component.showToolipOf$.asObservable().subscribe((tooltip: { initiatives: Initiative[], isNameOnly: boolean }) => {
+      this.showTooltip(tooltip.initiatives, tooltip.isNameOnly);
     })
 
     component.showContextMenuOf$.asObservable().subscribe(node => {
@@ -347,6 +347,7 @@ export class MappingComponent {
   }
 
   hoveredInitiatives: Initiative[];
+  isNameOnly:boolean;
   selectedInitiative: Initiative;
   selectedInitiativeX: Number;
   selectedInitiativeY: Number;
@@ -364,8 +365,9 @@ export class MappingComponent {
     this.cd.markForCheck();
   }
 
-  showTooltip(nodes: Initiative[]) {
+  showTooltip(nodes: Initiative[], isNameOnly:boolean) {
     this.hoveredInitiatives = nodes;
+    this.isNameOnly = isNameOnly;
     this.cd.markForCheck();
   }
 

@@ -17,7 +17,7 @@ import { IDataVisualizer } from "./../mapping.interface";
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
 import { Subject } from "rxjs/Rx";
 import { Angulartics2Mixpanel } from "angulartics2";
-import {partition} from "lodash";
+import { partition } from "lodash";
 
 @Component({
     selector: "member-summary",
@@ -49,9 +49,9 @@ export class MemberSummaryComponent implements OnInit, IDataVisualizer {
     public data$: Subject<{ initiative: Initiative, datasetId: string }>;
     public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>()
     public showContextMenuOf$: Subject<{ initiative: Initiative, x: Number, y: Number }> = new Subject<{ initiative: Initiative, x: Number, y: Number }>();
-  // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
+    // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
     // public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
-    public showToolipOf$: Subject<Initiative[]> = new Subject<Initiative[]>();
+    public showToolipOf$: Subject<{ initiatives: Initiative[], isNameOnly: boolean }> = new Subject<{ initiatives: Initiative[], isNameOnly: boolean }>();
     public moveInitiative$: Subject<{ node: Initiative, from: Initiative, to: Initiative }> = new Subject<{ node: Initiative, from: Initiative, to: Initiative }>();
     public closeEditingPanel$: Subject<boolean> = new Subject<boolean>();
     public analytics: Angulartics2Mixpanel;
@@ -94,7 +94,7 @@ export class MemberSummaryComponent implements OnInit, IDataVisualizer {
         this.subscription = this.dataService.get()
             .map(data => {
                 this.datasetId = data.datasetId;
-                this.analytics.eventTrack("Map", { action : "viewing", view: "personal", team: data.teamName, teamId: data.teamId });
+                this.analytics.eventTrack("Map", { action: "viewing", view: "personal", team: data.teamName, teamId: data.teamId });
                 this.initiative = data.initiative;
                 this.team = data.team;
             })

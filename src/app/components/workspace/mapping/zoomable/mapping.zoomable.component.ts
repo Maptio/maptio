@@ -62,7 +62,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
   // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
-  public showToolipOf$: Subject<Initiative[]> = new Subject<Initiative[]>();
+  public showToolipOf$: Subject<{ initiatives: Initiative[], isNameOnly: boolean }> = new Subject<{ initiatives: Initiative[], isNameOnly: boolean }>();
   public showContextMenuOf$: Subject<{ initiative: Initiative, x: Number, y: Number }> = new Subject<{ initiative: Initiative, x: Number, y: Number }>();
   public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public moveInitiative$: Subject<{
@@ -941,7 +941,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .on("mouseover", function (d: any) {
           d3.event.stopPropagation();
 
-          showToolipOf$.next([d.data]);
+          showToolipOf$.next({ initiatives: [d.data], isNameOnly: false });
           d3.select(this)
             .style("stroke", d3.color(seedColor).darker(2).toString())
             .style("fill", d3.color(seedColor).darker(2).toString())
@@ -949,7 +949,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .style("stroke-width", "3px")
         })
         .on("mouseout", function (d: any) {
-          showToolipOf$.next(null);
+          showToolipOf$.next({ initiatives: null, isNameOnly: false });
           showContextMenuOf$.next({ initiative: null, x: 0, y: 0 })
           d3.select(this)
             .style("stroke", function (d: any) {

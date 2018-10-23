@@ -11,6 +11,7 @@ import { Initiative } from "../../../../shared/model/initiative.data";
 export class TooltipComponent {
 
     @Input("initiative") initiative: Initiative;
+    @Input("isNameOnly") isNameOnly:boolean;
 
     constructor() {
     }

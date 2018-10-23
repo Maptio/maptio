@@ -70,7 +70,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
   // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
-  public showToolipOf$: Subject<Initiative[]> = new Subject<Initiative[]>();
+  public showToolipOf$: Subject<{ initiatives: Initiative[], isNameOnly: boolean }> = new Subject<{ initiatives: Initiative[], isNameOnly: boolean }>();
   public moveInitiative$: Subject<{
     node: Initiative;
     from: Initiative;
@@ -788,7 +788,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
           return ids.includes(i.id)
         });
 
-        showToolipOf$.next(list)
+        showToolipOf$.next({initiatives : list, isNameOnly:true})
       })
       .on("mouseout", function (d: any) {
 
@@ -800,7 +800,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             if (isAuthorityCentricMode)
               return "url(#arrow)";
           });
-        showToolipOf$.next(null)
+        showToolipOf$.next({initiatives : null, isNameOnly:true})
         /*
                 let tooltip = d3.select(`div.arrow_box[id="${d[6]}"]`);
                 tooltip.classed("show", false);
