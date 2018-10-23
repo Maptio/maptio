@@ -80,10 +80,11 @@ export class TeamImportComponent implements OnInit {
             let headerLength = -1;
             let headersRow = this.fileService.getHeaderArray(csvRecordsArray, Constants.tokenDelimeter);
             headerLength = headersRow.length;
-            // console.log(headersRow, headerLength)
+            console.log("headersRow", headersRow, headerLength)
             let isHeaderValid = this.fileService.validateHeaders(headersRow, ["First name", "Last name", "Email"]);
-            // console.log(isHeaderValid)
+            console.log("isHeaderValid", isHeaderValid)
             if (!isHeaderValid) {
+                console.log("here")
                 this.isFileInvalid = true;
                 this.cd.markForCheck();
                 return;
@@ -101,7 +102,7 @@ export class TeamImportComponent implements OnInit {
             }
             catch (error) {
 
-                // console.log(error)
+                console.log(error)
                 this.isFileInvalid = true;
             }
             finally {

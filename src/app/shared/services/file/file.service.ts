@@ -32,19 +32,20 @@ export class FileService {
     }
 
     validateHeaders(origHeaders: any[], fileHeaders: any[]) {
-        //  console.log(origHeaders, fileHeaders)
+         console.log(origHeaders, fileHeaders)
         if (origHeaders.length !== fileHeaders.length) {
             return false;
         }
 
         let fileHeaderMatchFlag = true;
         for (let j = 0; j < origHeaders.length; j++) {
-            // console.log(origHeaders[j], fileHeaaders[j], origHeaders[j] === fileHeaaders[j])
+            console.log(origHeaders[j], fileHeaders[j], origHeaders[j] === fileHeaders[j])
             if (origHeaders[j].toLowerCase() !== fileHeaders[j].toLowerCase()) {
                 fileHeaderMatchFlag = false;
                 break;
             }
         }
+        console.log(fileHeaderMatchFlag)
         return fileHeaderMatchFlag;
     }
 

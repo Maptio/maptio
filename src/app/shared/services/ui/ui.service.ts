@@ -30,11 +30,11 @@ export class UIService {
   }
 
   getCanvasWidth() {
-    return window.innerWidth - this.getCanvasXMargin();
+    return window.screen.availWidth - this.getCanvasXMargin();
   }
 
   getCanvasHeight() {
-    return window.innerHeight - this.getCanvasYMargin();
+    return window.screen.availHeight - this.getCanvasYMargin();
   }
 
   getCircularPath(radius: number, centerX: number, centerY: number) {
