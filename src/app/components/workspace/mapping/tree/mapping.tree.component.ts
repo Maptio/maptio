@@ -79,7 +79,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   public _data: any;
   public hoveredNode: Initiative;
   public slug: string;
-  public showContextMenuOf$: Subject<{ initiative: Initiative, x: Number, y: Number }> = new Subject<{ initiative: Initiative, x: Number, y: Number }>();
+  public showContextMenuOf$: Subject<{ initiatives: Initiative[], x: Number, y: Number }> = new Subject<{ initiatives: Initiative[], x: Number, y: Number }>();
 
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
   // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
@@ -651,7 +651,12 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
           hideOptions$.next(true);
         })
         .on("mouseout", function (d: any) {
-          showToolipOf$.next({initiatives : null, isNameOnly:false})
+          showToolipOf$.next({initiatives : null, isNameOnly:false});
+          showContextMenuOf$.next({
+            initiatives: null,
+            x: 0,
+            y: 0
+          });
           hideOptions$.next(false);
         })
         .on("contextmenu", function (d: any) {
@@ -671,7 +676,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
           let initiative = d.data;
           let circle = d3.select(this);
           showContextMenuOf$.next({
-            initiative: initiative,
+            initiatives: [initiative],
             x: center.x - origin.x + mouse.x,
             y: center.y - origin.y + mouse.y
           });
@@ -679,7 +684,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
           d3.select(".context-menu")
             .on("mouseenter", function (d: any) {
               showContextMenuOf$.next({
-                initiative: initiative,
+                initiatives: [initiative],
                 x: center.x - origin.x + mouse.x,
                 y: center.y - origin.y + mouse.y
               });
@@ -687,7 +692,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             })
             .on("mouseleave", function (d: any) {
               showContextMenuOf$.next({
-                initiative: null,
+                initiatives: null,
                 x: 0,
                 y: 0
               });

@@ -349,15 +349,18 @@ export class MappingComponent {
   hoveredInitiatives: Initiative[];
   isNameOnly:boolean;
   selectedInitiative: Initiative;
+  selectedInitiatives: Initiative[];
   selectedInitiativeX: Number;
   selectedInitiativeY: Number;
+  isViewOnlyContextMenu:boolean;
   isRemovingNode: Boolean;
   isAddingNode: Boolean;
   @ViewChild("inputNewInitiative") public inputNewInitiative: ElementRef
 
-  showContextMenu(context: { initiative: Initiative, x: Number, y: Number }) {
-    // console.log(context)
-    this.selectedInitiative = context.initiative;
+  showContextMenu(context: { initiatives: Initiative[], x: Number, y: Number }) {
+    this.isViewOnlyContextMenu = context.initiatives && context.initiatives.length > 1;
+    this.selectedInitiative = context.initiatives ? context.initiatives[0] : null;
+    this.selectedInitiatives = context.initiatives;
     this.selectedInitiativeX = context.x;
     this.selectedInitiativeY = context.y;
     this.isRemovingNode = false;

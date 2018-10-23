@@ -65,7 +65,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   private isAuthorityCentricMode$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   public _isAuthorityCentricMode: boolean = true;
 
-  public showContextMenuOf$: Subject<{ initiative: Initiative, x: Number, y: Number }> = new Subject<{ initiative: Initiative, x: Number, y: Number }>();
+  public showContextMenuOf$: Subject<{ initiatives: Initiative[], x: Number, y: Number }> = new Subject<{ initiatives: Initiative[], x: Number, y: Number }>();
 
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
   // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
@@ -524,6 +524,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     let uiService = this.uiService;
     let showDetailsOf$ = this.showDetailsOf$;
     let showToolipOf$ = this.showToolipOf$;
+    let showContextMenuOf$ = this.showContextMenuOf$;
     let datasetSlug = this.slug;
     let datasetId = this.datasetId;
     let getTags = this.getTags.bind(this);
@@ -800,12 +801,60 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             if (isAuthorityCentricMode)
               return "url(#arrow)";
           });
-        showToolipOf$.next({initiatives : null, isNameOnly:true})
-        /*
-                let tooltip = d3.select(`div.arrow_box[id="${d[6]}"]`);
-                tooltip.classed("show", false);
-                */
-      });
+        showToolipOf$.next({initiatives : null, isNameOnly:true});
+        showContextMenuOf$.next({
+          initiatives: null,
+          x: 0,
+          y: 0
+        });
+      })
+      .on("contextmenu", function (d: any) {
+        d3.event.preventDefault();
+        let mousePosition = d3.mouse(this);
+        let matrix = this.getScreenCTM().translate(
+          +this.getAttribute("cx"),
+          +this.getAttribute("cy")
+        );
+
+        let origin = {
+          x: document.getElementsByTagName("svg")[0].getBoundingClientRect().left,
+          y: document.getElementsByTagName("svg")[0].getBoundingClientRect().top
+        }
+        let center = { x: window.pageXOffset + matrix.e, y: window.pageYOffset + matrix.f };
+        let mouse = { x: mousePosition[0] + 3, y: mousePosition[1] + 3 };
+
+        let ids: any[] = d[4];
+
+        let list = initiativesList.map(i => i.data).filter(i => {
+          return ids.includes(i.id)
+        });
+
+        let path = d3.select(this);
+        showContextMenuOf$.next({
+          initiatives: list,
+          x: center.x - origin.x + mouse.x,
+          y: center.y - origin.y + mouse.y
+        });
+
+        d3.select(".context-menu")
+          .on("mouseenter", function (d: any) {
+            showContextMenuOf$.next({
+              initiatives: list,
+              x: center.x - origin.x + mouse.x,
+              y: center.y - origin.y + mouse.y
+            });
+            path.dispatch("mouseover");
+          })
+          .on("mouseleave", function (d: any) {
+            showContextMenuOf$.next({
+              initiatives: null,
+              x: 0,
+              y: 0
+            });
+            path.dispatch("mouseout");
+          })
+
+      });;
 
 
     simulation.nodes(graph.nodes).on("tick", ticked);

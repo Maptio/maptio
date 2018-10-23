@@ -2,9 +2,15 @@
   <div class="summary-tooltip col-3 position-absolute my-0" *ngIf="hoveredInitiatives">
     <tooltip *ngFor="let hoveredInitiative of hoveredInitiatives" [initiative]="hoveredInitiative" [isNameOnly]="isNameOnly"></tooltip>
   </div>
-  <div class="position-absolute d-block col-3 context-menu" [class.invisible]="!selectedInitiative" [style.top.px]="selectedInitiativeY"
+  <div class="position-absolute d-block col-3 context-menu" [class.invisible]="!selectedInitiatives" [style.top.px]="selectedInitiativeY"
     [style.left.px]="selectedInitiativeX">
-    <div class="list-group">
+    <div class="list-group" *ngIf="isViewOnlyContextMenu">
+      <li class="list-group-item disabled">View or edit details</li>
+      <button *ngFor="let initiative of selectedInitiatives" 
+      class="cursor-pointer list-group-item list-group-item-action" (click)="openNode(initiative)">{{initiative.name}}</button>
+    </div>
+
+    <div class="list-group" *ngIf="!isViewOnlyContextMenu">
       <li class="list-group-item disabled">{{selectedInitiative?.name}}</li>
       <button class="cursor-pointer list-group-item list-group-item-action" (click)="openNode(selectedInitiative)">
         <i class="fa fa-pencil mx-1" aria-hidden="true"></i> View or edit details</button>
@@ -26,7 +32,6 @@
         </form>
 
       </div>
-
       <div class="cursor-pointer list-group-item list-group-item-action d-flex justify-content-between align-items-center">
         <div (click)="isRemovingNode=!isRemovingNode">
           <i class="fa fa-trash mx-1" aria-hidden="true"></i> Delete circle
