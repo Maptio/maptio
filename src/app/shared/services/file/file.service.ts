@@ -55,7 +55,7 @@ export class FileService {
 
         for (let i = 0; i < csvRecordsArray.length; i++) {
             let data = csvRecordsArray[i].split(tokenDelimeter).slice(0, headerLength);
-
+            if (data.join("") === "") continue; // ignore empty lines
             if (validateHeaderAndRecordLengthFlag && data.length !== headerLength) {
                 if (data === "") {
                     throw "Extra blank line is present at line number " + i + ", please remove it.";
