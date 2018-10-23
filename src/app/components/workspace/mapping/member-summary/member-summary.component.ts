@@ -46,7 +46,6 @@ export class MemberSummaryComponent implements OnInit, IDataVisualizer {
     public toggleOptions$: Observable<Boolean>;
     // public isLocked$: Observable<boolean>;
     public isReset$: Observable<boolean>;
-    public data$: Subject<{ initiative: Initiative, datasetId: string }>;
     public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>()
     public showContextMenuOf$: Subject<{ initiatives: Initiative[], x: Number, y: Number }> = new Subject<{ initiatives: Initiative[], x: Number, y: Number }>();
     // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();

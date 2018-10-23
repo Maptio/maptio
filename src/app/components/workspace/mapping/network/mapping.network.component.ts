@@ -54,7 +54,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   public isReset$: Observable<boolean>;
 
   public toggleOptions$: Observable<Boolean>;
-  public data$: Subject<{ initiative: Initiative; datasetId: string }>;
 
   public rootNode: Initiative;
   public slug: string;

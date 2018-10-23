@@ -167,7 +167,7 @@ export class MappingComponent {
       datasetId: string;
     }>();
 
-    this.VIEWPORT_HEIGHT = uiService.getCanvasHeight();
+    this.VIEWPORT_HEIGHT = uiService.getCanvasHeight()+25;
     this.VIEWPORT_WIDTH = uiService.getCanvasWidth();
 
 
@@ -492,6 +492,7 @@ export class MappingComponent {
   }
 
   zoomToInitiative(selected: Initiative) {
+    console.log("zoom to", selected.name)
     this.zoomToInitiative$.next(selected);
   }
 

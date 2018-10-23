@@ -55,12 +55,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   public toggleOptions$: Observable<Boolean>;
   public isAllExpanded$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public isReset$: Observable<boolean>;
-  public data$: Subject<{
-    initiative: Initiative;
-    datasetId: string;
-    teamName: string;
-    teamId: string;
-  }>;
 
   private zoomSubscription: Subscription;
   private dataSubscription: Subscription;
@@ -107,12 +101,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     private uriService: URIService
   ) {
     this.d3 = d3Service.getD3();
-    this.data$ = new Subject<{
-      initiative: Initiative;
-      datasetId: string;
-      teamName: string;
-      teamId: string;
-    }>();
   }
 
   ngOnInit() {
@@ -320,7 +308,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
 
   update(tags: Array<SelectableTag>, isAllExpanded:boolean) {
-    console.log("update")
     if (this.d3.selectAll("g").empty()) {
       this.init();
     }
@@ -367,7 +354,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     root.x0 = viewerHeight;
     root.y0 = 0;
     root.data.accountable = new User({name : teamName, picture : ""})
-    console.log(root)
 
 
     // let depth = 0;
@@ -396,7 +382,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
     // Collapse the node and all it's children
     function collapse(d: any) {
-      console.log("collapse")
       if (d.children) {
         d._children = d.children;
         d._children.forEach(collapse);
@@ -413,7 +398,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     }
 
     function updateGraph(source: any, duration: number) {
-      console.log("updateGraph")
 
       // Creates a curved (diagonal) path from parent to the child nodes
       function diagonal(s: any, d: any) {

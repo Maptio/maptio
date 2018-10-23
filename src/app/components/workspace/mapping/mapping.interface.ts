@@ -26,8 +26,6 @@ export interface IDataVisualizer {
     selectableTags$: Observable<Array<SelectableTag>>;
     toggleOptions$:Observable<Boolean>;
 
-    data$: Subject<{ initiative: Initiative, datasetId: string }>;
-
     isReset$: Observable<boolean>;
 
     translateX: number;

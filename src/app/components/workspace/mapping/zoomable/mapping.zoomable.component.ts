@@ -52,12 +52,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public zoomInitiative$: Observable<Initiative>;
   public toggleOptions$: Observable<Boolean>;
   public isLocked$: Observable<boolean>;
-  public data$: Subject<{
-    initiative: Initiative;
-    datasetId: string;
-    teamName: string;
-    teamId: string;
-  }>;
   public rootNode: Initiative;
 
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
@@ -139,12 +133,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
   ) {
     this.d3 = d3Service.getD3();
     this.T = this.d3.transition(null).duration(this.TRANSITION_DURATION);
-    this.data$ = new Subject<{
-      initiative: Initiative;
-      datasetId: string;
-      teamName: string;
-      teamId: string;
-    }>();
   }
 
   ngOnInit() {
@@ -227,11 +215,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     let margin = { top: 20, right: 200, bottom: 20, left: 200 };
     let width = this.width - margin.left - margin.right,
-      height = this.height //- margin.top - margin.bottom;
+      height = this.height - margin.top - margin.bottom;
     let svg: any = d3
       .select("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height),
+      .attr("width", this.width)
+      .attr("height", this.height),
       diameter = +width,
       g = svg
         .append("g")
