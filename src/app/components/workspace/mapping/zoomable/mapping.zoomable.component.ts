@@ -228,7 +228,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           `translate(${diameter / 2 + margin.left}, ${diameter / 2 + margin.top}) scale(${this.scale})`
         ),
       definitions = svg.append("svg:defs");
-    
+
     g.append("g").attr("class", "paths");
     let zooming = d3
       .zoom()
@@ -518,6 +518,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .each((d: any) => (d.k = 1))
       .attr("id", function (d: any) {
         return `${d.data.id}`;
+      })
+      .attr("parent-id", function (d: any) {
+        return d.parent ? d.parent.data.id : "";
       })
       .classed("with-border", function (d: any) {
         return !d.children && d.parent === root;
@@ -927,13 +930,30 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .each((d: any) => (d.k = k))
         .on("mouseover", function (d: any) {
           d3.event.stopPropagation();
-
+          d3.event.preventDefault();
           showToolipOf$.next({ initiatives: [d.data], isNameOnly: false });
           d3.select(this)
             .style("stroke", d3.color(seedColor).darker(2).toString())
             .style("fill", d3.color(seedColor).darker(2).toString())
             .style("fill-opacity", 1)
             .style("stroke-width", "3px")
+            
+          d3.selectAll(`circle[parent-id="${d.data.id}"]`)
+          .style("stroke", function (d: any) {
+            return d.children
+              ? color(d.depth)
+              : !d.children && d.parent === root ? d3.color(color(d.depth)).darker(2).toString() : null;
+          })
+          .style("fill", function (d: any) {
+            return d.children
+              ? color(d.depth)
+              : !d.children && d.parent === root ? color(d.depth) : null;
+          })
+          .style("fill-opacity", function (d: any) {
+            return d.children
+              ? 0.1
+              : !d.children && d.parent === root ? 0.1 : 1;
+          })
         })
         .on("mouseout", function (d: any) {
           showToolipOf$.next({ initiatives: null, isNameOnly: false });
@@ -956,6 +976,17 @@ export class MappingZoomableComponent implements IDataVisualizer {
             })
             .style("stroke-width", "initial")
             .style("stroke-opacity", 1)
+          // d3.selectAll(`circle[parent-id="${d.data.id}"]`)
+          //   .style("fill", function (d: any) {
+          //     return d.children
+          //       ? color(d.depth)
+          //       : !d.children && d.parent === root ? color(d.depth) : null;
+          //   })
+          //   .style("fill-opacity", function (d: any) {
+          //     return d.children
+          //       ? 0.1
+          //       : !d.children && d.parent === root ? 0.1 : 1;
+          //   })
         })
         .on("contextmenu", function (d: any) {
           d3.event.preventDefault();
