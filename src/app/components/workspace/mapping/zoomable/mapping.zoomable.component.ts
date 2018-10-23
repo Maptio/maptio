@@ -85,7 +85,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
 
   public _isDisplayOptions: Boolean = false;
-  public _isFullDisplayMode: Boolean = false;
+
+  public _isFullDisplayMode: Boolean =
+    !localStorage.getItem("CIRCLE_VIEW_MODE")
+    || localStorage.getItem("CIRCLE_VIEW_MODE").toLowerCase() === "flat"
 
   private isFullDisplayMode$: BehaviorSubject<Boolean> = new BehaviorSubject<Boolean>(this._isFullDisplayMode);
 
@@ -180,6 +183,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
   public switch() {
     this._isFullDisplayMode = !this._isFullDisplayMode;
+    if (this._isFullDisplayMode) {
+      localStorage.setItem("CIRCLE_VIEW_MODE", "flat")
+    }
+    else {
+      localStorage.setItem("CIRCLE_VIEW_MODE", "explore")
+    }
+
     this.isFullDisplayMode$.next(this._isFullDisplayMode);
     this.ngOnInit();
   }
@@ -396,7 +406,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let DEFAULT_PICTURE_ANGLE = this.DEFAULT_PICTURE_ANGLE;
     let PADDING_CIRCLE = 20
     let MAX_NUMBER_LETTERS_PER_CIRCLE = this.MAX_NUMBER_LETTERS_PER_CIRCLE;
-   
+
 
     let pack = d3
       .pack()
@@ -967,7 +977,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             +this.getAttribute("cx"),
             +this.getAttribute("cy")
           );
-          
+
           let origin = {
             x: document.getElementsByTagName("svg")[0].getBoundingClientRect().left,
             y: document.getElementsByTagName("svg")[0].getBoundingClientRect().top
