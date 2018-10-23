@@ -76,7 +76,8 @@ export class TeamImportComponent implements OnInit {
 
         reader.onload = (data) => {
             let csvData = reader.result;
-            let csvRecordsArray = csvData.split(/\r\n|\n|\r/);
+            let csvRecordsArray = csvData.split(/\r\n|\n|\r/).filter((s: string) => s !== "");
+            console.log(csvRecordsArray)
             let headerLength = -1;
             let headersRow = this.fileService.getHeaderArray(csvRecordsArray, Constants.tokenDelimeter);
             headerLength = headersRow.length;
@@ -101,7 +102,7 @@ export class TeamImportComponent implements OnInit {
             }
             catch (error) {
 
-                // console.log(error)
+                console.error(error)
                 this.isFileInvalid = true;
             }
             finally {
@@ -154,50 +155,50 @@ export class TeamImportComponent implements OnInit {
     }
 
     public createFakeUser(email: string, firstname: string, lastname: string) {
-            if (Math.random() > 0.6) {
-                return Promise.resolve(true)
-            } else {
-                return Promise.reject(new Error("Something really bad happened!"))
-            }
+        if (Math.random() > 0.6) {
+            return Promise.resolve(true)
+        } else {
+            return Promise.reject(new Error("Something really bad happened!"))
+        }
     }
 
     public createUser(email: string, firstname: string, lastname: string) {
-            return this.userService.createUser(email, firstname, lastname, false, false)
-                .then((user: User) => {
-                    return this.datasetFactory.get(this.team).then((datasets: DataSet[]) => {
-                        let virtualUser = new User();
-                        virtualUser.name = user.name;
-                        virtualUser.email = user.email;
-                        virtualUser.firstname = user.firstname;
-                        virtualUser.lastname = user.lastname;
-                        virtualUser.nickname = user.nickname;
-                        virtualUser.user_id = user.user_id;
-                        virtualUser.picture = user.picture;
-                        virtualUser.teams = [this.team.team_id];
-                        virtualUser.datasets = datasets.map(d => d.datasetId);
+        return this.userService.createUser(email, firstname, lastname, false, false)
+            .then((user: User) => {
+                return this.datasetFactory.get(this.team).then((datasets: DataSet[]) => {
+                    let virtualUser = new User();
+                    virtualUser.name = user.name;
+                    virtualUser.email = user.email;
+                    virtualUser.firstname = user.firstname;
+                    virtualUser.lastname = user.lastname;
+                    virtualUser.nickname = user.nickname;
+                    virtualUser.user_id = user.user_id;
+                    virtualUser.picture = user.picture;
+                    virtualUser.teams = [this.team.team_id];
+                    virtualUser.datasets = datasets.map(d => d.datasetId);
 
-                        return virtualUser;
-                    }, (reason) => {
-                        return Promise.reject(`Can't create ${email} : ${reason}`);
-                    })
-                }, (reason: any) => {
-                    throw JSON.parse(reason._body).message;
-                })
-                .then((virtualUser: User) => {
-                    this.userFactory.create(virtualUser)
                     return virtualUser;
+                }, (reason) => {
+                    return Promise.reject(`Can't create ${email} : ${reason}`);
                 })
-                .then((user: User) => {
-                    this.team.members.push(user);
-                    return this.teamFactory.upsert(this.team)
-                })
-                .then(() => {
-                    this.analytics.eventTrack("Team", { action: "create", team: this.team.name, teamId: this.team.team_id });
-                    return true;
-                })
-                .catch((reason) => {
-                    throw Error(reason);
-                })
+            }, (reason: any) => {
+                throw JSON.parse(reason._body).message;
+            })
+            .then((virtualUser: User) => {
+                this.userFactory.create(virtualUser)
+                return virtualUser;
+            })
+            .then((user: User) => {
+                this.team.members.push(user);
+                return this.teamFactory.upsert(this.team)
+            })
+            .then(() => {
+                this.analytics.eventTrack("Team", { action: "create", team: this.team.name, teamId: this.team.team_id });
+                return true;
+            })
+            .catch((reason) => {
+                throw Error(reason);
+            })
 
 
         // }
