@@ -21,6 +21,7 @@ import { partition } from "lodash";
 import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
 import { BehaviorSubject } from "../../../../../../node_modules/rxjs";
+import { User } from "../../../../shared/model/user.data";
 
 @Component({
   selector: "tree",
@@ -123,6 +124,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       .subscribe((complexData: [any, SelectableTag[], string, boolean]) => {
         let data = <any>complexData[0].initiative;
         this.datasetId = complexData[0].datasetId;
+        this.teamName = complexData[0].team.name;
         this.slug = data.getSlug();
         this.tagsState = complexData[1];
         this.setSeedColor(complexData[2]);
@@ -342,6 +344,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     let svg = this.svg;
     let definitions = this.definitions;
     let datasetSlug = this.slug;
+    let teamName = this.teamName;
     let setPathsToRoot = this.setPathsToRoot.bind(this)
     let getSeedColor = this.getSeedColor.bind(this);
     let getData = this.getData.bind(this);
@@ -363,6 +366,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       list = d3.hierarchy(getData()).descendants();
     root.x0 = viewerHeight;
     root.y0 = 0;
+    root.data.accountable = new User({name : teamName, picture : ""})
+    console.log(root)
 
 
     // let depth = 0;
@@ -443,7 +448,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
       // Normalize for fixed-depth.
       nodes.forEach(function (d: any) {
-        d.y = d.depth * 200;
+        d.y = d.depth * 250;
         d.x = d.x * 1.4;
       });
 
