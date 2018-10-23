@@ -66,7 +66,7 @@
         routerLink="/map/{{datasetId}}/{{slug}}/circles" fragment="x={{VIEWPORT_WIDTH / 2}}&y={{VIEWPORT_WIDTH / 2 -180}}&scale=1=1&{{tagsFragment}}">
         <div class="icon-text-label" style="bottom: 2px;position: absolute;">Circles </div>
       </button>
-      <a class="btn btn-light tree text-dark p-1 btn-control" #rlaTree="routerLinkActive"  [routerLinkActive]="['active']" routerLink="/map/{{datasetId}}/{{slug}}/tree"
+      <a class="btn btn-light tree text-dark p-1 btn-control" routerLink="/map/{{datasetId}}/{{slug}}/tree"
         fragment="x={{VIEWPORT_WIDTH / 10}}&y={{VIEWPORT_HEIGHT / 2}}&scale=1&{{tagsFragment}}">
         <div class="icon-text-label">Tree</div>
       </a>
@@ -74,8 +74,8 @@
         routerLink="/map/{{datasetId}}/{{slug}}/network" fragment="x=0&y={{-this.VIEWPORT_HEIGHT / 4}}&scale=1&{{tagsFragment}}">
         <div class="icon-text-label">Network</div>
       </button>
-      <button class="btn btn-light menu text-dark p-1 btn-control" [class.d-none]="!(rlaTree.isActive || rlaNetwork.isActive || rlaCircles.isActive)"
-        (click)="toggleOptions(rlaTree.isActive || rlaNetwork.isActive || rlaCircles.isActive)">
+      <button class="btn btn-light menu text-dark p-1 btn-control" [class.d-none]="!( rlaNetwork.isActive || rlaCircles.isActive)"
+        (click)="toggleOptions( rlaNetwork.isActive || rlaCircles.isActive)">
         <i class="fa" [class.fa-ellipsis-h]="!_toggleOptions" [class.fa-times]="_toggleOptions"></i>
         <div class="icon-text-label">{{_toggleOptions ? 'Close' : 'Options'}}</div>
       </button>

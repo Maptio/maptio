@@ -57,7 +57,7 @@ export class CreateMapComponent implements OnInit {
                     team_id: teamId,
                     children: [
                         new Initiative({
-                            name: "This is your map's outer circle. Right-click (ctrl+click on a Mac) to edit.",
+                            name: "This is your map's outer circle. Right-click (Ctrl+click on a Mac) to edit.",
                             team_id: teamId,
                             children: [
                                 new Initiative({

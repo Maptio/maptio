@@ -84,6 +84,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
   // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public showToolipOf$: Subject<Initiative[]> = new Subject<Initiative[]>();
+  public hideOptions$ : Subject<boolean> = new Subject<boolean>();
   public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public moveInitiative$: Subject<{
     node: Initiative;
@@ -336,6 +337,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     let showDetailsOf$ = this.showDetailsOf$;
     let showContextMenuOf$ = this.showContextMenuOf$;
     let showToolipOf$ = this.showToolipOf$;
+    let hideOptions$ = this.hideOptions$;
     let g = this.g;
     let svg = this.svg;
     let definitions = this.definitions;
@@ -645,10 +647,12 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .selectAll("g.node.tree-map")
         .on("mouseover", function (d: any) {
           d3.event.stopPropagation();
-          showToolipOf$.next([d.data])
+          showToolipOf$.next([d.data]);
+          hideOptions$.next(true);
         })
         .on("mouseout", function (d: any) {
           showToolipOf$.next(null)
+          hideOptions$.next(false);
         })
         .on("contextmenu", function (d: any) {
           d3.event.preventDefault();
