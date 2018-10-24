@@ -397,8 +397,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let TRANSITION_DELETE = d3.transition("deleting").duration(TRANSITION_DURATION)
     let TRANSITION_ADD_FADEIN = d3.transition("adding_fadein").duration(TRANSITION_DURATION)
     let TRANSITION_ADD_FADEOUT = d3.transition("adding_fadeout").duration(TRANSITION_DURATION)
-    let COLOR_GREEN = getComputedStyle(document.body).getPropertyValue('--maptio-blue')
-    let COLOR_RED = getComputedStyle(document.body).getPropertyValue('--maptio-red')
+    let COLOR_ADD_CIRCLE = getComputedStyle(document.body).getPropertyValue('--maptio-blue')
+    let COLOR_DELETE_CIRCLE = getComputedStyle(document.body).getPropertyValue('--maptio-red')
 
     let pack = d3
       .pack()
@@ -499,35 +499,40 @@ export class MappingZoomableComponent implements IDataVisualizer {
       })
       ;
 
-    initiativeWithChildrenEnter.append("circle")
-      .style("fill", function (d: any) {
-        return d.children
-          ? color(d.depth)
-          : !d.children && d.parent === root ? color(d.depth) : null;
-      })
-      .transition(TRANSITION_ADD_FADEIN)
-      .style("fill", COLOR_GREEN)
-      .transition(TRANSITION_ADD_FADEOUT)
-      .style("fill", function (d: any) {
-        return d.children
-          ? color(d.depth)
-          : !d.children && d.parent === root ? color(d.depth) : null;
-      })
+      enterWithAnimations(initiativeWithChildrenEnter)
+      enterWithAnimations(initiativeNoChildrenEnter)
 
-    initiativeNoChildrenEnter.append("circle")
-      .style("fill", function (d: any) {
-        return d.children
-          ? color(d.depth)
-          : !d.children && d.parent === root ? color(d.depth) : null;
-      })
-      .transition(TRANSITION_ADD_FADEIN)
-      .style("fill", COLOR_GREEN)
-      .transition(TRANSITION_ADD_FADEOUT)
-      .style("fill", function (d: any) {
-        return d.children
-          ? color(d.depth)
-          : !d.children && d.parent === root ? color(d.depth) : null;
-      })
+    // initiativeWithChildrenEnter.append("circle")
+    //   .style("fill", function (d: any) {
+    //     return d.children
+    //       ? color(d.depth)
+    //       : !d.children && d.parent === root ? color(d.depth) : null;
+    //   })
+    //   .attr("r", 0)
+    //   .transition(TRANSITION_ADD_FADEIN)
+    //   .style("fill", COLOR_GREEN)
+    //   .attr("r", (d: any) => d.r)
+    //   .transition(TRANSITION_ADD_FADEOUT)
+    //   .style("fill", function (d: any) {
+    //     return d.children
+    //       ? color(d.depth)
+    //       : !d.children && d.parent === root ? color(d.depth) : null;
+    //   })
+
+    // initiativeNoChildrenEnter.append("circle")
+    //   .style("fill", function (d: any) {
+    //     return d.children
+    //       ? color(d.depth)
+    //       : !d.children && d.parent === root ? color(d.depth) : null;
+    //   })
+    //   .transition(TRANSITION_ADD_FADEIN)
+    //   .style("fill", COLOR_GREEN)
+    //   .transition(TRANSITION_ADD_FADEOUT)
+    //   .style("fill", function (d: any) {
+    //     return d.children
+    //       ? color(d.depth)
+    //       : !d.children && d.parent === root ? color(d.depth) : null;
+    //   })
 
     initiativeWithChildrenEnter.append("text").attr("class", "name with-children").classed("initiative-map", true);
     initiativeNoChildrenEnter.append("foreignObject").attr("class", "name no-children").classed("initiative-map", true);
@@ -1182,14 +1187,32 @@ export class MappingZoomableComponent implements IDataVisualizer {
       groups.exit().select("circle.node")
         .classed("node--leaf", false)
         .classed("deleting", true)
-        .style("stroke", COLOR_RED)
-        .style("fill", COLOR_RED)
+        .style("stroke", COLOR_DELETE_CIRCLE)
+        .style("fill", COLOR_DELETE_CIRCLE)
         .attr("r", (d: any) => d.r)
         .transition(TRANSITION_DELETE)
         .attr("r", 0)
         .remove();
       groups.exit().transition(TRANSITION_DELETE).remove();
 
+    }
+
+    function enterWithAnimations(groups: any) {
+      groups.append("circle")
+        .style("fill", function (d: any) {
+          return d.children
+            ? color(d.depth)
+            : !d.children && d.parent === root ? color(d.depth) : null;
+        })
+        .transition(TRANSITION_ADD_FADEIN)
+        .style("fill", COLOR_ADD_CIRCLE)
+        .attr("r", (d: any) => d.r)
+        .transition(TRANSITION_ADD_FADEOUT)
+        .style("fill", function (d: any) {
+          return d.children
+            ? color(d.depth)
+            : !d.children && d.parent === root ? color(d.depth) : null;
+        })
     }
 
     function buildPaths() {
