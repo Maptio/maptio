@@ -394,6 +394,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let PADDING_CIRCLE = 20
     let MAX_NUMBER_LETTERS_PER_CIRCLE = this.MAX_NUMBER_LETTERS_PER_CIRCLE;
 
+    let TRANSITION_DELETE = d3.transition("deleting").duration(TRANSITION_DURATION * 2)
+    let TRANSITION_ADD_FADEIN = d3.transition("adding_fadein").duration(TRANSITION_DURATION )
+    let TRANSITION_ADD_FADEOUT = d3.transition("adding_fadeout").duration(TRANSITION_DURATION)
+    let COLOR_GREEN = getComputedStyle(document.body).getPropertyValue('--maptio-green')
 
     let pack = d3
       .pack()
@@ -458,31 +462,22 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return `${d.data.id}`;
       });
 
-
-
-
-    // initiativeNoChildren.exit().select("circle")
-
-    //   .transition().duration(TRANSITION_DURATION * 3)
-
-
     initiativeNoChildren.exit()
       .classed("deleting", true)
-      .transition().duration(TRANSITION_DURATION * 2)
+      .transition(TRANSITION_DELETE)
       .attr("transform", `translate(${translateX}, ${-translateY})`)
-      .style("fill-opacity", 0.01)
       .remove();
 
     initiativeWithChildren.exit()
       .classed("deleting", true)
-      .transition().duration(TRANSITION_DURATION * 2)
+      .transition(TRANSITION_DELETE)
       .attr("transform", `translate(${translateX}, ${-translateY})`)
-      .style("fill-opacity", 0.01)
       .remove();
 
 
     let initiativeWithChildrenEnter = initiativeWithChildren.enter()
       .append("g")
+      .classed("adding", true)
       .attr("class", function (d: any) {
         return d.parent
           ? d.children ? "node" : "node node--leaf"
@@ -492,10 +487,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .classed("initiative-map", true)
       .attr("id", function (d: any) {
         return `${d.data.id}`;
-      });
+      })
+
+      ;
 
     let initiativeNoChildrenEnter = initiativeNoChildren.enter()
       .append("g")
+      .classed("adding", true)
       .attr("class", function (d: any) {
         return d.parent
           ? d.children ? "node" : "node node--leaf"
@@ -505,10 +503,38 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .classed("initiative-map", true)
       .attr("id", function (d: any) {
         return `${d.data.id}`;
-      });
+      })
+      ;
 
-    initiativeWithChildrenEnter.append("circle");
-    initiativeNoChildrenEnter.append("circle");
+    console.log(initiativeNoChildrenEnter)
+    initiativeWithChildrenEnter.append("circle")
+      .style("fill", function (d: any) {
+        return d.children
+          ? color(d.depth)
+          : !d.children && d.parent === root ? color(d.depth) : null;
+      })
+      .transition(TRANSITION_ADD_FADEIN)
+      .style("fill", COLOR_GREEN)
+      .transition(TRANSITION_ADD_FADEOUT)
+      .style("fill", function (d: any) {
+        return d.children
+          ? color(d.depth)
+          : !d.children && d.parent === root ? color(d.depth) : null;
+      })
+    initiativeNoChildrenEnter.append("circle")
+      .style("fill", function (d: any) {
+        return d.children
+          ? color(d.depth)
+          : !d.children && d.parent === root ? color(d.depth) : null;
+      })
+      .transition(TRANSITION_ADD_FADEIN)
+      .style("fill", COLOR_GREEN)
+      .transition(TRANSITION_ADD_FADEOUT)
+      .style("fill", function (d: any) {
+        return d.children
+          ? color(d.depth)
+          : !d.children && d.parent === root ? color(d.depth) : null;
+      })
 
     initiativeWithChildrenEnter.append("text").attr("class", "name with-children").classed("initiative-map", true);
     initiativeNoChildrenEnter.append("foreignObject").attr("class", "name no-children").classed("initiative-map", true);
@@ -547,7 +573,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .on("click", function (d: any) {
         if (isFullDisplayMode) return;
         if (focus !== d) zoom(d), d3.event.stopPropagation();
-      });
+      })
+      // .transition(TRANSITION_ADD)
+
+      ;
 
     initiativeNoChildren.select("circle")
       .attr("class", function (d: any) {
@@ -565,11 +594,14 @@ export class MappingZoomableComponent implements IDataVisualizer {
       })
       .on("click", function (d: any) {
         if (focus !== d) zoom(d), d3.event.stopPropagation();
-      });
-
-
-
-
+      })
+      // .transition(TRANSITION_ADD)
+      // .style("fill", function (d: any) {
+      //   return d.children
+      //     ? color(d.depth)
+      //     : !d.children && d.parent === root ? color(d.depth) : null;
+      // })
+      ;
 
     let circle = g.selectAll("circle.node")
 
@@ -918,9 +950,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
       view = v;
       node
         .transition("").duration(TRANSITION_DURATION)
-        .attr("transform", function (d: any) {
+        .attr("transform", function (d: any, i: any) {
           return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")";
         });
+
 
       circle
         .attr("r", function (d: any) {

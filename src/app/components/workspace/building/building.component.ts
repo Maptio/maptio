@@ -140,6 +140,7 @@ export class BuildingComponent {
     }
 
     updateTree() {
+        // this will saveChanges() on the callback 
         this.tree.treeModel.update();
     }
 
@@ -174,7 +175,7 @@ export class BuildingComponent {
             });
         }
 
-        this.saveChanges();
+        // this.saveChanges();
         this.updateTree()
     }
 
@@ -208,7 +209,7 @@ export class BuildingComponent {
             });
         }
 
-        this.saveChanges();
+        // this.saveChanges();
         this.updateTree()
     }
 

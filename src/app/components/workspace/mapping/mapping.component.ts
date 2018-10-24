@@ -465,7 +465,6 @@ export class MappingComponent {
     console.log(arg)
   }
   removeNode(node: Initiative) {
-    console.log("removeNode", node, this.selectedInitiative)
     this.removeInitiative.emit(node);
   }
 

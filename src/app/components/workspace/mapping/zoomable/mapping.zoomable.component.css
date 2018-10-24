@@ -22,7 +22,15 @@
 
 ::ng-deep .initiative-map.deleting>circle:not(.accountable),.initiative-map.deleting>text{
     fill: var(--maptio-red) !important;
-    fill-opacity: 0.5 !important;
+}
+
+::ng-deep .initiative-map.adding>circle:not(.accountable),.initiative-map.adding>text{
+    fill: var(--maptio-green) !important;
+}
+
+
+::ng-deep circle.adding{
+    fill: var(--maptio-green) !important;
 }
 
 
