@@ -533,7 +533,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             : d.children ? getSeedColor() : "#fff";
         })
         .style("stroke", function (d: any) {
-          return d._children ? getSeedColor() : d3.color(getSeedColor()).darker(2).toString();
+          return d._children ? getSeedColor() : d3.color(getSeedColor()).darker(1).toString();
         })
         .attr("stroke-width", function (d: any) {
           return d._children || d.children ? 4 : 1;
@@ -594,7 +594,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
             : d._children ? getSeedColor() : "#fff";
         })
         .style("stroke", function (d: any) {
-          return d._children ? getSeedColor() : d3.color(getSeedColor()).darker(2).toString();
+          return d._children ? getSeedColor() : d3.color(getSeedColor()).darker(1).toString();
         })
         .attr("stroke-width", function (d: any) {
           return d._children || d.children ? 4 : 1;

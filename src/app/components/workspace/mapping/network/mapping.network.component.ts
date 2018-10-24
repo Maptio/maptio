@@ -280,7 +280,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         svg.style("fill", format[1]);
         svg.selectAll("text").style("fill", format[1]);
         svg.selectAll("marker#arrow, marker#arrow-fade").attr("fill", format[2]);
-        svg.selectAll("marker#arrow-hover").attr("fill", d3.color(format[2]).darker(2).toString());
+        svg.selectAll("marker#arrow-hover").attr("fill", d3.color(format[2]).darker(1).toString());
       });
 
     let [clearSearchInitiative, highlightInitiative] = this.zoomInitiative$.partition(node => node === null);
@@ -783,7 +783,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         let path = d3.select(this);
         path
           .style("stroke-opacity", 1)
-          .style("stroke", d3.color(seedColor).darker(2).toString())
+          .style("stroke", d3.color(seedColor).darker(1).toString())
           .attr("marker-end", function (d: any) {
             if (isAuthorityCentricMode)
               return "url(#arrow-hover)";

@@ -962,7 +962,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .style("stroke", function (d: any) {
           return d.children
             ? color(d.depth)
-            : !d.children && d.parent === root ? d3.color(color(d.depth)).darker(2).toString() : null;
+            : !d.children && d.parent === root ? d3.color(color(d.depth)).darker(1).toString() : null;
         })
         .style("fill", function (d: any) {
           return d.children
@@ -981,8 +981,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
           d3.event.preventDefault();
           showToolipOf$.next({ initiatives: [d.data], isNameOnly: false });
           d3.select(this)
-            .style("stroke", d3.color(seedColor).darker(2).toString())
-            .style("fill", d3.color(seedColor).darker(2).toString())
+            .style("stroke", d3.color(seedColor).darker(1).toString())
+            .style("fill", d3.color(seedColor).darker(1).toString())
             .style("fill-opacity", 1)
             .style("stroke-width", "3px")
 
@@ -1024,7 +1024,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             +this.getAttribute("cx"),
             +this.getAttribute("cy")
           );
-          
+
           let mouse = { x: mousePosition[0] + 3, y: mousePosition[1] + 3 }
           let initiative = d.data;
           let circle = d3.select(this);
