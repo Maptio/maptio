@@ -352,13 +352,15 @@ export class MappingComponent {
   selectedInitiatives: Initiative[];
   selectedInitiativeX: Number;
   selectedInitiativeY: Number;
-  isViewOnlyContextMenu:boolean;
+  isReadOnlyContextMenu:boolean;
+  // isViewOnlyContextMenu:boolean;
   isRemovingNode: Boolean;
   isAddingNode: Boolean;
   @ViewChild("inputNewInitiative") public inputNewInitiative: ElementRef
 
-  showContextMenu(context: { initiatives: Initiative[], x: Number, y: Number }) {
-    this.isViewOnlyContextMenu = context.initiatives && context.initiatives.length > 1;
+  showContextMenu(context: { initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu:boolean }) {
+    // this.isViewOnlyContextMenu = context.initiatives && context.initiatives.length > 1;
+    this.isReadOnlyContextMenu = context.isReadOnlyContextMenu;
     this.selectedInitiative = context.initiatives ? context.initiatives[0] : null;
     this.selectedInitiatives = context.initiatives;
     this.selectedInitiativeX = context.x;

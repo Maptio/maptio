@@ -4,17 +4,11 @@
   </div>
   <div class="position-absolute d-block col-3 context-menu" [class.invisible]="!selectedInitiatives" [style.top.px]="selectedInitiativeY"
     [style.left.px]="selectedInitiativeX">
-    <div class="list-group" *ngIf="isViewOnlyContextMenu">
-      <li class="list-group-item disabled">View or edit details</li>
-      <button *ngFor="let initiative of selectedInitiatives" 
-      class="cursor-pointer list-group-item list-group-item-action" (click)="openNode(initiative)">{{initiative.name}}</button>
-    </div>
-
-    <div class="list-group" *ngIf="!isViewOnlyContextMenu">
-      <li class="list-group-item disabled">{{selectedInitiative?.name}}</li>
-      <button class="cursor-pointer list-group-item list-group-item-action" (click)="openNode(selectedInitiative)">
-        <i class="fa fa-pencil mx-1" aria-hidden="true"></i> View or edit details</button>
-      <div class="cursor-pointer list-group-item list-group-item-action">
+    <div class="list-group">
+      <button *ngFor="let initiative of selectedInitiatives" class="cursor-pointer list-group-item list-group-item-action" (click)="openNode(initiative)">
+        <i class="fa fa-pencil mx-1" aria-hidden="true"></i> {{initiative.name}}
+      </button>
+      <div class="cursor-pointer list-group-item list-group-item-action" *ngIf="!isReadOnlyContextMenu">
         <div (click)="isAddingNode=!isAddingNode" class="d-flex justify-content-between align-items-center">
           <span>
             <i class="fa fa-plus mx-1" aria-hidden="true"></i> Create sub-circle here
@@ -32,7 +26,7 @@
         </form>
 
       </div>
-      <div class="cursor-pointer list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+      <div *ngIf="!isReadOnlyContextMenu" class="cursor-pointer list-group-item list-group-item-action d-flex justify-content-between align-items-center">
         <div (click)="isRemovingNode=!isRemovingNode">
           <i class="fa fa-trash mx-1" aria-hidden="true"></i> Delete circle
         </div>
@@ -71,8 +65,7 @@
         routerLink="/map/{{datasetId}}/{{slug}}/circles" fragment="x={{VIEWPORT_WIDTH / 2}}&y={{VIEWPORT_WIDTH / 2 -180}}&scale=1=1&{{tagsFragment}}">
         <div class="icon-text-label" style="bottom: 2px;position: absolute;">Circles </div>
       </button>
-      <a class="btn btn-light tree text-dark p-1 btn-control" routerLink="/map/{{datasetId}}/{{slug}}/tree"
-        fragment="x={{VIEWPORT_WIDTH / 10}}&y={{VIEWPORT_HEIGHT / 2}}&scale=1&{{tagsFragment}}">
+      <a class="btn btn-light tree text-dark p-1 btn-control" routerLink="/map/{{datasetId}}/{{slug}}/tree" fragment="x={{VIEWPORT_WIDTH / 10}}&y={{VIEWPORT_HEIGHT / 2}}&scale=1&{{tagsFragment}}">
         <div class="icon-text-label">Tree</div>
       </a>
       <button class="btn btn-light network text-dark p-1 btn-control" #rlaNetwork="routerLinkActive" [routerLinkActive]="['active']"

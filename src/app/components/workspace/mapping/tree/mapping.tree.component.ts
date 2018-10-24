@@ -74,7 +74,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   public _data: any;
   public hoveredNode: Initiative;
   public slug: string;
-  public showContextMenuOf$: Subject<{ initiatives: Initiative[], x: Number, y: Number }> = new Subject<{ initiatives: Initiative[], x: Number, y: Number }>();
+  public showContextMenuOf$: Subject<{ initiatives: Initiative[], x: Number, y: Number, 
+    isReadOnlyContextMenu:boolean }> = new Subject<{ initiatives: Initiative[], x: Number, y: Number, 
+      isReadOnlyContextMenu:boolean }>();
 
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
   // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
@@ -644,7 +646,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
           showContextMenuOf$.next({
             initiatives: null,
             x: 0,
-            y: 0
+            y: 0,
+            isReadOnlyContextMenu:true
           });
           hideOptions$.next(false);
         })
@@ -667,7 +670,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
           showContextMenuOf$.next({
             initiatives: [initiative],
             x: center.x - origin.x + mouse.x,
-            y: center.y - origin.y + mouse.y
+            y: center.y - origin.y + mouse.y,
+            isReadOnlyContextMenu:true
           });
 
           d3.select(".context-menu")
@@ -675,7 +679,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
               showContextMenuOf$.next({
                 initiatives: [initiative],
                 x: center.x - origin.x + mouse.x,
-                y: center.y - origin.y + mouse.y
+                y: center.y - origin.y + mouse.y,
+                isReadOnlyContextMenu:true
               });
               circle.dispatch("mouseover");
             })
@@ -683,7 +688,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
               showContextMenuOf$.next({
                 initiatives: null,
                 x: 0,
-                y: 0
+                y: 0,
+                isReadOnlyContextMenu:true
               });
               circle.dispatch("mouseout");
             })

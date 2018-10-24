@@ -64,7 +64,13 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   private isAuthorityCentricMode$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   public _isAuthorityCentricMode: boolean = true;
 
-  public showContextMenuOf$: Subject<{ initiatives: Initiative[], x: Number, y: Number }> = new Subject<{ initiatives: Initiative[], x: Number, y: Number }>();
+  public showContextMenuOf$: Subject<{
+    initiatives: Initiative[], x: Number, y: Number,
+    isReadOnlyContextMenu: boolean
+  }> = new Subject<{
+    initiatives: Initiative[], x: Number, y: Number,
+    isReadOnlyContextMenu: boolean
+  }>();
 
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
   // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
@@ -788,7 +794,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
           return ids.includes(i.id)
         });
 
-        showToolipOf$.next({initiatives : list, isNameOnly:true})
+        showToolipOf$.next({ initiatives: list, isNameOnly: true })
       })
       .on("mouseout", function (d: any) {
 
@@ -800,11 +806,12 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             if (isAuthorityCentricMode)
               return "url(#arrow)";
           });
-        showToolipOf$.next({initiatives : null, isNameOnly:true});
+        showToolipOf$.next({ initiatives: null, isNameOnly: true });
         showContextMenuOf$.next({
           initiatives: null,
           x: 0,
-          y: 0
+          y: 0,
+          isReadOnlyContextMenu:true
         });
       })
       .on("contextmenu", function (d: any) {
@@ -832,7 +839,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         showContextMenuOf$.next({
           initiatives: list,
           x: center.x - origin.x + mouse.x,
-          y: center.y - origin.y + mouse.y
+          y: center.y - origin.y + mouse.y,
+          isReadOnlyContextMenu:true
         });
 
         d3.select(".context-menu")
@@ -840,7 +848,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             showContextMenuOf$.next({
               initiatives: list,
               x: center.x - origin.x + mouse.x,
-              y: center.y - origin.y + mouse.y
+              y: center.y - origin.y + mouse.y,
+              isReadOnlyContextMenu:true
             });
             path.dispatch("mouseover");
           })
@@ -848,7 +857,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             showContextMenuOf$.next({
               initiatives: null,
               x: 0,
-              y: 0
+              y: 0,
+              isReadOnlyContextMenu:true
             });
             path.dispatch("mouseout");
           })

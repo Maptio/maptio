@@ -57,7 +57,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
   // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public showToolipOf$: Subject<{ initiatives: Initiative[], isNameOnly: boolean }> = new Subject<{ initiatives: Initiative[], isNameOnly: boolean }>();
-  public showContextMenuOf$: Subject<{ initiatives: Initiative[], x: Number, y: Number }> = new Subject<{ initiatives: Initiative[], x: Number, y: Number }>();
+  public showContextMenuOf$: Subject<{ initiatives: Initiative[], x: Number, y: Number , isReadOnlyContextMenu:boolean}> = new Subject<{ initiatives: Initiative[], x: Number, y: Number , isReadOnlyContextMenu:boolean}>();
   public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public moveInitiative$: Subject<{
     node: Initiative;
@@ -991,7 +991,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         })
         .on("mouseout", function (d: any) {
           showToolipOf$.next({ initiatives: null, isNameOnly: false });
-          showContextMenuOf$.next({ initiatives: null, x: 0, y: 0 })
+          showContextMenuOf$.next({ initiatives: null, x: 0, y: 0, isReadOnlyContextMenu:false })
           d3.select(this)
             .style("stroke", function (d: any) {
               return d.children
@@ -1037,7 +1037,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
           showContextMenuOf$.next({
             initiatives: [initiative],
             x: center.x - origin.x + mouse.x,
-            y: center.y - origin.y + mouse.y
+            y: center.y - origin.y + mouse.y, 
+            isReadOnlyContextMenu:false
           });
 
           d3.select(".context-menu")
@@ -1045,7 +1046,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
               showContextMenuOf$.next({
                 initiatives: [initiative],
                 x: center.x - origin.x + mouse.x,
-                y: center.y - origin.y + mouse.y
+                y: center.y - origin.y + mouse.y, 
+                isReadOnlyContextMenu:false
               });
               circle.dispatch("mouseover");
             })
@@ -1053,7 +1055,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
               showContextMenuOf$.next({
                 initiatives: null,
                 x: 0,
-                y: 0
+                y: 0, 
+                isReadOnlyContextMenu:false
               });
               circle.dispatch("mouseout");
             })
