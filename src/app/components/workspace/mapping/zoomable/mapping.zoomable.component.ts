@@ -57,7 +57,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
   // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public showToolipOf$: Subject<{ initiatives: Initiative[], isNameOnly: boolean }> = new Subject<{ initiatives: Initiative[], isNameOnly: boolean }>();
-  public showContextMenuOf$: Subject<{ initiatives: Initiative[], x: Number, y: Number , isReadOnlyContextMenu:boolean}> = new Subject<{ initiatives: Initiative[], x: Number, y: Number , isReadOnlyContextMenu:boolean}>();
+  public showContextMenuOf$: Subject<{ initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean }> = new Subject<{ initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean }>();
   public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public moveInitiative$: Subject<{
     node: Initiative;
@@ -395,7 +395,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let MAX_NUMBER_LETTERS_PER_CIRCLE = this.MAX_NUMBER_LETTERS_PER_CIRCLE;
 
     let TRANSITION_DELETE = d3.transition("deleting").duration(TRANSITION_DURATION * 2)
-    let TRANSITION_ADD_FADEIN = d3.transition("adding_fadein").duration(TRANSITION_DURATION )
+    let TRANSITION_ADD_FADEIN = d3.transition("adding_fadein").duration(TRANSITION_DURATION)
     let TRANSITION_ADD_FADEOUT = d3.transition("adding_fadeout").duration(TRANSITION_DURATION)
     let COLOR_GREEN = getComputedStyle(document.body).getPropertyValue('--maptio-blue')
 
@@ -991,7 +991,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         })
         .on("mouseout", function (d: any) {
           showToolipOf$.next({ initiatives: null, isNameOnly: false });
-          showContextMenuOf$.next({ initiatives: null, x: 0, y: 0, isReadOnlyContextMenu:false })
+          showContextMenuOf$.next({ initiatives: null, x: 0, y: 0, isReadOnlyContextMenu: false })
           d3.select(this)
             .style("stroke", function (d: any) {
               return d.children
@@ -1020,34 +1020,29 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .on("contextmenu", function (d: any) {
           d3.event.preventDefault();
           let mousePosition = d3.mouse(this);
-          let matrix = this.getScreenCTM().translate(
+          let matrix = this.getCTM().translate(
             +this.getAttribute("cx"),
             +this.getAttribute("cy")
           );
-
-          let origin = {
-            x: document.getElementsByTagName("svg")[0].getBoundingClientRect().left,
-            y: document.getElementsByTagName("svg")[0].getBoundingClientRect().top
-          }
-          let center = { x: window.pageXOffset + matrix.e, y: window.pageYOffset + matrix.f };
+          
           let mouse = { x: mousePosition[0] + 3, y: mousePosition[1] + 3 }
           let initiative = d.data;
           let circle = d3.select(this);
 
           showContextMenuOf$.next({
             initiatives: [initiative],
-            x: center.x - origin.x + mouse.x,
-            y: center.y - origin.y + mouse.y, 
-            isReadOnlyContextMenu:false
+            x: uiService.getContextMenuCoordinates(mouse, matrix).x,
+            y: uiService.getContextMenuCoordinates(mouse, matrix).y,
+            isReadOnlyContextMenu: false
           });
 
           d3.select(".context-menu")
             .on("mouseenter", function (d: any) {
               showContextMenuOf$.next({
                 initiatives: [initiative],
-                x: center.x - origin.x + mouse.x,
-                y: center.y - origin.y + mouse.y, 
-                isReadOnlyContextMenu:false
+                x: uiService.getContextMenuCoordinates(mouse, matrix).x,
+                y: uiService.getContextMenuCoordinates(mouse, matrix).y,
+                isReadOnlyContextMenu: false
               });
               circle.dispatch("mouseover");
             })
@@ -1055,8 +1050,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
               showContextMenuOf$.next({
                 initiatives: null,
                 x: 0,
-                y: 0, 
-                isReadOnlyContextMenu:false
+                y: 0,
+                isReadOnlyContextMenu: false
               });
               circle.dispatch("mouseout");
             })

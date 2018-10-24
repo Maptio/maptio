@@ -21,11 +21,11 @@ export class UIService {
     // this.tooltip$ = new Subject<[string, Initiative, Initiative]>();
   }
 
-  getCanvasXMargin(){
+  getCanvasXMargin() {
     return 130;
   }
 
-  getCanvasYMargin(){
+  getCanvasYMargin() {
     return 112;
   }
 
@@ -64,6 +64,20 @@ export class UIService {
       radius * 2 +
       ",0"
     );
+  }
+
+  public getScreenCoordinates(x: any, y: any, matrix: any) {
+    var xn = matrix.e + x * matrix.a + y * matrix.c;
+    var yn = matrix.f + x * matrix.b + y * matrix.d;
+    return { x: xn, y: yn };
+  }
+
+  public getContextMenuCoordinates(mouse:any, matrix:any) {
+    let center = { x: window.pageXOffset, y: window.pageYOffset};
+    return {
+      x: this.getScreenCoordinates(center.x + mouse.x, center.y + mouse.y, matrix).x,
+      y: this.getScreenCoordinates(center.x + mouse.x, center.y + mouse.y, matrix).y
+    }
   }
 
   public clean() {

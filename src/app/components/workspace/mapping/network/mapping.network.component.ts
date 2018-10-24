@@ -823,16 +823,11 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .on("contextmenu", function (d: any) {
         d3.event.preventDefault();
         let mousePosition = d3.mouse(this);
-        let matrix = this.getScreenCTM().translate(
+        let matrix = this.getCTM().translate(
           +this.getAttribute("cx"),
           +this.getAttribute("cy")
         );
 
-        let origin = {
-          x: document.getElementsByTagName("svg")[0].getBoundingClientRect().left,
-          y: document.getElementsByTagName("svg")[0].getBoundingClientRect().top
-        }
-        let center = { x: window.pageXOffset + matrix.e, y: window.pageYOffset + matrix.f };
         let mouse = { x: mousePosition[0] + 3, y: mousePosition[1] + 3 };
 
         let ids: any[] = d[4];
@@ -844,8 +839,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         let path = d3.select(this);
         showContextMenuOf$.next({
           initiatives: list,
-          x: center.x - origin.x + mouse.x,
-          y: center.y - origin.y + mouse.y,
+          x: uiService.getContextMenuCoordinates(mouse, matrix).x,
+          y: uiService.getContextMenuCoordinates(mouse, matrix).y,
           isReadOnlyContextMenu: true
         });
 
@@ -853,8 +848,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
           .on("mouseenter", function (d: any) {
             showContextMenuOf$.next({
               initiatives: list,
-              x: center.x - origin.x + mouse.x,
-              y: center.y - origin.y + mouse.y,
+              x: uiService.getContextMenuCoordinates(mouse, matrix).x,
+              y: uiService.getContextMenuCoordinates(mouse, matrix).y,
               isReadOnlyContextMenu: true
             });
             path.dispatch("mouseover");

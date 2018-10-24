@@ -61,7 +61,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   private resetSubscription: Subscription;
   private fontSubscription: Subscription;
   private tagsSubscription: Subscription;
-  private toggleOptionsSubscription:Subscription;
+  private toggleOptionsSubscription: Subscription;
 
   public analytics: Angulartics2Mixpanel;
   public TRANSITION_DURATION = 250;
@@ -74,14 +74,18 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   public _data: any;
   public hoveredNode: Initiative;
   public slug: string;
-  public showContextMenuOf$: Subject<{ initiatives: Initiative[], x: Number, y: Number, 
-    isReadOnlyContextMenu:boolean }> = new Subject<{ initiatives: Initiative[], x: Number, y: Number, 
-      isReadOnlyContextMenu:boolean }>();
+  public showContextMenuOf$: Subject<{
+    initiatives: Initiative[], x: Number, y: Number,
+    isReadOnlyContextMenu: boolean
+  }> = new Subject<{
+    initiatives: Initiative[], x: Number, y: Number,
+    isReadOnlyContextMenu: boolean
+  }>();
 
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
   // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public showToolipOf$: Subject<{ initiatives: Initiative[], isNameOnly: boolean }> = new Subject<{ initiatives: Initiative[], isNameOnly: boolean }>();
-  public hideOptions$ : Subject<boolean> = new Subject<boolean>();
+  public hideOptions$: Subject<boolean> = new Subject<boolean>();
   public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public moveInitiative$: Subject<{
     node: Initiative;
@@ -146,13 +150,13 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     }
   }
 
-  expandAllLink(){
+  expandAllLink() {
     this.isAllExpanded$.next(true);
     this.ngOnInit();
     // this.update(this.tagsState, true)
   }
 
-  resetExpandState(){
+  resetExpandState() {
     this.isAllExpanded$.next(false);
     this.ngOnInit();
   }
@@ -309,7 +313,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   }
 
 
-  update(tags: Array<SelectableTag>, isAllExpanded:boolean) {
+  update(tags: Array<SelectableTag>, isAllExpanded: boolean) {
     if (this.d3.selectAll("g").empty()) {
       this.init();
     }
@@ -355,7 +359,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       list = d3.hierarchy(getData()).descendants();
     root.x0 = viewerHeight;
     root.y0 = 0;
-    root.data.accountable = new User({name : teamName, picture : ""})
+    root.data.accountable = new User({ name: teamName, picture: "" })
 
 
     // let depth = 0;
@@ -371,14 +375,14 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     setPathsToRoot(pathsToRoot)
 
     // Collapse after the third level
-    if(!isAllExpanded){
+    if (!isAllExpanded) {
       if (root.children) {
         root.children.forEach((c: any) => {
           if (c.children) c.children.forEach(collapse);
         });
       }
     }
- 
+
 
     updateGraph(root, 0);
 
@@ -544,6 +548,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .attr("class", "name")
         .classed("tree-map", true)
         .attr("width", 170)
+        .attr("height", 70)
         .style("display", "inline")
         // .attr("dy", "0.65em")
         .attr("y", "0.5em")
@@ -602,6 +607,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .select("foreignObject.name.tree-map")
         .attr("y", "0.5em")
         .attr("width", 170)
+        .attr("height", 70)
         .style("display", "inline")
         .html(function (d: any) {
           let tagsSpan = d.data.tags.map((tag: Tag) => `<span class="dot-tags" style="
@@ -634,53 +640,52 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       // On exit reduce the opacity of text labels
       nodeExit.select("text.tree-map").style("fill-opacity", 1e-6);
 
+
+   
+
       g
         .selectAll("g.node.tree-map")
         .on("mouseover", function (d: any) {
           d3.event.stopPropagation();
-          showToolipOf$.next({initiatives : [d.data], isNameOnly:false});
+          showToolipOf$.next({ initiatives: [d.data], isNameOnly: false });
           hideOptions$.next(true);
         })
         .on("mouseout", function (d: any) {
-          showToolipOf$.next({initiatives : null, isNameOnly:false});
+          showToolipOf$.next({ initiatives: null, isNameOnly: false });
           showContextMenuOf$.next({
             initiatives: null,
             x: 0,
             y: 0,
-            isReadOnlyContextMenu:true
+            isReadOnlyContextMenu: true
           });
           hideOptions$.next(false);
         })
         .on("contextmenu", function (d: any) {
           d3.event.preventDefault();
           let mousePosition = d3.mouse(this);
-          let matrix = this.getScreenCTM().translate(
+          let matrix = this.getCTM().translate(
             +this.getAttribute("cx"),
             +this.getAttribute("cy")
           );
 
-          let origin = {
-            x: document.getElementsByTagName("svg")[0].getBoundingClientRect().left,
-            y: document.getElementsByTagName("svg")[0].getBoundingClientRect().top
-          }
-          let center = { x: window.pageXOffset + matrix.e, y: window.pageYOffset + matrix.f };
           let mouse = { x: mousePosition[0] + 3, y: mousePosition[1] + 3 }
           let initiative = d.data;
+
           let circle = d3.select(this);
           showContextMenuOf$.next({
             initiatives: [initiative],
-            x: center.x - origin.x + mouse.x,
-            y: center.y - origin.y + mouse.y,
-            isReadOnlyContextMenu:true
+            x: uiService.getContextMenuCoordinates(mouse, matrix).x,
+            y: uiService.getContextMenuCoordinates(mouse, matrix).y,
+            isReadOnlyContextMenu: true
           });
 
           d3.select(".context-menu")
             .on("mouseenter", function (d: any) {
               showContextMenuOf$.next({
                 initiatives: [initiative],
-                x: center.x - origin.x + mouse.x,
-                y: center.y - origin.y + mouse.y,
-                isReadOnlyContextMenu:true
+                x: uiService.getContextMenuCoordinates(mouse, matrix).x,
+                y: uiService.getContextMenuCoordinates(mouse, matrix).y,
+                isReadOnlyContextMenu: true
               });
               circle.dispatch("mouseover");
             })
@@ -689,7 +694,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
                 initiatives: null,
                 x: 0,
                 y: 0,
-                isReadOnlyContextMenu:true
+                isReadOnlyContextMenu: true
               });
               circle.dispatch("mouseout");
             })
