@@ -499,40 +499,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
       })
       ;
 
-      enterWithAnimations(initiativeWithChildrenEnter)
-      enterWithAnimations(initiativeNoChildrenEnter)
-
-    // initiativeWithChildrenEnter.append("circle")
-    //   .style("fill", function (d: any) {
-    //     return d.children
-    //       ? color(d.depth)
-    //       : !d.children && d.parent === root ? color(d.depth) : null;
-    //   })
-    //   .attr("r", 0)
-    //   .transition(TRANSITION_ADD_FADEIN)
-    //   .style("fill", COLOR_GREEN)
-    //   .attr("r", (d: any) => d.r)
-    //   .transition(TRANSITION_ADD_FADEOUT)
-    //   .style("fill", function (d: any) {
-    //     return d.children
-    //       ? color(d.depth)
-    //       : !d.children && d.parent === root ? color(d.depth) : null;
-    //   })
-
-    // initiativeNoChildrenEnter.append("circle")
-    //   .style("fill", function (d: any) {
-    //     return d.children
-    //       ? color(d.depth)
-    //       : !d.children && d.parent === root ? color(d.depth) : null;
-    //   })
-    //   .transition(TRANSITION_ADD_FADEIN)
-    //   .style("fill", COLOR_GREEN)
-    //   .transition(TRANSITION_ADD_FADEOUT)
-    //   .style("fill", function (d: any) {
-    //     return d.children
-    //       ? color(d.depth)
-    //       : !d.children && d.parent === root ? color(d.depth) : null;
-    //   })
+    enterWithAnimations(initiativeWithChildrenEnter)
+    enterWithAnimations(initiativeNoChildrenEnter)
 
     initiativeWithChildrenEnter.append("text").attr("class", "name with-children").classed("initiative-map", true);
     initiativeNoChildrenEnter.append("foreignObject").attr("class", "name no-children").classed("initiative-map", true);
@@ -572,8 +540,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
         if (isFullDisplayMode) return;
         if (focus !== d) zoom(d), d3.event.stopPropagation();
       })
-      // .transition(TRANSITION_ADD)
-
       ;
 
     initiativeNoChildren.select("circle")
