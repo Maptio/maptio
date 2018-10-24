@@ -20,6 +20,14 @@
     fill: #000;
 }
 
+::ng-deep .initiative-map.deleting>circle:not(.accountable),.initiative-map.deleting>text{
+    fill: var(--maptio-red) !important;
+    fill-opacity: 0.5 !important;
+}
+
+
+
+
 ::ng-deep .initiative-map.node--root {
     display: none;
 }

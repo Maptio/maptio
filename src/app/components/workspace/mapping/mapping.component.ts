@@ -203,7 +203,6 @@ export class MappingComponent {
       this.closeEditingPanel.emit(true);
     });
 
-    console.log("route fragment", this.route.snapshot.fragment)
     let f = this.route.snapshot.fragment || this.getFragment(component);
     this.x = Number.parseFloat(this.uriService.parseFragment(f).get("x"));
     this.y = Number.parseFloat(this.uriService.parseFragment(f).get("y"));
@@ -448,8 +447,7 @@ export class MappingComponent {
   }
 
   addNode(node: Initiative, subNodeName: string, openDetailsPanel: Boolean) {
-    console.log("add node", node);
-    let subNode = new Initiative({ name: subNodeName })
+   let subNode = new Initiative({ name: subNodeName })
     this.addInitiative.emit({ node: node, subNode: subNode });
     if (openDetailsPanel) {
       this.showDetails.emit(subNode);

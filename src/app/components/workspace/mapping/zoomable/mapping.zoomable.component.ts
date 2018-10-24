@@ -459,8 +459,27 @@ export class MappingZoomableComponent implements IDataVisualizer {
       });
 
 
-    initiativeWithChildren.exit().remove();
-    initiativeNoChildren.exit().remove();
+
+
+    // initiativeNoChildren.exit().select("circle")
+
+    //   .transition().duration(TRANSITION_DURATION * 3)
+
+
+    initiativeNoChildren.exit()
+      .classed("deleting", true)
+      .transition().duration(TRANSITION_DURATION * 2)
+      .attr("transform", `translate(${translateX}, ${-translateY})`)
+      .style("fill-opacity", 0.01)
+      .remove();
+
+    initiativeWithChildren.exit()
+      .classed("deleting", true)
+      .transition().duration(TRANSITION_DURATION * 2)
+      .attr("transform", `translate(${translateX}, ${-translateY})`)
+      .style("fill-opacity", 0.01)
+      .remove();
+
 
     let initiativeWithChildrenEnter = initiativeWithChildren.enter()
       .append("g")
@@ -614,14 +633,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .attr("font-size", function (d: any) {
         let multiplier = svg.attr("data-font-multiplier");
         return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * POSITION_TAGS_NAME.fontRatio * multiplier)}rem`
-        // return `${fonts(d.depth) /
-        //   (d.depth <= 2 ? 1 : 2) *
-        //   d.k *
-        //   POSITION_TAGS_NAME.fontRatio}rem`;
+
       })
-      // .attr("font-size", function (d: any) {
-      //   return `${fonts(d.depth) * POSITION_TAGS_NAME.fontRatio}rem`;
-      // })
       .style("display", "inline")
       .style("opacity", function (d: any) {
         return isLeafDisplayed(d) ? 1 : 0;
@@ -903,9 +916,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
     function zoomTo(v: any) {
       let k = diameter / v[2];
       view = v;
-      node.attr("transform", function (d: any) {
-        return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")";
-      });
+      node
+        .transition("").duration(TRANSITION_DURATION)
+        .attr("transform", function (d: any) {
+          return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")";
+        });
 
       circle
         .attr("r", function (d: any) {
@@ -939,16 +954,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .style("stroke-width", "3px")
 
           d3.selectAll(`circle[parent-id="${d.data.id}"]`)
-            // .style("stroke", function (d: any) {
-            //   return d.children
-            //     ? color(d.depth)
-            //     : !d.children && d.parent === root ? d3.color(color(d.depth)).darker(2).toString() : null;
-            // })
-            // .style("fill", function (d: any) {
-            //   return d.children
-            //     ? color(d.depth)
-            //     : !d.children && d.parent === root ? color(d.depth) : null;
-            // })
             .style("fill-opacity", 1)
         })
         .on("mouseout", function (d: any) {
@@ -995,7 +1000,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           let mouse = { x: mousePosition[0] + 3, y: mousePosition[1] + 3 }
           let initiative = d.data;
           let circle = d3.select(this);
-          console.log(center, origin, mouse);
+
           showContextMenuOf$.next({
             initiatives: [initiative],
             x: center.x - origin.x + mouse.x,
