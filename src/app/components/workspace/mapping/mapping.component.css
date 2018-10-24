@@ -54,3 +54,8 @@
 .summary-tooltip{
   left:0
 }
+
+.context-menu > div{
+  max-height: 50vh;
+  overflow-y: auto;
+}

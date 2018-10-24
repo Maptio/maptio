@@ -397,7 +397,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let TRANSITION_DELETE = d3.transition("deleting").duration(TRANSITION_DURATION * 2)
     let TRANSITION_ADD_FADEIN = d3.transition("adding_fadein").duration(TRANSITION_DURATION )
     let TRANSITION_ADD_FADEOUT = d3.transition("adding_fadeout").duration(TRANSITION_DURATION)
-    let COLOR_GREEN = getComputedStyle(document.body).getPropertyValue('--maptio-green')
+    let COLOR_GREEN = getComputedStyle(document.body).getPropertyValue('--maptio-blue')
 
     let pack = d3
       .pack()
