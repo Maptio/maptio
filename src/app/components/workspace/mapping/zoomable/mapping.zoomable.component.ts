@@ -398,6 +398,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let TRANSITION_ADD_FADEIN = d3.transition("adding_fadein").duration(TRANSITION_DURATION)
     let TRANSITION_ADD_FADEOUT = d3.transition("adding_fadeout").duration(TRANSITION_DURATION)
     let COLOR_GREEN = getComputedStyle(document.body).getPropertyValue('--maptio-blue')
+    let COLOR_RED = getComputedStyle(document.body).getPropertyValue('--maptio-red')
 
     let pack = d3
       .pack()
@@ -498,7 +499,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
       })
       ;
 
-    console.log(initiativeNoChildrenEnter)
     initiativeWithChildrenEnter.append("circle")
       .style("fill", function (d: any) {
         return d.children
@@ -513,6 +513,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           ? color(d.depth)
           : !d.children && d.parent === root ? color(d.depth) : null;
       })
+
     initiativeNoChildrenEnter.append("circle")
       .style("fill", function (d: any) {
         return d.children
@@ -1181,8 +1182,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
       groups.exit().select("circle.node")
         .classed("node--leaf", false)
         .classed("deleting", true)
-        .style("stroke", "red")
-        .style("fill", "red")
+        .style("stroke", COLOR_RED)
+        .style("fill", COLOR_RED)
         .attr("r", (d: any) => d.r)
         .transition(TRANSITION_DELETE)
         .attr("r", 0)
