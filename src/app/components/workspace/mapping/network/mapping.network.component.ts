@@ -758,6 +758,12 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       // .style("font-weight", "initial")
       .attr("dx", CIRCLE_RADIUS + 3)
       .attr("dy", CIRCLE_RADIUS / 2)
+      .on("mouseover", function (d: any) { 
+        d3.select(this).style("fill", seedColor) 
+      })
+      .on("mouseout", function (d: any) { 
+        d3.select(this).style("fill", "initial") 
+      })
       .on("click", function (d: any) {
         router.navigateByUrl(
           `/map/${datasetId}/${slug}/u/${d.shortid}/${d.slug}`
@@ -811,7 +817,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
           initiatives: null,
           x: 0,
           y: 0,
-          isReadOnlyContextMenu:true
+          isReadOnlyContextMenu: true
         });
       })
       .on("contextmenu", function (d: any) {
@@ -840,7 +846,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
           initiatives: list,
           x: center.x - origin.x + mouse.x,
           y: center.y - origin.y + mouse.y,
-          isReadOnlyContextMenu:true
+          isReadOnlyContextMenu: true
         });
 
         d3.select(".context-menu")
@@ -849,7 +855,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
               initiatives: list,
               x: center.x - origin.x + mouse.x,
               y: center.y - origin.y + mouse.y,
-              isReadOnlyContextMenu:true
+              isReadOnlyContextMenu: true
             });
             path.dispatch("mouseover");
           })
@@ -858,7 +864,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
               initiatives: null,
               x: 0,
               y: 0,
-              isReadOnlyContextMenu:true
+              isReadOnlyContextMenu: true
             });
             path.dispatch("mouseout");
           })
