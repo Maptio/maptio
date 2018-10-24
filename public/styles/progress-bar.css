@@ -12,6 +12,11 @@ ng-progress {
 }
 
 .spinner-icon{
+  border-top-color: var(--maptio-blue)!important;
+  border-left-color: var(--maptio-blue)!important;
+}
+
+/* .spinner-icon{
   width:42px !important;
   height: 42px !important;;
   border-top-color: var(--maptio-blue)!important;
@@ -22,4 +27,4 @@ ng-progress {
 .spinner{
   top:8px !important;
   left:13px !important;
-}
+} */
