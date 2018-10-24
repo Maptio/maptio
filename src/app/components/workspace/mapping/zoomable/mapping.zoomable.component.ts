@@ -937,23 +937,19 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .style("fill", d3.color(seedColor).darker(2).toString())
             .style("fill-opacity", 1)
             .style("stroke-width", "3px")
-            
+
           d3.selectAll(`circle[parent-id="${d.data.id}"]`)
-          .style("stroke", function (d: any) {
-            return d.children
-              ? color(d.depth)
-              : !d.children && d.parent === root ? d3.color(color(d.depth)).darker(2).toString() : null;
-          })
-          .style("fill", function (d: any) {
-            return d.children
-              ? color(d.depth)
-              : !d.children && d.parent === root ? color(d.depth) : null;
-          })
-          .style("fill-opacity", function (d: any) {
-            return d.children
-              ? 0.1
-              : !d.children && d.parent === root ? 0.1 : 1;
-          })
+            // .style("stroke", function (d: any) {
+            //   return d.children
+            //     ? color(d.depth)
+            //     : !d.children && d.parent === root ? d3.color(color(d.depth)).darker(2).toString() : null;
+            // })
+            // .style("fill", function (d: any) {
+            //   return d.children
+            //     ? color(d.depth)
+            //     : !d.children && d.parent === root ? color(d.depth) : null;
+            // })
+            .style("fill-opacity", 1)
         })
         .on("mouseout", function (d: any) {
           showToolipOf$.next({ initiatives: null, isNameOnly: false });
@@ -976,17 +972,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
             })
             .style("stroke-width", "initial")
             .style("stroke-opacity", 1)
-          // d3.selectAll(`circle[parent-id="${d.data.id}"]`)
-          //   .style("fill", function (d: any) {
-          //     return d.children
-          //       ? color(d.depth)
-          //       : !d.children && d.parent === root ? color(d.depth) : null;
-          //   })
-          //   .style("fill-opacity", function (d: any) {
-          //     return d.children
-          //       ? 0.1
-          //       : !d.children && d.parent === root ? 0.1 : 1;
-          //   })
+          d3.selectAll(`circle[parent-id="${d.data.id}"]`)
+            .style("fill-opacity", function (d: any) {
+              return d.children
+                ? 0.1
+                : !d.children && d.parent === root ? 0.1 : 1;
+            })
         })
         .on("contextmenu", function (d: any) {
           d3.event.preventDefault();

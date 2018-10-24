@@ -29,13 +29,13 @@ export class ColorService implements OnInit {
   //         .interpolate(this.d3.interpolateHsl);
   // }
 
-  getDefaulColorRange(depth: number): ScaleLinear<HSLColor, string> {
-    return this.d3
-      .scaleLinear<HSLColor, HSLColor>()
-      .domain([-1, depth])
-      .interpolate(this.d3.interpolateHcl)
-      .range([this.FRONT_COLOR, this.BACK_COLOR]);
-  }
+  // getDefaulColorRange(depth: number): ScaleLinear<HSLColor, string> {
+  //   return this.d3
+  //     .scaleLinear<HSLColor, HSLColor>()
+  //     .domain([-1, depth])
+  //     .interpolate(this.d3.interpolateHcl)
+  //     .range([this.FRONT_COLOR, this.BACK_COLOR]);
+  // }
 
   getColorRange(
     depth: number,
