@@ -394,7 +394,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let PADDING_CIRCLE = 20
     let MAX_NUMBER_LETTERS_PER_CIRCLE = this.MAX_NUMBER_LETTERS_PER_CIRCLE;
 
-    let TRANSITION_DELETE = d3.transition("deleting").duration(TRANSITION_DURATION * 2)
+    let TRANSITION_DELETE = d3.transition("deleting").duration(TRANSITION_DURATION)
     let TRANSITION_ADD_FADEIN = d3.transition("adding_fadein").duration(TRANSITION_DURATION)
     let TRANSITION_ADD_FADEOUT = d3.transition("adding_fadeout").duration(TRANSITION_DURATION)
     let COLOR_GREEN = getComputedStyle(document.body).getPropertyValue('--maptio-blue')
@@ -462,17 +462,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return `${d.data.id}`;
       });
 
-    initiativeNoChildren.exit()
-      .classed("deleting", true)
-      .transition(TRANSITION_DELETE)
-      .attr("transform", `translate(${translateX}, ${-translateY})`)
-      .remove();
 
-    initiativeWithChildren.exit()
-      .classed("deleting", true)
-      .transition(TRANSITION_DELETE)
-      .attr("transform", `translate(${translateX}, ${-translateY})`)
-      .remove();
+    exitWithAnimations(initiativeNoChildren)
+    exitWithAnimations(initiativeWithChildren)
 
 
     let initiativeWithChildrenEnter = initiativeWithChildren.enter()
@@ -1178,6 +1170,26 @@ export class MappingZoomableComponent implements IDataVisualizer {
     //     );
     //   });
     // }
+
+    function exitWithAnimations(groups: any) {
+      groups.exit().select("text")
+        .remove();
+      groups.exit().select("foreignObject")
+        .remove();
+      groups.exit().select("circle.accountable")
+        .remove();
+      groups.exit().select("circle.node")
+        .classed("node--leaf", false)
+        .classed("deleting", true)
+        .style("stroke", "red")
+        .style("fill", "red")
+        .attr("r", (d: any) => d.r)
+        .transition(TRANSITION_DELETE)
+        .attr("r", 0)
+        .remove();
+      groups.exit().transition(TRANSITION_DELETE).remove();
+
+    }
 
     function buildPaths() {
       let path = g.select("g.paths")

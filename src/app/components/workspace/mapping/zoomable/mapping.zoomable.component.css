@@ -33,6 +33,13 @@
     fill: var(--maptio-green) !important;
 }
 
+::ng-deep circle.deleting{
+    fill: var(--maptio-red) !important;
+    stroke: var(--maptio-red) !important;
+    stroke-width: 3px !important;
+    stroke-opacity: 1!important;
+}
+
 
 
 
