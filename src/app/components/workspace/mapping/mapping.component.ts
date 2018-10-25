@@ -184,16 +184,7 @@ export class MappingComponent {
     component.showContextMenuOf$.asObservable().subscribe(node => {
       this.showContextMenu(node);
     })
-
-    // component.showDetailsOf$.asObservable().subscribe(node => {
-    //   this.showDetails.emit(node);
-    // });
-    // component.addInitiative$.asObservable().subscribe(node => {
-    //   this.addInitiative.emit(node);
-    // });
-    // component.removeInitiative$.asObservable().subscribe(node => {
-    //   this.removeInitiative.emit(node);
-    // });
+    
     component.moveInitiative$
       .asObservable()
       .subscribe(({ node: node, from: from, to: to }) => {
@@ -256,6 +247,11 @@ export class MappingComponent {
   ngOnInit() {
     this.subscription = this.route.params
       .do(params => {
+        if (this.datasetId !== params["mapid"]) {
+          this.showTooltip(null, null);
+          this.showContextMenu({ initiatives: null, x: 0, y: 0, isReadOnlyContextMenu: null })
+
+        }
         this.datasetId = params["mapid"];
         this.slug = params["mapslug"];
         this.cd.markForCheck();
@@ -285,11 +281,6 @@ export class MappingComponent {
                   new SelectableTag({ shortid: s, isSelected: true })
               )
             : <SelectableTag[]>[];
-        // let fragmentUsers = this.uriService.parseFragment(fragment).has("users") && this.uriService.parseFragment(fragment).get("users")
-        //     ? this.uriService.parseFragment(fragment).get("users")
-        //         .split(",")
-        //         .map((s: string) => new SelectableUser({ shortid: s, isSelected: true }))
-        //     : <SelectableUser[]>[];
 
         this.tags = compact<SelectableTag>(
           data.dataset.tags.map((dataTag: SelectableTag) => {
@@ -305,11 +296,6 @@ export class MappingComponent {
           })
         );
 
-        // this.members = _.compact<SelectableUser>(data.members.map((dataUser: SelectableUser) => {
-        //     let searchUser = fragmentUsers.find(t => t.shortid === dataUser.shortid);
-        //     return new SelectableUser({ shortid: dataUser.shortid, name: dataUser.name, picture: dataUser.picture, isSelected: searchUser !== undefined })
-
-        // }));
         this.datasetName = data.initiative.name;
         this.initiative = data.initiative;
         this.team = data.team;
@@ -339,8 +325,6 @@ export class MappingComponent {
     }
   }
 
-
-
   toggleOptions(isActive: Boolean) {
     this._toggleOptions = isActive ? !this._toggleOptions : false;
     this.toggleOptions$.next(this._toggleOptions)
@@ -353,7 +337,6 @@ export class MappingComponent {
   selectedInitiativeX: Number;
   selectedInitiativeY: Number;
   isReadOnlyContextMenu: boolean;
-  // isViewOnlyContextMenu:boolean;
 
   showContextMenu(context: { initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean }) {
     this.isReadOnlyContextMenu = context.isReadOnlyContextMenu;
@@ -441,41 +424,20 @@ export class MappingComponent {
     this.analytics.eventTrack("Map", { mode: "instruction", action: "add", team: this.team.name, teamId: this.team.team_id });
   }
 
-  // addNode(node: Initiative, subNodeName: string, openDetailsPanel: Boolean) {
-  //   let subNode = new Initiative({ name: subNodeName })
-  //   this.addInitiative.emit({ node: node, subNode: subNode });
-  //   if (openDetailsPanel) {
-  //     this.showDetails.emit(subNode);
-  //   }
-  //   this.isAddingNode = false;
-  //   (<HTMLInputElement>this.inputNewInitiative.nativeElement).value = "";
-  //   this.cd.markForCheck();
-  // }
-
   emitAddInitiative(context: { node: Initiative, subNode: Initiative }) {
     this.addInitiative.emit({ node: context.node, subNode: context.subNode })
   }
 
-  emitOpenInitiative( node: Initiative) {
+  emitOpenInitiative(node: Initiative) {
     this.showDetails.emit(node)
   }
 
-  emitRemoveInitiative( node: Initiative) {
+  emitRemoveInitiative(node: Initiative) {
     this.removeInitiative.emit(node)
   }
 
-  // openNode(node: Initiative) {
-  //   this.showDetails.emit(node);
-  // }
-
-  // removeNode(node: Initiative) {
-  //   this.removeInitiative.emit(node);
-  // }
-
   public broadcastTagsSettings(tags: SelectableTag[]) {
-    // console.log("broadcast settings")
     this.applySettings.emit({ initiative: this.initiative, tags: tags });
-
   }
 
   public broadcastTagsSelection(tags: SelectableTag[]) {
