@@ -481,40 +481,14 @@ export class MappingZoomableComponent implements IDataVisualizer {
       });
 
 
-    exitWithAnimations(initiativeNoChildren)
-    exitWithAnimations(initiativeWithChildren)
+    exitWithAnimations(initiativeNoChildren);
+    exitWithAnimations(initiativeWithChildren);
 
+    let initiativeWithChildrenEnter = initiativeWithChildren.enter().append("g");
+    let initiativeNoChildrenEnter = initiativeNoChildren.enter().append("g");
 
-    let initiativeWithChildrenEnter = initiativeWithChildren.enter()
-      .append("g")
-      .classed("adding", true)
-      .attr("class", function (d: any) {
-        return d.parent
-          ? d.children ? "node" : "node node--leaf"
-          : "node node--root";
-      })
-      .classed("with-children", true)
-      .classed("initiative-map", true)
-      .attr("id", function (d: any) {
-        return `${d.data.id}`;
-      });
-
-    let initiativeNoChildrenEnter = initiativeNoChildren.enter()
-      .append("g")
-      .classed("adding", true)
-      .attr("class", function (d: any) {
-        return d.parent
-          ? d.children ? "node" : "node node--leaf"
-          : "node node--root";
-      })
-      .classed("no-children", true)
-      .classed("initiative-map", true)
-      .attr("id", function (d: any) {
-        return `${d.data.id}`;
-      });
-
-    enterWithAnimations(initiativeWithChildrenEnter)
-    enterWithAnimations(initiativeNoChildrenEnter)
+    enterWithAnimations(initiativeWithChildrenEnter, "with-children");
+    enterWithAnimations(initiativeNoChildrenEnter, "no-children");
 
     initiativeWithChildrenEnter.append("text").attr("class", "name with-children").classed("initiative-map", true);
     initiativeNoChildrenEnter.append("foreignObject").attr("class", "name no-children").classed("initiative-map", true);
@@ -624,34 +598,34 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return `<div style="font-size: ${fs}; background: none; display: inline-block;pointer-events: none">${d.data.name || '(Empty)'}</div>`;
       })
 
-      /*
-    let tagsName = initiativeNoChildren.select("text.tags")
-      .attr("id", function (d: any) {
-        return `${d.data.id}`;
-      })
-      .style("pointer-events", "none")
-      .attr("text-anchor", "middle")
-      .attr("x", function (d: any) {
-        return -d.r * POSITION_TAGS_NAME.x;
-      })
-      .attr("y", function (d: any) {
-        return -d.r * POSITION_TAGS_NAME.y;
-      })
-      .attr("font-size", function (d: any) {
-        let multiplier = svg.attr("data-font-multiplier");
-        return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * POSITION_TAGS_NAME.fontRatio * multiplier)}rem`
+    /*
+  let tagsName = initiativeNoChildren.select("text.tags")
+    .attr("id", function (d: any) {
+      return `${d.data.id}`;
+    })
+    .style("pointer-events", "none")
+    .attr("text-anchor", "middle")
+    .attr("x", function (d: any) {
+      return -d.r * POSITION_TAGS_NAME.x;
+    })
+    .attr("y", function (d: any) {
+      return -d.r * POSITION_TAGS_NAME.y;
+    })
+    .attr("font-size", function (d: any) {
+      let multiplier = svg.attr("data-font-multiplier");
+      return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * POSITION_TAGS_NAME.fontRatio * multiplier)}rem`
 
-      })
-      .style("display", "inline")
-      .style("opacity", function (d: any) {
-        return isLeafDisplayed(d) ? 1 : 0;
-      })
-      .style("pointer-events", function (d: any) {
-        return isLeafDisplayed(d) ? "auto" : "none";
-      })
-      .html(function (d: any) {
-        return d.data.tags.map((tag: Tag) => `<tspan fill="${tag.color}" class="dot-tags">&#xf02b</tspan><tspan fill="${tag.color}">${tag.name}</tspan>`).join(" ");
-      });
+    })
+    .style("display", "inline")
+    .style("opacity", function (d: any) {
+      return isLeafDisplayed(d) ? 1 : 0;
+    })
+    .style("pointer-events", function (d: any) {
+      return isLeafDisplayed(d) ? "auto" : "none";
+    })
+    .html(function (d: any) {
+      return d.data.tags.map((tag: Tag) => `<tspan fill="${tag.color}" class="dot-tags">&#xf02b</tspan><tspan fill="${tag.color}">${tag.name}</tspan>`).join(" ");
+    });
 */
     let accountablePictureWithChildren = initiativeWithChildren.select("circle.accountable.with-children")
       .attr("pointer-events", "none")
@@ -675,32 +649,32 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .style("opacity", function (d: any) {
         return isLeafDisplayed(d) ? 1 : 0;
       });
-/*
-    let accountableName = initiativeNoChildren.select("text.accountable.no-children")
-      .attr("text-anchor", "middle")
-      .style("pointer-events", "none")
-      .attr("id", function (d: any) {
-        return `${d.data.id}`;
-      })
-      .style("display", "inline")
-      .style("opacity", function (d: any) {
-        return isLeafDisplayed(d) ? 1 : 0;
-      })
-      .attr("font-size", function (d: any) {
-        let multiplier = svg.attr("data-font-multiplier");
-        return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * POSITION_ACCOUNTABLE_NAME.fontRatio * multiplier)}rem`
-
-      })
-      .attr("x", function (d: any) {
-        return d.r * POSITION_ACCOUNTABLE_NAME.x;
-      })
-      .attr("y", function (d: any) {
-        return Math.max(-d.r * POSITION_ACCOUNTABLE_NAME.y, -d.r + CIRCLE_RADIUS * 2 - 3);
-      })
-      .text(function (d: any) {
-        return d.data.accountable ? d.data.accountable.name : "";
-      });
-*/
+    /*
+        let accountableName = initiativeNoChildren.select("text.accountable.no-children")
+          .attr("text-anchor", "middle")
+          .style("pointer-events", "none")
+          .attr("id", function (d: any) {
+            return `${d.data.id}`;
+          })
+          .style("display", "inline")
+          .style("opacity", function (d: any) {
+            return isLeafDisplayed(d) ? 1 : 0;
+          })
+          .attr("font-size", function (d: any) {
+            let multiplier = svg.attr("data-font-multiplier");
+            return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * POSITION_ACCOUNTABLE_NAME.fontRatio * multiplier)}rem`
+    
+          })
+          .attr("x", function (d: any) {
+            return d.r * POSITION_ACCOUNTABLE_NAME.x;
+          })
+          .attr("y", function (d: any) {
+            return Math.max(-d.r * POSITION_ACCOUNTABLE_NAME.y, -d.r + CIRCLE_RADIUS * 2 - 3);
+          })
+          .text(function (d: any) {
+            return d.data.accountable ? d.data.accountable.name : "";
+          });
+    */
     let node = g.selectAll("g.node");
 
     svg.on("click", function () {
@@ -850,61 +824,61 @@ export class MappingZoomableComponent implements IDataVisualizer {
             })
         })
 
-        /*
-      transition
-        .selectAll("text.accountable")
-        .filter((d: any) => !d.children)
-        .on("start", function (d: any) {
-          d3.select(this).style("opacity", 0);
-        })
-        .on("end", function (d: any) {
-          d3
-            .select(this)
-            .attr("text-anchor", "middle")
-            .attr("x", function (d: any) {
-              return d.r * POSITION_ACCOUNTABLE_NAME.x;
-            })
-            .attr("y", function (d: any) {
-              return Math.max(-d.r * d.k * POSITION_ACCOUNTABLE_NAME.y, -d.r * d.k + CIRCLE_RADIUS * 2 + 3);
-            })
-            .attr("font-size", function (d: any) {
-              let multiplier = svg.attr("data-font-multiplier");
-              return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * POSITION_ACCOUNTABLE_NAME.fontRatio * multiplier)}rem`
-            })
-            .style("opacity", function (d: any) {
-              return isLeafDisplayed(d) ? 1 : 0;
-            })
-        });
-        */
+      /*
+    transition
+      .selectAll("text.accountable")
+      .filter((d: any) => !d.children)
+      .on("start", function (d: any) {
+        d3.select(this).style("opacity", 0);
+      })
+      .on("end", function (d: any) {
+        d3
+          .select(this)
+          .attr("text-anchor", "middle")
+          .attr("x", function (d: any) {
+            return d.r * POSITION_ACCOUNTABLE_NAME.x;
+          })
+          .attr("y", function (d: any) {
+            return Math.max(-d.r * d.k * POSITION_ACCOUNTABLE_NAME.y, -d.r * d.k + CIRCLE_RADIUS * 2 + 3);
+          })
+          .attr("font-size", function (d: any) {
+            let multiplier = svg.attr("data-font-multiplier");
+            return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * POSITION_ACCOUNTABLE_NAME.fontRatio * multiplier)}rem`
+          })
+          .style("opacity", function (d: any) {
+            return isLeafDisplayed(d) ? 1 : 0;
+          })
+      });
+      */
 
-        /*
-      transition
-        .selectAll("text.tags")
-        .filter((d: any) => !d.children)
-        .filter(function (d: any) {
-          return d.data.tags;
-        })
-        .on("start", function (d: any) {
-          d3.select(this).style("opacity", 0);
-        })
-        .on("end", function (d: any) {
-          d3
-            .select(this)
-            .attr("x", function (d: any) {
-              return -d.r * d.k * POSITION_TAGS_NAME.x;
-            })
-            .attr("y", function (d: any) {
-              return -d.r * d.k * POSITION_TAGS_NAME.y;
-            })
-            .attr("font-size", function (d: any) {
-              let multiplier = svg.attr("data-font-multiplier");
-              return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * POSITION_TAGS_NAME.fontRatio * multiplier)}rem`
+      /*
+    transition
+      .selectAll("text.tags")
+      .filter((d: any) => !d.children)
+      .filter(function (d: any) {
+        return d.data.tags;
+      })
+      .on("start", function (d: any) {
+        d3.select(this).style("opacity", 0);
+      })
+      .on("end", function (d: any) {
+        d3
+          .select(this)
+          .attr("x", function (d: any) {
+            return -d.r * d.k * POSITION_TAGS_NAME.x;
+          })
+          .attr("y", function (d: any) {
+            return -d.r * d.k * POSITION_TAGS_NAME.y;
+          })
+          .attr("font-size", function (d: any) {
+            let multiplier = svg.attr("data-font-multiplier");
+            return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * POSITION_TAGS_NAME.fontRatio * multiplier)}rem`
 
-            })
-            .style("opacity", function (d: any) {
-              return isLeafDisplayed(d) ? 1 : 0;
-            })
-        });
+          })
+          .style("opacity", function (d: any) {
+            return isLeafDisplayed(d) ? 1 : 0;
+          })
+      });
 */
       let [selectedTags, unselectedTags] = partition(getTags(), (t: SelectableTag) => t.isSelected);
 
@@ -925,6 +899,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
       view = v;
       let ease = d3.easeCircleOut;
       node
+        // .attr("transform", function (d: any) {
+        //   return "translate(" + 0 + "," + (d.y - v[1]) * k + ")";
+        // })
+        //   .transition()
         .attr("transform", function (d: any) {
           return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")";
         });
@@ -1084,10 +1062,23 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     }
 
-    function enterWithAnimations(groups: any) {
+    function enterWithAnimations(groups: any, className: string) {
+
+      groups
+        .attr("class", function (d: any) {
+          return d.parent
+            ? d.children ? "node" : "node node--leaf"
+            : "node node--root";
+        })
+        .classed(className, true)
+        .classed("initiative-map", true)
+        .attr("id", function (d: any) {
+          return `${d.data.id}`;
+        })
+        ;
+
       groups.append("circle")
-      // .attr("transform", (d:any) => `translate(${d.cx}, ${d.cy})`)
-      .style("fill", function (d: any) {
+        .style("fill", function (d: any) {
           return d.children
             ? color(d.depth)
             : !d.children && d.parent === root ? color(d.depth) : null;
@@ -1095,7 +1086,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .transition(TRANSITION_ADD_FADEIN)
         .style("fill", COLOR_ADD_CIRCLE)
         .attr("r", (d: any) => d.r)
-        // .attr("transform", (d:any) => `translate(${d.cx}, ${d.cy})`)
         .transition(TRANSITION_ADD_FADEOUT)
         .style("fill", function (d: any) {
           return d.children
