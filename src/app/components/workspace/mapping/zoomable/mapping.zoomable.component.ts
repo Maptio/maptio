@@ -21,6 +21,7 @@ import { D3Service, D3, ScaleLinear, HSLColor } from "d3-ng2-service";
 import { transition } from "d3-transition";
 import { partition } from "lodash";
 import { LoaderService } from "../../../../shared/services/loading/loader.service";
+import { Team } from "../../../../shared/model/team.data";
 
 @Component({
   selector: "zoomable",
@@ -52,7 +53,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public zoomInitiative$: Observable<Initiative>;
   public toggleOptions$: Observable<Boolean>;
   public isLocked$: Observable<boolean>;
-  public rootNode: Initiative;
 
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
   // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
@@ -145,9 +145,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .subscribe((complexData: [any, string, boolean]) => {
         let data = <any>complexData[0].initiative;
         this.datasetId = complexData[0].datasetId;
-        this.rootNode = complexData[0].initiative;
         this.slug = data.getSlug();
-
         this.loaderService.show();
         this.update(data, complexData[1], complexData[2]);
 
@@ -155,8 +153,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
         this.analytics.eventTrack("Map", {
           action: "viewing",
           view: "initiatives",
-          team: data.teamName,
-          teamId: data.teamId
+          team: (<Team>complexData[0].team).name,
+          teamId: (<Team>complexData[0].team).team_id
         });
         this.isLoading = false;
         this.cd.markForCheck();
@@ -693,6 +691,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let node = g.selectAll("g.node");
 
     svg.on("click", function () {
+      console.log("click")
       if (isFullDisplayMode) return;
       zoom(root);
     });
@@ -913,7 +912,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       let k = diameter / v[2];
       view = v;
       node
-        .transition("").duration(TRANSITION_DURATION)
+        // .transition("").duration(TRANSITION_DURATION)
         .attr("transform", function (d: any, i: any) {
           return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")";
         });
@@ -1053,96 +1052,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     }
 
-    function buildPatterns() {
-      let patterns = definitions.selectAll("pattern").data(
-        nodes.filter(function (d: any) {
-          return d.data.accountable;
-        }),
-        function (d: any) {
-          return d.data.id;
-        }
-      );
-      let enterPatterns = patterns
-        .enter()
-        .filter(function (d: any) {
-          return d.data.accountable;
-        })
-        .append("pattern");
-
-      enterPatterns
-        .attr("id", function (d: any) {
-          return "image" + d.data.id;
-        })
-        .attr("width", "100%")
-        .attr("height", "100%")
-        .filter(function (d: any) {
-          return d.data.accountable;
-        })
-        .append("image")
-        .attr("width", CIRCLE_RADIUS * 2)
-        .attr("height", CIRCLE_RADIUS * 2)
-        .attr("xlink:href", function (d: any) {
-          return d.data.accountable.picture;
-        });
-
-      patterns
-        .attr("id", function (d: any) {
-          return "image" + d.data.id;
-        })
-        .attr("width", "100%")
-        .attr("height", "100%")
-        .filter(function (d: any) {
-          return d.data.accountable;
-        })
-        .select("image")
-        .attr("width", CIRCLE_RADIUS * 2)
-        .attr("height", CIRCLE_RADIUS * 2)
-        .attr("xlink:href", function (d: any) {
-          return d.data.accountable.picture;
-        });
-      patterns.exit().remove();
-    }
-
-    // function buildTooltips() {
-    //   let tooltip = d3
-    //     .select("body")
-    //     .selectAll("div.arrow_box")
-    //     .data(nodes, function (d: any) {
-    //       return d.data.id;
-    //     })
-    //   tooltip.exit().remove();
-
-    //   tooltip = tooltip.enter()
-    //     .append("div")
-    //     .attr("class", "arrow_box p-0 box-shadow")
-    //     .classed("show", false)
-    //     .merge(tooltip)
-    //     .attr("id", function (d: any) {
-    //       return `${d.data.id}`;
-    //     })
-    //     .on("mouseenter", function () {
-    //       d3.select(this).classed("show", true);
-    //     })
-    //     .on("mouseleave", function () {
-    //       tooltip.classed("show", false);
-    //     })
-    //     .html(function (d: any) {
-    //       return uiService.getTooltipHTML(d.data);
-    //     });
-
-    //   d3.selectAll(`.open-initiative`).on("click", function (d: any) {
-    //     let id = Number.parseFloat(d3.select(this).attr("id"));
-    //     showDetailsOf$.next(list.find(n => (<any>n.data).id === id).data);
-    //   });
-    //   d3.selectAll(`.open-summary`).on("click", function (d: any) {
-    //     let shortid = d3.select(this).attr("data-shortid");
-    //     let slug = d3.select(this).attr("data-slug");
-    //     router.navigateByUrl(
-    //       `/map/${datasetId}/${datasetSlug}/u/${shortid}/${slug}`
-    //     );
-    //   });
-    // }
-
     function exitWithAnimations(groups: any) {
       groups.exit().select("text")
         .remove();
@@ -1203,6 +1112,56 @@ export class MappingZoomableComponent implements IDataVisualizer {
         });
 
       return path;
+    }
+
+    function buildPatterns() {
+      let patterns = definitions.selectAll("pattern").data(
+        nodes.filter(function (d: any) {
+          return d.data.accountable;
+        }),
+        function (d: any) {
+          return d.data.id;
+        }
+      );
+      let enterPatterns = patterns
+        .enter()
+        .filter(function (d: any) {
+          return d.data.accountable;
+        })
+        .append("pattern");
+
+      enterPatterns
+        .attr("id", function (d: any) {
+          return "image" + d.data.id;
+        })
+        .attr("width", "100%")
+        .attr("height", "100%")
+        .filter(function (d: any) {
+          return d.data.accountable;
+        })
+        .append("image")
+        .attr("width", CIRCLE_RADIUS * 2)
+        .attr("height", CIRCLE_RADIUS * 2)
+        .attr("xlink:href", function (d: any) {
+          return d.data.accountable.picture;
+        });
+
+      patterns
+        .attr("id", function (d: any) {
+          return "image" + d.data.id;
+        })
+        .attr("width", "100%")
+        .attr("height", "100%")
+        .filter(function (d: any) {
+          return d.data.accountable;
+        })
+        .select("image")
+        .attr("width", CIRCLE_RADIUS * 2)
+        .attr("height", CIRCLE_RADIUS * 2)
+        .attr("xlink:href", function (d: any) {
+          return d.data.accountable.picture;
+        });
+      patterns.exit().remove();
     }
   }
 }

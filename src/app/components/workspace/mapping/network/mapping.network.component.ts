@@ -135,8 +135,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         this.analytics.eventTrack("Map", {
           action: "viewing",
           view: "connections",
-          team: data.teamName,
-          teamId: data.teamId
+          team: (<Team>complexData[0].team).name,
+          teamId: (<Team>complexData[0].team).team_id
         });
         this.isLoading = false;
         this.cd.markForCheck();

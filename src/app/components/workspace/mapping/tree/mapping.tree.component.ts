@@ -22,6 +22,7 @@ import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
 import { BehaviorSubject } from "../../../../../../node_modules/rxjs";
 import { User } from "../../../../shared/model/user.data";
+import { Team } from "../../../../shared/model/team.data";
 
 @Component({
   selector: "tree",
@@ -127,8 +128,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         this.analytics.eventTrack("Map", {
           action: "viewing",
           view: "people",
-          team: data.teamName,
-          teamId: data.teamId
+          team: (<Team>complexData[0].team).name,
+          teamId: (<Team>complexData[0].team).team_id
         });
         this.isLoading = false;
         this.cd.markForCheck();
