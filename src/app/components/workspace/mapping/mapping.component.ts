@@ -167,7 +167,7 @@ export class MappingComponent {
       datasetId: string;
     }>();
 
-    this.VIEWPORT_HEIGHT = uiService.getCanvasHeight()+25;
+    this.VIEWPORT_HEIGHT = uiService.getCanvasHeight() + 25;
     this.VIEWPORT_WIDTH = uiService.getCanvasWidth();
 
 
@@ -347,32 +347,23 @@ export class MappingComponent {
   }
 
   hoveredInitiatives: Initiative[];
-  isNameOnly:boolean;
+  isNameOnly: boolean;
   selectedInitiative: Initiative;
   selectedInitiatives: Initiative[];
   selectedInitiativeX: Number;
   selectedInitiativeY: Number;
-  isReadOnlyContextMenu:boolean;
-  isSingleNodeContextMenu:boolean;
+  isReadOnlyContextMenu: boolean;
   // isViewOnlyContextMenu:boolean;
-  isRemovingNode: Boolean;
-  isAddingNode: Boolean;
-  @ViewChild("inputNewInitiative") public inputNewInitiative: ElementRef
 
-  showContextMenu(context: { initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu:boolean }) {
-    // this.isViewOnlyContextMenu = context.initiatives && context.initiatives.length > 1;
+  showContextMenu(context: { initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean }) {
     this.isReadOnlyContextMenu = context.isReadOnlyContextMenu;
-    this.isSingleNodeContextMenu = context.initiatives && context.initiatives.length === 1;
-    this.selectedInitiative = context.initiatives ? context.initiatives[0] : null;
     this.selectedInitiatives = context.initiatives;
     this.selectedInitiativeX = context.x;
     this.selectedInitiativeY = context.y;
-    this.isRemovingNode = false;
-    this.isAddingNode = false;
     this.cd.markForCheck();
   }
 
-  showTooltip(nodes: Initiative[], isNameOnly:boolean) {
+  showTooltip(nodes: Initiative[], isNameOnly: boolean) {
     this.hoveredInitiatives = nodes;
     this.isNameOnly = isNameOnly;
     this.cd.markForCheck();
@@ -450,27 +441,36 @@ export class MappingComponent {
     this.analytics.eventTrack("Map", { mode: "instruction", action: "add", team: this.team.name, teamId: this.team.team_id });
   }
 
-  addNode(node: Initiative, subNodeName: string, openDetailsPanel: Boolean) {
-   let subNode = new Initiative({ name: subNodeName })
-    this.addInitiative.emit({ node: node, subNode: subNode });
-    if (openDetailsPanel) {
-      this.showDetails.emit(subNode);
-    }
-    this.isAddingNode = false;
-    (<HTMLInputElement>this.inputNewInitiative.nativeElement).value = "";
-    this.cd.markForCheck();
+  // addNode(node: Initiative, subNodeName: string, openDetailsPanel: Boolean) {
+  //   let subNode = new Initiative({ name: subNodeName })
+  //   this.addInitiative.emit({ node: node, subNode: subNode });
+  //   if (openDetailsPanel) {
+  //     this.showDetails.emit(subNode);
+  //   }
+  //   this.isAddingNode = false;
+  //   (<HTMLInputElement>this.inputNewInitiative.nativeElement).value = "";
+  //   this.cd.markForCheck();
+  // }
+
+  emitAddInitiative(context: { node: Initiative, subNode: Initiative }) {
+    this.addInitiative.emit({ node: context.node, subNode: context.subNode })
   }
 
-  openNode(node: Initiative) {
-    this.showDetails.emit(node);
+  emitOpenInitiative( node: Initiative) {
+    this.showDetails.emit(node)
   }
 
-  console(arg: any) {
-    console.log(arg)
+  emitRemoveInitiative( node: Initiative) {
+    this.removeInitiative.emit(node)
   }
-  removeNode(node: Initiative) {
-    this.removeInitiative.emit(node);
-  }
+
+  // openNode(node: Initiative) {
+  //   this.showDetails.emit(node);
+  // }
+
+  // removeNode(node: Initiative) {
+  //   this.removeInitiative.emit(node);
+  // }
 
   public broadcastTagsSettings(tags: SelectableTag[]) {
     // console.log("broadcast settings")
