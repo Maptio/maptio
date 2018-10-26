@@ -173,7 +173,7 @@ span.navbar-text a {
 }
 
 .saving{
-	opacity: 1;	
+	opacity: 0.75;	
     transition-delay:0s;
 }
 
