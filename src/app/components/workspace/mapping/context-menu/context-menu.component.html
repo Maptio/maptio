@@ -8,9 +8,9 @@
                     <i class="fa fa-pencil mx-1" aria-hidden="true"></i> {{initiative.name}}</span>
                 <small class="text-muted">View or edit details</small>
             </button>
-            <div class="cursor-pointer list-group-item list-group-item-action" *ngIf="!isReadOnly">
+            <div class="cursor-pointer list-group-item list-group-item-action" (click)="isAddingNode=!isAddingNode" *ngIf="!isReadOnly">
                 <div>
-                    <div (click)="isAddingNode=!isAddingNode" class="d-flex justify-content-between align-items-center">
+                    <div  class="d-flex justify-content-between align-items-center">
                         <span>
                             <i class="fa fa-plus mx-1" aria-hidden="true"></i> Create sub-circle
                         </span>
@@ -18,7 +18,7 @@
                     </div>
                     <form *ngIf="isAddingNode" class="my-1">
                         <div class="form-group">
-                            <input #inputNewInitiative class="form-control form-control-sm" type="text" name="" id="">
+                            <input #inputNewInitiative class="form-control form-control-sm" (click)="$event.stopPropagation()" type="text" name="" id="">
                         </div>
                         <div class="form-group d-flex justify-content-between">
                             <button class="btn btn-outline-success btn-sm mr-1" (click)="addNode(initiatives[0],inputNewInitiative.value, false)">Add circle</button>
@@ -28,11 +28,11 @@
                 </div>
 
             </div>
-            <div *ngIf="!isReadOnly" class="cursor-pointer list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                <div (click)="isRemovingNode=!isRemovingNode">
+            <div *ngIf="!isReadOnly" (click)="isRemovingNode=!isRemovingNode"  class="cursor-pointer list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                <div >
                     <i class="fa fa-trash mx-1" aria-hidden="true"></i> Delete circle
                 </div>
-                <div [class.invisible]="!isRemovingNode" class="d-flex justify-content-start">
+                <div [class.invisible]="!isRemovingNode" (mouseleave)="isRemovingNode=false" class="d-flex justify-content-start">
                     <button class="btn btn-danger btn-sm mx-1" (click)="removeNode(initiatives[0])">Confirm</button>
                     <button class="btn btn-outline-secondary btn-sm" (click)="isRemovingNode=false">Cancel</button>
                 </div>
