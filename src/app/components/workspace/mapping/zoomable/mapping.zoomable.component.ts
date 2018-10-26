@@ -1052,8 +1052,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .transition(TRANSITION_1x)
         .style("stroke", COLOR_DELETE_CIRCLE)
         .style("fill", COLOR_DELETE_CIRCLE)
-        .attr("r", (d: any) => d.r * 1.2)
-        .transition(TRANSITION_2x)
+        .transition(TRANSITION_1x)
         .attr("r", 0)
         .transition(TRANSITION_1x)
         .remove();
@@ -1082,7 +1081,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             ? color(d.depth)
             : !d.children && d.parent === root ? color(d.depth) : null;
         })
-        .transition(TRANSITION_1x)
+        .transition(TRANSITION_2x)
         .style("fill", COLOR_ADD_CIRCLE)
         .attr("r", (d: any) => d.r)
         .transition(TRANSITION_2x)
