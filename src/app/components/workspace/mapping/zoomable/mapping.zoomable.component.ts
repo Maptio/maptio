@@ -512,51 +512,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
       return b.height - a.height;
     });
 
-    initiativeWithChildren.select("circle")
-      .attr("class", function (d: any) {
-        return d.parent
-          ? d.children ? "node" : "node node--leaf"
-          : "node node--root";
-      })
-      .classed("initiative-map", true)
-      .each((d: any) => (d.k = 1))
-      .attr("id", function (d: any) {
-        return `${d.data.id}`;
-      })
-      .attr("parent-id", function (d: any) {
-        return d.parent ? d.parent.data.id : "";
-      })
-      .classed("with-border", function (d: any) {
-        return !d.children && d.parent === root;
-      })
-      .on("click", function (d: any) {
-        if (isFullDisplayMode) return;
-        if (focus.data.id !== d.data.id) {
-          setLastZoomedCircle(d), zoom(d), d3.event.stopPropagation();
-        }
-      })
-      ;
-
-    initiativeNoChildren.select("circle")
-      .attr("class", function (d: any) {
-        return d.parent
-          ? d.children ? "node" : "node node--leaf"
-          : "node node--root";
-      })
-      .classed("initiative-map", true)
-      .each((d: any) => (d.k = 1))
-      .attr("id", function (d: any) {
-        return `${d.data.id}`;
-      })
-      .classed("with-border", function (d: any) {
-        return !d.children && d.parent === root;
-      })
-      .on("click", function (d: any) {
-        console.log("click", d)
-        if (isFullDisplayMode) return;
-        if (focus !== d) setLastZoomedCircle(d), zoom(d), d3.event.stopPropagation();
-      })
-      ;
+    addCircle(initiativeWithChildren)
+    addCircle(initiativeNoChildren)
 
     let circle = g.selectAll("circle.node")
 
@@ -1056,6 +1013,29 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
 
 
+    }
+
+
+    function addCircle(groups: any) {
+      groups.select("circle")
+        .attr("class", function (d: any) {
+          return d.parent
+            ? d.children ? "node" : "node node--leaf"
+            : "node node--root";
+        })
+        .classed("initiative-map", true)
+        .each((d: any) => (d.k = 1))
+        .attr("id", function (d: any) {
+          return `${d.data.id}`;
+        })
+        .classed("with-border", function (d: any) {
+          return !d.children && d.parent === root;
+        })
+        .on("click", function (d: any) {
+          console.log("click", d)
+          if (isFullDisplayMode) return;
+          if (focus !== d) setLastZoomedCircle(d), zoom(d), d3.event.stopPropagation();
+        })
     }
 
     function exitWithAnimations(groups: any) {
