@@ -864,7 +864,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
       view = v;
 
       node
-        .transition().duration((d:any)=> d.children ? 100 : TRANSITION_DURATION)
+        .transition()
+        .duration((d:any)=> d.children ? TRANSITION_DURATION/5 : TRANSITION_DURATION/5)
+        
         .attr("transform", function (d: any) {
           return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")";
         });
