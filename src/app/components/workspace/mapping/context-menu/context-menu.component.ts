@@ -1,5 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef, SimpleChanges } from '@angular/core';
 import { Initiative } from '../../../../shared/model/initiative.data';
+import { Permissions } from '../../../../shared/model/permission.data';
+import { environment } from '../../../../../environment/environment';
 
 @Component({
     selector: 'context-menu',
@@ -13,7 +15,6 @@ export class ContextMenuComponent implements OnInit {
     @Input("y") y: Number;
     @Input("isReadOnly") isReadOnly: Boolean;
 
-
     @Output() add: EventEmitter<{ node: Initiative, subNode: Initiative }> = new EventEmitter<{ node: Initiative, subNode: Initiative }>();
     @Output() remove: EventEmitter<Initiative> = new EventEmitter<Initiative>();
     @Output() edit: EventEmitter<Initiative> = new EventEmitter<Initiative>();
@@ -21,6 +22,8 @@ export class ContextMenuComponent implements OnInit {
     @ViewChild("inputNewInitiative") public inputNewInitiative: ElementRef;
     isRemovingNode: Boolean;
     isAddingNode: Boolean;
+    Permissions = Permissions;
+    KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
 
     constructor(private cd: ChangeDetectorRef) { }
 

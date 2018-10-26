@@ -1,5 +1,4 @@
-<div class="position-absolute d-block col-3 context-menu" [class.invisible]="!initiatives" [style.top.px]="y"
-    [style.left.px]="x">
+<div class="position-absolute d-block col-3 context-menu" [class.invisible]="!initiatives" [style.top.px]="y" [style.left.px]="x">
     <div>
         <div class="list-group">
             <button *ngFor="let initiative of initiatives" class="d-flex flex-column cursor-pointer list-group-item list-group-item-action"
@@ -10,7 +9,7 @@
             </button>
             <div class="cursor-pointer list-group-item list-group-item-action" (click)="isAddingNode=!isAddingNode" *ngIf="!isReadOnly">
                 <div>
-                    <div  class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex justify-content-between align-items-center">
                         <span>
                             <i class="fa fa-plus mx-1" aria-hidden="true"></i> Create sub-circle
                         </span>
@@ -28,15 +27,42 @@
                 </div>
 
             </div>
-            <div *ngIf="!isReadOnly" (click)="isRemovingNode=!isRemovingNode"  class="cursor-pointer list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                <div >
-                    <i class="fa fa-trash mx-1" aria-hidden="true"></i> Delete circle
-                </div>
-                <div [class.invisible]="!isRemovingNode" (mouseleave)="isRemovingNode=false" class="d-flex justify-content-start">
-                    <button class="btn btn-danger btn-sm mx-1" (click)="removeNode(initiatives[0])">Confirm</button>
-                    <button class="btn btn-outline-secondary btn-sm" (click)="isRemovingNode=false">Cancel</button>
-                </div>
-            </div>
+            <ng-container *ngFor="let initiative of initiatives | slice:0:1">
+                <ng-container *permissionsOnly="Permissions.canDeleteInitiative; initiative initiative; then thenDeleteBlock; else elseDeleteBlock">
+
+                </ng-container>
+                <ng-template #thenDeleteBlock>
+                    <div *ngIf="!isReadOnly" (click)="isRemovingNode=!isRemovingNode" class="cursor-pointer list-group-item list-group-item-action ">
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <i class="fa fa-trash mx-1" aria-hidden="true"></i> Delete circle
+                            </div>
+
+
+                            <div [class.invisible]="!isRemovingNode" (mouseleave)="isRemovingNode=false" class="d-flex justify-content-start">
+                                <button class="btn btn-danger btn-sm mx-1" (click)="removeNode(initiative)">Confirm</button>
+                                <button class="btn btn-outline-secondary btn-sm" (click)="isRemovingNode=false">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+
+                <ng-template #elseDeleteBlock>
+                    <div *ngIf="!isReadOnly" (click)="isRemovingNode=!isRemovingNode" class="cursor-pointer list-group-item list-group-item-action disabled">
+
+                        <div class="d-flex flex-column justify-content-start align-items-start">
+                            <div>
+                                <i class="fa fa-trash mx-1" aria-hidden="true"></i>
+                                <small class="text-muted">You don't have permission to delete this.
+                                    <a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ng-container>
+
         </div>
     </div>
 </div>
