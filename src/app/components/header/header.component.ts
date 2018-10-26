@@ -43,7 +43,7 @@ export class HeaderComponent implements OnInit {
     public isSaving: Boolean = false;
 
     constructor(public auth: Auth, private userService: UserService, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory,
-        public errorService: ErrorService, private router: Router, private loaderService: LoaderService,
+        public errorService: ErrorService, private router: Router, public loaderService: LoaderService,
         private analytics: Angulartics2Mixpanel, private cd: ChangeDetectorRef, private billingService: BillingService) {
 
 
