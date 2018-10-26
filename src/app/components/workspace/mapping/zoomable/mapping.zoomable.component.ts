@@ -531,7 +531,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
       })
       .on("click", function (d: any) {
         if (isFullDisplayMode) return;
-        if (focus !== d) zoom(d), d3.event.stopPropagation();
+        if (focus.data.id !== d.data.id) {
+          setLastZoomedCircle(d), zoom(d), d3.event.stopPropagation();
+        }
       })
       ;
 
@@ -552,7 +554,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .on("click", function (d: any) {
         console.log("click", d)
         if (isFullDisplayMode) return;
-        if (focus !== d) zoom(d), d3.event.stopPropagation();
+        if (focus !== d) setLastZoomedCircle(d), zoom(d), d3.event.stopPropagation();
       })
       ;
 
@@ -683,6 +685,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let node = g.selectAll("g.node");
 
     svg.on("click", function () {
+      console.log("click svg")
       if (isFullDisplayMode) return;
       zoom(root);
     });
@@ -693,9 +696,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
 
     function zoom(d: any) {
-      setLastZoomedCircle(d)
       let focus0 = focus;
       focus = d;
+      setLastZoomedCircle(focus);
 
       let transition = d3
         .transition("zooming")
@@ -906,8 +909,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       node
         .attr("transform", function (d: any) {
           return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")";
-        })
-
+        });
 
       circle
         .attr("r", function (d: any) {
