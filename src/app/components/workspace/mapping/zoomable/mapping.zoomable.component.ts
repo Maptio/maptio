@@ -111,7 +111,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   ZOOMING_TRANSITION_DURATION = 250;
   TRANSITION_OPACITY = 750;
   RATIO_FOR_VISIBILITY = 0.08;
-  OPACITY_DISAPPEARING = 0.1;
+  FADED_OPACITY = 0.1;
   MAX_NUMBER_LETTERS_PER_CIRCLE = 15;
   T: any;
 
@@ -336,13 +336,15 @@ export class MappingZoomableComponent implements IDataVisualizer {
       this.tagsState = tags;
       let [selectedTags, unselectedTags] = partition(tags, t => t.isSelected);
       let uiService = this.uiService
+      let FADED_OPACITY = this.FADED_OPACITY;
       function filterByTags(d: any): number {
-        if (d.data.tags.length === 0) return 1;
+        if(selectedTags.length === 0) return 1;
         return uiService.filter(selectedTags, unselectedTags, d.data.tags.map((t: Tag) => t.shortid))
           ? 1
-          : 0.1
+          : FADED_OPACITY
       }
       g.selectAll("g.node.initiative-map").style("opacity", function (d: any) {
+        console.log(d.data.name, d.data.tags, filterByTags(d))
         return filterByTags(d)
       });
     })
@@ -406,6 +408,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let DEFAULT_PICTURE_ANGLE = this.DEFAULT_PICTURE_ANGLE;
     let PADDING_CIRCLE = 20
     let MAX_NUMBER_LETTERS_PER_CIRCLE = this.MAX_NUMBER_LETTERS_PER_CIRCLE;
+    let FADED_OPACITY = this.FADED_OPACITY;
 
     let TRANSITION_1x = d3.transition("").duration(TRANSITION_DURATION)
     let TRANSITION_2x = d3.transition("").duration(TRANSITION_DURATION * 2)
@@ -853,9 +856,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
           if (getTags().length === 0) return 1;
           return getTags().every((t: SelectableTag) => !t.isSelected)
             // no tags selecteed, we apply node focusing
-            ? (<any[]>focus.descendants()).find(desc => desc.data.id === d.data.id) ? 1 : 0.1
+            ? (<any[]>focus.descendants()).find(desc => desc.data.id === d.data.id) ? 1 : FADED_OPACITY
             // otherwise, we apply tags focusing
-            : uiService.filter(selectedTags, unselectedTags, d.data.tags.map((t: Tag) => t.shortid)) ? 1 : 0.1;
+            : uiService.filter(selectedTags, unselectedTags, d.data.tags.map((t: Tag) => t.shortid)) ? 1 : FADED_OPACITY;
         });
     }
 

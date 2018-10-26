@@ -342,6 +342,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     let setPathsToRoot = this.setPathsToRoot.bind(this)
     let getSeedColor = this.getSeedColor.bind(this);
     let getData = this.getData.bind(this);
+    let FADED_OPACITY = 0.1;
 
     let treemap = d3
       .tree()
@@ -475,7 +476,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
           ? // &&
           // uiService.filter(selectedUsers, unselectedUsers, _.compact(_.flatten([...[d.data.accountable], d.data.helpers])).map(u => u.shortid))
           1
-          : 0.1;
+          : FADED_OPACITY;
       });
 
       let patterns = definitions
