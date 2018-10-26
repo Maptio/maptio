@@ -1084,7 +1084,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .transition(TRANSITION_2x)
         .style("fill", COLOR_ADD_CIRCLE)
         .attr("r", (d: any) => d.r)
-        .transition(TRANSITION_2x)
+        .transition(TRANSITION_1x)
         .style("fill", function (d: any) {
           return d.children
             ? color(d.depth)
