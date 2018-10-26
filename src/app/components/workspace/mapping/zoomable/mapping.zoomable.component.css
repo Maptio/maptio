@@ -37,6 +37,26 @@
 }
 
 
+::ng-deep circle.adding{
+    fill: var(--maptio-blue) !important;
+    stroke: var(--maptio-blue) !important;
+    stroke-width: 3px !important;
+    stroke-opacity: 1!important;
+}
+
+::ng-deep circle.updated{
+    fill: var(--maptio-green) ;
+    stroke-width: 3px ;
+    stroke-opacity: 1;
+}
+
+::ng-deep circle.adding.updated{
+    fill: var(--maptio-green) ;
+    stroke: var(--maptio-green) ;
+    stroke-width: 3px ;
+    stroke-opacity: 1;
+}
+
 
 
 ::ng-deep .initiative-map.node--root {

@@ -407,9 +407,14 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let PADDING_CIRCLE = 20
     let MAX_NUMBER_LETTERS_PER_CIRCLE = this.MAX_NUMBER_LETTERS_PER_CIRCLE;
 
-    let TRANSITION_DELETE = d3.transition("deleting").duration(TRANSITION_DURATION)
-    let TRANSITION_ADD_FADEIN = d3.transition("adding_fadein").duration(TRANSITION_DURATION)
-    let TRANSITION_ADD_FADEOUT = d3.transition("adding_fadeout").duration(TRANSITION_DURATION)
+    let TRANSITION_1x = d3.transition("").duration(TRANSITION_DURATION)
+    let TRANSITION_2x = d3.transition("").duration(TRANSITION_DURATION * 2)
+    let TRANSITION_3x = d3.transition("").duration(TRANSITION_DURATION * 3)
+
+
+    // let TRANSITION_DELETE = d3.transition("deleting").duration(TRANSITION_DURATION)
+    // let TRANSITION_ADD_FADEIN = d3.transition("adding_fadein").duration(TRANSITION_DURATION)
+    // let TRANSITION_ADD_FADEOUT = d3.transition("adding_fadeout").duration(TRANSITION_DURATION * 3)
     let COLOR_ADD_CIRCLE = getComputedStyle(document.body).getPropertyValue('--maptio-blue')
     let COLOR_DELETE_CIRCLE = getComputedStyle(document.body).getPropertyValue('--maptio-red')
 
@@ -897,15 +902,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
     function zoomTo(v: any) {
       let k = diameter / v[2];
       view = v;
-      let ease = d3.easeCircleOut;
+
       node
-        // .attr("transform", function (d: any) {
-        //   return "translate(" + 0 + "," + (d.y - v[1]) * k + ")";
-        // })
-        //   .transition()
         .attr("transform", function (d: any) {
           return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")";
-        });
+        })
 
 
       circle
@@ -930,9 +931,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .style("stroke-opacity", 1)
         .each((d: any) => (d.k = k))
         .on("mouseover", function (d: any) {
+          let circle = d3.select(this);
+          let initiative = d.data;
           d3.event.stopPropagation();
           d3.event.preventDefault();
-          showToolipOf$.next({ initiatives: [d.data], isNameOnly: false });
+          showToolipOf$.next({ initiatives: [initiative], isNameOnly: false });
           d3.select(this)
             .style("stroke", d3.color(seedColor).darker(1).toString())
             .style("fill", d3.color(seedColor).darker(1).toString())
@@ -941,6 +944,17 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
           d3.selectAll(`circle[parent-id="${d.data.id}"]`)
             .style("fill-opacity", 1)
+
+          // d3.select(".tooltip-menu")
+          //   .on("mouseover", function (d: any) {
+          //     showToolipOf$.next({ initiatives: [initiative], isNameOnly: false });
+          //     circle.dispatch("mouseover");
+          //   })
+          //   .on("mouseout", function (d: any) {
+          //     showToolipOf$.next({ initiatives: null, isNameOnly: false });
+          //     circle.dispatch("mouseout");
+          //   })
+
         })
         .on("mouseout", function (d: any) {
           showToolipOf$.next({ initiatives: null, isNameOnly: false });
@@ -1052,13 +1066,16 @@ export class MappingZoomableComponent implements IDataVisualizer {
       groups.exit().select("circle.node")
         .classed("node--leaf", false)
         .classed("deleting", true)
+        .attr("r", (d: any) => d.r)
+        .transition(TRANSITION_1x)
         .style("stroke", COLOR_DELETE_CIRCLE)
         .style("fill", COLOR_DELETE_CIRCLE)
-        .attr("r", (d: any) => d.r)
-        .transition(TRANSITION_DELETE)
+        .attr("r", (d: any) => d.r * 1.2)
+        .transition(TRANSITION_2x)
         .attr("r", 0)
+        .transition(TRANSITION_1x)
         .remove();
-      groups.exit().transition(TRANSITION_DELETE).remove();
+      groups.exit().transition(TRANSITION_1x).remove();
 
     }
 
@@ -1083,10 +1100,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
             ? color(d.depth)
             : !d.children && d.parent === root ? color(d.depth) : null;
         })
-        .transition(TRANSITION_ADD_FADEIN)
+        .transition(TRANSITION_1x)
         .style("fill", COLOR_ADD_CIRCLE)
         .attr("r", (d: any) => d.r)
-        .transition(TRANSITION_ADD_FADEOUT)
+        .transition(TRANSITION_2x)
         .style("fill", function (d: any) {
           return d.children
             ? color(d.depth)
