@@ -1,7 +1,7 @@
-<nav class="header navbar sticky-top  navbar-expand-sm navbar-light bg-transparent justify-content-between pr-3">
+<nav class="header navbar sticky-top  navbar-expand-sm navbar-light bg-transparent justify-content-between pr-3" [class.grayscale]="loaderService.isLoading">
     <a class="navbar-brand d-flex align-items-center">
-        <a routerLink="home" class="no-underline">
-            <img width="36" height="36" class="d-inline-block align-top" src="/assets/images/logo-full.png" alt="Home">
+        <a routerLink="home"  class="no-underline">
+            <img  width="36" height="36" class="d-inline-block align-top" src="/assets/images/logo-full.png" alt="Home">
         </a>
     </a>
     

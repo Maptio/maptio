@@ -15,13 +15,18 @@ export class LoaderService {
 
     }
 
+    public isLoading: boolean;
+
     show() {
-        this.progress.start()
+        this.progress.start();
+        this.isLoading = true;
     }
     hide() {
-        this.progress.done()
+        this.progress.done();
+        this.isLoading = false;
     }
-    keep(){
+    keep() {
         this.progress.inc();
+        this.isLoading = true;
     }
 }
