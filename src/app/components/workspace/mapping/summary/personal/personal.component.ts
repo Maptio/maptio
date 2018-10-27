@@ -1,8 +1,4 @@
-import { Observable, Subscription } from "rxjs";
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, Output, EventEmitter, SimpleChanges } from "@angular/core";
-import { Subject } from "rxjs";
-import { Angulartics2Mixpanel } from "angulartics2";
-import { partition } from "lodash";
 import { Initiative } from "../../../../../shared/model/initiative.data";
 import { User } from "../../../../../shared/model/user.data";
 import { Tag } from "../../../../../shared/model/tag.data";
@@ -29,6 +25,7 @@ export class PersonalSummaryComponent implements OnInit {
     @Input("initiative") public initiative: Initiative;
     @Input("team") public team: Team;
     @Input("height") public height:number;
+    @Input("datasetId") public datasetId:string;
 
     @Output() edit: EventEmitter<Initiative> = new EventEmitter<Initiative>();
 

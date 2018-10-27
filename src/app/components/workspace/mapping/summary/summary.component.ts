@@ -103,6 +103,7 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
             .subscribe((data: any) => {
                 this.members = data.members;
                 this.initiative = data.initiative;
+                this.datasetId = data.dataset.datasetId;
                 this.team = data.team;
                 this.loaderService.hide();
                 this.analytics.eventTrack("Map", {
@@ -127,7 +128,7 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
     }
 
     openInitiative(node: Initiative) {
-        this.showDetailsOf$.next(node);
+        // this.showDetailsOf$.next(node);
     }
 
     init(): void {
