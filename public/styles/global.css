@@ -277,6 +277,10 @@ transition: max-height .25s ease-in-out;
   white-space: nowrap;
 }
 
+.wrap{
+  white-space: initial;
+}
+
 /* .slack{
   position: relative;
   padding-left:25px;

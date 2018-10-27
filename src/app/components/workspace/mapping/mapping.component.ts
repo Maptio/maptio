@@ -11,7 +11,7 @@ import {
   ViewChild,
   ElementRef,
 } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { compact } from "lodash";
 import { BehaviorSubject, ReplaySubject, Subject, Subscription } from "rxjs/Rx";
@@ -30,6 +30,7 @@ import { MappingTreeComponent } from "./tree/mapping.tree.component";
 import { MappingZoomableComponent } from "./zoomable/mapping.zoomable.component";
 import { ExportService } from "./../../../shared/services/export/export.service";
 import { Intercom } from "ng-intercom";
+import { User } from "../../../shared/model/user.data";
 
 // import { MappingNetworkComponent } from "./network/mapping.network.component";
 // import { MappingCirclesComponent } from "./circles/mapping.circles.component";
@@ -150,7 +151,8 @@ export class MappingComponent {
     private uriService: URIService,
     private uiService: UIService,
     private exportService: ExportService,
-    private intercom: Intercom
+    private intercom: Intercom,
+    private router:Router
   ) {
     this.zoom$ = new Subject<number>();
     this.isReset$ = new Subject<boolean>();
@@ -234,7 +236,7 @@ export class MappingComponent {
     component.isReset$ = this.isReset$.asObservable();
 
     if (component.constructor === MemberSummaryComponent) {
-      this.isSearchDisabled = true;
+      // this.isSearchDisabled = true;
       this.isSearchToggled = false;
     }
     else {
@@ -457,6 +459,11 @@ export class MappingComponent {
   zoomToInitiative(selected: Initiative) {
     console.log("zoom to", selected.name)
     this.zoomToInitiative$.next(selected);
+  }
+
+  goToUserSummary(selected:User){
+    console.log(`/map/${this.datasetId}/${this.slug}/u/${selected.shortid}/${selected.getSlug()}`)
+    this.router.navigateByUrl(`/map/${this.datasetId}/${this.slug}/u/${selected.shortid}/${selected.getSlug()}`)
   }
 
   sendSlackNotification(message: string) {
