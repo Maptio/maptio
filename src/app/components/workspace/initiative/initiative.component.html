@@ -172,7 +172,9 @@
 
 												<span class="pl-1 col">
 													<img src="{{user.picture}}" width="16" class="rounded-circle" alt={{user.name}}>
-													<a routerLink="/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/u/{{user.shortid}}/{{user.getSlug()}}">{{user.name}}</a>
+													<a 
+													routerLink="/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/summary" [queryParams]="{member: user.shortid}"
+													>{{user.name}}</a>
 													<span class="text-muted small" *ngIf="isAuthority(user)">({{authority | titlecase }})</span>
 
 												</span>
