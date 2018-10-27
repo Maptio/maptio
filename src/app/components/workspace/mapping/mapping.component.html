@@ -43,7 +43,7 @@
       <button class="btn btn-light summary-list text-dark p-1 btn-control" [routerLinkActive]="['active']" routerLink="/map/{{datasetId}}/{{slug}}/summary">
         <div class="icon-text-label">Summary</div>
       </button>
-      <button class="btn btn-light menu text-dark p-1 btn-control" [class.d-none]="!( rlaNetwork.isActive || rlaCircles.isActive)"
+      <button class="btn btn-light menu text-dark p-1 btn-control" [class.invisible]="!( rlaNetwork.isActive || rlaCircles.isActive)"
         (click)="toggleOptions( rlaNetwork.isActive || rlaCircles.isActive)">
         <i class="fa" [class.fa-ellipsis-h]="!_toggleOptions" [class.fa-times]="_toggleOptions"></i>
         <div class="icon-text-label">{{_toggleOptions ? 'Close' : 'Options'}}</div>
@@ -53,19 +53,19 @@
     </div>
 
     <div class=" btn-group-vertical my-3">
-      <a class="btn btn-light text-dark p-1 btn-control" [class.invisible]="isMapSettingsDisabled" (click)="zoomOut()">
+      <a class="btn btn-light text-dark p-1 btn-control" [class.disabled]="isMapSettingsDisabled" (click)="zoomOut()">
         <i class="fa fa-minus"></i>
         <div class="icon-text-label">Zoom out</div>
       </a>
-      <a class="btn btn-light text-dark p-1 btn-control" [class.invisible]="isMapSettingsDisabled" (click)="zoomIn()">
+      <a class="btn btn-light text-dark p-1 btn-control" [class.disabled]="isMapSettingsDisabled" (click)="zoomIn()">
         <i class="fa fa-plus"></i>
         <div class="icon-text-label">Zoom in</div>
       </a>
-      <a class="btn btn-light text-dark p-1 btn-control" [class.invisible]="isMapSettingsDisabled" (click)="resetZoom()">
+      <a class="btn btn-light text-dark p-1 btn-control" [class.disabled]="isMapSettingsDisabled" (click)="resetZoom()">
         <i class="fa fa-compress" aria-hidden="true"></i>
         <div class="icon-text-label">Zoom fit</div>
       </a>
-      <a class="btn btn-light text-dark p-1 btn-control" [class.active]="isSettingToggled" [class.invisible]="isMapSettingsDisabled"
+      <a class="btn btn-light text-dark p-1 btn-control" [class.active]="isSettingToggled" [class.disabled]="isMapSettingsDisabled"
         (click)="isSettingToggled=!isSettingToggled" data-toggle="collapse" href="#collapseSettings" role="button">
         <i class="fa" [class.fa-sliders]="!isSettingToggled" [class.fa-times]="isSettingToggled"></i>
         <div class="icon-text-label">Settings</div>
