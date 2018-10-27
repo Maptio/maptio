@@ -36,6 +36,7 @@ import { TooltipComponent } from "./mapping/tooltip/tooltip.component";
 import { ContextMenuComponent } from "./mapping/context-menu/context-menu.component";
 import { MappingSummaryComponent } from "./mapping/summary/summary.component";
 import { PersonalSummaryComponent } from "./mapping/summary/personal/personal.component";
+import { MappingSummaryBreadcrumbs } from "./mapping/summary/summary.breadcrumb";
 
 
 const routes: Routes = [{
@@ -52,12 +53,11 @@ const routes: Routes = [{
         { path: "tree", component: MappingTreeComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Tree" } },
         { path: "network", component: MappingNetworkComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Network" } },
         {
-            path: "summary", component: MappingSummaryComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Summary" },
-            // children: [
-            //     { path: "u/:usershortid/:userslug", component: MappingSummaryComponent }
-            // ]
+            path: "summary", component: MappingSummaryComponent, canActivate: [WorkspaceGuard],  data: {
+                breadcrumbs: MappingSummaryBreadcrumbs
+              }
         }
-    
+
     ]
 }]
 
@@ -105,14 +105,14 @@ export function markdownServiceFactory(http: Http) {
 
         WorkspaceComponent,
         BuildingComponent, InitiativeNodeComponent, InitiativeComponent,
-        MappingComponent, MappingZoomableComponent, MappingTreeComponent, MappingNetworkComponent, 
+        MappingComponent, MappingZoomableComponent, MappingTreeComponent, MappingNetworkComponent,
         MappingSummaryComponent, PersonalSummaryComponent,
 
         SearchComponent, FilterTagsComponent, ShareSlackComponent,
         TooltipComponent, ContextMenuComponent
     ],
     providers: [
-        WorkspaceComponentResolver,
+        WorkspaceComponentResolver,MappingSummaryBreadcrumbs,
         {
             provide: MarkdownService,
             useFactory: markdownServiceFactory,
