@@ -710,7 +710,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       let shortid = d3.select(this).attr("data-shortid");
       let slug = d3.select(this).attr("data-slug");
       router.navigateByUrl(
-        `/map/${datasetId}/${datasetSlug}/u/${shortid}/${slug}`
+        `/map/${datasetId}/${datasetSlug}/summary?member=${shortid}`
       );
     });
 
@@ -766,7 +766,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       })
       .on("click", function (d: any) {
         router.navigateByUrl(
-          `/map/${datasetId}/${slug}/u/${d.shortid}/${d.slug}`
+          `/map/${datasetId}/${slug}/summary?member=${d.shortid}`
         );
       })
       .text(function (d: any) {

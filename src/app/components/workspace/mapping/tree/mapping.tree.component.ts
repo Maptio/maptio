@@ -452,7 +452,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         let shortid = d3.select(this).attr("data-shortid");
         let slug = d3.select(this).attr("data-slug");
         router.navigateByUrl(
-          `/map/${datasetId}/${datasetSlug}/u/${shortid}/${slug}`
+          `/map/${datasetId}/${datasetSlug}/summary?member=${shortid}`
         );
       });
 
