@@ -1,4 +1,3 @@
-import { Observable } from "rxjs/Rx";
 import { Auth } from "./../../shared/services/auth/auth.service";
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/router";
 import { DatasetFactory } from "../../shared/services/dataset.factory";
@@ -10,6 +9,7 @@ import { compact, sortBy } from "lodash";
 import { Team } from "../../shared/model/team.data";
 import { UserFactory } from "../../shared/services/user.factory";
 import { SelectableTag } from "../../shared/model/tag.data";
+import { Observable } from "rxjs/Observable";
 
 @Injectable()
 export class WorkspaceComponentResolver implements Resolve<{ dataset: DataSet, team: Team, members: User[], user: User }> {

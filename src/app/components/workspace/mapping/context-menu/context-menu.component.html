@@ -1,12 +1,21 @@
 <div class="position-absolute d-block col-3 context-menu" [class.invisible]="!initiatives" [style.top.px]="y" [style.left.px]="x">
     <div>
         <div class="list-group">
-            <button *ngFor="let initiative of initiatives" class="d-flex flex-column cursor-pointer list-group-item list-group-item-action"
-                (click)="openNode(initiative)">
-                <span>
-                    <i class="fa fa-pencil mx-1" aria-hidden="true"></i> {{initiative.name}}</span>
-                <small class="text-muted">View or edit details</small>
-            </button>
+            <ng-container *ngFor="let initiative of initiatives">
+                <button class="d-flex flex-column cursor-pointer list-group-item list-group-item-action" (click)="openNode(initiative)">
+                    <span>
+                        <i class="fa fa-pencil mx-1" aria-hidden="true"></i> {{initiative.name}}</span>
+                    <small class="text-muted">View or edit details</small>
+                </button>
+                <button *ngIf="initiative.accountable" class="d-flex flex-column cursor-pointer list-group-item list-group-item-action" (click)="openUser(initiative)">
+                    <span>
+                        <img [src]="initiative.accountable.picture" [alt]="initiative.accountable.name" width="15" height="15" class="rounded-circle mr-1"> {{initiative.accountable.name}}
+                    </span>
+                </button>
+            </ng-container>
+
+
+
             <div class="cursor-pointer list-group-item list-group-item-action" (click)="isAddingNode=!isAddingNode" *ngIf="!isReadOnly">
                 <div>
                     <div class="d-flex justify-content-between align-items-center">

@@ -1,0 +1,13 @@
+ul.columns{
+    -moz-column-count: 5;
+    -moz-column-gap: 20px;
+    -webkit-column-count: 5;
+    -webkit-column-gap: 20px;
+    column-count: 5;
+    column-width: 30px;
+    column-gap: 20px;
+}
+
+ul.columns li{
+    list-style: none;
+}

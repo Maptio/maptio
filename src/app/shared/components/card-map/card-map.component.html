@@ -18,7 +18,8 @@
                 <span *ngIf="dataset?.initiative.children">
                     <div *ngIf="dataset?.initiative.children[0]?.accountable" class="text-muted">Vision held by
                         <img class="visionnary rounded-circle" src="{{dataset?.initiative.children[0]?.accountable?.picture}}" alt="{{dataset?.initiative.children[0]?.accountable?.name}}">
-                        <a class="text-muted" routerLink="/map/{{dataset?.datasetId}}/{{dataset?.initiative.getSlug()}}/u/{{dataset?.initiative.children[0]?.accountable?.shortid}}/{{dataset?.initiative.children[0]?.accountable?.getSlug()}}">
+                        <a class="text-muted" routerLink="/map/{{dataset?.datasetId}}/{{dataset?.initiative.getSlug()}}/summary" 
+                        [queryParams]="{member: dataset?.initiative.children[0]?.accountable?.shortid}">
                             <span> {{dataset?.initiative.children[0]?.accountable?.name}}</span>
                         </a>
 

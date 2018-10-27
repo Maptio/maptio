@@ -8,7 +8,7 @@
                 </span>
             </div>
         </div>
-        <div class="d-flex justify-content-between mt-3 overflow-y" [style.max-height.px]="height-30">
+        <div class="d-flex justify-content-between mt-3 overflow-y" [style.max-height.px]="height-112">
             <div class="w-50 mr-1">
                 <h5 *ngIf="authorities.length===0" class="card-title">Not a {{_team?.settings.authority | lowercase }} yet</h5>
                 <h5 *ngIf="authorities.length>0" class="card-title">{{_team?.settings.authority | titlecase }} of circles</h5>
@@ -41,7 +41,7 @@
                                 <button class="btn btn-link pull-right btn-sm" (click)="toggleAuthorityView(ix)">
                                     <i class="fa" [class.fa-caret-right]="!authoritiesHideme[ix]" [class.fa-caret-down]="authoritiesHideme[ix]" aria-hidden="true"></i>
                                 </button>
-                                <div class="d-flex" *ngIf="!authoritiesHideme[ix]">
+                                <div class="d-flex flex-wrap" *ngIf="!authoritiesHideme[ix]">
                                     <a *ngFor="let h of i.helpers" class="btn btn-link btn-xs no-padding" 
                                     routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}/summary" [queryParams]="{member: h.shortid}"
                                     >
@@ -108,7 +108,7 @@
                                 <button class="btn btn-link pull-right btn-sm" (click)="toggleHelpingView(ix)">
                                     <i class="fa" [class.fa-caret-right]="!helpingHideme[ix]" [class.fa-caret-down]="helpingHideme[ix]" aria-hidden="true"></i>
                                 </button>
-                                <div class="d-flex" *ngIf="!helpingHideme[ix]">
+                                <div class="d-flex flex-wrap" *ngIf="!helpingHideme[ix]">
                                     <a *ngFor="let h of i.helpers" class="btn btn-link btn-xs no-padding" routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}/summary"
                                         [queryParams]="{member: h.shortid}">
                                         <img [hidden]="h.user_id === member?.user_id " class="rounded-circle helper" src="{{h.picture}}" alt="{{h.name}}" title="{{h.name}}"

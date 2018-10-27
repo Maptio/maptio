@@ -463,7 +463,6 @@ export class MappingComponent {
   }
 
   goToUserSummary(selected:User){
-    // console.log(`/map/${this.datasetId}/${this.slug}/u/${selected.shortid}/${selected.getSlug()}`)
     this.isSearchToggled = true;
     this.cd.markForCheck();
     this.router.navigateByUrl(`/map/${this.datasetId}/${this.slug}/summary?member=${selected.shortid}`);

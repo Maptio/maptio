@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, 
 import { Initiative } from '../../../../shared/model/initiative.data';
 import { Permissions } from '../../../../shared/model/permission.data';
 import { environment } from '../../../../../environment/environment';
+import { User } from '../../../../shared/model/user.data';
 
 @Component({
     selector: 'context-menu',
@@ -18,6 +19,7 @@ export class ContextMenuComponent implements OnInit {
     @Output() add: EventEmitter<{ node: Initiative, subNode: Initiative }> = new EventEmitter<{ node: Initiative, subNode: Initiative }>();
     @Output() remove: EventEmitter<Initiative> = new EventEmitter<Initiative>();
     @Output() edit: EventEmitter<Initiative> = new EventEmitter<Initiative>();
+    @Output() openAccountable: EventEmitter<User> = new EventEmitter<User>();
 
     @ViewChild("inputNewInitiative") public inputNewInitiative: ElementRef;
     isRemovingNode: Boolean;
@@ -49,5 +51,9 @@ export class ContextMenuComponent implements OnInit {
 
     openNode(node:Initiative){
         this.edit.emit(node);
+    }
+
+    openUser(node:Initiative){
+        this.openAccountable.emit(node.accountable)
     }
 }
