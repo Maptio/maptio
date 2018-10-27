@@ -8,7 +8,7 @@
   <router-outlet (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>
 
   <div class="d-flex flex-column justify-content-start align-items-end  pr-2">
-    <div class="btn-group-vertical my-2">
+    <div class="btn-group-vertical mb-2">
       <a class="btn btn-light p-1 text-dark btn-control" [class.active]="isSearchToggled" [class.disabled]="isSearchDisabled" (click)="isSearchToggled=!isSearchToggled"
         data-toggle="collapse" href="#collapseSearch" role="button">
         <i class="fa" [class.fa-search]="!isSearchToggled" [class.fa-times]="isSearchToggled"></i>
@@ -20,7 +20,7 @@
         <i class="fa" [class.fa-filter]="!isFiltersToggled" [class.fa-times]="isFiltersToggled"></i>
         <div class="icon-text-label">Filter</div>
       </a>
-      <a class="btn btn-light p-1 text-dark btn-control" [class.active]="isSharingToggled" [class.disabled]="isSearchDisabled"
+      <a class="btn btn-light p-1 text-dark btn-control" [class.active]="isSharingToggled" [class.invisible]="isMapSettingsDisabled"
         (click)="isSharingToggled=!isSharingToggled" data-toggle="collapse" href="#collapseSlack" role="button">
         <i class="fa" [class.fa-slack]="!isSharingToggled" [class.fa-times]="isSharingToggled"></i>
         <div class="icon-text-label">Share</div>
@@ -40,28 +40,32 @@
         routerLink="/map/{{datasetId}}/{{slug}}/network" fragment="x=0&y={{-this.VIEWPORT_HEIGHT / 4}}&scale=1&{{tagsFragment}}">
         <div class="icon-text-label">Network</div>
       </button>
+      <button class="btn btn-light summary-list text-dark p-1 btn-control" [routerLinkActive]="['active']" routerLink="/map/{{datasetId}}/{{slug}}/summary">
+        <div class="icon-text-label">Summary</div>
+      </button>
       <button class="btn btn-light menu text-dark p-1 btn-control" [class.d-none]="!( rlaNetwork.isActive || rlaCircles.isActive)"
         (click)="toggleOptions( rlaNetwork.isActive || rlaCircles.isActive)">
         <i class="fa" [class.fa-ellipsis-h]="!_toggleOptions" [class.fa-times]="_toggleOptions"></i>
         <div class="icon-text-label">{{_toggleOptions ? 'Close' : 'Options'}}</div>
       </button>
 
+
     </div>
 
     <div class=" btn-group-vertical my-3">
-      <a class="btn btn-light text-dark p-1 btn-control" [class.disabled]="isSearchDisabled" (click)="zoomOut()">
+      <a class="btn btn-light text-dark p-1 btn-control" [class.invisible]="isMapSettingsDisabled" (click)="zoomOut()">
         <i class="fa fa-minus"></i>
         <div class="icon-text-label">Zoom out</div>
       </a>
-      <a class="btn btn-light text-dark p-1 btn-control" [class.disabled]="isSearchDisabled" (click)="zoomIn()">
+      <a class="btn btn-light text-dark p-1 btn-control" [class.invisible]="isMapSettingsDisabled" (click)="zoomIn()">
         <i class="fa fa-plus"></i>
         <div class="icon-text-label">Zoom in</div>
       </a>
-      <a class="btn btn-light text-dark p-1 btn-control" [class.disabled]="isSearchDisabled" (click)="resetZoom()">
+      <a class="btn btn-light text-dark p-1 btn-control" [class.invisible]="isMapSettingsDisabled" (click)="resetZoom()">
         <i class="fa fa-compress" aria-hidden="true"></i>
         <div class="icon-text-label">Zoom fit</div>
       </a>
-      <a class="btn btn-light text-dark p-1 btn-control" [class.active]="isSettingToggled" [class.disabled]="isSearchDisabled"
+      <a class="btn btn-light text-dark p-1 btn-control" [class.active]="isSettingToggled" [class.invisible]="isMapSettingsDisabled"
         (click)="isSettingToggled=!isSettingToggled" data-toggle="collapse" href="#collapseSettings" role="button">
         <i class="fa" [class.fa-sliders]="!isSettingToggled" [class.fa-times]="isSettingToggled"></i>
         <div class="icon-text-label">Settings</div>

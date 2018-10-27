@@ -1,17 +1,6 @@
-import { Initiative } from "./../../../../shared/model/initiative.data";
-import { ErrorService } from "./../../../../shared/services/error/error.service";
-import { authHttpServiceFactoryTesting } from "../../../../../test/specs/shared/authhttp.helper.shared";
-import { UIService } from "./../../../../shared/services/ui/ui.service";
-import { DataService } from "./../../../../shared/services/data.service";
-import { DatasetFactory } from "./../../../../shared/services/dataset.factory";
-import { TeamFactory } from "./../../../../shared/services/team.factory";
-import { UserFactory } from "./../../../../shared/services/user.factory";
-import { Auth } from "./../../../../shared/services/auth/auth.service";
-import { User } from "./../../../../shared/model/user.data";
 import { MarkdownModule, MarkdownService } from "angular2-markdown";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { AuthHttp } from "angular2-jwt";
-import { MemberSummaryComponent } from "./member-summary.component";
 import { Observable, Subject } from "rxjs/Rx";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { TestBed, async, ComponentFixture } from "@angular/core/testing";
@@ -20,6 +9,9 @@ import { MockBackend } from "@angular/http/testing";
 import { Angulartics2Mixpanel, Angulartics2, Angulartics2Module } from "angulartics2";
 import { RouterTestingModule } from "@angular/router/testing";
 import { D3Service } from "d3-ng2-service";
+import { Initiative } from "../../../../../shared/model/initiative.data";
+import { MemberSummaryComponent } from "./personal.component";
+import { DataService } from "../../../../../shared/services/data.service";
 
 
 describe("member-summary.component.ts", () => {

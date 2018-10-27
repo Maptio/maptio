@@ -10,8 +10,7 @@ import { FilterTagsComponent } from "./filter/tags.component";
 import { SearchComponent } from "./search/search.component";
 import { FocusIfDirective } from "./../../shared/directives/focusif.directive";
 import { TreeModule } from "angular-tree-component";
-import { MemberSummaryComponent } from "./mapping/member-summary/member-summary.component";
-import { WorkspaceGuard } from "./../../shared/services/guards/workspace.guard";
+import { WorkspaceGuard } from "../../shared/services/guards/workspace.guard";
 import { WorkspaceComponent } from "./workspace.component";
 import { WorkspaceComponentResolver } from "./workspace.resolver";
 import { MappingNetworkComponent } from "./mapping/network/mapping.network.component";
@@ -23,8 +22,8 @@ import { InitiativeNodeComponent } from "./building/initiative.node.component";
 import { BuildingComponent } from "./building/building.component";
 // import { UiSwitchModule } from "ngx-toggle-switch";
 
-import { AccessGuard } from "./../../shared/services/guards/access.guard";
-import { AuthGuard } from "./../../shared/services/guards/auth.guard";
+import { AccessGuard } from "../../shared/services/guards/access.guard";
+import { AuthGuard } from "../../shared/services/guards/auth.guard";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { RouterModule, Routes } from "@angular/router";
 import { LoadingModule, ANIMATION_TYPES } from "ngx-loading";
@@ -35,6 +34,8 @@ import { BillingGuard } from "../../shared/services/guards/billing.guard";
 import { EmitterService } from "../../shared/services/emitter.service";
 import { TooltipComponent } from "./mapping/tooltip/tooltip.component";
 import { ContextMenuComponent } from "./mapping/context-menu/context-menu.component";
+import { MappingSummaryComponent } from "./mapping/summary/summary.component";
+import { PersonalSummaryComponent } from "./mapping/summary/personal/personal.component";
 
 
 const routes: Routes = [{
@@ -50,7 +51,13 @@ const routes: Routes = [{
         { path: "circles", component: MappingZoomableComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Circles" } },
         { path: "tree", component: MappingTreeComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Tree" } },
         { path: "network", component: MappingNetworkComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Network" } },
-        { path: "u/:usershortid/:userslug", component: MemberSummaryComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Summary" } }
+        {
+            path: "summary", component: MappingSummaryComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Summary" },
+            // children: [
+            //     { path: "u/:usershortid/:userslug", component: MappingSummaryComponent }
+            // ]
+        }
+    
     ]
 }]
 
@@ -98,7 +105,8 @@ export function markdownServiceFactory(http: Http) {
 
         WorkspaceComponent,
         BuildingComponent, InitiativeNodeComponent, InitiativeComponent,
-        MappingComponent, MappingZoomableComponent, MappingTreeComponent, MappingNetworkComponent, MemberSummaryComponent,
+        MappingComponent, MappingZoomableComponent, MappingTreeComponent, MappingNetworkComponent, 
+        MappingSummaryComponent, PersonalSummaryComponent,
 
         SearchComponent, FilterTagsComponent, ShareSlackComponent,
         TooltipComponent, ContextMenuComponent

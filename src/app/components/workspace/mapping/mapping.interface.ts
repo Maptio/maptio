@@ -1,8 +1,8 @@
-import { SelectableTag } from "./../../../shared/model/tag.data";
-import { Initiative } from "./../../../shared/model/initiative.data";
-import { Subject } from "rxjs/Rx";
+import { SelectableTag } from "../../../shared/model/tag.data";
+import { Initiative } from "../../../shared/model/initiative.data";
+import { Subject } from "rxjs";
 import { Observable } from "rxjs/Observable";
-import { Angulartics2Mixpanel } from "angulartics2/dist";
+import { Angulartics2Mixpanel } from "angulartics2";
 
 export interface IDataVisualizer {
     teamName: string;

@@ -1,20 +1,20 @@
-<div class="d-flex justify-content-center mt-4" [style.width.px]="width">
-    <div class="col-10">
-        <div class="card bg-light border-light">
-            <div class="card-title">
-                <span class="d-flex align-items-center">
+<div class="d-flex justify-content-center row">
+    <div class="col-12">
+        <div class="card border-dark">
+            <div class="card-title my-0">
+                <span class="d-flex align-items-center p-2">
                     <img class="rounded-circle m-1" width="60" height="60" src="{{member?.picture}}" alt="{{member?.name}}">
                     <h1 class="ml-1">{{member?.name}}</h1>
                 </span>
             </div>
         </div>
-        <div class="d-flex justify-content-between mt-3 overflow">
+        <div class="d-flex justify-content-between mt-3 overflow-y" [style.max-height.px]="height-30">
             <div class="w-50 mr-1">
-                <h5 *ngIf="authorities.length===0" class="card-title">Not a {{team?.settings.authority | lowercase }} yet</h5>
-                <h5 *ngIf="authorities.length>0" class="card-title">{{team?.settings.authority | titlecase }} of circles</h5>
+                <h5 *ngIf="authorities.length===0" class="card-title">Not a {{_team?.settings.authority | lowercase }} yet</h5>
+                <h5 *ngIf="authorities.length>0" class="card-title">{{_team?.settings.authority | titlecase }} of circles</h5>
 
                 <div *ngFor="let i of authorities; let ix=index" class="card  mb-3">
-                    <div class="card-header bg-transparent">
+                    <div class="card-header bg-light border-bottom-0">
                         <button class="btn btn-link wrap" (click)="openInitiative(i)">
                             <h6 class="mb-1">{{i.name}}</h6>
                         </button>
@@ -59,7 +59,7 @@
                                 </div>
                             </div>
                         </div>
-                        <span class="mb-1 small text-warning" *ngIf="(i.helpers?.length === 0)">No {{team?.settings.helper | lowercase }}</span>
+                        <span class="mb-1 small text-warning" *ngIf="(i.helpers?.length === 0)">No {{_team?.settings.helper | lowercase }}</span>
 
                     </div>
                 </div>
@@ -69,10 +69,10 @@
             <div class="w-50 ml-1">
 
                 <h5 *ngIf="helps.length===0" class="card-title">No helping participation yet.</h5>
-                <h5 *ngIf="helps.length>0" class="card-title">A {{team.settings.helper | lowercase }} in circles</h5>
+                <h5 *ngIf="helps.length>0" class="card-title">A {{_team.settings.helper | lowercase }} in circles</h5>
 
                 <div *ngFor="let i of helps; let ix=index" class="card  mb-3">
-                    <div class="card-header bg-transparent">
+                    <div class="card-header bg-light border-bottom-0">
                         <button class="btn btn-link wrap" (click)="openInitiative(i)">
                             <h6 class="mb-1">{{i.name}}</h6>
                         </button>
@@ -119,7 +119,7 @@
                                 </div>
                             </div>
                         </div>
-                        <span class="text-warning small mb-2" *ngIf="(i.helpers?.length === 1)">No other {{team.settings.helper | lowercase }}</span>
+                        <span class="text-warning small mb-2" *ngIf="(i.helpers?.length === 1)">No other {{_team.settings.helper | lowercase }}</span>
 
                     </div>
                 </div>

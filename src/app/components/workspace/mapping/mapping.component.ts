@@ -14,23 +14,23 @@ import {
 import { ActivatedRoute, Router } from "@angular/router";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { compact } from "lodash";
-import { BehaviorSubject, ReplaySubject, Subject, Subscription } from "rxjs/Rx";
+import { BehaviorSubject, ReplaySubject, Subject, Subscription } from "rxjs";
 
 import { saveAs } from "file-saver"
-import { Initiative } from "./../../../shared/model/initiative.data";
-import { SelectableTag, Tag } from "./../../../shared/model/tag.data";
-import { Team } from "./../../../shared/model/team.data";
-import { DataService } from "./../../../shared/services/data.service";
-import { UIService } from "./../../../shared/services/ui/ui.service";
-import { URIService } from "./../../../shared/services/uri.service";
+import { Initiative } from "../../../shared/model/initiative.data";
+import { SelectableTag, Tag } from "../../../shared/model/tag.data";
+import { Team } from "../../../shared/model/team.data";
+import { DataService } from "../../../shared/services/data.service";
+import { UIService } from "../../../shared/services/ui/ui.service";
+import { URIService } from "../../../shared/services/uri.service";
 import { IDataVisualizer } from "./mapping.interface";
-import { MemberSummaryComponent } from "./member-summary/member-summary.component";
 import { MappingNetworkComponent } from "./network/mapping.network.component";
 import { MappingTreeComponent } from "./tree/mapping.tree.component";
 import { MappingZoomableComponent } from "./zoomable/mapping.zoomable.component";
-import { ExportService } from "./../../../shared/services/export/export.service";
+import { ExportService } from "../../../shared/services/export/export.service";
 import { Intercom } from "ng-intercom";
 import { User } from "../../../shared/model/user.data";
+import { MappingSummaryComponent } from "./summary/summary.component";
 
 // import { MappingNetworkComponent } from "./network/mapping.network.component";
 // import { MappingCirclesComponent } from "./circles/mapping.circles.component";
@@ -45,7 +45,7 @@ declare var canvg: any;
   entryComponents: [
     MappingTreeComponent,
     MappingNetworkComponent,
-    MemberSummaryComponent,
+    MappingSummaryComponent,
     MappingZoomableComponent
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -76,6 +76,7 @@ export class MappingComponent {
   //   public isTagSettingActive: boolean;
   public isSettingToggled: boolean;
   public isSearchToggled: boolean;
+  public isMapSettingsDisabled:boolean;
 
   public zoom$: Subject<number>;
   public isReset$: Subject<boolean>;
@@ -235,12 +236,12 @@ export class MappingComponent {
     component.analytics = this.analytics;
     component.isReset$ = this.isReset$.asObservable();
 
-    if (component.constructor === MemberSummaryComponent) {
-      // this.isSearchDisabled = true;
-      this.isSearchToggled = false;
+    if (component.constructor === MappingSummaryComponent) {
+      this.isMapSettingsDisabled = true;
     }
     else {
       this.isSearchDisabled = false;
+      this.isMapSettingsDisabled = false;
     }
   }
 
@@ -320,7 +321,7 @@ export class MappingComponent {
         return `x=${this.VIEWPORT_WIDTH / 10}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`;
       case MappingNetworkComponent:
         return `x=0&y=${-this.VIEWPORT_HEIGHT / 4}&scale=1`;
-      case MemberSummaryComponent:
+      case MappingSummaryComponent:
         return `x=0&y=0&scale=1`;
       default:
         return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_WIDTH / 2 - 180}&scale=1`;
@@ -462,8 +463,11 @@ export class MappingComponent {
   }
 
   goToUserSummary(selected:User){
-    console.log(`/map/${this.datasetId}/${this.slug}/u/${selected.shortid}/${selected.getSlug()}`)
-    this.router.navigateByUrl(`/map/${this.datasetId}/${this.slug}/u/${selected.shortid}/${selected.getSlug()}`)
+    // console.log(`/map/${this.datasetId}/${this.slug}/u/${selected.shortid}/${selected.getSlug()}`)
+    this.isSearchToggled = true;
+    this.cd.markForCheck();
+    this.router.navigateByUrl(`/map/${this.datasetId}/${this.slug}/summary?member=${selected.shortid}`);
+   
   }
 
   sendSlackNotification(message: string) {

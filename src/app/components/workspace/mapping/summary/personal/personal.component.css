@@ -23,10 +23,6 @@
     padding: 0
 }
 
-.overflow {
-    overflow-y: auto;
-    max-height: 60vh
-}
 
 .btn-link:focus, .btn-link:active {
     box-shadow: none!important;

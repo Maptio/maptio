@@ -1,0 +1,19 @@
+<div [style.width.px]="width" class="row">
+    <div class="d-flex col-12">
+        <div class="col" *ngIf="selectedMember">
+            <summary-personal [height]="height" [member]="selectedMember" [team]="team" [initiative]="initiative" (edit)="openInitiative($event)"></summary-personal>
+        </div>
+        <div class="col-4 overflow-y " [class.col-3]="selectedMember" [class.col-12]="!selectedMember" [style.max-height.px]="height" [class.border-left]="selectedMember">
+            <h6>Select a member and see their circles</h6>
+
+            <ul class="nav flex-column nav-pills">
+                <li *ngFor="let member of members" class="nav-item" >
+                    <a class="nav-link" routerLink="." [queryParams]="{member: member.shortid}" [class.active]="selectedMember?.user_id === member?.user_id">
+                        <img [src]="member.picture" [alt]="member.name" width="30" height="30" class="rounded-circle mr-1">{{member.name}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>

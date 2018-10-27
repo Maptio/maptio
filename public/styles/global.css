@@ -105,6 +105,12 @@ input[type="text"], input[type="email"], input[type="password"] {
   transform: rotate(90deg);
 }
 
+.summary-list:before{
+  content: "\f0ca";
+  font-family: FontAwesome;
+
+}
+
 .circles{
   background-image: url(/assets/images/circles.png) ;
   background-repeat:no-repeat;
@@ -258,6 +264,10 @@ transition: max-height .25s ease-in-out;
 .overflow-hidden
 {
   overflow: hidden;
+}
+
+.overflow-y{
+  overflow-y: auto;
 }
 
 .overflow-x-hidden{
