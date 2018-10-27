@@ -143,6 +143,10 @@ transition: background-image 0.2s ease-in-out;
   cursor: pointer;
 }
 
+.cursor-auto{
+  cursor: auto;
+}
+
 .home-background{
   background-image: url('/assets/images/screenshot-light.png');
   background-size: contain;

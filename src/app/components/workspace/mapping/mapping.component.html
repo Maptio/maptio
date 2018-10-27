@@ -9,18 +9,18 @@
 
   <div class="d-flex flex-column justify-content-start align-items-end  pr-2">
     <div class="btn-group-vertical mb-2">
-      <a class="btn btn-light p-1 text-dark btn-control" [class.active]="isSearchToggled" [class.disabled]="isSearchDisabled" (click)="isSearchToggled=!isSearchToggled"
-        data-toggle="collapse" href="#collapseSearch" role="button">
+      <a class="btn btn-light p-1 text-dark btn-control" [class.active]="isSearchToggled" [class.disabled]="isSearchDisabled || isMapSettingsDisabled" (click)="isSearchToggled=!isSearchToggled"
+        data-toggle="collapse" href="#collapseSearch" role="button" >
         <i class="fa" [class.fa-search]="!isSearchToggled" [class.fa-times]="isSearchToggled"></i>
 
         <div class="icon-text-label">Search</div>
       </a>
-      <a class="btn btn-light p-1 text-dark btn-control" [class.active]="isFiltersToggled" [class.disabled]="isSearchDisabled"
+      <a class="btn btn-light p-1 text-dark btn-control" [class.active]="isFiltersToggled" [class.disabled]="isSearchDisabled || isMapSettingsDisabled" 
         (click)="isFiltersToggled=!isFiltersToggled" data-toggle="collapse" href="#collapseFilter" role="button">
         <i class="fa" [class.fa-filter]="!isFiltersToggled" [class.fa-times]="isFiltersToggled"></i>
         <div class="icon-text-label">Filter</div>
       </a>
-      <a class="btn btn-light p-1 text-dark btn-control" [class.active]="isSharingToggled" [class.invisible]="isMapSettingsDisabled"
+      <a class="btn btn-light p-1 text-dark btn-control" [class.active]="isSharingToggled" [class.disabled]="isMapSettingsDisabled"
         (click)="isSharingToggled=!isSharingToggled" data-toggle="collapse" href="#collapseSlack" role="button">
         <i class="fa" [class.fa-slack]="!isSharingToggled" [class.fa-times]="isSharingToggled"></i>
         <div class="icon-text-label">Share</div>

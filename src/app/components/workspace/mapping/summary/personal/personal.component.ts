@@ -1,8 +1,9 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, Output, EventEmitter, SimpleChanges } from "@angular/core";
 import { Initiative } from "../../../../../shared/model/initiative.data";
 import { User } from "../../../../../shared/model/user.data";
-import { Tag } from "../../../../../shared/model/tag.data";
+// import { Tag, SelectableTag } from "../../../../../shared/model/tag.data";
 import { Team } from "../../../../../shared/model/team.data";
+// import { partition } from "lodash";
 
 
 @Component({
@@ -24,21 +25,24 @@ export class PersonalSummaryComponent implements OnInit {
     @Input("member") public member: User;
     @Input("initiative") public initiative: Initiative;
     @Input("team") public team: Team;
-    @Input("height") public height:number;
-    @Input("datasetId") public datasetId:string;
+    @Input("height") public height: number;
+    @Input("datasetId") public datasetId: string;
+    // @Input("tags") public tags: SelectableTag[];
 
     @Output() edit: EventEmitter<Initiative> = new EventEmitter<Initiative>();
 
     private _user: User;
     private _initiative: Initiative;
-    private _team:Team;
+    private _team: Team;
+    // private _selectedTags: SelectableTag[];
+    // private _unselectedTags: SelectableTag[];
 
     constructor(private cd: ChangeDetectorRef) {
 
     }
 
     ngOnInit() {
-        if (this._user && this._initiative && this._team){
+        if (this._user && this._initiative && this._team) {
             this.getSummary();
             this.cd.markForCheck();
 
@@ -55,6 +59,11 @@ export class PersonalSummaryComponent implements OnInit {
         if (changes.team && changes.team.currentValue) {
             this._team = changes.team.currentValue;
         }
+        // if(changes.tags && changes.tags.currentValue){
+        //     let [s, u] = partition(<SelectableTag[]>changes.tags.currentValue, t => t.isSelected)
+        //     this._selectedTags = s;
+        //     this._unselectedTags = u;
+        // }
         this.ngOnInit();
     }
 
@@ -138,9 +147,9 @@ export class PersonalSummaryComponent implements OnInit {
     //             })
     // }
 
-    isInitiativeSelected(id: number): boolean {
-        return this.initiativesMap.get(id);
-    }
+    // isInitiativeSelected(id: number): boolean {
+    //     return this.initiativesMap.get(id);
+    // }
 
     toggleAuthorityView(i: number) {
         this.authoritiesHideme.forEach(el => {

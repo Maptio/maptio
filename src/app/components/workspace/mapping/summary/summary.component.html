@@ -1,5 +1,5 @@
 <div [style.width.px]="width" >
-    <div class="row">
+    <div class="row cursor-auto">
             <div class="d-flex col-12">
                     <div class="col" *ngIf="selectedMember">
                         <summary-personal [height]="height" [datasetId]="datasetId" [member]="selectedMember" [team]="team" [initiative]="initiative" (edit)="openInitiative($event)"></summary-personal>
