@@ -106,7 +106,7 @@ input[type="text"], input[type="email"], input[type="password"] {
 }
 
 .summary-list:before{
-  content: "\f0ca";
+  content: "\f0c0";
   font-family: FontAwesome;
 
 }
