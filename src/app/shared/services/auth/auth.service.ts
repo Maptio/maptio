@@ -16,6 +16,7 @@ import { tokenNotExpired } from "angular2-jwt/angular2-jwt";
 import { uniq } from "lodash";
 import * as LogRocket from "logrocket";
 import { Intercom } from "ng-intercom";
+import { local } from "../../../../../node_modules/@types/d3-selection";
 
 @Injectable()
 export class Auth {
@@ -57,10 +58,12 @@ export class Auth {
     let FONT_SIZE = localStorage.getItem("FONT_SIZE");
     let FONT_COLOR = localStorage.getItem("FONT_COLOR");
     let MAP_COLOR = localStorage.getItem("MAP_COLOR");
+    let CIRCLE_VIEW_MODE = localStorage.getItem("CIRCLE_VIEW_MODE")
     localStorage.clear();
     localStorage.setItem("FONT_SIZE", FONT_SIZE || "");
     localStorage.setItem("FONT_COLOR", FONT_COLOR || "");
     localStorage.setItem("MAP_COLOR", MAP_COLOR || "");
+    localStorage.setItem("CIRCLE_VIEW_MODE", CIRCLE_VIEW_MODE);
   }
 
   // public shutDownIntercom() {
