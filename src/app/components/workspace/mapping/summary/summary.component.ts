@@ -53,6 +53,7 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
     public scale: number;
     public tagsState: Array<SelectableTag>;
 
+    public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
     public showToolipOf$: Subject<{ initiatives: Initiative[], isNameOnly: boolean }> = new Subject<{ initiatives: Initiative[], isNameOnly: boolean }>();
     public showContextMenuOf$: Subject<{
         initiatives: Initiative[], x: Number, y: Number,
@@ -128,7 +129,7 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
     }
 
     openInitiative(node: Initiative) {
-        // this.showDetailsOf$.next(node);
+        this.showDetailsOf$.next(node);
     }
 
     init(): void {

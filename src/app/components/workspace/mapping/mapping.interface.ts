@@ -33,7 +33,7 @@ export interface IDataVisualizer {
     scale: number;
     tagsState: Array<SelectableTag>;
 
-    // showDetailsOf$: Subject<Initiative>;
+    showDetailsOf$: Subject<Initiative>;
     showToolipOf$ : Subject<{initiatives : Initiative[], isNameOnly:boolean}>;
     showContextMenuOf$ : Subject<{initiatives:Initiative[], x : Number, y:Number, isReadOnlyContextMenu:boolean}>;
     // addInitiative$: Subject<Initiative>;

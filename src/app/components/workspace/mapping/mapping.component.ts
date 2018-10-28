@@ -184,6 +184,10 @@ export class MappingComponent {
       this.showTooltip(tooltip.initiatives, tooltip.isNameOnly);
     })
 
+    component.showDetailsOf$.asObservable().subscribe(node =>{
+      this.emitOpenInitiative(node)
+    })
+
     component.showContextMenuOf$.asObservable().subscribe(node => {
       this.showContextMenu(node);
     })
@@ -314,6 +318,7 @@ export class MappingComponent {
   }
 
   getFragment(component: IDataVisualizer) {
+    console.log(component)
     switch (component.constructor) {
       case MappingZoomableComponent:
         return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_WIDTH / 2 - 180}&scale=1`;
