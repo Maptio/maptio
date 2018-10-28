@@ -237,7 +237,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     g.append("g").attr("class", "paths");
     let zooming = d3
       .zoom()
-      .scaleExtent([1 / 3, this._isFullDisplayMode ? 3 : 4 / 3])
+      .scaleExtent([this._isFullDisplayMode ? 1 : 1 / 3, this._isFullDisplayMode ? 3 : 4 / 3])
       .on("zoom", zoomed)
       .on("end", () => {
         let transform = d3.event.transform;
@@ -338,7 +338,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       let uiService = this.uiService
       let FADED_OPACITY = this.FADED_OPACITY;
       function filterByTags(d: any): number {
-        if(selectedTags.length === 0) return 1;
+        if (selectedTags.length === 0) return 1;
         return uiService.filter(selectedTags, unselectedTags, d.data.tags.map((t: Tag) => t.shortid))
           ? 1
           : FADED_OPACITY
@@ -646,7 +646,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     svg.on("click", function () {
       console.log("click svg")
-      if (isFullDisplayMode) return;
+      // if (isFullDisplayMode) return;
       zoom(root);
     });
 
@@ -868,8 +868,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
       node
         .transition()
-        .duration((d:any)=> d.children ? TRANSITION_DURATION/5 : TRANSITION_DURATION/5)
-        
+        .duration((d: any) => d.children ? TRANSITION_DURATION / 5 : TRANSITION_DURATION / 5)
+
         .attr("transform", function (d: any) {
           return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")";
         });
@@ -1039,7 +1039,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         })
         .on("click", function (d: any) {
           console.log("click", d)
-          if (isFullDisplayMode) return;
+          // if (isFullDisplayMode) return;
           if (focus !== d) setLastZoomedCircle(d), zoom(d), d3.event.stopPropagation();
         })
     }
