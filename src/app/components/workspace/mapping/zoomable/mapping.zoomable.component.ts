@@ -237,7 +237,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     g.append("g").attr("class", "paths");
     let zooming = d3
       .zoom()
-      .scaleExtent([1, this._isFullDisplayMode ? 3 : 4 / 3])
+      .scaleExtent([this._isFullDisplayMode ? 1 : 1 / 3, this._isFullDisplayMode ? 3 : 4 / 3])
       .on("zoom", zoomed)
       .on("end", () => {
         let transform = d3.event.transform;
