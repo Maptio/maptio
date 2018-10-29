@@ -22,11 +22,11 @@
                         <button class="btn btn-link btn-sm" (click)="isEditing=false">Cancel</button>
                     </form>
                 </div>
-                <button class="btn btn-link btn-sm" [class.d-none]="isEditing" (click)="isEditing=true">Edit name</button>
+                <button class="btn btn-link btn-sm" [class.d-none]="isEditing" (click)="isEditing=true">Rename</button>
             </div>
 
         </div>
-        <div class="card-subtitle">
+        <div class="card-subtitle" *ngIf="isTeamDisplayed">
             Organization
             <a routerLink="/teams/{{dataset?.team?.team_id}}/{{dataset?.team?.getSlug()}}">{{dataset?.team?.name}}</a>
 

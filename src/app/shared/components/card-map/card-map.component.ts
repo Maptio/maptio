@@ -14,6 +14,7 @@ export class CardMapComponent implements OnInit {
 
     @Input("dataset") dataset: DataSet;
     @Input("isExportAvailable") isExportAvailable: Boolean;
+    @Input("isTeamDisplayed") isTeamDisplayed: Boolean;
 
     isExporting: Boolean;
     isEditing: Boolean;
