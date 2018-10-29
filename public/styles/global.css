@@ -106,8 +106,8 @@ input[type="text"], input[type="email"], input[type="password"] {
 }
 
 .summary-list:before{
-  content: "\f0c0";
-  font-family: FontAwesome;
+  content: "\f2c2";
+  font-family: "Font Awesome 5 Free";
 
 }
 
@@ -181,8 +181,9 @@ transition: background-image 0.2s ease-in-out;
 
 .remove::before {
   content: "\f1f8";
-  font-family: FontAwesome;
+  font-family: "Font Awesome 5 Free";
   cursor: pointer;
+  font-weight: bold;
 }
 
 nav.header {

@@ -22,7 +22,7 @@
       </a>
       <a class="btn btn-light p-1 text-dark btn-control" [class.active]="isSharingToggled" [class.disabled]="isMapSettingsDisabled"
         (click)="isSharingToggled=!isSharingToggled" data-toggle="collapse" href="#collapseSlack" role="button">
-        <i class="fa" [class.fa-slack]="!isSharingToggled" [class.fa-times]="isSharingToggled"></i>
+        <i class="fab" [class.fa-slack]="!isSharingToggled" [class.fa-times]="isSharingToggled"></i>
         <div class="icon-text-label">Share</div>
       </a>
 
@@ -41,7 +41,7 @@
         <div class="icon-text-label">Network</div>
       </button>
       <button class="btn btn-light summary-list text-dark p-1 btn-control" [routerLinkActive]="['active']" routerLink="/map/{{datasetId}}/{{slug}}/summary">
-        <div class="icon-text-label">Summary</div>
+        <div class="icon-text-label">Handbook</div>
       </button>
       <button class="btn btn-light menu text-dark p-1 btn-control" [class.invisible]="!( rlaNetwork.isActive || rlaCircles.isActive)"
         (click)="toggleOptions( rlaNetwork.isActive || rlaCircles.isActive)">
@@ -67,7 +67,7 @@
       </a>
       <a class="btn btn-light text-dark p-1 btn-control" [class.active]="isSettingToggled" [class.disabled]="isMapSettingsDisabled"
         (click)="isSettingToggled=!isSettingToggled" data-toggle="collapse" href="#collapseSettings" role="button">
-        <i class="fa" [class.fa-sliders]="!isSettingToggled" [class.fa-times]="isSettingToggled"></i>
+        <i class="fas" [class.fa-sliders-h]="!isSettingToggled" [class.fa-times]="isSettingToggled"></i>
         <div class="icon-text-label">Settings</div>
       </a>
     </div>

@@ -4,7 +4,7 @@
             <ng-container *ngFor="let initiative of initiatives">
                 <button class="d-flex flex-column cursor-pointer list-group-item list-group-item-action" (click)="openNode(initiative)">
                     <span>
-                        <i class="fa fa-pencil mx-1" aria-hidden="true"></i> {{initiative.name}}</span>
+                        <i class="fas fa-pen mx-1" aria-hidden="true"></i> {{initiative.name}}</span>
                     <!-- <small class="text-muted">View or edit details</small> -->
                 </button>
                 <button *ngIf="initiative.accountable" class="d-flex flex-column cursor-pointer list-group-item list-group-item-action" (click)="openUser(initiative)">

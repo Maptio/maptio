@@ -29,13 +29,6 @@
     animation-fill-mode: forwards;
 }
 
-#saving::before {
-    content: "\f0c7";
-    font-family: FontAwesome;
-    color: black;
-    animation: blinker 2s linear infinite;
-}
-
 @keyframes blinker {
     50% {
         opacity: 0;
@@ -111,10 +104,6 @@
     padding-top: 13px;
 }
 
-.help::before {
-    content: "\f059";
-    font-family: FontAwesome;
-}
 
 a.navbar-brand {
     /* width: 100px; */

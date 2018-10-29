@@ -5,8 +5,9 @@
 
 .help-popup::before {
     content: "\f05a";
-    font-family: FontAwesome;
+    font-family: "Font Awesome 5 Free";
     color: #ccc;
+    font-weight: bold;
 }
 
 span.help-popup {
