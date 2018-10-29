@@ -8,7 +8,7 @@
                     <div class="card-columns w-100">
                         <ng-container *ngFor="let dataset of datasets">
                             <ng-container *ngIf="dataset.initiative.name">
-                                <common-card-map [dataset]="dataset" [isExportAvailable]="true"></common-card-map>
+                                <common-card-map [dataset]="dataset" [isExportAvailable]="true" [isTeamDisplayed]="true"></common-card-map>
                             </ng-container>
                         </ng-container>
                     </div>

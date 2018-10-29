@@ -26,7 +26,7 @@ export class UIService {
   }
 
   getCanvasYMargin() {
-    return 112;
+    return 111;
   }
 
   getCanvasWidth() {

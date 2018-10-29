@@ -29,7 +29,13 @@ export class ContextMenuComponent implements OnInit {
 
     constructor(private cd: ChangeDetectorRef) { }
 
-    ngOnInit(): void { }
+    ngOnInit(): void { 
+        this.isAddingNode=false;
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        this.isAddingNode =false;
+    }
 
     addNode(node: Initiative, subNodeName: string, openDetailsPanel: Boolean) {
         let subNode = new Initiative({ name: subNodeName })
