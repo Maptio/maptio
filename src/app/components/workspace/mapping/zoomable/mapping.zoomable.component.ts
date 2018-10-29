@@ -922,7 +922,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
         })
         .on("mouseout", function (d: any) {
-          // showToolipOf$.next({ initiatives: null, isNameOnly: false });
+          showToolipOf$.next({ initiatives: null, isNameOnly: false });
           showContextMenuOf$.next({ initiatives: null, x: 0, y: 0, isReadOnlyContextMenu: false })
           d3.select(this)
             .style("stroke", function (d: any) {
