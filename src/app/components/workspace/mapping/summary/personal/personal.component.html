@@ -2,9 +2,14 @@
     <div class="col-12">
         <div class="card border-light box-shadow">
             <div class="card-title my-0">
-                <span class="d-flex align-items-center p-2">
-                    <img class="rounded-circle m-1" width="60" height="60" src="{{member?.picture}}" alt="{{member?.name}}">
-                    <h1 class="ml-1">{{member?.name}}</h1>
+                <span class="d-flex align-items-end justify-content-between p-2">
+                    <span class="d-flex align-items-center">
+                        <img class="rounded-circle m-1" width="60" height="60" src="{{member?.picture}}" alt="{{member?.name}}">
+                        <h1 class="ml-1">{{member?.name}}</h1>
+                    </span>
+
+                    <small class="d-flex justify-content-end">
+                        <span class="text-muted mr-1">in map</span> {{initiative?.name}}</small>
                 </span>
             </div>
         </div>
@@ -42,17 +47,15 @@
                                     <i class="fa" [class.fa-caret-right]="!authoritiesHideme[ix]" [class.fa-caret-down]="authoritiesHideme[ix]" aria-hidden="true"></i>
                                 </button>
                                 <div class="d-flex flex-wrap" *ngIf="!authoritiesHideme[ix]">
-                                    <a *ngFor="let h of i.helpers" class="btn btn-link btn-xs no-padding" 
-                                    routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}/summary" [queryParams]="{member: h.shortid}"
-                                    >
+                                    <a *ngFor="let h of i.helpers" class="btn btn-link btn-xs no-padding" routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}/summary"
+                                        [queryParams]="{member: h.shortid}">
                                         <img [hidden]="h.user_id === member?.user_id " class="rounded-circle helper" src="{{h.picture}}" alt="{{h.name}}" title="{{h.name}}"
                                             placement="top" container="body" ngbTooltip="{{h.name}}">
                                     </a>
                                 </div>
                                 <div *ngIf="authoritiesHideme[ix]" class="d-flex flex-column">
                                     <span *ngFor="let h of i.helpers" class="d-flex">
-                                        <a class="btn btn-link btn-xs no-padding" 
-                                        routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}/summary" [queryParams]="{member: h.shortid}">
+                                        <a class="btn btn-link btn-xs no-padding" routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}/summary" [queryParams]="{member: h.shortid}">
                                             <img [hidden]="h.user_id === member?.user_id " class="rounded-circle helper" src="{{h.picture}}" alt="{{h.name}}" title="{{h.name}}"
                                                 placement="top" container="body" ngbTooltip="{{h.name}}">
                                         </a>
