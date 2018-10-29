@@ -5,7 +5,7 @@
                 (click)="openNode(initiative)">
                 <span>
                     <i class="fa fa-pencil mx-1" aria-hidden="true"></i> {{initiative.name}}</span>
-                <small class="text-muted">View or edit details</small>
+                <!-- <small class="text-muted">View or edit details</small> -->
             </button>
             <div class="cursor-pointer list-group-item list-group-item-action" (click)="isAddingNode=!isAddingNode" *ngIf="!isReadOnly">
                 <div>
@@ -15,7 +15,7 @@
                         </span>
                         <i class="fa " [class.fa-caret-down]="!isAddingNode" [class.fa-caret-up]="isAddingNode" aria-hidden="true"></i>
                     </div>
-                    <form *ngIf="isAddingNode" class="my-1">
+                    <div *ngIf="isAddingNode" class="my-1">
                         <div class="form-group">
                             <input #inputNewInitiative class="form-control form-control-sm" (click)="$event.stopPropagation()" type="text" name="" id="">
                         </div>
@@ -23,7 +23,7 @@
                             <button class="btn btn-outline-success btn-sm mr-1" (click)="addNode(initiatives[0],inputNewInitiative.value, false)">Add circle</button>
                             <button class="btn btn-outline-secondary btn-sm" (click)="addNode(initiatives[0],inputNewInitiative.value, true)">Add circle and edit details</button>
                         </div>
-                    </form>
+                    </div>
                 </div>
 
             </div>
