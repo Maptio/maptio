@@ -56,7 +56,8 @@ if (!isDevelopment) {
   app.use(helmet.contentSecurityPolicy({
     directives: {
       defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'", 'maxcdn.bootstrapcdn.com', 'cdnjs.cloudflare.com', 'api.mixpanel.com','fonts.googleapis.com'],
+      styleSrc: ["'self'", "'unsafe-inline'", 'maxcdn.bootstrapcdn.com', 
+      'cdnjs.cloudflare.com', 'api.mixpanel.com','fonts.googleapis.com', 'use.fontawesome.com'],
       scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'",
         'maxcdn.bootstrapcdn.com', 'cdnjs.cloudflare.com', 'cdn.auth0.com', 'api.mixpanel.com',
         'cdn.mxpnl.com', 'cdn4.mxpnl.com',

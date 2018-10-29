@@ -11,7 +11,7 @@
                         <ul class="nav flex-column nav-pills" *ngIf="selectedMember">
                             <li *ngFor="let member of members" class="nav-item" >
                                 <a class="nav-link" routerLink="." [queryParams]="{member: member.shortid}" [class.active]="selectedMember?.user_id === member?.user_id">
-                                    <img [src]="member.picture" [alt]="member.name" width="30" height="30" class="rounded-circle mr-1">{{member.name}}
+                                    <img [src]="member.picture" [alt]="member.name" width="32" height="32" class="rounded-circle mr-1">{{member.name}}
                                 </a>
                             </li>
                         </ul>
