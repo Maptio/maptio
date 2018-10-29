@@ -105,7 +105,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   private color: ScaleLinear<HSLColor, string>;
   public slug: string;
 
-  CIRCLE_RADIUS: number = 12;
+  CIRCLE_RADIUS: number = 16;
   MAX_TEXT_LENGTH = 35;
   TRANSITION_DURATION = 750;
   ZOOMING_TRANSITION_DURATION = 250;
@@ -922,7 +922,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
         })
         .on("mouseout", function (d: any) {
-          showToolipOf$.next({ initiatives: null, isNameOnly: false });
+          // showToolipOf$.next({ initiatives: null, isNameOnly: false });
           showContextMenuOf$.next({ initiatives: null, x: 0, y: 0, isReadOnlyContextMenu: false })
           d3.select(this)
             .style("stroke", function (d: any) {

@@ -13,7 +13,7 @@
 .tree-node-collapsed {
     background-image: none;
     /*url("/assets/images/plus.png");*/
-    background-size: 15px;
+    background-size: 1rem;
     background-repeat: no-repeat;
 }
 

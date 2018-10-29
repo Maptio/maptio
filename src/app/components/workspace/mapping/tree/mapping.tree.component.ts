@@ -322,7 +322,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     let d3 = this.d3;
     let colorService = this.colorService;
     let uiService = this.uiService;
-    let CIRCLE_RADIUS = 15;
+    let CIRCLE_RADIUS = 16;
     let CIRCLE_MARGIN = 5;
     let TRANSITION_DURATION = this.TRANSITION_DURATION;
     let viewerWidth = this.width;
