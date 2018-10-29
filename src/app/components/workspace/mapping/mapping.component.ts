@@ -469,6 +469,8 @@ export class MappingComponent {
 
   goToUserSummary(selected:User){
     this.isSearchToggled = true;
+    this.isSearchDisabled = true;
+    this.showTooltip(null, null);
     this.cd.markForCheck();
     this.router.navigateByUrl(`/map/${this.datasetId}/${this.slug}/summary?member=${selected.shortid}`);
    
