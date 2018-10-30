@@ -12,20 +12,33 @@
                 </li>
             </ul>
         </div>
+
         <p class="card-title" *ngIf="initiative.accountable">
             <span class="d-flex align-items-center flex-nowrap">
-                <img src="{{initiative.accountable?.picture}}" width="32" height="32" class="rounded-circle mr-1"> 
+                <img src="{{initiative.accountable?.picture}}" width="32" height="32" class="rounded-circle mr-1">
                 <span class="d-flex flex-nowrap"> {{initiative.accountable?.name}}</span>
-                
+
                 <span class="text-muted mx-1">({{team.settings.authority}})</span>
             </span>
         </p>
-        <p class="card-text d-flex align-items-center flex-wrap" *ngIf="initiative.helpers">
-            <span class="text-muted mr-1">with</span> 
+        <p class="card-title text-muted" *ngIf="!initiative.accountable">
+            No {{team.settings.authority}}
+        </p>
+
+
+
+        <p class="card-text d-flex align-items-center flex-wrap" *ngIf="initiative.helpers && initiative.helpers.length>0">
+            <span class="text-muted mr-1">with</span>
             <span *ngFor="let helper of initiative.helpers" class="my-1">
                 <img src="{{helper.picture}}" alt="{{helper.name}}" width="32" height="32" class="rounded-circle mr-1">
             </span>
         </p>
+        <p class="card-text d-flex align-items-center flex-wrap text-muted" *ngIf="!(initiative.helpers && initiative.helpers.length>0)">
+            No {{team.settings.helper}}
+        </p>
+
+
+
         <div class="card-text small" *ngIf="initiative.description">
             <hr>
             <markdown *ngIf="initiative.description || ''" [data]="initiative.description || ''"></markdown>
