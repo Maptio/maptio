@@ -6,8 +6,8 @@
                     </div>
                     <div class="overflow-y " [class.col-3]="selectedMember" [class.w-100]="!selectedMember" [style.max-height.px]="height" [class.border-left]="selectedMember">
                         
-                        <h4 *ngIf="!selectedMember"> Select a member to see their circles</h4>
-                        <span *ngIf="selectedMember"> Other summaries</span>
+                        <h4 *ngIf="!selectedMember" class="mx-3"> Select a member to see their circles</h4>
+                        <span *ngIf="selectedMember"> Other people</span>
                         <ul class="nav flex-column nav-pills" *ngIf="selectedMember">
                             <li *ngFor="let member of members" class="nav-item" >
                                 <a class="nav-link" routerLink="." [queryParams]="{member: member.shortid}" [class.active]="selectedMember?.user_id === member?.user_id">

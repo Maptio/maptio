@@ -21,7 +21,7 @@ export class MappingSummaryBreadcrumbs extends McBreadcrumbsResolver {
                 .then((user: User) => {
                     return [
                         {
-                            text: "Summary",
+                            text: "Directory",
                             path: super.getFullPath(route)
                         },
                         {
@@ -33,7 +33,7 @@ export class MappingSummaryBreadcrumbs extends McBreadcrumbsResolver {
         } else {
             return Promise.resolve([
                 {
-                    text: "Summary",
+                    text: "Directory",
                     path: super.getFullPath(route)
                 }
             ])

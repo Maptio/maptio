@@ -41,7 +41,7 @@
         <div class="icon-text-label">Network</div>
       </button>
       <button class="btn btn-light summary-list text-dark p-1 btn-control" [routerLinkActive]="['active']" routerLink="/map/{{datasetId}}/{{slug}}/summary">
-        <div class="icon-text-label">Handbook</div>
+        <div class="icon-text-label">Directory</div>
       </button>
       <button class="btn btn-light menu text-dark p-1 btn-control" [class.invisible]="!( rlaNetwork.isActive || rlaCircles.isActive)"
         (click)="toggleOptions( rlaNetwork.isActive || rlaCircles.isActive)">
