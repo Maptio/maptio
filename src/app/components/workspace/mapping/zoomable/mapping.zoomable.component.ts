@@ -224,7 +224,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let svg: any = d3
       .select("svg")
       .attr("width", this.width)
-      .attr("height", this.height),
+      .attr("height", this.height)
+      .attr('xmlns', "http://www.w3.org/2000/svg")
+      .attr('version', "1.1"),
       diameter = +width,
       g = svg
         .append("g")
@@ -234,7 +236,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         ),
       definitions = svg.append("svg:defs");
 
-    g.append("g").attr("class", "paths");
+    // g.append("g").attr("class", "paths");
     let zooming = d3
       .zoom()
       .scaleExtent([this._isFullDisplayMode ? 1 : 1 / 3, this._isFullDisplayMode ? 3 : 4 / 3])
@@ -474,7 +476,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     buildPatterns();
 
-    let path = buildPaths();
+    // let path = buildPaths();
 
     let initiativeWithChildren = g
       .selectAll("g.node.initiative-map.with-children")
@@ -534,7 +536,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
           : "none";
       })
       .html(function (d: any) {
-        return `<textPath xlink:href="#path${d.data.id}" startOffset="10%">
+        let radius = d.r * d.k + 1;
+        return `<textPath path="${uiService.getCircularPath(radius, -radius, 0)}" startOffset="10%">
                   <tspan>${d.data.name || ""}</tspan>
                   </textPath>`;
       });
@@ -999,7 +1002,14 @@ export class MappingZoomableComponent implements IDataVisualizer {
         });
 
 
-      path.attr("transform", "scale(" + k + ")");
+      // path.attr("transform", "scale(" + k + ")");
+      textAround
+        .html(function (d: any) {
+          let radius = d.r * k + 1;
+          return `<textPath path="${uiService.getCircularPath(radius, -radius, 0)}" startOffset="10%">
+                  <tspan>${d.data.name || ""}</tspan>
+                  </textPath>`;
+        })
 
       g
         .selectAll("circle.accountable")
@@ -1098,29 +1108,29 @@ export class MappingZoomableComponent implements IDataVisualizer {
         })
     }
 
-    function buildPaths() {
-      let path = g.select("g.paths")
-        .selectAll("path")
-        .data(nodes, function (d: any) {
-          return d.data.id;
-        })
+    // function buildPaths() {
+    //   let path = svg.select("defs")
+    //     .selectAll("path")
+    //     .data(nodes, function (d: any) {
+    //       return d.data.id;
+    //     })
 
-      path.exit().remove();
-      path = path.enter()
-        .append("path")
-        .merge(path)
-        .attr("id", function (d: any) {
-          return `path${d.data.id}`;
-        })
-        .style("stroke", "none")
-        .style("fill", "none")
-        .attr("d", function (d: any, i: number) {
-          let radius = d.r + 1;
-          return uiService.getCircularPath(radius, -radius, 0);
-        });
+    //   path.exit().remove();
+    //   path = path.enter()
+    //     .append("path")
+    //     .merge(path)
+    //     .attr("id", function (d: any) {
+    //       return `path${d.data.id}`;
+    //     })
+    //     // .style("stroke", "none")
+    //     // .style("fill", "none")
+    //     .attr("d", function (d: any, i: number) {
+    //       let radius = d.r + 1;
+    //       return uiService.getCircularPath(radius, -radius, 0);
+    //     });
 
-      return path;
-    }
+    //   return path;
+    // }
 
     function buildPatterns() {
       let patterns = definitions.selectAll("pattern").data(
