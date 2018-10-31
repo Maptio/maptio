@@ -10,9 +10,8 @@
                 </button>
                 <button *ngIf="initiative.accountable" class="d-flex flex-column cursor-pointer list-group-item list-group-item-action" (click)="openUser(initiative)">
                     <span>
-                        <img [src]="initiative.accountable.picture" [alt]="initiative.accountable.name" width="32" height="32" class="rounded-circle mr-1"> {{initiative.accountable.name}}
+                            <i class="fas fa-id-card mx-1"></i> {{initiative.accountable.name}}'s summary <img [src]="initiative.accountable.picture" [alt]="initiative.accountable.name" width="16" height="16" class="rounded-circle mr-1">
                     </span>
-                    <small class="text-muted">View list of circles</small>
                 </button>
             </ng-container>
 
@@ -20,7 +19,7 @@
                 <div>
                     <div class="d-flex justify-content-between align-items-center">
                         <span>
-                            <i class="fa fa-plus mx-1" aria-hidden="true"></i> Create sub-circle
+                            <i class="fas fa-plus mx-1" aria-hidden="true"></i> Create sub-circle
                         </span>
                         <i class="fa " [class.fa-caret-down]="!isAddingNode" [class.fa-caret-up]="isAddingNode" aria-hidden="true"></i>
                     </div>
@@ -45,7 +44,7 @@
 
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <i class="fa fa-trash mx-1" aria-hidden="true"></i> Delete circle
+                                <i class="fas fa-trash mx-1" aria-hidden="true"></i> Delete circle
                             </div>
 
 
