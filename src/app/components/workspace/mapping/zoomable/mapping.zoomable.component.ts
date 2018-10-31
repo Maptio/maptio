@@ -1,7 +1,7 @@
 import { URIService } from "./../../../../shared/services/uri.service";
 import { DataService } from "./../../../../shared/services/data.service";
 import { UserFactory } from "./../../../../shared/services/user.factory";
-import { UIService } from "./../../../../shared/services/ui/ui.service";
+import { Browsers, UIService } from "./../../../../shared/services/ui/ui.service";
 import { ColorService } from "./../../../../shared/services/ui/color.service";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { Initiative } from "./../../../../shared/model/initiative.data";
@@ -32,6 +32,7 @@ import { Team } from "../../../../shared/model/team.data";
 })
 export class MappingZoomableComponent implements IDataVisualizer {
   private d3: D3;
+  private browser: Browsers;
   public datasetId: string;
   public teamId: string;
   public teamName: string;
@@ -226,6 +227,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .attr("width", this.width)
       .attr("height", this.height)
       .attr('xmlns', "http://www.w3.org/2000/svg")
+      .attr('xmlns:xlink', "http://www.w3.org/1999/xlink")
       .attr('version', "1.1"),
       diameter = +width,
       g = svg
@@ -353,6 +355,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     this.svg = svg;
     this.g = g;
+    this.browser = this.uiService.getBrowser();
     // this.color = color;
     this.diameter = diameter;
     this.definitions = definitions;
@@ -397,6 +400,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let showDetailsOf$ = this.showDetailsOf$;
     let showToolipOf$ = this.showToolipOf$;
     let showContextMenuOf$ = this.showContextMenuOf$;
+    let browser = this.browser;
     let datasetId = this.datasetId;
     let datasetSlug = this.slug;
     let router = this.router;
@@ -476,7 +480,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     buildPatterns();
 
-    // let path = buildPaths();
+    let path = buildPaths();
 
     let initiativeWithChildren = g
       .selectAll("g.node.initiative-map.with-children")
@@ -537,7 +541,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
       })
       .html(function (d: any) {
         let radius = d.r * d.k + 1;
-        return `<textPath path="${uiService.getCircularPath(radius, -radius, 0)}" startOffset="10%">
+        return browser === Browsers.Firefox
+          ? `<textPath path="${uiService.getCircularPath(radius, -radius, 0)}" startOffset="10%">
+                  <tspan>${d.data.name || ""}</tspan>
+                  </textPath>`
+          : `<textPath href="#path${d.data.id}" startOffset="10%">
                   <tspan>${d.data.name || ""}</tspan>
                   </textPath>`;
       });
@@ -565,7 +573,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       })
       .html(function (d: any) {
         let fs = `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`;
-        return `<div style="font-size: ${fs}; background: none; display: inline-block;pointer-events: none">${d.data.name || '(Empty)'}</div>`;
+        return `<div style="font-size: ${fs}; background: none; display: inline-block;pointer-events: none; overflow:hidden; height:100%">${d.data.name || '(Empty)'}</div>`;
       })
 
     /*
@@ -600,7 +608,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let accountablePictureWithChildren = initiativeWithChildren.select("circle.accountable.with-children")
       .attr("pointer-events", "none")
       .attr("fill", function (d: any) {
-        return "url(#image" + d.data.id + ")";
+        return "url('#image" + d.data.id + "')";
       })
       .style("fill-opacity", function (d: any) {
         return isBranchDisplayed(d) ? 1 : 0;
@@ -614,7 +622,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let accountablePictureWithoutChildren = initiativeNoChildren.select("circle.accountable.no-children")
       .attr("pointer-events", "none")
       .attr("fill", function (d: any) {
-        return "url(#image" + d.data.id + ")";
+        return "url('#image" + d.data.id + "')";
       })
       .style("opacity", function (d: any) {
         return isLeafDisplayed(d) ? 1 : 0;
@@ -791,7 +799,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .html(function (d: any) {
               let multiplier = svg.attr("data-font-multiplier");
               let fs = `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * multiplier)}rem`;
-              return `<div style="font-size: ${fs}; background: none;overflow: initial; display: inline-block; pointer-events:none">${(d.data.name || '(Empty)')}</div>`;
+              return `<div style="font-size: ${fs}; background: none;overflow: hidden; display: inline-block; pointer-events:none; height:100%">${(d.data.name || '(Empty)')}</div>`;
             })
         })
 
@@ -1002,11 +1010,15 @@ export class MappingZoomableComponent implements IDataVisualizer {
         });
 
 
-      // path.attr("transform", "scale(" + k + ")");
+      path.attr("transform", "scale(" + k + ")");
       textAround
         .html(function (d: any) {
           let radius = d.r * k + 1;
-          return `<textPath path="${uiService.getCircularPath(radius, -radius, 0)}" startOffset="10%">
+          return browser === Browsers.Firefox
+          ? `<textPath path="${uiService.getCircularPath(radius, -radius, 0)}" startOffset="10%">
+                  <tspan>${d.data.name || ""}</tspan>
+                  </textPath>`
+          : `<textPath href="#path${d.data.id}" startOffset="10%">
                   <tspan>${d.data.name || ""}</tspan>
                   </textPath>`;
         })
@@ -1108,29 +1120,29 @@ export class MappingZoomableComponent implements IDataVisualizer {
         })
     }
 
-    // function buildPaths() {
-    //   let path = svg.select("defs")
-    //     .selectAll("path")
-    //     .data(nodes, function (d: any) {
-    //       return d.data.id;
-    //     })
+    function buildPaths() {
+      let path = svg.select("defs")
+        .selectAll("path")
+        .data(nodes, function (d: any) {
+          return d.data.id;
+        })
 
-    //   path.exit().remove();
-    //   path = path.enter()
-    //     .append("path")
-    //     .merge(path)
-    //     .attr("id", function (d: any) {
-    //       return `path${d.data.id}`;
-    //     })
-    //     // .style("stroke", "none")
-    //     // .style("fill", "none")
-    //     .attr("d", function (d: any, i: number) {
-    //       let radius = d.r + 1;
-    //       return uiService.getCircularPath(radius, -radius, 0);
-    //     });
+      path.exit().remove();
+      path = path.enter()
+        .append("path")
+        .merge(path)
+        .attr("id", function (d: any) {
+          return `path${d.data.id}`;
+        })
+        // .style("stroke", "none")
+        // .style("fill", "none")
+        .attr("d", function (d: any, i: number) {
+          let radius = d.r + 1;
+          return uiService.getCircularPath(radius, -radius, 0);
+        });
 
-    //   return path;
-    // }
+      return path;
+    }
 
     function buildPatterns() {
       let patterns = definitions.selectAll("pattern").data(
@@ -1161,7 +1173,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .append("image")
         .attr("width", CIRCLE_RADIUS * 2)
         .attr("height", CIRCLE_RADIUS * 2)
-        .attr("xlink:href", function (d: any) {
+        .attr("xlink:xlink:href", function (d: any) {
           return d.data.accountable.picture;
         });
 
@@ -1177,7 +1189,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .select("image")
         .attr("width", CIRCLE_RADIUS * 2)
         .attr("height", CIRCLE_RADIUS * 2)
-        .attr("xlink:href", function (d: any) {
+        .attr("xlink:xlink:href", function (d: any) {
           return d.data.accountable.picture;
         });
       patterns.exit().remove();
