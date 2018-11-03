@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, SimpleChanges } from '@angular/core';
 import { DataSet } from '../../model/dataset.data';
 import { ExportService } from '../../services/export/export.service';
 import { saveAs } from "file-saver"
@@ -15,11 +15,13 @@ export class CardMapComponent implements OnInit {
     @Input("dataset") dataset: DataSet;
     @Input("isExportAvailable") isExportAvailable: Boolean;
     @Input("isTeamDisplayed") isTeamDisplayed: Boolean;
+    @Input("isEdit") isEdit: Boolean;
 
     isExporting: Boolean;
     isEditing: Boolean;
     isUpdateFailed:Boolean;
     form: FormGroup;
+    isEditAvailable:Boolean;
 
     constructor(private exportService: ExportService, private datasetFactory: DatasetFactory, private cd: ChangeDetectorRef) { }
 
@@ -30,6 +32,12 @@ export class CardMapComponent implements OnInit {
                 updateOn: "submit"
             })
         })
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+       if(changes.isEdit && changes.isEdit.currentValue){
+           this.isEditAvailable = changes.isEdit.currentValue;
+       }
     }
 
     export(dataset: DataSet) {

@@ -22,7 +22,7 @@
                         <button class="btn btn-link btn-sm" (click)="isEditing=false">Cancel</button>
                     </form>
                 </div>
-                <button class="btn btn-link btn-sm" [class.d-none]="isEditing" (click)="isEditing=true">Rename</button>
+                <button *ngIf="isEditAvailable" class="btn btn-link btn-sm" [class.d-none]="isEditing" (click)="isEditing=true">Rename</button>
             </div>
 
         </div>

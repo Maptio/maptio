@@ -5,6 +5,7 @@ import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { Auth } from "../../../../shared/services/auth/auth.service";
 import { User } from "../../../../shared/model/user.data";
 import { Angulartics2Mixpanel } from "angulartics2";
+import { Permissions } from "../../../../shared/model/permission.data";
 
 @Component({
     selector: "team-single-maps",
@@ -16,6 +17,7 @@ export class TeamMapsComponent implements OnInit {
     public datasets: DataSet[];
     public teams: Team[];
     public user:User;
+    Permissions=Permissions;
 
     constructor(private route: ActivatedRoute, private auth: Auth, private cd:ChangeDetectorRef,private analytics: Angulartics2Mixpanel) {
 

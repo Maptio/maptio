@@ -6,9 +6,22 @@
             </div>
         </div>
 
-        <div *ngFor="let dataset of datasets">
-            <common-card-map [dataset]="dataset" [isExportAvailable]="true" [isTeamDisplayed]="false"></common-card-map>
-        </div>
+        <ng-container *permissionsOnly="Permissions.canEditMapName; then canEditMapThen; else canEditMapElse"></ng-container>
+
+        <ng-template #canEditMapThen>
+            <div *ngFor="let dataset of datasets">
+                <common-card-map [dataset]="dataset" [isExportAvailable]="true" [isTeamDisplayed]="false" [isEdit]="true"></common-card-map>
+            </div>
+        </ng-template>
+
+        <ng-template #canEditMapElse>
+            <div *ngFor="let dataset of datasets">
+                <common-card-map [dataset]="dataset" [isExportAvailable]="true" [isTeamDisplayed]="false" [isEdit]="false"></common-card-map>
+            </div>
+        </ng-template>
+
+
+
 
     </div>
 </div>
