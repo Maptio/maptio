@@ -66,7 +66,7 @@
 
             <div class="d-flex align-items-start my-3">
                 <span class="mx-2">
-                    <i *ngIf="isZeroTeam" class="fa fa-square-o" aria-hidden="true"></i>
+                    <i *ngIf="isZeroTeam" class="far fa-square" aria-hidden="true"></i>
                     <i *ngIf="!isZeroTeam" class="fa fa-check text-success" aria-hidden="true"></i>
                 </span>
                 <a *ngIf="isZeroTeam" [routerLink]="['/teams']" [queryParams]="{onboarding: 'team'}">
@@ -85,7 +85,7 @@
 
             <div class="d-flex align-items-start my-3" *ngIf="!isMultipleTeams">
                 <span class="mx-2">
-                    <i *ngIf="isZeroTeammates" class="fa fa-square-o" aria-hidden="true"></i>
+                    <i *ngIf="isZeroTeammates" class="far fa-square" aria-hidden="true"></i>
                     <i *ngIf="!isZeroTeammates" class="fa fa-check text-success" aria-hidden="true"></i>
                 </span>
                 <div *ngIf="isZeroTeammates">
@@ -114,7 +114,7 @@
 
             <div class="d-flex align-items-start my-3" *ngIf="!isMultipleTeams">
                 <span class="mx-2">
-                    <i *ngIf="isZeroTerminology" class="fa fa-square-o" aria-hidden="true"></i>
+                    <i *ngIf="isZeroTerminology" class="far fa-square" aria-hidden="true"></i>
                     <i *ngIf="!isZeroTerminology" class="fa fa-check text-success" aria-hidden="true"></i>
                 </span>
                 <div *ngIf="isZeroTerminology">
@@ -143,7 +143,7 @@
 
             <div class="d-flex align-items-start my-3" *ngIf="isOnboardingCompleted() && !isMultipleTeams">
                 <span class="mx-2">
-                    <i *ngIf="isZeroIntegration" class="fa fa-square-o" aria-hidden="true"></i>
+                    <i *ngIf="isZeroIntegration" class="far fa-square" aria-hidden="true"></i>
                     <i *ngIf="!isZeroIntegration" class="fa fa-check text-success" aria-hidden="true"></i>
                 </span>
                 <div *ngIf="isZeroIntegration">
@@ -169,7 +169,7 @@
 
             <div class="d-flex align-items-start my-3">
                 <span class="mx-2">
-                    <i *ngIf="isZeroMaps" class="fa fa-square-o" aria-hidden="true"></i>
+                    <i *ngIf="isZeroMaps" class="far fa-square" aria-hidden="true"></i>
                     <i *ngIf="!isZeroMaps" class="fa fa-check text-success" aria-hidden="true"></i>
                 </span>
                 <div *ngIf="isZeroMaps">
@@ -201,7 +201,7 @@
 
             <div class="d-flex align-items-start my-3" *ngIf="!isMultipleMaps">
                 <span class="mx-2">
-                    <i *ngIf="isZeroInitiative" class="fa fa-square-o" aria-hidden="true"></i>
+                    <i *ngIf="isZeroInitiative" class="far fa-square" aria-hidden="true"></i>
                     <i *ngIf="!isZeroInitiative" class="fa fa-check text-success" aria-hidden="true"></i>
                 </span>
                 <div *ngIf="isZeroInitiative">

@@ -9,8 +9,8 @@
                     <!-- <small class="text-muted">View or edit details</small> -->
                 </button>
                 <button *ngIf="initiative.accountable" class="d-flex flex-column cursor-pointer list-group-item list-group-item-action" (click)="openUser(initiative)">
-                    <span>
-                            <i class="fas fa-id-card mx-1"></i> {{initiative.accountable.name}}'s summary <img [src]="initiative.accountable.picture" [alt]="initiative.accountable.name" width="16" height="16" class="rounded-circle mr-1">
+                    <span class="d-flex align-items-center">
+                            <i class="fas fa-id-card mx-1"></i> {{initiative.accountable.name}}'s summary <img [src]="initiative.accountable.picture" [alt]="initiative.accountable.name" width="32" height="32" class="rounded-circle mx-1">
                     </span>
                 </button>
             </ng-container>
