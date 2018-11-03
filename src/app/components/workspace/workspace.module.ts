@@ -53,9 +53,9 @@ const routes: Routes = [{
         { path: "tree", component: MappingTreeComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Tree" } },
         { path: "network", component: MappingNetworkComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Network" } },
         {
-            path: "summary", component: MappingSummaryComponent, canActivate: [WorkspaceGuard],  data: {
+            path: "summary", component: MappingSummaryComponent, canActivate: [WorkspaceGuard], data: {
                 breadcrumbs: MappingSummaryBreadcrumbs
-              }
+            }
         }
 
     ]
@@ -112,7 +112,7 @@ export function markdownServiceFactory(http: Http) {
         TooltipComponent, ContextMenuComponent
     ],
     providers: [
-        WorkspaceComponentResolver,MappingSummaryBreadcrumbs,
+        WorkspaceComponentResolver, MappingSummaryBreadcrumbs,
         {
             provide: MarkdownService,
             useFactory: markdownServiceFactory,

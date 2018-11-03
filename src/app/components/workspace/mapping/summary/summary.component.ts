@@ -67,10 +67,12 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
     public analytics: Angulartics2Mixpanel;
 
     members: User[];
+    filteredMembers: User[];
     initiative: Initiative;
     team: Team;
     selectedMember: User;
     dataSubscription: Subscription;
+    filterMembers$: Subject<string> = new Subject<string>()
 
     constructor(public auth: Auth, public route: ActivatedRoute, public datasetFactory: DatasetFactory,
         public userFactory: UserFactory, public teamFactory: TeamFactory, private dataService: DataService,
@@ -81,12 +83,10 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
     ngOnInit(): void {
         this.loaderService.show();
         this.init();
-        console.log(this.route.snapshot)
         this.dataSubscription = this.dataService
             .get()
             .combineLatest(this.route.queryParams)
             .switchMap((data: [any, Params]) => {
-                console.log(data[1].member)
                 if (data[1].member)
                     return this.userFactory.get(data[1].member)
                         .then((user: User) => {
@@ -113,9 +113,18 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
                     team: (<Team>data.team).name,
                     teamId: (<Team>data.team).team_id
                 });
+                this.filteredMembers = [].concat(this.members);
                 this.cd.markForCheck();
             });
-        this.selectableTags$.subscribe(tags => this.tagsState = tags)
+        this.selectableTags$.subscribe(tags => this.tagsState = tags);
+
+        this.filterMembers$.asObservable().debounceTime(250).subscribe((search) => {
+            this.filteredMembers = (search === '')
+                ? [].concat(this.members)
+                : this.members.filter(m => m.name.toLowerCase().indexOf(search.toLowerCase()) >= 0);
+            this.cd.markForCheck();
+        })
+
     }
 
     ngOnDestroy(): void {
@@ -130,6 +139,10 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
 
     openInitiative(node: Initiative) {
         this.showDetailsOf$.next(node);
+    }
+
+    onKeyDown(search: string) {
+        this.filterMembers$.next(search);
     }
 
     init(): void {

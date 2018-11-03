@@ -119,8 +119,8 @@ export class MappingComponent {
   @Output("expandTree") expandTree = new EventEmitter<boolean>();
   @Output("toggleSettingsPanel")
   toggleSettingsPanel = new EventEmitter<boolean>();
-  @Output("applySettings")
-  applySettings = new EventEmitter<{ initiative: Initiative; tags: Tag[] }>();
+  @Output("applySettings") applySettings = new EventEmitter<{ initiative: Initiative; tags: Tag[] }>();
+  @Output("toggleEditingPanelsVisibility") toggleEditingPanelsVisibility = new EventEmitter<Boolean>();
 
   public componentFactory: ComponentFactory<IDataVisualizer>;
   // public layout: string;
@@ -242,10 +242,12 @@ export class MappingComponent {
 
     if (component.constructor === MappingSummaryComponent) {
       this.isMapSettingsDisabled = true;
+      this.toggleEditingPanelsVisibility.emit(false)
     }
     else {
       this.isSearchDisabled = false;
       this.isMapSettingsDisabled = false;
+      this.toggleEditingPanelsVisibility.emit(true)
     }
   }
 

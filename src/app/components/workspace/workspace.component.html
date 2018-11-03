@@ -1,5 +1,5 @@
-<div class="d-flex justify-content-start h-100 overflow-hidden">
-    <div class="sidenav d-flex justify-content-start" [ngStyle]="{'height':'calc(100% - ' + canvasYMargin + 'px)'}">
+<div class="d-flex justify-content-start h-100" [class.overflow-hidden]="isBuildingVisible">
+    <div [class.d-none]="!isBuildingVisible" [class.d-flex]="isBuildingVisible"  class="sidenav  justify-content-start" [ngStyle]="{'height':'calc(100% - ' + canvasYMargin + 'px)'}">
         <div id="sidenav-hierarchy" class="hierarchy position-relative bg-white rounded box-shadow" [class.opened]="!isBuildingPanelCollapsed" [class.closed]="isBuildingPanelCollapsed">
             <div class="card border-0 bg-transparent">
                 <a class="d-flex justify-content-end cursor-pointer m-0 mr-3 p-0" [class.invisible]="isBuildingPanelCollapsed" (click)="isBuildingPanelCollapsed=true">
@@ -29,7 +29,7 @@
 
         </div>
     </div>
-    <div [ngStyle]="{'height':'calc(100% - ' + canvasYMargin + 'px)'}" class="open-nav d-flex flex-column justify-content-start align-items-center cursor-pointer rounded-right box-shadow" 
+    <div [class.d-none]="!isBuildingVisible" [class.d-flex]="isBuildingVisible" [ngStyle]="{'height':'calc(100% - ' + canvasYMargin + 'px)'}" class="open-nav flex-column justify-content-start align-items-center cursor-pointer rounded-right box-shadow" 
     [class.closed]="isBuildingPanelCollapsed" [class.opened]="!isBuildingPanelCollapsed" (click)="isBuildingPanelCollapsed=false">
         <span class="p-2" *ngIf="isBuildingPanelCollapsed">
             <i class="fa fa-chevron-right text-muted" aria-hidden="true"></i>
@@ -41,7 +41,7 @@
         [class.full-push]="isTwoPanelsOpened()" [class.offset]="!isDetailsPanelCollapsed && isBuildingPanelCollapsed">
         <mapping [tags]="selectableTags" [isEmptyMap]="isEmptyMap" (showDetails)="openDetails($event, true)" (addInitiative)="addInitiative($event)" (removeInitiative)="removeInitiative($event)"
             (moveInitiative)="moveInitiative($event)" (closeEditingPanel)="closeEditingPanel()" (openTreePanel)="isBuildingPanelCollapsed=false"
-            (applySettings)="applySettings($event)" (expandTree)="buildingComponent.toggleAll(true)" >
+            (applySettings)="applySettings($event)" (expandTree)="buildingComponent.toggleAll(true)" (toggleEditingPanelsVisibility)="toggleEditingPanelsVisibility($event)" >
             Loading...</mapping>
     </div>
 </div>

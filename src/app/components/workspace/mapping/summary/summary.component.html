@@ -1,30 +1,49 @@
-<div [style.width.px]="width" >
+<div style="width: 91vw;" class="my-5">
     <div class="row cursor-auto">
-            <div class="d-flex col-12">
-                    <div class="col" *ngIf="selectedMember">
-                        <summary-personal [height]="height" [datasetId]="datasetId" [member]="selectedMember" [team]="team" [initiative]="initiative" (edit)="openInitiative($event)"></summary-personal>
+        <div class="d-flex col-12">
+            <div class="col" *ngIf="selectedMember">
+                <summary-personal [datasetId]="datasetId" [member]="selectedMember" [team]="team" [initiative]="initiative" (edit)="openInitiative($event)"></summary-personal>
+            </div>
+            <div [class.col-4]="selectedMember" [class.col-12]="!selectedMember" [class.border-left]="selectedMember">
+                <div class="mx-3 mb-3">
+                    <div *ngIf="!selectedMember">
+                        <h2>Directory</h2>
+                        <h6 class="text-muted" *ngIf="initiative">This is a directory of people involved in map
+                            <a routerLink="./circles">{{initiative?.name}}</a>. Select a member to see their circles: </h6>
                     </div>
-                    <div class="overflow-y " [class.col-3]="selectedMember" [class.w-100]="!selectedMember" [style.max-height.px]="height" [class.border-left]="selectedMember">
-                        
-                        <h4 *ngIf="!selectedMember" class="mx-3"> Select a member to see their circles</h4>
-                        <span *ngIf="selectedMember" class="mx-3"> Other people</span>
-                        <ul class="nav flex-column nav-pills" *ngIf="selectedMember">
-                            <li *ngFor="let member of members" class="nav-item" >
-                                <a class="nav-link" routerLink="." [queryParams]="{member: member.shortid}" [class.active]="selectedMember?.user_id === member?.user_id">
-                                    <img [src]="member.picture" [alt]="member.name" width="32" height="32" class="rounded-circle mr-1">{{member.name}}
-                                </a>
-                            </li>
-                        </ul>
-                        <ul class="columns p-0" *ngIf="!selectedMember">
-                                <li *ngFor="let member of members" class="nav-item" >
-                                    <a class="nav-link" routerLink="." [queryParams]="{member: member.shortid}" [class.active]="selectedMember?.user_id === member?.user_id">
-                                        <img [src]="member.picture" [alt]="member.name" width="30" height="30" class="rounded-circle mr-1">{{member.name}}
-                                    </a>
-                                </li>
-                            </ul>
+                    <span *ngIf="selectedMember"> Other people</span>
+                    <div class="form-group form-inline mb-0 mt-3" *ngIf="initiative && selectedMember">
+                        <div class="input-group w-75">
+                            <input id="inputQuickFilter" #inputQuickFilter placeholder="Find a member" type="text" class="form-control" (keyup)="onKeyDown(inputQuickFilter.value)">
+                            <div class="input-group-append">
+                                <button ngbTooltip="Clear search" placement="top" container="body" class="btn btn-dark" (click)="onKeyDown('')">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>
+
+
+                <ul class="nav flex-column nav-pills" *ngIf="selectedMember">
+                    <li *ngFor="let member of filteredMembers" class="nav-item">
+                        <a class="nav-link" routerLink="." [queryParams]="{member: member.shortid}" [class.active]="selectedMember?.user_id === member?.user_id">
+                            <img [src]="member.picture" width="32" height="32" class="rounded-circle mr-1">{{member.name}}
+                        </a>
+                    </li>
+                </ul>
+                <ul class="columns p-0" *ngIf="!selectedMember">
+                    <li *ngFor="let member of filteredMembers" class="nav-item">
+                        <a class="nav-link" routerLink="." [queryParams]="{member: member.shortid}" [class.active]="selectedMember?.user_id === member?.user_id">
+                            <img [src]="member.picture" width="32" height="32" class="rounded-circle mr-1">{{member.name}}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
-    
+
 
 </div>

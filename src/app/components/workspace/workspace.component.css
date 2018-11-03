@@ -80,7 +80,7 @@
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 #main {
     transition: margin-left .5s;
-    margin-left:4vw;
+    margin-left:4.5vw;
     margin-right:2vw;
     /* margin-top:1w; */
     position: fixed;

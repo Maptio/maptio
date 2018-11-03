@@ -35,6 +35,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     public isBuildingPanelCollapsed: boolean = true;
     public isDetailsPanelCollapsed: boolean = true;
+    public isBuildingVisible:boolean;
     public isEmptyMap: Boolean;
     // public isSettingsPanelCollapsed: boolean = true;
     public datasetId: string;
@@ -182,6 +183,11 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     closeEditingPanel() {
         this.isDetailsPanelCollapsed = true;
         this.isBuildingPanelCollapsed = true;
+    }
+
+    toggleEditingPanelsVisibility(isVisible:boolean){
+        this.isBuildingVisible = isVisible;
+        this.cd.markForCheck();
     }
 
 

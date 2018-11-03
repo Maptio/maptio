@@ -1,19 +1,19 @@
 <div class="d-flex justify-content-center row">
     <div class="col-12">
-        <div class="card border-light box-shadow">
-            <div class="card-title my-0">
+        <div class="card">
+            <div class="card-title my-0 border-0">
                 <span class="d-flex align-items-end justify-content-between p-2">
-                    <span class="d-flex align-items-center">
-                        <img class="rounded-circle m-1" width="60" height="60" src="{{member?.picture}}" alt="{{member?.name}}">
-                        <h1 class="ml-1">{{member?.name}}</h1>
+                    <span class="d-flex align-items-end">
+                        <img class="rounded-circle m-1" width="48" height="48" src="{{member?.picture}}" alt="{{member?.name}}">
+                        <h2 class="ml-1">{{member?.name}}</h2>
                     </span>
 
-                    <small class="d-flex justify-content-end">
-                        <span class="text-muted mr-1">in map</span> {{initiative?.name}}</small>
+                    <!-- <small class="d-flex justify-content-end">
+                        <span class="text-muted mr-1">in map</span> {{initiative?.name}}</small> -->
                 </span>
             </div>
         </div>
-        <div class="d-flex justify-content-between mt-3 overflow-y" [style.max-height.px]="height-112">
+        <div class="d-flex justify-content-between mt-3" >
             <div class="w-50 mr-1">
                 <h5 *ngIf="authorities.length===0" class="card-title">Not a {{_team?.settings.authority | lowercase }} yet</h5>
                 <h5 *ngIf="authorities.length>0" class="card-title">{{_team?.settings.authority | titlecase }} of circles</h5>
