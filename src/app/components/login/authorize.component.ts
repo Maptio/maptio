@@ -80,7 +80,7 @@ export class AuthorizeComponent implements OnInit {
 
         let user = User.create().deserialize(profile);
 
-        return Observable.fromPromise(this.userFactory.getUsers([user.user_id]).then(users => { console.log("then", users); return users }))
+        return Observable.fromPromise(this.userFactory.getUsers([user.user_id]).then(users => { return users }))
             .map((users: User[]) => {
                 return users;
             })

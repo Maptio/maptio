@@ -87,7 +87,6 @@ export class HeaderComponent implements OnInit {
 
     ngOnInit() {
         this.userSubscription = EmitterService.get("headerUser").subscribe((user: User) => {
-            // console.log("header", user)
             this.user = user;
 
             this.datasetFactory.get(this.user.datasets, true)
@@ -128,7 +127,6 @@ export class HeaderComponent implements OnInit {
     }
 
     isSignUp() {
-        console.log(this.router)
         return this.router.url.startsWith("/login") || this.router.url.startsWith("/signup")
     }
 

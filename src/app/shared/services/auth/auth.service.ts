@@ -129,8 +129,8 @@ export class Auth {
         connection: "google-oauth2"
       },
         function (err: any, authResult: any) {
-          console.log(err, authResult)
           if (err) {
+            console.error(err);
             reject(err)
           }
           resolve({ accessToken: authResult.accessToken, idToken: authResult.idToken })
@@ -181,7 +181,6 @@ export class Auth {
         })
         .then((user: User) => {
           this.datasetFactory.get(user).then(ds => {
-            // console.log("getUser", ds)
             user.datasets = uniq(ds);
             EmitterService.get("headerUser").emit(user);
             this.user$.next(user);
@@ -194,18 +193,14 @@ export class Auth {
   }
 
   public setUser(profile: any): Promise<boolean> {
-    console.log("setUser", profile)
     localStorage.setItem("profile", JSON.stringify(profile));
-    console.log(profile.user_id)
     return this.userFactory
       .get(profile.user_id)
       .then(user => {
-        console.log("getting user", user)
         this.user$.next(user);
         return Promise.resolve<boolean>(true);
       })
       .catch((reason: any) => {
-        console.log("getting user catch", reason)
         let user = User.create().deserialize(profile);
         this.userFactory
           .create(user)
@@ -251,7 +246,6 @@ export class Auth {
         },
         function (err: any, authResult: any) {
           if (err) {
-            // console.log(err)
             EmitterService.get("loginErrorMessage").emit(err.description);
             return;
           }

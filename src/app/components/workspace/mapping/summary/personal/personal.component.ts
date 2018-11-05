@@ -3,6 +3,7 @@ import { Initiative } from "../../../../../shared/model/initiative.data";
 import { User } from "../../../../../shared/model/user.data";
 // import { Tag, SelectableTag } from "../../../../../shared/model/tag.data";
 import { Team } from "../../../../../shared/model/team.data";
+import { Router } from "../../../../../../../node_modules/@angular/router";
 // import { partition } from "lodash";
 
 
@@ -27,17 +28,13 @@ export class PersonalSummaryComponent implements OnInit {
     @Input("team") public team: Team;
     @Input("height") public height: number;
     @Input("datasetId") public datasetId: string;
-    // @Input("tags") public tags: SelectableTag[];
-
     @Output() edit: EventEmitter<Initiative> = new EventEmitter<Initiative>();
 
     private _user: User;
     private _initiative: Initiative;
     private _team: Team;
-    // private _selectedTags: SelectableTag[];
-    // private _unselectedTags: SelectableTag[];
 
-    constructor(private cd: ChangeDetectorRef) {
+    constructor(private cd: ChangeDetectorRef, private router: Router) {
 
     }
 
@@ -59,18 +56,12 @@ export class PersonalSummaryComponent implements OnInit {
         if (changes.team && changes.team.currentValue) {
             this._team = changes.team.currentValue;
         }
-        // if(changes.tags && changes.tags.currentValue){
-        //     let [s, u] = partition(<SelectableTag[]>changes.tags.currentValue, t => t.isSelected)
-        //     this._selectedTags = s;
-        //     this._unselectedTags = u;
-        // }
         this.ngOnInit();
     }
 
     getSummary() {
         this.authorities = [];
         this.helps = [];
-        // let [selectedTags, unselectedTags] = partition(tags, t => t.isSelected);
 
         this._initiative.traverse(function (i: Initiative) {
             if (i.accountable && i.accountable.user_id === this._user.user_id) {
@@ -80,76 +71,13 @@ export class PersonalSummaryComponent implements OnInit {
                 if (!this.helps.includes(i)) this.helps.push(i)
             }
 
-            // let nodeTags = i.tags.map((t: Tag) => t.shortid);
-            // this.initiativesMap.set(i.id,
-            //     this.uiService.filter(selectedTags, unselectedTags, nodeTags)
-            // );
-
         }.bind(this));
     }
 
 
     openInitiative(node: Initiative) {
-        this.edit.emit(node);
+        this.router.navigateByUrl(`/map/${this.datasetId}/${this.initiative.getSlug()}/circles?id=${node.id}`)
     }
-
-    // ngOnInit() {
-    //     this.isLoading = true;
-    //     this.subscription =
-    //         this.dataService.get()
-    //             .map(data => {
-    //                 this.datasetId = data.datasetId;
-    //                 this.analytics.eventTrack("Map", { 
-    //                     action: "viewing", 
-    //                     view: "personal", 
-    //                     team: data.team.name, 
-    //                     teamId: data.team.team_id });
-    //                 this.initiative = data.initiative;
-    //                 this.team = data.team;
-    //             })
-    //             .combineLatest(this.route.params)
-
-    //         this.route.params.map((params: Params) => {
-    //             console.log(params)
-    //             this.memberShortId = params["usershortid"];
-    //             return this.memberShortId;
-    //         })
-    //             .switchMap((memberShortId: string) => {
-    //                 return this.userFactory.get(memberShortId)
-    //                     .then((user: User) => {
-    //                         this.memberUserId = user.user_id;
-    //                         this.member = user;
-    //                         return user;
-    //                     });
-    //             })
-    //             // .combineLatest(this.selectableTags$)
-    //             .subscribe((user: User) => {
-    //                 this.authorities = [];
-    //                 this.helps = [];
-    //                 // let [selectedTags, unselectedTags] = partition(tags, t => t.isSelected);
-
-    //                 this.initiative.traverse(function (i: Initiative) {
-    //                     if (i.accountable && i.accountable.user_id === this.memberUserId) {
-    //                         if (!this.authorities.includes(i)) this.authorities.push(i)
-    //                     }
-    //                     if (i.helpers && i.helpers.find(h => h.user_id === this.memberUserId && i.accountable && i.accountable.user_id !== h.user_id)) {
-    //                         if (!this.helps.includes(i)) this.helps.push(i)
-    //                     }
-
-    //                     let nodeTags = i.tags.map((t: Tag) => t.shortid);
-    //                     // this.initiativesMap.set(i.id,
-    //                     //     this.uiService.filter(selectedTags, unselectedTags, nodeTags)
-    //                     // );
-
-    //                 }.bind(this));
-    //                 this.cd.markForCheck();
-    //                 this.isLoading = false;
-    //             })
-    // }
-
-    // isInitiativeSelected(id: number): boolean {
-    //     return this.initiativesMap.get(id);
-    // }
 
     toggleAuthorityView(i: number) {
         this.authoritiesHideme.forEach(el => {

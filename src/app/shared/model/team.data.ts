@@ -73,7 +73,6 @@ export class Team implements Serializable<Team> {
         deserialized.settings.authority = input.settings ? input.settings.authority || environment.DEFAULT_AUTHORITY_TERMINOLOGY : environment.DEFAULT_AUTHORITY_TERMINOLOGY;
         deserialized.settings.helper = input.settings ? input.settings.helper || environment.DEFAULT_HELPER_TERMINOLOGY : environment.DEFAULT_HELPER_TERMINOLOGY
         deserialized.slack = SlackIntegration.create().deserialize(input.slack || {});
-        // console.log("deserialize team", input.slack, deserialized.slack)
 
 
         return deserialized;
@@ -100,7 +99,6 @@ export class Team implements Serializable<Team> {
 
     getRemainingTrialDays() {
         let cutoffDate = moment(this.createdAt).add(<moment.DurationInputArg1>this.freeTrialLength, "d");
-        // console.log(this.createdAt, cutoffDate, moment.duration(cutoffDate.diff(moment())).asDays())
         return Math.ceil(moment.duration(cutoffDate.diff(moment())).asDays());
     }
 

@@ -31,13 +31,13 @@ export class SignupComponent implements OnInit {
     public signUpMessageFail: string;
 
     public userToken: string;
-    public userId:string;
+    public userId: string;
     public isResending: boolean;
-    public isConfirmationEmailResent:boolean;
+    public isConfirmationEmailResent: boolean;
 
     public signupForm: FormGroup;
 
-    constructor(private userService: UserService, private loader: LoaderService, private auth:Auth,
+    constructor(private userService: UserService, private loader: LoaderService, private auth: Auth,
         private analytics: Angulartics2Mixpanel, private cd: ChangeDetectorRef, public loaderService: LoaderService) {
         this.signupForm = new FormGroup({
             "firstname": new FormControl(this.firstname, {
@@ -76,7 +76,7 @@ export class SignupComponent implements OnInit {
         this.isRedirectToActivate = false;
         this.isEmailAlreadyExist = false;
         this.signUpMessageFail = "";
-        this.isResending =false;
+        this.isResending = false;
 
         if (this.signupForm.dirty && this.signupForm.valid) {
             this.loaderService.show();
@@ -107,22 +107,22 @@ export class SignupComponent implements OnInit {
                             .then((user: User) => {
                                 this.userId = user.user_id;
                                 return user;
-                            }, () => { 
+                            }, () => {
                                 this.signUpMessageFail = `${email} is not a valid email address`;
                                 this.cd.markForCheck();
                                 return Promise.reject(`${email} is not a valid email address`);
-                             })
+                            })
                             .then((user: User) => {
                                 return this.userService.sendConfirmation(user.email, user.user_id, user.firstname, user.lastname, user.name)
                                     .then((success: boolean) => {
                                         this.isConfirmationEmailSent = success;
                                         this.cd.markForCheck();
                                     },
-                                        (reason) => {  
+                                        (reason) => {
                                             this.isConfirmationEmailSent = false;
                                             this.signUpMessageFail = `Confirmation email failed to send`;
                                             this.cd.markForCheck();
-                                            return Promise.reject("Confirmation email failed to send") 
+                                            return Promise.reject("Confirmation email failed to send")
                                         })
                             })
                             .then(() => {
@@ -134,11 +134,13 @@ export class SignupComponent implements OnInit {
                             })
                     }
                 }).then(() => { this.loaderService.hide(); })
-                .catch(()=>{console.log("final catch")})
+                .catch((err) => {
+                    console.error(err);
+                })
         }
     }
 
- 
+
 
     isEmailExist(email: string): Promise<boolean> {
         return this.userService.isUserExist(email)
@@ -161,20 +163,20 @@ export class SignupComponent implements OnInit {
 
     resendEmail() {
         this.isResending = true;
-        this.isConfirmationEmailSent=false;
+        this.isConfirmationEmailSent = false;
         if (!this.userToken)
             return;
         this.userService.sendConfirmationWithUserToken(this.userToken).then(() => {
             this.isResending = false;
-            this.isConfirmationEmailSent=true;
+            this.isConfirmationEmailSent = true;
             this.cd.markForCheck();
         })
     }
 
-    resendImmediately(){
+    resendImmediately() {
         this.isResending = true;
         // this.isConfirmationEmailSent=false;
-        this.userService.sendConfirmation(this.email, this.userId, this.firstname, this.lastname,"").then(() => {
+        this.userService.sendConfirmation(this.email, this.userId, this.firstname, this.lastname, "").then(() => {
             this.isResending = false;
             // this.isConfirmationEmailSent=true;
             this.cd.markForCheck();

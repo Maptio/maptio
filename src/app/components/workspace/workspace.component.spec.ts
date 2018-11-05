@@ -42,7 +42,6 @@ export class AuthStub {
     });
 
     public getUser(): Observable<User> {
-        // console.log("here")
         return Observable.of(this.fakeProfile);
     }
 

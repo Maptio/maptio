@@ -131,7 +131,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
             .then((hasSaved: boolean) => {
                 this.dataService.set({ initiative: initiative, dataset: this.dataset, team: this.team,  members: this.members });
                 return hasSaved;
-            }, (reason) => { /*console.log(reason)*/ })
+            }, (reason) => { console.error(reason) })
             .then(() => {
 
                 let depth = 0

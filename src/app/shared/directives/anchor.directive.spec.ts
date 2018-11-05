@@ -53,7 +53,7 @@
 
 //     // it('should create children components', () => {
 //     //     let factory = target.componentInstance.componentFactoryResolver.resolveComponentFactory(AnAnchorableComponent);
-//     //     console.log(factory)
+
 //     //     let actual = target.componentInstance.anchorComponent.createComponent<IAnchorableComponent>(factory);
 
 //     //     expect(actual).toBeDefined();

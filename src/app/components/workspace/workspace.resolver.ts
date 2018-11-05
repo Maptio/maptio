@@ -32,12 +32,10 @@ export class WorkspaceComponentResolver implements Resolve<{ dataset: DataSet, t
                     return this.teamFactory.get(dataset.initiative.team_id)
                         .then(
                         t => {
-                            // console.log("team", t, "dataset", dataset)
                             return { dataset: dataset, team: t }
                         })
                 })
                 .then(dt => {
-                    // console.log("dt", dt)
                     return this.userFactory.getUsers(dt.team.members.map((m: User) => m.user_id))
                         .then(members => compact(members))
                         .then(members => sortBy(members, m => m.name))
@@ -52,12 +50,6 @@ export class WorkspaceComponentResolver implements Resolve<{ dataset: DataSet, t
 
                 })
         )
-        // .combineLatest(this.auth.getUser())
-        // .map(data => {
-        //     console.log({ dataset: data[0].dataset, team: data[0].team, members: data[0].members, user: data[1] })
-        //     return { dataset: data[0].dataset, team: data[0].team, members: data[0].members, user: data[1] }
-        // })
-        // )
 
     }
 

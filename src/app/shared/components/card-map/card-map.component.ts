@@ -47,7 +47,7 @@ export class CardMapComponent implements OnInit {
             saveAs(blob, `${dataset.initiative.name}.csv`);
         }
             ,
-            (error: Error) => console.log("Error downloading the file."),
+            (error: Error) => console.error(error),
             () => {
                 this.isExporting = false;
             }
@@ -55,7 +55,6 @@ export class CardMapComponent implements OnInit {
     }
 
     save() {
-        console.log(this.form)
         if (this.form.valid) {
             this.isEditing = false;
             this.isUpdateFailed=false;

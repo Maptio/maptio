@@ -1,8 +1,8 @@
-<div style="width: 91vw;" class="my-5">
+<div [style.width.px]="width" class="my-5">
     <div class="row cursor-auto">
         <div class="d-flex col-12">
             <div class="col" *ngIf="selectedMember">
-                <summary-personal [datasetId]="datasetId" [member]="selectedMember" [team]="team" [initiative]="initiative" (edit)="openInitiative($event)"></summary-personal>
+                <summary-personal [datasetId]="datasetId" [member]="selectedMember" [team]="team" [initiative]="initiative"></summary-personal>
             </div>
             <div [class.col-4]="selectedMember" [class.col-12]="!selectedMember" [class.border-left]="selectedMember">
                 <div class="mx-3 mb-3">
@@ -16,7 +16,7 @@
                         <div class="input-group w-75">
                             <input id="inputQuickFilter" #inputQuickFilter placeholder="Find a member" type="text" class="form-control" (keyup)="onKeyDown(inputQuickFilter.value)">
                             <div class="input-group-append">
-                                <button ngbTooltip="Clear search" placement="top" container="body" class="btn btn-dark" (click)="onKeyDown('')">
+                                <button ngbTooltip="Clear search" placement="top" container="body" class="btn btn-dark" (click)="onKeyDown('');inputQuickFilter.value=''">
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                 </button>
                             </div>

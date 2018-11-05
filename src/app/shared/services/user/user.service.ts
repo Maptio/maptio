@@ -64,7 +64,6 @@ export class UserService {
                 }).toPromise()
         })
             .then((ticket: string) => {
-                // console.log("sending ticket")
                 return this.mailing.sendConfirmation(environment.SUPPORT_EMAIL, [email], ticket)
             })
             .then((success: boolean) => {
@@ -100,7 +99,6 @@ export class UserService {
                 }).toPromise()
         })
             .then((data: { ticket: string, email: string, userId: string }) => {
-                // console.log("sending ticket")
                 return this.mailing.sendConfirmation(environment.SUPPORT_EMAIL, [data.email], data.ticket)
             })
             .then(() => {
@@ -171,18 +169,15 @@ export class UserService {
                 let maxCounter = Math.ceil(users.length / environment.AUTH0_USERS_PAGE_LIMIT);
 
                 let pageArrays = Array.from(Array(maxCounter).keys());
-                // console.log(pageArrays)
                 let singleObservables = pageArrays.map((pageNumber: number, index: number) => {
                     let truncatedQuery = users
                         .slice(index * environment.AUTH0_USERS_PAGE_LIMIT, (index + 1) * environment.AUTH0_USERS_PAGE_LIMIT)
                         .map(u => `user_id:"${u.user_id}"`).join(" OR ");
-                    // console.log(index, index * environment.AUTH0_USERS_PAGE_LIMIT, (index + 1) * environment.AUTH0_USERS_PAGE_LIMIT, truncatedQuery)
                     return this.requestUsersPerPage(truncatedQuery, headers, pageNumber)
                         .map(single => { return single })
                 });
 
                 return Observable.forkJoin(singleObservables).toPromise().then((result: User[][]) => {
-                    // console.log("getUsersInfo", flatten(result))
                     return flatten(result);
                 });
             }

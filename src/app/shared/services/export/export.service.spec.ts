@@ -133,7 +133,6 @@ describe("export.service.ts", () => {
     //             .subscribe(res => {
     //                 expect(spyHttp).toHaveBeenCalled()
             
-    //                 console.log(res)
     //             })
     //         })
     //         ));

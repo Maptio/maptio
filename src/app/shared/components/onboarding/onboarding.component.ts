@@ -56,7 +56,6 @@ export class OnboardingComponent implements OnInit {
                 this.datasetId = this.datasets[0].datasetId;
                 this.mapName = this.datasets[0].initiative.name;
 
-                console.log(this.datasets[0].initiative)
                 this.isZeroInitiative = !this.datasets[0].initiative.children || this.datasets[0].initiative.children.length === 0;
 
                 if (!this.isZeroInitiative) {

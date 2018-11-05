@@ -43,7 +43,7 @@ export class BuildingComponent {
         nodeHeight: 55,
         actionMapping: {
             mouse: {
-                dragStart: () => { console.log("drag start"); this.cd.detach(); },
+                dragStart: () => { this.cd.detach(); },
                 dragEnd: () => { this.cd.reattach(); },
                 drop: (tree: any, node: TreeNode, $event: any, { from, to }: { from: TreeNode, to: TreeNode }) => {
 
@@ -122,7 +122,6 @@ export class BuildingComponent {
     }
 
     saveChanges() {
-        // console.log("send to workspace", this.nodes[0])
         this.save.emit(this.nodes[0]);
     }
 

@@ -26,7 +26,6 @@ export class TeamMapsComponent implements OnInit {
         this.route.parent.data
             .combineLatest(this.auth.getUser())
             .subscribe(([data, user] : [{ assets: { team: Team, datasets: DataSet[] } }, User]) => {
-                console.log(data, user)
                 this.datasets = data.assets.datasets;
                 this.teams = [data.assets.team];
                 this.user = user;
@@ -35,14 +34,12 @@ export class TeamMapsComponent implements OnInit {
     }
 
     onNewMap(dataset:DataSet){
-        console.log(dataset)
         this.analytics.eventTrack("Create a map", { email: this.user.email, name: dataset.initiative.name, team: dataset.initiative.team_id })
 
         this.ngOnInit();
     }
 
     archiveMap(dataset: DataSet) {
-        // console.log("archive", dataset.initiative.name)
     }
 
 }

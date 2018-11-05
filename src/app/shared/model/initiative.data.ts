@@ -110,8 +110,6 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
             children = undefined;
         }
 
-
-        // console.log(input.helpers)
         let helpers = new Array<Helper>()
         if (input.helpers) {
             input.helpers.forEach(function (inputHelper: any) {
@@ -157,11 +155,9 @@ export class Initiative implements ITraversable, Serializable<Initiative> {
         let queue: Array<Promise<void>> = [];
 
         let recursion = (node: Initiative) => {
-            // console.log(node.children)
             // queue.push(callback.apply(this, [node]));
             if (node.children) {
                 node.children.forEach(function (child: Initiative) {
-                    // console.log("name", child.name, "queue length", queue)
                     queue.push(callback.apply(this, [child]));
                     recursion(child)
                 });

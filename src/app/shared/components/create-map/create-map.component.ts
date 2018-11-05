@@ -94,7 +94,6 @@ export class CreateMapComponent implements OnInit {
             });
             this.datasetFactory.create(newDataset)
                 .then((created: DataSet) => {
-                    console.log(created)
                     this.created.emit(created);
                     this.form.reset();
 

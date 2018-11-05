@@ -125,7 +125,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .get()
       .combineLatest(this.mapColor$, this.isAuthorityCentricMode$.asObservable())
       .subscribe(complexData => {
-        console.log(complexData)
         let data = <any>complexData[0].initiative;
         this.datasetId = complexData[0].dataset.datasetId;
         this.rootNode = complexData[0].initiative;
@@ -483,7 +482,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     let links = chain(rawlinks).groupBy("linkid")
       .map((items: any, linkid: string) => {
         let uniqueItems = uniqBy(items, (i: any) => i.initiative);
-        // console.log(items, uniqueItems)
         return {
           source: uniqueItems[0].source,
           target: uniqueItems[0].target,
@@ -593,7 +591,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       links = graph.links;
 
     let [selectedTags, unselectedTags] = partition(getTags(), (t: SelectableTag) => t.isSelected);
-    // console.log(selectedTags, unselectedTags)
 
     links.forEach(function (link: {
       source: string;
@@ -777,7 +774,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .style("stroke-opacity", 1)
       .style("stroke", seedColor)
       .on("mouseover", function (d: any) {
-        // console.log(d)
         d3.event.stopPropagation();
 
         let path = d3.select(this);

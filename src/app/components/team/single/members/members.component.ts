@@ -253,19 +253,15 @@ export class TeamMembersComponent implements OnInit {
     }
 
     isEmail(text: string) {
-        // console.log(text, this.EMAIL_REGEXP, this.EMAIL_REGEXP.test(text))
         return this.EMAIL_REGEXP.test(text);
     }
 
     inviteAll() {
-        // console.log("invite all")
         this.members$ = this.members$
             .then((users: User[]) => {
                 return users.map((user: User) => {
                     if (user.isActivationPending) {
-                        // console.log("invite", user.email)
                         this.inviteUser(user);
-                        // user.isInvitationSent = true; // optimistic update
                     }
                     return user;
                 })
@@ -356,7 +352,6 @@ export class TeamMembersComponent implements OnInit {
                     return Promise.reject(`Can't create ${email} : ${reason}`);
                 })
             }, (reason: any) => {
-                // console.log("reject", JSON.parse(reason._body).message)
                 throw JSON.parse(reason._body).message;
             })
             .then((virtualUser: User) => {
@@ -378,7 +373,7 @@ export class TeamMembersComponent implements OnInit {
                 return true;
             })
             .catch((reason) => {
-                // console.log("catching ", reason)
+                console.error(reason)
                 this.errorMessage = reason;
                 throw Error(reason);
             })

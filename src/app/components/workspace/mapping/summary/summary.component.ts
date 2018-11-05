@@ -1,5 +1,5 @@
 import { DataService } from "../../../../shared/services/data.service";
-import { Params, ActivatedRouteSnapshot } from "@angular/router";
+import { Params, ActivatedRouteSnapshot, Router } from "@angular/router";
 import { DataSet } from "../../../../shared/model/dataset.data";
 import { Team } from "../../../../shared/model/team.data";
 import { User } from "../../../../shared/model/user.data";
@@ -76,7 +76,7 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
 
     constructor(public auth: Auth, public route: ActivatedRoute, public datasetFactory: DatasetFactory,
         public userFactory: UserFactory, public teamFactory: TeamFactory, private dataService: DataService,
-        public loaderService: LoaderService,
+        public loaderService: LoaderService, private router:Router,
         private cd: ChangeDetectorRef) {
     }
 
@@ -135,10 +135,6 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
     showSummary(member: User) {
         this.selectedMember = member;
         this.cd.markForCheck();
-    }
-
-    openInitiative(node: Initiative) {
-        this.showDetailsOf$.next(node);
     }
 
     onKeyDown(search: string) {
