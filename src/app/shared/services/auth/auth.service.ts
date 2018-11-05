@@ -59,11 +59,13 @@ export class Auth {
     let FONT_COLOR = localStorage.getItem("FONT_COLOR");
     let MAP_COLOR = localStorage.getItem("MAP_COLOR");
     let CIRCLE_VIEW_MODE = localStorage.getItem("CIRCLE_VIEW_MODE")
+    let REDIRECT_URL = localStorage.getItem("redirectUrl");
     localStorage.clear();
     localStorage.setItem("FONT_SIZE", FONT_SIZE || "");
     localStorage.setItem("FONT_COLOR", FONT_COLOR || "");
     localStorage.setItem("MAP_COLOR", MAP_COLOR || "");
     localStorage.setItem("CIRCLE_VIEW_MODE", CIRCLE_VIEW_MODE);
+    localStorage.setItem("redirectUrl", REDIRECT_URL);
   }
 
   // public shutDownIntercom() {
