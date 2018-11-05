@@ -176,11 +176,8 @@ export class MappingComponent {
 
   ngAfterViewInit() {
     this.route.queryParams.subscribe(params => {
-      console.log("ngAfterViewInit", <number>params.id)
       if (params.id) {
         this.emitOpenInitiative(new Initiative({id: <number>params.id}));
-        // this .next(new Initiative({id: <number>params.id)});
-        // this.searchComponent.selectInitiative.emit(new Initiative({ id: <number>params.id }))
       }
     })
   }
@@ -245,11 +242,6 @@ export class MappingComponent {
 
     component.analytics = this.analytics;
     component.isReset$ = this.isReset$.asObservable();
-
-    if(this.route.snapshot.queryParams.id){
-      console.log("zooming in")
-      this.zoomToInitiative$.next(new Initiative({id : <number>this.route.snapshot.queryParams.id}))
-    }
 
     if (component.constructor === MappingSummaryComponent) {
       this.isMapSettingsDisabled = true;
@@ -475,7 +467,6 @@ export class MappingComponent {
   }
 
   zoomToInitiative(selected: Initiative) {
-    console.log("zooming", selected)
     this.zoomToInitiative$.next(selected);
   }
 

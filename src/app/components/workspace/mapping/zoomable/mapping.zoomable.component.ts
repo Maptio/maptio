@@ -158,8 +158,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         this.slug = data.getSlug();
         this.loaderService.show();
         let nodes = this.update(data, complexData[1], complexData[2], this.counter === 0);
-        console.log("complete")
-        console.log(complexData[3], this.svg.select(`circle.node.initiative-map[id="${complexData[3].id}"]`))
+        
         if (complexData[3].id) {
           let n = <Initiative>nodes.filter((n:any) => n.data.id.toString() === complexData[3].id.toString())[0].data;
           this.showDetailsOf$.next(n);
@@ -389,7 +388,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
     if (this.d3.selectAll("g").empty()) {
       this.init();
     }
-    console.log("update")
 
     let d3 = this.d3;
     let diameter = this.diameter;
