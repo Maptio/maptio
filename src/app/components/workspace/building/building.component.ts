@@ -280,50 +280,11 @@ export class BuildingComponent {
                 });
 
                 this.cd.markForCheck();
-                // this.saveChanges();
             })
-            // .then(() => {
-            //     let targetNode: Initiative = undefined;
-            //     if (nodeIdToOpen) {
-
-            //         this.nodes[0].traverse(n => {
-            //             if (targetNode) return; // once we find it, we dont need to carry on
-            //             if (n.id.toString() === nodeIdToOpen) {
-            //                 targetNode = n;
-            //             }
-            //         });
-            //     }
-            //     if (targetNode) {
-            //         this.openDetailsEditOnly.emit(targetNode)
-            //     }
-            // })
             .then(() => {
                 this.loaderService.hide();
             })
     }
-
-    // filterNodes(treeModel: any, searched: string) {
-    //     this.analytics.eventTrack("Search map", { search: searched, teamId: this.team.team_id });
-    //     if (!searched || searched === "") {
-    //         treeModel.clearFilter();
-    //     }
-    //     else {
-    //         this.nodes.forEach(function (i: Initiative) {
-    //             i.traverse(function (node) { node.isSearchedFor = false });
-    //         });
-    //         treeModel.filterNodes(
-    //             (node: TreeNode) => {
-    //                 let initiative = (<Initiative>node.data);
-    //                 initiative.isSearchedFor = initiative.search(searched);
-    //                 return initiative.isSearchedFor;
-    //                 // }
-
-    //             },
-    //             true);
-    //     }
-    //     this.saveChanges();
-    // }
-
 }
 
 

@@ -158,13 +158,16 @@ export class MappingZoomableComponent implements IDataVisualizer {
         this.slug = data.getSlug();
         this.loaderService.show();
         let nodes = this.update(data, complexData[1], complexData[2], this.counter === 0);
-        
+
         if (complexData[3].id) {
-          let n = <Initiative>nodes.filter((n:any) => n.data.id.toString() === complexData[3].id.toString())[0].data;
-          this.showDetailsOf$.next(n);
-          this.svg.select(`circle.node.initiative-map[id="${complexData[3].id}"]`).dispatch("click");
-          // remove the location.search without reload
-          window.history.pushState("", "", `${location.protocol}//${location.host}/${location.pathname}${location.hash}`)
+          if (nodes.find((n: any) => n.data.id.toString() === complexData[3].id.toString())) {
+            let n = <Initiative>nodes.filter((n: any) => n.data.id.toString() === complexData[3].id.toString())[0].data;
+            this.showDetailsOf$.next(n);
+            this.svg.select(`circle.node.initiative-map[id="${complexData[3].id}"]`).dispatch("click");
+            // remove the location.search without reload
+            window.history.pushState("", "", `${location.protocol}//${location.host}/${location.pathname}${location.hash}`)
+
+          }
         }
         this.counter += 1;
         this.loaderService.hide();
@@ -384,7 +387,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this._lastZoomedCircle = circle;
   }
 
-  update(data: Initiative, seedColor: string, isFullDisplayMode: boolean, isFirstLoad: boolean):HierarchyCircularNode<{}>[] {
+  update(data: Initiative, seedColor: string, isFullDisplayMode: boolean, isFirstLoad: boolean): HierarchyCircularNode<{}>[] {
     if (this.d3.selectAll("g").empty()) {
       this.init();
     }
@@ -1152,7 +1155,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         })
     }
 
-    
+
     function buildPaths() {
       let path = svg.select("defs")
         .selectAll("path")
@@ -1176,7 +1179,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
       return path;
     }
-    
+
 
     function buildPatterns() {
       let patterns = definitions.selectAll("pattern").data(

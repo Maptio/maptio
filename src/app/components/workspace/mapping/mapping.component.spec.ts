@@ -26,6 +26,8 @@ import { MappingNetworkComponent } from "./network/mapping.network.component";
 import { MappingZoomableComponent } from "./zoomable/mapping.zoomable.component";
 import { MarkdownService } from "angular2-markdown";
 import { Intercom, IntercomConfig } from 'ng-intercom';
+import { MappingSummaryComponent } from './summary/summary.component';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 describe("mapping.component.ts", () => {
 
@@ -35,6 +37,7 @@ describe("mapping.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
+                DeviceDetectorService,
                 DataService, ErrorService, D3Service, ColorService, UIService, URIService, Angulartics2Mixpanel, Angulartics2,
                 UserFactory, ExportService,Intercom, IntercomConfig,
                 {
@@ -58,14 +61,15 @@ describe("mapping.component.ts", () => {
                     useValue: {
                         params: Observable.of({ mapid: 123, layout: "initiatives" }),
                         fragment: Observable.of(`x=50&y=50&scale=1.2`),
-                        snapshot: { fragment: undefined }
+                        snapshot: { fragment: undefined },
+                        queryParams : Observable.of({id: "123345"})
                     }
                 }
 
             ],
             schemas: [NO_ERRORS_SCHEMA],
             declarations: [MappingComponent, MappingTreeComponent,
-                MappingNetworkComponent, MemberSummaryComponent, MappingZoomableComponent],
+                MappingNetworkComponent, MappingSummaryComponent, MappingZoomableComponent],
             imports: [RouterTestingModule]
         })
             .compileComponents()
@@ -75,7 +79,8 @@ describe("mapping.component.ts", () => {
     beforeEach(() => {
         target = TestBed.createComponent(MappingComponent);
         component = target.componentInstance;
-        component.team = new Team({ name: "team", team_id: "TEAMID" })
+        component.VIEWPORT_WIDTH = 1000;
+        component.team = new Team({ name: "team", team_id: "TEAMID" });
         target.detectChanges(); // trigger initial data binding
     });
 
@@ -99,7 +104,7 @@ describe("mapping.component.ts", () => {
 
         describe("getFragment", () => {
             it("should return correct fragment  when layout is initiatives", () => {
-                let actual = component.getFragment(new MappingZoomableComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined));
+                let actual = component.getFragment(new MappingZoomableComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined));
                 expect(actual).toBe(`x=${component.VIEWPORT_WIDTH / 2}&y=${component.VIEWPORT_WIDTH / 2 - 180}&scale=1`)
             });
 
@@ -114,7 +119,7 @@ describe("mapping.component.ts", () => {
             });
 
             it("should return correct fragment  when layout is list", () => {
-                let actual = component.getFragment(new MemberSummaryComponent(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined));
+                let actual = component.getFragment(new MappingSummaryComponent(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined));
                 expect(actual).toBe("x=0&y=0&scale=1")
             });
         });
@@ -173,7 +178,7 @@ describe("mapping.component.ts", () => {
             spyOn(component, "getFragment").and.returnValue("x=10&y=100&scale=1.3")
 
             component.onActivate(activated);
-            expect(activated.width).toBe(window.innerWidth-130)
+            expect(activated.width).toBe(1000)
             // expect(activated.height).toBe(document.body.clientHeight-125)
             expect(activated.margin).toBe(50);
             expect(component.getFragment).toHaveBeenCalledTimes(1);

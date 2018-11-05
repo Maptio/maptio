@@ -42,7 +42,6 @@ export class PersonalSummaryComponent implements OnInit {
         if (this._user && this._initiative && this._team) {
             this.getSummary();
             this.cd.markForCheck();
-
         }
     }
 

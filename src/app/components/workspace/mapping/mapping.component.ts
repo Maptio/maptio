@@ -150,7 +150,7 @@ export class MappingComponent {
     private route: ActivatedRoute,
     private analytics: Angulartics2Mixpanel,
     private uriService: URIService,
-    private uiService: UIService,
+    public uiService: UIService,
     private exportService: ExportService,
     private intercom: Intercom,
     private router: Router

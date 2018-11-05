@@ -21,6 +21,8 @@ import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { MarkdownService } from "angular2-markdown";
 import { DeviceDetectorService } from "ngx-device-detector";
+import { Team } from "../../../../shared/model/team.data";
+import { DataSet } from "../../../../shared/model/dataset.data";
 
 describe("mapping.tree.component.ts", () => {
 
@@ -80,8 +82,8 @@ describe("mapping.tree.component.ts", () => {
         component.isReset$ = new Subject<boolean>();
         component.selectableTags$ = Observable.of([]);
         component.fontSize$ = Observable.of(12);
-        component.fontColor$ = Observable.of("")
-        component.mapColor$ = Observable.of("")
+        component.fontColor$ = Observable.of("#000")
+        component.mapColor$ = Observable.of("#ddd")
         component.zoomInitiative$ = Observable.of(new Initiative());
 
         component.toggleOptions$ = Observable.of(true);
@@ -90,7 +92,7 @@ describe("mapping.tree.component.ts", () => {
 
         let data = new Initiative().deserialize(fixture.load("data.json"));
         let mockDataService = target.debugElement.injector.get(DataService);
-        spyOn(mockDataService, "get").and.returnValue(Observable.of({ initiative: data, datasetId: "ID" }));
+        spyOn(mockDataService, "get").and.returnValue(Observable.of({ initiative: data, team: new Team({}), dataset: new DataSet({}), members: [] }));
 
         target.detectChanges(); // trigger initial data binding
     });
@@ -191,12 +193,14 @@ describe("mapping.tree.component.ts", () => {
         expect(svgs.length).toBe(1);
         let svg = svgs.item(0);
         let nodes = svg.querySelectorAll("g.node");
-        expect(nodes.item(0).querySelector("text.name").textContent).toBe("My Company");
-        expect(nodes.item(1).querySelector("text.name").textContent).toBe("Tech");
-        expect(nodes.item(2).querySelector("text.name").textContent).toBe("Marketing");
-        // expect(nodes.item(0).querySelector("text.accountable").textContent).toBe("");
-        // expect(nodes.item(1).querySelector("text.accountable").textContent).toBe("CTO");
-        // expect(nodes.item(2).querySelector("text.accountable").textContent).toBe("CMO");
+        expect(nodes.item(0).querySelector(".name").tagName).toBe("foreignObject");
+        expect(nodes.item(0).querySelector(".name").innerHTML).toContain("My Company");
+
+        expect(nodes.item(1).querySelector(".name").tagName).toBe("foreignObject");
+        expect(nodes.item(1).querySelector(".name").innerHTML).toContain("Tech");
+
+        expect(nodes.item(2).querySelector(".name").tagName).toBe("foreignObject");
+        expect(nodes.item(2).querySelector(".name").innerHTML).toContain("Marketing");
     });
 
     it("should draw SVG with correct pictures labels when data is valid", () => {
@@ -207,12 +211,12 @@ describe("mapping.tree.component.ts", () => {
         expect(svgs.length).toBe(1);
         let svg = svgs.item(0);
         let nodes = svg.querySelectorAll("g.node");
-        expect(nodes.item(0).querySelector("circle").getAttribute("fill")).toBe("#fff");
+        expect(nodes.item(0).querySelector("circle").getAttribute("fill")).toBe("url(#image0)");
         expect(nodes.item(1).querySelector("circle").getAttribute("fill")).toBe("url(#image1)");
         expect(nodes.item(2).querySelector("circle").getAttribute("fill")).toBe("url(#image2)");
 
         let patterns = svg.querySelectorAll("g defs pattern");
-        expect(patterns.item(0).querySelector("image")).toBe(null)
+        expect(patterns.item(0).querySelector("image").getAttribute("href")).toBe("")
         expect(patterns.item(1).querySelector("image").getAttribute("href")).toBe("http://cto.image.png");
         expect(patterns.item(2).querySelector("image").getAttribute("href")).toBe("http://cmo.image.png");
     });

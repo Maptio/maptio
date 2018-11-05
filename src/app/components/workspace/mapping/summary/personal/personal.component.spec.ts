@@ -10,14 +10,17 @@ import { Angulartics2Mixpanel, Angulartics2, Angulartics2Module } from "angulart
 import { RouterTestingModule } from "@angular/router/testing";
 import { D3Service } from "d3-ng2-service";
 import { Initiative } from "../../../../../shared/model/initiative.data";
-import { MemberSummaryComponent } from "./personal.component";
+import { PersonalSummaryComponent } from "./personal.component";
 import { DataService } from "../../../../../shared/services/data.service";
+import { User } from "../../../../../shared/model/user.data";
+import { Auth } from "../../../../../shared/services/auth/auth.service";
+import { UserFactory } from "../../../../../shared/services/user.factory";
 
 
-describe("member-summary.component.ts", () => {
+describe("personal.component.ts", () => {
 
-    let component: MemberSummaryComponent;
-    let target: ComponentFixture<MemberSummaryComponent>;
+    let component: PersonalSummaryComponent;
+    let target: ComponentFixture<PersonalSummaryComponent>;
     let user$: Subject<User> = new Subject<User>();
     let routeParams$: Subject<Params> = new Subject<Params>();
 
@@ -30,40 +33,9 @@ describe("member-summary.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
-                {
-                    provide: Auth, useClass: class {
-                        getUser() { return user$.asObservable() }
-                        getUserInfo(id: string) { return Promise.resolve(new User({})); }
-                    }
-                },
-                UserFactory, TeamFactory, DatasetFactory, DataService, UIService, D3Service,
-                {
-                    provide: ActivatedRoute,
-                    // useValue: { params: Observable.of({ mapid: "123", usershortid: "abc123" }) }
-                    useClass: class {
-                        get params() { return routeParams$.asObservable() }
-                    }
-                },
-                // { provide: ActivatedRoute, useClass: MockActivatedRoute },
-                {
-                    provide: AuthHttp,
-                    useFactory: authHttpServiceFactoryTesting,
-                    deps: [Http, BaseRequestOptions]
-                },
-                {
-                    provide: Http,
-                    useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
-                        return new Http(mockBackend, options);
-                    },
-                    deps: [MockBackend, BaseRequestOptions]
-                },
-                MockBackend,
-                BaseRequestOptions,
-                ErrorService,
-                MarkdownService,
-                Angulartics2Mixpanel, Angulartics2
+                
             ],
-            declarations: [MemberSummaryComponent],
+            declarations: [PersonalSummaryComponent],
             imports: [RouterTestingModule, Angulartics2Module, MarkdownModule.forRoot()],
             schemas: [NO_ERRORS_SCHEMA]
         })
@@ -73,14 +45,12 @@ describe("member-summary.component.ts", () => {
 
     beforeEach(() => {
 
-        target = TestBed.createComponent(MemberSummaryComponent);
+        target = TestBed.createComponent(PersonalSummaryComponent);
         component = target.componentInstance;
 
         let data = new Initiative().deserialize(fixture.load("data.json"));
-        component.selectableTags$ = Observable.of([]);
         let mockDataService = target.debugElement.injector.get(DataService);
         spyOn(mockDataService, "get").and.returnValue(Observable.of({ initiative: data, datasetId: "ID" }));
-        component.analytics = jasmine.createSpyObj("analytics", ["eventTrack"]);
 
         target.detectChanges();
     });
@@ -93,39 +63,5 @@ describe("member-summary.component.ts", () => {
         fixture.cleanup();
     });
 
-    it("should gather user data based on URL", async(() => {
-        // let initiative = new Initiative().deserialize(fixture.load("data.json"));
-
-        // let mockRoute: ActivatedRoute = target.debugElement.injector.get(ActivatedRoute);
-        let mockUserFactory = target.debugElement.injector.get(UserFactory);
-        // let mockDatasetFactory = target.debugElement.injector.get(DatasetFactory);
-
-        let spyGetUser = spyOn(mockUserFactory, "get").and.returnValue(Promise.resolve(new User({ user_id: "some_user_id" })))
-        // let spyGetDataset = spyOn(mockDatasetFactory, "get").and.returnValue(Promise.resolve(new DataSet({ _id: "123", initiative: initiative })))
-
-        routeParams$.next({ mapid: "123", usershortid: "abc123" });
-        target.detectChanges();
-
-        expect(component.memberShortId).toBe("abc123")
-        expect(component.datasetId).toBe("ID")
-        expect(spyGetUser).toHaveBeenCalledWith("abc123");
-        spyGetUser.calls.mostRecent().returnValue.then((user: User) => {
-            expect(component.memberUserId).toBe("some_user_id")
-        })
-            .then(() => {
-                expect(component.authorities.length).toBe(1) //  counts the initiatives where John Doe is helper
-                expect(component.helps.length).toBe(1)// onyl counts the initiatives where John Doe is helper but not accountable
-
-            })
-
-    }))
-
-
-
-    it("should get rid of subscription on destroy", () => {
-        let spyRoute = spyOn(component.subscription, "unsubscribe")
-        target.destroy();
-        expect(spyRoute).toHaveBeenCalled();
-    })
 
 });

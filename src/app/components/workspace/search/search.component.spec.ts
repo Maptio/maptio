@@ -8,7 +8,7 @@ import { SearchComponent, SearchResultType } from "./search.component";
 import { Helper } from "./../../../shared/model/helper.data";
 
 
-fdescribe("search.component.ts", () => {
+describe("search.component.ts", () => {
 
     let component: SearchComponent;
     let target: ComponentFixture<SearchComponent>;
