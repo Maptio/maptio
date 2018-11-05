@@ -41,7 +41,7 @@
             <a [href]="KB_URL_INTEGRATIONS" target="blank">Learn more</a>
         </span>
         <span *ngIf="isDisplayWaitingForSlackSync">
-            <i class="fa fa-circle-o-notch fa-spin fa-fw"></i>
+            <i class="fas fa-circle-notch fa-spin"></i>
         </span>
         <ng-container *permissionsOnly="Permissions.canEditTeam;then thenAddSlack ; else elseAddSlack">
 

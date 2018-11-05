@@ -11,7 +11,7 @@
         <div class="alert alert-warning" role="alert" *ngIf="isRedirectToActivate">
             You already have created an account but we need to verify your email ! Check your inbox or
             <a (click)="resendEmail()" class="alert-link cursor-pointer">resend a confirmation email
-                <i *ngIf="isResending" class="text-muted fa fa-circle-o-notch fa-spin fa-fw ml-1 "></i>
+                <i *ngIf="isResending" class="text-muted fas fa-circle-notch fa-spin ml-1 "></i>
             </a>
         </div>
 
@@ -19,7 +19,7 @@
             This email already has an account.
             <a class="alert-link" routerLink="/login">Log in</a> or
             <a (click)="resendEmail()" class="alert-link cursor-pointer">resend a confirmation email
-                <i *ngIf="isResending" class="text-muted fa fa-circle-o-notch fa-spin fa-fw ml-1 "></i>
+                <i *ngIf="isResending" class="text-muted fas fa-circle-notch fa-spin ml-1 "></i>
             </a>
         </div>
         <div class="alert alert-success" role="alert" *ngIf="isConfirmationEmailSent">
@@ -30,7 +30,7 @@
             <hr>
             <p>Not received?
                 <a (click)="resendImmediately()" class="alert-link cursor-pointer">resend
-                    <i *ngIf="isResending" class="text-muted fa fa-circle-o-notch fa-spin fa-fw ml-1 "></i>
+                    <i *ngIf="isResending" class="text-muted fas fa-circle-notch fa-spin fa-fw ml-1 "></i>
                 </a> or email
                 <a href="mailto:support@maptio.com?subject=Support request"></a> support@maptio.com</p>
         </div>

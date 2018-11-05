@@ -23,7 +23,7 @@
                             </span>
                         </ng-template>
                         <span class="text-success" *ngIf="isSearching">
-                            <i class="fa fa-circle-o-notch fa-spin fa-fw mx-1"></i>Searching
+                            <i class="fas fa-circle-notch fa-spin mx-1"></i>Searching
                         </span>
                     </div>
                     <small *ngIf="!isShowSelectToAdd && !isShowInviteForm" class="form-text">Search for a person in Maptio by email address, or enter an email address to add someone new.
@@ -68,7 +68,7 @@
 
                             <button type="submit" class="btn btn-success mx-3">Add</button>
                             <span class="text-success" *ngIf="isCreatingUser">
-                                <i class="fa fa-circle-o-notch fa-spin fa-fw mx-1"></i>Creating
+                                <i class="fas fa-circle-notch fa-spin mx-1"></i>Creating
                             </span>
                         </form>
                     </div>
@@ -159,12 +159,12 @@
                             </ng-container>
                             <ng-container *ngIf="isDisplaySendingLoader(member.user_id)">
                                 <div class="indicator text-success d-flex justify-content-end align-items-center">
-                                    <i class="fa fa-circle-o-notch fa-spin fa-fw text-success mx-1"></i> Sending
+                                    <i class="fas fa-circle-notch fa-spin text-success mx-1"></i> Sending
                                 </div>
                             </ng-container>
                             <ng-container *ngIf="isDisplayUpdatingLoader(member.user_id)">
                                 <div class=" indicator text-success d-flex justify-content-end align-items-center">
-                                    <i class="fa fa-circle-o-notch fa-spin fa-fw text-success mx-1"></i> Updating
+                                    <i class="fas fa-circle-notch fa-spin text-success mx-1"></i> Updating
                                 </div>
                             </ng-container>
                         </ng-container>
