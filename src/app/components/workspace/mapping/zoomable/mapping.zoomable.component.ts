@@ -494,7 +494,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     buildPatterns();
 
-    // let path = buildPaths();
+    let path = buildPaths();
 
     let initiativeWithChildren = g
       .selectAll("g.node.initiative-map.with-children")
@@ -518,7 +518,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     enterWithAnimations(initiativeWithChildrenEnter, "with-children");
     enterWithAnimations(initiativeNoChildrenEnter, "no-children");
 
-    initiativeWithChildrenEnter.append("path").attr("class", "node");
+    // initiativeWithChildrenEnter.append("path").attr("class", "node");
 
 
     initiativeWithChildrenEnter.append("text").attr("class", "name with-children").classed("initiative-map", true);
@@ -545,16 +545,16 @@ export class MappingZoomableComponent implements IDataVisualizer {
     addCircle(initiativeWithChildren)
     addCircle(initiativeNoChildren)
 
-    let path = g.selectAll("path.node")
-      .attr("id", function (d: any) {
-        return `path${d.data.id}`;
-      })
-      .style("stroke", "none")
-      .style("fill", "none")
-      .attr("d", function (d: any, i: number) {
-        let radius = d.r * d.k + 1;
-        return uiService.getCircularPath(radius, -radius, 0);
-      });
+    // let path = g.selectAll("path.node")
+    //   .attr("id", function (d: any) {
+    //     return `path${d.data.id}`;
+    //   })
+    //   .style("stroke", "none")
+    //   .style("fill", "none")
+    //   .attr("d", function (d: any, i: number) {
+    //     let radius = d.r * d.k + 1;
+    //     return uiService.getCircularPath(radius, -radius, 0);
+    //   });
 
     let circle = g.selectAll("circle.node")
 
@@ -1043,13 +1043,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
         });
 
 
-      // path.attr("transform", "scale(" + k + ")");
+      path.attr("transform", "scale(" + k + ")");
 
-      path
-        .attr("d", function (d: any, i: number) {
-          let radius = d.r * k + 1;
-          return uiService.getCircularPath(radius, -radius, 0);
-        })
+      // path
+      //   .attr("d", function (d: any, i: number) {
+      //     let radius = d.r * k + 1;
+      //     return uiService.getCircularPath(radius, -radius, 0);
+      //   })
 
 
       textAround
@@ -1154,7 +1154,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         })
     }
 
-    /*
+    
     function buildPaths() {
       let path = svg.select("defs")
         .selectAll("path")
@@ -1178,7 +1178,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
       return path;
     }
-    */
+    
 
     function buildPatterns() {
       let patterns = definitions.selectAll("pattern").data(
