@@ -106,7 +106,6 @@ export class SearchComponent implements OnInit {
 
     select(event: NgbTypeaheadSelectItemEvent) {
         if (!event.item || !event.item.result) return;
-        console.log(event)
         if (event.item.type === SearchResultType.Initiative) {
             let initiative = event.item.result;
             this.isSearching = false;

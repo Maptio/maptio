@@ -9,7 +9,7 @@ import { SelectableUser } from "./../../../../shared/model/user.data";
 import { SelectableTag, Tag } from "./../../../../shared/model/tag.data";
 import { IDataVisualizer } from "./../../mapping/mapping.interface";
 import { Observable, Subject, BehaviorSubject } from "rxjs/Rx";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute, Params } from "@angular/router";
 import { Subscription } from "rxjs/Subscription";
 import {
   Component,
@@ -17,7 +17,7 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy
 } from "@angular/core";
-import { D3Service, D3, ScaleLinear, HSLColor } from "d3-ng2-service";
+import { D3Service, D3, ScaleLinear, HSLColor, HierarchyCircularNode } from "d3-ng2-service";
 import { transition } from "d3-transition";
 import { partition } from "lodash";
 import { LoaderService } from "../../../../shared/services/loading/loader.service";
@@ -52,6 +52,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public fontColor$: Observable<string>;
   public mapColor$: Observable<string>;
   public zoomInitiative$: Observable<Initiative>;
+  public forceZoom$: Observable<Initiative>;
   public toggleOptions$: Observable<Boolean>;
   public isLocked$: Observable<boolean>;
 
@@ -128,6 +129,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     public colorService: ColorService,
     public uiService: UIService,
     public router: Router,
+    private route: ActivatedRoute,
     private userFactory: UserFactory,
     private cd: ChangeDetectorRef,
     private dataService: DataService,
@@ -144,18 +146,27 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.init();
     this.dataSubscription = this.dataService
       .get()
-      .combineLatest(this.mapColor$, this.isFullDisplayMode$.asObservable())
-      .do((complexData: [any, string, boolean]) => {
+      .combineLatest(this.mapColor$, this.isFullDisplayMode$.asObservable(), this.route.queryParams)
+      .do((complexData: [any, string, boolean, Params]) => {
         if (complexData[0].dataset.datasetId !== this.datasetId) {
           this.counter = 0;
         }
       })
-      .subscribe((complexData: [any, string, boolean]) => {
+      .subscribe((complexData: [any, string, boolean, Params]) => {
         let data = <any>complexData[0].initiative;
         this.datasetId = complexData[0].dataset.datasetId;
         this.slug = data.getSlug();
         this.loaderService.show();
-        this.update(data, complexData[1], complexData[2], this.counter === 0);
+        let nodes = this.update(data, complexData[1], complexData[2], this.counter === 0);
+        console.log("complete")
+        console.log(complexData[3], this.svg.select(`circle.node.initiative-map[id="${complexData[3].id}"]`))
+        if (complexData[3].id) {
+          let n = <Initiative>nodes.filter((n:any) => n.data.id.toString() === complexData[3].id.toString())[0].data;
+          this.showDetailsOf$.next(n);
+          this.svg.select(`circle.node.initiative-map[id="${complexData[3].id}"]`).dispatch("click");
+          // remove the location.search without reload
+          window.history.pushState("", "", `${location.protocol}//${location.host}/${location.pathname}${location.hash}`)
+        }
         this.counter += 1;
         this.loaderService.hide();
         this.analytics.eventTrack("Map", {
@@ -166,7 +177,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
         });
         this.isLoading = false;
         this.cd.markForCheck();
-      });
+      },
+        (err) => console.error(err));
     this.selectableTags$.subscribe(tags => this.tagsState = tags)
 
     this.toggleOptionsSubscription = this.toggleOptions$.subscribe(toggled => {
@@ -300,33 +312,31 @@ export class MappingZoomableComponent implements IDataVisualizer {
       } catch (error) { }
     });
 
-    this.fontSubscription = this.fontSize$
-      .combineLatest(this.fontColor$)
-      .subscribe((format: [number, string]) => {
-        // font size
-        svg.attr("font-size", format[0] + "rem");
-        svg.attr("data-font-multiplier", format[0]);
-        // svg.selectAll("text").style("font-size", format[0] + "rem");
-        svg.selectAll("foreignObject.name")
-          .each(function (d: any) {
-            d3.select(this).select("div").style("font-size", `${d.r * d.k * 2 * 0.95 / 15 * format[0] / 16}rem`)
-          });
-        svg.selectAll("text.accountable")
-          .attr("font-size", function (d: any) {
-            let multiplier = svg.attr("data-font-multiplier");
-            return `${d.r * d.k * 2 * 0.95 / 15 * 0.9 * multiplier / 16}rem`
-          })
-        svg.selectAll("text.tags")
-          .attr("font-size", function (d: any) {
-            let multiplier = svg.attr("data-font-multiplier");
-            return `${d.r * d.k * 2 * 0.95 / 15 * 0.65 * multiplier / 16}rem`
-          })
+    this.fontSubscription = this.fontSize$.combineLatest(this.fontColor$).subscribe((format: [number, string]) => {
+      // font size
+      svg.attr("font-size", format[0] + "rem");
+      svg.attr("data-font-multiplier", format[0]);
+      // svg.selectAll("text").style("font-size", format[0] + "rem");
+      svg.selectAll("foreignObject.name")
+        .each(function (d: any) {
+          d3.select(this).select("div").style("font-size", `${d.r * d.k * 2 * 0.95 / 15 * format[0] / 16}rem`)
+        });
+      svg.selectAll("text.accountable")
+        .attr("font-size", function (d: any) {
+          let multiplier = svg.attr("data-font-multiplier");
+          return `${d.r * d.k * 2 * 0.95 / 15 * 0.9 * multiplier / 16}rem`
+        })
+      svg.selectAll("text.tags")
+        .attr("font-size", function (d: any) {
+          let multiplier = svg.attr("data-font-multiplier");
+          return `${d.r * d.k * 2 * 0.95 / 15 * 0.65 * multiplier / 16}rem`
+        })
 
-        this.fontSize = format[0];
-        // font color
-        svg.style("fill", format[1]);
-        svg.selectAll("text").style("fill", format[1]);
-      });
+      this.fontSize = format[0];
+      // font color
+      svg.style("fill", format[1]);
+      svg.selectAll("text").style("fill", format[1]);
+    });
 
     let [clearSearchInitiative, highlightInitiative] = this.zoomInitiative$.partition(node => node === null);
     clearSearchInitiative.subscribe(() => {
@@ -348,7 +358,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
           : FADED_OPACITY
       }
       g.selectAll("g.node.initiative-map").style("opacity", function (d: any) {
-        console.log(d.data.name, d.data.tags, filterByTags(d))
         return filterByTags(d)
       });
     })
@@ -361,10 +370,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.definitions = definitions;
   }
 
+
   getTags() {
     return this.tagsState;
   }
-
 
   private _lastZoomedCircle: any;
 
@@ -376,10 +385,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this._lastZoomedCircle = circle;
   }
 
-  update(data: Initiative, seedColor: string, isFullDisplayMode: boolean, isFirstLoad: boolean) {
+  update(data: Initiative, seedColor: string, isFullDisplayMode: boolean, isFirstLoad: boolean):HierarchyCircularNode<{}>[] {
     if (this.d3.selectAll("g").empty()) {
       this.init();
     }
+    console.log("update")
 
     let d3 = this.d3;
     let diameter = this.diameter;
@@ -407,7 +417,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let getTags = this.getTags.bind(this)
     let getLastZoomedCircle = this.getLastZoomedCircle.bind(this);
     let setLastZoomedCircle = this.setLastZoomedCircle.bind(this);
-
+    let zoomInitiative$ = this.zoomInitiative$;
     let POSITION_INITIATIVE_NAME = this.POSITION_INITIATIVE_NAME;
     let POSITION_TAGS_NAME = this.POSITION_TAGS_NAME;
     let POSITION_ACCOUNTABLE_NAME = this.POSITION_ACCOUNTABLE_NAME;
@@ -417,8 +427,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let FADED_OPACITY = this.FADED_OPACITY;
 
     let TRANSITION_1x = d3.transition("").duration(TRANSITION_DURATION)
-    let TRANSITION_2x = d3.transition("").duration(TRANSITION_DURATION * 2)
-    let TRANSITION_3x = d3.transition("").duration(TRANSITION_DURATION * 3)
+    let TRANSITION_2x = d3.transition("").duration(TRANSITION_DURATION * 1)
+    let TRANSITION_3x = d3.transition("").duration(TRANSITION_DURATION * 1)
 
 
     // let TRANSITION_DELETE = d3.transition("deleting").duration(TRANSITION_DURATION)
@@ -447,6 +457,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       setLastZoomedCircle(root);
     }
 
+
     let depth = 0;
     root.eachAfter(function (n: any) {
       depth = depth > n.depth ? depth : n.depth;
@@ -459,6 +470,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
       nodes = pack(root).descendants(),
       list = d3.hierarchy(data).descendants(),
       view: any;
+
+
+
 
 
 
@@ -480,7 +494,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     buildPatterns();
 
-    let path = buildPaths();
+    // let path = buildPaths();
 
     let initiativeWithChildren = g
       .selectAll("g.node.initiative-map.with-children")
@@ -504,6 +518,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
     enterWithAnimations(initiativeWithChildrenEnter, "with-children");
     enterWithAnimations(initiativeNoChildrenEnter, "no-children");
 
+    initiativeWithChildrenEnter.append("path").attr("class", "node");
+
+
     initiativeWithChildrenEnter.append("text").attr("class", "name with-children").classed("initiative-map", true);
     initiativeNoChildrenEnter.append("foreignObject").attr("class", "name no-children").classed("initiative-map", true);
 
@@ -521,8 +538,23 @@ export class MappingZoomableComponent implements IDataVisualizer {
       return b.height - a.height;
     });
 
+
+
+
+
     addCircle(initiativeWithChildren)
     addCircle(initiativeNoChildren)
+
+    let path = g.selectAll("path.node")
+      .attr("id", function (d: any) {
+        return `path${d.data.id}`;
+      })
+      .style("stroke", "none")
+      .style("fill", "none")
+      .attr("d", function (d: any, i: number) {
+        let radius = d.r * d.k + 1;
+        return uiService.getCircularPath(radius, -radius, 0);
+      });
 
     let circle = g.selectAll("circle.node")
 
@@ -656,7 +688,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let node = g.selectAll("g.node");
 
     svg.on("click", function () {
-      console.log("click svg")
       // if (isFullDisplayMode) return;
       zoom(root);
     });
@@ -665,6 +696,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
     if (getLastZoomedCircle().data.id !== root.id) {
       zoom(getLastZoomedCircle())
     }
+
+    return nodes;
 
     function zoom(d: any) {
       let focus0 = focus;
@@ -1010,15 +1043,23 @@ export class MappingZoomableComponent implements IDataVisualizer {
         });
 
 
-      path.attr("transform", "scale(" + k + ")");
+      // path.attr("transform", "scale(" + k + ")");
+
+      path
+        .attr("d", function (d: any, i: number) {
+          let radius = d.r * k + 1;
+          return uiService.getCircularPath(radius, -radius, 0);
+        })
+
+
       textAround
         .html(function (d: any) {
           let radius = d.r * k + 1;
           return browser === Browsers.Firefox
-          ? `<textPath path="${uiService.getCircularPath(radius, -radius, 0)}" startOffset="10%">
+            ? `<textPath path="${uiService.getCircularPath(radius, -radius, 0)}" startOffset="10%">
                   <tspan>${d.data.name || ""}</tspan>
                   </textPath>`
-          : `<textPath href="#path${d.data.id}" startOffset="10%">
+            : `<textPath href="#path${d.data.id}" startOffset="10%">
                   <tspan>${d.data.name || ""}</tspan>
                   </textPath>`;
         })
@@ -1038,11 +1079,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             ? -Math.sin(DEFAULT_PICTURE_ANGLE) * (d.r * k) + 12
             : -d.r * k * 0.8;
         });
-
-
-
     }
-
 
     function addCircle(groups: any) {
       groups.select("circle")
@@ -1060,7 +1097,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
           return !d.children && d.parent === root;
         })
         .on("click", function (d: any) {
-          console.log("click", d)
           // if (isFullDisplayMode) return;
           if (focus !== d) setLastZoomedCircle(d), zoom(d), d3.event.stopPropagation();
         })
@@ -1085,11 +1121,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .transition(TRANSITION_1x)
         .remove();
       groups.exit().transition(TRANSITION_1x).remove();
-
     }
 
     function enterWithAnimations(groups: any, className: string) {
-
       groups
         .attr("class", function (d: any) {
           return d.parent
@@ -1120,6 +1154,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         })
     }
 
+    /*
     function buildPaths() {
       let path = svg.select("defs")
         .selectAll("path")
@@ -1143,6 +1178,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
       return path;
     }
+    */
 
     function buildPatterns() {
       let patterns = definitions.selectAll("pattern").data(

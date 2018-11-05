@@ -31,6 +31,7 @@ import { ExportService } from "../../../shared/services/export/export.service";
 import { Intercom } from "ng-intercom";
 import { User } from "../../../shared/model/user.data";
 import { MappingSummaryComponent } from "./summary/summary.component";
+import { SearchComponent } from "../search/search.component";
 
 // import { MappingNetworkComponent } from "./network/mapping.network.component";
 // import { MappingCirclesComponent } from "./circles/mapping.circles.component";
@@ -76,7 +77,7 @@ export class MappingComponent {
   //   public isTagSettingActive: boolean;
   public isSettingToggled: boolean;
   public isSearchToggled: boolean;
-  public isMapSettingsDisabled:boolean;
+  public isMapSettingsDisabled: boolean;
 
   public zoom$: Subject<number>;
   public isReset$: Subject<boolean>;
@@ -143,7 +144,6 @@ export class MappingComponent {
   public _toggleOptions: Boolean = false;
   public toggleOptions$: BehaviorSubject<Boolean> = new BehaviorSubject(this._toggleOptions)
 
-
   constructor(
     private dataService: DataService,
     private cd: ChangeDetectorRef,
@@ -153,7 +153,7 @@ export class MappingComponent {
     private uiService: UIService,
     private exportService: ExportService,
     private intercom: Intercom,
-    private router:Router
+    private router: Router
   ) {
     this.zoom$ = new Subject<number>();
     this.isReset$ = new Subject<boolean>();
@@ -172,26 +172,32 @@ export class MappingComponent {
 
     this.VIEWPORT_HEIGHT = uiService.getCanvasHeight() + 25;
     this.VIEWPORT_WIDTH = uiService.getCanvasWidth();
-
-
   }
 
-  ngAfterViewInit() { }
+  ngAfterViewInit() {
+    this.route.queryParams.subscribe(params => {
+      console.log("ngAfterViewInit", <number>params.id)
+      if (params.id) {
+        this.emitOpenInitiative(new Initiative({id: <number>params.id}));
+        // this .next(new Initiative({id: <number>params.id)});
+        // this.searchComponent.selectInitiative.emit(new Initiative({ id: <number>params.id }))
+      }
+    })
+  }
 
   onActivate(component: IDataVisualizer) {
-
     component.showToolipOf$.asObservable().subscribe((tooltip: { initiatives: Initiative[], isNameOnly: boolean }) => {
       this.showTooltip(tooltip.initiatives, tooltip.isNameOnly);
     })
 
-    component.showDetailsOf$.asObservable().subscribe(node =>{
+    component.showDetailsOf$.asObservable().subscribe(node => {
       this.emitOpenInitiative(node)
     })
 
     component.showContextMenuOf$.asObservable().subscribe(node => {
       this.showContextMenu(node);
     })
-    
+
     component.moveInitiative$
       .asObservable()
       .subscribe(({ node: node, from: from, to: to }) => {
@@ -239,6 +245,11 @@ export class MappingComponent {
 
     component.analytics = this.analytics;
     component.isReset$ = this.isReset$.asObservable();
+
+    if(this.route.snapshot.queryParams.id){
+      console.log("zooming in")
+      this.zoomToInitiative$.next(new Initiative({id : <number>this.route.snapshot.queryParams.id}))
+    }
 
     if (component.constructor === MappingSummaryComponent) {
       this.isMapSettingsDisabled = true;
@@ -320,7 +331,6 @@ export class MappingComponent {
   }
 
   getFragment(component: IDataVisualizer) {
-    console.log(component)
     switch (component.constructor) {
       case MappingZoomableComponent:
         return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_WIDTH / 2 - 180}&scale=1`;
@@ -465,17 +475,17 @@ export class MappingComponent {
   }
 
   zoomToInitiative(selected: Initiative) {
-    console.log("zoom to", selected.name)
+    console.log("zooming", selected)
     this.zoomToInitiative$.next(selected);
   }
 
-  goToUserSummary(selected:User){
+  goToUserSummary(selected: User) {
     this.isSearchToggled = true;
     this.isSearchDisabled = true;
     this.showTooltip(null, null);
     this.cd.markForCheck();
     this.router.navigateByUrl(`/map/${this.datasetId}/${this.slug}/summary?member=${selected.shortid}`);
-   
+
   }
 
   sendSlackNotification(message: string) {
@@ -491,10 +501,8 @@ export class MappingComponent {
     svg.setAttribute("xmlns", "http://www.w3.org/2000/svg")
     svg.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink")
     let svgNode = this.downloadSvg(svg, "image.png", w, h);
-    // console.log(((<any>svgNode).outerHTML)
     this.exportService.sendSlackNotification((<any>svgNode).outerHTML, this.datasetId, this.initiative, this.team.slack, message)
       .subscribe((result) => {
-        // console.log("result", result);
         this.isPrinting = false;
         this.hasNotified = true;
         this.intercom.trackEvent("Sharing map", { team: this.team.name, teamId: this.team.team_id, datasetId: this.datasetId, mapName: this.initiative.name });
@@ -509,7 +517,6 @@ export class MappingComponent {
   }
 
   // print() {
-  //   console.log("printing");
   //   // the canvg call that takes the svg xml and converts it to a canvas
   //   canvg("canvas", document.getElementById("svg_circles").outerHTML);
 
@@ -538,7 +545,6 @@ export class MappingComponent {
   //   svg.setAttribute("xmlns", "http://www.w3.org/2000/svg")
   //   svg.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink")
   //   let svgNode = this.downloadSvg(svg, "image.png", w, h);
-  //   console.log(svgNode.outerHTML)
   //   this.exportService.sendSlackNotification(svgNode.outerHTML, this.datasetId, this.datasetName, this.team.slack)
   //     .subscribe(() => { this.isPrinting = false; this.cd.markForCheck() })
 
@@ -571,7 +577,6 @@ export class MappingComponent {
         continue;
       }
       let style = sourceNode.childNodes[cd].currentStyle || window.getComputedStyle(sourceNode.childNodes[cd]);
-      // console.log(style["fill"], )
       if (style === "undefined" || style == null) continue;
       for (let st = 0; st < style.length; st++) {
         if (style[st] === "display" && style.getPropertyValue(style[st]) === "none") {
@@ -593,7 +598,6 @@ export class MappingComponent {
   }
 
   triggerDownload(imgURI: string, fileName: string) {
-    // console.log(imgURI)
     let evt = new MouseEvent("click", {
       view: window,
       bubbles: false,
@@ -609,7 +613,6 @@ export class MappingComponent {
   downloadSvg(svg: HTMLElement, fileName: string, width: number, height: number): Node {
     let copy = svg.cloneNode(true);
     this.copyStylesInline(copy, svg);
-    // console.log(copy)
     return copy;
     /*
         let canvas = document.createElement("canvas");

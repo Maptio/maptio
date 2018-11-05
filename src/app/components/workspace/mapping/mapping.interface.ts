@@ -23,7 +23,6 @@ export interface IDataVisualizer {
     mapColor$: Observable<string>;
 
     zoomInitiative$: Observable<Initiative>;
-    forceZoom$:Observable<Initiative>;
     selectableTags$: Observable<Array<SelectableTag>>;
     toggleOptions$:Observable<Boolean>;
 
