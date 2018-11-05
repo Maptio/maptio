@@ -9,6 +9,7 @@ import { MarkdownService } from "angular2-markdown";
 import { Role } from "../../model/role.data";
 import { User } from "../../model/user.data";
 import { isEmpty, intersection } from "lodash"
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 export enum Browsers {
   Firefox,
@@ -27,7 +28,7 @@ export class UIService {
 
   // private tooltip$: Subject<[string, Initiative, Initiative]>
 
-  constructor(d3Service: D3Service, private markdown: MarkdownService) {
+  constructor(d3Service: D3Service, private markdown: MarkdownService, private deviceService: DeviceDetectorService) {
     this.d3 = d3Service.getD3();
     // this.tooltip$ = new Subject<[string, Initiative, Initiative]>();
   }
@@ -101,61 +102,69 @@ export class UIService {
 
 
   public getBrowser(): Browsers {
+    /*
+    export const BROWSERS = {
+        CHROME: 'chrome',
+        FIREFOX: 'firefox',
+        SAFARI: 'safari',
+        OPERA: 'opera',
+        IE: 'ie',
+        MS_EDGE: 'ms-edge',
+        FB_MESSANGER: 'fb-messanger',
+        SAMSUNG: 'samsung',
+        UCBROWSER: 'uc-browser',
+        UNKNOWN: 'unknown'
+    };
+    */
+    switch (this.deviceService.browser) {
+      case "chrome":
+        return Browsers.Chrome;
 
-    // Opera 8.0+
-    let isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+      case "firefox":
+        return Browsers.Firefox;
+      case "safari":
+        return Browsers.Safari;
+      case "opera":
+        return Browsers.Opera;
+      case "ie":
+        return Browsers.IE;
+      case "ms-edge":
+        return Browsers.Edge;
+      default:
+        return Browsers.Unknown;
+    }
 
-    // Firefox 1.0+
-    let isFirefox = typeof InstallTrigger !== 'undefined';
+    /*
+        // Opera 8.0+
+        let isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+    
+        // Firefox 1.0+
+        let isFirefox = typeof InstallTrigger !== 'undefined';
+    
+        // Safari 3.0+ "[object HTMLElementConstructor]" 
+        let isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
+    
+        // Internet Explorer 6-11
+        let isIE = false || !!document.documentMode;
+    
+        // Edge 20+
+        let isEdge = !isIE && !!window.StyleMedia;
+    
+        // Chrome 1+
+        let isChrome = !!window.chrome && !!window.chrome.webstore;
+    
+        // Blink engine detection
+        // let isBlink = (isChrome || isOpera) && !!window.CSS;
+    
+        if (isOpera) return Browsers.Opera;
+        if (isFirefox) return Browsers.Firefox;
+        if (isSafari) return Browsers.Safari;
+        if (isEdge) return Browsers.Edge;
+        if (isIE) return Browsers.IE
+        if (isChrome) return Browsers.Chrome;
+    */
 
-    // Safari 3.0+ "[object HTMLElementConstructor]" 
-    let isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
 
-    // Internet Explorer 6-11
-    let isIE = /*@cc_on!@*/false || !!document.documentMode;
-
-    // Edge 20+
-    let isEdge = !isIE && !!window.StyleMedia;
-
-    // Chrome 1+
-    let isChrome = !!window.chrome && !!window.chrome.webstore;
-
-    // Blink engine detection
-    // let isBlink = (isChrome || isOpera) && !!window.CSS;
-
-    if (isOpera) return Browsers.Opera;
-    if (isFirefox) return Browsers.Firefox;
-    if (isSafari) return Browsers.Safari;
-    if (isEdge) return Browsers.Edge;
-    if (isIE) return Browsers.IE
-    if (isChrome) return Browsers.Chrome;
-
-
-
-    // if((navigator.userAgent.indexOf("Opera") || navigator.userAgent.indexOf('OPR')) != -1 ) 
-    // {
-    //     return Browsers.Opera
-    // }
-    // else if(navigator.userAgent.indexOf("Chrome") != -1 )
-    // {
-    //     return Browsers.Chrome
-    // }
-    // else if(navigator.userAgent.indexOf("Safari") != -1)
-    // {
-    //     return Browsers.Safari
-    // }
-    // else if(navigator.userAgent.indexOf("Firefox") != -1 ) 
-    // {
-    //      return Browsers.Firefox
-    // }
-    // else if((navigator.userAgent.indexOf("MSIE") != -1 ) || (!!document.documentMode == true )) //IF IE > 10
-    // {
-    //   return Browsers.IE
-    // }  
-    // else 
-    // {
-    //    return Browsers.Unknown
-    // }
   }
 
   // wrap(

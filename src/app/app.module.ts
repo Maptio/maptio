@@ -18,6 +18,7 @@ import { FileUploadModule } from "ng2-file-upload";
 import { ResponsiveModule } from "ng2-responsive";
 import { McBreadcrumbsConfig, McBreadcrumbsModule } from "ngx-breadcrumbs";
 
+import { DeviceDetectorModule } from 'ngx-device-detector';
 import { AnAnchorableComponent } from "../test/specs/shared/component.helper.shared";
 import { environment } from "../environment/environment";
 import { AccountComponent } from "./components/account/account.component";
@@ -79,7 +80,7 @@ import { PrivacyComponent } from "./components/pricing/privacy.component";
 const appRoutes: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
 
-  { path: "home", component: HomeComponent},
+  { path: "home", component: HomeComponent },
 
   { path: "login", component: LoginComponent },
   { path: "authorize", component: AuthorizeComponent },
@@ -88,9 +89,9 @@ const appRoutes: Routes = [
   { path: "help", component: HelpComponent, data: { breadcrumbs: "Help" } },
   { path: "pricing", component: PricingComponent, data: { breadcrumbs: "Pricing" } },
   { path: "terms", component: TermsComponent },
-  
+
   { path: "privacy", component: PrivacyComponent },
-  
+
   { path: "signup", component: SignupComponent },
 
   {
@@ -113,8 +114,8 @@ export const cloudinaryLib = {
 @NgModule({
   declarations: [
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, LoginComponent, LogoutComponent, HomeComponent, UnauthorizedComponent, NotFoundComponent,
-    ChangePasswordComponent, LoaderComponent, SignupComponent,AuthorizeComponent,
-    HelpComponent,PricingComponent, TermsComponent, PrivacyComponent,
+    ChangePasswordComponent, LoaderComponent, SignupComponent, AuthorizeComponent,
+    HelpComponent, PricingComponent, TermsComponent, PrivacyComponent,
     DashboardComponent,
     // for tests
     AnAnchorableComponent
@@ -125,6 +126,8 @@ export const cloudinaryLib = {
     ReactiveFormsModule,
     CommonModule,
     HttpModule,
+
+    DeviceDetectorModule.forRoot(),
     McBreadcrumbsModule.forRoot(),
     NgbModule.forRoot(),
     RouterModule.forRoot(appRoutes, { enableTracing: false }),
@@ -155,7 +158,7 @@ export const cloudinaryLib = {
     BrowserAnimationsModule,
     AuthGuard, AccessGuard, WorkspaceGuard, PermissionGuard, BillingGuard,
     AuthConfiguration,
-    D3Service, DataService,CounterService,  URIService, ColorService, UIService, DatasetFactory, TeamFactory,
+    D3Service, DataService, CounterService, URIService, ColorService, UIService, DatasetFactory, TeamFactory,
     ErrorService, Auth, UserService, UserFactory, MailingService, JwtEncoder, LoaderService,
     ExportService, FileService, PermissionService, BillingService,
     Location,
