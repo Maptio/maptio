@@ -20,6 +20,7 @@ import { MappingTreeComponent } from "./mapping.tree.component";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { MarkdownService } from "angular2-markdown";
+import { DeviceDetectorService } from "ngx-device-detector";
 
 describe("mapping.tree.component.ts", () => {
 
@@ -31,6 +32,7 @@ describe("mapping.tree.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
+                DeviceDetectorService,
                 D3Service, ColorService, UIService, DataService, URIService, UserFactory, Angulartics2Mixpanel, Angulartics2,
                 {
                     provide: AuthHttp,

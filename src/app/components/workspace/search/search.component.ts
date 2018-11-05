@@ -5,7 +5,8 @@ import { NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-bootstrap";
 import { Observable } from "rxjs/Observable";
 import { User } from "../../../shared/model/user.data";
 import { flatten, uniqBy } from "lodash"
-enum SearchResultType {
+
+export enum SearchResultType {
     Initiative,
     User
 }

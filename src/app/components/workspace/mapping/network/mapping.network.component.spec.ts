@@ -20,6 +20,7 @@ import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2/dist";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MappingNetworkComponent } from "./mapping.network.component";
 import { MarkdownService } from "angular2-markdown";
+import { DeviceDetectorService } from "ngx-device-detector";
 
 describe("mapping.network.component.ts", () => {
 
@@ -30,6 +31,7 @@ describe("mapping.network.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
+                DeviceDetectorService,
                 D3Service, ColorService, UIService, URIService, DataService, UserFactory, Angulartics2Mixpanel, Angulartics2,
                 {
                     provide: AuthHttp,

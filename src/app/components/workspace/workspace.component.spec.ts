@@ -33,6 +33,7 @@ import { D3Service } from 'd3-ng2-service';
 import { LoaderService } from "../../shared/services/loading/loader.service";
 import { NgProgress } from "@ngx-progressbar/core";
 import { Intercom, IntercomConfig } from "ng-intercom";
+import { DeviceDetectorService } from "ngx-device-detector";
 
 export class AuthStub {
     fakeProfile: User = new User({
@@ -73,7 +74,7 @@ describe("workspace.component.ts", () => {
         }).overrideComponent(WorkspaceComponent, {
             set: {
                 providers: [
-                    Intercom, IntercomConfig,
+                    Intercom, IntercomConfig, DeviceDetectorService,
                     DataService, DatasetFactory, UserService, AuthConfiguration, JwtEncoder, MailingService, UserFactory, TeamFactory, Angulartics2, Angulartics2Mixpanel,
                     {
                         provide: AuthHttp,

@@ -3,7 +3,7 @@ import { Initiative } from "../../../../../shared/model/initiative.data";
 import { User } from "../../../../../shared/model/user.data";
 // import { Tag, SelectableTag } from "../../../../../shared/model/tag.data";
 import { Team } from "../../../../../shared/model/team.data";
-import { Router } from "../../../../../../../node_modules/@angular/router";
+import { Router } from "@angular/router";
 // import { partition } from "lodash";
 
 

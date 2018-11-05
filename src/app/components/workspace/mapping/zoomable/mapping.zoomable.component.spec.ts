@@ -20,6 +20,7 @@ import { MarkdownService } from "angular2-markdown";
 import { MappingZoomableComponent } from "./mapping.zoomable.component";
 import { NgProgress } from "@ngx-progressbar/core";
 import { LoaderService } from "../../../../shared/services/loading/loader.service";
+import { DeviceDetectorService } from "ngx-device-detector";
 
 describe("mapping.zoomable.component.ts", () => {
 
@@ -30,6 +31,7 @@ describe("mapping.zoomable.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
+                DeviceDetectorService,
                 D3Service, ColorService, DataService, UIService, URIService, UserFactory, Angulartics2Mixpanel, Angulartics2,
                 {
                     provide: AuthHttp,
