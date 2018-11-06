@@ -255,7 +255,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     // g.append("g").attr("class", "paths");
     let zooming = d3
       .zoom()
-      .scaleExtent([this._isFullDisplayMode ? 2/3 : 1 / 3, this._isFullDisplayMode ? 3 : 4 / 3])
+      .scaleExtent([this._isFullDisplayMode ? 2 / 3 : 1 / 3, this._isFullDisplayMode ? 3 : 4 / 3])
       .on("zoom", zoomed)
       .on("end", () => {
         let transform = d3.event.transform;
@@ -323,16 +323,21 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .each(function (d: any) {
           d3.select(this).select("div").style("font-size", `${d.r * d.k * 2 * 0.95 / 15 * format[0] / 16}rem`)
         });
-      svg.selectAll("text.accountable")
-        .attr("font-size", function (d: any) {
-          let multiplier = svg.attr("data-font-multiplier");
-          return `${d.r * d.k * 2 * 0.95 / 15 * 0.9 * multiplier / 16}rem`
-        })
-      svg.selectAll("text.tags")
-        .attr("font-size", function (d: any) {
-          let multiplier = svg.attr("data-font-multiplier");
-          return `${d.r * d.k * 2 * 0.95 / 15 * 0.65 * multiplier / 16}rem`
-        })
+
+      svg.selectAll("text.name.with-children")
+        .each(function (d: any) {
+          d3.select(this).style("font-size", `${format[0]}rem`)
+        });
+      // svg.selectAll("text.accountable")
+      //   .attr("font-size", function (d: any) {
+      //     let multiplier = svg.attr("data-font-multiplier");
+      //     return `${d.r * d.k * 2 * 0.95 / 15 * 0.9 * multiplier / 16}rem`
+      //   })
+      // svg.selectAll("text.tags")
+      //   .attr("font-size", function (d: any) {
+      //     let multiplier = svg.attr("data-font-multiplier");
+      //     return `${d.r * d.k * 2 * 0.95 / 15 * 0.65 * multiplier / 16}rem`
+      //   })
 
       this.fontSize = format[0];
       // font color
@@ -571,6 +576,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return d !== root
           ? isBranchDisplayed(d) ? "inline" : "none"
           : "none";
+      })
+      .style("font-size", function (d: any) {
+        return `1rem`;
       })
       .html(function (d: any) {
         let radius = d.r * d.k + 1;
@@ -1054,6 +1062,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
 
       textAround
+        // .style("font-size", function(d:any){
+        //   return `${toREM(d.r * k  * 2 * 0.95)}rem`;
+        // })
         .html(function (d: any) {
           let radius = d.r * k + 1;
           return browser === Browsers.Firefox
