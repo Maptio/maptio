@@ -22,6 +22,8 @@ export class DashboardComponent {
     filterMaps$: Subject<string>
     filteredMaps: DataSet[];
 
+    subscription:Subscription;
+
     constructor(private cd: ChangeDetectorRef) {
         this.filterMaps$ = new Subject<string>();
     }
@@ -42,9 +44,8 @@ export class DashboardComponent {
     }
 
     ngOnInit(){
-
         this.filteredMaps = [].concat(this.datasets);
-        this.filterMaps$.asObservable().debounceTime(250).subscribe((search) => {
+        this.subscription = this.filterMaps$.asObservable().debounceTime(250).subscribe((search) => {
             this.filteredMaps = (search === '')
                 ? [].concat(this.datasets)
                 : this.datasets.filter(
@@ -59,9 +60,7 @@ export class DashboardComponent {
     }
 
     ngOnDestroy(): void {
-        //Called once, before the instance is destroyed.
-        //Add 'implements OnDestroy' to the class.
-        
+        if(this.subscription) this.subscription.unsubscribe();
     }
 
     isOnboarding() {
