@@ -18,7 +18,6 @@ export class OnboardingComponent implements OnInit {
     // REFACTOR : Urgh, use false as default you idiot!
     isZeroMaps: Boolean = true;
     isZeroTeam: Boolean = true;
-    // isZeroInitiative: Boolean = true;
     isZeroTeammates: Boolean = true;
     isZeroTerminology: Boolean = true;
     isZeroIntegration:Boolean=true;

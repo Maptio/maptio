@@ -55,7 +55,7 @@
 
     <div class="d-flex justify-content-start text-muted">
         <div class="d-flex flex-column  align-items-start" [class.h4]="!isOnboardingCompleted()">
-            <div class="d-flex align-items-start my-3">
+            <div class="d-flex align-items-start" [class.my-3]="!isOnboardingCompleted()" [class.my-2]="isOnboardingCompleted()">
                 <span class="mx-2">
                     <i class="fa fa-check text-success" aria-hidden="true"></i>
                 </span>
@@ -65,7 +65,7 @@
                 </span>
             </div>
 
-            <div class="d-flex align-items-start my-3">
+            <div class="d-flex align-items-start" [class.my-3]="!isOnboardingCompleted()" [class.my-2]="isOnboardingCompleted()">
                 <span class="mx-2">
                     <i *ngIf="isZeroTeam" class="far fa-square" aria-hidden="true"></i>
                     <i *ngIf="!isZeroTeam" class="fa fa-check text-success" aria-hidden="true"></i>
@@ -84,7 +84,7 @@
                 </span>
             </div>
 
-            <div class="d-flex align-items-start my-3" *ngIf="!isMultipleTeams">
+            <div class="d-flex align-items-start" [class.my-3]="!isOnboardingCompleted()" [class.my-2]="isOnboardingCompleted()" *ngIf="!isMultipleTeams">
                 <span class="mx-2">
                     <i *ngIf="isZeroTeammates" class="far fa-square" aria-hidden="true"></i>
                     <i *ngIf="!isZeroTeammates" class="fa fa-check text-success" aria-hidden="true"></i>
@@ -113,7 +113,7 @@
                 </span>
             </div>
 
-            <div class="d-flex align-items-start my-3" *ngIf="!isMultipleTeams">
+            <div class="d-flex align-items-start" [class.my-3]="!isOnboardingCompleted()" [class.my-2]="isOnboardingCompleted()" *ngIf="!isMultipleTeams">
                 <span class="mx-2">
                     <i *ngIf="isZeroTerminology" class="far fa-square" aria-hidden="true"></i>
                     <i *ngIf="!isZeroTerminology" class="fa fa-check text-success" aria-hidden="true"></i>
@@ -142,7 +142,7 @@
                 </span>
             </div>
 
-            <div class="d-flex align-items-start my-3" *ngIf="isOnboardingCompleted() && !isMultipleTeams">
+            <div class="d-flex align-items-start" [class.my-3]="!isOnboardingCompleted()" [class.my-2]="isOnboardingCompleted()" *ngIf="isOnboardingCompleted() && !isMultipleTeams">
                 <span class="mx-2">
                     <i *ngIf="isZeroIntegration" class="far fa-square" aria-hidden="true"></i>
                     <i *ngIf="!isZeroIntegration" class="fa fa-check text-success" aria-hidden="true"></i>
@@ -168,7 +168,7 @@
                 </span>
             </div>
 
-            <div class="d-flex align-items-start my-3">
+            <div class="d-flex align-items-start" [class.my-3]="!isOnboardingCompleted()" [class.my-2]="isOnboardingCompleted()">
                 <span class="mx-2">
                     <i *ngIf="isZeroMaps" class="far fa-square" aria-hidden="true"></i>
                     <i *ngIf="!isZeroMaps" class="fa fa-check text-success" aria-hidden="true"></i>
