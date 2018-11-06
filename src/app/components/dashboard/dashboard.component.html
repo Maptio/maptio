@@ -1,12 +1,27 @@
 <div class="col-12">
 
-    <h2 class="text-left my-5 col-12"  *ngIf="!isOnboarding()"> Maps</h2>
+    <h2 class="text-left my-5 col-12" *ngIf="!isOnboarding()"> Maps
+
+            <div class="form-group form-inline my-3" *ngIf="datasets?.length > 5">
+                    <div class="input-group">
+                        <input id="inputQuickFilter" #inputQuickFilter placeholder="Find a map" type="text" class="form-control" (keyup)="onKeyDown(inputQuickFilter.value)">
+                        <div class="input-group-append">
+                            <button ngbTooltip="Clear search" placement="top" container="body" class="btn btn-dark" (click)="onKeyDown('');inputQuickFilter.value=''">
+                                <i class="fas fa-eraser" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+    </h2>
+
+
     <div class="col-12 my-5 d-flex justify-content-between">
         <div class="col-8 p-0 mr-5" *ngIf="!isOnboarding()">
+           
             <div>
                 <div class="d-flex flex-column justify-content-start align-items-start">
                     <div class="card-columns w-100">
-                        <ng-container *ngFor="let dataset of datasets">
+                        <ng-container *ngFor="let dataset of filteredMaps">
                             <ng-container *ngIf="dataset.initiative.name">
                                 <common-card-map [dataset]="dataset" [isExportAvailable]="true" [isTeamDisplayed]="true"></common-card-map>
                             </ng-container>

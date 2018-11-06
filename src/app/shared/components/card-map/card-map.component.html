@@ -35,7 +35,7 @@
             <div class="d-flex justify-content-between">
                 <span *ngIf="dataset?.initiative.children">
                     <div *ngIf="dataset?.initiative.children[0]?.accountable" class="text-muted">Vision held by
-                        <img class="visionnary rounded-circle" src="{{dataset?.initiative.children[0]?.accountable?.picture}}" alt="{{dataset?.initiative.children[0]?.accountable?.name}}">
+                        <img class="rounded-circle" width="32" height="32" src="{{dataset?.initiative.children[0]?.accountable?.picture}}" alt="{{dataset?.initiative.children[0]?.accountable?.name}}">
                         <a class="text-muted" routerLink="/map/{{dataset?.datasetId}}/{{dataset?.initiative.getSlug()}}/summary" 
                         [queryParams]="{member: dataset?.initiative.children[0]?.accountable?.shortid}">
                             <span> {{dataset?.initiative.children[0]?.accountable?.name}}</span>

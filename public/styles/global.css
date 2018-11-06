@@ -208,10 +208,7 @@ nav.header {
   box-shadow: 0 0 0 !important;
 }
 
-.visionnary {
-  width: 25px;
-  height: 25px;
-}
+
 
 .btn-link, a:not(.btn-tag):not(.btn-control):not(.text-white):not(.text-success) {
   color: #2f81b7 !important;
