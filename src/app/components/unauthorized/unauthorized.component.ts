@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { Subscription, Observable } from "../../../../node_modules/rxjs";
-import { Router } from "../../../../node_modules/@angular/router";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "unauthorized",
