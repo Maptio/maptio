@@ -127,7 +127,7 @@ export class Auth {
         scope: "openid profile api invite",
         audience: environment.MAPTIO_API_URL,
         responseType: "token id_token",
-        redirectUri: `${window.location.protocol}//${window.location.hostname}${window.location.port === "" ? "" : `:${window.location.port}` }/authorize`,
+        redirectUri: `${window.location.protocol}//${window.location.hostname}${window.location.port === "" ? "" : `:${window.location.port}`}/authorize`,
         connection: "google-oauth2"
       },
         function (err: any, authResult: any) {
@@ -230,7 +230,7 @@ export class Auth {
       {
         scope: 'profile openid email',
         responseType: 'token',
-        redirectUri: `${window.location.protocol}//${window.location.hostname}${window.location.port === "" ? "" : `:${window.location.port}` }/authorize`,
+        redirectUri: `${window.location.protocol}//${window.location.hostname}${window.location.port === "" ? "" : `:${window.location.port}`}/authorize`,
         connection: connection
       }
     )
@@ -312,9 +312,7 @@ export class Auth {
                           .then((user: User) => {
                             // let welcomeURL = user.datasets.length === 1 ? `/map/${user.datasets[0]}/welcome/initiatives` : `/home`;
                             this.loader.hide();
-                            let redirectUrl = localStorage.getItem(
-                              "redirectUrl"
-                            );
+                            let redirectUrl = localStorage.getItem("redirectUrl") && localStorage.getItem("redirectUrl") !== null && localStorage.getItem("redirectUrl") !== "null" ? localStorage.getItem("redirectUrl") : null;
                             this.router.navigateByUrl(
                               redirectUrl ? redirectUrl : "/home"
                             );
