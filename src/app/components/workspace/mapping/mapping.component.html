@@ -20,8 +20,8 @@
         <i class="fa fa-filter"></i>
         <div class="icon-text-label">Filter</div>
       </a>
-      <a class="btn btn-light p-1 text-dark btn-control" [class.disabled]="isMapSettingsDisabled"
-        (click)="isSharingToggled=!isSharingToggled" data-toggle="collapse" href="#collapseSlack" role="button">
+      <a class="btn btn-light p-1 text-dark btn-control" [class.disabled]="isMapSettingsDisabled" (click)="isSharingToggled=!isSharingToggled"
+        data-toggle="collapse" href="#collapseSlack" role="button">
         <i class="fab fa-slack"></i>
         <div class="icon-text-label">Share</div>
       </a>
@@ -45,8 +45,8 @@
       </button>
       <button class="btn btn-light menu text-dark p-1 btn-control" [class.invisible]="!( rlaNetwork.isActive || rlaCircles.isActive)"
         (click)="toggleOptions( rlaNetwork.isActive || rlaCircles.isActive)">
-        <i class="fa fa-ellipsis-h"></i>
-        <div class="icon-text-label">{{_toggleOptions ? 'Close' : 'Options'}}</div>
+        <i class="fas fa-angle-double-left"></i>
+        <div class="icon-text-label">Options</div>
       </button>
 
 
@@ -65,13 +65,14 @@
         <i class="fa fa-compress" aria-hidden="true"></i>
         <div class="icon-text-label">Zoom fit</div>
       </a>
-      <a class="btn btn-light text-dark p-1 btn-control" [class.disabled]="isMapSettingsDisabled"
-        (click)="isSettingToggled=!isSettingToggled" data-toggle="collapse" href="#collapseSettings" role="button">
+      <a class="btn btn-light text-dark p-1 btn-control" [class.disabled]="isMapSettingsDisabled" (click)="isSettingToggled=!isSettingToggled"
+        data-toggle="collapse" href="#collapseSettings" role="button">
         <i class="fas" [class.fa-sliders-h]="!isSettingToggled" [class.fa-times]="isSettingToggled"></i>
         <div class="icon-text-label">Settings</div>
       </a>
     </div>
   </div>
+
   <div class="d-flex flex-column justify-content-start align-items-end col-5 position-absolute pr-3 mx-5 windows">
     <div closable id="collapseSearch" class="collapse rounded bg-light p-3 mb-3 col-12" [class.d-none]="isSearchDisabled">
       <search #search [list]="flattenInitiative" (selectInitiative)="zoomToInitiative($event)" (selectUser)="goToUserSummary($event)"></search>

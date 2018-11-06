@@ -252,7 +252,7 @@ export class MappingComponent {
       this.isMapSettingsDisabled = false;
       this.toggleEditingPanelsVisibility.emit(true)
     }
-    this.toggleOptions(false);
+    // this.toggleOptions(false);
   }
 
   onDeactivate(component: any) { }
@@ -340,6 +340,8 @@ export class MappingComponent {
 
   toggleOptions(isActive: Boolean) {
     this._toggleOptions = isActive ? !this._toggleOptions : false;
+    console.log(document.querySelector("div.switch"))
+    document.querySelector("div.switch").classList.toggle("show");
     this.toggleOptions$.next(this._toggleOptions)
   }
 

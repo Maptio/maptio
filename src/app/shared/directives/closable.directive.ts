@@ -5,29 +5,30 @@ import { Directive, ElementRef, Renderer2 } from '@angular/core';
 })
 export class ClosableDirective {
     constructor(elr: ElementRef, private renderer: Renderer2) {
-        // elr.nativeElement.style.background = 'red';
-//<i class="far fa-window-close"></i>
         let i = renderer.createElement("i");
         renderer.addClass(i, "fas");
         renderer.addClass(i, "fa-times");
 
-        let div = renderer.createElement("span");
-        renderer.addClass(div, "position-absolute");
-        renderer.addClass(div, "cursor-pointer");
-        renderer.addClass(div, "text-muted");
-        renderer.addClass(div, "top-right");
-        renderer.addClass(div, "p-2");
+        let closingSpan = renderer.createElement("span");
+        renderer.addClass(closingSpan, "position-absolute");
+        renderer.addClass(closingSpan, "cursor-pointer");
+        renderer.addClass(closingSpan, "text-muted");
+        renderer.addClass(closingSpan, "top-right");
+        renderer.addClass(closingSpan, "p-2");
         // renderer.addClass(div, "bg-dark");
 
-        renderer.appendChild(div, i);
+        renderer.appendChild(closingSpan, i);
 
-        renderer.listen(div, "click", (event:any)=>{
-           renderer.removeClass(elr.nativeElement, "show")
+        renderer.listen(closingSpan, "click", (event: any) => {
+            renderer.removeClass(elr.nativeElement, "show")
         });
 
+        renderer.listen("body", "click", (event: Event) => {
+            if (!(<Element>event.target).classList.contains("menu") && !(<Element>(<Element>event.target).parentNode).classList.contains("menu")) {
+                renderer.removeClass(elr.nativeElement, "show")
+            }
+        })
 
-        renderer.appendChild(elr.nativeElement, div);
-
-
+        renderer.appendChild(elr.nativeElement, closingSpan);
     }
 }
