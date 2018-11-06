@@ -31,10 +31,12 @@ export class ContextMenuComponent implements OnInit {
 
     ngOnInit(): void { 
         this.isAddingNode=false;
+        this.isRemovingNode = false;
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         this.isAddingNode =false;
+        this.isRemovingNode = false;
     }
 
     addNode(node: Initiative, subNodeName: string, openDetailsPanel: Boolean) {
