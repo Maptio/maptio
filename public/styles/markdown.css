@@ -3,6 +3,10 @@ p.markdown {
     /* padding-left: 0.25rem; */
 }
 
+markdown.no-margin > p.markdown{
+    margin-bottom: 0!important;
+}
+
 .markdown-link {
     white-space: pre-wrap;
     white-space: -moz-pre-wrap;

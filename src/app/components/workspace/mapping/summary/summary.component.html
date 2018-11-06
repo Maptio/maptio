@@ -5,7 +5,7 @@
                 <summary-personal [datasetId]="datasetId" [member]="selectedMember" [team]="team" [initiative]="initiative"></summary-personal>
             </div>
             <div [class.col-4]="selectedMember" [class.col-12]="!selectedMember" [class.border-left]="selectedMember">
-                <div class="mx-3 mb-3">
+                <div class="mb-3" [class.mx-3]="!selectedMember" [class.mx-0]="selectedMember">
                     <div *ngIf="!selectedMember">
                         <h2>Directory</h2>
                         <h6 class="text-muted" *ngIf="initiative">This is a directory of people involved in map
