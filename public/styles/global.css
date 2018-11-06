@@ -296,6 +296,17 @@ transition: max-height .25s ease-in-out;
   white-space: initial;
 }
 
+
+.top-left{
+  top:0;
+  left:0;
+}
+
+
+.top-right{
+  top:0;
+  right:0;
+}
 /* .slack{
   position: relative;
   padding-left:25px;

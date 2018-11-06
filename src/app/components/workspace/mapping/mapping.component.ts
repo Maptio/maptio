@@ -252,6 +252,7 @@ export class MappingComponent {
       this.isMapSettingsDisabled = false;
       this.toggleEditingPanelsVisibility.emit(true)
     }
+    this.toggleOptions(false);
   }
 
   onDeactivate(component: any) { }

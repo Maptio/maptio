@@ -750,6 +750,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
               return d !== root
                 ? isBranchDisplayed(d) ? "inline" : "none"
                 : "none";
+            })
+            .style("font-size", function (d: any) {
+              let multiplier = svg.attr("data-font-multiplier");
+              return `${multiplier}rem`
+
             });
           // .attr("font-size", function (d: any) { return `${fonts(d.depth) * d.k / 2}px` })
         });

@@ -1,7 +1,7 @@
 <svg id="map"></svg>
-<div class="card control switch border-0 w-25 p-0 collapse" [class.show]="_isDisplayOptions">
+<div closable class="card control switch border-0 w-25 p-0 collapse" [class.show]="_isDisplayOptions">
 
-    <div class=" card-body bg-light border-dark rounded">
+    <div  class=" card-body bg-light border-dark rounded">
         <h6 class="card-title">Circles view options</h6>
         <p class="card-text small">Maptio can display details of all circles on the map, or only as you click on a circle to zoom in:</p>
         <form>
@@ -9,17 +9,13 @@
                 <div class="custom-control custom-radio ">
                     <input type="radio" id="helpModeRadio" name="radioViewMode" class="custom-control-input" [checked]="_isFullDisplayMode" (click)="switch()">
                     <label class="custom-control-label" for="helpModeRadio">Show everything (Best for smaller maps) </label>
-                    <!-- <small class="form-text text-muted">
-                        All circles are shown, explore by dragging and zooming
-                    </small> -->
+        
                 </div>
                 <div class="custom-control custom-radio ">
                     <input type="radio" id="participationModeRadio" name="radioViewMode" class="custom-control-input" [checked]="!_isFullDisplayMode"
                         (click)="switch()">
                     <label class="custom-control-label" for="participationModeRadio">Click to reveal (Best for larger maps)</label>
-                    <!-- <small class="form-text text-muted">
-                        Reveal a circle details by clicking on it
-                    </small> -->
+         
                 </div>
             </div>
         </form>

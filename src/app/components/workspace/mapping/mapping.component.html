@@ -1,6 +1,7 @@
 <div class="d-flex justify-content-start">
-  <div class="summary-tooltip col-3 position-absolute my-0"  *ngIf="hoveredInitiatives">
-    <tooltip *ngFor="let hoveredInitiative of hoveredInitiatives" [initiative]="hoveredInitiative" [isNameOnly]="isNameOnly" [team]="team"></tooltip>
+  <div class="summary-tooltip col-3 position-absolute my-0" *ngIf="hoveredInitiatives">
+    <tooltip *ngFor="let hoveredInitiative of hoveredInitiatives" [initiative]="hoveredInitiative" [isNameOnly]="isNameOnly"
+      [team]="team"></tooltip>
   </div>
   <context-menu [initiatives]="selectedInitiatives" [isReadOnly]="isReadOnlyContextMenu" [x]="selectedInitiativeX" [y]="selectedInitiativeY"
     (add)="emitAddInitiative($event)" (remove)="emitRemoveInitiative($event)" (edit)="emitOpenInitiative($event)" (openAccountable)="goToUserSummary($event)"></context-menu>
@@ -9,20 +10,19 @@
 
   <div class="d-flex flex-column justify-content-start align-items-end  pr-2">
     <div class="btn-group-vertical mb-2">
-      <a class="btn btn-light p-1 text-dark btn-control" [class.active]="isSearchToggled" [class.disabled]="isSearchDisabled || isMapSettingsDisabled" (click)="isSearchToggled=!isSearchToggled"
-        data-toggle="collapse" href="#collapseSearch" role="button" >
-        <i class="fa" [class.fa-search]="!isSearchToggled" [class.fa-times]="isSearchToggled"></i>
-
+      <a class="btn btn-light p-1 text-dark btn-control" [class.disabled]="isSearchDisabled || isMapSettingsDisabled" (click)="isSearchToggled=!isSearchToggled"
+        data-toggle="collapse" href="#collapseSearch" role="button">
+        <i class="fa fa-search"></i>
         <div class="icon-text-label">Search</div>
       </a>
-      <a class="btn btn-light p-1 text-dark btn-control" [class.active]="isFiltersToggled" [class.disabled]="isSearchDisabled || isMapSettingsDisabled" 
-        (click)="isFiltersToggled=!isFiltersToggled" data-toggle="collapse" href="#collapseFilter" role="button">
-        <i class="fa" [class.fa-filter]="!isFiltersToggled" [class.fa-times]="isFiltersToggled"></i>
+      <a class="btn btn-light p-1 text-dark btn-control" [class.disabled]="isSearchDisabled || isMapSettingsDisabled" (click)="isFiltersToggled=!isFiltersToggled"
+        data-toggle="collapse" href="#collapseFilter" role="button">
+        <i class="fa fa-filter"></i>
         <div class="icon-text-label">Filter</div>
       </a>
-      <a class="btn btn-light p-1 text-dark btn-control" [class.active]="isSharingToggled" [class.disabled]="isMapSettingsDisabled"
+      <a class="btn btn-light p-1 text-dark btn-control" [class.disabled]="isMapSettingsDisabled"
         (click)="isSharingToggled=!isSharingToggled" data-toggle="collapse" href="#collapseSlack" role="button">
-        <i [class.fa-slack]="!isSharingToggled"  [class.fab]="!isSharingToggled" [class.fa-times]="isSharingToggled"  [class.fa]="isSharingToggled"></i>
+        <i class="fab fa-slack"></i>
         <div class="icon-text-label">Share</div>
       </a>
 
@@ -45,7 +45,7 @@
       </button>
       <button class="btn btn-light menu text-dark p-1 btn-control" [class.invisible]="!( rlaNetwork.isActive || rlaCircles.isActive)"
         (click)="toggleOptions( rlaNetwork.isActive || rlaCircles.isActive)">
-        <i class="fa" [class.fa-ellipsis-h]="!_toggleOptions" [class.fa-times]="_toggleOptions"></i>
+        <i class="fa fa-ellipsis-h"></i>
         <div class="icon-text-label">{{_toggleOptions ? 'Close' : 'Options'}}</div>
       </button>
 
@@ -65,7 +65,7 @@
         <i class="fa fa-compress" aria-hidden="true"></i>
         <div class="icon-text-label">Zoom fit</div>
       </a>
-      <a class="btn btn-light text-dark p-1 btn-control" [class.active]="isSettingToggled" [class.disabled]="isMapSettingsDisabled"
+      <a class="btn btn-light text-dark p-1 btn-control" [class.disabled]="isMapSettingsDisabled"
         (click)="isSettingToggled=!isSettingToggled" data-toggle="collapse" href="#collapseSettings" role="button">
         <i class="fas" [class.fa-sliders-h]="!isSettingToggled" [class.fa-times]="isSettingToggled"></i>
         <div class="icon-text-label">Settings</div>
@@ -73,18 +73,18 @@
     </div>
   </div>
   <div class="d-flex flex-column justify-content-start align-items-end col-5 position-absolute pr-3 mx-5 windows">
-    <div id="collapseSearch" class="collapse mb-3 col-12" [class.d-none]="isSearchDisabled">
+    <div closable id="collapseSearch" class="collapse rounded bg-light p-3 mb-3 col-12" [class.d-none]="isSearchDisabled">
       <search #search [list]="flattenInitiative" (selectInitiative)="zoomToInitiative($event)" (selectUser)="goToUserSummary($event)"></search>
     </div>
-    <div id="collapseFilter" class="collapse mb-3 col-12">
+    <div closable id="collapseFilter" class="collapse rounded mb-3 col-12 bg-light p-3">
       <filter-tags [team]="team" [tags]="tags" (changeTagsSettings)="broadcastTagsSettings($event)" (changeTagsSelection)="broadcastTagsSelection($event)"></filter-tags>
     </div>
-    <div id="collapseSlack" class="collapse mb-3 col-12">
+    <div closable id="collapseSlack" class="collapse rounded mb-3 col-12 bg-light p-3">
       <slack-share [slack]="team?.slack" [team]="team" [isPrinting]="isPrinting" [hasNotified]="hasNotified" [hasConfigurationError]="hasConfigurationError"
         (shareMap)="sendSlackNotification($event)"></slack-share>
     </div>
-    <div class="collapse col-12" id="collapseSettings">
-      <div class="card bg-light border-light">
+    <div closable class="collapse rounded col-12 bg-light p-3" id="collapseSettings">
+      <div class="card bg-transparent border-0">
         <div class="card-body">
           <h6 class="card-title">Text settings</h6>
           <div class="form-group form-inline">
