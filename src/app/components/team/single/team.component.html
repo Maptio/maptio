@@ -48,23 +48,17 @@
                 <span>{{team.name}}</span>
                 <small class="text-muted h6 pull-right">{{team.members.length}} {{team.members.length ===1 ? "person" : "people"}}</small>
             </h3>
-            <div *ngIf="isOnboardingAddMembers && rlaMembers.isActive" class="accent-blue box-shadow  mb-5 ">
+            <div *ngIf="isOnboardingAddMembers && rlaMembers.isActive" class="accent-blue box-shadow mb-5 ">
                 <div class="d-flex justify-content-start align-items-stretch">
                     <div class="card col border-0 p-0 tips">
-                        <i class="fa fa-lightbulb-o fa-2x p-2 bg-blue text-white icon" aria-hidden="true"></i>
+                        <i class="far fa-lightbulb fa-2x p-2 bg-blue text-white icon" aria-hidden="true"></i>
                         <div class="card-header border-0 bg-white w-75">
-                            <b >Add or
+                            <b>Add or
                                 <a routerLink="./import">import</a> members to your organization to bring your map to life.</b>
-                                <span 
-                                >
-                                        A great place to start is adding the people who have the most responsibility in your organization.
-                                    </span>
-                        </div>
-                        <!-- <div class="card-body d-flex flex-column">
-                            <span class="card-text">
-                                A great place to start is adding the people who have most responsibility in your organization.
+                            <span>
+                                A great place to start is adding the people who have the most responsibility in your organization.
                             </span>
-                        </div> -->
+                        </div>
                         <div class="card-footer bg-light rounded-0 border-0">
                             You can always do this later. Ready to create your map?
                             <a routerLink="/home">Click here</a>
@@ -73,10 +67,10 @@
                 </div>
             </div>
             <div *ngIf="isOnboardingAddTerminology  && rlaTerminology.isActive" class="accent-blue box-shadow  mb-5 ">
-                
+
                 <div class="d-flex justify-content-start align-items-stretch">
                     <div class="card col border-0 p-0 tips">
-                        <i class="fa fa-lightbulb-o fa-2x p-2 bg-blue text-white icon" aria-hidden="true"></i>
+                        <i class="far fa-lightbulb fa-2x p-2 bg-blue text-white icon" aria-hidden="true"></i>
                         <div class="card-header border-0 bg-white d-flex justify-content-start align-items-center">
                             <b>Tell us how your organization calls its people internally, it will help make the maps more realistic.</b>
                         </div>
