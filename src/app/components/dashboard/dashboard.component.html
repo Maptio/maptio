@@ -3,7 +3,7 @@
     <h2 class="text-left my-5 col-12" *ngIf="!isOnboarding()"> Maps
 
             <div class="form-group form-inline my-3" *ngIf="datasets?.length > 5">
-                    <div class="input-group">
+                    <div class="input-group w-25">
                         <input id="inputQuickFilter" #inputQuickFilter placeholder="Find a map" type="text" class="form-control" (keyup)="onKeyDown(inputQuickFilter.value)">
                         <div class="input-group-append">
                             <button ngbTooltip="Clear search" placement="top" container="body" class="btn btn-dark" (click)="onKeyDown('');inputQuickFilter.value=''">
