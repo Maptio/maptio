@@ -3,7 +3,7 @@ import { Component, ChangeDetectorRef, SimpleChanges, Input } from "@angular/cor
 import { DataSet } from "../../shared/model/dataset.data";
 import { Team } from '../../shared/model/team.data';
 import { User } from '../../shared/model/user.data';
-import { Subject } from '../../../../node_modules/rxjs';
+import { Subject, Subscription } from '../../../../node_modules/rxjs';
 
 @Component({
     selector: "dashboard",
