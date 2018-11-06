@@ -1078,7 +1078,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .attr("cy", function (d: any) {
           return d.children
             ? -Math.sin(DEFAULT_PICTURE_ANGLE) * (d.r * k) + 12
-            : -d.r * k * 0.8;
+            : -d.r * k * 0.9;
         });
     }
 

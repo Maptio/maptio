@@ -3,7 +3,7 @@
         {{initiative.name}}
     </div>
     <div class="card-body d-flex flex-column  border-bottom-0 pt-0" *ngIf="!isNameOnly">
-        <div class="card-title my-2" *ngIf="initiative.tags">
+        <div class="card-title my-2" *ngIf="initiative.tags && initiative.tags.length > 0">
             <ul class="tags small">
                 <li *ngFor="let tag of initiative.tags">
                     <span class="tag mr-1" [style.color]="tag.color">
@@ -13,7 +13,7 @@
             </ul>
         </div>
 
-        <p class="card-title" *ngIf="initiative.accountable">
+        <p class="card-title my-2" *ngIf="initiative.accountable">
             <span class="d-flex align-items-center flex-nowrap">
                 <img src="{{initiative.accountable?.picture}}" width="32" height="32" class="rounded-circle mr-1">
                 <span class="d-flex flex-nowrap"> {{initiative.accountable?.name}}</span>
@@ -21,7 +21,7 @@
                 <span class="text-muted mx-1">({{team.settings.authority}})</span>
             </span>
         </p>
-        <p class="card-title text-muted" *ngIf="!initiative.accountable">
+        <p class="card-title text-muted my-2" *ngIf="!initiative.accountable">
             No {{team.settings.authority}}
         </p>
 
