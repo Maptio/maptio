@@ -41,7 +41,7 @@ Additionally , we use these services/packages :
 
 ### Prerequisites
 
-You must have [Node.js (> 7.8.0)](https://nodejs.org/en/download/) installed.
+You must have [Node.js (> 7.10.1)](https://nodejs.org/en/download/) installed.
 
 ### Setting up Dev
 
