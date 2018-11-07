@@ -18,6 +18,7 @@ So that people throughout the organisation can:
 ## Installing / Getting started
 
 The latest version of the app is running at [https://app.maptio.com](https://app.maptio.com).
+A staging environment is setup at [https://maptio-staging.herokuapp.com/](https://maptio-staging.herokuapp.com/)
 
 To launch it on your local server, see the [Setting up dev](#setting-up-dev) section.
 
@@ -44,27 +45,43 @@ You must have [Node.js (> 7.8.0)](https://nodejs.org/en/download/) installed.
 
 ### Setting up Dev
 
+#### 1. Get the code
+
 ```shell
 git clone https://github.com/Safiya/maptio.git
 cd maptio/
+```
+
+#### 2. Setup the environment variables
+
+Go to our #instructions channels in slack and copy 
+https://maptio.slack.com/files/U2V4KAPJP/FDXNFAUBE/_env__root_folder_.md to ./env
+https://maptio.slack.com/files/U2V4KAPJP/FDZ9UK64E/id_rsa__root_folder__no_extension_.diff to ./id_rsa
+https://maptio.slack.com/files/U2V4KAPJP/FDXNG2XJQ/rsa_pub__root_folder_.diff to ./rsa.pub
+
+#### 3. Install dependencies and start the Node.js server
+
+```shell
 npm install
 npm start
 ```
-This installs all the dependencies and start the  Node.js server.
+A webpack analyzer window might open at http://localhost:8888, ignore this for now.
+
+#### 4. Access 
 
 Go to  `http://localhost:3000` to see it in the browser.
 
 ### Deploying / Publishing
 
-We use Travis CI,  Code Climate and Heroku for deploying to `https://app.maptio.com`.
+We use TravisCI (CircleCI soon),  Code Climate and Heroku for deploying to `https://app.maptio.com`.
 
 Any `git push` in the `master` branch will triggers the following events : 
 
-1. Build and run tests on Travis CI
+1. Build and run tests on Travis CI (CircleCI soon)
 2. If pass, analyse on CodeClimate and report test coverage & quality metrics
 3. Deploy to Heroku at `https://app.maptio.com`
 
-Each step is logged on our private Slack `maptio.slack.com`.
+Each step is logged on our private Slack `maptio.slack.com`, in the `#build` channel
 
 ### Issue tracker
 
