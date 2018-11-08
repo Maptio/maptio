@@ -557,9 +557,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         // .attr("y", (d: any) => d.data.tags && d.data.tags.length > 0 ? `2.00em` : `1.00em`)
         .attr("x", CIRCLE_RADIUS * 2 + CIRCLE_MARGIN)
         .html(function (d: any) {
-          let tagsSpan = d.data.tags.map((tag: Tag) => `<span class="dot-tags" style="
-          color: ${tag.color};">&#xf02b</span>`).join("");
-
+          let tagsSpan= d.data.tags.map((tag:Tag)=> `<i class="fas fa-tag mr-1" style="color: ${tag.color};"></i>`).join("")
           return `<div class="small">${d.data.name || '(Empty)'}<span class="mx-1">${tagsSpan}</span></div>`;
         })
 
@@ -612,9 +610,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .attr("height", 70)
         .style("display", "inline")
         .html(function (d: any) {
-          let tagsSpan = d.data.tags.map((tag: Tag) => `<span class="dot-tags" style="
-          color: ${tag.color};">&#xf02b</span>`).join("");
-
+          let tagsSpan= d.data.tags.map((tag:Tag)=> `<i class="fas fa-tag mr-1" style="color: ${tag.color};"></i>`).join("")
+         
           return `<div class="small">${d.data.name || '(Empty)'}<span class="mx-1">${tagsSpan}</span></div>`;
         })
       nodeUpdate.select("text.accountable.tree-map").html(function (d: any) {
