@@ -121,7 +121,7 @@ export class SearchComponent implements OnInit {
     }
 
     clearSearch() {
-        this.select({ item: null, preventDefault: null })
-        // this.searchInitiatives(Observable.of(""));
+        // this.select({ item: null, preventDefault: null })
+        this.selectInitiative.emit(null);
     }
 }

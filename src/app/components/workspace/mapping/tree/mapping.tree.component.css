@@ -14,10 +14,20 @@
 ::ng-deep .node.tree-map circle .withChildren{
   stroke-width: 3px;
 }
-::ng-deep .link.tree-map {
-  fill: none;
-  stroke-width: 2.5px;
+
+
+::ng-deep .link.highlight.tree-map {
+  fill: none !important;
+  stroke:var(--maptio-blue)!important;
+  stroke-width: 5px!important;
+  stroke-opacity: 1!important
 }
+
+::ng-deep .node.highlight.tree-map {
+  
+  fill: var(--maptio-blue)!important;
+}
+
 
 ::ng-deep .name.tree-map:hover{
   pointer-events: auto;

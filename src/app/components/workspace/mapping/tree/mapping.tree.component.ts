@@ -23,6 +23,7 @@ import { Subject } from "rxjs/Subject";
 import { BehaviorSubject } from "../../../../../../node_modules/rxjs";
 import { User } from "../../../../shared/model/user.data";
 import { Team } from "../../../../shared/model/team.data";
+import { join } from "path";
 
 @Component({
   selector: "tree",
@@ -260,20 +261,24 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       let mapColor = zoomed[1];
       let fontColor = zoomed[2];
       d3.selectAll(`g.node.tree-map`).style("fill", fontColor);
-      d3.select(`g.node.tree-map[id~="${node.id}"]`).dispatch("expand")
+      d3.select(`g.node.tree-map[id~="${node.id}"]`).dispatch("expand");
       if (!this.getPathsToRoot().has(node.id)) return;
+
+      console.log(this.getPathsToRoot().get(node.id).filter(id => id !== node.id).reverse())
       this.getPathsToRoot().get(node.id).filter(id => id !== node.id).reverse().forEach(nodeId => {
         d3.select(`g.node.tree-map[id~="${nodeId}"]`).dispatch("expand");
+        d3.select(`path.link[id-links~="${nodeId}"]`).classed("highlight", true)
       })
-      let gNode = d3.select(`g.node.tree-map[id~="${node.id}"]`)
-      gNode.style("fill", mapColor);
+      d3.select(`g.node.tree-map[id~="${node.id}"]`).classed("highlight", true)
+      d3.select(`path.link[id-links~="${node.id}"]`).classed("highlight", true)
     });
 
     clearSearchInitiative.combineLatest(this.mapColor$, this.fontColor$).subscribe(() => {
       let node = zoomed[0];
       let mapColor = zoomed[1];
       let fontColor = zoomed[2];
-      d3.selectAll(`g.node.tree-map`).style("fill", fontColor);
+      d3.selectAll(`g.node.tree-map`).classed("highlight", false);
+      d3.selectAll("path.link").classed("highlight", false);
     })
 
     this.toggleOptionsSubscription = this.toggleOptions$.subscribe(toggled => {
@@ -557,7 +562,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         // .attr("y", (d: any) => d.data.tags && d.data.tags.length > 0 ? `2.00em` : `1.00em`)
         .attr("x", CIRCLE_RADIUS * 2 + CIRCLE_MARGIN)
         .html(function (d: any) {
-          let tagsSpan= d.data.tags.map((tag:Tag)=> `<i class="fas fa-tag mr-1" style="color: ${tag.color};"></i>`).join("")
+          let tagsSpan = d.data.tags.map((tag: Tag) => `<i class="fas fa-tag mr-1" style="color: ${tag.color};"></i>`).join("")
           return `<div class="small">${d.data.name || '(Empty)'}<span class="mx-1">${tagsSpan}</span></div>`;
         })
 
@@ -610,8 +615,8 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .attr("height", 70)
         .style("display", "inline")
         .html(function (d: any) {
-          let tagsSpan= d.data.tags.map((tag:Tag)=> `<i class="fas fa-tag mr-1" style="color: ${tag.color};"></i>`).join("")
-         
+          let tagsSpan = d.data.tags.map((tag: Tag) => `<i class="fas fa-tag mr-1" style="color: ${tag.color};"></i>`).join("")
+
           return `<div class="small">${d.data.name || '(Empty)'}<span class="mx-1">${tagsSpan}</span></div>`;
         })
       nodeUpdate.select("text.accountable.tree-map").html(function (d: any) {
@@ -640,7 +645,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       nodeExit.select("text.tree-map").style("fill-opacity", 1e-6);
 
 
-   
+
 
       g
         .selectAll("g.node.tree-map")
@@ -716,12 +721,17 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .attr("class", "link")
         .classed("tree-map", true)
         .style("stroke-opacity", 0.5)
+        .style("stroke-width", "2.5px")
+        .style("fill", 'none')
         .style("stroke", function (d: any) {
           return getSeedColor();
         })
         .attr("d", function (d: any) {
           let o = { x: source.x0, y: source.y0 };
           return diagonal(o, o);
+        })
+        .attr("id-links", function (d: any) {
+          return [d.data.id, d.parent.data.id].join(" ");
         });
 
       // UPDATE
@@ -737,6 +747,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         })
         .attr("d", function (d: any) {
           return diagonal(d, d.parent);
+        })
+        .attr("id-links", function (d: any) {
+          return [d.data.id, d.parent.data.id].join(" ");
         });
 
       // Remove any exiting links

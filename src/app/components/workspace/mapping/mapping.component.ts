@@ -177,7 +177,7 @@ export class MappingComponent {
   ngAfterViewInit() {
     this.route.queryParams.subscribe(params => {
       if (params.id) {
-        this.emitOpenInitiative(new Initiative({id: <number>params.id}));
+        this.emitOpenInitiative(new Initiative({ id: <number>params.id }));
       }
     })
   }
