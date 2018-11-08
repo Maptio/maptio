@@ -201,7 +201,12 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       .select("svg")
       .attr("width", this.width)
       .attr("height", this.height)
-      .attr("class", "overlay")
+      .attr('xmlns', "http://www.w3.org/2000/svg")
+      .attr('xmlns:xlink', "http://www.w3.org/1999/xlink")
+      .attr("class", "overlay");
+
+
+    let definitions = svg.append("defs");
 
     let g = svg
       .append("g")
@@ -209,7 +214,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         "transform",
         `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`
       );
-    let definitions = g.append("defs");
 
     this.fontSubscription = this.fontSize$
       .combineLatest(this.fontColor$)
@@ -495,13 +499,15 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .merge(patterns)
         .filter(function (d: any) {
           return d.data.accountable;
-        })
-        .attr("id", function (d: any) {
-          return "image" + d.data.id;
+        }) .attr("id", function (d: any) {
+          return "i-" + d.data.id;
         })
         .attr("width", "100%")
         .attr("height", "100%")
         .append("image")
+
+    		.attr("x", 0)
+    		.attr("y", 0)
         .attr("width", CIRCLE_RADIUS * 2)
         .attr("height", CIRCLE_RADIUS * 2)
         .attr("xlink:href", function (d: any) {
@@ -534,9 +540,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .attr("class", "node")
         .classed("tree-map", true)
         .attr("r", 1e-4)
-        .attr("fill", function (d: any) {
+        .style("fill", function (d: any) {
           return d.data.accountable
-            ? "url(#image" + d.data.id + ")"
+            ? "url(#i-" + d.data.id + ")"
             : d.children ? getSeedColor() : "#fff";
         })
         .style("stroke", function (d: any) {
@@ -555,7 +561,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .attr("class", "name")
         .classed("tree-map", true)
         .attr("width", 170)
-        .attr("height", 70)
+        .attr("height", 75)
         .style("display", "inline")
         // .attr("dy", "0.65em")
         .attr("y", "0.5em")
@@ -593,9 +599,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .select("circle.node.tree-map")
         .attr("r", CIRCLE_RADIUS)
         .attr("cx", CIRCLE_RADIUS)
-        .attr("fill", function (d: any) {
+        .style("fill", function (d: any) {
           return d.data.accountable
-            ? "url(#image" + d.data.id + ")"
+            ? "url(#i-" + d.data.id + ")"
             : d._children ? getSeedColor() : "#fff";
         })
         .style("stroke", function (d: any) {
@@ -612,7 +618,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .select("foreignObject.name.tree-map")
         .attr("y", "0.5em")
         .attr("width", 170)
-        .attr("height", 70)
+        .attr("height", 75)
         .style("display", "inline")
         .html(function (d: any) {
           let tagsSpan = d.data.tags.map((tag: Tag) => `<i class="fas fa-tag mr-1" style="color: ${tag.color};"></i>`).join("")

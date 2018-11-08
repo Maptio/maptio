@@ -1,10 +1,11 @@
-<!-- <ngx-loading [show]="isLoading" [config]="{ backdropBackgroundColour: '#fff' }"></ngx-loading> -->
 <svg id="map"></svg>
 <div class="card control top-left position-absolute border-0 col-auto p-0" *ngIf="!(hideOptions$ | async)">
-        <div class=" card-body bg-light border-dark rounded">
-            <p class="card-text">
-                <button class="btn btn-sm btn-outline-secondary" (click)="expandAllLink()"><i class="fa fa-plus-circle mx-1" aria-hidden="true"></i>Expand all</button>
-                <button class="btn btn-sm btn-outline-secondary" (click)="resetExpandState()"><i class="fa fa-minus-circle mx-1" aria-hidden="true"></i>Collapse all</button>
-            </p>   
-        </div>
+    <div class=" card-body bg-light border-dark rounded">
+        <p class="card-text">
+            <button class="btn btn-sm btn-outline-secondary" (click)="expandAllLink()">
+                <i class="fa fa-plus-circle mx-1" aria-hidden="true"></i>Expand all</button>
+            <button class="btn btn-sm btn-outline-secondary" (click)="resetExpandState()">
+                <i class="fa fa-minus-circle mx-1" aria-hidden="true"></i>Collapse all</button>
+        </p>
     </div>
+</div>
