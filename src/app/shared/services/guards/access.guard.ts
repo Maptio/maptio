@@ -3,11 +3,14 @@ import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot } from "@angular/router";
 import { CanActivate, CanActivateChild, RouterStateSnapshot, Router } from "@angular/router";
 import { Auth } from "../auth/auth.service";
+import { Intercom } from "ng-intercom";
+import { environment } from "../../../../environment/environment";
+import { User } from "../../model/user.data";
 
 @Injectable()
 export class AccessGuard implements CanActivate, CanActivateChild {
 
-    constructor(private auth: Auth, private router: Router) {
+    constructor(private auth: Auth, private router: Router, private intercom: Intercom) {
 
     }
 
@@ -16,9 +19,11 @@ export class AccessGuard implements CanActivate, CanActivateChild {
         let team = route.params["teamid"];
         return this.auth.getUser().map(u => {
             if (dataset && u.datasets.includes(dataset)) {
+                // this.updateIntercom(u.teams, u);
                 return true
             }
             else if (team && u.teams.includes(team)) {
+                // this.updateIntercom(u.teams, u);
                 return true;
             }
             else {
@@ -30,6 +35,19 @@ export class AccessGuard implements CanActivate, CanActivateChild {
 
     canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.canActivate(childRoute, state);
+    }
+
+    private updateIntercom(teams: string[], user:User) {
+        teams.forEach(t => {
+            this.intercom.update({
+                app_id: environment.INTERCOM_APP_ID,
+                email: user.email,
+                user_id: user.user_id,
+                company: {
+                    company_id: t
+                }
+            })
+        })
     }
 
 }
