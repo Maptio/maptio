@@ -15,7 +15,7 @@ export class AuthStub {
 }
 
 
-fdescribe("access.guard.ts", () => {
+describe("access.guard.ts", () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
