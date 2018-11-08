@@ -18,14 +18,14 @@
 
 ::ng-deep .link.highlight.tree-map {
   fill: none !important;
-  stroke:var(--maptio-blue)!important;
-  stroke-width: 5px!important;
+  /* stroke:var(--maptio-blue)!important; */
+  stroke-width: 7.5px!important;
   stroke-opacity: 1!important
 }
 
 ::ng-deep .node.highlight.tree-map {
   
-  fill: var(--maptio-blue)!important;
+  /* fill: var(--maptio-blue)!important; */
 }
 
 
