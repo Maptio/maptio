@@ -211,11 +211,11 @@ describe("mapping.tree.component.ts", () => {
         expect(svgs.length).toBe(1);
         let svg = svgs.item(0);
         let nodes = svg.querySelectorAll("g.node");
-        expect(nodes.item(0).querySelector("circle").getAttribute("fill")).toBe("url(#image0)");
-        expect(nodes.item(1).querySelector("circle").getAttribute("fill")).toBe("url(#image1)");
-        expect(nodes.item(2).querySelector("circle").getAttribute("fill")).toBe("url(#image2)");
+        expect(nodes.item(0).querySelector("circle").style.fill).toBe("#i-0");
+        expect(nodes.item(1).querySelector("circle").style.fill).toBe("#i-1");
+        expect(nodes.item(2).querySelector("circle").style.fill).toBe("#i-2");
 
-        let patterns = svg.querySelectorAll("g defs pattern");
+        let patterns = svg.querySelectorAll("defs pattern");
         expect(patterns.item(0).querySelector("image").getAttribute("href")).toBe("")
         expect(patterns.item(1).querySelector("image").getAttribute("href")).toBe("http://cto.image.png");
         expect(patterns.item(2).querySelector("image").getAttribute("href")).toBe("http://cmo.image.png");
