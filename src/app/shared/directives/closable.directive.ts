@@ -24,7 +24,7 @@ export class ClosableDirective {
         });
 
         renderer.listen("body", "click", (event: Event) => {
-            if (event.path.filter((p: Element) => p.classList && p.classList.contains("closable")).length > 0) {
+            if (((<any>event).path.filter((p: Element) => p.classList && p.classList.contains("closable")).length > 0)) {
                 // the clicked element is inside a 'closable' element, do nothing
             }
             else {
