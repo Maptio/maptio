@@ -24,11 +24,17 @@ export class ClosableDirective {
         });
 
         renderer.listen("body", "click", (event: Event) => {
-            if (!(<Element>event.target).classList.contains("menu") && !(<Element>(<Element>event.target).parentNode).classList.contains("menu")) {
-                renderer.removeClass(elr.nativeElement, "show")
+            if (event.path.filter((p: Element) => p.classList && p.classList.contains("closable")).length > 0) {
+                // the clicked element is inside a 'closable' element, do nothing
+            }
+            else {
+                 // the clicked element is outside a 'closable' element, close only if it is not a menu item
+                if (!(<Element>event.target).classList.contains("menu") && !(<Element>(<Element>event.target).parentNode).classList.contains("menu")) {
+                    renderer.removeClass(elr.nativeElement, "show")
+                }
             }
         })
-
+        renderer.addClass(elr.nativeElement, "closable");
         renderer.appendChild(elr.nativeElement, closingSpan);
     }
 }
