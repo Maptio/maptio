@@ -90,8 +90,8 @@
           <h6 class="card-title">Text settings</h6>
           <div class="form-group form-inline">
             <label for="fontSizeInput" class="col-form-label col-form-label-sm  col-2">Size</label>
-            <input class="col-6 form-control ml-1" id="fontSizeInput" #fontSizeInput name="fontSizeInput" type="range" min="0.2" max="2"
-              value="{{fontSize$ | async}}" step="0.1" (change)="changeFontSize(fontSizeInput.value)" orient="vertical">
+            <input class="col-6 custom-range ml-1" id="fontSizeInput" #fontSizeInput name="fontSizeInput" type="range" min="0.2" max="2"
+              value="{{fontSize$ | async}}" step="0.1" (change)="changeFontSize(fontSizeInput.value)">
 
             <button class="btn btn-sm btn-outline-secondary  ml-4" (click)="changeFontSize(1)">Reset</button>
 
