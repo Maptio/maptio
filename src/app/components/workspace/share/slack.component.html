@@ -15,15 +15,15 @@
                         <span>Share</span>
                     </button>
                 </div>
-                <span class="text-muted small  d-flex justify-content-end align-items-center" *ngIf="isPrinting && !hasNotified && !hasConfigurationError">
+                <span class="my-1 text-muted small  d-flex justify-content-end align-items-center" *ngIf="isPrinting && !hasNotified && !hasConfigurationError">
                     <i class="fas fa-circle-notch fa-spin mx-1"></i>Generating image preview
                 </span>
-                <span class="text-danger small  d-flex justify-content-end" *ngIf="hasConfigurationError">
+                <span class="my-1 text-danger small  d-flex justify-content-end" *ngIf="hasConfigurationError">
                     We cannot post to your Slack workspace anymore!
                     <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}/integrations" class="ml-1">Go to settings</a>
 
                 </span>
-                <span class="text-success small  d-flex justify-content-end" *ngIf="hasNotified && !hasConfigurationError">Shared!</span>
+                <span class="my-1 text-success small  d-flex justify-content-end" *ngIf="hasNotified && !hasConfigurationError">Shared!</span>
             </div>
         </ng-container>
         <ng-container *ngIf="showConfiguration">
