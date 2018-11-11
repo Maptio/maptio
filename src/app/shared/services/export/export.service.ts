@@ -69,7 +69,7 @@ export class ExportService {
             headers: headers
         });
         return this.http.request(req).map((responseData) => {
-            return <string>responseData.json().secure_url;
+            return <string>responseData.json().eager[0].secure_url;
         })
     }
 
@@ -83,11 +83,11 @@ export class ExportService {
                         pretext: message,
                         title: `Changes to ${initiative.name}`,
                         title_link: `https://app.maptio.com/map/${datasetId}/${initiative.getSlug()}/circles`,
-                        image_url: imageUrl.replace(".svg", ".png"),
-                        thumb_url: imageUrl.replace(".svg", ".png"),
+                        image_url: imageUrl,
+                        thumb_url: imageUrl,
                         footer: "Maptio",
                         footer_icon: "https://app.maptio.com/assets/images/logo-full.png",
-                        ts: Date.now()
+                        // ts: Date.now()
                     }]
 
                 let headers = new Headers();
