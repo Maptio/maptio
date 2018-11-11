@@ -548,24 +548,13 @@ export class MappingComponent {
     let containerElements = ["svg", "g"];
     for (let cd = 0; cd < destinationNode.childNodes.length; cd++) {
       let child = destinationNode.childNodes[cd];
-      // if (child.tagName === "foreignObject") {
-      //   if (child.childNodes[0].tagName === "DIV") {
-      //     let bodyChild = document.createElement("body");
-      //     bodyChild.setAttribute("xmnls", "http://www.w3.org/1999/xhtml");
-      //     let divChild = document.createElement("div");
-      //     bodyChild.style.background = "none";
-      //     bodyChild.style.overflow = "initial";
-      //     bodyChild.style.display = "inline-block";
-      //     bodyChild.style.lineHeight = "unset";
-      //     let font = Number.parseFloat((<HTMLDivElement>child.childNodes[0]).style.fontSize.replace("rem", ""));
-      //     let realFont = font / 16 < 1 ? "3px" : (<HTMLDivElement>child.childNodes[0]).style.fontSize
-      //     bodyChild.style.fontSize = realFont;
-      //     divChild.textContent = (<HTMLDivElement>child.childNodes[0]).textContent;
-      //     bodyChild.appendChild(divChild);
-      //     (<Node>child).replaceChild(bodyChild, child.childNodes[0])
+  
+      if (child.tagName === "foreignObject") {
+        if (child.childNodes[0].tagName === "DIV") {
+          child.childNodes[0].setAttribute("xmlns", "http://www.w3.org/1999/xhtml")
+        }
+      }
 
-      //   }
-      // }
       if (containerElements.indexOf(child.tagName) !== -1) {
         this.copyStylesInline(child, sourceNode.childNodes[cd]);
         continue;

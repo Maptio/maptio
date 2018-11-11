@@ -614,7 +614,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       })
       .html(function (d: any) {
         let fs = `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`;
-        return `<div style="font-size: ${fs}; background: none; display: inline-block;pointer-events: none; overflow:hidden; height:100%">${d.data.name || '(Empty)'}</div>`;
+        return `<div style="font-size: ${fs}; background: none; display: inline-block;pointer-events: none; overflow:hidden; height:100%;line-height:100%">${d.data.name || '(Empty)'}</div>`;
       })
 
     /*
@@ -846,7 +846,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .html(function (d: any) {
               let multiplier = svg.attr("data-font-multiplier");
               let fs = `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * multiplier)}rem`;
-              return `<div style="font-size: ${fs}; background: none;overflow: hidden; display: inline-block; pointer-events:none; height:100%">${(d.data.name || '(Empty)')}</div>`;
+              return `<div style="font-size: ${fs}; background: none;overflow: hidden; display: inline-block; pointer-events:none; height:100%;line-height:100%">${(d.data.name || '(Empty)')}</div>`;
             })
         })
 
