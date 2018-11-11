@@ -79,7 +79,12 @@ describe("export.service.ts", () => {
                     headers: null,
                     url: "URL",
                     body: {
-                        secure_url: "http://image.com/snapshot"
+                        secure_url: "http://image.com/snapshot",
+                        eager : [
+                            {
+                                secure_url: "http://image.com/snapshot"
+                            }
+                        ]
                     },
                     merge: null
                 })));

@@ -129,11 +129,11 @@ describe("mapping.network.component.ts", () => {
         expect(g.querySelectorAll("g.nodes > g.node > circle").length).toBe(6);
     });
 
-    it("should draw SVG with correct text labels  when data is valid", () => {
-        let svgs = document.getElementsByTagName("svg")
-        expect(svgs.length).toBe(1);
-        let g = svgs.item(0).querySelector("g");
-        expect(g.querySelectorAll("g.labels > text.edge").length).toBe(4);
-    });
+    // it("should draw SVG with correct text labels  when data is valid", () => {
+    //     let svgs = document.getElementsByTagName("svg")
+    //     expect(svgs.length).toBe(1);
+    //     let g = svgs.item(0).querySelector("g");
+    //     expect(g.querySelectorAll("g.labels > text.edge").length).toBe(4);
+    // });
 
 });
