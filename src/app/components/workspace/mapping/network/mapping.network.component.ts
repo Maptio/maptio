@@ -185,7 +185,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`
       );
     g.append("g").attr("class", "links");
-    g.append("g").attr("class", "labels");
+    // g.append("g").attr("class", "labels");
     g.append("g").attr("class", "nodes");
     g.append("defs");
 
@@ -658,6 +658,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       });
     // .attr("marker-end", "url(#arrow)");
 
+    /*
     let label = g
       .select("g.labels")
       .selectAll("text.edge")
@@ -699,6 +700,9 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         }
       });
 
+      */
+
+      /*
     d3.selectAll(`.open-initiative`).on("click", function (d: any) {
       let id = Number.parseFloat(d3.select(this).attr("id"));
       showDetailsOf$.next(initiativesList.find(n => (<any>n.data).id === id).data);
@@ -710,6 +714,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         `/map/${datasetId}/${datasetSlug}/summary?member=${shortid}`
       );
     });
+
+    */
 
     let node = g
       .select("g.nodes")
@@ -870,20 +876,20 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     function ticked() {
       link.attr("d", positionLink);
       node.attr("transform", positionNode);
-      label.attr("transform", positionLabel);
+      // label.attr("transform", positionLabel);
     }
 
-    function positionLabel(d: any) {
-      let path = g.select("defs").select(`path[id="path${d[5]}"]`);
-      if (path.node()) {
-        let p = path
-          .node()
-          .getPointAtLength(0.6 * path.node().getTotalLength());
-        return "translate(" + p.x + "," + p.y + ")";
-      } else {
-        return "translate(" + 0 + "," + 0 + ")";
-      }
-    }
+    // function positionLabel(d: any) {
+    //   let path = g.select("defs").select(`path[id="path${d[5]}"]`);
+    //   if (path.node()) {
+    //     let p = path
+    //       .node()
+    //       .getPointAtLength(0.6 * path.node().getTotalLength());
+    //     return "translate(" + p.x + "," + p.y + ")";
+    //   } else {
+    //     return "translate(" + 0 + "," + 0 + ")";
+    //   }
+    // }
 
     function positionLink(d: any) {
       return (

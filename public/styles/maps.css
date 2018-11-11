@@ -1,3 +1,4 @@
 svg#map{
     border-radius: 4px;
+    user-select: none;
 }
