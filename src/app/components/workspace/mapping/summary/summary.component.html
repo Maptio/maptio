@@ -11,16 +11,23 @@
                         <h6 class="text-muted" *ngIf="initiative">This is a directory of people involved in map
                             <a routerLink="./circles">{{initiative?.name}}</a>. Select a member to see their circles: </h6>
                     </div>
-                    <span class="mb-1" *ngIf="selectedMember"> Other people</span>
-                    <div class="form-group form-inline mb-0 mt-3" *ngIf="initiative && selectedMember">
-                        <div class="input-group w-75">
-                            <input id="inputQuickFilter" #inputQuickFilter placeholder="Find a person" type="text" class="form-control" (keyup)="onKeyDown(inputQuickFilter.value)">
-                            <div class="input-group-append">
-                                <button ngbTooltip="Clear search" placement="top" container="body" class="btn btn-dark" (click)="onKeyDown('');inputQuickFilter.value=''">
-                                    <i class="fas fa-eraser" aria-hidden="true"></i>
-                                </button>
-                            </div>
+                    <h6 *ngIf="selectedMember"> Other people</h6>
+                    <div class="form-group form-inline d-flex flex-column align-items-start w-75" *ngIf="initiative && selectedMember">
+                        <input id="inputQuickFilter" #inputQuickFilter placeholder="Find a person" type="text" class="form-control w-100" (keyup)="onKeyDown(inputQuickFilter.value)">
+                        <div *ngIf="inputQuickFilter.value" class="d-flex justify-content-between align-items-center w-100">
+                            <span class="text-muted small">{{filteredMembers.length}}/{{members?.length}} people</span>
+            
+                            <button class="btn btn-link btn-sm px-0" (click)="onKeyDown('');inputQuickFilter.value=''">
+                                Show all
+                            </button>
                         </div>
+                        
+                        
+                        <!-- <div class="input-group-append">
+                            <button ngbTooltip="Clear search" placement="top" container="body" class="btn btn-dark" (click)="onKeyDown('');inputQuickFilter.value=''">
+                                <i class="fas fa-eraser" aria-hidden="true"></i>
+                            </button>
+                        </div> -->
 
 
                     </div>

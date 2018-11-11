@@ -36,15 +36,14 @@
 </ng-template>
 
 <div class="card bg-transparent border-0">
-    <div class="card-body d-flex justify-content-start">
+    <div class="p-3 d-flex justify-content-start">
 
-        <div class="input-group mr-2">
-            <input #initiativeSearch [resultTemplate]="rt" type="text" id="initiativeSearch" class="form-control search" (selectItem)="select($event)"
+        <div class="w-100 d-flex justify-content-start">
+            <input #initiativeSearch [resultTemplate]="rt" type="text" id="initiativeSearch" class="form-control" (selectItem)="select($event)"
                 [ngbTypeahead]="search" [resultFormatter]="formatter" [inputFormatter]="formatter" editable="false" autofocus="autofocus"
                 placement="bottom-right" placeholder="Search circles, people and description" />
-            <div class="input-group-append">
-                <button ngbTooltip="Clear search" placement="top" container="body" class="btn btn-dark" (click)="initiativeSearch.value='';clearSearch()">
-                    <i class="fas fa-eraser" aria-hidden="true"></i>
+            <div class="">
+                <button class="btn btn-outline-secondary mx-1" (click)="initiativeSearch.value='';clearSearch()">Reset
                 </button>
             </div>
         </div>
