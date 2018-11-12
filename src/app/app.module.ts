@@ -1,6 +1,6 @@
 import { PermissionGuard } from "./shared/services/guards/permission.guard";
 import { PermissionService } from "./shared/model/permission.data";
-import { CommonModule, Location, LocationStrategy, PathLocationStrategy } from "@angular/common";
+import { CommonModule, Location, LocationStrategy, PathLocationStrategy, APP_BASE_HREF } from "@angular/common";
 import { ErrorHandler, Injectable, InjectionToken, Injector, NgModule, Inject } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { Http, HttpModule, RequestOptions } from "@angular/http";
@@ -163,6 +163,7 @@ export const cloudinaryLib = {
     ExportService, FileService, PermissionService, BillingService,
     Location,
     { provide: LocationStrategy, useClass: PathLocationStrategy },
+    {provide: APP_BASE_HREF, useValue: '/'},
     {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,

@@ -649,7 +649,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let accountablePictureWithChildren = initiativeWithChildren.select("circle.accountable.with-children")
       .attr("pointer-events", "none")
       .attr("fill", function (d: any) {
-        return "url('#image" + d.data.id + "')";
+        return d.data.accountable ? "url('#image" + d.data.id + "')" : "transparent";
       })
       .style("fill-opacity", function (d: any) {
         return isBranchDisplayed(d) ? 1 : 0;
@@ -663,7 +663,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let accountablePictureWithoutChildren = initiativeNoChildren.select("circle.accountable.no-children")
       .attr("pointer-events", "none")
       .attr("fill", function (d: any) {
-        return "url('#image" + d.data.id + "')";
+        return  d.data.accountable ? "url('#image" + d.data.id + "')": "transparent";
       })
       .style("opacity", function (d: any) {
         return isLeafDisplayed(d) ? 1 : 0;
@@ -1226,7 +1226,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .append("image")
         .attr("width", CIRCLE_RADIUS * 2)
         .attr("height", CIRCLE_RADIUS * 2)
-        .attr("xlink:xlink:href", function (d: any) {
+        .attr("xlink:href", function (d: any) {
           return d.data.accountable.picture;
         });
 
@@ -1242,7 +1242,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .select("image")
         .attr("width", CIRCLE_RADIUS * 2)
         .attr("height", CIRCLE_RADIUS * 2)
-        .attr("xlink:xlink:href", function (d: any) {
+        .attr("xlink:href", function (d: any) {
           return d.data.accountable.picture;
         });
       patterns.exit().remove();
