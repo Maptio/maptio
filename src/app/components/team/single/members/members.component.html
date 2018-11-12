@@ -97,7 +97,7 @@
                         </a>
                     </th>
                     <th scope="col" class="pr-0">
-                        <button class="btn btn-outline-secondary pull-right" mwlConfirmationPopover title="Are you sure you want to send an invitation email to these {{invitableUsersCount}} users?"
+                        <button class="btn btn-outline-secondary pull-right" mwlConfirmationPopover title="Are you sure you want to send an invitation email to these {{invitableUsersCount}} people?"
                             placement="top" focusButton="cancel" appendToBody="true" (confirm)="inviteAll()" (cancel)="cancelClicked = true">Invite/resend all</button>
                     </th>
                 </tr>
@@ -109,7 +109,7 @@
                         <ng-container *permissionsOnly="Permissions.canDeleteUser;then thenDeleteBlock"></ng-container>
                         <ng-template #thenDeleteBlock>
                             <span class="remove text-danger" [class.d-none]="team.members.length===1" aria-hidden="true" mwlConfirmationPopover
-                                title="This cannot be undone ! Are you sure you want to delete {{member.name}} from this organization?"
+                                title="This cannot be undone ! Are you sure you want to remove {{member.name}} from this organization?"
                                 placement="right" focusButton="cancel" appendToBody="true" (confirm)="deleteMember(member)" (cancel)="cancelClicked = true">
                             </span>
                         </ng-template>
