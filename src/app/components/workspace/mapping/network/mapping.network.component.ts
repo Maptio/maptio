@@ -93,7 +93,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   T: any;
   TRANSITION_DURATION = 250;
 
-  CIRCLE_RADIUS: number = 25;
+  CIRCLE_RADIUS: number = 32;
   LINE_WEIGHT = 4;
   FADED_OPACITY = 0.1;
   private svg: any;
