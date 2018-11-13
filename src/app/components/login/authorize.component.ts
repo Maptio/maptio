@@ -72,7 +72,7 @@ export class AuthorizeComponent implements OnInit {
                 this.router.navigateByUrl("/home");
             }, (err) => {
                 if(err.error === "login_required"){
-                    this.router.navigateByUrl(`/login?login_message=Cannot log you in with Google! Whitelist app.maptio.com in your ad-blocker and try again`);
+                    this.router.navigateByUrl(`/login?login_message=Cannot log you in with Google. It looks like the problem is your ad-blocker. Try adding app.maptio.com to your whitelist then refreshing the page.`);
                 }
                 else{
                     console.error(err);
