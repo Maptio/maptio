@@ -75,6 +75,7 @@ export class AuthorizeComponent implements OnInit {
                     this.router.navigateByUrl(`/login?login_message=Cannot log you in with Google! Whitelist app.maptio.com in your ad-blocker and try again`);
                 }
                 else{
+                    console.error(err);
                     this.router.navigateByUrl(`/login?login_message=${err}`);
                 }
                 this.loader.hide();
