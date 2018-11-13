@@ -94,7 +94,7 @@ export class ExportService {
                 headers.append("Content-Type", "application/json");
                 headers.append("Accept", "application/json");
                 return new Request({
-                    url: "api/v1/notifications/send",
+                    url: "/api/v1/notifications/send",
                     body: {
                         url: slack.incoming_webhook.url,
                         attachments: attachments
