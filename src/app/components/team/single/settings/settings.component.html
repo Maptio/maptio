@@ -17,11 +17,11 @@
     Cannot update settings.
 </div>
 
-<form class="form-group w-75" [formGroup]="teamSettingsForm" (submit)="saveTeamSettings()">
+<form class="form-group" [formGroup]="teamSettingsForm" (submit)="saveTeamSettings()">
     <fieldset *permissionsOnly="Permissions.canEditTeam;authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
         <div class="form-group">
             <label class="col-form-label" for="inputTeamName">Organization name</label>
-            <input type="text" [class.is-invalid]="teamSettingsForm.controls['name'].invalid  && (teamSettingsForm.controls['name'].dirty || teamSettingsForm.controls['name'].touched)" class="col-4 form-control form-control-warning" [(ngModel)]="teamName" formControlName="name"
+            <input type="text" [class.is-invalid]="teamSettingsForm.controls['name'].invalid  && (teamSettingsForm.controls['name'].dirty || teamSettingsForm.controls['name'].touched)" class="col-6 col-xl-4 form-control form-control-warning" [(ngModel)]="teamName" formControlName="name"
                 required>
             <small class="invalid-feedback">
                 Give us a real organization name!
@@ -41,7 +41,7 @@
         <div class="form-group">
             <label class="col-form-label" for="inputAuthorityName">Authority</label>
             <div class="">
-                <input type="text" class="mr-2 col-4 form-control form-control-warning " [(ngModel)]="teamAuthority" formControlName="authority"
+                <input type="text" class="mr-2 col-xl-4 col-6 form-control form-control-warning " [(ngModel)]="teamAuthority" formControlName="authority"
                     placeholder="e.g. Beloved leader" maxlength="25">
                 <small class="form-text text-muted">
                     What does your organization call the person in the main key role for each circle? e.g. Lead, Authority, Driver, Lead link, Source.
@@ -54,7 +54,7 @@
         <div class="form-group">
             <label class="col-form-label" for="inputHelperName">Helper</label>
             <div class="">
-                <input type="text" class="mr-2 col-4 form-control form-control-warning " [(ngModel)]="teamHelper" formControlName="helper"
+                <input type="text" class="mr-2 col-xl-4 col-6s form-control form-control-warning " [(ngModel)]="teamHelper" formControlName="helper"
                     placeholder="e.g. Backseat driver" maxlength="25">
                 <small class="form-text text-muted">And what do you call others contributing to an circle? e.g. Contributor, Helper, Role-holder, Sub-source.
                 </small>

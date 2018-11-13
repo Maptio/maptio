@@ -101,7 +101,7 @@ const appRoutes: Routes = [
     data: { breadcrumbs: "Profile" }
   },
   { path: "unauthorized", component: UnauthorizedComponent },
-  { path: "forgot", component: ChangePasswordComponent, data: { breadcrumbs: "Reset password" } },
+  { path: "forgot", component: ChangePasswordComponent},
   { path: "404", component: NotFoundComponent },
   { path: "**", redirectTo: "/404" }
 ];
