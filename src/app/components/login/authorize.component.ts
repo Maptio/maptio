@@ -71,6 +71,7 @@ export class AuthorizeComponent implements OnInit {
                 this.loader.hide();
                 this.router.navigateByUrl("/home");
             }, (err) => {
+                console.error("authorization error", err);
                 this.router.navigateByUrl(`/login?login_message=${err}`);
                 this.loader.hide();
             })
