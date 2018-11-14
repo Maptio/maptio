@@ -48,7 +48,7 @@
 
 
 <ng-container *ngIf="!isZeroTeam">
-    <div class="col-12 d-flex justify-content-between align-items-center my-5">
+    <div class="row d-flex justify-content-between align-items-center my-5">
         <div class="d-flex justify-content-between col">
             <h2 class="text-left "> Organizations
             </h2>
@@ -57,7 +57,7 @@
         </div>
 
     </div>
-    <div class="d-flex flex-column justify-content-center align-items-center col-12">
+    <div class="d-flex flex-column justify-content-center align-items-center row">
 
         <div class="card-columns col-12">
             <div class="card" *ngFor="let team of teams;trackBy:trackByTeamId">

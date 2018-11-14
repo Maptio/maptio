@@ -35,7 +35,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     public isBuildingPanelCollapsed: boolean = true;
     public isDetailsPanelCollapsed: boolean = true;
-    public isBuildingVisible:boolean;
+    public isBuildingVisible:boolean=true;
     public isEmptyMap: Boolean;
     // public isSettingsPanelCollapsed: boolean = true;
     public datasetId: string;
@@ -71,8 +71,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     constructor(private route: ActivatedRoute, private datasetFactory: DatasetFactory,
         private dataService: DataService, private cd: ChangeDetectorRef, private uiService: UIService, private intercom: Intercom) {
-        this.canvasYMargin = uiService.getCanvasYMargin();
-        this.canvasHeight = uiService.getCanvasHeight();
+ 
     }
 
     ngOnInit() {
@@ -152,6 +151,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     toggleDetailsPanel() {
         this.isDetailsPanelCollapsed = !this.isDetailsPanelCollapsed;
+    }
+
+    isZeroPanelOpened() {
+        return this.isBuildingPanelCollapsed && this.isDetailsPanelCollapsed;
     }
 
     isOnePanelOpened() {

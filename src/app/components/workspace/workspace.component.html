@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-start h-100" [class.overflow-hidden]="isBuildingVisible">
+<!-- <div class="d-flex justify-content-start h-100" [class.overflow-hidden]="isBuildingVisible">
     <div [class.d-none]="!isBuildingVisible" [class.d-flex]="isBuildingVisible"  class="sidenav  justify-content-start" [ngStyle]="{'height':'calc(100% - ' + canvasYMargin + 'px)'}">
         <div id="sidenav-hierarchy" class="hierarchy position-relative bg-white rounded box-shadow" [class.opened]="!isBuildingPanelCollapsed" [class.closed]="isBuildingPanelCollapsed">
             <div class="card border-0 bg-transparent">
@@ -44,5 +44,72 @@
             (moveInitiative)="moveInitiative($event)" (closeEditingPanel)="closeEditingPanel()" (openTreePanel)="isBuildingPanelCollapsed=false"
             (applySettings)="applySettings($event)" (expandTree)="buildingComponent.toggleAll(true)" (toggleEditingPanelsVisibility)="toggleEditingPanelsVisibility($event)" >
             Loading...</mapping>
+    </div>
+</div> -->
+
+
+<div class="row h-100 py-2">
+    <div class="col-12 position-relative" [style.min-height.px]="canvasHeight">
+        <div class=" position-relative h-100 d-flex justify-content-start box-shadow" id="main">
+            <div [class.d-none]="!isBuildingVisible" [class.d-flex]="isBuildingVisible" class="h-100  bg-light open-nav flex-column justify-content-start align-items-center cursor-pointer rounded-right collapsible "
+                 [class.col-0]="!isBuildingPanelCollapsed" [class.col-auto]="isBuildingPanelCollapsed"
+                (click)="isBuildingPanelCollapsed=false">
+                <span class="p-2" *ngIf="isBuildingPanelCollapsed">
+                    <i class="fa fa-chevron-right text-muted" aria-hidden="true"></i>
+
+                </span>
+            </div>
+            <div [class.d-none]="!isBuildingVisible" [class.col-0]="isBuildingPanelCollapsed" [class.col-6]="!isBuildingPanelCollapsed" [class.col-xl-5]="!isBuildingPanelCollapsed" [class.px-0]="!isBuildingPanelCollapsed"
+                class="sidenav h-100 justify-content-start">
+                <div id="sidenav-hierarchy" class="hierarchy w-100 h-100 card bg-white rounded-0" [class.d-none]="isBuildingPanelCollapsed"
+                    [class.d-block]="!isBuildingPanelCollapsed">
+                    <div class="card border-0 bg-transparent">
+                        <a class="position-absolute top-right cursor-pointer p-2" [class.invisible]="isBuildingPanelCollapsed" (click)="isBuildingPanelCollapsed=true">
+                            <span aria-hidden="true" class="text-muted"><i class="fas fa-times"></i></span>
+                        </a>
+                        <div class="card-body" [class.show]="!isBuildingPanelCollapsed" [class.hide]="isBuildingPanelCollapsed">
+                            <building #building [user]="user" [isEmptyMap]="isEmptyMap" (save)="saveChanges($event)" (openDetails)="openDetails($event)"
+                                (openDetailsEditOnly)="openDetails($event,true)">Loading...</building>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div  [class.d-none]="!isBuildingVisible" [class.col-0]="isDetailsPanelCollapsed" [class.col-6]="!isDetailsPanelCollapsed" [class.col-xl-5]="!isDetailsPanelCollapsed"
+                [class.ml-5]="isBuildingPanelCollapsed" class="details h-100 justify-content-start">
+                <div id="sidenav-details" class="bg-orange card rounded-0 h-100" [class.d-none]="isDetailsPanelCollapsed" [class.d-block]="!isDetailsPanelCollapsed">
+                    <div class="card border-0 bg-transparent pr-2">
+                        <a class="position-absolute top-right cursor-pointer p-2" [class.invisible]="isDetailsPanelCollapsed" (click)="isDetailsPanelCollapsed=true">
+                            <span aria-hidden="true" class="text-muted"><i class="fas fa-times"></i></span>
+                        </a>
+                        <div class="card-body " [class.show]="!isDetailsPanelCollapsed" [class.hide]="isDetailsPanelCollapsed">
+                            <initiative *ngIf="!isDetailsPanelCollapsed" #initiative [datasetTags]="tags" [datasetId]="datasetId" [node]="openedNode"
+                                [team]="team" (edited)="saveDetailChanges()"></initiative>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class=" h-100" style="
+            width: calc(100% - 56px);
+        ">
+                <div class="h-100 ">
+                    <mapping [tags]="selectableTags" [isEmptyMap]="isEmptyMap" (showDetails)="openDetails($event, true)" (addInitiative)="addInitiative($event)"
+                        (removeInitiative)="removeInitiative($event)" (moveInitiative)="moveInitiative($event)" (closeEditingPanel)="closeEditingPanel()"
+                        (openTreePanel)="isBuildingPanelCollapsed=false" (applySettings)="applySettings($event)" (expandTree)="buildingComponent.toggleAll(true)"
+                        (toggleEditingPanelsVisibility)="toggleEditingPanelsVisibility($event)">
+                        Loading...</mapping>
+                </div>
+
+            </div>
+
+
+
+
+        </div>
+
+
     </div>
 </div>

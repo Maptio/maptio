@@ -1,29 +1,29 @@
  .sidenav{
-    height: 100%; /* 100% Full-height */
-    position: fixed; /* Stay in place */
-    z-index: 1;
-    top: 0; /* Stay at the top */
-    left: 0;
-    margin-top: 61px; /* Place content 60px from the top */
-    transition: width 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+    /* height: 100%;  */
+    /* position: absolute; */
+    /* z-index: 1; */
+    /* top: 0; /* Stay at the top */
+    /* left: 0; */ 
+    /* margin-top: 61px; */
+    /* transition: width 0.5s;  */
 
     /* border:solid 1px red; */
     /* box-shadow: 0 6px 50px #999; */
  }
 
  .sidenav > .opened{
-    width: 42vw;
-    z-index: 1;
+    /* width: 42vw; */
+    /* z-index: 1; */
  }
 
  .sidenav > .closed{
-    width:0;
-    z-index: 0;
+    /* width:0; */
+    /* z-index: 0; */
 }
  
 
  #sidenav-hierarchy, #sidenav-details{
-    transition: width 0.5s;
+    /* transition: width 0.5s; */
  }
 
 
@@ -43,17 +43,17 @@
 
 /* The navigation menu links */
 .sidenav a {
-    padding: 8px 8px 8px 32px;
+    /* padding: 8px 8px 8px 32px;
     text-decoration: none;
     font-size: 25px;
     color: #818181;
     display: block;
-    transition: 0.5s;
+    transition: 0.5s; */
 }
 
 /* When you mouse over the navigation links, change their color */
 .sidenav a:hover {
-    color: #f1f1f1;
+    /* color: #f1f1f1; */
 }
 
 /* Position and style the close button (top right corner) */
@@ -65,7 +65,7 @@
     margin-left: 50px;
 }
 
-.card-body.show{
+/* .card-body.show{
     visibility: visible;
     opacity: 1;
     transition: 0.5s;
@@ -75,17 +75,17 @@
     visibility: hidden;
     opacity: 0;
     transition: 0.5s;
-}
+} */
 
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 #main {
     transition: margin-left .5s;
-    margin-left:4.5vw;
-    margin-right:2vw;
+    /* margin-left:4.5vw;
+    margin-right:2vw; */
     /* margin-top:1w; */
-    position: fixed;
-    z-index: 1;
-    margin-top: 4px;
+    /* position: fixed; */
+    /* z-index: 1; */
+    /* margin-top: 4px; */
     /*  */
     /* 
     
@@ -112,17 +112,18 @@
 } */
 
 .open-nav{
-    margin-top: 61px;
-    position: fixed;
+    /* margin-top: 61px; */
+    position: absolute;
     z-index: 1;
     top: 0;
     left: 0;
     border-left:0;
     overflow-x: hidden;
     transition: 0.5s;
-    width: 3vw;
-    margin-right :1vw;
+    /* width: 3vw; */
+    /* margin-right :1vw; */
     background: var(--white);
+    margin-left:0;
 }
 
 .open-nav.closed{
@@ -130,12 +131,11 @@
 }
 
 .open-nav.opened, .open-nav.opened:hover{
-    width: 0vw;
+    /* width: 0vw; */
     transition: 0.25s;
 }
 
 .open-nav:hover{
-    width:3.5vw;
+    padding-left:2vw;
     transition: 0.25s;
 }
-

@@ -46,8 +46,6 @@
                             <div>
                                 <i class="fas fa-trash mx-1" aria-hidden="true"></i> Delete circle
                             </div>
-
-
                             <div [class.invisible]="!isRemovingNode" (mouseleave)="isRemovingNode=false" class="d-flex justify-content-start">
                                 <button class="btn btn-danger btn-sm mx-1" (click)="removeNode(initiative)">Confirm</button>
                                 <button class="btn btn-outline-secondary btn-sm" (click)="isRemovingNode=false">Cancel</button>

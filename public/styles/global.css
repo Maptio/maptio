@@ -159,6 +159,37 @@ transition: background-image 0.2s ease-in-out;
   filter:grayscale();
 }
 
+.col-half{
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 36px;
+  flex: 0 0 36px;
+  max-width: 36px;
+  position: relative;
+  width: 100%;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.col-11-half {
+  webkit-box-flex: 0;
+  -ms-flex: 0 0 calc(91.666667% + 36px);
+  flex: 0 0 calc(91.666667% + 36px);
+  max-width: calc(91.666667% + 36px);
+  position: relative;
+  width: 100%;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.offset-11-half {
+  margin-left: calc(91.666667% + 36px);
+}
+
+.offset-half {
+  margin-left: 36px;
+}
 
 /* .circles.options, .circles.options.active{
   background-image:none !important;
@@ -250,17 +281,30 @@ a.card.no-underline, a.no-underline:hover {
   font-size: xx-large;
 }
 
+.z-index-1{
+  z-index:1;
+}
+
+.z-index-2{
+  z-index:2;
+}
+
 .control.switch{
   position: absolute;
   top: 29vh;
-  right:5.5vw;
-  z-index: 9;
+  right:0vw;
+  z-index: 1;
 }
 
 .control.switch.collapse{
 max-height: 0;
 overflow: hidden;
 transition: max-height .25s ease-in-out;
+}
+
+.control.switch.show{
+  max-height: 40vh;
+  transition: max-height .25s ease-in-out;
 }
 
 .overflow-hidden
@@ -280,10 +324,7 @@ transition: max-height .25s ease-in-out;
   overflow: auto;
 }
 
-.control.switch.show{
-  max-height: 30vh;
-  transition: max-height .25s ease-in-out;
-}
+
 
 .nowrap{
   white-space: nowrap;

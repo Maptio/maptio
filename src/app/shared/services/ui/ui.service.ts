@@ -42,11 +42,13 @@ export class UIService {
   }
 
   getCanvasWidth() {
-    return window.screen.availWidth - this.getCanvasXMargin();
+    console.log(document.getElementById("main"), document.getElementById("main").clientWidth)
+    return document.getElementById("main") ? document.getElementById("main").clientWidth : window.screen.availWidth;
   }
 
   getCanvasHeight() {
-    return window.screen.availHeight - this.getCanvasYMargin();
+    console.log(document.getElementById("main"), document.getElementById("main").clientHeight)
+    return document.getElementById("main") ? document.getElementById("main").clientHeight : window.screen.availHeight;
   }
 
   getCircularPath(radius: number, centerX: number, centerY: number) {

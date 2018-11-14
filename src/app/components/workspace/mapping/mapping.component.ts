@@ -170,8 +170,6 @@ export class MappingComponent {
       datasetId: string;
     }>();
 
-    this.VIEWPORT_HEIGHT = uiService.getCanvasHeight() + 25;
-    this.VIEWPORT_WIDTH = uiService.getCanvasWidth();
   }
 
   ngAfterViewInit() {
@@ -183,6 +181,11 @@ export class MappingComponent {
   }
 
   onActivate(component: IDataVisualizer) {
+
+
+    this.VIEWPORT_HEIGHT = this.uiService.getCanvasHeight();
+    this.VIEWPORT_WIDTH = this.uiService.getCanvasWidth();
+
     component.showToolipOf$.asObservable().subscribe((tooltip: { initiatives: Initiative[], isNameOnly: boolean }) => {
       this.showTooltip(tooltip.initiatives, tooltip.isNameOnly);
     })
@@ -326,7 +329,7 @@ export class MappingComponent {
   getFragment(component: IDataVisualizer) {
     switch (component.constructor) {
       case MappingZoomableComponent:
-        return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_WIDTH / 2 - 180}&scale=1`;
+        return `x=${(this.VIEWPORT_WIDTH - 20) / 2 -30 }&y=${(this.VIEWPORT_WIDTH - 20) / 2 }&scale=1`;
       case MappingTreeComponent:
         return `x=${this.VIEWPORT_WIDTH / 10}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`;
       case MappingNetworkComponent:
@@ -334,7 +337,7 @@ export class MappingComponent {
       case MappingSummaryComponent:
         return `x=0&y=0&scale=1`;
       default:
-        return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_WIDTH / 2 - 180}&scale=1`;
+        return `x=${(this.VIEWPORT_WIDTH - 20) / 2 -30 }&y=${(this.VIEWPORT_WIDTH - 20) / 2 }&scale=1`;
     }
   }
 
@@ -548,7 +551,7 @@ export class MappingComponent {
     let containerElements = ["svg", "g"];
     for (let cd = 0; cd < destinationNode.childNodes.length; cd++) {
       let child = destinationNode.childNodes[cd];
-  
+
       if (child.tagName === "foreignObject") {
         if (child.childNodes[0].tagName === "DIV") {
           child.childNodes[0].setAttribute("xmlns", "http://www.w3.org/1999/xhtml")
