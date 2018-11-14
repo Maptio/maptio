@@ -6,7 +6,7 @@ import { URIService } from "../../../shared/services/uri.service";
 import { DataService } from "../../../shared/services/data.service";
 import { UserFactory } from "../../../shared/services/user.factory";
 import { RouterTestingModule } from "@angular/router/testing";
-import { Angulartics2Mixpanel, Angulartics2} from "angulartics2";
+import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { ActivatedRoute } from "@angular/router";
 import { UIService } from "../../../shared/services/ui/ui.service";
 import { ColorService } from "../../../shared/services/ui/color.service";
@@ -38,8 +38,8 @@ describe("mapping.component.ts", () => {
         TestBed.configureTestingModule({
             providers: [
                 DeviceDetectorService,
-                DataService, ErrorService, D3Service, ColorService, UIService, URIService, Angulartics2Mixpanel, Angulartics2,
-                UserFactory, ExportService,Intercom, IntercomConfig,
+                DataService, ErrorService, D3Service, ColorService, URIService, Angulartics2Mixpanel, Angulartics2,
+                UserFactory, ExportService, Intercom, IntercomConfig,
                 {
                     provide: Http,
                     useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
@@ -54,6 +54,13 @@ describe("mapping.component.ts", () => {
                     deps: [Http, BaseRequestOptions]
                 }
                 ,
+                {
+                    provide: UIService,
+                    useValue: {
+                        getCanvasWidth() { return 1000; },
+                        getCanvasHeight() { return 1000; }
+                    }
+                },
                 MarkdownService,
                 BaseRequestOptions,
                 {
@@ -62,7 +69,7 @@ describe("mapping.component.ts", () => {
                         params: Observable.of({ mapid: 123, layout: "initiatives" }),
                         fragment: Observable.of(`x=50&y=50&scale=1.2`),
                         snapshot: { fragment: undefined },
-                        queryParams : Observable.of({id: "123345"})
+                        queryParams: Observable.of({ id: "123345" })
                     }
                 }
 
@@ -105,7 +112,7 @@ describe("mapping.component.ts", () => {
         describe("getFragment", () => {
             it("should return correct fragment  when layout is initiatives", () => {
                 let actual = component.getFragment(new MappingZoomableComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined));
-                expect(actual).toBe(`x=${component.VIEWPORT_WIDTH / 2}&y=${component.VIEWPORT_WIDTH / 2 - 180}&scale=1`)
+                expect(actual).toBe(`x=${(component.VIEWPORT_WIDTH - 20) / 2 -30 }&y=${(component.VIEWPORT_WIDTH - 20) / 2}&scale=1`)
             });
 
             it("should return correct fragment when layout is people", () => {
@@ -178,9 +185,8 @@ describe("mapping.component.ts", () => {
             spyOn(component, "getFragment").and.returnValue("x=10&y=100&scale=1.3")
 
             component.onActivate(activated);
-            expect(activated.width).toBe(1000)
-            // expect(activated.height).toBe(document.body.clientHeight-125)
-            expect(activated.margin).toBe(50);
+            expect(activated.width).toBe(1000);
+            expect(activated.height).toBe(1000);
             expect(component.getFragment).toHaveBeenCalledTimes(1);
             expect(activated.translateX).toBe(10);
             expect(activated.translateY).toBe(100);
