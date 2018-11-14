@@ -218,7 +218,7 @@ transition: background-image 0.2s ease-in-out;
 }
 
 nav.header {
-  height: 56px;
+  min-height: 56px;
 }
 
 .nav-link {
