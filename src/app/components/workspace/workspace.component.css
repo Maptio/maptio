@@ -132,7 +132,7 @@
 
 .open-nav.opened, .open-nav.opened:hover{
     /* width: 0vw; */
-    transition: 0.25s;
+    /* transition: 0.25s; */
 }
 
 .open-nav:hover{
