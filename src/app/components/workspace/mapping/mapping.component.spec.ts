@@ -112,7 +112,7 @@ describe("mapping.component.ts", () => {
         describe("getFragment", () => {
             it("should return correct fragment  when layout is initiatives", () => {
                 let actual = component.getFragment(new MappingZoomableComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined));
-                expect(actual).toBe(`x=${(component.VIEWPORT_WIDTH - 20) / 2 -30 }&y=${(component.VIEWPORT_WIDTH - 20) / 2}&scale=1`)
+                expect(actual).toBe(`x=${(component.VIEWPORT_WIDTH - 20) / 2 }&y=${(component.VIEWPORT_WIDTH - 20) / 2}&scale=1`)
             });
 
             it("should return correct fragment when layout is people", () => {
