@@ -150,3 +150,24 @@
     transition: opacity 2s ease;
     transition-delay:2s;
 }
+
+.collapsible{
+    /* flex-grow: 1; */
+    opacity: 1;
+    transition: opacity 1000ms ease;
+}
+
+/* .collapsible.col-xl-5{
+    width: 41.666667%;
+}
+.collapsible.col-6{
+    width: 50%;
+} */
+
+  
+  .col-0.collapsible {
+    /* width: 0; 
+    flex-shrink: 1; */
+    opacity: 0;
+    transition: opacity 1000ms ease;
+  }

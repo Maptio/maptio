@@ -18,7 +18,7 @@ padding-bottom: 1.8rem;
                 </span>
             </div>
             <div [class.d-none]="!isBuildingVisible" [class.col-0]="isBuildingPanelCollapsed" [class.col-6]="!isBuildingPanelCollapsed"
-                [class.col-xl-5]="!isBuildingPanelCollapsed" [class.px-0]="!isBuildingPanelCollapsed" class="sidenav h-100 justify-content-start">
+                [class.col-xl-5]="!isBuildingPanelCollapsed" [class.px-0]="!isBuildingPanelCollapsed" class="collapsible sidenav h-100 justify-content-start">
                 <div id="sidenav-hierarchy" class="hierarchy w-100 h-100 card border-light bg-white rounded-0" [class.d-none]="isBuildingPanelCollapsed"
                     [class.d-block]="!isBuildingPanelCollapsed">
                     <div class="card border-0 bg-transparent">
@@ -38,8 +38,8 @@ padding-bottom: 1.8rem;
             </div>
             <div [class.d-none]="!isBuildingVisible" [class.col-0]="isDetailsPanelCollapsed" [class.col-6]="!isDetailsPanelCollapsed"
                 [class.px-0]="!isDetailsPanelCollapsed" [class.col-xl-5]="!isDetailsPanelCollapsed" [class.ml-5]="isBuildingPanelCollapsed"
-                class="details h-100 justify-content-start">
-                <div id="sidenav-details" class="bg-orange card rounded-0 h-100" [class.d-none]="isDetailsPanelCollapsed" [class.d-block]="!isDetailsPanelCollapsed">
+                class="collapsible details h-100 justify-content-start">
+                <div id="sidenav-details" class="bg-orange card rounded-0 h-100 w-100" [class.d-none]="isDetailsPanelCollapsed" [class.d-block]="!isDetailsPanelCollapsed">
                     <div class="card border-0 bg-transparent pr-3">
                         <button class="position-absolute top-right btn bg-transparent" [class.invisible]="isDetailsPanelCollapsed" (click)="isDetailsPanelCollapsed=true">
                             <span aria-hidden="true" class="text-muted">
