@@ -6,6 +6,10 @@
   --maptio-green:#28a745;
 }
 
+.h-99{
+  height: 99% !important;
+}
+
 
 .transparent {
   background-color: transparent !important;

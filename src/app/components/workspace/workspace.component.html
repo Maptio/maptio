@@ -9,7 +9,7 @@ padding-bottom: 1.8rem;
 
     <div class="col-12 position-relative">
 
-        <div class=" position-relative h-100 d-flex justify-content-start " [class.box-shadow]="isBuildingVisible" id="main">
+        <div class=" position-relative d-flex justify-content-start h-99 " [class.box-shadow]="isBuildingVisible" id="main">
             <div [class.d-none]="!isBuildingVisible" [class.d-flex]="isBuildingVisible" class="h-100  bg-light open-nav flex-column justify-content-start align-items-center cursor-pointer rounded-right collapsible "
                 [class.col-0]="!isBuildingPanelCollapsed" [class.col-auto]="isBuildingPanelCollapsed" (click)="isBuildingPanelCollapsed=false">
                 <span class="p-2" *ngIf="isBuildingPanelCollapsed">
