@@ -139,3 +139,14 @@
     padding-left:2vw;
     transition: 0.25s;
 }
+
+.saving{
+	opacity: 0.75;	
+    transition-delay:0s;
+}
+
+.saving.hide{
+	opacity: 0;	
+    transition: opacity 2s ease;
+    transition-delay:2s;
+}

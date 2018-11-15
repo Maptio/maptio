@@ -37,6 +37,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public isDetailsPanelCollapsed: boolean = true;
     public isBuildingVisible:boolean=true;
     public isEmptyMap: Boolean;
+    public isSaving:Boolean;
     // public isSettingsPanelCollapsed: boolean = true;
     public datasetId: string;
     private routeSubscription: Subscription;
@@ -114,8 +115,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     saveChanges(initiative: Initiative, tags?: Array<Tag>) {
         this.isEmptyMap = !initiative.children || initiative.children.length === 0;
+        this.isSaving = true;
         this.cd.markForCheck();
-        EmitterService.get("isSavingInitiativeData").emit(true);
 
         this.dataset.initiative = initiative;
         if (tags) {
@@ -139,9 +140,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 return;
             })
             .then(() => {
-                EmitterService.get("isSavingInitiativeData").emit(false);
-
-                // this.counterService.set({ datasetId: this.datasetId, time: moment() })
+                this.isSaving = false;
+                this.cd.markForCheck();
             });
     }
 

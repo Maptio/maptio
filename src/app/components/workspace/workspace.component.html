@@ -1,55 +1,11 @@
-<!-- <div class="d-flex justify-content-start h-100" [class.overflow-hidden]="isBuildingVisible">
-    <div [class.d-none]="!isBuildingVisible" [class.d-flex]="isBuildingVisible"  class="sidenav  justify-content-start" [ngStyle]="{'height':'calc(100% - ' + canvasYMargin + 'px)'}">
-        <div id="sidenav-hierarchy" class="hierarchy position-relative bg-white rounded box-shadow" [class.opened]="!isBuildingPanelCollapsed" [class.closed]="isBuildingPanelCollapsed">
-            <div class="card border-0 bg-transparent">
-                <a class="d-flex justify-content-end cursor-pointer m-0 mr-3 p-0" [class.invisible]="isBuildingPanelCollapsed" (click)="isBuildingPanelCollapsed=true">
-                        <span aria-hidden="true" class="text-muted">&times;</span>
-                </a>
-                <div class="card-body" [class.show]="!isBuildingPanelCollapsed" [class.hide]="isBuildingPanelCollapsed">
-                    <building #building [user]="user" [isEmptyMap]="isEmptyMap" (save)="saveChanges($event)" (openDetails)="openDetails($event)" (openDetailsEditOnly)="openDetails($event,true)">Loading...</building>
-
-                </div>
-            </div>
-
-        </div>
-        <div id="sidenav-details" class="details position-relative bg-orange rounded box-shadow"
-         [class.opened]="!isDetailsPanelCollapsed" 
-         [class.closed]="isDetailsPanelCollapsed"
-         [class.offset]="!isDetailsPanelCollapsed && isBuildingPanelCollapsed"
-         >
-            <div class="card border-0 bg-transparent">
-                <a class="d-flex justify-content-end cursor-pointer  m-0 mr-3 p-0" [class.invisible]="isDetailsPanelCollapsed" (click)="isDetailsPanelCollapsed=true">
-                        <span aria-hidden="true" class="text-muted">&times;</span>
-                </a>
-                <div class="card-body " [class.show]="!isDetailsPanelCollapsed" [class.hide]="isDetailsPanelCollapsed">
-                    <initiative *ngIf="!isDetailsPanelCollapsed" #initiative [datasetTags]="tags" [datasetId]="datasetId" [node]="openedNode"
-                        [team]="team" (edited)="saveDetailChanges()"></initiative>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <div [class.d-none]="!isBuildingVisible" [class.d-flex]="isBuildingVisible" [ngStyle]="{'height':'calc(100% - ' + canvasYMargin + 'px)'}" class="open-nav flex-column justify-content-start align-items-center cursor-pointer rounded-right box-shadow" 
-    [class.closed]="isBuildingPanelCollapsed" [class.opened]="!isBuildingPanelCollapsed" (click)="isBuildingPanelCollapsed=false">
-        <span class="p-2" *ngIf="isBuildingPanelCollapsed">
-            <i class="fa fa-chevron-right text-muted" aria-hidden="true"></i>
-            
-        </span>
-    </div>
-
-    <div id="main" [ngStyle]="{'height':'calc(100% - ' + 7 + 'px)'}" class="d-flex justify-content-center w-100 position-relative bg-white" 
-    [class.half-push]="isOnePanelOpened() && isBuildingVisible"
-        [class.full-push]="isTwoPanelsOpened() && isBuildingVisible" [class.offset]="!isDetailsPanelCollapsed && isBuildingPanelCollapsed">
-        <mapping [tags]="selectableTags" [isEmptyMap]="isEmptyMap" (showDetails)="openDetails($event, true)" (addInitiative)="addInitiative($event)" (removeInitiative)="removeInitiative($event)"
-            (moveInitiative)="moveInitiative($event)" (closeEditingPanel)="closeEditingPanel()" (openTreePanel)="isBuildingPanelCollapsed=false"
-            (applySettings)="applySettings($event)" (expandTree)="buildingComponent.toggleAll(true)" (toggleEditingPanelsVisibility)="toggleEditingPanelsVisibility($event)" >
-            Loading...</mapping>
-    </div>
-</div> -->
-
-
 <div class="row h-100 py-1">
-    <div class="col-12 position-relative" [style.min-height.px]="canvasHeight">
+    <div class="ml-3 text-muted my-1 saving d-flex justify-content-start align-items-center small">
+        <i class="fas fa-save mr-1" aria-hidden="true"></i>
+        <span *ngIf="isSaving">Saving...</span>
+        <span *ngIf="!isSaving">All changes saved</span>
+    </div>
+    <div class="col-12 position-relative">
+
         <div class=" position-relative h-100 d-flex justify-content-start " [class.box-shadow]="isBuildingVisible" id="main">
             <div [class.d-none]="!isBuildingVisible" [class.d-flex]="isBuildingVisible" class="h-100  bg-light open-nav flex-column justify-content-start align-items-center cursor-pointer rounded-right collapsible "
                 [class.col-0]="!isBuildingPanelCollapsed" [class.col-auto]="isBuildingPanelCollapsed" (click)="isBuildingPanelCollapsed=false">

@@ -46,12 +46,6 @@ export class HeaderComponent implements OnInit {
         public errorService: ErrorService, private router: Router, public loaderService: LoaderService,
         private analytics: Angulartics2Mixpanel, private cd: ChangeDetectorRef, private billingService: BillingService) {
 
-
-        EmitterService.get("isSavingInitiativeData").subscribe((isSaving: Boolean) => {
-            this.isSaving = isSaving;
-            this.cd.markForCheck();
-        })
-
         let [teamDefined, teamUndefined] = EmitterService.get("currentTeam").partition(team => team);
 
         teamDefined.flatMap((team: Team) => {
@@ -127,7 +121,7 @@ export class HeaderComponent implements OnInit {
     }
 
     isSignUp() {
-        return this.router.url.startsWith("/login") || this.router.url.startsWith("/signup") ||  this.router.url.startsWith("/forgot")
+        return this.router.url.startsWith("/login") || this.router.url.startsWith("/signup") || this.router.url.startsWith("/forgot")
     }
 
     toggleCreateMode() {
