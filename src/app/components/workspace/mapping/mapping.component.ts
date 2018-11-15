@@ -330,7 +330,7 @@ export class MappingComponent {
   getFragment(component: IDataVisualizer) {
     switch (component.constructor) {
       case MappingZoomableComponent:
-        return `x=${(this.VIEWPORT_WIDTH - 20) / 2 - 30}&y=${(this.VIEWPORT_WIDTH - 20) / 2}&scale=1`;
+        return `x=${(this.VIEWPORT_WIDTH - 20) / 2 }&y=${(this.VIEWPORT_WIDTH - 20) / 2}&scale=1`;
       case MappingTreeComponent:
         return `x=${this.VIEWPORT_WIDTH / 10}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`;
       case MappingNetworkComponent:
@@ -338,7 +338,7 @@ export class MappingComponent {
       case MappingSummaryComponent:
         return `x=0&y=0&scale=1`;
       default:
-        return `x=${(this.VIEWPORT_WIDTH - 20) / 2 - 30}&y=${(this.VIEWPORT_WIDTH - 20) / 2}&scale=1`;
+        return `x=${(this.VIEWPORT_WIDTH - 20) / 2 }&y=${(this.VIEWPORT_WIDTH - 20) / 2}&scale=1`;
     }
   }
 
