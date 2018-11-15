@@ -42,12 +42,10 @@ export class UIService {
   }
 
   getCanvasWidth() {
-    console.log(document.getElementById("main"), document.getElementById("main").clientWidth)
-    return document.getElementById("main") ? document.getElementById("main").clientWidth -50 : window.screen.availWidth;
+    return document.getElementById("main") ? document.getElementById("main").clientWidth - 50 : window.screen.availWidth;
   }
 
   getCanvasHeight() {
-    console.log(document.getElementById("main"), document.getElementById("main").clientHeight)
     return document.getElementById("main") ? document.getElementById("main").clientHeight : window.screen.availHeight;
   }
 

@@ -1,9 +1,12 @@
-<div class="row h-100 py-1">
-    <div class="ml-3 text-muted my-1 saving d-flex justify-content-start align-items-center small">
-        <i class="fas fa-save mr-1" aria-hidden="true"></i>
-        <span *ngIf="isSaving">Saving...</span>
-        <span *ngIf="!isSaving">All changes saved</span>
-    </div>
+<div class="text-muted my-1 saving text-center  small w-100">
+    <i class="fas fa-save mr-1" aria-hidden="true"></i>
+    <span *ngIf="isSaving">Saving...</span>
+    <span *ngIf="!isSaving">All changes saved</span>
+</div>
+<div class="row h-100" style="
+padding-bottom: 1.8rem;
+">
+
     <div class="col-12 position-relative">
 
         <div class=" position-relative h-100 d-flex justify-content-start " [class.box-shadow]="isBuildingVisible" id="main">
