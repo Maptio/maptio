@@ -1,88 +1,86 @@
 <div class="mt-3 row">
 
-    <div class="d-flex col-12 mt-3">
-        <div class="col-3 border-right p-0">
-            <ul class="nav flex-column nav-pills mt-3">
-                <ng-container>
-                    <li class="nav-item">
-                        <a class="nav-link py-4" data-toggle="tab" routerLink="./members" queryParamsHandling="merge" #rlaMembers="routerLinkActive"
-                            routerLinkActive="active" role="tab">
-                            People</a>
-                    </li>
-                </ng-container>
-                <ng-container>
-                    <li class="nav-item" *permissionsOnly="Permissions.canAddUser">
-                        <a class="nav-link py-4" data-toggle="tab" routerLink="./import" queryParamsHandling="merge" #rlaImport="routerLinkActive"
-                            routerLinkActive="active" role="tab">
-                            Import </a>
-                    </li>
-                </ng-container>
-                <ng-container>
-                    <li class="nav-item">
-                        <a class="nav-link py-4" data-toggle="tab" routerLink="./maps" queryParamsHandling="merge" routerLinkActive="active" role="tab">
-                            Maps</a>
-                    </li>
-                </ng-container>
-                <ng-container>
-                    <li class="nav-item">
-                        <a class="nav-link py-4" data-toggle="tab" routerLink="./settings" queryParamsHandling="merge" #rlaTerminology="routerLinkActive"
-                            routerLinkActive="active" role="tab">
-                            Settings</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link py-4" data-toggle="tab" routerLink="./integrations" queryParamsHandling="merge" routerLinkActive="active"
-                            role="tab">
-                            Integrations</a>
-                    </li>
-                </ng-container>
-
+    <div class="col-3 border-right">
+        <ul class="nav flex-column nav-pills mt-3">
+            <ng-container>
                 <li class="nav-item">
-                    <a class="nav-link py-4" data-toggle="tab" routerLink="./billing" routerLinkActive="active" queryParamsHandling="merge" role="tab">
-                        Billing</a>
+                    <a class="nav-link py-4" data-toggle="tab" routerLink="./members" queryParamsHandling="merge" #rlaMembers="routerLinkActive"
+                        routerLinkActive="active" role="tab">
+                        People</a>
                 </li>
+            </ng-container>
+            <ng-container>
+                <li class="nav-item" *permissionsOnly="Permissions.canAddUser">
+                    <a class="nav-link py-4" data-toggle="tab" routerLink="./import" queryParamsHandling="merge" #rlaImport="routerLinkActive"
+                        routerLinkActive="active" role="tab">
+                        Import </a>
+                </li>
+            </ng-container>
+            <ng-container>
+                <li class="nav-item">
+                    <a class="nav-link py-4" data-toggle="tab" routerLink="./maps" queryParamsHandling="merge" routerLinkActive="active" role="tab">
+                        Maps</a>
+                </li>
+            </ng-container>
+            <ng-container>
+                <li class="nav-item">
+                    <a class="nav-link py-4" data-toggle="tab" routerLink="./settings" queryParamsHandling="merge" #rlaTerminology="routerLinkActive"
+                        routerLinkActive="active" role="tab">
+                        Settings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link py-4" data-toggle="tab" routerLink="./integrations" queryParamsHandling="merge" routerLinkActive="active"
+                        role="tab">
+                        Integrations</a>
+                </li>
+            </ng-container>
 
-            </ul>
-        </div>
-        <div class="col">
-            <h3 class="mb-3 mt-3 w-100 d-flex justify-content-between align-items-center">
-                <span>{{team.name}}</span>
-                <small class="text-muted h6 pull-right">{{team.members.length}} {{team.members.length ===1 ? "person" : "people"}}</small>
-            </h3>
-            <div *ngIf="isOnboardingAddMembers && rlaMembers.isActive" class="accent-blue box-shadow mb-5 ">
-                <div class="d-flex justify-content-start align-items-stretch">
-                    <div class="card col border-0 p-0 tips">
-                        <i class="far fa-lightbulb fa-2x p-2 bg-blue text-white icon" aria-hidden="true"></i>
-                        <div class="card-header border-0 bg-white w-75">
-                            <b>Add or
-                                <a routerLink="./import">import</a> members to your organization to bring your map to life.</b>
-                            <span>
-                                A great place to start is adding the people who have the most responsibility in your organization.
-                            </span>
-                        </div>
-                        <div class="card-footer bg-light rounded-0 border-0">
-                            You can always do this later. Ready to create your map?
-                            <a routerLink="/home">Click here</a>
-                        </div>
+            <li class="nav-item">
+                <a class="nav-link py-4" data-toggle="tab" routerLink="./billing" routerLinkActive="active" queryParamsHandling="merge" role="tab">
+                    Billing</a>
+            </li>
+
+        </ul>
+    </div>
+    <div class="col">
+        <h3 class="mb-3 mt-3 w-100 d-flex justify-content-between align-items-center">
+            <span>{{team.name}}</span>
+            <small class="text-muted h6 pull-right">{{team.members.length}} {{team.members.length ===1 ? "person" : "people"}}</small>
+        </h3>
+        <div *ngIf="isOnboardingAddMembers && rlaMembers.isActive" class="accent-blue box-shadow mb-5 ">
+            <div class="d-flex justify-content-start align-items-stretch">
+                <div class="card col border-0 p-0 tips">
+                    <i class="far fa-lightbulb fa-2x p-2 bg-blue text-white icon" aria-hidden="true"></i>
+                    <div class="card-header border-0 bg-white w-75">
+                        <b>Add or
+                            <a routerLink="./import">import</a> members to your organization to bring your map to life.</b>
+                        <span>
+                            A great place to start is adding the people who have the most responsibility in your organization.
+                        </span>
+                    </div>
+                    <div class="card-footer bg-light rounded-0 border-0">
+                        You can always do this later. Ready to create your map?
+                        <a routerLink="/home">Click here</a>
                     </div>
                 </div>
             </div>
-            <div *ngIf="isOnboardingAddTerminology  && rlaTerminology.isActive" class="accent-blue box-shadow  mb-5 ">
+        </div>
+        <div *ngIf="isOnboardingAddTerminology  && rlaTerminology.isActive" class="accent-blue box-shadow  mb-5 ">
 
-                <div class="d-flex justify-content-start align-items-stretch">
-                    <div class="card col border-0 p-0 tips">
-                        <i class="far fa-lightbulb fa-2x p-2 bg-blue text-white icon" aria-hidden="true"></i>
-                        <div class="card-header border-0 bg-white d-flex justify-content-start align-items-center">
-                            <b>Tell us how your organization calls its people internally, it will help make the maps more realistic.</b>
-                        </div>
-                        <div class="card-footer bg-light rounded-0 border-0">
-                            You can always do this later. Ready to create your map?
-                            <a routerLink="/home">Click here</a>
-                        </div>
+            <div class="d-flex justify-content-start align-items-stretch">
+                <div class="card col border-0 p-0 tips">
+                    <i class="far fa-lightbulb fa-2x p-2 bg-blue text-white icon" aria-hidden="true"></i>
+                    <div class="card-header border-0 bg-white d-flex justify-content-start align-items-center">
+                        <b>Tell us how your organization calls its people internally, it will help make the maps more realistic.</b>
+                    </div>
+                    <div class="card-footer bg-light rounded-0 border-0">
+                        You can always do this later. Ready to create your map?
+                        <a routerLink="/home">Click here</a>
                     </div>
                 </div>
             </div>
-            <router-outlet></router-outlet>
         </div>
+        <router-outlet></router-outlet>
     </div>
 
 </div>

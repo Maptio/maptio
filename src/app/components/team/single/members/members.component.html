@@ -96,7 +96,7 @@
                             <i class="fa fa-info-circle text-muted" aria-hidden="true"></i>
                         </a>
                     </th>
-                    <th scope="col" class="pr-0">
+                    <th scope="col" class="pr-0 d-flex justify-content-end">
                         <button class="btn btn-outline-secondary pull-right" mwlConfirmationPopover title="Are you sure you want to send an invitation email to these {{invitableUsersCount}} people?"
                             placement="top" focusButton="cancel" appendToBody="true" (confirm)="inviteAll()" (cancel)="cancelClicked = true">Invite/resend all</button>
                     </th>
@@ -138,7 +138,7 @@
                             </select>
                         </ng-template>
                     </td>
-                    <td class="pr-0">
+                    <td class="pr-0 d-flex justify-content-end">
                         <ng-container>
                             <ng-container *ngIf="!isDisplaySendingLoader(member.user_id) && !isDisplayUpdatingLoader(member.user_id)">
                                 <ng-container *ngIf="member.isActivationPending && !member.isInvitationSent">

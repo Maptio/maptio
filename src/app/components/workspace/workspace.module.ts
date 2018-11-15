@@ -41,7 +41,7 @@ import { MappingSummaryBreadcrumbs } from "./mapping/summary/summary.breadcrumb"
 
 const routes: Routes = [{
     path: "map/:mapid/:mapslug",
-    data: { breadcrumbs: "{{data.dataset.initiative.name}}" },
+    data: { breadcrumbs: "Map {{data.dataset.initiative.name}}" },
     component: WorkspaceComponent,
     canActivate: [AuthGuard, AccessGuard, BillingGuard],
     resolve: {
