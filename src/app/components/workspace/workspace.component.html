@@ -1,11 +1,9 @@
-<div class="text-muted my-1 saving text-center  small w-100">
+<div [class.invisible]="!isBuildingVisible" class="text-muted my-1 saving text-center  small w-100">
     <i class="fas fa-save mr-1" aria-hidden="true"></i>
     <span *ngIf="isSaving">Saving...</span>
     <span *ngIf="!isSaving">All changes saved</span>
 </div>
-<div class="row h-100" style="
-padding-bottom: 1.8rem;
-">
+<div class="row h-100" style="padding-bottom: 1.8rem;">
 
     <div class="col-12 position-relative">
 
