@@ -1,5 +1,5 @@
 <div class="d-flex flex-column flex-xl-row justify-content-between align-items-stretch row">
-    <div class="d-flex flex-column justify-content-center align-items-center my-5" [class.col-12]="!auth.allAuthenticated()" [class.col-xl-6]="!auth.allAuthenticated()" [class.w-100]="auth.allAuthenticated()">
+    <div class="d-flex flex-column justify-content-center align-items-center" [class.col-12]="!auth.allAuthenticated()" [class.col-xl-6]="!auth.allAuthenticated()" [class.w-100]="auth.allAuthenticated()">
         <div *ngIf="!auth.allAuthenticated()" class="text-blue text-center">
             <h1>Maptio helps you organise without traditional management hierarchy</h1>
             <h4>Visualise your organisation in nested circles</h4>
