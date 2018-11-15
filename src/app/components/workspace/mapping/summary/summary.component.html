@@ -1,56 +1,38 @@
-<div class="my-5">
-    <div class="row cursor-auto">
-        <div class="d-flex col-12">
-            <div class="col" *ngIf="selectedMember">
-                <summary-personal [datasetId]="datasetId" [member]="selectedMember" [team]="team" [initiative]="initiative"></summary-personal>
-            </div>
-            <div [class.col-4]="selectedMember" [class.col-12]="!selectedMember" [class.border-left]="selectedMember">
-                <div class="card p-2 border-0" [class.mx-3]="!selectedMember" [class.mx-0]="selectedMember">
-                    <div *ngIf="!selectedMember">
-                        <h2>Directory</h2>
-                        <h6 class="text-muted" *ngIf="initiative">This is a directory of people involved in map
-                            <a routerLink="./circles">{{initiative?.name}}</a>. Select a member to see their circles: </h6>
-                    </div>
-                    <h6 *ngIf="selectedMember"> Other people</h6>
-                    <div class="form-group form-inline d-flex flex-column align-items-start w-75" *ngIf="initiative && selectedMember">
-                        <input id="inputQuickFilter" #inputQuickFilter placeholder="Find a person" type="text" class="form-control w-100" (keyup)="onKeyDown(inputQuickFilter.value)">
-                        <div *ngIf="inputQuickFilter.value" class="d-flex justify-content-between align-items-center w-100">
-                            <span class="text-muted small">{{filteredMembers.length}}/{{members?.length}} people</span>
-            
-                            <button class="btn btn-link btn-sm px-0" (click)="onKeyDown('');inputQuickFilter.value=''">
-                                Show all
-                            </button>
-                        </div>
-                        
-                        
-                        <!-- <div class="input-group-append">
-                            <button ngbTooltip="Clear search" placement="top" container="body" class="btn btn-dark" (click)="onKeyDown('');inputQuickFilter.value=''">
-                                <i class="fas fa-eraser" aria-hidden="true"></i>
-                            </button>
-                        </div> -->
+<div class="row cursor-auto">
+    <div class="d-flex col-12">
+        <div class="w-75 mr-3" *ngIf="selectedMember">
+            <summary-personal [datasetId]="datasetId" [member]="selectedMember" [team]="team" [initiative]="initiative"></summary-personal>
+        </div>
+        <div [class.col-3]="selectedMember" [class.w-100]="!selectedMember" [class.border-left]="selectedMember">
+            <div class="card border-0">
+                <div *ngIf="!selectedMember">
+                    <h2>Directory</h2>
+                    <h6 class="text-muted" *ngIf="initiative">
 
+                        This is a directory of organisation
+                        <a routerLink="/teams/{{team.team_id}}/{{team.getSlug()}}">{{team.name}}</a>. Select a person to see their circles in map
+                        <a routerLink="../circles">{{initiative?.name}}</a>: </h6>
+                </div>
+                <h6 *ngIf="selectedMember"> Other people</h6>
+                <div class="form-group form-inline d-flex flex-column align-items-start" [class.w-25]="!selectedMember" [class.my-3]="!selectedMember" *ngIf="initiative">
+                    <input id="inputQuickFilter" #inputQuickFilter placeholder="Find a person" type="text" class="form-control w-100" (keyup)="onKeyDown(inputQuickFilter.value)">
+                    <div [class.invisible]="!inputQuickFilter.value" class="d-flex justify-content-between align-items-center w-100">
+                        <span class="text-muted small">{{filteredMembers.length}}/{{members?.length}} people</span>
 
+                        <button class="btn btn-link btn-sm px-0" (click)="onKeyDown('');inputQuickFilter.value=''">
+                            Show all
+                        </button>
                     </div>
                 </div>
-
-
-                <ul class="nav flex-column nav-pills" *ngIf="selectedMember">
-                    <li *ngFor="let member of filteredMembers" class="nav-item">
-                        <a class="nav-link" routerLink="." [queryParams]="{member: member.shortid}" [class.active]="selectedMember?.user_id === member?.user_id">
-                            <img [src]="member.picture" width="32" height="32" class="rounded-circle mr-1">{{member.name}}
-                        </a>
-                    </li>
-                </ul>
-                <ul class="columns p-0" *ngIf="!selectedMember">
-                    <li *ngFor="let member of filteredMembers" class="nav-item">
-                        <a class="nav-link" routerLink="." [queryParams]="{member: member.shortid}" [class.active]="selectedMember?.user_id === member?.user_id">
-                            <img [src]="member.picture" width="32" height="32" class="rounded-circle mr-1">{{member.name}}
-                        </a>
-                    </li>
-                </ul>
             </div>
+           
+            <ul class="card-columns my-3  p-0" [class.five-columns]="!selectedMember"  [class.one-column]="selectedMember">
+                <a class="card" *ngFor="let member of filteredMembers" routerLink="." [queryParams]="{member: member.shortid}" [class.active]="selectedMember?.user_id === member?.user_id">
+                    <div class="card-body" >
+                        <img *ngIf="member.picture" [src]="member.picture" width="32" height="32" class="rounded-circle mr-1">{{member.name}}
+                    </div>
+                </a>
+            </ul>
         </div>
     </div>
-
-
 </div>

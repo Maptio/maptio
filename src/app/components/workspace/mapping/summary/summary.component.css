@@ -11,3 +11,15 @@ ul.columns{
 ul.columns li{
     list-style: none;
 }
+
+.card-columns.five-columns {
+    column-count: 5;
+}
+
+.card-columns.one-column {
+    column-count: 1;
+}
+
+a.card:hover{
+    background-color: var(--light);
+}
