@@ -167,6 +167,19 @@ transition: background-image 0.2s ease-in-out;
   filter:grayscale();
 }
 
+.col-3-half{
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 29.1666667% ;
+  flex: 0 0 29.1666667%;
+  max-width: 29.1666667%;
+  position: relative;
+  width: 100%;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+
 .col-half{
   -webkit-box-flex: 0;
   -ms-flex: 0 0 36px;
