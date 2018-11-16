@@ -86,9 +86,28 @@ export class UIService {
 
   public getContextMenuCoordinates(mouse: any, matrix: any) {
     let center = { x: window.pageXOffset, y: window.pageYOffset };
-    return {
+    let canvas = { width: this.getCanvasWidth(), height: this.getCanvasHeight() };
+    let divider = 4; //because context-menu is col-3;
+
+    let initialPosition = {
       x: this.getScreenCoordinates(center.x + mouse.x, center.y + mouse.y, matrix).x,
       y: this.getScreenCoordinates(center.x + mouse.x, center.y + mouse.y, matrix).y
+    }
+
+    let adjustments = {
+      horizontal: initialPosition.x + canvas.width / divider > canvas.width
+        ? -canvas.width / divider
+        : -2
+      ,
+
+      vertical: initialPosition.y + canvas.height / divider > canvas.height
+        ? -canvas.height / divider
+        : -2
+    }
+
+    return {
+      x: initialPosition.x + adjustments.horizontal,
+      y: initialPosition.y + adjustments.vertical
     }
   }
 
