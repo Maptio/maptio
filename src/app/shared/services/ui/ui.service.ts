@@ -97,12 +97,12 @@ export class UIService {
     let adjustments = {
       horizontal: initialPosition.x + canvas.width / divider > canvas.width
         ? -canvas.width / divider
-        : -2
+        : 0
       ,
 
       vertical: initialPosition.y + canvas.height / divider > canvas.height
         ? -canvas.height / divider
-        : -2
+        : 0
     }
 
     return {
