@@ -235,10 +235,25 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .zoom()
       .scaleExtent([1 / 3, this._isFullDisplayMode ? 3 : 4 / 3])
       .on("zoom", zoomed)
-      .on("end", () => {
-        let transform = d3.event.transform;
+      .on("end", (d, e, i): any => {
+        const ourNodes = d3.selectAll(".node").selectAll("foreignObject.name");
+        if (ourNodes) {
+          ourNodes
+            .style("opacity", (d: any, i: number, e: Array<HTMLElement>): number => {
+              if (!e[i] || !e[i].getBoundingClientRect) {
+                return;
+              }
+              const domSize = e[i].getBoundingClientRect();
+              if (domSize && domSize.width < 100) {
+                return 0;
+              }
+              return 1;
+            });
+        }
+
+        const transform = d3.event.transform;
         svg.attr("scale", transform.k);
-        let tagFragment = this.tagsState
+        const tagFragment = this.tagsState
           .filter(t => t.isSelected)
           .map(t => t.shortid)
           .join(",");
@@ -262,7 +277,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           .scale(this.scale)
       );
       svg.call(zooming);
-    } catch (error) { }
+    } catch (error) { console.log(error); }
 
     function zoomed() {
       g.attr("transform", d3.event.transform);
@@ -578,7 +593,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       });
 
 
-    let initiativeName = initiativeNoChildren.select("foreignObject.name.no-children")
+    const initiativeName = initiativeNoChildren.select("foreignObject.name.no-children")
       .attr("id", function (d: any) {
         return `${d.data.id}`;
       })
@@ -598,12 +613,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .style("pointer-events", function (d: any) {
         return isLeafDisplayed(d) ? "auto" : "none";
       })
-      .html(function (d: any) {
-        let fs = `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`;
-        return `<div style="font-size: ${fs}; background: none; display: inline-block;pointer-events: none">${d.data.name}</div>`;
-      })
-
-
+      .html(function (d: any): string {
+        const fs = `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`;
+        return `<div style="font-size: ${fs}; background: none; text-align: center; pointer-events: none">${d.data.name}</div>`;
+      });
 
     // let initiativeName = initiativeNoChildren.select("text.name.no-children")
     //   .attr("id", function (d: any) {
@@ -865,10 +878,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .style("opacity", function (d: any) {
               return isLeafDisplayed(d) ? 1 : 0;
             })
-            .html(function (d: any) {
-              let multiplier = svg.attr("data-font-multiplier");
-              let fs = `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * multiplier)}rem`;
-              return `<div style="font-size: ${fs}; background: none;overflow: initial; display: inline-block; pointer-events:none">${d.data.name}</div>`;
+            .html(function (d: any): string {
+              const multiplier = svg.attr("data-font-multiplier");
+              const fs = `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * multiplier)}rem`;
+              return `<div style="font-size: ${fs}; background: none; overflow: initial; text-align: center; pointer-events:none">${d.data.name}</div>`;
             })
         })
 
