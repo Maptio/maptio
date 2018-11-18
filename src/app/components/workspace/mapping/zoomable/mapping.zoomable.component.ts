@@ -273,8 +273,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
 
     function hideSmallElements(minWidth: number): void {
-      const textNodes = d3.selectAll(".node").selectAll("foreignObject.name");
-      if (textNodes) {
+      const textNodes = d3.selectAll(".node foreignObject.name");
+      if (textNodes && !textNodes.empty()) {
         textNodes.style("opacity", (d: any, i: number, e: Array<HTMLElement>): number => {
           if (e[i] && e[i].getBoundingClientRect && e[i].getBoundingClientRect().width < minWidth) {
             return 0;
