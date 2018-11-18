@@ -114,6 +114,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   RATIO_FOR_VISIBILITY = 0.08;
   OPACITY_DISAPPEARING = 0.1;
   MAX_NUMBER_LETTERS_PER_CIRCLE = 15;
+  MIN_TEXTBOX_WIDTH = 100;
   T: any;
 
   POSITION_INITIATIVE_NAME = { x: 0.9, y: 0.1, fontRatio: 1 };
@@ -209,6 +210,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
   }
 
+
+
   init() {
     this.uiService.clean();
     let d3 = this.d3;
@@ -236,21 +239,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .scaleExtent([1 / 3, this._isFullDisplayMode ? 3 : 4 / 3])
       .on("zoom", zoomed)
       .on("end", (d, e, i): any => {
-        const ourNodes = d3.selectAll(".node").selectAll("foreignObject.name");
-        if (ourNodes) {
-          ourNodes
-            .style("opacity", (d: any, i: number, e: Array<HTMLElement>): number => {
-              if (!e[i] || !e[i].getBoundingClientRect) {
-                return;
-              }
-              const domSize = e[i].getBoundingClientRect();
-              if (domSize && domSize.width < 100) {
-                return 0;
-              }
-              return 1;
-            });
-        }
-
+        hideSmallElements(this.MIN_TEXTBOX_WIDTH);
         const transform = d3.event.transform;
         svg.attr("scale", transform.k);
         const tagFragment = this.tagsState
@@ -281,6 +270,18 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     function zoomed() {
       g.attr("transform", d3.event.transform);
+    }
+
+    function hideSmallElements(minWidth: number): void {
+      const textNodes = d3.selectAll(".node").selectAll("foreignObject.name");
+      if (textNodes) {
+        textNodes.style("opacity", (d: any, i: number, e: Array<HTMLElement>): number => {
+          if (e[i] && e[i].getBoundingClientRect && e[i].getBoundingClientRect().width < minWidth) {
+            return 0;
+          }
+          return 1;
+        });
+      }
     }
 
     this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
@@ -407,6 +408,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let DEFAULT_PICTURE_ANGLE = this.DEFAULT_PICTURE_ANGLE;
     let PADDING_CIRCLE = 20
     let MAX_NUMBER_LETTERS_PER_CIRCLE = this.MAX_NUMBER_LETTERS_PER_CIRCLE;
+    let MIN_TEXTBOX_WIDTH = this.MIN_TEXTBOX_WIDTH;
 
     let pack = d3
       .pack()
