@@ -222,6 +222,8 @@ export class TeamMembersComponent implements OnInit {
             return;
         }
         this.isAlreadyInTeam = false;
+        newUser.teams.push(this.team.team_id);
+
         this.userFactory.upsert(newUser)
             .then((result: boolean) => {
                 return result;
