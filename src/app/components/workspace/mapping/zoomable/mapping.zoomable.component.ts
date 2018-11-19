@@ -242,6 +242,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         hideSmallElements(this.MIN_TEXTBOX_WIDTH);
         const transform = d3.event.transform;
         svg.attr("scale", transform.k);
+        /*
         const tagFragment = this.tagsState
           .filter(t => t.isSelected)
           .map(t => t.shortid)
@@ -254,6 +255,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             ["tags", tagFragment]
           ])
         );
+        */
       });
 
     try {
@@ -273,15 +275,15 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
 
     function hideSmallElements(minWidth: number): void {
-      const textNodes = d3.selectAll(".node foreignObject.name");
-      if (textNodes && !textNodes.empty()) {
-        textNodes.style("opacity", (d: any, i: number, e: Array<HTMLElement>): number => {
+      d3.transition("reveal")
+        .duration(750)
+        .selectAll(".node foreignObject.name")
+        .style("opacity", (d: any, i: number, e: Array<HTMLElement>): number => {
           if (e[i] && e[i].getBoundingClientRect && e[i].getBoundingClientRect().width < minWidth) {
             return 0;
           }
           return 1;
         });
-      }
     }
 
     this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
