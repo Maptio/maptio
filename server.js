@@ -174,5 +174,5 @@ app.listen(app.get("port"), '0.0.0.0', function onStart(err) {
   if (err) {
     console.log(err);
   }
-  console.info('==> 🌎 Listening on port %s. Open up http://127.0.0.1:%s/ in your browser.', app.get("port"), app.get("port"));
+  console.info('==> 🌎 Listening on port %s. Open up http://localhost:%s/ in your browser.', app.get("port"), app.get("port"));
 });
