@@ -85,9 +85,13 @@ export class UIService {
   }
 
   public getContextMenuCoordinates(mouse: any, matrix: any) {
+
+    let m = document.getElementById("maptio-context-menu");
+
     let center = { x: window.pageXOffset, y: window.pageYOffset };
     let canvas = { width: this.getCanvasWidth(), height: this.getCanvasHeight() };
     let divider = 4; //because context-menu is col-3;
+    let menu = { width: m.clientWidth, height: 350 }
 
     let initialPosition = {
       x: this.getScreenCoordinates(center.x + mouse.x, center.y + mouse.y, matrix).x,
@@ -95,12 +99,12 @@ export class UIService {
     }
 
     let adjustments = {
-      horizontal: initialPosition.x + canvas.width / divider > canvas.width
-        ? -canvas.width / divider
+      horizontal: initialPosition.x + menu.width > canvas.width
+        ? -menu.width
         : 0
       ,
 
-      vertical: initialPosition.y + canvas.height / divider > canvas.height
+      vertical: initialPosition.y + menu.height > canvas.height
         ? -canvas.height / divider
         : 0
     }
