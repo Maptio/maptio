@@ -13,7 +13,7 @@
 .tree-node-collapsed {
     background-image: none;
     /*url("/assets/images/plus.png");*/
-    background-size: 15px;
+    background-size: 1rem;
     background-repeat: no-repeat;
 }
 
@@ -50,53 +50,55 @@ display: flex;
 
 .add:before {
     content: "\f067";
-    font-family: FontAwesome;
+    font-family: "Font Awesome 5 Free";
+    font-weight: bold;
 }
 
 .remove:before {
     content: "\f1f8";
-    font-family: FontAwesome;
+    font-family: "Font Awesome 5 Free";
+    font-weight: bold;
 }
 
-.edit:before {
-    /* content: "\f040"; */
-    content : "\f07c";
-    font-family: FontAwesome;
+.edit:before {    
+    content: "\f304";
+    font-family: "Font Awesome 5 Free";
+    font-weight: bold;
 }
 
 .move-up:before{
     content: "\f176";
-    font-family: FontAwesome;
+    font-family: "Font Awesome 5 Free";
     
 }
 
 .move-down:before{
     content: "\f175";
-    font-family: FontAwesome;
+    font-family: "Font Awesome 5 Free";
    
 }
 
 .move-left:before{
     content: "\f148";
-    font-family: FontAwesome;
+    font-family: "Font Awesome 5 Free";
     
 }
 
 .move-right:before{
     content: "\f149";
-    font-family: FontAwesome;
+    font-family: "Font Awesome 5 Free";
     
 }
 
 .open-menu:before{
     content: "\f141";
-    font-family: FontAwesome;
+    font-family: "Font Awesome 5 Free";
     
 }
 
 .zoom:before {
     content: "\f002";
-    font-family: FontAwesome;
+    font-family: "Font Awesome 5 Free";
 }
 
 .control {

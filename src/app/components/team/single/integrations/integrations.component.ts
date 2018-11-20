@@ -52,7 +52,6 @@ export class TeamIntegrationsComponent implements OnInit {
         })
             .filter(params => params.code !== undefined && params.code !== "" && params.state !== undefined && params.state !== "")
             .flatMap(params => {
-                // console.log(localStorage.getItem("slack_state"), params.state)
                 if (localStorage.getItem("slack_state") !== params.state) {
                     throw new Error("State mismatch!")
                 }
@@ -78,7 +77,11 @@ export class TeamIntegrationsComponent implements OnInit {
                 else {
                     // do nothing, its probably
                 }
-            }, err => { this.isSlackAuthError = true; this.cd.markForCheck(); })
+            }, err => {
+                this.isSlackAuthError = true;
+                console.error(err);
+                this.cd.markForCheck();
+            })
     }
 
     updateTeam(slackAccessToken: string, slackWebookDetails: any, slackTeamName: string, slackTeamId: string) {

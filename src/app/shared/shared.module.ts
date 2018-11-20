@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
+import { ClosableDirective } from './directives/closable.directive';
 
 
 
@@ -20,14 +21,16 @@ import { RouterModule } from '@angular/router';
     declarations: [
         PermissionsDirective,
         StickyPopoverDirective,
-        DebounceDirective
+        DebounceDirective,
+        ClosableDirective
     ],
     providers: [
     ],
     exports: [
         PermissionsDirective,
         StickyPopoverDirective,
-        DebounceDirective
+        DebounceDirective,
+        ClosableDirective
     ]
 })
 export class SharedModule { }

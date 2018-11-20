@@ -1,6 +1,10 @@
 p.markdown {
-    margin-bottom: 0;
-    padding-left: 0.25rem;
+    /* margin-bottom: 0; */
+    /* padding-left: 0.25rem; */
+}
+
+markdown.no-margin > p.markdown{
+    margin-bottom: 0!important;
 }
 
 .markdown-link {

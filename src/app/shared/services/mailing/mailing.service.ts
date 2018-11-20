@@ -31,7 +31,6 @@ export class MailingService {
     }
 
     public sendConfirmation(from: string, to: string[], url: string): Promise<boolean> {
-        // console.log("sen confirmation")
         let email = {
             from: from,
             subject: `Maptio Account Confirmation`,

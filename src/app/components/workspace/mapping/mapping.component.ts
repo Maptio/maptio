@@ -8,26 +8,30 @@ import {
   EventEmitter,
   Input,
   Output,
+  ViewChild,
+  ElementRef,
 } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { compact } from "lodash";
-import { BehaviorSubject, ReplaySubject, Subject, Subscription } from "rxjs/Rx";
+import { BehaviorSubject, ReplaySubject, Subject, Subscription } from "rxjs";
 
 import { saveAs } from "file-saver"
-import { Initiative } from "./../../../shared/model/initiative.data";
-import { SelectableTag, Tag } from "./../../../shared/model/tag.data";
-import { Team } from "./../../../shared/model/team.data";
-import { DataService } from "./../../../shared/services/data.service";
-import { UIService } from "./../../../shared/services/ui/ui.service";
-import { URIService } from "./../../../shared/services/uri.service";
+import { Initiative } from "../../../shared/model/initiative.data";
+import { SelectableTag, Tag } from "../../../shared/model/tag.data";
+import { Team } from "../../../shared/model/team.data";
+import { DataService } from "../../../shared/services/data.service";
+import { UIService } from "../../../shared/services/ui/ui.service";
+import { URIService } from "../../../shared/services/uri.service";
 import { IDataVisualizer } from "./mapping.interface";
-import { MemberSummaryComponent } from "./member-summary/member-summary.component";
 import { MappingNetworkComponent } from "./network/mapping.network.component";
 import { MappingTreeComponent } from "./tree/mapping.tree.component";
 import { MappingZoomableComponent } from "./zoomable/mapping.zoomable.component";
-import { ExportService } from "./../../../shared/services/export/export.service";
+import { ExportService } from "../../../shared/services/export/export.service";
 import { Intercom } from "ng-intercom";
+import { User } from "../../../shared/model/user.data";
+import { MappingSummaryComponent } from "./summary/summary.component";
+import { SearchComponent } from "../search/search.component";
 
 // import { MappingNetworkComponent } from "./network/mapping.network.component";
 // import { MappingCirclesComponent } from "./circles/mapping.circles.component";
@@ -42,7 +46,7 @@ declare var canvg: any;
   entryComponents: [
     MappingTreeComponent,
     MappingNetworkComponent,
-    MemberSummaryComponent,
+    MappingSummaryComponent,
     MappingZoomableComponent
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -73,6 +77,7 @@ export class MappingComponent {
   //   public isTagSettingActive: boolean;
   public isSettingToggled: boolean;
   public isSearchToggled: boolean;
+  public isMapSettingsDisabled: boolean;
 
   public zoom$: Subject<number>;
   public isReset$: Subject<boolean>;
@@ -102,7 +107,7 @@ export class MappingComponent {
   @Input("tags") selectableTags: Array<SelectableTag>;
   @Input("isEmptyMap") isEmptyMap: Boolean;
   @Output("showDetails") showDetails = new EventEmitter<Initiative>();
-  @Output("addInitiative") addInitiative = new EventEmitter<Initiative>();
+  @Output("addInitiative") addInitiative = new EventEmitter<{ node: Initiative, subNode: Initiative }>();
   @Output("removeInitiative") removeInitiative = new EventEmitter<Initiative>();
   @Output("moveInitiative")
   moveInitiative = new EventEmitter<{
@@ -115,8 +120,8 @@ export class MappingComponent {
   @Output("expandTree") expandTree = new EventEmitter<boolean>();
   @Output("toggleSettingsPanel")
   toggleSettingsPanel = new EventEmitter<boolean>();
-  @Output("applySettings")
-  applySettings = new EventEmitter<{ initiative: Initiative; tags: Tag[] }>();
+  @Output("applySettings") applySettings = new EventEmitter<{ initiative: Initiative; tags: Tag[] }>();
+  @Output("toggleEditingPanelsVisibility") toggleEditingPanelsVisibility = new EventEmitter<Boolean>();
 
   public componentFactory: ComponentFactory<IDataVisualizer>;
   // public layout: string;
@@ -129,13 +134,15 @@ export class MappingComponent {
     : "#000";
   mapColor = localStorage.getItem("MAP_COLOR")
     ? localStorage.getItem("MAP_COLOR")
-    : "#f8f9fa";
+    : "#aaa";
   fontSize = Number.parseFloat(localStorage.getItem("FONT_SIZE"))
     ? Number.parseFloat(localStorage.getItem("FONT_SIZE"))
     : 1;
 
   isFiltersToggled: boolean = false;
   isSearchDisabled: boolean = false;
+  public _toggleOptions: Boolean = false;
+  public toggleOptions$: BehaviorSubject<Boolean> = new BehaviorSubject(this._toggleOptions)
 
   constructor(
     private dataService: DataService,
@@ -143,9 +150,10 @@ export class MappingComponent {
     private route: ActivatedRoute,
     private analytics: Angulartics2Mixpanel,
     private uriService: URIService,
-    private uiService: UIService,
+    public uiService: UIService,
     private exportService: ExportService,
-    private intercom:Intercom
+    private intercom: Intercom,
+    private router: Router
   ) {
     this.zoom$ = new Subject<number>();
     this.isReset$ = new Subject<boolean>();
@@ -162,25 +170,34 @@ export class MappingComponent {
       datasetId: string;
     }>();
 
-    this.VIEWPORT_HEIGHT = uiService.getCanvasHeight();
-    this.VIEWPORT_WIDTH = uiService.getCanvasWidth();
-
-
   }
 
-  ngAfterViewInit() { }
+  ngAfterViewInit() {
+    this.route.queryParams.subscribe(params => {
+      if (params.id) {
+        this.emitOpenInitiative(new Initiative({ id: <number>params.id }));
+      }
+    })
+  }
 
   onActivate(component: IDataVisualizer) {
 
+
+    this.VIEWPORT_HEIGHT = this.uiService.getCanvasHeight();
+    this.VIEWPORT_WIDTH = this.uiService.getCanvasWidth();
+
+    component.showToolipOf$.asObservable().subscribe((tooltip: { initiatives: Initiative[], isNameOnly: boolean }) => {
+      this.showTooltip(tooltip.initiatives, tooltip.isNameOnly);
+    })
+
     component.showDetailsOf$.asObservable().subscribe(node => {
-      this.showDetails.emit(node);
-    });
-    component.addInitiative$.asObservable().subscribe(node => {
-      this.addInitiative.emit(node);
-    });
-    component.removeInitiative$.asObservable().subscribe(node => {
-      this.removeInitiative.emit(node);
-    });
+      this.emitOpenInitiative(node)
+    })
+
+    component.showContextMenuOf$.asObservable().subscribe(node => {
+      this.showContextMenu(node);
+    })
+
     component.moveInitiative$
       .asObservable()
       .subscribe(({ node: node, from: from, to: to }) => {
@@ -208,45 +225,38 @@ export class MappingComponent {
             (s: string) => new SelectableTag({ shortid: s, isSelected: true })
           )
         : [];
-    // let membersState = this.uriService.parseFragment(f).has("users") && this.uriService.parseFragment(f).get("users")
-    //     ? this.uriService.parseFragment(f).get("users")
-    //         .split(",")
-    //         .map((s: string) => new SelectableUser({ shortid: s, isSelected: true }))
-    //     : [];
-
-    // this.layout = this.getLayout(component);
 
     component.width = this.VIEWPORT_WIDTH;
     component.height = this.VIEWPORT_HEIGHT;
-    // console.log("svg width", this.VIEWPORT_WIDTH, "screen width", window.screen.availWidth, "browser width", window.innerWidth)
+    console.log(component.constructor, "width", component.width, "height", component.height)
 
     component.margin = 50;
     component.zoom$ = this.zoom$.asObservable();
     component.selectableTags$ = this.selectableTags$.asObservable();
-    // component.selectableUsers$ = this.selectableUsers$.asObservable();
     component.fontSize$ = this.fontSize$.asObservable();
     component.fontColor$ = this.fontColor$.asObservable();
     component.mapColor$ = this.mapColor$.asObservable();
     component.zoomInitiative$ = this.zoomToInitiative$.asObservable();
     component.toggleOptions$ = this.toggleOptions$.asObservable();
-    // component.isLocked$ = this.isLocked$.asObservable();
     component.translateX = this.x;
     component.translateY = this.y;
     component.scale = this.scale;
     component.tagsState = tagsState;
     this.selectableTags$.next(tagsState);
-    // this.selectableUsers$.next(membersState)
 
     component.analytics = this.analytics;
     component.isReset$ = this.isReset$.asObservable();
 
-    if (component.constructor === MemberSummaryComponent) {
-      this.isSearchDisabled = true;
-      this.isSearchToggled = false;
+    if (component.constructor === MappingSummaryComponent) {
+      this.isMapSettingsDisabled = true;
+      this.toggleEditingPanelsVisibility.emit(false)
     }
     else {
       this.isSearchDisabled = false;
+      this.isMapSettingsDisabled = false;
+      this.toggleEditingPanelsVisibility.emit(true)
     }
+    // this.toggleOptions(false);
   }
 
   onDeactivate(component: any) { }
@@ -254,6 +264,11 @@ export class MappingComponent {
   ngOnInit() {
     this.subscription = this.route.params
       .do(params => {
+        if (this.datasetId !== params["mapid"]) {
+          this.showTooltip(null, null);
+          this.showContextMenu({ initiatives: null, x: 0, y: 0, isReadOnlyContextMenu: null })
+
+        }
         this.datasetId = params["mapid"];
         this.slug = params["mapslug"];
         this.cd.markForCheck();
@@ -283,14 +298,9 @@ export class MappingComponent {
                   new SelectableTag({ shortid: s, isSelected: true })
               )
             : <SelectableTag[]>[];
-        // let fragmentUsers = this.uriService.parseFragment(fragment).has("users") && this.uriService.parseFragment(fragment).get("users")
-        //     ? this.uriService.parseFragment(fragment).get("users")
-        //         .split(",")
-        //         .map((s: string) => new SelectableUser({ shortid: s, isSelected: true }))
-        //     : <SelectableUser[]>[];
 
         this.tags = compact<SelectableTag>(
-          data.tags.map((dataTag: SelectableTag) => {
+          data.dataset.tags.map((dataTag: SelectableTag) => {
             let searchTag = fragmentTags.find(
               t => t.shortid === dataTag.shortid
             );
@@ -303,11 +313,6 @@ export class MappingComponent {
           })
         );
 
-        // this.members = _.compact<SelectableUser>(data.members.map((dataUser: SelectableUser) => {
-        //     let searchUser = fragmentUsers.find(t => t.shortid === dataUser.shortid);
-        //     return new SelectableUser({ shortid: dataUser.shortid, name: dataUser.name, picture: dataUser.picture, isSelected: searchUser !== undefined })
-
-        // }));
         this.datasetName = data.initiative.name;
         this.initiative = data.initiative;
         this.team = data.team;
@@ -325,26 +330,45 @@ export class MappingComponent {
   getFragment(component: IDataVisualizer) {
     switch (component.constructor) {
       case MappingZoomableComponent:
-        return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_WIDTH / 2 - 180}&scale=1`;
+        return `x=${(this.VIEWPORT_WIDTH - 20) / 2 }&y=${(this.VIEWPORT_WIDTH - 20) / 2}&scale=1`;
       case MappingTreeComponent:
         return `x=${this.VIEWPORT_WIDTH / 10}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`;
       case MappingNetworkComponent:
         return `x=0&y=${-this.VIEWPORT_HEIGHT / 4}&scale=1`;
-      case MemberSummaryComponent:
+      case MappingSummaryComponent:
         return `x=0&y=0&scale=1`;
       default:
-        return `x=${this.VIEWPORT_WIDTH / 2}&y=${this.VIEWPORT_HEIGHT /
-          2}&scale=1`;
+        return `x=${(this.VIEWPORT_WIDTH - 20) / 2 }&y=${(this.VIEWPORT_WIDTH - 20) / 2}&scale=1`;
     }
   }
 
-
-  public _toggleOptions: Boolean = false;
-  public toggleOptions$: BehaviorSubject<Boolean> = new BehaviorSubject(this._toggleOptions)
-
   toggleOptions(isActive: Boolean) {
     this._toggleOptions = isActive ? !this._toggleOptions : false;
+    console.log(document.querySelector("div.switch"))
+    document.querySelector("div.switch").classList.toggle("show");
     this.toggleOptions$.next(this._toggleOptions)
+  }
+
+  hoveredInitiatives: Initiative[];
+  isNameOnly: boolean;
+  selectedInitiative: Initiative;
+  selectedInitiatives: Initiative[];
+  selectedInitiativeX: Number;
+  selectedInitiativeY: Number;
+  isReadOnlyContextMenu: boolean;
+
+  showContextMenu(context: { initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean }) {
+    this.isReadOnlyContextMenu = context.isReadOnlyContextMenu;
+    this.selectedInitiatives = context.initiatives;
+    this.selectedInitiativeX = context.x;
+    this.selectedInitiativeY = context.y;
+    this.cd.markForCheck();
+  }
+
+  showTooltip(nodes: Initiative[], isNameOnly: boolean) {
+    this.hoveredInitiatives = nodes;
+    this.isNameOnly = isNameOnly;
+    this.cd.markForCheck();
   }
 
   zoomOut() {
@@ -413,16 +437,26 @@ export class MappingComponent {
   }
 
   addFirstNode() {
-    this.addInitiative.emit(this.initiative);
+    this.addInitiative.emit({ node: this.initiative, subNode: new Initiative() });
     this.openTreePanel.emit(true);
     this.expandTree.emit(true);
     this.analytics.eventTrack("Map", { mode: "instruction", action: "add", team: this.team.name, teamId: this.team.team_id });
   }
 
-  public broadcastTagsSettings(tags: SelectableTag[]) {
-    // console.log("broadcast settings")
-    this.applySettings.emit({ initiative: this.initiative, tags: tags });
+  emitAddInitiative(context: { node: Initiative, subNode: Initiative }) {
+    this.addInitiative.emit({ node: context.node, subNode: context.subNode })
+  }
 
+  emitOpenInitiative(node: Initiative) {
+    this.showDetails.emit(node)
+  }
+
+  emitRemoveInitiative(node: Initiative) {
+    this.removeInitiative.emit(node)
+  }
+
+  public broadcastTagsSettings(tags: SelectableTag[]) {
+    this.applySettings.emit({ initiative: this.initiative, tags: tags });
   }
 
   public broadcastTagsSelection(tags: SelectableTag[]) {
@@ -443,6 +477,15 @@ export class MappingComponent {
     this.zoomToInitiative$.next(selected);
   }
 
+  goToUserSummary(selected: User) {
+    this.isSearchToggled = true;
+    this.isSearchDisabled = true;
+    this.showTooltip(null, null);
+    this.cd.markForCheck();
+    this.router.navigateByUrl(`/map/${this.datasetId}/${this.slug}/summary?member=${selected.shortid}`);
+
+  }
+
   sendSlackNotification(message: string) {
     this.isPrinting = true;
     this.hasNotified = false;
@@ -456,10 +499,8 @@ export class MappingComponent {
     svg.setAttribute("xmlns", "http://www.w3.org/2000/svg")
     svg.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink")
     let svgNode = this.downloadSvg(svg, "image.png", w, h);
-    // console.log(((<any>svgNode).outerHTML)
     this.exportService.sendSlackNotification((<any>svgNode).outerHTML, this.datasetId, this.initiative, this.team.slack, message)
       .subscribe((result) => {
-        // console.log("result", result);
         this.isPrinting = false;
         this.hasNotified = true;
         this.intercom.trackEvent("Sharing map", { team: this.team.name, teamId: this.team.team_id, datasetId: this.datasetId, mapName: this.initiative.name });
@@ -474,7 +515,6 @@ export class MappingComponent {
   }
 
   // print() {
-  //   console.log("printing");
   //   // the canvg call that takes the svg xml and converts it to a canvas
   //   canvg("canvas", document.getElementById("svg_circles").outerHTML);
 
@@ -503,7 +543,6 @@ export class MappingComponent {
   //   svg.setAttribute("xmlns", "http://www.w3.org/2000/svg")
   //   svg.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink")
   //   let svgNode = this.downloadSvg(svg, "image.png", w, h);
-  //   console.log(svgNode.outerHTML)
   //   this.exportService.sendSlackNotification(svgNode.outerHTML, this.datasetId, this.datasetName, this.team.slack)
   //     .subscribe(() => { this.isPrinting = false; this.cd.markForCheck() })
 
@@ -513,30 +552,18 @@ export class MappingComponent {
     let containerElements = ["svg", "g"];
     for (let cd = 0; cd < destinationNode.childNodes.length; cd++) {
       let child = destinationNode.childNodes[cd];
-      // if (child.tagName === "foreignObject") {
-      //   if (child.childNodes[0].tagName === "DIV") {
-      //     let bodyChild = document.createElement("body");
-      //     bodyChild.setAttribute("xmnls", "http://www.w3.org/1999/xhtml");
-      //     let divChild = document.createElement("div");
-      //     bodyChild.style.background = "none";
-      //     bodyChild.style.overflow = "initial";
-      //     bodyChild.style.display = "inline-block";
-      //     bodyChild.style.lineHeight = "unset";
-      //     let font = Number.parseFloat((<HTMLDivElement>child.childNodes[0]).style.fontSize.replace("rem", ""));
-      //     let realFont = font / 16 < 1 ? "3px" : (<HTMLDivElement>child.childNodes[0]).style.fontSize
-      //     bodyChild.style.fontSize = realFont;
-      //     divChild.textContent = (<HTMLDivElement>child.childNodes[0]).textContent;
-      //     bodyChild.appendChild(divChild);
-      //     (<Node>child).replaceChild(bodyChild, child.childNodes[0])
 
-      //   }
-      // }
+      if (child.tagName === "foreignObject") {
+        if (child.childNodes[0].tagName === "DIV") {
+          child.childNodes[0].setAttribute("xmlns", "http://www.w3.org/1999/xhtml")
+        }
+      }
+
       if (containerElements.indexOf(child.tagName) !== -1) {
         this.copyStylesInline(child, sourceNode.childNodes[cd]);
         continue;
       }
       let style = sourceNode.childNodes[cd].currentStyle || window.getComputedStyle(sourceNode.childNodes[cd]);
-      // console.log(style["fill"], )
       if (style === "undefined" || style == null) continue;
       for (let st = 0; st < style.length; st++) {
         if (style[st] === "display" && style.getPropertyValue(style[st]) === "none") {
@@ -558,7 +585,6 @@ export class MappingComponent {
   }
 
   triggerDownload(imgURI: string, fileName: string) {
-    // console.log(imgURI)
     let evt = new MouseEvent("click", {
       view: window,
       bubbles: false,
@@ -574,7 +600,6 @@ export class MappingComponent {
   downloadSvg(svg: HTMLElement, fileName: string, width: number, height: number): Node {
     let copy = svg.cloneNode(true);
     this.copyStylesInline(copy, svg);
-    // console.log(copy)
     return copy;
     /*
         let canvas = document.createElement("canvas");

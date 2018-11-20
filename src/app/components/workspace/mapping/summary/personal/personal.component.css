@@ -6,13 +6,13 @@
     float: left;
     background: 50% 50% no-repeat;
     background-size: auto 100%;
-    max-width: 22px;
+    max-width: 32px;
 }
 
 .authority {
     background: 50% 50% no-repeat;
     background-size: auto 100%;
-    max-width: 22px;
+    max-width: 32px;
 }
 
 .borderless {
@@ -23,10 +23,6 @@
     padding: 0
 }
 
-.overflow {
-    overflow-y: auto;
-    max-height: 60vh
-}
 
 .btn-link:focus, .btn-link:active {
     box-shadow: none!important;

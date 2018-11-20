@@ -9,7 +9,7 @@ import { ColorService } from "./../../../../shared/services/ui/color.service";
 import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { AuthHttp } from "angular2-jwt";
-import { Router, NavigationStart } from "@angular/router";
+import { Router, NavigationStart, ActivatedRoute } from "@angular/router";
 import { Observable, Subject } from "rxjs/Rx";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { D3Service, D3 } from "d3-ng2-service";
@@ -20,6 +20,9 @@ import { MarkdownService } from "angular2-markdown";
 import { MappingZoomableComponent } from "./mapping.zoomable.component";
 import { NgProgress } from "@ngx-progressbar/core";
 import { LoaderService } from "../../../../shared/services/loading/loader.service";
+import { DeviceDetectorService } from "ngx-device-detector";
+import { DataSet } from "../../../../shared/model/dataset.data";
+import { Team } from "../../../../shared/model/team.data";
 
 describe("mapping.zoomable.component.ts", () => {
 
@@ -30,6 +33,7 @@ describe("mapping.zoomable.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
+                DeviceDetectorService,
                 D3Service, ColorService, DataService, UIService, URIService, UserFactory, Angulartics2Mixpanel, Angulartics2,
                 {
                     provide: AuthHttp,
@@ -60,6 +64,12 @@ describe("mapping.zoomable.component.ts", () => {
                     provide: Router, useClass: class {
                         navigate = jasmine.createSpy("navigate");
                         events = Observable.of(new NavigationStart(0, "/next"))
+                    }
+                },
+                {
+                    provide: ActivatedRoute,
+                    useValue: {
+                        queryParams: Observable.of({ id: 123456})
                     }
                 }
             ],
@@ -95,7 +105,7 @@ describe("mapping.zoomable.component.ts", () => {
 
         let data = new Initiative().deserialize(fixture.load("data.json"));
         let mockDataService = target.debugElement.injector.get(DataService);
-        spyOn(mockDataService, "get").and.returnValue(Observable.of({ initiative: data, datasetId: "ID" }));
+        spyOn(mockDataService, "get").and.returnValue(Observable.of({ initiative: data, dataset: new DataSet({}), team : new Team({}), members : [] }));
         spyOn(component.uiService, "getCircularPath");
 
         target.detectChanges(); // trigger initial data binding
@@ -149,9 +159,7 @@ describe("mapping.zoomable.component.ts", () => {
 
         expect(component.uiService.getCircularPath).toHaveBeenCalledTimes(3);
         let svg = document.getElementsByTagName("svg").item(0)
-        expect(svg.querySelector("g.paths")).toBeDefined();
-        let defs = svg.querySelector("g.paths");
-
+        let defs = svg.querySelector("defs");
         expect(defs.querySelectorAll("path").length).toBe(3);
         expect(defs.querySelectorAll("path#path0")).toBeDefined();
         expect(defs.querySelectorAll("path#path1")).toBeDefined();

@@ -120,18 +120,14 @@ export class LoginComponent implements OnInit {
                     .then((user_id: string) => {
                         this.isActivationPending = this.userService.isActivationPendingByUserId(user_id);
                         this.isActivationPending.then((isPending: boolean) => {
-                            // console.log("activation pending", isPending)
                             if (!isPending) {
                                 this.router.navigateByUrl("/login")
-                                // window.location.href = "/login";
                             }
                         })
                         return user_id;
                     })
                     .catch((err) => {
-                        // console.log(err)
-                        // anything goes wrong, we redirect to usual login page
-                        // window.location.href = "/login";
+                        console.error(err);
                         this.router.navigateByUrl("/login")
                     })
             }

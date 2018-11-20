@@ -1,11 +1,21 @@
 <div class="jumbotron jumbotron-fluid h-100 bg-white">
     <div class="container">
-        <h1 class="display-4 d-flex justify-content-center">There is no easy way to say this ...</h1>
-        <h3 class="display-4 d-flex justify-content-around">
-                <i class="fa fa-ban text-danger" aria-hidden="true"></i>
+        <h1 class="display-4 d-flex justify-content-center text-center">There is no easy way to say this ...</h1>
+        <h3 class="display-4 d-flex justify-content-around my-5">
+            <i class="fa fa-ban text-danger" aria-hidden="true"></i>
         </h3>
         <p class="lead d-flex justify-content-center">
-            You don't have permission to view this page. Problems? Email us at <a class="text-success ml-1" href="mailto:support@maptio.com?subject=Support request"> support@maptio.com</a>
-      </p>
+            You don't have permission to view this page.
+        </p>
+        <p class="lead d-flex justify-content-center">
+            Problems? Email us at
+            <a class="text-success ml-1" href="mailto:support@maptio.com?subject=Support request">
+                support@maptio.com</a>
+        </p>
+
+        <p class=" d-flex justify-content-center text-muted">
+            You will be redirected to the
+            <a class="mx-1" routerLink="/home">homepage</a> in {{timeToRedirect}} seconds.
+        </p>
     </div>
 </div>

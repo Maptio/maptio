@@ -29,13 +29,13 @@ export class ColorService implements OnInit {
   //         .interpolate(this.d3.interpolateHsl);
   // }
 
-  getDefaulColorRange(depth: number): ScaleLinear<HSLColor, string> {
-    return this.d3
-      .scaleLinear<HSLColor, HSLColor>()
-      .domain([-1, depth])
-      .interpolate(this.d3.interpolateHcl)
-      .range([this.FRONT_COLOR, this.BACK_COLOR]);
-  }
+  // getDefaulColorRange(depth: number): ScaleLinear<HSLColor, string> {
+  //   return this.d3
+  //     .scaleLinear<HSLColor, HSLColor>()
+  //     .domain([-1, depth])
+  //     .interpolate(this.d3.interpolateHcl)
+  //     .range([this.FRONT_COLOR, this.BACK_COLOR]);
+  // }
 
   getColorRange(
     depth: number,
@@ -55,10 +55,6 @@ export class ColorService implements OnInit {
   ): ScaleLinear<number, number> {
     let slowInterpolator = function(a: number, b: number) {
       return function(t: number) {
-        // console.log(
-        //   `t=${t}`,
-        //   `y=${Math.max(a, b) - Math.exp(t / Math.max(a, b) * 100)}`
-        // );
         let E = Math.max(a, b);
         return E * (1 - Math.exp((t - 1) * E / 2));
       };

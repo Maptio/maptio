@@ -71,8 +71,14 @@ export class AuthorizeComponent implements OnInit {
                 this.loader.hide();
                 this.router.navigateByUrl("/home");
             }, (err) => {
-                console.error("authorization error", err);
-                this.router.navigateByUrl(`/login?login_message=${err}`);
+                if(err.error === "login_required"){
+                    this.router.navigateByUrl(`/login?login_message=Cannot log you in with Google. It looks like the problem is your ad-blocker. Try adding app.maptio.com to your whitelist then refreshing the page.`);
+                }
+                else{
+                    console.error(err);
+                    this.router.navigateByUrl(`/login?login_message=${err}`);
+                }
+
                 this.loader.hide();
             })
     }
@@ -81,7 +87,7 @@ export class AuthorizeComponent implements OnInit {
 
         let user = User.create().deserialize(profile);
 
-        return Observable.fromPromise(this.userFactory.getUsers([user.user_id]).then(users => { console.log("then", users); return users }))
+        return Observable.fromPromise(this.userFactory.getUsers([user.user_id]).then(users => { return users }))
             .map((users: User[]) => {
                 return users;
             })

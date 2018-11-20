@@ -18,7 +18,6 @@ export class OnboardingComponent implements OnInit {
     // REFACTOR : Urgh, use false as default you idiot!
     isZeroMaps: Boolean = true;
     isZeroTeam: Boolean = true;
-    isZeroInitiative: Boolean = true;
     isZeroTeammates: Boolean = true;
     isZeroTerminology: Boolean = true;
     isZeroIntegration:Boolean=true;
@@ -56,12 +55,11 @@ export class OnboardingComponent implements OnInit {
                 this.datasetId = this.datasets[0].datasetId;
                 this.mapName = this.datasets[0].initiative.name;
 
-                console.log(this.datasets[0].initiative)
-                this.isZeroInitiative = !this.datasets[0].initiative.children || this.datasets[0].initiative.children.length === 0;
+                // this.isZeroInitiative = !this.datasets[0].initiative.children || this.datasets[0].initiative.children.length === 0;
 
-                if (!this.isZeroInitiative) {
-                    this.firstCircleName = this.datasets[0].initiative.children[0].name;
-                }
+                // if (!this.isZeroInitiative) {
+                //     this.firstCircleName = this.datasets[0].initiative.children[0].name;
+                // }
 
                 this.isMultipleMaps = this.datasets.length > 1;
                 this.mapsCount = this.datasets.length;
@@ -98,6 +96,6 @@ export class OnboardingComponent implements OnInit {
     }
 
     isOnboardingCompleted() {
-        return !this.isZeroMaps && !this.isZeroTeam && !this.isZeroInitiative
+        return !this.isZeroMaps && !this.isZeroTeam ; //&& !this.isZeroInitiative
     }
 }

@@ -133,7 +133,6 @@ export class InitiativeComponent implements OnChanges {
     }
 
     onBlur() {
-        // console.log("saving", this.node, this.inputAuthority)
         // this.saveDescription(this.inputDescriptionElement.nativeElement.value);
         if(!this.node.accountable){
             (<HTMLInputElement>this.inputAuthority.nativeElement).value ="";
@@ -154,7 +153,6 @@ export class InitiativeComponent implements OnChanges {
     }
 
     saveRole(helper: Helper, description: string) {
-        // console.log(helper.name, description)
         if (helper.roles[0]) {
             helper.roles[0].description = description;
         }
@@ -165,7 +163,6 @@ export class InitiativeComponent implements OnChanges {
     }
 
     savePrivilege(helper: Helper, hasAuthorityPrivileges: boolean) {
-        // console.log("saving privilege", this.node.name, helper.name, hasAuthorityPrivileges)
         helper.hasAuthorityPrivileges = hasAuthorityPrivileges;
         this.onBlur();
         this.analytics.eventTrack("Initiative", { action: "changing helper privilege", team: this.teamName, teamId: this.teamId });
@@ -258,7 +255,6 @@ export class InitiativeComponent implements OnChanges {
     }
 
     filterTags(term: string): Observable<Tag[]> {
-        // console.log("filter tags", term, term.length)
         return term === "" || term.length < 1
             ? Observable.of(this.datasetTags)
             : Observable.of(this.datasetTags.filter(v => new RegExp(term, "gi").test(v.name)).splice(0, 10))
@@ -304,7 +300,7 @@ export class InitiativeComponent implements OnChanges {
         text$
             .debounceTime(200).distinctUntilChanged()
             .merge(this.focus$)
-            .merge(this.click$.filter(() => { console.log(this) ; return !this.inputTag.isPopupOpen()} ))
+            .merge(this.click$.filter(() => { return !this.inputTag.isPopupOpen()} ))
             .map(term => (term === "" ? this.datasetTags : this.datasetTags.filter(v => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10));
 
 

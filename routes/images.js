@@ -30,11 +30,18 @@ router.post('/upload/:mapid', function (req, res, next) {
     var mapid = req.params.mapid;
     var base64String = Buffer.from(svgString).toString("base64");
     // console.log(svgString, base64String)
-    cloudinary.uploader.upload(`data:image/svg+xml;base64,${base64String}`, function (result) {
-        res.json(result)
-    }, {
+    cloudinary.uploader.upload(
+        `data:image/svg+xml;base64,${base64String}`,
+        function (result) { res.json(result) },
+        {
             public_id: `${mapid}/snapshot/${date.toISOString()}`,
-            tags: []
+            tags: [],
+            eager: {
+                background: "#ffffff",
+                quality: "auto:best",
+                format:"png"
+            }
+
         });
 });
 

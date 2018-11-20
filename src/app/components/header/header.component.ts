@@ -16,6 +16,7 @@ import { UserService } from "../../shared/services/user/user.service";
 import { sortBy } from "lodash";
 import { SafeUrl, DomSanitizer } from "@angular/platform-browser";
 import { BillingService } from "../../shared/services/billing/billing.service";
+import { LoaderService } from "../../shared/services/loading/loader.service";
 
 @Component({
     selector: "header",
@@ -42,14 +43,8 @@ export class HeaderComponent implements OnInit {
     public isSaving: Boolean = false;
 
     constructor(public auth: Auth, private userService: UserService, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory,
-        public errorService: ErrorService, private router: Router,
+        public errorService: ErrorService, private router: Router, public loaderService: LoaderService,
         private analytics: Angulartics2Mixpanel, private cd: ChangeDetectorRef, private billingService: BillingService) {
-
-
-        EmitterService.get("isSavingInitiativeData").subscribe((isSaving: Boolean) => {
-            this.isSaving = isSaving;
-            this.cd.markForCheck();
-        })
 
         let [teamDefined, teamUndefined] = EmitterService.get("currentTeam").partition(team => team);
 
@@ -86,7 +81,6 @@ export class HeaderComponent implements OnInit {
 
     ngOnInit() {
         this.userSubscription = EmitterService.get("headerUser").subscribe((user: User) => {
-            // console.log("header", user)
             this.user = user;
 
             this.datasetFactory.get(this.user.datasets, true)
@@ -110,7 +104,7 @@ export class HeaderComponent implements OnInit {
                 .then(teams => sortBy(teams, t => t.name), (r) => { return Promise.reject(r) })
                 .then(teams => { this.teams = teams; return teams })
                 .catch(() => { return [] })
-                
+
             this.cd.markForCheck();
         },
             (error: any) => { this.errorService.handleError(error) });
@@ -126,9 +120,8 @@ export class HeaderComponent implements OnInit {
         this.auth.logout();
     }
 
-    isSignUp(){
-        console.log(this.router)
-        return this.router.url.startsWith("/login") || this.router.url.startsWith("/signup")
+    isSignUp() {
+        return this.router.url.startsWith("/login") || this.router.url.startsWith("/signup") || this.router.url.startsWith("/forgot")
     }
 
     toggleCreateMode() {

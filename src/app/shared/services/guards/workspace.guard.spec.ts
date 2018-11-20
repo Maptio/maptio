@@ -5,12 +5,14 @@ import { UIService } from "../ui/ui.service";
 import { RouterStateSnapshot } from "@angular/router";
 import { D3Service } from "d3-ng2-service";
 import { MarkdownService, MarkdownModule } from "angular2-markdown";
+import { DeviceDetectorService } from "ngx-device-detector";
 
 describe("workspace.guard.ts", () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
+                DeviceDetectorService,
                 UIService, WorkspaceGuard, D3Service, MarkdownService
             ],
             imports: [MarkdownModule]

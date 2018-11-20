@@ -5,7 +5,7 @@
 </ng-template>
 <h5 class="d-flex align-items-center justify-content-between ">
     <span>
-        <img width="30" height="30" src="/assets/images/slack-icon.png" alt="Slack logo">Slack
+        <img width="32" height="32" src="/assets/images/slack-icon.png" alt="Slack logo">Slack
 <small>(Beta version)</small>
         <i *ngIf="team.slack?.access_token" class="ml-1 fa fa-check-circle text-success" aria-hidden="true"></i>
     </span>
@@ -41,7 +41,7 @@
             <a [href]="KB_URL_INTEGRATIONS" target="blank">Learn more</a>
         </span>
         <span *ngIf="isDisplayWaitingForSlackSync">
-            <i class="fa fa-circle-o-notch fa-spin fa-fw"></i>
+            <i class="fas fa-circle-notch fa-spin"></i>
         </span>
         <ng-container *permissionsOnly="Permissions.canEditTeam;then thenAddSlack ; else elseAddSlack">
 

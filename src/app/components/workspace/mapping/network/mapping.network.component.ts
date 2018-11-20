@@ -54,7 +54,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   public isReset$: Observable<boolean>;
 
   public toggleOptions$: Observable<Boolean>;
-  public data$: Subject<{ initiative: Initiative; datasetId: string }>;
 
   public rootNode: Initiative;
   public slug: string;
@@ -65,10 +64,18 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   private isAuthorityCentricMode$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   public _isAuthorityCentricMode: boolean = true;
 
+  public showContextMenuOf$: Subject<{
+    initiatives: Initiative[], x: Number, y: Number,
+    isReadOnlyContextMenu: boolean
+  }> = new Subject<{
+    initiatives: Initiative[], x: Number, y: Number,
+    isReadOnlyContextMenu: boolean
+  }>();
 
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
-  public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
+  // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
+  public showToolipOf$: Subject<{ initiatives: Initiative[], isNameOnly: boolean }> = new Subject<{ initiatives: Initiative[], isNameOnly: boolean }>();
   public moveInitiative$: Subject<{
     node: Initiative;
     from: Initiative;
@@ -86,7 +93,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   T: any;
   TRANSITION_DURATION = 250;
 
-  CIRCLE_RADIUS: number = 25;
+  CIRCLE_RADIUS: number = 32;
   LINE_WEIGHT = 4;
   FADED_OPACITY = 0.1;
   private svg: any;
@@ -119,16 +126,16 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .combineLatest(this.mapColor$, this.isAuthorityCentricMode$.asObservable())
       .subscribe(complexData => {
         let data = <any>complexData[0].initiative;
-        this.datasetId = complexData[0].datasetId;
+        this.datasetId = complexData[0].dataset.datasetId;
         this.rootNode = complexData[0].initiative;
         this.team = complexData[0].team;
         this.slug = data.getSlug();
         this.update(data, complexData[1], complexData[2]);
         this.analytics.eventTrack("Map", {
-          action : "viewing",
+          action: "viewing",
           view: "connections",
-          team: data.teamName,
-          teamId: data.teamId
+          team: (<Team>complexData[0].team).name,
+          teamId: (<Team>complexData[0].team).team_id
         });
         this.isLoading = false;
         this.cd.markForCheck();
@@ -155,7 +162,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     if (this.fontSubscription) {
       this.fontSubscription.unsubscribe();
     }
-    if(this.toggleOptionsSubscription){
+    if (this.toggleOptionsSubscription) {
       this.toggleOptionsSubscription.unsubscribe();
     }
   }
@@ -174,11 +181,11 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .attr("width", this.width)
       .attr("height", this.height)
       .attr(
-      "transform",
-      `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`
+        "transform",
+        `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`
       );
     g.append("g").attr("class", "links");
-    g.append("g").attr("class", "labels");
+    // g.append("g").attr("class", "labels");
     g.append("g").attr("class", "nodes");
     g.append("defs");
 
@@ -188,7 +195,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .data([
         { id: "arrow", opacity: 1 },
         { id: "arrow-fade", opacity: this.FADED_OPACITY },
-        { id: "arrow-hover", fill: "black" }
+        { id: "arrow-hover", opacity: 1 }
       ])
       .enter()
       .append("marker")
@@ -272,6 +279,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         svg.style("fill", format[1]);
         svg.selectAll("text").style("fill", format[1]);
         svg.selectAll("marker#arrow, marker#arrow-fade").attr("fill", format[2]);
+        svg.selectAll("marker#arrow-hover").attr("fill", d3.color(format[2]).darker(1).toString());
       });
 
     let [clearSearchInitiative, highlightInitiative] = this.zoomInitiative$.partition(node => node === null);
@@ -474,7 +482,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     let links = chain(rawlinks).groupBy("linkid")
       .map((items: any, linkid: string) => {
         let uniqueItems = uniqBy(items, (i: any) => i.initiative);
-        // console.log(items, uniqueItems)
         return {
           source: uniqueItems[0].source,
           target: uniqueItems[0].target,
@@ -519,7 +526,10 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     let bilinks: Array<any> = [];
     let uiService = this.uiService;
     let showDetailsOf$ = this.showDetailsOf$;
+    let showToolipOf$ = this.showToolipOf$;
+    let showContextMenuOf$ = this.showContextMenuOf$;
     let datasetSlug = this.slug;
+    let datasetId = this.datasetId;
     let getTags = this.getTags.bind(this);
     let CIRCLE_RADIUS = this.CIRCLE_RADIUS;
     let LINE_WEIGHT = this.LINE_WEIGHT;
@@ -533,25 +543,24 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     let graph = isAuthorityCentricMode ? this.prepareAuthorityCentric(initiativesList) : this.prepareHelperCentric(initiativesList);
 
     let router = this.router;
-    let datasetId = this.datasetId;
     let slug = this.slug;
 
     let simulation = d3
       .forceSimulation()
       .force(
-      "link",
-      d3.forceLink().id(function (d: any) {
-        return d.id;
-      })
+        "link",
+        d3.forceLink().id(function (d: any) {
+          return d.id;
+        })
       )
       .force(
-      "charge",
-      d3
-        .forceManyBody()
-        .distanceMax(400)
-        .strength(function (d) {
-          return -600;
-        })
+        "charge",
+        d3
+          .forceManyBody()
+          .distanceMax(400)
+          .strength(function (d) {
+            return -600;
+          })
       )
       .force("center", d3.forceCenter(width / 2, height / 2));
 
@@ -582,7 +591,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       links = graph.links;
 
     let [selectedTags, unselectedTags] = partition(getTags(), (t: SelectableTag) => t.isSelected);
-    // console.log(selectedTags, unselectedTags)
 
     links.forEach(function (link: {
       source: string;
@@ -619,7 +627,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .append("path")
       .attr("class", "edge")
       .merge(link)
-      .attr("stroke", seedColor)
+      // .attr("stroke", seedColor)
       .attr("data-initiatives", function (d: any) {
         return d[4].join(" ");
       })
@@ -650,6 +658,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       });
     // .attr("marker-end", "url(#arrow)");
 
+    /*
     let label = g
       .select("g.labels")
       .selectAll("text.edge")
@@ -676,10 +685,10 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         if (filtered.length > 0) {
           let h = filtered
             .map(
-            (i, ix) =>
-              `<tspan class="is-helping" x="0" y="0" dy="${ix + 1}rem">${
-              i.name
-              }</tspan>`
+              (i, ix) =>
+                `<tspan class="is-helping" x="0" y="0" dy="${ix + 1}rem">${
+                i.name
+                }</tspan>`
             )
             .join("");
 
@@ -691,43 +700,9 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         }
       });
 
-    let tooltip = d3
-      .select("body")
-      .selectAll("div.arrow_box")
-      .data(bilinks, function (d: any) {
-        return d[5];
-      })
+      */
 
-    tooltip.exit().remove();
-
-    tooltip = tooltip.enter()
-      .append("div")
-      .attr("class", "arrow_box")
-      .classed("show", false)
-      .merge(tooltip)
-      .attr("data-initiatives", function (d: any) {
-        return d[4].join(" ");
-      })
-      .attr("id", function (d: any) {
-        return d[6];
-      })
-      .on("mouseenter", function () {
-        d3.select(this).classed("show", true);
-      })
-      .on("mouseleave", function () {
-        tooltip.classed("show", false);
-      })
-      .html(function (d: any) {
-        let ids: any[] = d[4];
-
-        let list = initiativesList.map(i => i.data).filter(i => {
-          return ids.includes(i.id)
-        });
-        // console.log("tooltip building", d)
-        if (isEmpty(list)) return;
-        return uiService.getConnectionsHTML(list, d[0].id, d[2].id, d[7]);
-      });
-
+      /*
     d3.selectAll(`.open-initiative`).on("click", function (d: any) {
       let id = Number.parseFloat(d3.select(this).attr("id"));
       showDetailsOf$.next(initiativesList.find(n => (<any>n.data).id === id).data);
@@ -736,17 +711,19 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       let shortid = d3.select(this).attr("data-shortid");
       let slug = d3.select(this).attr("data-slug");
       router.navigateByUrl(
-        `/map/${datasetId}/${datasetSlug}/u/${shortid}/${slug}`
+        `/map/${datasetId}/${datasetSlug}/summary?member=${shortid}`
       );
     });
+
+    */
 
     let node = g
       .select("g.nodes")
       .selectAll("g.node")
       .data(
-      nodes.filter(function (d) {
-        return d.id;
-      })
+        nodes.filter(function (d) {
+          return d.id;
+        })
       );
     node.exit().remove();
 
@@ -758,11 +735,11 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .merge(node)
       .on("dblclick", releaseNode)
       .call(
-      d3
-        .drag<SVGElement, any>()
-        .on("start", dragstarted)
-        .on("drag", dragged)
-        .on("end", dragended)
+        d3
+          .drag<SVGElement, any>()
+          .on("start", dragstarted)
+          .on("drag", dragged)
+          .on("end", dragended)
       );
 
     node.append("circle");
@@ -784,9 +761,15 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       // .style("font-weight", "initial")
       .attr("dx", CIRCLE_RADIUS + 3)
       .attr("dy", CIRCLE_RADIUS / 2)
+      .on("mouseover", function (d: any) { 
+        d3.select(this).style("fill", seedColor) 
+      })
+      .on("mouseout", function (d: any) { 
+        d3.select(this).style("fill", "initial") 
+      })
       .on("click", function (d: any) {
         router.navigateByUrl(
-          `/map/${datasetId}/${slug}/u/${d.shortid}/${d.slug}`
+          `/map/${datasetId}/${slug}/summary?member=${d.shortid}`
         );
       })
       .text(function (d: any) {
@@ -794,54 +777,96 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       });
 
     g.selectAll("path")
+      .style("stroke-opacity", 1)
+      .style("stroke", seedColor)
       .on("mouseover", function (d: any) {
-        // console.log(d)
         d3.event.stopPropagation();
 
         let path = d3.select(this);
-        path.attr("marker-end", function (d: any) {
-          if (isAuthorityCentricMode)
-            return "url(#arrow-hover)";
-        });
+        path
+          .style("stroke-opacity", 1)
+          .style("stroke", d3.color(seedColor).darker(1).toString())
+          .attr("marker-end", function (d: any) {
+            if (isAuthorityCentricMode)
+              return "url(#arrow-hover)";
+          });
 
 
         let p = path
           .node()
-          .getPointAtLength(0.5 * path.node().getTotalLength())
+          .getPointAtLength(0.5 * path.node().getTotalLength());
 
-        let tooltip = d3.select(`div.arrow_box[id="${d[6]}"]`);
+        let ids: any[] = d[4];
 
-        let TOOLTIP_HEIGHT = (tooltip.node() as HTMLElement).getBoundingClientRect().height;
-        let TOOLTIP_WIDTH = (tooltip.node() as HTMLElement).getBoundingClientRect().width;
-        let ARROW_DIMENSION = 10;
+        let list = initiativesList.map(i => i.data).filter(i => {
+          return ids.includes(i.id)
+        });
 
-        let left = p.x;
-        let top = p.y;
-
-        tooltip
-          .style("top", () => {
-            return `${d3.event.pageY + ARROW_DIMENSION}px`;
-          })
-          .style("left", () => {
-            return `${d3.event.pageX - TOOLTIP_WIDTH / 2}px`;
-          })
-          .classed("show", true)
-          .classed("arrow-top", true)
-          .on("click", function (d: any) {
-            tooltip.classed("show", false);
-          });
+        showToolipOf$.next({ initiatives: list, isNameOnly: true })
       })
       .on("mouseout", function (d: any) {
 
         let path = d3.select(this);
-        path.attr("marker-end", function (d: any) {
-          if (isAuthorityCentricMode)
-            return "url(#arrow)";
+        path
+          .style("stroke-opacity", 1)
+          .style("stroke", seedColor)
+          .attr("marker-end", function (d: any) {
+            if (isAuthorityCentricMode)
+              return "url(#arrow)";
+          });
+        showToolipOf$.next({ initiatives: null, isNameOnly: true });
+        showContextMenuOf$.next({
+          initiatives: null,
+          x: 0,
+          y: 0,
+          isReadOnlyContextMenu: true
+        });
+      })
+      .on("contextmenu", function (d: any) {
+        d3.event.preventDefault();
+        let mousePosition = d3.mouse(this);
+        let matrix = this.getCTM().translate(
+          +this.getAttribute("cx"),
+          +this.getAttribute("cy")
+        );
+
+        let mouse = { x: mousePosition[0] + 3, y: mousePosition[1] + 3 };
+
+        let ids: any[] = d[4];
+
+        let list = initiativesList.map(i => i.data).filter(i => {
+          return ids.includes(i.id)
         });
 
-        let tooltip = d3.select(`div.arrow_box[id="${d[6]}"]`);
-        tooltip.classed("show", false);
-      });
+        let path = d3.select(this);
+        showContextMenuOf$.next({
+          initiatives: list,
+          x: uiService.getContextMenuCoordinates(mouse, matrix).x,
+          y: uiService.getContextMenuCoordinates(mouse, matrix).y,
+          isReadOnlyContextMenu: true
+        });
+
+        d3.select(".context-menu")
+          .on("mouseenter", function (d: any) {
+            showContextMenuOf$.next({
+              initiatives: list,
+              x: uiService.getContextMenuCoordinates(mouse, matrix).x,
+              y: uiService.getContextMenuCoordinates(mouse, matrix).y,
+              isReadOnlyContextMenu: true
+            });
+            path.dispatch("mouseover");
+          })
+          .on("mouseleave", function (d: any) {
+            showContextMenuOf$.next({
+              initiatives: null,
+              x: 0,
+              y: 0,
+              isReadOnlyContextMenu: true
+            });
+            path.dispatch("mouseout");
+          })
+
+      });;
 
 
     simulation.nodes(graph.nodes).on("tick", ticked);
@@ -851,35 +876,20 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     function ticked() {
       link.attr("d", positionLink);
       node.attr("transform", positionNode);
-      label.attr("transform", positionLabel);
+      // label.attr("transform", positionLabel);
     }
 
-    // function positionTooltip(d: any): { x: number, y: number } {
-
+    // function positionLabel(d: any) {
     //   let path = g.select("defs").select(`path[id="path${d[5]}"]`);
-    //   console.log(d, path)
     //   if (path.node()) {
     //     let p = path
     //       .node()
-    //       .getPointAtLength(0.5 * path.node().getTotalLength());
-    //     return { x: p.x, y: p.y };
+    //       .getPointAtLength(0.6 * path.node().getTotalLength());
+    //     return "translate(" + p.x + "," + p.y + ")";
     //   } else {
-    //     return { x: 0, y: 0 };
+    //     return "translate(" + 0 + "," + 0 + ")";
     //   }
     // }
-
-
-    function positionLabel(d: any) {
-      let path = g.select("defs").select(`path[id="path${d[5]}"]`);
-      if (path.node()) {
-        let p = path
-          .node()
-          .getPointAtLength(0.6 * path.node().getTotalLength());
-        return "translate(" + p.x + "," + p.y + ")";
-      } else {
-        return "translate(" + 0 + "," + 0 + ")";
-      }
-    }
 
     function positionLink(d: any) {
       return (

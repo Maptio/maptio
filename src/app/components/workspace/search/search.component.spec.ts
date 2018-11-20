@@ -1,10 +1,10 @@
 import { Initiative } from "./../../../shared/model/initiative.data";
-import {  ReplaySubject, Observable } from "rxjs/Rx";
+import { ReplaySubject, Observable } from "rxjs/Rx";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { async, TestBed, ComponentFixture } from "@angular/core/testing";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { RouterTestingModule } from "@angular/router/testing";
-import { SearchComponent } from "./search.component";
+import { SearchComponent, SearchResultType } from "./search.component";
 import { Helper } from "./../../../shared/model/helper.data";
 
 
@@ -54,7 +54,7 @@ describe("search.component.ts", () => {
 
     it("should select initiative", () => {
         spyOn(component.selectInitiative, "emit")
-        component.select({ item: component.list[1], preventDefault: null });
+        component.select({ item: {type : SearchResultType.Initiative, result: component.list[1]}, preventDefault: null });
         expect(component.isSearching).toBeFalsy();
         expect(component.selectInitiative.emit).toHaveBeenCalledWith(component.list[1])
     });
@@ -62,36 +62,47 @@ describe("search.component.ts", () => {
     describe("Filter", () => {
         it("should return correct results when searching name", () => {
             let term = "one"
-            let actual = component.filter(term);
+            let actual = component.findInitiatives(term);
             expect(actual.length).toBe(1)
-            expect(actual[0]).toEqual(component.list[0])
+            expect(actual[0].type).toEqual(SearchResultType.Initiative)
+            expect(actual[0].result).toEqual(component.list[0])
         });
 
         it("should return correct results when searching description", () => {
             let term = "deux"
-            let actual = component.filter(term);
+            let actual = component.findInitiatives(term);
             expect(actual.length).toBe(1)
-            expect(actual[0]).toEqual(component.list[1])
+            expect(actual[0].type).toEqual(SearchResultType.Initiative)
+            expect(actual[0].result).toEqual(component.list[1])
         });
 
         it("should return correct results when searching person", () => {
             let term = "boss"
-            let actual = component.filter(term);
-            expect(actual.length).toBe(4)
-            expect(actual[0]).toEqual(component.list[0])
-            expect(actual[1]).toEqual(component.list[1])
-            expect(actual[2]).toEqual(component.list[2])
-            expect(actual[3]).toEqual(component.list[4])
+            let actual = component.findInitiatives(term);
+            expect(actual.length).toBe(4);
+
+            expect(actual[0].type).toEqual(SearchResultType.Initiative)
+            expect(actual[0].result).toEqual(component.list[0])
+            expect(actual[1].type).toEqual(SearchResultType.Initiative)
+            expect(actual[1].result).toEqual(component.list[1])
+            expect(actual[2].type).toEqual(SearchResultType.Initiative)
+            expect(actual[2].result).toEqual(component.list[2])
+            expect(actual[3].type).toEqual(SearchResultType.Initiative)
+            expect(actual[3].result).toEqual(component.list[4])
         });
 
         it("should return correct results when searching person", () => {
             let term = "helper"
-            let actual = component.filter(term);
+            let actual = component.findInitiatives(term);
             expect(actual.length).toBe(4)
-            expect(actual[0]).toEqual(component.list[0])
-            expect(actual[1]).toEqual(component.list[1])
-            expect(actual[2]).toEqual(component.list[2])
-            expect(actual[3]).toEqual(component.list[3])
+            expect(actual[0].type).toEqual(SearchResultType.Initiative)
+            expect(actual[0].result).toEqual(component.list[0])
+            expect(actual[1].type).toEqual(SearchResultType.Initiative)
+            expect(actual[1].result).toEqual(component.list[1])
+            expect(actual[2].type).toEqual(SearchResultType.Initiative)
+            expect(actual[2].result).toEqual(component.list[2])
+            expect(actual[3].type).toEqual(SearchResultType.Initiative)
+            expect(actual[3].result).toEqual(component.list[3])
         });
 
     });
@@ -101,13 +112,13 @@ describe("search.component.ts", () => {
 
             let spyObj = jasmine.createSpyObj<Observable<string>>("text$", ["debounceTime", "distinctUntilChanged", "do", "map"]);
 
-            let spyFilter = spyOn(component, "filter").and.returnValue([]);
+            let spyFilter = spyOn(component, "findInitiatives").and.returnValue([]);
             spyObj.debounceTime.and.returnValue(spyObj)
             spyObj.distinctUntilChanged.and.returnValue(spyObj)
             spyObj.do.and.returnValues(spyObj)
             spyObj.map.and.returnValue(spyObj)
 
-            component.searchInitiatives(spyObj);
+            component.search(spyObj);
 
             expect(spyObj.debounceTime).toHaveBeenCalledWith(200);
             expect(spyObj.distinctUntilChanged).toHaveBeenCalledTimes(1);

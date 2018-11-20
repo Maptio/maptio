@@ -4,15 +4,15 @@ import { TestBed, inject, } from "@angular/core/testing";
 import { MarkdownService } from "angular2-markdown";
 import { MockBackend } from "@angular/http/testing";
 import { BaseRequestOptions, Http } from "@angular/http";
+import { DeviceDetectorService } from "ngx-device-detector";
 // import { Fixtures } from "./fixtures";
 
 describe("ui.service.ts", function () {
 
-    // let fixture = new Fixtures();
-
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
+                DeviceDetectorService,
                 UIService, D3Service, MarkdownService,
                 {
                     provide: Http,
