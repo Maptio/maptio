@@ -230,11 +230,23 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
   }
 
+  hideSmallElements(minWidth: number): void {
+    this.d3.transition("reveal")
+      .duration(750)
+      .selectAll(".node foreignObject.name")
+      .style("opacity", (d: any, i: number, e: Array<HTMLElement>): number => {
+        if (e[i] && e[i].getBoundingClientRect && e[i].getBoundingClientRect().width < minWidth) {
+          return 0;
+        }
+        return 1
+      });
+  }
 
 
   init() {
     this.uiService.clean();
     let d3 = this.d3;
+    let hideSmallElements = this.hideSmallElements.bind(this);
 
     let margin = { top: 20, right: 20, bottom: 20, left: 0 };
     let width = this.width - margin.left - margin.right,
@@ -294,18 +306,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     function zoomed() {
       g.attr("transform", d3.event.transform);
-    }
-
-    function hideSmallElements(minWidth: number): void {
-      d3.transition("reveal")
-        .duration(750)
-        .selectAll(".node foreignObject.name")
-        .style("opacity", (d: any, i: number, e: Array<HTMLElement>): number => {
-          if (e[i] && e[i].getBoundingClientRect && e[i].getBoundingClientRect().width < minWidth) {
-            return 0;
-          }
-          return 1;
-        });
     }
 
     this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
@@ -438,7 +438,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let datasetId = this.datasetId;
     let datasetSlug = this.slug;
     let router = this.router;
-    let getTags = this.getTags.bind(this)
+    let getTags = this.getTags.bind(this);
+    let hideSmallElements = this.hideSmallElements.bind(this);
     let getLastZoomedCircle = this.getLastZoomedCircle.bind(this);
     let setLastZoomedCircle = this.setLastZoomedCircle.bind(this);
     let zoomInitiative$ = this.zoomInitiative$;
@@ -761,6 +762,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           d3.select(this).style("opacity", 0);
         })
         .on("end", function (d: any) {
+          hideSmallElements(MIN_TEXTBOX_WIDTH);
           d3
             .select(this)
             .style("opacity", function (d: any) {
