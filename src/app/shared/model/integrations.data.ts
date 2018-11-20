@@ -25,7 +25,6 @@ export class SlackIntegration implements Serializable<SlackIntegration> {
         deserialized.team_name = input.team_name;
         deserialized.team_id = input.team_id;
         deserialized.incoming_webhook = input.incoming_webhook;
-        // console.log("deserialize slack", deserialized, input)
         return deserialized;
     }
 

@@ -110,7 +110,7 @@ describe("building.component.ts", () => {
             fixture.load("data.json");
 
             let initiative = new Initiative().deserialize(fixture.json[0]);
-            let dataset = new DataSet({ initiative: initiative })
+            let dataset = new DataSet({ datasetId: "someId",  initiative: initiative })
             let team = new Team({
                 team_id: "ID1", members: [
                     new User({ picture: `URL1`, name: `Name1`, user_id: "1" }),
@@ -129,7 +129,7 @@ describe("building.component.ts", () => {
             spyOn(component, "saveChanges");
             spyOn(component.openDetailsEditOnly, "emit");
 
-            component.loadData("someId", "", team, [], []).then(() => {
+            component.loadData(dataset, team, team.members).then(() => {
                 expect(spyDataService).toHaveBeenCalledWith("someId");
                 spyDataService.calls.mostRecent().returnValue
                     .then(() => {
@@ -163,7 +163,7 @@ describe("building.component.ts", () => {
             fixture.load("data.json");
 
             let initiative = new Initiative().deserialize(fixture.json[0]);
-            let dataset = new DataSet({ initiative: initiative })
+            let dataset = new DataSet({ datasetId:"someId", initiative: initiative })
             let team = new Team({
                 team_id: "ID1", members: [
                     new User({ picture: `URL1`, name: `Name1`, user_id: "1" }),
@@ -181,7 +181,7 @@ describe("building.component.ts", () => {
             });
             spyOn(component, "saveChanges");
             spyOn(component.openDetailsEditOnly, "emit")
-            component.loadData("someId", "2", team, [], []).then(() => {
+            component.loadData(dataset, team , team.members).then(() => {
                 expect(spyDataService).toHaveBeenCalledWith("someId");
                 spyDataService.calls.mostRecent().returnValue
                     .then(() => {
@@ -202,48 +202,9 @@ describe("building.component.ts", () => {
                     .then((queue: any) => {
                         expect(component.saveChanges).not.toHaveBeenCalled();
                     })
-                    .then(() => {
-                        expect(component.openDetailsEditOnly.emit).toHaveBeenCalledWith(jasmine.objectContaining({ id: "2", name: "Marketing" }))
-                    })
             });
 
         }));
-    });
-
-    describe("Filtering ", () => {
-
-        it("should calls correct dependencies when search term is  empty", () => {
-            let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
-            node1.name = "first", node2.name = "second"; node3.name = "third";
-            root.children = [node1, node2, node3];
-            component.nodes = [root];
-            component.team = new Team({ team_id: "ID1" })
-            target.detectChanges();
-            let spy = spyOn(component, "saveChanges");
-            let treeModel = jasmine.createSpyObj<TreeModel>("treeModel", ["clearFilter"])
-            component.filterNodes(treeModel, "");
-            expect(root.isSearchedFor).toBe(false);
-            expect(node1.isSearchedFor).toBe(false);
-            expect(node2.isSearchedFor).toBe(false);
-            expect(node3.isSearchedFor).toBe(false);
-            expect(spy).toHaveBeenCalled();
-        });
-
-        it("should calls correct dependencies when search term is not empty", () => {
-            let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
-            node1.name = "first", node2.name = "second"; node3.name = "third";
-            node1.description = "primero", node2.description = "segundo"; node3.description = "segundo tercero";
-            root.children = [node1, node2, node3];
-            component.nodes = [root];
-            component.team = new Team({ team_id: "ID1" })
-            target.detectChanges();
-            let spy = spyOn(component, "saveChanges");
-            let treeModel = jasmine.createSpyObj<TreeModel>("treeModel", ["filterNodes"]);
-
-            component.filterNodes(treeModel, "segundo");
-            expect(treeModel.filterNodes).toHaveBeenCalled();
-            expect(spy).toHaveBeenCalled();
-        });
     });
 
     describe("Tree manipulation", () => {
@@ -313,7 +274,6 @@ describe("building.component.ts", () => {
         });
     });
 
-
     describe("Remove node", () => {
         it("should remove from root node", () => {
             let root = new Initiative(), node1 = new Initiative(), node2 = new Initiative(), node3 = new Initiative();
@@ -331,7 +291,7 @@ describe("building.component.ts", () => {
             spyOn(component, "updateTree")
             component.removeNode(node2);
             expect(component.nodes[0].children.length).toBe(2);
-            expect(component.saveChanges).toHaveBeenCalledTimes(1);
+            expect(component.saveChanges).not.toHaveBeenCalled();
             expect(component.updateTree).toHaveBeenCalledTimes(1);
         });
 
@@ -353,7 +313,7 @@ describe("building.component.ts", () => {
 
             expect(component.nodes[0].children.length).toBe(1);
             expect(component.nodes[0].children[0].children.length).toBe(1);
-            expect(component.saveChanges).toHaveBeenCalledTimes(1);
+            expect(component.saveChanges).not.toHaveBeenCalled();
             expect(component.updateTree).toHaveBeenCalledTimes(1);
         });
     });
@@ -374,13 +334,14 @@ describe("building.component.ts", () => {
 
             spyOn(component, "saveChanges");
             spyOn(component, "updateTree")
-            component.addNodeTo(root);
+            component.addNodeTo(root, new Initiative({name : "NEW"}));
 
             expect(component.nodes[0].children.length).toBe(4);
             expect(component.nodes[0].children[0].id).toBeDefined();
+            expect(component.nodes[0].children[0].name).toBe("NEW");
             expect(component.nodes[0].children[0].team_id).toBe("team_id")
             expect(component.nodes[0].children[0].children).toBeDefined();
-            expect(component.saveChanges).toHaveBeenCalledTimes(1);
+            expect(component.saveChanges).not.toHaveBeenCalled();
             expect(component.updateTree).toHaveBeenCalledTimes(1);
         });
 
@@ -399,14 +360,15 @@ describe("building.component.ts", () => {
 
             spyOn(component, "saveChanges");
             spyOn(component, "updateTree")
-            component.addNodeTo(node1);
+            component.addNodeTo(node1, new Initiative({name : "NEW"}));
 
             expect(component.nodes[0].children.length).toBe(1);
             expect(component.nodes[0].children[0].children.length).toBe(3);
             expect(component.nodes[0].children[0].children[0].id).toBeDefined();
             expect(component.nodes[0].children[0].children[0].team_id).toBe("team_id")
             expect(component.nodes[0].children[0].children[0].children).toBeDefined();
-            expect(component.saveChanges).toHaveBeenCalledTimes(1);
+            expect(component.nodes[0].children[0].children[0].name).toBe("NEW");
+            expect(component.saveChanges).not.toHaveBeenCalled();
             expect(component.updateTree).toHaveBeenCalledTimes(1);
         });
     });

@@ -1,13 +1,12 @@
-import { SelectableTag } from "./../../../shared/model/tag.data";
-import { Initiative } from "./../../../shared/model/initiative.data";
-import { Subject } from "rxjs/Rx";
+import { SelectableTag } from "../../../shared/model/tag.data";
+import { Initiative } from "../../../shared/model/initiative.data";
+import { Subject } from "rxjs";
 import { Observable } from "rxjs/Observable";
-import { Angulartics2Mixpanel } from "angulartics2/dist";
+import { Angulartics2Mixpanel } from "angulartics2";
 
 export interface IDataVisualizer {
     teamName: string;
     teamId: string;
-
 
     datasetId: string;
 
@@ -23,15 +22,9 @@ export interface IDataVisualizer {
     fontColor$: Observable<string>;
     mapColor$: Observable<string>;
 
-
     zoomInitiative$: Observable<Initiative>;
     selectableTags$: Observable<Array<SelectableTag>>;
     toggleOptions$:Observable<Boolean>;
-    // selectableUsers$: Observable<Array<SelectableUser>>;
-
-    // isLocked$: Observable<boolean>;
-
-    data$: Subject<{ initiative: Initiative, datasetId: string }>;
 
     isReset$: Observable<boolean>;
 
@@ -41,9 +34,10 @@ export interface IDataVisualizer {
     tagsState: Array<SelectableTag>;
 
     showDetailsOf$: Subject<Initiative>;
-
-    addInitiative$: Subject<Initiative>;
-    removeInitiative$: Subject<Initiative>;
+    showToolipOf$ : Subject<{initiatives : Initiative[], isNameOnly:boolean}>;
+    showContextMenuOf$ : Subject<{initiatives:Initiative[], x : Number, y:Number, isReadOnlyContextMenu:boolean}>;
+    // addInitiative$: Subject<Initiative>;
+    // removeInitiative$: Subject<Initiative>;
     moveInitiative$: Subject<{ node: Initiative, from: Initiative, to: Initiative }>;
     closeEditingPanel$: Subject<boolean>;
 

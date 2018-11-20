@@ -1,10 +1,10 @@
-<div class="h-100  d-flex justify-content-center align-items-start flex-column" [class.home-background]="!auth.allAuthenticated()">
-    <div class="d-flex flex-column justify-content-center align-items-center h-100 " [class.col-6]="!auth.allAuthenticated()" [class.w-100]="auth.allAuthenticated()">
+<div class="d-flex flex-column flex-xl-row justify-content-between align-items-stretch row">
+    <div class="d-flex flex-column justify-content-center align-items-center" [class.col-12]="!auth.allAuthenticated()" [class.col-xl-6]="!auth.allAuthenticated()" [class.w-100]="auth.allAuthenticated()">
         <div *ngIf="!auth.allAuthenticated()" class="text-blue text-center">
             <h1>Maptio helps you organise without traditional management hierarchy</h1>
             <h4>Visualise your organisation in nested circles</h4>
             <h4>Keep track of everyone’s roles</h4>
-
+ 
             <button class="btn btn-success btn-lg my-3" routerLink="/signup">Get started - Free for 14 days</button>
 
             <div class="text-muted">Already use Maptio?
@@ -14,5 +14,8 @@
         <div *ngIf="auth.allAuthenticated()" class="h-100 w-100">
             <dashboard *ngIf="!isLoading" [datasets]="datasets" [teams]="teams" [user]="user"></dashboard>
         </div>
+    </div>
+    <div class="col-12 col-xl-6" *ngIf="!auth.allAuthenticated()">
+        <object width="100%" data="/assets/images/screenshot-light.png" type="image/png"></object>
     </div>
 </div>

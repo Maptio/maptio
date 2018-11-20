@@ -31,6 +31,7 @@ import { Team } from "../../shared/model/team.data";
 
 import { NO_ERRORS_SCHEMA } from "@angular/core"
 import { BillingService } from "../../shared/services/billing/billing.service";
+import { NgProgress } from "@ngx-progressbar/core";
 
 describe("header.component.ts", () => {
 
@@ -47,6 +48,7 @@ describe("header.component.ts", () => {
         }).overrideComponent(HeaderComponent, {
             set: {
                 providers: [
+                    NgProgress,
                     DatasetFactory, UserFactory, TeamFactory, AuthConfiguration, Angulartics2Mixpanel, Angulartics2,
                     {
                         provide: Auth, useClass: class {

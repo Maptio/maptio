@@ -16,6 +16,7 @@ import { tokenNotExpired } from "angular2-jwt/angular2-jwt";
 import { uniq } from "lodash";
 import * as LogRocket from "logrocket";
 import { Intercom } from "ng-intercom";
+import { local } from "../../../../../node_modules/@types/d3-selection";
 
 @Injectable()
 export class Auth {
@@ -57,10 +58,14 @@ export class Auth {
     let FONT_SIZE = localStorage.getItem("FONT_SIZE");
     let FONT_COLOR = localStorage.getItem("FONT_COLOR");
     let MAP_COLOR = localStorage.getItem("MAP_COLOR");
+    let CIRCLE_VIEW_MODE = localStorage.getItem("CIRCLE_VIEW_MODE")
+    let REDIRECT_URL = localStorage.getItem("redirectUrl");
     localStorage.clear();
     localStorage.setItem("FONT_SIZE", FONT_SIZE || "");
     localStorage.setItem("FONT_COLOR", FONT_COLOR || "");
     localStorage.setItem("MAP_COLOR", MAP_COLOR || "");
+    localStorage.setItem("CIRCLE_VIEW_MODE", CIRCLE_VIEW_MODE);
+    localStorage.setItem("redirectUrl", REDIRECT_URL);
   }
 
   // public shutDownIntercom() {
@@ -122,12 +127,12 @@ export class Auth {
         scope: "openid profile api invite",
         audience: environment.MAPTIO_API_URL,
         responseType: "token id_token",
-        redirectUri: `${window.location.protocol}//${window.location.hostname}${window.location.port === "" ? "" : `:${window.location.port}` }/authorize`,
+        redirectUri: `${window.location.protocol}//${window.location.hostname}${window.location.port === "" ? "" : `:${window.location.port}`}/authorize`,
         connection: "google-oauth2"
       },
         function (err: any, authResult: any) {
-          console.log(err, authResult)
           if (err) {
+            console.error(err);
             reject(err)
           }
           resolve({ accessToken: authResult.accessToken, idToken: authResult.idToken })
@@ -178,7 +183,6 @@ export class Auth {
         })
         .then((user: User) => {
           this.datasetFactory.get(user).then(ds => {
-            // console.log("getUser", ds)
             user.datasets = uniq(ds);
             EmitterService.get("headerUser").emit(user);
             this.user$.next(user);
@@ -191,18 +195,14 @@ export class Auth {
   }
 
   public setUser(profile: any): Promise<boolean> {
-    console.log("setUser", profile)
     localStorage.setItem("profile", JSON.stringify(profile));
-    console.log(profile.user_id)
     return this.userFactory
       .get(profile.user_id)
       .then(user => {
-        console.log("getting user", user)
         this.user$.next(user);
         return Promise.resolve<boolean>(true);
       })
       .catch((reason: any) => {
-        console.log("getting user catch", reason)
         let user = User.create().deserialize(profile);
         this.userFactory
           .create(user)
@@ -230,7 +230,7 @@ export class Auth {
       {
         scope: 'profile openid email',
         responseType: 'token',
-        redirectUri: `${window.location.protocol}//${window.location.hostname}${window.location.port === "" ? "" : `:${window.location.port}` }/authorize`,
+        redirectUri: `${window.location.protocol}//${window.location.hostname}${window.location.port === "" ? "" : `:${window.location.port}`}/authorize`,
         connection: connection
       }
     )
@@ -248,7 +248,6 @@ export class Auth {
         },
         function (err: any, authResult: any) {
           if (err) {
-            // console.log(err)
             EmitterService.get("loginErrorMessage").emit(err.description);
             return;
           }
@@ -313,9 +312,7 @@ export class Auth {
                           .then((user: User) => {
                             // let welcomeURL = user.datasets.length === 1 ? `/map/${user.datasets[0]}/welcome/initiatives` : `/home`;
                             this.loader.hide();
-                            let redirectUrl = localStorage.getItem(
-                              "redirectUrl"
-                            );
+                            let redirectUrl = localStorage.getItem("redirectUrl") && localStorage.getItem("redirectUrl") !== null && localStorage.getItem("redirectUrl") !== "null" ? localStorage.getItem("redirectUrl") : null;
                             this.router.navigateByUrl(
                               redirectUrl ? redirectUrl : "/home"
                             );

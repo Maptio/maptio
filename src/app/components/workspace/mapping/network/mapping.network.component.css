@@ -6,9 +6,9 @@
     cursor: move;
 }
 
-::ng-deep svg text:hover{
+/* ::ng-deep svg text:hover{
   text-decoration: underline;
-}
+} */
 
 ::ng-deep .links line {
   stroke: #000;
@@ -27,10 +27,10 @@
     fill: none;
     stroke-opacity: 0.7;
   }
-  ::ng-deep svg path.edge:hover {
+  /* ::ng-deep svg path.edge:hover {
     stroke-opacity: 1;
     stroke:black;
-  }
+  } */
 
 ::ng-deep svg text.edge{
   stroke-width: 1px;

@@ -35,7 +35,9 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     public isBuildingPanelCollapsed: boolean = true;
     public isDetailsPanelCollapsed: boolean = true;
+    public isBuildingVisible:boolean=true;
     public isEmptyMap: Boolean;
+    public isSaving:Boolean;
     // public isSettingsPanelCollapsed: boolean = true;
     public datasetId: string;
     private routeSubscription: Subscription;
@@ -70,12 +72,18 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     constructor(private route: ActivatedRoute, private datasetFactory: DatasetFactory,
         private dataService: DataService, private cd: ChangeDetectorRef, private uiService: UIService, private intercom: Intercom) {
-        this.canvasYMargin = uiService.getCanvasYMargin();
-        this.canvasHeight = uiService.getCanvasHeight();
+ 
     }
 
     ngOnInit() {
         this.routeSubscription = this.route.data
+            .do((data)=>{
+                let newDatasetId = data.data.dataset.datasetId;
+                if(newDatasetId !== this.datasetId){
+                    this.closeEditingPanel();
+                    this.cd.markForCheck()
+                } 
+            })
             .subscribe((data: { data: { dataset: DataSet, team: Team, members: User[], user: User } }) => {
                 this.dataset = data.data.dataset;
                 this.tags = data.data.dataset.tags;
@@ -86,7 +94,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.teamName = this.team.name;
                 this.teamId = this.team.team_id;
                 EmitterService.get("currentTeam").emit(this.team);
-                this.buildingComponent.loadData(this.dataset.datasetId, "", this.team, this.tags, this.members);
+                this.buildingComponent.loadData(this.dataset, this.team, this.members);
                 this.isEmptyMap = !this.dataset.initiative.children || this.dataset.initiative.children.length === 0;
                 this.cd.markForCheck();
             });
@@ -107,8 +115,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     saveChanges(initiative: Initiative, tags?: Array<Tag>) {
         this.isEmptyMap = !initiative.children || initiative.children.length === 0;
+        this.isSaving = true;
         this.cd.markForCheck();
-        EmitterService.get("isSavingInitiativeData").emit(true);
 
         this.dataset.initiative = initiative;
         if (tags) {
@@ -121,9 +129,9 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
         this.datasetFactory.upsert(this.dataset, this.datasetId)
             .then((hasSaved: boolean) => {
-                this.dataService.set({ initiative: initiative, datasetId: this.datasetId, teamName: this.teamName, teamId: this.teamId, team: this.team, tags: this.dataset.tags, members: this.members });
+                this.dataService.set({ initiative: initiative, dataset: this.dataset, team: this.team,  members: this.members });
                 return hasSaved;
-            }, (reason) => { /*console.log(reason)*/ })
+            }, (reason) => { console.error(reason) })
             .then(() => {
 
                 let depth = 0
@@ -132,9 +140,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 return;
             })
             .then(() => {
-                EmitterService.get("isSavingInitiativeData").emit(false);
-
-                // this.counterService.set({ datasetId: this.datasetId, time: moment() })
+                this.isSaving = false;
+                this.cd.markForCheck();
             });
     }
 
@@ -144,6 +151,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     toggleDetailsPanel() {
         this.isDetailsPanelCollapsed = !this.isDetailsPanelCollapsed;
+    }
+
+    isZeroPanelOpened() {
+        return this.isBuildingPanelCollapsed && this.isDetailsPanelCollapsed;
     }
 
     isOnePanelOpened() {
@@ -160,8 +171,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.isDetailsPanelCollapsed = false;
     }
 
-    addInitiative(node: Initiative) {
-        this.buildingComponent.addNodeTo(node);
+    addInitiative(data : {node: Initiative, subNode:Initiative}) {
+        this.buildingComponent.addNodeTo(data.node, data.subNode);
     }
 
     removeInitiative(node: Initiative) {
@@ -175,6 +186,11 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     closeEditingPanel() {
         this.isDetailsPanelCollapsed = true;
         this.isBuildingPanelCollapsed = true;
+    }
+
+    toggleEditingPanelsVisibility(isVisible:boolean){
+        this.isBuildingVisible = isVisible;
+        this.cd.markForCheck();
     }
 
 

@@ -8,6 +8,7 @@ import { TestBed, inject } from "@angular/core/testing";
 import { MockBackend } from "@angular/http/testing";
 import { User } from "../../model/user.data";
 import { Auth } from "../auth/auth.service";
+import { Intercom, IntercomConfig } from "ng-intercom";
 
 export class AuthStub {
     getUser() { }
@@ -20,6 +21,7 @@ describe("access.guard.ts", () => {
         TestBed.configureTestingModule({
             providers: [
                 AccessGuard, UserFactory, ErrorService,
+                Intercom,IntercomConfig,
                 { provide: Auth, useClass: AuthStub },
                 { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } },
                 {

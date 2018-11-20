@@ -5,8 +5,9 @@
 
 .help-popup::before {
     content: "\f05a";
-    font-family: FontAwesome;
+    font-family: "Font Awesome 5 Free";
     color: #ccc;
+    font-weight: bold;
 }
 
 span.help-popup {
@@ -23,7 +24,7 @@ span.help-popup {
 
 @media only screen and (max-height: 800px) {
     .helpers.overflow {
-        max-height: 24vh;
+        max-height: 19vh;
         overflow-y: auto;
     }
     .description.overflow {

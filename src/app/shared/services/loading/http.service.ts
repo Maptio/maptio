@@ -31,7 +31,6 @@
 //     }
 
 //     intercept(observable: Observable<Response>): Observable<Response> {
-//         // console.log("In the intercept routine..");
 //         this.pendingRequests++;
 //         this.turnOnModal();
 //         return observable

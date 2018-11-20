@@ -149,7 +149,7 @@
 			<!-- <div *ngIf="node?.helpers.length === 0 || !(node?.helpers); then thenNoHelpersTemplate ; else elseNoHelpersTemplate"></div> -->
 			<!-- <ng-template #elseNoHelpersTemplate> -->
 				<div class="">
-					<div class="d-flex justify-content-between align-items-center">
+					<div class="d-flex justify-content-between align-items-center" *ngIf="getAllHelpers().length > 0">
 						<div></div>
 						<span class="small d-flex mr-2 ml-auto" ngbTooltip="Check this box to allow contributors to edit the details of this circle"
 						 placement="top" container="body">Can edit</span>
@@ -172,7 +172,9 @@
 
 												<span class="pl-1 col">
 													<img src="{{user.picture}}" width="16" class="rounded-circle" alt={{user.name}}>
-													<a routerLink="/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/u/{{user.shortid}}/{{user.getSlug()}}">{{user.name}}</a>
+													<a 
+													routerLink="/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/summary" [queryParams]="{member: user.shortid}"
+													>{{user.name}}</a>
 													<span class="text-muted small" *ngIf="isAuthority(user)">({{authority | titlecase }})</span>
 
 												</span>

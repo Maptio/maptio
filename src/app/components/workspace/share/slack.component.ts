@@ -26,9 +26,7 @@ export class ShareSlackComponent {
     constructor(private cd: ChangeDetectorRef) { }
 
     ngOnChanges(changes: SimpleChanges): void {
-        // console.log("changes", changes)
         if (changes.isPrinting || changes.hasNotified || changes.hasConfigurationError) {
-            // console.log("here")
             this.updateTemplate();
         }
         else {

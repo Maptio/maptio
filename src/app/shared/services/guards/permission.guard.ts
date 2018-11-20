@@ -13,7 +13,6 @@ export class PermissionGuard implements CanActivate, CanActivateChild {
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        // console.log(route, route.data);
         let userPermissions = this.auth.getPermissions();
         route.data.permissions.forEach((required: Permissions) => {
             if (!userPermissions.includes(required)) {

@@ -1,4 +1,3 @@
-import { Observable } from "rxjs/Rx";
 import { Auth } from "./../../shared/services/auth/auth.service";
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/router";
 import { DatasetFactory } from "../../shared/services/dataset.factory";
@@ -10,6 +9,7 @@ import { compact, sortBy } from "lodash";
 import { Team } from "../../shared/model/team.data";
 import { UserFactory } from "../../shared/services/user.factory";
 import { SelectableTag } from "../../shared/model/tag.data";
+import { Observable } from "rxjs/Observable";
 
 @Injectable()
 export class WorkspaceComponentResolver implements Resolve<{ dataset: DataSet, team: Team, members: User[], user: User }> {
@@ -32,12 +32,10 @@ export class WorkspaceComponentResolver implements Resolve<{ dataset: DataSet, t
                     return this.teamFactory.get(dataset.initiative.team_id)
                         .then(
                         t => {
-                            // console.log("team", t, "dataset", dataset)
                             return { dataset: dataset, team: t }
                         })
                 })
                 .then(dt => {
-                    // console.log("dt", dt)
                     return this.userFactory.getUsers(dt.team.members.map((m: User) => m.user_id))
                         .then(members => compact(members))
                         .then(members => sortBy(members, m => m.name))
@@ -52,12 +50,6 @@ export class WorkspaceComponentResolver implements Resolve<{ dataset: DataSet, t
 
                 })
         )
-        // .combineLatest(this.auth.getUser())
-        // .map(data => {
-        //     console.log({ dataset: data[0].dataset, team: data[0].team, members: data[0].members, user: data[1] })
-        //     return { dataset: data[0].dataset, team: data[0].team, members: data[0].members, user: data[1] }
-        // })
-        // )
 
     }
 

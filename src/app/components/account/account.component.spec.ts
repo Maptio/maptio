@@ -159,7 +159,7 @@ describe("account.component.ts", () => {
     })
 
     describe("save", () => {
-        it("should do nothing if form is unvalid", async(() => {
+        it("should do nothing if form is invalid", async(() => {
             component.accountForm.setValue({
                 firstname: "something",
                 lastname: ""

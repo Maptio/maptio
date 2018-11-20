@@ -54,7 +54,6 @@ export class DatasetFactory {
         if (!dataset) throw new Error("Parameter missing");
         return this._http.post("/api/v1/dataset", dataset)
             .map((response: Response) => {
-                // console.log("response", response.json());
                 return DataSet.create().deserialize(response.json());
             })
             .toPromise()
@@ -137,7 +136,6 @@ export class DatasetFactory {
     }
 
     private getWithTeam(team: Team): Promise<DataSet[]> {
-        //  console.log("/api/v1/team/" + team.team_id + "/datasets")
         return this._http.get("/api/v1/team/" + team.team_id + "/datasets")
             .map((responseData) => {
                 return responseData.json();

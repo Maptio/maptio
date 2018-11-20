@@ -63,7 +63,6 @@
 //         it("should display the correct buttons for the root node", () => {
 //             let spyIsRoot = spyOn(component, "isRoot").and.returnValue(true);
 //             target.detectChanges();
-//             // console.log(target.debugElement.nativeElement);
 //             // expect(target.debugElement.query(By.css("label")).nativeElement.innerHTML).toBe("Project");
 //             // expect(target.debugElement.queryAll(By.css("a.toggle.open-node")).length).toBe(1);
 //             // expect(target.debugElement.queryAll(By.css("input.inputNodeName")).length).toBe(1);
@@ -78,7 +77,6 @@
 //         it("should display the correct buttons for the regular node", () => {
 //             let spyIsRoot = spyOn(component, "isRoot").and.returnValue(false);
 //             target.detectChanges();
-//             // console.log(target.debugElement.nativeElement);
 //             // expect(target.debugElement.queryAll(By.css("a.toggle.open-node")).length).toBe(1);
 //             // expect(target.debugElement.queryAll(By.css("input.inputNodeName")).length).toBe(1);
 //             expect(target.debugElement.queryAll(By.css("a.add")).length).toBe(1);

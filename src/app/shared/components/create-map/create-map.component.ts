@@ -45,16 +45,61 @@ export class CreateMapComponent implements OnInit {
     }
 
     submit() {
-        console.log(this.form)
         if (this.form.valid) {
             this.isCreatingMap = true;
             let mapName = this.form.controls["mapName"].value
             let teamId = this.form.controls["teamId"].value
 
-            let newDataset = new DataSet({ initiative: new Initiative({ name: mapName, team_id: teamId }) });
+            let newDataset = new DataSet({
+                initiative: new Initiative({
+                    name: mapName,
+                    team_id: teamId,
+                    children: [
+                        new Initiative({
+                            name: "This is your outer circle. A great place to put a short version of your mission or vision",
+                            description: "This is the description of the circle. Use this to explain more about what this circle does and link out to other tools, systems and documents that you're using.\n\n**You can right-click (or ctrl+click on a Mac) any circle on the map to edit its details.**\n\nWhen you edit the circle you can specify who's working on it.",
+                            team_id: teamId,
+                            id : Math.floor(Math.random() * 10000000000000),
+                            children: [
+                                new Initiative({
+                                    name: "This is a sub-circle, perhaps representing a major initiative in the organisation",
+                                    description: "Sub-circles are just circles that appear within another circle. You can have sub-circles many levels deep.\n\n**You can right-click (or ctrl+click on a Mac) any circle on the map to edit its details.**\n\nWhen you edit the circle you can specify who's working on it and also add tags to it.",
+                                    team_id: teamId,
+                                    id : Math.floor(Math.random() * 10000000000000),
+                                }),
+                                new Initiative({
+                                    name: "This is a sub-circle, perhaps representing a major initiative in the organisation",
+                                    description: "Sub-circles are just circles that appear within another circle. You can have sub-circles many levels deep.\n\n**You can right-click (or ctrl+click on a Mac) any circle on the map to edit its details.**\n\nWhen you edit the circle you can specify who's working on it and also add tags to it.",
+                                    team_id: teamId,
+                                    id : Math.floor(Math.random() * 10000000000000),
+                                    children: [
+                                        new Initiative({
+                                            name: "This is a sub-circle, perhaps representing a major initiative in the organisation",
+                                            description: "Sub-circles are just circles that appear within another circle. You can have sub-circles many levels deep.\n\n**You can right-click (or ctrl+click on a Mac) any circle on the map to edit its details.**\n\nWhen you edit the circle you can specify who's working on it and also add tags to it.",
+                                            team_id: teamId,
+                                            id : Math.floor(Math.random() * 10000000000000),
+                                        }),
+                                        new Initiative({
+                                            name: "This is a sub-circle, perhaps representing a major initiative in the organisation",
+                                            description: "Sub-circles are just circles that appear within another circle. You can have sub-circles many levels deep.\n\n**You can right-click (or ctrl+click on a Mac) any circle on the map to edit its details.**\n\nWhen you edit the circle you can specify who's working on it and also add tags to it.",
+                                            team_id: teamId,
+                                            id : Math.floor(Math.random() * 10000000000000),
+                                        })
+                                    ]
+                                }),
+                                new Initiative({
+                                    name: "This is a sub-circle, perhaps representing a major initiative in the organisation",
+                                    description: "Sub-circles are just circles that appear within another circle. You can have sub-circles many levels deep.\n\n**You can right-click (or ctrl+click on a Mac) any circle on the map to edit its details.**\n\nWhen you edit the circle you can specify who's working on it and also add tags to it.",
+                                    team_id: teamId,
+                                    id : Math.floor(Math.random() * 10000000000000),
+                                }),
+                            ]
+                        })
+                    ]
+                })
+            });
             this.datasetFactory.create(newDataset)
                 .then((created: DataSet) => {
-                    console.log(created)
                     this.created.emit(created);
                     this.form.reset();
 

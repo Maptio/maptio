@@ -1,7 +1,7 @@
 import { URIService } from "./../../../../shared/services/uri.service";
 import { DataService } from "./../../../../shared/services/data.service";
 import { UserFactory } from "./../../../../shared/services/user.factory";
-import { UIService } from "./../../../../shared/services/ui/ui.service";
+import { Browsers, UIService } from "./../../../../shared/services/ui/ui.service";
 import { ColorService } from "./../../../../shared/services/ui/color.service";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { Initiative } from "./../../../../shared/model/initiative.data";
@@ -9,7 +9,7 @@ import { SelectableUser } from "./../../../../shared/model/user.data";
 import { SelectableTag, Tag } from "./../../../../shared/model/tag.data";
 import { IDataVisualizer } from "./../../mapping/mapping.interface";
 import { Observable, Subject, BehaviorSubject } from "rxjs/Rx";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute, Params } from "@angular/router";
 import { Subscription } from "rxjs/Subscription";
 import {
   Component,
@@ -17,10 +17,11 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy
 } from "@angular/core";
-import { D3Service, D3, ScaleLinear, HSLColor } from "d3-ng2-service";
+import { D3Service, D3, ScaleLinear, HSLColor, HierarchyCircularNode } from "d3-ng2-service";
 import { transition } from "d3-transition";
 import { partition } from "lodash";
 import { LoaderService } from "../../../../shared/services/loading/loader.service";
+import { Team } from "../../../../shared/model/team.data";
 
 @Component({
   selector: "zoomable",
@@ -31,6 +32,7 @@ import { LoaderService } from "../../../../shared/services/loading/loader.servic
 })
 export class MappingZoomableComponent implements IDataVisualizer {
   private d3: D3;
+  private browser: Browsers;
   public datasetId: string;
   public teamId: string;
   public teamName: string;
@@ -50,18 +52,14 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public fontColor$: Observable<string>;
   public mapColor$: Observable<string>;
   public zoomInitiative$: Observable<Initiative>;
+  public forceZoom$: Observable<Initiative>;
   public toggleOptions$: Observable<Boolean>;
   public isLocked$: Observable<boolean>;
-  public data$: Subject<{
-    initiative: Initiative;
-    datasetId: string;
-    teamName: string;
-    teamId: string;
-  }>;
-  public rootNode: Initiative;
 
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
-  public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
+  // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
+  public showToolipOf$: Subject<{ initiatives: Initiative[], isNameOnly: boolean }> = new Subject<{ initiatives: Initiative[], isNameOnly: boolean }>();
+  public showContextMenuOf$: Subject<{ initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean }> = new Subject<{ initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean }>();
   public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public moveInitiative$: Subject<{
     node: Initiative;
@@ -83,7 +81,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
 
   public _isDisplayOptions: Boolean = false;
-  public _isFullDisplayMode: Boolean = false;
+
+  public _isFullDisplayMode: Boolean =
+    !localStorage.getItem("CIRCLE_VIEW_MODE")
+    || localStorage.getItem("CIRCLE_VIEW_MODE").toLowerCase() === "flat"
 
   private isFullDisplayMode$: BehaviorSubject<Boolean> = new BehaviorSubject<Boolean>(this._isFullDisplayMode);
 
@@ -106,13 +107,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
   private color: ScaleLinear<HSLColor, string>;
   public slug: string;
 
-  CIRCLE_RADIUS: number = 12;
+  CIRCLE_RADIUS: number = 16;
   MAX_TEXT_LENGTH = 35;
   TRANSITION_DURATION = 750;
   ZOOMING_TRANSITION_DURATION = 250;
   TRANSITION_OPACITY = 750;
   RATIO_FOR_VISIBILITY = 0.08;
-  OPACITY_DISAPPEARING = 0.1;
+  FADED_OPACITY = 0.1;
   MAX_NUMBER_LETTERS_PER_CIRCLE = 15;
   MIN_TEXTBOX_WIDTH = 100;
   T: any;
@@ -122,11 +123,14 @@ export class MappingZoomableComponent implements IDataVisualizer {
   POSITION_ACCOUNTABLE_NAME = { x: 0, y: 0.45, fontRatio: 0.9 };
   DEFAULT_PICTURE_ANGLE = Math.PI - Math.PI * 36 / 180;
 
+  counter: number = 0;
+
   constructor(
     public d3Service: D3Service,
     public colorService: ColorService,
     public uiService: UIService,
     public router: Router,
+    private route: ActivatedRoute,
     private userFactory: UserFactory,
     private cd: ChangeDetectorRef,
     private dataService: DataService,
@@ -135,12 +139,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
   ) {
     this.d3 = d3Service.getD3();
     this.T = this.d3.transition(null).duration(this.TRANSITION_DURATION);
-    this.data$ = new Subject<{
-      initiative: Initiative;
-      datasetId: string;
-      teamName: string;
-      teamId: string;
-    }>();
   }
 
   ngOnInit() {
@@ -149,26 +147,41 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.init();
     this.dataSubscription = this.dataService
       .get()
-      .combineLatest(this.mapColor$, this.isFullDisplayMode$.asObservable())
-      .subscribe((complexData: [any, string, boolean]) => {
+      .combineLatest(this.mapColor$, this.isFullDisplayMode$.asObservable(), this.route.queryParams)
+      .do((complexData: [any, string, boolean, Params]) => {
+        if (complexData[0].dataset.datasetId !== this.datasetId) {
+          this.counter = 0;
+        }
+      })
+      .subscribe((complexData: [any, string, boolean, Params]) => {
         let data = <any>complexData[0].initiative;
-        this.datasetId = complexData[0].datasetId;
-        this.rootNode = complexData[0].initiative;
+        this.datasetId = complexData[0].dataset.datasetId;
         this.slug = data.getSlug();
-
         this.loaderService.show();
-        this.update(data, complexData[1], complexData[2]);
+        let nodes = this.update(data, complexData[1], complexData[2], this.counter === 0);
 
+        if (complexData[3].id) {
+          if (nodes.find((n: any) => n.data.id.toString() === complexData[3].id.toString())) {
+            let n = <Initiative>nodes.filter((n: any) => n.data.id.toString() === complexData[3].id.toString())[0].data;
+            this.showDetailsOf$.next(n);
+            this.svg.select(`circle.node.initiative-map[id="${complexData[3].id}"]`).dispatch("click");
+            // remove the location.search without reload
+            window.history.pushState("", "", `${location.protocol}//${location.host}/${location.pathname}${location.hash}`)
+
+          }
+        }
+        this.counter += 1;
         this.loaderService.hide();
         this.analytics.eventTrack("Map", {
-          action : "viewing",
+          action: "viewing",
           view: "initiatives",
-          team: data.teamName,
-          teamId: data.teamId
+          team: (<Team>complexData[0].team).name,
+          teamId: (<Team>complexData[0].team).team_id
         });
         this.isLoading = false;
         this.cd.markForCheck();
-      });
+      },
+        (err) => console.error(err));
     this.selectableTags$.subscribe(tags => this.tagsState = tags)
 
     this.toggleOptionsSubscription = this.toggleOptions$.subscribe(toggled => {
@@ -179,6 +192,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
   public switch() {
     this._isFullDisplayMode = !this._isFullDisplayMode;
+    if (this._isFullDisplayMode) {
+      localStorage.setItem("CIRCLE_VIEW_MODE", "flat")
+    }
+    else {
+      localStorage.setItem("CIRCLE_VIEW_MODE", "explore")
+    }
+
     this.isFullDisplayMode$.next(this._isFullDisplayMode);
     this.ngOnInit();
   }
@@ -216,27 +236,29 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.uiService.clean();
     let d3 = this.d3;
 
-    let margin = { top: 20, right: 200, bottom: 20, left: 200 };
+    let margin = { top: 20, right: 20, bottom: 20, left: 0 };
     let width = this.width - margin.left - margin.right,
       height = this.height - margin.top - margin.bottom;
-
     let svg: any = d3
       .select("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom),
+      .attr("width", this.width)
+      .attr("height", this.height)
+      .attr('xmlns', "http://www.w3.org/2000/svg")
+      .attr('xmlns:xlink', "http://www.w3.org/1999/xlink")
+      .attr('version', "1.1"),
       diameter = +width,
       g = svg
         .append("g")
         .attr(
           "transform",
-          `translate(${diameter / 2 + margin.left}, ${diameter / 2 + margin.top}) scale(${this.scale})`
+          `translate(${diameter / 2 + margin.left}, ${diameter / 2 }) scale(${this.scale})`
         ),
       definitions = svg.append("svg:defs");
 
-    g.append("g").attr("class", "paths");
+    // g.append("g").attr("class", "paths");
     let zooming = d3
       .zoom()
-      .scaleExtent([1 / 3, this._isFullDisplayMode ? 3 : 4 / 3])
+      .scaleExtent([this._isFullDisplayMode ? 2 / 3 : 1 / 3, this._isFullDisplayMode ? 3 : 4 / 3])
       .on("zoom", zoomed)
       .on("end", (d, e, i): any => {
         hideSmallElements(this.MIN_TEXTBOX_WIDTH);
@@ -310,33 +332,36 @@ export class MappingZoomableComponent implements IDataVisualizer {
       } catch (error) { }
     });
 
-    this.fontSubscription = this.fontSize$
-      .combineLatest(this.fontColor$)
-      .subscribe((format: [number, string]) => {
-        // font size
-        svg.attr("font-size", format[0] + "rem");
-        svg.attr("data-font-multiplier", format[0]);
-        // svg.selectAll("text").style("font-size", format[0] + "rem");
-        svg.selectAll("foreignObject.name")
-          .each(function (d: any) {
-            d3.select(this).select("div").style("font-size", `${d.r * d.k * 2 * 0.95 / 15 * format[0] / 16}rem`)
-          });
-        svg.selectAll("text.accountable")
-          .attr("font-size", function (d: any) {
-            let multiplier = svg.attr("data-font-multiplier");
-            return `${d.r * d.k * 2 * 0.95 / 15 * 0.9 * multiplier / 16}rem`
-          })
-        svg.selectAll("text.tags")
-          .attr("font-size", function (d: any) {
-            let multiplier = svg.attr("data-font-multiplier");
-            return `${d.r * d.k * 2 * 0.95 / 15 * 0.65 * multiplier / 16}rem`
-          })
+    this.fontSubscription = this.fontSize$.combineLatest(this.fontColor$).subscribe((format: [number, string]) => {
+      // font size
+      svg.attr("font-size", format[0] + "rem");
+      svg.attr("data-font-multiplier", format[0]);
+      // svg.selectAll("text").style("font-size", format[0] + "rem");
+      svg.selectAll("foreignObject.name")
+        .each(function (d: any) {
+          d3.select(this).select("div").style("font-size", `${d.r * d.k * 2 * 0.95 / 15 * format[0] / 16}rem`)
+        });
 
-        this.fontSize = format[0];
-        // font color
-        svg.style("fill", format[1]);
-        svg.selectAll("text").style("fill", format[1]);
-      });
+      svg.selectAll("text.name.with-children")
+        .each(function (d: any) {
+          d3.select(this).style("font-size", `${format[0]}rem`)
+        });
+      // svg.selectAll("text.accountable")
+      //   .attr("font-size", function (d: any) {
+      //     let multiplier = svg.attr("data-font-multiplier");
+      //     return `${d.r * d.k * 2 * 0.95 / 15 * 0.9 * multiplier / 16}rem`
+      //   })
+      // svg.selectAll("text.tags")
+      //   .attr("font-size", function (d: any) {
+      //     let multiplier = svg.attr("data-font-multiplier");
+      //     return `${d.r * d.k * 2 * 0.95 / 15 * 0.65 * multiplier / 16}rem`
+      //   })
+
+      this.fontSize = format[0];
+      // font color
+      svg.style("fill", format[1]);
+      svg.selectAll("text").style("fill", format[1]);
+    });
 
     let [clearSearchInitiative, highlightInitiative] = this.zoomInitiative$.partition(node => node === null);
     clearSearchInitiative.subscribe(() => {
@@ -347,17 +372,15 @@ export class MappingZoomableComponent implements IDataVisualizer {
     });
 
     this.selectableTagsSubscription = this.selectableTags$.subscribe(tags => {
-
       this.tagsState = tags;
       let [selectedTags, unselectedTags] = partition(tags, t => t.isSelected);
-      // let [selectedUsers, unselectedUsers] = _.partition(users, u => u.isSelected);
       let uiService = this.uiService
+      let FADED_OPACITY = this.FADED_OPACITY;
       function filterByTags(d: any): number {
+        if (selectedTags.length === 0) return 1;
         return uiService.filter(selectedTags, unselectedTags, d.data.tags.map((t: Tag) => t.shortid))
-          // &&
-          // uiService.filter(selectedUsers, unselectedUsers, _.compact(_.flatten([...[d.data.accountable], d.data.helpers])).map(u => u.shortid))
           ? 1
-          : 0.1
+          : FADED_OPACITY
       }
       g.selectAll("g.node.initiative-map").style("opacity", function (d: any) {
         return filterByTags(d)
@@ -366,18 +389,28 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     this.svg = svg;
     this.g = g;
+    this.browser = this.uiService.getBrowser();
     // this.color = color;
     this.diameter = diameter;
     this.definitions = definitions;
   }
 
+
   getTags() {
     return this.tagsState;
   }
 
+  private _lastZoomedCircle: any;
 
+  getLastZoomedCircle() {
+    return this._lastZoomedCircle;
+  }
 
-  update(data: Initiative, seedColor: string, isFullDisplayMode: boolean) {
+  setLastZoomedCircle(circle: any) {
+    this._lastZoomedCircle = circle;
+  }
+
+  update(data: Initiative, seedColor: string, isFullDisplayMode: boolean, isFirstLoad: boolean): HierarchyCircularNode<{}>[] {
     if (this.d3.selectAll("g").empty()) {
       this.init();
     }
@@ -399,11 +432,16 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let TRANSITION_DURATION = this.TRANSITION_DURATION;
     // let fonts = this.fonts;
     let showDetailsOf$ = this.showDetailsOf$;
+    let showToolipOf$ = this.showToolipOf$;
+    let showContextMenuOf$ = this.showContextMenuOf$;
+    let browser = this.browser;
     let datasetId = this.datasetId;
     let datasetSlug = this.slug;
     let router = this.router;
     let getTags = this.getTags.bind(this)
-
+    let getLastZoomedCircle = this.getLastZoomedCircle.bind(this);
+    let setLastZoomedCircle = this.setLastZoomedCircle.bind(this);
+    let zoomInitiative$ = this.zoomInitiative$;
     let POSITION_INITIATIVE_NAME = this.POSITION_INITIATIVE_NAME;
     let POSITION_TAGS_NAME = this.POSITION_TAGS_NAME;
     let POSITION_ACCOUNTABLE_NAME = this.POSITION_ACCOUNTABLE_NAME;
@@ -411,6 +449,18 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let PADDING_CIRCLE = 20
     let MAX_NUMBER_LETTERS_PER_CIRCLE = this.MAX_NUMBER_LETTERS_PER_CIRCLE;
     let MIN_TEXTBOX_WIDTH = this.MIN_TEXTBOX_WIDTH;
+    let FADED_OPACITY = this.FADED_OPACITY;
+
+    let TRANSITION_1x = d3.transition("").duration(TRANSITION_DURATION)
+    let TRANSITION_2x = d3.transition("").duration(TRANSITION_DURATION * 1)
+    let TRANSITION_3x = d3.transition("").duration(TRANSITION_DURATION * 1)
+
+
+    // let TRANSITION_DELETE = d3.transition("deleting").duration(TRANSITION_DURATION)
+    // let TRANSITION_ADD_FADEIN = d3.transition("adding_fadein").duration(TRANSITION_DURATION)
+    // let TRANSITION_ADD_FADEOUT = d3.transition("adding_fadeout").duration(TRANSITION_DURATION * 3)
+    let COLOR_ADD_CIRCLE = getComputedStyle(document.body).getPropertyValue('--maptio-blue')
+    let COLOR_DELETE_CIRCLE = getComputedStyle(document.body).getPropertyValue('--maptio-red')
 
     let pack = d3
       .pack()
@@ -428,6 +478,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return b.value - a.value;
       });
 
+    if (isFirstLoad) {
+      setLastZoomedCircle(root);
+    }
+
+
     let depth = 0;
     root.eachAfter(function (n: any) {
       depth = depth > n.depth ? depth : n.depth;
@@ -440,6 +495,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
       nodes = pack(root).descendants(),
       list = d3.hierarchy(data).descendants(),
       view: any;
+
+
+
 
 
 
@@ -461,8 +519,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     buildPatterns();
 
-    buildTooltips();
-
     let path = buildPaths();
 
     let initiativeWithChildren = g
@@ -478,48 +534,27 @@ export class MappingZoomableComponent implements IDataVisualizer {
       });
 
 
-    initiativeWithChildren.exit().remove();
-    initiativeNoChildren.exit().remove();
+    exitWithAnimations(initiativeNoChildren);
+    exitWithAnimations(initiativeWithChildren);
 
-    let initiativeWithChildrenEnter = initiativeWithChildren.enter()
-      .append("g")
-      .attr("class", function (d: any) {
-        return d.parent
-          ? d.children ? "node" : "node node--leaf"
-          : "node node--root";
-      })
-      .classed("with-children", true)
-      .classed("initiative-map", true)
-      .attr("id", function (d: any) {
-        return `${d.data.id}`;
-      });
+    let initiativeWithChildrenEnter = initiativeWithChildren.enter().append("g");
+    let initiativeNoChildrenEnter = initiativeNoChildren.enter().append("g");
 
-    let initiativeNoChildrenEnter = initiativeNoChildren.enter()
-      .append("g")
-      .attr("class", function (d: any) {
-        return d.parent
-          ? d.children ? "node" : "node node--leaf"
-          : "node node--root";
-      })
-      .classed("no-children", true)
-      .classed("initiative-map", true)
-      .attr("id", function (d: any) {
-        return `${d.data.id}`;
-      });
+    enterWithAnimations(initiativeWithChildrenEnter, "with-children");
+    enterWithAnimations(initiativeNoChildrenEnter, "no-children");
 
-    initiativeWithChildrenEnter.append("circle");
-    initiativeNoChildrenEnter.append("circle");
+    // initiativeWithChildrenEnter.append("path").attr("class", "node");
+
 
     initiativeWithChildrenEnter.append("text").attr("class", "name with-children").classed("initiative-map", true);
-    // initiativeNoChildrenEnter.append("text").attr("class", "name no-children").classed("initiative-map", true);
     initiativeNoChildrenEnter.append("foreignObject").attr("class", "name no-children").classed("initiative-map", true);
 
-    initiativeNoChildrenEnter.append("text").attr("class", "tags no-children").classed("initiative-map", true);
+    // initiativeNoChildrenEnter.append("text").attr("class", "tags no-children").classed("initiative-map", true);
 
     initiativeWithChildrenEnter.append("circle").attr("class", "accountable with-children").classed("initiative-map", true);
     initiativeNoChildrenEnter.append("circle").attr("class", "accountable no-children").classed("initiative-map", true);
 
-    initiativeNoChildrenEnter.append("text").attr("class", "accountable no-children").classed("initiative-map", true)
+    // initiativeNoChildrenEnter.append("text").attr("class", "accountable no-children").classed("initiative-map", true)
 
     initiativeWithChildren = initiativeWithChildrenEnter.merge(initiativeWithChildren);
     initiativeNoChildren = initiativeNoChildrenEnter.merge(initiativeNoChildren);
@@ -528,52 +563,23 @@ export class MappingZoomableComponent implements IDataVisualizer {
       return b.height - a.height;
     });
 
-    initiativeWithChildren.select("circle")
-      .attr("class", function (d: any) {
-        return d.parent
-          ? d.children ? "node" : "node node--leaf"
-          : "node node--root";
-      })
-      .classed("initiative-map", true)
-      .each((d: any) => (d.k = 1))
-      .attr("id", function (d: any) {
-        return `${d.data.id}`;
-      })
-      .classed("with-border", function (d: any) {
-        return !d.children && d.parent === root;
-      })
-      .on("click", function (d: any) {
-        if (isFullDisplayMode) return;
-        if (focus !== d) zoom(d), d3.event.stopPropagation();
-      });
-
-    initiativeNoChildren.select("circle")
-      .attr("class", function (d: any) {
-        return d.parent
-          ? d.children ? "node" : "node node--leaf"
-          : "node node--root";
-      })
-      .classed("initiative-map", true)
-      .each((d: any) => (d.k = 1))
-      .attr("id", function (d: any) {
-        return `${d.data.id}`;
-      })
-      .classed("with-border", function (d: any) {
-        return !d.children && d.parent === root;
-      })
-      .on("click", function (d: any) {
-        if (focus !== d) zoom(d), d3.event.stopPropagation();
-      });
 
 
 
-    g.selectAll("circle.node")
-      .style("fill", function (d: any) {
-        return d.children
-          ? color(d.depth)
-          : !d.children && d.parent === root ? color(d.depth) : null;
-      })
-      ;
+
+    addCircle(initiativeWithChildren)
+    addCircle(initiativeNoChildren)
+
+    // let path = g.selectAll("path.node")
+    //   .attr("id", function (d: any) {
+    //     return `path${d.data.id}`;
+    //   })
+    //   .style("stroke", "none")
+    //   .style("fill", "none")
+    //   .attr("d", function (d: any, i: number) {
+    //     let radius = d.r * d.k + 1;
+    //     return uiService.getCircularPath(radius, -radius, 0);
+    //   });
 
     let circle = g.selectAll("circle.node")
 
@@ -590,8 +596,16 @@ export class MappingZoomableComponent implements IDataVisualizer {
           ? isBranchDisplayed(d) ? "inline" : "none"
           : "none";
       })
+      .style("font-size", function (d: any) {
+        return `1rem`;
+      })
       .html(function (d: any) {
-        return `<textPath xlink:href="#path${d.data.id}" startOffset="10%">
+        let radius = d.r * d.k + 1;
+        return browser === Browsers.Firefox
+          ? `<textPath path="${uiService.getCircularPath(radius, -radius, 0)}" startOffset="10%">
+                  <tspan>${d.data.name || ""}</tspan>
+                  </textPath>`
+          : `<textPath href="#path${d.data.id}" startOffset="10%">
                   <tspan>${d.data.name || ""}</tspan>
                   </textPath>`;
       });
@@ -615,83 +629,47 @@ export class MappingZoomableComponent implements IDataVisualizer {
         return isLeafDisplayed(d) ? 1 : 0;
       })
       .style("pointer-events", function (d: any) {
-        return isLeafDisplayed(d) ? "auto" : "none";
-      })
-      .html(function (d: any): string {
-        const fs = `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`;
-        return `<div style="font-size: ${fs}; background: none; text-align: center; pointer-events: none">${d.data.name}</div>`;
-      });
-
-    // let initiativeName = initiativeNoChildren.select("text.name.no-children")
-    //   .attr("id", function (d: any) {
-    //     return `${d.data.id}`;
-    //   })
-    //   .classed("initiative-map", true)
-    //   // .style("pointer-events", "none")
-    //   .attr("dy", 0)
-    //   .attr("x", function (d: any) {
-    //     return -d.r * POSITION_INITIATIVE_NAME.x;
-    //   })
-    //   .attr("y", function (d: any) {
-    //     return -d.r * POSITION_INITIATIVE_NAME.y;
-    //   })
-    //   .attr("font-size", function (d: any) {
-    //     return `${fonts(d.depth)}rem`;
-    //   })
-    //   .text(function (d: any) {
-    //     return d.data.name;
-    //   })
-    //   .style("display", "inline")
-    //   .style("opacity", function (d: any) {
-    //     return isLeafDisplayed(d) ? 1 : 0;
-    //   })
-    //   .each(function (d: any) {
-    //     uiService.wrap(
-    //       d3.select(this),
-    //       d.data.name,
-    //       d.data.tags,
-    //       d.r * 2 * 0.95
-    //     );
-    //   });
-
-    let tagsName = initiativeNoChildren.select("text.tags")
-      .attr("id", function (d: any) {
-        return `${d.data.id}`;
-      })
-      .style("pointer-events", "none")
-      .attr("text-anchor", "middle")
-      .attr("x", function (d: any) {
-        return -d.r * POSITION_TAGS_NAME.x;
-      })
-      .attr("y", function (d: any) {
-        return -d.r * POSITION_TAGS_NAME.y;
-      })
-      .attr("font-size", function (d: any) {
-        let multiplier = svg.attr("data-font-multiplier");
-        return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * POSITION_TAGS_NAME.fontRatio * multiplier)}rem`
-        // return `${fonts(d.depth) /
-        //   (d.depth <= 2 ? 1 : 2) *
-        //   d.k *
-        //   POSITION_TAGS_NAME.fontRatio}rem`;
-      })
-      // .attr("font-size", function (d: any) {
-      //   return `${fonts(d.depth) * POSITION_TAGS_NAME.fontRatio}rem`;
-      // })
-      .style("display", "inline")
-      .style("opacity", function (d: any) {
-        return isLeafDisplayed(d) ? 1 : 0;
-      })
-      .style("pointer-events", function (d: any) {
-        return isLeafDisplayed(d) ? "auto" : "none";
+        return "none"; // isLeafDisplayed(d) ? "auto" : "none";
       })
       .html(function (d: any) {
-        return d.data.tags.map((tag: Tag) => `<tspan fill="${tag.color}" class="dot-tags">&#xf02b</tspan><tspan fill="${tag.color}">${tag.name}</tspan>`).join(" ");
-      });
+        let fs = `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`;
+        return `<div style="font-size: ${fs}; background: none; display: block;pointer-events: none; overflow:hidden; height:100%;line-height:100%">${d.data.name || '(Empty)'}</div>`;
+      })
+
+    /*
+  let tagsName = initiativeNoChildren.select("text.tags")
+    .attr("id", function (d: any) {
+      return `${d.data.id}`;
+    })
+    .style("pointer-events", "none")
+    .attr("text-anchor", "middle")
+    .attr("x", function (d: any) {
+      return -d.r * POSITION_TAGS_NAME.x;
+    })
+    .attr("y", function (d: any) {
+      return -d.r * POSITION_TAGS_NAME.y;
+    })
+    .attr("font-size", function (d: any) {
+      let multiplier = svg.attr("data-font-multiplier");
+      return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * POSITION_TAGS_NAME.fontRatio * multiplier)}rem`
+
+    })
+    .style("display", "inline")
+    .style("opacity", function (d: any) {
+      return isLeafDisplayed(d) ? 1 : 0;
+    })
+    .style("pointer-events", function (d: any) {
+      return isLeafDisplayed(d) ? "auto" : "none";
+    })
+    .html(function (d: any) {
+      return d.data.tags.map((tag: Tag) => `<tspan fill="${tag.color}" class="dot-tags">&#xf02b</tspan><tspan fill="${tag.color}">${tag.name}</tspan>`).join(" ");
+    });
+*/
 
     let accountablePictureWithChildren = initiativeWithChildren.select("circle.accountable.with-children")
       .attr("pointer-events", "none")
       .attr("fill", function (d: any) {
-        return "url(#image" + d.data.id + ")";
+        return d.data.accountable ? "url('#image" + d.data.id + "')" : "transparent";
       })
       .style("fill-opacity", function (d: any) {
         return isBranchDisplayed(d) ? 1 : 0;
@@ -705,49 +683,55 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let accountablePictureWithoutChildren = initiativeNoChildren.select("circle.accountable.no-children")
       .attr("pointer-events", "none")
       .attr("fill", function (d: any) {
-        return "url(#image" + d.data.id + ")";
+        return  d.data.accountable ? "url('#image" + d.data.id + "')": "transparent";
       })
       .style("opacity", function (d: any) {
         return isLeafDisplayed(d) ? 1 : 0;
       });
-
-    let accountableName = initiativeNoChildren.select("text.accountable.no-children")
-      .attr("text-anchor", "middle")
-      .style("pointer-events", "none")
-      .attr("id", function (d: any) {
-        return `${d.data.id}`;
-      })
-      .style("display", "inline")
-      .style("opacity", function (d: any) {
-        return isLeafDisplayed(d) ? 1 : 0;
-      })
-      .attr("font-size", function (d: any) {
-        let multiplier = svg.attr("data-font-multiplier");
-        return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * POSITION_ACCOUNTABLE_NAME.fontRatio * multiplier)}rem`
-
-      })
-      .attr("x", function (d: any) {
-        return d.r * POSITION_ACCOUNTABLE_NAME.x;
-      })
-      .attr("y", function (d: any) {
-        return Math.max(-d.r * POSITION_ACCOUNTABLE_NAME.y, -d.r + CIRCLE_RADIUS * 2 - 3);
-      })
-      .text(function (d: any) {
-        return d.data.accountable ? d.data.accountable.name : "";
-      });
-
+    /*
+        let accountableName = initiativeNoChildren.select("text.accountable.no-children")
+          .attr("text-anchor", "middle")
+          .style("pointer-events", "none")
+          .attr("id", function (d: any) {
+            return `${d.data.id}`;
+          })
+          .style("display", "inline")
+          .style("opacity", function (d: any) {
+            return isLeafDisplayed(d) ? 1 : 0;
+          })
+          .attr("font-size", function (d: any) {
+            let multiplier = svg.attr("data-font-multiplier");
+            return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * POSITION_ACCOUNTABLE_NAME.fontRatio * multiplier)}rem`
+    
+          })
+          .attr("x", function (d: any) {
+            return d.r * POSITION_ACCOUNTABLE_NAME.x;
+          })
+          .attr("y", function (d: any) {
+            return Math.max(-d.r * POSITION_ACCOUNTABLE_NAME.y, -d.r + CIRCLE_RADIUS * 2 - 3);
+          })
+          .text(function (d: any) {
+            return d.data.accountable ? d.data.accountable.name : "";
+          });
+    */
     let node = g.selectAll("g.node");
 
     svg.on("click", function () {
-      if (isFullDisplayMode) return;
+      // if (isFullDisplayMode) return;
       zoom(root);
     });
 
-    zoomTo([root.x, root.y, root.r * 2 + margin]);
+    zoomTo([getLastZoomedCircle().x, getLastZoomedCircle().y, getLastZoomedCircle().r * 2 + margin]);
+    if (getLastZoomedCircle().data.id !== root.id) {
+      zoom(getLastZoomedCircle())
+    }
+
+    return nodes;
 
     function zoom(d: any) {
       let focus0 = focus;
       focus = d;
+      setLastZoomedCircle(focus);
 
       let transition = d3
         .transition("zooming")
@@ -762,14 +746,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
             zoomTo(i(t));
           };
         })
-        .on("start", function (d: any) {
-          d3.selectAll(`div.arrow_box`).classed("show", false)
-        })
-        .on("end", function (d: any) {
-
-
-
-        });
 
       let revealTransition = d3
         .transition("reveal")
@@ -794,6 +770,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
               return d !== root
                 ? isBranchDisplayed(d) ? "inline" : "none"
                 : "none";
+            })
+            .style("font-size", function (d: any) {
+              let multiplier = svg.attr("data-font-multiplier");
+              return `${multiplier}rem`
+
             });
           // .attr("font-size", function (d: any) { return `${fonts(d.depth) * d.k / 2}px` })
         });
@@ -882,145 +863,209 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .style("opacity", function (d: any) {
               return isLeafDisplayed(d) ? 1 : 0;
             })
-            .html(function (d: any): string {
-              const multiplier = svg.attr("data-font-multiplier");
-              const fs = `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * multiplier)}rem`;
-              return `<div style="font-size: ${fs}; background: none; overflow: initial; text-align: center; pointer-events:none">${d.data.name}</div>`;
-            })
-        })
-
-      transition
-        .selectAll("text.accountable")
-        .filter((d: any) => !d.children)
-        .on("start", function (d: any) {
-          d3.select(this).style("opacity", 0);
-        })
-        .on("end", function (d: any) {
-          d3
-            .select(this)
-            .attr("text-anchor", "middle")
-            .attr("x", function (d: any) {
-              return d.r * POSITION_ACCOUNTABLE_NAME.x;
-            })
-            .attr("y", function (d: any) {
-              return Math.max(-d.r * d.k * POSITION_ACCOUNTABLE_NAME.y, -d.r * d.k + CIRCLE_RADIUS * 2 + 3);
-            })
-            .attr("font-size", function (d: any) {
+            .html(function (d: any) {
               let multiplier = svg.attr("data-font-multiplier");
-              return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * POSITION_ACCOUNTABLE_NAME.fontRatio * multiplier)}rem`
+              let fs = `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * multiplier)}rem`;
+              return `<div style="font-size: ${fs}; background: none;overflow: hidden; display: block; pointer-events:none; height:100%;line-height:100%">${(d.data.name || '(Empty)')}</div>`;
             })
-            .style("opacity", function (d: any) {
-              return isLeafDisplayed(d) ? 1 : 0;
-            })
-        });
-
-      transition
-        .selectAll("text.tags")
-        .filter((d: any) => !d.children)
-        .filter(function (d: any) {
-          return d.data.tags;
         })
-        .on("start", function (d: any) {
-          d3.select(this).style("opacity", 0);
-        })
-        .on("end", function (d: any) {
-          d3
-            .select(this)
-            .attr("x", function (d: any) {
-              return -d.r * d.k * POSITION_TAGS_NAME.x;
-            })
-            .attr("y", function (d: any) {
-              return -d.r * d.k * POSITION_TAGS_NAME.y;
-            })
-            .attr("font-size", function (d: any) {
-              let multiplier = svg.attr("data-font-multiplier");
-              return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * POSITION_TAGS_NAME.fontRatio * multiplier)}rem`
-              // return `${fonts(d.depth) /
-              //   (d.depth <= 2 ? 1 : 2) *
-              //   d.k *
-              //   POSITION_TAGS_NAME.fontRatio}rem`;
-            })
-            .style("opacity", function (d: any) {
-              return isLeafDisplayed(d) ? 1 : 0;
-            })
-        });
 
-      // all
+      /*
+    transition
+      .selectAll("text.accountable")
+      .filter((d: any) => !d.children)
+      .on("start", function (d: any) {
+        d3.select(this).style("opacity", 0);
+      })
+      .on("end", function (d: any) {
+        d3
+          .select(this)
+          .attr("text-anchor", "middle")
+          .attr("x", function (d: any) {
+            return d.r * POSITION_ACCOUNTABLE_NAME.x;
+          })
+          .attr("y", function (d: any) {
+            return Math.max(-d.r * d.k * POSITION_ACCOUNTABLE_NAME.y, -d.r * d.k + CIRCLE_RADIUS * 2 + 3);
+          })
+          .attr("font-size", function (d: any) {
+            let multiplier = svg.attr("data-font-multiplier");
+            return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * POSITION_ACCOUNTABLE_NAME.fontRatio * multiplier)}rem`
+          })
+          .style("opacity", function (d: any) {
+            return isLeafDisplayed(d) ? 1 : 0;
+          })
+      });
+      */
+
+      /*
+    transition
+      .selectAll("text.tags")
+      .filter((d: any) => !d.children)
+      .filter(function (d: any) {
+        return d.data.tags;
+      })
+      .on("start", function (d: any) {
+        d3.select(this).style("opacity", 0);
+      })
+      .on("end", function (d: any) {
+        d3
+          .select(this)
+          .attr("x", function (d: any) {
+            return -d.r * d.k * POSITION_TAGS_NAME.x;
+          })
+          .attr("y", function (d: any) {
+            return -d.r * d.k * POSITION_TAGS_NAME.y;
+          })
+          .attr("font-size", function (d: any) {
+            let multiplier = svg.attr("data-font-multiplier");
+            return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * POSITION_TAGS_NAME.fontRatio * multiplier)}rem`
+
+          })
+          .style("opacity", function (d: any) {
+            return isLeafDisplayed(d) ? 1 : 0;
+          })
+      });
+*/
       let [selectedTags, unselectedTags] = partition(getTags(), (t: SelectableTag) => t.isSelected);
 
       transition
         .selectAll("g.node.initiative-map")
         .style("opacity", function (d: any) {
+          if (getTags().length === 0) return 1;
           return getTags().every((t: SelectableTag) => !t.isSelected)
             // no tags selecteed, we apply node focusing
-            ? (<any[]>focus.descendants()).find(desc => desc.data.id === d.data.id) ? 1 : 0.1
+            ? (<any[]>focus.descendants()).find(desc => desc.data.id === d.data.id) ? 1 : FADED_OPACITY
             // otherwise, we apply tags focusing
-            : uiService.filter(selectedTags, unselectedTags, d.data.tags.map((t: Tag) => t.shortid)) ? 1 : 0.1;
+            : uiService.filter(selectedTags, unselectedTags, d.data.tags.map((t: Tag) => t.shortid)) ? 1 : FADED_OPACITY;
         });
     }
 
     function zoomTo(v: any) {
       let k = diameter / v[2];
       view = v;
-      node.attr("transform", function (d: any) {
-        return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")";
-      });
+
+      node
+        .transition()
+        .duration((d: any) => d.children ? TRANSITION_DURATION / 5 : TRANSITION_DURATION / 5)
+
+        .attr("transform", function (d: any) {
+          return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")";
+        });
 
       circle
         .attr("r", function (d: any) {
           return d.r * k;
         })
+        .style("stroke", function (d: any) {
+          return d.children
+            ? color(d.depth)
+            : !d.children && d.parent === root ? d3.color(color(d.depth)).darker(1).toString() : null;
+        })
+        .style("fill", function (d: any) {
+          return d.children
+            ? color(d.depth)
+            : !d.children && d.parent === root ? color(d.depth) : null;
+        })
+        .style("fill-opacity", function (d: any) {
+          return d.children
+            ? 0.1
+            : !d.children && d.parent === root ? 0.1 : 1;
+        })
+        .style("stroke-opacity", 1)
         .each((d: any) => (d.k = k))
         .on("mouseover", function (d: any) {
+          let circle = d3.select(this);
+          let initiative = d.data;
           d3.event.stopPropagation();
+          d3.event.preventDefault();
+          showToolipOf$.next({ initiatives: [initiative], isNameOnly: false });
+          d3.select(this)
+            .style("stroke", d3.color(seedColor).darker(1).toString())
+            .style("fill", d3.color(seedColor).darker(1).toString())
+            .style("fill-opacity", 1)
+            .style("stroke-width", "3px")
 
-          let tooltip = d3.select(`div.arrow_box[id="${d.data.id}"]`);
-          let matrix = this.getScreenCTM().translate(
+          d3.selectAll(`circle[parent-id="${d.data.id}"]`)
+            .style("fill-opacity", 1)
+
+          // d3.select(".tooltip-menu")
+          //   .on("mouseover", function (d: any) {
+          //     showToolipOf$.next({ initiatives: [initiative], isNameOnly: false });
+          //     circle.dispatch("mouseover");
+          //   })
+          //   .on("mouseout", function (d: any) {
+          //     showToolipOf$.next({ initiatives: null, isNameOnly: false });
+          //     circle.dispatch("mouseout");
+          //   })
+
+        })
+        .on("mouseout", function (d: any) {
+          showToolipOf$.next({ initiatives: null, isNameOnly: false });
+          showContextMenuOf$.next({ initiatives: null, x: 0, y: 0, isReadOnlyContextMenu: false })
+          d3.select(this)
+            .style("stroke", function (d: any) {
+              return d.children
+                ? color(d.depth)
+                : !d.children && d.parent === root ? color(d.depth) : null;
+            })
+            .style("fill", function (d: any) {
+              return d.children
+                ? color(d.depth)
+                : !d.children && d.parent === root ? color(d.depth) : null;
+            })
+            .style("fill-opacity", function (d: any) {
+              return d.children
+                ? 0.1
+                : !d.children && d.parent === root ? 0.1 : 1;
+            })
+            .style("stroke-width", "initial")
+            .style("stroke-opacity", 1)
+          d3.selectAll(`circle[parent-id="${d.data.id}"]`)
+            .style("fill-opacity", function (d: any) {
+              return d.children
+                ? 0.1
+                : !d.children && d.parent === root ? 0.1 : 1;
+            })
+        })
+        .on("contextmenu", function (d: any) {
+          d3.event.preventDefault();
+          let mousePosition = d3.mouse(this);
+          let matrix = this.getCTM().translate(
             +this.getAttribute("cx"),
             +this.getAttribute("cy")
           );
 
-          let TOOLTIP_HEIGHT = (tooltip.node() as HTMLElement).getBoundingClientRect()
-            .height;
-          let TOOLTIP_WIDTH = (tooltip.node() as HTMLElement).getBoundingClientRect()
-            .width;
-          let ARROW_DIMENSION = 10;
-          let DEFAULT_ANGLE = 180 - 36;
-          let svgScale = + svg.attr("scale");
+          let mouse = { x: mousePosition[0] + 3, y: mousePosition[1] + 3 }
+          let initiative = d.data;
+          let circle = d3.select(this);
 
-          let center = { x: window.pageXOffset + matrix.e, y: window.pageYOffset + matrix.f };
-          let radius = d.r * d.k * svgScale;
+          showContextMenuOf$.next({
+            initiatives: [initiative],
+            x: uiService.getContextMenuCoordinates(mouse, matrix).x,
+            y: uiService.getContextMenuCoordinates(mouse, matrix).y,
+            isReadOnlyContextMenu: false
+          });
 
-          let left = center.x - TOOLTIP_WIDTH / 2;
-          let top = center.y - TOOLTIP_HEIGHT - ARROW_DIMENSION - radius;
-          let bottom = center.y + ARROW_DIMENSION + radius;
-
-          let isHorizontalPosition = top < 0 && bottom + TOOLTIP_HEIGHT > Number.parseFloat(svg.attr("height"));
-          tooltip
-            // .style("z-index", 2000)
-            .style("left", () => {
-              return isHorizontalPosition
-                ? `${center.x + radius * Math.cos(DEFAULT_PICTURE_ANGLE) - TOOLTIP_WIDTH / 2 - ARROW_DIMENSION}px`
-                : `${left}px`
+          d3.select(".context-menu")
+            .on("mouseenter", function (d: any) {
+              showContextMenuOf$.next({
+                initiatives: [initiative],
+                x: uiService.getContextMenuCoordinates(mouse, matrix).x,
+                y: uiService.getContextMenuCoordinates(mouse, matrix).y,
+                isReadOnlyContextMenu: false
+              });
+              circle.dispatch("mouseover");
             })
-            .style("top", () => {
-              return isHorizontalPosition
-                ? `${center.y - radius * Math.sin(DEFAULT_PICTURE_ANGLE) + CIRCLE_RADIUS * 2}px`
-                : (
-                  top > 0
-                    ? `${top}px`
-                    : `${bottom}px`);
+            .on("mouseleave", function (d: any) {
+              showContextMenuOf$.next({
+                initiatives: null,
+                x: 0,
+                y: 0,
+                isReadOnlyContextMenu: false
+              });
+              circle.dispatch("mouseout");
             })
-            .classed("show", true)
-            .classed("arrow-top", top < 0)
-            .classed("arrow-bottom", top >= 0)
-            .on("click", function (d: any) {
-              tooltip.classed("show", false);
-            });
-        })
-        .on("mouseout", function (d: any) {
-          let tooltip = d3.select(`div.arrow_box[id="${d.data.id}"]`);
-          tooltip.classed("show", false);
+
         });
 
       g.selectAll("foreignObject.name, .accountable, .tags")
@@ -1034,12 +1079,32 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
       path.attr("transform", "scale(" + k + ")");
 
-      // accountableName
+      // path
+      //   .attr("d", function (d: any, i: number) {
+      //     let radius = d.r * k + 1;
+      //     return uiService.getCircularPath(radius, -radius, 0);
+      //   })
+
+
+      textAround
+        // .style("font-size", function(d:any){
+        //   return `${toREM(d.r * k  * 2 * 0.95)}rem`;
+        // })
+        .html(function (d: any) {
+          let radius = d.r * k + 1;
+          return browser === Browsers.Firefox
+            ? `<textPath path="${uiService.getCircularPath(radius, -radius, 0)}" startOffset="10%">
+                  <tspan>${d.data.name || ""}</tspan>
+                  </textPath>`
+            : `<textPath href="#path${d.data.id}" startOffset="10%">
+                  <tspan>${d.data.name || ""}</tspan>
+                  </textPath>`;
+        })
 
       g
         .selectAll("circle.accountable")
         .attr("r", function (d: any) {
-          return `${CIRCLE_RADIUS}px`;
+          return d.r * k > CIRCLE_RADIUS ? `${CIRCLE_RADIUS}px` : `${d.r * 0.3}px`;
         })
         .attr("cx", function (d: any) {
           return d.children
@@ -1048,13 +1113,109 @@ export class MappingZoomableComponent implements IDataVisualizer {
         })
         .attr("cy", function (d: any) {
           return d.children
-            ? -Math.sin(DEFAULT_PICTURE_ANGLE) * (d.r * k) + 7
-            : -d.r * k * 0.8;
+            ? -Math.sin(DEFAULT_PICTURE_ANGLE) * (d.r * k) + 12
+            : -d.r * k * 0.9;
+        });
+    }
+
+    function addCircle(groups: any) {
+      groups.select("circle")
+        .attr("class", function (d: any) {
+          return d.parent
+            ? d.children ? "node" : "node node--leaf"
+            : "node node--root";
+        })
+        .classed("initiative-map", true)
+        .each((d: any) => (d.k = 1))
+        .attr("id", function (d: any) {
+          return `${d.data.id}`;
+        })
+        .classed("with-border", function (d: any) {
+          return !d.children && d.parent === root;
+        })
+        .on("click", function (d: any) {
+          // if (isFullDisplayMode) return;
+          if (focus !== d) setLastZoomedCircle(d), zoom(d), d3.event.stopPropagation();
+        })
+    }
+
+    function exitWithAnimations(groups: any) {
+      groups.exit().select("text")
+        .remove();
+      groups.exit().select("foreignObject")
+        .remove();
+      groups.exit().select("circle.accountable")
+        .remove();
+      groups.exit().select("circle.node")
+        .classed("node--leaf", false)
+        .classed("deleting", true)
+        .attr("r", (d: any) => d.r)
+        .transition(TRANSITION_1x)
+        .style("stroke", COLOR_DELETE_CIRCLE)
+        .style("fill", COLOR_DELETE_CIRCLE)
+        .transition(TRANSITION_1x)
+        .attr("r", 0)
+        .transition(TRANSITION_1x)
+        .remove();
+      groups.exit().transition(TRANSITION_1x).remove();
+    }
+
+    function enterWithAnimations(groups: any, className: string) {
+      groups
+        .attr("class", function (d: any) {
+          return d.parent
+            ? d.children ? "node" : "node node--leaf"
+            : "node node--root";
+        })
+        .classed(className, true)
+        .classed("initiative-map", true)
+        .attr("id", function (d: any) {
+          return `${d.data.id}`;
+        })
+        ;
+
+      groups.append("circle")
+        .style("fill", function (d: any) {
+          return d.children
+            ? color(d.depth)
+            : !d.children && d.parent === root ? color(d.depth) : null;
+        })
+        .transition(TRANSITION_2x)
+        .style("fill", COLOR_ADD_CIRCLE)
+        .attr("r", (d: any) => d.r)
+        .transition(TRANSITION_1x)
+        .style("fill", function (d: any) {
+          return d.children
+            ? color(d.depth)
+            : !d.children && d.parent === root ? color(d.depth) : null;
+        })
+    }
+
+
+    function buildPaths() {
+      let path = svg.select("defs")
+        .selectAll("path")
+        .data(nodes, function (d: any) {
+          return d.data.id;
+        })
+
+      path.exit().remove();
+      path = path.enter()
+        .append("path")
+        .merge(path)
+        .attr("id", function (d: any) {
+          return `path${d.data.id}`;
+        })
+        // .style("stroke", "none")
+        // .style("fill", "none")
+        .attr("d", function (d: any, i: number) {
+          let radius = d.r + 1;
+          return uiService.getCircularPath(radius, -radius, 0);
         });
 
-
-
+      return path;
     }
+
 
     function buildPatterns() {
       let patterns = definitions.selectAll("pattern").data(
@@ -1065,6 +1226,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           return d.data.id;
         }
       );
+
       let enterPatterns = patterns
         .enter()
         .filter(function (d: any) {
@@ -1104,70 +1266,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
           return d.data.accountable.picture;
         });
       patterns.exit().remove();
-    }
-
-    function buildTooltips() {
-      let tooltip = d3
-        .select("body")
-        .selectAll("div.arrow_box")
-        .data(nodes, function (d: any) {
-          return d.data.id;
-        })
-      tooltip.exit().remove();
-
-      tooltip = tooltip.enter()
-        .append("div")
-        .attr("class", "arrow_box p-0 box-shadow")
-        .classed("show", false)
-        .merge(tooltip)
-        .attr("id", function (d: any) {
-          return `${d.data.id}`;
-        })
-        .on("mouseenter", function () {
-          d3.select(this).classed("show", true);
-        })
-        .on("mouseleave", function () {
-          tooltip.classed("show", false);
-        })
-        .html(function (d: any) {
-          return uiService.getTooltipHTML(d.data);
-        });
-
-      d3.selectAll(`.open-initiative`).on("click", function (d: any) {
-        let id = Number.parseFloat(d3.select(this).attr("id"));
-        showDetailsOf$.next(list.find(n => (<any>n.data).id === id).data);
-      });
-      d3.selectAll(`.open-summary`).on("click", function (d: any) {
-        let shortid = d3.select(this).attr("data-shortid");
-        let slug = d3.select(this).attr("data-slug");
-        router.navigateByUrl(
-          `/map/${datasetId}/${datasetSlug}/u/${shortid}/${slug}`
-        );
-      });
-    }
-
-    function buildPaths() {
-      let path = g.select("g.paths")
-        .selectAll("path")
-        .data(nodes, function (d: any) {
-          return d.data.id;
-        })
-
-      path.exit().remove();
-      path = path.enter()
-        .append("path")
-        .merge(path)
-        .attr("id", function (d: any) {
-          return `path${d.data.id}`;
-        })
-        .style("stroke", "none")
-        .style("fill", "none")
-        .attr("d", function (d: any, i: number) {
-          let radius = d.r + 1;
-          return uiService.getCircularPath(radius, -radius, 0);
-        });
-
-      return path;
     }
   }
 }

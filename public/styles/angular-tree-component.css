@@ -159,11 +159,17 @@ tree-root .angular-tree-component-rtl .tree-children {
 }
 
 .toggle-children-wrapper-expanded >  .toggle-children:before {
-  content: "\F056";
+  font-family: "Font Awesome 5 Free";
+
+  font-weight: bold;
+  content: "\f056";
 }
 
 .toggle-children-wrapper-collapsed > .toggle-children:before {
-  content: "\F055";
+  content: "\f055";
+  font-family: "Font Awesome 5 Free";
+  font-weight: bold;
+
 }
 
 
