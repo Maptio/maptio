@@ -231,14 +231,16 @@ export class MappingZoomableComponent implements IDataVisualizer {
   }
 
   hideSmallElements(minWidth: number): void {
-    this.d3.transition("reveal")
-      .duration(750)
-      .selectAll(".node foreignObject.name")
-      .style("opacity", (d: any, i: number, e: Array<HTMLElement>): number => {
-        if (e[i] && e[i].getBoundingClientRect && e[i].getBoundingClientRect().width < minWidth) {
-          return 0;
+    this.d3.selectAll(".node.no-children")
+      .each((d: any, i: number, e: Array<HTMLElement>): void => {
+        const currentNode = this.d3.select(e[i]);
+        const currentCircle = currentNode.select("circle").node() as HTMLElement;
+        const currentContent = currentNode.select("foreignObject") as any;
+        if (currentCircle && currentCircle.getBoundingClientRect && currentCircle.getBoundingClientRect().width < minWidth) {
+          currentContent.transition().style("opacity", 0);
+        } else {
+          currentContent.transition().style("opacity", 1);
         }
-        return 1
       });
   }
 
@@ -255,9 +257,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .select("svg")
       .attr("width", this.width)
       .attr("height", this.height)
-      .attr('xmlns', "http://www.w3.org/2000/svg")
-      .attr('xmlns:xlink', "http://www.w3.org/1999/xlink")
-      .attr('version', "1.1"),
+      .attr("xmlns", "http://www.w3.org/2000/svg")
+      .attr("xmlns:xlink", "http://www.w3.org/1999/xlink")
+      .attr("version", "1.1"),
       diameter = +width,
       g = svg
         .append("g")
@@ -747,6 +749,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
             zoomTo(i(t));
           };
         })
+        .on("end", () => {
+          hideSmallElements(MIN_TEXTBOX_WIDTH);
+        });
 
       let revealTransition = d3
         .transition("reveal")
@@ -762,7 +767,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
           d3.select(this).style("opacity", 0);
         })
         .on("end", function (d: any) {
-          hideSmallElements(MIN_TEXTBOX_WIDTH);
           d3
             .select(this)
             .style("opacity", function (d: any) {
