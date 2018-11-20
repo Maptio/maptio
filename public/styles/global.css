@@ -147,6 +147,10 @@ transition: background-image 0.2s ease-in-out;
   font-family: FontAwesome;
 }
 
+.pointer-none{
+  pointer-events: none;
+}
+
 .cursor-pointer{
   cursor: pointer;
 }
