@@ -283,7 +283,8 @@ fieldset span.icon-disabled {
 
 .icon-disabled::before {
   content: "\f023";
-  font-family: FontAwesome;
+  font-family: "Font Awesome 5 Free";
+  font-weight: bold;
 }
 
 .strike{
