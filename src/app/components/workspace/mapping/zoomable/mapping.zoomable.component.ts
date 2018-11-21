@@ -586,7 +586,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           ? `<textPath path="${uiService.getCircularPath(radius, -radius, 0)}" startOffset="10%">
                   <tspan>${d.data.name || ""}</tspan>
                   </textPath>`
-          : `<textPath href="#path${d.data.id}" startOffset="10%">
+          : `<textPath xlink:href="#path${d.data.id}" startOffset="10%">
                   <tspan>${d.data.name || ""}</tspan>
                   </textPath>`;
       });
@@ -1076,7 +1076,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             ? `<textPath path="${uiService.getCircularPath(radius, -radius, 0)}" startOffset="10%">
                   <tspan>${d.data.name || ""}</tspan>
                   </textPath>`
-            : `<textPath href="#path${d.data.id}" startOffset="10%">
+            : `<textPath xlink:href="#path${d.data.id}" startOffset="10%">
                   <tspan>${d.data.name || ""}</tspan>
                   </textPath>`;
         })
