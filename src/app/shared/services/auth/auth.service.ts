@@ -25,7 +25,9 @@ export class Auth {
     "hello@tomnixon.co.uk",
     "karlparton@gmail.com",
     "lisa@reimaginaire.com",
-    "hellochandnipatel@gmail.com"
+    "hellochandnipatel@gmail.com",
+    "clemens.anzmann@googlemail.com",
+    "maptio@robski.net"
   ];
 
   private user$: Subject<User> = new Subject();
