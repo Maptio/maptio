@@ -27,7 +27,7 @@
  
     <div *ngIf="!team?.isPaying">
         <div class="mb-3" *ngIf="remaningTrialDays >=0"> You have
-            <b class="text-success">{{remaningTrialDays}} remaining days</b> on your free trial.
+            <b [class.text-success]="remaningTrialDays>0" [class.text-danger]="remaningTrialDays<=0">{{remaningTrialDays}} remaining days</b> on your free trial.
         </div>
         <div class="mb-3 " *ngIf="remaningTrialDays < 0">
             <span class="text-danger">Your free trial is over!</span>

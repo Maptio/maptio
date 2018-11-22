@@ -382,7 +382,6 @@ export class TeamMembersComponent implements OnInit {
 
     }
 
-
     onKeyUp(searchTextValue: string) {
         this.inputEmail$.next(searchTextValue)
     }
