@@ -14,6 +14,9 @@
   height: 95% !important;
 }
 
+.w-33{
+  width: 33.333333% !important;
+}
 
 .transparent {
   background-color: transparent !important;
@@ -55,6 +58,7 @@ body {
 .font-roboto{
   font-family: "Roboto" !important
 }
+
 
 .bg-orange{
   background : var(--maptio-orange)!important;

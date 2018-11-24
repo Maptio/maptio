@@ -74,6 +74,7 @@ import { PricingComponent } from "./components/pricing/pricing.component";
 import { AuthorizeComponent } from "./components/login/authorize.component";
 import { TermsComponent } from "./components/pricing/terms.component";
 import { PrivacyComponent } from "./components/pricing/privacy.component";
+import { CheckoutComponent } from "./components/pricing/checkout.component";
 
 
 
@@ -88,6 +89,8 @@ const appRoutes: Routes = [
   { path: "logout", component: LogoutComponent },
   { path: "help", component: HelpComponent, data: { breadcrumbs: "Help" } },
   { path: "pricing", component: PricingComponent, data: { breadcrumbs: "Pricing" } },
+  { path: "checkout", component: CheckoutComponent },
+  
   { path: "terms", component: TermsComponent },
 
   { path: "privacy", component: PrivacyComponent },
@@ -116,7 +119,7 @@ export const cloudinaryLib = {
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, LoginComponent, LogoutComponent, HomeComponent, UnauthorizedComponent, NotFoundComponent,
     ChangePasswordComponent, LoaderComponent, SignupComponent, AuthorizeComponent,
     HelpComponent, PricingComponent, TermsComponent, PrivacyComponent,
-    DashboardComponent,
+    DashboardComponent,CheckoutComponent,
     // for tests
     AnAnchorableComponent
   ],

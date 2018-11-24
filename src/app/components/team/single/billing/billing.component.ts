@@ -21,6 +21,7 @@ export class TeamBillingComponent implements OnInit {
     public BILLING_SMALL_PLAN = environment.BILLING_SMALL_PLAN;
     public BILLING_MEDIUM_PLAN = environment.BILLING_MEDIUM_PLAN;
     public BILLING_PORTAL = environment.BILLING_PORTAL;
+    public BILLING_TEST_PLAN = environment.BILLING_TEST_PLAN;
 
     constructor(private route: ActivatedRoute, private billingService: BillingService,
         private cd: ChangeDetectorRef, private loaderService: LoaderService) { }
@@ -29,10 +30,13 @@ export class TeamBillingComponent implements OnInit {
         this.loaderService.show();
         this.route.parent.data
             .flatMap((data: { assets: { team: Team, datasets: DataSet[] } }) => {
-                return this.billingService.getTeamStatus(data.assets.team).map((value: { created_at: Date, freeTrialLength: Number, isPaying: Boolean }) => {
+                return this.billingService.getTeamStatus(data.assets.team).map((value: { created_at: Date, freeTrialLength: Number, isPaying: Boolean, plan: string, maxMembers: number, price:number }) => {
                     data.assets.team.createdAt = value.created_at;
                     data.assets.team.freeTrialLength = value.freeTrialLength;
                     data.assets.team.isPaying = value.isPaying;
+                    data.assets.team.planName = value.plan;
+                    data.assets.team.planLimit = value.maxMembers;
+                    data.assets.team.planMonthlyPrice = value.price;
 
                     return data.assets.team;
                 })
