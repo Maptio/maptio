@@ -45,6 +45,11 @@ export class Team implements Serializable<Team> {
 
     public isPaying: Boolean;
 
+    public planName:string;
+
+    public planLimit:number;
+    public planMonthlyPrice:number;
+
     public constructor(init?: Partial<Team>) {
         Object.assign(this, init);
     }

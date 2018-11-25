@@ -102,8 +102,12 @@ export class TeamMembersComponent implements OnInit {
 
     ngOnInit() {
         this.routeSubscription = this.route.parent.data
-            .subscribe((data: { assets: { team: Team, datasets: DataSet[] } }) => {
-                this.team = data.assets.team;
+            .combineLatest(this.auth.getUser())
+            .subscribe((data: [{ assets: { team: Team, datasets: DataSet[] } }, User]) => {
+                this.team = data[0].assets.team;
+                this.user = data[1];
+                this.members$ = this.getAllMembers();
+
             });
 
         this.inputEmailSubscription = this.inputEmail$
@@ -122,7 +126,8 @@ export class TeamMembersComponent implements OnInit {
             })
             .flatMap(email => {
                 return this.userFactory.getAll(email)
-            }).subscribe((users: User[]) => {
+            })
+            .subscribe((users: User[]) => {
                 if (!isEmpty(users)) {
                     this.foundUser = users[0];
                     this.isShowSelectToAdd = true;
@@ -135,14 +140,15 @@ export class TeamMembersComponent implements OnInit {
                 this.cd.markForCheck();
             });
 
-        this.userSubscription = this.auth.getUser().subscribe(u => this.user = u);
-        this.members$ = this.getAllMembers();
+        
+        // this.userSubscription = this.auth.getUser().subscribe(u => this.user = u);
+
     }
 
     ngOnDestroy() {
-        if (this.userSubscription) {
-            this.userSubscription.unsubscribe();
-        }
+        // if (this.userSubscription) {
+        //     this.userSubscription.unsubscribe();
+        // }
         if (this.routeSubscription) {
             this.routeSubscription.unsubscribe();
         }
@@ -186,6 +192,18 @@ export class TeamMembersComponent implements OnInit {
                 })
                 this.cd.markForCheck();
                 return sortBy(members, m => m.name)
+            })
+            .then(members => {
+                this.intercom.update({
+                    app_id: environment.INTERCOM_APP_ID,
+                    email: this.user.email,
+                    user_id: this.user.user_id,
+                    company: {
+                        company_id: this.team.team_id,
+                        created_users: members.length
+                    }
+                })
+                return members;
             })
             .catch(() => {
                 this.cd.markForCheck();
