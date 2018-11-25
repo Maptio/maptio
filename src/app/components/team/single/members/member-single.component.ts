@@ -6,6 +6,8 @@ import { Angulartics2Mixpanel } from 'angulartics2';
 import { Intercom } from 'ng-intercom';
 import { Team } from '../../../../shared/model/team.data';
 import { Observable, Subscription } from 'rxjs';
+import { FormGroup, FormControl, Validators } from '../../../../../../node_modules/@angular/forms';
+import * as moment from "moment";
 
 @Component({
     selector: 'member-single',
@@ -27,7 +29,10 @@ export class MemberSingleComponent implements OnInit {
 
     isDisplaySendingLoader: boolean;
     isDisplayUpdatingLoader: boolean;
+    isSaving: boolean;
+    savingFailedMessage: string;
     subscription: Subscription;
+    editUserForm: FormGroup;
 
     constructor(private cd: ChangeDetectorRef,
         private userService: UserService,
@@ -37,11 +42,39 @@ export class MemberSingleComponent implements OnInit {
     ngOnInit(): void {
 
         this.subscription = this.invite.subscribe(() => {
-            if (this.member.isActivationPending){
-                console.log(this.member.user_id, this.member.name)
+            if (this.member.isActivationPending) {
                 this.inviteUser()
             }
         })
+
+        this.editUserForm = new FormGroup({
+            "firstname": new FormControl(
+                { value: this.member.firstname, disabled: !this.member.isActivationPending },
+                {
+
+                    validators: [
+                        Validators.required
+                    ],
+                    updateOn: "change"
+                }),
+            "lastname": new FormControl(
+                { value: this.member.lastname, disabled: !this.member.isActivationPending },
+                {
+                    validators: [
+                        Validators.required
+                    ],
+                    updateOn: "change"
+                }),
+            "email": new FormControl(
+                { value: this.member.email, disabled: !this.member.isActivationPending || this.member.isInvitationSent},
+                {
+                    validators: [
+                        Validators.required,
+                        Validators.email
+                    ],
+                    updateOn: "change"
+                })
+        });
     }
 
     ngOnDestroy(): void {
@@ -78,5 +111,47 @@ export class MemberSingleComponent implements OnInit {
                 this.intercom.trackEvent("Invite user", { team: this.team.name, teamId: this.team.team_id, email: this.member.email });
                 return;
             })
+    }
+
+    getAgo(date:any){
+        return moment.isMoment(date) ? moment(date).fromNow() : "Never";
+    }
+
+    updateUser() {
+        console.log(this.editUserForm, this.member);
+        if (this.editUserForm.valid) {
+            this.isSaving = true;
+            this.cd.markForCheck();
+            let firstname = this.editUserForm.controls["firstname"].value;
+            let lastname = this.editUserForm.controls["lastname"].value;
+            let email = this.editUserForm.controls["email"].value;
+            this.userService.updateUserProfile(this.member.user_id, firstname, lastname)
+                .then((updated: Boolean) => {
+                    if (updated) {
+                        this.member.firstname = firstname;
+                        this.member.lastname = firstname;
+                        this.member.email = email;
+                        this.member.name = `${firstname} ${lastname}`;
+                    }
+                    else {
+                        this.savingFailedMessage = "Cannot update user profile";
+                    }
+
+                    this.isSaving = false;
+                    this.cd.markForCheck();
+                })
+                .then(() => {
+                    console.log(this.editUserForm.controls)
+                    if (this.editUserForm.controls["email"].dirty || this.editUserForm.controls["email"].touched) {
+                        return this.userService.updateUserEmail(this.member.user_id, email)
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                    this.isSaving = false;
+                    this.savingFailedMessage = JSON.parse(err._body).message;
+                    this.cd.markForCheck();
+                })
+        }
     }
 }

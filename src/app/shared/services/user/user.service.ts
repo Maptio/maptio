@@ -303,9 +303,30 @@ export class UserService {
                 .toPromise()
                 .then((response) => {
                     return true
-                }, (error) => { return Promise.reject("Cannot update user profile") })
+                }, (error) => { return Promise.reject(error) })
         });
     }
+
+    public updateUserEmail(user_id: string, email:string): Promise<boolean> {
+        return this.configuration.getAccessToken().then((token: string) => {
+
+            let headers = new Headers();
+            headers.set("Authorization", "Bearer " + token);
+
+            return this.http.patch(`${environment.USERS_API_URL}/${user_id}`,
+                {
+                    "email": email,
+                    "connection": environment.CONNECTION_NAME
+                }
+                ,
+                { headers: headers })
+                .toPromise()
+                .then((response) => {
+                    return true
+                }, (error) => { return Promise.reject(error) })
+        });
+    }
+
 
     public updateUserPictureUrl(user_id: string, pictureUrl: string): Promise<boolean> {
         return this.configuration.getAccessToken().then((token: string) => {
