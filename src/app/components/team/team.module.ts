@@ -24,6 +24,7 @@ import { IntercomService } from "./list/intercom.service";
 import { TeamBillingComponent } from "./single/billing/billing.component";
 import { CreateMapComponent } from "../../shared/components/create-map/create-map.component";
 import { CommonComponentsModule } from "../../shared/common-components.module";
+import { MemberSingleComponent } from "./single/members/member-single.component";
 
 const routes: Routes = [
     {
@@ -92,6 +93,7 @@ const routes: Routes = [
         TeamComponent,
         TeamListComponent,
         TeamMembersComponent,
+        MemberSingleComponent,
         TeamSettingsComponent,
         TeamImportComponent,
         TeamIntegrationsComponent,

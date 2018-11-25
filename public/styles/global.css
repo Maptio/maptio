@@ -18,6 +18,10 @@
   width: 33.333333% !important;
 }
 
+.alert{
+  border:0!important;
+}
+
 .transparent {
   background-color: transparent !important;
 }

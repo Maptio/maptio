@@ -1,0 +1,70 @@
+<div class="row">
+    <div class="align-middle col-auto">
+        <ng-container *permissionsOnly="Permissions.canDeleteUser;then thenDeleteBlock"></ng-container>
+        <ng-template #thenDeleteBlock>
+            <span class="remove text-danger" [class.d-none]="isOnlyMember" aria-hidden="true" mwlConfirmationPopover title="This cannot be undone ! Are you sure you want to remove {{member.name}} from this organization?"
+                placement="right" focusButton="cancel" appendToBody="true" (confirm)="deleteMember()" (cancel)="cancelClicked = true">
+            </span>
+        </ng-template>
+    </div>
+    <div class="align-middle col-3">
+        <div class="d-flex align-items-center">
+            <img class="rounded-circle mr-1" width="32" height="32" src="{{member.picture}}" alt="{{member.name}}">{{member.name}}
+        </div>
+    </div>
+    <div class="align-middle pb-0 col-4">
+        <div class="d-flex align-items-start flex-column">
+            <span>{{member.email}}</span>
+            <small *ngIf="member.isActivationPending && member.isInvitationSent" class="text-info pull-left" placement="top" container="body"
+                ngbTooltip="{{member.name}} was sent an invitation.">Pending invitation</small>
+            <small *ngIf="member.isActivationPending && !member.isInvitationSent" class="text-warning pull-left" placement="top" container="body"
+                ngbTooltip="{{member.name}} cannot view or edit maps.">Not yet invited</small>
+            <small *ngIf="!member.isActivationPending" class="text-success pull-left" placement="top" container="body" ngbTooltip="{{member.name}} can view and edit maps">Active</small>
+
+        </div>
+    </div>
+    <div class="align-middle col-2">
+        <ng-container *permissionsOnly="Permissions.canEditUser; else elseRoleBlock; then thenRoleBlock">main</ng-container>
+        <ng-template #elseRoleBlock>
+            {{UserRole[member.userRole]}}
+        </ng-template>
+        <ng-template #thenRoleBlock>
+            <select class="form-control" (change)="changeUserRole($event.target.value)">
+                <option *ngFor="let userRole of UserRole | keys| slice:0:2;" [value]="userRole.key" [selected]="member.userRole">{{userRole.value}}</option>
+            </select>
+        </ng-template>
+    </div>
+    <div class="align-middle text-right col">
+        <div class="ml-auto">
+                <ng-container>
+                        <ng-container *ngIf="!isDisplaySendingLoader && !isDisplayUpdatingLoader">
+                            <ng-container *ngIf="member.isActivationPending && !member.isInvitationSent">
+                                <ng-container *permissionsOnly="Permissions.canInviteUser;then thenInviteBlock; else elseInviteBlock"></ng-container>
+                                <ng-template #thenInviteBlock>
+                                    <button class="pull-right btn btn-outline-secondary" (click)="inviteUser()" placement="left" container="body" ngbTooltip="Invite {{member.name}} to view and edit maps">
+                                        Invite </button>
+                                </ng-template>
+                                <ng-template #elseInviteBlock>
+                                    <button class="btn btn-outline-secondary disabled pull-right" [stickyPopover]="adminTipContent" placement='left'>Invite
+                                        <i class="fas fa-lock ml-1"></i>
+                                    </button>
+                                </ng-template>
+                            </ng-container>
+                            <button *ngIf="member.isActivationPending && member.isInvitationSent" class="btn btn-outline-secondary pull-right" (click)="inviteUser()"
+                                placement="left" container="body" ngbTooltip="Resend an invitation to {{member.name}}">Resend </button>
+                        </ng-container>
+                        <ng-container *ngIf="isDisplaySendingLoader">
+                            <div class="indicator text-success d-flex justify-content-end align-items-center">
+                                <i class="fas fa-circle-notch fa-spin text-success mx-1"></i> Sending
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="isDisplayUpdatingLoader">
+                            <div class=" indicator text-success d-flex justify-content-end align-items-center">
+                                <i class="fas fa-circle-notch fa-spin text-success mx-1"></i> Updating
+                            </div>
+                        </ng-container>
+                    </ng-container>
+        </div>
+     
+    </div>
+</div>
