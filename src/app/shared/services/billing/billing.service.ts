@@ -25,7 +25,7 @@ export class BillingService {
                         isPaying: result.custom_attributes.is_paying,
                         plan: result.plan.name,
                         maxMembers: result.custom_attributes.plan_limit,
-                        price: result.monthly_spend;
+                        price: result.monthly_spend
                     }
                     : {
                         created_at: new Date(),

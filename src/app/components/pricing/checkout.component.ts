@@ -64,7 +64,7 @@ export class CheckoutComponent implements OnInit {
                     this.teamFactory.get(<string>data[1].teams[0] )
                 )
             })
-            .map(([datasets, team]: [DataSet[], Team) => {
+            .map(([datasets, team]: [DataSet[], Team]) => {
                 return [
                     datasets.map(d => {
                         let i = 0
@@ -76,7 +76,7 @@ export class CheckoutComponent implements OnInit {
                 ];
 
             })
-            .subscribe(([datasets, team]: [DataSet[], Team) => {
+            .subscribe(([datasets, team]: [DataSet[], Team]) => {
                 console.log(datasets, team)
                 this.datasets = datasets;
                 this.team = team;
