@@ -154,6 +154,9 @@ export class AccountComponent {
                     },
                         () => { return Promise.reject("Cannot sync your user information") });
                 })
+                .then(()=>{
+                    this.accountForm.reset();
+                })
                 .catch((reason) => {
                     this.errorMessage = reason
                 })
