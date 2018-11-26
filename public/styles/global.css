@@ -4,6 +4,12 @@
   --maptio-white: #fff;
   --maptio-red:#dc3545;
   --maptio-green:#28a745;
+  --maptio-black: #081620;
+}
+
+body{
+
+  color: var(--maptio-black) !important;
 }
 
 .h-99{
