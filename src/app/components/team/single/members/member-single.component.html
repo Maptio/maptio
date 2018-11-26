@@ -1,7 +1,7 @@
 <div class=" py-2 " [class.bg-light]="isEditToggled">
     <div class="d-flex align-items-center" [class.font-weight-bold]="isEditToggled">
-        <div class="d-flex align-items-center col-1 px-0 justify-content-between">
-            <button class="btn bg-transparent" (click)="isEditToggled = !isEditToggled">
+        <div *permissionsOnly="Permissions.canEditUser" class="d-flex align-items-center col-1 px-0 justify-content-between">
+            <button  class="btn bg-transparent" (click)="isEditToggled = !isEditToggled">
                 <i [class.fa-caret-right]="!isEditToggled" [class.fa-caret-down]="isEditToggled" class="fas"></i>
             </button>
             <ng-container *permissionsOnly="Permissions.canDeleteUser;then thenDeleteBlock"></ng-container>
@@ -41,7 +41,7 @@
                 </select>
             </ng-template>
         </div>
-        <div class="align-middle text-right col-2">
+        <div class="align-middle text-right col-auto ml-auto">
             <ng-container>
                 <ng-container *ngIf="!isDisplaySendingLoader && !isDisplayUpdatingLoader">
                     <ng-container *ngIf="member.isActivationPending && !member.isInvitationSent">

@@ -84,8 +84,8 @@
 
     <div class="my-4">
         <div class="border-bottom py-2">
-            <div class="row d-flex align-items-center">
-                <div class="col-1 px-0 justify-content-between d-flex align-items-center">
+            <div class="d-flex align-items-center">
+                <div *permissionsOnly="Permissions.canEditUser" class="col-1 px-0 justify-content-between d-flex align-items-center">
                     <button class="btn text-white pointer-none">
                         <i class="fas fa-caret-down"></i>
                     </button>
