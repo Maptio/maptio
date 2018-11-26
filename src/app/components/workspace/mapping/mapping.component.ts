@@ -128,16 +128,17 @@ export class MappingComponent {
   public subscription: Subscription;
   public instance: IDataVisualizer;
 
-
-  fontColor = localStorage.getItem("FONT_COLOR")
-    ? localStorage.getItem("FONT_COLOR")
-    : "#000";
-  mapColor = localStorage.getItem("MAP_COLOR")
-    ? localStorage.getItem("MAP_COLOR")
-    : "#aaa";
-  fontSize = Number.parseFloat(localStorage.getItem("FONT_SIZE"))
-    ? Number.parseFloat(localStorage.getItem("FONT_SIZE"))
-    : 1;
+  public settings: {
+    fontColor: string,
+    mapColor: string,
+    fontSize: number,
+    explorationMode: boolean
+  } = {
+      fontColor: "#000",
+      mapColor: "#aaa",
+      fontSize: 1,
+      explorationMode: false
+    }
 
   isFiltersToggled: boolean = false;
   isSearchDisabled: boolean = false;
@@ -159,9 +160,9 @@ export class MappingComponent {
     this.isReset$ = new Subject<boolean>();
     this.selectableTags$ = new ReplaySubject<Array<SelectableTag>>();
     // this.selectableUsers$ = new ReplaySubject<Array<SelectableUser>>();
-    this.fontSize$ = new BehaviorSubject<number>(this.fontSize);
-    this.fontColor$ = new BehaviorSubject<string>(this.fontColor);
-    this.mapColor$ = new BehaviorSubject<string>(this.mapColor);
+    this.fontSize$ = new BehaviorSubject<number>(this.settings.fontSize);
+    this.fontColor$ = new BehaviorSubject<string>(this.settings.fontColor);
+    this.mapColor$ = new BehaviorSubject<string>(this.settings.mapColor);
     this.zoomToInitiative$ = new Subject();
     // this.isLocked$ = new BehaviorSubject<boolean>(this.isLocked);
     this.closeEditingPanel$ = new BehaviorSubject<boolean>(false);
@@ -228,7 +229,6 @@ export class MappingComponent {
 
     component.width = this.VIEWPORT_WIDTH;
     component.height = this.VIEWPORT_HEIGHT;
-    console.log(component.constructor, "width", component.width, "height", component.height)
 
     component.margin = 50;
     component.zoom$ = this.zoom$.asObservable();
@@ -271,6 +271,22 @@ export class MappingComponent {
         }
         this.datasetId = params["mapid"];
         this.slug = params["mapslug"];
+
+        if (!localStorage.getItem(`map_settings_${this.datasetId}`)) {
+          localStorage.setItem(`map_settings_${this.datasetId}`, JSON.stringify(
+            {
+              fontColor: "#000",
+              mapColor: "#aaa",
+              fontSize: 1,
+              explorationMode: false
+            }
+          ))
+        }
+        this.settings = JSON.parse(localStorage.getItem(`map_settings_${this.datasetId}`));
+        this.fontColor$.next(this.settings.fontColor);
+        this.mapColor$.next(this.settings.mapColor)
+        this.fontSize$.next(this.settings.fontSize);
+
         this.cd.markForCheck();
       })
       .combineLatest(this.dataService.get())
@@ -330,7 +346,7 @@ export class MappingComponent {
   getFragment(component: IDataVisualizer) {
     switch (component.constructor) {
       case MappingZoomableComponent:
-        return `x=${(this.VIEWPORT_WIDTH - 20) / 2 }&y=${(this.VIEWPORT_WIDTH - 20) / 2}&scale=1`;
+        return `x=${(this.VIEWPORT_WIDTH - 20) / 2}&y=${(this.VIEWPORT_WIDTH - 20) / 2}&scale=1`;
       case MappingTreeComponent:
         return `x=${this.VIEWPORT_WIDTH / 10}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`;
       case MappingNetworkComponent:
@@ -338,13 +354,12 @@ export class MappingComponent {
       case MappingSummaryComponent:
         return `x=0&y=0&scale=1`;
       default:
-        return `x=${(this.VIEWPORT_WIDTH - 20) / 2 }&y=${(this.VIEWPORT_WIDTH - 20) / 2}&scale=1`;
+        return `x=${(this.VIEWPORT_WIDTH - 20) / 2}&y=${(this.VIEWPORT_WIDTH - 20) / 2}&scale=1`;
     }
   }
 
   toggleOptions(isActive: Boolean) {
     this._toggleOptions = isActive ? !this._toggleOptions : false;
-    console.log(document.querySelector("div.switch"))
     document.querySelector("div.switch").classList.toggle("show");
     this.toggleOptions$.next(this._toggleOptions)
   }
@@ -403,7 +418,10 @@ export class MappingComponent {
 
   changeFontSize(size: number) {
     this.fontSize$.next(size);
-    localStorage.setItem("FONT_SIZE", `${size}`);
+    this.settings.fontSize = size;
+    localStorage.setItem(`map_settings_${this.datasetId}`, JSON.stringify(this.settings));
+
+    // localStorage.setItem("FONT_SIZE", `${size}`);
     this.analytics.eventTrack("Map", {
       action: "change font size",
       size: size,
@@ -414,8 +432,9 @@ export class MappingComponent {
 
   changeFontColor(color: string) {
     this.fontColor$.next(color);
-    localStorage.setItem("FONT_COLOR", `${color}`);
-    this.fontColor = color;
+    this.settings.fontColor = color;
+    localStorage.setItem(`map_settings_${this.datasetId}`, JSON.stringify(this.settings));
+    // this.fontColor = color;
     this.analytics.eventTrack("Map", {
       action: "change font color",
       color: color,
@@ -426,8 +445,11 @@ export class MappingComponent {
 
   changeMapColor(color: string) {
     this.mapColor$.next(color);
-    localStorage.setItem("MAP_COLOR", `${color}`);
-    this.mapColor = color;
+    this.settings.mapColor = color;
+    localStorage.setItem(`map_settings_${this.datasetId}`, JSON.stringify(this.settings));
+
+    // localStorage.setItem("MAP_COLOR", `${color}`);
+    // this.mapColor = color;
     this.analytics.eventTrack("Map", {
       action: "change map color",
       color: color,

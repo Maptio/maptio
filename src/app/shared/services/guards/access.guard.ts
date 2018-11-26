@@ -38,7 +38,6 @@ export class AccessGuard implements CanActivate, CanActivateChild {
     }
 
     private updateIntercom(teams: string[], user: User) {
-        console.log(teams, teams.length, teams.length === 1)
         if (teams.length === 1) { // we'll worry about consultants later
             teams.forEach(t => {
                 this.intercom.update({

@@ -29,7 +29,6 @@ export class CheckoutComponent implements OnInit {
         this.subscription = this.route.queryParams
             .combineLatest(this.auth.getUser())
             .do(data => {
-                console.log(data[0], data[1]);
                 let params = data[0];
                 let user = data[1];
 
@@ -77,7 +76,6 @@ export class CheckoutComponent implements OnInit {
 
             })
             .subscribe(([datasets, team]: [DataSet[], Team]) => {
-                console.log(datasets, team)
                 this.datasets = datasets;
                 this.team = team;
 
