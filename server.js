@@ -88,7 +88,8 @@ if (!isDevelopment) {
         'https://fast.wistia.net',
         'https://drive.google.com',
         'https://termsfeed.com/',
-        'https://circlemapping.auth0.com/'
+        'https://circlemapping.auth0.com/',
+        'https://maptio.chargebee.com'
       ],
       workerSrc : [
         "'self'",'blob:'
