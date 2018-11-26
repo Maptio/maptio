@@ -33,6 +33,7 @@ export class MemberSingleComponent implements OnInit {
     savingFailedMessage: string;
     subscription: Subscription;
     editUserForm: FormGroup;
+    isEditToggled:boolean;
 
     constructor(private cd: ChangeDetectorRef,
         private userService: UserService,

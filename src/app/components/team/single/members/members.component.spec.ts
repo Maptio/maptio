@@ -200,48 +200,48 @@ describe("members.component.ts", () => {
     });
 
     describe("invite", () => {
-        describe("invideUser", () => {
-            it("should send invitation email and update status when it succeeds", () => {
-                component.team = new Team({ team_id: "ID", name: "My team", members: [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })] });
-                component.user = new User({ name: "Founder" })
-                let spySendInvite = spyOn(target.debugElement.injector.get(UserService), "sendInvite").and.returnValue(Promise.resolve(true))
+        // describe("invideUser", () => {
+        //     it("should send invitation email and update status when it succeeds", () => {
+        //         component.team = new Team({ team_id: "ID", name: "My team", members: [new User({ user_id: "1" }), new User({ user_id: "2" }), new User({ user_id: "3" })] });
+        //         component.user = new User({ name: "Founder" })
+        //         let spySendInvite = spyOn(target.debugElement.injector.get(UserService), "sendInvite").and.returnValue(Promise.resolve(true))
 
-                let user = new User({ user_id: "1", email: "jane@doe.com", firstname: "Jane", lastname: "Doe", name: "Jane Doe" });
-                component.inviteUser(user);
+        //         let user = new User({ user_id: "1", email: "jane@doe.com", firstname: "Jane", lastname: "Doe", name: "Jane Doe" });
+        //         component.inviteUser(user);
 
-                expect(spySendInvite).toHaveBeenCalledWith("jane@doe.com", "1", "Jane", "Doe", "Jane Doe", "My team", "Founder");
-                spySendInvite.calls.mostRecent().returnValue.then(() => {
-                    expect(user.isInvitationSent).toBe(true)
-                })
-            });
-        });
+        //         expect(spySendInvite).toHaveBeenCalledWith("jane@doe.com", "1", "Jane", "Doe", "Jane Doe", "My team", "Founder");
+        //         spySendInvite.calls.mostRecent().returnValue.then(() => {
+        //             expect(user.isInvitationSent).toBe(true)
+        //         })
+        //     });
+        // });
 
-        describe("invteAll", () => {
-            it("should call the correct dependencies", async(() => {
-                component.members$ = Promise.resolve([
-                    new User({ user_id: "1", isActivationPending: true }),
-                    new User({ user_id: "2", isActivationPending: false }),
-                    new User({ user_id: "3", isActivationPending: true })]);
+        // describe("invteAll", () => {
+        //     it("should call the correct dependencies", async(() => {
+        //         component.members$ = Promise.resolve([
+        //             new User({ user_id: "1", isActivationPending: true }),
+        //             new User({ user_id: "2", isActivationPending: false }),
+        //             new User({ user_id: "3", isActivationPending: true })]);
 
-                spyOn(component, "inviteUser");
-                component.inviteAll();
-                component.members$.then(() => {
-                    expect(component.inviteUser).toHaveBeenCalledTimes(2)
-                })
+        //         spyOn(component, "inviteUser");
+        //         component.inviteAll();
+        //         component.members$.then(() => {
+        //             expect(component.inviteUser).toHaveBeenCalledTimes(2)
+        //         })
 
-            }));
-        });
+        //     }));
+        // });
 
-        describe("resend", () => {
-            it("should call the correct dependencies", async(() => {
-                spyOn(component, "inviteUser").and.returnValue(Promise.resolve())
-                let user = new User({ user_id: "1", email: "jane@doe.com", firstname: "Jane", lastname: "Doe", name: "Jane Doe" });
-                component.resendUser(user);
+        // describe("resend", () => {
+        //     it("should call the correct dependencies", async(() => {
+        //         spyOn(component, "inviteUser").and.returnValue(Promise.resolve())
+        //         let user = new User({ user_id: "1", email: "jane@doe.com", firstname: "Jane", lastname: "Doe", name: "Jane Doe" });
+        //         component.resendUser(user);
 
-                expect(component.inviteUser).toHaveBeenCalledWith(user);
+        //         expect(component.inviteUser).toHaveBeenCalledWith(user);
 
-            }));
-        });
+        //     }));
+        // });
 
     });
 
