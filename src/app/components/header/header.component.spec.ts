@@ -208,28 +208,10 @@ describe("header.component.ts", () => {
 
                 target.detectChanges();
 
-                // let imgElement = target.debugElement.query(By.css("li#profileInformation a div img")).nativeElement as HTMLImageElement;
-                // expect(imgElement.src).toBe("http://seemyface.com/user.jpg");
-
                 let button = target.debugElement.queryAll(By.css("a#logoutButton"));
                 expect(button.length).toBe(1);
                 expect(spyAuthService).toHaveBeenCalled();
             });
-
-            it("should call authenticate.logout()  when LogOut button is clicked", () => {
-                let mockAuth = target.debugElement.injector.get(Auth);
-                // let mockRouter = target.debugElement.injector.get(Router);
-                let spyAuthService = spyOn(mockAuth, "allAuthenticated").and.returnValue(true);
-                let spyLogOut = spyOn(mockAuth, "logout");
-
-                target.detectChanges();
-                let button = target.debugElement.query(By.css("a#logoutButton")).nativeElement as HTMLAnchorElement;
-                button.dispatchEvent(new Event("click"));
-                target.detectChanges();
-
-                expect(spyLogOut).toHaveBeenCalled();
-                expect(spyAuthService).toHaveBeenCalled();
-            })
         });
 
     });
