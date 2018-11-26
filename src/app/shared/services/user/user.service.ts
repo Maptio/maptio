@@ -176,7 +176,7 @@ export class UserService {
             },
             "user_metadata":
             {
-                "picture": `https://ui-avatars.com/api/?rounded=true&background=${color}&name=${firstname}+${lastname}&font-size=0.35&color=ffffff`;
+                "picture": `https://ui-avatars.com/api/?rounded=true&background=${color}&name=${firstname}+${lastname}&font-size=0.35&color=ffffff&size=128`,
  
                 "given_name": firstname,
                 "family_name": lastname
