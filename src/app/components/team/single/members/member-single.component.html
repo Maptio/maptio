@@ -75,25 +75,25 @@
     </div>
 
 </div>
-<div class="bg-light" *ngIf="isEditToggled">
-    <form [formGroup]="editUserForm" (submit)="updateUser()" class="offset-1 col-7 py-2">
-        <div class="form-group form-inline row">
+<div class="bg-light py-2" *ngIf="isEditToggled">
+    <form [formGroup]="editUserForm" (submit)="updateUser()" class="offset-1 col-5">
+        <div class="form-group form-inline row" *ngIf="member.isActivationPending">
             <label class="col-4 d-flex justify-content-start" for="inputFirstname">First name</label>
             <input type="text" class="col-8 form-control  form-control-warning " formControlName="firstname">
         </div>
-        <div class="form-group form-inline row">
+        <div class="form-group form-inline row" *ngIf="member.isActivationPending">
             <label class="col-4 d-flex justify-content-start" for="inputLastname">Last name</label>
             <input type="text" class="col-8 form-control  form-control-warning " formControlName="lastname">
         </div>
-        <div class="form-group form-inline row">
+        <div class="form-group form-inline row" *ngIf="this.member.isActivationPending && !this.member.isInvitationSent">
             <label class="col-4 d-flex justify-content-start" for="inputEmail">Email</label>
             <input type="text" class="col-8 form-control  form-control-warning " formControlName="email">
         </div>
-        <div class="form-group form-inline row">
+        <div class="form-group form-inline  row text-muted">
             <label class="col-4 d-flex justify-content-start" for="inputLastSeen">Created</label>
             <span class="col-8">{{getAgo(member.createdAt)}}</span>
         </div>
-        <div class="form-group form-inline row">
+        <div class="form-group form-inline row text-muted">
             <label class="col-4 d-flex justify-content-start" for="inputLastSeen">Last seen</label>
             <span class="col-8">{{getAgo(member.lastSeenAt)}}</span>
         </div>
