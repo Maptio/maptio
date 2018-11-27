@@ -116,9 +116,6 @@ export class HeaderComponent implements OnInit {
         this.analytics.eventTrack("Create a map", { email: this.user.email, name: dataset.initiative.name, team: dataset.initiative.team_id })
 
     }
-    logout() {
-        this.auth.logout();
-    }
 
     isSignUp() {
         return this.router.url.startsWith("/login") || this.router.url.startsWith("/signup") || this.router.url.startsWith("/forgot")

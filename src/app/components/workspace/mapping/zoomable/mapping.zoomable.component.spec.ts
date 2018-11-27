@@ -105,8 +105,9 @@ describe("mapping.zoomable.component.ts", () => {
 
         let data = new Initiative().deserialize(fixture.load("data.json"));
         let mockDataService = target.debugElement.injector.get(DataService);
-        spyOn(mockDataService, "get").and.returnValue(Observable.of({ initiative: data, dataset: new DataSet({}), team : new Team({}), members : [] }));
+        spyOn(mockDataService, "get").and.returnValue(Observable.of({ initiative: data, dataset: new DataSet({datasetId:"123"}), team : new Team({}), members : [] }));
         spyOn(component.uiService, "getCircularPath");
+        spyOn(localStorage, "getItem").and.returnValue(`{"fontColor":"#000","mapColor":"#aaa","fontSize":1,"explorationMode":false}`)
 
         target.detectChanges(); // trigger initial data binding
     });

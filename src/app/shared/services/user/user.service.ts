@@ -10,11 +10,17 @@ import { UUID } from "angular2-uuid/index";
 import { EmitterService } from "../emitter.service";
 import { Observable } from "rxjs/Rx";
 import { flatten } from "lodash"
+import { UserFactory } from '../user.factory';
 
 @Injectable()
 export class UserService {
 
-    constructor(private http: Http, private configuration: AuthConfiguration, private encodingService: JwtEncoder, private mailing: MailingService) { }
+    constructor(
+        private http: Http,
+        private configuration: AuthConfiguration,
+        private encodingService: JwtEncoder,
+        private mailing: MailingService,
+        private userFactory: UserFactory) { }
 
 
     public sendInvite(email: string, userId: string, firstname: string, lastname: string, name: string, teamName: string, invitedBy: string): Promise<boolean> {
@@ -113,7 +119,48 @@ export class UserService {
         return this.encodingService.encode({ user_id: userId, email: email, firstname: firstname, lastname: lastname })
     }
 
+
+    private getHslFromName(name: string) : { h: number, s: number, l: number } {
+        let hash = 0;
+        for (var i = 0; i < name.length; i++) {
+            hash = name.charCodeAt(i) + ((hash << 5) - hash);
+        }
+
+        return { h: hash % 360, s: 99, l: 35 };
+    }
+
+    getHexFromHsl(hsl : { h: number, s: number, l: number }){
+        var h = hsl.h  /360;
+        var s = hsl.s / 100;
+        var l = hsl.l/ 100;
+        var r, g, b;
+        if (s === 0) {
+          r = g = b = l; // achromatic
+        } else {
+          const hue2rgb = (p:number, q:number, t:number) => {
+            if (t < 0) t += 1;
+            if (t > 1) t -= 1;
+            if (t < 1 / 6) return p + (q - p) * 6 * t;
+            if (t < 1 / 2) return q;
+            if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+            return p;
+          };
+          var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+          var p = 2 * l - q;
+          r = hue2rgb(p, q, h + 1 / 3);
+          g = hue2rgb(p, q, h);
+          b = hue2rgb(p, q, h - 1 / 3);
+        }
+        const toHex = (x:number) => {
+          var hex = Math.round(x * 255).toString(16);
+          return hex.length === 1 ? '0' + hex : hex;
+        };
+        return `${toHex(r)}${toHex(g)}${toHex(b)}`;
+    }
+
     public createUser(email: string, firstname: string, lastname: string, isSignUp?: boolean, isAdmin?: boolean): Promise<User> {
+        let color = this.getHexFromHsl(this.getHslFromName(`${firstname} ${lastname}`));
+        
         let newUser = {
             "connection": environment.CONNECTION_NAME,
             "email": email,
@@ -129,6 +176,8 @@ export class UserService {
             },
             "user_metadata":
             {
+                "picture": `https://ui-avatars.com/api/?rounded=true&background=${color}&name=${firstname}+${lastname}&font-size=0.35&color=ffffff&size=128`,
+ 
                 "given_name": firstname,
                 "family_name": lastname
             }
@@ -303,9 +352,41 @@ export class UserService {
                 .toPromise()
                 .then((response) => {
                     return true
-                }, (error) => { return Promise.reject("Cannot update user profile") })
+                }, (error) => { return Promise.reject(error) })
         });
     }
+
+    public updateUserEmail(user_id: string, email: string): Promise<boolean> {
+        return this.configuration.getAccessToken().then((token: string) => {
+
+            let headers = new Headers();
+            headers.set("Authorization", "Bearer " + token);
+
+            return this.http.patch(`${environment.USERS_API_URL}/${user_id}`,
+                {
+                    "email": email,
+                    /* this can only be called if the user is "Not invited" 
+                    so changing their email shoudnt retrigger a verification
+                    */
+                    "email_verified": true,
+                    "connection": environment.CONNECTION_NAME
+                }
+                ,
+                { headers: headers })
+                .flatMap(() => {
+                    return this.userFactory.get(user_id)
+                })
+                .flatMap(user => {
+                    user.email = email;
+                    return this.userFactory.upsert(user)
+                })
+                .toPromise()
+                .then((response) => {
+                    return true
+                }, (error) => { return Promise.reject(error) })
+        });
+    }
+
 
     public updateUserPictureUrl(user_id: string, pictureUrl: string): Promise<boolean> {
         return this.configuration.getAccessToken().then((token: string) => {

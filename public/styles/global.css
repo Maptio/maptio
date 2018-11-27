@@ -4,6 +4,12 @@
   --maptio-white: #fff;
   --maptio-red:#dc3545;
   --maptio-green:#28a745;
+  --maptio-black: #081620;
+}
+
+body{
+
+  color: var(--maptio-black) !important;
 }
 
 .h-99{
@@ -16,6 +22,10 @@
 
 .w-33{
   width: 33.333333% !important;
+}
+
+.alert{
+  border:0!important;
 }
 
 .transparent {
@@ -84,7 +94,11 @@ body {
 }
 
 input[type="text"], input[type="email"], input[type="password"] {
-  box-shadow: inset 0 2px 4px hsla(0,0%,0%, 0.08);
+  box-shadow: inset 0 1px 4px hsla(0,0%,0%, 0.08);
+}
+
+input.disabled, input.form-control.disabled, input.form-control:disabled{
+  box-shadow: none;
 }
 
 .large{
@@ -375,6 +389,27 @@ transition: max-height .25s ease-in-out;
   top:0;
   right:0;
 }
+
+.flash{
+	opacity:0;
+}
+
+.flash.show{
+	-webkit-animation: flash linear 1.5s ;
+	animation: flash linear 1.5s ;
+}
+
+@-webkit-keyframes flash {
+	0% { opacity: 1; } 
+	50% { opacity: .5; } 
+	100% { opacity: 0; }
+}
+@keyframes flash {
+	0% { opacity: 1; } 
+	50% { opacity: .5; } 
+	100% { opacity: 0; }
+}
+
 /* .slack{
   position: relative;
   padding-left:25px;

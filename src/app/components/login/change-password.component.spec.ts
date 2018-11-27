@@ -12,6 +12,7 @@ import { LoaderService } from "./../../shared/services/loading/loader.service";
 import { Router } from "@angular/router";
 import { MockBackend } from "@angular/http/testing";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
+import { UserFactory } from "../../shared/services/user.factory";
 
 describe("change-password.component.ts", () => {
 
@@ -26,6 +27,7 @@ describe("change-password.component.ts", () => {
         }).overrideComponent(ChangePasswordComponent, {
             set: {
                 providers: [
+                    UserFactory,
                     {
                         provide: AuthHttp,
                         useFactory: authHttpServiceFactoryTesting,

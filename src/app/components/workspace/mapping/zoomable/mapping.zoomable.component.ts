@@ -82,11 +82,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
   public _isDisplayOptions: Boolean = false;
 
-  public _isFullDisplayMode: Boolean =
-    !localStorage.getItem("CIRCLE_VIEW_MODE")
-    || localStorage.getItem("CIRCLE_VIEW_MODE").toLowerCase() === "flat"
+  public _isExplorationMode: boolean;
 
-  private isFullDisplayMode$: BehaviorSubject<Boolean> = new BehaviorSubject<Boolean>(this._isFullDisplayMode);
+  private _isExplorationMode$: Subject<boolean> = new Subject<boolean>();
 
   private svg: any;
   private g: any;
@@ -146,24 +144,29 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.init();
     this.dataSubscription = this.dataService
       .get()
-      .combineLatest(this.mapColor$, this.isFullDisplayMode$.asObservable(), this.route.queryParams)
-      .do((complexData: [any, string, boolean, Params]) => {
+      .combineLatest(this.mapColor$, this.route.queryParams)
+      .do((complexData: [any, string, Params]) => {
         if (complexData[0].dataset.datasetId !== this.datasetId) {
           this.counter = 0;
         }
       })
-      .subscribe((complexData: [any, string, boolean, Params]) => {
+      .subscribe((complexData: [any, string, Params]) => {
         let data = <any>complexData[0].initiative;
         this.datasetId = complexData[0].dataset.datasetId;
+
+        this._isExplorationMode = JSON.parse(localStorage.getItem(`map_settings_${this.datasetId}`)).explorationMode;
+        this._isExplorationMode$.next(this._isExplorationMode);
+        this.cd.markForCheck();
+
         this.slug = data.getSlug();
         this.loaderService.show();
-        let nodes = this.update(data, complexData[1], complexData[2], this.counter === 0);
+        let nodes = this.update(data, complexData[1], !this._isExplorationMode, this.counter === 0);
 
-        if (complexData[3].id) {
-          if (nodes.find((n: any) => n.data.id.toString() === complexData[3].id.toString())) {
+        if (complexData[2].id) {
+          if (nodes.find((n: any) => n.data.id.toString() === complexData[2].id.toString())) {
             let n = <Initiative>nodes.filter((n: any) => n.data.id.toString() === complexData[3].id.toString())[0].data;
             this.showDetailsOf$.next(n);
-            this.svg.select(`circle.node.initiative-map[id="${complexData[3].id}"]`).dispatch("click");
+            this.svg.select(`circle.node.initiative-map[id="${complexData[2].id}"]`).dispatch("click");
             // remove the location.search without reload
             window.history.pushState("", "", `${location.protocol}//${location.host}/${location.pathname}${location.hash}`)
 
@@ -190,15 +193,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
   }
 
   public switch() {
-    this._isFullDisplayMode = !this._isFullDisplayMode;
-    if (this._isFullDisplayMode) {
-      localStorage.setItem("CIRCLE_VIEW_MODE", "flat")
-    }
-    else {
-      localStorage.setItem("CIRCLE_VIEW_MODE", "explore")
-    }
+    this._isExplorationMode = !this._isExplorationMode;
 
-    this.isFullDisplayMode$.next(this._isFullDisplayMode);
+    let settings = JSON.parse(localStorage.getItem(`map_settings_${this.datasetId}`));
+    settings.explorationMode = this._isExplorationMode;
+    localStorage.setItem(`map_settings_${this.datasetId}`, JSON.stringify(settings));
+
+    this._isExplorationMode$.next(this._isExplorationMode);
     this.ngOnInit();
   }
 
@@ -248,14 +249,14 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .append("g")
         .attr(
           "transform",
-          `translate(${diameter / 2 + margin.left}, ${diameter / 2 }) scale(${this.scale})`
+          `translate(${diameter / 2 + margin.left}, ${diameter / 2}) scale(${this.scale})`
         ),
       definitions = svg.append("svg:defs");
 
     // g.append("g").attr("class", "paths");
     let zooming = d3
       .zoom()
-      .scaleExtent([this._isFullDisplayMode ? 2 / 3 : 1 / 3, this._isFullDisplayMode ? 3 : 4 / 3])
+      .scaleExtent([!this._isExplorationMode ? 2 / 3 : 1 / 3, !this._isExplorationMode ? 3 : 4 / 3])
       .on("zoom", zoomed)
       .on("end", () => {
         let transform = d3.event.transform;
@@ -663,7 +664,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let accountablePictureWithoutChildren = initiativeNoChildren.select("circle.accountable.no-children")
       .attr("pointer-events", "none")
       .attr("fill", function (d: any) {
-        return  d.data.accountable ? "url('#image" + d.data.id + "')": "transparent";
+        return d.data.accountable ? "url('#image" + d.data.id + "')" : "transparent";
       })
       .style("opacity", function (d: any) {
         return isLeafDisplayed(d) ? 1 : 0;

@@ -40,10 +40,11 @@ export class TeamMembersComponent implements OnInit {
     public members$: Promise<User[]>;
     public newMember: User;
     private routeSubscription: Subscription;
-    private userSubscription: Subscription;
     private inputEmailSubscription: Subscription;
     public isAlreadyInTeam: boolean = false;
     public errorMessage: string;
+
+    public invite$: Subject<void> = new Subject<void>();
 
     public resentMessage: string;
     public isCreatingUser: boolean;
@@ -53,8 +54,6 @@ export class TeamMembersComponent implements OnInit {
     public inviteForm: FormGroup;
     cancelClicked: boolean;
 
-    isSendingMap: Map<string, boolean> = new Map<string, boolean>();
-    isUpdatingMap: Map<string, boolean> = new Map<string, boolean>();
     inputEmail$: Subject<string> = new Subject();
     inputEmail: String;
     foundUser: User;
@@ -140,7 +139,7 @@ export class TeamMembersComponent implements OnInit {
                 this.cd.markForCheck();
             });
 
-        
+
         // this.userSubscription = this.auth.getUser().subscribe(u => this.user = u);
 
     }
@@ -182,15 +181,6 @@ export class TeamMembersComponent implements OnInit {
             })
             .then((members) => {
                 this.invitableUsersCount = members.filter(m => m.isActivationPending).length;
-                return members
-            })
-            .then(members => {
-                this.loaderService.hide();
-                members.forEach(m => {
-                    this.isSendingMap.set(m.user_id, false);
-                    this.isUpdatingMap.set(m.user_id, false)
-                })
-                this.cd.markForCheck();
                 return sortBy(members, m => m.name)
             })
             .then(members => {
@@ -203,6 +193,7 @@ export class TeamMembersComponent implements OnInit {
                         created_users: members.length
                     }
                 })
+                this.loaderService.hide();
                 return members;
             })
             .catch(() => {
@@ -217,13 +208,6 @@ export class TeamMembersComponent implements OnInit {
         return this.team.members.findIndex(m => m.user_id === newUser.user_id) >= 0;
     }
 
-    isDisplaySendingLoader(user_id: string) {
-        return this.isSendingMap.get(user_id)
-    }
-
-    isDisplayUpdatingLoader(user_id: string) {
-        return this.isUpdatingMap.get(user_id)
-    }
 
     closeAlreadyInTeamAlert() {
         this.inputNewMember.nativeElement.value = "";
@@ -277,42 +261,7 @@ export class TeamMembersComponent implements OnInit {
     }
 
     inviteAll() {
-        this.members$ = this.members$
-            .then((users: User[]) => {
-                return users.map((user: User) => {
-                    if (user.isActivationPending) {
-                        this.inviteUser(user);
-                    }
-                    return user;
-                })
-            });
-    }
-
-    inviteUser(user: User): Promise<void> {
-        this.isSendingMap.set(user.user_id, true);
-        // return this.team$.then((team: Team) => {
-        return this.userService.sendInvite(user.email, user.user_id, user.firstname, user.lastname, user.name, this.team.name, this.user.name)
-            .then((isSent) => {
-                user.isInvitationSent = isSent;
-                this.isSendingMap.set(user.user_id, false);
-                this.cd.markForCheck();
-
-                return;
-            }).then(() => {
-                this.analytics.eventTrack("Team", { action: "invite", team: this.team.name, teamId: this.team.team_id })
-                return;
-            })
-            .then(() => {
-                this.intercom.trackEvent("Invite user", { team: this.team.name, teamId: this.team.team_id, email: user.email });
-                return;
-            })
-        // })
-    }
-
-    resendUser(user: User): Promise<void> {
-        return this.inviteUser(user).then(() => {
-            this.resentMessage = `Invitation email successfully sent to ${user.email}.`;
-        })
+        this.invite$.next();
     }
 
     deleteMember(user: User) {
@@ -406,13 +355,5 @@ export class TeamMembersComponent implements OnInit {
 
     trackByMemberId(index: number, member: User) {
         return member.user_id;
-    }
-
-    changeUserRole(user: User, userRole: UserRole) {
-        this.isUpdatingMap.set(user.user_id, true)
-        this.userService.updateUserRole(user.user_id, UserRole[userRole]).then(() => {
-            this.isUpdatingMap.set(user.user_id, false);
-            this.cd.markForCheck();
-        })
     }
 }

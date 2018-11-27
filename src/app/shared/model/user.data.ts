@@ -1,6 +1,7 @@
 import { Permissions, UserRole } from './permission.data';
 import { Serializable } from "../interfaces/serializable.interface";
 import * as slug from "slug";
+import * as moment from "moment";
 
 /**
  * A user
@@ -64,10 +65,14 @@ export class User implements Serializable<User> {
     public isDeleted: boolean = false;
 
 
+    public lastSeenAt: moment.Moment;
+    public createdAt: moment.Moment;
+
+
     /**
      * Number of logins
      */
-    public loginsCount :number;
+    public loginsCount: number;
 
     /**
      * List of teams
@@ -111,6 +116,8 @@ export class User implements Serializable<User> {
         deserialized.isInvitationSent = input.app_metadata && input.app_metadata.invitation_sent ? input.app_metadata.invitation_sent : false;
         deserialized.userRole = input.app_metadata && input.app_metadata.role ? (<any>UserRole)[input.app_metadata.role] : UserRole.Standard;
         deserialized.loginsCount = input.logins_count;
+        deserialized.lastSeenAt = input.last_login ? moment(input.last_login) : null;
+        deserialized.createdAt = input.created_at ? moment(input.created_at) : null;
 
         deserialized.nickname = input.nickname;
         deserialized.email = input.email;

@@ -268,7 +268,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       d3.select(`g.node.tree-map[id~="${node.id}"]`).dispatch("expand");
       if (!this.getPathsToRoot().has(node.id)) return;
 
-      console.log(this.getPathsToRoot().get(node.id).filter(id => id !== node.id).reverse())
       this.getPathsToRoot().get(node.id).filter(id => id !== node.id).reverse().forEach(nodeId => {
         d3.select(`g.node.tree-map[id~="${nodeId}"]`).dispatch("expand");
         d3.select(`path.link[id-links~="${nodeId}"]`).classed("highlight", true)

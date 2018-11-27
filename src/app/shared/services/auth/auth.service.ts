@@ -54,20 +54,21 @@ export class Auth {
   }
 
   public clear() {
-    /**
-     * Quick and dirty solution until user & team settings are persisted
-     */
-    let FONT_SIZE = localStorage.getItem("FONT_SIZE");
-    let FONT_COLOR = localStorage.getItem("FONT_COLOR");
-    let MAP_COLOR = localStorage.getItem("MAP_COLOR");
-    let CIRCLE_VIEW_MODE = localStorage.getItem("CIRCLE_VIEW_MODE")
-    let REDIRECT_URL = localStorage.getItem("redirectUrl");
+    let persist = new Map<string, string>();
+    for (let i = 0; i < localStorage.length; i++) {
+      if(localStorage.key(i).indexOf("map_settings")>-1){
+        persist.set(localStorage.key(i), localStorage.getItem(localStorage.key(i)))
+      }
+      if(localStorage.key(i).indexOf("redirectUrl")>-1){
+        persist.set(localStorage.key(i), localStorage.getItem(localStorage.key(i)))
+      }
+    }
+    
     localStorage.clear();
-    localStorage.setItem("FONT_SIZE", FONT_SIZE || "");
-    localStorage.setItem("FONT_COLOR", FONT_COLOR || "");
-    localStorage.setItem("MAP_COLOR", MAP_COLOR || "");
-    localStorage.setItem("CIRCLE_VIEW_MODE", CIRCLE_VIEW_MODE);
-    localStorage.setItem("redirectUrl", REDIRECT_URL);
+    persist.forEach((value:string, key:string)=>{
+      localStorage.setItem(key, value)
+    })
+
   }
 
   // public shutDownIntercom() {

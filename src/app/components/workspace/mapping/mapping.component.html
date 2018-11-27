@@ -104,14 +104,14 @@
           <div class="form-group form-inline">
             <label for="fontSizeInput" class="col-form-label col-form-label-sm  col-2">Size</label>
             <input class="col-6 custom-range ml-1" id="fontSizeInput" #fontSizeInput name="fontSizeInput" type="range" min="0.2" max="2"
-              value="{{fontSize$ | async}}" step="0.1" (change)="changeFontSize(fontSizeInput.value)">
+              value="{{settings.fontSize}}" step="0.1" (change)="changeFontSize(fontSizeInput.value)">
 
             <button class="btn btn-sm btn-outline-secondary  ml-4" (click)="changeFontSize(1)">Reset</button>
 
           </div>
           <div class="form-group form-inline">
             <label for="example-time-input" class="col-form-label col-form-label-sm col-2">Color</label>
-            <input class="col-6 form-control form-control-sm ml-1" [(colorPicker)]="fontColor" [style.background]="fontColor" [value]="fontColor"
+            <input class="col-6 form-control form-control-sm ml-1" [(colorPicker)]="settings.fontColor" [style.background]="settings.fontColor" [value]="settings.fontColor"
               [cpOutputFormat]="'hex'" [cpPosition]="'bottom'" [cpPositionOffset]="'40%'" [cpPositionRelativeToArrow]="true"
               (colorPickerChange)="changeFontColor($event)" />
             <button class="btn btn-sm btn-outline-secondary  ml-4" (click)="changeFontColor('#000')">Reset</button>
@@ -119,7 +119,7 @@
           <h6 class="card-subtitle mt-2 mb-2">Map settings</h6>
           <div class="form-group form-inline">
             <label for="example-time-input" class="col-form-label col-form-label-sm col-2">Color</label>
-            <input class="col-6 form-control form-control-sm ml-1" [(colorPicker)]="mapColor" [style.background]="mapColor" [value]="mapColor"
+            <input class="col-6 form-control form-control-sm ml-1" [(colorPicker)]="settings.mapColor" [style.background]="settings.mapColor" [value]="settings.mapColor"
               [cpOutputFormat]="'hex'" [cpPosition]="'bottom'" [cpPositionOffset]="'40%'" [cpPositionRelativeToArrow]="true"
               (colorPickerChange)="changeMapColor($event)" />
             <button class="btn btn-sm  btn-outline-secondary ml-4" (click)="changeMapColor('#aaa')">Reset</button>

@@ -19,6 +19,7 @@ import { Auth } from "../../shared/services/auth/auth.service";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { NgProgressModule, NgProgress } from "@ngx-progressbar/core";
+import { UserFactory } from "../../shared/services/user.factory";
 
 export class AuthStub {
   login() {
@@ -45,6 +46,7 @@ describe("login.component.ts", () => {
               LoaderService,NgProgress, 
               Angulartics2Mixpanel,
               Angulartics2,
+              UserFactory,
               {
                 provide: Auth,
                 useClass: class {
