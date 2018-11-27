@@ -1,7 +1,7 @@
 <div class=" py-2 " [class.bg-light]="isEditToggled">
     <div class="d-flex align-items-center" [class.font-weight-bold]="isEditToggled">
         <div *permissionsOnly="Permissions.canEditUser" class="d-flex align-items-center col-1 px-0 justify-content-between">
-            <button  class="btn bg-transparent" (click)="isEditToggled = !isEditToggled">
+            <button class="btn bg-transparent" (click)="isEditToggled = !isEditToggled">
                 <i [class.fa-caret-right]="!isEditToggled" [class.fa-caret-down]="isEditToggled" class="fas"></i>
             </button>
             <ng-container *permissionsOnly="Permissions.canDeleteUser;then thenDeleteBlock"></ng-container>
@@ -100,6 +100,9 @@
         <div class="form-group form-inline row d-flex justify-content-end" *ngIf="member.isActivationPending">
             <span class="text-success mx-1" *ngIf="isSaving">
                 <i class="fas fa-circle-notch fa-spin"></i>
+            </span>
+            <span class="text-success mx-1 flash small" *ngIf="isSavingSuccess"  [class.show]="isSavingSuccess">
+                <i class="fas fa-save"></i>Successfully saved!
             </span>
             <span class="text-danger mx-1 small" *ngIf="savingFailedMessage">{{savingFailedMessage}}</span>
 

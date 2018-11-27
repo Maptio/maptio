@@ -389,6 +389,27 @@ transition: max-height .25s ease-in-out;
   top:0;
   right:0;
 }
+
+.flash{
+	opacity:0;
+}
+
+.flash.show{
+	-webkit-animation: flash linear 1.5s ;
+	animation: flash linear 1.5s ;
+}
+
+@-webkit-keyframes flash {
+	0% { opacity: 1; } 
+	50% { opacity: .5; } 
+	100% { opacity: 0; }
+}
+@keyframes flash {
+	0% { opacity: 1; } 
+	50% { opacity: .5; } 
+	100% { opacity: 0; }
+}
+
 /* .slack{
   position: relative;
   padding-left:25px;

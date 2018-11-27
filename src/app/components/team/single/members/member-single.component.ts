@@ -30,10 +30,11 @@ export class MemberSingleComponent implements OnInit {
     isDisplaySendingLoader: boolean;
     isDisplayUpdatingLoader: boolean;
     isSaving: boolean;
+    isSavingSuccess: boolean;
     savingFailedMessage: string;
     subscription: Subscription;
     editUserForm: FormGroup;
-    isEditToggled:boolean;
+    isEditToggled: boolean;
 
     constructor(private cd: ChangeDetectorRef,
         private userService: UserService,
@@ -67,7 +68,7 @@ export class MemberSingleComponent implements OnInit {
                     updateOn: "change"
                 }),
             "email": new FormControl(
-                { value: this.member.email, disabled: !this.member.isActivationPending || this.member.isInvitationSent},
+                { value: this.member.email, disabled: !this.member.isActivationPending || this.member.isInvitationSent },
                 {
                     validators: [
                         Validators.required,
@@ -114,7 +115,7 @@ export class MemberSingleComponent implements OnInit {
             })
     }
 
-    getAgo(date:any){
+    getAgo(date: any) {
         return moment.isMoment(date) ? moment(date).fromNow() : "Never";
     }
 
@@ -122,34 +123,49 @@ export class MemberSingleComponent implements OnInit {
         console.log(this.editUserForm, this.member);
         if (this.editUserForm.valid) {
             this.isSaving = true;
+            this.savingFailedMessage = null;
+            this.isSavingSuccess = false;
             this.cd.markForCheck();
             let firstname = this.editUserForm.controls["firstname"].value;
             let lastname = this.editUserForm.controls["lastname"].value;
             let email = this.editUserForm.controls["email"].value;
+
             this.userService.updateUserProfile(this.member.user_id, firstname, lastname)
                 .then((updated: Boolean) => {
-                    if (updated) {
+                    if (!!updated) {
                         this.member.firstname = firstname;
                         this.member.lastname = firstname;
-                        this.member.email = email;
                         this.member.name = `${firstname} ${lastname}`;
                     }
                     else {
                         this.savingFailedMessage = "Cannot update user profile";
                     }
 
+                })
+                .then(() => {
+                    if (this.editUserForm.controls["email"].dirty || this.editUserForm.controls["email"].touched) {
+                        return this.userService.updateUserEmail(this.member.user_id, email)
+                            .then(updated => {
+                                if (updated) {
+                                    this.member.email = email;
+                                    this.isSavingSuccess = true;
+                                    this.cd.markForCheck();
+                                }
+                            })
+                    }
+                    else {
+                        this.isSavingSuccess = true;
+                        this.cd.markForCheck();
+                    }
+                })
+                .then(()=>{
                     this.isSaving = false;
                     this.cd.markForCheck();
                 })
-                .then(() => {
-                    console.log(this.editUserForm.controls)
-                    if (this.editUserForm.controls["email"].dirty || this.editUserForm.controls["email"].touched) {
-                        return this.userService.updateUserEmail(this.member.user_id, email)
-                    }
-                })
                 .catch(err => {
-                    console.log(err);
+                    console.error(err);
                     this.isSaving = false;
+                    this.isSavingSuccess = false;
                     this.savingFailedMessage = JSON.parse(err._body).message;
                     this.cd.markForCheck();
                 })
