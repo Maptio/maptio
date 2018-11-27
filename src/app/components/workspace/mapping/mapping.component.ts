@@ -134,10 +134,10 @@ export class MappingComponent {
     fontSize: number,
     explorationMode: boolean
   } = {
-      fontColor: "#000",
-      mapColor: "#aaa",
-      fontSize: 1,
-      explorationMode: false
+      fontColor: localStorage.getItem("FONT_COLOR") || "#000",
+      mapColor: localStorage.getItem("MAP_COLOR") || "#aaa",
+      fontSize: Number.parseFloat(localStorage.getItem("FONT_SIZE")) || 1,
+      explorationMode: localStorage.getItem("CIRCLE_VIEW_MODE") === "flat" || false
     }
 
   isFiltersToggled: boolean = false;
@@ -275,10 +275,11 @@ export class MappingComponent {
         if (!localStorage.getItem(`map_settings_${this.datasetId}`)) {
           localStorage.setItem(`map_settings_${this.datasetId}`, JSON.stringify(
             {
-              fontColor: "#000",
-              mapColor: "#aaa",
-              fontSize: 1,
-              explorationMode: false
+              fontColor: localStorage.getItem("FONT_COLOR") || "#000",
+              mapColor: localStorage.getItem("MAP_COLOR") || "#aaa",
+              fontSize: Number.parseFloat(localStorage.getItem("FONT_SIZE")) || 1,
+              explorationMode: localStorage.getItem("CIRCLE_VIEW_MODE") === "flat" || false
+
             }
           ))
         }
