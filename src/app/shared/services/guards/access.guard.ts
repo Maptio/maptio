@@ -19,11 +19,11 @@ export class AccessGuard implements CanActivate, CanActivateChild {
         let team = route.params["teamid"];
         return this.auth.getUser().map(u => {
             if (dataset && u.datasets.includes(dataset)) {
-                // this.updateIntercom(u.teams, u);
+                this.updateIntercom(u.teams, u);
                 return true
             }
             else if (team && u.teams.includes(team)) {
-                // this.updateIntercom(u.teams, u);
+                this.updateIntercom(u.teams, u);
                 return true;
             }
             else {
@@ -37,17 +37,20 @@ export class AccessGuard implements CanActivate, CanActivateChild {
         return this.canActivate(childRoute, state);
     }
 
-    private updateIntercom(teams: string[], user:User) {
-        teams.forEach(t => {
-            this.intercom.update({
-                app_id: environment.INTERCOM_APP_ID,
-                email: user.email,
-                user_id: user.user_id,
-                company: {
-                    company_id: t
-                }
+    private updateIntercom(teams: string[], user: User) {
+        if (teams.length === 1) { // we'll worry about consultants later
+            teams.forEach(t => {
+                this.intercom.update({
+                    app_id: environment.INTERCOM_APP_ID,
+                    email: user.email,
+                    user_id: user.user_id,
+                    company: {
+                        company_id: t
+                    }
+                })
             })
-        })
+        }
+
     }
 
 }

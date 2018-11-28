@@ -28,6 +28,10 @@ import { InitiativeComponent } from "../initiative/initiative.component";
 import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
 import { LoaderService } from "../../../shared/services/loading/loader.service";
 import { NgProgress } from "@ngx-progressbar/core";
+import { UserService } from "../../../shared/services/user/user.service";
+import { AuthConfiguration } from "../../../shared/services/auth/auth.config";
+import { JwtEncoder } from "../../../shared/services/encoding/jwt.service";
+import { MailingService } from "../../../shared/services/mailing/mailing.service";
 
 export class TreeComponentStub extends TreeComponent {
 
@@ -45,8 +49,8 @@ describe("building.component.ts", () => {
             schemas: [NO_ERRORS_SCHEMA]
         }).overrideComponent(BuildingComponent, {
             set: {
-                providers: [DataService, ErrorService, TeamFactory, DatasetFactory, UserFactory, TreeDraggedElement, Angulartics2Mixpanel,
-                    Angulartics2, NgbModal,
+                providers: [DataService, ErrorService, TeamFactory, DatasetFactory, UserService, UserFactory, TreeDraggedElement, Angulartics2Mixpanel,
+                    Angulartics2, NgbModal, AuthConfiguration,JwtEncoder, MailingService,
                     {
                         provide: LoaderService,
                         useClass: class {
@@ -106,7 +110,7 @@ describe("building.component.ts", () => {
     describe("Loading data", () => {
         it("shoud loads data,  initializes tree and saveChanges", async(() => {
             let mockDataService = target.debugElement.injector.get(DatasetFactory);
-            let mockUserFactory = target.debugElement.injector.get(UserFactory);
+            let mockUserFactory = target.debugElement.injector.get(UserService);
             fixture.load("data.json");
 
             let initiative = new Initiative().deserialize(fixture.json[0]);
@@ -119,7 +123,7 @@ describe("building.component.ts", () => {
                 ]
             })
             let spyDataService = spyOn(mockDataService, "get").and.returnValue(Promise.resolve(dataset));
-            spyOn(mockUserFactory, "getUsers").and.callFake((user_ids: string[]) => {
+            spyOn(mockUserFactory, "getUsersInfo").and.callFake((user_ids: string[]) => {
                 return Promise.resolve([
                     new User({ picture: `URL1`, name: `Name1`, user_id: "1" }),
                     new User({ picture: `URL2`, name: `Name2`, user_id: "2" }),
@@ -159,7 +163,7 @@ describe("building.component.ts", () => {
 
         it("shoud loads data,  initializes tree,  saveChanges and open node if provided", async(() => {
             let mockDataService = target.debugElement.injector.get(DatasetFactory);
-            let mockUserFactory = target.debugElement.injector.get(UserFactory);
+            let mockUserFactory = target.debugElement.injector.get(UserService);
             fixture.load("data.json");
 
             let initiative = new Initiative().deserialize(fixture.json[0]);
@@ -172,7 +176,7 @@ describe("building.component.ts", () => {
                 ]
             })
             let spyDataService = spyOn(mockDataService, "get").and.returnValue(Promise.resolve(dataset));
-            spyOn(mockUserFactory, "getUsers").and.callFake((user_ids: string[]) => {
+            spyOn(mockUserFactory, "getUsersInfo").and.callFake((user_ids: string[]) => {
                 return Promise.resolve([
                     new User({ picture: `URL1`, name: `Name1`, user_id: "1" }),
                     new User({ picture: `URL2`, name: `Name2`, user_id: "2" }),

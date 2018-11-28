@@ -82,11 +82,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
   public _isDisplayOptions: Boolean = false;
 
-  public _isFullDisplayMode: Boolean =
-    !localStorage.getItem("CIRCLE_VIEW_MODE")
-    || localStorage.getItem("CIRCLE_VIEW_MODE").toLowerCase() === "flat"
+  public _isExplorationMode: boolean;
 
-  private isFullDisplayMode$: BehaviorSubject<Boolean> = new BehaviorSubject<Boolean>(this._isFullDisplayMode);
+  private _isExplorationMode$: Subject<boolean> = new Subject<boolean>();
 
   private svg: any;
   private g: any;
@@ -147,24 +145,29 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.init();
     this.dataSubscription = this.dataService
       .get()
-      .combineLatest(this.mapColor$, this.isFullDisplayMode$.asObservable(), this.route.queryParams)
-      .do((complexData: [any, string, boolean, Params]) => {
+      .combineLatest(this.mapColor$, this.route.queryParams)
+      .do((complexData: [any, string, Params]) => {
         if (complexData[0].dataset.datasetId !== this.datasetId) {
           this.counter = 0;
         }
       })
-      .subscribe((complexData: [any, string, boolean, Params]) => {
+      .subscribe((complexData: [any, string, Params]) => {
         let data = <any>complexData[0].initiative;
         this.datasetId = complexData[0].dataset.datasetId;
+
+        this._isExplorationMode = JSON.parse(localStorage.getItem(`map_settings_${this.datasetId}`)).explorationMode;
+        this._isExplorationMode$.next(this._isExplorationMode);
+        this.cd.markForCheck();
+
         this.slug = data.getSlug();
         this.loaderService.show();
-        let nodes = this.update(data, complexData[1], complexData[2], this.counter === 0);
-
-        if (complexData[3].id) {
-          if (nodes.find((n: any) => n.data.id.toString() === complexData[3].id.toString())) {
-            let n = <Initiative>nodes.filter((n: any) => n.data.id.toString() === complexData[3].id.toString())[0].data;
+        let nodes = this.update(data, complexData[1], !this._isExplorationMode, this.counter === 0);
+        console.log(complexData)
+        if (complexData[2].id) {
+          if (nodes.find((n: any) => n.data.id.toString() === complexData[2].id.toString())) {
+            let n = <Initiative>nodes.filter((n: any) => n.data.id.toString() === complexData[2].id.toString())[0].data;
             this.showDetailsOf$.next(n);
-            this.svg.select(`circle.node.initiative-map[id="${complexData[3].id}"]`).dispatch("click");
+            this.svg.select(`circle.node.initiative-map[id="${complexData[2].id}"]`).dispatch("click");
             // remove the location.search without reload
             window.history.pushState("", "", `${location.protocol}//${location.host}/${location.pathname}${location.hash}`)
 
@@ -191,15 +194,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
   }
 
   public switch() {
-    this._isFullDisplayMode = !this._isFullDisplayMode;
-    if (this._isFullDisplayMode) {
-      localStorage.setItem("CIRCLE_VIEW_MODE", "flat")
-    }
-    else {
-      localStorage.setItem("CIRCLE_VIEW_MODE", "explore")
-    }
+    this._isExplorationMode = !this._isExplorationMode;
 
-    this.isFullDisplayMode$.next(this._isFullDisplayMode);
+    let settings = JSON.parse(localStorage.getItem(`map_settings_${this.datasetId}`));
+    settings.explorationMode = this._isExplorationMode;
+    localStorage.setItem(`map_settings_${this.datasetId}`, JSON.stringify(settings));
+
+    this._isExplorationMode$.next(this._isExplorationMode);
     this.ngOnInit();
   }
 
@@ -265,14 +266,14 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .append("g")
         .attr(
           "transform",
-          `translate(${diameter / 2 + margin.left}, ${diameter / 2 }) scale(${this.scale})`
+          `translate(${diameter / 2 + margin.left}, ${diameter / 2}) scale(${this.scale})`
         ),
       definitions = svg.append("svg:defs");
 
     // g.append("g").attr("class", "paths");
     let zooming = d3
       .zoom()
-      .scaleExtent([this._isFullDisplayMode ? 2 / 3 : 1 / 3, this._isFullDisplayMode ? 3 : 4 / 3])
+      .scaleExtent([!this._isExplorationMode ? 2 / 3 : 1 / 3, !this._isExplorationMode ? 3 : 4 / 3])
       .on("zoom", zoomed)
       .on("end", (d, e, i): any => {
         hideSmallElements(this.MIN_TEXTBOX_WIDTH);
@@ -608,7 +609,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           ? `<textPath path="${uiService.getCircularPath(radius, -radius, 0)}" startOffset="10%">
                   <tspan>${d.data.name || ""}</tspan>
                   </textPath>`
-          : `<textPath href="#path${d.data.id}" startOffset="10%">
+          : `<textPath xlink:href="#path${d.data.id}" startOffset="10%">
                   <tspan>${d.data.name || ""}</tspan>
                   </textPath>`;
       });
@@ -686,7 +687,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let accountablePictureWithoutChildren = initiativeNoChildren.select("circle.accountable.no-children")
       .attr("pointer-events", "none")
       .attr("fill", function (d: any) {
-        return  d.data.accountable ? "url('#image" + d.data.id + "')": "transparent";
+        return d.data.accountable ? "url('#image" + d.data.id + "')" : "transparent";
       })
       .style("opacity", function (d: any) {
         return isLeafDisplayed(d) ? 1 : 0;
@@ -958,6 +959,20 @@ export class MappingZoomableComponent implements IDataVisualizer {
           return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")";
         });
 
+      textAround
+        .on("contextmenu", function (d: any) {
+          d3.event.preventDefault();
+          console.log(d3.mouse(this));
+          let mouse = d3.mouse(this);
+          d3.select(`circle.node[id="${d.data.id}"]`).dispatch("contextmenu", { bubbles: true, cancelable: true, detail: { position: [mouse[0], mouse[1]] } });
+        })
+        .on("mouseover", function(d:any){
+          d3.select(`circle.node[id="${d.data.id}"]`).dispatch("mouseover");
+        })
+        .on("mouseout", function(d:any){
+          d3.select(`circle.node[id="${d.data.id}"]`).dispatch("mouseout");
+        })
+
       circle
         .attr("r", function (d: any) {
           return d.r * k;
@@ -1035,7 +1050,18 @@ export class MappingZoomableComponent implements IDataVisualizer {
         })
         .on("contextmenu", function (d: any) {
           d3.event.preventDefault();
-          let mousePosition = d3.mouse(this);
+          let mousePosition;
+          console.log(d3.mouse(this), Number.isNaN(d3.mouse(this)[0]), Number.isNaN(d3.mouse(this)[1]), d3.event.detail.position)
+          
+          if (Number.isNaN(d3.mouse(this)[0]) || Number.isNaN(d3.mouse[1])) {
+            console.log("from text around", d3.event.detail.position)
+            mousePosition = d3.event.detail.position
+          }
+          else {
+            console.log("from circle", d3.mouse(this))
+
+            mousePosition = d3.mouse(this);
+          }
           let matrix = this.getCTM().translate(
             +this.getAttribute("cx"),
             +this.getAttribute("cy")
@@ -1044,7 +1070,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
           let mouse = { x: mousePosition[0] + 3, y: mousePosition[1] + 3 }
           let initiative = d.data;
           let circle = d3.select(this);
-
           showContextMenuOf$.next({
             initiatives: [initiative],
             x: uiService.getContextMenuCoordinates(mouse, matrix).x,
@@ -1102,7 +1127,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             ? `<textPath path="${uiService.getCircularPath(radius, -radius, 0)}" startOffset="10%">
                   <tspan>${d.data.name || ""}</tspan>
                   </textPath>`
-            : `<textPath href="#path${d.data.id}" startOffset="10%">
+            : `<textPath xlink:href="#path${d.data.id}" startOffset="10%">
                   <tspan>${d.data.name || ""}</tspan>
                   </textPath>`;
         })

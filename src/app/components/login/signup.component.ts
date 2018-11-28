@@ -129,6 +129,7 @@ export class SignupComponent implements OnInit {
                                 this.analytics.eventTrack("Sign up", { email: email, firstname: firstname, lastname: lastname });
                             }, () => { })
                             .catch((reason: any) => {
+                                console.error(reason)
                                 this.signUpMessageFail = `${reason}! Please email us at support@maptio.com and we'll help you out. `;
                                 this.cd.markForCheck();
                             })

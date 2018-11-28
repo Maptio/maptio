@@ -1,22 +1,47 @@
 <ng-template #adminTipContent>
-    <span class="text-warning">You don't have permission to edit this.
+    <span class="text-warning">You don't have permission to subscribe.
         <a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
     </span>
 </ng-template>
 <div *ngIf="!isLoading">
     <div *ngIf="team?.isPaying" class="my-5">
-        <h5>Billing status</h5>
-        <hr>
         <div>
-            <span class="text-success">Payment is up to date
-                <i class="ml-1 fa fa-check-circle text-success" aria-hidden="true"></i>
-            </span>
+            <h5>Subscription status</h5>
+            <hr>
+            <div>
+                <span class="text-success">Payment is up to date
+                    <i class="ml-1 fa fa-check-circle text-success" aria-hidden="true"></i>
+                </span>
+            </div>
         </div>
+
+        <div class="my-5">
+            <h5>Subscription details</h5>
+            <hr>
+            <div class="d-flex flex-column align-items-start w-33">
+                <div class="d-flex justify-content-between w-100">
+                    <span class="text-muted mx-1">Plan</span>
+                    <span>{{team.planName}}</span>
+                </div>
+                <div class="d-flex justify-content-between w-100">
+                        <span class="text-muted mx-1">Price</span>
+                        <span>${{team.planMonthlyPrice}}/month</span>
+                    </div>
+                <div class="d-flex justify-content-between w-100">
+                    <span class="text-muted mx-1">Members</span>
+                    <span>{{team.members.length}} used/{{team.planLimit}} allowed</span>
+                </div>
+            </div>
+            
+        </div>
+
+
+
         <div *permissionsOnly="Permissions.canSubscribe" class="my-5">
-            <h5>Billing information</h5>
+            <h5>Subscription information</h5>
             <hr>
             <div class="d-flex flex-column">
-                <div class="d-flex justify-content-between my-3">
+                <div class="d-flex justify-content-between align-items-center">
                     <a href="{{BILLING_PORTAL}}">Access your invoices and billing information or cancel your subscription</a>
                     <a class="btn btn-light" target="_blank" href="{{BILLING_PORTAL}}">Billing portal</a>
                 </div>
@@ -24,17 +49,17 @@
         </div>
     </div>
 
- 
+
     <div *ngIf="!team?.isPaying">
         <div class="mb-3" *ngIf="remaningTrialDays >=0"> You have
-            <b class="text-success">{{remaningTrialDays}} remaining days</b> on your free trial.
+            <b [class.text-success]="remaningTrialDays>0" [class.text-danger]="remaningTrialDays<=0">{{remaningTrialDays}} remaining days</b> on your free trial.
         </div>
         <div class="mb-3 " *ngIf="remaningTrialDays < 0">
-            <span class="text-danger">Your free trial is over!</span>
-            <div>
+            <b class="text-danger">Your free trial is over!</b>
+            <span>
                 Subscribe to a plan below to continue using Maptio or
                 <a href="mailto:support@maptio.com?subject=I need more time to try Maptio">ask us for an free trial extension.</a>
-            </div>
+            </span>
         </div>
         <ng-container *permissionsOnly="Permissions.canSubscribe;then thenSubscribe ; else elseSubscribe">
         </ng-container>
@@ -44,14 +69,71 @@
             <hr>
             <div class="d-flex flex-column">
                 <div class="d-flex justify-content-between my-3">
-                    <a href="{{BILLING_SMALL_PLAN}}">$50/month for organisations up to 35 people</a>
-                    <a class="btn btn-light" target="_blank" href="{{BILLING_SMALL_PLAN}}">Subscribe</a>
+                    <span>$50/month for organisations up to 35 people</span>
+                    <button class="btn btn-success" data-toggle="modal" data-target=".modal-small-plan">Subscribe</button>
+                </div>
+                <div class="modal fade modal-small-plan" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+
+                        <div class="modal-content">
+                            <div class="modal-header bg-blue h4 text-light rounded-0 d-flex justify-content-center">
+                                $50/month for organisations up to 35 people
+                            </div>
+                            <div class="modal-body">
+                                <div class="embed-responsive embed-responsive-1by1">
+                                    <iframe width="100%" height="99vh" class="embed-responsive-item" src="https://maptio.chargebee.com/hosted_pages/plans/standard-plan50"
+                                        allowfullscreen></iframe>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
 
                 <div class="d-flex justify-content-between my-3">
-                    <a href="{{BILLING_MEDIUM_PLAN}}">$99/month for organisations up to 200 people</a>
-                    <a class="btn btn-light" target="_blank" href="{{BILLING_MEDIUM_PLAN}}">Subscribe</a>
+                    <span>$99/month for organisations up to 200 people</span>
+                    <button class="btn btn-success" data-toggle="modal" data-target=".modal-standard-plan">Subscribe</button>
                 </div>
+                <div class="modal fade modal-standard-plan" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+
+                        <div class="modal-content">
+                            <div class="modal-header bg-blue h4 text-light rounded-0 d-flex justify-content-center">
+                                $99/month for organisations up to 200 people
+                            </div>
+                            <div class="modal-body">
+                                <div class="embed-responsive embed-responsive-1by1">
+                                    <iframe width="100%" height="99vh" class="embed-responsive-item" src="https://maptio.chargebee.com/hosted_pages/plans/standard-plan"
+                                        allowfullscreen></iframe>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 
+                <div class="d-flex justify-content-between my-3" data-toggle="modal" data-target=".modal-test-plan">
+                    <a>Test plan</a>
+                    <button class="btn btn-light">Subscribe</button>
+                </div>
+                <div class="modal fade modal-test-plan" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+
+                        <div class="modal-content">
+                            <div class="modal-header bg-blue h4 text-light rounded-0 d-flex justify-content-center">
+                                $99/month for organisations up to 200 people
+                            </div>
+                            <div class="modal-body">
+                                <div class="embed-responsive embed-responsive-1by1">
+                                    <iframe width="100%" height="99vh" class="embed-responsive-item" src="https://maptio-test.chargebee.com/hosted_pages/plans/standard-plan"
+                                        allowfullscreen></iframe>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div> -->
             </div>
 
         </ng-template>
@@ -61,12 +143,12 @@
             <div class="d-flex flex-column">
                 <div class="d-flex justify-content-between my-3">
                     <span>$50/month for organisations up to 35 people</span>
-                    <a class="btn btn-light" [stickyPopover]="adminTipContent">Subscribe</a>
+                    <a class="btn btn-light" [stickyPopover]="adminTipContent" placement="left">Subscribe</a>
                 </div>
 
                 <div class="d-flex justify-content-between my-3">
                     <span>$99/month for organisations up to 200 people</span>
-                    <a class="btn btn-light" [stickyPopover]="adminTipContent">Subscribe</a>
+                    <a class="btn btn-light" [stickyPopover]="adminTipContent" placement="left">Subscribe</a>
                 </div>
             </div>
 
@@ -75,12 +157,5 @@
 
 
     </div>
-    <h5>Organizations</h5>
-    <hr>
-    <div>
-        <span>You are limited to
-            <b>one</b> organization per plan.
-            <a href="mailto:support@maptio.com?subject=I need to create more organizations">Reach out if you need to create more.</a>
-        </span>
-    </div>
+
 </div>

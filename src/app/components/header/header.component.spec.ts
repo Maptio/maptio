@@ -208,118 +208,11 @@ describe("header.component.ts", () => {
 
                 target.detectChanges();
 
-                // let imgElement = target.debugElement.query(By.css("li#profileInformation a div img")).nativeElement as HTMLImageElement;
-                // expect(imgElement.src).toBe("http://seemyface.com/user.jpg");
-
                 let button = target.debugElement.queryAll(By.css("a#logoutButton"));
                 expect(button.length).toBe(1);
                 expect(spyAuthService).toHaveBeenCalled();
             });
-
-            it("should call authenticate.logout()  when LogOut button is clicked", () => {
-                let mockAuth = target.debugElement.injector.get(Auth);
-                // let mockRouter = target.debugElement.injector.get(Router);
-                let spyAuthService = spyOn(mockAuth, "allAuthenticated").and.returnValue(true);
-                let spyLogOut = spyOn(mockAuth, "logout");
-
-                target.detectChanges();
-                let button = target.debugElement.query(By.css("a#logoutButton")).nativeElement as HTMLAnchorElement;
-                button.dispatchEvent(new Event("click"));
-                target.detectChanges();
-
-                expect(spyLogOut).toHaveBeenCalled();
-                expect(spyAuthService).toHaveBeenCalled();
-            })
         });
 
     });
-
-    describe("Controller", () => {
-
-        // describe("goTo", () => {
-        //     it("opens correct dataset", () => {
-        //         let mockRouter = target.debugElement.injector.get(Router);
-        //         let spyNavigate = spyOn(mockRouter, "navigate")
-        //         let dataset = new DataSet({ datasetId: "some_id", initiative: new Initiative({ name: "Some long name" }) });
-        //         component.goTo(dataset);
-        //         expect(spyNavigate).toHaveBeenCalledWith(["map", "some_id", "some-long-name", "circles"]);
-        //         expect(component.selectedDataset).toBe(dataset)
-        //     });
-        // });
-
-
-        // describe("createDataset", () => {
-        //     it("should create a dataset with no name and then attach it to the authenticated user and open it", async(() => {
-        //         user$.next(new User({ user_id: "some_new_id", datasets: ["1", "2", "3"] }));
-        //         let mockFactory = target.debugElement.injector.get(DatasetFactory);
-        //         let mockTeamFactory = target.debugElement.injector.get(TeamFactory);
-        //         let mockRouter = target.debugElement.injector.get(Router);
-        //         let spyGetTeams = spyOn(mockTeamFactory, "get").and.returnValue(Promise.resolve(TEAMS));
-        //         let spyCreate = spyOn(mockFactory, "create").and.returnValue(Promise.resolve(new DataSet({ _id: "created_id" })));
-        //         let spyAdd = spyOn(mockFactory, "add").and.returnValue(Promise.resolve(true));
-        //         let spyOpen = spyOn(mockRouter, "navigate");
-
-        //         component.createDataset("new initiative");
-        //         spyCreate.calls.mostRecent().returnValue.then(() => {
-        //             expect(spyAdd).toHaveBeenCalled()
-        //             spyAdd.calls.mostRecent().returnValue.then(() => {
-        //                 expect(spyOpen).toHaveBeenCalledWith(["map", "created_id"]);
-        //             });
-        //         });
-        //         expect(spyCreate).toHaveBeenCalledWith(jasmine.objectContaining({ initiative: jasmine.objectContaining({ name: "new initiative" }) }))
-        //     }));
-
-        //     it("should call errorService if creation doesnt work", async(() => {
-        //         let mockFactory = target.debugElement.injector.get(DatasetFactory);
-        //         let mockRouter = target.debugElement.injector.get(Router);
-
-        //         let error = target.debugElement.injector.get(ErrorService);
-        //         let spyError = spyOn(error, "handleError");
-        //         let spyCreate = spyOn(mockFactory, "create").and.returnValue(Promise.reject("Didnt work"));
-        //         let spyAdd = spyOn(mockFactory, "add")
-        //         let spyOpen = spyOn(mockRouter, "navigate");
-
-        //         component.createDataset("new initiative");
-        //         spyCreate.calls.mostRecent().returnValue.then(() => {
-        //             expect(spyAdd).not.toHaveBeenCalled();
-        //         }).catch(() => {
-        //             expect(spyError).toHaveBeenCalled();
-        //         });
-        //         expect(spyCreate).toHaveBeenCalled();
-        //         expect(spyOpen).not.toHaveBeenCalled();
-        //     }));
-
-        //     it("should call errorService if adding dataset doesnt work", async(() => {
-        //         let mockFactory = target.debugElement.injector.get(DatasetFactory);
-        //         let mockRouter = target.debugElement.injector.get(Router);
-
-        //         let error = target.debugElement.injector.get(ErrorService);
-        //         let spyError = spyOn(error, "handleError");
-        //         let spyCreate = spyOn(mockFactory, "create").and.returnValue(Promise.resolve(true));
-        //         let spyAdd = spyOn(mockFactory, "add").and.returnValue(Promise.reject("Didnt work"));
-        //         let spyOpen = spyOn(mockRouter, "navigate");
-
-        //         component.createDataset("new initiative");
-        //         spyCreate.calls.mostRecent().returnValue.then(() => {
-        //             expect(spyAdd).toHaveBeenCalled();
-        //             spyAdd.calls.mostRecent().returnValue.then(() => {
-
-        //             }).catch(() => { expect(spyError).toHaveBeenCalled(); });
-        //         });
-        //         expect(spyCreate).toHaveBeenCalled();
-        //         expect(spyOpen).not.toHaveBeenCalled();
-        //     }));
-        // });
-    });
-
-
-
-
-
-
-
-
-
-
-
 });

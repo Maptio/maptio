@@ -16,6 +16,7 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { LoaderService } from "../../../shared/services/loading/loader.service";
 import { Tag } from "../../../shared/model/tag.data";
 import { DataSet } from "../../../shared/model/dataset.data";
+import { UserService } from "../../../shared/services/user/user.service";
 
 @Component({
     selector: "building",
@@ -106,7 +107,7 @@ export class BuildingComponent {
 
     constructor(private dataService: DataService, private datasetFactory: DatasetFactory,
         private modalService: NgbModal, private analytics: Angulartics2Mixpanel,
-        private userFactory: UserFactory, private cd: ChangeDetectorRef, private loaderService: LoaderService) {
+        private userFactory: UserFactory, private userService:UserService, private cd: ChangeDetectorRef, private loaderService: LoaderService) {
         // this.nodes = [];
     }
 
@@ -240,7 +241,7 @@ export class BuildingComponent {
                     node.team_id = defaultTeamId; // For now, the sub initiative are all owned by the same team
                 });
 
-                return this.userFactory.getUsers(team.members.map(u => u.user_id));
+                return this.userService.getUsersInfo(team.members);
 
             })
             .then((users: User[]) => {

@@ -7,12 +7,12 @@
         <form>
             <div class="form-group small">
                 <div class="custom-control custom-radio ">
-                    <input type="radio" id="helpModeRadio" name="radioViewMode" class="custom-control-input" [checked]="_isFullDisplayMode" (click)="switch()">
+                    <input type="radio" id="helpModeRadio" name="radioViewMode" class="custom-control-input" [checked]="!_isExplorationMode" (click)="switch()">
                     <label class="custom-control-label" for="helpModeRadio">Show everything (Best for smaller maps) </label>
         
                 </div>
                 <div class="custom-control custom-radio ">
-                    <input type="radio" id="participationModeRadio" name="radioViewMode" class="custom-control-input" [checked]="!_isFullDisplayMode"
+                    <input type="radio" id="participationModeRadio" name="radioViewMode" class="custom-control-input" [checked]="_isExplorationMode"
                         (click)="switch()">
                     <label class="custom-control-label" for="participationModeRadio">Click to reveal (Best for larger maps)</label>
          

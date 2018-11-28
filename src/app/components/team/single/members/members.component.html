@@ -3,12 +3,10 @@
         <a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
     </span>
 </ng-template>
-<div class="d-flex flex-column align-items-start">
-
-
+<div class="">
     <div class="w-100">
-        <div class="card mb-3 border-0 bg-white">
-            <div class="">
+        <div class="card mb-3 border-0 bg-light">
+            <div class="card-body">
                 <div class="card-title lead">Add members</div>
                 <div class="form-group">
                     <div class="form-inline">
@@ -19,7 +17,7 @@
                         <ng-template #elseAddBlock>
                             <input disabled class="form-control col-5" type="text" />
                             <span class="text-muted" [stickyPopover]="adminTipContent">
-                                <i class="fa fa-lock mx-1"></i>
+                                <i class="fas fa-lock mx-1"></i>
                             </span>
                         </ng-template>
                         <span class="text-success" *ngIf="isSearching">
@@ -77,101 +75,46 @@
         </div>
     </div>
 
+    <!-- <hr> -->
 
-    <div class="w-100" [style.height.vh]="70">
-        <div class="alert alert-success alert-dismissible fade show" role="alert" *ngIf="isAlreadyInTeam">
-            {{foundUser.name}} has already been added to {{team.name}}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeAlreadyInTeamAlert()">
-                <span aria-hidden="true">&times;</span>
-            </button>
+
+    <div class="alert alert-success fade show" role="alert" *ngIf="isAlreadyInTeam">
+        {{foundUser.name}} has already been added to {{team.name}}
+    </div>
+
+    <div class="my-4">
+        <div class="border-bottom py-2">
+            <div class="d-flex align-items-center">
+                <div *permissionsOnly="Permissions.canEditUser" class="col-1 px-0 justify-content-between d-flex align-items-center">
+                    <button class="btn text-white pointer-none">
+                        <i class="fas fa-caret-down"></i>
+                    </button>
+                    <button class="remove text-white pointer-none btn" aria-hidden="true"></button>
+                </div>
+                <div class="col-3">Name</div>
+                <div class="col-4">Email</div>
+                <div class="col-2">Permission type
+                    <a href="{{KB_URL_PERMISSIONS}}" target="blank">
+                        <i class="fa fa-info-circle text-muted" aria-hidden="true"></i>
+                    </a>
+
+                </div>
+                <div class="col-2 ml-auto">
+                    <button class="btn btn-outline-secondary pull-right" mwlConfirmationPopover title="Are you sure you want to send an invitation email to these {{invitableUsersCount}} people?"
+                        placement="top" focusButton="cancel" appendToBody="true" (confirm)="inviteAll()" (cancel)="cancelClicked = true">Invite/resend all</button>
+
+                </div>
+            </div>
         </div>
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Permission type
-                        <a href="{{KB_URL_PERMISSIONS}}" target="blank">
-                            <i class="fa fa-info-circle text-muted" aria-hidden="true"></i>
-                        </a>
-                    </th>
-                    <th scope="col" class="pr-0 d-flex justify-content-end">
-                        <button class="btn btn-outline-secondary pull-right" mwlConfirmationPopover title="Are you sure you want to send an invitation email to these {{invitableUsersCount}} people?"
-                            placement="top" focusButton="cancel" appendToBody="true" (confirm)="inviteAll()" (cancel)="cancelClicked = true">Invite/resend all</button>
-                    </th>
-                </tr>
-            </thead>
-            <tbody [style.height.vh]="55">
-                <tr *ngFor="let member of (members$ | async); trackBy: trackByMemberId;let i=index" 
-                     [class.bold]="member.userRole===UserRole.Admin">
-                    <td>
-                        <ng-container *permissionsOnly="Permissions.canDeleteUser;then thenDeleteBlock"></ng-container>
-                        <ng-template #thenDeleteBlock>
-                            <span class="remove text-danger" [class.d-none]="team.members.length===1" aria-hidden="true" mwlConfirmationPopover
-                                title="This cannot be undone ! Are you sure you want to remove {{member.name}} from this organization?"
-                                placement="right" focusButton="cancel" appendToBody="true" (confirm)="deleteMember(member)" (cancel)="cancelClicked = true">
-                            </span>
-                        </ng-template>
-                    </td>
-                    <td class="d-flex align-items-center">
-                        <img class="rounded-circle member mr-1" src="{{member.picture}}" alt="{{member.name}}">{{member.name}}
-                    </td>
-                    <td>{{member.email}}
-                        <br/>
-                        <small *ngIf="member.isActivationPending && member.isInvitationSent" class="text-info pull-left" placement="top" container="body"
-                            ngbTooltip="{{member.name}} was sent an invitation.">Pending invitation</small>
-                        <small  *ngIf="member.isActivationPending && !member.isInvitationSent" class="text-warning pull-left" placement="top"
-                            container="body" ngbTooltip="{{member.name}} cannot view or edit maps.">Not yet invited</small>
-                        <small  *ngIf="!member.isActivationPending" class="text-success pull-left" placement="top" container="body"
-                            ngbTooltip="{{member.name}} can view and edit maps">Active</small>
 
-                    </td>
-                    <td>
-                        <ng-container *permissionsOnly="Permissions.canEditUser; else elseRoleBlock; then thenRoleBlock">main</ng-container>
-                        <ng-template #elseRoleBlock>
-                            {{UserRole[member.userRole]}}
-                        </ng-template>
-                        <ng-template #thenRoleBlock>
-                            <select class="form-control" (change)="changeUserRole(member,$event.target.value)">
-                                <option *ngFor="let userRole of UserRole | keys| slice:0:2;" [value]="userRole.key" [selected]="member.userRole">{{userRole.value}}</option>
-                            </select>
-                        </ng-template>
-                    </td>
-                    <td class="pr-0 d-flex justify-content-end">
-                        <ng-container>
-                            <ng-container *ngIf="!isDisplaySendingLoader(member.user_id) && !isDisplayUpdatingLoader(member.user_id)">
-                                <ng-container *ngIf="member.isActivationPending && !member.isInvitationSent">
-                                    <ng-container *permissionsOnly="Permissions.canInviteUser;then thenInviteBlock; else elseInviteBlock"></ng-container>
-                                    <ng-template #thenInviteBlock>
-                                        <button class="pull-right btn btn-outline-secondary" (click)="inviteUser(member, i)" placement="left"
-                                            container="body" ngbTooltip="Invite {{member.name}} to view and edit maps">
-                                            Invite </button>
-                                    </ng-template>
-                                    <ng-template #elseInviteBlock>
-                                        <button class="btn btn-outline-secondary disabled pull-right" [stickyPopover]="adminTipContent" placement='left'>Invite
-                                            <i class="fa fa-lock ml-1"></i>
-                                        </button>
-                                    </ng-template>
-                                </ng-container>
-                                <button  *ngIf="member.isActivationPending && member.isInvitationSent" class="btn btn-outline-secondary pull-right"
-                                    (click)="resendUser(member, i)" placement="left" container="body" ngbTooltip="Resend an invitation to {{member.name}}">Resend </button>
-                            </ng-container>
-                            <ng-container *ngIf="isDisplaySendingLoader(member.user_id)">
-                                <div class="indicator text-success d-flex justify-content-end align-items-center">
-                                    <i class="fas fa-circle-notch fa-spin text-success mx-1"></i> Sending
-                                </div>
-                            </ng-container>
-                            <ng-container *ngIf="isDisplayUpdatingLoader(member.user_id)">
-                                <div class=" indicator text-success d-flex justify-content-end align-items-center">
-                                    <i class="fas fa-circle-notch fa-spin text-success mx-1"></i> Updating
-                                </div>
-                            </ng-container>
-                        </ng-container>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
+        <div class="border-bottom border-light row" *ngFor="let member of (members$ | async); trackBy: trackByMemberId;let i=index" >
+                <!-- [class.bold]="member.userRole===UserRole.Admin" -->
+            <div class="col-12">
+                <member-single [invite]="invite$.asObservable()" [isOnlyMember]="team.members.length===1" [user]="user" [member]="member"
+                [team]="team" (delete)="deleteMember(member)"></member-single>
+            </div>
+          
+        </div>
 
     </div>
+</div>

@@ -50,7 +50,7 @@
 
                 </div>
             </li>
-            <li class="nav-item dropdown d-none d-xl-block" *ngIf="teams?.length > 0">
+            <li class="nav-item dropdown d-none d-xl-block" *ngIf="teams?.length > 0 && datasets && datasets?.length !== 0">
                 <a class="nav-link dropdown-toggle " id="mapsListDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                     (click)="isCreateMode=!isCreateMode">
                     Create a map
@@ -67,12 +67,12 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdownLink">
                     <a class="dropdown-item" routerLink="{{user?.shortid}}/{{user?.getSlug() || 'profile'}}">Profile</a>
-                    <a class="dropdown-item" routerLink="/teams">Organizations</a>
+                    <a class="dropdown-item" *ngIf="teams?.length > 0" routerLink="/teams">Organizations</a>
                     <a class="dropdown-item d-block d-xl-none" routerLink="/home">Maps</a>
                     <div class="dropdown-divider"></div>
                     <!-- <a class="dropdown-item" routerLink="/home">Export maps</a>
                     <div class="dropdown-divider"></div> -->
-                    <a class="dropdown-item" (click)="logout()" id="logoutButton">
+                    <a class="dropdown-item" routerLink="/logout" id="logoutButton">
                         <i class="fa fa-sign-out text-muted mr-1" aria-hidden="true"></i>Log out</a>
                 </div>
             </li>

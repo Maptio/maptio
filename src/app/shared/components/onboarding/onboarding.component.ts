@@ -40,6 +40,8 @@ export class OnboardingComponent implements OnInit {
     currentStep: String;
     stepsList: String[];
 
+    SURVEY_URL:string = environment.SURVEY_URL;
+
 
     constructor(private cd: ChangeDetectorRef) { }
 

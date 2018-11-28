@@ -9,6 +9,7 @@ import { MockBackend, MockConnection } from "@angular/http/testing";
 import { Http, HttpModule, Response, BaseRequestOptions, ResponseOptions, RequestMethod } from "@angular/http";
 import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
 import { User } from "../../model/user.data";
+import { UserFactory } from "../user.factory";
 
 describe("user.service.ts", () => {
 
@@ -17,7 +18,7 @@ describe("user.service.ts", () => {
         TestBed.configureTestingModule({
             imports: [HttpModule],
             providers: [
-                UserService, JwtEncoder, MailingService, AuthConfiguration,
+                UserService, JwtEncoder, MailingService, AuthConfiguration,UserFactory,
                 // {
                 //     AuthConfiguration, useClass: class { getAccessToken = jasmine.createSpy("getAccessToken"); }
                 // },
