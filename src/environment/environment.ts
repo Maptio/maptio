@@ -39,6 +39,7 @@ export const environment = {
     BILLING_TEST_PLAN : "https://maptio-test.chargebee.com/hosted_pages/plans/standard-plan",
     
     BILLING_PORTAL : "https://maptio.chargebeeportal.com/portal/login",
-    BILLING_TEST_PORTAL : "https://maptio-test.chargebeeportal.com/portal/login"
+    BILLING_TEST_PORTAL : "https://maptio-test.chargebeeportal.com/portal/login",
+    SURVEY_URL : "https://safiyya2.typeform.com/to/zTvRm6"
 
 };

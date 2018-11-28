@@ -89,7 +89,8 @@ if (!isDevelopment) {
         'https://drive.google.com',
         'https://termsfeed.com/',
         'https://circlemapping.auth0.com/',
-        'https://maptio.chargebee.com'
+        'https://maptio.chargebee.com',
+        'https://intercom-sheets.com'
       ],
       workerSrc : [
         "'self'",'blob:'

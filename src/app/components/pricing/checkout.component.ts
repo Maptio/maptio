@@ -21,6 +21,7 @@ export class CheckoutComponent implements OnInit {
     customerEmail: string;
     datasets: DataSet[];
     team:Team;
+    SURVEY_URL:string = environment.SURVEY_URL;
 
     constructor(private route: ActivatedRoute, private cd: ChangeDetectorRef,
         private intercom: Intercom, private auth: Auth, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory) { }
