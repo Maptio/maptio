@@ -384,6 +384,12 @@ transition: max-height .25s ease-in-out;
   left:0;
 }
 
+.center-center{
+  top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 
 .top-right{
   top:0;

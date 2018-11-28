@@ -513,6 +513,12 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     this.isAuthorityCentricMode$.next(this._isAuthorityCentricMode);
   }
 
+  public isNoNetwork:boolean;
+  public setIsNoNodes(){
+      this.isNoNetwork =true;
+      this.cd.markForCheck();
+  }
+
   public update(data: any, seedColor: string, isAuthorityCentricMode: boolean) {
     if (this.d3.selectAll("g").empty()) {
       this.init();
@@ -520,6 +526,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
     let d3 = this.d3;
     let g = this.g;
+    let svg = this.svg;
     let fontSize = this.fontSize;
     let width = this.width;
     let height = this.height;
@@ -531,6 +538,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     let datasetSlug = this.slug;
     let datasetId = this.datasetId;
     let getTags = this.getTags.bind(this);
+    let setIsNoNodes = this.setIsNoNodes.bind(this)
     let CIRCLE_RADIUS = this.CIRCLE_RADIUS;
     let LINE_WEIGHT = this.LINE_WEIGHT;
     let FADED_OPACITY = this.FADED_OPACITY;
@@ -541,6 +549,11 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
 
     let graph = isAuthorityCentricMode ? this.prepareAuthorityCentric(initiativesList) : this.prepareHelperCentric(initiativesList);
+console.log(initiativesList, graph);
+    if(graph.nodes.length === 0 ){
+      setIsNoNodes();
+      return;
+    }
 
     let router = this.router;
     let slug = this.slug;

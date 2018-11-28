@@ -1,5 +1,11 @@
 <!-- <ngx-loading [show]="isLoading" [config]="{ backdropBackgroundColour: '#fff' }"></ngx-loading> -->
 <svg id="map"></svg>
+<div class="card position-absolute center-center bg-transparent border-0 " *ngIf="isNoNetwork">
+    <h5 class="card-body">
+        <h2>Nothing here yet!</h2>
+        <h5 class="text-muted">Add people to <a routerLink="../circles">circles</a>  to see the connections between them</h5>
+    </h5>
+</div>
 <div closable class="card control switch border-0 w-25 p-0 collapse" [class.show]="_isDisplayOptions">
     <div class="card-body bg-light border-dark rounded">
         <h6 class="card-title">Network map options</h6>
