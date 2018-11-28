@@ -90,7 +90,7 @@ const appRoutes: Routes = [
   { path: "help", component: HelpComponent, data: { breadcrumbs: "Help" } },
   { path: "pricing", component: PricingComponent, data: { breadcrumbs: "Pricing" } },
   { path: "checkout", component: CheckoutComponent },
-  
+
   { path: "terms", component: TermsComponent },
 
   { path: "privacy", component: PrivacyComponent },
@@ -104,7 +104,7 @@ const appRoutes: Routes = [
     data: { breadcrumbs: "Profile" }
   },
   { path: "unauthorized", component: UnauthorizedComponent },
-  { path: "forgot", component: ChangePasswordComponent},
+  { path: "forgot", component: ChangePasswordComponent },
   { path: "404", component: NotFoundComponent },
   { path: "**", redirectTo: "/404" }
 ];
@@ -119,7 +119,7 @@ export const cloudinaryLib = {
     AppComponent, AccountComponent, HeaderComponent, FooterComponent, LoginComponent, LogoutComponent, HomeComponent, UnauthorizedComponent, NotFoundComponent,
     ChangePasswordComponent, LoaderComponent, SignupComponent, AuthorizeComponent,
     HelpComponent, PricingComponent, TermsComponent, PrivacyComponent,
-    DashboardComponent,CheckoutComponent,
+    DashboardComponent, CheckoutComponent,
     // for tests
     AnAnchorableComponent
   ],
@@ -166,7 +166,7 @@ export const cloudinaryLib = {
     ExportService, FileService, PermissionService, BillingService,
     Location,
     { provide: LocationStrategy, useClass: PathLocationStrategy },
-    {provide: APP_BASE_HREF, useValue: '/'},
+    { provide: APP_BASE_HREF, useValue: '/' },
     {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,
@@ -181,7 +181,11 @@ export class AppModule {
   constructor(breadcrumbsConfig: McBreadcrumbsConfig) {
 
     if (process.env.ENV === "production") {
-      LogRocket.init("w3vkbz/maptio");
+      LogRocket.init("w3vkbz/maptio", {
+        network: {
+          isEnabled: true,
+        }
+      });
     }
 
     breadcrumbsConfig.postProcess = (x) => {
