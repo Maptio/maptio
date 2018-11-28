@@ -21,7 +21,7 @@ describe("logout.component.ts", () => {
               {
                 provide: Auth,
                 useClass: class {
-                  clear = jasmine.createSpy("clear");
+                  logout = jasmine.createSpy("logout");
                 }
               }
             ]
@@ -35,12 +35,11 @@ describe("logout.component.ts", () => {
     target = TestBed.createComponent(LogoutComponent);
 
     component = target.componentInstance;
-    // spyOn(target.debugElement.injector.get(Auth), "clear");
 
     target.detectChanges();
   });
 
   it("should clear localStorage", () => {
-    expect(target.debugElement.injector.get(Auth).clear).toHaveBeenCalled();
+    expect(target.debugElement.injector.get(Auth).logout).toHaveBeenCalled();
   });
 });

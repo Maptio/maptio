@@ -21,6 +21,7 @@ import { AuthConfiguration } from "./auth.config";
 import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
 import { IntercomConfig, Intercom } from "ng-intercom";
 import { NgProgress, NgProgressModule } from "@ngx-progressbar/core";
+import { Fullstory, FullstoryConfig } from "ngx-fullstory";
 
 
 describe("auth.service.ts", () => {
@@ -48,7 +49,7 @@ describe("auth.service.ts", () => {
                     }
                 },
                 Auth, UserFactory, DatasetFactory, JwtEncoder, MailingService, LoaderService,NgProgress,  PermissionService,
-                Intercom, IntercomConfig,
+                Intercom, IntercomConfig,Fullstory, FullstoryConfig,
                 {
                     provide: Router, useClass: class {
                         navigate = jasmine.createSpy("navigate");

@@ -17,6 +17,7 @@ import { D3Service } from "d3-ng2-service";
 import { FileUploadModule } from "ng2-file-upload";
 import { ResponsiveModule } from "ng2-responsive";
 import { McBreadcrumbsConfig, McBreadcrumbsModule } from "ngx-breadcrumbs";
+import { FullstoryModule } from 'ngx-fullstory';
 
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import { AnAnchorableComponent } from "../test/specs/shared/component.helper.shared";
@@ -139,6 +140,12 @@ export const cloudinaryLib = {
       confirmButtonType: "danger",
       cancelButtonType: "outline-secondary"
     }),
+    FullstoryModule.forRoot({
+      fsOrg: environment.FULLSTORY_APP_ID,
+      fsNameSpace : 'FS',
+      fsDebug : false,
+      fsHost : 'fullstory.com'
+    }),
     Angulartics2Module.forRoot([Angulartics2Mixpanel]),
     FileUploadModule,
     NgProgressModule.forRoot(),
@@ -152,6 +159,7 @@ export const cloudinaryLib = {
       appId: environment.INTERCOM_APP_ID, // from your Intercom config
       updateOnRouterChange: true // will automatically run `update` on router event changes. Default: `false`
     }),
+   
     SharedModule,
     CommonComponentsModule
 
@@ -181,10 +189,11 @@ export class AppModule {
   constructor(breadcrumbsConfig: McBreadcrumbsConfig) {
 
     if (process.env.ENV === "production") {
-      LogRocket.init("w3vkbz/maptio", {
+      LogRocket.init(environment.LOGROCKET_APP_ID, {
         network: {
           isEnabled: true,
         }
+        
       });
     }
 

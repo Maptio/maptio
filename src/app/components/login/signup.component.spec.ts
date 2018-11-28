@@ -24,6 +24,7 @@ import { DatasetFactory } from "../../shared/services/dataset.factory";
 import { UserFactory } from "../../shared/services/user.factory";
 import { PermissionService } from "../../shared/model/permission.data";
 import { IntercomConfig, Intercom } from "ng-intercom";
+import { Fullstory, FullstoryConfig } from "ngx-fullstory";
 
 describe("signup.component.ts", () => {
 
@@ -40,7 +41,7 @@ describe("signup.component.ts", () => {
             set: {
                 providers: [
                     Angulartics2Mixpanel, Angulartics2,Auth, DatasetFactory, UserFactory,PermissionService,
-                    Intercom, IntercomConfig,
+                    Intercom, IntercomConfig,Fullstory, FullstoryConfig,
                     {
                         provide: AuthHttp,
                         useFactory: authHttpServiceFactoryTesting,

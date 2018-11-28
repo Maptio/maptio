@@ -12,6 +12,9 @@ import { UserService } from '../../shared/services/user/user.service';
 import { LoaderService } from '../../shared/services/loading/loader.service';
 import { Intercom } from 'ng-intercom';
 import { environment } from '../../../environment/environment';
+import { Fullstory } from 'ngx-fullstory';
+import { Angulartics2Mixpanel } from 'angulartics2';
+import * as LogRocket from "logrocket";
 
 @Component({
     selector: 'authorize',
@@ -23,7 +26,7 @@ export class AuthorizeComponent implements OnInit {
     constructor(private route: ActivatedRoute, private router: Router,
         private userFactory: UserFactory, private userService: UserService,
         private uriService: URIService, private auth: Auth,
-        private intercom: Intercom,
+        private intercom: Intercom, public fullstory: Fullstory, private analytics: Angulartics2Mixpanel,
         private authConfig: AuthConfiguration, private loader: LoaderService) { }
 
     ngOnInit(): void {
@@ -60,21 +63,44 @@ export class AuthorizeComponent implements OnInit {
                 let profile = JSON.parse(localStorage.getItem("profile"));
                 return this.updateMetadata(profile)
             })
-            .do((user:User)=>{
+            .do((user: User) => {
                 this.intercom.update({
                     app_id: environment.INTERCOM_APP_ID,
                     email: user.email,
                     user_id: user.user_id,
-                  });
+                });
+            })
+            .do((user: User) => {
+                this.analytics.setSuperProperties({
+                    user_id: user.user_id,
+                    email: user.email
+                });
+                this.analytics.eventTrack("Login", {
+                    email: user.email,
+                    firstname: user.firstname,
+                    lastname: user.lastname
+                });
+            })
+            .do((user: User) => {
+                this.fullstory.login(user.user_id, {
+                    displayName: user.name,
+                    email: user.email
+                    });
+            })
+            .do((user: User) => {
+                LogRocket.identify(user.user_id, {
+                    name: user.name,
+                    email: user.email,
+                });
             })
             .subscribe((user: User) => {
                 this.loader.hide();
                 this.router.navigateByUrl("/home");
             }, (err) => {
-                if(err.error === "login_required"){
+                if (err.error === "login_required") {
                     this.router.navigateByUrl(`/login?login_message=Cannot log you in with Google. It looks like the problem is your ad-blocker. Try adding app.maptio.com to your whitelist then refreshing the page.`);
                 }
-                else{
+                else {
                     console.error(err);
                     this.router.navigateByUrl(`/login?login_message=${err}`);
                 }
