@@ -933,6 +933,20 @@ export class MappingZoomableComponent implements IDataVisualizer {
           return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")";
         });
 
+      textAround
+        .on("contextmenu", function (d: any) {
+          d3.event.preventDefault();
+          console.log(d3.mouse(this));
+          let mouse = d3.mouse(this);
+          d3.select(`circle.node[id="${d.data.id}"]`).dispatch("contextmenu", { bubbles: true, cancelable: true, detail: { position: [mouse[0], mouse[1]] } });
+        })
+        .on("mouseover", function(d:any){
+          d3.select(`circle.node[id="${d.data.id}"]`).dispatch("mouseover");
+        })
+        .on("mouseout", function(d:any){
+          d3.select(`circle.node[id="${d.data.id}"]`).dispatch("mouseout");
+        })
+
       circle
         .attr("r", function (d: any) {
           return d.r * k;
@@ -1010,7 +1024,18 @@ export class MappingZoomableComponent implements IDataVisualizer {
         })
         .on("contextmenu", function (d: any) {
           d3.event.preventDefault();
-          let mousePosition = d3.mouse(this);
+          let mousePosition;
+          console.log(d3.mouse(this), Number.isNaN(d3.mouse(this)[0]), Number.isNaN(d3.mouse(this)[1]), d3.event.detail.position)
+          
+          if (Number.isNaN(d3.mouse(this)[0]) || Number.isNaN(d3.mouse[1])) {
+            console.log("from text around", d3.event.detail.position)
+            mousePosition = d3.event.detail.position
+          }
+          else {
+            console.log("from circle", d3.mouse(this))
+
+            mousePosition = d3.mouse(this);
+          }
           let matrix = this.getCTM().translate(
             +this.getAttribute("cx"),
             +this.getAttribute("cy")
@@ -1019,7 +1044,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
           let mouse = { x: mousePosition[0] + 3, y: mousePosition[1] + 3 }
           let initiative = d.data;
           let circle = d3.select(this);
-
           showContextMenuOf$.next({
             initiatives: [initiative],
             x: uiService.getContextMenuCoordinates(mouse, matrix).x,
