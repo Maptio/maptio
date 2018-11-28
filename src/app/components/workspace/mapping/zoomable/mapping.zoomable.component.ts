@@ -161,10 +161,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
         this.slug = data.getSlug();
         this.loaderService.show();
         let nodes = this.update(data, complexData[1], !this._isExplorationMode, this.counter === 0);
-
+        console.log(complexData)
         if (complexData[2].id) {
           if (nodes.find((n: any) => n.data.id.toString() === complexData[2].id.toString())) {
-            let n = <Initiative>nodes.filter((n: any) => n.data.id.toString() === complexData[3].id.toString())[0].data;
+            let n = <Initiative>nodes.filter((n: any) => n.data.id.toString() === complexData[2].id.toString())[0].data;
             this.showDetailsOf$.next(n);
             this.svg.select(`circle.node.initiative-map[id="${complexData[2].id}"]`).dispatch("click");
             // remove the location.search without reload
