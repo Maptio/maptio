@@ -80,138 +80,138 @@ import { CheckoutComponent } from "./components/pricing/checkout.component";
 
 
 const appRoutes: Routes = [
-  { path: "", redirectTo: "home", pathMatch: "full" },
+    { path: "", redirectTo: "home", pathMatch: "full" },
 
-  { path: "home", component: HomeComponent },
+    { path: "home", component: HomeComponent },
 
-  { path: "login", component: LoginComponent },
-  { path: "authorize", component: AuthorizeComponent },
+    { path: "login", component: LoginComponent },
+    { path: "authorize", component: AuthorizeComponent },
 
-  { path: "logout", component: LogoutComponent },
-  { path: "help", component: HelpComponent, data: { breadcrumbs: "Help" } },
-  { path: "pricing", component: PricingComponent, data: { breadcrumbs: "Pricing" } },
-  { path: "checkout", component: CheckoutComponent },
+    { path: "logout", component: LogoutComponent },
+    { path: "help", component: HelpComponent, data: { breadcrumbs: "Help" } },
+    { path: "pricing", component: PricingComponent, data: { breadcrumbs: "Pricing" } },
+    { path: "checkout", canActivate: [AuthGuard], component: CheckoutComponent },
 
-  { path: "terms", component: TermsComponent },
+    { path: "terms", component: TermsComponent },
 
-  { path: "privacy", component: PrivacyComponent },
+    { path: "privacy", component: PrivacyComponent },
 
-  { path: "signup", component: SignupComponent },
+    { path: "signup", component: SignupComponent },
 
-  {
-    path: ":shortid/:slug",
-    component: AccountComponent,
-    canActivate: [AuthGuard],
-    data: { breadcrumbs: "Profile" }
-  },
-  { path: "unauthorized", component: UnauthorizedComponent },
-  { path: "forgot", component: ChangePasswordComponent },
-  { path: "404", component: NotFoundComponent },
-  { path: "**", redirectTo: "/404" }
+    {
+        path: ":shortid/:slug",
+        component: AccountComponent,
+        canActivate: [AuthGuard],
+        data: { breadcrumbs: "Profile" }
+    },
+    { path: "unauthorized", component: UnauthorizedComponent },
+    { path: "forgot", component: ChangePasswordComponent },
+    { path: "404", component: NotFoundComponent },
+    { path: "**", redirectTo: "/404" }
 ];
 
 export const cloudinaryLib = {
-  Cloudinary: Cloudinary
+    Cloudinary: Cloudinary
 };
 
 
 @NgModule({
-  declarations: [
-    AppComponent, AccountComponent, HeaderComponent, FooterComponent, LoginComponent, LogoutComponent, HomeComponent, UnauthorizedComponent, NotFoundComponent,
-    ChangePasswordComponent, LoaderComponent, SignupComponent, AuthorizeComponent,
-    HelpComponent, PricingComponent, TermsComponent, PrivacyComponent,
-    DashboardComponent, CheckoutComponent,
-    // for tests
-    AnAnchorableComponent
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    CommonModule,
-    HttpModule,
+    declarations: [
+        AppComponent, AccountComponent, HeaderComponent, FooterComponent, LoginComponent, LogoutComponent, HomeComponent, UnauthorizedComponent, NotFoundComponent,
+        ChangePasswordComponent, LoaderComponent, SignupComponent, AuthorizeComponent,
+        HelpComponent, PricingComponent, TermsComponent, PrivacyComponent,
+        DashboardComponent, CheckoutComponent,
+        // for tests
+        AnAnchorableComponent
+    ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        ReactiveFormsModule,
+        CommonModule,
+        HttpModule,
 
-    DeviceDetectorModule.forRoot(),
-    McBreadcrumbsModule.forRoot(),
-    NgbModule.forRoot(),
-    RouterModule.forRoot(appRoutes, { enableTracing: false }),
-    ResponsiveModule,
-    ConfirmationPopoverModule.forRoot({
-      confirmButtonType: "danger",
-      cancelButtonType: "outline-secondary"
-    }),
-    FullstoryModule.forRoot({
-      fsOrg: environment.FULLSTORY_APP_ID,
-      fsNameSpace : 'FS',
-      fsDebug : false,
-      fsHost : 'fullstory.com'
-    }),
-    Angulartics2Module.forRoot([Angulartics2Mixpanel]),
-    FileUploadModule,
-    NgProgressModule.forRoot(),
-    NgProgressRouterModule,
-    HttpFactoryModule,
-    BrowserAnimationsModule,
-    CloudinaryModule.forRoot(cloudinaryLib, { cloud_name: environment.CLOUDINARY_CLOUDNAME, upload_preset: environment.CLOUDINARY_UPLOAD_PRESET }),
-    TeamModule,
-    WorkspaceModule,
-    IntercomModule.forRoot({
-      appId: environment.INTERCOM_APP_ID, // from your Intercom config
-      updateOnRouterChange: true // will automatically run `update` on router event changes. Default: `false`
-    }),
-   
-    SharedModule,
-    CommonComponentsModule
+        DeviceDetectorModule.forRoot(),
+        McBreadcrumbsModule.forRoot(),
+        NgbModule.forRoot(),
+        RouterModule.forRoot(appRoutes, { enableTracing: false }),
+        ResponsiveModule,
+        ConfirmationPopoverModule.forRoot({
+            confirmButtonType: "danger",
+            cancelButtonType: "outline-secondary"
+        }),
+        FullstoryModule.forRoot({
+            fsOrg: environment.FULLSTORY_APP_ID,
+            fsNameSpace: 'FS',
+            fsDebug: false,
+            fsHost: 'fullstory.com'
+        }),
+        Angulartics2Module.forRoot([Angulartics2Mixpanel]),
+        FileUploadModule,
+        NgProgressModule.forRoot(),
+        NgProgressRouterModule,
+        HttpFactoryModule,
+        BrowserAnimationsModule,
+        CloudinaryModule.forRoot(cloudinaryLib, { cloud_name: environment.CLOUDINARY_CLOUDNAME, upload_preset: environment.CLOUDINARY_UPLOAD_PRESET }),
+        TeamModule,
+        WorkspaceModule,
+        IntercomModule.forRoot({
+            appId: environment.INTERCOM_APP_ID, // from your Intercom config
+            updateOnRouterChange: true // will automatically run `update` on router event changes. Default: `false`
+        }),
 
-  ],
-  exports: [RouterModule],
-  providers: [
-    BrowserAnimationsModule,
-    AuthGuard, AccessGuard, WorkspaceGuard, PermissionGuard, BillingGuard,
-    AuthConfiguration,
-    D3Service, DataService, CounterService, URIService, ColorService, UIService, DatasetFactory, TeamFactory,
-    ErrorService, Auth, UserService, UserFactory, MailingService, JwtEncoder, LoaderService,
-    ExportService, FileService, PermissionService, BillingService,
-    Location,
-    { provide: LocationStrategy, useClass: PathLocationStrategy },
-    { provide: APP_BASE_HREF, useValue: '/' },
-    {
-      provide: AuthHttp,
-      useFactory: authHttpServiceFactory,
-      deps: [Http, RequestOptions]
-    }
-  ],
-  entryComponents: [AppComponent],
-  bootstrap: [AppComponent]
+        SharedModule,
+        CommonComponentsModule
+
+    ],
+    exports: [RouterModule],
+    providers: [
+        BrowserAnimationsModule,
+        AuthGuard, AccessGuard, WorkspaceGuard, PermissionGuard, BillingGuard,
+        AuthConfiguration,
+        D3Service, DataService, CounterService, URIService, ColorService, UIService, DatasetFactory, TeamFactory,
+        ErrorService, Auth, UserService, UserFactory, MailingService, JwtEncoder, LoaderService,
+        ExportService, FileService, PermissionService, BillingService,
+        Location,
+        { provide: LocationStrategy, useClass: PathLocationStrategy },
+        { provide: APP_BASE_HREF, useValue: '/' },
+        {
+            provide: AuthHttp,
+            useFactory: authHttpServiceFactory,
+            deps: [Http, RequestOptions]
+        }
+    ],
+    entryComponents: [AppComponent],
+    bootstrap: [AppComponent]
 })
 
 export class AppModule {
-  constructor(breadcrumbsConfig: McBreadcrumbsConfig) {
+    constructor(breadcrumbsConfig: McBreadcrumbsConfig) {
 
-    if (process.env.ENV === "production") {
-      LogRocket.init(environment.LOGROCKET_APP_ID, {
-        network: {
-          isEnabled: true,
+        if (process.env.ENV === "production") {
+            LogRocket.init(environment.LOGROCKET_APP_ID, {
+                network: {
+                    isEnabled: true,
+                }
+
+            });
         }
-        
-      });
+
+        breadcrumbsConfig.postProcess = (x) => {
+            // Ensure that the first breadcrumb always points to home
+
+            let y = x;
+
+            if (x.length && x[0].text !== "Home") {
+                y = [
+                    {
+                        text: "Home",
+                        path: ""
+                    }
+                ].concat(x);
+            }
+
+            return y;
+        };
     }
-
-    breadcrumbsConfig.postProcess = (x) => {
-      // Ensure that the first breadcrumb always points to home
-
-      let y = x;
-
-      if (x.length && x[0].text !== "Home") {
-        y = [
-          {
-            text: "Home",
-            path: ""
-          }
-        ].concat(x);
-      }
-
-      return y;
-    };
-  }
 }

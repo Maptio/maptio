@@ -42,6 +42,6 @@ export const environment = {
     
     BILLING_PORTAL : "https://maptio.chargebeeportal.com/portal/login",
     BILLING_TEST_PORTAL : "https://maptio-test.chargebeeportal.com/portal/login",
-    SURVEY_URL : "https://safiyya2.typeform.com/to/zTvRm6"
+    SURVEY_URL : "https://maptio.typeform.com/to/zTvRm6"
 
 };
