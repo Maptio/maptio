@@ -1,7 +1,6 @@
 import { ShareSlackComponent } from "./share/slack.component";
 import { SharedModule } from "./../../shared/shared.module";
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";
-import { ColorPickerModule } from "ngx-color-picker";
 import { MarkdownService } from "angular2-markdown";
 import { Http } from "@angular/http";
 import { MarkdownModule } from "angular2-markdown";
@@ -31,12 +30,12 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BillingGuard } from "../../shared/services/guards/billing.guard";
-import { EmitterService } from "../../shared/services/emitter.service";
 import { TooltipComponent } from "./mapping/tooltip/tooltip.component";
 import { ContextMenuComponent } from "./mapping/context-menu/context-menu.component";
 import { MappingSummaryComponent } from "./mapping/summary/summary.component";
 import { PersonalSummaryComponent } from "./mapping/summary/personal/personal.component";
 import { MappingSummaryBreadcrumbs } from "./mapping/summary/summary.breadcrumb";
+import { CommonComponentsModule } from "../../shared/common-components.module";
 
 
 const routes: Routes = [{
@@ -82,8 +81,8 @@ export function markdownServiceFactory(http: Http) {
         RouterModule.forChild(routes),
         NgbModule.forRoot(),
         TreeModule,
-        ColorPickerModule,
         Angulartics2Module.forChild(),
+        CommonComponentsModule,
         MarkdownModule,
         LoadingModule.forRoot({
             animationType: ANIMATION_TYPES.chasingDots,
@@ -97,8 +96,7 @@ export function markdownServiceFactory(http: Http) {
             confirmButtonType: "danger",
             cancelButtonType: "secondary"
         }),
-        SharedModule,
-        // UiSwitchModule
+        SharedModule
     ],
     declarations: [
         FocusIfDirective,

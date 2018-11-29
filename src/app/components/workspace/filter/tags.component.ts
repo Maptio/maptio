@@ -23,43 +23,41 @@ export class FilterTagsComponent implements OnInit {
 
     ngOnInit() {
         this.newTagForm = new FormGroup({
-            name: new FormControl("", [Validators.required]),
-            color: new FormControl(this.newTagColor, [Validators.required])
+            name: new FormControl("", { validators: [Validators.required], updateOn: "submit" }),
+            color: new FormControl(this.newTagColor, { validators: [Validators.required], updateOn: "submit" })
         });
     }
 
     toggleTag(tag: SelectableTag) {
         tag.isSelected = !tag.isSelected;
-        // this.broadcastTagsSelection();
         this.changeTagsSelection.emit(this.tags)
     }
 
     selectAllTags() {
         this.tags.forEach(t => t.isSelected = true);
-        // this.broadcastTagsSelection();
         this.changeTagsSelection.emit(this.tags)
     }
 
     unselectAllTags() {
         this.tags.forEach(t => t.isSelected = false);
         this.changeTagsSelection.emit(this.tags)
-        // this.broadcastTagsSelection();
     }
 
     saveColor(tag: Tag, color: string) {
         tag.color = color;
         this.changeTagsSettings.emit(this.tags)
-        // this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
     }
 
     saveTagName(tag: Tag, name: string) {
         tag.name = name;
-        // this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
     }
 
     saveTagChanges() {
         this.changeTagsSettings.emit(this.tags)
-        // this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
+    }
+
+    saveTagColor(color: string) {
+        this.newTagColor = color;
     }
 
     addTag() {
@@ -69,7 +67,6 @@ export class FilterTagsComponent implements OnInit {
 
             this.tags.unshift(<SelectableTag>tag);
             this.changeTagsSettings.emit(this.tags)
-            // this.applySettings.emit({ initiative: this.initiative, tags: this.tags });
             this.newTagForm.reset({ name: "", color: this.newTagColor });
             this.analytics.eventTrack("Map", {
                 action: "Add tag",
@@ -90,6 +87,5 @@ export class FilterTagsComponent implements OnInit {
             });
         }
         this.changeTagsSettings.emit(this.tags)
-        // this.applySettings.emit({ initiative: this.initiative, tagss: this.tags });
     }
 }

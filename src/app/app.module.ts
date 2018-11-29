@@ -78,7 +78,6 @@ import { PrivacyComponent } from "./components/pricing/privacy.component";
 import { CheckoutComponent } from "./components/pricing/checkout.component";
 
 
-
 const appRoutes: Routes = [
     { path: "", redirectTo: "home", pathMatch: "full" },
 
@@ -130,7 +129,6 @@ export const cloudinaryLib = {
         ReactiveFormsModule,
         CommonModule,
         HttpModule,
-
         DeviceDetectorModule.forRoot(),
         McBreadcrumbsModule.forRoot(),
         NgbModule.forRoot(),

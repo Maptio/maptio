@@ -3,10 +3,13 @@ import { CreateMapComponent } from './components/create-map/create-map.component
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
+import { ColorPickerModule } from "ngx-color-picker";
+
 import { CardMapComponent } from './components/card-map/card-map.component';
 import { RouterModule } from '@angular/router';
 import { OnboardingComponent } from "./components/onboarding/onboarding.component";
 import { GoogleSignInComponent } from "./components/buttons/google-signin.component";
+import { ColorPickerComponent } from "./components/color-picker/color-picker.component";
 
 
 
@@ -16,13 +19,15 @@ import { GoogleSignInComponent } from "./components/buttons/google-signin.compon
         ReactiveFormsModule,
         CommonModule,
         BrowserModule,
-        RouterModule
+        RouterModule,
+        ColorPickerModule
     ],
     declarations: [
         CreateMapComponent,
         CardMapComponent,
         OnboardingComponent,
-        GoogleSignInComponent
+        GoogleSignInComponent,
+        ColorPickerComponent
     ],
     providers: [
     ],
@@ -30,7 +35,8 @@ import { GoogleSignInComponent } from "./components/buttons/google-signin.compon
         CreateMapComponent,
         CardMapComponent,
         OnboardingComponent,
-        GoogleSignInComponent
+        GoogleSignInComponent,
+        ColorPickerComponent
     ]
 })
 export class CommonComponentsModule { }

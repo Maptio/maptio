@@ -1,0 +1,14 @@
+<ng-container *ngIf="!isMinimal">
+  <div class="form-group form-inline ">
+    <label for="example-time-input" class="col-form-label col-2">Color</label>
+    <input class="col-6 form-control" [(colorPicker)]="color" [style.background]="color" [value]="color" [cpOutputFormat]="'hex'"
+      [cpPosition]="'bottom'" [cpPositionOffset]="'40%'" [cpPositionRelativeToArrow]="true" (colorPickerChange)="change($event)"
+    />
+    <button class="btn btn-outline-secondary ml-4" (click)="reset()">Reset</button>
+  </div>
+</ng-container>
+<ng-container *ngIf="isMinimal">
+  <input class="w-100 form-control" [(colorPicker)]="color" [style.background]="color" [value]="color" [cpOutputFormat]="'hex'"
+    [cpPosition]="'bottom'" [cpPositionOffset]="'40%'" [cpPositionRelativeToArrow]="true" (colorPickerChange)="change($event)"
+  />
+</ng-container>
