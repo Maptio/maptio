@@ -73,7 +73,7 @@ module.exports = function (config) {
             }
         },
 
-        // logLevel: config.LOG_DEBUG,
+        logLevel: config.LOG_ERROR,
 
         reporters: ["progress", "karma-typescript"],
 

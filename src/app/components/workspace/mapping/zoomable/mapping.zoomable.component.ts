@@ -255,7 +255,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     // g.append("g").attr("class", "paths");
     let zooming = d3
       .zoom()
-      .scaleExtent([!this._isExplorationMode ? 2 / 3 : 1 / 3, !this._isExplorationMode ? 3 : 4 / 3])
+      .scaleExtent([!this._isExplorationMode ? 1 / 4 : 1 / 3, !this._isExplorationMode ? 3 : 4 / 3])
       .on("zoom", zoomed)
       .on("end", () => {
         let transform = d3.event.transform;
@@ -264,6 +264,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           .filter(t => t.isSelected)
           .map(t => t.shortid)
           .join(",");
+          this.loaderService.hide();
         location.hash = this.uriService.buildFragment(
           new Map([
             ["x", transform.x],
@@ -938,10 +939,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
           let mouse = d3.mouse(this);
           d3.select(`circle.node[id="${d.data.id}"]`).dispatch("contextmenu", { bubbles: true, cancelable: true, detail: { position: [mouse[0], mouse[1]] } });
         })
-        .on("mouseover", function(d:any){
+        .on("mouseover", function (d: any) {
           d3.select(`circle.node[id="${d.data.id}"]`).dispatch("mouseover");
         })
-        .on("mouseout", function(d:any){
+        .on("mouseout", function (d: any) {
           d3.select(`circle.node[id="${d.data.id}"]`).dispatch("mouseout");
         })
 
@@ -1023,7 +1024,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .on("contextmenu", function (d: any) {
           d3.event.preventDefault();
           let mousePosition;
-          
+
           if (Number.isNaN(d3.mouse(this)[0]) || Number.isNaN(d3.mouse[1])) {
             mousePosition = d3.event.detail.position
           }

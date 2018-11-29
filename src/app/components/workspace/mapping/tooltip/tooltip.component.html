@@ -25,8 +25,6 @@
             No {{team.settings.authority}}
         </p>
 
-
-
         <p class="card-text d-flex align-items-center flex-wrap" *ngIf="initiative.helpers && initiative.helpers.length>0">
             <span class="text-muted mr-1">with</span>
             <span *ngFor="let helper of initiative.helpers" class="my-1">
@@ -36,8 +34,6 @@
         <p class="card-text d-flex align-items-center flex-wrap text-muted" *ngIf="!(initiative.helpers && initiative.helpers.length>0)">
             No {{team.settings.helper}}
         </p>
-
-
 
         <div class="card-text small" *ngIf="initiative.description">
             <hr>
