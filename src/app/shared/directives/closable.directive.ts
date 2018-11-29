@@ -11,11 +11,11 @@ export class ClosableDirective {
 
         let closingSpan = renderer.createElement("button");
         renderer.addClass(closingSpan, "position-absolute");
-        // renderer.addClass(closingSpan, "cursor-pointer");
         renderer.addClass(closingSpan, "text-muted");
         renderer.addClass(closingSpan, "top-right");
         renderer.addClass(closingSpan, "btn");
         renderer.addClass(closingSpan, "bg-transparent");
+        renderer.addClass(closingSpan, "z-index-1");
 
         renderer.appendChild(closingSpan, i);
 
