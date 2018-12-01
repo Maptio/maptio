@@ -19,6 +19,7 @@ import { Tag, SelectableTag } from "../../shared/model/tag.data";
 import { intersectionBy } from "lodash";
 import { UIService } from "../../shared/services/ui/ui.service";
 import { Intercom } from "ng-intercom";
+import { OnboardingComponent } from "../../shared/components/onboarding/onboarding.component";
 
 @Component({
     selector: "workspace",
@@ -35,9 +36,9 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     public isBuildingPanelCollapsed: boolean = true;
     public isDetailsPanelCollapsed: boolean = true;
-    public isBuildingVisible:boolean=true;
+    public isBuildingVisible: boolean = true;
     public isEmptyMap: Boolean;
-    public isSaving:Boolean;
+    public isSaving: Boolean;
     // public isSettingsPanelCollapsed: boolean = true;
     public datasetId: string;
     private routeSubscription: Subscription;
@@ -71,18 +72,19 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     constructor(private route: ActivatedRoute, private datasetFactory: DatasetFactory,
-        private dataService: DataService, private cd: ChangeDetectorRef, private uiService: UIService, private intercom: Intercom) {
- 
+        private dataService: DataService, private cd: ChangeDetectorRef, private uiService: UIService, private intercom: Intercom,
+        private modalService: NgbModal) {
+
     }
 
     ngOnInit() {
         this.routeSubscription = this.route.data
-            .do((data)=>{
+            .do((data) => {
                 let newDatasetId = data.data.dataset.datasetId;
-                if(newDatasetId !== this.datasetId){
+                if (newDatasetId !== this.datasetId) {
                     this.closeEditingPanel();
                     this.cd.markForCheck()
-                } 
+                }
             })
             .subscribe((data: { data: { dataset: DataSet, team: Team, members: User[], user: User } }) => {
                 this.dataset = data.data.dataset;
@@ -97,6 +99,11 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.buildingComponent.loadData(this.dataset, this.team, this.members);
                 this.isEmptyMap = !this.dataset.initiative.children || this.dataset.initiative.children.length === 0;
                 this.cd.markForCheck();
+                if (this.team.isTemporary) {
+                    const modalRef = this.modalService.open(OnboardingComponent, { size: 'lg' });
+                    modalRef.componentInstance.name = 'World';
+                }
+
             });
     }
 
@@ -129,7 +136,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
         this.datasetFactory.upsert(this.dataset, this.datasetId)
             .then((hasSaved: boolean) => {
-                this.dataService.set({ initiative: initiative, dataset: this.dataset, team: this.team,  members: this.members });
+                this.dataService.set({ initiative: initiative, dataset: this.dataset, team: this.team, members: this.members });
                 return hasSaved;
             }, (reason) => { console.error(reason) })
             .then(() => {
@@ -171,7 +178,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.isDetailsPanelCollapsed = false;
     }
 
-    addInitiative(data : {node: Initiative, subNode:Initiative}) {
+    addInitiative(data: { node: Initiative, subNode: Initiative }) {
         this.buildingComponent.addNodeTo(data.node, data.subNode);
     }
 
@@ -188,7 +195,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.isBuildingPanelCollapsed = true;
     }
 
-    toggleEditingPanelsVisibility(isVisible:boolean){
+    toggleEditingPanelsVisibility(isVisible: boolean) {
         this.isBuildingVisible = isVisible;
         this.cd.markForCheck();
     }

@@ -1,4 +1,4 @@
-<div>
+<!-- <div>
     <h2 class="text-center">Welcome to Maptio! </h2>
     <h6 class="text-muted text-center ">Maptio helps you organise without traditional management hierarchy.</h6>
     <hr>
@@ -202,36 +202,22 @@
                 </div>
             </div>
 
-            <!-- <div class="d-flex align-items-start my-3" *ngIf="!isMultipleMaps">
-                <span class="mx-2">
-                    <i *ngIf="isZeroInitiative" class="far fa-square" aria-hidden="true"></i>
-                    <i *ngIf="!isZeroInitiative" class="fa fa-check text-success" aria-hidden="true"></i>
-                </span>
-                <div *ngIf="isZeroInitiative">
-                    <ng-container *ngIf="isZeroMaps">
-                        <span>Add some circles</span>
-                    </ng-container>
-                    <ng-container *ngIf="!isZeroMaps">
-                        <a routerLink="/map/{{datasetId}}/map/circles">
-                            Add some circles
-                        </a>
-                    </ng-container>
-
-                </div>
-                <div *ngIf="!isZeroInitiative">
-                    <span>
-                        <span class="text-success"></span> Well done !
-                        <span>Your first circle is
-                            <b>{{firstCircleName}}</b>.
-                            <a routerLink="/map/{{datasetId}}/map/circles">Continue editing</a>
-                        </span>
-                    </span>
-                </div>
-            </div> -->
-
 
         </div>
     </div>
 
 
+</div> -->
+
+<div class="modal-header">
+    <h4 class="modal-title">Hi there!</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <p>Hello, {{name}}!</p>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
 </div>

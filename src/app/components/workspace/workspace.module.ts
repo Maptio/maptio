@@ -36,6 +36,7 @@ import { MappingSummaryComponent } from "./mapping/summary/summary.component";
 import { PersonalSummaryComponent } from "./mapping/summary/personal/personal.component";
 import { MappingSummaryBreadcrumbs } from "./mapping/summary/summary.breadcrumb";
 import { CommonComponentsModule } from "../../shared/common-components.module";
+import { OnboardingComponent } from "../../shared/components/onboarding/onboarding.component";
 
 
 const routes: Routes = [{
@@ -115,6 +116,7 @@ export function markdownServiceFactory(http: Http) {
             provide: MarkdownService,
             useFactory: markdownServiceFactory,
             deps: [Http]
-        }]
+        }],
+    entryComponents: [OnboardingComponent]
 })
 export class WorkspaceModule { }
