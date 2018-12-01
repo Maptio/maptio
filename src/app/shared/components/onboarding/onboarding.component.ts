@@ -38,13 +38,14 @@ export class OnboardingComponent implements OnInit {
         { name: "red", isSelected: false },
         { name: "orange", isSelected: false }
     ]
-    selectedColor:string = this.COLORS[0].name;
+    selectedColor: string = this.COLORS[0].name;
 
 
     @Input("user") user: User;
     @Input("members") members: User[];
     @Input("team") team: Team;
     @Input("dataset") dataset: DataSet;
+    @Input("isCompleted") isCompleted:boolean;
 
 
     constructor(public activeModal: NgbActiveModal, private cd: ChangeDetectorRef,
@@ -58,14 +59,15 @@ export class OnboardingComponent implements OnInit {
         console.log(changes)
     }
 
+
     nextStep() {
         if (this.currentStep === Steps.Ending) {
             console.log("here", `/map/${this.dataset.datasetId}/${this.dataset.initiative.getSlug()}/circles`)
             // this.router.navigateByUrl(`/map/${this.dataset.datasetId}/${this.dataset.initiative.getSlug()}/circles&reload=true`, {})
 
             this.router.navigate(
-                ["map", this.dataset.datasetId, this.dataset.initiative.getSlug(), "circles"], 
-            { queryParams: { reload: true, color: this.selectedColor } })
+                ["map", this.dataset.datasetId, this.dataset.initiative.getSlug(), "circles"],
+                { queryParams: { reload: true, color: this.selectedColor } })
             this.activeModal.close();
 
         }

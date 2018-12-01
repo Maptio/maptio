@@ -76,6 +76,18 @@ export class DashboardComponent {
         return this.isZeroTeam 
     }
 
+    isMultipleTeams(){
+        return this.teams.length > 1;
+    }
+
+    isMultipleMaps(){
+        return this.datasets.length > 1;
+    }
+
+    isIntegrationSetup(){
+        return this.teams
+    }
+
     redirectToOnboarding() {
         this.teamService.createTemporary(this.user)
             .then(team => {

@@ -41,13 +41,96 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="col d-flex" [class.justify-content-center]="isOnboarding()" [class.w-100]="isOnboarding()">
+        <div class="col d-flex">
             <div class="h-100">
                 <div class="  d-flex flex-column align-items-center bg-white box-shadow rounded p-4 accent-blue">
-                    <common-onboarding [datasets]="datasets" [teams]="teams" [user]="user"></common-onboarding>
+                    <div>
+                        <h2 class="text-center">Welcome to Maptio! </h2>
+                        <h6 class="text-muted text-center ">Maptio helps you organise without traditional management hierarchy.</h6>
+                        <hr>
+                        <div>
+                            <div>
+                                <h6 class="mx-2">
+                                    <b>Succeed with Maptio:</b>
+                                </h6>
+
+                                <div class="d-flex align-items-start my-3">
+                                    <span class="mx-2">
+                                        <i class="fa fa-rss" aria-hidden="true"></i>
+                                    </span>
+                                    <span>
+                                        Read our
+                                        <a target="blank" href="https://medium.com/maptio/create-organisational-clarity-using-initiative-mapping-967069247380">free guide</a> to mapping your organization
+
+                                    </span>
+                                </div>
+
+                                <div class="d-flex align-items-start my-3">
+                                    <span class="mx-2">
+                                        <i class="fa fa-phone" aria-hidden="true"></i>
+                                    </span>
+                                    <span>
+                                        <a target="blank" href="https://calendly.com/tomnixon/30min">Book a free mastery call</a> with Maptio founder Tom Nixon
+                                    </span>
+                                </div>
+
+
+                                <div class="d-flex align-items-start my-3">
+                                    <span class="mx-2">
+                                        <i class="far fa-comments" aria-hidden="true"></i>
+                                    </span>
+                                    <span>
+                                        Help us make Maptio better !
+                                        <a target="blank" href="{{SURVEY_URL}}">Take the survey</a>
+                                    </span>
+                                </div>
+
+
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-start text-muted">
+                                <div class="d-flex flex-column  align-items-start">
+                                    <div class="d-flex align-items-start my-3">
+                                        <span class="mx-2">
+                                            <i class="fa fa-check text-success" aria-hidden="true"></i>
+                                        </span>
+                                        <span class="text-muted">
+                                            <ng-container *ngIf="!isMultipleTeams()">Organization
+                                                <a routerLink="/teams/{{teams[0].team_id}}/team">{{teams[0].name}}</a> set up
+                                            </ng-container>
+                                            <ng-container *ngIf="isMultipleTeams()">
+                                                <a routerLink="/teams">{{teamsCount}} organizations</a> set up
+                                            </ng-container>
+
+                                        </span>
+                                    </div>
+                                    <div class="d-flex align-items-start my-2">
+                                        <span class="mx-2">
+                                            <i class="fa fa-check text-success" aria-hidden="true"></i>
+                                        </span>
+                                        <div>
+                                            <ng-container *ngIf="!isMultipleMaps()">
+                                                <span>
+                                                    Map
+                                                    <a routerLink="/map/{{datasets[0].datasetId}}/{{datasets[0].initiative.getSlug()}}/circles">
+                                                        {{datasets[0].initiative.name}}
+                                                    </a> is now active
+                                                </span>
+                                            </ng-container>
+                                            <ng-container *ngIf="isMultipleMaps()">
+                                                {{mapsCount}} active maps
+                                            </ng-container>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
                 </div>
             </div>
-        </div> -->
-    </div>
+        </div>
 
-</div>
+    </div>
