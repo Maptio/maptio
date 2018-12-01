@@ -1,0 +1,7 @@
+.select-color{
+    opacity: 0.7;
+}
+
+.select-color:hover{
+    opacity: 1;
+}

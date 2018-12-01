@@ -104,6 +104,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                     modalRef.componentInstance.user = this.user;
                     modalRef.componentInstance.team = this.team;
                     modalRef.componentInstance.members = this.members;
+                    modalRef.componentInstance.dataset = this.dataset;
                 }
 
             });

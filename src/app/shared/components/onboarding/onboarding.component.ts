@@ -24,16 +24,25 @@ enum Steps {
 export class OnboardingComponent implements OnInit {
 
     Steps = Steps;
-    currentStep: Steps = Steps.Terminology;
+    currentStep: Steps = Steps.PickColor;
     teamCreationErrorMessage: string;
     isTerminologySaved: boolean;
     teamName: string;
     MAX_MEMBERS: number = 5;
+    COLORS: any[] = [
+        { name: "red", isSelected: false },
+        { name: "blue", isSelected: false },
+        { name: "purple", isSelected: false },
+        { name: "brown", isSelected: false },
+        { name: "grey", isSelected: false },
+        { name: "orange", isSelected: false }
+    ]
 
 
     @Input("user") user: User;
     @Input("members") members: User[];
     @Input("team") team: Team;
+    @Input("dataset") dataset: DataSet;
 
 
     constructor(public activeModal: NgbActiveModal, private cd: ChangeDetectorRef,
@@ -54,7 +63,7 @@ export class OnboardingComponent implements OnInit {
         this.cd.markForCheck();
     }
 
-    isReady(){
+    isReady() {
         switch (this.currentStep) {
             case Steps.AddMember:
                 return this.members.length > 1;
@@ -117,6 +126,15 @@ export class OnboardingComponent implements OnInit {
 
     getMemberIndexes() {
         return Array.from({ length: this.MAX_MEMBERS - this.members.length }, (x, i) => i + 1);
+    }
+
+    selectColor(color: { name: string, isSelected: boolean }) {
+        this.COLORS.forEach(c => c.isSelected = false)
+        color.isSelected = true;
+        let settings: any = JSON.parse(localStorage.getItem(`map_settings_${this.dataset.datasetId}`));
+        settings.mapColor = color.name;
+        localStorage.setItem(`map_settings_${this.dataset.datasetId}`, JSON.stringify(settings));
+        this.cd.markForCheck();
     }
 }
 
