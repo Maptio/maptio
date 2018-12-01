@@ -121,6 +121,10 @@ export class HeaderComponent implements OnInit {
         return this.router.url.startsWith("/login") || this.router.url.startsWith("/signup") || this.router.url.startsWith("/forgot")
     }
 
+    isMap(){
+        return this.router.url.startsWith("map/")
+    }
+
     toggleCreateMode() {
         this.isCreateMode = !this.isCreateMode;
     }

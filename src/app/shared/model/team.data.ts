@@ -29,6 +29,12 @@ export class Team implements Serializable<Team> {
      */
     public name: string;
 
+    /**
+     * True if the team is temporary, false otherwise
+     * N.B. Temporary team is needed as placeholder so that users can create maps
+     */
+    public isTemporary:boolean
+
 
     /**
      * List of team members
@@ -74,6 +80,7 @@ export class Team implements Serializable<Team> {
                 deserialized.members.push(User.create().deserialize(member))
             });
         }
+        deserialized.isTemporary = input.isTemporary;
         deserialized.settings = { authority: environment.DEFAULT_AUTHORITY_TERMINOLOGY, helper: environment.DEFAULT_HELPER_TERMINOLOGY }
         deserialized.settings.authority = input.settings ? input.settings.authority || environment.DEFAULT_AUTHORITY_TERMINOLOGY : environment.DEFAULT_AUTHORITY_TERMINOLOGY;
         deserialized.settings.helper = input.settings ? input.settings.helper || environment.DEFAULT_HELPER_TERMINOLOGY : environment.DEFAULT_HELPER_TERMINOLOGY

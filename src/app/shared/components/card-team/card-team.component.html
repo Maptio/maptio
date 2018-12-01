@@ -1,0 +1,16 @@
+<div class="card" >
+    <div class="card-body">
+        <h5 class="card-title">
+            <a routerLink="/teams/{{team.team_id}}/{{team.getSlug()}}"> {{team?.name}}</a>
+        </h5>
+        <div class="card-text mb-1 d-flex flex-wrap">
+            <div *ngFor="let member of team?.members;trackBy:trackByMemberId" [class.deleted]="member.isDeleted" class="mr-1 mb-1">
+                <img class="rounded-circle" width="32" height="32" src="{{member.picture}}" placement="top" container="body"
+                    ngbTooltip="{{member.name}}">
+            </div>
+        </div>
+    </div>
+    <div class="card-footer border-top-0">
+        <small class="text-muted">{{team.members?.length}} {{team.members?.length === 1 ? "person" :"people" }}</small>
+    </div>
+</div>

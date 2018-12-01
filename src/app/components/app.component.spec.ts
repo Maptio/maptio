@@ -26,7 +26,7 @@ describe("app.component.ts", () => {
 
 
         TestBed.configureTestingModule({
-            declarations: [AppComponent, HelpComponent],
+            declarations: [AppComponent],
             imports: [RouterTestingModule, ResponsiveModule, NgProgressModule],
             schemas: [NO_ERRORS_SCHEMA]
         }).overrideComponent(AppComponent, {

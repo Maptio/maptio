@@ -46,7 +46,7 @@
               </button>
               <button class="btn btn-light menu text-dark p-1 btn-control d-flex flex-column align-items-center" [class.invisible]="!( rlaNetwork.isActive || rlaCircles.isActive)"
                 (click)="toggleOptions( rlaNetwork.isActive || rlaCircles.isActive)">
-                <i class="fas fa-angle-double-left"></i>
+                <i class="fas fa-angle-double-left my-1"></i>
                 <span class="icon-text-label">Options</span>
               </button>
 
@@ -105,7 +105,7 @@
     <div closable class="collapse rounded col-auto bg-light p-3" id="collapseSettings">
       <div class="card bg-transparent border-0">
         <div class="">
-          <h6 class="card-title">Text settings</h6>
+          <h6 class="card-title my-2">Text settings</h6>
           <div class="form-group form-inline">
             <label for="fontSizeInput" class="col-form-label  col-2">Size</label>
             <input class="col-6 custom-range" id="fontSizeInput" #fontSizeInput name="fontSizeInput" type="range" min="0.2" max="2"
@@ -116,7 +116,7 @@
           </div>
           <common-color-picker [color]="settings.fontColor" [default]="'#000'" (change)="changeFontColor($event)"></common-color-picker>
 
-          <h6 class="card-subtitle mt-2 mb-2">Map settings</h6>
+          <h6 class="card-title my-2">Map settings</h6>
 
           <common-color-picker [color]="settings.mapColor" [default]="'#aaa'" (change)="changeMapColor($event)"></common-color-picker>
 

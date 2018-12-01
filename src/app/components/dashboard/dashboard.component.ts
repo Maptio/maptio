@@ -4,6 +4,9 @@ import { DataSet } from "../../shared/model/dataset.data";
 import { Team } from '../../shared/model/team.data';
 import { User } from '../../shared/model/user.data';
 import { Subject, Subscription } from '../../../../node_modules/rxjs';
+import { Router } from '../../../../node_modules/@angular/router';
+import { TeamService } from '../../shared/services/team/team.service';
+import { MapService } from '../../shared/services/map/map.service';
 
 @Component({
     selector: "dashboard",
@@ -22,9 +25,10 @@ export class DashboardComponent {
     filterMaps$: Subject<string>
     filteredMaps: DataSet[];
 
-    subscription:Subscription;
+    subscription: Subscription;
 
-    constructor(private cd: ChangeDetectorRef) {
+    constructor(private cd: ChangeDetectorRef, private router: Router, 
+        private teamService: TeamService, private mapService:MapService) {
         this.filterMaps$ = new Subject<string>();
     }
 
@@ -32,39 +36,53 @@ export class DashboardComponent {
         if (changes.datasets && changes.datasets.currentValue) {
             this.datasets = changes.datasets.currentValue;
             this.isZeroMaps = isEmpty(this.datasets);
-            if (!this.isZeroMaps) {
-                this.isZeroInitiative = !this.datasets[0].initiative.children || this.datasets[0].initiative.children.length === 0;
-            }
+            // if (!this.isZeroMaps) {
+            //     this.isZeroInitiative = !this.datasets[0].initiative.children || this.datasets[0].initiative.children.length === 0;
+            // }
         }
 
         if (changes.teams && changes.teams.currentValue) {
             this.isZeroTeam = isEmpty(changes.teams.currentValue)
         }
+        if (this.isOnboarding()) {
+            this.redirectToOnboarding();
+        }
+
         this.cd.markForCheck();
     }
 
-    ngOnInit(){
+    ngOnInit() {
         this.filteredMaps = [].concat(this.datasets);
         this.subscription = this.filterMaps$.asObservable().debounceTime(250).subscribe((search) => {
             this.filteredMaps = (search === '')
                 ? [].concat(this.datasets)
                 : this.datasets.filter(
                     d => d.initiative.name.toLowerCase().indexOf(search.toLowerCase()) >= 0
-                    ||
-                    d.team.name.toLowerCase().indexOf(search.toLowerCase()) >= 0
-                
-                
+                        ||
+                        d.team.name.toLowerCase().indexOf(search.toLowerCase()) >= 0
+
+
                 );
             this.cd.markForCheck();
         })
     }
 
     ngOnDestroy(): void {
-        if(this.subscription) this.subscription.unsubscribe();
+        if (this.subscription) this.subscription.unsubscribe();
     }
 
     isOnboarding() {
-        return this.isZeroTeam || this.isZeroMaps || this.isZeroInitiative;
+        return this.isZeroTeam // || this.isZeroMaps // || this.isZeroInitiative;
+    }
+
+    redirectToOnboarding() {
+        this.teamService.createTemporary(this.user)
+            .then(team => {
+                return this.mapService.createTemplate("Example map", team.team_id)
+            })
+            .then((dataset:DataSet)=>{
+                this.router.navigateByUrl(`/map/${dataset.datasetId}/${dataset.initiative.getSlug()}`)
+            })
     }
 
     onKeyDown(search: string) {

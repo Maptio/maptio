@@ -20,9 +20,7 @@ import { TeamMembersComponent } from "./single/members/members.component";
 import { TeamSettingsComponent } from "./single/settings/settings.component";
 import { TeamComponent } from "./single/team.component";
 import { TeamComponentResolver } from "./single/team.resolver";
-import { IntercomService } from "./list/intercom.service";
 import { TeamBillingComponent } from "./single/billing/billing.component";
-import { CreateMapComponent } from "../../shared/components/create-map/create-map.component";
 import { CommonComponentsModule } from "../../shared/common-components.module";
 import { MemberSingleComponent } from "./single/members/member-single.component";
 
@@ -102,6 +100,6 @@ const routes: Routes = [
         KeysPipe
         
     ],
-    providers: [TeamComponentResolver, TeamListComponentResolver, IntercomService]
+    providers: [TeamComponentResolver, TeamListComponentResolver]
 })
 export class TeamModule { }

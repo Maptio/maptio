@@ -18,7 +18,7 @@
         </ul>
 
         <span class="navbar-text d-none d-xl-flex flex-column " *ngIf="team">
-            <span class="text-muted mr-1">Organization
+            <span *ngIf="team?.name" class="text-muted mr-1">Organization
                 <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}">
                     {{team?.name}}
                 </a>
@@ -27,9 +27,6 @@
                 <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}/billing">Subscribe now</a>
             </span>
         </span>
-
-
-
 
         <ul class="navbar-nav ml-auto d-flex align-items-center col-auto px-0" *ngIf="auth.allAuthenticated()">
 
@@ -67,13 +64,15 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdownLink">
                     <a class="dropdown-item" routerLink="{{user?.shortid}}/{{user?.getSlug() || 'profile'}}">Profile</a>
-                    <a class="dropdown-item" *ngIf="teams?.length > 0" routerLink="/teams">Organizations</a>
+
+                    <a class="dropdown-item" *ngIf="teams?.length > 1" routerLink="/teams">Organizations</a>
+                    <a class="dropdown-item" *ngIf="teams?.length === 1" routerLink="/teams/{{teams[0]?.team_id}}/{{teams[0]?.getSlug()}}">Organization {{teams[0].name}}</a>
+
                     <a class="dropdown-item d-block d-xl-none" routerLink="/home">Maps</a>
                     <div class="dropdown-divider"></div>
-                    <!-- <a class="dropdown-item" routerLink="/home">Export maps</a>
-                    <div class="dropdown-divider"></div> -->
                     <a class="dropdown-item" routerLink="/logout" id="logoutButton">
-                        <i class="fa fa-sign-out text-muted mr-1" aria-hidden="true"></i>Log out</a>
+                        <i class="fa fa-sign-out text-muted mr-1" aria-hidden="true"></i>Log out
+                    </a>
                 </div>
             </li>
         </ul>

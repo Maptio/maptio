@@ -10,6 +10,11 @@ import { RouterModule } from '@angular/router';
 import { OnboardingComponent } from "./components/onboarding/onboarding.component";
 import { GoogleSignInComponent } from "./components/buttons/google-signin.component";
 import { ColorPickerComponent } from "./components/color-picker/color-picker.component";
+import { CreateTeamComponent } from "./components/create-team/create-team.component";
+import { SharedModule } from "./shared.module";
+import { CardTeamComponent } from "./components/card-team/card-team.component";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { IntercomService } from "./services/team/intercom.service";
 
 
 
@@ -20,20 +25,28 @@ import { ColorPickerComponent } from "./components/color-picker/color-picker.com
         CommonModule,
         BrowserModule,
         RouterModule,
-        ColorPickerModule
+        ColorPickerModule,
+        SharedModule,
+
+        NgbModule.forRoot(),
     ],
     declarations: [
         CreateMapComponent,
+        CreateTeamComponent,
         CardMapComponent,
+        CardTeamComponent, 
         OnboardingComponent,
         GoogleSignInComponent,
         ColorPickerComponent
     ],
     providers: [
+        IntercomService
     ],
     exports: [
         CreateMapComponent,
+        CreateTeamComponent,
         CardMapComponent,
+        CardTeamComponent,
         OnboardingComponent,
         GoogleSignInComponent,
         ColorPickerComponent

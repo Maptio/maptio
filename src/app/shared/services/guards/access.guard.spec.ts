@@ -46,7 +46,7 @@ describe("access.guard.ts", () => {
             route.params["mapid"] = "id1";
             let state = jasmine.createSpyObj<RouterStateSnapshot>("state", [""]);
 
-            let spyAuth = spyOn(mockAuth, "getUser").and.returnValue(Observable.of<User>(new User({ name: "John Doe", datasets: ["id1", "id2"] })));
+            let spyAuth = spyOn(mockAuth, "getUser").and.returnValue(Observable.of<User>(new User({ name: "John Doe", datasets: ["id1", "id2"], teams : ["t1", "t2"] })));
 
             target.canActivate(route, state).toPromise().then((result) => {
                 expect(result).toBe(true);
