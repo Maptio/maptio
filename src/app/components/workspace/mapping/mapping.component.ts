@@ -178,6 +178,9 @@ export class MappingComponent {
       if (params.id) {
         this.emitOpenInitiative(new Initiative({ id: <number>params.id }));
       }
+      if(params.reload){
+        this.changeMapColor(params.color);
+      }
     })
   }
 

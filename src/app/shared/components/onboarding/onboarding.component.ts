@@ -6,6 +6,7 @@ import { environment } from '../../../../environment/environment';
 import { User } from '../../model/user.data';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TeamService } from '../../services/team/team.service';
+import { Router } from '@angular/router';
 
 enum Steps {
     Welcome,
@@ -24,19 +25,20 @@ enum Steps {
 export class OnboardingComponent implements OnInit {
 
     Steps = Steps;
-    currentStep: Steps = Steps.PickColor;
+    currentStep: Steps = Steps.Welcome;
     teamCreationErrorMessage: string;
     isTerminologySaved: boolean;
     teamName: string;
     MAX_MEMBERS: number = 5;
     COLORS: any[] = [
-        { name: "red", isSelected: false },
+        { name: "grey", isSelected: false },
         { name: "blue", isSelected: false },
         { name: "purple", isSelected: false },
         { name: "brown", isSelected: false },
-        { name: "grey", isSelected: false },
+        { name: "red", isSelected: false },
         { name: "orange", isSelected: false }
     ]
+    selectedColor:string = this.COLORS[0].name;
 
 
     @Input("user") user: User;
@@ -46,9 +48,7 @@ export class OnboardingComponent implements OnInit {
 
 
     constructor(public activeModal: NgbActiveModal, private cd: ChangeDetectorRef,
-        private teamService: TeamService) { }
-
-
+        private teamService: TeamService, private router: Router) { }
 
     ngOnInit() {
 
@@ -59,8 +59,19 @@ export class OnboardingComponent implements OnInit {
     }
 
     nextStep() {
+        if (this.currentStep === Steps.Ending) {
+            console.log("here", `/map/${this.dataset.datasetId}/${this.dataset.initiative.getSlug()}/circles`)
+            // this.router.navigateByUrl(`/map/${this.dataset.datasetId}/${this.dataset.initiative.getSlug()}/circles&reload=true`, {})
+
+            this.router.navigate(
+                ["map", this.dataset.datasetId, this.dataset.initiative.getSlug(), "circles"], 
+            { queryParams: { reload: true, color: this.selectedColor } })
+            this.activeModal.close();
+
+        }
         this.currentStep += 1;
         this.cd.markForCheck();
+
     }
 
     isReady() {
@@ -84,6 +95,8 @@ export class OnboardingComponent implements OnInit {
                 return "I'm done";
             case Steps.Terminology:
                 return "I'm done";
+            case Steps.Ending:
+                return "Start mapping"
             default:
                 return "Next";
         }
@@ -129,8 +142,9 @@ export class OnboardingComponent implements OnInit {
     }
 
     selectColor(color: { name: string, isSelected: boolean }) {
-        this.COLORS.forEach(c => c.isSelected = false)
+        this.COLORS.forEach(c => c.isSelected = false);
         color.isSelected = true;
+        this.selectedColor = color.name;
         let settings: any = JSON.parse(localStorage.getItem(`map_settings_${this.dataset.datasetId}`));
         settings.mapColor = color.name;
         localStorage.setItem(`map_settings_${this.dataset.datasetId}`, JSON.stringify(settings));

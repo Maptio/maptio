@@ -5,3 +5,12 @@
 .select-color:hover{
     opacity: 1;
 }
+
+.modal-body.fixed-height{
+    min-height: 73vh!important;
+    height: 73vh!important;
+}
+
+h4{
+    color: var(--dark);
+}

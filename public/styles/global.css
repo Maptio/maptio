@@ -3,8 +3,8 @@
   --maptio-orange: hsla(17, 86%, 54%, 0.90);
   --maptio-white: #fff;
   --maptio-red:#dc3545;
-  --maptio-green:#28a745;
-  --maptio-black: #081620;
+  --maptio-green:rgb(40, 167, 69);
+  --maptio-black: #063455;
 }
 
 body{

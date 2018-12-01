@@ -73,7 +73,7 @@ export class DashboardComponent {
     }
 
     isOnboarding() {
-        return true ;// this.isZeroTeam 
+        return this.isZeroTeam 
     }
 
     redirectToOnboarding() {
