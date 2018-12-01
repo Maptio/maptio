@@ -24,7 +24,7 @@
             <input type="text" [class.is-invalid]="teamSettingsForm.controls['name'].invalid  && (teamSettingsForm.controls['name'].dirty || teamSettingsForm.controls['name'].touched)" class="col-6 col-xl-4 form-control form-control-warning" [(ngModel)]="teamName" formControlName="name"
                 required>
             <small class="invalid-feedback">
-                Give us a real organization name!
+                Required
             </small>
         </div>
         <ng-container *permissionsOnly="Permissions.canEditTeam; then thenMessageBlock; else elseMessageBlock"></ng-container>

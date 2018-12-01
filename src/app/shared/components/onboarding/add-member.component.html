@@ -1,0 +1,48 @@
+<form [formGroup]="form" (submit)="add()" class="form-row" *ngIf="!member">
+    <div class="col">
+        <input placeholder="First name" formControlName="firstname" required class="form-control" type="text" name="" id="" [class.is-invalid]="isInvalid('firstname')">
+        <small class="invalid-feedback">
+            First name is required
+        </small>
+    </div>
+    <div class="col">
+        <input placeholder="Last name" formControlName="lastname" required class="form-control" type="text" name="" id="" [class.is-invalid]="isInvalid('lastname')">
+        <small class="invalid-feedback">
+            Last name is required
+        </small>
+    </div>
+    <div class="col-5">
+        <input placeholder="Email" class="form-control" required formControlName="email" type="email" name="" id="" [class.is-invalid]="isInvalid('email')">
+        <small class="invalid-feedback">
+            Email is required
+        </small>
+        <small class="small text-danger" *ngIf="errorMessage">
+            {{errorMessage}}
+        </small>
+    </div>
+    <div class="col-auto">
+        <span *ngIf="isAdding">
+            <i class="fas fa-circle-notch fa-spin"></i>
+        </span>
+        <button *ngIf="!isAdding" type="submit" class="btn btn-outline-success">Add</button>
+    </div>
+</form>
+
+<div *ngIf="member" class="form-row">
+    <div class="col">
+        <input class="form-control border-0 box-shadow-0" type="text" value="{{member.firstname}}">
+
+    </div>
+    <div class="col">
+        <input class="form-control border-0 box-shadow-0" type="text" value="{{member.lastname}}">
+
+    </div>
+    <div class="col-5">
+        <input class="form-control border-0 box-shadow-0" type="text" value="{{member.email}}">
+
+    </div>
+    <div class="col-auto">     
+        <span class="badge badge-success py-2 px-3">Added</span>
+   
+    </div>
+</div>

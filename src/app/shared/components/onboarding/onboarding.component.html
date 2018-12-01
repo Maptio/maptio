@@ -209,15 +209,113 @@
 
 </div> -->
 
-<div class="modal-header">
-    <h4 class="modal-title">Hi there!</h4>
-    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-    </button>
+<div class="modal-header d-flex justify-content-center border-bottom-0 ">
+    <!-- <h1 class="modal-title ">{{user?.firstname}}, welcome to Maptio!</h1> -->
 </div>
 <div class="modal-body">
-    <p>Hello, {{name}}!</p>
+    <div class="card border-0">
+        <div class="card-body">
+            <ng-container *ngIf="currentStep === Steps.Welcome">
+                <ng-container *ngTemplateOutlet="welcome"></ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="currentStep === Steps.CreateTeam">
+                <ng-container *ngTemplateOutlet="createteam"></ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="currentStep === Steps.AddMember">
+                <ng-container *ngTemplateOutlet="addmember"></ng-container>
+            </ng-container>
+            <ng-container *ngIf="currentStep === Steps.Terminology">
+                <ng-container *ngTemplateOutlet="terminology"></ng-container>
+
+            </ng-container>
+            <ng-container *ngIf="currentStep === Steps.PickColor">
+                <ng-container *ngTemplateOutlet="pickcolor"></ng-container>
+
+            </ng-container>
+            <ng-container *ngIf="currentStep === Steps.Ending">
+                <ng-container *ngTemplateOutlet="ending"></ng-container>
+
+            </ng-container>
+
+        </div>
+
+    </div>
 </div>
-<div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+<div class="modal-footer d-flex" [class.border-top-0]="!nextActionName()">
+    <button type="button" class="btn btn-link" *ngIf="isSkippable()" (click)="nextStep()">Skip for now</button>
+
+    <button type="button" class="btn btn-success" [class.disabled]="!isReady()" (click)="isReady() && nextStep()">{{nextActionName()}}</button>
 </div>
+
+<ng-template #welcome>
+
+    <span class="display-1">
+        <span class="text-blue">{{user?.firstname}}</span>, welcome to Maptio!</span>
+    <p class="mt-5">
+        This short sequence will help you set up and you'll start mapping right away. This will only take a few minutes.
+
+    </p>
+
+</ng-template>
+
+<ng-template #createteam>
+    <h1>Choose a name for your organization</h1>
+    <div class="form-group form-inline ">
+        <input #teamName type="text" class="form-control col-6">
+        <button class="btn btn-success mx-1" (click)="renameTeam(teamName.value)">Create</button>
+    </div>
+</ng-template>
+
+
+<ng-template #addmember>
+    <h1>Add a few people</h1>
+    <h4>
+        Your Maptio organization
+        <b>{{teamName}}</b> is ready to go.
+
+    </h4>
+    <p class="my-4">
+        Add members to your organization to bring your maps to life. You can invite them to view and edit the maps later.
+    </p>
+
+    <div class="my-3 ">
+        <div class="my-3 d-flex justify-content-start align-items-center " *ngFor="let member of members; let i=index">
+            <onboarding-add-member [member]="member"></onboarding-add-member>
+        </div>
+        <hr>
+        <div class="my-3 " *ngFor="let i of getMemberIndexes()">
+            <div class="d-flex justify-content-start align-items-center">
+                <onboarding-add-member [team]="team" (added)="onAdded($event)"></onboarding-add-member>
+            </div>
+        </div>
+    </div>
+
+
+
+    <p class="text-muted mt-3">
+        <span>
+            <i class="fas fa-info-circle"></i>
+            A great place to start is adding the 5 people who have the most responsibility in your organization.
+        </span>
+    </p>
+
+</ng-template>
+<ng-template #terminology>
+    <h1>Terminology</h1>
+
+    <h4>Tell us how your organization calls its people internally, it will help make the maps more realistic.</h4>
+
+    <div class="my-4">
+            <onboarding-add-terminology [team]="team" (added)="isTerminologySaved=true"></onboarding-add-terminology>
+
+    </div>
+   
+</ng-template>
+<ng-template #pickcolor>
+    Colors
+</ng-template>
+<ng-template #ending>
+    Ending
+</ng-template>

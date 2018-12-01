@@ -42,11 +42,12 @@ export class DashboardComponent {
         }
 
         if (changes.teams && changes.teams.currentValue) {
-            this.isZeroTeam = isEmpty(changes.teams.currentValue)
+            this.isZeroTeam = isEmpty(changes.teams.currentValue);
+            if (this.isOnboarding()) {
+                this.redirectToOnboarding();
+            }
         }
-        if (this.isOnboarding()) {
-            this.redirectToOnboarding();
-        }
+       
 
         this.cd.markForCheck();
     }
@@ -72,7 +73,7 @@ export class DashboardComponent {
     }
 
     isOnboarding() {
-        return this.isZeroTeam // || this.isZeroMaps // || this.isZeroInitiative;
+        return true ;// this.isZeroTeam 
     }
 
     redirectToOnboarding() {

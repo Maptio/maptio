@@ -34,4 +34,8 @@ export class IntercomService {
                 return response.status === 200
             })
     }
+
+    sendEvent(eventName:string, data : any){
+        this.intercom.trackEvent(eventName, data);
+ }
 }   

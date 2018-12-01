@@ -100,8 +100,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.isEmptyMap = !this.dataset.initiative.children || this.dataset.initiative.children.length === 0;
                 this.cd.markForCheck();
                 if (this.team.isTemporary) {
-                    const modalRef = this.modalService.open(OnboardingComponent, { size: 'lg' });
-                    modalRef.componentInstance.name = 'World';
+                    const modalRef = this.modalService.open(OnboardingComponent, { size: 'lg', backdrop: 'static',centered :true });
+                    modalRef.componentInstance.user = this.user;
+                    modalRef.componentInstance.team = this.team;
+                    modalRef.componentInstance.members = this.members;
                 }
 
             });

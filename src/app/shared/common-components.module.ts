@@ -15,6 +15,8 @@ import { SharedModule } from "./shared.module";
 import { CardTeamComponent } from "./components/card-team/card-team.component";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { IntercomService } from "./services/team/intercom.service";
+import { AddMemberComponent } from "./components/onboarding/add-member.component";
+import { AddTerminologyComponent } from "./components/onboarding/add-terminology.component";
 
 
 
@@ -36,6 +38,8 @@ import { IntercomService } from "./services/team/intercom.service";
         CardMapComponent,
         CardTeamComponent, 
         OnboardingComponent,
+        AddMemberComponent,
+        AddTerminologyComponent,
         GoogleSignInComponent,
         ColorPickerComponent
     ],
@@ -48,6 +52,8 @@ import { IntercomService } from "./services/team/intercom.service";
         CardMapComponent,
         CardTeamComponent,
         OnboardingComponent,
+        AddMemberComponent,
+        AddTerminologyComponent,
         GoogleSignInComponent,
         ColorPickerComponent
     ]

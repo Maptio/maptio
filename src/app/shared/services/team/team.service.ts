@@ -19,6 +19,7 @@ export class TeamService {
             name: name,
             members: [user],
             isTemporary: isTemporary,
+
             freeTrialLength: 14,
             isPaying: false
         }))
@@ -55,5 +56,30 @@ export class TeamService {
 
     createTemporary(user: User) {
         return this.create("", user, true);
+    }
+
+    renameTemporary(team: Team, name: string) {
+        if (!name) return Promise.reject("Organization name cannot be empty");
+        team.name = name;
+        team.isTemporary = false;
+        return this.teamFactory.upsert(team)
+    }
+
+
+    saveTerminology(team: Team, name: string, authority: string, helper: string) {
+        team.name = name;
+        team.settings = { authority: authority, helper: helper }
+
+        return this.teamFactory.upsert(team)
+            .then((isUpdated: boolean) => {
+                if (isUpdated) {
+                    this.intercomService.sendEvent("Change terminology", { team: team.name, teamId: team.team_id, authority: team.settings.authority, helper: team.settings.helper });
+                    return team;
+                }
+                else {
+                    throw "Error while updating the organization"
+                }
+            })
+
     }
 }

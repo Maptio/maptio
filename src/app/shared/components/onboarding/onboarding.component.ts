@@ -5,17 +5,118 @@ import { isEmpty } from 'lodash';
 import { environment } from '../../../../environment/environment';
 import { User } from '../../model/user.data';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { TeamService } from '../../services/team/team.service';
+
+enum Steps {
+    Welcome,
+    CreateTeam,
+    AddMember,
+    Terminology,
+    PickColor,
+    Ending
+}
 
 @Component({
     selector: 'common-onboarding',
     templateUrl: './onboarding.component.html',
     styleUrls: ['./onboarding.component.css']
 })
-export class OnboardingComponent implements OnInit{
-    constructor(public activeModal: NgbActiveModal) {}
+export class OnboardingComponent implements OnInit {
 
-    ngOnInit(){
-        
+    Steps = Steps;
+    currentStep: Steps = Steps.Terminology;
+    teamCreationErrorMessage: string;
+    isTerminologySaved: boolean;
+    teamName: string;
+    MAX_MEMBERS: number = 5;
+
+
+    @Input("user") user: User;
+    @Input("members") members: User[];
+    @Input("team") team: Team;
+
+
+    constructor(public activeModal: NgbActiveModal, private cd: ChangeDetectorRef,
+        private teamService: TeamService) { }
+
+
+
+    ngOnInit() {
+
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        console.log(changes)
+    }
+
+    nextStep() {
+        this.currentStep += 1;
+        this.cd.markForCheck();
+    }
+
+    isReady(){
+        switch (this.currentStep) {
+            case Steps.AddMember:
+                return this.members.length > 1;
+            case Steps.Terminology:
+                return this.isTerminologySaved;
+            default:
+                return true;
+        }
+    }
+
+    nextActionName() {
+        switch (this.currentStep) {
+            case Steps.Welcome:
+                return "Start";
+            case Steps.CreateTeam:
+                return null;
+            case Steps.AddMember:
+                return "I'm done";
+            case Steps.Terminology:
+                return "I'm done";
+            default:
+                return "Next";
+        }
+    }
+
+    isSkippable() {
+        switch (this.currentStep) {
+            case Steps.AddMember:
+                return true;
+            case Steps.Terminology:
+                return true;
+            case Steps.PickColor:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    renameTeam(name: string) {
+        this.teamService.renameTemporary(this.team, name)
+            .then(result => {
+                if (result) {
+                    this.teamName = name;
+                    this.nextStep();
+                } else {
+                    throw "Error while creating an organization"
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                this.teamCreationErrorMessage = err;
+                this.cd.markForCheck();
+            })
+    }
+
+    onAdded(event: { team: Team, user: User }) {
+        this.members.push(event.user);
+        this.cd.markForCheck();
+    }
+
+    getMemberIndexes() {
+        return Array.from({ length: this.MAX_MEMBERS - this.members.length }, (x, i) => i + 1);
     }
 }
 
