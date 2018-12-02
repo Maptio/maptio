@@ -11,7 +11,7 @@ import { UIService } from "../ui/ui.service";
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild {
-  constructor(private auth: Auth, private router: Router) {}
+  constructor(private auth: Auth, private router: Router) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -19,11 +19,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   ): boolean {
     let url: string = state.url;
 
-    if (
-      this.auth.authenticated() &&
-      this.auth.authenticationProviderAuthenticated() &&
-      this.auth.internalApiAuthenticated()
-    ) {
+    if (this.auth.allAuthenticated()) {
       return true;
     }
 

@@ -245,15 +245,21 @@
 
     </div>
 </div>
-<div class="modal-footer d-flex" [class.border-top-0]="!nextActionName()">
-    <button type="button" class="btn btn-link" *ngIf="isSkippable()" (click)="nextStep()">Skip for now</button>
-
-    <button type="button" class="btn btn-success" [class.invisible]="!nextActionName()" [class.disabled]="!isReady()" (click)="isReady() && nextStep()">{{nextActionName()}}</button>
+<div class="modal-footer d-flex justify-content-between" [class.border-top-0]="!nextActionName()">
+    <div class="d-flex justify-content-start col-8">
+        <div class="progress w-100">
+            <div class="progress-bar bg-gray" role="progressbar" [style.width.%]="getProgress()" ></div>
+        </div>
+    </div>
+    <div>
+        <button type="button" class="btn btn-link" *ngIf="isSkippable()" (click)="nextStep()">Skip for now</button>
+        <button type="button" class="btn btn-success" [class.invisible]="!nextActionName()" [class.disabled]="!isReady()" (click)="isReady() && nextStep()">{{nextActionName()}}</button>
+    </div>
 </div>
 
 <ng-template #welcome>
 
-    <span class="display-2">
+    <span class="display-4">
         <span class="text-blue">{{user?.firstname}}</span>, welcome to Maptio!</span>
     <h4 class="mt-5">
         This short sequence will help you set up and you'll start mapping right away. This will only take a few minutes.
@@ -361,5 +367,3 @@
 
 
 </ng-template>
-
-

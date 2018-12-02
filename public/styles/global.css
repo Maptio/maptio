@@ -78,6 +78,10 @@ body {
   background : var(--maptio-blue)!important;
 }
 
+.bg-gray{
+  background: var(--gray) !important;
+}
+
 .accent-blue{
   border-top:solid 6px var(--maptio-blue)!important;
 }

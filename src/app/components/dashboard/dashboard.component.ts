@@ -7,6 +7,8 @@ import { Subject, Subscription } from '../../../../node_modules/rxjs';
 import { Router } from '../../../../node_modules/@angular/router';
 import { TeamService } from '../../shared/services/team/team.service';
 import { MapService } from '../../shared/services/map/map.service';
+import { LoaderService } from '../../shared/services/loading/loader.service';
+import { Auth } from '../../shared/services/auth/auth.service';
 
 @Component({
     selector: "dashboard",
@@ -19,40 +21,43 @@ export class DashboardComponent {
     @Input("teams") teams: Team[];
     @Input("user") user: User;
 
-    isZeroTeam: Boolean = true;
-    isZeroMaps: Boolean = true;
-    isZeroInitiative: Boolean = true;
+    areTeamsCreated: boolean;
+    areMapsCreated: boolean;
     filterMaps$: Subject<string>
     filteredMaps: DataSet[];
 
     subscription: Subscription;
 
-    constructor(private cd: ChangeDetectorRef, private router: Router, 
-        private teamService: TeamService, private mapService:MapService) {
+    constructor(private cd: ChangeDetectorRef, private router: Router, private loaderService: LoaderService,
+        private teamService: TeamService, private mapService: MapService, private auth: Auth) {
         this.filterMaps$ = new Subject<string>();
     }
 
+    private _teams: Team[];
+    private _datasets: DataSet[]
+
     ngOnChanges(changes: SimpleChanges): void {
+        console.log("ngONChanges", changes)
         if (changes.datasets && changes.datasets.currentValue) {
-            this.datasets = changes.datasets.currentValue;
-            this.isZeroMaps = isEmpty(this.datasets);
-            // if (!this.isZeroMaps) {
-            //     this.isZeroInitiative = !this.datasets[0].initiative.children || this.datasets[0].initiative.children.length === 0;
-            // }
+            this._datasets = changes.datasets.currentValue;
         }
 
         if (changes.teams && changes.teams.currentValue) {
-            this.isZeroTeam = isEmpty(changes.teams.currentValue);
-            if (this.isOnboarding()) {
-                this.redirectToOnboarding();
-            }
+            this._teams = changes.teams.currentValue
         }
-       
-
-        this.cd.markForCheck();
     }
 
     ngOnInit() {
+        this.areMapsCreated = !isEmpty(this._datasets);
+        this.areTeamsCreated = !isEmpty(this._teams) && this._teams.every(t => !t.isTemporary);
+        console.log("ngOnInit teams", this._teams, this.areTeamsCreated)
+        console.log("ngOnitnt datasets", this._datasets, this.areMapsCreated);
+
+        if (!this.areTeamsCreated && !this.areMapsCreated) {
+            console.log("redirect")
+            this.redirectToOnboarding();
+        }
+
         this.filteredMaps = [].concat(this.datasets);
         this.subscription = this.filterMaps$.asObservable().debounceTime(250).subscribe((search) => {
             this.filteredMaps = (search === '')
@@ -72,28 +77,25 @@ export class DashboardComponent {
         if (this.subscription) this.subscription.unsubscribe();
     }
 
-    isOnboarding() {
-        return this.isZeroTeam 
+
+    isMultipleTeams() {
+        return this._teams.length > 1;
     }
 
-    isMultipleTeams(){
-        return this.teams.length > 1;
+    isMultipleMaps() {
+        return this._datasets.length > 1;
     }
 
-    isMultipleMaps(){
-        return this.datasets.length > 1;
-    }
-
-    isIntegrationSetup(){
-        return this.teams
-    }
 
     redirectToOnboarding() {
+        this.loaderService.show()
         this.teamService.createTemporary(this.user)
+            // .then((team: Team) => { this.auth.getUser(); return team })
             .then(team => {
                 return this.mapService.createTemplate("Example map", team.team_id)
             })
-            .then((dataset:DataSet)=>{
+            .then((dataset: DataSet) => { this.auth.getUser(); return dataset })
+            .then((dataset: DataSet) => {
                 this.router.navigateByUrl(`/map/${dataset.datasetId}/${dataset.initiative.getSlug()}`)
             })
     }

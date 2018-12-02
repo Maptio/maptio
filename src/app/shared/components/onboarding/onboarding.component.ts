@@ -76,6 +76,10 @@ export class OnboardingComponent implements OnInit {
 
     }
 
+    getProgress(){
+        return this.currentStep/5*100;
+    }
+
     isReady() {
         switch (this.currentStep) {
             case Steps.AddMember:
