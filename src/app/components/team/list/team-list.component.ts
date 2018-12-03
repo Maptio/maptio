@@ -66,10 +66,7 @@ export class TeamListComponent implements OnInit {
         return this.auth.getPermissions().includes(Permissions.canCreateUnlimitedTeams);
     }
 
-    trackByMemberId(index: number, member: User) {
-        return member.user_id;
-    }
-
+   
     trackByTeamId(index: number, team: Team) {
         return team.team_id;
     }

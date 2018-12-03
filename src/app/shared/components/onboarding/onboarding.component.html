@@ -247,7 +247,7 @@
 </div>
 <div class="modal-footer d-flex justify-content-between align-items-center" [class.border-top-0]="!nextActionName()">
     <div class="d-flex justify-content-start col-8 h-100">
-        <div class="d-flex flex-column justify-content-end align-items-end w-100" *ngIf="getProgress()!==100">
+        <div class="d-flex flex-column justify-content-end align-items-end w-100" *ngIf="getProgress()!=='100'">
             <div class="progress w-100" [style.height.%]="100" >
                 <div class="progress-bar bg-gray" role="progressbar" [style.width.%]="getProgress()">{{getAbsoluteProgress()}}</div>
             </div>

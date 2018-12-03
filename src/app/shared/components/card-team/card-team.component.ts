@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Team } from '../../model/team.data';
+import { User } from '../../model/user.data';
 
 @Component({
     selector: 'common-card-team',
@@ -10,6 +11,11 @@ export class CardTeamComponent implements OnInit {
 
     @Input("team") team : Team;
     constructor() { }
+
+    trackByMemberId(index: number, member: User) {
+        return member.user_id;
+    }
+
 
     ngOnInit(): void { }
 }

@@ -1,4 +1,4 @@
-<form [formGroup]="form" (submit)="add()" class="form-group" *ngIf="!member">
+<form [formGroup]="form" (submit)="add()" class="form-group" >
     <div class="form-group w-50">
         <input formControlName="authority" required class="form-control" type="text" name="" id="" [class.is-invalid]="isInvalid('authority')">
         <small class="form-text text-muted">
@@ -13,7 +13,7 @@
     </div>
     <div class="form-group w-50 d-flex justify-content-end">
         <i *ngIf="isAdding" class="fas fa-circle-notch fa-spin"></i>
-        <span class="text-success mx-1 flash small" *ngIf="isSavingSuccess" [class.show]="isSavingSuccess">
+        <span class="text-success mx-1 flash small" *ngIf="isAdded" [class.show]="isAdded">
             <i class="fas fa-save"></i>Successfully saved!
         </span>
         <button type="submit" class="btn btn-outline-success">
