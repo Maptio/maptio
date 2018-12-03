@@ -53,20 +53,23 @@ export class AddTerminologyComponent implements OnInit {
     add() {
         if (this.form.valid) {
             this.isAdding = true;
+            this.isAdded = false;
             this.errorMessage = null;
             this.cd.markForCheck();
             let authority = this.form.controls["authority"].value
             let helper = this.form.controls["helper"].value
 
             return this.teamService.saveTerminology(this.team, this.team.name, authority, helper)
-                .then((team:Team) => {
+                .then((team: Team) => {
                     this.added.emit(team);
                     this.isAdding = false;
+                    this.isAdded = true;
                     this.cd.markForCheck();
                 })
                 .catch((reason) => {
                     this.error.emit(reason)
                     this.isAdding = false;
+                    this.isAdded = false;
                     this.errorMessage = reason;
                     this.cd.markForCheck();
                     console.error(reason)

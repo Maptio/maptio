@@ -12,8 +12,11 @@
         </small>
     </div>
     <div class="form-group w-50 d-flex justify-content-end">
+        <i *ngIf="isAdding" class="fas fa-circle-notch fa-spin"></i>
+        <span class="text-success mx-1 flash small" *ngIf="isSavingSuccess" [class.show]="isSavingSuccess">
+            <i class="fas fa-save"></i>Successfully saved!
+        </span>
         <button type="submit" class="btn btn-outline-success">
-            <i *ngIf="isAdding" class="fas fa-circle-notch fa-spin"></i>
             Save</button>
     </div>
 </form>

@@ -29,9 +29,9 @@ export class OnboardingComponent implements OnInit {
     teamCreationErrorMessage: string;
     isTerminologySaved: boolean;
     teamName: string;
-    MAX_MEMBERS: number = 5;
+    MAX_MEMBERS: number = 4;
     COLORS: any[] = [
-        { name: "grey", isSelected: false },
+        { name: "#aaa", isSelected: false },
         { name: "blue", isSelected: false },
         { name: "purple", isSelected: false },
         { name: "brown", isSelected: false },
@@ -77,15 +77,17 @@ export class OnboardingComponent implements OnInit {
     }
 
     getProgress() {
-        return Number((this.currentStep + 1) / 6 * 100).toFixed(0)
+        return Number(Math.ceil((this.currentStep + 1) / 6 * 100)).toFixed(0)
     }
 
-    getAbsoluteProgress(){
-        return `${this.currentStep + 1} / 6`;
+    getAbsoluteProgress() {
+        return `${6 - (this.currentStep +1)} steps left`;
     }
 
     isReady() {
         switch (this.currentStep) {
+            case Steps.CreateTeam:
+                return false;
             case Steps.AddMember:
                 return this.members.length > 1;
             case Steps.Terminology:
@@ -102,9 +104,9 @@ export class OnboardingComponent implements OnInit {
             case Steps.CreateTeam:
                 return null;
             case Steps.AddMember:
-                return "I'm done";
+                return "Next";
             case Steps.Terminology:
-                return "I'm done";
+                return "Next";
             case Steps.Ending:
                 return "Start mapping"
             default:
