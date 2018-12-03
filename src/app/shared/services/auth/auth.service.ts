@@ -171,7 +171,6 @@ export class Auth {
   }
 
   public getUser(): Observable<User> {
-    console.log("getUser")
     let profileString = localStorage.getItem("profile");
 
     if (profileString) {
@@ -180,7 +179,7 @@ export class Auth {
         this.userFactory.get(JSON.parse(profileString).user_id)
       ])
         .then(([auth0User, databaseUser]: [User, User]) => {
-          console.log(auth0User, databaseUser)
+          // console.log("getUser", databaseUser)
           let user = auth0User;
           user.teams = uniq(databaseUser.teams); // HACK : where does the duplication comes from?
           user.shortid = databaseUser.shortid;

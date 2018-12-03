@@ -23,6 +23,7 @@ export class DashboardComponent {
 
     areTeamsCreated: boolean;
     areMapsCreated: boolean;
+    isOnboarding: boolean;
     filterMaps$: Subject<string>
     filteredMaps: DataSet[];
 
@@ -45,17 +46,18 @@ export class DashboardComponent {
         if (changes.teams && changes.teams.currentValue) {
             this._teams = changes.teams.currentValue
         }
+
+        this.isOnboarding = isEmpty(this._teams) || (this._teams.length === 1 && (this._teams[0] && this._teams[0].isTemporary));
+        this.cd.markForCheck();
     }
 
     ngOnInit() {
-        this.areMapsCreated = !isEmpty(this._datasets);
-        this.areTeamsCreated = !isEmpty(this._teams) && this._teams.every(t => !t.isTemporary);
-        console.log("ngOnInit teams", this._teams, this.areTeamsCreated)
-        console.log("ngOnitnt datasets", this._datasets, this.areMapsCreated);
-
-        if (!this.areTeamsCreated && !this.areMapsCreated) {
-            console.log("redirect")
-            this.redirectToOnboarding();
+        console.log("ngOnInit", this.isOnboarding)
+        if (this.isOnboarding) {
+            this.getExampleMap()
+                .then((dataset: DataSet) => {
+                    this.router.navigateByUrl(`/map/${dataset.datasetId}/${dataset.initiative.getSlug()}`);
+                });
         }
 
         this.filteredMaps = [].concat(this.datasets);
@@ -86,19 +88,39 @@ export class DashboardComponent {
         return this._datasets.length > 1;
     }
 
-
-    redirectToOnboarding() {
-        this.loaderService.show()
-        this.teamService.createTemporary(this.user)
-            // .then((team: Team) => { this.auth.getUser(); return team })
+    getExampleMap(): Promise<DataSet> {
+        return this.teamService.createTemporary(this.user)
             .then(team => {
                 return this.mapService.createTemplate("Example map", team.team_id)
             })
-            .then((dataset: DataSet) => { this.auth.getUser(); return dataset })
-            .then((dataset: DataSet) => {
-                this.router.navigateByUrl(`/map/${dataset.datasetId}/${dataset.initiative.getSlug()}`)
-            })
     }
+
+    // redirectIfOnboarding() {
+    //     this.areTeamsCreated = !isEmpty(this._teams) && this._teams.every(t => !t.isTemporary);
+    //     console.log("teams", this._teams)
+    //     this.isOnboarding = isEmpty(this._teams) || (this._teams.length === 1 && (this._teams[0] && this._teams[0].isTemporary))
+    //     console.log("isOnboarding", isEmpty(this._teams), this._teams.length === 1, this._teams[0] && this._teams[0].isTemporary, this.isOnboarding)
+
+    //     if (!this.isOnboarding) {
+    //         console.log("dont redirect")
+    //         return
+    //     }
+    //     console.log("redirect")
+
+
+    //     this.loaderService.show()
+    //     this.teamService.createTemporary(this.user)
+    //         .then((team: Team) => {
+    //             return this.auth.getUser().toPromise();
+    //         })
+    //         .then(user => {
+    //             return this.mapService.createTemplate("Example map", user.teams[0])
+    //         })
+    //         // .then((dataset: DataSet) => { this.auth.getUser(); return dataset })
+    //         .then((dataset: DataSet) => {
+    //             this.router.navigateByUrl(`/map/${dataset.datasetId}/${dataset.initiative.getSlug()}`)
+    //         })
+    // }
 
     onKeyDown(search: string) {
         this.filterMaps$.next(search);

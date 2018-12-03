@@ -31,14 +31,13 @@ export class HomeComponent {
         this.isLoading = true;
         this.routeSubscription = this.auth.getUser()
             .mergeMap((user: User) => {
-                this.user = user;
                 return !isEmpty(user.datasets)
-                    ? Observable.forkJoin(this.datasetFactory.get(user.datasets), this.teamFactory.get(user.teams))
+                    ? Observable.forkJoin(this.datasetFactory.get(user.datasets), this.teamFactory.get(user.teams), Promise.resolve(user))
                     : !isEmpty(user.teams)
-                        ? Observable.forkJoin(Promise.resolve([]), this.teamFactory.get(user.teams))
-                        : Observable.forkJoin(Promise.resolve([]), Promise.resolve([]))
+                        ? Observable.forkJoin(Promise.resolve([]), this.teamFactory.get(user.teams), Promise.resolve(user))
+                        : Observable.forkJoin(Promise.resolve([]), Promise.resolve([]), Promise.resolve(user))
             })
-            .map(([datasets, teams]: [DataSet[], Team[]]) => {
+            .map(([datasets, teams, user]: [DataSet[], Team[], User]) => {
                 return [
                     datasets.map(d => {
                         let i = 0
@@ -46,21 +45,23 @@ export class HomeComponent {
                         d.depth = i;
                         return d;
                     }),
-                    teams
+                    teams,
+                    user
                 ]
             })
-            .map(([datasets, teams]: [DataSet[], Team[]]) => {
+            .map(([datasets, teams, user]: [DataSet[], Team[], User]) => {
                 return [datasets.map(d => {
                     d.team = teams.find(t => d.initiative.team_id === t.team_id);
                     return d
-                }), teams]
+                }), teams,user]
             })
-            .map(([datasets, teams]: [DataSet[], Team[]]) => {
-                return { datasets: sortBy(datasets, d => d.initiative.name), teams: teams }
+            .map(([datasets, teams, user]: [DataSet[], Team[], User]) => {
+                return { datasets: sortBy(datasets, d => d.initiative.name), teams: teams , user:user}
             })
-            .subscribe((data: { datasets: DataSet[], teams: Team[] }) => {
+            .subscribe((data: { datasets: DataSet[], teams: Team[], user:User }) => {
                 this.teams = data.teams;
                 this.datasets = data.datasets
+                this.user = data.user;
                 this.isLoading = false;
                 this.cd.markForCheck();
                 this.loaderService.hide();

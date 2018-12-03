@@ -154,7 +154,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
         let data = <any>complexData[0].initiative;
         this.datasetId = complexData[0].dataset.datasetId;
 
-        this._isExplorationMode = JSON.parse(localStorage.getItem(`map_settings_${this.datasetId}`)).explorationMode;
+        this._isExplorationMode = localStorage.getItem(`map_settings_${this.datasetId}`)
+          ? JSON.parse(localStorage.getItem(`map_settings_${this.datasetId}`)).explorationMode
+          : false
         this._isExplorationMode$.next(this._isExplorationMode);
         this.cd.markForCheck();
 
@@ -264,7 +266,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           .filter(t => t.isSelected)
           .map(t => t.shortid)
           .join(",");
-          this.loaderService.hide();
+        this.loaderService.hide();
         location.hash = this.uriService.buildFragment(
           new Map([
             ["x", transform.x],

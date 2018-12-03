@@ -1,5 +1,9 @@
-<div class="col-12" *ngIf="areTeamsCreated && areMapsCreated">
-{{areTeamsCreated}} {{areMapsCreated}}
+<div class="d-flex justify-content-center align-items-center" *ngIf="isOnboarding">
+    <h1 class="text-muted">Preparing your first map
+        <i *ngIf="isRefreshingPicture" class="mx-1 fas fa-circle-notch fa-spin"></i>
+    </h1>
+</div>
+<div class="col-12" *ngIf="!isOnboarding">
     <div class="my-5">
         <h2 class="text-left"> Maps</h2>
         <div class="form-group form-inline d-flex flex-column align-items-start w-25" *ngIf="datasets?.length > 5">
