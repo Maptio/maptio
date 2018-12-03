@@ -89,38 +89,23 @@ export class DashboardComponent {
     }
 
     getExampleMap(): Promise<DataSet> {
-        return this.teamService.createTemporary(this.user)
-            .then(team => {
-                return this.mapService.createTemplate("Example map", team.team_id)
-            })
+        // temporary team is already created
+        if (this._teams.length === 1) {
+            if (this._datasets.length === 0) {
+                // there is no dataset, create a new one
+                return this.mapService.createTemplate("Example map", this._teams[0].team_id)
+            } else {
+                return this.mapService.get(this._datasets[0].datasetId)
+            }
+        }
+        // no team createt yet, so create a temp one and add a dataset to it
+        else {
+            return this.teamService.createTemporary(this.user)
+                .then(team => {
+                    return this.mapService.createTemplate("Example map", team.team_id)
+                })
+        }
     }
-
-    // redirectIfOnboarding() {
-    //     this.areTeamsCreated = !isEmpty(this._teams) && this._teams.every(t => !t.isTemporary);
-    //     console.log("teams", this._teams)
-    //     this.isOnboarding = isEmpty(this._teams) || (this._teams.length === 1 && (this._teams[0] && this._teams[0].isTemporary))
-    //     console.log("isOnboarding", isEmpty(this._teams), this._teams.length === 1, this._teams[0] && this._teams[0].isTemporary, this.isOnboarding)
-
-    //     if (!this.isOnboarding) {
-    //         console.log("dont redirect")
-    //         return
-    //     }
-    //     console.log("redirect")
-
-
-    //     this.loaderService.show()
-    //     this.teamService.createTemporary(this.user)
-    //         .then((team: Team) => {
-    //             return this.auth.getUser().toPromise();
-    //         })
-    //         .then(user => {
-    //             return this.mapService.createTemplate("Example map", user.teams[0])
-    //         })
-    //         // .then((dataset: DataSet) => { this.auth.getUser(); return dataset })
-    //         .then((dataset: DataSet) => {
-    //             this.router.navigateByUrl(`/map/${dataset.datasetId}/${dataset.initiative.getSlug()}`)
-    //         })
-    // }
 
     onKeyDown(search: string) {
         this.filterMaps$.next(search);

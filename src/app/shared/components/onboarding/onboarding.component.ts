@@ -45,7 +45,7 @@ export class OnboardingComponent implements OnInit {
     @Input("members") members: User[];
     @Input("team") team: Team;
     @Input("dataset") dataset: DataSet;
-    @Input("isCompleted") isCompleted:boolean;
+    @Input("isCompleted") isCompleted: boolean;
 
 
     constructor(public activeModal: NgbActiveModal, private cd: ChangeDetectorRef,
@@ -76,8 +76,12 @@ export class OnboardingComponent implements OnInit {
 
     }
 
-    getProgress(){
-        return this.currentStep/5*100;
+    getProgress() {
+        return Number((this.currentStep + 1) / 6 * 100).toFixed(0)
+    }
+
+    getAbsoluteProgress(){
+        return `${this.currentStep + 1} / 6`;
     }
 
     isReady() {

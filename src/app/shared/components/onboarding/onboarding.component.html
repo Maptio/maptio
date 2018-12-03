@@ -245,10 +245,10 @@
 
     </div>
 </div>
-<div class="modal-footer d-flex justify-content-between" [class.border-top-0]="!nextActionName()">
-    <div class="d-flex justify-content-start col-8">
-        <div class="progress w-100">
-            <div class="progress-bar bg-gray" role="progressbar" [style.width.%]="getProgress()" ></div>
+<div class="modal-footer d-flex justify-content-between align-items-stretch" [class.border-top-0]="!nextActionName()">
+    <div class="d-flex justify-content-start col-8 align-items-center">
+        <div class="progress w-100 h-100">
+            <div class="progress-bar bg-gray" role="progressbar" [style.width.%]="getProgress()">{{getAbsoluteProgress()}}</div>
         </div>
     </div>
     <div>
@@ -260,18 +260,28 @@
 <ng-template #welcome>
 
     <span class="display-4">
-        <span class="text-blue">{{user?.firstname}}</span>, welcome to Maptio!</span>
+        <span class="text-blue">👋 {{user?.firstname}} </span>, welcome to Maptio!</span>
     <h4 class="mt-5">
-        This short sequence will help you set up and you'll start mapping right away. This will only take a few minutes.
+        Thanks for signing up and giving Maptio a try. We're really excited to have you onboard.
 
+
+    </h4>
+
+    <h4 class="mt-5">
+        This short sequence will help you set up and you'll start mapping right away. 
+
+    </h4>
+
+    <h4 class="mt-5">
+        This will only take a few minutes.
     </h4>
 
 </ng-template>
 
 <ng-template #createteam>
-    <h1>Choose a name for your organization</h1>
+    <h1>First, choose a name for your organization</h1>
     <div class="my-4">
-        <div class="form-row w-100 d-flex justify-content-center">
+        <div class="form-row w-100 d-flex justify-content-start">
             <input #teamName type="text" class="form-control col-6">
             <button class="btn btn-success mx-1" (click)="renameTeam(teamName.value)">Set up organization</button>
         </div>

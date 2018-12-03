@@ -87,4 +87,9 @@ export class MapService {
         return this.create(template, teamId);
     }
 
+    get(datasetId:string):Promise<DataSet>{
+        return this.datasetFactory.get(datasetId);
+    }
+
+
 }
