@@ -3,8 +3,8 @@ import { Component, ChangeDetectorRef, SimpleChanges, Input } from "@angular/cor
 import { DataSet } from "../../shared/model/dataset.data";
 import { Team } from '../../shared/model/team.data';
 import { User } from '../../shared/model/user.data';
-import { Subject, Subscription } from '../../../../node_modules/rxjs';
-import { Router } from '../../../../node_modules/@angular/router';
+import { Subject, Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 import { TeamService } from '../../shared/services/team/team.service';
 import { MapService } from '../../shared/services/map/map.service';
 import { LoaderService } from '../../shared/services/loading/loader.service';

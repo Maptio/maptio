@@ -1,6 +1,6 @@
 <form [formGroup]="form" (submit)="submit()" class="form-row d-flex flex-column">
     <div class="form-group ">
-        <label for="inputMapName">Map name</label>
+        <label for="inputMapName">Create a new map</label>
         <input type="text" id="inputMapName" formControlName="mapName" [class.is-invalid]="form.controls['mapName'].invalid  && (form.controls['mapName'].dirty || form.controls['mapName'].touched)"
             class="form-control w-100" required>
         <small class="invalid-feedback">

@@ -69,7 +69,7 @@
                     <h6 class="dropdown-header">Organizations</h6>
 
                     <a class="dropdown-item" *ngIf="teams?.length > 1" routerLink="/teams">All</a>
-                    <a class="dropdown-item" *ngIf="teams?.length === 1" routerLink="/teams/{{teams[0]?.team_id}}/{{teams[0]?.getSlug()}}">{{teams[0].name}}</a>
+                    <a class="dropdown-item" *ngIf="teams?.length === 1" routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}">{{team?.name}}</a>
 
                     <div class="dropdown-divider  d-block d-xl-none"></div>
 
