@@ -41,6 +41,8 @@ export class DashboardComponent {
         console.log("ngONChanges", changes)
         if (changes.datasets && changes.datasets.currentValue) {
             this._datasets = changes.datasets.currentValue;
+            this.filterMaps$.next('');
+            this.cd.markForCheck();
         }
 
         if (changes.teams && changes.teams.currentValue) {
@@ -60,11 +62,11 @@ export class DashboardComponent {
                 });
         }
 
-        this.filteredMaps = [].concat(this.datasets);
+        this.filteredMaps = [].concat(this._datasets);
         this.subscription = this.filterMaps$.asObservable().debounceTime(250).subscribe((search) => {
             this.filteredMaps = (search === '')
-                ? [].concat(this.datasets)
-                : this.datasets.filter(
+                ? [].concat(this._datasets)
+                : this._datasets.filter(
                     d => d.initiative.name.toLowerCase().indexOf(search.toLowerCase()) >= 0
                         ||
                         d.team.name.toLowerCase().indexOf(search.toLowerCase()) >= 0
@@ -86,6 +88,11 @@ export class DashboardComponent {
 
     isMultipleMaps() {
         return this._datasets.length > 1;
+    }
+
+    onCopy(dataset:DataSet){
+        console.log("onCopy", dataset)
+        this.auth.getUser().toPromise().then(()=> { console.log("here") ; this.cd.markForCheck()} );
     }
 
     getExampleMap(): Promise<DataSet> {

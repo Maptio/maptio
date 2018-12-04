@@ -1,6 +1,6 @@
 <form [formGroup]="form" (submit)="submit()" class="form-row d-flex flex-column">
     <div class="form-group ">
-        <label for="inputMapName">Create a new map</label>
+        <label class="h5" for="inputMapName">Create a new map</label>
         <input type="text" id="inputMapName" formControlName="mapName" [class.is-invalid]="form.controls['mapName'].invalid  && (form.controls['mapName'].dirty || form.controls['mapName'].touched)"
             class="form-control w-100" required>
         <small class="invalid-feedback">
@@ -17,7 +17,7 @@
             <small class="offset-md-6">Don't have a organization?</small>
         </a>
     </div>
-    <div class="form-group ">
+    <div class="">
         <button *ngIf="!isCreatingMap" type="submit" class="btn btn-success pull-right">Create</button>
         <div *ngIf="isCreatingMap" class=" text-success d-flex justify-content-end align-items-center">
             <i class="fas fa-circle-notch fa-spin text-success mx-1"></i> Creating

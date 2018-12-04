@@ -170,7 +170,9 @@ export class Auth {
     return this.permissions;
   }
 
+
   public getUser(): Observable<User> {
+    console.log("getUser")
     let profileString = localStorage.getItem("profile");
 
     if (profileString) {

@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, ChangeDetectorRef, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { DataSet } from '../../model/dataset.data';
 import { ExportService } from '../../services/export/export.service';
 import { saveAs } from "file-saver"
 import { DatasetFactory } from '../../services/dataset.factory';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { cloneDeep } from "lodash"
 
 @Component({
     selector: 'common-card-map',
@@ -17,11 +18,14 @@ export class CardMapComponent implements OnInit {
     @Input("isTeamDisplayed") isTeamDisplayed: Boolean;
     @Input("isEdit") isEdit: Boolean;
 
+    @Output("copied") copied: EventEmitter<DataSet> = new EventEmitter<DataSet>();
+
     isExporting: Boolean;
     isEditing: Boolean;
-    isUpdateFailed:Boolean;
+    isCopying: Boolean;
+    isUpdateFailed: Boolean;
     form: FormGroup;
-    isEditAvailable:Boolean;
+    isEditAvailable: Boolean;
 
     constructor(private exportService: ExportService, private datasetFactory: DatasetFactory, private cd: ChangeDetectorRef) { }
 
@@ -35,9 +39,9 @@ export class CardMapComponent implements OnInit {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-       if(changes.isEdit && changes.isEdit.currentValue){
-           this.isEditAvailable = changes.isEdit.currentValue;
-       }
+        if (changes.isEdit && changes.isEdit.currentValue) {
+            this.isEditAvailable = changes.isEdit.currentValue;
+        }
     }
 
     export(dataset: DataSet) {
@@ -57,7 +61,7 @@ export class CardMapComponent implements OnInit {
     save() {
         if (this.form.valid) {
             this.isEditing = false;
-            this.isUpdateFailed=false;
+            this.isUpdateFailed = false;
 
             this.dataset.initiative.name = this.form.controls["mapName"].value;
             this.datasetFactory.upsert(this.dataset)
@@ -68,7 +72,7 @@ export class CardMapComponent implements OnInit {
                         this.cd.markForCheck();
                     }
                     else {
-                        this.isUpdateFailed=true;
+                        this.isUpdateFailed = true;
                         this.cd.markForCheck();
                     }
                 })
@@ -76,5 +80,23 @@ export class CardMapComponent implements OnInit {
 
                 });
         }
+    }
+
+    duplicate() {
+        if (this.isCopying) return;
+
+        this.isCopying = true;
+        this.cd.markForCheck();
+        let copy = cloneDeep(this.dataset);
+        copy.initiative.name = `${this.dataset.initiative.name} [duplicate]`;
+        return this.datasetFactory.create(copy)
+            .then(dataset => {
+                this.copied.emit(dataset);
+            })
+            .then(() => {
+                this.isCopying = false;
+                this.cd.markForCheck();
+            })
+
     }
 }

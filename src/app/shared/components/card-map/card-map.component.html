@@ -22,47 +22,58 @@
                         <button class="btn btn-link btn-sm" (click)="isEditing=false">Cancel</button>
                     </form>
                 </div>
-                <button *ngIf="isEditAvailable" class="btn btn-link btn-sm" [class.d-none]="isEditing" (click)="isEditing=true">Rename</button>
-            </div>
+                <div>
+                    <div class="small text-muted">{{dataset?.depth}} {{dataset?.depth
+                        < 1 ? "circle" : "circles"}}</div>
 
-        </div>
-        <div class="card-subtitle" *ngIf="isTeamDisplayed">
-            Organization
-            <a routerLink="/teams/{{dataset?.team?.team_id}}/{{dataset?.team?.getSlug()}}">{{dataset?.team?.name}}</a>
-
-        </div>
-        <div class="card-subtitle mt-2 text-muted small">
-            <div class="d-flex justify-content-between">
-                <span *ngIf="dataset?.initiative.children">
-                    <div *ngIf="dataset?.initiative.children[0]?.accountable" class="text-muted">Vision held by
-                        <img class="rounded-circle" width="32" height="32" src="{{dataset?.initiative.children[0]?.accountable?.picture}}" alt="{{dataset?.initiative.children[0]?.accountable?.name}}">
-                        <a class="text-muted" routerLink="/map/{{dataset?.datasetId}}/{{dataset?.initiative.getSlug()}}/summary" 
-                        [queryParams]="{member: dataset?.initiative.children[0]?.accountable?.shortid}">
-                            <span> {{dataset?.initiative.children[0]?.accountable?.name}}</span>
-                        </a>
 
                     </div>
+                </div>
 
-                    <div *ngIf="!dataset?.initiative.children[0]?.accountable" class="text-warning">
-                        No vision holder yet.
-                    </div>
-                </span>
+            </div>
+            <div class="card-subtitle" *ngIf="isTeamDisplayed">
+                Organization
+                <a routerLink="/teams/{{dataset?.team?.team_id}}/{{dataset?.team?.getSlug()}}">{{dataset?.team?.name}}</a>
+
+            </div>
+            <div class="card-subtitle mt-2 text-muted small">
+                <div class="d-flex justify-content-between">
+                    <span *ngIf="dataset?.initiative.children">
+                        <div *ngIf="dataset?.initiative.children[0]?.accountable" class="text-muted">Vision held by
+                            <img class="rounded-circle" width="32" height="32" src="{{dataset?.initiative.children[0]?.accountable?.picture}}" alt="{{dataset?.initiative.children[0]?.accountable?.name}}">
+                            <a class="text-muted" routerLink="/map/{{dataset?.datasetId}}/{{dataset?.initiative.getSlug()}}/summary" [queryParams]="{member: dataset?.initiative.children[0]?.accountable?.shortid}">
+                                <span> {{dataset?.initiative.children[0]?.accountable?.name}}</span>
+                            </a>
+
+                        </div>
+
+                        <div *ngIf="!dataset?.initiative.children[0]?.accountable" class="text-warning">
+                            No vision holder yet.
+                        </div>
+                    </span>
+                </div>
+
             </div>
 
+
+
         </div>
+        <div class="card-footer border-top-0">
+            <div class="small d-flex justify-content-between align-items-center">
+                <button *ngIf="isExportAvailable" class="btn btn-sm btn-link cursor-pointer " (click)="export(dataset)">
+                    <i class="fa fa-file-excel" aria-hidden="true"></i>
+                    <span *ngIf="!isExporting">Export</span>
+                    <span class="text-muted" *ngIf="isExporting">Exporting</span>
+                </button>
+                <button *ngIf="isEditAvailable" class="btn btn-link btn-sm" [class.d-none]="isEditing" (click)="isEditing=true" >
+                    <i class="fas fa-pen"></i> Change name
+                </button>
+                <button *ngIf="isEditAvailable" class="btn btn-link btn-sm" [class.d-none]="isEditing" (click)="duplicate()" >
+                    <i class="fas fa-copy"></i>
+                    <span *ngIf="!isCopying">Copy</span>
+                    <span class="text-muted" *ngIf="isCopying">Copying</span>
+                </button>
 
-
-
-    </div>
-    <div class="card-footer border-top-0">
-        <div class="small d-flex justify-content-between align-items-center">
-            <div>{{dataset?.depth}} {{dataset?.depth
-                < 1 ? "sub-circle" : "sub-circles"}}</div>
-                    <button *ngIf="isExportAvailable" class="btn btn-sm btn-link cursor-pointer " (click)="export(dataset)">
-                        <i class="fa fa-table" aria-hidden="true"></i>
-                        <span *ngIf="!isExporting">Export</span>
-                        <span class="text-muted" *ngIf="isExporting">Exporting</span>
-                    </button>
             </div>
         </div>
     </div>

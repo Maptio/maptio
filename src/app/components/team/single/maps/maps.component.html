@@ -1,7 +1,7 @@
 <div class="w-100 overflow">
     <div class="card-columns ">
-        <div class="card" *ngIf="teams">
-            <div class="card-body bg-light">
+        <div class="card bg-light border-0" *ngIf="teams">
+            <div class="card-body ">
                 <common-create-map [teams]="teams" [isRedirect]="true" (created)="onNewMap($event)"></common-create-map>
             </div>
         </div>
