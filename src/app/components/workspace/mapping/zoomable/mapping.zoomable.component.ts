@@ -75,12 +75,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
   private lockedSubscription: Subscription;
   private tagsSubscription: Subscription;
   private selectableTagsSubscription: Subscription;
-  public toggleOptionsSubscription: Subscription;
 
   public analytics: Angulartics2Mixpanel;
-
-
-  public _isDisplayOptions: Boolean = false;
 
   public _isExplorationMode: boolean;
 
@@ -186,11 +182,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
       },
         (err) => console.error(err));
     this.selectableTags$.subscribe(tags => this.tagsState = tags)
-
-    this.toggleOptionsSubscription = this.toggleOptions$.subscribe(toggled => {
-      this._isDisplayOptions = toggled;
-      this.cd.markForCheck();
-    })
   }
 
   public switch() {
@@ -225,9 +216,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
     if (this.selectableTagsSubscription) {
       this.selectableTagsSubscription.unsubscribe();
-    }
-    if (this.toggleOptionsSubscription) {
-      this.toggleOptionsSubscription.unsubscribe();
     }
   }
 

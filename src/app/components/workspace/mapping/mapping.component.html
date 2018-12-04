@@ -42,8 +42,8 @@
               <button class="btn btn-light summary-list text-dark p-1 btn-control" [routerLinkActive]="['active']" routerLink="/map/{{datasetId}}/{{slug}}/summary">
                 <div class="icon-text-label">Directory</div>
               </button>
-              <button class="btn btn-light menu text-dark p-1 btn-control" [class.invisible]="!( rlaNetwork.isActive || rlaCircles.isActive)"
-                (click)="toggleOptions( rlaNetwork.isActive || rlaCircles.isActive)">
+              <button class="btn btn-light menu text-dark p-1 btn-control" [class.invisible]="!rlaNetwork.isActive"
+                (click)="toggleOptions(rlaNetwork.isActive)">
                 <i class="fas fa-angle-double-left"></i>
                 <div class="icon-text-label">Options</div>
               </button>
