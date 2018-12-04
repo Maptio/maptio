@@ -23,6 +23,7 @@ import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/aut
 import { MockBackend } from "@angular/http/testing";
 import { Intercom, IntercomConfig } from 'ng-intercom';
 import { NgProgressModule, NgProgress } from '@ngx-progressbar/core';
+import { Fullstory, FullstoryConfig } from 'ngx-fullstory';
 
 describe("team.resolver.ts", () => {
 
@@ -52,7 +53,7 @@ describe("team.resolver.ts", () => {
                 MockBackend,
                 BaseRequestOptions,
                 Angulartics2Mixpanel, Angulartics2,
-                Intercom, IntercomConfig
+                Intercom, IntercomConfig, Fullstory, FullstoryConfig
                 // ErrorService
             ]
         });

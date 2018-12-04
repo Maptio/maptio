@@ -17,6 +17,7 @@ import { uniq } from "lodash";
 import * as LogRocket from "logrocket";
 import { Intercom } from "ng-intercom";
 import { local } from "../../../../../node_modules/@types/d3-selection";
+import { Fullstory } from "ngx-fullstory";
 
 @Injectable()
 export class Auth {
@@ -42,12 +43,15 @@ export class Auth {
     private loader: LoaderService,
     private permissionService: PermissionService,
     private analytics: Angulartics2Mixpanel,
-    private intercom: Intercom
+    private intercom: Intercom,
+    public fullstory:Fullstory
   ) { }
 
   public logout(): void {
     this.analytics.eventTrack("Logout", {});
     // this.shutDownIntercom();
+    // this.intercom.shutdown();
+    this.fullstory.logout();
     this.router.navigateByUrl("/logout");
     this.user$.unsubscribe();
     localStorage.clear();
@@ -301,7 +305,12 @@ export class Auth {
                               LogRocket.identify(user.user_id, {
                                 name: user.name,
                                 email: user.email,
-                              })
+                              });
+                              this.fullstory.login(user.user_id, {
+                                displayName: user.name,
+                                email: user.email
+                                });
+
                               this.intercom.update({
                                 app_id: environment.INTERCOM_APP_ID,
                                 email: user.email,

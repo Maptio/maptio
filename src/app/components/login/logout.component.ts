@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Auth } from "../../shared/services/auth/auth.service";
+import { environment } from "../../../environment/environment";
 
 @Component({
   selector: "logout",
@@ -8,9 +9,11 @@ import { Auth } from "../../shared/services/auth/auth.service";
 
 })
 export class LogoutComponent implements OnInit {
+  SURVEY_URL: string = environment.SURVEY_URL;
+
   constructor(private auth: Auth) { }
 
   ngOnInit() {
-    this.auth.clear();
+    this.auth.logout();
   }
 }

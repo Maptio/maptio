@@ -9,66 +9,66 @@
           </div>
           <div class="d-flex flex-column justify-content-start align-items-end col-auto mx-0 pl-0 my-2">
             <div class="btn-group-vertical mb-2">
-              <a class="btn btn-light p-1 text-dark btn-control" [class.disabled]="isSearchDisabled || isMapSettingsDisabled" (click)="isSearchToggled=!isSearchToggled"
+              <button class="btn btn-light p-1 text-dark d-flex flex-column align-items-center" [class.disabled]="isSearchDisabled || isMapSettingsDisabled" (click)="isSearchToggled=!isSearchToggled"
                 data-toggle="collapse" href="#collapseSearch" role="button">
                 <i class="fa fa-search"></i>
-                <div class="icon-text-label">Search</div>
-              </a>
-              <a class="btn btn-light p-1 text-dark btn-control" [class.disabled]="isSearchDisabled || isMapSettingsDisabled" (click)="isFiltersToggled=!isFiltersToggled"
+                <span class="icon-text-label">Search</span>
+              </button>
+              <button class="btn btn-light p-1 text-dark d-flex flex-column align-items-center" [class.disabled]="isSearchDisabled || isMapSettingsDisabled" (click)="isFiltersToggled=!isFiltersToggled"
                 data-toggle="collapse" href="#collapseFilter" role="button">
                 <i class="fa fa-filter"></i>
-                <div class="icon-text-label">Filter</div>
-              </a>
-              <a class="btn btn-light p-1 text-dark btn-control" [class.disabled]="isMapSettingsDisabled" (click)="isSharingToggled=!isSharingToggled"
+                <span class="icon-text-label">Filter</span>
+              </button>
+              <button class="btn btn-light p-1 text-dark d-flex flex-column align-items-center" [class.disabled]="isMapSettingsDisabled" (click)="isSharingToggled=!isSharingToggled"
                 data-toggle="collapse" href="#collapseSlack" role="button">
                 <i class="fab fa-slack"></i>
-                <div class="icon-text-label">Share</div>
-              </a>
+                <span class="icon-text-label">Share</span>
+              </button>
 
             </div>
 
             <div class=" btn-group-vertical my-1">
-              <button class="btn btn-light circles text-dark p-1 btn-control" #rlaCircles="routerLinkActive" [routerLinkActive]="['active']"
+              <button class="btn btn-light circles text-dark p-1 d-flex flex-column align-items-center" #rlaCircles="routerLinkActive" [routerLinkActive]="['active']"
                 routerLink="/map/{{datasetId}}/{{slug}}/circles" fragment="x={{VIEWPORT_WIDTH / 2}}&y={{VIEWPORT_WIDTH / 2 -180}}&scale=1=1&{{tagsFragment}}">
-                <div class="icon-text-label" style="bottom: 2px;position: absolute;">Circles </div>
+                <span class="icon-text-label" style="bottom: 2px;position: absolute;">Circles </span>
               </button>
-              <a class="btn btn-light tree text-dark p-1 btn-control" routerLink="/map/{{datasetId}}/{{slug}}/tree" fragment="x={{VIEWPORT_WIDTH / 10}}&y={{VIEWPORT_HEIGHT / 2}}&scale=1&{{tagsFragment}}">
-                <div class="icon-text-label">Tree</div>
-              </a>
-              <button class="btn btn-light network text-dark p-1 btn-control" #rlaNetwork="routerLinkActive" [routerLinkActive]="['active']"
+              <button class="btn btn-light tree text-dark p-1 d-flex flex-column align-items-center" routerLink="/map/{{datasetId}}/{{slug}}/tree" fragment="x={{VIEWPORT_WIDTH / 10}}&y={{VIEWPORT_HEIGHT / 2}}&scale=1&{{tagsFragment}}">
+                <span class="icon-text-label">Tree</span>
+              </button>
+              <button class="btn btn-light network text-dark p-1 d-flex flex-column align-items-center" #rlaNetwork="routerLinkActive" [routerLinkActive]="['active']"
                 routerLink="/map/{{datasetId}}/{{slug}}/network" fragment="x=0&y={{-this.VIEWPORT_HEIGHT / 4}}&scale=1&{{tagsFragment}}">
-                <div class="icon-text-label">Network</div>
+                <span class="icon-text-label">Network</span>
               </button>
-              <button class="btn btn-light summary-list text-dark p-1 btn-control" [routerLinkActive]="['active']" routerLink="/map/{{datasetId}}/{{slug}}/summary">
-                <div class="icon-text-label">Directory</div>
+              <button class="btn btn-light summary-list text-dark p-1 btn-control d-flex flex-column align-items-center" [routerLinkActive]="['active']" routerLink="/map/{{datasetId}}/{{slug}}/summary">
+                <span class="icon-text-label">Directory</span>
               </button>
-              <button class="btn btn-light menu text-dark p-1 btn-control" [class.invisible]="!rlaNetwork.isActive"
+              <button class="btn btn-light menu text-dark p-1 btn-control d-flex flex-column align-items-center" [class.invisible]="!rlaNetwork.isActive"
                 (click)="toggleOptions(rlaNetwork.isActive)">
                 <i class="fas fa-angle-double-left"></i>
-                <div class="icon-text-label">Options</div>
+                <span class="icon-text-label">Options</span>
               </button>
 
 
             </div>
 
             <div class=" btn-group-vertical my-3">
-              <a class="btn btn-light text-dark p-1 btn-control" [class.disabled]="isMapSettingsDisabled" (click)="zoomOut()">
-                <i class="fa fa-minus"></i>
-                <div class="icon-text-label">Zoom out</div>
-              </a>
-              <a class="btn btn-light text-dark p-1 btn-control" [class.disabled]="isMapSettingsDisabled" (click)="zoomIn()">
-                <i class="fa fa-plus"></i>
-                <div class="icon-text-label">Zoom in</div>
-              </a>
-              <a class="btn btn-light text-dark p-1 btn-control" [class.disabled]="isMapSettingsDisabled" (click)="resetZoom()">
-                <i class="fa fa-compress" aria-hidden="true"></i>
-                <div class="icon-text-label">Zoom fit</div>
-              </a>
-              <a class="btn btn-light text-dark p-1 btn-control" [class.disabled]="isMapSettingsDisabled" (click)="isSettingToggled=!isSettingToggled"
+              <button class="btn btn-light text-dark p-1 d-flex flex-column align-items-center" [class.disabled]="isMapSettingsDisabled" (click)="zoomOut()">
+                <i class="fa fa-minus py-1"></i>
+                <span class="icon-text-label">Zoom out</span>
+              </button>
+              <button class="btn btn-light text-dark p-1 d-flex flex-column align-items-center" [class.disabled]="isMapSettingsDisabled" (click)="zoomIn()">
+                <i class="fa fa-plus py-1"></i>
+                <span class="icon-text-label">Zoom  in</span>
+              </button>
+              <button class="btn btn-light text-dark p-1 d-flex flex-column align-items-center" [class.disabled]="isMapSettingsDisabled" (click)="resetZoom()">
+                <i class="fa fa-compress py-1" aria-hidden="true"></i>
+                <span class="icon-text-label">Zoom fit</span>
+              </button>
+              <button class="btn btn-light text-dark p-1 d-flex flex-column align-items-center" [class.disabled]="isMapSettingsDisabled" (click)="isSettingToggled=!isSettingToggled"
                 data-toggle="collapse" href="#collapseSettings" role="button">
                 <i class="fas fa-sliders-h"></i>
-                <div class="icon-text-label">Settings</div>
-              </a>
+                <span class="icon-text-label">Colors  &  Text</span>
+              </button>
             </div>
           </div>
         </div>

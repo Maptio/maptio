@@ -25,6 +25,7 @@ import { Team } from "../../shared/model/team.data";
 import { WorkspaceComponentResolver } from "./workspace.resolver";
 import {Intercom , IntercomConfig} from 'ng-intercom';
 import { NgProgressModule, NgProgress } from '@ngx-progressbar/core';
+import { Fullstory, FullstoryConfig } from 'ngx-fullstory';
 
 describe("workspace.resolver.ts", () => {
 
@@ -55,7 +56,7 @@ describe("workspace.resolver.ts", () => {
                 BaseRequestOptions,
                 Angulartics2Mixpanel, Angulartics2,
                 ErrorService,
-                Intercom, IntercomConfig
+                Intercom, IntercomConfig,Fullstory,FullstoryConfig,
             ]
         });
     });

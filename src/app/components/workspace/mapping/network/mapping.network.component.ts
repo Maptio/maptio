@@ -513,10 +513,10 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     this.isAuthorityCentricMode$.next(this._isAuthorityCentricMode);
   }
 
-  public isNoNetwork:boolean;
-  public setIsNoNodes(){
-      this.isNoNetwork =true;
-      this.cd.markForCheck();
+  public isNoNetwork: boolean;
+  public setIsNoNodes() {
+    this.isNoNetwork = true;
+    this.cd.markForCheck();
   }
 
   public update(data: any, seedColor: string, isAuthorityCentricMode: boolean) {
@@ -549,8 +549,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
 
     let graph = isAuthorityCentricMode ? this.prepareAuthorityCentric(initiativesList) : this.prepareHelperCentric(initiativesList);
-console.log(initiativesList, graph);
-    if(graph.nodes.length === 0 ){
+    if (graph.nodes.length === 0) {
       setIsNoNodes();
       return;
     }
@@ -715,20 +714,20 @@ console.log(initiativesList, graph);
 
       */
 
-      /*
-    d3.selectAll(`.open-initiative`).on("click", function (d: any) {
-      let id = Number.parseFloat(d3.select(this).attr("id"));
-      showDetailsOf$.next(initiativesList.find(n => (<any>n.data).id === id).data);
-    });
-    d3.selectAll(`.open-summary`).on("click", function (d: any) {
-      let shortid = d3.select(this).attr("data-shortid");
-      let slug = d3.select(this).attr("data-slug");
-      router.navigateByUrl(
-        `/map/${datasetId}/${datasetSlug}/summary?member=${shortid}`
-      );
-    });
+    /*
+  d3.selectAll(`.open-initiative`).on("click", function (d: any) {
+    let id = Number.parseFloat(d3.select(this).attr("id"));
+    showDetailsOf$.next(initiativesList.find(n => (<any>n.data).id === id).data);
+  });
+  d3.selectAll(`.open-summary`).on("click", function (d: any) {
+    let shortid = d3.select(this).attr("data-shortid");
+    let slug = d3.select(this).attr("data-slug");
+    router.navigateByUrl(
+      `/map/${datasetId}/${datasetSlug}/summary?member=${shortid}`
+    );
+  });
 
-    */
+  */
 
     let node = g
       .select("g.nodes")
@@ -774,11 +773,11 @@ console.log(initiativesList, graph);
       // .style("font-weight", "initial")
       .attr("dx", CIRCLE_RADIUS + 3)
       .attr("dy", CIRCLE_RADIUS / 2)
-      .on("mouseover", function (d: any) { 
-        d3.select(this).style("fill", seedColor) 
+      .on("mouseover", function (d: any) {
+        d3.select(this).style("fill", seedColor)
       })
-      .on("mouseout", function (d: any) { 
-        d3.select(this).style("fill", "initial") 
+      .on("mouseout", function (d: any) {
+        d3.select(this).style("fill", "initial")
       })
       .on("click", function (d: any) {
         router.navigateByUrl(

@@ -120,7 +120,6 @@ export class MemberSingleComponent implements OnInit {
     }
 
     updateUser() {
-        console.log(this.editUserForm, this.member);
         if (this.editUserForm.valid) {
             this.isSaving = true;
             this.savingFailedMessage = null;
