@@ -1,5 +1,5 @@
 <ng-template #rt let-r="result" let-t="term">
-	<img src="{{r.picture}}" class="rounded-circle authority" alt={{r.name}} /> {{r.name}}
+	<img src="{{r.picture}}" width="32" height="32" class="rounded-circle" alt={{r.name}} /> {{r.name}}
 </ng-template>
 <ng-template #rtTag let-r="result" let-t="term">
 	<span [style.color]="r.color">
@@ -78,7 +78,7 @@
 							 [resultFormatter]="formatter" [inputFormatter]="formatter" (blur)="onBlur()" />
 							<div class="input-group-append">
 								<button *permissionsOnly="Permissions.canEditInitiativeAuthority;initiative node" class="btn btn-outline-danger remove text-danger"
-								 mwlConfirmationPopover title="Remove this authority and associated role?" placement="top" container="body" focusbutton="cancel"
+								 mwlConfirmationPopover [popoverMessage]="'Remove this authority and associated role?'" placement="top" container="body" focusbutton="cancel"
 								 appendToBody="false" (confirm)="removeAuthority()" (cancel)="cancelClicked=true"></button>
 							</div>
 
@@ -163,7 +163,7 @@
 											<div class="d-flex justify-content-start">
 												<div *permissionsOnly="Permissions.canDeleteHelper;initiative node;helper user; then thenDeleteHelperBlock; else elseDeleteHelperBlock "></div>
 												<ng-template #thenDeleteHelperBlock>
-													<span class="remove text-danger mr-1 " placement="top" container="body" mwlConfirmationPopover title="Remove this helper and associated role?"
+													<span class="remove text-danger mr-1 " placement="top" container="body" mwlConfirmationPopover [popoverMessage]="'Remove this helper and associated role?'"
 													 focusbutton="cancel" appendToBody="false" (confirm)="removeHelper(user)" (cancel)="cancelClicked = true"></span>
 												</ng-template>
 												<ng-template #elseDeleteHelperBlock>

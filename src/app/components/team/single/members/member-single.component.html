@@ -7,7 +7,7 @@
             <ng-container *permissionsOnly="Permissions.canDeleteUser;then thenDeleteBlock"></ng-container>
             <ng-template #thenDeleteBlock>
                 <button class="remove text-danger btn bg-transparent" [class.d-none]="isOnlyMember" aria-hidden="true" mwlConfirmationPopover
-                    title="This cannot be undone ! Are you sure you want to remove {{member.name}} from this organization?" placement="right"
+                    [popoverMessage]="'This cannot be undone ! Are you sure you want to remove this person from this organization?'" placement="right"
                     focusButton="cancel" appendToBody="true" (confirm)="deleteMember()" (cancel)="cancelClicked = true">
                 </button>
             </ng-template>

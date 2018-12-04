@@ -49,6 +49,7 @@ export class TeamMembersComponent implements OnInit {
     public resentMessage: string;
     public isCreatingUser: boolean;
     public invitableUsersCount: number;
+    public inviteAllUsersMessage: string;
 
     public createdUser: User;
     public inviteForm: FormGroup;
@@ -181,6 +182,8 @@ export class TeamMembersComponent implements OnInit {
             })
             .then((members) => {
                 this.invitableUsersCount = members.filter(m => m.isActivationPending).length;
+                this.inviteAllUsersMessage = `Are you sure you want to send an invitation email to these 
+    ${this.invitableUsersCount} people?`;
                 return sortBy(members, m => m.name)
             })
             .then(members => {

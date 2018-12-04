@@ -100,7 +100,7 @@
 
                 </div>
                 <div class="col-2 ml-auto">
-                    <button class="btn btn-outline-secondary pull-right" mwlConfirmationPopover title="Are you sure you want to send an invitation email to these {{invitableUsersCount}} people?"
+                    <button class="btn btn-outline-secondary pull-right" mwlConfirmationPopover [popoverMessage]="inviteAllUsersMessage"
                         placement="top" focusButton="cancel" appendToBody="true" (confirm)="inviteAll()" (cancel)="cancelClicked = true">Invite/resend all</button>
 
                 </div>

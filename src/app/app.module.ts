@@ -138,7 +138,7 @@ export const cloudinaryLib = {
         ResponsiveModule,
         ConfirmationPopoverModule.forRoot({
             confirmButtonType: "danger",
-            cancelButtonType: "outline-secondary"
+            cancelButtonType: "link"
         }),
         FullstoryModule.forRoot({
             fsOrg: environment.FULLSTORY_APP_ID,

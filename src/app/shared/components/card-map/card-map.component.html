@@ -68,7 +68,7 @@
                 <ng-container *permissionsOnly="Permissions.canEditMapName">
 
                     <button *ngIf="isEditAvailable" class="btn btn-link btn-sm" [class.d-none]="isEditing" (click)="isEditing=true">
-                        <i class="fas fa-pen"></i> Change name
+                        <i class="fas fa-pen"></i> Edit name
                     </button>
                     <button *ngIf="isEditAvailable" class="btn btn-link btn-sm" [class.d-none]="isEditing" (click)="duplicate()">
                         <i class="fas fa-copy"></i>

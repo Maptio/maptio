@@ -80,34 +80,30 @@ export class HeaderComponent implements OnInit {
 
 
     ngOnInit() {
-        this.userSubscription = EmitterService.get("headerUser").subscribe((user: User) => {
-            this.user = user;
-
-            this.datasetFactory.get(this.user.datasets, true)
-                .then(datasets => {
-                    return datasets.map(d => {
-                        return {
-                            datasetId: d.datasetId,
-                            initiative: d.initiative,
-                            name: d.initiative.name,
-                            team_id: (d.initiative && d.initiative.team_id) ? d.initiative.team_id : undefined,
-                        }
-                    }
-                    )
-                }, (r) => { return Promise.reject(r) })
-                .then(datasets => sortBy(datasets, d => d.name))
-                .then(datasets => { this.datasets = datasets })
-                .catch(() => { return [] })
-
-
-            this.teamFactory.get(this.user.teams)
-                .then(teams => sortBy(teams, t => t.name), (r) => { return Promise.reject(r) })
-                .then(teams => { this.teams = teams; return teams })
-                .catch(() => { return [] })
-
-            this.cd.markForCheck();
-        },
-            (error: any) => { this.errorService.handleError(error) });
+        this.userSubscription = EmitterService.get("headerUser")
+            .mergeMap((user: User) => {
+                return Observable.forkJoin(this.datasetFactory.get(user.datasets, true), this.teamFactory.get(user.teams), Promise.resolve(user))
+            })
+            .map(([datasets, teams, user]: [DataSet[], Team[], User]) => {
+                return [datasets.map(d => {
+                    d.team = teams.find(t => d.initiative.team_id === t.team_id);
+                    return d
+                }), teams, user]
+            })
+            .map(([datasets, teams, user]: [DataSet[], Team[], User]) => {
+                return {
+                    datasets: sortBy(datasets, d => d.initiative.name),
+                    teams: sortBy(teams, t => t.name),
+                    user: user
+                }
+            })
+            .subscribe((data: { datasets: DataSet[], teams: Team[], user: User }) => {
+                this.user = data.user;
+                this.datasets = data.datasets;
+                this.teams = data.teams;
+                this.cd.markForCheck();
+            },
+                (error: any) => { this.errorService.handleError(error) });
     }
 
     onNewMap(dataset: DataSet) {
@@ -121,7 +117,7 @@ export class HeaderComponent implements OnInit {
         return this.router.url.startsWith("/login") || this.router.url.startsWith("/signup") || this.router.url.startsWith("/forgot")
     }
 
-    isMap(){
+    isMap() {
         return this.router.url.startsWith("map/")
     }
 

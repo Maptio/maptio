@@ -47,7 +47,7 @@
           <div class="col-3">
             <common-color-picker [color]="tag.color" [isMinimal]="true" (change)="saveColor(tag, $event)"></common-color-picker>
           </div>
-          <button placement="top" container="body" mwlConfirmationPopover title="This cannot be undone! The tag {{tag.name}} will be removed from all circles too. Confirm?"
+          <button placement="top" container="body" mwlConfirmationPopover popoverMessage="This cannot be undone! This tag will be removed from all circles."
           focusbutton="cancel" appendToBody="false" (confirm)="removeTag(tag)" (cancel)="cancelClicked = true" class="btn btn-outline-danger col-3" >Remove</button>
 
         </div>

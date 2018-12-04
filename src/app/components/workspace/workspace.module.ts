@@ -96,7 +96,7 @@ export function markdownServiceFactory(http: Http) {
         }),
         ConfirmationPopoverModule.forRoot({
             confirmButtonType: "danger",
-            cancelButtonType: "secondary"
+            cancelButtonType: "link"
         }),
         SharedModule
     ],
