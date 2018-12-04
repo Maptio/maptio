@@ -5,6 +5,7 @@ import { saveAs } from "file-saver"
 import { DatasetFactory } from '../../services/dataset.factory';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { cloneDeep } from "lodash"
+import { Permissions } from '../../model/permission.data';
 
 @Component({
     selector: 'common-card-map',
@@ -26,6 +27,7 @@ export class CardMapComponent implements OnInit {
     isUpdateFailed: Boolean;
     form: FormGroup;
     isEditAvailable: Boolean;
+    Permissions = Permissions;
 
     constructor(private exportService: ExportService, private datasetFactory: DatasetFactory, private cd: ChangeDetectorRef) { }
 

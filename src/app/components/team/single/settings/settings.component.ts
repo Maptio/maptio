@@ -1,8 +1,8 @@
 import { environment } from './../../../../../environment/environment';
 import { DataSet } from './../../../../shared/model/dataset.data';
 import { Permissions } from "./../../../../shared/model/permission.data";
-import { ActivatedRoute } from "@angular/router";
-import { Component, OnInit, Input, ChangeDetectorRef, TemplateRef, Renderer2 } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Component, OnInit, Input, ChangeDetectorRef, TemplateRef, Renderer2, Output, EventEmitter } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Team } from "../../../../shared/model/team.data";
 import { TeamFactory } from "../../../../shared/services/team.factory";
@@ -16,6 +16,7 @@ import { Intercom } from 'ng-intercom';
 export class TeamSettingsComponent implements OnInit {
 
     @Input() team: Team;
+    @Output("changeName") changeName: EventEmitter<string> = new EventEmitter<string>();
 
     public teamSettingsForm: FormGroup;
     public teamName: string;
@@ -28,7 +29,7 @@ export class TeamSettingsComponent implements OnInit {
     CanEditTeam = Permissions.canEditTeam;
 
     KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
-    constructor(private cd: ChangeDetectorRef, private teamFactory: TeamFactory,
+    constructor(private cd: ChangeDetectorRef, private teamFactory: TeamFactory, private router: Router,
         private route: ActivatedRoute, private renderer: Renderer2, private intercom: Intercom) {
         this.teamSettingsForm = new FormGroup({
             "name": new FormControl(this.teamName, {
@@ -90,7 +91,15 @@ export class TeamSettingsComponent implements OnInit {
 
                     this.cd.markForCheck();
                 })
-                .catch(err => { this.isTeamSettingFailed = true; this.cd.markForCheck(); })
+                .then(() => {
+                    this.router.navigate(["teams", this.team.team_id, this.team.getSlug(), "settings"], { queryParams: { reload: true } })
+                    // this.changeName.emit(this.teamSettingsForm.controls["name"].value);
+                })
+                .catch(err => {
+                    console.error(err);
+                    this.isTeamSettingFailed = true;
+                    this.cd.markForCheck();
+                })
         }
     }
 }

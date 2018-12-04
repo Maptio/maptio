@@ -61,18 +61,22 @@
         <div class="card-footer border-top-0">
             <div class="small d-flex justify-content-between align-items-center">
                 <button *ngIf="isExportAvailable" class="btn btn-sm btn-link cursor-pointer " (click)="export(dataset)">
-                    <i class="fa fa-file-excel" aria-hidden="true"></i>
+                    <i class="fas fa-table" aria-hidden="true"></i>
                     <span *ngIf="!isExporting">Export</span>
                     <span class="text-muted" *ngIf="isExporting">Exporting</span>
                 </button>
-                <button *ngIf="isEditAvailable" class="btn btn-link btn-sm" [class.d-none]="isEditing" (click)="isEditing=true" >
-                    <i class="fas fa-pen"></i> Change name
-                </button>
-                <button *ngIf="isEditAvailable" class="btn btn-link btn-sm" [class.d-none]="isEditing" (click)="duplicate()" >
-                    <i class="fas fa-copy"></i>
-                    <span *ngIf="!isCopying">Copy</span>
-                    <span class="text-muted" *ngIf="isCopying">Copying</span>
-                </button>
+                <ng-container *permissionsOnly="Permissions.canEditMapName">
+
+                    <button *ngIf="isEditAvailable" class="btn btn-link btn-sm" [class.d-none]="isEditing" (click)="isEditing=true">
+                        <i class="fas fa-pen"></i> Change name
+                    </button>
+                    <button *ngIf="isEditAvailable" class="btn btn-link btn-sm" [class.d-none]="isEditing" (click)="duplicate()">
+                        <i class="fas fa-copy"></i>
+                        <span *ngIf="!isCopying">Copy</span>
+                        <span class="text-muted" *ngIf="isCopying">Copying</span>
+                    </button>
+                </ng-container>
+
 
             </div>
         </div>

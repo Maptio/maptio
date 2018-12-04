@@ -3,19 +3,12 @@
         <a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
     </span>
 </ng-template>
-<div class="alert alert-success alert-dismissible fade show" role="alert" *ngIf="isTeamSettingSaved">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-    Successfully updated organization
-    <strong>{{teamName}}</strong> settings
-</div>
-<div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="isTeamSettingFailed">
+<!-- <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="isTeamSettingFailed">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
     Cannot update settings.
-</div>
+</div> -->
 
 <form class="form-group" [formGroup]="teamSettingsForm" (submit)="saveTeamSettings()">
     <fieldset *permissionsOnly="Permissions.canEditTeam;authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
@@ -39,7 +32,7 @@
                 </small>
             </legend>
         </ng-template>
-        <div class="form-group">
+        <div class="form-group w-50">
             <label class="col-form-label" for="inputAuthorityName">Authority</label>
             <div class="">
                 <input type="text" class="mr-2 col-xl-4 col-6 form-control form-control-warning " [(ngModel)]="teamAuthority" formControlName="authority"
@@ -62,6 +55,11 @@
         </div>
 
         <button type="submit" class="btn btn-success">Save</button>
+        <span class="text-success mx-1 flash small" *ngIf="isTeamSettingSaved"  [class.show]="isTeamSettingSaved">
+            <i class="fas fa-save"></i>Saved!
+        </span>
+        <span class="text-danger mx-1 small" *ngIf="isTeamSettingFailed">Error while saving settings</span>
+
 
     </fieldset>
 </form>
