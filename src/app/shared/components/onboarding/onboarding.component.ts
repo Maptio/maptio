@@ -46,6 +46,7 @@ export class OnboardingComponent implements OnInit {
     @Input("team") team: Team;
     @Input("dataset") dataset: DataSet;
     @Input("isCompleted") isCompleted: boolean;
+    @Input("escape") escape:boolean;
 
 
     constructor(public activeModal: NgbActiveModal, private cd: ChangeDetectorRef,

@@ -251,10 +251,7 @@
             <div class="progress w-100" [style.height.%]="100" >
                 <div class="progress-bar bg-gray" role="progressbar" [style.width.%]="getProgress()">{{getAbsoluteProgress()}}</div>
             </div>
-            <!-- <span class="text-muted small">This only takes a few minutes</span> -->
-
         </div>
-
     </div>
     <div>
         <button type="button" class="btn btn-link" *ngIf="isSkippable()" (click)="nextStep()">Skip for now</button>

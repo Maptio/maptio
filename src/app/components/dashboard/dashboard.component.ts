@@ -23,6 +23,7 @@ export class DashboardComponent {
 
     areTeamsCreated: boolean;
     areMapsCreated: boolean;
+    mapsCount:number;
     isOnboarding: boolean;
     filterMaps$: Subject<string>
     filteredMaps: DataSet[];
@@ -41,6 +42,7 @@ export class DashboardComponent {
         console.log("ngONChanges", changes)
         if (changes.datasets && changes.datasets.currentValue) {
             this._datasets = changes.datasets.currentValue;
+            this.mapsCount = this._datasets.length;
             this.filterMaps$.next('');
             this.cd.markForCheck();
         }
