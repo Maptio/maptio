@@ -1,6 +1,6 @@
 <div class="w-100 overflow">
     <div class="card-columns ">
-        <div class="card bg-light border-0" *ngIf="teams">
+        <div class="card bg-gray text-white border-0" *ngIf="teams">
             <div class="card-body ">
                 <common-create-map [teams]="teams" [isRedirect]="true" (created)="onNewMap($event)"></common-create-map>
             </div>
@@ -10,7 +10,7 @@
 
         <ng-template #canEditMapThen>
             <div *ngFor="let dataset of datasets">
-                <common-card-map [dataset]="dataset" [isExportAvailable]="true" [isTeamDisplayed]="false" [isEdit]="true"></common-card-map>
+                <common-card-map [dataset]="dataset" [isExportAvailable]="true" [isTeamDisplayed]="false" [isEdit]="true" (archived)="onArchive($event)" (restored)="onRestore($event)"></common-card-map>
             </div>
         </ng-template>
 

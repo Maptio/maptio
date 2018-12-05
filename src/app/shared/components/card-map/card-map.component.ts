@@ -20,10 +20,14 @@ export class CardMapComponent implements OnInit {
     @Input("isEdit") isEdit: Boolean;
 
     @Output("copied") copied: EventEmitter<DataSet> = new EventEmitter<DataSet>();
+    @Output("archived") archived: EventEmitter<DataSet> = new EventEmitter<DataSet>();
+    @Output("restored") restored: EventEmitter<DataSet> = new EventEmitter<DataSet>();
 
     isExporting: Boolean;
     isEditing: Boolean;
     isCopying: Boolean;
+    isRestoring:Boolean;
+    isArchiving: Boolean;
     isUpdateFailed: Boolean;
     form: FormGroup;
     isEditAvailable: Boolean;
@@ -100,5 +104,37 @@ export class CardMapComponent implements OnInit {
                 this.cd.markForCheck();
             })
 
+    }
+
+    archive() {
+        if (this.isArchiving) return;
+
+        this.isArchiving = true;
+        this.cd.markForCheck();
+        this.dataset.isArchived = true;
+        return this.datasetFactory.upsert(this.dataset)
+            .then(result => {
+                if (result) this.archived.emit(this.dataset)
+            })
+            .then(() => {
+                this.isArchiving = false;
+                this.cd.markForCheck();
+            })
+    }
+
+    restore(){
+        if (this.isRestoring) return;
+
+        this.isRestoring = true;
+        this.cd.markForCheck();
+        this.dataset.isArchived = false;
+        return this.datasetFactory.upsert(this.dataset)
+            .then(result => {
+                if (result) this.restored.emit(this.dataset)
+            })
+            .then(() => {
+                this.isRestoring = false;
+                this.cd.markForCheck();
+            })
     }
 }

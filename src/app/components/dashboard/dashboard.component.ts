@@ -24,6 +24,7 @@ export class DashboardComponent {
     areTeamsCreated: boolean;
     areMapsCreated: boolean;
     mapsCount:number;
+    teamsCount:number;
     isOnboarding: boolean;
     filterMaps$: Subject<string>
     filteredMaps: DataSet[];
@@ -48,7 +49,8 @@ export class DashboardComponent {
         }
 
         if (changes.teams && changes.teams.currentValue) {
-            this._teams = changes.teams.currentValue
+            this._teams = changes.teams.currentValue;
+            this.teamsCount = this._teams.length;
         }
 
         this.isOnboarding = isEmpty(this._teams) || (this._teams.length === 1 && (this._teams[0] && this._teams[0].isTemporary));
@@ -93,8 +95,16 @@ export class DashboardComponent {
     }
 
     onCopy(dataset:DataSet){
-        console.log("onCopy", dataset)
-        this.auth.getUser().toPromise().then(()=> { console.log("here") ; this.cd.markForCheck()} );
+        this.auth.getUser().toPromise().then(()=> { this.cd.markForCheck()} );
+    }
+
+    onArchive(dataset:DataSet){
+        let index = this._datasets.findIndex(d => d.datasetId ===dataset.datasetId)
+        this._datasets.splice(index, 1);
+        this.onKeyDown('')
+        this.cd.markForCheck();
+        this.auth.getUser().toPromise().then(()=> {  this.cd.markForCheck()} );
+   
     }
 
     getExampleMap(): Promise<DataSet> {

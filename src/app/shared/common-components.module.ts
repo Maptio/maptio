@@ -17,6 +17,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { IntercomService } from "./services/team/intercom.service";
 import { AddMemberComponent } from "./components/onboarding/add-member.component";
 import { AddTerminologyComponent } from "./components/onboarding/add-terminology.component";
+import { ConfirmationPopoverModule } from "../../../node_modules/angular-confirmation-popover";
 
 
 
@@ -29,7 +30,7 @@ import { AddTerminologyComponent } from "./components/onboarding/add-terminology
         RouterModule,
         ColorPickerModule,
         SharedModule,
-
+        ConfirmationPopoverModule,
         NgbModule.forRoot(),
     ],
     declarations: [

@@ -85,7 +85,7 @@ export class HeaderComponent implements OnInit {
                 return Observable.forkJoin(this.datasetFactory.get(user.datasets, true), this.teamFactory.get(user.teams), Promise.resolve(user))
             })
             .map(([datasets, teams, user]: [DataSet[], Team[], User]) => {
-                return [datasets.map(d => {
+                return [datasets.filter(d=> !d.isArchived).map(d => {
                     d.team = teams.find(t => d.initiative.team_id === t.team_id);
                     return d
                 }), teams, user]

@@ -1,11 +1,12 @@
 import { Team } from "./../../../../shared/model/team.data";
 import { DataSet } from "./../../../../shared/model/dataset.data";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute , Router} from "@angular/router";
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { Auth } from "../../../../shared/services/auth/auth.service";
 import { User } from "../../../../shared/model/user.data";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { Permissions } from "../../../../shared/model/permission.data";
+import {sortBy} from "lodash";
 
 @Component({
     selector: "team-single-maps",
@@ -19,14 +20,15 @@ export class TeamMapsComponent implements OnInit {
     public user:User;
     Permissions=Permissions;
 
-    constructor(private route: ActivatedRoute, private auth: Auth, private cd:ChangeDetectorRef,private analytics: Angulartics2Mixpanel) {
+    constructor(private route: ActivatedRoute, private auth: Auth, private cd:ChangeDetectorRef,private analytics: Angulartics2Mixpanel,
+    private router:Router) {
 
     }
     ngOnInit() {
         this.route.parent.data
             .combineLatest(this.auth.getUser())
             .subscribe(([data, user] : [{ assets: { team: Team, datasets: DataSet[] } }, User]) => {
-                this.datasets = data.assets.datasets;
+                this.datasets = sortBy(data.assets.datasets, d => !!d.isArchived);
                 this.teams = [data.assets.team];
                 this.user = user;
                 this.cd.markForCheck();
@@ -39,7 +41,13 @@ export class TeamMapsComponent implements OnInit {
         this.ngOnInit();
     }
 
-    archiveMap(dataset: DataSet) {
+    onArchive(dataset: DataSet) {
+        this.ngOnInit();
+    }
+
+    onRestore(dataset: DataSet) {
+        this.ngOnInit();
+
     }
 
 }

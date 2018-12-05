@@ -39,7 +39,7 @@ export class HomeComponent {
             })
             .map(([datasets, teams, user]: [DataSet[], Team[], User]) => {
                 return [
-                    datasets.map(d => {
+                    datasets.filter(d => !d.isArchived).map(d => {
                         let i = 0
                         d.initiative.traverse((n) => { i++ })
                         d.depth = i;
