@@ -2,7 +2,7 @@ import { User } from './../../../shared/model/user.data';
 import { Helper } from './../../../shared/model/helper.data';
 import { environment } from './../../../../environment/environment';
 import { Team } from "./../../../shared/model/team.data";
-import { Permissions } from "./../../../shared/model/permission.data";
+import { Permissions, UserRole } from "./../../../shared/model/permission.data";
 import { InitiativeComponent } from "./../initiative/initiative.component";
 import { Initiative } from "./../../../shared/model/initiative.data";
 import { ActivatedRouteSnapshot, ActivatedRoute } from "@angular/router";
@@ -93,10 +93,12 @@ export class InitiativeNodeComponent {
         newNode.children = []
         newNode.team_id = initiative.team_id;
         newNode.hasFocus = true;
-        let helper = <Helper>this.user;
-        helper.roles = [];
-        helper.hasAuthorityPrivileges = true;
-        newNode.helpers.push(helper)
+        if(this.user.userRole===UserRole.Standard){
+            let helper = <Helper>this.user;
+            helper.roles = [];
+            helper.hasAuthorityPrivileges = true;
+            newNode.helpers.push(helper)
+        }
         setTimeout(() => { newNode.hasFocus = false });
         treeNode.data.children = treeNode.data.children || [];
         treeNode.data.children.unshift(newNode);
