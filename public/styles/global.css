@@ -4,7 +4,7 @@
   --maptio-white: #fff;
   --maptio-red:#dc3545;
   --maptio-green:rgb(40, 167, 69);
-  --maptio-black: #043050;
+  --maptio-black: #052841;
 }
 
 body{
@@ -429,6 +429,10 @@ transition: max-height .25s ease-in-out;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
   perspective: 1000px;
+}
+
+.modal-backdrop.show {
+  opacity: .8 !important;
 }
 
 @keyframes shake {

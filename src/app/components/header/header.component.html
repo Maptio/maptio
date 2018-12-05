@@ -38,7 +38,7 @@
                     <ng-container *ngFor="let dataset of datasets">
                         <ng-container *ngIf="dataset.initiative">
                             <a class="dropdown-item" routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/circles">
-
+                                
                                 {{dataset?.initiative.name}}
                             </a>
                         </ng-container>
@@ -67,8 +67,12 @@
                     <a class="dropdown-item" routerLink="{{user?.shortid}}/{{user?.getSlug() || 'profile'}}">Profile</a>
                     <div class="dropdown-divider"></div>
                     <h6 class="dropdown-header">Organizations</h6>
+                    <ng-container *ngIf="teams?.length > 1">
+                        <a class="dropdown-item" *ngFor="let team of teams  | slice:1:5" routerLink="/teams/{{team.team_id}}/{{team?.getSlug()}}">{{team?.name}}</a>
 
-                    <a class="dropdown-item" *ngIf="teams?.length > 1" routerLink="/teams">All</a>
+                        <a class="dropdown-item" routerLink="/teams">More ...</a>
+
+                    </ng-container>
                     <a class="dropdown-item" *ngIf="teams?.length === 1" routerLink="/teams/{{teams[0]?.team_id}}/{{teams[0]?.getSlug()}}">{{teams[0]?.name}}</a>
 
                     <div class="dropdown-divider  d-block d-xl-none"></div>

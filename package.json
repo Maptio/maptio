@@ -113,6 +113,7 @@
     "path": "^0.12.7",
     "phantomjs-prebuilt": "^2.1.7",
     "popper.js": "^1.14.4",
+    "random-words": "^1.1.0",
     "randomstring": "^1.1.5",
     "raw-loader": "^0.5.1",
     "request": "^2.85.0",

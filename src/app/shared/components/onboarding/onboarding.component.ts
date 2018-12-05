@@ -7,6 +7,7 @@ import { User } from '../../model/user.data';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TeamService } from '../../services/team/team.service';
 import { Router } from '@angular/router';
+import { MapService } from '../../services/map/map.service';
 
 enum Steps {
     Welcome,
@@ -46,11 +47,11 @@ export class OnboardingComponent implements OnInit {
     @Input("team") team: Team;
     @Input("dataset") dataset: DataSet;
     @Input("isCompleted") isCompleted: boolean;
-    @Input("escape") escape:boolean;
+    @Input("escape") escape: boolean;
 
 
     constructor(public activeModal: NgbActiveModal, private cd: ChangeDetectorRef,
-        private teamService: TeamService, private router: Router) { }
+        private teamService: TeamService, private mapService: MapService, private router: Router) { }
 
     ngOnInit() {
 
@@ -62,15 +63,19 @@ export class OnboardingComponent implements OnInit {
 
 
     nextStep() {
-        if (this.currentStep === Steps.Ending) {
-            console.log("here", `/map/${this.dataset.datasetId}/${this.dataset.initiative.getSlug()}/circles`)
-            // this.router.navigateByUrl(`/map/${this.dataset.datasetId}/${this.dataset.initiative.getSlug()}/circles&reload=true`, {})
+        // if (this.currentStep === Steps.AddMember) {
+        //     // assign random roles to random members
+        //     this.mapService.randomize(this.dataset, this.members)
+        //         .then(dataset => {
+        //             this.dataset = dataset;
+        //         })
+        // }
 
+        if (this.currentStep === Steps.Ending) {
             this.router.navigate(
                 ["map", this.dataset.datasetId, this.dataset.initiative.getSlug(), "circles"],
                 { queryParams: { reload: true, color: this.selectedColor } })
             this.activeModal.close();
-
         }
         this.currentStep += 1;
         this.cd.markForCheck();
@@ -82,7 +87,7 @@ export class OnboardingComponent implements OnInit {
     }
 
     getAbsoluteProgress() {
-        return `${6 - (this.currentStep +1)} steps left`;
+        return `${6 - (this.currentStep + 1)} steps left`;
     }
 
     isReady() {
@@ -148,6 +153,8 @@ export class OnboardingComponent implements OnInit {
     onAdded(event: { team: Team, user: User }) {
         this.members.push(event.user);
         this.cd.markForCheck();
+
+        this.mapService.assign
     }
 
     getMemberIndexes() {

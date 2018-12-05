@@ -26,7 +26,7 @@
             <div>
                 <div class="d-flex flex-column justify-content-start align-items-start">
                     <div class="card-columns w-100">
-                        <div class="d-block card bg-light border-0">
+                    <div class="d-block card bg-gray text-white border-0">
                             <div class="card-body">
                                 <common-create-map [teams]="teams" [isRedirect]="true"  (created)="onNewMap($event)"></common-create-map>
 
@@ -34,7 +34,7 @@
                         </div>
                         <ng-container *ngFor="let dataset of filteredMaps">
                             <ng-container *ngIf="dataset.initiative.name">
-                                <common-card-map [dataset]="dataset" [isExportAvailable]="true" [isEdit]="true" [isTeamDisplayed]="true" (copied)="onCopy($event)"></common-card-map>
+                                <common-card-map [dataset]="dataset" [isExportAvailable]="true" [isEdit]="true" [isTeamDisplayed]="true" (copied)="onCopy($event)" (archived)="onArchive($event)"></common-card-map>
                             </ng-container>
                         </ng-container>
                     </div>

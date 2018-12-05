@@ -248,7 +248,7 @@
 <div class="modal-footer d-flex justify-content-between align-items-center" [class.border-top-0]="!nextActionName()">
     <div class="d-flex justify-content-start col-8 h-100">
         <div class="d-flex flex-column justify-content-end align-items-end w-100" *ngIf="getProgress()!=='100'">
-            <div class="progress w-100" [style.height.%]="100" >
+            <div class="progress w-100" [style.height.px]="20">
                 <div class="progress-bar bg-gray" role="progressbar" [style.width.%]="getProgress()">{{getAbsoluteProgress()}}</div>
             </div>
         </div>
@@ -272,9 +272,13 @@
     <h4 class="mt-5">
         With Maptio, you will :
         <ul class="ml-2 my-3">
-            <li class="h6 py-2">Communicate your organization structure simply and visually</li>
-            <li class="h6 py-2">Onboard new people to your organisation quickly</li>
-            <li class="h6 py-2">Build greater transparency and accountability over everyone’s roles</li>
+            <li class="h6 py-2">Communicate your organization structure
+                <b>simply and visually</b>
+            </li>
+            <li class="h6 py-2">
+                <b>Onboard new people</b> to your organisation quickly</li>
+            <li class="h6 py-2">Build
+                <b>greater transparency and accountability</b> over everyone’s roles</li>
 
         </ul>
     </h4>
@@ -314,7 +318,6 @@
         <div class="my-1 d-flex justify-content-start align-items-center " *ngFor="let member of members; let i=index">
             <onboarding-add-member [member]="member"></onboarding-add-member>
         </div>
-        <!-- <hr> -->
         <div class="my-3 " *ngFor="let i of getMemberIndexes()">
             <div class="d-flex justify-content-start align-items-center">
                 <onboarding-add-member [team]="team" (added)="onAdded($event)"></onboarding-add-member>
@@ -366,8 +369,10 @@
     <h4 class="mt-4">
         An example map is ready for you, take some time to:
         <ul class="ml-2 my-3">
-            <li class="h6 py-2">Explore the <b>circles, tree and network views</b> to get a different perspective</li>
-            <li class="h6 py-2">Open the <b>directory</b> and see a person's list of responsabilities at a glance</li>
+            <li class="h6 py-2">Explore the
+                <b>circles, tree and network views</b> to get a different perspective</li>
+            <li class="h6 py-2">Open the
+                <b>directory</b> and see a person's list of responsabilities at a glance</li>
             <li class="h6 py-2">Create your own map, import your team members and start mapping</li>
 
         </ul>
