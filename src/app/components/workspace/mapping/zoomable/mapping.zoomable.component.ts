@@ -939,6 +939,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
       let k = diameter / v[2];
       view = v;
 
+      // TODO: reset global zoomIdentity or alter zoomTo position based on current zoomIdentity
+      g
+        .transition()
+        .attr("transform", `translate(${translateX}, ${translateY}) scale(1)`);
+
       node
         .transition()
         .duration((d: any) => d.children ? TRANSITION_DURATION / 5 : TRANSITION_DURATION / 5)
