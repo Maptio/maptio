@@ -69,6 +69,10 @@ export class AuthorizeComponent implements OnInit {
                     email: user.email,
                     user_id: user.user_id,
                     name: user.name,
+                    avatar: {
+                        type: "avatar",
+                        image_url: user.picture,
+                    },
                     is_invited: user.isInvitationSent
                 });
             })

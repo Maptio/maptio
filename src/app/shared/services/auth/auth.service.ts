@@ -318,8 +318,11 @@ export class Auth {
                                 app_id: environment.INTERCOM_APP_ID,
                                 email: user.email,
                                 name: user.name,
-
-                                  is_invited: user.isInvitationSent,
+                                avatar: {
+                                  type: "avatar",
+                                  image_url: user.picture,
+                                },
+                                is_invited: user.isInvitationSent,
                                 user_id: user.user_id,
                               });
 

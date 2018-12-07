@@ -296,7 +296,7 @@
 </ng-template>
 
 <ng-template #createteam>
-    <h1>Choose a name for your organization</h1>
+    <h1>What should we call your team?</h1>
     <div class="my-5">
         <div class="form-row w-100 d-flex justify-content-center">
             <input #teamName type="text" class="form-control col-6">
@@ -308,10 +308,9 @@
 
 
 <ng-template #addmember>
-    <h1>Add a few people</h1>
+    <h1>Who is in {{teamName}}?</h1>
     <h4 class="text-muted">
-        Add members to organization
-        <b>{{teamName}}</b> to bring your maps to life. You can invite them to view and edit the maps later.
+        Add members to your organization to bring your maps to life. You can invite them to view and edit the maps later.
     </h4>
 
     <div class="mt-5 ">
@@ -330,7 +329,7 @@
     <p class="text-muted mt-5">
         <span>
             <i class="fas fa-info-circle"></i>
-            A great place to start is adding the 3 people who have the most responsibility in your organization.
+            A great place to start is adding the 3 people who have the most responsibility in <b>{{teamName}}</b>.
         </span>
     </p>
 
