@@ -153,7 +153,7 @@ export class Auth {
       headers.set("Authorization", "Bearer " + token);
 
       return this.http
-        .get("https://circlemapping.auth0.com/api/v2/users/" + userId, {
+        .get(`https://${environment.AUTH0_DOMAIN}/api/v2/users/` + userId, {
           headers: headers
         })
         .map(responseData => {
