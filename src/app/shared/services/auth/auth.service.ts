@@ -44,7 +44,7 @@ export class Auth {
     private permissionService: PermissionService,
     private analytics: Angulartics2Mixpanel,
     private intercom: Intercom,
-    public fullstory:Fullstory
+    public fullstory: Fullstory
   ) { }
 
   public logout(): void {
@@ -60,16 +60,16 @@ export class Auth {
   public clear() {
     let persist = new Map<string, string>();
     for (let i = 0; i < localStorage.length; i++) {
-      if(localStorage.key(i).indexOf("map_settings")>-1){
+      if (localStorage.key(i).indexOf("map_settings") > -1) {
         persist.set(localStorage.key(i), localStorage.getItem(localStorage.key(i)))
       }
-      if(localStorage.key(i).indexOf("redirectUrl")>-1){
+      if (localStorage.key(i).indexOf("redirectUrl") > -1) {
         persist.set(localStorage.key(i), localStorage.getItem(localStorage.key(i)))
       }
     }
-    
+
     localStorage.clear();
-    persist.forEach((value:string, key:string)=>{
+    persist.forEach((value: string, key: string) => {
       localStorage.setItem(key, value)
     })
 
@@ -309,11 +309,14 @@ export class Auth {
                               this.fullstory.login(user.user_id, {
                                 displayName: user.name,
                                 email: user.email
-                                });
-
+                              });
+                              console.log(user)
                               this.intercom.update({
                                 app_id: environment.INTERCOM_APP_ID,
                                 email: user.email,
+                                name: user.name,
+
+                                  is_invited: user.isInvitationSent,
                                 user_id: user.user_id,
                               });
 
