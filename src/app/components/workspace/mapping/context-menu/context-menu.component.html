@@ -50,8 +50,8 @@
 
                             </div>
                             <div *ngIf="isRemovingNode" class="d-flex justify-content-start my-2 mx-0">
-                                <button class="btn btn-danger btn-sm mx-1" (click)="removeNode(initiative)">Confirm</button>
-                                <button class="btn btn-outline-secondary btn-sm" (click)="isRemovingNode=false">Cancel</button>
+                                    <button class="btn btn-link btn-sm" (click)="isRemovingNode=false">Cancel</button>
+                                    <button class="btn btn-danger btn-sm mx-1" (click)="removeNode(initiative)">Confirm</button>
                             </div>
                         </div>
                     </div>
