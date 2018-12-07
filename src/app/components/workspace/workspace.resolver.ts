@@ -10,11 +10,12 @@ import { Team } from "../../shared/model/team.data";
 import { UserFactory } from "../../shared/services/user.factory";
 import { SelectableTag } from "../../shared/model/tag.data";
 import { Observable } from "rxjs/Observable";
+import { UserService } from "../../shared/services/user/user.service";
 
 @Injectable()
 export class WorkspaceComponentResolver implements Resolve<{ dataset: DataSet, team: Team, members: User[], user: User }> {
 
-    constructor(private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private userFactory: UserFactory, private auth: Auth) {
+    constructor(private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private userService:UserService,  private auth: Auth) {
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ dataset: DataSet, team: Team, members: User[], user: User }> {
@@ -36,7 +37,7 @@ export class WorkspaceComponentResolver implements Resolve<{ dataset: DataSet, t
                         })
                 })
                 .then(dt => {
-                    return this.userFactory.getUsers(dt.team.members.map((m: User) => m.user_id))
+                    return this.userService.getUsersInfo(dt.team.members)
                         .then(members => compact(members))
                         .then(members => sortBy(members, m => m.name))
                         .then(members => { return { dataset: dt.dataset, team: dt.team, members: sortBy(members, m => m.name) } })
