@@ -40,8 +40,8 @@ export class WorkspaceComponentResolver implements Resolve<{ dataset: DataSet, t
                     return Promise.all([this.userService.getUsersInfo(dt.team.members), this.userFactory.getUsers(dt.team.members.map(m => m.user_id))])
                         .then(([auth0Users, databaseUsers]: [User[], User[]]) => {
                             return databaseUsers.map(u => {
-                                u.picture = auth0Users.find(du => du.user_id === u.user_id).picture;
-                                return u;
+                                u.picture = auth0Users.find(du => du.user_id === u.user_id) ? auth0Users.find(du => du.user_id === u.user_id).picture : u.picture;
+                               return u;
                             })
                         })
                         .then(members => compact(members))
