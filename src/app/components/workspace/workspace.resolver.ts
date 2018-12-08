@@ -15,7 +15,7 @@ import { UserService } from "../../shared/services/user/user.service";
 @Injectable()
 export class WorkspaceComponentResolver implements Resolve<{ dataset: DataSet, team: Team, members: User[], user: User }> {
 
-    constructor(private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private userService:UserService,  private auth: Auth) {
+    constructor(private datasetFactory: DatasetFactory, private teamFactory: TeamFactory, private userService: UserService, private userFactory: UserFactory, private auth: Auth) {
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ dataset: DataSet, team: Team, members: User[], user: User }> {
@@ -32,15 +32,21 @@ export class WorkspaceComponentResolver implements Resolve<{ dataset: DataSet, t
                 .then((dataset: DataSet) => {
                     return this.teamFactory.get(dataset.initiative.team_id)
                         .then(
-                        t => {
-                            return { dataset: dataset, team: t }
-                        })
+                            t => {
+                                return { dataset: dataset, team: t }
+                            })
                 })
                 .then(dt => {
-                    return this.userService.getUsersInfo(dt.team.members)
+                    return Promise.all([this.userService.getUsersInfo(dt.team.members), this.userFactory.getUsers(dt.team.members.map(m => m.user_id))])
+                        .then(([auth0Users, databaseUsers]: [User[], User[]]) => {
+                            return databaseUsers.map(u => {
+                                u.picture = auth0Users.find(du => du.user_id === u.user_id).picture;
+                                return u;
+                            })
+                        })
                         .then(members => compact(members))
                         .then(members => sortBy(members, m => m.name))
-                        .then(members => { return { dataset: dt.dataset, team: dt.team, members: sortBy(members, m => m.name) } })
+                        .then(members => { return { dataset: dt.dataset, team: dt.team, members: members } })
 
                 })
                 .then(dt => {
