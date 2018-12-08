@@ -12,6 +12,14 @@ body{
   color: var(--maptio-black) !important;
 }
 
+.border.border-thick{
+  border-width:2px!important;
+}
+
+.overlap{
+  margin-right:-25%;
+}
+
 .h-99{
   height: 99% !important;
 }

@@ -4,8 +4,8 @@
             <a routerLink="/teams/{{team.team_id}}/{{team.getSlug()}}"> {{team?.name}}</a>
         </h5>
         <div class="card-text mb-1 d-flex flex-wrap">
-            <div *ngFor="let member of team?.members;trackBy:trackByMemberId" [class.deleted]="member.isDeleted" class="mr-1 mb-1">
-                <img class="rounded-circle" width="32" height="32" src="{{member.picture}}" placement="top" container="body"
+            <div *ngFor="let member of team?.members;trackBy:trackByMemberId" [class.deleted]="member.isDeleted"  class="overlap mb-1" >
+                <img class="rounded-circle border border-thick border-white" width="32" height="32" src="{{member.picture}}" placement="top" container="body"
                     ngbTooltip="{{member.name}}">
             </div>
         </div>

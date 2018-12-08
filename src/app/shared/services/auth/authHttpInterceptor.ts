@@ -60,11 +60,9 @@ export class AuthHttpInterceptor extends AuthHttp {
 
 
     intercept(observable: Observable<Response>): Observable<Response> {
-
         return observable.catch((err, source) => {
             console.error(err);
             if (this.isUnauthorized(err.status)) {
-                // logout the user or do what you want
                 this.router.navigateByUrl("/unauthorized");
 
                 if (err instanceof Response) {
@@ -73,7 +71,7 @@ export class AuthHttpInterceptor extends AuthHttp {
                 return Observable.empty();
             }
             else if (this.isJWTExpired(err.message)) {
-                this.router.navigateByUrl("login");
+                this.router.navigateByUrl("login?login_message=Your session expired, please log back in.");
                 return Observable.empty();
             }
             else {

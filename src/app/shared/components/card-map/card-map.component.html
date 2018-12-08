@@ -1,7 +1,7 @@
 <div class="card" *ngIf="dataset" [class.archived]="dataset.isArchived">
     <div class="card-body d-flex flex-column">
         <div class="card-title text-bold">
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex justify-content-between align-items-start">
                 <div>
                     <b *ngIf="!isEditing" class="">
                         <a routerLink="/map/{{dataset?.datasetId}}/{{dataset?.initiative.getSlug()}}/circles"> {{dataset?.initiative.name}}</a>
@@ -58,34 +58,32 @@
 
 
         </div>
-        <div class="card-footer border-top-0">
-            <div class="small d-flex justify-content-between align-items-center">
-                <button *ngIf=" isExportAvailable" [class.invisible]="dataset.isArchived" class="btn btn-sm btn-link cursor-pointer " (click)="export(dataset)">
-                    <i class="fas fa-table" aria-hidden="true"></i>
-                    <span *ngIf="!isExporting">Export</span>
-                    <span class="text-muted" *ngIf="isExporting">Exporting</span>
+        <div class="card-footer border-top-0 d-flex justify-content-between align-items-center">
+            <button *ngIf=" isExportAvailable" [class.invisible]="dataset.isArchived" class="btn btn-sm btn-link pl-0 " (click)="export(dataset)">
+                <i class="fas fa-table" aria-hidden="true"></i>
+                <span *ngIf="!isExporting">Export</span>
+                <span class="text-muted" *ngIf="isExporting">Exporting</span>
+            </button>
+            <ng-container *permissionsOnly="Permissions.canEditMapName">
+
+                <button *ngIf="isEditAvailable" [class.invisible]="dataset.isArchived" class="btn btn-link btn-sm" [class.d-none]="isEditing"
+                    (click)="isEditing=true">
+                    <i class="fas fa-pen"></i> Edit name
                 </button>
-                <ng-container *permissionsOnly="Permissions.canEditMapName">
-
-                    <button *ngIf="isEditAvailable" [class.invisible]="dataset.isArchived" class="btn btn-link btn-sm" [class.d-none]="isEditing" (click)="isEditing=true">
-                        <i class="fas fa-pen"></i> Edit name
-                    </button>
-                    <button *ngIf="isEditAvailable"  [class.invisible]="dataset.isArchived" class="btn btn-link btn-sm" [class.d-none]="isEditing" (click)="duplicate()">
-                        <i class="fas fa-copy"></i>
-                        <span *ngIf="!isCopying">Copy</span>
-                        <span class="text-muted" *ngIf="isCopying">Copying</span>
-                    </button>
-                    <button *ngIf="!dataset.isArchived && isEditAvailable" class="btn btn-link btn-sm" [class.d-none]="isEditing" mwlConfirmationPopover [popoverTitle]="'Archive this map?'"
-                        [popoverMessage]="'You can retrived archived maps on the Maps section of the team page'" placement="bottom"
-                        focusButton="cancel" appendToBody="true" (confirm)="archive()" (cancel)="cancelClicked = true">
-                        <i class="fas fa-archive"></i> Archive
-                    </button>
-                    <button *ngIf="dataset.isArchived" class="btn btn-link btn-sm" [class.d-none]="isEditing" (click)="restore()">
-                            <i class="fas fa-undo"></i> Restore
-                        </button>
-                </ng-container>
-
-
-            </div>
+                <button *ngIf="isEditAvailable" [class.invisible]="dataset.isArchived" class="btn btn-link btn-sm" [class.d-none]="isEditing"
+                    (click)="duplicate()">
+                    <i class="fas fa-copy"></i>
+                    <span *ngIf="!isCopying">Copy</span>
+                    <span class="text-muted" *ngIf="isCopying">Copying</span>
+                </button>
+                <button *ngIf="!dataset.isArchived && isEditAvailable" class="btn btn-link btn-sm pr-0" [class.d-none]="isEditing" mwlConfirmationPopover
+                    [popoverTitle]="'Archive this map?'" [popoverMessage]="'You can retrived archived maps on the Maps section of the team page'"
+                    placement="bottom" focusButton="cancel" appendToBody="true" (confirm)="archive()" (cancel)="cancelClicked = true">
+                    <i class="fas fa-archive"></i> Archive
+                </button>
+                <button *ngIf="dataset.isArchived" class="btn btn-link btn-sm pr-0" [class.d-none]="isEditing" (click)="restore()">
+                    <i class="fas fa-undo"></i> Restore
+                </button>
+            </ng-container>
         </div>
     </div>
