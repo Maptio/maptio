@@ -68,6 +68,8 @@ export class AuthorizeComponent implements OnInit {
                     app_id: environment.INTERCOM_APP_ID,
                     email: user.email,
                     user_id: user.user_id,
+                    name: user.name,
+                    is_invited: user.isInvitationSent
                 });
             })
             .do((user: User) => {
@@ -85,7 +87,7 @@ export class AuthorizeComponent implements OnInit {
                 this.fullstory.login(user.user_id, {
                     displayName: user.name,
                     email: user.email
-                    });
+                });
             })
             .do((user: User) => {
                 LogRocket.identify(user.user_id, {

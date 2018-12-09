@@ -23,6 +23,10 @@ import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { Observable } from "rxjs/Observable";
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { UserService } from '../../../shared/services/user/user.service';
+import { JwtEncoder } from '../../../shared/services/encoding/jwt.service';
+import { MailingService } from '../../../shared/services/mailing/mailing.service';
+import { AuthConfiguration } from '../../../shared/services/auth/auth.config';
 
 describe("initiative.component.ts", () => {
 
@@ -42,6 +46,7 @@ describe("initiative.component.ts", () => {
                     },
                     deps: [MockBackend, BaseRequestOptions]
                 },
+                UserService,JwtEncoder, MailingService,AuthConfiguration,
                 MockBackend,
                 BaseRequestOptions,
                 ErrorService,

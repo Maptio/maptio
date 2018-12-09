@@ -28,6 +28,7 @@ import { distinctUntilChanged } from "rxjs/operator/distinctUntilChanged";
 import { compact, sortBy } from "lodash";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2/dist";
 import { remove } from "lodash"
+import { UserService } from "../../../shared/services/user/user.service";
 
 @Component({
     selector: "initiative",
@@ -81,6 +82,7 @@ export class InitiativeComponent implements OnChanges {
     MESSAGE_PERMISSIONS_DENIED_EDIT = environment.MESSAGE_PERMISSIONS_DENIED_EDIT;
 
     constructor(private auth: Auth, private teamFactory: TeamFactory, private userFactory: UserFactory,
+        private userService:UserService, 
         private datasetFactory: DatasetFactory, private analytics: Angulartics2Mixpanel,
         private cd: ChangeDetectorRef, private renderer: Renderer2) {
     }
@@ -106,7 +108,7 @@ export class InitiativeComponent implements OnChanges {
 
                 this.members$ = this.team$
                     .then((team: Team) => {
-                        return this.userFactory.getUsers(team.members.map(m => m.user_id))
+                        return this.userService.getUsersInfo(team.members)
                             .then(members => compact(members))
                             .then(members => sortBy(members, m => m.name))
                     })
