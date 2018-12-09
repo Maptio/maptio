@@ -234,6 +234,31 @@ export class MappingZoomableComponent implements IDataVisualizer {
       });
   }
 
+  adjustZoomTo(g: any, v: any): void {
+    let CIRCLE_RADIUS = this.CIRCLE_RADIUS;
+    let DEFAULT_PICTURE_ANGLE = this. DEFAULT_PICTURE_ANGLE;
+
+    g.selectAll("circle.node")
+      .style("stroke-opacity", 1)
+      .each((d: any): void => d.k = v.k)
+
+    g.selectAll("text.name.with-children")
+      .style("font-size", `${16 / v.k}px`);
+
+    g.selectAll("circle.accountable")
+      .attr("transform", `scale(${1 / v.k})`)
+      .attr("cx", function (d: any) {
+        return d.children
+          ? Math.cos(DEFAULT_PICTURE_ANGLE) * (d.r * v.k) - 12
+          : 0;
+      })
+      .attr("cy", function (d: any) {
+        return d.children
+          ? -Math.sin(DEFAULT_PICTURE_ANGLE) * (d.r * v.k) + 12
+          : -d.r * v.k * 0.9;
+      });
+  }
+
 
   init() {
     this.uiService.clean();
@@ -264,9 +289,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .zoom()
       .scaleExtent([!this._isExplorationMode ? 1 / 4 : 1 / 3, !this._isExplorationMode ? 3 : 4 / 3])
       .on("zoom", zoomed)
-      .on("end", (d, e, i): any => {
-        hideSmallElements(this.MIN_TEXTBOX_WIDTH);
+      .on("end", (): void => {
         const transform = d3.event.transform;
+        hideSmallElements(this.MIN_TEXTBOX_WIDTH);
+        this.adjustZoomTo(g, transform);
         svg.attr("scale", transform.k);
         /*
         const tagFragment = this.tagsState
@@ -728,7 +754,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       focus = d;
       setLastZoomedCircle(focus);
 
-      svg.call(
+      svg.transition().duration(TRANSITION_DURATION).call(
         zooming.transform,
         d3.zoomIdentity.translate(translateX, translateY)
       );
@@ -777,7 +803,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .style("font-size", function (d: any) {
               let multiplier = svg.attr("data-font-multiplier");
               return `${multiplier}rem`
-
             });
           // .attr("font-size", function (d: any) { return `${fonts(d.depth) * d.k / 2}px` })
         });
@@ -963,7 +988,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         })
         .on("mouseout", function (d: any) {
           d3.select(`circle.node[id="${d.data.id}"]`).dispatch("mouseout");
-        })
+        });
 
       circle
         .attr("r", function (d: any) {
@@ -996,10 +1021,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .style("stroke", d3.color(seedColor).darker(1).toString())
             .style("fill", d3.color(seedColor).darker(1).toString())
             .style("fill-opacity", 1)
-            .style("stroke-width", "3px")
+            .style("stroke-width", "3px");
 
           d3.selectAll(`circle[parent-id="${d.data.id}"]`)
-            .style("fill-opacity", 1)
+            .style("fill-opacity", 1);
 
           // d3.select(".tooltip-menu")
           //   .on("mouseover", function (d: any) {
