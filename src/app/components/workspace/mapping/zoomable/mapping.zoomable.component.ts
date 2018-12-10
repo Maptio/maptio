@@ -220,46 +220,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
   }
 
-  hideSmallElements(minWidth: number): void {
-    this.d3.selectAll(".node.no-children")
-      .each((d: any, i: number, e: Array<HTMLElement>): void => {
-        const currentNode = this.d3.select(e[i]);
-        const currentCircle = currentNode.select("circle").node() as HTMLElement;
-        const currentContent = currentNode.select("foreignObject") as any;
-        if (currentCircle && currentCircle.getBoundingClientRect && currentCircle.getBoundingClientRect().width < minWidth) {
-          currentContent.transition().style("opacity", 0);
-        } else {
-          currentContent.transition().style("opacity", 1);
-        }
-      });
-  }
-
-  adjustZoomTo(g: any, v: any): void {
-    let CIRCLE_RADIUS = this.CIRCLE_RADIUS;
-    let DEFAULT_PICTURE_ANGLE = this. DEFAULT_PICTURE_ANGLE;
-
-    g.selectAll("circle.node")
-      .style("stroke-opacity", 1)
-      .each((d: any): void => d.k = v.k)
-
-    g.selectAll("text.name.with-children")
-      .style("font-size", `${16 / v.k}px`);
-
-    g.selectAll("circle.accountable")
-      .attr("transform", `scale(${1 / v.k})`)
-      .attr("cx", function (d: any) {
-        return d.children
-          ? Math.cos(DEFAULT_PICTURE_ANGLE) * (d.r * v.k) - 12
-          : 0;
-      })
-      .attr("cy", function (d: any) {
-        return d.children
-          ? -Math.sin(DEFAULT_PICTURE_ANGLE) * (d.r * v.k) + 12
-          : -d.r * v.k * 0.9;
-      });
-  }
-
-
   init() {
     this.uiService.clean();
     let d3 = this.d3;
@@ -414,7 +374,42 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.definitions = definitions;
   }
 
+  hideSmallElements(minWidth: number): void {
+    this.d3.selectAll(".node.no-children")
+      .each((d: any, i: number, e: Array<HTMLElement>): void => {
+        const currentNode = this.d3.select(e[i]);
+        const currentCircle = currentNode.select("circle").node() as HTMLElement;
+        const currentContent = currentNode.select("foreignObject") as any;
+        if (currentCircle && currentCircle.getBoundingClientRect && currentCircle.getBoundingClientRect().width < minWidth) {
+          currentContent.transition().style("opacity", 0);
+        } else {
+          currentContent.transition().style("opacity", 1);
+        }
+      });
+  }
 
+  adjustZoomTo(g: any, v: any): void {
+    const zoomFactor: number = v.k > 1 ? v.k : 1;
+
+    const CIRCLE_RADIUS: number = this.CIRCLE_RADIUS;
+    const DEFAULT_PICTURE_ANGLE: number = this.DEFAULT_PICTURE_ANGLE;
+
+    g.selectAll("text.name.with-children")
+      .style("font-size", `${16 / zoomFactor}px`);
+
+    g.selectAll("circle.accountable")
+      .attr("transform", `scale(${1 / zoomFactor})`)
+      .attr("cx", (d: any): number => {
+        return d.children
+          ? Math.cos(DEFAULT_PICTURE_ANGLE) * (d.r * zoomFactor) - 12
+          : 0;
+      })
+      .attr("cy", (d: any): number => {
+        return d.children
+          ? -Math.sin(DEFAULT_PICTURE_ANGLE) * (d.r * zoomFactor) + 12
+          : -d.r * zoomFactor * 0.9;
+      });
+  }
   getTags() {
     return this.tagsState;
   }
@@ -737,7 +732,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     */
     let node = g.selectAll("g.node");
 
-    svg.on("click", function () {
+    svg.on("click", () => {
       // if (isFullDisplayMode) return;
       zoom(root);
     });
@@ -762,13 +757,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
       let transition = d3
         .transition("zooming")
         .duration(TRANSITION_DURATION)
-        .tween("zoom", function (d) {
-          let i = d3.interpolateZoom(view, [
+        .tween("zoom", d => {
+          const i = d3.interpolateZoom(view, [
             focus.x,
             focus.y,
             focus.r * 2 + margin
           ]);
-          return function (t) {
+          return t => {
             zoomTo(i(t));
           };
         })
