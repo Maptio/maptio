@@ -250,10 +250,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .scaleExtent([!this._isExplorationMode ? 1 / 4 : 1 / 3, !this._isExplorationMode ? 3 : 4 / 3])
       .on("zoom", zoomed)
       .on("end", (): void => {
-        const transform = d3.event.transform;
         hideSmallElements(this.MIN_TEXTBOX_WIDTH);
-        this.adjustZoomTo(g, transform);
-        svg.attr("scale", transform.k);
+        this.adjustZoomTo(g, d3.event);
+        svg.attr("scale", d3.event.transform.k);
         /*
         const tagFragment = this.tagsState
           .filter(t => t.isSelected)
@@ -388,27 +387,29 @@ export class MappingZoomableComponent implements IDataVisualizer {
       });
   }
 
-  adjustZoomTo(g: any, v: any): void {
-    const zoomFactor: number = v.k > 1 ? v.k : 1;
-
+  adjustZoomTo(g: any, event: any): void {
+    const zoomFactor: number = event.transform.k > 1 ? event.transform.k : 1;
     const CIRCLE_RADIUS: number = this.CIRCLE_RADIUS;
     const DEFAULT_PICTURE_ANGLE: number = this.DEFAULT_PICTURE_ANGLE;
 
     g.selectAll("text.name.with-children")
       .style("font-size", `${16 / zoomFactor}px`);
 
-    g.selectAll("circle.accountable")
-      .attr("transform", `scale(${1 / zoomFactor})`)
-      .attr("cx", (d: any): number => {
-        return d.children
-          ? Math.cos(DEFAULT_PICTURE_ANGLE) * (d.r * zoomFactor) - 12
-          : 0;
-      })
-      .attr("cy", (d: any): number => {
-        return d.children
-          ? -Math.sin(DEFAULT_PICTURE_ANGLE) * (d.r * zoomFactor) + 12
-          : -d.r * zoomFactor * 0.9;
-      });
+    const accountableCircles = g.selectAll("circle.accountable")
+      .attr("transform", `scale(${1 / zoomFactor})`);
+    if (true) { // TODO: only run this when view is not focused on particular node
+      accountableCircles
+        .attr("cx", (d: any): number => {
+          return d.children
+            ? Math.cos(DEFAULT_PICTURE_ANGLE) * (d.r * zoomFactor) - 12
+            : 0;
+        })
+        .attr("cy", (d: any): number => {
+          return d.children
+            ? -Math.sin(DEFAULT_PICTURE_ANGLE) * (d.r * zoomFactor) + 12
+            : -d.r * zoomFactor * 0.9;
+        });
+      }
   }
   getTags() {
     return this.tagsState;
@@ -749,6 +750,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       focus = d;
       setLastZoomedCircle(focus);
 
+      // TODO: instead of resetting, focus and zoom and selected node and remove zoomTo below
       svg.transition().duration(TRANSITION_DURATION).call(
         zooming.transform,
         d3.zoomIdentity.translate(translateX, translateY)
