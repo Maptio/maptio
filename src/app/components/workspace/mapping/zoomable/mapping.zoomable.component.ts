@@ -223,7 +223,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
   init() {
     this.uiService.clean();
     let d3 = this.d3;
-    let hideSmallElements = this.hideSmallElements.bind(this);
 
     let margin = { top: 20, right: 20, bottom: 20, left: 0 };
     let width = this.width - margin.left - margin.right,
@@ -250,8 +249,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .scaleExtent([!this._isExplorationMode ? 1 / 4 : 1 / 3, !this._isExplorationMode ? 3 : 4 / 3])
       .on("zoom", zoomed)
       .on("end", (): void => {
-        hideSmallElements(this.MIN_TEXTBOX_WIDTH);
-        this.adjustZoomTo(g, d3.event);
+        this.adjustViewToZoomEvent(g, d3.event);
         svg.attr("scale", d3.event.transform.k);
         /*
         const tagFragment = this.tagsState
@@ -373,30 +371,33 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.definitions = definitions;
   }
 
-  hideSmallElements(minWidth: number): void {
-    this.d3.selectAll(".node.no-children")
+  adjustViewToZoomEvent(g: any, event: any): void {
+    const zoomFactor: number = event.transform.k > 1 ? event.transform.k : 1;
+    const CIRCLE_RADIUS: number = this.CIRCLE_RADIUS;
+    const DEFAULT_PICTURE_ANGLE: number = this.DEFAULT_PICTURE_ANGLE;
+
+    g.selectAll(".node.no-children")
       .each((d: any, i: number, e: Array<HTMLElement>): void => {
         const currentNode = this.d3.select(e[i]);
         const currentCircle = currentNode.select("circle").node() as HTMLElement;
         const currentContent = currentNode.select("foreignObject") as any;
-        if (currentCircle && currentCircle.getBoundingClientRect && currentCircle.getBoundingClientRect().width < minWidth) {
+        if (currentCircle && currentCircle.getBoundingClientRect && currentCircle.getBoundingClientRect().width < this.MIN_TEXTBOX_WIDTH) {
           currentContent.transition().style("opacity", 0);
         } else {
           currentContent.transition().style("opacity", 1);
         }
       });
-  }
-
-  adjustZoomTo(g: any, event: any): void {
-    const zoomFactor: number = event.transform.k > 1 ? event.transform.k : 1;
-    const CIRCLE_RADIUS: number = this.CIRCLE_RADIUS;
-    const DEFAULT_PICTURE_ANGLE: number = this.DEFAULT_PICTURE_ANGLE;
 
     g.selectAll("text.name.with-children")
+      .transition()
+      .duration(this.TRANSITION_DURATION)
       .style("font-size", `${16 / zoomFactor}px`);
 
     const accountableCircles = g.selectAll("circle.accountable")
+      .transition()
+      .duration(this.TRANSITION_DURATION)
       .attr("transform", `scale(${1 / zoomFactor})`);
+
     if (true) { // TODO: only run this when view is not focused on particular node
       accountableCircles
         .attr("cx", (d: any): number => {
@@ -411,6 +412,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         });
       }
   }
+
   getTags() {
     return this.tagsState;
   }
@@ -455,7 +457,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let datasetSlug = this.slug;
     let router = this.router;
     let getTags = this.getTags.bind(this);
-    let hideSmallElements = this.hideSmallElements.bind(this);
     let getLastZoomedCircle = this.getLastZoomedCircle.bind(this);
     let setLastZoomedCircle = this.setLastZoomedCircle.bind(this);
     let zoomInitiative$ = this.zoomInitiative$;
@@ -768,9 +769,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
           return t => {
             zoomTo(i(t));
           };
-        })
-        .on("end", () => {
-          hideSmallElements(MIN_TEXTBOX_WIDTH);
         });
 
       let revealTransition = d3
