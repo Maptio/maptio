@@ -27,8 +27,8 @@
 
         <p class="card-text d-flex align-items-center flex-wrap" *ngIf="initiative.helpers && initiative.helpers.length>0">
             <span class="text-muted mr-1">with</span>
-            <span *ngFor="let helper of initiative.helpers" class="my-1 overlap">
-                <img src="{{helper.picture}}" alt="{{helper.name}}" width="32" height="32" class="rounded-circle border border-thick border-white mr-1">
+            <span *ngFor="let helper of initiative.helpers" class="my-1">
+                <img src="{{helper.picture}}" alt="{{helper.name}}" width="32" height="32" class="rounded-circle mr-1">
             </span>
         </p>
         <p class="card-text d-flex align-items-center flex-wrap text-muted" *ngIf="!(initiative.helpers && initiative.helpers.length>0)">

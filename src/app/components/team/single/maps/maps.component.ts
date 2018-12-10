@@ -28,7 +28,7 @@ export class TeamMapsComponent implements OnInit {
         this.route.parent.data
             .combineLatest(this.auth.getUser())
             .subscribe(([data, user] : [{ assets: { team: Team, datasets: DataSet[] } }, User]) => {
-                this.datasets = sortBy(data.assets.datasets, d => !!d.isArchived);
+                this.datasets = sortBy(data.assets.datasets, d => !!d.isArchived).map(d => {d.team = data.assets.team; return d});
                 this.teams = [data.assets.team];
                 this.user = user;
                 this.cd.markForCheck();

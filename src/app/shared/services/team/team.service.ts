@@ -14,12 +14,12 @@ export class TeamService {
 
     }
 
-    create(name: string, user: User, isTemporary?: boolean) {
+    create(name: string, user: User, members?: User[], isTemporary?: boolean, isExample?: boolean) {
         return this.teamFactory.create(new Team({
             name: name,
-            members: [user],
+            members: members,
             isTemporary: isTemporary,
-
+            isExample: isExample,
             freeTrialLength: 14,
             isPaying: false
         }))
@@ -28,7 +28,7 @@ export class TeamService {
                 return this.userFactory.upsert(user)
                     .then((result: boolean) => {
                         if (result) {
-                            if (!isTemporary) {
+                            if (!isTemporary && !isExample) {
                                 this.analytics.eventTrack("Create team", { email: user.email, name: name, teamId: team.team_id })
 
                             }
@@ -44,18 +44,35 @@ export class TeamService {
             },
                 () => { throw `Unable to create organization ${name}!` })
             .then((team: Team) => {
-                return this.intercomService.createTeam(user, team).toPromise().then(result => {
-                    if (result)
-                        return team
-                    else
-                        throw "Cannot sync organization with Intercom."
-                })
-
+                if (!isExample) {
+                    return this.intercomService.createTeam(user, team).toPromise().then(result => {
+                        if (result)
+                            return team
+                        else
+                            throw "Cannot sync organization with Intercom."
+                    })
+                }
+                else {
+                    return team;
+                }
             })
     }
 
     createTemporary(user: User) {
-        return this.create("", user, true);
+        return this.create("", user, [], true, false);
+    }
+
+    createDemoTeam(user: User) {
+        return this.userFactory.getUsers([
+            "auth0|5c091c1e14668e36dcc5fee5",
+            "auth0|5c091a8b4d578823ecbfde5d",
+            "auth0|5c09198dfb5415347c72b78c",
+            "auth0|5c0916cc0b53141eaedcaf99",
+            "google-oauth2|114631860882417255120"
+        ])
+            .then(members => {
+                return this.create("The Banana app company", user, members, false, true)
+            })
     }
 
     renameTemporary(team: Team, name: string) {

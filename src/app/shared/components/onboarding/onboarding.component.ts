@@ -153,8 +153,6 @@ export class OnboardingComponent implements OnInit {
     onAdded(event: { team: Team, user: User }) {
         this.members.push(event.user);
         this.cd.markForCheck();
-
-        this.mapService.assign
     }
 
     getMemberIndexes() {

@@ -43,7 +43,7 @@ export class DashboardComponent {
         console.log("ngONChanges", changes)
         if (changes.datasets && changes.datasets.currentValue) {
             this._datasets = changes.datasets.currentValue;
-            this.mapsCount = this._datasets.length;
+            this.mapsCount = this._datasets.filter(d => !d.team.isExample).length;
             this.filterMaps$.next('');
             this.cd.markForCheck();
         }
@@ -58,9 +58,8 @@ export class DashboardComponent {
     }
 
     ngOnInit() {
-        console.log("ngOnInit", this.isOnboarding)
         if (this.isOnboarding) {
-            this.getExampleMap()
+            this.getDemoMap()
                 .then((dataset: DataSet) => {
                     this.router.navigateByUrl(`/map/${dataset.datasetId}/${dataset.initiative.getSlug()}`);
                 });
@@ -87,11 +86,11 @@ export class DashboardComponent {
 
 
     isMultipleTeams() {
-        return this._teams.length > 1;
+        return this._teams.filter(t => !t.isExample).length > 1;
     }
 
     isMultipleMaps() {
-        return this._datasets.length > 1;
+        return this._datasets.filter(d => !d.team.isExample).length > 1;
     }
 
     onCopy(dataset:DataSet){
@@ -124,6 +123,13 @@ export class DashboardComponent {
                     return this.mapService.createTemplate("Example map", team.team_id)
                 })
         }
+    }
+
+    getDemoMap(){
+        return this.teamService.createDemoTeam(this.user)
+        .then(team =>{
+            return  this.mapService.createExample(team.team_id)
+        })
     }
 
     onKeyDown(search: string) {

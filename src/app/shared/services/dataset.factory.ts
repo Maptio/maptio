@@ -9,6 +9,8 @@ import { User } from "../model/user.data";
 import "rxjs/add/operator/toPromise";
 import { Team } from "../model/team.data";
 import * as shortid from "shortid";
+import { Observable } from "../../../../node_modules/rxjs";
+import { Initiative } from "../model/initiative.data";
 
 @Injectable()
 export class DatasetFactory {
@@ -57,6 +59,20 @@ export class DatasetFactory {
                 return DataSet.create().deserialize(response.json());
             })
             .toPromise()
+    }
+
+
+    createDemo(teamId: string): Observable<DataSet> {
+        return this._http.get(`/api/v1/dataset/template/demo?teamId=${teamId}`)
+            .map((response: Response) => {
+                return Initiative.create().deserialize(response.json());
+            })
+            .flatMap((initiative: Initiative) => {
+                console.log(initiative)
+                return this.create(new DataSet({
+                    initiative : initiative
+                }))
+            })
     }
 
 

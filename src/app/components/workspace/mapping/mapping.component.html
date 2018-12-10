@@ -3,11 +3,13 @@
 
     <div class="w-100 h-100">
       <div class="row  h-100 ">
-        <div class="col-12 h-100 d-flex justify-content-between px-0">
+        <div  class="col-12 h-100 d-flex justify-content-between px-0">
+        
+
           <div class="h-100 col-11">
             <router-outlet (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>
           </div>
-          <div class="d-flex flex-column justify-content-start align-items-end col-auto mx-0 pl-0 my-2">
+          <div class="d-flex flex-column justify-content-start align-items-end col-auto mx-0 pl-0 my-2 z-index-1">
             <div class="btn-group-vertical mb-2">
               <button class="btn btn-light p-1 text-dark d-flex flex-column align-items-center" [class.disabled]="isSearchDisabled || isMapSettingsDisabled"
                 (click)="isSearchToggled=!isSearchToggled" data-toggle="collapse" href="#collapseSearch" role="button">
@@ -91,7 +93,7 @@
   </div>
 
 
-  <div class="d-flex flex-column justify-content-start align-items-end col-5 position-absolute pr-3 mx-5 my-2 windows">
+  <div class="d-flex flex-column justify-content-start align-items-end col-5 position-absolute pr-3 mx-5 my-2 windows z-index-1">
     <div closable id="collapseSearch" class="collapse rounded bg-light p-3 mb-3 col-12" [class.d-none]="isSearchDisabled">
       <search #search [list]="flattenInitiative" (selectInitiative)="zoomToInitiative($event)" (selectUser)="goToUserSummary($event)"></search>
     </div>
@@ -108,8 +110,8 @@
           <h6 class="card-title my-2">Text settings</h6>
           <div class="form-group form-inline">
             <label for="fontSizeInput" class="col-form-label  col-2">Size</label>
-            <input class="col-6 custom-range" id="fontSizeInput" #fontSizeInput name="fontSizeInput" type="range" min="0.2" max="2"
-              value="{{settings.fontSize}}" step="0.1" (change)="changeFontSize(fontSizeInput.value)">
+            <input class="col-6 custom-range" id="fontSizeInput" #fontSizeInput name="fontSizeInput" type="range" min="0.2" max="2" value="{{settings.fontSize}}"
+              step="0.1" (change)="changeFontSize(fontSizeInput.value)">
 
             <button class="btn btn-outline-secondary  ml-4" (click)="changeFontSize(1)">Reset</button>
 
