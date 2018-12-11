@@ -254,7 +254,7 @@ describe("workspace.component.ts", () => {
         describe("addInitiatives", () => {
             it("should call correct dependencies", () => {
                 spyOn(component.buildingComponent, "addNodeTo")
-                component.addInitiative(new Initiative({}));
+                component.addInitiative({ node : new Initiative({}), subNode : new Initiative({})});
                 expect(component.buildingComponent.addNodeTo).toHaveBeenCalled();
             });
         });

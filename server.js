@@ -65,7 +65,7 @@ if (!isDevelopment) {
         'www.google-analytics.com', 'mixpanel.com', 'widget.intercom.io', 'https://app.intercom.io',
         'https://js.intercomcdn.com', 'https://fullstory.com', 'code.jquery.com','http://canvg.github.io'],
       fontSrc: ["'self'", 'maxcdn.bootstrapcdn.com', 'cdn.mixpnl.com', 'https://js.intercomcdn.com','fonts.gstatic.com', 'use.fontawesome.com'],
-      connectSrc: ["'self'", 'api.mixpanel.com', 'api.cloudinary.com', 'circlemapping.auth0.com','login.maptio.com', 'www.google-analytics.com', 'mixpanel.com', 'https://api.intercom.io', 'https://api-iam.intercom.io',
+      connectSrc: ["'self'", 'api.mixpanel.com', 'api.cloudinary.com', 'circlemapping.auth0.com', 'login.maptio.com','www.google-analytics.com', 'mixpanel.com', 'https://api.intercom.io', 'https://api-iam.intercom.io',
         'https://api-ping.intercom.io',
         'https://nexus-websocket-a.intercom.io',
         'https://nexus-websocket-b.intercom.io',
@@ -88,8 +88,7 @@ if (!isDevelopment) {
         'https://fast.wistia.net',
         'https://drive.google.com',
         'https://termsfeed.com/',
-        'https://circlemapping.auth0.com/',
-        'https://login.maptio.com/',
+        'https://circlemapping.auth0.com/','login.maptio.com',
         'https://maptio.chargebee.com',
         'https://intercom-sheets.com'
       ],
