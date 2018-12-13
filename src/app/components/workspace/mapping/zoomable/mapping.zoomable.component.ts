@@ -246,13 +246,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
     // g.append("g").attr("class", "paths");
     this.zooming = d3
       .zoom()
-      .scaleExtent([!this._isExplorationMode ? 1 / 4 : 1 / 3, !this._isExplorationMode ? 3 : 4 / 3])
       .on("zoom", zoomed)
       .on("end", (): void => {
         this.adjustViewToZoomEvent(g, d3.event);
-        svg.attr("scale", d3.event.transform.k);
-        /*
-        const tagFragment = this.tagsState
+        const transform = d3.event.transform;
+        svg.attr("scale", transform.k);
+        const tagFragment: string = this.tagsState
           .filter(t => t.isSelected)
           .map(t => t.shortid)
           .join(",");
@@ -265,7 +264,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
             ["tags", tagFragment]
           ])
         );
-        */
       });
 
     try {
@@ -388,14 +386,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
         }
       });
 
+    // TODO: use opacity transitions
     g.selectAll("text.name.with-children")
-      .transition()
-      .duration(this.TRANSITION_DURATION)
       .style("font-size", `${16 / zoomFactor}px`);
 
     const accountableCircles = g.selectAll("circle.accountable")
-      .transition()
-      .duration(this.TRANSITION_DURATION)
       .attr("transform", `scale(${1 / zoomFactor})`);
 
     if (true) { // TODO: only run this when view is not focused on particular node
@@ -473,7 +468,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let TRANSITION_2x = d3.transition("").duration(TRANSITION_DURATION * 1)
     let TRANSITION_3x = d3.transition("").duration(TRANSITION_DURATION * 1)
 
-
     // let TRANSITION_DELETE = d3.transition("deleting").duration(TRANSITION_DURATION)
     // let TRANSITION_ADD_FADEIN = d3.transition("adding_fadein").duration(TRANSITION_DURATION)
     // let TRANSITION_ADD_FADEOUT = d3.transition("adding_fadeout").duration(TRANSITION_DURATION * 3)
@@ -495,11 +489,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .sort(function (a, b) {
         return b.value - a.value;
       });
+    // TODO: set this.zooming.scaleExtent to appropriate range based on size of smallest circle:
+    // this.zooming.scaleExtent([min, max]);
 
     if (isFirstLoad) {
       setLastZoomedCircle(root);
     }
-
 
     let depth = 0;
     root.eachAfter(function (n: any) {
@@ -513,11 +508,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
       nodes = pack(root).descendants(),
       list = d3.hierarchy(data).descendants(),
       view: any;
-
-
-
-
-
 
     function getDepthDifference(d: any): number {
       return d.depth - focus.depth;
@@ -767,7 +757,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             focus.r * 2 + margin
           ]);
           return t => {
-            zoomTo(i(t));
+            zoomTo(i(t)); // TODO: double check that can be removed
           };
         });
 
