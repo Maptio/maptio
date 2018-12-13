@@ -736,15 +736,24 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     return nodes;
 
-    function zoom(d: any) {
-      let focus0 = focus;
-      focus = d;
+    function zoom(focus: any, clickedGroup?: any): void {
+      // TODO: move save extraction of element's transform into own function
+      let clickedX = 0;
+      let clickedY = 0;
+      if (clickedGroup && clickedGroup.transform) {
+        clickedX = clickedGroup.transform.baseVal[0].matrix.e;
+        clickedY = clickedGroup.transform.baseVal[0].matrix.f;
+      }
+
       setLastZoomedCircle(focus);
 
-      // TODO: instead of resetting, focus and zoom and selected node and remove zoomTo below
       svg.transition().duration(TRANSITION_DURATION).call(
         zooming.transform,
-        d3.zoomIdentity.translate(translateX, translateY)
+        d3.zoomIdentity.translate(
+          view[0] - clickedX,
+          view[1] - clickedY
+        )
+        // TODO: update zoom level as well
       );
 
       let transition = d3
@@ -757,7 +766,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
             focus.r * 2 + margin
           ]);
           return t => {
-            zoomTo(i(t)); // TODO: double check that can be removed
+            // TODO: double check that can be removed
+            // zoomTo(i(t));
           };
         });
 
@@ -1147,24 +1157,23 @@ export class MappingZoomableComponent implements IDataVisualizer {
         });
     }
 
-    function addCircle(groups: any) {
+    function addCircle(groups: any): void {
       groups.select("circle")
-        .attr("class", function (d: any) {
+        .attr("class", (d: any): string => {
           return d.parent
             ? d.children ? "node" : "node node--leaf"
             : "node node--root";
         })
         .classed("initiative-map", true)
-        .each((d: any) => (d.k = 1))
-        .attr("id", function (d: any) {
-          return `${d.data.id}`;
-        })
-        .classed("with-border", function (d: any) {
-          return !d.children && d.parent === root;
-        })
-        .on("click", function (d: any) {
+        .each((d: any) => d.k = 1)
+        .attr("id", (d: any): string => `${d.data.id}`)
+        .classed("with-border", (d: any): boolean => !d.children && d.parent === root)
+        .on("click", function (d: any, index: number, elements: Array<HTMLElement>): void {
           // if (isFullDisplayMode) return;
-          if (focus !== d) setLastZoomedCircle(d), zoom(d), d3.event.stopPropagation();
+          if (focus === d) return;
+          setLastZoomedCircle(d);
+          zoom(d, this.parentElement);
+          d3.event.stopPropagation();
         })
     }
 
