@@ -19,6 +19,7 @@ import { Subject } from "rxjs";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { partition } from "lodash";
 import { LoaderService } from "../../../../shared/services/loading/loader.service";
+import { UserService } from "../../../../shared/services/user/user.service";
 
 @Component({
     selector: "summary",
@@ -75,7 +76,7 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
     filterMembers$: Subject<string> = new Subject<string>()
 
     constructor(public auth: Auth, public route: ActivatedRoute, public datasetFactory: DatasetFactory,
-        public userFactory: UserFactory, public teamFactory: TeamFactory, private dataService: DataService,
+        public userFactory: UserFactory, private userService:UserService,  public teamFactory: TeamFactory, private dataService: DataService,
         public loaderService: LoaderService, private router:Router,
         private cd: ChangeDetectorRef) {
     }
@@ -89,8 +90,9 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
             .switchMap((data: [any, Params]) => {
                 if (data[1].member)
                     return this.userFactory.get(data[1].member)
-                        .then((user: User) => {
-                            this.selectedMember = user;
+                        .then(user => this.userService.getUsersInfo([user]))
+                        .then((users: User[]) => {
+                            this.selectedMember = users[0];
                             this.cd.markForCheck();
                             return data[0];
                         });
