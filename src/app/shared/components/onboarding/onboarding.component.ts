@@ -19,6 +19,10 @@ import { Steps } from './onboarding.enum';
 })
 export class OnboardingComponent implements OnInit {
 
+
+    @Input("user") user: User;
+    @Input("steps") steps: string[];
+
     currentStep: string;
     currentIndex: number = 0;
     nextActionName: string = "Start";
@@ -26,12 +30,11 @@ export class OnboardingComponent implements OnInit {
     progress: string;
     progressLabel: string;
 
-    @ViewChild("inputTeamName") inputTeamName:ElementRef;
+    @ViewChild("inputTeamName") inputTeamName: ElementRef;
 
 
     teamCreationErrorMessage: string;
     isTerminologySaved: boolean;
-    teamName: string ="";
     MAX_MEMBERS: number = 4;
     COLORS: any[] = [
         { name: "#aaa", isSelected: false },
@@ -42,10 +45,11 @@ export class OnboardingComponent implements OnInit {
         { name: "orange", isSelected: false }
     ]
     selectedColor: string = this.COLORS[0].name;
+    teamName: string;
 
+    members: User[];
+    team: Team;
 
-    @Input("user") user: User;
-    @Input("steps") steps: string[];
     // @Input("members") members: User[];
     // @Input("team") team: Team;
     // @Input("dataset") dataset: DataSet;
@@ -58,6 +62,19 @@ export class OnboardingComponent implements OnInit {
 
     ngOnInit(): void {
         this.currentStep = this.steps[this.currentIndex];
+        this.members = [this.user];
+
+        console.log(this.user)
+        this.teamService.get(this.user)
+            .then((teams: Team[]) => {
+                let nonExampleTeams = teams.filter(t => !t.isExample);
+                if (nonExampleTeams.length === 1) {
+                    this.team = nonExampleTeams[0];
+                } else {
+                    this.team = new Team({ name: 'Your anem' });
+                }
+            })
+
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -89,18 +106,34 @@ export class OnboardingComponent implements OnInit {
 
         }
 
-        if(this.currentStep === "CreateTeam"){
-            if(isEmpty(this.inputTeamName.nativeElement.value)){
-                this.teamCreationErrorMessage = "A org name is required."
+        if (this.currentStep === "CreateTeam") {
+            if (isEmpty(this.team.name)) {
+                this.teamCreationErrorMessage = "We need a name to continue."
                 this.cd.markForCheck();
-                return ;
+                return;
             }
-            else{
-                this.teamName = this.inputTeamName.nativeElement.value;
+            else {
+                console.log("saving team", this.team)
+                // this.team.name = this.inputTeamName.nativeElement.value;
                 this.cd.markForCheck();
+                this.saveTeam(this.team)
+                .then(team => {
+                    this.team = team;
+                    console.log("saved team", this.team);
+                    this.teamCreationErrorMessage = null;
+                    this.goToNextStep();
+                    this.cd.markForCheck();
+                })
             }
         }
+        else{
+            this.goToNextStep();
+        }
 
+       
+    }
+
+    private goToNextStep(){
         this.currentIndex += 1;
         this.currentStep = this.steps[this.currentIndex]
         this.nextActionName = this.getNextActionName();
@@ -116,6 +149,21 @@ export class OnboardingComponent implements OnInit {
         this.nextActionName = this.getNextActionName();
         this.previousActionName = this.getPreviousActionName();
         this.cd.markForCheck();
+    }
+
+    saveTeam(team: Team): Promise<Team> {
+
+        return this.teamService.exist(team)
+            .then((exist: boolean) => {
+                if (exist) {
+                    return this.teamService.save(team)
+                       
+                } else {
+                    return this.teamService.create(team.name, this.user, [], false, false)
+                    
+                }
+            })
+
     }
 
 
@@ -178,9 +226,7 @@ export class OnboardingComponent implements OnInit {
     //     }
     // }
 
-    saveTeamName(name:string){
-        this.teamName = name; 
-    }
+
 
     // renameTeam(name: string) {
     //     this.teamService.renameTemporary(this.team, name)
@@ -199,14 +245,14 @@ export class OnboardingComponent implements OnInit {
     //         })
     // }
 
-    // onAdded(event: { team: Team, user: User }) {
-    //     this.members.push(event.user);
-    //     this.cd.markForCheck();
-    // }
+    onAdded(event: { team: Team, user: User }) {
+        this.members.push(event.user);
+        this.cd.markForCheck();
+    }
 
-    // getMemberIndexes() {
-    //     return Array.from({ length: this.MAX_MEMBERS - this.members.length }, (x, i) => i + 1);
-    // }
+    getMemberIndexes() {
+        return Array.from({ length: this.MAX_MEMBERS - this.members.length }, (x, i) => i + 1);
+    }
 
     // selectColor(color: { name: string, isSelected: boolean }) {
     //     this.COLORS.forEach(c => c.isSelected = false);

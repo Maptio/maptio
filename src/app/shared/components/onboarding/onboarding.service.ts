@@ -20,13 +20,13 @@ export class OnboardingService {
                 size: 'lg',
                 backdrop: 'static',
                 centered: true,
-                // beforeDismiss: () => {
-                //     document.querySelector(".modal-content").classList.add("shake");
-                //     setTimeout(() => {
-                //         document.querySelector(".modal-content").classList.remove("shake")
-                //     }, 1000)
-                //     modal.componentInstance.escape = true; return false
-                // }
+                beforeDismiss: () => {
+                    document.querySelector(".modal-content").classList.add("shake");
+                    setTimeout(() => {
+                        document.querySelector(".modal-content").classList.remove("shake")
+                    }, 1000)
+                    modal.componentInstance.escape = true; return false
+                }
             });
 
 

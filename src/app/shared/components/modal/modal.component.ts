@@ -12,6 +12,7 @@ export class CommonModalComponent implements OnInit {
     @Input("previousActionName") previousActionName: string;
     @Input("isSkippable") isSkippable: boolean;
     @Input("isReady") isReady: boolean;
+    @Input("isClosable") isClosable:boolean;
     @Input("isWithProgress") isWithProgress: boolean;
     @Input("progress") progress: string;
     @Input("progressLabel") progressLabel: string;

@@ -1,6 +1,5 @@
 <div class="modal-header d-flex justify-content-center border-bottom-0 ">
-    <button type="button" class="close btn" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
-        <!-- <span aria-hidden="true">&times;</span> -->
+    <button *ngIf="isClosable"  type="button" class="close btn" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
         <i class="fa fa-times"></i>
     </button>
 </div>

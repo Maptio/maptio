@@ -1,7 +1,7 @@
 <common-modal [nextActionName]="nextActionName" [previousActionName]="previousActionName" [isSkippable]="false" [isReady]="true"
-[isWithProgress]="false" (next)="nextStep($event)" (previous)="previousStep($event)" (close)="close($event)">
+    [isWithProgress]="false" (next)="nextStep($event)" (previous)="previousStep($event)">
 
-<ng-container *ngIf="currentStep === 'Welcome'">
+    <ng-container *ngIf="currentStep === 'Welcome'">
         <ng-container *ngTemplateOutlet="welcome"></ng-container>
     </ng-container>
 
@@ -51,10 +51,9 @@
 <ng-template #createteam>
     <h1 class="text-center">What should we call your organization?</h1>
     <div class="my-5">
-        <div class="form-row w-100 d-flex justify-content-center">
-            <input #inputTeamName [value]="teamName" type="text" class="form-control col-6">
-            <!-- <button class="btn btn-success mx-1" (click)="saveTeamName(teamName.value)">Set up organization</button> -->
-        <small class="form-text text-danger">{{teamCreationErrorMessage}}</small>
+        <div class="form-row w-100 d-flex justify-content-center align-items-center flex-column">
+            <input [(ngModel)]="team.name" type="text" class="form-control col-6">
+            <small *ngIf="teamCreationErrorMessage" class="form-text text-danger">{{teamCreationErrorMessage}}</small>
         </div>
     </div>
 
@@ -62,12 +61,12 @@
 
 
 <ng-template #addmember>
-    <h1 class="text-center">Who is in {{teamName}}?</h1>
+    <h1 class="text-center">Who is in {{team.name}}?</h1>
     <h4 class="text-muted">
         Add members to your organization to bring your maps to life. You can invite them to view and edit the maps later.
     </h4>
 
-    <!-- <div class="mt-5 ">
+    <div class="mt-5 ">
         <div class="my-1 d-flex justify-content-start align-items-center " *ngFor="let member of members; let i=index">
             <onboarding-add-member [member]="member"></onboarding-add-member>
         </div>
@@ -76,7 +75,7 @@
                 <onboarding-add-member [team]="team" (added)="onAdded($event)"></onboarding-add-member>
             </div>
         </div>
-    </div> -->
+    </div>
 
 
 

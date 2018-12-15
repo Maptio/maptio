@@ -84,7 +84,27 @@ export class TeamService {
     }
 
 
+    save(team: Team) {
+        if (!team.name) return Promise.reject("Organization name cannot be empty");
+        return this.teamFactory.upsert(team)
+            .then(saved => {
+                if(!!saved) return team
+            })
+    }
+
+    exist(team: Team): Promise<boolean> {
+        return this.teamFactory.get(team.team_id)
+            .then(team => !!team)
+            .catch(() => false)
+    }
+
+    get(user:User){
+        return this.teamFactory.get(user.teams)
+    }
+
     saveTerminology(team: Team, name: string, authority: string, helper: string) {
+        if (!name) return Promise.reject("Organization name cannot be empty");
+       
         team.name = name;
         team.settings = { authority: authority, helper: helper }
 
