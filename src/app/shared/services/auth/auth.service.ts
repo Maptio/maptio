@@ -194,6 +194,7 @@ export class Auth {
         .then((user: User) => {
           this.datasetFactory.get(user).then(ds => {
             user.datasets = uniq(ds);
+            console.log("headerUser", user)
             EmitterService.get("headerUser").emit(user);
             this.user$.next(user);
           });

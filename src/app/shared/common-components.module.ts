@@ -18,6 +18,8 @@ import { IntercomService } from "./services/team/intercom.service";
 import { AddMemberComponent } from "./components/onboarding/add-member.component";
 import { AddTerminologyComponent } from "./components/onboarding/add-terminology.component";
 import { ConfirmationPopoverModule } from "../../../node_modules/angular-confirmation-popover";
+import { CommonModalComponent } from "./components/modal/modal.component";
+import { InstructionsComponent } from "./components/instructions/instructions.component";
 
 
 
@@ -39,10 +41,12 @@ import { ConfirmationPopoverModule } from "../../../node_modules/angular-confirm
         CardMapComponent,
         CardTeamComponent, 
         OnboardingComponent,
+        InstructionsComponent,
         AddMemberComponent,
         AddTerminologyComponent,
         GoogleSignInComponent,
-        ColorPickerComponent
+        ColorPickerComponent,
+        CommonModalComponent
     ],
     providers: [
         IntercomService
@@ -53,10 +57,12 @@ import { ConfirmationPopoverModule } from "../../../node_modules/angular-confirm
         CardMapComponent,
         CardTeamComponent,
         OnboardingComponent,
+        InstructionsComponent,
         AddMemberComponent,
         AddTerminologyComponent,
         GoogleSignInComponent,
-        ColorPickerComponent
+        ColorPickerComponent,
+        CommonModalComponent
     ]
 })
 export class CommonComponentsModule { }

@@ -19,6 +19,7 @@ export class TeamMapsComponent implements OnInit {
     public teams: Team[];
     public user:User;
     Permissions=Permissions;
+    isCreateMapForbidden:boolean;
 
     constructor(private route: ActivatedRoute, private auth: Auth, private cd:ChangeDetectorRef,private analytics: Angulartics2Mixpanel,
     private router:Router) {
@@ -30,6 +31,7 @@ export class TeamMapsComponent implements OnInit {
             .subscribe(([data, user] : [{ assets: { team: Team, datasets: DataSet[] } }, User]) => {
                 this.datasets = sortBy(data.assets.datasets, d => !!d.isArchived).map(d => {d.team = data.assets.team; return d});
                 this.teams = [data.assets.team];
+                this.isCreateMapForbidden = data.assets.team.isExample;
                 this.user = user;
                 this.cd.markForCheck();
             });

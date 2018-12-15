@@ -1,0 +1,139 @@
+<common-modal [nextActionName]="nextActionName" [previousActionName]="previousActionName" [isSkippable]="false" [isReady]="true"
+    [isWithProgress]="false" (next)="nextStep($event)" (previous)="previousStep($event)" (close)="close($event)">
+    
+    <ng-container *ngIf="currentStep === 'Welcome'">
+        <ng-container *ngTemplateOutlet="welcome"></ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="currentStep === 'RightClick'">
+        <ng-container *ngTemplateOutlet="rightclick"></ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="currentStep === 'TreePanel'">
+        <ng-container *ngTemplateOutlet="treepanel"></ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="currentStep === 'EditPanel'">
+        <ng-container *ngTemplateOutlet="editpanel"></ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="currentStep === 'Directory'">
+        <ng-container *ngTemplateOutlet="directory"></ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="currentStep === 'Ending'">
+        <ng-container *ngTemplateOutlet="ending"></ng-container>
+
+    </ng-container>
+</common-modal>
+
+
+<ng-template #welcome>
+
+    <span class="display-4">
+        <span class="text-blue">👋 {{user?.firstname}} </span>, welcome to Maptio!</span>
+    <h4 class="my-4 text-muted">
+        Thanks for signing up and giving Maptio a try. We're really excited to have you onboard.
+
+
+    </h4>
+
+    <h4 class="mt-5">
+        <span class="text-muted">With Maptio, you will :</span>
+        <div class="ml-2 my-3 d-flex flex-column justify-content-start">
+            <span class="h6 py-2">
+                <i class="fas fa-check mr-1"></i>Communicate your organization structure
+                <b>simply and visually</b>
+            </span>
+            <span class="h6 py-2">
+                <i class="fas fa-check mr-1"></i>
+                <b>Onboard new people</b> to your organisation quickly</span>
+            <span class="h6 py-2">
+                <i class="fas fa-check mr-1"></i>Build
+                <b>greater transparency and accountability</b> over everyone’s roles</span>
+        </div>
+    </h4>
+
+</ng-template>
+
+
+
+
+<ng-template #treepanel>
+    <h1>All your circles always visible and up-to-date 🤝 </h1>
+    <h4 class="text-muted my-1">Build a list all the circles in your organization and order them to reflect your structure </h4>
+    <div class="mt-5">
+        <div class="d-flex justify-content-center w-100">
+            <img width="auto" height="100%" src="/assets/videos/tree_panel.gif" alt="">
+        </div>
+    </div>
+</ng-template>
+
+
+<ng-template #editpanel>
+    <h1>Keep all details in the same place 🎯 </h1>
+    <h4 class="text-muted my-1">Gather all relevant people &amp; roles. </h4>
+    <h4 class="text-muted my-1">Document all resources: links, documents, images, etc</h4>
+    <div class="mt-4">
+        <div class="d-flex justify-content-center w-100">
+            <img width="auto" height="100%" src="/assets/videos/edit_panel.gif" alt="">
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #directory>
+    <h1>Always know who is doing what 🏆 </h1>
+    <h4 class="text-muted my-1">The directory keeps track of the responsabilities of each member in your organization</h4>
+    <div class="d-flex mt-4">
+        <div class="d-flex justify-content-center w-100">
+            <img width="auto" height="100%" src="/assets/videos/directory.gif" alt="">
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #rightclick>
+    <h1>Keeping your map up-to-date is fast and easy 💨</h1>
+    <h4 class="my-1 text-muted text-right">
+        Right-click on
+        <i class="fab fa-windows"></i>.Ctrl+click on
+        <i class="fab fa-apple"></i>
+    </h4>
+    <div class="d-flex mt-4 align-items-stretch">
+        <div class="d-flex justify-content-center w-100">
+            <img width="auto" height="100%" src="/assets/videos/right_click.gif" alt="">
+        </div>
+    </div>
+</ng-template>
+
+
+<ng-template #ending>
+    <h1>
+        <span class="text-blue">{{user?.firstname}} </span>, one last thing ...
+    </h1>
+
+    <h4 class="my-1 text-muted">
+        We have created an sample map to get you started 💪
+    </h4>
+
+    <div class="my-5 d-flex flex-column justify-content-start">
+        <span class="h5 my-4">
+            <span class="fa-stack fa-1x mx-2">
+                <i class="fas fa-circle fa-stack-2x text-dark"></i>
+                <strong class="fa-stack-1x text-light">1</strong>
+            </span>Add, edit, delete as much as you want. Go crazy!
+        </span>
+        <span class="h5 my-4">
+            <span class="fa-stack fa-1x mx-2">
+                <i class="fas fa-circle fa-stack-2x text-dark"></i>
+                <strong class="fa-stack-1x  text-light">2</strong>
+            </span>Explore the tree view & network view for a different perspective
+        </span>
+        <span class="h5 my-4 ">
+            <span class="fa-stack fa-1x mx-2">
+                <i class="fas fa-circle fa-stack-2x text-dark"></i>
+                <strong class="fa-stack-1x text-light">3</strong>
+            </span><b>Create you own map and start your 14 days free trial</b> 
+        </span>
+    </div>
+
+</ng-template>

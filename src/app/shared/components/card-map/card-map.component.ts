@@ -18,7 +18,8 @@ export class CardMapComponent implements OnInit {
     @Input("isExportAvailable") isExportAvailable: Boolean;
     @Input("isTeamDisplayed") isTeamDisplayed: Boolean;
     @Input("isEdit") isEdit: Boolean;
-
+    @Input("isReadOnly") isReadOnly:Boolean;
+    
     @Output("copied") copied: EventEmitter<DataSet> = new EventEmitter<DataSet>();
     @Output("archived") archived: EventEmitter<DataSet> = new EventEmitter<DataSet>();
     @Output("restored") restored: EventEmitter<DataSet> = new EventEmitter<DataSet>();

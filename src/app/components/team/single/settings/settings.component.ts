@@ -78,6 +78,8 @@ export class TeamSettingsComponent implements OnInit {
                 team_id: this.team.team_id,
                 name: this.teamSettingsForm.controls["name"].value,
                 members: this.team.members,
+                isExample: this.team.isExample,
+                isTemporary : this.team.isTemporary,
                 settings: {
                     authority: this.teamSettingsForm.controls["authority"].value,
                     helper: this.teamSettingsForm.controls["helper"].value

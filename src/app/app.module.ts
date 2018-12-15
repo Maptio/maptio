@@ -78,6 +78,8 @@ import { PrivacyComponent } from "./components/pricing/privacy.component";
 import { CheckoutComponent } from "./components/pricing/checkout.component";
 import { TeamService } from "./shared/services/team/team.service";
 import { MapService } from "./shared/services/map/map.service";
+import { InstructionsService } from "./shared/components/instructions/instructions.service";
+import { OnboardingService } from "./shared/components/onboarding/onboarding.service";
 
 
 const appRoutes: Routes = [
@@ -171,7 +173,7 @@ export const cloudinaryLib = {
         AuthConfiguration,
         D3Service, DataService, CounterService, URIService, ColorService, UIService, DatasetFactory, TeamFactory,
         ErrorService, Auth, UserService, TeamService,MapService,  UserFactory, MailingService, JwtEncoder, LoaderService,
-        ExportService, FileService, PermissionService, BillingService,
+        ExportService, FileService, PermissionService, BillingService,InstructionsService,OnboardingService,
         Location,
         { provide: LocationStrategy, useClass: PathLocationStrategy },
         { provide: APP_BASE_HREF, useValue: '/' },

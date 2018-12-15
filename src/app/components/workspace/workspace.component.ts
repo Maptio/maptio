@@ -20,6 +20,7 @@ import { intersectionBy } from "lodash";
 import { UIService } from "../../shared/services/ui/ui.service";
 import { Intercom } from "ng-intercom";
 import { OnboardingComponent } from "../../shared/components/onboarding/onboarding.component";
+import { InstructionsComponent } from "../../shared/components/instructions/instructions.component";
 
 @Component({
     selector: "workspace",
@@ -99,26 +100,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.buildingComponent.loadData(this.dataset, this.team, this.members);
                 this.isEmptyMap = !this.dataset.initiative.children || this.dataset.initiative.children.length === 0;
                 this.cd.markForCheck();
-                if (this.team.isTemporary) {
-                    const modalRef = this.modalService.open(
-                        OnboardingComponent,
-                        {
-                            size: 'lg',
-                            backdrop: 'static',
-                            centered: true,
-                            beforeDismiss: () => {
-                                document.querySelector(".modal-content").classList.add("shake");
-                                setTimeout(()=>{
-                                    document.querySelector(".modal-content").classList.remove("shake")
-                                }, 1000)
-                                modalRef.componentInstance.escape = true; return false
-                            }
-                        });
-                    modalRef.componentInstance.user = this.user;
-                    modalRef.componentInstance.team = this.team;
-                    modalRef.componentInstance.members = this.members;
-                    modalRef.componentInstance.dataset = this.dataset;
-                }
+
 
             });
     }

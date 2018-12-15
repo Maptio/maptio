@@ -9,6 +9,7 @@ import { TeamService } from '../../shared/services/team/team.service';
 import { MapService } from '../../shared/services/map/map.service';
 import { LoaderService } from '../../shared/services/loading/loader.service';
 import { Auth } from '../../shared/services/auth/auth.service';
+import { EmitterService } from '../../shared/services/emitter.service';
 
 @Component({
     selector: "dashboard",
@@ -23,9 +24,10 @@ export class DashboardComponent {
 
     areTeamsCreated: boolean;
     areMapsCreated: boolean;
-    mapsCount:number;
-    teamsCount:number;
-    isOnboarding: boolean;
+    mapsCount: number;
+    teamsCount: number;
+    // isOnboarding: boolean;
+    isCreateMapForbidden:boolean;
     filterMaps$: Subject<string>
     filteredMaps: DataSet[];
 
@@ -40,7 +42,6 @@ export class DashboardComponent {
     private _datasets: DataSet[]
 
     ngOnChanges(changes: SimpleChanges): void {
-        console.log("ngONChanges", changes)
         if (changes.datasets && changes.datasets.currentValue) {
             this._datasets = changes.datasets.currentValue;
             this.mapsCount = this._datasets.filter(d => !d.team.isExample).length;
@@ -53,18 +54,26 @@ export class DashboardComponent {
             this.teamsCount = this._teams.length;
         }
 
-        this.isOnboarding = isEmpty(this._teams) || (this._teams.length === 1 && (this._teams[0] && this._teams[0].isTemporary));
-        this.cd.markForCheck();
+        // this.isOnboarding = isEmpty(this._teams) //  || (this._teams.length === 1 && (this._teams[0] && this._teams[0].isExample));
+        // this.cd.markForCheck();
     }
 
     ngOnInit() {
-        if (this.isOnboarding) {
-            this.getDemoMap()
-                .then((dataset: DataSet) => {
-                    this.router.navigateByUrl(`/map/${dataset.datasetId}/${dataset.initiative.getSlug()}`);
-                });
-        }
+        // if (this.isOnboarding) {
+        //     this.getDemoMap()
+        //         .then((dataset: DataSet) => {
+        //             this.isOnboarding = true;
+        //             this.cd.markForCheck;
+        //             this.router.navigateByUrl(`/map/${dataset.datasetId}/${dataset.initiative.getSlug()}`);
+        //         });
+        // }
 
+        if (this._teams.length === 1){
+            // EmitterService.get("currentTeam").emit(this._teams[0]);
+            this.isCreateMapForbidden = this._teams[0].isExample;
+            this.cd.markForCheck();
+        }
+           
         this.filteredMaps = [].concat(this._datasets);
         this.subscription = this.filterMaps$.asObservable().debounceTime(250).subscribe((search) => {
             this.filteredMaps = (search === '')
@@ -73,8 +82,6 @@ export class DashboardComponent {
                     d => d.initiative.name.toLowerCase().indexOf(search.toLowerCase()) >= 0
                         ||
                         d.team.name.toLowerCase().indexOf(search.toLowerCase()) >= 0
-
-
                 );
             this.cd.markForCheck();
         })
@@ -82,6 +89,8 @@ export class DashboardComponent {
 
     ngOnDestroy(): void {
         if (this.subscription) this.subscription.unsubscribe();
+        // EmitterService.get("currentTeam").emit(null);
+
     }
 
 
@@ -93,17 +102,17 @@ export class DashboardComponent {
         return this._datasets.filter(d => !d.team.isExample).length > 1;
     }
 
-    onCopy(dataset:DataSet){
-        this.auth.getUser().toPromise().then(()=> { this.cd.markForCheck()} );
+    onCopy(dataset: DataSet) {
+        this.auth.getUser().toPromise().then(() => { this.cd.markForCheck() });
     }
 
-    onArchive(dataset:DataSet){
-        let index = this._datasets.findIndex(d => d.datasetId ===dataset.datasetId)
+    onArchive(dataset: DataSet) {
+        let index = this._datasets.findIndex(d => d.datasetId === dataset.datasetId)
         this._datasets.splice(index, 1);
         this.onKeyDown('')
         this.cd.markForCheck();
-        this.auth.getUser().toPromise().then(()=> {  this.cd.markForCheck()} );
-   
+        this.auth.getUser().toPromise().then(() => { this.cd.markForCheck() });
+
     }
 
     getExampleMap(): Promise<DataSet> {
@@ -125,12 +134,7 @@ export class DashboardComponent {
         }
     }
 
-    getDemoMap(){
-        return this.teamService.createDemoTeam(this.user)
-        .then(team =>{
-            return  this.mapService.createExample(team.team_id)
-        })
-    }
+
 
     onKeyDown(search: string) {
         this.filterMaps$.next(search);

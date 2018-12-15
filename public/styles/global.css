@@ -1,5 +1,6 @@
 :root {
   --maptio-blue: #2f81b7;
+  --maptio-link:#0e5a8d ;
   --maptio-orange: hsla(17, 86%, 54%, 0.90);
   --maptio-white: #fff;
   --maptio-red:#dc3545;
@@ -64,8 +65,13 @@ html, body {
 
 }
 
+b, .text-bold{
+  font-weight: 700 !important;
+}
+
 body {
   overflow-x: hidden;
+  font-weight: 400;
 }
 
 .text-blue{
@@ -181,6 +187,8 @@ transition: background-image 0.2s ease-in-out;
   font-family: FontAwesome;
 }
 
+
+
 .pointer-none{
   pointer-events: none;
 }
@@ -281,11 +289,11 @@ nav.header {
 }
 
 .nav-link {
-  color: #2f81b7;
+  color: var(--maptio-link);
 }
 
 .nav-pills .nav-item.show .nav-link, .nav-pills .nav-link.active {
-  color: #2f81b7!important;
+  color: var(--maptio-link)!important;
   cursor: default;
   background-color: #f8f9fa!important;
 }
@@ -301,7 +309,7 @@ nav.header {
 
 
 .btn-link, a:not(.btn-tag):not(.text-white):not(.text-success) {
-  color: #2f81b7 !important;
+  color: var(--maptio-link) !important;
 }
 
 
@@ -406,6 +414,12 @@ transition: max-height .25s ease-in-out;
     transform: translate(-50%, -50%);
 }
 
+.top-center{
+  top: 0;
+    left: 50%;
+    transform: translate(0, -50%);
+}
+
 
 .top-right{
   top:0;
@@ -439,9 +453,9 @@ transition: max-height .25s ease-in-out;
   perspective: 1000px;
 }
 
-.modal-backdrop.show {
+/* .modal-backdrop.show {
   opacity: .8 !important;
-}
+} */
 
 @keyframes shake {
   10%, 90% {

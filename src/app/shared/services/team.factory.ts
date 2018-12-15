@@ -108,7 +108,7 @@ export class TeamFactory {
             settings: team.settings,
             slack : team.slack,
             isTemporary:team.isTemporary,
-            isExample : input.isExample,
+            isExample : team.isExample,
             members: team.members.map(m => { return { name: m.name, picture: m.picture, user_id: m.user_id, nickname: m.nickname } })
         };
         return this.http.put("/api/v1/team/" + team.team_id, transformed)

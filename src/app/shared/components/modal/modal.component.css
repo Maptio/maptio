@@ -1,0 +1,4 @@
+.modal-body.fixed-height{
+    min-height: 73vh!important;
+    height: 73vh!important;
+  }

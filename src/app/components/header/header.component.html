@@ -1,3 +1,10 @@
+<ng-container *ngIf="auth.allAuthenticated()">
+    <nav class="navbar navbar-light bg-blue  text-white mx-3 rounded-bottom" *ngIf="isSandbox">
+        <div class="my-3">This is a sample organization... Ready to create your own?
+            <button class="btn btn-success" (click)="openOnboarding()">Start a 14 days free trial</button>
+        </div>
+    </nav>
+</ng-container>
 <nav class="header navbar sticky-top  navbar-expand-sm navbar-light bg-transparent justify-content-between pr-3" [class.grayscale]="loaderService.isLoading">
     <a class="navbar-brand d-flex align-items-center">
         <a routerLink="home" class="no-underline">
@@ -17,8 +24,8 @@
             </li>
         </ul>
 
-        <span class="navbar-text d-none d-xl-flex flex-column " *ngIf="team">
-            <span *ngIf="team?.name" class="text-muted mr-1">Organization
+        <span class="navbar-text d-none d-xl-flex flex-column " *ngIf="team && isMap()">
+            <span *ngIf="team?.name " class="text-muted mr-1">Organization
                 <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}">
                     {{team?.name}}
                 </a>
@@ -38,7 +45,7 @@
                     <ng-container *ngFor="let dataset of datasets">
                         <ng-container *ngIf="dataset.initiative">
                             <a class="dropdown-item" routerLink="/map/{{dataset.datasetId}}/{{dataset.initiative.getSlug()}}/circles">
-                                
+
                                 {{dataset?.initiative.name}}
                             </a>
                         </ng-container>
@@ -47,7 +54,7 @@
 
                 </div>
             </li>
-            <li class="nav-item dropdown d-none d-xl-block" *ngIf="teams?.length > 0 && datasets && datasets?.length !== 0">
+            <li class="nav-item dropdown d-none d-xl-block" *ngIf="teams?.length > 0 && datasets && datasets?.length !== 0 && !isSandbox">
                 <a class="nav-link dropdown-toggle " id="mapsListDropdownLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                     (click)="isCreateMode=!isCreateMode">
                     Create a map
@@ -66,7 +73,7 @@
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdownLink">
                     <a class="dropdown-item" routerLink="{{user?.shortid}}/{{user?.getSlug() || 'profile'}}">Profile</a>
                     <div class="dropdown-divider"></div>
-                    <h6 class="dropdown-header">Organizations</h6>
+                    <h6 class="dropdown-header" *ngIf="teams?.length > 0">Organizations</h6>
                     <ng-container *ngIf="teams?.length > 1">
                         <a class="dropdown-item" *ngFor="let team of teams  | slice:1:5" routerLink="/teams/{{team.team_id}}/{{team?.getSlug()}}">{{team?.name}}</a>
 

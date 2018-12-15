@@ -4,10 +4,10 @@
     </span>
 </ng-template>
 <div class="">
-    <div class="w-100">
+    <div class="w-100" *ngIf="team && !team?.isExample">
         <div class="card mb-3 border-0 bg-light">
             <div class="card-body">
-                <div class="card-title lead">Add members</div>
+                <div class="card-title lead">Add people</div>
                 <div class="form-group">
                     <div class="form-inline">
                         <ng-container *permissionsOnly="Permissions.canAddUser; then thenAddBlock; else elseAddBlock"></ng-container>
@@ -25,6 +25,9 @@
                         </span>
                     </div>
                     <small *ngIf="!isShowSelectToAdd && !isShowInviteForm" class="form-text">Search for a person in Maptio by email address, or enter an email address to add someone new.
+                    </small>
+                    <small>
+                        <b>Big organization?</b> You can also <a routerLink="../import">import a file</a>. 
                     </small>
                     <div *ngIf="isShowSelectToAdd" class="my-3">
                         <div class="d-flex flex-column justify-content-start align-items-start col-5 p-0">

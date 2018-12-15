@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, SimpleChanges, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { DataSet } from '../../model/dataset.data';
 import { Team } from '../../model/team.data';
 import { isEmpty } from 'lodash';
@@ -8,15 +8,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TeamService } from '../../services/team/team.service';
 import { Router } from '@angular/router';
 import { MapService } from '../../services/map/map.service';
+import { Steps } from './onboarding.enum';
 
-enum Steps {
-    Welcome,
-    CreateTeam,
-    AddMember,
-    Terminology,
-    PickColor,
-    Ending
-}
+
 
 @Component({
     selector: 'common-onboarding',
@@ -25,11 +19,19 @@ enum Steps {
 })
 export class OnboardingComponent implements OnInit {
 
-    Steps = Steps;
-    currentStep: Steps = Steps.Welcome;
+    currentStep: string;
+    currentIndex: number = 0;
+    nextActionName: string = "Start";
+    previousActionName: string = null;
+    progress: string;
+    progressLabel: string;
+
+    @ViewChild("inputTeamName") inputTeamName:ElementRef;
+
+
     teamCreationErrorMessage: string;
     isTerminologySaved: boolean;
-    teamName: string;
+    teamName: string ="";
     MAX_MEMBERS: number = 4;
     COLORS: any[] = [
         { name: "#aaa", isSelected: false },
@@ -43,131 +45,178 @@ export class OnboardingComponent implements OnInit {
 
 
     @Input("user") user: User;
-    @Input("members") members: User[];
-    @Input("team") team: Team;
-    @Input("dataset") dataset: DataSet;
-    @Input("isCompleted") isCompleted: boolean;
-    @Input("escape") escape: boolean;
+    @Input("steps") steps: string[];
+    // @Input("members") members: User[];
+    // @Input("team") team: Team;
+    // @Input("dataset") dataset: DataSet;
+    // @Input("isCompleted") isCompleted: boolean;
+    // @Input("escape") escape: boolean;
 
 
     constructor(public activeModal: NgbActiveModal, private cd: ChangeDetectorRef,
         private teamService: TeamService, private mapService: MapService, private router: Router) { }
 
-    ngOnInit() {
-
+    ngOnInit(): void {
+        this.currentStep = this.steps[this.currentIndex];
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         console.log(changes)
     }
 
-
-    nextStep() {
-        // if (this.currentStep === Steps.AddMember) {
-        //     // assign random roles to random members
-        //     this.mapService.randomize(this.dataset, this.members)
-        //         .then(dataset => {
-        //             this.dataset = dataset;
-        //         })
-        // }
-
-        if (this.currentStep === Steps.Ending) {
-            this.router.navigate(
-                ["map", this.dataset.datasetId, this.dataset.initiative.getSlug(), "circles"],
-                { queryParams: { reload: true, color: this.selectedColor } })
-            this.activeModal.close();
-        }
-        this.currentStep += 1;
-        this.cd.markForCheck();
-
+    close() {
+        this.activeModal.dismiss();
     }
 
+    nextStep() {
+        if (this.currentIndex === this.steps.length - 1) {
+            // if (this.user.teams.length === 0) {
+            //     return this.getDemoMap(this.user)
+            //         .then((dataset: DataSet) => {
+            //             this.isRedirecting = true;
+            //             this.cd.markForCheck();
+            //             return this.router.navigateByUrl(`/map/${dataset.datasetId}/${dataset.initiative.getSlug()}`);
+            //         })
+            //         .then(() => {
+            //             this.isRedirecting = false;
+            //             this.cd.markForCheck();
+            //             this.activeModal.close();
+            //         })
+            // }
+            // else {
+            //     this.close();
+            // }
+
+        }
+
+        if(this.currentStep === "CreateTeam"){
+            if(isEmpty(this.inputTeamName.nativeElement.value)){
+                this.teamCreationErrorMessage = "A org name is required."
+                this.cd.markForCheck();
+                return ;
+            }
+            else{
+                this.teamName = this.inputTeamName.nativeElement.value;
+                this.cd.markForCheck();
+            }
+        }
+
+        this.currentIndex += 1;
+        this.currentStep = this.steps[this.currentIndex]
+        this.nextActionName = this.getNextActionName();
+        this.previousActionName = this.getPreviousActionName();
+        this.progress = Number(Math.ceil((this.currentIndex + 1) / this.steps.length * 100)).toFixed(0);
+        this.progressLabel = `${this.steps.length - (this.currentIndex + 1)} steps left`
+        this.cd.markForCheck();
+    }
+
+    previousStep() {
+        this.currentIndex -= 1;
+        this.currentStep = this.steps[this.currentIndex]
+        this.nextActionName = this.getNextActionName();
+        this.previousActionName = this.getPreviousActionName();
+        this.cd.markForCheck();
+    }
+
+
+    // nextStep() {
+    //     if (this.currentStep === Steps.Ending) {
+    //         this.router.navigate(
+    //             ["map", this.dataset.datasetId, this.dataset.initiative.getSlug(), "circles"],
+    //             { queryParams: { reload: true, color: this.selectedColor } })
+    //         this.activeModal.close();
+    //     }
+    //     this.currentStep += 1;
+    //     this.cd.markForCheck();
+
+    // }
+
     getProgress() {
-        return Number(Math.ceil((this.currentStep + 1) / 6 * 100)).toFixed(0)
+        return Number(Math.ceil((this.currentIndex + 1) / this.steps.length * 100)).toFixed(0)
     }
 
     getAbsoluteProgress() {
-        return `${6 - (this.currentStep + 1)} steps left`;
+        return `${this.steps.length - (this.currentIndex + 1)} steps left`;
     }
 
-    isReady() {
-        switch (this.currentStep) {
-            case Steps.CreateTeam:
-                return false;
-            case Steps.AddMember:
-                return this.members.length > 1;
-            case Steps.Terminology:
-                return this.isTerminologySaved;
-            default:
-                return true;
-        }
-    }
+    // isReady() {
+    //     switch (this.currentStep) {
+    //         case "CreateTeam":
+    //             return false;
+    //         case "AddMember":
+    //             return this.members.length > 1;
+    //         case "Terminology":
+    //             return this.isTerminologySaved;
+    //         default:
+    //             return true;
+    //     }
+    // }
 
-    nextActionName() {
+    getNextActionName() {
         switch (this.currentStep) {
-            case Steps.Welcome:
+            case "Welcome":
                 return "Start";
-            case Steps.CreateTeam:
-                return null;
-            case Steps.AddMember:
-                return "Next";
-            case Steps.Terminology:
-                return "Next";
-            case Steps.Ending:
-                return "Start mapping"
             default:
                 return "Next";
         }
     }
 
-    isSkippable() {
-        switch (this.currentStep) {
-            case Steps.AddMember:
-                return true;
-            case Steps.Terminology:
-                return true;
-            case Steps.PickColor:
-                return true;
-            default:
-                return false;
-        }
+    getPreviousActionName() {
+        return this.currentStep === "Welcome" ? null : "Back";
     }
 
-    renameTeam(name: string) {
-        this.teamService.renameTemporary(this.team, name)
-            .then(result => {
-                if (result) {
-                    this.teamName = name;
-                    this.nextStep();
-                } else {
-                    throw "Error while creating an organization"
-                }
-            })
-            .catch(err => {
-                console.error(err);
-                this.teamCreationErrorMessage = err;
-                this.cd.markForCheck();
-            })
+    // isSkippable() {
+    //     switch (this.currentStep) {
+    //         case Steps.AddMember:
+    //             return true;
+    //         case Steps.Terminology:
+    //             return true;
+    //         case Steps.PickColor:
+    //             return true;
+    //         default:
+    //             return false;
+    //     }
+    // }
+
+    saveTeamName(name:string){
+        this.teamName = name; 
     }
 
-    onAdded(event: { team: Team, user: User }) {
-        this.members.push(event.user);
-        this.cd.markForCheck();
-    }
+    // renameTeam(name: string) {
+    //     this.teamService.renameTemporary(this.team, name)
+    //         .then(result => {
+    //             if (result) {
+    //                 this.teamName = name;
+    //                 this.nextStep();
+    //             } else {
+    //                 throw "Error while creating an organization"
+    //             }
+    //         })
+    //         .catch(err => {
+    //             console.error(err);
+    //             this.teamCreationErrorMessage = err;
+    //             this.cd.markForCheck();
+    //         })
+    // }
 
-    getMemberIndexes() {
-        return Array.from({ length: this.MAX_MEMBERS - this.members.length }, (x, i) => i + 1);
-    }
+    // onAdded(event: { team: Team, user: User }) {
+    //     this.members.push(event.user);
+    //     this.cd.markForCheck();
+    // }
 
-    selectColor(color: { name: string, isSelected: boolean }) {
-        this.COLORS.forEach(c => c.isSelected = false);
-        color.isSelected = true;
-        this.selectedColor = color.name;
-        let settings: any = JSON.parse(localStorage.getItem(`map_settings_${this.dataset.datasetId}`));
-        settings.mapColor = color.name;
-        localStorage.setItem(`map_settings_${this.dataset.datasetId}`, JSON.stringify(settings));
-        this.cd.markForCheck();
-    }
+    // getMemberIndexes() {
+    //     return Array.from({ length: this.MAX_MEMBERS - this.members.length }, (x, i) => i + 1);
+    // }
+
+    // selectColor(color: { name: string, isSelected: boolean }) {
+    //     this.COLORS.forEach(c => c.isSelected = false);
+    //     color.isSelected = true;
+    //     this.selectedColor = color.name;
+    //     let settings: any = JSON.parse(localStorage.getItem(`map_settings_${this.dataset.datasetId}`));
+    //     settings.mapColor = color.name;
+    //     localStorage.setItem(`map_settings_${this.dataset.datasetId}`, JSON.stringify(settings));
+    //     this.cd.markForCheck();
+    // }
 }
 
 // export class OnboardingComponent implements OnInit {

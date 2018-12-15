@@ -44,7 +44,7 @@ export class Team implements Serializable<Team> {
     /**
      * True if this team is used for demo purposed, false otherwise
      */
-    public isExample:Boolean;
+    public isExample:boolean;
 
     /**
      * List of team members
