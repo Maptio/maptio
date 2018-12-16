@@ -9,6 +9,7 @@ import { TeamService } from '../../services/team/team.service';
 import { Router } from '@angular/router';
 import { MapService } from '../../services/map/map.service';
 import { Steps } from './onboarding.enum';
+import { tickStep } from '../../../../../node_modules/@types/d3-array';
 
 
 
@@ -27,8 +28,9 @@ export class OnboardingComponent implements OnInit {
     currentIndex: number = 0;
     nextActionName: string = "Start";
     previousActionName: string = null;
-    progress: string;
+    progress: string ;
     progressLabel: string;
+    isClosable:boolean=true;
 
     teamCreationErrorMessage: string;
     mapCreationErrorMessage: string;
@@ -57,7 +59,9 @@ export class OnboardingComponent implements OnInit {
     ngOnInit(): void {
         this.currentStep = this.steps[this.currentIndex];
         this.members = [this.user];
-
+        this.progress = this.getProgress()
+        this.progressLabel = this.getAbsoluteProgress() ; //`${this.steps.length - (this.currentIndex + 1)} steps left`
+        
         this.teamService.get(this.user)
             .then((teams: Team[]) => {
                 let nonExampleTeams = teams.filter(t => !t.isExample);
@@ -132,8 +136,9 @@ export class OnboardingComponent implements OnInit {
         this.currentStep = this.steps[this.currentIndex]
         this.nextActionName = this.getNextActionName();
         this.previousActionName = this.getPreviousActionName();
-        this.progress = Number(Math.ceil((this.currentIndex + 1) / this.steps.length * 100)).toFixed(0);
-        this.progressLabel = `${this.steps.length - (this.currentIndex + 1)} steps left`
+        this.isClosable = this.getIsClosable();
+        this.progress = this.getProgress()
+        this.progressLabel = this.getAbsoluteProgress() ; //`${this.steps.length - (this.currentIndex + 1)} steps left`
         this.cd.markForCheck();
     }
 
@@ -142,6 +147,10 @@ export class OnboardingComponent implements OnInit {
         this.currentStep = this.steps[this.currentIndex]
         this.nextActionName = this.getNextActionName();
         this.previousActionName = this.getPreviousActionName();
+        this.isClosable = this.getIsClosable();
+        this.progress = this.getProgress()
+        this.progressLabel = this.getAbsoluteProgress() ; //`${this.steps.length - (this.currentIndex + 1)} steps left`
+       
         this.cd.markForCheck();
     }
 
@@ -196,6 +205,10 @@ export class OnboardingComponent implements OnInit {
 
     getPreviousActionName() {
         return this.currentStep === "Welcome" ? null : "Back";
+    }
+
+    getIsClosable(){
+        return this.currentStep === "Welcome";
     }
 
     onAdded(event: { team: Team, user: User }) {

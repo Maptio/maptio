@@ -1,5 +1,7 @@
-<common-modal [nextActionName]="nextActionName" [previousActionName]="previousActionName" [isSkippable]="false" [isReady]="true"
-    [isWithProgress]="false" (next)="nextStep($event)" (previous)="previousStep($event)">
+<common-modal [nextActionName]="nextActionName" [previousActionName]="previousActionName" 
+[isSkippable]="false" [isReady]="true" [isWithProgress]="true" 
+[isWithProgress]="false" [progress]="progress" [progressLabel]="progressLabel"
+ (next)="nextStep($event)" (previous)="previousStep($event)"  >
 
     <ng-container *ngIf="currentStep === 'Welcome'">
         <ng-container *ngTemplateOutlet="welcome"></ng-container>
@@ -32,22 +34,8 @@
     <span class="display-4">
         <span class="text-blue">👋 {{user?.firstname}} </span>, your first map is just a few clicks away!</span>
     <h4 class="my-4 text-muted">
-        We'll guide you through your first map , it should only take a few minutes.
+        We'll guide you through creating your first map , it should only take a few minutes.
     </h4>
-
-    <!-- <h4 class="mt-5">
-        With Maptio, you will :
-        <ul class="ml-2 my-3">
-            <li class="h6 py-2">Communicate your organization structure
-                <b>simply and visually</b>
-            </li>
-            <li class="h6 py-2">
-                <b>Onboard new people</b> to your organisation quickly</li>
-            <li class="h6 py-2">Build
-                <b>greater transparency and accountability</b> over everyone’s roles</li>
-
-        </ul>
-    </h4> -->
 
 </ng-template>
 
@@ -102,22 +90,6 @@
     </div>
 
 </ng-template>
-<!-- <ng-template #pickcolor>
-    <h1>Pick a color</h1>
-
-    <h4 class="text-muted">What color should your map be?</h4>
-
-    <div class="my-5 d-flex justify-content-between align-items-center">
-        <div *ngFor="let color of COLORS" (click)="selectColor(color)" class="d-flex flex-column align-items-center position-relative">
-            <div class="display-1 cursor-pointer select-color">
-                <i [style.color]="color.name" class="fas fa-circle"></i>
-            </div>
-            <i [class.invisible]="!color.isSelected" class="fas fa-check fa-2x position-absolute center-center text-white"></i>
-
-        </div>
-    </div>
-
-</ng-template> -->
 
 <ng-template #createmap>
     <h1 class="text-center">Your map is almost ready!</h1>
@@ -182,19 +154,6 @@
 
 <ng-template #ending>
     <h1>You're all set! 👍</h1>
-<!-- 
-    <h4 class="mt-4">
-        An example map is ready for you, take some time to:
-        <ul class="ml-2 my-3">
-            <li class="h6 py-2">Explore the
-                <b>circles, tree and network views</b> to get a different perspective</li>
-            <li class="h6 py-2">Open the
-                <b>directory</b> and see a person's list of responsabilities at a glance</li>
-            <li class="h6 py-2">Create your own map, import your team members and start mapping</li>
-
-        </ul>
-    </h4> -->
-
 
     <h4 class="my-5">
         Have more questions?

@@ -1,4 +1,5 @@
 <div class="modal-header d-flex justify-content-center border-bottom-0 ">
+    
     <button *ngIf="isClosable"  type="button" class="close btn" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
         <i class="fa fa-times"></i>
     </button>
@@ -22,6 +23,6 @@
     <div class="d-flex justify-content-end w-100">
         <button type="button" class="btn btn-outline-secondary mx-1" [class.invisible]="!previousActionName" (click)="previousStep()">{{previousActionName}}</button>
         <button type="button" class="btn btn-link mx-1" *ngIf="isSkippable" (click)="nextStep()">Skip for now</button>
-        <button type="button" class="btn btn-success" [class.invisible]="!nextActionName" [class.disabled]="!isReady" (click)="isReady && nextStep()">{{nextActionName}}</button>
+        <button type="button" class="btn btn-success" [class.invisible]="!nextActionName" (click)="nextStep()">{{nextActionName}}</button>
     </div>
 </div>
