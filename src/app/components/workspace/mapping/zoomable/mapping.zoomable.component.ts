@@ -75,12 +75,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
   private lockedSubscription: Subscription;
   private tagsSubscription: Subscription;
   private selectableTagsSubscription: Subscription;
-  public toggleOptionsSubscription: Subscription;
+
+  private zooming: any;
 
   public analytics: Angulartics2Mixpanel;
-
-
-  public _isDisplayOptions: Boolean = false;
 
   public _isExplorationMode: boolean;
 
@@ -113,6 +111,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   RATIO_FOR_VISIBILITY = 0.08;
   FADED_OPACITY = 0.1;
   MAX_NUMBER_LETTERS_PER_CIRCLE = 15;
+  MIN_TEXTBOX_WIDTH = 100;
   T: any;
 
   POSITION_INITIATIVE_NAME = { x: 0.9, y: 0.1, fontRatio: 1 };
@@ -186,11 +185,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
       },
         (err) => console.error(err));
     this.selectableTags$.subscribe(tags => this.tagsState = tags)
-
-    this.toggleOptionsSubscription = this.toggleOptions$.subscribe(toggled => {
-      this._isDisplayOptions = toggled;
-      this.cd.markForCheck();
-    })
   }
 
   public switch() {
@@ -226,9 +220,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
     if (this.selectableTagsSubscription) {
       this.selectableTagsSubscription.unsubscribe();
     }
-    if (this.toggleOptionsSubscription) {
-      this.toggleOptionsSubscription.unsubscribe();
-    }
   }
 
   init() {
@@ -242,9 +233,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .select("svg")
       .attr("width", this.width)
       .attr("height", this.height)
-      .attr('xmlns', "http://www.w3.org/2000/svg")
-      .attr('xmlns:xlink', "http://www.w3.org/1999/xlink")
-      .attr('version', "1.1"),
+      .attr("xmlns", "http://www.w3.org/2000/svg")
+      .attr("xmlns:xlink", "http://www.w3.org/1999/xlink")
+      .attr("version", "1.1"),
       diameter = +width,
       g = svg
         .append("g")
@@ -255,14 +246,15 @@ export class MappingZoomableComponent implements IDataVisualizer {
       definitions = svg.append("svg:defs");
 
     // g.append("g").attr("class", "paths");
-    let zooming = d3
+    this.zooming = d3
       .zoom()
       .scaleExtent([!this._isExplorationMode ? 1 / 4 : 1 / 3, !this._isExplorationMode ? 3 : 4 / 3])
       .on("zoom", zoomed)
-      .on("end", () => {
-        let transform = d3.event.transform;
-        svg.attr("scale", transform.k);
-        let tagFragment = this.tagsState
+      .on("end", (): void => {
+        this.adjustViewToZoomEvent(g, d3.event);
+        svg.attr("scale", d3.event.transform.k);
+        /*
+        const tagFragment = this.tagsState
           .filter(t => t.isSelected)
           .map(t => t.shortid)
           .join(",");
@@ -275,19 +267,20 @@ export class MappingZoomableComponent implements IDataVisualizer {
             ["tags", tagFragment]
           ])
         );
+        */
       });
 
     try {
       // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
       // svg.call(zooming.transform, d3.zoomIdentity.translate(diameter / 2, diameter / 2));
       svg.call(
-        zooming.transform,
+        this.zooming.transform,
         d3.zoomIdentity
           .translate(this.translateX, this.translateY)
           .scale(this.scale)
       );
-      svg.call(zooming);
-    } catch (error) { }
+      svg.call(this.zooming);
+    } catch (error) { console.log(error); }
 
     function zoomed() {
       g.attr("transform", d3.event.transform);
@@ -295,7 +288,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
       svg.transition().duration(this.ZOOMING_TRANSITION_DURATION).call(
-        zooming.transform,
+        this.zooming.transform,
         d3.zoomIdentity.translate(
           diameter / 2 + margin.left,
           diameter / 2 + margin.top
@@ -307,10 +300,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
       try {
         // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
         if (zf) {
-          zooming.scaleBy(svg.transition().duration(this.ZOOMING_TRANSITION_DURATION), zf);
+          this.zooming.scaleBy(svg.transition().duration(this.ZOOMING_TRANSITION_DURATION), zf);
         } else {
           svg.transition().duration(this.ZOOMING_TRANSITION_DURATION).call(
-            zooming.transform,
+            this.zooming.transform,
             d3.zoomIdentity.translate(this.translateX, this.translateY)
           );
         }
@@ -380,6 +373,47 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.definitions = definitions;
   }
 
+  adjustViewToZoomEvent(g: any, event: any): void {
+    const zoomFactor: number = event.transform.k > 1 ? event.transform.k : 1;
+    const CIRCLE_RADIUS: number = this.CIRCLE_RADIUS;
+    const DEFAULT_PICTURE_ANGLE: number = this.DEFAULT_PICTURE_ANGLE;
+
+    g.selectAll(".node.no-children")
+      .each((d: any, i: number, e: Array<HTMLElement>): void => {
+        const currentNode = this.d3.select(e[i]);
+        const currentCircle = currentNode.select("circle").node() as HTMLElement;
+        const currentContent = currentNode.select("foreignObject") as any;
+        if (currentCircle && currentCircle.getBoundingClientRect && currentCircle.getBoundingClientRect().width < this.MIN_TEXTBOX_WIDTH) {
+          currentContent.transition().style("opacity", 0);
+        } else {
+          currentContent.transition().style("opacity", 1);
+        }
+      });
+
+    g.selectAll("text.name.with-children")
+      .transition()
+      .duration(this.TRANSITION_DURATION)
+      .style("font-size", `${16 / zoomFactor}px`);
+
+    const accountableCircles = g.selectAll("circle.accountable")
+      .transition()
+      .duration(this.TRANSITION_DURATION)
+      .attr("transform", `scale(${1 / zoomFactor})`);
+
+    if (true) { // TODO: only run this when view is not focused on particular node
+      accountableCircles
+        .attr("cx", (d: any): number => {
+          return d.children
+            ? Math.cos(DEFAULT_PICTURE_ANGLE) * (d.r * zoomFactor) - 12
+            : 0;
+        })
+        .attr("cy", (d: any): number => {
+          return d.children
+            ? -Math.sin(DEFAULT_PICTURE_ANGLE) * (d.r * zoomFactor) + 12
+            : -d.r * zoomFactor * 0.9;
+        });
+      }
+  }
 
   getTags() {
     return this.tagsState;
@@ -411,6 +445,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let definitions = this.definitions;
     let uiService = this.uiService;
     let fontSize = this.fontSize;
+    let zooming = this.zooming;
     let marginLeft = 200;
     let TOOLTIP_PADDING = 20;
     let CIRCLE_RADIUS = this.CIRCLE_RADIUS;
@@ -423,7 +458,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let datasetId = this.datasetId;
     let datasetSlug = this.slug;
     let router = this.router;
-    let getTags = this.getTags.bind(this)
+    let getTags = this.getTags.bind(this);
     let getLastZoomedCircle = this.getLastZoomedCircle.bind(this);
     let setLastZoomedCircle = this.setLastZoomedCircle.bind(this);
     let zoomInitiative$ = this.zoomInitiative$;
@@ -433,6 +468,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let DEFAULT_PICTURE_ANGLE = this.DEFAULT_PICTURE_ANGLE;
     let PADDING_CIRCLE = 20
     let MAX_NUMBER_LETTERS_PER_CIRCLE = this.MAX_NUMBER_LETTERS_PER_CIRCLE;
+    let MIN_TEXTBOX_WIDTH = this.MIN_TEXTBOX_WIDTH;
     let FADED_OPACITY = this.FADED_OPACITY;
 
     let TRANSITION_1x = d3.transition("").duration(TRANSITION_DURATION)
@@ -595,7 +631,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       });
 
 
-    let initiativeName = initiativeNoChildren.select("foreignObject.name.no-children")
+    const initiativeName = initiativeNoChildren.select("foreignObject.name.no-children")
       .attr("id", function (d: any) {
         return `${d.data.id}`;
       })
@@ -649,6 +685,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       return d.data.tags.map((tag: Tag) => `<tspan fill="${tag.color}" class="dot-tags">&#xf02b</tspan><tspan fill="${tag.color}">${tag.name}</tspan>`).join(" ");
     });
 */
+
     let accountablePictureWithChildren = initiativeWithChildren.select("circle.accountable.with-children")
       .attr("pointer-events", "none")
       .attr("fill", function (d: any) {
@@ -699,7 +736,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     */
     let node = g.selectAll("g.node");
 
-    svg.on("click", function () {
+    svg.on("click", () => {
       // if (isFullDisplayMode) return;
       zoom(root);
     });
@@ -716,19 +753,25 @@ export class MappingZoomableComponent implements IDataVisualizer {
       focus = d;
       setLastZoomedCircle(focus);
 
+      // TODO: instead of resetting, focus and zoom and selected node and remove zoomTo below
+      svg.transition().duration(TRANSITION_DURATION).call(
+        zooming.transform,
+        d3.zoomIdentity.translate(translateX, translateY)
+      );
+
       let transition = d3
         .transition("zooming")
         .duration(TRANSITION_DURATION)
-        .tween("zoom", function (d) {
-          let i = d3.interpolateZoom(view, [
+        .tween("zoom", d => {
+          const i = d3.interpolateZoom(view, [
             focus.x,
             focus.y,
             focus.r * 2 + margin
           ]);
-          return function (t) {
+          return t => {
             zoomTo(i(t));
           };
-        })
+        });
 
       let revealTransition = d3
         .transition("reveal")
@@ -757,7 +800,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .style("font-size", function (d: any) {
               let multiplier = svg.attr("data-font-multiplier");
               return `${multiplier}rem`
-
             });
           // .attr("font-size", function (d: any) { return `${fonts(d.depth) * d.k / 2}px` })
         });
@@ -930,10 +972,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       node
         .transition()
         .duration((d: any) => d.children ? TRANSITION_DURATION / 5 : TRANSITION_DURATION / 5)
-
-        .attr("transform", function (d: any) {
-          return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")";
-        });
+        .attr("transform", (d: any): string => `translate(${(d.x - v[0]) * k}, ${(d.y - v[1]) * k})`);
 
       textAround
         .on("contextmenu", function (d: any) {
@@ -946,7 +985,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         })
         .on("mouseout", function (d: any) {
           d3.select(`circle.node[id="${d.data.id}"]`).dispatch("mouseout");
-        })
+        });
 
       circle
         .attr("r", function (d: any) {
@@ -979,10 +1018,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .style("stroke", d3.color(seedColor).darker(1).toString())
             .style("fill", d3.color(seedColor).darker(1).toString())
             .style("fill-opacity", 1)
-            .style("stroke-width", "3px")
+            .style("stroke-width", "3px");
 
           d3.selectAll(`circle[parent-id="${d.data.id}"]`)
-            .style("fill-opacity", 1)
+            .style("fill-opacity", 1);
 
           // d3.select(".tooltip-menu")
           //   .on("mouseover", function (d: any) {

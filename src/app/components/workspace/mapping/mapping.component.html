@@ -46,9 +46,9 @@
                 routerLink="/map/{{datasetId}}/{{slug}}/summary">
                 <span class="icon-text-label">Directory</span>
               </button>
-              <button class="btn btn-light menu text-dark p-1 btn-control d-flex flex-column align-items-center" [class.invisible]="!( rlaNetwork.isActive || rlaCircles.isActive)"
-                (click)="toggleOptions( rlaNetwork.isActive || rlaCircles.isActive)">
-                <i class="fas fa-angle-double-left my-1"></i>
+              <button class="btn btn-light menu text-dark p-1 btn-control d-flex flex-column align-items-center" [class.invisible]="!rlaNetwork.isActive"
+                (click)="toggleOptions(rlaNetwork.isActive)">
+                <i class="fas fa-angle-double-left"></i>
                 <span class="icon-text-label">Options</span>
               </button>
 
