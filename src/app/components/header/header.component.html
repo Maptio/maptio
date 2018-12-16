@@ -91,7 +91,7 @@
         </ul>
     </div>
 </nav>
-<ng-container *ngIf="auth.allAuthenticated()">
+<ng-container *ngIf="auth.allAuthenticated() && (isMap() || isHome() || isTeam())">
         <nav class="navbar navbar-light bg-blue  text-white mx-3 rounded" *ngIf="isSandbox">
             <div class="my-3 h5">This is a sample <i class="fas fa-dice"></i> organization... Ready to create your own?
                 <button class="btn btn-success" (click)="openOnboarding()">Start a 14 days free trial</button>

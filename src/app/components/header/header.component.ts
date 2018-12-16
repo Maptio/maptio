@@ -142,6 +142,16 @@ export class HeaderComponent implements OnInit {
 
     }
 
+    isTeam() {
+        return this.router.url.startsWith("/teams")
+
+    }
+
+    isPricing() {
+        return this.router.url.startsWith("/pricing")
+
+    }
+
     toggleCreateMode() {
         this.isCreateMode = !this.isCreateMode;
     }
