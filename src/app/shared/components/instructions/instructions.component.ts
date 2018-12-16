@@ -6,6 +6,7 @@ import { DataSet } from '../../model/dataset.data';
 import { Team } from '../../model/team.data';
 import { TeamService } from '../../services/team/team.service';
 import { MapService } from '../../services/map/map.service';
+import { environment } from '../../../../environment/environment';
 // import { Steps } from './instructions.enum';
 
 
@@ -54,6 +55,18 @@ export class InstructionsComponent implements OnInit {
         if (this.currentIndex === this.steps.length - 1) {
             if (this.user.teams.length === 0) {
                 return this.getDemoMap(this.user)
+                    .then((dataset: DataSet) => {
+
+                        localStorage.setItem(`map_settings_${dataset.datasetId}`, JSON.stringify(
+                            {
+                                fontColor: environment.DEFAULT_MAP_TEXT_COLOR,
+                                mapColor: environment.DEFAULT_MAP_BACKGOUND_COLOR,
+                                fontSize: 1,
+                                explorationMode: false
+                            }
+                        ))
+                        return dataset;
+                    })
                     .then((dataset: DataSet) => {
                         this.isRedirecting = true;
                         this.cd.markForCheck();

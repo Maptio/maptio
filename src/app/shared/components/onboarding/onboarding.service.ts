@@ -27,7 +27,8 @@ export class OnboardingService {
                     }, 1000)
                     modal.componentInstance.escape = true; 
                     return false
-                }
+                },
+                windowClass:"texture"
             });
 
 
