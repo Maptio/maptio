@@ -3,6 +3,6 @@ export enum Steps {
     CreateTeam,
     AddMember,
     Terminology,
-    PickColor,
+    CreateMap,
     Ending
 }

@@ -1,6 +1,6 @@
 :root {
   --maptio-blue: #2f81b7;
-  --maptio-link:#0e5a8d ;
+  --maptio-link:#2b73a3 ;
   --maptio-orange: hsla(17, 86%, 54%, 0.90);
   --maptio-white: #fff;
   --maptio-red:#dc3545;
@@ -15,6 +15,11 @@ body{
 
 .border.border-thick{
   border-width:2px!important;
+}
+
+.bg-texture{
+  background-color: #f8f9fa;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%232f81b7' fill-opacity='0.15' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E"); 
 }
 
 .overlap{

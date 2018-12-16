@@ -14,13 +14,13 @@
 
         </div>
     </div>
-
+    
     <div class="my-5 d-flex justify-content-between row">
         <div class="col-8">
             <div>
                 <div class="d-flex flex-column justify-content-start align-items-start">
                     <div class="card-columns w-100">
-                        <div *ngIf="!isCreateMapForbidden" class="d-block card bg-gray text-white border-0">
+                        <div *ngIf="isOutOfSampleMode" class="d-block card bg-gray text-white border-0">
                             <div class="card-body">
                                 <common-create-map [teams]="teams" [isRedirect]="true" (created)="onNewMap($event)"></common-create-map>
 
@@ -82,7 +82,7 @@
 
 
                             </div>
-                            <ng-container *ngIf="!isCreateMapForbidden">
+                            <ng-container *ngIf="false">
                                 <hr>
                                 <div class="d-flex justify-content-start text-muted">
                                     <div class="d-flex flex-column  align-items-start">
@@ -92,7 +92,7 @@
                                             </span>
                                             <span class="text-muted">
                                                 <ng-container *ngIf="!isMultipleTeams()">Organization
-                                                    <a routerLink="/teams/{{teams[0].team_id}}/team">{{teams[0].name}}</a> set up
+                                                    <a routerLink="/teams/{{_nonExampleTeams[0].team_id}}/team">{{_nonExampleTeams[0].name}}</a> set up
                                                 </ng-container>
                                                 <ng-container *ngIf="isMultipleTeams()">
                                                     <a routerLink="/teams">{{teamsCount}} organizations</a> set up

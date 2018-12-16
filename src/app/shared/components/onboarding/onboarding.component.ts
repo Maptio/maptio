@@ -30,10 +30,8 @@ export class OnboardingComponent implements OnInit {
     progress: string;
     progressLabel: string;
 
-    @ViewChild("inputTeamName") inputTeamName: ElementRef;
-
-
     teamCreationErrorMessage: string;
+    mapCreationErrorMessage: string;
     isTerminologySaved: boolean;
     MAX_MEMBERS: number = 4;
     COLORS: any[] = [
@@ -45,17 +43,13 @@ export class OnboardingComponent implements OnInit {
         { name: "orange", isSelected: false }
     ]
     selectedColor: string = this.COLORS[0].name;
-    teamName: string;
+    mapName: string;
+    isCreatingEmptyMap: boolean;
+    isCreatingTeam: boolean;
 
     members: User[];
     team: Team;
-
-    // @Input("members") members: User[];
-    // @Input("team") team: Team;
-    // @Input("dataset") dataset: DataSet;
-    // @Input("isCompleted") isCompleted: boolean;
-    // @Input("escape") escape: boolean;
-
+    dataset: DataSet;
 
     constructor(public activeModal: NgbActiveModal, private cd: ChangeDetectorRef,
         private teamService: TeamService, private mapService: MapService, private router: Router) { }
@@ -64,21 +58,15 @@ export class OnboardingComponent implements OnInit {
         this.currentStep = this.steps[this.currentIndex];
         this.members = [this.user];
 
-        console.log(this.user)
         this.teamService.get(this.user)
             .then((teams: Team[]) => {
                 let nonExampleTeams = teams.filter(t => !t.isExample);
                 if (nonExampleTeams.length === 1) {
                     this.team = nonExampleTeams[0];
                 } else {
-                    this.team = new Team({ name: 'Your anem' });
+                    this.team = new Team({ name: '' });
                 }
             })
-
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        console.log(changes)
     }
 
     close() {
@@ -86,54 +74,60 @@ export class OnboardingComponent implements OnInit {
     }
 
     nextStep() {
-        if (this.currentIndex === this.steps.length - 1) {
-            // if (this.user.teams.length === 0) {
-            //     return this.getDemoMap(this.user)
-            //         .then((dataset: DataSet) => {
-            //             this.isRedirecting = true;
-            //             this.cd.markForCheck();
-            //             return this.router.navigateByUrl(`/map/${dataset.datasetId}/${dataset.initiative.getSlug()}`);
-            //         })
-            //         .then(() => {
-            //             this.isRedirecting = false;
-            //             this.cd.markForCheck();
-            //             this.activeModal.close();
-            //         })
-            // }
-            // else {
-            //     this.close();
-            // }
-
-        }
 
         if (this.currentStep === "CreateTeam") {
+            this.isCreatingTeam = false;
+            this.cd.markForCheck();
             if (isEmpty(this.team.name)) {
                 this.teamCreationErrorMessage = "We need a name to continue."
                 this.cd.markForCheck();
                 return;
             }
             else {
-                console.log("saving team", this.team)
-                // this.team.name = this.inputTeamName.nativeElement.value;
+                this.isCreatingTeam = true;
                 this.cd.markForCheck();
                 this.saveTeam(this.team)
-                .then(team => {
-                    this.team = team;
-                    console.log("saved team", this.team);
-                    this.teamCreationErrorMessage = null;
-                    this.goToNextStep();
-                    this.cd.markForCheck();
-                })
+                    .then(team => {
+                        this.isCreatingTeam = false;
+                        this.team = team;
+                        this.teamCreationErrorMessage = null;
+                        this.goToNextStep();
+                        this.cd.markForCheck();
+                    })
             }
         }
-        else{
+        else if (this.currentStep === "CreateMap") {
+            if (isEmpty(this.mapName)) {
+                this.mapCreationErrorMessage = "We need a map name to continue.";
+                this.cd.markForCheck();
+                return;
+            }
+            else {
+                this.saveMap()
+                    .then(dataset => {
+                        this.dataset = dataset;
+                        this.mapCreationErrorMessage = null;
+                        this.goToNextStep();
+                        this.cd.markForCheck();
+                    })
+            }
+        }
+        else if (this.currentStep === "Ending") {
+            return this.router.navigateByUrl(`/map/${this.dataset.datasetId}/${this.dataset.initiative.getSlug()}`)
+                .then(() => {
+                    this.cd.markForCheck();
+                    this.activeModal.close();
+                })
+
+        }
+        else {
             this.goToNextStep();
         }
 
-       
+
     }
 
-    private goToNextStep(){
+    private goToNextStep() {
         this.currentIndex += 1;
         this.currentStep = this.steps[this.currentIndex]
         this.nextActionName = this.getNextActionName();
@@ -152,32 +146,34 @@ export class OnboardingComponent implements OnInit {
     }
 
     saveTeam(team: Team): Promise<Team> {
-
         return this.teamService.exist(team)
             .then((exist: boolean) => {
                 if (exist) {
                     return this.teamService.save(team)
-                       
                 } else {
-                    return this.teamService.create(team.name, this.user, [], false, false)
-                    
+                    return this.teamService.create(team.name, this.user, [this.user], false, false)
                 }
             })
-
     }
 
+    saveMap() {
+        return this.mapService.get(this.user.datasets[0])
+            .then(dataset => {
+                return this.mapService.archive(dataset)
+            })
+            .then(() => {
+                return this.createMap(this.mapName, this.isCreatingEmptyMap)
+            })
+    }
 
-    // nextStep() {
-    //     if (this.currentStep === Steps.Ending) {
-    //         this.router.navigate(
-    //             ["map", this.dataset.datasetId, this.dataset.initiative.getSlug(), "circles"],
-    //             { queryParams: { reload: true, color: this.selectedColor } })
-    //         this.activeModal.close();
-    //     }
-    //     this.currentStep += 1;
-    //     this.cd.markForCheck();
-
-    // }
+    private createMap(name: string, isCreatingEmptyMap: boolean): Promise<DataSet> {
+        if (isCreatingEmptyMap) {
+            return this.mapService.createEmpty(name, this.team.team_id)
+        }
+        else {
+            return this.mapService.createTemplate(name, this.team.team_id)
+        }
+    }
 
     getProgress() {
         return Number(Math.ceil((this.currentIndex + 1) / this.steps.length * 100)).toFixed(0)
@@ -187,23 +183,12 @@ export class OnboardingComponent implements OnInit {
         return `${this.steps.length - (this.currentIndex + 1)} steps left`;
     }
 
-    // isReady() {
-    //     switch (this.currentStep) {
-    //         case "CreateTeam":
-    //             return false;
-    //         case "AddMember":
-    //             return this.members.length > 1;
-    //         case "Terminology":
-    //             return this.isTerminologySaved;
-    //         default:
-    //             return true;
-    //     }
-    // }
-
     getNextActionName() {
         switch (this.currentStep) {
             case "Welcome":
                 return "Start";
+            case "Ending":
+                return "Start mapping";
             default:
                 return "Next";
         }
@@ -212,38 +197,6 @@ export class OnboardingComponent implements OnInit {
     getPreviousActionName() {
         return this.currentStep === "Welcome" ? null : "Back";
     }
-
-    // isSkippable() {
-    //     switch (this.currentStep) {
-    //         case Steps.AddMember:
-    //             return true;
-    //         case Steps.Terminology:
-    //             return true;
-    //         case Steps.PickColor:
-    //             return true;
-    //         default:
-    //             return false;
-    //     }
-    // }
-
-
-
-    // renameTeam(name: string) {
-    //     this.teamService.renameTemporary(this.team, name)
-    //         .then(result => {
-    //             if (result) {
-    //                 this.teamName = name;
-    //                 this.nextStep();
-    //             } else {
-    //                 throw "Error while creating an organization"
-    //             }
-    //         })
-    //         .catch(err => {
-    //             console.error(err);
-    //             this.teamCreationErrorMessage = err;
-    //             this.cd.markForCheck();
-    //         })
-    // }
 
     onAdded(event: { team: Team, user: User }) {
         this.members.push(event.user);
@@ -254,105 +207,13 @@ export class OnboardingComponent implements OnInit {
         return Array.from({ length: this.MAX_MEMBERS - this.members.length }, (x, i) => i + 1);
     }
 
-    // selectColor(color: { name: string, isSelected: boolean }) {
-    //     this.COLORS.forEach(c => c.isSelected = false);
-    //     color.isSelected = true;
-    //     this.selectedColor = color.name;
-    //     let settings: any = JSON.parse(localStorage.getItem(`map_settings_${this.dataset.datasetId}`));
-    //     settings.mapColor = color.name;
-    //     localStorage.setItem(`map_settings_${this.dataset.datasetId}`, JSON.stringify(settings));
-    //     this.cd.markForCheck();
-    // }
+    selectColor(color: { name: string, isSelected: boolean }) {
+        this.COLORS.forEach(c => c.isSelected = false);
+        color.isSelected = true;
+        this.selectedColor = color.name;
+        // let settings: any = JSON.parse(localStorage.getItem(`map_settings_${this.dataset.datasetId}`));
+        // settings.mapColor = color.name;
+        // localStorage.setItem(`map_settings_${this.dataset.datasetId}`, JSON.stringify(settings));
+        this.cd.markForCheck();
+    }
 }
-
-// export class OnboardingComponent implements OnInit {
-//     @Input("datasets") datasets: DataSet[];
-//     @Input("teams") teams: Team[];
-//     @Input("user") user: User;
-
-//     // REFACTOR : Urgh, use false as default you idiot!
-//     isZeroMaps: Boolean = true;
-//     isZeroTeam: Boolean = true;
-//     isZeroTeammates: Boolean = true;
-//     isZeroTerminology: Boolean = true;
-//     isZeroIntegration:Boolean=true;
-
-//     isMultipleTeams: Boolean;
-//     isMultipleMaps: Boolean;
-
-
-//     teamId: String;
-//     teamName: String;
-//     membersCount: Number;
-//     teamsCount: Number;
-//     mapsCount: Number;
-//     datasetId: String;
-//     mapName: String;
-//     firstCircleName: String;
-//     authorityName: String;
-//     helperName: String;
-
-//     currentStep: String;
-//     stepsList: String[];
-
-//     SURVEY_URL:string = environment.SURVEY_URL;
-
-
-//     constructor(private cd: ChangeDetectorRef) { }
-
-//     ngOnInit(): void {
-
-//     }
-
-//     ngOnChanges(changes: SimpleChanges): void {
-//         if (changes.datasets && changes.datasets.currentValue) {
-//             this.datasets = changes.datasets.currentValue;
-//             this.isZeroMaps = isEmpty(this.datasets);
-//             if (!this.isZeroMaps) {
-//                 this.datasetId = this.datasets[0].datasetId;
-//                 this.mapName = this.datasets[0].initiative.name;
-
-//                 // this.isZeroInitiative = !this.datasets[0].initiative.children || this.datasets[0].initiative.children.length === 0;
-
-//                 // if (!this.isZeroInitiative) {
-//                 //     this.firstCircleName = this.datasets[0].initiative.children[0].name;
-//                 // }
-
-//                 this.isMultipleMaps = this.datasets.length > 1;
-//                 this.mapsCount = this.datasets.length;
-//             }
-//         }
-
-//         if (changes.teams && changes.teams.currentValue) {
-//             this.isZeroTeam = isEmpty(changes.teams.currentValue)
-//             if (!this.isZeroTeam) {
-//                 this.teamId = changes.teams.currentValue[0].team_id;
-//                 this.teamName = changes.teams.currentValue[0].name;
-//                 this.isZeroTeammates = (<Team>changes.teams.currentValue[0]).members.length === 1;
-//                 this.membersCount = (<Team>changes.teams.currentValue[0]).members.length;
-
-//                 this.isZeroTerminology =
-//                     (<Team>changes.teams.currentValue[0]).settings.authority === environment.DEFAULT_AUTHORITY_TERMINOLOGY
-//                     && (<Team>changes.teams.currentValue[0]).settings.helper === environment.DEFAULT_HELPER_TERMINOLOGY;
-
-//                 if (!this.isZeroTerminology) {
-//                     this.authorityName = (<Team>changes.teams.currentValue[0]).settings.authority;
-//                     this.helperName = (<Team>changes.teams.currentValue[0]).settings.helper;
-//                 }
-
-//                 this.isMultipleTeams = changes.teams.currentValue.length > 1;
-//                 if (this.isMultipleTeams) {
-//                     this.teamsCount = changes.teams.currentValue.length
-//                 }
-
-//                 this.isZeroIntegration = !(<Team>changes.teams.currentValue[0]).slack.access_token
-
-//             }
-//         }
-//         this.cd.markForCheck();
-//     }
-
-//     isOnboardingCompleted() {
-//         return !this.isZeroMaps && !this.isZeroTeam ; //&& !this.isZeroInitiative
-//     }
-// }

@@ -32,6 +32,7 @@ export class HeaderComponent implements OnInit {
 
     public datasets: Array<any>;
     private teams: Array<Team>;
+    public sampleTeams:Team[];
     public team: Team;
     public selectedDataset: DataSet;
     public areMapsAvailable: Promise<boolean>
@@ -60,14 +61,12 @@ export class HeaderComponent implements OnInit {
         })
             .subscribe((value: Team) => {
                 this.team = value;
-                this.isSandbox = this.team.isExample;
                 this.cd.markForCheck();
             });
 
         teamUndefined
             .subscribe((value: Team) => {
                 this.team = value;
-                this.isSandbox = false;
                 this.cd.markForCheck();
             });
     }
@@ -98,7 +97,9 @@ export class HeaderComponent implements OnInit {
                 return [datasets.filter(d => !d.isArchived).map(d => {
                     d.team = teams.find(t => d.initiative.team_id === t.team_id);
                     return d
-                }), teams, user]
+                }), 
+                teams, 
+                user]
             })
             .map(([datasets, teams, user]: [DataSet[], Team[], User]) => {
                 console.log("3")
@@ -112,7 +113,10 @@ export class HeaderComponent implements OnInit {
                 console.log("4")
                 this.user = data.user;
                 this.datasets = data.datasets;
-                this.teams = data.teams;
+                this.teams = data.teams.filter(t => !t.isExample);
+                this.sampleTeams = data.teams.filter(t => t.isExample);
+                this.isSandbox = this.sampleTeams.length >= 1 && this.teams.length===0;
+               
                 this.cd.markForCheck();
             },
                 (error: any) => { console.error(error) });

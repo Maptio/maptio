@@ -25,7 +25,8 @@ export class OnboardingService {
                     setTimeout(() => {
                         document.querySelector(".modal-content").classList.remove("shake")
                     }, 1000)
-                    modal.componentInstance.escape = true; return false
+                    modal.componentInstance.escape = true; 
+                    return false
                 }
             });
 

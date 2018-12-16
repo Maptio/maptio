@@ -27,7 +27,7 @@ export class DashboardComponent {
     mapsCount: number;
     teamsCount: number;
     // isOnboarding: boolean;
-    isCreateMapForbidden:boolean;
+    isOutOfSampleMode:boolean;
     filterMaps$: Subject<string>
     filteredMaps: DataSet[];
 
@@ -39,6 +39,7 @@ export class DashboardComponent {
     }
 
     private _teams: Team[];
+    private _nonExampleTeams:Team[];
     private _datasets: DataSet[]
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -51,28 +52,25 @@ export class DashboardComponent {
 
         if (changes.teams && changes.teams.currentValue) {
             this._teams = changes.teams.currentValue;
+            this._nonExampleTeams = this._teams.filter(t => !t.isExample)
             this.teamsCount = this._teams.length;
         }
 
-        // this.isOnboarding = isEmpty(this._teams) //  || (this._teams.length === 1 && (this._teams[0] && this._teams[0].isExample));
-        // this.cd.markForCheck();
     }
 
     ngOnInit() {
-        // if (this.isOnboarding) {
-        //     this.getDemoMap()
-        //         .then((dataset: DataSet) => {
-        //             this.isOnboarding = true;
-        //             this.cd.markForCheck;
-        //             this.router.navigateByUrl(`/map/${dataset.datasetId}/${dataset.initiative.getSlug()}`);
-        //         });
+        // if (this._teams.length === 1){
+        //     // EmitterService.get("currentTeam").emit(this._teams[0]);
+        //     // this.isCreateMapForbidden = this._teams[0].isExample;
+        //     this.isOutOfSampleMode = this._teams.filter(t=> t.isExample).length >= 1 && this.teams.filter(t=> t.isExample).length>=1;
+               
+        //     this.cd.markForCheck();
         // }
 
-        if (this._teams.length === 1){
-            // EmitterService.get("currentTeam").emit(this._teams[0]);
-            this.isCreateMapForbidden = this._teams[0].isExample;
-            this.cd.markForCheck();
-        }
+        console.log(this._teams)
+        this.isOutOfSampleMode = this._teams.filter(t=> !t.isExample).length >= 1 && this.teams.filter(t=> t.isExample).length>=1;
+               
+        this.cd.markForCheck();
            
         this.filteredMaps = [].concat(this._datasets);
         this.subscription = this.filterMaps$.asObservable().debounceTime(250).subscribe((search) => {
@@ -95,7 +93,7 @@ export class DashboardComponent {
 
 
     isMultipleTeams() {
-        return this._teams.filter(t => !t.isExample).length > 1;
+        return this._nonExampleTeams.filter(t => !t.isExample).length > 1;
     }
 
     isMultipleMaps() {

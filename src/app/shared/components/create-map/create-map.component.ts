@@ -35,13 +35,19 @@ export class CreateMapComponent implements OnInit {
                 validators: [Validators.required, Validators.minLength(2)],
                 updateOn: "submit"
             }),
-            "teamId": new FormControl(this.teams.length > 1 ? null : this.teams[0].team_id, [Validators.required]),
+            "teamId": new FormControl(
+                this.teams.length ==0
+                ? null
+                : this.teams.length > 1 
+                    ? null 
+                    : this.teams[0].team_id, 
+                [Validators.required]),
         })
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.teams && changes.teams.currentValue) {
-            this.teams = changes.teams.currentValue;
+            this.teams = changes.teams.currentValue.filter((t:Team)=>!t.isExample);
         }
     }
 
@@ -51,54 +57,6 @@ export class CreateMapComponent implements OnInit {
             let mapName = this.form.controls["mapName"].value
             let teamId = this.form.controls["teamId"].value
 
-            // let newDataset = new DataSet({
-            //     initiative: new Initiative({
-            //         name: mapName,
-            //         team_id: teamId,
-            //         children: [
-            //             new Initiative({
-            //                 name: "This is your outer circle. A great place to put a short version of your mission or vision",
-            //                 description: "This is the description of the circle. Use this to explain more about what this circle does and link out to other tools, systems and documents that you're using.\n\n**You can right-click (or ctrl+click on a Mac) any circle on the map to edit its details.**\n\nWhen you edit the circle you can specify who's working on it.",
-            //                 team_id: teamId,
-            //                 id : Math.floor(Math.random() * 10000000000000),
-            //                 children: [
-            //                     new Initiative({
-            //                         name: "This is a sub-circle, perhaps representing a major initiative in the organisation",
-            //                         description: "Sub-circles are just circles that appear within another circle. You can have sub-circles many levels deep.\n\n**You can right-click (or ctrl+click on a Mac) any circle on the map to edit its details.**\n\nWhen you edit the circle you can specify who's working on it and also add tags to it.",
-            //                         team_id: teamId,
-            //                         id : Math.floor(Math.random() * 10000000000000),
-            //                     }),
-            //                     new Initiative({
-            //                         name: "This is a sub-circle, perhaps representing a major initiative in the organisation",
-            //                         description: "Sub-circles are just circles that appear within another circle. You can have sub-circles many levels deep.\n\n**You can right-click (or ctrl+click on a Mac) any circle on the map to edit its details.**\n\nWhen you edit the circle you can specify who's working on it and also add tags to it.",
-            //                         team_id: teamId,
-            //                         id : Math.floor(Math.random() * 10000000000000),
-            //                         children: [
-            //                             new Initiative({
-            //                                 name: "This is a sub-circle, perhaps representing a major initiative in the organisation",
-            //                                 description: "Sub-circles are just circles that appear within another circle. You can have sub-circles many levels deep.\n\n**You can right-click (or ctrl+click on a Mac) any circle on the map to edit its details.**\n\nWhen you edit the circle you can specify who's working on it and also add tags to it.",
-            //                                 team_id: teamId,
-            //                                 id : Math.floor(Math.random() * 10000000000000),
-            //                             }),
-            //                             new Initiative({
-            //                                 name: "This is a sub-circle, perhaps representing a major initiative in the organisation",
-            //                                 description: "Sub-circles are just circles that appear within another circle. You can have sub-circles many levels deep.\n\n**You can right-click (or ctrl+click on a Mac) any circle on the map to edit its details.**\n\nWhen you edit the circle you can specify who's working on it and also add tags to it.",
-            //                                 team_id: teamId,
-            //                                 id : Math.floor(Math.random() * 10000000000000),
-            //                             })
-            //                         ]
-            //                     }),
-            //                     new Initiative({
-            //                         name: "This is a sub-circle, perhaps representing a major initiative in the organisation",
-            //                         description: "Sub-circles are just circles that appear within another circle. You can have sub-circles many levels deep.\n\n**You can right-click (or ctrl+click on a Mac) any circle on the map to edit its details.**\n\nWhen you edit the circle you can specify who's working on it and also add tags to it.",
-            //                         team_id: teamId,
-            //                         id : Math.floor(Math.random() * 10000000000000),
-            //                     }),
-            //                 ]
-            //             })
-            //         ]
-            //     })
-            // });
             this.mapService.createTemplate(mapName, teamId)
                 .then((created: DataSet) => {
                     this.created.emit(created);
