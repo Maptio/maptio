@@ -1,5 +1,5 @@
 <div class="card" *ngIf="dataset" [class.pointer-none]="isReadOnly" [class.overflow-hidden]="dataset?.team?.isExample" [class.archived]="dataset.isArchived">
-    <div *ngIf="dataset?.team?.isExample" class="corner-ribbon top-right bg-blue box-shadow">
+    <div *ngIf="dataset?.team?.isExample" class="corner-ribbon bottom-right bg-accent box-shadow">
         <i class="fas fa-dice mx-1"></i>Sample</div>
     <div class="card-body d-flex flex-column">
         <div class="card-title">
@@ -32,9 +32,6 @@
 
             <span class="grayscale mr-1 h3">🎯</span>{{dataset?.getName()}}
         </div>
-
-   
-
 
                 <div class="card-subtitle my-2 text-muted">
                     <div class="d-flex justify-content-between">
@@ -71,7 +68,7 @@
             </button>
             <ng-container *permissionsOnly="Permissions.canEditMapName">
 
-                <button *ngIf="isEditAvailable" [class.invisible]="dataset.isArchived" class="btn btn-link btn-sm" [class.invisible]="isEditing"
+                <button *ngIf="isEditAvailable && !dataset?.team?.isExample" [class.invisible]="dataset.isArchived" class="btn btn-link btn-sm" [class.invisible]="isEditing"
                     (click)="isEditing=true">
                     <i class="fas fa-pen"></i> Edit name
                 </button>

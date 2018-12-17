@@ -1,35 +1,35 @@
 <div class="mt-3 row">
 
-    <div class="col-3 border-right">
+    <div class="col-3 border-right pr-0">
         <ul class="nav flex-column nav-pills mt-3">
             <ng-container>
                 <li class="nav-item">
-                    <a class="nav-link py-4" data-toggle="tab" routerLink="./members" queryParamsHandling="merge" #rlaMembers="routerLinkActive"
+                    <a class="nav-link py-4 rounded-0" data-toggle="tab" routerLink="./members" queryParamsHandling="merge" #rlaMembers="routerLinkActive"
                         routerLinkActive="active" role="tab">
                         People</a>
                 </li>
             </ng-container>
             <ng-container *ngIf="!team.isExample">
-                <li class="nav-item"  *permissionsOnly="Permissions.canAddUser">
-                    <a class="nav-link py-4" data-toggle="tab" routerLink="./import" queryParamsHandling="merge" #rlaImport="routerLinkActive"
+                <li class="nav-item" *permissionsOnly="Permissions.canAddUser">
+                    <a class="nav-link py-4 rounded-0" data-toggle="tab" routerLink="./import" queryParamsHandling="merge" #rlaImport="routerLinkActive"
                         routerLinkActive="active" role="tab">
                         Import </a>
                 </li>
             </ng-container>
             <ng-container>
                 <li class="nav-item">
-                    <a class="nav-link py-4" data-toggle="tab" routerLink="./maps" queryParamsHandling="merge" routerLinkActive="active" role="tab">
+                    <a class="nav-link py-4 rounded-0" data-toggle="tab" routerLink="./maps" queryParamsHandling="merge" routerLinkActive="active" role="tab">
                         Maps</a>
                 </li>
             </ng-container>
             <ng-container *permissionsOnly="Permissions.canEditTeam">
                 <li class="nav-item">
-                    <a class="nav-link py-4" data-toggle="tab" routerLink="./settings" queryParamsHandling="merge" #rlaTerminology="routerLinkActive"
+                    <a class="nav-link py-4 rounded-0" data-toggle="tab" routerLink="./settings" queryParamsHandling="merge" #rlaTerminology="routerLinkActive"
                         routerLinkActive="active" role="tab">
                         Name & Terminology</a>
                 </li>
-                <li class="nav-item" >
-                    <a class="nav-link py-4" data-toggle="tab" routerLink="./integrations" queryParamsHandling="merge" routerLinkActive="active"
+                <li class="nav-item">
+                    <a class="nav-link py-4 rounded-0" data-toggle="tab" routerLink="./integrations" queryParamsHandling="merge" routerLinkActive="active"
                         role="tab">
                         Integrations</a>
                 </li>
