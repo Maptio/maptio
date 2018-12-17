@@ -31,7 +31,7 @@
 <ng-template #welcome>
 
     <span class="display-4">
-        <span class="text-blue">👋 {{user?.firstname}}</span>, welcome to Maptio!</span>
+        <span class="text-accent">👋 {{user?.firstname}}</span>, welcome to Maptio!</span>
     <h4 class="my-4 text-muted">
         Thanks for signing up and giving Maptio a try. We're really excited to have you onboard.
 
@@ -43,14 +43,14 @@
         <div class="ml-2 my-3 d-flex flex-column justify-content-start">
             <span class="h6 py-2">
                 <i class="fas fa-check mr-1"></i>Communicate your organization structure
-                <b>simply and visually</b>
+                <b class="text-accent">simply and visually</b>
             </span>
             <span class="h6 py-2">
                 <i class="fas fa-check mr-1"></i>
-                <b>Onboard new people</b> to your organisation quickly</span>
+                <b class="text-accent">Onboard new people</b> to your organisation quickly</span>
             <span class="h6 py-2">
                 <i class="fas fa-check mr-1"></i>Build
-                <b>greater transparency and accountability</b> over everyone’s roles</span>
+                <b class="text-accent">greater transparency and accountability</b> over everyone’s roles</span>
         </div>
     </h4>
 
@@ -60,14 +60,14 @@
 
 
 <ng-template #treepanel>
-    <h1>All your circles always visible 🤝 </h1>
+    <h1>All your circles always visible  </h1>
     <h4 class="text-muted my-1">Build a list all the circles in your organization and arrange them to reflect your structure </h4>
     <div class="mt-5">
         <div class="d-flex justify-content-center align-items-center w-100 flex-column">
-            <span class="lead text-bold">
+            <span class="lead text-bold text-accent">
                 <i class="fas fa-info-circle mr-1"></i> Open the left panel to see a list of all circles
             </span>
-            <img width="auto" height="100%" src="/assets/videos/tree_panel.gif" alt="">
+            <img class="img-thumbnail" width="auto" height="75%" src="/assets/videos/open-panel.gif" alt="">
 
         </div>
     </div>
@@ -75,45 +75,45 @@
 
 
 <ng-template #editpanel>
-    <h1>Keep all details in the same place 🎯 </h1>
+    <h1>Keep all details in the same place</h1>
     <h4 class="text-muted my-1">People, roles, documents and resources are kept relevant. You decide who can update the maps.</h4>
     <div class="mt-5">
         <div class="d-flex justify-content-center align-items-center w-100 flex-column">
-            <span class="lead text-bold">
+            <span class="lead text-bold text-accent">
                 <i class="fas fa-info-circle mr-1"></i>Click on an item to open and edit the circles details
             </span>
-            <img width="auto" height="100%" src="/assets/videos/edit_panel.gif" alt="">
+            <img class="img-thumbnail" width="auto" height="75%" src="/assets/videos/open-circle.gif" alt="">
 
         </div>
     </div>
 </ng-template>
 
 <ng-template #directory>
-    <h1>Always know who is doing what 🏆 </h1>
+    <h1>Always know who is doing what</h1>
     <h4 class="text-muted my-1">Keep people in your organization accountable. They can review their circles at any time. </h4>
     <div class="d-flex mt-5">
         <div class="d-flex justify-content-center align-items-center w-100 flex-column">
-            <span class="lead text-bold">
-                <i class="fas fa-info-circle mr-1"></i> Open the directory to see people and the circles their involved in.
+            <span class="lead text-bold text-accent">
+                <i class="fas fa-info-circle mr-1"></i> Open the directory to see people and the circles they're involved in.
             </span>
-            <img width="auto" height="100%" src="/assets/videos/directory.gif" alt="">
+            <img class="img-thumbnail" width="auto" height="75%" src="/assets/videos/open-directory.gif" alt="">
         </div>
     </div>
 </ng-template>
 
 <ng-template #rightclick>
-    <h1>Updating your maps is fast and easy 💨</h1>
+    <h1>Updating your maps is fast and easy</h1>
     <h4 class="my-1 text-muted">
         No more initiative lists or complicated documents, update the map with a click
     </h4>
     <div class="d-flex mt-5 align-items-stretch">
         <div class="d-flex justify-content-center align-items-center w-100 flex-column">
-            <span class="lead text-bold">
+            <span class="lead text-bold text-accent">
                 <i class="fas fa-info-circle mr-1"></i>Bring up the map menu with Right-click on
                 <i class="fab fa-windows"></i> or Ctrl+click on
                 <i class="fab fa-apple"></i>
             </span>
-            <img width="auto" height="100%" src="/assets/videos/right_click.gif" alt="">
+            <img class="img-thumbnail" width="auto" height="75%" src="/assets/videos/right-click.gif" alt="">
         </div>
     </div>
 
@@ -122,11 +122,11 @@
 
 <ng-template #ending>
     <h1>
-        <span class="text-blue">{{user?.firstname}} </span>, one last thing!
+        <span class="text-accent ">{{user?.firstname}} </span>, one last thing!
     </h1>
 
     <h4 class="my-1 text-muted">
-        We have created an sample map to get you started 💪.
+        We have created an sample map to get you started.
     </h4>
 
     <div class="my-5 d-flex flex-column justify-content-start">
@@ -156,7 +156,7 @@
 
         <div class="d-flex align-items-center my-3">
             <span class="fa-stack fa-2x mx-2">
-                <i class="fas fa-circle fa-stack-2x text-blue"></i>
+                <i class="fas fa-circle fa-stack-2x text-accent"></i>
                 <strong class="fa-stack-1x text-light">3</strong>
             </span>
             <div>

@@ -1,11 +1,11 @@
-<ng-container *ngIf="auth.allAuthenticated() && (isMap() || isHome() || isTeam())">
+<!-- <ng-container *ngIf="auth.allAuthenticated() && (isMap() || isHome() || isTeam())">
     <nav class="navbar navbar-light bg-accent rounded-bottom text-white mx-3" *ngIf="isSandbox">
         <div class="my-3 h5">This is a sample
             <i class="fas fa-dice"></i> organization... Ready to create your own?
             <button class="btn btn-success" (click)="openOnboarding()">Start a 14 days free trial</button>
         </div>
     </nav>
-</ng-container>
+</ng-container> -->
 <nav class="header navbar sticky-top  navbar-expand-sm navbar-light bg-transparent justify-content-between pr-3" [class.grayscale]="loaderService.isLoading">
     <a class="navbar-brand d-flex align-items-center">
         <a routerLink="home" class="no-underline">
