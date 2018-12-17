@@ -4,7 +4,8 @@
 }
 
 .breadcrumb-item+.breadcrumb-item::before {
-    content: "\f054" !important;
+    content: "\f105" !important;
     font-family: "Font Awesome 5 Free";
     font-weight: bold;
+    color: var(--gray) !important ;
 }

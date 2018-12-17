@@ -118,7 +118,7 @@ body {
 }
 
 .bg-accent{
-  background: var(--maptio-accent);
+  background: var(--maptio-accent) !important;
 }
 
 .text-accent{

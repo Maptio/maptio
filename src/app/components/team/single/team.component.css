@@ -8,6 +8,6 @@ color: var(--maptio-accent);
 
 
 .nav-link.active{
-border-left:3px solid var(--maptio-accent) !important;
+border-left:6px solid var(--maptio-accent) !important;
 background-color: transparent;
 }
