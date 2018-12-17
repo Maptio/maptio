@@ -65,4 +65,8 @@ export class DataSet implements Serializable<DataSet> {
       return [false, undefined]
     }
   }
+
+  getName(){
+    return this.initiative && this.initiative.children && this.initiative.children[0] ? this.initiative.children[0].name : "";
+  }
 }
