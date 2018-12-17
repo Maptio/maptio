@@ -6,8 +6,8 @@
         <div class="card-title my-2" *ngIf="initiative.tags && initiative.tags.length > 0">
             <ul class="tags small">
                 <li *ngFor="let tag of initiative.tags">
-                    <span class="tag mr-1" [style.color]="tag.color">
-                        <i class="fa fa-tag mr-1" aria-hidden="true" [style.color]="tag.color"></i>{{tag.name}}
+                    <span class="badge badge-pill p-2  border-thick text-white mr-1 my-1" [style.border-color]="tag.color" [style.background]="tag.color">
+                        <i class="fa fa-tag mr-1" aria-hidden="true"></i>{{tag.name}}
                     </span>
                 </li>
             </ul>

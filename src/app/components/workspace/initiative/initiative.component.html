@@ -39,7 +39,7 @@
 	<div class="card borderless mb-2 p-2">
 		<fieldset name="initiativeTags" *permissionsOnly="Permissions.canEditInitiativeTags;initiative node; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset;">
 			<div class="d-flex justify-content-start">
-				<ul class="tags w-100 borderless-right pt-1 d-flex align-items-centers">
+				<ul class="tags w-100 borderless-right pt-1 d-flex align-items-center">
 					<li *ngFor="let tag of node?.tags; let i=index">
 						<a class="badge badge-pill p-2  border-thick text-white mr-1 my-1" [style.border-color]="tag.color" [style.background]="tag.color">
 							<i class="fa fa-tag mr-1" aria-hidden="true"></i>{{tag?.name}}

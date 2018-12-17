@@ -152,7 +152,7 @@ tree-root .angular-tree-component-rtl .tree-children {
 }
 
 .toggle-children:before {
-  color: #2f81b7;
+  color: var(--maptio-blue);
   transform: rotate(0deg) !important;
   font-family: FontAwesome;
   font-size: 17px;
