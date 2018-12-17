@@ -13,17 +13,15 @@
       <button class="btn btn-link btn-sm p-0" (click)="unselectAllTags()">Unselect all</button>
     </span>
     <div class="d-flex flex-wrap">
-      <span *ngFor="let tag of tags; let i=index">
-        <a *ngIf="!tag.isSelected" class="btn btn-sm btn-tag btn-light mr-1" [style.border-color]="tag.color" [style.color]="tag.color"
-          (click)="toggleTag(tag)">
+      <span *ngFor="let tag of tags; let i=index" class="mr-1 my-1">
+        <span *ngIf="!tag.isSelected" class="cursor-pointer badge badge-pill p-2  border-thick" [style.color]="tag.color" [style.border-color]="tag.color" (click)="toggleTag(tag)">
           <i class="fa fa-tag" aria-hidden="true"></i> {{tag.name}}
-          <i class="fa fa-check" aria-hidden="true" [style.color]="'white'"></i>
-        </a>
-        <a *ngIf="tag.isSelected" class="btn btn-sm btn-tag  btn-light active mr-1" [style.border-color]="tag.color" [style.background-color]="tag.color"
-          (click)="toggleTag(tag)">
+          <!-- <i class="fa fa-check" aria-hidden="true" [style.color]="'white'"></i> -->
+        </span>
+        <span *ngIf="tag.isSelected" class="cursor-pointer badge badge-pill p-2  border-thick text-white" [style.border-color]="tag.color" [style.background]="tag.color" (click)="toggleTag(tag)">
           <i class="fa fa-tag" aria-hidden="true"></i> {{tag.name}}
-          <i *ngIf="tag.isSelected" class="fa fa-check" aria-hidden="true" [style.color]="white"> </i>
-        </a>
+          <!-- <i *ngIf="tag.isSelected" class="fa fa-check" aria-hidden="true" [style.color]="white"> </i> -->
+        </span>
       </span>
 
     </div>
@@ -40,17 +38,17 @@
         <button type="submit" class="btn btn-success col-3" [class.disabled]="!newTagForm.valid">Add</button>
 
       </form>
-        <div class="form-group form-inline" *ngFor="let tag of tags; let i=index">
-          
-          <input type="text" class="col-6 form-control" name="inputTagName" [ngModelOptions]="{standalone: true}" [ngModel]="tag.name"
-            (ngModelChange)="saveTagName(tag, $event)" (blur)="saveTagChanges()" />
-          <div class="col-3">
-            <common-color-picker [color]="tag.color" [isMinimal]="true" (change)="saveColor(tag, $event)"></common-color-picker>
-          </div>
-          <button placement="top" container="body" mwlConfirmationPopover popoverMessage="This cannot be undone! This tag will be removed from all circles."
-          focusbutton="cancel" appendToBody="false" (confirm)="removeTag(tag)" (cancel)="cancelClicked = true" class="btn btn-outline-danger col-3" >Remove</button>
+      <div class="form-group form-inline" *ngFor="let tag of tags; let i=index">
 
+        <input type="text" class="col-6 form-control" name="inputTagName" [ngModelOptions]="{standalone: true}" [ngModel]="tag.name"
+          (ngModelChange)="saveTagName(tag, $event)" (blur)="saveTagChanges()" />
+        <div class="col-3">
+          <common-color-picker [color]="tag.color" [isMinimal]="true" (change)="saveColor(tag, $event)"></common-color-picker>
         </div>
+        <button placement="top" container="body" mwlConfirmationPopover popoverMessage="This cannot be undone! This tag will be removed from all circles."
+          focusbutton="cancel" appendToBody="false" (confirm)="removeTag(tag)" (cancel)="cancelClicked = true" class="btn btn-outline-danger col-3">Remove</button>
+
+      </div>
 
     </div>
   </div>

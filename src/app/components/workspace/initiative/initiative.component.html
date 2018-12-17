@@ -39,9 +39,9 @@
 	<div class="card borderless mb-2 p-2">
 		<fieldset name="initiativeTags" *permissionsOnly="Permissions.canEditInitiativeTags;initiative node; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset;">
 			<div class="d-flex justify-content-start">
-				<ul class="tags w-100 borderless-right pt-1">
+				<ul class="tags w-100 borderless-right pt-1 d-flex align-items-centers">
 					<li *ngFor="let tag of node?.tags; let i=index">
-						<a class="btn btn-sm btn-secondary mr-1 tag btn-tag border-white active" [style.background-color]="tag.color" [style.color]="white">
+						<a class="badge badge-pill p-2  border-thick text-white mr-1 my-1" [style.border-color]="tag.color" [style.background]="tag.color">
 							<i class="fa fa-tag mr-1" aria-hidden="true"></i>{{tag?.name}}
 							<span class="remove transparent ml-1" (click)="removeTag(tag)"></span>
 						</a>
