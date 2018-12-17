@@ -1,54 +1,60 @@
-<div class="col-12">
-    <div class="my-5">
-        <h2 class="text-left"> Maps</h2>
-        <div class="form-group form-inline d-flex flex-column align-items-start w-25" *ngIf="datasets?.length > 5">
+<div class="col-12 my-5">
+    <div class="d-flex justify-content-between row">
+        <div class="col-8">
+            <div class="mb-5 card bg-light border-0" *ngIf="datasets?.length > 5">
+                <div class="card-body">
+                    <!-- <h2 class="text-left"> Maps</h2> -->
+                    <div class="form-inline d-flex flex-column align-items-start w-25">
 
-            <input id="inputQuickFilter" #inputQuickFilter placeholder="Find a map" type="text" class="form-control w-100" (keyup)="onKeyDown(inputQuickFilter.value)">
-            <div *ngIf="inputQuickFilter.value" class="d-flex justify-content-between align-items-center w-100">
-                <span class="text-muted small">{{filteredMaps.length}}/{{datasets?.length}} maps</span>
+                        <input id="inputQuickFilter" #inputQuickFilter placeholder="Find a map" type="text" class="form-control w-100" (keyup)="onKeyDown(inputQuickFilter.value)">
+                        <div *ngIf="inputQuickFilter.value" class="d-flex justify-content-between align-items-center w-100">
+                            <span class="text-muted small">{{getCount(filteredMaps)}}/{{datasets?.length}} maps</span>
 
-                <button class="btn btn-link btn-sm px-0" (click)="onKeyDown('');inputQuickFilter.value=''">
-                    Show all
-                </button>
+                            <button class="btn btn-link btn-sm px-0" (click)="onKeyDown('');inputQuickFilter.value=''">
+                                Show all
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
 
-        </div>
-    </div>
-
-    <div class="my-5 d-flex justify-content-between row">
-        <div class="col-8">
-            <div>
+            <div class="">
                 <div class="d-flex flex-column justify-content-start align-items-start">
-                    <div class="card-columns w-100">
-                        <div *ngIf="isOutOfSampleMode" class="d-block card bg-gray text-white border-0">
-                            <div class="card-body">
-                                <common-create-map [teams]="teams" [isRedirect]="true" (created)="onNewMap($event)"></common-create-map>
+                    <div class="w-100">
 
+                        <div class="mb-5" *ngFor="let kv of filteredMaps.entries(); trackBy: trackByTeamId;">
+                            <div class="d-flex justify-content-between align-items-baseline">
+                                    <a routerLink="/teams/{{kv[0].team_id}}/{{kv[0].name}}">
+                                        <h3>{{kv[0].name}}</h3>
+                                    </a>
+                                    <small class="text-muted">{{kv[1].length}} maps</small>
+                                    
                             </div>
+                            <hr>
+                            <ul class="list-inline row d-flex align-items-stretch">
+                                <ng-container *ngFor="let dataset of kv[1]">
+                                    <li class="col-6 my-2" *ngIf="dataset.initiative.name">
+                                        <common-card-map [dataset]="dataset" [isExportAvailable]="true" [isEdit]="true" [isTeamDisplayed]="false" (copied)="onCopy($event)"
+                                            (archived)="onArchive($event)"></common-card-map>
+                                    </li>
+                                </ng-container>
+                            </ul>
                         </div>
-                        <ng-container *ngFor="let dataset of filteredMaps">
-                            <ng-container *ngIf="dataset.initiative.name">
-                                <common-card-map [dataset]="dataset" [isExportAvailable]="true" [isEdit]="true" [isTeamDisplayed]="true" (copied)="onCopy($event)"
-                                    (archived)="onArchive($event)"></common-card-map>
-                            </ng-container>
-                        </ng-container>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col d-flex">
+        <div class="col-4">
             <div class="h-100">
-                <div class="  d-flex flex-column align-items-center bg-white box-shadow  p-4 accent-blue">
+                <div class="h-100  d-flex flex-column align-items-center bg-white box-shadow  p-4 accent-blue">
                     <div>
                         <h2 class="text-center">Welcome to Maptio! </h2>
                         <h6 class="text-muted text-center ">Maptio helps you organise without traditional management hierarchy.</h6>
                         <hr>
                         <div>
                             <div>
-                                <!-- <h5 class="mx-2">
-                                    <b>Succeed with Maptio:</b>
-                                </h5> -->
-
                                 <div class="d-flex align-items-start my-3">
                                     <span class="mr-2 fa-stack fa-1x">
                                         <i class="fas fa-circle fa-stack-2x"></i>
@@ -65,7 +71,8 @@
                                         <i class="fas fa-circle fa-stack-2x"></i>
                                         <i class="fa fa-phone fa-stack-1x fa-inverse"></i>
                                     </span>
-                                    <span><a target="blank" href="https://calendly.com/tomnixon/30min">Book a free mastery call</a> with Maptio founder Tom Nixon
+                                    <span>
+                                        <a target="blank" href="https://calendly.com/tomnixon/30min">Book a free mastery call</a> with Maptio founder Tom Nixon
                                     </span>
                                 </div>
 
@@ -130,6 +137,5 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>

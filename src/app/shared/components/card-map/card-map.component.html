@@ -23,17 +23,17 @@
                         <button class="btn btn-link" (click)="isEditing=false">Cancel</button>
                     </form>
                 </div>
-
+                <div class="small text-muted my-1 nowrap" [class.d-none]="isEditing">{{dataset?.depth}} {{dataset?.depth
+                    < 1 ? "circle" : "circles"}} </div>
 
             </div>
         </div>
-        <div class="card-subtitle text-muted my-1">
+        <div class="card-subtitle text-muted my-1" *ngIf="dataset?.getName()">
 
-            {{dataset?.getName()}}
+            <span class="grayscale mr-1 h3">🎯</span>{{dataset?.getName()}}
         </div>
 
-        <div class="card-subtitle text-muted my-1">{{dataset?.depth}} {{dataset?.depth
-            < 1 ? "circle" : "circles"}} </div>
+   
 
 
                 <div class="card-subtitle my-2 text-muted">

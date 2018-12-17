@@ -1,4 +1,4 @@
-import { isEmpty } from 'lodash';
+import { isEmpty, groupBy, keyBy, sortBy } from 'lodash';
 import { Component, ChangeDetectorRef, SimpleChanges, Input } from "@angular/core";
 import { DataSet } from "../../shared/model/dataset.data";
 import { Team } from '../../shared/model/team.data';
@@ -29,7 +29,7 @@ export class DashboardComponent {
     // isOnboarding: boolean;
     isOutOfSampleMode:boolean;
     filterMaps$: Subject<string>
-    filteredMaps: DataSet[];
+    filteredMaps: Map<Team, DataSet[]>;
 
     subscription: Subscription;
 
@@ -68,19 +68,21 @@ export class DashboardComponent {
         // }
 
         console.log(this._teams)
-        this.isOutOfSampleMode = this._teams.filter(t=> !t.isExample).length >= 1 && this.teams.filter(t=> t.isExample).length>=1;
+        this.isOutOfSampleMode = this._teams.filter(t=> !t.isExample).length >= 1 //&& this.teams.filter(t=> t.isExample).length>=1;
                
         this.cd.markForCheck();
            
-        this.filteredMaps = [].concat(this._datasets);
+        this.filteredMaps = this.breakdown([].concat(this._datasets));
         this.subscription = this.filterMaps$.asObservable().debounceTime(250).subscribe((search) => {
-            this.filteredMaps = (search === '')
-                ? [].concat(this._datasets)
-                : this._datasets.filter(
-                    d => d.initiative.name.toLowerCase().indexOf(search.toLowerCase()) >= 0
-                        ||
-                        d.team.name.toLowerCase().indexOf(search.toLowerCase()) >= 0
-                );
+            let filtered = (search === '')
+            ? [].concat(this._datasets)
+            : this._datasets.filter(
+                d => d.initiative.name.toLowerCase().indexOf(search.toLowerCase()) >= 0
+                    ||
+                    d.team.name.toLowerCase().indexOf(search.toLowerCase()) >= 0
+            )
+            
+            this.filteredMaps = this.breakdown(filtered);
             this.cd.markForCheck();
         })
     }
@@ -89,6 +91,29 @@ export class DashboardComponent {
         if (this.subscription) this.subscription.unsubscribe();
         // EmitterService.get("currentTeam").emit(null);
 
+    }
+
+
+    breakdown(datasets:DataSet[]):Map<Team, DataSet[]>{
+        let a = datasets.map((d, i, arr) => 
+        {
+            return <[Team, DataSet[]]> 
+                [d.team, arr.filter(a => a.team.team_id === d.team.team_id)]
+        })
+        .sort(function(a, b){
+            if(a[0].name < b[0].name) { return -1; }
+            if(a[0].name > b[0].name) { return 1; }
+            return 0;
+        })
+        return new Map(a);
+    }
+
+    trackByTeamId(index: number, team: Team) {
+        return team.team_id;
+    }
+
+    getCount(map: Map<Team, DataSet[]>){
+        return Array.from(map.values()).reduce((pre,cur)=>pre.concat(cur), []).length
     }
 
 

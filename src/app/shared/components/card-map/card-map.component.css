@@ -1,3 +1,7 @@
 .archived{
     opacity: 0.5;
 }
+
+.card{
+    min-height: 285px;
+}
