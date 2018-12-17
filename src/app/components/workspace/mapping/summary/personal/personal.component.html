@@ -26,8 +26,8 @@
                         <div class="card-title" *ngIf="i.tags && i.tags.length>0">
                             <ul class="tags small no-cursor">
                                 <li *ngFor="let tag of i.tags; let i=index">
-                                    <span class="btn btn-sm borderless tag px-0 mr-1" [style.color]="tag.color">
-                                        <i class="fa fa-tag mr-1" aria-hidden="true" [style.color]="tag.color"></i>{{tag?.name}}
+                                    <span class="badge badge-pill p-2  border-thick text-white mr-1 my-1" [style.border-color]="tag.color" [style.background]="tag.color">
+                                        <i class="fa fa-tag mr-1" aria-hidden="true"></i>{{tag?.name}}
                                     </span>
                                 </li>
                             </ul>
