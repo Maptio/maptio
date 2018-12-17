@@ -72,15 +72,15 @@
 }
 
 .node-content-wrapper-active, .node-content-wrapper.node-content-wrapper-active:hover, .node-content-wrapper-active.node-content-wrapper-focused {
-  background: var(--maptio-orange);
+  background: var(--maptio-accent);
 }
 
 .node-content-wrapper-focused {
-  background: var(--maptio-orange);
+  background: var(--maptio-accent);
 }
 
 .node-content-wrapper:hover {
-  background: var(--maptio-orange);
+  background: var(--maptio-accent);
 }
 
 .node-content-wrapper-active, .node-content-wrapper-focused, .node-content-wrapper:hover {
