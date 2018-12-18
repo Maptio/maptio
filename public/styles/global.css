@@ -117,9 +117,20 @@ body {
 .accent-orange{
   border-top: solid 6px var(--maptio-orange);
 }
+.border-orange{
+  border-color:var(--maptio-orange);
+}
 
 .bg-accent{
   background: var(--maptio-accent) !important;
+}
+
+.bg-green{
+  background: var(--maptio-green) !important;
+}
+
+.bg-gradient{
+  background-image: linear-gradient(to bottom right,  var(--maptio-blue), var(--maptio-accent));
 }
 
 .border-accent{

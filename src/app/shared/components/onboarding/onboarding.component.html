@@ -1,7 +1,7 @@
 <common-modal [nextActionName]="nextActionName" [previousActionName]="previousActionName" 
 [isSkippable]="false" [isReady]="true" [isWithProgress]="true" 
 [isWithProgress]="false" [progress]="progress" [progressLabel]="progressLabel"
- (next)="nextStep($event)" (previous)="previousStep($event)"  >
+ (next)="nextStep()" (previous)="previousStep()"  >
 
     <ng-container *ngIf="currentStep === 'Welcome'">
         <ng-container *ngTemplateOutlet="welcome"></ng-container>

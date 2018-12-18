@@ -10,6 +10,7 @@ import { MapService } from '../../shared/services/map/map.service';
 import { LoaderService } from '../../shared/services/loading/loader.service';
 import { Auth } from '../../shared/services/auth/auth.service';
 import { EmitterService } from '../../shared/services/emitter.service';
+import { environment } from '../../../environment/environment';
 
 @Component({
     selector: "dashboard",
@@ -30,7 +31,7 @@ export class DashboardComponent {
     isOutOfSampleMode: boolean;
     filterMaps$: Subject<string>
     filteredMaps: Map<Team, DataSet[]>;
-
+    SURVEY_URL = environment.SURVEY_URL;
     subscription: Subscription;
 
     constructor(private cd: ChangeDetectorRef, private router: Router, private loaderService: LoaderService,
@@ -72,7 +73,7 @@ export class DashboardComponent {
                         ||
                         d.team.name.toLowerCase().indexOf(search.toLowerCase()) >= 0
                 )
-                console.log(filtered)
+            console.log(filtered)
             this.filteredMaps = this.breakdown(filtered);
             console.log(this.filteredMaps)
             let mid = Date.now();
@@ -80,7 +81,7 @@ export class DashboardComponent {
             this.cd.markForCheck();
 
             let end = Date.now();
-            console.log(start, mid-start, end-mid)
+            console.log(start, mid - start, end - mid)
         })
     }
 

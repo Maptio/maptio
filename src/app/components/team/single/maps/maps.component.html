@@ -1,7 +1,7 @@
 <div class="w-100 overflow">
     <ul class="list-inline row d-flex align-items-stretch">
         <li class="col-6 my-2" *ngIf="teams && !isCreateMapForbidden">
-            <div class="card bg-accent text-white border-0 h-100">
+            <div class="card bg-gradient text-white border-0 h-100">
                 <div class="card-body">
                     <common-create-map [teams]="teams" [isRedirect]="true" (created)="onNewMap($event)"></common-create-map>
                 </div>
