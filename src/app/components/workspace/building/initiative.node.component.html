@@ -20,12 +20,12 @@
 			<ng-container *ngIf="!isRoot()">
 				<div *permissionsOnly="Permissions.canMoveInitiative; else elseMoveBlock; then thenMoveBlock; "></div>
 				<ng-template #thenMoveBlock>
-					<span class="input-group-text knurled text-secondary cursor-move " (mouseenter)="node.data.isDraggable=true" (mouseleave)="node.data.isDraggable=false">
+					<span class="input-group-text knurled text-secondary cursor-move " (mouseover)="node.data.isDraggable=true" (mouseout)="node.data.isDraggable=false">
 						<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
 					</span>
 				</ng-template>
 				<ng-template #elseMoveBlock>
-					<span class="p-0 input-group-text knurled cursor-default text-secondary" (mouseenter)="node.data.isDraggable=false" (mouseleave)="node.data.isDraggable=false"
+					<span class="p-0 input-group-text knurled cursor-default text-secondary" (mouseover)="node.data.isDraggable=false" (mouseout)="node.data.isDraggable=false"
 					 >
 						<i class="fa fa-ellipsis-v invisible" aria-hidden="true"></i>
 					</span>
