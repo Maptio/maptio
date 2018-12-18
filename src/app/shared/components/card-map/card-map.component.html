@@ -1,5 +1,5 @@
 <div class="card" *ngIf="dataset" [class.pointer-none]="isReadOnly" [class.overflow-hidden]="dataset?.team?.isExample" [class.archived]="dataset.isArchived">
-    <div *ngIf="dataset?.team?.isExample" class="corner-ribbon bottom-right bg-accent box-shadow">
+    <div *ngIf="dataset?.team?.isExample" class="corner-ribbon top-right bg-accent box-shadow">
         <i class="fas fa-dice mx-1"></i>Sample</div>
     <div class="card-body d-flex flex-column">
         <div class="card-title">

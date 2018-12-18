@@ -135,7 +135,7 @@
                 </div>
 
             </div>
-            <div class="card bg-accent text-white border-0">
+            <div class="card bg-accent text-white border-0" *ngIf="isOutOfSampleMode">
                 <div class="card-body">
                     <common-create-map [teams]="teams" [isRedirect]="true" (created)="onNewMap($event)"></common-create-map>
                 </div>

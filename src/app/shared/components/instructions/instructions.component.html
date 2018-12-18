@@ -30,15 +30,13 @@
 
 <ng-template #welcome>
 
-    <span class="display-4">
+    <span class="display-3">
         <span class="text-accent">👋 {{user?.firstname}}</span>, welcome to Maptio!</span>
     <h4 class="my-4 text-muted">
         Thanks for signing up and giving Maptio a try. We're really excited to have you onboard.
-
-
     </h4>
 
-    <h4 class="mt-5">
+    <!-- <h4 class="mt-5">
         <span class="text-muted">With Maptio, you will :</span>
         <div class="ml-2 my-3 d-flex flex-column justify-content-start">
             <span class="h6 py-2">
@@ -52,7 +50,7 @@
                 <i class="fas fa-check mr-1"></i>Build
                 <b class="text-accent">greater transparency and accountability</b> over everyone’s roles</span>
         </div>
-    </h4>
+    </h4> -->
 
 </ng-template>
 
@@ -60,14 +58,26 @@
 
 
 <ng-template #treepanel>
-    <h1>All your circles always visible  </h1>
-    <h4 class="text-muted my-1">Build a list all the circles in your organization and arrange them to reflect your structure </h4>
+    <h1>Align with one shared vision</h1>
     <div class="mt-5">
-        <div class="d-flex justify-content-center align-items-center w-100 flex-column">
-            <span class="lead text-bold text-accent">
-                <i class="fas fa-info-circle mr-1"></i> Open the left panel to see a list of all circles
-            </span>
-            <img class="img-thumbnail" width="auto" height="75%" src="/assets/videos/open-panel.gif" alt="">
+        <div class="d-flex justify-content-center align-items-center w-100">
+            <div class="col-5 d-flex flex-column">
+                <span class="h5 py-2">
+                    <i class="far fa-check-circle mr-1"></i>Communicate your vision
+                    <span class="text-accent">simply and visually</span>
+                </span>
+                <span class="h5 py-2">
+                    <i class="far fa-check-circle mr-1"></i>
+                    <span class="text-accent">Onboard new people</span> quickly</span>
+                <span class="h5 py-2">
+                    <i class="far fa-check-circle mr-1"></i>Build
+                    <span class="text-accent">greater transparency and accountability</span> over everyone’s roles</span>
+
+            </div>
+            <div class="col">
+                <img width="100%" height="auto" src="/assets/images/onboarding/full_map.png" alt="">
+
+            </div>
 
         </div>
     </div>
@@ -75,28 +85,50 @@
 
 
 <ng-template #editpanel>
-    <h1>Keep all details in the same place</h1>
-    <h4 class="text-muted my-1">People, roles, documents and resources are kept relevant. You decide who can update the maps.</h4>
+    <h1>Keep all the details in one place</h1>
     <div class="mt-5">
-        <div class="d-flex justify-content-center align-items-center w-100 flex-column">
-            <span class="lead text-bold text-accent">
-                <i class="fas fa-info-circle mr-1"></i>Click on an item to open and edit the circles details
-            </span>
-            <img class="img-thumbnail" width="auto" height="75%" src="/assets/videos/open-circle.gif" alt="">
+        <div class="d-flex justify-content-center align-items-center w-100">
+            <div class="col-5 d-flex flex-column">
+                <span class="h5 py-2">
+                    <i class="far fa-check-circle mr-1"></i>Store relevant documents in the same place and
+                    <span class="text-accent">speed up collaboration</span>
+                </span>
+                <span class="h5 py-2">
+                    <i class="far fa-check-circle mr-1"></i>Create
+                    <span class="text-accent">tailored roles</span> for each person or assign pre-made roles
+                    <span class="badge badge-pill badge-success">Coming soon</span>
+                </span>
+            </div>
+            <div class="col">
+                <img class="rounded" width="100%" height="auto" src="/assets/images/onboarding/one_circle_details.png" alt="">
+
+            </div>
 
         </div>
     </div>
 </ng-template>
 
 <ng-template #directory>
-    <h1>Always know who is doing what</h1>
-    <h4 class="text-muted my-1">Keep people in your organization accountable. They can review their circles at any time. </h4>
-    <div class="d-flex mt-5">
-        <div class="d-flex justify-content-center align-items-center w-100 flex-column">
-            <span class="lead text-bold text-accent">
-                <i class="fas fa-info-circle mr-1"></i> Open the directory to see people and the circles they're involved in.
-            </span>
-            <img class="img-thumbnail" width="auto" height="75%" src="/assets/videos/open-directory.gif" alt="">
+    <h1>Adapt with your organisation needs</h1>
+    <div class="mt-5">
+        <div class="d-flex justify-content-center align-items-center w-100">
+            <div class="col-5 d-flex flex-column">
+                <span class="h5 py-2">
+                    <i class="far fa-check-circle mr-1"></i>Always know who is doing what
+                </span>
+                <span class="h5 py-2">
+                    <i class="far fa-check-circle mr-1"></i>Always know if a role is not filled
+                    <span class="badge badge-pill badge-success">Coming soon</span>
+                </span>
+                <span class="h5 py-2">
+                    <i class="far fa-check-circle mr-1"></i>Editing the maps is fast and easy
+                </span>
+            </div>
+            <div class="col">
+                <img class="rounded" width="100%" height="auto" src="/assets/images/onboarding/one_circle.png" alt="">
+
+            </div>
+
         </div>
     </div>
 </ng-template>
@@ -122,49 +154,47 @@
 
 <ng-template #ending>
     <h1>
-        <span class="text-accent ">{{user?.firstname}} </span>, one last thing!
+        <span class="text-accent ">{{user?.firstname}} </span>, before you start ...
     </h1>
 
     <h4 class="my-1 text-muted">
-        We have created an sample map to get you started.
+        The Banana App Company has shared their map with you so you can have a peek.
     </h4>
 
-    <div class="my-5 d-flex flex-column justify-content-start">
-        <div class="d-flex align-items-center my-3">
-            <span class="fa-stack fa-2x mx-2">
-                <i class="fas fa-circle fa-stack-2x text-dark"></i>
-                <strong class="fa-stack-1x text-light">1</strong>
-            </span>
+    <div class="mt-5 d-flex flex-column justify-content-start">
+        <div class="d-flex align-items-center my-2">
+            <div class="mr-3">
+                <img class="rounded-circle border border-thick" width="100" height="100" src="/assets/images/onboarding/left_panel.png" alt="">
+            </div>
             <div>
                 <span class="h5 my-4">
-                    Add, edit, delete as much as you want. Go crazy!
-                    <div class="text-muted">Familiarize yourself with Maptio intuitive interface</div>
+                    Open the tree of initiatives to rearrange the order
                 </span>
             </div>
         </div>
 
-        <div class="d-flex align-items-center my-3">
-            <span class="fa-stack fa-2x mx-2">
-                <i class="fas fa-circle fa-stack-2x text-dark"></i>
-                <strong class="fa-stack-1x text-light">2</strong>
-            </span>
+        <div class="d-flex justify-content-end align-items-center my-2">
+
             <div>
-                <span class="h5 my-4">
-                    Explore the tree view & network view for a different perspective </span>
+                <div class="h5 my-4">
+                    Right-click on a circle to view, edit, and more
+                    <div class="text-muted">
+                        Ctrl+
+                        <i class="fas fa-mouse-pointer"></i> on
+                        <i class="fab fa-apple"></i>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-auto">
+                <img class="border border-thick" width="auto" height="150" src="/assets/videos/right_click.gif" alt="">
             </div>
         </div>
 
-        <div class="d-flex align-items-center my-3">
-            <span class="fa-stack fa-2x mx-2">
-                <i class="fas fa-circle fa-stack-2x text-accent"></i>
-                <strong class="fa-stack-1x text-light">3</strong>
-            </span>
-            <div>
-                <span class="h5 my-4">
-                    Create you own organisation and start mapping
-                    <div class="text-muted">Only when you're ready! This will start you 14 days free trial.</div>
-                </span>
-            </div>
+        <div class="d-flex align-items-center mt-5">
+            <h5 class="text-bold">
+                Once you're ready, create your organisation and start your 14 days free trial
+            </h5>
         </div>
     </div>
 

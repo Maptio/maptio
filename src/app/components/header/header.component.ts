@@ -157,7 +157,7 @@ export class HeaderComponent implements OnInit {
     }
 
     openInstructions() {
-        this.instructions.openTutorial(this.user);
+        this.instructions.openWelcome(this.user);
     }
 
     openOnboarding() {

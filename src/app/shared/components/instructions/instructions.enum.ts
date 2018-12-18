@@ -3,6 +3,6 @@ export enum Steps {
     TreePanel,
     EditPanel,
     Directory,
-    RightClick,
+    // RightClick,
     Ending
 }

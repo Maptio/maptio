@@ -20,7 +20,7 @@ export class InstructionsComponent implements OnInit {
 
     currentIndex: number = 0;
     currentStep: string;
-    nextActionName: string = "Next";
+    nextActionName: string = "Get started";
     previousActionName: string = null;
     progress: string = "14";
     progressLabel: string = "6 steps left";
@@ -48,7 +48,7 @@ export class InstructionsComponent implements OnInit {
     }
 
     close() {
-        this.activeModal.dismiss();
+        this.activeModal.close();
     }
 
     nextStep() {
@@ -56,7 +56,7 @@ export class InstructionsComponent implements OnInit {
             if (this.user.teams.length === 0) {
                 return this.getDemoMap(this.user)
                     .then((dataset: DataSet) => {
-
+console.log(1)
                         localStorage.setItem(`map_settings_${dataset.datasetId}`, JSON.stringify(
                             {
                                 fontColor: environment.DEFAULT_MAP_TEXT_COLOR,
@@ -68,11 +68,13 @@ export class InstructionsComponent implements OnInit {
                         return dataset;
                     })
                     .then((dataset: DataSet) => {
+                        console.log(2)
                         this.isRedirecting = true;
                         this.cd.markForCheck();
                         return this.router.navigateByUrl(`/map/${dataset.datasetId}/${dataset.initiative.getSlug()}`);
                     })
                     .then(() => {
+                        console.log(3)
                         this.isRedirecting = false;
                         this.cd.markForCheck();
                         this.activeModal.close();
