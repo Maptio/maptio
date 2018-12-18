@@ -11,6 +11,10 @@
     /* stroke-width: initial; */
 }
 
+::ng-deep circle.node.initiative-map{
+  box-shadow : inset 0 0 0 1px hsla(0, 0%, 0%, 0.1);
+}
+
 ::ng-deep .initiative-map.node--leaf {
     fill: white;
     pointer-events: visible;

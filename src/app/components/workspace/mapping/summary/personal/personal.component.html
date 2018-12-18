@@ -4,7 +4,7 @@
             <div class="border-0 d-flex align-items-center justify-content-between ">
                 <span class="d-flex align-items-end justify-content-between p-2">
                     <span class="d-flex align-items-end">
-                        <img class="rounded-circle m-1" width="48" height="48" src="{{member?.picture}}">
+                        <img class="rounded-circle m-1 user" width="48" height="48" src="{{member?.picture}}">
                         <h2 class="ml-1">{{member?.name}}</h2>
                     </span>
                 </span>
@@ -50,14 +50,14 @@
                                 <div class="d-flex flex-wrap" *ngIf="!authoritiesHideme[ix]">
                                     <a *ngFor="let h of i.helpers" class="btn btn-link btn-xs no-padding" routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}/summary"
                                         [queryParams]="{member: h.shortid}">
-                                        <img [hidden]="h.user_id === member?.user_id " class="rounded-circle helper" src="{{h.picture}}" alt="{{h.name}}" title="{{h.name}}"
+                                        <img [hidden]="h.user_id === member?.user_id " class="rounded-circle user helper" src="{{h.picture}}" alt="{{h.name}}" title="{{h.name}}"
                                             placement="top" container="body" ngbTooltip="{{h.name}}">
                                     </a>
                                 </div>
                                 <div *ngIf="authoritiesHideme[ix]" class="d-flex flex-column">
                                     <span *ngFor="let h of i.helpers" class="d-flex my-1">
                                         <a class="btn btn-link btn-xs no-padding" routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}/summary" [queryParams]="{member: h.shortid}">
-                                            <img [hidden]="h.user_id === member?.user_id " class="rounded-circle helper" src="{{h.picture}}" alt="{{h.name}}" title="{{h.name}}"
+                                            <img [hidden]="h.user_id === member?.user_id " class="rounded-circle helper user" src="{{h.picture}}" alt="{{h.name}}" title="{{h.name}}"
                                                 placement="top" container="body" ngbTooltip="{{h.name}}">
                                         </a>
                                         <markdown class="mx-1 small no-margin d-flex align-items-center" *ngIf="h.roles[0]?.description" [data]="h.roles[0]?.description"></markdown>
@@ -86,7 +86,7 @@
                         </button>
                         <span class="small text-muted" *ngIf="i.accountable">led by
                             <a class="btn btn-link btn-xs no-padding" routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}/summary" [queryParams]="{member: i.accountable?.shortid}">
-                                <img class="rounded-circle helper" src="{{i.accountable?.picture}}" alt="{{i.accountable?.name}}" title="{{i.accountable?.name}}"
+                                <img class="rounded-circle helper user" src="{{i.accountable?.picture}}" alt="{{i.accountable?.name}}" title="{{i.accountable?.name}}"
                                     placement="top" container="body" ngbTooltip="{{i.accountable?.name}}">
                             </a>
                         </span>
@@ -119,7 +119,7 @@
                                 <div class="d-flex flex-wrap" *ngIf="!helpingHideme[ix]">
                                     <a *ngFor="let h of i.helpers" class="btn btn-link btn-xs no-padding" routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}/summary"
                                         [queryParams]="{member: h.shortid}">
-                                        <img [hidden]="h.user_id === member?.user_id " class="rounded-circle helper" src="{{h.picture}}" alt="{{h.name}}" title="{{h.name}}"
+                                        <img [hidden]="h.user_id === member?.user_id " class="rounded-circle helper user" src="{{h.picture}}" alt="{{h.name}}" title="{{h.name}}"
                                             placement="top" container="body" ngbTooltip="{{h.name}}">
                                     </a>
                                 </div>
@@ -127,7 +127,7 @@
                                     <span *ngFor="let h of i.helpers" class="d-flex my-1">
                                         <ng-container *ngIf="h.user_id !== member?.user_id">
                                             <a class="btn btn-link btn-xs no-padding" routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}/summary" [queryParams]="{member: h.shortid}">
-                                                <img class="rounded-circle helper" src="{{h.picture}}" alt="{{h.name}}" title="{{h.name}}" placement="top" container="body"
+                                                <img class="rounded-circle helper user" src="{{h.picture}}" alt="{{h.name}}" title="{{h.name}}" placement="top" container="body"
                                                     ngbTooltip="{{h.name}}">
                                             </a>
                                             <markdown class="mx-1 small no-margin d-flex align-items-center" *ngIf="h.roles[0]?.description" [data]="h.roles[0]?.description"></markdown>

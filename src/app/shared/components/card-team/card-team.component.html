@@ -7,7 +7,7 @@
         </h5>
         <div class="card-text mb-1 d-flex flex-wrap">
             <div *ngFor="let member of team?.members;trackBy:trackByMemberId" [class.deleted]="member.isDeleted"  class=" mb-1" >
-                <img class="rounded-circle border border-thick border-white" width="32" height="32" src="{{member.picture}}" placement="top" container="body"
+                <img class="user rounded-circle border border-thick border-white" width="32" height="32" src="{{member.picture}}" placement="top" container="body"
                     ngbTooltip="{{member.name}}">
             </div>
         </div>

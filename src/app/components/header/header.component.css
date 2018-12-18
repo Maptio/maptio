@@ -97,7 +97,7 @@
 /* curious is this the bootstrap overwrite file */
 
 .navbar {
-    min-height: 7vh;
+    min-height: 4vh;
 }
 
 .map-name {
@@ -126,7 +126,7 @@ span.navbar-text a {
 
 .creation {
     position: absolute;
-    top: 7vh;
+    top: 4vh;
     right: 0;
     z-index: 1000;
     background-color: rgb(41, 128, 185);

@@ -1,11 +1,13 @@
 <ng-container *ngIf="auth.allAuthenticated() && (isMap() || isHome() || isTeam())">
     <nav class="navbar navbar-light bg-accent rounded-bottom text-white mx-3" *ngIf="isSandbox">
-        <div class="my-3 h5">This is a sample
+        <div class="my-3 h5 collapse show" id="collapseStartTrial">This is a sample
             <i class="fas fa-dice"></i> organization... Ready to create your own?
-            <button class="btn btn-success" (click)="openOnboarding()">Start a 14 days free trial</button>
-            or
-            <button (click)="openInstructions()">See intro </button>
+            <button class="btn btn-success " (click)="openOnboarding()">Start a 14 days free trial</button>
         </div>
+        <button class="btn text-white bg-transparent position-absolute top-right" (click)="isHeaderCollapsed=!isHeaderCollapsed" data-toggle="collapse" href="#collapseStartTrial" role="button">
+            <i [class.fa-angle-double-up]="!isHeaderCollapsed"  [class.fa-angle-double-down]="isHeaderCollapsed" class="fas"></i> 
+        </button> 
+        
     </nav>
 </ng-container>
 <nav class="header navbar sticky-top  navbar-expand-sm navbar-light bg-transparent justify-content-between pr-3" [class.grayscale]="loaderService.isLoading">
@@ -70,7 +72,7 @@
                 <a class="nav-link dropdown-toggle without-caret px-0" id="profileDropdownLink" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
                     <div>
-                        <img src="{{ user?.picture }}" class="rounded-circle profile-image" alt="{{user?.name}}">
+                        <img src="{{ user?.picture }}" class="rounded-circle profile-image user" alt="{{user?.name}}">
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdownLink">

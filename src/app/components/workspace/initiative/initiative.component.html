@@ -1,5 +1,5 @@
 <ng-template #rt let-r="result" let-t="term">
-	<img src="{{r.picture}}" width="32" height="32" class="rounded-circle" alt={{r.name}} /> {{r.name}}
+	<img src="{{r.picture}}" width="32" height="32" class="rounded-circle user" alt={{r.name}} /> {{r.name}}
 </ng-template>
 <ng-template #rtTag let-r="result" let-t="term">
 	<span [style.color]="r.color">
@@ -171,7 +171,7 @@
 												</ng-template>
 
 												<span class="pl-1 col">
-													<img src="{{user.picture}}" width="16" class="rounded-circle" alt={{user.name}}>
+													<img src="{{user.picture}}" width="16" class="rounded-circle user" alt={{user.name}}>
 													<a 
 													routerLink="/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/summary" [queryParams]="{member: user.shortid}"
 													>{{user.name}}</a>

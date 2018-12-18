@@ -37,6 +37,7 @@ export class HeaderComponent implements OnInit {
     public selectedDataset: DataSet;
     public areMapsAvailable: Promise<boolean>
     public isCreateMode: boolean = false;
+    public isHeaderCollapsed:boolean;
 
     public emitterSubscription: Subscription;
     public userSubscription: Subscription;

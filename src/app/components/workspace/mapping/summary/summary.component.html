@@ -29,7 +29,7 @@
             <ul class="card-columns p-0" [class.five-columns]="!selectedMember"  [class.one-column]="selectedMember">
                 <a class="card" *ngFor="let member of filteredMembers" routerLink="." [queryParams]="{member: member.shortid}" [class.active]="selectedMember?.user_id === member?.user_id">
                     <div class="card-body" >
-                        <img *ngIf="member.picture" [src]="member.picture" width="32" height="32" class="rounded-circle mr-1">{{member.name}}
+                        <img *ngIf="member.picture" [src]="member.picture" width="32" height="32" class="rounded-circle user mr-1">{{member.name}}
                     </div>
                 </a>
             </ul>

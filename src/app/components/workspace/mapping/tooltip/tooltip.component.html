@@ -15,7 +15,7 @@
 
         <p class="card-title my-2" *ngIf="initiative.accountable">
             <span class="d-flex align-items-center flex-nowrap">
-                <img src="{{initiative.accountable?.picture}}" width="32" height="32" class="rounded-circle mr-1">
+                <img src="{{initiative.accountable?.picture}}" width="32" height="32" class="rounded-circle user mr-1">
                 <span class="d-flex flex-nowrap"> {{initiative.accountable?.name}}</span>
 
                 <span class="text-muted mx-1">({{team.settings.authority}})</span>
@@ -28,7 +28,7 @@
         <p class="card-text d-flex align-items-center flex-wrap" *ngIf="initiative.helpers && initiative.helpers.length>0">
             <span class="text-muted mr-1">with</span>
             <span *ngFor="let helper of initiative.helpers" class="my-1">
-                <img src="{{helper.picture}}" alt="{{helper.name}}" width="32" height="32" class="rounded-circle mr-1">
+                <img src="{{helper.picture}}" alt="{{helper.name}}" width="32" height="32" class="rounded-circle user mr-1">
             </span>
         </p>
         <p class="card-text d-flex align-items-center flex-wrap text-muted" *ngIf="!(initiative.helpers && initiative.helpers.length>0)">
