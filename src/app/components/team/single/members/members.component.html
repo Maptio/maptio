@@ -86,7 +86,7 @@
     </div>
 
     <div class="my-4">
-        <div class="border-bottom py-2">
+        <div class="border-bottom py-2 text-muted">
             <div class="d-flex align-items-center">
                 <div *permissionsOnly="Permissions.canEditUser" class="col-1 px-0 justify-content-between d-flex align-items-center">
                     <button class="btn text-white pointer-none invisible">
@@ -112,7 +112,7 @@
 
         <div class="border-bottom border-light row" *ngFor="let member of (members$ | async); trackBy: trackByMemberId;let i=index" >
                 <!-- [class.bold]="member.userRole===UserRole.Admin" -->
-            <div class="col-12">
+            <div class="col-12 my-1">
                 <member-single [invite]="invite$.asObservable()" [isOnlyMember]="team.members.length===1" [user]="user" [member]="member"
                 [team]="team" (delete)="deleteMember(member)"></member-single>
             </div>

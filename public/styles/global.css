@@ -5,7 +5,7 @@
   --maptio-white: #fff;
   --maptio-red:#dc3545;
   --maptio-green:rgb(40, 167, 69);
-  --maptio-black: #052841;
+  --maptio-black: hsla(204, 54%, 17%, 1);
 }
 
 body{
@@ -126,11 +126,20 @@ body {
   color: var(--maptio-accent);
 }
 
-.box-shadow{
-  /* box-shadow: 0px 0px 10px 1px #999; */
-
-  /* filter: drop-shadow(0px 3px 3px #999); */     
+.box-shadow{ 
   box-shadow: 0px 2px 4px 1px hsla(0,0%,0%, 0.2);
+}
+
+.box-shadow-small{
+  box-shadow: 0 1px 3px hsla(0, 0%, 20%);
+}
+
+.box-shadow-medium{
+  box-shadow: 0 4px 6px hsla(0, 0%, 10%);
+}
+
+.box-shadow-large{
+  box-shadow: 0 15px 35px hsla(0, 0%, 20%);
 }
 
 .box-shadow-0{
@@ -221,6 +230,10 @@ transition: background-image 0.2s ease-in-out;
 
 .cursor-auto{
   cursor: auto;
+}
+
+.cursor-move{
+  cursor:move;
 }
 
 .home-background{
@@ -318,10 +331,18 @@ transition: background-image 0.2s ease-in-out;
 
 
 
-.btn-link, a:not(.btn-tag):not(.text-white):not(.text-success) {
+.btn-link, a:not(.btn-tag):not(.text-white):not(.text-success):not(.nav-link) {
   color: var(--maptio-blue) !important;
 }
 
+.underline-on-hover{
+  text-decoration:none;
+  color:unset;
+}
+.underline-on-hover:hover{
+  text-decoration:underline;
+  color:unset;
+}
 
 fieldset:disabled span.icon-disabled {
   visibility: visible;

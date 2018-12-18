@@ -7,7 +7,13 @@ color: var(--maptio-accent);
 }
 
 
-.nav-link.active{
+a.nav-link{
+    color:var(--maptio-blue);
+}
+
+a.nav-link.active{
 border-left:6px solid var(--maptio-accent) !important;
 background-color: transparent;
+/* font-weight: bold; */
+color: var(--maptio-accent);
 }

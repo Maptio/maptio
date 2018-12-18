@@ -43,9 +43,13 @@ display: flex;
 }
 
 .knurled {
-    border: none;
+    /* border: none; */
     background-color: transparent;
-    cursor: move;
+    /* cursor: move; */
+}
+
+.slim{
+    width:4px;
 }
 
 .add:before {

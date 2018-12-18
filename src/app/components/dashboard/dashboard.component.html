@@ -8,7 +8,7 @@
                         <div class="mb-5" *ngFor="let kv of filteredMaps.entries(); trackBy: trackByTeamId;">
                             <div class="d-flex justify-content-between align-items-baseline">
                                 <a routerLink="/teams/{{kv[0].team_id}}/{{kv[0].name}}">
-                                    <h3>{{kv[0].name}}</h3>
+                                    <h4>{{kv[0].name}}</h4>
                                 </a>
                                 <small class="text-muted">{{kv[1].length}} {{kv[1].length
                                     <=1 ? 'map' : 'maps'}}</small>
@@ -16,7 +16,7 @@
                             </div>
                             <hr>
                             <ul class="list-inline row d-flex align-items-stretch">
-                                <ng-container *ngFor="let dataset of kv[1]">
+                                <ng-container *ngFor="let dataset of kv[1]; trackBy: trackByDatasetId;">
                                     <li class="col-6 my-2" *ngIf="dataset.initiative.name">
                                         <common-card-map [dataset]="dataset" [isExportAvailable]="true" [isEdit]="true" [isTeamDisplayed]="false" (copied)="onCopy($event)"
                                             (archived)="onArchive($event)"></common-card-map>
@@ -37,8 +37,8 @@
                         <hr>
                         <div>
                             <div>
-                                <div class="d-flex align-items-start my-3">
-                                    <span class="mr-2 fa-stack fa-1x">
+                                <div class="d-flex align-items-center my-4">
+                                    <span class="mr-2 fa-stack col">
                                         <i class="fas fa-circle text-gray fa-stack-2x"></i>
                                         <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
                                     </span>
@@ -48,8 +48,8 @@
                                     </span>
                                 </div>
 
-                                <div class="d-flex align-items-start my-3">
-                                    <span class="mr-2 fa-stack fa-1x">
+                                <div class="d-flex align-items-center my-4">
+                                    <span class="mr-2 fa-stack col">
                                         <i class="fas fa-circle text-gray fa-stack-2x"></i>
                                         <i class="fa fa-phone fa-stack-1x fa-inverse"></i>
                                     </span>
@@ -58,14 +58,13 @@
                                     </span>
                                 </div>
 
-
-                                <div class="d-flex align-items-start my-3">
-                                    <span class="mr-2 fa-stack fa-1x">
+                                <div class="d-flex align-items-center my-4">
+                                    <span class="mr-2 fa-stack col">
                                         <i class="fas fa-circle text-gray fa-stack-2x"></i>
                                         <i class="fas fa-comments fa-stack-1x fa-inverse"></i>
                                     </span>
                                     <span>Help us make Maptio better !
-                                        <a target="blank" href="{{SURVEY_URL}}">Take the survey</a>
+                                        <a target="blank" href="{{SURVEY_URL}}">Vote for the next feature</a>
                                     </span>
                                 </div>
 
@@ -123,7 +122,7 @@
                     <div class="form-group d-flex flex-column align-items-start">
                         <label class="lead" for="inputQuickFilter">Find a map</label>
 
-                        <input id="inputQuickFilter" #inputQuickFilter placeholder="Find a map" type="text" class="form-control w-100" (keyup)="onKeyDown(inputQuickFilter.value)">
+                        <input id="inputQuickFilter" #inputQuickFilter  type="text" class="form-control w-100" (keyup)="onKeyDown(inputQuickFilter.value)">
                         <div *ngIf="inputQuickFilter.value" class="d-flex justify-content-between align-items-center w-100">
                             <span class="text-muted small">{{getCount(filteredMaps)}}/{{datasets?.length}} maps</span>
 

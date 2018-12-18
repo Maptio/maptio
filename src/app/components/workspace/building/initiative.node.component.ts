@@ -66,6 +66,10 @@ export class InitiativeNodeComponent {
         return this.node.isRoot;
     }
 
+    isDraggable(){
+        return this.node.data.isDraggable;
+    }
+
     isFirstLevel() {
         return this.node.parent.isRoot;
     }

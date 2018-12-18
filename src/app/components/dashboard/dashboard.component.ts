@@ -27,7 +27,7 @@ export class DashboardComponent {
     mapsCount: number;
     teamsCount: number;
     // isOnboarding: boolean;
-    isOutOfSampleMode:boolean;
+    isOutOfSampleMode: boolean;
     filterMaps$: Subject<string>
     filteredMaps: Map<Team, DataSet[]>;
 
@@ -39,7 +39,7 @@ export class DashboardComponent {
     }
 
     private _teams: Team[];
-    private _nonExampleTeams:Team[];
+    private _nonExampleTeams: Team[];
     private _datasets: DataSet[]
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -59,31 +59,28 @@ export class DashboardComponent {
     }
 
     ngOnInit() {
-        // if (this._teams.length === 1){
-        //     // EmitterService.get("currentTeam").emit(this._teams[0]);
-        //     // this.isCreateMapForbidden = this._teams[0].isExample;
-        //     this.isOutOfSampleMode = this._teams.filter(t=> t.isExample).length >= 1 && this.teams.filter(t=> t.isExample).length>=1;
-               
-        //     this.cd.markForCheck();
-        // }
-
-        console.log(this._teams)
-        this.isOutOfSampleMode = this._teams.filter(t=> !t.isExample).length >= 1 //&& this.teams.filter(t=> t.isExample).length>=1;
-               
+        this.isOutOfSampleMode = this._teams.filter(t => !t.isExample).length >= 1 //&& this.teams.filter(t=> t.isExample).length>=1;
         this.cd.markForCheck();
-           
+
         this.filteredMaps = this.breakdown([].concat(this._datasets));
         this.subscription = this.filterMaps$.asObservable().debounceTime(250).subscribe((search) => {
+            let start = Date.now();
             let filtered = (search === '')
-            ? [].concat(this._datasets)
-            : this._datasets.filter(
-                d => d.initiative.name.toLowerCase().indexOf(search.toLowerCase()) >= 0
-                    ||
-                    d.team.name.toLowerCase().indexOf(search.toLowerCase()) >= 0
-            )
-            
+                ? [].concat(this._datasets)
+                : this._datasets.filter(
+                    d => d.initiative.name.toLowerCase().indexOf(search.toLowerCase()) >= 0
+                        ||
+                        d.team.name.toLowerCase().indexOf(search.toLowerCase()) >= 0
+                )
+                console.log(filtered)
             this.filteredMaps = this.breakdown(filtered);
+            console.log(this.filteredMaps)
+            let mid = Date.now();
+
             this.cd.markForCheck();
+
+            let end = Date.now();
+            console.log(start, mid-start, end-mid)
         })
     }
 
@@ -94,17 +91,16 @@ export class DashboardComponent {
     }
 
 
-    breakdown(datasets:DataSet[]):Map<Team, DataSet[]>{
-        let a = datasets.map((d, i, arr) => 
-        {
-            return <[Team, DataSet[]]> 
+    breakdown(datasets: DataSet[]): Map<Team, DataSet[]> {
+        let a = datasets.map((d, i, arr) => {
+            return <[Team, DataSet[]]>
                 [d.team, arr.filter(a => a.team.team_id === d.team.team_id)]
         })
-        .sort(function(a, b){
-            if(a[0].name < b[0].name) { return -1; }
-            if(a[0].name > b[0].name) { return 1; }
-            return 0;
-        })
+            .sort(function (a, b) {
+                if (a[0].name < b[0].name) { return -1; }
+                if (a[0].name > b[0].name) { return 1; }
+                return 0;
+            })
         return new Map(a);
     }
 
@@ -112,8 +108,12 @@ export class DashboardComponent {
         return team.team_id;
     }
 
-    getCount(map: Map<Team, DataSet[]>){
-        return Array.from(map.values()).reduce((pre,cur)=>pre.concat(cur), []).length
+    trackByDatasetId(index: number, dataset: DataSet) {
+        return dataset.datasetId;
+    }
+
+    getCount(map: Map<Team, DataSet[]>) {
+        return Array.from(map.values()).reduce((pre, cur) => pre.concat(cur), []).length
     }
 
 
