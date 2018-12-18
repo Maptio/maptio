@@ -20,8 +20,8 @@
   /*height:30px !important;*/
   margin: 0;
   height: 48px !important;
-  background: var(--maptio-blue) !important;
-  border: 2px dotted var(--maptio-blue);
+  background: var(--maptio-accent) !important;
+  border: 2px dotted var(--maptio-accent);
 }
 
 .toggle-children-wrapper-expanded .toggle-children {

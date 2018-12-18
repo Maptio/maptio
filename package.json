@@ -58,7 +58,7 @@
     "@types/shortid": "0.0.29",
     "@types/slug": "^0.9.0",
     "angular-confirmation-popover": "^4.2.0",
-    "angular-tree-component": "^7.0.1",
+    "angular-tree-component": "^7.1.0",
     "angular2-jwt": "^0.1.28",
     "angular2-markdown": "^1.6.0",
     "angular2-template-loader": "^0.4.0",
