@@ -13,7 +13,7 @@
                 <h5 *ngIf="authorities.length>0" class="card-title text-muted">{{_team?.settings.authority | titlecase }} of circles</h5>
 
                 <div *ngFor="let i of authorities; let ix=index" class="my-2">
-                    <personal-card [initiative]="i" [isWithLeader]="false"></personal-card>
+                    <personal-card [initiative]="i" [datasetId]="datasetId" [isWithLeader]="false"></personal-card>
                 </div>
 
 
@@ -24,7 +24,7 @@
                 <h5 *ngIf="helps.length>0" class="card-title text-muted">A {{_team.settings.helper | lowercase }} in circles</h5>
 
                 <div *ngFor="let i of helps; let ix=index" class="my-2">
-                    <personal-card [initiative]="i" [isWithLeader]="true"></personal-card>
+                    <personal-card [initiative]="i" [datasetId]="datasetId" [isWithLeader]="true"></personal-card>
                 </div>
 
 

@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-body">
         <div class="card-title">
-            <span class="btn-link lead cursor-pointer" (click)="openInitiative(i)">{{initiative.name}}</span>
+            <span class="btn-link lead cursor-pointer" (click)="openInitiative(initiative)">{{initiative.name}}</span>
         </div>
         <div class="card-subtitle">
             <span class="text-muted" *ngIf="initiative.accountable && isWithLeader">led by
