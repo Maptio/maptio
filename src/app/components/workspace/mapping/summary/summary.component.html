@@ -1,10 +1,10 @@
 <div class="row cursor-auto">
     <div class="d-flex col-12">
-        <div class="w-75 mr-3" *ngIf="selectedMember">
+        <div class="col mr-3" *ngIf="selectedMember">
             <summary-personal [datasetId]="datasetId" [member]="selectedMember" [team]="team" [initiative]="initiative"></summary-personal>
         </div>
         <div [class.col-3]="selectedMember" [class.w-100]="!selectedMember" [class.border-left]="selectedMember">
-            <div class="card border-0">
+            <div class="card border-0 bg-transparent">
                 <div *ngIf="!selectedMember">
                     <h1>Directory</h1>
                     <h6 class="text-muted" *ngIf="initiative">

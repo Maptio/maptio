@@ -1,0 +1,59 @@
+<div class="card">
+    <div class="card-body">
+        <div class="card-title">
+            <span class="btn-link lead cursor-pointer" (click)="openInitiative(i)">{{initiative.name}}</span>
+        </div>
+        <div class="card-subtitle">
+            <span class="text-muted" *ngIf="initiative.accountable && isWithLeader">led by
+                <a class="btn btn-link no-padding" routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}/summary" [queryParams]="{member: initiative.accountable?.shortid}">
+                    <img class="rounded-circle user" width="32" height="32" src="{{initiative.accountable?.picture}}" alt="{{initiative.accountable?.name}}"
+                        title="{{initiative.accountable?.name}}" placement="top" container="body" ngbTooltip="{{initiative.accountable?.name}}">
+                </a>
+            </span>
+        </div>
+        <div class="card-subtitle" *ngIf="initiative.tags && initiative.tags.length>0">
+            <ul class="list-inline small no-cursor">
+                <li class="list-inline-item" *ngFor="let tag of initiative.tags; let i=index">
+                    <span class="badge badge-pill p-2  border-thick text-white mr-1 my-1" [style.border-color]="tag.color" [style.background]="tag.color">
+                        <i class="fa fa-tag mr-1" aria-hidden="true"></i>{{tag?.name}}
+                    </span>
+                </li>
+            </ul>
+        </div>
+        <div class="card-subtitle" *ngIf="initiative.getRoles(initiative.accountable?.user_id)[0]?.description">
+            <markdown [data]="initiative.getRoles(initiative.accountable?.user_id)[0]?.description"></markdown>
+        </div>
+        <div class="card-text">
+            <div *ngIf="(initiative.helpers?.length !== 0)" class="row">
+                <a class="btn btn-link pull-right" data-toggle="collapse" href="#{{getDescriptionId()}}" role="button" (click)="isHidden=!isHidden">
+                    <i class="fa" [class.fa-caret-right]="!isHidden" [class.fa-caret-down]="isHidden" aria-hidden="true"></i>
+                </a>
+
+                <div class="collapse" id="{{getDescriptionId()}}">
+                    <div *ngFor="let h of initiative.helpers">
+                        <div  class="d-flex my-1 align-items-baseline">
+                            <a routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}/summary" [queryParams]="{member: h.shortid}">
+                                <img [hidden]="h.user_id === member?.user_id " class="rounded-circle  user" width="32" height="32" src="{{h.picture}}" alt="{{h.name}}"
+                                    title="{{h.name}}" placement="top" container="body" ngbTooltip="{{h.name}}">
+                            </a>
+                            <markdown class="mx-1 no-margin d-flex flex-column align-items-center" *ngIf="h.roles[0]?.description" [data]="h.roles[0]?.description"></markdown>
+
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-wrap" *ngIf="!isHidden">
+                    <a *ngFor="let h of initiative.helpers" class="btn btn-link btn-xs p-0" routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}/summary"
+                        [queryParams]="{member: h.shortid}">
+                        <img [hidden]="h.user_id === member?.user_id " class="rounded-circle user" width="32" height="32" src="{{h.picture}}" alt="{{h.name}}"
+                            title="{{h.name}}" placement="top" container="body" ngbTooltip="{{h.name}}">
+                    </a>
+                </div>
+            </div>
+            <span class="mb-1 small text-warning" *ngIf="(initiative.helpers?.length === 0)">No {{_team?.settings.helper | lowercase }}</span>
+
+        </div>
+
+    </div>
+</div>

@@ -39,6 +39,7 @@ import { CommonComponentsModule } from "../../shared/common-components.module";
 import { OnboardingComponent } from "../../shared/components/onboarding/onboarding.component";
 import { AddMemberComponent } from "../../shared/components/onboarding/add-member.component";
 import { InstructionsComponent } from "../../shared/components/instructions/instructions.component";
+import { PersonalCardComponent } from "./mapping/summary/personal/card.component";
 
 
 const routes: Routes = [{
@@ -107,7 +108,7 @@ export function markdownServiceFactory(http: Http) {
         WorkspaceComponent,
         BuildingComponent, InitiativeNodeComponent, InitiativeComponent,
         MappingComponent, MappingZoomableComponent, MappingTreeComponent, MappingNetworkComponent,
-        MappingSummaryComponent, PersonalSummaryComponent,
+        MappingSummaryComponent, PersonalSummaryComponent, PersonalCardComponent,
 
         SearchComponent, FilterTagsComponent, ShareSlackComponent,
         TooltipComponent, ContextMenuComponent

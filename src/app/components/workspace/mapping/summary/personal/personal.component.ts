@@ -74,9 +74,9 @@ export class PersonalSummaryComponent implements OnInit {
     }
 
 
-    openInitiative(node: Initiative) {
-        this.router.navigateByUrl(`/map/${this.datasetId}/${this.initiative.getSlug()}/circles?id=${node.id}`)
-    }
+    // openInitiative(node: Initiative) {
+    //     this.router.navigateByUrl(`/map/${this.datasetId}/${this.initiative.getSlug()}/circles?id=${node.id}`)
+    // }
 
     toggleAuthorityView(i: number) {
         this.authoritiesHideme.forEach(el => {

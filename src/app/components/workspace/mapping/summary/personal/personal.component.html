@@ -1,145 +1,30 @@
 <div class="d-flex justify-content-center row">
     <div class="col-12">
-        <div class="card border-0 bg-light p-2">
-            <div class="border-0 d-flex align-items-center justify-content-between ">
-                <span class="d-flex align-items-end justify-content-between p-2">
-                    <span class="d-flex align-items-end">
-                        <img class="rounded-circle m-1 user" width="48" height="48" src="{{member?.picture}}">
-                        <h2 class="ml-1">{{member?.name}}</h2>
-                    </span>
-                </span>
-            </div>
+        <div class="d-flex flex-column align-items-center">
+            <img class="rounded-circle user" width="128" height="128" src="{{member?.picture}}">
+            <h2 class="ml-1">{{member?.name}}</h2>
+
         </div>
+
+        <hr>
         <div class="d-flex justify-content-between mt-3">
             <div class="w-50 mr-1">
-                <h5 *ngIf="authorities.length===0" class="card-title">Not a {{_team?.settings.authority | lowercase }} yet</h5>
-                <h5 *ngIf="authorities.length>0" class="card-title">{{_team?.settings.authority | titlecase }} of circles</h5>
+                <h5 *ngIf="authorities.length===0" class="card-title text-muted">Not a {{_team?.settings.authority | lowercase }} yet</h5>
+                <h5 *ngIf="authorities.length>0" class="card-title text-muted">{{_team?.settings.authority | titlecase }} of circles</h5>
 
-                <div *ngFor="let i of authorities; let ix=index" class="card  mb-3">
-                    <div class="card-header bg-light border-bottom-0">
-                        <button class="btn btn-link wrap p-0" (click)="openInitiative(i)">
-                            <h6 class="mb-1">{{i.name}}</h6>
-                        </button>
-
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title" *ngIf="i.tags && i.tags.length>0">
-                            <ul class="tags small no-cursor">
-                                <li *ngFor="let tag of i.tags; let i=index">
-                                    <span class="badge badge-pill p-2  border-thick text-white mr-1 my-1" [style.border-color]="tag.color" [style.background]="tag.color">
-                                        <i class="fa fa-tag mr-1" aria-hidden="true"></i>{{tag?.name}}
-                                    </span>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="card-subtitle">
-                            <span *ngIf="i.getRoles(i.accountable?.user_id)[0]?.description" class="text-muted col">Role :
-                            </span>
-                            <span *ngIf="!i.getRoles(i.accountable?.user_id)[0]?.description" class="text-warning small">No role specified yet</span>
-                            <markdown *ngIf="i.getRoles(i.accountable?.user_id)[0]?.description" [data]="i.getRoles(i.accountable?.user_id)[0]?.description"></markdown>
-
-                        </div>
-                        <span class="my-2 text-muted small" *ngIf="(i.helpers?.length !== 0)">with the help of</span>
-
-                        <div *ngIf="(i.helpers?.length !== 0)" class="row">
-                            <div class="d-flex justify-content-between align-items-start mx-2">
-                                <button class="btn btn-link pull-right btn-sm" (click)="toggleAuthorityView(ix)">
-                                    <i class="fa" [class.fa-caret-right]="!authoritiesHideme[ix]" [class.fa-caret-down]="authoritiesHideme[ix]" aria-hidden="true"></i>
-                                </button>
-                                <div class="d-flex flex-wrap" *ngIf="!authoritiesHideme[ix]">
-                                    <a *ngFor="let h of i.helpers" class="btn btn-link btn-xs no-padding" routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}/summary"
-                                        [queryParams]="{member: h.shortid}">
-                                        <img [hidden]="h.user_id === member?.user_id " class="rounded-circle user helper" src="{{h.picture}}" alt="{{h.name}}" title="{{h.name}}"
-                                            placement="top" container="body" ngbTooltip="{{h.name}}">
-                                    </a>
-                                </div>
-                                <div *ngIf="authoritiesHideme[ix]" class="d-flex flex-column">
-                                    <span *ngFor="let h of i.helpers" class="d-flex my-1">
-                                        <a class="btn btn-link btn-xs no-padding" routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}/summary" [queryParams]="{member: h.shortid}">
-                                            <img [hidden]="h.user_id === member?.user_id " class="rounded-circle helper user" src="{{h.picture}}" alt="{{h.name}}" title="{{h.name}}"
-                                                placement="top" container="body" ngbTooltip="{{h.name}}">
-                                        </a>
-                                        <markdown class="mx-1 small no-margin d-flex align-items-center" *ngIf="h.roles[0]?.description" [data]="h.roles[0]?.description"></markdown>
-
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <span class="mb-1 small text-warning" *ngIf="(i.helpers?.length === 0)">No {{_team?.settings.helper | lowercase }}</span>
-
-                    </div>
+                <div *ngFor="let i of authorities; let ix=index" class="my-2">
+                    <personal-card [initiative]="i" [isWithLeader]="false"></personal-card>
                 </div>
 
 
             </div>
             <div class="w-50 ml-1">
 
-                <h5 *ngIf="helps.length===0" class="card-title">No helping participation yet</h5>
-                <h5 *ngIf="helps.length>0" class="card-title">A {{_team.settings.helper | lowercase }} in circles</h5>
+                <h5 *ngIf="helps.length===0" class="card-title text-muted">No helping participation yet</h5>
+                <h5 *ngIf="helps.length>0" class="card-title text-muted">A {{_team.settings.helper | lowercase }} in circles</h5>
 
-                <div *ngFor="let i of helps; let ix=index" class="card  mb-3">
-                    <div class="card-header bg-light border-bottom-0">
-                        <button class="btn btn-link wrap p-0" (click)="openInitiative(i)">
-                            <h6 class="mb-1">{{i.name}}</h6>
-
-                        </button>
-                        <span class="small text-muted" *ngIf="i.accountable">led by
-                            <a class="btn btn-link btn-xs no-padding" routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}/summary" [queryParams]="{member: i.accountable?.shortid}">
-                                <img class="rounded-circle helper user" src="{{i.accountable?.picture}}" alt="{{i.accountable?.name}}" title="{{i.accountable?.name}}"
-                                    placement="top" container="body" ngbTooltip="{{i.accountable?.name}}">
-                            </a>
-                        </span>
-
-                    </div>
-                    <div class="card-body">
-                        <div class="card-title" *ngIf="i.tags && i.tags.length>0">
-                            <ul class="tags small no-cursor">
-                                <li *ngFor="let tag of i.tags; let i=index">
-                                    <span class="btn btn-sm borderless tag px-0 mr-1" [style.color]="tag.color">
-                                        <i class="fa fa-tag mr-1" aria-hidden="true" [style.color]="tag.color"></i>{{tag?.name}}
-                                    </span>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="card-subtitle" *ngIf="i.getRoles(member?.user_id)[0]?.description">
-                            <span class="text-muted small"> by </span>
-                            <markdown class="small" *ngIf="i.getRoles(member?.user_id)[0]?.description" [data]="i.getRoles(member?.user_id)[0]?.description || ''"></markdown>
-
-                        </div>
-
-                        <span class="text-muted small mb-2" *ngIf="(i.helpers?.length !== 0) && (i.helpers?.length !== 1)">with</span>
-
-                        <div *ngIf="(i.helpers?.length !== 1)" class="row">
-                            <div class="d-flex justify-content-between align-items-start mx-2">
-                                <button class="btn btn-link pull-right btn-sm" (click)="toggleHelpingView(ix)">
-                                    <i class="fa" [class.fa-caret-right]="!helpingHideme[ix]" [class.fa-caret-down]="helpingHideme[ix]" aria-hidden="true"></i>
-                                </button>
-                                <div class="d-flex flex-wrap" *ngIf="!helpingHideme[ix]">
-                                    <a *ngFor="let h of i.helpers" class="btn btn-link btn-xs no-padding" routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}/summary"
-                                        [queryParams]="{member: h.shortid}">
-                                        <img [hidden]="h.user_id === member?.user_id " class="rounded-circle helper user" src="{{h.picture}}" alt="{{h.name}}" title="{{h.name}}"
-                                            placement="top" container="body" ngbTooltip="{{h.name}}">
-                                    </a>
-                                </div>
-                                <div *ngIf="helpingHideme[ix]" class="d-flex flex-column">
-                                    <span *ngFor="let h of i.helpers" class="d-flex my-1">
-                                        <ng-container *ngIf="h.user_id !== member?.user_id">
-                                            <a class="btn btn-link btn-xs no-padding" routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}/summary" [queryParams]="{member: h.shortid}">
-                                                <img class="rounded-circle helper user" src="{{h.picture}}" alt="{{h.name}}" title="{{h.name}}" placement="top" container="body"
-                                                    ngbTooltip="{{h.name}}">
-                                            </a>
-                                            <markdown class="mx-1 small no-margin d-flex align-items-center" *ngIf="h.roles[0]?.description" [data]="h.roles[0]?.description"></markdown>
-
-                                        </ng-container>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <span class="text-warning small mb-2" *ngIf="(i.helpers?.length === 1)">No other {{_team.settings.helper | lowercase }}</span>
-
-                    </div>
+                <div *ngFor="let i of helps; let ix=index" class="my-2">
+                    <personal-card [initiative]="i" [isWithLeader]="true"></personal-card>
                 </div>
 
 
