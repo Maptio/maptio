@@ -370,7 +370,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
   }
 
   adjustViewToZoomEvent(g: any, event: any): void {
-
     if (event.sourceEvent) return;
 
     const zoomFactor: number = event.transform.k > 1 ? event.transform.k : 1;
@@ -796,15 +795,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
       transition
         .selectAll("text.name")
         .filter((d: any) => d.children)
-        .on("start", function (d: any) {
+        .on("start", function (d: any): void {
           d3.select(this).style("opacity", 0);
         })
-        .on("end", function (d: any) {
-          d3
-            .select(this)
-            .style("opacity", function (d: any) {
-              return isBranchDisplayed(d) ? 1 : 0;
-            })
+        .on("end", function (d: any): void {
+          d3.select(this)
             .style("display", function (d: any) {
               return d !== root
                 ? isBranchDisplayed(d) ? "inline" : "none"
@@ -820,9 +815,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       transition
         .selectAll("circle.accountable")
         .filter((d: any) => d.children)
-        .style("fill-opacity", function (d: any) {
-          return isBranchDisplayed(d) ? 1 : 0;
-        })
+        .style("fill-opacity", 0)
         .style("display", function (d: any) {
           return d !== root
             ? isBranchDisplayed(d) ? "inline" : "none"
@@ -1185,9 +1178,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .classed("with-border", (d: any): boolean => !d.children && d.parent === root)
         .on("click", function (d: any, index: number, elements: Array<HTMLElement>): void {
           // if (isFullDisplayMode) return;
-          if (focus === d) return;
-          setLastZoomedCircle(d);
-          zoom(d, this.parentElement);
+          if (getLastZoomedCircle().data.id === d.data.id) {
+            setLastZoomedCircle(root);
+            zoom(root);
+          } else {
+            setLastZoomedCircle(d);
+            zoom(d, this.parentElement);
+          }
           d3.event.stopPropagation();
         })
     }
