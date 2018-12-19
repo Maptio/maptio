@@ -12,14 +12,14 @@ export class UnauthorizedComponent implements OnInit {
     constructor(private cd:ChangeDetectorRef, private roouter:Router) { }
 
     ngOnInit() { 
-        // this.subscription = Observable.timer(1000, 1000).subscribe(i =>{
-        //     this.timeToRedirect -= 1;
-        //     this.cd.markForCheck();
+        this.subscription = Observable.timer(1000, 1000).subscribe(i =>{
+            this.timeToRedirect -= 1;
+            this.cd.markForCheck();
 
-        //     if(this.timeToRedirect ===0){
-        //         this.roouter.navigateByUrl("/home");
-        //     }
-        // })
+            if(this.timeToRedirect ===0){
+                this.roouter.navigateByUrl("/home");
+            }
+        })
 
     }
 
