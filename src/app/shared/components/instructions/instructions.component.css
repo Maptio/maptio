@@ -1,3 +1,11 @@
 .clip-circle {
     clip-path: circle(17vw at center);
   }
+  
+  .explainer{
+    height: 20vh;
+  }
+
+.explainer.square{
+  width: 20vh;
+}
