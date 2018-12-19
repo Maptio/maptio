@@ -815,7 +815,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
       transition
         .selectAll("circle.accountable")
         .filter((d: any) => d.children)
-        .style("fill-opacity", 0)
         .style("display", function (d: any) {
           return d !== root
             ? isBranchDisplayed(d) ? "inline" : "none"
