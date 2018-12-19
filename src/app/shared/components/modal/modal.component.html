@@ -13,7 +13,7 @@
     </div>
 </div>
 <div class="modal-footer d-flex justify-content-between align-items-center" [class.border-top-0]="!nextActionName">
-    <div class="d-flex justify-content-start col-8 h-100" *ngIf="isWithProgress">
+    <div class="d-flex justify-content-start col-8 h-100" *ngIf="isWithProgress && progress">
         <div class="d-flex align-items-center">
             <div class="progress-pie" [attr.data-value]="progress"></div>
             <span class="mx-2 small text-muted">{{progressLabel}}</span>
@@ -26,8 +26,8 @@
         </div> -->
     </div>
     <div class="d-flex justify-content-end w-100">
-        <button type="button" class="btn btn-outline-secondary mx-1" [class.invisible]="!previousActionName" (click)="previousStep()">{{previousActionName}}</button>
-        <button type="button" class="btn btn-link mx-1" *ngIf="isSkippable" (click)="nextStep()">Skip for now</button>
-        <button type="button" class="btn btn-success" [class.invisible]="!nextActionName" (click)="nextStep()">{{nextActionName}}</button>
+        <button type="button"  class="btn btn-outline-secondary mx-1" [class.invisible]="!previousActionName" (click)="previousStep()">{{previousActionName}}</button>
+        <button type="button" *ngIf="isSkippable" class="btn btn-link mx-1"  (click)="nextStep()">I'll do this later</button>
+        <button type="button" *ngIf="!isSkippable" class="btn btn-success" [class.invisible]="!nextActionName" (click)="nextStep()">{{nextActionName}}</button>
     </div>
 </div>

@@ -1,7 +1,6 @@
-<common-modal [nextActionName]="nextActionName" [previousActionName]="previousActionName" 
-[isSkippable]="false" [isReady]="true" [isWithProgress]="true" 
-[isWithProgress]="false" [progress]="progress" [progressLabel]="progressLabel"
- (next)="nextStep()" (previous)="previousStep()"  >
+<common-modal [nextActionName]="nextActionName" [previousActionName]="previousActionName" [isSkippable]="isSkippable" [isReady]="true"
+    [isWithProgress]="true" [isWithProgress]="false" [progress]="progress" [progressLabel]="progressLabel" (next)="nextStep()"
+    (previous)="previousStep()">
 
     <ng-container *ngIf="currentStep === 'Welcome'">
         <ng-container *ngTemplateOutlet="welcome"></ng-container>
@@ -45,7 +44,8 @@
         <div class="form-row w-100 d-flex justify-content-center align-items-center flex-column">
             <input [(ngModel)]="team.name" type="text" class="form-control col-6">
             <small *ngIf="teamCreationErrorMessage" class="form-text text-danger">{{teamCreationErrorMessage}}</small>
-            <small *ngIf="isCreatingTeam" class="text-success"><i class="fas fa-circle-notch fa-spin"></i> Setting up your organization</small>
+            <small *ngIf="isCreatingTeam" class="text-success">
+                <i class="fas fa-circle-notch fa-spin"></i> Setting up your organization</small>
         </div>
     </div>
 
@@ -56,7 +56,7 @@
     <h1 class="text-center">Who is in
         <b>{{team.name}}</b>?</h1>
     <h4 class="text-muted">
-        Add members to your organization to bring your maps to life. 
+        Add members to your organization to bring your maps to life.
     </h4>
 
     <div class="mt-5 ">
@@ -73,7 +73,8 @@
     <p class="text-muted mt-5">
         <span>
             <i class="fas fa-info-circle"></i>
-            A great place to start is adding the 3 people who have the most responsibility in the organization.You can invite them to view and edit the maps later.
+            A great place to start is adding the 3 people who have the most responsibility in the organization.You can invite them to
+            view and edit the maps later.
         </span>
     </p>
 
@@ -103,9 +104,9 @@
             <input [(ngModel)]="mapName" type="text" id="inputMapName" class="form-control col-6">
         </div>
         <small class="form-text">Most people find it helpful to ....</small>
-       
+
         <small *ngIf="mapCreationErrorMessage" class="form-text text-danger">{{mapCreationErrorMessage}}</small>
-        
+
         <div class="my-5 w-100 d-flex justify-content-between align-items-stretch">
             <div class="custom-control custom-radio custom-control-inline col-6">
                 <input type="radio" id="emptyMapRadio" name="mapOptionsRadio" [checked]="isCreatingEmptyMap" class="custom-control-input">
@@ -138,7 +139,7 @@
                                 We'll create a map with some instructions to get you started
                             </p>
                             <p class="card-text small">
-                                Better if you have are not sure where everything fits yet and would like a little guidance 
+                                Better if you have are not sure where everything fits yet and would like a little guidance
                             </p>
                         </div>
                     </div>
@@ -153,12 +154,23 @@
 </ng-template>
 
 <ng-template #ending>
-    <h1>You're all set! 👍</h1>
 
-    <h4 class="my-5">
-        Have more questions?
+    <div class="d-flex justify-content-center align-items-center flex-column text-gradient-gold">
+        <i class="fas fa-trophy  icon-ending"></i>
+        <h1>Nice one!</h1>
+    </div>
+
+    <div class="d-flex justify-content-center align-items-center flex-column my-3">
+
+        <h4 class="text-muted">Your map is ready. Go and create some circles, we'll be here if you need us.</h4>
+    </div>
+
+
+
+    <!-- <h4 class="my-5">
+        You can start mapping right away. Any questions?
         <ul class="ml-2 my-3">
-            <li class="h6 py-2">Start a chat with us or send us an email at support@maptio.com</li>
+            <li class="h6 py-2"> Start a chat with us or email us at support@maptio.com</li>
             <li class="h6 py-2"> Read our
                 <a target="blank" href="https://medium.com/maptio/create-organisational-clarity-using-initiative-mapping-967069247380">free guide</a> to mapping your organization
             </li>
@@ -168,8 +180,8 @@
             </li>
 
         </ul>
-    </h4>
-    <h4>Look forward to talking to you!</h4>
+    </h4> -->
+    <!-- <h4>Look forward to talking to you!</h4> -->
 
 
 </ng-template>

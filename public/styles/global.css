@@ -133,6 +133,14 @@ body {
   background-image: linear-gradient(to bottom right,  var(--maptio-blue), var(--maptio-accent));
 }
 
+.text-gradient{
+  background: -webkit-linear-gradient(var(--maptio-blue), var(--maptio-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+
 .border-accent{
   border-color:var(--maptio-accent);
 }
@@ -523,6 +531,7 @@ transition: max-height .25s ease-in-out;
     transform: translate3d(4px, 0, 0);
   }
 }
+
 
 /* .slack{
   position: relative;

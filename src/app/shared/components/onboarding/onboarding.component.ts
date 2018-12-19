@@ -28,9 +28,10 @@ export class OnboardingComponent implements OnInit {
     currentIndex: number = 0;
     nextActionName: string = "Start";
     previousActionName: string = null;
-    progress: string ;
+    progress: string;
     progressLabel: string;
-    isClosable:boolean=true;
+    isClosable: boolean = true;
+    isSkippable: boolean;
 
     teamCreationErrorMessage: string;
     mapCreationErrorMessage: string;
@@ -60,8 +61,8 @@ export class OnboardingComponent implements OnInit {
         this.currentStep = this.steps[this.currentIndex];
         this.members = [this.user];
         this.progress = this.getProgress()
-        this.progressLabel = this.getAbsoluteProgress() ; //`${this.steps.length - (this.currentIndex + 1)} steps left`
-        
+        this.progressLabel = this.getAbsoluteProgress(); //`${this.steps.length - (this.currentIndex + 1)} steps left`
+
         this.teamService.get(this.user)
             .then((teams: Team[]) => {
                 let nonExampleTeams = teams.filter(t => !t.isExample);
@@ -137,8 +138,9 @@ export class OnboardingComponent implements OnInit {
         this.nextActionName = this.getNextActionName();
         this.previousActionName = this.getPreviousActionName();
         this.isClosable = this.getIsClosable();
+        this.isSkippable = this.getIsSkippable();
         this.progress = this.getProgress()
-        this.progressLabel = this.getAbsoluteProgress() ; //`${this.steps.length - (this.currentIndex + 1)} steps left`
+        this.progressLabel = this.getAbsoluteProgress(); //`${this.steps.length - (this.currentIndex + 1)} steps left`
         this.cd.markForCheck();
     }
 
@@ -148,9 +150,10 @@ export class OnboardingComponent implements OnInit {
         this.nextActionName = this.getNextActionName();
         this.previousActionName = this.getPreviousActionName();
         this.isClosable = this.getIsClosable();
+        this.isSkippable = this.getIsSkippable();
         this.progress = this.getProgress()
-        this.progressLabel = this.getAbsoluteProgress() ; //`${this.steps.length - (this.currentIndex + 1)} steps left`
-       
+        this.progressLabel = this.getAbsoluteProgress(); //`${this.steps.length - (this.currentIndex + 1)} steps left`
+
         this.cd.markForCheck();
     }
 
@@ -185,11 +188,13 @@ export class OnboardingComponent implements OnInit {
     }
 
     getProgress() {
-        return Number(Math.ceil((this.currentIndex + 1) / this.steps.length * 100)).toFixed(0)
+        let progress = Number(Math.ceil((this.currentIndex + 1) / this.steps.length * 100))
+        return progress == 100 ? null : progress.toFixed(0)
     }
 
     getAbsoluteProgress() {
-        return `${this.steps.length - (this.currentIndex + 1)} steps left`;
+        let stepsLeft = this.steps.length - (this.currentIndex + 1)
+        return stepsLeft == 0 ? "You're done!" : `${stepsLeft} steps left`;
     }
 
     getNextActionName() {
@@ -207,8 +212,19 @@ export class OnboardingComponent implements OnInit {
         return this.currentStep === "Welcome" ? null : "Back";
     }
 
-    getIsClosable(){
+    getIsClosable() {
         return this.currentStep === "Welcome";
+    }
+
+    getIsSkippable() {
+        switch (this.currentStep) {
+            case "AddMember":
+                return true;
+            case "Terminology":
+                return true;
+            default:
+                return false;
+        }
     }
 
     onAdded(event: { team: Team, user: User }) {

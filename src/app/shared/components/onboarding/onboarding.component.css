@@ -11,3 +11,13 @@
 h4{
     color: var(--dark);
 }
+
+.icon-ending{
+    font-size: 20rem;
+}
+
+.text-gradient-gold{
+    background: -webkit-linear-gradient(var(--yellow), var(--maptio-orange));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
