@@ -97,13 +97,13 @@
 
     <h4 class="text-muted">Just give a us a name, we'll create a brand new map for you.</h4>
 
-    <div class="my-5">
+    <div class="mt-5">
         <div class="form-inline w-100 d-flex justify-content-start align-items-center">
             <label for="inputMapName" class="h5 mr-1">Map name: </label>
 
             <input [(ngModel)]="mapName" type="text" id="inputMapName" class="form-control col-6">
         </div>
-        <small class="form-text">Most people find it helpful to ....</small>
+        <!-- <small class="form-text">Most people find it helpful to ....</small> -->
 
         <small *ngIf="mapCreationErrorMessage" class="form-text text-danger">{{mapCreationErrorMessage}}</small>
 
