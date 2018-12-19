@@ -448,6 +448,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let scale = this.scale;
     let translateX = this.translateX;
     let translateY = this.translateY;
+    let width = this.width;
     let definitions = this.definitions;
     let uiService = this.uiService;
     let fontSize = this.fontSize;
@@ -750,15 +751,16 @@ export class MappingZoomableComponent implements IDataVisualizer {
     return nodes;
 
     function zoom(focus: any, clickedGroup?: any): void {
+      setLastZoomedCircle(focus);
+
       // TODO: move save extraction of element's transform into own function
       let clickedX = 0;
       let clickedY = 0;
-      if (clickedGroup && clickedGroup.transform) {
-        clickedX = clickedGroup.transform.baseVal[0].matrix.e;
-        clickedY = clickedGroup.transform.baseVal[0].matrix.f;
+      const newScale: number = (width / (focus.r * 2)) * 0.75;
+      if (clickedGroup && clickedGroup.transform && clickedGroup.transform.baseVal.length > 0) {
+        clickedX = clickedGroup.transform.baseVal[0].matrix.e * newScale;
+        clickedY = clickedGroup.transform.baseVal[0].matrix.f * newScale;
       }
-
-      setLastZoomedCircle(focus);
 
       svg.transition().duration(TRANSITION_DURATION).call(
         zooming.transform,
@@ -766,10 +768,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
           view[0] - clickedX,
           view[1] - clickedY
         )
-        // TODO: update zoom level as well
+        .scale(newScale)
       );
 
-      let transition = d3
+      const transition = d3
         .transition("zooming")
         .duration(TRANSITION_DURATION)
         .tween("zoom", d => {
@@ -784,7 +786,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           };
         });
 
-      let revealTransition = d3
+      const revealTransition = d3
         .transition("reveal")
         .delay(TRANSITION_DURATION)
         .duration(TRANSITION_DURATION / 10);
