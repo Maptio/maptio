@@ -370,6 +370,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
   }
 
   adjustViewToZoomEvent(g: any, event: any): void {
+
+    if (event.sourceEvent) return;
+
     const zoomFactor: number = event.transform.k > 1 ? event.transform.k : 1;
     const CIRCLE_RADIUS: number = this.CIRCLE_RADIUS;
     const DEFAULT_PICTURE_ANGLE: number = this.DEFAULT_PICTURE_ANGLE;
@@ -402,21 +405,19 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .style("opacity", 0)
       .on("end", function(): void {
         select(this)
+          .attr("cx", (d: any): number => {
+            return d.children
+              ? Math.cos(DEFAULT_PICTURE_ANGLE) * (d.r * zoomFactor) - 12
+              : 0;
+          })
+          .attr("cy", (d: any): number => {
+            return d.children
+              ? -Math.sin(DEFAULT_PICTURE_ANGLE) * (d.r * zoomFactor) + 12
+              : -d.r * zoomFactor * 0.9;
+          })
           .attr("transform", `scale(${1 / zoomFactor})`) 
           .transition()
           .style("opacity", 1);
-      });
-
-    accountableCircles
-      .attr("cx", (d: any): number => {
-        return d.children
-          ? Math.cos(DEFAULT_PICTURE_ANGLE) * (d.r * zoomFactor) - 12
-          : 0;
-      })
-      .attr("cy", (d: any): number => {
-        return d.children
-          ? -Math.sin(DEFAULT_PICTURE_ANGLE) * (d.r * zoomFactor) + 12
-          : -d.r * zoomFactor * 0.9;
       });
   }
 
