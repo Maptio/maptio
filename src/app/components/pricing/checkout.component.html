@@ -1,54 +1,38 @@
 <div *ngIf="datasets" class="d-flex justify-content-center align-items-center flex-column row ">
     <div class="d-flex flex-column justify-content-center align-items-center col-12">
-        <div class="d-flex flex-column justify-content-center align-items-center w-100">
-            <h1 class="col-12 col-xl-9 text-center text-success">You're all set!
+        <div class="d-flex flex-column justify-content-center align-items-center w-50">
+            <div class="card bg-white border-0">
+                <div class="card-body">
+                    <div class="d-flex justify-content-center align-items-center flex-column text-gradient">
+                        <i class="fas fa-trophy  icon-ending"></i>
+                        <h1>Thank you!</h1>
+                    </div>
 
-            </h1>
-            <h4 class="text-muted">
-                A confirmation email was sent to
-                <b>{{customerEmail}}</b>
+                    <h4 class="text-muted my-3 ">
+                        A confirmation email was sent to
+                        <b>{{customerEmail}}</b>
 
-            </h4>
-            <h1 class="fas fa-check-circle text-success my-3"></h1>
+                    </h4>
 
-            <div class="d-flex align-items-center flex-column">
-                <div>
-                    Organization
-                    <a routerLink="/team/{{team?.team_id}}/billing">{{team?.name}}</a>'s subscription is active and the next renewal will be on {{renewalDate}}. You will
-                    be charged ${{planPrice}} every month.
-                </div>
-            </div>
-            <hr>
-
-            <!-- <div class="col-4">
-                <a class="card bg-light border-0 no-underline" href="https://docs.google.com/forms/d/e/1FAIpQLSfri4IHNeSC5cWUjrh9Q6UwyjMqu6536YUVqo_061rlTRHPTg/viewform?usp=sf_link"
-                    target="blank">
-                    <div class="card-body">
-                        <h5 class="card-title d-flex justify-content-center">
-                            <i class="far fa-comments fa-3x" aria-hidden="true"></i>
-                        </h5>
-                        <div class="card-text d-flex justify-content-center">
-                            <span class="text-blue">Tell us what to work on next.</span>
-
+                    <div class="d-flex align-items-center flex-column">
+                        <div>
+                            Organization
+                            <a routerLink="/team/{{team?.team_id}}/billing">{{team?.name}}</a>'s subscription is active and the next renewal will be on {{renewalDate}}.
+                            You will be charged ${{planPrice}} every month.
                         </div>
                     </div>
-                </a>
-            </div> -->
+                    <hr>
+                </div>
+                <div class="card-footer d-flex justify-content-between bg-white border-0">
 
-            <a class="btn btn-lg btn-success text-white"  target="blank" href="{{SURVEY_URL}}">Tell us what to work on next </a>
 
-            <span class="my-2">or</span>
+                    <a class="btn btn-lg btn-link" routerLink="/home">Continue mapping</a>
 
-            <a class="btn btn-lg btn-link"  routerLink="/home">Continue mapping</a>
-
-            <!-- <div class="d-flex align-items-center flex-column my-5 w-75 border-top">
-                <span class="my-2 text-muted">Continue mapping...
-                </span>
-                <div class="w-100 card-columns" *ngFor="let dataset of datasets">
-                    <common-card-map [dataset]="dataset" [isExportAvailable]="false" [isTeamDisplayed]="false"></common-card-map>
+                    <a class="btn btn-lg btn-success text-white" target="blank" href="{{SURVEY_URL}}">Vote for the next feature</a>
 
                 </div>
-            </div> -->
+            </div>
+
 
 
 
