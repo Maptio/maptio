@@ -373,10 +373,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
     const zoomFactor: number = event.transform.k > 1 ? event.transform.k : 1;
     const CIRCLE_RADIUS: number = this.CIRCLE_RADIUS;
     const DEFAULT_PICTURE_ANGLE: number = this.DEFAULT_PICTURE_ANGLE;
+    const select: any = this.d3.select;
 
     g.selectAll(".node.no-children")
       .each((d: any, i: number, e: Array<HTMLElement>): void => {
-        const currentNode = this.d3.select(e[i]);
+        const currentNode = select(e[i]);
         const currentCircle = currentNode.select("circle").node() as HTMLElement;
         const currentContent = currentNode.select("foreignObject") as any;
         if (currentCircle && currentCircle.getBoundingClientRect && currentCircle.getBoundingClientRect().width < this.MIN_TEXTBOX_WIDTH) {
@@ -386,26 +387,37 @@ export class MappingZoomableComponent implements IDataVisualizer {
         }
       });
 
-    // TODO: use opacity transitions
     g.selectAll("text.name.with-children")
-      .style("font-size", `${16 / zoomFactor}px`);
+      .transition()
+      .style("opacity", 0)
+      .on("end", function(): void {
+        select(this)
+          .style("font-size", `${16 / zoomFactor}px`)
+          .transition()
+          .style("opacity", 1);
+      });
 
     const accountableCircles = g.selectAll("circle.accountable")
-      .attr("transform", `scale(${1 / zoomFactor})`);
+      .transition()
+      .style("opacity", 0)
+      .on("end", function(): void {
+        select(this)
+          .attr("transform", `scale(${1 / zoomFactor})`) 
+          .transition()
+          .style("opacity", 1);
+      });
 
-    if (true) { // TODO: only run this when view is not focused on particular node
-      accountableCircles
-        .attr("cx", (d: any): number => {
-          return d.children
-            ? Math.cos(DEFAULT_PICTURE_ANGLE) * (d.r * zoomFactor) - 12
-            : 0;
-        })
-        .attr("cy", (d: any): number => {
-          return d.children
-            ? -Math.sin(DEFAULT_PICTURE_ANGLE) * (d.r * zoomFactor) + 12
-            : -d.r * zoomFactor * 0.9;
-        });
-      }
+    accountableCircles
+      .attr("cx", (d: any): number => {
+        return d.children
+          ? Math.cos(DEFAULT_PICTURE_ANGLE) * (d.r * zoomFactor) - 12
+          : 0;
+      })
+      .attr("cy", (d: any): number => {
+        return d.children
+          ? -Math.sin(DEFAULT_PICTURE_ANGLE) * (d.r * zoomFactor) + 12
+          : -d.r * zoomFactor * 0.9;
+      });
   }
 
   getTags() {
