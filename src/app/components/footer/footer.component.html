@@ -1,25 +1,32 @@
-<nav class="footer navbar bg-transparent d-flex justify-content-between col-11">
+<ng-template #links>
     <span class="navbar-text">
-        <div class="text-muted">
+        <div>
             <a class="small mr-1" routerLink="/terms">
-                <span class="text-muted">Terms</span>
+                <span >Terms</span>
             </a>|
-            <a class="small mr-1 text-muted" routerLink="/privacy" >
-                <span class="text-muted">Privacy</span>
+            <a class="small mr-1" routerLink="/privacy">
+                <span>Privacy</span>
             </a>|
-            <a class="small mr-1 text-muted" href="{{BLOG_URL}}" target="blank">
-                <span class="text-muted">Blog</span>
+            <a class="small mr-1" href="{{BLOG_URL}}" target="blank">
+                <span>Blog</span>
             </a>|
-            <a class="small mr-1 text-muted" routerLink="/help">
-                <span class="text-muted">Help</span>
+            <a class="small mr-1" routerLink="/help">
+                <span>Help</span>
             </a>|
-            <a class="small mr-1 text-muted" routerLink="/pricing">
-                <span class="text-muted">Pricing</span>
+            <a class="small mr-1" routerLink="/pricing">
+                <span>Pricing</span>
             </a>
         </div>
     </span>
-    <span class="navbar-text text-muted">
+    <span class="navbar-text">
         <small class="">Copyright
             <i class="far fa-copyright" aria-hidden="true"></i> {{today | date:'yyyy'}} Maptio Ltd</small>
     </span>
+</ng-template>
+
+<nav *showItBootstrap="['xs']" class="footer navbar bg-transparent d-flex flex-column justify-content-between col-11 text-white">
+      <ng-container *ngTemplateOutlet="links"></ng-container>
+</nav>
+<nav *showItBootstrap="['sm','md','lg','xl']" class="footer navbar bg-transparent d-flex flex-row justify-content-between col-11 text-muted">
+      <ng-container *ngTemplateOutlet="links"></ng-container>
 </nav>

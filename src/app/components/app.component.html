@@ -1,29 +1,37 @@
-<div class="container-fluid h-100 overflow-auto bg-texture" [class.unavailable]="(progress.state$ | async).active">
+<div *showItBootstrap="['sm','md','lg','xl']" class="container-fluid h-100 overflow-auto bg-texture" [class.unavailable]="(progress.state$ | async).active">
+
+	<div class="d-flex flex-column h-100">
+		<header>
+		</header>
+		<div class="container-fluid h-100 overflow-x-hidden bg-transparent">
+			<div class="row h-100">
+				<div class="col-12 h-100">
+					<loader></loader>
+					<router-outlet></router-outlet>
+				</div>
+			</div>
+
+		</div>
+		<footer></footer>
+	</div>
+</div>
+
+
+<div class="container-fluid h-100 overflow-auto bg-gradient-inverse" [class.unavailable]="(progress.state$ | async).active">
 
 	<div class="d-flex flex-column h-100">
 		<header>
 		</header>
 
-		<div *showItBootstrap="['xs']" class="h-100">
-			<div class="jumbotron jumbotron-fluid h-100 bg-white">
-				<div class="container">
-					<h1 class="display-4 d-flex justify-content-center my-5">Size matters!</h1>
-					<h3 class="display-4 d-flex justify-content-around">
-						<i class="fas fa-mobile-alt text-danger" aria-hidden="true"></i>
-						<i class="fas fa-tablet-alt text-warning" aria-hidden="true"></i>
-						<i class="fa fa-laptop text-success" aria-hidden="true"></i>
-						<i class="fa fa-desktop text-success" aria-hidden="true"></i>
-					</h3>
+		<div *showItBootstrap="['xs']" class="h-100 row">
+			<div class="card bg-transparent border-0">
+				<div class="card-body">
+					<div class="d-flex justify-content-center align-items-center flex-column text-white">
+						<i class="fas fa-flushed  icon-ending-xs my-4"></i>
+						<h1>Errr ... Is this a phone?</h1>
+					</div>
+					<h4 class="text-white">Sorry, Maptio is not yet optimized for phones. Hope to see you soon on a bigger screen!</h4>
 
-					<p class="lead d-flex justify-content-center text-center my-3">Maptio is not yet optimized for small screens, come back with a larger device. </p>
-				</div>
-			</div>
-		</div>
-		<div *showItBootstrap="['sm','md','lg','xl']" class="container-fluid h-100 overflow-x-hidden bg-transparent">
-			<div class="row h-100">
-				<div class="col-12 h-100">
-					<loader></loader>
-					<router-outlet></router-outlet>
 				</div>
 			</div>
 

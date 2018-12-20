@@ -1,3 +1,11 @@
 .footer {
     text-align: center
 }
+
+.text-white >  .navbar-text > div > a{
+    color: white!important;
+}
+
+.text-muted >  .navbar-text > div > a{
+    color: var(--gray)!important;
+}

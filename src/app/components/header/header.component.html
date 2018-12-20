@@ -10,19 +10,19 @@
         
     </nav>
 </ng-container>
-<nav class="header navbar sticky-top  navbar-expand-sm navbar-light bg-transparent justify-content-between pr-3" [class.grayscale]="loaderService.isLoading">
+<nav class="header navbar sticky-top  navbar-expand-md navbar-light bg-transparent justify-content-between pr-3" [class.grayscale]="loaderService.isLoading">
     <a class="navbar-brand d-flex align-items-center">
         <a routerLink="home" class="no-underline">
             <img width="36" height="36" class="d-inline-block align-top" src="/assets/images/logo-full.png" alt="Home">
         </a>
     </a>
 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+    <button class="d-none navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
         aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item col-auto d-flex flex-row flex-xl-column justify-content-end px-0">
                 <mc-breadcrumbs></mc-breadcrumbs>
