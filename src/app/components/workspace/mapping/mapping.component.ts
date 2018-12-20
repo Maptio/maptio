@@ -186,7 +186,6 @@ export class MappingComponent {
 
   onActivate(component: IDataVisualizer) {
 
-
     this.VIEWPORT_HEIGHT = this.uiService.getCanvasHeight();
     this.VIEWPORT_WIDTH = this.uiService.getCanvasWidth();
 

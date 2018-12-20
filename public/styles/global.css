@@ -536,25 +536,6 @@ transition: max-height .25s ease-in-out;
   right:0;
 }
 
-.flash{
-	opacity:0;
-}
-
-.flash.show{
-	-webkit-animation: flash linear 1.5s ;
-	animation: flash linear 1.5s ;
-}
-
-@-webkit-keyframes flash {
-	0% { opacity: 1; } 
-	50% { opacity: .5; } 
-	100% { opacity: 0; }
-}
-@keyframes flash {
-	0% { opacity: 1; } 
-	50% { opacity: .5; } 
-	100% { opacity: 0; }
-}
 
 .modal-content.shake {
   animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
@@ -563,42 +544,9 @@ transition: max-height .25s ease-in-out;
   perspective: 1000px;
 }
 
-/* .modal-backdrop.show {
-  opacity: .8 !important;
-} */
-
-@keyframes shake {
-  10%, 90% {
-    transform: translate3d(-1px, 0, 0);
-  }
-  
-  20%, 80% {
-    transform: translate3d(2px, 0, 0);
-  }
-
-  30%, 50%, 70% {
-    transform: translate3d(-4px, 0, 0);
-  }
-
-  40%, 60% {
-    transform: translate3d(4px, 0, 0);
-  }
+.pulse {
+-webkit-animation: pulse 3s infinite linear;
+animation: pulse 3s infinite linear;
 }
 
 
-/* .slack{
-  position: relative;
-  padding-left:25px;
-}
-
-.slack::before{
-  background-image: url(/assets/images/slack-icon.png);
-  background-size: cover;
-  width: 25px;
-  height: 25px;
-  display: inline-block;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  content: " ";
-} */

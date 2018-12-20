@@ -86,7 +86,6 @@ export class HeaderComponent implements OnInit {
     ngOnInit() {
         this.userSubscription = EmitterService.get("headerUser")
             .mergeMap((user: User) => {
-                console.log("1")
                 return Observable.forkJoin(
                     isEmpty(user.datasets) ? Promise.resolve([]) : this.datasetFactory.get(user.datasets, true),
                     isEmpty(user.teams) ? Promise.resolve([]) : this.teamFactory.get(user.teams),
@@ -94,7 +93,6 @@ export class HeaderComponent implements OnInit {
                 )
             })
             .map(([datasets, teams, user]: [DataSet[], Team[], User]) => {
-                console.log("2")
                 return [datasets.filter(d => !d.isArchived).map(d => {
                     d.team = teams.find(t => d.initiative.team_id === t.team_id);
                     return d
@@ -103,7 +101,6 @@ export class HeaderComponent implements OnInit {
                 user]
             })
             .map(([datasets, teams, user]: [DataSet[], Team[], User]) => {
-                console.log("3")
                 return {
                     datasets: sortBy(datasets, d => d.initiative.name),
                     teams: sortBy(teams, t => t.name),
@@ -111,7 +108,6 @@ export class HeaderComponent implements OnInit {
                 }
             })
             .subscribe((data: { datasets: DataSet[], teams: Team[], user: User }) => {
-                console.log("4")
                 this.user = data.user;
                 this.datasets = data.datasets;
                 this.teams = data.teams.filter(t => !t.isExample);

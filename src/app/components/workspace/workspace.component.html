@@ -1,15 +1,16 @@
-<div [class.invisible]="!isBuildingVisible" class="text-muted my-1 saving text-center  small w-100">
+<div [class.invisible]="!isBuildingVisible || isLoading" class="text-muted my-1 saving text-center  small w-100">
     <i class="fas fa-save mr-1" aria-hidden="true"></i>
     <span *ngIf="isSaving">Saving...</span>
     <span *ngIf="!isSaving">All changes saved</span>
 </div>
+
 <div class="row h-95">
 
     <div class="col-12 position-relative">
 
         <div class=" position-relative d-flex justify-content-start h-99 rounded" [class.overflow-hidden]="team?.isExample" [class.box-shadow]="isBuildingVisible"
             id="main">
-            
+
             <div [class.d-none]="!isBuildingVisible" [class.d-flex]="isBuildingVisible" class="h-100 collapsible  bg-accent open-nav flex-column justify-content-start align-items-center cursor-pointer collapsible "
                 [class.col-0]="!isBuildingPanelCollapsed" [class.col-auto]="isBuildingPanelCollapsed" (click)="isBuildingPanelCollapsed=false">
                 <span class="p-2 h2" *ngIf="isBuildingPanelCollapsed">
@@ -55,23 +56,31 @@
 
 
             </div>
+
+
             <div class=" h-100" [ngStyle]="{'width':'calc(100% - ' + (isBuildingVisible ? 56 : 8) + 'px)'}">
                 <div class="h-100 ">
+                    <ng-container *ngIf="isLoading">
+                        <div class="d-flex justify-content-center align-items-center h-100 ">
+                            <div class="pulse">
+                                <h1>
+                                    <span class="text-accent ">Great news!</span> Your circles are here.
+                                </h1>
+                                <h4 class="text-muted ">We just need a sec to stick them back together </h4>
+                            </div>
 
-                    <mapping [tags]="selectableTags" [isEmptyMap]="isEmptyMap" (showDetails)="openDetails($event, true)" (addInitiative)="addInitiative($event)"
-                        (removeInitiative)="removeInitiative($event)" (moveInitiative)="moveInitiative($event)" (closeEditingPanel)="closeEditingPanel()"
-                        (openTreePanel)="isBuildingPanelCollapsed=false" (applySettings)="applySettings($event)" (expandTree)="buildingComponent.toggleAll(true)"
-                        (toggleEditingPanelsVisibility)="toggleEditingPanelsVisibility($event)">
-                        Loading...</mapping>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="!isLoading">
+                        <mapping [tags]="selectableTags" [isEmptyMap]="isEmptyMap" (showDetails)="openDetails($event, true)" (addInitiative)="addInitiative($event)"
+                            (removeInitiative)="removeInitiative($event)" (moveInitiative)="moveInitiative($event)" (closeEditingPanel)="closeEditingPanel()"
+                            (openTreePanel)="isBuildingPanelCollapsed=false" (applySettings)="applySettings($event)" (expandTree)="buildingComponent.toggleAll(true)"
+                            (toggleEditingPanelsVisibility)="toggleEditingPanelsVisibility($event)">
+                        </mapping>
+                    </ng-container>
                 </div>
-
             </div>
 
-
-
-
         </div>
-
-
     </div>
 </div>

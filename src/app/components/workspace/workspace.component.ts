@@ -44,6 +44,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public datasetId: string;
     private routeSubscription: Subscription;
     private userSubscription: Subscription;
+    public isLoading:boolean;
 
     public dataset: DataSet;
     public members: Array<User>;
@@ -79,6 +80,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.isLoading = true;
+        this.cd.markForCheck();
         this.routeSubscription = this.route.data
             .do((data) => {
                 let newDatasetId = data.data.dataset.datasetId;
@@ -87,7 +90,17 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                     this.cd.markForCheck()
                 }
             })
-            .subscribe((data: { data: { dataset: DataSet, team: Team, members: User[], user: User } }) => {
+            .do((data: { data: { dataset: DataSet, team: Team, members: User[], user: User } }) => {
+                this.isLoading = true;
+                this.cd.markForCheck();
+                return this.buildingComponent.loadData(data.data.dataset, data.data.team, data.data.members)
+                .then(()=>{
+                    this.isLoading = false;
+                    this.cd.markForCheck();
+                });
+            })
+            .subscribe((data: { data: { dataset: DataSet, team: Team, members: User[], user: User } }) => {         
+            
                 this.dataset = data.data.dataset;
                 this.tags = data.data.dataset.tags;
                 this.team = data.data.team;
@@ -97,11 +110,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.teamName = this.team.name;
                 this.teamId = this.team.team_id;
                 EmitterService.get("currentTeam").emit(this.team);
-                this.buildingComponent.loadData(this.dataset, this.team, this.members);
                 this.isEmptyMap = !this.dataset.initiative.children || this.dataset.initiative.children.length === 0;
                 this.cd.markForCheck();
-
-
             });
     }
 

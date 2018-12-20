@@ -172,7 +172,6 @@ export class Auth {
 
 
   public getUser(): Observable<User> {
-    console.log("getUser")
     let profileString = localStorage.getItem("profile");
 
     if (profileString) {
@@ -181,7 +180,6 @@ export class Auth {
         this.userFactory.get(JSON.parse(profileString).user_id)
       ])
         .then(([auth0User, databaseUser]: [User, User]) => {
-          // console.log("getUser", databaseUser)
           let user = auth0User;
           user.teams = uniq(databaseUser.teams); // HACK : where does the duplication comes from?
           user.shortid = databaseUser.shortid;
@@ -194,7 +192,6 @@ export class Auth {
         .then((user: User) => {
           this.datasetFactory.get(user).then(ds => {
             user.datasets = uniq(ds);
-            console.log("headerUser", user)
             EmitterService.get("headerUser").emit(user);
             this.user$.next(user);
           });
@@ -314,7 +311,6 @@ export class Auth {
                                 displayName: user.name,
                                 email: user.email
                               });
-                              console.log(user)
                               this.intercom.update({
                                 app_id: environment.INTERCOM_APP_ID,
                                 email: user.email,
