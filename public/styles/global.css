@@ -206,7 +206,7 @@ ul.picture-list > .list-inline-item{
 }
 
 .box-shadow-small{
-  box-shadow: 0 1px 3px hsla(0, 0%, 20%);
+  box-shadow: 0 2px 4px 1px hsl(0, 0%, 0%, 0.1);
 }
 
 .box-shadow-medium{

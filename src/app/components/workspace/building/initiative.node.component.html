@@ -14,62 +14,95 @@
 	</span>
 </ng-template>
 
+<ng-template #nodeEditing>
+	<div *permissionsOnly="Permissions.canEditInitiativeName;initiative node.data; else elseNameBlock; then thenNameBlock; "></div>
+	<ng-template #thenNameBlock>
+		<input class="form-control input inputNodeName box-shadow-0 border-left-0 border-right-0 text-truncate" type="text" [focusif]="node.data.hasFocus"
+		 [ngModel]="node.data.name" (focus)="node.data.isDraggable=false;openNode(node.data)" (blur)="node.data.isDraggable=true"
+		 debounce (func)="saveNodeName($event, node.data)" />
+	</ng-template>
+	<ng-template #elseNameBlock>
+		<input class="text-muted form-control input inputNodeName box-shadow-0 border-left-0 border-right-0 text-truncate" type="text"
+		 [ngModel]="node.data.name" (keydown)="$event.preventDefault();isEditWarningToggled=true" (focus)="node.data.isDraggable=false;openNode(node.data)"
+		 (blur)="node.data.isDraggable=true" />
+	</ng-template>
+
+	<div class="input-group-append">
+		<ng-template #addButtonTooltip>
+			<p *ngIf="isRoot()">Create outer circle</p>
+			<p *ngIf="!isRoot()">Add sub-circle</p>
+		</ng-template>
+		<button class="btn add border border-left-0 border-right-0 btn-outline-secondary" (click)="addChildNode(node.data)" placement="top"
+		 [ngbTooltip]="addButtonTooltip" container="body" angulartics2On="click" angularticsEvent="Map" [angularticsProperties]="{mode: 'list', action:'add', team:teamName, teamId:teamId  }"></button>
+		<button class="btn edit border border-left-0 border-right-0 btn-outline-secondary" *ngIf="!isRoot()" (click)="openNode(node.data)"
+		 placement="top" container="body" ngbTooltip="Open circle" angulartics2On="click" angularticsEvent="Map" [angularticsProperties]="{mode: 'list', action:'edit', team:teamName, teamId:teamId }"></button>
+		<ng-container *ngIf="!isRoot()">
+			<div *permissionsOnly="Permissions.canDeleteInitiative; initiative node.data; else elseDeleteBlock;then thenDeleteBlock; ">
+
+			</div>
+			<ng-template #thenDeleteBlock>
+				<button class="btn remove border border-left-0  btn-outline-secondary" placement="top" container="body" mwlConfirmationPopover
+				 [popoverMessage]="'Remove circle and sub-circles ?'" focusbutton="cancel" appendToBody="false" (confirm)="removeChildNode(node.data)"
+				 (cancel)="cancelClicked = true" angularticsEvent="Map" [angularticsProperties]="{mode: 'list', action:'remove', team:teamName, teamId:teamId }"
+				 angulartics2On="click"></button>
+
+			</ng-template>
+			<ng-template #elseDeleteBlock>
+				<button class="btn remove border border-left-0  btn-outline-secondary disabled not-allowed" placement="top" [stickyPopover]="deleteTipContent">
+
+				</button>
+			</ng-template>
+
+		</ng-container>
+	</div>
+</ng-template>
+
 <div class="w-100 pl-2">
-	<div class="input-group rounded" [class.box-shadow]="isDraggable()">
+
+	<div *permissionsOnly="Permissions.canMoveInitiative; else elseMoveBlock; then thenMoveBlock; "></div>
+	<ng-template #thenMoveBlock>
+		<div class="input-group rounded" [class.box-shadow-small]="isDraggable()" (mouseover)="node.data.isDraggable=true" (mouseout)="node.data.isDraggable=false">
+			<div class="input-group-prepend">
+				<span class="input-group-text knurled text-secondary cursor-move ">
+					<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+				</span>
+			</div>
+			<ng-container *ngTemplateOutlet="nodeEditing"></ng-container>
+
+		</div>
+		
+	</ng-template>
+	<ng-template #elseMoveBlock>
+		<div class="input-group rounded" >
+			<div class="input-group-prepend">
+				<span class="input-group-text knurled text-secondary cursor-move p-0 ">
+					<i class="fa fa-ellipsis-v invisible" aria-hidden="true"></i>
+				</span>
+			</div>
+			<ng-container *ngTemplateOutlet="nodeEditing"></ng-container>
+
+		</div>
+		
+
+	</ng-template>
+
+
+	<!-- <div class="input-group rounded" [class.box-shadow]="isDraggable()" (mouseover)="node.data.isDraggable=true" (mouseout)="node.data.isDraggable=false">
 		<div class="input-group-prepend">
 			<ng-container *ngIf="!isRoot()">
 				<div *permissionsOnly="Permissions.canMoveInitiative; else elseMoveBlock; then thenMoveBlock; "></div>
 				<ng-template #thenMoveBlock>
-					<span class="input-group-text knurled text-secondary cursor-move " (mouseover)="node.data.isDraggable=true" (mouseout)="node.data.isDraggable=false">
+					<span class="input-group-text knurled text-secondary cursor-move ">
 						<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
 					</span>
 				</ng-template>
 				<ng-template #elseMoveBlock>
-					<span class="p-0 input-group-text knurled cursor-default text-secondary" 
-					 >
+					<span class="p-0 input-group-text knurled cursor-default text-secondary">
 						<i class="fa fa-ellipsis-v invisible" aria-hidden="true"></i>
 					</span>
 				</ng-template>
 			</ng-container>
 		</div>
-		<div *permissionsOnly="Permissions.canEditInitiativeName;initiative node.data; else elseNameBlock; then thenNameBlock; "></div>
-		<ng-template #thenNameBlock>
-			<input class="form-control input inputNodeName box-shadow-0 border-left-0 border-right-0 text-truncate" type="text" [focusif]="node.data.hasFocus" [ngModel]="node.data.name" 
-			 (focus)="node.data.isDraggable=false;openNode(node.data)" (blur)="node.data.isDraggable=true" 
-			 debounce (func)="saveNodeName($event, node.data)"
-			 />
-		</ng-template>
-		<ng-template #elseNameBlock>
-			<input class="text-muted form-control input inputNodeName box-shadow-0 border-left-0 border-right-0 text-truncate" type="text" [ngModel]="node.data.name" (keydown)="$event.preventDefault();isEditWarningToggled=true"
-			 (focus)="node.data.isDraggable=false;openNode(node.data)" (blur)="node.data.isDraggable=true" />
-		</ng-template>
 
-		<div class="input-group-append">
-			<ng-template #addButtonTooltip>
-				<p *ngIf="isRoot()">Create outer circle</p>
-				<p *ngIf="!isRoot()">Add sub-circle</p>
-			</ng-template>
-			<button class="btn add border border-left-0 border-right-0 btn-outline-secondary" (click)="addChildNode(node.data)" placement="top" [ngbTooltip]="addButtonTooltip"
-			 container="body" angulartics2On="click" angularticsEvent="Map" [angularticsProperties]="{mode: 'list', action:'add', team:teamName, teamId:teamId  }"></button>
-			<button class="btn edit border border-left-0 border-right-0 btn-outline-secondary" *ngIf="!isRoot()" (click)="openNode(node.data)" placement="top" container="body"
-			 ngbTooltip="Open circle" angulartics2On="click" angularticsEvent="Map" [angularticsProperties]="{mode: 'list', action:'edit', team:teamName, teamId:teamId }"></button>
-			<ng-container *ngIf="!isRoot()">
-				<div *permissionsOnly="Permissions.canDeleteInitiative; initiative node.data; else elseDeleteBlock;then thenDeleteBlock; ">
-
-				</div>
-				<ng-template #thenDeleteBlock>
-					<button class="btn remove border border-left-0  btn-outline-secondary" placement="top" container="body" mwlConfirmationPopover [popoverMessage]="'Remove circle and sub-circles ?'"
-					 focusbutton="cancel" appendToBody="false" (confirm)="removeChildNode(node.data)" (cancel)="cancelClicked = true" angularticsEvent="Map"
-					 [angularticsProperties]="{mode: 'list', action:'remove', team:teamName, teamId:teamId }" angulartics2On="click"></button>
-
-				</ng-template>
-				<ng-template #elseDeleteBlock>
-					<button class="btn remove border border-left-0  btn-outline-secondary disabled not-allowed" placement="top"  [stickyPopover]="deleteTipContent">
-
-					</button>
-				</ng-template>
-
-			</ng-container>
-		</div>
-	</div>
+	</div> -->
 </div>

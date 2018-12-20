@@ -181,7 +181,7 @@
 											<ng-container *permissionsOnly="Permissions.canEditHelper;initiative node; helper user; then thenEditRoleButtonBlock; else elseEditRoleButtonBlock"></ng-container>
 											<ng-template #thenEditRoleButtonBlock>
 												<button class="btn btn-link pull-right btn-sm" (click)="toggleRole(i)">Role
-													<i class="fa" [class.fa-caret-up]="hideme[i]" [class.fa-caret-down]="!hideme[i]" aria-hidden="true"></i>
+													<i class="fa" [class.fa-caret-left]="!hideme[i]" [class.fa-caret-down]="hideme[i]" aria-hidden="true"></i>
 												</button>
 											</ng-template>
 											<ng-template #elseEditRoleButtonBlock>
