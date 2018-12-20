@@ -5,29 +5,28 @@
 </ng-template>
 <div class="">
     <div class="w-100" *ngIf="team && !team?.isExample">
-        <div class="card mb-3 border-0 bg-light">
-            <div class="card-body">
-                <div class="card-title lead">Add people</div>
+        <div class="card mb-3 border-0 bg-light" *permissionsOnly="Permissions.canAddUser">
+            <!-- <div class="card-header bg-transparent border-0 p-0"  >
+            </div> -->
+            <div class="card-body collapse show" id="collapseAddPeople">
+                <div class="card-title lead d-flex justify-content-between">
+                    <span class="lead"> Add people</span>   
+                    <!-- <button class="btn btn-link" data-toggle="collapse" href="#collapseAddPeople" role="button">Show/hide</button> -->
+
+
+                </div>
                 <div class="form-group">
                     <div class="form-inline">
-                        <ng-container *permissionsOnly="Permissions.canAddUser; then thenAddBlock; else elseAddBlock"></ng-container>
-                        <ng-template #thenAddBlock>
-                            <input #inputNewMember class="form-control col-5" type="text" (keyup)="onKeyUp(inputNewMember.value)" email>
-                        </ng-template>
-                        <ng-template #elseAddBlock>
-                            <input disabled class="form-control col-5" type="text" />
-                            <span class="text-muted" [stickyPopover]="adminTipContent">
-                                <i class="fas fa-lock mx-1"></i>
-                            </span>
-                        </ng-template>
+                        <input #inputNewMember class="form-control col-5" type="text" (keyup)="onKeyUp(inputNewMember.value)" email>
                         <span class="text-green" *ngIf="isSearching">
                             <i class="fas fa-circle-notch fa-spin mx-1"></i>Searching
                         </span>
                     </div>
                     <small *ngIf="!isShowSelectToAdd && !isShowInviteForm" class="form-text">Search for a person in Maptio by email address, or enter an email address to add someone new.
                     </small>
-                    <small>
-                        <b>Big organization?</b> You can also <a routerLink="../import">import a file</a>. 
+                    <small *permissionsOnly="Permissions.canAddUser">
+                        <b>Big organization?</b> You can also
+                        <a routerLink="../import">import a file</a>.
                     </small>
                     <div *ngIf="isShowSelectToAdd" class="my-3">
                         <div class="d-flex flex-column justify-content-start align-items-start col-5 p-0">
@@ -103,20 +102,20 @@
 
                 </div>
                 <div class="col-2 ml-auto">
-                    <button class="btn btn-outline-secondary pull-right" mwlConfirmationPopover [popoverMessage]="inviteAllUsersMessage"
-                        placement="top" focusButton="cancel" appendToBody="true" (confirm)="inviteAll()" (cancel)="cancelClicked = true">Invite/resend all</button>
+                    <button class="btn btn-outline-secondary pull-right" mwlConfirmationPopover [popoverMessage]="inviteAllUsersMessage" placement="top"
+                        focusButton="cancel" appendToBody="true" (confirm)="inviteAll()" (cancel)="cancelClicked = true">Invite/resend all</button>
 
                 </div>
             </div>
         </div>
 
-        <div class="border-bottom border-light row" *ngFor="let member of (members$ | async); trackBy: trackByMemberId;let i=index" >
-                <!-- [class.bold]="member.userRole===UserRole.Admin" -->
+        <div class="border-bottom border-light row" *ngFor="let member of (members$ | async); trackBy: trackByMemberId;let i=index">
+            <!-- [class.bold]="member.userRole===UserRole.Admin" -->
             <div class="col-12 my-1">
                 <member-single [invite]="invite$.asObservable()" [isOnlyMember]="team.members.length===1" [user]="user" [member]="member"
-                [team]="team" (delete)="deleteMember(member)"></member-single>
+                    [team]="team" (delete)="deleteMember(member)"></member-single>
             </div>
-          
+
         </div>
 
     </div>

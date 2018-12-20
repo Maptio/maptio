@@ -1,3 +1,8 @@
+<ng-template #adminTipContent>
+        <span class="text-orange">You don't have permission to do this.
+            <a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
+        </span>
+    </ng-template>
 <div class=" py-2 " [class.bg-light]="isEditToggled">
     <div class="d-flex align-items-center" [class.font-weight-bold]="isEditToggled">
         <div *permissionsOnly="Permissions.canEditUser" class="d-flex align-items-center col-1 px-0 justify-content-between">
@@ -22,7 +27,7 @@
         <div class="align-middle pb-0 col-4">
             <div class="d-flex align-items-start flex-column">
                 <span>{{member.email}}</span>
-                <small *ngIf="member.isActivationPending && member.isInvitationSent" class="text-info pull-left" placement="top" container="body"
+                <small *ngIf="member.isActivationPending && member.isInvitationSent" class="text-accent pull-left" placement="top" container="body"
                     ngbTooltip="{{member.name}} was sent an invitation.">Pending invitation</small>
                 <small *ngIf="member.isActivationPending && !member.isInvitationSent" class="text-orange pull-left" placement="top" container="body"
                     ngbTooltip="{{member.name}} cannot view or edit maps.">Not yet invited</small>

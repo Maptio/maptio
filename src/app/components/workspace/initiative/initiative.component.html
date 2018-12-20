@@ -141,7 +141,7 @@
 					<input #person required="required" [resultTemplate]="rt" type="text" id="inputHelper" placeholder="Enter the name of a {{helper | lowercase}}"
 					 class="form-control" (selectItem)="saveHelperRestricted($event)" (focus)="person.value=''" [ngbTypeahead]="searchTeamMember"
 					 [resultFormatter]="formatter" [inputFormatter]="formatter" editable="false" />
-					<span class="text-info small" *ngIf="isRestrictedAddHelper">You can only add
+					<span class="text-accent small" *ngIf="isRestrictedAddHelper">You can only add
 						<strong>yourself</strong> as a {{helper | lowercase}} in this circle</span>
 				</ng-template>
 			</div>
