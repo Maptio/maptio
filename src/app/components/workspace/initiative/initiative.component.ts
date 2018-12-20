@@ -142,6 +142,7 @@ export class InitiativeComponent implements OnChanges {
             (<HTMLInputElement>this.inputAuthority.nativeElement).value =this.node.accountable.name;
         }
         this.inputTag.writeValue("");
+        console.log(this.node)
         this.edited.emit(true);
     }
 
@@ -155,6 +156,7 @@ export class InitiativeComponent implements OnChanges {
     }
 
     saveRole(helper: Helper, description: string) {
+        console.log(helper, description)
         if (helper.roles[0]) {
             helper.roles[0].description = description;
         }
@@ -193,7 +195,6 @@ export class InitiativeComponent implements OnChanges {
         let accountable = newAccountable.item;
         accountable.roles = [];
 
-        // if (this.inputAuthorityRole) accountable.roles[0] = new Role({ description: this.inputAuthorityRole.nativeElement.value });
         this.node.accountable = accountable;
         if (this.node.helpers.map(h => h.user_id).includes(accountable.user_id)) {
             let helper = this.node.helpers.filter(h => h.hasAuthorityPrivileges)[0]

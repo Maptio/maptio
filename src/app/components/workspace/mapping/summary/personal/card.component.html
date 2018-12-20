@@ -6,7 +6,7 @@
         <div class="card-subtitle">
             <span class="text-muted" *ngIf="initiative.accountable && isWithLeader">led by
                 <a class="btn btn-link no-padding" routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}/summary" [queryParams]="{member: initiative.accountable?.shortid}">
-                    <img class="rounded-circle user" width="32" height="32" src="{{initiative.accountable?.picture}}" alt="{{initiative.accountable?.name}}"
+                    <img class="rounded-circle user" width="40" height="40" src="{{initiative.accountable?.picture}}" alt="{{initiative.accountable?.name}}"
                         title="{{initiative.accountable?.name}}" placement="top" container="body" ngbTooltip="{{initiative.accountable?.name}}">
                 </a>
             </span>
@@ -34,7 +34,7 @@
                         <div *ngFor="let h of initiative.helpers">
                             <div class="d-flex my-1 align-items-baseline my-2">
                                 <a routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}/summary" [queryParams]="{member: h.shortid}">
-                                    <img [hidden]="h.user_id === member?.user_id " class="rounded-circle  user" width="32" height="32" src="{{h.picture}}" alt="{{h.name}}"
+                                    <img [hidden]="h.user_id === member?.user_id " class="rounded-circle  user" width="40" height="40" src="{{h.picture}}" alt="{{h.name}}"
                                         title="{{h.name}}" placement="top" container="body" ngbTooltip="{{h.name}}">
                                 </a>
                                 <markdown class="small mx-1 no-margin d-flex flex-column align-items-center" *ngIf="h.roles[0]?.description" [data]="h.roles[0]?.description"></markdown>
@@ -45,11 +45,14 @@
 
                     <div class="collapse {{getMultipleCollapseClass()}} w-100 show " id="{{getNoDescriptionId()}}">
                         <div class="d-flex justify-content-start flex-wrap">
-                            <a *ngFor="let h of initiative.helpers" class="btn btn-link btn-xs p-0" routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}/summary"
-                                [queryParams]="{member: h.shortid}">
-                                <img [hidden]="h.user_id === member?.user_id " class="rounded-circle user" width="32" height="32" src="{{h.picture}}" alt="{{h.name}}"
-                                    title="{{h.name}}" placement="top" container="body" ngbTooltip="{{h.name}}">
-                            </a>
+                            <ul class="list-inline d-flex flex-row-reverse picture-list my-1">
+                                <li class="list-inline-item rounded-circle border-thick border-white" *ngFor="let h of initiative.helpers">
+                                    <a [class.d-none]="h.user_id === member?.user_id " routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}/summary" [queryParams]="{member: h.shortid}">
+                                        <img [hidden]="h.user_id === member?.user_id " class="rounded-circle user" width="40" height="40" src="{{h.picture}}" alt="{{h.name}}"
+                                            title="{{h.name}}" placement="top" container="body" ngbTooltip="{{h.name}}">
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
 
                     </div>

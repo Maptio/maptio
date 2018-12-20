@@ -89,6 +89,10 @@ body {
 
 }
 
+ul.picture-list > .list-inline-item{
+  margin: -0.33rem
+}
+
 .text-orange{
   color: var(--maptio-orange) !important;
 }

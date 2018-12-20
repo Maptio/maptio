@@ -1,18 +1,18 @@
-<div class="card" [class.overflow-hidden]="team.isExample" >
-        <div *ngIf="team.isExample" class="corner-ribbon top-right bg-accent box-shadow"><i class="fas fa-dice mx-1"></i>Sample</div>
-    
+<div class="card" [class.overflow-hidden]="team.isExample">
+    <div *ngIf="team.isExample" class="corner-ribbon top-right bg-accent box-shadow">
+        <i class="fas fa-dice mx-1"></i>Sample</div>
+
     <div class="card-body">
-        <h5 class="card-title">
-            <a routerLink="/teams/{{team.team_id}}/{{team.getSlug()}}"> {{team?.name}}</a>
-        </h5>
-        <div class="card-text mb-1 d-flex flex-wrap">
-            <div *ngFor="let member of team?.members;trackBy:trackByMemberId" [class.deleted]="member.isDeleted"  class=" mb-1" >
-                <img class="user rounded-circle border border-thick border-white" width="32" height="32" src="{{member.picture}}" placement="top" container="body"
-                    ngbTooltip="{{member.name}}">
-            </div>
+        <div class="card-title d-flex justify-content-between">
+            <a class="lead" routerLink="/teams/{{team.team_id}}/{{team.getSlug()}}"> {{team?.name}}</a>
+            <small class="text-muted">{{team.members?.length}} {{team.members?.length === 1 ? "person" :"people" }}</small>
+    
         </div>
-    </div>
-    <div class="card-footer border-top-0">
-        <small class="text-muted">{{team.members?.length}} {{team.members?.length === 1 ? "person" :"people" }}</small>
+        <ul class="list-inline d-flex flex-row-reverse picture-list my-1 flex-wrap justify-content-end">
+            <li class="list-inline-item rounded-circle border-thick border-white my-1" *ngFor="let member of team?.members;trackBy:trackByMemberId" [class.deleted]="member.isDeleted">
+                    <img class="rounded-circle user" width="40" height="40" src="{{member.picture}}" alt="{{member.name}}"
+                        title="{{member.name}}" placement="top" container="body" ngbTooltip="{{member.name}}">
+            </li>
+        </ul>
     </div>
 </div>
