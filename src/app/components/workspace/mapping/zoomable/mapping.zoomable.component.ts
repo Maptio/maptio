@@ -489,14 +489,14 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let COLOR_ADD_CIRCLE = getComputedStyle(document.body).getPropertyValue('--maptio-blue')
     let COLOR_DELETE_CIRCLE = getComputedStyle(document.body).getPropertyValue('--maptio-red')
 
-    let pack = d3
+    const pack = d3
       .pack()
       .size([diameter - margin, diameter - margin])
       .padding(function (d: any) {
         return PADDING_CIRCLE;
       });
 
-    let root: any = d3
+    const root: any = d3
       .hierarchy(data)
       .sum(function (d) {
         return (d.accountable ? 1 : 0) + (d.helpers ? d.helpers.length : 0) + 1;
@@ -512,17 +512,23 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
 
     let depth = 0;
-    root.eachAfter(function (n: any) {
+    root.eachAfter((n: any): void => {
       depth = depth > n.depth ? depth : n.depth;
     });
 
-    let fonts = this.colorService.getFontSizeRange(depth, fontSize);
-    let color = this.colorService.getColorRange(depth, seedColor);
+    const fonts = this.colorService.getFontSizeRange(depth, fontSize);
+    const color = this.colorService.getColorRange(depth, seedColor);
 
-    let focus = root,
-      nodes = pack(root).descendants(),
-      list = d3.hierarchy(data).descendants(),
-      view: any;
+    const focus = root,
+      nodes: Array<any> = pack(root).descendants();
+    let view: any;
+
+    const minRadius: number = d3.min(nodes.map(node => node.r));
+    this.zooming.scaleExtent([0.5, getViewScaleForRadius(minRadius)]);
+
+    function getViewScaleForRadius(radius: number): number {
+      return width / (radius * 5);
+    }
 
     function getDepthDifference(d: any): number {
       return d.depth - focus.depth;
@@ -585,10 +591,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
     g.selectAll("g.node").sort((a: any, b: any) => {
       return b.height - a.height;
     });
-
-
-
-
 
     addCircle(initiativeWithChildren)
     addCircle(initiativeNoChildren)
@@ -757,7 +759,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       // TODO: move save extraction of element's transform into own function
       let clickedX = 0;
       let clickedY = 0;
-      const newScale: number = (width / (focus.r * 2)) * 0.75;
+      const newScale: number = getViewScaleForRadius(focus.r);
       if (clickedGroup && clickedGroup.transform && clickedGroup.transform.baseVal.length > 0) {
         clickedX = clickedGroup.transform.baseVal[0].matrix.e * newScale;
         clickedY = clickedGroup.transform.baseVal[0].matrix.f * newScale;
