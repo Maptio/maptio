@@ -23,7 +23,7 @@
                     <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}/integrations" class="ml-1">Go to settings</a>
 
                 </span>
-                <span class="my-1 text-success small  d-flex justify-content-end" *ngIf="hasNotified && !hasConfigurationError">Shared!</span>
+                <span class="my-1 text-green small  d-flex justify-content-end" *ngIf="hasNotified && !hasConfigurationError">Shared!</span>
             </div>
         </ng-container>
         <ng-container *ngIf="showConfiguration">

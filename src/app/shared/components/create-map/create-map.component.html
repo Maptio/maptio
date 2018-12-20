@@ -13,14 +13,14 @@
             <option value="null" disabled="true" [selected]="teams?.length > 1">Select an organization</option>
             <option *ngFor="let team of teams; let i = index" [value]="team.team_id" [selected]="teams?.length === 1 && i===0">{{team?.name}}</option>
         </select>
-        <a *ngIf="teams?.length === 0 " class="text-success" routerLink="/teams">
+        <a *ngIf="teams?.length === 0 " class="text-green" routerLink="/teams">
             <small class="offset-md-6">Don't have a organization?</small>
         </a>
     </div>
     <div class="d-flex justify-content-end">
         <button *ngIf="!isCreatingMap" type="submit" class="btn btn-success pull-right">Create</button>
-        <div *ngIf="isCreatingMap" class=" text-success d-flex justify-content-end align-items-center">
-            <i class="fas fa-circle-notch fa-spin text-success mx-1"></i> Creating
+        <div *ngIf="isCreatingMap" class=" text-green d-flex justify-content-end align-items-center">
+            <i class="fas fa-circle-notch fa-spin text-green mx-1"></i> Creating
         </div>
     </div>
 

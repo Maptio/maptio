@@ -1,5 +1,5 @@
 <ng-template #adminTipContent>
-    <span class="text-warning">You don't have permission to do this.
+    <span class="text-orange">You don't have permission to do this.
         <a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
     </span>
 </ng-template>
@@ -20,7 +20,7 @@
                                 <i class="fas fa-lock mx-1"></i>
                             </span>
                         </ng-template>
-                        <span class="text-success" *ngIf="isSearching">
+                        <span class="text-green" *ngIf="isSearching">
                             <i class="fas fa-circle-notch fa-spin mx-1"></i>Searching
                         </span>
                     </div>
@@ -68,7 +68,7 @@
                             </div>
 
                             <button type="submit" class="btn btn-success mx-3">Add</button>
-                            <span class="text-success" *ngIf="isCreatingUser">
+                            <span class="text-green" *ngIf="isCreatingUser">
                                 <i class="fas fa-circle-notch fa-spin mx-1"></i>Creating
                             </span>
                         </form>

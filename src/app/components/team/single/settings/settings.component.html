@@ -1,5 +1,5 @@
 <ng-template #adminTipContent>
-    <span class="text-warning">You don't have permission to edit this.
+    <span class="text-orange">You don't have permission to edit this.
         <a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
     </span>
 </ng-template>
@@ -55,7 +55,7 @@
         </div>
 
         <button type="submit" class="btn btn-success">Save</button>
-        <span class="text-success mx-1 flash small" *ngIf="isTeamSettingSaved"  [class.show]="isTeamSettingSaved">
+        <span class="text-green mx-1 flash small" *ngIf="isTeamSettingSaved"  [class.show]="isTeamSettingSaved">
             <i class="fas fa-save"></i>Saved!
         </span>
         <span class="text-danger mx-1 small" *ngIf="isTeamSettingFailed">Error while saving settings</span>

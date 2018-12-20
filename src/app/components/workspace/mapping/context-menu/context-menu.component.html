@@ -1,4 +1,5 @@
-<div id="maptio-context-menu" class="position-absolute d-block col-3-half context-menu p-3" [class.invisible]="!initiatives" [style.top.px]="y" [style.left.px]="x">
+<div id="maptio-context-menu" class="position-absolute d-block col-3-half context-menu p-3" [class.invisible]="!initiatives"
+    [style.top.px]="y" [style.left.px]="x">
     <div>
         <div class="list-group">
             <ng-container *ngFor="let initiative of initiatives">
@@ -17,7 +18,7 @@
 
             <div class="cursor-pointer list-group-item list-group-item-action" (click)="isAddingNode=!isAddingNode" *ngIf="!isReadOnly">
 
-                <div class="d-flex justify-content-between align-items-center" >
+                <div class="d-flex justify-content-between align-items-center">
                     <span>
                         <i class="fas fa-plus mr-1" aria-hidden="true"></i> Create sub-circle
                     </span>
@@ -28,8 +29,8 @@
                         <input #inputNewInitiative class="form-control form-control-sm" (click)="$event.stopPropagation()" type="text" name="" id="">
                     </div>
                     <div class="form-group d-flex justify-content-between w-100">
-                        <button class="btn btn-outline-success btn-sm" (click)="addNode(initiatives[0],inputNewInitiative.value, false)">Add circle</button>
-                        <button class="btn btn-outline-secondary btn-sm" (click)="addNode(initiatives[0],inputNewInitiative.value, true)">Add circle and edit details</button>
+                        <button class="btn btn-outline-success btn-sm" (click)="addNode(initiatives[0],inputNewInitiative.value, true)">Add circle and edit details</button>
+                        <button class="btn btn-success btn-sm" (click)="addNode(initiatives[0],inputNewInitiative.value, false)">Add circle</button>
                     </div>
                 </div>
 
@@ -50,8 +51,8 @@
 
                             </div>
                             <div *ngIf="isRemovingNode" class="d-flex justify-content-start my-2 mx-0">
-                                    <button class="btn btn-link btn-sm" (click)="isRemovingNode=false">Cancel</button>
-                                    <button class="btn btn-danger btn-sm mx-1" (click)="removeNode(initiative)">Confirm</button>
+                                <button class="btn btn-link btn-sm" (click)="isRemovingNode=false">Cancel</button>
+                                <button class="btn btn-danger btn-sm mx-1" (click)="removeNode(initiative)">Confirm</button>
                             </div>
                         </div>
                     </div>

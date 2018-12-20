@@ -37,7 +37,7 @@
                     {{team?.name}}
                 </a>
             </span>
-            <span *ngIf="!team?.isPaying && !team.isExample" class="x-small text-success">{{team?.getRemainingTrialDays()}} days left on your free trial.
+            <span *ngIf="!team?.isPaying && !team.isExample" class="x-small text-green">{{team?.getRemainingTrialDays()}} days left on your free trial.
                 <a routerLink="/teams/{{team?.team_id}}/{{team?.getSlug()}}/billing">Subscribe now</a>
             </span>
         </span>

@@ -17,13 +17,13 @@
 </div>
 
 
-<div class="container-fluid h-100 overflow-auto bg-gradient-inverse" [class.unavailable]="(progress.state$ | async).active">
+<div *showItBootstrap="['xs']" class="container-fluid h-100 overflow-auto bg-gradient-inverse" [class.unavailable]="(progress.state$ | async).active">
 
 	<div class="d-flex flex-column h-100">
 		<header>
 		</header>
 
-		<div *showItBootstrap="['xs']" class="h-100 row">
+		<div  class="h-100 row">
 			<div class="card bg-transparent border-0">
 				<div class="card-body">
 					<div class="d-flex justify-content-center align-items-center flex-column text-white">

@@ -24,9 +24,9 @@
                 <span>{{member.email}}</span>
                 <small *ngIf="member.isActivationPending && member.isInvitationSent" class="text-info pull-left" placement="top" container="body"
                     ngbTooltip="{{member.name}} was sent an invitation.">Pending invitation</small>
-                <small *ngIf="member.isActivationPending && !member.isInvitationSent" class="text-warning pull-left" placement="top" container="body"
+                <small *ngIf="member.isActivationPending && !member.isInvitationSent" class="text-orange pull-left" placement="top" container="body"
                     ngbTooltip="{{member.name}} cannot view or edit maps.">Not yet invited</small>
-                <small *ngIf="!member.isActivationPending" class="text-success pull-left" placement="top" container="body" ngbTooltip="{{member.name}} can view and edit maps">Active</small>
+                <small *ngIf="!member.isActivationPending" class="text-green pull-left" placement="top" container="body" ngbTooltip="{{member.name}} can view and edit maps">Active</small>
 
             </div>
         </div>
@@ -60,13 +60,13 @@
                         placement="left" container="body" ngbTooltip="Resend an invitation to {{member.name}}">Resend </button>
                 </ng-container>
                 <ng-container *ngIf="isDisplaySendingLoader">
-                    <div class="indicator text-success d-flex justify-content-end align-items-center">
-                        <i class="fas fa-circle-notch fa-spin text-success mx-1"></i> Sending
+                    <div class="indicator text-green d-flex justify-content-end align-items-center">
+                        <i class="fas fa-circle-notch fa-spin text-green mx-1"></i> Sending
                     </div>
                 </ng-container>
                 <ng-container *ngIf="isDisplayUpdatingLoader">
-                    <div class=" indicator text-success d-flex justify-content-end align-items-center">
-                        <i class="fas fa-circle-notch fa-spin text-success mx-1"></i> Updating
+                    <div class=" indicator text-green d-flex justify-content-end align-items-center">
+                        <i class="fas fa-circle-notch fa-spin text-green mx-1"></i> Updating
                     </div>
                 </ng-container>
             </ng-container>
@@ -98,10 +98,10 @@
             <span class="col-8">{{getAgo(member.lastSeenAt)}}</span>
         </div>
         <div class="form-group form-inline row d-flex justify-content-end" *ngIf="member.isActivationPending">
-            <span class="text-success mx-1" *ngIf="isSaving">
+            <span class="text-green mx-1" *ngIf="isSaving">
                 <i class="fas fa-circle-notch fa-spin"></i>
             </span>
-            <span class="text-success mx-1 flash small" *ngIf="isSavingSuccess"  [class.show]="isSavingSuccess">
+            <span class="text-green mx-1 flash small" *ngIf="isSavingSuccess"  [class.show]="isSavingSuccess">
                 <i class="fas fa-save"></i>Successfully saved!
             </span>
             <span class="text-danger mx-1 small" *ngIf="savingFailedMessage">{{savingFailedMessage}}</span>

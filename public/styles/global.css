@@ -89,6 +89,14 @@ body {
 
 }
 
+.text-orange{
+  color: var(--maptio-orange) !important;
+}
+
+.text-green{
+  color: var(--maptio-green) !important;
+}
+
 .font-roboto{
   font-family: "Roboto" !important
 }

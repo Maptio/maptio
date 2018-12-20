@@ -22,6 +22,8 @@ export class StickyPopoverDirective extends NgbPopover {
 
     placement: "auto" | "top" | "bottom" | "left" | "right" | "top-left" | "top-right" | "bottom-left" | "bottom-right" | "left-top" | "left-bottom" | "right-top" | "right-bottom" | ("auto" | "top" | "bottom" | "left" | "right" | "top-left" | "top-right" | "bottom-left" | "bottom-right" | "left-top" | "left-bottom" | "right-top" | "right-bottom")[];
 
+    
+
     triggers: string;
 
     container: string;
@@ -48,12 +50,13 @@ export class StickyPopoverDirective extends NgbPopover {
         super(_elRef, _render, injector, componentFactoryResolver, viewContainerRef, config, ngZone);
         this.triggers = "manual"
         this.popoverTitle = "Permissions";
-        this.container = "body"
+        this.container = "body";
+             
     }
     ngOnInit(): void {
         super.ngOnInit();
         this.ngbPopover = this.stickyPopover;
-
+            
         this._render.listen(this._elRef.nativeElement, "mouseenter", () => {
             this.canClosePopover = true;
             this.open()
@@ -75,7 +78,8 @@ export class StickyPopoverDirective extends NgbPopover {
 
     open() {
         super.open();
-        let popover = window.document.querySelector(".popover")
+        let popover = window.document.querySelector(".popover");
+        (popover  as HTMLElement).classList.add("permissions")
         this._render.listen(popover, "mouseover", () => {
             this.canClosePopover = false;
         });

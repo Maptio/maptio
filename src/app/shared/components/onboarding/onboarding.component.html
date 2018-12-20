@@ -44,7 +44,7 @@
         <div class="form-row w-100 d-flex justify-content-center align-items-center flex-column">
             <input [(ngModel)]="team.name" type="text" class="form-control col-6">
             <small *ngIf="teamCreationErrorMessage" class="form-text text-danger">{{teamCreationErrorMessage}}</small>
-            <small *ngIf="isCreatingTeam" class="text-success">
+            <small *ngIf="isCreatingTeam" class="text-green">
                 <i class="fas fa-circle-notch fa-spin"></i> Setting up your organization</small>
         </div>
     </div>

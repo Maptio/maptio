@@ -7,13 +7,13 @@
 		{{r.name}}</span>
 </ng-template>
 <ng-template #editTipContent>
-	<div class="text-warning">
+	<div class="text-orange">
 		You don't have permission to edit this.
 		<a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
 	</div>
 </ng-template>
 <ng-template #deleteTipContent>
-	<span class="text-warning">You don't have permission to delete this.
+	<span class="text-orange">You don't have permission to delete this.
 		<a href="{{KB_URL_PERMISSIONS}}" target="blank">Learn more.</a>
 	</span>
 </ng-template>
@@ -48,9 +48,9 @@
 					</li>
 					<li>
 						<input required="required" [resultTemplate]="rtTag" type="text" placeholder="Add tag" class="form-control form-control-sm col-8 p-1"
-						 (selectItem)="saveTag($event)" [ngbTypeahead]="searchTag" editable="false" (focus)="$event.target.value='';focus$.next($event.target.value)" (blur)="onBlur()"
-						 (click)="$event.target.value=''; click$.next($event.target.value)" [resultFormatter]="tagFormatter" [inputFormatter]="tagFormatter"
-						 #inputTag="ngbTypeahead" />
+						 (selectItem)="saveTag($event)" [ngbTypeahead]="searchTag" editable="false" (focus)="$event.target.value='';focus$.next($event.target.value)"
+						 (blur)="onBlur()" (click)="$event.target.value=''; click$.next($event.target.value)" [resultFormatter]="tagFormatter"
+						 [inputFormatter]="tagFormatter" #inputTag="ngbTypeahead" />
 					</li>
 				</ul>
 				<div class="input-group-append">
@@ -78,8 +78,8 @@
 							 [resultFormatter]="formatter" [inputFormatter]="formatter" (blur)="onBlur()" />
 							<div class="input-group-append">
 								<button *permissionsOnly="Permissions.canEditInitiativeAuthority;initiative node" class="btn btn-outline-danger remove text-danger"
-								 mwlConfirmationPopover [popoverMessage]="'Remove this authority and associated role?'" placement="top" container="body" focusbutton="cancel"
-								 appendToBody="false" (confirm)="removeAuthority()" (cancel)="cancelClicked=true"></button>
+								 mwlConfirmationPopover [popoverMessage]="'Remove this authority and associated role?'" placement="top" container="body"
+								 focusbutton="cancel" appendToBody="false" (confirm)="removeAuthority()" (cancel)="cancelClicked=true"></button>
 							</div>
 
 						</div>
@@ -148,101 +148,95 @@
 
 			<!-- <div *ngIf="node?.helpers.length === 0 || !(node?.helpers); then thenNoHelpersTemplate ; else elseNoHelpersTemplate"></div> -->
 			<!-- <ng-template #elseNoHelpersTemplate> -->
-				<div class="">
-					<div class="d-flex justify-content-between align-items-center" *ngIf="getAllHelpers().length > 0">
-						<div></div>
-						<span class="small d-flex mr-2 ml-auto" ngbTooltip="Check this box to allow contributors to edit the details of this circle"
-						 placement="top" container="body">Can edit</span>
-					</div>
-					<ng-container *ngFor="let user of getAllHelpers(); let i=index;trackBy:trackByUserId">
-						<div class="d-flex justify-content-between align-items-center">
-							<div class="w-100">
-								<div class="d-flex flex-column">
-									<div class="d-flex justify-content-between align-items-center">
-										<div class="d-flex justify-content-between col-11 pl-0 pr-0">
-											<div class="d-flex justify-content-start">
-												<div *permissionsOnly="Permissions.canDeleteHelper;initiative node;helper user; then thenDeleteHelperBlock; else elseDeleteHelperBlock "></div>
-												<ng-template #thenDeleteHelperBlock>
-													<span class="remove text-danger mr-1 " placement="top" container="body" mwlConfirmationPopover [popoverMessage]="'Remove this helper and associated role?'"
-													 focusbutton="cancel" appendToBody="false" (confirm)="removeHelper(user)" (cancel)="cancelClicked = true"></span>
-												</ng-template>
-												<ng-template #elseDeleteHelperBlock>
-													<span class="remove text-muted mr-1 " [stickyPopover]="deleteTipContent" placement='top'></span>
-												</ng-template>
+			<div class="">
+				<div class="d-flex justify-content-between align-items-center" *ngIf="getAllHelpers().length > 0">
+					<div></div>
+					<span class="small d-flex mr-2 ml-auto" ngbTooltip="Check this box to allow contributors to edit the details of this circle"
+					 placement="top" container="body">Can edit</span>
+				</div>
+				<ng-container *ngFor="let user of getAllHelpers(); let i=index;trackBy:trackByUserId">
+					<div class="d-flex justify-content-between align-items-center">
+						<div class="w-100">
+							<div class="d-flex flex-column">
+								<div class="d-flex justify-content-between align-items-center">
+									<div class="d-flex justify-content-between col-11 pl-0 pr-0">
+										<div class="d-flex justify-content-start">
+											<div *permissionsOnly="Permissions.canDeleteHelper;initiative node;helper user; then thenDeleteHelperBlock; else elseDeleteHelperBlock "></div>
+											<ng-template #thenDeleteHelperBlock>
+												<span class="remove text-danger mr-1 " placement="top" container="body" mwlConfirmationPopover [popoverMessage]="'Remove this helper and associated role?'"
+												 focusbutton="cancel" appendToBody="false" (confirm)="removeHelper(user)" (cancel)="cancelClicked = true"></span>
+											</ng-template>
+											<ng-template #elseDeleteHelperBlock>
+												<span class="remove text-muted mr-1 " [stickyPopover]="deleteTipContent" placement='top'></span>
+											</ng-template>
 
-												<span class="pl-1 col">
-													<img src="{{user.picture}}" width="16" class="rounded-circle user" alt={{user.name}}>
-													<a 
-													routerLink="/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/summary" [queryParams]="{member: user.shortid}"
-													>{{user.name}}</a>
-													<span class="text-muted small" *ngIf="isAuthority(user)">({{authority | titlecase }})</span>
+											<span class="pl-1 col">
+												<img src="{{user.picture}}" width="16" class="rounded-circle user" alt={{user.name}}>
+												<a routerLink="/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/summary" [queryParams]="{member: user.shortid}">{{user.name}}</a>
+												<span class="text-muted small" *ngIf="isAuthority(user)">({{authority | titlecase }})</span>
 
-												</span>
-											</div>
-											<div>
-												<ng-container *permissionsOnly="Permissions.canEditHelper;initiative node; helper user; then thenEditRoleButtonBlock; else elseEditRoleButtonBlock"></ng-container>
-												<ng-template #thenEditRoleButtonBlock>
-													<button class="btn btn-link pull-right btn-sm" (click)="toggleRole(i)">Role
-														<i class="fa" [class.fa-caret-up]="hideme[i]" [class.fa-caret-down]="!hideme[i]" aria-hidden="true"></i>
-													</button>
-												</ng-template>
-												<ng-template #elseEditRoleButtonBlock>
-													<button class="btn btn-link pull-right btn-sm disabled" [stickyPopover]="editTipContent" placement='top'>Role
-														<i class="fas fa-lock"></i>
-													</button>
-												</ng-template>
-											</div>
+											</span>
 										</div>
-										<div class="w-100 d-flex justify-content-center">
-											<ng-container *ngIf="!isAuthority(user)">
-												<fieldset *permissionsOnly="Permissions.canGiveHelperPrivileges;initiative node; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
-													<div class="custom-control custom-checkbox small">
-														<input type="checkbox" class="custom-control-input small" id="customCheck-{{i}}" (ngModelChange)="savePrivilege(user,$event)"
-														 [ngModel]="user.hasAuthorityPrivileges" [ngModelOptions]="{standalone: true}">
-														<label class="custom-control-label" for="customCheck-{{i}}"></label>
-													</div>
-												</fieldset>
-											</ng-container>
-											<ng-container *ngIf="isAuthority(user)">
+										<div>
+											<ng-container *permissionsOnly="Permissions.canEditHelper;initiative node; helper user; then thenEditRoleButtonBlock; else elseEditRoleButtonBlock"></ng-container>
+											<ng-template #thenEditRoleButtonBlock>
+												<button class="btn btn-link pull-right btn-sm" (click)="toggleRole(i)">Role
+													<i class="fa" [class.fa-caret-up]="hideme[i]" [class.fa-caret-down]="!hideme[i]" aria-hidden="true"></i>
+												</button>
+											</ng-template>
+											<ng-template #elseEditRoleButtonBlock>
+												<button class="btn btn-link pull-right btn-sm disabled" [stickyPopover]="editTipContent" placement='top'>Role
+													<i class="fas fa-lock"></i>
+												</button>
+											</ng-template>
+										</div>
+									</div>
+									<div class="w-100 d-flex justify-content-center">
+										<ng-container *ngIf="!isAuthority(user)">
+											<fieldset *permissionsOnly="Permissions.canGiveHelperPrivileges;initiative node; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
 												<div class="custom-control custom-checkbox small">
-													<input readonly disabled type="checkbox" class="custom-control-input small" id="customCheck-{{i}}" checked="true">
+													<input type="checkbox" class="custom-control-input small" id="customCheck-{{i}}" (ngModelChange)="savePrivilege(user,$event)"
+													 [ngModel]="user.hasAuthorityPrivileges" [ngModelOptions]="{standalone: true}">
 													<label class="custom-control-label" for="customCheck-{{i}}"></label>
 												</div>
-											</ng-container>
-
-										</div>
-									</div>
-
-									<div>
+											</fieldset>
+										</ng-container>
+										<ng-container *ngIf="isAuthority(user)">
+											<div class="custom-control custom-checkbox small">
+												<input readonly disabled type="checkbox" class="custom-control-input small" id="customCheck-{{i}}" checked="true">
+												<label class="custom-control-label" for="customCheck-{{i}}"></label>
+											</div>
+										</ng-container>
 
 									</div>
 								</div>
 
-								<div class="col-12">
-
-									<textarea [hidden]="!hideme[i]" #inputRole class="form-control form-control-sm unresizable" id="inputRole" [ngModelOptions]="{standalone: true}"
-									 data-provide="markdown" data-iconlibrary="fa" data-autofocus="true" [ngModel]="user.roles[0]?.description || ''"
-									 rows="3" placeholder="How is {{user.name}} helping?" (ngModelChange)="saveRole(user,$event)" (blur)="onBlur();toggleRole(i)"
-									 (change)="saveRole(user,$event.target.value)"></textarea>
-
-									<markdown class="small" [hidden]="hideme[i]" *ngIf="user.roles[0]?.description" [data]="user.roles[0]?.description || ''"></markdown>
+								<div>
 
 								</div>
+							</div>
 
+							<div class="col-12">
 
+								<textarea [hidden]="!hideme[i]" #inputRole class="form-control form-control-sm unresizable" id="inputRole" [ngModelOptions]="{standalone: true}"
+								 data-provide="markdown" data-iconlibrary="fa" data-autofocus="true" [ngModel]="user.roles[0]?.description || ''"
+								 rows="3" placeholder="How is {{user.name}} helping?" (ngModelChange)="saveRole(user,$event)" (blur)="onBlur();toggleRole(i)"
+								 (change)="saveRole(user,$event.target.value)"></textarea>
+
+								<markdown class="small" [hidden]="hideme[i]" *ngIf="user.roles[0]?.description" [data]="user.roles[0]?.description || ''"></markdown>
 
 							</div>
 
 
 
 						</div>
-					</ng-container>
 
-				</div>
-			<!-- </ng-template>
-			<ng-template #thenNoHelpersTemplate>
-				<small class="text-warning">No helpers yet</small>
-			</ng-template> -->
+
+
+					</div>
+				</ng-container>
+
+			</div>
 		</div>
 	</div>
 </form>

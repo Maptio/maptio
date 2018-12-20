@@ -1,0 +1,15 @@
+
+
+.permissions.popover {
+    background:var(--white);
+  }
+
+  .permissions.popover .popover-header{
+      border-bottom: 0;
+      background:var(--white);
+
+  }
+
+  .permissions.popover .arrow::after {
+    /* background:var(--white); */
+  }
