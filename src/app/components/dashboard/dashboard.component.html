@@ -4,6 +4,30 @@
             <div class="">
                 <div class="d-flex flex-column justify-content-start align-items-start">
                     <div class="w-100">
+                        <div *ngIf="isZeroMaps()" class="d-flex justify-content-start">
+                            <!-- <div class="card bg-gradient text-white border-0 col-6">
+                                <div class="card-body">
+                                    <common-create-map [teams]="teams" [isRedirect]="true" (created)="onNewMap($event)"></common-create-map>
+                                </div>
+                            </div> -->
+                            <div class="card bg-gradient border-0 text-white">
+                                <div class="card-body">
+                                    <div class="card-title">
+                                        <span class="display-1">Need a fresh start?</span>
+                                    </div>
+                                    <div class="card-text h2">
+                                        We'll guide you through creating your first map , it should only take a few minutes.      
+                                    </div>
+                                    <div class="card-text my-3">
+                                            <button class="btn btn-success btn-lg " (click)="openOnboarding()">Resume setup</button>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
 
                         <div class="mb-5" *ngFor="let kv of filteredMaps.entries(); trackBy: trackByTeamId;">
                             <div class="d-flex justify-content-between align-items-baseline">
@@ -122,7 +146,7 @@
                     <div class="form-group d-flex flex-column align-items-start">
                         <label class="lead" for="inputQuickFilter">Find a map</label>
 
-                        <input id="inputQuickFilter" #inputQuickFilter  type="text" class="form-control w-100" (keyup)="onKeyDown(inputQuickFilter.value)">
+                        <input id="inputQuickFilter" #inputQuickFilter type="text" class="form-control w-100" (keyup)="onKeyDown(inputQuickFilter.value)">
                         <div [class.invisible]="!inputQuickFilter.value" class="d-flex justify-content-between align-items-center w-100">
                             <span class="text-muted small">{{getCount(filteredMaps)}}/{{datasets?.length}} maps</span>
 
@@ -135,7 +159,7 @@
                 </div>
 
             </div>
-            <div class="card bg-gradient text-white border-0" *ngIf="isOutOfSampleMode">
+            <div class="card bg-gradient text-white border-0" *ngIf="isOutOfSampleMode && !isZeroMaps()">
                 <div class="card-body">
                     <common-create-map [teams]="teams" [isRedirect]="true" (created)="onNewMap($event)"></common-create-map>
                 </div>

@@ -11,6 +11,7 @@ import { LoaderService } from '../../shared/services/loading/loader.service';
 import { Auth } from '../../shared/services/auth/auth.service';
 import { EmitterService } from '../../shared/services/emitter.service';
 import { environment } from '../../../environment/environment';
+import { OnboardingService } from '../../shared/components/onboarding/onboarding.service';
 
 @Component({
     selector: "dashboard",
@@ -35,7 +36,8 @@ export class DashboardComponent {
     subscription: Subscription;
 
     constructor(private cd: ChangeDetectorRef, private router: Router, private loaderService: LoaderService,
-        private teamService: TeamService, private mapService: MapService, private auth: Auth) {
+        private teamService: TeamService, private mapService: MapService, private auth: Auth,
+        private onboarding: OnboardingService) {
         this.filterMaps$ = new Subject<string>();
     }
 
@@ -126,6 +128,10 @@ export class DashboardComponent {
         return this._datasets.filter(d => !d.team.isExample).length > 1;
     }
 
+    isZeroMaps() {
+        return this._datasets.filter(d => !d.team.isExample).length == 0;
+    }
+
     onCopy(dataset: DataSet) {
         this.auth.getUser().toPromise().then(() => { this.cd.markForCheck() });
     }
@@ -162,6 +168,10 @@ export class DashboardComponent {
 
     onKeyDown(search: string) {
         this.filterMaps$.next(search);
+    }
+
+    openOnboarding() {
+        this.onboarding.open(this.user);
     }
 
 }
