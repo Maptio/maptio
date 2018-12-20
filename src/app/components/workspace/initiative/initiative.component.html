@@ -20,7 +20,7 @@
 
 
 <form>
-	<div class="card borderless mb-2 p-2 ">
+	<div class="card border-0 mb-2 p-2 ">
 		<fieldset name="initiativeName" *permissionsOnly="Permissions.canEditInitiativeName;initiative node; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
 			<div class="d-flex justify-content-start input-group">
 				<input class="form-control borderless" id="inputName" type="text" name="inputName" [ngModelOptions]="{standalone: true}"
@@ -36,7 +36,7 @@
 		</fieldset>
 	</div>
 
-	<div class="card borderless mb-2 p-2">
+	<div class="card border-0 mb-2 p-2">
 		<fieldset name="initiativeTags" *permissionsOnly="Permissions.canEditInitiativeTags;initiative node; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset;">
 			<div class="d-flex justify-content-start">
 				<ul class="tags w-100 borderless-right pt-1 d-flex align-items-center">
@@ -63,7 +63,7 @@
 	</div>
 
 
-	<div class="card borderless mb-2 p-2">
+	<div class="card border-0 mb-2 p-2">
 		<fieldset name="initiativeAuthority" *permissionsOnly="Permissions.canEditInitiativeAuthority;initiative node; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
 			<div class="d-flex justify-content-start input-group">
 				<div class="form-inline mr-auto">
@@ -94,7 +94,7 @@
 		</fieldset>
 	</div>
 
-	<div class="card borderless mb-2 p-2">
+	<div class="card border-0 mb-2 p-2">
 		<fieldset name="initiativeDescription" *permissionsOnly="Permissions.canEditInitiativeDescription;initiative node; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
 			<ng-container *permissionsOnly="Permissions.canEditInitiativeDescription;initiative node;">
 				<button *ngIf="descriptionHideMe" class="edit-description btn btn-link btn-sm col" (click)="descriptionHideMe=!descriptionHideMe">
@@ -125,7 +125,7 @@
 		</fieldset>
 	</div>
 
-	<div class="card borderless p-2 helpers overflow">
+	<div class="card border-0 p-2 helpers overflow">
 		<div class="">
 			<h6 class="card-subtitle mb-1 mt-1 text-muted">Who’s helping with this circle?
 			</h6>
