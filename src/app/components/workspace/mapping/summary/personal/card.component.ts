@@ -14,7 +14,7 @@ export class PersonalCardComponent implements OnInit {
     @Input("datasetId") public datasetId: string;
     @Input("isWithLeader") isWithLeader:boolean;
 
-    isHidden:boolean;
+    isShowRoles:boolean;
     constructor(private router:Router) { }
 
     ngOnInit(): void { }
@@ -24,7 +24,17 @@ export class PersonalCardComponent implements OnInit {
         this.router.navigateByUrl(`/map/${this.datasetId}/${this.initiative.getSlug()}/circles?id=${node.id}`)
     }
 
-    getDescriptionId(){
-        return `description-${this.initiative.id}`
+    getWithDescriptionId(){
+        return `with-description-${this.initiative.id}`
+    }
+    getNoDescriptionId(){
+        return `no-description-${this.initiative.id}`
+    }
+    getMultipleCollapseId(){
+        return `with-description-${this.initiative.id} no-description-${this.initiative.id}`
+    }
+    getMultipleCollapseClass(){
+        return `multi-collapse-${this.initiative.id}`
+   
     }
 }

@@ -24,32 +24,38 @@
             <markdown [data]="initiative.getRoles(initiative.accountable?.user_id)[0]?.description"></markdown>
         </div>
         <div class="card-text">
-            <div *ngIf="(initiative.helpers?.length !== 0)" class="row">
-                <a class="btn btn-link pull-right" data-toggle="collapse" href="#{{getDescriptionId()}}" role="button" (click)="isHidden=!isHidden">
-                    <i class="fa" [class.fa-caret-right]="!isHidden" [class.fa-caret-down]="isHidden" aria-hidden="true"></i>
+            <div *ngIf="(initiative.helpers?.length !== 0)" class="row" [class.bg-light]="isShowRoles">
+                <a class="btn btn-link col-1" data-toggle="collapse" [attr.data-target]="'.'+getMultipleCollapseClass()" [attr.aria-controls]="getMultipleCollapseId()"
+                    aria-expanded="false" role="button" (click)="isShowRoles=!isShowRoles">
+                    <i class="fa" [class.fa-caret-right]="!isShowRoles" [class.fa-caret-down]="isShowRoles" aria-hidden="true"></i>
                 </a>
+                <div class="col">
+                    <div class="collapse {{getMultipleCollapseClass()}} w-100" id="{{getWithDescriptionId()}}">
+                        <div *ngFor="let h of initiative.helpers">
+                            <div class="d-flex my-1 align-items-baseline my-2">
+                                <a routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}/summary" [queryParams]="{member: h.shortid}">
+                                    <img [hidden]="h.user_id === member?.user_id " class="rounded-circle  user" width="32" height="32" src="{{h.picture}}" alt="{{h.name}}"
+                                        title="{{h.name}}" placement="top" container="body" ngbTooltip="{{h.name}}">
+                                </a>
+                                <markdown class="small mx-1 no-margin d-flex flex-column align-items-center" *ngIf="h.roles[0]?.description" [data]="h.roles[0]?.description"></markdown>
 
-                <div class="collapse" id="{{getDescriptionId()}}">
-                    <div *ngFor="let h of initiative.helpers">
-                        <div  class="d-flex my-1 align-items-baseline">
-                            <a routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}/summary" [queryParams]="{member: h.shortid}">
-                                <img [hidden]="h.user_id === member?.user_id " class="rounded-circle  user" width="32" height="32" src="{{h.picture}}" alt="{{h.name}}"
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="collapse {{getMultipleCollapseClass()}} w-100 show " id="{{getNoDescriptionId()}}">
+                        <div class="d-flex justify-content-start flex-wrap">
+                            <a *ngFor="let h of initiative.helpers" class="btn btn-link btn-xs p-0" routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}/summary"
+                                [queryParams]="{member: h.shortid}">
+                                <img [hidden]="h.user_id === member?.user_id " class="rounded-circle user" width="32" height="32" src="{{h.picture}}" alt="{{h.name}}"
                                     title="{{h.name}}" placement="top" container="body" ngbTooltip="{{h.name}}">
                             </a>
-                            <markdown class="mx-1 no-margin d-flex flex-column align-items-center" *ngIf="h.roles[0]?.description" [data]="h.roles[0]?.description"></markdown>
-
                         </div>
-                        <hr>
+
                     </div>
                 </div>
 
-                <div class="d-flex flex-wrap" *ngIf="!isHidden">
-                    <a *ngFor="let h of initiative.helpers" class="btn btn-link btn-xs p-0" routerLink="/map/{{datasetId}}/{{initiative?.getSlug()}}/summary"
-                        [queryParams]="{member: h.shortid}">
-                        <img [hidden]="h.user_id === member?.user_id " class="rounded-circle user" width="32" height="32" src="{{h.picture}}" alt="{{h.name}}"
-                            title="{{h.name}}" placement="top" container="body" ngbTooltip="{{h.name}}">
-                    </a>
-                </div>
+
             </div>
             <span class="mb-1 small text-orange" *ngIf="(initiative.helpers?.length === 0)">No {{_team?.settings.helper | lowercase }}</span>
 

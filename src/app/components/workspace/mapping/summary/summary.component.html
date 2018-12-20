@@ -3,7 +3,7 @@
         <div class="col mr-3" *ngIf="selectedMember">
             <summary-personal [datasetId]="datasetId" [member]="selectedMember" [team]="team" [initiative]="initiative"></summary-personal>
         </div>
-        <div [class.col-3]="selectedMember" [class.w-100]="!selectedMember" [class.border-left]="selectedMember">
+        <div [class.col-3]="selectedMember" [class.w-100]="!selectedMember" class="border-0" >
             <div class="card border-0 bg-transparent">
                 <div *ngIf="!selectedMember">
                     <h1>Directory</h1>

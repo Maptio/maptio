@@ -9,8 +9,8 @@
         <hr>
         <div class="d-flex justify-content-between mt-3">
             <div class="w-50 mr-1">
-                <h5 *ngIf="authorities.length===0" class="card-title text-muted">Not a {{_team?.settings.authority | lowercase }} yet</h5>
-                <h5 *ngIf="authorities.length>0" class="card-title text-muted">{{_team?.settings.authority | titlecase }} of circles</h5>
+                <span *ngIf="authorities.length===0" class="card-title text-muted">Not a {{_team?.settings.authority | lowercase }} yet</span>
+                <span *ngIf="authorities.length>0" class="card-title text-muted">{{_team?.settings.authority | titlecase }} of circles</span>
 
                 <div *ngFor="let i of authorities; let ix=index" class="my-2">
                     <personal-card [initiative]="i" [datasetId]="datasetId" [isWithLeader]="false"></personal-card>
@@ -20,8 +20,8 @@
             </div>
             <div class="w-50 ml-1">
 
-                <h5 *ngIf="helps.length===0" class="card-title text-muted">No helping participation yet</h5>
-                <h5 *ngIf="helps.length>0" class="card-title text-muted">A {{_team.settings.helper | lowercase }} in circles</h5>
+                <span *ngIf="helps.length===0" class="card-title text-muted">No helping participation yet</span>
+                <span *ngIf="helps.length>0" class="card-title text-muted">A {{_team.settings.helper | lowercase }} in circles</span>
 
                 <div *ngFor="let i of helps; let ix=index" class="my-2">
                     <personal-card [initiative]="i" [datasetId]="datasetId" [isWithLeader]="true"></personal-card>
