@@ -1,7 +1,7 @@
 :root {
   --maptio-accent: hsla(180, 39%, 46%, 1);
   --maptio-blue:hsla(204, 54%, 42%, 1) ;
-  --maptio-orange: hsla(17, 63%, 54%); /*hsla(17, 86%, 54%, 0.90);*/
+  --maptio-orange: hsla(21, 63%, 54%); /*hsla(17, 86%, 54%, 0.90);*/
   --maptio-white: #fff;
   --maptio-red:#dc3545;
   --maptio-green:hsl(105, 54%, 42%);
