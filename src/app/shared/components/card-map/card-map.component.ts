@@ -18,16 +18,16 @@ export class CardMapComponent implements OnInit {
     @Input("isExportAvailable") isExportAvailable: Boolean;
     @Input("isTeamDisplayed") isTeamDisplayed: Boolean;
     @Input("isEdit") isEdit: Boolean;
-    @Input("isReadOnly") isReadOnly:Boolean;
-    
+    @Input("isReadOnly") isReadOnly: Boolean;
+
     @Output("copied") copied: EventEmitter<DataSet> = new EventEmitter<DataSet>();
     @Output("archived") archived: EventEmitter<DataSet> = new EventEmitter<DataSet>();
     @Output("restored") restored: EventEmitter<DataSet> = new EventEmitter<DataSet>();
 
     isExporting: Boolean;
     isEditing: Boolean;
-    isCopying: Boolean;
-    isRestoring:Boolean;
+    isCopying: boolean;
+    isRestoring: Boolean;
     isArchiving: Boolean;
     isUpdateFailed: Boolean;
     form: FormGroup;
@@ -90,20 +90,21 @@ export class CardMapComponent implements OnInit {
     }
 
     duplicate() {
-        if (this.isCopying) return;
-
-        this.isCopying = true;
-        this.cd.markForCheck();
-        let copy = cloneDeep(this.dataset);
-        copy.initiative.name = `${this.dataset.initiative.name} [duplicate]`;
-        return this.datasetFactory.create(copy)
-            .then(dataset => {
-                this.copied.emit(dataset);
-            })
-            .then(() => {
-                this.isCopying = false;
-                this.cd.markForCheck();
-            })
+        console.log(this.isCopying)
+        if (!this.isCopying) {
+            this.isCopying = true;
+            this.cd.markForCheck();
+            let copy = cloneDeep(this.dataset);
+            copy.initiative.name = `${this.dataset.initiative.name} [duplicate]`;
+            return this.datasetFactory.create(copy)
+                .then(dataset => {
+                    this.copied.emit(dataset);
+                })
+                .then(() => {
+                    this.isCopying = false;
+                    this.cd.markForCheck();
+                })
+        }
 
     }
 
@@ -123,7 +124,7 @@ export class CardMapComponent implements OnInit {
             })
     }
 
-    restore(){
+    restore() {
         if (this.isRestoring) return;
 
         this.isRestoring = true;

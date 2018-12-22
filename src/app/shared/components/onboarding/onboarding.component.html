@@ -31,7 +31,7 @@
 <ng-template #welcome>
 
     <span class="display-4">
-        <span class="text-accent">👋 {{user?.firstname}} </span>, your first map is just a few clicks away!</span>
+        <span class="text-accent">👋 {{user?.firstname}}</span>, your first map is just a few clicks away!</span>
     <h4 class="my-4 text-muted">
         We'll guide you through creating your first map , it should only take a few minutes.
     </h4>
@@ -56,7 +56,7 @@
     <h1 class="text-center">Who is in
         <b>{{team.name}}</b>?</h1>
     <h4 class="text-muted">
-        Add members to your organization to bring your maps to life.
+        Add members to your organization.
     </h4>
 
     <div class="mt-5 ">
@@ -82,8 +82,8 @@
 <ng-template #terminology>
     <h1 class="text-center">What should we call them?</h1>
 
-    <h4 class="text-muted">Tell us how
-        <b>{{team.name}}</b> calls its people internally, it will help make the maps more realistic.</h4>
+    <h4 class="text-muted">What language do you use to refer to people at
+        <b>{{team.name}}</b>?</h4>
 
     <div class="my-4">
         <onboarding-add-terminology [team]="team" (added)="isTerminologySaved=true"></onboarding-add-terminology>
@@ -106,40 +106,40 @@
         <!-- <small class="form-text">Most people find it helpful to ....</small> -->
 
         <small *ngIf="mapCreationErrorMessage" class="form-text text-danger">{{mapCreationErrorMessage}}</small>
-
-        <div class="my-5 w-100 d-flex justify-content-between align-items-stretch">
+        <div class="my-5 py-4 w-100 d-flex justify-content-between align-items-stretch">
             <div class="custom-control custom-radio custom-control-inline col-6">
-                <input type="radio" id="emptyMapRadio" name="mapOptionsRadio" [checked]="isCreatingEmptyMap" class="custom-control-input">
+                <input type="radio" id="emptyMapRadio" name="mapOptionsRadio" [value]="isCreatingEmptyMap" (change)="isCreatingEmptyMap=true"
+                    class="custom-control-input">
                 <label class="custom-control-label" for="emptyMapRadio">
-                    <div class="card cursor-pointer h-100" (click)="isCreatingEmptyMap=true">
+                    <div class="card cursor-pointer h-100">
                         <div class="card-header">
-                            I want to create a map from scratch
+                            Give me a blank canvas
                         </div>
                         <div class="card-body">
                             <p class="card-text">
-                                We'll create a completely empty map, you'll be free to add your vision and circles without our help.
+                                We'll create an empty map for you to start adding circles to.
                             </p>
                             <p class="card-text small">
-                                Better if you have played extensively with the sample map and already know where to place your circles
-                            </p>
+                                Better if you've already familiarized yourself with Maptio.</p>
                         </div>
                     </div>
 
                 </label>
             </div>
             <div class="custom-control custom-radio custom-control-inline col-6">
-                <input type="radio" id="instructionsMapRadio" name="mapOptionsRadio" [checked]="!isCreatingEmptyMap" class="custom-control-input">
+                <input type="radio" id="instructionsMapRadio" name="mapOptionsRadio" [value]="!isCreatingEmptyMap" (change)="isCreatingEmptyMap=false"
+                    class="custom-control-input">
                 <label class="custom-control-label" for="instructionsMapRadio">
-                    <div class="card cursor-pointer h-100" (click)="isCreatingEmptyMap=false">
+                    <div class="card cursor-pointer h-100">
                         <div class="card-header">
-                            I want some help creating my map
+                            Create a few circles for me
                         </div>
                         <div class="card-body">
                             <p class="card-text">
-                                We'll create a map with some instructions to get you started
+                                We'll give you some circles containing tips to get you going.
                             </p>
                             <p class="card-text small">
-                                Better if you have are not sure where everything fits yet and would like a little guidance
+                                Better if you'd like some extra help starting.
                             </p>
                         </div>
                     </div>

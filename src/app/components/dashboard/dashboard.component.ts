@@ -129,7 +129,7 @@ export class DashboardComponent {
     }
 
     isZeroMaps() {
-        return this._datasets.filter(d => !d.team.isExample).length == 0;
+        return this._datasets.filter(d => !d.team.isExample).length == 0 ;
     }
 
     onCopy(dataset: DataSet) {

@@ -47,7 +47,7 @@ export class OnboardingComponent implements OnInit {
     ]
     selectedColor: string = this.COLORS[0].name;
     mapName: string;
-    isCreatingEmptyMap: boolean;
+    isCreatingEmptyMap: boolean =true;
     isCreatingTeam: boolean;
 
     members: User[];
@@ -174,6 +174,7 @@ export class OnboardingComponent implements OnInit {
                 return this.mapService.archive(dataset)
             })
             .then(() => {
+                console.log(this.isCreatingEmptyMap);
                 return this.createMap(this.mapName, this.isCreatingEmptyMap)
             })
     }

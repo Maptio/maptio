@@ -46,16 +46,28 @@
     <div class="mt-5">
         <div class="d-flex justify-content-center align-items-center w-100">
             <div class="col-6 d-flex flex-column">
-                <span class="h5 py-2">
-                    <i class="far fa-check-circle mr-1"></i>Communicate your vision
-                    <span class="text-accent">simply and visually</span>
-                </span>
-                <span class="h5 py-2">
+                <div class="d-flex align-items-baseline h5 py-2">
                     <i class="far fa-check-circle mr-1"></i>
-                    <span class="text-accent">Onboard new people</span> quickly</span>
-                <span class="h5 py-2">
-                    <i class="far fa-check-circle mr-1"></i>Build
-                    <span class="text-accent">greater transparency and accountability</span> over everyone’s roles</span>
+                    <div>
+                        Communicate your org structure
+                        <span class="text-accent">simply and visually</span>
+
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-baseline h5 py-2">
+                    <i class="far fa-check-circle mr-1"></i>
+                    <div>
+                        <span class="text-accent">Onboard new people</span> to your organisation quickly
+                    </div>
+                </div>
+                <div class="d-flex align-items-baseline h5 py-2">
+                    <i class="far fa-check-circle mr-1"></i>
+                    <div>
+                        Build
+                        <span class="text-accent">greater transparency and accountability</span> over everyone’s roles
+                    </div>
+                </div>
             </div>
             <div class="col">
                 <img width="100%" height="auto" src="/assets/images/onboarding/full_map.png" alt="">
@@ -134,21 +146,22 @@
 
 <ng-template #ending>
     <h1>
-        <span class="text-accent ">{{user?.firstname}} </span>, before you start ...
+        <span class="text-accent ">{{user?.firstname}}</span>, before you start ...
     </h1>
 
     <h4 class="my-1 text-muted">
-        The Banana App Company has shared their map with you so you can have a peek.
+        We have a demo organisation map for you to play with. Two things you can try:
     </h4>
-
+    
     <div class="mt-5 d-flex flex-column justify-content-start">
         <div class="d-flex align-items-center my-2">
             <div class="mr-3 explainer square">
-                <img class="rounded-circle border border-thick" width="100%" height="100%" src="/assets/images/onboarding/left_panel.png" alt="">
+                <img class="rounded-circle border border-thick" width="100%" height="100%" src="/assets/images/onboarding/left_panel.png"
+                    alt="">
             </div>
             <div>
                 <span class="h5 my-4">
-                    Open the tree of initiatives to rearrange the order
+                        1. Open the tree editor to add, change or re-order circles
                 </span>
             </div>
         </div>
@@ -157,11 +170,8 @@
 
             <div>
                 <div class="h5 my-4">
-                    Right-click on a circle to view, edit, and more
-                    <div class="text-muted">
-                        Ctrl+
-                        <i class="fas fa-mouse-pointer"></i> on
-                        <i class="fab fa-apple"></i>
+                    2. Right-click on a circle to view, edit, and more
+                    <div class="text-muted">On <i class="fab fa-apple"></i>, ctrl + click
                     </div>
                 </div>
 

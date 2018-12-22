@@ -1,7 +1,6 @@
 <ng-container *ngIf="auth.allAuthenticated() && (isMap() || isHome() || isTeam())">
     <nav class="navbar navbar-light bg-gradient rounded-bottom text-white mx-3" *ngIf="isSandbox">
-        <div class="my-3 h5 collapse show" id="collapseStartTrial">This is a sample
-            <i class="fas fa-dice"></i> organization... Ready to create your own?
+        <div class="my-3 h5 collapse show" id="collapseStartTrial">This is a demo organization... Ready to create your own?
             <button class="btn btn-success " (click)="openOnboarding()">Start a 14 days free trial</button>
         </div>
         <!-- <button class="btn text-white bg-transparent position-absolute top-right" (click)="isHeaderCollapsed=!isHeaderCollapsed" data-toggle="collapse" href="#collapseStartTrial" role="button">

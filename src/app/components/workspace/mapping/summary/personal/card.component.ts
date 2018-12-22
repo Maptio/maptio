@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Initiative } from '../../../../../shared/model/initiative.data';
 import { Router } from '../../../../../../../node_modules/@angular/router';
 import { DataSet } from '../../../../../shared/model/dataset.data';
+import { Team } from '../../../../../shared/model/team.data';
 
 @Component({
     selector: 'personal-card',
@@ -11,6 +12,7 @@ import { DataSet } from '../../../../../shared/model/dataset.data';
 export class PersonalCardComponent implements OnInit {
 
     @Input("initiative") initiative:Initiative;
+    @Input("team") team:Team;
     @Input("datasetId") public datasetId: string;
     @Input("isWithLeader") isWithLeader:boolean;
 

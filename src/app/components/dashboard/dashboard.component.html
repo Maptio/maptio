@@ -4,12 +4,7 @@
             <div class="">
                 <div class="d-flex flex-column justify-content-start align-items-start">
                     <div class="w-100">
-                        <div *ngIf="isZeroMaps()" class="d-flex justify-content-start">
-                            <!-- <div class="card bg-gradient text-white border-0 col-6">
-                                <div class="card-body">
-                                    <common-create-map [teams]="teams" [isRedirect]="true" (created)="onNewMap($event)"></common-create-map>
-                                </div>
-                            </div> -->
+                        <div *ngIf="isZeroMaps() && isOutOfSampleMode" class="d-flex justify-content-start">
                             <div class="card bg-gradient border-0 text-white">
                                 <div class="card-body">
                                     <div class="card-title">

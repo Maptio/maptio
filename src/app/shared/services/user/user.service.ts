@@ -121,9 +121,10 @@ export class UserService {
 
 
     private getHslFromName(name: string) : { h: number, s: number, l: number } {
+        let cleaned = name.toLowerCase().replace(/[^a-zA-Z0-9]+/g, "-");
         let hash = 0;
-        for (var i = 0; i < name.length; i++) {
-            hash = name.charCodeAt(i) + ((hash << 5) - hash);
+        for (var i = 0; i < cleaned.length; i++) {
+            hash = cleaned.charCodeAt(i) + ((hash << 5) - hash);
         }
 
         return { h: hash % 360, s: 99, l: 35 };

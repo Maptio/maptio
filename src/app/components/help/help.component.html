@@ -4,24 +4,33 @@
 		<!-- <h3 class="display-4 d-flex justify-content-around  mb-5">
 			<i class="fas fa-medkit text-danger" aria-hidden="true"></i>
 		</h3> -->
+
 		<div class="col-10 my-5">
 			<div class="d-flex justify-content-around flex-wrap">
 				<div class="card bg-white col-5 my-4 accent-blue rounded-bottom">
 					<div class="card-body d-flex justify-content-start">
-						<!-- <div>
-								<span class="fa-stack fa-2x">
-										<i class="fas fa-circle fa-stack-2x"></i>
-										<i class="fas fa-flag fa-stack-1x fa-inverse"></i>
-									</span>
-						</div> -->
-				
+			
+
 						<h5>
+								<span class="mr-2 fa-stack col">
+                                        <i class="fas fa-circle text-gray fa-stack-2x"></i>
+                                        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                                    </span>
 							Read our
 							<a target="blank" href="https://medium.com/maptio/create-organisational-clarity-using-initiative-mapping-967069247380">free guide</a> to mapping your organization
 
 						</h5>
 					</div>
 				</div>
+
+				<div class="card bg-white col-5 my-4 accent-blue rounded-bottom">
+					<div class="card-body d-flex justify-content-start">
+						<h5>
+							<a (click)="openTutorial()" routerLink=".">Replay our introduction sequence</a>
+						</h5>
+					</div>
+				</div>
+
 
 				<div class="card bg-white col-5 my-4 accent-blue rounded-bottom">
 					<div class="card-body">
@@ -74,6 +83,7 @@
 						</div>
 					</div>
 				</div>
+
 
 
 
