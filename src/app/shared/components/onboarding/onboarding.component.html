@@ -99,17 +99,16 @@
 
     <div class="mt-5">
         <div class="form-inline w-100 d-flex justify-content-start align-items-center">
-            <label for="inputMapName" class="h5 mr-1">Map name: </label>
+            <label for="inputMapName" class="h5 mr-1">Map name </label>
 
             <input [(ngModel)]="mapName" type="text" id="inputMapName" class="form-control col-6">
         </div>
         <!-- <small class="form-text">Most people find it helpful to ....</small> -->
-
-        <small *ngIf="mapCreationErrorMessage" class="form-text text-danger">{{mapCreationErrorMessage}}</small>
+ <small *ngIf="mapCreationErrorMessage" class="form-text text-danger">{{mapCreationErrorMessage}}</small>
         <div class="my-5 py-4 w-100 d-flex justify-content-between align-items-stretch">
             <div class="custom-control custom-radio custom-control-inline col-6">
                 <input type="radio" id="emptyMapRadio" name="mapOptionsRadio" [value]="isCreatingEmptyMap" (change)="isCreatingEmptyMap=true"
-                    class="custom-control-input">
+                    class="custom-control-input" checked>
                 <label class="custom-control-label" for="emptyMapRadio">
                     <div class="card cursor-pointer h-100">
                         <div class="card-header">
