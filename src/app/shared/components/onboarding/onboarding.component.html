@@ -65,7 +65,7 @@
         </div>
         <div class="my-3 " *ngFor="let i of getMemberIndexes()">
             <div class="d-flex justify-content-start align-items-center">
-                <onboarding-add-member [team]="team" (added)="onAdded($event)"></onboarding-add-member>
+                <onboarding-add-member [team]="team" (added)="onMemberAdded($event)"></onboarding-add-member>
             </div>
         </div>
     </div>
@@ -85,8 +85,8 @@
     <h4 class="text-muted">What language do you use to refer to people at
         <b>{{team.name}}</b>?</h4>
 
-    <div class="my-4">
-        <onboarding-add-terminology [team]="team" (added)="isTerminologySaved=true"></onboarding-add-terminology>
+    <div class="my-5">
+        <onboarding-add-terminology [team]="team" (saved)="onTerminologySaved($event)"></onboarding-add-terminology>
 
     </div>
 

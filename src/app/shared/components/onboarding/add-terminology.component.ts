@@ -24,7 +24,7 @@ export class AddTerminologyComponent implements OnInit {
 
     @Input("team") team: Team;
     @Output("error") error: EventEmitter<string> = new EventEmitter<string>();
-    @Output("added") added: EventEmitter<Team> = new EventEmitter<Team>();
+    @Output("saved") added: EventEmitter<Team> = new EventEmitter<Team>();
 
     constructor(private teamService: TeamService, private cd: ChangeDetectorRef) { }
 
@@ -34,13 +34,13 @@ export class AddTerminologyComponent implements OnInit {
                 validators: [
                     Validators.required
                 ],
-                updateOn: 'submit'
+                updateOn: 'change'
             }),
             "helper": new FormControl(this.team.settings.helper, {
                 validators: [
                     Validators.required
                 ],
-                updateOn: 'submit'
+                updateOn: 'change'
             })
         })
 
@@ -56,6 +56,7 @@ export class AddTerminologyComponent implements OnInit {
             this.isAdded = false;
             this.errorMessage = null;
             this.cd.markForCheck();
+            console.log(this.form)
             let authority = this.form.controls["authority"].value
             let helper = this.form.controls["helper"].value
 

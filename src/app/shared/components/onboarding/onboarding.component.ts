@@ -228,9 +228,18 @@ export class OnboardingComponent implements OnInit {
         }
     }
 
-    onAdded(event: { team: Team, user: User }) {
+    onMemberAdded(event: { team: Team, user: User }) {
+        this.nextActionName = "Next";
+        this.isSkippable = false;
         this.members.push(event.user);
         this.cd.markForCheck();
+    }
+
+    onTerminologySaved(team:Team){
+        this.nextActionName = "Next";
+        this.isSkippable = false;
+        this.cd.markForCheck();
+        console.log(team)
     }
 
     getMemberIndexes() {
