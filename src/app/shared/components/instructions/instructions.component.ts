@@ -37,6 +37,9 @@ export class InstructionsComponent implements OnInit {
     ngOnInit(): void {
         console.log("ngOnInit", this.steps);
         this.currentStep = this.steps[this.currentIndex];
+        this.progress = this.getProgress()
+        this.progressLabel = this.getAbsoluteProgress(); //`${this.steps.length - (this.currentIndex + 1)} steps left`
+      
 
     }
 
@@ -56,7 +59,7 @@ export class InstructionsComponent implements OnInit {
             if (this.user.teams.length === 0) {
                 return this.getDemoMap(this.user)
                     .then((dataset: DataSet) => {
-console.log(1)
+                        console.log(1)
                         localStorage.setItem(`map_settings_${dataset.datasetId}`, JSON.stringify(
                             {
                                 fontColor: environment.DEFAULT_MAP_TEXT_COLOR,
@@ -90,8 +93,8 @@ console.log(1)
         this.currentStep = this.steps[this.currentIndex]
         this.nextActionName = this.getNextActionName();
         this.previousActionName = this.getPreviousActionName();
-        this.progress = Number(Math.ceil((this.currentIndex + 1) / this.steps.length * 100)).toFixed(0);
-        this.progressLabel = `${this.steps.length - (this.currentIndex + 1)} steps left`
+        this.progress = this.getProgress()
+        this.progressLabel = this.getAbsoluteProgress(); //`${this.steps.length - (this.currentIndex + 1)} steps left`
         this.cd.markForCheck();
     }
 
@@ -100,6 +103,9 @@ console.log(1)
         this.currentStep = this.steps[this.currentIndex]
         this.nextActionName = this.getNextActionName();
         this.previousActionName = this.getPreviousActionName();
+        this.progress = this.getProgress()
+        this.progressLabel = this.getAbsoluteProgress(); //`${this.steps.length - (this.currentIndex + 1)} steps left`
+
         this.cd.markForCheck();
     }
 
@@ -120,5 +126,15 @@ console.log(1)
             .then(team => {
                 return this.mapService.createExample(team.team_id)
             })
+    }
+
+    getProgress() {
+        let progress = Number(Math.ceil((this.currentIndex + 1) / this.steps.length * 100))
+        return progress == 100 ? null : progress.toFixed(0)
+    }
+
+    getAbsoluteProgress() {
+        let stepsLeft = this.steps.length - (this.currentIndex + 1)
+        return stepsLeft == 0 ? "You're done!" : `${stepsLeft} steps left`;
     }
 }
