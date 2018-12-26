@@ -382,6 +382,17 @@ export class MappingZoomableComponent implements IDataVisualizer {
         const currentNode = select(e[i]);
         const currentCircle = currentNode.select("circle").node() as HTMLElement;
         const currentContent = currentNode.select("foreignObject") as any;
+        const currentContentText = currentContent.select("div")
+        currentContentText
+          .transition()
+          .style("opacity", 0)
+          .on("end", function(): void {
+            select(this)
+              .style("font-size", `${12 / zoomFactor}px`)
+              .transition()
+              .style("opacity", 1);
+          });
+
         if (currentCircle && currentCircle.getBoundingClientRect && currentCircle.getBoundingClientRect().width < this.MIN_TEXTBOX_WIDTH) {
           currentContent.transition().style("opacity", 0);
         } else {
@@ -403,18 +414,19 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .transition()
       .style("opacity", 0)
       .on("end", function(): void {
+        const accountableZoomFactor = zoomFactor > 2 ? 2 : zoomFactor;
         select(this)
           .attr("cx", (d: any): number => {
             return d.children
-              ? Math.cos(DEFAULT_PICTURE_ANGLE) * (d.r * zoomFactor) - 12
+              ? Math.cos(DEFAULT_PICTURE_ANGLE) * (d.r * accountableZoomFactor) - 12
               : 0;
           })
           .attr("cy", (d: any): number => {
             return d.children
-              ? -Math.sin(DEFAULT_PICTURE_ANGLE) * (d.r * zoomFactor) + 12
-              : -d.r * zoomFactor * 0.9;
+              ? -Math.sin(DEFAULT_PICTURE_ANGLE) * (d.r * accountableZoomFactor) + 12
+              : -d.r * accountableZoomFactor * 0.9;
           })
-          .attr("transform", `scale(${1 / zoomFactor})`) 
+          .attr("transform", `scale(${1 / accountableZoomFactor})`) 
           .transition()
           .style("opacity", 1);
       });
