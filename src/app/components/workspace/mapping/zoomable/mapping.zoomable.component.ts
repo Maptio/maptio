@@ -379,25 +379,17 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     g.selectAll(".node.no-children")
       .each((d: any, i: number, e: Array<HTMLElement>): void => {
-        const currentNode = select(e[i]);
-        const currentCircle = currentNode.select("circle").node() as HTMLElement;
-        const currentContent = currentNode.select("foreignObject") as any;
-        const currentContentText = currentContent.select("div")
-        currentContentText
+        const currentContent = select(e[i]).select("foreignObject");
+        const fontSize: number = 10 / zoomFactor > 7 ? 10 / zoomFactor : 7;
+        currentContent.select("div")
           .transition()
           .style("opacity", 0)
           .on("end", function(): void {
             select(this)
-              .style("font-size", `${12 / zoomFactor}px`)
+              .style("font-size", `${fontSize}px`)
               .transition()
               .style("opacity", 1);
           });
-
-        if (currentCircle && currentCircle.getBoundingClientRect && currentCircle.getBoundingClientRect().width < this.MIN_TEXTBOX_WIDTH) {
-          currentContent.transition().style("opacity", 0);
-        } else {
-          currentContent.transition().style("opacity", 1);
-        }
       });
 
     g.selectAll("text.name.with-children")
@@ -514,8 +506,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .sort(function (a, b) {
         return b.value - a.value;
       });
-    // TODO: set this.zooming.scaleExtent to appropriate range based on size of smallest circle:
-    // this.zooming.scaleExtent([min, max]);
 
     if (isFirstLoad) {
       setLastZoomedCircle(root);
