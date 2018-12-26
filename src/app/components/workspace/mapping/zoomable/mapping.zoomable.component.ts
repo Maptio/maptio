@@ -377,11 +377,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
     const DEFAULT_PICTURE_ANGLE: number = this.DEFAULT_PICTURE_ANGLE;
     const select: any = this.d3.select;
 
+
     g.selectAll(".node.no-children")
-      .each((d: any, i: number, e: Array<HTMLElement>): void => {
-        const currentContent = select(e[i]).select("foreignObject");
+      .each(function(): void {
+        const currentContent = select(this).select("foreignObject div");
         const fontSize: number = 10 / zoomFactor > 7 ? 10 / zoomFactor : 7;
-        currentContent.select("div")
+        currentContent
           .transition()
           .style("opacity", 0)
           .on("end", function(): void {
