@@ -255,7 +255,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           .filter(t => t.isSelected)
           .map(t => t.shortid)
           .join(",");
-          this.loaderService.hide();
+        this.loaderService.hide();
         location.hash = this.uriService.buildFragment(
           new Map([
             ["x", transform.x],
@@ -369,17 +369,16 @@ export class MappingZoomableComponent implements IDataVisualizer {
     const DEFAULT_PICTURE_ANGLE: number = this.DEFAULT_PICTURE_ANGLE;
     const select: any = this.d3.select;
 
-
+    // TODO: use linear scales for zoomfactor font scaling dependet on the scaleExtent
     g.selectAll(".node.no-children")
       .each(function(): void {
         const currentContent = select(this).select("foreignObject div");
-        const fontSize: number = 10 / zoomFactor > 7 ? 10 / zoomFactor : 7;
         currentContent
           .transition()
           .style("opacity", 0)
           .on("end", function(): void {
             select(this)
-              .style("font-size", `${fontSize}px`)
+              .style("font-size", `${10 / zoomFactor > 7 ? 10 / zoomFactor : 7}px`)
               .transition()
               .style("opacity", 1);
           });
@@ -390,7 +389,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .style("opacity", 0)
       .on("end", function(): void {
         select(this)
-          .style("font-size", `${16 / zoomFactor}px`)
+          .style("font-size", `${16 / zoomFactor > 10 ? 16 / zoomFactor : 10}px`)
           .transition()
           .style("opacity", 1);
       });
@@ -399,7 +398,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .transition()
       .style("opacity", 0)
       .on("end", function(): void {
-        const accountableZoomFactor = zoomFactor > 2 ? 2 : zoomFactor;
+        const accountableZoomFactor = zoomFactor > 1.7 ? 1.7 : zoomFactor;
         select(this)
           .attr("cx", (d: any): number => {
             return d.children
