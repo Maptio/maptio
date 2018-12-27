@@ -519,7 +519,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.zooming.scaleExtent([0.5, getViewScaleForRadius(minRadius)]);
 
     function getViewScaleForRadius(radius: number): number {
-      return (width - margin) / (radius * 2);
+      return (width - (margin * 2)) / (radius * 2);
     }
 
     function getDepthDifference(d: any): number {
@@ -772,7 +772,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       svg.transition().duration(TRANSITION_DURATION).call(
         zooming.transform,
         d3.zoomIdentity.translate(
-          view[0] - clickedX,
+          view[0] - (clickedX - margin),
           view[1] - (clickedY - 50)
         )
         .scale(newScale)
