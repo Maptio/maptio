@@ -266,18 +266,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
         );
       });
 
-    try {
-      // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
-      // svg.call(zooming.transform, d3.zoomIdentity.translate(diameter / 2, diameter / 2));
-      svg.call(
-        this.zooming.transform,
-        d3.zoomIdentity
-          .translate(this.translateX, this.translateY)
-          .scale(this.scale)
-      );
-      svg.call(this.zooming);
-    } catch (error) { console.log(error); }
-
     function zoomed() {
       g.attr("transform", d3.event.transform);
     }
@@ -750,6 +738,18 @@ export class MappingZoomableComponent implements IDataVisualizer {
     if (getLastZoomedCircle().data.id !== root.id && !isFirstLoad) {
       zoom(getLastZoomedCircle())
     }
+
+    try {
+      // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
+      // svg.call(zooming.transform, d3.zoomIdentity.translate(diameter / 2, diameter / 2));
+      svg.call(
+        this.zooming.transform,
+        d3.zoomIdentity
+          .translate(this.translateX, this.translateY)
+          .scale(this.scale)
+      );
+      svg.call(this.zooming);
+    } catch (error) { console.log(error); }
 
     return nodes;
 
