@@ -264,6 +264,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
             ["tags", tagFragment]
           ])
         );
+
+        this.translateX = transform.x;
+        this.translateY = transform.y;
+        this.scale = transform.k;
       });
 
     function zoomed() {
