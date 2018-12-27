@@ -757,23 +757,29 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     return nodes;
 
-    function zoom(focus: any, clickedGroup?: any): void {
-      setLastZoomedCircle(focus);
-
-      // TODO: move save extraction of element's transform into own function
+    function getClickedElementCoordinates(clickedElement: any, newScale: number): Array<number> {
       let clickedX = 0;
       let clickedY = 0;
-      const newScale: number = getViewScaleForRadius(focus.r);
-      if (clickedGroup && clickedGroup.transform && clickedGroup.transform.baseVal.length > 0) {
-        clickedX = clickedGroup.transform.baseVal[0].matrix.e * newScale;
-        clickedY = clickedGroup.transform.baseVal[0].matrix.f * newScale;
+      if (clickedElement && clickedElement.transform && clickedElement.transform.baseVal.length > 0) {
+        clickedX = clickedElement.transform.baseVal[0].matrix.e * newScale;
+        clickedY = clickedElement.transform.baseVal[0].matrix.f * newScale;
+        clickedX -= margin;
+        clickedY -= 50;
       }
+      return [clickedX, clickedY];
+    }
+
+    function zoom(focus: any, clickedElement?: any): void {
+      setLastZoomedCircle(focus);
+
+      const newScale: number = getViewScaleForRadius(focus.r);
+      const coordinates: Array<number> = getClickedElementCoordinates(clickedElement, newScale);
 
       svg.transition().duration(TRANSITION_DURATION).call(
         zooming.transform,
         d3.zoomIdentity.translate(
-          view[0] - (clickedX - margin),
-          view[1] - (clickedY - 50)
+          view[0] - coordinates[0],
+          view[1] - coordinates[1]
         )
         .scale(newScale)
       );
