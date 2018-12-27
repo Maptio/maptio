@@ -222,12 +222,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
   init() {
     this.uiService.clean();
-    let d3 = this.d3;
+    const d3 = this.d3;
 
-    let margin = { top: 20, right: 20, bottom: 20, left: 0 };
-    let width = this.width - margin.left - margin.right,
-      height = this.height - margin.top - margin.bottom;
-    let svg: any = d3
+    const margin = { top: 20, right: 20, bottom: 20, left: 0 };
+    const width: number = this.width - margin.left - margin.right,
+      height: number = this.height - margin.top - margin.bottom;
+    const svg: any = d3
       .select("svg")
       .attr("width", this.width)
       .attr("height", this.height)
@@ -457,7 +457,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let uiService = this.uiService;
     let fontSize = this.fontSize;
     let zooming = this.zooming;
-    let marginLeft = 200;
     let TOOLTIP_PADDING = 20;
     let CIRCLE_RADIUS = this.CIRCLE_RADIUS;
     let TRANSITION_DURATION = this.TRANSITION_DURATION;
@@ -528,7 +527,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.zooming.scaleExtent([0.5, getViewScaleForRadius(minRadius)]);
 
     function getViewScaleForRadius(radius: number): number {
-      return width / (radius * 5);
+      return (width - margin) / (radius * 2);
     }
 
     function getDepthDifference(d: any): number {
@@ -748,7 +747,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     });
 
     zoomTo([getLastZoomedCircle().x, getLastZoomedCircle().y, getLastZoomedCircle().r * 2 + margin]);
-    if (getLastZoomedCircle().data.id !== root.id) {
+    if (getLastZoomedCircle().data.id !== root.id && !isFirstLoad) {
       zoom(getLastZoomedCircle())
     }
 
@@ -770,7 +769,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         zooming.transform,
         d3.zoomIdentity.translate(
           view[0] - clickedX,
-          view[1] - clickedY
+          view[1] - (clickedY - 50)
         )
         .scale(newScale)
       );
