@@ -351,7 +351,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       g.selectAll("g.node.initiative-map").style("opacity", function (d: any) {
         return filterByTags(d)
       });
-    })
+    });
 
     this.svg = svg;
     this.g = g;
@@ -369,16 +369,19 @@ export class MappingZoomableComponent implements IDataVisualizer {
     const DEFAULT_PICTURE_ANGLE: number = this.DEFAULT_PICTURE_ANGLE;
     const select: any = this.d3.select;
 
-    // TODO: use linear scales for zoomfactor font scaling dependet on the scaleExtent
+    const headerFontScale = this.d3.scaleLinear().domain([1, 5]).range([16, 10]);
+    const innerFontScale = this.d3.scaleLinear().domain([1, 5]).range([10, 7]);
+    const headerFontSize: number = headerFontScale(zoomFactor);
+    const innerFontSize: number = innerFontScale(zoomFactor);
+
     g.selectAll(".node.no-children")
-      .each(function(): void {
-        const currentContent = select(this).select("foreignObject div");
-        currentContent
+      .each(function(d: any): void {
+        select(this).select("foreignObject div")
           .transition()
           .style("opacity", 0)
           .on("end", function(): void {
             select(this)
-              .style("font-size", `${10 / zoomFactor > 7 ? 10 / zoomFactor : 7}px`)
+              .style("font-size", `${innerFontSize < 7 ? 7 : innerFontSize}px`)
               .transition()
               .style("opacity", 1);
           });
@@ -387,9 +390,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
     g.selectAll("text.name.with-children")
       .transition()
       .style("opacity", 0)
-      .on("end", function(): void {
+      .on("end", function(d: any): void {
         select(this)
-          .style("font-size", `${16 / zoomFactor > 10 ? 16 / zoomFactor : 10}px`)
+          .style("font-size", `${headerFontSize < 10 ? 10 : headerFontSize}px`)
           .transition()
           .style("opacity", 1);
       });
