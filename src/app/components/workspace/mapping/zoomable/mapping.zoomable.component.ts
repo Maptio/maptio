@@ -364,15 +364,16 @@ export class MappingZoomableComponent implements IDataVisualizer {
   adjustViewToZoomEvent(g: any, event: any): void {
     if (event.sourceEvent) return;
 
-    const zoomFactor: number = event.transform.k > 1 ? event.transform.k : 1;
-    const CIRCLE_RADIUS: number = this.CIRCLE_RADIUS;
-    const DEFAULT_PICTURE_ANGLE: number = this.DEFAULT_PICTURE_ANGLE;
-    const select: any = this.d3.select;
+    const select: Function = this.d3.select;
+    const scaleLog: Function = this.d3.scaleLog;
 
-    const headerFontScale = this.d3.scaleLinear().domain([1, 5]).range([16, 10]);
-    const innerFontScale = this.d3.scaleLinear().domain([1, 5]).range([10, 7]);
-    const headerFontSize: number = headerFontScale(zoomFactor);
-    const innerFontSize: number = innerFontScale(zoomFactor);
+    const maxOuterFontSize = 16;
+    const maxInnerFontSize = 10;
+    const domain: Array<number> = this.zooming.scaleExtent() ? this.zooming.scaleExtent() : [0.5, 5];
+    const outerFontScale = scaleLog().domain(domain).range([maxOuterFontSize, 0]);
+    const innerFontScale = scaleLog().domain(domain).range([maxInnerFontSize, 0]);
+
+    const zoomFactor: number = event.transform.k > 1 ? event.transform.k : 1;
 
     g.selectAll(".node.no-children")
       .each(function(d: any): void {
@@ -381,7 +382,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           .style("opacity", 0)
           .on("end", function(): void {
             select(this)
-              .style("font-size", `${innerFontSize < 7 ? 7 : innerFontSize}px`)
+              .style("font-size", `${innerFontScale(zoomFactor)}px`)
               .transition()
               .style("opacity", 1);
           });
@@ -392,11 +393,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .style("opacity", 0)
       .on("end", function(d: any): void {
         select(this)
-          .style("font-size", `${headerFontSize < 10 ? 10 : headerFontSize}px`)
+          .style("font-size", `${outerFontScale(zoomFactor)}px`)
           .transition()
           .style("opacity", 1);
       });
 
+    const DEFAULT_PICTURE_ANGLE: number = this.DEFAULT_PICTURE_ANGLE;
     const accountableCircles = g.selectAll("circle.accountable")
       .transition()
       .style("opacity", 0)
