@@ -745,12 +745,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
     */
     let node = g.selectAll("g.node");
 
-    svg.on("click", () => {
-      // if (isFullDisplayMode) return;
+    svg.on("click", (): void => {
       zoom(root);
     });
 
-    zoomTo([getLastZoomedCircle().x, getLastZoomedCircle().y, getLastZoomedCircle().r * 2 + margin]);
+    initMapElementsAtPosition([getLastZoomedCircle().x, getLastZoomedCircle().y, getLastZoomedCircle().r * 2 + margin]);
     if (getLastZoomedCircle().data.id !== root.id && !isFirstLoad) {
       zoom(getLastZoomedCircle())
     }
@@ -797,7 +796,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       );
     }
 
-    function zoomTo(v: any) {
+    function initMapElementsAtPosition(v: any) {
       const k: number = diameter / v[2];
       view = v;
 
@@ -941,41 +940,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
         });
 
-      g.selectAll("foreignObject.name, .accountable, .tags")
-        .on("mouseover", function (d: any) {
-          d3.select(`circle[id="${d.data.id}"]`).classed("hovered", true).dispatch("mouseover");
-        })
-        .on("mouseout", function (d: any) {
-          d3.select(`circle[id="${d.data.id}"]`).classed("hovered", false).dispatch("mouseout")
-        });
-
-
-      path.attr("transform", "scale(" + k + ")");
-
-      // path
-      //   .attr("d", function (d: any, i: number) {
-      //     let radius = d.r * k + 1;
-      //     return uiService.getCircularPath(radius, -radius, 0);
-      //   })
-
-
-      textAround
-        // .style("font-size", function(d:any){
-        //   return `${toREM(d.r * k  * 2 * 0.95)}rem`;
-        // })
-        .html(function (d: any) {
-          let radius = d.r * k + 1;
-          return browser === Browsers.Firefox
-            ? `<textPath path="${uiService.getCircularPath(radius, -radius, 0)}" startOffset="10%">
-                  <tspan>${d.data.name || ""}</tspan>
-                  </textPath>`
-            : `<textPath xlink:href="#path${d.data.id}" startOffset="10%">
-                  <tspan>${d.data.name || ""}</tspan>
-                  </textPath>`;
-        })
-
-      g
-        .selectAll("circle.accountable")
+      g.selectAll("circle.accountable")
         .attr("r", function (d: any) {
           return d.r * k > CIRCLE_RADIUS ? `${CIRCLE_RADIUS}px` : `${d.r * 0.3}px`;
         })
