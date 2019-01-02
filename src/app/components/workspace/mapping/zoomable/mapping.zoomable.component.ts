@@ -17,7 +17,7 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy
 } from "@angular/core";
-import { D3Service, D3, ScaleLinear, HSLColor, HierarchyCircularNode } from "d3-ng2-service";
+import { D3Service, D3, ScaleLinear, HSLColor, HierarchyCircularNode, ScaleLogarithmic } from "d3-ng2-service";
 import { transition } from "d3-transition";
 import { partition } from "lodash";
 import { LoaderService } from "../../../../shared/services/loading/loader.service";
@@ -90,6 +90,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
   private definitions: any;
   private fontSize: number;
   private fonts: ScaleLinear<number, number>;
+  private outerFontScale: ScaleLogarithmic<number, number>;
+  private innerFontScale: ScaleLogarithmic<number, number>;
   public isWaitingForDestinationNode: boolean = false;
   public isTooltipDescriptionVisible: boolean = false;
   public isFirstEditing: boolean = false;
@@ -353,6 +355,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
       });
     });
 
+    const maxOuterFontSize = 16;
+    const maxInnerFontSize = 10;
+    const defaultDomain = [0.5, 5];
+    this.outerFontScale = d3.scaleLog().domain(defaultDomain).range([maxOuterFontSize, 0]);
+    this.innerFontScale = d3.scaleLog().domain(defaultDomain).range([maxInnerFontSize, 0]);
+
     this.svg = svg;
     this.g = g;
     this.browser = this.uiService.getBrowser();
@@ -365,15 +373,15 @@ export class MappingZoomableComponent implements IDataVisualizer {
     if (event.sourceEvent) return;
 
     const select: Function = this.d3.select;
-    const scaleLog: Function = this.d3.scaleLog;
-
-    const maxOuterFontSize = 16;
-    const maxInnerFontSize = 10;
+    
     const domain: Array<number> = this.zooming.scaleExtent() ? this.zooming.scaleExtent() : [0.5, 5];
-    const outerFontScale = scaleLog().domain(domain).range([maxOuterFontSize, 0]);
-    const innerFontScale = scaleLog().domain(domain).range([maxInnerFontSize, 0]);
+    this.outerFontScale.domain(domain);
+    this.innerFontScale.domain(domain);
 
     const zoomFactor: number = event.transform.k > 1 ? event.transform.k : 1;
+    const innerFontSize: number = this.innerFontScale(zoomFactor);
+    const outerFontSize: number = this.outerFontScale(zoomFactor);
+    
 
     g.selectAll(".node.no-children")
       .each(function(d: any): void {
@@ -382,7 +390,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           .style("opacity", 0)
           .on("end", function(): void {
             select(this)
-              .style("font-size", `${innerFontScale(zoomFactor)}px`)
+              .style("font-size", `${innerFontSize}px`)
               .transition()
               .style("opacity", 1);
           });
@@ -393,7 +401,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .style("opacity", 0)
       .on("end", function(d: any): void {
         select(this)
-          .style("font-size", `${outerFontScale(zoomFactor)}px`)
+          .style("font-size", `${outerFontSize}px`)
           .transition()
           .style("opacity", 1);
       });
