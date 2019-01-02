@@ -355,16 +355,15 @@ export class MappingZoomableComponent implements IDataVisualizer {
       });
     });
 
-    const maxOuterFontSize = 16;
-    const maxInnerFontSize = 10;
-    const defaultDomain = [0.5, 5];
-    this.outerFontScale = d3.scaleLog().domain(defaultDomain).range([maxOuterFontSize, 0]);
-    this.innerFontScale = d3.scaleLog().domain(defaultDomain).range([maxInnerFontSize, 0]);
+    const outerFontSizeRange = [16, 5];
+    const innerFontSizeRange = [10, 3];
+    const defaultScaleExtent = [0.5, 5];
+    this.outerFontScale = d3.scaleLog().domain(defaultScaleExtent).range(outerFontSizeRange);
+    this.innerFontScale = d3.scaleLog().domain(defaultScaleExtent).range(innerFontSizeRange);
 
     this.svg = svg;
     this.g = g;
     this.browser = this.uiService.getBrowser();
-    // this.color = color;
     this.diameter = diameter;
     this.definitions = definitions;
   }
