@@ -370,17 +370,18 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
   adjustViewToZoomEvent(g: any, event: any): void {
     if (event.sourceEvent) return;
-
-    const select: Function = this.d3.select;
+    if (this.scale === event.transform.k) return;
+    if (this.scale <= 1 && event.transform.k <= 1) return;
     
     const domain: Array<number> = this.zooming.scaleExtent() ? this.zooming.scaleExtent() : [0.5, 5];
     this.outerFontScale.domain(domain);
     this.innerFontScale.domain(domain);
-
+    
     const zoomFactor: number = event.transform.k > 1 ? event.transform.k : 1;
     const innerFontSize: number = this.innerFontScale(zoomFactor);
     const outerFontSize: number = this.outerFontScale(zoomFactor);
     
+    const select: Function = this.d3.select;
 
     g.selectAll(".node.no-children")
       .each(function(d: any): void {
