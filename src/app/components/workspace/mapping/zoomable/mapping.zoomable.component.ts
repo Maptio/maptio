@@ -355,7 +355,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       });
     });
 
-    const outerFontSizeRange = [16, 5];
+    const outerFontSizeRange = [14, 5];
     const innerFontSizeRange = [10, 3];
     const defaultScaleExtent = [0.5, 5];
     this.outerFontScale = d3.scaleLog().domain(defaultScaleExtent).range(outerFontSizeRange);
@@ -373,24 +373,24 @@ export class MappingZoomableComponent implements IDataVisualizer {
     if (this.scale === event.transform.k) return;
     if (this.scale <= 1 && event.transform.k <= 1) return;
     
-    const domain: Array<number> = this.zooming.scaleExtent() ? this.zooming.scaleExtent() : [0.5, 5];
-    this.outerFontScale.domain(domain);
-    this.innerFontScale.domain(domain);
-    
     const zoomFactor: number = event.transform.k > 1 ? event.transform.k : 1;
-    const innerFontSize: number = this.innerFontScale(zoomFactor);
+    const scaleExtent: Array<number> = this.zooming.scaleExtent() ? this.zooming.scaleExtent() : [0.5, 5];
+    this.outerFontScale.domain(scaleExtent);
+    const myInnerFontScale: ScaleLogarithmic<number, number> = this.innerFontScale.domain(scaleExtent);
+
     const outerFontSize: number = this.outerFontScale(zoomFactor);
-    
     const select: Function = this.d3.select;
+    const MAX_NUMBER_LETTERS_PER_CIRCLE = this.MAX_NUMBER_LETTERS_PER_CIRCLE
 
     g.selectAll(".node.no-children")
       .each(function(d: any): void {
+        myInnerFontScale.range([d.r * Math.PI / MAX_NUMBER_LETTERS_PER_CIRCLE, 3]);
         select(this).select("foreignObject div")
           .transition()
           .style("opacity", 0)
           .on("end", function(): void {
             select(this)
-              .style("font-size", `${innerFontSize}px`)
+              .style("font-size", `${myInnerFontScale(zoomFactor)}px`)
               .transition()
               .style("opacity", 1);
           });
@@ -407,7 +407,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       });
 
     const DEFAULT_PICTURE_ANGLE: number = this.DEFAULT_PICTURE_ANGLE;
-    const accountableCircles = g.selectAll("circle.accountable")
+    g.selectAll("circle.accountable")
       .transition()
       .style("opacity", 0)
       .on("end", function(): void {
@@ -418,7 +418,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
               ? Math.cos(DEFAULT_PICTURE_ANGLE) * (d.r * accountableZoomFactor) - 12
               : 0;
           })
-          .attr("cy", (d: any): number => {
+          .attr("cy", function (d: any): number {
             return d.children
               ? -Math.sin(DEFAULT_PICTURE_ANGLE) * (d.r * accountableZoomFactor) + 12
               : -d.r * accountableZoomFactor * 0.9;
