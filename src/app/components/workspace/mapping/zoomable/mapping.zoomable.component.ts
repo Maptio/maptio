@@ -17,7 +17,7 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy
 } from "@angular/core";
-import { D3Service, D3, ScaleLinear, HSLColor, HierarchyCircularNode } from "d3-ng2-service";
+import { D3Service, D3, ScaleLinear, HSLColor, HierarchyCircularNode, ScaleLogarithmic } from "d3-ng2-service";
 import { transition } from "d3-transition";
 import { partition } from "lodash";
 import { LoaderService } from "../../../../shared/services/loading/loader.service";
@@ -90,6 +90,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
   private definitions: any;
   private fontSize: number;
   private fonts: ScaleLinear<number, number>;
+  private outerFontScale: ScaleLogarithmic<number, number>;
+  private innerFontScale: ScaleLogarithmic<number, number>;
   public isWaitingForDestinationNode: boolean = false;
   public isTooltipDescriptionVisible: boolean = false;
   public isFirstEditing: boolean = false;
@@ -224,12 +226,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
   init() {
     this.uiService.clean();
-    let d3 = this.d3;
+    const d3 = this.d3;
 
-    let margin = { top: 20, right: 20, bottom: 20, left: 0 };
-    let width = this.width - margin.left - margin.right,
-      height = this.height - margin.top - margin.bottom;
-    let svg: any = d3
+    const margin = { top: 20, right: 20, bottom: 20, left: 0 };
+    const width: number = this.width - margin.left - margin.right,
+      height: number = this.height - margin.top - margin.bottom;
+    const svg: any = d3
       .select("svg")
       .attr("width", this.width)
       .attr("height", this.height)
@@ -266,19 +268,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
             ["tags", tagFragment]
           ])
         );
-      });
 
-    try {
-      // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
-      // svg.call(zooming.transform, d3.zoomIdentity.translate(diameter / 2, diameter / 2));
-      svg.call(
-        this.zooming.transform,
-        d3.zoomIdentity
-          .translate(this.translateX, this.translateY)
-          .scale(this.scale)
-      );
-      svg.call(this.zooming);
-    } catch (error) { console.log(error); }
+        this.translateX = transform.x;
+        this.translateY = transform.y;
+        this.scale = transform.k;
+      });
 
     function zoomed() {
       g.attr("transform", d3.event.transform);
@@ -361,62 +355,77 @@ export class MappingZoomableComponent implements IDataVisualizer {
       g.selectAll("g.node.initiative-map").style("opacity", function (d: any) {
         return filterByTags(d)
       });
-    })
+    });
+
+    const outerFontSizeRange = [14, 5];
+    const innerFontSizeRange = [10, 3];
+    const defaultScaleExtent = [0.5, 5];
+    this.outerFontScale = d3.scaleLog().domain(defaultScaleExtent).range(outerFontSizeRange);
+    this.innerFontScale = d3.scaleLog().domain(defaultScaleExtent).range(innerFontSizeRange);
 
     this.svg = svg;
     this.g = g;
     this.browser = this.uiService.getBrowser();
-    // this.color = color;
     this.diameter = diameter;
     this.definitions = definitions;
   }
 
   adjustViewToZoomEvent(g: any, event: any): void {
     if (event.sourceEvent) return;
-
+    if (this.scale === event.transform.k) return;
+    if (this.scale <= 1 && event.transform.k <= 1) return;
+    
     const zoomFactor: number = event.transform.k > 1 ? event.transform.k : 1;
-    const CIRCLE_RADIUS: number = this.CIRCLE_RADIUS;
-    const DEFAULT_PICTURE_ANGLE: number = this.DEFAULT_PICTURE_ANGLE;
-    const select: any = this.d3.select;
+    const scaleExtent: Array<number> = this.zooming.scaleExtent() ? this.zooming.scaleExtent() : [0.5, 5];
+    this.outerFontScale.domain(scaleExtent);
+    const myInnerFontScale: ScaleLogarithmic<number, number> = this.innerFontScale.domain(scaleExtent);
+
+    const outerFontSize: number = this.outerFontScale(zoomFactor);
+    const select: Function = this.d3.select;
+    const MAX_NUMBER_LETTERS_PER_CIRCLE = this.MAX_NUMBER_LETTERS_PER_CIRCLE
 
     g.selectAll(".node.no-children")
-      .each((d: any, i: number, e: Array<HTMLElement>): void => {
-        const currentNode = select(e[i]);
-        const currentCircle = currentNode.select("circle").node() as HTMLElement;
-        const currentContent = currentNode.select("foreignObject") as any;
-        if (currentCircle && currentCircle.getBoundingClientRect && currentCircle.getBoundingClientRect().width < this.MIN_TEXTBOX_WIDTH) {
-          currentContent.transition().style("opacity", 0);
-        } else {
-          currentContent.transition().style("opacity", 1);
-        }
+      .each(function(d: any): void {
+        myInnerFontScale.range([d.r * Math.PI / MAX_NUMBER_LETTERS_PER_CIRCLE, 3]);
+        select(this).select("foreignObject div")
+          .transition()
+          .style("opacity", 0)
+          .on("end", function(): void {
+            select(this)
+              .style("font-size", `${myInnerFontScale(zoomFactor)}px`)
+              .transition()
+              .style("opacity", 1);
+          });
       });
 
     g.selectAll("text.name.with-children")
       .transition()
       .style("opacity", 0)
-      .on("end", function(): void {
+      .on("end", function(d: any): void {
         select(this)
-          .style("font-size", `${16 / zoomFactor}px`)
+          .style("font-size", `${outerFontSize}px`)
           .transition()
           .style("opacity", 1);
       });
 
-    const accountableCircles = g.selectAll("circle.accountable")
+    const DEFAULT_PICTURE_ANGLE: number = this.DEFAULT_PICTURE_ANGLE;
+    g.selectAll("circle.accountable")
       .transition()
       .style("opacity", 0)
       .on("end", function(): void {
+        const accountableZoomFactor = zoomFactor > 1.7 ? 1.7 : zoomFactor;
         select(this)
           .attr("cx", (d: any): number => {
             return d.children
-              ? Math.cos(DEFAULT_PICTURE_ANGLE) * (d.r * zoomFactor) - 12
+              ? Math.cos(DEFAULT_PICTURE_ANGLE) * (d.r * accountableZoomFactor) - 12
               : 0;
           })
-          .attr("cy", (d: any): number => {
+          .attr("cy", function (d: any): number {
             return d.children
-              ? -Math.sin(DEFAULT_PICTURE_ANGLE) * (d.r * zoomFactor) + 12
-              : -d.r * zoomFactor * 0.9;
+              ? -Math.sin(DEFAULT_PICTURE_ANGLE) * (d.r * accountableZoomFactor) + 12
+              : -d.r * accountableZoomFactor * 0.9;
           })
-          .attr("transform", `scale(${1 / zoomFactor})`) 
+          .attr("transform", `scale(${1 / accountableZoomFactor})`) 
           .transition()
           .style("opacity", 1);
       });
@@ -454,7 +463,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let uiService = this.uiService;
     let fontSize = this.fontSize;
     let zooming = this.zooming;
-    let marginLeft = 200;
     let TOOLTIP_PADDING = 20;
     let CIRCLE_RADIUS = this.CIRCLE_RADIUS;
     let TRANSITION_DURATION = this.TRANSITION_DURATION;
@@ -504,8 +512,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .sort(function (a, b) {
         return b.value - a.value;
       });
-    // TODO: set this.zooming.scaleExtent to appropriate range based on size of smallest circle:
-    // this.zooming.scaleExtent([min, max]);
 
     if (isFirstLoad) {
       setLastZoomedCircle(root);
@@ -527,7 +533,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.zooming.scaleExtent([0.5, getViewScaleForRadius(minRadius)]);
 
     function getViewScaleForRadius(radius: number): number {
-      return width / (radius * 5);
+      return (width - (margin * 2)) / (radius * 2);
     }
 
     function getDepthDifference(d: any): number {
@@ -741,250 +747,68 @@ export class MappingZoomableComponent implements IDataVisualizer {
     */
     let node = g.selectAll("g.node");
 
-    svg.on("click", () => {
-      // if (isFullDisplayMode) return;
+    svg.on("click", (): void => {
       zoom(root);
     });
 
-    zoomTo([getLastZoomedCircle().x, getLastZoomedCircle().y, getLastZoomedCircle().r * 2 + margin]);
-    if (getLastZoomedCircle().data.id !== root.id) {
+    initMapElementsAtPosition([getLastZoomedCircle().x, getLastZoomedCircle().y, getLastZoomedCircle().r * 2 + margin]);
+    if (getLastZoomedCircle().data.id !== root.id && !isFirstLoad) {
       zoom(getLastZoomedCircle())
     }
 
+    try {
+      // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
+      // svg.call(zooming.transform, d3.zoomIdentity.translate(diameter / 2, diameter / 2));
+      svg.call(
+        this.zooming.transform,
+        d3.zoomIdentity
+          .translate(this.translateX, this.translateY)
+          .scale(this.scale)
+      );
+      svg.call(this.zooming);
+    } catch (error) { console.log(error); }
+
     return nodes;
 
-    function zoom(focus: any, clickedGroup?: any): void {
-      setLastZoomedCircle(focus);
-
-      // TODO: move save extraction of element's transform into own function
+    function getClickedElementCoordinates(clickedElement: any, newScale: number): Array<number> {
       let clickedX = 0;
       let clickedY = 0;
-      const newScale: number = getViewScaleForRadius(focus.r);
-      if (clickedGroup && clickedGroup.transform && clickedGroup.transform.baseVal.length > 0) {
-        clickedX = clickedGroup.transform.baseVal[0].matrix.e * newScale;
-        clickedY = clickedGroup.transform.baseVal[0].matrix.f * newScale;
+      if (clickedElement && clickedElement.transform && clickedElement.transform.baseVal.length > 0) {
+        clickedX = clickedElement.transform.baseVal[0].matrix.e * newScale;
+        clickedY = clickedElement.transform.baseVal[0].matrix.f * newScale;
+        clickedX -= margin;
+        clickedY -= 50;
       }
+      return [clickedX, clickedY];
+    }
+
+    function zoom(focus: any, clickedElement?: any): void {
+      setLastZoomedCircle(focus);
+
+      const newScale: number = getViewScaleForRadius(focus.r);
+      const coordinates: Array<number> = getClickedElementCoordinates(clickedElement, newScale);
 
       svg.transition().duration(TRANSITION_DURATION).call(
         zooming.transform,
         d3.zoomIdentity.translate(
-          view[0] - clickedX,
-          view[1] - clickedY
+          view[0] - coordinates[0],
+          view[1] - coordinates[1]
         )
         .scale(newScale)
       );
-
-      const transition = d3
-        .transition("zooming")
-        .duration(TRANSITION_DURATION)
-        .tween("zoom", d => {
-          const i = d3.interpolateZoom(view, [
-            focus.x,
-            focus.y,
-            focus.r * 2 + margin
-          ]);
-          return t => {
-            // TODO: double check that can be removed
-            // zoomTo(i(t));
-          };
-        });
-
-      const revealTransition = d3
-        .transition("reveal")
-        .delay(TRANSITION_DURATION)
-        .duration(TRANSITION_DURATION / 10);
-
-      // with children
-
-      transition
-        .selectAll("text.name")
-        .filter((d: any) => d.children)
-        .on("start", function (d: any): void {
-          d3.select(this).style("opacity", 0);
-        })
-        .on("end", function (d: any): void {
-          d3.select(this)
-            .style("display", function (d: any) {
-              return d !== root
-                ? isBranchDisplayed(d) ? "inline" : "none"
-                : "none";
-            })
-            .style("font-size", function (d: any) {
-              let multiplier = svg.attr("data-font-multiplier");
-              return `${multiplier}rem`
-            });
-          // .attr("font-size", function (d: any) { return `${fonts(d.depth) * d.k / 2}px` })
-        });
-
-      transition
-        .selectAll("circle.accountable")
-        .filter((d: any) => d.children)
-        .style("display", function (d: any) {
-          return d !== root
-            ? isBranchDisplayed(d) ? "inline" : "none"
-            : "none";
-        });
-
-      // nochildren
-      revealTransition
-        .selectAll("foreignObject.name")
-        .filter((d: any) => !d.children)
-        .style("opacity", function (d: any) {
-          return isLeafDisplayed(d) ? "1" : "0";
-        });
-      revealTransition
-        .selectAll("circle.accountable")
-        .filter((d: any) => !d.children)
-        .style("opacity", function (d: any) {
-          return isLeafDisplayed(d) ? "1" : "0";
-        });
-
-      /*
-    transition
-      .selectAll("text.name")
-      .filter((d: any) => !d.children)
-      .on("start", function (d: any) {
-        d3.select(this)
-          .style("opacity", 0);
-      })
-      .on("end", function (d: any) {
-        d3
-          .select(this)
-          .attr("x", function (d: any) {
-            return -d.r * d.k * POSITION_INITIATIVE_NAME.x;
-          })
-          .attr("y", function (d: any) {
-            return -d.r * d.k * POSITION_INITIATIVE_NAME.y;
-          })
-          .attr("dy", 0)
-          .attr("font-size", function (d: any) {
-            return `${d.r * d.k * 2 * 0.95 / 15}px`; // `${fonts(d.depth) / (d.depth <= 2 ? 1 : 2) * d.k}rem`;
-          })
-          .each(function (d: any) {
-            uiService.wrap(
-              d3.select(this),
-              d.data.name,
-              d.data.tags,
-              d.r * d.k * 2 * 0.95
-            );
-          })
-          .style("opacity", function (d: any) {
-            return isLeafDisplayed(d) ? "1" : "0";
-          });
-      });*/
-
-      transition.selectAll("foreignObject.name")
-        .filter((d: any) => !d.children)
-        .on("start", function (d: any) {
-          d3.select(this)
-            .style("opacity", 0)
-            .style("display", "none");
-
-          d3.select(this).select("body").remove();
-        })
-        .on("end", function (d: any) {
-          d3
-            .select(this)
-            .attr("x", function (d: any) {
-              return -d.r * d.k * POSITION_INITIATIVE_NAME.x;
-            })
-            .attr("y", function (d: any) {
-              return -d.r * d.k * POSITION_INITIATIVE_NAME.y;
-            })
-            .attr("width", function (d: any) { return d.r * 2 * d.k * 0.95 })
-            .attr("height", function (d: any) { return d.r * 2 * d.k * 0.5 })
-            .style("display", "inline")
-            .style("opacity", function (d: any) {
-              return isLeafDisplayed(d) ? 1 : 0;
-            })
-            .html(function (d: any) {
-              let multiplier = svg.attr("data-font-multiplier");
-              let fs = `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * multiplier)}rem`;
-              return `<div style="font-size: ${fs}; background: none;overflow: hidden; display: block; pointer-events:none; height:100%;line-height:100%">${(d.data.name || '(Empty)')}</div>`;
-            })
-        })
-
-      /*
-    transition
-      .selectAll("text.accountable")
-      .filter((d: any) => !d.children)
-      .on("start", function (d: any) {
-        d3.select(this).style("opacity", 0);
-      })
-      .on("end", function (d: any) {
-        d3
-          .select(this)
-          .attr("text-anchor", "middle")
-          .attr("x", function (d: any) {
-            return d.r * POSITION_ACCOUNTABLE_NAME.x;
-          })
-          .attr("y", function (d: any) {
-            return Math.max(-d.r * d.k * POSITION_ACCOUNTABLE_NAME.y, -d.r * d.k + CIRCLE_RADIUS * 2 + 3);
-          })
-          .attr("font-size", function (d: any) {
-            let multiplier = svg.attr("data-font-multiplier");
-            return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * POSITION_ACCOUNTABLE_NAME.fontRatio * multiplier)}rem`
-          })
-          .style("opacity", function (d: any) {
-            return isLeafDisplayed(d) ? 1 : 0;
-          })
-      });
-      */
-
-      /*
-    transition
-      .selectAll("text.tags")
-      .filter((d: any) => !d.children)
-      .filter(function (d: any) {
-        return d.data.tags;
-      })
-      .on("start", function (d: any) {
-        d3.select(this).style("opacity", 0);
-      })
-      .on("end", function (d: any) {
-        d3
-          .select(this)
-          .attr("x", function (d: any) {
-            return -d.r * d.k * POSITION_TAGS_NAME.x;
-          })
-          .attr("y", function (d: any) {
-            return -d.r * d.k * POSITION_TAGS_NAME.y;
-          })
-          .attr("font-size", function (d: any) {
-            let multiplier = svg.attr("data-font-multiplier");
-            return `${toREM(d.r * d.k * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE * POSITION_TAGS_NAME.fontRatio * multiplier)}rem`
-
-          })
-          .style("opacity", function (d: any) {
-            return isLeafDisplayed(d) ? 1 : 0;
-          })
-      });
-*/
-      let [selectedTags, unselectedTags] = partition(getTags(), (t: SelectableTag) => t.isSelected);
-
-      transition
-        .selectAll("g.node.initiative-map")
-        .style("opacity", function (d: any) {
-          if (getTags().length === 0) return 1;
-          return getTags().every((t: SelectableTag) => !t.isSelected)
-            // no tags selecteed, we apply node focusing
-            ? (<any[]>focus.descendants()).find(desc => desc.data.id === d.data.id) ? 1 : FADED_OPACITY
-            // otherwise, we apply tags focusing
-            : uiService.filter(selectedTags, unselectedTags, d.data.tags.map((t: Tag) => t.shortid)) ? 1 : FADED_OPACITY;
-        });
     }
 
-    function zoomTo(v: any) {
-      let k = diameter / v[2];
+    function initMapElementsAtPosition(v: any) {
+      const k: number = diameter / v[2];
       view = v;
 
       node
         .transition()
-        .duration((d: any) => d.children ? TRANSITION_DURATION / 5 : TRANSITION_DURATION / 5)
+        .duration((d: any): number => d.children ? TRANSITION_DURATION / 5 : TRANSITION_DURATION / 5)
         .attr("transform", (d: any): string => `translate(${(d.x - v[0]) * k}, ${(d.y - v[1]) * k})`);
 
       textAround
-        .on("contextmenu", function (d: any) {
+        .on("contextmenu", function (d: any): void {
           d3.event.preventDefault();
           let mouse = d3.mouse(this);
           d3.select(`circle.node[id="${d.data.id}"]`).dispatch("contextmenu", { bubbles: true, cancelable: true, detail: { position: [mouse[0], mouse[1]] } });
@@ -1118,41 +942,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
         });
 
-      g.selectAll("foreignObject.name, .accountable, .tags")
-        .on("mouseover", function (d: any) {
-          d3.select(`circle[id="${d.data.id}"]`).classed("hovered", true).dispatch("mouseover");
-        })
-        .on("mouseout", function (d: any) {
-          d3.select(`circle[id="${d.data.id}"]`).classed("hovered", false).dispatch("mouseout")
-        });
-
-
-      path.attr("transform", "scale(" + k + ")");
-
-      // path
-      //   .attr("d", function (d: any, i: number) {
-      //     let radius = d.r * k + 1;
-      //     return uiService.getCircularPath(radius, -radius, 0);
-      //   })
-
-
-      textAround
-        // .style("font-size", function(d:any){
-        //   return `${toREM(d.r * k  * 2 * 0.95)}rem`;
-        // })
-        .html(function (d: any) {
-          let radius = d.r * k + 1;
-          return browser === Browsers.Firefox
-            ? `<textPath path="${uiService.getCircularPath(radius, -radius, 0)}" startOffset="10%">
-                  <tspan>${d.data.name || ""}</tspan>
-                  </textPath>`
-            : `<textPath xlink:href="#path${d.data.id}" startOffset="10%">
-                  <tspan>${d.data.name || ""}</tspan>
-                  </textPath>`;
-        })
-
-      g
-        .selectAll("circle.accountable")
+      g.selectAll("circle.accountable")
         .attr("r", function (d: any) {
           return d.r * k > CIRCLE_RADIUS ? `${CIRCLE_RADIUS}px` : `${d.r * 0.3}px`;
         })
