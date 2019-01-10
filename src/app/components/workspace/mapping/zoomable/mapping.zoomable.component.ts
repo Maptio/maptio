@@ -265,12 +265,24 @@ export class MappingZoomableComponent implements IDataVisualizer {
             ["scale", transform.k],
             ["tags", tagFragment]
           ])
-        );
-
+        );        
         this.translateX = transform.x;
         this.translateY = transform.y;
         this.scale = transform.k;
       });
+      
+    try {
+      // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
+      // svg.call(zooming.transform, d3.zoomIdentity.translate(diameter / 2, diameter / 2));
+      svg.call(
+        this.zooming.transform,
+        d3.zoomIdentity.translate(
+          diameter / 2 + margin.left,
+          diameter / 2 + margin.top
+        )
+      );
+      svg.call(this.zooming);
+    } catch (error) { console.log( error); }
 
     function zoomed() {
       g.attr("transform", d3.event.transform);
