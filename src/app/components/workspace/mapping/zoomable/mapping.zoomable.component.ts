@@ -404,6 +404,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           .on("end", function(): void {
             select(this)
               .style("font-size", `${myInnerFontScale(zoomFactor)}px`)
+              .style("line-height", 1.3)
               .transition()
               .style("opacity", 1);
           });
@@ -659,7 +660,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       });
 
 
-    const initiativeName = initiativeNoChildren.select("foreignObject.name.no-children")
+    initiativeNoChildren.select("foreignObject.name.no-children")
       .attr("id", function (d: any) {
         return `${d.data.id}`;
       })
@@ -679,9 +680,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .style("pointer-events", function (d: any) {
         return "none"; // isLeafDisplayed(d) ? "auto" : "none";
       })
-      .html(function (d: any) {
+      .html((d: any): string => {
         let fs = `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`;
-        return `<div style="font-size: ${fs}; background: none; display: block;pointer-events: none; overflow:hidden; height:100%;line-height:100%">${d.data.name || '(Empty)'}</div>`;
+        return `<div style="font-size: ${fs}; padding-top: 5%; background: none; display: block; pointer-events: none; overflow: hidden; height:100%; line-height: 100%;">${d.data.name || '(Empty)'}</div>`;
       })
 
     /*
