@@ -267,12 +267,24 @@ export class MappingZoomableComponent implements IDataVisualizer {
             ["scale", transform.k],
             ["tags", tagFragment]
           ])
-        );
-
+        );        
         this.translateX = transform.x;
         this.translateY = transform.y;
         this.scale = transform.k;
       });
+      
+    try {
+      // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
+      // svg.call(zooming.transform, d3.zoomIdentity.translate(diameter / 2, diameter / 2));
+      svg.call(
+        this.zooming.transform,
+        d3.zoomIdentity.translate(
+          diameter / 2 + margin.left,
+          diameter / 2 + margin.top
+        )
+      );
+      svg.call(this.zooming);
+    } catch (error) { console.log( error); }
 
     function zoomed() {
       g.attr("transform", d3.event.transform);
@@ -369,11 +381,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.diameter = diameter;
     this.definitions = definitions;
   }
-
-  adjustViewToZoomEvent(g: any, event: any): void {
-    if (event.sourceEvent) return;
-    if (this.scale === event.transform.k) return;
-    if (this.scale <= 1 && event.transform.k <= 1) return;
+ 
+  adjustViewToZoomEvent(g: any, event: any, force?: boolean): void {
+    if (!force) {
+      if (this.scale === event.transform.k) return;
+      if (this.scale <= 1 && event.transform.k <= 1) return;
+    }
     
     const zoomFactor: number = event.transform.k > 1 ? event.transform.k : 1;
     const scaleExtent: Array<number> = this.zooming.scaleExtent() ? this.zooming.scaleExtent() : [0.5, 5];
@@ -393,6 +406,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           .on("end", function(): void {
             select(this)
               .style("font-size", `${myInnerFontScale(zoomFactor)}px`)
+              .style("line-height", 1.3)
               .transition()
               .style("opacity", 1);
           });
@@ -455,9 +469,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let margin = this.margin;
     let g = this.g;
     let svg = this.svg;
-    let scale = this.scale;
-    let translateX = this.translateX;
-    let translateY = this.translateY;
+    let currentTransform = {
+      transform: {
+        x: this.translateX,
+        y: this.translateY,
+        k: this.scale
+      }
+    }
     let width = this.width;
     let definitions = this.definitions;
     let uiService = this.uiService;
@@ -576,7 +594,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let initiativeNoChildrenEnter = initiativeNoChildren.enter().append("g");
 
     enterWithAnimations(initiativeWithChildrenEnter, "with-children");
-    enterWithAnimations(initiativeNoChildrenEnter, "no-children");
+    enterWithAnimations(initiativeNoChildrenEnter, "no-children", () => {
+      this.adjustViewToZoomEvent(g, currentTransform, true);
+    });
 
     // initiativeWithChildrenEnter.append("path").attr("class", "node");
 
@@ -642,7 +662,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       });
 
 
-    const initiativeName = initiativeNoChildren.select("foreignObject.name.no-children")
+    initiativeNoChildren.select("foreignObject.name.no-children")
       .attr("id", function (d: any) {
         return `${d.data.id}`;
       })
@@ -662,9 +682,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .style("pointer-events", function (d: any) {
         return "none"; // isLeafDisplayed(d) ? "auto" : "none";
       })
-      .html(function (d: any) {
+      .html((d: any): string => {
         let fs = `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`;
-        return `<div style="font-size: ${fs}; background: none; display: block;pointer-events: none; overflow:hidden; height:100%;line-height:100%">${d.data.name || '(Empty)'}</div>`;
+        return `<div style="font-size: ${fs}; padding-top: 5%; background: none; display: block; pointer-events: none; overflow: hidden; height:100%; line-height: 100%;">${d.data.name || '(Empty)'}</div>`;
       })
 
     /*
@@ -1003,7 +1023,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       groups.exit().transition(TRANSITION_1x).remove();
     }
 
-    function enterWithAnimations(groups: any, className: string) {
+    function enterWithAnimations(groups: any, className: string, callback?: Function): void {
       groups
         .attr("class", function (d: any) {
           return d.parent
@@ -1014,33 +1034,34 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .classed("initiative-map", true)
         .attr("id", function (d: any) {
           return `${d.data.id}`;
-        })
-        ;
+        });
 
       groups.append("circle")
-        .style("fill", function (d: any) {
+        .style("fill", (d: any): string => {
           return d.children
             ? color(d.depth)
             : !d.children && d.parent === root ? color(d.depth) : null;
         })
         .transition(TRANSITION_2x)
         .style("fill", COLOR_ADD_CIRCLE)
-        .attr("r", (d: any) => d.r)
+        .attr("r", (d: any): number => d.r)
         .transition(TRANSITION_1x)
-        .style("fill", function (d: any) {
+        .style("fill", (d: any): string => {
           return d.children
             ? color(d.depth)
             : !d.children && d.parent === root ? color(d.depth) : null;
         })
+        .on("end", (d: any, i: number, e: Array<HTMLElement>): void => {
+          if (callback && i === e.length - 1) callback();
+        });
     }
-
 
     function buildPaths() {
       let path = svg.select("defs")
         .selectAll("path")
         .data(nodes, function (d: any) {
           return d.data.id;
-        })
+        });
 
       path.exit().remove();
       path = path.enter()
@@ -1058,7 +1079,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
       return path;
     }
-
 
     function buildPatterns() {
       let patterns = definitions.selectAll("pattern").data(
