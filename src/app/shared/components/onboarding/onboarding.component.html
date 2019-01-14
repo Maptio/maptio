@@ -39,13 +39,13 @@
 </ng-template>
 
 <ng-template #createteam>
-    <h1 class="text-center">What should we call your organization?</h1>
+    <h1 class="text-center">What should we call your organisation?</h1>
     <div class="my-5">
         <div class="form-row w-100 d-flex justify-content-center align-items-center flex-column">
             <input [(ngModel)]="team.name" type="text" class="form-control col-6">
             <small *ngIf="teamCreationErrorMessage" class="form-text text-danger">{{teamCreationErrorMessage}}</small>
             <small *ngIf="isCreatingTeam" class="text-green">
-                <i class="fas fa-circle-notch fa-spin"></i> Setting up your organization</small>
+                <i class="fas fa-circle-notch fa-spin"></i> Setting up your organisation</small>
         </div>
     </div>
 
@@ -56,7 +56,7 @@
     <h1 class="text-center">Who is in
         <b>{{team.name}}</b>?</h1>
     <h4 class="text-muted">
-        Add members to your organization.
+        Add members to your organisation.
     </h4>
 
     <div class="mt-5 ">
@@ -73,7 +73,7 @@
     <p class="text-muted mt-5">
         <span>
             <i class="fas fa-info-circle"></i>
-            A great place to start is adding the 3 people who have the most responsibility in the organization.You can invite them to
+            A great place to start is adding the 3 people who have the most responsibility in the organisation.You can invite them to
             view and edit the maps later.
         </span>
     </p>
@@ -171,7 +171,7 @@
         <ul class="ml-2 my-3">
             <li class="h6 py-2"> Start a chat with us or email us at support@maptio.com</li>
             <li class="h6 py-2"> Read our
-                <a target="blank" href="https://medium.com/maptio/create-organisational-clarity-using-initiative-mapping-967069247380">free guide</a> to mapping your organization
+                <a target="blank" href="https://medium.com/maptio/create-organisational-clarity-using-initiative-mapping-967069247380">free guide</a> to mapping your organisation
             </li>
             <li class="h6 py-2">
                 <a target="blank" href="https://calendly.com/tomnixon/30min">Book a free mastery call</a> with Maptio founder Tom Nixon

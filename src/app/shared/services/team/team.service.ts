@@ -34,22 +34,22 @@ export class TeamService {
                             }
                         }
                         else {
-                            throw `Unable to add you to organization ${name}!`
+                            throw `Unable to add you to organisation ${name}!`
                         }
                     },
-                        () => { throw `Unable to create organization ${name}!` })
+                        () => { throw `Unable to create organisation ${name}!` })
                     .then(() => {
                         return team
                     })
             },
-                () => { throw `Unable to create organization ${name}!` })
+                () => { throw `Unable to create organisation ${name}!` })
             .then((team: Team) => {
                 if (!isExample) {
                     return this.intercomService.createTeam(user, team).toPromise().then(result => {
                         if (result)
                             return team
                         else
-                            throw "Cannot sync organization with Intercom."
+                            throw "Cannot sync organisation with Intercom."
                     })
                 }
                 else {
@@ -77,7 +77,7 @@ export class TeamService {
     }
 
     renameTemporary(team: Team, name: string) {
-        if (!name) return Promise.reject("Organization name cannot be empty");
+        if (!name) return Promise.reject("Organisation name cannot be empty");
         team.name = name;
         team.isTemporary = false;
         return this.teamFactory.upsert(team)
@@ -85,7 +85,7 @@ export class TeamService {
 
 
     save(team: Team) {
-        if (!team.name) return Promise.reject("Organization name cannot be empty");
+        if (!team.name) return Promise.reject("Organisation name cannot be empty");
         return this.teamFactory.upsert(team)
             .then(saved => {
                 if(!!saved) return team
@@ -103,7 +103,7 @@ export class TeamService {
     }
 
     saveTerminology(team: Team, name: string, authority: string, helper: string) {
-        if (!name) return Promise.reject("Organization name cannot be empty");
+        if (!name) return Promise.reject("Organisation name cannot be empty");
        
         team.name = name;
         team.settings = { authority: authority, helper: helper }
@@ -115,7 +115,7 @@ export class TeamService {
                     return team;
                 }
                 else {
-                    throw "Error while updating the organization"
+                    throw "Error while updating the organisation"
                 }
             })
 

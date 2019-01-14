@@ -27,7 +27,7 @@ import { MemberSingleComponent } from "./single/members/member-single.component"
 const routes: Routes = [
     {
         path: "teams",
-        data: { breadcrumbs: "Organizations" },
+        data: { breadcrumbs: "Organisations" },
         children: [
             {
                 path: "", component: TeamListComponent, canActivate: [AuthGuard],

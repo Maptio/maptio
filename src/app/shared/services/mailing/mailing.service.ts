@@ -14,7 +14,7 @@ export class MailingService {
 
         let email = {
             from: from,
-            subject: `${invitedBy} invited you to join organization "${team}" on Maptio`,
+            subject: `${invitedBy} invited you to join organisation "${team}" on Maptio`,
             url: url,
             to: to,
             team: team

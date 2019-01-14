@@ -1,4 +1,4 @@
-<h1 class="text-center">Choose a name for your organization</h1>
+<h1 class="text-center">Choose a name for your organisation</h1>
 <form [formGroup]="createForm" (submit)="createNewTeam()" class="form-group">
     <fieldset *permissionsOnly="Permissions.canCreateTeam; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
         <div class="input-group form-group">
