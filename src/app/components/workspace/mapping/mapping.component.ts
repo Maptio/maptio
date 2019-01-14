@@ -32,6 +32,7 @@ import { Intercom } from "ng-intercom";
 import { User } from "../../../shared/model/user.data";
 import { MappingSummaryComponent } from "./summary/summary.component";
 import { SearchComponent } from "../search/search.component";
+import { environment } from "../../../../environment/environment";
 
 // import { MappingNetworkComponent } from "./network/mapping.network.component";
 // import { MappingCirclesComponent } from "./circles/mapping.circles.component";
@@ -60,6 +61,8 @@ export class MappingComponent {
   TOOLTIP_ZOOM_IN: string = "Zoom in";
   TOOLTIP_ZOOM_OUT: string = "Zoom out";
   TOOLTIP_ZOOM_FIT: string = "Zoom fit";
+  DEFAULT_TEXT_COLOR: string = environment.DEFAULT_MAP_TEXT_COLOR;
+  DEFAULT_MAP_COLOR: string = environment.DEFAULT_MAP_BACKGOUND_COLOR;
 
   public data: {
     initiative: Initiative;
@@ -134,8 +137,8 @@ export class MappingComponent {
     fontSize: number,
     explorationMode: boolean
   } = {
-      fontColor: localStorage.getItem("FONT_COLOR") || "#000",
-      mapColor: localStorage.getItem("MAP_COLOR") || "#aaa",
+      fontColor: localStorage.getItem("FONT_COLOR") || this.DEFAULT_TEXT_COLOR,
+      mapColor: localStorage.getItem("MAP_COLOR") || this.DEFAULT_MAP_COLOR,
       fontSize: Number.parseFloat(localStorage.getItem("FONT_SIZE")) || 1,
       explorationMode: localStorage.getItem("CIRCLE_VIEW_MODE") === "flat" || false
     }
@@ -178,7 +181,7 @@ export class MappingComponent {
       if (params.id) {
         this.emitOpenInitiative(new Initiative({ id: <number>params.id }));
       }
-      if(params.reload){
+      if (params.reload) {
         this.changeMapColor(params.color);
       }
     })
@@ -277,8 +280,8 @@ export class MappingComponent {
         if (!localStorage.getItem(`map_settings_${this.datasetId}`)) {
           localStorage.setItem(`map_settings_${this.datasetId}`, JSON.stringify(
             {
-              fontColor: localStorage.getItem("FONT_COLOR") || "#000",
-              mapColor: localStorage.getItem("MAP_COLOR") || "#aaa",
+              fontColor: localStorage.getItem("FONT_COLOR") || this.DEFAULT_TEXT_COLOR,
+              mapColor: localStorage.getItem("MAP_COLOR") || this.DEFAULT_MAP_COLOR,
               fontSize: Number.parseFloat(localStorage.getItem("FONT_SIZE")) || 1,
               explorationMode: localStorage.getItem("CIRCLE_VIEW_MODE") === "flat" || false
 
