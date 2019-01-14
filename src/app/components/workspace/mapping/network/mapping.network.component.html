@@ -1,4 +1,6 @@
 <!-- <ngx-loading [show]="isLoading" [config]="{ backdropBackgroundColour: '#fff' }"></ngx-loading> -->
+
+{{isCollapsedOptions}}
 <svg id="map"></svg>
 <div class="card position-absolute center-center bg-transparent border-0 " *ngIf="isNoNetwork">
     <h5 class="card-body">
@@ -7,25 +9,24 @@
             <a routerLink="../circles">circles</a> to see the connections between them</h5>
     </h5>
 </div>
+
 <div class="control card bg-light top-left position-absolute col-4 p-0 ml-5  border border-light rounded-bottom" *ngIf="!(hideOptions$ | async)">
     <h6 class="card-header bg-transparent border-0 d-flex justify-content-between align-items-baseline">Network map options
-        <span class="btn btn-link btn-sm pl-0 ml-auto" type="button" data-toggle="collapse" data-target="#collapsibleOptions" aria-expanded="false"
-            aria-controls="collapsibleOptions" (click)="isCollapsedOptions=!isCollapsedOptions">
+        <button class="btn btn-link btn-sm pl-0 ml-auto" (click)="isCollapsedOptions=!isCollapsedOptions">
             <span class="">
-                <span>{{isCollapsedOptions ? "Hide" : "Show"}}</span>
-
-                <i *ngIf="isCollapsedOptions" class="fa fa-caret-down" aria-hidden="true"></i>
-                <i *ngIf="!isCollapsedOptions" class="fa fa-caret-left" aria-hidden="true"></i>
+                <span>{{isCollapsedOptions ? "Show" : "Hide"}}</span>
+                <i *ngIf="!isCollapsedOptions" class="fa fa-caret-down" aria-hidden="true"></i>
+                <i *ngIf="isCollapsedOptions" class="fa fa-caret-left" aria-hidden="true"></i>
             </span>
-        </span>
+        </button>
     </h6>
-    <div id="collapsibleOptions" class="collapse show card-body bg-light border-dark rounded">
+    <div *ngIf="!isCollapsedOptions" class="card-body bg-light border-dark rounded">
 
         <div class="card-text small">Maptio can show connections between people who are contributors in circles where others are the lead, or show connections
             between people who are contributors in the same circles:
 
         </div>
-        <div class="card-text">
+        <div class="card-text" >
             <form>
                 <div class="form-group my-2">
                     <div class="custom-control custom-radio custom-control-inline">

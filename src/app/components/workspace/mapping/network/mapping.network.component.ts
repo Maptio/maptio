@@ -73,7 +73,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   }>();
 
   public hideOptions$: Subject<boolean> = new Subject<boolean>();
-  public isCollapsedOptions:boolean=true;
+  public isCollapsedOptions:boolean;
  
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
   // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
