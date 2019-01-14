@@ -98,6 +98,9 @@ export class BuildingComponent {
 
     team: Team;
     isFirstEdit: Boolean;
+    isExpanding: boolean;
+    isCollapsing: boolean;
+    isToggling: boolean;
 
     @Input("user") user: User;
     @Input("isEmptyMap") isEmptyMap: Boolean;
@@ -129,6 +132,10 @@ export class BuildingComponent {
     state = localStorage.treeState && JSON.parse(localStorage.treeState);
     setState(state: any) {
         localStorage.treeState = JSON.stringify(state);
+        this.isCollapsing = false;
+        this.isExpanding = false;
+        this.isToggling = false;
+        this.cd.markForCheck();
     }
 
     isRootValid(): boolean {
@@ -218,9 +225,19 @@ export class BuildingComponent {
     }
 
     toggleAll(isExpand: boolean) {
-        isExpand
-            ? this.tree.treeModel.expandAll()
-            : this.tree.treeModel.collapseAll();
+        if (this.isToggling) return;
+        this.isToggling = true;
+        this.isExpanding = isExpand === true;
+        this.isCollapsing = isExpand === false;
+        this.cd.markForCheck();
+
+        setTimeout(() => {
+            isExpand
+                ? this.tree.treeModel.expandAll()
+                : this.tree.treeModel.collapseAll();
+        }, 100);
+
+
     }
 
     /**

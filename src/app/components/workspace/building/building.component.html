@@ -1,16 +1,19 @@
 <div class=" d-flex flex-column">
 	<div class="card mb-3 w-75 border-0 bg-transparent">
+		TOGLE {{isToggling}} EXPAND {{isExpanding}} COLLAPSE {{isCollapsing}}
 		<div class="card-body">
-				<button name="" id="" class="btn btn-outline-secondary" (click)="toggleAll(true)" role="button" >
-						<i class="fa fa-plus-circle large" aria-hidden="true"></i> Expand all
-					</button>
-					<button name="" id="" class="btn btn-outline-secondary mx-2" (click)="toggleAll(false)" role="button">
-						<i class="fa fa-minus-circle large" aria-hidden="true"></i> Collapse all
-					</button>
-					<button *ngIf="isEmptyMap" name="" id="" class="btn btn-outline-secondary ml-auto" (click)="addRootNode()" role="button" placement="top" container="body"
-					ngbTooltip="Add a new circle">
-						<i class="fa fa-plus large" aria-hidden="true"></i> New outer circle
-					</button>
+			<button name="" id="" class="btn btn-outline-secondary" (click)="!isToggling && toggleAll(true)" role="button">
+				<i class="fas" [class.fa-plus-circle]="!isExpanding" [class.fa-circle-notch]="isExpanding" [class.fa-spin]="isExpanding"
+				 aria-hidden="true"></i> Expand all
+			</button>
+			<button name="" id="" class="btn btn-outline-secondary mx-2" (click)="!isToggling && toggleAll(false)" role="button">
+				<i class="fas" [class.fa-minus-circle]="!isCollapsing" [class.fa-circle-notch]="isCollapsing" [class.fa-spin]="isCollapsing"
+				 aria-hidden="true"></i> Collapse all
+			</button>
+			<button *ngIf="isEmptyMap" name="" id="" class="btn btn-outline-secondary ml-auto" (click)="addRootNode()" role="button"
+			 placement="top" container="body" ngbTooltip="Add a new circle">
+				<i class="fa fa-plus large" aria-hidden="true"></i> New outer circle
+			</button>
 		</div>
 	</div>
 	<!-- <div class="d-flex justify-content-start mb-3">
@@ -37,8 +40,8 @@
 	<div class="modal-body">
 		<h1>Are you sure?</h1>
 		<p>
-			Circle <b >{{fromInitiative.name}}</b> and it sub-circles 
-			will be moved under 
+			Circle
+			<b>{{fromInitiative.name}}</b> and it sub-circles will be moved under
 			<b>{{toInitiative.name}}</b>
 		</p>
 	</div>
