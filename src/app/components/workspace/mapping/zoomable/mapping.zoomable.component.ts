@@ -869,9 +869,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
           showToolipOf$.next({ initiatives: [initiative], isNameOnly: false });
           d3.select(this)
             .style("stroke", d3.color(seedColor).darker(1).toString())
-            .style("fill", d3.color(seedColor).darker(1).toString())
-            .style("fill-opacity", 1)
-            .style("stroke-width", "3px");
+            // .style("fill", d3.color(seedColor).darker(1).toString())
+            // .style("fill-opacity", 1)
+            .style("stroke-width", "5px");
 
           d3.selectAll(`circle[parent-id="${d.data.id}"]`)
             .style("fill-opacity", 1);
@@ -896,16 +896,16 @@ export class MappingZoomableComponent implements IDataVisualizer {
                 ? color(d.depth)
                 : !d.children && d.parent === root ? color(d.depth) : null;
             })
-            .style("fill", function (d: any) {
-              return d.children
-                ? color(d.depth)
-                : !d.children && d.parent === root ? color(d.depth) : null;
-            })
-            .style("fill-opacity", function (d: any) {
-              return d.children
-                ? 0.1
-                : !d.children && d.parent === root ? 0.1 : 1;
-            })
+            // .style("fill", function (d: any) {
+            //   return d.children
+            //     ? color(d.depth)
+            //     : !d.children && d.parent === root ? color(d.depth) : null;
+            // })
+            // .style("fill-opacity", function (d: any) {
+            //   return d.children
+            //     ? 0.1
+            //     : !d.children && d.parent === root ? 0.1 : 1;
+            // })
             .style("stroke-width", "initial")
             .style("stroke-opacity", 1)
           d3.selectAll(`circle[parent-id="${d.data.id}"]`)
