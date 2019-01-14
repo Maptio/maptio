@@ -1,5 +1,6 @@
 <common-modal [nextActionName]="nextActionName" [previousActionName]="previousActionName" [isSkippable]="false" [isReady]="true"
-    [isWithProgress]="true" [progress]="progress" [progressLabel]="progressLabel" (next)="nextStep()" (previous)="previousStep()" (close)="close()">
+    [isWithProgress]="true" [progress]="progress" [progressLabel]="progressLabel" (next)="nextStep()" (previous)="previousStep()"
+    (close)="close()">
 
     <ng-container *ngIf="currentStep === 'Welcome'">
         <ng-container *ngTemplateOutlet="welcome"></ng-container>
@@ -42,7 +43,7 @@
 
 
 <ng-template #treepanel>
-    <h1>Align with one shared vision</h1>
+    <h1>Bring sanity to self-management</h1>
     <div class="mt-5">
         <div class="d-flex justify-content-center align-items-center w-100">
             <div class="col-6 d-flex flex-column">
@@ -77,13 +78,12 @@
 </ng-template>
 
 <ng-template #editpanel>
-    <h1>Keep all the details in one place</h1>
+    <h1>One map for the whole organisation</h1>
     <div class="mt-5">
         <div class="d-flex justify-content-center align-items-center w-100">
             <div class="col-6 d-flex flex-column">
                 <span class="h5 py-2">
-                    <i class="far fa-check-circle mr-1"></i>Store relevant documents in the same place and
-                    <span class="text-accent">speed up collaboration</span>
+                    <i class="far fa-check-circle mr-1"></i>Link to the tools and documents used by teams
                 </span>
                 <span class="h5 py-2">
                     <i class="far fa-check-circle mr-1"></i>Create
@@ -101,19 +101,19 @@
 </ng-template>
 
 <ng-template #directory>
-    <h1>Adapt with your organisation needs</h1>
+    <h1>Run your organisation your way</h1>
     <div class="mt-5">
         <div class="d-flex justify-content-center align-items-center w-100">
             <div class="col-6 d-flex flex-column">
                 <span class="h5 py-2">
-                    <i class="far fa-check-circle mr-1"></i>Always know who is doing what
+                    <i class="far fa-check-circle mr-1"></i>Edit maps quickly and easily
+                </span>
+                <span class="h5 py-2">
+                    <i class="far fa-check-circle mr-1"></i>No enforced governance rules
                 </span>
                 <span class="h5 py-2">
                     <i class="far fa-check-circle mr-1"></i>Always know if a role is not filled
                     <span class="badge badge-pill badge-success">Coming soon</span>
-                </span>
-                <span class="h5 py-2">
-                    <i class="far fa-check-circle mr-1"></i>Editing the maps is fast and easy
                 </span>
             </div>
             <div class="col">
@@ -137,7 +137,7 @@
                 <i class="fab fa-windows"></i> or Control click on
                 <i class="fab fa-apple"></i>
             </span>
-            <img class="img-thumbnail" width="auto" height="75%" src="/assets/videos/right-click.gif" alt="">
+            <img class="img-thumbnail" width="auto" height="75%" src="/assets/images/onboarding/right_click.gif" alt="">
         </div>
     </div>
 
@@ -152,7 +152,7 @@
     <h4 class="my-1 text-muted">
         We have a demo organisation map for you to play with. Two things you can try:
     </h4>
-    
+
     <div class="mt-5 d-flex flex-column justify-content-start">
         <div class="d-flex align-items-center my-2">
             <div class="mr-3 explainer square">
@@ -161,7 +161,7 @@
             </div>
             <div>
                 <span class="h5 my-4">
-                        1. Open the tree editor to add, change or re-order circles
+                    1. Open the tree editor to add, change or re-order circles
                 </span>
             </div>
         </div>
@@ -171,7 +171,8 @@
             <div>
                 <div class="h5 my-4">
                     2. Right-click on a circle to view, edit, and more
-                    <div class="text-muted">On <i class="fab fa-apple"></i>, ctrl + click
+                    <div class="text-muted">On
+                        <i class="fab fa-apple"></i>, ctrl + click
                     </div>
                 </div>
 
