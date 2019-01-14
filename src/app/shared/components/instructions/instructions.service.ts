@@ -14,7 +14,7 @@ export class InstructionsService {
     }
 
     openTutorial(user: User) {
-        this.open(user, false, true)
+        this.open(user, true, false)
     }
 
     private open(user: User, isDismissable: boolean, isWelcomeSequence: boolean) {
