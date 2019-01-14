@@ -72,6 +72,9 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     isReadOnlyContextMenu: boolean
   }>();
 
+  public hideOptions$: Subject<boolean> = new Subject<boolean>();
+  public isCollapsedOptions:boolean=true;
+ 
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
   // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
@@ -542,6 +545,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     let CIRCLE_RADIUS = this.CIRCLE_RADIUS;
     let LINE_WEIGHT = this.LINE_WEIGHT;
     let FADED_OPACITY = this.FADED_OPACITY;
+    let hideOptions$ = this.hideOptions$;
 
     let initiativesList: HierarchyNode<Initiative>[] = this.d3
       .hierarchy(data)
@@ -814,7 +818,9 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
           return ids.includes(i.id)
         });
 
-        showToolipOf$.next({ initiatives: list, isNameOnly: true })
+        showToolipOf$.next({ initiatives: list, isNameOnly: true });
+
+        hideOptions$.next(true);
       })
       .on("mouseout", function (d: any) {
 
@@ -827,6 +833,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
               return "url(#arrow)";
           });
         showToolipOf$.next({ initiatives: null, isNameOnly: true });
+
+        hideOptions$.next(false);
         showContextMenuOf$.next({
           initiatives: null,
           x: 0,
