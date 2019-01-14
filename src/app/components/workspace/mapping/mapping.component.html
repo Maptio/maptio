@@ -10,7 +10,7 @@
             <router-outlet (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>
           </div>
           <div class="d-flex flex-column justify-content-start align-items-end col-auto mx-0 pl-0 my-2 z-index-1">
-            <div class="btn-group-vertical mb-2">
+            <div class="btn-group-vertical mb-3">
               <button class="btn btn-light p-1 text-dark d-flex flex-column align-items-center" [class.disabled]="isSearchDisabled || isMapSettingsDisabled"
                 (click)="isSearchToggled=!isSearchToggled" data-toggle="collapse" href="#collapseSearch" role="button">
                 <i class="fa fa-search"></i>
@@ -29,7 +29,7 @@
 
             </div>
 
-            <div class=" btn-group-vertical my-1">
+            <div class=" btn-group-vertical my-3">
               <button class="btn btn-light circles text-dark p-1 d-flex flex-column align-items-center" #rlaCircles="routerLinkActive"
                 [routerLinkActive]="['active']" routerLink="/map/{{datasetId}}/{{slug}}/circles" fragment="x={{VIEWPORT_WIDTH / 2}}&y={{VIEWPORT_WIDTH / 2 -180}}&scale=1=1&{{tagsFragment}}">
                 <span class="icon-text-label" style="bottom: 2px;position: absolute;">Circles </span>
@@ -73,8 +73,8 @@
               </button>
               <button class="btn btn-light text-dark p-1 d-flex flex-column align-items-center" [class.disabled]="isMapSettingsDisabled"
                 (click)="isSettingToggled=!isSettingToggled" data-toggle="collapse" href="#collapseSettings" role="button">
-                <i class="fas fa-sliders-h"></i>
-                <span class="icon-text-label">Colors & Text</span>
+                <i class="fas fa-palette"></i>
+                <span class="icon-text-label">Colors</span>
               </button>
             </div>
           </div>
@@ -107,20 +107,20 @@
     <div closable class="collapse rounded col-auto bg-light p-3" id="collapseSettings">
       <div class="card bg-transparent border-0">
         <div class="">
-          <h6 class="card-title my-2">Text settings</h6>
-          <div class="form-group form-inline">
+          <!-- <h6 class="card-title my-2">Text</h6> -->
+          <!-- <div class="form-group form-inline">
             <label for="fontSizeInput" class="col-form-label  col-2">Size</label>
             <input class="col-6 custom-range" id="fontSizeInput" #fontSizeInput name="fontSizeInput" type="range" min="0.2" max="2" value="{{settings.fontSize}}"
               step="0.1" (change)="changeFontSize(fontSizeInput.value)">
 
             <button class="btn btn-outline-secondary  ml-4" (click)="changeFontSize(1)">Reset</button>
 
-          </div>
-          <common-color-picker [color]="settings.fontColor" [default]="DEFAULT_TEXT_COLOR" (change)="changeFontColor($event)"></common-color-picker>
+          </div> -->
+          <common-color-picker [color]="settings.fontColor" [label]="'Text'" [default]="DEFAULT_TEXT_COLOR" (change)="changeFontColor($event)"></common-color-picker>
 
-          <h6 class="card-title my-2">Map settings</h6>
+          <!-- <h6 class="card-title my-2">Map</h6> -->
 
-          <common-color-picker [color]="settings.mapColor" [default]="DEFAULT_MAP_COLOR" (change)="changeMapColor($event)"></common-color-picker>
+          <common-color-picker [color]="settings.mapColor"  [label]="'Map'" [default]="DEFAULT_MAP_COLOR" (change)="changeMapColor($event)"></common-color-picker>
 
         </div>
 
