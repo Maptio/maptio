@@ -296,6 +296,7 @@ export class Auth {
                               this.analytics.setSuperProperties({
                                 user_id: user.user_id,
                                 email: user.email,
+                                hostname : window.location.hostname, 
                                 isInternal: isMaptioTeam
                               });
                               this.analytics.eventTrack("Login", {
