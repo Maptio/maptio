@@ -270,12 +270,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
             ["scale", transform.k],
             ["tags", tagFragment]
           ])
-        );        
+        );
         this.translateX = transform.x;
         this.translateY = transform.y;
         this.scale = transform.k;
       });
-      
+
     try {
       // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
       // svg.call(zooming.transform, d3.zoomIdentity.translate(diameter / 2, diameter / 2));
@@ -384,13 +384,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.diameter = diameter;
     this.definitions = definitions;
   }
- 
+
   adjustViewToZoomEvent(g: any, event: any, force?: boolean): void {
     if (!force) {
       if (this.scale === event.transform.k) return;
       if (this.scale <= 1 && event.transform.k <= 1) return;
     }
-    
+
     const zoomFactor: number = event.transform.k > 1 ? event.transform.k : 1;
     const scaleExtent: Array<number> = this.zooming.scaleExtent() ? this.zooming.scaleExtent() : [0.5, 5];
     this.outerFontScale.domain(scaleExtent);
@@ -398,15 +398,16 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     const outerFontSize: number = 16 / zoomFactor; //this.outerFontScale(zoomFactor);
     const select: Function = this.d3.select;
-    const MAX_NUMBER_LETTERS_PER_CIRCLE = this.MAX_NUMBER_LETTERS_PER_CIRCLE
+    const MAX_NUMBER_LETTERS_PER_CIRCLE = this.MAX_NUMBER_LETTERS_PER_CIRCLE;
+    const definitions = this.definitions;
 
     g.selectAll(".node.no-children")
-      .each(function(d: any): void {
+      .each(function (d: any): void {
         myInnerFontScale.range([d.r * Math.PI / MAX_NUMBER_LETTERS_PER_CIRCLE, 3]);
         select(this).select("foreignObject div")
           .transition()
           .style("opacity", 0)
-          .on("end", function(): void {
+          .on("end", function (): void {
             select(this)
               .style("font-size", `${myInnerFontScale(zoomFactor)}px`)
               .style("line-height", 1.3)
@@ -418,7 +419,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     g.selectAll("text.name.with-children")
       .transition()
       .style("opacity", 0)
-      .on("end", function(d: any): void {
+      .on("end", function (d: any): void {
         select(this)
           .style("font-size", `${outerFontSize}px`)
           .transition()
@@ -426,12 +427,17 @@ export class MappingZoomableComponent implements IDataVisualizer {
       });
 
     const DEFAULT_PICTURE_ANGLE: number = this.DEFAULT_PICTURE_ANGLE;
+    const CIRCLE_RADIUS: number = this.CIRCLE_RADIUS;
+    const accountableZoomFactor = zoomFactor > 1.7 ? 1.7 : zoomFactor;
+
     g.selectAll("circle.accountable")
       .transition()
       .style("opacity", 0)
-      .on("end", function(): void {
-        const accountableZoomFactor = zoomFactor > 1.7 ? 1.7 : zoomFactor;
+      .on("end", function (): void {
         select(this)
+          .attr("r", (d: any): number => {
+            return CIRCLE_RADIUS / accountableZoomFactor;
+          })
           .attr("cx", (d: any): number => {
             return d.children
               ? Math.cos(DEFAULT_PICTURE_ANGLE) * (d.r * accountableZoomFactor) - 12
@@ -442,10 +448,15 @@ export class MappingZoomableComponent implements IDataVisualizer {
               ? -Math.sin(DEFAULT_PICTURE_ANGLE) * (d.r * accountableZoomFactor) + 12
               : -d.r * accountableZoomFactor * 0.9;
           })
-          .attr("transform", `scale(${1 / accountableZoomFactor})`) 
+          .attr("transform", `scale(${1 / accountableZoomFactor})`)
           .transition()
           .style("opacity", 1);
       });
+
+
+    definitions.selectAll("pattern > image")
+      .attr("width", CIRCLE_RADIUS * 2 / accountableZoomFactor)
+      .attr("height", CIRCLE_RADIUS * 2 / accountableZoomFactor)
   }
 
   getTags() {
@@ -817,7 +828,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           view[0] - coordinates[0],
           view[1] - coordinates[1]
         )
-        .scale(newScale)
+          .scale(newScale)
       );
     }
 
@@ -842,6 +853,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .on("mouseout", function (d: any) {
           d3.select(`circle.node[id="${d.data.id}"]`).dispatch("mouseout");
         });
+
+
+      definitions.selectAll("pattern > image")
+        .attr("width", CIRCLE_RADIUS * 2 / k)
+        .attr("height", CIRCLE_RADIUS * 2 / k)
+
 
       circle
         .attr("r", function (d: any) {
