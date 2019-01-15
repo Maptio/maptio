@@ -48,7 +48,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public selectableTags$: Observable<Array<SelectableTag>>;
   public selectableUsers$: Observable<Array<SelectableUser>>;
   public isReset$: Observable<boolean>;
-  public fontSize$: Observable<number>;
+  // public fontSize$: Observable<number>;
   public fontColor$: Observable<string>;
   public mapColor$: Observable<string>;
   public zoomInitiative$: Observable<Initiative>;
@@ -71,7 +71,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   private zoomSubscription: Subscription;
   private dataSubscription: Subscription;
   private resetSubscription: Subscription;
-  private fontSubscription: Subscription;
+  // private fontSubscription: Subscription;
   private lockedSubscription: Subscription;
   private tagsSubscription: Subscription;
   private selectableTagsSubscription: Subscription;
@@ -210,9 +210,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
     if (this.resetSubscription) {
       this.resetSubscription.unsubscribe();
     }
-    if (this.fontSubscription) {
-      this.fontSubscription.unsubscribe();
-    }
+    // if (this.fontSubscription) {
+    //   this.fontSubscription.unsubscribe();
+    // }
     if (this.lockedSubscription) {
       this.lockedSubscription.unsubscribe();
     }
@@ -317,36 +317,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
       } catch (error) { }
     });
 
-    this.fontSubscription = this.fontSize$.combineLatest(this.fontColor$).subscribe((format: [number, string]) => {
-      // font size
-      svg.attr("font-size", format[0] + "rem");
-      svg.attr("data-font-multiplier", format[0]);
-      // svg.selectAll("text").style("font-size", format[0] + "rem");
-      svg.selectAll("foreignObject.name")
-        .each(function (d: any) {
-          d3.select(this).select("div").style("font-size", `${d.r * d.k * 2 * 0.95 / 15 * format[0] / 16}rem`)
-        });
-
-      svg.selectAll("text.name.with-children")
-        .each(function (d: any) {
-          d3.select(this).style("font-size", `${format[0]}rem`)
-        });
-      // svg.selectAll("text.accountable")
-      //   .attr("font-size", function (d: any) {
-      //     let multiplier = svg.attr("data-font-multiplier");
-      //     return `${d.r * d.k * 2 * 0.95 / 15 * 0.9 * multiplier / 16}rem`
-      //   })
-      // svg.selectAll("text.tags")
-      //   .attr("font-size", function (d: any) {
-      //     let multiplier = svg.attr("data-font-multiplier");
-      //     return `${d.r * d.k * 2 * 0.95 / 15 * 0.65 * multiplier / 16}rem`
-      //   })
-
-      this.fontSize = format[0];
-      // font color
-      svg.style("fill", format[1]);
-      svg.selectAll("text").style("fill", format[1]);
-    });
 
     let [clearSearchInitiative, highlightInitiative] = this.zoomInitiative$.partition(node => node === null);
     clearSearchInitiative.subscribe(() => {

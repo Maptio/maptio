@@ -50,7 +50,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
   public zoom$: Observable<number>;
   public selectableTags$: Observable<Array<SelectableTag>>;
-  public fontSize$: Observable<number>;
   public fontColor$: Observable<string>;
   public mapColor$: Observable<string>;
   public zoomInitiative$: Observable<Initiative>;
@@ -61,7 +60,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   private zoomSubscription: Subscription;
   private dataSubscription: Subscription;
   private resetSubscription: Subscription;
-  private fontSubscription: Subscription;
   private tagsSubscription: Subscription;
   private toggleOptionsSubscription: Subscription;
 
@@ -141,9 +139,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     if (this.zoomSubscription) {
       this.zoomSubscription.unsubscribe();
     }
-    if (this.fontSubscription) {
-      this.fontSubscription.unsubscribe();
-    }
     if (this.resetSubscription) {
       this.resetSubscription.unsubscribe();
     }
@@ -214,17 +209,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         "transform",
         `translate(${this.translateX}, ${this.translateY}) scale(${this.scale})`
       );
-
-    this.fontSubscription = this.fontSize$
-      .combineLatest(this.fontColor$)
-      .subscribe((format: [number, string]) => {
-        // font size
-        svg.attr("font-size", format[0] + "em");
-        svg.selectAll("text").attr("font-size", format[0] + "em");
-        // font color
-        svg.style("fill", format[1]);
-        svg.selectAll("text").style("fill", format[1]);
-      });
 
     try {
       // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)

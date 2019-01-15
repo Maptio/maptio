@@ -46,7 +46,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   public margin: number;
   public selectableTags$: Observable<Array<SelectableTag>>;
   public zoom$: Observable<number>;
-  public fontSize$: Observable<number>;
   public fontColor$: Observable<string>;
   public mapColor$: Observable<string>;
   public zoomInitiative$: Observable<Initiative>;
@@ -90,7 +89,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   private zoomSubscription: Subscription;
   private dataSubscription: Subscription;
   private resetSubscription: Subscription;
-  private fontSubscription: Subscription;
   public toggleOptionsSubscription: Subscription;
 
   T: any;
@@ -161,9 +159,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     }
     if (this.resetSubscription) {
       this.resetSubscription.unsubscribe();
-    }
-    if (this.fontSubscription) {
-      this.fontSubscription.unsubscribe();
     }
     if (this.toggleOptionsSubscription) {
       this.toggleOptionsSubscription.unsubscribe();
@@ -270,20 +265,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         d3.zoomIdentity.translate(0, -this.height / 4)
       );
     });
-
-    this.fontSubscription = this.fontSize$
-      .combineLatest(this.fontColor$, this.mapColor$)
-      .subscribe((format: [number, string, string]) => {
-        // font size
-        svg.attr("font-size", format[0] + "rem");
-        svg.selectAll("text").attr("font-size", format[0] + "rem");
-        this.fontSize = format[0];
-        // font color
-        svg.style("fill", format[1]);
-        svg.selectAll("text").style("fill", format[1]);
-        svg.selectAll("marker#arrow, marker#arrow-fade").attr("fill", format[2]);
-        svg.selectAll("marker#arrow-hover").attr("fill", d3.color(format[2]).darker(1).toString());
-      });
 
     let [clearSearchInitiative, highlightInitiative] = this.zoomInitiative$.partition(node => node === null);
     clearSearchInitiative

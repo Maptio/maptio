@@ -238,7 +238,6 @@ export class MappingComponent {
     component.margin = 50;
     component.zoom$ = this.zoom$.asObservable();
     component.selectableTags$ = this.selectableTags$.asObservable();
-    component.fontSize$ = this.fontSize$.asObservable();
     component.fontColor$ = this.fontColor$.asObservable();
     component.mapColor$ = this.mapColor$.asObservable();
     component.zoomInitiative$ = this.zoomToInitiative$.asObservable();
@@ -422,20 +421,6 @@ export class MappingComponent {
     });
   }
 
-  changeFontSize(size: number) {
-    this.fontSize$.next(size);
-    this.settings.fontSize = size;
-    localStorage.setItem(`map_settings_${this.datasetId}`, JSON.stringify(this.settings));
-
-    // localStorage.setItem("FONT_SIZE", `${size}`);
-    this.analytics.eventTrack("Map", {
-      action: "change font size",
-      size: size,
-      team: this.team.name,
-      teamId: this.team.team_id
-    });
-  }
-
   changeFontColor(color: string) {
     this.fontColor$.next(color);
     this.settings.fontColor = color;
@@ -518,8 +503,6 @@ export class MappingComponent {
     this.isPrinting = true;
     this.hasNotified = false;
     this.cd.markForCheck()
-    // this.zoom$.next(0.8);
-    this.changeFontSize(1)
 
     let svg = document.getElementById("map");
     let w = Number.parseFloat(svg.getAttribute("width"));
