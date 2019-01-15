@@ -401,12 +401,15 @@ export class MappingZoomableComponent implements IDataVisualizer {
     const MAX_NUMBER_LETTERS_PER_CIRCLE = this.MAX_NUMBER_LETTERS_PER_CIRCLE;
     const definitions = this.definitions;
 
+    g.selectAll("circle.node")
+      .each((d: any) => (d.zf = zoomFactor))
+
     g.selectAll(".node.no-children")
       .each(function (d: any): void {
         myInnerFontScale.range([d.r * Math.PI / MAX_NUMBER_LETTERS_PER_CIRCLE, 3]);
         select(this).select("foreignObject div")
           .transition()
-          .style("opacity", 0)
+          .style("opacity", 0.7)
           .on("end", function (): void {
             select(this)
               .style("font-size", `${myInnerFontScale(zoomFactor)}px`)
@@ -418,21 +421,26 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     g.selectAll("text.name.with-children")
       .transition()
-      .style("opacity", 0)
+      // .style("opacity", 0)
       .on("end", function (d: any): void {
         select(this)
           .style("font-size", `${outerFontSize}px`)
           .transition()
-          .style("opacity", 1);
+        // .style("opacity", 1);
       });
 
     const DEFAULT_PICTURE_ANGLE: number = this.DEFAULT_PICTURE_ANGLE;
     const CIRCLE_RADIUS: number = this.CIRCLE_RADIUS;
     const accountableZoomFactor = zoomFactor > 1.7 ? 1.7 : zoomFactor;
 
+    definitions.selectAll("pattern > image")
+      .attr("width", CIRCLE_RADIUS * 2 / accountableZoomFactor)
+      .attr("height", CIRCLE_RADIUS * 2 / accountableZoomFactor)
+
+
     g.selectAll("circle.accountable")
       .transition()
-      .style("opacity", 0)
+      // .style("opacity", 0)
       .on("end", function (): void {
         select(this)
           .attr("r", (d: any): number => {
@@ -450,13 +458,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
           })
           .attr("transform", `scale(${1 / accountableZoomFactor})`)
           .transition()
-          .style("opacity", 1);
+        // .style("opacity", 1);
       });
 
 
-    definitions.selectAll("pattern > image")
-      .attr("width", CIRCLE_RADIUS * 2 / accountableZoomFactor)
-      .attr("height", CIRCLE_RADIUS * 2 / accountableZoomFactor)
   }
 
   getTags() {
@@ -891,10 +896,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .style("stroke", d3.color(seedColor).darker(1).toString())
             // .style("fill", d3.color(seedColor).darker(1).toString())
             // .style("fill-opacity", 1)
-            .style("stroke-width", "5px");
-
-          d3.selectAll(`circle[parent-id="${d.data.id}"]`)
-            .style("fill-opacity", 1);
+            .style("stroke-width", `${Math.max(5 / d.zf, 2) }px`);
+            console.log(d.data.name, d.zf,`${5 / d.zf}px` )
+          // d3.selectAll(`circle[parent-id="${d.data.id}"]`)
+          //   .style("fill-opacity", 1);
 
           // d3.select(".tooltip-menu")
           //   .on("mouseover", function (d: any) {
@@ -928,12 +933,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
             // })
             .style("stroke-width", "initial")
             .style("stroke-opacity", 1)
-          d3.selectAll(`circle[parent-id="${d.data.id}"]`)
-            .style("fill-opacity", function (d: any) {
-              return d.children
-                ? 0.1
-                : !d.children && d.parent === root ? 0.1 : 1;
-            })
+          // d3.selectAll(`circle[parent-id="${d.data.id}"]`)
+          //   .style("fill-opacity", function (d: any) {
+          //     return d.children
+          //       ? 0.1
+          //       : !d.children && d.parent === root ? 0.1 : 1;
+          //   })
         })
         .on("contextmenu", function (d: any) {
           d3.event.preventDefault();
