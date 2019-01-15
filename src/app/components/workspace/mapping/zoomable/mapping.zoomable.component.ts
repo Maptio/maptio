@@ -247,9 +247,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
         ),
       definitions = svg.append("svg:defs");
 
-    // g.append("g").attr("class", "paths");
+
+    const wheelDelta = () => -d3.event.deltaY * (d3.event.deltaMode ? 120 : 1) / 500 * 15;
+
     this.zooming = d3
       .zoom()
+      .wheelDelta(wheelDelta)
       .on("zoom", zoomed)
       .on("end", (): void => {
         this.adjustViewToZoomEvent(g, d3.event);
@@ -284,7 +287,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         )
       );
       svg.call(this.zooming);
-    } catch (error) { console.log( error); }
+    } catch (error) { console.log(error); }
 
     function zoomed() {
       g.attr("transform", d3.event.transform);
