@@ -396,7 +396,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.outerFontScale.domain(scaleExtent);
     const myInnerFontScale: ScaleLogarithmic<number, number> = this.innerFontScale.domain(scaleExtent);
 
-    const outerFontSize: number = 16 / zoomFactor; //this.outerFontScale(zoomFactor);
+    const outerFontSize: number = this.outerFontScale(zoomFactor);
     const select: Function = this.d3.select;
     const MAX_NUMBER_LETTERS_PER_CIRCLE = this.MAX_NUMBER_LETTERS_PER_CIRCLE;
     const definitions = this.definitions;
