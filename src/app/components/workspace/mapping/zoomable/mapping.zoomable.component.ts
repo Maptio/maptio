@@ -434,8 +434,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
     const accountableZoomFactor = zoomFactor > 1.7 ? 1.7 : zoomFactor;
 
     definitions.selectAll("pattern > image")
-      .attr("width", CIRCLE_RADIUS * 2 / accountableZoomFactor)
-      .attr("height", CIRCLE_RADIUS * 2 / accountableZoomFactor)
+      .transition()
+      .on("end", function (d: any): void {
+        select(this)
+          .transition()
+          .attr("width", CIRCLE_RADIUS * 2 / accountableZoomFactor)
+          .attr("height", CIRCLE_RADIUS * 2 / accountableZoomFactor)
+      })
 
 
     g.selectAll("circle.accountable")
@@ -698,7 +703,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
 
     let accountablePictureWithChildren = initiativeWithChildren.select("circle.accountable.with-children")
-      .attr("pointer-events", "none")
+      // .attr("pointer-events", "none")
       .attr("fill", function (d: any) {
         return d.data.accountable ? "url('#image" + d.data.id + "')" : "transparent";
       })
@@ -712,14 +717,14 @@ export class MappingZoomableComponent implements IDataVisualizer {
       });
 
     let accountablePictureWithoutChildren = initiativeNoChildren.select("circle.accountable.no-children")
-      .attr("pointer-events", "none")
+      // .attr("pointer-events", "none")
       .attr("fill", function (d: any) {
         return d.data.accountable ? "url('#image" + d.data.id + "')" : "transparent";
       })
       .style("opacity", function (d: any) {
         return isLeafDisplayed(d) ? 1 : 0;
       });
-   
+
     let node = g.selectAll("g.node");
 
     svg.on("click", (): void => {
@@ -783,17 +788,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .attr("transform", (d: any): string => `translate(${(d.x - v[0]) * k}, ${(d.y - v[1]) * k})`);
 
       textAround
-        .on("contextmenu", function (d: any): void {
-          d3.event.preventDefault();
-          let mouse = d3.mouse(this);
-          d3.select(`circle.node[id="${d.data.id}"]`).dispatch("contextmenu", { bubbles: true, cancelable: true, detail: { position: [mouse[0], mouse[1]] } });
-        })
-        .on("mouseover", function (d: any) {
-          d3.select(`circle.node[id="${d.data.id}"]`).dispatch("mouseover");
-        })
-        .on("mouseout", function (d: any) {
-          d3.select(`circle.node[id="${d.data.id}"]`).dispatch("mouseout");
-        });
+        .call(passingThrough, "mouseover")
+        .call(passingThrough, "mouseout")
+        .call(passingThrough, "contextmenu");
 
 
       definitions.selectAll("pattern > image")
@@ -893,6 +890,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
         });
 
       g.selectAll("circle.accountable")
+        .call(passingThrough, "click")
+        .call(passingThrough, "mouseover")
+        .call(passingThrough, "mouseout")
+        .call(passingThrough, "contextmenu")
+
         .attr("r", function (d: any) {
           return d.r * k > CIRCLE_RADIUS ? `${CIRCLE_RADIUS}px` : `${d.r * 0.3}px`;
         })
@@ -905,7 +907,21 @@ export class MappingZoomableComponent implements IDataVisualizer {
           return d.children
             ? -Math.sin(DEFAULT_PICTURE_ANGLE) * (d.r * k) + 12
             : -d.r * k * 0.9;
-        });
+        })
+      // .on("click", function (d: any): void {
+      //   d3.select(`circle.node[id="${d.data.id}"]`).dispatch("click");
+      // })
+      // .on("contextmenu", function (d: any): void {
+      //   d3.event.preventDefault();
+      //   let mouse = d3.mouse(this);
+      //   d3.select(`circle.node[id="${d.data.id}"]`).dispatch("contextmenu", { bubbles: true, cancelable: true, detail: { position: [mouse[0], mouse[1]] } });
+      // })
+      // .on("mouseover", function (d: any) {
+      //   d3.select(`circle.node[id="${d.data.id}"]`).dispatch("mouseover");
+      // })
+      // .on("mouseout", function (d: any) {
+      //   d3.select(`circle.node[id="${d.data.id}"]`).dispatch("mouseout");
+      // });
     }
 
     function addCircle(groups: any): void {
@@ -1059,6 +1075,21 @@ export class MappingZoomableComponent implements IDataVisualizer {
           return d.data.accountable.picture;
         });
       patterns.exit().remove();
+    }
+
+    function passingThrough(el: any, eventName: string) {
+      if (eventName == "contextmenu") {
+        el.on("contextmenu", function (d: any): void {
+          d3.event.preventDefault();
+          let mouse = d3.mouse(this);
+          d3.select(`circle.node[id="${d.data.id}"]`).dispatch("contextmenu", { bubbles: true, cancelable: true, detail: { position: [mouse[0], mouse[1]] } });
+        })
+      } else {
+        el
+          .on(eventName, function (d: any): void {
+            d3.select(`circle.node[id="${d.data.id}"]`).dispatch(eventName);
+          })
+      }
     }
   }
 }
