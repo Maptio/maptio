@@ -209,8 +209,12 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .attr("d", "M0,-5L10,0L0,5")
       .style("opacity", (d: any) => d.opacity);
 
+      const wheelDelta = () => -d3.event.deltaY * (d3.event.deltaMode ? 120 : 1) / 500 * 15;
+
+
     let zooming = d3
       .zoom()
+      .wheelDelta(wheelDelta)
       .scaleExtent([1 / 10, 4])
       .on("zoom", zoomed)
       .on("end", () => {
@@ -556,7 +560,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
           .forceManyBody()
           .distanceMax(400)
           .strength(function (d) {
-            return -600;
+            return -400;
           })
       )
       .force("center", d3.forceCenter(width / 2, height / 2));
@@ -627,7 +631,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .append("path")
       .attr("class", "edge")
       .merge(link)
-      // .attr("stroke", seedColor)
       .attr("data-initiatives", function (d: any) {
         return d[4].join(" ");
       })
@@ -656,66 +659,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         if (isAuthorityCentricMode)
           return uiService.filter(selectedTags, unselectedTags, d[5]) ? "url(#arrow)" : "url(#arrow-fade)";
       });
-    // .attr("marker-end", "url(#arrow)");
-
-    /*
-    let label = g
-      .select("g.labels")
-      .selectAll("text.edge")
-      .data(bilinks, function (d: any) {
-        return d[5];
-      });
-    label.exit().remove();
-
-    label = label
-      .enter()
-      .append("text")
-      .attr("class", "edge")
-      .merge(label)
-      .attr("font-size", `${fontSize * 0.8}px`)
-      .style("display", "none")
-      .html(function (d: any) {
-        let source = d[0];
-        let target = d[2];
-
-        let filtered = initiativesList
-          .filter((i: any) => d[4].includes(i.data.id))
-          .map(i => i.data);
-
-        if (filtered.length > 0) {
-          let h = filtered
-            .map(
-              (i, ix) =>
-                `<tspan class="is-helping" x="0" y="0" dy="${ix + 1}rem">${
-                i.name
-                }</tspan>`
-            )
-            .join("");
-
-          return (
-            `<tspan  x="0" y="0" class="is-helping-title" dy="0rem">${
-            source.name
-            } helps ${target.name} with</tspan>` + h
-          );
-        }
-      });
-
-      */
-
-    /*
-  d3.selectAll(`.open-initiative`).on("click", function (d: any) {
-    let id = Number.parseFloat(d3.select(this).attr("id"));
-    showDetailsOf$.next(initiativesList.find(n => (<any>n.data).id === id).data);
-  });
-  d3.selectAll(`.open-summary`).on("click", function (d: any) {
-    let shortid = d3.select(this).attr("data-shortid");
-    let slug = d3.select(this).attr("data-slug");
-    router.navigateByUrl(
-      `/map/${datasetId}/${datasetSlug}/summary?member=${shortid}`
-    );
-  });
-
-  */
+  
 
     let node = g
       .select("g.nodes")

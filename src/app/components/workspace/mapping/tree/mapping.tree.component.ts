@@ -172,8 +172,11 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       g.attr("transform", d3.event.transform);
     }
 
+    const wheelDelta = () => -d3.event.deltaY * (d3.event.deltaMode ? 120 : 1) / 500 * 15;
+
     let zooming = d3
       .zoom()
+      .wheelDelta(wheelDelta)
       .scaleExtent([1 / 3, 3])
       .on("zoom", zoomed)
       .on("end", () => {
@@ -244,11 +247,11 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
     let [clearSearchInitiative, highlightInitiative] = this.zoomInitiative$.partition(node => node === null);
 
-    highlightInitiative.combineLatest(this.mapColor$, this.fontColor$).subscribe((zoomed: [any, string, string]) => {
+    highlightInitiative.combineLatest(this.mapColor$).subscribe((zoomed: [any, string]) => {
       let node = zoomed[0];
-      let mapColor = zoomed[1];
-      let fontColor = zoomed[2];
-      d3.selectAll(`g.node.tree-map`).style("fill", fontColor);
+      d3.selectAll(`g.node.tree-map`).classed("highlight", false);
+      d3.selectAll("path.link").classed("highlight", false);
+
       d3.select(`g.node.tree-map[id~="${node.id}"]`).dispatch("expand");
       if (!this.getPathsToRoot().has(node.id)) return;
 
@@ -260,10 +263,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       d3.select(`path.link[id-links~="${node.id}"]`).classed("highlight", true)
     });
 
-    clearSearchInitiative.combineLatest(this.mapColor$, this.fontColor$).subscribe(() => {
-      let node = zoomed[0];
-      let mapColor = zoomed[1];
-      let fontColor = zoomed[2];
+    clearSearchInitiative.combineLatest(this.mapColor$).subscribe(() => {
       d3.selectAll(`g.node.tree-map`).classed("highlight", false);
       d3.selectAll("path.link").classed("highlight", false);
     })
