@@ -470,10 +470,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
         k: this.scale
       }
     }
-    let width = this.width;
+    let height = this.height;
     let definitions = this.definitions;
     let uiService = this.uiService;
-    let fontSize = this.fontSize;
     let zooming = this.zooming;
     let CIRCLE_RADIUS = this.CIRCLE_RADIUS;
     let TRANSITION_DURATION = this.TRANSITION_DURATION;
@@ -528,7 +527,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.zooming.scaleExtent([0.5, getViewScaleForRadius(minRadius)]);
 
     function getViewScaleForRadius(radius: number): number {
-      return (width - (margin * 2)) / (radius * 2);
+      return (height - (margin * 2)) / (radius * 2);
     }
 
     function getDepthDifference(d: any): number {
@@ -710,7 +709,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         clickedX = clickedElement.transform.baseVal[0].matrix.e * newScale;
         clickedY = clickedElement.transform.baseVal[0].matrix.f * newScale;
         clickedX -= margin;
-        clickedY -= 50;
+        clickedY -= -height/2;
       }
       return [clickedX, clickedY];
     }
@@ -718,7 +717,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     function zoom(focus: any, clickedElement?: any): void {
       setLastZoomedCircle(focus);
 
-      const newScale: number = getViewScaleForRadius(focus.r);
+      const newScale: number = focus === root ? 1 :  getViewScaleForRadius(focus.r);
       const coordinates: Array<number> = getClickedElementCoordinates(clickedElement, newScale);
 
       svg.transition().duration(TRANSITION_DURATION).call(
