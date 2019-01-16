@@ -46,7 +46,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   public margin: number;
   public selectableTags$: Observable<Array<SelectableTag>>;
   public zoom$: Observable<number>;
-  public fontColor$: Observable<string>;
+  // public fontColor$: Observable<string>;
   public mapColor$: Observable<string>;
   public zoomInitiative$: Observable<Initiative>;
   // public isLocked$: Observable<boolean>;
@@ -72,8 +72,8 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   }>();
 
   public hideOptions$: Subject<boolean> = new Subject<boolean>();
-  public isCollapsedOptions:boolean;
- 
+  public isCollapsedOptions: boolean;
+
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
   // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
@@ -560,6 +560,9 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
           })
       )
       .force("center", d3.forceCenter(width / 2, height / 2));
+
+    svg.selectAll("defs > marker")
+      .style("fill", seedColor)
 
     let patterns = g
       .select("defs")

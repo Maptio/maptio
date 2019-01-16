@@ -49,7 +49,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public selectableUsers$: Observable<Array<SelectableUser>>;
   public isReset$: Observable<boolean>;
   // public fontSize$: Observable<number>;
-  public fontColor$: Observable<string>;
+  // public fontColor$: Observable<string>;
   public mapColor$: Observable<string>;
   public zoomInitiative$: Observable<Initiative>;
   public forceZoom$: Observable<Initiative>;

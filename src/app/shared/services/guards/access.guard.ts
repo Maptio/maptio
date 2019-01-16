@@ -17,9 +17,9 @@ export class AccessGuard implements CanActivate, CanActivateChild {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         let dataset = route.params["mapid"];
         let team = route.params["teamid"];
-        console.log("access guard", dataset, team)
+        
         return this.auth.getUser().map(u => {
-            console.log("access guard", u)
+            
             if (dataset && u.datasets.includes(dataset)) {
                 this.updateIntercom(u.teams, u);
                 return true

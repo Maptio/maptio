@@ -100,7 +100,7 @@ export class MappingComponent {
   public tags: Array<SelectableTag>;
   public tagsFragment: string;
   public fontSize$: BehaviorSubject<number>;
-  public fontColor$: BehaviorSubject<string>;
+  // public fontColor$: BehaviorSubject<string>;
   public mapColor$: BehaviorSubject<string>;
 
   public zoomToInitiative$: Subject<Initiative>;
@@ -164,7 +164,7 @@ export class MappingComponent {
     this.selectableTags$ = new ReplaySubject<Array<SelectableTag>>();
     // this.selectableUsers$ = new ReplaySubject<Array<SelectableUser>>();
     this.fontSize$ = new BehaviorSubject<number>(this.settings.fontSize);
-    this.fontColor$ = new BehaviorSubject<string>(this.settings.fontColor);
+    // this.fontColor$ = new BehaviorSubject<string>(this.settings.fontColor);
     this.mapColor$ = new BehaviorSubject<string>(this.settings.mapColor);
     this.zoomToInitiative$ = new Subject();
     // this.isLocked$ = new BehaviorSubject<boolean>(this.isLocked);
@@ -238,7 +238,7 @@ export class MappingComponent {
     component.margin = 50;
     component.zoom$ = this.zoom$.asObservable();
     component.selectableTags$ = this.selectableTags$.asObservable();
-    component.fontColor$ = this.fontColor$.asObservable();
+    // component.fontColor$ = this.fontColor$.asObservable();
     component.mapColor$ = this.mapColor$.asObservable();
     component.zoomInitiative$ = this.zoomToInitiative$.asObservable();
     component.toggleOptions$ = this.toggleOptions$.asObservable();
@@ -288,7 +288,7 @@ export class MappingComponent {
           ))
         }
         this.settings = JSON.parse(localStorage.getItem(`map_settings_${this.datasetId}`));
-        this.fontColor$.next(this.settings.fontColor);
+        // this.fontColor$.next(this.settings.fontColor);
         this.mapColor$.next(this.settings.mapColor)
         this.fontSize$.next(this.settings.fontSize);
 
@@ -421,18 +421,18 @@ export class MappingComponent {
     });
   }
 
-  changeFontColor(color: string) {
-    this.fontColor$.next(color);
-    this.settings.fontColor = color;
-    localStorage.setItem(`map_settings_${this.datasetId}`, JSON.stringify(this.settings));
-    // this.fontColor = color;
-    this.analytics.eventTrack("Map", {
-      action: "change font color",
-      color: color,
-      team: this.team.name,
-      teamId: this.team.team_id
-    });
-  }
+  // changeFontColor(color: string) {
+  //   this.fontColor$.next(color);
+  //   this.settings.fontColor = color;
+  //   localStorage.setItem(`map_settings_${this.datasetId}`, JSON.stringify(this.settings));
+  //   // this.fontColor = color;
+  //   this.analytics.eventTrack("Map", {
+  //     action: "change font color",
+  //     color: color,
+  //     team: this.team.name,
+  //     teamId: this.team.team_id
+  //   });
+  // }
 
   changeMapColor(color: string) {
     this.mapColor$.next(color);

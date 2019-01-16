@@ -50,7 +50,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
   public zoom$: Observable<number>;
   public selectableTags$: Observable<Array<SelectableTag>>;
-  public fontColor$: Observable<string>;
+  // public fontColor$: Observable<string>;
   public mapColor$: Observable<string>;
   public zoomInitiative$: Observable<Initiative>;
   public toggleOptions$: Observable<Boolean>;
