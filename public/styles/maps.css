@@ -4,4 +4,5 @@ svg#map{
     -moz-user-select: none;
     -webkit-user-select: none;
     background: white;
+    font-family: Lato;
 }
