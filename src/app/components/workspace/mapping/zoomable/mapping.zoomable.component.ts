@@ -394,7 +394,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       // .style("opacity", 0)
       .on("end", function (d: any): void {
         select(this)
-          .style("font-size", `${outerFontSize}px`)
+          .style("font-size", `${outerFontSize* 1.2}px`)
           .transition()
         // .style("opacity", 1);
       });
@@ -770,17 +770,18 @@ export class MappingZoomableComponent implements IDataVisualizer {
             ? 0.1
             : !d.children && d.parent === root ? 0.1 : 1;
         })
-        .style("stroke-opacity", 1)
+        .style("stroke-opacity", 0.1)
         .each((d: any) => (d.k = k))
         .on("mouseover", function (d: any) {
-          let circle = d3.select(this);
           let initiative = d.data;
           d3.event.stopPropagation();
           d3.event.preventDefault();
           showToolipOf$.next({ initiatives: [initiative], isNameOnly: false });
+          
           d3.select(this)
             .style("stroke", d3.color(seedColor).darker(1).toString())
-            .style("stroke-width", `${Math.max(5 / d.zf, 2)}px`);
+            .style("stroke-opacity", 1)
+            .style("stroke-width", `${Math.max(4 / d.zf, 2)}px`);
 
         })
         .on("mouseout", function (d: any) {
@@ -793,7 +794,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
                 : !d.children && d.parent === root ? color(d.depth) : null;
             })
             .style("stroke-width", "initial")
-            .style("stroke-opacity", 1)
+            .style("stroke-opacity", 0.1)
         })
         .on("contextmenu", function (d: any) {
           d3.event.preventDefault();
