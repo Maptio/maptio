@@ -1,18 +1,15 @@
 <ng-container *ngIf="!isMinimal">
   <div class="form-group form-inline ">
     <label for="example-time-input" class="col-form-label col-2">{{label}}</label>
-    <input class="col-6 form-control" [(colorPicker)]="color" [style.background]="color" [value]="color" 
-    [cpFallbackColor]="DEFAULT_COLOR" 
-    [cpOutputFormat]="'hex'"
-      [cpPosition]="'bottom'" [cpPositionOffset]="'40%'" [cpPositionRelativeToArrow]="true" 
-      (colorPickerChange)="pickColor($event)" (cpInputChange)='typeColor($event)'
-    />
+    <input class="col-6 form-control" [(colorPicker)]="color" [style.background]="color" [value]="color" [cpFallbackColor]="DEFAULT_COLOR"
+      [cpOutputFormat]="'hex'" [cpDisableInput]="true" [cpPresetColors]="DEFAULT_PRESETS_COLORS" [cpPresetLabel]="DEFAULT_PRESETS_LABEL"
+      [cpPosition]="'bottom'" [cpPositionOffset]="'5%'" [cpPositionRelativeToArrow]="true" (colorPickerChange)="pickColor($event)"
+      (cpInputChange)='typeColor($event)' />
     <button class="btn btn-outline-secondary ml-4" (click)="reset()">Reset</button>
   </div>
 </ng-container>
 <ng-container *ngIf="isMinimal">
-  <input class="w-100 form-control" [(colorPicker)]="color" [style.background]="color" [value]="color" [cpOutputFormat]="'hex'"
-    [cpPosition]="'bottom'" [cpPositionOffset]="'40%'" [cpPositionRelativeToArrow]="true" 
-    (colorPickerChange)="pickColor($event)" (cpInputChange)='typeColor($event)'
-  />
+  <input class="w-100 form-control" [(colorPicker)]="color" [style.background]="color" [value]="color" [cpPresetColors]="DEFAULT_PRESETS_COLORS"
+    [cpPresetLabel]="DEFAULT_PRESETS_LABEL" [cpOutputFormat]="'hex'" [cpPosition]="'bottom'" [cpPositionOffset]="'5%'" [cpPositionRelativeToArrow]="true"
+    [cpDisableInput]="true" (colorPickerChange)="pickColor($event)" (cpInputChange)='typeColor($event)' />
 </ng-container>

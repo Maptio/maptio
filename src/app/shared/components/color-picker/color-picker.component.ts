@@ -9,12 +9,14 @@ import { environment } from '../../../../environment/environment';
 export class ColorPickerComponent implements OnInit {
 
     @Input("color") color: string;
-    @Input("label") label:string;
+    @Input("label") label: string;
     @Input("default") defaultColor: string;
     @Input("isMinimal") isMinimal: boolean;
     @Output("change") changeColor: EventEmitter<string> = new EventEmitter<string>();
 
-    DEFAULT_COLOR :string = environment.DEFAULT_MAP_TEXT_COLOR;
+    DEFAULT_COLOR: string = environment.DEFAULT_MAP_TEXT_COLOR;
+    DEFAULT_PRESETS_COLORS: string[] = environment.DEFAULT_PRESETS_COLORS
+    DEFAULT_PRESETS_LABEL: string = environment.DEFAULT_PRESETS_LABEL;
 
     constructor() { }
 
@@ -24,12 +26,12 @@ export class ColorPickerComponent implements OnInit {
         this.changeColor.emit(color);
     }
 
-    typeColor(e : {input: string, value: number | string, color: string}) {
+    typeColor(e: { input: string, value: number | string, color: string }) {
         console.log(e)
         this.pickColor(e.color);
     }
 
-    reset(){
+    reset() {
         this.pickColor(this.defaultColor);
     }
 }
