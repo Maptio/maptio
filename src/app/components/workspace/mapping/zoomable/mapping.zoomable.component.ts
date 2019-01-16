@@ -415,9 +415,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     g.selectAll("circle.accountable")
       .transition()
-      // .style("opacity", 0)
+      .style("opacity", 0.5)
       .on("end", function (): void {
         select(this)
+          .style("opacity", 0.5)
           .attr("r", (d: any): number => {
             return CIRCLE_RADIUS / accountableZoomFactor;
           })
@@ -433,7 +434,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           })
           .attr("transform", `scale(${1 / accountableZoomFactor})`)
           .transition()
-        // .style("opacity", 1);
+          .style("opacity", 1);
       });
 
 
@@ -709,7 +710,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         clickedX = clickedElement.transform.baseVal[0].matrix.e * newScale;
         clickedY = clickedElement.transform.baseVal[0].matrix.f * newScale;
         clickedX -= margin;
-        clickedY -= -height/2;
+        clickedY -= -height / 2;
       }
       return [clickedX, clickedY];
     }
@@ -717,7 +718,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     function zoom(focus: any, clickedElement?: any): void {
       setLastZoomedCircle(focus);
 
-      const newScale: number = focus === root ? 1 :  getViewScaleForRadius(focus.r);
+      const newScale: number = focus === root ? 1 : getViewScaleForRadius(focus.r);
       const coordinates: Array<number> = getClickedElementCoordinates(clickedElement, newScale);
 
       svg.transition().duration(TRANSITION_DURATION).call(
