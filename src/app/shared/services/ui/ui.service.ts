@@ -46,7 +46,7 @@ export class UIService {
   }
 
   getCanvasHeight() {
-    return document.getElementById("main") ? document.getElementById("main").clientHeight -7  : window.screen.availHeight;
+    return document.getElementById("main") ? document.getElementById("main").clientHeight   : window.screen.availHeight;
   }
 
   getCircularPath(radius: number, centerX: number, centerY: number) {
