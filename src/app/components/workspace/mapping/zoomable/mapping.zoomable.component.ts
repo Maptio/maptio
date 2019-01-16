@@ -475,37 +475,21 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let uiService = this.uiService;
     let fontSize = this.fontSize;
     let zooming = this.zooming;
-    let TOOLTIP_PADDING = 20;
     let CIRCLE_RADIUS = this.CIRCLE_RADIUS;
     let TRANSITION_DURATION = this.TRANSITION_DURATION;
-    // let fonts = this.fonts;
-    let showDetailsOf$ = this.showDetailsOf$;
     let showToolipOf$ = this.showToolipOf$;
     let showContextMenuOf$ = this.showContextMenuOf$;
     let browser = this.browser;
-    let datasetId = this.datasetId;
-    let datasetSlug = this.slug;
-    let router = this.router;
-    let getTags = this.getTags.bind(this);
     let getLastZoomedCircle = this.getLastZoomedCircle.bind(this);
     let setLastZoomedCircle = this.setLastZoomedCircle.bind(this);
-    let zoomInitiative$ = this.zoomInitiative$;
     let POSITION_INITIATIVE_NAME = this.POSITION_INITIATIVE_NAME;
-    let POSITION_TAGS_NAME = this.POSITION_TAGS_NAME;
-    let POSITION_ACCOUNTABLE_NAME = this.POSITION_ACCOUNTABLE_NAME;
     let DEFAULT_PICTURE_ANGLE = this.DEFAULT_PICTURE_ANGLE;
     let PADDING_CIRCLE = 20
     let MAX_NUMBER_LETTERS_PER_CIRCLE = this.MAX_NUMBER_LETTERS_PER_CIRCLE;
-    let MIN_TEXTBOX_WIDTH = this.MIN_TEXTBOX_WIDTH;
-    let FADED_OPACITY = this.FADED_OPACITY;
 
     let TRANSITION_1x = d3.transition("").duration(TRANSITION_DURATION)
     let TRANSITION_2x = d3.transition("").duration(TRANSITION_DURATION * 1)
-    let TRANSITION_3x = d3.transition("").duration(TRANSITION_DURATION * 1)
 
-    // let TRANSITION_DELETE = d3.transition("deleting").duration(TRANSITION_DURATION)
-    // let TRANSITION_ADD_FADEIN = d3.transition("adding_fadein").duration(TRANSITION_DURATION)
-    // let TRANSITION_ADD_FADEOUT = d3.transition("adding_fadeout").duration(TRANSITION_DURATION * 3)
     let COLOR_ADD_CIRCLE = getComputedStyle(document.body).getPropertyValue('--maptio-blue')
     let COLOR_DELETE_CIRCLE = getComputedStyle(document.body).getPropertyValue('--maptio-red')
 
@@ -534,7 +518,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
       depth = depth > n.depth ? depth : n.depth;
     });
 
-    const fonts = this.colorService.getFontSizeRange(depth, fontSize);
     const color = this.colorService.getColorRange(depth, seedColor);
 
     const focus = root,
@@ -864,7 +847,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .call(passingThrough, "mouseover")
         .call(passingThrough, "mouseout")
         .call(passingThrough, "contextmenu")
-
         .attr("r", function (d: any) {
           return d.r * k > CIRCLE_RADIUS ? `${CIRCLE_RADIUS}px` : `${d.r * 0.3}px`;
         })
@@ -878,20 +860,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
             ? -Math.sin(DEFAULT_PICTURE_ANGLE) * (d.r * k) + 12
             : -d.r * k * 0.9;
         })
-      // .on("click", function (d: any): void {
-      //   d3.select(`circle.node[id="${d.data.id}"]`).dispatch("click");
-      // })
-      // .on("contextmenu", function (d: any): void {
-      //   d3.event.preventDefault();
-      //   let mouse = d3.mouse(this);
-      //   d3.select(`circle.node[id="${d.data.id}"]`).dispatch("contextmenu", { bubbles: true, cancelable: true, detail: { position: [mouse[0], mouse[1]] } });
-      // })
-      // .on("mouseover", function (d: any) {
-      //   d3.select(`circle.node[id="${d.data.id}"]`).dispatch("mouseover");
-      // })
-      // .on("mouseout", function (d: any) {
-      //   d3.select(`circle.node[id="${d.data.id}"]`).dispatch("mouseout");
-      // });
     }
 
     function addCircle(groups: any): void {
