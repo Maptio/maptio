@@ -96,7 +96,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
   CIRCLE_RADIUS: number = 32;
   LINE_WEIGHT = 4;
-  FADED_OPACITY = 0.1;
+  FADED_OPACITY = 0.05;
   private svg: any;
   private g: any;
   // private link: any;
@@ -277,11 +277,13 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         let node = zoomed[0];
         let isAuthorityCentricMode = zoomed[1]
 
-        g.selectAll("path.edge").style("stroke-opacity", function (d: any) {
-          return 1;
-        }).style("opacity", function (d: any) {
-          return 1;
-        })
+        g.selectAll("path.edge")
+          .style("stroke-opacity", function (d: any) {
+            return 1;
+          })
+          // .style("opacity", function (d: any) {
+          //   return 1;
+          // })
           .attr("marker-end", function (d: any) {
             if (isAuthorityCentricMode)
               return "url(#arrow)";
@@ -293,12 +295,12 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
         let node = zoomed[0];
         let isAuthorityCentricMode = zoomed[1];
-        let highlightPath = this.highlightPath;
+        let highlightElement = this.highlightElement;
         let FADED_OPACITY = this.FADED_OPACITY
 
         g.selectAll("path.edge")
           .each(function (d: any) {
-            highlightPath(
+            highlightElement(
               d3.select(this),
               d[4].includes(node.id),
               FADED_OPACITY,
@@ -310,14 +312,14 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     this.selectableTags$.combineLatest(this.isAuthorityCentricMode$.asObservable()).subscribe(value => {
       let tags = value[0];
       let isAuthorityCentricMode = value[1];
-      let highlightPath = this.highlightPath;
+      let highlightElement = this.highlightElement;
 
       let [selectedTags, unselectedTags] = partition(tags, t => t.isSelected);
       let uiService = this.uiService
       let FADED_OPACITY = this.FADED_OPACITY
       g.selectAll("path.edge")
         .each(function (d: any) {
-          highlightPath(
+          highlightElement(
             d3.select(this),
             uiService.filter(selectedTags, unselectedTags, d[5]),
             FADED_OPACITY,
@@ -329,13 +331,17 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     this.g = g;
   }
 
-  private highlightPath(element: any, isSelected: boolean, unselectedOpacity: number, isAuthorityCentricMode: boolean) {
+  private highlightElement(element: any, isSelected: boolean, unselectedOpacity: number, isAuthorityCentricMode: boolean) {
     element
       .style("stroke-opacity", function (d: any) {
         return isSelected ? 1 : unselectedOpacity;
-      }).style("opacity", function (d: any) {
+      })
+      .style("fill-opacity", function (d: any) {
         return isSelected ? 1 : unselectedOpacity;
       })
+      // .style("opacity", function (d: any) {
+      //   return isSelected ? 1 : unselectedOpacity;
+      // })
       .attr("marker-end", function (d: any) {
         if (isAuthorityCentricMode) {
           return isSelected ? "url(#arrow)" : "url(#arrow-fade)";
@@ -545,6 +551,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     let LINE_WEIGHT = this.LINE_WEIGHT;
     let FADED_OPACITY = this.FADED_OPACITY;
     let hideOptions$ = this.hideOptions$;
+    let highlightElement = this.highlightElement;
 
     let initiativesList: HierarchyNode<Initiative>[] = this.d3
       .hierarchy(data)
@@ -660,9 +667,9 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .attr("stroke-width", function (d: any) {
         return `${LINE_WEIGHT * d[3]}px`;
       })
-      .style("opacity", function (d: any) {
-        return uiService.filter(selectedTags, unselectedTags, d[5]) ? 1 : FADED_OPACITY;
-      })
+      // .style("opacity", function (d: any) {
+      //   return uiService.filter(selectedTags, unselectedTags, d[5]) ? 1 : FADED_OPACITY;
+      // })
       .style("stroke-opacity", function (d: any) {
         return uiService.filter(selectedTags, unselectedTags, d[5]) ? 1 : FADED_OPACITY;
       })
@@ -725,10 +732,53 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
     node
       .on("mouseover", function (d: any) {
-        d3.select(this).style("fill", d3.color(seedColor).darker(1).toString())
+        d3.select(this).style("fill", d3.color(seedColor).darker(1).toString());
+
+        let sourceNode = `${d.id}`;
+        let connectedNodes: string[] = [];
+        let connectedInitiatives: number[] = [];
+        // highlight connected paths
+        g.selectAll(`path.edge`)
+          .each(function (d: any) {
+            highlightElement(
+              d3.select(this),
+              d[0].id === sourceNode || d[2].id === sourceNode,
+              FADED_OPACITY,
+              isAuthorityCentricMode);
+            if (d[0].id === sourceNode || d[2].id === sourceNode) {
+              connectedNodes = connectedNodes.concat([d[0].id, d[2].id]);
+              connectedInitiatives = connectedInitiatives.concat(d[4])
+            }
+          })
+
+        // highlight node
+        g.selectAll(`g.node`)
+          .each(function (d: any) {
+            highlightElement(
+              d3.select(this),
+              connectedNodes.indexOf(d.id) > -1,
+              FADED_OPACITY,
+              isAuthorityCentricMode)
+          })
+
+
+        let list = initiativesList.map(i => i.data).filter(i => {
+          return connectedInitiatives.includes(i.id)
+        });
+
+        showToolipOf$.next({ initiatives: list, isNameOnly: true });
+
+        hideOptions$.next(true);
+
       })
       .on("mouseout", function (d: any) {
-        d3.select(this).style("fill", "initial")
+        d3.select(this).style("fill", "initial");
+        g.selectAll("path.edge").style("stroke-opacity", 1);
+        g.selectAll(`g.node`).style("fill-opacity", 1);
+
+        showToolipOf$.next({ initiatives: null, isNameOnly: true });
+
+        hideOptions$.next(false);
       })
       .on("click", function (d: any) {
         router.navigateByUrl(
