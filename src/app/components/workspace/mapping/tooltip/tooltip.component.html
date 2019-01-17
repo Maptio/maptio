@@ -2,8 +2,8 @@
     <div class="card-header border-bottom-0" [class.bg-white]="isNameOnly">
         {{initiative.name}}
     </div>
-    <div class="card-body d-flex flex-column  border-bottom-0 pt-0" *ngIf="!isNameOnly">
-        <div class="card-title my-2" *ngIf="initiative.tags && initiative.tags.length > 0">
+    <div class="card-body d-flex flex-column  border-bottom-0 pt-0" >
+        <div class="card-title my-2" *ngIf="!isNameOnly && initiative.tags && initiative.tags.length > 0">
             <ul class="tags small">
                 <li *ngFor="let tag of initiative.tags">
                     <span class="badge badge-pill p-2  border-thick text-white mr-1 my-1" [style.border-color]="tag.color" [style.background]="tag.color">
@@ -35,7 +35,7 @@
             No {{team.settings.helper}}
         </p>
 
-        <div class="card-text small" *ngIf="initiative.description">
+        <div class="card-text small" *ngIf="initiative.description && !isNameOnly">
             <hr>
             <markdown *ngIf="initiative.description || ''" [data]="initiative.description || ''"></markdown>
         </div>

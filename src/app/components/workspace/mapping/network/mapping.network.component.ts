@@ -756,7 +756,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
           .each(function (d: any) {
             highlightElement(
               d3.select(this),
-              connectedNodes.indexOf(d.id) > -1,
+              d.id === sourceNode || connectedNodes.indexOf(d.id) > -1,
               FADED_OPACITY,
               isAuthorityCentricMode)
           })
