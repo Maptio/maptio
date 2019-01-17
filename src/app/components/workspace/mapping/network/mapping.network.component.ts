@@ -781,6 +781,9 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         hideOptions$.next(false);
       })
       .on("click", function (d: any) {
+        showToolipOf$.next({ initiatives: null, isNameOnly: true });
+        hideOptions$.next(false);
+        
         router.navigateByUrl(
           `/map/${datasetId}/${slug}/summary?member=${d.shortid}`
         );
