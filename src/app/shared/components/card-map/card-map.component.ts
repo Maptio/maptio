@@ -90,7 +90,6 @@ export class CardMapComponent implements OnInit {
     }
 
     duplicate() {
-        console.log(this.isCopying)
         if (!this.isCopying) {
             this.isCopying = true;
             this.cd.markForCheck();

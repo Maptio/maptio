@@ -35,7 +35,6 @@ export class InstructionsComponent implements OnInit {
         private teamService: TeamService, private mapService: MapService, private router: Router) { }
 
     ngOnInit(): void {
-        console.log("ngOnInit", this.steps);
         this.currentStep = this.steps[this.currentIndex];
         this.progress = this.getProgress()
         this.progressLabel = this.getAbsoluteProgress(); //`${this.steps.length - (this.currentIndex + 1)} steps left`
@@ -44,7 +43,6 @@ export class InstructionsComponent implements OnInit {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        console.log("ngOnChanges", changes)
         if (changes.steps && changes.steps.currentValue) {
             this.currentStep = changes.steps.currentValue[this.currentIndex];
         }
@@ -59,7 +57,6 @@ export class InstructionsComponent implements OnInit {
             if (this.user.teams.length === 0) {
                 return this.getDemoMap(this.user)
                     .then((dataset: DataSet) => {
-                        console.log(1)
                         localStorage.setItem(`map_settings_${dataset.datasetId}`, JSON.stringify(
                             {
                                 fontColor: environment.DEFAULT_MAP_TEXT_COLOR,
@@ -71,13 +68,11 @@ export class InstructionsComponent implements OnInit {
                         return dataset;
                     })
                     .then((dataset: DataSet) => {
-                        console.log(2)
                         this.isRedirecting = true;
                         this.cd.markForCheck();
                         return this.router.navigateByUrl(`/map/${dataset.datasetId}/${dataset.initiative.getSlug()}`);
                     })
                     .then(() => {
-                        console.log(3)
                         this.isRedirecting = false;
                         this.cd.markForCheck();
                         this.activeModal.close();

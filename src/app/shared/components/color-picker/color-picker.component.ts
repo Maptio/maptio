@@ -27,7 +27,6 @@ export class ColorPickerComponent implements OnInit {
     }
 
     typeColor(e: { input: string, value: number | string, color: string }) {
-        console.log(e)
         this.pickColor(e.color);
     }
 

@@ -35,13 +35,6 @@ module.exports = function (config) {
             'src/app/shared/**/*.html': ['html2js']
         },
 
-        // html2JsPreprocessor: {
-        //     processPath: function (filePath) {
-        //         console.log(filePath)
-        //         return filePath;
-        //     }
-        // },
-
         browserConsoleLogOptions: {
             terminal: true,
             level: ""

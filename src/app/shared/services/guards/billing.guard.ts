@@ -23,7 +23,6 @@ export class BillingGuard implements CanActivate, CanActivateChild {
                 return this.teamFactory.get(teamId)
             })
             .then((team: Team) => {
-                console.log(team)
                 if (team.isExample) {
                     return Promise.resolve(
                         {

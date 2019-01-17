@@ -63,7 +63,6 @@ export class TeamService {
     }
 
     createDemoTeam(user: User) {
-        console.log("createDeomTeam", user)
         return this.userFactory.getUsers([
             "auth0|5c091c1e14668e36dcc5fee5",
             "auth0|5c091a8b4d578823ecbfde5d",

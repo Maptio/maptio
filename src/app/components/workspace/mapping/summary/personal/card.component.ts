@@ -22,7 +22,6 @@ export class PersonalCardComponent implements OnInit {
     ngOnInit(): void { }
 
     openInitiative(node: Initiative) {
-        console.log(`/map/${this.datasetId}/${this.initiative.getSlug()}/circles?id=${node.id}`)
         this.router.navigateByUrl(`/map/${this.datasetId}/${this.initiative.getSlug()}/circles?id=${node.id}`)
     }
 

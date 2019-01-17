@@ -67,7 +67,6 @@ export class DashboardComponent {
 
         this.filteredMaps = this.breakdown([].concat(this._datasets));
         this.subscription = this.filterMaps$.asObservable().debounceTime(250).subscribe((search) => {
-            let start = Date.now();
             let filtered = (search === '')
                 ? [].concat(this._datasets)
                 : this._datasets.filter(
@@ -75,15 +74,10 @@ export class DashboardComponent {
                         ||
                         d.team.name.toLowerCase().indexOf(search.toLowerCase()) >= 0
                 )
-            console.log(filtered)
+
             this.filteredMaps = this.breakdown(filtered);
-            console.log(this.filteredMaps)
-            let mid = Date.now();
 
             this.cd.markForCheck();
-
-            let end = Date.now();
-            console.log(start, mid - start, end - mid)
         })
     }
 
@@ -129,7 +123,7 @@ export class DashboardComponent {
     }
 
     isZeroMaps() {
-        return this._datasets.filter(d => !d.team.isExample).length == 0 ;
+        return this._datasets.filter(d => !d.team.isExample).length == 0;
     }
 
     onCopy(dataset: DataSet) {

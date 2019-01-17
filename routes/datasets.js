@@ -50,7 +50,6 @@ router.get('/template/:name', function (req, res, next) {
     let teamId = req.query.teamId;
     let template = _.template(fs.readFileSync(path.join(__dirname, "..", `public/templates/maps/${name}.json`)));
     let templated = JSON.parse(template({ teamId: teamId }));
-    console.log(templated)
     res.json(templated);
 
 })

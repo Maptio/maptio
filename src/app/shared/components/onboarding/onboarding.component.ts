@@ -174,7 +174,6 @@ export class OnboardingComponent implements OnInit {
                 return this.mapService.archive(dataset)
             })
             .then(() => {
-                console.log(this.isCreatingEmptyMap);
                 return this.createMap(this.mapName, this.isCreatingEmptyMap)
             })
     }
@@ -239,7 +238,6 @@ export class OnboardingComponent implements OnInit {
         this.nextActionName = "Next";
         this.isSkippable = false;
         this.cd.markForCheck();
-        console.log(team)
     }
 
     getMemberIndexes() {

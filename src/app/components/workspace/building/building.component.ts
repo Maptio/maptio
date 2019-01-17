@@ -260,7 +260,6 @@ export class BuildingComponent {
 
                 return Promise.all([this.userService.getUsersInfo(team.members), this.userFactory.getUsers(team.members.map(m => m.user_id))])
                     .then(([auth0Users, databaseUsers]: [User[], User[]]) => {
-                        // console.log(auth0Users, databaseUsers)
                         return databaseUsers.map(u => {
                             u.picture = auth0Users.find(du => du.user_id === u.user_id) ? auth0Users.find(du => du.user_id === u.user_id).picture : u.picture;
                             return u;

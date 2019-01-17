@@ -68,7 +68,6 @@ export class DatasetFactory {
                 return Initiative.create().deserialize(response.json());
             })
             .flatMap((initiative: Initiative) => {
-                console.log(initiative)
                 return this.create(new DataSet({
                     initiative : initiative
                 }))

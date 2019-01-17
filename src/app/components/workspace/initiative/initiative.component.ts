@@ -142,7 +142,6 @@ export class InitiativeComponent implements OnChanges {
             (<HTMLInputElement>this.inputAuthority.nativeElement).value =this.node.accountable.name;
         }
         this.inputTag.writeValue("");
-        console.log(this.node)
         this.edited.emit(true);
     }
 
@@ -156,7 +155,6 @@ export class InitiativeComponent implements OnChanges {
     }
 
     saveRole(helper: Helper, description: string) {
-        console.log(helper, description)
         if (helper.roles[0]) {
             helper.roles[0].description = description;
         }

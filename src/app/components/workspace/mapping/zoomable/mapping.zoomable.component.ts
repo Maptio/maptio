@@ -287,7 +287,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         )
       );
       svg.call(this.zooming);
-    } catch (error) { console.log(error); }
+    } catch (error) { console.error(error); }
 
     function zoomed() {
       g.attr("transform", d3.event.transform);
@@ -699,7 +699,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           .scale(this.scale)
       );
       svg.call(this.zooming);
-    } catch (error) { console.log(error); }
+    } catch (error) { console.error(error); }
 
     return nodes;
 

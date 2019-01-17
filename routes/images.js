@@ -21,15 +21,10 @@ cloudinary.config({
 
 
 router.post('/upload/:mapid', function (req, res, next) {
-    // console.log(req.body)
-    // console.log(CLOUDINARY_APIKEY, CLOUDINARY_API_SECRET, CLOUDINARY_CLOUDNAME)
-    // var svgString = req.image;
-    // var svgString = fs.readFileSync(path.join(__dirname, "..", "public/example.svg"));
     var svgString = req.body;
     var date = new Date();
     var mapid = req.params.mapid;
     var base64String = Buffer.from(svgString).toString("base64");
-    // console.log(svgString, base64String)
     cloudinary.uploader.upload(
         `data:image/svg+xml;base64,${base64String}`,
         function (result) { res.json(result) },

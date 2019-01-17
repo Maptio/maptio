@@ -197,7 +197,6 @@ export class MappingComponent {
 
       }
       this.isFullScreen = this.fullScreenLib.isFullscreen;
-      console.log(this.isFullScreen)
       this.cd.markForCheck();
     })
   }

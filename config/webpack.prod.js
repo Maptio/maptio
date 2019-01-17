@@ -10,7 +10,6 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const ngToolsWebpack = require('@ngtools/webpack');
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
-// console.log(helpers.root('src', 'app', 'app.module#AppModule'));
 module.exports = {
   devtool: 'source-map',
   entry: {

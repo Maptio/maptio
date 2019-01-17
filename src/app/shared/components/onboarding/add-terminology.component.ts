@@ -56,7 +56,6 @@ export class AddTerminologyComponent implements OnInit {
             this.isAdded = false;
             this.errorMessage = null;
             this.cd.markForCheck();
-            console.log(this.form)
             let authority = this.form.controls["authority"].value
             let helper = this.form.controls["helper"].value
 
