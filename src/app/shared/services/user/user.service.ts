@@ -156,7 +156,7 @@ export class UserService {
           var hex = Math.round(x * 255).toString(16);
           return hex.length === 1 ? '0' + hex : hex;
         };
-        return `${toHex(r)}${toHex(g)}${toHex(b)}`;
+        return `${toHex(r)}${toHex(g)}${toHex(b)}`.replace('-','').substr(0,6);
     }
 
     public createUser(email: string, firstname: string, lastname: string, isSignUp?: boolean, isAdmin?: boolean): Promise<User> {
