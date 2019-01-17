@@ -33,6 +33,7 @@ import { User } from "../../../shared/model/user.data";
 import { MappingSummaryComponent } from "./summary/summary.component";
 import { SearchComponent } from "../search/search.component";
 import { environment } from "../../../../environment/environment";
+import * as screenfull from 'screenfull';
 
 // import { MappingNetworkComponent } from "./network/mapping.network.component";
 // import { MappingCirclesComponent } from "./circles/mapping.circles.component";
@@ -63,6 +64,9 @@ export class MappingComponent {
   TOOLTIP_ZOOM_FIT: string = "Zoom fit";
   DEFAULT_TEXT_COLOR: string = environment.DEFAULT_MAP_TEXT_COLOR;
   DEFAULT_MAP_COLOR: string = environment.DEFAULT_MAP_BACKGOUND_COLOR;
+  fullScreenLib: any = screenfull;
+
+  isFullScreen: boolean;
 
   public data: {
     initiative: Initiative;
@@ -184,13 +188,24 @@ export class MappingComponent {
       if (params.reload) {
         this.changeMapColor(params.color);
       }
+    });
+
+    this.fullScreenLib.on("change", () => {
+      document.querySelector("svg#map").setAttribute("width", `${this.uiService.getCanvasWidth()}`)
+      document.querySelector("svg#map").setAttribute("height", `${this.uiService.getCanvasHeight()}`);
+      this.isFullScreen = this.fullScreenLib.isFullscreen;
+      console.log(this.isFullScreen)
+      this.cd.markForCheck();
     })
   }
 
   onActivate(component: IDataVisualizer) {
-
     this.VIEWPORT_HEIGHT = this.uiService.getCanvasHeight();
     this.VIEWPORT_WIDTH = this.uiService.getCanvasWidth();
+
+
+
+
 
     component.showToolipOf$.asObservable().subscribe((tooltip: { initiatives: Initiative[], isNameOnly: boolean }) => {
       this.showTooltip(tooltip.initiatives, tooltip.isNameOnly);
@@ -419,6 +434,10 @@ export class MappingComponent {
       team: this.team.name,
       teamId: this.team.team_id
     });
+  }
+
+  fullScreen() {
+    this.fullScreenLib.toggle(document.querySelector("#mapping-canvas"))
   }
 
   // changeFontColor(color: string) {

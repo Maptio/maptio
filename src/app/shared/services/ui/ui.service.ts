@@ -10,6 +10,7 @@ import { Role } from "../../model/role.data";
 import { User } from "../../model/user.data";
 import { isEmpty, intersection } from "lodash"
 import { DeviceDetectorService } from 'ngx-device-detector';
+import * as screenfull from 'screenfull';
 
 export enum Browsers {
   Firefox,
@@ -42,11 +43,19 @@ export class UIService {
   }
 
   getCanvasWidth() {
-    return document.getElementById("main") ? document.getElementById("main").clientWidth - 50 : window.screen.availWidth;
+    return (screenfull as any).isFullscreen
+      ? window.outerWidth
+      : document.getElementById("main")
+        ? document.getElementById("main").clientWidth - 50
+        : window.screen.availWidth;
   }
 
   getCanvasHeight() {
-    return document.getElementById("main") ? document.getElementById("main").clientHeight   : window.screen.availHeight;
+    return (screenfull as any).isFullscreen
+      ? window.outerWidth
+      : document.getElementById("main")
+        ? document.getElementById("main").clientHeight
+        : window.screen.availHeight;
   }
 
   getCircularPath(radius: number, centerX: number, centerY: number) {

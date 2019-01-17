@@ -269,14 +269,27 @@ input.disabled, input.form-control.disabled, input.form-control:disabled{
 .circles{
   background-image: url(/assets/images/circles.png) ;
   background-repeat:no-repeat;
-  background-size: 20px 20px;
+  background-size: 24px 24px;
   background-position: center center;
-  height: 6.5vh;
+  height: 46px;
   width: 100%;
   padding: 0;
   -webkit-transition: background-image 0.2s ease-in-out;
 transition: background-image 0.2s ease-in-out;
 }
+
+.reset-zoom{
+  background-image: url(/assets/images/reset-zoom.png) ;
+  background-repeat:no-repeat;
+  background-size: 16px 16px;
+  background-position: center center;
+  height: 46px;
+  width: 100%;
+  padding: 0;
+  -webkit-transition: background-image 0.2s ease-in-out;
+transition: background-image 0.2s ease-in-out;
+}
+
 
 .circles.menu{
   background-image: none!important;
