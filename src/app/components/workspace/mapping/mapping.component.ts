@@ -191,8 +191,11 @@ export class MappingComponent {
     });
 
     this.fullScreenLib.on("change", () => {
-      document.querySelector("svg#map").setAttribute("width", `${this.uiService.getCanvasWidth()}`)
-      document.querySelector("svg#map").setAttribute("height", `${this.uiService.getCanvasHeight()}`);
+      if (document.querySelector("svg#map")) {
+        document.querySelector("svg#map").setAttribute("width", `${this.uiService.getCanvasWidth()}`)
+        document.querySelector("svg#map").setAttribute("height", `${this.uiService.getCanvasHeight()}`);
+
+      }
       this.isFullScreen = this.fullScreenLib.isFullscreen;
       console.log(this.isFullScreen)
       this.cd.markForCheck();

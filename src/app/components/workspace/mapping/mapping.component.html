@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-center h-100 position-relative bg-texture" [class.overflow-y]="isFullScreen" id="mapping-canvas">
+<div class="d-flex justify-content-center h-100 position-relative bg-texture overflow-x-hidden " [class.overflow-y-hidden]="!isFullScreen && !rlaSummary.isActive" [class.overflow-y]="isFullScreen" id="mapping-canvas">
   <div class="w-100">
 
     <div class="w-100 h-100">
@@ -42,7 +42,7 @@
                 [routerLinkActive]="['active']" routerLink="/map/{{datasetId}}/{{slug}}/network" fragment="x=0&y={{-this.VIEWPORT_HEIGHT / 4}}&scale=1&{{tagsFragment}}">
                 <span class="icon-text-label">Network</span>
               </button>
-              <button class="btn btn-light summary-list text-dark p-1 btn-control d-flex flex-column align-items-center" [routerLinkActive]="['active']"
+              <button class="btn btn-light summary-list text-dark p-1 btn-control d-flex flex-column align-items-center" #rlaSummary="routerLinkActive" [routerLinkActive]="['active']"
                 routerLink="/map/{{datasetId}}/{{slug}}/summary">
                 <span class="icon-text-label">Directory</span>
               </button>

@@ -52,7 +52,7 @@ export class UIService {
 
   getCanvasHeight() {
     return (screenfull as any).isFullscreen
-      ? window.outerWidth
+      ? window.outerHeight
       : document.getElementById("main")
         ? document.getElementById("main").clientHeight
         : window.screen.availHeight;

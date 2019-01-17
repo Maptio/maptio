@@ -511,6 +511,10 @@ transition: max-height .25s ease-in-out;
   overflow-x: hidden!important;
 }
 
+.overflow-y-hidden{
+  overflow-y: hidden!important;
+}
+
 .container-fluid{
   overflow: auto;
 }
