@@ -292,43 +292,57 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .subscribe((zoomed: [Initiative, boolean]) => {
 
         let node = zoomed[0];
-        let isAuthorityCentricMode = zoomed[1]
+        let isAuthorityCentricMode = zoomed[1];
+        let highlightPath = this.highlightPath;
+        let FADED_OPACITY = this.FADED_OPACITY
 
         g.selectAll("path.edge")
-          .style("stroke-opacity", function (d: any) {
-            return d[4].includes(node.id) ? 1 : 0
-          }).style("opacity", function (d: any) {
-            return d[4].includes(node.id) ? 1 : 0
+          .each(function (d: any) {
+            highlightPath(
+              d3.select(this),
+              d[4].includes(node.id),
+              FADED_OPACITY,
+              isAuthorityCentricMode)
           })
-          .attr("marker-end", function (d: any) {
-            if (isAuthorityCentricMode)
-              return d[4].includes(node.id) ? "url(#arrow)" : "url(#arrow-fade)"
-          });
 
       });
 
     this.selectableTags$.combineLatest(this.isAuthorityCentricMode$.asObservable()).subscribe(value => {
       let tags = value[0];
       let isAuthorityCentricMode = value[1];
+      let highlightPath = this.highlightPath;
 
       let [selectedTags, unselectedTags] = partition(tags, t => t.isSelected);
       let uiService = this.uiService
       let FADED_OPACITY = this.FADED_OPACITY
       g.selectAll("path.edge")
-        .style("stroke-opacity", function (d: any) {
-          return uiService.filter(selectedTags, unselectedTags, d[5]) ? 1 : FADED_OPACITY;
-        }).style("opacity", function (d: any) {
-          return uiService.filter(selectedTags, unselectedTags, d[5]) ? 1 : FADED_OPACITY;
+        .each(function (d: any) {
+          highlightPath(
+            d3.select(this),
+            uiService.filter(selectedTags, unselectedTags, d[5]),
+            FADED_OPACITY,
+            isAuthorityCentricMode)
         })
-        .attr("marker-end", function (d: any) {
-          if (isAuthorityCentricMode)
-            return uiService.filter(selectedTags, unselectedTags, d[5]) ? "url(#arrow)" : "url(#arrow-fade)";
-        });
     })
 
     this.svg = svg;
     this.g = g;
   }
+
+  private highlightPath(element: any, isSelected: boolean, unselectedOpacity: number, isAuthorityCentricMode: boolean) {
+    element
+      .style("stroke-opacity", function (d: any) {
+        return isSelected ? 1 : unselectedOpacity;
+      }).style("opacity", function (d: any) {
+        return isSelected ? 1 : unselectedOpacity;
+      })
+      .attr("marker-end", function (d: any) {
+        if (isAuthorityCentricMode) {
+          return isSelected ? "url(#arrow)" : "url(#arrow-fade)";
+        }
+      });
+  }
+
 
   private prepareAuthorityCentric(initiativeList: HierarchyNode<Initiative>[]) {
     let nodesRaw = initiativeList
