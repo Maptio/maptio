@@ -209,7 +209,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .attr("d", "M0,-5L10,0L0,5")
       .style("opacity", (d: any) => d.opacity);
 
-      const wheelDelta = () => -d3.event.deltaY * (d3.event.deltaMode ? 120 : 1) / 500 * 15;
+    const wheelDelta = () => -d3.event.deltaY * (d3.event.deltaMode ? 120 : 1) / 500 * 15;
 
 
     let zooming = d3
@@ -560,7 +560,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
           .forceManyBody()
           .distanceMax(400)
           .strength(function (d) {
-            return -400;
+            return -600;
           })
       )
       .force("center", d3.forceCenter(width / 2, height / 2));
@@ -659,7 +659,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         if (isAuthorityCentricMode)
           return uiService.filter(selectedTags, unselectedTags, d[5]) ? "url(#arrow)" : "url(#arrow-fade)";
       });
-  
+
 
     let node = g
       .select("g.nodes")
@@ -705,8 +705,13 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       // .style("font-weight", "initial")
       .attr("dx", CIRCLE_RADIUS + 3)
       .attr("dy", CIRCLE_RADIUS / 2)
+      .text(function (d: any) {
+        return d.name;
+      });
+
+    node
       .on("mouseover", function (d: any) {
-        d3.select(this).style("fill", seedColor)
+        d3.select(this).style("fill", d3.color(seedColor).darker(1).toString())
       })
       .on("mouseout", function (d: any) {
         d3.select(this).style("fill", "initial")
@@ -716,9 +721,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
           `/map/${datasetId}/${slug}/summary?member=${d.shortid}`
         );
       })
-      .text(function (d: any) {
-        return d.name;
-      });
+      ;
 
     g.selectAll("path")
       .style("stroke-opacity", 1)
@@ -736,9 +739,9 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
           });
 
 
-        let p = path
-          .node()
-          .getPointAtLength(0.5 * path.node().getTotalLength());
+        // let p = path
+        //   .node()
+        //   .getPointAtLength(0.5 * path.node().getTotalLength());
 
         let ids: any[] = d[4];
 
