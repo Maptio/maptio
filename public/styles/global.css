@@ -269,7 +269,7 @@ input.disabled, input.form-control.disabled, input.form-control:disabled{
 .circles{
   background-image: url(/assets/images/circles.png) ;
   background-repeat:no-repeat;
-  background-size: 24px 24px;
+  background-size: 16px 16px;
   background-position: center center;
   height: 46px;
   width: 100%;

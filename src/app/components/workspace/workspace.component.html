@@ -8,11 +8,13 @@
 
     <div class="col-12 position-relative">
 
-        <div class=" position-relative d-flex justify-content-start h-99 rounded" [class.overflow-hidden]="team?.isExample && isBuildingVisible" [class.box-shadow]="isBuildingVisible"
+        <div class=" position-relative d-flex justify-content-start h-99 rounded" [class.overflow-hidden]="team?.isExample && isBuildingVisible" [class.box-shadow]="true"
             id="main">
 
-            <div [class.d-none]="!isBuildingVisible" [class.d-flex]="isBuildingVisible" class="h-100 collapsible  bg-accent open-nav flex-column justify-content-start align-items-center cursor-pointer collapsible "
-                [class.col-0]="!isBuildingPanelCollapsed" [class.col-auto]="isBuildingPanelCollapsed" (click)="isBuildingPanelCollapsed=false">
+            <div [class.invisible]="!isBuildingVisible" [class.d-flex]="true" class="h-100 collapsible  bg-accent open-nav flex-column justify-content-start align-items-center cursor-pointer collapsible "
+                [class.col-0]="!isBuildingPanelCollapsed" [class.col-auto]="isBuildingPanelCollapsed" 
+                [class.position-absolute]="isBuildingVisible"
+                (click)="isBuildingPanelCollapsed=false">
                 <span class="p-2 h2" *ngIf="isBuildingPanelCollapsed">
                     <i class="fa fa-angle-right text-white" aria-hidden="true"></i>
 
@@ -58,7 +60,7 @@
             </div>
 
 
-            <div class=" h-100" [ngStyle]="{'width':'calc(100% - ' + (isBuildingVisible ? 56 : 8) + 'px)'}">
+            <div class=" h-100" [class.col-auto]="!isBuildingVisible" [ngStyle]="{'width':'calc(100% - ' + (true ? 56 : 8) + 'px)'}">
                 <div class="h-100 ">
                     <ng-container *ngIf="isLoading">
                         <div class="d-flex justify-content-center align-items-center h-100 ">

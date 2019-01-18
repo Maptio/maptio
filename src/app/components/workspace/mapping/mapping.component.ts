@@ -196,6 +196,11 @@ export class MappingComponent {
         document.querySelector("svg#map").setAttribute("height", `${this.uiService.getCanvasHeight()}`);
 
       }
+      else{
+        this.VIEWPORT_HEIGHT = this.uiService.getCanvasHeight();
+        this.VIEWPORT_WIDTH = this.uiService.getCanvasWidth();
+    
+      }
       this.isFullScreen = this.fullScreenLib.isFullscreen;
       this.cd.markForCheck();
     })
@@ -442,26 +447,11 @@ export class MappingComponent {
     this.fullScreenLib.toggle(document.querySelector("#mapping-canvas"))
   }
 
-  // changeFontColor(color: string) {
-  //   this.fontColor$.next(color);
-  //   this.settings.fontColor = color;
-  //   localStorage.setItem(`map_settings_${this.datasetId}`, JSON.stringify(this.settings));
-  //   // this.fontColor = color;
-  //   this.analytics.eventTrack("Map", {
-  //     action: "change font color",
-  //     color: color,
-  //     team: this.team.name,
-  //     teamId: this.team.team_id
-  //   });
-  // }
-
   changeMapColor(color: string) {
     this.mapColor$.next(color);
     this.settings.mapColor = color;
     localStorage.setItem(`map_settings_${this.datasetId}`, JSON.stringify(this.settings));
 
-    // localStorage.setItem("MAP_COLOR", `${color}`);
-    // this.mapColor = color;
     this.analytics.eventTrack("Map", {
       action: "change map color",
       color: color,
