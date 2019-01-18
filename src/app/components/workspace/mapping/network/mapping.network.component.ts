@@ -72,7 +72,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   }>();
 
   public hideOptions$: Subject<boolean> = new Subject<boolean>();
-  public isCollapsedOptions: boolean;
+  public isOptionsVisible: boolean;
 
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
   // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
@@ -95,7 +95,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   TRANSITION_DURATION = 250;
 
   CIRCLE_RADIUS: number = 32;
-  LINE_WEIGHT = 4;
+  LINE_WEIGHT = 5;
   FADED_OPACITY = 0.05;
   private svg: any;
   private g: any;
