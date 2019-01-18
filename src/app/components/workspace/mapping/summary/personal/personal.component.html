@@ -1,7 +1,7 @@
 <div class="d-flex flex-column justify-content-center row">
     <div class="col-12">
         <div class="d-flex align-items-center">
-            <img class="rounded-circle user col-auto p-0" width="96" height="96" src="{{member?.picture}}">
+            <img class="rounded-circle user col-auto p-0" width="128" height="128" src="{{member?.picture}}">
             <div class="mx-2 w-100" role="navigation">
                 <h1 class="position-absolute"> {{member?.name}}</h1>
                 <ul class="nav nav-tabs justify-content-end my-2" role="tablist">
@@ -24,7 +24,7 @@
         </div>
 
     </div>
-
+    
     <div class="col-12 d-flex justify-content-end">
         <div class="btn-group" role="group" aria-label="">
             <button type="button" (click)="setColumnNumber(3)" [class.active]="isColumnToggleActive(3)" class="btn btn-light">

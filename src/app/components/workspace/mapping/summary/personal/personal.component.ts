@@ -22,7 +22,7 @@ export class PersonalSummaryComponent implements OnInit {
     authoritiesHideme: Array<boolean> = [];
     helpingHideme: Array<boolean> = [];
     initiativesMap: Map<number, boolean> = new Map<number, boolean>();
-    columnNumber:number = 1;
+    columnNumber: number;
 
     @Input("member") public member: User;
     @Input("initiative") public initiative: Initiative;
@@ -56,6 +56,13 @@ export class PersonalSummaryComponent implements OnInit {
         }
         if (changes.team && changes.team.currentValue) {
             this._team = changes.team.currentValue;
+        }
+        if (changes.datasetId && changes.datasetId.currentValue) {
+            this.columnNumber = (localStorage.getItem(`map_settings_${changes.datasetId.currentValue}`)
+                ? JSON.parse(localStorage.getItem(`map_settings_${changes.datasetId.currentValue}`)).directoryColumnsNumber
+                : 1
+            ) || 1;
+            this.cd.markForCheck();
         }
         this.ngOnInit();
     }
@@ -97,24 +104,20 @@ export class PersonalSummaryComponent implements OnInit {
     ngOnDestroy() {
     }
 
-    onSelectMember(user:User){
+    onSelectMember(user: User) {
         this.selectMember.emit(user);
     }
 
-    isColumnToggleActive(columns:number){
+    isColumnToggleActive(columns: number) {
         return this.columnNumber == columns;
     }
 
-    setColumnNumber(columns:number){
+    setColumnNumber(columns: number) {
         this.columnNumber = columns;
-        this.cd.markForCheck();
-    }
+        let settings = JSON.parse(localStorage.getItem(`map_settings_${this.datasetId}`));
+        settings.directoryColumnsNumber = columns;
+        localStorage.setItem(`map_settings_${this.datasetId}`, JSON.stringify(settings));
 
-    getColumnNumberClass(){
-        return {
-            'one-column' : this.isColumnToggleActive(1),
-            'two-column' : this.isColumnToggleActive(2),
-            'three-column' : this.isColumnToggleActive(3),
-        }
+        this.cd.markForCheck();
     }
 }
