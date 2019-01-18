@@ -191,18 +191,20 @@ export class MappingComponent {
     });
 
     this.fullScreenLib.on("change", () => {
+      this.isFullScreen = this.fullScreenLib.isFullscreen;
+      
       if (document.querySelector("svg#map")) {
         document.querySelector("svg#map").setAttribute("width", `${this.uiService.getCanvasWidth()}`)
         document.querySelector("svg#map").setAttribute("height", `${this.uiService.getCanvasHeight()}`);
 
       }
       else{
+        document.querySelector("#summary-canvas").style.maxHeight= this.isFullScreen ? null : `${this.uiService.getCanvasHeight()*0.95}px`;
         this.VIEWPORT_HEIGHT = this.uiService.getCanvasHeight();
         this.VIEWPORT_WIDTH = this.uiService.getCanvasWidth();
     
       }
       console.log("full screen change", this.VIEWPORT_HEIGHT)
-      this.isFullScreen = this.fullScreenLib.isFullscreen;
       this.cd.markForCheck();
     })
   }
