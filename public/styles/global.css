@@ -498,6 +498,14 @@ transition: max-height .25s ease-in-out;
   transition: max-height .25s ease-in-out;
 }
 
+.overflow-hover{
+  overflow: hidden;
+}
+
+.overflow-hover:hover{
+  overflow-y: scroll;
+}
+
 .overflow-hidden
 {
   overflow: hidden;

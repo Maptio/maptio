@@ -76,8 +76,8 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
     filterMembers$: Subject<string> = new Subject<string>()
 
     constructor(public auth: Auth, public route: ActivatedRoute, public datasetFactory: DatasetFactory,
-        public userFactory: UserFactory, private userService:UserService,  public teamFactory: TeamFactory, private dataService: DataService,
-        public loaderService: LoaderService, private router:Router,
+        public userFactory: UserFactory, private userService: UserService, public teamFactory: TeamFactory, private dataService: DataService,
+        public loaderService: LoaderService, private router: Router,
         private cd: ChangeDetectorRef) {
     }
 
@@ -141,6 +141,15 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
 
     onKeyDown(search: string) {
         this.filterMembers$.next(search);
+    }
+
+    onSelectMember(user: User) {
+        this.selectedMember = user;
+        this.cd.markForCheck();
+        this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { member: user.shortid }
+        })
     }
 
     init(): void {
