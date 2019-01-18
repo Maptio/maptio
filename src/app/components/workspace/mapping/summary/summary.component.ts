@@ -73,7 +73,8 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
     team: Team;
     selectedMember: User;
     dataSubscription: Subscription;
-    filterMembers$: Subject<string> = new Subject<string>()
+    filterMembers$: Subject<string> = new Subject<string>();
+    isOthersPeopleVisible:boolean;
 
     constructor(public auth: Auth, public route: ActivatedRoute, public datasetFactory: DatasetFactory,
         public userFactory: UserFactory, private userService: UserService, public teamFactory: TeamFactory, private dataService: DataService,

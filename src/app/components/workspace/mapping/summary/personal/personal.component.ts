@@ -22,6 +22,7 @@ export class PersonalSummaryComponent implements OnInit {
     authoritiesHideme: Array<boolean> = [];
     helpingHideme: Array<boolean> = [];
     initiativesMap: Map<number, boolean> = new Map<number, boolean>();
+    columnNumber:number = 1;
 
     @Input("member") public member: User;
     @Input("initiative") public initiative: Initiative;
@@ -98,5 +99,22 @@ export class PersonalSummaryComponent implements OnInit {
 
     onSelectMember(user:User){
         this.selectMember.emit(user);
+    }
+
+    isColumnToggleActive(columns:number){
+        return this.columnNumber == columns;
+    }
+
+    setColumnNumber(columns:number){
+        this.columnNumber = columns;
+        this.cd.markForCheck();
+    }
+
+    getColumnNumberClass(){
+        return {
+            'one-column' : this.isColumnToggleActive(1),
+            'two-column' : this.isColumnToggleActive(2),
+            'three-column' : this.isColumnToggleActive(3),
+        }
     }
 }

@@ -1,11 +1,11 @@
-<div class="row cursor-auto overflow-x-hidden my-4" [style.max-height.px]="height*0.95">
+<div class="row cursor-auto overflow-x-hidden overflow-auto my-4" [style.max-height.px]="height*0.95">
 
     <div class="d-flex col-12">
 
         <div class="col mr-3 d-flex justify-content-between align-items-start" *ngIf="selectedMember">
             <div class="w-100 d-flex flex-column align-items-end">
-                <button class="btn btn-link btn-sm" type="button" data-toggle="collapse" data-target="#collapseOtherMembers" aria-expanded="false"
-                    aria-controls="collapseOtherMembers">Show other people</button>
+                <button class="btn btn-link btn-sm" type="button" (click)="isOthersPeopleVisible=!isOthersPeopleVisible" data-toggle="collapse" data-target="#collapseOtherMembers" aria-expanded="false"
+                    aria-controls="collapseOtherMembers">{{ isOthersPeopleVisible ? 'Hide' : 'Show'}}  other people</button>
                 <div class="w-100">
                     <summary-personal [datasetId]="datasetId" [member]="selectedMember" [team]="team" [initiative]="initiative" (selectMember)="onSelectMember($event)"></summary-personal>
                </div>
