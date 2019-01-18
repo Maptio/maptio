@@ -1,8 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Initiative } from '../../../../../shared/model/initiative.data';
 import { Router } from '../../../../../../../node_modules/@angular/router';
 import { DataSet } from '../../../../../shared/model/dataset.data';
 import { Team } from '../../../../../shared/model/team.data';
+import { User } from '../../../../../shared/model/user.data';
 
 @Component({
     selector: 'personal-card',
@@ -15,6 +16,7 @@ export class PersonalCardComponent implements OnInit {
     @Input("team") team:Team;
     @Input("datasetId") public datasetId: string;
     @Input("isWithLeader") isWithLeader:boolean;
+    @Output("selectMember") selectMember:EventEmitter<User> = new EventEmitter<User>();
 
     isShowRoles:boolean;
     constructor(private router:Router) { }
@@ -23,6 +25,10 @@ export class PersonalCardComponent implements OnInit {
 
     openInitiative(node: Initiative) {
         this.router.navigateByUrl(`/map/${this.datasetId}/${this.initiative.getSlug()}/circles?id=${node.id}`)
+    }
+
+    onSelectMember(user:User){
+        this.selectMember.emit(user);
     }
 
     getWithDescriptionId(){

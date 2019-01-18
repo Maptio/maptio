@@ -29,6 +29,7 @@ export class PersonalSummaryComponent implements OnInit {
     @Input("height") public height: number;
     @Input("datasetId") public datasetId: string;
     @Output() edit: EventEmitter<Initiative> = new EventEmitter<Initiative>();
+    @Output() selectMember: EventEmitter<User> = new EventEmitter<User>();
 
     private _user: User;
     private _initiative: Initiative;
@@ -93,5 +94,9 @@ export class PersonalSummaryComponent implements OnInit {
     }
 
     ngOnDestroy() {
+    }
+
+    onSelectMember(user:User){
+        this.selectMember.emit(user);
     }
 }

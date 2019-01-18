@@ -567,3 +567,23 @@ animation: pulse 3s infinite linear;
 }
 
 
+.nav-link {
+color: var(--maptio-accent) !important;
+}
+
+
+a.nav-link{
+    color:var(--maptio-blue) !important;
+}
+
+a.nav-link.active{
+border-left:6px solid var(--maptio-accent) !important;
+background-color: transparent !important;
+/* font-weight: bold; */
+color: var(--maptio-accent) !important;
+}
+
+a.nav-link:hover{
+  color: var(--maptio-accent) !important;
+}
+

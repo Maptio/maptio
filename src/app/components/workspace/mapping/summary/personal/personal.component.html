@@ -1,13 +1,56 @@
-<div class="d-flex justify-content-center row">
+<div class="d-flex flex-column justify-content-center row">
     <div class="col-12">
-        <div class="d-flex flex-column align-items-center">
-            <img class="rounded-circle user" width="128" height="128" src="{{member?.picture}}">
-            <h2 class="ml-1">{{member?.name}}</h2>
-
+        <div class="d-flex align-items-center">
+            <img class="rounded-circle user col-auto p-0" width="96" height="96" src="{{member?.picture}}">
+            <div class="mx-2 w-100" role="navigation">
+                <h1 class="position-absolute"> {{member?.name}}</h1>
+                <ul class="nav nav-tabs justify-content-end my-2" role="tablist">
+                    <li class="nav-item mr-1">
+                        <a class="nav-link active d-flex flex-column align-items-center" id="authority-tab" data-toggle="tab" href="#authority" role="tab"
+                            aria-controls="authority" aria-selected="true">
+                            <span>{{_team?.settings.authority | titlecase }}</span>
+                            <span class="small text-muted">{{authorities.length}} circles</span>
+                        </a>
+                    </li>
+                    <li class="nav-item d-flex flex-column align-items-center" >
+                        <a class="nav-link  d-flex flex-column align-items-center" id="helper-tab" data-toggle="tab"  role="tab" aria-controls="helper"
+                        aria-selected="false" href="#helper">
+                            <span>{{_team?.settings.helper | titlecase }}</span>
+                            <span class="small text-muted">{{helps.length}} circles</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
 
-        <hr>
-        <div class="d-flex justify-content-between mt-3">
+    </div>
+
+    <div class="tab-content col-12 mt-3" id="tab-content">
+        <div class="tab-pane fade show active" id="authority" role="tabpanel" aria-labelledby="authority-tab">
+            <span *ngIf="authorities.length===0" class="h5 text-orange">Not a {{_team?.settings.authority | lowercase }} yet</span>
+               
+            <div *ngFor="let i of authorities; let ix=index" class="my-1">
+                <personal-card [initiative]="i" [datasetId]="datasetId" [team]="team" [isWithLeader]="false" (selectMember)="onSelectMember($event)"></personal-card>
+            </div>
+
+        </div>
+        <div class="tab-pane fade" id="helper" role="tabpanel" aria-labelledby="helper-tab">
+            <span *ngIf="helps.length===0" class="h5 text-orange">No helping participation yet</span>
+               
+            <div *ngFor="let i of helps; let ix=index" class="my-1">
+
+                <personal-card [initiative]="i" [datasetId]="datasetId" [team]="team" [isWithLeader]="true" (selectMember)="onSelectMember($event)"></personal-card>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <!-- <div class="d-flex justify-content-between mt-3">
             <div class="w-50 mr-1">
                 <span *ngIf="authorities.length===0" class="card-title text-muted">Not a {{_team?.settings.authority | lowercase }} yet</span>
                 <span *ngIf="authorities.length>0" class="card-title text-muted">{{_team?.settings.authority | titlecase }} of circles</span>
@@ -30,6 +73,6 @@
 
             </div>
 
-        </div>
-    </div>
+        </div> -->
+
 </div>

@@ -2,18 +2,3 @@ nav.header {
 min-height: 56px;
 }
 
-.nav-link {
-color: var(--maptio-accent);
-}
-
-
-a.nav-link{
-    color:var(--maptio-blue);
-}
-
-a.nav-link.active{
-border-left:6px solid var(--maptio-accent) !important;
-background-color: transparent;
-/* font-weight: bold; */
-color: var(--maptio-accent);
-}

@@ -201,6 +201,7 @@ export class MappingComponent {
         this.VIEWPORT_WIDTH = this.uiService.getCanvasWidth();
     
       }
+      console.log("full screen change", this.VIEWPORT_HEIGHT)
       this.isFullScreen = this.fullScreenLib.isFullscreen;
       this.cd.markForCheck();
     })
@@ -209,10 +210,6 @@ export class MappingComponent {
   onActivate(component: IDataVisualizer) {
     this.VIEWPORT_HEIGHT = this.uiService.getCanvasHeight();
     this.VIEWPORT_WIDTH = this.uiService.getCanvasWidth();
-
-
-
-
 
     component.showToolipOf$.asObservable().subscribe((tooltip: { initiatives: Initiative[], isNameOnly: boolean }) => {
       this.showTooltip(tooltip.initiatives, tooltip.isNameOnly);
