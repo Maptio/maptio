@@ -48,16 +48,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public selectableTags$: Observable<Array<SelectableTag>>;
   public selectableUsers$: Observable<Array<SelectableUser>>;
   public isReset$: Observable<boolean>;
-  // public fontSize$: Observable<number>;
-  // public fontColor$: Observable<string>;
   public mapColor$: Observable<string>;
   public zoomInitiative$: Observable<Initiative>;
   public forceZoom$: Observable<Initiative>;
-  public toggleOptions$: Observable<Boolean>;
   public isLocked$: Observable<boolean>;
 
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
-  // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public showToolipOf$: Subject<{ initiatives: Initiative[], isNameOnly: boolean }> = new Subject<{ initiatives: Initiative[], isNameOnly: boolean }>();
   public showContextMenuOf$: Subject<{ initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean }> = new Subject<{ initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean }>();
   public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
@@ -71,7 +67,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
   private zoomSubscription: Subscription;
   private dataSubscription: Subscription;
   private resetSubscription: Subscription;
-  // private fontSubscription: Subscription;
   private lockedSubscription: Subscription;
   private tagsSubscription: Subscription;
   private selectableTagsSubscription: Subscription;
@@ -80,16 +75,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
   public analytics: Angulartics2Mixpanel;
 
-  public _isExplorationMode: boolean;
-
-  private _isExplorationMode$: Subject<boolean> = new Subject<boolean>();
-
   private svg: any;
   private g: any;
   private diameter: number;
   private definitions: any;
-  private fontSize: number;
-  private fonts: ScaleLinear<number, number>;
   private outerFontScale: ScaleLogarithmic<number, number>;
   private innerFontScale: ScaleLogarithmic<number, number>;
   public isWaitingForDestinationNode: boolean = false;
@@ -102,7 +91,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public selectedNodeParent: Initiative;
   public hoveredNode: Initiative;
 
-  private color: ScaleLinear<HSLColor, string>;
   public slug: string;
 
   CIRCLE_RADIUS: number = 16;
@@ -155,15 +143,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
         let data = <any>complexData[0].initiative;
         this.datasetId = complexData[0].dataset.datasetId;
 
-        this._isExplorationMode = localStorage.getItem(`map_settings_${this.datasetId}`)
-          ? JSON.parse(localStorage.getItem(`map_settings_${this.datasetId}`)).explorationMode
-          : false
-        this._isExplorationMode$.next(this._isExplorationMode);
-        this.cd.markForCheck();
-
         this.slug = data.getSlug();
         this.loaderService.show();
-        let nodes = this.update(data, complexData[1], !this._isExplorationMode, this.counter === 0);
+        let nodes = this.update(data, complexData[1], this.counter === 0);
         if (complexData[2].id) {
           if (nodes.find((n: any) => n.data.id.toString() === complexData[2].id.toString())) {
             let n = <Initiative>nodes.filter((n: any) => n.data.id.toString() === complexData[2].id.toString())[0].data;
@@ -189,16 +171,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.selectableTags$.subscribe(tags => this.tagsState = tags)
   }
 
-  public switch() {
-    this._isExplorationMode = !this._isExplorationMode;
-
-    let settings = JSON.parse(localStorage.getItem(`map_settings_${this.datasetId}`));
-    settings.explorationMode = this._isExplorationMode;
-    localStorage.setItem(`map_settings_${this.datasetId}`, JSON.stringify(settings));
-
-    this._isExplorationMode$.next(this._isExplorationMode);
-    this.ngOnInit();
-  }
 
   ngOnDestroy() {
     if (this.zoomSubscription) {
@@ -394,7 +366,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       // .style("opacity", 0)
       .on("end", function (d: any): void {
         select(this)
-          .style("font-size", `${outerFontSize* 1.2}px`)
+          .style("font-size", `${outerFontSize * 1.2}px`)
           .transition()
         // .style("opacity", 1);
       });
@@ -454,7 +426,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this._lastZoomedCircle = circle;
   }
 
-  update(data: Initiative, seedColor: string, isFullDisplayMode: boolean, isFirstLoad: boolean): HierarchyCircularNode<{}>[] {
+  update(data: Initiative, seedColor: string, isFirstLoad: boolean): HierarchyCircularNode<{}>[] {
     if (this.d3.selectAll("g").empty()) {
       this.init();
     }
@@ -531,18 +503,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
       return (height - (margin * 2)) / (radius * 2);
     }
 
-    function getDepthDifference(d: any): number {
-      return d.depth - focus.depth;
-    }
-
-    function isBranchDisplayed(d: any): boolean {
-      return isFullDisplayMode ? true : getDepthDifference(d) <= 3;
-    }
-
-    function isLeafDisplayed(d: any): boolean {
-      return isFullDisplayMode ? true : getDepthDifference(d) <= 2;
-    }
-
     function toREM(pixels: number) {
       return pixels / 16;
     }
@@ -575,18 +535,14 @@ export class MappingZoomableComponent implements IDataVisualizer {
       this.adjustViewToZoomEvent(g, currentTransform, true);
     });
 
-    // initiativeWithChildrenEnter.append("path").attr("class", "node");
-
 
     initiativeWithChildrenEnter.append("text").attr("class", "name with-children").classed("initiative-map", true);
     initiativeNoChildrenEnter.append("foreignObject").attr("class", "name no-children").classed("initiative-map", true);
 
-    // initiativeNoChildrenEnter.append("text").attr("class", "tags no-children").classed("initiative-map", true);
 
     initiativeWithChildrenEnter.append("circle").attr("class", "accountable with-children").classed("initiative-map", true);
     initiativeNoChildrenEnter.append("circle").attr("class", "accountable no-children").classed("initiative-map", true);
 
-    // initiativeNoChildrenEnter.append("text").attr("class", "accountable no-children").classed("initiative-map", true)
 
     initiativeWithChildren = initiativeWithChildrenEnter.merge(initiativeWithChildren);
     initiativeNoChildren = initiativeNoChildrenEnter.merge(initiativeNoChildren);
@@ -604,18 +560,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .attr("id", function (d: any) {
         return `${d.data.id}`;
       })
-      // .style("pointer-events", "none")
-      .style("opacity", function (d: any) {
-        return isBranchDisplayed(d) ? 1 : 0;
-      })
       .style("display", function (d: any) {
-        return d !== root
-          ? isBranchDisplayed(d) ? "inline" : "none"
-          : "none";
+        return d !== root ? "inline" : "none";
       })
-      .style("font-size", function (d: any) {
-        return `1rem`;
-      })
+      .style("font-size", `1rem`)
       .html(function (d: any) {
         let radius = d.r * d.k + 1;
         return browser === Browsers.Firefox
@@ -642,12 +590,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .attr("width", function (d: any) { return d.r * 2 * 0.95 })
       .attr("height", function (d: any) { return d.r * 2 * 0.5 })
       .style("display", "inline")
-      .style("opacity", function (d: any) {
-        return isLeafDisplayed(d) ? 1 : 0;
-      })
-      .style("pointer-events", function (d: any) {
-        return "none"; // isLeafDisplayed(d) ? "auto" : "none";
-      })
+      .style("pointer-events", "none")
       .html((d: any): string => {
         let fs = `${toREM(d.r * 2 * 0.95 / MAX_NUMBER_LETTERS_PER_CIRCLE)}rem`;
         return `<div style="font-size: ${fs}; padding-top: 5%; background: none; display: block; pointer-events: none; overflow: hidden; height:100%; line-height: 100%;">${d.data.name || '(Empty)'}</div>`;
@@ -656,27 +599,17 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
 
     let accountablePictureWithChildren = initiativeWithChildren.select("circle.accountable.with-children")
-      // .attr("pointer-events", "none")
       .attr("fill", function (d: any) {
         return d.data.accountable ? "url('#image" + d.data.id + "')" : "transparent";
       })
-      .style("fill-opacity", function (d: any) {
-        return isBranchDisplayed(d) ? 1 : 0;
-      })
       .style("display", function (d: any) {
-        return d !== root
-          ? isBranchDisplayed(d) ? "inline" : "none"
-          : "none";
+        return d !== root ? "inline" : "none";
       });
 
     let accountablePictureWithoutChildren = initiativeNoChildren.select("circle.accountable.no-children")
-      // .attr("pointer-events", "none")
       .attr("fill", function (d: any) {
         return d.data.accountable ? "url('#image" + d.data.id + "')" : "transparent";
       })
-      .style("opacity", function (d: any) {
-        return isLeafDisplayed(d) ? 1 : 0;
-      });
 
     let node = g.selectAll("g.node");
 
@@ -777,7 +710,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           d3.event.stopPropagation();
           d3.event.preventDefault();
           showToolipOf$.next({ initiatives: [initiative], isNameOnly: false });
-          
+
           d3.select(this)
             .style("stroke", d3.color(seedColor).darker(1).toString())
             .style("stroke-opacity", 1)
@@ -955,8 +888,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .attr("id", function (d: any) {
           return `path${d.data.id}`;
         })
-        // .style("stroke", "none")
-        // .style("fill", "none")
         .attr("d", function (d: any, i: number) {
           let radius = d.r + 1;
           return uiService.getCircularPath(radius, -radius, 0);

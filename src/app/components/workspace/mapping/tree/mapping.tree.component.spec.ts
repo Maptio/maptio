@@ -81,13 +81,9 @@ describe("mapping.tree.component.ts", () => {
         component.zoom$ = Observable.of(1)
         component.isReset$ = new Subject<boolean>();
         component.selectableTags$ = Observable.of([]);
-        component.fontSize$ = Observable.of(12);
-        component.fontColor$ = Observable.of("#000")
         component.mapColor$ = Observable.of("#ddd")
         component.zoomInitiative$ = Observable.of(new Initiative());
 
-        component.toggleOptions$ = Observable.of(true);
-        // component.isLocked$ = Observable.of(true);
         component.analytics = jasmine.createSpyObj("analytics", ["eventTrack"]);
 
         let data = new Initiative().deserialize(fixture.load("data.json"));

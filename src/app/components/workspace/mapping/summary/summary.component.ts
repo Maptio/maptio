@@ -45,7 +45,6 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
 
     public zoomInitiative$: Observable<Initiative>;
     public selectableTags$: Observable<Array<SelectableTag>>;
-    public toggleOptions$: Observable<Boolean>;
     public isReset$: Observable<boolean>;
 
 

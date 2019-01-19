@@ -149,8 +149,6 @@ export class MappingComponent {
 
   isFiltersToggled: boolean = false;
   isSearchDisabled: boolean = false;
-  public _toggleOptions: Boolean = false;
-  public toggleOptions$: BehaviorSubject<Boolean> = new BehaviorSubject(this._toggleOptions)
 
   constructor(
     private dataService: DataService,
@@ -262,7 +260,6 @@ export class MappingComponent {
     // component.fontColor$ = this.fontColor$.asObservable();
     component.mapColor$ = this.mapColor$.asObservable();
     component.zoomInitiative$ = this.zoomToInitiative$.asObservable();
-    component.toggleOptions$ = this.toggleOptions$.asObservable();
     component.translateX = this.x;
     component.translateY = this.y;
     component.scale = this.scale;
@@ -281,7 +278,6 @@ export class MappingComponent {
       this.isMapSettingsDisabled = false;
       this.toggleEditingPanelsVisibility.emit(true)
     }
-    // this.toggleOptions(false);
   }
 
   onDeactivate(component: any) { }
@@ -384,11 +380,6 @@ export class MappingComponent {
     }
   }
 
-  toggleOptions(isActive: Boolean) {
-    this._toggleOptions = isActive ? !this._toggleOptions : false;
-    document.querySelector("div.switch").classList.toggle("show");
-    this.toggleOptions$.next(this._toggleOptions)
-  }
 
   hoveredInitiatives: Initiative[];
   isNameOnly: boolean;

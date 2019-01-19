@@ -53,7 +53,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   // public fontColor$: Observable<string>;
   public mapColor$: Observable<string>;
   public zoomInitiative$: Observable<Initiative>;
-  public toggleOptions$: Observable<Boolean>;
   public isAllExpanded$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public isReset$: Observable<boolean>;
 
@@ -61,7 +60,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   private dataSubscription: Subscription;
   private resetSubscription: Subscription;
   private tagsSubscription: Subscription;
-  private toggleOptionsSubscription: Subscription;
 
   public analytics: Angulartics2Mixpanel;
   public TRANSITION_DURATION = 250;
@@ -268,10 +266,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       d3.selectAll("path.link").classed("highlight", false);
     })
 
-    this.toggleOptionsSubscription = this.toggleOptions$.subscribe(toggled => {
-      this._isDisplayOptions = toggled;
-      this.cd.markForCheck();
-    })
 
     this.svg = svg;
     this.g = g;

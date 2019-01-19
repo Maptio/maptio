@@ -52,7 +52,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   // public isLocked$: Observable<boolean>;
   public isReset$: Observable<boolean>;
 
-  public toggleOptions$: Observable<Boolean>;
 
   public rootNode: Initiative;
   public slug: string;
@@ -89,7 +88,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   private zoomSubscription: Subscription;
   private dataSubscription: Subscription;
   private resetSubscription: Subscription;
-  public toggleOptionsSubscription: Subscription;
 
   T: any;
   TRANSITION_DURATION = 250;
@@ -143,11 +141,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       });
 
     this.selectableTags$.subscribe(tags => this.tagsState = tags)
-
-    this.toggleOptionsSubscription = this.toggleOptions$.subscribe(toggled => {
-      this._isDisplayOptions = toggled;
-      this.cd.markForCheck();
-    })
   }
 
   ngOnDestroy() {
@@ -159,9 +152,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     }
     if (this.resetSubscription) {
       this.resetSubscription.unsubscribe();
-    }
-    if (this.toggleOptionsSubscription) {
-      this.toggleOptionsSubscription.unsubscribe();
     }
   }
 

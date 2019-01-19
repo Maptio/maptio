@@ -18,13 +18,10 @@ export interface IDataVisualizer {
 
     zoom$: Observable<number>;
 
-    // fontSize$: Observable<number>;
-    // fontColor$: Observable<string>;
     mapColor$: Observable<string>;
 
     zoomInitiative$: Observable<Initiative>;
     selectableTags$: Observable<Array<SelectableTag>>;
-    toggleOptions$:Observable<Boolean>;
 
     isReset$: Observable<boolean>;
 

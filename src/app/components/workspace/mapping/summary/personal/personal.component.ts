@@ -4,7 +4,7 @@ import { User } from "../../../../../shared/model/user.data";
 // import { Tag, SelectableTag } from "../../../../../shared/model/tag.data";
 import { Team } from "../../../../../shared/model/team.data";
 import { Router } from "@angular/router";
-// import { partition } from "lodash";
+import { sortBy } from "lodash";
 
 
 @Component({
@@ -36,8 +36,8 @@ export class PersonalSummaryComponent implements OnInit {
     private _initiative: Initiative;
     private _team: Team;
 
-    authorityName:string;
-    helperName:string;
+    authorityName: string;
+    helperName: string;
 
     constructor(private cd: ChangeDetectorRef, private router: Router) {
 
@@ -73,18 +73,21 @@ export class PersonalSummaryComponent implements OnInit {
     }
 
     getSummary() {
-        this.authorities = [];
-        this.helps = [];
+        let authorities: Initiative[] = [];
+        let helps: Initiative[] = [];
 
         this._initiative.traverse(function (i: Initiative) {
             if (i.accountable && i.accountable.user_id === this._user.user_id) {
-                if (!this.authorities.includes(i)) this.authorities.push(i)
+                if (!authorities.includes(i)) authorities.push(i)
             }
             if (i.helpers && i.helpers.find(h => h.user_id === this._user.user_id && i.accountable && i.accountable.user_id !== h.user_id)) {
-                if (!this.helps.includes(i)) this.helps.push(i)
+                if (!helps.includes(i)) helps.push(i)
             }
 
         }.bind(this));
+
+        this.authorities = sortBy(authorities, i => i.name);
+        this.helps = sortBy(helps, i => i.name)
     }
 
 
