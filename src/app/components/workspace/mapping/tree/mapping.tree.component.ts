@@ -84,7 +84,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public showToolipOf$: Subject<{ initiatives: Initiative[], isNameOnly: boolean }> = new Subject<{ initiatives: Initiative[], isNameOnly: boolean }>();
   public hideOptions$: Subject<boolean> = new Subject<boolean>();
-  public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
  
   public _isDisplayOptions: Boolean = false;
 
