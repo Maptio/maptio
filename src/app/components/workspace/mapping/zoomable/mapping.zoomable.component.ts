@@ -62,7 +62,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
     from: Initiative;
     to: Initiative;
   }> = new Subject<{ node: Initiative; from: Initiative; to: Initiative }>();
-  public closeEditingPanel$: Subject<boolean> = new Subject<boolean>();
 
   private zoomSubscription: Subscription;
   private dataSubscription: Subscription;

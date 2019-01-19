@@ -75,7 +75,7 @@
                     </ng-container>
                     <ng-container *ngIf="!isLoading">
                         <mapping [tags]="selectableTags" [isEmptyMap]="isEmptyMap" (showDetails)="openDetails($event, true)" (addInitiative)="addInitiative($event)"
-                            (removeInitiative)="removeInitiative($event)" (moveInitiative)="moveInitiative($event)" (closeEditingPanel)="closeEditingPanel()"
+                            (removeInitiative)="removeInitiative($event)" (moveInitiative)="moveInitiative($event)" 
                             (openTreePanel)="isBuildingPanelCollapsed=false" (applySettings)="applySettings($event)" (expandTree)="buildingComponent.toggleAll(true)"
                             (toggleEditingPanelsVisibility)="toggleEditingPanelsVisibility($event)">
                         </mapping>

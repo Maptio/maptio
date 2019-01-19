@@ -82,7 +82,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     from: Initiative;
     to: Initiative;
   }> = new Subject<{ node: Initiative; from: Initiative; to: Initiative }>();
-  public closeEditingPanel$: Subject<boolean> = new Subject<boolean>();
   public analytics: Angulartics2Mixpanel;
 
   private zoomSubscription: Subscription;

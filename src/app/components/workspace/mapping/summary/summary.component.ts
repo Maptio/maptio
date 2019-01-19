@@ -63,7 +63,6 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
         isReadOnlyContextMenu: boolean
     }>();
     public moveInitiative$: Subject<{ node: Initiative, from: Initiative, to: Initiative }> = new Subject<{ node: Initiative, from: Initiative, to: Initiative }>();
-    public closeEditingPanel$: Subject<boolean> = new Subject<boolean>();
     public analytics: Angulartics2Mixpanel;
 
     members: User[];

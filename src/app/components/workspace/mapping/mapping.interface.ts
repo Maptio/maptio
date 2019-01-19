@@ -33,10 +33,7 @@ export interface IDataVisualizer {
     showDetailsOf$: Subject<Initiative>;
     showToolipOf$ : Subject<{initiatives : Initiative[], isNameOnly:boolean}>;
     showContextMenuOf$ : Subject<{initiatives:Initiative[], x : Number, y:Number, isReadOnlyContextMenu:boolean}>;
-    // addInitiative$: Subject<Initiative>;
-    // removeInitiative$: Subject<Initiative>;
     moveInitiative$: Subject<{ node: Initiative, from: Initiative, to: Initiative }>;
-    closeEditingPanel$: Subject<boolean>;
 
     analytics: Angulartics2Mixpanel;
 

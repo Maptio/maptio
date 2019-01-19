@@ -104,11 +104,9 @@ export class MappingComponent {
   public tags: Array<SelectableTag>;
   public tagsFragment: string;
   public fontSize$: BehaviorSubject<number>;
-  // public fontColor$: BehaviorSubject<string>;
   public mapColor$: BehaviorSubject<string>;
 
   public zoomToInitiative$: Subject<Initiative>;
-  public closeEditingPanel$: BehaviorSubject<boolean>;
   public data$: Subject<{ initiative: Initiative; datasetId: string }>;
 
   @Input("tags") selectableTags: Array<SelectableTag>;
@@ -122,7 +120,6 @@ export class MappingComponent {
     from: Initiative;
     to: Initiative;
   }>();
-  @Output("closeEditingPanel") closeEditingPanel = new EventEmitter<boolean>();
   @Output("openTreePanel") openTreePanel = new EventEmitter<boolean>();
   @Output("expandTree") expandTree = new EventEmitter<boolean>();
   @Output("toggleSettingsPanel")
@@ -164,13 +161,9 @@ export class MappingComponent {
     this.zoom$ = new Subject<number>();
     this.isReset$ = new Subject<boolean>();
     this.selectableTags$ = new ReplaySubject<Array<SelectableTag>>();
-    // this.selectableUsers$ = new ReplaySubject<Array<SelectableUser>>();
     this.fontSize$ = new BehaviorSubject<number>(this.settings.fontSize);
-    // this.fontColor$ = new BehaviorSubject<string>(this.settings.fontColor);
     this.mapColor$ = new BehaviorSubject<string>(this.settings.mapColor);
     this.zoomToInitiative$ = new Subject();
-    // this.isLocked$ = new BehaviorSubject<boolean>(this.isLocked);
-    this.closeEditingPanel$ = new BehaviorSubject<boolean>(false);
     this.data$ = new Subject<{
       initiative: Initiative;
       datasetId: string;
@@ -228,9 +221,7 @@ export class MappingComponent {
       .subscribe(({ node: node, from: from, to: to }) => {
         this.moveInitiative.emit({ node: node, from: from, to: to });
       });
-    component.closeEditingPanel$.asObservable().subscribe((close: boolean) => {
-      this.closeEditingPanel.emit(true);
-    });
+    
 
     let f = this.route.snapshot.fragment || this.getFragment(component);
     this.x = Number.parseFloat(this.uriService.parseFragment(f).get("x"));
