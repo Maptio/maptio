@@ -22,7 +22,6 @@ export interface IDataVisualizer {
 
     zoomInitiative$: Observable<Initiative>;
     selectableTags$: Observable<Array<SelectableTag>>;
-
     isReset$: Observable<boolean>;
 
     translateX: number;
@@ -33,7 +32,6 @@ export interface IDataVisualizer {
     showDetailsOf$: Subject<Initiative>;
     showToolipOf$ : Subject<{initiatives : Initiative[], isNameOnly:boolean}>;
     showContextMenuOf$ : Subject<{initiatives:Initiative[], x : Number, y:Number, isReadOnlyContextMenu:boolean}>;
-    moveInitiative$: Subject<{ node: Initiative, from: Initiative, to: Initiative }>;
 
     analytics: Angulartics2Mixpanel;
 

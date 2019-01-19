@@ -62,7 +62,6 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
         initiatives: Initiative[], x: Number, y: Number,
         isReadOnlyContextMenu: boolean
     }>();
-    public moveInitiative$: Subject<{ node: Initiative, from: Initiative, to: Initiative }> = new Subject<{ node: Initiative, from: Initiative, to: Initiative }>();
     public analytics: Angulartics2Mixpanel;
 
     members: User[];

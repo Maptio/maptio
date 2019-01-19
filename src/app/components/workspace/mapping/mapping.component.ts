@@ -216,13 +216,6 @@ export class MappingComponent {
       this.showContextMenu(node);
     })
 
-    component.moveInitiative$
-      .asObservable()
-      .subscribe(({ node: node, from: from, to: to }) => {
-        this.moveInitiative.emit({ node: node, from: from, to: to });
-      });
-    
-
     let f = this.route.snapshot.fragment || this.getFragment(component);
     this.x = Number.parseFloat(this.uriService.parseFragment(f).get("x"));
     this.y = Number.parseFloat(this.uriService.parseFragment(f).get("y"));

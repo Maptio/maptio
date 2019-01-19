@@ -57,11 +57,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public showToolipOf$: Subject<{ initiatives: Initiative[], isNameOnly: boolean }> = new Subject<{ initiatives: Initiative[], isNameOnly: boolean }>();
   public showContextMenuOf$: Subject<{ initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean }> = new Subject<{ initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean }>();
   public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
-  public moveInitiative$: Subject<{
-    node: Initiative;
-    from: Initiative;
-    to: Initiative;
-  }> = new Subject<{ node: Initiative; from: Initiative; to: Initiative }>();
 
   private zoomSubscription: Subscription;
   private dataSubscription: Subscription;

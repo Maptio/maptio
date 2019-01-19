@@ -77,11 +77,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public showToolipOf$: Subject<{ initiatives: Initiative[], isNameOnly: boolean }> = new Subject<{ initiatives: Initiative[], isNameOnly: boolean }>();
-  public moveInitiative$: Subject<{
-    node: Initiative;
-    from: Initiative;
-    to: Initiative;
-  }> = new Subject<{ node: Initiative; from: Initiative; to: Initiative }>();
   public analytics: Angulartics2Mixpanel;
 
   private zoomSubscription: Subscription;
