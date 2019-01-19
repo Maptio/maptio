@@ -861,8 +861,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
             : !d.children && d.parent === root ? color(d.depth) : null;
         })
         .on("end", (d: any, i: number, e: Array<HTMLElement>): void => {
-          if (callback && i === e.length - 1) callback();
+          const elements = e.filter(el => el);
+          if (callback && i >= elements.length - 1) callback();
         });
+      if (groups.empty() && callback) callback();
     }
 
     function buildPaths() {
