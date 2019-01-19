@@ -111,6 +111,8 @@ describe("team.factory.ts", () => {
                         name: "New",
                         shortid: jasmine.anything(),
                         slack: new SlackIntegration({ access_token: "token" }),
+                        isTemporary: false,
+                        isExample: false,
                         members: [
                             { user_id: "1", name: undefined, picture: undefined, nickname: undefined },
                             { user_id: "2", name: "Two", picture: undefined, nickname: undefined },
@@ -128,7 +130,8 @@ describe("team.factory.ts", () => {
 
             let members = [new User({ user_id: "1" }), new User({ user_id: "2", name: "Two" }), new User({ user_id: "3", picture: "Three" }), new User({ user_id: "4", nickname: "Four" })]
             let team = new Team({
-                name: "New", team_id: "id", members: members, slack: new SlackIntegration({
+                name: "New", team_id: "id", members: members, isTemporary: false,
+                isExample: false, slack: new SlackIntegration({
                     access_token: "token"
                 })
             })
@@ -156,11 +159,13 @@ describe("team.factory.ts", () => {
                         name: "New",
                         settings: { authority: "Driver", helper: "Backseat" },
                         slack: new SlackIntegration({ access_token: "token" }),
+                        isTemporary: false,
+                        isExample: false,
                         members: [
                             { user_id: "1", name: undefined, picture: undefined, nickname: undefined },
                             { user_id: "2", name: "Two", picture: undefined, nickname: undefined },
                             { user_id: "3", name: undefined, picture: "Three", nickname: undefined },
-                            { user_id: "4", name: undefined, picture: undefined, nickname: "Four" }]
+                            { user_id: "4", name: undefined, picture: undefined, nickname: "Four" }],
                     });
                     connection.mockRespond(new Response(new ResponseOptions({
                         body: JSON.stringify(mockResponse)
@@ -178,7 +183,9 @@ describe("team.factory.ts", () => {
                 settings: { authority: "Driver", helper: "Backseat" },
                 slack: new SlackIntegration({
                     access_token: "token"
-                })
+                }),
+                isTemporary: false,
+                isExample: false
             })
             target.upsert(team).then(result => {
                 expect(result).toBe(true)

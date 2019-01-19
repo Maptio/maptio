@@ -126,7 +126,7 @@ describe("mapping.component.ts", () => {
             });
 
             it("should return correct fragment  when layout is list", () => {
-                let actual = component.getFragment(new MappingSummaryComponent(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined));
+                let actual = component.getFragment(new MappingSummaryComponent(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined));
                 expect(actual).toBe("x=0&y=0&scale=1")
             });
         });
@@ -141,25 +141,25 @@ describe("mapping.component.ts", () => {
             });
         });
 
-        describe("change font size", () => {
-            it("should chnage font size", () => {
-                spyOn(component.fontSize$, "next");
-                spyOn(target.debugElement.injector.get(Angulartics2Mixpanel), "eventTrack")
-                component.changeFontSize(12);
-                expect(component.fontSize$.next).toHaveBeenCalledWith(12);
-                expect(target.debugElement.injector.get(Angulartics2Mixpanel).eventTrack).toHaveBeenCalled();
-            });
-        });
+        // describe("change font size", () => {
+        //     it("should chnage font size", () => {
+        //         spyOn(component.fontSize$, "next");
+        //         spyOn(target.debugElement.injector.get(Angulartics2Mixpanel), "eventTrack")
+        //         component.changeFontSize(12);
+        //         expect(component.fontSize$.next).toHaveBeenCalledWith(12);
+        //         expect(target.debugElement.injector.get(Angulartics2Mixpanel).eventTrack).toHaveBeenCalled();
+        //     });
+        // });
 
-        describe("change font color", () => {
-            it("should change font color", () => {
-                spyOn(component.fontColor$, "next");
-                spyOn(target.debugElement.injector.get(Angulartics2Mixpanel), "eventTrack")
-                component.changeFontColor("color")
-                expect(component.fontColor$.next).toHaveBeenCalledWith("color");
-                expect(target.debugElement.injector.get(Angulartics2Mixpanel).eventTrack).toHaveBeenCalled();
-            });
-        });
+        // describe("change font color", () => {
+        //     it("should change font color", () => {
+        //         spyOn(component.fontColor$, "next");
+        //         spyOn(target.debugElement.injector.get(Angulartics2Mixpanel), "eventTrack")
+        //         component.changeFontColor("color")
+        //         expect(component.fontColor$.next).toHaveBeenCalledWith("color");
+        //         expect(target.debugElement.injector.get(Angulartics2Mixpanel).eventTrack).toHaveBeenCalled();
+        //     });
+        // });
 
 
         describe("change map color", () => {

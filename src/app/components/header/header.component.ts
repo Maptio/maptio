@@ -17,7 +17,6 @@ import { sortBy, isEmpty } from "lodash";
 import { SafeUrl, DomSanitizer } from "@angular/platform-browser";
 import { BillingService } from "../../shared/services/billing/billing.service";
 import { LoaderService } from "../../shared/services/loading/loader.service";
-import { InstructionsService } from "../../shared/components/instructions/instructions.service";
 import { OnboardingService } from "../../shared/components/onboarding/onboarding.service";
 
 @Component({
@@ -48,7 +47,7 @@ export class HeaderComponent implements OnInit {
     constructor(public auth: Auth, private userService: UserService, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory,
         public errorService: ErrorService, private router: Router, public loaderService: LoaderService,
         private analytics: Angulartics2Mixpanel, private cd: ChangeDetectorRef, private billingService: BillingService,
-        private instructions: InstructionsService, private onboarding: OnboardingService) {
+        private onboarding: OnboardingService) {
 
         let [teamDefined, teamUndefined] = EmitterService.get("currentTeam").partition(team => team);
 
@@ -151,10 +150,6 @@ export class HeaderComponent implements OnInit {
 
     toggleCreateMode() {
         this.isCreateMode = !this.isCreateMode;
-    }
-
-    openInstructions() {
-        this.instructions.openWelcome(this.user);
     }
 
     openOnboarding() {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NgbModal } from '../../../../../node_modules/@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OnboardingComponent } from './onboarding.component';
 import { DataSet } from '../../model/dataset.data';
 import { User } from '../../model/user.data';

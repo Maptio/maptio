@@ -8,11 +8,9 @@ import { MockBackend } from "@angular/http/testing";
 import { Auth } from "../auth/auth.service";
 
 export class AuthStub {
-    authenticationProviderAuthenticated() { }
+    clear(){}
 
-    internalApiAuthenticated() { }
-
-    authenticated() { }
+    allAuthenticated(){}
 }
 
 
@@ -44,10 +42,7 @@ describe("auth.guard.ts", () => {
             let route = jasmine.createSpyObj("route", [""]);
             let state = jasmine.createSpyObj<RouterStateSnapshot>("state", [""]);
 
-            let spyAuth = spyOn(mockAuth, "authenticated").and.returnValue(true);
-
-            spyOn(mockAuth, "authenticationProviderAuthenticated").and.returnValue(true);
-            spyOn(mockAuth, "internalApiAuthenticated").and.returnValue(true);
+            let spyAuth = spyOn(mockAuth, "allAuthenticated").and.returnValue(true);
 
             expect(target.canActivate(route, state)).toBe(true);
             expect(spyAuth).toHaveBeenCalled();

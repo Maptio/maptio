@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User } from '../../model/user.data';
-import { NgbModal } from '../../../../../node_modules/@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { InstructionsComponent } from './instructions.component';
 import { Steps } from './instructions.enum';
 

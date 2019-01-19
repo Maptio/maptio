@@ -114,12 +114,12 @@ describe("team-list.component.ts", () => {
         expect(spyRoute).toHaveBeenCalled();
     })
 
-    describe("trackByMemberId", () => {
-        it("should return user_id", () => {
-            let user = new User({ user_id: "123" });
-            expect(component.trackByMemberId(undefined, user)).toBe("123");
-        });
-    });
+    // describe("trackByMemberId", () => {
+    //     it("should return user_id", () => {
+    //         let user = new User({ user_id: "123" });
+    //         expect(component.trackByMemberId(undefined, user)).toBe("123");
+    //     });
+    // });
 
     describe("trackByTeamId", () => {
         it("should return team_id", () => {
