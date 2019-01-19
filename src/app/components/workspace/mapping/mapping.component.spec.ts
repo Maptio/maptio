@@ -25,7 +25,7 @@ import { IDataVisualizer } from "./mapping.interface";
 import { MappingNetworkComponent } from "./network/mapping.network.component";
 import { MappingZoomableComponent } from "./zoomable/mapping.zoomable.component";
 import { MarkdownService } from "angular2-markdown";
-import { Intercom, IntercomConfig } from 'ng-intercom';
+import { IntercomModule } from 'ng-intercom';
 import { MappingSummaryComponent } from './summary/summary.component';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
@@ -39,7 +39,7 @@ describe("mapping.component.ts", () => {
             providers: [
                 DeviceDetectorService,
                 DataService, ErrorService, D3Service, ColorService, URIService, Angulartics2Mixpanel, Angulartics2,
-                UserFactory, ExportService, Intercom, IntercomConfig,
+                UserFactory, ExportService,
                 {
                     provide: Http,
                     useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
@@ -77,7 +77,10 @@ describe("mapping.component.ts", () => {
             schemas: [NO_ERRORS_SCHEMA],
             declarations: [MappingComponent, MappingTreeComponent,
                 MappingNetworkComponent, MappingSummaryComponent, MappingZoomableComponent],
-            imports: [RouterTestingModule]
+            imports: [RouterTestingModule,  IntercomModule.forRoot({
+                appId: "",
+                updateOnRouterChange: true
+            })]
         })
             .compileComponents()
 

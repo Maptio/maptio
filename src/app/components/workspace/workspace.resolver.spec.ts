@@ -23,23 +23,38 @@ import { DataSet } from "../../shared/model/dataset.data";
 import { Initiative } from "../../shared/model/initiative.data";
 import { Team } from "../../shared/model/team.data";
 import { WorkspaceComponentResolver } from "./workspace.resolver";
-import {Intercom , IntercomConfig} from 'ng-intercom';
+import { IntercomModule } from 'ng-intercom';
 import { NgProgressModule, NgProgress } from '@ngx-progressbar/core';
-import { Fullstory, FullstoryConfig } from 'ngx-fullstory';
+import { Fullstory, FullstoryConfig, FullstoryModule } from 'ngx-fullstory';
 
 describe("workspace.resolver.ts", () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [RouterTestingModule, Angulartics2Module, NgProgressModule],
+            imports: [RouterTestingModule, Angulartics2Module, NgProgressModule,
+                IntercomModule.forRoot({
+                    appId: "",
+                    updateOnRouterChange: true
+                }),
+                Angulartics2Module.forRoot([Angulartics2Mixpanel]),
+                FullstoryModule.forRoot({
+                    fsOrg: "",
+                    fsNameSpace: 'FS',
+                    fsDebug: false,
+                    fsHost: 'fullstory.com'
+                })],
             providers: [
                 WorkspaceComponentResolver,
                 Auth,
                 PermissionService,
                 TeamFactory,
                 DatasetFactory,
+                UserService,
+                AuthConfiguration,
                 UserFactory,
-                AuthConfiguration, UserService, MailingService, JwtEncoder, LoaderService,NgProgress,
+                JwtEncoder,
+                MailingService,
+                LoaderService, NgProgress,
                 {
                     provide: AuthHttp,
                     useFactory: authHttpServiceFactoryTesting,
@@ -54,9 +69,7 @@ describe("workspace.resolver.ts", () => {
                 },
                 MockBackend,
                 BaseRequestOptions,
-                Angulartics2Mixpanel, Angulartics2,
-                ErrorService,
-                Intercom, IntercomConfig,Fullstory,FullstoryConfig,
+                Angulartics2Mixpanel
             ]
         });
     });

@@ -21,7 +21,7 @@ import { TeamComponentResolver } from "./team.resolver";
 import { TestBed, inject, async } from "@angular/core/testing";
 import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
 import { MockBackend } from "@angular/http/testing";
-import { Intercom, IntercomConfig } from 'ng-intercom';
+import { IntercomModule } from 'ng-intercom';
 import { NgProgressModule, NgProgress } from '@ngx-progressbar/core';
 import { Fullstory, FullstoryConfig } from 'ngx-fullstory';
 
@@ -29,7 +29,10 @@ describe("team.resolver.ts", () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [RouterTestingModule,Angulartics2Module, NgProgressModule],
+            imports: [RouterTestingModule,Angulartics2Module, NgProgressModule,  IntercomModule.forRoot({
+                appId: "",
+                updateOnRouterChange: true
+            })],
             providers: [
                 TeamComponentResolver,
                 Auth,
@@ -53,7 +56,7 @@ describe("team.resolver.ts", () => {
                 MockBackend,
                 BaseRequestOptions,
                 Angulartics2Mixpanel, Angulartics2,
-                Intercom, IntercomConfig, Fullstory, FullstoryConfig
+                Fullstory, FullstoryConfig
                 // ErrorService
             ]
         });

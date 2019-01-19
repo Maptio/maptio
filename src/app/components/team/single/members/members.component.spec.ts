@@ -27,7 +27,7 @@ import { UserService } from "./../../../../shared/services/user/user.service";
 import { TeamMembersComponent } from "./members.component";
 import { NgProgressModule, NgProgress } from '@ngx-progressbar/core';
 import { LoaderService } from '../../../../shared/services/loading/loader.service';
-import { Intercom, IntercomConfig } from 'ng-intercom';
+import { IntercomModule } from 'ng-intercom';
 
 class MockActivatedRoute implements ActivatedRoute {
     paramMap: Observable<ParamMap>;
@@ -69,11 +69,13 @@ describe("members.component.ts", () => {
         TestBed.configureTestingModule({
             declarations: [TeamMembersComponent, KeysPipe],
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [RouterTestingModule, SharedModule, Angulartics2Module, NgbModule.forRoot(), NgProgressModule]
+            imports: [RouterTestingModule, SharedModule, Angulartics2Module, NgbModule.forRoot(), NgProgressModule,  IntercomModule.forRoot({
+                appId: "",
+                updateOnRouterChange: true
+            })]
         }).overrideComponent(TeamMembersComponent, {
             set: {
                 providers: [
-                    Intercom, IntercomConfig,
                     TeamFactory, UserFactory, DatasetFactory, AuthConfiguration, FileService,
                     {
                         provide: LoaderService,

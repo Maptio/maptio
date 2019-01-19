@@ -23,7 +23,7 @@ import { CommonComponentsModule } from "../../shared/common-components.module";
 import { DatasetFactory } from "../../shared/services/dataset.factory";
 import { UserFactory } from "../../shared/services/user.factory";
 import { PermissionService } from "../../shared/model/permission.data";
-import { IntercomConfig, Intercom } from "ng-intercom";
+import { IntercomModule } from "ng-intercom";
 import { Fullstory, FullstoryConfig } from "ngx-fullstory";
 
 describe("signup.component.ts", () => {
@@ -36,12 +36,16 @@ describe("signup.component.ts", () => {
         TestBed.configureTestingModule({
             declarations: [SignupComponent],
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [RouterTestingModule, NgProgressModule]
+            imports: [RouterTestingModule, NgProgressModule,
+                IntercomModule.forRoot({
+                    appId: "",
+                    updateOnRouterChange: true
+                })]
         }).overrideComponent(SignupComponent, {
             set: {
                 providers: [
                     Angulartics2Mixpanel, Angulartics2,Auth, DatasetFactory, UserFactory,PermissionService,
-                    Intercom, IntercomConfig,Fullstory, FullstoryConfig,
+                    Fullstory, FullstoryConfig,
                     {
                         provide: AuthHttp,
                         useFactory: authHttpServiceFactoryTesting,

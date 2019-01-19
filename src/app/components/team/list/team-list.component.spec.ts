@@ -21,7 +21,7 @@ import { Team } from "../../../shared/model/team.data";
 import { RouterTestingModule } from "@angular/router/testing";
 import { AuthConfiguration } from "../../../shared/services/auth/auth.config";
 import { Router, NavigationStart, ActivatedRoute, ActivatedRouteSnapshot } from "@angular/router";
-import { Intercom, IntercomConfig } from 'ng-intercom';
+import { IntercomModule } from 'ng-intercom';
 import { LoaderService } from '../../../shared/services/loading/loader.service';
 import { NgProgress, NgProgressModule } from '@ngx-progressbar/core';
 
@@ -36,7 +36,11 @@ describe("team-list.component.ts", () => {
         TestBed.configureTestingModule({
             declarations: [TeamListComponent, PermissionsDirective],
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [RouterTestingModule, Angulartics2Module, NgbModule.forRoot(), NgProgressModule]
+            imports: [RouterTestingModule, Angulartics2Module, NgbModule.forRoot(), NgProgressModule,
+                IntercomModule.forRoot({
+                    appId: "",
+                    updateOnRouterChange: true
+                })]
         }).overrideComponent(TeamListComponent, {
             set: {
                 providers: [
@@ -82,8 +86,7 @@ describe("team-list.component.ts", () => {
                     MockBackend,
                     BaseRequestOptions,
                     ErrorService,
-                    Angulartics2Mixpanel, Angulartics2,
-                    Intercom, IntercomConfig
+                    Angulartics2Mixpanel, Angulartics2
                 ]
             }
         }).compileComponents();

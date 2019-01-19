@@ -32,7 +32,7 @@ import { MarkdownService } from 'angular2-markdown';
 import { D3Service } from 'd3-ng2-service';
 import { LoaderService } from "../../shared/services/loading/loader.service";
 import { NgProgress } from "@ngx-progressbar/core";
-import { Intercom, IntercomConfig } from "ng-intercom";
+import { IntercomModule } from "ng-intercom";
 import { DeviceDetectorService } from "ngx-device-detector";
 
 export class AuthStub {
@@ -68,13 +68,16 @@ describe("workspace.component.ts", () => {
 
 
         TestBed.configureTestingModule({
-            imports: [NgbModule.forRoot(), RouterTestingModule],
+            imports: [NgbModule.forRoot(), RouterTestingModule,  IntercomModule.forRoot({
+                appId: "",
+                updateOnRouterChange: true
+            })],
             declarations: [WorkspaceComponent, BuildingComponent],
             schemas: [NO_ERRORS_SCHEMA]
         }).overrideComponent(WorkspaceComponent, {
             set: {
                 providers: [
-                    Intercom, IntercomConfig, DeviceDetectorService,
+                    DeviceDetectorService,
                     DataService, DatasetFactory, UserService, AuthConfiguration, JwtEncoder, MailingService, UserFactory, TeamFactory, Angulartics2, Angulartics2Mixpanel,
                     {
                         provide: AuthHttp,

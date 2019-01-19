@@ -12,7 +12,7 @@ import {
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import { Auth } from "../shared/services/auth/auth.service";
-import { Intercom, IntercomConfig } from "ng-intercom";
+import { IntercomModule } from "ng-intercom";
 import { NgProgress, NgProgressModule } from "@ngx-progressbar/core";
 
 describe("app.component.ts", () => {
@@ -27,7 +27,11 @@ describe("app.component.ts", () => {
 
         TestBed.configureTestingModule({
             declarations: [AppComponent],
-            imports: [RouterTestingModule, ResponsiveModule, NgProgressModule],
+            imports: [RouterTestingModule, ResponsiveModule, NgProgressModule, 
+                IntercomModule.forRoot({
+                appId: "",
+                updateOnRouterChange: true
+            })],
             schemas: [NO_ERRORS_SCHEMA]
         }).overrideComponent(AppComponent, {
             set: {
@@ -39,8 +43,8 @@ describe("app.component.ts", () => {
                             show = jasmine.createSpy("show")
                         },
                         deps: [NgProgress]
-                    }, 
-                    NgProgress,Intercom, IntercomConfig,
+                    },
+                    NgProgress,
                     {
                         provide: Auth, useClass: class {
                             allAuthenticated() { return; }
@@ -67,6 +71,9 @@ describe("app.component.ts", () => {
         component = target.componentInstance;
     });
 
+    it('should behave...', () => {
+        expect(true).toBe(true)
+    });
     // it("should unsubscribe subscription when component is destroyed", () => {
     //     let spy = spyOn(component.routerSubscription, "unsubscribe");
     //     target.destroy();

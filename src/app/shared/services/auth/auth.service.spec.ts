@@ -1,6 +1,6 @@
 import { PermissionService } from "./../../model/permission.data";
 import { Observable } from "rxjs/Rx";
-import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
+import { Angulartics2Mixpanel, Angulartics2Module } from "angulartics2";
 import { environment } from "./../../../../environment/environment";
 import { encodeTestToken } from "angular2-jwt/angular2-jwt-test-helpers";
 import { DatasetFactory } from "./../dataset.factory";
@@ -19,9 +19,9 @@ import { Auth } from "./auth.service"
 import { TestBed, inject, fakeAsync } from "@angular/core/testing";
 import { AuthConfiguration } from "./auth.config";
 import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
-import { IntercomConfig, Intercom } from "ng-intercom";
+import {  IntercomModule, Intercom, IntercomConfig } from "ng-intercom";
 import { NgProgress, NgProgressModule } from "@ngx-progressbar/core";
-import { Fullstory, FullstoryConfig } from "ngx-fullstory";
+import { FullstoryModule } from "ngx-fullstory";
 
 
 describe("auth.service.ts", () => {
@@ -49,7 +49,7 @@ describe("auth.service.ts", () => {
                     }
                 },
                 Auth, UserFactory, DatasetFactory, JwtEncoder, MailingService, LoaderService,NgProgress,  PermissionService,
-                Intercom, IntercomConfig,Fullstory, FullstoryConfig,
+                Intercom, IntercomConfig,
                 {
                     provide: Router, useClass: class {
                         navigate = jasmine.createSpy("navigate");
@@ -72,9 +72,20 @@ describe("auth.service.ts", () => {
                 MockBackend,
                 BaseRequestOptions,
                 ErrorService,
-                Angulartics2Mixpanel, Angulartics2
+                Angulartics2Mixpanel //, Angulartics2
             ],
-            imports: [RouterTestingModule, NgProgressModule]
+            imports: [RouterTestingModule, NgProgressModule, 
+                // IntercomModule.forRoot({
+                //     appId: "",
+                //     updateOnRouterChange: true
+                // }),
+                Angulartics2Module.forRoot([Angulartics2Mixpanel]),
+                FullstoryModule.forRoot({
+                    fsOrg: "",
+                    fsNameSpace: '',
+                    fsDebug: false,
+                    fsHost: ''
+                })]
         });
 
         localStorage.clear();
