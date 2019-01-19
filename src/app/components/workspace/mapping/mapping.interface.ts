@@ -5,9 +5,6 @@ import { Observable } from "rxjs/Observable";
 import { Angulartics2Mixpanel } from "angulartics2";
 
 export interface IDataVisualizer {
-    teamName: string;
-    teamId: string;
-
     datasetId: string;
 
     width: number;
@@ -30,8 +27,8 @@ export interface IDataVisualizer {
     tagsState: Array<SelectableTag>;
 
     showDetailsOf$: Subject<Initiative>;
-    showToolipOf$ : Subject<{initiatives : Initiative[], isNameOnly:boolean}>;
-    showContextMenuOf$ : Subject<{initiatives:Initiative[], x : Number, y:Number, isReadOnlyContextMenu:boolean}>;
+    showToolipOf$: Subject<{ initiatives: Initiative[], isNameOnly: boolean }>;
+    showContextMenuOf$: Subject<{ initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean }>;
 
     analytics: Angulartics2Mixpanel;
 

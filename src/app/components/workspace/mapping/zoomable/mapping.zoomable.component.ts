@@ -34,8 +34,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
   private d3: D3;
   private browser: Browsers;
   public datasetId: string;
-  public teamId: string;
-  public teamName: string;
   public width: number;
   public height: number;
   public translateX: number;

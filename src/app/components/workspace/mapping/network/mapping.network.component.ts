@@ -36,8 +36,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   public datasetId: string;
   public width: number;
   public height: number;
-  public teamName: string;
-  public teamId: string;
   public translateX: number;
   public translateY: number;
   public scale: number;
@@ -74,7 +72,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   public isOptionsVisible: boolean;
 
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
-  // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public removeInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public showToolipOf$: Subject<{ initiatives: Initiative[], isNameOnly: boolean }> = new Subject<{ initiatives: Initiative[], isNameOnly: boolean }>();
   public analytics: Angulartics2Mixpanel;
