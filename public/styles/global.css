@@ -500,10 +500,12 @@ transition: max-height .25s ease-in-out;
 
 .overflow-hover{
   overflow: hidden;
+  padding-right: 15px!important
 }
 
 .overflow-hover:hover{
   overflow-y: scroll;
+  padding-right:0!important;
 }
 
 .overflow-hidden
