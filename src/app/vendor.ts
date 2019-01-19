@@ -5,6 +5,7 @@ import "@angular/core";
 import "@angular/common";
 import "@angular/http";
 import "@angular/router";
+import "@angular/platform-browser/animations";
 // RxJS
 import "rxjs";
 // Other vendors for example jQuery, Lodash or Bootstrap
@@ -28,7 +29,20 @@ import "marked";
 import "slug";
 import "canvg";
 import "moment";
-// You can import js, ts, css, sass, ...
+import "logrocket";
+import "ngx-color-picker"
+import "ngx-breadcrumbs"
+import "ngx-loading"
+import "@ngx-progressbar/core"
+import "ngx-device-detector"
+import "ngx-fullstory"
+import "ng-intercom"
+import "shortid"
+import "file-saver"
+import "screenfull"
+import "angular2-uuid"
 
+
+// You can import js, ts, css, sass, ...
 import "bootstrap/dist/css/bootstrap.min.css"
 
