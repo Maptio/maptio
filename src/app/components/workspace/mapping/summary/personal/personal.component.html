@@ -8,14 +8,14 @@
                     <li class="nav-item mr-1">
                         <a class="nav-link active d-flex flex-column align-items-center" id="authority-tab" data-toggle="tab" href="#authority" role="tab"
                             aria-controls="authority" aria-selected="true">
-                            <span>{{_team?.settings.authority | titlecase }}</span>
+                            <span>{{authorityName | titlecase }}</span>
                             <span class="small text-muted">{{authorities.length}} circles</span>
                         </a>
                     </li>
                     <li class="nav-item d-flex flex-column align-items-center">
                         <a class="nav-link  d-flex flex-column align-items-center" id="helper-tab" data-toggle="tab" role="tab" aria-controls="helper"
                             aria-selected="false" href="#helper">
-                            <span>{{_team?.settings.helper | titlecase }}</span>
+                            <span>{{helperName | titlecase }}</span>
                             <span class="small text-muted">{{helps.length}} circles</span>
                         </a>
                     </li>
@@ -47,7 +47,7 @@
          [class.one-column]="isColumnToggleActive(1)"
          [class.two-column]="isColumnToggleActive(2)"
          [class.three-column]="isColumnToggleActive(3)" >
-            <span *ngIf="authorities.length===0" class="h5 text-orange">Not a {{_team?.settings.authority | lowercase }} yet</span>
+            <span *ngIf="authorities.length===0" class="h5 text-orange">Not a {{authorityName | lowercase }} yet</span>
 
             <div *ngFor="let i of authorities; let ix=index" class="">
                 <personal-card [initiative]="i" [datasetId]="datasetId" [team]="team" [isWithLeader]="false" (selectMember)="onSelectMember($event)"></personal-card>

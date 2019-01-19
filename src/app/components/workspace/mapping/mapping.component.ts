@@ -199,7 +199,7 @@ export class MappingComponent {
 
       }
       else{
-        document.querySelector("#summary-canvas").style.maxHeight= this.isFullScreen ? null : `${this.uiService.getCanvasHeight()*0.95}px`;
+        (document.querySelector("#summary-canvas") as HTMLElement).style.maxHeight= this.isFullScreen ? null : `${this.uiService.getCanvasHeight()*0.95}px`;
         this.VIEWPORT_HEIGHT = this.uiService.getCanvasHeight();
         this.VIEWPORT_WIDTH = this.uiService.getCanvasWidth();
     

@@ -36,6 +36,9 @@ export class PersonalSummaryComponent implements OnInit {
     private _initiative: Initiative;
     private _team: Team;
 
+    authorityName:string;
+    helperName:string;
+
     constructor(private cd: ChangeDetectorRef, private router: Router) {
 
     }
@@ -43,6 +46,8 @@ export class PersonalSummaryComponent implements OnInit {
     ngOnInit() {
         if (this._user && this._initiative && this._team) {
             this.getSummary();
+            this.authorityName = this._team.settings.authority;
+            this.helperName = this._team.settings.helper;
             this.cd.markForCheck();
         }
     }
