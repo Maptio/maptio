@@ -7,7 +7,7 @@
                 <button class="btn btn-link btn-sm" type="button" (click)="isOthersPeopleVisible=!isOthersPeopleVisible" data-toggle="collapse" data-target="#collapseOtherMembers" aria-expanded="false"
                     aria-controls="collapseOtherMembers">{{ isOthersPeopleVisible ? 'Hide' : 'Show'}}  other people</button>
                 <div class="w-100">
-                    <summary-personal [datasetId]="datasetId" [member]="selectedMember" [team]="team" [initiative]="initiative" (selectMember)="onSelectMember($event)"></summary-personal>
+                    <summary-personal [dataset]="dataset" [member]="selectedMember" [team]="team" [initiative]="initiative" (selectMember)="onSelectMember($event)" (selectInitiative)="onSelectInitiative($event)"></summary-personal>
                </div>
 
 

@@ -54,7 +54,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
   public showToolipOf$: Subject<{ initiatives: Initiative[], isNameOnly: boolean }> = new Subject<{ initiatives: Initiative[], isNameOnly: boolean }>();
   public showContextMenuOf$: Subject<{ initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean }> = new Subject<{ initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean }>();
-  
+
   private zoomSubscription: Subscription;
   private dataSubscription: Subscription;
   private resetSubscription: Subscription;
@@ -124,29 +124,20 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.init();
     this.dataSubscription = this.dataService
       .get()
-      .combineLatest(this.mapColor$, this.route.queryParams)
-      .do((complexData: [any, string, Params]) => {
+      .combineLatest(this.mapColor$)
+      .do((complexData: [any, string]) => {
         if (complexData[0].dataset.datasetId !== this.datasetId) {
           this.counter = 0;
         }
       })
-      .subscribe((complexData: [any, string, Params]) => {
+      .subscribe((complexData: [any, string]) => {
         let data = <any>complexData[0].initiative;
         this.datasetId = complexData[0].dataset.datasetId;
 
         this.slug = data.getSlug();
         this.loaderService.show();
-        let nodes = this.update(data, complexData[1], this.counter === 0);
-        if (complexData[2].id) {
-          if (nodes.find((n: any) => n.data.id.toString() === complexData[2].id.toString())) {
-            let n = <Initiative>nodes.filter((n: any) => n.data.id.toString() === complexData[2].id.toString())[0].data;
-            this.showDetailsOf$.next(n);
-            this.svg.select(`circle.node.initiative-map[id="${complexData[2].id}"]`).dispatch("click");
-            // remove the location.search without reload
-            window.history.pushState("", "", `${location.protocol}//${location.host}/${location.pathname}${location.hash}`)
+        this.update(data, complexData[1], this.counter === 0);
 
-          }
-        }
         this.counter += 1;
         this.loaderService.hide();
         this.analytics.eventTrack("Map", {
@@ -808,6 +799,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
             zoom(d, this.parentElement);
           }
           d3.event.stopPropagation();
+          // remove the location.search without reload
+          window.history.pushState("", "", `${location.protocol}//${location.host}/${location.pathname}${location.hash}`)
+
         })
     }
 

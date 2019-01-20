@@ -66,10 +66,11 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
     filteredMembers: User[];
     initiative: Initiative;
     team: Team;
+    dataset: DataSet;
     selectedMember: User;
     dataSubscription: Subscription;
     filterMembers$: Subject<string> = new Subject<string>();
-    isOthersPeopleVisible:boolean;
+    isOthersPeopleVisible: boolean;
 
     constructor(public auth: Auth, public route: ActivatedRoute, public datasetFactory: DatasetFactory,
         public userFactory: UserFactory, private userService: UserService, public teamFactory: TeamFactory, private dataService: DataService,
@@ -102,6 +103,7 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
             .subscribe((data: any) => {
                 this.members = data.members;
                 this.initiative = data.initiative;
+                this.dataset = data.dataset;
                 this.datasetId = data.dataset.datasetId;
                 this.team = data.team;
                 this.loaderService.hide();
@@ -146,6 +148,13 @@ export class MappingSummaryComponent implements OnInit, IDataVisualizer {
             relativeTo: this.route,
             queryParams: { member: user.shortid }
         })
+    }
+
+    onSelectInitiative(initiative: Initiative) {
+        this.router.navigateByUrl(`/map/${this.dataset.datasetId}/${this.initiative.getSlug()}/circles?id=${initiative.id}`)     
+            .then(() => {
+                this.showDetailsOf$.next(initiative);
+            })
     }
 
     init(): void {

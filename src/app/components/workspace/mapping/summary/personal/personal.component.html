@@ -50,7 +50,7 @@
             <span *ngIf="authorities.length===0" class="h5 text-orange">Not a {{authorityName | lowercase }} yet</span>
 
             <div *ngFor="let i of authorities; let ix=index" class="">
-                <personal-card [initiative]="i" [datasetId]="datasetId" [team]="team" [isWithLeader]="false" (selectMember)="onSelectMember($event)"></personal-card>
+                <personal-card [initiative]="i" [datasetId]="datasetId" [team]="team" [isWithLeader]="false" (selectMember)="onSelectMember($event)" (selectInitiative)="onSelectInitiative($event)"></personal-card>
             </div>
 
         </div>
@@ -62,7 +62,7 @@
 
             <div *ngFor="let i of helps; let ix=index" class="">
 
-                <personal-card [initiative]="i" [datasetId]="datasetId" [team]="team" [isWithLeader]="true" (selectMember)="onSelectMember($event)"></personal-card>
+                <personal-card [initiative]="i" [datasetId]="datasetId" [team]="team" [isWithLeader]="true" (selectMember)="onSelectMember($event)" (selectInitiative)="onSelectInitiative($event)"></personal-card>
 
             </div>
         </div>
