@@ -508,7 +508,7 @@ transition: max-height .25s ease-in-out;
 }
 
 .overflow-hover:hover{
-  overflow-y: scroll;
+  overflow-y: auto;
   padding-right:0!important;
 }
 

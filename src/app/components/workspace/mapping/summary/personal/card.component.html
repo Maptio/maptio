@@ -2,7 +2,7 @@
     <div class="card-body">
         <div class="card-title d-flex justify-content-between align-items-baseline">
             <span class="btn-link cursor-pointer" (click)="openInitiative(initiative)">{{initiative.name}}</span>
-            <span class="text-muted" *ngIf="initiative.accountable && isWithLeader">led by
+            <span class="text-muted nowrap" *ngIf="initiative.accountable && isWithLeader">led by
                     <button  class="btn btn-link p-0" (click)="onSelectMember(initiative.accountable)">
                         <img class="rounded-circle user" width="40" height="40" src="{{initiative.accountable?.picture}}" alt="{{initiative.accountable?.name}}"
                             title="{{initiative.accountable?.name}}" placement="top" container="body" ngbTooltip="{{initiative.accountable?.name}}">
