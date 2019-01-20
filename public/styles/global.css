@@ -75,6 +75,10 @@ html, body {
 
 }
 
+.font-map{
+  font-family:Lato;
+}
+
 b, .text-bold{
   font-weight: 700 !important;
 }
