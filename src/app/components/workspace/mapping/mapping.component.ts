@@ -57,17 +57,9 @@ declare var canvg: any;
 })
 export class MappingComponent {
   isFirstEdit: boolean;
-  PLACEMENT: string = "left";
-  TOGGLE: string = "tooltip";
-  TOOLTIP_PEOPLE_VIEW: string = "People view";
-  TOOLTIP_INITIATIVES_VIEW: string = "Circles view";
-  TOOLTIP_ZOOM_IN: string = "Zoom in";
-  TOOLTIP_ZOOM_OUT: string = "Zoom out";
-  TOOLTIP_ZOOM_FIT: string = "Zoom fit";
   DEFAULT_TEXT_COLOR: string = environment.DEFAULT_MAP_TEXT_COLOR;
   DEFAULT_MAP_COLOR: string = environment.DEFAULT_MAP_BACKGOUND_COLOR;
   fullScreenLib: any = screenfull;
-
   isFullScreen: boolean;
   hoveredInitiatives: Initiative[];
   isNameOnly: boolean;
@@ -82,22 +74,9 @@ export class MappingComponent {
   hasConfigurationError: boolean;
   isSharingToggled: boolean;
 
-
-
-  public data: {
-    initiative: Initiative;
-    datasetId: string;
-    teamName: string;
-    teamId: string;
-  };
   public x: number;
   public y: number;
   public scale: number;
-  // public isLocked: boolean = true;
-
-  //   public isCollapsed: boolean = true;
-  //   public isSettingsPanelCollapsed: boolean = true;
-  //   public isTagSettingActive: boolean;
   public isSettingToggled: boolean;
   public isSearchToggled: boolean;
   public isMapSettingsDisabled: boolean;
@@ -105,46 +84,37 @@ export class MappingComponent {
   public zoom$: Subject<number>;
   public isReset$: Subject<boolean>;
   public selectableTags$: Subject<Array<SelectableTag>>;
-  // public selectableUsers$: Subject<Array<SelectableUser>>;
 
-  public VIEWPORT_WIDTH: number; // = document.body.clientWidth -120;
-  public VIEWPORT_HEIGHT: number; // = document.body.clientHeight-125;
+  public VIEWPORT_WIDTH: number;
+  public VIEWPORT_HEIGHT: number;
 
-  public isLoading: boolean;
   public datasetId: string;
   public initiative: Initiative;
   public flattenInitiative: Initiative[] = [];
   public team: Team;
-  public dataset:DataSet;
+  public dataset: DataSet;
   public slug: string;
   public tags: Array<SelectableTag>;
   public tagsFragment: string;
+
   public fontSize$: BehaviorSubject<number>;
   public mapColor$: BehaviorSubject<string>;
-
   public zoomToInitiative$: Subject<Initiative>;
-  public data$: Subject<{ initiative: Initiative; datasetId: string }>;
 
   @Input("tags") selectableTags: Array<SelectableTag>;
   @Input("isEmptyMap") isEmptyMap: Boolean;
   @Output("showDetails") showDetails = new EventEmitter<Initiative>();
   @Output("addInitiative") addInitiative = new EventEmitter<{ node: Initiative, subNode: Initiative }>();
   @Output("removeInitiative") removeInitiative = new EventEmitter<Initiative>();
-  @Output("moveInitiative")
-  moveInitiative = new EventEmitter<{
-    node: Initiative;
-    from: Initiative;
-    to: Initiative;
+  @Output("moveInitiative") moveInitiative = new EventEmitter<{
+    node: Initiative; from: Initiative; to: Initiative;
   }>();
   @Output("openTreePanel") openTreePanel = new EventEmitter<boolean>();
   @Output("expandTree") expandTree = new EventEmitter<boolean>();
-  @Output("toggleSettingsPanel")
-  toggleSettingsPanel = new EventEmitter<boolean>();
+  @Output("toggleSettingsPanel") toggleSettingsPanel = new EventEmitter<boolean>();
   @Output("applySettings") applySettings = new EventEmitter<{ initiative: Initiative; tags: Tag[] }>();
   @Output("toggleEditingPanelsVisibility") toggleEditingPanelsVisibility = new EventEmitter<Boolean>();
 
-  public componentFactory: ComponentFactory<IDataVisualizer>;
-  // public layout: string;
   public subscription: Subscription;
   public instance: IDataVisualizer;
 
@@ -181,11 +151,6 @@ export class MappingComponent {
     this.fontSize$ = new BehaviorSubject<number>(this.settings.fontSize);
     this.mapColor$ = new BehaviorSubject<string>(this.settings.mapColor);
     this.zoomToInitiative$ = new Subject();
-    this.data$ = new Subject<{
-      initiative: Initiative;
-      datasetId: string;
-    }>();
-
   }
 
   ngAfterViewInit() {
@@ -461,11 +426,11 @@ export class MappingComponent {
     this.removeInitiative.emit(node)
   }
 
-  public broadcastTagsSettings(tags: SelectableTag[]) {
+  broadcastTagsSettings(tags: SelectableTag[]) {
     this.applySettings.emit({ initiative: this.initiative, tags: tags });
   }
 
-  public broadcastTagsSelection(tags: SelectableTag[]) {
+  broadcastTagsSelection(tags: SelectableTag[]) {
     this.selectableTags$.next(tags);
 
     let tagsHash = tags
