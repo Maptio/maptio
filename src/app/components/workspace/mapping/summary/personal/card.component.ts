@@ -4,6 +4,7 @@ import { Router } from '../../../../../../../node_modules/@angular/router';
 import { DataSet } from '../../../../../shared/model/dataset.data';
 import { Team } from '../../../../../shared/model/team.data';
 import { User } from '../../../../../shared/model/user.data';
+import { sortBy } from 'lodash';
 
 @Component({
     selector: 'personal-card',
@@ -43,6 +44,9 @@ export class PersonalCardComponent implements OnInit {
     }
     getMultipleCollapseClass() {
         return `multi-collapse-${this.initiative.id}`
+    }
 
+    sortHelpers(){
+        return sortBy(this.initiative.helpers, h => h.name)
     }
 }
