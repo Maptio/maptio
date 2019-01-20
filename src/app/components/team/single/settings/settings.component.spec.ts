@@ -129,7 +129,6 @@ describe("settings.component.ts", () => {
             expect(mockTeamFactory.upsert).not.toHaveBeenCalled();
         }));
 
-
         it("should save team when form is valid and update view when it succeeds", async(() => {
             component.teamSettingsForm.setValue({
                 name: "More than 2 letters",
