@@ -24,6 +24,7 @@ export class ContextMenuComponent implements OnInit {
     @ViewChild("inputNewInitiative") public inputNewInitiative: ElementRef;
     isRemovingNode: Boolean;
     isAddingNode: Boolean;
+    isClosed:boolean;
     Permissions = Permissions;
     KB_URL_PERMISSIONS = environment.KB_URL_PERMISSIONS;
 
@@ -37,6 +38,8 @@ export class ContextMenuComponent implements OnInit {
     ngOnChanges(changes: SimpleChanges): void {
         this.isAddingNode =false;
         this.isRemovingNode = false;
+        this.isClosed = false;
+        this.cd.markForCheck();
     }
 
     addNode(node: Initiative, subNodeName: string, openDetailsPanel: Boolean) {
@@ -62,6 +65,8 @@ export class ContextMenuComponent implements OnInit {
     }
 
     openUser(node:Initiative){
-        this.openAccountable.emit(node.accountable)
+        this.openAccountable.emit(node.accountable);
+        this.isClosed = true;
+        this.cd.markForCheck();
     }
 }

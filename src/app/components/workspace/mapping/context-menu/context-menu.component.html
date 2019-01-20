@@ -1,4 +1,4 @@
-<div id="maptio-context-menu" class="position-absolute d-block col-3-half context-menu p-3" [class.invisible]="!initiatives"
+<div id="maptio-context-menu" class="position-absolute d-block col-3-half context-menu p-3 font-map" [class.invisible]="!initiatives || isClosed"
     [style.top.px]="y" [style.left.px]="x">
     <div>
         <div class="list-group">
