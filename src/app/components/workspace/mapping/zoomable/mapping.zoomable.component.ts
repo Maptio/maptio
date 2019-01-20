@@ -15,7 +15,8 @@ import {
   Component,
   ViewEncapsulation,
   ChangeDetectorRef,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  isDevMode
 } from "@angular/core";
 import { D3Service, D3, ScaleLinear, HSLColor, HierarchyCircularNode, ScaleLogarithmic } from "d3-ng2-service";
 import { transition } from "d3-transition";
@@ -149,7 +150,14 @@ export class MappingZoomableComponent implements IDataVisualizer {
         this.isLoading = false;
         this.cd.markForCheck();
       },
-        (err) => console.error(err));
+        (err) => {
+          if (!isDevMode) {
+            console.error(err)
+          }
+        }
+
+      )
+      ;
     this.selectableTags$.subscribe(tags => this.tagsState = tags)
   }
 
@@ -241,7 +249,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
         )
       );
       svg.call(this.zooming);
-    } catch (error) { console.error(error); }
+    } catch (error) {
+      if (!isDevMode) console.error(error);
+    }
 
     function zoomed() {
       g.attr("transform", d3.event.transform);

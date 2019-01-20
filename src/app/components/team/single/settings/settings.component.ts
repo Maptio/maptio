@@ -2,7 +2,7 @@ import { environment } from './../../../../../environment/environment';
 import { DataSet } from './../../../../shared/model/dataset.data';
 import { Permissions } from "./../../../../shared/model/permission.data";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Component, OnInit, Input, ChangeDetectorRef, TemplateRef, Renderer2, Output, EventEmitter } from "@angular/core";
+import { Component, OnInit, Input, ChangeDetectorRef, TemplateRef, Renderer2, Output, EventEmitter, isDevMode } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Team } from "../../../../shared/model/team.data";
 import { TeamFactory } from "../../../../shared/services/team.factory";
@@ -95,10 +95,9 @@ export class TeamSettingsComponent implements OnInit {
                 })
                 .then(() => {
                     this.router.navigate(["teams", this.team.team_id, this.team.getSlug(), "settings"], { queryParams: { reload: true } })
-                    // this.changeName.emit(this.teamSettingsForm.controls["name"].value);
                 })
                 .catch(err => {
-                    console.error(err);
+                    if(!isDevMode) console.error(err);
                     this.isTeamSettingFailed = true;
                     this.cd.markForCheck();
                 })
