@@ -101,20 +101,6 @@ export class MappingComponent {
   public mapColor$: BehaviorSubject<string>;
   public zoomToInitiative$: Subject<Initiative>;
 
-  @Input("tags") selectableTags: Array<SelectableTag>;
-  @Input("isEmptyMap") isEmptyMap: Boolean;
-  @Output("showDetails") showDetails = new EventEmitter<Initiative>();
-  @Output("addInitiative") addInitiative = new EventEmitter<{ node: Initiative, subNode: Initiative }>();
-  @Output("removeInitiative") removeInitiative = new EventEmitter<Initiative>();
-  @Output("moveInitiative") moveInitiative = new EventEmitter<{
-    node: Initiative; from: Initiative; to: Initiative;
-  }>();
-  @Output("openTreePanel") openTreePanel = new EventEmitter<boolean>();
-  @Output("expandTree") expandTree = new EventEmitter<boolean>();
-  @Output("toggleSettingsPanel") toggleSettingsPanel = new EventEmitter<boolean>();
-  @Output("applySettings") applySettings = new EventEmitter<{ initiative: Initiative; tags: Tag[] }>();
-  @Output("toggleEditingPanelsVisibility") toggleEditingPanelsVisibility = new EventEmitter<Boolean>();
-
   public subscription: Subscription;
   public instance: IDataVisualizer;
 
@@ -132,6 +118,22 @@ export class MappingComponent {
 
   isFiltersToggled: boolean = false;
   isSearchDisabled: boolean = false;
+
+
+  @Input("tags") selectableTags: Array<SelectableTag>;
+  @Input("isEmptyMap") isEmptyMap: Boolean;
+  @Output("showDetails") showDetails = new EventEmitter<Initiative>();
+  @Output("addInitiative") addInitiative = new EventEmitter<{ node: Initiative, subNode: Initiative }>();
+  @Output("removeInitiative") removeInitiative = new EventEmitter<Initiative>();
+  @Output("moveInitiative") moveInitiative = new EventEmitter<{
+    node: Initiative; from: Initiative; to: Initiative;
+  }>();
+  @Output("openTreePanel") openTreePanel = new EventEmitter<boolean>();
+  @Output("expandTree") expandTree = new EventEmitter<boolean>();
+  @Output("toggleSettingsPanel") toggleSettingsPanel = new EventEmitter<boolean>();
+  @Output("applySettings") applySettings = new EventEmitter<{ initiative: Initiative; tags: Tag[] }>();
+  @Output("toggleEditingPanelsVisibility") toggleEditingPanelsVisibility = new EventEmitter<Boolean>();
+
 
   constructor(
     private dataService: DataService,

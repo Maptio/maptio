@@ -15,7 +15,7 @@
     "start": "node server.js",
     "build:prod": "rimraf ./dist && webpack --config config/webpack.prod.js --progress --profile",
     "test": "karma start --single-run",
-    "test:headless": "karma start",
+    "test:watch": "karma start",
     "heroku-postbuild": "rimraf ./dist && webpack --config config/webpack.prod.js --profile --bail --color"
   },
   "licenses": [
