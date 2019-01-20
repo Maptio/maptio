@@ -40,6 +40,7 @@ import { OnboardingComponent } from "../../shared/components/onboarding/onboardi
 import { AddMemberComponent } from "../../shared/components/onboarding/add-member.component";
 import { InstructionsComponent } from "../../shared/components/instructions/instructions.component";
 import { PersonalCardComponent } from "./mapping/summary/personal/card.component";
+import { SlackService } from "./share/slack.service";
 
 
 const routes: Routes = [{
@@ -114,6 +115,7 @@ export function markdownServiceFactory(http: Http) {
         TooltipComponent, ContextMenuComponent
     ],
     providers: [
+        SlackService,
         WorkspaceComponentResolver, MappingSummaryBreadcrumbs,
         {
             provide: MarkdownService,

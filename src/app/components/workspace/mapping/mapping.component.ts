@@ -34,6 +34,8 @@ import { MappingSummaryComponent } from "./summary/summary.component";
 import { SearchComponent } from "../search/search.component";
 import { environment } from "../../../../environment/environment";
 import * as screenfull from 'screenfull';
+import { SlackService } from "../share/slack.service";
+import { DataSet } from "../../../shared/model/dataset.data";
 
 // import { MappingNetworkComponent } from "./network/mapping.network.component";
 // import { MappingCirclesComponent } from "./circles/mapping.circles.component";
@@ -67,6 +69,20 @@ export class MappingComponent {
   fullScreenLib: any = screenfull;
 
   isFullScreen: boolean;
+  hoveredInitiatives: Initiative[];
+  isNameOnly: boolean;
+  selectedInitiative: Initiative;
+  selectedInitiatives: Initiative[];
+  selectedInitiativeX: Number;
+  selectedInitiativeY: Number;
+  isReadOnlyContextMenu: boolean;
+
+  isPrinting: boolean;
+  hasNotified: boolean;
+  hasConfigurationError: boolean;
+  isSharingToggled: boolean;
+
+
 
   public data: {
     initiative: Initiative;
@@ -96,10 +112,10 @@ export class MappingComponent {
 
   public isLoading: boolean;
   public datasetId: string;
-  public datasetName: string;
   public initiative: Initiative;
   public flattenInitiative: Initiative[] = [];
   public team: Team;
+  public dataset:DataSet;
   public slug: string;
   public tags: Array<SelectableTag>;
   public tagsFragment: string;
@@ -156,7 +172,8 @@ export class MappingComponent {
     public uiService: UIService,
     private exportService: ExportService,
     private intercom: Intercom,
-    private router: Router
+    private router: Router,
+    private slackService: SlackService
   ) {
     this.zoom$ = new Subject<number>();
     this.isReset$ = new Subject<boolean>();
@@ -305,7 +322,7 @@ export class MappingComponent {
         }
 
         if (queryParams.id) {
-          this.zoomToInitiative(new Initiative({ id: <number>queryParams.id }));    
+          this.zoomToInitiative(new Initiative({ id: <number>queryParams.id }));
         }
 
         let fragmentTags =
@@ -335,7 +352,7 @@ export class MappingComponent {
           })
         );
 
-        this.datasetName = data.initiative.name;
+        this.dataset = data.dataset;
         this.initiative = data.initiative;
         this.team = data.team;
         this.flattenInitiative = data.initiative.flatten();
@@ -363,15 +380,6 @@ export class MappingComponent {
         return `x=${(this.VIEWPORT_WIDTH - 20) / 2}&y=${(this.VIEWPORT_WIDTH - 20) / 2}&scale=1`;
     }
   }
-
-
-  hoveredInitiatives: Initiative[];
-  isNameOnly: boolean;
-  selectedInitiative: Initiative;
-  selectedInitiatives: Initiative[];
-  selectedInitiativeX: Number;
-  selectedInitiativeY: Number;
-  isReadOnlyContextMenu: boolean;
 
   showContextMenu(context: { initiatives: Initiative[], x: Number, y: Number, isReadOnlyContextMenu: boolean }) {
     this.isReadOnlyContextMenu = context.isReadOnlyContextMenu;
@@ -487,15 +495,13 @@ export class MappingComponent {
   sendSlackNotification(message: string) {
     this.isPrinting = true;
     this.hasNotified = false;
-    this.cd.markForCheck()
+    this.cd.markForCheck();
 
-    let svg = document.getElementById("map");
-    let w = Number.parseFloat(svg.getAttribute("width"));
-    let h = Number.parseFloat(svg.getAttribute("height"));
-    svg.setAttribute("xmlns", "http://www.w3.org/2000/svg")
-    svg.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink")
-    let svgNode = this.downloadSvg(svg, "image.png", w, h);
-    this.exportService.sendSlackNotification((<any>svgNode).outerHTML, this.datasetId, this.initiative, this.team.slack, message)
+    this.slackService.sendNotification(
+      message,
+      document.getElementById("map"),
+      this.dataset,
+      this.team)
       .subscribe((result) => {
         this.isPrinting = false;
         this.hasNotified = true;
@@ -508,113 +514,5 @@ export class MappingComponent {
           this.cd.markForCheck();
         })
 
-  }
-
-  // print() {
-  //   // the canvg call that takes the svg xml and converts it to a canvas
-  //   canvg("canvas", document.getElementById("svg_circles").outerHTML);
-
-  //   // the canvas calls to output a png
-  //   let canvas = document.getElementById("canvas");
-  //   canvas.setAttribute("width", `${this.VIEWPORT_WIDTH}px`);
-  //   canvas.setAttribute("height", `${this.VIEWPORT_HEIGHT}px`);
-  //   let img = canvas.toDataURL("image/png");
-  //   document.write("<img src=\"" + img + "\"/>");
-  // }
-
-  isPrinting: boolean;
-  hasNotified: boolean;
-  hasConfigurationError: boolean;
-  isSharingToggled: boolean;
-
-  // print() {
-  //   this.isPrinting = true;
-  //   this.cd.markForCheck()
-  //   this.zoom$.next(0.8);
-  //   this.changeFontSize(1)
-
-  //   let svg = document.getElementById("svg_circles");
-  //   let w = Number.parseFloat(svg.getAttribute("width"));
-  //   let h = Number.parseFloat(svg.getAttribute("height"));
-  //   svg.setAttribute("xmlns", "http://www.w3.org/2000/svg")
-  //   svg.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink")
-  //   let svgNode = this.downloadSvg(svg, "image.png", w, h);
-  //   this.exportService.sendSlackNotification(svgNode.outerHTML, this.datasetId, this.datasetName, this.team.slack)
-  //     .subscribe(() => { this.isPrinting = false; this.cd.markForCheck() })
-
-  // }
-
-  copyStylesInline(destinationNode: any, sourceNode: any) {
-    let containerElements = ["svg", "g"];
-    for (let cd = 0; cd < destinationNode.childNodes.length; cd++) {
-      let child = destinationNode.childNodes[cd];
-
-      if (child.tagName === "foreignObject") {
-        if (child.childNodes[0].tagName === "DIV") {
-          child.childNodes[0].setAttribute("xmlns", "http://www.w3.org/1999/xhtml")
-        }
-      }
-
-      if (containerElements.indexOf(child.tagName) !== -1) {
-        this.copyStylesInline(child, sourceNode.childNodes[cd]);
-        continue;
-      }
-      let style = sourceNode.childNodes[cd].currentStyle || window.getComputedStyle(sourceNode.childNodes[cd]);
-      if (style === "undefined" || style == null) continue;
-      for (let st = 0; st < style.length; st++) {
-        if (style[st] === "display" && style.getPropertyValue(style[st]) === "none") {
-          child.style.setProperty(style[st], "block");
-
-        }
-        else if (style[st] === "opacity" && style.getPropertyValue(style[st]) === "0") {
-          child.style.setProperty(style[st], "1");
-        }
-        // else if (style["fill"].includes("url(")) {
-        //   child.style.setProperty("display", "none")
-        // }
-        else {
-          child.style.setProperty(style[st], style.getPropertyValue(style[st]));
-        }
-        // child.style.setProperty(style[st], style.getPropertyValue(style[st]));
-      }
-    }
-  }
-
-  triggerDownload(imgURI: string, fileName: string) {
-    let evt = new MouseEvent("click", {
-      view: window,
-      bubbles: false,
-      cancelable: true
-    });
-    let a = document.createElement("a");
-    // a.setAttribute("download", fileName);
-    a.setAttribute("href", imgURI);
-    a.setAttribute("target", "_blank");
-    a.dispatchEvent(evt);
-  }
-
-  downloadSvg(svg: HTMLElement, fileName: string, width: number, height: number): Node {
-    let copy = svg.cloneNode(true);
-    this.copyStylesInline(copy, svg);
-    return copy;
-    /*
-        let canvas = document.createElement("canvas");
-        let WIDTH = width * 2;
-        let HEIGHT = height * 3;
-        canvas.setAttribute("width", WIDTH + "px");
-        canvas.setAttribute("height", HEIGHT + "px");
-        let ctx = canvas.getContext("2d");
-        ctx.clearRect(0, 0, WIDTH, HEIGHT);
-        let data = (new XMLSerializer()).serializeToString(copy);
-        let DOMURL: any = window.URL || window;
-        let img = new Image();
-        img.crossOrigin = "Anonymous";
-        img.setAttribute("crossOrigin", "Anonymous")
-        let svgBlob = new Blob([data], { type: "image/svg+xml;charset=utf-8" });
-        img.src = "data:image/svg+xml;utf8," + data;
-        canvas.getContext("2d").drawImage(img, 0, 0, WIDTH, HEIGHT);
-        let url = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-        this.triggerDownload(url, `${Date.now()}-image.png`)
-        */
   }
 }

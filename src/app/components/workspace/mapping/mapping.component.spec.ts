@@ -28,6 +28,7 @@ import { MarkdownService } from "angular2-markdown";
 import { IntercomModule } from 'ng-intercom';
 import { MappingSummaryComponent } from './summary/summary.component';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { SlackService } from '../share/slack.service';
 
 describe("mapping.component.ts", () => {
 
@@ -62,6 +63,7 @@ describe("mapping.component.ts", () => {
                     }
                 },
                 MarkdownService,
+                SlackService,
                 BaseRequestOptions,
                 {
                     provide: ActivatedRoute,
