@@ -37,7 +37,7 @@ module.exports = function (config) {
 
         browserConsoleLogOptions: {
             terminal: true,
-            level: ""
+            level: "error"
         },
 
         karmaTypescriptConfig: {
