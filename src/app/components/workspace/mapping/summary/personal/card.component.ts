@@ -12,36 +12,37 @@ import { User } from '../../../../../shared/model/user.data';
 })
 export class PersonalCardComponent implements OnInit {
 
-    @Input("initiative") initiative:Initiative;
-    @Input("team") team:Team;
+    @Input("initiative") initiative: Initiative;
+    @Input("team") team: Team;
     @Input("datasetId") public datasetId: string;
-    @Input("isWithLeader") isWithLeader:boolean;
-    @Output("selectMember") selectMember:EventEmitter<User> = new EventEmitter<User>();
+    @Input("isWithLeader") isWithLeader: boolean;
+    @Output("selectMember") selectMember: EventEmitter<User> = new EventEmitter<User>();
+    @Output("selectInitiative") selectInitiative: EventEmitter<Initiative> = new EventEmitter<Initiative>();
 
-    isShowRoles:boolean;
-    constructor(private router:Router) { }
+    isShowRoles: boolean;
+    constructor(private router: Router) { }
 
     ngOnInit(): void { }
 
     openInitiative(node: Initiative) {
-        this.router.navigateByUrl(`/map/${this.datasetId}/${this.initiative.getSlug()}/circles?id=${node.id}`)
+        this.selectInitiative.emit(node);
     }
 
-    onSelectMember(user:User){
+    onSelectMember(user: User) {
         this.selectMember.emit(user);
     }
 
-    getWithDescriptionId(){
+    getWithDescriptionId() {
         return `with-description-${this.initiative.id}`
     }
-    getNoDescriptionId(){
+    getNoDescriptionId() {
         return `no-description-${this.initiative.id}`
     }
-    getMultipleCollapseId(){
+    getMultipleCollapseId() {
         return `with-description-${this.initiative.id} no-description-${this.initiative.id}`
     }
-    getMultipleCollapseClass(){
+    getMultipleCollapseClass() {
         return `multi-collapse-${this.initiative.id}`
-   
+
     }
 }

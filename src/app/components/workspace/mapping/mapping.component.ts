@@ -173,9 +173,6 @@ export class MappingComponent {
 
   ngAfterViewInit() {
     this.route.queryParams.subscribe(params => {
-      if (params.id) {
-        this.emitOpenInitiative(new Initiative({ id: <number>params.id }));
-      }
       if (params.reload) {
         this.changeMapColor(params.color);
       }
@@ -183,17 +180,17 @@ export class MappingComponent {
 
     this.fullScreenLib.on("change", () => {
       this.isFullScreen = this.fullScreenLib.isFullscreen;
-      
+
       if (document.querySelector("svg#map")) {
         document.querySelector("svg#map").setAttribute("width", `${this.uiService.getCanvasWidth()}`)
         document.querySelector("svg#map").setAttribute("height", `${this.uiService.getCanvasHeight()}`);
 
       }
-      else{
-        (document.querySelector("#summary-canvas") as HTMLElement).style.maxHeight= this.isFullScreen ? null : `${this.uiService.getCanvasHeight()*0.95}px`;
+      else {
+        (document.querySelector("#summary-canvas") as HTMLElement).style.maxHeight = this.isFullScreen ? null : `${this.uiService.getCanvasHeight() * 0.95}px`;
         this.VIEWPORT_HEIGHT = this.uiService.getCanvasHeight();
         this.VIEWPORT_WIDTH = this.uiService.getCanvasWidth();
-    
+
       }
       console.log("full screen change", this.VIEWPORT_HEIGHT)
       this.cd.markForCheck();
@@ -296,8 +293,8 @@ export class MappingComponent {
       })
       .combineLatest(this.dataService.get())
       .map(data => data[1])
-      .combineLatest(this.route.fragment) // PEFORMACE : with latest changes
-      .subscribe(([data, fragment]) => {
+      .combineLatest(this.route.fragment, this.route.queryParams.distinct()) // PEFORMACE : with latest changes
+      .subscribe(([data, fragment, queryParams]) => {
         if (!data.initiative.children || !data.initiative.children[0] || !data.initiative.children[0].children) {
           this.isFirstEdit = true;
           this.cd.markForCheck();
@@ -305,6 +302,10 @@ export class MappingComponent {
         else {
           this.isFirstEdit = false;
           this.cd.markForCheck();
+        }
+
+        if (queryParams.id) {
+          this.zoomToInitiative(new Initiative({ id: <number>queryParams.id }));    
         }
 
         let fragmentTags =

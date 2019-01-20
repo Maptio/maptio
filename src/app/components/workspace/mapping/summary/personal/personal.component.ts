@@ -5,6 +5,7 @@ import { User } from "../../../../../shared/model/user.data";
 import { Team } from "../../../../../shared/model/team.data";
 import { Router } from "@angular/router";
 import { sortBy } from "lodash";
+import { DataSet } from "../../../../../shared/model/dataset.data";
 
 
 @Component({
@@ -28,13 +29,15 @@ export class PersonalSummaryComponent implements OnInit {
     @Input("initiative") public initiative: Initiative;
     @Input("team") public team: Team;
     @Input("height") public height: number;
-    @Input("datasetId") public datasetId: string;
+    @Input("dataset") public dataset: DataSet;
     @Output() edit: EventEmitter<Initiative> = new EventEmitter<Initiative>();
     @Output() selectMember: EventEmitter<User> = new EventEmitter<User>();
+    @Output() selectInitiative: EventEmitter<Initiative> = new EventEmitter<Initiative>();
 
     private _user: User;
     private _initiative: Initiative;
     private _team: Team;
+    public _dataset:DataSet;
 
     authorityName: string;
     helperName: string;
@@ -44,7 +47,7 @@ export class PersonalSummaryComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (this._user && this._initiative && this._team) {
+        if (this._user && this._initiative && this._team && this._dataset) {
             this.getSummary();
             this.authorityName = this._team.settings.authority;
             this.helperName = this._team.settings.helper;
@@ -62,9 +65,10 @@ export class PersonalSummaryComponent implements OnInit {
         if (changes.team && changes.team.currentValue) {
             this._team = changes.team.currentValue;
         }
-        if (changes.datasetId && changes.datasetId.currentValue) {
-            this.columnNumber = (localStorage.getItem(`map_settings_${changes.datasetId.currentValue}`)
-                ? JSON.parse(localStorage.getItem(`map_settings_${changes.datasetId.currentValue}`)).directoryColumnsNumber
+        if (changes.dataset && changes.dataset.currentValue) {
+            this._dataset = changes.dataset.currentValue;
+            this.columnNumber = (localStorage.getItem(`map_settings_${this._dataset.datasetId}`)
+                ? JSON.parse(localStorage.getItem(`map_settings_${this._dataset.datasetId}`)).directoryColumnsNumber
                 : 1
             ) || 1;
             this.cd.markForCheck();
@@ -90,11 +94,6 @@ export class PersonalSummaryComponent implements OnInit {
         this.helps = sortBy(helps, i => i.name)
     }
 
-
-    // openInitiative(node: Initiative) {
-    //     this.router.navigateByUrl(`/map/${this.datasetId}/${this.initiative.getSlug()}/circles?id=${node.id}`)
-    // }
-
     toggleAuthorityView(i: number) {
         this.authoritiesHideme.forEach(el => {
             el = true
@@ -116,15 +115,19 @@ export class PersonalSummaryComponent implements OnInit {
         this.selectMember.emit(user);
     }
 
+    onSelectInitiative(initiative:Initiative){
+        this.selectInitiative.emit(initiative);
+    }
+
     isColumnToggleActive(columns: number) {
         return this.columnNumber == columns;
     }
 
     setColumnNumber(columns: number) {
         this.columnNumber = columns;
-        let settings = JSON.parse(localStorage.getItem(`map_settings_${this.datasetId}`));
+        let settings = JSON.parse(localStorage.getItem(`map_settings_${this._dataset.datasetId}`));
         settings.directoryColumnsNumber = columns;
-        localStorage.setItem(`map_settings_${this.datasetId}`, JSON.stringify(settings));
+        localStorage.setItem(`map_settings_${this._dataset.datasetId}`, JSON.stringify(settings));
 
         this.cd.markForCheck();
     }
