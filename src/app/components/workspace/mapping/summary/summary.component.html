@@ -18,7 +18,7 @@
         <div id="collapseOtherMembers" [class.col-3]="selectedMember" [class.collapse]="selectedMember" [class.w-100]="!selectedMember"
             class=" border-0 " [class.mt-3]="selectedMember">
             <div class="card border-0 bg-transparent">
-                <div *ngIf="!selectedMember && initiative">
+                <div *ngIf="!selectedMember && !!initiative">
                     <h1>Directory</h1>
                     <h6 class="text-muted">
 
