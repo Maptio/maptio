@@ -2,10 +2,10 @@
     <div class="col-12">
         <div class="d-flex align-items-center">
             <img class="rounded-circle user col-auto p-0" width="128" height="128" src="{{member?.picture}}">
-            <div class="mx-2 w-100" role="navigation">
+            <div class="ml-3 w-100" role="navigation">
                 <div class="position-absolute d-flex flex-column">
-                        <h1 class="mb-0"> {{member?.name}}</h1>
-                        <h6 class="text-muted">{{authorities.length + helps.length}} circles</h6>        
+                    <h1 class=""> {{member?.name}}</h1>
+                    <h6 class="text-muted">{{authorities.length + helps.length}} circles</h6>
                 </div>
                 <ul class="nav nav-tabs justify-content-end my-3" role="tablist">
                     <li class="nav-item mr-1">
@@ -27,7 +27,7 @@
         </div>
 
     </div>
-    
+
     <div class="col-12 d-flex justify-content-end">
         <div class="btn-group" role="group" aria-label="">
             <button type="button" (click)="setColumnNumber(3)" [class.active]="isColumnToggleActive(3)" class="btn btn-light">
@@ -45,27 +45,29 @@
 
 
     <div class="tab-content col-12 mt-3" id="tab-content">
-        <div id="authority" role="tabpanel" aria-labelledby="authority-tab" 
-         class="tab-pane fade show active card-columns" 
-         [class.one-column]="isColumnToggleActive(1)"
-         [class.two-column]="isColumnToggleActive(2)"
-         [class.three-column]="isColumnToggleActive(3)" >
-            <span *ngIf="authorities.length===0" class="h5 text-orange">Not a {{authorityName | lowercase }} yet</span>
+        <div id="authority" role="tabpanel" aria-labelledby="authority-tab" class="tab-pane fade show active card-columns" [class.one-column]="isColumnToggleActive(1)"
+            [class.two-column]="isColumnToggleActive(2)" [class.three-column]="isColumnToggleActive(3)">
+            <div class="w-100 d-flex justify-content-center">
 
+                <span *ngIf="authorities.length===0" class="h3 text-orange">Not a {{authorityName | lowercase }} yet</span>
+            </div>
             <div *ngFor="let i of authorities; let ix=index" class="">
-                <personal-card [initiative]="i" [datasetId]="datasetId" [team]="team" [isWithLeader]="false" (selectMember)="onSelectMember($event)" (selectInitiative)="onSelectInitiative($event)"></personal-card>
+                <personal-card [initiative]="i" [datasetId]="datasetId" [team]="team" [isWithLeader]="false" (selectMember)="onSelectMember($event)"
+                    (selectInitiative)="onSelectInitiative($event)"></personal-card>
             </div>
 
         </div>
-        <div id="helper" role="tabpanel" aria-labelledby="helper-tab" class="tab-pane fade card-columns "
-        [class.one-column]="isColumnToggleActive(1)"
-        [class.two-column]="isColumnToggleActive(2)"
-        [class.three-column]="isColumnToggleActive(3)" >
-            <span *ngIf="helps.length===0" class="h5 text-orange">No helping participation yet</span>
+        <div id="helper" role="tabpanel" aria-labelledby="helper-tab" class="tab-pane fade card-columns " [class.one-column]="isColumnToggleActive(1)"
+            [class.two-column]="isColumnToggleActive(2)" [class.three-column]="isColumnToggleActive(3)">
+            <div class="w-100 d-flex justify-content-center">
+                <span *ngIf="helps.length===0" class="h3 text-orange">No helping participation yet</span>
+
+            </div>
 
             <div *ngFor="let i of helps; let ix=index" class="">
 
-                <personal-card [initiative]="i" [datasetId]="datasetId" [team]="team" [isWithLeader]="true" (selectMember)="onSelectMember($event)" (selectInitiative)="onSelectInitiative($event)"></personal-card>
+                <personal-card [initiative]="i" [datasetId]="datasetId" [team]="team" [isWithLeader]="true" (selectMember)="onSelectMember($event)"
+                    (selectInitiative)="onSelectInitiative($event)"></personal-card>
 
             </div>
         </div>
