@@ -46,7 +46,7 @@
 
                     <div class="collapse {{getMultipleCollapseClass()}} w-100 show " id="{{getNoDescriptionId()}}">
                         <div class="d-flex justify-content-start flex-wrap">
-                            <ul class="list-inline d-flex flex-row-reverse picture-list my-1">
+                            <ul class="list-inline d-flex flex-row-reverse picture-list my-1 flex-wrap">
                                 <li class="list-inline-item rounded-circle border-thick border-white" *ngFor="let h of initiative.helpers">
                                     <button [class.d-none]="h.user_id === member?.user_id " (click)="onSelectMember(h)" class="btn btn-link p-0">
                                         <img [hidden]="h.user_id === member?.user_id " class="rounded-circle user" width="40" height="40" src="{{h.picture}}" alt="{{h.name}}"
