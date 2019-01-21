@@ -20,6 +20,10 @@ module.exports = webpackMerge(commonConfig, {
     chunkFilename: '[id].chunk.js'
   },
 
+  optimization: {
+    noEmitOnErrors: true
+  },
+
   plugins: [
 
     // new webpack.DefinePlugin({

@@ -6,6 +6,7 @@ var helpers = require('./helpers');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
+  mode: process.env.NODE_ENV === "production" ? "production" : "development",
   entry: {
     'polyfills': './src/app/polyfills.ts',
     'vendor': './src/app/vendor.ts',
@@ -18,9 +19,22 @@ module.exports = {
 
   module: {
     rules: [
+      // {
+      //   test: /\.ts$/,
+      //   loaders: ['awesome-typescript-loader', 'angular2-template-loader']
+      // },
       {
-        test: /\.ts$/,
-        loaders: ['awesome-typescript-loader', 'angular2-template-loader']
+        test: /\.ts?$/,
+        use: [{
+          loader: "ts-loader",
+          options: {
+            transpileOnly: true,
+            experimentalWatchApi: true,
+          }
+        },
+        {
+          loader: "angular2-template-loader"
+        }],
       },
       {
         test: /\.html$/,
@@ -43,14 +57,29 @@ module.exports = {
     ]
   },
 
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          name: 'vendor',
+          test: /\/node_modules\//,
+          chunks: 'all',
+          priority: 0,
+          enforce: true,
+        },
+      }
+    }
+  },
+
+
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin({
-      name: ['app', 'vendor', 'polyfills']
-    }),
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: ['app', 'vendor', 'polyfills']
+    // }),
     new webpack.IgnorePlugin(
       //https://medium.com/@ahmedelgabri/analyzing-optimizing-your-webpack-bundle-8590818af4df
       //Used in the slug package ....To comment back if we ever get Arabic or Tibetan users
-      /unicode\/category\/So/, /node_modules/  
+      /unicode\/category\/So/, /node_modules/
     ),
     new HtmlWebpackPlugin({
       template: './src/index.html'
