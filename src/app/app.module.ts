@@ -16,7 +16,7 @@ import { Cloudinary } from "cloudinary-core";
 import { D3Service } from "d3-ng2-service";
 import { FileUploadModule } from "ng2-file-upload";
 import { ResponsiveModule } from "ng2-responsive";
-import { McBreadcrumbsConfig, McBreadcrumbsModule } from "ngx-breadcrumbs";
+import { BreadcrumbsModule, BreadcrumbsConfig, Breadcrumb } from "@exalif/ngx-breadcrumbs";
 import { FullstoryModule } from 'ngx-fullstory';
 
 import { DeviceDetectorModule } from 'ngx-device-detector';
@@ -91,13 +91,13 @@ const appRoutes: Routes = [
     { path: "authorize", component: AuthorizeComponent },
 
     { path: "logout", component: LogoutComponent },
-    { path: "help", component: HelpComponent, data: { breadcrumbs: "Help" } },
-    { path: "pricing", component: PricingComponent, data: { breadcrumbs: "Pricing" } },
+    { path: "help", component: HelpComponent, data: { breadcrumbs: true, text: "Help" } },
+    { path: "pricing", component: PricingComponent, data: { breadcrumbs: true, text: "Pricing" } },
     { path: "checkout", canActivate: [AuthGuard], component: CheckoutComponent },
 
-    { path: "terms", component: TermsComponent },
+    { path: "terms", component: TermsComponent, data: { breadcrumbs: true, text: "Terms of service" } },
 
-    { path: "privacy", component: PrivacyComponent },
+    { path: "privacy", component: PrivacyComponent, data: { breadcrumbs: true, text: "Privacy policy" } },
 
     { path: "signup", component: SignupComponent },
 
@@ -134,7 +134,7 @@ export const cloudinaryLib = {
         CommonModule,
         HttpModule,
         DeviceDetectorModule.forRoot(),
-        McBreadcrumbsModule.forRoot(),
+        BreadcrumbsModule.forRoot(),
         NgbModule.forRoot(),
         RouterModule.forRoot(appRoutes, { enableTracing: false }),
         ResponsiveModule,
@@ -172,8 +172,8 @@ export const cloudinaryLib = {
         AuthGuard, AccessGuard, WorkspaceGuard, PermissionGuard, BillingGuard,
         AuthConfiguration,
         D3Service, DataService, CounterService, URIService, ColorService, UIService, DatasetFactory, TeamFactory,
-        ErrorService, Auth, UserService, TeamService,MapService,  UserFactory, MailingService, JwtEncoder, LoaderService,
-        ExportService, FileService, PermissionService, BillingService,InstructionsService,OnboardingService,
+        ErrorService, Auth, UserService, TeamService, MapService, UserFactory, MailingService, JwtEncoder, LoaderService,
+        ExportService, FileService, PermissionService, BillingService, InstructionsService, OnboardingService,
         Location,
         { provide: LocationStrategy, useClass: PathLocationStrategy },
         { provide: APP_BASE_HREF, useValue: '/' },
@@ -188,7 +188,7 @@ export const cloudinaryLib = {
 })
 
 export class AppModule {
-    constructor(breadcrumbsConfig: McBreadcrumbsConfig) {
+    constructor(breadcrumbsConfig: BreadcrumbsConfig) {
 
         if (process.env.ENV === "production") {
             LogRocket.init(environment.LOGROCKET_APP_ID, {
@@ -199,21 +199,21 @@ export class AppModule {
             });
         }
 
-        breadcrumbsConfig.postProcess = (x) => {
+        breadcrumbsConfig.postProcess = (breadcrumbs): Breadcrumb[] => {
+
             // Ensure that the first breadcrumb always points to home
+            let processedBreadcrumbs = breadcrumbs;
 
-            let y = x;
-
-            if (x.length && x[0].text !== "Home") {
-                y = [
+            if (breadcrumbs.length && breadcrumbs[0].text !== 'Home') {
+                processedBreadcrumbs = [
                     {
-                        text: "Home",
-                        path: ""
+                        text: 'Home',
+                        path: ''
                     }
-                ].concat(x);
+                ].concat(breadcrumbs);
             }
 
-            return y;
+            return processedBreadcrumbs;
         };
     }
 }

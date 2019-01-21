@@ -1,10 +1,36 @@
-.breadcrumb {
+/* .breadcrumb {
     font-size: initial !important;
     font-weight: initial !important;
 }
 
 .breadcrumb-item+.breadcrumb-item::before {
     content: "\f105" !important;
+    font-family: "Font Awesome 5 Free";
+    font-weight: bold;
+    color: var(--gray) !important ;
+} */
+
+ol.breadcrumbs__container{
+
+display: inline-flex;
+padding: 0;
+}
+
+li.breadcrumbs__item{
+    list-style: none;
+}
+
+li.breadcrumbs__item::before {
+    content: "\f105" !important;
+    font-family: "Font Awesome 5 Free";
+    font-weight: bold;
+    color: var(--gray) !important ;
+    padding-right: .5rem;
+    padding-left: .5rem;
+}
+
+li.breadcrumbs__item:first-child::before {
+    content: "" !important;
     font-family: "Font Awesome 5 Free";
     font-weight: bold;
     color: var(--gray) !important ;

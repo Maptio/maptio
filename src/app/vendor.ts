@@ -31,7 +31,7 @@ import "canvg";
 import "moment";
 import "logrocket";
 import "ngx-color-picker"
-import "ngx-breadcrumbs"
+import "@exalif/ngx-breadcrumbs"
 import "ngx-loading"
 import "@ngx-progressbar/core"
 import "ngx-device-detector"

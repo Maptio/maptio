@@ -1,12 +1,12 @@
-import { Injectable, state } from "@angular/core";
-import { McBreadcrumbsResolver, IBreadcrumb } from "ngx-breadcrumbs";
+import { Injectable } from "@angular/core";
+import { BreadcrumbsResolver, Breadcrumb } from "@exalif/ngx-breadcrumbs";
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 import { inherits } from "util";
 import { UserFactory } from "../../../../shared/services/user.factory";
 import { User } from "../../../../shared/model/user.data";
 
 @Injectable()
-export class MappingSummaryBreadcrumbs extends McBreadcrumbsResolver {
+export class MappingSummaryBreadcrumbs extends BreadcrumbsResolver {
 
 
     // Optional: inject any required dependencies
@@ -14,7 +14,7 @@ export class MappingSummaryBreadcrumbs extends McBreadcrumbsResolver {
         super();
     }
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<IBreadcrumb[]> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<Breadcrumb[]> {
 
         if (route.queryParams.member) {
             return this.userFactory.get(route.queryParams.member)
