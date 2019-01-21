@@ -30,8 +30,5 @@ li.breadcrumbs__item::before {
 }
 
 li.breadcrumbs__item:first-child::before {
-    content: "" !important;
-    font-family: "Font Awesome 5 Free";
-    font-weight: bold;
-    color: var(--gray) !important ;
+    display: none;
 }
