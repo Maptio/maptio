@@ -163,6 +163,7 @@
     "ts-loader": "^5.3.3",
     "tslint": "^5.12.1",
     "typescript": "^3.2.4",
+    "uglifyjs-webpack-plugin": "^2.1.1",
     "webpack": "^4.28.4",
     "webpack-bundle-analyzer": "^2.13.1",
     "webpack-cli": "^3.2.1"

@@ -7,12 +7,13 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var helpers = require('./helpers');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const ngToolsWebpack = require('@ngtools/webpack');
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 module.exports = {
   mode: process.env.NODE_ENV === "production" ? "production" : "development",
- 
+
   devtool: 'source-map',
   entry: {
     'vendor': './src/app/vendor.ts',
@@ -32,7 +33,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.ts$/,
+        test: /(?:\.ngfactory\.js|\.ngstyle\.js|\.ts)$/,
         loader: '@ngtools/webpack'
       },
       {
@@ -43,11 +44,6 @@ module.exports = {
         test: /\.(json|png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico|cur)$/,
         loader: 'file-loader?name=assets/[name].[hash].[ext]'
       },
-      // {
-      //   test: /\.css$/,
-      //   exclude: [helpers.root('src', 'app'), /ngx-color-picker/],
-      //   loaders: ExtractTextPlugin.extract({ fallback: 'style-loader', loader: 'css-loader?sourceMap' })
-      // },
       {
         test: /\.css$/,
         exclude: [helpers.root('src', 'app'), /ngx-color-picker/],
@@ -78,35 +74,38 @@ module.exports = {
 
   optimization: {
     splitChunks: {
+      chunks: 'all',
+      maxInitialRequests: Infinity,
+      minSize: 0,
       cacheGroups: {
         vendor: {
-          name: 'vendor',
-          test: /\/node_modules\//,
-          chunks: 'all',
-          priority: 0,
-          enforce: true,
+          test: /[\\/]node_modules[\\/]/,
+          name(module) {
+            // get the name. E.g. node_modules/packageName/not/this/part.js
+            // or node_modules/packageName
+            const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+
+            // npm package names are URL-safe, but some servers don't like @ symbols
+            return `npm.${packageName.replace('@', '')}`;
+          },
         },
       }
-    }, 
-    minimize:true
+    },
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true
+      }),
+    ]
   },
 
   plugins: [
-    // If you want to use jquery in ng2 uncomment this
-    /*
-    new webpack.ProvidePlugin({
-      $: "jquery",
-      jQuery: "jquery"
-    }),*/
     new ngToolsWebpack.AngularCompilerPlugin({
       tsConfigPath: helpers.root('tsconfig-aot.json'),
       basePath: helpers.root(''),
       entryModule: helpers.root('src', 'app', 'app.module#AppModule'),
       mainPath: helpers.root('src', 'bootstrap.ts')
     }),
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   name: ['app', 'vendor', 'polyfills']
-    // }),
     new webpack.LoaderOptionsPlugin({
       minimize: true,
       options: {
@@ -126,15 +125,7 @@ module.exports = {
         removeEmptyAttributes: true,
       },
     }),
-    // new webpack.optimize.UglifyJsPlugin({
-    //   compress: {
-    //     warnings: false,
-    //     drop_console: true
-    //   },
-    //   output: {
-    //     comments: false
-    //   }
-    // }),
+
     new ExtractTextPlugin('[name].[hash].css'),
     new webpack.DefinePlugin({
       'process.env': {
@@ -145,6 +136,6 @@ module.exports = {
       { from: 'public/images', to: 'assets/images' },
       { from: 'public/styles', to: 'assets/styles' },
       { from: 'public/templates', to: 'assets/templates' }
-    ])
+    ]),
   ]
 };
