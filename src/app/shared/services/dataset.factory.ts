@@ -118,9 +118,9 @@ export class DatasetFactory {
      * Retrieves one or many datasets
      * @param idOrUser Dataset unique ID or User
      */
-    get(idOrUserOrTeam: string | string[] | User | Team, isMinimal?: boolean): Promise<DataSet> | Promise<DataSet[]> | Promise<string[]> | Promise<void> {
+    get(idOrUserOrTeam: string | string[] | User | Team, isMinimal?: boolean): Promise<DataSet> | Promise<DataSet[]> | Promise<string[]> {
 
-        if (!idOrUserOrTeam) return Promise.reject("Parameter missing");
+        if (!idOrUserOrTeam) return Promise.reject("Parameter missing") as Promise<DataSet>;
         if (idOrUserOrTeam instanceof User) {
             return this.getWithUser(<User>idOrUserOrTeam)
         }

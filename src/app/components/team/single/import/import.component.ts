@@ -75,7 +75,7 @@ export class TeamImportComponent implements OnInit {
         reader.readAsText(input.files[0], "utf-8");
 
         reader.onload = (data) => {
-            let csvData = reader.result;
+            let csvData = reader.result as string; 
             let csvRecordsArray = csvData.split(/\r\n|\n|\r/).filter((s: string) => s !== "");
             let headerLength = -1;
             let headersRow = this.fileService.getHeaderArray(csvRecordsArray, Constants.tokenDelimeter);

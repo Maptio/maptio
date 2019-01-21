@@ -19,8 +19,8 @@ import { LoaderService } from "../../shared/services/loading/loader.service";
 import { OnboardingService } from "../../shared/components/onboarding/onboarding.service";
 import { Subscription } from "rxjs/Subscription";
 import { Observable } from "rxjs/Observable";
+import { from , forkJoin} from "rxjs";
 import { partition, mergeMap, map } from "rxjs/operators";
-import { forkJoin } from "rxjs";
 
 
 @Component({
@@ -53,7 +53,7 @@ export class HeaderComponent implements OnInit {
         private analytics: Angulartics2Mixpanel, private cd: ChangeDetectorRef, private billingService: BillingService,
         private onboarding: OnboardingService) {
 
-        let [teamDefined, teamUndefined] = (EmitterService.get("currentTeam") as Observable<Team>).pipe(partition(team => !!team));
+        let [teamDefined, teamUndefined] = from(EmitterService.get("currentTeam")).partition((team: Team) => !!team);
 
         teamDefined.flatMap((team: Team) => {
             return this.billingService.getTeamStatus(team).map((value: { created_at: Date, freeTrialLength: Number, isPaying: Boolean }) => {
@@ -73,6 +73,7 @@ export class HeaderComponent implements OnInit {
                 this.team = value;
                 this.cd.markForCheck();
             });
+            
     }
 
     ngAfterViewInit() {

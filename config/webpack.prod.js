@@ -11,6 +11,8 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 const ngToolsWebpack = require('@ngtools/webpack');
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 module.exports = {
+  mode: process.env.NODE_ENV === "production" ? "production" : "development",
+ 
   devtool: 'source-map',
   entry: {
     'vendor': './src/app/vendor.ts',
@@ -74,6 +76,21 @@ module.exports = {
     ]
   },
 
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          name: 'vendor',
+          test: /\/node_modules\//,
+          chunks: 'all',
+          priority: 0,
+          enforce: true,
+        },
+      }
+    }, 
+    minimize:true
+  },
+
   plugins: [
     // If you want to use jquery in ng2 uncomment this
     /*
@@ -87,9 +104,9 @@ module.exports = {
       entryModule: helpers.root('src', 'app', 'app.module#AppModule'),
       mainPath: helpers.root('src', 'bootstrap.ts')
     }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: ['app', 'vendor', 'polyfills']
-    }),
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: ['app', 'vendor', 'polyfills']
+    // }),
     new webpack.LoaderOptionsPlugin({
       minimize: true,
       options: {
@@ -109,15 +126,15 @@ module.exports = {
         removeEmptyAttributes: true,
       },
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-        drop_console: true
-      },
-      output: {
-        comments: false
-      }
-    }),
+    // new webpack.optimize.UglifyJsPlugin({
+    //   compress: {
+    //     warnings: false,
+    //     drop_console: true
+    //   },
+    //   output: {
+    //     comments: false
+    //   }
+    // }),
     new ExtractTextPlugin('[name].[hash].css'),
     new webpack.DefinePlugin({
       'process.env': {

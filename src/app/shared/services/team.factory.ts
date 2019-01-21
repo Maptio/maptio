@@ -27,7 +27,7 @@ export class TeamFactory {
     get(id: string): Promise<Team>;
 
     get(idOrIds: string | string[]): Promise<Team> | Promise<Team[]> {
-        if (!idOrIds) return Promise.reject("Parameter missing");
+        if (!idOrIds) return Promise.reject("Parameter missing") as Promise<Team>;
         if (idOrIds.constructor === Array) {
             return this.getWithIds(<string[]>idOrIds)
         }
