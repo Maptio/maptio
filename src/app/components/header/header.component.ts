@@ -1,7 +1,6 @@
 import { Angulartics2Mixpanel } from "angulartics2";
 import { Router } from "@angular/router";
-import { Subscription, Observable, Subject } from "rxjs/Rx";
-import { OnInit } from "@angular/core";
+import { OnInit, EventEmitter } from "@angular/core";
 import { Component, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
 import { User } from "../../shared/model/user.data";
 import { Team } from "../../shared/model/team.data";
@@ -18,6 +17,11 @@ import { SafeUrl, DomSanitizer } from "@angular/platform-browser";
 import { BillingService } from "../../shared/services/billing/billing.service";
 import { LoaderService } from "../../shared/services/loading/loader.service";
 import { OnboardingService } from "../../shared/components/onboarding/onboarding.service";
+import { Subscription } from "rxjs/Subscription";
+import { Observable } from "rxjs/Observable";
+import { partition, mergeMap, map } from "rxjs/operators";
+import { forkJoin } from "rxjs";
+
 
 @Component({
     selector: "header",
@@ -31,12 +35,12 @@ export class HeaderComponent implements OnInit {
 
     public datasets: Array<any>;
     private teams: Array<Team>;
-    public sampleTeams:Team[];
+    public sampleTeams: Team[];
     public team: Team;
     public selectedDataset: DataSet;
     public areMapsAvailable: Promise<boolean>
     public isCreateMode: boolean = false;
-    public isHeaderCollapsed:boolean;
+    public isHeaderCollapsed: boolean;
 
     public emitterSubscription: Subscription;
     public userSubscription: Subscription;
@@ -49,7 +53,7 @@ export class HeaderComponent implements OnInit {
         private analytics: Angulartics2Mixpanel, private cd: ChangeDetectorRef, private billingService: BillingService,
         private onboarding: OnboardingService) {
 
-        let [teamDefined, teamUndefined] = EmitterService.get("currentTeam").partition(team => team);
+        let [teamDefined, teamUndefined] = (EmitterService.get("currentTeam") as Observable<Team>).pipe(partition(team => !!team));
 
         teamDefined.flatMap((team: Team) => {
             return this.billingService.getTeamStatus(team).map((value: { created_at: Date, freeTrialLength: Number, isPaying: Boolean }) => {
@@ -83,36 +87,61 @@ export class HeaderComponent implements OnInit {
 
 
     ngOnInit() {
-        this.userSubscription = EmitterService.get("headerUser")
-            .mergeMap((user: User) => {
-                return Observable.forkJoin(
+        this.userSubscription = EmitterService.get("headerUser").asObservable().pipe(
+            mergeMap((user: User) => {
+                return forkJoin(
                     isEmpty(user.datasets) ? Promise.resolve([]) : this.datasetFactory.get(user.datasets, true),
                     isEmpty(user.teams) ? Promise.resolve([]) : this.teamFactory.get(user.teams),
                     Promise.resolve(user)
                 )
-            })
-            .map(([datasets, teams, user]: [DataSet[], Team[], User]) => {
+            }),
+            map(([datasets, teams, user]: [DataSet[], Team[], User]) => {
                 return [datasets.filter(d => !d.isArchived).map(d => {
                     d.team = teams.find(t => d.initiative.team_id === t.team_id);
                     return d
-                }), 
-                teams, 
-                user]
-            })
-            .map(([datasets, teams, user]: [DataSet[], Team[], User]) => {
+                }),
+                    teams,
+                    user]
+            }),
+            map(([datasets, teams, user]: [DataSet[], Team[], User]) => {
                 return {
                     datasets: sortBy(datasets, d => d.initiative.name),
                     teams: sortBy(teams, t => t.name),
                     user: user
                 }
             })
+        )
+
+
+            // .mergeMap((user: User) => {
+            //     return Observable.forkJoin(
+            //         isEmpty(user.datasets) ? Promise.resolve([]) : this.datasetFactory.get(user.datasets, true),
+            //         isEmpty(user.teams) ? Promise.resolve([]) : this.teamFactory.get(user.teams),
+            //         Promise.resolve(user)
+            //     )
+            // })
+            // .map(([datasets, teams, user]: [DataSet[], Team[], User]) => {
+            //     return [datasets.filter(d => !d.isArchived).map(d => {
+            //         d.team = teams.find(t => d.initiative.team_id === t.team_id);
+            //         return d
+            //     }), 
+            //     teams, 
+            //     user]
+            // })
+            // .map(([datasets, teams, user]: [DataSet[], Team[], User]) => {
+            //     return {
+            //         datasets: sortBy(datasets, d => d.initiative.name),
+            //         teams: sortBy(teams, t => t.name),
+            //         user: user
+            //     }
+            // })
             .subscribe((data: { datasets: DataSet[], teams: Team[], user: User }) => {
                 this.user = data.user;
                 this.datasets = data.datasets;
                 this.teams = data.teams.filter(t => !t.isExample);
                 this.sampleTeams = data.teams.filter(t => t.isExample);
-                this.isSandbox = this.sampleTeams.length >= 1 && this.teams.length===0;
-               
+                this.isSandbox = this.sampleTeams.length >= 1 && this.teams.length === 0;
+
                 this.cd.markForCheck();
             },
                 (error: any) => { console.error(error) });
