@@ -16,7 +16,7 @@ import {
 import { Subscription } from "rxjs/Subscription";
 import "rxjs/add/operator/merge";
 import "rxjs/add/operator/skip";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs/Rx";
 
 export type StrategyFunction = (templateRef?: TemplateRef<any>) => void;
 

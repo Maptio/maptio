@@ -10,7 +10,7 @@ import { HelpComponent } from "../components/help/help.component";
 import "rxjs/add/operator/map"
 import { Auth } from "../shared/services/auth/auth.service";
 import { environment } from "../../environment/environment";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs/Rx";
 import { Intercom } from 'ng-intercom';
 import { NgProgress } from '@ngx-progressbar/core';
 import { URIService } from "../shared/services/uri.service";
