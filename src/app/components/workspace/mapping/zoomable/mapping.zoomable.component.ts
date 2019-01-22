@@ -323,6 +323,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     if (!force) {
       if (this.scale === event.transform.k) return;
       if (this.scale <= 1 && event.transform.k <= 1) return;
+      if (!this.outerFontScale || !this.innerFontScale) return;
     }
 
     const zoomFactor: number = event.transform.k > 1 ? event.transform.k : 1;
@@ -400,8 +401,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
           .transition()
           .style("opacity", 1);
       });
-
-
   }
 
   getTags() {
@@ -609,10 +608,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       zoom(root);
     });
 
-    initMapElementsAtPosition([getLastZoomedCircle().x, getLastZoomedCircle().y, getLastZoomedCircle().r * 2 + margin]);
-    if (getLastZoomedCircle().data.id !== root.id && !isFirstLoad) {
-      zoom(getLastZoomedCircle())
-    }
+    initMapElementsAtPosition([root.x, root.y]);
 
     try {
       // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
@@ -657,13 +653,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
 
     function initMapElementsAtPosition(v: any) {
-      const k: number = diameter / v[2];
       view = v;
 
       node
         .transition()
         .duration((d: any): number => d.children ? TRANSITION_DURATION / 5 : TRANSITION_DURATION / 5)
-        .attr("transform", (d: any): string => `translate(${(d.x - v[0]) * k}, ${(d.y - v[1]) * k})`);
+        .attr("transform", (d: any): string => `translate(${d.x - v[0]}, ${d.y - v[1]})`);
 
       textAround
         .call(passingThrough, "mouseover")
@@ -672,13 +667,13 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
 
       definitions.selectAll("pattern > image")
-        .attr("width", CIRCLE_RADIUS * 2 / k)
-        .attr("height", CIRCLE_RADIUS * 2 / k)
+        .attr("width", CIRCLE_RADIUS * 2)
+        .attr("height", CIRCLE_RADIUS * 2)
 
 
       circle
         .attr("r", function (d: any) {
-          return d.r * k;
+          return d.r;
         })
         .style("stroke", function (d: any) {
           return d.children
@@ -696,7 +691,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             : !d.children && d.parent === root ? 0.1 : 1;
         })
         .style("stroke-opacity", 0.1)
-        .each((d: any) => (d.k = k))
+        // .each((d: any) => (d.k = k))
         .on("mouseover", function (d: any) {
           let initiative = d.data;
           d3.event.stopPropagation();
@@ -765,7 +760,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
               });
               circle.dispatch("mouseout");
             })
-
         });
 
       g.selectAll("circle.accountable")
@@ -774,17 +768,17 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .call(passingThrough, "mouseout")
         .call(passingThrough, "contextmenu")
         .attr("r", function (d: any) {
-          return d.r * k > CIRCLE_RADIUS ? `${CIRCLE_RADIUS}px` : `${d.r * 0.3}px`;
+          return d.r > CIRCLE_RADIUS ? `${CIRCLE_RADIUS}px` : `${d.r * 0.3}px`;
         })
         .attr("cx", function (d: any) {
           return d.children
-            ? Math.cos(DEFAULT_PICTURE_ANGLE) * (d.r * k) - 12
+            ? Math.cos(DEFAULT_PICTURE_ANGLE) * (d.r) - 12
             : 0;
         })
         .attr("cy", function (d: any) {
           return d.children
-            ? -Math.sin(DEFAULT_PICTURE_ANGLE) * (d.r * k) + 12
-            : -d.r * k * 0.9;
+            ? -Math.sin(DEFAULT_PICTURE_ANGLE) * d.r + 12
+            : -d.r * 0.9;
         })
     }
 
@@ -838,16 +832,14 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     function enterWithAnimations(groups: any, className: string, callback?: Function): void {
       groups
-        .attr("class", function (d: any) {
+        .attr("class", (d: any): string => {
           return d.parent
             ? d.children ? "node" : "node node--leaf"
             : "node node--root";
         })
         .classed(className, true)
         .classed("initiative-map", true)
-        .attr("id", function (d: any) {
-          return `${d.data.id}`;
-        });
+        .attr("id", (d: any): string => `${d.data.id}`);
 
       groups.append("circle")
         .style("fill", (d: any): string => {
