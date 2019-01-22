@@ -163,7 +163,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       g.attr("transform", d3.event.transform);
     }
 
-    const wheelDelta = () => -d3.event.deltaY * (d3.event.deltaMode ? 120 : 1) / 500 * 15;
+    const wheelDelta = () => -d3.event.deltaY * (d3.event.deltaMode ? 120 : 1) / 500 * 2.5;
 
     let zooming = d3
       .zoom()

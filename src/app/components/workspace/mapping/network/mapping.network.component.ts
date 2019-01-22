@@ -189,7 +189,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .attr("d", "M0,-5L10,0L0,5")
       .style("opacity", (d: any) => d.opacity);
 
-    const wheelDelta = () => -d3.event.deltaY * (d3.event.deltaMode ? 120 : 1) / 500 * 15;
+    const wheelDelta = () => -d3.event.deltaY * (d3.event.deltaMode ? 120 : 1) / 500 * 2.5;
 
 
     let zooming = d3
