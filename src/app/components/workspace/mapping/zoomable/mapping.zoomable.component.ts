@@ -434,7 +434,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         k: this.scale
       }
     }
-    let height = this.height;
+    let height = svg.attr("height")*0.95;
     let definitions = this.definitions;
     let uiService = this.uiService;
     let zooming = this.zooming;
@@ -627,11 +627,16 @@ export class MappingZoomableComponent implements IDataVisualizer {
     function getClickedElementCoordinates(clickedElement: any, newScale: number): Array<number> {
       let clickedX = 0;
       let clickedY = 0;
-      if (clickedElement && clickedElement.transform && clickedElement.transform.baseVal.length > 0) {
-        clickedX = clickedElement.transform.baseVal[0].matrix.e * newScale;
-        clickedY = clickedElement.transform.baseVal[0].matrix.f * newScale;
+      // console.log(clickedElement, clickedElement.transform, clickedElement.transform.baseVal.getItem(0))
+      console.log(clickedElement, height)
+      if (
+        clickedElement
+        && clickedElement.transform
+        && ( clickedElement.transform.baseVal.length > 0 || clickedElement.transform.baseVal.numberOfItems > 0)) {
+        clickedX = clickedElement.transform.baseVal.getItem(0).matrix.e * newScale;
+        clickedY = clickedElement.transform.baseVal.getItem(0).matrix.f * newScale;
         clickedX -= margin;
-        clickedY -= -height / 2;
+        clickedY -= -height / 2 + margin;
       }
       return [clickedX, clickedY];
     }
