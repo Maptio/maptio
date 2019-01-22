@@ -10,7 +10,23 @@ module.exports = {
   entry: {
     'polyfills': './src/app/polyfills.ts',
     'vendor': './src/app/vendor.ts',
-    'app': './src/app/bootstrap.ts'
+    'app': './src/app/bootstrap.ts',
+    'app.min': [
+      helpers.root('./public/styles/animations.css'),
+      helpers.root('./public/styles/global.css'),
+      helpers.root('./public/styles/angular-tree-component.css'),
+      helpers.root('./public/styles/tooltip.css'),
+      helpers.root('./public/styles/breadcrumb.css'),
+      helpers.root('./public/styles/tags.css'),
+      helpers.root('./public/styles/markdown.css'),
+      helpers.root('./public/styles/collapsing.css'),
+      helpers.root('./public/styles/progress-bar.css'),
+      helpers.root('./public/styles/ribbon.css'),
+      helpers.root('./public/styles/progress-pie.css'),
+      helpers.root('./public/styles/popover.css'),
+      helpers.root('./public/styles/color-picker.css'),
+      helpers.root('./public/styles/maps.css')
+    ]
   },
 
   resolve: {
@@ -19,10 +35,6 @@ module.exports = {
 
   module: {
     rules: [
-      // {
-      //   test: /\.ts$/,
-      //   loaders: ['awesome-typescript-loader', 'angular2-template-loader']
-      // },
       {
         test: /\.ts?$/,
         use: [{
@@ -47,7 +59,12 @@ module.exports = {
       {
         test: /\.css$/,
         exclude: helpers.root('src', 'app'),
-        loaders: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader?sourceMap' })
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            { loader: 'css-loader', options: { minimize: true } }
+          ]
+        })
       },
       {
         test: /\.css$/,
@@ -85,12 +102,13 @@ module.exports = {
       template: './src/index.html'
     }),
 
-    new ExtractTextPlugin('style.css'),
+    // new ExtractTextPlugin('style.css'),
+    new ExtractTextPlugin('app.min.css'),
 
     new CopyWebpackPlugin([
       { from: 'public/images', to: 'assets/images' },
-      { from: 'public/videos', to: 'assets/videos' },
-      { from: 'public/styles', to: 'assets/styles' },
+      // { from: 'public/videos', to: 'assets/videos' },
+      // { from: 'public/styles', to: 'assets/styles' },
       { from: 'public/templates', to: 'assets/templates' }
 
     ]),
