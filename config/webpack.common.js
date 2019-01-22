@@ -3,6 +3,8 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var helpers = require('./helpers');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+var HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
 const ENV = process.env.NODE_ENV = process.env.ENV = 'development';
 
 
@@ -76,6 +78,40 @@ module.exports = {
 
 
   plugins: [
+
+
+    new HtmlWebpackPlugin({
+      template: './src/index.html',
+      minify: {
+        removeAttributeQuotes: true,
+        collapseWhitespace: true,
+        html5: true,
+        minifyCSS: true,
+        removeComments: true,
+        removeEmptyAttributes: true,
+      },
+    }),
+
+    new HtmlWebpackExternalsPlugin({
+      externals: [
+        {
+          module: 'jquery',
+          entry: 'dist/jquery.min.js',
+          global: 'jQuery',
+        },
+        {
+          module: 'popper.js',
+          entry: 'dist/umd/popper.min.js',
+          global: 'popper',
+        },
+        {
+          module: 'bootstrap',
+          entry: 'dist/js/bootstrap.min.js',
+          global: 'bootstrap',
+        }
+      ],
+    }),
+
     new webpack.IgnorePlugin(
       //https://medium.com/@ahmedelgabri/analyzing-optimizing-your-webpack-bundle-8590818af4df
       //Used in the slug package ....To comment back if we ever get Arabic or Tibetan users
@@ -88,7 +124,6 @@ module.exports = {
       }
     }),
 
-    // new ExtractTextPlugin('style.css'),
     new ExtractTextPlugin('app.min.css'),
 
     new CopyWebpackPlugin([

@@ -1,7 +1,6 @@
 
 var webpackMerge = require('webpack-merge');
 var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 var helpers = require('./helpers');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
@@ -134,17 +133,6 @@ module.exports = webpackMerge(commonConfig, {
           minimize: false
         }
       }
-    }),
-    new HtmlWebpackPlugin({
-      template: './src/index.html',
-      minify: {
-        removeAttributeQuotes: true,
-        collapseWhitespace: true,
-        html5: true,
-        minifyCSS: true,
-        removeComments: true,
-        removeEmptyAttributes: true,
-      },
     })
   ]
 });
