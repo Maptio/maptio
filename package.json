@@ -15,6 +15,7 @@
     "start": "node server.js",
     "start:debug": "node --inspect server.js",
     "build:prod": "rimraf ./dist && webpack --config config/webpack.prod.js --progress --profile",
+    "build:stats": "rimraf ./dist && webpack --config config/webpack.prod.js --progress --profile --json > stats.json && webpack-bundle-analyzer stats.json ./dist/",
     "test": "karma start --single-run",
     "test:watch": "karma start",
     "heroku-postbuild": "rimraf ./dist && webpack --config config/webpack.prod.js --profile --bail --color"
