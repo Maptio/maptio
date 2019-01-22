@@ -23,6 +23,7 @@ import { transition } from "d3-transition";
 import { partition } from "lodash";
 import { LoaderService } from "../../../../shared/services/loading/loader.service";
 import { Team } from "../../../../shared/model/team.data";
+import * as screenfull from 'screenfull';
 
 @Component({
   selector: "zoomable",
@@ -424,7 +425,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     let d3 = this.d3;
     let diameter = this.diameter;
-    let margin = this.margin;
     let g = this.g;
     let svg = this.svg;
     let currentTransform = {
@@ -434,7 +434,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
         k: this.scale
       }
     }
-    let height = this.height;
+
+    let height = svg.attr("height")*0.95;
+    let margin = height *0.135;
     let definitions = this.definitions;
     let uiService = this.uiService;
     let zooming = this.zooming;
@@ -627,11 +629,14 @@ export class MappingZoomableComponent implements IDataVisualizer {
     function getClickedElementCoordinates(clickedElement: any, newScale: number): Array<number> {
       let clickedX = 0;
       let clickedY = 0;
-      if (clickedElement && clickedElement.transform && clickedElement.transform.baseVal.length > 0) {
-        clickedX = clickedElement.transform.baseVal[0].matrix.e * newScale;
-        clickedY = clickedElement.transform.baseVal[0].matrix.f * newScale;
+      if (
+        clickedElement
+        && clickedElement.transform
+        && ( clickedElement.transform.baseVal.length > 0 || clickedElement.transform.baseVal.numberOfItems > 0)) {
+        clickedX = clickedElement.transform.baseVal.getItem(0).matrix.e * newScale;
+        clickedY = clickedElement.transform.baseVal.getItem(0).matrix.f * newScale;
         clickedX -= margin;
-        clickedY -= -height / 2;
+        clickedY -= -height / 2 + margin ;
       }
       return [clickedX, clickedY];
     }
