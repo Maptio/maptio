@@ -1,9 +1,10 @@
 var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var helpers = require('./helpers');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const ENV = process.env.NODE_ENV = process.env.ENV = 'development';
+
 
 module.exports = {
   mode: process.env.NODE_ENV === "production" ? "production" : "development",
@@ -30,24 +31,11 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['.ts', '.js']
+    extensions: ['*', '.ts', '.js']
   },
 
   module: {
     rules: [
-      {
-        test: /\.ts?$/,
-        use: [{
-          loader: "ts-loader",
-          options: {
-            transpileOnly: true,
-            experimentalWatchApi: true,
-          }
-        },
-        {
-          loader: "angular2-template-loader"
-        }],
-      },
       {
         test: /\.html$/,
         loader: 'html-loader'
@@ -70,36 +58,34 @@ module.exports = {
         test: /\.css$/,
         include: helpers.root('src', 'app'),
         loaders: ['css-to-string-loader', 'css-loader']
+      },
+      {
+        test: /\.scss$/,
+        exclude: /node_modules/,
+        loaders: ['raw-loader', 'sass-loader']
+      },
+      {
+        test: /\.sass$/,
+        exclude: /node_modules/,
+        loaders: ['raw-loader', 'sass-loader']
       }
     ]
   },
 
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        vendor: {
-          name: 'vendor',
-          test: /\/node_modules\//,
-          chunks: 'all',
-          priority: 0,
-          enforce: true,
-        },
-      }
-    }
-  },
+
 
 
   plugins: [
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   name: ['app', 'vendor', 'polyfills']
-    // }),
     new webpack.IgnorePlugin(
       //https://medium.com/@ahmedelgabri/analyzing-optimizing-your-webpack-bundle-8590818af4df
       //Used in the slug package ....To comment back if we ever get Arabic or Tibetan users
       /unicode\/category\/So/, /node_modules/
     ),
-    new HtmlWebpackPlugin({
-      template: './src/index.html'
+
+    new webpack.DefinePlugin({
+      'process.env': {
+        'ENV': JSON.stringify(ENV)
+      }
     }),
 
     // new ExtractTextPlugin('style.css'),
@@ -107,10 +93,7 @@ module.exports = {
 
     new CopyWebpackPlugin([
       { from: 'public/images', to: 'assets/images' },
-      // { from: 'public/videos', to: 'assets/videos' },
-      // { from: 'public/styles', to: 'assets/styles' },
       { from: 'public/templates', to: 'assets/templates' }
-
     ]),
     new BundleAnalyzerPlugin({ defaultSizes: 'gzip' })
   ]
