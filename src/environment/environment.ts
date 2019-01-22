@@ -47,7 +47,8 @@ export const environment = {
     DEFAULT_MAP_BACKGOUND_COLOR: "#3599af",
     DEFAULT_MAP_TEXT_COLOR: "#242c2e",
     DEFAULT_PRESETS_COLORS: ["#3599af","#e4e24a", "#9735af","#57af35", "#af4a35", "#242c2e"],
-    DEFAULT_PRESETS_LABEL: " "
+    DEFAULT_PRESETS_LABEL: " ",
+    SCREENSHOT_URL:"https://res.cloudinary.com/hgkbm0qes/image/upload/q_auto:low/v1548180161/screenshot-light_rnjqxo.png"
 
 
 

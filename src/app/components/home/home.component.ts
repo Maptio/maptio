@@ -13,6 +13,7 @@ import { TeamService } from "../../shared/services/team/team.service";
 import { MapService } from "../../shared/services/map/map.service";
 import { EmitterService } from "../../shared/services/emitter.service";
 import { InstructionsService } from "../../shared/components/instructions/instructions.service";
+import { environment } from "../../../environment/environment";
 
 @Component({
     selector: "home",
@@ -26,6 +27,7 @@ export class HomeComponent {
     public user: User;
     public isLoading: Boolean;
     public isOnboarding: boolean;
+    SCREENSHOT_URL = environment.SCREENSHOT_URL;
 
     constructor(public auth: Auth, private route: ActivatedRoute, private cd: ChangeDetectorRef,
         public datasetFactory: DatasetFactory, public teamFactory: TeamFactory, public loaderService: LoaderService,

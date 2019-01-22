@@ -10,6 +10,7 @@ import { environment } from "../../../environment/environment";
 })
 export class LogoutComponent implements OnInit {
   SURVEY_URL: string = environment.SURVEY_URL;
+  SCREENSHOT_URL = environment.SCREENSHOT_URL;
 
   constructor(private auth: Auth) { }
 
