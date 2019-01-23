@@ -386,7 +386,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         collapse(n)
       }
       if (isAllExpanded) expand(n);
-      if (isAllCollapsed) collapse(n);
+      if (isAllCollapsed) {
+        if (n.depth >= 1) collapse(n)
+      }
     })
 
     updateGraph(root, 0);
