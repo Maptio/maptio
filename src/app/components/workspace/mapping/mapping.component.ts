@@ -364,11 +364,11 @@ export class MappingComponent {
   getLatestFragment(view: string) {
     switch (view) {
       case "circles":
-        return `${this.settings.lastPosition.circles}&tags=${this.tagsFragment}`
+        return `${this.settings.lastPosition.circles}&tags=${this.tagsFragment || ""}`
       case "tree":
-        return `${this.settings.lastPosition.tree}&tags=${this.tagsFragment}`
+        return `${this.settings.lastPosition.tree}&tags=${this.tagsFragment|| ""}`
       case "network":
-        return `${this.settings.lastPosition.network}&tags=${this.tagsFragment}`
+        return `${this.settings.lastPosition.network}&tags=${this.tagsFragment|| ""}`
       default:
         return ""
     }
