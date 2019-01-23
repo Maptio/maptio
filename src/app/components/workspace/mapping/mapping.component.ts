@@ -36,6 +36,7 @@ import { environment } from "../../../../environment/environment";
 import * as screenfull from 'screenfull';
 import { SlackService } from "../share/slack.service";
 import { DataSet } from "../../../shared/model/dataset.data";
+import { MapSettingsService, MapSettings } from "../../../shared/services/map/map-settings.service";
 
 // import { MappingNetworkComponent } from "./network/mapping.network.component";
 // import { MappingCirclesComponent } from "./circles/mapping.circles.component";
@@ -103,22 +104,7 @@ export class MappingComponent {
 
   public subscription: Subscription;
   public instance: IDataVisualizer;
-
-  public settings: {
-    mapColor: string,
-    lastPosition: {
-      circles: string,
-      tree: string,
-      network: string
-    }
-  } = {
-      mapColor: localStorage.getItem("MAP_COLOR") || this.DEFAULT_MAP_COLOR,
-      lastPosition: {
-        circles: `x=${(this.VIEWPORT_WIDTH - 20) / 2}&y=${(this.VIEWPORT_WIDTH - 20) / 2}&scale=1`,
-        tree: `x=${this.VIEWPORT_WIDTH / 10}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`,
-        network: `x=0&y=${-this.VIEWPORT_HEIGHT / 4}&scale=1`
-    }
-    }
+  public settings: MapSettings;
 
   isFiltersToggled: boolean = false;
   isSearchDisabled: boolean = false;
@@ -149,12 +135,13 @@ export class MappingComponent {
     private exportService: ExportService,
     private intercom: Intercom,
     private router: Router,
-    private slackService: SlackService
+    private slackService: SlackService,
+    private mapSettingsService: MapSettingsService
   ) {
     this.zoom$ = new Subject<number>();
     this.isReset$ = new Subject<boolean>();
     this.selectableTags$ = new ReplaySubject<Array<SelectableTag>>();
-    this.mapColor$ = new BehaviorSubject<string>(this.settings.mapColor);
+    this.mapColor$ = new BehaviorSubject<string>("");
     this.zoomToInitiative$ = new Subject();
   }
 
@@ -265,11 +252,8 @@ export class MappingComponent {
       default:
         break;
     }
+    this.mapSettingsService.set(this.datasetId, this.settings);
     this.cd.markForCheck();
-    localStorage.setItem(`map_settings_${this.datasetId}`, JSON.stringify(this.settings));
-
-
-    console.log(this.route.snapshot.fragment)
   }
 
   ngOnInit() {
@@ -286,19 +270,7 @@ export class MappingComponent {
         }
         this.datasetId = params["mapid"];
         this.slug = params["mapslug"];
-        if (!localStorage.getItem(`map_settings_${this.datasetId}`)) {
-          localStorage.setItem(`map_settings_${this.datasetId}`, JSON.stringify(
-            {
-              mapColor: localStorage.getItem("MAP_COLOR") || this.DEFAULT_MAP_COLOR,
-              lastPosition: {
-                circles: `x=${(this.VIEWPORT_WIDTH - 20) / 2}&y=${(this.VIEWPORT_WIDTH - 20) / 2}&scale=1`,
-                tree: `x=${this.VIEWPORT_WIDTH / 10}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`,
-                network: `x=0&y=${-this.VIEWPORT_HEIGHT / 4}&scale=1`
-              }
-            }
-          ))
-        }
-        this.settings = JSON.parse(localStorage.getItem(`map_settings_${this.datasetId}`));
+        this.settings = this.mapSettingsService.get(this.datasetId);
         this.mapColor$.next(this.settings.mapColor)
 
         this.cd.markForCheck();
@@ -366,9 +338,9 @@ export class MappingComponent {
       case "circles":
         return `${this.settings.lastPosition.circles}&tags=${this.tagsFragment || ""}`
       case "tree":
-        return `${this.settings.lastPosition.tree}&tags=${this.tagsFragment|| ""}`
+        return `${this.settings.lastPosition.tree}&tags=${this.tagsFragment || ""}`
       case "network":
-        return `${this.settings.lastPosition.network}&tags=${this.tagsFragment|| ""}`
+        return `${this.settings.lastPosition.network}&tags=${this.tagsFragment || ""}`
       default:
         return ""
     }
@@ -440,7 +412,7 @@ export class MappingComponent {
   changeMapColor(color: string) {
     this.mapColor$.next(color);
     this.settings.mapColor = color;
-    localStorage.setItem(`map_settings_${this.datasetId}`, JSON.stringify(this.settings));
+    this.mapSettingsService.set(this.datasetId, this.settings)
 
     this.analytics.eventTrack("Map", {
       action: "change map color",

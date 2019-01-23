@@ -39,6 +39,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   public datasetId: string;
   public teamId: string;
   public teamName: string;
+  public settings:any;
 
   public height: number;
 
@@ -399,7 +400,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       }
 
       function centerNode(source: any) {
-        //scale = zoomListener.scale();
         let t = d3.zoomTransform(svg.node());
         let x = -source.y0;
         let y = -source.x0;

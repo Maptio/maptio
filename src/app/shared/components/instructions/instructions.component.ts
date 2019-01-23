@@ -57,11 +57,6 @@ export class InstructionsComponent implements OnInit {
             if (this.user.teams.length === 0) {
                 return this.getDemoMap(this.user)
                     .then((dataset: DataSet) => {
-                        localStorage.setItem(`map_settings_${dataset.datasetId}`, JSON.stringify(
-                            {
-                                mapColor: environment.DEFAULT_MAP_BACKGOUND_COLOR,
-                            }
-                        ))
                         return dataset;
                     })
                     .then((dataset: DataSet) => {
