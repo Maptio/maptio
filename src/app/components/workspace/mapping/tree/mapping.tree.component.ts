@@ -67,6 +67,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   private svg: any;
   private g: any;
   private definitions: any;
+  private zoomListener: any;
   public isLoading: boolean;
   public _seedColor: string;
   public _data: any;
@@ -84,7 +85,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public showToolipOf$: Subject<{ initiatives: Initiative[], isNameOnly: boolean }> = new Subject<{ initiatives: Initiative[], isNameOnly: boolean }>();
   public hideOptions$: Subject<boolean> = new Subject<boolean>();
- 
+
   public _isDisplayOptions: Boolean = false;
 
   constructor(
@@ -263,6 +264,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     this.svg = svg;
     this.g = g;
     this.definitions = definitions;
+    this.zoomListener = zooming;
   }
 
   setSeedColor(color: string) {
@@ -316,6 +318,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     let g = this.g;
     let svg = this.svg;
     let definitions = this.definitions;
+    let zoomListener = this.zoomListener;
     let datasetSlug = this.slug;
     let teamName = this.teamName;
     let setPathsToRoot = this.setPathsToRoot.bind(this)
@@ -396,6 +399,16 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         return path;
       }
 
+      function centerNode(source: any) {
+        //scale = zoomListener.scale();
+        let t = d3.zoomTransform(svg.node());
+        let x = -source.y0;
+        let y = -source.x0;
+        x = x * t.k + viewerWidth / 2;
+        y = y * t.k + viewerHeight / 2;
+        svg.transition().duration(duration).call(zoomListener.transform, d3.zoomIdentity.translate(x, y).scale(t.k));
+      }
+
       // Toggle children on click.
       function click(d: any) {
         if (d.children) {
@@ -406,7 +419,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
           d._children = null;
         }
         updateGraph(d, TRANSITION_DURATION);
-        // centerNode(d)
+        centerNode(d)
       }
 
 
@@ -469,15 +482,15 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .merge(patterns)
         .filter(function (d: any) {
           return d.data.accountable;
-        }) .attr("id", function (d: any) {
+        }).attr("id", function (d: any) {
           return "i-" + d.data.id;
         })
         .attr("width", "100%")
         .attr("height", "100%")
         .append("image")
 
-    		.attr("x", 0)
-    		.attr("y", 0)
+        .attr("x", 0)
+        .attr("y", 0)
         .attr("width", CIRCLE_RADIUS * 2)
         .attr("height", CIRCLE_RADIUS * 2)
         .attr("xlink:href", function (d: any) {
