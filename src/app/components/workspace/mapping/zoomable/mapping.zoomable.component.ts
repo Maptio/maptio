@@ -435,7 +435,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       }
     }
 
-    let height = svg.attr("height")*0.95;
+    let height = svg.attr("height")*0.99;
     let margin = height *0.135;
     let definitions = this.definitions;
     let uiService = this.uiService;
