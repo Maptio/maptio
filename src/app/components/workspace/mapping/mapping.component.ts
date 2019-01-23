@@ -363,7 +363,7 @@ export class MappingComponent {
   }
 
   zoomOut() {
-    this.zoom$.next(0.8);
+    this.zoom$.next(1/3);
     this.analytics.eventTrack("Map", {
       action: "zoom out",
       mode: "button",
@@ -373,7 +373,7 @@ export class MappingComponent {
   }
 
   zoomIn() {
-    this.zoom$.next(1.2);
+    this.zoom$.next(3);
     this.analytics.eventTrack("Map", {
       action: "zoom in",
       mode: "button",
