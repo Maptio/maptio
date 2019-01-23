@@ -26,6 +26,15 @@ export class MapSettings {
      * Number of columns for showing cards in the directory view
      */
     directoryColumnsNumber: number;
+
+    /**
+     * Settings for each view 
+     */
+    views: {
+        tree: {
+            expandedNodesIds: Array<string>
+        }
+    }
 }
 
 
@@ -50,14 +59,19 @@ export class MapSettingsService {
                         tree: `x=${this.width / 10}&y=${this.height / 2}&scale=1`,
                         network: `x=0&y=${-this.height / 4}&scale=1`
                     },
-                    directoryColumnsNumber: 1
+                    directoryColumnsNumber: 1,
+                    views: {
+                        tree: {
+                            expandedNodesIds: []
+                        }
+                    }
                 }
             ))
         }
         return JSON.parse(localStorage.getItem(`map_settings_${datasetId}`));
     }
 
-    set(datasetId:string, settings:MapSettings) {
+    set(datasetId: string, settings: MapSettings) {
         localStorage.setItem(`map_settings_${datasetId}`, JSON.stringify(settings));
     }
 }

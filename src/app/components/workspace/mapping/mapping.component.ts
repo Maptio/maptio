@@ -166,12 +166,13 @@ export class MappingComponent {
         this.VIEWPORT_WIDTH = this.uiService.getCanvasWidth();
 
       }
-      console.log("full screen change", this.VIEWPORT_HEIGHT)
       this.cd.markForCheck();
     })
   }
 
   onActivate(component: IDataVisualizer) {
+    this.settings = this.mapSettingsService.get(this.datasetId);
+       
     this.VIEWPORT_HEIGHT = this.uiService.getCanvasHeight();
     this.VIEWPORT_WIDTH = this.uiService.getCanvasWidth();
 
@@ -235,6 +236,8 @@ export class MappingComponent {
   }
 
   onDeactivate(component: any) {
+    this.settings = this.mapSettingsService.get(this.datasetId);
+    
     let position = this.uriService.parseFragment(this.route.snapshot.fragment);
     position.delete("tags");
     let lastPosition = this.uriService.buildFragment(position);
@@ -253,6 +256,7 @@ export class MappingComponent {
         break;
     }
     this.mapSettingsService.set(this.datasetId, this.settings);
+    
     this.cd.markForCheck();
   }
 
