@@ -701,7 +701,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           let initiative = d.data;
           d3.event.stopPropagation();
           d3.event.preventDefault();
-          showToolipOf$.next({ initiatives: [initiative], isNameOnly: false });
+          // showToolipOf$.next({ initiatives: [initiative], isNameOnly: false });
 
           d3.select(this)
             .style("stroke", d3.color(seedColor).darker(1).toString())
@@ -710,7 +710,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
         })
         .on("mouseout", function (d: any) {
-          showToolipOf$.next({ initiatives: null, isNameOnly: false });
+          // showToolipOf$.next({ initiatives: null, isNameOnly: false });
           showContextMenuOf$.next({ initiatives: null, x: 0, y: 0, isReadOnlyContextMenu: false })
           d3.select(this)
             .style("stroke", function (d: any) {
@@ -799,18 +799,32 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .attr("id", (d: any): string => `${d.data.id}`)
         .classed("with-border", (d: any): boolean => !d.children && d.parent === root)
         .on("click", function (d: any, index: number, elements: Array<HTMLElement>): void {
-          // if (isFullDisplayMode) return;
-          if (getLastZoomedCircle().data.id === d.data.id) {
-            setLastZoomedCircle(root);
-            zoom(root);
-          } else {
-            setLastZoomedCircle(d);
-            zoom(d, this.parentElement);
+          showToolipOf$.next({ initiatives: [d.data], isNameOnly: false });
+          
+          console.log(d, d.children)
+          if(getLastZoomedCircle().data.id === d.parent.data.id && !d.children ) 
+          {
+  
+            d3.event.stopPropagation();
+            return;
           }
-          d3.event.stopPropagation();
-          // remove the location.search without reload
-          window.history.pushState("", "", `${location.protocol}//${location.host}/${location.pathname}${location.hash}`)
+          else{
+            console.log("zomming")
+            if (getLastZoomedCircle().data.id === d.data.id) {
+              setLastZoomedCircle(root);
+              zoom(root);
+            } else {
+              setLastZoomedCircle(d);
+              zoom(d, this.parentElement);
+            }
+            window.history.pushState("", "", `${location.protocol}//${location.host}/${location.pathname}${location.hash}`)
 
+            d3.event.stopPropagation();
+          }
+
+       
+          // remove the location.search without reload
+          
         })
     }
 
