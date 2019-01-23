@@ -435,8 +435,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
       }
     }
 
-    let height = svg.attr("height")*0.99;
-    let margin = height *0.135;
+    let height = svg.attr("height") * 0.99;
+    let margin = height * 0.135;
     let definitions = this.definitions;
     let uiService = this.uiService;
     let zooming = this.zooming;
@@ -606,9 +606,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     let node = g.selectAll("g.node");
 
-    svg.on("click", (): void => {
-      zoom(root);
-    });
+    svg
+      .on("click", (): void => {
+        zoom(root);
+        showToolipOf$.next({ initiatives: null, isNameOnly: false });
+     
+      })
 
     initMapElementsAtPosition([root.x, root.y]);
 
@@ -632,11 +635,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
       if (
         clickedElement
         && clickedElement.transform
-        && ( clickedElement.transform.baseVal.length > 0 || clickedElement.transform.baseVal.numberOfItems > 0)) {
+        && (clickedElement.transform.baseVal.length > 0 || clickedElement.transform.baseVal.numberOfItems > 0)) {
         clickedX = clickedElement.transform.baseVal.getItem(0).matrix.e * newScale;
         clickedY = clickedElement.transform.baseVal.getItem(0).matrix.f * newScale;
         clickedX -= margin;
-        clickedY -= -height / 2 + margin ;
+        clickedY -= -height / 2 + margin;
       }
       return [clickedX, clickedY];
     }
@@ -800,15 +803,14 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .classed("with-border", (d: any): boolean => !d.children && d.parent === root)
         .on("click", function (d: any, index: number, elements: Array<HTMLElement>): void {
           showToolipOf$.next({ initiatives: [d.data], isNameOnly: false });
-          
+
           console.log(d, d.children)
-          if(getLastZoomedCircle().data.id === d.parent.data.id && !d.children ) 
-          {
-  
+          if (getLastZoomedCircle().data.id === d.parent.data.id && !d.children) {
+
             d3.event.stopPropagation();
             return;
           }
-          else{
+          else {
             console.log("zomming")
             if (getLastZoomedCircle().data.id === d.data.id) {
               setLastZoomedCircle(root);
@@ -822,9 +824,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
             d3.event.stopPropagation();
           }
 
-       
+
           // remove the location.search without reload
-          
+
         })
     }
 
