@@ -242,12 +242,14 @@ export class MappingZoomableComponent implements IDataVisualizer {
     try {
       // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
       // svg.call(zooming.transform, d3.zoomIdentity.translate(diameter / 2, diameter / 2));
+      const initX: number = this.translateX || diameter / 2 + margin.left;
+      const initY: number = this.translateY || diameter / 2 + margin.top;
+      const initK: number = this.scale || 1;
       svg.call(
         this.zooming.transform,
-        d3.zoomIdentity.translate(
-          diameter / 2 + margin.left,
-          diameter / 2 + margin.top
-        )
+        d3.zoomIdentity
+          .translate(initX, initY)
+          .scale(initK)
       );
       svg.call(this.zooming);
     } catch (error) {
