@@ -382,7 +382,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     function expand(d: any) {
       if (d._children) {
         d.children = d._children;
-        // d.children.forEach(expand);
         d._children = null;
       }
     }
@@ -406,7 +405,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         let y = -source.x0;
         x = x * t.k + viewerWidth / 2;
         y = y * t.k + viewerHeight / 2;
-        svg.transition().duration(duration).call(zoomListener.transform, d3.zoomIdentity.translate(x, y).scale(t.k));
+        svg.transition().call(zoomListener.transform, d3.zoomIdentity.translate(x, y).scale(t.k));
       }
 
       // Toggle children on click.
