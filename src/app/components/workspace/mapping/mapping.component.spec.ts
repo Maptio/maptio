@@ -29,6 +29,7 @@ import { IntercomModule } from 'ng-intercom';
 import { MappingSummaryComponent } from './summary/summary.component';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { SlackService } from '../share/slack.service';
+import { MapSettingsService } from '../../../shared/services/map/map-settings.service';
 
 describe("mapping.component.ts", () => {
 
@@ -40,7 +41,7 @@ describe("mapping.component.ts", () => {
             providers: [
                 DeviceDetectorService,
                 DataService, ErrorService, D3Service, ColorService, URIService, Angulartics2Mixpanel, Angulartics2,
-                UserFactory, ExportService,
+                UserFactory, ExportService, MapSettingsService,
                 {
                     provide: Http,
                     useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
@@ -79,7 +80,7 @@ describe("mapping.component.ts", () => {
             schemas: [NO_ERRORS_SCHEMA],
             declarations: [MappingComponent, MappingTreeComponent,
                 MappingNetworkComponent, MappingSummaryComponent, MappingZoomableComponent],
-            imports: [RouterTestingModule,  IntercomModule.forRoot({
+            imports: [RouterTestingModule, IntercomModule.forRoot({
                 appId: "",
                 updateOnRouterChange: true
             })]
@@ -102,7 +103,7 @@ describe("mapping.component.ts", () => {
             it("should set the zoom factor to 1.2", async(() => {
                 let spy = spyOn(component.zoom$, "next");
                 component.zoomIn();
-                expect(spy).toHaveBeenCalledWith(1.2)
+                expect(spy).toHaveBeenCalledWith(3)
             }));
         });
 
@@ -110,18 +111,18 @@ describe("mapping.component.ts", () => {
             it("should set the zoom factor to 0.8", async(() => {
                 let spy = spyOn(component.zoom$, "next");
                 component.zoomOut();
-                expect(spy).toHaveBeenCalledWith(0.8)
+                expect(spy).toHaveBeenCalledWith(1 / 3)
             }));
         });
 
         describe("getFragment", () => {
             it("should return correct fragment  when layout is initiatives", () => {
                 let actual = component.getFragment(new MappingZoomableComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined));
-                expect(actual).toBe(`x=${(component.VIEWPORT_WIDTH - 20) / 2 }&y=${(component.VIEWPORT_WIDTH - 20) / 2}&scale=1`)
+                expect(actual).toBe(`x=${(component.VIEWPORT_WIDTH - 20) / 2}&y=${(component.VIEWPORT_WIDTH - 20) / 2}&scale=1`)
             });
 
             it("should return correct fragment when layout is people", () => {
-                let actual = component.getFragment(new MappingTreeComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined, undefined));
+                let actual = component.getFragment(new MappingTreeComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined));
                 expect(actual).toBe(`x=${component.VIEWPORT_WIDTH / 10}&y=${component.VIEWPORT_HEIGHT / 2}&scale=1`)
             });
 

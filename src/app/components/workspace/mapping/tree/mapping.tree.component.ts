@@ -23,7 +23,6 @@ import { Subject } from "rxjs/Subject";
 import { BehaviorSubject } from "../../../../../../node_modules/rxjs";
 import { User } from "../../../../shared/model/user.data";
 import { Team } from "../../../../shared/model/team.data";
-import { join } from "path";
 import { MapSettingsService, MapSettings } from "../../../../shared/services/map/map-settings.service";
 
 @Component({
