@@ -83,7 +83,7 @@
       </div>
 
     </div>
-    <div class="summary-tooltip col-4 position-absolute top-left ml-3 z-index-2 mh-100 overflow-hidden" *ngIf="hoveredInitiatives">
+    <div class="summary-tooltip col-4 position-absolute top-left ml-3 z-index-2 mh-100 overflow-y" [style.max-height.px]="VIEWPORT_HEIGHT" *ngIf="hoveredInitiatives">
       <tooltip *ngFor="let hoveredInitiative of hoveredInitiatives" [initiative]="hoveredInitiative" [isNameOnly]="isNameOnly"
         [team]="team"></tooltip>
     </div>
