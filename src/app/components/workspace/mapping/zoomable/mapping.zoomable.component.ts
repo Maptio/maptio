@@ -644,7 +644,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     function zoom(focus: any, clickedElement?: any): void {
       setLastZoomedCircle(focus);
 
-      const newScale: number = focus === root ? 1 : getViewScaleForRadius(focus.r);
+      const newScale: number = focus === root || focus.parent === root ? 1 : getViewScaleForRadius(focus.r);
       const coordinates: Array<number> = getClickedElementCoordinates(clickedElement, newScale);
 
       svg.transition().duration(TRANSITION_DURATION).call(
