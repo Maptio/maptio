@@ -32,15 +32,15 @@
 
             <div class=" btn-group-vertical my-3">
               <button class="btn btn-light circles text-dark p-1 d-flex flex-column align-items-center" #rlaCircles="routerLinkActive"
-                [routerLinkActive]="['active']" routerLink="/map/{{datasetId}}/{{slug}}/circles" fragment="x={{VIEWPORT_WIDTH / 2}}&y={{VIEWPORT_WIDTH / 2 -180}}&scale=1=1&{{tagsFragment}}">
+                [routerLinkActive]="['active']" routerLink="/map/{{datasetId}}/{{slug}}/circles" fragment="{{getLatestFragment('circles')}}">
                 <span class="icon-text-label" style="top: 35px;position: absolute;">Circles </span>
               </button>
               <button class="btn btn-light tree text-dark p-1 d-flex flex-column align-items-center" routerLink="/map/{{datasetId}}/{{slug}}/tree"
-                fragment="x={{VIEWPORT_WIDTH / 10}}&y={{VIEWPORT_HEIGHT / 2}}&scale=1&{{tagsFragment}}">
+                fragment="{{getLatestFragment('tree')}}">
                 <span class="icon-text-label">Tree</span>
               </button>
               <button class="btn btn-light network text-dark p-1 d-flex flex-column align-items-center" #rlaNetwork="routerLinkActive"
-                [routerLinkActive]="['active']" routerLink="/map/{{datasetId}}/{{slug}}/network" fragment="x=0&y={{-this.VIEWPORT_HEIGHT / 4}}&scale=1&{{tagsFragment}}">
+                [routerLinkActive]="['active']" routerLink="/map/{{datasetId}}/{{slug}}/network" fragment="{{getLatestFragment('network')}}">
                 <span class="icon-text-label">Network</span>
               </button>
               <button class="btn btn-light summary-list text-dark p-1 btn-control d-flex flex-column align-items-center" #rlaSummary="routerLinkActive"

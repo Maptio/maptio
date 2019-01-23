@@ -11,7 +11,7 @@ import {
   ViewChild,
   ElementRef,
 } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, Params } from "@angular/router";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { compact } from "lodash";
 import { BehaviorSubject, ReplaySubject, Subject, Subscription } from "rxjs";
@@ -105,15 +105,19 @@ export class MappingComponent {
   public instance: IDataVisualizer;
 
   public settings: {
-    fontColor: string,
     mapColor: string,
-    fontSize: number,
-    explorationMode: boolean
+    lastPosition: {
+      circles: string,
+      tree: string,
+      network: string
+    }
   } = {
-      fontColor: localStorage.getItem("FONT_COLOR") || this.DEFAULT_TEXT_COLOR,
       mapColor: localStorage.getItem("MAP_COLOR") || this.DEFAULT_MAP_COLOR,
-      fontSize: Number.parseFloat(localStorage.getItem("FONT_SIZE")) || 1,
-      explorationMode: localStorage.getItem("CIRCLE_VIEW_MODE") === "flat" || false
+      lastPosition: {
+        circles: `x=${(this.VIEWPORT_WIDTH - 20) / 2}&y=${(this.VIEWPORT_WIDTH - 20) / 2}&scale=1`,
+        tree: `x=${this.VIEWPORT_WIDTH / 10}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`,
+        network: `x=0&y=${-this.VIEWPORT_HEIGHT / 4}&scale=1`
+    }
     }
 
   isFiltersToggled: boolean = false;
@@ -150,7 +154,6 @@ export class MappingComponent {
     this.zoom$ = new Subject<number>();
     this.isReset$ = new Subject<boolean>();
     this.selectableTags$ = new ReplaySubject<Array<SelectableTag>>();
-    this.fontSize$ = new BehaviorSubject<number>(this.settings.fontSize);
     this.mapColor$ = new BehaviorSubject<string>(this.settings.mapColor);
     this.zoomToInitiative$ = new Subject();
   }
@@ -244,11 +247,38 @@ export class MappingComponent {
     }
   }
 
-  onDeactivate(component: any) { }
+  onDeactivate(component: any) {
+    let position = this.uriService.parseFragment(this.route.snapshot.fragment);
+    position.delete("tags");
+    let lastPosition = this.uriService.buildFragment(position);
+
+    switch (component.constructor) {
+      case MappingZoomableComponent:
+        this.settings.lastPosition.circles = lastPosition;
+        break;
+      case MappingTreeComponent:
+        this.settings.lastPosition.tree = lastPosition;
+        break;
+      case MappingNetworkComponent:
+        this.settings.lastPosition.network = lastPosition;
+        break;
+      default:
+        break;
+    }
+    this.cd.markForCheck();
+    localStorage.setItem(`map_settings_${this.datasetId}`, JSON.stringify(this.settings));
+
+
+    console.log(this.route.snapshot.fragment)
+  }
 
   ngOnInit() {
+    this.VIEWPORT_HEIGHT = this.uiService.getCanvasHeight();
+    this.VIEWPORT_WIDTH = this.uiService.getCanvasWidth();
+
+
     this.subscription = this.route.params
-      .do(params => {
+      .do((params: Params) => {
         if (this.datasetId !== params["mapid"]) {
           this.showTooltip(null, null);
           this.showContextMenu({ initiatives: null, x: 0, y: 0, isReadOnlyContextMenu: null })
@@ -256,22 +286,20 @@ export class MappingComponent {
         }
         this.datasetId = params["mapid"];
         this.slug = params["mapslug"];
-
         if (!localStorage.getItem(`map_settings_${this.datasetId}`)) {
           localStorage.setItem(`map_settings_${this.datasetId}`, JSON.stringify(
             {
-              fontColor: localStorage.getItem("FONT_COLOR") || this.DEFAULT_TEXT_COLOR,
               mapColor: localStorage.getItem("MAP_COLOR") || this.DEFAULT_MAP_COLOR,
-              fontSize: Number.parseFloat(localStorage.getItem("FONT_SIZE")) || 1,
-              explorationMode: localStorage.getItem("CIRCLE_VIEW_MODE") === "flat" || false
-
+              lastPosition: {
+                circles: `x=${(this.VIEWPORT_WIDTH - 20) / 2}&y=${(this.VIEWPORT_WIDTH - 20) / 2}&scale=1`,
+                tree: `x=${this.VIEWPORT_WIDTH / 10}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`,
+                network: `x=0&y=${-this.VIEWPORT_HEIGHT / 4}&scale=1`
+              }
             }
           ))
         }
         this.settings = JSON.parse(localStorage.getItem(`map_settings_${this.datasetId}`));
-        // this.fontColor$.next(this.settings.fontColor);
         this.mapColor$.next(this.settings.mapColor)
-        this.fontSize$.next(this.settings.fontSize);
 
         this.cd.markForCheck();
       })
@@ -333,18 +361,31 @@ export class MappingComponent {
     if (this.subscription) this.subscription.unsubscribe();
   }
 
+  getLatestFragment(view: string) {
+    switch (view) {
+      case "circles":
+        return `${this.settings.lastPosition.circles}&tags=${this.tagsFragment}`
+      case "tree":
+        return `${this.settings.lastPosition.tree}&tags=${this.tagsFragment}`
+      case "network":
+        return `${this.settings.lastPosition.network}&tags=${this.tagsFragment}`
+      default:
+        return ""
+    }
+  }
+
   getFragment(component: IDataVisualizer) {
     switch (component.constructor) {
       case MappingZoomableComponent:
-        return `x=${(this.VIEWPORT_WIDTH - 20) / 2}&y=${(this.VIEWPORT_WIDTH - 20) / 2}&scale=1`;
+        return this.settings.lastPosition.circles || "";
       case MappingTreeComponent:
-        return `x=${this.VIEWPORT_WIDTH / 10}&y=${this.VIEWPORT_HEIGHT / 2}&scale=1`;
+        return this.settings.lastPosition.tree || "";
       case MappingNetworkComponent:
-        return `x=0&y=${-this.VIEWPORT_HEIGHT / 4}&scale=1`;
+        return this.settings.lastPosition.network || "";
       case MappingSummaryComponent:
         return `x=0&y=0&scale=1`;
       default:
-        return `x=${(this.VIEWPORT_WIDTH - 20) / 2}&y=${(this.VIEWPORT_WIDTH - 20) / 2}&scale=1`;
+        return ""
     }
   }
 
@@ -363,7 +404,7 @@ export class MappingComponent {
   }
 
   zoomOut() {
-    this.zoom$.next(1/3);
+    this.zoom$.next(1 / 3);
     this.analytics.eventTrack("Map", {
       action: "zoom out",
       mode: "button",

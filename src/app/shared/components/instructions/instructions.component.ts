@@ -59,10 +59,7 @@ export class InstructionsComponent implements OnInit {
                     .then((dataset: DataSet) => {
                         localStorage.setItem(`map_settings_${dataset.datasetId}`, JSON.stringify(
                             {
-                                fontColor: environment.DEFAULT_MAP_TEXT_COLOR,
                                 mapColor: environment.DEFAULT_MAP_BACKGOUND_COLOR,
-                                fontSize: 1,
-                                explorationMode: false
                             }
                         ))
                         return dataset;
