@@ -44,7 +44,7 @@ describe("access.guard.ts", () => {
             let route = jasmine.createSpyObj<ActivatedRouteSnapshot>("route", ["params"]);
 
             route.params["mapid"] = "id1";
-            let state = jasmine.createSpyObj<RouterStateSnapshot>("state", []);
+            let state = jasmine.createSpyObj<RouterStateSnapshot>("state", {url : "", toString : ""});
 
             let spyAuth = spyOn(mockAuth, "getUser").and.returnValue(Observable.of<User>(new User({ name: "John Doe", datasets: ["id1", "id2"], teams : ["t1", "t2"] })));
 
@@ -58,7 +58,7 @@ describe("access.guard.ts", () => {
             let route = jasmine.createSpyObj<ActivatedRouteSnapshot>("route", ["params"]);
 
             route.params["teamid"] = "team1";
-            let state = jasmine.createSpyObj<RouterStateSnapshot>("state", []);
+            let state = jasmine.createSpyObj<RouterStateSnapshot>("state", {url : "", toString : ""});
 
             let spyAuth = spyOn(mockAuth, "getUser").and.returnValue(Observable.of<User>(new User({ name: "John Doe", teams: ["team1", "team2"] })));
 
@@ -72,7 +72,7 @@ describe("access.guard.ts", () => {
             let route = jasmine.createSpyObj<ActivatedRouteSnapshot>("route", ["params"]);
 
             route.params["mapid"] = "id3";
-            let state = jasmine.createSpyObj<RouterStateSnapshot>("state", []);
+            let state = jasmine.createSpyObj<RouterStateSnapshot>("state", {url : "", toString : ""});
 
             let spyAuth = spyOn(mockAuth, "getUser").and.returnValue(Observable.of<User>(new User({ name: "John Doe", datasets: ["id1", "id2"] })));
 
@@ -87,7 +87,7 @@ describe("access.guard.ts", () => {
             let route = jasmine.createSpyObj<ActivatedRouteSnapshot>("route", ["params"]);
 
             route.params["teamid"] = "team3";
-            let state = jasmine.createSpyObj<RouterStateSnapshot>("state", []);
+            let state = jasmine.createSpyObj<RouterStateSnapshot>("state", {url : "", toString : ""});
 
             let spyAuth = spyOn(mockAuth, "getUser").and.returnValue(Observable.of<User>(new User({ name: "John Doe", teams: ["team1", "team2"] })));
 

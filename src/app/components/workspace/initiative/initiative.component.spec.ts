@@ -1,5 +1,4 @@
 import { SharedModule } from './../../../shared/shared.module';
-import { PermissionsDirective } from './../../../shared/directives/permission.directive';
 import { Tag } from "./../../../shared/model/tag.data";
 import { User } from "./../../../shared/model/user.data";
 import { Role } from "./../../../shared/model/role.data";
@@ -19,13 +18,13 @@ import { Http, BaseRequestOptions } from "@angular/http";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { FormsModule } from "@angular/forms";
 import { InitiativeComponent } from "./initiative.component";
-import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
 import { Observable } from "rxjs/Observable";
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { UserService } from '../../../shared/services/user/user.service';
 import { JwtEncoder } from '../../../shared/services/encoding/jwt.service';
 import { MailingService } from '../../../shared/services/mailing/mailing.service';
 import { AuthConfiguration } from '../../../shared/services/auth/auth.config';
+import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 
 describe("initiative.component.ts", () => {
 
@@ -35,7 +34,7 @@ describe("initiative.component.ts", () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [SharedModule, Ng2Bs3ModalModule, FormsModule, RouterTestingModule, MarkdownModule.forRoot()],
+            imports: [SharedModule, NgbTypeaheadModule, FormsModule, RouterTestingModule, MarkdownModule.forRoot()],
             declarations: [InitiativeComponent],
             providers: [TeamFactory, UserFactory, DatasetFactory,
                 {

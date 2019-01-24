@@ -80,6 +80,7 @@ import { MapService } from "./shared/services/map/map.service";
 import { InstructionsService } from "./shared/components/instructions/instructions.service";
 import { OnboardingService } from "./shared/components/onboarding/onboarding.service";
 import { SafePipe } from "./pipes/safe.pipe";
+import { NgbModalModule, NgbTypeaheadModule, NgbTooltipModule } from "../../node_modules/@ng-bootstrap/ng-bootstrap";
 
 
 const appRoutes: Routes = [
@@ -164,7 +165,10 @@ export const cloudinaryLib = {
         }),
 
         SharedModule,
-        CommonComponentsModule
+        CommonComponentsModule,
+        NgbModalModule.forRoot(),
+        NgbTypeaheadModule.forRoot(),
+        NgbTooltipModule.forRoot()
 
     ],
     exports: [RouterModule],

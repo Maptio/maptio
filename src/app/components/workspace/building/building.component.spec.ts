@@ -17,8 +17,6 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { Observable } from "rxjs/Rx";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { AuthHttp } from "angular2-jwt";
-import { NgbModalModule } from "@ng-bootstrap/ng-bootstrap";
-import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA, } from "@angular/core"
 import { BuildingComponent } from "./building.component";
@@ -32,6 +30,7 @@ import { UserService } from "../../../shared/services/user/user.service";
 import { AuthConfiguration } from "../../../shared/services/auth/auth.config";
 import { JwtEncoder } from "../../../shared/services/encoding/jwt.service";
 import { MailingService } from "../../../shared/services/mailing/mailing.service";
+import { NgbTypeaheadModule } from "@ng-bootstrap/ng-bootstrap";
 
 export class TreeComponentStub extends TreeComponent {
 
@@ -44,7 +43,7 @@ describe("building.component.ts", () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [Ng2Bs3ModalModule, NgbModalModule.forRoot(), RouterTestingModule],
+            imports: [NgbTypeaheadModule, RouterTestingModule],
             declarations: [BuildingComponent, FocusIfDirective, InitiativeComponent, PermissionsDirective],
             schemas: [NO_ERRORS_SCHEMA]
         }).overrideComponent(BuildingComponent, {

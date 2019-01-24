@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Auth } from '../../shared/services/auth/auth.service';
 import { LogoutComponent } from './logout.component';
+import { SafePipe } from '../../pipes/safe.pipe';
 
 describe("logout.component.ts", () => {
   let component: LogoutComponent;
@@ -11,7 +12,7 @@ describe("logout.component.ts", () => {
   beforeEach(
     async(() => {
       TestBed.configureTestingModule({
-        declarations: [LogoutComponent],
+        declarations: [LogoutComponent, SafePipe],
         imports: [],
         schemas: [NO_ERRORS_SCHEMA]
       })
