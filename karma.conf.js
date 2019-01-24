@@ -1,15 +1,10 @@
 module.exports = function (config) {
     config.set({
 
-        // basePath: '',
-
         frameworks: ["jasmine", "fixture", "karma-typescript"],
 
         files: [
             { pattern: "base.spec.ts" },
-            // Libraries
-            { pattern: "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" },
-            { pattern: "https://cdn.auth0.com/js/lock/10.8/lock.min.js" },
             // Envrionments
             { pattern: "src/environment/*.*" },
             // Application
@@ -20,10 +15,6 @@ module.exports = function (config) {
             { pattern: "src/test/specs/**/*.*" }
 
         ],
-
-        // proxies: {
-        //     "/base/src/app/": "/src/app/"
-        //   },
 
         jsonFixturesPreprocessor: {
             variableName: '__json__'
@@ -41,6 +32,9 @@ module.exports = function (config) {
         },
 
         karmaTypescriptConfig: {
+            compilerOptions: {
+                lib: ["es2017", "dom"] // fix for "'Promise' only refers to a type"
+            },
             bundlerOptions: {
                 entrypoints: /\.spec\.ts$/,
                 transforms: [

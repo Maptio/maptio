@@ -9,17 +9,17 @@
     "sourceMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "removeComments": false,
+    "lib": [ "es2015", "dom" ],
     "noImplicitAny": true,
     "suppressImplicitAnyIndexErrors": true,
-    "lib": [
-      "dom",
-      "es2015"
-    ],
+   
     "baseUrl": "",
     "paths": {
       "@angular/*": [
         "node_modules/@angular/*"
+      ],
+      "@ng-bootstrap/ng-bootstrap/*": [
+        "node_modules/@ng-bootstrap/ng-bootstrap/*"
       ]
     },
     "typeRoots": [

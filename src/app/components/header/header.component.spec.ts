@@ -32,7 +32,6 @@ import { Team } from "../../shared/model/team.data";
 import { NO_ERRORS_SCHEMA } from "@angular/core"
 import { BillingService } from "../../shared/services/billing/billing.service";
 import { NgProgress } from "@ngx-progressbar/core";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { OnboardingService } from "../../shared/components/onboarding/onboarding.service";
 
 describe("header.component.ts", () => {
@@ -45,7 +44,7 @@ describe("header.component.ts", () => {
 
         TestBed.configureTestingModule({
             declarations: [HeaderComponent],
-            imports: [RouterTestingModule, FormsModule, ReactiveFormsModule, ResponsiveModule, NgbModule.forRoot()],
+            imports: [RouterTestingModule, FormsModule, ReactiveFormsModule, ResponsiveModule],
             schemas: [NO_ERRORS_SCHEMA]
         }).overrideComponent(HeaderComponent, {
             set: {

@@ -4,7 +4,7 @@ import { AuthConfiguration } from "./../../shared/services/auth/auth.config";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Angulartics2, Angulartics2Mixpanel } from "angulartics2";
 import { AuthHttp } from "angular2-jwt";
-import { NgbModule, NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModalModule } from "@ng-bootstrap/ng-bootstrap";
 import { Initiative } from "./../../shared/model/initiative.data";
 import { DataSet } from "./../../shared/model/dataset.data";
 import { TeamFactory } from "./../../shared/services/team.factory";
@@ -68,7 +68,7 @@ describe("workspace.component.ts", () => {
 
 
         TestBed.configureTestingModule({
-            imports: [NgbModule.forRoot(), RouterTestingModule,  IntercomModule.forRoot({
+            imports: [NgbModalModule.forRoot(), RouterTestingModule,  IntercomModule.forRoot({
                 appId: "",
                 updateOnRouterChange: true
             })],
@@ -102,7 +102,7 @@ describe("workspace.component.ts", () => {
                     NgProgress,
 
                 UIService,D3Service, MarkdownService,,
-                    MockBackend, NgbModal,
+                    MockBackend,
                     BaseRequestOptions,
                     { provide: Auth, useClass: AuthStub },
                     ErrorService,

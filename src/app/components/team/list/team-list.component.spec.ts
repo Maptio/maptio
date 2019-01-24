@@ -1,5 +1,4 @@
 import { PermissionsDirective } from './../../../shared/directives/permission.directive';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { JwtEncoder } from "../../../shared/services/encoding/jwt.service";
 import { MailingService } from "../../../shared/services/mailing/mailing.service";
 import { UserService } from "../../../shared/services/user/user.service";
@@ -36,7 +35,7 @@ describe("team-list.component.ts", () => {
         TestBed.configureTestingModule({
             declarations: [TeamListComponent, PermissionsDirective],
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [RouterTestingModule, Angulartics2Module, NgbModule.forRoot(), NgProgressModule,
+            imports: [RouterTestingModule, Angulartics2Module, NgProgressModule,
                 IntercomModule.forRoot({
                     appId: "",
                     updateOnRouterChange: true

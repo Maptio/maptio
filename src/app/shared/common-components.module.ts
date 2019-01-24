@@ -13,13 +13,13 @@ import { ColorPickerComponent } from "./components/color-picker/color-picker.com
 import { CreateTeamComponent } from "./components/create-team/create-team.component";
 import { SharedModule } from "./shared.module";
 import { CardTeamComponent } from "./components/card-team/card-team.component";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { IntercomService } from "./services/team/intercom.service";
 import { AddMemberComponent } from "./components/onboarding/add-member.component";
 import { AddTerminologyComponent } from "./components/onboarding/add-terminology.component";
 import { ConfirmationPopoverModule } from "../../../node_modules/angular-confirmation-popover";
 import { CommonModalComponent } from "./components/modal/modal.component";
 import { InstructionsComponent } from "./components/instructions/instructions.component";
+import { NgbTooltipModule, NgbModalModule } from "@ng-bootstrap/ng-bootstrap";
 
 
 
@@ -33,7 +33,8 @@ import { InstructionsComponent } from "./components/instructions/instructions.co
         ColorPickerModule,
         SharedModule,
         ConfirmationPopoverModule,
-        NgbModule.forRoot(),
+        NgbTooltipModule, 
+        NgbModalModule
     ],
     declarations: [
         CreateMapComponent,

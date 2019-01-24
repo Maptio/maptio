@@ -40,7 +40,7 @@ describe("auth.guard.ts", () => {
     describe("canActivate", () => {
         it("should return true when user is authenticated and api is authenticated", inject([AuthGuard, Auth, Router], (target: AuthGuard, mockAuth: AuthStub, mockRouter: Router) => {
             let route = jasmine.createSpyObj("route", [""]);
-            let state = jasmine.createSpyObj<RouterStateSnapshot>("state", [""]);
+            let state = jasmine.createSpyObj<RouterStateSnapshot>("state", []);
 
             let spyAuth = spyOn(mockAuth, "allAuthenticated").and.returnValue(true);
 

@@ -47,7 +47,7 @@
 
 
 .btn.toolbar{
-  height: 48px;
+  min-height: 6vh;
   width:3vw;
 }
 

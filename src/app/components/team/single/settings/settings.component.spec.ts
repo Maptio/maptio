@@ -1,5 +1,4 @@
 import { SharedModule } from "./../../../../shared/shared.module";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { Permissions } from "./../../../../shared/model/permission.data";
 import { Auth } from "./../../../../shared/services/auth/auth.service";
 import { ActivatedRouteSnapshot, ActivatedRoute, UrlSegment, ParamMap, Params, Data, Route } from "@angular/router";
@@ -58,7 +57,7 @@ describe("settings.component.ts", () => {
         TestBed.configureTestingModule({
             declarations: [TeamSettingsComponent],
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [RouterTestingModule, NgbModule.forRoot(), SharedModule,  IntercomModule.forRoot({
+            imports: [RouterTestingModule, SharedModule,  IntercomModule.forRoot({
                 appId: "",
                 updateOnRouterChange: true
             })]

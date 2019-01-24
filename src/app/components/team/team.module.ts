@@ -5,7 +5,6 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule, Routes } from "@angular/router";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";
 import { ANIMATION_TYPES, LoadingModule } from "ngx-loading";
 import { KeysPipe } from "../../pipes/keys.pipe";
@@ -23,6 +22,7 @@ import { TeamComponentResolver } from "./single/team.resolver";
 import { TeamBillingComponent } from "./single/billing/billing.component";
 import { CommonComponentsModule } from "../../shared/common-components.module";
 import { MemberSingleComponent } from "./single/members/member-single.component";
+import { NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
 
 const routes: Routes = [
     {
@@ -71,7 +71,6 @@ const routes: Routes = [
         FormsModule,
         ReactiveFormsModule,
         RouterModule.forChild(routes),
-        NgbModule.forRoot(),
         LoadingModule.forRoot({
             animationType: ANIMATION_TYPES.chasingDots,
             backdropBackgroundColour: "#fff",
@@ -85,7 +84,8 @@ const routes: Routes = [
             cancelButtonType: "secondary"
         }),
         SharedModule,
-        CommonComponentsModule
+        CommonComponentsModule,
+        NgbTooltipModule
     ],
     declarations: [
         TeamComponent,

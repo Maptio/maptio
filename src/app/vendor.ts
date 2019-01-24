@@ -14,7 +14,9 @@ import "lodash";
 import "jquery"
 import "popper.js"
 import "bootstrap";
-import "@ng-bootstrap/ng-bootstrap";
+import "@ng-bootstrap/ng-bootstrap/tooltip";
+import "@ng-bootstrap/ng-bootstrap/typeahead";
+import "@ng-bootstrap/ng-bootstrap/modal";
 import "@cloudinary/angular-5.x";
 import "cloudinary-core";
 import "auth0-js";

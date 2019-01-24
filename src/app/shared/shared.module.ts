@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { ClosableDirective } from './directives/closable.directive';
+import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -16,7 +17,7 @@ import { ClosableDirective } from './directives/closable.directive';
         ReactiveFormsModule,
         CommonModule,
         BrowserModule,
-        RouterModule
+        RouterModule, NgbPopoverModule
     ],
     declarations: [
         PermissionsDirective,

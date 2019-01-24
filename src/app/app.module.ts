@@ -8,7 +8,6 @@ import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule, Routes } from "@angular/router";
 import { CloudinaryModule } from "@cloudinary/angular-5.x";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";
 import { AuthHttp } from "angular2-jwt";
 import { Angulartics2Mixpanel, Angulartics2Module } from "angulartics2";
@@ -137,7 +136,7 @@ export const cloudinaryLib = {
         HttpModule,
         DeviceDetectorModule.forRoot(),
         BreadcrumbsModule.forRoot(),
-        NgbModule.forRoot(),
+        
         RouterModule.forRoot(appRoutes, { enableTracing: false }),
         ResponsiveModule,
         ConfirmationPopoverModule.forRoot({

@@ -1,5 +1,4 @@
 import { SharedModule } from './../../../../shared/shared.module';
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { NO_ERRORS_SCHEMA, Type } from "@angular/core";
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { BaseRequestOptions, Http } from "@angular/http";
@@ -69,7 +68,7 @@ describe("members.component.ts", () => {
         TestBed.configureTestingModule({
             declarations: [TeamMembersComponent, KeysPipe],
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [RouterTestingModule, SharedModule, Angulartics2Module, NgbModule.forRoot(), NgProgressModule,  IntercomModule.forRoot({
+            imports: [RouterTestingModule, SharedModule, Angulartics2Module,  NgProgressModule,  IntercomModule.forRoot({
                 appId: "",
                 updateOnRouterChange: true
             })]

@@ -20,7 +20,6 @@ import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { FormsModule } from "@angular/forms";
 import { InitiativeComponent } from "./initiative.component";
 import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { Observable } from "rxjs/Observable";
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { UserService } from '../../../shared/services/user/user.service';
@@ -36,7 +35,7 @@ describe("initiative.component.ts", () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [SharedModule, Ng2Bs3ModalModule, NgbModule.forRoot(), FormsModule, RouterTestingModule, MarkdownModule.forRoot()],
+            imports: [SharedModule, Ng2Bs3ModalModule, FormsModule, RouterTestingModule, MarkdownModule.forRoot()],
             declarations: [InitiativeComponent],
             providers: [TeamFactory, UserFactory, DatasetFactory,
                 {

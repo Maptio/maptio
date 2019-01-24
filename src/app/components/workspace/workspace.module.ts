@@ -23,7 +23,6 @@ import { BuildingComponent } from "./building/building.component";
 
 import { AccessGuard } from "../../shared/services/guards/access.guard";
 import { AuthGuard } from "../../shared/services/guards/auth.guard";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { RouterModule, Routes } from "@angular/router";
 import { LoadingModule, ANIMATION_TYPES } from "ngx-loading";
 import { NgModule } from "@angular/core";
@@ -42,6 +41,7 @@ import { InstructionsComponent } from "../../shared/components/instructions/inst
 import { PersonalCardComponent } from "./mapping/summary/personal/card.component";
 import { SlackService } from "./share/slack.service";
 import { MapSettingsService } from "../../shared/services/map/map-settings.service";
+import { NgbTooltipModule, NgbTypeaheadModule } from "@ng-bootstrap/ng-bootstrap";
 
 
 const routes: Routes = [{
@@ -85,7 +85,6 @@ export function markdownServiceFactory(http: Http) {
         FormsModule,
         ReactiveFormsModule,
         RouterModule.forChild(routes),
-        NgbModule.forRoot(),
         TreeModule,
         Angulartics2Module.forChild(),
         CommonComponentsModule,
@@ -102,7 +101,9 @@ export function markdownServiceFactory(http: Http) {
             confirmButtonType: "danger",
             cancelButtonType: "link"
         }),
-        SharedModule
+        SharedModule,
+        NgbTooltipModule,
+        NgbTypeaheadModule
     ],
     declarations: [
         FocusIfDirective,

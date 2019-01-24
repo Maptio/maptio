@@ -9,7 +9,6 @@ import {
     NgZone, Inject
 } from "@angular/core";
 import { NgbPopover, NgbPopoverConfig } from "@ng-bootstrap/ng-bootstrap";
-import { ContentRef } from "@ng-bootstrap/ng-bootstrap/util/popup";
 import { DOCUMENT } from '@angular/common';
 
 @Directive({
