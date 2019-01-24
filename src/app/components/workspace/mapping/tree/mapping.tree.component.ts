@@ -200,7 +200,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       });
 
     let svg: any = d3
-      .select("svg")
+      .select("svg#map")
       .attr("width", this.width)
       .attr("height", this.height)
       .attr('xmlns', "http://www.w3.org/2000/svg")

@@ -113,6 +113,7 @@ describe("mapping.tree.component.ts", () => {
 
     afterEach(() => {
         fixture.cleanup();
+        
     });
 
     /*
@@ -152,7 +153,7 @@ describe("mapping.tree.component.ts", () => {
         // let data = new Initiative().deserialize(fixture.load("data.json"));
         // component.data$.next({ initiative: data, datasetId: "ID" })
         // component.draw(data, 100, 100, 1);Ì
-        let svg = document.getElementsByTagName("svg")
+        let svg = document.querySelectorAll("svg#map")
         expect(svg.length).toBe(1); // these are harcoded for now
         expect(svg.item(0).getAttribute("width")).toBe(window.screen.availWidth.toString());
     });
@@ -160,7 +161,7 @@ describe("mapping.tree.component.ts", () => {
     it("should draw SVG with correct transform when data is valid", () => {
         // let data = new Initiative().deserialize(fixture.load("data.json"));
         // component.data$.next({ initiative: data, datasetId: "ID" });
-        let svgs = document.getElementsByTagName("svg")
+        let svgs = document.querySelectorAll("svg#map")
         expect(svgs.length).toBe(1);
         let svg = svgs.item(0);
 
@@ -174,7 +175,7 @@ describe("mapping.tree.component.ts", () => {
 
         // let data = new Initiative().deserialize(fixture.load("data.json"));
         // component.data$.next({ initiative: data, datasetId: "ID" })
-        let svgs = document.getElementsByTagName("svg")
+        let svgs = document.querySelectorAll("svg#map")
         expect(svgs.length).toBe(1);
         let svg = svgs.item(0);
         let paths = svg.querySelectorAll("path.link");
@@ -188,7 +189,7 @@ describe("mapping.tree.component.ts", () => {
 
         // let data = new Initiative().deserialize(fixture.load("data.json"));
         // component.data$.next({ initiative: data, datasetId: "ID" })
-        let svgs = document.getElementsByTagName("svg")
+        let svgs = document.querySelectorAll("svg#map")
         expect(svgs.length).toBe(1);
         let svg = svgs.item(0);
         let nodes = svg.querySelectorAll("g.node");
@@ -199,7 +200,9 @@ describe("mapping.tree.component.ts", () => {
 
         // let data = new Initiative().deserialize(fixture.load("data.json"));
         // component.data$.next({ initiative: data, datasetId: "ID" })
-        let svgs = document.getElementsByTagName("svg")
+        let svgs = document.querySelectorAll("svg#map")
+
+        console.error(svgs)
         expect(svgs.length).toBe(1);
         let svg = svgs.item(0);
         let nodes = svg.querySelectorAll("g.node");
@@ -217,7 +220,7 @@ describe("mapping.tree.component.ts", () => {
 
         // let data = new Initiative().deserialize(fixture.load("data.json"));
         // component.data$.next({ initiative: data, datasetId: "ID" })
-        let svgs = document.getElementsByTagName("svg")
+        let svgs = document.querySelectorAll("svg#map")
         expect(svgs.length).toBe(1);
         let svg = svgs.item(0);
         let nodes = svg.querySelectorAll("g.node");
