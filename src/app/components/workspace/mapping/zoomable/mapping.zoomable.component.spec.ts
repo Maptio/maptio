@@ -118,14 +118,14 @@ describe("mapping.zoomable.component.ts", () => {
     });
 
     it("should draw SVG with correct size when data is valid", () => {
-        let svg = document.getElementsByTagName("svg")
-        expect(svg.length).toBe(1);
-        expect(svg.item(0).getAttribute("width")).toBe(`${component.width}`);
-        expect(svg.item(0).getAttribute("height")).toBe(`${component.height}`);
+        let svgs = document.querySelectorAll("svg#map")
+        expect(svgs.length).toBe(1);
+        expect(svgs.item(0).getAttribute("width")).toBe(`${component.width}`);
+        expect(svgs.item(0).getAttribute("height")).toBe(`${component.height}`);
     });
 
     it("should draw SVG centered when data is valid", () => {
-        let svgs = document.getElementsByTagName("svg")
+        let svgs = document.querySelectorAll("svg#map")
         expect(svgs.length).toBe(1);
         let svg = svgs.item(0);
 
@@ -136,7 +136,7 @@ describe("mapping.zoomable.component.ts", () => {
     });
 
     it("should draw SVG with correct number of circles when data is valid", () => {
-        let svgs = document.getElementsByTagName("svg")
+        let svgs = document.querySelectorAll("svg#map")
         expect(svgs.length).toBe(1);
         let g = svgs.item(0).querySelector("g");
         expect(g.querySelectorAll("circle.node.node--root").length).toBe(1);
@@ -144,7 +144,7 @@ describe("mapping.zoomable.component.ts", () => {
     });
 
     it("should draw SVG with correct text labels  when data is valid", () => {
-        let svgs = document.getElementsByTagName("svg")
+        let svgs = document.querySelectorAll("svg#map")
         expect(svgs.length).toBe(1);
         let g = svgs.item(0).querySelector("g");
         expect(g.querySelectorAll(".name").length).toBe(3)
@@ -156,7 +156,7 @@ describe("mapping.zoomable.component.ts", () => {
     it("should calculate paths when data is valid", () => {
 
         expect(component.uiService.getCircularPath).toHaveBeenCalledTimes(3);
-        let svg = document.getElementsByTagName("svg").item(0)
+        let svg = document.querySelectorAll("svg#map").item(0)
         let defs = svg.querySelector("defs");
         expect(defs.querySelectorAll("path").length).toBe(3);
         expect(defs.querySelectorAll("path#path0")).toBeDefined();

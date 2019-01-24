@@ -101,14 +101,14 @@ describe("mapping.network.component.ts", () => {
     });
 
     it("should draw SVG with correct size when data is valid", () => {
-        let svg = document.getElementsByTagName("svg")
-        expect(svg.length).toBe(1); // these are harcoded for now
-        expect(svg.item(0).getAttribute("width")).toBe(`${component.width}`);
-        expect(svg.item(0).getAttribute("height")).toBe(`${component.height}`);
+        let svgs = document.querySelectorAll("svg#map")
+        expect(svgs.length).toBe(1); // these are harcoded for now
+        expect(svgs.item(0).getAttribute("width")).toBe(`${component.width}`);
+        expect(svgs.item(0).getAttribute("height")).toBe(`${component.height}`);
     });
 
     it("should draw SVG centered when data is valid", () => {
-        let svgs = document.getElementsByTagName("svg")
+        let svgs = document.querySelectorAll("svg#map")
         expect(svgs.length).toBe(1);
         let svg = svgs.item(0);
 
@@ -119,7 +119,7 @@ describe("mapping.network.component.ts", () => {
     });
 
     it("should draw SVG with correct number of node when data is valid", () => {
-        let svgs = document.getElementsByTagName("svg")
+        let svgs = document.querySelectorAll("svg#map")
         expect(svgs.length).toBe(1);
         let g = svgs.item(0).querySelector("g");
         expect(g.querySelectorAll("g.nodes > g.node > circle").length).toBe(6);
