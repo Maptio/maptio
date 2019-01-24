@@ -1,7 +1,7 @@
 import { environment } from "./../../../../environment/environment";
 import { MockBackend, MockConnection } from "@angular/http/testing";
 import { Http, BaseRequestOptions, RequestMethod, Response, ResponseOptions } from "@angular/http";
-import { TestBed, inject } from "@angular/core/testing";
+import { TestBed, inject, async } from "@angular/core/testing";
 import { AuthConfiguration } from "./auth.config";
 
 
@@ -32,7 +32,7 @@ describe("auth.config.ts", () => {
         expect(target.AUTH0_MANAGEMENTAPI_SECRET).toBe(environment.AUTH0_MANAGEMENTAPI_SECRET);
     }));
 
-    it("should retrieve access token when it is not in localStorage", inject([AuthConfiguration, Http, MockBackend], (target: AuthConfiguration, http: Http, mockBackend: MockBackend) => {
+    it("should retrieve access token when it is not in localStorage", async(inject([AuthConfiguration, Http, MockBackend], (target: AuthConfiguration, http: Http, mockBackend: MockBackend) => {
         mockBackend.connections.subscribe((connection: MockConnection) => {
             if (connection.request.method === RequestMethod.Post
                 && connection.request.url === environment.ACCESS_TOKEN_URL
@@ -57,9 +57,9 @@ describe("auth.config.ts", () => {
             expect(token).toBe("token");
             expect(localStorage.getItem).toHaveBeenCalledWith("access_token")
         })
-    }));
+    })));
 
-    it("should get access token when it is in localStorage", inject([AuthConfiguration, Http, MockBackend], (target: AuthConfiguration, http: Http, mockBackend: MockBackend) => {
+    it("should get access token when it is in localStorage", async(inject([AuthConfiguration, Http, MockBackend], (target: AuthConfiguration, http: Http, mockBackend: MockBackend) => {
 
         spyOn(localStorage, "getItem").and.returnValue("token")
         spyOn(http, "post");
@@ -68,5 +68,5 @@ describe("auth.config.ts", () => {
             expect(token).toBe("token");
             expect(localStorage.getItem).toHaveBeenCalledWith("access_token")
         })
-    }));
+    })));
 });
