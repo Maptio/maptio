@@ -179,7 +179,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .append("marker")
       .attr("id", (d: any) => d.id)
       .attr("viewBox", "0 -5 10 10")
-      .attr("refX", 19)
+      .attr("refX", 0)
       .attr("refY", 0)
       .attr("markerWidth", this.CIRCLE_RADIUS)
       .attr("markerHeight", this.CIRCLE_RADIUS)
@@ -743,7 +743,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
 
         let list = initiativesList.map(i => i.data).filter(i => {
-          return connectedInitiatives.includes(i.id)
+          return connectedInitiatives.indexOf(i.id) > -1;
         });
 
         showToolipOf$.next({ initiatives: list, isNameOnly: true });
@@ -753,7 +753,12 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       })
       .on("mouseout", function (d: any) {
         d3.select(this).style("fill", "initial");
-        g.selectAll("path.edge").style("stroke-opacity", 1);
+        g.selectAll("path.edge").style("stroke-opacity", 1).attr("marker-end", function (d: any) {
+          if (isAuthorityCentricMode) {
+            return "url(#arrow)";
+          }
+        });
+
         g.selectAll(`g.node`).style("fill-opacity", 1);
 
         showToolipOf$.next({ initiatives: null, isNameOnly: true });
@@ -763,7 +768,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .on("click", function (d: any) {
         showToolipOf$.next({ initiatives: null, isNameOnly: true });
         hideOptions$.next(false);
-        
+
         router.navigateByUrl(
           `/map/${datasetId}/${slug}/summary?member=${d.shortid}`
         );
@@ -793,7 +798,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         let ids: any[] = d[4];
 
         let list = initiativesList.map(i => i.data).filter(i => {
-          return ids.includes(i.id)
+          return ids.indexOf(i.id) > -1;
         });
 
         showToolipOf$.next({ initiatives: list, isNameOnly: true });
@@ -833,7 +838,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         let ids: any[] = d[4];
 
         let list = initiativesList.map(i => i.data).filter(i => {
-          return ids.includes(i.id)
+          return ids.indexOf(i.id) > -1;
         });
 
         let path = d3.select(this);
@@ -873,6 +878,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
     function ticked() {
       link.attr("d", positionLink);
+      link.attr("d", positionArrow);
       node.attr("transform", positionNode);
       // label.attr("transform", positionLabel);
     }
@@ -890,20 +896,30 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     // }
 
     function positionLink(d: any) {
-      return (
-        "M" +
-        d[0].x +
-        "," +
-        d[0].y +
-        "S" +
-        d[1].x +
-        "," +
-        d[1].y +
-        " " +
-        d[2].x +
-        "," +
-        d[2].y
-      );
+      let source = d[0], target = d[2]
+      // // fit path like you've been doing
+      //   path.attr("d", function(d){
+      var dx = target.x - source.x,
+        dy = target.y - source.y,
+        dr = Math.sqrt(dx * dx + dy * dy);
+      return "M" + source.x + "," + source.y + "A" + dr + "," + dr + " 0 0,1 " + target.x + "," + target.y;
+    }
+
+    function positionArrow(d: any) {
+      let source = d[0], target = d[2], weight = d[3]
+      // length of current path
+      var pl = this.getTotalLength(),
+        // radius of circle plus marker head
+        r = CIRCLE_RADIUS * 1.5 + Math.sqrt(CIRCLE_RADIUS * 2 + CIRCLE_RADIUS * 2), //16.97 is the "size" of the marker Math.sqrt(12**2 + 12 **2)
+        // position close to where path intercepts circle
+        m = this.getPointAtLength(pl - r)
+        ;
+      // console.log(d, pl,  r)
+      var dx = m.x - source.x,
+        dy = m.y - source.y,
+        dr = Math.sqrt(dx * dx + dy * dy);
+
+      return "M" + source.x + "," + source.y + "A" + dr + "," + dr + " 0 0,1 " + m.x + "," + m.y;
     }
 
     function positionNode(d: any) {
