@@ -202,7 +202,6 @@ describe("mapping.tree.component.ts", () => {
         // component.data$.next({ initiative: data, datasetId: "ID" })
         let svgs = document.querySelectorAll("svg#map")
 
-        console.error(svgs)
         expect(svgs.length).toBe(1);
         let svg = svgs.item(0);
         let nodes = svg.querySelectorAll("g.node");
