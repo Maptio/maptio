@@ -195,7 +195,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     const width: number = this.width - margin.left - margin.right,
       height: number = this.height - margin.top - margin.bottom;
     const svg: any = d3
-      .select("svg")
+      .select("svg#map")
       .attr("width", this.width)
       .attr("height", this.height)
       .attr("xmlns", "http://www.w3.org/2000/svg")

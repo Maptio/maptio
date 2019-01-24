@@ -151,7 +151,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     let d3 = this.d3;
 
     let svg: any = d3
-      .select("svg")
+      .select("svg#map")
       .attr("width", this.width)
       .attr("height", this.height);
     let g = svg
