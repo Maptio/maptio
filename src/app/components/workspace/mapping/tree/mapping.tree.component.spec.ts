@@ -13,7 +13,7 @@ import { BaseRequestOptions } from "@angular/http";
 import { AuthHttp } from "angular2-jwt";
 import { Router, NavigationStart } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
-import { Observable, Subject } from "rxjs/Rx";
+import { Observable, Subject, BehaviorSubject } from "rxjs/Rx";
 import { D3Service, D3 } from "d3-ng2-service";
 import { TestBed, async, ComponentFixture } from "@angular/core/testing";
 import { MappingTreeComponent } from "./mapping.tree.component";
@@ -23,6 +23,7 @@ import { MarkdownService } from "angular2-markdown";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { Team } from "../../../../shared/model/team.data";
 import { DataSet } from "../../../../shared/model/dataset.data";
+import { MapSettingsService } from "../../../../shared/services/map/map-settings.service";
 
 describe("mapping.tree.component.ts", () => {
 
@@ -35,7 +36,9 @@ describe("mapping.tree.component.ts", () => {
         TestBed.configureTestingModule({
             providers: [
                 DeviceDetectorService,
-                D3Service, ColorService, UIService, DataService, URIService, UserFactory, Angulartics2Mixpanel, Angulartics2,
+                D3Service, ColorService, UIService, DataService, URIService,
+                MapSettingsService,
+                UserFactory, Angulartics2Mixpanel, Angulartics2,
                 {
                     provide: AuthHttp,
                     useFactory: authHttpServiceFactoryTesting,
@@ -83,12 +86,23 @@ describe("mapping.tree.component.ts", () => {
         component.selectableTags$ = Observable.of([]);
         component.mapColor$ = Observable.of("#ddd")
         component.zoomInitiative$ = Observable.of(new Initiative());
+        component.isAllExpanded$ = new BehaviorSubject<boolean>(false);
+        component.isAllCollapsed$ = new BehaviorSubject<boolean>(false);
 
         component.analytics = jasmine.createSpyObj("analytics", ["eventTrack"]);
 
         let data = new Initiative().deserialize(fixture.load("data.json"));
         let mockDataService = target.debugElement.injector.get(DataService);
         spyOn(mockDataService, "get").and.returnValue(Observable.of({ initiative: data, team: new Team({}), dataset: new DataSet({}), members: [] }));
+
+        let mockSettingsService =target.debugElement.injector.get(MapSettingsService);
+        spyOn(mockSettingsService, "get").and.returnValue({
+            views : {
+                tree : {
+                    expandedNodesIds : ["0","1","2"]
+                }
+            }
+        })
 
         target.detectChanges(); // trigger initial data binding
     });

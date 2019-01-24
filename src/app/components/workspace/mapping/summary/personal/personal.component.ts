@@ -6,6 +6,7 @@ import { Team } from "../../../../../shared/model/team.data";
 import { Router } from "@angular/router";
 import { sortBy } from "lodash";
 import { DataSet } from "../../../../../shared/model/dataset.data";
+import { MapSettingsService } from "../../../../../shared/services/map/map-settings.service";
 
 
 @Component({
@@ -42,7 +43,7 @@ export class PersonalSummaryComponent implements OnInit {
     authorityName: string;
     helperName: string;
 
-    constructor(private cd: ChangeDetectorRef, private router: Router) {
+    constructor(private cd: ChangeDetectorRef, private router: Router, private mapSettingsService:MapSettingsService) {
 
     }
 
@@ -125,9 +126,9 @@ export class PersonalSummaryComponent implements OnInit {
 
     setColumnNumber(columns: number) {
         this.columnNumber = columns;
-        let settings = JSON.parse(localStorage.getItem(`map_settings_${this._dataset.datasetId}`));
+        let settings = this.mapSettingsService.get(this._dataset.datasetId) ;
         settings.directoryColumnsNumber = columns;
-        localStorage.setItem(`map_settings_${this._dataset.datasetId}`, JSON.stringify(settings));
+        this.mapSettingsService.set(this._dataset.datasetId, settings)
 
         this.cd.markForCheck();
     }

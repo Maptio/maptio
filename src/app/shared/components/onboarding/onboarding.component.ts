@@ -248,9 +248,6 @@ export class OnboardingComponent implements OnInit {
         this.COLORS.forEach(c => c.isSelected = false);
         color.isSelected = true;
         this.selectedColor = color.name;
-        // let settings: any = JSON.parse(localStorage.getItem(`map_settings_${this.dataset.datasetId}`));
-        // settings.mapColor = color.name;
-        // localStorage.setItem(`map_settings_${this.dataset.datasetId}`, JSON.stringify(settings));
         this.cd.markForCheck();
     }
 }

@@ -211,7 +211,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       definitions = svg.append("svg:defs");
 
 
-    const wheelDelta = () => -d3.event.deltaY * (d3.event.deltaMode ? 120 : 1) / 500 * 15;
+    const wheelDelta = () => -d3.event.deltaY * (d3.event.deltaMode ? 120 : 1) / 500 * 2.5;
 
     this.zooming = d3
       .zoom()
@@ -242,12 +242,14 @@ export class MappingZoomableComponent implements IDataVisualizer {
     try {
       // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
       // svg.call(zooming.transform, d3.zoomIdentity.translate(diameter / 2, diameter / 2));
+      const initX: number = this.translateX || diameter / 2 + margin.left;
+      const initY: number = this.translateY || diameter / 2 + margin.top;
+      const initK: number = this.scale || 1;
       svg.call(
         this.zooming.transform,
-        d3.zoomIdentity.translate(
-          diameter / 2 + margin.left,
-          diameter / 2 + margin.top
-        )
+        d3.zoomIdentity
+          .translate(initX, initY)
+          .scale(initK)
       );
       svg.call(this.zooming);
     } catch (error) {
@@ -435,8 +437,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
       }
     }
 
-    let height = svg.attr("height")*0.95;
-    let margin = height *0.135;
+    let height = svg.attr("height") * 0.95;
+    let margin = height * 0.135;
     let definitions = this.definitions;
     let uiService = this.uiService;
     let zooming = this.zooming;
@@ -632,11 +634,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
       if (
         clickedElement
         && clickedElement.transform
-        && ( clickedElement.transform.baseVal.length > 0 || clickedElement.transform.baseVal.numberOfItems > 0)) {
+        && (clickedElement.transform.baseVal.length > 0 || clickedElement.transform.baseVal.numberOfItems > 0)) {
         clickedX = clickedElement.transform.baseVal.getItem(0).matrix.e * newScale;
         clickedY = clickedElement.transform.baseVal.getItem(0).matrix.f * newScale;
         clickedX -= margin;
-        clickedY -= -height / 2 + margin ;
+        clickedY -= -height / 2 + margin;
       }
       return [clickedX, clickedY];
     }
@@ -644,7 +646,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     function zoom(focus: any, clickedElement?: any): void {
       setLastZoomedCircle(focus);
 
-      const newScale: number = focus === root ? 1 : getViewScaleForRadius(focus.r);
+      const newScale: number = focus === root || focus.parent === root ? 1 : getViewScaleForRadius(focus.r);
       const coordinates: Array<number> = getClickedElementCoordinates(clickedElement, newScale);
 
       svg.transition().duration(TRANSITION_DURATION).call(
@@ -809,7 +811,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
           }
           d3.event.stopPropagation();
           // remove the location.search without reload
-          window.history.pushState("", "", `${location.protocol}//${location.host}/${location.pathname}${location.hash}`)
+          if (window.location.search) {
+            window.history.pushState("", "", `${location.protocol}//${location.host}/${location.pathname}${location.hash}`)
+          }
 
         })
     }
