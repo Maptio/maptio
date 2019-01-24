@@ -237,80 +237,6 @@ input.disabled, input.form-control.disabled, input.form-control:disabled{
   font-size: large!important;
 }
 
-.network:before {
-  content: "\e901";
-  font-family: icomoon;
-}
-
-.network.menu.more:before {
-  content: "\f0c9";
-  font-family: FontAwesome;
-}
-
-.network.menu.less:before {
-  content: "\f00d";
-  font-family: FontAwesome;
-}
-
-
-.tree:before {
-  display: inline-block;
-  content: "\e903";
-  font-family: icomoon;
-  -webkit-transform: rotate(90deg);
-  -moz-transform: rotate(90deg);
-  -ms-transform: rotate(90deg);
-  -o-transform: rotate(90deg);
-  transform: rotate(90deg);
-}
-
-.summary-list:before{
-  content: "\f2c2";
-  font-family: "Font Awesome 5 Free";
-
-}
-
-.circles{
-  background-image: url(/assets/images/circles.png) ;
-  background-repeat:no-repeat;
-  background-size: 16px 16px;
-  background-position: center center;
-  height: 46px;
-  width: 100%;
-  padding: 0;
-  -webkit-transition: background-image 0.2s ease-in-out;
-transition: background-image 0.2s ease-in-out;
-}
-
-.reset-zoom{
-  background-image: url(/assets/images/reset-zoom.png) ;
-  background-repeat:no-repeat;
-  background-size: 16px 16px;
-  background-position: center center;
-  height: 46px;
-  width: 100%;
-  padding: 0;
-  -webkit-transition: background-image 0.2s ease-in-out;
-transition: background-image 0.2s ease-in-out;
-}
-
-
-.circles.menu{
-  background-image: none!important;
-
-}
-
-.circles.menu.more:before {
-  content: "\f0c9";
-  font-family: FontAwesome;
-}
-
-
-.circles.menu.less:before {
-  content: "\f00d";
-  font-family: FontAwesome;
-}
-
 
 
 .pointer-none{
@@ -388,25 +314,6 @@ img.user{
 .offset-half {
   margin-left: 36px;
 }
-
-/* .circles.options, .circles.options.active{
-  background-image:none !important;
-  -webkit-transition: background-image 0.2s ease-in-out;
-transition: background-image 0.2s ease-in-out;
-  
-}
-
-.circles.options::before{
-  content : "\f141";
-  font-family: FontAwesome;
-  
-} */
-
-.btn:not(:disabled):not(.disabled).active.circles, .btn.circles:not(:disabled):not(.disabled):active{
-  background-image: url(/assets/images/circles.png) ;
-}
-
-
 
 .remove::before {
   content: "\f1f8";

@@ -1,12 +1,5 @@
 
-.icon-text-label{
-  font-size: xx-small;
-  width: 2.5vw;
-  max-width: 2.5vw;
-  min-height: 1.5vh;
-  /* max-height: 2.0vh; */
-  white-space: normal;
-}
+
 
 
 
@@ -49,6 +42,59 @@
 
 .windows{
   right:0;
+}
+
+
+
+.btn.toolbar{
+  height: 48px;
+  width:3vw;
+}
+
+
+.btn.toolbar.select-view{
+  background-repeat:no-repeat;
+  background-size: 16px 16px;
+  background-position: center center;
+  padding: 0;
+  -webkit-transition: background-image 0.2s ease-in-out;
+transition: background-image 0.2s ease-in-out;
+
+}
+
+.btn.select-view.tree {
+  background-image: url(/assets/images/treeview.svg) ;
+}
+
+.btn.select-view.circles{
+  background-image: url(/assets/images/circles.svg) ;
+}
+
+.btn.select-view.network {
+  background-image: url(/assets/images/network.png) ;
+}
+
+.summary-list:before{
+  content: "\f2c2";
+  font-family: "Font Awesome 5 Free";
+
+}
+
+.icon-text-label{
+  font-size: xx-small;
+  width: 3vw;
+  max-width: 3vw;
+  min-height: 1.5vh;
+  white-space: normal;
+}
+
+.btn.toolbar > .icon-text-label{
+  position:absolute;
+  bottom:0
+}
+
+.btn.toolbar.select-view > .icon-text-label{
+  position:initial;
 }
 
 
