@@ -20,7 +20,7 @@ import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authht
 import { LoaderService } from "../../shared/services/loading/loader.service";
 import { NgProgress, NgProgressModule } from "@ngx-progressbar/core";
 
-fdescribe("account.component.ts", () => {
+describe("account.component.ts", () => {
 
     let component: AccountComponent;
     let target: ComponentFixture<AccountComponent>;
