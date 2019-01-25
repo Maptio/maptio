@@ -1,7 +1,7 @@
 import { BuildingComponent } from "./building/building.component";
 import { DataService, CounterService } from "./../../shared/services/data.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { Subscription } from "rxjs/Rx";
+import { Subscription, Subject } from "rxjs/Rx";
 import { Initiative } from "./../../shared/model/initiative.data";
 import { DataSet } from "./../../shared/model/dataset.data";
 import { Team } from "./../../shared/model/team.data";
@@ -58,6 +58,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public openedNode: Initiative;
     public openedNodeParent: Initiative;
     public openedNodeTeamId: string;
+    public openEditTag$ : Subject<void> = new Subject<void>();
 
     public mapped: Initiative;
     teamName: string;
@@ -203,6 +204,12 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     toggleEditingPanelsVisibility(isVisible: boolean) {
         this.isBuildingVisible = isVisible;
+        this.cd.markForCheck();
+    }
+
+    onEditTags(){
+        this.isBuildingPanelCollapsed = false;
+        this.buildingComponent.tabs.select("tags-tab");
         this.cd.markForCheck();
     }
 

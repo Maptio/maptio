@@ -51,7 +51,7 @@
                         </button>
                         <div class="card-body " [class.show]="!isDetailsPanelCollapsed" [class.hide]="isDetailsPanelCollapsed">
                             <initiative *ngIf="!isDetailsPanelCollapsed" #initiative [datasetTags]="tags" [datasetId]="datasetId" [node]="openedNode"
-                                [team]="team" (edited)="saveDetailChanges()"></initiative>
+                                [team]="team" (edited)="saveDetailChanges()" (editTags)="onEditTags()"></initiative>
                         </div>
                     </div>
                 </div>

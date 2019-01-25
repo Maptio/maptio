@@ -12,12 +12,13 @@ import { TreeNode, TREE_ACTIONS, TreeComponent } from "angular-tree-component";
 
 import "rxjs/add/operator/map";
 import { InitiativeNodeComponent } from "./initiative.node.component"
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal, NgbTabset } from "@ng-bootstrap/ng-bootstrap";
 import { LoaderService } from "../../../shared/services/loading/loader.service";
 import { Tag } from "../../../shared/model/tag.data";
 import { DataSet } from "../../../shared/model/dataset.data";
 import { UserService } from "../../../shared/services/user/user.service";
 import { intersectionBy } from "lodash";
+import { Subject } from "../../../../../node_modules/rxjs";
 
 @Component({
     selector: "building",
@@ -88,6 +89,7 @@ export class BuildingComponent {
 
 
     @ViewChild("tree") public tree: TreeComponent;
+    @ViewChild("tabs") public tabs:NgbTabset;
 
     @ViewChild(InitiativeNodeComponent)
     node: InitiativeNodeComponent;
@@ -107,6 +109,7 @@ export class BuildingComponent {
 
     @Input("user") user: User;
     @Input("isEmptyMap") isEmptyMap: Boolean;
+
     @Output("save") save: EventEmitter<{ initiative: Initiative, tags: Tag[] }> = new EventEmitter<{ initiative: Initiative, tags: Tag[] }>();
     @Output("openDetails") openDetails = new EventEmitter<Initiative>();
     @Output("openDetailsEditOnly") openDetailsEditOnly = new EventEmitter<Initiative>();
@@ -116,7 +119,6 @@ export class BuildingComponent {
         private userFactory: UserFactory, private userService: UserService, private cd: ChangeDetectorRef, private loaderService: LoaderService) {
         // this.nodes = [];
     }
-
 
     ngAfterViewChecked() {
         try {

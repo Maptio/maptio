@@ -41,6 +41,7 @@ import { UserService } from "../../../shared/services/user/user.service";
 export class InitiativeComponent implements OnChanges {
 
     @Output() edited: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @Output("editTags") editTags:EventEmitter<any> = new EventEmitter<any>();
 
     @Input() node: Initiative;
     // @Input() parent: Initiative;
@@ -141,7 +142,7 @@ export class InitiativeComponent implements OnChanges {
         }else{
             (<HTMLInputElement>this.inputAuthority.nativeElement).value =this.node.accountable.name;
         }
-        this.inputTag.writeValue("");
+        // this.inputTag.writeValue("");
         this.edited.emit(true);
     }
 
@@ -297,6 +298,10 @@ export class InitiativeComponent implements OnChanges {
             () => this.searching = false);
 
     formatter = (result: User) => { return result.name };
+
+    openEditTags(){
+        this.editTags.emit();
+    }
 }
 
 
