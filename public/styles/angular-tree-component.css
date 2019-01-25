@@ -102,9 +102,9 @@ tree-viewport {
   display: block;
 }
 
-.tree-children {
+/* .tree-children {
   padding-left: 20px
-}
+} */
 
 .empty-tree-drop-slot .node-drop-slot {
   height: 20px;
@@ -185,7 +185,7 @@ tree-root .angular-tree-component-rtl .tree-children {
 @media only screen and (max-height: 800px) {
   .angular-tree-component {
     width: 100%;
-    max-height: 61vh;
+    max-height: 50vh;
     overflow-y: auto;
     padding-right:1.2rem;
   }
@@ -194,7 +194,7 @@ tree-root .angular-tree-component-rtl .tree-children {
 @media only screen and (min-height: 800px) {
   .angular-tree-component {
     width: 100%;
-    max-height: 64vh;
+    max-height: 55vh;
     overflow-y: auto;
     padding-right:1.2rem;
   }

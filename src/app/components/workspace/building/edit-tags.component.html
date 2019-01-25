@@ -1,0 +1,39 @@
+<div class="edit-tags">
+
+    <div class="text-muted my-4">Use tags to map strategic themes, progress and other information which might be relevant to multiple circles across the
+        map.
+    </div>
+
+
+    <form class="form-group form-inline" [formGroup]="newTagForm" (submit)="addTag()">
+        <input type="text" id="inputname" formControlName="name" [class.is-invalid]="newTagForm.controls['name'].invalid  && (newTagForm.controls['name'].dirty || newTagForm.controls['name'].touched)"
+            class="form-control form-control-warning col-6" required>
+        <div class="col">
+            <common-color-picker [color]="newTagColor" [isMinimal]="true" (change)="saveTagColor($event)"></common-color-picker>
+        </div>
+        <button type="submit" class="btn btn-outline-success col-auto">
+            <i class="fas fa-plus"></i>
+        </button>
+
+    </form>
+    <small class="invalid-feedback" *ngIf="newTagForm.controls['name'].invalid  && (newTagForm.controls['name'].dirty || newTagForm.controls['name'].touched)">
+        Required
+    </small>
+    <hr>
+    <div class="">
+        <div class="form-group form-inline" *ngFor="let tag of tags; let i=index">
+            <input type="text" class="col-6 form-control" name="inputTagName" [ngModelOptions]="{standalone: true}" [ngModel]="tag.name"
+                (ngModelChange)="saveTagName(tag, $event)" (blur)="saveTagChanges()" />
+            <div class="col">
+                <common-color-picker [color]="tag.color" [isMinimal]="true" (change)="saveColor(tag, $event)"></common-color-picker>
+            </div>
+            <button placement="top" container="body" mwlConfirmationPopover popoverMessage="This cannot be undone! This tag will be removed from all circles."
+                focusbutton="cancel" appendToBody="false" (confirm)="removeTag(tag)" (cancel)="cancelClicked = true" class="btn btn-outline-danger col-auto">
+                <i class="fas fa-trash"></i>
+            </button>
+
+        </div>
+    </div>
+
+
+</div>

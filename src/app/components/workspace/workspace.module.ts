@@ -42,6 +42,7 @@ import { InstructionsComponent } from "../../shared/components/instructions/inst
 import { PersonalCardComponent } from "./mapping/summary/personal/card.component";
 import { SlackService } from "./share/slack.service";
 import { MapSettingsService } from "../../shared/services/map/map-settings.service";
+import { EditTagsComponent } from "./building/edit-tags.component";
 
 
 const routes: Routes = [{
@@ -113,7 +114,8 @@ export function markdownServiceFactory(http: Http) {
         MappingSummaryComponent, PersonalSummaryComponent, PersonalCardComponent,
 
         SearchComponent, FilterTagsComponent, ShareSlackComponent,
-        TooltipComponent, ContextMenuComponent
+        TooltipComponent, ContextMenuComponent,
+        EditTagsComponent
     ],
     providers: [
         SlackService,MapSettingsService,

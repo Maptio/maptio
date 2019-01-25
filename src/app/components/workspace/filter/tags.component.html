@@ -25,32 +25,7 @@
       </span>
 
     </div>
-    <div class="edit-tags" *ngIf="isEditTags">
-      <h6 class="mt-4">Edit tags</h6>
-
-
-
-      <form class="form-group form-inline" [formGroup]="newTagForm" (submit)="addTag()">
-        <input class="form-control col-6 " type="text" id="inputname" formControlName="name" required name [class.has-warning]="newTagForm.controls['name'].invalid  && (newTagForm.controls['name'].dirty || newTagForm.controls['name'].touched)">
-        <div class="col-3">
-          <common-color-picker [color]="newTagColor" [isMinimal]="true" (change)="saveTagColor($event)"></common-color-picker>
-        </div>
-        <button type="submit" class="btn btn-success col-3" [class.disabled]="!newTagForm.valid">Add</button>
-
-      </form>
-      <div class="form-group form-inline" *ngFor="let tag of tags; let i=index">
-
-        <input type="text" class="col-6 form-control" name="inputTagName" [ngModelOptions]="{standalone: true}" [ngModel]="tag.name"
-          (ngModelChange)="saveTagName(tag, $event)" (blur)="saveTagChanges()" />
-        <div class="col-3">
-          <common-color-picker [color]="tag.color" [isMinimal]="true" (change)="saveColor(tag, $event)"></common-color-picker>
-        </div>
-        <button placement="top" container="body" mwlConfirmationPopover popoverMessage="This cannot be undone! This tag will be removed from all circles."
-          focusbutton="cancel" appendToBody="false" (confirm)="removeTag(tag)" (cancel)="cancelClicked = true" class="btn btn-outline-danger col-3">Remove</button>
-
-      </div>
-
-    </div>
+    
   </div>
 
 </div>
