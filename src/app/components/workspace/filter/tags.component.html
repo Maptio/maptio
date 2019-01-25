@@ -1,17 +1,6 @@
 <div class="card bg-transparent border-0">
   <div class="card-body">
-    <h6 class="card-title mb-2 d-flex justify-content-start">Tags
-      <span class="btn btn-link btn-sm pl-0 ml-auto" (click)="isEditTags=!isEditTags">Edit tags
-        <span class="mr-1">
-          <i *ngIf="isEditTags" class="fa fa-caret-down" aria-hidden="true"></i>
-          <i *ngIf="!isEditTags" class="fa fa-caret-left" aria-hidden="true"></i>
-        </span>
-      </span>
-    </h6>
-    <span>
-      <button class="btn btn-link btn-sm p-0" (click)="selectAllTags()">Select all</button>
-      <button class="btn btn-link btn-sm p-0" (click)="unselectAllTags()">Unselect all</button>
-    </span>
+    
     <div class="d-flex flex-wrap">
       <span *ngFor="let tag of tags; let i=index" class="mr-1 my-1">
         <span *ngIf="!tag.isSelected" class="cursor-pointer badge badge-pill p-2  border-thick" [style.color]="tag.color" [style.border-color]="tag.color" (click)="toggleTag(tag)">
@@ -26,6 +15,11 @@
 
     </div>
     
+  </div>
+
+  <div class="card-footer border-0 bg-transparent">
+    <button class="btn btn-outline-secondary btn-sm mr-1 " (click)="selectAllTags()">Select all</button>
+    <button class="btn btn-outline-secondary btn-sm " (click)="unselectAllTags()">Unselect all</button>
   </div>
 
 </div>
