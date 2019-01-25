@@ -231,9 +231,9 @@ export class InitiativeComponent implements OnChanges {
         // this.analytics.eventTrack("Initiative", { action: "add helper", team: this.teamName, teamId: this.teamId });
     }
 
-    saveTag(newTag: NgbTypeaheadSelectItemEvent) {
-        if (this.node.tags.findIndex(t => t.shortid === newTag.item.shortid) < 0) {
-            this.node.tags.unshift(new Tag(newTag.item));
+    saveTag(newTag: Tag) {
+        if (this.node.tags.findIndex(t => t.shortid === newTag.shortid) < 0) {
+            this.node.tags.unshift(new Tag(newTag));
         }
         this.onBlur();
         this.analytics.eventTrack("Initiative", { action: "add tag", team: this.teamName, teamId: this.teamId });
@@ -296,18 +296,7 @@ export class InitiativeComponent implements OnChanges {
             ),
             () => this.searching = false);
 
-
-    searchTag = (text$: Observable<string>) =>
-        text$
-            .debounceTime(200).distinctUntilChanged()
-            .merge(this.focus$)
-            .merge(this.click$.filter(() => { return !this.inputTag.isPopupOpen()} ))
-            .map(term => (term === "" ? this.datasetTags : this.datasetTags.filter(v => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10));
-
-
-
     formatter = (result: User) => { return result.name };
-    tagFormatter = (result: Tag) => { return result.name };
 }
 
 

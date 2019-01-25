@@ -1,11 +1,6 @@
 <ng-template #rt let-r="result" let-t="term">
 	<img src="{{r.picture}}" width="32" height="32" class="rounded-circle user" alt={{r.name}} /> {{r.name}}
 </ng-template>
-<ng-template #rtTag let-r="result" let-t="term">
-	<span [style.color]="r.color">
-		<i class="fa fa-tag mr-1" aria-hidden="true" [style.color]="r.color"></i>
-		{{r.name}}</span>
-</ng-template>
 <ng-template #editTipContent>
 	<div class="text-orange">
 		You don't have permission to edit this.
@@ -38,21 +33,24 @@
 
 	<div class="card border-0 mb-2 p-2">
 		<fieldset name="initiativeTags" *permissionsOnly="Permissions.canEditInitiativeTags;initiative node; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset;">
-			<div class="d-flex justify-content-start">
-				<ul class="tags w-100 borderless-right pt-1 d-flex align-items-center">
-					<li *ngFor="let tag of node?.tags; let i=index">
-						<a class="badge badge-pill p-2  border-thick text-white mr-1 my-1" [style.border-color]="tag.color" [style.background]="tag.color">
-							<i class="fa fa-tag mr-1" aria-hidden="true"></i>{{tag?.name}}
-							<span class="remove transparent ml-1" (click)="removeTag(tag)"></span>
-						</a>
-					</li>
-					<li>
-						<input required="required" [resultTemplate]="rtTag" type="text" placeholder="Add tag" class="form-control form-control-sm col-8 p-1"
-						 (selectItem)="saveTag($event)" [ngbTypeahead]="searchTag" editable="false" (focus)="$event.target.value='';focus$.next($event.target.value)"
-						 (blur)="onBlur()" (click)="$event.target.value=''; click$.next($event.target.value)" [resultFormatter]="tagFormatter"
-						 [inputFormatter]="tagFormatter" #inputTag="ngbTypeahead" />
-					</li>
-				</ul>
+			<div class="d-flex justify-content-start align-items-baseline flex-wrap">
+				<div *ngFor="let tag of node?.tags; let i=index">
+					<a class="badge badge-pill p-2  border-thick text-white mr-1 my-1" [style.border-color]="tag.color" [style.background]="tag.color">
+						<i class="fa fa-tag mr-1" aria-hidden="true"></i>{{tag?.name}}
+						<span class="remove transparent ml-2" (click)="removeTag(tag)"></span>
+					</a>
+				</div>
+				<div class="dropdown">
+					<button class="btn btn-sm btn-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+					 aria-expanded="false">
+						Select tag
+					</button>
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						<button (click)="saveTag(tag)" *ngFor="let tag of datasetTags; let i=index" class="dropdown-item" type="button" [style.color]="tag.color">
+								<i class="fa fa-tag mr-1" aria-hidden="true"></i>{{tag.name}}
+							</button>
+					</div>
+				</div>
 				<div class="input-group-append">
 					<span class="icon-disabled text-muted transparent bg-white border-white input-group-text" [stickyPopover]="editTipContent"
 					 placement='top'>
