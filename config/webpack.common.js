@@ -117,6 +117,10 @@ module.exports = {
       //Used in the slug package ....To comment back if we ever get Arabic or Tibetan users
       /unicode\/category\/So/, /node_modules/
     ),
+    new webpack.IgnorePlugin({
+      resourceRegExp: /^\.\/locale$/,
+      contextRegExp: /moment$/
+    }),
 
     new webpack.DefinePlugin({
       'process.env': {
