@@ -12,7 +12,7 @@ import { TreeNode, TREE_ACTIONS, TreeComponent } from "angular-tree-component";
 
 import "rxjs/add/operator/map";
 import { InitiativeNodeComponent } from "./initiative.node.component"
-import { NgbModal, NgbTabset } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal, NgbTabset, NgbTabChangeEvent } from "@ng-bootstrap/ng-bootstrap";
 import { LoaderService } from "../../../shared/services/loading/loader.service";
 import { Tag } from "../../../shared/model/tag.data";
 import { DataSet } from "../../../shared/model/dataset.data";
@@ -89,7 +89,7 @@ export class BuildingComponent {
 
 
     @ViewChild("tree") public tree: TreeComponent;
-    @ViewChild("tabs") public tabs:NgbTabset;
+    @ViewChild("tabs") public tabs: NgbTabset;
 
     @ViewChild(InitiativeNodeComponent)
     node: InitiativeNodeComponent;
@@ -101,7 +101,7 @@ export class BuildingComponent {
 
     team: Team;
     tags: Tag[];
-    depth:number = 0;
+    depth: number = 0;
     isFirstEdit: Boolean;
     isExpanding: boolean;
     isCollapsing: boolean;
@@ -172,6 +172,12 @@ export class BuildingComponent {
         let foundTreeNode = this.tree.treeModel.getNodeById(node.id)
         let foundToNode = this.tree.treeModel.getNodeById(to.id);
         TREE_ACTIONS.MOVE_NODE(this.tree.treeModel, foundToNode, {}, { from: foundTreeNode, to: { parent: foundToNode } })
+
+    }
+
+    beforeChange($event: NgbTabChangeEvent) {
+        // Keep this method !
+        // If not present, the change detection doesnt happen on ngbTabSet.select
 
     }
 
@@ -268,7 +274,7 @@ export class BuildingComponent {
                 let defaultTeamId = this.nodes[0].team_id;
                 this.nodes[0].traverse(function (node: Initiative) {
                     node.team_id = defaultTeamId; // For now, the sub initiative are all owned by the same team
-                    this.depth ++;
+                    this.depth++;
                 }.bind(this));
 
                 return Promise.all([this.userService.getUsersInfo(team.members), this.userFactory.getUsers(team.members.map(m => m.user_id))])
