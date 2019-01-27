@@ -46,7 +46,7 @@ describe("initiative.component.ts", () => {
                     },
                     deps: [MockBackend, BaseRequestOptions]
                 },
-                UserService,JwtEncoder, MailingService,AuthConfiguration,
+                UserService, JwtEncoder, MailingService, AuthConfiguration,
                 MockBackend,
                 BaseRequestOptions,
                 ErrorService,
@@ -77,7 +77,7 @@ describe("initiative.component.ts", () => {
             id: 1, name: "ORIGINAL", description: "ORIGINAL", children: [], helpers: [], start: new Date(2010, 1, 1),
             accountable: new Helper({ name: "ORIGINAL" }),
             hasFocus: false, isZoomedOn: false, team_id: "team_id", isSearchedFor: false, search: undefined, traverse: undefined, deserialize: undefined, tryDeserialize: undefined,
-            getSlug: undefined, getParent: undefined, isDraggable: false, traversePromise: undefined, isExpanded: true, getRoles: undefined, tags: [], flatten: undefined, getAllParticipants :undefined
+            getSlug: undefined, getParent: undefined, isDraggable: false, traversePromise: undefined, isExpanded: true, getRoles: undefined, tags: [], flatten: undefined, getAllParticipants: undefined
         };
 
         component.node = inputNode;
@@ -172,7 +172,7 @@ describe("initiative.component.ts", () => {
             it("should save new tag when not present", () => {
                 spyOn(component, "onBlur")
                 component.node.tags = []
-                component.saveTag({ item: new Tag({ shortid: "1", name: "NEW" }), preventDefault: null });
+                component.saveTag(new Tag({ shortid: "1", name: "NEW" }));
                 expect(component.node.tags.length).toBe(1);
                 expect(component.node.tags[0].shortid).toBe("1");
                 expect(component.node.tags[0].name).toEqual("NEW");

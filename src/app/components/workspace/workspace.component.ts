@@ -150,6 +150,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
                 let depth = 0
                 change.initiative.traverse((n) => { depth++ });
+                this.buildingComponent.depth = depth;
+                this.cd.markForCheck();
                 this.intercom.trackEvent("Editing map", { team: this.team.name, teamId: this.team.team_id, datasetId: this.datasetId, mapName: change.initiative.name, circles: depth });
                 return;
             })

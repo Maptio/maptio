@@ -250,7 +250,7 @@ describe("building.component.ts", () => {
                 let root = new Initiative();
                 component.nodes = [root];
                 component.saveChanges();
-                expect(spyEmit).toHaveBeenCalledWith(root);
+                expect(spyEmit).toHaveBeenCalledWith({ initiative: root, tags: component.tags });
             });
 
             // it("should sends data to dataservice", async(() => {
