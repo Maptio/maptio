@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { environment } from '../../../../environment/environment';
+import { ColorEvent } from 'ngx-color';
 
 @Component({
     selector: 'common-color-picker',
@@ -13,24 +14,20 @@ export class ColorPickerComponent implements OnInit {
     @Input("default") defaultColor: string;
     @Input("isMinimal") isMinimal: boolean;
     @Output("change") changeColor: EventEmitter<string> = new EventEmitter<string>();
-
-    DEFAULT_COLOR: string = environment.DEFAULT_MAP_TEXT_COLOR;
-    DEFAULT_PRESETS_COLORS: string[] = environment.DEFAULT_PRESETS_COLORS
-    DEFAULT_PRESETS_LABEL: string = environment.DEFAULT_PRESETS_LABEL;
-
+    
     constructor() { }
 
     ngOnInit(): void { }
 
-    pickColor(color: string) {
-        this.changeColor.emit(color);
-    }
-
-    typeColor(e: { input: string, value: number | string, color: string }) {
-        this.pickColor(e.color);
+    pickColor(e: ColorEvent) {
+        this.changeColor.emit(e.color.hex);
     }
 
     reset() {
-        this.pickColor(this.defaultColor);
+        this.pickColor(<ColorEvent>{
+            color : {
+                hex : this.defaultColor
+            }
+        });
     }
 }

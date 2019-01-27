@@ -3,7 +3,7 @@ import { CreateMapComponent } from './components/create-map/create-map.component
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import { ColorPickerModule } from "ngx-color-picker";
+import { ColorHueModule } from 'ngx-color/hue'; // <color-hue-picker></color-hue-picker>
 
 import { CardMapComponent } from './components/card-map/card-map.component';
 import { RouterModule } from '@angular/router';
@@ -19,7 +19,7 @@ import { AddTerminologyComponent } from "./components/onboarding/add-terminology
 import { ConfirmationPopoverModule } from "../../../node_modules/angular-confirmation-popover";
 import { CommonModalComponent } from "./components/modal/modal.component";
 import { InstructionsComponent } from "./components/instructions/instructions.component";
-import { NgbTooltipModule, NgbModalModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgbTooltipModule, NgbModalModule, NgbPopoverModule } from "@ng-bootstrap/ng-bootstrap";
 
 
 
@@ -30,11 +30,12 @@ import { NgbTooltipModule, NgbModalModule } from "@ng-bootstrap/ng-bootstrap";
         CommonModule,
         BrowserModule,
         RouterModule,
-        ColorPickerModule,
+        ColorHueModule,
         SharedModule,
         ConfirmationPopoverModule,
         NgbTooltipModule, 
-        NgbModalModule
+        NgbModalModule,
+        NgbPopoverModule
     ],
     declarations: [
         CreateMapComponent,

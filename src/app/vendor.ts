@@ -30,7 +30,7 @@ import "slug";
 import "canvg";
 import "moment";
 import "logrocket";
-import "ngx-color-picker"
+import "ngx-color"
 import "@exalif/ngx-breadcrumbs"
 import "ngx-loading"
 import "@ngx-progressbar/core"
