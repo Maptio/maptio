@@ -51,7 +51,8 @@ of lodash in @exalif/ngx-breadcrums
       'lodash.isinteger': 'lodash-es/isinteger',
       'lodash.isnumber': 'lodash-es/isnumber',
       'lodash.isplainobject': 'lodash-es/isplainobject',
-      'lodash.isstring': 'lodash-es/isstring'
+      'lodash.isstring': 'lodash-es/isstring',
+      'mobx': 'mobx/lib/mobx.module'
     }
   },
 
