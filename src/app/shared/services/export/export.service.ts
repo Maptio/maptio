@@ -1,29 +1,22 @@
 import { Initiative } from './../../model/initiative.data';
 import { SlackIntegration } from './../../model/integrations.data';
-import { RequestMethod } from "@angular/http";
-import { Request } from "@angular/http";
-import { Http } from "@angular/http";
-import { RequestOptions, Headers } from "@angular/http";
-
+import { RequestMethod, RequestOptions, Request, Headers } from "@angular/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Rx";
 import { AuthHttp } from "angular2-jwt/angular2-jwt";
 import { DataSet } from "../../model/dataset.data";
-import { D3Service, D3 } from "d3-ng2-service";
+import * as d3 from "d3"
 import { sortBy } from "lodash-es";
-import { Tag } from "../../../shared/model/tag.data";
 import { upperFirst, lowerCase, toLower } from "lodash-es"
 
 @Injectable()
 export class ExportService {
 
-    private d3: D3;
-    constructor(d3Service: D3Service, private http: AuthHttp) {
-        this.d3 = d3Service.getD3();
+    constructor( private http: AuthHttp) {
     }
 
     getReport(dataset: DataSet): Observable<string> {
-        let list = this.d3.hierarchy(dataset.initiative).descendants(); // flatten with lodash if possible
+        let list = d3.hierarchy(dataset.initiative).descendants(); // flatten with lodash if possible
         let exportString: string = "Depth,Circle,Parent Circle,Type,Person,Participants,Helpers,Tags";
 
         dataset.initiative.traverse(i => {

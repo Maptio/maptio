@@ -18,7 +18,7 @@ import {
   ChangeDetectionStrategy,
   isDevMode
 } from "@angular/core";
-import { D3Service, D3, ScaleLinear, HSLColor, HierarchyCircularNode, ScaleLogarithmic } from "d3-ng2-service";
+import * as d3 from "d3";
 import { transition } from "d3-transition";
 import { partition } from "lodash-es";
 import { LoaderService } from "../../../../shared/services/loading/loader.service";
@@ -33,7 +33,6 @@ import * as screenfull from 'screenfull';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MappingZoomableComponent implements IDataVisualizer {
-  private d3: D3;
   private browser: Browsers;
   public datasetId: string;
   public width: number;
@@ -72,8 +71,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
   private g: any;
   private diameter: number;
   private definitions: any;
-  private outerFontScale: ScaleLogarithmic<number, number>;
-  private innerFontScale: ScaleLogarithmic<number, number>;
+  private outerFontScale: d3.ScaleLogarithmic<number, number>;
+  private innerFontScale: d3.ScaleLogarithmic<number, number>;
   public isWaitingForDestinationNode: boolean = false;
   public isTooltipDescriptionVisible: boolean = false;
   public isFirstEditing: boolean = false;
@@ -105,7 +104,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
   counter: number = 0;
 
   constructor(
-    public d3Service: D3Service,
     public colorService: ColorService,
     public uiService: UIService,
     public router: Router,
@@ -116,8 +114,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     private uriService: URIService,
     private loaderService: LoaderService
   ) {
-    this.d3 = d3Service.getD3();
-    this.T = this.d3.transition(null).duration(this.TRANSITION_DURATION);
+    this.T = d3.transition(null).duration(this.TRANSITION_DURATION);
   }
 
   ngOnInit() {
@@ -189,8 +186,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
   init() {
     this.uiService.clean();
-    const d3 = this.d3;
-
     const margin = { top: 20, right: 20, bottom: 20, left: 0 };
     const width: number = this.width - margin.left - margin.right,
       height: number = this.height - margin.top - margin.bottom;
@@ -332,10 +327,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
     const zoomFactor: number = event.transform.k > 1 ? event.transform.k : 1;
     const scaleExtent: Array<number> = this.zooming.scaleExtent() ? this.zooming.scaleExtent() : [0.5, 5];
     this.outerFontScale.domain(scaleExtent);
-    const myInnerFontScale: ScaleLogarithmic<number, number> = this.innerFontScale.domain(scaleExtent);
+    const myInnerFontScale: d3.ScaleLogarithmic<number, number> = this.innerFontScale.domain(scaleExtent);
 
     const outerFontSize: number = this.outerFontScale(zoomFactor);
-    const select: Function = this.d3.select;
+    const select: Function = d3.select;
     const MAX_NUMBER_LETTERS_PER_CIRCLE = this.MAX_NUMBER_LETTERS_PER_CIRCLE;
     const definitions = this.definitions;
 
@@ -420,12 +415,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this._lastZoomedCircle = circle;
   }
 
-  update(data: Initiative, seedColor: string, isFirstLoad: boolean): HierarchyCircularNode<{}>[] {
-    if (this.d3.selectAll("g").empty()) {
+  update(data: Initiative, seedColor: string, isFirstLoad: boolean): d3.HierarchyCircularNode<{}>[] {
+    if (d3.selectAll("g").empty()) {
       this.init();
     }
 
-    let d3 = this.d3;
     let diameter = this.diameter;
     let g = this.g;
     let svg = this.svg;

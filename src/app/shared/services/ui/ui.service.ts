@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
-import { D3Service, D3, Selection, BaseType } from "d3-ng2-service";
+import * as d3 from "d3";
+// import { D3Service, D3, Selection, BaseType } from "d3-ng2-service";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import { Tag } from "../../model/tag.data";
@@ -25,12 +26,10 @@ export enum Browsers {
 
 @Injectable()
 export class UIService {
-  private d3: D3;
 
   // private tooltip$: Subject<[string, Initiative, Initiative]>
 
-  constructor(d3Service: D3Service, private markdown: MarkdownService, private deviceService: DeviceDetectorService) {
-    this.d3 = d3Service.getD3();
+  constructor(private markdown: MarkdownService, private deviceService: DeviceDetectorService) {
     // this.tooltip$ = new Subject<[string, Initiative, Initiative]>();
   }
 
@@ -125,11 +124,11 @@ export class UIService {
   }
 
   public clean() {
-    this.d3
+    d3
       .select("svg")
       .selectAll("*")
       .remove();
-    this.d3.selectAll("div.arrow_box").remove();
+    d3.selectAll("div.arrow_box").remove();
   }
 
 

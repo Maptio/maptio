@@ -18,7 +18,7 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy
 } from "@angular/core";
-import { D3Service, D3, ForceLink, HierarchyNode } from "d3-ng2-service";
+import * as d3 from "d3";
 import { IDataVisualizer } from "../mapping.interface";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { flatten, uniqBy, remove, partition, flow, groupBy, map, flattenDeep } from "lodash-es";
@@ -31,8 +31,6 @@ import { flatten, uniqBy, remove, partition, flow, groupBy, map, flattenDeep } f
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MappingNetworkComponent implements OnInit, IDataVisualizer {
-  private d3: D3;
-
   public datasetId: string;
   public width: number;
   public height: number;
@@ -96,7 +94,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   public isLoading: boolean;
 
   constructor(
-    public d3Service: D3Service,
     public colorService: ColorService,
     public uiService: UIService,
     private cd: ChangeDetectorRef,
@@ -104,7 +101,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     private dataService: DataService,
     private uriService: URIService
   ) {
-    this.d3 = d3Service.getD3();
   }
 
   ngOnInit() {
@@ -148,7 +144,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   init() {
     this.uiService.clean();
 
-    let d3 = this.d3;
 
     let svg: any = d3
       .select("svg#map")
@@ -330,7 +325,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   }
 
 
-  private prepareAuthorityCentric(initiativeList: HierarchyNode<Initiative>[]) {
+  private prepareAuthorityCentric(initiativeList: d3.HierarchyNode<Initiative>[]) {
     let nodesRaw = initiativeList
       .map(d => {
         let all = flatten([...[d.data.accountable], d.data.helpers]);
@@ -407,7 +402,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     };
   }
 
-  private prepareHelperCentric(initiativeList: HierarchyNode<Initiative>[]) {
+  private prepareHelperCentric(initiativeList: d3.HierarchyNode<Initiative>[]) {
     let nodesRaw = initiativeList
       .map(d => {
         let all = flatten([...[d.data.accountable], d.data.helpers]);
@@ -508,11 +503,10 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   }
 
   public update(data: any, seedColor: string, isAuthorityCentricMode: boolean) {
-    if (this.d3.selectAll("g").empty()) {
+    if (d3.selectAll("g").empty()) {
       this.init();
     }
 
-    let d3 = this.d3;
     let g = this.g;
     let svg = this.svg;
     let fontSize = this.fontSize;
@@ -533,7 +527,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     let hideOptions$ = this.hideOptions$;
     let highlightElement = this.highlightElement;
 
-    let initiativesList: HierarchyNode<Initiative>[] = this.d3
+    let initiativesList: d3.HierarchyNode<Initiative>[] = d3
       .hierarchy(data)
       .descendants();
 
@@ -874,7 +868,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
     simulation.nodes(graph.nodes).on("tick", ticked);
 
-    simulation.force<ForceLink<any, any>>("link").links(graph.links);
+    simulation.force<d3.ForceLink<any, any>>("link").links(graph.links);
 
     function ticked() {
       link.attr("d", positionLink);

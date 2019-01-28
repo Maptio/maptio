@@ -16,7 +16,7 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy
 } from "@angular/core";
-import { D3Service, D3 } from "d3-ng2-service";
+import * as d3 from "d3";
 import { partition } from "lodash-es";
 import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
@@ -33,7 +33,6 @@ import { MapSettingsService, MapSettings } from "../../../../shared/services/map
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MappingTreeComponent implements OnInit, IDataVisualizer {
-  private d3: D3;
   public width: number;
 
   public datasetId: string;
@@ -91,7 +90,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   public _isDisplayOptions: Boolean = false;
 
   constructor(
-    public d3Service: D3Service,
     public colorService: ColorService,
     public uiService: UIService,
     public router: Router,
@@ -101,7 +99,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     private uriService: URIService,
     private mapSettingsService: MapSettingsService
   ) {
-    this.d3 = d3Service.getD3();
   }
 
   ngOnInit() {
@@ -164,7 +161,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
   init() {
     this.uiService.clean();
-    let d3 = this.d3;
 
     // let margins = { top: 0, right: this.margin, bottom: this.margin, left: this.margin }
 
@@ -308,11 +304,10 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
 
   update(tags: Array<SelectableTag>, isAllExpanded: boolean, isAllCollapsed: boolean) {
-    if (this.d3.selectAll("g").empty()) {
+    if (d3.selectAll("g").empty()) {
       this.init();
     }
 
-    let d3 = this.d3;
     let colorService = this.colorService;
     let uiService = this.uiService;
     let mapSettingsService = this.mapSettingsService;

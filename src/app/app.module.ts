@@ -12,7 +12,6 @@ import { ConfirmationPopoverModule } from "angular-confirmation-popover";
 import { AuthHttp } from "angular2-jwt";
 import { Angulartics2Mixpanel, Angulartics2Module } from "angulartics2";
 import { Cloudinary } from "cloudinary-core";
-import { D3Service } from "d3-ng2-service";
 import { FileUploadModule } from "ng2-file-upload";
 import { ResponsiveModule } from "ng2-responsive";
 import { BreadcrumbsModule, BreadcrumbsConfig, Breadcrumb } from "@exalif/ngx-breadcrumbs";
@@ -177,7 +176,7 @@ export const cloudinaryLib = {
         BrowserAnimationsModule,
         AuthGuard, AccessGuard, WorkspaceGuard, PermissionGuard, BillingGuard,
         AuthConfiguration,
-        D3Service, DataService, CounterService, URIService, ColorService, UIService, DatasetFactory, TeamFactory,
+        DataService, CounterService, URIService, ColorService, UIService, DatasetFactory, TeamFactory,
         ErrorService, Auth, UserService, TeamService, MapService, UserFactory, MailingService, JwtEncoder, LoaderService,
         ExportService, FileService, PermissionService, BillingService, InstructionsService, OnboardingService,
         Location,

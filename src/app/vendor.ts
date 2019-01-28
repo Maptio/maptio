@@ -18,17 +18,16 @@ import "date-fns/difference_in_days"
 import "date-fns/is_after"
 import "date-fns/parse"
 
+//d3
+import "d3";
+
 // Other vendors for example jQuery, Lodash or Bootstrap
 import "angular2-jwt";
-import "jquery"
-import "popper.js"
-import "bootstrap";
 import "@ng-bootstrap/ng-bootstrap";
 import "@cloudinary/angular-5.x";
 import "cloudinary-core";
 import "auth0-js";
 import "ng2-responsive";
-import "d3-ng2-service";
 import "angular-tree-component";
 import "angulartics2";
 import "ng2-file-upload";
