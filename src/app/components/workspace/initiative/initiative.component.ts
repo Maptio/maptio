@@ -25,9 +25,9 @@ import { switchMap } from "rxjs/operator/switchMap";
 import { of } from "rxjs/observable/of";
 import { debounceTime } from "rxjs/operator/debounceTime";
 import { distinctUntilChanged } from "rxjs/operator/distinctUntilChanged";
-import { compact, sortBy } from "lodash";
+import { compact, sortBy } from "lodash-es";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2/dist";
-import { remove } from "lodash"
+import { remove } from "lodash-es"
 import { UserService } from "../../../shared/services/user/user.service";
 
 @Component({

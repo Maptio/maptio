@@ -13,7 +13,7 @@ import {
 } from "@angular/core";
 import { ActivatedRoute, Router, Params } from "@angular/router";
 import { Angulartics2Mixpanel } from "angulartics2";
-import { compact } from "lodash";
+import { compact } from "lodash-es";
 import { BehaviorSubject, ReplaySubject, Subject, Subscription } from "rxjs";
 
 import { saveAs } from "file-saver"

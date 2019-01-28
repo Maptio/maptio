@@ -7,7 +7,7 @@ import { Team } from "../../shared/model/team.data";
 import { User } from "../../shared/model/user.data";
 import { DatasetFactory } from "../../shared/services/dataset.factory";
 import { TeamFactory } from "../../shared/services/team.factory";
-import { sortBy, isEmpty } from "lodash";
+import { sortBy, isEmpty } from "lodash-es";
 import { LoaderService } from "../../shared/services/loading/loader.service";
 import { TeamService } from "../../shared/services/team/team.service";
 import { MapService } from "../../shared/services/map/map.service";

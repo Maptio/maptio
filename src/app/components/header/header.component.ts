@@ -12,7 +12,7 @@ import { EmitterService } from "../../shared/services/emitter.service";
 import { ErrorService } from "../../shared/services/error/error.service";
 import { Initiative } from "../../shared/model/initiative.data";
 import { UserService } from "../../shared/services/user/user.service";
-import { sortBy, isEmpty } from "lodash";
+import { sortBy, isEmpty } from "lodash-es";
 import { SafeUrl, DomSanitizer } from "@angular/platform-browser";
 import { BillingService } from "../../shared/services/billing/billing.service";
 import { LoaderService } from "../../shared/services/loading/loader.service";

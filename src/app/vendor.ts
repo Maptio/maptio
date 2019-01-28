@@ -8,9 +8,12 @@ import "@angular/router";
 import "@angular/platform-browser/animations";
 // RxJS
 import "rxjs";
+
+//Lodash
+import "lodash-es";
+
 // Other vendors for example jQuery, Lodash or Bootstrap
 import "angular2-jwt";
-import "lodash";
 import "jquery"
 import "popper.js"
 import "bootstrap";

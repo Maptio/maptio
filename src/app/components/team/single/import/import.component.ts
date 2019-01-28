@@ -11,7 +11,7 @@ import { UserService } from "./../../../../shared/services/user/user.service";
 import { Team } from "./../../../../shared/model/team.data";
 import { Component, OnInit, ViewChild, ChangeDetectorRef } from "@angular/core";
 import { Constants, FileService } from "../../../../shared/services/file/file.service";
-import { drop } from "lodash";
+import { drop } from "lodash-es";
 
 @Component({
     selector: "team-single-import",

@@ -7,7 +7,7 @@
 // import { TeamFactory } from "../../shared/services/team.factory";
 // import { ErrorService } from "../../shared/services/error/error.service";
 // import { User } from "../../shared/model/user.data";
-// import { sortBy } from "lodash";
+// import { sortBy } from "lodash-es";
 // import { Team } from "../../shared/model/team.data";
 
 // @Injectable()

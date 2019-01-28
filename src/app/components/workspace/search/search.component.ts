@@ -4,7 +4,7 @@ import { Component, OnInit, ChangeDetectorRef, Input, Output, EventEmitter } fro
 import { NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-bootstrap";
 import { Observable } from "rxjs/Observable";
 import { User } from "../../../shared/model/user.data";
-import { flatten, uniqBy } from "lodash"
+import { flatten, uniqBy } from "lodash-es"
 
 export enum SearchResultType {
     Initiative,

@@ -9,7 +9,7 @@ import { MailingService } from "../mailing/mailing.service";
 import { UUID } from "angular2-uuid/index";
 import { EmitterService } from "../emitter.service";
 import { Observable } from "rxjs/Rx";
-import { flatten } from "lodash"
+import { flatten } from "lodash-es"
 import { UserFactory } from '../user.factory';
 
 @Injectable()

@@ -4,7 +4,7 @@ import { User } from "../../../../../shared/model/user.data";
 // import { Tag, SelectableTag } from "../../../../../shared/model/tag.data";
 import { Team } from "../../../../../shared/model/team.data";
 import { Router } from "@angular/router";
-import { sortBy } from "lodash";
+import { sortBy } from "lodash-es";
 import { DataSet } from "../../../../../shared/model/dataset.data";
 import { MapSettingsService } from "../../../../../shared/services/map/map-settings.service";
 

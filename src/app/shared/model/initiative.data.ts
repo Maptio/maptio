@@ -4,7 +4,7 @@ import { Serializable } from "../interfaces/serializable.interface";
 import * as slug from "slug";
 import { Helper } from "./helper.data";
 import { Role } from "./role.data";
-import { compact, remove, flatten } from "lodash";
+import { compact, remove, flatten } from "lodash-es";
 import { Tag } from "./tag.data";
 
 @Injectable()

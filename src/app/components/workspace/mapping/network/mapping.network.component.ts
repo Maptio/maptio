@@ -21,7 +21,7 @@ import {
 import { D3Service, D3, ForceLink, HierarchyNode } from "d3-ng2-service";
 import { IDataVisualizer } from "../mapping.interface";
 import { Angulartics2Mixpanel } from "angulartics2";
-import { compact, flatten, uniqBy, remove, flattenDeep, partition, isEmpty, groupBy, chain } from "lodash";
+import { compact, flatten, uniqBy, remove, flattenDeep, partition, isEmpty, groupBy } from "lodash-es";
 
 @Component({
   selector: "network",
@@ -384,20 +384,21 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       });
 
 
-    let links = chain(rawlinks).groupBy("linkid")
-      .map((items: any, linkid: string) => {
-        return {
-          source: items[0].source,
-          target: items[0].target,
-          type: items[0].type,
-          weight: items.length,
-          initiatives: items.map((item: any) => item.initiative),
-          tags: flattenDeep(items.map((item: any) => item.tags)).map(
-            (t: Tag) => t.shortid
-          )
-        };
-      })
-      .value();
+      let links : any;
+    // let links = chain(rawlinks).groupBy("linkid")
+    //   .map((items: any, linkid: string) => {
+    //     return {
+    //       source: items[0].source,
+    //       target: items[0].target,
+    //       type: items[0].type,
+    //       weight: items.length,
+    //       initiatives: items.map((item: any) => item.initiative),
+    //       tags: flattenDeep(items.map((item: any) => item.tags)).map(
+    //         (t: Tag) => t.shortid
+    //       )
+    //     };
+    //   })
+    //   .value();
 
     return {
       nodes: uniqBy(nodesRaw, u => {
@@ -467,21 +468,22 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         };
       });
 
-    let links = chain(rawlinks).groupBy("linkid")
-      .map((items: any, linkid: string) => {
-        let uniqueItems = uniqBy(items, (i: any) => i.initiative);
-        return {
-          source: uniqueItems[0].source,
-          target: uniqueItems[0].target,
-          type: uniqueItems[0].type,
-          weight: uniqueItems.length,
-          initiatives: uniqueItems.map((item: any) => item.initiative),
-          tags: flattenDeep(uniqueItems.map((item: any) => item.tags)).map(
-            (t: Tag) => t.shortid
-          )
-        };
-      })
-      .value();
+      let links:any;
+    // let links = chain(rawlinks).groupBy("linkid")
+    //   .map((items: any, linkid: string) => {
+    //     let uniqueItems = uniqBy(items, (i: any) => i.initiative);
+    //     return {
+    //       source: uniqueItems[0].source,
+    //       target: uniqueItems[0].target,
+    //       type: uniqueItems[0].type,
+    //       weight: uniqueItems.length,
+    //       initiatives: uniqueItems.map((item: any) => item.initiative),
+    //       tags: flattenDeep(uniqueItems.map((item: any) => item.tags)).map(
+    //         (t: Tag) => t.shortid
+    //       )
+    //     };
+    //   })
+    //   .value();
 
     return {
       nodes: uniqBy(nodesRaw, u => {

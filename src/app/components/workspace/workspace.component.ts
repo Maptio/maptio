@@ -16,7 +16,7 @@ import {
 import { ActivatedRoute } from "@angular/router";
 import { User } from "../../shared/model/user.data";
 import { Tag, SelectableTag } from "../../shared/model/tag.data";
-import { intersectionBy } from "lodash";
+import { intersectionBy } from "lodash-es";
 import { UIService } from "../../shared/services/ui/ui.service";
 import { Intercom } from "ng-intercom";
 import { OnboardingComponent } from "../../shared/components/onboarding/onboarding.component";

@@ -20,7 +20,7 @@ import {
 } from "@angular/core";
 import { D3Service, D3, ScaleLinear, HSLColor, HierarchyCircularNode, ScaleLogarithmic } from "d3-ng2-service";
 import { transition } from "d3-transition";
-import { partition } from "lodash";
+import { partition } from "lodash-es";
 import { LoaderService } from "../../../../shared/services/loading/loader.service";
 import { Team } from "../../../../shared/model/team.data";
 import * as screenfull from 'screenfull';

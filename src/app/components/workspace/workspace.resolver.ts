@@ -5,7 +5,7 @@ import { DataSet } from "../../shared/model/dataset.data";
 import { Injectable } from "@angular/core";
 import { TeamFactory } from "../../shared/services/team.factory";
 import { User } from "../../shared/model/user.data";
-import { compact, sortBy } from "lodash";
+import { compact, sortBy } from "lodash-es";
 import { Team } from "../../shared/model/team.data";
 import { UserFactory } from "../../shared/services/user.factory";
 import { SelectableTag } from "../../shared/model/tag.data";

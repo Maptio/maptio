@@ -1,4 +1,4 @@
-import { sortBy } from "lodash";
+import { sortBy } from "lodash-es";
 import { DatasetFactory } from "./../../../shared/services/dataset.factory";
 import { DataSet } from "./../../../shared/model/dataset.data";
 import { Auth } from "./../../../shared/services/auth/auth.service";

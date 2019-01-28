@@ -3,7 +3,7 @@ var router = express.Router();
 var mongojs = require('mongojs');
 var fs = require("fs");
 var path = require('path');
-var _ = require("lodash");
+var template = require("lodash/template");
 require('dotenv').config()
 var db = mongojs(process.env.ENV === "production" ? process.env.MONGODB_URI : process.env.MONGODB_URI_LOCAL, ['datasets']);
 
@@ -48,7 +48,7 @@ router.get('/in/:query', function (req, res, next) {
 router.get('/template/:name', function (req, res, next) {
     let name = req.params.name;
     let teamId = req.query.teamId;
-    let template = _.template(fs.readFileSync(path.join(__dirname, "..", `public/templates/maps/${name}.json`)));
+    let template = template(fs.readFileSync(path.join(__dirname, "..", `public/templates/maps/${name}.json`)));
     let templated = JSON.parse(template({ teamId: teamId }));
     res.json(templated);
 

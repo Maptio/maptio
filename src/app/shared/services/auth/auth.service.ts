@@ -13,7 +13,7 @@ import { UserFactory } from "../user.factory";
 import { User } from "../../model/user.data";
 import { EmitterService } from "../emitter.service";
 import { tokenNotExpired } from "angular2-jwt/angular2-jwt";
-import { uniq } from "lodash";
+import { uniq } from "lodash-es";
 import * as LogRocket from "logrocket";
 import { Intercom } from "ng-intercom";
 import { local } from "../../../../../node_modules/@types/d3-selection";

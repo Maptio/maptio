@@ -4,7 +4,7 @@ import { ExportService } from '../../services/export/export.service';
 import { saveAs } from "file-saver"
 import { DatasetFactory } from '../../services/dataset.factory';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { cloneDeep } from "lodash"
+import { cloneDeep } from "lodash-es"
 import { Permissions } from '../../model/permission.data';
 
 @Component({

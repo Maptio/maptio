@@ -17,7 +17,7 @@ import {
   ChangeDetectionStrategy
 } from "@angular/core";
 import { D3Service, D3 } from "d3-ng2-service";
-import { partition } from "lodash";
+import { partition } from "lodash-es";
 import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
 import { BehaviorSubject } from "../../../../../../node_modules/rxjs";

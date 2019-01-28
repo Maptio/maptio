@@ -33,7 +33,39 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['*', '.ts', '.js']
+    extensions: ['*', '.ts', '.js'],
+    alias: {
+      'lodash': 'lodash-es',
+      'lodash.template': 'lodash-es/template',
+      /*
+Error : "There are multiple modules with names that only differ in casing" created by poor import 
+of lodash in @exalif/ngx-breadcrums
+    'lodash.templatesettings': 'lodash-es/templatesettings',
+      'lodash.templateSettings': 'lodash-es/templatesettings',
+      'lodash._reinterpolate': 'lodash-es/_reinterpolate',
+      */
+
+      'lodash.includes': 'lodash-es/includes',
+      'lodash.isboolean': 'lodash-es/isboolean',
+      'lodash.isinteger': 'lodash-es/isinteger',
+      'lodash.isnumber': 'lodash-es/isnumber',
+      'lodash.isplainobject': 'lodash-es/isplainobject',
+      'lodash.isstring': 'lodash-es/isstring'
+    }
+  },
+
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          name: 'vendor',
+          test: /\/node_modules\//,
+          chunks: 'all',
+          priority: 0,
+          enforce: true,
+        },
+      }
+    },
   },
 
   module: {

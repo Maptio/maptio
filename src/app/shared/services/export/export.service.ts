@@ -10,9 +10,9 @@ import { Observable } from "rxjs/Rx";
 import { AuthHttp } from "angular2-jwt/angular2-jwt";
 import { DataSet } from "../../model/dataset.data";
 import { D3Service, D3 } from "d3-ng2-service";
-import { sortBy } from "lodash";
+import { sortBy } from "lodash-es";
 import { Tag } from "../../../shared/model/tag.data";
-import { upperFirst, lowerCase, toLower } from "lodash"
+import { upperFirst, lowerCase, toLower } from "lodash-es"
 
 @Injectable()
 export class ExportService {

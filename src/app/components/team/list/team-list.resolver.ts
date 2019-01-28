@@ -6,7 +6,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Rx";
 import { TeamFactory } from "../../../shared/services/team.factory";
 import { Team } from "../../../shared/model/team.data";
-import { differenceBy, sortBy, isEmpty } from "lodash"
+import { differenceBy, sortBy, isEmpty } from "lodash-es"
 
 @Injectable()
 export class TeamListComponentResolver implements Resolve<Team[]> {

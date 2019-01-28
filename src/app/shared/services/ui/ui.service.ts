@@ -8,7 +8,7 @@ import { Helper } from "../../model/helper.data";
 import { MarkdownService } from "angular2-markdown";
 import { Role } from "../../model/role.data";
 import { User } from "../../model/user.data";
-import { isEmpty, intersection } from "lodash"
+import { isEmpty, intersection } from "lodash-es"
 import { DeviceDetectorService } from 'ngx-device-detector';
 import * as screenfull from 'screenfull';
 

@@ -6,7 +6,7 @@ import { Auth } from "../../../../shared/services/auth/auth.service";
 import { User } from "../../../../shared/model/user.data";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { Permissions } from "../../../../shared/model/permission.data";
-import {sortBy} from "lodash";
+import {sortBy} from "lodash-es";
 
 @Component({
     selector: "team-single-maps",

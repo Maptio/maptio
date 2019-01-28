@@ -1,4 +1,4 @@
-import { compact } from "lodash";
+import { compact } from "lodash-es";
 import { SlackIntegration } from "./../../../../shared/model/integrations.data";
 
 import { TeamIntegrationsComponent } from "./integrations.component";

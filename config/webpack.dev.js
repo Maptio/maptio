@@ -22,10 +22,6 @@ module.exports = webpackMerge(commonConfig, {
     chunkFilename: '[id].chunk.js'
   },
 
-  optimization: {
-    noEmitOnErrors: true
-  },
-
   module: {
     rules: [
       {
@@ -45,17 +41,8 @@ module.exports = webpackMerge(commonConfig, {
   },
 
   optimization: {
-    splitChunks: {
-      cacheGroups: {
-        vendor: {
-          name: 'vendor',
-          test: /\/node_modules\//,
-          chunks: 'all',
-          priority: 0,
-          enforce: true,
-        },
-      }
-    }
+
+    noEmitOnErrors: true
   },
 
   plugins: [
