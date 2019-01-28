@@ -36,10 +36,11 @@ module.exports = {
     extensions: ['*', '.ts', '.js'],
     alias: {
       'lodash': 'lodash-es',
-      'lodash.template': 'lodash-es/template',
+      
       /*
 Error : "There are multiple modules with names that only differ in casing" created by poor import 
 of lodash in @exalif/ngx-breadcrums
+'lodash.template': 'lodash-es/template',
     'lodash.templatesettings': 'lodash-es/templatesettings',
       'lodash.templateSettings': 'lodash-es/templatesettings',
       'lodash._reinterpolate': 'lodash-es/_reinterpolate',
