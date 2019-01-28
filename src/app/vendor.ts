@@ -9,8 +9,14 @@ import "@angular/platform-browser/animations";
 // RxJS
 import "rxjs";
 
-//Lodash
+// Lodash
 import "lodash-es";
+
+// date-fns
+import "date-fns/distance_in_words_to_now";
+import "date-fns/difference_in_days"
+import "date-fns/is_after"
+import "date-fns/parse"
 
 // Other vendors for example jQuery, Lodash or Bootstrap
 import "angular2-jwt";
@@ -31,7 +37,6 @@ import "angular2-markdown";
 import "marked";
 import "slug";
 import "canvg";
-import "moment";
 import "logrocket";
 import "ngx-color"
 import "@exalif/ngx-breadcrumbs"

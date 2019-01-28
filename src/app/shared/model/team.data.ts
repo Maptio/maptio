@@ -2,7 +2,7 @@ import { SlackIntegration } from "./integrations.data";
 import { Serializable } from "./../interfaces/serializable.interface";
 import { User } from "./user.data";
 import * as slug from "slug";
-import * as moment from 'moment';
+import { addDays, differenceInDays, isAfter } from 'date-fns';
 import { create } from "domain";
 import { environment } from "../../../environment/environment";
 
@@ -33,18 +33,18 @@ export class Team implements Serializable<Team> {
      * True if the team is temporary, false otherwise
      * N.B. Temporary team is needed as placeholder so that users can create maps
      */
-    public isTemporary:boolean
-    
+    public isTemporary: boolean
+
     /**
      * List of associated team ids
      * i.e. demo teams 
      */
-    public associatedTeams : string[]
+    public associatedTeams: string[]
 
     /**
      * True if this team is used for demo purposed, false otherwise
      */
-    public isExample:boolean;
+    public isExample: boolean;
 
     /**
      * List of team members
@@ -61,10 +61,10 @@ export class Team implements Serializable<Team> {
 
     public isPaying: Boolean;
 
-    public planName:string;
+    public planName: string;
 
-    public planLimit:number;
-    public planMonthlyPrice:number;
+    public planLimit: number;
+    public planMonthlyPrice: number;
 
     public constructor(init?: Partial<Team>) {
         Object.assign(this, init);
@@ -121,15 +121,13 @@ export class Team implements Serializable<Team> {
     }
 
     getRemainingTrialDays() {
-        let cutoffDate = moment(this.createdAt).add(<moment.DurationInputArg1>this.freeTrialLength, "d");
-        return Math.ceil(moment.duration(cutoffDate.diff(moment())).asDays());
+        let cutoffDate = addDays(this.createdAt, <number>this.freeTrialLength)
+        return Math.ceil(differenceInDays(cutoffDate, Date.now()));
     }
 
-    isTeamLateOnPayment(){
-        let cutoffDate = moment(this.createdAt).add(<moment.DurationInputArg1>this.freeTrialLength, "d");
-        return this.isPaying 
-        ? false
-        : moment().isAfter(cutoffDate)
+    isTeamLateOnPayment() {
+        let cutoffDate = addDays(this.createdAt, <number>this.freeTrialLength)
+        return this.isPaying ? false : isAfter(Date.now(), cutoffDate)
     }
 
 }

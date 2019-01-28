@@ -7,7 +7,7 @@ import { Intercom } from 'ng-intercom';
 import { Team } from '../../../../shared/model/team.data';
 import { Observable, Subscription } from 'rxjs';
 import { FormGroup, FormControl, Validators } from '../../../../../../node_modules/@angular/forms';
-import * as moment from "moment";
+import { distanceInWordsToNow } from "date-fns"
 
 @Component({
     selector: 'member-single',
@@ -116,7 +116,7 @@ export class MemberSingleComponent implements OnInit {
     }
 
     getAgo(date: any) {
-        return moment.isMoment(date) ? moment(date).fromNow() : "Never";
+        return date ? distanceInWordsToNow(date) : "Never"
     }
 
     updateUser() {
@@ -157,7 +157,7 @@ export class MemberSingleComponent implements OnInit {
                         this.cd.markForCheck();
                     }
                 })
-                .then(()=>{
+                .then(() => {
                     this.isSaving = false;
                     this.cd.markForCheck();
                 })
