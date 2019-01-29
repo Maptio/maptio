@@ -10,7 +10,6 @@ import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { ActivatedRoute } from "@angular/router";
 import { UIService } from "../../../shared/services/ui/ui.service";
 import { ColorService } from "../../../shared/services/ui/color.service";
-import { D3Service } from "d3-ng2-service";
 import { Observable } from "rxjs/Observable";
 import { ErrorService } from "../../../shared/services/error/error.service";
 import { MockBackend } from "@angular/http/testing";
@@ -40,7 +39,7 @@ describe("mapping.component.ts", () => {
         TestBed.configureTestingModule({
             providers: [
                 DeviceDetectorService,
-                DataService, ErrorService, D3Service, ColorService, URIService, Angulartics2Mixpanel, Angulartics2,
+                DataService, ErrorService,  ColorService, URIService, Angulartics2Mixpanel, Angulartics2,
                 UserFactory, ExportService, MapSettingsService,
                 {
                     provide: Http,
@@ -117,17 +116,17 @@ describe("mapping.component.ts", () => {
 
         describe("getFragment", () => {
             it("should return correct fragment  when layout is initiatives", () => {
-                let actual = component.getFragment(new MappingZoomableComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined));
+                let actual = component.getFragment(new MappingZoomableComponent(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined));
                 expect(actual).toBe(`x=${(component.VIEWPORT_WIDTH - 20) / 2}&y=${(component.VIEWPORT_WIDTH - 20) / 2}&scale=1`)
             });
 
             it("should return correct fragment when layout is people", () => {
-                let actual = component.getFragment(new MappingTreeComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined));
+                let actual = component.getFragment(new MappingTreeComponent( undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined));
                 expect(actual).toBe(`x=${component.VIEWPORT_WIDTH / 10}&y=${component.VIEWPORT_HEIGHT / 2}&scale=1`)
             });
 
             it("should return correct fragment when layout is network", () => {
-                let actual = component.getFragment(new MappingNetworkComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined));
+                let actual = component.getFragment(new MappingNetworkComponent(undefined, undefined, undefined, undefined, undefined, undefined));
                 expect(actual).toBe(`x=0&y=${-component.VIEWPORT_HEIGHT / 4}&scale=1`)
             });
 
@@ -187,7 +186,7 @@ describe("mapping.component.ts", () => {
         });
 
         it("onActivate", () => {
-            let activated = <IDataVisualizer>new MappingNetworkComponent(new D3Service(), undefined, undefined, undefined, undefined, undefined, undefined)
+            let activated = <IDataVisualizer>new MappingNetworkComponent(undefined, undefined, undefined, undefined, undefined, undefined)
             spyOn(component, "getFragment").and.returnValue("x=10&y=100&scale=1.3")
 
             component.onActivate(activated);

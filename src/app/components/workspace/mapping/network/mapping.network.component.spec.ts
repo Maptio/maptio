@@ -14,7 +14,6 @@ import { AuthHttp } from "angular2-jwt";
 import { Router, NavigationStart } from "@angular/router";
 import { Observable, Subject } from "rxjs/Rx";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
-import { D3Service, D3 } from "d3-ng2-service";
 import { TestBed, async, ComponentFixture } from "@angular/core/testing";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2/dist";
 import { RouterTestingModule } from "@angular/router/testing";
@@ -27,13 +26,12 @@ describe("mapping.network.component.ts", () => {
 
     let component: MappingNetworkComponent;
     let target: ComponentFixture<MappingNetworkComponent>;
-    let d3: D3;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
                 DeviceDetectorService,
-                D3Service, ColorService, UIService, URIService, DataService, UserFactory, Angulartics2Mixpanel, Angulartics2,
+                ColorService, UIService, URIService, DataService, UserFactory, Angulartics2Mixpanel, Angulartics2,
                 {
                     provide: AuthHttp,
                     useFactory: authHttpServiceFactoryTesting,
@@ -68,7 +66,6 @@ describe("mapping.network.component.ts", () => {
     beforeEach(() => {
         target = TestBed.createComponent(MappingNetworkComponent);
         component = target.componentInstance;
-        d3 = component.d3Service.getD3();
 
         component.height = window.screen.availHeight;
         component.width = window.screen.availWidth;

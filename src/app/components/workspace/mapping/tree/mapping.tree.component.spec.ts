@@ -14,7 +14,6 @@ import { AuthHttp } from "angular2-jwt";
 import { Router, NavigationStart } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Observable, Subject, BehaviorSubject } from "rxjs/Rx";
-import { D3Service, D3 } from "d3-ng2-service";
 import { TestBed, async, ComponentFixture } from "@angular/core/testing";
 import { MappingTreeComponent } from "./mapping.tree.component";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
@@ -29,14 +28,13 @@ describe("mapping.tree.component.ts", () => {
 
     let component: MappingTreeComponent;
     let target: ComponentFixture<MappingTreeComponent>;
-    let d3: D3;
     // let data$: Subject<{ initiative: Initiative, datasetId: string }> = new Subject<{ initiative: Initiative, datasetId: string }>();
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
                 DeviceDetectorService,
-                D3Service, ColorService, UIService, DataService, URIService,
+                 ColorService, UIService, DataService, URIService,
                 MapSettingsService,
                 UserFactory, Angulartics2Mixpanel, Angulartics2,
                 {
@@ -73,7 +71,6 @@ describe("mapping.tree.component.ts", () => {
     beforeEach(() => {
         target = TestBed.createComponent(MappingTreeComponent);
         component = target.componentInstance;
-        d3 = component.d3Service.getD3();
 
         component.width = window.screen.availWidth;
         component.height = window.screen.availHeight;

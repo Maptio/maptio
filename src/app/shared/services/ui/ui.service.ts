@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import * as d3 from "d3";
-// import { D3Service, D3, Selection, BaseType } from "d3-ng2-service";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import { Tag } from "../../model/tag.data";

@@ -18,7 +18,6 @@ import { DataSet } from "../../shared/model/dataset.data";
 import { ActivatedRoute } from "@angular/router";
 // import { DashboardComponentResolver } from "./dashboard.resolver";
 import { ExportService } from "../../shared/services/export/export.service";
-import { D3Service } from "d3-ng2-service";
 import * as filesaver from "file-saver"
 
 describe("dashboard.component.ts", () => {
@@ -36,7 +35,7 @@ describe("dashboard.component.ts", () => {
         }).overrideComponent(DashboardComponent, {
             set: {
                 providers: [
-                    DatasetFactory, TeamFactory, ExportService, D3Service,
+                    DatasetFactory, TeamFactory, ExportService,
                     {
                         provide: ActivatedRoute, useClass: class {
                             get data() { return datasets$.asObservable() };

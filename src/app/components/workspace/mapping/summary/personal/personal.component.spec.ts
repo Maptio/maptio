@@ -8,7 +8,6 @@ import { ActivatedRoute, Params } from "@angular/router";
 import { MockBackend } from "@angular/http/testing";
 import { Angulartics2Mixpanel, Angulartics2, Angulartics2Module } from "angulartics2";
 import { RouterTestingModule } from "@angular/router/testing";
-import { D3Service } from "d3-ng2-service";
 import { Initiative } from "../../../../../shared/model/initiative.data";
 import { PersonalSummaryComponent } from "./personal.component";
 import { DataService } from "../../../../../shared/services/data.service";

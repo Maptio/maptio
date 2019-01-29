@@ -5,9 +5,10 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Rx";
 import { AuthHttp } from "angular2-jwt/angular2-jwt";
 import { DataSet } from "../../model/dataset.data";
-import * as d3 from "d3"
 import { sortBy } from "lodash-es";
 import { upperFirst, lowerCase, toLower } from "lodash-es"
+// import { hierarchy } from 'd3-hierarchy';
+import * as d3 from "d3";
 
 @Injectable()
 export class ExportService {

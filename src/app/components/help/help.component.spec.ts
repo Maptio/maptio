@@ -3,7 +3,6 @@ import { DebugElement } from "@angular/core"
 import { FormsModule } from "@angular/forms";
 import { By } from "@angular/platform-browser";
 import { HelpComponent } from "./help.component";
-import { Ng2Bs3ModalModule } from "ng2-bs3-modal/ng2-bs3-modal";
 
 describe("help.component.ts", () => {
 
@@ -14,7 +13,7 @@ describe("help.component.ts", () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [Ng2Bs3ModalModule, FormsModule],
+            imports: [FormsModule],
             declarations: [HelpComponent]
         })
             .compileComponents()

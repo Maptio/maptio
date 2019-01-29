@@ -3,7 +3,6 @@ import { TestBed, inject } from "@angular/core/testing";
 import { MockBackend } from "@angular/http/testing";
 import { UIService } from "../ui/ui.service";
 import { RouterStateSnapshot } from "@angular/router";
-import { D3Service } from "d3-ng2-service";
 import { MarkdownService, MarkdownModule } from "angular2-markdown";
 import { DeviceDetectorService } from "ngx-device-detector";
 
@@ -13,7 +12,7 @@ describe("workspace.guard.ts", () => {
         TestBed.configureTestingModule({
             providers: [
                 DeviceDetectorService,
-                UIService, WorkspaceGuard, D3Service, MarkdownService
+                UIService, WorkspaceGuard,  MarkdownService
             ],
             imports: [MarkdownModule]
         });

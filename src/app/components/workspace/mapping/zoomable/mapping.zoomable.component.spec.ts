@@ -12,7 +12,6 @@ import { AuthHttp } from "angular2-jwt";
 import { Router, NavigationStart, ActivatedRoute } from "@angular/router";
 import { Observable, Subject } from "rxjs/Rx";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
-import { D3Service, D3 } from "d3-ng2-service";
 import { TestBed, async, ComponentFixture } from "@angular/core/testing";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { RouterTestingModule } from "@angular/router/testing";
@@ -28,13 +27,12 @@ describe("mapping.zoomable.component.ts", () => {
 
     let component: MappingZoomableComponent;
     let target: ComponentFixture<MappingZoomableComponent>;
-    let d3: D3;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
                 DeviceDetectorService,
-                D3Service, ColorService, DataService, UIService, URIService, UserFactory, Angulartics2Mixpanel, Angulartics2,
+                ColorService, DataService, UIService, URIService, UserFactory, Angulartics2Mixpanel, Angulartics2,
                 {
                     provide: AuthHttp,
                     useFactory: authHttpServiceFactoryTesting,
@@ -84,7 +82,6 @@ describe("mapping.zoomable.component.ts", () => {
     beforeEach(() => {
         target = TestBed.createComponent(MappingZoomableComponent);
         component = target.componentInstance;
-        d3 = component.d3Service.getD3();
 
         component.width = window.screen.availWidth;
         component.height = window.screen.availHeight;

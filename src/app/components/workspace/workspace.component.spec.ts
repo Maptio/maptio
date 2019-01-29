@@ -29,7 +29,6 @@ import { UserService } from "../../shared/services/user/user.service";
 import { JwtEncoder } from "../../shared/services/encoding/jwt.service";
 import { UIService } from '../../shared/services/ui/ui.service';
 import { MarkdownService } from 'angular2-markdown';
-import { D3Service } from 'd3-ng2-service';
 import { LoaderService } from "../../shared/services/loading/loader.service";
 import { NgProgress } from "@ngx-progressbar/core";
 import { IntercomModule } from "ng-intercom";
@@ -101,7 +100,7 @@ describe("workspace.component.ts", () => {
                     },
                     NgProgress,
 
-                UIService,D3Service, MarkdownService,,
+                UIService, MarkdownService,,
                     MockBackend,
                     BaseRequestOptions,
                     { provide: Auth, useClass: AuthStub },

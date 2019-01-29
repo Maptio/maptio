@@ -1,5 +1,9 @@
 import { Injectable, OnInit } from "@angular/core";
-import * as d3 from "d3";
+import {hsl, HSLColor} from "d3-color";
+import { scaleLinear } from "d3-scale";
+import { interpolateRgb, interpolateNumber } from "d3-interpolate";
+
+
 
 @Injectable()
 export class ColorService implements OnInit {
@@ -8,8 +12,8 @@ export class ColorService implements OnInit {
   BACK_COLOR: d3.HSLColor;
 
   constructor() {
-    this.FRONT_COLOR = d3.hsl(0, 0, 0.99);
-    this.BACK_COLOR = d3.hsl(0, 0, 0.2);
+    this.FRONT_COLOR = hsl(0, 0, 0.99);
+    this.BACK_COLOR = hsl(0, 0, 0.2);
   }
 
   ngOnInit() {}
@@ -32,12 +36,11 @@ export class ColorService implements OnInit {
   getColorRange(
     depth: number,
     seedColor: string
-  ): d3.ScaleLinear<d3.HSLColor, string> {
-    let seed = d3.hsl(seedColor);
-    return d3
-      .scaleLinear<d3.HSLColor, d3.HSLColor>()
+  ): d3.ScaleLinear<HSLColor, string> {
+    let seed = hsl(seedColor);
+    return scaleLinear<HSLColor, HSLColor>()
       .domain([-1, depth])
-      .interpolate(d3.interpolateRgb)
+      .interpolate(interpolateRgb)
       .range([this.BACK_COLOR, seed]);
   }
 
@@ -51,11 +54,9 @@ export class ColorService implements OnInit {
         return E * (1 - Math.exp((t - 1) * E / 2));
       };
     };
-    d3.interpolateNumber;
-    return d3
-      .scaleLinear<number, number>()
+    return scaleLinear<number, number>()
       .domain([-1, depth])
-      .interpolate(d3.interpolateNumber)
+      .interpolate(interpolateNumber)
       .range([maxFontSize, maxFontSize * 0.75]);
   }
 }
