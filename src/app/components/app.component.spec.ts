@@ -1,6 +1,5 @@
 import { Observable } from "rxjs/Rx";
 import { LoaderService } from "./../shared/services/loading/loader.service";
-import { ResponsiveModule } from "ng2-responsive";
 import { Router, NavigationEnd } from "@angular/router";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core"
@@ -27,7 +26,7 @@ describe("app.component.ts", () => {
 
         TestBed.configureTestingModule({
             declarations: [AppComponent],
-            imports: [RouterTestingModule, ResponsiveModule, NgProgressModule, 
+            imports: [RouterTestingModule,NgProgressModule, 
                 IntercomModule.forRoot({
                 appId: "",
                 updateOnRouterChange: true

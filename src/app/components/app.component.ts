@@ -4,7 +4,8 @@ import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationErr
 import {
   Component,
   ViewChild,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
 } from "@angular/core";
 import { HelpComponent } from "../components/help/help.component";
 import "rxjs/add/operator/map"
@@ -14,6 +15,7 @@ import { Observable } from "rxjs/Rx";
 import { Intercom } from 'ng-intercom';
 import { NgProgress } from '@ngx-progressbar/core';
 import { URIService } from "../shared/services/uri.service";
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 
 @Component({
@@ -35,8 +37,8 @@ export class AppComponent {
   @ViewChild("help")
   helpComponent: HelpComponent;
 
-  constructor(public auth: Auth, private router: Router, public progress : NgProgress,
-    public intercom: Intercom) {
+  constructor(public auth: Auth, private router: Router, public progress: NgProgress,
+    public intercom: Intercom, private deviceService: DeviceDetectorService, private cd: ChangeDetectorRef) {
 
   }
 
@@ -52,10 +54,20 @@ export class AppComponent {
       });
 
     this.intercom.boot({ app_id: environment.INTERCOM_APP_ID });
+
+    window.onresize = (e: UIEvent) => {
+      this.isMobile();
+      this.cd.markForCheck();
+    }
   }
 
   ngOnDestroy() {
     if (this.checkTokenSubscription) this.checkTokenSubscription.unsubscribe();
+  }
+
+  isMobile() {
+    console.log(this.deviceService.isMobile(), window.innerWidth)
+    return this.deviceService.isMobile() || window.innerWidth < 500;
   }
 
 }

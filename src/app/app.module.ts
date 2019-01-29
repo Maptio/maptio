@@ -13,7 +13,6 @@ import { AuthHttp } from "angular2-jwt";
 import { Angulartics2Mixpanel, Angulartics2Module } from "angulartics2";
 import { Cloudinary } from "cloudinary-core";
 import { FileUploadModule } from "ng2-file-upload";
-import { ResponsiveModule } from "ng2-responsive";
 import { BreadcrumbsModule, BreadcrumbsConfig, Breadcrumb } from "@exalif/ngx-breadcrumbs";
 import { FullstoryModule } from 'ngx-fullstory';
 
@@ -138,7 +137,6 @@ export const cloudinaryLib = {
         BreadcrumbsModule.forRoot(),
         
         RouterModule.forRoot(appRoutes, { enableTracing: false }),
-        ResponsiveModule,
         ConfirmationPopoverModule.forRoot({
             confirmButtonType: "danger",
             cancelButtonType: "link"

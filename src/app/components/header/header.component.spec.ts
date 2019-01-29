@@ -1,4 +1,3 @@
-import { ResponsiveModule } from "ng2-responsive";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { MailingService } from "./../../shared/services/mailing/mailing.service";
 import { AuthConfiguration } from "./../../shared/services/auth/auth.config";

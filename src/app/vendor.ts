@@ -39,7 +39,6 @@ import "@ng-bootstrap/ng-bootstrap";
 import "@cloudinary/angular-5.x";
 import "cloudinary-core";
 import "auth0-js";
-import "ng2-responsive";
 import "angular-tree-component";
 import "angulartics2";
 import "ng2-file-upload";

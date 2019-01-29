@@ -1,5 +1,4 @@
 // import { Observable } from "rxjs/Rx";
-// import { ResponsiveModule } from "ng2-responsive";
 // import { Router, NavigationEnd } from "@angular/router";
 // import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 // import { NO_ERRORS_SCHEMA } from "@angular/core"

@@ -24,9 +24,9 @@
     </span>
 </ng-template>
 
-<nav *showItBootstrap="['xs']" class="footer navbar bg-transparent d-flex flex-column justify-content-between col-11 text-white">
+<nav [class.flex-column]="isMobile" [class.flex-row]="!isMobile"  class="footer navbar bg-transparent d-flex flex-column justify-content-between col-11 text-white">
       <ng-container *ngTemplateOutlet="links"></ng-container>
 </nav>
-<nav *showItBootstrap="['sm','md','lg','xl']" class="footer navbar bg-transparent d-flex flex-row justify-content-between col-11 text-muted">
+<!-- <nav *ngIf="!isMobile" class="footer navbar bg-transparent d-flex flex-row justify-content-between col-11 text-muted">
       <ng-container *ngTemplateOutlet="links"></ng-container>
-</nav>
+</nav> -->

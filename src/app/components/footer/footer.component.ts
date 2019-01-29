@@ -1,5 +1,5 @@
 import { environment } from "./../../../environment/environment";
-import { Component} from "@angular/core";
+import { Component, Input} from "@angular/core";
 
 @Component({
     selector: "footer",
@@ -7,6 +7,8 @@ import { Component} from "@angular/core";
     styleUrls: ["./footer.component.css"]
 })
 export class FooterComponent {
+
+    @Input("isMobile") isMobile:boolean;
 
     public TOS_URL: string = environment.TOS_URL
     public PRIVACY_URL: string = environment.PRIVACY_URL

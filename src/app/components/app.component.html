@@ -1,5 +1,4 @@
-<div *showItBootstrap="['sm','md','lg','xl']" class="container-fluid h-100 overflow-auto bg-texture" [class.unavailable]="(progress.state$ | async).active">
-
+<div *ngIf="!isMobile()" class="container-fluid h-100 overflow-auto bg-texture" [class.unavailable]="(progress.state$ | async).active">
 	<div class="d-flex flex-column h-100">
 		<header>
 		</header>
@@ -12,17 +11,16 @@
 			</div>
 
 		</div>
-		<footer></footer>
+		<footer [isMobile]="isMobile()"></footer>
 	</div>
 </div>
 
 
-<div *showItBootstrap="['xs']" class="container-fluid h-100 overflow-auto bg-gradient-inverse" [class.unavailable]="(progress.state$ | async).active">
+<div *ngIf="isMobile()" class="container-fluid h-100 overflow-auto bg-gradient-inverse" [class.unavailable]="(progress.state$ | async).active">
 
 	<div class="d-flex flex-column h-100">
 		<header>
 		</header>
-
 		<div  class="h-100 row">
 			<div class="card bg-transparent border-0">
 				<div class="card-body">
@@ -36,6 +34,6 @@
 			</div>
 
 		</div>
-		<footer></footer>
+		<footer [isMobile]="isMobile()"></footer>
 	</div>
 </div>
