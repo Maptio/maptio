@@ -20,7 +20,17 @@ import "date-fns/is_after"
 import "date-fns/parse"
 
 //d3
-import "d3";
+import "d3-array"
+import "d3-collection"
+import "d3-color";
+import "d3-drag"
+import "d3-force"
+import "d3-hierarchy"
+import "d3-interpolate";
+import "d3-scale";
+import "d3-selection"
+import "d3-transition"
+import "d3-zoom"
 
 // Other vendors for example jQuery, Lodash or Bootstrap
 import "angular2-jwt";

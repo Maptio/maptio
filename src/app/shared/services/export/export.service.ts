@@ -7,8 +7,7 @@ import { AuthHttp } from "angular2-jwt/angular2-jwt";
 import { DataSet } from "../../model/dataset.data";
 import { sortBy } from "lodash-es";
 import { upperFirst, lowerCase, toLower } from "lodash-es"
-// import { hierarchy } from 'd3-hierarchy';
-import * as d3 from "d3";
+import { hierarchy } from 'd3-hierarchy';
 
 @Injectable()
 export class ExportService {
@@ -17,7 +16,7 @@ export class ExportService {
     }
 
     getReport(dataset: DataSet): Observable<string> {
-        let list = d3.hierarchy(dataset.initiative).descendants(); // flatten with lodash if possible
+        let list = hierarchy(dataset.initiative).descendants(); // flatten with lodash if possible
         let exportString: string = "Depth,Circle,Parent Circle,Type,Person,Participants,Helpers,Tags";
 
         dataset.initiative.traverse(i => {

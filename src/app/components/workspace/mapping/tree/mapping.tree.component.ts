@@ -16,7 +16,6 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy
 } from "@angular/core";
-import * as d3 from "d3";
 import { partition } from "lodash-es";
 import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
@@ -24,6 +23,30 @@ import { BehaviorSubject } from "../../../../../../node_modules/rxjs";
 import { User } from "../../../../shared/model/user.data";
 import { Team } from "../../../../shared/model/team.data";
 import { MapSettingsService, MapSettings } from "../../../../shared/services/map/map-settings.service";
+
+import { transition } from "d3-transition";
+import { select, selectAll, event, mouse } from "d3-selection";
+import { zoom, zoomIdentity, zoomTransform } from "d3-zoom";
+import { tree, hierarchy } from "d3-hierarchy";
+import { color } from "d3-color";
+
+const d3 = Object.assign(
+  {},
+  {
+    transition,
+    select,
+    selectAll,
+    event,
+    mouse,
+    zoom,
+    zoomIdentity,
+    zoomTransform,
+    tree,
+    hierarchy,
+    color
+  }
+)
+
 
 @Component({
   selector: "tree",

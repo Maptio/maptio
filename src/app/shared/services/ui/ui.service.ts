@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import * as d3 from "d3";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import { Tag } from "../../model/tag.data";
@@ -11,6 +10,7 @@ import { User } from "../../model/user.data";
 import { isEmpty, intersection } from "lodash-es"
 import { DeviceDetectorService } from 'ngx-device-detector';
 import * as screenfull from 'screenfull';
+import {select, selectAll} from "d3-selection"
 
 export enum Browsers {
   Firefox,
@@ -123,11 +123,10 @@ export class UIService {
   }
 
   public clean() {
-    d3
-      .select("svg")
+    select("svg")
       .selectAll("*")
       .remove();
-    d3.selectAll("div.arrow_box").remove();
+    selectAll("div.arrow_box").remove();
   }
 
 

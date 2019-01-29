@@ -28,7 +28,6 @@
     "types": [
       "jasmine",
       "node",
-      "d3-request",
       "karma-fixture"
     ]
   },

@@ -18,10 +18,40 @@ import {
   ChangeDetectorRef,
   ChangeDetectionStrategy
 } from "@angular/core";
-import * as d3 from "d3";
 import { IDataVisualizer } from "../mapping.interface";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { flatten, uniqBy, remove, partition, flow, groupBy, map, flattenDeep } from "lodash-es";
+import {map as mapLodash} from "lodash-es"
+
+import { transition } from "d3-transition";
+import { select, selectAll, event, mouse } from "d3-selection";
+import { zoom, zoomIdentity, zoomTransform } from "d3-zoom";
+import { tree, hierarchy, HierarchyNode } from "d3-hierarchy";
+import { color } from "d3-color";
+import {forceSimulation, forceLink, forceManyBody, forceCenter,ForceLink} from "d3-force"
+import {map as d3Map} from "d3-collection"
+import {drag} from "d3-drag"
+ 
+const d3 = Object.assign(
+  {},
+  {
+    transition,
+    select,
+    selectAll,
+    mouse,
+    zoom,
+    zoomIdentity,
+    zoomTransform,
+    tree,
+    hierarchy,
+    color,
+    forceSimulation,forceLink, forceManyBody,forceCenter,
+    d3Map,
+    drag,
+    getEvent() { return require("d3-selection").event }
+  }
+)
+
 
 @Component({
   selector: "network",
@@ -184,7 +214,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .attr("d", "M0,-5L10,0L0,5")
       .style("opacity", (d: any) => d.opacity);
 
-    const wheelDelta = () => -d3.event.deltaY * (d3.event.deltaMode ? 120 : 1) / 500 * 2.5;
+    const wheelDelta = () => -d3.getEvent().deltaY * (d3.getEvent().deltaMode ? 120 : 1) / 500 * 2.5;
 
 
     let zooming = d3
@@ -193,7 +223,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .scaleExtent([1 / 10, 4])
       .on("zoom", zoomed)
       .on("end", () => {
-        let transform = d3.event.transform;
+        let transform = d3.getEvent().transform;
         let tagFragment = this.tagsState
           .filter(t => t.isSelected)
           .map(t => t.shortid)
@@ -209,7 +239,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       });
 
     function zoomed() {
-      g.attr("transform", d3.event.transform);
+      g.attr("transform", d3.getEvent().transform);
     }
 
     try {
@@ -325,7 +355,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
   }
 
 
-  private prepareAuthorityCentric(initiativeList: d3.HierarchyNode<Initiative>[]) {
+  private prepareAuthorityCentric(initiativeList: HierarchyNode<Initiative>[]) {
     let nodesRaw = initiativeList
       .map(d => {
         let all = flatten([...[d.data.accountable], d.data.helpers]);
@@ -402,7 +432,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     };
   }
 
-  private prepareHelperCentric(initiativeList: d3.HierarchyNode<Initiative>[]) {
+  private prepareHelperCentric(initiativeList: HierarchyNode<Initiative>[]) {
     let nodesRaw = initiativeList
       .map(d => {
         let all = flatten([...[d.data.accountable], d.data.helpers]);
@@ -527,7 +557,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     let hideOptions$ = this.hideOptions$;
     let highlightElement = this.highlightElement;
 
-    let initiativesList: d3.HierarchyNode<Initiative>[] = d3
+    let initiativesList: HierarchyNode<Initiative>[] = d3
       .hierarchy(data)
       .descendants();
 
@@ -584,7 +614,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       });
 
     let nodes = graph.nodes,
-      nodeById = d3.map(nodes, function (d: any) {
+      nodeById = d3.d3Map(nodes, function (d: any) {
         return d.id;
       }),
       links = graph.links;
@@ -674,8 +704,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .merge(node)
       .on("dblclick", releaseNode)
       .call(
-        d3
-          .drag<SVGElement, any>()
+        d3.drag<SVGElement, any>()
           .on("start", dragstarted)
           .on("drag", dragged)
           .on("end", dragended)
@@ -773,7 +802,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       .style("stroke-opacity", 1)
       .style("stroke", seedColor)
       .on("mouseover", function (d: any) {
-        d3.event.stopPropagation();
+        d3.getEvent().stopPropagation();
 
         let path = d3.select(this);
         path
@@ -820,7 +849,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         });
       })
       .on("contextmenu", function (d: any) {
-        d3.event.preventDefault();
+        d3.getEvent().preventDefault();
         let mousePosition = d3.mouse(this);
         let matrix = this.getCTM().translate(
           +this.getAttribute("cx"),
@@ -868,7 +897,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
     simulation.nodes(graph.nodes).on("tick", ticked);
 
-    simulation.force<d3.ForceLink<any, any>>("link").links(graph.links);
+    simulation.force<ForceLink<any, any>>("link").links(graph.links);
 
     function ticked() {
       link.attr("d", positionLink);
@@ -921,19 +950,19 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
     }
 
     function dragstarted(d: any) {
-      if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+      if (!d3.getEvent().active) simulation.alphaTarget(0.3).restart();
       d3.select(this).classed("fixed", (d.fixed = true));
       d.fx = d.x;
       d.fy = d.y;
     }
 
     function dragged(d: any) {
-      d.fx = d3.event.x;
-      d.fy = d3.event.y;
+      d.fx = d3.getEvent().x;
+      d.fy = d3.getEvent().y;
     }
 
     function dragended(d: any) {
-      if (!d3.event.active) simulation.alphaTarget(0);
+      if (!d3.getEvent().active) simulation.alphaTarget(0);
       // d.fx = null;
       // d.fy = null;
     }
@@ -942,7 +971,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
       d3.select(this).classed("fixed", (d.fixed = false));
       d.fx = null;
       d.fy = null;
-      d3.event.stopPropagation();
+      d3.getEvent().stopPropagation();
     }
 
   }

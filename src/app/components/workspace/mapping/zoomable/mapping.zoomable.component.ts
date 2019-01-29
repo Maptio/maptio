@@ -18,12 +18,36 @@ import {
   ChangeDetectionStrategy,
   isDevMode
 } from "@angular/core";
-import * as d3 from "d3";
-import { transition } from "d3-transition";
 import { partition } from "lodash-es";
 import { LoaderService } from "../../../../shared/services/loading/loader.service";
 import { Team } from "../../../../shared/model/team.data";
 import * as screenfull from 'screenfull';
+
+import { transition } from "d3-transition";
+import { select, selectAll, event, mouse } from "d3-selection";
+import { zoom, zoomIdentity } from "d3-zoom";
+import { scaleLog, ScaleLogarithmic } from "d3-scale";
+import { HierarchyCircularNode, pack, hierarchy } from "d3-hierarchy";
+import { min } from "d3-array";
+import { color } from "d3-color";
+
+const d3 = Object.assign(
+  {},
+  {
+    transition,
+    select,
+    selectAll,
+    mouse,
+    min,
+    zoom,
+    zoomIdentity,
+    scaleLog,
+    pack,
+    hierarchy,
+    color,
+    getEvent() { return require("d3-selection").event }
+  }
+)
 
 @Component({
   selector: "zoomable",
@@ -71,8 +95,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
   private g: any;
   private diameter: number;
   private definitions: any;
-  private outerFontScale: d3.ScaleLogarithmic<number, number>;
-  private innerFontScale: d3.ScaleLogarithmic<number, number>;
+  private outerFontScale: ScaleLogarithmic<number, number>;
+  private innerFontScale: ScaleLogarithmic<number, number>;
   public isWaitingForDestinationNode: boolean = false;
   public isTooltipDescriptionVisible: boolean = false;
   public isFirstEditing: boolean = false;
@@ -206,15 +230,15 @@ export class MappingZoomableComponent implements IDataVisualizer {
       definitions = svg.append("svg:defs");
 
 
-    const wheelDelta = () => -d3.event.deltaY * (d3.event.deltaMode ? 120 : 1) / 500 * 2.5;
+    const wheelDelta = () => -d3.getEvent().deltaY * (d3.getEvent().deltaMode ? 120 : 1) / 500 * 2.5;
 
     this.zooming = d3
       .zoom()
       .wheelDelta(wheelDelta)
       .on("zoom", zoomed)
       .on("end", (): void => {
-        this.adjustViewToZoomEvent(g, d3.event);
-        const transform = d3.event.transform;
+        this.adjustViewToZoomEvent(g, d3.getEvent());
+        const transform = d3.getEvent().transform;
         svg.attr("scale", transform.k);
         const tagFragment: string = this.tagsState
           .filter(t => t.isSelected)
@@ -252,7 +276,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
 
     function zoomed() {
-      g.attr("transform", d3.event.transform);
+      g.attr("transform", d3.getEvent().transform);
     }
 
     this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
@@ -327,7 +351,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     const zoomFactor: number = event.transform.k > 1 ? event.transform.k : 1;
     const scaleExtent: Array<number> = this.zooming.scaleExtent() ? this.zooming.scaleExtent() : [0.5, 5];
     this.outerFontScale.domain(scaleExtent);
-    const myInnerFontScale: d3.ScaleLogarithmic<number, number> = this.innerFontScale.domain(scaleExtent);
+    const myInnerFontScale: ScaleLogarithmic<number, number> = this.innerFontScale.domain(scaleExtent);
 
     const outerFontSize: number = this.outerFontScale(zoomFactor);
     const select: Function = d3.select;
@@ -415,7 +439,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this._lastZoomedCircle = circle;
   }
 
-  update(data: Initiative, seedColor: string, isFirstLoad: boolean): d3.HierarchyCircularNode<{}>[] {
+  update(data: Initiative, seedColor: string, isFirstLoad: boolean): HierarchyCircularNode<{}>[] {
     if (d3.selectAll("g").empty()) {
       this.init();
     }
@@ -695,8 +719,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
         // .each((d: any) => (d.k = k))
         .on("mouseover", function (d: any) {
           let initiative = d.data;
-          d3.event.stopPropagation();
-          d3.event.preventDefault();
+          d3.getEvent().stopPropagation();
+          d3.getEvent().preventDefault();
           showToolipOf$.next({ initiatives: [initiative], isNameOnly: false });
 
           d3.select(this)
@@ -718,11 +742,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
             .style("stroke-opacity", 0.1)
         })
         .on("contextmenu", function (d: any) {
-          d3.event.preventDefault();
+          d3.getEvent().preventDefault();
           let mousePosition;
 
           if (Number.isNaN(d3.mouse(this)[0]) || Number.isNaN(d3.mouse[1])) {
-            mousePosition = d3.event.detail.position
+            mousePosition = d3.getEvent().detail.position
           }
           else {
             mousePosition = d3.mouse(this);
@@ -803,7 +827,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             setLastZoomedCircle(d);
             zoom(d, this.parentElement);
           }
-          d3.event.stopPropagation();
+          d3.getEvent().stopPropagation();
           // remove the location.search without reload
           if (window.location.search) {
             window.history.pushState("", "", `${location.protocol}//${location.host}/${location.pathname}${location.hash}`)
@@ -942,7 +966,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     function passingThrough(el: any, eventName: string) {
       if (eventName == "contextmenu") {
         el.on("contextmenu", function (d: any): void {
-          d3.event.preventDefault();
+          d3.getEvent().preventDefault();
           let mouse = d3.mouse(this);
           d3.select(`circle.node[id="${d.data.id}"]`).dispatch("contextmenu", { bubbles: true, cancelable: true, detail: { position: [mouse[0], mouse[1]] } });
         })

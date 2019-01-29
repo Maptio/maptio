@@ -3,6 +3,7 @@ var webpackMerge = require('webpack-merge');
 var webpack = require('webpack');
 var helpers = require('./helpers');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const ngToolsWebpack = require('@ngtools/webpack');
 var commonConfig = require('./webpack.common.js');
 
@@ -30,10 +31,7 @@ module.exports = webpackMerge(commonConfig, {
 
   optimization: {
     minimizer: [
-      new UglifyJsPlugin({
-        cache: true,
-        parallel: true
-      }),
+      new TerserPlugin()
     ]
   },
 
