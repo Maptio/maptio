@@ -24,7 +24,6 @@ import { BuildingComponent } from "./building/building.component";
 import { AccessGuard } from "../../shared/services/guards/access.guard";
 import { AuthGuard } from "../../shared/services/guards/auth.guard";
 import { RouterModule, Routes } from "@angular/router";
-import { LoadingModule, ANIMATION_TYPES } from "ngx-loading";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -89,14 +88,6 @@ export function markdownServiceFactory(http: Http) {
         Angulartics2Module.forChild(),
         CommonComponentsModule,
         MarkdownModule,
-        LoadingModule.forRoot({
-            animationType: ANIMATION_TYPES.chasingDots,
-            backdropBackgroundColour: "#fff",
-            backdropBorderRadius: ".25rem",
-            primaryColour: "#EF5E26",
-            secondaryColour: "#2F81B7",
-            tertiaryColour: "#ffffff"
-        }),
         ConfirmationPopoverModule.forRoot({
             confirmButtonType: "danger",
             cancelButtonType: "link"

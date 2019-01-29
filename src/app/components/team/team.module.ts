@@ -6,7 +6,6 @@ import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule, Routes } from "@angular/router";
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";
-import { ANIMATION_TYPES, LoadingModule } from "ngx-loading";
 import { KeysPipe } from "../../pipes/keys.pipe";
 import { AccessGuard } from "../../shared/services/guards/access.guard";
 import { AuthGuard } from "../../shared/services/guards/auth.guard";
@@ -71,14 +70,6 @@ const routes: Routes = [
         FormsModule,
         ReactiveFormsModule,
         RouterModule.forChild(routes),
-        LoadingModule.forRoot({
-            animationType: ANIMATION_TYPES.chasingDots,
-            backdropBackgroundColour: "#fff",
-            backdropBorderRadius: ".25rem",
-            primaryColour: "#EF5E26",
-            secondaryColour: "#2F81B7",
-            tertiaryColour: "#ffffff"
-        }),
         ConfirmationPopoverModule.forRoot({
             confirmButtonType: "danger",
             cancelButtonType: "secondary"

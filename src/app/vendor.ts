@@ -51,7 +51,6 @@ import "canvg";
 import "logrocket";
 import "ngx-color"
 import "@exalif/ngx-breadcrumbs"
-import "ngx-loading"
 import "@ngx-progressbar/core"
 import "ngx-device-detector"
 import "ngx-fullstory"
