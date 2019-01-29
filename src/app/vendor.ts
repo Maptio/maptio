@@ -18,6 +18,7 @@ import "date-fns/distance_in_words_to_now";
 import "date-fns/difference_in_days"
 import "date-fns/is_after"
 import "date-fns/parse"
+import "date-fns/add_days"
 
 //d3
 import "d3-array"

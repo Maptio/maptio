@@ -1,7 +1,7 @@
 import { Permissions, UserRole } from './permission.data';
 import { Serializable } from "../interfaces/serializable.interface";
 import * as slug from "slug";
-import {parse} from "date-fns";
+import * as parse from "date-fns/parse";
 
 /**
  * A user

@@ -7,7 +7,7 @@ import { Intercom } from 'ng-intercom';
 import { Team } from '../../../../shared/model/team.data';
 import { Observable, Subscription } from 'rxjs';
 import { FormGroup, FormControl, Validators } from '../../../../../../node_modules/@angular/forms';
-import { distanceInWordsToNow } from "date-fns"
+import *  as distanceInWordsToNow  from "date-fns/distance_in_words_to_now"
 
 @Component({
     selector: 'member-single',

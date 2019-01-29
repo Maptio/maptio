@@ -2,8 +2,9 @@ import { SlackIntegration } from "./integrations.data";
 import { Serializable } from "./../interfaces/serializable.interface";
 import { User } from "./user.data";
 import * as slug from "slug";
-import { addDays, differenceInDays, isAfter } from 'date-fns';
-import { create } from "domain";
+import * as addDays from "date-fns/add_days"
+import * as differenceInDays from "date-fns/difference_in_days";
+import * as isAfter from "date-fns/is_after"
 import { environment } from "../../../environment/environment";
 
 
