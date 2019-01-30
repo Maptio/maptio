@@ -172,7 +172,6 @@
     "karma-typescript-es6-transform": "^1.0.4",
     "karma-webpack": "^3.0.5",
     "phantomjs-prebuilt": "^2.1.7",
-    "preload-webpack-plugin": "^3.0.0-beta.3",
     "protractor": "^5.4.2",
     "raw-loader": "^0.5.1",
     "rxjs-tslint": "^0.1.6",
