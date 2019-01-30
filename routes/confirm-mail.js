@@ -5,7 +5,7 @@ var fs = require("fs");
 var path = require('path');
 var template = require("lodash/template");
 require('dotenv').config()
-const isDevelopment = process.env.ENV !== "production"
+const isDevelopment = process.env.NODE_ENV !== "production"
 
 let ses = new aws.SES({
     apiVersion: "2010-12-01",

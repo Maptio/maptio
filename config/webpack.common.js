@@ -5,8 +5,7 @@ var helpers = require('./helpers');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
-var GoogleFontsPlugin = require("@beyonk/google-fonts-webpack-plugin")
-const ENV = process.env.NODE_ENV = process.env.ENV = 'development';
+var GoogleFontsPlugin = require("@beyonk/google-fonts-webpack-plugin");
 
 
 module.exports = {
@@ -167,12 +166,6 @@ of lodash in @exalif/ngx-breadcrums
       //Used in the slug package ....To comment back if we ever get Arabic or Tibetan users
       /unicode\/category\/So/, /node_modules/
     ),
-
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-      'process.env.ENV': JSON.stringify(process.env.NODE_ENV),
-      'process.env.DEBUG': JSON.stringify(process.env.DEBUG)
-    }),
 
     new ExtractTextPlugin('app.min.css'),
 

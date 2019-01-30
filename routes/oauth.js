@@ -8,7 +8,7 @@ require('dotenv').config()
 
 const SLACK_CLIENT_ID = process.env.SLACK_CLIENT_ID;
 const SLACK_CLIENT_SECRET = process.env.SLACK_CLIENT_SECRET;
-const REDIRECT_URL = process.env.ENV === "production" ? "http://app.maptio.com/api/v1/oauth/slack" : "http://localhost:3000/api/v1/oauth/slack"
+const REDIRECT_URL = process.env.NODE_ENV === "production" ? "http://app.maptio.com/api/v1/oauth/slack" : "http://localhost:3000/api/v1/oauth/slack"
 
 router.post('/slack', function (req, res, next) {
     let code = req.body.code;

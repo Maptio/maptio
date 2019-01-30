@@ -193,7 +193,7 @@ export const cloudinaryLib = {
 export class AppModule {
     constructor(breadcrumbsConfig: BreadcrumbsConfig) {
 
-        if (process.env.ENV === "production") {
+        if (process.env.NODE_ENV === "production") {
             LogRocket.init(environment.LOGROCKET_APP_ID, {
                 network: {
                     isEnabled: true,
