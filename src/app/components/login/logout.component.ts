@@ -11,6 +11,7 @@ import { environment } from "../../../environment/environment";
 export class LogoutComponent implements OnInit {
   SURVEY_URL: string = environment.SURVEY_URL;
   SCREENSHOT_URL = environment.SCREENSHOT_URL;
+  SCREENSHOT_URL_FALLBACK = environment.SCREENSHOT_URL_FALLBACK;
 
   constructor(private auth: Auth) { }
 
