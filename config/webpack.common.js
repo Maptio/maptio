@@ -148,7 +148,7 @@ of lodash in @exalif/ngx-breadcrums
         {
           module: 'markdown',
           entry: {
-            path: 'lib/index.js',
+            path: 'lib/markdown.js',
             attributes: {
               rel: "prefetch"
             }
@@ -158,12 +158,12 @@ of lodash in @exalif/ngx-breadcrums
         {
           module: 'to-markdown',
           entry: {
-            path: 'index.js',
+            path: 'dist/to-markdown.js',
             attributes: {
               rel: "prefetch"
             }
           },
-          global: 'markdown'
+          global: 'to-markdown'
         },
         {
           module: '@fortawesome',
