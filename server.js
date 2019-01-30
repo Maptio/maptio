@@ -47,7 +47,7 @@ function check_scopes(scopes) {
 const app = express(),
   DIST_DIR = path.join(__dirname, "dist"),
   HTML_FILE = path.join(DIST_DIR, "index.html"),
-  isDevelopment = process.env.NODE_ENV !== "production",
+  isDevelopment = process.env.ENV !== "production",
   DEFAULT_PORT = 3000,
   compiler = webpack(config);
 
