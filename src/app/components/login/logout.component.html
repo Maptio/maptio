@@ -14,46 +14,50 @@
 
             <div class="d-flex  justify-content-center align-items-stretch">
                 <div class="col-6">
-                        <a class="card border-white box-shadow text-blue no-underline" href="{{SURVEY_URL}}"
-                        target="blank">
+                    <a class="card border-white box-shadow text-blue no-underline" href="{{SURVEY_URL}}" target="blank">
                         <div class="card-body">
                             <h5 class="card-title d-flex justify-content-center">
                                 <i class="fas fa-comments fa-3x" aria-hidden="true"></i>
                             </h5>
                             <div class="card-text">
-                                <span class="text-muted">We want to make Maptio even better.</span> <span class="text-blue">Tell us what to work on next.</span>
-    
+                                <span class="text-muted">We want to make Maptio even better.</span>
+                                <span class="text-blue">Tell us what to work on next.</span>
+
                             </div>
                         </div>
                     </a>
                 </div>
-                <div  class="col-6">
-                        <div class="card border-white box-shadow">
-                                <div class="card-body">
-                                    <h5 class="card-title d-flex justify-content-center text-blue ">
-                                        <i class="fa fa-rss fa-3x" aria-hidden="true"></i>
-                                    </h5>
-                                    <div class="card-text text-muted">
-                                        Check out
-                                        <a href="https://medium.com/maptio/create-organisational-clarity-using-initiative-mapping-967069247380" target="blank" class="text-blue" >
-                                            the Maptio guide to initiative mapping</a>
-                                        <span>and</span>
-                                        <a href="https://medium.com/maptio" target="blank"  class="text-blue" >
-                                            our blog</a>
-            
-                                    </div>
-                                </div>
-                            </div>
-                </div>
-               
+                <div class="col-6">
+                    <div class="card border-white box-shadow">
+                        <div class="card-body">
+                            <h5 class="card-title d-flex justify-content-center text-blue ">
+                                <i class="fa fa-rss fa-3x" aria-hidden="true"></i>
+                            </h5>
+                            <div class="card-text text-muted">
+                                Check out
+                                <a href="https://medium.com/maptio/create-organisational-clarity-using-initiative-mapping-967069247380" target="blank" class="text-blue">
+                                    the Maptio guide to initiative mapping</a>
+                                <span>and</span>
+                                <a href="https://medium.com/maptio" target="blank" class="text-blue">
+                                    our blog</a>
 
-             
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
 
             </div>
 
         </div>
     </div>
     <div class="col-12 col-xl-6">
-        <object width="100%" [data]="SCREENSHOT_URL | safe" type="image/png"></object>
+        <picture>
+            <source [srcset]="SCREENSHOT_URL | safe" type="image/webp">
+            <source [srcset]="SCREENSHOT_URL_FALLBACK | safe" type="image/jpeg">
+            <img class="w-100" [src]="SCREENSHOT_URL_FALLBACK | safe" alt="">
+        </picture>
     </div>
 </div>

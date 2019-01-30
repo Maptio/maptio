@@ -28,6 +28,7 @@ export class HomeComponent {
     public isLoading: Boolean;
     public isOnboarding: boolean;
     SCREENSHOT_URL = environment.SCREENSHOT_URL;
+    SCREENSHOT_URL_FALLBACK = environment.SCREENSHOT_URL_FALLBACK;
 
     constructor(public auth: Auth, private route: ActivatedRoute, private cd: ChangeDetectorRef,
         public datasetFactory: DatasetFactory, public teamFactory: TeamFactory, public loaderService: LoaderService,
