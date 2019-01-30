@@ -5,8 +5,6 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
 var GoogleFontsPlugin = require("@beyonk/google-fonts-webpack-plugin");
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
-
 
 module.exports = {
   mode: process.env.NODE_ENV === "production" ? "production" : "development",
@@ -158,10 +156,6 @@ of lodash in @exalif/ngx-breadcrums
           supplements: ['fontawesome-free/webfonts'],
         }
       ],
-    }),
-
-    new ScriptExtHtmlWebpackPlugin({
-      defaultAttribute: 'async'
     }),
 
     new GoogleFontsPlugin({
