@@ -116,18 +116,34 @@ of lodash in @exalif/ngx-breadcrums
       externals: [
         {
           module: 'jquery',
-          entry: 'dist/jquery.min.js',
+          entry: {
+            path: 'dist/jquery.min.js',
+            attributes: {
+              rel: "prefetch"
+            }
+          },
           global: 'jQuery',
+
         },
         {
           module: 'popper.js',
-          entry: 'dist/umd/popper.min.js',
-          global: 'popper',
+          entry: {
+            path: 'dist/umd/popper.min.js',
+            attributes: {
+              rel: "prefetch"
+            }
+          },
+          global: 'popper'
         },
         {
           module: 'bootstrap',
-          entry: 'dist/js/bootstrap.min.js',
-          global: 'bootstrap',
+          entry: {
+            path: 'dist/js/bootstrap.min.js',
+            attributes: {
+              rel: "prefetch"
+            }
+          },
+          global: 'bootstrap'
         },
         {
           module: '@fortawesome',
