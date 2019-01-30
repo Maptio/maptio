@@ -6,6 +6,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const ngToolsWebpack = require('@ngtools/webpack');
 var commonConfig = require('./webpack.common.js');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 
 module.exports = webpackMerge(commonConfig, {
@@ -37,6 +38,7 @@ module.exports = webpackMerge(commonConfig, {
 
 
   plugins: [
+    new ExtractTextPlugin('[name].[md5:contenthash:hex:20].min.css'),
     new ngToolsWebpack.AngularCompilerPlugin({
       tsConfigPath: helpers.root('tsconfig-aot.json'),
       basePath: helpers.root(''),

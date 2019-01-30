@@ -1,11 +1,11 @@
 var webpack = require('webpack');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var helpers = require('./helpers');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
 var GoogleFontsPlugin = require("@beyonk/google-fonts-webpack-plugin");
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 
 module.exports = {
@@ -14,7 +14,6 @@ module.exports = {
     'polyfills': './src/app/polyfills.ts',
     'vendor': './src/app/vendor.ts',
     'app': './src/app/bootstrap.ts',
-    'custom-styles': './src/app/custom-styles.ts'
   },
 
   resolve: {
@@ -152,7 +151,6 @@ of lodash in @exalif/ngx-breadcrums
       /unicode\/category\/So/, /node_modules/
     ),
 
-    new ExtractTextPlugin('[name].min.css'),
 
     new CopyWebpackPlugin([
       { from: 'public/images', to: 'assets/images' },

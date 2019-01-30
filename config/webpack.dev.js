@@ -47,6 +47,8 @@ module.exports = webpackMerge(commonConfig, {
   },
 
   plugins: [
+
+    new ExtractTextPlugin('[name].min.css'),
     new BundleAnalyzerPlugin({ defaultSizes: 'gzip' })
   ],
 
