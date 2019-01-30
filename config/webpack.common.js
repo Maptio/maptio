@@ -146,6 +146,26 @@ of lodash in @exalif/ngx-breadcrums
           global: 'bootstrap'
         },
         {
+          module: 'markdown',
+          entry: {
+            path: 'lib/index.js',
+            attributes: {
+              rel: "prefetch"
+            }
+          },
+          global: 'markdown'
+        },
+        {
+          module: 'to-markdown',
+          entry: {
+            path: 'index.js',
+            attributes: {
+              rel: "prefetch"
+            }
+          },
+          global: 'markdown'
+        },
+        {
           module: '@fortawesome',
           entry: 'fontawesome-free/css/all.min.css',
           supplements: ['fontawesome-free/webfonts'],

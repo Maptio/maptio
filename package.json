@@ -86,6 +86,7 @@
     "jwks-rsa": "^1.2.0",
     "lodash-es": "^4.17.11",
     "logrocket": "^0.6.12",
+    "markdown": "^0.5.0",
     "method-override": "^2.3.7",
     "mobx": "^3.4.1",
     "mobx-angular": "^2.0.1",
@@ -110,6 +111,7 @@
     "screenfull": "^4.0.0",
     "shortid": "^2.2.8",
     "slug": "^0.9.1",
+    "to-markdown": "^3.1.1",
     "zone.js": "^0.8.28"
   },
   "devDependencies": {
