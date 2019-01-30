@@ -43,7 +43,7 @@ describe("header.component.ts", () => {
 
         TestBed.configureTestingModule({
             declarations: [HeaderComponent],
-            imports: [RouterTestingModule, FormsModule, ReactiveFormsModule, ResponsiveModule],
+            imports: [RouterTestingModule, FormsModule, ReactiveFormsModule],
             schemas: [NO_ERRORS_SCHEMA]
         }).overrideComponent(HeaderComponent, {
             set: {
