@@ -5,6 +5,7 @@ var helpers = require('./helpers');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
+var GoogleFontsPlugin = require("@beyonk/google-fonts-webpack-plugin")
 const ENV = process.env.NODE_ENV = process.env.ENV = 'development';
 
 
@@ -145,6 +146,14 @@ of lodash in @exalif/ngx-breadcrums
         }
       ],
     }),
+
+    new GoogleFontsPlugin({
+			fonts: [
+				{ family: "Open Sans", variants: [ "400", "600","700" ] },
+				{ family: "Roboto", variants: [ "500" ] },
+				{ family: "Lato", variants: [ "400" ] },
+			]
+		}),
 
     new webpack.IgnorePlugin(
       //https://medium.com/@ahmedelgabri/analyzing-optimizing-your-webpack-bundle-8590818af4df

@@ -43,7 +43,7 @@ export class AppComponent {
   }
 
   ngOnInit() {
-console.log(this.router.config)
+    
     this.checkTokenSubscription = Observable
       .interval(environment.CHECK_TOKEN_EXPIRATION_INTERVAL_IN_MINUTES * 60 * 1000)
       .timeInterval()

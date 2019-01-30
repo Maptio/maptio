@@ -113,6 +113,7 @@
   },
   "devDependencies": {
     "@angular/compiler-cli": "^7.2.1",
+    "@beyonk/google-fonts-webpack-plugin": "^1.2.1",
     "@ngtools/webpack": "^7.2.2",
     "@types/auth0-js": "^8.11.2",
     "@types/core-js": "^0.9.39",
@@ -177,6 +178,7 @@
     "tslint": "^5.12.1",
     "typescript": "^3.2.4",
     "uglifyjs-webpack-plugin": "^2.1.1",
+    "url-loader": "^1.1.2",
     "webpack": "^4.28.4",
     "webpack-bundle-analyzer": "^2.13.1",
     "webpack-cli": "^3.2.1",
