@@ -6,7 +6,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
 var GoogleFontsPlugin = require("@beyonk/google-fonts-webpack-plugin");
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-
+var PreloadWebpackPlugin = require('preload-webpack-plugin');
 
 module.exports = {
   mode: process.env.NODE_ENV === "production" ? "production" : "development",
@@ -110,6 +110,8 @@ of lodash in @exalif/ngx-breadcrums
       },
     }),
 
+    // new PreloadWebpackPlugin(),
+
     new HtmlWebpackExternalsPlugin({
 
       hash: true,
@@ -117,11 +119,7 @@ of lodash in @exalif/ngx-breadcrums
         {
           module: 'jquery',
           entry: {
-            path: 'dist/jquery.min.js',
-            attributes: {
-              rel: "preload",
-              async : ''
-            }
+            path: 'dist/jquery.min.js'
           },
           global: 'jQuery',
 
@@ -129,11 +127,7 @@ of lodash in @exalif/ngx-breadcrums
         {
           module: 'popper.js',
           entry: {
-            path: 'dist/umd/popper.min.js',
-            attributes: {
-              rel: "preload",
-              async : ''
-            }
+            path: 'dist/umd/popper.min.js'
           },
           global: 'popper'
         },
@@ -141,32 +135,21 @@ of lodash in @exalif/ngx-breadcrums
           module: 'bootstrap',
           entry: {
             path: 'dist/js/bootstrap.min.js',
-            attributes: {
-              rel: "preload",
-              async : ''
-            }
+
           },
           global: 'bootstrap'
         },
         {
           module: 'markdown',
           entry: {
-            path: 'lib/markdown.js',
-            attributes: {
-              rel: "preload",
-              async : ''
-            }
+            path: 'lib/markdown.js'
           },
           global: 'markdown'
         },
         {
           module: 'to-markdown',
           entry: {
-            path: 'dist/to-markdown.js',
-            attributes: {
-              rel: "preload",
-              async : ''
-            }
+            path: 'dist/to-markdown.js'
           },
           global: 'to-markdown'
         },
