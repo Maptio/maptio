@@ -6,7 +6,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
 var GoogleFontsPlugin = require("@beyonk/google-fonts-webpack-plugin");
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var PreloadWebpackPlugin = require('preload-webpack-plugin');
+// var PreloadWebpackPlugin = require('preload-webpack-plugin');
 
 module.exports = {
   mode: process.env.NODE_ENV === "production" ? "production" : "development",
