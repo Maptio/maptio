@@ -1,12 +1,13 @@
 var webpack = require('webpack');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var helpers = require('./helpers');
-var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
 var GoogleFontsPlugin = require("@beyonk/google-fonts-webpack-plugin");
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin')
+var ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
+
+
 module.exports = {
   mode: process.env.NODE_ENV === "production" ? "production" : "development",
   entry: {
@@ -158,7 +159,7 @@ of lodash in @exalif/ngx-breadcrums
         }
       ],
     }),
-    
+
     new ScriptExtHtmlWebpackPlugin({
       defaultAttribute: 'async'
     }),
