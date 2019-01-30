@@ -2,10 +2,10 @@ var webpack = require('webpack');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var helpers = require('./helpers');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-// var ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 var HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
 var GoogleFontsPlugin = require("@beyonk/google-fonts-webpack-plugin");
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 
 
 module.exports = {
@@ -160,9 +160,9 @@ of lodash in @exalif/ngx-breadcrums
       ],
     }),
 
-    // new ScriptExtHtmlWebpackPlugin({
-    //   defaultAttribute: 'async'
-    // }),
+    new ScriptExtHtmlWebpackPlugin({
+      defaultAttribute: 'async'
+    }),
 
     new GoogleFontsPlugin({
       fonts: [
