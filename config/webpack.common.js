@@ -46,7 +46,8 @@ of lodash in @exalif/ngx-breadcrums
           test: /\/node_modules\//,
           chunks: 'all',
           priority: 0,
-          enforce: true
+          enforce: true,
+          maxSize:512000
         },
       }
     },
