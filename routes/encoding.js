@@ -10,6 +10,7 @@ let PRIVATE_KEY, PUBLIC_KEY;
 
 // let jwtSecret = process.env.JWT_SECRET;
 let isDevelopment = process.env.ENV !== "production"
+console.log("ENV", process.env.ENV)
 if (isDevelopment) {
     PRIVATE_KEY = fs.readFileSync(path.join(__dirname, "../id_rsa"));
     PUBLIC_KEY = fs.readFileSync(path.join(__dirname, "../rsa.pub"));
