@@ -179,7 +179,6 @@ of lodash in @exalif/ngx-breadcrums
     new CopyWebpackPlugin([
       { from: 'public/images', to: 'assets/images' },
       { from: 'public/templates', to: 'assets/templates' }
-    ]),
-    new BundleAnalyzerPlugin({ defaultSizes: 'gzip' })
+    ])
   ]
 };
