@@ -37,7 +37,7 @@ module.exports = {
     extensions: ['*', '.ts', '.js'],
     alias: {
       'lodash': 'lodash-es',
-      
+
       /*
 Error : "There are multiple modules with names that only differ in casing" created by poor import 
 of lodash in @exalif/ngx-breadcrums
@@ -128,6 +128,8 @@ of lodash in @exalif/ngx-breadcrums
     }),
 
     new HtmlWebpackExternalsPlugin({
+
+      hash: true,
       externals: [
         {
           module: 'jquery',
@@ -145,20 +147,20 @@ of lodash in @exalif/ngx-breadcrums
           global: 'bootstrap',
         },
         {
-          module:'@fortawesome',
-          entry :'fontawesome-free/js/all.min.js',
-          global : 'fontawesome'
+          module: '@fortawesome',
+          entry: 'fontawesome-free/css/all.min.css',
+          supplements: ['fontawesome-free/webfonts'],
         }
       ],
     }),
 
     new GoogleFontsPlugin({
-			fonts: [
-				{ family: "Open Sans", variants: [ "400", "600","700" ] },
-				{ family: "Roboto", variants: [ "500" ] },
-				{ family: "Lato", variants: [ "400" ] },
-			]
-		}),
+      fonts: [
+        { family: "Open Sans", variants: ["400", "600", "700"] },
+        { family: "Roboto", variants: ["500"] },
+        { family: "Lato", variants: ["400"] },
+      ]
+    }),
 
     new webpack.IgnorePlugin(
       //https://medium.com/@ahmedelgabri/analyzing-optimizing-your-webpack-bundle-8590818af4df
