@@ -143,6 +143,11 @@ of lodash in @exalif/ngx-breadcrums
           module: 'bootstrap',
           entry: 'dist/js/bootstrap.min.js',
           global: 'bootstrap',
+        },
+        {
+          module:'@fortawesome',
+          entry :'fontawesome-free/js/all.min.js',
+          global : 'fontawesome'
         }
       ],
     }),

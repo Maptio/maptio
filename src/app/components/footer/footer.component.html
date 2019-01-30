@@ -24,7 +24,9 @@
     </span>
 </ng-template>
 
-<nav [class.flex-column]="isMobile" [class.flex-row]="!isMobile"  class="footer navbar bg-transparent d-flex flex-column justify-content-between col-11 text-white">
+<nav [class.flex-column]="isMobile" [class.flex-row]="!isMobile" 
+[class.text-white]="isMobile"
+class="footer navbar bg-transparent d-flex justify-content-between col-11 ">
       <ng-container *ngTemplateOutlet="links"></ng-container>
 </nav>
 <!-- <nav *ngIf="!isMobile" class="footer navbar bg-transparent d-flex flex-row justify-content-between col-11 text-muted">
