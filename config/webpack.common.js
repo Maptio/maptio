@@ -119,7 +119,7 @@ of lodash in @exalif/ngx-breadcrums
           entry: {
             path: 'dist/jquery.min.js',
             attributes: {
-              rel: "prefetch",
+              rel: "preload",
               async : ''
             }
           },
@@ -131,7 +131,7 @@ of lodash in @exalif/ngx-breadcrums
           entry: {
             path: 'dist/umd/popper.min.js',
             attributes: {
-              rel: "prefetch",
+              rel: "preload",
               async : ''
             }
           },
@@ -142,7 +142,7 @@ of lodash in @exalif/ngx-breadcrums
           entry: {
             path: 'dist/js/bootstrap.min.js',
             attributes: {
-              rel: "prefetch",
+              rel: "preload",
               async : ''
             }
           },
@@ -153,7 +153,7 @@ of lodash in @exalif/ngx-breadcrums
           entry: {
             path: 'lib/markdown.js',
             attributes: {
-              rel: "prefetch",
+              rel: "preload",
               async : ''
             }
           },
@@ -164,7 +164,7 @@ of lodash in @exalif/ngx-breadcrums
           entry: {
             path: 'dist/to-markdown.js',
             attributes: {
-              rel: "prefetch",
+              rel: "preload",
               async : ''
             }
           },
