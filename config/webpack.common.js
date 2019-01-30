@@ -14,26 +14,11 @@ module.exports = {
     'polyfills': './src/app/polyfills.ts',
     'vendor': './src/app/vendor.ts',
     'app': './src/app/bootstrap.ts',
-    'app.min': [
-      helpers.root('./public/styles/animations.css'),
-      helpers.root('./public/styles/global.css'),
-      helpers.root('./public/styles/angular-tree-component.css'),
-      helpers.root('./public/styles/tooltip.css'),
-      helpers.root('./public/styles/breadcrumb.css'),
-      helpers.root('./public/styles/tags.css'),
-      helpers.root('./public/styles/markdown.css'),
-      helpers.root('./public/styles/collapsing.css'),
-      helpers.root('./public/styles/progress-bar.css'),
-      helpers.root('./public/styles/ribbon.css'),
-      helpers.root('./public/styles/progress-pie.css'),
-      helpers.root('./public/styles/popover.css'),
-      helpers.root('./public/styles/color-picker.css'),
-      helpers.root('./public/styles/maps.css')
-    ]
+    'custom-styles': './src/app/custom-styles.ts'
   },
 
   resolve: {
-    extensions: ['*', '.ts', '.js'],
+    extensions: ['.ts', '.js'],
     alias: {
       'lodash': 'lodash-es',
 
@@ -167,7 +152,7 @@ of lodash in @exalif/ngx-breadcrums
       /unicode\/category\/So/, /node_modules/
     ),
 
-    new ExtractTextPlugin('app.min.css'),
+    new ExtractTextPlugin('[name].min.css'),
 
     new CopyWebpackPlugin([
       { from: 'public/images', to: 'assets/images' },
