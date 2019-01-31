@@ -109,8 +109,7 @@ of lodash in @exalif/ngx-breadcrums
         minifyCSS: true,
         removeComments: true,
         removeEmptyAttributes: true,
-      },
-      chunksSortMode: "none"
+      }
     }),
 
 
