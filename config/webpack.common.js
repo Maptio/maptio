@@ -40,7 +40,7 @@ of lodash in @exalif/ngx-breadcrums
 
   optimization: {
     splitChunks: {
-      chunks: 'all'
+      chunks: 'all',
     },
     runtimeChunk: 'single',
     // splitChunks: {
@@ -110,6 +110,7 @@ of lodash in @exalif/ngx-breadcrums
         removeComments: true,
         removeEmptyAttributes: true,
       },
+      chunksSortMode: "none"
     }),
 
 

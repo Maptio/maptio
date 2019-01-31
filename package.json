@@ -14,7 +14,7 @@
   "scripts": {
     "start": "node server.js",
     "start:debug": "node --inspect server.js",
-    "build:prod": "rimraf ./dist && webpack --config config/webpack.prod.js --progress --profile",
+    "build:prod": "rimraf ./dist && webpack --config config/webpack.prod.js --progress --profile --debug --verbose",
     "build:stats": "rimraf ./dist && webpack --config config/webpack.prod.js --progress --profile --json > stats.json && webpack-bundle-analyzer stats.json ./dist/",
     "test": "karma start --single-run",
     "test:watch": "karma start",
