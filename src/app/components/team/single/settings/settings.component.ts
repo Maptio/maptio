@@ -10,8 +10,8 @@ import { Intercom } from 'ng-intercom';
 
 @Component({
     selector: "team-single-settings",
-    templateUrl: "./settings.component.html"
-    // styleUrls: ["./settings.component.css"]
+    templateUrl: "./settings.component.html",
+    styleUrls: ["./settings.component.css"]
 })
 export class TeamSettingsComponent implements OnInit {
 

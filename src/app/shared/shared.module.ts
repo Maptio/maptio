@@ -8,6 +8,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { ClosableDirective } from './directives/closable.directive';
 import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
+import { MapSettingsService } from './services/map/map-settings.service';
+import { UIService } from './services/ui/ui.service';
+import { MarkdownService, MarkedOptions } from 'ngx-markdown';
 
 
 
@@ -25,12 +28,15 @@ import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
         ClosableDirective
     ],
     providers: [
+        MarkdownService,MarkedOptions,UIService,
+        MapSettingsService
     ],
     exports: [
         PermissionsDirective,
         StickyPopoverDirective,
         DebounceDirective,
-        ClosableDirective
+        ClosableDirective,
+        
     ]
 })
 export class SharedModule { }

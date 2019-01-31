@@ -22,7 +22,6 @@ import { TeamBillingComponent } from "./single/billing/billing.component";
 import { CommonComponentsModule } from "../../shared/common-components.module";
 import { MemberSingleComponent } from "./single/members/member-single.component";
 import { NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
-import { BrowserModule } from "../../../../node_modules/@angular/platform-browser";
 
 const routes: Routes = [
     {
@@ -54,8 +53,8 @@ const routes: Routes = [
                         }
                     },
                     { path: "maps", component: TeamMapsComponent, data: { breadcrumbs: true, text: "Maps" } },
-                    { path: "settings", component: TeamSettingsComponent, data: { breadcrumbs: true, text: "Settings" } },
                     { path: "integrations", component: TeamIntegrationsComponent, data: { breadcrumbs: true, text: "Integrations" } },
+                    { path: "settings", component: TeamSettingsComponent, data: { breadcrumbs: true, text: "Name & Terminology" } },
                     { path: "billing", component: TeamBillingComponent, data: { breadcrumbs: true, text: "Billing" } }
                 ]
             }
@@ -67,7 +66,7 @@ const routes: Routes = [
 @NgModule({
     imports: [
         CommonModule,
-        FormsModule,
+        // FormsModule,
         ReactiveFormsModule,
         RouterModule.forChild(routes),
         ConfirmationPopoverModule.forRoot({

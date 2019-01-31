@@ -75,6 +75,7 @@ import { InstructionsService } from "./shared/components/instructions/instructio
 import { OnboardingService } from "./shared/components/onboarding/onboarding.service";
 import { SafePipe } from "./pipes/safe.pipe";
 import { NgbModalModule, NgbTypeaheadModule, NgbTooltipModule, NgbPopoverModule } from "../../node_modules/@ng-bootstrap/ng-bootstrap";
+import { MarkdownService, MarkedOptions } from "../../node_modules/ngx-markdown";
 
 
 const appRoutes: Routes = [
@@ -84,6 +85,10 @@ const appRoutes: Routes = [
     {
         path: "teams", loadChildren: "./components/team/team.module#TeamModule",
         data: { breadcrumbs: "Organisations" }
+    },
+
+    {
+        path: "map/:mapid/:mapslug", loadChildren: "./components/workspace/workspace.module#WorkspaceModule"
     },
 
     { path: "home", component: HomeComponent },
@@ -174,7 +179,7 @@ export const cloudinaryLib = {
         BrowserAnimationsModule,
         AuthGuard, AccessGuard, WorkspaceGuard, PermissionGuard, BillingGuard,
         AuthConfiguration,
-        DataService, CounterService, URIService, ColorService, UIService, DatasetFactory, TeamFactory,
+        DataService, CounterService, URIService, ColorService,DatasetFactory, TeamFactory,
         ErrorService, Auth, UserService, TeamService, MapService, UserFactory, MailingService, JwtEncoder, LoaderService,
         ExportService, FileService, PermissionService, BillingService, InstructionsService, OnboardingService,
         Location,

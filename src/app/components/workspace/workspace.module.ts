@@ -1,7 +1,7 @@
 import { ShareSlackComponent } from "./share/slack.component";
 import { SharedModule } from "./../../shared/shared.module";
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";
-import { MarkdownModule, MarkedOptions, MarkedRenderer } from "ngx-markdown";
+import { MarkdownModule, MarkedOptions, MarkedRenderer, MarkdownService } from "ngx-markdown";
 import { Angulartics2Module } from "angulartics2";
 import { FilterTagsComponent } from "./filter/tags.component";
 import { SearchComponent } from "./search/search.component";
@@ -34,12 +34,12 @@ import { OnboardingComponent } from "../../shared/components/onboarding/onboardi
 import { InstructionsComponent } from "../../shared/components/instructions/instructions.component";
 import { PersonalCardComponent } from "./mapping/summary/personal/card.component";
 import { SlackService } from "./share/slack.service";
-import { MapSettingsService } from "../../shared/services/map/map-settings.service";
 import { NgbTooltipModule, NgbTypeaheadModule } from "@ng-bootstrap/ng-bootstrap";
+import { UIService } from "../../shared/services/ui/ui.service";
 
 
 const routes: Routes = [{
-    path: "map/:mapid/:mapslug",
+    path: "",
     data: { breadcrumbs: "{{data.dataset.initiative.name}}" },
     component: WorkspaceComponent,
     canActivate: [AuthGuard, AccessGuard, BillingGuard],
@@ -113,13 +113,8 @@ export function markedOptionsFactory(): MarkedOptions {
         TooltipComponent, ContextMenuComponent
     ],
     providers: [
-        SlackService, MapSettingsService,
-        WorkspaceComponentResolver, MappingSummaryBreadcrumbs,
-        // {
-        //     provide: MarkdownService,
-        //     useFactory: markdownServiceFactory,
-        //     deps: [HttpClient, DomSanitizer, HttpHandler]
-        // }
+        SlackService, 
+        WorkspaceComponentResolver, MappingSummaryBreadcrumbs, MarkdownService
     ],
     entryComponents: [OnboardingComponent, InstructionsComponent]
 })
