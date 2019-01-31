@@ -43,7 +43,7 @@ import "angular-tree-component";
 import "angulartics2";
 import "ng2-file-upload";
 import "angular-confirmation-popover";
-import "angular2-markdown";
+import "ngx-markdown";
 import "marked";
 import "slug";
 import "canvg";

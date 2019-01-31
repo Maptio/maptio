@@ -46,8 +46,7 @@ of lodash in @exalif/ngx-breadcrums
           test: /\/node_modules\//,
           chunks: 'all',
           priority: 0,
-          enforce: true,
-          maxSize:512000
+          enforce: true
         },
       }
     },
@@ -138,18 +137,11 @@ of lodash in @exalif/ngx-breadcrums
           global: 'bootstrap'
         },
         {
-          module: 'markdown',
+          module: 'marked',
           entry: {
-            path: 'lib/markdown.js'
+            path: 'marked.min.js'
           },
-          global: 'markdown'
-        },
-        {
-          module: 'to-markdown',
-          entry: {
-            path: 'dist/to-markdown.js'
-          },
-          global: 'to-markdown'
+          global: 'marked'
         },
         {
           module: '@fortawesome',

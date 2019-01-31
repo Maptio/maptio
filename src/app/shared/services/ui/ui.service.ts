@@ -1,12 +1,7 @@
 import { Injectable } from "@angular/core";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
-import { Tag } from "../../model/tag.data";
-import { Initiative } from "../../model/initiative.data";
-import { Helper } from "../../model/helper.data";
-import { MarkdownService } from "angular2-markdown";
-import { Role } from "../../model/role.data";
-import { User } from "../../model/user.data";
+import { MarkdownService } from "ngx-markdown";
 import { isEmpty, intersection } from "lodash-es"
 import { DeviceDetectorService } from 'ngx-device-detector';
 import * as screenfull from 'screenfull';

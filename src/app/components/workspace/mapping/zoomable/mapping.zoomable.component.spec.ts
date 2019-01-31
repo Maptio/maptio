@@ -15,7 +15,7 @@ import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { TestBed, async, ComponentFixture } from "@angular/core/testing";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { RouterTestingModule } from "@angular/router/testing";
-import { MarkdownService } from "angular2-markdown";
+import { MarkdownService } from "ngx-markdown";
 import { MappingZoomableComponent } from "./mapping.zoomable.component";
 import { NgProgress } from "@ngx-progressbar/core";
 import { LoaderService } from "../../../../shared/services/loading/loader.service";

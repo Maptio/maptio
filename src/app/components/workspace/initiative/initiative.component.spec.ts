@@ -10,7 +10,7 @@ import { DatasetFactory } from "./../../../shared/services/dataset.factory";
 import { UserFactory } from "./../../../shared/services/user.factory";
 import { TeamFactory } from "./../../../shared/services/team.factory";
 import { Initiative } from "./../../../shared/model/initiative.data";
-import { MarkdownModule } from "angular2-markdown";
+import { MarkdownModule } from "ngx-markdown";
 import { AuthHttp } from "angular2-jwt";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MockBackend } from "@angular/http/testing";

@@ -28,7 +28,7 @@ import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authht
 import { UserService } from "../../shared/services/user/user.service";
 import { JwtEncoder } from "../../shared/services/encoding/jwt.service";
 import { UIService } from '../../shared/services/ui/ui.service';
-import { MarkdownService } from 'angular2-markdown';
+import { MarkdownService } from 'ngx-markdown';
 import { LoaderService } from "../../shared/services/loading/loader.service";
 import { NgProgress } from "@ngx-progressbar/core";
 import { IntercomModule } from "ng-intercom";

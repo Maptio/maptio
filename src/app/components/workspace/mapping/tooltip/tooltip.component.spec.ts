@@ -1,5 +1,5 @@
 // import { Helper } from "./../../../shared/model/helper.data";
-// import { MarkdownModule } from "angular2-markdown";
+// import { MarkdownModule } from "ngx-markdown";
 
 // import { AuthHttp } from "angular2-jwt";
 // import { UserFactory } from "./../../../shared/services/user.factory";

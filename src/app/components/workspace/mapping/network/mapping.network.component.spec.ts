@@ -18,7 +18,7 @@ import { TestBed, async, ComponentFixture } from "@angular/core/testing";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2/dist";
 import { RouterTestingModule } from "@angular/router/testing";
 import { MappingNetworkComponent } from "./mapping.network.component";
-import { MarkdownService } from "angular2-markdown";
+import { MarkdownService } from "ngx-markdown";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { DataSet } from "../../../../shared/model/dataset.data";
 

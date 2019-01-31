@@ -1,9 +1,7 @@
 import { ShareSlackComponent } from "./share/slack.component";
 import { SharedModule } from "./../../shared/shared.module";
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";
-import { MarkdownService } from "angular2-markdown";
-import { Http } from "@angular/http";
-import { MarkdownModule } from "angular2-markdown";
+import { MarkdownModule, MarkedOptions, MarkedRenderer } from "ngx-markdown";
 import { Angulartics2Module } from "angulartics2";
 import { FilterTagsComponent } from "./filter/tags.component";
 import { SearchComponent } from "./search/search.component";
@@ -19,8 +17,6 @@ import { MappingComponent } from "./mapping/mapping.component";
 import { InitiativeComponent } from "./initiative/initiative.component";
 import { InitiativeNodeComponent } from "./building/initiative.node.component";
 import { BuildingComponent } from "./building/building.component";
-// import { UiSwitchModule } from "ngx-toggle-switch";
-
 import { AccessGuard } from "../../shared/services/guards/access.guard";
 import { AuthGuard } from "../../shared/services/guards/auth.guard";
 import { RouterModule, Routes } from "@angular/router";
@@ -35,7 +31,6 @@ import { PersonalSummaryComponent } from "./mapping/summary/personal/personal.co
 import { MappingSummaryBreadcrumbs } from "./mapping/summary/summary.breadcrumb";
 import { CommonComponentsModule } from "../../shared/common-components.module";
 import { OnboardingComponent } from "../../shared/components/onboarding/onboarding.component";
-import { AddMemberComponent } from "../../shared/components/onboarding/add-member.component";
 import { InstructionsComponent } from "../../shared/components/instructions/instructions.component";
 import { PersonalCardComponent } from "./mapping/summary/personal/card.component";
 import { SlackService } from "./share/slack.service";
@@ -65,17 +60,22 @@ const routes: Routes = [{
     ]
 }]
 
-export function markdownServiceFactory(http: Http) {
-    let _markdown = new MarkdownService(http)
-    _markdown.setMarkedOptions({ breaks: true })
-    _markdown.renderer.link = (href: string, title: string, text: string) => {
+
+export function markedOptionsFactory(): MarkedOptions {
+    const renderer = new MarkedRenderer();
+
+    renderer.link = (href: string, title: string, text: string) => {
         return `<a href=${href} class="markdown-link" target="_blank" title=${title}>${text}</a>`;
     }
 
-    _markdown.renderer.paragraph = (text: string) => {
+    renderer.paragraph = (text: string) => {
         return `<p class="markdown">${text}</p>`;
     }
-    return _markdown
+
+    return {
+        renderer: renderer,
+        breaks: true
+    };
 }
 
 @NgModule({
@@ -87,7 +87,12 @@ export function markdownServiceFactory(http: Http) {
         TreeModule,
         Angulartics2Module.forChild(),
         CommonComponentsModule,
-        MarkdownModule,
+        MarkdownModule.forRoot({
+            markedOptions: {
+                provide: MarkedOptions,
+                useFactory: markedOptionsFactory,
+            },
+        }),
         ConfirmationPopoverModule.forRoot({
             confirmButtonType: "danger",
             cancelButtonType: "link"
@@ -108,13 +113,14 @@ export function markdownServiceFactory(http: Http) {
         TooltipComponent, ContextMenuComponent
     ],
     providers: [
-        SlackService,MapSettingsService,
+        SlackService, MapSettingsService,
         WorkspaceComponentResolver, MappingSummaryBreadcrumbs,
-        {
-            provide: MarkdownService,
-            useFactory: markdownServiceFactory,
-            deps: [Http]
-        }],
-    entryComponents: [OnboardingComponent, InstructionsComponent ]
+        // {
+        //     provide: MarkdownService,
+        //     useFactory: markdownServiceFactory,
+        //     deps: [HttpClient, DomSanitizer, HttpHandler]
+        // }
+    ],
+    entryComponents: [OnboardingComponent, InstructionsComponent]
 })
 export class WorkspaceModule { }

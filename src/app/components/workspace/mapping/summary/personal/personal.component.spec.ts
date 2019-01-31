@@ -1,4 +1,4 @@
-import { MarkdownModule, MarkdownService } from "angular2-markdown";
+import { MarkdownModule, MarkdownService } from "ngx-markdown";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { AuthHttp } from "angular2-jwt";
 import { Observable, Subject } from "rxjs/Rx";

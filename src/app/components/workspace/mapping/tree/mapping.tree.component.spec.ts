@@ -18,7 +18,7 @@ import { TestBed, async, ComponentFixture } from "@angular/core/testing";
 import { MappingTreeComponent } from "./mapping.tree.component";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
-import { MarkdownService } from "angular2-markdown";
+import { MarkdownService } from "ngx-markdown";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { Team } from "../../../../shared/model/team.data";
 import { DataSet } from "../../../../shared/model/dataset.data";

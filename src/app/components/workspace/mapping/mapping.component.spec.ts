@@ -23,7 +23,7 @@ import { AuthHttp } from "angular2-jwt";
 import { IDataVisualizer } from "./mapping.interface";
 import { MappingNetworkComponent } from "./network/mapping.network.component";
 import { MappingZoomableComponent } from "./zoomable/mapping.zoomable.component";
-import { MarkdownService } from "angular2-markdown";
+import { MarkdownService } from "ngx-markdown";
 import { IntercomModule } from 'ng-intercom';
 import { MappingSummaryComponent } from './summary/summary.component';
 import { DeviceDetectorService } from 'ngx-device-detector';
