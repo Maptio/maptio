@@ -3,6 +3,8 @@ import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
 import { enableProdMode } from "@angular/core";
 import { AppModule } from "./app.module";
 
+import "./polyfills"
+
 import '../../public/styles/animations.css'
 import '../../public/styles/global.css'
 import '../../public/styles/angular-tree-component.css'
