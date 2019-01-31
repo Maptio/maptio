@@ -9,9 +9,9 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
   mode: process.env.NODE_ENV === "production" ? "production" : "development",
   entry: {
-    'polyfills': './src/app/polyfills.ts',
-    'vendor': './src/app/vendor.ts',
-    'app': './src/app/bootstrap.ts',
+    'polyfills': './src/polyfills.ts',
+    'vendor': './src/vendor.ts',
+    'app': './src/bootstrap.ts'
   },
 
   resolve: {
@@ -39,21 +39,20 @@ of lodash in @exalif/ngx-breadcrums
   },
 
   optimization: {
-    splitChunks: {
-      chunks: 'all',
-    },
-    runtimeChunk: 'single',
     // splitChunks: {
-    //   cacheGroups: {
-    //     vendor: {
-    //       name: 'vendor',
-    //       test: /\/node_modules\//,
-    //       chunks: 'all',
-    //       priority: 0,
-    //       enforce: true
-    //     },
-    //   }
+    //   chunks: 'all',
     // },
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          name: 'vendor',
+          test: /\/node_modules\//,
+          chunks: 'all',
+          priority: 0,
+          enforce: true
+        }
+      }
+    },
   },
 
   module: {
@@ -67,6 +66,7 @@ of lodash in @exalif/ngx-breadcrums
         loader: 'file-loader?name=assets/[name].[hash].[ext]'
       },
       {
+        // injected
         test: /\.css$/,
         exclude: helpers.root('src', 'app'),
         use: ExtractTextPlugin.extract({
@@ -77,8 +77,9 @@ of lodash in @exalif/ngx-breadcrums
         })
       },
       {
+        // inline
         test: /\.css$/,
-        include: helpers.root('src', 'app'),
+        include: [ helpers.root('src', 'app')],
         loaders: ['css-to-string-loader', 'css-loader']
       },
       {
@@ -131,7 +132,6 @@ of lodash in @exalif/ngx-breadcrums
       }
     }),
 
-
     new HtmlWebpackExternalsPlugin({
 
       hash: true,
@@ -155,7 +155,6 @@ of lodash in @exalif/ngx-breadcrums
           module: 'bootstrap',
           entry: {
             path: 'dist/js/bootstrap.min.js',
-
           },
           global: 'bootstrap'
         },
@@ -170,6 +169,10 @@ of lodash in @exalif/ngx-breadcrums
           module: '@fortawesome',
           entry: 'fontawesome-free/css/all.min.css',
           supplements: ['fontawesome-free/webfonts'],
+        },
+        {
+          module: 'bootstrap',
+          entry: 'dist/css/bootstrap.min.css'
         }
       ],
     }),
@@ -192,6 +195,7 @@ of lodash in @exalif/ngx-breadcrums
     new CopyWebpackPlugin([
       { from: 'public/images', to: 'assets/images' },
       { from: 'public/templates', to: 'assets/templates' }
-    ])
+    ]),
+
   ]
 };
