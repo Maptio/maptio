@@ -110,7 +110,25 @@ of lodash in @exalif/ngx-breadcrums
         removeComments: true,
         removeEmptyAttributes: true,
       },
-      chunksSortMode : 'none'
+      chunksSortMode: function (a, b) {  //alphabetical order
+        // console.log(a.names[0], b.names[0])
+        if (a.names[0].includes('polyfills'))
+          return -1
+        else if (b.names[0].includes('polyfills')) {
+          return 1
+        }
+        else {
+          if (a.names[0] > b.names[0]) {
+            return 1;
+          }
+          if (a.names[0] < b.names[0]) {
+            return -1;
+          }
+          return 0;
+        }
+
+
+      }
     }),
 
 
