@@ -33,31 +33,43 @@ import "d3-selection"
 import "d3-transition"
 import "d3-zoom"
 
-// Other vendors for example jQuery, Lodash or Bootstrap
-import "angular2-jwt";
+//ng-bootstap
 import "@ng-bootstrap/ng-bootstrap";
-import "@cloudinary/angular-5.x";
-import "cloudinary-core";
-import "auth0-js";
-import "angular-tree-component";
-import "angulartics2";
-import "ng2-file-upload";
-import "angular-confirmation-popover";
+
+//markdown
 import "ngx-markdown";
 import "marked";
-import "slug";
-import "canvg";
+
+//authentication
+import "angular2-jwt";
+import "auth0-js";
+import "angular2-uuid"
+
+//tracking
+import "angulartics2";
 import "logrocket";
+import "ng-intercom"
+import "ngx-fullstory"
+
+// image management
+import "@cloudinary/angular-5.x";
+import "cloudinary-core";
+import "ng2-file-upload";
+
+// UI components
+import "angular-confirmation-popover";
+import "angular-tree-component";
 import "ngx-color"
 import "@exalif/ngx-breadcrumbs"
 import "@ngx-progressbar/core"
+
+// utilities
+import "slug";
+import "canvg";
 import "ngx-device-detector"
-import "ngx-fullstory"
-import "ng-intercom"
 import "shortid"
 import "file-saver"
 import "screenfull"
-import "angular2-uuid"
 
 
 // You can import js, ts, css, sass, ...

@@ -52,7 +52,6 @@
     "angulartics2": "^2.4.0",
     "apicache": "^1.0.0",
     "auth0-js": "^9.3.1",
-    "awesome-typescript-loader": "^3.1.2",
     "aws-sdk": "^2.106.0",
     "body-parser": "^1.17.0",
     "bootstrap": "^4.2.1",
@@ -114,6 +113,9 @@
     "zone.js": "^0.8.28"
   },
   "devDependencies": {
+    "angular-router-loader": "~0.8",
+    "angular2-template-loader": "~0.6",
+    "awesome-typescript-loader": "~5.2",
     "@angular/compiler-cli": "^7.2.1",
     "@beyonk/google-fonts-webpack-plugin": "^1.2.1",
     "@ngtools/webpack": "^7.2.2",
@@ -142,7 +144,6 @@
     "@types/screenfull": "^3.3.2",
     "@types/shortid": "0.0.29",
     "@types/slug": "^0.9.0",
-    "angular2-template-loader": "^0.4.0",
     "codelyzer": "^4.5.0",
     "copy-webpack-plugin": "^4.6.0",
     "css-loader": "^0.26.1",

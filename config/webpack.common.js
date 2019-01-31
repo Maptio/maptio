@@ -40,16 +40,20 @@ of lodash in @exalif/ngx-breadcrums
 
   optimization: {
     splitChunks: {
-      cacheGroups: {
-        vendor: {
-          name: 'vendor',
-          test: /\/node_modules\//,
-          chunks: 'all',
-          priority: 0,
-          enforce: true
-        },
-      }
+      chunks: 'all'
     },
+    runtimeChunk: 'single',
+    // splitChunks: {
+    //   cacheGroups: {
+    //     vendor: {
+    //       name: 'vendor',
+    //       test: /\/node_modules\//,
+    //       chunks: 'all',
+    //       priority: 0,
+    //       enforce: true
+    //     },
+    //   }
+    // },
   },
 
   module: {
@@ -108,7 +112,7 @@ of lodash in @exalif/ngx-breadcrums
       },
     }),
 
-   
+
     new HtmlWebpackExternalsPlugin({
 
       hash: true,

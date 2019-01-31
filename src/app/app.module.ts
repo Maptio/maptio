@@ -1,7 +1,7 @@
 import { PermissionGuard } from "./shared/services/guards/permission.guard";
 import { PermissionService } from "./shared/model/permission.data";
-import { CommonModule, Location, LocationStrategy, PathLocationStrategy, APP_BASE_HREF } from "@angular/common";
-import { ErrorHandler, Injectable, InjectionToken, Injector, NgModule, Inject } from "@angular/core";
+import { Location, LocationStrategy, PathLocationStrategy, APP_BASE_HREF } from "@angular/common";
+import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { Http, HttpModule, RequestOptions } from "@angular/http";
 import { BrowserModule } from "@angular/platform-browser";
@@ -31,10 +31,8 @@ import { ChangePasswordComponent } from "./components/login/change-password.comp
 import { LoginComponent } from "./components/login/login.component";
 import { LogoutComponent } from "./components/login/logout.component";
 import { SignupComponent } from "./components/login/signup.component";
-import { TeamModule } from "./components/team/team.module";
 import { NotFoundComponent } from "./components/unauthorized/not-found.component";
 import { UnauthorizedComponent } from "./components/unauthorized/unauthorized.component";
-import { WorkspaceModule } from "./components/workspace/workspace.module";
 import { AuthConfiguration } from "./shared/services/auth/auth.config";
 import { authHttpServiceFactory } from "./shared/services/auth/auth.module";
 import { Auth } from "./shared/services/auth/auth.service";
@@ -64,8 +62,6 @@ import { BillingGuard } from "./shared/services/guards/billing.guard";
 
 import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressRouterModule } from '@ngx-progressbar/router';
-import { NgProgressHttpModule } from '@ngx-progressbar/http';
-import { CreateMapComponent } from "./shared/components/create-map/create-map.component";
 import { SharedModule } from "./shared/shared.module";
 import { CommonComponentsModule } from "./shared/common-components.module";
 import { PricingComponent } from "./components/pricing/pricing.component";
@@ -83,6 +79,12 @@ import { NgbModalModule, NgbTypeaheadModule, NgbTooltipModule, NgbPopoverModule 
 
 const appRoutes: Routes = [
     { path: "", redirectTo: "home", pathMatch: "full" },
+
+
+    {
+        path: "teams", loadChildren: "./components/team/team.module#TeamModule",
+        data: { breadcrumbs: "Organisations" }
+    },
 
     { path: "home", component: HomeComponent },
 
@@ -109,7 +111,8 @@ const appRoutes: Routes = [
     { path: "unauthorized", component: UnauthorizedComponent },
     { path: "forgot", component: ChangePasswordComponent },
     { path: "404", component: NotFoundComponent },
-    { path: "**", redirectTo: "/404" }
+    { path: "**", redirectTo: "/404" },
+
 ];
 
 export const cloudinaryLib = {
@@ -131,11 +134,10 @@ export const cloudinaryLib = {
         BrowserModule,
         FormsModule,
         ReactiveFormsModule,
-        CommonModule,
         HttpModule,
         DeviceDetectorModule.forRoot(),
         BreadcrumbsModule.forRoot(),
-        
+
         RouterModule.forRoot(appRoutes, { enableTracing: false }),
         ConfirmationPopoverModule.forRoot({
             confirmButtonType: "danger",
@@ -154,8 +156,6 @@ export const cloudinaryLib = {
         HttpFactoryModule,
         BrowserAnimationsModule,
         CloudinaryModule.forRoot(cloudinaryLib, { cloud_name: environment.CLOUDINARY_CLOUDNAME, upload_preset: environment.CLOUDINARY_UPLOAD_PRESET }),
-        TeamModule,
-        WorkspaceModule,
         IntercomModule.forRoot({
             appId: environment.INTERCOM_APP_ID, // from your Intercom config
             updateOnRouterChange: true // will automatically run `update` on router event changes. Default: `false`

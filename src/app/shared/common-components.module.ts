@@ -28,7 +28,6 @@ import { NgbTooltipModule, NgbModalModule, NgbPopoverModule } from "@ng-bootstra
         FormsModule,
         ReactiveFormsModule,
         CommonModule,
-        BrowserModule,
         RouterModule,
         ColorHueModule,
         SharedModule,

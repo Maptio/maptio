@@ -16,7 +16,6 @@ import { NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
         FormsModule,
         ReactiveFormsModule,
         CommonModule,
-        BrowserModule,
         RouterModule, NgbPopoverModule
     ],
     declarations: [

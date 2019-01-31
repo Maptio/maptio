@@ -20,23 +20,27 @@ module.exports = webpackMerge(commonConfig, {
     path: buildPath,
     publicPath: '/',
     filename: '[name].js',
-    chunkFilename: '[id].chunk.js'
+    chunkFilename: '[name].chunk.js'
   },
 
   module: {
     rules: [
       {
         test: /\.ts?$/,
-        use: [{
-          loader: "ts-loader",
-          options: {
-            transpileOnly: true,
-            experimentalWatchApi: true,
-          }
-        },
-        {
-          loader: "angular2-template-loader"
-        }],
+        use: [
+          {
+            loader: "ts-loader",
+            options: {
+              transpileOnly: true,
+              experimentalWatchApi: true,
+            }
+          },
+          {
+            loader: "angular2-template-loader"
+          },
+          {
+            loader: "angular-router-loader"
+          }],
       },
     ]
   },

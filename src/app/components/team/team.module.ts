@@ -22,11 +22,11 @@ import { TeamBillingComponent } from "./single/billing/billing.component";
 import { CommonComponentsModule } from "../../shared/common-components.module";
 import { MemberSingleComponent } from "./single/members/member-single.component";
 import { NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
+import { BrowserModule } from "../../../../node_modules/@angular/platform-browser";
 
 const routes: Routes = [
     {
-        path: "teams",
-        data: { breadcrumbs: "Organisations" },
+        path: "",
         children: [
             {
                 path: "", component: TeamListComponent, canActivate: [AuthGuard],
