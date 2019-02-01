@@ -128,7 +128,7 @@ of lodash in @exalif/ngx-breadcrums
         removeComments: true,
         removeEmptyAttributes: true,
       },
-      chunksSortMode: "dependency" 
+      // chunksSortMode: "" 
       /*function (a, b) {
         // polyfills always first
         if (a.names[0].includes('polyfills'))
