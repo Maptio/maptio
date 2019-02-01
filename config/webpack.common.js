@@ -6,8 +6,6 @@ var HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
 var GoogleFontsPlugin = require("@beyonk/google-fonts-webpack-plugin");
 var MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-// var ExtractTextPlugin = require('extract-text-webpack-plugin');
-
 module.exports = {
   mode: process.env.NODE_ENV === "production" ? "production" : "development",
   entry: {
@@ -76,37 +74,12 @@ of lodash in @exalif/ngx-breadcrums
           },
           "css-loader?sourceMap"
         ]
-        // use: ExtractTextPlugin.extract({
-        //   fallback: 'style-loader',
-        //   use: [
-        //     { loader: 'css-loader?sourceMap', options: { minimize: true } }
-        //   ]
-        // })
       },
       {
         test: /\.css$/,
         include: helpers.root('src', 'app'),
         loader: 'raw-loader'
       },
-      /*
-      {
-        // injected
-        test: /\.css$/,
-        exclude: helpers.root('src', 'app'),
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            { loader: 'css-loader', options: { minimize: true } }
-          ]
-        })
-      },
-      {
-        // inline
-        test: /\.css$/,
-        include: [ helpers.root('src', 'app')],
-        loaders: ['css-to-string-loader', 'css-loader']
-      },
-      */
       {
         test: /\.scss$/,
         exclude: /node_modules/,
