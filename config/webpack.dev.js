@@ -1,6 +1,7 @@
 var webpackMerge = require('webpack-merge');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+var MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 var commonConfig = require('./webpack.common.js');
 var helpers = require('./helpers');
@@ -52,7 +53,11 @@ module.exports = webpackMerge(commonConfig, {
 
   plugins: [
 
-    new ExtractTextPlugin('[name].min.css'),
+    new MiniCssExtractPlugin({
+      filename: "[name].css",
+      chunkFilename: "[name].chunk.css"
+    }),
+
     new BundleAnalyzerPlugin({ defaultSizes: 'gzip' })
   ],
 

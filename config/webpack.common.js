@@ -4,14 +4,16 @@ var helpers = require('./helpers');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
 var GoogleFontsPlugin = require("@beyonk/google-fonts-webpack-plugin");
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+// var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   mode: process.env.NODE_ENV === "production" ? "production" : "development",
   entry: {
-    'polyfills': './src/polyfills.ts',
-    'vendor': './src/vendor.ts',
-    'app': './src/bootstrap.ts'
+    'polyfills-entry': './src/polyfills.ts',
+    'vendor-entry': './src/vendor.ts',
+    'app-entry': './src/bootstrap.ts'
   },
 
   resolve: {
@@ -66,6 +68,28 @@ of lodash in @exalif/ngx-breadcrums
         loader: 'file-loader?name=assets/[name].[hash].[ext]'
       },
       {
+        test: /\.css$/,
+        exclude: helpers.root('src', 'app'),
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader
+          },
+          "css-loader?sourceMap"
+        ]
+        // use: ExtractTextPlugin.extract({
+        //   fallback: 'style-loader',
+        //   use: [
+        //     { loader: 'css-loader?sourceMap', options: { minimize: true } }
+        //   ]
+        // })
+      },
+      {
+        test: /\.css$/,
+        include: helpers.root('src', 'app'),
+        loader: 'raw-loader'
+      },
+      /*
+      {
         // injected
         test: /\.css$/,
         exclude: helpers.root('src', 'app'),
@@ -82,6 +106,7 @@ of lodash in @exalif/ngx-breadcrums
         include: [ helpers.root('src', 'app')],
         loaders: ['css-to-string-loader', 'css-loader']
       },
+      */
       {
         test: /\.scss$/,
         exclude: /node_modules/,
@@ -170,12 +195,24 @@ of lodash in @exalif/ngx-breadcrums
           entry: 'fontawesome-free/css/all.min.css',
           supplements: ['fontawesome-free/webfonts'],
         },
-        {
-          module: 'bootstrap',
-          entry: 'dist/css/bootstrap.min.css'
-        }
+        // {
+        //   module: 'bootstrap',
+        //   entry: 'dist/css/bootstrap.min.css'
+        // }
       ],
     }),
+
+    // new HtmlCriticalWebpackPlugin({
+    //   base: helpers.root('dist'),
+    //   src: 'index.html',
+    //   dest: 'index.html',
+    //   inline: true,
+    //   minify: true,
+    //   extract: true,
+    //   penthouse: {
+    //     blockJSRequests: false,
+    //   }
+    // }),
 
     new GoogleFontsPlugin({
       fonts: [
