@@ -128,7 +128,8 @@ of lodash in @exalif/ngx-breadcrums
         removeComments: true,
         removeEmptyAttributes: true,
       },
-      chunksSortMode: function (a, b) {
+      chunksSortMode: "dependency" 
+      /*function (a, b) {
         // polyfills always first
         if (a.names[0].includes('polyfills'))
           return -1
@@ -146,7 +147,7 @@ of lodash in @exalif/ngx-breadcrums
         }
 
 
-      }
+      }*/
     }),
 
     new HtmlWebpackExternalsPlugin({
