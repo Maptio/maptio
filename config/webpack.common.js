@@ -199,11 +199,11 @@ of lodash in @exalif/ngx-breadcrums
       ],
     }),
 
-    // new ScriptExtHtmlWebpackPlugin({
-    //   sync: '-entry',
+    new ScriptExtHtmlWebpackPlugin({
+      sync: '-entry',
 
-    //   defaultAttribute: 'async'
-    // }),
+      defaultAttribute: 'async'
+    }),
 
     new PreloadWebpackPlugin({
       rel: 'preload',
@@ -225,13 +225,13 @@ of lodash in @exalif/ngx-breadcrums
       { from: 'public/templates', to: 'assets/templates' }
     ]),
 
-    new GoogleFontsPlugin({
-      fonts: [
-        { family: "Open Sans", variants: ["400", "600", "700"] },
-        { family: "Roboto", variants: ["500"] },
-        { family: "Lato", variants: ["400"] },
-      ]
-    }),
+    // new GoogleFontsPlugin({
+    //   fonts: [
+    //     { family: "Open Sans", variants: ["400", "600", "700"] },
+    //     { family: "Roboto", variants: ["500"] },
+    //     { family: "Lato", variants: ["400"] },
+    //   ]
+    // }),
     new PurgecssPlugin({
       paths: glob.sync([
         './src/**/*',
