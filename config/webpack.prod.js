@@ -57,6 +57,10 @@ module.exports = webpackMerge(commonConfig, {
           minimize: false
         }
       }
+    }),
+    new webpack.DefinePlugin({
+      NODE_MODULES_CACHE:false
+
     })
   ]
 });

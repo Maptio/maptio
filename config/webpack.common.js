@@ -1,10 +1,14 @@
-var webpack = require('webpack');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
-var helpers = require('./helpers');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
-var GoogleFontsPlugin = require("@beyonk/google-fonts-webpack-plugin");
-var MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const webpack = require('webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const helpers = require('./helpers');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
+const GoogleFontsPlugin = require("@beyonk/google-fonts-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+const PurgecssPlugin = require('purgecss-webpack-plugin');
+
+const glob = require('glob');
 
 module.exports = {
   mode: process.env.NODE_ENV === "production" ? "production" : "development",
@@ -206,6 +210,9 @@ of lodash in @exalif/ngx-breadcrums
       { from: 'public/images', to: 'assets/images' },
       { from: 'public/templates', to: 'assets/templates' }
     ]),
+    new PurgecssPlugin({
+      paths: glob.sync(`./src/**/*`,  { nodir: true }),
+    }),
 
   ]
 };
