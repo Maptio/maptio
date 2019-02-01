@@ -169,8 +169,16 @@ of lodash in @exalif/ngx-breadcrums
         },
         {
           module: '@fortawesome',
-          entry: 'fontawesome-free/css/all.min.css',
+          entry: {
+            path: 'fontawesome-free/css/all.min.css',
+            attributes: {
+              rel: "preload",
+              as : 'style',
+              onload:"this.rel='stylesheet'"
+            }
+          },
           supplements: ['fontawesome-free/webfonts'],
+
         }
       ],
     }),
@@ -195,10 +203,10 @@ of lodash in @exalif/ngx-breadcrums
       { from: 'public/templates', to: 'assets/templates' }
     ]),
     new PurgecssPlugin({
-      paths:  glob.sync([ 
-        './src/**/*',      
-      ], {nodir:true})
-      
+      paths: glob.sync([
+        './src/**/*',
+      ], { nodir: true })
+
     })
   ]
 };
