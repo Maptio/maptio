@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from '../../../environment/environment';
+import { environment } from '../../../../environment/environment';
 
 @Component({
     selector: 'app-privacy',

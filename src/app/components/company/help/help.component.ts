@@ -1,9 +1,9 @@
-import { environment } from './../../../environment/environment';
+import { environment } from '../../../../environment/environment';
 import { Component, OnInit } from "@angular/core";
-import { InstructionsService } from '../../shared/components/instructions/instructions.service';
-import { User } from '../../shared/model/user.data';
-import { Auth } from '../../shared/services/auth/auth.service';
-import { Subscription } from '../../../../node_modules/rxjs';
+import { InstructionsService } from '../../../shared/components/instructions/instructions.service';
+import { User } from '../../../shared/model/user.data';
+import { Auth } from '../../../shared/services/auth/auth.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
     selector: "help",

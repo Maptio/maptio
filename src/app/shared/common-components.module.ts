@@ -20,6 +20,7 @@ import { ConfirmationPopoverModule } from "../../../node_modules/angular-confirm
 import { CommonModalComponent } from "./components/modal/modal.component";
 import { InstructionsComponent } from "./components/instructions/instructions.component";
 import { NgbTooltipModule, NgbModalModule, NgbPopoverModule } from "@ng-bootstrap/ng-bootstrap";
+import { SafePipe } from "../pipes/safe.pipe";
 
 
 
@@ -47,7 +48,8 @@ import { NgbTooltipModule, NgbModalModule, NgbPopoverModule } from "@ng-bootstra
         AddTerminologyComponent,
         GoogleSignInComponent,
         ColorPickerComponent,
-        CommonModalComponent
+        CommonModalComponent,
+        SafePipe
     ],
     providers: [
         IntercomService
@@ -63,7 +65,8 @@ import { NgbTooltipModule, NgbModalModule, NgbPopoverModule } from "@ng-bootstra
         AddTerminologyComponent,
         GoogleSignInComponent,
         ColorPickerComponent,
-        CommonModalComponent
+        CommonModalComponent,
+        SafePipe
     ]
 })
 export class CommonComponentsModule { }

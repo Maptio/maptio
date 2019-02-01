@@ -7,7 +7,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef
 } from "@angular/core";
-import { HelpComponent } from "../components/help/help.component";
 import "rxjs/add/operator/map"
 import { Auth } from "../shared/services/auth/auth.service";
 import { environment } from "../../environment/environment";

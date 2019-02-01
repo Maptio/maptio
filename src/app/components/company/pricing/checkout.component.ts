@@ -1,13 +1,14 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute } from '../../../../node_modules/@angular/router';
-import { Subscription, Observable } from '../../../../node_modules/rxjs';
-import { Intercom } from '../../../../node_modules/ng-intercom';
-import { Auth } from '../../shared/services/auth/auth.service';
-import { environment } from '../../../environment/environment';
-import { DatasetFactory } from '../../shared/services/dataset.factory';
-import { Team } from '../../shared/model/team.data';
-import { DataSet } from '../../shared/model/dataset.data';
-import { TeamFactory } from '../../shared/services/team.factory';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
+import {Observable} from "rxjs/Observable"
+import { Intercom } from '../../../../../node_modules/ng-intercom';
+import { Auth } from '../../../shared/services/auth/auth.service';
+import { environment } from '../../../../environment/environment';
+import { DatasetFactory } from '../../../shared/services/dataset.factory';
+import { Team } from '../../../shared/model/team.data';
+import { DataSet } from '../../../shared/model/dataset.data';
+import { TeamFactory } from '../../../shared/services/team.factory';
 
 @Component({
     selector: 'pricing-checkout',

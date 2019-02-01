@@ -24,13 +24,8 @@ import { AppComponent } from "./components/app.component";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { FooterComponent } from "./components/footer/footer.component";
 import { HeaderComponent } from "./components/header/header.component";
-import { HelpComponent } from "./components/help/help.component";
 import { HomeComponent } from "./components/home/home.component";
 import { LoaderComponent } from "./components/loading/loader.component";
-import { ChangePasswordComponent } from "./components/login/change-password.component";
-import { LoginComponent } from "./components/login/login.component";
-import { LogoutComponent } from "./components/login/logout.component";
-import { SignupComponent } from "./components/login/signup.component";
 import { NotFoundComponent } from "./components/unauthorized/not-found.component";
 import { UnauthorizedComponent } from "./components/unauthorized/unauthorized.component";
 import { AuthConfiguration } from "./shared/services/auth/auth.config";
@@ -50,7 +45,6 @@ import { LoaderService } from "./shared/services/loading/loader.service";
 import { MailingService } from "./shared/services/mailing/mailing.service";
 import { TeamFactory } from "./shared/services/team.factory";
 import { ColorService } from "./shared/services/ui/color.service";
-import { UIService } from "./shared/services/ui/ui.service";
 import { URIService } from "./shared/services/uri.service";
 import { UserFactory } from "./shared/services/user.factory";
 import { UserService } from "./shared/services/user/user.service";
@@ -64,23 +58,24 @@ import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressRouterModule } from '@ngx-progressbar/router';
 import { SharedModule } from "./shared/shared.module";
 import { CommonComponentsModule } from "./shared/common-components.module";
-import { PricingComponent } from "./components/pricing/pricing.component";
-import { AuthorizeComponent } from "./components/login/authorize.component";
-import { TermsComponent } from "./components/pricing/terms.component";
-import { PrivacyComponent } from "./components/pricing/privacy.component";
-import { CheckoutComponent } from "./components/pricing/checkout.component";
 import { TeamService } from "./shared/services/team/team.service";
 import { MapService } from "./shared/services/map/map.service";
 import { InstructionsService } from "./shared/components/instructions/instructions.service";
 import { OnboardingService } from "./shared/components/onboarding/onboarding.service";
 import { SafePipe } from "./pipes/safe.pipe";
 import { NgbModalModule, NgbTypeaheadModule, NgbTooltipModule, NgbPopoverModule } from "../../node_modules/@ng-bootstrap/ng-bootstrap";
-import { MarkdownService, MarkedOptions } from "../../node_modules/ngx-markdown";
 
 
 const appRoutes: Routes = [
     { path: "", redirectTo: "home", pathMatch: "full" },
 
+    { path: "home", component: HomeComponent },
+    {
+        path: "", loadChildren: "./components/login/login.module#LoginModule"
+    },
+    {
+        path: "", loadChildren: "./components/company/company.module#CompanyModule"
+    },
 
     {
         path: "teams", loadChildren: "./components/team/team.module#TeamModule",
@@ -91,22 +86,6 @@ const appRoutes: Routes = [
         path: "map/:mapid/:mapslug", loadChildren: "./components/workspace/workspace.module#WorkspaceModule"
     },
 
-    { path: "home", component: HomeComponent },
-
-    { path: "login", component: LoginComponent },
-    { path: "authorize", component: AuthorizeComponent },
-
-    { path: "logout", component: LogoutComponent },
-    { path: "help", component: HelpComponent, data: { breadcrumbs: true, text: "Help" } },
-    { path: "pricing", component: PricingComponent, data: { breadcrumbs: true, text: "Pricing" } },
-    { path: "checkout", canActivate: [AuthGuard], component: CheckoutComponent },
-
-    { path: "terms", component: TermsComponent, data: { breadcrumbs: true, text: "Terms of service" } },
-
-    { path: "privacy", component: PrivacyComponent, data: { breadcrumbs: true, text: "Privacy policy" } },
-
-    { path: "signup", component: SignupComponent },
-
     {
         path: ":shortid/:slug",
         component: AccountComponent,
@@ -114,7 +93,6 @@ const appRoutes: Routes = [
         data: { breadcrumbs: "Profile" }
     },
     { path: "unauthorized", component: UnauthorizedComponent },
-    { path: "forgot", component: ChangePasswordComponent },
     { path: "404", component: NotFoundComponent },
     { path: "**", redirectTo: "/404" },
 
@@ -127,13 +105,15 @@ export const cloudinaryLib = {
 
 @NgModule({
     declarations: [
-        AppComponent, AccountComponent, HeaderComponent, FooterComponent, LoginComponent, LogoutComponent, HomeComponent, UnauthorizedComponent, NotFoundComponent,
-        ChangePasswordComponent, LoaderComponent, SignupComponent, AuthorizeComponent,
-        HelpComponent, PricingComponent, TermsComponent, PrivacyComponent,
-        DashboardComponent, CheckoutComponent,
+        AppComponent, HeaderComponent, FooterComponent, LoaderComponent,
+        UnauthorizedComponent, NotFoundComponent, HomeComponent, 
+
+        DashboardComponent, AccountComponent,
         // for tests
         AnAnchorableComponent,
-        SafePipe
+
+
+
     ],
     imports: [
         BrowserModule,
@@ -179,7 +159,7 @@ export const cloudinaryLib = {
         BrowserAnimationsModule,
         AuthGuard, AccessGuard, WorkspaceGuard, PermissionGuard, BillingGuard,
         AuthConfiguration,
-        DataService, CounterService, URIService, ColorService,DatasetFactory, TeamFactory,
+        DataService, CounterService, URIService, ColorService, DatasetFactory, TeamFactory,
         ErrorService, Auth, UserService, TeamService, MapService, UserFactory, MailingService, JwtEncoder, LoaderService,
         ExportService, FileService, PermissionService, BillingService, InstructionsService, OnboardingService,
         Location,
