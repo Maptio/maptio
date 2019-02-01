@@ -198,11 +198,11 @@ of lodash in @exalif/ngx-breadcrums
       ],
     }),
 
-    new ScriptExtHtmlWebpackPlugin({
-      sync: '-entry',
+    // new ScriptExtHtmlWebpackPlugin({
+    //   sync: '-entry',
 
-      defaultAttribute: 'async'
-    }),
+    //   defaultAttribute: 'async'
+    // }),
 
     new PreloadWebpackPlugin({
       rel: 'preload',
