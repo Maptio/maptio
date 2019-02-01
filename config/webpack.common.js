@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
 const GoogleFontsPlugin = require("@beyonk/google-fonts-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
+const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const PurgecssPlugin = require('purgecss-webpack-plugin');
 
 const glob = require('glob-all');
@@ -183,6 +183,12 @@ of lodash in @exalif/ngx-breadcrums
       ],
     }),
 
+    new PreloadWebpackPlugin({
+      rel: 'preload',
+      include: 'allAssets', // or 'initial',
+      fileWhitelist: [/\.css$/]
+    }),
+
     new GoogleFontsPlugin({
       fonts: [
         { family: "Open Sans", variants: ["400", "600", "700"] },
@@ -205,7 +211,8 @@ of lodash in @exalif/ngx-breadcrums
     new PurgecssPlugin({
       paths: glob.sync([
         './src/**/*',
-      ], { nodir: true })
+      ], { nodir: true }),
+    whitelist: ['breadcrumbs__container','breadcrumbs__item']
 
     })
   ]
