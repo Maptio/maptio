@@ -7,7 +7,7 @@ const GoogleFontsPlugin = require("@beyonk/google-fonts-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const PurgecssPlugin = require('purgecss-webpack-plugin');
-
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const glob = require('glob-all');
 
 module.exports = {
@@ -196,6 +196,12 @@ of lodash in @exalif/ngx-breadcrums
 
         }
       ],
+    }),
+
+    new ScriptExtHtmlWebpackPlugin({
+      sync: '-entry',
+
+      defaultAttribute: 'async'
     }),
 
     new PreloadWebpackPlugin({
