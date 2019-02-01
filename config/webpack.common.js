@@ -4,7 +4,7 @@ var helpers = require('./helpers');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
 var GoogleFontsPlugin = require("@beyonk/google-fonts-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+var MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 // var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
