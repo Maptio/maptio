@@ -33,9 +33,6 @@ export class AppComponent {
   public navigationOtherSubscription: Subscription;
   public checkTokenSubscription: Subscription;
 
-  @ViewChild("help")
-  helpComponent: HelpComponent;
-
   constructor(public auth: Auth, private router: Router, public progress: NgProgress,
     public intercom: Intercom, private deviceService: DeviceDetectorService, private cd: ChangeDetectorRef) {
 
