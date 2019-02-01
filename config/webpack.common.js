@@ -211,13 +211,7 @@ of lodash in @exalif/ngx-breadcrums
       fileWhitelist: [/\.css$/]
     }),
 
-    new GoogleFontsPlugin({
-      fonts: [
-        { family: "Open Sans", variants: ["400", "600", "700"] },
-        { family: "Roboto", variants: ["500"] },
-        { family: "Lato", variants: ["400"] },
-      ]
-    }),
+   
 
     new webpack.IgnorePlugin(
       //https://medium.com/@ahmedelgabri/analyzing-optimizing-your-webpack-bundle-8590818af4df
@@ -230,6 +224,14 @@ of lodash in @exalif/ngx-breadcrums
       { from: 'public/images', to: 'assets/images' },
       { from: 'public/templates', to: 'assets/templates' }
     ]),
+
+    new GoogleFontsPlugin({
+      fonts: [
+        { family: "Open Sans", variants: ["400", "600", "700"] },
+        { family: "Roboto", variants: ["500"] },
+        { family: "Lato", variants: ["400"] },
+      ]
+    }),
     new PurgecssPlugin({
       paths: glob.sync([
         './src/**/*',
