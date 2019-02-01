@@ -8,7 +8,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const PurgecssPlugin = require('purgecss-webpack-plugin');
 
-const glob = require('glob');
+const glob = require('glob-all');
 
 module.exports = {
   mode: process.env.NODE_ENV === "production" ? "production" : "development",
@@ -171,25 +171,9 @@ of lodash in @exalif/ngx-breadcrums
           module: '@fortawesome',
           entry: 'fontawesome-free/css/all.min.css',
           supplements: ['fontawesome-free/webfonts'],
-        },
-        // {
-        //   module: 'bootstrap',
-        //   entry: 'dist/css/bootstrap.min.css'
-        // }
+        }
       ],
     }),
-
-    // new HtmlCriticalWebpackPlugin({
-    //   base: helpers.root('dist'),
-    //   src: 'index.html',
-    //   dest: 'index.html',
-    //   inline: true,
-    //   minify: true,
-    //   extract: true,
-    //   penthouse: {
-    //     blockJSRequests: false,
-    //   }
-    // }),
 
     new GoogleFontsPlugin({
       fonts: [
@@ -211,8 +195,10 @@ of lodash in @exalif/ngx-breadcrums
       { from: 'public/templates', to: 'assets/templates' }
     ]),
     new PurgecssPlugin({
-      paths: glob.sync(`./src/**/*`,  { nodir: true }),
-    }),
-
+      paths:  glob.sync([ 
+        './src/**/*',      
+      ], {nodir:true})
+      
+    })
   ]
 };
