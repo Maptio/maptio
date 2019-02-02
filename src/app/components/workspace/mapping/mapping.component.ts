@@ -38,12 +38,6 @@ import { SlackService } from "../share/slack.service";
 import { DataSet } from "../../../shared/model/dataset.data";
 import { MapSettingsService, MapSettings } from "../../../shared/services/map/map-settings.service";
 
-// import { MappingNetworkComponent } from "./network/mapping.network.component";
-// import { MappingCirclesComponent } from "./circles/mapping.circles.component";
-
-
-declare var canvg: any;
-
 @Component({
   selector: "mapping",
   templateUrl: "./mapping.component.html",

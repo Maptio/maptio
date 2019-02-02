@@ -65,7 +65,6 @@ import "@ngx-progressbar/core"
 
 // utilities
 import "slug";
-import "canvg";
 import "ngx-device-detector"
 import "shortid"
 import "file-saver"
