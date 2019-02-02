@@ -167,52 +167,55 @@ of lodash in @exalif/ngx-breadcrums
         {
           module: 'jquery',
           entry: {
-            path: 'dist/jquery.min.js'
+            path: 'dist/jquery.min.js',
+            attributes : {
+              defer: ""
+            }
           },
           global: 'jQuery',
+          append: true
 
         },
         {
           module: 'popper.js',
           entry: {
-            path: 'dist/umd/popper.min.js'
+            path: 'dist/umd/popper.min.js',
+            attributes : {
+              defer: ""
+            }
           },
-          global: 'popper'
+          global: 'popper',
+          append: true
         },
         {
           module: 'bootstrap',
           entry: {
             path: 'dist/js/bootstrap.min.js',
+            attributes : {
+              defer: ""
+            }
           },
-          global: 'bootstrap'
+          global: 'bootstrap',
+          append: true
         },
         {
           module: 'marked',
           entry: {
-            path: 'marked.min.js'
+            path: 'marked.min.js',
+            attributes : {
+              defer: ""
+            }
           },
-          global: 'marked'
+          global: 'marked',
+          append: true
         },
-        // {
-        //   module: '@fortawesome',
-        //   entry: {
-        //     path: 'fontawesome-free/css/all.min.css',
-        //     attributes: {
-        //       rel: "preload",
-        //       as: 'style',
-        //       onload: "this.rel='stylesheet'"
-        //     }
-        //   },
-        //   supplements: ['fontawesome-free/webfonts'],
-
-        // }
       ],
     }),
 
     new ScriptExtHtmlWebpackPlugin({
       sync: '-entry',
-
-      defaultAttribute: 'async'
+      async : 'npm',
+      // defaultAttribute: 'async'
     }),
 
     new PreloadWebpackPlugin({
