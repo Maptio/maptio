@@ -2,6 +2,7 @@
 @font-face {
     font-family: 'Open Sans';
     font-style: normal;
+    font-display: swap;
     font-weight: 400;
     src: url('../webfonts/open-sans-v15-latin-ext_latin-regular.eot'); /* IE9 Compat Modes */
     src: local('Open Sans Regular'), local('OpenSans-Regular'),
@@ -15,6 +16,7 @@
   @font-face {
     font-family: 'Open Sans';
     font-style: normal;
+    font-display: swap;
     font-weight: 600;
     src: url('../webfonts/open-sans-v15-latin-ext_latin-600.eot'); /* IE9 Compat Modes */
     src: local('Open Sans SemiBold'), local('OpenSans-SemiBold'),
@@ -28,6 +30,7 @@
   @font-face {
     font-family: 'Open Sans';
     font-style: normal;
+    font-display: swap;
     font-weight: 700;
     src: url('../webfonts/open-sans-v15-latin-ext_latin-700.eot'); /* IE9 Compat Modes */
     src: local('Open Sans Bold'), local('OpenSans-Bold'),
@@ -42,6 +45,7 @@
 @font-face {
   font-family: 'Lato';
   font-style: normal;
+  font-display: swap;
   font-weight: 400;
   src: url('../webfonts/lato-v14-latin-regular.eot'); /* IE9 Compat Modes */
   src: local('Lato Regular'), local('Lato-Regular'),
@@ -56,6 +60,7 @@
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
+  font-display: swap;
   font-weight: 500;
   src: url('../webfonts/roboto-v18-latin-ext_latin-500.eot'); /* IE9 Compat Modes */
   src: local('Roboto Medium'), local('Roboto-Medium'),
