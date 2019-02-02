@@ -210,8 +210,8 @@ of lodash in @exalif/ngx-breadcrums
 
     new ScriptExtHtmlWebpackPlugin({
       sync: '-entry',
-      // async : /webpack|core-js|zone/,
-      defaultAttribute: 'defer'
+      async : 'npm',
+      // defaultAttribute: 'async'
     }),
 
     new PreloadWebpackPlugin({
