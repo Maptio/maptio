@@ -21,18 +21,9 @@ import "date-fns/parse"
 import "date-fns/add_days"
 
 //d3
-import "d3-array"
-import "d3-collection"
 import "d3-color";
-import "d3-drag"
-import "d3-force"
 import "d3-hierarchy"
-import "d3-interpolate";
-import "d3-scale";
 import "d3-selection"
-import "d3-transition"
-import "d3-zoom"
-
 //ng-bootstap
 import "@ng-bootstrap/ng-bootstrap";
 
@@ -58,8 +49,6 @@ import "ng2-file-upload";
 
 // UI components
 import "angular-confirmation-popover";
-import "angular-tree-component";
-import "ngx-color"
 import "@exalif/ngx-breadcrumbs"
 import "@ngx-progressbar/core"
 

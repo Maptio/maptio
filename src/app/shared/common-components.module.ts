@@ -3,7 +3,6 @@ import { CreateMapComponent } from './components/create-map/create-map.component
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import { ColorHueModule } from 'ngx-color/hue'; // <color-hue-picker></color-hue-picker>
 
 import { CardMapComponent } from './components/card-map/card-map.component';
 import { RouterModule } from '@angular/router';
@@ -30,7 +29,7 @@ import { SafePipe } from "../pipes/safe.pipe";
         ReactiveFormsModule,
         CommonModule,
         RouterModule,
-        ColorHueModule,
+        // ColorHueModule,
         SharedModule,
         ConfirmationPopoverModule,
         NgbTooltipModule, 
@@ -47,7 +46,7 @@ import { SafePipe } from "../pipes/safe.pipe";
         AddMemberComponent,
         AddTerminologyComponent,
         GoogleSignInComponent,
-        ColorPickerComponent,
+        // ColorPickerComponent,
         CommonModalComponent,
         SafePipe
     ],
@@ -64,7 +63,7 @@ import { SafePipe } from "../pipes/safe.pipe";
         AddMemberComponent,
         AddTerminologyComponent,
         GoogleSignInComponent,
-        ColorPickerComponent,
+        // ColorPickerComponent,
         CommonModalComponent,
         SafePipe
     ]

@@ -1,3 +1,20 @@
+import "ngx-color"
+import "angular-tree-component";
+
+import "d3-array"
+import "d3-collection"
+import "d3-drag"
+import "d3-force"
+import "d3-interpolate";
+import "d3-scale";
+import "d3-transition"
+import "d3-zoom"
+
+
+
+import { ColorHueModule } from 'ngx-color/hue'; // <color-hue-picker></color-hue-picker>
+
+
 import { ShareSlackComponent } from "./share/slack.component";
 import { SharedModule } from "./../../shared/shared.module";
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";
@@ -34,8 +51,8 @@ import { OnboardingComponent } from "../../shared/components/onboarding/onboardi
 import { InstructionsComponent } from "../../shared/components/instructions/instructions.component";
 import { PersonalCardComponent } from "./mapping/summary/personal/card.component";
 import { SlackService } from "./share/slack.service";
-import { NgbTooltipModule, NgbTypeaheadModule } from "@ng-bootstrap/ng-bootstrap";
-import { UIService } from "../../shared/services/ui/ui.service";
+import { NgbTooltipModule, NgbTypeaheadModule, NgbPopoverModule } from "@ng-bootstrap/ng-bootstrap";
+import { ColorPickerComponent } from "../../shared/components/color-picker/color-picker.component";
 
 
 const routes: Routes = [{
@@ -99,7 +116,9 @@ export function markedOptionsFactory(): MarkedOptions {
         }),
         SharedModule,
         NgbTooltipModule,
-        NgbTypeaheadModule
+        NgbTypeaheadModule,
+        NgbPopoverModule,
+        ColorHueModule
     ],
     declarations: [
         FocusIfDirective,
@@ -110,7 +129,8 @@ export function markedOptionsFactory(): MarkedOptions {
         MappingSummaryComponent, PersonalSummaryComponent, PersonalCardComponent,
 
         SearchComponent, FilterTagsComponent, ShareSlackComponent,
-        TooltipComponent, ContextMenuComponent
+        TooltipComponent, ContextMenuComponent,
+        ColorPickerComponent
     ],
     providers: [
         SlackService, 

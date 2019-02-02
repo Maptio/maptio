@@ -8,8 +8,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TeamService } from '../../services/team/team.service';
 import { Router } from '@angular/router';
 import { MapService } from '../../services/map/map.service';
-import { Steps } from './onboarding.enum';
-import { tickStep } from '../../../../../node_modules/@types/d3-array';
 
 
 
