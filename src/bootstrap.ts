@@ -4,7 +4,6 @@ import { enableProdMode } from "@angular/core";
 import { AppModule } from "./app/app.module";
 
 
-import '../public/styles/fonts.css'
 import '../public/styles/animations.css'
 import '../public/styles/global.css'
 import '../public/styles/angular-tree-component.css'

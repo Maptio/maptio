@@ -10,6 +10,7 @@ const PurgecssPlugin = require('purgecss-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const glob = require('glob-all');
 
+
 module.exports = {
   mode: process.env.NODE_ENV === "production" ? "production" : "development",
   entry: {
@@ -192,19 +193,19 @@ of lodash in @exalif/ngx-breadcrums
           },
           global: 'marked'
         },
-        {
-          module: '@fortawesome',
-          entry: {
-            path: 'fontawesome-free/css/all.min.css',
-            attributes: {
-              rel: "preload",
-              as: 'style',
-              onload: "this.rel='stylesheet'"
-            }
-          },
-          supplements: ['fontawesome-free/webfonts'],
+        // {
+        //   module: '@fortawesome',
+        //   entry: {
+        //     path: 'fontawesome-free/css/all.min.css',
+        //     attributes: {
+        //       rel: "preload",
+        //       as: 'style',
+        //       onload: "this.rel='stylesheet'"
+        //     }
+        //   },
+        //   supplements: ['fontawesome-free/webfonts'],
 
-        }
+        // }
       ],
     }),
 
