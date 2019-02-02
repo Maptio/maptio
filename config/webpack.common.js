@@ -81,8 +81,17 @@ of lodash in @exalif/ngx-breadcrums
         loader: 'html-loader'
       },
       {
-        test: /\.(json|png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico|cur)$/,
+        test: /\.(json|png|jpe?g|gif|svg|ico|cur)$/,
         loader: 'file-loader?name=assets/[name].[hash].[ext]'
+      },
+      {
+        test: /\.(ttf|eot|woff|woff2)$/,
+        use: {
+          loader: "file-loader",
+          options: {
+            name: "fonts/[name].[ext]",
+          },
+        },
       },
       {
         test: /\.css$/,
@@ -224,14 +233,6 @@ of lodash in @exalif/ngx-breadcrums
       { from: 'public/images', to: 'assets/images' },
       { from: 'public/templates', to: 'assets/templates' }
     ]),
-
-    // new GoogleFontsPlugin({
-    //   fonts: [
-    //     { family: "Open Sans", variants: ["400", "600", "700"] },
-    //     { family: "Roboto", variants: ["500"] },
-    //     { family: "Lato", variants: ["400"] },
-    //   ]
-    // }),
     new PurgecssPlugin({
       paths: glob.sync([
         './src/**/*',
