@@ -201,13 +201,9 @@ of lodash in @exalif/ngx-breadcrums
         {
           module: 'marked',
           entry: {
-            path: 'marked.min.js',
-            attributes : {
-              defer: ""
-            }
+            path: 'marked.min.js'
           },
-          global: 'marked',
-          append: true
+          global: 'marked'
         },
       ],
     }),
