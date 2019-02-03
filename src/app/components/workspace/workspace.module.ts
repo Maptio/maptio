@@ -61,6 +61,7 @@ import { SlackService } from "./share/slack.service";
 import { NgbTooltipModule, NgbTypeaheadModule, NgbPopoverModule } from "@ng-bootstrap/ng-bootstrap";
 import { ColorPickerComponent } from "../../shared/components/color-picker/color-picker.component";
 import { PermissionsModule } from "../../shared/permissions.module";
+import { DataService } from "../../shared/services/data.service";
 
 
 const routes: Routes = [{
@@ -142,7 +143,7 @@ export function markedOptionsFactory(): MarkedOptions {
         ColorPickerComponent
     ],
     providers: [
-        SlackService, 
+        SlackService, DataService,
         WorkspaceComponentResolver, MappingSummaryBreadcrumbs, MarkdownService, MarkedOptions,
     ],
     entryComponents: [OnboardingComponent, InstructionsComponent]

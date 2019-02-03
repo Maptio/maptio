@@ -23,7 +23,6 @@ import { AuthConfiguration } from "./shared/services/auth/auth.config";
 import { authHttpServiceFactory } from "./shared/services/auth/auth.module";
 import { Auth } from "./shared/services/auth/auth.service";
 import { HttpFactoryModule } from "./shared/services/auth/httpInterceptor";
-import { DataService, CounterService } from "./shared/services/data.service";
 import { DatasetFactory } from "./shared/services/dataset.factory";
 import { JwtEncoder } from "./shared/services/encoding/jwt.service";
 import { ErrorService } from "./shared/services/error/error.service";
@@ -41,7 +40,6 @@ import { IntercomModule } from 'ng-intercom';
 
 import * as LogRocket from "logrocket";
 import { BillingService } from "./shared/services/billing/billing.service";
-import { BillingGuard } from "./shared/services/guards/billing.guard";
 
 import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressRouterModule } from '@ngx-progressbar/router';
@@ -127,9 +125,9 @@ const appRoutes: Routes = [
     exports: [RouterModule],
     providers: [
         BrowserAnimationsModule,
-        AuthGuard, AccessGuard, PermissionGuard, BillingGuard,
-        AuthConfiguration,
-        DataService, CounterService, URIService, DatasetFactory, TeamFactory,
+        AuthGuard, AccessGuard, PermissionGuard,
+        
+        AuthConfiguration, URIService, DatasetFactory, TeamFactory,
         ErrorService, Auth, UserService, TeamService, MapService, UserFactory, MailingService, JwtEncoder, LoaderService,
         ExportService, FileService, PermissionService, BillingService, InstructionsService, OnboardingService,
         Location,
