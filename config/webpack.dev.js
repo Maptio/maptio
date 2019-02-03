@@ -1,7 +1,8 @@
 var webpackMerge = require('webpack-merge');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 var MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
+const AngularNamedLazyChunksWebpackPlugin = require('angular-named-lazy-chunks-webpack-plugin');
+ 
 var commonConfig = require('./webpack.common.js');
 var helpers = require('./helpers');
 var path = require('path');
@@ -51,7 +52,7 @@ module.exports = webpackMerge(commonConfig, {
   },
 
   plugins: [
-
+    new AngularNamedLazyChunksWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: "[name].css",
       chunkFilename: "[name].chunk.css"

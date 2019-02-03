@@ -141,6 +141,7 @@
     "@types/screenfull": "^3.3.2",
     "@types/shortid": "0.0.29",
     "@types/slug": "^0.9.0",
+    "angular-named-lazy-chunks-webpack-plugin": "^2.1.0",
     "angular-router-loader": "~0.8",
     "angular2-template-loader": "~0.6",
     "awesome-typescript-loader": "~5.2",
