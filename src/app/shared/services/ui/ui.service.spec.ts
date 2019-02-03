@@ -4,7 +4,6 @@ import { MarkdownService } from "ngx-markdown";
 import { MockBackend } from "@angular/http/testing";
 import { BaseRequestOptions, Http } from "@angular/http";
 import { DeviceDetectorService } from "ngx-device-detector";
-// import { Fixtures } from "./fixtures";
 
 describe("ui.service.ts", function () {
 

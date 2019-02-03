@@ -16,7 +16,6 @@ import { Angulartics2Mixpanel } from "angulartics2";
 import { compact } from "lodash-es";
 import { BehaviorSubject, ReplaySubject, Subject, Subscription } from "rxjs";
 
-import { saveAs } from "file-saver"
 import { Initiative } from "../../../shared/model/initiative.data";
 import { SelectableTag, Tag } from "../../../shared/model/tag.data";
 import { Team } from "../../../shared/model/team.data";

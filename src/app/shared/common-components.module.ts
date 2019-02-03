@@ -1,14 +1,10 @@
 import { NgModule } from "@angular/core";
-import { CreateMapComponent } from './components/create-map/create-map.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { BrowserModule } from '@angular/platform-browser';
 
-import { CardMapComponent } from './components/card-map/card-map.component';
 import { RouterModule } from '@angular/router';
 import { OnboardingComponent } from "./components/onboarding/onboarding.component";
 import { GoogleSignInComponent } from "./components/buttons/google-signin.component";
-import { ColorPickerComponent } from "./components/color-picker/color-picker.component";
 import { CreateTeamComponent } from "./components/create-team/create-team.component";
 import { SharedModule } from "./shared.module";
 import { CardTeamComponent } from "./components/card-team/card-team.component";
@@ -19,7 +15,8 @@ import { ConfirmationPopoverModule } from "../../../node_modules/angular-confirm
 import { CommonModalComponent } from "./components/modal/modal.component";
 import { InstructionsComponent } from "./components/instructions/instructions.component";
 import { NgbTooltipModule, NgbModalModule, NgbPopoverModule } from "@ng-bootstrap/ng-bootstrap";
-import { SafePipe } from "../pipes/safe.pipe";
+import { PermissionsModule } from "./permissions.module";
+// import { SafePipe } from "../pipes/safe.pipe";
 
 
 
@@ -29,43 +26,35 @@ import { SafePipe } from "../pipes/safe.pipe";
         ReactiveFormsModule,
         CommonModule,
         RouterModule,
-        // ColorHueModule,
         SharedModule,
         ConfirmationPopoverModule,
         NgbTooltipModule, 
         NgbModalModule,
-        NgbPopoverModule
+        NgbPopoverModule,
+        PermissionsModule
     ],
     declarations: [
-        CreateMapComponent,
         CreateTeamComponent,
-        CardMapComponent,
         CardTeamComponent, 
         OnboardingComponent,
         InstructionsComponent,
         AddMemberComponent,
         AddTerminologyComponent,
         GoogleSignInComponent,
-        // ColorPickerComponent,
-        CommonModalComponent,
-        SafePipe
+        CommonModalComponent
     ],
     providers: [
         IntercomService
     ],
     exports: [
-        CreateMapComponent,
         CreateTeamComponent,
-        CardMapComponent,
         CardTeamComponent,
         OnboardingComponent,
         InstructionsComponent,
         AddMemberComponent,
         AddTerminologyComponent,
         GoogleSignInComponent,
-        // ColorPickerComponent,
-        CommonModalComponent,
-        SafePipe
+        CommonModalComponent
     ]
 })
 export class CommonComponentsModule { }

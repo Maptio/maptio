@@ -21,15 +21,14 @@ import "date-fns/parse"
 import "date-fns/add_days"
 
 //d3
-import "d3-color";
+// import "d3-color";
 import "d3-hierarchy"
-import "d3-selection"
+
 //ng-bootstap
 import "@ng-bootstrap/ng-bootstrap";
 
 //markdown
-import "ngx-markdown";
-import "marked";
+
 
 //authentication
 import "angular2-jwt";
@@ -43,9 +42,7 @@ import "ng-intercom"
 import "ngx-fullstory"
 
 // image management
-import "@cloudinary/angular-5.x";
-import "cloudinary-core";
-import "ng2-file-upload";
+
 
 // UI components
 import "angular-confirmation-popover";
@@ -56,8 +53,6 @@ import "@ngx-progressbar/core"
 import "slug";
 import "ngx-device-detector"
 import "shortid"
-import "file-saver"
-import "screenfull"
 
 
 // You can import js, ts, css, sass, ...

@@ -8,6 +8,7 @@ import { SignupComponent } from './signup.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonComponentsModule } from '../../shared/common-components.module';
+import { SanitizerModule } from '../../shared/sanitizer.module';
 
 const routes: Routes = [
     {
@@ -33,10 +34,11 @@ const routes: Routes = [
         LogoutComponent, 
         AuthorizeComponent, 
         ChangePasswordComponent, 
-        SignupComponent],
+        SignupComponent,],
     imports: [CommonModule,
         ReactiveFormsModule,
         CommonComponentsModule,
+        SanitizerModule,
         RouterModule.forChild(routes)],
     providers: [],
 })

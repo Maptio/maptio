@@ -7,25 +7,16 @@ import { Http, HttpModule, RequestOptions } from "@angular/http";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule, Routes } from "@angular/router";
-import { CloudinaryModule } from "@cloudinary/angular-5.x";
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";
 import { AuthHttp } from "angular2-jwt";
 import { Angulartics2Mixpanel, Angulartics2Module } from "angulartics2";
-import { Cloudinary } from "cloudinary-core";
-import { FileUploadModule } from "ng2-file-upload";
 import { BreadcrumbsModule, BreadcrumbsConfig, Breadcrumb } from "@exalif/ngx-breadcrumbs";
 import { FullstoryModule } from 'ngx-fullstory';
 
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import { AnAnchorableComponent } from "../test/specs/shared/component.helper.shared";
 import { environment } from "../environment/environment";
-import { AccountComponent } from "./components/account/account.component";
 import { AppComponent } from "./components/app.component";
-import { DashboardComponent } from "./components/dashboard/dashboard.component";
-import { FooterComponent } from "./components/footer/footer.component";
-import { HeaderComponent } from "./components/header/header.component";
-import { HomeComponent } from "./components/home/home.component";
-import { LoaderComponent } from "./components/loading/loader.component";
 import { NotFoundComponent } from "./components/unauthorized/not-found.component";
 import { UnauthorizedComponent } from "./components/unauthorized/unauthorized.component";
 import { AuthConfiguration } from "./shared/services/auth/auth.config";
@@ -40,11 +31,9 @@ import { ExportService } from "./shared/services/export/export.service";
 import { FileService } from "./shared/services/file/file.service";
 import { AccessGuard } from "./shared/services/guards/access.guard";
 import { AuthGuard } from "./shared/services/guards/auth.guard";
-import { WorkspaceGuard } from "./shared/services/guards/workspace.guard";
 import { LoaderService } from "./shared/services/loading/loader.service";
 import { MailingService } from "./shared/services/mailing/mailing.service";
 import { TeamFactory } from "./shared/services/team.factory";
-import { ColorService } from "./shared/services/ui/color.service";
 import { URIService } from "./shared/services/uri.service";
 import { UserFactory } from "./shared/services/user.factory";
 import { UserService } from "./shared/services/user/user.service";
@@ -56,26 +45,28 @@ import { BillingGuard } from "./shared/services/guards/billing.guard";
 
 import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressRouterModule } from '@ngx-progressbar/router';
-import { SharedModule } from "./shared/shared.module";
-import { CommonComponentsModule } from "./shared/common-components.module";
 import { TeamService } from "./shared/services/team/team.service";
 import { MapService } from "./shared/services/map/map.service";
 import { InstructionsService } from "./shared/components/instructions/instructions.service";
 import { OnboardingService } from "./shared/components/onboarding/onboarding.service";
-import { SafePipe } from "./pipes/safe.pipe";
-import { NgbModalModule, NgbTypeaheadModule, NgbTooltipModule, NgbPopoverModule } from "../../node_modules/@ng-bootstrap/ng-bootstrap";
+import { LoaderComponent } from "./components/loading/loader.component";
+import { HeaderComponent } from "./components/header/header.component";
+import { FooterComponent } from "./components/footer/footer.component";
 
 
 const appRoutes: Routes = [
     { path: "", redirectTo: "home", pathMatch: "full" },
 
-    { path: "home", component: HomeComponent },
-    {
-        path: "", loadChildren: "./components/login/login.module#LoginModule"
-    },
+    { path: "home", loadChildren: "./components/home/home.module#HomeModule" },
+
     {
         path: "", loadChildren: "./components/company/company.module#CompanyModule"
     },
+    
+    {
+        path: "", loadChildren: "./components/login/login.module#LoginModule"
+    },
+
 
     {
         path: "teams", loadChildren: "./components/team/team.module#TeamModule",
@@ -86,34 +77,20 @@ const appRoutes: Routes = [
         path: "map/:mapid/:mapslug", loadChildren: "./components/workspace/workspace.module#WorkspaceModule"
     },
 
-    {
-        path: ":shortid/:slug",
-        component: AccountComponent,
-        canActivate: [AuthGuard],
-        data: { breadcrumbs: "Profile" }
-    },
+    
     { path: "unauthorized", component: UnauthorizedComponent },
     { path: "404", component: NotFoundComponent },
     { path: "**", redirectTo: "/404" },
 
 ];
 
-export const cloudinaryLib = {
-    Cloudinary: Cloudinary
-};
 
 
 @NgModule({
     declarations: [
-        AppComponent, HeaderComponent, FooterComponent, LoaderComponent,
-        UnauthorizedComponent, NotFoundComponent, HomeComponent, 
-
-        DashboardComponent, AccountComponent,
-        // for tests
-        AnAnchorableComponent,
-
-
-
+        AppComponent, LoaderComponent, HeaderComponent, FooterComponent,
+        UnauthorizedComponent, NotFoundComponent,
+        AnAnchorableComponent
     ],
     imports: [
         BrowserModule,
@@ -122,7 +99,6 @@ export const cloudinaryLib = {
         HttpModule,
         DeviceDetectorModule.forRoot(),
         BreadcrumbsModule.forRoot(),
-
         RouterModule.forRoot(appRoutes, { enableTracing: false }),
         ConfirmationPopoverModule.forRoot({
             confirmButtonType: "danger",
@@ -135,31 +111,25 @@ export const cloudinaryLib = {
             fsHost: 'fullstory.com'
         }),
         Angulartics2Module.forRoot([Angulartics2Mixpanel]),
-        FileUploadModule,
         NgProgressModule.forRoot(),
         NgProgressRouterModule,
         HttpFactoryModule,
         BrowserAnimationsModule,
-        CloudinaryModule.forRoot(cloudinaryLib, { cloud_name: environment.CLOUDINARY_CLOUDNAME, upload_preset: environment.CLOUDINARY_UPLOAD_PRESET }),
         IntercomModule.forRoot({
             appId: environment.INTERCOM_APP_ID, // from your Intercom config
             updateOnRouterChange: true // will automatically run `update` on router event changes. Default: `false`
         }),
 
-        SharedModule,
-        CommonComponentsModule,
-        NgbModalModule.forRoot(),
-        NgbTypeaheadModule.forRoot(),
-        NgbTooltipModule.forRoot(),
-        NgbPopoverModule.forRoot()
+        // SharedModule,
+        // CommonComponentsModule
 
     ],
     exports: [RouterModule],
     providers: [
         BrowserAnimationsModule,
-        AuthGuard, AccessGuard, WorkspaceGuard, PermissionGuard, BillingGuard,
+        AuthGuard, AccessGuard, PermissionGuard, BillingGuard,
         AuthConfiguration,
-        DataService, CounterService, URIService, ColorService, DatasetFactory, TeamFactory,
+        DataService, CounterService, URIService, DatasetFactory, TeamFactory,
         ErrorService, Auth, UserService, TeamService, MapService, UserFactory, MailingService, JwtEncoder, LoaderService,
         ExportService, FileService, PermissionService, BillingService, InstructionsService, OnboardingService,
         Location,

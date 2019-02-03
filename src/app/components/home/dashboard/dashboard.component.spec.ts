@@ -1,23 +1,23 @@
-import { PermissionService } from './../../shared/model/permission.data';
-import { Initiative } from "./../../shared/model/initiative.data";
+import { PermissionService } from '../../../shared/model/permission.data';
+import { Initiative } from "../../../shared/model/initiative.data";
 import { MockBackend } from "@angular/http/testing";
 import { BaseRequestOptions, Http } from "@angular/http";
 import { AuthHttp } from "angular2-jwt";
-import { TeamFactory } from "./../../shared/services/team.factory";
-import { DatasetFactory } from "./../../shared/services/dataset.factory";
+import { TeamFactory } from "../../../shared/services/team.factory";
+import { DatasetFactory } from "../../../shared/services/dataset.factory";
 
 import { DashboardComponent } from "./dashboard.component";
-import { ErrorService } from "./../../shared/services/error/error.service";
+import { ErrorService } from "../../../shared/services/error/error.service";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { Subject, Observable } from "rxjs/Rx";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
-import { User } from "../../shared/model/user.data";
-import { Auth } from "../../shared/services/auth/auth.service";
-import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
-import { DataSet } from "../../shared/model/dataset.data";
+import { User } from "../../../shared/model/user.data";
+import { Auth } from "../../../shared/services/auth/auth.service";
+import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
+import { DataSet } from "../../../shared/model/dataset.data";
 import { ActivatedRoute } from "@angular/router";
-// import { DashboardComponentResolver } from "./dashboard.resolver";
-import { ExportService } from "../../shared/services/export/export.service";
+// import { DashboardComponentResolver } from "../dashboard.resolver";
+import { ExportService } from "../../../shared/services/export/export.service";
 import * as filesaver from "file-saver"
 
 describe("dashboard.component.ts", () => {

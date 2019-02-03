@@ -1,17 +1,13 @@
-import { isEmpty, groupBy, keyBy, sortBy } from 'lodash';
 import { Component, ChangeDetectorRef, SimpleChanges, Input } from "@angular/core";
-import { DataSet } from "../../shared/model/dataset.data";
-import { Team } from '../../shared/model/team.data';
-import { User } from '../../shared/model/user.data';
+import { DataSet } from "../../../shared/model/dataset.data";
+import { Team } from '../../../shared/model/team.data';
+import { User } from '../../../shared/model/user.data';
 import { Subject, Subscription } from 'rxjs';
-import { Router } from '@angular/router';
-import { TeamService } from '../../shared/services/team/team.service';
-import { MapService } from '../../shared/services/map/map.service';
-import { LoaderService } from '../../shared/services/loading/loader.service';
-import { Auth } from '../../shared/services/auth/auth.service';
-import { EmitterService } from '../../shared/services/emitter.service';
-import { environment } from '../../../environment/environment';
-import { OnboardingService } from '../../shared/components/onboarding/onboarding.service';
+import { TeamService } from '../../../shared/services/team/team.service';
+import { MapService } from '../../../shared/services/map/map.service';
+import { Auth } from '../../../shared/services/auth/auth.service';
+import { OnboardingService } from '../../../shared/components/onboarding/onboarding.service';
+import { environment } from '../../../../environment/environment';
 
 @Component({
     selector: "dashboard",
@@ -35,7 +31,7 @@ export class DashboardComponent {
     SURVEY_URL = environment.SURVEY_URL;
     subscription: Subscription;
 
-    constructor(private cd: ChangeDetectorRef, private router: Router, private loaderService: LoaderService,
+    constructor(private cd: ChangeDetectorRef, 
         private teamService: TeamService, private mapService: MapService, private auth: Auth,
         private onboarding: OnboardingService) {
         this.filterMaps$ = new Subject<string>();

@@ -13,13 +13,6 @@
             </div>
         </div>
         <div *ngIf="auth.allAuthenticated()" class="h-100 w-100">
-            <!-- <ng-container *ngIf="isOnboarding">
-                <div class="d-flex justify-content-center align-items-center center-center position-absolute">
-                    <h1 class="text-muted align-middle">Loading your maps
-                        <i class="mx-1 fas fa-circle-notch fa-spin"></i>
-                    </h1>
-                </div>
-            </ng-container> -->
             <ng-container *ngIf="!isOnboarding">
                 <dashboard *ngIf="!isLoading" [datasets]="datasets" [teams]="teams" [user]="user"></dashboard>
             </ng-container>

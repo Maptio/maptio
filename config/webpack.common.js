@@ -198,13 +198,13 @@ of lodash in @exalif/ngx-breadcrums
           global: 'bootstrap',
           append: true
         },
-        {
-          module: 'marked',
-          entry: {
-            path: 'marked.min.js'
-          },
-          global: 'marked'
-        },
+        // {
+        //   module: 'marked',
+        //   entry: {
+        //     path: 'marked.min.js'
+        //   },
+        //   global: 'marked'
+        // },
       ],
     }),
 

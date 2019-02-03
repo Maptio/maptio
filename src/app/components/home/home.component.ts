@@ -9,8 +9,6 @@ import { DatasetFactory } from "../../shared/services/dataset.factory";
 import { TeamFactory } from "../../shared/services/team.factory";
 import { sortBy, isEmpty } from "lodash-es";
 import { LoaderService } from "../../shared/services/loading/loader.service";
-import { TeamService } from "../../shared/services/team/team.service";
-import { MapService } from "../../shared/services/map/map.service";
 import { EmitterService } from "../../shared/services/emitter.service";
 import { InstructionsService } from "../../shared/components/instructions/instructions.service";
 import { environment } from "../../../environment/environment";
