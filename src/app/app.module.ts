@@ -7,7 +7,6 @@ import { Http, HttpModule, RequestOptions } from "@angular/http";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule, Routes } from "@angular/router";
-import { ConfirmationPopoverModule } from "angular-confirmation-popover";
 import { AuthHttp } from "angular2-jwt";
 import { Angulartics2Mixpanel, Angulartics2Module } from "angulartics2";
 import { BreadcrumbsModule, BreadcrumbsConfig, Breadcrumb } from "@exalif/ngx-breadcrumbs";
@@ -98,10 +97,6 @@ const appRoutes: Routes = [
         DeviceDetectorModule.forRoot(),
         BreadcrumbsModule.forRoot(),
         RouterModule.forRoot(appRoutes, { enableTracing: false }),
-        ConfirmationPopoverModule.forRoot({
-            confirmButtonType: "danger",
-            cancelButtonType: "link"
-        }),
         FullstoryModule.forRoot({
             fsOrg: environment.FULLSTORY_APP_ID,
             fsNameSpace: 'FS',

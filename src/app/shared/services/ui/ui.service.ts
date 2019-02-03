@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
-import { MarkdownService } from "ngx-markdown";
 import { isEmpty, intersection } from "lodash-es"
 import { DeviceDetectorService } from 'ngx-device-detector';
 import * as screenfull from 'screenfull';
@@ -23,7 +22,7 @@ export class UIService {
 
   // private tooltip$: Subject<[string, Initiative, Initiative]>
 
-  constructor(private markdown: MarkdownService, private deviceService: DeviceDetectorService) {
+  constructor(private deviceService: DeviceDetectorService) {
     // this.tooltip$ = new Subject<[string, Initiative, Initiative]>();
   }
 
