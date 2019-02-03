@@ -26,9 +26,11 @@ import { IDataVisualizer } from "./mapping.interface";
 import { MappingNetworkComponent } from "./network/mapping.network.component";
 import { MappingTreeComponent } from "./tree/mapping.tree.component";
 import { MappingZoomableComponent } from "./zoomable/mapping.zoomable.component";
+import { ExportService } from "../../../shared/services/export/export.service";
 import { Intercom } from "ng-intercom";
 import { User } from "../../../shared/model/user.data";
 import { MappingSummaryComponent } from "./summary/summary.component";
+import { SearchComponent } from "../search/search.component";
 import { environment } from "../../../../environment/environment";
 import * as screenfull from 'screenfull';
 import { SlackService } from "../share/slack.service";
@@ -123,6 +125,7 @@ export class MappingComponent {
     private analytics: Angulartics2Mixpanel,
     private uriService: URIService,
     public uiService: UIService,
+    private exportService: ExportService,
     private intercom: Intercom,
     private router: Router,
     private slackService: SlackService,

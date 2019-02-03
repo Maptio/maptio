@@ -1,6 +1,4 @@
 import "file-saver"
-import "angular-confirmation-popover";
-import "d3-hierarchy"
 
 
 import { NgModule } from '@angular/core';
@@ -16,10 +14,6 @@ import { ImageModule } from "../../shared/image.module";
 import { AuthGuard } from "../../shared/services/guards/auth.guard";
 import { CreateMapModule } from "../../shared/create-map.module";
 import { OnboardingModule } from "../../shared/onboarding.module";
-import { URIService } from "../../shared/services/uri.service";
-import { TeamService } from "../../shared/services/team/team.service";
-import { MapService } from "../../shared/services/map/map.service";
-import { FileService } from "../../shared/services/file/file.service";
 
 @NgModule({
     declarations: [
@@ -31,8 +25,7 @@ import { FileService } from "../../shared/services/file/file.service";
     imports: [CommonModule,
         ReactiveFormsModule,
         PermissionsModule,
-        ImageModule,
-        CreateMapModule,
+        ImageModule,CreateMapModule,
         SanitizerModule,
         OnboardingModule,
         RouterModule.forChild([
@@ -47,8 +40,6 @@ import { FileService } from "../../shared/services/file/file.service";
             },
         ])],
     exports: [],
-    providers: [
-        URIService,TeamService, MapService, FileService 
-    ],
+    providers: [],
 })
 export class HomeModule { }

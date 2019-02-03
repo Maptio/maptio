@@ -1,16 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ExportService } from '../../../shared/services/export/export.service';
 import { DataSet } from '../../../shared/model/dataset.data';
 import { Team } from '../../../shared/model/team.data';
-import { RequestMethod, RequestOptions, Request, Headers } from "@angular/http";
-import { AuthHttp } from "angular2-jwt/angular2-jwt";
-import { Initiative } from '../../../shared/model/initiative.data';
-import { SlackIntegration } from '../../../shared/model/integrations.data';
 
 @Injectable()
 export class SlackService {
 
-    constructor(private http:AuthHttp) {
+    constructor(private exportService: ExportService) {
 
     }
 
@@ -21,7 +18,7 @@ export class SlackService {
         svg.setAttribute("xmlns", "http://www.w3.org/2000/svg")
         svg.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink")
         let svgNode = this.downloadSvg(svg, "image.png", w, h);
-        return this.sendSlackNotification((<any>svgNode).outerHTML, dataset.datasetId, dataset.initiative, team.slack, message)
+        return this.exportService.sendSlackNotification((<any>svgNode).outerHTML, dataset.datasetId, dataset.initiative, team.slack, message)
 
     }
 
@@ -65,55 +62,6 @@ export class SlackService {
                 // child.style.setProperty(style[st], style.getPropertyValue(style[st]));
             }
         }
-    }
-
-    private getSnapshot(svgString: string, datasetId: string) {
-        let headers = new Headers();
-        headers.append("Content-Type", "text/html");
-        headers.append("Accept", "text/html");
-        let req = new Request({
-            url: `/api/v1/images/upload/${datasetId}`,
-            body: svgString,
-            method: RequestMethod.Post,
-            headers: headers
-        });
-        return this.http.request(req).map((responseData) => {
-            return <string>responseData.json().eager[0].secure_url;
-        })
-    }
-
-    private sendSlackNotification(svgString: string, datasetId: string, initiative: Initiative, slack: SlackIntegration, message: string) {
-        return this.getSnapshot(svgString, datasetId)
-
-            .map((imageUrl: string) => {
-                let attachments = [
-                    {
-                        color: "#2f81b7",
-                        pretext: message,
-                        title: `Changes to ${initiative.name}`,
-                        title_link: `https://app.maptio.com/map/${datasetId}/${initiative.getSlug()}/circles`,
-                        image_url: imageUrl,
-                        thumb_url: imageUrl,
-                        footer: "Maptio",
-                        footer_icon: "https://app.maptio.com/assets/images/logo-full.png",
-                        // ts: Date.now()
-                    }]
-
-                let headers = new Headers();
-                headers.append("Content-Type", "application/json");
-                headers.append("Accept", "application/json");
-                return new Request({
-                    url: "/api/v1/notifications/send",
-                    body: {
-                        url: slack.incoming_webhook.url,
-                        attachments: attachments
-                    },
-                    method: RequestMethod.Post,
-                    headers: headers
-                })
-            })
-            .mergeMap(req => this.http.request(req))
-            .map(res => res.json())
     }
 
 

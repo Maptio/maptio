@@ -10,8 +10,6 @@ import { AddTerminologyComponent } from "./components/onboarding/add-terminology
 import { CommonModalComponent } from "./components/modal/modal.component";
 import { InstructionsComponent } from "./components/instructions/instructions.component";
 import { NgbModalModule } from "@ng-bootstrap/ng-bootstrap";
-import { InstructionsService } from "./components/instructions/instructions.service";
-import { OnboardingService } from "./components/onboarding/onboarding.service";
 
 
 @NgModule({
@@ -31,7 +29,7 @@ import { OnboardingService } from "./components/onboarding/onboarding.service";
         CommonModalComponent
     ],
     providers: [
-        IntercomService,InstructionsService, OnboardingService
+        IntercomService
     ],
     exports: [
         OnboardingComponent,

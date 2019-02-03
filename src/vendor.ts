@@ -20,8 +20,14 @@ import "date-fns/is_after"
 import "date-fns/parse"
 import "date-fns/add_days"
 
+//d3
+// import "d3-color";
+import "d3-hierarchy"
+
 //ng-bootstap
 import "@ng-bootstrap/ng-bootstrap";
+
+//markdown
 
 
 //authentication
@@ -35,7 +41,11 @@ import "logrocket";
 import "ng-intercom"
 import "ngx-fullstory"
 
+// image management
+
+
 // UI components
+import "angular-confirmation-popover";
 import "@exalif/ngx-breadcrumbs"
 import "@ngx-progressbar/core"
 
@@ -43,6 +53,7 @@ import "@ngx-progressbar/core"
 import "slug";
 import "ngx-device-detector"
 import "shortid"
+
 
 // You can import js, ts, css, sass, ...
 import "bootstrap/dist/css/bootstrap.min.css"
