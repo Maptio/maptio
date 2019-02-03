@@ -21,7 +21,6 @@ import {
 import { partition } from "lodash-es";
 import { LoaderService } from "../../../../shared/services/loading/loader.service";
 import { Team } from "../../../../shared/model/team.data";
-import * as screenfull from 'screenfull';
 
 import { transition } from "d3-transition";
 import { select, selectAll, event, mouse } from "d3-selection";

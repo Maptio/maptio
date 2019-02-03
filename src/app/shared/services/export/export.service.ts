@@ -51,53 +51,6 @@ export class ExportService {
     //     })
     // }
 
-    getSnapshot(svgString: string, datasetId: string) {
-        let headers = new Headers();
-        headers.append("Content-Type", "text/html");
-        headers.append("Accept", "text/html");
-        let req = new Request({
-            url: `/api/v1/images/upload/${datasetId}`,
-            body: svgString,
-            method: RequestMethod.Post,
-            headers: headers
-        });
-        return this.http.request(req).map((responseData) => {
-            return <string>responseData.json().eager[0].secure_url;
-        })
-    }
-
-    sendSlackNotification(svgString: string, datasetId: string, initiative: Initiative, slack: SlackIntegration, message: string) {
-        return this.getSnapshot(svgString, datasetId)
-
-            .map((imageUrl: string) => {
-                let attachments = [
-                    {
-                        color: "#2f81b7",
-                        pretext: message,
-                        title: `Changes to ${initiative.name}`,
-                        title_link: `https://app.maptio.com/map/${datasetId}/${initiative.getSlug()}/circles`,
-                        image_url: imageUrl,
-                        thumb_url: imageUrl,
-                        footer: "Maptio",
-                        footer_icon: "https://app.maptio.com/assets/images/logo-full.png",
-                        // ts: Date.now()
-                    }]
-
-                let headers = new Headers();
-                headers.append("Content-Type", "application/json");
-                headers.append("Accept", "application/json");
-                return new Request({
-                    url: "/api/v1/notifications/send",
-                    body: {
-                        url: slack.incoming_webhook.url,
-                        attachments: attachments
-                    },
-                    method: RequestMethod.Post,
-                    headers: headers
-                })
-            })
-            .mergeMap(req => this.http.request(req))
-            .map(res => res.json())
-    }
+  
 
 }

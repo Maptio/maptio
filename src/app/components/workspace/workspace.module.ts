@@ -62,6 +62,9 @@ import { ColorPickerComponent } from "../../shared/components/color-picker/color
 import { PermissionsModule } from "../../shared/permissions.module";
 import { DataService } from "../../shared/services/data.service";
 import { OnboardingModule } from "../../shared/onboarding.module";
+import { UIService } from "../../shared/services/ui/ui.service";
+import { URIService } from "../../shared/services/uri.service";
+import { ColorService } from "../../shared/services/ui/color.service";
 
 
 const routes: Routes = [{
@@ -143,7 +146,8 @@ export function markedOptionsFactory(): MarkedOptions {
         ColorPickerComponent
     ],
     providers: [
-        SlackService, DataService,
+        WorkspaceGuard, BillingGuard,URIService,ColorService,
+        SlackService, DataService,UIService,
         WorkspaceComponentResolver, MappingSummaryBreadcrumbs, MarkdownService, MarkedOptions,
     ],
     entryComponents: [OnboardingComponent, InstructionsComponent]

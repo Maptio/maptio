@@ -25,14 +25,11 @@ import { HttpFactoryModule } from "./shared/services/auth/httpInterceptor";
 import { DatasetFactory } from "./shared/services/dataset.factory";
 import { JwtEncoder } from "./shared/services/encoding/jwt.service";
 import { ErrorService } from "./shared/services/error/error.service";
-import { ExportService } from "./shared/services/export/export.service";
-import { FileService } from "./shared/services/file/file.service";
 import { AccessGuard } from "./shared/services/guards/access.guard";
 import { AuthGuard } from "./shared/services/guards/auth.guard";
 import { LoaderService } from "./shared/services/loading/loader.service";
 import { MailingService } from "./shared/services/mailing/mailing.service";
 import { TeamFactory } from "./shared/services/team.factory";
-import { URIService } from "./shared/services/uri.service";
 import { UserFactory } from "./shared/services/user.factory";
 import { UserService } from "./shared/services/user/user.service";
 import { IntercomModule } from 'ng-intercom';
@@ -42,24 +39,23 @@ import { BillingService } from "./shared/services/billing/billing.service";
 
 import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressRouterModule } from '@ngx-progressbar/router';
-import { TeamService } from "./shared/services/team/team.service";
-import { MapService } from "./shared/services/map/map.service";
-import { InstructionsService } from "./shared/components/instructions/instructions.service";
-import { OnboardingService } from "./shared/components/onboarding/onboarding.service";
 import { LoaderComponent } from "./components/loading/loader.component";
 import { HeaderComponent } from "./components/header/header.component";
 import { FooterComponent } from "./components/footer/footer.component";
+import { WelcomeComponent } from "./components/welcome/welcome.component";
+import { SanitizerModule } from "./shared/sanitizer.module";
+import { OnboardingModule } from "./shared/onboarding.module";
 
 
 const appRoutes: Routes = [
-    { path: "", redirectTo: "home", pathMatch: "full" },
+    { path: "", component: WelcomeComponent },
 
     { path: "home", loadChildren: "./components/home/home.module#HomeModule" },
 
     {
         path: "", loadChildren: "./components/company/company.module#CompanyModule"
     },
-    
+
     {
         path: "", loadChildren: "./components/login/login.module#LoginModule"
     },
@@ -74,7 +70,7 @@ const appRoutes: Routes = [
         path: "map/:mapid/:mapslug", loadChildren: "./components/workspace/workspace.module#WorkspaceModule"
     },
 
-    
+
     { path: "unauthorized", component: UnauthorizedComponent },
     { path: "404", component: NotFoundComponent },
     { path: "**", redirectTo: "/404" },
@@ -86,7 +82,7 @@ const appRoutes: Routes = [
 @NgModule({
     declarations: [
         AppComponent, LoaderComponent, HeaderComponent, FooterComponent,
-        UnauthorizedComponent, NotFoundComponent,
+        UnauthorizedComponent, NotFoundComponent, WelcomeComponent,
         AnAnchorableComponent
     ],
     imports: [
@@ -111,16 +107,16 @@ const appRoutes: Routes = [
         IntercomModule.forRoot({
             appId: environment.INTERCOM_APP_ID, // from your Intercom config
             updateOnRouterChange: true // will automatically run `update` on router event changes. Default: `false`
-        })
+        }),
+        SanitizerModule,
+        OnboardingModule,
     ],
     exports: [RouterModule],
     providers: [
         BrowserAnimationsModule,
         AuthGuard, AccessGuard, PermissionGuard,
-        
-        AuthConfiguration, URIService, DatasetFactory, TeamFactory,
-        ErrorService, Auth, UserService, TeamService, MapService, UserFactory, MailingService, JwtEncoder, LoaderService,
-        ExportService, FileService, PermissionService, BillingService, InstructionsService, OnboardingService,
+        ErrorService, BillingService,
+        Auth, AuthConfiguration, DatasetFactory, UserFactory, LoaderService, PermissionService, UserService, JwtEncoder, MailingService, TeamFactory,
         Location,
         { provide: LocationStrategy, useClass: PathLocationStrategy },
         { provide: APP_BASE_HREF, useValue: '/' },
