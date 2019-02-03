@@ -13,6 +13,7 @@ import { BreadcrumbsModule, BreadcrumbsConfig, Breadcrumb } from "@exalif/ngx-br
 import { FullstoryModule } from 'ngx-fullstory';
 
 import { DeviceDetectorModule } from 'ngx-device-detector';
+import { AnAnchorableComponent } from "../test/specs/shared/component.helper.shared";
 import { environment } from "../environment/environment";
 import { AppComponent } from "./components/app.component";
 import { NotFoundComponent } from "./components/unauthorized/not-found.component";
@@ -81,7 +82,8 @@ const appRoutes: Routes = [
 @NgModule({
     declarations: [
         AppComponent, LoaderComponent, HeaderComponent, FooterComponent,
-        UnauthorizedComponent, NotFoundComponent, WelcomeComponent
+        UnauthorizedComponent, NotFoundComponent, WelcomeComponent,
+        AnAnchorableComponent
     ],
     imports: [
         BrowserModule,

@@ -13,6 +13,7 @@ import { environment } from "../../environment/environment";
 import { Observable } from "rxjs/Rx";
 import { Intercom } from 'ng-intercom';
 import { NgProgress } from '@ngx-progressbar/core';
+import { URIService } from "../shared/services/uri.service";
 import { DeviceDetectorService } from 'ngx-device-detector';
 
 
