@@ -19,7 +19,6 @@ import { AuthHttp } from "angular2-jwt/angular2-jwt";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 import { NgProgressModule, NgProgress } from "@ngx-progressbar/core";
 import { Auth } from "../../shared/services/auth/auth.service";
-import { CommonComponentsModule } from "../../shared/common-components.module";
 import { DatasetFactory } from "../../shared/services/dataset.factory";
 import { UserFactory } from "../../shared/services/user.factory";
 import { PermissionService } from "../../shared/model/permission.data";

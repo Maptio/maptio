@@ -19,7 +19,6 @@ import { TeamSettingsComponent } from "./single/settings/settings.component";
 import { TeamComponent } from "./single/team.component";
 import { TeamComponentResolver } from "./single/team.resolver";
 import { TeamBillingComponent } from "./single/billing/billing.component";
-import { CommonComponentsModule } from "../../shared/common-components.module";
 import { MemberSingleComponent } from "./single/members/member-single.component";
 import { NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
 import { PermissionsModule } from "../../shared/permissions.module";
@@ -78,7 +77,6 @@ const routes: Routes = [
             cancelButtonType: "secondary"
         }),
         SharedModule,
-        CommonComponentsModule,
         NgbTooltipModule,
         PermissionsModule,
         CreateMapModule

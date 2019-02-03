@@ -7,7 +7,6 @@ import { ChangePasswordComponent } from './change-password.component';
 import { SignupComponent } from './signup.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CommonComponentsModule } from '../../shared/common-components.module';
 import { SanitizerModule } from '../../shared/sanitizer.module';
 import { GoogleSignInComponent } from '../../shared/components/buttons/google-signin.component';
 
@@ -39,7 +38,6 @@ const routes: Routes = [
         GoogleSignInComponent],
     imports: [CommonModule,
         ReactiveFormsModule,
-        CommonComponentsModule,
         SanitizerModule,
         RouterModule.forChild(routes)],
     providers: [],

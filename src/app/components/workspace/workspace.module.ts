@@ -53,7 +53,6 @@ import { ContextMenuComponent } from "./mapping/context-menu/context-menu.compon
 import { MappingSummaryComponent } from "./mapping/summary/summary.component";
 import { PersonalSummaryComponent } from "./mapping/summary/personal/personal.component";
 import { MappingSummaryBreadcrumbs } from "./mapping/summary/summary.breadcrumb";
-import { CommonComponentsModule } from "../../shared/common-components.module";
 import { OnboardingComponent } from "../../shared/components/onboarding/onboarding.component";
 import { InstructionsComponent } from "../../shared/components/instructions/instructions.component";
 import { PersonalCardComponent } from "./mapping/summary/personal/card.component";
@@ -62,6 +61,7 @@ import { NgbTooltipModule, NgbTypeaheadModule, NgbPopoverModule } from "@ng-boot
 import { ColorPickerComponent } from "../../shared/components/color-picker/color-picker.component";
 import { PermissionsModule } from "../../shared/permissions.module";
 import { DataService } from "../../shared/services/data.service";
+import { OnboardingModule } from "../../shared/onboarding.module";
 
 
 const routes: Routes = [{
@@ -112,7 +112,7 @@ export function markedOptionsFactory(): MarkedOptions {
         RouterModule.forChild(routes),
         TreeModule,
         Angulartics2Module.forChild(),
-        CommonComponentsModule,
+        OnboardingModule,
         MarkdownModule.forRoot({
             markedOptions: {
                 provide: MarkedOptions,

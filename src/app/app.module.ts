@@ -116,11 +116,7 @@ const appRoutes: Routes = [
         IntercomModule.forRoot({
             appId: environment.INTERCOM_APP_ID, // from your Intercom config
             updateOnRouterChange: true // will automatically run `update` on router event changes. Default: `false`
-        }),
-
-        // SharedModule,
-        // CommonComponentsModule
-
+        })
     ],
     exports: [RouterModule],
     providers: [
