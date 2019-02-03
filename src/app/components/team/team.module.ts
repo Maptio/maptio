@@ -22,6 +22,10 @@ import { TeamBillingComponent } from "./single/billing/billing.component";
 import { CommonComponentsModule } from "../../shared/common-components.module";
 import { MemberSingleComponent } from "./single/members/member-single.component";
 import { NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
+import { PermissionsModule } from "../../shared/permissions.module";
+import { CardTeamComponent } from "../../shared/components/card-team/card-team.component";
+import { CreateTeamComponent } from "../../shared/components/create-team/create-team.component";
+import { CreateMapModule } from "../../shared/create-map.module";
 
 const routes: Routes = [
     {
@@ -75,9 +79,13 @@ const routes: Routes = [
         }),
         SharedModule,
         CommonComponentsModule,
-        NgbTooltipModule
+        NgbTooltipModule,
+        PermissionsModule,
+        CreateMapModule
     ],
     declarations: [
+        CardTeamComponent,
+        CreateTeamComponent,
         TeamComponent,
         TeamListComponent,
         TeamMembersComponent,

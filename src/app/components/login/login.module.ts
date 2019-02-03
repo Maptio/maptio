@@ -9,6 +9,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonComponentsModule } from '../../shared/common-components.module';
 import { SanitizerModule } from '../../shared/sanitizer.module';
+import { GoogleSignInComponent } from '../../shared/components/buttons/google-signin.component';
 
 const routes: Routes = [
     {
@@ -34,7 +35,8 @@ const routes: Routes = [
         LogoutComponent, 
         AuthorizeComponent, 
         ChangePasswordComponent, 
-        SignupComponent,],
+        SignupComponent,
+        GoogleSignInComponent],
     imports: [CommonModule,
         ReactiveFormsModule,
         CommonComponentsModule,

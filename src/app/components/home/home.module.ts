@@ -7,30 +7,25 @@ import { HomeComponent } from './home.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { RouterModule } from '../../../../node_modules/@angular/router';
 import { SanitizerModule } from '../../shared/sanitizer.module';
-import { CardMapComponent } from '../../shared/components/card-map/card-map.component';
-import { CreateMapComponent } from '../../shared/components/create-map/create-map.component';
 import { ReactiveFormsModule } from '../../../../node_modules/@angular/forms';
 import { ConfirmationPopoverModule } from '../../../../node_modules/angular-confirmation-popover';
 import { PermissionsModule } from '../../shared/permissions.module';
 import { AccountComponent } from "../account/account.component";
 import { ImageModule } from "../../shared/image.module";
 import { AuthGuard } from "../../shared/services/guards/auth.guard";
+import { CreateMapModule } from "../../shared/create-map.module";
 
 @NgModule({
     declarations: [
         HomeComponent,
         DashboardComponent,
-        CardMapComponent,
-        CreateMapComponent,
         AccountComponent
         
     ],
     imports: [CommonModule,
         ReactiveFormsModule,
-        ConfirmationPopoverModule,
         PermissionsModule,
-        ImageModule,
-        // CommonComponentsModule,
+        ImageModule,CreateMapModule,
         SanitizerModule,
         RouterModule.forChild([
             {

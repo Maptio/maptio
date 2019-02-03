@@ -60,6 +60,7 @@ import { PersonalCardComponent } from "./mapping/summary/personal/card.component
 import { SlackService } from "./share/slack.service";
 import { NgbTooltipModule, NgbTypeaheadModule, NgbPopoverModule } from "@ng-bootstrap/ng-bootstrap";
 import { ColorPickerComponent } from "../../shared/components/color-picker/color-picker.component";
+import { PermissionsModule } from "../../shared/permissions.module";
 
 
 const routes: Routes = [{
@@ -125,7 +126,8 @@ export function markedOptionsFactory(): MarkedOptions {
         NgbTooltipModule,
         NgbTypeaheadModule,
         NgbPopoverModule,
-        ColorHueModule
+        ColorHueModule,
+        PermissionsModule
     ],
     declarations: [
         FocusIfDirective,

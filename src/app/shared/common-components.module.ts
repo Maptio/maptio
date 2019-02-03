@@ -34,26 +34,20 @@ import { PermissionsModule } from "./permissions.module";
         PermissionsModule
     ],
     declarations: [
-        CreateTeamComponent,
-        CardTeamComponent, 
         OnboardingComponent,
         InstructionsComponent,
         AddMemberComponent,
         AddTerminologyComponent,
-        GoogleSignInComponent,
         CommonModalComponent
     ],
     providers: [
         IntercomService
     ],
     exports: [
-        CreateTeamComponent,
-        CardTeamComponent,
         OnboardingComponent,
         InstructionsComponent,
         AddMemberComponent,
         AddTerminologyComponent,
-        GoogleSignInComponent,
         CommonModalComponent
     ]
 })
