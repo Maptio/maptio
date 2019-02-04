@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mongojs = require('mongojs');
 require('dotenv').config()
-var db = mongojs(process.env.ENV==="production" ? process.env.MONGODB_URI : process.env.MONGODB_URI_LOCAL, ['users']);
+var db = mongojs(process.env.MONGODB_URI, ['users']);
 
 /* GET All users */
 

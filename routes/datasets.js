@@ -5,7 +5,7 @@ var fs = require("fs");
 var path = require('path');
 var _ = require("lodash");
 require('dotenv').config()
-var db = mongojs(process.env.ENV === "production" ? process.env.MONGODB_URI : process.env.MONGODB_URI_LOCAL, ['datasets']);
+var db = mongojs( process.env.MONGODB_URI , ['datasets']);
 
 /* GET All datasets */
 // router.get('/all', function (req, res, next) {
