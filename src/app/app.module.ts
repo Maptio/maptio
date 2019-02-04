@@ -64,6 +64,10 @@ const appRoutes: Routes = [
         path: "", loadChildren: "./modules/login/login.module#LoginModule"
     },
 
+    {
+        path: "legal", loadChildren: "./modules/legal/legal.module#LegalModule"
+    },
+
 
     {
         path: "", loadChildren: "./components/company/company.module#CompanyModule"

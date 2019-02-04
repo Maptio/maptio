@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { HelpComponent } from './help/help.component';
 import { PricingComponent } from './pricing/pricing.component';
 import { CheckoutComponent } from './pricing/checkout.component';
-import { PrivacyComponent } from './terms/privacy.component';
-import { TermsComponent } from './terms/terms.component';
+// import { PrivacyComponent } from '../../modules/legal/pages/privacy/privacy.page';
+// import { TermsComponent } from '../../modules/legal/pages/tos/terms.page';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../../core/guards/auth.guard';
 
@@ -18,9 +18,9 @@ const routes: Routes = [
             { path: "pricing", component: PricingComponent, data: { breadcrumbs: true, text: "Pricing" } },
             { path: "checkout", canActivate: [AuthGuard], component: CheckoutComponent },
 
-            { path: "terms", component: TermsComponent, data: { breadcrumbs: true, text: "Terms of service" } },
+            // { path: "terms", component: TermsComponent, data: { breadcrumbs: true, text: "Terms of service" } },
 
-            { path: "privacy", component: PrivacyComponent, data: { breadcrumbs: true, text: "Privacy policy" } },
+            // { path: "privacy", component: PrivacyComponent, data: { breadcrumbs: true, text: "Privacy policy" } },
 
         ]
 
@@ -33,9 +33,7 @@ const routes: Routes = [
     declarations: [
         HelpComponent,
         PricingComponent,
-        CheckoutComponent,
-        PrivacyComponent,
-        TermsComponent
+        CheckoutComponent
     ],
     imports: [
         CommonModule,
