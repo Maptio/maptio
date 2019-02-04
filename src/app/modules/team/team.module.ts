@@ -17,8 +17,8 @@ import { TeamBillingComponent } from "./pages/team-billing/billing.component";
 import { MemberSingleComponent } from "./components/member-details/member-single.component";
 import { NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
 import { PermissionsModule } from "../../shared/permissions.module";
-import { CardTeamComponent } from "../../shared/components/card-team/card-team.component";
-import { CreateTeamComponent } from "../../shared/components/create-team/create-team.component";
+import { CardTeamComponent } from "../../shared/components/cards/team/card-team.component";
+import { CreateTeamComponent } from "../../shared/components/cards/create-team/create-team.component";
 import { CreateMapModule } from "../../shared/create-map.module";
 import { TeamRoutingModule } from "./team.routing";
 

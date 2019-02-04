@@ -1,10 +1,10 @@
 import { Component, EventEmitter, OnInit, TemplateRef, Renderer2, Input, Output, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Team } from '../../model/team.data';
-import { User } from '../../model/user.data';
+import { Team } from '../../../model/team.data';
+import { User } from '../../../model/user.data';
 import { Router } from '@angular/router';
-import { Permissions } from "../../../shared/model/permission.data";
-import { TeamService } from '../../services/team/team.service';
+import { Permissions } from "../../../model/permission.data";
+import { TeamService } from '../../../services/team/team.service';
 
 @Component({
     selector: 'common-create-team',

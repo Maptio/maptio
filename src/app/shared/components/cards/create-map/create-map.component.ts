@@ -1,14 +1,14 @@
 import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, ChangeDetectorRef } from '@angular/core';
-import { DatasetFactory } from '../../../core/http/map/dataset.factory';
+import { DatasetFactory } from '../../../../core/http/map/dataset.factory';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Team } from '../../model/team.data';
-import { DataSet } from '../../model/dataset.data';
-import { Initiative } from '../../model/initiative.data';
-import { Auth } from '../../../core/authentication/auth.service';
+import { Team } from '../../../model/team.data';
+import { DataSet } from '../../../model/dataset.data';
+import { Initiative } from '../../../model/initiative.data';
+import { Auth } from '../../../../core/authentication/auth.service';
 import { Angulartics2Mixpanel } from 'angulartics2';
 import { Router } from '@angular/router';
 import { Intercom } from 'ng-intercom';
-import { MapService } from '../../services/map/map.service';
+import { MapService } from '../../../services/map/map.service';
 
 @Component({
     selector: 'common-create-map',

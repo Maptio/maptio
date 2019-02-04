@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Team } from '../../model/team.data';
-import { User } from '../../model/user.data';
+import { Team } from '../../../model/team.data';
+import { User } from '../../../model/user.data';
 import { sortBy } from 'lodash';
 
 @Component({

@@ -4,7 +4,6 @@ import { Router, NavigationEnd } from "@angular/router";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core"
 import { AppComponent } from "./app.component";
-import { HelpComponent } from "../components/help/help.component"
 import {
     RouterTestingModule
 } from "@angular/router/testing";
