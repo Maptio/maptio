@@ -49,6 +49,7 @@ import { OnboardingService } from "./shared/components/onboarding/onboarding.ser
 import { LoaderComponent } from "./components/loading/loader.component";
 import { HeaderComponent } from "./components/header/header.component";
 import { FooterComponent } from "./components/footer/footer.component";
+import { IntercomService } from "./shared/services/team/intercom.service";
 
 
 const appRoutes: Routes = [
@@ -121,6 +122,7 @@ const appRoutes: Routes = [
         AuthConfiguration, URIService, DatasetFactory, TeamFactory,
         ErrorService, Auth, UserService, TeamService, MapService, UserFactory, MailingService, JwtEncoder, LoaderService,
         ExportService, FileService, PermissionService, BillingService, InstructionsService, OnboardingService,
+        IntercomService,
         Location,
         { provide: LocationStrategy, useClass: PathLocationStrategy },
         { provide: APP_BASE_HREF, useValue: '/' },

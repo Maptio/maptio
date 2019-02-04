@@ -12,11 +12,13 @@ import { TreeNode, TREE_ACTIONS, TreeComponent } from "angular-tree-component";
 
 import "rxjs/add/operator/map";
 import { InitiativeNodeComponent } from "./initiative.node.component"
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal, NgbTabset, NgbTabChangeEvent } from "@ng-bootstrap/ng-bootstrap";
 import { LoaderService } from "../../../shared/services/loading/loader.service";
 import { Tag } from "../../../shared/model/tag.data";
 import { DataSet } from "../../../shared/model/dataset.data";
 import { UserService } from "../../../shared/services/user/user.service";
+import { intersectionBy } from "lodash";
+import { Subject } from "../../../../../node_modules/rxjs";
 
 @Component({
     selector: "building",
@@ -87,6 +89,7 @@ export class BuildingComponent {
 
 
     @ViewChild("tree") public tree: TreeComponent;
+    @ViewChild("tabs") public tabs: NgbTabset;
 
     @ViewChild(InitiativeNodeComponent)
     node: InitiativeNodeComponent;
@@ -97,6 +100,8 @@ export class BuildingComponent {
     datasetId: string;
 
     team: Team;
+    tags: Tag[];
+    depth: number = 0;
     isFirstEdit: Boolean;
     isExpanding: boolean;
     isCollapsing: boolean;
@@ -104,7 +109,8 @@ export class BuildingComponent {
 
     @Input("user") user: User;
     @Input("isEmptyMap") isEmptyMap: Boolean;
-    @Output("save") save = new EventEmitter<Initiative>();
+
+    @Output("save") save: EventEmitter<{ initiative: Initiative, tags: Tag[] }> = new EventEmitter<{ initiative: Initiative, tags: Tag[] }>();
     @Output("openDetails") openDetails = new EventEmitter<Initiative>();
     @Output("openDetailsEditOnly") openDetailsEditOnly = new EventEmitter<Initiative>();
 
@@ -113,7 +119,6 @@ export class BuildingComponent {
         private userFactory: UserFactory, private userService: UserService, private cd: ChangeDetectorRef, private loaderService: LoaderService) {
         // this.nodes = [];
     }
-
 
     ngAfterViewChecked() {
         try {
@@ -126,7 +131,7 @@ export class BuildingComponent {
     }
 
     saveChanges() {
-        this.save.emit(this.nodes[0]);
+        this.save.emit({ initiative: this.nodes[0], tags: this.tags });
     }
 
     state = localStorage.treeState && JSON.parse(localStorage.treeState);
@@ -155,10 +160,24 @@ export class BuildingComponent {
         this.openDetails.emit(node)
     }
 
+    onEditingTags(tags: Tag[]) {
+        this.tags = tags;
+        this.nodes[0].traverse((node: Initiative) => {
+            node.tags = intersectionBy(tags, node.tags, (t: Tag) => t.shortid);
+        })
+        this.saveChanges();
+    }
+
     moveNode(node: Initiative, from: Initiative, to: Initiative) {
         let foundTreeNode = this.tree.treeModel.getNodeById(node.id)
         let foundToNode = this.tree.treeModel.getNodeById(to.id);
         TREE_ACTIONS.MOVE_NODE(this.tree.treeModel, foundToNode, {}, { from: foundTreeNode, to: { parent: foundToNode } })
+
+    }
+
+    beforeChange($event: NgbTabChangeEvent) {
+        // Keep this method !
+        // If not present, the change detection doesnt happen on ngbTabSet.select
 
     }
 
@@ -182,7 +201,6 @@ export class BuildingComponent {
             });
         }
 
-        // this.saveChanges();
         this.updateTree()
     }
 
@@ -216,7 +234,6 @@ export class BuildingComponent {
             });
         }
 
-        // this.saveChanges();
         this.updateTree()
     }
 
@@ -249,6 +266,7 @@ export class BuildingComponent {
         this.loaderService.show();
         this.datasetId = dataset.datasetId;
         this.team = team;
+        this.tags = dataset.tags;
         return this.datasetFactory.get(dataset.datasetId)
             .then(dataset => {
                 this.nodes = [];
@@ -256,7 +274,8 @@ export class BuildingComponent {
                 let defaultTeamId = this.nodes[0].team_id;
                 this.nodes[0].traverse(function (node: Initiative) {
                     node.team_id = defaultTeamId; // For now, the sub initiative are all owned by the same team
-                });
+                    this.depth++;
+                }.bind(this));
 
                 return Promise.all([this.userService.getUsersInfo(team.members), this.userFactory.getUsers(team.members.map(m => m.user_id))])
                     .then(([auth0Users, databaseUsers]: [User[], User[]]) => {

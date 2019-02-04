@@ -57,11 +57,14 @@ import { OnboardingComponent } from "../../shared/components/onboarding/onboardi
 import { InstructionsComponent } from "../../shared/components/instructions/instructions.component";
 import { PersonalCardComponent } from "./mapping/summary/personal/card.component";
 import { SlackService } from "./share/slack.service";
-import { NgbTooltipModule, NgbTypeaheadModule, NgbPopoverModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgbTooltipModule, NgbTypeaheadModule, NgbPopoverModule, NgbTabsetModule } from "@ng-bootstrap/ng-bootstrap";
 import { ColorPickerComponent } from "../../shared/components/color-picker/color-picker.component";
 import { PermissionsModule } from "../../shared/permissions.module";
 import { DataService } from "../../shared/services/data.service";
 import { OnboardingModule } from "../../shared/onboarding.module";
+import { MapSettingsService } from "../../shared/services/map/map-settings.service";
+import { EditTagsComponent } from "./building/edit-tags.component";
+import { UIService } from "../../shared/services/ui/ui.service";
 
 
 const routes: Routes = [{
@@ -127,6 +130,7 @@ export function markedOptionsFactory(): MarkedOptions {
         NgbTooltipModule,
         NgbTypeaheadModule,
         NgbPopoverModule,
+        NgbTabsetModule,
         ColorHueModule,
         PermissionsModule
     ],
@@ -140,10 +144,11 @@ export function markedOptionsFactory(): MarkedOptions {
 
         SearchComponent, FilterTagsComponent, ShareSlackComponent,
         TooltipComponent, ContextMenuComponent,
-        ColorPickerComponent
+        ColorPickerComponent,
+        EditTagsComponent
     ],
-    providers: [
-        SlackService, DataService,
+    providers: [BillingGuard,WorkspaceGuard,UIService,
+        SlackService, DataService,MapSettingsService,
         WorkspaceComponentResolver, MappingSummaryBreadcrumbs, MarkdownService, MarkedOptions,
     ],
     entryComponents: [OnboardingComponent, InstructionsComponent]

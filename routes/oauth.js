@@ -42,7 +42,6 @@ router.post('/slack', function (req, res, next) {
 
     // return request(options).then(slack => {
     //     return slack;
-    // console.log(slack)
     // let options = {
     //     method: 'POST',
     //     url: `http://localhost:3000/api/v1/jwt/encode`,

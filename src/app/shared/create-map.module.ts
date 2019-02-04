@@ -12,7 +12,10 @@ import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
         CreateMapComponent, CardMapComponent
     ],
     imports: [ CommonModule, ReactiveFormsModule, RouterModule, PermissionsModule,
-        ConfirmationPopoverModule ],
+        ConfirmationPopoverModule.forRoot({
+            confirmButtonType: "danger",
+            cancelButtonType: "link"
+        }) ],
     exports: [CreateMapComponent, CardMapComponent],
     providers: [],
 })

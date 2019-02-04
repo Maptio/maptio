@@ -1,17 +1,6 @@
 <div class="card bg-transparent border-0">
   <div class="card-body">
-    <h6 class="card-title mb-2 d-flex justify-content-start">Tags
-      <span class="btn btn-link btn-sm pl-0 ml-auto" (click)="isEditTags=!isEditTags">Edit tags
-        <span class="mr-1">
-          <i *ngIf="isEditTags" class="fa fa-caret-down" aria-hidden="true"></i>
-          <i *ngIf="!isEditTags" class="fa fa-caret-left" aria-hidden="true"></i>
-        </span>
-      </span>
-    </h6>
-    <span>
-      <button class="btn btn-link btn-sm p-0" (click)="selectAllTags()">Select all</button>
-      <button class="btn btn-link btn-sm p-0" (click)="unselectAllTags()">Unselect all</button>
-    </span>
+    
     <div class="d-flex flex-wrap">
       <span *ngFor="let tag of tags; let i=index" class="mr-1 my-1">
         <span *ngIf="!tag.isSelected" class="cursor-pointer badge badge-pill p-2  border-thick" [style.color]="tag.color" [style.border-color]="tag.color" (click)="toggleTag(tag)">
@@ -25,32 +14,12 @@
       </span>
 
     </div>
-    <div class="edit-tags" *ngIf="isEditTags">
-      <h6 class="mt-4">Edit tags</h6>
+    
+  </div>
 
-
-
-      <form class="form-group form-inline" [formGroup]="newTagForm" (submit)="addTag()">
-        <input class="form-control col-6 " type="text" id="inputname" formControlName="name" required name [class.has-warning]="newTagForm.controls['name'].invalid  && (newTagForm.controls['name'].dirty || newTagForm.controls['name'].touched)">
-        <div class="col-3">
-          <common-color-picker [color]="newTagColor" [isMinimal]="true" (change)="saveTagColor($event)"></common-color-picker>
-        </div>
-        <button type="submit" class="btn btn-success col-3" [class.disabled]="!newTagForm.valid">Add</button>
-
-      </form>
-      <div class="form-group form-inline" *ngFor="let tag of tags; let i=index">
-
-        <input type="text" class="col-6 form-control" name="inputTagName" [ngModelOptions]="{standalone: true}" [ngModel]="tag.name"
-          (ngModelChange)="saveTagName(tag, $event)" (blur)="saveTagChanges()" />
-        <div class="col-3">
-          <common-color-picker [color]="tag.color" [isMinimal]="true" (change)="saveColor(tag, $event)"></common-color-picker>
-        </div>
-        <button placement="top" container="body" mwlConfirmationPopover popoverMessage="This cannot be undone! This tag will be removed from all circles."
-          focusbutton="cancel" appendToBody="false" (confirm)="removeTag(tag)" (cancel)="cancelClicked = true" class="btn btn-outline-danger col-3">Remove</button>
-
-      </div>
-
-    </div>
+  <div class="card-footer border-0 bg-transparent">
+    <button class="btn btn-outline-secondary btn-sm mr-1 " (click)="selectAllTags()">Select all</button>
+    <button class="btn btn-outline-secondary btn-sm " (click)="unselectAllTags()">Unselect all</button>
   </div>
 
 </div>

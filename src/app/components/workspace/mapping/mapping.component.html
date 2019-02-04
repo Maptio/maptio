@@ -99,7 +99,7 @@
       <search #search [list]="flattenInitiative" (selectInitiative)="zoomToInitiative($event)" (selectUser)="goToUserSummary($event)"></search>
     </div>
     <div closable id="collapseFilter" class="collapse rounded mb-3 col-12 bg-light p-3">
-      <filter-tags [team]="team" [tags]="tags" (changeTagsSettings)="broadcastTagsSettings($event)" (changeTagsSelection)="broadcastTagsSelection($event)"></filter-tags>
+      <filter-tags [team]="team" [tags]="tags"  (changeTagsSelection)="broadcastTagsSelection($event)"></filter-tags>
     </div>
     <div closable id="collapseSlack" class="collapse rounded mb-3 col-12 bg-light p-3">
       <slack-share [slack]="team?.slack" [team]="team" [isPrinting]="isPrinting" [hasNotified]="hasNotified" [hasConfigurationError]="hasConfigurationError"

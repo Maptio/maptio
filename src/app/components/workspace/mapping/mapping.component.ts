@@ -114,7 +114,6 @@ export class MappingComponent {
   @Output("openTreePanel") openTreePanel = new EventEmitter<boolean>();
   @Output("expandTree") expandTree = new EventEmitter<boolean>();
   @Output("toggleSettingsPanel") toggleSettingsPanel = new EventEmitter<boolean>();
-  @Output("applySettings") applySettings = new EventEmitter<{ initiative: Initiative; tags: Tag[] }>();
   @Output("toggleEditingPanelsVisibility") toggleEditingPanelsVisibility = new EventEmitter<Boolean>();
 
 
@@ -436,10 +435,6 @@ export class MappingComponent {
 
   emitRemoveInitiative(node: Initiative) {
     this.removeInitiative.emit(node)
-  }
-
-  broadcastTagsSettings(tags: SelectableTag[]) {
-    this.applySettings.emit({ initiative: this.initiative, tags: tags });
   }
 
   broadcastTagsSelection(tags: SelectableTag[]) {

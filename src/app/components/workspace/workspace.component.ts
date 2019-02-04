@@ -1,7 +1,7 @@
 import { BuildingComponent } from "./building/building.component";
 import { DataService, CounterService } from "./../../shared/services/data.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { Subscription } from "rxjs/Rx";
+import { Subscription, Subject } from "rxjs/Rx";
 import { Initiative } from "./../../shared/model/initiative.data";
 import { DataSet } from "./../../shared/model/dataset.data";
 import { Team } from "./../../shared/model/team.data";
@@ -44,7 +44,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public datasetId: string;
     private routeSubscription: Subscription;
     private userSubscription: Subscription;
-    public isLoading:boolean;
+    public isLoading: boolean;
 
     public dataset: DataSet;
     public members: Array<User>;
@@ -58,6 +58,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public openedNode: Initiative;
     public openedNodeParent: Initiative;
     public openedNodeTeamId: string;
+    public openEditTag$ : Subject<void> = new Subject<void>();
 
     public mapped: Initiative;
     teamName: string;
@@ -94,13 +95,13 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
                 this.isLoading = true;
                 this.cd.markForCheck();
                 return this.buildingComponent.loadData(data.data.dataset, data.data.team, data.data.members)
-                .then(()=>{
-                    this.isLoading = false;
-                    this.cd.markForCheck();
-                });
+                    .then(() => {
+                        this.isLoading = false;
+                        this.cd.markForCheck();
+                    });
             })
-            .subscribe((data: { data: { dataset: DataSet, team: Team, members: User[], user: User } }) => {         
-            
+            .subscribe((data: { data: { dataset: DataSet, team: Team, members: User[], user: User } }) => {
+
                 this.dataset = data.data.dataset;
                 this.tags = data.data.dataset.tags;
                 this.team = data.data.team;
@@ -120,38 +121,38 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         this.buildingComponent.saveChanges();
     }
 
-    applySettings(data: { initiative: Initiative, tags: Tag[] }) {
-        data.initiative.traverse((node: Initiative) => {
-            node.tags = intersectionBy(data.tags, node.tags, (t: Tag) => t.shortid);
-        })
-        this.saveChanges(data.initiative, data.tags);
-        this.cd.markForCheck();
-    }
+    // applySettings(data: { initiative: Initiative, tags: Tag[] }) {
+    //     data.initiative.traverse((node: Initiative) => {
+    //         node.tags = intersectionBy(data.tags, node.tags, (t: Tag) => t.shortid);
+    //     })
+    //     this.saveChanges(data.initiative, data.tags);
+    //     this.cd.markForCheck();
+    // }
 
-    saveChanges(initiative: Initiative, tags?: Array<Tag>) {
-        this.isEmptyMap = !initiative.children || initiative.children.length === 0;
+    saveChanges(change: { initiative: Initiative, tags: Array<Tag> }) {
+        this.isEmptyMap = !change.initiative.children || change.initiative.children.length === 0;
         this.isSaving = true;
         this.cd.markForCheck();
 
-        this.dataset.initiative = initiative;
-        if (tags) {
-            this.dataset.tags = tags;
-            this.tags = tags
-        }
+        this.dataset.initiative = change.initiative;
+        this.dataset.tags = change.tags;
+        this.tags = change.tags
 
         let depth = 0
-        initiative.traverse((n) => { depth++ });
+        change.initiative.traverse((n) => { depth++ });
 
         this.datasetFactory.upsert(this.dataset, this.datasetId)
             .then((hasSaved: boolean) => {
-                this.dataService.set({ initiative: initiative, dataset: this.dataset, team: this.team, members: this.members });
+                this.dataService.set({ initiative: change.initiative, dataset: this.dataset, team: this.team, members: this.members });
                 return hasSaved;
             }, (reason) => { console.error(reason) })
             .then(() => {
 
                 let depth = 0
-                initiative.traverse((n) => { depth++ });
-                this.intercom.trackEvent("Editing map", { team: this.team.name, teamId: this.team.team_id, datasetId: this.datasetId, mapName: initiative.name, circles: depth });
+                change.initiative.traverse((n) => { depth++ });
+                this.buildingComponent.depth = depth;
+                this.cd.markForCheck();
+                this.intercom.trackEvent("Editing map", { team: this.team.name, teamId: this.team.team_id, datasetId: this.datasetId, mapName: change.initiative.name, circles: depth });
                 return;
             })
             .then(() => {
@@ -205,6 +206,12 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
 
     toggleEditingPanelsVisibility(isVisible: boolean) {
         this.isBuildingVisible = isVisible;
+        this.cd.markForCheck();
+    }
+
+    onEditTags(){
+        this.isBuildingPanelCollapsed = false;
+        this.buildingComponent.tabs.select("tags-tab");
         this.cd.markForCheck();
     }
 

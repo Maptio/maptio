@@ -937,7 +937,6 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
         // position close to where path intercepts circle
         m = this.getPointAtLength(pl - r)
         ;
-      // console.log(d, pl,  r)
       var dx = m.x - source.x,
         dy = m.y - source.y,
         dr = Math.sqrt(dx * dx + dy * dy);

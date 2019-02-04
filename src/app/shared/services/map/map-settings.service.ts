@@ -50,7 +50,11 @@ export class MapSettingsService {
     }
 
     get(datasetId: string) {
-        if (!localStorage.getItem(`map_settings_${datasetId}`)) {
+        if (
+            !localStorage.getItem(`map_settings_${datasetId}`)
+        || !(localStorage.getItem(`map_settings_${datasetId}`).indexOf("lastPosition") > -1)
+        
+        ) {
             localStorage.setItem(`map_settings_${datasetId}`, JSON.stringify(
                 {
                     mapColor: environment.DEFAULT_MAP_BACKGOUND_COLOR,
