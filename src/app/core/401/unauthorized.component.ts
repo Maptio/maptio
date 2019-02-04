@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
-import { Subscription, Observable } from "../../../../node_modules/rxjs";
+import { Subscription, Observable } from "rxjs";
 import { Router } from "@angular/router";
 
 @Component({
