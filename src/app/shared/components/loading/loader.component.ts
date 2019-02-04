@@ -1,6 +1,6 @@
 import { Component, OnInit} from "@angular/core";
 import { Subscription } from "rxjs/Subscription";
-import { LoaderService, LoaderState } from "../../shared/services/loading/loader.service";
+import { LoaderService, LoaderState } from "../../services/loading/loader.service";
 
 @Component({
     selector: "loader",

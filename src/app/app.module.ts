@@ -46,7 +46,7 @@ import { TeamService } from "./shared/services/team/team.service";
 import { MapService } from "./shared/services/map/map.service";
 import { InstructionsService } from "./shared/components/instructions/instructions.service";
 import { OnboardingService } from "./shared/components/onboarding/onboarding.service";
-import { LoaderComponent } from "./components/loading/loader.component";
+import { LoaderComponent } from "./shared/components/loading/loader.component";
 import { HeaderComponent } from "./core/header/header.component";
 import { FooterComponent } from "./core/footer/footer.component";
 import { IntercomService } from "./shared/services/team/intercom.service";
