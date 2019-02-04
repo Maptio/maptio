@@ -1,4 +1,4 @@
-import { PermissionGuard } from "./shared/services/guards/permission.guard";
+import { PermissionGuard } from "./core/guards/permission.guard";
 import { PermissionService } from "./shared/model/permission.data";
 import { Location, LocationStrategy, PathLocationStrategy, APP_BASE_HREF } from "@angular/common";
 import { NgModule } from "@angular/core";
@@ -27,8 +27,8 @@ import { JwtEncoder } from "./shared/services/encoding/jwt.service";
 import { ErrorService } from "./shared/services/error/error.service";
 import { ExportService } from "./shared/services/export/export.service";
 import { FileService } from "./shared/services/file/file.service";
-import { AccessGuard } from "./shared/services/guards/access.guard";
-import { AuthGuard } from "./shared/services/guards/auth.guard";
+import { AccessGuard } from "./core/guards/access.guard";
+import { AuthGuard } from "./core/guards/auth.guard";
 import { LoaderService } from "./shared/services/loading/loader.service";
 import { MailingService } from "./shared/services/mailing/mailing.service";
 import { TeamFactory } from "./shared/services/team.factory";

@@ -6,7 +6,7 @@ import { CheckoutComponent } from './pricing/checkout.component';
 import { PrivacyComponent } from './terms/privacy.component';
 import { TermsComponent } from './terms/terms.component';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from '../../shared/services/guards/auth.guard';
+import { AuthGuard } from '../../core/guards/auth.guard';
 
 
 const routes: Routes = [

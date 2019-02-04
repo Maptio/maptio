@@ -1,13 +1,13 @@
 import { Observable } from "rxjs/Rx";
 import { AccessGuard } from "./access.guard";
 import { Router, RouterStateSnapshot, ActivatedRouteSnapshot } from "@angular/router";
-import { ErrorService } from "../error/error.service";
+import { ErrorService } from "../../shared/services/error/error.service";
 import { Http, BaseRequestOptions } from "@angular/http";
-import { UserFactory } from "../user.factory";
+import { UserFactory } from "../../shared/services/user.factory";
 import { TestBed, inject } from "@angular/core/testing";
 import { MockBackend } from "@angular/http/testing";
-import { User } from "../../model/user.data";
-import { Auth } from "../auth/auth.service";
+import { User } from "../../shared/model/user.data";
+import { Auth } from "../../shared/services/auth/auth.service";
 import { Intercom, IntercomConfig } from "ng-intercom";
 
 export class AuthStub {
