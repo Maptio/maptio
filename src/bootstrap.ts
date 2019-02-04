@@ -22,4 +22,8 @@ if (process.env.NODE_ENV === "production") {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule);
+platformBrowserDynamic().bootstrapModule(AppModule)
+  .then(() => {
+    console.log("App started")
+  })
+  .catch(err => console.error(err));

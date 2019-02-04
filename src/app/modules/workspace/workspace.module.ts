@@ -52,7 +52,7 @@ import { TooltipComponent } from "./components/tooltip/tooltip.component";
 import { ContextMenuComponent } from "./components/context-menu/context-menu.component";
 import { MappingSummaryComponent } from "./pages/directory/summary.component";
 import { PersonalSummaryComponent } from "./components/summary/overview/personal.component";
-import { MappingSummaryBreadcrumbs } from "./pages/directory/summary.breadcrumb";
+import { MappingSummaryBreadcrumbs } from "../../core/breadcrumbs/summary.breadcrumb";
 import { OnboardingComponent } from "../../shared/components/onboarding/onboarding.component";
 import { InstructionsComponent } from "../../shared/components/instructions/instructions.component";
 import { PersonalCardComponent } from "./components/summary/tab/card.component";

@@ -49,7 +49,7 @@ import { LoaderComponent } from "./shared/components/loading/loader.component";
 import { HeaderComponent } from "./core/header/header.component";
 import { FooterComponent } from "./core/footer/footer.component";
 import { IntercomService } from "./shared/services/team/intercom.service";
-import { MappingSummaryBreadcrumbs } from "./modules/workspace/pages/directory/summary.breadcrumb";
+import { MappingSummaryBreadcrumbs } from "./core/breadcrumbs/summary.breadcrumb";
 
 
 const appRoutes: Routes = [
