@@ -13,7 +13,6 @@ import { BreadcrumbsModule, BreadcrumbsConfig, Breadcrumb } from "@exalif/ngx-br
 import { FullstoryModule } from 'ngx-fullstory';
 
 import { DeviceDetectorModule } from 'ngx-device-detector';
-import { AnAnchorableComponent } from "../test/specs/shared/component.helper.shared";
 import { environment } from "./config/environment";
 import { AppComponent } from "./components/app.component";
 import { NotFoundComponent } from "./core/404/not-found.component";
@@ -61,14 +60,15 @@ const appRoutes: Routes = [
         path: "teams", loadChildren: "./modules/team/team.module#TeamModule",
         data: { breadcrumbs: "Organisations" }
     },
-    
+    {
+        path: "", loadChildren: "./modules/login/login.module#LoginModule"
+    },
+
+
     {
         path: "", loadChildren: "./components/company/company.module#CompanyModule"
     },
-    
-    {
-        path: "", loadChildren: "./components/login/login.module#LoginModule"
-    },
+
 
 
 
@@ -76,7 +76,7 @@ const appRoutes: Routes = [
         path: "map/:mapid/:mapslug", loadChildren: "./components/workspace/workspace.module#WorkspaceModule"
     },
 
-    
+
     { path: "unauthorized", component: UnauthorizedComponent },
     { path: "404", component: NotFoundComponent },
     { path: "**", redirectTo: "/404" },
@@ -88,8 +88,7 @@ const appRoutes: Routes = [
 @NgModule({
     declarations: [
         AppComponent, LoaderComponent, HeaderComponent, FooterComponent,
-        UnauthorizedComponent, NotFoundComponent,
-        AnAnchorableComponent
+        UnauthorizedComponent, NotFoundComponent
     ],
     imports: [
         BrowserModule,
@@ -119,7 +118,7 @@ const appRoutes: Routes = [
     providers: [
         BrowserAnimationsModule,
         AuthGuard, AccessGuard, PermissionGuard,
-        
+
         AuthConfiguration, URIService, DatasetFactory, TeamFactory,
         ErrorService, Auth, UserService, TeamService, MapService, UserFactory, MailingService, JwtEncoder, LoaderService,
         ExportService, FileService, PermissionService, BillingService, InstructionsService, OnboardingService,

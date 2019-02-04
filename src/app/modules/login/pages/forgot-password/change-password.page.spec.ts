@@ -1,18 +1,17 @@
-import { AuthHttp } from "angular2-jwt";
-import { MailingService } from "./../../shared/services/mailing/mailing.service";
-import { JwtEncoder } from "./../../shared/services/encoding/jwt.service";
-import { AuthConfiguration } from "../../core/authentication/auth.config";
-import { Http, BaseRequestOptions } from "@angular/http";
-import { UserService } from "./../../shared/services/user/user.service";
-import { ChangePasswordComponent } from "./change-password.component";
+import { ChangePasswordComponent } from "./change-password.page";
+import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
-import { TestBed } from "@angular/core/testing";
-import { ComponentFixture, async } from "@angular/core/testing";
-import { LoaderService } from "./../../shared/services/loading/loader.service";
-import { Router } from "@angular/router";
+import { UserFactory } from "../../../../core/http/user/user.factory";
+import { AuthHttp } from "angular2-jwt";
+import { authHttpServiceFactoryTesting } from "../../../../../test/specs/shared/authhttp.helper.shared";
+import { Http, BaseRequestOptions } from "@angular/http";
 import { MockBackend } from "@angular/http/testing";
-import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
-import { UserFactory } from "../../core/http/user/user.factory";
+import { UserService } from "../../../../shared/services/user/user.service";
+import { AuthConfiguration } from "../../../../core/authentication/auth.config";
+import { JwtEncoder } from "../../../../shared/services/encoding/jwt.service";
+import { MailingService } from "../../../../shared/services/mailing/mailing.service";
+import { Router } from "@angular/router";
+import { LoaderService } from "../../../../shared/services/loading/loader.service";
 
 describe("change-password.component.ts", () => {
 

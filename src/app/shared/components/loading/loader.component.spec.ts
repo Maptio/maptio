@@ -1,5 +1,4 @@
 import { Subject } from "rxjs/Rx";
-import { LoaderService, LoaderState } from "./../../shared/services/loading/loader.service";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { LoaderComponent } from "./loader.component";
 import { async, TestBed, ComponentFixture } from "@angular/core/testing";

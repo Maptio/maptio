@@ -1,12 +1,12 @@
-import { EmitterService } from "./../../shared/services/emitter.service";
+import { EmitterService } from "../../../../shared/services/emitter.service";
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { UserService } from "../../shared/services/user/user.service";
-import { User } from "../../shared/model/user.data";
+import { UserService } from "../../../../shared/services/user/user.service";
+import { User } from "../../../../shared/model/user.data";
 
 @Component({
     selector: "change-password",
-    templateUrl: "./change-password.component.html"
+    templateUrl: "./change-password.page.html"
 })
 
 export class ChangePasswordComponent implements OnInit {

@@ -1,9 +1,8 @@
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { Auth } from '../../core/authentication/auth.service';
-import { LogoutComponent } from './logout.component';
-import { SafePipe } from '../../pipes/safe.pipe';
+import { LogoutComponent } from "./logout.page";
+import { ComponentFixture, async, TestBed } from "@angular/core/testing";
+import { SafePipe } from "../../../../pipes/safe.pipe";
+import { NO_ERRORS_SCHEMA } from "@angular/core";
+import { Auth } from "../../../../core/authentication/auth.service";
 
 describe("logout.component.ts", () => {
   let component: LogoutComponent;

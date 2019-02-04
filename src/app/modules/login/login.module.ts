@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoginComponent } from './login.component';
-import { LogoutComponent } from './logout.component';
-import { AuthorizeComponent } from './authorize.component';
-import { ChangePasswordComponent } from './change-password.component';
-import { SignupComponent } from './signup.component';
+import { LoginComponent } from './pages/login/login.page';
+import { LogoutComponent } from './pages/logout/logout.page';
+import { AuthorizeComponent } from './pages/authorize/authorize.page';
+import { ChangePasswordComponent } from './pages/forgot-password/change-password.page';
+import { SignupComponent } from './pages/sign-up/signup.page';
 import { RouterModule, Routes } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SanitizerModule } from '../../shared/sanitizer.module';

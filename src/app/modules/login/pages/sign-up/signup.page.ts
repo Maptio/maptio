@@ -1,18 +1,18 @@
 import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Angulartics2Mixpanel } from "angulartics2";
-import { User } from "../../shared/model/user.data";
-import { UserService } from "../../shared/services/user/user.service";
-import { repeatValidator } from "./../../shared/directives/equal-validator.directive";
-import { UserRole } from "./../../shared/model/permission.data";
-import { LoaderService } from "./../../shared/services/loading/loader.service";
-import { Auth } from "../../core/authentication/auth.service";
+import { User } from "../../../../shared/model/user.data";
+import { UserService } from "../../../../shared/services/user/user.service";
+import { repeatValidator } from "../../../../shared/directives/equal-validator.directive";
+import { UserRole } from "../../../../shared/model/permission.data";
+import { LoaderService } from "../../../../shared/services/loading/loader.service";
+import { Auth } from "../../../../core/authentication/auth.service";
 
 
 @Component({
     selector: "signup",
-    templateUrl: "./signup.component.html",
-    styleUrls: ["./signup.component.css"]
+    templateUrl: "./signup.page.html",
+    styleUrls: ["./signup.page.css"]
 })
 
 export class SignupComponent implements OnInit {

@@ -1,4 +1,4 @@
-import { SignupComponent } from "../../../../components/login/signup.component";
+import { SignupComponent } from "../../../login/pages/sign-up/signup.page";
 import { HomeComponent } from "./home.page";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 import { Auth } from "../../../../core/authentication/auth.service";

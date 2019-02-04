@@ -1,11 +1,11 @@
 import { Component, OnInit } from "@angular/core";
-import { Auth } from "../../core/authentication/auth.service";
-import { environment } from "../../config/environment";
+import { Auth } from "../../../../core/authentication/auth.service";
+import { environment } from "../../../../config/environment";
 
 @Component({
   selector: "logout",
-  templateUrl: "./logout.component.html",
-  styleUrls: ["./logout.component.css"]
+  templateUrl: "./logout.page.html",
+  styleUrls: ["./logout.page.css"]
 
 })
 export class LogoutComponent implements OnInit {
