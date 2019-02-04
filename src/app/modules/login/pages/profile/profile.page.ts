@@ -13,11 +13,11 @@ import { UserFactory } from "../../../../core/http/user/user.factory";
 import { LoaderService } from '../../../../shared/services/loading/loader.service';
 
 @Component({
-    selector: "account",
-    templateUrl: "./account.page.html",
-    styleUrls: ["./account.page.css"]
+    selector: "profile",
+    templateUrl: "./profile.page.html",
+    styleUrls: ["./profile.page.css"]
 })
-export class AccountComponent {
+export class ProfilePage {
 
     public user: User;
     public subscription: Subscription;

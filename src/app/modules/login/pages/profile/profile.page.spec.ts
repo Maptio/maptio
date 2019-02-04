@@ -1,4 +1,4 @@
-import { AccountComponent } from "./account.page";
+import { ProfilePage } from "./profile.page";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 import { Subject } from "rxjs";
 import { User } from "../../../../shared/model/user.data";
@@ -19,19 +19,19 @@ import { AuthConfiguration } from "../../../../core/authentication/auth.config";
 import { UserFactory } from "../../../../core/http/user/user.factory";
 import { LoaderService } from "../../../../shared/services/loading/loader.service";
 
-describe("account.component.ts", () => {
+describe("profile.page.ts", () => {
 
-    let component: AccountComponent;
-    let target: ComponentFixture<AccountComponent>;
+    let component: ProfilePage;
+    let target: ComponentFixture<ProfilePage>;
     let user$: Subject<User> = new Subject<User>();
 
     beforeEach(async(() => {
 
         TestBed.configureTestingModule({
-            declarations: [AccountComponent],
+            declarations: [ProfilePage],
             schemas: [NO_ERRORS_SCHEMA],
             imports: [NgProgressModule, CloudinaryModule.forRoot(Cloudinary, { cloud_name: environment.CLOUDINARY_CLOUDNAME, upload_preset: environment.CLOUDINARY_UPLOAD_PRESET })]
-        }).overrideComponent(AccountComponent, {
+        }).overrideComponent(ProfilePage, {
             set: {
                 providers: [
                     { provide: Auth, useClass: class { getUser() { return user$.asObservable() } } },
@@ -64,7 +64,7 @@ describe("account.component.ts", () => {
     }));
 
     beforeEach(() => {
-        target = TestBed.createComponent(AccountComponent);
+        target = TestBed.createComponent(ProfilePage);
 
         component = target.componentInstance;
 

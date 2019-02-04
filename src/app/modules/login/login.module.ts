@@ -5,25 +5,28 @@ import { LogoutComponent } from './pages/logout/logout.page';
 import { AuthorizeComponent } from './pages/authorize/authorize.page';
 import { ChangePasswordComponent } from './pages/forgot-password/change-password.page';
 import { SignupComponent } from './pages/sign-up/signup.page';
-import { RouterModule, Routes } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SanitizerModule } from '../../shared/sanitizer.module';
 import { GoogleSignInComponent } from '../../shared/components/buttons/google-signin.component';
 import { LoginRoutingModule } from './login.routing';
+import { ProfilePage } from './pages/profile/profile.page';
+import { ImageModule } from '../../shared/image.module';
 
 
 @NgModule({
     declarations: [
-        LoginComponent, 
-        LogoutComponent, 
-        AuthorizeComponent, 
-        ChangePasswordComponent, 
+        LoginComponent,
+        LogoutComponent,
+        AuthorizeComponent,
+        ChangePasswordComponent,
         SignupComponent,
-        GoogleSignInComponent],
+        GoogleSignInComponent,
+        ProfilePage],
     imports: [CommonModule,
         ReactiveFormsModule,
         SanitizerModule,
-        LoginRoutingModule],
+        LoginRoutingModule,
+        ImageModule],
     providers: [],
 })
 export class LoginModule { }

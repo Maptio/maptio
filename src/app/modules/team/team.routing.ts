@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from '../home/pages/home/home.page';
-import { AccountComponent } from '../home/pages/account/account.page';
 import { AuthGuard } from '../../core/guards/auth.guard';
 import { TeamListComponent } from './pages/team-list/team-list.component';
 import { TeamListComponentResolver } from './pages/team-list/team-list.resolver';
