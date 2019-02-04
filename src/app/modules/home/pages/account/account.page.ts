@@ -1,5 +1,5 @@
 import { UserRole } from '../../../../shared/model/permission.data';
-import { environment } from "../../../../../environment/environment";
+import { environment } from "../../../../config/environment";
 import { UserService } from "../../../../shared/services/user/user.service";
 import { ErrorService } from "../../../../shared/services/error/error.service";
 import { Auth } from "../../../../shared/services/auth/auth.service";

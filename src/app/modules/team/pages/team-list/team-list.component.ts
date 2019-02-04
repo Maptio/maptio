@@ -1,4 +1,4 @@
-import { environment } from '../../../../../environment/environment';
+import { environment } from '../../../../config/environment';
 import { Subscription } from "rxjs/Subscription";
 import { Permissions } from "../../../../shared/model/permission.data";
 import { FormGroup, FormControl, Validators } from "@angular/forms";

@@ -2,7 +2,7 @@ import { Component, OnInit, Input, SimpleChanges, ChangeDetectorRef, ViewChild, 
 import { DataSet } from '../../model/dataset.data';
 import { Team } from '../../model/team.data';
 import { isEmpty } from 'lodash';
-import { environment } from '../../../../environment/environment';
+import { environment } from '../../../config/environment';
 import { User } from '../../model/user.data';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TeamService } from '../../services/team/team.service';

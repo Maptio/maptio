@@ -5,7 +5,7 @@ import { User } from "../../../../shared/model/user.data";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { NgProgressModule, NgProgress } from "@ngx-progressbar/core";
 import { CloudinaryModule, Cloudinary } from "@cloudinary/angular-5.x";
-import { environment } from "../../../../../environment/environment";
+import { environment } from "../../../../config/environment";
 import { Auth } from "../../../../shared/services/auth/auth.service";
 import { AuthHttp } from "angular2-jwt";
 import { authHttpServiceFactoryTesting } from "../../../../../test/specs/shared/authhttp.helper.shared";

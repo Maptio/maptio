@@ -1,4 +1,4 @@
-import { environment } from '../../../../../environment/environment';
+import { environment } from '../../../../config/environment';
 import { DataSet } from '../../../../shared/model/dataset.data';
 import { Permissions } from "../../../../shared/model/permission.data";
 import { ActivatedRoute, Router } from "@angular/router";

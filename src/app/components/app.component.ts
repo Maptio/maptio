@@ -9,7 +9,7 @@ import {
 } from "@angular/core";
 import "rxjs/add/operator/map"
 import { Auth } from "../shared/services/auth/auth.service";
-import { environment } from "../../environment/environment";
+import { environment } from "../config/environment";
 import { Observable } from "rxjs/Rx";
 import { Intercom } from 'ng-intercom';
 import { NgProgress } from '@ngx-progressbar/core';

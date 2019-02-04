@@ -1,4 +1,4 @@
-import { environment } from "./../../../environment/environment";
+import { environment } from "../../config/environment";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 import { FooterComponent } from "./footer.component";
 import { NO_ERRORS_SCHEMA } from "@angular/core"

@@ -6,7 +6,7 @@ import { DataSet } from '../../model/dataset.data';
 import { Team } from '../../model/team.data';
 import { TeamService } from '../../services/team/team.service';
 import { MapService } from '../../services/map/map.service';
-import { environment } from '../../../../environment/environment';
+import { environment } from '../../../config/environment';
 // import { Steps } from './instructions.enum';
 
 

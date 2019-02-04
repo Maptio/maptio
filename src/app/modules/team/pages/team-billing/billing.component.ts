@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Team } from '../../../../shared/model/team.data';
 import { DataSet } from '../../../../shared/model/dataset.data';
 import { Permissions } from '../../../../shared/model/permission.data';
-import { environment } from '../../../../../environment/environment';
+import { environment } from '../../../../config/environment';
 import { LoaderService } from '../../../../shared/services/loading/loader.service';
 
 @Component({

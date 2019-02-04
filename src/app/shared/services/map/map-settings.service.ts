@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UIService } from '../ui/ui.service';
-import { environment } from '../../../../environment/environment';
+import { environment } from '../../../config/environment';
 
 /**
  * Represents the list of settings that are applied to a specific map

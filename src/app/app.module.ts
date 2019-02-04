@@ -14,7 +14,7 @@ import { FullstoryModule } from 'ngx-fullstory';
 
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import { AnAnchorableComponent } from "../test/specs/shared/component.helper.shared";
-import { environment } from "../environment/environment";
+import { environment } from "./config/environment";
 import { AppComponent } from "./components/app.component";
 import { NotFoundComponent } from "./core/404/not-found.component";
 import { UnauthorizedComponent } from "./core/401/unauthorized.component";

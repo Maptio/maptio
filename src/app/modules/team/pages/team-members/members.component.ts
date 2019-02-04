@@ -1,4 +1,4 @@
-import { environment } from '../../../../../environment/environment';
+import { environment } from '../../../../config/environment';
 import { Auth } from "../../../../shared/services/auth/auth.service";
 import { Observable, Subject } from "rxjs/Rx";
 import { DataSet } from "../../../../shared/model/dataset.data";

@@ -1,4 +1,4 @@
-import { environment } from "./../../../../environment/environment";
+import { environment } from "../../../config/environment";
 import { MockBackend, MockConnection } from "@angular/http/testing";
 import { Http, BaseRequestOptions, RequestMethod, Response, ResponseOptions } from "@angular/http";
 import { TestBed, inject, async } from "@angular/core/testing";

@@ -1,4 +1,4 @@
-import { environment } from '../../../../environment/environment';
+import { environment } from '../../../config/environment';
 import { Component, OnInit } from "@angular/core";
 import { InstructionsService } from '../../../shared/components/instructions/instructions.service';
 import { User } from '../../../shared/model/user.data';

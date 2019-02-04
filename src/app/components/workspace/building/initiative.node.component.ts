@@ -1,6 +1,6 @@
 import { User } from './../../../shared/model/user.data';
 import { Helper } from './../../../shared/model/helper.data';
-import { environment } from './../../../../environment/environment';
+import { environment } from '../../../config/environment';
 import { Team } from "./../../../shared/model/team.data";
 import { Permissions, UserRole } from "./../../../shared/model/permission.data";
 import { InitiativeComponent } from "./../initiative/initiative.component";

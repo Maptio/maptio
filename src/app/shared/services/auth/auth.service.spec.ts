@@ -1,7 +1,7 @@
 import { PermissionService } from "./../../model/permission.data";
 import { Observable } from "rxjs/Rx";
 import { Angulartics2Mixpanel, Angulartics2Module } from "angulartics2";
-import { environment } from "./../../../../environment/environment";
+import { environment } from "../../../config/environment";
 import { encodeTestToken } from "angular2-jwt/angular2-jwt-test-helpers";
 import { DatasetFactory } from "./../dataset.factory";
 import { AuthHttp } from "angular2-jwt";

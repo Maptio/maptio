@@ -4,7 +4,7 @@ import { ActivatedRouteSnapshot } from "@angular/router";
 import { CanActivate, CanActivateChild, RouterStateSnapshot, Router } from "@angular/router";
 import { Auth } from "../auth/auth.service";
 import { Intercom } from "ng-intercom";
-import { environment } from "../../../../environment/environment";
+import { environment } from "../../../config/environment";
 import { User } from "../../model/user.data";
 
 @Injectable()

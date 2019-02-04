@@ -1,5 +1,5 @@
 import { UserRole } from '../../../../shared/model/permission.data';
-import { environment } from '../../../../../environment/environment';
+import { environment } from '../../../../config/environment';
 import { ActivatedRoute } from "@angular/router";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { TeamFactory } from "../../../../shared/services/team.factory";

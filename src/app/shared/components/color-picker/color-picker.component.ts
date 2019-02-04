@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { environment } from '../../../../environment/environment';
+import { environment } from '../../../config/environment';
 import { ColorEvent } from 'ngx-color';
 
 @Component({

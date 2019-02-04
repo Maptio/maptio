@@ -1,6 +1,6 @@
 import { Team } from "./team.data";
 import { User } from "./user.data";
-import { environment } from "../../../environment/environment";
+import { environment } from "../../config/environment";
 
 describe("Team Tests", () => {
     let team: Team;

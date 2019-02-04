@@ -1,6 +1,6 @@
 import { UserRole } from './../../model/permission.data';
 import { User } from "./../../model/user.data";
-import { environment } from "./../../../../environment/environment";
+import { environment } from "../../../config/environment";
 import { Http, Headers } from "@angular/http";
 import { Injectable } from "@angular/core";
 import { AuthConfiguration } from "../auth/auth.config";

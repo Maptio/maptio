@@ -1,6 +1,6 @@
 import { PermissionService, Permissions } from "./../../model/permission.data";
 import { Angulartics2Mixpanel } from "angulartics2";
-import { environment } from "./../../../../environment/environment";
+import { environment } from "../../../config/environment";
 import { LoaderService } from "./../loading/loader.service";
 import { Observable } from "rxjs/Rx";
 import { Router } from "@angular/router";

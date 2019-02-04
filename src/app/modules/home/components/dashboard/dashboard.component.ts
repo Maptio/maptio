@@ -7,7 +7,7 @@ import { TeamService } from '../../../../shared/services/team/team.service';
 import { MapService } from '../../../../shared/services/map/map.service';
 import { Auth } from '../../../../shared/services/auth/auth.service';
 import { OnboardingService } from '../../../../shared/components/onboarding/onboarding.service';
-import { environment } from '../../../../../environment/environment';
+import { environment } from '../../../../config/environment';
 
 @Component({
     selector: "dashboard",

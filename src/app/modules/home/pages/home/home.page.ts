@@ -11,7 +11,7 @@ import { sortBy, isEmpty } from "lodash-es";
 import { LoaderService } from "../../../../shared/services/loading/loader.service";
 import { EmitterService } from "../../../../shared/services/emitter.service";
 import { InstructionsService } from "../../../../shared/components/instructions/instructions.service";
-import { environment } from "../../../../../environment/environment";
+import { environment } from "../../../../config/environment";
 
 @Component({
     selector: "home",

@@ -31,7 +31,7 @@ import { Intercom } from "ng-intercom";
 import { User } from "../../../shared/model/user.data";
 import { MappingSummaryComponent } from "./summary/summary.component";
 import { SearchComponent } from "../search/search.component";
-import { environment } from "../../../../environment/environment";
+import { environment } from "../../../config/environment";
 import * as screenfull from 'screenfull';
 import { SlackService } from "../share/slack.service";
 import { DataSet } from "../../../shared/model/dataset.data";

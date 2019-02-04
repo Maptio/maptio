@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef, SimpleChanges } from '@angular/core';
 import { Initiative } from '../../../../shared/model/initiative.data';
 import { Permissions } from '../../../../shared/model/permission.data';
-import { environment } from '../../../../../environment/environment';
+import { environment } from '../../../../config/environment';
 import { User } from '../../../../shared/model/user.data';
 
 @Component({

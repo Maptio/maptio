@@ -1,4 +1,4 @@
-import { environment } from "../../../environment/environment";
+import { environment } from "../../config/environment";
 import { Component, Input} from "@angular/core";
 
 @Component({

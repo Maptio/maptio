@@ -3,7 +3,7 @@ import { Http } from '@angular/http';
 import { TeamFactory } from "../../../../shared/services/team.factory";
 import { SlackIntegration } from "../../../../shared/model/integrations.data";
 import { AuthHttp } from "angular2-jwt";
-import { environment } from "../../../../../environment/environment";
+import { environment } from "../../../../config/environment";
 import { Team } from "../../../../shared/model/team.data";
 import { DataSet } from "../../../../shared/model/dataset.data";
 import { ActivatedRoute, Router } from "@angular/router";

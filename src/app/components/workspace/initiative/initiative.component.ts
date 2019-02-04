@@ -1,4 +1,4 @@
-import { environment } from "./../../../../environment/environment";
+import { environment } from "../../../config/environment";
 import { Auth } from "./../../../shared/services/auth/auth.service";
 import { Permissions } from "./../../../shared/model/permission.data";
 import { Role } from "./../../../shared/model/role.data";
