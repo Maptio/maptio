@@ -3,7 +3,7 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";
-import { KeysPipe } from "../../pipes/keys.pipe";
+import { KeysPipe } from "../../shared/pipes/keys.pipe";
 import { SharedModule } from "../../shared/shared.module";
 import { TeamListComponent } from "./pages/team-list/team-list.component";
 import { TeamListComponentResolver } from "./pages/team-list/team-list.resolver";

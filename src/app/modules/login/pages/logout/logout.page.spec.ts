@@ -1,6 +1,6 @@
 import { LogoutComponent } from "./logout.page";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
-import { SafePipe } from "../../../../pipes/safe.pipe";
+import { SafePipe } from "../../../../shared/pipes/safe.pipe";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { Auth } from "../../../../core/authentication/auth.service";
 
