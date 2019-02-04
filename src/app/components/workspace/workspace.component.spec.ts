@@ -1,6 +1,6 @@
 import { BuildingComponent } from "./building/building.component";
 import { MailingService } from "./../../shared/services/mailing/mailing.service";
-import { AuthConfiguration } from "./../../shared/services/auth/auth.config";
+import { AuthConfiguration } from "../../core/authentication/auth.config";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Angulartics2, Angulartics2Mixpanel } from "angulartics2";
 import { AuthHttp } from "angular2-jwt";
@@ -23,7 +23,7 @@ import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import { Team } from "../../shared/model/team.data";
 import { User } from "../../shared/model/user.data";
-import { Auth } from "../../shared/services/auth/auth.service";
+import { Auth } from "../../core/authentication/auth.service";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 import { UserService } from "../../shared/services/user/user.service";
 import { JwtEncoder } from "../../shared/services/encoding/jwt.service";

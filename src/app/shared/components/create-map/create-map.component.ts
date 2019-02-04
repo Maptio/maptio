@@ -4,7 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Team } from '../../model/team.data';
 import { DataSet } from '../../model/dataset.data';
 import { Initiative } from '../../model/initiative.data';
-import { Auth } from '../../services/auth/auth.service';
+import { Auth } from '../../../core/authentication/auth.service';
 import { Angulartics2Mixpanel } from 'angulartics2';
 import { Router } from '@angular/router';
 import { Intercom } from 'ng-intercom';

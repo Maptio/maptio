@@ -5,7 +5,7 @@ import { Component, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/
 import { User } from "../../shared/model/user.data";
 import { Team } from "../../shared/model/team.data";
 import { DataSet } from "../../shared/model/dataset.data";
-import { Auth } from "../../shared/services/auth/auth.service";
+import { Auth } from "../authentication/auth.service";
 import { DatasetFactory } from "../../shared/services/dataset.factory";
 import { TeamFactory } from "../../shared/services/team.factory";
 import { EmitterService } from "../../shared/services/emitter.service";

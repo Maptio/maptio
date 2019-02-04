@@ -1,7 +1,7 @@
 import { AuthHttp } from "angular2-jwt";
 import { MailingService } from "./../../shared/services/mailing/mailing.service";
 import { JwtEncoder } from "./../../shared/services/encoding/jwt.service";
-import { AuthConfiguration } from "./../../shared/services/auth/auth.config";
+import { AuthConfiguration } from "../../core/authentication/auth.config";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { UserService } from "./../../shared/services/user/user.service";
 import { ChangePasswordComponent } from "./change-password.component";

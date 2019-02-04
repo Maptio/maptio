@@ -6,7 +6,7 @@ import { UserService } from "../../shared/services/user/user.service";
 import { repeatValidator } from "./../../shared/directives/equal-validator.directive";
 import { UserRole } from "./../../shared/model/permission.data";
 import { LoaderService } from "./../../shared/services/loading/loader.service";
-import { Auth } from "../../shared/services/auth/auth.service";
+import { Auth } from "../../core/authentication/auth.service";
 
 
 @Component({

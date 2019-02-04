@@ -10,7 +10,7 @@ import {
 } from "@angular/router/testing";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
-import { Auth } from "../shared/services/auth/auth.service";
+import { Auth } from "../core/authentication/auth.service";
 import { IntercomModule } from "ng-intercom";
 import { NgProgress, NgProgressModule } from "@ngx-progressbar/core";
 

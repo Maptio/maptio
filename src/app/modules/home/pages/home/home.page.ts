@@ -1,4 +1,4 @@
-import { Auth } from "../../../../shared/services/auth/auth.service";
+import { Auth } from "../../../../core/authentication/auth.service";
 import { Component, ChangeDetectorRef } from "@angular/core";
 import { Subscription, Observable } from "rxjs";
 import { ActivatedRoute, Router } from "@angular/router";

@@ -12,7 +12,7 @@ import { Initiative } from "../../../../../shared/model/initiative.data";
 import { PersonalSummaryComponent } from "./personal.component";
 import { DataService } from "../../../../../shared/services/data.service";
 import { User } from "../../../../../shared/model/user.data";
-import { Auth } from "../../../../../shared/services/auth/auth.service";
+import { Auth } from "../../../../../core/authentication/auth.service";
 import { UserFactory } from "../../../../../shared/services/user.factory";
 
 

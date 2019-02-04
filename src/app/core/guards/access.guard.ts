@@ -2,7 +2,7 @@ import { Observable } from "rxjs/Rx";
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot } from "@angular/router";
 import { CanActivate, CanActivateChild, RouterStateSnapshot, Router } from "@angular/router";
-import { Auth } from "../../shared/services/auth/auth.service";
+import { Auth } from "../authentication/auth.service";
 import { Intercom } from "ng-intercom";
 import { environment } from "../../config/environment";
 import { User } from "../../shared/model/user.data";

@@ -1,7 +1,7 @@
 import { SignupComponent } from "../../../../components/login/signup.component";
 import { HomeComponent } from "./home.page";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
-import { Auth } from "../../../../shared/services/auth/auth.service";
+import { Auth } from "../../../../core/authentication/auth.service";
 import { DashboardComponent } from "../../components/dashboard/dashboard.component";
 
 export class AuthStub {

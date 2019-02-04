@@ -1,13 +1,13 @@
 import { PermissionService } from './../../shared/model/permission.data';
 
 import { TestBed, inject, fakeAsync } from "@angular/core/testing";
-import { Auth } from "../../shared/services/auth/auth.service";
+import { Auth } from "../../core/authentication/auth.service";
 import { TeamFactory } from "../../shared/services/team.factory";
 import { DatasetFactory } from "../../shared/services/dataset.factory";
 import { User } from "../../shared/model/user.data";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { MockBackend } from "@angular/http/testing";
-import { AuthConfiguration } from "../../shared/services/auth/auth.config";
+import { AuthConfiguration } from "../../core/authentication/auth.config";
 import { AuthHttp } from "angular2-jwt/angular2-jwt";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 import { UserService } from "../../shared/services/user/user.service";

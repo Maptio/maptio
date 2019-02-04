@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import {Observable} from "rxjs/Observable"
 import { Intercom } from '../../../../../node_modules/ng-intercom';
-import { Auth } from '../../../shared/services/auth/auth.service';
+import { Auth } from '../../../core/authentication/auth.service';
 import { environment } from '../../../config/environment';
 import { DatasetFactory } from '../../../shared/services/dataset.factory';
 import { Team } from '../../../shared/model/team.data';

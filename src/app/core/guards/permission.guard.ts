@@ -3,7 +3,7 @@ import { Permissions } from '../../shared/model/permission.data';
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot } from "@angular/router";
 import { CanActivate, CanActivateChild, RouterStateSnapshot, Router } from "@angular/router";
-import { Auth } from "../../shared/services/auth/auth.service";
+import { Auth } from "../authentication/auth.service";
 
 @Injectable()
 export class PermissionGuard implements CanActivate, CanActivateChild {

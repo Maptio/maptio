@@ -5,7 +5,7 @@ import { User } from '../../../../shared/model/user.data';
 import { Subject, Subscription } from 'rxjs';
 import { TeamService } from '../../../../shared/services/team/team.service';
 import { MapService } from '../../../../shared/services/map/map.service';
-import { Auth } from '../../../../shared/services/auth/auth.service';
+import { Auth } from '../../../../core/authentication/auth.service';
 import { OnboardingService } from '../../../../shared/components/onboarding/onboarding.service';
 import { environment } from '../../../../config/environment';
 

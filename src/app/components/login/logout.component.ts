@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Auth } from "../../shared/services/auth/auth.service";
+import { Auth } from "../../core/authentication/auth.service";
 import { environment } from "../../config/environment";
 
 @Component({

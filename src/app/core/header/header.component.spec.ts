@@ -1,6 +1,6 @@
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { MailingService } from "../../shared/services/mailing/mailing.service";
-import { AuthConfiguration } from "../../shared/services/auth/auth.config";
+import { AuthConfiguration } from "../authentication/auth.config";
 import { UserService } from "../../shared/services/user/user.service";
 import { AuthHttp } from "angular2-jwt";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -15,7 +15,7 @@ import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
 import { DatasetFactory } from "../../shared/services/dataset.factory";
 import { ErrorService } from "../../shared/services/error/error.service";
-import { Auth } from "../../shared/services/auth/auth.service";
+import { Auth } from "../authentication/auth.service";
 import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { User } from "../../shared/model/user.data";

@@ -1,4 +1,4 @@
-import { environment } from "../../../config/environment";
+import { environment } from "../../config/environment";
 import { Http } from "@angular/http";
 import { WebAuth } from "auth0-js";
 import { Injectable } from "@angular/core";

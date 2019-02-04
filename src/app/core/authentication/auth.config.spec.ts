@@ -1,8 +1,8 @@
-import { environment } from "../../../config/environment";
-import { MockBackend, MockConnection } from "@angular/http/testing";
-import { Http, BaseRequestOptions, RequestMethod, Response, ResponseOptions } from "@angular/http";
 import { TestBed, inject, async } from "@angular/core/testing";
 import { AuthConfiguration } from "./auth.config";
+import { Http, Response, BaseRequestOptions, RequestMethod, ResponseOptions } from "@angular/http";
+import { MockBackend, MockConnection } from "@angular/http/testing";
+import { environment } from "../../config/environment";
 
 
 describe("auth.config.ts", () => {

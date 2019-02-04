@@ -1,7 +1,7 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Auth } from '../../shared/services/auth/auth.service';
+import { Auth } from '../../core/authentication/auth.service';
 import { LogoutComponent } from './logout.component';
 import { SafePipe } from '../../pipes/safe.pipe';
 

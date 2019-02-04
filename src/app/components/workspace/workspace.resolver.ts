@@ -1,4 +1,4 @@
-import { Auth } from "./../../shared/services/auth/auth.service";
+import { Auth } from "../../core/authentication/auth.service";
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/router";
 import { DatasetFactory } from "../../shared/services/dataset.factory";
 import { DataSet } from "../../shared/model/dataset.data";

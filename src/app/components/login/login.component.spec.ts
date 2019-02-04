@@ -1,6 +1,6 @@
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { AuthHttp } from "angular2-jwt";
-import { AuthConfiguration } from "./../../shared/services/auth/auth.config";
+import { AuthConfiguration } from "../../core/authentication/auth.config";
 import { MailingService } from "./../../shared/services/mailing/mailing.service";
 import { UserService } from "./../../shared/services/user/user.service";
 import { LoaderService } from "./../../shared/services/loading/loader.service";
@@ -15,7 +15,7 @@ import { ActivatedRoute, Router, NavigationStart } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { LoginComponent } from "./login.component";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
-import { Auth } from "../../shared/services/auth/auth.service";
+import { Auth } from "../../core/authentication/auth.service";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { NgProgressModule, NgProgress } from "@ngx-progressbar/core";

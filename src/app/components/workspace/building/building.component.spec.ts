@@ -6,7 +6,7 @@ import { User } from "./../../../shared/model/user.data";
 import { NavigationStart } from "@angular/router";
 import { Router } from "@angular/router";
 import { MockBackend } from "@angular/http/testing";
-import { Auth } from "./../../../shared/services/auth/auth.service";
+import { Auth } from "../../../core/authentication/auth.service";
 import { UserFactory } from "./../../../shared/services/user.factory";
 import { DatasetFactory } from "./../../../shared/services/dataset.factory";
 import { TeamFactory } from "./../../../shared/services/team.factory";
@@ -27,7 +27,7 @@ import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/aut
 import { LoaderService } from "../../../shared/services/loading/loader.service";
 import { NgProgress } from "@ngx-progressbar/core";
 import { UserService } from "../../../shared/services/user/user.service";
-import { AuthConfiguration } from "../../../shared/services/auth/auth.config";
+import { AuthConfiguration } from "../../../core/authentication/auth.config";
 import { JwtEncoder } from "../../../shared/services/encoding/jwt.service";
 import { MailingService } from "../../../shared/services/mailing/mailing.service";
 import { NgbTypeaheadModule } from "@ng-bootstrap/ng-bootstrap";

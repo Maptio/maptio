@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Auth } from '../../services/auth/auth.service';
+import { Auth } from '../../../core/authentication/auth.service';
 
 @Component({
     selector: 'common-google-signin',

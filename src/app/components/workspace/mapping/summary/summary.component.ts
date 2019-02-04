@@ -8,7 +8,7 @@ import { TeamFactory } from "../../../../shared/services/team.factory";
 import { UserFactory } from "../../../../shared/services/user.factory";
 import { DatasetFactory } from "../../../../shared/services/dataset.factory";
 import { ActivatedRoute } from "@angular/router";
-import { Auth } from "../../../../shared/services/auth/auth.service";
+import { Auth } from "../../../../core/authentication/auth.service";
 import { Initiative } from "../../../../shared/model/initiative.data";
 import { SelectableTag, Tag } from "../../../../shared/model/tag.data";
 

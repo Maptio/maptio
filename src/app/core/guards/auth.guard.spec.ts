@@ -5,7 +5,7 @@ import { UserFactory } from "../../shared/services/user.factory";
 import { AuthGuard } from "./auth.guard";
 import { TestBed, inject } from "@angular/core/testing";
 import { MockBackend } from "@angular/http/testing";
-import { Auth } from "../../shared/services/auth/auth.service";
+import { Auth } from "../authentication/auth.service";
 
 export class AuthStub {
     clear(){}

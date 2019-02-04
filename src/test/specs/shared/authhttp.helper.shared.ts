@@ -2,8 +2,8 @@ import { Router } from "@angular/router";
 import { encodeTestToken } from "angular2-jwt/angular2-jwt-test-helpers";
 import { RequestOptions, Http } from "@angular/http";
 import { AuthConfig } from "angular2-jwt";
-import { AuthHttpInterceptor } from "../../../app/shared/services/auth/authHttpInterceptor";
-import { Auth } from "../../../app/shared/services/auth/auth.service";
+import { AuthHttpInterceptor } from "../../../app/core/interceptors/authHttpInterceptor";
+import { Auth } from "../../../app/core/authentication/auth.service";
 
 export function authHttpServiceFactoryTesting(http: Http, options: RequestOptions, authService: Auth, router: Router) {
     let config = new AuthConfig({

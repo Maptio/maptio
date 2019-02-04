@@ -3,7 +3,7 @@ import { Subscription } from "rxjs/Subscription";
 import { Permissions } from "../../../../shared/model/permission.data";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Component, OnInit, ChangeDetectorRef, TemplateRef, Renderer2 } from "@angular/core";
-import { Auth } from "../../../../shared/services/auth/auth.service";
+import { Auth } from "../../../../core/authentication/auth.service";
 import { User } from "../../../../shared/model/user.data";
 import { Team } from "../../../../shared/model/team.data";
 import { Router, ActivatedRoute } from "@angular/router";

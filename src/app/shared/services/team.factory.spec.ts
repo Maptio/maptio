@@ -8,7 +8,7 @@ import { Http, HttpModule, Response, BaseRequestOptions, ResponseOptions, Reques
 import { ErrorService } from "./error/error.service";
 import { User } from "../model/user.data";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
-import { Auth } from "./auth/auth.service";
+import { Auth } from "../../core/authentication/auth.service";
 
 describe("team.factory.ts", () => {
 

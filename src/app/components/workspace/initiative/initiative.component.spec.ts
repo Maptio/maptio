@@ -3,7 +3,7 @@ import { Tag } from "./../../../shared/model/tag.data";
 import { User } from "./../../../shared/model/user.data";
 import { Role } from "./../../../shared/model/role.data";
 import { Helper } from "./../../../shared/model/helper.data";
-import { Auth } from "./../../../shared/services/auth/auth.service";
+import { Auth } from "../../../core/authentication/auth.service";
 import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
 import { ErrorService } from "./../../../shared/services/error/error.service";
 import { DatasetFactory } from "./../../../shared/services/dataset.factory";
@@ -23,7 +23,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { UserService } from '../../../shared/services/user/user.service';
 import { JwtEncoder } from '../../../shared/services/encoding/jwt.service';
 import { MailingService } from '../../../shared/services/mailing/mailing.service';
-import { AuthConfiguration } from '../../../shared/services/auth/auth.config';
+import { AuthConfiguration } from '../../../core/authentication/auth.config';
 import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 
 describe("initiative.component.ts", () => {

@@ -3,7 +3,7 @@ import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { RouterTestingModule } from "@angular/router/testing";
 import { SharedModule } from "../../../../shared/shared.module";
-import { Auth } from "../../../../shared/services/auth/auth.service";
+import { Auth } from "../../../../core/authentication/auth.service";
 import { Permissions } from "../../../../shared/model/permission.data";
 import { ActivatedRoute, ActivatedRouteSnapshot } from "@angular/router";
 import { Observable } from "rxjs";

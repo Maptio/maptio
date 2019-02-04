@@ -7,7 +7,7 @@ import { UserFactory } from "../../shared/services/user.factory";
 import { TestBed, inject } from "@angular/core/testing";
 import { MockBackend } from "@angular/http/testing";
 import { User } from "../../shared/model/user.data";
-import { Auth } from "../../shared/services/auth/auth.service";
+import { Auth } from "../authentication/auth.service";
 import { Intercom, IntercomConfig } from "ng-intercom";
 
 export class AuthStub {

@@ -1,7 +1,7 @@
 import { sortBy } from "lodash-es";
 import { DatasetFactory } from "../../../../shared/services/dataset.factory";
 import { DataSet } from "../../../../shared/model/dataset.data";
-import { Auth } from "../../../../shared/services/auth/auth.service";
+import { Auth } from "../../../../core/authentication/auth.service";
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/router";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Rx";

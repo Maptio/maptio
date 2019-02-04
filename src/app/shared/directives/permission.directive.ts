@@ -1,7 +1,7 @@
 import { Helper } from "./../model/helper.data";
 import { Initiative } from "./../model/initiative.data";
 import { Permissions } from "./../model/permission.data";
-import { Auth } from "./../services/auth/auth.service";
+import { Auth } from "../../core/authentication/auth.service";
 import {
     Directive,
     EventEmitter,

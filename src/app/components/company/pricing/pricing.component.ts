@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../config/environment';
-import { Auth } from '../../../shared/services/auth/auth.service';
+import { Auth } from '../../../core/authentication/auth.service';
 
 @Component({
     selector: 'pricing',

@@ -2,7 +2,7 @@ import { Team } from "../../../../shared/model/team.data";
 import { DataSet } from "../../../../shared/model/dataset.data";
 import { ActivatedRoute , Router} from "@angular/router";
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
-import { Auth } from "../../../../shared/services/auth/auth.service";
+import { Auth } from "../../../../core/authentication/auth.service";
 import { User } from "../../../../shared/model/user.data";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { Permissions } from "../../../../shared/model/permission.data";

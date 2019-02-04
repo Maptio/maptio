@@ -9,7 +9,7 @@ import { TeamFactory } from "../../../../shared/services/team.factory";
 import { ExportService } from "../../../../shared/services/export/export.service";
 import { ActivatedRoute } from "@angular/router";
 import { PermissionService } from "../../../../shared/model/permission.data";
-import { Auth } from "../../../../shared/services/auth/auth.service";
+import { Auth } from "../../../../core/authentication/auth.service";
 import { AuthHttp } from "angular2-jwt";
 import { authHttpServiceFactoryTesting } from "../../../../../test/specs/shared/authhttp.helper.shared";
 import { Http, BaseRequestOptions } from "@angular/http";

@@ -7,7 +7,7 @@ import { Http, HttpModule, Response, BaseRequestOptions, ResponseOptions } from 
 import { ErrorService } from "./error/error.service";
 import { AuthHttp } from "angular2-jwt/angular2-jwt";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
-import { Auth } from "./auth/auth.service";
+import { Auth } from "../../core/authentication/auth.service";
 
 describe("user.factory.ts", () => {
 

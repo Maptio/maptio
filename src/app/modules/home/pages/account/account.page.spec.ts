@@ -6,7 +6,7 @@ import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { NgProgressModule, NgProgress } from "@ngx-progressbar/core";
 import { CloudinaryModule, Cloudinary } from "@cloudinary/angular-5.x";
 import { environment } from "../../../../config/environment";
-import { Auth } from "../../../../shared/services/auth/auth.service";
+import { Auth } from "../../../../core/authentication/auth.service";
 import { AuthHttp } from "angular2-jwt";
 import { authHttpServiceFactoryTesting } from "../../../../../test/specs/shared/authhttp.helper.shared";
 import { Http, BaseRequestOptions } from "@angular/http";
@@ -15,7 +15,7 @@ import { ErrorService } from "../../../../shared/services/error/error.service";
 import { UserService } from "../../../../shared/services/user/user.service";
 import { JwtEncoder } from "../../../../shared/services/encoding/jwt.service";
 import { MailingService } from "../../../../shared/services/mailing/mailing.service";
-import { AuthConfiguration } from "../../../../shared/services/auth/auth.config";
+import { AuthConfiguration } from "../../../../core/authentication/auth.config";
 import { UserFactory } from "../../../../shared/services/user.factory";
 import { LoaderService } from "../../../../shared/services/loading/loader.service";
 

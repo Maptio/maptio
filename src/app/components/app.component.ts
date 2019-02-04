@@ -8,7 +8,7 @@ import {
   ChangeDetectorRef
 } from "@angular/core";
 import "rxjs/add/operator/map"
-import { Auth } from "../shared/services/auth/auth.service";
+import { Auth } from "../core/authentication/auth.service";
 import { environment } from "../config/environment";
 import { Observable } from "rxjs/Rx";
 import { Intercom } from 'ng-intercom';

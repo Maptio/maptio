@@ -8,7 +8,7 @@ import { Http, HttpModule, Response, BaseRequestOptions, ResponseOptions, Reques
 import { DatasetFactory } from "./dataset.factory"
 import { User } from "../../../app/shared/model/user.data"
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
-import { Auth } from "./auth/auth.service";
+import { Auth } from "../../core/authentication/auth.service";
 import { Team } from "../model/team.data";
 
 describe("dataset.factory.ts", () => {

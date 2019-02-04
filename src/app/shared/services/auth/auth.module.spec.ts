@@ -1,6 +1,6 @@
 import { authHttpServiceFactory } from "./auth.module";
 import { Http, BaseRequestOptions } from "@angular/http";
-import { Auth } from "./auth.service";
+import { Auth } from "../../../core/authentication/auth.service";
 import { Router } from "@angular/router";
 import { TestBed, inject } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";

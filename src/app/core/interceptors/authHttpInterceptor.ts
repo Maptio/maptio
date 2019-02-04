@@ -2,7 +2,7 @@ import { Observable } from "rxjs/Rx";
 import { Router } from "@angular/router";
 import { RequestOptions, Response, Request, RequestOptionsArgs, Headers, Http } from "@angular/http";
 import { AuthHttp, AuthConfig } from "angular2-jwt";
-import { Auth } from "./auth.service";
+import { Auth } from "../authentication/auth.service";
 
 
 export class AuthHttpInterceptor extends AuthHttp {

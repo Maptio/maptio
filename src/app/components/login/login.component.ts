@@ -8,7 +8,7 @@ import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { JwtEncoder } from "../../shared/services/encoding/jwt.service";
 import { EmitterService } from "../../shared/services/emitter.service";
 import { FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms";
-import { Auth } from "../../shared/services/auth/auth.service";
+import { Auth } from "../../core/authentication/auth.service";
 @Component({
     selector: "login",
     templateUrl: "./login.component.html"

@@ -9,10 +9,10 @@ import { Angulartics2Module, Angulartics2Mixpanel, Angulartics2 } from "angulart
 import { NgProgressModule, NgProgress } from "@ngx-progressbar/core";
 import { IntercomModule } from "ng-intercom";
 import { LoaderService } from "../../../../shared/services/loading/loader.service";
-import { Auth } from "../../../../shared/services/auth/auth.service";
+import { Auth } from "../../../../core/authentication/auth.service";
 import { UserFactory } from "../../../../shared/services/user.factory";
 import { TeamFactory } from "../../../../shared/services/team.factory";
-import { AuthConfiguration } from "../../../../shared/services/auth/auth.config";
+import { AuthConfiguration } from "../../../../core/authentication/auth.config";
 import { UserService } from "../../../../shared/services/user/user.service";
 import { MailingService } from "../../../../shared/services/mailing/mailing.service";
 import { JwtEncoder } from "../../../../shared/services/encoding/jwt.service";

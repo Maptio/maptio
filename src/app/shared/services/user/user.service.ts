@@ -3,7 +3,7 @@ import { User } from "./../../model/user.data";
 import { environment } from "../../../config/environment";
 import { Http, Headers } from "@angular/http";
 import { Injectable } from "@angular/core";
-import { AuthConfiguration } from "../auth/auth.config";
+import { AuthConfiguration } from "../../../core/authentication/auth.config";
 import { JwtEncoder } from "../encoding/jwt.service";
 import { MailingService } from "../mailing/mailing.service";
 import { UUID } from "angular2-uuid/index";

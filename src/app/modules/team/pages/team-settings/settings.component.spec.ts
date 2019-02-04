@@ -1,6 +1,6 @@
 import { SharedModule } from "./../../../../shared/shared.module";
 import { Permissions } from "./../../../../shared/model/permission.data";
-import { Auth } from "./../../../../shared/services/auth/auth.service";
+import { Auth } from "../../../../core/authentication/auth.service";
 import { ActivatedRouteSnapshot, ActivatedRoute, UrlSegment, ParamMap, Params, Data, Route } from "@angular/router";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 import { TeamSettingsComponent } from "./settings.component";

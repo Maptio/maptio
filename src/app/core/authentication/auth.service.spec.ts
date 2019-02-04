@@ -1,27 +1,27 @@
-import { PermissionService } from "./../../model/permission.data";
-import { Observable } from "rxjs/Rx";
-import { Angulartics2Mixpanel, Angulartics2Module } from "angulartics2";
-import { environment } from "../../../config/environment";
 import { encodeTestToken } from "angular2-jwt/angular2-jwt-test-helpers";
-import { DatasetFactory } from "./../dataset.factory";
-import { AuthHttp } from "angular2-jwt";
-import { LoaderService } from "./../loading/loader.service";
-import { RouterTestingModule } from "@angular/router/testing";
-import { MailingService } from "./../mailing/mailing.service";
-import { JwtEncoder } from "./../encoding/jwt.service";
-import { Router, NavigationStart } from "@angular/router";
-import { User } from "../../model/user.data";
-import { ErrorService } from "../error/error.service";
-import { MockBackend, MockConnection } from "@angular/http/testing";
-import { Http, BaseRequestOptions, RequestMethod, Response, ResponseOptions } from "@angular/http";
-import { UserFactory } from "../user.factory";
-import { Auth } from "./auth.service"
 import { TestBed, inject, fakeAsync } from "@angular/core/testing";
 import { AuthConfiguration } from "./auth.config";
-import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
-import {  IntercomModule, Intercom, IntercomConfig } from "ng-intercom";
+import { Auth } from "./auth.service";
+import { UserFactory } from "../../shared/services/user.factory";
+import { DatasetFactory } from "../../shared/services/dataset.factory";
+import { JwtEncoder } from "../../shared/services/encoding/jwt.service";
+import { MailingService } from "../../shared/services/mailing/mailing.service";
+import { LoaderService } from "../../shared/services/loading/loader.service";
 import { NgProgress, NgProgressModule } from "@ngx-progressbar/core";
+import { PermissionService } from "../../shared/model/permission.data";
+import { Intercom, IntercomConfig } from "ng-intercom";
+import { Router, NavigationStart } from "@angular/router";
+import { Observable } from "rxjs";
+import { Http, Response, BaseRequestOptions, RequestMethod, ResponseOptions } from "@angular/http";
+import { MockBackend, MockConnection } from "@angular/http/testing";
+import { AuthHttp } from "angular2-jwt";
+import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
+import { ErrorService } from "../../shared/services/error/error.service";
+import { Angulartics2Mixpanel, Angulartics2Module } from "angulartics2";
+import { RouterTestingModule } from "@angular/router/testing";
 import { FullstoryModule } from "ngx-fullstory";
+import { environment } from "../../config/environment";
+import { User } from "../../shared/model/user.data";
 
 
 describe("auth.service.ts", () => {

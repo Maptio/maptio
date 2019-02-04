@@ -1,5 +1,5 @@
 import { environment } from "../../../config/environment";
-import { Auth } from "./../../../shared/services/auth/auth.service";
+import { Auth } from "../../../core/authentication/auth.service";
 import { Permissions } from "./../../../shared/model/permission.data";
 import { Role } from "./../../../shared/model/role.data";
 import { Helper } from "./../../../shared/model/helper.data";
