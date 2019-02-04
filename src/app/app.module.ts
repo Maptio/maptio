@@ -65,7 +65,7 @@ const appRoutes: Routes = [
     },
 
     {
-        path: "", loadChildren: "./components/payment/payment.module#PaymentModule"
+        path: "", loadChildren: "./modules/payment/payment.module#PaymentModule"
     },
 
     {

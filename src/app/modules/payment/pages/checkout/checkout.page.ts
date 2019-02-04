@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import {Observable} from "rxjs/Observable"
 import { Intercom } from 'ng-intercom';
@@ -9,6 +9,9 @@ import { DatasetFactory } from '../../../../core/http/map/dataset.factory';
 import { Team } from '../../../../shared/model/team.data';
 import { DataSet } from '../../../../shared/model/dataset.data';
 import { TeamFactory } from '../../../../core/http/team/team.factory';
+import { User } from '../../../../shared/model/user.data';
+import { flatMap, map } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
 
 @Component({
     selector: 'pricing-checkout',
@@ -30,6 +33,7 @@ export class CheckoutComponent implements OnInit {
     ngOnInit(): void {
         this.subscription = this.route.queryParams
             .combineLatest(this.auth.getUser())
+            
             .do(data => {
                 let params = data[0];
                 let user = data[1];
@@ -59,24 +63,26 @@ export class CheckoutComponent implements OnInit {
                 })
 
             })
-            .flatMap(data => {
-                return Observable.forkJoin(
-                    this.datasetFactory.get(new Team({ team_id: data[1].teams[0] })),
-                    this.teamFactory.get(<string>data[1].teams[0] )
-                )
-            })
-            .map(([datasets, team]: [DataSet[], Team]) => {
-                return [
-                    datasets.map(d => {
-                        let i = 0
-                        d.initiative.traverse((n) => { i++ })
-                        d.depth = i;
-                        return d;
-                    }),
-                    team
-                ];
-
-            })
+            .pipe(
+                flatMap((data: [Params, User]) => {
+                    return forkJoin(
+                        this.datasetFactory.get(new Team({ team_id: data[1].teams[0] })),
+                        this.teamFactory.get(<string>data[1].teams[0] )
+                    )
+                }),
+                map(([datasets, team]: [DataSet[], Team]) => {
+                    return [
+                        datasets.map(d => {
+                            let i = 0
+                            d.initiative.traverse((n) => { i++ })
+                            d.depth = i;
+                            return d;
+                        }),
+                        team
+                    ];
+    
+                })
+            )
             .subscribe(([datasets, team]: [DataSet[], Team]) => {
                 this.datasets = datasets;
                 this.team = team;
