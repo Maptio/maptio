@@ -9,7 +9,7 @@ import { Component } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Cloudinary } from "@cloudinary/angular-5.x";
 import { FileUploaderOptions, FileUploader, ParsedResponseHeaders, FileLikeObject } from "ng2-file-upload";
-import { UserFactory } from "../../../../shared/services/user.factory";
+import { UserFactory } from "../../../../core/http/user/user.factory";
 import { LoaderService } from '../../../../shared/services/loading/loader.service';
 
 @Component({

@@ -3,10 +3,10 @@ import { Team } from '../../model/team.data';
 import { FormGroup, Validators, FormControl } from '../../../../../node_modules/@angular/forms';
 import { UserService } from '../../services/user/user.service';
 import { User } from '../../model/user.data';
-import { DatasetFactory } from '../../services/dataset.factory';
+import { DatasetFactory } from '../../../core/http/map/dataset.factory';
 import { DataSet } from '../../model/dataset.data';
-import { UserFactory } from '../../services/user.factory';
-import { TeamFactory } from '../../services/team.factory';
+import { UserFactory } from '../../../core/http/user/user.factory';
+import { TeamFactory } from '../../../core/http/team/team.factory';
 import { Angulartics2Mixpanel } from '../../../../../node_modules/angulartics2';
 import { Intercom } from '../../../../../node_modules/ng-intercom';
 

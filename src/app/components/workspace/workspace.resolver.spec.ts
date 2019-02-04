@@ -2,8 +2,8 @@ import { PermissionService } from './../../shared/model/permission.data';
 
 import { TestBed, inject, fakeAsync } from "@angular/core/testing";
 import { Auth } from "../../core/authentication/auth.service";
-import { TeamFactory } from "../../shared/services/team.factory";
-import { DatasetFactory } from "../../shared/services/dataset.factory";
+import { TeamFactory } from "../../core/http/team/team.factory";
+import { DatasetFactory } from "../../core/http/map/dataset.factory";
 import { User } from "../../shared/model/user.data";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { MockBackend } from "@angular/http/testing";
@@ -13,7 +13,7 @@ import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authht
 import { UserService } from "../../shared/services/user/user.service";
 import { MailingService } from "../../shared/services/mailing/mailing.service";
 import { JwtEncoder } from "../../shared/services/encoding/jwt.service";
-import { UserFactory } from "../../shared/services/user.factory";
+import { UserFactory } from "../../core/http/user/user.factory";
 import { ActivatedRouteSnapshot } from "@angular/router";
 import { RouterTestingModule } from "@angular/router/testing";
 import { LoaderService } from "../../shared/services/loading/loader.service";

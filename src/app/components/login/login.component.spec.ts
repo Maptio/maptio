@@ -19,7 +19,7 @@ import { Auth } from "../../core/authentication/auth.service";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { NgProgressModule, NgProgress } from "@ngx-progressbar/core";
-import { UserFactory } from "../../shared/services/user.factory";
+import { UserFactory } from "../../core/http/user/user.factory";
 
 export class AuthStub {
   login() {

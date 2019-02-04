@@ -1,5 +1,5 @@
 import { AuthHttp } from "angular2-jwt";
-import { Team } from "./../model/team.data";
+import { Team } from "../../../shared/model/team.data";
 import { Injectable } from "@angular/core";
 import { Response } from "@angular/http";
 import "rxjs/add/operator/map";

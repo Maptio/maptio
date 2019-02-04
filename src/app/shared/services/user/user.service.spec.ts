@@ -9,7 +9,7 @@ import { MockBackend, MockConnection } from "@angular/http/testing";
 import { Http, HttpModule, Response, BaseRequestOptions, ResponseOptions, RequestMethod } from "@angular/http";
 import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
 import { User } from "../../model/user.data";
-import { UserFactory } from "../user.factory";
+import { UserFactory } from "../../../core/http/user/user.factory";
 
 describe("user.service.ts", () => {
 

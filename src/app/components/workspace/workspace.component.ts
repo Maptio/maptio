@@ -6,7 +6,7 @@ import { Initiative } from "./../../shared/model/initiative.data";
 import { DataSet } from "./../../shared/model/dataset.data";
 import { Team } from "./../../shared/model/team.data";
 import { EmitterService } from "./../../shared/services/emitter.service";
-import { DatasetFactory } from "./../../shared/services/dataset.factory";
+import { DatasetFactory } from "../../core/http/map/dataset.factory";
 import { ViewChild } from "@angular/core";
 import {
     Component, OnInit, OnDestroy,

@@ -1,14 +1,14 @@
-import { SlackIntegration } from './../model/integrations.data';
+import { TestBed, fakeAsync, inject } from "@angular/core/testing";
+import { HttpModule, Http, Response, BaseRequestOptions, ResponseOptions, RequestMethod } from "@angular/http";
 import { AuthHttp } from "angular2-jwt";
-import { Team } from "./../model/team.data";
-import { TeamFactory } from "../../core/http/team/team.factory";
-import { TestBed, inject, fakeAsync } from "@angular/core/testing";
+import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
+import { Auth } from "../../authentication/auth.service";
+import { TeamFactory } from "./team.factory";
 import { MockBackend, MockConnection } from "@angular/http/testing";
-import { Http, HttpModule, Response, BaseRequestOptions, ResponseOptions, RequestMethod } from "@angular/http";
-import { ErrorService } from "./error/error.service";
-import { User } from "../model/user.data";
-import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
-import { Auth } from "../../core/authentication/auth.service";
+import { ErrorService } from "../../../shared/services/error/error.service";
+import { Team } from "../../../shared/model/team.data";
+import { SlackIntegration } from "../../../shared/model/integrations.data";
+import { User } from "../../../shared/model/user.data";
 
 describe("team.factory.ts", () => {
 

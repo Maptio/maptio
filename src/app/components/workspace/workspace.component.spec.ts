@@ -7,13 +7,13 @@ import { AuthHttp } from "angular2-jwt";
 import { NgbModalModule } from "@ng-bootstrap/ng-bootstrap";
 import { Initiative } from "./../../shared/model/initiative.data";
 import { DataSet } from "./../../shared/model/dataset.data";
-import { TeamFactory } from "./../../shared/services/team.factory";
+import { TeamFactory } from "../../core/http/team/team.factory";
 import { ActivatedRoute } from "@angular/router";
 import { WorkspaceComponent } from "./workspace.component";
-import { UserFactory } from "./../../shared/services/user.factory";
+import { UserFactory } from "../../core/http/user/user.factory";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core"
-import { DatasetFactory } from "../../shared/services/dataset.factory";
+import { DatasetFactory } from "../../core/http/map/dataset.factory";
 import { DataService } from "../../shared/services/data.service";
 import { ErrorService } from "../../shared/services/error/error.service";
 import { MockBackend } from "@angular/http/testing";

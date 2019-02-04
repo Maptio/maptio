@@ -1,11 +1,11 @@
 import { sortBy } from "lodash-es";
-import { DatasetFactory } from "../../../../shared/services/dataset.factory";
+import { DatasetFactory } from "../../../../core/http/map/dataset.factory";
 import { DataSet } from "../../../../shared/model/dataset.data";
 import { Auth } from "../../../../core/authentication/auth.service";
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/router";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Rx";
-import { TeamFactory } from "../../../../shared/services/team.factory";
+import { TeamFactory } from "../../../../core/http/team/team.factory";
 import { Team } from "../../../../shared/model/team.data";
 
 @Injectable()

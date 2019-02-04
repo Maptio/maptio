@@ -1,6 +1,6 @@
 import { Permissions } from '../../../../shared/model/permission.data';
 import { Http } from '@angular/http';
-import { TeamFactory } from "../../../../shared/services/team.factory";
+import { TeamFactory } from "../../../../core/http/team/team.factory";
 import { SlackIntegration } from "../../../../shared/model/integrations.data";
 import { AuthHttp } from "angular2-jwt";
 import { environment } from "../../../../config/environment";

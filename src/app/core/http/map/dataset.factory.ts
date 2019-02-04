@@ -1,16 +1,16 @@
 import { AuthHttp } from "angular2-jwt";
 
-import { DataSet } from "./../model/dataset.data";
+import { DataSet } from "../../../shared/model/dataset.data";
 import { Injectable } from "@angular/core";
 import { Response } from "@angular/http";
 import { Subject } from "rxjs/Subject"
 import "rxjs/add/operator/map"
-import { User } from "../model/user.data";
+import { User } from "../../../shared/model/user.data";
 import "rxjs/add/operator/toPromise";
-import { Team } from "../model/team.data";
+import { Team } from "../../../shared/model/team.data";
 import * as shortid from "shortid";
-import { Observable } from "../../../../node_modules/rxjs";
-import { Initiative } from "../model/initiative.data";
+import { Observable } from "rxjs";
+import { Initiative } from "../../../shared/model/initiative.data";
 
 @Injectable()
 export class DatasetFactory {

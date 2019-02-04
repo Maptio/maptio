@@ -5,7 +5,7 @@ import { URIService } from '../../shared/services/uri.service';
 import { JwtHelper } from 'angular2-jwt';
 import { AuthConfiguration } from '../../core/authentication/auth.config';
 import { Auth } from '../../core/authentication/auth.service';
-import { UserFactory } from '../../shared/services/user.factory';
+import { UserFactory } from '../../core/http/user/user.factory';
 import { User } from '../../shared/model/user.data';
 import { UserRole } from '../../shared/model/permission.data';
 import { UserService } from '../../shared/services/user/user.service';

@@ -1,7 +1,7 @@
 import { Router, RouterStateSnapshot } from "@angular/router";
 import { ErrorService } from "../../shared/services/error/error.service";
 import { Http, BaseRequestOptions } from "@angular/http";
-import { UserFactory } from "../../shared/services/user.factory";
+import { UserFactory } from "../http/user/user.factory";
 import { AuthGuard } from "./auth.guard";
 import { TestBed, inject } from "@angular/core/testing";
 import { MockBackend } from "@angular/http/testing";

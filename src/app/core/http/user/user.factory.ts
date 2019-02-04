@@ -1,5 +1,5 @@
 import { AuthHttp } from "angular2-jwt";
-import { User } from "./../model/user.data";
+import { User } from "../../../shared/model/user.data";
 import { Injectable } from "@angular/core";
 import { Response } from "@angular/http";
 import "rxjs/add/operator/map";

@@ -10,7 +10,7 @@ import { UUID } from "angular2-uuid/index";
 import { EmitterService } from "../emitter.service";
 import { Observable } from "rxjs/Rx";
 import { flatten } from "lodash-es"
-import { UserFactory } from '../user.factory';
+import { UserFactory } from '../../../core/http/user/user.factory';
 
 @Injectable()
 export class UserService {

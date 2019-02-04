@@ -12,7 +12,7 @@ import { LoaderService } from "./../../shared/services/loading/loader.service";
 import { Router } from "@angular/router";
 import { MockBackend } from "@angular/http/testing";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
-import { UserFactory } from "../../shared/services/user.factory";
+import { UserFactory } from "../../core/http/user/user.factory";
 
 describe("change-password.component.ts", () => {
 

@@ -1,7 +1,7 @@
 import { User } from "./../../../shared/model/user.data";
 import { Team } from "./../../../shared/model/team.data";
-import { UserFactory } from "./../../../shared/services/user.factory";
-import { DatasetFactory } from "./../../../shared/services/dataset.factory";
+import { UserFactory } from "../../../core/http/user/user.factory";
+import { DatasetFactory } from "../../../core/http/map/dataset.factory";
 import { DataService } from "./../../../shared/services/data.service";
 import { Initiative } from "./../../../shared/model/initiative.data";
 

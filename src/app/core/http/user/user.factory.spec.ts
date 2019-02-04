@@ -1,13 +1,12 @@
-
-import { User } from "./../../../app/shared/model/user.data";
-import { UserFactory } from "./../../../app/shared/services/user.factory";
 import { TestBed, async, inject, fakeAsync } from "@angular/core/testing";
+import { HttpModule, Response, Http, BaseRequestOptions, ResponseOptions } from "@angular/http";
+import { AuthHttp } from "angular2-jwt";
+import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
+import { Auth } from "../../authentication/auth.service";
+import { UserFactory } from "./user.factory";
 import { MockBackend, MockConnection } from "@angular/http/testing";
-import { Http, HttpModule, Response, BaseRequestOptions, ResponseOptions } from "@angular/http";
-import { ErrorService } from "./error/error.service";
-import { AuthHttp } from "angular2-jwt/angular2-jwt";
-import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
-import { Auth } from "../../core/authentication/auth.service";
+import { ErrorService } from "../../../shared/services/error/error.service";
+import { User } from "../../../shared/model/user.data";
 
 describe("user.factory.ts", () => {
 

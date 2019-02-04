@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Component, OnInit, Input, ChangeDetectorRef, TemplateRef, Renderer2, Output, EventEmitter, isDevMode } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Team } from "../../../../shared/model/team.data";
-import { TeamFactory } from "../../../../shared/services/team.factory";
+import { TeamFactory } from "../../../../core/http/team/team.factory";
 import { Intercom } from 'ng-intercom';
 
 @Component({

@@ -1,13 +1,13 @@
 import { Auth } from "../../core/authentication/auth.service";
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/router";
-import { DatasetFactory } from "../../shared/services/dataset.factory";
+import { DatasetFactory } from "../../core/http/map/dataset.factory";
 import { DataSet } from "../../shared/model/dataset.data";
 import { Injectable } from "@angular/core";
-import { TeamFactory } from "../../shared/services/team.factory";
+import { TeamFactory } from "../../core/http/team/team.factory";
 import { User } from "../../shared/model/user.data";
 import { compact, sortBy } from "lodash-es";
 import { Team } from "../../shared/model/team.data";
-import { UserFactory } from "../../shared/services/user.factory";
+import { UserFactory } from "../../core/http/user/user.factory";
 import { SelectableTag } from "../../shared/model/tag.data";
 import { Observable } from "rxjs/Observable";
 import { UserService } from "../../shared/services/user/user.service";

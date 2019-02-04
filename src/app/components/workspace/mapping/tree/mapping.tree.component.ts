@@ -1,6 +1,6 @@
 import { URIService } from "./../../../../shared/services/uri.service";
 import { DataService } from "./../../../../shared/services/data.service";
-import { UserFactory } from "./../../../../shared/services/user.factory";
+import { UserFactory } from "../../../../core/http/user/user.factory";
 import { UIService } from "./../../../../shared/services/ui/ui.service";
 import { ColorService } from "./../../../../shared/services/ui/color.service";
 import { Angulartics2Mixpanel } from "angulartics2";

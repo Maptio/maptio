@@ -5,9 +5,9 @@ import { CanActivate, CanActivateChild, RouterStateSnapshot, Router } from "@ang
 import { BillingService } from '../../shared/services/billing/billing.service';
 import { EmitterService } from '../../shared/services/emitter.service';
 import { Team } from '../../shared/model/team.data';
-import { DatasetFactory } from '../../shared/services/dataset.factory';
+import { DatasetFactory } from '../http/map/dataset.factory';
 import { DataSet } from '../../shared/model/dataset.data';
-import { TeamFactory } from '../../shared/services/team.factory';
+import { TeamFactory } from '../http/team/team.factory';
 
 @Injectable()
 export class BillingGuard implements CanActivate, CanActivateChild {

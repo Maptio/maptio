@@ -4,7 +4,7 @@ import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/aut
 import { Initiative } from "../../../shared/model/initiative.data";
 import { URIService } from "../../../shared/services/uri.service";
 import { DataService } from "../../../shared/services/data.service";
-import { UserFactory } from "../../../shared/services/user.factory";
+import { UserFactory } from "../../../core/http/user/user.factory";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { ActivatedRoute } from "@angular/router";

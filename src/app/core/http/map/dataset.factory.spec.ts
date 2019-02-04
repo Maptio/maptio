@@ -1,15 +1,15 @@
-import { ErrorService } from "./error/error.service";
-import { AuthHttp } from "angular2-jwt";
-import { Initiative } from "./../model/initiative.data";
-import { DataSet } from "./../../../app/shared/model/dataset.data";
 import { TestBed, async, inject, fakeAsync } from "@angular/core/testing";
+import { HttpModule,Response, Http, BaseRequestOptions, RequestMethod, ResponseOptions } from "@angular/http";
+import { AuthHttp } from "angular2-jwt";
+import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
+import { Auth } from "../../authentication/auth.service";
+import { DatasetFactory } from "./dataset.factory";
 import { MockBackend, MockConnection } from "@angular/http/testing";
-import { Http, HttpModule, Response, BaseRequestOptions, ResponseOptions, RequestMethod } from "@angular/http";
-import { DatasetFactory } from "../../core/http/map/dataset.factory"
-import { User } from "../../../app/shared/model/user.data"
-import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
-import { Auth } from "../../core/authentication/auth.service";
-import { Team } from "../model/team.data";
+import { ErrorService } from "../../../shared/services/error/error.service";
+import { User } from "../../../shared/model/user.data";
+import { Team } from "../../../shared/model/team.data";
+import { DataSet } from "../../../shared/model/dataset.data";
+import { Initiative } from "../../../shared/model/initiative.data";
 
 describe("dataset.factory.ts", () => {
 

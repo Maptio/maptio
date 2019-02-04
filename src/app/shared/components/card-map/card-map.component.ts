@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ChangeDetectorRef, SimpleChanges, Output, Eve
 import { DataSet } from '../../model/dataset.data';
 import { ExportService } from '../../services/export/export.service';
 import { saveAs } from "file-saver"
-import { DatasetFactory } from '../../services/dataset.factory';
+import { DatasetFactory } from '../../../core/http/map/dataset.factory';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { cloneDeep } from "lodash-es"
 import { Permissions } from '../../model/permission.data';

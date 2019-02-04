@@ -10,7 +10,7 @@ import { Permissions } from "./../../../../shared/model/permission.data";
 import { Auth } from "../../../../core/authentication/auth.service";
 import { ActivatedRouteSnapshot, ActivatedRoute, UrlSegment, ParamMap, Params, Data, Route } from "@angular/router";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
-import { TeamFactory } from "../../../../shared/services/team.factory";
+import { TeamFactory } from "../../../../core/http/team/team.factory";
 import { NO_ERRORS_SCHEMA, Type } from "@angular/core";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Team } from "../../../../shared/model/team.data";

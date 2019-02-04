@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, ChangeDetectorRef } from '@angular/core';
-import { DatasetFactory } from '../../services/dataset.factory';
+import { DatasetFactory } from '../../../core/http/map/dataset.factory';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Team } from '../../model/team.data';
 import { DataSet } from '../../model/dataset.data';

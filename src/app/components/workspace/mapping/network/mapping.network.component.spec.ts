@@ -3,7 +3,7 @@ import { Helper } from "./../../../../shared/model/helper.data";
 import { Initiative } from "./../../../../shared/model/initiative.data";
 import { ErrorService } from "./../../../../shared/services/error/error.service";
 import { authHttpServiceFactoryTesting } from "../../../../../test/specs/shared/authhttp.helper.shared";
-import { UserFactory } from "./../../../../shared/services/user.factory";
+import { UserFactory } from "../../../../core/http/user/user.factory";
 import { DataService } from "./../../../../shared/services/data.service";
 import { URIService } from "./../../../../shared/services/uri.service";
 import { UIService } from "./../../../../shared/services/ui/ui.service";

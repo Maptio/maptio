@@ -5,10 +5,10 @@ import {Observable} from "rxjs/Observable"
 import { Intercom } from '../../../../../node_modules/ng-intercom';
 import { Auth } from '../../../core/authentication/auth.service';
 import { environment } from '../../../config/environment';
-import { DatasetFactory } from '../../../shared/services/dataset.factory';
+import { DatasetFactory } from '../../../core/http/map/dataset.factory';
 import { Team } from '../../../shared/model/team.data';
 import { DataSet } from '../../../shared/model/dataset.data';
-import { TeamFactory } from '../../../shared/services/team.factory';
+import { TeamFactory } from '../../../core/http/team/team.factory';
 
 @Component({
     selector: 'pricing-checkout',

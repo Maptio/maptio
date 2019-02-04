@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { BreadcrumbsResolver, Breadcrumb } from "@exalif/ngx-breadcrumbs";
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 import { inherits } from "util";
-import { UserFactory } from "../../../../shared/services/user.factory";
+import { UserFactory } from "../../../../core/http/user/user.factory";
 import { User } from "../../../../shared/model/user.data";
 
 @Injectable()
