@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from '../../../config/environment';
-import { Auth } from '../../../core/authentication/auth.service';
+import { environment } from '../../../../config/environment';
+import { Auth } from '../../../../core/authentication/auth.service';
 
 @Component({
     selector: 'pricing',
-    templateUrl: './pricing.component.html',
-    styleUrls: ['./pricing.component.css']
+    templateUrl: './pricing.page.html',
+    styleUrls: ['./pricing.page.css']
 })
 export class PricingComponent implements OnInit {
 

@@ -65,17 +65,18 @@ const appRoutes: Routes = [
     },
 
     {
+        path: "", loadChildren: "./components/payment/payment.module#PaymentModule"
+    },
+
+    {
         path: "legal", loadChildren: "./modules/legal/legal.module#LegalModule"
     },
 
-
     {
-        path: "", loadChildren: "./components/company/company.module#CompanyModule"
+        path: "help", loadChildren: "./modules/help/help.module#HelpModule"
     },
 
-
-
-
+   
     {
         path: "map/:mapid/:mapslug", loadChildren: "./components/workspace/workspace.module#WorkspaceModule"
     },

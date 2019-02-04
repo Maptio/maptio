@@ -1,13 +1,13 @@
-import { environment } from '../../../config/environment';
+import { environment } from '../../../../config/environment';
 import { Component, OnInit } from "@angular/core";
-import { InstructionsService } from '../../../shared/components/instructions/instructions.service';
-import { User } from '../../../shared/model/user.data';
-import { Auth } from '../../../core/authentication/auth.service';
+import { InstructionsService } from '../../../../shared/components/instructions/instructions.service';
+import { User } from '../../../../shared/model/user.data';
+import { Auth } from '../../../../core/authentication/auth.service';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
     selector: "help",
-    templateUrl: "./help.component.html"
+    templateUrl: "./help.page.html"
 })
 export class HelpComponent implements OnInit {
 
