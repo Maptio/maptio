@@ -55,8 +55,13 @@ import { IntercomService } from "./shared/services/team/intercom.service";
 const appRoutes: Routes = [
     { path: "", redirectTo: "home", pathMatch: "full" },
 
-    { path: "home", loadChildren: "./components/home/home.module#HomeModule" },
+    { path: "home", loadChildren: "./modules/home/home.module#HomeModule" },
 
+    {
+        path: "teams", loadChildren: "./modules/team/team.module#TeamModule",
+        data: { breadcrumbs: "Organisations" }
+    },
+    
     {
         path: "", loadChildren: "./components/company/company.module#CompanyModule"
     },
@@ -66,10 +71,6 @@ const appRoutes: Routes = [
     },
 
 
-    {
-        path: "teams", loadChildren: "./components/team/team.module#TeamModule",
-        data: { breadcrumbs: "Organisations" }
-    },
 
     {
         path: "map/:mapid/:mapslug", loadChildren: "./components/workspace/workspace.module#WorkspaceModule"
