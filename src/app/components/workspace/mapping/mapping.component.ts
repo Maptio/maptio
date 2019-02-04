@@ -337,6 +337,7 @@ export class MappingComponent {
   }
 
   getLatestFragment(view: string) {
+    console.log(this.settings)
     switch (view) {
       case "circles":
         return `${this.settings.lastPosition.circles}&tags=${this.tagsFragment || ""}`
