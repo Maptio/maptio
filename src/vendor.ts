@@ -57,7 +57,7 @@ import "shortid"
 
 // You can import js, ts, css, sass, ...
 import "bootstrap/dist/css/bootstrap.min.css"
-import '../public/styles/vendor-google-fonts.css'
-import '../public/styles/vendor-font-awesome.css'
+import "./assets/styles/vendor-google-fonts.css"
+import "./assets/styles/vendor-font-awesome.css"
 
 

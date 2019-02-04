@@ -4,20 +4,18 @@ import { enableProdMode } from "@angular/core";
 import { AppModule } from "./app/app.module";
 
 
-import '../public/styles/animations.css'
-import '../public/styles/global.css'
-import '../public/styles/angular-tree-component.css'
-import '../public/styles/tooltip.css'
-import '../public/styles/tags.css'
-import '../public/styles/markdown.css'
-// import '../public/styles/collapsing.css'
-import '../public/styles/progress-bar.css'
-import '../public/styles/ribbon.css'
-// import '../public/styles/progress-pie.css'
-import '../public/styles/popover.css'
-import '../public/styles/color-picker.css'
-import '../public/styles/maps.css'
-import '../public/styles/breadcrumb.css'
+import './assets/styles/custom/animations.css'
+import './assets/styles/custom/global.css'
+import './assets/styles/custom/angular-tree-component.css'
+import './assets/styles/custom/tooltip.css'
+import './assets/styles/custom/tags.css'
+import './assets/styles/custom/markdown.css'
+import './assets/styles/custom/progress-bar.css'
+import './assets/styles/custom/ribbon.css'
+import './assets/styles/custom/popover.css'
+import './assets/styles/custom/color-picker.css'
+import './assets/styles/custom/maps.css'
+import './assets/styles/custom/breadcrumb.css'
 
 
 if (process.env.NODE_ENV === "production") {

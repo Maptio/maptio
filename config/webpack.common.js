@@ -230,8 +230,8 @@ of lodash in @exalif/ngx-breadcrums
 
 
     new CopyWebpackPlugin([
-      { from: 'public/images', to: 'assets/images' },
-      { from: 'public/templates', to: 'assets/templates' }
+      { from: 'src/assets/images', to: 'assets/images' },
+      { from: 'src/assets/templates', to: 'assets/templates' }
     ]),
     new PurgecssPlugin({
       paths: glob.sync([
