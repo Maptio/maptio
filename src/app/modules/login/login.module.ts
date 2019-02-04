@@ -9,24 +9,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SanitizerModule } from '../../shared/sanitizer.module';
 import { GoogleSignInComponent } from '../../shared/components/buttons/google-signin.component';
+import { LoginRoutingModule } from './login.routing';
 
-const routes: Routes = [
-    {
-        path: "",
-        children: [
-
-            { path: "signup", component: SignupComponent },
-
-            { path: "login", component: LoginComponent },
-            { path: "authorize", component: AuthorizeComponent },
-
-            { path: "logout", component: LogoutComponent },
-            { path: "forgot", component: ChangePasswordComponent },
-
-        ]
-
-    }
-];
 
 @NgModule({
     declarations: [
@@ -39,7 +23,7 @@ const routes: Routes = [
     imports: [CommonModule,
         ReactiveFormsModule,
         SanitizerModule,
-        RouterModule.forChild(routes)],
+        LoginRoutingModule],
     providers: [],
 })
 export class LoginModule { }
