@@ -14,7 +14,7 @@ import { FullstoryModule } from 'ngx-fullstory';
 
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import { environment } from "./config/environment";
-import { AppComponent } from "./components/app.component";
+import { AppComponent } from "./app.component";
 import { NotFoundComponent } from "./core/404/not-found.component";
 import { UnauthorizedComponent } from "./core/401/unauthorized.component";
 import { AuthConfiguration } from "./core/authentication/auth.config";
@@ -49,6 +49,7 @@ import { LoaderComponent } from "./shared/components/loading/loader.component";
 import { HeaderComponent } from "./core/header/header.component";
 import { FooterComponent } from "./core/footer/footer.component";
 import { IntercomService } from "./shared/services/team/intercom.service";
+import { MappingSummaryBreadcrumbs } from "./modules/workspace/pages/directory/summary.breadcrumb";
 
 
 const appRoutes: Routes = [
@@ -78,7 +79,7 @@ const appRoutes: Routes = [
 
    
     {
-        path: "map/:mapid/:mapslug", loadChildren: "./components/workspace/workspace.module#WorkspaceModule"
+        path: "map/:mapid/:mapslug", loadChildren: "./modules/workspace/workspace.module#WorkspaceModule"
     },
 
 
@@ -123,7 +124,7 @@ const appRoutes: Routes = [
     providers: [
         BrowserAnimationsModule,
         AuthGuard, AccessGuard, PermissionGuard,
-
+        MappingSummaryBreadcrumbs,
         AuthConfiguration, URIService, DatasetFactory, TeamFactory,
         ErrorService, Auth, UserService, TeamService, MapService, UserFactory, MailingService, JwtEncoder, LoaderService,
         ExportService, FileService, PermissionService, BillingService, InstructionsService, OnboardingService,
