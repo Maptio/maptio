@@ -66,29 +66,10 @@ import { MapSettingsService } from "../../shared/services/map/map-settings.servi
 import { EditTagsComponent } from "./components/data-entry/tags/edit-tags.component";
 import { UIService } from "../../shared/services/ui/ui.service";
 import { ColorService } from "../../shared/services/ui/color.service";
+import { WorkspaceRoutingModule } from "./workspace.routing";
 
 
-const routes: Routes = [{
-    path: "",
-    data: { breadcrumbs: "{{data.dataset.initiative.name}}" },
-    component: WorkspaceComponent,
-    canActivate: [AuthGuard, AccessGuard, BillingGuard],
-    resolve: {
-        data: WorkspaceComponentResolver
-    },
-    children: [
-        { path: "", redirectTo: "circles", pathMatch: "full" },
-        { path: "circles", component: MappingZoomableComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Circles" } },
-        { path: "tree", component: MappingTreeComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Tree" } },
-        { path: "network", component: MappingNetworkComponent, canActivate: [WorkspaceGuard], data: { breadcrumbs: true, text: "Network" } },
-        {
-            path: "summary", component: MappingSummaryComponent, canActivate: [WorkspaceGuard], data: {
-                breadcrumbs: MappingSummaryBreadcrumbs
-            }
-        }
 
-    ]
-}]
 
 
 export function markedOptionsFactory(): MarkedOptions {
@@ -113,7 +94,7 @@ export function markedOptionsFactory(): MarkedOptions {
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        RouterModule.forChild(routes),
+        WorkspaceRoutingModule,
         TreeModule,
         Angulartics2Module.forChild(),
         OnboardingModule,
