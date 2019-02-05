@@ -2,7 +2,7 @@ import { TestBed } from "@angular/core/testing";
 import { MockBackend } from "@angular/http/testing";
 import { Http, HttpModule, BaseRequestOptions } from "@angular/http";
 import { DataService } from "./data.service"
-import { ErrorService } from "./error/error.service";
+import { ErrorService } from "../../../shared/services/error/error.service";
 
 describe("data.service.ts", () => {
 
