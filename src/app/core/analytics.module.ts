@@ -4,6 +4,7 @@ import { FullstoryModule } from 'ngx-fullstory';
 import { environment } from '../config/environment';
 import { Angulartics2Module, Angulartics2Mixpanel } from 'angulartics2';
 import { IntercomModule } from 'ng-intercom';
+import * as LogRocket from "logrocket";
 
 @NgModule({
     declarations: [],
@@ -24,4 +25,17 @@ import { IntercomModule } from 'ng-intercom';
     ],
     providers: [],
 })
-export class AnalyticsModule { }
+export class AnalyticsModule {
+    constructor() {
+
+        if (process.env.NODE_ENV === "production") {
+            LogRocket.init(environment.LOGROCKET_APP_ID, {
+                network: {
+                    isEnabled: true,
+                }
+
+            });
+        }
+    }
+
+ }
