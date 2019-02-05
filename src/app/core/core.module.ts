@@ -16,7 +16,7 @@ import { TeamFactory } from './http/team/team.factory';
 import { UserFactory } from './http/user/user.factory';
 import { AuthHttp } from 'angular2-jwt';
 import { authHttpServiceFactory } from '../shared/services/auth/auth.module';
-import { Http, RequestOptions } from '@angular/http';
+import { Http, RequestOptions, HttpModule } from '@angular/http';
 import { BreadcrumbsModule, Breadcrumb, BreadcrumbsConfig } from '@exalif/ngx-breadcrumbs';
 import { RouterModule } from '@angular/router';
 import { DeviceDetectorModule } from 'ngx-device-detector';
@@ -24,6 +24,7 @@ import { LoaderComponent } from '../shared/components/loading/loader.component';
 import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressRouterModule } from '@ngx-progressbar/router';
 import { MappingSummaryBreadcrumbs } from './breadcrumbs/summary.breadcrumb';
+import { HttpFactoryModule } from './interceptors/httpInterceptor';
 
 @NgModule({
     declarations: [
@@ -36,6 +37,8 @@ import { MappingSummaryBreadcrumbs } from './breadcrumbs/summary.breadcrumb';
     imports: [
         CommonModule,
         RouterModule,
+        HttpModule,
+        HttpFactoryModule,
         BreadcrumbsModule.forRoot(),
         DeviceDetectorModule.forRoot(),
         NgProgressModule.forRoot(),

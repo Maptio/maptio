@@ -19,15 +19,15 @@ import { SharedModule } from "./shared/shared.module";
         AppComponent
     ],
     imports: [
+        // angular
         BrowserModule,
-        FormsModule,
-        ReactiveFormsModule,
-        HttpModule,
-        RouterModule,
-        AppRoutingModule,
-        AnalyticsModule,
-        HttpFactoryModule,
         BrowserAnimationsModule,
+        // routing
+        AppRoutingModule,
+        // analytics
+        AnalyticsModule,
+
+        // core & shared
         CoreModule,
         SharedModule
     ],
