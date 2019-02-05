@@ -8,7 +8,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { Angulartics2Module, Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { NgProgressModule, NgProgress } from "@ngx-progressbar/core";
 import { IntercomModule } from "ng-intercom";
-import { LoaderService } from "../../../../shared/services/loading/loader.service";
+import { LoaderService } from "../../../../shared/components/loading/loader.service";
 import { Auth } from "../../../../core/authentication/auth.service";
 import { UserFactory } from "../../../../core/http/user/user.factory";
 import { TeamFactory } from "../../../../core/http/team/team.factory";

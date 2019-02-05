@@ -18,7 +18,7 @@ import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from "@
 import { Subject } from "rxjs";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { partition } from "lodash-es";
-import { LoaderService } from "../../../../shared/services/loading/loader.service";
+import { LoaderService } from "../../../../shared/components/loading/loader.service";
 import { UserService } from "../../../../shared/services/user/user.service";
 
 @Component({

@@ -5,7 +5,7 @@ import { Team } from "../../../../shared/model/team.data";
 import { Subscription } from "rxjs/Rx";
 import { OnInit } from "@angular/core";
 import { Component, ChangeDetectorRef } from "@angular/core";
-import { EmitterService } from '../../../../shared/services/emitter.service';
+import { EmitterService } from '../../../../core/services/emitter.service';
 
 
 @Component({

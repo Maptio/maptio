@@ -25,7 +25,7 @@ import { UserFactory } from "../../../../core/http/user/user.factory";
 import { UserService } from "./../../../../shared/services/user/user.service";
 import { TeamMembersComponent } from "./members.component";
 import { NgProgressModule, NgProgress } from '@ngx-progressbar/core';
-import { LoaderService } from '../../../../shared/services/loading/loader.service';
+import { LoaderService } from '../../../../shared/components/loading/loader.service';
 import { IntercomModule } from 'ng-intercom';
 
 class MockActivatedRoute implements ActivatedRoute {

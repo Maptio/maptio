@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot } from "@angular/router";
 import { CanActivate, CanActivateChild, RouterStateSnapshot, Router } from "@angular/router";
 import { BillingService } from '../../shared/services/billing/billing.service';
-import { EmitterService } from '../../shared/services/emitter.service';
+import { EmitterService } from '../services/emitter.service';
 import { Team } from '../../shared/model/team.data';
 import { DatasetFactory } from '../http/map/dataset.factory';
 import { DataSet } from '../../shared/model/dataset.data';

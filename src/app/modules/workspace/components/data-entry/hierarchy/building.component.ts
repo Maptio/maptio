@@ -13,7 +13,7 @@ import { TreeNode, TREE_ACTIONS, TreeComponent } from "angular-tree-component";
 import "rxjs/add/operator/map";
 import { InitiativeNodeComponent } from "../node/initiative.node.component"
 import { NgbModal, NgbTabset, NgbTabChangeEvent } from "@ng-bootstrap/ng-bootstrap";
-import { LoaderService } from "../../../../../shared/services/loading/loader.service";
+import { LoaderService } from "../../../../../shared/components/loading/loader.service";
 import { Tag } from "../../../../../shared/model/tag.data";
 import { DataSet } from "../../../../../shared/model/dataset.data";
 import { UserService } from "../../../../../shared/services/user/user.service";

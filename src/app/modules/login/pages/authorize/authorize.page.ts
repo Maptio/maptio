@@ -9,7 +9,7 @@ import { UserFactory } from '../../../../core/http/user/user.factory';
 import { User } from '../../../../shared/model/user.data';
 import { UserRole } from '../../../../shared/model/permission.data';
 import { UserService } from '../../../../shared/services/user/user.service';
-import { LoaderService } from '../../../../shared/services/loading/loader.service';
+import { LoaderService } from '../../../../shared/components/loading/loader.service';
 import { Intercom } from 'ng-intercom';
 import { environment } from '../../../../config/environment';
 import { Fullstory } from 'ngx-fullstory';

@@ -1,12 +1,12 @@
 import { Angulartics2Mixpanel } from "angulartics2";
 import { UserService } from "../../../../shared/services/user/user.service";
 import { Subscription } from "rxjs/Subscription";
-import { LoaderService } from "../../../../shared/services/loading/loader.service";
+import { LoaderService } from "../../../../shared/components/loading/loader.service";
 import { Params } from "@angular/router";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { JwtEncoder } from "../../../../shared/services/encoding/jwt.service";
-import { EmitterService } from "../../../../shared/services/emitter.service";
+import { EmitterService } from "../../../../core/services/emitter.service";
 import { FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms";
 import { Auth } from "../../../../core/authentication/auth.service";
 @Component({

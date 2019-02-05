@@ -1,7 +1,7 @@
 import { PermissionService, Permissions } from "../../shared/model/permission.data";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { environment } from "../../config/environment";
-import { LoaderService } from "../../shared/services/loading/loader.service";
+import { LoaderService } from "../../shared/components/loading/loader.service";
 import { Observable } from "rxjs/Rx";
 import { Router } from "@angular/router";
 import { Http, Headers } from "@angular/http";
@@ -11,7 +11,7 @@ import { AuthConfiguration } from "./auth.config";
 import { DatasetFactory } from "../http/map/dataset.factory";
 import { UserFactory } from "../http/user/user.factory";
 import { User } from "../../shared/model/user.data";
-import { EmitterService } from "../../shared/services/emitter.service";
+import { EmitterService } from "../services/emitter.service";
 import { tokenNotExpired } from "angular2-jwt/angular2-jwt";
 import { uniq } from "lodash-es";
 import * as LogRocket from "logrocket";

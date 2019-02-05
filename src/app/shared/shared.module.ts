@@ -14,7 +14,7 @@ import { JwtEncoder } from './services/encoding/jwt.service';
 import { ErrorService } from './services/error/error.service';
 import { ExportService } from './services/export/export.service';
 import { FileService } from './services/file/file.service';
-import { LoaderService } from './services/loading/loader.service';
+import { LoaderService } from './components/loading/loader.service';
 import { MailingService } from './services/mailing/mailing.service';
 import { URIService } from './services/uri.service';
 import { UserService } from './services/user/user.service';

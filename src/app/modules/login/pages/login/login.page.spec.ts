@@ -3,7 +3,7 @@ import { AuthHttp } from "angular2-jwt";
 import { AuthConfiguration } from "../../../../core/authentication/auth.config";
 import { MailingService } from "../../../../shared/services/mailing/mailing.service";
 import { UserService } from "../../../../shared/services/user/user.service";
-import { LoaderService } from "../../../../shared/services/loading/loader.service";
+import { LoaderService } from "../../../../shared/components/loading/loader.service";
 import { ErrorService } from "../../../../shared/services/error/error.service";
 import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";

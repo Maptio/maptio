@@ -10,7 +10,7 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Cloudinary } from "@cloudinary/angular-5.x";
 import { FileUploaderOptions, FileUploader, ParsedResponseHeaders, FileLikeObject } from "ng2-file-upload";
 import { UserFactory } from "../../../../core/http/user/user.factory";
-import { LoaderService } from '../../../../shared/services/loading/loader.service';
+import { LoaderService } from '../../../../shared/components/loading/loader.service';
 
 @Component({
     selector: "profile",

@@ -6,7 +6,7 @@ import { UserFactory } from "../http/user/user.factory";
 import { DatasetFactory } from "../http/map/dataset.factory";
 import { JwtEncoder } from "../../shared/services/encoding/jwt.service";
 import { MailingService } from "../../shared/services/mailing/mailing.service";
-import { LoaderService } from "../../shared/services/loading/loader.service";
+import { LoaderService } from "../../shared/components/loading/loader.service";
 import { NgProgress, NgProgressModule } from "@ngx-progressbar/core";
 import { PermissionService } from "../../shared/model/permission.data";
 import { Intercom, IntercomConfig } from "ng-intercom";

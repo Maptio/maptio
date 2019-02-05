@@ -5,7 +5,7 @@ import { Team } from '../../../../shared/model/team.data';
 import { DataSet } from '../../../../shared/model/dataset.data';
 import { Permissions } from '../../../../shared/model/permission.data';
 import { environment } from '../../../../config/environment';
-import { LoaderService } from '../../../../shared/services/loading/loader.service';
+import { LoaderService } from '../../../../shared/components/loading/loader.service';
 
 @Component({
     selector: 'team-billing',

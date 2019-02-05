@@ -8,7 +8,7 @@ import { User } from "../../../../shared/model/user.data";
 import { Team } from "../../../../shared/model/team.data";
 import { Router, ActivatedRoute } from "@angular/router";
 import { isEmpty } from 'lodash';
-import { LoaderService } from '../../../../shared/services/loading/loader.service';
+import { LoaderService } from '../../../../shared/components/loading/loader.service';
 
 @Component({
     selector: "team-list",

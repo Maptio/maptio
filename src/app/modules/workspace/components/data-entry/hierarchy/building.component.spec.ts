@@ -24,7 +24,7 @@ import { TreeComponent, TreeDraggedElement, TreeModel } from "angular-tree-compo
 import { Http, BaseRequestOptions } from "@angular/http";
 import { InitiativeComponent } from "../details/initiative.component";
 import { authHttpServiceFactoryTesting } from "../../../../../../test/specs/shared/authhttp.helper.shared";
-import { LoaderService } from "../../../../../shared/services/loading/loader.service";
+import { LoaderService } from "../../../../../shared/components/loading/loader.service";
 import { NgProgress } from "@ngx-progressbar/core";
 import { UserService } from "../../../../../shared/services/user/user.service";
 import { AuthConfiguration } from "../../../../../core/authentication/auth.config";

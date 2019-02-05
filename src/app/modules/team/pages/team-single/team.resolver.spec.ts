@@ -13,7 +13,7 @@ import { AuthConfiguration } from "../../../../core/authentication/auth.config";
 import { UserService } from "../../../../shared/services/user/user.service";
 import { MailingService } from "../../../../shared/services/mailing/mailing.service";
 import { JwtEncoder } from "../../../../shared/services/encoding/jwt.service";
-import { LoaderService } from "../../../../shared/services/loading/loader.service";
+import { LoaderService } from "../../../../shared/components/loading/loader.service";
 import { AuthHttp } from "angular2-jwt";
 import { authHttpServiceFactoryTesting } from "../../../../../test/specs/shared/authhttp.helper.shared";
 import { Http, BaseRequestOptions } from "@angular/http";

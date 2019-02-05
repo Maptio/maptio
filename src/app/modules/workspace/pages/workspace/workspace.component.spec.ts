@@ -29,7 +29,7 @@ import { UserService } from "../../../../shared/services/user/user.service";
 import { JwtEncoder } from "../../../../shared/services/encoding/jwt.service";
 import { UIService } from '../../../../shared/services/ui/ui.service';
 import { MarkdownService } from 'ngx-markdown';
-import { LoaderService } from "../../../../shared/services/loading/loader.service";
+import { LoaderService } from "../../../../shared/components/loading/loader.service";
 import { NgProgress } from "@ngx-progressbar/core";
 import { IntercomModule } from "ng-intercom";
 import { DeviceDetectorService } from "ngx-device-detector";

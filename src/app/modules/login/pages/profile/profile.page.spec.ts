@@ -17,7 +17,7 @@ import { JwtEncoder } from "../../../../shared/services/encoding/jwt.service";
 import { MailingService } from "../../../../shared/services/mailing/mailing.service";
 import { AuthConfiguration } from "../../../../core/authentication/auth.config";
 import { UserFactory } from "../../../../core/http/user/user.factory";
-import { LoaderService } from "../../../../shared/services/loading/loader.service";
+import { LoaderService } from "../../../../shared/components/loading/loader.service";
 
 describe("profile.page.ts", () => {
 

@@ -14,7 +14,7 @@ import { AuthConfiguration } from "../../../../core/authentication/auth.config";
 import { UserFactory } from "../../../../core/http/user/user.factory";
 import { JwtEncoder } from "../../../../shared/services/encoding/jwt.service";
 import { MailingService } from "../../../../shared/services/mailing/mailing.service";
-import { LoaderService } from "../../../../shared/services/loading/loader.service";
+import { LoaderService } from "../../../../shared/components/loading/loader.service";
 import { AuthHttp } from "angular2-jwt";
 import { authHttpServiceFactoryTesting } from "../../../../../test/specs/shared/authhttp.helper.shared";
 import { Http, BaseRequestOptions } from "@angular/http";

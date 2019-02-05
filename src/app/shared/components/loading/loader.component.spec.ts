@@ -2,7 +2,7 @@ import { Subject } from "rxjs/Rx";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { LoaderComponent } from "./loader.component";
 import { async, TestBed, ComponentFixture } from "@angular/core/testing";
-import { LoaderState, LoaderService } from "../../services/loading/loader.service";
+import { LoaderState, LoaderService } from "./loader.service";
 
 
 describe("loader.component.ts", () => {

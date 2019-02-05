@@ -19,7 +19,7 @@ import { MailingService } from "../../../../shared/services/mailing/mailing.serv
 import { MockBackend } from "@angular/http/testing";
 import { Router, NavigationStart } from "@angular/router";
 import { Observable } from "rxjs";
-import { LoaderService } from "../../../../shared/services/loading/loader.service";
+import { LoaderService } from "../../../../shared/components/loading/loader.service";
 import { UserService } from "../../../../shared/services/user/user.service";
 import { User } from "../../../../shared/model/user.data";
 

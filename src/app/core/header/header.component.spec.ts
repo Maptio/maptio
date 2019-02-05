@@ -8,7 +8,7 @@ import { Initiative } from "../../shared/model/initiative.data";
 import { DataSet } from "../../shared/model/dataset.data";
 import { TeamFactory } from "../http/team/team.factory";
 import { Router } from "@angular/router";
-import { EmitterService } from "../../shared/services/emitter.service";
+import { EmitterService } from "../services/emitter.service";
 import { UserFactory } from "../http/user/user.factory";
 import { HeaderComponent } from "./header.component";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
@@ -25,7 +25,7 @@ import "rxjs/add/operator/toPromise";
 import { RouterTestingModule } from "@angular/router/testing";
 import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
 import { JwtEncoder } from "../../shared/services/encoding/jwt.service";
-import { LoaderService } from "../../shared/services/loading/loader.service";
+import { LoaderService } from "../../shared/components/loading/loader.service";
 import { Team } from "../../shared/model/team.data";
 
 import { NO_ERRORS_SCHEMA } from "@angular/core"

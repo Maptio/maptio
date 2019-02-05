@@ -4,7 +4,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { NgProgressModule, NgProgress } from "@ngx-progressbar/core";
 import { IntercomModule } from "ng-intercom";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
-import { LoaderService } from "./shared/services/loading/loader.service";
+import { LoaderService } from "./shared/components/loading/loader.service";
 import { Auth } from "./core/authentication/auth.service";
 import { Router, NavigationEnd } from "@angular/router";
 import { Observable } from "rxjs";

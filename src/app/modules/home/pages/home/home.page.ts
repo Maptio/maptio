@@ -8,8 +8,8 @@ import { User } from "../../../../shared/model/user.data";
 import { DatasetFactory } from "../../../../core/http/map/dataset.factory";
 import { TeamFactory } from "../../../../core/http/team/team.factory";
 import { sortBy, isEmpty } from "lodash-es";
-import { LoaderService } from "../../../../shared/services/loading/loader.service";
-import { EmitterService } from "../../../../shared/services/emitter.service";
+import { LoaderService } from "../../../../shared/components/loading/loader.service";
+import { EmitterService } from "../../../../core/services/emitter.service";
 import { InstructionsService } from "../../../../shared/components/instructions/instructions.service";
 import { environment } from "../../../../config/environment";
 

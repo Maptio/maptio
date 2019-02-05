@@ -11,7 +11,7 @@ import { AuthConfiguration } from "../../../../core/authentication/auth.config";
 import { JwtEncoder } from "../../../../shared/services/encoding/jwt.service";
 import { MailingService } from "../../../../shared/services/mailing/mailing.service";
 import { Router } from "@angular/router";
-import { LoaderService } from "../../../../shared/services/loading/loader.service";
+import { LoaderService } from "../../../../shared/components/loading/loader.service";
 
 describe("change-password.component.ts", () => {
 

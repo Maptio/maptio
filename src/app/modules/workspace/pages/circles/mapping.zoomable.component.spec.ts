@@ -18,7 +18,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { MarkdownService } from "ngx-markdown";
 import { MappingZoomableComponent } from "./mapping.zoomable.component";
 import { NgProgress } from "@ngx-progressbar/core";
-import { LoaderService } from "../../../../shared/services/loading/loader.service";
+import { LoaderService } from "../../../../shared/components/loading/loader.service";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { DataSet } from "../../../../shared/model/dataset.data";
 import { Team } from "../../../../shared/model/team.data";

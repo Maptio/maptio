@@ -22,7 +22,7 @@ import { FormGroup } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef } from "@angular/core";
 import { UserRole, Permissions } from "../../../../shared/model/permission.data";
-import { LoaderService } from '../../../../shared/services/loading/loader.service';
+import { LoaderService } from '../../../../shared/components/loading/loader.service';
 import { Intercom } from 'ng-intercom';
 
 @Component({

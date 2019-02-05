@@ -19,7 +19,7 @@ import {
   isDevMode
 } from "@angular/core";
 import { partition } from "lodash-es";
-import { LoaderService } from "../../../../shared/services/loading/loader.service";
+import { LoaderService } from "../../../../shared/components/loading/loader.service";
 import { Team } from "../../../../shared/model/team.data";
 import * as screenfull from 'screenfull';
 

@@ -5,7 +5,7 @@ import { Subscription, Subject } from "rxjs/Rx";
 import { Initiative } from "../../../../shared/model/initiative.data";
 import { DataSet } from "../../../../shared/model/dataset.data";
 import { Team } from "../../../../shared/model/team.data";
-import { EmitterService } from "../../../../shared/services/emitter.service";
+import { EmitterService } from "../../../../core/services/emitter.service";
 import { DatasetFactory } from "../../../../core/http/map/dataset.factory";
 import { ViewChild } from "@angular/core";
 import {

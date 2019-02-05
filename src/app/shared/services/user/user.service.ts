@@ -7,7 +7,7 @@ import { AuthConfiguration } from "../../../core/authentication/auth.config";
 import { JwtEncoder } from "../encoding/jwt.service";
 import { MailingService } from "../mailing/mailing.service";
 import { UUID } from "angular2-uuid/index";
-import { EmitterService } from "../emitter.service";
+import { EmitterService } from "../../../core/services/emitter.service";
 import { Observable } from "rxjs/Rx";
 import { flatten } from "lodash-es"
 import { UserFactory } from '../../../core/http/user/user.factory';
