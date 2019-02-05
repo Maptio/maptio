@@ -1,32 +1,21 @@
-import { Subject } from "rxjs/Rx";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { LoaderComponent } from "./loader.component";
 import { async, TestBed, ComponentFixture } from "@angular/core/testing";
-import { LoaderState, LoaderService } from "./loader.service";
+import { RouterTestingModule } from "@angular/router/testing";
+import { NgProgressModule } from "@ngx-progressbar/core";
 
 
 describe("loader.component.ts", () => {
 
     let component: LoaderComponent;
     let target: ComponentFixture<LoaderComponent>;
-    let state$: Subject<LoaderState> = new Subject<LoaderState>()
 
     beforeEach(async(() => {
 
         TestBed.configureTestingModule({
+            imports : [NgProgressModule, RouterTestingModule],
             declarations: [LoaderComponent],
             schemas: [NO_ERRORS_SCHEMA],
-        }).overrideComponent(LoaderComponent, {
-            set: {
-                providers: [
-                    {
-                        provide: LoaderService,
-                        useClass: class {
-                            loaderState = state$.asObservable()
-                        }
-                    }
-                ]
-            }
         }).compileComponents();
     }));
 
@@ -38,22 +27,7 @@ describe("loader.component.ts", () => {
         target.detectChanges();
     });
 
-    it("should get rid of subscription on destroy", () => {
-        let spy = spyOn(component.subscription, "unsubscribe")
-        target.destroy();
-        expect(spy).toHaveBeenCalled();
+    it("should create component", () => {
+        expect(component).toBeDefined();
     })
-
-    it("should dispaly loader when show is true", () => {
-        state$.next({ show: true })
-        expect(component.show).toBe(true)
-    });
-
-    it("should hide loader when show is false", () => {
-        state$.next({ show: false })
-        expect(component.show).toBe(false)
-    });
-
-
-
 });

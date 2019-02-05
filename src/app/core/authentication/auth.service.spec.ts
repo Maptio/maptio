@@ -15,7 +15,7 @@ import { Observable } from "rxjs";
 import { Http, Response, BaseRequestOptions, RequestMethod, ResponseOptions } from "@angular/http";
 import { MockBackend, MockConnection } from "@angular/http/testing";
 import { AuthHttp } from "angular2-jwt";
-import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
+import { authHttpServiceFactoryTesting } from "../mocks/authhttp.helper.shared";
 import { ErrorService } from "../../shared/services/error/error.service";
 import { Angulartics2Mixpanel, Angulartics2Module } from "angulartics2";
 import { RouterTestingModule } from "@angular/router/testing";

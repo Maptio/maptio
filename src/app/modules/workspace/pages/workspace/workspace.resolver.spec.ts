@@ -16,7 +16,7 @@ import { JwtEncoder } from "../../../../shared/services/encoding/jwt.service";
 import { MailingService } from "../../../../shared/services/mailing/mailing.service";
 import { LoaderService } from "../../../../shared/components/loading/loader.service";
 import { AuthHttp } from "angular2-jwt";
-import { authHttpServiceFactoryTesting } from "../../../../../test/specs/shared/authhttp.helper.shared";
+import { authHttpServiceFactoryTesting } from "../../../../core/mocks/authhttp.helper.shared";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { MockBackend } from "@angular/http/testing";
 import { DataSet } from "../../../../shared/model/dataset.data";

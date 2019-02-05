@@ -1,6 +1,6 @@
 import { ErrorService } from "./../../../../shared/services/error/error.service";
 import { Initiative } from "./../../../../shared/model/initiative.data";
-import { authHttpServiceFactoryTesting } from "../../../../../test/specs/shared/authhttp.helper.shared";
+import { authHttpServiceFactoryTesting } from "../../../../core/mocks/authhttp.helper.shared";
 import { UserFactory } from "../../../../core/http/user/user.factory";
 import { URIService } from "../../../../shared/services/uri/uri.service";
 import { DataService } from "../../services/data.service";

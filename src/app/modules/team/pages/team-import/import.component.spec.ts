@@ -1,7 +1,7 @@
 import { MailingService } from "./../../../../shared/services/mailing/mailing.service";
 import { JwtEncoder } from "./../../../../shared/services/encoding/jwt.service";
 import { AuthConfiguration } from "../../../../core/authentication/auth.config";
-import { authHttpServiceFactoryTesting } from "../../../../../../src/test/specs/shared/authhttp.helper.shared";
+import { authHttpServiceFactoryTesting } from "../../../../core/mocks/authhttp.helper.shared";
 import { MockBackend } from "@angular/http/testing";
 import { BaseRequestOptions } from "@angular/http";
 import { Http } from "@angular/http";

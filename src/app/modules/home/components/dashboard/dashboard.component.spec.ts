@@ -11,7 +11,7 @@ import { ActivatedRoute } from "@angular/router";
 import { PermissionService } from "../../../../shared/model/permission.data";
 import { Auth } from "../../../../core/authentication/auth.service";
 import { AuthHttp } from "angular2-jwt";
-import { authHttpServiceFactoryTesting } from "../../../../../test/specs/shared/authhttp.helper.shared";
+import { authHttpServiceFactoryTesting } from "../../../../core/mocks/authhttp.helper.shared";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { MockBackend } from "@angular/http/testing";
 import { ErrorService } from "../../../../shared/services/error/error.service";

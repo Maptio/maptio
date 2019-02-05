@@ -23,7 +23,7 @@ import { Subject } from "rxjs/Rx";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
 import { RouterTestingModule } from "@angular/router/testing";
-import { authHttpServiceFactoryTesting } from "../../../test/specs/shared/authhttp.helper.shared";
+import { authHttpServiceFactoryTesting } from "../mocks/authhttp.helper.shared";
 import { JwtEncoder } from "../../shared/services/encoding/jwt.service";
 import { LoaderService } from "../../shared/components/loading/loader.service";
 import { Team } from "../../shared/model/team.data";
@@ -33,7 +33,7 @@ import { BillingService } from "../../shared/services/billing/billing.service";
 import { NgProgress } from "@ngx-progressbar/core";
 import { OnboardingService } from "../../shared/components/onboarding/onboarding.service";
 
-describe("header.component.ts", () => {
+fdescribe("header.component.ts", () => {
 
     let component: HeaderComponent;
     let target: ComponentFixture<HeaderComponent>;

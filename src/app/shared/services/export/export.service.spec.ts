@@ -9,7 +9,7 @@ import { inject, TestBed, async } from "@angular/core/testing";
 import { DataSet } from "../../model/dataset.data";
 import { Team } from "../../model/team.data";
 import { ExportService } from "./export.service";
-import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
+import { authHttpServiceFactoryTesting } from "../../../core/mocks/authhttp.helper.shared";
 
 describe("export.service.ts", () => {
 

@@ -17,7 +17,7 @@ import { MailingService } from "../../../../../shared/services/mailing/mailing.s
 import { AuthConfiguration } from "../../../../../core/authentication/auth.config";
 import { ErrorService } from "../../../../../shared/services/error/error.service";
 import { AuthHttp } from "angular2-jwt";
-import { authHttpServiceFactoryTesting } from "../../../../../../test/specs/shared/authhttp.helper.shared";
+import { authHttpServiceFactoryTesting } from "../../../../../core/mocks/authhttp.helper.shared";
 import { Auth } from "../../../../../core/authentication/auth.service";
 import { Observable } from "rxjs";
 import { User } from "../../../../../shared/model/user.data";

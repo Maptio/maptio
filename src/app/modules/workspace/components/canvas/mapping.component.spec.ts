@@ -12,7 +12,7 @@ import { MapSettingsService } from "../../services/map-settings.service";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { MockBackend } from "@angular/http/testing";
 import { AuthHttp } from "angular2-jwt";
-import { authHttpServiceFactoryTesting } from "../../../../../test/specs/shared/authhttp.helper.shared";
+import { authHttpServiceFactoryTesting } from "../../../../core/mocks/authhttp.helper.shared";
 import { UIService } from "../../services/ui.service";
 import { MarkdownService } from "ngx-markdown";
 import { SlackService } from "../sharing/slack.service";

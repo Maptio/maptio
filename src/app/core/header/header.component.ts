@@ -10,15 +10,12 @@ import { DatasetFactory } from "../http/map/dataset.factory";
 import { TeamFactory } from "../http/team/team.factory";
 import { EmitterService } from "../services/emitter.service";
 import { ErrorService } from "../../shared/services/error/error.service";
-import { Initiative } from "../../shared/model/initiative.data";
 import { UserService } from "../../shared/services/user/user.service";
 import { sortBy, isEmpty } from "lodash-es";
-import { SafeUrl, DomSanitizer } from "@angular/platform-browser";
 import { BillingService } from "../../shared/services/billing/billing.service";
 import { LoaderService } from "../../shared/components/loading/loader.service";
 import { OnboardingService } from "../../shared/components/onboarding/onboarding.service";
 import { Subscription } from "rxjs/Subscription";
-import { Observable } from "rxjs/Observable";
 import { from , forkJoin} from "rxjs";
 import { partition, mergeMap, map } from "rxjs/operators";
 

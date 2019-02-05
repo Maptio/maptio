@@ -1,7 +1,7 @@
 import { TestBed, fakeAsync, inject } from "@angular/core/testing";
 import { HttpModule, Http, Response, BaseRequestOptions, ResponseOptions, RequestMethod } from "@angular/http";
 import { AuthHttp } from "angular2-jwt";
-import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
+import { authHttpServiceFactoryTesting } from "../../mocks/authhttp.helper.shared";
 import { Auth } from "../../authentication/auth.service";
 import { TeamFactory } from "./team.factory";
 import { MockBackend, MockConnection } from "@angular/http/testing";

@@ -17,7 +17,7 @@ import { UserService } from "../../../../shared/services/user/user.service";
 import { MailingService } from "../../../../shared/services/mailing/mailing.service";
 import { JwtEncoder } from "../../../../shared/services/encoding/jwt.service";
 import { AuthHttp } from "angular2-jwt";
-import { authHttpServiceFactoryTesting } from "../../../../../test/specs/shared/authhttp.helper.shared";
+import { authHttpServiceFactoryTesting } from "../../../../core/mocks/authhttp.helper.shared";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { Router, NavigationStart, ActivatedRoute } from "@angular/router";
 import { MockBackend } from "@angular/http/testing";

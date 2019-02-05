@@ -11,7 +11,7 @@ import { UserFactory } from "../../../../core/http/user/user.factory";
 import { PermissionService } from "../../../../shared/model/permission.data";
 import { Fullstory, FullstoryConfig } from "ngx-fullstory";
 import { AuthHttp } from "angular2-jwt";
-import { authHttpServiceFactoryTesting } from "../../../../../test/specs/shared/authhttp.helper.shared";
+import { authHttpServiceFactoryTesting } from "../../../../core/mocks/authhttp.helper.shared";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { AuthConfiguration } from "../../../../core/authentication/auth.config";
 import { JwtEncoder } from "../../../../shared/services/encoding/jwt.service";

@@ -3,7 +3,7 @@ import { TeamFactory } from "../../../core/http/team/team.factory";
 import { UserFactory } from "../../../core/http/user/user.factory";
 import { User } from "../../model/user.data";
 import { Team } from "../../model/team.data";
-import { Angulartics2Mixpanel } from "../../../../../node_modules/angulartics2";
+import { Angulartics2Mixpanel } from "angulartics2";
 import { IntercomService } from "./intercom.service";
 
 @Injectable()

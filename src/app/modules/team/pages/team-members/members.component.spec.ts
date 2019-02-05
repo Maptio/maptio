@@ -8,7 +8,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { AuthHttp } from "angular2-jwt";
 import { Angulartics2, Angulartics2Mixpanel, Angulartics2Module } from "angulartics2";
 import { Observable } from "rxjs/Rx";
-import { authHttpServiceFactoryTesting } from "../../../../../test/specs/shared/authhttp.helper.shared";
+import { authHttpServiceFactoryTesting } from "../../../../core/mocks/authhttp.helper.shared";
 import { KeysPipe } from "../../../../shared/pipes/keys.pipe";
 import { Permissions } from "./../../../../shared/model/permission.data";
 import { Team } from "./../../../../shared/model/team.data";

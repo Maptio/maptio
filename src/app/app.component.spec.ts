@@ -1,8 +1,7 @@
 import { AppComponent } from "./app.component";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
-import { NgProgressModule, NgProgress } from "@ngx-progressbar/core";
-import { IntercomModule } from "ng-intercom";
+import { NgProgress } from "@ngx-progressbar/core";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { LoaderService } from "./shared/components/loading/loader.service";
 import { Auth } from "./core/authentication/auth.service";
@@ -21,11 +20,7 @@ describe("app.component.ts", () => {
 
         TestBed.configureTestingModule({
             declarations: [AppComponent],
-            imports: [RouterTestingModule,NgProgressModule, 
-                IntercomModule.forRoot({
-                appId: "",
-                updateOnRouterChange: true
-            })],
+            imports: [RouterTestingModule],
             schemas: [NO_ERRORS_SCHEMA]
         }).overrideComponent(AppComponent, {
             set: {

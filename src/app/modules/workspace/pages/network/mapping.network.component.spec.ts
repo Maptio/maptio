@@ -2,7 +2,7 @@ import { Team } from "./../../../../shared/model/team.data";
 import { Helper } from "./../../../../shared/model/helper.data";
 import { Initiative } from "./../../../../shared/model/initiative.data";
 import { ErrorService } from "./../../../../shared/services/error/error.service";
-import { authHttpServiceFactoryTesting } from "../../../../../test/specs/shared/authhttp.helper.shared";
+import { authHttpServiceFactoryTesting } from "../../../../core/mocks/authhttp.helper.shared";
 import { UserFactory } from "../../../../core/http/user/user.factory";
 import { DataService } from "../../services/data.service";
 import { URIService } from "../../../../shared/services/uri/uri.service";

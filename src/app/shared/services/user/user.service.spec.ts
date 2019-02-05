@@ -7,7 +7,7 @@ import { UserService } from "./user.service";
 import { TestBed, inject, fakeAsync } from "@angular/core/testing";
 import { MockBackend, MockConnection } from "@angular/http/testing";
 import { Http, HttpModule, Response, BaseRequestOptions, ResponseOptions, RequestMethod } from "@angular/http";
-import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
+import { authHttpServiceFactoryTesting } from "../../../core/mocks/authhttp.helper.shared";
 import { User } from "../../model/user.data";
 import { UserFactory } from "../../../core/http/user/user.factory";
 
