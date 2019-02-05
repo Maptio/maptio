@@ -1,6 +1,3 @@
-import "@cloudinary/angular-5.x";
-import "cloudinary-core";
-import "ng2-file-upload";
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';

@@ -1,23 +1,3 @@
-import "ngx-color"
-import "angular-tree-component";
-
-import "ngx-markdown";
-import "marked";
-
-import "screenfull"
-
-import "d3-array"
-import "d3-collection"
-import "d3-drag"
-import "d3-force"
-import "d3-interpolate";
-import "d3-scale";
-import "d3-transition"
-import "d3-zoom"
-import "d3-color"
-import "d3-selection";
-
-
 
 import { ColorHueModule } from 'ngx-color/hue'; // <color-hue-picker></color-hue-picker>
 
