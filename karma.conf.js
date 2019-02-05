@@ -5,14 +5,8 @@ module.exports = function (config) {
 
         files: [
             { pattern: "base.spec.ts" },
-            // Envrionments
-            { pattern: "src/environment/*.*" },
-            // Application
-            { pattern: "src/app/shared/**/*.*" },
-            { pattern: "src/app/pipes/**/*.*" },
-            { pattern: "src/app/components/**/*.*" },
-            // Specs
-            { pattern: "src/test/specs/**/*.*" }
+            { pattern: "src/app/**/*.*" },
+            { pattern: "src/test/**/*.*" }
 
         ],
 
