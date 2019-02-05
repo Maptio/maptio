@@ -7,7 +7,6 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { SanitizerModule } from '../../shared/sanitizer.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PermissionsModule } from '../../shared/permissions.module';
-import { ImageModule } from "../../shared/image.module";
 import { CreateMapModule } from "../../shared/create-map.module";
 import { OnboardingModule } from "../../shared/onboarding.module";
 import { HomeRoutingModule } from "./home.routing";

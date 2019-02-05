@@ -1,9 +1,7 @@
 import { Subscription } from "rxjs/Subscription";
-import { LoaderService } from "./shared/services/loading/loader.service";
-import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError, RouterEvent } from "@angular/router";
+import { Router} from "@angular/router";
 import {
   Component,
-  ViewChild,
   ChangeDetectionStrategy,
   ChangeDetectorRef
 } from "@angular/core";
@@ -13,7 +11,6 @@ import { environment } from "./config/environment";
 import { Observable } from "rxjs/Rx";
 import { Intercom } from 'ng-intercom';
 import { NgProgress } from '@ngx-progressbar/core';
-import { URIService } from "./shared/services/uri.service";
 import { DeviceDetectorService } from 'ngx-device-detector';
 
 
