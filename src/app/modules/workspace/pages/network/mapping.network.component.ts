@@ -1,11 +1,11 @@
 import { Team } from '../../../../shared/model/team.data';
 import { Role } from "../../../../shared/model/role.data";
 import { User } from "../../../../shared/model/user.data";
-import { ColorService } from "../../../../shared/services/ui/color.service";
-import { UIService } from "../../../../shared/services/ui/ui.service";
+import { ColorService } from "../../services/color.service";
+import { UIService } from "../../services/ui.service";
 import { Router } from "@angular/router";
-import { DataService } from "../../../../shared/services/data.service";
-import { URIService } from "../../../../shared/services/uri.service";
+import { DataService } from "../../services/data.service";
+import { URIService } from "../../../../shared/services/uri/uri.service";
 import { Tag, SelectableTag } from "../../../../shared/model/tag.data";
 import { Initiative } from "../../../../shared/model/initiative.data";
 import { Subject, BehaviorSubject } from "rxjs/Rx";

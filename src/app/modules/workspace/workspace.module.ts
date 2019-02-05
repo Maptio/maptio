@@ -41,9 +41,6 @@ import { MappingComponent } from "./components/canvas/mapping.component";
 import { InitiativeComponent } from "./components/data-entry/details/initiative.component";
 import { InitiativeNodeComponent } from "./components/data-entry/node/initiative.node.component";
 import { BuildingComponent } from "./components/data-entry/hierarchy/building.component";
-import { AccessGuard } from "../../core/guards/access.guard";
-import { AuthGuard } from "../../core/guards/auth.guard";
-import { RouterModule, Routes } from "@angular/router";
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -52,7 +49,6 @@ import { TooltipComponent } from "./components/tooltip/tooltip.component";
 import { ContextMenuComponent } from "./components/context-menu/context-menu.component";
 import { MappingSummaryComponent } from "./pages/directory/summary.component";
 import { PersonalSummaryComponent } from "./components/summary/overview/personal.component";
-import { MappingSummaryBreadcrumbs } from "../../core/breadcrumbs/summary.breadcrumb";
 import { OnboardingComponent } from "../../shared/components/onboarding/onboarding.component";
 import { InstructionsComponent } from "../../shared/components/instructions/instructions.component";
 import { PersonalCardComponent } from "./components/summary/tab/card.component";
@@ -60,17 +56,13 @@ import { SlackService } from "./components/sharing/slack.service";
 import { NgbTooltipModule, NgbTypeaheadModule, NgbPopoverModule, NgbTabsetModule } from "@ng-bootstrap/ng-bootstrap";
 import { ColorPickerComponent } from "../../shared/components/color-picker/color-picker.component";
 import { PermissionsModule } from "../../shared/permissions.module";
-import { DataService } from "../../shared/services/data.service";
+import { DataService } from "./services/data.service";
 import { OnboardingModule } from "../../shared/onboarding.module";
-import { MapSettingsService } from "../../shared/services/map/map-settings.service";
+import { MapSettingsService } from "./services/map-settings.service";
 import { EditTagsComponent } from "./components/data-entry/tags/edit-tags.component";
-import { UIService } from "../../shared/services/ui/ui.service";
-import { ColorService } from "../../shared/services/ui/color.service";
+import { UIService } from "./services/ui.service";
+import { ColorService } from "./services/color.service";
 import { WorkspaceRoutingModule } from "./workspace.routing";
-
-
-
-
 
 export function markedOptionsFactory(): MarkedOptions {
     const renderer = new MarkedRenderer();

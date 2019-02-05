@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UIService } from '../ui/ui.service';
+import { UIService } from './ui.service';
 import { environment } from '../../../config/environment';
 
 /**

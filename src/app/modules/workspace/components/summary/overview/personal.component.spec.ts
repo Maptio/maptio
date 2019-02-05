@@ -8,7 +8,7 @@ import { Angulartics2Module } from "angulartics2";
 import { MarkdownModule } from "ngx-markdown";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { Initiative } from "../../../../../shared/model/initiative.data";
-import { DataService } from "../../../../../shared/services/data.service";
+import { DataService } from "../../../services/data.service";
 
 
 describe("personal.component.ts", () => {

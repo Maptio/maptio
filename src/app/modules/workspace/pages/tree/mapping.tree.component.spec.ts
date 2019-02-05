@@ -2,10 +2,10 @@ import { ErrorService } from "./../../../../shared/services/error/error.service"
 import { Initiative } from "./../../../../shared/model/initiative.data";
 import { authHttpServiceFactoryTesting } from "../../../../../test/specs/shared/authhttp.helper.shared";
 import { UserFactory } from "../../../../core/http/user/user.factory";
-import { URIService } from "./../../../../shared/services/uri.service";
-import { DataService } from "./../../../../shared/services/data.service";
-import { UIService } from "./../../../../shared/services/ui/ui.service";
-import { ColorService } from "./../../../../shared/services/ui/color.service";
+import { URIService } from "../../../../shared/services/uri/uri.service";
+import { DataService } from "../../services/data.service";
+import { UIService } from "../../services/ui.service";
+import { ColorService } from "../../services/color.service";
 
 import { MockBackend } from "@angular/http/testing";
 import { Http } from "@angular/http";
@@ -22,7 +22,7 @@ import { MarkdownService } from "ngx-markdown";
 import { DeviceDetectorService } from "ngx-device-detector";
 import { Team } from "../../../../shared/model/team.data";
 import { DataSet } from "../../../../shared/model/dataset.data";
-import { MapSettingsService } from "../../../../shared/services/map/map-settings.service";
+import { MapSettingsService } from "../../services/map-settings.service";
 
 describe("mapping.tree.component.ts", () => {
 

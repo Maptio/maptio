@@ -1,8 +1,8 @@
-import { URIService } from "../../../../shared/services/uri.service";
-import { DataService } from "../../../../shared/services/data.service";
+import { URIService } from "../../../../shared/services/uri/uri.service";
+import { DataService } from "../../services/data.service";
 import { UserFactory } from "../../../../core/http/user/user.factory";
-import { UIService } from "../../../../shared/services/ui/ui.service";
-import { ColorService } from "../../../../shared/services/ui/color.service";
+import { UIService } from "../../services/ui.service";
+import { ColorService } from "../../services/color.service";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { Initiative } from "../../../../shared/model/initiative.data";
 import { SelectableTag, Tag } from "../../../../shared/model/tag.data";
@@ -22,7 +22,7 @@ import { Subject } from "rxjs/Subject";
 import { BehaviorSubject } from "rxjs";
 import { User } from "../../../../shared/model/user.data";
 import { Team } from "../../../../shared/model/team.data";
-import { MapSettingsService, MapSettings } from "../../../../shared/services/map/map-settings.service";
+import { MapSettingsService, MapSettings } from "../../services/map-settings.service";
 
 import { transition } from "d3-transition";
 import { select, selectAll, event, mouse } from "d3-selection";

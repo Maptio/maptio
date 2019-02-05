@@ -11,7 +11,7 @@ import { UserFactory } from "../../../../../core/http/user/user.factory";
 import { DatasetFactory } from "../../../../../core/http/map/dataset.factory";
 import { TeamFactory } from "../../../../../core/http/team/team.factory";
 import { ErrorService } from "../../../../../shared/services/error/error.service";
-import { DataService } from "../../../../../shared/services/data.service";
+import { DataService } from "../../../services/data.service";
 import { FocusIfDirective } from "../../../../../shared/directives/focusif.directive";
 import { RouterTestingModule } from "@angular/router/testing";
 import { Observable } from "rxjs/Rx";

@@ -1,5 +1,5 @@
 import { BuildingComponent } from "../../components/data-entry/hierarchy/building.component";
-import { DataService, CounterService } from "../../../../shared/services/data.service";
+import { DataService, CounterService } from "../../services/data.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription, Subject } from "rxjs/Rx";
 import { Initiative } from "../../../../shared/model/initiative.data";
@@ -17,7 +17,7 @@ import { ActivatedRoute } from "@angular/router";
 import { User } from "../../../../shared/model/user.data";
 import { Tag, SelectableTag } from "../../../../shared/model/tag.data";
 import { intersectionBy } from "lodash-es";
-import { UIService } from "../../../../shared/services/ui/ui.service";
+import { UIService } from "../../services/ui.service";
 import { Intercom } from "ng-intercom";
 import { OnboardingComponent } from "../../../../shared/components/onboarding/onboarding.component";
 import { InstructionsComponent } from "../../../../shared/components/instructions/instructions.component";

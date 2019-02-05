@@ -6,7 +6,7 @@ import { Team } from "../../../../../shared/model/team.data";
 import { Router } from "@angular/router";
 import { sortBy } from "lodash-es";
 import { DataSet } from "../../../../../shared/model/dataset.data";
-import { MapSettingsService } from "../../../../../shared/services/map/map-settings.service";
+import { MapSettingsService } from "../../../services/map-settings.service";
 
 
 @Component({

@@ -14,7 +14,7 @@ import { UserFactory } from "../../../../core/http/user/user.factory";
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core"
 import { DatasetFactory } from "../../../../core/http/map/dataset.factory";
-import { DataService } from "../../../../shared/services/data.service";
+import { DataService } from "../../services/data.service";
 import { ErrorService } from "../../../../shared/services/error/error.service";
 import { MockBackend } from "@angular/http/testing";
 import { Http, BaseRequestOptions } from "@angular/http";
@@ -27,7 +27,7 @@ import { Auth } from "../../../../core/authentication/auth.service";
 import { authHttpServiceFactoryTesting } from "../../../../../test/specs/shared/authhttp.helper.shared";
 import { UserService } from "../../../../shared/services/user/user.service";
 import { JwtEncoder } from "../../../../shared/services/encoding/jwt.service";
-import { UIService } from '../../../../shared/services/ui/ui.service';
+import { UIService } from '../../services/ui.service';
 import { MarkdownService } from 'ngx-markdown';
 import { LoaderService } from "../../../../shared/components/loading/loader.service";
 import { NgProgress } from "@ngx-progressbar/core";

@@ -19,9 +19,9 @@ import { BehaviorSubject, ReplaySubject, Subject, Subscription } from "rxjs";
 import { Initiative } from "../../../../shared/model/initiative.data";
 import { SelectableTag, Tag } from "../../../../shared/model/tag.data";
 import { Team } from "../../../../shared/model/team.data";
-import { DataService } from "../../../../shared/services/data.service";
-import { UIService } from "../../../../shared/services/ui/ui.service";
-import { URIService } from "../../../../shared/services/uri.service";
+import { DataService } from "../../services/data.service";
+import { UIService } from "../../services/ui.service";
+import { URIService } from "../../../../shared/services/uri/uri.service";
 import { IDataVisualizer } from "./mapping.interface";
 import { MappingNetworkComponent } from "../../pages/network/mapping.network.component";
 import { MappingTreeComponent } from "../../pages/tree/mapping.tree.component";
@@ -35,7 +35,7 @@ import { environment } from "../../../../config/environment";
 import * as screenfull from 'screenfull';
 import { SlackService } from "../sharing/slack.service";
 import { DataSet } from "../../../../shared/model/dataset.data";
-import { MapSettingsService, MapSettings } from "../../../../shared/services/map/map-settings.service";
+import { MapSettingsService, MapSettings } from "../../services/map-settings.service";
 
 @Component({
   selector: "mapping",

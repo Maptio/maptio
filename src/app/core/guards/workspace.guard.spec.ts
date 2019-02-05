@@ -3,7 +3,7 @@ import { TestBed, inject } from "@angular/core/testing";
 import { RouterStateSnapshot } from "@angular/router";
 import { MarkdownService, MarkdownModule } from "ngx-markdown";
 import { DeviceDetectorService } from "ngx-device-detector";
-import { UIService } from "../../shared/services/ui/ui.service";
+import { UIService } from "../../modules/workspace/services/ui.service";
 
 describe("workspace.guard.ts", () => {
 

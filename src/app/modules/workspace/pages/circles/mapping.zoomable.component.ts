@@ -1,8 +1,8 @@
-import { URIService } from "../../../../shared/services/uri.service";
-import { DataService } from "../../../../shared/services/data.service";
+import { URIService } from "../../../../shared/services/uri/uri.service";
+import { DataService } from "../../services/data.service";
 import { UserFactory } from "../../../../core/http/user/user.factory";
-import { Browsers, UIService } from "../../../../shared/services/ui/ui.service";
-import { ColorService } from "../../../../shared/services/ui/color.service";
+import { Browsers, UIService } from "../../services/ui.service";
+import { ColorService } from "../../services/color.service";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { Initiative } from "../../../../shared/model/initiative.data";
 import { SelectableUser } from "../../../../shared/model/user.data";

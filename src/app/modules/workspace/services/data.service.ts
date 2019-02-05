@@ -3,9 +3,9 @@ import { Http } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/toPromise";
-import { ErrorService } from "./error/error.service"
+import { ErrorService } from "../../../shared/services/error/error.service"
 import { ReplaySubject, Subject } from "rxjs/Rx";
-import { Tag, SelectableTag } from "../model/tag.data";
+import { Tag, SelectableTag } from "../../../shared/model/tag.data";
 
 @Injectable()
 export class DataService {

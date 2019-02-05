@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription, Observable } from 'rxjs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { URIService } from '../../../../shared/services/uri.service';
+import { URIService } from '../../../../shared/services/uri/uri.service';
 import { JwtHelper } from 'angular2-jwt';
 import { AuthConfiguration } from '../../../../core/authentication/auth.config';
 import { Auth } from '../../../../core/authentication/auth.service';

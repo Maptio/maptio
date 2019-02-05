@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, RouterStateSnapshot, CanActivate, CanActivateChild, Router } from "@angular/router";
-import { UIService } from "../../shared/services/ui/ui.service";
+import { UIService } from "../../modules/workspace/services/ui.service";
 
 @Injectable()
 export class WorkspaceGuard implements CanActivate, CanActivateChild {

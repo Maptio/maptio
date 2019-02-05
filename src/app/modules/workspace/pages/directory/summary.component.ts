@@ -1,9 +1,9 @@
-import { DataService } from "../../../../shared/services/data.service";
+import { DataService } from "../../services/data.service";
 import { Params, ActivatedRouteSnapshot, Router } from "@angular/router";
 import { DataSet } from "../../../../shared/model/dataset.data";
 import { Team } from "../../../../shared/model/team.data";
 import { User } from "../../../../shared/model/user.data";
-import { UIService } from "../../../../shared/services/ui/ui.service";
+import { UIService } from "../../services/ui.service";
 import { TeamFactory } from "../../../../core/http/team/team.factory";
 import { UserFactory } from "../../../../core/http/user/user.factory";
 import { DatasetFactory } from "../../../../core/http/map/dataset.factory";
