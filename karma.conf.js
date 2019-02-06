@@ -64,28 +64,41 @@ module.exports = function (config) {
     // });
 
     config.set({
-        frameworks: ["jasmine", "karma-typescript"],
+        frameworks: ["jasmine",  "karma-typescript"],
         files: [
             { pattern: "base.spec.ts" },
-            { pattern: "src/app/**/*.+(ts|html)" }
+            { pattern: "src/app/**/*.+(ts|html|json)" }
         ],
+
         preprocessors: {
-            "**/*.ts": "karma-typescript"
+            "**/*.ts": "karma-typescript",
+            '**/*.json': ['json_fixtures']
         },
 
-
         karmaTypescriptConfig: {
-            compilerOptions: {
-                lib: ["es2017", "dom"] // fix for "'Promise' only refers to a type"
-            },
+            tsconfig : "./tsconfig.spec.json",
             bundlerOptions: {
                 entrypoints: /\.spec\.ts$/,
                 transforms: [
                     require("karma-typescript-es6-transform")(),
-                    require("karma-typescript-angular2-transform"),
-
+                    require("karma-typescript-angular2-transform")
                 ]
             },
+            // coverageOptions: {
+            //     exclude: [/(\/src\/test\/.*|\.d|base.spec|\.spec|\.module)\.ts/i]
+            // },
+            // reports: {
+            //     "html": {
+            //         "directory": "coverage",
+            //         "subdirectory": "html",
+            //         "filename": "index.html"
+            //     },
+            //     "lcovonly": {
+            //         "directory": "coverage",
+            //         "subdirectory": "lcov",
+            //         "filename": "lcov.info"
+            //     }
+            // }
         },
         reporters: ["progress", "karma-typescript"],
         browsers: ["ChromeHeadless"],
@@ -100,6 +113,6 @@ module.exports = function (config) {
                 ],
             }
         },
-        logLevel: config.LOG_DEBUG
+        logLevel: config.LOG_ERROR
     });
 };

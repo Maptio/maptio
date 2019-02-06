@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "lib": [
+      "es2015",
+      "dom",
+      "es6",
+      "es7"
+    ],
+    "noImplicitAny": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "baseUrl": "",
+    "types": [
+      "karma-fixture",
+      "jasmine",
+      "node"
+    ]
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
