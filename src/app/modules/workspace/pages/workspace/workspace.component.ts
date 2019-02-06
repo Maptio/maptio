@@ -15,12 +15,9 @@ import {
 } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { User } from "../../../../shared/model/user.data";
-import { Tag, SelectableTag } from "../../../../shared/model/tag.data";
-import { intersectionBy } from "lodash-es";
+import { Tag } from "../../../../shared/model/tag.data";
 import { UIService } from "../../services/ui.service";
 import { Intercom } from "ng-intercom";
-import { OnboardingComponent } from "../../../../shared/components/onboarding/onboarding.component";
-import { InstructionsComponent } from "../../../../shared/components/instructions/instructions.component";
 
 @Component({
     selector: "workspace",

@@ -1,7 +1,7 @@
 {
   "angularCompilerOptions": {
     "enableIvy": true
-  } ,
+  },
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
@@ -9,10 +9,14 @@
     "sourceMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "lib": [ "es2015", "dom", "es6", "es7" ],
+    "lib": [
+      "es2015",
+      "dom",
+      "es6",
+      "es7"
+    ],
     "noImplicitAny": true,
     "suppressImplicitAnyIndexErrors": true,
-   
     "baseUrl": "",
     "paths": {
       "@angular/*": [

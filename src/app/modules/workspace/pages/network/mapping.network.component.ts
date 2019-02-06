@@ -20,8 +20,7 @@ import {
 } from "@angular/core";
 import { IDataVisualizer } from "../../components/canvas/mapping.interface";
 import { Angulartics2Mixpanel } from "angulartics2";
-import { flatten, uniqBy, remove, partition, flow, groupBy, map, flattenDeep } from "lodash-es";
-import {map as mapLodash} from "lodash-es"
+import { flatten, uniqBy, remove, partition, groupBy, map, flattenDeep } from "lodash-es";
 
 import { transition } from "d3-transition";
 import { select, selectAll, event, mouse } from "d3-selection";

@@ -6,7 +6,7 @@ import { Observable } from "rxjs/Rx";
 import { AuthHttp } from "angular2-jwt/angular2-jwt";
 import { DataSet } from "../../model/dataset.data";
 import { sortBy } from "lodash-es";
-import { upperFirst, lowerCase, toLower } from "lodash-es"
+import { upperFirst, toLower } from "lodash-es"
 import { hierarchy } from 'd3-hierarchy';
 
 @Injectable()

@@ -1,8 +1,5 @@
-import { compact } from "lodash-es";
 import { SlackIntegration } from "./../../../../shared/model/integrations.data";
-
 import { TeamIntegrationsComponent } from "./integrations.component";
-
 import { Initiative } from "./../../../../shared/model/initiative.data";
 import { DataSet } from "./../../../../shared/model/dataset.data";
 import { SharedModule } from "./../../../../shared/shared.module";

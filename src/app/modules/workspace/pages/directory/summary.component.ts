@@ -17,7 +17,6 @@ import { IDataVisualizer } from "../../components/canvas/mapping.interface";
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
 import { Subject } from "rxjs";
 import { Angulartics2Mixpanel } from "angulartics2";
-import { partition } from "lodash-es";
 import { LoaderService } from "../../../../shared/components/loading/loader.service";
 import { UserService } from "../../../../shared/services/user/user.service";
 
