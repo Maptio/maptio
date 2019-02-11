@@ -50,8 +50,8 @@ describe("login.component.ts", () => {
               {
                 provide: Auth,
                 useClass: class {
-                  login = jasmine.createSpy("login");
-                  clear = jasmine.createSpy("clear");
+                  login = jest.fn();
+                  clear = jest.fn();
                 }
               },
               {
@@ -68,7 +68,7 @@ describe("login.component.ts", () => {
               {
                 provide: Router,
                 useClass: class {
-                  navigate = jasmine.createSpy("navigate");
+                  navigate = jest.fn();
                   events = Observable.of(new NavigationStart(0, "/next"));
                 }
               },

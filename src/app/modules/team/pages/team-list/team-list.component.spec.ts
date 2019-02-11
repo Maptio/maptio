@@ -60,7 +60,6 @@ describe("team-list.component.ts", () => {
                     },
                     {
                         provide: Router, useClass: class {
-                            // navigate = jasmine.createSpy("navigate");
                             events = Observable.of(new NavigationStart(0, "/next"))
                         }
                     },

@@ -47,16 +47,16 @@ describe("building.component.ts", () => {
                     {
                         provide: LoaderService,
                         useClass: class {
-                            hide = jasmine.createSpy("hide")
-                            show = jasmine.createSpy("show")
+                            hide = jest.fn()
+                            show = jest.fn()
                         },
                         deps: [NgProgress]
                     },
                     {
                         provide: Auth,
                         useClass: class {
-                            getPermissions = jasmine.createSpy("getPermissions").and.returnValue([])
-                            getUser = jasmine.createSpy("getUser").and.returnValue(Observable.of(new User({ user_id: "UID" })))
+                            getPermissions = jest.fn().mockReturnValue([])
+                            getUser = jest.fn().mockReturnValue(Observable.of(new User({ user_id: "UID" })))
                         }
                     },
                     {
@@ -73,7 +73,7 @@ describe("building.component.ts", () => {
                     },
                     {
                         provide: Router, useClass: class {
-                            navigate = jasmine.createSpy("navigate");
+                            navigate = jest.fn();
                             events = Observable.of(new NavigationStart(0, "/next"))
                         }
                     },

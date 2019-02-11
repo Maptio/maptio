@@ -49,7 +49,6 @@ describe("team.factory.ts", () => {
 
     describe("get", () => {
         it("(id) should call correct REST API endpoint", fakeAsync(inject([TeamFactory, MockBackend], (target: TeamFactory, mockBackend: MockBackend) => {
-            // let mockTeam = jasmine.createSpyObj("Team", ["deserialize"]);
             let spyCreate = spyOn(Team, "create").and.returnValue(mockTeam);
             let spyDeserialize = mockTeam.deserialize.mockReturnValue(new Team({ name: "Deserialized" }));
 

@@ -45,7 +45,7 @@ describe("mapping.network.component.ts", () => {
                 ErrorService,
                 {
                     provide: Router, useClass: class {
-                        navigate = jasmine.createSpy("navigate");
+                        navigate = jest.fn();
                         events = Observable.of(new NavigationStart(0, "/next"))
                     }
                 }

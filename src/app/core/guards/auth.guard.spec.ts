@@ -8,9 +8,9 @@ import { MockBackend } from "@angular/http/testing";
 import { Auth } from "../authentication/auth.service";
 
 export class AuthStub {
-    clear(){}
+    clear() { }
 
-    allAuthenticated(){}
+    allAuthenticated() { }
 }
 
 
@@ -21,9 +21,9 @@ describe("auth.guard.ts", () => {
             providers: [
                 AuthGuard, UserFactory, ErrorService,
                 { provide: Auth, useClass: AuthStub },
-                {provide : ActivatedRouteSnapshot, useClass : class {}},
-                {provide : RouterStateSnapshot, useClass : class {}},
-                { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } },
+                { provide: ActivatedRouteSnapshot, useClass: class { } },
+                { provide: RouterStateSnapshot, useClass: class { } },
+                { provide: Router, useClass: class { navigate = jest.fn(); } },
                 {
                     provide: Http,
                     useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
@@ -41,35 +41,14 @@ describe("auth.guard.ts", () => {
 
     describe("canActivate", () => {
         it("should return true when user is authenticated and api is authenticated", inject([AuthGuard, Auth, Router], (target: AuthGuard, mockAuth: AuthStub, mockRouter: Router) => {
-            // let route = jasmine.createSpyObj("route", [""]);
-            // let state = jasmine.createSpyObj<RouterStateSnapshot>("state", {url : "", toString : ""});
             let route = TestBed.get(ActivatedRouteSnapshot);
-            // route.params = {
-            //     "mapid": "id3"
-            // };
+            let state = TestBed.get(RouterStateSnapshot);
 
-            let state = TestBed.get(RouterStateSnapshot) ;
-            
             let spyAuth = spyOn(mockAuth, "allAuthenticated").and.returnValue(true);
 
             expect(target.canActivate(route, state)).toBe(true);
             expect(spyAuth).toHaveBeenCalled();
         }));
-
-        // fit("should return false when user is not authenticated, redirect to /login and store current url in web storage", inject([AuthGuard, Auth, Router], (target: AuthGuard, mockAuth: AuthStub, mockRouter: Router) => {
-        //     let route = jasmine.createSpyObj("route", [""]);
-        //     let state = jasmine.createSpyObj<RouterStateSnapshot>("state", [""]);
-        //     let URL = "http://where.am.i.from.com";
-        //     state.url = URL;
-        //     let spyAuth = spyOn(mockAuth, "authenticated").and.returnValue(false);
-
-        //     expect(localStorage.getItem("redirectUrl")).toBe(null)
-        //     let actual = target.canActivate(route, state);
-        //     expect(actual).toBe(false);
-        //     expect(localStorage.getItem("redirectUrl")).toBe(URL);
-        //     expect(spyAuth).toHaveBeenCalled();
-        //     expect(mockRouter.navigate).toHaveBeenCalledWith(["/login"]);
-        // }));
 
     });
 

@@ -39,8 +39,7 @@ describe("change-password.component.ts", () => {
                         },
                         deps: [MockBackend, BaseRequestOptions]
                     },
-                    // { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } },
-                    MockBackend,
+                   MockBackend,
                     BaseRequestOptions,
                     UserService, AuthConfiguration, JwtEncoder, MailingService,
                     { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } },

@@ -23,13 +23,8 @@ describe("workspace.guard.ts", () => {
 
     describe("canActivate", () => {
         it("should clean svg and return true", inject([WorkspaceGuard, UIService], (target: WorkspaceGuard, mockUIService: UIService) => {
-            // let route = jasmine.createSpyObj("route", [""]);
-            // let state = jasmine.createSpyObj<RouterStateSnapshot>("state", {url : "", toString: ""})
-            let route = TestBed.get(ActivatedRouteSnapshot);
-            // route.params = {
-            //     "mapid": "id3"
-            // };
-
+           let route = TestBed.get(ActivatedRouteSnapshot);
+      
             let state = TestBed.get(RouterStateSnapshot) ;
             
             spyOn(mockUIService, "clean")

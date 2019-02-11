@@ -51,8 +51,8 @@ describe("initiative.component.ts", () => {
                 {
                     provide: Auth,
                     useClass: class {
-                        getPermissions = jasmine.createSpy("getPermissions").and.returnValue([])
-                        getUser = jasmine.createSpy("getUser").and.returnValue(Observable.of(new User({ user_id: "UID" })))
+                        getPermissions = jest.fn().mockReturnValue([])
+                        getUser = jest.fn().mockReturnValue(Observable.of(new User({ user_id: "UID" })))
                     }
                 }
             ],

@@ -21,7 +21,7 @@ describe("logout.component.ts", () => {
               {
                 provide: Auth,
                 useClass: class {
-                  logout = jasmine.createSpy("logout");
+                  logout = jest.fn();
                 }
               }
             ]

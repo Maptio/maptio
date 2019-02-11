@@ -30,8 +30,8 @@ describe("app.component.ts", () => {
                     {
                         provide: LoaderService,
                         useClass: class {
-                            hide = jasmine.createSpy("hide")
-                            show = jasmine.createSpy("show")
+                            hide = jest.fn()
+                            show = jest.fn()
                         },
                         deps: [NgProgress]
                     },
@@ -43,7 +43,7 @@ describe("app.component.ts", () => {
                     },
                     {
                         provide: Router, useClass: class {
-                            navigate = jasmine.createSpy("navigate");
+                            navigate = jest.fn();
                             public events = new Observable(observer => {
                                 observer.next(new NavigationEnd(0, "/login", "/login"));
                                 observer.complete();

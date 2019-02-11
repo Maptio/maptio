@@ -35,8 +35,8 @@ describe("mapping.zoomable.component.ts", () => {
                 {
                     provide: LoaderService,
                     useClass: class {
-                        hide = jest.fn() // jasmine.createSpy("hide")
-                        show = jest.fn() // jasmine.createSpy("show")
+                        hide = jest.fn() 
+                        show = jest.fn() 
                     },
                     deps: [NgProgress]
                 },
@@ -52,7 +52,7 @@ describe("mapping.zoomable.component.ts", () => {
                 ErrorService,
                 {
                     provide: Router, useClass: class {
-                        navigate = jasmine.createSpy("navigate");
+                        navigate = jest.fn();
                         events = Observable.of(new NavigationStart(0, "/next"))
                     }
                 },
@@ -87,8 +87,7 @@ describe("mapping.zoomable.component.ts", () => {
         component.mapColor$ = Observable.of("")
         component.zoomInitiative$ = Observable.of(new Initiative());
         component.isLocked$ = Observable.of(true);
-        // component.analytics = jasmine.createSpyObj("analytics", ["eventTrack"]);
-
+       
         let data = new Initiative().deserialize(fixtures);
         let mockDataService = target.debugElement.injector.get(DataService);
         spyOn(mockDataService, "get").and.returnValue(Observable.of({ initiative: data, dataset: new DataSet({datasetId:"123"}), team : new Team({}), members : [] }));

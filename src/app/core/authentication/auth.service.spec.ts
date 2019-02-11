@@ -41,8 +41,8 @@ describe("auth.service.ts", () => {
                 Auth,
                 {
                     provide: Router, useClass: class {
-                        navigate = jasmine.createSpy("navigate");
-                        navigateByUrl = jasmine.createSpy("navigateByUrl");
+                        navigate = jest.fn();
+                        navigateByUrl = jest.fn();
                         events = Observable.of(new NavigationStart(0, "/next"))
                     }
                 },

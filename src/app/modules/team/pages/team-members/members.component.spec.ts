@@ -70,8 +70,8 @@ describe("members.component.ts", () => {
                     {
                         provide: LoaderService,
                         useClass: class {
-                            hide = jasmine.createSpy("hide")
-                            show = jasmine.createSpy("show")
+                            hide = jest.fn()
+                            show = jest.fn()
                         },
                         deps: [NgProgress]
                     }, 

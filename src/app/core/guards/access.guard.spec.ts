@@ -24,7 +24,7 @@ describe("access.guard.ts", () => {
                 AccessGuard, UserFactory, ErrorService,
                 Intercom, IntercomConfig,
                 { provide: Auth, useClass: AuthStub },
-                { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } },
+                { provide: Router, useClass: class { navigate = jest.fn(); } },
                 {
                     provide: Http,
                     useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
@@ -68,11 +68,7 @@ describe("access.guard.ts", () => {
         }));
 
         it("should return true when user is authorized to access a given team", inject([AccessGuard, Auth, Router], (target: AccessGuard, mockAuth: AuthStub, mockRouter: Router) => {
-            // let route = jasmine.createSpyObj<ActivatedRouteSnapshot>("route", ["params"]);
-
-            // route.params["teamid"] = "team1";
-            // let state = jasmine.createSpyObj<RouterStateSnapshot>("state", { url: "", toString: "" });
-
+    
             let route = TestBed.get(ActivatedRouteSnapshot);
             route.params = {
                 "teamid": "team1"
@@ -90,11 +86,7 @@ describe("access.guard.ts", () => {
         }));
 
         it("should return false when user is not authorized to a workspace then redirect to /unauthorized", inject([AccessGuard, Auth, Router], (target: AccessGuard, mockAuth: AuthStub, mockRouter: Router) => {
-            // let route = jasmine.createSpyObj<ActivatedRouteSnapshot>("route", ["params"]);
-
-            // route.params["mapid"] = "id3";
-            // let state = jasmine.createSpyObj<RouterStateSnapshot>("state", { url: "", toString: "" });
-            let route = TestBed.get(ActivatedRouteSnapshot);
+          let route = TestBed.get(ActivatedRouteSnapshot);
             route.params = {
                 "mapid": "id3"
             };
@@ -113,11 +105,7 @@ describe("access.guard.ts", () => {
         }));
 
         it("should return false when user is not authorized to a team then redirect to /unauthorized", inject([AccessGuard, Auth, Router], (target: AccessGuard, mockAuth: AuthStub, mockRouter: Router) => {
-            // let route = jasmine.createSpyObj<ActivatedRouteSnapshot>("route", ["params"]);
-
-            // route.params["teamid"] = "team3";
-            // let state = jasmine.createSpyObj<RouterStateSnapshot>("state", { url: "", toString: "" });
-            let route = TestBed.get(ActivatedRouteSnapshot);
+          let route = TestBed.get(ActivatedRouteSnapshot);
             route.params = {
                 "teamid": "team3"
             };

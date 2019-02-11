@@ -58,15 +58,15 @@ describe("signup.component.ts", () => {
                     },
                     {
                         provide: Router, useClass: class {
-                            navigate = jasmine.createSpy("navigate");
+                            navigate = jest.fn();
                             events = Observable.of(new NavigationStart(0, "/next"))
                         }
                     },
                     {
                         provide : LoaderService, 
                         useClass : class{
-                            hide = jasmine.createSpy("hide")
-                            show = jasmine.createSpy("show")
+                            hide = jest.fn()
+                            show = jest.fn()
                         },
                         deps : [NgProgress]
                     },
