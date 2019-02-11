@@ -46,6 +46,6 @@ jobs:
           name: Run tests
           command: |
               ./cc-test-reporter before-build
-              npm test -- --runInBand
+              npm run test:coverage -- --runInBand
               ./cc-test-reporter format-coverage -t lcov ./coverage/lcov.info
               ./cc-test-reporter upload-coverage
