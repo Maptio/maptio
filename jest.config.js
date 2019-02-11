@@ -13,9 +13,9 @@ module.exports = {
     moduleNameMapper: {
         "^lodash-es$": "lodash"
     },
-    coverageReporters : ["html","text-summary","lcov"],
+    coverageReporters: ["html", "text-summary", "lcov"],
     collectCoverageFrom: [
         "<rootDir>/src/app/**/*.ts"
-      ]
+    ]
 };
 
