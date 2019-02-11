@@ -61,7 +61,6 @@ export class AuthHttpInterceptor extends AuthHttp {
 
     intercept(observable: Observable<Response>): Observable<Response> {
         return observable.catch((err, source) => {
-            console.error(err);
             if (this.isUnauthorized(err.status)) {
                 this.router.navigateByUrl("/unauthorized");
 
