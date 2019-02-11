@@ -15,7 +15,7 @@ module.exports = {
     },
     coverageReporters : ["html","text-summary","lcov"],
     collectCoverageFrom: [
-        "src/app/**/*.ts"
+        "<rootDir>/src/app/**/*.ts"
       ]
 };
 
