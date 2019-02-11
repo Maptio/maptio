@@ -3,7 +3,6 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const helpers = require('./helpers');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
-const GoogleFontsPlugin = require("@beyonk/google-fonts-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const PurgecssPlugin = require('purgecss-webpack-plugin');

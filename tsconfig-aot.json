@@ -18,9 +18,7 @@
       "node_modules/@types"
     ],
     "types": [
-      "jasmine",
-      "node",
-      "karma-fixture"
+      "node"
     ]
   },
   "angularCompilerOptions": {
