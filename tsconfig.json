@@ -30,12 +30,15 @@
       "node_modules/@types"
     ],
     "types": [
-      "jasmine",
+      "jest",
       "node",
       "karma-fixture"
     ]
   },
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "config",
+    "coverage",
+    "routes"
   ]
 }

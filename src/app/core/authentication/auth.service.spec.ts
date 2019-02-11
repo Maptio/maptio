@@ -1,15 +1,11 @@
 import { encodeTestToken } from "angular2-jwt/angular2-jwt-test-helpers";
-import { TestBed, inject, fakeAsync } from "@angular/core/testing";
+import { TestBed, inject, async } from "@angular/core/testing";
 import { AuthConfiguration } from "./auth.config";
 import { Auth } from "./auth.service";
 import { UserFactory } from "../http/user/user.factory";
 import { DatasetFactory } from "../http/map/dataset.factory";
-import { JwtEncoder } from "../../shared/services/encoding/jwt.service";
-import { MailingService } from "../../shared/services/mailing/mailing.service";
-import { LoaderService } from "../../shared/components/loading/loader.service";
 import { NgProgress, NgProgressModule } from "@ngx-progressbar/core";
 import { PermissionService } from "../../shared/model/permission.data";
-import { Intercom, IntercomConfig } from "ng-intercom";
 import { Router, NavigationStart } from "@angular/router";
 import { Observable } from "rxjs";
 import { Http, Response, BaseRequestOptions, RequestMethod, ResponseOptions } from "@angular/http";
@@ -17,12 +13,12 @@ import { MockBackend, MockConnection } from "@angular/http/testing";
 import { AuthHttp } from "angular2-jwt";
 import { authHttpServiceFactoryTesting } from "../mocks/authhttp.helper.shared";
 import { ErrorService } from "../../shared/services/error/error.service";
-import { Angulartics2Mixpanel, Angulartics2Module } from "angulartics2";
 import { RouterTestingModule } from "@angular/router/testing";
-import { FullstoryModule } from "ngx-fullstory";
 import { environment } from "../../config/environment";
 import { User } from "../../shared/model/user.data";
-
+import { AnalyticsModule } from "../analytics.module";
+import { CoreModule } from "../core.module";
+import { SharedModule } from "../../shared/shared.module";
 
 describe("auth.service.ts", () => {
 
@@ -32,12 +28,6 @@ describe("auth.service.ts", () => {
     const validToken = encodeTestToken({
         "exp": 9999999999
     });
-    // const noExpiryToken = encodeTestToken({
-    //     "sub": "1234567890",
-    //     "name": "John Doe",
-    //     "admin": true
-    // });
-
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -48,8 +38,7 @@ describe("auth.service.ts", () => {
                         getAccessToken() { return; }
                     }
                 },
-                Auth, UserFactory, DatasetFactory, JwtEncoder, MailingService, LoaderService,NgProgress,  PermissionService,
-                Intercom, IntercomConfig,
+                Auth,
                 {
                     provide: Router, useClass: class {
                         navigate = jasmine.createSpy("navigate");
@@ -71,21 +60,9 @@ describe("auth.service.ts", () => {
                 },
                 MockBackend,
                 BaseRequestOptions,
-                ErrorService,
-                Angulartics2Mixpanel //, Angulartics2
+                ErrorService
             ],
-            imports: [RouterTestingModule, NgProgressModule, 
-                // IntercomModule.forRoot({
-                //     appId: "",
-                //     updateOnRouterChange: true
-                // }),
-                Angulartics2Module.forRoot([Angulartics2Mixpanel]),
-                FullstoryModule.forRoot({
-                    fsOrg: "",
-                    fsNameSpace: '',
-                    fsDebug: false,
-                    fsHost: ''
-                })]
+            imports: [RouterTestingModule, NgProgressModule, AnalyticsModule, CoreModule, SharedModule]
         });
 
         localStorage.clear();
@@ -94,96 +71,96 @@ describe("auth.service.ts", () => {
     describe("logout", () => {
 
         it("should redirect to /logout", inject([Auth, Router], (auth: Auth, router: Router) => {
-            // spyOn(auth, "shutDownIntercom");
             auth.logout();
             expect(router.navigateByUrl).toHaveBeenCalledWith("/logout");
-            // expect(auth.shutDownIntercom).toHaveBeenCalled();
         }));
     });
 
     describe("authenticationProviderAuthenticated", () => {
         it("should return false when token is expired", inject([Auth, Router], (auth: Auth, router: Router) => {
-            spyOn(localStorage, "getItem").and.returnValue(expiredToken)
+            window.localStorage.clear();
+            window.localStorage.setItem("access_token", JSON.stringify(expiredToken));
             expect(auth.authenticationProviderAuthenticated()).toBe(false);
-            expect(localStorage.getItem).toHaveBeenCalledWith("access_token")
         }))
 
         it("should return true when token is not expired", inject([Auth, Router], (auth: Auth, router: Router) => {
-            spyOn(localStorage, "getItem").and.returnValue(validToken)
+            window.localStorage.clear();
+            window.localStorage.setItem("access_token", JSON.stringify(validToken));
             expect(auth.authenticationProviderAuthenticated()).toBe(true);
-            expect(localStorage.getItem).toHaveBeenCalledWith("access_token")
         }))
     });
 
     describe("internalApiAuthenticated", () => {
         it("should return false when token is expired", inject([Auth, Router], (auth: Auth, router: Router) => {
-            spyOn(localStorage, "getItem").and.returnValue(expiredToken)
-            expect(auth.internalApiAuthenticated()).toBe(false);
-            expect(localStorage.getItem).toHaveBeenCalledWith("maptio_api_token")
+            window.localStorage.clear();
+            window.localStorage.setItem("maptio_api_token", JSON.stringify(expiredToken));
+            expect(auth.authenticationProviderAuthenticated()).toBe(false);
         }))
 
         it("should return true when token is not expired", inject([Auth, Router], (auth: Auth, router: Router) => {
-            spyOn(localStorage, "getItem").and.returnValue(validToken)
-            expect(auth.internalApiAuthenticated()).toBe(true);
-            expect(localStorage.getItem).toHaveBeenCalledWith("maptio_api_token")
+            window.localStorage.clear();
+            window.localStorage.setItem("maptio_api_token", JSON.stringify(validToken));
+            expect(auth.authenticationProviderAuthenticated()).toBe(false);
         }))
     });
 
     describe("authenticated", () => {
         it("should return false when token is expired", inject([Auth, Router], (auth: Auth, router: Router) => {
-            spyOn(localStorage, "getItem").and.returnValue(expiredToken)
-            expect(auth.authenticated()).toBe(false);
-            expect(localStorage.getItem).toHaveBeenCalledWith("id_token")
+            window.localStorage.clear();
+            window.localStorage.setItem("id_token", JSON.stringify(expiredToken));
+            expect(auth.authenticationProviderAuthenticated()).toBe(false);
         }))
 
         it("should return true when token is not expired", inject([Auth, Router], (auth: Auth, router: Router) => {
-            spyOn(localStorage, "getItem").and.returnValue(validToken)
-            expect(auth.authenticated()).toBe(true);
-            expect(localStorage.getItem).toHaveBeenCalledWith("id_token")
+            window.localStorage.clear();
+            window.localStorage.setItem("id_token", JSON.stringify(validToken));
+            expect(auth.authenticationProviderAuthenticated()).toBe(false);
         }))
     });
 
     describe("allAuthenticated", () => {
         it("should return true when all tokens are valid", inject([Auth, Router], (auth: Auth, router: Router) => {
-            spyOn(localStorage, "getItem").and.returnValue(validToken)
+            window.localStorage.clear();
+            window.localStorage.setItem("maptio_api_token", JSON.stringify(validToken));
+            window.localStorage.setItem("id_token", JSON.stringify(validToken));
+            window.localStorage.setItem("access_token", JSON.stringify(validToken));
+
             expect(auth.allAuthenticated()).toBe(true);
-            expect(localStorage.getItem).toHaveBeenCalledTimes(3)
         }))
 
         it("should return false when id_token is not expired", inject([Auth, Router], (auth: Auth, router: Router) => {
-            spyOn(localStorage, "getItem").and.callFake((tokenName: string) => {
-                if (tokenName === "id_token") {
-                    return expiredToken
-                }
-                return validToken
-            })
+            window.localStorage.clear();
+            window.localStorage.setItem("maptio_api_token", JSON.stringify(validToken));
+            window.localStorage.setItem("id_token", JSON.stringify(expiredToken));
+            window.localStorage.setItem("access_token", JSON.stringify(validToken));
+
             expect(auth.allAuthenticated()).toBe(false);
         }))
 
         it("should return false when maptio_api_token is not expired", inject([Auth, Router], (auth: Auth, router: Router) => {
-            spyOn(localStorage, "getItem").and.callFake((tokenName: string) => {
-                if (tokenName === "maptio_api_token") {
-                    return expiredToken
-                }
-                return validToken
-            })
-            expect(auth.allAuthenticated()).toBe(false);
+            window.localStorage.clear();
+            window.localStorage.setItem("maptio_api_token", JSON.stringify(expiredToken));
+            window.localStorage.setItem("id_token", JSON.stringify(validToken));
+            window.localStorage.setItem("access_token", JSON.stringify(validToken));
+
+             expect(auth.allAuthenticated()).toBe(false);
         }))
 
         it("should return false when access_token is not expired", inject([Auth, Router], (auth: Auth, router: Router) => {
-            spyOn(localStorage, "getItem").and.callFake((tokenName: string) => {
-                if (tokenName === "access_token") {
-                    return expiredToken
-                }
-                return validToken
-            })
+            window.localStorage.clear();
+            window.localStorage.setItem("maptio_api_token", JSON.stringify(validToken));
+            window.localStorage.setItem("id_token", JSON.stringify(validToken));
+            window.localStorage.setItem("access_token", JSON.stringify(expiredToken));
+
             expect(auth.allAuthenticated()).toBe(false);
         }))
     });
 
     describe("loginMaptioApi", () => {
         it("should call correct dependencies when email and password are provided", inject([Auth, AuthConfiguration], (target: Auth, configuration: AuthConfiguration) => {
-            let client = jasmine.createSpyObj("client", ["login"])
+            let client = {
+                login : jest.fn()
+            }
             spyOn(configuration, "getWebAuth").and.returnValue({ client: client })
 
             target.loginMaptioApi("iam@company.com", "secret")
@@ -197,7 +174,9 @@ describe("auth.service.ts", () => {
         }));
 
         it("should do nothing if email and password are not provided", inject([Auth, AuthConfiguration], (target: Auth, configuration: AuthConfiguration) => {
-            let client = jasmine.createSpyObj("client", ["login"])
+            let client = {
+                login : jest.fn()
+            }
             spyOn(configuration, "getWebAuth").and.returnValue({ client: client })
 
             target.loginMaptioApi("", "")
@@ -206,8 +185,7 @@ describe("auth.service.ts", () => {
     });
 
     describe("getUserInfo", () => {
-        it("should return user info", fakeAsync(inject([Auth, Http, AuthConfiguration, MockBackend], (target: Auth, http: Http, configuration: AuthConfiguration, mockBackend: MockBackend) => {
-
+        it("should return user info", async(inject([Auth, AuthConfiguration, MockBackend], (target: Auth, configuration: AuthConfiguration, mockBackend: MockBackend) => {
             const mockResponse = { user_id: "FOUND_ID" };
 
             mockBackend.connections.subscribe((connection: MockConnection) => {
@@ -224,7 +202,7 @@ describe("auth.service.ts", () => {
                 }
             });
 
-            let spyAccessToken = spyOn(configuration, "getAccessToken").and.returnValue(Promise.resolve("token"))
+            let spyAccessToken = jest.spyOn(configuration, "getAccessToken").mockReturnValue(Promise.resolve("token"));
 
             target.getUserInfo("ID")
                 .then((result) => {
@@ -236,7 +214,7 @@ describe("auth.service.ts", () => {
     });
 
     describe("getUser", () => {
-        it("should make calls to build user when profile is in localStorage and return user", fakeAsync(inject([Auth, Http, AuthConfiguration, MockBackend, UserFactory, DatasetFactory, PermissionService], (target: Auth, http: Http, configuration: AuthConfiguration, mockBackend: MockBackend, userFactory: UserFactory, datasetFactory: DatasetFactory, permissionsService: PermissionService) => {
+        it("should make calls to build user when profile is in localStorage and return user", async(inject([Auth, Http, AuthConfiguration, MockBackend, UserFactory, DatasetFactory, PermissionService], (target: Auth, http: Http, configuration: AuthConfiguration, mockBackend: MockBackend, userFactory: UserFactory, datasetFactory: DatasetFactory, permissionsService: PermissionService) => {
             spyOn(localStorage, "getItem").and.returnValue(`{ "user_id": "ID" }`);
             let spyGetUserInfo = spyOn(target, "getUserInfo").and.returnValue(Promise.resolve(new User({ user_id: "ID", name: "Jane Doe" })))
             let spyGetUserDb = spyOn(userFactory, "get").and.returnValue(Promise.resolve(new User({ user_id: "ID", name: "Jane Doe", teams: ["t1", "t2", "t3"], shortid: "short" })))
@@ -256,7 +234,7 @@ describe("auth.service.ts", () => {
             })
         })));
 
-        it("should do nothing when profile is in localStorage and return undefined", fakeAsync(inject([Auth, Http, AuthConfiguration, MockBackend, UserFactory, DatasetFactory], (target: Auth, http: Http, configuration: AuthConfiguration, mockBackend: MockBackend, userFactory: UserFactory, datasetFactory: DatasetFactory) => {
+        it("should do nothing when profile is in localStorage and return undefined", async(inject([Auth, Http, AuthConfiguration, MockBackend, UserFactory, DatasetFactory], (target: Auth, http: Http, configuration: AuthConfiguration, mockBackend: MockBackend, userFactory: UserFactory, datasetFactory: DatasetFactory) => {
             spyOn(localStorage, "getItem").and.returnValue(undefined);
             spyOn(target, "getUserInfo").and.returnValue(Promise.resolve(new User({ user_id: "ID", name: "Jane Doe" })))
             spyOn(userFactory, "get").and.returnValue(Promise.resolve(new User({ user_id: "ID", name: "Jane Doe", teams: ["t1", "t2", "t3"], shortid: "short" })))

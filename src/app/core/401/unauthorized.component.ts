@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
-import { Subscription, Observable } from "rxjs";
+import { Subscription, Observable, timer } from "rxjs";
 import { Router } from "@angular/router";
 
 @Component({
@@ -12,7 +12,7 @@ export class UnauthorizedComponent implements OnInit {
     constructor(private cd:ChangeDetectorRef, private roouter:Router) { }
 
     ngOnInit() { 
-        this.subscription = Observable.timer(1000, 1000).subscribe(i =>{
+        this.subscription = timer(1000, 1000).subscribe(i =>{
             this.timeToRedirect -= 1;
             this.cd.markForCheck();
 

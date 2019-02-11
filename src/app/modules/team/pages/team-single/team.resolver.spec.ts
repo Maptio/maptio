@@ -1,6 +1,5 @@
 import { TestBed, async, inject } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
-import { Angulartics2Module, Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { NgProgressModule, NgProgress } from "@ngx-progressbar/core";
 import { IntercomModule } from "ng-intercom";
 import { TeamComponentResolver } from "./team.resolver";
@@ -18,18 +17,19 @@ import { AuthHttp } from "angular2-jwt";
 import { authHttpServiceFactoryTesting } from "../../../../core/mocks/authhttp.helper.shared";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { MockBackend } from "@angular/http/testing";
-import { Fullstory, FullstoryConfig } from "ngx-fullstory";
+import { Fullstory, FullstoryConfig } from "ng-fullstory";
 import { DataSet } from "../../../../shared/model/dataset.data";
 import { Initiative } from "../../../../shared/model/initiative.data";
 import { Team } from "../../../../shared/model/team.data";
 import { User } from "../../../../shared/model/user.data";
 import { ActivatedRouteSnapshot } from "@angular/router";
+import { AnalyticsModule } from "../../../../core/analytics.module";
 
 describe("team.resolver.ts", () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [RouterTestingModule,Angulartics2Module, NgProgressModule,  IntercomModule.forRoot({
+            imports: [RouterTestingModule,AnalyticsModule, NgProgressModule,  IntercomModule.forRoot({
                 appId: "",
                 updateOnRouterChange: true
             })],
@@ -54,9 +54,7 @@ describe("team.resolver.ts", () => {
                     deps: [MockBackend, BaseRequestOptions]
                 },
                 MockBackend,
-                BaseRequestOptions,
-                Angulartics2Mixpanel, Angulartics2,
-                Fullstory, FullstoryConfig
+                BaseRequestOptions
                 // ErrorService
             ]
         });

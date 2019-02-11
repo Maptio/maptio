@@ -37,9 +37,9 @@ export class DashboardComponent {
         this.filterMaps$ = new Subject<string>();
     }
 
-    private _teams: Team[];
+    private _teams: Team[]=[];
     private _nonExampleTeams: Team[];
-    private _datasets: DataSet[]
+    private _datasets: DataSet[]=[]
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes.datasets && changes.datasets.currentValue) {

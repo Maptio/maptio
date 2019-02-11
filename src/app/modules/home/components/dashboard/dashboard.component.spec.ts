@@ -15,6 +15,10 @@ import { authHttpServiceFactoryTesting } from "../../../../core/mocks/authhttp.h
 import { Http, BaseRequestOptions } from "@angular/http";
 import { MockBackend } from "@angular/http/testing";
 import { ErrorService } from "../../../../shared/services/error/error.service";
+import { SharedModule } from "../../../../shared/shared.module";
+import { CoreModule } from "../../../../core/core.module";
+import { RouterTestingModule } from "@angular/router/testing";
+import { AnalyticsModule } from "../../../../core/analytics.module";
 
 describe("dashboard.component.ts", () => {
 
@@ -26,18 +30,17 @@ describe("dashboard.component.ts", () => {
     beforeEach(async(() => {
 
         TestBed.configureTestingModule({
+            imports : [ RouterTestingModule, AnalyticsModule, SharedModule, CoreModule],
             declarations: [DashboardComponent],
             schemas: [NO_ERRORS_SCHEMA]
         }).overrideComponent(DashboardComponent, {
             set: {
                 providers: [
-                    DatasetFactory, TeamFactory, ExportService,
                     {
                         provide: ActivatedRoute, useClass: class {
                             get data() { return datasets$.asObservable() };
                         }
                     },
-                    PermissionService,
                     { provide: Auth, useClass: class { getUser() { return user$.asObservable() } } },
                     {
                         provide: AuthHttp,
@@ -59,16 +62,20 @@ describe("dashboard.component.ts", () => {
         }).compileComponents();
     }));
 
-    // beforeEach(() => {
-    //     target = TestBed.createComponent(DashboardComponent);
-    //     component = target.componentInstance;
-    //     spyOn(target.debugElement.injector.get(DashboardComponentResolver), "resolve")
-    //         .and.returnValue(Observable.of([
-    //             new DataSet({ datasetId: "1", initiative: new Initiative({ id: 1 }) }),
-    //             new DataSet({ datasetId: "2", initiative: new Initiative({ id: 2 }) })]))
+    beforeEach(() => {
+        target = TestBed.createComponent(DashboardComponent);
+        component = target.componentInstance;
 
-    //     target.detectChanges();
-    // });
+        component.teams = [];
+        component.datasets = [];
+        target.detectChanges();
+    });
+
+    it('should create component', () => {
+        expect(component).toBeDefined()
+    });
+
+    
 
     // it("should get datasets from resolver", () => {
     //     expect(component.datasets).toBeDefined();

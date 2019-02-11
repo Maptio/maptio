@@ -14,7 +14,9 @@ import { Http, BaseRequestOptions } from "@angular/http";
 import { MockBackend } from "@angular/http/testing";
 import { User } from "../../../../shared/model/user.data";
 import { Observable } from "rxjs/Observable";
-import { IntercomModule } from "ng-intercom";
+import { AnalyticsModule } from "../../../../core/analytics.module";
+import { CoreModule } from "../../../../core/core.module";
+import { PermissionsModule } from "../../../../shared/permissions.module";
 
 class MockActivatedRoute implements ActivatedRoute {
     paramMap: Observable<ParamMap>;
@@ -57,10 +59,7 @@ describe("settings.component.ts", () => {
         TestBed.configureTestingModule({
             declarations: [TeamSettingsComponent],
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [RouterTestingModule, SharedModule,  IntercomModule.forRoot({
-                appId: "",
-                updateOnRouterChange: true
-            })]
+            imports: [RouterTestingModule, SharedModule,  AnalyticsModule, CoreModule, PermissionsModule]
         }).overrideComponent(TeamSettingsComponent, {
             set: {
                 providers: [
@@ -72,7 +71,6 @@ describe("settings.component.ts", () => {
                             }
                         }
                     },
-                    TeamFactory,
                     {
                         provide: AuthHttp,
                         useFactory: authHttpServiceFactoryTesting,
@@ -94,7 +92,6 @@ describe("settings.component.ts", () => {
                             parent = new MockActivatedRoute()
                         }
                     }
-                    // Angulartics2Mixpanel, Angulartics2
                 ]
             }
         }).compileComponents();

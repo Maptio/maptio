@@ -7,6 +7,8 @@ import { LoaderService } from "./shared/components/loading/loader.service";
 import { Auth } from "./core/authentication/auth.service";
 import { Router, NavigationEnd } from "@angular/router";
 import { Observable } from "rxjs";
+import { AnalyticsModule } from "./core/analytics.module";
+import { CoreModule } from "./core/core.module";
 
 describe("app.component.ts", () => {
 
@@ -20,7 +22,7 @@ describe("app.component.ts", () => {
 
         TestBed.configureTestingModule({
             declarations: [AppComponent],
-            imports: [RouterTestingModule],
+            imports: [RouterTestingModule, AnalyticsModule, CoreModule],
             schemas: [NO_ERRORS_SCHEMA]
         }).overrideComponent(AppComponent, {
             set: {

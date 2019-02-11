@@ -10,6 +10,7 @@ import { DataSet } from "../../model/dataset.data";
 import { Team } from "../../model/team.data";
 import { ExportService } from "./export.service";
 import { authHttpServiceFactoryTesting } from "../../../core/mocks/authhttp.helper.shared";
+const fixtures = require("./fixtures/data.json");
 
 describe("export.service.ts", () => {
 
@@ -38,17 +39,17 @@ describe("export.service.ts", () => {
         });
     })
 
-    beforeAll(() => {
-        fixture.setBase("src/app/shared/services/export/fixtures");
-    });
+    // beforeAll(() => {
+    //     fixture.setBase("src/app/shared/services/export/fixtures");
+    // });
 
-    afterEach(() => {
-        fixture.cleanup();
-    });
+    // afterEach(() => {
+    //     fixture.cleanup();
+    // });
 
     describe("getReport", () => {
         it("exports", inject([ExportService], (target: ExportService) => {
-            let data = new Initiative().deserialize(fixture.load("data.json"));
+            let data = new Initiative().deserialize(fixtures);
             let team = new Team({ settings: { authority: "dRiveR", helper: "backSeaT" } })
             let dataset = new DataSet({ datasetId: "ID", initiative: data, team: team });
             target.getReport(dataset).subscribe(exported => {

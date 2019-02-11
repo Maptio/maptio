@@ -1,20 +1,12 @@
 import { InitiativeComponent } from "./initiative.component";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 import { Initiative } from "../../../../../shared/model/initiative.data";
-import { SharedModule } from "../../../../../shared/shared.module";
-import { NgbTypeaheadModule } from "@ng-bootstrap/ng-bootstrap";
-import { FormsModule } from "@angular/forms";
 import { RouterTestingModule } from "@angular/router/testing";
-import { MarkdownModule } from "ngx-markdown";
 import { TeamFactory } from "../../../../../core/http/team/team.factory";
 import { UserFactory } from "../../../../../core/http/user/user.factory";
 import { DatasetFactory } from "../../../../../core/http/map/dataset.factory";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { MockBackend } from "@angular/http/testing";
-import { UserService } from "../../../../../shared/services/user/user.service";
-import { JwtEncoder } from "../../../../../shared/services/encoding/jwt.service";
-import { MailingService } from "../../../../../shared/services/mailing/mailing.service";
-import { AuthConfiguration } from "../../../../../core/authentication/auth.config";
 import { ErrorService } from "../../../../../shared/services/error/error.service";
 import { AuthHttp } from "angular2-jwt";
 import { authHttpServiceFactoryTesting } from "../../../../../core/mocks/authhttp.helper.shared";
@@ -25,6 +17,10 @@ import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { Helper } from "../../../../../shared/model/helper.data";
 import { Role } from "../../../../../shared/model/role.data";
 import { Tag } from "../../../../../shared/model/tag.data";
+import { WorkspaceModule } from "../../../workspace.module";
+import { AnalyticsModule } from "../../../../../core/analytics.module";
+import { SharedModule } from "../../../../../shared/shared.module";
+import { CoreModule } from "../../../../../core/core.module";
 
 describe("initiative.component.ts", () => {
 
@@ -34,8 +30,8 @@ describe("initiative.component.ts", () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [SharedModule, NgbTypeaheadModule, FormsModule, RouterTestingModule, MarkdownModule.forRoot()],
-            declarations: [InitiativeComponent],
+            imports: [RouterTestingModule, AnalyticsModule, SharedModule, WorkspaceModule, CoreModule ],
+            declarations: [],
             providers: [TeamFactory, UserFactory, DatasetFactory,
                 {
                     provide: Http,
@@ -44,7 +40,6 @@ describe("initiative.component.ts", () => {
                     },
                     deps: [MockBackend, BaseRequestOptions]
                 },
-                UserService, JwtEncoder, MailingService, AuthConfiguration,
                 MockBackend,
                 BaseRequestOptions,
                 ErrorService,

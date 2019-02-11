@@ -1,8 +1,16 @@
-import { SignupComponent } from "../../../login/pages/sign-up/signup.page";
 import { HomeComponent } from "./home.page";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
-import { Auth } from "../../../../core/authentication/auth.service";
 import { DashboardComponent } from "../../components/dashboard/dashboard.component";
+import { RouterTestingModule } from "@angular/router/testing";
+import { SanitizerModule } from "../../../../shared/sanitizer.module";
+import { ReactiveFormsModule } from "@angular/forms";
+import { PermissionsModule } from "../../../../shared/permissions.module";
+import { CreateMapModule } from "../../../../shared/create-map.module";
+import { OnboardingModule } from "../../../../shared/onboarding.module";
+import { CoreModule } from "../../../../core/core.module";
+import { AnalyticsModule } from "../../../../core/analytics.module";
+import { HomeModule } from "../../home.module";
+import { SharedModule } from "../../../../shared/shared.module";
 
 export class AuthStub {
     authenticate() {
@@ -21,13 +29,9 @@ describe("home.component.ts", () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [HomeComponent, SignupComponent, DashboardComponent]
-        }).overrideComponent(HomeComponent, {
-            set: {
-                providers: [
-                    { provide: Auth, useClass: AuthStub }
-                ]
-            }
+            imports : [ReactiveFormsModule,RouterTestingModule,CreateMapModule,
+                CoreModule, SharedModule, AnalyticsModule, PermissionsModule, SanitizerModule],
+            declarations: [HomeComponent, DashboardComponent]
         }).compileComponents();
     }));
 
@@ -37,5 +41,9 @@ describe("home.component.ts", () => {
 
         target.detectChanges();
 
+    });
+
+    it('should create component', () => {
+        expect(component).toBeDefined()
     });
 });

@@ -16,7 +16,7 @@ import { tokenNotExpired } from "angular2-jwt/angular2-jwt";
 import { uniq } from "lodash-es";
 import * as LogRocket from "logrocket";
 import { Intercom } from "ng-intercom";
-import { Fullstory } from "ngx-fullstory";
+import { Fullstory } from "ng-fullstory";
 
 @Injectable()
 export class Auth {
@@ -48,8 +48,6 @@ export class Auth {
 
   public logout(): void {
     this.analytics.eventTrack("Logout", {});
-    // this.shutDownIntercom();
-    // this.intercom.shutdown();
     this.fullstory.logout();
     this.router.navigateByUrl("/logout");
     this.user$.unsubscribe();
@@ -73,10 +71,6 @@ export class Auth {
     })
 
   }
-
-  // public shutDownIntercom() {
-  //     (<any>window).Intercom("shutdown");
-  // }
 
   /**
    * Checks if Auth0 Management API is still valid

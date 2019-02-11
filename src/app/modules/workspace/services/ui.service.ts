@@ -117,7 +117,7 @@ export class UIService {
   }
 
   public clean() {
-    select("svg")
+    selectAll("svg")
       .selectAll("*")
       .remove();
     selectAll("div.arrow_box").remove();

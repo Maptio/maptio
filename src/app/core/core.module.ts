@@ -19,7 +19,7 @@ import { authHttpServiceFactory } from '../shared/services/auth/auth.module';
 import { Http, RequestOptions, HttpModule } from '@angular/http';
 import { BreadcrumbsModule, Breadcrumb, BreadcrumbsConfig } from '@exalif/ngx-breadcrumbs';
 import { RouterModule } from '@angular/router';
-import { DeviceDetectorModule } from 'ngx-device-detector';
+import { DeviceDetectorModule, DeviceDetectorService } from 'ngx-device-detector';
 import { LoaderComponent } from '../shared/components/loading/loader.component';
 import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressRouterModule } from '@ngx-progressbar/router';
@@ -47,7 +47,8 @@ import { HttpFactoryModule } from './interceptors/httpInterceptor';
     exports: [
         HeaderComponent,
         FooterComponent,
-        LoaderComponent
+        LoaderComponent,
+        DeviceDetectorModule
     ],
     providers: [
         Auth, AuthConfiguration,
@@ -58,7 +59,8 @@ import { HttpFactoryModule } from './interceptors/httpInterceptor';
             useFactory: authHttpServiceFactory,
             deps: [Http, RequestOptions]
         },
-        MappingSummaryBreadcrumbs
+        MappingSummaryBreadcrumbs,
+        DeviceDetectorService
 
     ],
 })

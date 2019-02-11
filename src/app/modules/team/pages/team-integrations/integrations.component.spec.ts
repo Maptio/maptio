@@ -18,6 +18,8 @@ import { MockBackend } from "@angular/http/testing";
 import { User } from "../../../../shared/model/user.data";
 import { Observable } from "rxjs/Observable";
 import { IntercomModule } from "ng-intercom";
+import { AnalyticsModule } from "../../../../core/analytics.module";
+import { PermissionsModule } from "../../../../shared/permissions.module";
 
 class MockActivatedRoute implements ActivatedRoute {
     paramMap: Observable<ParamMap>;
@@ -64,10 +66,7 @@ describe("integrations.component.ts", () => {
         TestBed.configureTestingModule({
             declarations: [TeamIntegrationsComponent],
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [RouterTestingModule, SharedModule, IntercomModule.forRoot({
-                appId: "",
-                updateOnRouterChange: true
-            })]
+            imports: [RouterTestingModule, SharedModule, AnalyticsModule, PermissionsModule]
         }).overrideComponent(TeamIntegrationsComponent, {
             set: {
                 providers: [

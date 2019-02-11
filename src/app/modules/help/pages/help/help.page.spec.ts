@@ -1,8 +1,12 @@
 import { ComponentFixture, TestBed, async } from "@angular/core/testing";
 import { DebugElement } from "@angular/core"
-import { FormsModule } from "@angular/forms";
 import { By } from "@angular/platform-browser";
 import { HelpComponent } from "./help.page";
+import { CoreModule } from "../../../../core/core.module";
+import { RouterTestingModule } from "@angular/router/testing";
+import { SharedModule } from "../../../../shared/shared.module";
+import { AnalyticsModule } from "../../../../core/analytics.module";
+import { OnboardingModule } from "../../../../shared/onboarding.module";
 
 describe("help.component.ts", () => {
 
@@ -13,7 +17,7 @@ describe("help.component.ts", () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [FormsModule],
+            imports: [RouterTestingModule, CoreModule, SharedModule, AnalyticsModule],
             declarations: [HelpComponent]
         })
             .compileComponents()
@@ -23,12 +27,13 @@ describe("help.component.ts", () => {
     beforeEach(() => {
         target = TestBed.createComponent(HelpComponent);
         component = target.componentInstance;
-        de = target.debugElement.query(By.css("modal"));
-        el = de.nativeElement;
 
         target.detectChanges(); // trigger initial data binding
     });
 
+    it('should create component', () => {
+        expect(component).toBeDefined()
+    });
 
 
 });

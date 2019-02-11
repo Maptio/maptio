@@ -1,4 +1,4 @@
-import { Router, RouterStateSnapshot } from "@angular/router";
+import { Router, RouterStateSnapshot, ActivatedRouteSnapshot } from "@angular/router";
 import { ErrorService } from "../../shared/services/error/error.service";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { UserFactory } from "../http/user/user.factory";
@@ -21,6 +21,8 @@ describe("auth.guard.ts", () => {
             providers: [
                 AuthGuard, UserFactory, ErrorService,
                 { provide: Auth, useClass: AuthStub },
+                {provide : ActivatedRouteSnapshot, useClass : class {}},
+                {provide : RouterStateSnapshot, useClass : class {}},
                 { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } },
                 {
                     provide: Http,
@@ -39,9 +41,15 @@ describe("auth.guard.ts", () => {
 
     describe("canActivate", () => {
         it("should return true when user is authenticated and api is authenticated", inject([AuthGuard, Auth, Router], (target: AuthGuard, mockAuth: AuthStub, mockRouter: Router) => {
-            let route = jasmine.createSpyObj("route", [""]);
-            let state = jasmine.createSpyObj<RouterStateSnapshot>("state", {url : "", toString : ""});
+            // let route = jasmine.createSpyObj("route", [""]);
+            // let state = jasmine.createSpyObj<RouterStateSnapshot>("state", {url : "", toString : ""});
+            let route = TestBed.get(ActivatedRouteSnapshot);
+            // route.params = {
+            //     "mapid": "id3"
+            // };
 
+            let state = TestBed.get(RouterStateSnapshot) ;
+            
             let spyAuth = spyOn(mockAuth, "allAuthenticated").and.returnValue(true);
 
             expect(target.canActivate(route, state)).toBe(true);

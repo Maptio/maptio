@@ -5,7 +5,7 @@ import { User } from "../../../../shared/model/user.data";
 import { PermissionsDirective } from "../../../../shared/directives/permission.directive";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { RouterTestingModule } from "@angular/router/testing";
-import { Angulartics2Module, Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
+import {Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { NgProgressModule, NgProgress } from "@ngx-progressbar/core";
 import { IntercomModule } from "ng-intercom";
 import { LoaderService } from "../../../../shared/components/loading/loader.service";
@@ -23,6 +23,7 @@ import { Router, NavigationStart, ActivatedRoute } from "@angular/router";
 import { MockBackend } from "@angular/http/testing";
 import { ErrorService } from "../../../../shared/services/error/error.service";
 import { Team } from "../../../../shared/model/team.data";
+import { AnalyticsModule } from "../../../../core/analytics.module";
 
 describe("team-list.component.ts", () => {
 
@@ -35,7 +36,7 @@ describe("team-list.component.ts", () => {
         TestBed.configureTestingModule({
             declarations: [TeamListComponent, PermissionsDirective],
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [RouterTestingModule, Angulartics2Module, NgProgressModule,
+            imports: [RouterTestingModule, AnalyticsModule, NgProgressModule,
                 IntercomModule.forRoot({
                     appId: "",
                     updateOnRouterChange: true

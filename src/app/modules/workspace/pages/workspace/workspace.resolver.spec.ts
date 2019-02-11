@@ -1,9 +1,9 @@
 import { TestBed, fakeAsync, inject } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
-import { Angulartics2Module, Angulartics2Mixpanel } from "angulartics2";
+import { Angulartics2Mixpanel } from "angulartics2";
 import { NgProgressModule, NgProgress } from "@ngx-progressbar/core";
 import { IntercomModule } from "ng-intercom";
-import { FullstoryModule } from "ngx-fullstory";
+import { FullstoryModule } from "ng-fullstory";
 import { WorkspaceComponentResolver } from "./workspace.resolver";
 import { Auth } from "../../../../core/authentication/auth.service";
 import { PermissionService } from "../../../../shared/model/permission.data";
@@ -24,23 +24,13 @@ import { Initiative } from "../../../../shared/model/initiative.data";
 import { Team } from "../../../../shared/model/team.data";
 import { User } from "../../../../shared/model/user.data";
 import { ActivatedRouteSnapshot } from "@angular/router";
+import { AnalyticsModule } from "../../../../core/analytics.module";
 
 describe("workspace.resolver.ts", () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [RouterTestingModule, Angulartics2Module, NgProgressModule,
-                IntercomModule.forRoot({
-                    appId: "",
-                    updateOnRouterChange: true
-                }),
-                Angulartics2Module.forRoot([Angulartics2Mixpanel]),
-                FullstoryModule.forRoot({
-                    fsOrg: "",
-                    fsNameSpace: 'FS',
-                    fsDebug: false,
-                    fsHost: 'fullstory.com'
-                })],
+            imports: [RouterTestingModule, AnalyticsModule],
             providers: [
                 WorkspaceComponentResolver,
                 Auth,

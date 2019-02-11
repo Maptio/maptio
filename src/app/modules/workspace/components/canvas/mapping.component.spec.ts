@@ -1,21 +1,11 @@
 import { MappingComponent } from "./mapping.component";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
-import { DeviceDetectorService } from "ngx-device-detector";
-import { DataService } from "../../services/data.service";
-import { ErrorService } from "../../../../shared/services/error/error.service";
-import { ColorService } from "../../services/color.service";
-import { URIService } from "../../../../shared/services/uri/uri.service";
 import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
-import { UserFactory } from "../../../../core/http/user/user.factory";
-import { ExportService } from "../../../../shared/services/export/export.service";
-import { MapSettingsService } from "../../services/map-settings.service";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { MockBackend } from "@angular/http/testing";
 import { AuthHttp } from "angular2-jwt";
 import { authHttpServiceFactoryTesting } from "../../../../core/mocks/authhttp.helper.shared";
 import { UIService } from "../../services/ui.service";
-import { MarkdownService } from "ngx-markdown";
-import { SlackService } from "../sharing/slack.service";
 import { ActivatedRoute } from "@angular/router";
 import { Observable } from "rxjs";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
@@ -24,10 +14,12 @@ import { MappingNetworkComponent } from "../../pages/network/mapping.network.com
 import { MappingSummaryComponent } from "../../pages/directory/summary.component";
 import { MappingZoomableComponent } from "../../pages/circles/mapping.zoomable.component";
 import { RouterTestingModule } from "@angular/router/testing";
-import { IntercomModule } from "ng-intercom";
 import { Team } from "../../../../shared/model/team.data";
 import { Initiative } from "../../../../shared/model/initiative.data";
 import { IDataVisualizer } from "./mapping.interface";
+import { AnalyticsModule } from "../../../../core/analytics.module";
+import { WorkspaceModule } from "../../workspace.module";
+import * as screenfull from 'screenfull';
 
 describe("mapping.component.ts", () => {
 
@@ -37,9 +29,6 @@ describe("mapping.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [
-                DeviceDetectorService,
-                DataService, ErrorService,  ColorService, URIService, Angulartics2Mixpanel, Angulartics2,
-                UserFactory, ExportService, MapSettingsService,
                 {
                     provide: Http,
                     useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
@@ -61,8 +50,6 @@ describe("mapping.component.ts", () => {
                         getCanvasHeight() { return 1000; }
                     }
                 },
-                MarkdownService,
-                SlackService,
                 BaseRequestOptions,
                 {
                     provide: ActivatedRoute,
@@ -76,12 +63,8 @@ describe("mapping.component.ts", () => {
 
             ],
             schemas: [NO_ERRORS_SCHEMA],
-            declarations: [MappingComponent, MappingTreeComponent,
-                MappingNetworkComponent, MappingSummaryComponent, MappingZoomableComponent],
-            imports: [RouterTestingModule, IntercomModule.forRoot({
-                appId: "",
-                updateOnRouterChange: true
-            })]
+            declarations: [],
+            imports: [RouterTestingModule, AnalyticsModule, WorkspaceModule]
         })
             .compileComponents()
 
@@ -90,6 +73,9 @@ describe("mapping.component.ts", () => {
     beforeEach(() => {
         target = TestBed.createComponent(MappingComponent);
         component = target.componentInstance;
+        component.fullScreenLib = {
+            on : jest.fn()
+        }
         component.VIEWPORT_WIDTH = 1000;
         component.team = new Team({ name: "team", team_id: "TEAMID" });
         target.detectChanges(); // trigger initial data binding
@@ -120,7 +106,7 @@ describe("mapping.component.ts", () => {
             });
 
             it("should return correct fragment when layout is people", () => {
-                let actual = component.getFragment(new MappingTreeComponent( undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined));
+                let actual = component.getFragment(new MappingTreeComponent(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined));
                 expect(actual).toBe(`x=${component.VIEWPORT_WIDTH / 10}&y=${component.VIEWPORT_HEIGHT / 2}&scale=1`)
             });
 

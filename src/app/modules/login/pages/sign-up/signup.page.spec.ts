@@ -9,7 +9,7 @@ import { Auth } from "../../../../core/authentication/auth.service";
 import { DatasetFactory } from "../../../../core/http/map/dataset.factory";
 import { UserFactory } from "../../../../core/http/user/user.factory";
 import { PermissionService } from "../../../../shared/model/permission.data";
-import { Fullstory, FullstoryConfig } from "ngx-fullstory";
+import { Fullstory, FullstoryConfig } from "ng-fullstory";
 import { AuthHttp } from "angular2-jwt";
 import { authHttpServiceFactoryTesting } from "../../../../core/mocks/authhttp.helper.shared";
 import { Http, BaseRequestOptions } from "@angular/http";

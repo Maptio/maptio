@@ -39,7 +39,7 @@ import "angular2-uuid"
 import "angulartics2";
 import "logrocket";
 import "ng-intercom"
-import "ngx-fullstory"
+import "ng-fullstory"
 
 // image management
 

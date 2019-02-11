@@ -109,14 +109,15 @@ describe("search.component.ts", () => {
     describe("Search", () => {
         it("calls correct dependencies", async(() => {
 
-            let spyObj = jasmine.createSpyObj<Observable<string>>("text$", ["debounceTime", "distinctUntilChanged", "do", "map"]);
-
+            let spyObj = {
+                debounceTime : jest.fn().mockReturnThis(),
+                distinctUntilChanged : jest.fn().mockReturnThis(),
+                do : jest.fn().mockReturnThis(),
+                map: jest.fn().mockReturnThis()
+            } as any;
+            
             let spyFilter = spyOn(component, "findInitiatives").and.returnValue([]);
-            spyObj.debounceTime.and.returnValue(spyObj)
-            spyObj.distinctUntilChanged.and.returnValue(spyObj)
-            spyObj.do.and.returnValues(spyObj)
-            spyObj.map.and.returnValue(spyObj)
-
+     
             component.search(spyObj);
 
             expect(spyObj.debounceTime).toHaveBeenCalledWith(200);

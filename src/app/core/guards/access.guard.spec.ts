@@ -1,6 +1,5 @@
 import { Observable } from "rxjs/Rx";
 import { AccessGuard } from "./access.guard";
-import { Router, RouterStateSnapshot, ActivatedRouteSnapshot } from "@angular/router";
 import { ErrorService } from "../../shared/services/error/error.service";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { UserFactory } from "../http/user/user.factory";
@@ -14,6 +13,8 @@ export class AuthStub {
     getUser() { }
 }
 
+import { Router, RouterStateSnapshot, ActivatedRouteSnapshot } from "@angular/router";
+
 
 describe("access.guard.ts", () => {
 
@@ -21,7 +22,7 @@ describe("access.guard.ts", () => {
         TestBed.configureTestingModule({
             providers: [
                 AccessGuard, UserFactory, ErrorService,
-                Intercom,IntercomConfig,
+                Intercom, IntercomConfig,
                 { provide: Auth, useClass: AuthStub },
                 { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } },
                 {
@@ -30,6 +31,15 @@ describe("access.guard.ts", () => {
                         return new Http(mockBackend, options);
                     },
                     deps: [MockBackend, BaseRequestOptions]
+                },
+                {
+                    provide: ActivatedRouteSnapshot, useClass: class {
+                    }
+                },
+                {
+                    provide: RouterStateSnapshot, useClass: class {
+
+                    }
                 },
                 MockBackend,
                 BaseRequestOptions
@@ -41,12 +51,15 @@ describe("access.guard.ts", () => {
 
     describe("canActivate", () => {
         it("should return true when user is authorized to access a given workspace", inject([AccessGuard, Auth, Router], (target: AccessGuard, mockAuth: AuthStub, mockRouter: Router) => {
-            let route = jasmine.createSpyObj<ActivatedRouteSnapshot>("route", ["params"]);
+            
+            let route = TestBed.get(ActivatedRouteSnapshot);
+            route.params = {
+                "mapid": "id1"
+            };
 
-            route.params["mapid"] = "id1";
-            let state = jasmine.createSpyObj<RouterStateSnapshot>("state", {url : "", toString : ""});
-
-            let spyAuth = spyOn(mockAuth, "getUser").and.returnValue(Observable.of<User>(new User({ name: "John Doe", datasets: ["id1", "id2"], teams : ["t1", "t2"] })));
+            let state = TestBed.get(RouterStateSnapshot) ;
+            
+            let spyAuth = spyOn(mockAuth, "getUser").and.returnValue(Observable.of<User>(new User({ name: "John Doe", datasets: ["id1", "id2"], teams: ["t1", "t2"] })));
 
             target.canActivate(route, state).toPromise().then((result) => {
                 expect(result).toBe(true);
@@ -55,10 +68,18 @@ describe("access.guard.ts", () => {
         }));
 
         it("should return true when user is authorized to access a given team", inject([AccessGuard, Auth, Router], (target: AccessGuard, mockAuth: AuthStub, mockRouter: Router) => {
-            let route = jasmine.createSpyObj<ActivatedRouteSnapshot>("route", ["params"]);
+            // let route = jasmine.createSpyObj<ActivatedRouteSnapshot>("route", ["params"]);
 
-            route.params["teamid"] = "team1";
-            let state = jasmine.createSpyObj<RouterStateSnapshot>("state", {url : "", toString : ""});
+            // route.params["teamid"] = "team1";
+            // let state = jasmine.createSpyObj<RouterStateSnapshot>("state", { url: "", toString: "" });
+
+            let route = TestBed.get(ActivatedRouteSnapshot);
+            route.params = {
+                "teamid": "team1"
+            };
+
+            let state = TestBed.get(RouterStateSnapshot) ;
+            
 
             let spyAuth = spyOn(mockAuth, "getUser").and.returnValue(Observable.of<User>(new User({ name: "John Doe", teams: ["team1", "team2"] })));
 
@@ -69,10 +90,18 @@ describe("access.guard.ts", () => {
         }));
 
         it("should return false when user is not authorized to a workspace then redirect to /unauthorized", inject([AccessGuard, Auth, Router], (target: AccessGuard, mockAuth: AuthStub, mockRouter: Router) => {
-            let route = jasmine.createSpyObj<ActivatedRouteSnapshot>("route", ["params"]);
+            // let route = jasmine.createSpyObj<ActivatedRouteSnapshot>("route", ["params"]);
 
-            route.params["mapid"] = "id3";
-            let state = jasmine.createSpyObj<RouterStateSnapshot>("state", {url : "", toString : ""});
+            // route.params["mapid"] = "id3";
+            // let state = jasmine.createSpyObj<RouterStateSnapshot>("state", { url: "", toString: "" });
+            let route = TestBed.get(ActivatedRouteSnapshot);
+            route.params = {
+                "mapid": "id3"
+            };
+
+            let state = TestBed.get(RouterStateSnapshot) ;
+            
+
 
             let spyAuth = spyOn(mockAuth, "getUser").and.returnValue(Observable.of<User>(new User({ name: "John Doe", datasets: ["id1", "id2"] })));
 
@@ -84,10 +113,18 @@ describe("access.guard.ts", () => {
         }));
 
         it("should return false when user is not authorized to a team then redirect to /unauthorized", inject([AccessGuard, Auth, Router], (target: AccessGuard, mockAuth: AuthStub, mockRouter: Router) => {
-            let route = jasmine.createSpyObj<ActivatedRouteSnapshot>("route", ["params"]);
+            // let route = jasmine.createSpyObj<ActivatedRouteSnapshot>("route", ["params"]);
 
-            route.params["teamid"] = "team3";
-            let state = jasmine.createSpyObj<RouterStateSnapshot>("state", {url : "", toString : ""});
+            // route.params["teamid"] = "team3";
+            // let state = jasmine.createSpyObj<RouterStateSnapshot>("state", { url: "", toString: "" });
+            let route = TestBed.get(ActivatedRouteSnapshot);
+            route.params = {
+                "teamid": "team3"
+            };
+
+            let state = TestBed.get(RouterStateSnapshot) ;
+            
+
 
             let spyAuth = spyOn(mockAuth, "getUser").and.returnValue(Observable.of<User>(new User({ name: "John Doe", teams: ["team1", "team2"] })));
 

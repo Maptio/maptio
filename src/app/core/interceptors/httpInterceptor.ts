@@ -19,14 +19,11 @@ export class HttpLogInterceptor extends Http {
     }
 
     public request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
-        console.log(url)
         return super.request(url, options)
             .catch(this.handleError)
     }
 
-    private isUnauthorized(status: number): boolean {
-        console.log("isUnauthorized")
-        
+    private isUnauthorized(status: number): boolean { 
         return status === 0 || status === 401;
     }
 

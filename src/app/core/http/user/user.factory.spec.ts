@@ -38,13 +38,16 @@ describe("user.factory.ts", () => {
 
     });
 
+    const mockUser = {
+        deserialize : jest.fn()
+    }
 
     describe("getAll", () => {
         it("should be rejected when no parameters", async(inject([UserFactory, MockBackend], (target: UserFactory, mockBackend: MockBackend) => {
 
-            let mockUser = jasmine.createSpyObj("User", ["deserialize"]);
+            // let mockUser = jasmine.createSpyObj("User", ["deserialize"]);
             spyOn(User, "create").and.returnValue(mockUser);
-            mockUser.deserialize.and.returnValue(new User({ name: "Deserialized" }));
+            mockUser.deserialize.mockReturnValue(new User({ name: "Deserialized" }));
 
             const mockResponse = [
                 { id: 1, uniqueId: "uniqueId1", name: "First", email: "first@domain.com", picture: "http://seemyface/user.jpg" },
@@ -72,9 +75,9 @@ describe("user.factory.ts", () => {
 
         it("should call correct REST API endpoint when pattern search parameter", async(inject([UserFactory, MockBackend], (target: UserFactory, mockBackend: MockBackend) => {
 
-            let mockUser = jasmine.createSpyObj("User", ["deserialize"]);
+            // let mockUser = jasmine.createSpyObj("User", ["deserialize"]);
             let spyCreate = spyOn(User, "create").and.returnValue(mockUser);
-            let spyDeserialize = mockUser.deserialize.and.returnValue(new User({ name: "Deserialized" }));
+            let spyDeserialize = mockUser.deserialize.mockReturnValue(new User({ name: "Deserialized" }));
 
             const mockResponse = [
                 { id: 1, uniqueId: "uniqueId1", name: "First", email: "first@domain.com", picture: "http://seemyface/user.jpg" },
@@ -108,9 +111,9 @@ describe("user.factory.ts", () => {
     describe("getUsers", () => {
         it("should be rejected when no parameters", async(inject([UserFactory, MockBackend], (target: UserFactory, mockBackend: MockBackend) => {
 
-            let mockUser = jasmine.createSpyObj("User", ["deserialize"]);
+            // let mockUser = jasmine.createSpyObj("User", ["deserialize"]);
             spyOn(User, "create").and.returnValue(mockUser);
-            mockUser.deserialize.and.returnValue(new User({ name: "Deserialized" }));
+            mockUser.deserialize.mockReturnValue(new User({ name: "Deserialized" }));
 
             const mockResponse = [
                 { id: 1, uniqueId: "uniqueId1", name: "First", email: "first@domain.com", picture: "http://seemyface/user.jpg" },
@@ -138,9 +141,9 @@ describe("user.factory.ts", () => {
 
         it("should call correct REST API endpoint when pattern search parameter", async(inject([UserFactory, MockBackend], (target: UserFactory, mockBackend: MockBackend) => {
 
-            let mockUser = jasmine.createSpyObj("User", ["deserialize"]);
+            // let mockUser = jasmine.createSpyObj("User", ["deserialize"]);
             let spyCreate = spyOn(User, "create").and.returnValue(mockUser);
-            let spyDeserialize = mockUser.deserialize.and.returnValue(new User({ name: "Deserialized" }));
+            let spyDeserialize = mockUser.deserialize.mockReturnValue(new User({ name: "Deserialized" }));
 
             const mockResponse = [
                 { id: 1, uniqueId: "uniqueId1", name: "First", email: "first@domain.com", picture: "http://seemyface/user.jpg" },
@@ -173,9 +176,9 @@ describe("user.factory.ts", () => {
 
     describe("get", () => {
         it("should call correct REST API endpoint", fakeAsync(inject([UserFactory, MockBackend], (target: UserFactory, mockBackend: MockBackend) => {
-            let mockUser = jasmine.createSpyObj("User", ["deserialize"]);
+            // let mockUser = jasmine.createSpyObj("User", ["deserialize"]);
             let spyCreate = spyOn(User, "create").and.returnValue(mockUser);
-            let spyDeserialize = mockUser.deserialize.and.returnValue(new User({ name: "Deserialized" }));
+            let spyDeserialize = mockUser.deserialize.mockReturnValue(new User({ name: "Deserialized" }));
 
             const mockResponse = [
                 { id: 1, uniqueId: "uniqueId1", name: "First", email: "first@domain.com", picture: "http://seemyface/user.jpg" }
@@ -203,9 +206,9 @@ describe("user.factory.ts", () => {
 
     describe("create", () => {
         it("should call correct REST API endpoint", fakeAsync(inject([UserFactory, MockBackend], (target: UserFactory, mockBackend: MockBackend) => {
-            let mockUser = jasmine.createSpyObj("User", ["deserialize"]);
+            // let mockUser = jasmine.createSpyObj("User", ["deserialize"]);
             let spyCreate = spyOn(User, "create").and.returnValue(mockUser);
-            let spyDeserialize = mockUser.deserialize.and.returnValue(new User({ name: "Created" }));
+            let spyDeserialize = mockUser.deserialize.mockReturnValue(new User({ name: "Created" }));
 
             const mockResponse = [
                 { id: 1, uniqueId: "uniqueId1", name: "First", email: "first@domain.com", picture: "http://seemyface/user.jpg" }

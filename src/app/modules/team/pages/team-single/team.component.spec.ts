@@ -9,6 +9,9 @@ import { ActivatedRoute, ActivatedRouteSnapshot } from "@angular/router";
 import { Observable } from "rxjs";
 import { Team } from "../../../../shared/model/team.data";
 import { User } from "../../../../shared/model/user.data";
+import { AnalyticsModule } from "../../../../core/analytics.module";
+import { CoreModule } from "../../../../core/core.module";
+import { PermissionsModule } from "../../../../shared/permissions.module";
 
 
 describe("team.component.ts", () => {
@@ -21,7 +24,7 @@ describe("team.component.ts", () => {
         TestBed.configureTestingModule({
             declarations: [TeamComponent],
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [RouterTestingModule, SharedModule]
+            imports: [RouterTestingModule, SharedModule, AnalyticsModule, CoreModule, PermissionsModule]
         }).overrideComponent(TeamComponent, {
             set: {
                 providers: [

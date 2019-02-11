@@ -72,8 +72,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     }
 
     constructor(private route: ActivatedRoute, private datasetFactory: DatasetFactory,
-        private dataService: DataService, private cd: ChangeDetectorRef, private uiService: UIService, private intercom: Intercom,
-        private modalService: NgbModal) {
+        private dataService: DataService, private cd: ChangeDetectorRef,  private intercom: Intercom) {
 
     }
 

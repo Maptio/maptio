@@ -50,23 +50,21 @@ describe("auth.config.ts", () => {
             }
         });
 
-
-        spyOn(localStorage, "getItem").and.returnValue(undefined)
+        window.localStorage.clear();
 
         target.getAccessToken().then((token) => {
             expect(token).toBe("token");
-            expect(localStorage.getItem).toHaveBeenCalledWith("access_token")
+            expect(window.localStorage.getItem("access_token")).toBe("token")
         })
     })));
-
     it("should get access token when it is in localStorage", async(inject([AuthConfiguration, Http, MockBackend], (target: AuthConfiguration, http: Http, mockBackend: MockBackend) => {
-
-        spyOn(localStorage, "getItem").and.returnValue("token")
+        window.localStorage.setItem("access_token", "TOKEN");
+        spyOn(window.localStorage, "getItem");
         spyOn(http, "post");
         target.getAccessToken().then((token) => {
             expect(http.post).not.toHaveBeenCalled();
-            expect(token).toBe("token");
-            expect(localStorage.getItem).toHaveBeenCalledWith("access_token")
+            expect(token).toBe("TOKEN");
+            expect(window.localStorage.getItem("access_token")).toBe("TOKEN")
         })
     })));
 });

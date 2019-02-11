@@ -5,7 +5,6 @@ import { DataSet } from "../../../../shared/model/dataset.data";
 import { DatasetFactory } from "../../../../core/http/map/dataset.factory";
 import { Angulartics2Mixpanel } from "angulartics2";
 import { TeamFactory } from "../../../../core/http/team/team.factory";
-import { NgbTypeaheadSelectItemEvent } from "@ng-bootstrap/ng-bootstrap";
 import { compact, remove, uniqBy, differenceBy, sortBy, isEmpty } from "lodash-es";
 import { UserService } from "../../../../shared/services/user/user.service";
 import { User } from "../../../../shared/model/user.data";
@@ -158,6 +157,7 @@ export class TeamMembersComponent implements OnInit {
         return this.userFactory.getUsers(this.team.members.map(m => m.user_id))
             .then(members => compact(members))
             .then((members: User[]) => {
+                console.log("1", members)
                 return this.userService.getUsersInfo(members).then(pending => {
                     if (this.createdUser) {
                         this.createdUser.isActivationPending = true;
@@ -169,6 +169,7 @@ export class TeamMembersComponent implements OnInit {
                 })
             })
             .then((result) => {
+                console.log("2", result)
                 let members = result.members;
 
                 let membersPending = uniqBy(result.membersPending, m => m.user_id);

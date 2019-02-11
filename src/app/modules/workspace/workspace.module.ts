@@ -6,7 +6,6 @@ import { ShareSlackComponent } from "./components/sharing/slack.component";
 import { SharedModule } from "../../shared/shared.module";
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";
 import { MarkdownModule, MarkedOptions, MarkedRenderer, MarkdownService } from "ngx-markdown";
-import { Angulartics2Module } from "angulartics2";
 import { FilterTagsComponent } from "./components/filtering/tags.component";
 import { SearchComponent } from "./components/searching/search.component";
 import { FocusIfDirective } from "../../shared/directives/focusif.directive";
@@ -43,6 +42,7 @@ import { EditTagsComponent } from "./components/data-entry/tags/edit-tags.compon
 import { UIService } from "./services/ui.service";
 import { ColorService } from "./services/color.service";
 import { WorkspaceRoutingModule } from "./workspace.routing";
+import { AnalyticsModule } from '../../core/analytics.module';
 
 export function markedOptionsFactory(): MarkedOptions {
     const renderer = new MarkedRenderer();
@@ -68,7 +68,7 @@ export function markedOptionsFactory(): MarkedOptions {
         ReactiveFormsModule,
         WorkspaceRoutingModule,
         TreeModule,
-        Angulartics2Module.forChild(),
+        AnalyticsModule,
         OnboardingModule,
         MarkdownModule.forRoot({
             markedOptions: {

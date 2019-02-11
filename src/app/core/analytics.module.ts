@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FullstoryModule } from 'ngx-fullstory';
+import { FullstoryModule, Fullstory, FullstoryConfig } from 'ng-fullstory';
 import { environment } from '../config/environment';
-import { Angulartics2Module, Angulartics2Mixpanel } from 'angulartics2';
-import { IntercomModule } from 'ng-intercom';
+import { Angulartics2Module, Angulartics2Mixpanel, Angulartics2 } from 'angulartics2';
+import { IntercomModule, Intercom } from 'ng-intercom';
 import * as LogRocket from "logrocket";
 
 @NgModule({
-    declarations: [],
-    imports: [CommonModule,
+    declarations: [
+    ],
+    imports: [
+        CommonModule,
         FullstoryModule.forRoot({
             fsOrg: environment.FULLSTORY_APP_ID,
             fsNameSpace: 'FS',
@@ -19,11 +21,13 @@ import * as LogRocket from "logrocket";
         IntercomModule.forRoot({
             appId: environment.INTERCOM_APP_ID, // from your Intercom config
             updateOnRouterChange: true // will automatically run `update` on router event changes. Default: `false`
-        }),],
+        })],
     exports: [
-        FullstoryModule, Angulartics2Module, IntercomModule
+        Angulartics2Module
     ],
-    providers: [],
+    providers: [
+        Intercom, Fullstory, FullstoryConfig, Angulartics2Mixpanel
+    ],
 })
 export class AnalyticsModule {
     constructor() {
@@ -31,7 +35,7 @@ export class AnalyticsModule {
         if (process.env.NODE_ENV === "production") {
             LogRocket.init(environment.LOGROCKET_APP_ID, {
                 network: {
-                    isEnabled: true,
+                    isEnabled: true
                 }
 
             });

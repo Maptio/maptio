@@ -70,7 +70,8 @@ export class TeamImportComponent implements OnInit {
             this.fileReset();
         }
 
-        let input = $event.target;
+        let input = $event.target as HTMLInputElement;
+        
         let reader = new FileReader();
         reader.readAsText(input.files[0], "utf-8");
 

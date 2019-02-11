@@ -18,6 +18,7 @@ import { MailingService } from "../../../../shared/services/mailing/mailing.serv
 import { AuthConfiguration } from "../../../../core/authentication/auth.config";
 import { UserFactory } from "../../../../core/http/user/user.factory";
 import { LoaderService } from "../../../../shared/components/loading/loader.service";
+import { ImageModule } from "../../../../shared/image.module";
 
 describe("profile.page.ts", () => {
 
@@ -30,7 +31,7 @@ describe("profile.page.ts", () => {
         TestBed.configureTestingModule({
             declarations: [ProfilePage],
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [NgProgressModule, CloudinaryModule.forRoot(Cloudinary, { cloud_name: environment.CLOUDINARY_CLOUDNAME, upload_preset: environment.CLOUDINARY_UPLOAD_PRESET })]
+            imports: [NgProgressModule, ImageModule]
         }).overrideComponent(ProfilePage, {
             set: {
                 providers: [

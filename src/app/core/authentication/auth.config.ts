@@ -1,7 +1,9 @@
 import { environment } from "../../config/environment";
-import { Http } from "@angular/http";
+import { Http, Response } from "@angular/http";
 import { WebAuth } from "auth0-js";
 import { Injectable } from "@angular/core";
+import { Observable } from "rxjs/Observable"
+import { map } from "rxjs/operators";
 
 // declare var Auth0Lock: any;
 
@@ -24,11 +26,12 @@ export class AuthConfiguration {
     }
 
     getAccessToken(): Promise<string> {
-
-        let access_token = localStorage.getItem("access_token");
+        let access_token = window.localStorage.getItem("access_token");
+       
         if (access_token)
             return Promise.resolve(access_token);
         else
+        {
             return this.http.post(
                 environment.ACCESS_TOKEN_URL,
                 {
@@ -36,9 +39,14 @@ export class AuthConfiguration {
                     "client_secret": this.AUTH0_MANAGEMENTAPI_SECRET,
                     "audience": environment.ACCESS_TOKEN_AUDIENCE,
                     "grant_type": "client_credentials"
-                }).map((responseData) => {
-                    localStorage.setItem("access_token", responseData.json().access_token);
-                    return responseData.json().access_token;
-                }).toPromise();
+                })
+                .pipe(
+                    map((responseData) => {
+                        window.localStorage.setItem("access_token", responseData.json().access_token);
+                        return responseData.json().access_token;
+                    })
+                ).toPromise();
+        }
+            
     }
 }

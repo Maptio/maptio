@@ -2,14 +2,16 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch Chrome",
-            "type": "chrome",
+            "type": "node",
+            "name": "vscode-jest-tests",
             "request": "launch",
-            "url": "http://localhost:3000/build",
-            "sourceMaps": true,
-            "diagnosticLogging": true,
-            "webRoot": "${workspaceRoot}",
-            "userDataDir": "${workspaceRoot}/.vscode/chrome"
+            "program": "${workspaceFolder}/node_modules/jest/bin/jest",
+            "args": [
+                "--runInBand"
+            ],
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
         },
         {
             "name": "Attach",

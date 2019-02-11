@@ -11,7 +11,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, auth
 
   let config = new AuthConfig({
     tokenName: "maptio_api_token",
-    tokenGetter: (() => { return localStorage.getItem("maptio_api_token") }),
+    tokenGetter: (() => {return window.localStorage.getItem("maptio_api_token") }),
     globalHeaders: [{ "Content-Type": "application/json" }],
   })
   return new AuthHttpInterceptor(config, http, options, auth, router);

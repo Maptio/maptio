@@ -126,7 +126,9 @@ describe("user.service.ts", () => {
 
     describe("changePassword", () => {
         it("should call right dependencies", fakeAsync(inject([UserService, Http, AuthConfiguration, MockBackend], (target: UserService, http: Http, configuration: AuthConfiguration, mockBackend: MockBackend) => {
-            let webAuth = jasmine.createSpyObj("webAuth", ["changePassword"])
+            let webAuth = {
+                changePassword : jest.fn()
+            } 
             spyOn(configuration, "getWebAuth").and.returnValue(webAuth);
             target.changePassword("someone@company.com")
             expect(webAuth.changePassword).toHaveBeenCalledWith({ connection: environment.CONNECTION_NAME, email: "someone@company.com" }, jasmine.any(Function));

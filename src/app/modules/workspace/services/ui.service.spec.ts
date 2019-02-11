@@ -4,6 +4,9 @@ import { MarkdownService } from "ngx-markdown";
 import { MockBackend } from "@angular/http/testing";
 import { BaseRequestOptions, Http } from "@angular/http";
 import { DeviceDetectorService } from "ngx-device-detector";
+const withmanysvg = require("./fixtures/withmanysvg.html");
+const withoutsvg = require("./fixtures/withoutsvg.html");
+const withsvg = require("./fixtures/withsvg.html");
 
 describe("ui.service.ts", function () {
 
@@ -25,47 +28,47 @@ describe("ui.service.ts", function () {
         });
     });
 
-    afterEach(function () {
-        fixture.cleanup()
-    });
+    // afterEach(function () {
+    //     fixture.cleanup()
+    // });
 
-    beforeAll(() => {
-        fixture.setBase("src/app/shared/services/fixtures");
-    });
+    // beforeAll(() => {
+    //     fixture.setBase("src/app/shared/services/fixtures");
+    // });
 
 
 
 
     describe("getCircularPath", function () {
 
-        it("When parameters are given, builds circular path", inject([UIService], (fixture: UIService) => {
+        it("When parameters are given, builds circular path", inject([UIService], (service: UIService) => {
             let radius = 10;
             let centerX = 0;
             let centerY = 0;
 
-            let actual = fixture.getCircularPath(radius, centerX, centerY);
+            let actual = service.getCircularPath(radius, centerX, centerY);
 
             let target = "m 0, 0 a -10,-10 1 1,1 20,0 a -10,-10 1 1,1 -20,0"
 
             expect(actual).toBe(target);
         }));
 
-        it("When radius is missing, getCircularPath throws", inject([UIService], (fixture: UIService) => {
+        it("When radius is missing, getCircularPath throws", inject([UIService], (service: UIService) => {
 
             expect(function () {
-                fixture.getCircularPath(undefined, 10, 10);
+                service.getCircularPath(undefined, 10, 10);
             }).toThrow();
         }));
 
-        it("When centerX is missing, getCircularPath throws", inject([UIService], (fixture: UIService) => {
+        it("When centerX is missing, getCircularPath throws", inject([UIService], (service: UIService) => {
             expect(function () {
-                fixture.getCircularPath(10, undefined, 10);
+                service.getCircularPath(10, undefined, 10);
             }).toThrow();
         }));
 
-        it("When centerY is missing, getCircularPath throws", inject([UIService], (fixture: UIService) => {
+        it("When centerY is missing, getCircularPath throws", inject([UIService], (service: UIService) => {
             expect(function () {
-                fixture.getCircularPath(10, 10, undefined);
+                service.getCircularPath(10, 10, undefined);
             }).toThrow();
         }));
 
@@ -74,28 +77,24 @@ describe("ui.service.ts", function () {
 
     describe("clean", function () {
         it("When svg element exists, it cleans", inject([UIService], (target: UIService) => {
-            fixture.load("withsvg.html");
-            document.body.innerHTML = fixture.el.innerHTML;
+            document.body.innerHTML = `${withsvg}`; 
             target.clean();
-
-            expect(document.getElementsByTagName("svg").length).toBe(1);
-            expect(document.getElementsByTagName("svg").item(0).children).toBeUndefined();
+            expect(document.querySelectorAll("svg").length).toBe(1);
+            expect(document.querySelectorAll("svg").item(0).children).toHaveLength(0);
         }));
 
         it("When many svg element exists, it cleans then all", inject([UIService], (target: UIService) => {
-            fixture.load("withmanysvg.html");
-            document.body.innerHTML = fixture.el.innerHTML;
+            document.body.innerHTML = `${withmanysvg}`; //fixture.el.innerHTML;
             target.clean();
 
-            expect(document.getElementsByTagName("svg").length).toBe(3);
+            expect(document.querySelectorAll("svg").length).toBe(3);
             for (let i = 0; i < 3; i++) {
-                expect(document.getElementsByTagName("svg").item(i).children).toBeUndefined();
+                expect(document.querySelectorAll("svg").item(i).children).toHaveLength(0);
             }
         }));
 
         it("When svg element does not exist, it fails gracefully", inject([UIService], (target: UIService) => {
-            fixture.load("withoutsvg.html");
-            document.body.innerHTML = fixture.el.innerHTML;
+            document.body.innerHTML = `${withoutsvg}`; //fixture.el.innerHTML;
             target.clean();
 
             expect(document.getElementsByTagName("svg").length).toBe(0);

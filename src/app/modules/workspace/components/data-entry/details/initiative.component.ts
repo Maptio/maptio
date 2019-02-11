@@ -26,7 +26,7 @@ import { of } from "rxjs/observable/of";
 import { debounceTime } from "rxjs/operator/debounceTime";
 import { distinctUntilChanged } from "rxjs/operator/distinctUntilChanged";
 import { compact, sortBy, remove } from "lodash-es";
-import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2/dist";
+import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
 import { UserService } from "../../../../../shared/services/user/user.service";
 
 @Component({
