@@ -12,7 +12,7 @@ Object.defineProperty(window, 'CSS', { value: null });
 Object.defineProperty(window, 'FS', {
   value: {
     identify: jest.fn(),
-    logout: jest.fn()
+    shutdown: jest.fn()
   }
 });
 Object.defineProperty(window, 'Intercom', { value: jest.fn() });
