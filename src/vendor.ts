@@ -21,48 +21,6 @@ import "date-fns/parse"
 import "date-fns/add_days"
 
 //d3
-// import "d3-color";
-import "d3-hierarchy"
-
-//ng-bootstap
-import "@ng-bootstrap/ng-bootstrap";
-
-//markdown
-
-
-//authentication
-import "angular2-jwt";
-import "auth0-js";
-import "angular2-uuid"
-
-//tracking
-import "angulartics2";
-import "logrocket";
-import "ng-intercom"
-import "ng-fullstory"
-
-// image management
-
-
-// UI components
-import "angular-confirmation-popover";
-import "@exalif/ngx-breadcrumbs"
-import "@ngx-progressbar/core"
-
-// utilities
-import "slug";
-import "ngx-device-detector"
-import "shortid"
-import "file-saver"
-
-import "ngx-color"
-import "angular-tree-component";
-
-import "ngx-markdown";
-import "marked";
-
-import "screenfull"
-
 import "d3-array"
 import "d3-collection"
 import "d3-drag"
@@ -73,13 +31,47 @@ import "d3-transition"
 import "d3-zoom"
 import "d3-color"
 import "d3-selection";
+import "d3-hierarchy"
+
+//ng-bootstap
+import "@ng-bootstrap/ng-bootstrap";
+
+//markdown
+import "ngx-markdown";
+import "marked";
+
+//authentication
+import "angular2-jwt";
+import "auth0-js";
+import "angular2-uuid"
 
 
+// image management
 import "@cloudinary/angular-5.x";
 import "cloudinary-core";
 import "ng2-file-upload";
 
+//tracking
+import "angulartics2";
+import "logrocket";
+import "ng-intercom"
+import "ngx-fullstory"
 
+
+
+// UI components
+import "angular-confirmation-popover";
+import "@exalif/ngx-breadcrumbs"
+import "@ngx-progressbar/core"
+import "ngx-color"
+import "angular-tree-component";
+
+// utilities
+import "slug";
+import "ngx-device-detector"
+import "shortid"
+import "file-saver"
+import "screenfull"
 
 
 // You can import js, ts, css, sass, ...

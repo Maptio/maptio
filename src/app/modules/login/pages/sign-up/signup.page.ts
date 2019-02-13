@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { Angulartics2Mixpanel } from "angulartics2";
+import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { User } from "../../../../shared/model/user.data";
 import { UserService } from "../../../../shared/services/user/user.service";
 import { repeatValidator } from "../../../../shared/directives/equal-validator.directive";

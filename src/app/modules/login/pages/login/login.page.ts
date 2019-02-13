@@ -1,4 +1,4 @@
-import { Angulartics2Mixpanel } from "angulartics2";
+import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { UserService } from "../../../../shared/services/user/user.service";
 import { Subscription } from "rxjs/Subscription";
 import { LoaderService } from "../../../../shared/components/loading/loader.service";

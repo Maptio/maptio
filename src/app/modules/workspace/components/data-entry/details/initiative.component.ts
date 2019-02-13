@@ -26,14 +26,14 @@ import { of } from "rxjs/observable/of";
 import { debounceTime } from "rxjs/operator/debounceTime";
 import { distinctUntilChanged } from "rxjs/operator/distinctUntilChanged";
 import { compact, sortBy, remove } from "lodash-es";
-import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
+import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { UserService } from "../../../../../shared/services/user/user.service";
 
 @Component({
     selector: "initiative",
     templateUrl: "./initiative.component.html",
     styleUrls: ["./initiative.component.css"],
-    providers: [Angulartics2Mixpanel, Angulartics2],
+    providers: [Angulartics2Mixpanel],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 

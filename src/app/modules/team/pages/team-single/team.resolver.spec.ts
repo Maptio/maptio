@@ -17,7 +17,6 @@ import { AuthHttp } from "angular2-jwt";
 import { authHttpServiceFactoryTesting } from "../../../../core/mocks/authhttp.helper.shared";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { MockBackend } from "@angular/http/testing";
-import { Fullstory, FullstoryConfig } from "ng-fullstory";
 import { DataSet } from "../../../../shared/model/dataset.data";
 import { Initiative } from "../../../../shared/model/initiative.data";
 import { Team } from "../../../../shared/model/team.data";

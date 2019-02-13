@@ -19,7 +19,7 @@ import {
   ChangeDetectionStrategy
 } from "@angular/core";
 import { IDataVisualizer } from "../../components/canvas/mapping.interface";
-import { Angulartics2Mixpanel } from "angulartics2";
+import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { flatten, uniqBy, remove, partition, groupBy, map, flattenDeep } from "lodash-es";
 
 import { transition } from "d3-transition";

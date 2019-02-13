@@ -1,4 +1,4 @@
-import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
+import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { MailingService } from "../../shared/services/mailing/mailing.service";
 import { AuthConfiguration } from "../authentication/auth.config";
 import { UserService } from "../../shared/services/user/user.service";
@@ -17,7 +17,7 @@ import { DatasetFactory } from "../http/map/dataset.factory";
 import { ErrorService } from "../../shared/services/error/error.service";
 import { Auth } from "../authentication/auth.service";
 import { MockBackend } from "@angular/http/testing";
-import { Http, BaseRequestOptions } from "@angular/http";
+import { Http, BaseRequestOptions, HttpModule } from "@angular/http";
 import { User } from "../../shared/model/user.data";
 import { Subject } from "rxjs/Rx";
 import "rxjs/add/operator/map";
@@ -30,8 +30,12 @@ import { Team } from "../../shared/model/team.data";
 
 import { NO_ERRORS_SCHEMA } from "@angular/core"
 import { BillingService } from "../../shared/services/billing/billing.service";
-import { NgProgress } from "@ngx-progressbar/core";
+import { NgProgress, NgProgressModule } from "@ngx-progressbar/core";
 import { OnboardingService } from "../../shared/components/onboarding/onboarding.service";
+import { AnalyticsModule } from "../analytics.module";
+import { SharedModule } from "../../shared/shared.module";
+import { AuthModule } from "../../shared/services/auth/auth.module";
+import { CoreModule } from "../core.module";
 
 fdescribe("header.component.ts", () => {
 
@@ -42,14 +46,13 @@ fdescribe("header.component.ts", () => {
     beforeEach(async(() => {
 
         TestBed.configureTestingModule({
-            declarations: [HeaderComponent],
-            imports: [RouterTestingModule, FormsModule, ReactiveFormsModule],
-            schemas: [NO_ERRORS_SCHEMA]
+            declarations: [],
+            imports: [AuthModule,HttpModule, CoreModule, RouterTestingModule, FormsModule, ReactiveFormsModule, AnalyticsModule,SharedModule.forRoot(), NgProgressModule.forRoot()],
+            schemas: [NO_ERRORS_SCHEMA],
         }).overrideComponent(HeaderComponent, {
             set: {
                 providers: [
-                    NgProgress,
-                    DatasetFactory, UserFactory, TeamFactory, AuthConfiguration, Angulartics2Mixpanel, Angulartics2,
+                    
                     {
                         provide: Auth, useClass: class {
                             getUser() { return user$.asObservable() }
@@ -60,23 +63,21 @@ fdescribe("header.component.ts", () => {
                         }
                     },
                     {
-                        provide: AuthHttp,
-                        useFactory: authHttpServiceFactoryTesting,
-                        deps: [Http, BaseRequestOptions]
-                    },
-                    {
                         provide: Http,
                         useFactory: (mockBackend: MockBackend, options: BaseRequestOptions) => {
                             return new Http(mockBackend, options);
                         },
                         deps: [MockBackend, BaseRequestOptions]
                     },
+                    {
+                        provide: AuthHttp,
+                        useFactory: authHttpServiceFactoryTesting,
+                        deps: [Http, BaseRequestOptions]
+                    },
+                    
                     // { provide: Router, useClass: class { navigate = jasmine.createSpy("navigate"); } },
                     MockBackend,
-                    BaseRequestOptions,
-                    ErrorService, LoaderService,
-                    UserService, JwtEncoder, MailingService, BillingService,
-                    OnboardingService]
+                    BaseRequestOptions]
             }
         }).compileComponents();
     }));

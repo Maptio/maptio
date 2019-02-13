@@ -1,7 +1,4 @@
-
 import { ColorHueModule } from 'ngx-color/hue'; // <color-hue-picker></color-hue-picker>
-
-
 import { ShareSlackComponent } from "./components/sharing/slack.component";
 import { SharedModule } from "../../shared/shared.module";
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";

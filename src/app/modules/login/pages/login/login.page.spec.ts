@@ -1,4 +1,4 @@
-import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
+import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { AuthHttp } from "angular2-jwt";
 import { AuthConfiguration } from "../../../../core/authentication/auth.config";
 import { MailingService } from "../../../../shared/services/mailing/mailing.service";
@@ -20,6 +20,9 @@ import { authHttpServiceFactoryTesting } from "../../../../core/mocks/authhttp.h
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { NgProgressModule, NgProgress } from "@ngx-progressbar/core";
 import { UserFactory } from "../../../../core/http/user/user.factory";
+import { SharedModule } from "../../../../shared/shared.module";
+import { AnalyticsModule } from "../../../../core/analytics.module";
+import { CoreModule } from "../../../../core/core.module";
 
 export class AuthStub {
   login() {
@@ -36,17 +39,11 @@ describe("login.component.ts", () => {
       TestBed.configureTestingModule({
         declarations: [LoginComponent],
         schemas: [NO_ERRORS_SCHEMA],
-        imports: [FormsModule, ReactiveFormsModule, RouterTestingModule, NgProgressModule]
+        imports: [FormsModule, ReactiveFormsModule, RouterTestingModule, NgProgressModule, SharedModule.forRoot(), AnalyticsModule, CoreModule]
       })
         .overrideComponent(LoginComponent, {
           set: {
             providers: [
-              JwtEncoder,
-              FormBuilder,
-              LoaderService,NgProgress, 
-              Angulartics2Mixpanel,
-              Angulartics2,
-              UserFactory,
               {
                 provide: Auth,
                 useClass: class {
@@ -83,12 +80,7 @@ describe("login.component.ts", () => {
                 deps: [MockBackend, BaseRequestOptions]
               },
               MockBackend,
-              BaseRequestOptions,
-              ErrorService,
-              UserService,
-              JwtEncoder,
-              MailingService,
-              AuthConfiguration
+              BaseRequestOptions
             ]
           }
         })

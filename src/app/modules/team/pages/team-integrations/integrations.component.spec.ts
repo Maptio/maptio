@@ -66,7 +66,7 @@ describe("integrations.component.ts", () => {
         TestBed.configureTestingModule({
             declarations: [TeamIntegrationsComponent],
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [RouterTestingModule, SharedModule, AnalyticsModule, PermissionsModule]
+            imports: [RouterTestingModule, SharedModule.forRoot(), AnalyticsModule, PermissionsModule]
         }).overrideComponent(TeamIntegrationsComponent, {
             set: {
                 providers: [

@@ -3,12 +3,14 @@ import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
-import { environment } from "./config/environment";
 import { AppComponent } from "./app.component";
 import { CoreModule } from "./core/core.module";
 import { AppRoutingModule } from "./app.routing";
 import { AnalyticsModule } from "./core/analytics.module";
 import { SharedModule } from "./shared/shared.module";
+import { Angulartics2Module } from "angulartics2";
+import { FullstoryModule, Fullstory, FullstoryConfig } from "ngx-fullstory";
+import { environment } from "./config/environment";
 
 @NgModule({
     declarations: [
@@ -21,14 +23,23 @@ import { SharedModule } from "./shared/shared.module";
         // routing
         AppRoutingModule,
         // analytics
+
+        // Angulartics2Module.forRoot(),
+        FullstoryModule.forRoot({
+            fsOrg: environment.FULLSTORY_APP_ID,
+            fsNameSpace: 'FS',
+            fsDebug: false,
+            fsHost: 'fullstory.com'
+        }),
         AnalyticsModule,
 
         // core & shared
         CoreModule,
-        SharedModule
+        SharedModule.forRoot()
     ],
     exports: [RouterModule],
     providers: [
+        Fullstory, FullstoryConfig,
         BrowserAnimationsModule,
         Location,
         { provide: LocationStrategy, useClass: PathLocationStrategy },

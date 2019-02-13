@@ -21,6 +21,7 @@ import { NgProgress } from "@ngx-progressbar/core";
 import { WorkspaceModule } from "../../workspace.module";
 import { AnalyticsModule } from "../../../../core/analytics.module";
 import { CoreModule } from "../../../../core/core.module";
+import { SharedModule } from "../../../../shared/shared.module";
 
 export class AuthStub {
     fakeProfile: User = new User({
@@ -55,7 +56,7 @@ describe("workspace.component.ts", () => {
 
 
         TestBed.configureTestingModule({
-            imports: [RouterTestingModule, AnalyticsModule, WorkspaceModule, CoreModule],
+            imports: [RouterTestingModule, AnalyticsModule, WorkspaceModule, CoreModule, SharedModule.forRoot()],
             declarations: [],
             schemas: [NO_ERRORS_SCHEMA]
         }).overrideComponent(WorkspaceComponent, {

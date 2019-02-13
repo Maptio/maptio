@@ -1,4 +1,4 @@
-import { Angulartics2Mixpanel } from "angulartics2";
+import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { Router } from "@angular/router";
 import { OnInit, EventEmitter } from "@angular/core";
 import { Component, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
@@ -45,7 +45,7 @@ export class HeaderComponent implements OnInit {
     public isSaving: Boolean = false;
     public isSandbox: boolean;
 
-    constructor(public auth: Auth, private userService: UserService, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory,
+    constructor(public auth: Auth, private datasetFactory: DatasetFactory, private teamFactory: TeamFactory,
         public errorService: ErrorService, private router: Router, public loaderService: LoaderService,
         private analytics: Angulartics2Mixpanel, private cd: ChangeDetectorRef, private billingService: BillingService,
         private onboarding: OnboardingService) {

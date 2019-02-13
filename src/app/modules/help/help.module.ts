@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { HelpComponent } from "./pages/help/help.page";
 import { HelpRoutingModule } from "./help.routing";
+import { OnboardingModule } from "../../shared/onboarding.module";
 
 
 @NgModule({
@@ -9,7 +10,8 @@ import { HelpRoutingModule } from "./help.routing";
         HelpComponent
     ],
     imports: [CommonModule,
-        HelpRoutingModule],
+        HelpRoutingModule, 
+        OnboardingModule],
     providers: [],
 })
 export class HelpModule { }

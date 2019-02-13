@@ -1,5 +1,5 @@
 import { PermissionService, Permissions } from "../../shared/model/permission.data";
-import { Angulartics2Mixpanel } from "angulartics2";
+import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { environment } from "../../config/environment";
 import { LoaderService } from "../../shared/components/loading/loader.service";
 import { Observable } from "rxjs/Rx";
@@ -16,7 +16,7 @@ import { tokenNotExpired } from "angular2-jwt/angular2-jwt";
 import { uniq } from "lodash-es";
 import * as LogRocket from "logrocket";
 import { Intercom } from "ng-intercom";
-import { Fullstory } from "ng-fullstory";
+import { Fullstory } from "ngx-fullstory";
 
 @Injectable()
 export class Auth {
@@ -304,7 +304,7 @@ export class Auth {
                               this.fullstory.login(user.user_id, {
                                 displayName: user.name,
                                 email: user.email
-                              });
+                            });
                               this.intercom.update({
                                 app_id: environment.INTERCOM_APP_ID,
                                 email: user.email,

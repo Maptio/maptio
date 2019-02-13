@@ -4,12 +4,12 @@ import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { RouterTestingModule } from "@angular/router/testing";
 import { NgProgressModule, NgProgress } from "@ngx-progressbar/core";
 import { IntercomModule } from "ng-intercom";
-import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
+import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { Auth } from "../../../../core/authentication/auth.service";
 import { DatasetFactory } from "../../../../core/http/map/dataset.factory";
 import { UserFactory } from "../../../../core/http/user/user.factory";
 import { PermissionService } from "../../../../shared/model/permission.data";
-import { Fullstory, FullstoryConfig } from "ng-fullstory";
+import { Fullstory, FullstoryConfig } from "ngx-fullstory";
 import { AuthHttp } from "angular2-jwt";
 import { authHttpServiceFactoryTesting } from "../../../../core/mocks/authhttp.helper.shared";
 import { Http, BaseRequestOptions } from "@angular/http";
@@ -22,6 +22,7 @@ import { Observable } from "rxjs";
 import { LoaderService } from "../../../../shared/components/loading/loader.service";
 import { UserService } from "../../../../shared/services/user/user.service";
 import { User } from "../../../../shared/model/user.data";
+import { AnalyticsModule } from "../../../../core/analytics.module";
 
 describe("signup.component.ts", () => {
 
@@ -34,14 +35,11 @@ describe("signup.component.ts", () => {
             declarations: [SignupComponent],
             schemas: [NO_ERRORS_SCHEMA],
             imports: [RouterTestingModule, NgProgressModule,
-                IntercomModule.forRoot({
-                    appId: "",
-                    updateOnRouterChange: true
-                })]
+               AnalyticsModule]
         }).overrideComponent(SignupComponent, {
             set: {
                 providers: [
-                    Angulartics2Mixpanel, Angulartics2,Auth, DatasetFactory, UserFactory,PermissionService,
+                    Auth, DatasetFactory, UserFactory,PermissionService,
                     Fullstory, FullstoryConfig,
                     {
                         provide: AuthHttp,

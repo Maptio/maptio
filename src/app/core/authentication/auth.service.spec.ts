@@ -62,7 +62,7 @@ describe("auth.service.ts", () => {
                 BaseRequestOptions,
                 ErrorService
             ],
-            imports: [RouterTestingModule, NgProgressModule, AnalyticsModule, CoreModule, SharedModule]
+            imports: [RouterTestingModule, NgProgressModule, AnalyticsModule, CoreModule, SharedModule.forRoot()]
         });
 
         localStorage.clear();

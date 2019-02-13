@@ -30,7 +30,7 @@ describe("dashboard.component.ts", () => {
     beforeEach(async(() => {
 
         TestBed.configureTestingModule({
-            imports : [ RouterTestingModule, AnalyticsModule, SharedModule, CoreModule],
+            imports : [ RouterTestingModule, AnalyticsModule, SharedModule.forRoot(), CoreModule],
             declarations: [DashboardComponent],
             schemas: [NO_ERRORS_SCHEMA]
         }).overrideComponent(DashboardComponent, {

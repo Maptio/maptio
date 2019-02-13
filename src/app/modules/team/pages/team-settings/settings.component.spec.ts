@@ -59,7 +59,7 @@ describe("settings.component.ts", () => {
         TestBed.configureTestingModule({
             declarations: [TeamSettingsComponent],
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [RouterTestingModule, SharedModule,  AnalyticsModule, CoreModule, PermissionsModule]
+            imports: [RouterTestingModule, SharedModule.forRoot(),  AnalyticsModule, CoreModule, PermissionsModule]
         }).overrideComponent(TeamSettingsComponent, {
             set: {
                 providers: [

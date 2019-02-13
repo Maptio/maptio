@@ -1,16 +1,8 @@
-import { MailingService } from "./../../../../shared/services/mailing/mailing.service";
-import { JwtEncoder } from "./../../../../shared/services/encoding/jwt.service";
-import { AuthConfiguration } from "../../../../core/authentication/auth.config";
 import { authHttpServiceFactoryTesting } from "../../../../core/mocks/authhttp.helper.shared";
 import { MockBackend } from "@angular/http/testing";
 import { BaseRequestOptions } from "@angular/http";
 import { Http } from "@angular/http";
 import { AuthHttp } from "angular2-jwt";
-import { Angulartics2, Angulartics2Mixpanel } from "angulartics2";
-import { TeamFactory } from "../../../../core/http/team/team.factory";
-import { UserFactory } from "../../../../core/http/user/user.factory";
-import { DatasetFactory } from "../../../../core/http/map/dataset.factory";
-import { UserService } from "./../../../../shared/services/user/user.service";
 import { FileService } from "./../../../../shared/services/file/file.service";
 import { NO_ERRORS_SCHEMA, Type } from "@angular/core";
 import { RouterTestingModule } from "@angular/router/testing";
@@ -67,7 +59,7 @@ describe("import.component.ts", () => {
         TestBed.configureTestingModule({
             declarations: [TeamImportComponent],
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [RouterTestingModule, SharedModule, CoreModule, AnalyticsModule]
+            imports: [RouterTestingModule, SharedModule.forRoot(), CoreModule, AnalyticsModule]
         }).overrideComponent(TeamImportComponent, {
             set: {
                 providers: [

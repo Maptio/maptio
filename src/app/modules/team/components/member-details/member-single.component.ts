@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef } fro
 import { User } from '../../../../shared/model/user.data';
 import { UserRole, Permissions } from "../../../../shared/model/permission.data";
 import { UserService } from '../../../../shared/services/user/user.service';
-import { Angulartics2Mixpanel } from 'angulartics2';
+import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { Intercom } from 'ng-intercom';
 import { Team } from '../../../../shared/model/team.data';
 import { Observable, Subscription } from 'rxjs';

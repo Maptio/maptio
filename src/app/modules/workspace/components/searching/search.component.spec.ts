@@ -2,10 +2,11 @@ import { SearchComponent, SearchResultType } from "./search.component";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { RouterTestingModule } from "@angular/router/testing";
-import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
+import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { Helper } from "../../../../shared/model/helper.data";
 import { Initiative } from "../../../../shared/model/initiative.data";
 import { Observable } from "rxjs";
+import { AnalyticsModule } from "../../../../core/analytics.module";
 
 describe("search.component.ts", () => {
 
@@ -17,12 +18,12 @@ describe("search.component.ts", () => {
         TestBed.configureTestingModule({
             declarations: [SearchComponent],
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [RouterTestingModule]
+            imports: [RouterTestingModule, AnalyticsModule]
         }).overrideComponent(SearchComponent, {
             set: {
-                providers: [
-                    Angulartics2Mixpanel, Angulartics2
-                ]
+                // providers: [
+                //     Angulartics2Mixpanel
+                // ]
             }
         }).compileComponents();
     }));

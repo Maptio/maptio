@@ -2,7 +2,7 @@ import { Team } from "../../../../shared/model/team.data";
 import { SelectableTag, Tag } from "../../../../shared/model/tag.data";
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { Angulartics2Mixpanel } from "angulartics2";
+import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 
 @Component({
     selector: "filter-tags",

@@ -1,6 +1,6 @@
 import { MappingComponent } from "./mapping.component";
 import { ComponentFixture, async, TestBed } from "@angular/core/testing";
-import { Angulartics2Mixpanel, Angulartics2 } from "angulartics2";
+import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { Http, BaseRequestOptions } from "@angular/http";
 import { MockBackend } from "@angular/http/testing";
 import { AuthHttp } from "angular2-jwt";
@@ -20,6 +20,7 @@ import { IDataVisualizer } from "./mapping.interface";
 import { AnalyticsModule } from "../../../../core/analytics.module";
 import { WorkspaceModule } from "../../workspace.module";
 import * as screenfull from 'screenfull';
+import { SharedModule } from "../../../../shared/shared.module";
 
 describe("mapping.component.ts", () => {
 
@@ -64,7 +65,7 @@ describe("mapping.component.ts", () => {
             ],
             schemas: [NO_ERRORS_SCHEMA],
             declarations: [],
-            imports: [RouterTestingModule, AnalyticsModule, WorkspaceModule]
+            imports: [RouterTestingModule, AnalyticsModule, WorkspaceModule, SharedModule.forRoot()]
         })
             .compileComponents()
 

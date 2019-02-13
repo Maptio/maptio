@@ -9,9 +9,7 @@ import * as shortid from "shortid";
 @Injectable()
 export class TeamFactory {
 
-    private _http: AuthHttp;
     constructor(private http: AuthHttp) {
-        this._http = http;
     }
 
 
@@ -55,7 +53,7 @@ export class TeamFactory {
         if (!teamIds || teamIds.length === 0) {
             return Promise.reject("You cannot make a search for all teams !")
         }
-        return this._http.get("/api/v1/team/in/" + teamIds.join(","))
+        return this.http.get("/api/v1/team/in/" + teamIds.join(","))
             .map((responseData) => {
                 return responseData.json();
             })

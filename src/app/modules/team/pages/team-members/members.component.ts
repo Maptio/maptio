@@ -3,7 +3,7 @@ import { Auth } from "../../../../core/authentication/auth.service";
 import { Observable, Subject } from "rxjs/Rx";
 import { DataSet } from "../../../../shared/model/dataset.data";
 import { DatasetFactory } from "../../../../core/http/map/dataset.factory";
-import { Angulartics2Mixpanel } from "angulartics2";
+import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { TeamFactory } from "../../../../core/http/team/team.factory";
 import { compact, remove, uniqBy, differenceBy, sortBy, isEmpty } from "lodash-es";
 import { UserService } from "../../../../shared/services/user/user.service";

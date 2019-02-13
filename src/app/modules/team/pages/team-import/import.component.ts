@@ -1,7 +1,7 @@
 import { UserRole } from '../../../../shared/model/permission.data';
 import { environment } from '../../../../config/environment';
 import { ActivatedRoute } from "@angular/router";
-import { Angulartics2Mixpanel } from "angulartics2";
+import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { TeamFactory } from "../../../../core/http/team/team.factory";
 import { UserFactory } from "../../../../core/http/user/user.factory";
 import { DataSet } from "../../../../shared/model/dataset.data";

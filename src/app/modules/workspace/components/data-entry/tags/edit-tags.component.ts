@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { Tag, SelectableTag } from '../../../../../shared/model/tag.data';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Angulartics2Mixpanel } from 'angulartics2';
+import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { Team } from '../../../../../shared/model/team.data';
 
 @Component({

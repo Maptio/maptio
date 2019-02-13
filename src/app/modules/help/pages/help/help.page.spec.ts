@@ -17,7 +17,7 @@ describe("help.component.ts", () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [RouterTestingModule, CoreModule, SharedModule, AnalyticsModule],
+            imports: [RouterTestingModule, CoreModule, SharedModule.forRoot(), AnalyticsModule],
             declarations: [HelpComponent]
         })
             .compileComponents()

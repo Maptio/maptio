@@ -1,11 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PermissionsDirective } from './directives/permission.directive';
+import { StickyPopoverDirective } from './directives/sticky.directive';
 
 @NgModule({
-    declarations: [PermissionsDirective],
-    imports: [ CommonModule ],
-    exports: [PermissionsDirective],
+    declarations: [
+        StickyPopoverDirective, 
+        PermissionsDirective
+    ],
+    imports: [CommonModule],
+    exports: [PermissionsDirective, StickyPopoverDirective],
     providers: [],
 })
-export class PermissionsModule {}
+export class PermissionsModule { }

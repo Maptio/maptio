@@ -12,8 +12,8 @@ import { UserService } from '../../../../shared/services/user/user.service';
 import { LoaderService } from '../../../../shared/components/loading/loader.service';
 import { Intercom } from 'ng-intercom';
 import { environment } from '../../../../config/environment';
-import { Fullstory } from 'ng-fullstory';
-import { Angulartics2Mixpanel } from 'angulartics2';
+import { Fullstory } from 'ngx-fullstory';
+import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import * as LogRocket from "logrocket";
 
 @Component({
@@ -88,8 +88,7 @@ export class AuthorizeComponent implements OnInit {
                 });
             })
             .do((user: User) => {
-                this.fullstory.login( {
-                    user_id : user.user_id,
+                this.fullstory.login(user.user_id, {
                     displayName: user.name,
                     email: user.email
                 });

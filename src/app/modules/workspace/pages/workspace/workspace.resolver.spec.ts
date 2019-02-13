@@ -1,9 +1,7 @@
 import { TestBed, fakeAsync, inject } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
-import { Angulartics2Mixpanel } from "angulartics2";
+import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { NgProgressModule, NgProgress } from "@ngx-progressbar/core";
-import { IntercomModule } from "ng-intercom";
-import { FullstoryModule } from "ng-fullstory";
 import { WorkspaceComponentResolver } from "./workspace.resolver";
 import { Auth } from "../../../../core/authentication/auth.service";
 import { PermissionService } from "../../../../shared/model/permission.data";

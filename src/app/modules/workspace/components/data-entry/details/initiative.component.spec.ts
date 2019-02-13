@@ -30,7 +30,7 @@ describe("initiative.component.ts", () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [RouterTestingModule, AnalyticsModule, SharedModule, WorkspaceModule, CoreModule ],
+            imports: [RouterTestingModule, AnalyticsModule, SharedModule.forRoot(), WorkspaceModule, CoreModule ],
             declarations: [],
             providers: [TeamFactory, UserFactory, DatasetFactory,
                 {

@@ -3,7 +3,7 @@ import { DataService } from "../../services/data.service";
 import { UserFactory } from "../../../../core/http/user/user.factory";
 import { Browsers, UIService } from "../../services/ui.service";
 import { ColorService } from "../../services/color.service";
-import { Angulartics2Mixpanel } from "angulartics2";
+import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { Initiative } from "../../../../shared/model/initiative.data";
 import { SelectableUser } from "../../../../shared/model/user.data";
 import { SelectableTag, Tag } from "../../../../shared/model/tag.data";

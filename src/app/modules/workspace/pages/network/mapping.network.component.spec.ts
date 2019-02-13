@@ -18,6 +18,7 @@ import { DataSet } from "../../../../shared/model/dataset.data";
 import { WorkspaceModule } from "../../workspace.module";
 import { AnalyticsModule } from "../../../../core/analytics.module";
 import { CoreModule } from "../../../../core/core.module";
+import { SharedModule } from "../../../../shared/shared.module";
 const fixtures = require("./fixtures/data.json");
 
 describe("mapping.network.component.ts", () => {
@@ -52,7 +53,7 @@ describe("mapping.network.component.ts", () => {
             ],
             declarations: [],
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [RouterTestingModule, WorkspaceModule, AnalyticsModule, CoreModule]
+            imports: [RouterTestingModule, WorkspaceModule, AnalyticsModule, CoreModule, SharedModule.forRoot()]
         })
             .compileComponents()
 

@@ -7,7 +7,7 @@ import { DatasetFactory } from '../../../core/http/map/dataset.factory';
 import { DataSet } from '../../model/dataset.data';
 import { UserFactory } from '../../../core/http/user/user.factory';
 import { TeamFactory } from '../../../core/http/team/team.factory';
-import { Angulartics2Mixpanel } from 'angulartics2';
+import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import { Intercom } from 'ng-intercom';
 
 @Component({

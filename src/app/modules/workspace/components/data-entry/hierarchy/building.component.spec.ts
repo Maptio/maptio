@@ -38,7 +38,7 @@ describe("building.component.ts", () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [RouterTestingModule, AnalyticsModule, CoreModule, SharedModule, WorkspaceModule],
+            imports: [RouterTestingModule, AnalyticsModule, CoreModule, SharedModule.forRoot(), WorkspaceModule],
             declarations: [],
             schemas: [NO_ERRORS_SCHEMA]
         }).overrideComponent(BuildingComponent, {

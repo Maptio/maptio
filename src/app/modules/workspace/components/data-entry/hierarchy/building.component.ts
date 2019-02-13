@@ -5,7 +5,7 @@ import { DatasetFactory } from "../../../../../core/http/map/dataset.factory";
 import { DataService } from "../../../services/data.service";
 import { Initiative } from "../../../../../shared/model/initiative.data";
 
-import { Angulartics2Mixpanel } from "angulartics2";
+import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { EventEmitter } from "@angular/core";
 import { Component, ViewChild, Output, Input, ChangeDetectorRef, ChangeDetectionStrategy } from "@angular/core";
 import { TreeNode, TREE_ACTIONS, TreeComponent } from "angular-tree-component";

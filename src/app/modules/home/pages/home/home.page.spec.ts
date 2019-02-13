@@ -30,7 +30,7 @@ describe("home.component.ts", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports : [ReactiveFormsModule,RouterTestingModule,CreateMapModule,
-                CoreModule, SharedModule, AnalyticsModule, PermissionsModule, SanitizerModule],
+                CoreModule, SharedModule.forRoot(), AnalyticsModule, PermissionsModule, SanitizerModule],
             declarations: [HomeComponent, DashboardComponent]
         }).compileComponents();
     }));

@@ -8,7 +8,8 @@ const PreloadWebpackPlugin = require('preload-webpack-plugin');
 const PurgecssPlugin = require('purgecss-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const glob = require('glob-all');
-
+const AngularNamedLazyChunksWebpackPlugin = require('angular-named-lazy-chunks-webpack-plugin');
+ 
 
 module.exports = {
   mode: process.env.NODE_ENV === "production" ? "production" : "development",
@@ -43,35 +44,36 @@ of lodash in @exalif/ngx-breadcrums
   },
 
   optimization: {
-    splitChunks: {
-      chunks: 'all',
-      maxInitialRequests: Infinity,
-      minSize: 0,
-      cacheGroups: {
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name(module) {
-            // get the name. E.g. node_modules/packageName/not/this/part.js
-            // or node_modules/packageName
-            const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
-
-            // npm package names are URL-safe, but some servers don't like @ symbols
-            return `+npm.${packageName.replace('@', '')}`;
-          },
-        },
-      },
-    }
+    // runtimeChunk: 'single',
     // splitChunks: {
+    //   chunks: 'all',
+    //   maxInitialRequests: Infinity,
+    //   minSize: 0,
     //   cacheGroups: {
     //     vendor: {
-    //       name: 'vendor',
-    //       test: /\/node_modules\//,
-    //       chunks: 'all',
-    //       priority: 0,
-    //       enforce: true
-    //     }
-    //   }
-    // },
+    //       test: /[\\/]node_modules[\\/]/,
+    //       name(module) {
+    //         // get the name. E.g. node_modules/packageName/not/this/part.js
+    //         // or node_modules/packageName
+    //         const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+
+    //         // npm package names are URL-safe, but some servers don't like @ symbols
+    //         return `+npm.${packageName.replace('@', '')}`;
+    //       },
+    //     },
+    //   },
+    // }
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          name: 'vendor',
+          test: /\/node_modules\//,
+          chunks: 'all',
+          priority: 0,
+          enforce: true
+        }
+      }
+    },
   },
 
   module: {
@@ -126,7 +128,8 @@ of lodash in @exalif/ngx-breadcrums
 
   plugins: [
 
-
+    new AngularNamedLazyChunksWebpackPlugin(),
+    
     new HtmlWebpackPlugin({
       template: './src/index.html',
       minify: {

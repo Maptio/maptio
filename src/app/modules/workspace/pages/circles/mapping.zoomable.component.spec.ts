@@ -17,6 +17,7 @@ import { DataSet } from "../../../../shared/model/dataset.data";
 import { Team } from "../../../../shared/model/team.data";
 import { WorkspaceModule } from "../../workspace.module";
 import { CoreModule } from "../../../../core/core.module";
+import { SharedModule } from "../../../../shared/shared.module";
 const fixtures = require("./fixtures/data.json");
 
 describe("mapping.zoomable.component.ts", () => {
@@ -65,7 +66,7 @@ describe("mapping.zoomable.component.ts", () => {
             ],
             declarations: [],
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [RouterTestingModule, WorkspaceModule, CoreModule]
+            imports: [RouterTestingModule, WorkspaceModule, CoreModule, SharedModule.forRoot()]
         })
             .compileComponents()
 

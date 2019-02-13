@@ -4,7 +4,7 @@ import { ActivatedRoute , Router} from "@angular/router";
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { Auth } from "../../../../core/authentication/auth.service";
 import { User } from "../../../../shared/model/user.data";
-import { Angulartics2Mixpanel } from "angulartics2";
+import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { Permissions } from "../../../../shared/model/permission.data";
 import {sortBy} from "lodash-es";
 

@@ -12,7 +12,7 @@ import {
   ElementRef,
 } from "@angular/core";
 import { ActivatedRoute, Router, Params } from "@angular/router";
-import { Angulartics2Mixpanel } from "angulartics2";
+import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { compact } from "lodash-es";
 import { BehaviorSubject, ReplaySubject, Subject, Subscription } from "rxjs";
 

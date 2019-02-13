@@ -25,7 +25,7 @@ describe("auth.module.ts", () => {
                 },
                 MockBackend, BaseRequestOptions
             ],
-            imports: [RouterTestingModule, CoreModule, SharedModule, AnalyticsModule]
+            imports: [RouterTestingModule, CoreModule, SharedModule.forRoot(), AnalyticsModule]
         });
 
         http = TestBed.get(Http);

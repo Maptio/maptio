@@ -19,6 +19,7 @@ import { MapSettingsService } from "../../services/map-settings.service";
 import { WorkspaceModule } from "../../workspace.module";
 import { AnalyticsModule } from "../../../../core/analytics.module";
 import { CoreModule } from "../../../../core/core.module";
+import { SharedModule } from "../../../../shared/shared.module";
 const fixtures = require("./fixtures/data.json");
 
 describe("mapping.tree.component.ts", () => {
@@ -54,7 +55,7 @@ describe("mapping.tree.component.ts", () => {
             ],
             declarations: [],
             schemas: [NO_ERRORS_SCHEMA],
-            imports: [RouterTestingModule, AnalyticsModule, WorkspaceModule, CoreModule]
+            imports: [RouterTestingModule, AnalyticsModule, WorkspaceModule, CoreModule, SharedModule.forRoot()]
         })
             .compileComponents()
 

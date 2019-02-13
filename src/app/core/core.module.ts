@@ -25,6 +25,7 @@ import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressRouterModule } from '@ngx-progressbar/router';
 import { MappingSummaryBreadcrumbs } from './breadcrumbs/summary.breadcrumb';
 import { HttpFactoryModule } from './interceptors/httpInterceptor';
+import { OnboardingModule } from '../shared/onboarding.module';
 
 @NgModule({
     declarations: [
@@ -39,6 +40,7 @@ import { HttpFactoryModule } from './interceptors/httpInterceptor';
         RouterModule,
         HttpModule,
         HttpFactoryModule,
+        OnboardingModule,
         BreadcrumbsModule.forRoot(),
         DeviceDetectorModule.forRoot(),
         NgProgressModule.forRoot(),

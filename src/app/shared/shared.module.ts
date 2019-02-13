@@ -1,6 +1,5 @@
 import { DebounceDirective } from './directives/debounce.directive';
-import { StickyPopoverDirective } from "./directives/sticky.directive";
-import { NgModule } from "@angular/core";
+import { NgModule, ModuleWithProviders } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -20,9 +19,6 @@ import { URIService } from './services/uri/uri.service';
 import { UserService } from './services/user/user.service';
 import { BillingService } from './services/billing/billing.service';
 import { TeamService } from './services/team/team.service';
-import { InstructionsService } from './components/instructions/instructions.service';
-import { OnboardingService } from './components/onboarding/onboarding.service';
-
 
 
 @NgModule({
@@ -30,37 +26,39 @@ import { OnboardingService } from './components/onboarding/onboarding.service';
         FormsModule,
         ReactiveFormsModule,
         CommonModule,
-        RouterModule, 
+        RouterModule,
         NgbPopoverModule
     ],
     declarations: [
-        StickyPopoverDirective,
         DebounceDirective,
         ClosableDirective
     ],
-    providers: [
-        MapSettingsService,
-        PermissionService, 
-        JwtEncoder,
-        ErrorService,
-        ExportService,
-        FileService,
-        LoaderService,
-        MailingService,
-        URIService,
-        UserService,
-        BillingService,
-        TeamService,
-        MapService,
-        InstructionsService,
-        OnboardingService,
-        IntercomService
-    ],
     exports: [
-        StickyPopoverDirective,
         DebounceDirective,
         ClosableDirective,
-        
+
     ]
 })
-export class SharedModule { }
+export class SharedModule {
+    static forRoot(): ModuleWithProviders {
+        return {
+            ngModule: SharedModule,
+            providers: [
+                PermissionService,
+                JwtEncoder,
+                ErrorService,
+                ExportService,
+                FileService,
+                LoaderService,
+                MailingService,
+                URIService,
+                UserService,
+                BillingService,
+                TeamService,
+                MapService,
+                IntercomService
+            ]
+        };
+    }
+
+}
