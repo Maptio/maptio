@@ -35,7 +35,7 @@
     ]
   },
   "exclude": [
-    "node_modules/(?!ngx-fullstory)",
+    "node_modules",
     "config",
     "coverage",
     "routes"

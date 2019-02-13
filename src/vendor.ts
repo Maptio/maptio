@@ -55,7 +55,6 @@ import "ng2-file-upload";
 import "angulartics2";
 import "logrocket";
 import "ng-intercom"
-import "ngx-fullstory"
 
 
 

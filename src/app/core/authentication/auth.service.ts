@@ -16,7 +16,6 @@ import { tokenNotExpired } from "angular2-jwt/angular2-jwt";
 import { uniq } from "lodash-es";
 import * as LogRocket from "logrocket";
 import { Intercom } from "ng-intercom";
-import { Fullstory } from "ngx-fullstory";
 
 @Injectable()
 export class Auth {
@@ -32,6 +31,7 @@ export class Auth {
 
   private user$: Subject<User> = new Subject();
   private permissions: Permissions[] = [];
+  private fullstory: any = window["FS"];
 
   constructor(
     private http: Http,
@@ -42,13 +42,12 @@ export class Auth {
     private loader: LoaderService,
     private permissionService: PermissionService,
     private analytics: Angulartics2Mixpanel,
-    private intercom: Intercom,
-    public fullstory: Fullstory
+    private intercom: Intercom
   ) { }
 
   public logout(): void {
     this.analytics.eventTrack("Logout", {});
-    this.fullstory.logout();
+    this.fullstory.shutdown();
     this.router.navigateByUrl("/logout");
     this.user$.unsubscribe();
     localStorage.clear();
@@ -301,7 +300,7 @@ export class Auth {
                                 name: user.name,
                                 email: user.email,
                               });
-                              this.fullstory.login(user.user_id, {
+                              this.fullstory.identify(user.user_id, {
                                 displayName: user.name,
                                 email: user.email
                             });

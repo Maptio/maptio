@@ -8,7 +8,7 @@ module.exports = {
     ],
 
     transformIgnorePatterns: [
-        "node_modules/(?!lodash-es|lodash|ngx-fullstory)"
+        "node_modules/(?!lodash-es|lodash)"
     ],
     moduleNameMapper: {
         "^lodash-es$": "lodash"

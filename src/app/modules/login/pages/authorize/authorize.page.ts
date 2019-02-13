@@ -12,7 +12,6 @@ import { UserService } from '../../../../shared/services/user/user.service';
 import { LoaderService } from '../../../../shared/components/loading/loader.service';
 import { Intercom } from 'ng-intercom';
 import { environment } from '../../../../config/environment';
-import { Fullstory } from 'ngx-fullstory';
 import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
 import * as LogRocket from "logrocket";
 
@@ -22,11 +21,12 @@ import * as LogRocket from "logrocket";
 })
 export class AuthorizeComponent implements OnInit {
 
+    fullstory:any = window["FS"];
     subscription: Subscription;
     constructor(private route: ActivatedRoute, private router: Router,
         private userFactory: UserFactory, private userService: UserService,
         private uriService: URIService, private auth: Auth,
-        private intercom: Intercom, public fullstory: Fullstory, private analytics: Angulartics2Mixpanel,
+        private intercom: Intercom, private analytics: Angulartics2Mixpanel,
         private authConfig: AuthConfiguration, private loader: LoaderService) { }
 
     ngOnInit(): void {
@@ -88,7 +88,7 @@ export class AuthorizeComponent implements OnInit {
                 });
             })
             .do((user: User) => {
-                this.fullstory.login(user.user_id, {
+                this.fullstory.identify(user.user_id, {
                     displayName: user.name,
                     email: user.email
                 });

@@ -26,7 +26,7 @@
     "debug":true
   },
   "exclude": [
-    "node_modules/(?!ngx-fullstory)",
+    "node_modules",
     "./**/*.spec.ts"
   ]
 }

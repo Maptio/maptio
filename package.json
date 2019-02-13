@@ -95,7 +95,6 @@
     "ng2-file-upload": "^1.2.1",
     "ngx-color": "^2.0.5",
     "ngx-device-detector": "^1.3.4",
-    "ngx-fullstory": "git+https://github.com/Safiyya/ngx-fullstory.git",
     "ngx-markdown": "^7.1.3",
     "null-loader": "^0.1.1",
     "path": "^0.12.7",

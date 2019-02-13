@@ -8,9 +8,6 @@ import { CoreModule } from "./core/core.module";
 import { AppRoutingModule } from "./app.routing";
 import { AnalyticsModule } from "./core/analytics.module";
 import { SharedModule } from "./shared/shared.module";
-import { Angulartics2Module } from "angulartics2";
-import { FullstoryModule, Fullstory, FullstoryConfig } from "ngx-fullstory";
-import { environment } from "./config/environment";
 
 @NgModule({
     declarations: [
