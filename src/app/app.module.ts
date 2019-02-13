@@ -23,14 +23,6 @@ import { environment } from "./config/environment";
         // routing
         AppRoutingModule,
         // analytics
-
-        // Angulartics2Module.forRoot(),
-        FullstoryModule.forRoot({
-            fsOrg: environment.FULLSTORY_APP_ID,
-            fsNameSpace: 'FS',
-            fsDebug: false,
-            fsHost: 'fullstory.com'
-        }),
         AnalyticsModule,
 
         // core & shared
@@ -39,7 +31,6 @@ import { environment } from "./config/environment";
     ],
     exports: [RouterModule],
     providers: [
-        Fullstory, FullstoryConfig,
         BrowserAnimationsModule,
         Location,
         { provide: LocationStrategy, useClass: PathLocationStrategy },

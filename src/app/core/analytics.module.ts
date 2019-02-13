@@ -14,7 +14,12 @@ import * as LogRocket from "logrocket";
     ],
     imports: [
         CommonModule,
-        
+        FullstoryModule.forRoot({
+            fsOrg: environment.FULLSTORY_APP_ID,
+            fsNameSpace: 'FS',
+            fsDebug: false,
+            fsHost: 'fullstory.com'
+        }),
         Angulartics2Module.forRoot(),
         IntercomModule.forRoot({
             appId: environment.INTERCOM_APP_ID, // from your Intercom config
@@ -24,7 +29,8 @@ import * as LogRocket from "logrocket";
         Angulartics2Module, 
     ],
     providers: [
-        Intercom,  Angulartics2Mixpanel
+        Intercom,  Angulartics2Mixpanel, 
+        Fullstory, FullstoryConfig,
     ],
 })
 export class AnalyticsModule {
