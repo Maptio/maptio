@@ -42,33 +42,3 @@ Object.defineProperty(document.body.style, 'transform', {
   },
 });
 
-// jest.mock(
-//   'ngx-fullstory',
-//   () => ({
-//     FullstoryModule: {
-//       forRoot: jest.fn().mockImplementation((config) => {
-//         return {
-//           ngModule: {
-//             decorators : {
-//               type : NgModule,
-//             },
-//             forRoot: jest.fn().mockReturnThis()
-//           },
-//           providers: [
-//             {
-//               provide: {
-//                 fsOrg: "test",
-//                 fsDebug: true,
-//                 fsHost: "test",
-//                 fsNameSpace: "test",
-//               },
-//               useValue: config
-//             },
-//           ]
-//         }
-//       }
-
-//       )
-//     }
-//   }
-//   ));
