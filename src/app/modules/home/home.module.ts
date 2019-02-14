@@ -9,6 +9,8 @@ import { PermissionsModule } from '../../shared/permissions.module';
 import { CreateMapModule } from "../../shared/create-map.module";
 import { OnboardingModule } from "../../shared/onboarding.module";
 import { HomeRoutingModule } from "./home.routing";
+import { InstructionsComponent } from '../../shared/components/instructions/instructions.component';
+import { OnboardingComponent } from '../../shared/components/onboarding/onboarding.component';
 
 @NgModule({
     declarations: [
@@ -25,5 +27,6 @@ import { HomeRoutingModule } from "./home.routing";
     ],
     exports: [],
     providers: [],
+    entryComponents : [InstructionsComponent, OnboardingComponent]
 })
 export class HomeModule { }
