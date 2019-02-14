@@ -6,7 +6,7 @@ import {
     Injector,
     ComponentFactoryResolver,
     ViewContainerRef,
-    NgZone, Inject
+    NgZone, Inject, ChangeDetectorRef
 } from "@angular/core";
 import { NgbPopover, NgbPopoverConfig } from "@ng-bootstrap/ng-bootstrap";
 import { DOCUMENT } from '@angular/common';
@@ -47,8 +47,8 @@ export class StickyPopoverDirective extends NgbPopover {
 
     constructor(private _elRef: ElementRef, private _render: Renderer2, injector: Injector,
         componentFactoryResolver: ComponentFactoryResolver, private viewContainerRef: ViewContainerRef, config: NgbPopoverConfig,
-        ngZone: NgZone, @Inject(DOCUMENT) _document: any) {
-        super(_elRef, _render, injector, componentFactoryResolver, viewContainerRef, config, ngZone,_document);
+        ngZone: NgZone, @Inject(DOCUMENT) _document: any, cd:ChangeDetectorRef) {
+        super(_elRef, _render, injector, componentFactoryResolver, viewContainerRef, config, ngZone,_document, cd);
         this.triggers = "manual"
         this.popoverTitle = "Permissions";
         this.container = "body";
