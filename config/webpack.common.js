@@ -239,6 +239,7 @@ of lodash in @exalif/ngx-breadcrums
       paths: glob.sync([
         './src/**/*',
       ], { nodir: true }),
+      only : ['vendor-entry'],
       whitelist: ['breadcrumbs__container', 'breadcrumbs__item']
 
     })
