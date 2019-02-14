@@ -52,9 +52,21 @@ export class InstructionsComponent implements OnInit {
         this.activeModal.close();
     }
 
+    styleModal(){
+        if(this.currentIndex === this.steps.length -1){
+            document.querySelector(".modal-body").classList.add("bg-gradient")
+            document.querySelector(".modal-body").classList.add("text-white")
+        }else{
+            document.querySelector(".modal-body").classList.remove("bg-gradient")
+            document.querySelector(".modal-body").classList.remove("text-white")
+         
+        }
+    }
+
     nextStep() {
         if (this.currentIndex === this.steps.length - 1) {
-            if (this.user.teams.length === 0) {
+
+            if (this.user.teams.length === 0 && !this.isRedirecting) {
                 return this.getDemoMap(this.user)
                     .then((dataset: DataSet) => {
                         return dataset;
@@ -82,6 +94,7 @@ export class InstructionsComponent implements OnInit {
         this.previousActionName = this.getPreviousActionName();
         this.progress = this.getProgress()
         this.progressLabel = this.getAbsoluteProgress(); //`${this.steps.length - (this.currentIndex + 1)} steps left`
+        this.styleModal();
         this.cd.markForCheck();
     }
 
@@ -92,7 +105,7 @@ export class InstructionsComponent implements OnInit {
         this.previousActionName = this.getPreviousActionName();
         this.progress = this.getProgress()
         this.progressLabel = this.getAbsoluteProgress(); //`${this.steps.length - (this.currentIndex + 1)} steps left`
-
+        this.styleModal();
         this.cd.markForCheck();
     }
 

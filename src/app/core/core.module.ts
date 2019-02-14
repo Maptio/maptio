@@ -26,6 +26,8 @@ import { NgProgressRouterModule } from '@ngx-progressbar/router';
 import { MappingSummaryBreadcrumbs } from './breadcrumbs/summary.breadcrumb';
 import { HttpFactoryModule } from './interceptors/httpInterceptor';
 import { OnboardingModule } from '../shared/onboarding.module';
+import { InstructionsComponent } from '../shared/components/instructions/instructions.component';
+import { OnboardingComponent } from '../shared/components/onboarding/onboarding.component';
 
 @NgModule({
     declarations: [
@@ -65,6 +67,7 @@ import { OnboardingModule } from '../shared/onboarding.module';
         DeviceDetectorService
 
     ],
+    entryComponents : [InstructionsComponent, OnboardingComponent]
 })
 export class CoreModule {
     constructor(breadcrumbsConfig: BreadcrumbsConfig) {
