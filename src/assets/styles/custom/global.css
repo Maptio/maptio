@@ -6,6 +6,11 @@
   --maptio-red:#dc3545;
   --maptio-green:hsl(105, 54%, 42%);
   --maptio-black: hsla(204, 54%, 17%, 1);
+  --maptio-black-light: hsl(203, 55%, 17%, 0.5);
+
+  --maptio-accent-gray: hsla(180, 19%, 75%, 1);
+  --maptio-blue-gray: hsla(204, 27%, 75%, 1);
+  
 }
 
 body{
@@ -126,6 +131,16 @@ ul.picture-list > .list-inline-item{
   background : var(--maptio-blue)!important;
 }
 
+.bg-black{
+  background : var(--maptio-black)!important;
+}
+
+.bg-black-light{
+  background : var(--maptio-black-light)!important;
+}
+
+
+
 .bg-gray{
   background: var(--gray) !important;
 }
@@ -155,6 +170,10 @@ ul.picture-list > .list-inline-item{
 
 .bg-gradient{
   background-image: linear-gradient(to bottom right,  var(--maptio-blue), var(--maptio-accent));
+}
+
+.bg-gradient-gray{
+  background-image: linear-gradient(to bottom right,  var(--maptio-blue-gray), var(--maptio-accent-gray));
 }
 
 .bg-gradient-inverse{

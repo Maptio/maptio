@@ -1,5 +1,5 @@
 <ng-container *ngIf="auth.allAuthenticated() && (isMap() || isHome() || isTeam())">
-    <nav class="navbar navbar-light bg-gradient rounded-bottom text-white mx-3" *ngIf="isSandbox">
+    <nav class="d-flex justify-content-center bg-gradient-gray rounded-bottom text-white mx-3" *ngIf="isSandbox">
         <div class="my-3 h5 collapse show" id="collapseStartTrial">This is a demo organisation... Ready to create your own?
             <button class="btn btn-success " (click)="openOnboarding()">Start a 14 days free trial</button>
         </div>
