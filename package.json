@@ -68,7 +68,7 @@
     "awesome-typescript-loader": "^3.1.2",
     "aws-sdk": "^2.106.0",
     "body-parser": "^1.17.0",
-    "bootstrap": "^4.0.0",
+    "bootstrap": "^4.3.1",
     "canvg": "^1.5.2",
     "cloudinary": "^1.11.0",
     "cloudinary-core": "^2.3.0",
