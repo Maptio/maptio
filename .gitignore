@@ -1,3 +1,4 @@
+stats.json
 node_modules/
 dist/
 coverage/**/*.*
@@ -16,3 +17,4 @@ id_rsa
 id_rsa.pub
 rsa.pub
 public/images/sources/*.*
+stats.json

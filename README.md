@@ -95,7 +95,7 @@ Ideally Pull requests and commits should reference the issue number ([See this g
 
 ## Tests
 
-Tests are written in Jasmine and ran with Karma.
+Tests are written in Jest and ran with Jest.
 
 - Single run 
 ```shell
@@ -104,10 +104,15 @@ npm test
 
 - Auto updated run 
 ```shell
-npm run test:headless
+npm run test:watch
 ```
 
-Locally, you can follow test coverate statistics by opening `./coverage/html/index.html/index.html` in a browser (generated with Istanbul)
+- Generate test coverage 
+```shell
+npm run test:coverage
+```
+
+Locally, you can follow test coverate statistics by opening `./coverage/html/index.html` in a browser (generated with Istanbul)
 
 ## Style guide
 

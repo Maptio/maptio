@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DatasetFactory } from '../dataset.factory';
+import { DatasetFactory } from '../../../core/http/map/dataset.factory';
 import { DataSet } from '../../model/dataset.data';
 import { Intercom } from 'ng-intercom';
 import { Initiative } from '../../model/initiative.data';

@@ -1,0 +1,13 @@
+
+
+@media only screen and (max-height: 800px) {
+    .edit-tags{
+        max-height: 68vh;
+    }
+  }
+  
+  @media only screen and (min-height: 800px) {
+    .edit-tags{
+        max-height: 72vh;
+    }
+  }

@@ -2,14 +2,12 @@ import { Component, OnInit, Input, SimpleChanges, ChangeDetectorRef, ViewChild, 
 import { DataSet } from '../../model/dataset.data';
 import { Team } from '../../model/team.data';
 import { isEmpty } from 'lodash';
-import { environment } from '../../../../environment/environment';
+import { environment } from '../../../config/environment';
 import { User } from '../../model/user.data';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TeamService } from '../../services/team/team.service';
 import { Router } from '@angular/router';
 import { MapService } from '../../services/map/map.service';
-import { Steps } from './onboarding.enum';
-import { tickStep } from '../../../../../node_modules/@types/d3-array';
 
 
 
@@ -248,9 +246,6 @@ export class OnboardingComponent implements OnInit {
         this.COLORS.forEach(c => c.isSelected = false);
         color.isSelected = true;
         this.selectedColor = color.name;
-        // let settings: any = JSON.parse(localStorage.getItem(`map_settings_${this.dataset.datasetId}`));
-        // settings.mapColor = color.name;
-        // localStorage.setItem(`map_settings_${this.dataset.datasetId}`, JSON.stringify(settings));
         this.cd.markForCheck();
     }
 }

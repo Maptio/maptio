@@ -2,19 +2,20 @@
 import { Initiative } from "./initiative.data";
 import { Helper } from "./helper.data";
 import { Role } from "./role.data";
+const fixtures = require("./fixtures/serialize.json");
 
 describe("initiative.data.ts", () => {
 
     let tree: Initiative;
     let node1: Initiative, node2: Initiative, node3: Initiative, node11: Initiative, node12: Initiative, node21: Initiative, node22: Initiative, node23: Initiative;
 
-    beforeAll(() => {
-        fixture.setBase("src/app/shared/model/fixtures");
-    })
+    // beforeAll(() => {
+    //     fixture.setBase("src/app/shared/model/fixtures");
+    // })
 
-    afterEach(() => {
-        fixture.cleanup();
-    })
+    // afterEach(() => {
+    //     fixture.cleanup();
+    // })
 
     beforeEach(() => {
 
@@ -40,9 +41,9 @@ describe("initiative.data.ts", () => {
         describe("deserialize", () => {
             it("should return valid initiative when input is valid", () => {
 
-                fixture.load("serialize.json");
-                let jsonString = fixture.json[0];
-                let initiative = new Initiative().deserialize(jsonString);
+                // fixture.load("serialize.json");
+                // let jsonString = fixtures.json[0];
+                let initiative = new Initiative().deserialize(fixtures);
 
                 expect(initiative).toBeDefined();
                 expect(initiative.name).toBe("Root");

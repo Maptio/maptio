@@ -1,0 +1,33 @@
+<ng-template #links>
+    <span class="navbar-text">
+        <div>
+            <a class="small mr-1" routerLink="/legal/terms">
+                <span >Terms</span>
+            </a>|
+            <a class="small mr-1" routerLink="/legal/privacy">
+                <span>Privacy</span>
+            </a>|
+            <a class="small mr-1" href="{{BLOG_URL}}" target="blank">
+                <span>Blog</span>
+            </a>|
+            <a class="small mr-1" routerLink="/help">
+                <span>Help</span>
+            </a>|
+            <a class="small mr-1" routerLink="/pricing">
+                <span>Pricing</span>
+            </a>
+        </div>
+    </span>
+    <span class="navbar-text text-muted">
+        <small class="">Copyright
+            <i class="far fa-copyright" aria-hidden="true"></i> {{today | date:'yyyy'}} Maptio Ltd</small>
+    </span>
+</ng-template>
+
+<nav [class.flex-column]="isMobile" [class.flex-row]="!isMobile" 
+[class.text-white]="isMobile"  [class.text-muted]="!isMobile" class="footer navbar bg-transparent d-flex justify-content-between col-11 ">
+      <ng-container *ngTemplateOutlet="links"></ng-container>
+</nav>
+<!-- <nav *ngIf="!isMobile" class="footer navbar bg-transparent d-flex flex-row justify-content-between col-11 text-muted">
+      <ng-container *ngTemplateOutlet="links"></ng-container>
+</nav> -->

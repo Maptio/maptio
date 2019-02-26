@@ -1,0 +1,124 @@
+<div class="col-11-half p-0">
+	<ngb-tabset (tabChange)="beforeChange($event)" #tabs="ngbTabset" [justify]="'fill'">
+		<ngb-tab id="circles-tab">
+			<ng-template ngbTabTitle>
+				<div class="d-flex flex-column">
+						<span>Circles</span>
+						<span class="small text-muted">{{depth}} circles</span>
+					
+				</div>
+			</ng-template>
+			<ng-template ngbTabContent>
+				<div class=" d-flex flex-column">
+					<div class="card mb-3 w-75 border-0 bg-transparent">
+						<div class="card-body">
+							<button name="" id="" class="btn btn-outline-secondary" (click)="!isToggling && toggleAll(true)" role="button">
+								<i class="fas" [class.fa-plus-circle]="!isExpanding" [class.fa-circle-notch]="isExpanding" [class.fa-spin]="isExpanding"
+								 aria-hidden="true"></i> Expand all
+							</button>
+							<button name="" id="" class="btn btn-outline-secondary mx-2" (click)="!isToggling && toggleAll(false)" role="button">
+								<i class="fas" [class.fa-minus-circle]="!isCollapsing" [class.fa-circle-notch]="isCollapsing" [class.fa-spin]="isCollapsing"
+								 aria-hidden="true"></i> Collapse all
+							</button>
+							<button *ngIf="isEmptyMap" name="" id="" class="btn btn-outline-secondary ml-auto" (click)="addRootNode()" role="button"
+							 placement="top" container="body" ngbTooltip="Add a new circle">
+								<i class="fa fa-plus large" aria-hidden="true"></i> New outer circle
+							</button>
+						</div>
+					</div>
+					<div>
+						<tree-root #tree [nodes]="nodes" (updateData)="saveChanges()" [options]="options" [state]="state" (stateChange)="setState($event)">
+							<ng-template #treeNodeTemplate let-node let-index="index">
+								<initiative-node [node]="node" [datasetId]="datasetId" [team]="team" [user]="user" (edited)="saveChanges()" (update)="updateTreeModel(tree.treeModel)"
+								 (open)="openNodeDetails($event)" (add)="openNodeDetails($event)"></initiative-node>
+							</ng-template>
+						</tree-root>
+					</div>
+				</div>
+			</ng-template>
+		</ngb-tab>
+		<ngb-tab id="tags-tab">
+			<ng-template ngbTabTitle>
+				<div class="d-flex flex-column">
+						<span>Tags</span>
+						<span class="small text-muted">{{tags?.length}} tags</span>
+				
+				</div>
+			</ng-template>
+			<ng-template ngbTabContent>
+				<edit-tags [tags]="tags" [team]="team" (edit)="onEditingTags($event)"></edit-tags>
+	
+			</ng-template>
+		</ngb-tab>
+	</ngb-tabset>
+</div>
+
+
+
+<!-- <ul class="nav nav-tabs nav-fill mt-4" id="myTab" role="tablist">
+	<li class="nav-item">
+		<a class="nav-link active d-flex flex-column align-items-center" id="circles-tab" data-toggle="tab" href="#circles" role="tab"
+		 aria-controls="circles" aria-selected="true">
+			<span>Circles</span>
+			<span class="small text-muted">{{depth}} circles</span>
+		</a>
+	</li>
+	<li class="nav-item">
+			<a class="nav-link d-flex flex-column align-items-center" [class.active]="openEditTag$ | async" id="tags-tab" data-toggle="tab" href="#tags" role="tab"
+			aria-controls="tags" aria-selected="true">
+			   <span>Tags</span>
+			   <span class="small text-muted">{{tags.length}} tags</span>
+		   </a>
+	</li>
+</ul> -->
+
+<!-- <div class="tab-content mt-3">
+	<div class="tab-pane active" id="circles" role="tabpanel" aria-labelledby="circles-tab">
+		<div class=" d-flex flex-column">
+			<div class="card mb-3 w-75 border-0 bg-transparent">
+				<div class="card-body">
+					<button name="" id="" class="btn btn-outline-secondary" (click)="!isToggling && toggleAll(true)" role="button">
+						<i class="fas" [class.fa-plus-circle]="!isExpanding" [class.fa-circle-notch]="isExpanding" [class.fa-spin]="isExpanding"
+						 aria-hidden="true"></i> Expand all
+					</button>
+					<button name="" id="" class="btn btn-outline-secondary mx-2" (click)="!isToggling && toggleAll(false)" role="button">
+						<i class="fas" [class.fa-minus-circle]="!isCollapsing" [class.fa-circle-notch]="isCollapsing" [class.fa-spin]="isCollapsing"
+						 aria-hidden="true"></i> Collapse all
+					</button>
+					<button *ngIf="isEmptyMap" name="" id="" class="btn btn-outline-secondary ml-auto" (click)="addRootNode()" role="button"
+					 placement="top" container="body" ngbTooltip="Add a new circle">
+						<i class="fa fa-plus large" aria-hidden="true"></i> New outer circle
+					</button>
+				</div>
+			</div>
+			<div>
+				<tree-root #tree [nodes]="nodes" (updateData)="saveChanges()" [options]="options" [state]="state" (stateChange)="setState($event)">
+					<ng-template #treeNodeTemplate let-node let-index="index">
+						<initiative-node [node]="node" [datasetId]="datasetId" [team]="team" [user]="user" (edited)="saveChanges()" (update)="updateTreeModel(tree.treeModel)"
+						 (open)="openNodeDetails($event)" (add)="openNodeDetails($event)"></initiative-node>
+					</ng-template>
+				</tree-root>
+			</div>
+		</div>
+	</div>
+	<div class="tab-pane" id="tags" role="tabpanel" aria-labelledby="tags-tab">
+		<edit-tags [tags]="tags" [team]="team" (edit)="onEditingTags($event)"></edit-tags>
+	</div>
+</div> -->
+
+
+
+<ng-template #dragConfirmation let-c="close" let-d="dismiss">
+	<div class="modal-body">
+		<h1>Are you sure?</h1>
+		<p>
+			Circle
+			<b>{{fromInitiative.name}}</b> and it sub-circles will be moved under
+			<b>{{toInitiative.name}}</b>
+		</p>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-link" (click)="c(false)">No</button>
+		<button type="button" class="btn btn-danger" (click)="c(true)">Move circle</button>
+	</div>
+</ng-template>

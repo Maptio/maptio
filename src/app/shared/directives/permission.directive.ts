@@ -1,7 +1,7 @@
 import { Helper } from "./../model/helper.data";
 import { Initiative } from "./../model/initiative.data";
 import { Permissions } from "./../model/permission.data";
-import { Auth } from "./../services/auth/auth.service";
+import { Auth } from "../../core/authentication/auth.service";
 import {
     Directive,
     EventEmitter,
@@ -16,7 +16,7 @@ import {
 import { Subscription } from "rxjs/Subscription";
 import "rxjs/add/operator/merge";
 import "rxjs/add/operator/skip";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs/Rx";
 
 export type StrategyFunction = (templateRef?: TemplateRef<any>) => void;
 

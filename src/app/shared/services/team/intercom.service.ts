@@ -3,7 +3,7 @@ import { AuthHttp } from "angular2-jwt";
 import { Team } from "../../../shared/model/team.data";
 import { User } from "../../../shared/model/user.data";
 import { Response } from "@angular/http";
-import { Observable } from "../../../../../node_modules/rxjs";
+import { Observable } from "rxjs/Observable";
 import { Intercom } from "ng-intercom";
 
 

@@ -3,7 +3,7 @@ import { MailingService } from "./mailing.service";
 import { TestBed, inject } from "@angular/core/testing";
 import { MockBackend, MockConnection } from "@angular/http/testing";
 import { Http, HttpModule, Response, BaseRequestOptions, ResponseOptions, RequestMethod } from "@angular/http";
-import { authHttpServiceFactoryTesting } from "../../../../test/specs/shared/authhttp.helper.shared";
+import { authHttpServiceFactoryTesting } from "../../../core/mocks/authhttp.helper.shared";
 
 describe("mailing.service.ts", () => {
 

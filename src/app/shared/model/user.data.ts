@@ -1,7 +1,7 @@
 import { Permissions, UserRole } from './permission.data';
 import { Serializable } from "../interfaces/serializable.interface";
 import * as slug from "slug";
-import * as moment from "moment";
+import * as parse from "date-fns/parse";
 
 /**
  * A user
@@ -65,8 +65,8 @@ export class User implements Serializable<User> {
     public isDeleted: boolean = false;
 
 
-    public lastSeenAt: moment.Moment;
-    public createdAt: moment.Moment;
+    public lastSeenAt: Date;
+    public createdAt: Date;
 
 
     /**
@@ -109,15 +109,15 @@ export class User implements Serializable<User> {
         }
         let deserialized = new User();
         deserialized.shortid = input.shortid;
-        deserialized.firstname = input.firstname || (input.user_metadata ? input.user_metadata.given_name : input.given_name);
-        deserialized.lastname = input.lastname || (input.user_metadata ? input.user_metadata.family_name : input.family_name);
+        deserialized.firstname = (input.user_metadata ? input.user_metadata.given_name : input.given_name) || input.firstname;
+        deserialized.lastname = (input.user_metadata ? input.user_metadata.family_name : input.family_name) ||  input.lastname;
         deserialized.name = ((deserialized.firstname) && (deserialized.lastname)) ? `${deserialized.firstname || ""} ${deserialized.lastname || ""}` : input.name;
         deserialized.isActivationPending = input.app_metadata && input.app_metadata.activation_pending ? input.app_metadata.activation_pending : false;
         deserialized.isInvitationSent = input.app_metadata && input.app_metadata.invitation_sent ? input.app_metadata.invitation_sent : false;
         deserialized.userRole = input.app_metadata && input.app_metadata.role ? (<any>UserRole)[input.app_metadata.role] : UserRole.Standard;
         deserialized.loginsCount = input.logins_count;
-        deserialized.lastSeenAt = input.last_login ? moment(input.last_login) : null;
-        deserialized.createdAt = input.created_at ? moment(input.created_at) : null;
+        deserialized.lastSeenAt = input.last_login ? parse(input.last_login) : null;
+        deserialized.createdAt = input.created_at ? parse(input.created_at) : null;
 
         deserialized.nickname = input.nickname;
         deserialized.email = input.email;

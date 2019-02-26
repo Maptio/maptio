@@ -1,14 +1,14 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { Team } from '../../model/team.data';
-import { FormGroup, Validators, FormControl } from '../../../../../node_modules/@angular/forms';
+import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { UserService } from '../../services/user/user.service';
 import { User } from '../../model/user.data';
-import { DatasetFactory } from '../../services/dataset.factory';
+import { DatasetFactory } from '../../../core/http/map/dataset.factory';
 import { DataSet } from '../../model/dataset.data';
-import { UserFactory } from '../../services/user.factory';
-import { TeamFactory } from '../../services/team.factory';
-import { Angulartics2Mixpanel } from '../../../../../node_modules/angulartics2';
-import { Intercom } from '../../../../../node_modules/ng-intercom';
+import { UserFactory } from '../../../core/http/user/user.factory';
+import { TeamFactory } from '../../../core/http/team/team.factory';
+import { Angulartics2Mixpanel } from 'angulartics2/mixpanel';
+import { Intercom } from 'ng-intercom';
 import { TeamService } from '../../services/team/team.service';
 
 @Component({

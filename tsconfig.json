@@ -1,4 +1,7 @@
 {
+  "angularCompilerOptions": {
+    "enableIvy": true
+  },
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
@@ -6,34 +9,35 @@
     "sourceMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "removeComments": false,
+    "lib": [
+      "es2015",
+      "dom",
+      "es6",
+      "es7"
+    ],
     "noImplicitAny": true,
     "suppressImplicitAnyIndexErrors": true,
-    "lib": [
-      "dom",
-      "es2015.promise",
-      "es5",
-      "es6",
-      "es7",
-      "es2015"
-    ],
     "baseUrl": "",
     "paths": {
       "@angular/*": [
         "node_modules/@angular/*"
+      ],
+      "@ng-bootstrap/ng-bootstrap/*": [
+        "node_modules/@ng-bootstrap/ng-bootstrap/*"
       ]
     },
     "typeRoots": [
       "node_modules/@types"
     ],
     "types": [
-      "jasmine",
-      "node",
-      "d3-request",
-      "karma-fixture"
+      "jest",
+      "node"
     ]
   },
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "config",
+    "coverage",
+    "routes"
   ]
 }

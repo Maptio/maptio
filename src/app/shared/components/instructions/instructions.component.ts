@@ -6,7 +6,7 @@ import { DataSet } from '../../model/dataset.data';
 import { Team } from '../../model/team.data';
 import { TeamService } from '../../services/team/team.service';
 import { MapService } from '../../services/map/map.service';
-import { environment } from '../../../../environment/environment';
+import { environment } from '../../../config/environment';
 // import { Steps } from './instructions.enum';
 
 
@@ -52,19 +52,23 @@ export class InstructionsComponent implements OnInit {
         this.activeModal.close();
     }
 
+    styleModal(){
+        if(this.currentIndex === this.steps.length -1){
+            document.querySelector(".modal-body").classList.add("bg-gradient")
+            document.querySelector(".modal-body").classList.add("text-white")
+        }else{
+            document.querySelector(".modal-body").classList.remove("bg-gradient")
+            document.querySelector(".modal-body").classList.remove("text-white")
+         
+        }
+    }
+
     nextStep() {
         if (this.currentIndex === this.steps.length - 1) {
-            if (this.user.teams.length === 0) {
+
+            if (this.user.teams.length === 0 && !this.isRedirecting) {
                 return this.getDemoMap(this.user)
                     .then((dataset: DataSet) => {
-                        localStorage.setItem(`map_settings_${dataset.datasetId}`, JSON.stringify(
-                            {
-                                fontColor: environment.DEFAULT_MAP_TEXT_COLOR,
-                                mapColor: environment.DEFAULT_MAP_BACKGOUND_COLOR,
-                                fontSize: 1,
-                                explorationMode: false
-                            }
-                        ))
                         return dataset;
                     })
                     .then((dataset: DataSet) => {
@@ -90,6 +94,7 @@ export class InstructionsComponent implements OnInit {
         this.previousActionName = this.getPreviousActionName();
         this.progress = this.getProgress()
         this.progressLabel = this.getAbsoluteProgress(); //`${this.steps.length - (this.currentIndex + 1)} steps left`
+        this.styleModal();
         this.cd.markForCheck();
     }
 
@@ -100,7 +105,7 @@ export class InstructionsComponent implements OnInit {
         this.previousActionName = this.getPreviousActionName();
         this.progress = this.getProgress()
         this.progressLabel = this.getAbsoluteProgress(); //`${this.steps.length - (this.currentIndex + 1)} steps left`
-
+        this.styleModal();
         this.cd.markForCheck();
     }
 
