@@ -5,7 +5,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
-const PurgecssPlugin = require('purgecss-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const glob = require('glob-all');
 const AngularNamedLazyChunksWebpackPlugin = require('angular-named-lazy-chunks-webpack-plugin');
@@ -235,13 +234,6 @@ of lodash in @exalif/ngx-breadcrums
       { from: 'src/assets/images', to: 'assets/images' },
       { from: 'src/assets/templates', to: 'assets/templates' }
     ]),
-    new PurgecssPlugin({
-      paths: glob.sync([
-        './src/**/*',
-      ], { nodir: true }),
-      only : ['vendor-entry'],
-      whitelist: ['breadcrumbs__container', 'breadcrumbs__item']
 
-    })
   ]
 };

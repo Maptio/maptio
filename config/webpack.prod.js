@@ -7,6 +7,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const ngToolsWebpack = require('@ngtools/webpack');
 var commonConfig = require('./webpack.common.js');
 var MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const PurgecssPlugin = require('purgecss-webpack-plugin');
 
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
@@ -59,7 +60,15 @@ module.exports = webpackMerge(commonConfig, {
       }
     }),
     new webpack.DefinePlugin({
-      NODE_MODULES_CACHE:false
+      NODE_MODULES_CACHE: false
+
+    }),
+    new PurgecssPlugin({
+      paths: glob.sync([
+        './src/**/*',
+      ], { nodir: true }),
+      only: ['vendor-entry'],
+      whitelist: ['breadcrumbs__container', 'breadcrumbs__item']
 
     })
   ]
