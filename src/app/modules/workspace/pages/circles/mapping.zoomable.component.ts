@@ -226,7 +226,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       innerSvg = svg.append("svg")
         .attr("width", "100%")
         .attr("height", "100%")
-        .attr("x", "0%")
+        .attr("x", `20%`)
         .style("overflow", "visible"),
         diameter = this.height,
       g = innerSvg
@@ -236,7 +236,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
           `translate(${diameter / 2}, ${diameter / 2}) scale(${this.scale})`
         ),
       definitions = innerSvg.append("svg:defs");
-
 
     const wheelDelta = () => -d3.getEvent().deltaY * (d3.getEvent().deltaMode ? 120 : 1) / 500 * 2.5;
 
@@ -288,6 +287,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
 
     this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
+      innerSvg.attr("x", "20%")
       innerSvg.transition().duration(this.ZOOMING_TRANSITION_DURATION).call(
         this.zooming.transform,
         d3.zoomIdentity.translate(
@@ -831,7 +831,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .classed("with-border", (d: any): boolean => !d.children && d.parent === root)
         .on("click", function (d: any, index: number, elements: Array<HTMLElement>): void {
           showToolipOf$.next({ initiatives: [d.data], isNameOnly: false });
-
+          svg.attr("x", "10");
           console.log(d, d.children)
           // if (getLastZoomedCircle().data.id === d.parent.data.id && !d.children) {
 

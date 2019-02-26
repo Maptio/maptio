@@ -150,10 +150,10 @@ export class MappingComponent {
       if (document.querySelector("svg#map")) {
         document.querySelector("svg#map").setAttribute("width", `${this.uiService.getCanvasWidth()}`)
         document.querySelector("svg#map").setAttribute("height", `${this.uiService.getCanvasHeight()}`);
-
       }
       else {
-        (document.querySelector("#summary-canvas") as HTMLElement).style.maxHeight = this.isFullScreen ? null : `${this.uiService.getCanvasHeight() * 0.95}px`;
+        if (document.querySelector("#summary-canvas"))
+          (document.querySelector("#summary-canvas") as HTMLElement).style.maxHeight = this.isFullScreen ? null : `${this.uiService.getCanvasHeight() * 0.95}px`;
         this.VIEWPORT_HEIGHT = this.uiService.getCanvasHeight();
         this.VIEWPORT_WIDTH = this.uiService.getCanvasWidth();
 
@@ -166,7 +166,7 @@ export class MappingComponent {
 
   onActivate(component: IDataVisualizer) {
     this.settings = this.mapSettingsService.get(this.datasetId);
-       
+
     this.VIEWPORT_HEIGHT = this.uiService.getCanvasHeight();
     this.VIEWPORT_WIDTH = this.uiService.getCanvasWidth();
 
@@ -231,7 +231,7 @@ export class MappingComponent {
 
   onDeactivate(component: any) {
     this.settings = this.mapSettingsService.get(this.datasetId);
-    
+
     let position = this.uriService.parseFragment(this.route.snapshot.fragment);
     position.delete("tags");
     let lastPosition = this.uriService.buildFragment(position);
@@ -250,7 +250,7 @@ export class MappingComponent {
         break;
     }
     this.mapSettingsService.set(this.datasetId, this.settings);
-    
+
     this.cd.markForCheck();
   }
 
@@ -368,7 +368,7 @@ export class MappingComponent {
   }
 
   showTooltip(nodes: Initiative[], isNameOnly: boolean) {
-    if(nodes) this.emitOpenInitiative(nodes[0]);
+    if (nodes) this.emitOpenInitiative(nodes[0]);
     // this.hoveredInitiatives = nodes;
     // this.isNameOnly = isNameOnly;
     // this.cd.markForCheck();
