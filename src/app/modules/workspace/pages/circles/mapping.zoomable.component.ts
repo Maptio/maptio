@@ -210,6 +210,18 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
   }
 
+  getCenteredMargin() {
+    let outer = document.querySelector('svg#map').clientWidth;
+    let inner = document.querySelector('svg#map > svg').getBoundingClientRect().width;
+    console.log("outer", outer, "inner", inner)
+    if (inner > outer) {
+      return "5%"
+    } else {
+
+      return inner == 0 ? "33%" : `${((outer - inner) / outer * 100 / 2)}%`
+    }
+  }
+
   init() {
     this.uiService.clean();
     const margin = { top: 20, right: 20, bottom: 20, left: 0 };
@@ -226,9 +238,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
       innerSvg = svg.append("svg")
         .attr("width", "100%")
         .attr("height", "100%")
-        .attr("x", `20%`)
+        .attr("x", this.getCenteredMargin())
         .style("overflow", "visible"),
-        diameter = this.height,
+      diameter = this.height,
       g = innerSvg
         .append("g")
         .attr(
@@ -287,7 +299,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
 
     this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
-      innerSvg.attr("x", "20%")
+      innerSvg.attr("x", this.getCenteredMargin())
       innerSvg.transition().duration(this.ZOOMING_TRANSITION_DURATION).call(
         this.zooming.transform,
         d3.zoomIdentity.translate(
@@ -472,6 +484,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     let TRANSITION_DURATION = this.TRANSITION_DURATION;
     let showToolipOf$ = this.showToolipOf$;
     let showContextMenuOf$ = this.showContextMenuOf$;
+    let getCenteredMargin = this.getCenteredMargin.bind(this);
     let browser = this.browser;
     let getLastZoomedCircle = this.getLastZoomedCircle.bind(this);
     let setLastZoomedCircle = this.setLastZoomedCircle.bind(this);
@@ -521,7 +534,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.zooming.scaleExtent([0.5, getViewScaleForRadius(minRadius)]);
 
     function getViewScaleForRadius(radius: number): number {
-      return (height ) / (radius * 2 + 50);
+      return (height) / (radius * 2 + 50);
     }
 
     function toREM(pixels: number) {
@@ -831,7 +844,6 @@ export class MappingZoomableComponent implements IDataVisualizer {
         .classed("with-border", (d: any): boolean => !d.children && d.parent === root)
         .on("click", function (d: any, index: number, elements: Array<HTMLElement>): void {
           showToolipOf$.next({ initiatives: [d.data], isNameOnly: false });
-          svg.attr("x", "10");
           console.log(d, d.children)
           // if (getLastZoomedCircle().data.id === d.parent.data.id && !d.children) {
 
@@ -839,17 +851,21 @@ export class MappingZoomableComponent implements IDataVisualizer {
           //   return;
           // }
           // else {
-            console.log("zomming")
-            if (getLastZoomedCircle().data.id === d.data.id) {
-              setLastZoomedCircle(root);
-              zoom(root);
-            } else {
-              setLastZoomedCircle(d);
-              zoom(d, this.parentElement);
-            }
-            window.history.pushState("", "", `${location.protocol}//${location.host}/${location.pathname}${location.hash}`)
+          console.log("zomming")
+          if (getLastZoomedCircle().data.id === d.data.id) {
+            setLastZoomedCircle(root);
+            zoom(root);
+            svg.attr("x", getCenteredMargin);
+          
+          } else {
+            setLastZoomedCircle(d);
+            zoom(d, this.parentElement);
+            svg.attr("x", "5%");
+          
+          }
+          // window.history.pushState("", "", `${location.protocol}//${location.host}/${location.pathname}${location.hash}`)
 
-            d3.getEvent().stopPropagation();
+          d3.getEvent().stopPropagation();
           // }
 
 
