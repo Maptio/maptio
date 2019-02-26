@@ -24,6 +24,7 @@ import { UserService } from "../../../../shared/services/user/user.service";
     selector: "summary",
     templateUrl: "./summary.component.html",
     styleUrls: ["./summary.component.css"],
+    host : {"class": "w-100"},
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
