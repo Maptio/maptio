@@ -13,49 +13,12 @@
 	</span>
 </ng-template>
 
+<button (click)="toggleEditMode()">Toggle</button>
 
 <form class="d-flex flex-column h-100">
-	<!-- <div class="">
-		<fieldset name="initiativeName" *permissionsOnly="Permissions.canEditInitiativeName;initiative node; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
-			<div class="d-flex justify-content-start input-group">
-				<input class="form-control borderless" id="inputName" type="text" name="inputName" [ngModelOptions]="{standalone: true}"
-				 [ngModel]="node?.name" placeholder="Circle name" (ngModelChange)="saveName($event)" rows="2" cols="" (blur)="onBlur()"
-				/>
-			</div>
-		</fieldset>
-	</div> -->
-	<initiative-input-name [name]="node?.name" (save)="saveName($event)"></initiative-input-name>
+	<initiative-input-name [name]="node?.name" [isEditMode]="isEditMode" (save)="saveName($event)"></initiative-input-name>
 
-	<div class=" ">
-		<fieldset name="initiativeTags" *permissionsOnly="Permissions.canEditInitiativeTags;initiative node; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset;">
-			<div class="d-flex justify-content-start align-items-baseline flex-wrap">
-				<div *ngFor="let tag of node?.tags; let i=index">
-					<a class="badge badge-pill p-2  border-thick text-white mr-1 my-1" [style.border-color]="tag.color" [style.background]="tag.color">
-						<i class="fa fa-tag mr-1" aria-hidden="true"></i>{{tag?.name}}
-						<span class="remove transparent ml-2" (click)="removeTag(tag)"></span>
-					</a>
-				</div>
-				<div class="dropdown">
-					<button class="btn btn-sm btn-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-					 aria-expanded="false">
-						Select tag
-					</button>
-					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-						<button class="dropdown-item" type="button" (click)="openEditTags()">Edit tags</button>
-						<div class="dropdown-divider"></div>
-						<button (click)="saveTag(tag)" *ngFor="let tag of datasetTags; let i=index" class="dropdown-item" type="button" [style.color]="tag.color">
-							<i class="fa fa-tag mr-1" aria-hidden="true"></i>{{tag.name}}
-						</button>
-					</div>
-				</div>
-				<!-- <div class="input-group-append">
-					<span class="icon-disabled text-muted transparent bg-white border-white input-group-text" [stickyPopover]="editTipContent"
-					 placement='top'>
-					</span>
-				</div> -->
-			</div>
-		</fieldset>
-	</div>
+	<initiative-list-tags [available]="datasetTags" [selected]="node?.tags" [isEditMode]="isEditMode" (save)="saveTags($event)" (open)="openTagsPanel()"></initiative-list-tags>
 
 
 	<div class="">

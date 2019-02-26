@@ -49,6 +49,8 @@ export class InitiativeComponent implements OnChanges {
     @Input() datasetId: string;
     @Input() team: Team;
 
+    isEditMode:boolean= false;
+
     public members$: Promise<User[]>;
     public dataset$: Promise<DataSet>
     public team$: Promise<Team>;
@@ -134,6 +136,11 @@ export class InitiativeComponent implements OnChanges {
         this.auth.getUser().subscribe(user => this.user = user)
     }
 
+    toggleEditMode(){
+        this.isEditMode = !this.isEditMode;
+        this.cd.markForCheck();
+    }
+
     onBlur() {
         if(!this.node.accountable){
             (<HTMLInputElement>this.inputAuthority.nativeElement).value ="";
@@ -144,11 +151,22 @@ export class InitiativeComponent implements OnChanges {
     }
 
     saveName(newName: string) {
-        console.log("parent saveName", newName)
         this.node.name = newName;
         this.analytics.eventTrack("Initiative", { action: "change name", team: this.teamName, teamId: this.teamId });
         this.onBlur();
         this.cd.markForCheck();
+    }
+
+    saveTags(newTags:Array<Tag>){
+        this.node.tags = newTags;
+        this.analytics.eventTrack("Initiative", { action: "edit tags", team: this.teamName, teamId: this.teamId });
+        this.onBlur();
+        this.cd.markForCheck();
+    }
+
+
+    openTagsPanel(){
+        this.editTags.emit();
     }
 
     saveDescription(newDesc: string) {
@@ -232,13 +250,7 @@ export class InitiativeComponent implements OnChanges {
         // this.analytics.eventTrack("Initiative", { action: "add helper", team: this.teamName, teamId: this.teamId });
     }
 
-    saveTag(newTag: Tag) {
-        if (this.node.tags.findIndex(t => t.shortid === newTag.shortid) < 0) {
-            this.node.tags.unshift(new Tag(newTag));
-        }
-        this.onBlur();
-        this.analytics.eventTrack("Initiative", { action: "add tag", team: this.teamName, teamId: this.teamId });
-    }
+  
 
     removeHelper(helper: Helper) {
         let index = this.node.helpers.findIndex(user => user.user_id === helper.user_id);
@@ -269,12 +281,7 @@ export class InitiativeComponent implements OnChanges {
         this.analytics.eventTrack("Initiative", { action: "remove authority", team: this.teamName, teamId: this.teamId });
     }
 
-    removeTag(tag: Tag) {
-        let index = this.node.tags.findIndex(t => t.shortid === tag.shortid);
-        this.node.tags.splice(index, 1);
-        this.onBlur();
-        this.analytics.eventTrack("Initiative", { action: "remove tag", team: this.teamName, teamId: this.teamId });
-    }
+
 
     searchTeamMember = (text$: Observable<string>) =>
         _do.call(
@@ -299,9 +306,6 @@ export class InitiativeComponent implements OnChanges {
 
     formatter = (result: User) => { return result.name };
 
-    openEditTags(){
-        this.editTags.emit();
-    }
 }
 
 
