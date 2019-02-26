@@ -38,7 +38,7 @@ export class UIService {
     return (screenfull as any).isFullscreen
       ? window.outerWidth
       : document.getElementById("main")
-        ? document.getElementById("main").clientWidth - 50
+        ? document.getElementById("main").clientWidth
         : window.screen.availWidth;
   }
 

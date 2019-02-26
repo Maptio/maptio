@@ -10,7 +10,7 @@
           <div class="h-100 w-100 d-flex justify-content-end" [class.m-4]="isFullScreen && rlaSummary.isActive">
             <router-outlet (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>
           </div>
-          <div class="d-flex flex-column  align-items-end col-auto ml-0 pl-0 my-2 z-index-1" 
+          <div class="d-flex flex-column bg-transparent position-absolute top-right  align-items-end col-auto ml-0 pl-0 my-2 z-index-1" 
           [class.mr-1]="!isFullScreen" [class.mr-2]="isFullScreen">
             <div class="btn-group-vertical mb-3">
               <button class="btn btn-light toolbar p-1 text-dark d-flex flex-column justify-content-between align-items-center" [class.disabled]="isSearchDisabled || isMapSettingsDisabled"
