@@ -40,6 +40,7 @@ import { UIService } from "./services/ui.service";
 import { ColorService } from "./services/color.service";
 import { WorkspaceRoutingModule } from "./workspace.routing";
 import { AnalyticsModule } from '../../core/analytics.module';
+import { InitiativeInputNameComponent } from './components/data-entry/details/parts/name/input-name.component';
 
 export function markedOptionsFactory(): MarkedOptions {
     const renderer = new MarkedRenderer();
@@ -89,7 +90,8 @@ export function markedOptionsFactory(): MarkedOptions {
         FocusIfDirective,
 
         WorkspaceComponent,
-        BuildingComponent, InitiativeNodeComponent, InitiativeComponent,
+        BuildingComponent, InitiativeNodeComponent, 
+        InitiativeComponent, InitiativeInputNameComponent,
         MappingComponent, MappingZoomableComponent, MappingTreeComponent, MappingNetworkComponent,
         MappingSummaryComponent, PersonalSummaryComponent, PersonalCardComponent,
 

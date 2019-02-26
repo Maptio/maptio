@@ -15,23 +15,18 @@
 
 
 <form class="d-flex flex-column h-100">
-	<div class="card border-0 mb-2 p-2 ">
+	<!-- <div class="">
 		<fieldset name="initiativeName" *permissionsOnly="Permissions.canEditInitiativeName;initiative node; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
 			<div class="d-flex justify-content-start input-group">
 				<input class="form-control borderless" id="inputName" type="text" name="inputName" [ngModelOptions]="{standalone: true}"
 				 [ngModel]="node?.name" placeholder="Circle name" (ngModelChange)="saveName($event)" rows="2" cols="" (blur)="onBlur()"
 				/>
-				<div class="input-group-append">
-					<span class="icon-disabled text-muted transparent bg-white border-white input-group-text" [stickyPopover]="editTipContent"
-					 placement='top'>
-					</span>
-				</div>
-
 			</div>
 		</fieldset>
-	</div>
+	</div> -->
+	<initiative-input-name [name]="node?.name" (save)="saveName($event)"></initiative-input-name>
 
-	<div class="card border-0 mb-2 p-2">
+	<div class=" ">
 		<fieldset name="initiativeTags" *permissionsOnly="Permissions.canEditInitiativeTags;initiative node; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset;">
 			<div class="d-flex justify-content-start align-items-baseline flex-wrap">
 				<div *ngFor="let tag of node?.tags; let i=index">
@@ -53,17 +48,17 @@
 						</button>
 					</div>
 				</div>
-				<div class="input-group-append">
+				<!-- <div class="input-group-append">
 					<span class="icon-disabled text-muted transparent bg-white border-white input-group-text" [stickyPopover]="editTipContent"
 					 placement='top'>
 					</span>
-				</div>
+				</div> -->
 			</div>
 		</fieldset>
 	</div>
 
 
-	<div class="card border-0 mb-2 p-2">
+	<div class="">
 		<fieldset name="initiativeAuthority" *permissionsOnly="Permissions.canEditInitiativeAuthority;initiative node; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
 			<div class="d-flex justify-content-start input-group">
 				<div class="form-inline mr-auto">
@@ -85,16 +80,16 @@
 						</div>
 					</div>
 				</div>
-				<div class="input-group-append">
+				<!-- <div class="input-group-append">
 					<span class="icon-disabled text-muted transparent bg-white border-white input-group-text" [stickyPopover]="editTipContent"
 					 placement='top'>
 					</span>
-				</div>
+				</div> -->
 			</div>
 		</fieldset>
 	</div>
 
-	<div class="card border-0 mb-2 p-2 d-flex flex-grow-1">
+	<div class=" d-flex flex-grow-1">
 		<fieldset name="initiativeDescription" *permissionsOnly="Permissions.canEditInitiativeDescription;initiative node; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
 			<ng-container *permissionsOnly="Permissions.canEditInitiativeDescription;initiative node;">
 				<button *ngIf="descriptionHideMe" class="edit-description btn btn-link btn-sm col" (click)="descriptionHideMe=!descriptionHideMe">
@@ -112,11 +107,11 @@
 				<markdown [hidden]="!descriptionHideMe" class="small mb-3 form-control bg-white border-white" *ngIf="node?.description || ''"
 				 [data]="node?.description || ''"></markdown>
 
-				<div class="input-group-append">
+				<!-- <div class="input-group-append">
 					<span class="icon-disabled text-muted transparent bg-white border-white input-group-text" [stickyPopover]="editTipContent"
 					 placement='top'>
 					</span>
-				</div>
+				</div> -->
 			</div>
 			<small [hidden]="descriptionHideMe" class="help-popup text-default text-muted">
 				You can use
@@ -125,7 +120,7 @@
 		</fieldset>
 	</div>
 
-	<div class="card border-0 p-2 helpers overflow">
+	<div class="">
 		<div class="">
 			<h6 class="card-subtitle mb-1 mt-1 text-muted">Who’s helping with this circle?
 			</h6>
@@ -185,9 +180,9 @@
 												</button>
 											</ng-template>
 											<ng-template #elseEditRoleButtonBlock>
-												<button class="btn btn-link pull-right btn-sm disabled" [stickyPopover]="editTipContent" placement='top'>Role
+												<!-- <button class="btn btn-link pull-right btn-sm disabled" [stickyPopover]="editTipContent" placement='top'>Role
 													<i class="fas fa-lock"></i>
-												</button>
+												</button> -->
 											</ng-template>
 										</div>
 									</div>

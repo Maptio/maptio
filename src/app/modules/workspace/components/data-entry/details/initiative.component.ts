@@ -135,19 +135,20 @@ export class InitiativeComponent implements OnChanges {
     }
 
     onBlur() {
-        // this.saveDescription(this.inputDescriptionElement.nativeElement.value);
         if(!this.node.accountable){
             (<HTMLInputElement>this.inputAuthority.nativeElement).value ="";
         }else{
             (<HTMLInputElement>this.inputAuthority.nativeElement).value =this.node.accountable.name;
         }
-        // this.inputTag.writeValue("");
         this.edited.emit(true);
     }
 
-    saveName(newName: any) {
+    saveName(newName: string) {
+        console.log("parent saveName", newName)
         this.node.name = newName;
         this.analytics.eventTrack("Initiative", { action: "change name", team: this.teamName, teamId: this.teamId });
+        this.onBlur();
+        this.cd.markForCheck();
     }
 
     saveDescription(newDesc: string) {
