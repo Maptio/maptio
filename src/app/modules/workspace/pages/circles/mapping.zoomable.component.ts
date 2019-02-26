@@ -833,12 +833,12 @@ export class MappingZoomableComponent implements IDataVisualizer {
           showToolipOf$.next({ initiatives: [d.data], isNameOnly: false });
 
           console.log(d, d.children)
-          if (getLastZoomedCircle().data.id === d.parent.data.id && !d.children) {
+          // if (getLastZoomedCircle().data.id === d.parent.data.id && !d.children) {
 
-            d3.getEvent().stopPropagation();
-            return;
-          }
-          else {
+          //   d3.getEvent().stopPropagation();
+          //   return;
+          // }
+          // else {
             console.log("zomming")
             if (getLastZoomedCircle().data.id === d.data.id) {
               setLastZoomedCircle(root);
@@ -850,7 +850,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             window.history.pushState("", "", `${location.protocol}//${location.host}/${location.pathname}${location.hash}`)
 
             d3.getEvent().stopPropagation();
-          }
+          // }
 
 
           // remove the location.search without reload
