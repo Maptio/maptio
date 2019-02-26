@@ -1,6 +1,3 @@
-<ng-template #rt let-r="result" let-t="term">
-	<img src="{{r.picture}}" width="32" height="32" class="rounded-circle user" alt={{r.name}} /> {{r.name}}
-</ng-template>
 <ng-template #editTipContent>
 	<div class="text-orange">
 		You don't have permission to edit this.
@@ -20,37 +17,8 @@
 
 	<initiative-list-tags [available]="datasetTags" [selected]="node?.tags" [isEditMode]="isEditMode" (save)="saveTags($event)" (open)="openTagsPanel()"></initiative-list-tags>
 
+	<initiative-authority-select [isEditMode]="isEditMode" [team]="team" [authority]="node?.accountable" (save)="saveAccountable($event)"></initiative-authority-select>
 
-	<div class="">
-		<fieldset name="initiativeAuthority" *permissionsOnly="Permissions.canEditInitiativeAuthority;initiative node; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
-			<div class="d-flex justify-content-start input-group">
-				<div class="form-inline mr-auto">
-					<label for="inputAccountable" class="form-control-label col-form-label text-muted mr-2">{{(team$ | async)?.settings.authority | titlecase }}
-
-					</label>
-					<div class="">
-						<div class="input-group">
-							<input #inputAuthority required="required" [resultTemplate]="rt" type="text" id="inputAccountable" placeholder="Who's the {{(team$ | async)?.settings.authority | lowercase }} for this? Enter a team member"
-							 [ngStyle]="{'background': ' url(' + node?.accountable?.picture + ') no-repeat'}" class="form-control background" [class.borderless-left]="node?.accountable?.picture"
-							 [ngModelOptions]="{standalone: true}" [ngModel]="node?.accountable" (selectItem)="saveAccountable($event)" [ngbTypeahead]="searchTeamMember"
-							 [resultFormatter]="formatter" [inputFormatter]="formatter" (blur)="onBlur()" />
-							<div class="input-group-append">
-								<button *permissionsOnly="Permissions.canEditInitiativeAuthority;initiative node" class="btn btn-outline-danger remove text-danger"
-								 mwlConfirmationPopover [popoverMessage]="'Remove this authority and associated role?'" placement="top" container="body"
-								 focusbutton="cancel" appendToBody="false" (confirm)="removeAuthority()" (cancel)="cancelClicked=true"></button>
-							</div>
-
-						</div>
-					</div>
-				</div>
-				<!-- <div class="input-group-append">
-					<span class="icon-disabled text-muted transparent bg-white border-white input-group-text" [stickyPopover]="editTipContent"
-					 placement='top'>
-					</span>
-				</div> -->
-			</div>
-		</fieldset>
-	</div>
 
 	<div class=" d-flex flex-grow-1">
 		<fieldset name="initiativeDescription" *permissionsOnly="Permissions.canEditInitiativeDescription;initiative node; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
@@ -83,7 +51,7 @@
 		</fieldset>
 	</div>
 
-	<div class="">
+	<div *ngIf="false" class="">
 		<div class="">
 			<h6 class="card-subtitle mb-1 mt-1 text-muted">Who’s helping with this circle?
 			</h6>

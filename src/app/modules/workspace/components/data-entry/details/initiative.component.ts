@@ -40,7 +40,7 @@ import { UserService } from "../../../../../shared/services/user/user.service";
 export class InitiativeComponent implements OnChanges {
 
     @Output() edited: EventEmitter<boolean> = new EventEmitter<boolean>();
-    @Output("editTags") editTags:EventEmitter<any> = new EventEmitter<any>();
+    @Output("editTags") editTags: EventEmitter<any> = new EventEmitter<any>();
 
     @Input() node: Initiative;
     // @Input() parent: Initiative;
@@ -49,7 +49,7 @@ export class InitiativeComponent implements OnChanges {
     @Input() datasetId: string;
     @Input() team: Team;
 
-    isEditMode:boolean= false;
+    isEditMode: boolean = false;
 
     public members$: Promise<User[]>;
     public dataset$: Promise<DataSet>
@@ -62,8 +62,6 @@ export class InitiativeComponent implements OnChanges {
     isTeamMemberAdded: boolean = false;
     isRestrictedAddHelper: boolean;
     currentTeamName: string;
-    searching: boolean;
-    searchFailed: boolean;
     hideme: Array<boolean> = [];
     authorityHideMe: boolean;
     descriptionHideMe: boolean;
@@ -75,8 +73,7 @@ export class InitiativeComponent implements OnChanges {
     @ViewChild("inputDescription") public inputDescriptionElement: ElementRef;
     @ViewChild("inputRole") public inputRoleElement: ElementRef;
     @ViewChild("inputAuthorityRole") public inputAuthorityRole: ElementRef;
-    @ViewChild("inputAuthority") public inputAuthority: ElementRef;
-    @ViewChild("inputTag") public inputTag:NgbTypeahead;
+    @ViewChild("inputTag") public inputTag: NgbTypeahead;
 
     focus$ = new Subject<string>();
     click$ = new Subject<string>();
@@ -84,7 +81,7 @@ export class InitiativeComponent implements OnChanges {
     MESSAGE_PERMISSIONS_DENIED_EDIT = environment.MESSAGE_PERMISSIONS_DENIED_EDIT;
 
     constructor(private auth: Auth, private teamFactory: TeamFactory, private userFactory: UserFactory,
-        private userService:UserService, 
+        private userService: UserService,
         private datasetFactory: DatasetFactory, private analytics: Angulartics2Mixpanel,
         private cd: ChangeDetectorRef, private renderer: Renderer2) {
     }
@@ -104,7 +101,7 @@ export class InitiativeComponent implements OnChanges {
 
                 this.team$ = this.teamFactory.get(<string>changes.node.currentValue.team_id)
                     .then(t => { this.teamName = t.name; this.teamId = t.team_id; return t },
-                    () => { return Promise.reject("No organisation available") })
+                        () => { return Promise.reject("No organisation available") })
                 // .catch(() => { })
 
 
@@ -136,17 +133,13 @@ export class InitiativeComponent implements OnChanges {
         this.auth.getUser().subscribe(user => this.user = user)
     }
 
-    toggleEditMode(){
+    toggleEditMode() {
         this.isEditMode = !this.isEditMode;
         this.cd.markForCheck();
     }
 
     onBlur() {
-        if(!this.node.accountable){
-            (<HTMLInputElement>this.inputAuthority.nativeElement).value ="";
-        }else{
-            (<HTMLInputElement>this.inputAuthority.nativeElement).value =this.node.accountable.name;
-        }
+
         this.edited.emit(true);
     }
 
@@ -157,15 +150,33 @@ export class InitiativeComponent implements OnChanges {
         this.cd.markForCheck();
     }
 
-    saveTags(newTags:Array<Tag>){
+    saveTags(newTags: Array<Tag>) {
         this.node.tags = newTags;
         this.analytics.eventTrack("Initiative", { action: "edit tags", team: this.teamName, teamId: this.teamId });
         this.onBlur();
         this.cd.markForCheck();
     }
 
+    saveAccountable(accountable: Helper) {
+        console.log("saveAccountable", accountable);
+        this.node.accountable = accountable;
+        if (accountable) {
+            if (this.node.helpers.map(h => h.user_id).includes(accountable.user_id)) {
+                let helper = this.node.helpers.filter(h => h.hasAuthorityPrivileges)[0]
+                let roles = helper.roles;
+                this.removeHelper(helper);
+                this.node.accountable.roles = roles;
+            }
+        }
 
-    openTagsPanel(){
+        this.onBlur();
+        this.getAllHelpers();
+        this.cd.markForCheck();
+        this.analytics.eventTrack("Initiative", { action: "add authority", team: this.teamName, teamId: this.teamId });
+    }
+
+
+    openTagsPanel() {
         this.editTags.emit();
     }
 
@@ -208,22 +219,7 @@ export class InitiativeComponent implements OnChanges {
         return this.node.accountable && this.node.accountable.user_id === helper.user_id
     }
 
-    saveAccountable(newAccountable: NgbTypeaheadSelectItemEvent) {
-        let accountable = newAccountable.item;
-        accountable.roles = [];
 
-        this.node.accountable = accountable;
-        if (this.node.helpers.map(h => h.user_id).includes(accountable.user_id)) {
-            let helper = this.node.helpers.filter(h => h.hasAuthorityPrivileges)[0]
-            let roles = helper.roles;
-            this.removeHelper(helper);
-            this.node.accountable.roles = roles;
-        }
-        this.onBlur();
-        this.getAllHelpers();
-        this.cd.markForCheck();
-        this.analytics.eventTrack("Initiative", { action: "add authority", team: this.teamName, teamId: this.teamId });
-    }
 
     saveHelper(newHelper: NgbTypeaheadSelectItemEvent) {
         if (this.node.helpers.findIndex(user => user.user_id === newHelper.item.user_id) < 0) {
@@ -250,7 +246,7 @@ export class InitiativeComponent implements OnChanges {
         // this.analytics.eventTrack("Initiative", { action: "add helper", team: this.teamName, teamId: this.teamId });
     }
 
-  
+
 
     removeHelper(helper: Helper) {
         let index = this.node.helpers.findIndex(user => user.user_id === helper.user_id);
@@ -259,14 +255,7 @@ export class InitiativeComponent implements OnChanges {
         this.analytics.eventTrack("Initiative", { action: "remove helper", team: this.teamName, teamId: this.teamId });
     }
 
-    filterMembers(term: string): Observable<User[]> {
-        return term.length < 1
-            ? Observable.from(this.members$.then(ms => this.node.accountable ? ms.filter(m => m.user_id !== this.node.accountable.user_id) : ms))
-            : Observable.from(this.members$.then(ms => this.node.accountable ? ms.filter(m => m.user_id !== this.node.accountable.user_id) : ms)
-                .then(members => members.filter(v => new RegExp(term, "gi").test(v.name) || new RegExp(term, "gi").test(v.email)).splice(0, 10))
-                .catch())
 
-    }
 
     filterTags(term: string): Observable<Tag[]> {
         return term === "" || term.length < 1
@@ -275,36 +264,11 @@ export class InitiativeComponent implements OnChanges {
 
     }
 
-    removeAuthority() {
-        this.node.accountable = undefined;
-        this.onBlur();
-        this.analytics.eventTrack("Initiative", { action: "remove authority", team: this.teamName, teamId: this.teamId });
-    }
 
 
 
-    searchTeamMember = (text$: Observable<string>) =>
-        _do.call(
-            switchMap.call(
-                _do.call(
-                    distinctUntilChanged.call(
-                        debounceTime.call(text$, 300)),
-                    () => this.searching = true),
-                (term: string) =>
-                    _catch.call(
-                        _do.call(
 
-                            this.filterMembers(term)
-                            , () => this.searchFailed = false),
-                        () => {
-                            this.searchFailed = true;
-                            return of.call([]);
-                        }
-                    )
-            ),
-            () => this.searching = false);
 
-    formatter = (result: User) => { return result.name };
 
 }
 
