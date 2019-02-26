@@ -14,7 +14,7 @@
 </ng-template>
 
 
-<form>
+<form class="d-flex flex-column h-100">
 	<div class="card border-0 mb-2 p-2 ">
 		<fieldset name="initiativeName" *permissionsOnly="Permissions.canEditInitiativeName;initiative node; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
 			<div class="d-flex justify-content-start input-group">
@@ -94,7 +94,7 @@
 		</fieldset>
 	</div>
 
-	<div class="card border-0 mb-2 p-2">
+	<div class="card border-0 mb-2 p-2 d-flex flex-grow-1">
 		<fieldset name="initiativeDescription" *permissionsOnly="Permissions.canEditInitiativeDescription;initiative node; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
 			<ng-container *permissionsOnly="Permissions.canEditInitiativeDescription;initiative node;">
 				<button *ngIf="descriptionHideMe" class="edit-description btn btn-link btn-sm col" (click)="descriptionHideMe=!descriptionHideMe">

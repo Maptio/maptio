@@ -22,7 +22,7 @@ span.help-popup {
     background: transparent;
 }
 
-@media only screen and (max-height: 800px) {
+/* @media only screen and (max-height: 800px) {
     .helpers.overflow {
         max-height: 19vh;
         overflow-y: auto;
@@ -32,9 +32,9 @@ span.help-popup {
         overflow-y: auto;
         overflow-x: hidden;
     }
-}
+} */
 
-@media only screen and (min-height: 800px) {
+/* @media only screen and (min-height: 800px) {
     .helpers.overflow {
         max-height: 24vh;
         overflow-y: auto;
@@ -44,7 +44,7 @@ span.help-popup {
         overflow-y: auto;
         overflow-x: hidden;
     }
-}
+} */
 
 .background {
     background-size: contain !important;
