@@ -53,6 +53,8 @@ const d3 = Object.assign(
   selector: "zoomable",
   templateUrl: "./mapping.zoomable.component.html",
   styleUrls: ["./mapping.zoomable.component.css"],
+
+  host: { 'class': 'w-100' },
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -142,7 +144,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
   }
 
   ngOnInit() {
-
+    console.log(this.height)
     this.loaderService.show();
     this.init();
     this.dataSubscription = this.dataService
@@ -212,22 +214,28 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.uiService.clean();
     const margin = { top: 20, right: 20, bottom: 20, left: 0 };
     const width: number = this.width - margin.left - margin.right,
-      height: number = this.height - margin.top - margin.bottom;
+      height: number = this.height;
     const svg: any = d3
       .select("svg#map")
-      .attr("width", this.width)
-      .attr("height", this.height)
+      .attr("width", "100%")
+      .attr("height", "100%")
       .attr("xmlns", "http://www.w3.org/2000/svg")
       .attr("xmlns:xlink", "http://www.w3.org/1999/xlink")
       .attr("version", "1.1"),
-      diameter = +width,
-      g = svg
+
+      innerSvg = svg.append("svg")
+        .attr("width", "100%")
+        .attr("height", "100%")
+        .attr("x", "0%")
+        .style("overflow", "visible"),
+        diameter = this.height,
+      g = innerSvg
         .append("g")
         .attr(
           "transform",
-          `translate(${diameter / 2 + margin.left}, ${diameter / 2}) scale(${this.scale})`
+          `translate(${diameter / 2}, ${diameter / 2}) scale(${this.scale})`
         ),
-      definitions = svg.append("svg:defs");
+      definitions = innerSvg.append("svg:defs");
 
 
     const wheelDelta = () => -d3.getEvent().deltaY * (d3.getEvent().deltaMode ? 120 : 1) / 500 * 2.5;
@@ -239,7 +247,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .on("end", (): void => {
         this.adjustViewToZoomEvent(g, d3.getEvent());
         const transform = d3.getEvent().transform;
-        svg.attr("scale", transform.k);
+        innerSvg.attr("scale", transform.k);
         const tagFragment: string = this.tagsState
           .filter(t => t.isSelected)
           .map(t => t.shortid)
@@ -261,16 +269,16 @@ export class MappingZoomableComponent implements IDataVisualizer {
     try {
       // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
       // svg.call(zooming.transform, d3.zoomIdentity.translate(diameter / 2, diameter / 2));
-      const initX: number = this.translateX || diameter / 2 + margin.left;
-      const initY: number = this.translateY || diameter / 2 + margin.top;
+      const initX: number = this.translateX || diameter / 2;
+      const initY: number = this.translateY || diameter / 2;
       const initK: number = this.scale || 1;
-      svg.call(
+      innerSvg.call(
         this.zooming.transform,
         d3.zoomIdentity
           .translate(initX, initY)
           .scale(initK)
       );
-      svg.call(this.zooming);
+      innerSvg.call(this.zooming);
     } catch (error) {
       if (!isDevMode) console.error(error);
     }
@@ -280,11 +288,11 @@ export class MappingZoomableComponent implements IDataVisualizer {
     }
 
     this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
-      svg.transition().duration(this.ZOOMING_TRANSITION_DURATION).call(
+      innerSvg.transition().duration(this.ZOOMING_TRANSITION_DURATION).call(
         this.zooming.transform,
         d3.zoomIdentity.translate(
-          diameter / 2 + margin.left,
-          diameter / 2 + margin.top
+          diameter / 2,
+          diameter / 2
         )
       );
     });
@@ -293,9 +301,9 @@ export class MappingZoomableComponent implements IDataVisualizer {
       try {
         // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
         if (zf) {
-          this.zooming.scaleBy(svg.transition().duration(this.ZOOMING_TRANSITION_DURATION), zf);
+          this.zooming.scaleBy(innerSvg.transition().duration(this.ZOOMING_TRANSITION_DURATION), zf);
         } else {
-          svg.transition().duration(this.ZOOMING_TRANSITION_DURATION).call(
+          innerSvg.transition().duration(this.ZOOMING_TRANSITION_DURATION).call(
             this.zooming.transform,
             d3.zoomIdentity.translate(this.translateX, this.translateY)
           );
@@ -306,10 +314,10 @@ export class MappingZoomableComponent implements IDataVisualizer {
 
     let [clearSearchInitiative, highlightInitiative] = this.zoomInitiative$.partition(node => node === null);
     clearSearchInitiative.subscribe(() => {
-      svg.select("circle.node--root").dispatch("click");
+      innerSvg.select("circle.node--root").dispatch("click");
     })
     highlightInitiative.subscribe(node => {
-      svg.select(`circle.node.initiative-map[id="${node.id}"]`).dispatch("click");
+      innerSvg.select(`circle.node.initiative-map[id="${node.id}"]`).dispatch("click");
     });
 
     this.selectableTagsSubscription = this.selectableTags$.subscribe(tags => {
@@ -334,7 +342,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.outerFontScale = d3.scaleLog().domain(defaultScaleExtent).range(outerFontSizeRange);
     this.innerFontScale = d3.scaleLog().domain(defaultScaleExtent).range(innerFontSizeRange);
 
-    this.svg = svg;
+    this.svg = innerSvg;
     this.g = g;
     this.browser = this.uiService.getBrowser();
     this.diameter = diameter;
@@ -455,8 +463,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
       }
     }
 
-    let height = svg.attr("height") * 0.99;
-    let margin = height * 0.135;
+    let height = diameter; //svg.attr("height") * 0.99;
+    let margin = 0; //height * 0.135;
     let definitions = this.definitions;
     let uiService = this.uiService;
     let zooming = this.zooming;
@@ -513,7 +521,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
     this.zooming.scaleExtent([0.5, getViewScaleForRadius(minRadius)]);
 
     function getViewScaleForRadius(radius: number): number {
-      return (height - (margin * 2)) / (radius * 2);
+      return (height ) / (radius * 2 + 50);
     }
 
     function toREM(pixels: number) {
@@ -630,7 +638,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
       .on("click", (): void => {
         zoom(root);
         showToolipOf$.next({ initiatives: null, isNameOnly: false });
-     
+
       })
 
     initMapElementsAtPosition([root.x, root.y]);
@@ -659,7 +667,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
         clickedX = clickedElement.transform.baseVal.getItem(0).matrix.e * newScale;
         clickedY = clickedElement.transform.baseVal.getItem(0).matrix.f * newScale;
         clickedX -= margin;
-        clickedY -= -height / 2 + margin;
+        clickedY -= margin;
       }
       return [clickedX, clickedY];
     }
@@ -722,8 +730,8 @@ export class MappingZoomableComponent implements IDataVisualizer {
         // .each((d: any) => (d.k = k))
         .on("mouseover", function (d: any) {
           let initiative = d.data;
-          d3.event.stopPropagation();
-          d3.event.preventDefault();
+          d3.getEvent().stopPropagation();
+          d3.getEvent().preventDefault();
           // showToolipOf$.next({ initiatives: [initiative], isNameOnly: false });
 
           d3.select(this)
@@ -827,7 +835,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
           console.log(d, d.children)
           if (getLastZoomedCircle().data.id === d.parent.data.id && !d.children) {
 
-            d3.event.stopPropagation();
+            d3.getEvent().stopPropagation();
             return;
           }
           else {
@@ -841,7 +849,7 @@ export class MappingZoomableComponent implements IDataVisualizer {
             }
             window.history.pushState("", "", `${location.protocol}//${location.host}/${location.pathname}${location.hash}`)
 
-            d3.event.stopPropagation();
+            d3.getEvent().stopPropagation();
           }
 
 

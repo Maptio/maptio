@@ -50,16 +50,16 @@ export class MapSettingsService {
     }
 
     get(datasetId: string) {
-        if (
-            !localStorage.getItem(`map_settings_${datasetId}`)
-        || !(localStorage.getItem(`map_settings_${datasetId}`).indexOf("lastPosition") > -1)
+        // if (
+        //     !localStorage.getItem(`map_settings_${datasetId}`)
+        // || !(localStorage.getItem(`map_settings_${datasetId}`).indexOf("lastPosition") > -1)
         
-        ) {
+        // ) {
             localStorage.setItem(`map_settings_${datasetId}`, JSON.stringify(
                 {
                     mapColor: environment.DEFAULT_MAP_BACKGOUND_COLOR,
                     lastPosition: {
-                        circles: `x=${(this.width - 20) / 2}&y=${(this.width - 20) / 2}&scale=1`,
+                        circles: `x=${this.height /2 }&y=${this.height / 2}&scale=1`,
                         tree: `x=${this.width / 10}&y=${this.height / 2}&scale=1`,
                         network: `x=0&y=${-this.height / 4}&scale=1`
                     },
@@ -71,7 +71,7 @@ export class MapSettingsService {
                     }
                 }
             ))
-        }
+        // }
         return JSON.parse(localStorage.getItem(`map_settings_${datasetId}`));
     }
 

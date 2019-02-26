@@ -160,6 +160,8 @@ export class MappingComponent {
       }
       this.cd.markForCheck();
     })
+
+
   }
 
   onActivate(component: IDataVisualizer) {
@@ -366,9 +368,10 @@ export class MappingComponent {
   }
 
   showTooltip(nodes: Initiative[], isNameOnly: boolean) {
-    this.hoveredInitiatives = nodes;
-    this.isNameOnly = isNameOnly;
-    this.cd.markForCheck();
+    if(nodes) this.emitOpenInitiative(nodes[0]);
+    // this.hoveredInitiatives = nodes;
+    // this.isNameOnly = isNameOnly;
+    // this.cd.markForCheck();
   }
 
   zoomOut() {
