@@ -26,10 +26,10 @@
 		(save)="saveDescription($event)"></initiative-description-textarea>
 
 	<initiative-helpers-select *ngIf="isEditMode" [team]="team" [helpers]="node?.helpers" [authority]="node?.accountable"
-		(save)="saveHelpers($event)"></initiative-helpers-select>
+		(save)="addHelpers($event)"></initiative-helpers-select>
 
 	<ng-container *ngFor="let helper of node?.getAllParticipants(); let i=index;trackBy:trackByUserId">
 		<initiative-helper-input [helper]="helper" [isAuthority]="isAuthority(helper)" [team]="team" [summaryUrl]="getSummaryUrl(helper)" [isEditMode]="isEditMode"
-		(remove)="removeHelper($event)"></initiative-helper-input>
+		(remove)="removeHelper($event)" (save)="saveHelpers()"></initiative-helper-input>
 	</ng-container>
 </form>

@@ -1,11 +1,29 @@
-<div class="">
-    <img src="{{helper.picture}}" width="32" height="32" class="rounded-circle user" alt={{helper.name}}>
-    <a routerLink="summaryUrl">{{helper.name}}</a>
-    <span class="text-muted small" *ngIf="isAuthority">({{team?.settings.authority | titlecase }})</span>
+<div class="d-flex align-items-baseline">
+
+    <div class="">
+        <img src="{{helper.picture}}" width="32" height="32" class="rounded-circle user" alt={{helper.name}}>
+        <a routerLink="summaryUrl">{{helper.name}}</a>
+        <span class="text-muted small" *ngIf="isAuthority">({{team?.settings.authority | titlecase }})</span>
+    </div>
+    <button class="btn btn-outline-danger remove text-danger" mwlConfirmationPopover
+        [popoverMessage]="'Remove this helper and associated role?'" placement="top" container="body"
+        focusbutton="cancel" appendToBody="false" (confirm)="onRemove()" (cancel)="cancelClicked=true"></button>
+    <div class="custom-control custom-checkbox small">
+        <input type="checkbox" class="custom-control-input small" id="customCheck-{{helper.shortid}}"
+            (ngModelChange)="onChangePrivilege(helper,$event)" [ngModel]="helper.hasAuthorityPrivileges"
+            [ngModelOptions]="{standalone: true}">
+        <label class="custom-control-label" for="customCheck-{{helper.shortid}}"></label>
+    </div>
+
+    <textarea #inputRole *ngIf="isEditMode"  class="form-control form-control-sm unresizable"
+        [ngModelOptions]="{standalone: true}" data-provide="markdown" data-iconlibrary="fa" data-autofocus="true"
+        [ngModel]="helper.roles[0]?.description || ''" rows="3" placeholder="How is {{helper.name}} helping?"
+        (blur)="onChangeRole(inputRole.value)"
+        (change)="onChangeRole(inputRole.value)"></textarea>
+
+    <markdown class="small" *ngIf="!isEditMode"
+        [data]="helper.roles[0]?.description || ''"></markdown>
 </div>
-<button class="btn btn-outline-danger remove text-danger" mwlConfirmationPopover
-    [popoverMessage]="'Remove this helper and associated role?'" placement="top" container="body" focusbutton="cancel"
-    appendToBody="false" (confirm)="onRemove()" (cancel)="cancelClicked=true"></button>
 
 <!-- <div class="d-flex justify-content-between align-items-center">
         <div class="w-100">

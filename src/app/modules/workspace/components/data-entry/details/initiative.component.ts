@@ -165,22 +165,31 @@ export class InitiativeComponent implements OnChanges {
         this.onBlur();
     }
 
-    saveHelpers(helpers:Helper[]){
+    addHelpers(helpers:Helper[]){
         this.node.helpers = helpers;
-        // this.onBlur();
+        this.onBlur();
         this.cd.markForCheck();
     }
 
     removeHelper(helper: Helper) {
         let index = this.node.helpers.findIndex(user => user.user_id === helper.user_id);
         this.node.helpers.splice(index, 1);
-        // this.onBlur();
+        this.onBlur();
         this.analytics.eventTrack("Initiative", { action: "remove helper", team: this.teamName, teamId: this.teamId });
+    }
+
+    saveHelpers(){
+        console.log(this.node.helpers)
+        this.onBlur();
     }
 
 
     getSummaryUrl(user:User){
         return `/map/${this.dataset.datasetId}/${this.dataset.initiative.getSlug()}/summary?member=${user.shortid}`
+    }
+
+    saveHelper(){
+        console.log(this.node.helpers);
     }
 
 
@@ -191,21 +200,8 @@ export class InitiativeComponent implements OnChanges {
 
   
 
-    saveRole(helper: Helper, description: string) {
-        if (helper.roles[0]) {
-            helper.roles[0].description = description;
-        }
-        else {
-            helper.roles[0] = new Role({ description: description })
-        }
-        this.analytics.eventTrack("Initiative", { action: "changing role", team: this.teamName, teamId: this.teamId });
-    }
-
-    savePrivilege(helper: Helper, hasAuthorityPrivileges: boolean) {
-        helper.hasAuthorityPrivileges = hasAuthorityPrivileges;
-        this.onBlur();
-        this.analytics.eventTrack("Initiative", { action: "changing helper privilege", team: this.teamName, teamId: this.teamId });
-    }
+ 
+   
 
     toggleRole(i: number) {
         this.hideme.forEach(el => {
@@ -226,23 +222,23 @@ export class InitiativeComponent implements OnChanges {
 
 
 
-    saveHelper(newHelper: NgbTypeaheadSelectItemEvent) {
-        if (this.node.helpers.findIndex(user => user.user_id === newHelper.item.user_id) < 0) {
-            let helper = newHelper.item;
-            helper.roles = [];
-            this.node.helpers.unshift(helper);
-        }
-        this.onBlur();
-        this.analytics.eventTrack("Initiative", { action: "add helper", team: this.teamName, teamId: this.teamId });
-    }
+    // saveHelper(newHelper: NgbTypeaheadSelectItemEvent) {
+    //     if (this.node.helpers.findIndex(user => user.user_id === newHelper.item.user_id) < 0) {
+    //         let helper = newHelper.item;
+    //         helper.roles = [];
+    //         this.node.helpers.unshift(helper);
+    //     }
+    //     this.onBlur();
+    //     this.analytics.eventTrack("Initiative", { action: "add helper", team: this.teamName, teamId: this.teamId });
+    // }
 
-    saveHelperRestricted(newHelper: NgbTypeaheadSelectItemEvent) {
-        if (newHelper.item.user_id === this.user.user_id) {
-            this.saveHelper({ item: this.user, preventDefault: null })
-        } else {
-            this.isRestrictedAddHelper = true;
-        }
-     }
+    // saveHelperRestricted(newHelper: NgbTypeaheadSelectItemEvent) {
+    //     if (newHelper.item.user_id === this.user.user_id) {
+    //         this.saveHelper({ item: this.user, preventDefault: null })
+    //     } else {
+    //         this.isRestrictedAddHelper = true;
+    //     }
+    //  }
 
 
 
