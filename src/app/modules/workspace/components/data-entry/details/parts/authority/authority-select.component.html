@@ -6,29 +6,26 @@
         class="form-control-label col-form-label text-muted mr-2">{{team?.settings.authority | titlecase }}
 
     </label>
-    <div >
-        <div class="input-group">
+    <div>
+        <div class="d-flex justify-content-start align-items-center">
             <img class="rounded-circle" [class.invisible]="!authority" [src]="authority?.picture" width="32" height="32"
                 alt="">
 
-            <input #inputAuthority required="required" [resultTemplate]="rt" type="text" id="inputAccountable"
-                placeholder="Who's the {{team?.settings.authority | lowercase }} for this? Enter a team member"
-                class="form-control background" [ngModelOptions]="{standalone: true}" [ngModel]="authority"
-                (selectItem)="onSelect($event)" [ngbTypeahead]="searchTeamMember" [resultFormatter]="formatter"
-                [inputFormatter]="formatter" (blur)="onBlur()" />
-            <div class="input-group-append">
-                <button class="btn btn-outline-danger remove text-danger" mwlConfirmationPopover
-                    [popoverMessage]="'Remove this authority and associated role?'" placement="top" container="body"
-                    focusbutton="cancel" appendToBody="false" (confirm)="onRemove()"
-                    (cancel)="cancelClicked=true"></button>
-            </div>
+            <common-autocomplete
+                [placeholder]="placeholder"
+                [removeConfirmationMessage]="'Remove this authority and associated role?'"
+                [resultTemplate]="rt" 
+                [resultFormatter]="formatter"
+                [item]="authority"
+                [search]="searchTeamMember"
+                (select)="onSelect($event)">
+            </common-autocomplete>
 
         </div>
     </div>
-   
+
 </div>
 <div *ngIf="!isEditMode">
-        <img class="rounded-circle" [class.invisible]="!authority" [src]="authority?.picture" width="32" height="32"
-                alt="">
-        {{authority?.name}}
-    </div>
+    <img class="rounded-circle" [class.invisible]="!authority" [src]="authority?.picture" width="32" height="32" alt="">
+    {{authority?.name}}
+</div>

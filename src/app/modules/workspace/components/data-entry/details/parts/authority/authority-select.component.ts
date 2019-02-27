@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef, SimpleChanges } from '@angular/core';
 import { User } from '../../../../../../../shared/model/user.data';
 import { Observable } from 'rxjs/Observable';
 import { _do } from 'rxjs/operator/do';
@@ -9,7 +9,6 @@ import { _catch } from 'rxjs/operator/catch';
 import { map } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { Team } from '../../../../../../../shared/model/team.data';
-import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import { Helper } from '../../../../../../../shared/model/helper.data';
 
 @Component({
@@ -21,33 +20,31 @@ export class InitiativeAuthoritySelectComponent implements OnInit {
 
     @Input("team") team: Team;
     @Input("authority") authority: User;
-    @Input("isEditMode") isEditMode:boolean;
+    @Input("isEditMode") isEditMode: boolean;
     @Output("save") save: EventEmitter<User> = new EventEmitter<User>();
 
     searching: boolean;
     searchFailed: boolean;
-    @ViewChild("inputAuthority") public inputAuthority: ElementRef;
-    
+    placeholder: string;
 
-    constructor(private cd:ChangeDetectorRef) { }
+
+    constructor(private cd: ChangeDetectorRef) { }
 
     ngOnInit(): void { }
 
-    onSelect(newAccountable: NgbTypeaheadSelectItemEvent) {
-        let accountable = newAccountable.item as Helper;
-        accountable.roles = [];
-        this.authority = accountable;
-        this.save.emit(this.authority);
-        this.cd.markForCheck();
-    }
-
-    onBlur(){
-        if(!this.authority){
-            (<HTMLInputElement>this.inputAuthority.nativeElement).value ="";
-        }else{
-            (<HTMLInputElement>this.inputAuthority.nativeElement).value =this.authority.name;
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes.team && changes.team.currentValue) {
+            this.placeholder = `Who's the ${changes.team.currentValue.settings.authority.toLowerCase()} for this? Enter a team member`
         }
     }
+
+    onSelect(newAccountable: Helper) {
+        if (newAccountable) newAccountable.roles = [];
+        this.authority = newAccountable;
+        this.save.emit(this.authority);
+    }
+
+
 
     onRemove() {
         this.authority = null;
@@ -87,6 +84,6 @@ export class InitiativeAuthoritySelectComponent implements OnInit {
 
     }
 
-    formatter = (result: User) => { return result.name };
+    formatter = (result: User) => { return result ? result.name : '' };
 
 }
