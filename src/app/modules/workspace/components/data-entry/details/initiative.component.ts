@@ -1,7 +1,6 @@
 import { environment } from "../../../../../config/environment";
 import { Auth } from "../../../../../core/authentication/auth.service";
 import { Permissions } from "../../../../../shared/model/permission.data";
-import { Role } from "../../../../../shared/model/role.data";
 import { Helper } from "../../../../../shared/model/helper.data";
 import { DatasetFactory } from "../../../../../core/http/map/dataset.factory";
 import { UserFactory } from "../../../../../core/http/user/user.factory";
@@ -11,20 +10,16 @@ import { DataSet } from "../../../../../shared/model/dataset.data";
 import { User } from "../../../../../shared/model/user.data";
 import { Tag } from "../../../../../shared/model/tag.data";
 import { Initiative } from "../../../../../shared/model/initiative.data";
-import { Observable, Subject } from "rxjs/Rx";
+import { Subject } from "rxjs/Rx";
 import { Component, Input, ViewChild, OnChanges, SimpleChanges, EventEmitter, Output, ElementRef, ChangeDetectorRef, ChangeDetectionStrategy, TemplateRef, Renderer2 } from "@angular/core";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/merge";
 import "rxjs/add/operator/filter";
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/distinctUntilChanged";
-import { NgbTypeaheadSelectItemEvent, NgbTypeahead } from "@ng-bootstrap/ng-bootstrap";
+import {NgbTypeahead } from "@ng-bootstrap/ng-bootstrap";
 import { _catch } from "rxjs/operator/catch";
 import { _do } from "rxjs/operator/do";
-import { switchMap } from "rxjs/operator/switchMap";
-import { of } from "rxjs/observable/of";
-import { debounceTime } from "rxjs/operator/debounceTime";
-import { distinctUntilChanged } from "rxjs/operator/distinctUntilChanged";
 import { compact, sortBy, remove } from "lodash-es";
 import { Angulartics2Mixpanel } from "angulartics2/mixpanel";
 import { UserService } from "../../../../../shared/services/user/user.service";
@@ -39,14 +34,13 @@ import { UserService } from "../../../../../shared/services/user/user.service";
 
 export class InitiativeComponent implements OnChanges {
 
-    @Output() edited: EventEmitter<boolean> = new EventEmitter<boolean>();
-    @Output("editTags") editTags: EventEmitter<any> = new EventEmitter<any>();
-
     @Input() node: Initiative;
     @Input() dataset: DataSet;
     @Input() team: Team;
+    @Input() isEditMode :boolean;
 
-    isEditMode: boolean = true;
+    @Output() edited: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @Output("editTags") editTags: EventEmitter<any> = new EventEmitter<any>();
 
     public members$: Promise<User[]>;
     public dataset$: Promise<DataSet>

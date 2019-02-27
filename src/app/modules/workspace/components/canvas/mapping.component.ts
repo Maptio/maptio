@@ -105,12 +105,16 @@ export class MappingComponent {
 
   @Input("tags") selectableTags: Array<SelectableTag>;
   @Input("isEmptyMap") isEmptyMap: Boolean;
-  @Output("showDetails") showDetails = new EventEmitter<Initiative>();
+
+  @Output("viewDetails") viewDetails = new EventEmitter<Initiative>();
+  @Output("editDetails") editDetails = new EventEmitter<Initiative>();
+
   @Output("addInitiative") addInitiative = new EventEmitter<{ node: Initiative, subNode: Initiative }>();
   @Output("removeInitiative") removeInitiative = new EventEmitter<Initiative>();
   @Output("moveInitiative") moveInitiative = new EventEmitter<{
     node: Initiative; from: Initiative; to: Initiative;
   }>();
+
   @Output("openTreePanel") openTreePanel = new EventEmitter<boolean>();
   @Output("expandTree") expandTree = new EventEmitter<boolean>();
   @Output("toggleSettingsPanel") toggleSettingsPanel = new EventEmitter<boolean>();
@@ -171,11 +175,11 @@ export class MappingComponent {
     this.VIEWPORT_WIDTH = this.uiService.getCanvasWidth();
 
     component.showToolipOf$.asObservable().subscribe((tooltip: { initiatives: Initiative[], isNameOnly: boolean }) => {
-      this.showTooltip(tooltip.initiatives, tooltip.isNameOnly);
+      if(tooltip.initiatives) this.viewDetails.emit(tooltip.initiatives[0]);
     })
 
     component.showDetailsOf$.asObservable().subscribe(node => {
-      this.emitOpenInitiative(node)
+      this.editDetails.emit(node)
     })
 
     component.showContextMenuOf$.asObservable().subscribe(node => {
@@ -433,7 +437,7 @@ export class MappingComponent {
   }
 
   emitOpenInitiative(node: Initiative) {
-    this.showDetails.emit(node)
+    this.editDetails.emit(node)
   }
 
   emitRemoveInitiative(node: Initiative) {

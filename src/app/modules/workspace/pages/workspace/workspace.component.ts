@@ -37,6 +37,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     public isBuildingVisible: boolean = true;
     public isEmptyMap: Boolean;
     public isSaving: Boolean;
+    public isEditMode:boolean;
     // public isSettingsPanelCollapsed: boolean = true;
     public datasetId: string;
     private routeSubscription: Subscription;
@@ -177,10 +178,27 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
         return !this.isDetailsPanelCollapsed && !this.isBuildingPanelCollapsed;
     }
 
-    openDetails(node: Initiative, willCloseBuildingPanel: boolean = false) {
+    // openDetails(node: Initiative, willCloseBuildingPanel: boolean = false) {
+    //     this.openedNode = node;
+    //     this.isBuildingPanelCollapsed = willCloseBuildingPanel;
+    //     this.isDetailsPanelCollapsed = false;
+    //     this.isEditMode = true;
+    //     this.cd.markForCheck();
+    // }
+
+    onOpenDetailsToView(node: Initiative){
         this.openedNode = node;
-        this.isBuildingPanelCollapsed = willCloseBuildingPanel;
         this.isDetailsPanelCollapsed = false;
+        this.isEditMode = false;
+        this.cd.markForCheck();
+    }
+
+
+    onOpenDetailsToEdit(node: Initiative){
+        this.openedNode = node;
+        this.isDetailsPanelCollapsed = false;
+        this.isEditMode = true;
+        this.cd.markForCheck();
     }
 
     addInitiative(data: { node: Initiative, subNode: Initiative }) {

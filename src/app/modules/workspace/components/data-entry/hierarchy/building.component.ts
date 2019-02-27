@@ -112,8 +112,7 @@ export class BuildingComponent {
 
     @Output("save") save: EventEmitter<{ initiative: Initiative, tags: Tag[] }> = new EventEmitter<{ initiative: Initiative, tags: Tag[] }>();
     @Output("openDetails") openDetails = new EventEmitter<Initiative>();
-    @Output("openDetailsEditOnly") openDetailsEditOnly = new EventEmitter<Initiative>();
-
+   
     constructor(private dataService: DataService, private datasetFactory: DatasetFactory,
         private modalService: NgbModal, private analytics: Angulartics2Mixpanel,
         private userFactory: UserFactory, private userService: UserService, private cd: ChangeDetectorRef, private loaderService: LoaderService) {
