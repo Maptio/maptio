@@ -2,8 +2,8 @@
         <input #inputAutocomplete required="required" [resultTemplate]="resultTemplate" type="text" [placeholder]="placeholder"
         class="form-control background" [ngModelOptions]="{standalone: true}" [ngModel]="item"
         (selectItem)="onSelect($event)" [ngbTypeahead]="search" [resultFormatter]="resultFormatter"
-        [inputFormatter]="resultFormatter" (blur)="onBlur()" />
-    <div class="input-group-append">
+        [inputFormatter]="resultFormatter" (blur)="onBlur()" (focus)="inputAutocomplete.value=''" editable="false"  />
+    <div class="input-group-append" *ngIf="removeConfirmationMessage">
         <button class="btn btn-outline-danger remove text-danger" mwlConfirmationPopover
             [popoverMessage]="removeConfirmationMessage" placement="top" container="body"
             focusbutton="cancel" appendToBody="false" (confirm)="onRemove()" (cancel)="cancelClicked=true"></button>

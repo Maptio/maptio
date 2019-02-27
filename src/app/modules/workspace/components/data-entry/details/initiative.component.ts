@@ -43,13 +43,10 @@ export class InitiativeComponent implements OnChanges {
     @Output("editTags") editTags: EventEmitter<any> = new EventEmitter<any>();
 
     @Input() node: Initiative;
-    // @Input() parent: Initiative;
-    @Input() datasetTags: Array<Tag>;
-    // @Input() isReadOnly: boolean;
-    @Input() datasetId: string;
+    @Input() dataset: DataSet;
     @Input() team: Team;
 
-    isEditMode: boolean = false;
+    isEditMode: boolean = true;
 
     public members$: Promise<User[]>;
     public dataset$: Promise<DataSet>
@@ -102,8 +99,6 @@ export class InitiativeComponent implements OnChanges {
                 this.team$ = this.teamFactory.get(<string>changes.node.currentValue.team_id)
                     .then(t => { this.teamName = t.name; this.teamId = t.team_id; return t },
                         () => { return Promise.reject("No organisation available") })
-                // .catch(() => { })
-
 
                 this.members$ = this.team$
                     .then((team: Team) => {
@@ -111,18 +106,8 @@ export class InitiativeComponent implements OnChanges {
                             .then(members => compact(members))
                             .then(members => sortBy(members, m => m.name))
                     })
-                // .catch(() => { })
             }
 
-        }
-
-        if (changes.datasetId && changes.datasetId.currentValue) {
-            this.dataset$ = this.datasetFactory.get(<string>changes.datasetId.currentValue).then(d => d, () => { return Promise.reject("no dataset") })
-        }
-
-        if (changes.team && changes.team.currentValue) {
-            this.authority = changes.team.currentValue.settings.authority;
-            this.helper = changes.team.currentValue.settings.helper;
         }
 
         this.cd.markForCheck();
@@ -180,6 +165,25 @@ export class InitiativeComponent implements OnChanges {
         this.onBlur();
     }
 
+    saveHelpers(helpers:Helper[]){
+        this.node.helpers = helpers;
+        // this.onBlur();
+        this.cd.markForCheck();
+    }
+
+    removeHelper(helper: Helper) {
+        let index = this.node.helpers.findIndex(user => user.user_id === helper.user_id);
+        this.node.helpers.splice(index, 1);
+        // this.onBlur();
+        this.analytics.eventTrack("Initiative", { action: "remove helper", team: this.teamName, teamId: this.teamId });
+    }
+
+
+    getSummaryUrl(user:User){
+        return `/map/${this.dataset.datasetId}/${this.dataset.initiative.getSlug()}/summary?member=${user.shortid}`
+    }
+
+
 
     openTagsPanel() {
         this.editTags.emit();
@@ -214,9 +218,7 @@ export class InitiativeComponent implements OnChanges {
         return remove([...this.node.helpers, this.node.accountable].reverse()); // always disaply the authority first
     }
 
-    trackByUserId(index: number, user: User) {
-        return user.user_id;
-    }
+  
 
     isAuthority(helper: Helper) {
         return this.node.accountable && this.node.accountable.user_id === helper.user_id
@@ -240,39 +242,11 @@ export class InitiativeComponent implements OnChanges {
         } else {
             this.isRestrictedAddHelper = true;
         }
-        // if (this.node.helpers.findIndex(user => user.user_id === newHelper.item.user_id) < 0) {
-        //     let helper = newHelper.item;
-        //     helper.roles = [];
-        //     this.node.helpers.unshift(helper);
-        // }
-        // this.onBlur();
-        // this.analytics.eventTrack("Initiative", { action: "add helper", team: this.teamName, teamId: this.teamId });
-    }
+     }
 
 
 
-    removeHelper(helper: Helper) {
-        let index = this.node.helpers.findIndex(user => user.user_id === helper.user_id);
-        this.node.helpers.splice(index, 1);
-        this.onBlur();
-        this.analytics.eventTrack("Initiative", { action: "remove helper", team: this.teamName, teamId: this.teamId });
-    }
-
-
-
-    filterTags(term: string): Observable<Tag[]> {
-        return term === "" || term.length < 1
-            ? Observable.of(this.datasetTags)
-            : Observable.of(this.datasetTags.filter(v => new RegExp(term, "gi").test(v.name)).splice(0, 10))
-
-    }
-
-
-
-
-
-
-
+  
 }
 
 

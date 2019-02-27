@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, TemplateRef, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, TemplateRef, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import { _do } from 'rxjs/operator/do';
@@ -22,7 +22,7 @@ export class CommonAutocompleteComponent implements OnInit {
     @Input("resultFormatter") resultFormatter: (item: any) => string;
     @Input("resultTemplate") resultTemplate: TemplateRef<any>;
 
-    @Output("select") select: EventEmitter<any> = new EventEmitter<any>()
+    @Output("pick") pick: EventEmitter<any> = new EventEmitter<any>()
 
 
     @ViewChild("inputAutocomplete") public inputAutocomplete: ElementRef;
@@ -34,6 +34,12 @@ export class CommonAutocompleteComponent implements OnInit {
     constructor(private cd: ChangeDetectorRef) { }
 
     ngOnInit(): void { }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if(changes.item && !changes.item.currentValue){
+            (<HTMLInputElement>this.inputAutocomplete.nativeElement).value = "";
+        }
+    }
 
     search = (text$: Observable<string>) =>
         _do.call(
@@ -58,7 +64,7 @@ export class CommonAutocompleteComponent implements OnInit {
 
     onSelect(selected: NgbTypeaheadSelectItemEvent) {
         this.item = selected.item;
-        this.select.emit(this.item);
+        this.pick.emit(this.item);
         this.cd.markForCheck();
     }
 
@@ -73,7 +79,7 @@ export class CommonAutocompleteComponent implements OnInit {
 
     onRemove() {
         this.item = null;
-        this.select.emit(this.item);
+        this.pick.emit(this.item);
         this.cd.markForCheck();
     }
 }

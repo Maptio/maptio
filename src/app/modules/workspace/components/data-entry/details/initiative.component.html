@@ -13,126 +13,23 @@
 <button (click)="toggleEditMode()">Toggle</button>
 
 <form class="d-flex flex-column h-100">
-	<initiative-input-name [name]="node?.name" [isEditMode]="isEditMode" (save)="saveName($event)"></initiative-input-name>
+	<initiative-input-name [name]="node?.name" [isEditMode]="isEditMode" (save)="saveName($event)">
+	</initiative-input-name>
 
-	<initiative-list-tags [available]="datasetTags" [selected]="node?.tags" [isEditMode]="isEditMode" (save)="saveTags($event)" (open)="openTagsPanel()"></initiative-list-tags>
+	<initiative-list-tags [available]="dataset?.tags" [selected]="node?.tags" [isEditMode]="isEditMode"
+		(save)="saveTags($event)" (open)="openTagsPanel()"></initiative-list-tags>
 
-	<initiative-authority-select [isEditMode]="isEditMode" [team]="team" [authority]="node?.accountable" (save)="saveAccountable($event)"></initiative-authority-select>
+	<initiative-authority-select [isEditMode]="isEditMode" [team]="team" [authority]="node?.accountable"
+		(save)="saveAccountable($event)"></initiative-authority-select>
 
-	<initiative-description-textarea [description]="node?.description" [isEditMode]="isEditMode" (save)="saveDescription($event)"></initiative-description-textarea>
+	<initiative-description-textarea [description]="node?.description" [isEditMode]="isEditMode"
+		(save)="saveDescription($event)"></initiative-description-textarea>
 
-	<div *ngIf="false" class="">
-		<div class="">
-			<h6 class="card-subtitle mb-1 mt-1 text-muted">Who’s helping with this circle?
-			</h6>
+	<initiative-helpers-select *ngIf="isEditMode" [team]="team" [helpers]="node?.helpers" [authority]="node?.accountable"
+		(save)="saveHelpers($event)"></initiative-helpers-select>
 
-			<div class="mb-2">
-				<div *permissionsOnly="Permissions.canAddHelper;initiative node; then thenAddHelperBlock ; else elseAddHelperBlock "></div>
-				<ng-template #thenAddHelperBlock>
-					<input #person required="required" [resultTemplate]="rt" type="text" id="inputHelper" placeholder="Enter the name of a {{helper | lowercase}}"
-					 class="form-control" (selectItem)="saveHelper($event)" (focus)="person.value=''" [ngbTypeahead]="searchTeamMember" [resultFormatter]="formatter"
-					 [inputFormatter]="formatter" editable="false" />
-				</ng-template>
-				<ng-template #elseAddHelperBlock>
-					<input #person required="required" [resultTemplate]="rt" type="text" id="inputHelper" placeholder="Enter the name of a {{helper | lowercase}}"
-					 class="form-control" (selectItem)="saveHelperRestricted($event)" (focus)="person.value=''" [ngbTypeahead]="searchTeamMember"
-					 [resultFormatter]="formatter" [inputFormatter]="formatter" editable="false" />
-					<span class="text-accent small" *ngIf="isRestrictedAddHelper">You can only add
-						<strong>yourself</strong> as a {{helper | lowercase}} in this circle</span>
-				</ng-template>
-			</div>
-
-			<!-- <div *ngIf="node?.helpers.length === 0 || !(node?.helpers); then thenNoHelpersTemplate ; else elseNoHelpersTemplate"></div> -->
-			<!-- <ng-template #elseNoHelpersTemplate> -->
-			<div class="">
-				<div class="d-flex justify-content-between align-items-center" *ngIf="getAllHelpers().length > 0">
-					<div></div>
-					<span class="small d-flex mr-2 ml-auto" ngbTooltip="Check this box to allow contributors to edit the details of this circle"
-					 placement="top" container="body">Can edit</span>
-				</div>
-				<ng-container *ngFor="let user of getAllHelpers(); let i=index;trackBy:trackByUserId">
-					<div class="d-flex justify-content-between align-items-center">
-						<div class="w-100">
-							<div class="d-flex flex-column">
-								<div class="d-flex justify-content-between align-items-center">
-									<div class="d-flex justify-content-between col-11 pl-0 pr-0">
-										<div class="d-flex justify-content-start">
-											<div *permissionsOnly="Permissions.canDeleteHelper;initiative node;helper user; then thenDeleteHelperBlock; else elseDeleteHelperBlock "></div>
-											<ng-template #thenDeleteHelperBlock>
-												<span class="remove text-danger mr-1 " placement="top" container="body" mwlConfirmationPopover [popoverMessage]="'Remove this helper and associated role?'"
-												 focusbutton="cancel" appendToBody="false" (confirm)="removeHelper(user)" (cancel)="cancelClicked = true"></span>
-											</ng-template>
-											<ng-template #elseDeleteHelperBlock>
-												<span class="remove text-muted mr-1 " [stickyPopover]="deleteTipContent" placement='top'></span>
-											</ng-template>
-
-											<span class="pl-1 col">
-												<img src="{{user.picture}}" width="16" class="rounded-circle user" alt={{user.name}}>
-												<a routerLink="/map/{{datasetId}}/{{(dataset$ | async)?.initiative?.getSlug()}}/summary" [queryParams]="{member: user.shortid}">{{user.name}}</a>
-												<span class="text-muted small" *ngIf="isAuthority(user)">({{authority | titlecase }})</span>
-
-											</span>
-										</div>
-										<div>
-											<ng-container *permissionsOnly="Permissions.canEditHelper;initiative node; helper user; then thenEditRoleButtonBlock; else elseEditRoleButtonBlock"></ng-container>
-											<ng-template #thenEditRoleButtonBlock>
-												<button class="btn btn-link pull-right btn-sm" (click)="toggleRole(i)">Role
-													<i class="fa" [class.fa-caret-left]="!hideme[i]" [class.fa-caret-down]="hideme[i]" aria-hidden="true"></i>
-												</button>
-											</ng-template>
-											<ng-template #elseEditRoleButtonBlock>
-												<!-- <button class="btn btn-link pull-right btn-sm disabled" [stickyPopover]="editTipContent" placement='top'>Role
-													<i class="fas fa-lock"></i>
-												</button> -->
-											</ng-template>
-										</div>
-									</div>
-									<div class="w-100 d-flex justify-content-center">
-										<ng-container *ngIf="!isAuthority(user)">
-											<fieldset *permissionsOnly="Permissions.canGiveHelperPrivileges;initiative node; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
-												<div class="custom-control custom-checkbox small">
-													<input type="checkbox" class="custom-control-input small" id="customCheck-{{i}}" (ngModelChange)="savePrivilege(user,$event)"
-													 [ngModel]="user.hasAuthorityPrivileges" [ngModelOptions]="{standalone: true}">
-													<label class="custom-control-label" for="customCheck-{{i}}"></label>
-												</div>
-											</fieldset>
-										</ng-container>
-										<ng-container *ngIf="isAuthority(user)">
-											<div class="custom-control custom-checkbox small">
-												<input readonly disabled type="checkbox" class="custom-control-input small" id="customCheck-{{i}}" checked="true">
-												<label class="custom-control-label" for="customCheck-{{i}}"></label>
-											</div>
-										</ng-container>
-
-									</div>
-								</div>
-
-								<div>
-
-								</div>
-							</div>
-
-							<div class="col-12">
-
-								<textarea [hidden]="!hideme[i]" #inputRole class="form-control form-control-sm unresizable" id="inputRole" [ngModelOptions]="{standalone: true}"
-								 data-provide="markdown" data-iconlibrary="fa" data-autofocus="true" [ngModel]="user.roles[0]?.description || ''"
-								 rows="3" placeholder="How is {{user.name}} helping?" (ngModelChange)="saveRole(user,$event)" (blur)="onBlur();toggleRole(i)"
-								 (change)="saveRole(user,$event.target.value)"></textarea>
-
-								<markdown class="small" [hidden]="hideme[i]" *ngIf="user.roles[0]?.description" [data]="user.roles[0]?.description || ''"></markdown>
-
-							</div>
-
-
-
-						</div>
-
-
-
-					</div>
-				</ng-container>
-
-			</div>
-		</div>
-	</div>
+	<ng-container *ngFor="let helper of node?.getAllParticipants(); let i=index;trackBy:trackByUserId">
+		<initiative-helper-input [helper]="helper" [isAuthority]="isAuthority(helper)" [team]="team" [summaryUrl]="getSummaryUrl(helper)" [isEditMode]="isEditMode"
+		(remove)="removeHelper($event)"></initiative-helper-input>
+	</ng-container>
 </form>

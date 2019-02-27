@@ -1,5 +1,5 @@
 <ng-template #rt let-r="result" let-t="term">
-    <img src="{{r.picture}}" width="32" height="32" class="rounded-circle user" alt={{r.name}} /> {{r.name}}
+    <img src="{{r.picture}}" width="32" height="32" class="rounded-circle user"/> {{r.name}}
 </ng-template>
 <div *ngIf="isEditMode" class="form-inline mr-auto">
     <label for="inputAccountable"
@@ -18,7 +18,7 @@
                 [resultFormatter]="formatter"
                 [item]="authority"
                 [filter]="filterMembers"
-                (select)="onSelect($event)">
+                (pick)="onSelect($event)">
             </common-autocomplete>
 
         </div>

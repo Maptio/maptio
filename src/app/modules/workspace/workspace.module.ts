@@ -45,6 +45,8 @@ import { InitiativeListTagsComponent } from './components/data-entry/details/par
 import { InitiativeAuthoritySelectComponent } from './components/data-entry/details/parts/authority/authority-select.component';
 import { InitiativeDescriptionTextareaComponent } from './components/data-entry/details/parts/description/description-textarea.component';
 import { CommonAutocompleteComponent } from '../../shared/components/autocomplete/autocomplete.component';
+import { InitiativeHelpersSelectComponent } from './components/data-entry/details/parts/helpers/helpers-select.component';
+import { InitiativeHelperInputComponent } from './components/data-entry/details/parts/helpers/helper-input.component';
 
 export function markedOptionsFactory(): MarkedOptions {
     const renderer = new MarkedRenderer();
@@ -99,6 +101,8 @@ export function markedOptionsFactory(): MarkedOptions {
         InitiativeInputNameComponent,InitiativeListTagsComponent,
         InitiativeAuthoritySelectComponent,
         InitiativeDescriptionTextareaComponent,
+        InitiativeHelpersSelectComponent,
+        InitiativeHelperInputComponent,
         MappingComponent, MappingZoomableComponent, MappingTreeComponent, MappingNetworkComponent,
         MappingSummaryComponent, PersonalSummaryComponent, PersonalCardComponent,
 
