@@ -281,7 +281,7 @@ export class BuildingComponent {
                         return databaseUsers.map(u => {
                             u.name = auth0Users.find(du => du.user_id === u.user_id) 
                                 ? `${auth0Users.find(du => du.user_id === u.user_id).firstname} ${auth0Users.find(du => du.user_id === u.user_id).lastname}` 
-                                : u.picture;
+                                : u.name;
                             
                             u.picture = auth0Users.find(du => du.user_id === u.user_id) ? auth0Users.find(du => du.user_id === u.user_id).picture : u.picture;
                             return u;
