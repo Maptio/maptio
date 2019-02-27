@@ -175,14 +175,17 @@ export class InitiativeComponent implements OnChanges {
         this.analytics.eventTrack("Initiative", { action: "add authority", team: this.teamName, teamId: this.teamId });
     }
 
+    saveDescription(newDesc: string) {
+        this.node.description = newDesc;
+        this.onBlur();
+    }
+
 
     openTagsPanel() {
         this.editTags.emit();
     }
 
-    saveDescription(newDesc: string) {
-        this.node.description = newDesc;
-    }
+  
 
     saveRole(helper: Helper, description: string) {
         if (helper.roles[0]) {

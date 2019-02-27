@@ -1,0 +1,15 @@
+<div class="d-flex justify-content-start input-group description overflow">
+    <textarea *ngIf="isEditMode" #inputDescription class="form-control initiativeMarkdownDescription"
+        id="inputDescription" [value]="description" data-provide="markdown" data-iconlibrary="fa"
+        data-autofocus="true" rows="5"
+        placeholder='Describe the circle in your own words and/or add a URL to your main resource'
+         (change)="onChange($event.target.value)" (blur)="isEditMode=false">
+
+                                        </textarea>
+    <markdown *ngIf="!isEditMode" class="small mb-3 form-control bg-white border-white h-100" [data]="description"></markdown>
+</div>
+<small *ngIf="isEditMode" class="help-popup text-default text-muted">
+    You can use
+    <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank">markdown</a> to
+    create links and add formatting
+</small>

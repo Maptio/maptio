@@ -43,6 +43,7 @@ import { AnalyticsModule } from '../../core/analytics.module';
 import { InitiativeInputNameComponent } from './components/data-entry/details/parts/name/input-name.component';
 import { InitiativeListTagsComponent } from './components/data-entry/details/parts/tags/list-tags.component';
 import { InitiativeAuthoritySelectComponent } from './components/data-entry/details/parts/authority/authority-select.component';
+import { InitiativeDescriptionTextareaComponent } from './components/data-entry/details/parts/description/description-textarea.component';
 
 export function markedOptionsFactory(): MarkedOptions {
     const renderer = new MarkedRenderer();
@@ -96,6 +97,7 @@ export function markedOptionsFactory(): MarkedOptions {
         InitiativeComponent, 
         InitiativeInputNameComponent,InitiativeListTagsComponent,
         InitiativeAuthoritySelectComponent,
+        InitiativeDescriptionTextareaComponent,
         MappingComponent, MappingZoomableComponent, MappingTreeComponent, MappingNetworkComponent,
         MappingSummaryComponent, PersonalSummaryComponent, PersonalCardComponent,
 

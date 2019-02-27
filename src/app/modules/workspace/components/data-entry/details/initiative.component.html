@@ -19,37 +19,7 @@
 
 	<initiative-authority-select [isEditMode]="isEditMode" [team]="team" [authority]="node?.accountable" (save)="saveAccountable($event)"></initiative-authority-select>
 
-
-	<div class=" d-flex flex-grow-1">
-		<fieldset name="initiativeDescription" *permissionsOnly="Permissions.canEditInitiativeDescription;initiative node; authorisedStrategy: enableFieldset; unauthorisedStrategy: disableFieldset; ">
-			<ng-container *permissionsOnly="Permissions.canEditInitiativeDescription;initiative node;">
-				<button *ngIf="descriptionHideMe" class="edit-description btn btn-link btn-sm col" (click)="descriptionHideMe=!descriptionHideMe">
-					Edit
-				</button>
-			</ng-container>
-
-			<div class="d-flex justify-content-start input-group description overflow">
-				<textarea [hidden]="descriptionHideMe" #inputDescription class="form-control initiativeMarkdownDescription" id="inputDescription"
-				 [ngModelOptions]="{standalone: true}" data-provide="markdown" data-iconlibrary="fa" data-autofocus="true" [ngModel]="node?.description || ''"
-				 rows="5" placeholder='Describe the circle in your own words and/or add a URL to your main resource' (ngModelChange)="saveDescription($event)"
-				 (blur)="onBlur(); descriptionHideMe= !(node?.description === '') && !descriptionHideMe " (change)="saveDescription($event.target.value)">
-	
-											</textarea>
-				<markdown [hidden]="!descriptionHideMe" class="small mb-3 form-control bg-white border-white" *ngIf="node?.description || ''"
-				 [data]="node?.description || ''"></markdown>
-
-				<!-- <div class="input-group-append">
-					<span class="icon-disabled text-muted transparent bg-white border-white input-group-text" [stickyPopover]="editTipContent"
-					 placement='top'>
-					</span>
-				</div> -->
-			</div>
-			<small [hidden]="descriptionHideMe" class="help-popup text-default text-muted">
-				You can use
-				<a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank">markdown</a> to create links and add formatting
-			</small>
-		</fieldset>
-	</div>
+	<initiative-description-textarea [description]="node?.description" [isEditMode]="isEditMode" (save)="saveDescription($event)"></initiative-description-textarea>
 
 	<div *ngIf="false" class="">
 		<div class="">
