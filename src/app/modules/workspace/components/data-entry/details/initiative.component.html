@@ -15,17 +15,17 @@
 		<initiative-input-name [name]="node?.name" [isEditMode]="isEditMode" (save)="saveName($event)">
 		</initiative-input-name>
 	</div>
-	<div class="mb-1" >
+	<div class="mb-3" >
 		<initiative-list-tags [available]="dataset?.tags" [selected]="node?.tags" [isEditMode]="isEditMode"
 			(save)="saveTags($event)" (open)="openTagsPanel()"></initiative-list-tags>
 	</div>
-	<div>
+	<div class="mb-1">
 		<initiative-authority-select [isEditMode]="isEditMode" [team]="team" [authority]="node?.accountable"
 			(save)="saveAccountable($event)"></initiative-authority-select>
 
 	</div>
 
-	<div>
+	<div class="mb-3">
 		<initiative-description-textarea [description]="node?.description" [isEditMode]="isEditMode"
 			(save)="saveDescription($event)"></initiative-description-textarea>
 

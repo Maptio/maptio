@@ -6,6 +6,7 @@ import { AppModule } from "./app/app.module";
 
 import './assets/styles/custom/animations.css'
 import './assets/styles/custom/global.css'
+import './assets/styles/custom/forms.css'
 import './assets/styles/custom/angular-tree-component.css'
 import './assets/styles/custom/tooltip.css'
 import './assets/styles/custom/tags.css'

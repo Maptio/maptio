@@ -1,13 +1,6 @@
-<div class="d-flex justify-content-start input-group">
-    <input *ngIf="isEditMode" #inputName class="form-control borderless" type="text" 
+<div class="d-flex justify-content-start form-group" (click)="isEditMode=true" (blur)="isEditMode=false">
+    <input [class.view-only]="!isEditMode" #inputName class="form-control" type="text" 
         [value]="name" placeholder="Circle name"
-        (change)="saveName(inputName.value)"/>
-    <!-- <div class="input-group-append">
-        <span class="icon-disabled text-muted transparent bg-white border-white input-group-text" [stickyPopover]="editTipContent"
-         placement='top'>
-        </span>
-    </div> -->
-
-    <span class="lead" *ngIf="!isEditMode">{{name}}</span>
-
+        (change)="saveName(inputName.value)"
+        (blur)="isEditMode=false" />
 </div>

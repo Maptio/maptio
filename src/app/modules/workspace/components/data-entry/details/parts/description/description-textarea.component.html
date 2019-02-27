@@ -6,7 +6,7 @@
          (change)="onChange($event.target.value)" (blur)="isEditMode=false">
 
                                         </textarea>
-    <markdown *ngIf="!isEditMode" class="small mb-3 form-control bg-white border-white h-100" [data]="description"></markdown>
+    <markdown *ngIf="!isEditMode" class="bg-white border-0 w-100 h-100" [data]="description"></markdown>
 </div>
 <small *ngIf="isEditMode" class="help-popup text-default text-muted">
     You can use
