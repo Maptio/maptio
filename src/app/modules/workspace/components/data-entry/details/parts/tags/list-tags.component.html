@@ -1,20 +1,15 @@
 <div class="d-flex justify-content-start align-items-center flex-wrap form-group">
-    <ng-container *ngIf="selectedTags.length >0 ">
-            <div *ngFor="let tag of selectedTags; let i=index">
-                    <a class="badge badge-pill p-2  border-thick text-white mr-1 my-1" [style.border-color]="tag.color"
-                        [style.background]="tag.color">
-                        <i class="fa fa-tag mr-1" aria-hidden="true"></i>{{tag.name}}
-                        <span *ngIf="isEditMode" class="remove transparent ml-2" (click)="removeTag(tag)"></span>
-                    </a>
-                </div>
-    </ng-container>
-        <ng-container *ngIf="selectedTags.length ===0 ">
-        <span class="text-muted">No tag</span>
-    </ng-container>
-    
-  
-    <div class="dropdown" *ngIf="isEditMode">
-        <button class="btn btn-sm btn-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+    <div *ngFor="let tag of selectedTags; let i=index">
+        <a class="badge badge-pill p-2  border-thick text-white mr-1" [style.border-color]="tag.color"
+            [style.background]="tag.color">
+            <i class="fa fa-tag mr-1" aria-hidden="true"></i>{{tag.name}}
+            <span class="remove transparent ml-2" (click)="removeTag(tag)"></span>
+        </a>
+    </div>
+
+
+    <div class="dropdown" >
+        <button class="btn badge badge-pill btn-light p-2 dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
             Select tag
         </button>
