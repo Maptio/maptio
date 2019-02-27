@@ -45,6 +45,10 @@ export class InitiativeAuthoritySelectComponent implements OnInit {
         this.cd.markForCheck();
     }
 
+    /**
+     * Leave a fat arrow in order to fixate the this and be able to use in child component 
+     * See : https://stackoverflow.com/a/54169646/7092722
+     */
     filterMembers = (term: string) => {
         console.log("filterMembers", term)
         return term.length < 1
