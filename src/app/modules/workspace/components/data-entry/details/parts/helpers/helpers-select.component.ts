@@ -56,8 +56,8 @@ export class InitiativeHelpersSelectComponent implements OnInit {
     */
     filterMembers = (term: string) => {
         return term.length < 1
-            ? of(this.team.members)
-            : of(this.team.members.filter(v => new RegExp(term, "gi").test(v.name) || new RegExp(term, "gi").test(v.email)).splice(0, 10));
+            ? this.team.members
+            : this.team.members.filter(v => new RegExp(term, "gi").test(v.name) || new RegExp(term, "gi").test(v.email)).splice(0, 10);
     }
 
 }

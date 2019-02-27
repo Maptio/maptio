@@ -1,24 +1,26 @@
 <ng-template #rt let-r="result" let-t="term">
     <img src="{{r.picture}}" width="32" height="32" class="rounded-circle user" /> {{r.name}}
 </ng-template>
-<div class="form-inline d-flex">
+<div class="form-group d-flex justify-content-start align-items-center" (click)="onFocus()" (blur)="isEditMode=false">
     <label for="inputAccountable"
         class="form-control-label col-form-label text-muted mr-1">{{team?.settings.authority | titlecase }}
-
     </label>
     <div class="d-flex justify-content-start align-items-center flex-grow-1">
-        <common-autocomplete *ngIf="isEditMode" [placeholder]="placeholder"
-            [removeConfirmationMessage]="'Remove this authority and associated role?'" [resultTemplate]="rt"
-            [resultFormatter]="formatter" [item]="authority" [filter]="filterMembers" (pick)="onSelect($event)">
-        </common-autocomplete>
+        <div class="w-100" [class.d-none]="!isEditMode">
+            <common-autocomplete #autocomplete [placeholder]="placeholder"
+                [removeConfirmationMessage]="'Remove this authority and associated role?'" [resultTemplate]="rt"
+                [resultFormatter]="formatter" [item]="authority" [filter]="filterMembers" (pick)="onSelect($event)">
+            </common-autocomplete>
+        </div>
 
-        <div *ngIf="!isEditMode">
+        <div [class.d-none]="isEditMode">
+            <ng-container *ngIf="!authority">
+                    No {{team?.settings.authority | titlecase }}
+            </ng-container>
+            
             <img class="rounded-circle participant-picture mr-1" [class.invisible]="!authority"
                 [src]="authority?.picture" alt="">
             <span>{{authority?.name}}</span>
         </div>
-
     </div>
-
-
 </div>

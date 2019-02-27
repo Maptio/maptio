@@ -1,11 +1,15 @@
 <div class="input-group">
-        <input #inputAutocomplete required="required" [resultTemplate]="resultTemplate" type="text" [placeholder]="placeholder"
-        class="form-control background" [placement]="'bottom'" [ngModelOptions]="{standalone: true}" [ngModel]="item"
+    <input id="inputAutocomplete" #inputAutocomplete="ngbTypeahead" required="required" [resultTemplate]="resultTemplate" type="text"
+        [placeholder]="placeholder" class="form-control background" [placement]="'bottom-left'" [(ngModel)]="item"
         (selectItem)="onSelect($event)" [ngbTypeahead]="search" [resultFormatter]="resultFormatter"
-        [inputFormatter]="resultFormatter" (blur)="onBlur()" (focus)="inputAutocomplete.value=''" editable="false"  />
+        [inputFormatter]="resultFormatter" (focus)="focus$.next($event.target.value)"
+        (click)="click$.next($event.target.value);" editable="false" />
+
+    <!-- <input tabindex="0" #hiddenInput class="form-control" type="text" value="{{item.name}}" /> -->
+
     <div class="input-group-append" *ngIf="removeConfirmationMessage">
         <button class="btn btn-outline-danger remove text-danger" mwlConfirmationPopover
-            [popoverMessage]="removeConfirmationMessage" placement="top" container="body"
-            focusbutton="cancel" appendToBody="false" (confirm)="onRemove()" (cancel)="cancelClicked=true"></button>
+            [popoverMessage]="removeConfirmationMessage" placement="top" container="body" focusbutton="cancel"
+            appendToBody="false" (confirm)="onRemove()" (cancel)="cancelClicked=true"></button>
     </div>
 </div>

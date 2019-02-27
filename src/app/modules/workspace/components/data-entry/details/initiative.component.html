@@ -19,7 +19,7 @@
 		<initiative-list-tags [available]="dataset?.tags" [selected]="node?.tags" [isEditMode]="isEditMode"
 			(save)="saveTags($event)" (open)="openTagsPanel()"></initiative-list-tags>
 	</div>
-	<div class="mb-1">
+	<div class="mb-1 pl-3">
 		<initiative-authority-select [isEditMode]="isEditMode" [team]="team" [authority]="node?.accountable"
 			(save)="saveAccountable($event)"></initiative-authority-select>
 

@@ -5,6 +5,7 @@ import { Helper } from '../../../../../../../shared/model/helper.data';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { map } from 'rxjs/operators';
+import { CommonAutocompleteComponent } from '../../../../../../../shared/components/autocomplete/autocomplete.component';
 
 @Component({
     selector: 'initiative-authority-select',
@@ -20,6 +21,7 @@ export class InitiativeAuthoritySelectComponent implements OnInit {
 
     placeholder: string;
 
+    @ViewChild("autocomplete") public autocompleteComponent:CommonAutocompleteComponent;
 
     constructor(private cd: ChangeDetectorRef) { }
 
@@ -35,12 +37,24 @@ export class InitiativeAuthoritySelectComponent implements OnInit {
         if (newAccountable) newAccountable.roles = [];
         this.authority = newAccountable;
         this.save.emit(this.authority);
+
+    }
+
+    onBlur() {
+        this.isEditMode = false;
+        this.cd.markForCheck();
+    }
+
+    onFocus(){
+        document.querySelector("#inputAutocomplete").dispatchEvent(new Event("click"));
+        document.querySelector("#inputAutocomplete").dispatchEvent(new Event("focus"));
+        this.isEditMode = true;
+        this.cd.markForCheck();
     }
 
     onRemove() {
         this.authority = null;
         this.save.emit(this.authority);
-        this.cd.markForCheck();
     }
 
     /**
@@ -50,12 +64,9 @@ export class InitiativeAuthoritySelectComponent implements OnInit {
     filterMembers = (term: string) => {
         console.log("filterMembers", term)
         return term.length < 1
-            ? of(this.authority ? this.team.members.filter(m => m.user_id !== this.authority.user_id) : this.team.members)
-            : of(this.authority ? this.team.members.filter(m => m.user_id !== this.authority.user_id) : this.team.members)
-                .pipe(
-                    map(ms => ms.filter(v => new RegExp(term, "gi").test(v.name) || new RegExp(term, "gi").test(v.email)).splice(0, 10))
-                )
-
+            ? this.authority ? this.team.members.filter(m => m.user_id !== this.authority.user_id) : this.team.members
+            : (this.authority ? this.team.members.filter(m => m.user_id !== this.authority.user_id) : this.team.members)
+                    .filter(v => new RegExp(term, "gi").test(v.name) || new RegExp(term, "gi").test(v.email)).splice(0, 10)
     }
 
     formatter = (result: User) => { return result ? result.name : '' };
