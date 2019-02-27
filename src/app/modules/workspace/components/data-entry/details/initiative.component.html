@@ -10,26 +10,40 @@
 	</span>
 </ng-template>
 
-<button (click)="toggleEditMode()">Toggle</button>
+<div class="d-flex flex-column h-100">
+	<div class="mb-1">
+		<initiative-input-name [name]="node?.name" [isEditMode]="isEditMode" (save)="saveName($event)">
+		</initiative-input-name>
+	</div>
+	<div class="mb-1" >
+		<initiative-list-tags [available]="dataset?.tags" [selected]="node?.tags" [isEditMode]="isEditMode"
+			(save)="saveTags($event)" (open)="openTagsPanel()"></initiative-list-tags>
+	</div>
+	<div>
+		<initiative-authority-select [isEditMode]="isEditMode" [team]="team" [authority]="node?.accountable"
+			(save)="saveAccountable($event)"></initiative-authority-select>
 
-<form class="d-flex flex-column h-100">
-	<initiative-input-name [name]="node?.name" [isEditMode]="isEditMode" (save)="saveName($event)">
-	</initiative-input-name>
+	</div>
 
-	<initiative-list-tags [available]="dataset?.tags" [selected]="node?.tags" [isEditMode]="isEditMode"
-		(save)="saveTags($event)" (open)="openTagsPanel()"></initiative-list-tags>
+	<div>
+		<initiative-description-textarea [description]="node?.description" [isEditMode]="isEditMode"
+			(save)="saveDescription($event)"></initiative-description-textarea>
 
-	<initiative-authority-select [isEditMode]="isEditMode" [team]="team" [authority]="node?.accountable"
-		(save)="saveAccountable($event)"></initiative-authority-select>
+	</div>
 
-	<initiative-description-textarea [description]="node?.description" [isEditMode]="isEditMode"
-		(save)="saveDescription($event)"></initiative-description-textarea>
+	<div>
+		<initiative-helpers-select *ngIf="isEditMode" [team]="team" [helpers]="node?.helpers"
+			[authority]="node?.accountable" (save)="addHelpers($event)"></initiative-helpers-select>
 
-	<initiative-helpers-select *ngIf="isEditMode" [team]="team" [helpers]="node?.helpers" [authority]="node?.accountable"
-		(save)="addHelpers($event)"></initiative-helpers-select>
+	</div>
 
-	<ng-container *ngFor="let helper of node?.getAllParticipants(); let i=index;trackBy:trackByUserId">
-		<initiative-helper-input [helper]="helper" [isAuthority]="isAuthority(helper)" [team]="team" [summaryUrl]="getSummaryUrl(helper)" [isEditMode]="isEditMode"
-		(remove)="removeHelper($event)" (save)="saveHelpers()"></initiative-helper-input>
-	</ng-container>
-</form>
+	<div>
+		<ng-container *ngFor="let helper of node?.getAllParticipants(); let i=index;trackBy:trackByUserId">
+			<initiative-helper-input [helper]="helper" [isAuthority]="isAuthority(helper)" [team]="team"
+				[summaryUrl]="getSummaryUrl(helper)" [isEditMode]="isEditMode" (remove)="removeHelper($event)"
+				(save)="saveHelpers()"></initiative-helper-input>
+		</ng-container>
+	</div>
+
+
+</div>

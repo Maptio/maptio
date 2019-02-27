@@ -5,7 +5,7 @@
         <a routerLink="summaryUrl">{{helper.name}}</a>
         <span class="text-muted small" *ngIf="isAuthority">({{team?.settings.authority | titlecase }})</span>
     </div>
-    <button class="btn btn-outline-danger remove text-danger" mwlConfirmationPopover
+    <button *ngIf="isEditMode" class="btn btn-outline-danger remove text-danger" mwlConfirmationPopover
         [popoverMessage]="'Remove this helper and associated role?'" placement="top" container="body"
         focusbutton="cancel" appendToBody="false" (confirm)="onRemove()" (cancel)="cancelClicked=true"></button>
     <div class="custom-control custom-checkbox small">

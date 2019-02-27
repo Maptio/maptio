@@ -14,9 +14,9 @@ import { map } from 'rxjs/operators';
 export class InitiativeAuthoritySelectComponent implements OnInit {
 
     @Input("team") team: Team;
-    @Input("authority") authority: User;
+    @Input("authority") authority: Helper;
     @Input("isEditMode") isEditMode: boolean;
-    @Output("save") save: EventEmitter<User> = new EventEmitter<User>();
+    @Output("save") save: EventEmitter<Helper> = new EventEmitter<Helper>();
 
     placeholder: string;
 
@@ -36,8 +36,6 @@ export class InitiativeAuthoritySelectComponent implements OnInit {
         this.authority = newAccountable;
         this.save.emit(this.authority);
     }
-
-
 
     onRemove() {
         this.authority = null;

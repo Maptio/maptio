@@ -1,26 +1,30 @@
-<div class="d-flex justify-content-start align-items-baseline flex-wrap">
-        <div *ngFor="let tag of selectedTags; let i=index">
-            <a class="badge badge-pill p-2  border-thick text-white mr-1 my-1" [style.border-color]="tag.color" [style.background]="tag.color">
+<div class="d-flex justify-content-start align-items-center flex-wrap form-group">
+    <ng-container *ngIf="selectedTags.length >0 ">
+            <div *ngFor="let tag of selectedTags; let i=index">
+                    <a class="badge badge-pill p-2  border-thick text-white mr-1 my-1" [style.border-color]="tag.color"
+                        [style.background]="tag.color">
+                        <i class="fa fa-tag mr-1" aria-hidden="true"></i>{{tag.name}}
+                        <span *ngIf="isEditMode" class="remove transparent ml-2" (click)="removeTag(tag)"></span>
+                    </a>
+                </div>
+    </ng-container>
+        <ng-container *ngIf="selectedTags.length ===0 ">
+        <span class="text-muted">No tag</span>
+    </ng-container>
+    
+  
+    <div class="dropdown" *ngIf="isEditMode">
+        <button class="btn btn-sm btn-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Select tag
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <button class="dropdown-item" type="button" (click)="editTags()">Edit tags</button>
+            <div class="dropdown-divider"></div>
+            <button (click)="addTag(tag)" *ngFor="let tag of availableTags; let i=index" class="dropdown-item"
+                type="button" [style.color]="tag.color">
                 <i class="fa fa-tag mr-1" aria-hidden="true"></i>{{tag.name}}
-                <span *ngIf="isEditMode" class="remove transparent ml-2" (click)="removeTag(tag)"></span>
-            </a>
-        </div>
-        <div class="dropdown" *ngIf="isEditMode">
-            <button class="btn btn-sm btn-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-             aria-expanded="false">
-                Select tag
             </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <button class="dropdown-item" type="button" (click)="editTags()">Edit tags</button>
-                <div class="dropdown-divider"></div>
-                <button (click)="addTag(tag)" *ngFor="let tag of availableTags; let i=index" class="dropdown-item" type="button" [style.color]="tag.color">
-                    <i class="fa fa-tag mr-1" aria-hidden="true"></i>{{tag.name}}
-                </button>
-            </div>
         </div>
-        <!-- <div class="input-group-append">
-            <span class="icon-disabled text-muted transparent bg-white border-white input-group-text" [stickyPopover]="editTipContent"
-             placement='top'>
-            </span>
-        </div> -->
     </div>
+</div>

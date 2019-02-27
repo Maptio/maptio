@@ -186,6 +186,11 @@ export class WorkspaceComponent implements OnInit, OnDestroy {
     //     this.cd.markForCheck();
     // }
 
+    toggleEditMode(){
+        this.isEditMode = !this.isEditMode;
+        this.cd.markForCheck();
+    }
+
     onOpenDetailsToView(node: Initiative){
         this.openedNode = node;
         this.isDetailsPanelCollapsed = false;

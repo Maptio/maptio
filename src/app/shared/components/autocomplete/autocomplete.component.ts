@@ -12,6 +12,7 @@ import { of } from 'rxjs/observable/of';
 @Component({
     selector: 'common-autocomplete',
     templateUrl: './autocomplete.component.html',
+    host : {"class": "w-100"},
     // styleUrls: ['./autocomplete.component.css']
 })
 export class CommonAutocompleteComponent implements OnInit {

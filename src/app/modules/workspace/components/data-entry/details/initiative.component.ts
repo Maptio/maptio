@@ -17,7 +17,7 @@ import "rxjs/add/operator/merge";
 import "rxjs/add/operator/filter";
 import "rxjs/add/operator/debounceTime";
 import "rxjs/add/operator/distinctUntilChanged";
-import {NgbTypeahead } from "@ng-bootstrap/ng-bootstrap";
+import { NgbTypeahead } from "@ng-bootstrap/ng-bootstrap";
 import { _catch } from "rxjs/operator/catch";
 import { _do } from "rxjs/operator/do";
 import { compact, sortBy, remove } from "lodash-es";
@@ -37,7 +37,7 @@ export class InitiativeComponent implements OnChanges {
     @Input() node: Initiative;
     @Input() dataset: DataSet;
     @Input() team: Team;
-    @Input() isEditMode :boolean;
+    @Input() isEditMode: boolean;
 
     @Output() edited: EventEmitter<boolean> = new EventEmitter<boolean>();
     @Output("editTags") editTags: EventEmitter<any> = new EventEmitter<any>();
@@ -137,19 +137,31 @@ export class InitiativeComponent implements OnChanges {
     }
 
     saveAccountable(accountable: Helper) {
-        console.log("saveAccountable", accountable);
-        this.node.accountable = accountable;
-        if (accountable) {
-            if (this.node.helpers.map(h => h.user_id).includes(accountable.user_id)) {
-                let helper = this.node.helpers.filter(h => h.hasAuthorityPrivileges)[0]
-                let roles = helper.roles;
+        // 1. brand new authority, just assign
+
+        // 2. new person picked as authority, give them the roles from current authority
+
+        // 3. authoriy picked from the list of current helpers, helper keeps their role
+
+        let helpersIds = this.node.helpers.map(h => h.user_id);
+        if (!accountable) {
+            this.node.accountable = null;
+        } else {
+            if (!this.node.accountable) {
+                this.node.accountable = accountable;
+            }
+            else if (this.node.accountable && helpersIds.indexOf(accountable.user_id) === -1) {
+                accountable.roles = this.node.accountable.roles;
+                this.node.accountable = accountable;
+
+            } else {
+                let helper = this.node.helpers.filter(h => h.user_id === accountable.user_id)[0]
                 this.removeHelper(helper);
-                this.node.accountable.roles = roles;
+                this.node.accountable = helper;
             }
         }
-
+        
         this.onBlur();
-        this.getAllHelpers();
         this.cd.markForCheck();
         this.analytics.eventTrack("Initiative", { action: "add authority", team: this.teamName, teamId: this.teamId });
     }
@@ -159,7 +171,7 @@ export class InitiativeComponent implements OnChanges {
         this.onBlur();
     }
 
-    addHelpers(helpers:Helper[]){
+    addHelpers(helpers: Helper[]) {
         this.node.helpers = helpers;
         this.onBlur();
         this.cd.markForCheck();
@@ -167,22 +179,23 @@ export class InitiativeComponent implements OnChanges {
 
     removeHelper(helper: Helper) {
         let index = this.node.helpers.findIndex(user => user.user_id === helper.user_id);
+        console.log("removeHelper", helper, index)
         this.node.helpers.splice(index, 1);
         this.onBlur();
         this.analytics.eventTrack("Initiative", { action: "remove helper", team: this.teamName, teamId: this.teamId });
     }
 
-    saveHelpers(){
-        console.log(this.node.helpers)
+    saveHelpers() {
+        console.log("saveHelpers", this.node.helpers)
         this.onBlur();
     }
 
 
-    getSummaryUrl(user:User){
+    getSummaryUrl(user: User) {
         return `/map/${this.dataset.datasetId}/${this.dataset.initiative.getSlug()}/summary?member=${user.shortid}`
     }
 
-    saveHelper(){
+    saveHelper() {
         console.log(this.node.helpers);
     }
 
@@ -192,10 +205,10 @@ export class InitiativeComponent implements OnChanges {
         this.editTags.emit();
     }
 
-  
 
- 
-   
+
+
+
 
     toggleRole(i: number) {
         this.hideme.forEach(el => {
@@ -208,7 +221,7 @@ export class InitiativeComponent implements OnChanges {
         return remove([...this.node.helpers, this.node.accountable].reverse()); // always disaply the authority first
     }
 
-  
+
 
     isAuthority(helper: Helper) {
         return this.node.accountable && this.node.accountable.user_id === helper.user_id
@@ -236,7 +249,7 @@ export class InitiativeComponent implements OnChanges {
 
 
 
-  
+
 }
 
 

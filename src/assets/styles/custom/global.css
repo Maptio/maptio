@@ -225,7 +225,7 @@ ul.picture-list > .list-inline-item{
 
 
 .border-accent{
-  border-color:var(--maptio-accent);
+  border-color:var(--maptio-accent) !important;
 }
 
 .text-accent{
@@ -492,9 +492,12 @@ transition: max-height .25s ease-in-out;
 .top-center{
   top: 0;
     left: 50%;
-    transform: translate(0, -50%);
 }
 
+.participant-picture{
+  width:2.5rem;
+  height: 2.5rem;
+}
 
 .top-right{
   top:0;
