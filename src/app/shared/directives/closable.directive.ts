@@ -29,7 +29,7 @@ export class ClosableDirective {
             }
             else {
                  // the clicked element is outside a 'closable' element, close only if it is not a menu item
-                if (!(<Element>event.target).classList.contains("menu") && !(<Element>(<Element>event.target).parentNode).classList.contains("menu")) {
+                if (event.target && (<Element>event.target).parentNode && !(<Element>event.target).classList.contains("menu") && !(<Element>(<Element>event.target).parentNode).classList.contains("menu")) {
                     renderer.removeClass(elr.nativeElement, "show")
                 }
             }
