@@ -54,6 +54,7 @@ const d3 = Object.assign(
   templateUrl: "./mapping.tree.component.html",
   styleUrls: ["./mapping.tree.component.css"],
   encapsulation: ViewEncapsulation.Emulated,
+  host: { 'class': 'w-100' },
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MappingTreeComponent implements OnInit, IDataVisualizer {
@@ -109,7 +110,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
   // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public showToolipOf$: Subject<{ initiatives: Initiative[], isNameOnly: boolean }> = new Subject<{ initiatives: Initiative[], isNameOnly: boolean }>();
-  
+
   public _isDisplayOptions: Boolean = false;
 
   constructor(
@@ -182,6 +183,18 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   //   this.ngOnInit();
   // }
 
+  getCenteredMargin() {
+    let outer = document.querySelector('svg#map').clientWidth;
+    let inner = document.querySelector('svg#map > svg').getBoundingClientRect().width;
+    console.log("outer", outer, "inner", inner)
+    if (inner > outer) {
+      return "5%"
+    } else {
+
+      return inner == 0 ? "33%" : `${((outer - inner) / outer * 100 / 2)}%`
+    }
+  }
+
   init() {
     this.uiService.clean();
 
@@ -220,16 +233,21 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
     let svg: any = d3
       .select("svg#map")
-      .attr("width", this.width)
-      .attr("height", this.height)
+      .attr("width", "100%")
+      .attr("height", "100%")
       .attr('xmlns', "http://www.w3.org/2000/svg")
       .attr('xmlns:xlink', "http://www.w3.org/1999/xlink")
       .attr("class", "overlay");
 
+    let innerSvg = svg.append("svg")
+      .attr("width", "100%")
+      .attr("height", "100%")
+      .attr("x", this.getCenteredMargin())
+      .style("overflow", "visible");
 
-    let definitions = svg.append("defs");
+      let definitions = innerSvg.append("defs");
 
-    let g = svg
+    let g = innerSvg
       .append("g")
       .attr(
         "transform",
@@ -238,19 +256,19 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
 
     try {
       // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
-      svg.call(
+      innerSvg.call(
         zooming.transform,
         d3.zoomIdentity
           .translate(this.translateX, this.translateY)
           .scale(this.scale)
       );
-      svg.call(zooming);
+      innerSvg.call(zooming);
     } catch (error) { }
 
     this.resetSubscription = this.isReset$.filter(r => r).subscribe(isReset => {
-      svg.transition().duration(this.TRANSITION_DURATION).call(
+      innerSvg.transition().duration(this.TRANSITION_DURATION).call(
         zooming.transform,
-        d3.zoomIdentity.translate(this.width / 10, this.height / 2)
+        d3.zoomIdentity.translate(0 , this.height/2)
       );
     });
 
@@ -258,9 +276,9 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       try {
         // the zoom generates an DOM Excpetion Error 9 for Chrome (not tested on other browsers yet)
         if (zf) {
-          zooming.scaleBy(svg.transition().duration(this.TRANSITION_DURATION), zf);
+          zooming.scaleBy(innerSvg.transition().duration(this.TRANSITION_DURATION), zf);
         } else {
-          svg.transition().duration(this.TRANSITION_DURATION).call(
+          innerSvg.transition().duration(this.TRANSITION_DURATION).call(
             zooming.transform,
             d3.zoomIdentity.translate(this.translateX, this.translateY)
           );
@@ -292,7 +310,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     })
 
 
-    this.svg = svg;
+    this.svg = innerSvg;
     this.g = g;
     this.definitions = definitions;
     this.zoomListener = zooming;
@@ -461,7 +479,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         let t = d3.zoomTransform(svg.node());
         let x = -source.y0;
         let y = -source.x0;
-        x = x * t.k + viewerWidth / 2;
+        x = x * t.k //+ viewerWidth / 2;
         y = y * t.k + viewerHeight / 2;
         svg.transition().call(zoomListener.transform, d3.zoomIdentity.translate(x, y).scale(t.k));
       }
@@ -684,7 +702,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         .on("mouseover", function (d: any) {
           d3.getEvent().stopPropagation();
           // showToolipOf$.next({ initiatives: [d.data], isNameOnly: false });
-         
+
         })
         .on("mouseout", function (d: any) {
           // showToolipOf$.next({ initiatives: null, isNameOnly: false });

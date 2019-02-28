@@ -60,7 +60,7 @@ export class MapSettingsService {
                     mapColor: environment.DEFAULT_MAP_BACKGOUND_COLOR,
                     lastPosition: {
                         circles: `x=${this.height /2 }&y=${this.height / 2}&scale=1`,
-                        tree: `x=${this.width / 10}&y=${this.height / 2}&scale=1`,
+                        tree: `x=${0}&y=${this.height/2}&scale=1`,
                         network: `x=0&y=${-this.height / 4}&scale=1`
                     },
                     directoryColumnsNumber: 1,
