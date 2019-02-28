@@ -43,7 +43,8 @@ const d3 = Object.assign(
     zoomTransform,
     tree,
     hierarchy,
-    color
+    color,
+    getEvent() { return require("d3-selection").event }
   }
 )
 
@@ -108,8 +109,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
   public showDetailsOf$: Subject<Initiative> = new Subject<Initiative>();
   // public addInitiative$: Subject<Initiative> = new Subject<Initiative>();
   public showToolipOf$: Subject<{ initiatives: Initiative[], isNameOnly: boolean }> = new Subject<{ initiatives: Initiative[], isNameOnly: boolean }>();
-  public hideOptions$: Subject<boolean> = new Subject<boolean>();
-
+  
   public _isDisplayOptions: Boolean = false;
 
   constructor(
@@ -192,10 +192,10 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     d3.tree().size([this.width / 2, this.height]);
 
     function zoomed() {
-      g.attr("transform", d3.event.transform);
+      g.attr("transform", d3.getEvent().transform);
     }
 
-    const wheelDelta = () => -d3.event.deltaY * (d3.event.deltaMode ? 120 : 1) / 500 * 2.5;
+    const wheelDelta = () => -d3.getEvent().deltaY * (d3.getEvent().deltaMode ? 120 : 1) / 500 * 2.5;
 
     let zooming = d3
       .zoom()
@@ -203,7 +203,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       .scaleExtent([1 / 3, 3])
       .on("zoom", zoomed)
       .on("end", () => {
-        let transform = d3.event.transform;
+        let transform = d3.getEvent().transform;
         let tagFragment = this.tagsState
           .filter(t => t.isSelected)
           .map(t => t.shortid)
@@ -346,7 +346,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
     let showDetailsOf$ = this.showDetailsOf$;
     let showContextMenuOf$ = this.showContextMenuOf$;
     let showToolipOf$ = this.showToolipOf$;
-    let hideOptions$ = this.hideOptions$;
     let g = this.g;
     let svg = this.svg;
     let definitions = this.definitions;
@@ -493,18 +492,6 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       nodes.forEach(function (d: any) {
         d.y = d.depth * 250;
         d.x = d.x * 1.4;
-      });
-
-      d3.selectAll(`.open-initiative`).on("click", function (d: any) {
-        let id = Number.parseFloat(d3.select(this).attr("id"));
-        showDetailsOf$.next(list.find(n => (<any>n.data).id === id).data);
-      });
-      d3.selectAll(`.open-summary`).on("click", function (d: any) {
-        let shortid = d3.select(this).attr("data-shortid");
-        let slug = d3.select(this).attr("data-slug");
-        router.navigateByUrl(
-          `/map/${datasetId}/${datasetSlug}/summary?member=${shortid}`
-        );
       });
 
       // ****************** Nodes section ***************************
@@ -695,22 +682,21 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
       g
         .selectAll("g.node.tree-map")
         .on("mouseover", function (d: any) {
-          d3.event.stopPropagation();
-          showToolipOf$.next({ initiatives: [d.data], isNameOnly: false });
-          hideOptions$.next(true);
+          d3.getEvent().stopPropagation();
+          // showToolipOf$.next({ initiatives: [d.data], isNameOnly: false });
+         
         })
         .on("mouseout", function (d: any) {
-          showToolipOf$.next({ initiatives: null, isNameOnly: false });
+          // showToolipOf$.next({ initiatives: null, isNameOnly: false });
           showContextMenuOf$.next({
             initiatives: null,
             x: 0,
             y: 0,
             isReadOnlyContextMenu: true
           });
-          hideOptions$.next(false);
         })
         .on("contextmenu", function (d: any) {
-          d3.event.preventDefault();
+          d3.getEvent().preventDefault();
           let mousePosition = d3.mouse(this);
           let matrix = this.getCTM().translate(
             +this.getAttribute("cx"),

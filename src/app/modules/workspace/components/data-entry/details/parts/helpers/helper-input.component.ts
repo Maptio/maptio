@@ -11,7 +11,6 @@ import { Role } from '../../../../../../../shared/model/role.data';
 export class InitiativeHelperInputComponent implements OnInit {
     @Input("helper") helper: Helper;
     @Input("team") team: Team;
-    @Input("isEditMode") isEditMode: boolean;
     @Input("summaryUrl") summaryUrl: string;
     @Input("isAuthority") isAuthority: boolean;
 

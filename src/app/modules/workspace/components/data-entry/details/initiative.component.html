@@ -12,7 +12,7 @@
 
 <div class="d-flex flex-column h-100">
 	<div class="mb-3">
-		<initiative-input-name [name]="node?.name" [isEditMode]="isEditMode" (save)="saveName($event)">
+		<initiative-input-name [name]="node?.name"  (save)="saveName($event)">
 		</initiative-input-name>
 	</div>
 	<div class="pl-3 mb-3">
@@ -46,7 +46,7 @@
 		<div class="my-2 bg-light p-2"
 			*ngFor="let helper of node?.getAllParticipants(); let i=index;trackBy:trackByUserId">
 			<initiative-helper-input [helper]="helper" [isAuthority]="isAuthority(helper)" [team]="team"
-				[summaryUrl]="getSummaryUrl(helper)" [isEditMode]="isEditMode" (remove)="removeHelper($event)"
+				[summaryUrl]="getSummaryUrl(helper)" (remove)="removeHelper($event)"
 				(save)="saveHelpers()"></initiative-helper-input>
 		</div>
 	</div>

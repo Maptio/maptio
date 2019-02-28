@@ -768,7 +768,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
           return connectedInitiatives.indexOf(i.id) > -1;
         });
 
-        showToolipOf$.next({ initiatives: list, isNameOnly: true });
+        // showToolipOf$.next({ initiatives: list, isNameOnly: true });
 
         hideOptions$.next(true);
 
@@ -783,12 +783,12 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
 
         g.selectAll(`g.node`).style("fill-opacity", 1);
 
-        showToolipOf$.next({ initiatives: null, isNameOnly: true });
+        // showToolipOf$.next({ initiatives: null, isNameOnly: true });
 
         hideOptions$.next(false);
       })
       .on("click", function (d: any) {
-        showToolipOf$.next({ initiatives: null, isNameOnly: true });
+        // showToolipOf$.next({ initiatives: null, isNameOnly: true });
         hideOptions$.next(false);
 
         router.navigateByUrl(
@@ -823,7 +823,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
           return ids.indexOf(i.id) > -1;
         });
 
-        showToolipOf$.next({ initiatives: list, isNameOnly: true });
+        // showToolipOf$.next({ initiatives: list, isNameOnly: true });
 
         hideOptions$.next(true);
       })
@@ -837,7 +837,7 @@ export class MappingNetworkComponent implements OnInit, IDataVisualizer {
             if (isAuthorityCentricMode)
               return "url(#arrow)";
           });
-        showToolipOf$.next({ initiatives: null, isNameOnly: true });
+        // showToolipOf$.next({ initiatives: null, isNameOnly: true });
 
         hideOptions$.next(false);
         showContextMenuOf$.next({
