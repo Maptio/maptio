@@ -8,6 +8,25 @@ import { CoreModule } from "./core/core.module";
 import { AppRoutingModule } from "./app.routing";
 import { AnalyticsModule } from "./core/analytics.module";
 import { SharedModule } from "./shared/shared.module";
+import { MarkdownModule, MarkedOptions, MarkedRenderer } from "ngx-markdown";
+
+export function markedOptionsFactory(): MarkedOptions {
+    const renderer = new MarkedRenderer();
+
+    renderer.link = (href: string, title: string, text: string) => {
+        return `<a href=${href} class="markdown-link" target="_blank" title=${title}>${text}</a>`;
+    }
+
+    renderer.paragraph = (text: string) => {
+        return `<p class="markdown">${text}</p>`;
+    }
+    console.log(renderer)
+
+    return {
+        renderer: renderer,
+        breaks: true
+    };
+}
 
 @NgModule({
     declarations: [
@@ -21,6 +40,13 @@ import { SharedModule } from "./shared/shared.module";
         AppRoutingModule,
         // analytics
         AnalyticsModule,
+
+        MarkdownModule.forRoot({
+            markedOptions: {
+                provide: MarkedOptions,
+                useFactory: markedOptionsFactory,
+            },
+        }),
 
         // core & shared
         CoreModule,

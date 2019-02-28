@@ -2,7 +2,7 @@ import { ColorHueModule } from 'ngx-color/hue'; // <color-hue-picker></color-hue
 import { ShareSlackComponent } from "./components/sharing/slack.component";
 import { SharedModule } from "../../shared/shared.module";
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";
-import { MarkdownModule, MarkedOptions, MarkedRenderer, MarkdownService } from "ngx-markdown";
+import { MarkdownModule, } from "ngx-markdown";
 import { FilterTagsComponent } from "./components/filtering/tags.component";
 import { SearchComponent } from "./components/searching/search.component";
 import { FocusIfDirective } from "../../shared/directives/focusif.directive";
@@ -48,22 +48,7 @@ import { CommonAutocompleteComponent } from '../../shared/components/autocomplet
 import { InitiativeHelpersSelectComponent } from './components/data-entry/details/parts/helpers/helpers-select.component';
 import { InitiativeHelperInputComponent } from './components/data-entry/details/parts/helpers/helper-input.component';
 
-export function markedOptionsFactory(): MarkedOptions {
-    const renderer = new MarkedRenderer();
 
-    renderer.link = (href: string, title: string, text: string) => {
-        return `<a href=${href} class="markdown-link" target="_blank" title=${title}>${text}</a>`;
-    }
-
-    renderer.paragraph = (text: string) => {
-        return `<p class="markdown">${text}</p>`;
-    }
-
-    return {
-        renderer: renderer,
-        breaks: true
-    };
-}
 
 @NgModule({
     imports: [
@@ -74,12 +59,7 @@ export function markedOptionsFactory(): MarkedOptions {
         TreeModule,
         AnalyticsModule,
         OnboardingModule,
-        MarkdownModule.forRoot({
-            markedOptions: {
-                provide: MarkedOptions,
-                useFactory: markedOptionsFactory,
-            },
-        }),
+       MarkdownModule.forChild(),
         ConfirmationPopoverModule.forRoot({
             confirmButtonType: "danger",
             cancelButtonType: "link"
@@ -114,7 +94,7 @@ export function markedOptionsFactory(): MarkedOptions {
     ],
     providers: [BillingGuard,WorkspaceGuard,UIService,ColorService,
         SlackService, DataService,MapSettingsService,
-        WorkspaceComponentResolver, MarkdownService, MarkedOptions,
+        WorkspaceComponentResolver
     ],
     entryComponents: [OnboardingComponent, InstructionsComponent]
 })
