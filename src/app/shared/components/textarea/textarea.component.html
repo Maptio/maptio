@@ -24,9 +24,9 @@
 
     </div>
 
-    <div class="position-relative w-100" *ngIf="!isEditMode">
+    <div class="position-relative w-100 bg-light p-2 rounded" *ngIf="!isEditMode">
 
-        <markdown (click)="isEditMode=true" class="cursor-text bg-white border-0 w-100 h-100" [data]="text">
+        <markdown (click)="isEditMode=true" class="cursor-text  border-0 w-100 h-100" [data]="text">
         </markdown>
     </div>
    
