@@ -494,7 +494,7 @@ export class MappingTreeComponent implements OnInit, IDataVisualizer {
         }
         updateGraph(d, TRANSITION_DURATION);
         centerNode(d);
-        showToolipOf$.next({ initiatives: [d.data], isNameOnly: false })
+        if(d !== root) showToolipOf$.next({ initiatives: [d.data], isNameOnly: false })
       }
 
 
