@@ -17,14 +17,14 @@
 
     <div class="w-100 position-relative" *ngIf="isEditMode">
         <textarea #inputDescription class="form-control" id="inputDescription" [value]="text" data-provide="markdown"
-            data-iconlibrary="fa" data-autofocus="true" [attr.rows]="rows" placeholder="placeholder"
+            data-iconlibrary="fa" data-autofocus="true" [attr.rows]="rows" [attr.placeholder]="placeholder"
             (change)="onChange($event.target.value)" (blur)="isEditMode=false">
 
                                             </textarea>
 
     </div>
 
-    <div class="position-relative w-100 bg-light p-2 rounded" *ngIf="!isEditMode">
+    <div class="position-relative w-100 bg-light p-2 rounded" *ngIf="!isEditMode && text">
 
         <markdown (click)="isEditMode=true" class="cursor-text  border-0 w-100 h-100" [data]="text">
         </markdown>
